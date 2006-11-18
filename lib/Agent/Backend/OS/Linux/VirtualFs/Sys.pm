@@ -1,0 +1,16 @@
+package Ocsinventory::Agent::Backend::OS::Linux::VirtualFs::Sys;
+
+#$LunchAfter = "Ocsinventory::Agent::Backend::OS::Linux::VirtualFs::Sys";
+
+sub check {
+	foreach (`mount`) {
+		return 1 if (/type\ sysfs/);
+	}
+	return;
+}
+
+sub run {
+	return "zero";
+}
+
+1
