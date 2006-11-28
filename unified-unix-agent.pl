@@ -5,13 +5,13 @@ use warnings;
 #use diagnostics;
 use English;
 use Data::Dumper;
-use Hash::Merge; # TODO: create a built in function
-# to deal correctly with overwrite (at last debug message)
 
+use Ocsinventory::XML::Inventory;
 use ExtUtils::Installed;
 my $h = {};
 my %module;
-
+my $debug = 1;
+my $inventory;
 
 sub initModList {
   my ($inst) = ExtUtils::Installed->new();
@@ -25,8 +25,7 @@ sub initModList {
     my $m = join('::', split /\//);
 
     eval ("require $m"); # TODO deal with error
-    print "$m\n";
-    
+
     # Import of module's functions and values
     local *main::runAfter = $m."::runAfter"; 
     local *main::check = $m."::check";
@@ -37,15 +36,12 @@ sub initModList {
       push @runAfter, \%{$module{$_}};
     }
 
-    $module{$m} = {
-      name => $m,
-      done => 0,
-      inUse => 0,
-      enable => check(),
-      runAfter => \@runAfter,
-      runFunc => \&run
-    };
-
+    $module{$m}->{name} = $m;
+    $module{$m}->{done} = 0;
+    $module{$m}->{inUse} = 0;
+    $module{$m}->{enable} = check()?1:0;
+    $module{$m}->{runAfter} = \@runAfter;
+    $module{$m}->{runFunc} = \&run;
   }
 
   foreach my $m (sort keys %module) {# TODO remove the sort
@@ -64,23 +60,30 @@ sub initModList {
     foreach (split /::/,$m) {
       $t .= "::" if $t;
       $t .= $_;
-      print ">>".$t."\n";
       if (exists $module{$t} && $m ne $t) {
 	push @{$module{$m}->{runAfter}}, \%{$module{$t}}
       }
     }
+  }
+
+  if ($debug) {
+    foreach my $m (sort keys %module) {
+      print Dumper($module{$m});
+    }
+
   }
 }
 
 
 sub runMod {
   my $m = shift;
-  
+  print ">$m\n";
   return if (!$module{$m}->{enable});
   return if ($module{$m}->{done});
 
   $module{$m}->{inUse} = 1;
   # first I run its "runAfter"
+
   foreach (@{$module{$m}->{runAfter}}) {
     if ($_->{inUse}) {
       die "Circular dependency hell with $m and $_->{name}\n";
@@ -89,15 +92,20 @@ sub runMod {
   }
 
   print "Running $m\n";
-  &{$module{$m}->{runFunc}}($h);
+  &{$module{$m}->{runFunc}}($inventory);
   $module{$m}->{done} = 1;
   $module{$m}->{inUse} = 0;
 }
 
 initModList();
 
+$inventory = new Ocsinventory::XML::Inventory;
 foreach my $m (sort keys %module) {
+  die unless $m;# XXX Debug stuff
   runMod ($m);
 }
 
 print Dumper($h);
+$inventory->addControler({NAME => "toto", MANUFACTURER => "manuf", TYPE =>
+    'type' });
+$inventory->dump();
