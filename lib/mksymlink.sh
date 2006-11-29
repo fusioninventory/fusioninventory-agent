@@ -1,4 +1,7 @@
 #!/bin/sh
+# I use this script to install symlinks of module and being able to
+# stay in the CVS directory for coding stuff.
+# Goneri Le Bouder <goneri@rulezlan.org>  Wed, 29 Nov 2006 19:41:08 +0100
 
 PWD=`pwd`
 PREFIX="/usr/local"
