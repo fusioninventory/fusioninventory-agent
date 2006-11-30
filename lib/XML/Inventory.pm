@@ -1,15 +1,24 @@
 package Ocsinventory::XML::Inventory;
 use strict;
 use Data::Dumper;
+use XML::Simple;
+use Digest::MD5 qw(md5_base64);
+
 sub new {
+  my (undef,$params) = @_;
 
   my $self = {};
+  $self->{params} = $params;
 
-  $self->{h}{CONTENT}{CONTROLLERS} = [];
-  $self->{h}{CONTENT}{STORAGES} = [];
+  $self->{h}{CONTENT}{ACCESSLOG} = {};
   $self->{h}{CONTENT}{BIOS} = {};
+  $self->{h}{CONTENT}{CONTROLLERS} = [];
   $self->{h}{CONTENT}{DRIVES} = [];
   $self->{h}{CONTENT}{HARDWARE} = {};
+  $self->{h}{CONTENT}{PORTS} = [];
+  $self->{h}{CONTENT}{SLOTS} = [];
+  $self->{h}{CONTENT}{STORAGES} = [];
+
   bless $self;
 }
 
@@ -83,12 +92,12 @@ sub addPorts {
   my ($self, $args) = @_;
 
   my $caption = $args->{CAPTION};
-  my $description =  $args->{DESCRIPTION};
+  my $description = $args->{DESCRIPTION};
   my $name = $args->{NAME};
   my $type = $args->{TYPE};
 
 
-  push @{$self->{h}{CONTENT}{MEMORIES}},
+  push @{$self->{h}{CONTENT}{PORTS}},
   {
 
     CAPTION => [$caption?$caption:"??"],
@@ -99,10 +108,31 @@ sub addPorts {
   };
 }
 
+sub addSlots {
+  my ($self, $args) = @_;
+
+  my $description = $args->{DESCRIPTION};
+  my $designation = $args->{DESIGNATION};
+  my $name = $args->{NAME};
+  my $status = $args->{STATUS};
+
+
+  push @{$self->{h}{CONTENT}{SLOTS}},
+  {
+
+    DESCRIPTION => [$description?$description:"??"],
+    DESIGNATION => [$designation?$designation:"??"],
+    NAME => [$name?$name:"??"],
+    STATUS => [$status?$status:"??"],
+
+  };
+}
+
+
 
 sub setHardware {
   my ($self, $args) = @_;
- 
+
   foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
     PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
     DESCRIPTION MEMORY/) {
@@ -115,7 +145,7 @@ sub setHardware {
 
 sub setBios {
   my ($self, $args) = @_;
- 
+
   foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER/) {
 
     if (exists $args->{$key}) {
@@ -124,6 +154,57 @@ sub setBios {
   }
 }
 
+sub generateXML {
+#To apply to $checksum with an OR
+  my %mask = (
+    'HARDWARE'      => 1,
+    'BIOS'          => 2,
+    'MEMORIES'      => 4,
+    'SLOTS'         => 8,
+    'REGISTRY'      => 16,
+    'CONTROLLERS'   => 32,
+    'MONITORS'      => 64,
+    'PORTS'         => 128,
+    'STORAGES'      => 256,
+    'DRIVES'        => 512,
+    'INPUT'        => 1024,
+    'MODEM'        => 2048,
+    'NETWORKS'      => 4096,
+    'PRINTERS'      => 8192,
+    'SOUNDS'        => 16384,
+    'VIDEOS'        => 32768,
+    'SOFTWARES'     => 65536
+  );
 
+
+  my $self = shift;
+  my $last_state;
+
+  if ($self->{params}{"last_state"}) {
+    $last_state = XML::Simple::XMLin($self->{params}{"last_state"},
+      SuppressEmpty => undef, ForceArray => ['hardware', 'inputs',
+      'controllers', 'memories', 'monitors', 'ports', 'softwares', 'storages',
+      'drives', 'inputs', 'modems', 'networks', 'printers', 'slots', 'sounds',
+      'videos', 'bios' ] );
+  }
+
+  my $checksum = 0;
+
+  foreach my $section (keys %mask) {
+    #If the checksum has changed...
+    my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
+    if ($last_state->{$section}[0] ne $hash ) {
+      print "Section $section has changed since last inventory( ".$last_state->{$section}[0]." --> ".$hash.")\n" if $self->{params}{debug};
+      #We made OR on $checksum with the mask of the current section
+      $checksum |= $mask{$section};
+      #And we replace the hash with the new value
+      $last_state->{$section} = [ $hash ];
+    } else {
+      $checksum |= $mask{$section};
+      #$last_state{$section} = [ $hash ]; XXX TODO
+    }
+
+  }
+}
 
 1;
