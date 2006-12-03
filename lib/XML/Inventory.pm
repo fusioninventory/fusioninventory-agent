@@ -42,6 +42,27 @@ sub addControler {
   };
 }
 
+sub addDrives {
+  my ($self, $args) = @_;
+
+  my $free = $args->{FREE};
+  my $filesystem = $args->{FILESYSTEM};
+  my $total = $args->{TOTAL};
+  my $type = $args->{TYPE};
+  my $volumn = $args->{VOLUMN};
+
+  push @{$self->{h}{CONTENT}{DRIVES}},
+  {
+    FREE => [$free?$free:"??"],
+    FILESYSTEM => [$filesystem?$filesystem:"??"],
+    TOTAL => [$total?$total:"??"],
+    TYPE => [$type?$type:"??"],
+    VOLUMN => [$volumn?$volumn:"??"]
+  };
+}
+
+
+
 sub addStorages {
   my ($self, $args) = @_;
 
