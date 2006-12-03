@@ -6,13 +6,42 @@ use warnings;
 use English;
 use Data::Dumper;
 
+use Getopt::Long;
 use Ocsinventory::XML::Inventory;
 use ExtUtils::Installed;
 my $h = {};
 my %module;
-my $debug = 1;
 my $inventory;
+# default settings;
+my %params = (
+'debug'   => 0,
+'force' => 0,
+'help'  => 0,
+'info'  => 1,
+'local' => 1,
+'tag'   => 'DEBUG',
+'server' => 'localhost',
+'xml'   => 1,
+);
 
+
+my %options = (
+  "d|debug"    =>   \$params{debug},
+  "f|force"    =>   \$params{force},
+  "h|help"     =>   \$params{help},
+  "i|info"     =>   \$params{info},
+  "l|local"    =>   \$params{local},
+  "t|tag=s"    =>   \$params{tag},
+  "s|server=s" =>   \$params{server},
+  "x|xml"      =>   \$params{xml},
+#"nosoft"
+);
+
+##########################################
+##########################################
+##########################################
+##########################################
+#### Func to move somewhere else :)
 sub initModList {
   my ($inst) = ExtUtils::Installed->new();
   my @installed_mod =
@@ -66,14 +95,13 @@ sub initModList {
     }
   }
 
-  if ($debug) {
+  if ($params{debug}) {
     foreach my $m (sort keys %module) {
       print Dumper($module{$m});
     }
 
   }
 }
-
 
 sub runMod {
   my $m = shift;
@@ -97,15 +125,63 @@ sub runMod {
   $module{$m}->{inUse} = 0;
 }
 
-initModList();
+sub createInventenory {
+  initModList();
+  $inventory = new
+  Ocsinventory::XML::Inventory({
+      last_state => "/etc/ocsinventory-client/last_state"
+    });
 
-$inventory = new Ocsinventory::XML::Inventory;
-foreach my $m (sort keys %module) {
-  die unless $m;# XXX Debug stuff
-  runMod ($m);
+  foreach my $m (sort keys %module) {
+    die unless $m;# XXX Debug
+    runMod ($m);
+  }
+  $inventory->processChecksum();
 }
 
-print Dumper($h);
-$inventory->addControler({NAME => "toto", MANUFACTURER => "manuf", TYPE =>
-    'type' });
+sub help {
+  print STDERR "Usage:\n";
+  print STDERR "\t-d --debug          debug mode ($params{debug})\n";
+  print STDERR "\t-f --force          always send data to server (Don't ask before) ($params{force})\n";
+  print STDERR "\t-i --info           verbose mode ($params{info})\n";
+  print STDERR "\t-l --local          do not send data to server ($params{local})\n";
+  print STDERR "\t-s --server=SERVER  use the specific server SERVER ($params{server})\n";
+  print STDERR "\t-t --tag=TAG        use TAG as tag ($params{tag})\n";
+  print STDERR "\t-x --xml            write output in a xml file ($params{xml})\n";
+#  print STDERR "\t--nosoft           do not return installed software list\n";
+
+  exit 1;
+}
+
+#####################################
+################ MAIN ###############
+#####################################
+
+GetOptions(%options);
+&help if $params{help}; 
+
+# Proceed...
+if(($params{server} =~ /^localhost$/i) or $params{xml}){
+  &_inventory();
+}else{
+  # Connect to server
+  $ua = LWP::UserAgent->new(keep_alive => 1);
+  $ua->agent('OCS-NG_linux_client_v'.VERSION);
+
+  # Call modules start sub
+  #&_call_start_handlers(); XXX
+
+  # Prolog phase
+  if(&_prolog()){
+    # Send inventory if needed
+    &_inventory();
+  }
+
+  # Call modules end sub
+  #&_call_end_handlers; XXX
+}
+
+
+
+createInventenory();
 $inventory->dump();
