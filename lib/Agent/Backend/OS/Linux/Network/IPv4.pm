@@ -8,7 +8,7 @@ sub check {
 
 # Initialise the distro entry
 sub run {
-	my $h = shift;
+	my $inventory = shift;
 
 	my @ip;
 	for(`ifconfig`){
@@ -19,10 +19,7 @@ sub run {
 
 	my $ip=join "/", @ip;
 
-	$h->{'CONTENT'}{'HARDWARE'}{'IPADDR'} = [$ip];
-
+	$inventory->setHardware({IPADDR => $ip});
 }
-
-
 
 1;

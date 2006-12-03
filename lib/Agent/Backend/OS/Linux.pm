@@ -5,17 +5,19 @@ use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::POSIX"];
 
 sub check {
-	my $r;
-	$r = 1 if $^O =~ /^linux$/;
-	$r;
+  my $r;
+  $r = 1 if $^O =~ /^linux$/;
+  $r;
 }
 
 sub run {
-	my $h = shift;
+  my $inventory = shift;
 
-
-	$h->{'CONTENT'}{'HARDWARE'}{'OSNAME'} = ['Linux'];
-	$h->{'CONTENT'}{'HARDWARE'}{'OSCOMMENTS'} = ["Unknow Linux distribution"];
+  # This will provable be overwrite by a Linux::Distro module.
+  $inventory->setHardware({
+      OSNAME => "Linux",
+      OSCOMMENTS => "Unknow Linux distribution"
+    });
 }
 
 

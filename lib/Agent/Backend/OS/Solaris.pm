@@ -7,8 +7,9 @@ sub check {
 }
 
 sub run {
-	shift;
-	my $params = shift;
+  my $inventory = shift;
+
+  # TODO
 }
 
 

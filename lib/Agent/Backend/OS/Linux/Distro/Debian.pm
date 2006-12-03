@@ -5,23 +5,23 @@ sub check {-f "/etc/debian_version"}
 
 #####
 sub findRelease {
-	my $v;
+  my $v;
 
-	open V, "</etc/debian_version" or warn;
-	chomp ($v = readline V);
-	close V;
-	print $v."\n";
-	return "Debian / $v";
+  open V, "</etc/debian_version" or warn;
+  chomp ($v = readline V);
+  close V;
+  print $v."\n";
+  return "Debian / $v";
 }
 
 sub run {
-	my $h = shift;
-	my $OSComment;
-	chomp($OSComment =`uname -v`);
+  my $inventory = shift;
+  my $OSComment;
+  chomp($OSComment =`uname -v`);
 
-	$h->{CONTENT}{HARDWARE}{OSCOMMENTS} = findRelease()." / $OSComment";
+  $inventory->setHardware({ 
+      OSCOMMENTS => findRelease()." / $OSComment"
+    });
 }
-
-
 
 1;

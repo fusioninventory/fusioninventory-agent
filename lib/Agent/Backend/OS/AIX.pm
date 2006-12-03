@@ -7,8 +7,7 @@ sub check {
 }
 
 sub run {
-	shift;
-	my $params = shift;
+  # nothing to do yet... 
 }
 
 1;

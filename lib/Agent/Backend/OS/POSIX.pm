@@ -8,16 +8,18 @@ sub check {
 }
 
 sub run {
-	my $h = shift;
+  my $inventory = shift;
 
 	chomp(my $OSVersion =`uname -r`);
 	chomp(my $OSComment =`uname -v`);
 
-	$h->{'CONTENT'}{'HARDWARE'}{'OSNAME'} = ['POSIX'];
-	$h->{'CONTENT'}{'HARDWARE'}{'OSVERSION'} = [$OSVersion];
-	# Will be overwrite by a Linux::Distro module
-	$h->{'CONTENT'}{'HARDWARE'}{'OSCOMMENTS'} = ["Unknow $^O system"];
-	$h->{'CONTENT'}{'HARDWARE'}{'TYPE'} = [8];
+	# Will be overwrite by a more specific module
+	$inventory->setHardware({
+      OSNAME => "POSIX OS",
+      OSVERSION => $OSVersion,
+      OSCOMMENTS => "Unknow $^O system",
+      TYPE => 8,
+    });
 }
 
 

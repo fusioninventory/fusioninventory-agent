@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::MacOS;
+package Ocsinventory::Agent::Backend::OS::Macos;
 use strict;
 sub check {
 	my $r;
