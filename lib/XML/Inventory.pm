@@ -149,12 +149,12 @@ sub setBios {
   foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER/) {
 
     if (exists $args->{$key}) {
-      $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
+      $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
     }
   }
 }
 
-sub generateXML {
+sub processChecksum {
 #To apply to $checksum with an OR
   my %mask = (
     'HARDWARE'      => 1,
@@ -179,32 +179,36 @@ sub generateXML {
 
   my $self = shift;
   my $last_state;
-
-  if ($self->{params}{"last_state"}) {
-    $last_state = XML::Simple::XMLin($self->{params}{"last_state"},
-      SuppressEmpty => undef, ForceArray => ['hardware', 'inputs',
-      'controllers', 'memories', 'monitors', 'ports', 'softwares', 'storages',
-      'drives', 'inputs', 'modems', 'networks', 'printers', 'slots', 'sounds',
-      'videos', 'bios' ] );
-  }
-
   my $checksum = 0;
+
+  if (-f $self->{params}{"last_state"}) {
+    # TODO: avoid a violant death in case of problem with XML
+    $last_state = XML::Simple::XMLin($self->{params}{"last_state"},
+      SuppressEmpty => undef, ForceArray => [
+      'HARDWARE', 'BIOS', 'MEMORIES', 'SLOTS', 'REGISTRY', 'CONTROLLERS',
+      'MONITORS', 'PORTS', 'STORAGES', 'DRIVES', 'INPUT', 'MODEM', 'NETWORKS',
+      'PRINTERS', 'SOUNDS', 'VIDEOS', 'SOFTWARES' ] );
+  }
 
   foreach my $section (keys %mask) {
     #If the checksum has changed...
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-    if ($last_state->{$section}[0] ne $hash ) {
-      print "Section $section has changed since last inventory( ".$last_state->{$section}[0]." --> ".$hash.")\n" if $self->{params}{debug};
+    if (!$last_state || $last_state->{$section}[0] ne $hash ) {
+      print "Section $section has changed since last inventory( New hash--> ".$hash.")\n" if $self->{params}{debug};
       #We made OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
-      #And we replace the hash with the new value
-      $last_state->{$section} = [ $hash ];
-    } else {
-      $checksum |= $mask{$section};
-      #$last_state{$section} = [ $hash ]; XXX TODO
+      # Finally I store the new value.
+      $last_state->{$section}[0] = $hash;
     }
-
   }
+
+  open LAST_STATE, ">".$self->{params}{"last_state"} or warn "Cannot save
+  the checksum values in ".$self->{params}{"last_state"}." (will be synchronized by GLPI!!): $!\n";
+  print LAST_STATE my $string = XML::Simple::XMLout( $last_state, RootName => 'LAST_STATE' );;
+  close LAST_STATE or warn;
+
+  print $checksum."\n";
+  $self->setHardware({CHECKSUM => $checksum});
 }
 
 1;
