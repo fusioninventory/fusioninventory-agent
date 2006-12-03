@@ -22,10 +22,13 @@ sub run {
 
         # Write in ISO format
 	# TODO date is broken
-        $uptime=sprintf "%02d-%02d-%02d %02d:%02d:%02d", ($UYEAR-70), $UMONTH, ($UDAY-1), $UHOUR, $UMIN, $USEC;
+	# XXX since uptime is never the same, that's force the server to refresh
+	# HARDWARE section without real reason. I prefere to comment it.
+#        $uptime=sprintf "%02d-%02d-%02d %02d:%02d:%02d", ($UYEAR-70), $UMONTH, ($UDAY-1), $UHOUR, $UMIN, $USEC;
 
 	chomp(my $DeviceType =`uname -m`);
-	$inventory->setHardware({'DESCRIPTION' => "$DeviceType/$uptime"});
+	#$inventory->setHardware({'DESCRIPTION' => "$DeviceType/$uptime"});
+	$inventory->setHardware({'DESCRIPTION' => "$DeviceType"});
 }
 
 1
