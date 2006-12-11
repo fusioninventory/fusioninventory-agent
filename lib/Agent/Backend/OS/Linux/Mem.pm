@@ -4,27 +4,28 @@ use strict;
 sub check { -r "/proc/meminfo" };
 
 sub run {
-	my $inventory = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
-	my $h = shift;
-	my $unit = 1024;
+  my $h = shift;
+  my $unit = 1024;
 
-	my $memory;
-	my $swap;
+  my $memory;
+  my $swap;
 
 # Memory informations
-	open MEMINFO, "/proc/meminfo" or warn;
-	while(<MEMINFO>){
-		$memory=int ($1/$unit) if /^memtotal\s*:\s*(\S+)/i;
-		$swap=int ($1/$unit) if /^swaptotal\s*:\s*(\S+)/i;
-	}
-	close MEMINFO;
+  open MEMINFO, "/proc/meminfo" or warn;
+  while(<MEMINFO>){
+    $memory=int ($1/$unit) if /^memtotal\s*:\s*(\S+)/i;
+    $swap=int ($1/$unit) if /^swaptotal\s*:\s*(\S+)/i;
+  }
+  close MEMINFO;
 
-	
-	$inventory->setHardware({
-	  MEMORY => $memory,
-	  SWAP => $swap 
-	  });
+
+  $inventory->setHardware({
+      MEMORY => $memory,
+      SWAP => $swap 
+    });
 
 }
 

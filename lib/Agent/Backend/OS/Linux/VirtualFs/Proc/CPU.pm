@@ -4,21 +4,27 @@ use strict;
 sub check { -r "/proc/cpuinfo" };
 
 sub run {
-	my $h = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
 # TODO Need to be able to register different CPU speed!
+  my $processort;
+  my $processorn;
+  my $processors;
 
-	$h->{'CONTENT'}{'HARDWARE'}{PROCESSORT} = [ "??" ];
-	$h->{'CONTENT'}{'HARDWARE'}{PROCESSORS} = [ "??" ];
-	$h->{'CONTENT'}{'HARDWARE'}{PROCESSORN} = [ 0 ];
-	open CPUINFO, "</proc/cpuinfo" or warn;
-        foreach(<CPUINFO>){
-                $h->{'CONTENT'}{'HARDWARE'}{PROCESSORT}[0]++ if (/^processor\s*:/);
-                $h->{'CONTENT'}{'HARDWARE'}{PROCESSORN}[0] = $1 if (/^model name\s*:\s*(.+)/i);
-                $h->{'CONTENT'}{'HARDWARE'}{PROCESSORS}[0] = $1 if (/^cpu mhz\s*:\s*(\S+)\n/i);
-        }
-	close CPUINFO;
+  open CPUINFO, "</proc/cpuinfo" or warn;
+  foreach(<CPUINFO>){
+    $processort++ if (/^processor\s*:/);
+    $processorn = $1 if (/^model name\s*:\s*(.+)/i);
+    $processors = $1 if (/^cpu mhz\s*:\s*(\S+)\n/i);
+  }
+  close CPUINFO;
 
+  $inventory->setHardware ({
+      PROCESSORT => $processort,
+      PROCESSORN => $processorn ,
+      PROCESSORS => $processors
+    });
 }
 
 1

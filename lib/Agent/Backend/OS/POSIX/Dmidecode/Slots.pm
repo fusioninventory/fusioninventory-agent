@@ -7,8 +7,8 @@ sub check {
 }
 
 sub run {
-
-  my $inventory = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
   my @dmidecode = `dmidecode`; # TODO retrive error
   s/^\s+// for (@dmidecode);

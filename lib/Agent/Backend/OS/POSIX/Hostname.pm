@@ -4,13 +4,14 @@ sub check {1} # No check yet
 
 # Initialise the distro entry
 sub run {
-	my $h = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
-	my $hostname;
-        
-	chomp ( my $hostname = `hostname` );
+  my $hostname;
 
-	$h->{'CONTENT'}{'HARDWARE'}{'NAME'} = [$hostname];
+  chomp ( my $hostname = `hostname` );
+
+  # TODO $h->{'CONTENT'}{'HARDWARE'}{'NAME'} = [$hostname];
 
 }
 

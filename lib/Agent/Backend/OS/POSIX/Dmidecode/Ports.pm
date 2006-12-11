@@ -7,8 +7,8 @@ sub check {
 }
 
 sub run {
-
-  my $inventory = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
   my @dmidecode = `dmidecode`; # TODO retrive error
   s/^\s+// for (@dmidecode);
@@ -40,7 +40,7 @@ sub run {
 
       $caption = $description = $name = $type = undef;
     } elsif ($flag) {
-      
+
       $caption = $1 if /^external connector type\s*:\s*(.+)/i;
       $description = $1 if /^internal connector type\s*:\s*(.+)/i;
       $name = $1 if /^internal reference designator\s*:\s*(.+)/i;

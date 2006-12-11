@@ -11,7 +11,8 @@ sub check {
 }
 
 sub run {
-  my $inventory = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
   # This will provable be overwrite by a Linux::Distro module.
   $inventory->setHardware({

@@ -15,7 +15,9 @@ sub findRelease {
 }
 
 sub run {
-  my $inventory = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
+
   my $OSComment;
   chomp($OSComment =`uname -v`);
 

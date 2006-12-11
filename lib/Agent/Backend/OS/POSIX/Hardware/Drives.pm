@@ -8,21 +8,24 @@ sub check {
 }
 
 sub run {
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
-  my $inventory = shift;
-
-  foreach(`df -TPl`) { # TODO retrive error
-    if(/^(\S+)\s+(\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\n/){
+  my @drives = `df -TPl`;
+  shift @drives; # don't read the first line
+  foreach(@drives) {
+    if(/^(\S+)\s+(\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)/){
 # no virtual FS
-      next if ($1 =~ /^(tmpfs|usbfs|proc|devpts|devshm)$/);
-      
+      next if ($1 =~ /^(udev|devshm)$/);
+      next if ($2 =~ /^(tmpfs|usbfs|proc|devpts|devshm)$/);
+
       $inventory->addDrives ({
-	'FILESYSTEM'    => $2,
-	'FREE'          => sprintf("%i",($4/1024)),
-	'TOTAL'         => sprintf("%i",($3/1024)),
-	'TYPE'          => $1,
-	'VOLUMN'        => $5,
-      });
+	  'FILESYSTEM'    => $2,
+	  'FREE'          => sprintf("%i",($4/1024)),
+	  'TOTAL'         => sprintf("%i",($3/1024)),
+	  'TYPE'          => $1,
+	  'VOLUMN'        => $5,
+	});
     }
   }
 }

@@ -1,4 +1,5 @@
 package Ocsinventory::Agent::Backend::OS::Macos;
+
 use strict;
 sub check {
 	my $r;
@@ -7,8 +8,7 @@ sub check {
 }
 
 sub run {
-	shift;
-	my $params = shift;
+  # Corbier!
 }
 
 

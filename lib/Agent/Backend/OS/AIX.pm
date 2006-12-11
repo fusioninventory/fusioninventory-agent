@@ -1,4 +1,5 @@
 package Ocsinventory::Agent::Backend::OS::AIX;
+
 use strict;
 sub check {
 	my $r;

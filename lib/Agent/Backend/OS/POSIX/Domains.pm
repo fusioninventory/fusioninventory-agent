@@ -6,14 +6,15 @@ sub check {
 }
 
 sub run {
-	my $inventory = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
-	chomp(my $domain = `hostname -d`);
-	# If no domain name, we send "WORKGROUP"
-        $domain = 'WORKGROUP' unless $domain;
-	$inventory->setHardware({
-	    WORKGROUP => $domain
-	  });
+  chomp(my $domain = `hostname -d`);
+  # If no domain name, we send "WORKGROUP"
+  $domain = 'WORKGROUP' unless $domain;
+  $inventory->setHardware({
+      WORKGROUP => $domain
+    });
 
 }
 

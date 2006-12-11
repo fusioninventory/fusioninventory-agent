@@ -7,7 +7,9 @@ sub check {
 }
 
 sub run {
-  my $inventory = shift;
+  my $params = shift;
+  my $inventory = $params->{inventory};
+
 # Parsing dmidecode output
 # Using "type 0" section
   my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,

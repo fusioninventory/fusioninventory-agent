@@ -4,8 +4,8 @@ use strict;
 sub check { -r "/proc/cpuinfo" };
 
 sub run {
-  my $inventory = shift;
-
+  my $params = shift;
+  my $inventory = $params->{inventory};
 # TODO Need to be able to register different CPU speed!
 
 #	$h->{'CONTENT'}{'HARDWARE'}{PROCESSORT} = [ "??" ];
