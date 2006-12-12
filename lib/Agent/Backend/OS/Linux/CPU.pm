@@ -16,12 +16,13 @@ sub run {
   my $processors;
   open CPUINFO, "</proc/cpuinfo" or warn;
   foreach(<CPUINFO>){
-    $processort++ if (/^processor\s*:/);
-    $processorn = $1 if (/^model name\s*:\s*(.+)/i);
+    $processorn++ if (/^processor\s*:/);
+    $processort = $1 if (/^model name\s*:\s*(.+)/i);
     $processors = $1 if (/^cpu mhz\s*:\s*(\S+?)(|\.\d+)\n/i);
   }
   close CPUINFO;
   $inventory->setHardware({
+
       PROCESSORT => $processort,
       PROCESSORN => $processorn,
       PROCESSORS => $processors
