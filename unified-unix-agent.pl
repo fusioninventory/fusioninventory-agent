@@ -1,12 +1,13 @@
 #!/usr/bin/perl
-# TODO Create ETIME (execution time) correcly
+
 use strict;
 use warnings;
-#use diagnostics;
+
 use Data::Dumper; #XXX DEBUG
 
 use Getopt::Long;
 
+use Ocsinventory::Logger;
 use Ocsinventory::XML::Inventory;
 use Ocsinventory::XML::Prolog;
 
@@ -14,10 +15,7 @@ use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Backend;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Agent::AccountInfo;
-my $h = {};
-my $inventory;
-my $config;
-my $accountinfo;
+
 # default settings;
 my $params = { 
   'debug'     =>  1,
@@ -25,6 +23,8 @@ my $params = {
   'help'      =>  0,
   'info'      =>  1,
   'local'     =>  '',
+  'logger'    =>  'File,Stderr',
+  'logger-file-path' => '/tmp/ocsuc.log',
   'password'  =>  '',
   'realm'     =>  '',
   'tag'       =>  'DEBUG',
@@ -39,7 +39,7 @@ my $params = {
   'etcdir'    =>  '/etc/ocsinventory-client/',
 };
 
-$ENV{LANG} = 'C'; # Turn off localised output for command
+$ENV{LANG} = 'C'; # Turn off localised output for commands
 
 my %options = (
   "d|debug"         =>   \$params->{debug},
@@ -92,10 +92,10 @@ sub help {
 ################ MAIN ###############
 #####################################
 # load CFG files
-$config = new Ocsinventory::Agent::Config({
+my $config = new Ocsinventory::Agent::Config({
     params => $params,
   });
-$accountinfo = new Ocsinventory::Agent::AccountInfo({
+my $accountinfo = new Ocsinventory::Agent::AccountInfo({
     params => $params,
   });
 
@@ -121,13 +121,24 @@ if ($deviceID !~ /$tmp-(?:\d{4})(?:-\d{2}){5}/) {
 GetOptions(%options);
 &help if $params->{help}; 
 
-my $inventory = new Ocsinventory::XML::Inventory({
+##########################
+#### Objects initilisation 
+
+my $logger = new Ocsinventory::Logger ({
+    params => $params
+  });
+
+$logger->log({message => "Logger backend initialised"});
+
+my $inventory = new Ocsinventory::XML::Inventory ({
+    logger => $logger,
     params => $params,
   });
 
 my $backend = new Ocsinventory::Agent::Backend ({
     accountinfo => $accountinfo,
     config => $config,
+    logger => $logger,
     params => $params,
   });
 
@@ -138,17 +149,28 @@ if ($params->{local}) {
   $inventory->writeXML();
   # TODO write XML inventory 
 } else { # I've to contact the server
-  my $net = new Ocsinventory::Agent::Network({params => $params});
-  my $prolog = new Ocsinventory::XML::Prolog({params => $params});
+  my $net = new Ocsinventory::Agent::Network({
 
+      logger => $logger,
+      params => $params,
+
+    });
+
+  my $prolog = new Ocsinventory::XML::Prolog({
+
+      logger => $logger,
+      params => $params,
+    
+    });
 #  $cnx->send($prolog);
 #  if ($cnx->response() !~ /STOP/) {}
 
-  if ($net->send({message => $prolog})) {
-    $inventory = createInventory();
+  if ($params->{force} || $net->send({message => $prolog}) !~ /STOP/) {
     $net->send({message => $inventory});    
+  } else {
+    $logger->log({level => 'info', message => 'No need to send the inventory'}); 
   }
 }
 
 #$accountinfo->write();
-$inventory->dump();
+#$inventory->dump();
