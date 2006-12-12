@@ -11,8 +11,7 @@ sub run {
 
   chomp ( my $hostname = `hostname` );
 
-  # TODO $h->{'CONTENT'}{'HARDWARE'}{'NAME'} = [$hostname];
-
+  $inventory->setHardware ({NAME => $hostname});
 }
 
 1;
