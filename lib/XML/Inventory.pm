@@ -304,13 +304,14 @@ sub processChecksum {
   foreach my $section (keys %mask) {
     #If the checksum has changed...
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-    if (!$last_state_content || $last_state_content->{$section}[0] ne $hash ) {
+    if (!$last_state_content || $last_state_content ne $hash ) {
       print "Section $section has changed since last inventory( New hash--> ".$hash.")\n" if $self->{params}{debug};
       #We made OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
       # Finally I store the new value.
-      $last_state_content->{$section}[0] = $hash;
-  }
+#      $last_state_content->{$section}[0] = $hash; #TODO, I've to store the
+#      new HASH
+    }
   }
 
   open LAST_STATE, ">".$last_state_path or warn "Cannot save

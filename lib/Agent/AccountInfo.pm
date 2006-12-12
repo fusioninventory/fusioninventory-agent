@@ -11,6 +11,7 @@ sub new {
   my $self = {};
 
   $self->{params} = $params->{params};
+  $self->{logger} = $params->{logger};
 
   my $xmladm = XML::Simple::XMLin($self->{params}->{etcdir}."/ocsinv.adm", ForceArray =>
     [ 'ACCOUNTINFO' ] );
