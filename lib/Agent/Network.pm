@@ -5,19 +5,22 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
-use Compress::Zlib;
 use XML::Simple;
+#use Compress::Zlib;
 use Data::Dumper; # XXX DEBUG
+
+use Ocsinventory::Compress;
 
 sub new {
   my (undef, $params) = @_;
 
   my $self = {};
 
-  print Dumper($params);
   $self->{params} = $params->{params};
+  my $logger = $self->{logger} = $params->{logger};
   $self->{URI} = "http://".$self->{params}->{server}."/ocsinventory"; 
 
+  $self->{compress} = new Ocsinventory::Compress ({logger => $logger});
   # Connect to server
   $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
   $self->{ua}->agent('OCS-NG_unified_unix_agent_v'.$self->{params}->{version});
@@ -32,41 +35,46 @@ sub new {
 }
 
 sub send {
-  my ($self, $params) = @_;
+  my ($self, $args) = @_;
 
-  print Dumper($params);
-  warn unless $params->{message}->content();
+  my $logger = $self->{logger};
+  my $compress = $self->{compress};
 
   my $req = HTTP::Request->new(POST => $self->{URI});
 
   $req->header('Pragma' => 'no-cache', 'Content-type',
     'application/x-compress');
 
-#  _debug($message, 'SENDING') if $debug and $debug>1; TODO
+  $logger->log ({level => 'debug', message => 'sending XML'});
 
-  my $message = Compress::Zlib::compress( $params->{message}->content() )  or die localtime()." =>
-  failed to compress data with ZLib (prolog)\n";
+  print Dumper($args);
+  my $message = $compress->compress( $args->{message}->content() );
+  if (!$message) {
+    $logger->log({level => 'fault', message => 'failed to compress data with ZLib'});
+  }
 
   $req->content($message);
 
   my $res = $self->{ua}->request($req);
 
   # Checking if connected
-  unless($res->is_success) {
-    die localtime()." => Cannot establish communication : ".$res->status_line, "\n";
+  if(!$res->is_success) {
+    $logger->log ({
+	level => 'fault',
+	message => 'Cannot establish communication : '.$res->status_line
+      });
   }
 
   # stop or send in the http's body
-  my $content = Compress::ZLib::uncompress($res->content)  or die localtime()." => Deflating problem (prolog)\n";
+  my $content = $compress->uncompress($res->content);
+  if (!$content) {
+    $logger->log ({
+	level => 'fault',
+	message => "Deflating problem",
+      });
+  }
 
-#  &_debug($content, 'RECEIVING') if $$debug and $debug>1;
-
-  # Call modules prolog readers sub
-#        _call_prolog_readers($content); TODO
   my $xml = XML::Simple::XMLin( $content, ForceArray => ['OPTION'] );
-
-  # If -force tag
-#  return(1) if $force; TODO What's force param goal?
 
   return if($xml->{RESPONSE} =~ /^$/);
   $xml->{RESPONSE};
