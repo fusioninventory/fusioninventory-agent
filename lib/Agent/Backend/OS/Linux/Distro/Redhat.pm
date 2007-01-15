@@ -11,7 +11,7 @@ sub findRelease {
   chomp ($v = readline V);
   close V;
   print $v."\n";
-  return "Redhat / $v";
+  return "Redhat Linux $v";
 }
 
 sub run {
@@ -21,8 +21,9 @@ sub run {
   my $OSComment;
   chomp($OSComment =`uname -v`);
 
-  $inventory->setHardware({ 
-      OSCOMMENTS => findRelease()." / $OSComment"
+  $inventory->setHardware({
+      OSNAME => findRelease(),
+      OSCOMMENTS => "$OSComment"
     });
 }
 

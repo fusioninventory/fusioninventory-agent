@@ -2,6 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Linux::Uptime;
 use strict;
 
 sub check {
+  return 0;
   foreach (`mount`) {
     return 1 if (/type\ proc/);
   }

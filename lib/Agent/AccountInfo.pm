@@ -13,20 +13,50 @@ sub new {
   $self->{params} = $params->{params};
   $self->{logger} = $params->{logger};
 
-  my $xmladm = XML::Simple::XMLin($self->{params}->{etcdir}."/ocsinv.adm", ForceArray =>
-    [ 'ACCOUNTINFO' ] );
+  my $logger = $self->{logger} = $params->{logger};
 
-  for(@{$xmladm->{ACCOUNTINFO}}){
-    $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
+  $logger->log ({
+
+      level => 'debug',
+      message => 'Accountinfo file: '. $self->{params}->{accountinfofile}
+
+    });
+
+  if (! -f $self->{params}->{accountinfofile}) {
+      $logger->log ({
+
+	  level => 'info',
+	  message => 'Accountinfo file: `'. $self->{params}->{accountinfofile}."'
+	  doesn't exist."
+
+	});
+  } else {
+
+    my $xmladm = XML::Simple::XMLin(
+      $self->{params}->{accountinfofile},
+      ForceArray => [ 'ACCOUNTINFO' ]
+    );
+
+    for(@{$xmladm->{ACCOUNTINFO}}){
+      $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
+    }
   }
 
   bless $self;
 }
 
 sub get {
+  my ($self, $keyname) = @_;
+
+  print "keyname: $keyname\n";
+  print Dumper($self->{accountinfo});
+  warn "Prototype changed\n";
+  return $self->{accountinfo}{$keyname} if $keyname;
+}
+
+sub getAll {
   my ($self, $name) = @_;
 
-  return $self->{accountinfo} if $name;
   return $self->{accountinfo};
 }
 
@@ -36,9 +66,23 @@ sub set {
   $self->{accountinfo}->{$name} = $value;
 }
 
+sub reSetAll {
+  die;
+  my ($self, $hash) = @_;
+
+  foreach (keys %$hash) {
+    $self->set($_, $hash->{$_});
+    print "$_ => $hash->{$_}\n";
+  }
+  $self->write();
+}
+
 
 sub write {
   my ($self, $args) = @_;
+  
+  my $logger = $self->{logger};
+
   my $tmp;
   $tmp->{ACCOUNTINFO} = [];
 
@@ -46,16 +90,41 @@ sub write {
     push @{$tmp->{ACCOUNTINFO}}, {KEYNAME => [$_], KEYVALUE =>
       [$self->{accountinfo}{$_}]}; 
   }
-  
+
   my $xml=XML::Simple::XMLout( $tmp, RootName => 'ADM',
     NoSort => 1 );
 
-  print localtime()." =>
-  Updating Account infos\n";
 
-  open ADM, ">".$self->{params}{cfgpath}."/ocsinv.adm";
-  print ADM $xml;
-  close ADM;
+  my $fault;
+  if (!open ADM, ">".$self->{params}->{accountinfofile}) {
+
+    $fault = 1;
+
+  } else {
+
+    print ADM $xml;
+    $fault = 1 if (!close ADM);
+
+  }
+
+  if (!$fault) {
+
+    $logger->log ({
+
+	level => 'debug',
+	message => "ocsinv.adm updated successfully"
+
+      });
+
+  } else {
+
+    $logger->log ({
+
+	level => 'error',
+	message => "Can't save setting change in `$self->{params}->{accountinfofile}'"
+
+      });
+  }
 }
 
 1;

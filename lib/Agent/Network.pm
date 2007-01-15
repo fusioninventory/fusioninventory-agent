@@ -5,9 +5,7 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
-use XML::Simple;
-#use Compress::Zlib;
-use Data::Dumper; # XXX DEBUG
+use Data::Dumper; # XXX
 
 use Ocsinventory::Compress;
 
@@ -18,7 +16,9 @@ sub new {
 
   $self->{params} = $params->{params};
   my $logger = $self->{logger} = $params->{logger};
-  $self->{URI} = "http://".$self->{params}->{server}."/ocsinventory"; 
+  $self->{URI} = "http://".$self->{params}->{server}."/ocsinventory";
+  $self->{respHandlers} = $params->{respHandlers}; 
+
 
   $self->{compress} = new Ocsinventory::Compress ({logger => $logger});
   # Connect to server
@@ -47,7 +47,6 @@ sub send {
 
   $logger->log ({level => 'debug', message => 'sending XML'});
 
-  print Dumper($args);
   my $message = $compress->compress( $args->{message}->content() );
   if (!$message) {
     $logger->log({level => 'fault', message => 'failed to compress data with ZLib'});
@@ -74,10 +73,26 @@ sub send {
       });
   }
 
-  my $xml = XML::Simple::XMLin( $content, ForceArray => ['OPTION'] );
+  my $ret = XML::Simple::XMLin( $content, ForceArray => ['OPTION'] );
 
-  return if($xml->{RESPONSE} =~ /^$/);
-  $xml->{RESPONSE};
+  print "=BEGIN=SERVER RET======\n";
+  print Dumper($ret);
+  print "=END=SERVER RET========\n";
+  # for every key returned in the return I try to execute the Handlers 
+  foreach (keys %$ret) {
+    next if $_ =~ /^RESPONSE$/; # response is returned directly
+    if (defined $self->{respHandlers}->{$_}) {
+      $self->{respHandlers}->{$_}($ret->{$_});
+    } else {
+    $logger->log ({
+	level => 'debug',
+	message => 'No respHandlers avalaible for '.$_.". The data returned
+	by server in this hash will be lost.",
+      });
+    }
+  }
+
+  return $ret->{RESPONSE};
 }
 
 1;

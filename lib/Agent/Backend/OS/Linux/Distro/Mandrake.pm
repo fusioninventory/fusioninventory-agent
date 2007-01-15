@@ -11,7 +11,7 @@ sub findRelease {
   chomp ($v = readline V);
   close V;
   print $v."\n";
-  return "Mandrake / $v";
+  return "Mandrake Linux $v";
 }
 
 sub run {
@@ -22,8 +22,10 @@ sub run {
   chomp($OSComment =`uname -v`);
 
   $inventory->setHardware({ 
-      OSCOMMENTS => findRelease()." / $OSComment"
+      OSNAME => findRelease(),
+      OSCOMMENTS => "$OSComment"
     });
+
 }
 
 1;

@@ -4,11 +4,7 @@ use strict;
 use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::POSIX"];
 
-sub check {
-  my $r;
-  $r = 1 if $^O =~ /^linux$/;
-  $r;
-}
+sub check { $^O =~ /^linux$/ }
 
 sub run {
   my $params = shift;

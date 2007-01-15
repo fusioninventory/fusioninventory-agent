@@ -12,7 +12,8 @@ sub new {
 
   my $self = {};
   $self->{params} = $params->{params};
- 
+  $self->{logger} = $params->{logger};
+
   die unless ($self->{params}->{deviceid}); #XXX
 
   $self->{h}{QUERY} = ['INVENTORY']; 
@@ -46,9 +47,25 @@ sub addController {
 
   push @{$self->{h}{CONTENT}{CONTROLLERS}},
   {
+
     NAME => [$name],
     MANUFACTURER => [$manufacturer],
     TYPE => [$type],
+
+  };
+}
+
+sub addModems {
+  my ($self, $args) = @_;
+
+  my $description = $args->{DESCRIPTION};
+  my $name = $args->{NAME};
+
+  push @{$self->{h}{CONTENT}{MODEMS}},
+  {
+
+    DESCRIPTION => [$description],
+    NAME => [$name],
 
   };
 }
@@ -71,8 +88,6 @@ sub addDrives {
     VOLUMN => [$volumn?$volumn:"??"]
   };
 }
-
-
 
 sub addStorages {
   my ($self, $args) = @_;
@@ -241,7 +256,7 @@ sub content {
 
 sub writeXML {
   my ($self, $args) = @_;
- 
+
   if ($self->{params}{local} =~ /^$/) {
     die "local path unititalised!";
   }
@@ -257,11 +272,14 @@ sub writeXML {
     print OUT $self->content();
     close OUT or warn;
   } else {
-      warn "Can't open `$localfile': $!"
+    warn "Can't open `$localfile': $!"
   }
 }
 
 sub processChecksum {
+  my ($self) = shift;
+
+  my $logger = $self->{logger};
 #To apply to $checksum with an OR
   my %mask = (
     'HARDWARE'      => 1,
@@ -283,43 +301,72 @@ sub processChecksum {
     'SOFTWARES'     => 65536
   );
 
+  if (!$self->{params}->{vardir}) {
+    $logger->log ({
 
-  my $self = shift;
-  if (!$self->{params}->{etcdir}) {
-  die "etcdir uninitialised!";
+	level => 'fault',
+	message => "vardir uninitialised!"
+
+      });
   }
+
   my $last_state_content;
   my $checksum = 0;
-  my $last_state_path = $self->{params}{etcdir}."last_state";
 
-  if (-f $last_state_path) {
+  if (! -f $self->{params}->{laste_statefile}) {
+      $logger->log ({
+
+	  level => 'info',
+	  message => 'laste_state file: `'.
+	  $self->{params}->{laste_statefile}."' doesn't exist."
+
+	});
+  }
+  if (-f $self->{params}->{laste_statefile}) {
     # TODO: avoid a violant death in case of problem with XML
-    $last_state_content = XML::Simple::XMLin($last_state_path,
-      SuppressEmpty => undef, ForceArray => [
-      'HARDWARE', 'BIOS', 'MEMORIES', 'SLOTS', 'REGISTRY', 'CONTROLLERS',
-      'MONITORS', 'PORTS', 'STORAGES', 'DRIVES', 'INPUT', 'MODEM', 'NETWORKS',
-      'PRINTERS', 'SOUNDS', 'VIDEOS', 'SOFTWARES' ] );
+    $last_state_content = XML::Simple::XMLin(
+
+      $self->{params}->{laste_statefile},
+      SuppressEmpty => undef,
+      ForceArray => 1
+
+    );
+  } else {
+    $logger->log ({
+
+	level => 'debug',
+	message => 'last_state file: `'.
+	$self->{params}->{laste_statefile}."' doesn't exist."
+
+      });
   }
 
   foreach my $section (keys %mask) {
     #If the checksum has changed...
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-    if (!$last_state_content || $last_state_content ne $hash ) {
-      print "Section $section has changed since last inventory( New hash--> ".$hash.")\n" if $self->{params}{debug};
+    if (!$last_state_content->{$section}[0] || $last_state_content->{$section}[0] ne $hash ) {
+      $logger->log({
+	  level => "info",
+	  message => "Section $section has changed since last inventory",
+	});
       #We made OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
       # Finally I store the new value.
-#      $last_state_content->{$section}[0] = $hash; #TODO, I've to store the
-#      new HASH
+      $last_state_content->{$section}[0] = $hash; #TODO, I've to store the new HASH
     }
   }
 
-  open LAST_STATE, ">".$last_state_path or warn "Cannot save
-  the checksum values in ".$last_state_path." (will be synchronized by GLPI!!): $!\n";
-  print LAST_STATE my $string = XML::Simple::XMLout( $last_state_content, RootName => 'LAST_STATE' );;
-  close LAST_STATE or warn;
+  if (open LAST_STATE, ">".$self->{params}->{laste_statefile}) {
+    print LAST_STATE my $string = XML::Simple::XMLout( $last_state_content, RootName => 'LAST_STATE' );;
+    close LAST_STATE or warn;
+  } else {
+    $logger->log ({
+	level => 'error',
+	message => "Cannot save the checksum values in ".$self->{params}->{laste_statefile}."
+	(will be synchronized by GLPI!!): $!", 
+      });
+  }
 
-  print $checksum."\n";
   $self->setHardware({CHECKSUM => $checksum});
 }
 

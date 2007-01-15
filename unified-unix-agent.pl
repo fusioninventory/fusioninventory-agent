@@ -33,10 +33,11 @@ my $params = {
 #  'xml'       =>  0,
 
   # Other values that can't be changed with the
-  # CLI parameters (yet?)
+  # CLI parameters
   'version'   => '0.0.1',
   'deviceid'  => '',
-  'etcdir'    =>  '/etc/ocsinventory-client/',
+  'etcdir'    =>  '/etc/ocsinventory-client',
+  'vardir'    =>  '/var/lib/ocsinventory-client',
 };
 
 $ENV{LANG} = 'C'; # Turn off localised output for commands
@@ -78,7 +79,8 @@ sub help {
   print STDERR "\t-r --realm=REALM    realm for server auth\n";
   print STDERR "\t-s --server=SERVER  use the specific server SERVER
   ($params->{server})\n";
-  print STDERR "\t-t --tag=TAG        use TAG as tag ($params->{tag})\n";
+  print STDERR "\t-t --tag=TAG        use TAG as tag ($params->{tag}). Will
+  be ignored by server if a value already exists.\n";
   print STDERR "\t-u --user=USER      user for server auth\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
 #  print STDERR "\t--nosoft           do not return installed software list\n";
@@ -86,16 +88,19 @@ sub help {
   exit 1;
 }
 
-
-
 #####################################
 ################ MAIN ###############
 #####################################
+
+my $logger = new Ocsinventory::Logger ({
+
+    params => $params
+
+  });
+
 # load CFG files
 my $config = new Ocsinventory::Agent::Config({
-    params => $params,
-  });
-my $accountinfo = new Ocsinventory::Agent::AccountInfo({
+    logger => $logger,
     params => $params,
   });
 
@@ -103,43 +108,74 @@ my $srv = $config->get('OCSFSERVER');
 $params->{server} = $srv if $srv;
 $params->{deviceid}   = $config->get('DEVICEID');
 
-my $deviceID = $config->get("DEVICEID");
-
 # Should I create a new deviceID?
 chomp(my $tmp = `uname -n| cut -d . -f 1`);
-if ($deviceID !~ /$tmp-(?:\d{4})(?:-\d{2}){5}/) {
+if ((!$params->{deviceid}) || $params->{deviceid} !~ /$tmp-(?:\d{4})(?:-\d{2}){5}/) {
   my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
     (time))[5,4,3,2,1,0];
-  $params->{old_deviceid} = $deviceID;
+  $params->{old_deviceid} = $params->{deviceid};
   $params->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
   $tmp, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
 }
 
+my $accountinfo = new Ocsinventory::Agent::AccountInfo({
+
+    logger => $logger,
+    params => $params,
+
+  });
+
+
 ############################
 #### CLI parameters ########
 ############################
-GetOptions(%options);
-&help if $params->{help}; 
+help() if (!GetOptions(%options) || $params->{help});
 
-##########################
+if ($params->{tag}) {
+  if ($accountinfo->get("TAG")) {
+    $logger->log({
+	level => 'warn',
+	message => "A TAG seems to already exist in the server for this
+	machine. If so, the -t paramter is usless. Please change the TAG
+	directly on the
+	server."
+      });
+  }
+}
+############################
 #### Objects initilisation 
+############################
 
-my $logger = new Ocsinventory::Logger ({
-    params => $params
-  });
+  # The agent can contact different servers. Every server config are
+  # stored in a specific file:
+  if ((!defined($params->{local}) && $params->{local})) {
 
-$logger->log({message => "Logger backend initialised"});
+    $params->{conffile} = $params->{vardir}."/ocsinv.conf";
+    $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
+    $params->{laste_statefile} = $params->{vardir}."/laste_state";
+
+  } else {
+
+    $params->{conffile} = $params->{vardir}."/$params->{server}_ocsinv.conf";
+    $params->{accountinfofile} = $params->{vardir}."/$params->{server}_ocsinv.adm";
+    $params->{laste_statefile} = $params->{vardir}."/$params->{server}_laste_state";
+
+  }
 
 my $inventory = new Ocsinventory::XML::Inventory ({
+
     logger => $logger,
     params => $params,
+
   });
 
 my $backend = new Ocsinventory::Agent::Backend ({
+
     accountinfo => $accountinfo,
     config => $config,
     logger => $logger,
     params => $params,
+
   });
 
 # Feed the inventory with its modules
@@ -149,28 +185,51 @@ if ($params->{local}) {
   $inventory->writeXML();
   # TODO write XML inventory 
 } else { # I've to contact the server
-  my $net = new Ocsinventory::Agent::Network({
+  my $net = new Ocsinventory::Agent::Network ({
 
       logger => $logger,
       params => $params,
+      respHandlers => {
+	OPTION => sub {print "TODO: OPTION data retruned must be used\n"},
+	PROLOG_FREQ => sub {$config->set("PROLOG_FREQ", $_[0])},
+	ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
+      }
 
     });
 
-  my $prolog = new Ocsinventory::XML::Prolog({
+  my $dontSendIventory;
+  if (!$params->{force}) {
+    my $prolog = new Ocsinventory::XML::Prolog({
 
-      logger => $logger,
-      params => $params,
-    
-    });
-#  $cnx->send($prolog);
-#  if ($cnx->response() !~ /STOP/) {}
+	logger => $logger,
+	params => $params,
 
-  if ($params->{force} || $net->send({message => $prolog}) !~ /STOP/) {
-    $net->send({message => $inventory});    
+      });
+
+    my $ret = $net->send({message => $prolog});
+    $dontSendIventory = 1 if ( $ret !~ /SEND/ );
+  }
+
+  if (!$dontSendIventory) {
+
+    my $ret = $net->send({message => $inventory});
+
+    $logger->log({
+
+	level => 'debug',
+	message => "Server returned: $ret"
+
+      }); 
+
+
   } else {
-    $logger->log({level => 'info', message => 'No need to send the inventory'}); 
+
+    $logger->log({
+
+	level => 'info',
+	message => 'No need to send the inventory'
+
+      }); 
   }
 }
 
-#$accountinfo->write();
-#$inventory->dump();

@@ -10,8 +10,7 @@ sub findRelease {
   open V, "</etc/debian_version" or warn;
   chomp ($v = readline V);
   close V;
-  print $v."\n";
-  return "Debian / $v";
+  return "Debian GNU/Linux $v";
 }
 
 sub run {
@@ -22,7 +21,8 @@ sub run {
   chomp($OSComment =`uname -v`);
 
   $inventory->setHardware({ 
-      OSCOMMENTS => findRelease()." / $OSComment"
+      OSNAME => findRelease(),
+      OSCOMMENTS => "$OSComment"
     });
 }
 
