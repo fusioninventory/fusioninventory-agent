@@ -1,5 +1,6 @@
 package Ocsinventory::Logger;
 
+use Carp;
 sub new {
 
   my (undef, $params) = @_;
@@ -40,7 +41,7 @@ sub log {
       message => $message
     });
   }
-  die if $level =~ /^fault$/; # Croak! 
+  confess if $level =~ /^fault$/; # Die with a backtace 
 }
 
 1;
