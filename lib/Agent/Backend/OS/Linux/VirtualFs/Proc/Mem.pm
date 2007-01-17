@@ -11,17 +11,19 @@ sub run {
   my $PhysicalMemory;
   my $SwapFileSize;
 
-  my $h; #TODO
 # Memory informations
   open MEMINFO, "/proc/meminfo";
   while(<MEMINFO>){
     $PhysicalMemory=$1 if /^memtotal\s*:\s*(\S+)/i;
     $SwapFileSize=$1 if /^swaptotal\s*:\s*(\S+)/i;
   }
-  # TODO
-  $h->{CONTENT}{'HARDWARE'}->{'MEMORY'} =  [sprintf("%i",$PhysicalMemory/$unit) ];
-  $h->{CONTENT}{'HARDWARE'}->{'SWAP'} =  [ sprintf("%i", $SwapFileSize/$unit) ];
+# TODO
+  $inventory->setHardware({
 
+      MEMORY =>  sprintf("%i",$PhysicalMemory/$unit),
+      SWAP =>    sprintf("%i", $SwapFileSize/$unit),
+
+    });
 }
 
 1

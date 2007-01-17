@@ -7,7 +7,6 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  my $h = shift;
   my $unit = 1024;
 
   my $memory;

@@ -8,9 +8,6 @@ sub run {
   my $inventory = $params->{inventory};
 # TODO Need to be able to register different CPU speed!
 
-#	$h->{'CONTENT'}{'HARDWARE'}{PROCESSORT} = [ "??" ];
-#	$h->{'CONTENT'}{'HARDWARE'}{PROCESSORS} = [ "??" ];
-#	$h->{'CONTENT'}{'HARDWARE'}{PROCESSORN} = [ 0 ];
   my $processort;
   my $processorn;
   my $processors;
