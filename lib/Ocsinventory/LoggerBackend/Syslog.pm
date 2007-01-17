@@ -24,6 +24,7 @@ sub addMsg {
 
   return if $message =~ /^$/;
 
+  openlog("ocs-agent", 'cons,pid', $ENV{'USER'}) or die;
   syslog($level, $message) or die;
   closelog() or die;
 
