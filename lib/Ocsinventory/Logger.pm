@@ -1,5 +1,5 @@
 package Ocsinventory::Logger;
-
+# TODO use Log::Log4perl instead.
 use Carp;
 sub new {
 
@@ -8,17 +8,17 @@ sub new {
   my $self = {};
   $self->{backend} = [];
   $self->{params} = $params->{params};
+  my $logger = $self->{logger} = $params->{logger};
 
-  print Dumper($params);
-  print "->".$self->{params}->{logger}."\n";
+  print "Logging backend(s): ".$self->{params}->{logger}."\n";
   my @logger = split /,/, $self->{params}->{logger};
 
-  use Data::Dumper;
-
   foreach (@logger) {
-    my $backend = "Ocsinventory::LoggerBackend::".$_; 
+    my $backend = "Ocsinventory::LoggerBackend::".$_;
     eval ("require $backend"); # TODO deal with error
-    my $obj = new $backend;
+    my $obj = new $backend ({
+      params => $self->{params},
+      });
     push @{$self->{backend}}, $obj if $obj;
   }
 
@@ -42,6 +42,26 @@ sub log {
     });
   }
   confess if $level =~ /^fault$/; # Die with a backtace 
+}
+
+sub debug {
+  my ($self, $msg) = @_;
+  $self->log({ level => 'debug', message => $msg});
+}
+
+sub info {
+  my ($self, $msg) = @_;
+  $self->log({ level => 'info', message => $msg});
+}
+
+sub error {
+  my ($self, $msg) = @_;
+  $self->log({ level => 'fault', message => $msg});
+}
+
+sub fault {
+  my ($self, $msg) = @_;
+  $self->log({ level => 'fault', message => $msg});
 }
 
 1;
