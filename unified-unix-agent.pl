@@ -27,7 +27,7 @@ my $params = {
   'logger-file-path' => '/tmp/ocsuc.log',
   'password'  =>  '',
   'realm'     =>  '',
-  'tag'       =>  'DEBUG',
+  'tag'       =>  '',
   'server'    =>  'ocsinventory-ng',
   'user'      =>  '',
 #  'xml'       =>  0,
@@ -92,6 +92,34 @@ sub help {
 ################ MAIN ###############
 #####################################
 
+
+############################
+#### CLI parameters ########
+############################
+help() if (!GetOptions(%options) || $params->{help});
+
+
+############################
+#### Objects initilisation 
+############################
+
+  # The agent can contact different servers. Every server config are
+  # stored in a specific file:
+  if ((!defined($params->{local}) && $params->{local})) {
+
+    $params->{conffile} = $params->{vardir}."/ocsinv.conf";
+    $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
+    $params->{laste_statefile} = $params->{vardir}."/laste_state";
+
+  } else {
+
+    $params->{conffile} = $params->{vardir}."/$params->{server}_ocsinv.conf";
+    $params->{accountinfofile} = $params->{vardir}."/$params->{server}_ocsinv.adm";
+    $params->{laste_statefile} = $params->{vardir}."/$params->{server}_laste_state";
+
+  }
+
+
 my $logger = new Ocsinventory::Logger ({
 
     params => $params
@@ -125,16 +153,10 @@ my $accountinfo = new Ocsinventory::Agent::AccountInfo({
 
   });
 
-
-############################
-#### CLI parameters ########
-############################
-help() if (!GetOptions(%options) || $params->{help});
-
 if ($params->{tag}) {
   if ($accountinfo->get("TAG")) {
     $logger->log({
-	level => 'warn',
+	level => 'debug',
 	message => "A TAG seems to already exist in the server for this
 	machine. If so, the -t paramter is usless. Please change the TAG
 	directly on the
@@ -142,28 +164,10 @@ if ($params->{tag}) {
       });
   }
 }
-############################
-#### Objects initilisation 
-############################
-
-  # The agent can contact different servers. Every server config are
-  # stored in a specific file:
-  if ((!defined($params->{local}) && $params->{local})) {
-
-    $params->{conffile} = $params->{vardir}."/ocsinv.conf";
-    $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
-    $params->{laste_statefile} = $params->{vardir}."/laste_state";
-
-  } else {
-
-    $params->{conffile} = $params->{vardir}."/$params->{server}_ocsinv.conf";
-    $params->{accountinfofile} = $params->{vardir}."/$params->{server}_ocsinv.adm";
-    $params->{laste_statefile} = $params->{vardir}."/$params->{server}_laste_state";
-
-  }
 
 my $inventory = new Ocsinventory::XML::Inventory ({
 
+    accountinfo => $accountinfo,
     logger => $logger,
     params => $params,
 
