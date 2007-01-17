@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::Linux::VirtualFs::Proc::Uptime;
+package Ocsinventory::Agent::Backend::OS::Linux::Uptime;
 use strict;
 
 sub check {

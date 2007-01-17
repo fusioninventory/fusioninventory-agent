@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::Linux::VirtualFs::Proc::Mem;
+package Ocsinventory::Agent::Backend::OS::Linux::Mem;
 use strict;
 
 sub check { -r "/proc/meminfo" };
