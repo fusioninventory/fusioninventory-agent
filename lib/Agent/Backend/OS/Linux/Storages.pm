@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 #use vars qw($runAfter);
-#$runAfter = ["Ocsinventory::Agent::Backend::OS::POSIX::Domains"];
+#$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic::Domains"];
 
 sub check {1}
 

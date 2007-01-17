@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX;
+package Ocsinventory::Agent::Backend::OS::Generic;
 
 use strict;
 
@@ -17,7 +17,7 @@ sub run {
 
   # Will be overwrite by a more specific module
   $inventory->setHardware({
-      OSNAME => "POSIX OS",
+      OSNAME => "Generic OS",
       OSVERSION => $OSVersion,
       OSCOMMENTS => "Unknow $^O system",
       TYPE => 8,

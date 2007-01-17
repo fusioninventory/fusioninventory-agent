@@ -2,14 +2,14 @@ package Ocsinventory::Agent::Backend::OS::Linux::Domains;
 use strict;
 
 use vars qw($runAfter);
-$runAfter = ["Ocsinventory::Agent::Backend::OS::POSIX::Domains"];
+$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic::Domains"];
 
 sub check {-f "/etc/resolv.conf"}
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  # If the default domain was set by OS::POSIX::Domains I keep the
+  # If the default domain was set by OS::Generic::Domains I keep the
   # value. Else I use the method used in linux-agent to find the domain
   my $current_domain =
   $inventory->{h}{'CONTENT'}{'HARDWARE'}{'WORKGROUP'}[0];

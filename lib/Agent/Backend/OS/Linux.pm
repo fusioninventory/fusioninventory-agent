@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Linux;
 
 use strict;
 use vars qw($runAfter);
-$runAfter = ["Ocsinventory::Agent::Backend::OS::POSIX"];
+$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic"];
 
 sub check { $^O =~ /^linux$/ }
 

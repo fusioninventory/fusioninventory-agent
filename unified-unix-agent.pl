@@ -8,14 +8,15 @@ use Data::Dumper; #XXX DEBUG
 use Getopt::Long;
 
 use Ocsinventory::Logger;
-use Ocsinventory::XML::Inventory;
-use Ocsinventory::XML::Prolog;
+use Ocsinventory::Agent::XML::Inventory;
+use Ocsinventory::Agent::XML::Prolog;
 
 use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Backend;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Agent::AccountInfo;
 
+our $VERSION = '0.0.1';
 # default settings;
 my $params = { 
   'debug'     =>  1,
@@ -34,7 +35,7 @@ my $params = {
 
   # Other values that can't be changed with the
   # CLI parameters
-  'version'   => '0.0.1',
+  'version'   => $VERSION,
   'deviceid'  => '',
   'etcdir'    =>  '/etc/ocsinventory-client',
   'vardir'    =>  '/var/lib/ocsinventory-client',
@@ -165,7 +166,7 @@ if ($params->{tag}) {
   }
 }
 
-my $inventory = new Ocsinventory::XML::Inventory ({
+my $inventory = new Ocsinventory::Agent::XML::Inventory ({
 
     accountinfo => $accountinfo,
     logger => $logger,
@@ -203,7 +204,7 @@ if ($params->{local}) {
 
   my $dontSendIventory;
   if (!$params->{force}) {
-    my $prolog = new Ocsinventory::XML::Prolog({
+    my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
 	logger => $logger,
 	params => $params,
