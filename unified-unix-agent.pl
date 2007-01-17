@@ -24,8 +24,8 @@ my $params = {
   'help'      =>  0,
   'info'      =>  1,
   'local'     =>  '',
-  'logger'    =>  'File,Stderr',
-  'logger-file-path' => '/tmp/ocsuc.log',
+  'logger'    =>  'File,Stderr,Syslog',
+  'logfile'   =>  '',
   'password'  =>  '',
   'realm'     =>  '',
   'tag'       =>  '',
@@ -48,7 +48,8 @@ my %options = (
   "f|force"         =>   \$params->{force},
   "h|help"          =>   \$params->{help},
   "i|info"          =>   \$params->{info},
-  "l|local=s"         =>   \$params->{local},
+  "l|local=s"       =>   \$params->{local},
+  "logfile=s"       =>   \$params->{logfile},
   "p|password=s"    =>   \$params->{password},
   "r|realm=s"       =>   \$params->{realm},
   "t|tag=s"         =>   \$params->{tag},
@@ -74,8 +75,9 @@ sub help {
   print STDERR "\t-f --force          always send data to server (Don't ask
   before) ($params->{force})\n";
   print STDERR "\t-i --info           verbose mode ($params->{info})\n";
-  print STDERR "\t-l --local=DIR      do not contact server but write
-  inventory in DIR directory in XML ($params->{local})\n";
+  print STDERR "\t-l --local=DIR      do not contact server but write ".
+  "inventory in DIR directory in XML ($params->{local})\n";
+  print STDERR "\t   --logfile=FILE   log message in FILE\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-r --realm=REALM    realm for server auth\n";
   print STDERR "\t-s --server=SERVER  use the specific server SERVER
@@ -156,13 +158,10 @@ my $accountinfo = new Ocsinventory::Agent::AccountInfo({
 
 if ($params->{tag}) {
   if ($accountinfo->get("TAG")) {
-    $logger->log({
-	level => 'debug',
-	message => "A TAG seems to already exist in the server for this
+    $logger->debug("A TAG seems to already exist in the server for this
 	machine. If so, the -t paramter is usless. Please change the TAG
 	directly on the
-	server."
-      });
+	server.");
   }
 }
 
@@ -219,22 +218,12 @@ if ($params->{local}) {
 
     my $ret = $net->send({message => $inventory});
 
-    $logger->log({
-
-	level => 'debug',
-	message => "Server returned: $ret"
-
-      }); 
+    $logger->debug("Server returned: $ret"); 
 
 
   } else {
 
-    $logger->log({
-
-	level => 'info',
-	message => 'No need to send the inventory'
-
-      }); 
+    $logger->info('No need to send the inventory'); 
   }
 }
 

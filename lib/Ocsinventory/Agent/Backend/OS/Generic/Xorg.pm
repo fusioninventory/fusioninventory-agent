@@ -36,12 +36,7 @@ sub run {
 
     if (!open XCONFIG, $xconfig) {
 
-      $logger->log({
-
-	  level => 'info',
-	  message => "Failed to open $xconfig: $?"
-
-	});
+      $logger->info("Failed to open $xconfig: $?");
 
       next;
     }
@@ -74,12 +69,7 @@ sub run {
   }
 
   if ($cfgfound > 1) {
-    $logger->log({
-
-	level => 'info',
-	message => 'Ocsinventory::Agent::Backend::Video::Xorg have found more than one X config file. Fix this by removing the unused file(s).'
-
-      });
+    $logger->info('Ocsinventory::Agent::Backend::Video::Xorg have found more than one X config file. Fix this by removing the unused file(s).');
 
   }
 }

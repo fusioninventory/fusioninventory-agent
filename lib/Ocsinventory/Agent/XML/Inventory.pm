@@ -13,9 +13,11 @@ sub new {
   my $self = {};
   $self->{accountinfo} = $params->{accountinfo};
   $self->{params} = $params->{params};
-  $self->{logger} = $params->{logger};
+  my $logger = $self->{logger} = $params->{logger};
 
-  die unless ($self->{params}->{deviceid}); #XXX
+  if (!($self->{params}{deviceid})) {
+    $logger->fault ('deviceid unititalised!');
+  }
 
   $self->{h}{QUERY} = ['INVENTORY']; 
   $self->{h}{DEVICEID} = [$self->{params}->{deviceid}]; 
@@ -94,8 +96,6 @@ sub addDrives {
 
 sub addStorages {
   my ($self, $args) = @_;
-
-#  die unless ($args->{NAME} && $args->{MANUFACTURER} && $args->{TYPE});
 
   my $description = $args->{DESCRIPTION};
   my $disksize =  $args->{DISKSIZE};
@@ -315,12 +315,12 @@ sub content {
 sub writeXML {
   my ($self, $args) = @_;
 
+  my $logger = $self->{logger};
+
   if ($self->{params}{local} =~ /^$/) {
-    die "local path unititalised!";
+    $logger->fault ('local path unititalised!');
   }
-  if ($self->{params}{deviceid} =~ /^$/) {
-    die "deviceid unititalised!";
-  }
+
   my $localfile = $self->{params}{local}."/".$self->{params}{deviceid};
   $localfile =~ s!(//){1,}!/!;
 
@@ -329,6 +329,7 @@ sub writeXML {
   if (open OUT, ">$localfile") {
     print OUT $self->content();
     close OUT or warn;
+    $logger->info("Inventory saved in $localfile");
   } else {
     warn "Can't open `$localfile': $!"
   }
@@ -360,25 +361,15 @@ sub processChecksum {
   );
 
   if (!$self->{params}->{vardir}) {
-    $logger->log ({
-
-	level => 'fault',
-	message => "vardir uninitialised!"
-
-      });
+    $logger->fault ("vardir uninitialised!");
   }
 
   my $last_state_content;
   my $checksum = 0;
 
   if (! -f $self->{params}->{laste_statefile}) {
-      $logger->log ({
-
-	  level => 'info',
-	  message => 'laste_state file: `'.
-	  $self->{params}->{laste_statefile}."' doesn't exist."
-
-	});
+    $logger->info ('laste_state file: `'.
+	$self->{params}->{laste_statefile}."' doesn't exist.");
   }
   if (-f $self->{params}->{laste_statefile}) {
     # TODO: avoid a violant death in case of problem with XML
@@ -390,26 +381,16 @@ sub processChecksum {
 
     );
   } else {
-    $logger->log ({
-
-	level => 'debug',
-	message => 'last_state file: `'.
-	$self->{params}->{laste_statefile}."' doesn't exist."
-
-      });
+    $logger->debug ('last_state file: `'.
+	$self->{params}->{laste_statefile}.
+	"' doesn't exist.");
   }
 
   foreach my $section (keys %mask) {
     #If the checksum has changed...
-	use Data::Dumper;
-	print "->$section\n";
-	print Dumper($self->{h}{'CONTENT'}{$section});
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
     if (!$last_state_content->{$section}[0] || $last_state_content->{$section}[0] ne $hash ) {
-      $logger->log({
-	  level => "info",
-	  message => "Section $section has changed since last inventory",
-	});
+      $logger->info ("Section $section has changed since last inventory");
       #We made OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
       # Finally I store the new value.
@@ -421,11 +402,8 @@ sub processChecksum {
     print LAST_STATE my $string = XML::Simple::XMLout( $last_state_content, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
   } else {
-    $logger->log ({
-	level => 'error',
-	message => "Cannot save the checksum values in ".$self->{params}->{laste_statefile}."
-	(will be synchronized by GLPI!!): $!", 
-      });
+    $logger->error ("Cannot save the checksum values in ".$self->{params}->{laste_statefile}."
+	(will be synchronized by GLPI!!): $!"); 
   }
 
   $self->setHardware({CHECKSUM => $checksum});

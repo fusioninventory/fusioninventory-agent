@@ -15,20 +15,10 @@ sub new {
 
   my $logger = $self->{logger} = $params->{logger};
 
-  $logger->log ({
-
-      level => 'debug',
-      message => 'Accountinfo file: '. $self->{params}->{accountinfofile}
-
-    });
+  $logger->debug ('Accountinfo file: '. $self->{params}->{accountinfofile});
 
   if (! -f $self->{params}->{accountinfofile}) {
-      $logger->log ({
-
-	  level => 'info',
-	  message => "Accountinfo file doesn't exist. (yet)"
-
-	});
+      $logger->info ("Accountinfo file doesn't exist. (yet)");
   } else {
 
     my $xmladm = XML::Simple::XMLin(
@@ -39,14 +29,7 @@ sub new {
     # Store the XML content in a local HASH
     for(@{$xmladm->{ACCOUNTINFO}}){
       if (!$_->{KEYNAME}) {
-
-	$logger->log ({
-
-	  level => 'debug',
-	  message => "Incorrect KEYNAME in ACCOUNTINFO"
-
-	});
-
+	$logger->debug ("Incorrect KEYNAME in ACCOUNTINFO");
       }
       $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
     }
@@ -116,22 +99,10 @@ sub write {
   }
 
   if (!$fault) {
-
-    $logger->log ({
-
-	level => 'debug',
-	message => "Account info updated successfully"
-
-      });
-
+    $logger->debug ("Account info updated successfully");
   } else {
-
-    $logger->log ({
-
-	level => 'error',
-	message => "Can't save account info in `$self->{params}->{accountinfofile}'"
-
-      });
+    $logger->error ("Can't save account info in `".
+      $self->{params}->{accountinfofile});
   }
 }
 

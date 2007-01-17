@@ -16,12 +16,7 @@ sub new {
   $self->{xml} = {};
 
   if (! -f $self->{params}->{conffile}) {
-      $logger->log ({
-
-	  level => 'info',
-	  message => 'conffile file: `'. $self->{params}->{conffile}."' doesn't exist."
-
-	});
+      $logger->info ('conffile file: `'. $self->{params}->{conffile}."' doesn't exist.");
   } else {
     $self->{xml} = XML::Simple::XMLin(
       $self->{params}->{conffile},
@@ -72,22 +67,10 @@ sub write {
   }
 
   if (!$fault) {
-
-    $logger->log ({
-
-	level => 'debug',
-	message => "ocsinv.conf updated successfully"
-
-      });
-
+    $logger->debug ("ocsinv.conf updated successfully");
   } else {
 
-    $logger->log ({
-
-	level => 'error',
-	message => "Can't save setting change in `$self->{params}->{conffile}'"
-
-      });
+    $logger->error ("Can't save setting change in `$self->{params}->{conffile}'");
   }
 }
 

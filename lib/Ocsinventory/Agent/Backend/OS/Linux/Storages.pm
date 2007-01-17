@@ -1,5 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
+use strict;
 #use vars qw($runAfter);
 #$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic::Domains"];
 
@@ -17,7 +18,7 @@ sub run {
     $partitions->{$1} = undef
     if (/^\/sys\/block\/([sh]d[a..z])$/)
   }
-  foreach (`$fdisk_path -l`) {# call fdisk to list partitions
+  foreach (`fdisk -l`) {# call fdisk to list partitions
     chomp;
     next unless (/^\//);
     $partitions->{$1} = undef
@@ -80,7 +81,7 @@ sub run {
     } else {
       $description = "IDE";
     }
-    chomp ($capacity = `/sbin/fdisk -s /dev/$device`);
+    chomp ($capacity = `fdisk -s /dev/$device`);
     $capacity = int ($capacity/1000) if $capacity;
 
     $inventory->addStorages({

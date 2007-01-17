@@ -45,11 +45,11 @@ sub send {
   $req->header('Pragma' => 'no-cache', 'Content-type',
     'application/x-compress');
 
-  $logger->log ({level => 'debug', message => 'sending XML'});
+  $logger->debug ("sending XML");
 
   my $message = $compress->compress( $args->{message}->content() );
   if (!$message) {
-    $logger->log({level => 'fault', message => 'failed to compress data with ZLib'});
+    $logger->fault ('failed to compress data with Compress::ZLib');
   }
 
   $req->content($message);
@@ -58,19 +58,13 @@ sub send {
 
   # Checking if connected
   if(!$res->is_success) {
-    $logger->log ({
-	level => 'fault',
-	message => 'Cannot establish communication : '.$res->status_line
-      });
+    $logger->fault ('Cannot establish communication : '.$res->status_line);
   }
 
   # stop or send in the http's body
   my $content = $compress->uncompress($res->content);
   if (!$content) {
-    $logger->log ({
-	level => 'fault',
-	message => "Deflating problem",
-      });
+    $logger->fault ("Deflating problem");
   }
 
   my $ret = XML::Simple::XMLin( $content, ForceArray => ['OPTION'] );
@@ -84,11 +78,8 @@ sub send {
     if (defined $self->{respHandlers}->{$_}) {
       $self->{respHandlers}->{$_}($ret->{$_});
     } else {
-    $logger->log ({
-	level => 'debug',
-	message => 'No respHandlers avalaible for '.$_.". The data returned
-	by server in this hash will be lost.",
-      });
+    $logger->debug ('No respHandlers avalaible for '.$_.". The data ".
+      "returned by server in this hash will be lost.");
     }
   }
 

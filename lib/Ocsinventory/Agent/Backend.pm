@@ -61,7 +61,7 @@ sub initModList {
   foreach my $m (sort keys %{$self->{modules}}) {# the sort is useless
 # find modules to disable and their submodules
     if(!$self->{modules}->{$m}->{enable}) {
-      $logger->log ({ level => 'debug',  message => $m." check function failed"	});
+      $logger->debug ($m." check function failed");
       foreach (keys %{$self->{modules}}) {
 	$self->{modules}->{$_}->{enable} = 0 if /^$m($|::)/;
       }
@@ -98,22 +98,14 @@ sub runMod {
     if (!$_->{name}) {
       # The name is defined during module initialisation so if I 
       # can't read it, I can suppose it had not been initialised.
-      $logger->log ({
-	  level => 'fault',
-	  message => 
-	  "Module `$m' need to be runAfter a module not found.".
-	  "Please fix its runAfter entry or add the module."
-	});
+      $logger->fault ("Module `$m' need to be runAfter a module not found.".
+	  "Please fix its runAfter entry or add the module.");
     }
 
     if ($_->{inUse}) {
       # In use 'lock' is taken during the mod execution. If a module
       # need a module also in use, we have provable an issue :).
-      $logger->log ({
-	  level => 'fault',
-	  message => 
-	  "Circular dependency hell with $m and $_->{name}"
-	});
+      $logger->fault ("Circular dependency hell with $m and $_->{name}");
     }
     $self->runMod({
 	inventory => $inventory,
@@ -122,7 +114,7 @@ sub runMod {
       });
   }
 
-  $logger->log ({ level => "debug", message => "Running $m" }); 
+  $logger->debug ("Running $m"); 
   
   &{$self->{modules}->{$m}->{runFunc}}({
       accountinfo => $self->{accountinfo},

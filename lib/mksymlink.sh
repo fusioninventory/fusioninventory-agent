@@ -9,11 +9,11 @@ PERLREL="5.8.8"
 
 
 for dir in `find . -type d ! -name 'CVS'| sed 's/^\.//'`; do
-  mkdir -p $PREFIX/share/perl/$PERLREL/Ocsinventory$dir
+  mkdir -p $PREFIX/share/perl/$PERLREL$dir
 done
 
 for file in `find . -type f -name '*.pm'|grep -v CVS| sed 's/\.//'`; do
-  ln -s $PWD$file $PREFIX/share/perl/$PERLREL/Ocsinventory$file
+  ln -s $PWD$file $PREFIX/share/perl/$PERLREL$file
 done
 
 find $PREFIX/share/perl/$PERLREL/Ocsinventory -type l -name '*.pm' >\

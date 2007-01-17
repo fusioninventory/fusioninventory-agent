@@ -17,17 +17,12 @@ sub new {
   $self->{natif} = ($@)?0:1;
 
   if ($self->{natif}) {
-    $logger->log ({
-	level => 'debug',
-	message => 'Compress::Zlib is avalaible.'
-      });
+    $logger->debug ('Compress::Zlib is avalaible.');
   } else {
-    $logger->log ({
-	level => 'fault', # Today the sever only understands Zlib compressed data 
-	message => 'Compress::Zlib is not avalaible! The data won\'t be accepted
-	by the server. Please install the Compress-Zlib package and restard
-	the agent.'
-      });
+    $logger->fault ( # Today the sever only understands Zlib compressed data 
+	'Compress::Zlib is not avalaible! The data won\'t be accepted '.
+	'by the server. Please install the Compress-Zlib package and '.
+	'restard the agent.');
   }
 
   bless $self;
