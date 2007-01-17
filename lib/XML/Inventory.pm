@@ -11,6 +11,7 @@ sub new {
   my (undef,$params) = @_;
 
   my $self = {};
+  $self->{accountinfo} = $params->{accountinfo};
   $self->{params} = $params->{params};
   $self->{logger} = $params->{logger};
 
@@ -28,6 +29,8 @@ sub new {
   $self->{h}{CONTENT}{SLOTS} = [];
   $self->{h}{CONTENT}{STORAGES} = [];
   $self->{h}{CONTENT}{SOFTWARES} = [];
+  $self->{h}{CONTENT}{VIDEOS} = [];
+  $self->{h}{CONTENT}{SOUNDS} = [];
 
   bless $self;
 }
@@ -211,6 +214,61 @@ sub addMonitors {
   };
 }
 
+sub addVideos {
+  my ($self, $args) = @_;
+
+  my $chipset = $args->{CHIPSET};
+  my $name = $args->{NAME};
+
+  push @{$self->{h}{CONTENT}{VIDEOS}},
+  {
+
+    CHIPSET => [$chipset?$chipset:"??"],
+    NAME => [$name?$name:"??"],
+
+  };
+}
+
+sub addSounds {
+  my ($self, $args) = @_;
+
+  my $description = $args->{DESCRIPTION};
+  my $manufacturer = $args->{MANUFACTURER};
+  my $name = $args->{NAME};
+
+  push @{$self->{h}{CONTENT}{SOUNDS}},
+  {
+
+    DESCRIPTION => [$description?$description:"??"],
+    MANUFACTURER => [$manufacturer?$manufacturer:"??"],
+    NAME => [$name?$name:"??"],
+
+  };
+}
+
+sub addNetworks {
+  my ($self, $args) = @_;
+
+  my $description = $args->{DESCRIPTION};
+  my $ipdhcp = $args->{IPDHCP};
+  my $ipgateway = $args->{IPGATEWAY};
+  my $macaddr = $args->{MACADDR};
+  my $status = $args->{STATUS};
+  my $type = $args->{TYPE};
+
+  push @{$self->{h}{CONTENT}{NETWORKS}},
+  {
+
+    DESCRIPTION => [$description?$description:"??"],
+    IPDHCP => [$ipdhcp?$ipdhcp:"??"],
+    IPGATEWAY => [$ipgateway?$ipgateway:"??"],
+    MACADDR => [$macaddr?$macaddr:"??"],
+    STATUS => [$status?$status:"??"],
+    TYPE => [$type?$type:"??"],
+
+  };
+}
+
 sub setHardware {
   my ($self, $args) = @_;
 
@@ -277,7 +335,7 @@ sub writeXML {
 }
 
 sub processChecksum {
-  my ($self) = shift;
+  my $self = shift;
 
   my $logger = $self->{logger};
 #To apply to $checksum with an OR
@@ -292,8 +350,8 @@ sub processChecksum {
     'PORTS'         => 128,
     'STORAGES'      => 256,
     'DRIVES'        => 512,
-    'INPUT'        => 1024,
-    'MODEM'        => 2048,
+    'INPUT'         => 1024,
+    'MODEMS'        => 2048,
     'NETWORKS'      => 4096,
     'PRINTERS'      => 8192,
     'SOUNDS'        => 16384,
@@ -343,6 +401,9 @@ sub processChecksum {
 
   foreach my $section (keys %mask) {
     #If the checksum has changed...
+	use Data::Dumper;
+	print "->$section\n";
+	print Dumper($self->{h}{'CONTENT'}{$section});
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
     if (!$last_state_content->{$section}[0] || $last_state_content->{$section}[0] ne $hash ) {
       $logger->log({
@@ -368,6 +429,22 @@ sub processChecksum {
   }
 
   $self->setHardware({CHECKSUM => $checksum});
+}
+
+sub setAccountInfo {
+  my $self = shift;
+
+  my $ai = $self->{accountinfo}->getAll();
+  $self->{h}{'CONTENT'}{ACCOUNTINFO} = [];
+
+  return unless $ai;
+
+  foreach (keys %$ai) {
+    push @{$self->{h}{'CONTENT'}{ACCOUNTINFO}}, {
+      KEYNAME => [$_],
+      KEYVALUE => [$ai->{$_}],
+    };
+  }
 }
 
 1;
