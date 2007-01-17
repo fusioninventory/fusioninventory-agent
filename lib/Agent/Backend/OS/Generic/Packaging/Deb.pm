@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Packaging::Deb;
+package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Deb;
 
 use strict;
 use warnings;

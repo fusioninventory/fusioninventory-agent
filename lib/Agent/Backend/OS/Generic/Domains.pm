@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Domains;
+package Ocsinventory::Agent::Backend::OS::Generic::Domains;
 
 sub check {
   my @domain = `hostname -d`;

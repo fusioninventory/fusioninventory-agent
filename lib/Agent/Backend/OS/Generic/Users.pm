@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Users;
+package Ocsinventory::Agent::Backend::OS::Generic::Users;
 
 sub check {
 # Useless check for a posix system i guess

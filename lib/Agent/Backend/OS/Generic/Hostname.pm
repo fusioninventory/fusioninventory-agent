@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Hostname;
+package Ocsinventory::Agent::Backend::OS::Generic::Hostname;
 
 sub check {1} # No check yet
 

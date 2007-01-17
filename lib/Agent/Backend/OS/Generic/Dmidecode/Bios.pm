@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Dmidecode::Bios;
+package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::Bios;
 use strict;
 sub check {
   my $dmipath = `which dmidecode`;

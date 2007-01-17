@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Dmidecode::Memory;
+package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::Memory;
 use strict;
 sub check {
   my $dmipath = `which dmidecode`;

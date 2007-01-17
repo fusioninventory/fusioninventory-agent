@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Packaging::RPM;
+package Ocsinventory::Agent::Backend::OS::Generic::Packaging::RPM;
 
 use strict;
 use warnings;

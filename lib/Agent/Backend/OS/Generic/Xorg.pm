@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Xorg;
+package Ocsinventory::Agent::Backend::OS::Generic::Xorg;
 
 use strict;
 

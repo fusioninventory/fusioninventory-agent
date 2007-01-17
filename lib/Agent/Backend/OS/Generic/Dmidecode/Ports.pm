@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Dmidecode::Ports;
+package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::Ports;
 use strict;
 sub check {
   my $dmipath = `which dmidecode`;

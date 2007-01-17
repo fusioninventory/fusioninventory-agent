@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::POSIX::Packaging::Gentoo;
+package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Gentoo;
 
 use strict;
 use warnings;
