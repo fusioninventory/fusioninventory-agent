@@ -26,8 +26,7 @@ sub new {
       $logger->log ({
 
 	  level => 'info',
-	  message => 'Accountinfo file: `'. $self->{params}->{accountinfofile}."'
-	  doesn't exist."
+	  message => "Accountinfo file doesn't exist. (yet)"
 
 	});
   } else {
@@ -37,7 +36,18 @@ sub new {
       ForceArray => [ 'ACCOUNTINFO' ]
     );
 
+    # Store the XML content in a local HASH
     for(@{$xmladm->{ACCOUNTINFO}}){
+      if (!$_->{KEYNAME}) {
+
+	$logger->log ({
+
+	  level => 'debug',
+	  message => "Incorrect KEYNAME in ACCOUNTINFO"
+
+	});
+
+      }
       $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
     }
   }
@@ -48,9 +58,6 @@ sub new {
 sub get {
   my ($self, $keyname) = @_;
 
-  print "keyname: $keyname\n";
-  print Dumper($self->{accountinfo});
-  warn "Prototype changed\n";
   return $self->{accountinfo}{$keyname} if $keyname;
 }
 
@@ -61,9 +68,11 @@ sub getAll {
 }
 
 sub set {
+  die;
   my ($self, $name, $value) = @_;
 
   $self->{accountinfo}->{$name} = $value;
+  $self->write();
 }
 
 sub reSetAll {
@@ -74,7 +83,6 @@ sub reSetAll {
     $self->set($_, $hash->{$_});
     print "$_ => $hash->{$_}\n";
   }
-  $self->write();
 }
 
 
@@ -103,7 +111,7 @@ sub write {
   } else {
 
     print ADM $xml;
-    $fault = 1 if (!close ADM);
+    $fault = 1 unless close ADM;
 
   }
 
@@ -112,7 +120,7 @@ sub write {
     $logger->log ({
 
 	level => 'debug',
-	message => "ocsinv.adm updated successfully"
+	message => "Account info updated successfully"
 
       });
 
@@ -121,7 +129,7 @@ sub write {
     $logger->log ({
 
 	level => 'error',
-	message => "Can't save setting change in `$self->{params}->{accountinfofile}'"
+	message => "Can't save account info in `$self->{params}->{accountinfofile}'"
 
       });
   }
