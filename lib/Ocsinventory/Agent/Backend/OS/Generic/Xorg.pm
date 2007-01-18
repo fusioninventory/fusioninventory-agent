@@ -13,7 +13,6 @@ sub check {
   foreach(@location) {
     return 1 if -f;
   }
-  die;
   0;
 }
 
