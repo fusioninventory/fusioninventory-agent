@@ -7,6 +7,8 @@ use Data::Dumper; #XXX DEBUG
 
 use Getopt::Long;
 
+#use lib '/home/gediff/local2';
+
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::XML::Inventory;
 use Ocsinventory::Agent::XML::Prolog;
@@ -24,7 +26,7 @@ my $params = {
   'help'      =>  0,
   'info'      =>  1,
   'local'     =>  '',
-  'logger'    =>  'File,Stderr,Syslog',
+  'logger'    =>  'File,Stderr',
   'logfile'   =>  '',
   'password'  =>  '',
   'realm'     =>  '',
@@ -41,6 +43,7 @@ my $params = {
   'vardir'    =>  '/var/lib/ocsinventory-client',
 };
 
+$ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 my %options = (

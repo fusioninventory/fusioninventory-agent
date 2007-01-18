@@ -51,7 +51,6 @@ sub getAll {
 }
 
 sub set {
-  die;
   my ($self, $name, $value) = @_;
 
   $self->{accountinfo}->{$name} = $value;
@@ -59,7 +58,6 @@ sub set {
 }
 
 sub reSetAll {
-  die;
   my ($self, $hash) = @_;
 
   foreach (keys %$hash) {

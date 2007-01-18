@@ -28,8 +28,21 @@ sub initModList {
   my $logger = $self->{logger};
 
   my ($inst) = ExtUtils::Installed->new();
-  my @installed_mod =
-  $inst->files('Ocsinventory');
+  my @installed_mod;
+
+  eval {@installed_mod =
+  $inst->files('Ocsinventory')};
+
+# ExtUtils::Installed is nice it needs properly installed package with
+# .packlist
+# This is a workaround for invalide installations...
+  if (!@installed_mod) {
+    require File::Find;
+    File::Find::find( sub {
+	push @installed_mod, $File::Find::name if $File::Find::name =~ /^\/.*\/Ocsinventory\/Agent\/Backend\/.*\.pm$/;
+      }
+      , @INC);
+  }
 
 # Find installed modules
   foreach (@installed_mod) {
