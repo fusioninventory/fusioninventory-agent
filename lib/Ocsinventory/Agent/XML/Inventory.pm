@@ -33,6 +33,7 @@ sub new {
   $self->{h}{CONTENT}{SOFTWARES} = [];
   $self->{h}{CONTENT}{VIDEOS} = [];
   $self->{h}{CONTENT}{SOUNDS} = [];
+  $self->{h}{CONTENT}{MODEMS} = [];
 
   bless $self;
 }
@@ -307,7 +308,8 @@ sub setAccessLog {
 sub content {
   my ($self, $args) = @_;
 
-  my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>', NoSort => 1, SuppressEmpty => undef );
+  # TODO, add a check for MAC, NAME and SSN presence
+  my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>', SuppressEmpty => undef );
 
   return $content;
 }
