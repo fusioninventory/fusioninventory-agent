@@ -1,7 +1,12 @@
 package Ocsinventory::Agent::Backend::OS::AIX::CPU;
 use strict;
 
-sub check { -r "export LANG=C;lsdev -Cc processor -F name" };
+sub check {
+	`which lsdev`;	
+	return if($? >> 8)!=0;
+	`which lsattr`;	
+	($? >> 8)?0:1
+}	 
 
 sub run {
   my $params = shift;
@@ -17,10 +22,10 @@ sub run {
 
   #lsdev -Cc processor -F name
   #lsattr -EOl proc16
-  @lsdev=`export LANG=C;lsdev -Cc processor -F name`;
+  @lsdev=`lsdev -Cc processor -F name`;
   for (@lsdev){
     chomp($_);
-	@lsattr=`export LANG=C;lsattr -EOl $_ -a 'state:type:frequency'`;
+	@lsattr=`lsattr -EOl $_ -a 'state:type:frequency'`;
 	for (@lsattr){
 	   if ( ! /^#/){
 	     /(.+):(.+):(.+)/;

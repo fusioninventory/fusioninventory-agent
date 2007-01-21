@@ -1,9 +1,14 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Mem;
 use strict;
 
-sub check { 
-	(-r "lsdev -Cc memory -F 'name' -t totmem") &&
-	(-r "lsps -s")
+sub check {
+	`which lsdev`;	
+	return if($? >> 8)!=0;
+	`which lsps`;	
+	return if($? >> 8)!=0;
+	`which lsattr`;	
+	($? >> 8)?0:1	
+	
 }
 
 sub run {
