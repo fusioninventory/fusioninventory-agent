@@ -31,7 +31,7 @@ sub content {
   my ($self, $args) = @_;
 
   my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>',
-    NoSort => 1, SuppressEmpty => undef );
+    SuppressEmpty => undef );
 
   return $content;
 }
