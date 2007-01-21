@@ -18,6 +18,8 @@ use Ocsinventory::Agent::Backend;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Agent::AccountInfo;
 
+use Ocsinventory::Agent::CompatibilityLayer;
+
 our $VERSION = '0.0.1';
 # default settings;
 my $params = { 
@@ -30,6 +32,7 @@ my $params = {
   'logfile'   =>  '',
   'password'  =>  '',
   'realm'     =>  '',
+  'remotedir' =>  '/ocsinventory',
   'tag'       =>  '',
   'server'    =>  'ocsinventory-ng',
   'user'      =>  '',
@@ -41,6 +44,7 @@ my $params = {
   'deviceid'  => '',
   'etcdir'    =>  '/etc/ocsinventory-client',
   'vardir'    =>  '/var/lib/ocsinventory-client',
+  'logdir'    =>  '/var/log/ocsinventory-client',
 };
 
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
@@ -55,6 +59,7 @@ my %options = (
   "logfile=s"       =>   \$params->{logfile},
   "p|password=s"    =>   \$params->{password},
   "r|realm=s"       =>   \$params->{realm},
+  "R|remotedir=s"   =>   \$params->{remotedir},
   "t|tag=s"         =>   \$params->{tag},
   "s|server=s"      =>   \$params->{server},
   "u|user"          =>   \$params->{user},
@@ -83,7 +88,7 @@ sub help {
   print STDERR "\t   --logfile=FILE   log message in FILE\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-r --realm=REALM    realm for server auth\n";
-  print STDERR "\t-s --server=SERVER  use the specific server SERVER
+  print STDERR "\t-s --server=URI  URI to the server place
   ($params->{server})\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag ($params->{tag}). Will
   be ignored by server if a value already exists.\n";
@@ -185,6 +190,17 @@ my $backend = new Ocsinventory::Agent::Backend ({
 
   });
 
+# Create compatibility layer. It's used to keep compatibility with the
+# linux_agent 1.x and bellow
+my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
+
+    accountinfo => $accountinfo,
+    config => $config,
+    logger => $logger,
+    params => $params,
+
+  });
+
 # Feed the inventory with its modules
 $backend->feedInventory ({inventory => $inventory});
 
@@ -212,6 +228,8 @@ if ($params->{local}) {
 	params => $params,
 
       });
+    
+    $compatibilityLayer->hook({name => 'start_handler'});
 
     my $ret = $net->send({message => $prolog});
     $dontSendIventory = 1 if ( $ret !~ /SEND/ );

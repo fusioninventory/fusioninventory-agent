@@ -14,7 +14,7 @@ sub new {
   $self->{accountinfo} = $params->{accountinfo};
   $self->{config} = $params->{config};
   $self->{inventory} = $params->{inventory};
-  $self->{logger} = $params->{logger};
+  my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
 
   $self->{modules} = {};
@@ -62,6 +62,10 @@ sub initModList {
     foreach (@{$Ocsinventory::Agent::Backend::runAfter}) {
       push @runAfter, \%{$self->{modules}->{$_}};
     }
+    # TODO, 
+    # no strict 'refs';
+    # print Dumper(\@{"Ocsinventory::Agent::Option::Download::EXPORT"});
+    # to see avalaible func
 
     $self->{modules}->{$m}->{name} = $m;
     $self->{modules}->{$m}->{done} = 0;

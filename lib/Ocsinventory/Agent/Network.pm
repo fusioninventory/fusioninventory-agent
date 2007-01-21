@@ -16,7 +16,7 @@ sub new {
 
   $self->{params} = $params->{params};
   my $logger = $self->{logger} = $params->{logger};
-  $self->{URI} = "http://".$self->{params}->{server}."/ocsinventory";
+  $self->{URI} = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
   $self->{respHandlers} = $params->{respHandlers}; 
 
 
@@ -67,7 +67,7 @@ sub send {
     $logger->fault ("Deflating problem");
   }
 
-  my $ret = XML::Simple::XMLin( $content, ForceArray => ['OPTION'] );
+  my $ret = XML::Simple::XMLin( $content, ForceArray => ['OPTION','PARAM'] );
 
   print "=BEGIN=SERVER RET======\n";
   print Dumper($ret);
