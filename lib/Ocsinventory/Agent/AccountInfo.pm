@@ -80,8 +80,7 @@ sub write {
       [$self->{accountinfo}{$_}]}; 
   }
 
-  my $xml=XML::Simple::XMLout( $tmp, RootName => 'ADM',
-    NoSort => 1 );
+  my $xml=XML::Simple::XMLout( $tmp, RootName => 'ADM' );
 
 
   my $fault;
