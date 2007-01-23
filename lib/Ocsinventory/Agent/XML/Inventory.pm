@@ -248,11 +248,15 @@ sub addSounds {
 }
 
 sub addNetworks {
+  # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
   my ($self, $args) = @_;
 
   my $description = $args->{DESCRIPTION};
+  my $ipaddress = $args->{IPADDRESS};
   my $ipdhcp = $args->{IPDHCP};
   my $ipgateway = $args->{IPGATEWAY};
+  my $ipmask = $args->{IPMASK};
+  my $ipsubnet = $args->{IPSUBNET};
   my $macaddr = $args->{MACADDR};
   my $status = $args->{STATUS};
   my $type = $args->{TYPE};
@@ -261,8 +265,11 @@ sub addNetworks {
   {
 
     DESCRIPTION => [$description?$description:"??"],
+    IPADDRESS => [$ipaddress?$ipaddress:"??"],
     IPDHCP => [$ipdhcp?$ipdhcp:"??"],
     IPGATEWAY => [$ipgateway?$ipgateway:"??"],
+    IPMASK => [$ipmask?$ipmask:"??"],
+    IPSUBNET => [$ipsubnet?$ipsubnet:"??"],
     MACADDR => [$macaddr?$macaddr:"??"],
     STATUS => [$status?$status:"??"],
     TYPE => [$type?$type:"??"],

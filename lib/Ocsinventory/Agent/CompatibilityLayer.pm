@@ -9,7 +9,6 @@ use FindBin qw($Bin);
 
 sub new {
   my (undef, $params) = @_;
-  print Dumper($params);
 
   my $self = {};
   $self->{accountinfo} = $params->{accountinfo};

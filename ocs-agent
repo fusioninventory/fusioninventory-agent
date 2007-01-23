@@ -43,7 +43,7 @@ my $params = {
   'version'   => $VERSION,
   'deviceid'  => '',
   'etcdir'    =>  '/etc/ocsinventory-client',
-  'vardir'    =>  '/var/lib/ocsinventory-client',
+  'basevardir'=>  '/var/lib/ocsinventory-client',
   'logdir'    =>  '/var/log/ocsinventory-client',
 };
 
@@ -109,6 +109,11 @@ sub help {
 ############################
 help() if (!GetOptions(%options) || $params->{help});
 
+my $logger = new Ocsinventory::Logger ({
+
+    params => $params
+
+  });
 
 ############################
 #### Objects initilisation 
@@ -116,26 +121,21 @@ help() if (!GetOptions(%options) || $params->{help});
 
   # The agent can contact different servers. Every server config are
   # stored in a specific file:
-  if ((!defined($params->{local}) && $params->{local})) {
-
-    $params->{conffile} = $params->{vardir}."/ocsinv.conf";
-    $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
-    $params->{laste_statefile} = $params->{vardir}."/laste_state";
-
+  if (defined($params->{local}) && $params->{local}) {
+    $params->{vardir} = $params->{basevardir}."/__LOCAL__";
   } else {
-
-    $params->{conffile} = $params->{vardir}."/$params->{server}_ocsinv.conf";
-    $params->{accountinfofile} = $params->{vardir}."/$params->{server}_ocsinv.adm";
-    $params->{laste_statefile} = $params->{vardir}."/$params->{server}_laste_state";
-
+    $params->{vardir} = $params->{basevardir}."/".$params->{server};
+  }
+  if (!-d $params->{vardir} && !mkdir ($params->{vardir})) {
+    $logger->error("Failed to create $params->{vardir} directory: $!");
   }
 
 
-my $logger = new Ocsinventory::Logger ({
+  $params->{conffile} = $params->{vardir}."/ocsinv.conf";
+  $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
+  $params->{laste_statefile} = $params->{vardir}."/laste_state";
+  ######
 
-    params => $params
-
-  });
 
 # load CFG files
 my $config = new Ocsinventory::Agent::Config({

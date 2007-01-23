@@ -23,7 +23,10 @@ sub run {
     if (/^Filesystem\s*1024-blocks.*/){next};
     if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){	 
 	  $type = $1;
-	  @fs=`lsfs -c $1`;
+	  #print "lsfs -c $type\n";
+	  @fs=`lsfs -c $6`;
+	  #use Data::Dumper;
+	  #print Dumper(@fs);
 	  @fstype = split /:/,$fs[1];     
 	  $filesystem = $fstype[2];
 	  $total = sprintf("%i",($2/1024));	

@@ -1,6 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::AIX;
 
 use strict;
+use vars qw($runAfter);
+$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic"];
+
 sub check {
 	my $r;
 	$r = 1 if $^O =~ /^aix$/;

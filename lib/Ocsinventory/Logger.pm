@@ -56,7 +56,7 @@ sub info {
 
 sub error {
   my ($self, $msg) = @_;
-  $self->log({ level => 'fault', message => $msg});
+  $self->log({ level => 'error', message => $msg});
 }
 
 sub fault {

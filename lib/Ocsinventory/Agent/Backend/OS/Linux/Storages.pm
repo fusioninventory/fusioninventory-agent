@@ -81,7 +81,7 @@ sub run {
     } else {
       $description = "IDE";
     }
-    chomp ($capacity = `fdisk -s /dev/$device`);
+    chomp ($capacity = `fdisk -s /dev/$device 2>/dev/null`);
     $capacity = int ($capacity/1000) if $capacity;
 
     $inventory->addStorages({
