@@ -200,6 +200,7 @@ my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
     params => $params,
 
   });
+$compatibilityLayer->hook({name => 'start_handler'});
 
 # Feed the inventory with its modules
 $backend->feedInventory ({inventory => $inventory});
@@ -210,10 +211,11 @@ if ($params->{local}) {
 } else { # I've to contact the server
   my $net = new Ocsinventory::Agent::Network ({
 
+      compatibilityLayer => $compatibilityLayer,
       logger => $logger,
       params => $params,
       respHandlers => {
-	OPTION => sub {print "TODO: OPTION data retruned must be used\n"},
+#	OPTION => sub {print "TODO: OPTION data retruned must be used\n"},
 	PROLOG_FREQ => sub {$config->set("PROLOG_FREQ", $_[0])},
 	ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
       }
@@ -229,17 +231,16 @@ if ($params->{local}) {
 
       });
     
-    $compatibilityLayer->hook({name => 'start_handler'});
 
     my $ret = $net->send({message => $prolog});
-    $dontSendIventory = 1 if ( $ret !~ /SEND/ );
+    $dontSendIventory = 1 if ( $ret->{RESPONSE} !~ /SEND/ );
   }
 
   if (!$dontSendIventory) {
 
     my $ret = $net->send({message => $inventory});
 
-    $logger->debug("Server returned: $ret"); 
+    $logger->debug("Server returned: ".$ret->{RESPONSE});
 
 
   } else {
@@ -247,4 +248,5 @@ if ($params->{local}) {
     $logger->info('No need to send the inventory'); 
   }
 }
+$compatibilityLayer->hook({name => 'end_handler'});
 

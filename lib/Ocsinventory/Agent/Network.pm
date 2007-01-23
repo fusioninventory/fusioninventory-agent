@@ -7,6 +7,8 @@ use warnings;
 use LWP::UserAgent;
 use Data::Dumper; # XXX
 
+use UNIVERSAL qw( isa ) ;
+
 use Ocsinventory::Compress;
 
 sub new {
@@ -14,10 +16,11 @@ sub new {
 
   my $self = {};
 
-  $self->{params} = $params->{params};
+  $self->{compatibilityLayer} = $params->{compatibilityLayer}; 
   my $logger = $self->{logger} = $params->{logger};
-  $self->{URI} = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
+  $self->{params} = $params->{params};
   $self->{respHandlers} = $params->{respHandlers}; 
+  $self->{URI} = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
 
 
   $self->{compress} = new Ocsinventory::Compress ({logger => $logger});
@@ -38,7 +41,9 @@ sub send {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
+  my $compatibilityLayer = $self->{compatibilityLayer};
   my $compress = $self->{compress};
+  my $message = $args->{message};
 
   my $req = HTTP::Request->new(POST => $self->{URI});
 
@@ -47,12 +52,23 @@ sub send {
 
   $logger->debug ("sending XML");
 
-  my $message = $compress->compress( $args->{message}->content() );
-  if (!$message) {
+
+  #############
+  ### Compatibility with linux_agent modules
+  if (isa $message, "Ocsinventory::Agent::XML::Inventory") {
+    $compatibilityLayer->hook({name => 'inventory_handler'}, $message->{h});
+  } elsif (isa $message, "Ocsinventory::Agent::XML::Prolog") {
+    $compatibilityLayer->hook({name => 'prolog_writers'}, $message->{h});
+
+  }
+  #############
+
+  my $compressed = $compress->compress( $message->content() );
+  if (!$compressed) {
     $logger->fault ('failed to compress data with Compress::ZLib');
   }
 
-  $req->content($message);
+  $req->content($compressed);
 
   my $res = $self->{ua}->request($req);
 
@@ -72,6 +88,14 @@ sub send {
   print "=BEGIN=SERVER RET======\n";
   print Dumper($ret);
   print "=END=SERVER RET========\n";
+
+  ### Compatibility with linux_agent modules
+  if (isa $message, "Ocsinventory::Agent::XML::Prolog") {
+    $compatibilityLayer->hook({name => 'prolog_read'}, $ret);
+
+  }
+  #############
+
   # for every key returned in the return I try to execute the Handlers 
   foreach (keys %$ret) {
     next if $_ =~ /^RESPONSE$/; # response is returned directly
@@ -83,7 +107,7 @@ sub send {
     }
   }
 
-  return $ret->{RESPONSE};
+  return $ret;
 }
 
 1;

@@ -333,7 +333,7 @@ sub writeXML {
   my $localfile = $self->{params}{local}."/".$self->{params}{deviceid};
   $localfile =~ s!(//){1,}!/!;
 
-  # Convert perl data structure into xml string
+  # Convert perl data structure into xml strings
 
   if (open OUT, ">$localfile") {
     print OUT $self->content();

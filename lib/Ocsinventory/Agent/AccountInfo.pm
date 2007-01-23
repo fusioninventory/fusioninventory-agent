@@ -9,6 +9,7 @@ sub new {
   my (undef,$params) = @_;
 
   my $self = {};
+  bless $self;
 
   $self->{params} = $params->{params};
   $self->{logger} = $params->{logger};
@@ -18,7 +19,8 @@ sub new {
   $logger->debug ('Accountinfo file: '. $self->{params}->{accountinfofile});
 
   if (! -f $self->{params}->{accountinfofile}) {
-      $logger->info ("Accountinfo file doesn't exist. (yet)");
+      $logger->info ("Accountinfo file doesn't exist. I create an empty one.");
+      $self->write();
   } else {
 
     my $xmladm = XML::Simple::XMLin(
@@ -35,7 +37,7 @@ sub new {
     }
   }
 
-  bless $self;
+  $self;
 }
 
 sub get {

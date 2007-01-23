@@ -8,6 +8,7 @@ sub new {
   my (undef,$params) = @_;
 
   my $self = {};
+  bless $self;
 
   $self->{params} = $params->{params};
   my $logger = $self->{logger} = $params->{logger};
@@ -16,7 +17,9 @@ sub new {
   $self->{xml} = {};
 
   if (! -f $self->{params}->{conffile}) {
-      $logger->info ('conffile file: `'. $self->{params}->{conffile}."' doesn't exist.");
+      $logger->info ('conffile file: `'. $self->{params}->{conffile}.
+	"doesn't exist. I create an empty one");
+      $self->write();
   } else {
     $self->{xml} = XML::Simple::XMLin(
       $self->{params}->{conffile},
@@ -24,7 +27,7 @@ sub new {
     );
   }
 
-  bless $self;
+  $self;
 }
 
 sub get {
