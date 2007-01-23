@@ -1,9 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Domains;
 use strict;
 
-use vars qw($runAfter);
-$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic::Domains"];
-
 sub check {
   my @domain = `hostname -d`;
   return 1 if @domain;
