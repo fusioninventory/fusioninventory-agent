@@ -4,26 +4,30 @@ use strict;
 use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::Generic::Domains"];
 
-sub check {-f "/etc/resolv.conf"}
+sub check {
+  my @domain = `hostname -d`;
+  return 1 if @domain;
+  -f "/etc/resolv.conf"
+}
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  # If the default domain was set by OS::Generic::Domains I keep the
-  # value. Else I use the method used in linux-agent to find the domain
-  my $current_domain =
-  $inventory->{h}{'CONTENT'}{'HARDWARE'}{'WORKGROUP'}[0];
+  my $domain;
 
-  return unless ((!$current_domain) || $current_domain =~ /^WORKGROUP$/);
-  my %domain;
+  chomp($domain = `hostname -d`);
 
-  open RESOLV, "/etc/resolv.conf" or warn;
-  while(<RESOLV>){
-    $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+  if (!$domain) {
+    my %domain;
+
+    open RESOLV, "/etc/resolv.conf" or warn;
+    while(<RESOLV>){
+      $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+    }
+    close RESOLV;
+
+    $domain = join "/", keys %domain;
   }
-  close RESOLV;
-
-  my $domain = join "/", keys %domain;
 
   # If no domain name, we send "WORKGROUP"
   $domain = 'WORKGROUP' unless $domain;
