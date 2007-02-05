@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::Redhat;
 use strict;
 
-sub check {-f "/etc/mandrake-release"}
+sub check {-f "/etc/redhat-release"}
 
 #####
 sub findRelease {
