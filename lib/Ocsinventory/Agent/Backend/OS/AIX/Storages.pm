@@ -3,9 +3,9 @@ use strict;
 #use warning;
 
 sub check {
-	`which lsdev`;	
+	`which lsdev 2>&1`;
 	return if($? >> 8)!=0;
-	`which lsattr`;	
+	`which lsattr 2>&1`;
 	($? >> 8)?0:1}
 
 sub run {

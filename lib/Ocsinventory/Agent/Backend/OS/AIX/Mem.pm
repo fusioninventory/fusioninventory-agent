@@ -2,12 +2,12 @@ package Ocsinventory::Agent::Backend::OS::AIX::Mem;
 use strict;
 
 sub check {
-	`which lsdev`;	
+	`which lsdev 2>&1`;
 	return if($? >> 8)!=0;
-	`which lsps`;	
+	`which lsps 2>&1`;	
 	return if($? >> 8)!=0;
-	`which lsattr`;	
-	($? >> 8)?0:1	
+	`which lsattr 2>&1`;
+	($? >> 8)?0:1
 	
 }
 

@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::AIX::Controller;
 use strict;
 
 sub check {
-	`which lsdev`; 
+	`which lsdev 2>&1`;
 	return if($? >> 8)!=0;
 	my @lsdev = `lsdev -Cc adapter -F 'name:type:description'`;	
 	return 1 if @lsdev;
@@ -27,7 +27,7 @@ sub run {
                         'NAME'          => $name,
                         'MANUFACTURER'  => $manufacturer,
                         'TYPE'          => $type,
-                });		
+                });
 	}
 }
 

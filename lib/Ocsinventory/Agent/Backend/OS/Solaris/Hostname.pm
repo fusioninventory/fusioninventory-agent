@@ -1,6 +1,6 @@
-package Ocsinventory::Agent::Backend::OS::AIX::Hostname;
+package Ocsinventory::Agent::Backend::OS::Solaris::Hostname;
 
-sub check { `which hostname 2>&1`; ($? >> 8)?0:1}
+sub check { `which hostname`; ($? >> 8)?0:1}
 
 # Initialise the distro entry
 sub run {

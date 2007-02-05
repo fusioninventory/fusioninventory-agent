@@ -29,8 +29,7 @@ sub run {
   $inventory->setHardware({
       OSNAME => $OSName,
       OSCOMMENTS => $OSComment,
-      OSVERSION => $OSVersion,
-      OSLEVEL => $OSLevel
+      OSVERSION => "$OSLevel $OSVersion",
     });
 }
 1;

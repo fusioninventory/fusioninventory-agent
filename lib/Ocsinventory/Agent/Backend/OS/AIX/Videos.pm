@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Videos;
 use strict;
 
-sub check {`which lsdev`; ($? >> 8)?0:1}
+sub check {`which lsdev 2>&1`; ($? >> 8)?0:1}
 
 sub run {
   my $params = shift;
