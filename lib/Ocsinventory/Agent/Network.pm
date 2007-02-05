@@ -85,9 +85,9 @@ sub send {
 
   my $ret = XML::Simple::XMLin( $content, ForceArray => ['OPTION','PARAM'] );
 
-  print "=BEGIN=SERVER RET======\n";
-  print Dumper($ret);
-  print "=END=SERVER RET========\n";
+  $logger->debug("=BEGIN=SERVER RET======");
+  $logger->debug(Dumper($ret));
+  $logger->debug("=END=SERVER RET======");
 
   ### Compatibility with linux_agent modules
   if (isa $message, "Ocsinventory::Agent::XML::Prolog") {

@@ -36,13 +36,17 @@ sub initModList {
 # ExtUtils::Installed is nice it needs properly installed package with
 # .packlist
 # This is a workaround for invalide installations...
-  if (!@installed_mod) {
-    require File::Find;
+if (!@installed_mod) {
+  require File::Find;
+  foreach(@INC) {
+    next unless -d;
     File::Find::find( sub {
 	push @installed_mod, $File::Find::name if $File::Find::name =~ /^\/.*\/Ocsinventory\/Agent\/Backend\/.*\.pm$/;
       }
-      , @INC);
+      , $_);
   }
+}
+
 
 # Find installed modules
   foreach (@installed_mod) {

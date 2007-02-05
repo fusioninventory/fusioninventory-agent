@@ -81,7 +81,7 @@ sub update_start_handler{
 	$request{'IPDISCOVER'} = [ $Iversion ];
 
 	$message = XMLout( \%request, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>',
-	                  NoSort => 1, SuppressEmpty => undef );
+	                  SuppressEmpty => undef );
 	&_debug($message, 'SENDING') if $debug and $debug>1;
 
 	# sending

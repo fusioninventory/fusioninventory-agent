@@ -18,7 +18,6 @@ lib/Ocsinventory/Agent/Backend/OS/Linux/Storages.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Sys.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Uptime.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Videos.pm
-lib/Ocsinventory/Agent/Backend/OS/Linux/Drivers.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/CPU.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Mem.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Hardware.pm
@@ -27,6 +26,7 @@ lib/Ocsinventory/Agent/Backend/OS/AIX/Modems.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Storages.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Controller.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Memory.pm
+lib/Ocsinventory/Agent/Backend/OS/AIX/Networks.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Domains.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Drives.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Hostname.pm

@@ -6,11 +6,13 @@ sub new {
   my (undef, $params) = @_;
 
   my $self = {};
+  bless $self;
   $self->{backend} = [];
   $self->{params} = $params->{params};
   my $logger = $self->{logger} = $params->{logger};
 
-  print "Logging backend(s): ".$self->{params}->{logger}."\n";
+  $self->{debug} = $self->{params}->{debug}?1:0;
+#  print "Logging backend(s): ".$self->{params}->{logger}."\n";
   my @logger = split /,/, $self->{params}->{logger};
 
   foreach (@logger) {
@@ -21,8 +23,9 @@ sub new {
       });
     push @{$self->{backend}}, $obj if $obj;
   }
+  $self->debug("Log system initialised");
 
-  bless $self;
+  $self;
 }
 
 sub log {
@@ -31,7 +34,9 @@ sub log {
   # levels: info, debug, warn, fault
   my $level = $args->{level};
   my $message = $args->{message};
-  
+
+  return if ($level =~ /^debug$/ && !($self->{debug}));
+
   chomp($message);
   $level = 'info' unless $level;
 

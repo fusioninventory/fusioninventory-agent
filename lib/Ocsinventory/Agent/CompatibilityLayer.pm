@@ -16,28 +16,38 @@ sub new {
   my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
 
+  $self->{dontuse} = 0;
+
   my $modulefile = $self->{params}->{etcdir}.'/modules.conf';
-  if (!do $modulefile) {
-    $logger->fault("Failed to load `$modulefile': $?");
+
+  $self->{dontuse} = 1 if (! -f $modulefile);
+
+  if (-f $modulefile && do $modulefile) {
+
+    $self->{current_context} = {
+      OCS_AGENT_LOG_PATH => $self->{params}->{logdir}."modexec.log",
+      OCS_AGENT_SERVER_URI => "http://".$self->{params}->{server}.$self->{params}->{remotedir},
+      OCS_AGENT_INSTALL_PATH => $self->{params}->{vardir},
+      OCS_AGENT_DEBUG_LEVEL => 2, # TODO
+      OCS_AGENT_EXE_PATH => $Bin,
+      OCS_AGENT_SERVER_NAME => $self->{params}->{server},
+      OCS_AGENT_AUTH_USER => $self->{params}->{user},
+      OCS_AGENT_AUTH_PWD => $self->{params}->{password},
+      OCS_AGENT_AUTH_REALM => $self->{params}->{realm},
+      OCS_AGENT_DEVICEID => $self->{params}->{deviceid},
+      OCS_AGENT_VERSION => $self->{params}->{version},
+      OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
+      OCS_AGENT_CONFIG => $self->{params}->{conffile},
+    };
+
+  } else {
+
+    $logger->info("Failed to load `$modulefile': $?. No external module will".
+      " be used.");
+    $self->{dontuse} = 1;
+
   }
 
-
-
-  $self->{current_context} = {
-    OCS_AGENT_LOG_PATH => $self->{params}->{logdir}."modexec.log",
-    OCS_AGENT_SERVER_URI => "http://".$self->{params}->{server}.$self->{params}->{remotedir},
-    OCS_AGENT_INSTALL_PATH => $self->{params}->{vardir},
-    OCS_AGENT_DEBUG_LEVEL => 2, # TODO
-    OCS_AGENT_EXE_PATH => $Bin,
-    OCS_AGENT_SERVER_NAME => $self->{params}->{server},
-    OCS_AGENT_AUTH_USER => $self->{params}->{user},
-    OCS_AGENT_AUTH_PWD => $self->{params}->{password},
-    OCS_AGENT_AUTH_REALM => $self->{params}->{realm},
-    OCS_AGENT_DEVICEID => $self->{params}->{deviceid},
-    OCS_AGENT_VERSION => $self->{params}->{version},
-    OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
-    OCS_AGENT_CONFIG => $self->{params}->{conffile},
-  };
 
   bless $self;
 
@@ -47,6 +57,7 @@ sub new {
 sub hook {
   my ($self, $args, $optparam) = @_;
 
+  return if $self->{dontuse};
   my $name = $args->{name};
 
   my $logger = $self->{logger};

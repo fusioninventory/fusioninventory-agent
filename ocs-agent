@@ -23,19 +23,21 @@ use Ocsinventory::Agent::CompatibilityLayer;
 our $VERSION = '0.0.1';
 # default settings;
 my $params = { 
-  'debug'     =>  1,
+  'debug'     =>  0,
+  'daemon'    =>  0,
   'force'     =>  0,
   'help'      =>  0,
   'info'      =>  1,
   'local'     =>  '',
-  'logger'    =>  'File,Stderr',
-  'logfile'   =>  '',
+  'logger'    =>  'Syslog,File',
+  'logfile'   =>  '/var/log/ocsinventory-client/ocsinv.log',
   'password'  =>  '',
   'realm'     =>  '',
   'remotedir' =>  '/ocsinventory',
   'tag'       =>  '',
   'server'    =>  'ocsinventory-ng',
   'user'      =>  '',
+  'wait'      =>  '0',
 #  'xml'       =>  0,
 
   # Other values that can't be changed with the
@@ -45,13 +47,16 @@ my $params = {
   'etcdir'    =>  '/etc/ocsinventory-client',
   'basevardir'=>  '/var/lib/ocsinventory-client',
   'logdir'    =>  '/var/log/ocsinventory-client',
+  'lockdir'    =>  '/var/lock/ocsinventory-client',
+  'delaytime' =>  '1', # max delay time (hour)
 };
 
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 my %options = (
-  "d|debug"         =>   \$params->{debug},
+  "debug"           =>   \$params->{debug},
+  "d|daemon"        =>   \$params->{daemon},
   "f|force"         =>   \$params->{force},
   "h|help"          =>   \$params->{help},
   "i|info"          =>   \$params->{info},
@@ -63,6 +68,7 @@ my %options = (
   "t|tag=s"         =>   \$params->{tag},
   "s|server=s"      =>   \$params->{server},
   "u|user"          =>   \$params->{user},
+  "w|wait"          =>   \$params->{wait},
 #  "x|xml"           =>   \$params{xml},
 #"nosoft"
 );
@@ -79,7 +85,9 @@ sub help {
   }
 
   print STDERR "Usage:\n";
-  print STDERR "\t-d --debug          debug mode ($params->{debug})\n";
+  print STDERR "\t    --debug          debug mode ($params->{debug})\n";
+  print STDERR "\t-d  --daemon         detach the agent in background ".
+  "and run it silently endlessly ($params->{daemon})\n";
   print STDERR "\t-f --force          always send data to server (Don't ask
   before) ($params->{force})\n";
   print STDERR "\t-i --info           verbose mode ($params->{info})\n";
@@ -88,17 +96,30 @@ sub help {
   print STDERR "\t   --logfile=FILE   log message in FILE\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-r --realm=REALM    realm for server auth\n";
-  print STDERR "\t-s --server=URI  URI to the server place
-  ($params->{server})\n";
-  print STDERR "\t-t --tag=TAG        use TAG as tag ($params->{tag}). Will
-  be ignored by server if a value already exists.\n";
+  print STDERR "\t-s --server=URI     URI to the server place ".
+  "($params->{server})\n";
+  print STDERR "\t-t --tag=TAG        use TAG as tag ($params->{tag}). ".
+  "Will be ignored by server if a value already exists.\n";
   print STDERR "\t-u --user=USER      user for server auth\n";
+  print STDERR "\t-w --wait           wait during a random periode before".
+  "  contacting server like --daemon do ($params->{wait})\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
 #  print STDERR "\t--nosoft           do not return installed software list\n";
 
   exit 1;
 }
 
+# TODO
+#sub savepid {
+#  my $pidfile = shift;
+#
+#  my $lastpid;
+#
+#  if (open PIDFILE, "<,$pidfile" ) {
+#    my ($lastpid) = <PIDFILE>;
+#    print $lastpid;
+#  }
+#}
 #####################################
 ################ MAIN ###############
 #####################################
@@ -119,22 +140,22 @@ my $logger = new Ocsinventory::Logger ({
 #### Objects initilisation 
 ############################
 
-  # The agent can contact different servers. Every server config are
-  # stored in a specific file:
-  if (defined($params->{local}) && $params->{local}) {
-    $params->{vardir} = $params->{basevardir}."/__LOCAL__";
-  } else {
-    $params->{vardir} = $params->{basevardir}."/".$params->{server};
-  }
-  if (!-d $params->{vardir} && !mkdir ($params->{vardir})) {
-    $logger->error("Failed to create $params->{vardir} directory: $!");
-  }
+# The agent can contact different servers. Every server config are
+# stored in a specific file:
+if (defined($params->{local}) && $params->{local}) {
+  $params->{vardir} = $params->{basevardir}."/__LOCAL__";
+} else {
+  $params->{vardir} = $params->{basevardir}."/".$params->{server};
+}
+if (!-d $params->{vardir} && !mkdir ($params->{vardir})) {
+  $logger->error("Failed to create $params->{vardir} directory: $!");
+}
 
 
-  $params->{conffile} = $params->{vardir}."/ocsinv.conf";
-  $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
-  $params->{laste_statefile} = $params->{vardir}."/laste_state";
-  ######
+$params->{conffile} = $params->{vardir}."/ocsinv.conf";
+$params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
+$params->{laste_statefile} = $params->{vardir}."/laste_state";
+######
 
 
 # load CFG files
@@ -155,6 +176,7 @@ if ((!$params->{deviceid}) || $params->{deviceid} !~ /$tmp-(?:\d{4})(?:-\d{2}){5
   $params->{old_deviceid} = $params->{deviceid};
   $params->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
   $tmp, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+  $config->set('DEVICEID',$params->{deviceid});
 }
 
 my $accountinfo = new Ocsinventory::Agent::AccountInfo({
@@ -167,9 +189,9 @@ my $accountinfo = new Ocsinventory::Agent::AccountInfo({
 if ($params->{tag}) {
   if ($accountinfo->get("TAG")) {
     $logger->debug("A TAG seems to already exist in the server for this
-	machine. If so, the -t paramter is usless. Please change the TAG
-	directly on the
-	server.");
+      machine. If so, the -t paramter is usless. Please change the TAG
+      directly on the
+      server.");
   }
 }
 
@@ -200,53 +222,73 @@ my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
     params => $params,
 
   });
-$compatibilityLayer->hook({name => 'start_handler'});
+
+if ($params->{daemon}) {
+  
+  $logger->debug("Time to call Proc::Daemon");
+  require Proc::Daemon;
+  Proc::Daemon::Init();
+  
+}
+
+$logger->info("OCS Agent initialised");
+#######################################################
+#######################################################
+
+do {
+
+  if ($params->{daemon} || $params->{wait}) {
+    my $serverdelay = $config->get('PROLOG_FREQ');
+    my $delay = int
+    rand(($serverdelay?$serverdelay:$params->{delaytime})*3600);
+    $logger->info("Going to sleep for $delay second(s)");
+    sleep ($delay);
+  }
+
+
+  $compatibilityLayer->hook({name => 'start_handler'});
 
 # Feed the inventory with its modules
-$backend->feedInventory ({inventory => $inventory});
+  $backend->feedInventory ({inventory => $inventory});
 
-if ($params->{local}) {
-  $inventory->writeXML();
-  # TODO write XML inventory 
-} else { # I've to contact the server
-  my $net = new Ocsinventory::Agent::Network ({
+  if ($params->{local}) {
+    $inventory->writeXML();
+  } else { # I've to contact the server
+    my $net = new Ocsinventory::Agent::Network ({
 
-      compatibilityLayer => $compatibilityLayer,
-      logger => $logger,
-      params => $params,
-      respHandlers => {
-#	OPTION => sub {print "TODO: OPTION data retruned must be used\n"},
-	PROLOG_FREQ => sub {$config->set("PROLOG_FREQ", $_[0])},
-	ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
-      }
-
-    });
-
-  my $dontSendIventory;
-  if (!$params->{force}) {
-    my $prolog = new Ocsinventory::Agent::XML::Prolog({
-
+	compatibilityLayer => $compatibilityLayer,
 	logger => $logger,
 	params => $params,
+	respHandlers => {
+#	OPTION => sub {print "TODO: OPTION data retruned must be used\n"},
+	  PROLOG_FREQ => sub {$config->set("PROLOG_FREQ", $_[0])},
+	  ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
+	}
 
       });
-    
 
-    my $ret = $net->send({message => $prolog});
-    $dontSendIventory = 1 if ( $ret->{RESPONSE} !~ /SEND/ );
+    my $dontSendIventory;
+    if (!$params->{force}) {
+      my $prolog = new Ocsinventory::Agent::XML::Prolog({
+
+	  logger => $logger,
+	  params => $params,
+
+	});
+
+      my $ret = $net->send({message => $prolog});
+      $dontSendIventory = 1 if ( $ret->{RESPONSE} !~ /SEND/ );
+    }
+
+    if (!$dontSendIventory) {
+
+      my $ret = $net->send({message => $inventory});
+      $logger->debug("Server returned: ".$ret->{RESPONSE});
+
+    } else {
+      $logger->info('No need to send the inventory'); 
+    }
   }
+  $compatibilityLayer->hook({name => 'end_handler'});
 
-  if (!$dontSendIventory) {
-
-    my $ret = $net->send({message => $inventory});
-
-    $logger->debug("Server returned: ".$ret->{RESPONSE});
-
-
-  } else {
-
-    $logger->info('No need to send the inventory'); 
-  }
-}
-$compatibilityLayer->hook({name => 'end_handler'});
-
+} while ($params->{daemon});

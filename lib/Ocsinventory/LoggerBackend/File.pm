@@ -1,5 +1,4 @@
 package Ocsinventory::LoggerBackend::File;
-use Data::Dumper;
 use strict;
 
 sub new {
@@ -7,7 +6,8 @@ sub new {
 
   my $self = {};
   $self->{params} = $params->{params};
-  return unless $self->{params}->{logfile};
+  $self->{logfile} = $self->{params}->{logdir}."/ocsinv.log";
+
 
   bless $self;
 }
@@ -21,7 +21,7 @@ sub addMsg {
 
   return if $message =~ /^$/;
 
-  open FILE, ">>$self->{params}->{logfile}" or warn "Can't open ".
+  open FILE, ">>$self->{logfile}" or warn "Can't open ".
   "`$self->{params}->{logfile}'\n";
   print FILE "[".localtime()."][$level] $message\n";
   close FILE;

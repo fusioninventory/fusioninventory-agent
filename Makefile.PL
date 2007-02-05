@@ -17,6 +17,7 @@ WriteMakefile(
       'Digest::MD5'               => 0, 
       'XML::Simple'               => 0, 
       'Net::IP'                   => 0, 
+      'Proc::Daemon'              => 0, 
     }
   )
 ),
