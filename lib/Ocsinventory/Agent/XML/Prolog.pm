@@ -12,11 +12,13 @@ sub new {
 
   my $self = {};
   $self->{params} = $params->{params};
+  $self->{accountinfo} = $params->{accountinfo};
  
   die unless ($self->{params}->{deviceid}); #XXX
 
   $self->{h}{QUERY} = ['PROLOG']; 
-  $self->{h}{DEVICEID} = [$self->{params}->{deviceid}]; 
+  $self->{h}{DEVICEID} = [$self->{params}->{deviceid}];
+#  $self->{h}{ACCOUNTINFO} = $self->{accountinfo}->{}; 
 
   bless $self;
 }
@@ -30,10 +32,13 @@ sub dump {
 sub content {
   my ($self, $args) = @_;
 
+  $self->{accountinfo}->setAccountInfo($self);
   my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>',
     SuppressEmpty => undef );
 
   return $content;
 }
+
+
 
 1;

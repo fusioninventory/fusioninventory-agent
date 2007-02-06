@@ -8,8 +8,8 @@ sub new {
   my $self = {};
 
   setlogsock('unix');
-  openlog("ocs-agent", 'cons,pid', $ENV{'USER'}) or die;
-  syslog('debug', 'syslog backend enabled') or die;
+  openlog("ocs-agent", 'cons,pid', $ENV{'USER'});
+  syslog('debug', 'syslog backend enabled');
   closelog();
 
   bless $self;
@@ -24,9 +24,9 @@ sub addMsg {
 
   return if $message =~ /^$/;
 
-  openlog("ocs-agent", 'cons,pid', $ENV{'USER'}) or die;
-  syslog($level, $message) or die;
-  closelog() or die;
+  openlog("ocs-agent", 'cons,pid', $ENV{'USER'});
+  syslog('info', $message);
+  closelog();
 
 }
 

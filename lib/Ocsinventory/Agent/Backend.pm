@@ -170,7 +170,6 @@ sub feedInventory {
       });
   }
   $inventory->processChecksum();
-  $inventory->setAccountInfo();
 
   # Execution time
   $inventory->setHardware({ETIME => time() - $begin});

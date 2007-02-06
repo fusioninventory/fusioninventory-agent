@@ -65,7 +65,8 @@ sub send {
 
   my $compressed = $compress->compress( $message->content() );
   if (!$compressed) {
-    $logger->fault ('failed to compress data with Compress::ZLib');
+    $logger->error ('failed to compress data with Compress::ZLib');
+    return;
   }
 
   $req->content($compressed);
@@ -74,13 +75,15 @@ sub send {
 
   # Checking if connected
   if(!$res->is_success) {
-    $logger->fault ('Cannot establish communication : '.$res->status_line);
+    $logger->error ('Cannot establish communication : '.$res->status_line);
+    return;
   }
 
   # stop or send in the http's body
   my $content = $compress->uncompress($res->content);
   if (!$content) {
-    $logger->fault ("Deflating problem");
+    $logger->error ("Deflating problem");
+    return;
   }
 
   my $ret = XML::Simple::XMLin( $content, ForceArray => ['OPTION','PARAM'] );

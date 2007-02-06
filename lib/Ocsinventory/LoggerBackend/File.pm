@@ -6,7 +6,7 @@ sub new {
 
   my $self = {};
   $self->{params} = $params->{params};
-  $self->{logfile} = $self->{params}->{logdir}."/ocsinv.log";
+  $self->{logfile} = $self->{params}->{logdir}."/".$self->{params}->{logfile};
 
 
   bless $self;

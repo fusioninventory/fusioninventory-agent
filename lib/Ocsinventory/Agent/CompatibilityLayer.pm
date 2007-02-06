@@ -69,7 +69,8 @@ sub hook {
   foreach (@f) {
     $logger->debug(" run func: `$_'");
     no strict 'refs';
-    &$_($self->{current_context}, $optparam);
+    eval { &$_($self->{current_context}, $optparam); };
+    if ($@) {$logger->error("$_ > exec failed: $@")}
   }
 
 }

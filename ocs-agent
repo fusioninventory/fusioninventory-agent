@@ -3,11 +3,7 @@
 use strict;
 use warnings;
 
-use Data::Dumper; #XXX DEBUG
-
 use Getopt::Long;
-
-#use lib '/home/gediff/local2';
 
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::XML::Inventory;
@@ -17,6 +13,7 @@ use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Backend;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Agent::AccountInfo;
+use Ocsinventory::Agent::Pid;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
@@ -29,8 +26,8 @@ my $params = {
   'help'      =>  0,
   'info'      =>  1,
   'local'     =>  '',
-  'logger'    =>  'Syslog,File',
-  'logfile'   =>  '/var/log/ocsinventory-client/ocsinv.log',
+  'logger'    =>  'Syslog,File,Stderr',
+  'logfile'   =>  'ocsinventory-agent.log',
   'password'  =>  '',
   'realm'     =>  '',
   'remotedir' =>  '/ocsinventory',
@@ -43,12 +40,13 @@ my $params = {
   # Other values that can't be changed with the
   # CLI parameters
   'version'   => $VERSION,
-  'deviceid'  => '',
-  'etcdir'    =>  '/etc/ocsinventory-client',
-  'basevardir'=>  '/var/lib/ocsinventory-client',
-  'logdir'    =>  '/var/log/ocsinventory-client',
-  'lockdir'    =>  '/var/lock/ocsinventory-client',
   'delaytime' =>  '1', # max delay time (hour)
+  'deviceid'  => '',
+  'etcdir'    =>  '/etc/ocsinventory-agent',
+  'basevardir'=>  '/var/lib/ocsinventory-agent',
+  'logdir'    =>  '/var/log/ocsinventory-agent',
+  'lockdir'    =>  '/var/lock/ocsinventory-agent',
+  'pidfile'   =>  '/var/run/ocsinventory-agent.pid',
 };
 
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
@@ -72,6 +70,7 @@ my %options = (
 #  "x|xml"           =>   \$params{xml},
 #"nosoft"
 );
+my $pid;
 
 ##########################################
 ##########################################
@@ -188,10 +187,11 @@ my $accountinfo = new Ocsinventory::Agent::AccountInfo({
 
 if ($params->{tag}) {
   if ($accountinfo->get("TAG")) {
-    $logger->debug("A TAG seems to already exist in the server for this
-      machine. If so, the -t paramter is usless. Please change the TAG
-      directly on the
-      server.");
+    $logger->debug("A TAG seems to already exist in the server for this".
+      "machine. If so, the -t paramter is usless. Please change the TAG".
+      "directly on the server.");
+  } else {
+    $accountinfo->set("TAG",$params->{tag});
   }
 }
 
@@ -228,6 +228,12 @@ if ($params->{daemon}) {
   $logger->debug("Time to call Proc::Daemon");
   require Proc::Daemon;
   Proc::Daemon::Init();
+  $logger->debug("Daemon started");
+  $pid = new Ocsinventory::Agent::Pid ({
+      logger => $logger,
+      params => $params,
+    });
+  $logger->debug("Yo!");
   
 }
 
@@ -245,7 +251,6 @@ do {
     sleep ($delay);
   }
 
-
   $compatibilityLayer->hook({name => 'start_handler'});
 
 # Feed the inventory with its modules
@@ -260,7 +265,6 @@ do {
 	logger => $logger,
 	params => $params,
 	respHandlers => {
-#	OPTION => sub {print "TODO: OPTION data retruned must be used\n"},
 	  PROLOG_FREQ => sub {$config->set("PROLOG_FREQ", $_[0])},
 	  ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
 	}
@@ -271,13 +275,15 @@ do {
     if (!$params->{force}) {
       my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
+	  accountinfo => $accountinfo,
 	  logger => $logger,
 	  params => $params,
 
 	});
 
       my $ret = $net->send({message => $prolog});
-      $dontSendIventory = 1 if ( $ret->{RESPONSE} !~ /SEND/ );
+      $dontSendIventory = 1 if (!defined($ret) || (defined ($ret) &&
+	  $ret->{RESPONSE} !~ /SEND/));
     }
 
     if (!$dontSendIventory) {

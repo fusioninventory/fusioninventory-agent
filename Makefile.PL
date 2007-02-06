@@ -18,6 +18,7 @@ WriteMakefile(
       'XML::Simple'               => 0, 
       'Net::IP'                   => 0, 
       'Proc::Daemon'              => 0, 
+      'LWP'			  => 0,
     }
   )
 ),
