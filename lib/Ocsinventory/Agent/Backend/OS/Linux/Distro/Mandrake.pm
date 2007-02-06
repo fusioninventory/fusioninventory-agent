@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::Mandrake;
 use strict;
 
-sub check {-f "/etc/mandrake-release"}
+sub check {-f "/etc/mandrake-release" && !-f "/etc/mandriva-release"}
 
 #####
 sub findRelease {
@@ -10,8 +10,7 @@ sub findRelease {
   open V, "</etc/mandrake-release" or warn;
   chomp ($v = readline V);
   close V;
-  print $v."\n";
-  return "Mandrake Linux $v";
+  $v;
 }
 
 sub run {

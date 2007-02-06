@@ -10,8 +10,7 @@ sub findRelease {
   open V, "</etc/SuSE-release" or warn;
   chomp ($v = readline V);
   close V;
-  print $v."\n";
-  return "SuSe Linux $v";
+  $v;
 }
 
 sub run {

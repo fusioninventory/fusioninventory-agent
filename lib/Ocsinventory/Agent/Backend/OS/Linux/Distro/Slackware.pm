@@ -10,8 +10,7 @@ sub findRelease {
   open V, "</etc/slackware-version" or warn;
   chomp ($v = readline V);
   close V;
-  print $v."\n";
-  return "Slackware Linux $v";
+  $v;
 }
 
 sub run {

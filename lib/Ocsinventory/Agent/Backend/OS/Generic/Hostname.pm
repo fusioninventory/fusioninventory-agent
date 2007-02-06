@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::AIX::Hostname;
+package Ocsinventory::Agent::Backend::OS::Generic::Hostname;
 
 sub check { `which hostname 2>&1`; ($? >> 8)?0:1}
 

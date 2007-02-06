@@ -1,17 +1,16 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::Redhat;
 use strict;
 
-sub check {-f "/etc/redhat-release"}
+sub check {-f "/etc/redhat-release" && !readlink ("/etc/redhat-release")}
 
-#####
+####
 sub findRelease {
   my $v;
 
   open V, "</etc/redhat-release" or warn;
   chomp ($v = readline V);
   close V;
-  print $v."\n";
-  return "Redhat Linux $v";
+  $v;
 }
 
 sub run {

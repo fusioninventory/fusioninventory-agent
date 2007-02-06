@@ -1,16 +1,16 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Fedora;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::Gentoo;
 use strict;
 
-sub check {-f "/etc/fedora-release"}
+sub check {-f "/etc/gentoo-release"}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/fedora-release" or warn;
+  open V, "</etc/gentoo-release" or warn;
   chomp ($v = readline V);
   close V;
-  $v;
+  return "Gentoo Linux $v";
 }
 
 sub run {
@@ -25,7 +25,5 @@ sub run {
       OSCOMMENTS => "$OSComment"
     });
 }
-
-
 
 1;

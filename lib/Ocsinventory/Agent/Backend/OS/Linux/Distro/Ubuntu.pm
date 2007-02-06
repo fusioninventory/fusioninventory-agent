@@ -1,16 +1,16 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Fedora;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::Ubuntu;
 use strict;
 
-sub check {-f "/etc/fedora-release"}
+sub check {-f "/etc/ubuntu_version"}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/fedora-release" or warn;
+  open V, "</etc/ubuntu_version" or warn;
   chomp ($v = readline V);
   close V;
-  $v;
+  return "Ubuntu $v";
 }
 
 sub run {
@@ -25,7 +25,5 @@ sub run {
       OSCOMMENTS => "$OSComment"
     });
 }
-
-
 
 1;

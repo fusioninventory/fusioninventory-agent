@@ -10,8 +10,7 @@ sub findRelease {
   open V, "</etc/trustix-release" or warn;
   chomp ($v = readline V);
   close V;
-  print $v."\n";
-  return "Trustix Linux $v";
+  $v;
 }
 
 sub run {
