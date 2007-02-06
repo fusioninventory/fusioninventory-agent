@@ -40,7 +40,8 @@ sub new {
 
 sub dump {
   my $self = shift;
-  print Dumper($self->{h});
+  require Data::Dumper;
+  print Data::Dumper($self->{h});
 
 }
 
@@ -315,7 +316,25 @@ sub setAccessLog {
 sub content {
   my ($self, $args) = @_;
 
-  # TODO, add a check for MAC, NAME and SSN presence
+  my $logger = $self->{logger};
+
+  #  checks for MAC, NAME and SSN presence
+  my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
+  my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN}->[0];
+  my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME}->[0];
+
+  my $missing;
+
+  $missing .= "MAC-address " unless $macaddr;
+  $missing .= "SSN " unless $macaddr;
+  $missing .= "HOSTNAME " unless $macaddr;
+
+  if ($missing) {
+    $logger->fault('Missing value(s): '.$missing.'. I don\' send this inventory to the server since important value(s) to identify the computer are missing');
+  }
+
+  $self->{accountinfo}->setAccountInfo($self);
+  
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>', SuppressEmpty => undef );
 
   return $content;
@@ -418,20 +437,5 @@ sub processChecksum {
   $self->setHardware({CHECKSUM => $checksum});
 }
 
-sub setAccountInfo {
-  my $self = shift;
-
-  my $ai = $self->{accountinfo}->getAll();
-  $self->{h}{'CONTENT'}{ACCOUNTINFO} = [];
-
-  return unless $ai;
-
-  foreach (keys %$ai) {
-    push @{$self->{h}{'CONTENT'}{ACCOUNTINFO}}, {
-      KEYNAME => [$_],
-      KEYVALUE => [$ai->{$_}],
-    };
-  }
-}
 
 1;
