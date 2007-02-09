@@ -27,7 +27,7 @@ sub run {
 	if((/^PN (.+)/) && ($flag)) {$type = $1;}
 	# localisation slot dans type
 	if((/^YL\s(.+)/) && ($flag)) {$numslots = $1;}
-	print $numslots."\n";
+	#print $numslots."\n";
 	# On rencontre un champ FC alors c'est la fin pour ce device
 	if((/^FC .+/) && ($flag)) {
 		$flag=0;

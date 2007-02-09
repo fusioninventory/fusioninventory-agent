@@ -418,7 +418,7 @@ sub processChecksum {
     #If the checksum has changed...
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
     if (!$last_state_content->{$section}[0] || $last_state_content->{$section}[0] ne $hash ) {
-      $logger->info ("Section $section has changed since last inventory");
+      $logger->debug ("Section $section has changed since last inventory");
       #We made OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
       # Finally I store the new value.

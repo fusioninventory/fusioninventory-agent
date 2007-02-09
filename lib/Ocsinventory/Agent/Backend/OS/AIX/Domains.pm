@@ -1,10 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Domains;
 use strict;
 
-use vars qw($runAfter);
-$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic::Domains"];
-
-
 sub check {1}
 sub run {
   my $params = shift;

@@ -11,10 +11,8 @@ sub run {
   my $filesystem;
   my $total;
   my $type;
-  my $volumn;
+  my $volumn;  
   
-  my @values;
-  my $i=0;
   my @fs;
   my @fstype;
   #Looking for mount points and disk space
@@ -31,8 +29,7 @@ sub run {
 	  $filesystem = $fstype[2];
 	  $total = sprintf("%i",($2/1024));	
 	  $free = sprintf("%i",($4/1024));
-	  $volumn = $6;
-	  $i++;
+	  $volumn = $6;	  
 	}
 	$inventory->addDrives({
  	  FREE => $free,

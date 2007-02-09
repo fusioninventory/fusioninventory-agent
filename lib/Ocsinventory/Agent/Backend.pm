@@ -74,14 +74,15 @@ if (!@installed_mod) {
     $self->{modules}->{$m}->{name} = $m;
     $self->{modules}->{$m}->{done} = 0;
     $self->{modules}->{$m}->{inUse} = 0;
-    $self->{modules}->{$m}->{enable} = check()?1:0;
+    $self->{modules}->{$m}->{enable} = 1;
+    $self->{modules}->{$m}->{checkFunc} = \&check;
     $self->{modules}->{$m}->{runAfter} = \@runAfter;
     $self->{modules}->{$m}->{runFunc} = \&run;
   }
 
   foreach my $m (sort keys %{$self->{modules}}) {# the sort is useless
 # find modules to disable and their submodules
-    if(!$self->{modules}->{$m}->{enable}) {
+    if($self->{modules}->{$m}->{enable} && !&{$self->{modules}->{$m}->{checkFunc}}) {
       $logger->debug ($m." check function failed");
       foreach (keys %{$self->{modules}}) {
 	$self->{modules}->{$_}->{enable} = 0 if /^$m($|::)/;

@@ -46,7 +46,6 @@ my $params = {
   'etcdir'    =>  '/etc/ocsinventory-agent',
   'basevardir'=>  '/var/lib/ocsinventory-agent',
   'logdir'    =>  '/var/log/ocsinventory-agent',
-  'lockdir'    =>  '/var/lock/ocsinventory-agent',
   'pidfile'   =>  '/var/run/ocsinventory-agent.pid',
 };
 

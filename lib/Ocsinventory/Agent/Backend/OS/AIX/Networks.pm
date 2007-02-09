@@ -104,9 +104,9 @@ sub run {
       # on a enregistré des entx et ifconfig donne des enx
       $chaine =~ s/t//g;
       
-      print $chaine." ".$interfaces[$_]{InterfaceName}."\n";
+      #print $chaine." ".$interfaces[$_]{InterfaceName}."\n";
       if ($chaine eq $interfaces[$_]{InterfaceName}){
-      	print "IP =".$interfaces[$_]{ip}."and n=".$n."\n";
+      	#print "IP =".$interfaces[$_]{ip}."and n=".$n."\n";
 		$network[$n]{ip}=$interfaces[$_]{ip};
 		$network[$n]{netmask}=$interfaces[$_]{netmask};
 		$network[$n]{status}=$interfaces[$_]{status};
@@ -140,7 +140,7 @@ sub run {
       #push @values, $request{'CONTENT'}{'NETWORKS'}[$n]{'IPSUBNET'}[0];
       $ipsubnet = ip_bintoip($subnet,4);
     }
-    print $description." ".$ipaddress."\n";
+    #print $description." ".$ipaddress."\n";
     $inventory->addNetworks({
 	  DESCRIPTION => $description,
       IPADDRESS => $ipaddress,

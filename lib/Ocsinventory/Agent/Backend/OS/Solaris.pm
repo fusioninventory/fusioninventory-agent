@@ -1,11 +1,10 @@
 package Ocsinventory::Agent::Backend::OS::Solaris;
 
 use strict;
-sub check {
-  my $r;
-  $r = 1 if $^O =~ /^solaris$/;
-  $r;
-}
+use vars qw($runAfter);
+$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic"];
+
+sub check {$^O =~ /^solaris$/}
 
 sub run {
   my $params = shift;
