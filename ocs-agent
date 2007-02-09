@@ -17,7 +17,7 @@ use Ocsinventory::Agent::Pid;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.1';
+our $VERSION = '0.0.2';
 # default settings;
 my $params = { 
   'debug'     =>  0,
@@ -26,7 +26,8 @@ my $params = {
   'help'      =>  0,
   'info'      =>  1,
   'local'     =>  '',
-  'logger'    =>  'Syslog,File,Stderr',
+  #'logger'    =>  'Syslog,File,Stderr',
+  'logger'    =>  'Stderr',
   'logfile'   =>  'ocsinventory-agent.log',
   'password'  =>  '',
   'realm'     =>  '',
@@ -288,8 +289,9 @@ do {
 
     if (!$dontSendIventory) {
 
-      my $ret = $net->send({message => $inventory});
-      $logger->debug("Server returned: ".$ret->{RESPONSE});
+      if (my $ret = $net->send({message => $inventory})) {
+	$logger->debug("Server returned: ".$ret->{RESPONSE});
+      }
 
     } else {
       $logger->info('No need to send the inventory'); 
