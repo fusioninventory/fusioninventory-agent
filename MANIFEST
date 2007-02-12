@@ -83,8 +83,8 @@ lib/Ocsinventory/Agent/CompatibilityLayer.pm
 lib/Ocsinventory/Agent/Backend.pm
 lib/Ocsinventory/Agent/AccountInfo.pm
 lib/Ocsinventory/Agent/Common.pm
-lib/Ocsinventory/Agent/Option.pm
 lib/Ocsinventory/Agent/Network.pm
 lib/Ocsinventory/Agent/Pid.pm
 lib/Ocsinventory/Compress.pm
 lib/Ocsinventory/Logger.pm
+META.yml                                 Module meta-data (added by MakeMaker)
