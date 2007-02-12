@@ -32,11 +32,6 @@ sub run {
       $free = sprintf("%i",($4/1024));
       $volumn = $6;
 
-      if($filesystem =~ /^\/dev\/\S*/){	 
-	chomp($type=`fstyp $filesystem`);
-      }
-      else {$type="";}	 
-#print "FILESYS ".$filesystem." FILETYP ".$type." TOTAL ".$total." FREE ".$free." VOLUMN ".$volumn."\n";
       $inventory->addDrives({
 	  FREE => $free,
 	  FILESYSTEM => $filesystem,
