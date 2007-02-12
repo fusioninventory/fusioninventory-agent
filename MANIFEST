@@ -50,6 +50,7 @@ lib/Ocsinventory/Agent/Backend/OS/Linux/Domains.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Drives.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Mem.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Modems.pm
+lib/Ocsinventory/Agent/Backend/OS/Linux/Networks.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Sounds.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Storages.pm
