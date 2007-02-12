@@ -47,6 +47,7 @@ lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/SuSE.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/Trustix.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/Ubuntu.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Domains.pm
+lib/Ocsinventory/Agent/Backend/OS/Linux/Drives.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Mem.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Modems.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux.pm
