@@ -15,8 +15,6 @@ package Ocsinventory::Agent::Backend::OS::Solaris::CPU;
 use strict;
 
 sub check {
-  `which prtdiag 2>&1`;
-  return if ($? >> 8)!=0;
   `prtdiag 2>&1`;
   return if ($? >> 8)!=0;
   1;

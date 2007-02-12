@@ -10,13 +10,9 @@ use Net::IP qw(:PROC);;
 use strict;
 
 sub check {
-  `which ifconfig 2>&1`;
-  return if ($? >> 8)!=0;
-  `ifconfig 2>&1`;
+  `ifconfig -a 2>&1`;
   return if ($? >> 8)!=0;
 
-  `which netstat 2>&1`;
-  return if ($? >> 8)!=0;
   `netstat 2>&1`;
   return if ($? >> 8)!=0;
   1;

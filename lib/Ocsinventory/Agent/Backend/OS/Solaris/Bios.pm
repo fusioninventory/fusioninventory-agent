@@ -13,8 +13,6 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Bios;
 use strict;
 
 sub check {
-	`which showrev 2>&1`;
-	return if ($? >> 8)!=0;
 	`showrev 2>&1`;
 	return if ($? >> 8)!=0;
 	1;

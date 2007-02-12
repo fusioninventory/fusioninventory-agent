@@ -1,8 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Users;
 
 sub check {
-  `which who 2>&1`;
-  return if ($? >> 8)!=0;
   `who 2>&1`;
   return if ($? >> 8)!=0;
   1;

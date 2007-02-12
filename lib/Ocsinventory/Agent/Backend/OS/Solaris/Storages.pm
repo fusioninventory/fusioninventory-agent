@@ -9,8 +9,6 @@ use strict;
 #Illegal Request: 0 Predictive Failure Analysis: 0
 
 sub check {
-  `which iostat 2>&1`;
-  return if ($? >> 8)!=0;
   `iostat 2>&1`;
   return if ($? >> 8)!=0;
   1;

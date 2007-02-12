@@ -3,14 +3,9 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Mem;
 use strict;
 
 sub check {
-  `which swap 2>&1`;
-  return if ($? >> 8)!=0;
   `swap 2>&1`;
   return if ($? >> 8)!=0;
 
-  `which prtconf 2>&1`;
-  return if ($? >>
-      8)!=0;
   `prtconf 2>&1`;
   return if ($? >> 8)!=0;
   1;

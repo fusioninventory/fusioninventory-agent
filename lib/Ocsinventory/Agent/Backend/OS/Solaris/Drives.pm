@@ -10,8 +10,6 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Drives;
 
 use strict;
 sub check {
-  `which df 2>&1`;
-  return if ($? >> 8)!=0;
   `df 2>&1`;
   return if ($? >> 8)!=0;
   1;

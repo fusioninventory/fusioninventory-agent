@@ -2,8 +2,6 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Controllers;
 use strict;
 
 sub check {
-  `which cfgadm 2>&1`;
-  return if ($? >> 8)!=0;
   `cfgadm 2>&1`;
   return if ($? >> 8)!=0;
   1;

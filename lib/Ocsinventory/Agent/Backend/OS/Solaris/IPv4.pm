@@ -1,8 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::IPv4;
 
 sub check {
-  `which ifconfig 2>&1`;
-  return if ($? >> 8)!=0;
   `ifconfig 2>&1`;
   return if ($? >> 8)!=0;
   1;
