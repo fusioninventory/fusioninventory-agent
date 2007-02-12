@@ -3,7 +3,13 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Deb;
 use strict;
 use warnings;
 
-sub check { `which dpkg 2>&1`; ($? >> 8)?0:1 }
+sub check {
+  `which dpkg 2>&1`;
+  return if ($? >> 8)!=0;
+  `dpkg 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
 
 sub run {
   my $params = shift;
@@ -16,7 +22,7 @@ sub run {
 	  'NAME'          => $2,
 	  'VERSION'       => $3,
 	  'COMMENTS'      => "$4($1)",
-	});
+	  });
     }
 
   }

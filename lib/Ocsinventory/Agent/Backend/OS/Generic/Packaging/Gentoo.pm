@@ -3,7 +3,13 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Gentoo;
 use strict;
 use warnings;
 
-sub check {`which equery 2>&1`; ($? >> 8)?0:1}
+sub check {
+  `which equery 2>&1`;
+  return if ($? >> 8)!=0;
+  `equery 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
 
 sub run {
   my $params = shift;
@@ -15,7 +21,7 @@ sub run {
       $inventory->addSoftwares({
 	  'NAME'          => $1,
 	  'VERSION'       => $2,
-	});
+	  });
     }
   }
 }
