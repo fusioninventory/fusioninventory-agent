@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Drivers;
+package Ocsinventory::Agent::Backend::OS::Linux::Drives;
 
 use strict;
 sub check {
@@ -27,7 +27,8 @@ sub run {
       $volumn = $5;
 
 # no virtual FS
-      next if ($type =~ /^(tmpfs|usbfs|proc|devpts|devshm)$/);
+      next if ($type =~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/);
+      next if ($filesystem =~ /^(tmpfs)$/);
 
       $inventory->addDrives({
 	  FREE => $free,
