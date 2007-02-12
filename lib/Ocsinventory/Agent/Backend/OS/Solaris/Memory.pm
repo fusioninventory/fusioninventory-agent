@@ -21,7 +21,13 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Memory;
 
 use strict;
 
-sub check {`which prtdiag 2>&1`}
+sub check {
+  `which prtdiag 2>&1`;
+  return if ($? >> 8)!=0;
+  `prtdiag 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
 
 sub run { 
   my $params = shift;

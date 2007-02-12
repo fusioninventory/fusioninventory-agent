@@ -27,9 +27,9 @@ sub run {
   @tabOS=split(/-/,$OSLevel);
   $OSComment="Maintenance Level :".@tabOS[1];
   $inventory->setHardware({
-      OSNAME => $OSName,
+      OSNAME => "$OSName $OSLevel",
       OSCOMMENTS => $OSComment,
-      OSVERSION => "$OSLevel $OSVersion",
+      OSVERSION => $OSVersion,
     });
 }
 1;

@@ -10,10 +10,16 @@ use Net::IP qw(:PROC);;
 use strict;
 
 sub check {
-	`which ifconfig 2>&1`;
-	return if($? >> 8)!=0;
-	`which netstat`;	
-	($? >> 8)?0:1	  
+  `which ifconfig 2>&1`;
+  return if ($? >> 8)!=0;
+  `ifconfig 2>&1`;
+  return if ($? >> 8)!=0;
+
+  `which netstat 2>&1`;
+  return if ($? >> 8)!=0;
+  `netstat 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
 }
 
 # Initialise the distro entry
@@ -29,44 +35,44 @@ sub run {
   my $macaddr;
   my $status;
   my $type;
-  
+
   foreach (`netstat -rn`){
     $ipgateway=$1 if /^default\s+(\S+)/i;
   }
 
   foreach (`ifconfig -a`){
-  	  $description = $1 if /^(\S+):/; # Interface name     
+    $description = $1 if /^(\S+):/; # Interface name     
       $ipaddress = $1 if /inet\s+(\S+)/i;
-      $ipmask = $1 if /\S*netmask\s+(\S+)/i;    
-      $macaddr = $1 if /ether\s+(\S+)/i;     
-      $status = 1 if /<UP,/;      
-      
-      if(($description && $macaddr)){   
-      	#HEX TO DEC TO BIN TO IP   	
-      	$ipmask = hex($ipmask);
-      	$ipmask = sprintf("%d", $ipmask);
-      	$ipmask = unpack("B*", pack("N", $ipmask));
-      	$ipmask = ip_bintoip($ipmask,4);     
-      	#print $ipmask."\n";
-      	      	
-      	my $binip = &ip_iptobin ($ipaddress ,4);
-      	my $binmask = &ip_iptobin ($ipmask ,4);
-      	my $binsubnet = $binip & $binmask;
-      	$ipsubnet = ip_bintoip($binsubnet,4);     
-      	
-      	$inventory->addNetworks({  	   
-	  		DESCRIPTION => $description,
-	  		IPADDRESS => $ipaddress,	  
-	  		IPGATEWAY => $ipgateway,
-	  		IPMASK => $ipmask,
-	  		IPSUBNET => $ipsubnet,
-	  		MACADDR => $macaddr,
-	  		STATUS => $status?"Up":"Down",
-	 		 TYPE => $type,
-	  	});
-	  	
-	  $description = $macaddr = $status =  $type = undef;
-  	 }
+    $ipmask = $1 if /\S*netmask\s+(\S+)/i;    
+    $macaddr = $1 if /ether\s+(\S+)/i;     
+    $status = 1 if /<UP,/;      
+
+    if(($description && $macaddr)){   
+#HEX TO DEC TO BIN TO IP   	
+      $ipmask = hex($ipmask);
+      $ipmask = sprintf("%d", $ipmask);
+      $ipmask = unpack("B*", pack("N", $ipmask));
+      $ipmask = ip_bintoip($ipmask,4);     
+#print $ipmask."\n";
+
+      my $binip = &ip_iptobin ($ipaddress ,4);
+      my $binmask = &ip_iptobin ($ipmask ,4);
+      my $binsubnet = $binip & $binmask;
+      $ipsubnet = ip_bintoip($binsubnet,4);     
+
+      $inventory->addNetworks({  	   
+	  DESCRIPTION => $description,
+	  IPADDRESS => $ipaddress,	  
+	  IPGATEWAY => $ipgateway,
+	  IPMASK => $ipmask,
+	  IPSUBNET => $ipsubnet,
+	  MACADDR => $macaddr,
+	  STATUS => $status?"Up":"Down",
+	  TYPE => $type,
+	  });
+
+      $description = $macaddr = $status =  $type = undef;
+    }
   }
 }
 

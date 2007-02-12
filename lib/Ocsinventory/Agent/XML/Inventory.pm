@@ -326,8 +326,8 @@ sub content {
   my $missing;
 
   $missing .= "MAC-address " unless $macaddr;
-  $missing .= "SSN " unless $macaddr;
-  $missing .= "HOSTNAME " unless $macaddr;
+  $missing .= "SSN " unless $ssn;
+  $missing .= "HOSTNAME " unless $name;
 
   if ($missing) {
     $logger->fault('Missing value(s): '.$missing.'. I don\' send this inventory to the server since important value(s) to identify the computer are missing');

@@ -8,47 +8,53 @@ use strict;
 #Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0
 #Illegal Request: 0 Predictive Failure Analysis: 0
 
-sub check {`which iostat 2>&1`; ($? >> 8)?0:1}
-	
+sub check {
+  `which iostat 2>&1`;
+  return if ($? >> 8)!=0;
+  `iostat 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
+
 
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
-  
+
   my $manufacturer;
   my $model;
   my $description;
   my $capacity;
   my $flag_first_line;
-  
+
   foreach(`iostat -E`){
-  	#print;
-  	if($flag_first_line){  		
-  		if(/^.*<(\S+)\s*bytes/){  			
-  			$capacity = $1;
-  			$capacity = $capacity/(1024*1024);
-  			#print $capacity."\n";
-  		}
-  		$inventory->addStorages({
-	     MANUFACTURER => $manufacturer,
-	     MODEL => $model,
-	     DESCRIPTION => $description,
-	     TYPE => 'SCSI',
-	     DISKSIZE => $capacity
-       });  		
-  	} 
+#print;
+    if($flag_first_line){  		
+      if(/^.*<(\S+)\s*bytes/){  			
+	$capacity = $1;
+	$capacity = $capacity/(1024*1024);
+#print $capacity."\n";
+      }
+      $inventory->addStorages({
+	  MANUFACTURER => $manufacturer,
+	  MODEL => $model,
+	  DESCRIPTION => $description,
+	  TYPE => 'SCSI',
+	  DISKSIZE => $capacity
+	  });  		
+    } 
     $flag_first_line = 0;	
-  	if(/^.*Product:\s*(\S+)/){
-  		$model = $1;
-  	}
-  	if(/^.*Serial No:\s*(\S+)/){
-  		$description = $1;
-  	}
-  	if(/^Vendor:\s*(\S+)/){
-  		$manufacturer = $1;
-  		$flag_first_line = 1;
-  	}
-  	
+    if(/^.*Product:\s*(\S+)/){
+      $model = $1;
+    }
+    if(/^.*Serial No:\s*(\S+)/){
+      $description = $1;
+    }
+    if(/^Vendor:\s*(\S+)/){
+      $manufacturer = $1;
+      $flag_first_line = 1;
+    }
+
   }  
 }
 

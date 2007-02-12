@@ -1,12 +1,18 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Controllers;
 use strict;
 
-sub check {`which cfgadm 2>&1`}
+sub check {
+  `which cfgadm 2>&1`;
+  return if ($? >> 8)!=0;
+  `cfgadm 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
 
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
-  
+
   my $name;
   my $type;
   my $manufacturer;
@@ -17,16 +23,16 @@ sub run {
       $name = $1;
     }
     if(/^\S+\s+(\S+)/){
-   	  $type = $1;
+      $type = $1;
     }
-    #No manufacturer, but informations about controller
+#No manufacturer, but informations about controller
     if(/^\S+\s+\S+\s+(\S+)/){
-   	  $manufacturer = $1;
+      $manufacturer = $1;
     }   			
     $inventory->addController({
-      'NAME'          => $name,
-	  'MANUFACTURER'  => $manufacturer,
-   	  'TYPE'          => $type,
+	'NAME'          => $name,
+	'MANUFACTURER'  => $manufacturer,
+	'TYPE'          => $type,
 	});
   }
 }

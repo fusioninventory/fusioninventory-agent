@@ -21,9 +21,9 @@ sub run {
   chomp($OSComment=`uname -i`);   
 
   $inventory->setHardware({
-      OSNAME => $OSName,
+      OSNAME => "$OSName $OSLevel",
       OSCOMMENTS => $OSComment,
-      OSVERSION => "$OSLevel $OSVersion"
+      OSVERSION => $OSVersion
     });
 }
 

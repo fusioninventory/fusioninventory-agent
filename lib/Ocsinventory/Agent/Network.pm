@@ -26,7 +26,7 @@ sub new {
   $self->{compress} = new Ocsinventory::Compress ({logger => $logger});
   # Connect to server
   $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
-  $self->{ua}->agent('OCS-NG_unified_unix_agent_v'.$self->{params}->{version});
+  $self->{ua}->agent('OCS_unified_unix_agent_v'.$self->{params}->{version});
   $self->{ua}->credentials(
     $self->{params}->{server},
     $self->{params}->{realm},

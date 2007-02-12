@@ -271,7 +271,7 @@ do {
 
       });
 
-    my $dontSendIventory;
+    my $sendIventory = 1;
     if (!$params->{force}) {
       my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
@@ -282,11 +282,11 @@ do {
 	});
 
       my $ret = $net->send({message => $prolog});
-      $dontSendIventory = 1 if (!defined($ret) || (defined ($ret) &&
+      $sendIventory = 0 if (!defined($ret) || (defined ($ret) &&
 	  $ret->{RESPONSE} !~ /SEND/));
     }
 
-    if (!$dontSendIventory) {
+    if ($sendIventory) {
 
       if (my $ret = $net->send({message => $inventory})) {
 	$logger->debug("Server returned: ".$ret->{RESPONSE});

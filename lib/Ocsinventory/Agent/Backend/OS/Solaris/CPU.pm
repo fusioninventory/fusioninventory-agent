@@ -14,47 +14,53 @@ package Ocsinventory::Agent::Backend::OS::Solaris::CPU;
 
 use strict;
 
-sub check {`which prtdiag 2>&1`}
+sub check {
+  `which prtdiag 2>&1`;
+  return if ($? >> 8)!=0;
+  `prtdiag 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
 
 sub run { 
   my $params = shift;
   my $inventory = $params->{inventory};
-  
+
   my @prtdiag;
   my $cpu_type;
   my $cpu_slot;
   my $cpu_speed;
   my $cpu_type;
-  
+
   my $flag;
   my $flag_cpu;
 
   foreach(`prtdiag`) {
-  	#print $_."\n";
-  	last if(/^\=+/ && $flag_cpu);
-  	next if(/^\s+/ && $flag_cpu);
-  	if($flag && $flag_cpu && /^\S+\s+(\S+)/){
-  	  $cpu_slot++;  	  
-  	}
-  	if($flag && $flag_cpu && /^\S+\s+\S+\s+(\S+)/){
-  	  $cpu_speed = $1;  	
-  	}
-  	if($flag && $flag_cpu && /^\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/){
-  	  $cpu_type = $1;  	  
-  	}
-    #if($flag && $flag_cpu){print "CPU  type= ".$cpu_type." CPU speed=".$cpu_speed." CPU slot=".$cpu_slot."\n";}
-	
-	if(/^=+\s+CPU/){$flag_cpu = 1;}	
-  	if($flag_cpu && /^-+/){$flag = 1;} 
-	}
-  
-    $inventory->setHardware({
+#print $_."\n";
+    last if(/^\=+/ && $flag_cpu);
+    next if(/^\s+/ && $flag_cpu);
+    if($flag && $flag_cpu && /^\S+\s+(\S+)/){
+      $cpu_slot++;  	  
+    }
+    if($flag && $flag_cpu && /^\S+\s+\S+\s+(\S+)/){
+      $cpu_speed = $1;  	
+    }
+    if($flag && $flag_cpu && /^\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/){
+      $cpu_type = $1;  	  
+    }
+#if($flag && $flag_cpu){print "CPU  type= ".$cpu_type." CPU speed=".$cpu_speed." CPU slot=".$cpu_slot."\n";}
+
+    if(/^=+\s+CPU/){$flag_cpu = 1;}	
+    if($flag_cpu && /^-+/){$flag = 1;} 
+  }
+
+  $inventory->setHardware({
       PROCESSORT => $cpu_type,
       PROCESSORN => $cpu_slot,
       PROCESSORS => $cpu_speed
 
-    });
-  	
+      });
+
 }
 
 1;

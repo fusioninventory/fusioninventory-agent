@@ -9,7 +9,7 @@ sub run {
   my $inventory = $params->{inventory};
 
   my @dmidecode = `dmidecode`; # TODO retrive error
-  s/^\s+// for (@dmidecode);
+    s/^\s+// for (@dmidecode);
 
   my $flag;
 
@@ -32,7 +32,7 @@ sub run {
 	  NAME =>  $name,
 	  STATUS =>  $status,
 
-	});
+	  });
 
       $description = $designation = $name = $status = undef;
 

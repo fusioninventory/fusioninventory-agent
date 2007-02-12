@@ -1,6 +1,12 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Users;
 
-sub check {'which who 2>&1'}
+sub check {
+  `which who 2>&1`;
+  return if ($? >> 8)!=0;
+  `who 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
 
 # Initialise the distro entry
 sub run {
@@ -8,7 +14,7 @@ sub run {
   my $inventory = $params->{inventory};
 
   my %user;
-  # Logged on users
+# Logged on users
   for(`who`){
     $user{$1} = 1 if /^(\S+)./;
   }

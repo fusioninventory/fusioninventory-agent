@@ -1,7 +1,14 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Drives;
 
 use strict;
-sub check {`which df 2>&1`; ($? >> 8)?0:1}
+sub check {
+	`which df 2>&1`;
+        return if ($? >> 8)!=0;
+
+	`df 2>&1`;
+        return if ($? >> 8)!=0;
+	1;
+}
 	
 sub run {
   my $params = shift;

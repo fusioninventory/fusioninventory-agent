@@ -1,6 +1,12 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Hostname;
 
-sub check { `which hostname 2>&1`; ($? >> 8)?0:1}
+sub check {
+  `which hostname 2>&1`;
+  return if ($? >> 8)!=0;
+  `hostname 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
 
 # Initialise the distro entry
 sub run {

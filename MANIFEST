@@ -25,6 +25,7 @@ lib/Ocsinventory/Agent/Backend/OS/Generic/Dmidecode/Bios.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Dmidecode/Memory.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Dmidecode/Ports.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Dmidecode/Slots.pm
+lib/Ocsinventory/Agent/Backend/OS/Generic/Dmidecode.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Hostname.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Packaging/Deb.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Packaging/Gentoo.pm
@@ -89,3 +90,4 @@ Makefile.PL
 MANIFEST
 ocs-agent
 tools/build-perl-tree.sh
+META.yml                                 Module meta-data (added by MakeMaker)

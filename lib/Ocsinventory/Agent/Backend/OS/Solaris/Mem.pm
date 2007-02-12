@@ -3,33 +3,40 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Mem;
 use strict;
 
 sub check {
-	`which swap 2>&1`;
-	return if($? >> 8)!=0;
-	`which prtconf 2>&1`;
-	($? >> 8)?0:1
+  `which swap 2>&1`;
+  return if ($? >> 8)!=0;
+  `swap 2>&1`;
+  return if ($? >> 8)!=0;
+
+  `which prtconf 2>&1`;
+  return if ($? >>
+      8)!=0;
+  `prtconf 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
 };
 
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
-  #my $unit = 1024;
+#my $unit = 1024;
 
   my $PhysicalMemory;
   my $SwapFileSize;
 
-  # Memory informations
+# Memory informations
   foreach(`prtconf`){
     if(/^Memory\ssize:\s+(\S+)/){$PhysicalMemory = $1}; 	
   } 
-  #Swap Informations 
+#Swap Informations 
   foreach(`swap -l`){
-  	if(/\s+(\S+)$/){$SwapFileSize += $1}; 
+    if(/\s+(\S+)$/){$SwapFileSize += $1}; 
   }
 
   $inventory->setHardware({
       MEMORY =>  $PhysicalMemory,
       SWAP =>    $SwapFileSize
-    });
+      });
 }
 
 1
