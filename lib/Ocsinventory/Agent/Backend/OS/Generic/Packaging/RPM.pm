@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::RPM;
 use strict;
 use warnings;
 
-sub check {`which rpm`; ($? >> 8)?0:1}
+sub check {`which rpm 2>&1`; ($? >> 8)?0:1}
 
 sub run {
   my $params = shift;
@@ -11,7 +11,7 @@ sub run {
 
   my @list;
   my $buff;
-  foreach (`LANG=C rpm -qa --queryformat "%{NAME} %{VERSION}-%{RELEASE} %{SUMMARY}\n--\n"`) {
+  foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} %{SUMMARY}\n--\n"`) {
     if (! /^--/) {
       chomp;
       $buff .= $_;

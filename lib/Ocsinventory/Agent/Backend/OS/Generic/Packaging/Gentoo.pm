@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Gentoo;
 use strict;
 use warnings;
 
-sub check {`which equery`; ($? >> 8)?0:1}
+sub check {`which equery 2>&1`; ($? >> 8)?0:1}
 
 sub run {
   my $params = shift;
