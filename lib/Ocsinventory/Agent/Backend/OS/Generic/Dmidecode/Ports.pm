@@ -2,10 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::Ports;
 
 use strict;
 
-sub check {
-  return unless -r "/dev/mem";
-  `which dmidecode 2>&1`; ($? >> 8)?0:1
-}
+sub check {1}
 
 sub run {
   my $params = shift;
