@@ -1,14 +1,10 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Drives;
-
-
+package Ocsinventory::Agent::Backend::OS::Linux::Drivers;
 
 use strict;
 sub check {
-  `which df 2>&1`;
-  return if ($? >> 8)!=0;
-  `df 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
+  my $df = `df -TP`;
+  return 1 if $df =~ /\w+/;
+  0
 }
 
 sub run {
@@ -19,30 +15,29 @@ sub run {
   my $filesystem;
   my $total;
   my $type;
-  my $volumn;  
+  my $volumn;
 
-#Looking for mount points and disk space 
-  for(`df -k`){
-    if (/^Filesystem\s*/){next};
-    if (!(/^\/.*/) && !(/^swap.*/)){next};
 
-    if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){	
-      $filesystem = $1;
-      $total = sprintf("%i",($2/1024));	
-      $free = sprintf("%i",($4/1024));
-      $volumn = $6;
+  foreach(`df -TP`) { # TODO retrive error
+    if(/^(\S+)\s+(\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\n/){
+      $free = sprintf("%i",($4/1024)); 
+      $filesystem = $2;
+      $total = sprintf("%i",($3/1024));
+      $type = $1;
+      $volumn = $5;
+
+# no virtual FS
+      next if ($type =~ /^(tmpfs|usbfs|proc|devpts|devshm)$/);
 
       $inventory->addDrives({
 	  FREE => $free,
 	  FILESYSTEM => $filesystem,
 	  TOTAL => $total,
 	  TYPE => $type,
-	  VOLUMN => $volumn
-	  })
-
+	  VOLUMN =>
+	  $volumn
+	})
     }
-
-
   }
 }
 
