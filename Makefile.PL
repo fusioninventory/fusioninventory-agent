@@ -3,8 +3,8 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
   'NAME' => 'Ocsinventory-Agent',
   'DISTNAME' => 'Ocsinventory-Agent',
-  'EXE_FILES' => ["ocs-agent"],
-  'VERSION_FROM' => 'ocs-agent',
+  'EXE_FILES' => ["ocsinventory-agent"],
+  'VERSION_FROM' => 'ocsinventory-agent',
   'dist'    => {COMPRESS=> 'gzip -9f', SUFFIX=>'gz', 
  	          POSTOP => 'mv $(NAME)-$(VERSION).tar.gz ../'
   },

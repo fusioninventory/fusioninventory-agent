@@ -91,10 +91,10 @@ $PERL Makefile.PL PREFIX=$PREFIX
 $MAKE PREFIX=$PREFIX
 $MAKE install PREFIX=$PREFIX
 
-perl -i -pe "s!/etc/ocsinventory-agent!$ETCDIR!" $PREFIX/bin/ocs-agent
-perl -i -pe "s!/var/lib/ocsinventory-agent!$BASEDIR!" $PREFIX/bin/ocs-agent
-perl -i -pe "s!/var/log/ocsinventory-agent!$LOGDIR!" $PREFIX/bin/ocs-agent
-perl -i -pe "s!/var/run/ocsinventory-agent.pid!$PIDFILE!" $PREFIX/bin/ocs-agent
+perl -i -pe "s!/etc/ocsinventory-agent!$ETCDIR!" $PREFIX/bin/ocsinventory-agent
+perl -i -pe "s!/var/lib/ocsinventory-agent!$BASEDIR!" $PREFIX/bin/ocsinventory-agent
+perl -i -pe "s!/var/log/ocsinventory-agent!$LOGDIR!" $PREFIX/bin/ocsinventory-agent
+perl -i -pe "s!/var/run/ocsinventory-agent.pid!$PIDFILE!" $PREFIX/bin/ocsinventory-agent
 
 mkdir -p $ETCDIR 
 mkdir -p $BASEDIR 

@@ -89,6 +89,6 @@ lib/Ocsinventory/Logger.pm
 LICENSE
 Makefile.PL
 MANIFEST
-ocs-agent
+ocsinventory-agent
 tools/build-perl-tree.sh
 META.yml                                 Module meta-data (added by MakeMaker)
