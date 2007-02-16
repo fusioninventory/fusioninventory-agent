@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Mem;
 use strict;
 
 sub check {
-  `swap 2>&1`;
+  `swap -l 2>&1`;
   return if ($? >> 8)!=0;
 
   `prtconf 2>&1`;
