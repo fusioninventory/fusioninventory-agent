@@ -31,21 +31,21 @@ sub initModList {
   my @installed_mod;
 
   eval {@installed_mod =
-  $inst->files('Ocsinventory')};
+    $inst->files('Ocsinventory')};
 
 # ExtUtils::Installed is nice it needs properly installed package with
 # .packlist
 # This is a workaround for invalide installations...
-if (!@installed_mod) {
-  require File::Find;
-  foreach(@INC) {
-    next unless -d;
-    File::Find::find( sub {
-	push @installed_mod, $File::Find::name if $File::Find::name =~ /^\/.*\/Ocsinventory\/Agent\/Backend\/.*\.pm$/;
-      }
-      , $_);
+  if (!@installed_mod) {
+    require File::Find;
+    foreach(@INC) {
+      next unless -d;
+      File::Find::find( sub {
+	  push @installed_mod, $File::Find::name if $File::Find::name =~ /^\/.*\/Ocsinventory\/Agent\/Backend\/.*\.pm$/;
+	  }
+	  , $_);
+    }
   }
-}
 
 
 # Find installed modules
@@ -62,7 +62,7 @@ if (!@installed_mod) {
       $enable = 0;
     }
 
-    # Import of module's functions and values
+# Import of module's functions and values
     local *Ocsinventory::Agent::Backend::runAfter = $m."::runAfter"; 
     local *Ocsinventory::Agent::Backend::check = $m."::check";
     local *Ocsinventory::Agent::Backend::run = $m."::run";
@@ -70,10 +70,10 @@ if (!@installed_mod) {
     foreach (@{$Ocsinventory::Agent::Backend::runAfter}) {
       push @runAfter, \%{$self->{modules}->{$_}};
     }
-    # TODO, 
-    # no strict 'refs';
-    # print Dumper(\@{"Ocsinventory::Agent::Option::Download::EXPORT"});
-    # to see avalaible func
+# TODO, 
+# no strict 'refs';
+# print Dumper(\@{"Ocsinventory::Agent::Option::Download::EXPORT"});
+# to see avalaible func
 
     $self->{modules}->{$m}->{name} = $m;
     $self->{modules}->{$m}->{done} = 0;
@@ -114,40 +114,40 @@ sub runMod {
   my $inventory = $params->{inventory};
 
   die ">$m\n" unless $m; # Should NEVER append :) 
-  return if (!$self->{modules}->{$m}->{enable});
+    return if (!$self->{modules}->{$m}->{enable});
   return if ($self->{modules}->{$m}->{done});
 
   $self->{modules}->{$m}->{inUse} = 1; # lock the module
-  # first I run its "runAfter"
+# first I run its "runAfter"
 
-  foreach (@{$self->{modules}->{$m}->{runAfter}}) {
-    if (!$_->{name}) {
-      # The name is defined during module initialisation so if I 
-      # can't read it, I can suppose it had not been initialised.
-      $logger->fault ("Module `$m' need to be runAfter a module not found.".
-	  "Please fix its runAfter entry or add the module.");
-    }
+    foreach (@{$self->{modules}->{$m}->{runAfter}}) {
+      if (!$_->{name}) {
+# The name is defined during module initialisation so if I 
+# can't read it, I can suppose it had not been initialised.
+	$logger->fault ("Module `$m' need to be runAfter a module not found.".
+	    "Please fix its runAfter entry or add the module.");
+      }
 
-    if ($_->{inUse}) {
-      # In use 'lock' is taken during the mod execution. If a module
-      # need a module also in use, we have provable an issue :).
-      $logger->fault ("Circular dependency hell with $m and $_->{name}");
+      if ($_->{inUse}) {
+# In use 'lock' is taken during the mod execution. If a module
+# need a module also in use, we have provable an issue :).
+	$logger->fault ("Circular dependency hell with $m and $_->{name}");
+      }
+      $self->runMod({
+	  inventory => $inventory,
+	  logger => $logger,
+	  modname => $_->{name},
+	  });
     }
-    $self->runMod({
-	inventory => $inventory,
-	logger => $logger,
-	modname => $_->{name},
-      });
-  }
 
   $logger->debug ("Running $m"); 
-  
+
   &{$self->{modules}->{$m}->{runFunc}}({
       accountinfo => $self->{accountinfo},
       config => $self->{config},
       params => $self->{params},
       inventory => $inventory,
-    });
+      });
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
 }
@@ -169,14 +169,14 @@ sub feedInventory {
   my $begin = time();
   foreach my $m (sort keys %{$self->{modules}}) {
     die ">$m" unless $m;# Houston!!!
-    $self->runMod ({
-	inventory => $inventory,
-	modname => $m,
-      });
+      $self->runMod ({
+	  inventory => $inventory,
+	  modname => $m,
+	  });
   }
   $inventory->processChecksum();
 
-  # Execution time
+# Execution time
   $inventory->setHardware({ETIME => time() - $begin});
 }
 
