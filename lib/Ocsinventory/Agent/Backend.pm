@@ -38,12 +38,14 @@ sub initModList {
 # This is a workaround for invalide installations...
   if (!@installed_mod) {
     require File::Find;
-    foreach(@INC) {
-      next unless -d;
+    # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
+    # changes the @INC content if i use $_ directly
+    foreach my $d (@INC) {
+      next unless -d $d;
       File::Find::find( sub {
 	  push @installed_mod, $File::Find::name if $File::Find::name =~ /^\/.*\/Ocsinventory\/Agent\/Backend\/.*\.pm$/;
 	  }
-	  , $_);
+	  , $d);
     }
   }
 
