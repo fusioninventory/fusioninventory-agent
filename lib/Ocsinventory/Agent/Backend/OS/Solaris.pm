@@ -20,7 +20,7 @@ sub run {
   chomp($OSLevel=`uname -r`);
   chomp($OSComment=`uname -i`);   
 
-  $OSName =~ s/SunOS/Solaris/;
+#  $OSName =~ s/SunOS/Solaris/;
   $inventory->setHardware({
       OSNAME => "$OSName $OSLevel",
       OSCOMMENTS => $OSComment,
