@@ -51,12 +51,16 @@ if (!@installed_mod) {
 # Find installed modules
   foreach (@installed_mod) {
     my @runAfter;
-    my $enable;
+    my $enable = 1;
 
     next unless s!.*?(Ocsinventory/Agent/Backend/)(.*?)\.pm$!$1$2!;
-    my $m = join('::', split /\//);
+    my $m = join ('::', split /\//);
 
-    eval ("require $m"); # TODO deal with error
+    eval {"require $m"};
+    if ($@) {
+      $logger->debug ("Failed to load $m: $@");
+      $enable = 0;
+    }
 
     # Import of module's functions and values
     local *Ocsinventory::Agent::Backend::runAfter = $m."::runAfter"; 
