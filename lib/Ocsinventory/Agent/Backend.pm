@@ -52,14 +52,16 @@ sub initModList {
 
 
 # Find installed modules
-  foreach (@installed_mod) {
+  foreach my $file (@installed_mod) {
     my @runAfter;
     my $enable = 1;
 
-    next unless s!.*?(Ocsinventory/Agent/Backend/)(.*?)\.pm$!$1$2!;
-    my $m = join ('::', split /\//);
+    my $t = $file;
+    next unless $t =~ s!.*?(Ocsinventory/Agent/Backend/)(.*?)\.pm$!$1$2!;
+    my $m = join ('::', split /\//, $t);
 
-    eval {"require $m"};
+    eval require $file; # I do require directly on the file to avoid issues
+    # with AIX perl 5.8.0
     if ($@) {
       $logger->debug ("Failed to load $m: $@");
       $enable = 0;
