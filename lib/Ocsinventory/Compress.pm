@@ -29,10 +29,10 @@ sub new {
 }
 
 sub compress {
-  my $self = shift;
+  my ($self, $content) = @_;
 
   if ($self->{natif}) {
-    return Compress::Zlib::compress(@_);
+    return Compress::Zlib::compress($content);
   }
 #
 #  my $dir = tempdir( CLEANUP => 1 );
