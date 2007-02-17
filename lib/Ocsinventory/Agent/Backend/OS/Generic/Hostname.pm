@@ -1,6 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Hostname;
 
 sub check {
+  eval { require (Sys::Hostname) };
+  return 1 unless $@;
   `which hostname 2>&1`;
   return if ($? >> 8)!=0;
   `hostname 2>&1`;
@@ -15,7 +17,14 @@ sub run {
 
   my $hostname;
 
-  chomp ( my $hostname = `hostname` );
+  #chomp ( my $hostname = `hostname` );
+  eval { require (Sys::Hostname) };
+  if (!$@) {
+    $hostname = hostname;
+  } else {
+    chomp ( $hostname = `hostname` ); # TODO: This is not generic.
+  }
+
 
   $inventory->setHardware ({NAME => $hostname});
 }
