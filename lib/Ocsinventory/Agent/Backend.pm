@@ -44,7 +44,7 @@ sub initModList {
     foreach my $d (@INC) {
       next unless -d $d;
       File::Find::find( sub {
-	  push @installed_mod, $File::Find::name if $File::Find::name =~ /^\/.*\/Ocsinventory\/Agent\/Backend\/.*\.pm$/;
+	  push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
 	  }
 	  , $d);
     }
@@ -60,6 +60,11 @@ sub initModList {
     next unless $t =~ s!.*?(Ocsinventory/Agent/Backend/)(.*?)\.pm$!$1$2!;
     my $m = join ('::', split /\//, $t);
 
+    if (exists ($self->{modules}->{$m}->{name})) {
+      $logger->debug($m." already loaded.");
+      next;
+    }
+    
     eval require $file; # I do require directly on the file to avoid issues
     # with AIX perl 5.8.0
     if ($@) {
