@@ -395,22 +395,22 @@ sub processChecksum {
   my $last_stat_content;
   my $checksum = 0;
 
-  if (! -f $self->{params}->{laste_statefile}) {
+  if (! -f $self->{params}->{laste_statfile}) {
     $logger->info ('laste_state file: `'.
-	$self->{params}->{laste_statefile}."' doesn't exist.");
+	$self->{params}->{laste_statfile}."' doesn't exist.");
   }
-  if (-f $self->{params}->{laste_statefile}) {
+  if (-f $self->{params}->{laste_statfile}) {
     # TODO: avoid a violant death in case of problem with XML
     $last_stat_content = XML::Simple::XMLin(
 
-      $self->{params}->{laste_statefile},
+      $self->{params}->{laste_statfile},
       SuppressEmpty => undef,
       ForceArray => 1
 
     );
   } else {
     $logger->debug ('last_stat file: `'.
-	$self->{params}->{laste_statefile}.
+	$self->{params}->{laste_statfile}.
 	"' doesn't exist.");
   }
 
@@ -426,11 +426,11 @@ sub processChecksum {
     }
   }
 
-  if (open LAST_STATE, ">".$self->{params}->{laste_statefile}) {
+  if (open LAST_STATE, ">".$self->{params}->{laste_statfile}) {
     print LAST_STATE my $string = XML::Simple::XMLout( $last_stat_content, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
   } else {
-    $logger->error ("Cannot save the checksum values in ".$self->{params}->{laste_statefile}."
+    $logger->error ("Cannot save the checksum values in ".$self->{params}->{laste_statfile}."
 	(will be synchronized by GLPI!!): $!"); 
   }
 
