@@ -392,7 +392,7 @@ sub processChecksum {
     $logger->fault ("vardir uninitialised!");
   }
 
-  my $last_state_content;
+  my $last_stat_content;
   my $checksum = 0;
 
   if (! -f $self->{params}->{laste_statefile}) {
@@ -401,7 +401,7 @@ sub processChecksum {
   }
   if (-f $self->{params}->{laste_statefile}) {
     # TODO: avoid a violant death in case of problem with XML
-    $last_state_content = XML::Simple::XMLin(
+    $last_stat_content = XML::Simple::XMLin(
 
       $self->{params}->{laste_statefile},
       SuppressEmpty => undef,
@@ -409,7 +409,7 @@ sub processChecksum {
 
     );
   } else {
-    $logger->debug ('last_state file: `'.
+    $logger->debug ('last_stat file: `'.
 	$self->{params}->{laste_statefile}.
 	"' doesn't exist.");
   }
@@ -417,17 +417,17 @@ sub processChecksum {
   foreach my $section (keys %mask) {
     #If the checksum has changed...
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-    if (!$last_state_content->{$section}[0] || $last_state_content->{$section}[0] ne $hash ) {
+    if (!$last_stat_content->{$section}[0] || $last_stat_content->{$section}[0] ne $hash ) {
       $logger->debug ("Section $section has changed since last inventory");
       #We made OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
       # Finally I store the new value.
-      $last_state_content->{$section}[0] = $hash; #TODO, I've to store the new HASH
+      $last_stat_content->{$section}[0] = $hash; #TODO, I've to store the new HASH
     }
   }
 
   if (open LAST_STATE, ">".$self->{params}->{laste_statefile}) {
-    print LAST_STATE my $string = XML::Simple::XMLout( $last_state_content, RootName => 'LAST_STATE' );;
+    print LAST_STATE my $string = XML::Simple::XMLout( $last_stat_content, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
   } else {
     $logger->error ("Cannot save the checksum values in ".$self->{params}->{laste_statefile}."
