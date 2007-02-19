@@ -65,7 +65,7 @@ sub initModList {
       next;
     }
     
-    eval require $file; # I do require directly on the file to avoid issues
+    eval {require $file}; # I do require directly on the file to avoid issues
     # with AIX perl 5.8.0
     if ($@) {
       $logger->debug ("Failed to load $m: $@");
