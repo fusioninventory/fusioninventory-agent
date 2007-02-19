@@ -38,6 +38,8 @@ sub new {
       OCS_AGENT_VERSION => $self->{params}->{version},
       OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
       OCS_AGENT_CONFIG => $self->{params}->{conffile},
+      # The prefered way to log message
+      OCS_AGENT_LOGGER => $self->{logger},
     };
 
   } else {
