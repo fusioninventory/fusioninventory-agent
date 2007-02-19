@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+#use lib 'lib';
 use Getopt::Long;
 use Sys::Hostname;
 
@@ -20,7 +21,8 @@ use Ocsinventory::Agent::CompatibilityLayer;
 
 our $VERSION = '0.0.2';
 
-#my $basedir = 'c:/cvs_ocs/ocsinventory-agent';
+my $basedir = '';
+#$basedir = 'c:/cvs_ocs/ocsinventory-agent';
 # default settings;
 my $params = { 
   'debug'     =>  0,
