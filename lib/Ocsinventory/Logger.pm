@@ -9,7 +9,6 @@ sub new {
   bless $self;
   $self->{backend} = [];
   $self->{params} = $params->{params};
-  my $logger = $self->{logger} = $params->{logger};
 
   $self->{debug} = $self->{params}->{debug}?1:0;
 #  print "Logging backend(s): ".$self->{params}->{logger}."\n";
@@ -67,6 +66,11 @@ sub error {
 sub fault {
   my ($self, $msg) = @_;
   $self->log({ level => 'fault', message => $msg});
+}
+
+sub user {
+  my ($self, $msg) = @_;
+  $self->log({ level => 'user', message => $msg});
 }
 
 1;
