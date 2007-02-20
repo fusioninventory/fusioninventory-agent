@@ -16,13 +16,13 @@ sub run {
 
   foreach (glob ("/sys/block/*")) {# /sys fs style
     $partitions->{$1} = undef
-    if (/^\/sys\/block\/([sh]d[a..z])$/)
+    if (/^\/sys\/block\/([sh]d[a-z])$/)
   }
   foreach (`fdisk -l`) {# call fdisk to list partitions
     chomp;
     next unless (/^\//);
     $partitions->{$1} = undef
-    if (/^\/dev\/([sh]d[a..z])/);
+    if (/^\/dev\/([sh]d[a-z])/);
   }
 
   foreach my $device (keys %$partitions) {
