@@ -103,6 +103,7 @@ sub addStorages {
   my $disksize =  $args->{DISKSIZE};
   my $manufacturer = $args->{MANUFACTURER};
   my $model = $args->{MODEL};
+  my $name = $args->{NAME};
   my $type = $args->{TYPE};
 
 
@@ -113,6 +114,7 @@ sub addStorages {
     DISKSIZE => [$disksize?$disksize:"??"],
     MANUFACTURER => [$manufacturer?$manufacturer:"??"],
     MODEL => [$model?$model:"??"],
+    NAME => [$name?$name:"??"],
     TYPE => [$type?$type:"??"],
 
   };

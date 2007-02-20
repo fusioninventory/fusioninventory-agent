@@ -85,6 +85,7 @@ sub run {
     $capacity = int ($capacity/1000) if $capacity;
 
     $inventory->addStorages({
+	NAME => $device,
 	MANUFACTURER => $manufacturer,
 	MODEL => $model,
 	DESCRIPTION => $description,
