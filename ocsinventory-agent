@@ -158,7 +158,7 @@ if (!-d $params->{vardir} && !mkdir ($params->{vardir})) {
 
 $params->{conffile} = $params->{vardir}."/ocsinv.conf";
 $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
-$params->{laste_statfile} = $params->{vardir}."/last_stat";
+$params->{last_statefile} = $params->{vardir}."/last_state";
 ######
 
 
