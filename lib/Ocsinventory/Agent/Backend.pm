@@ -36,11 +36,13 @@ sub initModList {
 # ExtUtils::Installed is nice it needs properly installed package with
 # .packlist
 # This is a workaround for invalide installations...
-  if (!@installed_mod) {
-    require File::Find;
-    # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
-    # changes the @INC content if i use $_ directly
-    # thanks to @rgs on irc.perl.org
+  eval {require File::Find};
+  if ($@) {
+    $logger->debug("Failed to load File::Find");
+  } else {
+# here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
+# changes the @INC content if i use $_ directly
+# thanks to @rgs on irc.perl.org
     foreach my $d (@INC) {
       next unless -d $d;
       File::Find::find( sub {
@@ -49,7 +51,6 @@ sub initModList {
 	  , $d);
     }
   }
-
 
 # Find installed modules
   foreach my $file (@installed_mod) {
