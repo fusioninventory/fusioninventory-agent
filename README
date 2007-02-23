@@ -19,7 +19,7 @@ BUILDING/INSTALLING
   Once the archive is unpacked, use these commands:
 
       perl Makefile.PL
-      make
+      make               # or 'nmake' on Win32
       make install
 
   You can also run the agent for the tarball directory by add
