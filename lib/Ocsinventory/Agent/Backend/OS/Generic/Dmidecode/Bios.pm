@@ -57,13 +57,6 @@ sub run {
     }
   }
 
-  print "
-      SMANUFACTURER => $SystemManufacturer\n
-      SMODEL => $SystemModel\n
-      SSN => $SystemSerial\n
-      BMANUFACTURER => $BiosManufacturer\n
-      BVERSION => $BiosVersion\n
-      BDATE => $BiosDate\n";
 # Writing data
   $inventory->setBios ({
       SMANUFACTURER => $SystemManufacturer,
