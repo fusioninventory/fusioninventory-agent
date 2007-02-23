@@ -89,7 +89,7 @@ sub initModList {
     $self->{modules}->{$m}->{name} = $m;
     $self->{modules}->{$m}->{done} = 0;
     $self->{modules}->{$m}->{inUse} = 0;
-    $self->{modules}->{$m}->{enable} = 1;
+    $self->{modules}->{$m}->{enable} = $enable;
     $self->{modules}->{$m}->{checkFunc} = \&check;
     $self->{modules}->{$m}->{runAfter} = \@runAfter;
     $self->{modules}->{$m}->{runFunc} = \&run;
