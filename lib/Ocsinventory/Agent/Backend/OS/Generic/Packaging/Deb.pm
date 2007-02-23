@@ -7,7 +7,7 @@ sub check {
   `which dpkg 2>&1`;
   return if ($? >> 8)!=0;
   `dpkg 2>&1`;
-  return if ($? >> 8)!=0;
+  return if ($? >> 8)!=2;
   1;
 }
 
