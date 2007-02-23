@@ -12,6 +12,7 @@ PREREQUISITES
     Net::IP
     Proc::Daemon (optional, only for Daemon mode)
     LWP
+  On Linux, dmidecode is required to read the BIOS stats.
 
 BUILDING/INSTALLING
 
@@ -33,6 +34,12 @@ BUILDING/INSTALLING
 
   you can install the directory somewhere else. In the case change the
   default settings directly in the ocsinventory-agent file.
+
+  You need to launch the agent with root privilage. For debugging you can
+  try to launch it with the -l flag:
+  eg: ocsinventory-agent -l /tmp --debug
+
+  
 
 COPYRIGHT
 
