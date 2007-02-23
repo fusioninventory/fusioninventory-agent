@@ -1,0 +1,39 @@
+DESCRIPTION
+
+  Ocsinventory-Agent is an agent for ocsinventory NG. It supports Linux,
+  Solaris and AIX
+
+PREREQUISITES
+  
+  These modules are need:
+    Compress::Zlib
+    Digest::MD5
+    XML::Simple
+    Net::IP
+    Proc::Daemon (optional, only for Daemon mode)
+    LWP
+
+BUILDING/INSTALLING
+
+  Once the archive is unpacked, use these commands:
+
+      perl Makefile.PL
+      make
+      make install
+
+  You can also run the agent for the tarball directory by add
+    use lib 'lb';
+  at the begining of the file.
+
+  The agent needs some directory to store internal setting.
+  mkdir -p /etc/ocsinventory-agent
+  mkdir -p /var/lib/ocsinventory-agent
+  mkdir -p /var/log/ocsinventory-agent
+  mkdir -p /var/run
+
+  you can install the directory somewhere else. In the case change the
+  default settings directly in the ocsinventory-agent file.
+
+COPYRIGHT
+
+  See AUTHORS file.  Ocsinventory-Agent is release under GNU GPL 2 license
