@@ -10,7 +10,7 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  # This will provable be overwrite by a Linux::Distro module.
+  # This will provably be overwriten by a Linux::Distro module.
   $inventory->setHardware({
       OSNAME => "Linux",
       OSCOMMENTS => "Unknow Linux distribution"
