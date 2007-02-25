@@ -23,6 +23,7 @@ sub run {
     $hostname = Sys::Hostname::hostname;
   } else {
     chomp ( $hostname = `hostname` ); # TODO: This is not generic.
+    $hostname =~ s/\.*//; # keep just the hostname
   }
 
 
