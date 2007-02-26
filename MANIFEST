@@ -93,4 +93,3 @@ Makefile.PL
 MANIFEST
 ocsinventory-agent
 tools/build-perl-tree.sh
-META.yml                                 Module meta-data (added by MakeMaker)
