@@ -1,11 +1,7 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Modems;
+package Ocsinventory::Agent::Backend::OS::Generic::Lspci::Modems;
 use strict;
 
-sub check {
-  my @pci = `lspci 2>>/dev/null`;
-  return 1 if @pci;
-  0
-}
+sub check {1}
 
 sub run {
   my $params = shift;
