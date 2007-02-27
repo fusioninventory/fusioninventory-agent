@@ -24,7 +24,7 @@ sub run {
   } else {
     chomp ( $hostname = `hostname` ); # TODO: This is not generic.
   }
-  $hostname =~ s/\.*//; # keep just the hostname
+  $hostname =~ s/\..*//; # keep just the hostname
 
 
   $inventory->setHardware ({NAME => $hostname});
