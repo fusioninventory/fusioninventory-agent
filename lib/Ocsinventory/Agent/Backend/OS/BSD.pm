@@ -5,7 +5,7 @@ use strict;
 use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::Generic"];
 
-sub check { $^O =~ /freebsd|openbsd|netbsd/ }
+sub check { $^O =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/ }
 
 sub run {
   my $params = shift;
