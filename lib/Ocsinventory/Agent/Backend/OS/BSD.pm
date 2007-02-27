@@ -1,6 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::BSD;
 
 use strict;
+
 use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::Generic"];
 
@@ -10,10 +11,24 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  # This will provable be overwrite by a Linux::Distro module.
+  my $OSName;
+  my $OSComment;
+  my $OSVersion;
+  my $OSLevel;
+  # Operating system informations
+  chomp($OSName=`uname -s`);
+  chomp($OSVersion=`uname -r`);
+  # Retrieve the origin of the kernel configuration file
+  my @kern_version = `sysctl -n kern.version`;
+  chomp ($OSComment = $kern_version[1]); # second line
+  $OSComment =~ s/^\s*//;
+  # if there is a problem use uname -v
+  chomp($OSComment=`uname -v`) unless $OSComment; 
+  
   $inventory->setHardware({
-      OSNAME => $^O,
-      OSCOMMENTS => "BSD Operating system"
+      OSNAME => $OSName,
+      OSCOMMENTS => $OSComment,
+      OSVERSION => $OSVersion,
     });
 }
 1;

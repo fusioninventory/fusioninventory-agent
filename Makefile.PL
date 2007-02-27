@@ -34,13 +34,13 @@ WriteMakefile(
 );
 
 # Check for compress backend
-my @tmpgzip = `gzip -h>>/dev/null` 
+my @tmpgzip = `gzip -h>>/dev/null`; 
 eval { require Compress::Zlib };
 if (!$@) {
-print "Compress::Zlib is avalaible. I will use it for the compress backend";
+print "Compress::Zlib is avalaible. I will use it for the compress backend\n";
 } elsif (!@tmpgzip) {
-print "Warining: I can't Compress::Zlib or the gzip command to compress".
-"the data for the server";
+print "Warning: I can't Compress::Zlib or the gzip command to compress backend".
+"the data for the server\n";
 } else {
-print "gzip is avalaible. I will use it for the compress backend";
+print "gzip is avalaible. I will use it for the compress backend\n";
 }
