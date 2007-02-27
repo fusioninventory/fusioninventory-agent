@@ -2,18 +2,24 @@ package Ocsinventory::Agent::Backend::OS::BSD::Domains;
 use strict;
 
 sub check {
-  my @domain = `hostname | sed 's/[^\.]*\.//'`;
+  my $hostname;
+  chomp ($hostname = `hostname`);
+  my @domain = split (/\./, $hostname);
+  shift (@domain);
   return 1 if @domain;
   -f "/etc/resolv.conf"
-}
+ }
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
   my $domain;
+  my $hostname;
+  chomp ($hostname = `hostname`);
+  my @domain = split (/\./, $hostname);
+  shift (@domain);
+  $domain = join ('.',@domain);
 
-  chomp($domain = `hostname | sed 's/[^\.]*\.//'`);
-  
   if (!$domain) {
     my %domain;
 

@@ -65,24 +65,48 @@ sub run {
   my $status;
   my $type;
 
-
+  
+  # Looking for the gateway
+  # 'route show' doesn't work on FreeBSD so we use netstat
   for(`netstat -nr`){
-    $ipgateway=$1 if /^defau\S*\s+(\S+)/i;
+    $ipgateway=$1 if /^default\s+(\S+)/i;
   }
-   
-  foreach (`ifconfig -a`){
-    if (/^$/ && $description !~ /^(lo|vmnet\d+|sit\d+|pflog.*|pfsync.*|enc.*|plip.*|sl*|ppp.*)$/) {
-# Do not know if these bsd devices have got somme suffix...?
-# end of interface section 
-# I write the entry
+
+  my @ifconfig = `ifconfig -a`; # -a option required on *BSD
+
+
+  # first make the list available interfaces
+  # too bad there's no -l option on OpenBSD
+  my @list;
+  foreach (@ifconfig){
+      # skip loopback, pseudo-devices and point-to-point interfaces
+      next if /^(lo|vmnet|sit|pflog|pfsync|enc|plip|sl|ppp)\d+/;
+      if (/^(\S+):/) { push @list , $1; } # new interface name	  
+  }
+
+  # for each interface get it's parameters
+  foreach $description (@list) {
+      $ipaddress = $ipmask = $macaddr = $status =  $type = undef;
+      my $flag = 0;
+      foreach (@ifconfig){ # search interface infos
+	  last if (/^(\S+):/ && $flag);
+	  if (/^$description/) { $flag = 1; }
+	  if ($flag) {
+	      $ipaddress = $1 if /inet (\S+)/i;
+	      $ipmask = $1 if /netmask\s+(\S+)/i;
+	      $macaddr = $2 if /(address:|ether)\s+(\S+)/i;
+	      $status = 1 if /<UP/i;
+	      $type = $1 if /media:\s+(\S+)/i;
+	  }
+      }
       my $binip = &ip_iptobin ($ipaddress ,4);
-# In BSD, netmask is given in hex form
-      my $binmask = unpack("B*", pack("N",oct($ipmask)));
+      # In BSD, netmask is given in hex form
+      my $binmask = sprintf("%b", oct($ipmask));
       my $binsubnet = $binip & $binmask;
       $ipsubnet = ip_bintoip($binsubnet,4);
-
+      
       $inventory->addNetworks({
-
+	  
 	  DESCRIPTION => $description,
 	  IPADDRESS => $ipaddress,
 	  IPDHCP => _ipdhcp($description),
@@ -92,21 +116,9 @@ sub run {
 	  MACADDR => $macaddr,
 	  STATUS => $status?"Up":"Down",
 	  TYPE => $type,
-
+	  
       });
-
-      $description =  $ipgateway = $macaddr = $status =  $type = undef;
-    }
-
-      $description = $1 if /^(\S+)/; # Interface name
-      $ipaddress = $1 if /inet (\S+)/i;
-      $ipmask = $1 if /netmask\s+(\S+)/i;
-      $macaddr = $1 if /(?:address:|ether)\s+(\S+)/i;
-      $status = 1 if /UP\s+/i;
-      $type = $1 if /media:\s+(\S+)/i
-
-
-}
+  }
 }
 
 1;

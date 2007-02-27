@@ -29,10 +29,10 @@ sub run {
       last if ($1!='4');
     }
     
-    $status = 1 if $flag && /^status\s*:.*enabled/i;
-    $family = $1 if $flag && /^family\s*:\s*(.*)/i;
-    $manufacturer = $1 if $flag && /^manufacturer\s*:\s*(.*)/i;
-    $processors = $1 if $flag && /^current speed\s*:\s*(\d+).+/i;
+    $status = 1 if $flag && /^\s*status\s*:.*enabled/i;
+    $family = $1 if $flag && /^\s*family\s*:\s*(.*)/i;
+    $manufacturer = $1 if $flag && /^\s*manufacturer\s*:\s*(.*)/i;
+    $processors = $1 if $flag && /^\s*current speed\s*:\s*(\d+).+/i;
     $processort = "$manufacturer $family" if $manufacturer && $family;
   }
   

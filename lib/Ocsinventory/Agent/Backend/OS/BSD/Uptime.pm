@@ -2,10 +2,8 @@ package Ocsinventory::Agent::Backend::OS::BSD::Uptime;
 use strict;
 
 sub check {
-  return 0;
-  foreach (`mount`) {
-    return 1 if (/type\ proc/);
-  }
+  my $boottime = `sysctl -n kern.boottime 2>/dev/null`;
+  return 1 if $boottime;
   return;
 }
 
