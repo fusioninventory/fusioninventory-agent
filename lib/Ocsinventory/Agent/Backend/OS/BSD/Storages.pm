@@ -18,15 +18,19 @@ sub run {
     }
   }
   for my $dev (@devices) {
-    my ($model,$capacity,$found);
+    my ($model,$capacity,$found, $manufacturer);
     for(`dmesg`){
       if(/^$dev/) { $found = 1;}
       if(/^$dev.*<(.*)>/) { $model = $1; }
       if(/^$dev.*\s+(\d+)\s*MB/) { $capacity = $1;}
     }
 
+    if ($model =~ s/^(SAMSUNG|PLEXTOR|Seagate|IBM|Sun|YAMAHA|HITACHI|VERITAS)\s*//i) {
+	$manufacturer = $1;
+    }
+
     $inventory->addStorages({
-	MANUFACTURER => '',
+	MANUFACTURER => $manufacturer,
 	MODEL => $model,
 	DESCRIPTION => $dev,
 	TYPE => '',
