@@ -19,6 +19,7 @@ WriteMakefile(
       'Proc::Daemon'              => 0, 
       'LWP'			  => 0,
       'File::Temp'		  => 0,
+      'Net::IP'			  => 0,
     }
   )
 ),
