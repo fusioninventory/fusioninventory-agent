@@ -144,7 +144,7 @@ my $logger = new Ocsinventory::Logger ({
 #### Objects initilisation 
 ############################
 
-# The agent can contact different servers. Every server config are
+# The agent can contact different servers. Each server config is
 # stored in a specific file:
 if (defined($params->{local}) && $params->{local}) {
   $params->{vardir} = $params->{basevardir}."/__LOCAL__";
@@ -178,8 +178,10 @@ if ((!$params->{deviceid}) || $params->{deviceid} !~ /.*-(?:\d{4})(?:-\d{2}){5}/
   my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
     (time))[5,4,3,2,1,0];
   $params->{old_deviceid} = $params->{deviceid};
+  my $hostname = hostname;
+  $hostname =~ s/\..*//; # keep just the hostname
   $params->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-  hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+  $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
   $config->set('DEVICEID',$params->{deviceid});
 }
 
@@ -218,7 +220,7 @@ my $backend = new Ocsinventory::Agent::Backend ({
   });
 
 # Create compatibility layer. It's used to keep compatibility with the
-# linux_agent 1.x and bellow
+# linux_agent 1.x and below
 my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
 
     accountinfo => $accountinfo,
