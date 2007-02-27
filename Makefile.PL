@@ -13,12 +13,12 @@ WriteMakefile(
     $ENV{SKIP_FOR_CORE}
     ? (MAN3PODS    => {})
     : (PREREQ_PM   => { 
-      'Compress::Zlib'            => 0,
       'Digest::MD5'               => 0, 
       'XML::Simple'               => 0, 
       'Net::IP'                   => 0, 
       'Proc::Daemon'              => 0, 
       'LWP'			  => 0,
+      'File::Temp'		  => 0,
     }
   )
 ),
@@ -33,3 +33,14 @@ WriteMakefile(
 
 );
 
+# Check for compress backend
+my @tmpgzip = `gzip -h>>/dev/null` 
+eval { require Compress::Zlib };
+if (!$@) {
+print "Compress::Zlib is avalaible. I will use it for the compress backend";
+} elsif (!@tmpgzip) {
+print "Warining: I can't Compress::Zlib or the gzip command to compress".
+"the data for the server";
+} else {
+print "gzip is avalaible. I will use it for the compress backend";
+}
