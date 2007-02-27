@@ -178,10 +178,8 @@ if ((!$params->{deviceid}) || $params->{deviceid} !~ /.*-(?:\d{4})(?:-\d{2}){5}/
   my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
     (time))[5,4,3,2,1,0];
   $params->{old_deviceid} = $params->{deviceid};
-  my $hostname = hostname;
-  $hostname =~ s/\..*//; # keep just the hostname
   $params->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-  $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+  hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
   $config->set('DEVICEID',$params->{deviceid});
 }
 
