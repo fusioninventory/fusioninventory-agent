@@ -21,7 +21,11 @@ sub _ipdhcp {
 
   foreach ( # XXX BSD paths
     "/var/db/dhclient.leases.%s",
-    "/var/db/dhclient.leases" ) {
+    "/var/db/dhclient.leases",
+    # Linux path for some kFreeBSD based GNU system
+    "/var/lib/dhcp3/dhclient.%s.leases",
+    "/var/lib/dhcp3/dhclient.%s.leases",
+    "/var/lib/dhcp/dhclient.leases") {
 
     $leasepath = sprintf($_,$if);
     last if (-e $leasepath);
