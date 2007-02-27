@@ -1,0 +1,8 @@
+Revision history for Ocsinventory::Agent
+0.0.4
+       * use of gzip when Compress:Zlib is not avalaible
+        - Compress::Zlib is not needed anymore
+
+
+0.0.3  Feb 23 2007
+      - 
