@@ -5,7 +5,6 @@ use warnings;
 
 #use lib 'lib';
 use Getopt::Long;
-use Sys::Hostname;
 
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::XML::Inventory;
@@ -173,13 +172,13 @@ $params->{server} = $srv if $srv;
 $params->{deviceid}   = $config->get('DEVICEID');
 
 # Should I create a new deviceID?
-#chomp(my $tmp = `uname -n| cut -d . -f 1`);
 if ((!$params->{deviceid}) || $params->{deviceid} !~ /.*-(?:\d{4})(?:-\d{2}){5}/) {
+chomp(my $hostname = `uname -n| cut -d . -f 1`);
   my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
     (time))[5,4,3,2,1,0];
   $params->{old_deviceid} = $params->{deviceid};
   $params->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-  hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+  $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
   $config->set('DEVICEID',$params->{deviceid});
 }
 
