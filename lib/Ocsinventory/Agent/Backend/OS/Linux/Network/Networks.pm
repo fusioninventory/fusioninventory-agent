@@ -67,8 +67,8 @@ sub run {
   my $type;
 
 
-  foreach (`route`){
-    $ipgateway=$1 if /^default\s+(\S+)/i;
+  foreach (`route -n`){
+    $ipgateway=$1 if /^0\.0\.0\.0\s+(\S+)/i;
   }
 
   foreach (`ifconfig -a`){
