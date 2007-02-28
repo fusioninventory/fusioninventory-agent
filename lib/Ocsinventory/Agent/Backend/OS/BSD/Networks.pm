@@ -91,17 +91,14 @@ sub run {
   # for each interface get it's parameters
   foreach $description (@list) {
       $ipaddress = $ipmask = $macaddr = $status =  $type = undef;
-      my $flag = 0;
-      foreach (@ifconfig){ # search interface infos
-	  last if (/^(\S+):/ && $flag);
-	  if (/^$description/) { $flag = 1; }
-	  if ($flag) {
-	      $ipaddress = $1 if /inet (\S+)/i;
-	      $ipmask = $1 if /netmask\s+(\S+)/i;
-	      $macaddr = $2 if /(address:|ether)\s+(\S+)/i;
-	      $status = 1 if /<UP/i;
-	      $type = $1 if /media:\s+(\S+)/i;
-	  }
+      # search interface infos
+      @ifconfig = `ifconfig $description`;
+      foreach (@ifconfig){
+	  $ipaddress = $1 if /inet (\S+)/i;
+	  $ipmask = $1 if /netmask\s+(\S+)/i;
+	  $macaddr = $2 if /(address:|ether)\s+(\S+)/i;
+	  $status = 1 if /<UP/i;
+	  $type = $1 if /media:\s+(\S+)/i;
       }
       my $binip = &ip_iptobin ($ipaddress ,4);
       # In BSD, netmask is given in hex form
