@@ -1,19 +1,20 @@
 DESCRIPTION
 
   Ocsinventory-Agent is an agent for ocsinventory NG. It supports Linux,
-  Solaris and AIX. *BSD support in a working progress. A port to non UNIX
-  system is also possible (e.g: Win32).
+  Solaris and AIX. *BSD support is in progress. A port to non UNIX system
+  is also possible (e.g: Win32).
 
 PREREQUISITES
   
-  These modules are need:
+  These modules are needed:
     Compress::Zlib
     Digest::MD5
     XML::Simple
     Net::IP
     Proc::Daemon (optional, only for Daemon mode)
     LWP
-  On Linux, dmidecode is required to read the BIOS stats.
+  On Linux and *BSD (i386, amd64, ia64) dmidecode is required to read the BIOS stats.
+  On Linux and *BSD lspci (from the pciutils package) is required to list PCI devices.
 
 BUILDING/INSTALLING
 
@@ -23,20 +24,20 @@ BUILDING/INSTALLING
       make               # or 'nmake' on Win32
       make install
 
-  You can also run the agent for the tarball directory by add
-    use lib 'lb';
+  You can also run the agent from the tarball directory by adding
+    use lib 'lib';
   at the begining of the file.
 
-  The agent needs some directory to store internal setting.
+  The agent needs some directories to store internal settings.
   mkdir -p /etc/ocsinventory-agent
   mkdir -p /var/lib/ocsinventory-agent
   mkdir -p /var/log/ocsinventory-agent
   mkdir -p /var/run
 
-  you can install the directory somewhere else. In the case change the
-  default settings directly in the ocsinventory-agent file.
+  you can choose other directories by changing the default settings
+  directly in the ocsinventory-agent file.
 
-  You need to launch the agent with root privilage. For debugging you can
+  You need to launch the agent with root privilege. For debugging you can
   try to launch it with the -l flag:
   eg: ocsinventory-agent -l /tmp --debug
 
@@ -44,4 +45,6 @@ BUILDING/INSTALLING
 
 COPYRIGHT
 
-  See AUTHORS file.  Ocsinventory-Agent is release under GNU GPL 2 license
+  See AUTHORS file.  Ocsinventory-Agent is released under GNU GPL 2 license
+
+
