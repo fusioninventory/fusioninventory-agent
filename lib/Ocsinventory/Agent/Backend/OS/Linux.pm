@@ -10,10 +10,13 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
+  chomp (my $osversion = `uname -r`);
+
   # This will probably be overwritten by a Linux::Distro module.
   $inventory->setHardware({
       OSNAME => "Linux",
-      OSCOMMENTS => "Unknow Linux distribution"
+      OSCOMMENTS => "Unknow Linux distribution",
+      OSVERSION => $osversion
     });
 }
 
