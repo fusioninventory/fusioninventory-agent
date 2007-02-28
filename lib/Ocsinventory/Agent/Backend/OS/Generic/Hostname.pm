@@ -20,7 +20,7 @@ sub run {
   #chomp ( my $hostname = `hostname` );
   eval { require "Sys::Hostname" };
   if (!$@) {
-    $hostname = Sys::Hostname::hostname;
+    $hostname = Sys::Hostname::hostname();
   } else {
     chomp ( $hostname = `hostname` ); # TODO: This is not generic.
   }
