@@ -18,7 +18,7 @@ sub run {
   my $hostname;
 
   #chomp ( my $hostname = `hostname` );
-  eval { require "Sys::Hostname" };
+  eval { require (Sys::Hostname) };
   if (!$@) {
     $hostname = Sys::Hostname::hostname();
   } else {
