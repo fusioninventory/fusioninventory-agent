@@ -80,8 +80,10 @@ sub run {
       my $binsubnet = $binip & $binmask;
       $ipsubnet = ip_bintoip($binsubnet,4);
 
-	  #TO DO  ipsubnet
-      $ipsubnet = 
+      my @wifistatus = `iwconfig $description 2>>/dev/null`;
+      if ( @wifistatus > 2 ) {
+	$type = "Wifi";
+      }
 
       $inventory->addNetworks({
 

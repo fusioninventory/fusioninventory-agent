@@ -4,6 +4,7 @@ Revision history for Ocsinventory::Agent
         - Compress::Zlib is not needed anymore
        * dmidecode parsing improved
        * lspci stuffs moved to generic
+       * Linux: find Wifi connection
 
 
 0.0.3  Feb 23 2007
