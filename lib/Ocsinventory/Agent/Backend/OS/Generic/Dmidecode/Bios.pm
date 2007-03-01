@@ -42,7 +42,7 @@ sub run {
   }
 
 # Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
-  if (!$SystemSerial ||$SystemSerial =~ /0+/) {
+  if (!$SystemSerial ||$SystemSerial =~ /^0+$/) {
     $flag=0;
     for(@dmidecode){
       if(/dmi type 4,/i){$flag=1;}
