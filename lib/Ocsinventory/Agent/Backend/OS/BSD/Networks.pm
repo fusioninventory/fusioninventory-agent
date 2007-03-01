@@ -96,7 +96,7 @@ sub run {
       foreach (@ifconfig){
 	  $ipaddress = $1 if /inet (\S+)/i;
 	  $ipmask = $1 if /netmask\s+(\S+)/i;
-	  $macaddr = $2 if /(address:|ether)\s+(\S+)/i;
+	  $macaddr = $2 if /(address:|ether|lladdr)\s+(\S+)/i;
 	  $status = 1 if /<UP/i;
 	  $type = $1 if /media:\s+(\S+)/i;
       }
