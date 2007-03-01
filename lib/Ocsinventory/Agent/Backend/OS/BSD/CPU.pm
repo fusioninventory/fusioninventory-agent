@@ -13,7 +13,7 @@ sub run {
   
   my $family;
   my $manufacturer;
-  my $nbproc;
+
 # XXX Parsing dmidecode output using "type 4" section
 # for nproc type and speed
 # because no /proc on *BSD
@@ -39,7 +39,7 @@ sub run {
   # XXX if no dmidecode
   unless ($flag) {
   # XXX number of procs with sysctl (hw.ncpu)
-    chomp($nbproc=`sysctl -n hw.ncpu`);
+    chomp($processorn=`sysctl -n hw.ncpu`);
     # XXX proc type with sysctl (hw.model)
     chomp($processort=`sysctl -n hw.model`);
     # XXX quick and dirty _attempt_ to get proc speed through dmesg
