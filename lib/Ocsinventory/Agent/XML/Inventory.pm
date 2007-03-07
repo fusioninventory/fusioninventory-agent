@@ -332,7 +332,7 @@ sub content {
   $missing .= "HOSTNAME " unless $name;
 
   if ($missing) {
-    $logger->fault('Missing value(s): '.$missing.'. I don\' send this inventory to the server since important value(s) to identify the computer are missing');
+    $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
   }
 
   $self->{accountinfo}->setAccountInfo($self);
@@ -424,7 +424,7 @@ sub processChecksum {
       #We made OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
       # Finally I store the new value.
-      $last_state_content->{$section}[0] = $hash; #TODO, I've to store the new HASH
+      $last_state_content->{$section}[0] = $hash;
     }
   }
 
