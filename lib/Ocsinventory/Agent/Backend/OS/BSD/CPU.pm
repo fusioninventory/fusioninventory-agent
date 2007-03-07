@@ -1,7 +1,15 @@
 package Ocsinventory::Agent::Backend::OS::BSD::CPU;
 use strict;
 
-sub check {1};
+sub check {
+  return unless -r "/dev/mem";
+
+  `which dmidecode 2>&1`;
+  return if ($? >> 8)!=0;
+  `dmidecode 2>&1`;
+  return if ($? >> 8)!=0;
+  1;
+}
 
 sub run {
   my $params = shift;
@@ -36,23 +44,6 @@ sub run {
     $processort = "$manufacturer $family" if $manufacturer && $family;
   }
   
-  # XXX if no dmidecode
-  unless ($flag) {
-  # XXX number of procs with sysctl (hw.ncpu)
-    chomp($processorn=`sysctl -n hw.ncpu`);
-    # XXX proc type with sysctl (hw.model)
-    chomp($processort=`sysctl -n hw.model`);
-    # XXX quick and dirty _attempt_ to get proc speed through dmesg
-    for(`dmesg`){
-      my $tmp;
-      if (/^cpu\S*\s.*\D[\s|\(]([\d|\.]+)[\s|-]mhz/i) { # XXX unsure
-        $tmp = $1;
-        $tmp =~ s/\..*//;
-        $processors=$tmp;
-        last
-      }
-    }
-  }
   $inventory->setHardware({
 
       PROCESSORT => $processort,
