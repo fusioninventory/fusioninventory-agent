@@ -27,7 +27,7 @@ sub _ipdhcp {
     $leasepath = sprintf($_,$if);
     last if (-e $leasepath);
   }
-  return unless $leasepath;
+  return undef unless -e $leasepath;
 
   if (open DHCP, $leasepath) {
     my $lease;
