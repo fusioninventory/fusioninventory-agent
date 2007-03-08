@@ -30,7 +30,7 @@ sub _ipdhcp {
     $leasepath = sprintf($_,$if);
     last if (-e $leasepath);
    }
-  return unless $leasepath;
+  return undef unless (-e $leasepath);
 
   if (open DHCP, $leasepath) {
     my $lease;
@@ -72,7 +72,8 @@ sub run {
   
   # Looking for the gateway
   # 'route show' doesn't work on FreeBSD so we use netstat
-  for(`netstat -nr`){
+  # XXX IPV4 only
+  for(`netstat -nr -f inet`){
     $ipgateway=$1 if /^default\s+(\S+)/i;
   }
 
@@ -84,7 +85,7 @@ sub run {
   my @list;
   foreach (@ifconfig){
       # skip loopback, pseudo-devices and point-to-point interfaces
-      next if /^(lo|vmnet|sit|pflog|pfsync|enc|plip|sl|ppp)\d+/;
+      next if /^(lo|fwe|vmnet|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+/;
       if (/^(\S+):/) { push @list , $1; } # new interface name	  
   }
 
@@ -105,19 +106,19 @@ sub run {
       my $binmask = sprintf("%b", oct($ipmask));
       my $binsubnet = $binip & $binmask;
       $ipsubnet = ip_bintoip($binsubnet,4);
-      
+
       $inventory->addNetworks({
 	  
 	  DESCRIPTION => $description,
 	  IPADDRESS => $ipaddress,
 	  IPDHCP => _ipdhcp($description),
-	  IPGATEWAY => $ipgateway,
+	  IPGATEWAY => ($status?$ipgateway:undef),
 	  IPMASK => $ipmask,
-	  IPSUBNET => $ipsubnet,
+	  IPSUBNET => ($status?$ipsubnet:undef),
 	  MACADDR => $macaddr,
 	  STATUS => $status?"Up":"Down",
-	  TYPE => $type,
-	  
+	  TYPE => $type
+
       });
   }
 }
