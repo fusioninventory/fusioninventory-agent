@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-#use lib 'lib';
+use lib 'lib';
 use Getopt::Long;
 
 use Ocsinventory::Logger;
@@ -99,7 +99,7 @@ sub help {
   print STDERR "\t   --logfile=FILE   log message in FILE\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-r --realm=REALM    realm for server auth\n";
-  print STDERR "\t-s --server=URI     URI to the server place ".
+  print STDERR "\t-s --server=host    server hostname ".
   "($params->{server})\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag ($params->{tag}). ".
   "Will be ignored by server if a value already exists.\n";
