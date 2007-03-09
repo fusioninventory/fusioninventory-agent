@@ -20,9 +20,13 @@ sub run {
     $BiosVersion, $BiosDate);
   my ( $processort , $processorn , $processors );
 
-  # XXX number of procs with sysctl (hw.ncpu)
+  # use hw.machine for the system model
+  # TODO see if we can do better
+  chomp($SystemModel=`sysctl -n hw.machine`);
+
+  # number of procs with sysctl (hw.ncpu)
   chomp($processorn=`sysctl -n hw.ncpu`);
-  # XXX proc type with sysctl (hw.model)
+  # proc type with sysctl (hw.model)
   chomp($processort=`sysctl -n hw.model`);
   # XXX quick and dirty _attempt_ to get proc speed through dmesg
   for(`dmesg`){
