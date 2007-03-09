@@ -25,7 +25,7 @@ sub run {
       if(/^$dev.*\s+(\d+)\s*MB/) { $capacity = $1;}
     }
 
-    if ($model =~ s/^(SGI|SONY|WDC|ASUS|LG|TEAC|SAMSUNG|PHILIPS|PIONEER|MAXTOR|PLEXTOR|SEAGATE|IBM|SUN|SGI|DEC|YAMAHA|HITACHI|VERITAS)\s*//i) {
+    if ($model =~ s/^(SGI|SONY|WDC|ASUS|LG|TEAC|SAMSUNG|PHILIPS|PIONEER|MAXTOR|PLEXTOR|SEAGATE|IBM|SUN|SGI|DEC|FUJITSU|TOSHIBA|YAMAHA|HITACHI|VERITAS)\s*//i) {
 	$manufacturer = $1;
     }
 
