@@ -5,3 +5,4 @@ Revision history for Ocsinventory::Agent
        * dmidecode parsing improved
        * lspci stuffs moved to generic
        * Linux: find Wifi connection
+       * fix: pass correctly the logger to the modules

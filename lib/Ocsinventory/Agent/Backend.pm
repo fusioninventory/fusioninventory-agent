@@ -146,7 +146,6 @@ sub runMod {
       }
       $self->runMod({
 	  inventory => $inventory,
-	  logger => $logger,
 	  modname => $_->{name},
 	  });
     }
@@ -158,6 +157,7 @@ sub runMod {
       config => $self->{config},
       params => $self->{params},
       inventory => $inventory,
+      logger => $logger,
       });
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
