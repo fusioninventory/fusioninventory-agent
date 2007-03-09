@@ -39,6 +39,16 @@ sub run {
 	  }
   }
 
+# Writing data
+  $inventory->setBios ({
+      SMANUFACTURER => $SystemManufacturer,
+      SMODEL => $SystemModel,
+      SSN => $SystemSerial,
+      BMANUFACTURER => $BiosManufacturer,
+      BVERSION => $BiosVersion,
+      BDATE => $BiosDate,
+    });
+
   $inventory->setHardware({
 
       PROCESSORT => $processort,
