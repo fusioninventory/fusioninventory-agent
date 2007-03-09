@@ -7,7 +7,7 @@ sub check{
     chomp($arch=`sysctl -n hw.machine`);
     return if ($arch ne "i386");
     # dmidecode must not be present
-    `which dmidecode 2>&1`;
+    `dmidecode 2>&1`;
     return if ($? >> 8)==0;
     1;
 }
