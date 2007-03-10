@@ -21,13 +21,13 @@ sub run {
   chomp($OSVersion=`uname -r`);
 
   # Retrieve the origin of the kernel configuration file
-  my ($date, $origin);
+  my ($date, $origin, $kernconf);
   for (`sysctl -n kern.version`) {
       $date = $1 if /^\S.*\#\d+:\s*(.*)/;
-      $origin = $1 if /^\s+(.+)$/;
+      ($origin,$kernconf) = ($1,$2) if /^\s+(.+):(.+)$/;
   }
-  $origin =~ s/\/.*\///; # remove the path
-  $OSComment = $origin."\n".$date;
+  $kernconf =~ s/\/.*\///; # remove the path
+  $OSComment = $kernconf." (".$date.")\n".$origin;
   # if there is a problem use uname -v
   chomp($OSComment=`uname -v`) unless $OSComment; 
   
