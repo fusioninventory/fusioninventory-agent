@@ -26,6 +26,7 @@ sub run {
       $date = $1 if /^\S.*\#\d+:\s*(.*)/;
       $origin = $1 if /^\s+(.+)$/;
   }
+  $origin =~ s/\/.*\///; # remove the path
   $OSComment = $origin."\n".$date;
   # if there is a problem use uname -v
   chomp($OSComment=`uname -v`) unless $OSComment; 
