@@ -23,7 +23,7 @@ sub run {
 
   chomp ($SystemSerial = `sysctl -n kern.hostid`);
   if ( $SystemSerial =~ /^\d*$/ ) { # convert to NetBSD format
-      $SystemSerial = sprintf ("0x%x",2155570635);
+      $SystemSerial = sprintf ("0x%x",$SystemSerial);
   }
   $SystemSerial =~ s/^0x//; # remove 0x to make it appear as in the firmware
   
@@ -49,11 +49,14 @@ sub run {
   # b) OpenBSD
   # mainbus0 (root): Sun Ultra 1 SBus (UltraSPARC 167MHz)
   # cpu0 at mainbus0: SUNW,UltraSPARC @ 166.999 MHz, version 0 FPU
-  
+  # c) FreeBSD
+  # cpu0: Sun Microsystems UltraSparc-I Processor (167.00 MHz CPU)
+
   for (`dmesg`) {
       if (/^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
-      if (/^cpu0 at mainbus0:\s*(.*)$/) { $processort = $1; }
+      if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
   }
+  $SystemModel || chomp ($SystemModel = `sysctl -n hw.model`); # for FreeBSD
   $SystemModel =~ s/SUNW,//;
   $processort =~ s/SUNW,//;
   $SystemManufacturer = "SUN";
