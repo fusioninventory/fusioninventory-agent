@@ -54,13 +54,19 @@ sub run {
 
   for (`dmesg`) {
       if (/^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
-      if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
+      if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1 unless $processort; }
   }
   $SystemModel || chomp ($SystemModel = `sysctl -n hw.model`); # for FreeBSD
-  $SystemModel =~ s/SUNW,//;
-  $processort =~ s/SUNW,//;
   $SystemManufacturer = "SUN";
-
+  # some cleanup
+  $SystemModel =~ s/SUNW,//;
+  $SystemModel =~ s/[:\(].*$//;
+  $SystemModel =~ s/^\s*//;
+  $SystemModel =~ s/\s*$//;
+  $processort =~ s/SUNW,//;
+  $processort =~ s/^\s*//;
+  $processort =~ s/\s*$//;
+  
   # number of procs with "sysctl hw.ncpu"
   chomp($processorn=`sysctl -n hw.ncpu`);
   # XXX quick and dirty _attempt_ to get proc speed
