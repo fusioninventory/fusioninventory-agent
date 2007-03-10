@@ -24,7 +24,7 @@ sub run {
   chomp($SystemModel=`sysctl -n hw.model`);
   $SystemManufacturer = "SGI";
 
-  ### Get system model and processor type and speed in dmesg
+  ### Get processor type and speed in dmesg
   #
   # Example on NetBSD
   #
