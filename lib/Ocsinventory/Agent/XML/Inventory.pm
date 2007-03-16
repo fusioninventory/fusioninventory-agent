@@ -394,16 +394,15 @@ sub processChecksum {
     $logger->fault ("vardir uninitialised!");
   }
 
-  my $last_state_content;
   my $checksum = 0;
 
   if (! -f $self->{params}->{last_statefile}) {
-    $logger->info ('laste_state file: `'.
+    $logger->info ('last_state file: `'.
 	$self->{params}->{last_statefile}."' doesn't exist.");
   }
   if (-f $self->{params}->{last_statefile}) {
     # TODO: avoid a violant death in case of problem with XML
-    $last_state_content = XML::Simple::XMLin(
+    $self->{last_state_content} = XML::Simple::XMLin(
 
       $self->{params}->{last_statefile},
       SuppressEmpty => undef,
@@ -419,25 +418,36 @@ sub processChecksum {
   foreach my $section (keys %mask) {
     #If the checksum has changed...
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-    if (!$last_state_content->{$section}[0] || $last_state_content->{$section}[0] ne $hash ) {
+    if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
       $logger->debug ("Section $section has changed since last inventory");
       #We made OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
       # Finally I store the new value.
-      $last_state_content->{$section}[0] = $hash;
+      $self->{last_state_content}->{$section}[0] = $hash;
     }
   }
 
+
+  $self->setHardware({CHECKSUM => $checksum});
+}
+
+# At the end of the process IF the inventory was saved
+# correctly, I save the last_state
+sub saveLastState {
+  my ($self, $args) = @_;
+
+  my $logger = $self->{logger};
+
+  if (!defined($self->{last_state_content})) {
+	  $self->processChecksum();
+	}
   if (open LAST_STATE, ">".$self->{params}->{last_statefile}) {
-    print LAST_STATE my $string = XML::Simple::XMLout( $last_state_content, RootName => 'LAST_STATE' );;
+    print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
   } else {
     $logger->error ("Cannot save the checksum values in ".$self->{params}->{last_statefile}."
 	(will be synchronized by GLPI!!): $!"); 
   }
-
-  $self->setHardware({CHECKSUM => $checksum});
 }
-
 
 1;

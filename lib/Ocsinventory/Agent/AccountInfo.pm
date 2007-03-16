@@ -55,17 +55,32 @@ sub getAll {
 sub set {
   my ($self, $name, $value) = @_;
 
+  return unless defined ($name) && defined ($value);
+  return unless $name && $value;
+  
   $self->{accountinfo}->{$name} = $value;
   $self->write();
 }
 
 sub reSetAll {
-  my ($self, $hash) = @_;
+  my ($self, $ref) = @_;
 
-  foreach (keys %$hash) {
-    $self->set($_, $hash->{$_});
-    print "$_ => $hash->{$_}\n";
+  my $logger = $self->{logger};
+
+  print "TOTOR".ref($ref)."\n";
+  if (ref ($ref) =~ /^ARRAY$/) {
+    foreach (@$ref) {
+      $self->set($_->{NAME}, $_->{VALUE});
+    }
+  } elsif (ref ($ref) =~ /^HASH$/) {
+    foreach (keys %{$ref}) {
+      $self->set($_, $ref->{$_});
+      print "$_ => $ref->{$_}\n";
+    }
+  } else {
+    $logger->debug ("reSetAll, invalid parameter");
   }
+
 }
 
 # Add accountinfo stuff to an inventary

@@ -293,7 +293,10 @@ do {
     if ($sendIventory) {
 
       if (my $ret = $net->send({message => $inventory})) {
-	$logger->debug("Server returned: ".$ret->{RESPONSE});
+        $logger->debug("Server returned: ".$ret->{RESPONSE});
+				if ($ret->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
+          $inventory->saveLastState();
+				}
       }
 
     } else {

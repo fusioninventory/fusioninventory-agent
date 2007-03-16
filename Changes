@@ -6,3 +6,6 @@ Revision history for Ocsinventory::Agent
        * lspci stuffs moved to generic
        * Linux: find Wifi connection
        * fix: pass correctly the logger to the modules
+       * don't write the last_state is the connexion failed
+       * Deals correctly with the accountinfo if it's internaly stored in a
+         array ref
