@@ -9,3 +9,4 @@ Revision history for Ocsinventory::Agent
        * don't write the last_state is the connexion failed
        * Deals correctly with the accountinfo if it's internaly stored in a
          array ref
+       * BSD support by Thierry Lacoste 
