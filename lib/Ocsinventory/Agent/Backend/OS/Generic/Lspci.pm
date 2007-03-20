@@ -8,3 +8,4 @@ sub check {
 }
 
 sub run {}
+1;
