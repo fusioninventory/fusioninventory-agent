@@ -276,7 +276,6 @@ sub download_prolog_reader {
 			sleep(1);
 		}
 	}
-	close(LOCK);
 	return 0;
 }
 
