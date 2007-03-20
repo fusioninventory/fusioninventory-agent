@@ -26,6 +26,7 @@ lib/Ocsinventory/Agent/Backend/OS/AIX/Sounds.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Storages.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Users.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Videos.pm
+lib/Ocsinventory/Agent/Backend/OS/AIX/Software.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux.pm
 lib/Ocsinventory/Agent/Backend/OS/MacOS.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris.pm
