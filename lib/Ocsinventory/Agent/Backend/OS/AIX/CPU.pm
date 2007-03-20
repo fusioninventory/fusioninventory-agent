@@ -33,9 +33,8 @@ sub run {
     chomp($_);
 	@lsattr=`lsattr -EOl $_ -a 'state:type:frequency'`;
 	for (@lsattr){
-	   if ( ! /^#/){
-	     /(.+):(.+):(.+)/;
-	     $processorn ++;
+	   if ( ! /^#/ && /(.+):(.+):(.+)/ ) {
+	     $processorn++;
 	     $processort=$2;
 	     if ( ($3 % 1000000) >= 50000){
 		   $processors=int (($3/1000000) +1); 
@@ -46,7 +45,7 @@ sub run {
 	   }
 	}
   }
-
+  $processort =~ s/_/ /;
   
   $inventory->setHardware({
 

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub check {
-  `lslpp 2>&1`;
+  `lslpp -l 2>&1`;
   return if ($? >> 8)!=0;
   1;
 }
