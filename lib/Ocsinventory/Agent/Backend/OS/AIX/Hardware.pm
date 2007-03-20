@@ -37,6 +37,22 @@ sub run {
     if ( ($flag) && /^SE (.+)/) {$SystemSerial=$1;chomp($SystemSerial);$SystemSerial =~ s/(\s+)$//g;};
     if ( ($flag) && /^FC .+/) {$flag=0;last}
   }
+
+# Fetch the serial number like prtconf do
+  if (! $SystemSerial) {
+    $flag=0;
+    foreach (`lscfg -vpl sysplana00`) {
+      if ($in) {
+        if (/\.+(\S*?)$/) {
+          $SystemSerial = $1;
+        }
+        last;
+      } else {
+          $flag = 1 if /\s+System\ VPD/;
+      }
+    }
+  }
+
   $BiosManufacturer='IBM';
   $SystemManufacturer='IBM';
   $BiosVersion .= "(Firmware :".$fw.")";
