@@ -3,6 +3,7 @@ Revision history for Ocsinventory::Agent
        * AIX: use lslpp -c -l to find installed packages
        * AIX: fix CPU.pm
        * AIX: fetch the serial number with lscfg unless it was found with lsvpd
+       * add the .ocs extension to local written files
 
 0.0.4  03/20/2007
        * use of gzip when Compress:Zlib is not avalaible. OCS server 1.01 and
