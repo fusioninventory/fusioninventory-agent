@@ -44,7 +44,7 @@ sub new {
 
   } else {
 
-    $logger->info("Failed to load `$modulefile': $?. No external module will".
+    $logger->debug("Failed to load `$modulefile': $?. No external module will".
       " be used.");
     $self->{dontuse} = 1;
 
