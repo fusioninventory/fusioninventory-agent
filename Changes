@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
-0.0.4
+0.0.5
+       * AIX: use lslpp -c -l to find installed packages
+0.0.4  03/20/2007
        * use of gzip when Compress:Zlib is not avalaible. OCS server 1.01 and
          prior are not supported.
        * dmidecode parsing improved
