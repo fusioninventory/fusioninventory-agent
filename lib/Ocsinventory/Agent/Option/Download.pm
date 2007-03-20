@@ -75,20 +75,10 @@ sub download_prolog_reader {
 	my $opt_dir = $current_context->{'OCS_AGENT_INSTALL_PATH'}.'/download';
 	mkdir($opt_dir) unless -d $opt_dir;
 	
-	# We create a file to tell to download process that we are running
-	open SUSPEND, ">$opt_dir/suspend";
-	close(SUSPEND);
-	
 	# Create history file if needed
 	unless(-e "$opt_dir/history"){
 		open HISTORY, ">$opt_dir/history" or die("Cannot create history file: $!");
 		close(HISTORY);
-	}
-	
-	# Create lock file if needed
-	unless(-e "$opt_dir/lock"){
-		open LOCK, ">$opt_dir/lock" or die("Cannot create lock file: $!");
-		close(LOCK);
 	}
 	
 	# Retrieve our options
@@ -117,9 +107,9 @@ sub download_prolog_reader {
 					if($_->{'ON'} == '0'){
 						&log("Download is off.");
 						open LOCK, "$opt_dir/lock" or die("Cannot open lock file: $!");
+						# Download is not running
 						if(flock(LOCK, LOCK_EX|LOCK_NB)){
 							close(LOCK);
-							unlink("$opt_dir/suspend");
 							return 0;
 						}else{
 							&log("Try to kill current download process...");
@@ -155,8 +145,8 @@ sub download_prolog_reader {
 	
 	# Check history file
 	unless(open HISTORY, "$opt_dir/history") {
-		flock(HISTORY, LOCK_EX);
-		unlink("$opt_dir/suspend");
+		flock(HISTORY, LOCK_SH);
+		close(LOCK);
 		&log("Cannot read history file: $!");
 		return 1;
 	}
@@ -195,7 +185,7 @@ sub download_prolog_reader {
 			&log("Retrieving info file for $fileid");
 			
 			my ($ctx, $ssl, $ra);
-#eval {
+			eval {
 				$| = 1;
 				&log('Initialize ssl layer...');
 				
@@ -228,7 +218,7 @@ sub download_prolog_reader {
 					$server_name = $1;
 					$server_port = $2;
 					$server_dir = $3;
-				}elsif($_->{INFO_LOC}=~ /^([^\/]+)(.+)$/){
+				}elsif($_->{INFO_LOC}=~ /^([^\/]+)(.*)$/){
 					$server_name = $1;
 					$server_dir = $2;	
 					$server_port = HTTPS_PORT;
@@ -271,7 +261,7 @@ sub download_prolog_reader {
 				open FH, ">$dir/info" or die("Cannot open info file: $!");
 				print FH $ra;
 				close FH;
-#};
+			};
 			if($@){
 				download_message({ 'ID' => $fileid }, ERR_DOWNLOAD_INFO);
 				&log("Error: SSL hanshake has failed");
@@ -286,10 +276,7 @@ sub download_prolog_reader {
 			sleep(1);
 		}
 	}
-	unless(unlink("$opt_dir/suspend")){
-		&log("Cannot delete suspend file: $!");
-		return 1;
-	}
+	close(LOCK);
 	return 0;
 }
 
@@ -354,13 +341,6 @@ sub download_end_handler{
 	my $end;
 	
 	while(1){
-		# If agent is running, we wait 
-		if (-e "suspend") {
-			&log('Found a suspend file... Will wait 10 seconds before retry');
-			sleep(10);
-			next;
-		}
-		
 		$end = 1;
 		undef @packages;
 		# Reading configuration
@@ -847,19 +827,33 @@ sub done{
 	my $suffix = shift;
 	&log("Package $p->{'ID'}... Done. Sending message...");
 	# Trace installed package
-	open DONE, ">$p->{'ID'}/done";
-	close(DONE);
-	# Put it in history file
-	open DONE, ">>history" or warn("Cannot open history file: $!");
-	flock(DONE, LOCK_EX);
-	my @historyIds = <DONE>;
+	# We store the success status in done file (useful in case we cannot send event)
+	if( -e "$p->{'ID'}/done"){
+		open DONE, "$p->{'ID'}/done";
+		$suffix = <DONE>;
+		close(DONE);
+	}
+	else{
+		open DONE, ">$p->{'ID'}/done";
+		print DONE $suffix;
+		close(DONE);
+	}
+	# Check history file
+	open HISTORY, "history" or warn("Cannot open history file: $!");
+	flock(HISTORY, LOCK_SH);
+	my @historyIds = <HISTORY>;
+
+	# Put it in the history file
+	open HISTORY, ">>history";
+	flock(HISTORY, LOCK_EX);
+	
 	if( &_already_in_array($p->{'ID'}, @historyIds) ){
 		&log("Warning: id $p->{'ID'} has been found in the history file!!");
 	}
 	else {
-		print DONE $p->{'ID'},"\n";
+		print HISTORY $p->{'ID'},"\n";
 	}
-	close(DONE);
+	close(HISTORY);
 	
 	# Notify success to ocs server
 	my $code;
