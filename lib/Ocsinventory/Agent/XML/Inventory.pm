@@ -396,23 +396,21 @@ sub processChecksum {
 
   my $checksum = 0;
 
-  if (! -f $self->{params}->{last_statefile}) {
-    $logger->info ('last_state file: `'.
-	$self->{params}->{last_statefile}."' doesn't exist.");
-  }
-  if (-f $self->{params}->{last_statefile}) {
-    # TODO: avoid a violant death in case of problem with XML
-    $self->{last_state_content} = XML::Simple::XMLin(
-
-      $self->{params}->{last_statefile},
-      SuppressEmpty => undef,
-      ForceArray => 1
-
-    );
-  } else {
-    $logger->debug ('last_state file: `'.
-	$self->{params}->{last_statefile}.
-	"' doesn't exist.");
+  if ($self->{params}{local}) {
+    if (-f $self->{params}->{last_statefile}) {
+      # TODO: avoid a violant death in case of problem with XML
+      $self->{last_state_content} = XML::Simple::XMLin(
+  
+        $self->{params}->{last_statefile},
+        SuppressEmpty => undef,
+        ForceArray => 1
+  
+      );
+    } else {
+      $logger->debug ('last_state file: `'.
+  	$self->{params}->{last_statefile}.
+  	"' doesn't exist (yet).");
+    }
   }
 
   foreach my $section (keys %mask) {
