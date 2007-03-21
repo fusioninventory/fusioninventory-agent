@@ -351,7 +351,7 @@ sub writeXML {
     $logger->fault ('local path unititalised!');
   }
 
-  my $localfile = $self->{params}{local}."/".$self->{params}{deviceid};
+  my $localfile = $self->{params}{local}."/".$self->{params}{deviceid}.'.ocs';
   $localfile =~ s!(//){1,}!/!;
 
   # Convert perl data structure into xml strings
