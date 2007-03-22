@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Software;
+package Ocsinventory::Agent::Backend::OS::AIX::Software;
 
 use strict;
 use warnings;
