@@ -81,6 +81,7 @@ lib/Ocsinventory/Agent/Backend/OS/Solaris/Networks.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Slots.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Storages.pm
 lib/Ocsinventory/Agent/Backend/OS/Solaris/Users.pm
+lib/Ocsinventory/Agent/Backend/OS/Solaris/Packages.pm
 lib/Ocsinventory/Agent/Backend/OS/BSD/Domains.pm
 lib/Ocsinventory/Agent/Backend/OS/BSD/CPU.pm
 lib/Ocsinventory/Agent/Backend/OS/BSD/Archs/Alpha.pm
