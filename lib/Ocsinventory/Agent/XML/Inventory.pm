@@ -204,16 +204,18 @@ sub addMonitors {
   my ($self, $args) = @_;
 
   my $caption = $args->{CAPTION};
-  my $manufacturer = $args->{MANUFACTURER};
   my $description = $args->{DESCRIPTION};
+  my $manufacturer = $args->{MANUFACTURER};
+  my $serial = $args->{SERIAL};
 
 
   push @{$self->{h}{CONTENT}{MONITORS}},
   {
 
     CAPTION => [$caption?$caption:"??"],
-    MANUFACTURER => [$manufacturer?$manufacturer:"??"],
     DESCRIPTION => [$description?$description:"??"],
+    MANUFACTURER => [$manufacturer?$manufacturer:"??"],
+    SERIAL => [$serial?$serial:"??"],
 
   };
 }

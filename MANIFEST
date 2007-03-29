@@ -36,7 +36,7 @@ lib/Ocsinventory/Agent/Backend/OS/Generic/Dmidecode/Ports.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Dmidecode/Slots.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Hostname.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Users.pm
-lib/Ocsinventory/Agent/Backend/OS/Generic/Xorg.pm
+lib/Ocsinventory/Agent/Backend/OS/Generic/Screen.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Lspci.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Packaging/Gentoo.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Packaging/Deb.pm

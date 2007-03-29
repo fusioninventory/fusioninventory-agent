@@ -17,8 +17,8 @@ sub new {
   $self->{xml} = {};
 
   if (! -f $self->{params}->{conffile}) {
-      $logger->info ('conffile file: `'. $self->{params}->{conffile}.
-	"doesn't exist. I create an empty one");
+      $logger->debug ('conffile file: `'. $self->{params}->{conffile}.
+	" doesn't exist. I create an empty one");
       $self->write();
   } else {
     $self->{xml} = XML::Simple::XMLin(
