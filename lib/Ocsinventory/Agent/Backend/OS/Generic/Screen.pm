@@ -590,8 +590,7 @@ sub run {
 
   my $caption = $edid->{monitor_name};
   my $description = $edid->{week}."/".$edid->{year};
-  #my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
-  my $manufacturer = $edid->{manufacturer_name};
+  my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
   my $serial = $edid->{serial_number2}[0];
 
   return unless ($caption||$description||$manufacturer||$serial);
