@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 sub check {
-  `which rpm 2>&1`;
-  return if ($? >> 8)!=0;
-  `rpm 2>&1`;
+  `rpm -ql 2>&1`;
   return if ($? >> 8)!=0;
   1;
 }
