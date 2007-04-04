@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub check {
-  `rpm -ql 2>&1`;
+  `rpm --version 2>&1`;
   return if ($? >> 8)!=0;
   1;
 }
