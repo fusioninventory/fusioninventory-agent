@@ -4,7 +4,7 @@ use strict;
 sub check { 
   return unless -r "/proc/cpuinfo";
   my $arch = `arch`;
-  return unless $arch =~ /^(i[3456]86|amd64)/;
+  return unless $arch =~ /^(i[3456]86|amd64|x86_64)/;
   1; 
 };
 
