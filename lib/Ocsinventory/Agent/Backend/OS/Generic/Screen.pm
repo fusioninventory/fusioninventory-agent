@@ -30,7 +30,7 @@ sub getEdid {
   my $raw_edid;
 
 # Mandriva
-  $raw_edid = `./monitor-get-edid-using-vbe 2>/dev/null`;
+  $raw_edid = `monitor-get-edid-using-vbe 2>/dev/null`;
 
   if (!$raw_edid) {
     foreach (1..5) { # Sometime get-edid return an empty string...
