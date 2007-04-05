@@ -42,7 +42,7 @@ sub run {
   if (! $SystemSerial) {
     $flag=0;
     foreach (`lscfg -vpl sysplana00`) {
-      if ($in) {
+      if ($flag) {
         if (/\.+(\S*?)$/) {
           $SystemSerial = $1;
         }
