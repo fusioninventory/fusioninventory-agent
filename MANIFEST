@@ -48,7 +48,8 @@ lib/Ocsinventory/Agent/Backend/OS/Generic/Lspci/Modems.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Lspci/Sounds.pm
 lib/Ocsinventory/Agent/Backend/OS/Generic/Lspci/Videos.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Domains.pm
-lib/Ocsinventory/Agent/Backend/OS/Linux/CPU.pm
+lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/I386.pm
+lib/Ocsinventory/Agent/Backend/OS/Linux/Archs/PowerPC.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/Debian.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/Fedora.pm
 lib/Ocsinventory/Agent/Backend/OS/Linux/Distro/Gentoo.pm
@@ -115,3 +116,4 @@ lib/Ocsinventory/Logger.pm
 lib/Ocsinventory/LoggerBackend/Stderr.pm
 lib/Ocsinventory/LoggerBackend/File.pm
 lib/Ocsinventory/LoggerBackend/Syslog.pm
+META.yml                                 Module meta-data (added by MakeMaker)

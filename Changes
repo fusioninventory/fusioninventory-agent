@@ -9,6 +9,8 @@ Revision history for Ocsinventory::Agent
        * downgrade some message important from info to debug
        * read screen serial number in the EDID (DDC screen)
        * Xorg.pm renamed to Screen.pm since all the data are read from EDID now
+       * Initial Linux PPC support (tested in Debian Etch).
+         thanks Walid Nouh for the hardware
 
 0.0.4  03/20/2007
        * use of gzip when Compress:Zlib is not avalaible. OCS server 1.01 and
