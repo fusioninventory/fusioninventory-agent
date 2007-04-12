@@ -8,7 +8,7 @@ sub findRelease {
   my $v;
 
   open V, "</etc/trustix-release" or warn;
-  chomp ($v = readline V);
+  chomp ($v=<V>);
   close V;
   $v;
 }

@@ -8,7 +8,7 @@ sub findRelease {
   my $v;
 
   open V, "</etc/gentoo-release" or warn;
-  chomp ($v = readline V);
+  chomp ($v=<V>);
   close V;
   return "Gentoo Linux $v";
 }

@@ -8,7 +8,7 @@ sub findRelease {
   my $v;
 
   open V, "</etc/ubuntu_version" or warn;
-  chomp ($v = readline V);
+  chomp ($v=<V>);
   close V;
   return "Ubuntu $v";
 }

@@ -8,7 +8,7 @@ sub findRelease {
   my $v;
 
   open V, "</etc/debian_version" or warn;
-  chomp ($v = readline V);
+  chomp ($v=<V>);
   close V;
   return "Debian GNU/Linux $v";
 }

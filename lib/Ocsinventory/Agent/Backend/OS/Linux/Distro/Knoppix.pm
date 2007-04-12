@@ -8,7 +8,7 @@ sub findRelease {
   my $v;
 
   open V, "</etc/knoppix_version" or warn;
-  chomp ($v = readline V);
+  chomp ($v=<V>);
   close V;
   print $v."\n";
   return "Knoppix GNU/Linux $v";
