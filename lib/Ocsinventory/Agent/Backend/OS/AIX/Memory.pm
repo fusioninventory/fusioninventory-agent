@@ -1,6 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Memory;
 use strict;
-sub check { `which lsvpd 2>&1`; ($? >> 8)?0:1 }
+sub check { 1 } # TODO create a better check here
 
 sub run {
   my $params = shift;

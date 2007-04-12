@@ -4,18 +4,20 @@ use Net::IP qw(:PROC);;
 use strict;
 
 sub check {
-    `which lsvpd 2>&1`;	
-	return if($? >> 8)!=0;
-	`which lscfg 2>&1`;	
-	return if($? >> 8)!=0;
-	`which lsdev 2>&1`;	
-	return if($? >> 8)!=0;
-	`which lsattr 2>&1`;	
-	return if($? >> 8)!=0;
-	`which ifconfig 2>&1`;	
-	return if($? >> 8)!=0;
-	`which netstat 2>&1`;	
-	($? >> 8)?0:1
+#TODO provide a better check()
+#    `which lsvpd 2>&1`;	
+#	return if($? >> 8)!=0;
+#	`which lscfg 2>&1`;	
+#	return if($? >> 8)!=0;
+#	`which lsdev 2>&1`;	
+#	return if($? >> 8)!=0;
+#	`which lsattr 2>&1`;	
+#	return if($? >> 8)!=0;
+#	`which ifconfig 2>&1`;	
+#	return if($? >> 8)!=0;
+#	`which netstat 2>&1`;	
+#	($? >> 8)?0:1
+1
 }
 
 
@@ -62,14 +64,16 @@ sub run {
     }
   $i++;
   }
-  # Inventaire des interfaces de type Etherchannel
-  my @lsdev=`lsdev -Cc adapter -s pseudo -t ibm_ech`;
+  # etherchannel interfaces
+  #my @lsdev=`lsdev -Cc adapter -s pseudo -t ibm_ech`;
+  my @lsdev=`lsdev -Cc adapter`;
   my $etch;
   for (@lsdev){
     (defined($n))?($n++):($n=0);
     /^(ent\d*)\s*(\w*)\s*.*/;
     $network[$n]{InterfaceName} = $1;
-    @lsattr=`export LANG=C;lsattr -EOl $1 -a 'adapter_names mode netaddr'`;
+    #@lsattr=`lsattr -EOl $1 -a 'adapter_names mode netaddr'`;
+    @lsattr=`lsattr -EOl $1`;
     for (@lsattr){
       if ( ! /^#/ ){
         /(.+):(.+):(.*)/;

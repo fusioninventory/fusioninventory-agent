@@ -1,18 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::AIX::CPU;
 use strict;
 
-sub check {
-	`which lsdev 2>&1`;
-	return if ($? >> 8)!=0;
-	`lsdev 2>&1`;
-	return if ($? >> 8)!=0;
-	
-	`which lsattr 2>&1`;
-	return if ($? >> 8)!=0;
-	`lsattr 2>&1`;
-	return if ($? >> 8)!=0;
-	1;
-}	 
+sub check { 1 }	 
 
 sub run {
   my $params = shift;
