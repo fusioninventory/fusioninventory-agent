@@ -1,7 +1,7 @@
 Revision history for Ocsinventory::Agent
 0.0.5
        * AIX: use lslpp -c -l to find installed packages
-       * AIX: fix CPU.pm
+       * AIX: fixes on CPU.pm, Networks.pm and Memory.pm
        * AIX: fetch the serial number with lscfg unless it was found with lsvpd
        * add the .ocs extension to local written files
        * with --local flag: don't not warn if last_state doesn't exit
