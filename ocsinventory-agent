@@ -133,6 +133,16 @@ sub help {
 ############################
 help() if (!GetOptions(%options) || $params->{help});
 
+# I close STDERR to avoid error message during the module execution
+# at the begining I was doing shell redirection:
+#  my @ret = `cmd 2> /dev/null`;
+# but this syntax is not supported on (at last) FreeBSD and Solaris
+# c.f: http://www.perlmonks.org/?node_id=571072
+my $tmp;
+open ($tmp, ">&STDERR");
+$params->{"savedstderr"} = $tmp;
+close(STDERR) if(! $params->{debug});
+
 my $logger = new Ocsinventory::Logger ({
 
     params => $params
