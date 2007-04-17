@@ -52,6 +52,7 @@ use constant ERR_BUILD 		=> 'ERR_BUILD';
 use constant ERR_EXECUTE 	=> 'ERR_EXECUTE';
 use constant ERR_CLEAN 		=> 'ERR_CLEAN';
 use constant ERR_TIMEOUT	=> 'ERR_CLEAN';
+use constant ERR_ALREADY_SETUP  => 'ERR_ALREADY_SETUP';
 
 my @packages;
 my $current_context;
@@ -61,7 +62,7 @@ my $error;
 my $debug;
 
 # Read prolog response
-sub download_prolog_reader {
+sub download_prolog_reader{
 	$current_context = shift;
 	my $prolog = shift;
 	
@@ -75,10 +76,20 @@ sub download_prolog_reader {
 	my $opt_dir = $current_context->{'OCS_AGENT_INSTALL_PATH'}.'/download';
 	mkdir($opt_dir) unless -d $opt_dir;
 	
+	# We create a file to tell to download process that we are running
+	open SUSPEND, ">$opt_dir/suspend";
+	close(SUSPEND);
+	
 	# Create history file if needed
 	unless(-e "$opt_dir/history"){
 		open HISTORY, ">$opt_dir/history" or die("Cannot create history file: $!");
 		close(HISTORY);
+	}
+	
+	# Create lock file if needed
+	unless(-e "$opt_dir/lock"){
+		open LOCK, ">$opt_dir/lock" or die("Cannot create lock file: $!");
+		close(LOCK);
 	}
 	
 	# Retrieve our options
@@ -107,9 +118,9 @@ sub download_prolog_reader {
 					if($_->{'ON'} == '0'){
 						&log("Download is off.");
 						open LOCK, "$opt_dir/lock" or die("Cannot open lock file: $!");
-						# Download is not running
 						if(flock(LOCK, LOCK_EX|LOCK_NB)){
 							close(LOCK);
+							unlink("$opt_dir/suspend");
 							return 0;
 						}else{
 							&log("Try to kill current download process...");
@@ -142,11 +153,15 @@ sub download_prolog_reader {
 	# Connect to server
 	$ua = LWP::UserAgent->new();
 	$ua->agent('OCS-NG_linux_client_v'.$current_context->{'OCS_AGENT_VERSION'});
+	$ua->credentials( $current_context->{'OCS_AGENT_SERVER_NAME'}, 
+		$current_context->{'OCS_AGENT_AUTH_REALM'}, 
+		$current_context->{'OCS_AGENT_AUTH_USER'} => $current_context->{'OCS_AGENT_AUTH_PWD'} 
+	);
 	
 	# Check history file
 	unless(open HISTORY, "$opt_dir/history") {
-		flock(HISTORY, LOCK_SH);
-		close(LOCK);
+		flock(HISTORY, LOCK_EX);
+		unlink("$opt_dir/suspend");
 		&log("Cannot read history file: $!");
 		return 1;
 	}
@@ -163,6 +178,7 @@ sub download_prolog_reader {
 		
 		if(_already_in_array($fileid, @done)){
 			&log("Will not download $fileid. (already in history file)");
+			&download_message({ 'ID' => $fileid }, ERR_ALREADY_SETUP);
 			next;
 		}
 		
@@ -185,7 +201,7 @@ sub download_prolog_reader {
 			&log("Retrieving info file for $fileid");
 			
 			my ($ctx, $ssl, $ra);
-			eval {
+#eval {
 				$| = 1;
 				&log('Initialize ssl layer...');
 				
@@ -218,7 +234,7 @@ sub download_prolog_reader {
 					$server_name = $1;
 					$server_port = $2;
 					$server_dir = $3;
-				}elsif($_->{INFO_LOC}=~ /^([^\/]+)(.*)$/){
+				}elsif($_->{INFO_LOC}=~ /^([^\/]+)(.+)$/){
 					$server_name = $1;
 					$server_dir = $2;	
 					$server_port = HTTPS_PORT;
@@ -261,7 +277,7 @@ sub download_prolog_reader {
 				open FH, ">$dir/info" or die("Cannot open info file: $!");
 				print FH $ra;
 				close FH;
-			};
+#};
 			if($@){
 				download_message({ 'ID' => $fileid }, ERR_DOWNLOAD_INFO);
 				&log("Error: SSL hanshake has failed");
@@ -276,6 +292,10 @@ sub download_prolog_reader {
 			sleep(1);
 		}
 	}
+	unless(unlink("$opt_dir/suspend")){
+		&log("Cannot delete suspend file: $!");
+		return 1;
+	}
 	return 0;
 }
 
@@ -284,7 +304,7 @@ sub ssl_verify_callback {
 	return $ok; 
 }
 
-sub download_inventory_handler {
+sub download_inventory_handler{
 	# Adding the ocs package ids to softwares
 	my $current_context = shift;
 	my $inventory = shift;
@@ -340,6 +360,13 @@ sub download_end_handler{
 	my $end;
 	
 	while(1){
+		# If agent is running, we wait 
+		if (-e "suspend") {
+			&log('Found a suspend file... Will wait 10 seconds before retry');
+			sleep(10);
+			next;
+		}
+		
 		$end = 1;
 		undef @packages;
 		# Reading configuration
@@ -451,7 +478,7 @@ sub download_end_handler{
 }
 
 # Schedule the packages
-sub period {
+sub period{
 	my $packages = shift;
 	my @rt;
 	my $i;
@@ -508,7 +535,7 @@ sub period {
 }
 
 # Download a fragment of the specified package
-sub download {
+sub download{
 	my $p = shift;
 	my $proto = $p->{'PROTO'};
 	my $location = $p->{'PACK_LOC'};
@@ -576,7 +603,7 @@ sub download {
 }
 
 # Assemble and handle downloaded package
-sub execute {
+sub execute{
 	my $p = shift;
 	my $tmp = $p->{'ID'}."/tmp";
 	my $exit_code;
@@ -639,8 +666,6 @@ sub execute {
 				}
 				
 				&log("Storing package to $p->{'PATH'}...");
-				unlink("build.tar.gz") or die("Cannot remove build file: $!");
-				
 				system("cp -r * ".$p->{'PATH'}) and die();
 			}
 		};
@@ -826,33 +851,19 @@ sub done{
 	my $suffix = shift;
 	&log("Package $p->{'ID'}... Done. Sending message...");
 	# Trace installed package
-	# We store the success status in done file (useful in case we cannot send event)
-	if( -e "$p->{'ID'}/done"){
-		open DONE, "$p->{'ID'}/done";
-		$suffix = <DONE>;
-		close(DONE);
-	}
-	else{
-		open DONE, ">$p->{'ID'}/done";
-		print DONE $suffix;
-		close(DONE);
-	}
-	# Check history file
-	open HISTORY, "history" or warn("Cannot open history file: $!");
-	flock(HISTORY, LOCK_SH);
-	my @historyIds = <HISTORY>;
-
-	# Put it in the history file
-	open HISTORY, ">>history";
-	flock(HISTORY, LOCK_EX);
-	
+	open DONE, ">$p->{'ID'}/done";
+	close(DONE);
+	# Put it in history file
+	open DONE, ">>history" or warn("Cannot open history file: $!");
+	flock(DONE, LOCK_EX);
+	my @historyIds = <DONE>;
 	if( &_already_in_array($p->{'ID'}, @historyIds) ){
 		&log("Warning: id $p->{'ID'} has been found in the history file!!");
 	}
 	else {
-		print HISTORY $p->{'ID'},"\n";
+		print DONE $p->{'ID'},"\n";
 	}
-	close(HISTORY);
+	close(DONE);
 	
 	# Notify success to ocs server
 	my $code;
@@ -871,7 +882,7 @@ sub done{
 	return 0;
 }
 
-sub clean {
+sub clean{
 	my $p = shift;
 	&log("Cleaning $p->{'ID'} package.");
 	unless(File::Path::rmtree($p->{'ID'}, $debug, 0)){
@@ -883,13 +894,13 @@ sub clean {
 }
 
 # At the end
-sub finish {
+sub finish{
 	open LOCK, '>'.$current_context->{'OCS_AGENT_INSTALL_PATH'}.'/download/lock';
 	&log("End of work...\n");
 	exit(0);
 }
 
-sub log {
+sub log{
 	return 0 unless $debug;
 	my $message = shift;
 	print "DOWNLOAD: $message\n";

@@ -34,9 +34,9 @@ sub ipdiscover_prolog_reader{
 		if( $option->{NAME} =~/ipdiscover/i){
 				$current_context->{'OCS_OPTION_IPDISC_LAT'} = $option->{'PARAM'}->{'IPDISC_LAT'};
 				$current_context->{'OCS_OPTION_IPDISCOVER'} = $option->{'PARAM'}->{'content'};
+				print "IPDISCOVER: Getting latency from server ($current_context->{'OCS_OPTION_IPDISC_LAT'})\n" if $debug;
 		}
 	}
-	print "IPDISCOVER: Getting latency from server ($current_context->{'OCS_OPTION_IPDISC_LAT'})\n" if $debug;
 
 # Trying to find the request latency (order: 1-CMDL, 2-Config file, 3-Server
 	if( $current_context->{'OCS_AGENT_CONFIG'}->{'IPDISC_LAT'} ){
