@@ -1,6 +1,8 @@
 AUTHORS
 TODO
 README
+Changes
+THANKS
 etc/default/ocsinventory-agent
 etc/init.d/ocsinventory-agent
 etc/ocsinventory-agent/modules.conf

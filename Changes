@@ -1,5 +1,5 @@
 Revision history for Ocsinventory::Agent
-0.0.5
+0.0.5  04/17/2007
        * AIX: use lslpp -c -l to find installed packages
        * AIX: fixes on CPU.pm, Networks.pm and Memory.pm
        * AIX: fetch the serial number with lscfg unless it was found with lsvpd
@@ -16,6 +16,7 @@ Revision history for Ocsinventory::Agent
        * Turn of STDERR during the module execution to avoid useless message (e.g: foo: not found)
          use --debug to turn them back
        * If the system side vardir can't be created. The agent try to create one in ~/.ocs-inventory-agent
+       * Add a THANKS file
 
 0.0.4  03/20/2007
        * use of gzip when Compress:Zlib is not avalaible. OCS server 1.01 and

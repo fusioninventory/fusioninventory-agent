@@ -35,7 +35,7 @@ WriteMakefile(
 );
 
 # Check for compress backend
-my @tmpgzip = `gzip -h>>/dev/null`; 
+my @tmpgzip = `gzip -V>/dev/null 2>&1`; 
 eval { require Compress::Zlib };
 if (!$@) {
 print "Compress::Zlib is avalaible. I will use it for the compress backend\n";

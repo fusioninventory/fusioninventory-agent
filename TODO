@@ -1,6 +1,5 @@
 TODO stuffs for Ocsinventory::Agent
 
  * translate the software
- * find an alternative to dmidecode for non-PC plateforme
  * in daemon mode, store the time remaining before the upload
  * call md5sum directly if avalaible
