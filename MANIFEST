@@ -116,4 +116,3 @@ lib/Ocsinventory/Logger.pm
 lib/Ocsinventory/LoggerBackend/Stderr.pm
 lib/Ocsinventory/LoggerBackend/File.pm
 lib/Ocsinventory/LoggerBackend/Syslog.pm
-META.yml                                 Module meta-data (added by MakeMaker)
