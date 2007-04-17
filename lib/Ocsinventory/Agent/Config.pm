@@ -16,17 +16,19 @@ sub new {
   # Configuration reading
   $self->{xml} = {};
 
-  if (! -f $self->{params}->{conffile}) {
-      $logger->debug ('conffile file: `'. $self->{params}->{conffile}.
-	" doesn't exist. I create an empty one");
-      $self->write();
-  } else {
-    $self->{xml} = XML::Simple::XMLin(
-      $self->{params}->{conffile},
-      SuppressEmpty => undef
-    );
+  if ($self->{params}->{conffile}) {
+    if (! -f $self->{params}->{conffile}) {
+        $logger->debug ('conffile file: `'. $self->{params}->{conffile}.
+  	" doesn't exist. I create an empty one");
+        $self->write();
+    } else {
+      $self->{xml} = XML::Simple::XMLin(
+        $self->{params}->{conffile},
+        SuppressEmpty => undef
+      );
+    }
   }
-
+  
   $self;
 }
 
@@ -54,6 +56,7 @@ sub write {
 
   my $logger = $self->{logger};
 
+  return unless -f $self->{params}->{conffile};
   my $xml = XML::Simple::XMLout( $self->{xml} , RootName => 'CONF',
     NoAttr => 1 );
 

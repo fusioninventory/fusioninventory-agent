@@ -18,24 +18,26 @@ sub new {
 
   $logger->debug ('Accountinfo file: '. $self->{params}->{accountinfofile});
 
-  if (! -f $self->{params}->{accountinfofile}) {
-      $logger->info ("Accountinfo file doesn't exist. I create an empty one.");
-      $self->write();
-  } else {
-
-    my $xmladm = XML::Simple::XMLin(
-      $self->{params}->{accountinfofile},
-      ForceArray => [ 'ACCOUNTINFO' ]
-    );
-
-    # Store the XML content in a local HASH
-    for(@{$xmladm->{ACCOUNTINFO}}){
-      if (!$_->{KEYNAME}) {
-	$logger->debug ("Incorrect KEYNAME in ACCOUNTINFO");
+  if ($self->{params}->{accountinfofile}) {
+    if (! -f $self->{params}->{accountinfofile}) {
+        $logger->info ("Accountinfo file doesn't exist. I create an empty one.");
+        $self->write();
+    } else {
+  
+      my $xmladm = XML::Simple::XMLin(
+        $self->{params}->{accountinfofile},
+        ForceArray => [ 'ACCOUNTINFO' ]
+      );
+  
+      # Store the XML content in a local HASH
+      for(@{$xmladm->{ACCOUNTINFO}}){
+        if (!$_->{KEYNAME}) {
+  	$logger->debug ("Incorrect KEYNAME in ACCOUNTINFO");
+        }
+        $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
       }
-      $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
     }
-  }
+  } else { $logger->debug("No accountinfo file defined") }
 
   $self;
 }

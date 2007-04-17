@@ -155,6 +155,17 @@ my $logger = new Ocsinventory::Logger ({
 
 # The agent can contact different servers. Each server config is
 # stored in a specific file:
+if (!-d $params->{basevardir} && !mkdir ($params->{basevardir})) {
+  $logger->info("Failed to create $params->{basevardir} directory: $!. ".
+  "I'm going to use the home directory instead.");
+  $params->{basevardir} = $ENV{HOME}."/.ocs-inventory-agent";
+  if (!-d $params->{basevardir} && !mkdir ($params->{basevardir})) {
+    $logger->error("Failed to create $params->{basedir} directory: $!".
+    "The HOSTID will not be written on the harddrive. You may have duplicated".
+    "entry of this computer in your OCS database");
+  }
+}
+
 if (defined($params->{local}) && $params->{local}) {
   $params->{vardir} = $params->{basevardir}."/__LOCAL__";
 } else {
@@ -164,10 +175,11 @@ if (!-d $params->{vardir} && !mkdir ($params->{vardir})) {
   $logger->error("Failed to create $params->{vardir} directory: $!");
 }
 
-
-$params->{conffile} = $params->{vardir}."/ocsinv.conf";
-$params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
-$params->{last_statefile} = $params->{vardir}."/last_state";
+if (-d $params->{vardir}) {
+  $params->{conffile} = $params->{vardir}."/ocsinv.conf";
+  $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
+  $params->{last_statefile} = $params->{vardir}."/last_state";
+}
 ######
 
 
@@ -251,7 +263,7 @@ if ($params->{daemon}) {
   
 }
 
-$logger->info("OCS Agent initialised");
+$logger->debug("OCS Agent initialised");
 #######################################################
 #######################################################
 

@@ -12,13 +12,12 @@ sub check {
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
-  my $unit = 1024;
 
   my $PhysicalMemory;
   my $SwapFileSize;
 
 # Swap
-	my @bsd_swapctl= `env LANGUAGE=us swapctl -sk`;
+	my @bsd_swapctl= `swapctl -sk`;
 	for(@bsd_swapctl){
 		$SwapFileSize=$1 if /total:\s*(\d+)/i;
 	}
