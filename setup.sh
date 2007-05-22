@@ -433,6 +433,7 @@ echo "+----------------------------------------------------------+"
 echo "| Checking for operating system...                         |"
 echo "+----------------------------------------------------------+"
 echo
+OCS_CURRENT_OS_FULL=`uname -a`
 OCS_CURRENT_OS=`uname|grep $OCS_OS_LINUX`
 if test "$OCS_CURRENT_OS" = ""
 then
@@ -443,24 +444,21 @@ then
          # BSD or Linux not deteted, do not install dmidecode and ipdiscover
          INSTALLER_REQUIRE_DMIDECODE=0
          INSTALLER_REQUIRE_IPDISCOVER=0
-         OCS_CURRENT_OS=`uname -a`
-         echo "Operating system is $OCS_CURRENT_OS, not based on Linux or BSD"
-         echo "Operating system is $OCS_CURRENT_OS, not based on Linux or BSD" >> $SETUP_LOG
+         echo "Operating system is $OCS_CURRENT_OS_FULL, not based on Linux or BSD"
+         echo "Operating system is $OCS_CURRENT_OS_FULL, not based on Linux or BSD" >> $SETUP_LOG
     else
          # BSD require dmidecode, but not ipdiscover
          INSTALLER_REQUIRE_DMIDECODE=1
          INSTALLER_REQUIRE_IPDISCOVER=0
-         OCS_CURRENT_OS=`uname -a`
-         echo "Operating system is $OCS_CURRENT_OS, based on BSD"
-         echo "Operating system is $OCS_CURRENT_OS, based on BSD" >> $SETUP_LOG
+         echo "Operating system is $OCS_CURRENT_OS_FULL, based on BSD"
+         echo "Operating system is $OCS_CURRENT_OS_FULL, based on BSD" >> $SETUP_LOG
     fi
 else
     # Linux require dmidecode and ipdiscover
     INSTALLER_REQUIRE_DMIDECODE=1
     INSTALLER_REQUIRE_IPDISCOVER=1
-    OCS_CURRENT_OS=`uname -a`
-    echo "Operating system is $OCS_CURRENT_OS, based on Linux"
-    echo "Operating system is $OCS_CURRENT_OS, based on Linux" >> $SETUP_LOG
+    echo "Operating system is $OCS_CURRENT_OS_FULL, based on Linux"
+    echo "Operating system is $OCS_CURRENT_OS_FULL, based on Linux" >> $SETUP_LOG
 fi
 
 
