@@ -16,7 +16,10 @@
 #      param 1 must be ocs server address (__local__ for local inventory method)
 #      param 2 can be ocs server port (optional, default to 80)
 #      param 3 can be TAG value between quotes (optional)
-# Example: sh setup.sh communication_server_address communication_server_port "my site"
+#      param 4 can be 1 if you want to use daemon mode or 0 for cron task mode (optional, default use cron task)
+#              needs Perl Module Proc::Daemon
+# Example: sh setup.sh communication_server_address communication_server_port "my site" 1
+#          sh setup.sh communication_server_address communication_server_port "my site"
 #          sh setup.sh communication_server_address communication_server_port 
 #          sh setup.sh __local__
 #
@@ -141,7 +144,7 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for previous installation" >> $SETUP_LOG
 # Checking for Linux agent old setup
-if test -d $OLD_OCS_AGENT_CONFIG_DIR
+if [ -d $OLD_OCS_AGENT_CONFIG_DIR ]
 then
     # Previous installation of old Linux agent found
     echo "Previous installation of OCS Inventory NG Linux agent was found."
@@ -150,7 +153,7 @@ then
     OCS_SERVER_HOST=`eval cat $OLD_OCS_AGENT_CONFIG_DIR/$OCS_AGENT_STATE_FILE | grep OCSFSERVER | cut -d'>' -f2 | cut -d'<' -f1 | cut -d':' -f1` 
     OCS_SERVER_PORT=`eval cat $OLD_OCS_AGENT_CONFIG_DIR/$OCS_AGENT_STATE_FILE | grep OCSFSERVER | cut -d'>' -f2 | cut -d'<' -f1 | cut -d':' -f2`
     OCS_AGENT_DEVICE_ID=`eval cat $OLD_OCS_AGENT_CONFIG_DIR/$OCS_AGENT_STATE_FILE | grep DEVICEID | cut -d'>' -f2 | cut -d'<' -f1 | cut -d':' -f2`
-    if (test -z $OCS_SERVER_PORT) || (test $OCS_SERVER_PORT = $OCS_SERVER_HOST)
+    if [ -z $OCS_SERVER_PORT ] || [ $OCS_SERVER_PORT = $OCS_SERVER_HOST ]
     then
         OCS_SERVER_PORT="80"
     fi
@@ -159,14 +162,14 @@ then
     echo "Found OCS Inventory Agent Device ID <$OCS_AGENT_DEVICE_ID>" >> $SETUP_LOG
     OCS_AGENT_PREVIOUS=1
 else
-    if test -d $OCS_AGENT_CONFIG_DIR
+    if [ -d $OCS_AGENT_CONFIG_DIR ]
     then
         # Previous installation of unified unix agent found
         echo "Previous installation of OCS Inventory NG Unified Unix Agent was found."
         echo "Previous installation of OCS Inventory NG Unified Unix Agent was found." >> $SETUP_LOG
         # Retreiving OCS Communication server host
         OCS_SERVER_HOST=`eval cat $OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE | grep "server=" | cut -d'"' -f2 | cut -d':' -f1`
-        if (test -z $OCS_SERVER_HOST)
+        if [ -z "$OCS_SERVER_HOST" ]
         then
             OCS_SERVER_PORT="80"
         fi
@@ -188,7 +191,7 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for supplied parameters" >> $SETUP_LOG
 # Checking if parameters supplied
-if test -z $1
+if [ -z "$1" ]
 then
     # No parameters, user intercative installer
     echo "No parameter found"
@@ -198,13 +201,13 @@ then
     INSTALLER_INTERACTIVE=1
 else
     # Parameters provided, assume silent installer
-    echo "Parameters <$1 $2 $3>"
+    echo "Parameters <$1 $2 $3 $4>"
     echo "OCS Inventory NG Agent setup running in silent mode"
-    echo "Parameters <$1 $2 $3>" >> $SETUP_LOG
+    echo "Parameters <$1 $2 $3 $4>" >> $SETUP_LOG
     echo "OCS Inventory NG Agent setup running in silent mode" >> $SETUP_LOG
     INSTALLER_INTERACTIVE=0
     # Which host run OCS Inventory NG Communication Server
-    if test -z $1
+    if [ -z "$1" ]
     then
         echo "*** ERROR: Missing parameter 1 Communication Server address"
         echo "Usage: <sh setup.sh> to run installer in interactive mode"
@@ -212,11 +215,12 @@ else
         echo "    Parameter 1 must be ocs server address ($OCS_AGENT_LOCAL_HOST for local inventory method)"
         echo "    Parameter 2 can be ocs server port (optional, default to 80)"
         echo "    Parameter 3 can be TAG value between quotes (optional)"
+        echo "    Parameter 4 can be 1 if you want to use daemon mode or 0 for cron task mode (optional, default use cron task)"
         echo "Installation aborted !"
         echo "*** ERROR: Missing parameter 1 Communication Server address, installation aborted !" >> $SETUP_LOG
         exit 1
     else
-        if test "$1" = "$OCS_AGENT_LOCAL_HOST"
+        if [ "$1" = "$OCS_AGENT_LOCAL_HOST" ]
         then
             OCS_AGENT_METHOD="$OCS_AGENT_LOCAL_HOST"
             OCS_SERVER_HOST=$2
@@ -226,27 +230,34 @@ else
         fi
     fi
     # On which port run OCS Inventory NG Communication Server
-    if test -z $2
+    if [ -z "$2" ]
     then
         OCS_SERVER_PORT="80"
     else
         OCS_SERVER_PORT=$2
     fi
     # What is the value of TAG administrative information
-    if test -z $3
+    if [ -z "$3" ]
     then
         OCS_AGENT_TAG_VALUE=""
     else
         OCS_AGENT_TAG_VALUE=$3
     fi
+    # What is the value of launch mode
+    if [ -z "$4" ]
+    then
+        INSTALLER_PERL_DAEMON_MODE=0
+    else
+        INSTALLER_PERL_DAEMON_MODE=$4
+    fi
 fi
 echo
 
-if (test $OCS_AGENT_PREVIOUS -eq 1) && (test $INSTALLER_INTERACTIVE -eq 1)
+if [ $OCS_AGENT_PREVIOUS -eq 1 ] && [ $INSTALLER_INTERACTIVE -eq 1 ]
 then
     # Ask user what to do
     echo "Previous installation of OCS Inventory NG Agent was found."
-    if test "$OCS_SERVER_HOST" = "$OCS_AGENT_LOCAL_HOST"
+    if [ "$OCS_SERVER_HOST" = "$OCS_AGENT_LOCAL_HOST" ]
     then
         echo "This installation was generating inventory in local mode to a file."
         OCS_AGENT_METHOD="$OCS_AGENT_LOCAL_HOST"
@@ -257,7 +268,7 @@ then
     fi
     echo -n "Do you wish to re-install/upgrade existing installation ([y]/n) ?"
     read ligne
-    if (test "$ligne" = "y") || (test -z $ligne)
+    if [ "$ligne" = "y" ] || [ -z "$ligne" ]
     then
         echo "User asked to re-install/upgrade OCS Inventory NG Agent" >> $SETUP_LOG
     else
@@ -274,7 +285,7 @@ echo "| Checking for OCS Inventory NG Agent running method...    |"
 echo "+----------------------------------------------------------+"
 echo
 echo "Checking for OCS Inventory NG Agent running method" >> $SETUP_LOG
-if test $INSTALLER_INTERACTIVE -eq 1
+if [ $INSTALLER_INTERACTIVE -eq 1 ]
 then
     # Ask user for inventory mode (http/__local__)
     echo "OCS Inventory NG Agent can be run through 2 methods:"
@@ -286,20 +297,20 @@ then
     echo "        with it to know what is has to do (inventory, ipdiscover,"
     echo "        deployment...)"
     res=0
-    while test $res -eq 0
+    while [ $res -eq 0 ]
     do
-        if test $OCS_AGENT_METHOD = "$OCS_AGENT_LOCAL_HOST"
+        if [ $OCS_AGENT_METHOD = "$OCS_AGENT_LOCAL_HOST" ]
         then
             # Previous install using local inventory mode
-            echo -n "Which method will you use to generate the inventory (http/[$OCS_AGENT_LOCAL_HOST]) ?"
+            echo -n "Which method will you use to generate the inventory (http/[local]) ?"
             read ligne
-            if (test -z $ligne) || (test "$ligne" = "$OCS_AGENT_LOCAL_HOST")
+            if [ -z "$ligne" ] || [ "$ligne" = "local"]
             then
                 OCS_AGENT_METHOD="$OCS_AGENT_LOCAL_HOST"
                 OCS_SERVER_HOST="$OCS_AGENT_LOCAL_HOST"
                 res=1
             else
-                if test "$ligne" = "http"
+                if [ "$ligne" = "http" ]
                 then
                     OCS_AGENT_METHOD="http"
                     res=1
@@ -309,14 +320,14 @@ then
             fi
         else
             # Previous install using http inventory mode
-            echo -n "Which method will you use to generate the inventory ([http]/$OCS_AGENT_LOCAL_HOST) ?"
+            echo -n "Which method will you use to generate the inventory ([http]/local) ?"
             read ligne
-            if (test -z $ligne) || (test "$ligne" = "http")
+            if [ -z "$ligne" ] || [ "$ligne" = "http" ]
             then
                 OCS_AGENT_METHOD="http"
                 res=1
             else
-                if test "$ligne" = "$OCS_AGENT_LOCAL_HOST"
+                if [ "$ligne" = "local" ]
                 then
                     OCS_AGENT_METHOD="$OCS_AGENT_LOCAL_HOST"
                     OCS_SERVER_HOST="$OCS_AGENT_LOCAL_HOST"
@@ -332,7 +343,7 @@ echo "OK, OCS Inventory NG Agent will be running in <$OCS_AGENT_METHOD> mode ;-)
 echo "OCS Inventory NG Agent will be running in <$OCS_AGENT_METHOD> mode" >> $SETUP_LOG
 echo
 
-if test $OCS_AGENT_METHOD = "http"
+if [ $OCS_AGENT_METHOD = "http" ]
 then
     echo
     echo "+----------------------------------------------------------+"
@@ -340,15 +351,15 @@ then
     echo "+----------------------------------------------------------+"
     echo
     echo "Checking for OCS Inventory NG Communication Server" >> $SETUP_LOG
-    if test $INSTALLER_INTERACTIVE -eq 1
+    if [ $INSTALLER_INTERACTIVE -eq 1 ]
     then
         # Ask user for OCS Inventory NG Communication Server host
         res=0
-        while test $res -eq 0
+        while [ $res -eq 0 ]
         do
             echo -n "Which host is running OCS Inventory NG Communication Server [$OCS_SERVER_HOST] ?"
             read ligne
-            if test -z $ligne
+            if [ -z "$ligne" ]
             then
                 res=1
             else
@@ -358,11 +369,11 @@ then
         done
         # Ask user for OCS Inventory NG Communication Server port
         res=0
-        while test $res -eq 0
+        while [ $res -eq 0 ]
         do
             echo -n "On which port is running OCS Inventory NG Communication Server [$OCS_SERVER_PORT] ?"
             read ligne
-            if test -z $ligne
+            if [ -z "$ligne" ]
             then
                 res=1
             else
@@ -377,6 +388,16 @@ then
     echo
 fi
 
+if [ "$OCS_AGENT_METHOD" = "$OCS_AGENT_LOCAL_HOST" ]
+then
+    # Local mode
+    OCS_SERVER_DIR=$OCS_AGENT_LOCAL_HOST
+else
+    # HTTP mode
+    OCS_SERVER_DIR=$OCS_SERVER_HOST:$OCS_SERVER_PORT
+fi
+echo "OCS Inventory NG Communication Server is located at <$OCS_SERVER_DIR>." >> $SETUP_LOG
+echo "Using directory <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR> to store Agent state files." >> $SETUP_LOG
 
 echo
 echo "+----------------------------------------------------------+"
@@ -384,20 +405,20 @@ echo "| Checking for TAG administrative information value...     |"
 echo "+----------------------------------------------------------+"
 echo
 echo "Checking for TAG administrative information value" >> $SETUP_LOG
-if test -r "$OLD_OCS_AGENT_CONFIG_DIR/label"
+if [ -r "$OLD_OCS_AGENT_CONFIG_DIR/label" ]
 then
     LABEL=`cat $OLD_OCS_AGENT_CONFIG_DIR/label`
 else
-    if test -r "$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/label"
+    if [ -r "$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/label" ]
     then
-        LABEL=`cat $OCS_AGENT_CONFIG_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/label`
+        LABEL=`cat $OCS_AGENT_CONFIG_DIR/$OCS_SERVER_DIR/label`
     else
         LABEL="TAG"
     fi
 fi
-if test $INSTALLER_INTERACTIVE -eq 1
+if [ $INSTALLER_INTERACTIVE -eq 1 ]
 then
-    if test -r "$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_ADMININFO_FILE"
+    if [ -r "$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_ADMININFO_FILE" ]
     then
         # TAG value already inserted => skip
         echo "<$LABEL> already exist, skipping (use Administration Console to update)"
@@ -405,11 +426,11 @@ then
     else
         # Ask user for TAG value
         res=0
-        while test $res -eq 0
+        while [ $res -eq 0 ]
         do
             echo -n "What is the value of $LABEL ([$OCS_AGENT_TAG_VALUE]) ?"
             read ligne
-            if (test -z $ligne)
+            if [ -z "$ligne" ]
             then
                 res=1
             else
@@ -435,11 +456,11 @@ echo "+----------------------------------------------------------+"
 echo
 OCS_CURRENT_OS_FULL=`uname -a`
 OCS_CURRENT_OS=`uname|grep $OCS_OS_LINUX`
-if test "$OCS_CURRENT_OS" = ""
+if [ -z "$OCS_CURRENT_OS" ]
 then
     # Linux not detected, try BSD
     OCS_CURRENT_OS=`uname|grep $OCS_OS_BSD`
-    if test "$OCS_CURRENT_OS" = ""
+    if [ -z "$OCS_CURRENT_OS" ]
     then
          # BSD or Linux not deteted, do not install dmidecode and ipdiscover
          INSTALLER_REQUIRE_DMIDECODE=0
@@ -457,8 +478,8 @@ else
     # Linux require dmidecode and ipdiscover
     INSTALLER_REQUIRE_DMIDECODE=1
     INSTALLER_REQUIRE_IPDISCOVER=1
-    echo "Operating system is $OCS_CURRENT_OS_FULL, based on Linux"
-    echo "Operating system is $OCS_CURRENT_OS_FULL, based on Linux" >> $SETUP_LOG
+    echo "Operating system is <$OCS_CURRENT_OS_FULL>, based on Linux"
+    echo "Operating system is <$OCS_CURRENT_OS_FULL>, based on Linux" >> $SETUP_LOG
 fi
 
 
@@ -468,7 +489,7 @@ echo "| Checking for PERL Interpreter...                         |"
 echo "+----------------------------------------------------------+"
 echo
 echo "Checking for PERL Interpreter" >> $SETUP_LOG
-if test -z $PERL_BIN
+if [ -z "$PERL_BIN" ]
 then
     echo "*** ERROR: PERL Interpreter not found !"
     echo "OCS Inventory NG is not able to work without PERL Interpreter."
@@ -488,7 +509,7 @@ echo "| Checking for Make utility...                             |"
 echo "+----------------------------------------------------------+"
 echo
 echo "Checking for Make utility" >> $SETUP_LOG
-if test -z $MAKE
+if [ -z "$MAKE" ]
 then
     echo "*** ERROR: Make utility not found !"
     echo "Setup is not able to build OCS Inventory NG Agent Perl module. Installation aborted !"
@@ -500,7 +521,7 @@ else
 fi
 echo
 
-if test $INSTALLER_REQUIRE_DMIDECODE -eq 1
+if [ $INSTALLER_REQUIRE_DMIDECODE -eq 1 ]
 then
     # Under Linux and BSD, agent requires dmidecode
     echo
@@ -509,18 +530,18 @@ then
     echo "+----------------------------------------------------------+"
     echo
     echo "Checking for dmidecode binaries" >> $SETUP_LOG
-    if test -z $OCS_AGENT_DMIDECODE_BIN
+    if [ -z "$OCS_AGENT_DMIDECODE_BIN" ]
     then
         echo "WARNING: dmidecode binaries not found !"
         echo "WARNING: dmidecode binaries not found" >> $SETUP_LOG
-        if test $INSTALLER_INTERACTIVE -eq 1
+        if [ $INSTALLER_INTERACTIVE -eq 1 ]
         then
             # Ask user to setup dmidecode
             echo "OCS Inventory NG Agent requires dmidecode to get information from BIOS."
             echo "But dmidecode is not installed on this computer."
             echo -n "Do you wish to continue (y/[n]) ?"
             read ligne
-            if test -z $ligne || test "$ligne" = "n"
+            if [ -z "$ligne" ] || [ "$ligne" = "n" ]
             then
                 echo "OCS Inventory NG is not able to get BIOS informations without dmidecode."
                 echo "Setup manually dmidecode first. Installation aborted !"
@@ -550,7 +571,7 @@ else
 fi
 
 
-if test $INSTALLER_REQUIRE_IPDISCOVER -eq 1
+if [ $INSTALLER_REQUIRE_IPDISCOVER -eq 1 ]
 then
     # Under Linux, agent requires ipdiscover
     echo
@@ -559,18 +580,18 @@ then
     echo "+----------------------------------------------------------+"
     echo
     echo "Checking for ipdiscover binary" >> $SETUP_LOG
-    if test -z $OCS_AGENT_IPDISCOVER_BIN
+    if [ -z "$OCS_AGENT_IPDISCOVER_BIN" ]
     then
         echo "WARNING: ipdiscover binary not found !"
         echo "WARNING: ipdiscover binary not found" >> $SETUP_LOG
-        if test $INSTALLER_INTERACTIVE -eq 1
+        if [ $INSTALLER_INTERACTIVE -eq 1 ]
         then
             # Ask user to setup dmidecode
             echo "OCS Inventory NG Agent requires ipdiscover to launch network discovery."
             echo "But ipdiscover is not installed on this computer."
             echo -n "Do you wish to continue (y/[n]) ?"
             read ligne
-            if test -z $ligne || test "$ligne" = "n"
+            if [ -z "$ligne" ] || [ "$ligne" = "n" ]
             then
                 echo "OCS Inventory NG is not able to get launch network discovery without ipdiscover."
                 echo "Setup manually ipdiscover first. Installation aborted !"
@@ -607,7 +628,7 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for Compress::Zlib PERL module" >> $SETUP_LOG
 $PERL_BIN -mCompress::Zlib -e 'print "PERL module Compress::Zlib is available\n"' >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: OCS Inventory NG Agent requires PERL module Compress::Zlib."
     echo "Install it manually first. Installation aborted !"
@@ -626,7 +647,7 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for XML::Simple PERL module" >> $SETUP_LOG
 $PERL_BIN -mXML::Simple -e 'print "PERL module XML::Simple is available\n"' >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: OCS Inventory NG Agent requires PERL module XML::Simple."
     echo "Install it manually first. Installation aborted !"
@@ -645,7 +666,7 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for Net::IP PERL module" >> $SETUP_LOG
 $PERL_BIN -mNet::IP -e 'print "PERL module Net::IP is available\n"' >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: OCS Inventory NG Agent requires PERL module Net::IP."
     echo "Install it manually first. Installation aborted !"
@@ -664,7 +685,7 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for LWP::UserAgent PERL module" >> $SETUP_LOG
 $PERL_BIN -mLWP::UserAgent -e 'print "PERL module LWP::UserAgent is available\n"' >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: OCS Inventory NG Agent requires PERL module LWP::UserAgent."
     echo "Install it manually first. Installation aborted !"
@@ -683,7 +704,7 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for Digest::MD5 PERL module" >> $SETUP_LOG
 $PERL_BIN -mDigest::MD5 -e 'print "PERL module Digest::MD5 is available\n"' >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: OCS Inventory NG Agent requires PERL module Digest::MD5."
     echo "Install it manually first. Installation aborted !"
@@ -702,7 +723,7 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for Net::SSLeay PERL module" >> $SETUP_LOG
 $PERL_BIN -mNet::SSLeay -e 'print "PERL module Net::SSLeay is available\n"' >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: OCS Inventory NG Agent requires PERL module Net::SSLeay."
     echo "Install it manually first. Installation aborted !"
@@ -721,12 +742,11 @@ echo "+----------------------------------------------------------+"
 echo
 echo "Checking for Proc::Daemon PERL module" >> $SETUP_LOG
 $PERL_BIN -mProc::Daemon -e 'print "PERL module Proc::Daemon is available\n"' >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "WARNING: PERL module Proc::Daemon not installed !"
     echo "WARNING: PERL module Proc::Daemon not installed" >> $SETUP_LOG
-    INSTALLER_PERL_DAEMON_MODE=0
-    if test $INSTALLER_INTERACTIVE -eq 1
+    if [ $INSTALLER_INTERACTIVE -eq 1 ]
     then
         # Ask user to setup dmidecode
         echo "OCS Inventory NG Agent requires PERL module Proc::Daemon to run as a daemon."
@@ -734,43 +754,77 @@ then
         echo "So you must run OCS Inventory NG Agent through a cron task."
         echo -n "Do you wish to continue (y/[n]) ?"
         read ligne
-        if test -z $ligne || test "$ligne" = "n"
+        if [ -z "$ligne" ] || [ "$ligne" = "n" ]
         then
-            echo "OCS Inventory NG is not able to run as a daemon without PERL module Proc::Daemon."
+            echo "OCS Inventory NG Agent is not able to run as a daemon without PERL module Proc::Daemon."
             echo "Setup manually PERL module Proc::Daemon first. Installation aborted !"
             echo "*** ERROR: User aborted installation !" >> $SETUP_LOG
             exit 1
         else
-            echo "OK, PERL module Proc::Daemon missing, but user asks to continue :-("
-            echo "PERL module Proc::Daemon missing but user ask to continue" >> $SETUP_LOG
+            echo "OK, PERL module Proc::Daemon missing, but user asks to continue, so using cron task :-("
+            echo "PERL module Proc::Daemon missing but user ask to continue, so using cron task" >> $SETUP_LOG
         fi
     else
         # Silent setup
-        echo "WARNING: OCS Inventory NG is not able to run as a daemon without PERL module Proc::Daemon." 
-        echo "WARNING: OCS Inventory NG is not able to run as a daemon without PERL module Proc::Daemon." >> $SETUP_LOG
-        echo "But PERL module Proc::Daemon is not installed on this computer. Run agent through a cron task !"
-        echo "But PERL module Proc::Daemon is not installed on this computer. Run agent through a cron task !" >> $SETUP_LOG
+        if [ INSTALLER_PERL_DAEMON_MODE -eq 1 ]
+        then
+            # User asked by command line to use daemon mode
+            echo "*** ERROR: OCS Inventory NG is not able to run as a daemon without PERL module Proc::Daemon." 
+            echo "*** ERROR: OCS Inventory NG is not able to run as a daemon without PERL module Proc::Daemon." >> $SETUP_LOG
+            exit 1
+        else
+            # Userasked to use cron task
+            echo "WARNING: OCS Inventory NG Agent is not able to run as a daemon without PERL module Proc::Daemon." 
+            echo "WARNING: OCS Inventory NG Agent is not able to run as a daemon without PERL module Proc::Daemon." >> $SETUP_LOG
+            echo "But user asked running Agent through a cron task ;-)"
+            echo "But user asked running Agent through a cron task" >> $SETUP_LOG
+        fi
     fi
+    INSTALLER_PERL_DAEMON_MODE=0
 else
     echo "OK, PERL module Proc::Daemon is available ;-)"
-    INSTALLER_PERL_DAEMON_MODE=1
-    if test $INSTALLER_INTERACTIVE -eq 1
+    if [ $INSTALLER_INTERACTIVE -eq 1 ]
     then
         # Ask user which method to use (cron task or daemon)
         echo "OCS Inventory NG Agent is able to run as a daemon, or through a cron task."
-        echo "Using daemon enables you to configure from Administration Console delay"
-        echo "between to contact with Communication Server (from 1 up to 99 hours)."
+        echo "Using daemon enables you to configure from Administration Console how"
+        echo "many times a day Agent will contact with Communication Server (from 1 up"
+        echo "to 99 hours), and others options."
         echo "By default, cron task only launch OCS Inventory NG Agent once a day."
         echo -n "Which method do you want to use (cron/[daemon]) ?"
         read ligne
-        if test -z $ligne || test "$ligne" = "daemon"
+        if [ -z "$ligne" ] || [ "$ligne" = "daemon" ]
         then
             echo "Setup will NOT create cron task, because you want to use daemon mode."
             echo "User asked to use daemon mode !" >> $SETUP_LOG
+            echo "Setup need to know where to store daemon start/stop script used in runlevels."
+            echo -n "Where is located init.d system directory [$DAEMON_SCRIPT_DIR] ?"
+            read ligne
+            if [ -n "$ligne" ]
+            then
+                DAEMON_SCRIPT_DIR=$ligne
+            fi
+            echo "OK. Using <$DAEMON_SCRIPT_DIR> for system init.d directory." 
+            echo "Using <$DAEMON_SCRIPT_DIR> for system init.d directory." >> $SETUP_LOG 
+            INSTALLER_PERL_DAEMON_MODE=1
         else
             echo "Setup will automtically create cron task to launch OCS Inventory NG Agent once a day."
             echo "User asked to use cron task mode !" >> $SETUP_LOG
             INSTALLER_PERL_DAEMON_MODE=0
+        fi
+    else
+        # Silent installer
+        if [ INSTALLER_PERL_DAEMON_MODE -eq 1 ]
+        then
+            # User asked by command line to use daemon mode
+            echo "OCS Inventory NG Agent will be run as daemon with PERL module Proc::Daemon." 
+            echo "OCS Inventory NG Agent will be run as daemon with PERL module Proc::Daemon." >> $SETUP_LOG
+        else
+            # Userasked to use cron task
+            echo "WARNING: OCS Inventory NG Agent will be launched as a cron task, even with PERL module Proc::Daemon installed." 
+            echo "WARNING: OCS Inventory NG Agent will be launched as a cron task, even with PERL module Proc::Daemon installed." >> $SETUP_LOG
+            echo "Because user asked running Agent through a cron task ;-)"
+            echo "Because user asked running Agent through a cron task" >> $SETUP_LOG
         fi
     fi
 fi
@@ -785,7 +839,7 @@ echo
 echo "Configuring OCS Inventory NG Unified Unix Agent"
 echo "Configuring OCS Inventory NG Unified Unix Agent" >> $SETUP_LOG
 $PERL_BIN Makefile.PL >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: Unable to configure OCS Inventory NG Agent !"
     echo "*** ERROR: Unable to configure OCS Inventory NG Agent" >> $SETUP_LOG
@@ -797,7 +851,7 @@ fi
 echo "Building OCS Inventory NG Unified Unix Agent"
 echo "Building OCS Inventory NG Unified Unix Agent" >> $SETUP_LOG
 $MAKE >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: Unable to build OCS Inventory NG Agent !"
     echo "*** ERROR: Unable to build OCS Inventory NG Agent" >> $SETUP_LOG
@@ -809,7 +863,7 @@ fi
 echo "Installing OCS Inventory NG Unified Unix Agent"
 echo "Installing OCS Inventory NG Unified Unix Agent" >> $SETUP_LOG
 $MAKE install >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
     echo "*** ERROR: Unable to install OCS Inventory NG Agent !"
     echo "*** ERROR: Unable to install OCS Inventory NG Agent" >> $SETUP_LOG
@@ -818,14 +872,14 @@ then
     echo "Installation aborted !"
     exit 1
 fi 
-echo "Creating </bin/ocsinv> OCS Inventory NG Agent symbolic link"
-echo "Creating </bin/ocsinv> OCS Inventory NG Agent symbolic link" >> $SETUP_LOG
+echo "Creating OCS Inventory NG Agent symbolic link </bin/ocsinv>"
+echo "Creating OCS Inventory NG Agent symbolic link </bin/ocsinv>" >> $SETUP_LOG
 rm -f /bin/ocsinv
-ln -s /usr/bin/ocsinventory-agent /bin/ocsinv
-if [ $? != 0 ]
+ln -s /usr/bin/ocsinventory-agent /bin/ocsinv >> $SETUP_LOG 2>&1
+if [ $? -ne 0 ]
 then
-    echo "*** ERROR: Unable to create </bin/ocsinv> OCS Inventory NG Agent symbolic link !"
-    echo "*** ERROR: Unable to install </bin/ocsinv> OCS Inventory NG Agent symbolic link" >> $SETUP_LOG
+    echo "*** ERROR: Unable to create OCS Inventory NG Agent symbolic link </bin/ocsinv> !"
+    echo "*** ERROR: Unable to install OCS Inventory NG Agent symbolic link </bin/ocsinv>" >> $SETUP_LOG
     echo "Look at file $SETUP_LOG for detailled error and fix it manually"
     echo "before running another time OCS Inventory NG Agent setup."
     echo "Installation aborted !"
@@ -841,7 +895,7 @@ echo "+----------------------------------------------------------+"
 echo "| Creating OCS Inventory NG Agent log directory...         |"
 echo "+----------------------------------------------------------+"
 echo
-if test -d $OLD_OCS_AGENT_LOG_DIR
+if [ -d $OLD_OCS_AGENT_LOG_DIR ]
 then
     echo "Removing old OCS Inventory NG Agent for Linux log directory <$OLD_OCS_AGENT_LOG_DIR>."
     echo "Removing old OCS Inventory NG Agent for Linux log directory <$OLD_OCS_AGENT_LOG_DIR>." >> $SETUP_LOG
@@ -850,35 +904,35 @@ fi
 echo "Creating OCS Inventory NG Agent log directory <$OCS_AGENT_LOG_DIR>."
 echo "Creating OCS Inventory NG Agent log directory <$OCS_AGENT_LOG_DIR>" >> $SETUP_LOG
 mkdir -p $OCS_AGENT_LOG_DIR >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
-    echo "*** ERROR: Unable to create <$OCS_AGENT_LOG_DIR> OCS Inventory NG Agent log directory !"
-    echo "*** ERROR: Unable to install <$OCS_AGENT_LOG_DIR> OCS Inventory NG Agent log directory" >> $SETUP_LOG
+    echo "*** ERROR: Unable to create OCS Inventory NG Agent log directory <$OCS_AGENT_LOG_DIR> !"
+    echo "*** ERROR: Unable to create OCS Inventory NG Agent log directory <$OCS_AGENT_LOG_DIR>" >> $SETUP_LOG
     echo "Look at file $SETUP_LOG for detailled error and fix it manually"
     echo "before running another time OCS Inventory NG Agent setup."
     echo "Installation aborted !"
     exit 1
 fi
-if test -r $LOGROTATE_CONF_DIR/$OLD_OCS_AGENT_LOGROTATE_FILE
+if [ -r $LOGROTATE_CONF_DIR/$OLD_OCS_AGENT_LOGROTATE_FILE ]
 then
     echo "Removing old OCS Inventory NG Agent for Linux logrotate conf <$LOGROTATE_CONF_DIR/$OLD_OCS_AGENT_LOGROTATE_FILE>."
     echo "Removing old OCS Inventory NG Agent for Linux logrotate conf <$LOGROTATE_CONF_DIR/$OLD_OCS_AGENT_LOGROTATE_FILE>." >> $SETUP_LOG
     rm -f $LOGROTATE_CONF_DIR/$OLD_OCS_AGENT_LOGROTATE_FILE >> $SETUP_LOG 2>&1
 fi
-echo "Configuring logrotate for OCS Inventory NG Agent."
-echo "Configuring logrotate for OCS Inventory NG Agent" >> $SETUP_LOG
-cp etc/logrotate.d/$OCS_AGENT_LOGROTATE_FILE etc/logrotate.d/$OCS_AGENT_LOGROTATE_FILE.local
-$PERL_BIN -pi -e "s#PATH_TO_LOG_DIRECTORY#$OCS_AGENT_LOG_DIR#g" etc/logrotate.d/$OCS_AGENT_LOGROTATE_FILE.local
-echo "******** Begin updated logrotate conf <$OCS_AGENT_LOGROTATE_FILE> ***********" >> $SETUP_LOG
+echo "Creating logrotate configuration for OCS Inventory NG Agent."
+echo "Creating logrotate configuration for OCS Inventory NG Agent" >> $SETUP_LOG
+cp etc/logrotate.d/$OCS_AGENT_LOGROTATE_FILE etc/logrotate.d/$OCS_AGENT_LOGROTATE_FILE.local >> $SETUP_LOG 2>&1
+$PERL_BIN -pi -e "s#PATH_TO_LOG_DIRECTORY#$OCS_AGENT_LOG_DIR#g" etc/logrotate.d/$OCS_AGENT_LOGROTATE_FILE.local >> $SETUP_LOG 2>&1
+echo "******** Begin updated logrotate configuration file <$OCS_AGENT_LOGROTATE_FILE> ***********" >> $SETUP_LOG
 cat etc/logrotate.d/$OCS_AGENT_LOGROTATE_FILE.local >> $SETUP_LOG
-echo "******** End updated logrotate conf <$OCS_AGENT_LOGROTATE_FILE> ***********" >> $SETUP_LOG
-echo "Writing OCS Inventory NG Agent logrotate to file <$LOGROTATE_CONF_DIR/$OCS_AGENT_LOGROTATE_FILE>"
-echo "Writing OCS Inventory NG Agent logrotate to file <$LOGROTATE_CONF_DIR/$OCS_AGENT_LOGROTATE_FILE>" >> $SETUP_LOG
+echo "******** End updated logrotate configuration file <$OCS_AGENT_LOGROTATE_FILE> ***********" >> $SETUP_LOG
+echo "Installing OCS Inventory NG Agent logrotate configuration file <$LOGROTATE_CONF_DIR/$OCS_AGENT_LOGROTATE_FILE>"
+echo "Installing OCS Inventory NG Agent logrotate configuration file <$LOGROTATE_CONF_DIR/$OCS_AGENT_LOGROTATE_FILE>" >> $SETUP_LOG
 cp -f etc/logrotate.d/$OCS_AGENT_LOGROTATE_FILE.local $LOGROTATE_CONF_DIR/$OCS_AGENT_LOGROTATE_FILE >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
-    echo "*** ERROR: Unable to configure logrotate for OCS Inventory NG Agent !"
-    echo "*** ERROR: Unable to configure logrotate for OCS Inventory NG Agent" >> $SETUP_LOG
+    echo "*** ERROR: Unable to write OCS Inventory NG Agent logrotate configuration file <$LOGROTATE_CONF_DIR/$OCS_AGENT_LOGROTATE_FILE> !"
+    echo "*** ERROR: Unable to write OCS Inventory NG Agent logrotate configuration file <$LOGROTATE_CONF_DIR/$OCS_AGENT_LOGROTATE_FILE>" >> $SETUP_LOG
     echo "Look at file $SETUP_LOG for detailled error and fix it manually"
     echo "before running another time OCS Inventory NG Agent setup."
     echo "Installation aborted !"
@@ -892,47 +946,40 @@ echo "+----------------------------------------------------------+"
 echo "| Installing OCS Inventory NG Agent configuration files... |"
 echo "+----------------------------------------------------------+"
 echo
-if test -d $OLD_OCS_AGENT_CONFIG_DIR
+if [ -d $OLD_OCS_AGENT_CONFIG_DIR ]
 then
     echo "Removing old OCS Inventory NG Agent for Linux configuration directory <$OLD_OCS_AGENT_CONFIG_DIR>."
     echo "Removing old OCS Inventory NG Agent for Linux configuration directory <$OLD_OCS_AGENT_CONFIG_DIR>." >> $SETUP_LOG
     rm -Rf $OLD_OCS_AGENT_CONFIG_DIR >> $SETUP_LOG 2>&1
 fi
-echo "Creating OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR> configuration directory"
-echo "Creating OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR> configuration directory" >> $SETUP_LOG
+echo "Creating OCS Inventory NG Agent configuration directory <$OCS_AGENT_CONFIG_DIR>"
+echo "Creating OCS Inventory NG Agent configuration directory <$OCS_AGENT_CONFIG_DIR>" >> $SETUP_LOG
 mkdir -p "$OCS_AGENT_CONFIG_DIR" >> $SETUP_LOG 2>&1
-echo "Creating OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE> configuration file"
-echo "Creating OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE> configuration file" >> $SETUP_LOG
-if test "$OCS_AGENT_METHOD" = "$OCS_AGENT_LOCAL_HOST"
-then
-    # Local mode
-    echo "server=\"$OCS_AGENT_LOCAL_HOST\"" > "$OCS_AGENT_CONF_FILE.etc"
-else
-    # HTTP mode
-    echo "server=\"$OCS_SERVER_HOST:$OCS_SERVER_PORT\"" > "$OCS_AGENT_CONF_FILE.etc"
-fi
-echo "******** Begin updated <$OCS_AGENT_CONF_FILE> configuration file ***********" >> $SETUP_LOG
+echo "Creating OCS Inventory NG Agent configuration file"
+echo "Creating OCS Inventory NG Agent configuration file" >> $SETUP_LOG
+echo "server=\"$OCS_SERVER_DIR\"" > "$OCS_AGENT_CONF_FILE.etc"
+echo "******** Begin updated configuration file <$OCS_AGENT_CONF_FILE> ***********" >> $SETUP_LOG
 cat $OCS_AGENT_CONF_FILE.etc >> $SETUP_LOG
-echo "******** End updated <$OCS_AGENT_CONF_FILE> configuration file ***********" >> $SETUP_LOG
-echo "Writing OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE> configuration file"
-echo "Writing OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE> configuration file" >> $SETUP_LOG
+echo "******** End updated configuration file <$OCS_AGENT_CONF_FILE> ***********" >> $SETUP_LOG
+echo "Installing OCS Inventory NG Agent configuration file <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE>"
+echo "Installing OCS Inventory NG Agent configuration file <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE>" >> $SETUP_LOG
 cp -f "$OCS_AGENT_CONF_FILE.etc" "$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE" >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
-    echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE> configuration file !"
-    echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE> dconfiguration file" >> $SETUP_LOG
+    echo "*** ERROR: Unable to write OCS Inventory NG Agent configuration file <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE> !"
+    echo "*** ERROR: Unable to write OCS Inventory NG Agent configuration file <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_CONF_FILE>" >> $SETUP_LOG
     echo "Look at file $SETUP_LOG for detailled error and fix it manually"
     echo "before running another time OCS Inventory NG Agent setup."
     echo "Installation aborted !"
     exit 1
 fi
-echo "Installing OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE> option modules configuration file"
-echo "Writing OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE> option modules configuration file" >> $SETUP_LOG
+echo "Installing OCS Inventory NG Agent option modules configuration file <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE>"
+echo "Installing OCS Inventory NG Agent option modules configuration file <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE>" >> $SETUP_LOG
 cp -f "etc/ocsinventory-agent/$OCS_AGENT_MODULES_FILE" "$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE" >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+if [ $? -ne 0 ]
 then
-    echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE> option modules configuration file !"
-    echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE> option modules configuration file" >> $SETUP_LOG
+    echo "*** ERROR: Unable to write OCS Inventory NG Agent option modules configuration file <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE> !"
+    echo "*** ERROR: Unable to write OCS Inventory NG Agent option modules configuration file <$OCS_AGENT_CONFIG_DIR/$OCS_AGENT_MODULES_FILE>" >> $SETUP_LOG
     echo "Look at file $SETUP_LOG for detailled error and fix it manually"
     echo "before running another time OCS Inventory NG Agent setup."
     echo "Installation aborted !"
@@ -941,40 +988,35 @@ fi
  
 echo "Creating OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR> state directory"
 echo "Creating OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR> state directory" >> $SETUP_LOG
-mkdir -p "$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT" >> $SETUP_LOG 2>&1
-echo "Creating OCS Inventory NG Agent <$OCS_AGENT_STATE_FILE> state file"
-echo "Creating OCS Inventory NG Agent <$OCS_AGENT_STATE_FILE> state file" >> $SETUP_LOG
+mkdir -p "$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR" >> $SETUP_LOG 2>&1
+echo "Creating OCS Inventory NG Agent state file"
+echo "Creating OCS Inventory NG Agent state file" >> $SETUP_LOG
 echo "<CONF>" > "$OCS_AGENT_STATE_FILE.local"
 echo "  <DEVICEID>$OCS_AGENT_DEVICE_ID</DEVICEID>" >> "$OCS_AGENT_STATE_FILE.local"
-if test $OCS_AGENT_METHOD = "$OCS_AGENT_LOCAL_HOST"
-then
-    # Local mode
-    echo "  <OCSFSERVER>$OCS_AGENT_LOCAL_HOST</OCSFSERVER>" >> "$OCS_AGENT_STATE_FILE.local"
-else
-    # HTTP mode
-    echo "  <OCSFSERVER>$OCS_SERVER_HOST:$OCS_SERVER_PORT</OCSFSERVER>" >> "$OCS_AGENT_STATE_FILE.local"
-fi
+echo "  <OCSFSERVER>$OCS_SERVER_DIR</OCSFSERVER>" >> "$OCS_AGENT_STATE_FILE.local"
 echo "</CONF>" >> "$OCS_AGENT_STATE_FILE.local"
-echo "******** Begin updated <$OCS_AGENT_STATE_FILE> state file ***********" >> $SETUP_LOG
+echo "******** Begin updated state file <$OCS_AGENT_STATE_FILE> ***********" >> $SETUP_LOG
 cat $OCS_AGENT_STATE_FILE.local >> $SETUP_LOG
-echo "******** End updated <$OCS_AGENT_STATE_FILE> state file ***********" >> $SETUP_LOG
-cp -f "$OCS_AGENT_STATE_FILE.local" "$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_STATE_FILE" >> $SETUP_LOG 2>&1
-if [ $? != 0 ]
+echo "******** End updated state file <$OCS_AGENT_STATE_FILE> ***********" >> $SETUP_LOG
+echo "Installing OCS Inventory NG Agent state file <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_STATE_FILE>"
+echo "Installing OCS Inventory NG Agent state file <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_STATE_FILE>" >> $SETUP_LOG
+cp -f "$OCS_AGENT_STATE_FILE.local" "$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_STATE_FILE" >> $SETUP_LOG 2>&1
+if [ $? -ne 0 ]
 then
-    echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_STATE_FILE> state file !"
-    echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_STATE_FILE> state file" >> $SETUP_LOG
+    echo "*** ERROR: Unable to write OCS Inventory NG Agent state file <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_STATE_FILE> !"
+    echo "*** ERROR: Unable to write OCS Inventory NG Agent state file <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_STATE_FILE>" >> $SETUP_LOG
     echo "Look at file $SETUP_LOG for detailled error and fix it manually"
     echo "before running another time OCS Inventory NG Agent setup."
     echo "Installation aborted !"
     exit 1
 fi 
 
-echo "Creating OCS Inventory NG Agent <$OCS_AGENT_ADMININFO_FILE> admin information file"
-echo "Creating OCS Inventory NG Agent <$OCS_AGENT_ADMININFO_FILE> admin information file" >> $SETUP_LOG
-if test -r "$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_ADMININFO_FILE"
+echo "Creating OCS Inventory NG Agent administrative information file"
+echo "Creating OCS Inventory NG Agent administrative information file" >> $SETUP_LOG
+if [ -r "$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_ADMININFO_FILE" ]
 then
-    echo "File <$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_ADMININFO_FILE> already exist. Skipping <$OCS_AGENT_ADMININFO_FILE> file creation"
-    echo "File <$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_ADMININFO_FILE> already exist. Skipping <$OCS_AGENT_ADMININFO_FILE> file creation" >> $SETUP_LOG
+    echo "File <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_ADMININFO_FILE> already exist. Skipping administrative information file"
+    echo "File <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_ADMININFO_FILE> already exist. Skipping administrative information file" >> $SETUP_LOG
 else
     echo "<ADM>" > "$OCS_AGENT_ADMININFO_FILE.local"
     echo "  <ACCOUNTINFO>" >> "$OCS_AGENT_ADMININFO_FILE.local"
@@ -982,16 +1024,16 @@ else
     echo "    <KEYVALUE>$OCS_AGENT_TAG_VALUE</KEYVALUE>" >> "$OCS_AGENT_ADMININFO_FILE.local"
     echo "  </ACCOUNTINFO>" >> "$OCS_AGENT_ADMININFO_FILE.local"
     echo "</ADM>" >> "$OCS_AGENT_ADMININFO_FILE.local"
-    echo "******** Begin updated <$OCS_AGENT_ADMININFO_FILE> admin information file ***********" >> $SETUP_LOG
+    echo "******** Begin updated administrative information file <$OCS_AGENT_ADMININFO_FILE> ***********" >> $SETUP_LOG
     cat $OCS_AGENT_ADMININFO_FILE.local >> $SETUP_LOG
-    echo "******** End updated <$OCS_AGENT_ADMININFO_FILE> admin information file ***********" >> $SETUP_LOG
-    echo "Writing OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_ADMININFO_FILE> admin information file"
-    echo "Writing OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_ADMININFO_FILE> admin information file" >> $SETUP_LOG
-    cp -f "$OCS_AGENT_ADMININFO_FILE.local" "$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_ADMININFO_FILE" >> $SETUP_LOG 2>&1
-    if [ $? != 0 ]
+    echo "******** End updated administrative information file <$OCS_AGENT_ADMININFO_FILE> ***********" >> $SETUP_LOG
+    echo "Installing OCS Inventory NG Agent administrative information file <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_ADMININFO_FILE>"
+    echo "Installing OCS Inventory NG Agent administrative information file <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_ADMININFO_FILE>" >> $SETUP_LOG
+    cp -f "$OCS_AGENT_ADMININFO_FILE.local" "$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_ADMININFO_FILE" >> $SETUP_LOG 2>&1
+    if [ $? -ne 0 ]
     then
-        echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_ADMININFO_FILE> admin information file !"
-        echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR/$OCS_SERVER_HOST:$OCS_SERVER_PORT/$OCS_AGENT_ADMININFO_FILE> admin information file" >> $SETUP_LOG
+        echo "*** ERROR: Unable to write OCS Inventory NG Agent administrative information file <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_ADMININFO_FILE> !"
+        echo "*** ERROR: Unable to write OCS Inventory NG Agent administrative information file <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR/$OCS_AGENT_ADMININFO_FILE>" >> $SETUP_LOG
         echo "Look at file $SETUP_LOG for detailled error and fix it manually"
         echo "before running another time OCS Inventory NG Agent setup."
         echo "Installation aborted !"
@@ -1003,14 +1045,14 @@ echo "OCS Inventory NG Agent configuration files setup successfully" >> $SETUP_L
 echo
 
 
-if test $INSTALLER_PERL_DAEMON_MODE = 0
+if [ $INSTALLER_PERL_DAEMON_MODE -eq 0 ]
 then
     echo
     echo "+----------------------------------------------------------+"
     echo "| Installing OCS Inventory NG Agent cron configuration...  |"
     echo "+----------------------------------------------------------+"
     echo
-    if test -r $CRON_CONF_DIR/$OCS_AGENT_CRON_FILE
+    if [ -r $CRON_CONF_DIR/$OCS_AGENT_CRON_FILE ]
     then
         echo "OCS Inventory NG Agent cron configuration file already exist, skipping"
         echo "OCS Inventory NG Agent cron configuration file already exist, skipping" >> $SETUP_LOG
@@ -1019,19 +1061,19 @@ then
         echo "Creating OCS Inventory NG Agent cron configuration file" >> $SETUP_LOG
         OCS_AGENT_CRON_HOUR=`date +%H`
         OCS_AGENT_CRON_MIN=`date +%M`
-        cp etc/cron.d/$OCS_AGENT_CRON_FILE etc/cron.d/$OCS_AGENT_CRON_FILE.local
-        $PERL_BIN -pi -e "s#HH#$OCS_AGENT_CRON_HOUR#g" etc/cron.d/$OCS_AGENT_CRON_FILE.local
-        $PERL_BIN -pi -e "s#MM#$OCS_AGENT_CRON_MIN#g" etc/cron.d/$OCS_AGENT_CRON_FILE.local
-        echo "******** Begin updated $OCS_AGENT_CRON_FILE ***********" >> $SETUP_LOG
+        cp etc/cron.d/$OCS_AGENT_CRON_FILE etc/cron.d/$OCS_AGENT_CRON_FILE.local >> $SETUP_LOG 2>&1
+        $PERL_BIN -pi -e "s#HH#$OCS_AGENT_CRON_HOUR#g" etc/cron.d/$OCS_AGENT_CRON_FILE.local >> $SETUP_LOG 2>&1
+        $PERL_BIN -pi -e "s#MM#$OCS_AGENT_CRON_MIN#g" etc/cron.d/$OCS_AGENT_CRON_FILE.local >> $SETUP_LOG 2>&1
+        echo "******** Begin updated cron configuration file $OCS_AGENT_CRON_FILE ***********" >> $SETUP_LOG
         cat  etc/cron.d/$OCS_AGENT_CRON_FILE.local >> $SETUP_LOG
-        echo "******** End updated $OCS_AGENT_CRON_FILE ***********" >> $SETUP_LOG
-        echo "Writing OCS Inventory NG Agent <$OCS_AGENT_CRON_FILE> cron configuration file"
-        echo "Writing OCS Inventory NG Agent <$OCS_AGENT_CRON_FILE> cron configuration file" >> $SETUP_LOG
+        echo "******** End updated cron configuration file $OCS_AGENT_CRON_FILE ***********" >> $SETUP_LOG
+        echo "Installing OCS Inventory NG Agent cron configuration file <$CRON_CONF_DIR/$OCS_AGENT_CRON_FILE>"
+        echo "Installing OCS Inventory NG Agent cron configuration file <$CRON_CONF_DIR/$OCS_AGENT_CRON_FILE>" >> $SETUP_LOG
         cp -f  etc/cron.d/$OCS_AGENT_CRON_FILE.local $CRON_CONF_DIR/$OCS_AGENT_CRON_FILE >> $SETUP_LOG 2>&1
-        if [ $? != 0 ]
+        if [ $? -ne 0 ]
         then
-            echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_CRON_FILE> cron configuration file !"
-            echo "*** ERROR: Unable to write OCS Inventory NG Agent <$OCS_AGENT_CRON_FILE> cron configuration file" >> $SETUP_LOG
+            echo "*** ERROR: Unable to write OCS Inventory NG Agent cron configuration file <$CRON_CONF_DIR/$OCS_AGENT_CRON_FILE> !"
+            echo "*** ERROR: Unable to write OCS Inventory NG Agent cron configuration file <$CRON_CONF_DIR/$OCS_AGENT_CRON_FILE>" >> $SETUP_LOG
             echo "Look at file $SETUP_LOG for detailled error and fix it manually"
             echo "before running another time OCS Inventory NG Agent setup."
             echo "Installation aborted !"
@@ -1048,29 +1090,42 @@ else
     echo "| OCS Inventory NG Agent daemon scripts...                 |"
     echo "+----------------------------------------------------------+"
     echo
-    if test -r $CRON_CONF_DIR/$OCS_AGENT_CRON_FILE
+    if [ -r $CRON_CONF_DIR/$OCS_AGENT_CRON_FILE ]
     then
-        echo "Removing OCS Inventory NG Agent for Linux cron conf <$CRON_CONF_DIR/$OCS_AGENT_CRON_FILE>."
-        echo "Removing OCS Inventory NG Agent for Linux cron conf <$CRON_CONF_DIR/$OCS_AGENT_CRON_FILE>." >> $SETUP_LOG
+        echo "Removing OCS Inventory NG Agent for Linux cron configuration file <$CRON_CONF_DIR/$OCS_AGENT_CRON_FILE>."
+        echo "Removing OCS Inventory NG Agent for Linux cron configuration file <$CRON_CONF_DIR/$OCS_AGENT_CRON_FILE>." >> $SETUP_LOG
         rm -f $CRON_CONF_DIR/$OCS_AGENT_CRON_FILE >> $SETUP_LOG 2>&1
         echo
     fi
-    echo "You've choosed to use OCS Inventory NG Agent in daemon mode."
-    echo "Take a look at file <ocsinventory-agent> in directory <`pwd`/etc/init.d>."
+    echo "Installing OCS Inventory NG Agent daemon script startup file <$DAEMON_SCRIPT_DIR/$OCS_AGENT_DAEMON_SCRIPT_FILE>"
+    echo "Installing OCS Inventory NG Agent daemon script startup file <$DAEMON_SCRIPT_DIR/$OCS_AGENT_DAEMON_SCRIPT_FILE>" >> $SETUP_LOG
+    cp -f etc/init.d/$OCS_AGENT_DAEMON_SCRIPT_FILE $DAEMON_SCRIPT_DIR/$OCS_AGENT_DAEMON_SCRIPT_FILE >> $SETUP_LOG 2>&1
+    if [ $? -ne 0 ]
+    then
+        echo "*** ERROR: Unable to write OCS Inventory NG Agent daemon script startup file <$DAEMON_SCRIPT_DIR/$OCS_AGENT_DAEMON_SCRIPT_FILE> !"
+        echo "*** ERROR: Unable to write OCS Inventory NG Agent daemon script startup file <$DAEMON_SCRIPT_DIR/$OCS_AGENT_DAEMON_SCRIPT_FILE>" >> $SETUP_LOG
+        echo "Look at file $SETUP_LOG for detailled error and fix it manually"
+        echo "before running another time OCS Inventory NG Agent setup."
+        echo "Installation aborted !"
+        exit 1
+    fi
+    echo
+    echo "You choose to use OCS Inventory NG Agent in daemon mode."
+    echo "You should take a look at file <$OCS_AGENT_DAEMON_SCRIPT_FILE> in directory <$DAEMON_SCRIPT_DIR>."
     echo "This is a sample script to launch OCS Inventory NG Agent in daemon mode."
-    echo "You must adjust it according to your operating system, and copy to init.d directory."
-    echo "CAUTION: Without this script, daemon will not be started at boot time !"
-    echo "User have choosed to use OCS Inventory NG Agent in daemon mode." >> $SETUP_LOG
-    echo "User must take a look at file <ocsinventory-agent> in directory <`pwd`/etc/init.d>. This" >> $SETUP_LOG
+    echo "You must adjust it according to the operating system, and add it to needed system runlevel."
+    echo "CAUTION: Without adding to runlevel, daemon will not be started at boot time !"
+    echo "You choose to use OCS Inventory NG Agent in daemon mode." >> $SETUP_LOG
+    echo "You should take a look at file <$OCS_AGENT_DAEMON_SCRIPT_FILE> in directory <$DAEMON_SCRIPT_DIR>." >> $SETUP_LOG
     echo "This is a sample script to launch OCS Inventory NG Agent in daemon mode." >> $SETUP_LOG
-    echo "You must adjust it according to your operating system, and copy to init.d directory." >> $SETUP_LOG
+    echo "You must adjust it according to the operating system, and add it to needed system runlevel." >> $SETUP_LOG
     echo "CAUTION: Without this script, daemon will not be started at boot time !" >> $SETUP_LOG
 fi
-if test -r $CRON_CONF_DIR/$OLD_OCS_AGENT_CRON_FILE
+if [ -r $CRON_CONF_DIR/$OLD_OCS_AGENT_CRON_FILE ]
 then
     echo
-    echo "Removing old OCS Inventory NG Agent for Linux cron conf <$CRON_CONF_DIR/$OLD_OCS_AGENT_CRON_FILE>."
-    echo "Removing old OCS Inventory NG Agent for Linux cron conf <$CRON_CONF_DIR/$OLD_OCS_AGENT_CRON_FILE>." >> $SETUP_LOG
+    echo "Removing old OCS Inventory NG Agent for Linux cron configuration file <$CRON_CONF_DIR/$OLD_OCS_AGENT_CRON_FILE>."
+    echo "Removing old OCS Inventory NG Agent for Linux cron configuration file <$CRON_CONF_DIR/$OLD_OCS_AGENT_CRON_FILE>." >> $SETUP_LOG
     rm -f $CRON_CONF_DIR/$OLD_OCS_AGENT_CRON_FILE >> $SETUP_LOG 2>&1
 fi
 echo
@@ -1081,15 +1136,8 @@ echo "| Lauching OCS Inventory NG Agent...                       |"
 echo "+----------------------------------------------------------+"
 echo
 echo "Lauching OCS Inventory NG Agent for testing" >> $SETUP_LOG
-if test "$OCS_AGENT_METHOD" = "$OCS_AGENT_LOCAL_HOST"
-then
-    # Local mode
-    /bin/ocsinv -s $OCS_AGENT_LOCAL_HOST >> $SETUP_LOG 2>&1
-else
-    # HTTP mode
-    /bin/ocsinv -s $OCS_SERVER_HOST:$OCS_SERVER_PORT >> $SETUP_LOG 2>&1
-fi
-if [ $? != 0 ]
+/bin/ocsinv -s $OCS_SERVER_DIR >> $SETUP_LOG 2>&1
+if [ $? -ne 0 ]
 then
 	echo "*** ERROR: Unable to launch OCS Inventory NG Agent !"
 	echo "*** ERROR: Unable to launch OCS Inventory NG Agent" >> $SETUP_LOG
