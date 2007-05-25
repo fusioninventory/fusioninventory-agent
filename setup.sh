@@ -1133,6 +1133,34 @@ then
 fi
 echo
 
+
+echo
+echo "+----------------------------------------------------------+"
+echo "| Installing Certificates...                               |"
+echo "+----------------------------------------------------------+"
+echo
+echo "Installing Certificates" >> $SETUP_LOG
+if [ `ls *.pem 2> /dev/null | wc -l` -eq 0 ]
+then
+    echo "There is no Certificate in directory `pwd`. Skipping Certificates install..."
+    echo "There is no Certificate in directory `pwd`. Skipping Certificates install" >> $SETUP_LOG
+else
+    echo "Copying Certificates from directory <`pwd`> to directory <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR>..."
+    echo "Copying Certificates from directory <`pwd`> to directory <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR>" >> $SETUP_LOG
+    cp -f *.pem 1>>$SETUP_LOG 2>&1
+    if [ $? -ne 0 ]
+    then
+        echo "*** ERROR: Unable to copy Certificates from directory <`pwd`> to directory <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR> !"
+        echo "*** ERROR: Unable to copy Certificates from directory <`pwd`> to directory <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR>" >> $SETUP_LOG
+        echo "Look at file $SETUP_LOG for detailled error and fix it manually"
+        echo "before running another time OCS Inventory NG Agent setup."
+        echo "Installation aborted !"
+        exit 1
+    fi
+fi
+echo
+
+
 echo
 echo "+----------------------------------------------------------+"
 echo "| Lauching OCS Inventory NG Agent...                       |"
