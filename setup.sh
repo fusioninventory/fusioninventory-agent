@@ -946,12 +946,6 @@ echo "+----------------------------------------------------------+"
 echo "| Installing OCS Inventory NG Agent configuration files... |"
 echo "+----------------------------------------------------------+"
 echo
-if [ -d $OLD_OCS_AGENT_CONFIG_DIR ]
-then
-    echo "Removing old OCS Inventory NG Agent for Linux configuration directory <$OLD_OCS_AGENT_CONFIG_DIR>."
-    echo "Removing old OCS Inventory NG Agent for Linux configuration directory <$OLD_OCS_AGENT_CONFIG_DIR>." >> $SETUP_LOG
-    rm -Rf $OLD_OCS_AGENT_CONFIG_DIR >> $SETUP_LOG 2>&1
-fi
 echo "Creating OCS Inventory NG Agent configuration directory <$OCS_AGENT_CONFIG_DIR>"
 echo "Creating OCS Inventory NG Agent configuration directory <$OCS_AGENT_CONFIG_DIR>" >> $SETUP_LOG
 mkdir -p "$OCS_AGENT_CONFIG_DIR" >> $SETUP_LOG 2>&1
@@ -989,6 +983,15 @@ fi
 echo "Creating OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR> state directory"
 echo "Creating OCS Inventory NG Agent <$OCS_AGENT_STATE_DIR> state directory" >> $SETUP_LOG
 mkdir -p "$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR" >> $SETUP_LOG 2>&1
+if [ -d $OLD_OCS_AGENT_CONFIG_DIR ]
+then
+    echo "Migrating old OCS Inventory NG Agent for Linux settings from <$OLD_OCS_AGENT_CONFIG_DIR> to <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR>."
+    echo "Migrating old OCS Inventory NG Agent for Linux settings from <$OLD_OCS_AGENT_CONFIG_DIR> to <$OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR>." >> $SETUP_LOG
+    cp -Rf $OLD_OCS_AGENT_CONFIG_DIR/*  $OCS_AGENT_STATE_DIR/$OCS_SERVER_DIR >> $SETUP_LOG 2>&1
+    echo "Removing old OCS Inventory NG Agent for Linux configuration directory <$OLD_OCS_AGENT_CONFIG_DIR>."
+    echo "Removing old OCS Inventory NG Agent for Linux configuration directory <$OLD_OCS_AGENT_CONFIG_DIR>." >> $SETUP_LOG
+    rm -Rf $OLD_OCS_AGENT_CONFIG_DIR >> $SETUP_LOG 2>&1
+fi
 echo "Creating OCS Inventory NG Agent state file"
 echo "Creating OCS Inventory NG Agent state file" >> $SETUP_LOG
 echo "<CONF>" > "$OCS_AGENT_STATE_FILE.local"
