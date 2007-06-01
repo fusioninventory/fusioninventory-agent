@@ -22,6 +22,7 @@ sub run {
     if(/^DS (.+MS.*)/){
       $flag=1; (defined($n))?($n++):($n=0);
       $description = $1;
+      $description =~ s/\s+$//;
     }
     if((/^SZ (.+)/) && ($flag)) {$capacity = $1;}
 	if((/^PN (.+)/) && ($flag)) {$type = $1;}

@@ -141,7 +141,11 @@ help() if (!GetOptions(%options) || $params->{help});
 my $tmp;
 open ($tmp, ">&STDERR");
 $params->{"savedstderr"} = $tmp;
-close(STDERR) if(! $params->{debug});
+if($params->{debug}) {
+  $params->{verbose} = 1;
+} else {
+  close(STDERR);
+}
 
 my $logger = new Ocsinventory::Logger ({
 
