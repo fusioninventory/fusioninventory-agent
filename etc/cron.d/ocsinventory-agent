@@ -15,5 +15,5 @@
 #
 # Launch OCS Inventory NG Agent once a day under root account, at HH:MM
 #
-MM HH * * * root cd /usr/sbin && perl ocsinventory-client.pl > /dev/null 2>&1
+MM HH * * * root cd /usr/sbin/ocsinventory-agent > /dev/null 2>&1
  
