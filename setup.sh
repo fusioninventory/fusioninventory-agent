@@ -223,10 +223,10 @@ else
         if [ "$1" = "$OCS_AGENT_LOCAL_HOST" ]
         then
             OCS_AGENT_METHOD="$OCS_AGENT_LOCAL_HOST"
-            OCS_SERVER_HOST=$2
+            OCS_SERVER_HOST=$1
         else
             OCS_AGENT_METHOD="http"
-            OCS_SERVER_HOST=$2
+            OCS_SERVER_HOST=$1
         fi
     fi
     # On which port run OCS Inventory NG Communication Server
