@@ -16,9 +16,9 @@
 # Rotate OCS Inventory NG agent logs daily, only if not empty
 # Save 7 days old logs under compressed mode
 PATH_TO_LOG_DIRECTORY/*.log {
-	daily
-	rotate 7
-	compress
-	notifempty
-	missingok
+    daily
+    rotate 7
+    compress
+    notifempty
+    missingok
 }
