@@ -1161,25 +1161,32 @@ fi
 echo
 
 
-echo
-echo "+----------------------------------------------------------+"
-echo "| Lauching OCS Inventory NG Agent...                       |"
-echo "+----------------------------------------------------------+"
-echo
-echo "Lauching OCS Inventory NG Agent for testing" >> $SETUP_LOG
-/bin/ocsinv -s $OCS_SERVER_DIR >> $SETUP_LOG 2>&1
-if [ $? -ne 0 ]
+echo "SUCCESS, OCS Inventory NG Agent Setup finisfed successfully ;-)"
+echo "SUCCESS: OCS Inventory NG Agent Setup finisfed successfully" >> $SETUP_LOG
+
+
+if [ $INSTALLER_INTERACTIVE -eq 1 ]
 then
-	echo "*** ERROR: Unable to launch OCS Inventory NG Agent !"
-	echo "*** ERROR: Unable to launch OCS Inventory NG Agent" >> $SETUP_LOG
-	echo "Look at file $SETUP_LOG for detailled error and fix it manually"
-	echo "before running another time OCS Inventory NG Agent setup."
-	echo "Installation aborted !"
-	exit 1
-fi 
-echo "OK, OCS Inventory NG Agent runs successfully ;-)"
-echo "SUCCESS: OCS Inventory NG Agent runs successfully" >> $SETUP_LOG
-echo
+    echo
+    echo "+----------------------------------------------------------+"
+    echo "| Lauching OCS Inventory NG Agent...                       |"
+    echo "+----------------------------------------------------------+"
+    echo
+    echo "Lauching OCS Inventory NG Agent for testing" >> $SETUP_LOG
+    /bin/ocsinv -s $OCS_SERVER_DIR >> $SETUP_LOG 2>&1
+    if [ $? -ne 0 ]
+    then
+	    echo "*** ERROR: Unable to launch OCS Inventory NG Agent !"
+    	echo "*** ERROR: Unable to launch OCS Inventory NG Agent" >> $SETUP_LOG
+	    echo "Look at file $SETUP_LOG for detailled error and fix it manually"
+	    echo "before running another time OCS Inventory NG Agent setup."
+    	echo "Installation aborted !"
+	    exit 1
+    fi 
+    echo "OK, OCS Inventory NG Agent runs successfully ;-)"
+    echo "OCS Inventory NG Agent runs successfully" >> $SETUP_LOG
+    echo
+fi
 
 echo
 echo "Setup has created a log file $SETUP_LOG. Please, save this file."
