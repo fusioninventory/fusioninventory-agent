@@ -12,7 +12,7 @@ sub new {
   my $self = {};
 
   $self->{accountinfo} = $params->{accountinfo};
-  $self->{config} = $params->{config};
+  $self->{accountconfig} = $params->{accountconfig};
   $self->{inventory} = $params->{inventory};
   my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
@@ -154,7 +154,7 @@ sub runMod {
 
   &{$self->{modules}->{$m}->{runFunc}}({
       accountinfo => $self->{accountinfo},
-      config => $self->{config},
+      accountconfig => $self->{accountconfig},
       params => $self->{params},
       inventory => $inventory,
       logger => $logger,

@@ -157,7 +157,7 @@ my $logger = new Ocsinventory::Logger ({
 #### Objects initilisation 
 ############################
 
-# The agent can contact different servers. Each server config is
+# The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
 if (!-d $params->{basevardir} && !mkdir ($params->{basevardir})) {
   $logger->info("Failed to create $params->{basevardir} directory: $!. ".
@@ -188,14 +188,14 @@ if (-d $params->{vardir}) {
 
 
 # load CFG files
-my $config = new Ocsinventory::Agent::Config({
+my $accountconfig = new Ocsinventory::Agent::Config({
     logger => $logger,
     params => $params,
   });
 
-my $srv = $config->get('OCSFSERVER');
+my $srv = $accountconfig->get('OCSFSERVER');
 $params->{server} = $srv if $srv;
-$params->{deviceid}   = $config->get('DEVICEID');
+$params->{deviceid}   = $accountconfig->get('DEVICEID');
 
 # Should I create a new deviceID?
 if ((!$params->{deviceid}) || $params->{deviceid} !~ /.*-(?:\d{4})(?:-\d{2}){5}/) {
@@ -205,7 +205,7 @@ chomp(my $hostname = `uname -n| cut -d . -f 1`);
   $params->{old_deviceid} = $params->{deviceid};
   $params->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
   $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
-  $config->set('DEVICEID',$params->{deviceid});
+  $accountconfig->set('DEVICEID',$params->{deviceid});
 }
 
 my $accountinfo = new Ocsinventory::Agent::AccountInfo({
@@ -236,7 +236,7 @@ my $inventory = new Ocsinventory::Agent::XML::Inventory ({
 my $backend = new Ocsinventory::Agent::Backend ({
 
     accountinfo => $accountinfo,
-    config => $config,
+    accountconfig => $accountconfig,
     logger => $logger,
     params => $params,
 
@@ -247,7 +247,7 @@ my $backend = new Ocsinventory::Agent::Backend ({
 my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
 
     accountinfo => $accountinfo,
-    config => $config,
+    accountconfig => $accountconfig,
     logger => $logger,
     params => $params,
 
@@ -274,7 +274,7 @@ $logger->debug("OCS Agent initialised");
 do {
 
   if ($params->{daemon} || $params->{wait}) {
-    my $serverdelay = $config->get('PROLOG_FREQ');
+    my $serverdelay = $accountconfig->get('PROLOG_FREQ');
     my $delay = int
     rand(($serverdelay?$serverdelay:$params->{delaytime})*3600);
     $logger->info("Going to sleep for $delay second(s)");
@@ -295,7 +295,7 @@ do {
 	logger => $logger,
 	params => $params,
 	respHandlers => {
-	  PROLOG_FREQ => sub {$config->set("PROLOG_FREQ", $_[0])},
+	  PROLOG_FREQ => sub {$accountconfig->set("PROLOG_FREQ", $_[0])},
 	  ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
 	}
 
