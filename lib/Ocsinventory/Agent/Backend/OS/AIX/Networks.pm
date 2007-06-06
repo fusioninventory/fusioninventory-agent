@@ -12,17 +12,12 @@ sub run {
 
   my %info;  
 
-
-  # Inventaire des interfaces physiques
-  my $i=0;  
-  #lsvpd
   my @lsvpd = `lsvpd`;
   # Remove * (star) at the beginning of lines
-  s/^\*// for (@lsvpd);
 
   my $previousline; 
   foreach (@lsvpd) {
-    if (/^AX ent(\d+)/) {
+    if (/^\*AX ent(\d+)/) {
       my $ifname = "en".$1;
       my $tmpifname = "ent".$1;
 
@@ -31,7 +26,6 @@ sub run {
       }
       $info{$ifname}{status} = 'Down'; # Preinitialied to Down, will see if it have an ip
       foreach (`lscfg -v -l $tmpifname`) { 
-	if((/^\s*network address[.]*(\S+)/i) ) {
 	  my $macaddr=$1;
 	  $macaddr=~ s/(.{2})(.{2})(.{2})(.{2})(.{2})(.{2})/$1:$2:$3:$4:$5:$6/;
 	  $info{$ifname}{macaddr} = $macaddr;
@@ -54,11 +48,9 @@ sub run {
       }
     }
     $info{$ifname}{status} = 'Down'; # The same
-    $info{$ifname}{macaddr} = '00:00:00:00:00:00';
   }
-  # AIX option -a obligatoire. On met à jour les interfaces actives, on utilise la tableaux @interfaces
   foreach (split / /,`ifconfig -l`) {
-    # AIX les interfaces sont des enX
+    # AIX: network interface naming is enX
     if(/^(en\d+)/) {
       my $ifname = $1;
       foreach (`lsattr -E -l $ifname`) {
@@ -69,8 +61,8 @@ sub run {
     }
   }
 
-  #Looking for the gateway
-  # AIX la cde route n'existe pas, on utilise netstat -rn
+  #Looking for the gateways
+  # AIX: the route command doesn't exist. We use netstat -rn instead
   foreach (`netstat -rn`) {
     if (/\S+\s+(\S+)\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
       my $ifname = $2;
@@ -103,7 +95,6 @@ sub run {
       my $subnet = $binip & $binmask;
       $ipsubnet = ip_bintoip($subnet,4);
     }
-    #print $description." ".$ipaddress."\n";
     $inventory->addNetworks({
 	DESCRIPTION => $description,
 	IPADDRESS => $ipaddress,
