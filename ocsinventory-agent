@@ -162,14 +162,19 @@ my $logger = new Ocsinventory::Logger ({
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
 if (!-d $params->{basevardir} && !mkdir ($params->{basevardir})) {
-  $logger->info("Failed to create $params->{basevardir} directory: $!. ".
-  "I'm going to use the home directory instead.");
+
+  if (! -d $ENV{HOME}."/.ocs-inventory-agent") {
+    $logger->info("Failed to create $params->{basevardir} directory: $!. ".
+      "I'm going to use the home directory instead.");
+  }
+
   $params->{basevardir} = $ENV{HOME}."/.ocs-inventory-agent";
   if (!-d $params->{basevardir} && !mkdir ($params->{basevardir})) {
     $logger->error("Failed to create $params->{basedir} directory: $!".
     "The HOSTID will not be written on the harddrive. You may have duplicated".
     "entry of this computer in your OCS database");
   }
+  $logger->debug("vardir are stored in ".$params->{basedir});
 }
 
 if (defined($params->{local}) && $params->{local}) {
