@@ -5,7 +5,8 @@ Revision history for Ocsinventory::Agent
        * AIX: Ocsinventory::Agent::Backend::OS::AIX::Networks rewrote
        * AIX: Memory.pm, remove the spaces from the end of the DESCRIPTION
        * add standalone.sh, a script designed to prepare a stand-alone binary of the agent
-       * AIX: Retrieve all the gateway of every subnet instead of just the default one 
+       * AIX: Retrieve all the gateway of every subnet instead of just the default one
+       * Config.pm renamed to AccountConfig.pm
 
 0.0.5  04/17/2007
        * AIX: use lslpp -c -l to find installed packages

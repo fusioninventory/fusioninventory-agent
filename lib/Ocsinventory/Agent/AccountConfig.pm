@@ -1,8 +1,9 @@
-package Ocsinventory::Agent::Config;
+package Ocsinventory::Agent::AccountConfig;
 use strict;
 use warnings;
 
-use Data::Dumper; # XXX Debug
+# AccountConfig read and write the setting for the client given by the server
+# This file will be overwrite and is not designed to be changed by the user
 
 sub new {
   my (undef,$params) = @_;

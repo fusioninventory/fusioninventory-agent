@@ -12,7 +12,7 @@ use Ocsinventory::Agent::XML::Prolog;
 
 use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Backend;
-use Ocsinventory::Agent::Config;
+use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
 use Ocsinventory::Agent::Pid;
 
