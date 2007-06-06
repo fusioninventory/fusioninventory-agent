@@ -7,6 +7,7 @@ Revision history for Ocsinventory::Agent
        * add standalone.sh, a script designed to prepare a stand-alone binary of the agent
        * AIX: Retrieve all the gateway of every subnet instead of just the default one
        * Config.pm renamed to AccountConfig.pm
+       * New flag: --stdout to print the inventory directly on STDOUT
 
 0.0.5  04/17/2007
        * AIX: use lslpp -c -l to find installed packages

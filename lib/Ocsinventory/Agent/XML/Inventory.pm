@@ -3,7 +3,7 @@ package Ocsinventory::Agent::XML::Inventory;
 use strict;
 use warnings;
 
-use Data::Dumper; # XXX Debug
+#use Data::Dumper; # XXX Debug
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 
@@ -38,12 +38,11 @@ sub new {
   bless $self;
 }
 
-sub dump {
-  my $self = shift;
-  require Data::Dumper;
-  print Data::Dumper($self->{h});
-
-}
+#sub dump {
+#  my $self = shift;
+#  require Data::Dumper;
+#  print Data::Dumper($self->{h});
+#}
 
 sub addController {
   my ($self, $args) = @_;
@@ -342,6 +341,12 @@ sub content {
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>', SuppressEmpty => undef );
 
   return $content;
+}
+
+sub printXML {
+  my ($self, $args) = @_;
+
+  print $self->content();
 }
 
 sub writeXML {

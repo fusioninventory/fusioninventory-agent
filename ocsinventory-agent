@@ -36,8 +36,9 @@ my $params = {
   'password'  =>  '',
   'realm'     =>  '',
   'remotedir' =>  '/ocsinventory',
-  'tag'       =>  '',
   'server'    =>  'ocsinventory-ng',
+  'stdout'    =>  0,
+  'tag'       =>  '',
   'user'      =>  '',
   'wait'      =>  '0',
 #  'xml'       =>  0,
@@ -67,8 +68,9 @@ my %options = (
   "p|password=s"    =>   \$params->{password},
   "r|realm=s"       =>   \$params->{realm},
   "R|remotedir=s"   =>   \$params->{remotedir},
-  "t|tag=s"         =>   \$params->{tag},
   "s|server=s"      =>   \$params->{server},
+  "stdout"          =>   \$params->{stdout},
+  "t|tag=s"         =>   \$params->{tag},
   "u|user"          =>   \$params->{user},
   "w|wait"          =>   \$params->{wait},
 #  "x|xml"           =>   \$params{xml},
@@ -88,24 +90,24 @@ sub help {
   }
 
   print STDERR "Usage:\n";
-  print STDERR "\t    --debug          debug mode ($params->{debug})\n";
+  print STDERR "\t    --debug          debug mode (".$params->{debug}.")\n";
   print STDERR "\t-d  --daemon         detach the agent in background ".
-  "and run it silently endlessly ($params->{daemon})\n";
+  "and run it silently endlessly (".$params->{daemon}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask
   before) ($params->{force})\n";
-  print STDERR "\t-i --info           verbose mode ($params->{info})\n";
+  print STDERR "\t-i --info           verbose mode (".$params->{info}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
-  "inventory in DIR directory in XML ($params->{local})\n";
+  "inventory in DIR directory in XML (".$params->{local}.")\n";
   print STDERR "\t   --logfile=FILE   log message in FILE\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-r --realm=REALM    realm for server auth\n";
-  print STDERR "\t-s --server=host    server hostname ".
-  "($params->{server})\n";
-  print STDERR "\t-t --tag=TAG        use TAG as tag ($params->{tag}). ".
+  print STDERR "\t-s --server=host    server hostname (".$params->{server}.")\n";
+  print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";
+  print STDERR "\t-t --tag=TAG        use TAG as tag (".$params->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
   print STDERR "\t-u --user=USER      user for server auth\n";
   print STDERR "\t-w --wait           wait during a random periode before".
-  "  contacting server like --daemon do ($params->{wait})\n";
+  "  contacting server like --daemon do (".$params->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
 #  print STDERR "\t--nosoft           do not return installed software list\n";
 
@@ -188,7 +190,7 @@ if (-d $params->{vardir}) {
 
 
 # load CFG files
-my $accountconfig = new Ocsinventory::Agent::Config({
+my $accountconfig = new Ocsinventory::Agent::AccountConfig({
     logger => $logger,
     params => $params,
   });
@@ -286,7 +288,9 @@ do {
 # Feed the inventory with its modules
   $backend->feedInventory ({inventory => $inventory});
 
-  if ($params->{local}) {
+  if ($params->{stdout}) {
+    $inventory->printXML();
+  } elsif ($params->{local}) {
     $inventory->writeXML();
   } else { # I've to contact the server
     my $net = new Ocsinventory::Agent::Network ({
