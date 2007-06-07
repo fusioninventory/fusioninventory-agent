@@ -11,6 +11,7 @@ Makefile.PL
 MANIFEST
 ocsinventory-agent
 tools/build-perl-tree.sh
+tools/standalone.sh
 lib/Ocsinventory/Agent/Backend/OS/Generic.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX.pm
 lib/Ocsinventory/Agent/Backend/OS/AIX/Domains.pm
