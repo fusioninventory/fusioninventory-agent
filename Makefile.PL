@@ -44,5 +44,5 @@ print "Warning: I can't Compress::Zlib or the gzip command to compress backend".
 "the data for the server\n";
 } else {
 print "gzip is avalaible. I will use it for the compress backend. OCS Server ";
-print "1.01 and prior do not support this feature and so needs Compress::Zlib\n";
+print "1.01 and prior do not support this (buggy) feature and so needs Compress::Zlib\n";
 }
