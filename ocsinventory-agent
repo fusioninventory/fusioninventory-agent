@@ -362,7 +362,7 @@ do {
       }
 
     } else {
-      $logger->info('No need to send the inventory'); 
+      $logger->info("Don't send the inventory"); 
     }
   }
   $compatibilityLayer->hook({name => 'end_handler'});
