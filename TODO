@@ -3,3 +3,4 @@ TODO stuffs for Ocsinventory::Agent
  * translate the software
  * in daemon mode, store the time remaining before the upload
  * call md5sum directly if avalaible
+ * prepare the package to be CPAN ready
