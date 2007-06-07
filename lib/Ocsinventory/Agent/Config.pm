@@ -5,9 +5,9 @@ sub get {
   my $config;
 
   if (!$file || !-f $file) {
-    $file = '/etc/ocsinventory-agent/ocsinventory-agent.cfg';
+    $file = $ENV{HOME}.'/.ocsinventory/ocsinventory-agent.cfg';
     if (!-f $file) {
-      $file = $ENV{HOME}.'/ocsinventory-agent/ocsinventory-agent.cfg';
+      $file = '/etc/ocsinventory/ocsinventory-agent.cfg';
       return {} if (! -f $file);
     }
   }
