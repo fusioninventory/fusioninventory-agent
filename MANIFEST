@@ -103,6 +103,7 @@ lib/Ocsinventory/Agent/Backend/OS/BSD.pm
 lib/Ocsinventory/Agent/Backend/AccessLog.pm
 lib/Ocsinventory/Agent/Backend/DeviceID.pm
 lib/Ocsinventory/Agent/AccountInfo.pm
+lib/Ocsinventory/Agent/AccountConfig.pm
 lib/Ocsinventory/Agent/Backend.pm
 lib/Ocsinventory/Agent/Common.pm
 lib/Ocsinventory/Agent/CompatibilityLayer.pm
