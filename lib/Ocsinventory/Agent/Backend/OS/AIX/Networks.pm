@@ -12,23 +12,20 @@ sub run {
 
   my %info;  
 
-  my @lsvpd = `lsvpd`;
-  # Remove * (star) at the beginning of lines
-
   my $previousline; 
-  foreach (@lsvpd) {
+  foreach (`lsvpd`) {
     if (/^\*AX ent(\d+)/) {
       my $ifname = "en".$1;
       my $tmpifname = "ent".$1;
 
-      if ($previousline =~ /^DS (.+)/) {
+      if ($previousline =~ /^\*DS (.+)/) {
 	$info{$ifname}{type} = $1;
       }
       $info{$ifname}{status} = 'Down'; # Preinitialied to Down, will see if it have an ip
       foreach (`lscfg -v -l $tmpifname`) { 
-	  my $macaddr=$1;
-	  $macaddr=~ s/(.{2})(.{2})(.{2})(.{2})(.{2})(.{2})/$1:$2:$3:$4:$5:$6/;
-	  $info{$ifname}{macaddr} = $macaddr;
+        # read the mac address
+	if (/Network\ Address\.+(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})$/) {
+	  $info{$ifname}{macaddr} = "$1:$2:$3:$4:$5:$6";
 	}
       }
     }
