@@ -87,6 +87,24 @@ my $pid;
 ##########################################
 ##########################################
 ##########################################
+sub recMkdir {
+  my $dir = shift;
+
+  my @t = split /\//, $dir;
+  shift @t;
+  return unless @t;
+
+  my $t;
+  foreach (@t) {
+    $t .= '/'.$_;
+    if ((!-d $t) && (!mkdir $t)) {
+      return;
+    }
+  }
+  1;
+}
+
+
 sub help {
   my $error = shift;
   if ($error) {
@@ -168,20 +186,20 @@ my $logger = new Ocsinventory::Logger ({
 
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
-if (!-d $params->{basevardir} && !mkdir ($params->{basevardir})) {
+if (!recMkdir ($params->{basevardir})) {
 
-  if (! -d $ENV{HOME}."/.ocs-inventory-agent") {
+  if (! -d $ENV{HOME}."/.ocsinventory/var") {
     $logger->info("Failed to create $params->{basevardir} directory: $!. ".
-      "I'm going to use the home directory instead.");
+      "I'm going to use the home directory instead (~/.ocsinventory/var).");
   }
 
-  $params->{basevardir} = $ENV{HOME}."/.ocs-inventory-agent";
-  if (!-d $params->{basevardir} && !mkdir ($params->{basevardir})) {
+  $params->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
+  if (!recMkdir ($params->{basevardir})) {
     $logger->error("Failed to create $params->{basedir} directory: $!".
-    "The HOSTID will not be written on the harddrive. You may have duplicated".
+    "The HOSTID will not be written on the harddrive. You may have duplicated ".
     "entry of this computer in your OCS database");
   }
-  $logger->debug("vardir are stored in ".$params->{basedir});
+  $logger->debug("var files are stored in ".$params->{basedir});
 }
 
 if (defined($params->{local}) && $params->{local}) {
@@ -189,7 +207,7 @@ if (defined($params->{local}) && $params->{local}) {
 } else {
   $params->{vardir} = $params->{basevardir}."/".$params->{server};
 }
-if (!-d $params->{vardir} && !mkdir ($params->{vardir})) {
+if (!recMkdir ($params->{vardir})) {
   $logger->error("Failed to create $params->{vardir} directory: $!");
 }
 
@@ -220,6 +238,7 @@ chomp(my $hostname = `uname -n| cut -d . -f 1`);
   $params->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
   $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
   $accountconfig->set('DEVICEID',$params->{deviceid});
+  $accountconfig->write();
 }
 
 my $accountinfo = new Ocsinventory::Agent::AccountInfo({
@@ -277,7 +296,6 @@ if ($params->{daemon}) {
       logger => $logger,
       params => $params,
     });
-  $logger->debug("Yo!");
   
 }
 
@@ -305,6 +323,7 @@ do {
   } elsif ($params->{local}) {
     $inventory->writeXML();
   } else { # I've to contact the server
+    $inventory->processChecksum();
     my $net = new Ocsinventory::Agent::Network ({
 
 	compatibilityLayer => $compatibilityLayer,
@@ -317,7 +336,7 @@ do {
 
       });
 
-    my $sendIventory = 1;
+    my $sendInventory = 1;
     if (!$params->{force}) {
       my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
@@ -328,17 +347,18 @@ do {
 	});
 
       my $ret = $net->send({message => $prolog});
-      $sendIventory = 0 if (!defined($ret) || (defined ($ret) &&
+      $sendInventory = 0 if (!defined($ret) || (defined ($ret) &&
 	  $ret->{RESPONSE} !~ /SEND/));
     }
 
-    if ($sendIventory) {
+    if ($sendInventory) {
 
       if (my $ret = $net->send({message => $inventory})) {
         $logger->debug("Server returned: ".$ret->{RESPONSE});
 				if ($ret->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
+				  die;
           $inventory->saveLastState();
-				}
+	}
       }
 
     } else {

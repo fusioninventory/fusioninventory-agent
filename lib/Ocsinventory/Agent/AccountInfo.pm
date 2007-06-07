@@ -69,7 +69,6 @@ sub reSetAll {
 
   my $logger = $self->{logger};
 
-  print "TOTOR".ref($ref)."\n";
   if (ref ($ref) =~ /^ARRAY$/) {
     foreach (@$ref) {
       $self->set($_->{NAME}, $_->{VALUE});

@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-0.0.6
+0.0.6  06/07/2007
        * Enable "verbose" is debug is turned on
        * AIX: Ocsinventory::Agent::Backend::OS::AIX::Networks rewrote
        * AIX: Memory.pm, remove the spaces from the end of the DESCRIPTION
@@ -8,6 +8,16 @@ Revision history for Ocsinventory::Agent
        * AIX: Retrieve all the gateway of every subnet instead of just the default one
        * Config.pm renamed to AccountConfig.pm
        * New flag: --stdout to print the inventory directly on STDOUT
+       * If the use want write on the system var directory, the agent create one in
+         ~/.ocsinventory/var
+       * The agent setting can be preinitialised with /etc/ocsinventory/ocsinventory-agent.cfg or
+         ~/ocsinventory/ocsinventory-agent.cfg.
+       * remove two debug messages printed during accountinfo rewrite and the
+         daemon starting process
+       * remove a stupid check in Ocsinventory::Agent::AccountConfig, the
+         accountconfig file was not written unless the file was already present
+       * add a recMkdir function in ocsinventory-agent to create directory recursivly
+       * do not process checksum in local mode 
 
 0.0.5  04/17/2007
        * AIX: use lslpp -c -l to find installed packages

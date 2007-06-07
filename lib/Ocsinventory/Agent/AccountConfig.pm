@@ -56,8 +56,8 @@ sub write {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
-
-  return unless -f $self->{params}->{conffile};
+  
+  return unless $self->{params}->{conffile};
   my $xml = XML::Simple::XMLout( $self->{xml} , RootName => 'CONF',
     NoAttr => 1 );
 

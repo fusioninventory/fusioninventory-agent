@@ -185,7 +185,6 @@ sub feedInventory {
 	  modname => $m,
 	  });
   }
-  $inventory->processChecksum();
 
 # Execution time
   $inventory->setHardware({ETIME => time() - $begin});
