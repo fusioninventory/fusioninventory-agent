@@ -12,40 +12,36 @@ sub run {
 
   my %info;  
 
-  my $previousline; 
-  foreach (`lsvpd`) {
-    if (/^\*AX ent(\d+)/) {
-      my $ifname = "en".$1;
-      my $tmpifname = "ent".$1;
-
-      if ($previousline =~ /^\*DS (.+)/) {
-	$info{$ifname}{type} = $1;
-      }
-      $info{$ifname}{status} = 'Down'; # Preinitialied to Down, will see if it have an ip
-      foreach (`lscfg -v -l $tmpifname`) { 
-        # read the mac address
-	if (/Network\ Address\.+(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})$/) {
-	  $info{$ifname}{macaddr} = "$1:$2:$3:$4:$5:$6";
-	}
+  my $ifname;
+  foreach (`lscfg -v -l en*`) {
+    $ifname = "en".$1 if /^\s+ent(\d+)\s+\S+\s+(.+)/;
+    if ($ifname) {
+      $info{$ifname}{type} = $2;
+      $info{$ifname}{status} = "Down"; # default is down
+      if (/Network Address\.+(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})/) {
+	$info{$ifname}{macaddr} = "$1:$2:$3:$4:$5:$6"
       }
     }
-    $previousline = $_;
-  }
+  } 
+
+  # uncomment if you prefere verbose information about the link
+  # e.g: 0xe8120000:0xe80c0000:741:3:512:1024:8192:Auto_Negotiation:2048:no:0x000000000000:10000:10:1000:yes:yes:no:no:yes:2048
 
   # etherchannel interfaces
   #my @lsdev=`lsdev -Cc adapter -s pseudo -t ibm_ech`;
-  foreach (`lsdev -Cc adapter`) {
-    next unless /^ent(\d*)\s*(\w*)\s*.*/;
-    my $ifname = "en".$1;
-    my $tmpifname = "ent".$1;
-    #@lsattr=`lsattr -EOl $1 -a 'adapter_names mode netaddr'`;
-    foreach (`lsattr -EOl $tmpifname`) {
-      if (/(.+):(.+):(.*)/) {
-	$info{$ifname}{type}="EtherChannel with : ".$1." (mode :".$2.", ping :".$3.")";
-      }
-    }
-    $info{$ifname}{status} = 'Down'; # The same
-  }
+#  foreach (`lsdev -Cc adapter`) {
+#    next unless /^ent(\d*)\s*(\w*)\s*.*/;
+#    my $ifname = "en".$1;
+#    my $tmpifname = "ent".$1;
+#    #@lsattr=`lsattr -EOl $1 -a 'adapter_names mode netaddr'`;
+#    foreach (`lsattr -EOl $tmpifname`) {
+#      if (/(.+):(.+):(.*)/) {
+#	$info{$ifname}{type}="EtherChannel with : ".$1." (mode :".$2.", ping :".$3.")";
+#      }
+#    }
+#    $info{$ifname}{status} = 'Down'; # The same
+#  }
+
   foreach (split / /,`ifconfig -l`) {
     # AIX: network interface naming is enX
     if(/^(en\d+)/) {
