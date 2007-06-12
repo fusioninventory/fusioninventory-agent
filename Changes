@@ -1,5 +1,10 @@
 Revision history for Ocsinventory::Agent
 
+0.0.7
+       * Fix an undef value in Ocsinventory::Agent::Backend::OS::BSD::Mem
+       * now standalone.sh will try to find every module before the build to
+         avoid unexplicated error
+
 0.0.6  06/07/2007
        * Enable "verbose" is debug is turned on
        * AIX: Ocsinventory::Agent::Backend::OS::AIX::Networks rewrote
