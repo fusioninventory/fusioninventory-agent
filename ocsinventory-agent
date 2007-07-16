@@ -19,7 +19,7 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.6.1';
+our $VERSION = '0.0.6.2';
 
 my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';
@@ -355,9 +355,8 @@ do {
 
       if (my $ret = $net->send({message => $inventory})) {
         $logger->debug("Server returned: ".$ret->{RESPONSE});
-				if ($ret->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
-				  die;
-          $inventory->saveLastState();
+	if ($ret->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
+	  $inventory->saveLastState();
 	}
       }
 

@@ -1,5 +1,9 @@
 Revision history for Ocsinventory::Agent
 
+0.0.6.2 07/16/2007 Bug fix release
+
+       * remove a debug "die" in the code
+
 0.0.6.1 06/12/2007 Bug fix release 
        * Fix an undef value in Ocsinventory::Agent::Backend::OS::BSD::Mem
        * AIX: retrieve correctly the MAC address of some FibberChannel card 
