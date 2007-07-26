@@ -53,7 +53,7 @@ OCS_AGENT_LOCAL_HOST="__local__"
 OLD_OCS_AGENT_CONFIG_DIR="/etc/ocsinventory-client"
 OCS_AGENT_CONFIG_DIR="/etc/ocsinventory-agent"
 # OCS Inventory NG Agent configuration file name
-OCS_AGENT_CONF_FILE="ocsinventory-agent"
+OCS_AGENT_CONF_FILE="ocsinventory-agent.cfg"
 # OCS Inventory NG Agent option modules configuration file name
 OCS_AGENT_MODULES_FILE="modules.conf"
 
@@ -152,7 +152,7 @@ then
     # Retreiving OCS Communication server host
     OCS_SERVER_HOST=`eval cat $OLD_OCS_AGENT_CONFIG_DIR/$OCS_AGENT_STATE_FILE | grep OCSFSERVER | cut -d'>' -f2 | cut -d'<' -f1 | cut -d':' -f1` 
     OCS_SERVER_PORT=`eval cat $OLD_OCS_AGENT_CONFIG_DIR/$OCS_AGENT_STATE_FILE | grep OCSFSERVER | cut -d'>' -f2 | cut -d'<' -f1 | cut -d':' -f2`
-    OCS_AGENT_DEVICE_ID=`eval cat $OLD_OCS_AGENT_CONFIG_DIR/$OCS_AGENT_STATE_FILE | grep DEVICEID | cut -d'>' -f2 | cut -d'<' -f1 | cut -d':' -f2`
+    OCS_AGENT_DEVICE_ID=`eval cat $OLD_OCS_AGENT_CONFIG_DIR/$OCS_AGENT_STATE_FILE | grep DEVICEID | cut -d'>' -f2 | cut -d'<' -f1`
     if [ -z $OCS_SERVER_PORT ] || [ $OCS_SERVER_PORT = $OCS_SERVER_HOST ]
     then
         OCS_SERVER_PORT="80"
@@ -366,6 +366,26 @@ then
                 OCS_SERVER_HOST="$ligne"
                 res=1
             fi
+            echo "Checking <$OCS_SERVER_HOST> connectivity (ping)"
+            echo "Checking <$OCS_SERVER_HOST> connectivity (ping)" >> $SETUP_LOG
+            ping -nq -c 1 $OCS_SERVER_HOST >> $SETUP_LOG 2>&1
+            if [ $? -ne 0 ]
+            then
+                echo "Host <$OCS_SERVER_HOST> does not seem to be alive !" >> $SETUP_LOG
+                echo "Host <$OCS_SERVER_HOST> does not seem to be alive !"
+                echo -n "Do you really want to use it (y/[n]) ?"
+                read ligne
+                if [ -z "$ligne" ] || [ "$ligne" = "n" ]
+                then
+                    res=0
+                else
+                    res=1
+                fi
+            else
+                echo "OK, Host <$OCS_SERVER_HOST> is alive ;-)"
+                echo "OK, Host <$OCS_SERVER_HOST> is alive ;-)" >> $SETUP_LOG
+                res=1
+            fi
         done
         # Ask user for OCS Inventory NG Communication Server port
         res=0
@@ -448,41 +468,6 @@ fi
 echo
 
 
-# Check if Linux or BSD, which can use dmidecode and/or ipdiscover
-echo
-echo "+----------------------------------------------------------+"
-echo "| Checking for operating system...                         |"
-echo "+----------------------------------------------------------+"
-echo
-OCS_CURRENT_OS_FULL=`uname -a`
-OCS_CURRENT_OS=`uname|grep $OCS_OS_LINUX`
-if [ -z "$OCS_CURRENT_OS" ]
-then
-    # Linux not detected, try BSD
-    OCS_CURRENT_OS=`uname|grep $OCS_OS_BSD`
-    if [ -z "$OCS_CURRENT_OS" ]
-    then
-         # BSD or Linux not deteted, do not install dmidecode and ipdiscover
-         INSTALLER_REQUIRE_DMIDECODE=0
-         INSTALLER_REQUIRE_IPDISCOVER=0
-         echo "Operating system is $OCS_CURRENT_OS_FULL, not based on Linux or BSD"
-         echo "Operating system is $OCS_CURRENT_OS_FULL, not based on Linux or BSD" >> $SETUP_LOG
-    else
-         # BSD require dmidecode, but not ipdiscover
-         INSTALLER_REQUIRE_DMIDECODE=1
-         INSTALLER_REQUIRE_IPDISCOVER=0
-         echo "Operating system is $OCS_CURRENT_OS_FULL, based on BSD"
-         echo "Operating system is $OCS_CURRENT_OS_FULL, based on BSD" >> $SETUP_LOG
-    fi
-else
-    # Linux require dmidecode and ipdiscover
-    INSTALLER_REQUIRE_DMIDECODE=1
-    INSTALLER_REQUIRE_IPDISCOVER=1
-    echo "Operating system is <$OCS_CURRENT_OS_FULL>, based on Linux"
-    echo "Operating system is <$OCS_CURRENT_OS_FULL>, based on Linux" >> $SETUP_LOG
-fi
-
-
 echo
 echo "+----------------------------------------------------------+"
 echo "| Checking for PERL Interpreter...                         |"
@@ -520,106 +505,6 @@ else
     echo "Make utility found at <$MAKE>" >> $SETUP_LOG
 fi
 echo
-
-if [ $INSTALLER_REQUIRE_DMIDECODE -eq 1 ]
-then
-    # Under Linux and BSD, agent requires dmidecode
-    echo
-    echo "+----------------------------------------------------------+"
-    echo "| Checking for dmidecode binaries...                       |"
-    echo "+----------------------------------------------------------+"
-    echo
-    echo "Checking for dmidecode binaries" >> $SETUP_LOG
-    if [ -z "$OCS_AGENT_DMIDECODE_BIN" ]
-    then
-        echo "WARNING: dmidecode binaries not found !"
-        echo "WARNING: dmidecode binaries not found" >> $SETUP_LOG
-        if [ $INSTALLER_INTERACTIVE -eq 1 ]
-        then
-            # Ask user to setup dmidecode
-            echo "OCS Inventory NG Agent requires dmidecode to get information from BIOS."
-            echo "But dmidecode is not installed on this computer."
-            echo -n "Do you wish to continue (y/[n]) ?"
-            read ligne
-            if [ -z "$ligne" ] || [ "$ligne" = "n" ]
-            then
-                echo "OCS Inventory NG is not able to get BIOS informations without dmidecode."
-                echo "Setup manually dmidecode first. Installation aborted !"
-                echo "*** ERROR: User aborted installation !" >> $SETUP_LOG
-                exit 1
-            else
-                echo "OK, dmidecode missing, but user asks to continue :-("
-                echo "dmidecode missing but user ask to continue" >> $SETUP_LOG
-            fi
-        else
-            # Silent setup
-            echo "WARNING: OCS Inventory NG is not able to get BIOS informations without dmidecode." 
-            echo "WARNING: OCS Inventory NG is not able to get BIOS informations without dmidecode." >> $SETUP_LOG
-            echo "But dmidecode is not installed on this computer. Some functionality may lack !"
-            echo "But dmidecode is not installed on this computer. Some functionality may lack !" >> $SETUP_LOG
-        fi
-    else
-        # Get installed dmidecode version
-        INSTALLED_DMIDECODE_VERSION=`$OCS_AGENT_DMIDECODE_BIN | grep "# dmidecode" | cut -d' ' -f3`
-        echo "Found dmidecode binaries version <$INSTALLED_DMIDECODE_VERSION> at <$OCS_AGENT_DMIDECODE_BIN> ;-)"
-        echo "Found dmidecode binaries version <$INSTALLED_DMIDECODE_VERSION> at <$OCS_AGENT_DMIDECODE_BIN>" >> $SETUP_LOG
-    fi
-    echo
-else
-    # 0ther OS do not use dmidecode
-    INSTALLER_REQUIRE_DMIDECODE=0
-fi
-
-
-if [ $INSTALLER_REQUIRE_IPDISCOVER -eq 1 ]
-then
-    # Under Linux, agent requires ipdiscover
-    echo
-    echo "+----------------------------------------------------------+"
-    echo "| Checking for ipdiscover binaries...                      |"
-    echo "+----------------------------------------------------------+"
-    echo
-    echo "Checking for ipdiscover binary" >> $SETUP_LOG
-    if [ -z "$OCS_AGENT_IPDISCOVER_BIN" ]
-    then
-        echo "WARNING: ipdiscover binary not found !"
-        echo "WARNING: ipdiscover binary not found" >> $SETUP_LOG
-        if [ $INSTALLER_INTERACTIVE -eq 1 ]
-        then
-            # Ask user to setup dmidecode
-            echo "OCS Inventory NG Agent requires ipdiscover to launch network discovery."
-            echo "But ipdiscover is not installed on this computer."
-            echo -n "Do you wish to continue (y/[n]) ?"
-            read ligne
-            if [ -z "$ligne" ] || [ "$ligne" = "n" ]
-            then
-                echo "OCS Inventory NG is not able to get launch network discovery without ipdiscover."
-                echo "Setup manually ipdiscover first. Installation aborted !"
-                echo "*** ERROR: User aborted installation !" >> $SETUP_LOG
-                exit 1
-            else
-                echo "OK, ipdiscover missing, but user asks to continue :-("
-                echo "ipdiscover missing but user ask to continue" >> $SETUP_LOG
-            fi
-        else
-            # Silent setup
-            echo "WARNING: OCS Inventory NG is not able to launch network discovery without ipdiscover." 
-            echo "WARNING: OCS Inventory NG is not able to launch network discovery without ipdiscover." >> $SETUP_LOG
-            echo "But ipdiscover is not installed on this computer. Some functionality may lack !"
-            echo "But ipdiscover is not installed on this computer. Some functionality may lack !" >> $SETUP_LOG
-        fi
-    else
-        # Get installed ipdiscover version
-        INSTALLED_IPDISCOVER_VERSION=`$OCS_AGENT_IPDISCOVER_BIN | grep "IPDISCOVER binary ver." | cut -d' ' -f4`
-        echo "Found ipdiscover binary version <$INSTALLED_IPDISCOVER_VERSION> at <$OCS_AGENT_IPDISCOVER_BIN> ;-)"
-        echo "Found ipdiscover binary version <$INSTALLED_IPDISCOVER_VERSION> at <$OCS_AGENT_IPDISCOVER_BIN>" >> $SETUP_LOG
-    fi
-    echo
-else
-    # Never setup ipdiscover under other OS
-    INSTALLER_REQUIRE_IPDISCOVER=0
-fi
-
 
 echo
 echo "+----------------------------------------------------------+"
@@ -829,6 +714,183 @@ else
     fi
 fi
 echo
+
+
+# Check if Linux or BSD, which can use dmidecode and/or ipdiscover
+echo
+echo "+----------------------------------------------------------+"
+echo "| Checking for operating system...                         |"
+echo "+----------------------------------------------------------+"
+echo
+OCS_CURRENT_OS_FULL=`uname -a`
+OCS_CURRENT_OS=`uname|grep $OCS_OS_LINUX`
+if [ -z "$OCS_CURRENT_OS" ]
+then
+    # Linux not detected, try BSD
+    OCS_CURRENT_OS=`uname|grep $OCS_OS_BSD`
+    if [ -z "$OCS_CURRENT_OS" ]
+    then
+         # BSD or Linux not deteted, do not install dmidecode and ipdiscover
+         INSTALLER_REQUIRE_DMIDECODE=0
+         INSTALLER_REQUIRE_IPDISCOVER=0
+         echo "Operating system is $OCS_CURRENT_OS_FULL, not based on Linux or BSD"
+         echo "Operating system is $OCS_CURRENT_OS_FULL, not based on Linux or BSD" >> $SETUP_LOG
+    else
+        # BSD require dmidecode on x86 or x86_64, but not ipdiscover
+        echo "Operating system is $OCS_CURRENT_OS_FULL, based on BSD"
+        echo "Operating system is $OCS_CURRENT_OS_FULL, based on BSD" >> $SETUP_LOG
+        DEVICEID=`$PERL_BIN ./ocsinventory-agent --server=$OCS_SERVER_HOST:$OCS_SERVER_PORT -t=$OCS_AGENT_TAG_VALUE --stdout | grep DEVICEID | cut -d'>' -f2 | cut -d'<' -f1` >> $SETUP_LOG 2>&1
+        if [ -z "$DEVICEID" ]
+        then
+            # x86 or x86_64, dmidecode required and not installed
+            echo "BSD on x86 or x86_64 plateform, dmidecode not installed"
+            echo "BSD on x86 or x86_64 plateform, dmidecode not installed" >> $SETUP_LOG
+            INSTALLER_REQUIRE_DMIDECODE=1
+        else
+            # Other platform with dmidecode not required, or dmidecode installed
+            if [ -z "$OCS_AGENT_DMIDECODE_BIN" ]
+            then
+                # Other platform
+                echo "BSD not on x86 or x86_64 plateform, dmidecode not needed"
+                echo "BSD not on x86 or x86_64 plateform, dmidecode not needed" >> $SETUP_LOG
+                INSTALLER_REQUIRE_DMIDECODE=0
+            else
+                # x86 or x86_64 with dmidecode already installed
+                echo "BSD on x86 or x86_64 plateform, dmidecode already available"
+                echo "BSD on x86 or x86_64 plateform, dmidecode already available" >> $SETUP_LOG
+                INSTALLER_REQUIRE_DMIDECODE=1
+            fi
+        fi
+         INSTALLER_REQUIRE_IPDISCOVER=0
+    fi
+else
+    # Linux require dmidecode on x86 and x86_64, and ipdiscover
+    echo "Operating system is <$OCS_CURRENT_OS_FULL>, based on Linux"
+    echo "Operating system is <$OCS_CURRENT_OS_FULL>, based on Linux" >> $SETUP_LOG
+    DEVICEID=`$PERL_BIN ./ocsinventory-agent --server=$OCS_SERVER_HOST:$OCS_SERVER_PORT -t=$OCS_AGENT_TAG_VALUE --stdout | grep DEVICEID | cut -d'>' -f2 | cut -d'<' -f1` >> $SETUP_LOG 2>&1
+    if [ -z "$DEVICEID" ]
+    then
+        # x86 or x86_64, dmidecode required and not installed
+        echo "Linux on x86 or x86_64 plateform, dmidecode not installed"
+        echo "Linux on x86 or x86_64 plateform, dmidecode not installed" >> $SETUP_LOG
+        INSTALLER_REQUIRE_DMIDECODE=1
+    else
+        # Other platform with dmidecode not required, or dmidecode installed
+        if [ -z "$OCS_AGENT_DMIDECODE_BIN" ]
+        then
+            # Other platform
+            echo "Linux not on x86 or x86_64 plateform, dmidecode not needed"
+            echo "Linux not on x86 or x86_64 plateform, dmidecode not needed" >> $SETUP_LOG
+            INSTALLER_REQUIRE_DMIDECODE=0
+        else
+            # x86 or x86_64 with dmidecode already installed
+            echo "Linux on x86 or x86_64 plateform, dmidecode already available"
+            echo "Linux on x86 or x86_64 plateform, dmidecode already available" >> $SETUP_LOG
+            INSTALLER_REQUIRE_DMIDECODE=1
+        fi
+    fi
+    INSTALLER_REQUIRE_IPDISCOVER=1
+fi
+
+
+if [ $INSTALLER_REQUIRE_DMIDECODE -eq 1 ]
+then
+    # Under Linux and BSD on x86 and x86_64, agent requires dmidecode
+    echo
+    echo "+----------------------------------------------------------+"
+    echo "| Checking for dmidecode binaries...                       |"
+    echo "+----------------------------------------------------------+"
+    echo
+    echo "Checking for dmidecode binaries" >> $SETUP_LOG
+    if [ -z "$OCS_AGENT_DMIDECODE_BIN" ]
+    then
+        echo "WARNING: dmidecode binaries not found !"
+        echo "WARNING: dmidecode binaries not found" >> $SETUP_LOG
+        if [ $INSTALLER_INTERACTIVE -eq 1 ]
+        then
+            # Ask user to setup dmidecode
+            echo "OCS Inventory NG Agent requires dmidecode to get information from BIOS."
+            echo "But dmidecode is not installed on this computer."
+            echo -n "Do you wish to continue (y/[n]) ?"
+            read ligne
+            if [ -z "$ligne" ] || [ "$ligne" = "n" ]
+            then
+                echo "OCS Inventory NG is not able to get BIOS informations without dmidecode."
+                echo "Setup manually dmidecode first. Installation aborted !"
+                echo "*** ERROR: User aborted installation !" >> $SETUP_LOG
+                exit 1
+            else
+                echo "OK, dmidecode missing, but user asks to continue :-("
+                echo "dmidecode missing but user ask to continue" >> $SETUP_LOG
+            fi
+        else
+            # Silent setup
+            echo "WARNING: OCS Inventory NG is not able to get BIOS informations without dmidecode." 
+            echo "WARNING: OCS Inventory NG is not able to get BIOS informations without dmidecode." >> $SETUP_LOG
+            echo "But dmidecode is not installed on this computer. Some functionality may lack !"
+            echo "But dmidecode is not installed on this computer. Some functionality may lack !" >> $SETUP_LOG
+        fi
+    else
+        # Get installed dmidecode version
+        INSTALLED_DMIDECODE_VERSION=`$OCS_AGENT_DMIDECODE_BIN | grep "# dmidecode" | cut -d' ' -f3`
+        echo "Found dmidecode binaries version <$INSTALLED_DMIDECODE_VERSION> at <$OCS_AGENT_DMIDECODE_BIN> ;-)"
+        echo "Found dmidecode binaries version <$INSTALLED_DMIDECODE_VERSION> at <$OCS_AGENT_DMIDECODE_BIN>" >> $SETUP_LOG
+    fi
+    echo
+else
+    # 0ther OS do not use dmidecode
+    INSTALLER_REQUIRE_DMIDECODE=0
+fi
+
+
+if [ $INSTALLER_REQUIRE_IPDISCOVER -eq 1 ]
+then
+    # Under Linux, agent requires ipdiscover
+    echo
+    echo "+----------------------------------------------------------+"
+    echo "| Checking for ipdiscover binaries...                      |"
+    echo "+----------------------------------------------------------+"
+    echo
+    echo "Checking for ipdiscover binary" >> $SETUP_LOG
+    if [ -z "$OCS_AGENT_IPDISCOVER_BIN" ]
+    then
+        echo "WARNING: ipdiscover binary not found !"
+        echo "WARNING: ipdiscover binary not found" >> $SETUP_LOG
+        if [ $INSTALLER_INTERACTIVE -eq 1 ]
+        then
+            # Ask user to setup dmidecode
+            echo "OCS Inventory NG Agent requires ipdiscover to launch network discovery."
+            echo "But ipdiscover is not installed on this computer."
+            echo -n "Do you wish to continue (y/[n]) ?"
+            read ligne
+            if [ -z "$ligne" ] || [ "$ligne" = "n" ]
+            then
+                echo "OCS Inventory NG is not able to get launch network discovery without ipdiscover."
+                echo "Setup manually ipdiscover first. Installation aborted !"
+                echo "*** ERROR: User aborted installation !" >> $SETUP_LOG
+                exit 1
+            else
+                echo "OK, ipdiscover missing, but user asks to continue :-("
+                echo "ipdiscover missing but user ask to continue" >> $SETUP_LOG
+            fi
+        else
+            # Silent setup
+            echo "WARNING: OCS Inventory NG is not able to launch network discovery without ipdiscover." 
+            echo "WARNING: OCS Inventory NG is not able to launch network discovery without ipdiscover." >> $SETUP_LOG
+            echo "But ipdiscover is not installed on this computer. Some functionality may lack !"
+            echo "But ipdiscover is not installed on this computer. Some functionality may lack !" >> $SETUP_LOG
+        fi
+    else
+        # Get installed ipdiscover version
+        INSTALLED_IPDISCOVER_VERSION=`$OCS_AGENT_IPDISCOVER_BIN | grep "IPDISCOVER binary ver." | cut -d' ' -f4`
+        echo "Found ipdiscover binary version <$INSTALLED_IPDISCOVER_VERSION> at <$OCS_AGENT_IPDISCOVER_BIN> ;-)"
+        echo "Found ipdiscover binary version <$INSTALLED_IPDISCOVER_VERSION> at <$OCS_AGENT_IPDISCOVER_BIN>" >> $SETUP_LOG
+    fi
+    echo
+else
+    # Never setup ipdiscover under other OS
+    INSTALLER_REQUIRE_IPDISCOVER=0
+fi
 
 
 echo
