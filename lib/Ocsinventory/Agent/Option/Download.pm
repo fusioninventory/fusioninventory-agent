@@ -98,8 +98,6 @@ sub download_prolog_reader{
 			for ( @{ $option->{PARAM} } ) {
 				# Type of param
 				if($_->{'TYPE'} eq 'CONF'){
-					# Adding the latest DeviceId
-					$_->{'DEVICEID'} = $current_context->{'OCS_AGENT_DEVICEID'};
 					# Writing configuration
 					open FH, ">$opt_dir/config" or die("Cannot open/create config file");
 					if(flock(FH, LOCK_EX)){
@@ -800,7 +798,7 @@ sub download_message{
 	&log("Sending message for $p->{'ID'}, code=$code.");
 	
 	my $xml = {
-		'DEVICEID' => $config->{'DEVICEID'},
+		'DEVICEID' => $current_context->{'OCS_AGENT_DEVICEID'},
 		'QUERY' => 'DOWNLOAD',
 		'ID' => $p->{'ID'},
 		'ERR' => $code
