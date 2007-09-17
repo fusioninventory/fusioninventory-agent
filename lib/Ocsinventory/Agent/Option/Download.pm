@@ -199,7 +199,7 @@ sub download_prolog_reader{
 			&log("Retrieving info file for $fileid");
 			
 			my ($ctx, $ssl, $ra);
-#eval {
+			eval {
 				$| = 1;
 				&log('Initialize ssl layer...');
 				
@@ -275,7 +275,7 @@ sub download_prolog_reader{
 				open FH, ">$dir/info" or die("Cannot open info file: $!");
 				print FH $ra;
 				close FH;
-#};
+			};
 			if($@){
 				download_message({ 'ID' => $fileid }, ERR_DOWNLOAD_INFO);
 				&log("Error: SSL hanshake has failed");
