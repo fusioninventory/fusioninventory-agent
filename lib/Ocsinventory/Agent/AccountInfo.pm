@@ -16,9 +16,10 @@ sub new {
 
   my $logger = $self->{logger} = $params->{logger};
 
-  $logger->debug ('Accountinfo file: '. $self->{params}->{accountinfofile});
 
   if ($self->{params}->{accountinfofile}) {
+    
+    $logger->debug ('Accountinfo file: '. $self->{params}->{accountinfofile});
     if (! -f $self->{params}->{accountinfofile}) {
         $logger->info ("Accountinfo file doesn't exist. I create an empty one.");
         $self->write();
