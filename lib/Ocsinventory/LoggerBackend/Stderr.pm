@@ -4,7 +4,6 @@ sub new {
   my (undef, $params) = @_;
 
   my $self = {};
-  # STDERR has been hijacked, I take its saved ref
   $self->{params} = $params->{params};
   bless $self;
 }
@@ -17,6 +16,8 @@ sub addMsg {
   my $message = $args->{message};
 
   return if $message =~ /^$/;
+  
+  # STDERR has been hijacked, I take its saved ref
   my $tmp = $self->{params}->{savedstderr};
   print $tmp "[$level] $message\n";
 }

@@ -51,7 +51,7 @@ OCS_AGENT_LOCAL_HOST="__local__"
 
 # Where are located OCS Inventory NG Agent configuration files
 OLD_OCS_AGENT_CONFIG_DIR="/etc/ocsinventory-client"
-OCS_AGENT_CONFIG_DIR="/etc/ocsinventory-agent"
+OCS_AGENT_CONFIG_DIR="/etc/ocsinventory"
 # OCS Inventory NG Agent configuration file name
 OCS_AGENT_CONF_FILE="ocsinventory-agent.cfg"
 # OCS Inventory NG Agent option modules configuration file name

@@ -3,6 +3,12 @@ Revision history for Ocsinventory::Agent
 0.0.7
        * Ocsinventory::Agent::AccountInfo does not warn accountinfofile if runned in debug mode
          without root privilege
+       * fix params->{etcdir} to /etc/ocsinventory, /etc/ocsinventory-agent/modules.conf must be moved
+         to /etc/ocsinventory/modules.conf
+       * Solaris: Improve the CPU detection (Olivier ROUSSY)
+       * AIX: Return the directory with the AIX package name (Olivier ROUSSY)
+       * Ocsinventory::Agent::XML::Inventory can now write software inventory
+         value of FILESIZE, FOLDER and PUBLISHER
 
 0.0.6.2 07/16/2007 Bug fix release
 

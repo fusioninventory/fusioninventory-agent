@@ -5,6 +5,8 @@ use warnings;
 # AccountConfig read and write the setting for the client given by the server
 # This file will be overwrite and is not designed to be changed by the user
 
+# DESPITE ITS NAME, ACCOUNTCONFIG IS NOT A CONFIG FILE!
+
 sub new {
   my (undef,$params) = @_;
 

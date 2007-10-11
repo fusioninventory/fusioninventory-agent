@@ -185,7 +185,10 @@ sub addSoftwares {
   my ($self, $args) = @_;
 
   my $comments = $args->{COMMENTS};
+  my $filesize = $args->{FILESIZE};
+  my $folder = $args->{FOLDER};
   my $name = $args->{NAME};
+  my $publisher = $args->{PUBLISHER};
   my $version = $args->{VERSION};
 
 
@@ -193,7 +196,10 @@ sub addSoftwares {
   {
 
     COMMENTS => [$comments?$comments:"??"],
+    FILESIZE => [$filesize?$filesize:"??"],
+    FOLDER => [$folder?$folder:"??"],
     NAME => [$name?$name:"??"],
+    PUBLISHER => [$publisher?$publisher:"??"],
     VERSION => [$version?$version:"??"],
 
   };

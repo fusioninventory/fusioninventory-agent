@@ -18,8 +18,11 @@ sub get {
 
   foreach (<CONFIG>) {
     s/#.+//;
-    if (/(\w+)\s*=\s*(\w+)/) {
-      $config->{$1} = $2;
+    if (/(\w+)\s*=\s*([\w\.:\/]+)/) {
+      my $key = $1;
+      my $val = $2;
+      $val =~ s/^"(.*)"$/$1/; # Remove the quote (")
+      $config->{$key} = $val;
     }
   }
   close CONFIG;

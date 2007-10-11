@@ -6,8 +6,11 @@ use strict;
 
 sub check {
   my @ifconfig = `ifconfig 2>/dev/null`;
-  return 1 if @ifconfig;
-  return;
+  return unless @ifconfig;
+  my @route = `route -n 2>/dev/null`;
+  return unless @route;
+
+  1;
 }
 
 
@@ -67,11 +70,15 @@ sub run {
   my $type;
 
 
-  foreach (`route -n`){
-    $ipgateway=$1 if /^0\.0\.0\.0\s+(\S+)/i;
+  my %gateway;
+  
+  foreach (`route -n`) {
+    if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
+      $gateway{$1} = $2;
+    }
   }
 
-  foreach (`ifconfig -a`){
+  foreach (`ifconfig -a`) {
     if (/^$/ && $description !~ /^(lo|vmnet\d+|sit\d+)$/) {
       # end of interface section 
       # I write the entry
@@ -84,6 +91,8 @@ sub run {
       if ( @wifistatus > 2 ) {
 	$type = "Wifi";
       }
+
+      $ipgateway = $gateway{$ipsubnet}; 
 
       $inventory->addNetworks({
 
