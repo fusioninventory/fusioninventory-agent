@@ -9,6 +9,10 @@ Revision history for Ocsinventory::Agent
        * AIX: Return the directory with the AIX package name (Olivier ROUSSY)
        * Ocsinventory::Agent::XML::Inventory can now write software inventory
          value of FILESIZE, FOLDER and PUBLISHER
+       * processChecksum() and feedInventory() are called by Ocsinventory::Agent::XML::Inventory
+         directly now
+       * Ocsinventory::Agent::XML::Inventory::content() renamed to
+         Ocsinventory::Agent::XML::Inventory::getContent() 
 
 0.0.6.2 07/16/2007 Bug fix release
 

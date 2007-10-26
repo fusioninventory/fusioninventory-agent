@@ -63,7 +63,7 @@ sub send {
   }
   #############
 
-  my $compressed = $compress->compress( $message->content() );
+  my $compressed = $compress->compress( $message->getContent() );
   if (!$compressed) {
     $logger->error ('failed to compress data with Compress::ZLib');
     return;

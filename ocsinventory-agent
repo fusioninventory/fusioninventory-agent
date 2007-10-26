@@ -256,29 +256,12 @@ my $accountinfo = new Ocsinventory::Agent::AccountInfo({
 if ($params->{tag}) {
   if ($accountinfo->get("TAG")) {
     $logger->debug("A TAG seems to already exist in the server for this".
-      "machine. If so, the -t paramter is usless. Please change the TAG".
+      "machine. If so, the -t paramter is useless. Please change the TAG".
       "directly on the server.");
   } else {
     $accountinfo->set("TAG",$params->{tag});
   }
 }
-
-my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-
-    accountinfo => $accountinfo,
-    logger => $logger,
-    params => $params,
-
-  });
-
-my $backend = new Ocsinventory::Agent::Backend ({
-
-    accountinfo => $accountinfo,
-    accountconfig => $accountconfig,
-    logger => $logger,
-    params => $params,
-
-  });
 
 # Create compatibility layer. It's used to keep compatibility with the
 # linux_agent 1.x and below
@@ -320,15 +303,30 @@ do {
 
   $compatibilityLayer->hook({name => 'start_handler'});
 
-# Feed the inventory with its modules
-  $backend->feedInventory ({inventory => $inventory});
+  my $backend = new Ocsinventory::Agent::Backend ({
+
+	  accountinfo => $accountinfo,
+	  accountconfig => $accountconfig,
+	  logger => $logger,
+	  params => $params,
+
+      });
+
+  my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+
+	  accountinfo => $accountinfo,
+	  logger => $logger,
+	  params => $params,
+	  backend => $backend,
+
+      });
+
 
   if ($params->{stdout}) {
     $inventory->printXML();
   } elsif ($params->{local}) {
     $inventory->writeXML();
   } else { # I've to contact the server
-    $inventory->processChecksum();
     my $net = new Ocsinventory::Agent::Network ({
 
 	compatibilityLayer => $compatibilityLayer,

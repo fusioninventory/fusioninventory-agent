@@ -13,6 +13,7 @@ sub new {
   my $self = {};
   $self->{accountinfo} = $params->{accountinfo};
   $self->{params} = $params->{params};
+  $self->{backend} = $params->{backend};
   my $logger = $self->{logger} = $params->{logger};
 
   if (!($self->{params}{deviceid})) {
@@ -34,6 +35,9 @@ sub new {
   $self->{h}{CONTENT}{VIDEOS} = [];
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
+
+  # Is the XML centent initialised?
+  $self->{isInitialised} = undef;
 
   bless $self;
 }
@@ -322,10 +326,15 @@ sub setAccessLog {
   }
 }
 
-sub content {
+sub getContent {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
+
+  if (!$self->{isInitialised}) {
+    $self->{backend}->feedInventory ({inventory => $self});
+  }
+  $self->processChecksum();
 
   #  checks for MAC, NAME and SSN presence
   my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
@@ -352,7 +361,10 @@ sub content {
 sub printXML {
   my ($self, $args) = @_;
 
-  print $self->content();
+  if (!$self->{isInitialised}) {
+    $self->{backend}->feedInventory ({inventory => $self});
+  }
+  print $self->getContent();
 }
 
 sub writeXML {
@@ -364,13 +376,17 @@ sub writeXML {
     $logger->fault ('local path unititalised!');
   }
 
+  if (!$self->{isInitialised}) {
+    $self->{backend}->feedInventory ({inventory => $self});
+  }
+
   my $localfile = $self->{params}{local}."/".$self->{params}{deviceid}.'.ocs';
   $localfile =~ s!(//){1,}!/!;
 
   # Convert perl data structure into xml strings
 
   if (open OUT, ">$localfile") {
-    print OUT $self->content();
+    print OUT $self->getContent();
     close OUT or warn;
     $logger->info("Inventory saved in $localfile");
   } else {
