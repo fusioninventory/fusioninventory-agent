@@ -11,8 +11,7 @@ Revision history for Ocsinventory::Agent
          value of FILESIZE, FOLDER and PUBLISHER
        * processChecksum() and feedInventory() are called by Ocsinventory::Agent::XML::Inventory
          directly now
-       * Ocsinventory::Agent::XML::Inventory::content() renamed to
-         Ocsinventory::Agent::XML::Inventory::getContent() 
+       * the server responses are not parsed in the main script anymore
 
 0.0.6.2 07/16/2007 Bug fix release
 

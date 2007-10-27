@@ -7,19 +7,18 @@ use warnings;
 use LWP::UserAgent;
 use Data::Dumper; # XXX
 
-use UNIVERSAL qw( isa ) ;
-
 use Ocsinventory::Compress;
 
 sub new {
   my (undef, $params) = @_;
 
   my $self = {};
-
+  
+  $self->{accountconfig} = $params->{accountconfig}; 
+  $self->{accountinfo} = $params->{accountinfo}; 
   $self->{compatibilityLayer} = $params->{compatibilityLayer}; 
   my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
-  $self->{respHandlers} = $params->{respHandlers}; 
   $self->{URI} = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
 
 
@@ -44,6 +43,7 @@ sub send {
   my $compatibilityLayer = $self->{compatibilityLayer};
   my $compress = $self->{compress};
   my $message = $args->{message};
+  my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
 
   my $req = HTTP::Request->new(POST => $self->{URI});
 
@@ -52,14 +52,12 @@ sub send {
 
   $logger->debug ("sending XML");
 
-
   #############
   ### Compatibility with linux_agent modules
-  if (isa $message, "Ocsinventory::Agent::XML::Inventory") {
+  if ($msgtype eq "Inventory") {
     $compatibilityLayer->hook({name => 'inventory_handler'}, $message->{h});
-  } elsif (isa $message, "Ocsinventory::Agent::XML::Prolog") {
+  } elsif ($msgtype eq "Prolog") {
     $compatibilityLayer->hook({name => 'prolog_writers'}, $message->{h});
-
   }
   #############
 
@@ -86,31 +84,43 @@ sub send {
     return;
   }
 
-  my $ret = XML::Simple::XMLin( $content, ForceArray => ['OPTION','PARAM'] );
+  # AutoLoad the proper response object
+  my $msgType = ref($message); # The package name of the message object
+  my $tmp = "Ocsinventory::Agent::XML::Response::".$msgtype;
+  eval "require $tmp";
+  if ($@) {
+      $logger->error ("Can't load response module $tmp: $@");
+  }
+  $tmp->import();
+  my $response = $tmp->new ({
+     
+     accountconfig => $self->{accountconfig},
+     accountinfo => $self->{accountinfo},
+     content => $content,
+     logger => $logger,
+     origmsg => $message,
 
-  $logger->debug("=BEGIN=SERVER RET======");
-  $logger->debug(Dumper($ret));
-  $logger->debug("=END=SERVER RET======");
+      });
+
 
   ### Compatibility with linux_agent modules
-  if (isa $message, "Ocsinventory::Agent::XML::Prolog") {
-    $compatibilityLayer->hook({name => 'prolog_read'}, $ret);
-
+  if ($msgtype eq "Prolog") {
+    $compatibilityLayer->hook({name => 'prolog_read'}, $response->getParsedContent());
   }
   #############
 
   # for every key returned in the return I try to execute the Handlers 
-  foreach (keys %$ret) {
-    next if $_ =~ /^RESPONSE$/; # response is returned directly
-    if (defined $self->{respHandlers}->{$_}) {
-      $self->{respHandlers}->{$_}($ret->{$_});
-    } else {
-    $logger->debug ('No respHandlers avalaible for '.$_.". The data ".
-      "returned by server in this hash will be lost.");
-    }
-  }
+#  foreach (keys %$ret) {
+#    next if $_ =~ /^RESPONSE$/; # response is returned directly
+#    if (defined $self->{respHandlers}->{$_}) {
+#      $self->{respHandlers}->{$_}($ret->{$_});
+#    } else {
+#    $logger->debug ('No respHandlers avalaible for '.$_.". The data ".
+#      "returned by server in this hash will be lost.");
+#    }
+#  }
 
-  return $ret;
+  return $response;
 }
 
 1;

@@ -3,18 +3,19 @@ package Ocsinventory::Agent::XML::Inventory;
 use strict;
 use warnings;
 
-#use Data::Dumper; # XXX Debug
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
+
+use Ocsinventory::Agent::Backend;
 
 sub new {
   my (undef,$params) = @_;
 
   my $self = {};
   $self->{accountinfo} = $params->{accountinfo};
-  $self->{params} = $params->{params};
-  $self->{backend} = $params->{backend};
+  $self->{accountconfig} = $params->{accountconfig};
   my $logger = $self->{logger} = $params->{logger};
+  $self->{params} = $params->{params};
 
   if (!($self->{params}{deviceid})) {
     $logger->fault ('deviceid unititalised!');
@@ -42,11 +43,26 @@ sub new {
   bless $self;
 }
 
-#sub dump {
-#  my $self = shift;
-#  require Data::Dumper;
-#  print Data::Dumper($self->{h});
-#}
+sub initialise {
+  my ($self) = @_;
+
+  return if $self->{isInitialised};
+
+  my $backend = new Ocsinventory::Agent::Backend ({
+
+	  accountinfo => $self->{accountinfo},
+	  accountconfig => $self->{accountconfig},
+	  logger => $self->{logger},
+	  params => $self->{params},
+
+      });
+
+
+  $backend->feedInventory ({inventory => $self});
+
+  $self->{isInitialised} = 1;
+
+}
 
 sub addController {
   my ($self, $args) = @_;
@@ -331,9 +347,8 @@ sub getContent {
 
   my $logger = $self->{logger};
 
-  if (!$self->{isInitialised}) {
-    $self->{backend}->feedInventory ({inventory => $self});
-  }
+  $self->initialise();
+  
   $self->processChecksum();
 
   #  checks for MAC, NAME and SSN presence
@@ -361,9 +376,7 @@ sub getContent {
 sub printXML {
   my ($self, $args) = @_;
 
-  if (!$self->{isInitialised}) {
-    $self->{backend}->feedInventory ({inventory => $self});
-  }
+  $self->initialise();
   print $self->getContent();
 }
 
@@ -376,9 +389,7 @@ sub writeXML {
     $logger->fault ('local path unititalised!');
   }
 
-  if (!$self->{isInitialised}) {
-    $self->{backend}->feedInventory ({inventory => $self});
-  }
+  $self->initialise();
 
   my $localfile = $self->{params}{local}."/".$self->{params}{deviceid}.'.ocs';
   $localfile =~ s!(//){1,}!/!;

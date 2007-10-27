@@ -24,7 +24,7 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.6.2';
+our $VERSION = '0.0.7cvs';
 
 my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';
@@ -303,21 +303,12 @@ do {
 
   $compatibilityLayer->hook({name => 'start_handler'});
 
-  my $backend = new Ocsinventory::Agent::Backend ({
-
-	  accountinfo => $accountinfo,
-	  accountconfig => $accountconfig,
-	  logger => $logger,
-	  params => $params,
-
-      });
-
   my $inventory = new Ocsinventory::Agent::XML::Inventory ({
 
 	  accountinfo => $accountinfo,
+	  accountconfig => $accountinfo,
 	  logger => $logger,
 	  params => $params,
-	  backend => $backend,
 
       });
 
@@ -328,14 +319,16 @@ do {
     $inventory->writeXML();
   } else { # I've to contact the server
     my $net = new Ocsinventory::Agent::Network ({
-
+	
+	accountconfig => $accountconfig,
+	accountinfo => $accountinfo,
 	compatibilityLayer => $compatibilityLayer,
 	logger => $logger,
 	params => $params,
-	respHandlers => {
-	  PROLOG_FREQ => sub {$accountconfig->set("PROLOG_FREQ", $_[0])},
-	  ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
-	}
+#	respHandlers => {
+#	  PROLOG_FREQ => sub {$accountconfig->set("PROLOG_FREQ", $_[0])},
+#	  ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
+#	}
 
       });
 
@@ -349,16 +342,14 @@ do {
 
 	});
 
-      my $ret = $net->send({message => $prolog});
-      $sendInventory = 0 if (!defined($ret) || (defined ($ret) &&
-	  $ret->{RESPONSE} !~ /SEND/));
+      my $response = $net->send({message => $prolog});
+      $sendInventory = 1 if $response->isInventoryAsked();
     }
 
     if ($sendInventory) {
 
-      if (my $ret = $net->send({message => $inventory})) {
-        $logger->debug("Server returned: ".$ret->{RESPONSE});
-	if ($ret->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
+      if (my $response = $net->send({message => $inventory})) {
+	if ($response->isAccountUpdated()) {
 	  $inventory->saveLastState();
 	}
       }

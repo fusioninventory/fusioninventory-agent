@@ -7,8 +7,10 @@ use Data::Dumper; # XXX Debug
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 
+use Ocsinventory::Agent::XML::Prolog;
+
 sub new {
-  my (undef,$params) = @_;
+  my (undef, $params) = @_;
 
   my $self = {};
   $self->{params} = $params->{params};
@@ -29,7 +31,7 @@ sub dump {
 
 }
 
-sub content {
+sub getContent {
   my ($self, $args) = @_;
 
   $self->{accountinfo}->setAccountInfo($self);
