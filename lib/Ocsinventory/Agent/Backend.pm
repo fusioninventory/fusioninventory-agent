@@ -57,8 +57,8 @@ sub initModList {
 # Find installed modules
   foreach my $file (@installed_mod) {
     my @runAfter;
-    my @runIfFailed;
-    my @replace;
+#    my @runIfFailed;
+#    my @replace;
     my $enable = 1;
 
     my $t = $file;
@@ -79,8 +79,8 @@ sub initModList {
 
 # Import of module's functions and values
     local *Ocsinventory::Agent::Backend::runAfter = $m."::runAfter"; 
-    local *Ocsinventory::Agent::Backend::runIfFailed = $m."::runIfFailed"; 
-    local *Ocsinventory::Agent::Backend::replace = $m."::replace"; 
+#    local *Ocsinventory::Agent::Backend::runIfFailed = $m."::runIfFailed"; 
+#    local *Ocsinventory::Agent::Backend::replace = $m."::replace"; 
     local *Ocsinventory::Agent::Backend::check = $m."::check";
     local *Ocsinventory::Agent::Backend::run = $m."::run";
 
@@ -99,8 +99,8 @@ sub initModList {
     $self->{modules}->{$m}->{enable} = $enable;
     $self->{modules}->{$m}->{checkFunc} = \&check;
     $self->{modules}->{$m}->{runAfter} = \@runAfter;
-    $self->{modules}->{$m}->{runIfFailed} = \@runIfFailed;
-    $self->{modules}->{$m}->{replace} = \@replace;
+#    $self->{modules}->{$m}->{runIfFailed} = \@runIfFailed;
+#    $self->{modules}->{$m}->{replace} = \@replace;
     $self->{modules}->{$m}->{runFunc} = \&run;
     $self->{modules}->{$m}->{mem} = {};
 # Load the Storable object is existing or return undef
