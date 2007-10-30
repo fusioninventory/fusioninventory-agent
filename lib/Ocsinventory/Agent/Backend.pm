@@ -3,25 +3,27 @@ package Ocsinventory::Agent::Backend;
 use strict;
 use warnings;
 
+use Storable;
 use ExtUtils::Installed;
-#use Data::Dumper; # XXX Debug
 
 sub new {
   my (undef,$params) = @_;
 
   my $self = {};
 
-  $self->{accountinfo} = $params->{accountinfo};
   $self->{accountconfig} = $params->{accountconfig};
+  $self->{accountinfo} = $params->{accountinfo};
   $self->{inventory} = $params->{inventory};
   my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
+  $self->{prologresp} = $params->{prologresp};
 
   $self->{modules} = {};
 
   bless $self;
 
 }
+
 sub initModList {
   my $self = shift;
 
@@ -55,6 +57,8 @@ sub initModList {
 # Find installed modules
   foreach my $file (@installed_mod) {
     my @runAfter;
+    my @runIfFailed;
+    my @replace;
     my $enable = 1;
 
     my $t = $file;
@@ -75,6 +79,8 @@ sub initModList {
 
 # Import of module's functions and values
     local *Ocsinventory::Agent::Backend::runAfter = $m."::runAfter"; 
+    local *Ocsinventory::Agent::Backend::runIfFailed = $m."::runIfFailed"; 
+    local *Ocsinventory::Agent::Backend::replace = $m."::replace"; 
     local *Ocsinventory::Agent::Backend::check = $m."::check";
     local *Ocsinventory::Agent::Backend::run = $m."::run";
 
@@ -86,18 +92,30 @@ sub initModList {
 # print Dumper(\@{"Ocsinventory::Agent::Option::Download::EXPORT"});
 # to see avalaible func
 
+
     $self->{modules}->{$m}->{name} = $m;
     $self->{modules}->{$m}->{done} = 0;
     $self->{modules}->{$m}->{inUse} = 0;
     $self->{modules}->{$m}->{enable} = $enable;
     $self->{modules}->{$m}->{checkFunc} = \&check;
     $self->{modules}->{$m}->{runAfter} = \@runAfter;
+    $self->{modules}->{$m}->{runIfFailed} = \@runIfFailed;
+    $self->{modules}->{$m}->{replace} = \@replace;
     $self->{modules}->{$m}->{runFunc} = \&run;
+    $self->{modules}->{$m}->{mem} = {};
+# Load the Storable object is existing or return undef
+    $self->{modules}->{$m}->{storage} = $self->retrieveStorage($m);
+
   }
 
   foreach my $m (sort keys %{$self->{modules}}) {# the sort is useless
 # find modules to disable and their submodules
-    if($self->{modules}->{$m}->{enable} && !&{$self->{modules}->{$m}->{checkFunc}}) {
+    if($self->{modules}->{$m}->{enable} &&
+    !&{$self->{modules}->{$m}->{checkFunc}}({
+	    prologresp => $self->{prologresp},
+	    mem => $self->{modules}->{$m}->{mem},
+	    storage => $self->{modules}->{$m}->{storage},
+	})) {
       $logger->debug ($m." check function failed");
       foreach (keys %{$self->{modules}}) {
 	$self->{modules}->{$_}->{enable} = 0 if /^$m($|::)/;
@@ -152,15 +170,21 @@ sub runMod {
 
   $logger->debug ("Running $m"); 
 
+  eval {
   &{$self->{modules}->{$m}->{runFunc}}({
-      accountinfo => $self->{accountinfo},
       accountconfig => $self->{accountconfig},
-      params => $self->{params},
+      accountinfo => $self->{accountinfo},
       inventory => $inventory,
       logger => $logger,
+      params => $self->{params},
+      prologresp => $self->{prologresp},
+      mem => $self->{modules}->{$m}->{mem},
+      storage => $self->{modules}->{$m}->{storage},
       });
+  };
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
+  $self->saveStorage($m, $self->{modules}->{$m}->{storage});
 }
 
 sub feedInventory {
@@ -190,5 +214,25 @@ sub feedInventory {
   $inventory->setHardware({ETIME => time() - $begin});
 }
 
+sub retrieveStorage {
+    my ($self, $m) = @_;
+
+    my $storagefile = $self->{params}->{vardir}."/$m.storage";
+
+    return (-f $storagefile)?retrieve($storagefile):{};
+
+}
+
+sub saveStorage {
+    my ($self, $m, $data) = @_;
+
+    my $storagefile = $self->{params}->{vardir}."/$m.storage";
+    if ($data && keys (%$data)>1) {
+	store ($data, $storagefile) or die;
+    } elsif (-f $storagefile) {
+	unlink $storagefile;
+    }
+
+}
 
 1;

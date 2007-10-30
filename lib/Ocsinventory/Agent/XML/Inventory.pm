@@ -1,5 +1,5 @@
 package Ocsinventory::Agent::XML::Inventory;
-
+# TODO: resort the functions
 use strict;
 use warnings;
 
@@ -16,6 +16,7 @@ sub new {
   $self->{accountconfig} = $params->{accountconfig};
   my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
+  $self->{prologresp} = $params->{prologresp};
 
   if (!($self->{params}{deviceid})) {
     $logger->fault ('deviceid unititalised!');
@@ -36,6 +37,7 @@ sub new {
   $self->{h}{CONTENT}{VIDEOS} = [];
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
+  $self->{h}{CONTENT}{IPDISCOVER} = [];
 
   # Is the XML centent initialised?
   $self->{isInitialised} = undef;
@@ -54,9 +56,9 @@ sub initialise {
 	  accountconfig => $self->{accountconfig},
 	  logger => $self->{logger},
 	  params => $self->{params},
+	  prologresp => $self->{prologresp},
 
       });
-
 
   $backend->feedInventory ({inventory => $self});
 
@@ -340,6 +342,26 @@ sub setAccessLog {
       $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
     }
   }
+}
+
+sub addIpDiscoverEntry {
+  # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
+  my ($self, $args) = @_;
+
+  my $ipaddress = $args->{IPADDRESS};
+  my $macaddr = $args->{MACADDR};
+  my $name = $args->{NAME};
+
+  push @{$self->{h}{CONTENT}{IPDISCOVER}},
+  {
+      # If I or M is undef, the server will ingore the host
+    H => {
+	I => [$ipaddress?$ipaddress:""],
+	M => [$macaddr?$macaddr:""],
+	N => [$name?$name:"-"], # '-' is the default value reteurned by ipdiscover
+    }
+
+  };
 }
 
 sub getContent {

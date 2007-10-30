@@ -313,11 +313,26 @@ do {
       });
 
 
-  if ($params->{stdout}) {
-    $inventory->printXML();
-  } elsif ($params->{local}) {
-    $inventory->writeXML();
+  if ($params->{stdout} || $params->{local}) { # Local mode
+
+      my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+
+	      # TODO, check if the accoun{info,config} are needed in localmode
+	      accountinfo => $accountinfo,
+	      accountconfig => $accountinfo,
+	      logger => $logger,
+	      params => $params,
+
+	  });
+
+      if ($params->{stdout}) {
+	  $inventory->printXML();
+      } elsif ($params->{local}) {
+	  $inventory->writeXML();
+      }
+
   } else { # I've to contact the server
+
     my $net = new Ocsinventory::Agent::Network ({
 	
 	accountconfig => $accountconfig,
@@ -333,6 +348,7 @@ do {
       });
 
     my $sendInventory = 1;
+    my $prologresp;
     if (!$params->{force}) {
       my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
@@ -342,11 +358,22 @@ do {
 
 	});
 
-      my $response = $net->send({message => $prolog});
-      $sendInventory = 1 if $response->isInventoryAsked();
+      $prologresp = $net->send({message => $prolog});
+      $sendInventory = 1 if $prologresp->isInventoryAsked();
     }
 
     if ($sendInventory) {
+
+	my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+
+		# TODO, check if the accoun{info,config} are needed in localmode
+		accountinfo => $accountinfo,
+		accountconfig => $accountinfo,
+		logger => $logger,
+		params => $params,
+		prologresp => $prologresp,
+
+	    });
 
       if (my $response = $net->send({message => $inventory})) {
 	if ($response->isAccountUpdated()) {

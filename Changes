@@ -12,6 +12,13 @@ Revision history for Ocsinventory::Agent
        * processChecksum() and feedInventory() are called by Ocsinventory::Agent::XML::Inventory
          directly now
        * the server responses are not parsed in the main script anymore
+       * do not create an inventory if the server doesnn't need it
+       * new parameters for the backend modules (run and check functions):
+         - prologresp, the Ocsinventory::Agent::XML::Response::Prolog object returned by
+	   the prolog
+	 - storage: an hashref stored on the harddrive at the end of the execution of the module
+       * a backend module without a run function is accepted now 
+       * Inventory.pm: add addIpDiscoverEntry() to add host from the same network
 
 0.0.6.2 07/16/2007 Bug fix release
 
