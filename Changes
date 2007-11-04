@@ -19,6 +19,8 @@ Revision history for Ocsinventory::Agent
 	 - storage: an hashref stored on the harddrive at the end of the execution of the module
        * a backend module without a run function is accepted now 
        * Inventory.pm: add addIpDiscoverEntry() to add host from the same network
+       * @runMeIfTheseChecksFailed: new optional setting for Backend module
+       * Ipdiscover is now a backend module and nmap can be used instead of ipdiscover
 
 0.0.6.2 07/16/2007 Bug fix release
 

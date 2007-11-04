@@ -57,7 +57,7 @@ sub initModList {
 # Find installed modules
   foreach my $file (@installed_mod) {
     my @runAfter;
-#    my @runIfFailed;
+    my @runMeIfTheseChecksFailed;
 #    my @replace;
     my $enable = 1;
 
@@ -79,7 +79,7 @@ sub initModList {
 
 # Import of module's functions and values
     local *Ocsinventory::Agent::Backend::runAfter = $m."::runAfter"; 
-#    local *Ocsinventory::Agent::Backend::runIfFailed = $m."::runIfFailed"; 
+    local *Ocsinventory::Agent::Backend::runMeIfTheseChecksFailed = $m."::runMeIfTheseChecksFailed"; 
 #    local *Ocsinventory::Agent::Backend::replace = $m."::replace"; 
     local *Ocsinventory::Agent::Backend::check = $m."::check";
     local *Ocsinventory::Agent::Backend::run = $m."::run";
@@ -99,7 +99,7 @@ sub initModList {
     $self->{modules}->{$m}->{enable} = $enable;
     $self->{modules}->{$m}->{checkFunc} = \&check;
     $self->{modules}->{$m}->{runAfter} = \@runAfter;
-#    $self->{modules}->{$m}->{runIfFailed} = \@runIfFailed;
+    $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = \@runMeIfTheseChecksFailed;
 #    $self->{modules}->{$m}->{replace} = \@replace;
     $self->{modules}->{$m}->{runFunc} = \&run;
     $self->{modules}->{$m}->{mem} = {};
@@ -108,7 +108,8 @@ sub initModList {
 
   }
 
-  foreach my $m (sort keys %{$self->{modules}}) {# the sort is useless
+# the sort is just for the presentation 
+  foreach my $m (sort keys %{$self->{modules}}) {
 # find modules to disable and their submodules
     if($self->{modules}->{$m}->{enable} &&
     !&{$self->{modules}->{$m}->{checkFunc}}({
@@ -122,6 +123,9 @@ sub initModList {
       }
     }
 
+
+
+
 # add submodule in the runAfter array
     my $t;
     foreach (split /::/,$m) {
@@ -129,6 +133,19 @@ sub initModList {
       $t .= $_;
       if (exists $self->{modules}->{$t} && $m ne $t) {
 	push @{$self->{modules}->{$m}->{runAfter}}, \%{$self->{modules}->{$t}}
+      }
+    }
+  }
+
+
+  # Remove the runMeIfTheseChecksFailed if needed
+  foreach my $m (sort keys %{$self->{modules}}) {
+    next unless	$self->{modules}->{$m}->{enable};
+   
+    foreach ($self->{modules}->{$m}->{runMeIfTheseChecksFailed}) {
+      print ">>$_\n";
+      if($self->{modules}->{$_}->{enable}) {
+        $self->{modules}->{$m}->{enable} = 0;
       }
     }
   }
@@ -142,31 +159,30 @@ sub runMod {
   my $m = $params->{modname};
   my $inventory = $params->{inventory};
 
-  die ">$m\n" unless $m; # Should NEVER append :) 
-    return if (!$self->{modules}->{$m}->{enable});
+  return if (!$self->{modules}->{$m}->{enable});
   return if ($self->{modules}->{$m}->{done});
 
   $self->{modules}->{$m}->{inUse} = 1; # lock the module
 # first I run its "runAfter"
 
-    foreach (@{$self->{modules}->{$m}->{runAfter}}) {
-      if (!$_->{name}) {
+  foreach (@{$self->{modules}->{$m}->{runAfter}}) {
+    if (!$_->{name}) {
 # The name is defined during module initialisation so if I 
 # can't read it, I can suppose it had not been initialised.
-	$logger->fault ("Module `$m' need to be runAfter a module not found.".
-	    "Please fix its runAfter entry or add the module.");
-      }
+      $logger->fault ("Module `$m' need to be runAfter a module not found.".
+        "Please fix its runAfter entry or add the module.");
+    }
 
-      if ($_->{inUse}) {
+    if ($_->{inUse}) {
 # In use 'lock' is taken during the mod execution. If a module
 # need a module also in use, we have provable an issue :).
-	$logger->fault ("Circular dependency hell with $m and $_->{name}");
-      }
-      $self->runMod({
-	  inventory => $inventory,
-	  modname => $_->{name},
-	  });
+      $logger->fault ("Circular dependency hell with $m and $_->{name}");
     }
+    $self->runMod({
+        inventory => $inventory,
+        modname => $_->{name},
+      });
+  }
 
   $logger->debug ("Running $m"); 
 

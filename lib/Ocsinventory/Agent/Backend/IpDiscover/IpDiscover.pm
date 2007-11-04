@@ -1,49 +1,74 @@
 package Ocsinventory::Agent::Backend::IpDiscover::IpDiscover;
 
 use strict;
+use warnings;
 
 sub check {
-    my $params = shift;
+  my $params = shift;
 
-    # Do we have ipdiscover?
-    `ipdiscover 2>&1`;
-    if (($? >> 8)==0) {
-	$mem->{scanmode} = "ipdiscover";
-	return 1; 
-    }
-    
-    0;
+  # Do we have ipdiscover?
+  `ipdiscover 2>&1`;
+  if (($? >> 8)==0) {
+    return 1; 
+  }
+
+  0;
 }
 
 
 sub run {
-    my $params = shift;
+  my $params = shift;
 
-    my $inventory = $params->{inventory};
-    my $prologresp = $params->{prologresp};
+  my $inventory = $params->{inventory};
+  my $prologresp = $params->{prologresp};
+  my $logger = $params->{logger};
 
-	# Let's find network interfaces and call ipdiscover on it
-	my $options = $prologresp->getOptionInfoByName("IPDISCOVER");
-	my $ipdisc_lat;
-	if (exists($optiond->{IPDISC_LAT})) {
-	    $ipdisc_lat = $optiond->{IPDISC_LAT};
-	}
+  # Let's find network interfaces and call ipdiscover on it
+  my $options = $prologresp->getOptionInfoByName("IPDISCOVER");
+  my $ipdisc_lat;
+  my $network;
+  if (exists($options->{IPDISC_LAT})) {
+    $ipdisc_lat = $options->{IPDISC_LAT};
+  }
 
-	my $legacymode;
-	if( `ipdiscover` =~ /binary ver. (\d+)/ ){
-	    $legacymode = 1 unless ( $1>3 );
-	}
+  if (exists($options->{content})) {
+    $network = $options->{content};
+  }
+  if (exists($options->{content})) {
+    $network = $options->{content};
+  }
+  $logger->debug("scanning the $network network");
 
-	my @if;
-	foreach (`ifconfig`) {
-	    push @if, $1 if /^(\S*)/;
-	}
+  my $legacymode;
+  if( `ipdiscover` =~ /binary ver. (\d+)/ ){
+    if(!$1>3) {
+      $legacymode = 1;
+      $logger->debug("ipdiscover ver.$1: legacymode");
+    }
+  }
 
-	foreach (@if) {
+  my $ifname;
+  foreach (`route -n`) {
+    if (/^(\d+\.\d+\.\d+\.\d+).*?\s(\S+)$/) {
+      $ifname = $2 if $network eq $1;
+    }
+  }
 
-	}
+  my $cmd = "ipdiscover $ifname";
+  $cmd .= $ipdisc_lat if ($ipdisc_lat && !$legacymode);
 
 
+  foreach (`$cmd`) {
+    print "$ifname: ".$_;
+    print $1." -  ".$2."\n";
+    if (/<H><I>([\d\.]*)<\/I><M>([\w\:]*)<\/M><N>(\S*)<\/N><\/H>/) {
+      $inventory->addIpDiscoverEntry({
+          IPADDRESS => $1,
+          MACADDR => $2,
+          NAME => $3
+        });
+    }
+  }
 }
 
 1;
