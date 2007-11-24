@@ -117,6 +117,11 @@ sub initModList {
 # find modules to disable and their submodules
     if($self->{modules}->{$m}->{enable} &&
     !&{$self->{modules}->{$m}->{checkFunc}}({
+            accountconfig => $self->{accountconfig},
+            accountinfo => $self->{accountinfo},
+            inventory => $self->{inventory},
+            logger => $self->{logger},
+            params => $self->{params},
 	    prologresp => $self->{prologresp},
 	    mem => $self->{modules}->{$m}->{mem},
 	    storage => $self->{modules}->{$m}->{storage},

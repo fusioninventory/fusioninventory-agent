@@ -4,6 +4,11 @@ use strict;
 use warnings;
 
 sub check {
+  my $params = shift;
+
+  # Do not run an package inventory if there is the --nosoft parameter
+  return if ($params->{params}->{nosoft});
+
   `which pkginfo 2>&1`;
   return if ($? >> 8)!=0;
   1;

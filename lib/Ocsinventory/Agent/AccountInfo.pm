@@ -3,8 +3,6 @@ package Ocsinventory::Agent::AccountInfo;
 use strict;
 use warnings;
 
-use Data::Dumper; # XXX Debug
-
 sub new {
   my (undef,$params) = @_;
 

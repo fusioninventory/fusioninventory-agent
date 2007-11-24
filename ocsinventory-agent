@@ -48,6 +48,7 @@ my $params = {
   'user'      =>  '',
   'wait'      =>  '0',
 #  'xml'       =>  0,
+  'nosoft'    =>  0,
 
   # Other values that can't be changed with the
   # CLI parameters
@@ -84,7 +85,7 @@ my %options = (
   "u|user"          =>   \$params->{user},
   "w|wait"          =>   \$params->{wait},
 #  "x|xml"           =>   \$params{xml},
-#"nosoft"
+  "nosoft"          =>   \$params->{nosoft},
 );
 my $pid;
 
@@ -139,7 +140,7 @@ sub help {
   print STDERR "\t-w --wait           wait during a random periode before".
   "  contacting server like --daemon do (".$params->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
-#  print STDERR "\t--nosoft           do not return installed software list\n";
+  print STDERR "\t--nosoft           do not return installed software list\n";
 
   exit 1;
 }
