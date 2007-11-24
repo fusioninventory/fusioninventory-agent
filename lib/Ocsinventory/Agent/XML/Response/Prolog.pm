@@ -2,8 +2,9 @@ package Ocsinventory::Agent::XML::Response::Prolog;
 
 use strict;
 use Ocsinventory::Agent::XML::Response;
+
 our @ISA = ('Ocsinventory::Agent::XML::Response');
-use Data::Dumper;
+
 sub new {
     my ($class, @params) = @_;
 
@@ -30,7 +31,7 @@ sub getOptionInfoByName {
     return unless ($parsedContent && $parsedContent->{OPTION});
     foreach (@{$parsedContent->{OPTION}}) {
       if ($_->{NAME} && $_->{NAME} =~ /^$name$/) {
-        return $_->{PARAM}
+        return $_->{PARAM}[0]
       }
     }
 }
