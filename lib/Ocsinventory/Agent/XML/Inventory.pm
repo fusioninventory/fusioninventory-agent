@@ -390,9 +390,6 @@ sub getContent {
   
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>', SuppressEmpty => undef );
 
-  open DEBUG, ">/tmp/debug" or die;
-  print DEBUG $content."\n";
-  close DEBUG;
   return $content;
 }
 
