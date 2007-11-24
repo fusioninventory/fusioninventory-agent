@@ -30,7 +30,7 @@ sub getOptionInfoByName {
 
     return unless ($parsedContent && $parsedContent->{OPTION});
     foreach (@{$parsedContent->{OPTION}}) {
-      if ($_->{NAME} && $_->{NAME} =~ /^$name$/) {
+      if ($_->{NAME} && $_->{NAME} =~ /^$name$/i) {
         return $_->{PARAM}[0]
       }
     }
