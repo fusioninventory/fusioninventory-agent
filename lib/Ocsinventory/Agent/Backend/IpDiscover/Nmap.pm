@@ -1,5 +1,7 @@
 package Ocsinventory::Agent::Backend::IpDiscover::Nmap;
 
+use vars qw($runMeIfTheseChecksFailed);
+$runMeIfTheseChecksFailed = ["Ocsinventory::Agent::Backend::IpDiscover::IpDiscover"];
 use strict;
 use warnings;
 
@@ -27,15 +29,32 @@ sub run {
 
   my $inventory = $params->{inventory};
   my $prologresp = $params->{prologresp};
+  my $logger = $params->{logger};
 
+  # Let's find network interfaces and call ipdiscover on it
   my $options = $prologresp->getOptionInfoByName("IPDISCOVER");
 
-  my $network = $options->{content};
+  my $network;
+  if (exists($options->{content})) {
+    $network = $options->{content};
+  } else {
+    return;
+  }
+  $logger->debug("scanning the $network network");
 
-
-  foreach (`nmap -sP -PR '$network/24'`) {
-
-
+  my $ip;
+  my $cmd = "nmap -sP -PR $network/24";
+  print $cmd."\n";
+  foreach (`$cmd`) {
+      print;
+      if (/^Host (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
+          $ip = $1;
+      } elsif (/MAC Address: (\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/) {
+          $inventory->addIpDiscoverEntry({
+             IPADDRESS => $ip,
+                MACADDR => lc($1),
+             });
+      }
   }
 }
 
