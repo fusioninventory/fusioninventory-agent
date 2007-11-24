@@ -4,7 +4,6 @@ package Ocsinventory::Agent::CompatibilityLayer;
 use strict;
 use warnings;
 
-use Data::Dumper;
 use FindBin qw($Bin);
 
 sub new {
