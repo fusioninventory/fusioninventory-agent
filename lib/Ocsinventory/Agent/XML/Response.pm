@@ -36,7 +36,6 @@ sub getRawXML {
 sub getParsedContent {
     my $self = shift;
 
-    print "->".$self->{content}."\n";
     if(!$self->{parsedcontent}) {
 	$self->{parsedcontent} = XML::Simple::XMLin( $self->{content}, ForceArray => ['OPTION','PARAM'] );
 	print Dumper($self->{parsedcontent});
