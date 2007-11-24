@@ -87,6 +87,10 @@ sub initModList {
     foreach (@{$Ocsinventory::Agent::Backend::runAfter}) {
       push @runAfter, \%{$self->{modules}->{$_}};
     }
+    foreach (@{$Ocsinventory::Agent::Backend::runMeIfTheseChecksFailed}) {
+      push @runMeIfTheseChecksFailed, \%{$self->{modules}->{$_}};
+    }
+
 # TODO, 
 # no strict 'refs';
 # print Dumper(\@{"Ocsinventory::Agent::Option::Download::EXPORT"});
@@ -141,12 +145,8 @@ sub initModList {
   # Remove the runMeIfTheseChecksFailed if needed
   foreach my $m (sort keys %{$self->{modules}}) {
     next unless	$self->{modules}->{$m}->{enable};
-   
-    foreach ($self->{modules}->{$m}->{runMeIfTheseChecksFailed}) {
-      print ">>$_\n";
-      if($self->{modules}->{$_}->{enable}) {
-        $self->{modules}->{$m}->{enable} = 0;
-      }
+    foreach (@{$self->{modules}->{$m}->{runMeIfTheseChecksFailed}}) {
+      $self->{modules}->{$m}->{enable} = 0 if $_->{enable};
     }
   }
 }
