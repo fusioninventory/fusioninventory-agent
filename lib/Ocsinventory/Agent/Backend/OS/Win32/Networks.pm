@@ -38,9 +38,6 @@ foreach my $nic (in $nics) {
 
     $description = $nic->Description;
 
-use Data::Dumper;
-print Dumper($nic->IPAddress);
-die;
 foreach ($nic->IPAddress}) {
     $ipaddress += '/' if $ipaddress;
     $ipaddress += $_;
