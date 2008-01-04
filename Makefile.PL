@@ -1,53 +1,35 @@
-use ExtUtils::MakeMaker;
+use inc::Module::Install;
+use Config qw(config_re);
 
-WriteMakefile(
-  'NAME' => 'Ocsinventory-Agent',
-  'DISTNAME' => 'Ocsinventory-Agent',
-  'EXE_FILES' => ["ocsinventory-agent"],
-  'VERSION_FROM' => 'ocsinventory-agent',
-  'dist'    => {COMPRESS=> 'gzip -9f', SUFFIX=>'gz', 
- 	          POSTOP => 'mv $(NAME)-$(VERSION).tar.gz ../'
-  },
+name 'Ocsinventory-Agent';
+abstract 'Ocs-Iventory unified Agent for UNIX and Linux';
+license 'gpl';
+perl_version '5.006';
+requires 'Digest::MD5' => undef;
+requires 'XML::Simple' => undef;
+requires 'Net::IP' => undef;
+requires 'Proc::Daemon' => undef;
+requires 'LWP' => undef;
+requires 'File::Temp' => undef;
+requires 'Compress::Zlib';
 
-  (
-    $ENV{SKIP_FOR_CORE}
-    ? (MAN3PODS    => {})
-    : (PREREQ_PM   => { 
-      'Digest::MD5'               => 0, 
-      'XML::Simple'               => 0, 
-      'Net::IP'                   => 0, 
-      'Proc::Daemon'              => 0, 
-      'LWP'			  => 0,
-      'File::Temp'		  => 0,
-      'Net::IP'			  => 0,
+install_script  'ocsinventory-agent';
+
+if (!can_use('Crypt::SSLeay')) {
+    print "Please install Crypt::SSLeay if you want to use SSL.\n"; 
+}
+
+if (!can_run('ipdiscover') && !can_run('nmap')) {
+    print "Plese install nmap ";
+    print "or ipdiscover " if $^O =~ /^linux$/i;
+    print "if you want to use the network ".
+    "discover feature.\n";
+}
+
+my @t = config_re('archname');
+if ($^O =~ /(linux|bsd)/i && $t[0] =~ /(i[3456x]86)/) {
+    foreach (qw/dmidecode lspci/) {
+        print "$_ is needed if you want a complet inventory.\n" unless can_run($_);
     }
-  )
-),
-
-(
-  $] >= 5.005
-  ? (
-    AUTHOR       => 'Gonéri Le Bouder <goneri@rulezlan.org>')
-  : ()
-), 
-
-
-);
-
-# Check for compress backend
-my @tmpgzip = `gzip -V 2>/dev/null`; 
-eval { require Compress::Zlib };
-if (!$@) {
-    print "Compress::Zlib is avalaible. I will use it for the compress backend\n";
-} elsif (!@tmpgzip) {
-    print "Warning: Can't find Compress::Zlib or the gzip command to compress inventory\n";
-} else {
-    print "gzip is avalaible. I will use it for the compress backend. OCS Server ";
-    print "1.01 and prior do not support this feature and so needs Compress::Zlib\n";
 }
 
-eval { require Crypt::SSLeay };
-if ($@) {
-    print "Crypt::SSLeay is not installed. You'll not able to do client ";
-    print "authentification with SSL\n";
-}
