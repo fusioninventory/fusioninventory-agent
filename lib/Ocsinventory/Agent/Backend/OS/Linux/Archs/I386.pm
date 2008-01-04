@@ -17,7 +17,7 @@ sub run {
   my $processorn;
   my $processors;
   my $arch;
-  open CPUINFO, "</tmp/cpuinfo" or warn;
+  open CPUINFO, "</proc/cpuinfo" or warn;
   foreach(<CPUINFO>){
     $processorn++ if (/^processor\s*:/);
     if (/^model name\s*:\s*(.+)/i) {
