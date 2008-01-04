@@ -456,7 +456,7 @@ sub processChecksum {
 
   my $checksum = 0;
 
-  if ($self->{params}{local}) {
+  if (!$self->{params}{local}) {
     if (-f $self->{params}->{last_statefile}) {
       # TODO: avoid a violant death in case of problem with XML
       $self->{last_state_content} = XML::Simple::XMLin(
@@ -478,7 +478,7 @@ sub processChecksum {
     my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
     if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
       $logger->debug ("Section $section has changed since last inventory");
-      #We made OR on $checksum with the mask of the current section
+      #We make OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
       # Finally I store the new value.
       $self->{last_state_content}->{$section}[0] = $hash;
