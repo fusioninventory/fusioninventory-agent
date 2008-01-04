@@ -5,7 +5,6 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
-use Data::Dumper; # XXX
 
 use Ocsinventory::Compress;
 
@@ -19,7 +18,11 @@ sub new {
   $self->{compatibilityLayer} = $params->{compatibilityLayer}; 
   my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
-  $self->{URI} = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
+  if ($self->{params}->{server} =~ /^http(|s):\/\//) {
+      $self->{URI} = $self->{params}->{server};
+  } else {
+      $self->{URI} = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
+  }
 
 
   $self->{compress} = new Ocsinventory::Compress ({logger => $logger});

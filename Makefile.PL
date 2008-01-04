@@ -35,14 +35,19 @@ WriteMakefile(
 );
 
 # Check for compress backend
-my @tmpgzip = `gzip -V>/dev/null 2>&1`; 
+my @tmpgzip = `gzip -V 2>/dev/null`; 
 eval { require Compress::Zlib };
 if (!$@) {
-print "Compress::Zlib is avalaible. I will use it for the compress backend\n";
+    print "Compress::Zlib is avalaible. I will use it for the compress backend\n";
 } elsif (!@tmpgzip) {
-print "Warning: I can't Compress::Zlib or the gzip command to compress backend".
-"the data for the server\n";
+    print "Warning: Can't find Compress::Zlib or the gzip command to compress inventory\n";
 } else {
-print "gzip is avalaible. I will use it for the compress backend. OCS Server ";
-print "1.01 and prior do not support this (buggy) feature and so needs Compress::Zlib\n";
+    print "gzip is avalaible. I will use it for the compress backend. OCS Server ";
+    print "1.01 and prior do not support this feature and so needs Compress::Zlib\n";
+}
+
+eval { require Crypt::SSLeay };
+if ($@) {
+    print "Crypt::SSLeay is not installed. You'll not able to do client ";
+    print "authentification with SSL\n".
 }

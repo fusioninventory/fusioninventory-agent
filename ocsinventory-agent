@@ -24,7 +24,7 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.7cvs';
+our $VERSION = '0.0.7';
 
 my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';
@@ -41,8 +41,9 @@ my $params = {
   'logfile'   =>  'ocsinventory-agent.log',
   'password'  =>  '',
   'realm'     =>  '',
-  'remotedir' =>  '/ocsinventory',
-  'server'    =>  'ocsinventory-ng',
+  'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
+                                   # --server instead
+  'server'    =>  'http://ocsinventory-ng/ocsinventory',
   'stdout'    =>  0,
   'tag'       =>  '',
   'user'      =>  '',
@@ -69,8 +70,8 @@ $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 my %options = (
-  "debug"           =>   \$params->{debug},
   "d|daemon"        =>   \$params->{daemon},
+  "debug"           =>   \$params->{debug},
   "f|force"         =>   \$params->{force},
   "h|help"          =>   \$params->{help},
   "i|info"          =>   \$params->{info},
@@ -118,11 +119,14 @@ sub help {
     print "ERROR: $error\n\n";
   }
 
-  print STDERR "Setting initialised with values retrieve from the config found at ".$config->{configfile}."\n";
+  if ($config->{configfile}) {
+      print STDERR "Setting initialised with values retrieve from ".
+      "the config found at ".$config->{configfile}."\n";
+  }
 
   print STDERR "Usage:\n";
-  print STDERR "\t    --debug          debug mode (".$params->{debug}.")\n";
   print STDERR "\t-d  --daemon         detach the agent in background ".
+  print STDERR "\t    --debug          debug mode (".$params->{debug}.")\n";
   "and run it silently endlessly (".$params->{daemon}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask
   before) ($params->{force})\n";
@@ -132,7 +136,7 @@ sub help {
   print STDERR "\t   --logfile=FILE   log message in FILE\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-r --realm=REALM    realm for server auth\n";
-  print STDERR "\t-s --server=host    server hostname (".$params->{server}.")\n";
+  print STDERR "\t-s --server=uri     server uri (".$params->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$params->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
@@ -291,8 +295,7 @@ if ($params->{daemon}) {
 $logger->debug("OCS Agent initialised");
 #######################################################
 #######################################################
-
-do {
+do {{ # double braces needed by the 'next', see 'do' in perlfunc and perlsyn
 
   if ($params->{daemon} || $params->{wait}) {
     my $serverdelay = $accountconfig->get('PROLOG_FREQ');
@@ -341,11 +344,6 @@ do {
 	compatibilityLayer => $compatibilityLayer,
 	logger => $logger,
 	params => $params,
-#	respHandlers => {
-#	  PROLOG_FREQ => sub {$accountconfig->set("PROLOG_FREQ", $_[0])},
-#	  ACCOUNTINFO => sub {$accountinfo->reSetAll($_[0])},
-#	}
-
       });
 
     my $sendInventory = 1;
@@ -360,7 +358,8 @@ do {
 	});
 
       $prologresp = $net->send({message => $prolog});
-      $sendInventory = 1 if $prologresp->isInventoryAsked();
+      next unless $prologresp; # Failed to reach the server
+      $sendInventory = 1 if  $prologresp->isInventoryAsked();
     }
 
     if ($sendInventory) {
@@ -388,4 +387,147 @@ do {
   }
   $compatibilityLayer->hook({name => 'end_handler'});
 
-} while ($params->{daemon});
+}} while ($params->{daemon});
+
+__END__
+
+=head1 NAME
+
+ocsinventory-agent - Unified client for OCS-Inventory
+
+=head1 SYNOPSIS
+
+B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tmp> ]>...
+
+=head1 EXAMPLES
+
+    % ocsinventory-agent --server localhost
+    # sent an inventory to the OCS server
+    
+    % ocsinventory-agent --server http://localhost/ocsinventory2
+    # sent an inventory over http to a server with a non standard
+    # virtual directory
+
+    % ocsinventory-agent --server https://localhost/ocsinventory
+    # sent an inventory over https to the OCS server
+
+    % ocsinventory-agent --local /tmp
+    # write an inventory in the /tmp directory
+    
+    % ocsinventory-agent --server localhost --user=toto --password=pw
+    # send a report to a server protected by a basic authentification 
+
+=head1 DESCRIPTION
+
+F<ocsinventory-agent> creates inventory and sent or write them.
+
+=head1 OPTIONS
+
+Most of the options are available in a I<short> form and a I<long> form.  For
+example, the two lines below are all equivalent:
+
+    % ocsinventory-agent -s localhost 
+    % ocsinventory-agent --server localhost 
+
+=over 4
+
+=item B<-d>, B<--daemon>
+
+Launch ocsinventory-agent in background. Proc::Daemon is needed.
+
+=item B<--debug>
+
+Turn the debug mode on.
+
+=item B<-f>, B<--force>
+
+The agent will first contact the server during the PROLOG period. If the server doesn't know the machin or have outdated information, it will ask for an inventory.
+With this option, the agent doesn't run the PROLOG with the server first but directly send an inventory.
+
+=item B<-i>, B<--info>
+
+Turn the verbose mode on. The flag is ignored if B<--debug> is enable.
+
+=item B<-l>, B<--local>=I<DIR>
+
+Write an inventory in the I<DIR> directory. A new file will be created if needed.
+
+=item B<--logfile>=I<FILE>
+
+Log message in I<FILE>.
+
+=item B<-p>, B<--password>=I<PASSWORD>
+
+Use I<PASSWORD> for an HTTP identification with the server.
+
+=item B<-r>, B<--realm>=I<REALM>
+
+Use I<REALM> for an HTTP identification with the server. You probably don't need these option.
+
+=item B<-s>, B<--server>=I<URI>
+
+The uri of the server. If I<URI> doesn't start with http:// or https://, the assume the parameter is a hostname and rewrite it like that:
+
+    % http://servername/ocsinventory
+
+If you want to use https or another virtual directory you need to enter the full path.
+
+=item B<--stdout>
+
+Print the inventory on stdout.
+
+    % ocsinventory-agent --stdout > /tmp/report.xml
+    # prepare an inventory and write it in the /tmp/report.xml file.
+    # A file will be created.
+
+=item B<--tag>=I<TAG>
+
+Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server.
+
+=item B<-u>, B<--user>=I<USER>
+
+Use I<USER> for the server authentification.
+
+=item B<-w>, B<--wait>
+
+Wait during a random period and then send the report to the server
+
+    % ocsinventory-agent --wait --server localhost
+
+=item B<--nosoft>
+
+Do not inventory the software installed on the machin.
+
+=head1 AUTHORS
+
+Goneri LE BOUDER (maintainer)
+
+Pascal DANEK
+Olivier ANDREOTTI
+Thierry LACOSTE
+Didier LIROULET
+
+=head1 COPYRIGHT
+
+Copyright (C) 2006 2007 Goneri LE BOUDER <goneri@rulezlan.org>
+
+Copyright (C) 2005 2006 Pascal DANEK <pascal.danek@gmail.com>
+Copyright (C) 2007 Olivier ANDREOTTI <olivier.andreotti@gmail.com>
+Copyright (C) 2007 Thierry LACOSTE <lacoste@univ-paris12.fr>
+Copyright (C) 2007 Didier LIROULET <dliroulet@users.sourceforge.net>
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+=cut

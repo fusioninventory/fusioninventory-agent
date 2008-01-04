@@ -23,6 +23,11 @@ Revision history for Ocsinventory::Agent
        * Ipdiscover is now a backend module and nmap can be used instead of ipdiscover
        * --nosoft disable the Ocsinventory::Agent::Backend::OS::Generic::Packaging modules
        * the check function of the backend accepts the same parameter than the run function
+       * Linux::Archs::I386 regex are more robust
+       * perldoc documentation for the ocsinventory-agent command
+       * minor improvment on the Makefile.PL
+       * change the way --server parameter is read. Now we can have a full URL, --remotedir
+         is now useless
 
 0.0.6.2 07/16/2007 Bug fix release
 
