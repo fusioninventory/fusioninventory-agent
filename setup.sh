@@ -84,11 +84,11 @@ OCS_AGENT_LOGROTATE_FILE="ocsinventory-agent"
 DAEMON_SCRIPT_DIR="/etc/init.d"
 OCS_AGENT_DAEMON_SCRIPT_FILE="ocsinventory-agent"
 
-# Where is localted ipdiscover
+# Where is ipdiscover
 OCS_AGENT_IPDISCOVER_BIN=`which ipdiscover 2>/dev/null`
 OCS_AGENT_IPDISCOVER_VERSION=""
 
-# Where is localted dmidecode
+# Where is dmidecode
 OCS_AGENT_DMIDECODE_BIN=`which dmidecode 2>/dev/null`
 OCS_AGENT_DMIDECODE_VERSION=""
 
