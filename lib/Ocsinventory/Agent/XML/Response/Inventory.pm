@@ -3,7 +3,6 @@ package Ocsinventory::Agent::XML::Response::Inventory;
 use strict;
 use Ocsinventory::Agent::XML::Response;
 our @ISA = ('Ocsinventory::Agent::XML::Response');
-use Data::Dumper;
 
 sub new {
     my ($class, @params) = @_;
@@ -21,7 +20,6 @@ sub isAccountUpdated {
     my $self = shift;
 
     my $parsedContent = $self->getParsedContent();
-    print Dumper($parsedContent);
     if ($parsedContent && exists ($parsedContent->{RESPONSE}) && $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
 	return 1;
     }
@@ -34,7 +32,6 @@ sub updatePrologFreq {
     my $self = shift;
 
     my $parsedContent = $self->getParsedContent();
-    print Dumper($parsedContent);
     if ($parsedContent && exists ($parsedContent->{PROLOG_FREQ})) {
 	$self->{accountconfig}->set("PROLOG_FREQ", $parsedContent->{PROLOG_FREQ});
     }
