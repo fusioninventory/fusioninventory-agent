@@ -49,5 +49,5 @@ if (!$@) {
 eval { require Crypt::SSLeay };
 if ($@) {
     print "Crypt::SSLeay is not installed. You'll not able to do client ";
-    print "authentification with SSL\n".
+    print "authentification with SSL\n";
 }
