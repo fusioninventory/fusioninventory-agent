@@ -22,6 +22,8 @@ Revision history for Ocsinventory::Agent
        * @runMeIfTheseChecksFailed: new optional setting for Backend module
        * Ipdiscover is now a backend module and nmap can be used instead of ipdiscover
        * --nosoft disable the Ocsinventory::Agent::Backend::OS::Generic::Packaging modules
+       * Remove the deprecated modules Ocsinventory::Agent::Option::Ipdiscover and
+            Ocsinventory::Agent::Option::Update
        * the check function of the backend accepts the same parameter than the run function
        * Linux::Archs::I386 regex are more robust
        * perldoc documentation for the ocsinventory-agent command
@@ -30,6 +32,12 @@ Revision history for Ocsinventory::Agent
          is now useless
        * fix: correctly load the last_state
        * improve the Makefile.PL by using inc::Module::Install and adding new check 
+       * add a --version parameter and improve the --help
+       * come with bundled dependency to simply the build process
+       * fix the login/passwd/realm authentification
+       * remove Agent/Pid.pm, I've to prepare a better system to keep the pid first
+       * try to read the config in /usr/local/etc/ocsinventory/ocsinventory-agent.cfg if the
+         standard one is missing
 
 0.0.6.2 07/16/2007 Bug fix release
 
