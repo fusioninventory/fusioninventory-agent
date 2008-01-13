@@ -22,6 +22,7 @@ sub new {
       });
     push @{$self->{backend}}, $obj if $obj;
   }
+  $self->debug("Ocsinventory unified agent for UNIX and Linux ".$self->{params}->{VERSION}."\n");
   $self->debug("Log system initialised");
 
   $self;

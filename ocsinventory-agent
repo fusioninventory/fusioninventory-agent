@@ -1,9 +1,6 @@
 #!/usr/bin/perl
 # forcer un upload si changement en local
 # ajouter /etc/ocsinventory-agent.conf
-# http_proxy configurable
-# ports réseaux
-# nmap?
 
 use strict;
 use warnings;
@@ -19,7 +16,7 @@ use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Backend;
 use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
-use Ocsinventory::Agent::Pid;
+#use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
@@ -47,19 +44,20 @@ my $params = {
   'stdout'    =>  0,
   'tag'       =>  '',
   'user'      =>  '',
+  'version'   =>  '0',
   'wait'      =>  '0',
 #  'xml'       =>  0,
   'nosoft'    =>  0,
 
   # Other values that can't be changed with the
   # CLI parameters
-  'version'   => $VERSION,
+  'VERSION'   => $VERSION,
   'delaytime' =>  '1', # max delay time (hour)
   'deviceid'  => '',
   'etcdir'    =>  $basedir.'/etc/ocsinventory',
   'basevardir'=>  $basedir.'/var/lib/ocsinventory-agent',
   'logdir'    =>  $basedir.'/var/log/ocsinventory-agent',
-  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
+#  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
 
 # Load setting from the config file
@@ -83,12 +81,12 @@ my %options = (
   "s|server=s"      =>   \$params->{server},
   "stdout"          =>   \$params->{stdout},
   "t|tag=s"         =>   \$params->{tag},
-  "u|user"          =>   \$params->{user},
+  "u|user=s"          =>   \$params->{user},
+  "version"         =>   \$params->{version},
   "w|wait"          =>   \$params->{wait},
 #  "x|xml"           =>   \$params{xml},
   "nosoft"          =>   \$params->{nosoft},
 );
-my $pid;
 
 ##########################################
 ##########################################
@@ -120,33 +118,44 @@ sub help {
   }
 
   if ($config->{configfile}) {
-      print STDERR "Setting initialised with values retrieve from ".
+      print STDERR "Setting initialised with values retrieved from ".
       "the config found at ".$config->{configfile}."\n";
   }
 
+  print STDERR "\n";
   print STDERR "Usage:\n";
-  print STDERR "\t-d  --daemon         detach the agent in background ".
+  print STDERR "\t-d  --daemon         detach the agent in background \n";
   print STDERR "\t    --debug          debug mode (".$params->{debug}.")\n";
-  "and run it silently endlessly (".$params->{daemon}.")\n";
-  print STDERR "\t-f --force          always send data to server (Don't ask
-  before) ($params->{force})\n";
+  print STDERR "\t-f --force          always send data to server (Don't ask before) ($params->{force})\n";
   print STDERR "\t-i --info           verbose mode (".$params->{info}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
   "inventory in DIR directory in XML (".$params->{local}.")\n";
   print STDERR "\t   --logfile=FILE   log message in FILE\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
-  print STDERR "\t-r --realm=REALM    realm for server auth\n";
+  print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' \n";
   print STDERR "\t-s --server=uri     server uri (".$params->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$params->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
   print STDERR "\t-u --user=USER      user for server auth\n";
+  print STDERR "\t   --version        print the version\n";
   print STDERR "\t-w --wait           wait during a random periode before".
   "  contacting server like --daemon do (".$params->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
   print STDERR "\t--nosoft           do not return installed software list\n";
 
+  print STDERR "\n";
+  print STDERR "Manpage:\n";
+  print STDERR "\tSee man ocsinventory-agent\n";
+
+  print STDERR "\n";
+  print STDERR "Ocsinventory-Agent is released under GNU GPL 2 license\n";
   exit 1;
+}
+
+sub version {
+  print "Ocsinventory unified agent for UNIX and Linux (".$VERSION.")\n";
+  exit 0;
 }
 
 # TODO
@@ -169,6 +178,7 @@ sub help {
 #### CLI parameters ########
 ############################
 help() if (!GetOptions(%options) || $params->{help});
+version() if $params->{version};
 
 # I close STDERR to avoid error message during the module execution
 # at the begining I was doing shell redirection:
@@ -189,6 +199,7 @@ my $logger = new Ocsinventory::Logger ({
     params => $params
 
   });
+
 
 ############################
 #### Objects initilisation 
@@ -215,7 +226,9 @@ if (!recMkdir ($params->{basevardir})) {
 if (defined($params->{local}) && $params->{local}) {
   $params->{vardir} = $params->{basevardir}."/__LOCAL__";
 } else {
-  $params->{vardir} = $params->{basevardir}."/".$params->{server};
+  my $dir = $params->{server};
+  $dir =~ s/\//_/g;
+  $params->{vardir} = $params->{basevardir}."/".$dir;
 }
 if (!recMkdir ($params->{vardir})) {
   $logger->error("Failed to create $params->{vardir} directory: $!");
@@ -282,13 +295,17 @@ my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
 if ($params->{daemon}) {
   
   $logger->debug("Time to call Proc::Daemon");
-  require Proc::Daemon;
+  eval { require Proc::Daemon; };
+  if ($@) {
+      print "Can't load Proc::Daemon. Is the module installed?";
+      exit 1;
+  }
   Proc::Daemon::Init();
   $logger->debug("Daemon started");
-  $pid = new Ocsinventory::Agent::Pid ({
-      logger => $logger,
-      params => $params,
-    });
+#  $pid = new Ocsinventory::Agent::Pid ({
+#      logger => $logger,
+#      params => $params,
+#    });
   
 }
 
@@ -462,7 +479,7 @@ Use I<PASSWORD> for an HTTP identification with the server.
 
 =item B<-r>, B<--realm>=I<REALM>
 
-Use I<REALM> for an HTTP identification with the server. You probably don't need these option.
+Use I<REALM> for an HTTP identification with the server. For example, the value can be 'Restricted Area'. You can find it in the login popup of your Internet browser.
 
 =item B<-s>, B<--server>=I<URI>
 
@@ -487,6 +504,10 @@ Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by t
 =item B<-u>, B<--user>=I<USER>
 
 Use I<USER> for the server authentification.
+
+=item B<--version>=I<USER>
+
+Print the version and exit.
 
 =item B<-w>, B<--wait>
 
