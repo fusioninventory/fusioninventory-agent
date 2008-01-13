@@ -38,8 +38,6 @@ bundle 'XML::NamespaceSupport' => undef;
 bundle 'URI' => undef;
 bundle 'LWP' => undef;
 
-unlink 'postinst.pl' or die "can't remove 'postinst.pl'. Please remove it yourself\n";
-
 
 if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
     unlink 'run-postinst';  
