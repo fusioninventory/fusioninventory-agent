@@ -41,7 +41,7 @@ bundle 'LWP' => undef;
 unlink 'postinst.pl' or die "can't remove 'postinst.pl'. Please remove it yourself\n";
 
 
-if (defined ($ENV{PERL_AUTOINSTALL} || $ENV{PERL_AUTOINSTALL};
+if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
     unlink 'run-postinst';  
 } else {
     open POSTINST, '>run-postinst' or die $!;
@@ -51,7 +51,7 @@ if (defined ($ENV{PERL_AUTOINSTALL} || $ENV{PERL_AUTOINSTALL};
 
 
 sub wait {
-    return unless $interactive;
+    return if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL}));
     <STDIN>;
 }
 
