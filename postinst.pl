@@ -91,7 +91,7 @@ if (-d "/etc/cron.d") {
             mkdir $_ or die $!;
         }
         open DEST, '>/etc/cron.d/ocsinventory-agent' or die $!;
-        print  DEST $randomtime." * * * root $binpath > /dev/null 2>&1";
+        print  DEST $randomtime." * * * root $binpath > /dev/null 2>&1\n";
         close DEST;
     }
 }
@@ -103,7 +103,7 @@ if (!-d $configdir) {
 open CONFIG, ">$configdir/ocsinventory-agent.cfg" or die "Can't write the config file in $configdir: ".$!;
 print CONFIG $_."=".$config{$_}."\n" foreach (keys %config);
 close CONFIG;
-print "New settings written!";
+print "New settings written! Thank you for using OCS Inventory\n";
 
 if (-d "/etc/ocsinventory-client" && ask_yn ("Should I remove the config directory of the old linux agent")) {
     system ('rm -r /etc/ocsinventory-client');
