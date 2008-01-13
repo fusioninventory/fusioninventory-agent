@@ -1,0 +1,23 @@
+# fichiers et répertoires de CVS, RCS, et autres
+CVS/
+^.cvsignore$
+
+# fichiers et répertoires générés par les builders
+^blib
+^_build
+^Build$
+^cover_db
+^Makefile(\.old)?$
+^MANIFEST\.
+^pm_to_blib$
+
+# fichiers temporaires, de backup, etc
+~$
+\.bak$
+\.old$
+\.sw[a-z]$
+\.#
+
+
+/Win32/
+/tarballs/
