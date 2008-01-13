@@ -18,22 +18,31 @@ sub new {
   $self->{compatibilityLayer} = $params->{compatibilityLayer}; 
   my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
+  my $uaserver;
   if ($self->{params}->{server} =~ /^http(|s):\/\//) {
       $self->{URI} = $self->{params}->{server};
+      $uaserver = $self->{params}->{server};
+      $uaserver =~ s/^http(|s):\/\///;
+      $uaserver =~ s/\/.*//;
+      if ($uaserver !~ /:\d+$/) {
+          $uaserver .= ':443' if $self->{params}->{server} =~ /^https:/;
+          $uaserver .= ':80' if $self->{params}->{server} =~ /^http:/;
+      }
   } else {
       $self->{URI} = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
+      $uaserver = $self->{params}->{server};
   }
 
 
   $self->{compress} = new Ocsinventory::Compress ({logger => $logger});
   # Connect to server
   $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
-  $self->{ua}->agent('OCS-NG_unified_unix_agent_v'.$self->{params}->{version});
+  $self->{ua}->agent('OCS-NG_unified_unix_agent_v'.$self->{params}->{VERSION});
   $self->{ua}->credentials(
-    $self->{params}->{server},
+    $uaserver, # server:port, port is needed 
     $self->{params}->{realm},
     $self->{params}->{user},
-    $self->{params}->{pwd}
+    $self->{params}->{password}
   );
 
   bless $self;
@@ -111,17 +120,6 @@ sub send {
     $compatibilityLayer->hook({name => 'prolog_read'}, $response->getParsedContent());
   }
   #############
-
-  # for every key returned in the return I try to execute the Handlers 
-#  foreach (keys %$ret) {
-#    next if $_ =~ /^RESPONSE$/; # response is returned directly
-#    if (defined $self->{respHandlers}->{$_}) {
-#      $self->{respHandlers}->{$_}($ret->{$_});
-#    } else {
-#    $logger->debug ('No respHandlers avalaible for '.$_.". The data ".
-#      "returned by server in this hash will be lost.");
-#    }
-#  }
 
   return $response;
 }
