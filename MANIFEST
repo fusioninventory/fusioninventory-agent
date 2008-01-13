@@ -9,6 +9,7 @@ etc/ocsinventory-agent/modules.conf
 LICENSE
 Makefile.PL
 MANIFEST
+postinst.pl
 ocsinventory-agent
 tools/build-perl-tree.sh
 tools/standalone.sh
@@ -109,10 +110,7 @@ lib/Ocsinventory/Agent/Common.pm
 lib/Ocsinventory/Agent/CompatibilityLayer.pm
 lib/Ocsinventory/Agent/Config.pm
 lib/Ocsinventory/Agent/Network.pm
-lib/Ocsinventory/Agent/Pid.pm
 lib/Ocsinventory/Agent/Option/Download.pm
-lib/Ocsinventory/Agent/Option/Ipdiscover.pm
-lib/Ocsinventory/Agent/Option/Update.pm
 lib/Ocsinventory/Agent/XML/Inventory.pm
 lib/Ocsinventory/Agent/XML/Prolog.pm
 lib/Ocsinventory/Compress.pm
