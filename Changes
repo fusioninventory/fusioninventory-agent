@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-0.0.7
+0.0.7 01/13/2008
        * Ocsinventory::Agent::AccountInfo does not warn accountinfofile if runned in debug mode
          without root privilege
        * fix params->{etcdir} to /etc/ocsinventory, /etc/ocsinventory-agent/modules.conf must be moved
