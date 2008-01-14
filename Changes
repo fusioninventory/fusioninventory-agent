@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+0.0.7.1 01/14/2008
+       * add setup.sh in the MANIFEST.SKIP to keep it out of the tarball
+
 0.0.7 01/13/2008
        * Ocsinventory::Agent::AccountInfo does not warn accountinfofile if runned in debug mode
          without root privilege

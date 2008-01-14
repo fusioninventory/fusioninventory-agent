@@ -21,3 +21,4 @@ OS/Win32/
 OS/Win32.pm
 /tarballs/
 tools/build-perl-tree.sh
+^setup.sh
