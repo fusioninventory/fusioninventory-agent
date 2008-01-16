@@ -35,7 +35,7 @@ sub prompt {
 if (!ask_yn("Do you want to configure the agent")) {
     exit 0;
 }
-print "[note] The config file will be write in /etc/ocsinventory/ocsinventory-agent.cfg,\n";
+print "[note] The config file will be written in /etc/ocsinventory/ocsinventory-agent.cfg,\n";
 print "[note] consider moving the directory in /usr/local/etc if you run a *BSD system\n";
 
 $config{server} = prompt('What is the address of your ocs server', 'ocsinventory-ng');
