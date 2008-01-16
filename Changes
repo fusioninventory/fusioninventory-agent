@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+0.0.7.2 01/16/2008
+       * fix the post installation script to avoid invalid cron time
+
 0.0.7.1 01/14/2008
        * add setup.sh in the MANIFEST.SKIP to keep it out of the tarball
 
