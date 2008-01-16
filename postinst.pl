@@ -85,7 +85,7 @@ if (ask_yn ("Do you need credential for the server? (You probably don't)")) {
 
 if (-d "/etc/cron.d") {
     if (ask_yn("Do yo want to install the cron task in /etc/cron.d")) {
-        my $randomtime = int(rand(60)).' '.int(rand(60));
+        my $randomtime = int(rand(60)).' '.int(rand(24));
         foreach (qw( blib/etc blib/etc/cron.d )) {
             next if -d;
             mkdir $_ or die $!;
