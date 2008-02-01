@@ -1,16 +1,36 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Archs::PowerPC;
+package Ocsinventory::Agent::Backend::OS::Linux::CPU;
 use strict;
 
 sub check { 
   return unless -r "/proc/cpuinfo";
-  my $arch = `arch`;
-  return unless $arch =~ /^ppc/;
   1; 
 };
 
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
+
+######### CPU
+  my $processort;
+  my $processorn;
+  my $processors;
+  open CPUINFO, "</proc/cpuinfo" or warn;
+  foreach(<CPUINFO>){
+    $processort = $1 if (/^(cpu|model\sname)\s*:\s*(.+)/i);
+    $processorn++ if (/^processor/);
+    $processors = $1 if (/^(clock|cpu\sMHZ)\s*:\s*(\d+?)(|\.)$/i);
+  }
+  close CPUINFO;
+
+
+  $inventory->setHardware({
+
+      PROCESSORT => $processort,
+      PROCESSORN => $processorn,
+      PROCESSORS => $processors
+
+    });
+
 
 ############ Motherboard
   my $SystemManufacturer;
