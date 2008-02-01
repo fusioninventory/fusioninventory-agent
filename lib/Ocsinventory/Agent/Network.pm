@@ -120,7 +120,7 @@ sub send {
 
   ### Compatibility with linux_agent modules
   if ($msgtype eq "Prolog") {
-    $compatibilityLayer->hook({name => 'prolog_read'}, $response->getParsedContent());
+    $compatibilityLayer->hook({name => 'prolog_reader'}, $response->getRawXML());
   }
   #############
 
