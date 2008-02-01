@@ -15,5 +15,5 @@
 #
 # Launch OCS Inventory NG Agent once a day under root account, at HH:MM
 #
-MM HH * * * root /usr/sbin/ocsinventory-agent > /dev/null 2>&1
+MM HH * * * root /usr/bin/ocsinventory-agent > /dev/null 2>&1
  
