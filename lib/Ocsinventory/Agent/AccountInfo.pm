@@ -75,7 +75,7 @@ sub reSetAll {
   } elsif (ref ($ref) =~ /^HASH$/) {
     foreach (keys %{$ref}) {
       $self->set($_, $ref->{$_});
-      print "$_ => $ref->{$_}\n";
+      #print "$_ => $ref->{$_}\n";
     }
   } else {
     $logger->debug ("reSetAll, invalid parameter");
