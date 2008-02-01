@@ -23,8 +23,6 @@ use Ocsinventory::Agent::CompatibilityLayer;
 
 our $VERSION = '0.0.7.2';
 
-my $basedir = '';
-#$basedir = 'c:/cvs_ocs/ocsinventory-agent';
 # default settings;
 my $params = { 
   'debug'     =>  0,
@@ -54,10 +52,9 @@ my $params = {
   'VERSION'   => $VERSION,
   'delaytime' =>  '1', # max delay time (hour)
   'deviceid'  => '',
-  'etcdir'    =>  $basedir.'/etc/ocsinventory',
-  'basevardir'=>  $basedir.'/var/lib/ocsinventory-agent',
-  'logdir'    =>  $basedir.'/var/log/ocsinventory-agent',
-#  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
+  'basevardir'=>  '/var/lib/ocsinventory-agent',
+  'logdir'    =>  '/var/log/ocsinventory-agent',
+#  'pidfile'   =>  '/var/run/ocsinventory-agent.pid',
 };
 
 # Load setting from the config file
@@ -216,11 +213,11 @@ if (!recMkdir ($params->{basevardir})) {
 
   $params->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
   if (!recMkdir ($params->{basevardir})) {
-    $logger->error("Failed to create $params->{basedir} directory: $!".
+    $logger->error("Failed to create $params->{basevardir} directory: $!".
     "The HOSTID will not be written on the harddrive. You may have duplicated ".
     "entry of this computer in your OCS database");
   }
-  $logger->debug("var files are stored in ".$params->{basedir});
+  $logger->debug("var files are stored in ".$params->{basevardir});
 }
 
 if (defined($params->{local}) && $params->{local}) {
@@ -519,13 +516,35 @@ Wait during a random period and then send the report to the server
 
 Do not inventory the software installed on the machin.
 
+=head1 FILE
+Ocsinventory-agent looks for its config file in this order:
+    /etc/ocsinventory
+    /usr/local/etc/ocsinventory
+    /etc/ocsinventory-agent
+    ~/.ocsinventory
+
+The agent use two files:
+=item ocsinventory-agent
+
+This key/value file is used to preinitialise the agent setting.
+
+This is an example of setting to use server 'servername' with tag 'mytag' and with the --nosoft flag.
+
+    server=servername
+    tag=mytag
+    nosoft=1
+
+=item modules.conf
+This file is used to keep the compatibiliy with the old Linux agent (prior OCS 1.02). It's a Perl module
+loaded during the agent start up. You've to add the module you want to load in the file. Please, avoid this module system and use the new backend instead.
+
 =head1 AUTHORS
 
 Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE, Didier LIROULET
 
 =head1 COPYRIGHT
 
-Copyright (C) 2006 2008 Gonéri LE BOUDER <goneri@rulezlan.org> 
+Copyright (C) 2006 2008 Goneri LE BOUDER <goneri@rulezlan.org> 
 
 Copyright (C) 2005 2006 Pascal DANEK <pascal.danek@gmail.com>
 
