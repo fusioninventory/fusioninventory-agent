@@ -18,7 +18,7 @@ sub new {
     $self->{origmsg}  = $params->{origmsg};
 
     $logger->debug("=BEGIN=SERVER RET======");
-    $logger->debug(Dumper($self->{content}));
+    # $logger->debug(Dumper($self->{content}));
     $logger->debug("=END=SERVER RET======");
 
     $self->{parsedcontent}  = undef;
@@ -38,7 +38,7 @@ sub getParsedContent {
 
     if(!$self->{parsedcontent}) {
 	$self->{parsedcontent} = XML::Simple::XMLin( $self->{content}, ForceArray => ['OPTION','PARAM'] );
-	print Dumper($self->{parsedcontent});
+	# print Dumper($self->{parsedcontent});
     }
 
     return $self->{parsedcontent};

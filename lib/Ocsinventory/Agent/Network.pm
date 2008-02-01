@@ -74,8 +74,9 @@ sub send {
   #############
 
   my $compressed = $compress->compress( $message->getContent() );
+
   if (!$compressed) {
-    $logger->error ('failed to compress data with Compress::ZLib');
+    $logger->error ('failed to compress data');
     return;
   }
 
@@ -90,7 +91,9 @@ sub send {
   }
 
   # stop or send in the http's body
+
   my $content = $compress->uncompress($res->content);
+
   if (!$content) {
     $logger->error ("Deflating problem");
     return;
