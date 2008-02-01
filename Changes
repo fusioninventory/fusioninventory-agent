@@ -1,5 +1,9 @@
 Revision history for Ocsinventory::Agent
 
+0.0.7.3
+       * fix a debug message in Network.pm (Pascal DANEK)
+       * different fixes on Compress.pm (Pascal DANEK)
+
 0.0.7.2 01/16/2008
        * fix the post installation script to avoid invalid cron time
 
