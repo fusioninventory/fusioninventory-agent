@@ -270,7 +270,7 @@ my $accountinfo = new Ocsinventory::Agent::AccountInfo({
 
 if ($params->{tag}) {
   if ($accountinfo->get("TAG")) {
-    $logger->debug("A TAG seems to already exist in the server for this".
+    $logger->debug("A TAG seems to already exist in the server for this ".
       "machine. If so, the -t paramter is useless. Please change the TAG".
       "directly on the server.");
   } else {
