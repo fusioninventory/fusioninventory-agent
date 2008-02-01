@@ -18,7 +18,7 @@ sub new {
     $self->{origmsg}  = $params->{origmsg};
 
     $logger->debug("=BEGIN=SERVER RET======");
-    # $logger->debug(Dumper($self->{content}));
+    $logger->debug(Dumper($self->{content}));
     $logger->debug("=END=SERVER RET======");
 
     $self->{parsedcontent}  = undef;
