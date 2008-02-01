@@ -51,7 +51,7 @@ use constant ERR_DOWNLOAD_PACK 	=> 'ERR_DOWNLOAD_PACK';
 use constant ERR_BUILD 		=> 'ERR_BUILD';
 use constant ERR_EXECUTE 	=> 'ERR_EXECUTE';
 use constant ERR_CLEAN 		=> 'ERR_CLEAN';
-use constant ERR_TIMEOUT	=> 'ERR_CLEAN';
+use constant ERR_TIMEOUT	=> 'ERR_TIMEOUT';
 use constant ERR_ALREADY_SETUP  => 'ERR_ALREADY_SETUP';
 
 my @packages;
