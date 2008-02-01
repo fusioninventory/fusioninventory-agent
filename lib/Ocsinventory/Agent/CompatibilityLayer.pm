@@ -17,7 +17,11 @@ sub new {
 
   $self->{dontuse} = 0;
 
-  my $modulefile = $self->{params}->{etcdir}.'/modules.conf';
+  my $modulefile;
+  foreach (@{$self->{params}->{etcdir}}) {
+    $modulefile = $_.'/modules.conf';
+    last if -f $modulefile;
+  }
 
   $self->{dontuse} = 1 if (! -f $modulefile);
 
