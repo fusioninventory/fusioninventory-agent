@@ -9,6 +9,8 @@ Revision history for Ocsinventory::Agent
        * looks for config file in /etc/ocsinventory /usr/local/etc/ocsinventory and
          /etc/ocsinventory-agent
        * add a pod documentation about the different config files and directories
+       * Compress::Zlib is required but recommended now. In fact, you need it with
+         ocs server prior 1.02
 
 0.0.7.2 01/16/2008
        * fix the post installation script to avoid invalid cron time

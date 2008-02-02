@@ -24,7 +24,7 @@ requires 'XML::Simple' => undef;
 requires 'Net::IP' => undef;
 requires 'LWP' => undef;
 requires 'File::Temp' => undef;
-requires 'Compress::Zlib';
+recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 
 install_script  'ocsinventory-agent';
@@ -53,6 +53,11 @@ sub wait {
     <STDIN>;
 }
 
+
+if (!can_use('Compress::Zlib')) {
+    print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n"; 
+    wait();
+}
 
 if (!can_use('Crypt::SSLeay')) {
     print "Please install Crypt::SSLeay if you want to use SSL.\n"; 
