@@ -12,7 +12,7 @@ sub run {
   my $UsersLoggedIn = join "/", keys %user;
 
   if ($params->{old_deviceid}) {
-    $inventory->setHardware({ DEVICEID => $params->{deviceid} });
+    $inventory->setHardware({ OLD_DEVICEID => $params->{old_deviceid} });
   }
   $inventory->setHardware({ DEVICEID => $params->{deviceid} });
 

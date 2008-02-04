@@ -1,4 +1,7 @@
 #!/usr/bin/perl
+
+eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
+    if 0; # not running under some shell
 # forcer un upload si changement en local
 # ajouter /etc/ocsinventory-agent.conf
 
@@ -21,8 +24,10 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.7.2';
+our $VERSION = '0.0.7';
 
+my $basedir = '';
+#$basedir = 'c:/cvs_ocs/ocsinventory-agent';
 # default settings;
 my $params = { 
   'debug'     =>  0,
@@ -52,9 +57,10 @@ my $params = {
   'VERSION'   => $VERSION,
   'delaytime' =>  '1', # max delay time (hour)
   'deviceid'  => '',
-  'basevardir'=>  '/var/lib/ocsinventory-agent',
-  'logdir'    =>  '/var/log/ocsinventory-agent',
-#  'pidfile'   =>  '/var/run/ocsinventory-agent.pid',
+  'etcdir'    =>  $basedir.'/etc/ocsinventory',
+  'basevardir'=>  $basedir.'/var/lib/ocsinventory-agent',
+  'logdir'    =>  $basedir.'/var/log/ocsinventory-agent',
+#  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
 
 # Load setting from the config file
@@ -213,11 +219,11 @@ if (!recMkdir ($params->{basevardir})) {
 
   $params->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
   if (!recMkdir ($params->{basevardir})) {
-    $logger->error("Failed to create $params->{basevardir} directory: $!".
+    $logger->error("Failed to create $params->{basedir} directory: $!".
     "The HOSTID will not be written on the harddrive. You may have duplicated ".
     "entry of this computer in your OCS database");
   }
-  $logger->debug("var files are stored in ".$params->{basevardir});
+  $logger->debug("var files are stored in ".$params->{basedir});
 }
 
 if (defined($params->{local}) && $params->{local}) {
@@ -250,8 +256,8 @@ $params->{server} = $srv if $srv;
 $params->{deviceid}   = $accountconfig->get('DEVICEID');
 
 # Should I create a new deviceID?
-if ((!$params->{deviceid}) || $params->{deviceid} !~ /.*-(?:\d{4})(?:-\d{2}){5}/) {
 chomp(my $hostname = `uname -n| cut -d . -f 1`);
+if ((!$params->{deviceid}) || $params->{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
   my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
     (time))[5,4,3,2,1,0];
   $params->{old_deviceid} = $params->{deviceid};
@@ -270,7 +276,7 @@ my $accountinfo = new Ocsinventory::Agent::AccountInfo({
 
 if ($params->{tag}) {
   if ($accountinfo->get("TAG")) {
-    $logger->debug("A TAG seems to already exist in the server for this ".
+    $logger->debug("A TAG seems to already exist in the server for this".
       "machine. If so, the -t paramter is useless. Please change the TAG".
       "directly on the server.");
   } else {
@@ -516,35 +522,13 @@ Wait during a random period and then send the report to the server
 
 Do not inventory the software installed on the machin.
 
-=head1 FILE
-Ocsinventory-agent looks for its config file in this order:
-    /etc/ocsinventory
-    /usr/local/etc/ocsinventory
-    /etc/ocsinventory-agent
-    ~/.ocsinventory
-
-The agent use two files:
-=item ocsinventory-agent
-
-This key/value file is used to preinitialise the agent setting.
-
-This is an example of setting to use server 'servername' with tag 'mytag' and with the --nosoft flag.
-
-    server=servername
-    tag=mytag
-    nosoft=1
-
-=item modules.conf
-This file is used to keep the compatibiliy with the old Linux agent (prior OCS 1.02). It's a Perl module
-loaded during the agent start up. You've to add the module you want to load in the file. Please, avoid this module system and use the new backend instead.
-
 =head1 AUTHORS
 
 Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE, Didier LIROULET
 
 =head1 COPYRIGHT
 
-Copyright (C) 2006 2008 Goneri LE BOUDER <goneri@rulezlan.org> 
+Copyright (C) 2006 2007 Gonéri LE BOUDER <goneri@rulezlan.org> 
 
 Copyright (C) 2005 2006 Pascal DANEK <pascal.danek@gmail.com>
 

@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 0.0.7.3
+       * fix the deviceid and old_deviceid handling (Pascal DANEK)
        * fix a debug message in Network.pm (Pascal DANEK)
        * different fixes on Compress.pm (Pascal DANEK)
        * fix an event message name in Option/Download.pm (Pascal DANEK)
