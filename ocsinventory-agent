@@ -24,7 +24,7 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.7';
+our $VERSION = '0.0.8';
 
 my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';
