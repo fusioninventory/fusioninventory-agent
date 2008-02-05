@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-0.0.7.3
+0.0.8 02/05/2008
        * fix the deviceid and old_deviceid handling (Pascal DANEK)
        * fix a debug message in Network.pm (Pascal DANEK)
        * different fixes on Compress.pm (Pascal DANEK)
@@ -106,7 +106,7 @@ Revision history for Ocsinventory::Agent
        * If the system side vardir can't be created. The agent try to create one in ~/.ocs-inventory-agent
        * Add a THANKS file
 
-0.0.4  03/20/2007
+0.0.4 03/20/2007
        * use of gzip when Compress:Zlib is not avalaible. OCS server 1.01 and
          prior are not supported.
        * dmidecode parsing improved
