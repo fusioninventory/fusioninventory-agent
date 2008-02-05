@@ -57,7 +57,6 @@ my $params = {
   'VERSION'   => $VERSION,
   'delaytime' =>  '1', # max delay time (hour)
   'deviceid'  => '',
-  'etcdir'    =>  $basedir.'/etc/ocsinventory',
   'basevardir'=>  $basedir.'/var/lib/ocsinventory-agent',
   'logdir'    =>  $basedir.'/var/log/ocsinventory-agent',
 #  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
@@ -223,7 +222,7 @@ if (!recMkdir ($params->{basevardir})) {
     "The HOSTID will not be written on the harddrive. You may have duplicated ".
     "entry of this computer in your OCS database");
   }
-  $logger->debug("var files are stored in ".$params->{basedir});
+  $logger->debug("var files are stored in ".$params->{basevardir});
 }
 
 if (defined($params->{local}) && $params->{local}) {

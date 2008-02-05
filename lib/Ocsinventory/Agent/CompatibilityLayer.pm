@@ -15,17 +15,23 @@ sub new {
   my $logger = $self->{logger} = $params->{logger};
   $self->{params} = $params->{params};
 
-  $self->{dontuse} = 0;
+  $self->{dontuse} = 1;
 
   my $modulefile;
   foreach (@{$self->{params}->{etcdir}}) {
     $modulefile = $_.'/modules.conf';
-    last if -f $modulefile;
+    if (-f $modulefile) {
+      if (do $modulefile) {
+	$self->{dontuse} = 0;
+      } else {
+	$logger->debug("Failed to load `$modulefile': $?. No external module will".
+	  " be used.");
+      }
+      last;
+    }
   }
 
-  $self->{dontuse} = 1 if (! -f $modulefile);
-
-  if (-f $modulefile && do $modulefile) {
+  if (!$self->{dontuse}) {
 
     $self->{current_context} = {
       OCS_AGENT_LOG_PATH => $self->{params}->{logdir}."modexec.log",
@@ -44,13 +50,6 @@ sub new {
       # The prefered way to log message
       OCS_AGENT_LOGGER => $self->{logger},
     };
-
-  } else {
-
-    $logger->debug("Failed to load `$modulefile': $?. No external module will".
-      " be used.");
-    $self->{dontuse} = 1;
-
   }
 
 

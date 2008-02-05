@@ -22,12 +22,6 @@ sub run {
   }
   close CPUINFO;
 
-  print STDERR "
-      PROCESSORT => $processort,
-      PROCESSORN => $processorn,
-      PROCESSORS => $processors\n";
-
-
   $inventory->setHardware({
 
       PROCESSORT => $processort,
