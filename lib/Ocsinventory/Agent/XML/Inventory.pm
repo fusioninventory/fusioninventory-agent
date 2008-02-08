@@ -147,6 +147,7 @@ sub addMemories {
   my $speed =  $args->{SPEED};
   my $type = $args->{TYPE};
   my $description = $args->{DESCRIPTION};
+  my $caption = $args->{CAPTION}; 
   my $numslots = $args->{NUMSLOTS};
 
 
@@ -155,9 +156,10 @@ sub addMemories {
 
     CAPACITY => [$capacity?$capacity:"??"],
     DESCRIPTION => [$description?$description:"??"],
-    NUMSLOTS => [$numslots?$numslots:"??"],
+    CAPTION => [$caption?$caption:"??"],
     SPEED => [$speed?$speed:"??"],
     TYPE => [$type?$type:"??"],
+    NUMSLOTS => [$numslots?$numslots:0]
 
   };
 }

@@ -23,12 +23,14 @@ sub run {
   my $speed;
   my $type;
   my $description;
-  my $numslots;
+  my $numslot;
+  my $caption;
 
   foreach (@dmidecode) {
 
     if (/dmi type 17,/i) { # begining of Memory Device section
-      $flag = 1; 
+      $flag = 1;
+      $numslot++;
     } elsif ($flag && /^$/) { # end of section
       $flag = 0;
 
@@ -36,20 +38,21 @@ sub run {
 
 	  CAPACITY => $capacity,	
 	  DESCRIPTION => $description,
-	  NUMSLOTS => $numslots,
+	  CAPTION => $caption,
 	  SPEED => $speed,
 	  TYPE => $type,
-
+	  NUMSLOTS => $numslot
 	});
 
-      $capacity = $description = $numslots = $type = $type = undef;
+      $capacity = $description = $caption = $type = $type = undef;
     } elsif ($flag) { # in the section
 
       $capacity = $1 if /^size\s*:\s*(\S+)/i;
       $description = $1 if /^Form Factor\s*:\s*(.+)/i;
-      $numslots = $1 if /^Locator\s*:\s*(.+)/i;
+      $caption = $1 if /^Locator\s*:\s*(.+)/i;
       $speed = $1 if /^speed\s*:\s*(.+)/i;
       $type = $1 if /^type\s*:\s*(.+)/i;
+
 
     }
   }

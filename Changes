@@ -2,6 +2,8 @@ Revision history for Ocsinventory::Agent
 
 0.0.8.1
        TODO --wait should accepte a value
+       * Added "CAPTION" field to memory (Pascal DANEK)
+       * Fix a bug with "NUMSLOTS" memory field (Pascal DANEK)
 
 0.0.8 02/05/2008
        * fix the deviceid and old_deviceid handling (Pascal DANEK)
