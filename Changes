@@ -1,7 +1,8 @@
 Revision history for Ocsinventory::Agent
 
 0.0.8.1
-       TODO --wait should accepte a value
+       TODO --wait should accepte a value (request by Remi Collet)
+       * postinst.pl, correctly save the realm, do not override the password 
        * Added "CAPTION" field to memory (Pascal DANEK)
        * Fix a bug with "NUMSLOTS" memory field (Pascal DANEK)
 

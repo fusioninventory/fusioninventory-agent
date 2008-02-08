@@ -80,7 +80,7 @@ if (ask_yn ("Do you need credential for the server? (You probably don't)")) {
     }
     $config{password} = prompt("password");
     print "[note] The realm can be found in the login popup of your Internet browser.\n[note] In general, it's something like 'Restricted Area'.\n";
-    $config{password} = prompt("realm");
+    $config{realm} = prompt("realm");
 }
 
 if (-d "/etc/cron.d") {
