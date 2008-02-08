@@ -5,6 +5,7 @@ Revision history for Ocsinventory::Agent
        * postinst.pl, correctly save the realm, do not override the password 
        * Added "CAPTION" field to memory (Pascal DANEK)
        * Fix a bug with "NUMSLOTS" memory field (Pascal DANEK)
+       * improve the parsing of the config file to accept quote and spaces in the value
 
 0.0.8 02/05/2008
        * fix the deviceid and old_deviceid handling (Pascal DANEK)
