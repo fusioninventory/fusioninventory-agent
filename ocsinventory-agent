@@ -433,7 +433,7 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
     % ocsinventory-agent --local /tmp
     # write an inventory in the /tmp directory
     
-    % ocsinventory-agent --server localhost --user=toto --password=pw
+    % ocsinventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
     # send a report to a server protected by a basic authentification 
 
 =head1 DESCRIPTION
