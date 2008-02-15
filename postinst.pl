@@ -103,6 +103,8 @@ if (!-d $configdir) {
 open CONFIG, ">$configdir/ocsinventory-agent.cfg" or die "Can't write the config file in $configdir: ".$!;
 print CONFIG $_."=".$config{$_}."\n" foreach (keys %config);
 close CONFIG;
+chmod 0600, "$configdir/ocsinventory-agent.cfg";
+
 print "New settings written! Thank you for using OCS Inventory\n";
 
 if (-d "/etc/ocsinventory-client" && ask_yn ("Should I remove the config directory of the old linux agent")) {
