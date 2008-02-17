@@ -21,7 +21,7 @@ sub addMsg {
 
   return if $message =~ /^$/;
 
-  open FILE, ">>$self->{logfile}" or warn "Can't open ".
+  open FILE, ">>".$self->{params}->{logfile} or warn "Can't open ".
   "`$self->{params}->{logfile}'\n";
   print FILE "[".localtime()."][$level] $message\n";
   close FILE;
