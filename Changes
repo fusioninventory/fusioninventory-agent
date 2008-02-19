@@ -12,6 +12,7 @@ Revision history for Ocsinventory::Agent
        * remove the BUNDLE packages which seem to break the install process
        * change Solaris::CPU to use psrinfo -v to get the CPUs which works fine on x86
        * fix a path error in Ocsinventory::LoggerBackend::File (Remi COLLET)
+       * fix: don't send the inventory if the server doesn't need it (Remi COLLET)
 
 0.0.8 02/05/2008
        * fix the deviceid and old_deviceid handling (Pascal DANEK)

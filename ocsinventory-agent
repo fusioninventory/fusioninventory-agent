@@ -378,7 +378,9 @@ do {{ # double braces needed by the 'next', see 'do' in perlfunc and perlsyn
 
       $prologresp = $net->send({message => $prolog});
       next unless $prologresp; # Failed to reach the server
-      $sendInventory = 1 if  $prologresp->isInventoryAsked();
+      if (!$prologresp->isInventoryAsked()) {
+	$sendInventory = 0;
+      }
     }
 
     if ($sendInventory) {
