@@ -24,7 +24,7 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.8.1';
+our $VERSION = '0.0.8.2cvs';
 
 my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';
@@ -128,7 +128,7 @@ sub help {
   print STDERR "Usage:\n";
   print STDERR "\t-d  --daemon         detach the agent in background \n";
   print STDERR "\t    --debug          debug mode (".$params->{debug}.")\n";
-  print STDERR "\t-f --force          always send data to server (Don't ask before) ($params->{force})\n";
+  print STDERR "\t-f --force          always send data to server (Don't ask before) (".$params->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$params->{info}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
   "inventory in DIR directory in XML (".$params->{local}.")\n";
@@ -144,7 +144,7 @@ sub help {
   print STDERR "\t-w --wait           wait during a random periode before".
   "  contacting server like --daemon do (".$params->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
-  print STDERR "\t--nosoft           do not return installed software list\n";
+  print STDERR "\t--nosoft           do not return installed software list (".$params->{nosoft}.")\n";
 
   print STDERR "\n";
   print STDERR "Manpage:\n";
