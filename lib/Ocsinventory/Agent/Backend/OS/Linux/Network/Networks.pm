@@ -108,7 +108,7 @@ sub run {
 
 	});
 
-      $description =  $ipgateway = $macaddr = $status =  $type = undef;
+      $description = $ipaddress = $ipgateway = $macaddr = $status =  $type = undef;
     }
 
       $description = $1 if /^(\S+)/; # Interface name
