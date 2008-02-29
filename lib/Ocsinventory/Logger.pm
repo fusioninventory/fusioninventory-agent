@@ -12,7 +12,14 @@ sub new {
 
   $self->{debug} = $self->{params}->{debug}?1:0;
 #  print "Logging backend(s): ".$self->{params}->{logger}."\n";
-  my @logger = split /,/, $self->{params}->{logger};
+  my @logger;
+
+  if (exists ($self->{params}->{logger})) {
+    @logger = split /,/, $self->{params}->{logger};
+  } else {
+    # if no 'logger' parameter exist I use Stderr as default backend
+    push @logger, 'Stderr';
+  }
 
   foreach (@logger) {
     my $backend = "Ocsinventory::LoggerBackend::".$_;
@@ -22,7 +29,10 @@ sub new {
       });
     push @{$self->{backend}}, $obj if $obj;
   }
-  $self->debug("Ocsinventory unified agent for UNIX and Linux ".$self->{params}->{VERSION}."\n");
+  
+  my $version = "Ocsinventory unified agent for UNIX and Linux";
+  $version .= exists ($self->{params}->{VERSION})?$self->{params}->{VERSION}:'';
+  $self->debug($version."\n");
   $self->debug("Log system initialised");
 
   $self;

@@ -35,6 +35,7 @@ my $params = {
   'force'     =>  0,
   'help'      =>  0,
   'info'      =>  1,
+  'lazy'      =>  0,
   'local'     =>  '',
   #'logger'    =>  'Syslog,File,Stderr',
   'logger'    =>  'Stderr',
@@ -47,10 +48,11 @@ my $params = {
   'stdout'    =>  0,
   'tag'       =>  '',
   'user'      =>  '',
-  'version'   =>  '0',
-  'wait'      =>  '0',
+  'version'   =>  0,
+  'wait'      =>  0,
 #  'xml'       =>  0,
-  'nosoft'    =>  0,
+  'nosoft'    =>  0, # DEPRECATED!
+  'nosoftware'=>  0,
 
   # Other values that can't be changed with the
   # CLI parameters
@@ -70,13 +72,17 @@ $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 my %options = (
+  "basevardir"      =>   \$params->{basevardir},
   "d|daemon"        =>   \$params->{daemon},
   "debug"           =>   \$params->{debug},
   "f|force"         =>   \$params->{force},
   "h|help"          =>   \$params->{help},
   "i|info"          =>   \$params->{info},
+  "lazy"            =>   \$params->{lazy},
   "l|local=s"       =>   \$params->{local},
   "logfile=s"       =>   \$params->{logfile},
+  "nosoft"          =>   \$params->{nosoft},
+  "nosoftware"      =>   \$params->{nosoftware},
   "p|password=s"    =>   \$params->{password},
   "r|realm=s"       =>   \$params->{realm},
   "R|remotedir=s"   =>   \$params->{remotedir},
@@ -87,7 +93,6 @@ my %options = (
   "version"         =>   \$params->{version},
   "w|wait"          =>   \$params->{wait},
 #  "x|xml"           =>   \$params{xml},
-  "nosoft"          =>   \$params->{nosoft},
 );
 
 ##########################################
@@ -126,25 +131,28 @@ sub help {
 
   print STDERR "\n";
   print STDERR "Usage:\n";
-  print STDERR "\t-d  --daemon         detach the agent in background \n";
-  print STDERR "\t    --debug          debug mode (".$params->{debug}.")\n";
+  print STDERR "\t--basevardir=/path  indicate the directory where should the agent store its files (".$params->{basevardir}.")\n";
+  print STDERR "\t-d  --daemon        detach the agent in background (".$params->{daemon}.")\n";
+  print STDERR "\t    --debug         debug mode (".$params->{debug}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$params->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$params->{info}.")\n";
+  print STDERR "\t--lazy              do not contact the server more than one time during the PROLOG_FREQ (".$params->{lazy}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
   "inventory in DIR directory in XML (".$params->{local}.")\n";
-  print STDERR "\t   --logfile=FILE   log message in FILE\n";
+  print STDERR "\t   --logfile=FILE   log message in FILE (".$params->{logfile}.")\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
-  print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' \n";
+  print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$params->{realm}.")\n";
   print STDERR "\t-s --server=uri     server uri (".$params->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$params->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t-u --user=USER      user for server auth\n";
+  print STDERR "\t-u --user=USER      user for server auth (".$params->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
   print STDERR "\t-w --wait           wait during a random periode before".
   "  contacting server like --daemon do (".$params->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
-  print STDERR "\t--nosoft           do not return installed software list (".$params->{nosoft}.")\n";
+  print STDERR "\t--nosoft           DEPRECATED, use --nosoftware instead\n";
+  print STDERR "\t--nosoftware       do not return installed software list (".$params->{nosoftware}.")\n";
 
   print STDERR "\n";
   print STDERR "Manpage:\n";
@@ -202,6 +210,10 @@ my $logger = new Ocsinventory::Logger ({
 
   });
 
+if ($params->{nosoftware}) {
+    $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
+    $params->{nosoftware} = 1 
+}
 
 ############################
 #### Objects initilisation 
@@ -240,6 +252,7 @@ if (-d $params->{vardir}) {
   $params->{conffile} = $params->{vardir}."/ocsinv.conf";
   $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
   $params->{last_statefile} = $params->{vardir}."/last_state";
+  $params->{next_timefile} = $params->{vardir}."/next_timefile";
 }
 ######
 
@@ -272,6 +285,17 @@ my $accountinfo = new Ocsinventory::Agent::AccountInfo({
     params => $params,
 
   });
+
+# --lazy
+if ($params->{lazy}) {
+  my $nexttime = (stat($params->{next_timefile}))[9];
+
+  if ($nexttime && $nexttime > time) {
+    $logger->info("Must wait until ".localtime($nexttime)." exiting...");
+    exit 0;
+  }
+}
+
 
 if ($params->{tag}) {
   if ($accountinfo->get("TAG")) {
@@ -314,15 +338,16 @@ if ($params->{daemon}) {
 $logger->debug("OCS Agent initialised");
 #######################################################
 #######################################################
-do {{ # double braces needed by the 'next', see 'do' in perlfunc and perlsyn
+while (1) {
 
+  my $exitcode = 0;
+  my $wait;
   if ($params->{daemon} || $params->{wait}) {
+
     my $serverdelay = $accountconfig->get('PROLOG_FREQ');
-    my $delay = int
-    rand(($serverdelay?$serverdelay:$params->{delaytime})*3600);
+    $wait = int rand(($serverdelay?$serverdelay:$params->{delaytime})*3600);
     $logger->info("Going to sleep for $delay second(s)");
     sleep ($delay);
-  }
 
   $compatibilityLayer->hook({name => 'start_handler'});
 
@@ -363,6 +388,7 @@ do {{ # double braces needed by the 'next', see 'do' in perlfunc and perlsyn
 	compatibilityLayer => $compatibilityLayer,
 	logger => $logger,
 	params => $params,
+
       });
 
     my $sendInventory = 1;
@@ -377,13 +403,19 @@ do {{ # double braces needed by the 'next', see 'do' in perlfunc and perlsyn
 	});
 
       $prologresp = $net->send({message => $prolog});
-      next unless $prologresp; # Failed to reach the server
-      if (!$prologresp->isInventoryAsked()) {
+      
+      if (!$prologresp) { # Failed to reach the server
+        exit 1 unless $params->{daemon};
+      } elsif (!$prologresp->isInventoryAsked()) {
 	$sendInventory = 0;
       }
     }
 
-    if ($sendInventory) {
+    if (!$sendInventory) {
+
+      $logger->info("Don't send the inventory");
+
+    } else { # Send the inventory!
 
 	my $inventory = new Ocsinventory::Agent::XML::Inventory ({
 
@@ -400,15 +432,17 @@ do {{ # double braces needed by the 'next', see 'do' in perlfunc and perlsyn
 	if ($response->isAccountUpdated()) {
 	  $inventory->saveLastState();
 	}
+      } else {
+          exit (1) unless $params->{daemon};
       }
-
-    } else {
-      $logger->info("Don't send the inventory"); 
-    }
   }
-  $compatibilityLayer->hook({name => 'end_handler'});
 
-}} while ($params->{daemon});
+  }
+
+  $compatibilityLayer->hook({name => 'end_handler'});
+  exit (0) unless $params->{daemon};
+
+}
 
 __END__
 
@@ -437,10 +471,41 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
     
     % ocsinventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
     # send a report to a server protected by a basic authentification 
+    % ocsinventory-agent --lazy
+    # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Usefull for package maintainer.
 
 =head1 DESCRIPTION
 
-F<ocsinventory-agent> creates inventory and sent or write them.
+F<ocsinventory-agent> creates inventory and sent or write them. This agent is the
+successor of the former linux_agent which was release with OCS 1.01 and prior. It also
+replaces the Solaris/AIX/BSD unofficial agents. It supports the following operating
+systems:
+
+=over 4
+
+=item F<Linux 2.4 and 2.6>
+
+any distribution on x86, x86_64/AMD64 and PowerPC. Other architectures may work.
+
+=item F<Solaris>
+
+tested on Solaris 8, 9 and 10 (x86 and Sparc)
+
+=item F<FreeBSD>
+
+x86 and Sparc
+
+=item F<NetBSD>
+
+x86 and Sparc
+
+=item F<OpenBSD>
+
+x86 and Sparc
+
+=item F<AIX>
+
+tested on AIX 5.1, 5.2 and 5.3 (PPC)
 
 =head1 OPTIONS
 
@@ -451,6 +516,10 @@ example, the two lines below are all equivalent:
     % ocsinventory-agent --server localhost 
 
 =over 4
+
+=item B<--basevardir>=I<DIR>
+
+Indicate the place where the agent should store its files.
 
 =item B<-d>, B<--daemon>
 
@@ -468,6 +537,10 @@ With this option, the agent doesn't run the PROLOG with the server first but dir
 =item B<-i>, B<--info>
 
 Turn the verbose mode on. The flag is ignored if B<--debug> is enable.
+
+=item B<--lazy>
+
+Do not contact the server more than one time during the PROLOG_FREQ. This option is useful for package. Thanks to it they can start the script regulary from the crontab.
 
 =item B<-l>, B<--local>=I<DIR>
 
@@ -503,7 +576,7 @@ Print the inventory on stdout.
 
 =item B<--tag>=I<TAG>
 
-Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server.
+Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
 
 =item B<-u>, B<--user>=I<USER>
 
@@ -526,6 +599,24 @@ Do not inventory the software installed on the machin.
 =head1 AUTHORS
 
 Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE, Didier LIROULET
+
+=head1 SEE ALSO 
+
+=item OCS-Inventory website,
+
+ http://www.ocsinventory-ng.org/ 
+
+=item forum,
+
+ http://forums.ocsinventory-ng.org/
+
+=item and wiki 
+
+ http://wiki.ocsinventory-ng.org/
+
+=head1 BUGS
+
+Please, use the forum as much as possible. You can send your patches to <goneri@rulezlan.org>.
 
 =head1 COPYRIGHT
 

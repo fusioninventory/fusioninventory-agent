@@ -17,9 +17,17 @@ sub addMsg {
 
   return if $message =~ /^$/;
   
-  # STDERR has been hijacked, I take its saved ref
-  my $tmp = $self->{params}->{savedstderr};
-  print $tmp "[$level] $message\n";
+  # if STDERR has been hijacked, I take its saved ref
+  my $stderr;
+  if (exists ($self->{params}->{savedstderr})) {
+    $stderr = $self->{params}->{savedstderr};
+  } else {
+    open ($stderr, ">&STDERR");
+  }
+
+
+  print $stderr "[$level] $message\n";
+
 }
 
 1;

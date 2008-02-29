@@ -1,7 +1,13 @@
 Revision history for Ocsinventory::Agent
 
 0.0.8.2
-       * TODO
+       * import the documentation documentation by adding a description of the
+         agent and pointer to the official website
+       * --nosoft option renamed to --nosoftware, --nosoft still works but with a warning
+       * add --basevardir to be able to use a specific place to store the var file
+       * add the --lazy parameter: send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Usefull for package maintainer (Remi COLLET)
+       * return 1 to the shell is the agent failed to contact the server
+       * update postinst.pl to ask for the basevardir 
 
 0.0.8.1 02/20/2008
        * postinst.pl, correctly save the realm, do not override the password 
