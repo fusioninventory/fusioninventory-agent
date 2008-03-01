@@ -82,7 +82,7 @@ sub saveNextTime {
     }
     utime $time,$time,$self->{params}->{next_timefile};
     
-    if (1||$self->{params}->{cron}) {
+    if ($self->{params}->{cron}) {
         $logger->info ("Next inventory after ".localtime($time));
     }
 }
