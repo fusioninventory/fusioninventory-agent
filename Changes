@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 0.0.8.2
+       * Changed --wait behaviour (--wait=number_of_seconds || "server")
        * PROLOG_FREQ is handled in prolog phase
        * the random value for file_nexttime is computed only if prolog_freq has changed since last prolog
        * import the documentation documentation by adding a description of the
