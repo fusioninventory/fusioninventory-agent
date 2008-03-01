@@ -49,7 +49,7 @@ my $params = {
   'tag'       =>  '',
   'user'      =>  '',
   'version'   =>  0,
-  'wait'      =>  0,
+  'wait'      =>  '',
 #  'xml'       =>  0,
   'nosoft'    =>  0, # DEPRECATED!
   'nosoftware'=>  0,
@@ -57,7 +57,7 @@ my $params = {
   # Other values that can't be changed with the
   # CLI parameters
   'VERSION'   => $VERSION,
-  'delaytime' =>  '1', # max delay time (hour)
+  'delaytime' =>  '3600', # max delay time (seconds)
   'deviceid'  => '',
   'basevardir'=>  $basedir.'/var/lib/ocsinventory-agent',
   'logdir'    =>  $basedir.'/var/log/ocsinventory-agent',
@@ -91,7 +91,7 @@ my %options = (
   "t|tag=s"         =>   \$params->{tag},
   "u|user=s"          =>   \$params->{user},
   "version"         =>   \$params->{version},
-  "w|wait"          =>   \$params->{wait},
+  "w|wait=s"          =>   \$params->{wait},
 #  "x|xml"           =>   \$params{xml},
 );
 
@@ -148,7 +148,7 @@ sub help {
   "Will be ignored by server if a value already exists.\n";
   print STDERR "\t-u --user=USER      user for server auth (".$params->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
-  print STDERR "\t-w --wait           wait during a random periode before".
+  print STDERR "\t-w --wait=server||nbr_seconds           wait during a random periode before".
   "  contacting server like --daemon do (".$params->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
   print STDERR "\t--nosoft           DEPRECATED, use --nosoftware instead\n";
@@ -343,9 +343,14 @@ while (1) {
   my $exitcode = 0;
   my $wait;
   if ($params->{daemon} || $params->{wait}) {
-
-    my $serverdelay = $accountconfig->get('PROLOG_FREQ');
-    $wait = int rand(($serverdelay?$serverdelay:$params->{delaytime})*3600);
+    my $serverdelay;
+    if(($params->{wait} eq 'server') || ($params->{wait}!~/^\d+$/)){
+      $serverdelay = $accountconfig->get('PROLOG_FREQ')*3600;
+    }
+    else{
+      $serverdelay = $params->{wait};
+    }
+    $wait = int rand($serverdelay?$serverdelay:$params->{delaytime});
     $logger->info("Going to sleep for $wait second(s)");
     sleep ($wait);
 
