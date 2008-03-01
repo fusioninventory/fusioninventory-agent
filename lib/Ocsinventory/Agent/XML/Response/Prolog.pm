@@ -11,7 +11,7 @@ sub new {
     my $this = $class->SUPER::new(@params);
 
     bless ($this, $class);
-
+    $this->updatePrologFreq();
     $this->saveNextTime();
 
     return $this;
@@ -41,6 +41,23 @@ sub getOptionInfoByName {
     }
 }
 
+sub updatePrologFreq {
+    my $self = shift;
+    my $parsedContent = $self->getParsedContent();
+     my $logger = $self->{logger};
+    if ($parsedContent && exists ($parsedContent->{PROLOG_FREQ})) {
+        if( $parsedContent->{PROLOG_FREQ} ne $self->{accountconfig}->get("PROLOG_FREQ")){
+             $logger->info("PROLOG_FREQ has changed since last process(old=".$self->{accountconfig}->get("PROLOG_FREQ").",new=".$parsedContent->{PROLOG_FREQ}.")");
+             $self->{prologFreqChanged} = 1;
+             $self->{accountconfig}->set("PROLOG_FREQ", $parsedContent->{PROLOG_FREQ});
+        }
+        else{
+            $logger->info("PROLOG_FREQ has not changed since last process");
+        }  
+    }
+}
+    
+
 sub saveNextTime {
     my ($self, $args) = @_;
 
@@ -55,20 +72,8 @@ sub saveNextTime {
 
     my $serverdelay = $self->{accountconfig}->get('PROLOG_FREQ');
     
-    my $changed;
-    if ($parsedContent && exists ($parsedContent->{PROLOG_FREQ})) {
-        if( $parsedContent->{PROLOG_FREQ} ne $self->{accountconfig}->get("PROLOG_FREQ")){
-             $logger->info("PROLOG_FREQ has changed since last process(old=".$self->{accountconfig}->get("PROLOG_FREQ").",new=".$parsedContent->{PROLOG_FREQ}.")");
-             $changed = 1;
-             $self->{accountconfig}->set("PROLOG_FREQ", $parsedContent->{PROLOG_FREQ});
-        }
-        else{
-            $logger->info("PROLOG_FREQ has not changed since last process");
-        }  
-    }
-    
     my $time;
-    if( $changed ){
+    if( $self->{prologFreqChanged} ){
         $logger->info("Compute file_nexttime with random value");
         $time  = time + int rand(($serverdelay?$serverdelay:$self->{params}->{delaytime})*3600);
     }
@@ -77,7 +82,7 @@ sub saveNextTime {
     }
     utime $time,$time,$self->{params}->{next_timefile};
     
-    if ($self->{params}->{cron}) {
+    if (1||$self->{params}->{cron}) {
         $logger->info ("Next inventory after ".localtime($time));
     }
 }
