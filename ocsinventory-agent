@@ -407,6 +407,11 @@ while (1) {
       $prologresp = $net->send({message => $prolog});
       
       if (!$prologresp) { # Failed to reach the server
+        if ($params->{lazy}) {
+          # To avoid flooding a heavy loaded server
+          my $time = time + $accountconfig->get('PROLOG_FREQ')*3600;
+          utime $time,$time,$params->{next_timefile};
+        }
         exit 1 unless $params->{daemon};
       } elsif (!$prologresp->isInventoryAsked()) {
 	$sendInventory = 0;
