@@ -509,27 +509,4 @@ sub saveLastState {
 	(will be synchronized by GLPI!!): $!"); 
   }
 }
-
-# At the end of the process IF the inventory was saved
-# compute the next inventory time (used by cron mode)
-sub saveNextTime {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!open NEXT_TIME, ">".$self->{params}->{next_timefile}) {
-        $logger->error ("Cannot create the ".$self->{params}->{next_timefile}.": $!");
-        return;
-    }
-    close NEXT_TIME or warn;
-
-    my $serverdelay = $self->{accountconfig}->get('PROLOG_FREQ');
-    my $time  = time + int rand(($serverdelay?$serverdelay:$self->{params}->{delaytime})*3600);
-    utime $time,$time,$self->{params}->{next_timefile};
-    if ($self->{params}->{cron}) {
-        $logger->info ("Next inventory after ".localtime($time));
-    }
-}
-
-
 1;

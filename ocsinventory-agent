@@ -433,10 +433,6 @@ while (1) {
       if (my $response = $net->send({message => $inventory})) {
 	if ($response->isAccountUpdated()) {
 	  $inventory->saveLastState();
-          # Maybe we should launch this function after every
-          # try, not just the success ones. This in order to
-          # avoid a overload on the server
-	  $inventory->saveNextTime();
 	}
       } else {
           exit (1) unless $params->{daemon};

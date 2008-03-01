@@ -117,6 +117,7 @@ sub send {
      content => $content,
      logger => $logger,
      origmsg => $message,
+     params => $self->{params}
 
       });
 
