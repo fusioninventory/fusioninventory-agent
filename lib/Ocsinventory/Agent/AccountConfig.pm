@@ -19,14 +19,14 @@ sub new {
   # Configuration reading
   $self->{xml} = {};
 
-  if ($self->{params}->{conffile}) {
-    if (! -f $self->{params}->{conffile}) {
-        $logger->debug ('conffile file: `'. $self->{params}->{conffile}.
+  if ($self->{params}->{accountconfig}) {
+    if (! -f $self->{params}->{accountconfig}) {
+        $logger->debug ('accountconfig file: `'. $self->{params}->{accountconfig}.
   	" doesn't exist. I create an empty one");
         $self->write();
     } else {
       $self->{xml} = XML::Simple::XMLin(
-        $self->{params}->{conffile},
+        $self->{params}->{accountconfig},
         SuppressEmpty => undef
       );
     }
@@ -59,12 +59,12 @@ sub write {
 
   my $logger = $self->{logger};
   
-  return unless $self->{params}->{conffile};
+  return unless $self->{params}->{accountconfig};
   my $xml = XML::Simple::XMLout( $self->{xml} , RootName => 'CONF',
     NoAttr => 1 );
 
   my $fault;
-  if (!open CONF, ">".$self->{params}->{conffile}) {
+  if (!open CONF, ">".$self->{params}->{accountconfig}) {
 
     $fault = 1;
 
@@ -79,7 +79,7 @@ sub write {
     $logger->debug ("ocsinv.conf updated successfully");
   } else {
 
-    $logger->error ("Can't save setting change in `$self->{params}->{conffile}'");
+    $logger->error ("Can't save setting change in `$self->{params}->{accountconfig}'");
   }
 }
 

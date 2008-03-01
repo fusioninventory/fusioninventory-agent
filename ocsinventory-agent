@@ -249,7 +249,7 @@ if (!recMkdir ($params->{vardir})) {
 }
 
 if (-d $params->{vardir}) {
-  $params->{conffile} = $params->{vardir}."/ocsinv.conf";
+  $params->{accountconfig} = $params->{vardir}."/ocsinv.conf";
   $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
   $params->{last_statefile} = $params->{vardir}."/last_state";
   $params->{next_timefile} = $params->{vardir}."/next_timefile";
@@ -346,8 +346,10 @@ while (1) {
 
     my $serverdelay = $accountconfig->get('PROLOG_FREQ');
     $wait = int rand(($serverdelay?$serverdelay:$params->{delaytime})*3600);
-    $logger->info("Going to sleep for $delay second(s)");
-    sleep ($delay);
+    $logger->info("Going to sleep for $wait second(s)");
+    sleep ($wait);
+
+  }
 
   $compatibilityLayer->hook({name => 'start_handler'});
 
@@ -431,6 +433,10 @@ while (1) {
       if (my $response = $net->send({message => $inventory})) {
 	if ($response->isAccountUpdated()) {
 	  $inventory->saveLastState();
+          # Maybe we should launch this function after every
+          # try, not just the success ones. This in order to
+          # avoid a overload on the server
+	  $inventory->saveNextTime();
 	}
       } else {
           exit (1) unless $params->{daemon};

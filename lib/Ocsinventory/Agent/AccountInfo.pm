@@ -69,14 +69,13 @@ sub reSetAll {
   my $logger = $self->{logger};
 
   if (ref ($ref) =~ /^ARRAY$/) {
+      print "ARRAY\n";
     foreach (@$ref) {
       $self->set($_->{NAME}, $_->{VALUE});
     }
   } elsif (ref ($ref) =~ /^HASH$/) {
-    foreach (keys %{$ref}) {
-      $self->set($_, $ref->{$_});
-      #print "$_ => $ref->{$_}\n";
-    }
+      print "HASH\n";
+      $self->set($ref->{'KEYNAME'}, $ref->{'KEYVALUE'});
   } else {
     $logger->debug ("reSetAll, invalid parameter");
   }

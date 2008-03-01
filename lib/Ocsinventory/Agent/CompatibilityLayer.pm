@@ -46,7 +46,7 @@ sub new {
       OCS_AGENT_DEVICEID => $self->{params}->{deviceid},
       OCS_AGENT_VERSION => $self->{params}->{VERSION},
       OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
-      OCS_AGENT_CONFIG => $self->{params}->{conffile},
+      OCS_AGENT_CONFIG => $self->{params}->{accountconfig},
       # The prefered way to log message
       OCS_AGENT_LOGGER => $self->{logger},
     };

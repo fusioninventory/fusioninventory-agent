@@ -22,14 +22,31 @@ sub ask_yn {
 }
 
 sub prompt {
-    my ($prompt, $default) = @_;
+    my ($prompt, $default, $regex, $notice) = @_;
 
     print $prompt;
     print "($default)" if $default;
     print "?:\n";
-    chomp(my $line = <STDIN>);
 
-    return $line?$line:$default;
+    my $line;
+    while (1) {
+
+        print ">\n";
+        chomp($line = <STDIN>);
+
+        if ($line =~ /^$/ and $default) {
+            print "[nfo] Using the default value ($default)\n";
+            $line = $default;
+            last;
+        }
+
+        last unless $regex && $line !~ /$regex/;
+        
+        print $notice."\n";
+
+    }
+
+    return $line;
 }
 
 sub pickConfigdir {
@@ -97,8 +114,8 @@ if (-f $configdir."/ocsinventory-agent.cfg") {
     close CONFIG;
 }
 
-print "[note] The config file will be written in /etc/ocsinventory/ocsinventory-agent.cfg,\n";
-print "[note] consider moving the directory in /usr/local/etc if you run a *BSD system\n";
+print "[info] The config file will be written in /etc/ocsinventory/ocsinventory-agent.cfg,\n";
+print "[info] consider moving the directory in /usr/local/etc if you run a *BSD system\n";
 
 $config->{server} = prompt('What is the address of your ocs server', exists ($config->{server})?$config->{server}:'ocsinventory-ng');
 if (!$config->{server}) {
@@ -115,7 +132,7 @@ if ($config->{server} =~ /^http(|s):\/\//) {
 if (ask_yn ("Do you need credential for the server? (You probably don't)")) {
     $config->{user} = prompt("user".(exists($config->{user})?"(".$config->{user}.")":'' ));
     $config->{password} = prompt("password");
-    print "[note] The realm can be found in the login popup of your Internet browser.\n[note] In general, it's something like 'Restricted Area'.\n";
+    print "[info] The realm can be found in the login popup of your Internet browser.\n[info] In general, it's something like 'Restricted Area'.\n";
     $config->{realm} = prompt("realm");
 }
 
@@ -148,7 +165,7 @@ if (-d "/etc/cron.d") {
 }
 
 
-$config->{basevardir} = prompt('Where do you want the agent to store its files?', exists ($config->{basevardir})?$config->{basevardir}:'/var/lib/ocsinventory-agent');
+$config->{basevardir} = prompt('Where do you want the agent to store its files?', exists ($config->{basevardir})?$config->{basevardir}:'/var/lib/ocsinventory-agent', '/^\/\w+/', 'The location must begin with /');
 
 if (!-d $config->{basevardir}) {
     if (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n")) {
@@ -170,6 +187,26 @@ if (-d "/etc/ocsinventory-client" && ask_yn ("Should I remove the config directo
     system ('rm -r /etc/ocsinventory-client');
     print "done\n"
 }
+
+my $download_enable = ask_yn("Do you want to use OCS-Inventory software deployment feature?");
+
+open MODULE, ">$configdir/modules.conf" or die "Can't write modules.conf in $configdir: ".$!;
+print MODULE "# this list of module will be load by the at run time\n";
+print MODULE "# to check its syntax do:\n";
+print MODULE "# #perl modules.conf\n";
+print MODULE "# You must have NO error. Else the content will be ignored\n";
+print MODULE "# This mechanism goal it to keep compatibility with 'plugin'\n";
+print MODULE "# created for the previous linux_agent.\n";
+print MODULE "# The new unified_agent have its own extension system that allow\n";
+print MODULE "# user to add new information easily.\n";
+print MODULE "\n";
+print MODULE ($download_enable?'#':'');
+print MODULE "use Ocsinventory::Agent::Option::Download;\n";
+print MODULE "\n";
+print MODULE "# DO NO REMOVE the 1;\n";
+print MODULE "1;\n";
+close MODULE;
+
 
 if (ask_yn("Do you want to send an inventory of this machine?")) {
     #system("$binpath --force");
