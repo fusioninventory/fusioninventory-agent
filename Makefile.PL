@@ -15,7 +15,7 @@ use Config qw(config_re);
 
 name 'Ocsinventory-Agent';
 include 'Module::AutoInstall';
-abstract 'Ocs-Iventory unified Agent for UNIX and Linux';
+abstract 'Ocs-Inventory unified Agent for UNIX and Linux';
 license 'gpl';
 version_from 'ocsinventory-agent';
 perl_version '5.006';
@@ -26,6 +26,7 @@ requires 'LWP' => undef;
 requires 'File::Temp' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
+
 
 install_script  'ocsinventory-agent';
 
