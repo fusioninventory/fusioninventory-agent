@@ -590,7 +590,7 @@ Print the inventory on stdout.
 
 Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
 
-=item B<-u>, B<--user>=I<USER>
+=item B<-u> I<USER>, B<--user>=I<USER>
 
 Use I<USER> for the server authentification.
 
@@ -598,11 +598,12 @@ Use I<USER> for the server authentification.
 
 Print the version and exit.
 
-=item B<-w>, B<--wait>
+=item B<-w> I<DURATION>, B<--wait>=I<DURATION>
 
-Wait during a random period and then send the report to the server
+Wait before initializing the connexion with the server. If I<DURATION> equal I<server> the agent will use the PROLOG_FREQ of the server to determine the duration of this periode. Exactly like it would had done if it was in --daemon mode.
+Else if duration is a numerical value, it will be used directly.
 
-    % ocsinventory-agent --wait --server localhost
+    % ocsinventory-agent --wait 5 --server localhost
 
 =item B<--nosoft>
 
