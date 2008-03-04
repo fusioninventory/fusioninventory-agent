@@ -414,7 +414,16 @@ while (1) {
       if (!$prologresp) { # Failed to reach the server
         if ($params->{lazy}) {
           # To avoid flooding a heavy loaded server
-          my $time = time + $accountconfig->get('PROLOG_FREQ')*3600;
+	  my $previousPrologFreq;
+	  if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
+	    $previousPrologFreq = $params->{delaytime};
+	    $logger->info("No previous PROLOG_FREQ found - using fallback delay($params->{delaytime} seconds)");
+	  }
+	  else{
+	    $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
+	    $previousPrologFreq = $previousPrologFreq*3600;
+	  }
+          my $time = time + $previousPrologFreq;
           utime $time,$time,$params->{next_timefile};
         }
         exit 1 unless $params->{daemon};
