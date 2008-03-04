@@ -441,9 +441,9 @@ while (1) {
 	    });
 
       if (my $response = $net->send({message => $inventory})) {
-	if ($response->isAccountUpdated()) {
+	#if ($response->isAccountUpdated()) {
 	  $inventory->saveLastState();
-	}
+	#}
       } else {
           exit (1) unless $params->{daemon};
       }
