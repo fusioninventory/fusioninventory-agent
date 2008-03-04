@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 0.0.8.2
+       * Added fallback for --lazy if no prolog freq was found and server error (Pascal DANEK)
        * Fixed accountinfos handling bugs (Pascal DANEK)
        * Changed --wait behaviour (--wait=number_of_seconds || "server") (Pascal DANEK)
        * PROLOG_FREQ is handled in prolog phase (Pascal DANEK)
