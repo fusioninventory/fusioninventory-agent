@@ -16,7 +16,8 @@ PREREQUISITES
   On Linux and *BSD (i386, amd64, ia64) dmidecode is required to read the BIOS stats.
   On Linux and *BSD lspci (from the pciutils package) is required to list PCI devices.
   To get the serial number of the screen you will need one of these tools:
-   - monitor-get-edid-using-vbe from the monitor-edid package
+   - monitor-edid from Mandriva is needed to fetch the monitor
+     information http://wiki.mandriva.com/en/Tools/monitor-edid
    - get-edid from the read-edid package
 
 
