@@ -21,6 +21,7 @@ Revision history for Ocsinventory::Agent
        * improve (a bit) tools/standalone.sh to avoid error if people launch it
          from the tools directory
        * --server is ignore if --local is in use
+       * adjust Backend::OS::Generic::Screen to be able to use monitor-edid with DVI link (Remi COLLET)
 
 0.0.8.1 02/20/2008
        * postinst.pl, correctly save the realm, do not override the password 

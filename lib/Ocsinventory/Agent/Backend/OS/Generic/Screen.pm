@@ -32,6 +32,12 @@ sub getEdid {
 # Mandriva
   $raw_edid = `monitor-get-edid-using-vbe 2>/dev/null`;
 
+  # Since monitor-edid 1.15, it's possible to retrieve EDID information
+  # through DVI link but we need to use monitor-get-edid
+  if (!$raw_edid) {
+      $raw_edid = `monitor-get-edid 2>/dev/null`;
+  }
+
   if (!$raw_edid) {
     foreach (1..5) { # Sometime get-edid return an empty string...
       $raw_edid = `get-edid 2>/dev/null`;
