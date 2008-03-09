@@ -18,6 +18,8 @@ Revision history for Ocsinventory::Agent
          now a network can't have the address of the previous one
        * rename the key $params->{conffile} to $params->{accountconfig}
        * fix the way accountinfo information are stored
+       * improve (a bit) tools/standalone.sh to avoid error if people launch it
+         from the tools directory
 
 0.0.8.1 02/20/2008
        * postinst.pl, correctly save the realm, do not override the password 
