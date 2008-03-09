@@ -20,6 +20,7 @@ Revision history for Ocsinventory::Agent
        * fix the way accountinfo information are stored
        * improve (a bit) tools/standalone.sh to avoid error if people launch it
          from the tools directory
+       * --server is ignore if --local is in use
 
 0.0.8.1 02/20/2008
        * postinst.pl, correctly save the realm, do not override the password 

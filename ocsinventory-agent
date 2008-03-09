@@ -238,6 +238,10 @@ if (!recMkdir ($params->{basevardir})) {
 }
 
 if (defined($params->{local}) && $params->{local}) {
+  if (defined ($params->{server})) {
+      $logger->info ("--server ignored since you also use --local");
+      $params->{server} = undef;
+  }
   $params->{vardir} = $params->{basevardir}."/__LOCAL__";
 } else {
   my $dir = $params->{server};
@@ -586,6 +590,8 @@ The uri of the server. If I<URI> doesn't start with http:// or https://, the ass
     % http://servername/ocsinventory
 
 If you want to use https or another virtual directory you need to enter the full path.
+
+B<--server> is ignored if B<--local> is in use.
 
 =item B<--stdout>
 
