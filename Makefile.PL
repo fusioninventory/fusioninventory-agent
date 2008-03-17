@@ -27,8 +27,17 @@ requires 'File::Temp' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 
-
 install_script  'ocsinventory-agent';
+bundle 'Compress::Zlib' => undef;
+bundle 'Digest::MD5' => undef;
+bundle 'File::Temp' => undef;
+bundle 'Net::IP' => undef;
+bundle 'XML::Simple' => undef;
+bundle 'XML::SAX' => undef;
+bundle 'XML::NamespaceSupport' => undef;
+bundle 'URI' => undef;
+bundle 'LWP' => undef;
+
 
 if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
     unlink 'run-postinst';  
@@ -70,5 +79,7 @@ if ($^O =~ /(linux|bsd)/i && $t[0] =~ /(i[3456x]86)/) {
     }
 }
 
-auto_install;
+#for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
+#auto_install;
 WriteAll;
+
