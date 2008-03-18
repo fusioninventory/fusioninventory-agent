@@ -22,6 +22,8 @@ Revision history for Ocsinventory::Agent
          from the tools directory
        * --server is ignore if --local is in use
        * adjust Backend::OS::Generic::Screen to be able to use monitor-edid with DVI link (Remi COLLET)
+       * OS::Linux::Storages, add NEC as a know manufacturer add assume the manifacturer is Seagate if
+         the model doesn't match the others and begin with ST (rjhill)
 
 0.0.8.1 02/20/2008
        * postinst.pl, correctly save the realm, do not override the password 

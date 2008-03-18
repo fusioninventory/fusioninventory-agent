@@ -67,8 +67,10 @@ sub run {
     }
 
     if (!$manufacturer) {
-      if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung)/i){
+      if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec)/i) {
 	$manufacturer=$1;
+      } elsif ($model =~ /^ST/) {
+	$manufacturer="seagate";
       }
     }
 
