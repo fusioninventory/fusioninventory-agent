@@ -664,7 +664,7 @@ sub execute{
 				}
 				
 				&log("Storing package to $p->{'PATH'}...");
-				system("cp -r * ".$p->{'PATH'}) and die();
+				system(&_get_path('cp')." -r * ".$p->{'PATH'}) and die();
 			}
 		};
 		if($@){
