@@ -237,17 +237,18 @@ if (!recMkdir ($params->{basevardir})) {
   $logger->debug("var files are stored in ".$params->{basevardir});
 }
 
-if (defined($params->{local}) && $params->{local}) {
-  if (defined ($params->{server})) {
-      $logger->info ("--server ignored since you also use --local");
-      $params->{server} = undef;
-  }
-  $params->{vardir} = $params->{basevardir}."/__LOCAL__";
-} else {
+if (defined($params->{server}) && $params->{server}) {
   my $dir = $params->{server};
   $dir =~ s/\//_/g;
   $params->{vardir} = $params->{basevardir}."/".$dir;
+  if (defined ($params->{local})) {
+      $logger->debug ("--server ignored since you also use --local");
+      $params->{server} = undef;
+  }
+} elsif (defined($params->{local}) && $params->{local}) {
+  $params->{vardir} = $params->{basevardir}."/__LOCAL__";
 }
+
 if (!recMkdir ($params->{vardir})) {
   $logger->error("Failed to create $params->{vardir} directory: $!");
 }
