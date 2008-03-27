@@ -14,11 +14,15 @@ sub run {
   my $processort;
   my $processorn;
   my $processors;
+  
+  my $bogomips;
   open CPUINFO, "</proc/cpuinfo" or warn;
   foreach(<CPUINFO>){
     $processort = $2 if (/^(cpu|model\sname)\s*:\s*(.+)/i);
-    $processorn++ if (/^processor|CPU\d+:\s+online/);
+    $processort = $1 if (/^Processor\s+:\s*(.+)/); # ARM, Case sensitive!
+    $processorn++ if (/^(processor|CPU\d+:\s+online)/i);
     $processors = $2 if (/^(clock|cpu\sMHz)\s*:\s*(\d+)(|\.\d+)$/i);
+    $bogomips = $1 if (/^BogoMIPS\s+:\s+(\d+)/i); # ARM
   }
   close CPUINFO;
 
@@ -31,6 +35,11 @@ sub run {
     $processors = $1 if $clocktick =~ /^(\d+?)\d{6}$/; # 360010281
     close CLOCKTICK;
   }
+  
+  # BogoMIPS looks like the CPU frequency, at last on my Linksys NSLU2
+  # Contact me if you have a better solution to get the information
+  #    goneri@rulezlan.org
+  $processors = $bogomips if !$processors;
 
   $inventory->setHardware({
 
