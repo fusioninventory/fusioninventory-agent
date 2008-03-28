@@ -25,6 +25,8 @@ Revision history for Ocsinventory::Agent
        * OS::Linux::Storages, add NEC as a know manufacturer add assume the manifacturer is Seagate if
          the model doesn't match the others and begin with ST (rjhill)
        * fix the CPU detection on Linux Sparc64 and ARM (Linksys NSLU2)
+       * improve the Solaris version detection by reading the /etc/release file (Nicolas DORFSMAN)
+       * Solaris: fix the MAC addresses when the leading zeros is missing (JJMZ)
 
 0.0.8.1 02/20/2008
        * postinst.pl, correctly save the realm, do not override the password 

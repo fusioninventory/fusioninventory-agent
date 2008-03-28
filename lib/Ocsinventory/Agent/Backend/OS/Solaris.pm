@@ -16,9 +16,16 @@ sub run {
   my $OSLevel;
   #Operating system informations
   chomp($OSName=`uname -s`);
-  chomp($OSVersion=`uname -v`);
   chomp($OSLevel=`uname -r`);
-  chomp($OSComment=`uname -i`);   
+  chomp($OSComment=`uname -v`);   
+
+   open(FH, "< /etc/release") and do {
+       $OSVersion = readline (FH);
+       $OSVersion =~ s/^\b//;
+       close FH;
+   };
+
+  chomp($OSVersion=`uname -v`) unless $OSVersion;
 
 #  $OSName =~ s/SunOS/Solaris/;
   $inventory->setHardware({

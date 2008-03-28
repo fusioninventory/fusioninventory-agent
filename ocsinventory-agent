@@ -511,7 +511,7 @@ systems:
 
 =item F<Linux 2.4 and 2.6>
 
-any distribution on x86, x86_64/AMD64 and PowerPC. Other architectures may work.
+any distribution on x86, x86_64/AMD64, Sparc64, ARM and PowerPC. Other architectures may work.
 
 =item F<Solaris>
 

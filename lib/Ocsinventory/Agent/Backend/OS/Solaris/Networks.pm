@@ -40,7 +40,12 @@ sub run {
     $description = $1 if /^(\S+):/; # Interface name     
       $ipaddress = $1 if /inet\s+(\S+)/i;
     $ipmask = $1 if /\S*netmask\s+(\S+)/i;    
-    $macaddr = $1 if /ether\s+(\S+)/i;     
+    if (/ether\s+(\S+)/i) {
+# See
+# https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
+      $macaddr = sprintf "%02x:%02x:%02x:%02x:%02x:%02x" ,
+      map hex, split /\:/, $1;
+    }
     $status = 1 if /<UP,/;      
 
     if(($description && $macaddr)){   
