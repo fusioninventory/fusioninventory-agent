@@ -8,6 +8,14 @@ use strict;
 #Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0
 #Illegal Request: 0 Predictive Failure Analysis: 0
 
+# With -En :
+#c8t60060E80141A420000011A420000300Bd0 Soft Errors: 1 Hard Errors: 0 Transport Errors: 0 
+#Vendor: HITACHI  Product: OPEN-V      -SUN Revision: 5009 Serial No:  
+#Size: 64.42GB <64424509440 bytes>
+#Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+#Illegal Request: 1 Predictive Failure Analysis: 0 
+
+
 sub check {
   `iostat 2>&1`;
   return if ($? >> 8)!=0;
@@ -23,9 +31,13 @@ sub run {
   my $model;
   my $description;
   my $capacity;
+  my $name;
+  my $rev;
+  my $type;
   my $flag_first_line;
+  my $rdisk_path;
 
-  foreach(`iostat -E`){
+  foreach(`iostat -En`){
 #print;
     if($flag_first_line){  		
       if(/^.*<(\S+)\s*bytes/){  			
@@ -33,20 +45,46 @@ sub run {
 	$capacity = $capacity/(1024*1024);
 #print $capacity."\n";
       }
+      $description .= " FW:$rev"  if( $rev );
+
+      $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
+      if( $rdisk_path =~ /.*->.*scsi_vhci.*/ ) {
+	$type="MPxIO";
+      } 
+      elsif( $rdisk_path =~ /.*->.*fp@.*/ ) {
+        $type="FC";
+      }
+      elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
+        $type="SCSI";
+      }
       $inventory->addStorages({
+	  NAME => $name,
 	  MANUFACTURER => $manufacturer,
 	  MODEL => $model,
 	  DESCRIPTION => $description,
-	  TYPE => 'SCSI',
+	  TYPE => $type,
 	  DISKSIZE => $capacity
-	  });  		
+	  });
+
+      $manufacturer='';
+      $model='';
+      $description='';
+      $name='';
+      $rev='';
+      $type='';
     } 
     $flag_first_line = 0;	
+    if(/^(\S+)\s+Soft/){
+	$name = $1;
+    }
     if(/^.*Product:\s*(\S+)/){
       $model = $1;
     }
     if(/^.*Serial No:\s*(\S+)/){
-      $description = $1;
+      $description = "S/N:$1";
+    }
+    if(/^.*Revision:\s*(\S+)/){
+      $rev = $1;
     }
     if(/^Vendor:\s*(\S+)/){
       $manufacturer = $1;

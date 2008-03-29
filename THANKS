@@ -1,7 +1,7 @@
 Remi COLLET: bug fixes and Fedora/RedHat maintainer
 Walid NOUH: gave access to PowerPC hardware to help the portage
 Olivier ROUSSY: minor patches 
-Dennis Cabooter: FreeBSD maintainer
-Pierre Chifflier: Debian maintainer
-Nicolas Dorfsman
-Jean-Jacques Michel
+Dennis CABOOTER: FreeBSD maintainer
+Pierre CHIFFLIER: Debian maintainer
+Nicolas DORFSMAN
+Jean-Jacques MICHEL: Solaris patches

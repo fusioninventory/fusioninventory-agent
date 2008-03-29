@@ -21,22 +21,27 @@ sub run {
   my $name;
   my $version;
   my $comments;
+  my $publisher;
   foreach (`pkginfo -l`) {
     if (/^\s*$/) {
       $inventory->addSoftwares({
           'NAME'          => $name,
           'VERSION'       => $version,
           'COMMENTS'      => $comments,
+          'PUBLISHER'      => $publisher,
           });
 
       $name = '';
       $version = '';
       $comments = '';
+      $publisher = '';
 
     } elsif (/PKGINST:\s+(.+)/) {
       $name = $1;
     } elsif (/VERSION:\s+(.+)/) {
       $version = $1;
+    } elsif (/VENDOR:\s+(.+)/) {
+      $publisher = $1;
     } elsif (/DESC:\s+(.+)/) {
       $comments = $1;
     }
