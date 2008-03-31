@@ -4,9 +4,13 @@ use strict;
 
 use lib 'lib';
 
+use XML::Simple;
 use Ocsinventory::Agent::Config;
 
+my $old_linux_agent_dir = "/etc/ocsinventory-client";
+
 my $config;
+my @cacert;
 
 sub ask_yn {
     my $prompt = shift;
@@ -89,12 +93,47 @@ sub pickConfigdir {
     return $choices[$input];
 }
 
+sub recMkdir {
+  my $dir = shift;
+
+  my @t = split /\//, $dir;
+  shift @t;
+  return unless @t;
+
+  my $t;
+  foreach (@t) {
+    $t .= '/'.$_;
+    if ((!-d $t) && (!mkdir $t)) {
+      return;
+    }
+  }
+  1;
+}
+
+####################################################
+################### main ###########################
+####################################################
+
 if (!ask_yn("Do you want to configure the agent")) {
     exit 0;
 }
 
 
 my $configdir = pickConfigdir ("/etc/ocsinventory", "/usr/local/etc/ocsinventory", "/etc/ocsinventory-agent");
+
+if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent settings be imported?")) {
+    my $ocsinv = XMLin($old_linux_agent_dir.'/ocsinv.conf');
+    my $server = '';
+    $server .= 'http://' unless $ocsinv->{'OCSFSERVER'} =~ /^http(s|):\/\//;
+    $server .= $ocsinv->{'OCSFSERVER'}.'/ocsinventory';
+    $config->{server} = $server;
+
+    if (-f $old_linux_agent_dir.'/cacert.pem') {
+        open CACERT, $old_linux_agent_dir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
+        @cacert = <CACERT>;
+        close CACERT;
+    }
+}
 
 if (-f $configdir."/ocsinventory-agent.cfg") {
     open (CONFIG, "<".$configdir."/ocsinventory-agent.cfg") or
@@ -160,7 +199,7 @@ if (-d "/etc/cron.d") {
         my $randomtime = int(rand(60)).' '.int(rand(24));
 
         open DEST, '>/etc/cron.d/ocsinventory-agent' or die $!;
-        print  DEST $randomtime." * * * root $binpath > /dev/null 2>&1\n";
+        print  DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
         close DEST;
     }
 }
@@ -197,6 +236,19 @@ if (ask_yn ("Should I remove the old linux_agent")) {
         unlink if -f || -l;
     }
     print "done\n"
+}
+
+# Create the vardirectory for this server
+my $dir = $config->{server};
+$dir =~ s/\//_/g;
+my $vardir = $config->{basevardir}."/".$dir;
+recMkdir($vardir) or die "Can't create $vardir!";
+
+if (@cacert) { # we need to migrate the certificat
+    open CACERT, ">".$vardir."/cacert.pem" or die "Can't open ".$vardir.'/cacert.pem: '.$!;
+    print CACERT foreach (@cacert);
+    close CACERT;
+    print "Certificat copied in ".$vardir."/cacert.pem\n";
 }
 
 my $download_enable = ask_yn("Do you want to use OCS-Inventory software deployment feature?");
