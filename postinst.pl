@@ -97,7 +97,8 @@ if (!ask_yn("Do you want to configure the agent")) {
 my $configdir = pickConfigdir ("/etc/ocsinventory", "/usr/local/etc/ocsinventory", "/etc/ocsinventory-agent");
 
 if (-f $configdir."/ocsinventory-agent.cfg") {
-    open (CONFIG, "<".$configdir."/ocsinventory-agent.cfg") or return {};
+    open (CONFIG, "<".$configdir."/ocsinventory-agent.cfg") or
+    die "Can't open ".$configdir."/ocsinventory-agent.cfg: ".$!;
 
     foreach (<CONFIG>) {
         s/#.+//;
@@ -183,8 +184,18 @@ chmod 0600, "$configdir/ocsinventory-agent.cfg";
 
 print "New settings written! Thank you for using OCS Inventory\n";
 
-if (-d "/etc/ocsinventory-client" && ask_yn ("Should I remove the config directory of the old linux agent")) {
-    system ('rm -r /etc/ocsinventory-client');
+if (ask_yn ("Should I remove the old linux_agent")) {
+    foreach (qw#
+        /etc/ocsinventory-client
+        /etc/logtotate.d/ocsinventor-client
+        /usr/sbin/ocsinventory-client.pl
+        /bin/ocsinv
+        #) {
+        print $_."\n";
+        next;
+        rmdir if -d;
+        unlink if -f || -l;
+    }
     print "done\n"
 }
 

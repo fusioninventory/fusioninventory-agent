@@ -29,6 +29,7 @@ Revision history for Ocsinventory::Agent
        * Solaris: fix the MAC addresses when the leading zeros is missing (Jean-Jacques MICHEL)
        * Solaris: Add publisher is possible in the software list (Jean-Jacques MICHEL)
        * Solaris: improve the hard drive detection (Jean-Jacques MICHEL)
+       * postinst.pl can remove the previous linux_agent   
 
 0.0.8.1 02/20/2008
        * postinst.pl, correctly save the realm, do not override the password 
