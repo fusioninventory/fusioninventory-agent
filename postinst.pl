@@ -133,6 +133,16 @@ if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent
         @cacert = <CACERT>;
         close CACERT;
     }
+
+    my $admcontent = '';
+    open(ADM, "<:encoding(iso-8859-1)", "$old_linux_agent_dir/ocsinv.adm")
+        or die "Can't open $old_linux_agent_dir/ocsinv.adm";
+    $admcontent .= $_ foreach (<ADM>);
+    close ADM;
+    my $admdata = XMLin($admcontent) or die;
+    foreach (@{$admdata->{ACCOUNTINFO}}) {
+        $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
+    }
 }
 
 if (-f $configdir."/ocsinventory-agent.cfg") {
@@ -155,7 +165,6 @@ if (-f $configdir."/ocsinventory-agent.cfg") {
 }
 
 print "[info] The config file will be written in /etc/ocsinventory/ocsinventory-agent.cfg,\n";
-print "[info] consider moving the directory in /usr/local/etc if you run a *BSD system\n";
 
 $config->{server} = prompt('What is the address of your ocs server', exists ($config->{server})?$config->{server}:'ocsinventory-ng');
 if (!$config->{server}) {
@@ -174,11 +183,17 @@ if (ask_yn ("Do you need credential for the server? (You probably don't)")) {
     $config->{password} = prompt("password");
     print "[info] The realm can be found in the login popup of your Internet browser.\n[info] In general, it's something like 'Restricted Area'.\n";
     $config->{realm} = prompt("realm");
+} else {
+    delete ($config->{user});
+    delete ($config->{password});
+    delete ($config->{realm});
 }
 
 if (ask_yn('Do you want to apply an administrative tag on this machine')) {
 
     $config->{tag} = prompt("tag".(exists($config->{tag})?"(".$config->{tag}.")":'' ));
+} else {
+    delete($config->{tag});
 }
 
 my $binpath;
