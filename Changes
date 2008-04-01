@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-0.0.8.2
+0.0.9 04/01/2008 April Fool release!
        * Added fallback for --lazy if no prolog freq was found and server error (Pascal DANEK)
        * Fixed accountinfos handling bugs (Pascal DANEK)
        * Changed --wait behaviour (--wait=number_of_seconds || "server") (Pascal DANEK)
@@ -27,8 +27,8 @@ Revision history for Ocsinventory::Agent
        * fix the CPU detection on Linux Sparc64 and ARM (Linksys NSLU2)
        * improve the Solaris version detection by reading the /etc/release file (Nicolas DORFSMAN)
        * Solaris: fix the MAC addresses when the leading zeros is missing (Jean-Jacques MICHEL)
-       * Solaris: Add publisher is possible in the software list (Nicolas Dorfsman)
-       * Solaris: improve the hard drive detection (Nicolas Dorfsman)
+       * Solaris: Add publisher is possible in the software list (Nicolas DORFSMAN)
+       * Solaris: improve the hard drive detection (Nicolas DORFSMAN)
        * postinst.pl can remove the previous linux_agent
        * postinst.pl reuse linux_agent old config file to set the default server and tag
 
