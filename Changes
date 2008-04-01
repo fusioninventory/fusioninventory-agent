@@ -27,8 +27,8 @@ Revision history for Ocsinventory::Agent
        * fix the CPU detection on Linux Sparc64 and ARM (Linksys NSLU2)
        * improve the Solaris version detection by reading the /etc/release file (Nicolas DORFSMAN)
        * Solaris: fix the MAC addresses when the leading zeros is missing (Jean-Jacques MICHEL)
-       * Solaris: Add publisher is possible in the software list (Jean-Jacques MICHEL)
-       * Solaris: improve the hard drive detection (Jean-Jacques MICHEL)
+       * Solaris: Add publisher is possible in the software list (Nicolas Dorfsman)
+       * Solaris: improve the hard drive detection (Nicolas Dorfsman)
        * postinst.pl can remove the previous linux_agent
        * postinst.pl reuse linux_agent old config file to set the default server
 
