@@ -25,6 +25,7 @@ sub run {
   my $description;
   my $numslot;
   my $caption;
+  my $serialnumber;
 
   foreach (@dmidecode) {
 
@@ -41,10 +42,11 @@ sub run {
 	  CAPTION => $caption,
 	  SPEED => $speed,
 	  TYPE => $type,
-	  NUMSLOTS => $numslot
+	  NUMSLOTS => $numslot,
+	  SERIALNUMBER => $serialnumber,
 	});
 
-      $capacity = $description = $caption = $type = $type = undef;
+      $capacity = $description = $caption = $type = $type = $serialnumber = undef;
     } elsif ($flag) { # in the section
 
       $capacity = $1 if /^size\s*:\s*(\S+)/i;
@@ -52,6 +54,7 @@ sub run {
       $caption = $1 if /^Locator\s*:\s*(.+)/i;
       $speed = $1 if /^speed\s*:\s*(.+)/i;
       $type = $1 if /^type\s*:\s*(.+)/i;
+      $serialnumber = $1 if /^Serial Number\s*:\s*(.+)/i;
 
 
     }

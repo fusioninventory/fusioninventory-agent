@@ -120,12 +120,13 @@ sub addStorages {
   my ($self, $args) = @_;
 
   my $description = $args->{DESCRIPTION};
-  my $disksize =  $args->{DISKSIZE};
+  my $disksize = $args->{DISKSIZE};
   my $manufacturer = $args->{MANUFACTURER};
   my $model = $args->{MODEL};
   my $name = $args->{NAME};
   my $type = $args->{TYPE};
-
+  my $serialnumber = $args->{SERIALNUMBER};
+  my $firmware = $args->{FIRMWARE};
 
   push @{$self->{h}{CONTENT}{STORAGES}},
   {
@@ -136,6 +137,8 @@ sub addStorages {
     MODEL => [$model?$model:''],
     NAME => [$name?$name:''],
     TYPE => [$type?$type:''],
+    SERIALNUMBER => [$serialnumber?$serialnumber:''],
+    FIRMWARE => [$firmware?$firmware:'']
 
   };
 }
@@ -150,6 +153,7 @@ sub addMemories {
   my $caption = $args->{CAPTION}; 
   my $numslots = $args->{NUMSLOTS};
 
+  my $serialnumber = $args->{SERIALNUMBER};
 
   push @{$self->{h}{CONTENT}{MEMORIES}},
   {
@@ -159,7 +163,8 @@ sub addMemories {
     CAPTION => [$caption?$caption:''],
     SPEED => [$speed?$speed:''],
     TYPE => [$type?$type:''],
-    NUMSLOTS => [$numslots?$numslots:0]
+    NUMSLOTS => [$numslots?$numslots:0],
+    SERIALNUMBER => [$serialnumber?$serialnumber:'']
 
   };
 }

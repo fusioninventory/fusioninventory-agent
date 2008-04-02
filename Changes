@@ -31,6 +31,8 @@ Revision history for Ocsinventory::Agent
        * Solaris: improve the hard drive detection (Nicolas DORFSMAN)
        * postinst.pl can remove the previous linux_agent
        * postinst.pl reuse linux_agent old config file to set the default server and tag
+       * return the SERIALNUMBER and the FIRMWARE on Linux with hdparm, the feature is not supported
+         yet by the server (egamin)
 
 0.0.8.1 02/20/2008
        * postinst.pl, correctly save the realm, do not override the password 
