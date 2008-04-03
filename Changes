@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+0.0.9.1 04/03/2008 Bug fix
+       * fix a error in the previous release that was forcing the local mode (Jean-Jacques MICHEL)
+
 0.0.9 04/01/2008 April Fool release!
        * Added fallback for --lazy if no prolog freq was found and server error (Pascal DANEK)
        * Fixed accountinfos handling bugs (Pascal DANEK)

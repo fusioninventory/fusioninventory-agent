@@ -246,7 +246,7 @@ if (defined($params->{server}) && $params->{server}) {
   my $dir = $params->{server};
   $dir =~ s/\//_/g;
   $params->{vardir} = $params->{basevardir}."/".$dir;
-  if (defined ($params->{local})) {
+  if (defined ($params->{local}) && $params->{local}) {
       $logger->debug ("--server ignored since you also use --local");
       $params->{server} = undef;
   }
