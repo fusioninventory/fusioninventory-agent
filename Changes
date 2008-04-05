@@ -3,6 +3,7 @@ Revision history for Ocsinventory::Agent
 0.0.9.2
        * fix the previous changelog entry, the 0.0.9.1 fix had been done by Nicolas DORFSMAN,
          thanks Nicolas ;)
+       * bug fix, add /ocsinventory to the server URL if the user enter just the hostname
 
 0.0.9.1 04/03/2008 Bug fix
        * fix a error in the previous release that was forcing the local mode (Nicolas DORFSMAN)

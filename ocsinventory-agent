@@ -215,9 +215,10 @@ if ($params->{nosoftware}) {
     $params->{nosoftware} = 1 
 }
 
+
 if ($params->{server} !~ /^http(|s):\/\//) {
     $logger->debug("the --server passed doesn't have a protocle, assume http as default");
-    $params->{server} = "http://".$params->{server}
+    $params->{server} = "http://".$params->{server}.'/ocsinventory';
 }
 
 ############################
