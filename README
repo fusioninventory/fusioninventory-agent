@@ -19,7 +19,8 @@ PREREQUISITES
    - monitor-edid from Mandriva is needed to fetch the monitor
      information http://wiki.mandriva.com/en/Tools/monitor-edid
    - get-edid from the read-edid package
-
+  On Solaris/sparc, you must install sneep and record the Serial Number with it :
+    (download it from http://www.sun.com/download/products.xml?id=4304155a)
 
 BUILDING/INSTALLING
 
