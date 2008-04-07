@@ -2,6 +2,8 @@ Revision history for Ocsinventory::Agent
 
        * Solaris: Replaced hostid in serialnumber by real serialnumber
                   (SUNWsneep becomes mandatory on sparc)
+       * Solaris: Return only one IP address (trying to guess which one corresponds to hostname)
+       * Solaris: return disks SERIALNUMBER and FIRMWARE as XML fields (as for Linux...not yet supported)
        * Redirection and stderr issue on Solaris
          - Removed close of stderr fd
          - Modified lspci and screen check() to avoid pollution of stdout/stderr
