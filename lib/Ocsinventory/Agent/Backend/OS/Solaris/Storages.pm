@@ -33,6 +33,7 @@ sub run {
   my $capacity;
   my $name;
   my $rev;
+  my $sn;
   my $type;
   my $flag_first_line;
   my $rdisk_path;
@@ -45,7 +46,9 @@ sub run {
 	$capacity = $capacity/(1024*1024);
 #print $capacity."\n";
       }
+      ## To be removed when FIRMWARE will be supported
       $description .= " FW:$rev"  if( $rev );
+      ##
 
       $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
       if( $rdisk_path =~ /.*->.*scsi_vhci.*/ ) {
@@ -63,6 +66,8 @@ sub run {
 	  MODEL => $model,
 	  DESCRIPTION => $description,
 	  TYPE => $type,
+          FIRMWARE => $rev,
+          SERIALNUMBER => $sn,
 	  DISKSIZE => $capacity
 	  });
 
@@ -71,6 +76,7 @@ sub run {
       $description='';
       $name='';
       $rev='';
+      $sn='';
       $type='';
     } 
     $flag_first_line = 0;	
@@ -81,7 +87,10 @@ sub run {
       $model = $1;
     }
     if(/^.*Serial No:\s*(\S+)/){
-      $description = "S/N:$1";
+      $sn = $1;
+      ## To be removed when SERIALNUMBER will be supported
+      $description = "S/N:$sn";
+      ##
     }
     if(/^.*Revision:\s*(\S+)/){
       $rev = $1;
