@@ -1,5 +1,6 @@
 Revision history for Ocsinventory::Agent
 
+0.0.9.2
        * Solaris: Replaced hostid in serialnumber by real serialnumber
                   (SUNWsneep becomes mandatory on sparc)
        * Solaris: Return only one IP address (trying to guess which one corresponds to hostname)
@@ -7,10 +8,10 @@ Revision history for Ocsinventory::Agent
        * Redirection and stderr issue on Solaris
          - Removed close of stderr fd
          - Modified lspci and screen check() to avoid pollution of stdout/stderr
-0.0.9.2
        * fix the previous changelog entry, the 0.0.9.1 fix had been done by Nicolas DORFSMAN,
          thanks Nicolas ;)
        * bug fix, add /ocsinventory to the server URL if the user enter just the hostname
+       * postinst.pl checks for MANIFEST present
 
 0.0.9.1 04/03/2008 Bug fix
        * fix a error in the previous release that was forcing the local mode (Nicolas DORFSMAN)
