@@ -52,6 +52,12 @@ NOTE
  Solaris:
   Sun Studio seems to be needed to build the dependency.
 
+CVS
+You can prepare a tarball from the CVS with these commands:
+   perl Makefile.PL
+   make manifest
+   make dist
+
 
 COPYRIGHT
 
