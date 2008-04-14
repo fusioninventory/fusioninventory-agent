@@ -9,9 +9,7 @@ sub check {
   # Do not run an package inventory if there is the --nosoft parameter
   return if ($params->{params}->{nosoft});
 
-  `which pkginfo 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
+  can_run("pkginfo");
 }
 
 sub run {

@@ -59,11 +59,7 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Bios;
 
 use strict;
 
-sub check {
-	`showrev 2>&1`;
-	return if ($? >> 8)!=0;
-	1;
-}
+sub check { can_run ("showrev") }
 
 sub run {
   my $params = shift;

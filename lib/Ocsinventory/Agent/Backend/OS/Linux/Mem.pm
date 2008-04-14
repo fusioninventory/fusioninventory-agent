@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Mem;
 use strict;
 
-sub check { -r "/proc/meminfo" };
+sub check { can_read ("/proc/meminfo") }
 
 sub run {
   my $params = shift;

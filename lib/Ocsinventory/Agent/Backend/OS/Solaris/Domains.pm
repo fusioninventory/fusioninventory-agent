@@ -1,11 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Domains;
 use strict;
 
-sub check {
-  `domainname 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
+sub check { can_run ("domainname") }
 
 sub run { 
   my $params = shift;

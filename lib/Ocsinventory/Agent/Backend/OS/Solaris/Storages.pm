@@ -16,12 +16,7 @@ use strict;
 #Illegal Request: 1 Predictive Failure Analysis: 0 
 
 
-sub check {
-  `iostat 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
-
+sub check { can_run ("iostat") }
 
 sub run {
   my $params = shift;

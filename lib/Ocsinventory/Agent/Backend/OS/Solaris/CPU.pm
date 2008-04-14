@@ -2,11 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Solaris::CPU;
 
 use strict;
 
-sub check {
-  `psrinfo -v >&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
+sub check { can_run("psrinfo") }
 
 sub run {
   my $params = shift;

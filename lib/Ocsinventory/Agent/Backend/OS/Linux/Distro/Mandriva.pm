@@ -10,7 +10,9 @@ sub findRelease {
   open V, "</etc/mandriva-release" or warn;
   chomp ($v=<V>);
   close V;
-  $v;
+  return $v if $v;
+
+  0;
 }
 
 sub run {

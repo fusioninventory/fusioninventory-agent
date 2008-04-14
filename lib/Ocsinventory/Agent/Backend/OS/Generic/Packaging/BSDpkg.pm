@@ -1,12 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Packaging::BSDpkg;
 
-sub check {
-  `which pkg_info 2>&1`;
-  return if ($? >> 8)!=0;
-  `pkg_info 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
+sub check {can_run("pkg_info")}
 
 sub run {
   my $params = shift;

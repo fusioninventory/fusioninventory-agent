@@ -1,9 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Network::IPv4;
 
 sub check {
-  my @ifconfig = `ifconfig 2>/dev/null`;
-  return 1 if @ifconfig;
-  return;
+  return unless can_run ("ifconfig");
+  1;
 }
 
 # Initialise the distro entry

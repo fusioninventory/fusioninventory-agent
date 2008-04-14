@@ -1,11 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Slots;
 
 use strict;
-sub check {
-  `prtdiag 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
+sub check { can_run ("prtdiag") }
 
 sub run {
   my $params = shift;

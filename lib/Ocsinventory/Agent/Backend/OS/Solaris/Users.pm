@@ -1,10 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Users;
 
-sub check {
-  `who 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
+sub check { can_run ("who") } 
 
 # Initialise the distro entry
 sub run {

@@ -9,11 +9,7 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Drives;
 
 
 use strict;
-sub check {
-  `df 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
+sub check { can_run ("df") }
 
 sub run {
   my $params = shift;

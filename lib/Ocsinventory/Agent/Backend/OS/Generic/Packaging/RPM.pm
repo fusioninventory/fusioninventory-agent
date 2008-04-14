@@ -4,6 +4,9 @@ use strict;
 use warnings;
 
 sub check {
+  return unless can_run("rpm");
+
+  # Some time rpm is a wrapper or an alias for another
   `rpm --version 2>&1`;
   return if ($? >> 8)!=0;
   1;

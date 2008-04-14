@@ -2,9 +2,10 @@ package Ocsinventory::Agent::Backend::OS::Linux::Domains;
 use strict;
 
 sub check {
+  return unless can_run ("hostname");
   my @domain = `hostname -d`;
-  return 1 if @domain;
-  -f "/etc/resolv.conf"
+  return 1 if @domain || can_read ("/etc/resolv.conf");
+  0;
 }
 sub run {
   my $params = shift;

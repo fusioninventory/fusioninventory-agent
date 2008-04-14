@@ -1,6 +1,7 @@
 package Ocsinventory::Agent::Backend;
 
 use strict;
+no strict 'refs';
 use warnings;
 
 use Storable;
@@ -19,6 +20,29 @@ sub new {
   $self->{prologresp} = $params->{prologresp};
 
   $self->{modules} = {};
+
+  $self->{backendSharedFuncs} = {
+
+    can_run => sub {
+      my $binary = shift;
+      chomp(my $binpath=`which $binary 2>/dev/null`);
+      return unless -x $binpath;
+      1 
+    },
+    can_load => sub {
+      my $module = shift;
+      eval { require ($module) };
+      return if $@;
+      eval { import $module };
+      1;
+    },
+    can_read => sub {
+      my $file = shift;
+      return unless -r $file; 
+      1; 
+    }
+  };
+
 
   bless $self;
 
@@ -97,6 +121,12 @@ sub initModList {
       $enable = 0;
     }
 
+    # Load in the module the backendSharedFuncs
+    foreach my $func (keys %{$self->{backendSharedFuncs}}) {
+        my $tmp = $m."::";
+      $tmp->{$func} = $self->{backendSharedFuncs}->{$func};
+    }
+
 # Import of module's functions and values
     local *Ocsinventory::Agent::Backend::runAfter = $m."::runAfter"; 
     local *Ocsinventory::Agent::Backend::runMeIfTheseChecksFailed = $m."::runMeIfTheseChecksFailed"; 
@@ -110,11 +140,6 @@ sub initModList {
     foreach (@{$Ocsinventory::Agent::Backend::runMeIfTheseChecksFailed}) {
       push @runMeIfTheseChecksFailed, \%{$self->{modules}->{$_}};
     }
-
-# TODO, 
-# no strict 'refs';
-# print Dumper(\@{"Ocsinventory::Agent::Option::Download::EXPORT"});
-# to see avalaible func
 
 
     $self->{modules}->{$m}->{name} = $m;

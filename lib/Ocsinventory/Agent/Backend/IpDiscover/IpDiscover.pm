@@ -3,18 +3,7 @@ package Ocsinventory::Agent::Backend::IpDiscover::IpDiscover;
 use strict;
 use warnings;
 
-sub check {
-  my $params = shift;
-
-  # Do we have ipdiscover?
-  `ipdiscover 2>&1`;
-  if (($? >> 8)==0) {
-    return 1; 
-  }
-
-  0;
-}
-
+sub check { can_run ("ipdiscover") }
 
 sub run {
   my $params = shift;

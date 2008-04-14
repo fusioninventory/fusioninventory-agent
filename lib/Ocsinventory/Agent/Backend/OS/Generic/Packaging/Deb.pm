@@ -3,13 +3,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Deb;
 use strict;
 use warnings;
 
-sub check {
-  `which dpkg 2>&1`;
-  return if ($? >> 8)!=0;
-  `dpkg 2>&1`;
-  return if ($? >> 8)!=2;
-  1;
-}
+sub check { can_run("dpkg") }
 
 sub run {
   my $params = shift;

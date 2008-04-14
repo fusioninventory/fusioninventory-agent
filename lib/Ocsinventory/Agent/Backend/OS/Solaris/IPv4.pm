@@ -1,10 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::IPv4;
 
-sub check {
-  `ifconfig -a 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
+sub check { can_run ("ifconfig") }
 
 # Initialise the distro entry
 sub run {

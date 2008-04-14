@@ -2,6 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Linux::Drives;
 
 use strict;
 sub check {
+  return unless can_run ("df");
   my $df = `df -TP`;
   return 1 if $df =~ /\w+/;
   0

@@ -8,7 +8,7 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  my $dmidecode = `dmidecode`; # TODO retrieve error
+  my $dmidecode = `dmidecode`;
   # some versions of dmidecode do not separate items with new lines
   # so add a new line before each handle
   $dmidecode =~ s/\nHandle/\n\nHandle/g;

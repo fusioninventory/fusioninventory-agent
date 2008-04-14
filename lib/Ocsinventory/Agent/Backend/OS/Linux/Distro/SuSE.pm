@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::SuSE;
 use strict;
 
-sub check {-f "/etc/SuSE-release"}
+sub check { can_read ("/etc/SuSE-release") }
 
 #####
 sub findRelease {

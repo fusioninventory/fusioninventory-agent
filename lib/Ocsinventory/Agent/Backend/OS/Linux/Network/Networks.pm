@@ -5,10 +5,7 @@ use Net::IP qw(:PROC);;
 use strict;
 
 sub check {
-  my @ifconfig = `ifconfig 2>/dev/null`;
-  return unless @ifconfig;
-  my @route = `route -n 2>/dev/null`;
-  return unless @route;
+  return unless can_run("ifconfig") && can_run("route");
 
   1;
 }

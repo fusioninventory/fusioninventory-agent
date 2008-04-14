@@ -22,11 +22,9 @@ use strict;
 
 sub check {
 
-  return 0 unless( -x `which monitor-get-edid-using-vbe 2>/dev/null`
-                   &&
-                   -x `which get-edid 2>/dev/null` );
-  return 1 if getEdid();
-  0;
+  return unless (can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
+  
+  1;
 }
 
 sub getEdid {

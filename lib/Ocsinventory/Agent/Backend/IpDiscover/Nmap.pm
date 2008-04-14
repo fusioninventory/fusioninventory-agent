@@ -8,6 +8,8 @@ use warnings;
 sub check {
   my $params = shift;
 
+  return unless can_run("nmap");
+
   # Do we have nmap 3.90 (or >) 
   foreach (`nmap -v 2>&1`) {
     if (/^Starting Nmap (\d+)\.(\d+)/) {

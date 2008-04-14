@@ -3,11 +3,8 @@ use strict;
 
 sub check {
   return unless -r "/dev/mem";
+  return unless can_run("dmidecode");
 
-  `which dmidecode 2>&1`;
-  return if ($? >> 8)!=0;
-  `dmidecode 2>&1`;
-  return if ($? >> 8)!=0;
   1;
 }
 

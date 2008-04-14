@@ -1,11 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Controllers;
 use strict;
 
-sub check {
-  `cfgadm 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-}
+sub check { can_run ("cfgadm") }
 
 sub run {
   my $params = shift;

@@ -2,14 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Mem;
 
 use strict;
 
-sub check {
-  `swap -l 2>&1`;
-  return if ($? >> 8)!=0;
-
-  `prtconf 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
-};
+sub check { can_run ("swap") && can_run ("prtconf") }
 
 sub run {
   my $params = shift;

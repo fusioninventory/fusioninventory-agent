@@ -1,10 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::CPU;
 use strict;
 
-sub check { 
-  return unless -r "/proc/cpuinfo";
-  1; 
-};
+sub check { can_read("/proc/cpuinfo") }
 
 sub run {
   my $params = shift;
