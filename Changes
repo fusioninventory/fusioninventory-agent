@@ -12,6 +12,8 @@ Revision history for Ocsinventory::Agent
        * bug fix, add /ocsinventory to the server URL if the user enter just the hostname
        * postinst.pl checks for MANIFEST present
        * improve the backend module detection by also scanning the symlinked directory
+       * add the --devlib flag to load ./lib only if wanted and remove '.' from the directory to scan
+         with File::Find.
 
 0.0.9.1 04/03/2008 Bug fix
        * fix a error in the previous release that was forcing the local mode (Nicolas DORFSMAN)

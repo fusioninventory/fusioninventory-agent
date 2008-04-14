@@ -28,16 +28,29 @@ sub initModList {
   my $self = shift;
 
   my $logger = $self->{logger};
+  my $params = $self->{params};
 
-  my ($inst) = ExtUtils::Installed->new();
+  my @dirToScan;
   my @installed_mod;
 
-  eval {@installed_mod =
-    $inst->files('Ocsinventory')};
+  if ($params->{devlib}) {
+  # devlib enable, I only search for backend module in ./lib
+    push (@dirToScan, './lib');
+  } else {
+    my ($inst) = ExtUtils::Installed->new();
 
-# ExtUtils::Installed is nice it needs properly installed package with
+    eval {@installed_mod =
+      $inst->files('Ocsinventory')};
+
+# ExtUtils::Installed is nice but it needs properly installed package with
 # .packlist
-# This is a workaround for invalide installations...
+# This is a workaround for 'invalide' installations...
+    foreach (@INC) {
+      next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
+      push @dirToScan, $_;
+    }
+  }
+
   eval {require File::Find};
   if ($@) {
     $logger->debug("Failed to load File::Find");
@@ -45,17 +58,20 @@ sub initModList {
 # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
 # changes the @INC content if i use $_ directly
 # thanks to @rgs on irc.perl.org
-    foreach my $d (@INC) {
-      next if ! -d $d || (-l $d && -d readlink $d);
-      File::Find::find(
-        {
-          wanted => sub {
-            push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
-          },
-          follow => 1
-        }
-        , $d);
-    }
+    File::Find::find(
+      {
+        wanted => sub {
+          push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
+        },
+        follow => 1
+      }
+      , @dirToScan);
+  }
+
+  if (!@installed_mod) {
+    $logger->info("ZERO backend module found! Is Ocsinventory-Agent ".
+    "correctly installed? Use the --devlib flag if you want to run the agent ".
+    "directly from the source directory.")
   }
 
 # Find installed modules
@@ -228,7 +244,7 @@ sub feedInventory {
 
   my $begin = time();
   foreach my $m (sort keys %{$self->{modules}}) {
-    die ">$m" unless $m;# Houston!!!
+    die ">$m Houston!!!" unless $m;
       $self->runMod ({
 	  inventory => $inventory,
 	  modname => $m,

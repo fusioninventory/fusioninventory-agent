@@ -30,8 +30,9 @@ my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';
 # default settings;
 my $params = { 
-  'debug'     =>  0,
   'daemon'    =>  0,
+  'debug'     =>  0,
+  'devlib'    =>  0,
   'force'     =>  0,
   'help'      =>  0,
   'info'      =>  1,
@@ -75,6 +76,7 @@ my %options = (
   "basevardir"      =>   \$params->{basevardir},
   "d|daemon"        =>   \$params->{daemon},
   "debug"           =>   \$params->{debug},
+  "devlib"          =>   \$params->{devlib},
   "f|force"         =>   \$params->{force},
   "h|help"          =>   \$params->{help},
   "i|info"          =>   \$params->{info},
@@ -134,6 +136,7 @@ sub help {
   print STDERR "\t--basevardir=/path  indicate the directory where should the agent store its files (".$params->{basevardir}.")\n";
   print STDERR "\t-d  --daemon        detach the agent in background (".$params->{daemon}.")\n";
   print STDERR "\t    --debug         debug mode (".$params->{debug}.")\n";
+  print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$params->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$params->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$params->{info}.")\n";
   print STDERR "\t--lazy              do not contact the server more than one time during the PROLOG_FREQ (".$params->{lazy}.")\n";
@@ -560,6 +563,10 @@ Launch ocsinventory-agent in background. Proc::Daemon is needed.
 =item B<--debug>
 
 Turn the debug mode on.
+
+=item B<--devlib>
+
+This option is designed for backend module developer. With it enabled, ocsinventry-agent won't try to load the Backend module installed on the system. Instead it will scan the ./lib directory.
 
 =item B<-f>, B<--force>
 
