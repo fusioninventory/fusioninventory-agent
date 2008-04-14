@@ -46,11 +46,15 @@ sub initModList {
 # changes the @INC content if i use $_ directly
 # thanks to @rgs on irc.perl.org
     foreach my $d (@INC) {
-      next unless -d $d;
-      File::Find::find( sub {
-	  push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
-	  }
-	  , $d);
+      next if ! -d $d || (-l $d && -d readlink $d);
+      File::Find::find(
+        {
+          wanted => sub {
+            push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
+          },
+          follow => 1
+        }
+        , $d);
     }
   }
 

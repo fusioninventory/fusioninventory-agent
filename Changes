@@ -1,17 +1,17 @@
 Revision history for Ocsinventory::Agent
 
-0.0.9.2
-       * Solaris: Replaced hostid in serialnumber by real serialnumber
+0.0.9.2 04/14/2008 Bug fixes
+       * Solaris: Replaced hostid in serialnumber by real serialnumber (Nicolas DORFSMAN)
                   (SUNWsneep becomes mandatory on sparc)
-       * Solaris: Return only one IP address (trying to guess which one corresponds to hostname)
-       * Solaris: return disks SERIALNUMBER and FIRMWARE as XML fields (as for Linux...not yet supported)
-       * Redirection and stderr issue on Solaris
+       * Solaris: Return only one IP address (trying to guess which one corresponds to hostname) (Nicolas DORFSMAN)
+       * Solaris: return disks SERIALNUMBER and FIRMWARE as XML fields (as for Linux...not yet supported) (Nicolas DORFSMAN)
+       * Redirection and stderr issue on Solaris (Nicolas DORFSMAN)
          - Removed close of stderr fd
          - Modified lspci and screen check() to avoid pollution of stdout/stderr
-       * fix the previous changelog entry, the 0.0.9.1 fix had been done by Nicolas DORFSMAN,
-         thanks Nicolas ;)
+       * fix the previous changelog entry, the 0.0.9.1 fix had been done by Nicolas DORFSMAN
        * bug fix, add /ocsinventory to the server URL if the user enter just the hostname
        * postinst.pl checks for MANIFEST present
+       * improve the backend module detection by also scanning the symlinked directory
 
 0.0.9.1 04/03/2008 Bug fix
        * fix a error in the previous release that was forcing the local mode (Nicolas DORFSMAN)
