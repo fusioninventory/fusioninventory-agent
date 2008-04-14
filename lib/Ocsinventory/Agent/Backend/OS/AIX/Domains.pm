@@ -1,7 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Domains;
 use strict;
 
-sub check {1}
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};

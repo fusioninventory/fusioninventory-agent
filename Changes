@@ -15,6 +15,7 @@ Revision history for Ocsinventory::Agent
        * add the --devlib flag to load ./lib only if wanted and remove '.' from the directory to scan
          with File::Find.
        * import the can_run, can_load and can_read functions in the Backend modules
+       * the backend module can have no check function, in this case OCS assume it's ok
 
 0.0.9.1 04/03/2008 Bug fix
        * fix a error in the previous release that was forcing the local mode (Nicolas DORFSMAN)

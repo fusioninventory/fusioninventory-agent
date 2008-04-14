@@ -1,7 +1,5 @@
 package Ocsinventory::Agent::Backend::DeviceID;
 
-sub check {1}
-
 # Initialise the DeviceID. In fact this value is a bit specific since
 # it generates in the main script.
 sub run {

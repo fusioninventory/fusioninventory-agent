@@ -3,9 +3,6 @@ package Ocsinventory::Agent::Backend::OS::AIX::Networks;
 use Net::IP qw(:PROC);;
 use strict;
 
-sub check {1}
-
-
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};

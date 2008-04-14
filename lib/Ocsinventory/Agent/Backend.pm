@@ -121,36 +121,21 @@ sub initModList {
       $enable = 0;
     }
 
+    my $package = $m."::";
     # Load in the module the backendSharedFuncs
     foreach my $func (keys %{$self->{backendSharedFuncs}}) {
-        my $tmp = $m."::";
-      $tmp->{$func} = $self->{backendSharedFuncs}->{$func};
+      $package->{$func} = $self->{backendSharedFuncs}->{$func};
     }
-
-# Import of module's functions and values
-    local *Ocsinventory::Agent::Backend::runAfter = $m."::runAfter"; 
-    local *Ocsinventory::Agent::Backend::runMeIfTheseChecksFailed = $m."::runMeIfTheseChecksFailed"; 
-#    local *Ocsinventory::Agent::Backend::replace = $m."::replace"; 
-    local *Ocsinventory::Agent::Backend::check = $m."::check";
-    local *Ocsinventory::Agent::Backend::run = $m."::run";
-
-    foreach (@{$Ocsinventory::Agent::Backend::runAfter}) {
-      push @runAfter, \%{$self->{modules}->{$_}};
-    }
-    foreach (@{$Ocsinventory::Agent::Backend::runMeIfTheseChecksFailed}) {
-      push @runMeIfTheseChecksFailed, \%{$self->{modules}->{$_}};
-    }
-
 
     $self->{modules}->{$m}->{name} = $m;
     $self->{modules}->{$m}->{done} = 0;
     $self->{modules}->{$m}->{inUse} = 0;
     $self->{modules}->{$m}->{enable} = $enable;
-    $self->{modules}->{$m}->{checkFunc} = \&check;
-    $self->{modules}->{$m}->{runAfter} = \@runAfter;
-    $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = \@runMeIfTheseChecksFailed;
+    $self->{modules}->{$m}->{checkFunc} = $package->{"check"};
+    $self->{modules}->{$m}->{runAfter} = $package->{'runAfter'};
+    $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = \@{$package->{'runMeIfTheseChecksFailed'}};
 #    $self->{modules}->{$m}->{replace} = \@replace;
-    $self->{modules}->{$m}->{runFunc} = \&run;
+    $self->{modules}->{$m}->{runFunc} = $package->{'run'};
     $self->{modules}->{$m}->{mem} = {};
 # Load the Storable object is existing or return undef
     $self->{modules}->{$m}->{storage} = $self->retrieveStorage($m);
@@ -159,6 +144,7 @@ sub initModList {
 
 # the sort is just for the presentation 
   foreach my $m (sort keys %{$self->{modules}}) {
+    next unless $self->{modules}->{$m}->{checkFunc};
 # find modules to disable and their submodules
     if($self->{modules}->{$m}->{enable} &&
     !&{$self->{modules}->{$m}->{checkFunc}}({

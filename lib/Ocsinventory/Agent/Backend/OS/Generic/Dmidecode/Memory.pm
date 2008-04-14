@@ -1,7 +1,5 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::Memory;
 use strict;
-sub check {1}
-
 
 sub run {
   my $params = shift;

@@ -9,8 +9,6 @@ use strict;
 
 # No check here. If Win32::OLE and Win32::OLE::Variant not avalaible, the module
 # will fail to load.
-sub check {1}
-
 
 sub run {
   my $params = shift;
