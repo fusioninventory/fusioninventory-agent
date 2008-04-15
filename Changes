@@ -1,6 +1,8 @@
 Revision history for Ocsinventory::Agent
 
 0.0.9.2 04/14/2008 Bug fixes
+       * Download::Store: used absolute path to "cp" on STORE action (Pascal DANEK)
+       * Download::Store: set -dpR flags to "cp" (Pascal DANEK)
        * Solaris: Replaced hostid in serialnumber by real serialnumber (Nicolas DORFSMAN)
                   (SUNWsneep becomes mandatory on sparc)
        * Solaris: Return only one IP address (trying to guess which one corresponds to hostname) (Nicolas DORFSMAN)
