@@ -9,12 +9,13 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
+# use dpkg-query -W -f='${Package}|||${Version}\n'
   foreach(`COLUMNS=200 dpkg -l`) {
      if (/^ii\s+(\S+)\s+(\S+)\s+(.*)/) {
       $inventory->addSoftwares ({
-	  'NAME'          => $2,
-	  'VERSION'       => $3,
-	  'COMMENTS'      => "$4($1)",
+	  'NAME'          => $1,
+	  'VERSION'       => $2,
+	  'COMMENTS'      => $3,
 	  });
     }
 
