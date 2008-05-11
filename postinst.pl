@@ -37,9 +37,9 @@ sub prompt {
 
         print ">\n";
         chomp($line = <STDIN>);
-
+print "DEBUG: ".$line."\n";
         if ($line =~ /^$/ and $default) {
-            print "[nfo] Using the default value ($default)\n";
+            print "[info] Using the default value ($default)\n";
             $line = $default;
             last;
         }
@@ -135,13 +135,15 @@ if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent
     }
 
     my $admcontent = '';
-    open(ADM, "<:encoding(iso-8859-1)", "$old_linux_agent_dir/ocsinv.adm")
-        or die "Can't open $old_linux_agent_dir/ocsinv.adm";
-    $admcontent .= $_ foreach (<ADM>);
-    close ADM;
-    my $admdata = XMLin($admcontent) or die;
-    foreach (@{$admdata->{ACCOUNTINFO}}) {
-        $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
+    if (!open(ADM, "<:encoding(iso-8859-1)", "$old_linux_agent_dir/ocsinv.adm")) {
+        warn "Can't open $old_linux_agent_dir/ocsinv.adm";
+    } else {
+        $admcontent .= $_ foreach (<ADM>);
+        close ADM;
+        my $admdata = XMLin($admcontent) or die;
+        foreach (@{$admdata->{ACCOUNTINFO}}) {
+            $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
+        }
     }
 }
 
@@ -220,7 +222,7 @@ if (-d "/etc/cron.d") {
 }
 
 
-$config->{basevardir} = prompt('Where do you want the agent to store its files?', exists ($config->{basevardir})?$config->{basevardir}:'/var/lib/ocsinventory-agent', '/^\/\w+/', 'The location must begin with /');
+$config->{basevardir} = prompt('Where do you want the agent to store its files?', exists ($config->{basevardir})?$config->{basevardir}:'/var/lib/ocsinventory-agent', '^\/\w+', 'The location must begin with /');
 
 if (!-d $config->{basevardir}) {
     if (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n")) {
@@ -278,7 +280,7 @@ print MODULE "# created for the previous linux_agent.\n";
 print MODULE "# The new unified_agent have its own extension system that allow\n";
 print MODULE "# user to add new information easily.\n";
 print MODULE "\n";
-print MODULE ($download_enable?'#':'');
+print MODULE ($download_enable?'':'#');
 print MODULE "use Ocsinventory::Agent::Option::Download;\n";
 print MODULE "\n";
 print MODULE "# DO NO REMOVE the 1;\n";

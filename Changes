@@ -20,7 +20,9 @@ UNRELEASED YET
        * apply a patch by Etienne GUILLAUMONT to fix CPU detection on AIX 4 
        * standalone.sh checks PAR::Packer presence now
        * only inventory installed .deb
-
+       * postinst.pl: accept another vardir if the first one was invalide
+         https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1961771&group_id=58373 
+       
 0.0.9.2 04/18/2008 Bug fix
        * Add /ocsinventory in the server path if the user enter just the hostname
          https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1945865&group_id=58373
