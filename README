@@ -22,6 +22,7 @@ PREREQUISITES
    - get-edid from the read-edid package
   On Solaris/sparc, you must install sneep and record the Serial Number with it :
     (download it from http://www.sun.com/download/products.xml?id=4304155a)
+  On MacOSX you'll need Mac::SysProfile to collect the device informations.
 
 BUILDING/INSTALLING
 

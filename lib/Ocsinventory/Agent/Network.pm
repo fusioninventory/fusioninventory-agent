@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
+use LWP::Debug qw(+ -conns);
 
 use Ocsinventory::Compress;
 
@@ -40,6 +41,9 @@ sub new {
   my $version = 'OCS-NG_unified_unix_agent_v';
   $version .= exists ($self->{params}->{VERSION})?$self->{params}->{VERSION}:'';
   $self->{ua}->agent($version);
+  print     "((".$self->{params}->{realm}.",".
+    $self->{params}->{user}.",".
+    $self->{params}->{password}."";
   $self->{ua}->credentials(
     $uaserver, # server:port, port is needed 
     $self->{params}->{realm},

@@ -28,15 +28,15 @@ recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 
 install_script  'ocsinventory-agent';
-bundle 'Compress::Zlib' => undef;
-bundle 'Digest::MD5' => undef;
-bundle 'File::Temp' => undef;
-bundle 'Net::IP' => undef;
-bundle 'XML::Simple' => undef;
-bundle 'XML::SAX' => undef;
-bundle 'XML::NamespaceSupport' => undef;
-bundle 'URI' => undef;
-bundle 'LWP' => undef;
+#bundle 'Compress::Zlib' => undef;
+#bundle 'Digest::MD5' => undef;
+#bundle 'File::Temp' => undef;
+#bundle 'Net::IP' => undef;
+#bundle 'XML::Simple' => undef;
+#bundle 'XML::SAX' => undef;
+#bundle 'XML::NamespaceSupport' => undef;
+#bundle 'URI' => undef;
+#bundle 'LWP' => undef;
 
 
 if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
@@ -77,6 +77,11 @@ if ($^O =~ /(linux|bsd)/i && $t[0] =~ /(i[3456x]86)/) {
         print "$_ is needed if you want complet inventory.\n" unless can_run($_);
         wait();
     }
+}
+
+if ($^O !~ /^darwin$/ && !can_use('Mac::SysProfile')) {
+    print "Mac::SysProfile is needed on MacOS to detect most of the device information.\n";
+    die;
 }
 
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`

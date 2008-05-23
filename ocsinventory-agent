@@ -542,6 +542,10 @@ x86 and Sparc
 
 tested on AIX 5.1, 5.2 and 5.3 (PPC)
 
+=item F<MacOSX>
+
+tested with system from 10.3.9 to 10.5.2 
+
 =head1 OPTIONS
 
 Most of the options are available in a I<short> form and a I<long> form.  For
@@ -673,6 +677,8 @@ Copyright (C) 2007 Thierry LACOSTE <lacoste@univ-paris12.fr>
 Copyright (C) 2007 Didier LIROULET <dliroulet@users.sourceforge.net>
 
 Copyright (C) 2008 Nicolas DORFSMAN
+
+Copyright (C) 2008 Wes YOUNG
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
