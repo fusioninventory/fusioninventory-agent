@@ -13,7 +13,7 @@ if [ ! -f MANIFEST ]; then
     exit 1
 fi
 
-if [ ! -x "`which zpp 2>/dev/null`" ]; then
+if [ ! -x "`which pp 2>/dev/null`" ]; then
     echo "Can't find the pp command. Please install PAR::Packer:"
     echo " -CPAN: 'cpan PAR::Packer'"
     echo " -source: sownload the archive from"
