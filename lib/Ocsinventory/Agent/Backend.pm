@@ -87,7 +87,8 @@ sub initModList {
         wanted => sub {
           push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
         },
-        follow => 1
+        follow => 1,
+	follow_skip => 2
       }
       , @dirToScan);
   }

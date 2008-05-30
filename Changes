@@ -24,6 +24,8 @@ UNRELEASED YET
          https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1961771&group_id=58373
        * postinst.pl Download.pm correctly actived in modules.conf is the user needs it
        * add MacOSX support thanks to Wes YOUNG
+       * add the follow_skip==2 flag to File::Find in Backend.pm so it doesn't detect the same
+         file two time
        
 0.0.9.2 04/18/2008 Bug fix
        * Add /ocsinventory in the server path if the user enter just the hostname
