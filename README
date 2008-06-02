@@ -11,6 +11,7 @@ PREREQUISITES
     XML::Simple
     Net::IP
     Proc::Daemon (optional, only for Daemon mode)
+    Proc::PID::File (optional but brings the pid file support)
     LWP
     Compress::Zlib: needed for OCS server prior 1.02
   On Linux and *BSD (i386, amd64, ia64) dmidecode is required to read the BIOS stats.

@@ -171,17 +171,23 @@ sub version {
   exit 0;
 }
 
-# TODO
-#sub savepid {
-#  my $pidfile = shift;
-#
-#  my $lastpid;
-#
-#  if (open PIDFILE, "<,$pidfile" ) {
-#    my ($lastpid) = <PIDFILE>;
-#    print $lastpid;
-#  }
-#}
+sub isAgentAlreadyRunning {
+  my $params = shift;
+  my $logger = $params->{logger};
+  # TODO add a workaround if Proc::PID::File is not installed
+  eval { require Proc::PID::File; };
+  if(!$@) {
+    $logger->debug('Proc::PID::File avalaible, checking for pid file');
+    if (Proc::PID::File->running()) {
+      $logger->debug('parent process already exists');
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
+
 #####################################
 ################ MAIN ###############
 #####################################
@@ -212,6 +218,10 @@ my $logger = new Ocsinventory::Logger ({
     params => $params
 
   });
+
+exit if isAgentAlreadyRunning({
+  logger => $logger,
+});
 
 if ($params->{nosoftware}) {
     $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
@@ -342,10 +352,6 @@ if ($params->{daemon}) {
   }
   Proc::Daemon::Init();
   $logger->debug("Daemon started");
-#  $pid = new Ocsinventory::Agent::Pid ({
-#      logger => $logger,
-#      params => $params,
-#    });
   
 }
 
