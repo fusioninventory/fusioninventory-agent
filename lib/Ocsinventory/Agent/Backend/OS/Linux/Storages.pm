@@ -140,7 +140,7 @@ sub run {
     foreach my $hd (@devices) {
 #Serial & Firmware
       if (!$hd->{SERIALNUMBER} || !$hd->{FIRMWARE}) {
-        my $cmd = "hdparm -I /dev/".$hd->{NAME}.">>/dev/null";
+        my $cmd = "hdparm -I /dev/".$hd->{NAME}."2>>/dev/null";
         foreach (`$cmd`) {
           if (/^\s+Serial Number\s*:\s*(.+)/ && !$hd->{SERIALNUMBER}) {
             $hd->{SERIALNUMBER} = $1;
