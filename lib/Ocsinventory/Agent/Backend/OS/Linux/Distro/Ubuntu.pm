@@ -1,6 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::Ubuntu;
 use strict;
 
+use vars qw($runAfter);
+$runAfter = ["Ocsinventory::Agent::Backend::OS::Linux::Distro::Debian"];
+
 sub check {-f "/etc/ubuntu_version"}
 
 #####

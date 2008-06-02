@@ -1,19 +1,19 @@
 package Ocsinventory::Agent::Backend::OS::Win32::Networks;
 # http://techtasks.com/code/viewbookcode/1417
 
-use Win32::OLE qw(in);
-use Win32::OLE::Variant;
 
-use Net::IP qw(:PROC);;
 use strict;
 
 # No check here. If Win32::OLE and Win32::OLE::Variant not avalaible, the module
 # will fail to load.
 
+sub check {
+  can_load("Win32::OLE") && can_load("Win32::OLE::Variant") :: can_load("Net::IP qw(:PROC)");
+}
+
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
-	
 
   my $strComputer = '.';
   my $objWMIService = Win32::OLE->GetObject('winmgmts:' . '{impersonationLevel=impersonate}!\\\\' . $strComputer . '\\root\\cimv2');
@@ -36,7 +36,7 @@ foreach my $nic (in $nics) {
 
     $description = $nic->Description;
 
-foreach ($nic->IPAddress}) {
+foreach ($nic->IPAddress) {
     $ipaddress += '/' if $ipaddress;
     $ipaddress += $_;
 }

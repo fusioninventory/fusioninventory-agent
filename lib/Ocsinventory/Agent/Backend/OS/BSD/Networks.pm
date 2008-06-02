@@ -1,12 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::BSD::Networks;
 
-use Net::IP qw(:PROC);;
-
 use strict;
 
 sub check {
-  my @ifconfig = `ifconfig -a 2>/dev/null`;
-  return @ifconfig?1:0;
+  can_run("ifconfig") && can_load("Net::IP qw(:PROC)")
 }
 
 
@@ -16,7 +13,6 @@ sub _ipdhcp {
   my $path;
   my $ipdhcp;
   my $leasepath;
-
 
   foreach ( # XXX BSD paths
     "/var/db/dhclient.leases.%s",

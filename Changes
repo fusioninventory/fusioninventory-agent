@@ -29,6 +29,7 @@ UNRELEASED YET
 TODO       * correctly detect Ubuntu system
        * import of backend module for RAID controler on Linux (3ware, Adaptec, HP and Lsilogic).
          Thank you Edouard GAMIN
+       * remove a warning in Debug mod, if a backend module has no run() function
 
        
 0.0.9.2 04/18/2008 Bug fix

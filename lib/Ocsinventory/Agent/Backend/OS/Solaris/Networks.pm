@@ -5,17 +5,10 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Networks;
 #        inet 55.37.101.171 netmask fffffc00 broadcast 55.37.103.255
 #        ether 0:3:ba:24:9b:bf
 
-use Net::IP qw(:PROC);;
-
 use strict;
 
 sub check {
-  `ifconfig -a 2>&1`;
-  return if ($? >> 8)!=0;
-
-  `netstat 2>&1`;
-  return if ($? >> 8)!=0;
-  1;
+  can_run("ifconfig") && can_run("netstat") && can_load ("Net::IP qw(:PROC)")
 }
 
 # Initialise the distro entry

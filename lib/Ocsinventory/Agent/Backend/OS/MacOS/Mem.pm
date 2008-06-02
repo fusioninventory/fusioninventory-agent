@@ -1,10 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Mem;
 use strict;
 
-use Mac::SysProfile; # macsysprofile, what a great "almost" module
-
 sub check {
     return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
+    return (undef) unless can_load("Mac::SysProfile");
     return 1;
 }
 
@@ -13,6 +12,8 @@ sub run {
     my $inventory = $params->{inventory};
 
     my $PhysicalMemory;
+
+    require Mac::SysProfile;
 
     # create the profile object and return undef unless we get something back
     my $pro = Mac::SysProfile->new();

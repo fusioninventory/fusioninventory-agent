@@ -1,16 +1,17 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::CPU;
 use strict;
 
-use Mac::SysProfile;
-
 sub check {
     return(undef) unless -r '/usr/sbin/system_profiler';
+    return(undef) unless can_load("Mac::SysProfile");
     return 1;
 }
 
 sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
+
+    require Mac::SysProfile;
 
     # create sysprofile obj. Return undef unless we get a return value
     my $pro = Mac::SysProfile->new();

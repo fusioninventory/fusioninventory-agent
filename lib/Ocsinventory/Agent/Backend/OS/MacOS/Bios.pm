@@ -1,13 +1,13 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Bios;
 use strict;
 
-use Mac::SysProfile;
-
-sub check { return 1; }
+sub check { can_load("Mac::SysProfile") }
 
 sub run {
         my $params = shift;
         my $inventory = $params->{inventory};
+
+	require "Mac::SysProfile";
 
         # use Mac::SysProfile to get the respected datatype
         my $prof = Mac::SysProfile->new();

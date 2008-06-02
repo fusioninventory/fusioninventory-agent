@@ -3,11 +3,10 @@ package Ocsinventory::Agent::Backend::OS::MacOS::Packages;
 use strict;
 use warnings;
 
-use Mac::SysProfile;
-
 sub check {
     my $params = shift;
 
+    return if can_load("Mac::SysProfile");
     # Do not run an package inventory if there is the --nosoft parameter
     return if ($params->{params}->{nosoft});
 
@@ -17,6 +16,8 @@ sub check {
 sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
+
+    require Mac::SysProfile;
 
     my $prof = Mac::SysProfile->new();
     my $apps = $prof->gettype('SPApplicationsDataType'); # might need to check version of darwin
