@@ -30,18 +30,18 @@ sub run {
     foreach my $hd (@devices) {
       open (PATH, '/proc/scsi/scsi');
 
-      # Example output:
-      #
-      # Attached devices:
-      # Host: scsi0 Channel: 00 Id: 00 Lun: 00
-      #   Vendor: Adaptec  Model: raid10           Rev: V1.0
-      #   Type:   Direct-Access                    ANSI  SCSI revision: 02
-      # Host: scsi0 Channel: 01 Id: 00 Lun: 00
-      #   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
-      #   Type:   Direct-Access                    ANSI  SCSI revision: 03
-      # Host: scsi0 Channel: 01 Id: 01 Lun: 00
-      #   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
-      #   Type:   Direct-Access                    ANSI  SCSI revision: 03
+# Example output:
+#
+# Attached devices:
+# Host: scsi0 Channel: 00 Id: 00 Lun: 00
+#   Vendor: Adaptec  Model: raid10           Rev: V1.0
+#   Type:   Direct-Access                    ANSI  SCSI revision: 02
+# Host: scsi0 Channel: 01 Id: 00 Lun: 00
+#   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
+#   Type:   Direct-Access                    ANSI  SCSI revision: 03
+# Host: scsi0 Channel: 01 Id: 01 Lun: 00
+#   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
+#   Type:   Direct-Access                    ANSI  SCSI revision: 03
 
       my ($host, $model, $firmware, $manufacturer, $size, $serialnumber);
       my $count = -1;
@@ -52,22 +52,22 @@ sub run {
             $model = $1;
             $firmware = $2;
             $manufacturer = Ocsinventory::Agent::Backend::OS::Linux::Storages::getManufacturer($model);
-	          foreach (`smartctl -i /dev/sg$count`) {
-	            $serialnumber = $1 if /^Serial number:\s+(\S*).*/;
-	          }
+            foreach (`smartctl -i /dev/sg$count`) {
+              $serialnumber = $1 if /^Serial number:\s+(\S*).*/;
+            }
             $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
-        	  $host = undef;
-          
-          	$inventory->addStorages({
-              NAME => $hd->{NAME},
-              MANUFACTURER => $manufacturer,
-              MODEL => $model,
-              DESCRIPTION => 'SATA',
-              TYPE => 'disk',
-              DISKSIZE => $size,
-              SERIALNUMBER => $serialnumber,
-              FIRMWARE => $firmware,
-            });
+            $host = undef;
+
+            $inventory->addStorages({
+                NAME => $hd->{NAME},
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => 'SATA',
+                TYPE => 'disk',
+                DISKSIZE => $size,
+                SERIALNUMBER => $serialnumber,
+                FIRMWARE => $firmware,
+                });
           }
         }
       }
