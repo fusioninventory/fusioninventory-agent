@@ -447,6 +447,7 @@ while (1) {
           utime $time,$time,$params->{next_timefile};
         }
         exit 1 unless $params->{daemon};
+        $sendInventory = 0;
       } elsif (!$prologresp->isInventoryAsked()) {
 	$sendInventory = 0;
       }
