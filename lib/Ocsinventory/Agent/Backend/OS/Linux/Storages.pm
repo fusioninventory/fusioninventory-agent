@@ -1,115 +1,186 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 use strict;
-#use vars qw($runAfter);
-#$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic::Domains"];
+
+sub check {1}
+
+sub getFromSysProc {
+  my($dev, $file) = @_;
+  my (@files, my $value);
+  @files = ("/sys/block/$dev/device/$file", "/proc/ide/$dev/$file");
+  foreach (@files) {
+    next unless open PATH, $_;
+    chomp(my $value = <PATH>);
+    $value =~ s/^(\w+)\W*/$1/;
+    return $value;    
+  }
+}
+
+sub getFromUdev {
+  my @devs;
+  foreach (glob ("/dev/.udev/db/*")) {
+    my ($scsi_coid, $scsi_chid, $scsi_unid, $scsi_lun, $path, $device, $vendor, $model, $revision, $serial, $serial_short, $type, $bus, $capacity);
+    if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/) {
+      $path = $1;
+      $device = $2;
+      open (PATH, $1 . $2);
+      while (<PATH>) {
+        if (/^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
+          $scsi_coid = $1;
+          $scsi_chid = $2;
+          $scsi_unid = $3;
+          $scsi_lun = $4;
+        }
+        $vendor = $1 if /^E:ID_VENDOR=(.*)/; 
+        $model = $1 if /^E:ID_MODEL=(.*)/; 
+        $revision = $1 if /^E:ID_REVISION=(.*)/;
+        $serial = $1 if /^E:ID_SERIAL=(.*)/;
+        $serial_short = $1 if /^E:ID_SERIAL_SHORT=(.*)/;
+        $type = $1 if /^E:ID_TYPE=(.*)/;
+        $bus = $1 if /^E:ID_BUS=(.*)/;
+      }
+      $capacity = getCapacity($device);
+      push (@devs, {NAME => $device, MANUFACTURER => $vendor, MODEL => $model, DESCRIPTION => $bus, TYPE => $type, DISKSIZE => $capacity, SERIALNUMBER => $serial_short, FIRMWARE => $revision, SCSI_COID => $scsi_coid, SCSI_CHID => $scsi_chid, SCSI_UNID => $scsi_unid, SCSI_LUN => $scsi_lun});
+      close (PATH);
+    }
+  }
+  return @devs;
+}
+
+sub getCapacity {
+  my ($dev) = @_;
+  my $cap;
+  chomp ($cap = `fdisk -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
+  $cap = int ($cap/1000000).'GB' if $cap;
+  return $cap;
+}
+
+sub getDescription {
+  my ($name, $manufacturer, $description) = @_;
+
+  # detected as USB by udev
+  # TODO maybe we should trust udev detection by default?
+  return "USB" if (defined ($description) && $description =~ /usb/i);
+
+  if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
+    if ($manufacturer =~ /ATA/) {
+      return  "SATA";
+    } else {
+      return "SCSI";
+    }
+  } else {
+    return "IDE";
+  }
+}
+
+sub getManufacturer {
+  my ($model) = @_;
+  if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
+    return ucfirst(lc($1));
+  }
+  elsif ($model =~ /^HP/) {
+    return "Hewlett Packard";
+  }
+  elsif ($model =~ /^WDC/) {
+    return "Western Digital";
+  }
+  elsif ($model =~ /^ST/) {
+    return "Seagate";
+  }
+  elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
+    return "Hitachi";
+  }
+}
 
 sub run {
   my $params = shift;
+  my $logger = $params->{logger};
   my $inventory = $params->{inventory};
 
-  my $partitions;
-  my @values;
+  #Get hard drives values from udev, should work with any 2.6* kernel
+  my @devices = getFromUdev();
+
+#  foreach my $hd (@devices) {
+#    $logger->debug("Udev: $hd->{NAME}, $hd->{MANUFACTURER}, $hd->{MODEL}, $hd->{DESCRIPTION}, $hd->{TYPE}, $hd->{DISKSIZE}, $hd->{SERIALNUMBER}, $hd->{FIRMWARE}");
+#  }
+
+  #Get hard drives values from sys or proc in case getting them throught udev doesn't work
+  if (!@devices) {
+    my ($manufacturer, $model, $media, $firmware, $serialnumber, $capacity, $partitions, $description);
+    foreach (glob ("/sys/block/*")) {# /sys fs style
+      $partitions->{$1} = undef
+      if (/^\/sys\/block\/([sh]d[a-z])$/)
+    }
+    foreach (`fdisk -l`) {# call fdisk to list partitions
+      chomp;
+      next unless (/^\//);
+      $partitions->{$1} = undef
+      if (/^\/dev\/([sh]d[a-z])/);
+    }
+    foreach my $device (keys %$partitions) {
+
+      $manufacturer = getFromSysProc($device, "vendor");
+      $model = getFromSysProc($device, "model");
+      $media = getFromSysProc($device, "removable")?"removable":"disk";
+      $firmware = getFromSysProc($device, "rev");
+      $serialnumber = getFromSysProc($device, "serial");
+      
 
 
-  foreach (glob ("/sys/block/*")) {# /sys fs style
-    $partitions->{$1} = undef
-    if (/^\/sys\/block\/([sh]d[a-z])$/)
+#      $logger->debug("Sys: $device, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
+    
+      push (@devices, {NAME => $device, MANUFACTURER => $manufacturer, MODEL => $model, DESCRIPTION => $description, TYPE => $media, DISKSIZE => $capacity, SERIALNUMBER => $serialnumber, FIRMWARE => $firmware});
+
+    }
+
   }
-  foreach (`fdisk -l`) {# call fdisk to list partitions
-    chomp;
-    next unless (/^\//);
-    $partitions->{$1} = undef
-    if (/^\/dev\/([sh]d[a-z])/);
-  }
+ 
 
-  foreach my $device (keys %$partitions) {
-    my $manufacturer;
-    my $model;
-    my $description;
-    my $media;
-    my $type;
-    my $capacity;
-    my $firmware;
-    my $serialnumber;
-
-# Parse info from /sys
-    if (open VENDOR, "/sys/block/$device/device/vendor") {
-      chomp($manufacturer = <VENDOR>);
-      $manufacturer =~ s/^(\w+)\W*/$1/;# remove spaces
-      close VENDOR;
-    }
-    if (open MODEL, "/sys/block/$device/device/model") {
-      chomp($model = <MODEL>);
-      $model =~ s/^(\w+)\W*/$1/;
-      close MODEL;
-    }
-    if (open REMOVABLE, "/sys/block/$device/removable") {
-      chomp(my $removable = <REMOVABLE>);
-# i guess it's an hard drive if the media is not removable
-      $media = $removable?"removable":"disk";
-      close REMOVABLE;
-    }
-
-
-# Old style, fetch data from /proc
-    if(!$model) {
-      if (open MODEL, "/proc/ide/$device/model") {
-	chomp($model = <MODEL>);
-	close MODEL;
+  if (can_run("hdparm")) {
+	  foreach my $hd (@devices) {
+      #Serial & Firmware
+      if (!$hd->{SERIALNUMBER} || !$hd->{FIRMWARE}) {
+	  my $cmd = "hdparm -I /dev/".$hd->{NAME}.">>/dev/null";
+          foreach (`$cmd`) {
+             if (/^\s+Serial Number\s*:\s*(.+)/ && !$hd->{SERIALNUMBER}) {
+		     $hd->{SERIALNUMBER} = $1;
+	    }
+           if (/^\s+Firmware Revision\s*:\s*(.+)/i && !$hd->{FIRMWARE}) {
+$hd->{FIRMWARE} = $1;
+	    }
+          }
+        }
       }
-    }
-    if (!$media) {
-      if (open MEDIA, "/proc/ide/$device/media") {
-	chomp($media = <MEDIA>);
-	close MEDIA;
-      }
-    }
-
-    if (!$manufacturer) {
-      if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec)/i) {
-	$manufacturer=$1;
-      } elsif ($model =~ /^ST/) {
-	$manufacturer="seagate";
-      }
-    }
-
-    if ($device =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
-      if ($manufacturer =~ /ATA/) {
-	$description = "SATA";
-      } else {
-	$description = "SCSI";
-      }
-    } else {
-      $description = "IDE";
-    }
-    chomp ($capacity = `fdisk -s /dev/$device 2>/dev/null`);
-    $capacity = int ($capacity/1000) if $capacity;
-
-    #Serial & Firmware
-    `which hdparm 2>&1`;
-    if (($? >> 8) == 0 ) {
-      foreach (`hdparm -I /dev/$device`) {
-         $serialnumber = $1 if /^\s+Serial Number\s*:\s*(.+)/i;
-          $firmware = $1 if /^\s+Firmware Revision\s*:\s*(.+)/i;
-      }
-    }
-
-    $inventory->addStorages({
-	NAME => $device,
-	MANUFACTURER => $manufacturer,
-	MODEL => $model,
-	DESCRIPTION => $description,
-	TYPE => $media,
-	DISKSIZE => $capacity,
-	SERIALNUMBER => $serialnumber,
-	FIRMWARE => $firmware,
-      });
-
   }
 
 
+  foreach my $hd (@devices) {
+    if (($hd->{MANUFACTURER} ne 'AMCC') and ($hd->{MANUFACTURER} ne '3ware') and ($hd->{MODEL} ne '') and ($hd->{MANUFACTURER} ne 'LSILOGIC') and ($hd->{MANUFACTURER} ne 'Adaptec')) {
+      $hd->{DESCRIPTION} = getDescription($hd->{NAME}, $hd->{MANUFACTURER}, $hd->{DESCRIPTION});
+      
+      if (!$hd->{MANUFACTURER} or $hd->{MANUFACTURER} eq 'ATA') {
+        $hd->{MANUFACTURER} = getManufacturer($hd->{MODEL});
+      }
 
+      $hd->{CAPACITY} = getCapacity($hd->{NAME});
+      $hd->{MANUFACTURER} = getManufacturer($hd->{MODEL});
+
+#      $logger->debug("Add: $hd->{NAME}, $hd->{MANUFACTURER}, $hd->{MODEL}, $hd->{DESCRIPTION}, $hd->{TYPE}, $hd->{DISKSIZE}, $hd->{SERIALNUMBER}, $hd->{FIRMWARE}");
+    
+      $inventory->addStorages({
+        NAME => %$hd->{NAME},
+        MANUFACTURER => %$hd->{MANUFACTURER},
+        MODEL => %$hd->{MODEL},
+        DESCRIPTION => %$hd->{DESCRIPTION},
+        TYPE => %$hd->{TYPE},
+        DISKSIZE => %$hd->{DISKSIZE},
+        SERIALNUMBER => %$hd->{SERIALNUMBER},
+        FIRMWARE => %$hd->{FIRMWARE}
+      });  
+  
+    }
+    
+  }  
 
 }
 

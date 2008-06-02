@@ -26,6 +26,7 @@ requires 'LWP' => undef;
 requires 'File::Temp' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
+recommends 'Proc::PID::File' => undef;
 
 install_script  'ocsinventory-agent';
 #bundle 'Compress::Zlib' => undef;
