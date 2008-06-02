@@ -31,9 +31,12 @@ sub new {
     },
     can_load => sub {
       my $module = shift;
-      eval { require ($module) };
+
+      my $calling_namespace = caller(0);
+      eval "package $calling_namespace; use $module;";
+#      print STDERR "$module not loaded in $calling_namespace! $!: $@\n" if $@;
       return if $@;
-      eval { import $module };
+#      print STDERR "$module loaded in $calling_namespace!\n";
       1;
     },
     can_read => sub {
@@ -223,18 +226,20 @@ sub runMod {
 
   $logger->debug ("Running $m"); 
 
-  eval {
-  &{$self->{modules}->{$m}->{runFunc}}({
-      accountconfig => $self->{accountconfig},
-      accountinfo => $self->{accountinfo},
-      inventory => $inventory,
-      logger => $logger,
-      params => $self->{params},
-      prologresp => $self->{prologresp},
-      mem => $self->{modules}->{$m}->{mem},
-      storage => $self->{modules}->{$m}->{storage},
-      });
-  };
+  if ($self->{modules}->{$m}->{runFunc}) {
+    eval {
+      &{$self->{modules}->{$m}->{runFunc}}({
+          accountconfig => $self->{accountconfig},
+          accountinfo => $self->{accountinfo},
+          inventory => $inventory,
+          logger => $logger,
+          params => $self->{params},
+          prologresp => $self->{prologresp},
+          mem => $self->{modules}->{$m}->{mem},
+          storage => $self->{modules}->{$m}->{storage},
+          });
+    };
+  }
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
   $self->saveStorage($m, $self->{modules}->{$m}->{storage});
