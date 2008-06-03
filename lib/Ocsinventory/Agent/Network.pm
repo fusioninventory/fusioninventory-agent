@@ -5,7 +5,6 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
-use LWP::Debug qw(+ -conns);
 
 use Ocsinventory::Compress;
 
