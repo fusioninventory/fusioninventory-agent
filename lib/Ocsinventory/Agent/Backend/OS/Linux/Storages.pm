@@ -51,7 +51,7 @@ sub getCapacity {
   my ($dev) = @_;
   my $cap;
   chomp ($cap = `fdisk -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
-    $cap = int ($cap/1000000).'GB' if $cap;
+  $cap = int ($cap/1000) if $cap;
   return $cap;
 }
 
