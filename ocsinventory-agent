@@ -73,7 +73,7 @@ $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 my %options = (
-  "basevardir"      =>   \$params->{basevardir},
+  "basevardir=s"      =>   \$params->{basevardir},
   "d|daemon"        =>   \$params->{daemon},
   "debug"           =>   \$params->{debug},
   "devlib"          =>   \$params->{devlib},
