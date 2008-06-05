@@ -74,7 +74,7 @@ sub saveNextTime {
     
     my $time;
     if( $self->{prologFreqChanged} ){
-        $logger->info("Compute file_nexttime with random value");
+        $logger->debug("Compute next_time file with random value");
         $time  = time + int rand(($serverdelay?$serverdelay:$self->{params}->{delaytime})*3600);
     }
     else{
