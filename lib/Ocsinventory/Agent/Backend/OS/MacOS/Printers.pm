@@ -13,7 +13,6 @@ sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    require Mac::SysProfile;
     my $pro = Mac::SysProfile->new();
     my $h = $pro->gettype(DATATYPE());
     return(undef) unless(ref($h) eq 'HASH');

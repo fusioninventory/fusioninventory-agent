@@ -11,8 +11,6 @@ sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    require Mac::SysProfile;
-
     # create sysprofile obj. Return undef unless we get a return value
     my $pro = Mac::SysProfile->new();
     my $h = $pro->gettype('SPHardwareDataType');

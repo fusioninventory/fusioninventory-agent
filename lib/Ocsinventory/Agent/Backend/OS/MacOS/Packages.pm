@@ -17,8 +17,6 @@ sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    require Mac::SysProfile;
-
     my $prof = Mac::SysProfile->new();
     my $apps = $prof->gettype('SPApplicationsDataType'); # might need to check version of darwin
 

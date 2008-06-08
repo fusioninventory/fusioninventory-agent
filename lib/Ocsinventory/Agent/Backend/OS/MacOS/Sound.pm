@@ -13,7 +13,6 @@ sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    require Mac::SysProfile;
     # create profiler obj, bail if datatype fails
     my $pro = Mac::SysProfile->new();
     my $h = $pro->gettype(DATATYPE());

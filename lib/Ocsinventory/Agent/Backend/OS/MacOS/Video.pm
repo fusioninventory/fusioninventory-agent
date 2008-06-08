@@ -14,7 +14,6 @@ sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    require Mac::SysProfile;
     # run the profiler to get our datatype
     my $pro = Mac::SysProfile->new();
     my $h = $pro->gettype(DATATYPE());

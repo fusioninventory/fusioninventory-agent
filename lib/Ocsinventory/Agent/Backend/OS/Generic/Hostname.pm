@@ -11,7 +11,6 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  require Sys::Hostname;
   my $hostname;
 
   if (can_load("Sys::Hostname")) {

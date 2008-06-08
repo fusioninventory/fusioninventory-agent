@@ -13,8 +13,6 @@ sub run {
 
     my $PhysicalMemory;
 
-    require Mac::SysProfile;
-
     # create the profile object and return undef unless we get something back
     my $pro = Mac::SysProfile->new();
     my $h = $pro->gettype('SPMemoryDataType');
