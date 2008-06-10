@@ -505,7 +505,7 @@ sub saveLastState {
 
   if (!defined($self->{last_state_content})) {
 	  $self->processChecksum();
-	}
+  }
   if (open LAST_STATE, ">".$self->{params}->{last_statefile}) {
     print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
