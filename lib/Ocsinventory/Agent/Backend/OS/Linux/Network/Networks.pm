@@ -67,14 +67,12 @@ sub run {
   my $type;
 
   my %gateway;
-print STDERR "a\n";
   foreach (`route -n`) {
     if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
       $gateway{$1} = $2;
     }
   }
 
-print STDERR "a\n";
   foreach (`ifconfig -a`) {
     if (/^$/ && $description !~ /^(lo|vmnet\d+|sit\d+)$/) {
       # end of interface section 
@@ -88,7 +86,6 @@ print STDERR "a\n";
       if ( @wifistatus > 2 ) {
 	$type = "Wifi";
       }
-print STDERR "a\n";
 
       $ipgateway = $gateway{$ipsubnet}; 
 
