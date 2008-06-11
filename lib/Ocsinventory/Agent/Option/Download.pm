@@ -811,7 +811,7 @@ sub download_message{
 	# Compress data
 	$xml = Compress::Zlib::compress( $xml );
 	
-	my $URI = "http://".$current_context->{'OCS_AGENT_SERVER_NAME'}."/ocsinventory";
+	my $URI = $current_context->{'OCS_AGENT_SERVER_NAME'};
 	
 	# Send request
 	my $request = HTTP::Request->new(POST => $URI);
