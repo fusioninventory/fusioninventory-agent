@@ -80,13 +80,13 @@ sub run {
             $model = $1 if /.*Model:\s(.*)/;
             $description = $1 if /.*Interface Type:\s(.*)/;
             $media = $1 if /.*Drive Type:\s(.*)/;
-            $capacity = $1 if /.*Size:\s(.*)/;
+            $capacity = 1000*$1 if /.*Size:\s(.*)/;
             $serialnumber = $1 if /.*Serial Number:\s(.*)/;
             $firmware = $1 if /.*Firmware Revision:\s(.*)/;
           }
           $serialnumber =~ s/^\s+//;
-          $model =~ s/^ATA\s+//; #ex: ATA     WDC WD740ADFD-00
-            $model =~ s/\s+/ /;
+          $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
+          $model =~ s/\s+/ /;
           $manufacturer = Ocsinventory::Agent::Backend::OS::Linux::Storages::getManufacturer($model);
           if ($media eq 'Data Drive') {
             $media = 'disk';

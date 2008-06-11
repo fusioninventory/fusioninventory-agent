@@ -110,7 +110,7 @@ sub run {
 
                 $model = $1 if /^.*Model\s=\s(.*)/;
                 $serialnumber = $1 if /^.*Serial\s=\s(.*)/;
-                $capacity = $1 if /^.*Capacity\s=\s(.*GB).*/;
+                $capacity = 1024*$1 if /^.*Capacity\s=\s(\S+)\sGB.*/;
                 $firmware = $1 if /^.*Firmware Version\s=\s(.*)/;
               }
               foreach $hd (@devices) {
