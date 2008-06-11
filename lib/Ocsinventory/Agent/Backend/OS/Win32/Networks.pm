@@ -8,7 +8,7 @@ use strict;
 # will fail to load.
 
 sub check {
-  can_load("Win32::OLE") && can_load("Win32::OLE::Variant") :: can_load("Net::IP qw(:PROC)");
+  can_load("Win32::OLE") && can_load("Win32::OLE::Variant") && can_load("Net::IP qw(:PROC)");
 }
 
 sub run {
