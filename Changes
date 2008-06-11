@@ -1,6 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 UNRELEASED YET
+       * Fix a "ocs server name" => URI side effect (Pascal DANEK)
        * Download::Store: used absolute path to "cp" on STORE action (Pascal DANEK)
        * Download::Store: set -dpR flags to "cp" (Pascal DANEK)
        * Solaris: Replaced hostid in serialnumber by real serialnumber (Nicolas DORFSMAN)
