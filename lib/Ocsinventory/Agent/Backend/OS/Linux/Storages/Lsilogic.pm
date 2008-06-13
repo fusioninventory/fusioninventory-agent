@@ -54,7 +54,7 @@ sub run {
           $serialnumber = $1 if /^Serial number:\s+(\S*)/;
         }
         my $model = $2;
-        my $size = $4;
+        my $size = 1024*$4; # GB => MB
         my $firmware = $3;
         my $manufacturer = Ocsinventory::Agent::Backend::OS::Linux::Storages::getManufacturer($model);
         $logger->debug("Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware");
