@@ -21,9 +21,14 @@ sub run {
     foreach my $x (keys %$h){
         # tare out the slot number
         my $slot = $x;
+		# memory in 10.5
         if($slot =~ /^BANK (\d)\/DIMM\d/){
             $slot = $1;
         }
+		# 10.4
+		if($slot =~ /^SODIMM(\d)\/.*$/){
+			$slot = $1;
+		}
 
         my $size = $h->{$x}->{'Size'};
 
@@ -37,7 +42,7 @@ sub run {
             'SPEED'         => $h->{$x}->{'Speed'},
             'TYPE'          => $h->{$x}->{'Type'},
             'SERIALNUMBER ' => $h->{$x}->{'Serial Number'},
-            'DESCRIPTION'   => $h->{$x}->{'Part Number'},
+            'DESCRIPTION'   => $h->{$x}->{'Part Number'} | $x,
             'NUMSLOTS'      => $slot,
             'CAPTION'       => 'Status: '.$h->{$x}->{'Status'},
         });

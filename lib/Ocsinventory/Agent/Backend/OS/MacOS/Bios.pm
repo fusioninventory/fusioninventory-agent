@@ -13,13 +13,15 @@ sub run {
 
         # unless we get a real hash value, return with nothing
         return(undef) unless($nfo && ref($nfo) eq 'HASH');
+		
+		my $h = $nfo->{'Hardware Overview'};
 
         # set the bios informaiton from the apple system profiler
         $inventory->setBios({
                 SMANUFACTURER   => 'Apple Inc', # duh
-                SMODEL          => $nfo->{'Hardware Overview'}->{'Model Identifier'},
-                SSN             => $nfo->{'Hardware Overview'}->{'Serial Number'},
-                BVERSION        => $nfo->{'Hardware Overview'}->{'Boot ROM Version'},
+                SMODEL          => $h->{'Model Identifier'} || $h->{'Machine Model'},
+                SSN             => $h->{'Serial Number'},
+                BVERSION        => $h->{'Boot ROM Version'},
         });
 }
 

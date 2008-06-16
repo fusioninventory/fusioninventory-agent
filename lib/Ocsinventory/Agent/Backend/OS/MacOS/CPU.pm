@@ -19,9 +19,9 @@ sub run {
     $h = $h->{'Hardware Overview'};
 
     ######### CPU
-    my $processort  = $h->{'Processor Name'};
-    my $processorn  = $h->{'Number Of Processors'};
-    my $processors  = $h->{'Processor Speed'};
+    my $processort  = $h->{'Processor Name'} | $h->{'CPU Type'}; # 10.5 || 10.4
+    my $processorn  = $h->{'Number Of Processors'} || $h->{'Number Of CPUs'};
+    my $processors  = $h->{'Processor Speed'} || $h->{'CPU Speed'};
 
     # lamp spits out an sql error if there is something other than an int (MHZ) here....
     if($processors =~ /GHz$/){
