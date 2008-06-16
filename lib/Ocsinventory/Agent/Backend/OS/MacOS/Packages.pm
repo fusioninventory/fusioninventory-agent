@@ -6,7 +6,7 @@ use warnings;
 sub check {
     my $params = shift;
 
-    return if can_load("Mac::SysProfile");
+    return unless can_load("Mac::SysProfile");
     # Do not run an package inventory if there is the --nosoft parameter
     return if ($params->{params}->{nosoft});
 
