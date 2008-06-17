@@ -91,10 +91,11 @@ my %options = (
   "s|server=s"      =>   \$params->{server},
   "stdout"          =>   \$params->{stdout},
   "t|tag=s"         =>   \$params->{tag},
-  "u|user=s"          =>   \$params->{user},
+  "u|user=s"        =>   \$params->{user},
   "version"         =>   \$params->{version},
-  "w|wait=s"          =>   \$params->{wait},
-#  "x|xml"           =>   \$params{xml},
+  "w|wait=s"        =>   \$params->{wait},
+#  "x|xml"          =>   \$params{xml},
+  "delaytime"	    => 	 \$params->{delaytime},
 );
 
 ##########################################
@@ -156,6 +157,7 @@ sub help {
 #  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
   print STDERR "\t--nosoft           DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware       do not return installed software list (".$params->{nosoftware}.")\n";
+  print STDERR "\t--delaytime	     set a max delay time if no PROLOG_FREQ is set (".$params->{delaytime}.")\n";
 
   print STDERR "\n";
   print STDERR "Manpage:\n";
@@ -518,6 +520,9 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
     % ocsinventory-agent --lazy
     # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Usefull for package maintainer.
 
+    % ocsinventory-agent --delaytime 60 -d
+    # If NO PROLOG_FREQ has been preset, pick a time between execution and --delaytime for the agent to contact the server [default is 3600 seconds]
+
 =head1 DESCRIPTION
 
 F<ocsinventory-agent> creates inventory and sent or write them. This agent is the
@@ -580,6 +585,10 @@ Turn the debug mode on.
 =item B<--devlib>
 
 This option is designed for backend module developer. With it enabled, ocsinventry-agent won't try to load the Backend module installed on the system. Instead it will scan the ./lib directory.
+
+=item B<--delaytime=SECONDS_TO_WAIT>
+
+This option defaults to waiting a random() time between 0 and 3600 before initially contacting the server assuming NO PROLOG_FREQ has been set. Once PROLOG_FREQ has been set, it uses that number at the top end of it's random setting. Useful for pre-setting a deployed agent's initial start time (so you don't jam the server all at once, but don't have to wait an hour to make sure the deployment worked).
 
 =item B<-f>, B<--force>
 
@@ -687,7 +696,7 @@ Copyright (C) 2007 Didier LIROULET <dliroulet@users.sourceforge.net>
 
 Copyright (C) 2008 Nicolas DORFSMAN
 
-Copyright (C) 2008 Wes YOUNG
+Copyright (C) 2008 Wes YOUNG <http://claimid.com/saxjazman9>
 
 Copyright (C) 2008 Edouard GAMIN
 
