@@ -76,7 +76,7 @@ eval { # config_re is not avalaible on Perl 5.6
     my @t = Config::config_re('archname'); 
     $archname = @t[0];
 };
-if ($^O =~ /(linux|bsd)/i && $archname =~ /(i[3456x]86|x86_64|amd64)/i) {
+if ($^O =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd64)/i)) {
     foreach (qw/dmidecode lspci/) {
         if (!can_run($_)) {
             print "\n";
