@@ -37,7 +37,6 @@ sub prompt {
 
         print ">\n";
         chomp($line = <STDIN>);
-print "DEBUG: ".$line."\n";
         if ($line =~ /^$/ and $default) {
             print "[info] Using the default value ($default)\n";
             $line = $default;
@@ -198,14 +197,11 @@ if (ask_yn('Do you want to apply an administrative tag on this machine')) {
     delete($config->{tag});
 }
 
-my $binpath;
-foreach (qw(/usr/bin /usr/sbin /usr/local/bin /usr/local/sbin /opt/ocsinventory-agent/bin) ) {
-    $binpath = $_.'/ocsinventory-agent';
-    last if -x $binpath;
-}
+
+chomp(my $binpath=`which ocsinventory-agent 2>/dev/null`);
 
 if (! -x $binpath) {
-    print "sorry, ocsinventory-agent is not installed in a standard directory\n";
+    print "sorry, can't find ocsinventory-agent in \$PATH\n";
     exit 1;
 } else {
     print "ocsinventory agent presents: $binpath\n";
