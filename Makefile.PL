@@ -11,7 +11,7 @@ install :: all pure_install doc_install
 ';
 }
 
-use Config qw(config_re);
+use Config;
 
 name 'Ocsinventory-Agent';
 include 'Module::AutoInstall';
@@ -57,7 +57,6 @@ sub wait {
 
 if (!can_use('Compress::Zlib')) {
     print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n"; 
-    wait();
 }
 
 if (!can_use('Crypt::SSLeay')) {
@@ -69,20 +68,29 @@ if (!can_run('ipdiscover') && !can_run('nmap')) {
     print "or ipdiscover " if $^O =~ /^linux$/i;
     print "if you want to use the network ".
     "discover feature.\n";
-    wait();
 }
 
-my @t = config_re('archname');
-if ($^O =~ /(linux|bsd)/i && $t[0] =~ /(i[3456x]86)/) {
+
+my $archname;
+eval { # config_re is not avalaible on Perl 5.6
+    my @t = Config::config_re('archname'); 
+    $archname = @t[0];
+};
+if ($^O =~ /(linux|bsd)/i && $archname =~ /(i[3456x]86|x86_64|amd64)/i) {
     foreach (qw/dmidecode lspci/) {
-        print "$_ is needed if you want complet inventory.\n" unless can_run($_);
-        wait();
+        if (!can_run($_)) {
+            print "\n";
+            print "[WARNING] $_ is needed if you want a complet inventory on x86 and AMD64/x86_64.\n";
+            print "\n";
+        }
     }
 }
 
-if ($^O !~ /^darwin$/ && !can_use('Mac::SysProfile')) {
-    print "Mac::SysProfile is needed on MacOS to detect most of the device information.\n";
-    die;
+if ($^O =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
+    print "\n";
+    print "[WARNING] Mac::SysProfile is needed on MacOS to detect most of the device information.\n";
+    print "\n";
+    requires 'Mac::SysProfile' => undef;
 }
 
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
