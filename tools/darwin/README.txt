@@ -6,7 +6,8 @@ This README will help you roll your own native OSX, OCSNG.app client for enterpr
 PREREQUISITES
 
 - XCode 3.0
-- Darwin Perl dependancies [location TBD]
+- Darwin Perl dependancies [A tarball with all the PerlDep's you'll need for this to run in darwin-land, location TBD]
+- OCSNG.pmproj [Apple PackageMaker binrary settings file, location TBD]
 - PackageMaker
 
 BUILDING/INSTALLING
