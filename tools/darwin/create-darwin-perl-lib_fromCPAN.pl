@@ -56,7 +56,9 @@
 #
 # A simple: vi ~/.cpan/CPAN/MyConfig.pm should show that the changes were successful
 
-
+#
+# THIS IS A BETA SCRIPT! USE AT YOUR OWN RISK
+#
 
 use strict;
 use warnings;
