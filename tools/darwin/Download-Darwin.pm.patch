@@ -1,0 +1,52 @@
+--- Download.pm.orig	2008-06-21 17:16:31.000000000 -0400
++++ Download.pm	2008-06-21 17:10:29.000000000 -0400
+@@ -637,7 +637,8 @@
+ 				if(-e $p->{'NAME'}){
+ 					&log("Launching $p->{'NAME'}...");
+ 					chmod(0755, $p->{'NAME'}) or die("Cannot chmod: $!");
+-					$exit_code = system( "./".$exe_line );
++					$exit_code = system( "sudo installer -target / -pkg ./".$exe_line );
++					unless($exit_code == 0) { &log('installer fialed'); die(); }
+ 				}else{
+ 					die();
+ 				}
+@@ -665,7 +666,7 @@
+ 				
+ 				&log("Storing package to $p->{'PATH'}...");
+ 				# Stefano Brandimarte => Stevenson! <stevens@stevens.it>
+-				system(&_get_path('cp')." -dpr * ".$p->{'PATH'}) and die();
++				system(&_get_path('cp')." -pR * ".$p->{'PATH'}) and die();
+ 			}
+ 		};
+ 		if($@){
+@@ -703,7 +704,7 @@
+ 		if(-f "./$id/$id-$i"){
+ 			# We make a tmp working directory
+ 			if($i==1){
+-				open PACKAGE, ">$tmp/build.tar.gz" or return 1;
++				open PACKAGE, ">$tmp/build.zip" or return 1;
+ 			}
+ 			# We write each fragment in the final package
+ 			open FRAGMENT, "./$id/$id-$i" or return 1;
+@@ -718,18 +719,18 @@
+ 	}
+ 	close(PACKAGE);
+ 	# 
+-	if(check_signature($p->{'DIGEST'}, "$tmp/build.tar.gz", $p->{'DIGEST_ALGO'}, $p->{'DIGEST_ENCODE'})){
++	if(check_signature($p->{'DIGEST'}, "$tmp/build.zip", $p->{'DIGEST_ALGO'}, $p->{'DIGEST_ENCODE'})){
+ 		download_message($p, ERR_BAD_DIGEST);
+ 		return 1;
+ 	}
+ 	
+-	if( system( &_get_path("tar")." -xvzf $tmp/build.tar.gz -C $tmp") ){
++	if( system( &_get_path("unzip")." -o $tmp/build.zip -d $tmp/") ){
+ 		&log("Cannot extract $p->{'ID'}.");
+ 		download_message($p, ERR_BUILD);
+ 		return 1;
+ 	}
+ 	&log("Building of $p->{'ID'}... Success.");
+-	unlink("$tmp/build.tar.gz") or die ("Cannot remove build file: $!\n");
++	unlink("$tmp/build.zip") or die ("Cannot remove build file: $!\n");
+ 	return 0;
+ }
+ 
