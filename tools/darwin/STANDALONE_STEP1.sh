@@ -32,7 +32,12 @@ echo 'creating package-root for building .pkg under'
 mkdir -p ./package-root/Applications
 
 echo "Buidling unified source"
+cp ./Download-Darwin.pm.patch ../../
 cd ../../
+echo "Patching Download.pm for darwin use"
+patch ./lib/Ocsinventory/Agent/Option/Download.pm ./Download-Darwin.pm.patch
+
+echo "Building Makefile.pl...."
 perl Makefile.PL
 make
 cp -R blib/lib ./tools/darwin/$OCSNG_PATH/Contents/Resources
