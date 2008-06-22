@@ -15,9 +15,9 @@ BUILDING/INSTALLING
 - Check out CVS if needed
 - cd ./unified_unix_agent/tools/darwin
 - sh ./STANDALONE_STEP1.sh
-- modify ocsinventory-agent.cfg file for your organization
+- modify ocsinventory-agent.cfg file for your organization (TAG, server, logfile, etc...)
 - sh ./STANDALONE_STEP2.sh
-- take tarbal and deploy (or modify to taste)
+- take tarball and deploy (or modify to taste)
 
 COPYRIGHT
 
@@ -35,5 +35,3 @@ NOTE
 - Use these scripts at your own risk, I claim no responsibilty nor give any warranty that they work.
 
 - This package works on 10.4.9 - 10.5.3 [intel and ppc], I am working on a solution for 10.3.9 since the startup infrastructure in "Jag" is slightly different then the later versions.
-
-- This does NOT include the abilty to push downloads (yet). That functionality is still being tested.
