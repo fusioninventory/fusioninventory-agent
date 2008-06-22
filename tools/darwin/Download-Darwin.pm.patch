@@ -1,5 +1,10 @@
---- Download.pm.orig	2008-06-21 17:16:31.000000000 -0400
-+++ Download.pm	2008-06-21 17:10:29.000000000 -0400
+Index: Download.pm
+===================================================================
+RCS file: /cvsroot/ocsinventory/unified_unix_agent/lib/Ocsinventory/Agent/Option/Download.pm,v
+retrieving revision 1.11
+diff -u -r1.11 Download.pm
+--- Download.pm	11 Jun 2008 17:12:35 -0000	1.11
++++ Download.pm	22 Jun 2008 20:59:39 -0000
 @@ -637,7 +637,8 @@
  				if(-e $p->{'NAME'}){
  					&log("Launching $p->{'NAME'}...");
