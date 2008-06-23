@@ -39,6 +39,8 @@ TODO       * correctly detect Ubuntu system
        * postinst.pl use which to find ocsinventory-agent location
        * Makefile.PL, Perl 5.6 doesn't have Config::config_re, I call it from an eval now
        * Added --delaytime option as commandline / .cfg file adjustable (Wes YOUNG)
+       * standalone.sh, don't use grep -v since it's not POSIX
+
 
 0.0.9.2 04/18/2008 Bug fix
        * Add /ocsinventory in the server path if the user enter just the hostname
