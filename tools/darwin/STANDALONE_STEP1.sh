@@ -21,7 +21,7 @@ echo "Building OS X App"
 cd ocsng_app-xcode/
 xcodebuild
 cp -R ./build/UninstalledProducts/OCSNG.app ../
-#xcodebuild clean
+xcodebuild clean
 cd ../
 mkdir $OCSNG_PATH/Contents/Resources/lib
 
@@ -36,6 +36,11 @@ cp ./Download-Darwin.pm.patch ../../
 cd ../../
 echo "Patching Download.pm for darwin use"
 patch ./lib/Ocsinventory/Agent/Option/Download.pm ./Download-Darwin.pm.patch
+
+echo 'removing non-MacOS/Generic backend modules'
+cd ./lib/Ocsinventory/Agent/Backend/OS/
+rm -R -f `ls -l | grep -v MacOS | grep -v CVS | grep -v Generic`
+cd ../../../../../
 
 echo "Building Makefile.pl...."
 perl Makefile.PL
