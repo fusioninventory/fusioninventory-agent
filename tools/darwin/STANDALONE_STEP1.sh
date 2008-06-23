@@ -7,6 +7,11 @@ if [ ! -x ../../inc ]; then
 	exit 1;
 fi
 
+if [ ! -x ./darwin-perl-lib ]; then
+	echo "You're missing the darwin-perl-lib directory, did you run the create-darwin-perl-lib_fromCPAN.pl script?"
+	exit 1;
+fi
+
 if [ -x $OCSNG_PATH ]; then
 	echo "removing old $OCSNG_PATH"
         sudo rm -R -f $OCSNG_PATH
