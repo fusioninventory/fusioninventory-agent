@@ -1,0 +1,12 @@
+{
+  Description     = "Run OCS Inventory Mac Agent";
+  Provides        = ("OCS Inventory Mac Agent");
+  Requires        = ("Network");
+  OrderPreference = "None";
+  Messages =
+  {
+    start = "Starting the OCS Inventory Mac Agent";
+    stop  = "Stopping the OCS Inventory Mac Agent";
+  };
+}
+
