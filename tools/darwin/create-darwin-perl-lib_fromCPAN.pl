@@ -99,15 +99,14 @@ G/GA/GAAS/libwww-perl-5.813.tar.gz
 Mac::SysProfile
 Net::IP
 Proc::Daemon
-ECALDER/Proc::Pid::File
+Proc::PID::File
 XML::SAX
 XML::Parser
 XML::NamespaceSupport
 Compress::Zlib
 Compress::Raw::Zlib
 IO::Zlib
-IO::Compress::Zlib
-IO::Compress::Base
+IO-Compress-Zlib-2.011
 .
 
 # for ssl, include the Crypt::SSLeay library's
