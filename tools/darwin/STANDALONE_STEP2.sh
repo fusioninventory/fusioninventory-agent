@@ -6,6 +6,6 @@ sudo rm -R -f ./OCSNG.pkg
 sudo /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -proj OCSNG.pmproj -p ./OCSNG.pkg
 
 echo "taring up package and installer files"
-tar -zvcf OCSNG.pkg.tar.gz --exclude=CVS jag-startup/ org.ocsng.agent.plist OCSNG.pkg installer-darwin.sh uninstall-darwin.sh dscl-adduser.sh dscl-remove-user.sh ocsinventory-agent.cfg
+tar -zvcf OCSNG.pkg.tar.gz --exclude=CVS 10_3_9-startup/ org.ocsng.agent.plist OCSNG.pkg installer-darwin.sh uninstall-darwin.sh dscl-adduser.sh dscl-remove-user.sh ocsinventory-agent.cfg
 
 echo "done"

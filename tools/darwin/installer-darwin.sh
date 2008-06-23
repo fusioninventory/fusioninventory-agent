@@ -29,7 +29,7 @@ sudo chmod 660 $TPATH
 if [ "$OSVER" == "7.9.0" ]; then
 	echo "Found Jaguar OS, using 10.3 StartupItems setup"
 	TPATH="/System/Library/StartupItems"
-	sudo cp -R ./jag-startup/OCSInventory $TPATH/
+	sudo cp -R ./10_3_9-startup/OCSInventory $TPATH/
 	sudo chown -R root:wheel $TPATH/OCSInventory
 	sudo chmod 755 $TPATH/OCSInventory
 	sudo chmod 644 $TPATH/OCSInventory/StartupParameters.plist
