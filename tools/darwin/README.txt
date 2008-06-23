@@ -13,7 +13,12 @@ PREREQUISITES
 BUILDING/INSTALLING
 
 - Check out CVS if needed
+- copy the inc/ directory (might need to get it out of one of the previous releases) to unified_unix_agent
 - cd ./unified_unix_agent/tools/darwin
+- run the create-darwin-perl-lib_fromCPAN.pl script which will create the ~/darwin-perl-lib directory. This directory will stash a built version of all the perl libraries needed to run this client (ie: no running CPAN on the hosts you're deploying this on)
+	- READ THE SCRIPT BEFORE RUNNING, some CPAN configurations are needed prior to running
+	- You'll need CPAN, Perl (the development libraries for perl), so Xcode Tools (just about a full install).
+
 - sh ./STANDALONE_STEP1.sh
 - modify ocsinventory-agent.cfg file for your organization (TAG, server, logfile, etc...)
 - sh ./STANDALONE_STEP2.sh
@@ -34,4 +39,4 @@ NOTE
 
 - Use these scripts at your own risk, I claim no responsibilty nor give any warranty that they work.
 
-- This package works on 10.4.9 - 10.5.3 [intel and ppc], I am working on a solution for 10.3.9 since the startup infrastructure in "Jag" is slightly different then the later versions.
+- This package works on 10.3.9 - 10.5.3 [intel and ppc], It includes some modifications when running on OS 10.3.9 [panther] since the startup infrastructure is slightly different. The changes are in the installer-darwin.sh and it autochecks for darwin release [uname -r] 7.9.0. Otherwise it does its default install (Tiger and Leopard use LaunchD).
