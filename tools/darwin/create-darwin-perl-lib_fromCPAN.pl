@@ -95,7 +95,7 @@ LWP
 XML::Simple
 URI
 File::Listing
-GAAS/libwww-perl
+G/GA/GAAS/libwww-perl-5.813.tar.gz
 Mac::SysProfile
 Net::IP
 Proc::Daemon
@@ -103,6 +103,11 @@ ECALDER/Proc::Pid::File
 XML::SAX
 XML::Parser
 XML::NamespaceSupport
+Compress::Zlib
+Compress::Raw::Zlib
+IO::Zlib
+IO::Compress::Zlib
+IO::Compress::Base
 .
 
 # for ssl, include the Crypt::SSLeay library's
