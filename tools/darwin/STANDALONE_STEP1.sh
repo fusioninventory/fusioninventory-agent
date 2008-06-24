@@ -52,6 +52,7 @@ perl Makefile.PL
 make
 cp -R blib/lib ./tools/darwin/$OCSNG_PATH/Contents/Resources
 cp ocsinventory-agent ./tools/darwin/
+make clean
 
 echo 'patching main perl script for OS X'
 cd ./tools/darwin/

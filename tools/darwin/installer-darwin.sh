@@ -45,7 +45,7 @@ else
 	sudo chmod 644 $TPATH/org.ocsng.agent.plist
 
 	echo 'Loading Service'
-	sudo launchctl load $TPATH
+	sudo launchctl load $TPATH/org.ocsng.agent.plist
 
 	echo 'Starting Service'
 	sudo launchctl start org.ocsng.agent
