@@ -16,6 +16,7 @@ sudo mkdir $TPATH/
 sudo chown root:admin $TPATH/
 sudo chmod 770 $TPATH/
 sudo cp ./ocsinventory-agent.cfg $TPATH/
+sudo cp ./modules.conf $TPATH/
 
 TPATH="/var/lib/ocsinventory-agent"
 sudo mkdir -p $TPATH

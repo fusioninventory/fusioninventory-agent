@@ -32,6 +32,7 @@ mkdir $OCSNG_PATH/Contents/Resources/lib
 
 echo "Copying default config"
 cp ../../etc/default/ocsinventory-agent ./ocsinventory-agent.cfg
+cp ../../etc/ocsinventory-agent/modules.conf ./modules.conf
 
 echo 'creating package-root for building .pkg under'
 mkdir -p ./package-root/Applications
