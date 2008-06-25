@@ -22,6 +22,16 @@ if [ -x package-root ]; then
 	sudo rm -R -f package-root
 fi
 
+if [ -x OCSNG.pkg.tar.gz ]; then
+	echo 'removing old tarball'
+	rm OCSNG.pkg.tar.gz
+fi
+
+if [ -x OCSNG.pkg ]; then
+	echo 'removing old .pkg'
+	sudo rm -R -f OCSNG.pkg
+fi
+
 echo "Building OS X App"
 cd ocsng_app-xcode/
 xcodebuild
