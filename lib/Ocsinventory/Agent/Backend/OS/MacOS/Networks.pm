@@ -98,8 +98,6 @@ sub run {
     }
 
     # for each interface get it's parameters
-    use Data::Dumper;
-    warn Dumper(@list);
     foreach $description (@list) {
         $ipaddress = $ipmask = $macaddr = $status =  $type = undef;
         # search interface infos
