@@ -5,8 +5,8 @@ use strict;
 sub check {
 	my $r;
 	# we check far darwin because that's the _real_ underlying OS
-	$r = 1 if $^O =~ /^darwin$/;
-	$r;
+	$r = 1 if (uc($^O) =~ /^DARWIN$/);
+	return($r);
 }
 
 sub run {
@@ -16,27 +16,30 @@ sub run {
         my $OSName;
         my $OSComment;
         my $OSVersion;
-        my $OSLevel;
-
-        # Operating system informations
-        chomp($OSName=`uname -s`);
-        chomp($OSVersion=`uname -r`);
-
-        # Retrieve the origin of the kernel configuration file
-        my ($date, $origin, $kernconf);
-        for (`sysctl -n kern.version`) {
-                $date = $1 if /^\S.*\#\d+:\s*(.*)/;
-                ($origin,$kernconf) = ($1,$2) if /^\s+(.+):(.+)$/;
-        }
-        $kernconf =~ s/\/.*\///; # remove the path
-        $OSComment = $kernconf." (".$date.")\n".$origin;
-        # if there is a problem use uname -v
-        chomp($OSComment=`uname -v`) unless $OSComment;
-
+		
+		# if we can load the system profiler, gather the information from that
+		if(can_load("Mac::SysProfile")){
+			my $profile = Mac::SysProfile->new();
+			my $h = $profile->gettype('SPSoftwareDataType');
+			return(undef) unless(ref($h) eq 'HASH');
+			
+			$h = $h->{'System Software Overview'};
+			
+			$OSName = 'MacOSX';
+			$OSVersion = $h->{'System Version'};
+		} else {
+			# we can't load the system profiler, use the basic BSD stype information
+			# Operating system informations
+			chomp($OSName=`uname -s`);
+			chomp($OSVersion=`uname -r`);			
+		}
+		
+		# add the uname -v as the comment, not really needed, but extra info never hurt
+		chomp($OSComment=`uname -v`);
         $inventory->setHardware({
-                OSNAME => $OSName,
-                OSCOMMENTS => $OSComment,
-                OSVERSION => $OSVersion,
+                OSNAME		=> $OSName,
+                OSCOMMENTS	=> $OSComment,
+                OSVERSION	=> $OSVersion,
         });
 }
 
