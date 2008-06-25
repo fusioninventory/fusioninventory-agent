@@ -40,6 +40,7 @@ TODO       * correctly detect Ubuntu system
        * Makefile.PL, Perl 5.6 doesn't have Config::config_re, I call it from an eval now
        * Added --delaytime option as commandline / .cfg file adjustable (Wes YOUNG)
        * standalone.sh, don't use grep -v since it's not POSIX
+       * doesn't die if Storable.pm is missing like with perl 5.6
 
 
 0.0.9.2 04/18/2008 Bug fix

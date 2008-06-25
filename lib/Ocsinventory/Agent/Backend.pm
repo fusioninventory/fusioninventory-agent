@@ -4,7 +4,6 @@ use strict;
 no strict 'refs';
 use warnings;
 
-use Storable;
 use ExtUtils::Installed;
 
 sub new {
@@ -284,6 +283,17 @@ sub retrieveStorage {
 sub saveStorage {
     my ($self, $m, $data) = @_;
 
+    my $logger = $self->{logger};
+
+# Perl 5.6 doesn't provide Storable.pm
+    if (!exists &store) {
+        eval "use Storable;";
+        if ($@) {
+            $logger->debug("Storable.pm is not avalaible, can't save Backend module data");
+            return;
+        }
+    }
+
     my $storagefile = $self->{params}->{vardir}."/$m.storage";
     if ($data && keys (%$data)>1) {
 	store ($data, $storagefile) or die;
@@ -292,5 +302,6 @@ sub saveStorage {
     }
 
 }
+
 
 1;
