@@ -21,6 +21,8 @@ sudo cp ./modules.conf $TPATH/
 TPATH="/var/lib/ocsinventory-agent"
 sudo mkdir -p $TPATH
 sudo chown 3995:admin $TPATH
+sudo cp ./cacert.pem $TPATH/
+sudo chown 3995:admin $TPATH/cacert.pem
 
 TPATH="/var/log/ocsng.log"
 sudo touch $TPATH
