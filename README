@@ -5,7 +5,8 @@ DESCRIPTION
   is also possible (e.g: Win32).
 
 PREREQUISITES
-  
+
+  Perl 5.8. You can try the old linux_agent 1.01 if you still use Perl 5.6 on Linux)
   These modules are needed:
     Digest::MD5
     XML::Simple
