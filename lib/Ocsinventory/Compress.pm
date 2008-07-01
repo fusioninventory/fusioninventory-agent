@@ -14,10 +14,10 @@ sub new {
   eval{require Compress::Zlib;};
   $self->{mode} = 'natif' unless $@;
 
-  my @tmpgzip;
+  chomp(my $gzippath=`which gzip 2>/dev/null`);
   if ($self->{mode} eq 'natif') {
     $logger->debug ('Compress::Zlib is avalaible.');
-  } elsif (@tmpgzip = `gzip -h>>/dev/null` && @tmpgzip) {
+  } elsif (-x $gzippath) {
     $logger->debug (
 	'Compress::Zlib is not avalaible! The data will be compressed with
 	gzip instead but won\'t be accepted by server prior 1.02');
