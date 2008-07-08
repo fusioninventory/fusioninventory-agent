@@ -103,6 +103,7 @@ Proc::PID::File
 XML::SAX
 XML::Parser
 XML::NamespaceSupport
+Proc::PID::File
 Compress::Zlib
 Compress::Raw::Zlib
 IO::Zlib
