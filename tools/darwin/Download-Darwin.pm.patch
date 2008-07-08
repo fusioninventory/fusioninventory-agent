@@ -58,7 +58,7 @@ diff -u -r1.11 Download.pm
  				&log("Storing package to $p->{'PATH'}...");
  				# Stefano Brandimarte => Stevenson! <stevens@stevens.it>
 -				system(&_get_path('cp')." -dpr * ".$p->{'PATH'}) and die();
-+				system(&_get_path('cp')." -pR * ".$p->{'PATH'}) and die();
++				system(&_get_path('cp')." -R * ".$p->{'PATH'}) and die();
  			}
  		};
  		if($@){
