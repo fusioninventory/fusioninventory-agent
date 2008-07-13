@@ -11,6 +11,11 @@ echo 'Running user creation script'
 echo 'Running package installer'
 sudo installer -pkg OCSNG.pkg -target /
 
+INSTALL_PATH="/Applications/OCSNG.app"
+echo "Copying uninstall script to $INSTALL_PATH"
+sudo chmod 700 ./uninstall-darwin.sh
+sudo cp ./uninstall-darwin.sh $INSTALL_PATH/Contents/Resources/
+
 TPATH="/etc/ocsinventory-agent"
 sudo mkdir $TPATH/
 sudo chown root:admin $TPATH/
@@ -23,6 +28,11 @@ sudo mkdir -p $TPATH
 sudo chown 3995:admin $TPATH
 sudo cp ./cacert.pem $TPATH/
 sudo chown 3995:admin $TPATH/cacert.pem
+
+if [ -e ./cacert.pem ]; then
+	echo "copying cacert.pem to $TPATH/"
+	sudo cp ./cacert.pem $TPATH/
+fi
 
 TPATH="/var/log/ocsng.log"
 sudo touch $TPATH
