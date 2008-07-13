@@ -8,4 +8,6 @@ sudo /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMa
 echo "taring up package and installer files"
 tar -zvcf Agent-MacOSX.tar.gz --exclude=CVS 10_3_9-startup/ org.ocsng.agent.plist OCSNG.pkg installer-darwin.sh uninstall-darwin.sh dscl-adduser.sh dscl-remove-user.sh ocsinventory-agent.cfg modules.conf cacert.pem
 
+zip Agent-MacOSX org.ocsng.agent.plist OCSNG.pkg installer-darwin.sh uninstall-darwin.sh dscl-adduser.sh dscl-remove-user.sh ocsinventory-agent.cfg modules.conf cacert.pem
+
 echo "done"
