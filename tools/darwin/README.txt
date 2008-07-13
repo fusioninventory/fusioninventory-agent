@@ -21,6 +21,7 @@ BUILDING/INSTALLING
 
 - sh ./STANDALONE_STEP1.sh
 - modify ocsinventory-agent.cfg file for your organization (TAG, server, logfile, etc...)
+- IMPORTANT: if you're useing a private, self-created SSL certificate, you must include your cacert.pem file BEFORE running STANDALONE_STEP2.sh, you won't be able to download packages without it
 - sh ./STANDALONE_STEP2.sh
 - take tarball and deploy (or modify to taste)
 

@@ -114,6 +114,7 @@ IO-Compress-Zlib-2.011
 # NOTE: YOU NEED OPENSSL pre-compiled on the system for this to work... You've been warned.
 $deps{'SSL'} = [ text_to_hash( << '.') ];
 Crypt::SSLeay
+Net::SSLeay
 .
 
 # push all the dep's into a @missing array
