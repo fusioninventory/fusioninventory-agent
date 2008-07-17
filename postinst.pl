@@ -4,8 +4,13 @@ use strict;
 
 use lib 'lib';
 
-use XML::Simple;
 use Ocsinventory::Agent::Config;
+
+eval "use XML::Simple;";
+if ($@) {
+  print "Failed to load XML::Simple. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
+  exit 1;
+}
 
 my $old_linux_agent_dir = "/etc/ocsinventory-client";
 
