@@ -8,8 +8,8 @@ use Ocsinventory::Agent::Config;
 
 eval "use XML::Simple;";
 if ($@) {
-  print "Failed to load XML::Simple. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
-  exit 1;
+    print "Failed to load XML::Simple. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
+    exit 1;
 }
 
 my $old_linux_agent_dir = "/etc/ocsinventory-client";
@@ -19,12 +19,16 @@ my @cacert;
 
 sub ask_yn {
     my $prompt = shift;
+    my $default = shift;
+
+    die unless $default =~ /^(y|n)$/;
 
     print $prompt."?\n";
 
     while (1) {
-        print "Please enter 'y' or 'n'>\n";
+        print "Please enter 'y' or 'n'(default $default)>\n";
         chomp(my $line = <STDIN>);
+	$line = $default unless $line;
         return 1 if $line =~ /^y$/;
         return if $line =~ /^n$/;
     }
@@ -83,7 +87,7 @@ sub pickConfigdir {
 
 
     if (! -d $choices[$input]) {
-        if (ask_yn ("Do you want to create the directory ".$choices[$input]."?")) {
+        if (ask_yn ("Do you want to create the directory ".$choices[$input]."?", 'y')) {
             if (!mkdir $choices[$input]) {
                 print "Failed to create ".$choices[$input].". Are you root?\n";
                 exit 1;
@@ -118,14 +122,14 @@ sub recMkdir {
 ################### main ###########################
 ####################################################
 
-if (!ask_yn("Do you want to configure the agent")) {
+if (!ask_yn("Do you want to configure the agent", 'y')) {
     exit 0;
 }
 
 
 my $configdir = pickConfigdir ("/etc/ocsinventory", "/usr/local/etc/ocsinventory", "/etc/ocsinventory-agent");
 
-if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent settings be imported?")) {
+if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent settings be imported?", 'y')) {
     my $ocsinv = XMLin($old_linux_agent_dir.'/ocsinv.conf');
     my $server = '';
     $server .= 'http://' unless $ocsinv->{'OCSFSERVER'} =~ /^http(s|):\/\//;
@@ -145,9 +149,20 @@ if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent
         $admcontent .= $_ foreach (<ADM>);
         close ADM;
         my $admdata = XMLin($admcontent) or die;
-        foreach (@{$admdata->{ACCOUNTINFO}}) {
-            $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
-        }
+	use Data::Dumper;
+	print Dumper($admdata);
+	if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
+            foreach (@{$admdata->{ACCOUNTINFO}}) {
+                $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
+            }
+	} elsif (
+            exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
+            exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
+	    $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
+	    ) {
+	    print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
+            $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
+	}
     }
 }
 
@@ -184,7 +199,7 @@ if ($config->{server} =~ /^http(|s):\/\//) {
     $uri = "http://".$config->{server}."/ocsinventory"
 }
 
-if (ask_yn ("Do you need credential for the server? (You probably don't)")) {
+if (ask_yn ("Do you need credential for the server? (You probably don't)", 'n')) {
     $config->{user} = prompt("user".(exists($config->{user})?"(".$config->{user}.")":'' ));
     $config->{password} = prompt("password");
     print "[info] The realm can be found in the login popup of your Internet browser.\n[info] In general, it's something like 'Restricted Area'.\n";
@@ -195,9 +210,9 @@ if (ask_yn ("Do you need credential for the server? (You probably don't)")) {
     delete ($config->{realm});
 }
 
-if (ask_yn('Do you want to apply an administrative tag on this machine')) {
+if (ask_yn('Do you want to apply an administrative tag on this machine', 'y')) {
 
-    $config->{tag} = prompt("tag".(exists($config->{tag})?"(".$config->{tag}.")":'' ));
+    $config->{tag} = prompt("tag".(exists($config->{tag})?"(".$config->{tag}.")":'' ), $config->{tag});
 } else {
     delete($config->{tag});
 }
@@ -213,7 +228,7 @@ if (! -x $binpath) {
 }
 
 if (-d "/etc/cron.d") {
-    if (ask_yn("Do yo want to install the cron task in /etc/cron.d")) {
+    if (ask_yn("Do yo want to install the cron task in /etc/cron.d", 'y')) {
         my $randomtime = int(rand(60)).' '.int(rand(24));
 
         open DEST, '>/etc/cron.d/ocsinventory-agent' or die $!;
@@ -226,7 +241,7 @@ if (-d "/etc/cron.d") {
 $config->{basevardir} = prompt('Where do you want the agent to store its files?', exists ($config->{basevardir})?$config->{basevardir}:'/var/lib/ocsinventory-agent', '^\/\w+', 'The location must begin with /');
 
 if (!-d $config->{basevardir}) {
-    if (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n")) {
+    if (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n", 'y')) {
         mkdir $config->{basevardir} or die $!;
     } else {
         print "Please create the ".$config->{basevardir}." directory\n";
@@ -241,7 +256,7 @@ chmod 0600, "$configdir/ocsinventory-agent.cfg";
 
 print "New settings written! Thank you for using OCS Inventory\n";
 
-if (ask_yn ("Should I remove the old linux_agent")) {
+if (ask_yn ("Should I remove the old linux_agent", 'n')) {
     foreach (qw#
         /etc/ocsinventory-client
         /etc/logtotate.d/ocsinventor-client
@@ -269,7 +284,7 @@ if (@cacert) { # we need to migrate the certificat
     print "Certificat copied in ".$vardir."/cacert.pem\n";
 }
 
-my $download_enable = ask_yn("Do you want to use OCS-Inventory software deployment feature?");
+my $download_enable = ask_yn("Do you want to use OCS-Inventory software deployment feature?", 'y');
 
 open MODULE, ">$configdir/modules.conf" or die "Can't write modules.conf in $configdir: ".$!;
 print MODULE "# this list of module will be load by the at run time\n";
@@ -289,7 +304,7 @@ print MODULE "1;\n";
 close MODULE;
 
 
-if (ask_yn("Do you want to send an inventory of this machine?")) {
+if (ask_yn("Do you want to send an inventory of this machine?", 'y')) {
     #system("$binpath --force");
     system("./ocsinventory-agent --force");
     if (($? >> 8)==0) {
