@@ -118,6 +118,22 @@ sub recMkdir {
   1;
 }
 
+sub mkFullServerUrl {
+
+    my $server = shift;
+
+    my $ret = 'http://' unless $server =~ /^http(s|):\/\//;
+    $ret .= $server;
+   
+    if ($server !~ /http(|s):\/\/\S+\/\S+/) {
+        $ret .= '/ocsinventory';
+    }
+
+    return $ret;
+
+}
+
+
 ####################################################
 ################### main ###########################
 ####################################################
@@ -131,10 +147,7 @@ my $configdir = pickConfigdir ("/etc/ocsinventory", "/usr/local/etc/ocsinventory
 
 if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent settings be imported?", 'y')) {
     my $ocsinv = XMLin($old_linux_agent_dir.'/ocsinv.conf');
-    my $server = '';
-    $server .= 'http://' unless $ocsinv->{'OCSFSERVER'} =~ /^http(s|):\/\//;
-    $server .= $ocsinv->{'OCSFSERVER'}.'/ocsinventory';
-    $config->{server} = $server;
+    $config->{server} = mkFullServerUrl($ocsinv->{'OCSFSERVER'});
 
     if (-f $old_linux_agent_dir.'/cacert.pem') {
         open CACERT, $old_linux_agent_dir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
@@ -149,8 +162,6 @@ if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent
         $admcontent .= $_ foreach (<ADM>);
         close ADM;
         my $admdata = XMLin($admcontent) or die;
-	use Data::Dumper;
-	print Dumper($admdata);
 	if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
             foreach (@{$admdata->{ACCOUNTINFO}}) {
                 $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
@@ -187,7 +198,8 @@ if (-f $configdir."/ocsinventory-agent.cfg") {
 
 print "[info] The config file will be written in /etc/ocsinventory/ocsinventory-agent.cfg,\n";
 
-$config->{server} = prompt('What is the address of your ocs server', exists ($config->{server})?$config->{server}:'ocsinventory-ng');
+my $tmp = prompt('What is the address of your ocs server', exists ($config->{server})?$config->{server}:'ocsinventory-ng');
+$config->{server} = mkFullServerUrl($tmp);
 if (!$config->{server}) {
     print "Server is empty. Leaving...\n";
     exit 1;
@@ -218,7 +230,7 @@ if (ask_yn('Do you want to apply an administrative tag on this machine', 'y')) {
 }
 
 
-chomp(my $binpath=`which ocsinventory-agent 2>/dev/null`);
+chomp(my $binpath = `which ocsinventory-agent 2>/dev/null`);
 
 if (! -x $binpath) {
     print "sorry, can't find ocsinventory-agent in \$PATH\n";
@@ -299,17 +311,17 @@ print MODULE "\n";
 print MODULE ($download_enable?'':'#');
 print MODULE "use Ocsinventory::Agent::Option::Download;\n";
 print MODULE "\n";
-print MODULE "# DO NO REMOVE the 1;\n";
+print MODULE "# DO NOT REMOVE THE 1;\n";
 print MODULE "1;\n";
 close MODULE;
 
 
 if (ask_yn("Do you want to send an inventory of this machine?", 'y')) {
-    #system("$binpath --force");
-    system("./ocsinventory-agent --force");
+    system("$binpath --force");
     if (($? >> 8)==0) {
         print "   -> Success!\n";
     } else {
         print "   -> Failed!\n";
+	print "You may want to launch the agent with the --verbose or --debug flag.\n";
     }
 }

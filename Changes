@@ -48,6 +48,7 @@ TODO       * correctly detect Ubuntu system
        * postinst.pl yes/no questions have a default value now
        * postinst.pl fix a bug in the import of the old ocsinv.adm
          https://sourceforge.net/tracker/index.php?func=detail&aid=1991668&group_id=58373&atid=487492
+       * postinst.pl doesn't create two vardir directories anymore
 
 
 0.0.9.2 04/18/2008 Bug fix
