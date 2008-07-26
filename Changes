@@ -44,12 +44,12 @@ TODO       * correctly detect Ubuntu system
        * avoid a warning with gzip -h on AIX if Compress::Zlib is missing
        * README: depends on Perl 5.8
        * README: On solaris the Makefile needs gmake
+       * README: Add a note about crontab and PATH
        * Linux: redirect hdparm error to /dev/null
        * postinst.pl yes/no questions have a default value now
        * postinst.pl fix a bug in the import of the old ocsinv.adm
          https://sourceforge.net/tracker/index.php?func=detail&aid=1991668&group_id=58373&atid=487492
        * postinst.pl doesn't create two vardir directories anymore
-
 
 0.0.9.2 04/18/2008 Bug fix
        * Add /ocsinventory in the server path if the user enter just the hostname

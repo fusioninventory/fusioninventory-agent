@@ -57,6 +57,14 @@ NOTE
   Sun Studio seems to be needed to build the dependency.
   The generated Makefile needs gmake to be exectuted
 
+ Crontab:
+  If you use the crontab to launch the agent you'll probably have to redefine
+  the PATH. For example, just add something like:
+  PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+  At the begining of the cron file.
+
+
+
 CVS
 You can prepare a tarball from the CVS with these commands:
    perl Makefile.PL
