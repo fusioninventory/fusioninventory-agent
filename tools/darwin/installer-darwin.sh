@@ -65,3 +65,4 @@ else
 fi
 
 echo 'done'
+exit 0 
