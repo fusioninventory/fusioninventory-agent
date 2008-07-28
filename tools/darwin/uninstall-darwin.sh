@@ -9,7 +9,7 @@ if [ "$PID" !=  "" ]; then
 	sudo kill $PID
 fi
 
-FILES="/Library/Receipts/OCSNG.pkg/ /etc/ocsinventory-agent/ /var/lib/ocsinventory-agent/ /Applications/OCSNG.app /var/log/ocsng.log"
+FILES="/Library/Receipts/OCSNG* /etc/ocsinventory-agent/ /var/lib/ocsinventory-agent/ /Applications/OCSNG.app /var/log/ocsng.log"
 
 if [ "$OSVER" == "7.9.0" ]; then
 	FILES="$FILES /Library/StartupItems/OCSInventory"
