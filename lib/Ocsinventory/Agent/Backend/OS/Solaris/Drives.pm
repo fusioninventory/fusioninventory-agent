@@ -24,6 +24,13 @@ sub run {
 #Looking for mount points and disk space 
   for(`df -k`){
     if (/^Filesystem\s*/){next};
+    # on Solaris 10 /devices is an extra mount which we like to exclude
+    if (/^\/devices/){next};
+    # on Solaris 10 /platform/.../libc_psr_hwcap1.so.1 is an extra mount which we like to exclude
+    if (/^\/platform/){next};
+    # exclude cdrom mount point
+    if (/^\/.*\/cdrom/){next};
+
     if (!(/^\/.*/) && !(/^swap.*/)){next};
 
     if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){	

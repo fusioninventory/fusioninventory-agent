@@ -93,6 +93,10 @@ if ($^O =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
     requires 'Mac::SysProfile' => undef;
 }
 
+# memconf is needed by Solaris backend module
+if ($^O =~ /^solaris$/i) {
+    install_script  'memconf';
+}
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
 #auto_install;
 WriteAll;
