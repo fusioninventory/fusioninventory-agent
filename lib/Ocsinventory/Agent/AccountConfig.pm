@@ -8,81 +8,81 @@ use warnings;
 # DESPITE ITS NAME, ACCOUNTCONFIG IS NOT A CONFIG FILE!
 
 sub new {
-  my (undef,$params) = @_;
+    my (undef,$params) = @_;
 
-  my $self = {};
-  bless $self;
+    my $self = {};
+    bless $self;
 
-  $self->{params} = $params->{params};
-  my $logger = $self->{logger} = $params->{logger};
+    $self->{params} = $params->{params};
+    my $logger = $self->{logger} = $params->{logger};
 
-  # Configuration reading
-  $self->{xml} = {};
+    # Configuration reading
+    $self->{xml} = {};
 
-  if ($self->{params}->{accountconfig}) {
-    if (! -f $self->{params}->{accountconfig}) {
-        $logger->debug ('accountconfig file: `'. $self->{params}->{accountconfig}.
-  	" doesn't exist. I create an empty one");
-        $self->write();
-    } else {
-        eval {
-            $self->{xml} = XML::Simple::XMLin(
-              $self->{params}->{accountconfig},
-              SuppressEmpty => undef
-          );
-         };
+    if ($self->{params}->{accountconfig}) {
+        if (! -f $self->{params}->{accountconfig}) {
+            $logger->debug ('accountconfig file: `'. $self->{params}->{accountconfig}.
+                " doesn't exist. I create an empty one");
+            $self->write();
+        } else {
+            eval {
+                $self->{xml} = XML::Simple::XMLin(
+                    $self->{params}->{accountconfig},
+                    SuppressEmpty => undef
+                );
+            };
+        }
     }
-  }
-  
-  $self;
+
+    $self;
 }
 
 sub get {
-  my ($self, $name) = @_;
+    my ($self, $name) = @_;
 
-  my $logger = $self->{logger};
+    my $logger = $self->{logger};
 
-  return $self->{xml}->{$name} if $name;
-  return $self->{xml};
+    return $self->{xml}->{$name} if $name;
+    return $self->{xml};
 }
 
 sub set {
-  my ($self, $name, $value) = @_;
+    my ($self, $name, $value) = @_;
 
-  my $logger = $self->{logger};
+    my $logger = $self->{logger};
 
-  $self->{xml}->{$name} = $value;
-  $self->write(); # save the change
+    $self->{xml}->{$name} = $value;
+    $self->write(); # save the change
 }
 
 
 sub write {
-  my ($self, $args) = @_;
+    my ($self, $args) = @_;
 
-  my $logger = $self->{logger};
-  
-  return unless $self->{params}->{accountconfig};
-  my $xml = XML::Simple::XMLout( $self->{xml} , RootName => 'CONF',
-    NoAttr => 1 );
+    my $logger = $self->{logger};
 
-  my $fault;
-  if (!open CONF, ">".$self->{params}->{accountconfig}) {
+    return unless $self->{params}->{accountconfig};
+    my $xml = XML::Simple::XMLout( $self->{xml} , RootName => 'CONF',
+        NoAttr => 1 );
 
-    $fault = 1;
+    my $fault;
+    if (!open CONF, ">".$self->{params}->{accountconfig}) {
 
-  } else {
+        $fault = 1;
 
-    print CONF $xml;
-    $fault = 1 if (!close CONF);
+    } else {
 
-  }
+        print CONF $xml;
+        $fault = 1 if (!close CONF);
 
-  if (!$fault) {
-    $logger->debug ("ocsinv.conf updated successfully");
-  } else {
+    }
 
-    $logger->error ("Can't save setting change in `$self->{params}->{accountconfig}'");
-  }
+    if (!$fault) {
+        $logger->debug ("ocsinv.conf updated successfully");
+    } else {
+
+        $logger->error ("Can't save setting change in `$self->{params}->{accountconfig}'");
+    }
 }
 
 1;
