@@ -25,10 +25,12 @@ sub new {
   	" doesn't exist. I create an empty one");
         $self->write();
     } else {
-      $self->{xml} = XML::Simple::XMLin(
-        $self->{params}->{accountconfig},
-        SuppressEmpty => undef
-      );
+        eval {
+            $self->{xml} = XML::Simple::XMLin(
+              $self->{params}->{accountconfig},
+              SuppressEmpty => undef
+          );
+         };
     }
   }
   

@@ -54,6 +54,7 @@ TODO       * correctly detect Ubuntu system
          out.
          http://forums.ocsinventory-ng.org/viewtopic.php?pid=12569
        * fix the POD documentation, some mistakes were detected by Perl 5.10's perldoc.
+       * the agent doesn't crash anymore if ocsinv.adm or ocsinv.conf is corrupted
 
 0.0.9.2 04/18/2008 Bug fix
        * Add /ocsinventory in the server path if the user enter just the hostname

@@ -23,17 +23,23 @@ sub new {
         $self->write();
     } else {
   
-      my $xmladm = XML::Simple::XMLin(
-        $self->{params}->{accountinfofile},
-        ForceArray => [ 'ACCOUNTINFO' ]
-      );
+      my $xmladm;
+     
+      eval {
+          $xmladm = XML::Simple::XMLin(
+              $self->{params}->{accountinfofile},
+              ForceArray => [ 'ACCOUNTINFO' ]
+          );
+      };
   
-      # Store the XML content in a local HASH
-      for(@{$xmladm->{ACCOUNTINFO}}){
-        if (!$_->{KEYNAME}) {
-  	$logger->debug ("Incorrect KEYNAME in ACCOUNTINFO");
-        }
-        $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
+      if ($xmladm && exists($xmladm->{ACCOUNTINFO})) {
+          # Store the XML content in a local HASH
+          for(@{$xmladm->{ACCOUNTINFO}}){
+              if (!$_->{KEYNAME}) {
+                  $logger->debug ("Incorrect KEYNAME in ACCOUNTINFO");
+              }
+              $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
+          }
       }
     }
   } else { $logger->debug("No accountinfo file defined") }
