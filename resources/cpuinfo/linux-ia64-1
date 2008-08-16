@@ -1,0 +1,31 @@
+processor  : 0
+vendor     : GenuineIntel
+arch       : IA-64
+family     : Itanium 2
+model      : 2
+revision   : 1
+archrev    : 0
+features   : branchlong
+cpu number : 0
+cpu regs   : 4
+cpu MHz    : 1600.000009
+itc MHz    : 1600.009464
+BogoMIPS   : 2392.06
+siblings   : 1
+
+processor  : 1
+vendor     : GenuineIntel
+arch       : IA-64
+family     : Itanium 2
+model      : 2
+revision   : 1
+archrev    : 0
+features   : branchlong
+cpu number : 0
+cpu regs   : 4
+cpu MHz    : 1600.000009
+itc MHz    : 1600.009464
+BogoMIPS   : 2392.06
+siblings   : 1
+
+

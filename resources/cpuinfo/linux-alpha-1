@@ -1,0 +1,26 @@
+cpu                     : Alpha
+cpu model               : EV68CB
+cpu variation           : 7
+cpu revision            : 0
+cpu serial number       : JA30502089
+system type             : Titan
+system variation        : Privateer
+system revision         : 0
+system serial number    : AY31001636
+cycle frequency [Hz]    : 1250000000
+timer frequency [Hz]    : 1024.00
+page size [bytes]       : 8192
+phys. address bits      : 44
+max. addr. space #      : 255
+BogoMIPS                : 2484.04
+kernel unaligned acc    : 0 (pc=0,va=0)
+user unaligned acc      : 0 (pc=0,va=0)
+platform string         : AlphaServer ES45 Model 3B
+cpus detected           : 3
+cpus active             : 3
+cpu active mask         : 0000000000000007
+L1 Icache               : 64K, 2-way, 64b line
+L1 Dcache               : 64K, 2-way, 64b line
+L2 cache                : n/a
+L3 cache                : n/a
+

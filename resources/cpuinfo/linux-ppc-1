@@ -1,0 +1,7 @@
+processor       : 0
+cpu             : 604r
+clock           : ???
+revision        : 49.2 (pvr 0009 3102)
+bogomips        : 299.00
+machine         : PReP Utah (Powerstack II Pro4000)
+l2 cache        : 512KiB, parity disabled SRAM:synchronous, pipelined, no parity

@@ -1,0 +1,15 @@
+system type             : SGI Indigo2
+processor               : 0
+cpu model               : R4400SC V5.0  FPU V0.0
+BogoMIPS                : 74.75
+wait instruction        : no
+microsecond timers      : yes
+tlb_entries             : 48
+extra interrupt vector  : no
+hardware watchpoint     : yes
+ASEs implemented        :
+shadow register sets    : 1
+VCED exceptions         : 640580539
+VCEI exceptions         : 9972559
+
+

@@ -1,0 +1,24 @@
+Processor       : XScale-80219 rev 0 (v5l)
+BogoMIPS        : 593.10
+Features        : swp half fastmult edsp
+CPU implementer : 0x69
+CPU architecture: 5TE
+CPU variant     : 0x0
+CPU part        : 0x2e3
+CPU revision    : 0
+Cache type      : undefined 5
+Cache clean     : undefined 5
+Cache lockdown  : undefined 5
+Cache format    : Harvard
+I size          : 32768
+I assoc         : 32
+I line length   : 32
+I sets          : 32
+D size          : 32768
+D assoc         : 32
+D line length   : 32
+D sets          : 32
+
+Hardware        : Thecus N2100
+Revision        : 0000
+Serial          : 0000000000000000
