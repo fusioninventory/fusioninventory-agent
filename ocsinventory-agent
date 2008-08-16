@@ -221,7 +221,7 @@ my $logger = new Ocsinventory::Logger ({
 
   });
 
-if ($params->{nosoftware}) {
+if ($params->{nosoft}) {
     $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
     $params->{nosoftware} = 1 
 }
@@ -560,6 +560,8 @@ tested on AIX 5.1, 5.2 and 5.3 (PPC)
 
 tested with system from 10.3.9 to 10.5.2 
 
+=back
+
 =head1 OPTIONS
 
 Most of the options are available in a I<short> form and a I<long> form.  For
@@ -656,15 +658,19 @@ Else if duration is a numerical value, it will be used directly.
 
     % ocsinventory-agent --wait 5 --server localhost
 
-=item B<--nosoft>
+=item B<--nosoftware>, B<--nosoft>
 
-Do not inventory the software installed on the machin.
+Do not inventory the software installed on the machin. B<--nosoft> is deperecated, use B<--nosoftware>
+
+=back
 
 =head1 AUTHORS
 
 Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE, Didier LIROULET
 
 =head1 SEE ALSO 
+
+=over 4
 
 =item OCS-Inventory website,
 
@@ -677,6 +683,8 @@ Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE,
 =item and wiki 
 
  http://wiki.ocsinventory-ng.org/
+
+=back
 
 =head1 BUGS
 
