@@ -1,0 +1,37 @@
+#!/bin/sh
+
+. /etc/rc.common
+
+StartService ()
+{
+        ConsoleMessage "Running OCS Inventory Agent"
+	# Sleep so we can try to ensure network card is up (i.e. airport cards)
+	CheckForNetwork
+	ConsoleMessage "Network Status: ${NETWORKUP}"
+	until [ "${NETWORKUP}" = "-YES-" ]
+	do
+		NETWORKUP=""
+		ConsoleMessage "Network Status: ${NETWORKUP}"
+		ConsoleMessage "No Network, Sleeping 2min..."
+		sleep 120
+		CheckForNetwork
+	done
+
+	ConsoleMessage "Got Network..."
+
+	ConsoleMessage "Starting OCSNG.app as user _ocsng"
+
+	sudo -u _ocsng /Applications/OCSNG.app/Contents/MacOS/OCSNG
+
+	PID=`ps ax -e | grep OCSNG | grep -v grep | awk '{print $1}'`
+	# give the agent a chance to start
+	sleep 10
+
+	if [ "$PID" != '' ]; then
+		ConsoleMessage "Agent appears to have started under pid: $PID"
+	else
+		ConsoleMessage "Agent doesn't appear to be starting correctly. Check the logs"
+	fi
+}
+
+RunService "$1"

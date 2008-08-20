@@ -1,0 +1,23 @@
+--- ../unified_unix_agent/ocsinventory-agent	2008-06-04 06:58:09.000000000 -0400
++++ ocsinventory-agent	2008-06-08 13:42:33.000000000 -0400
+@@ -5,6 +5,11 @@
+ # forcer un upload si changement en local
+ # ajouter /etc/ocsinventory-agent.conf
+ 
++BEGIN {
++    push(@INC,'/Applications/OCSNG.app/Contents/Resources/lib/');
++}
++
++
+ use strict;
+ use warnings;
+ 
+@@ -39,7 +44,7 @@
+   'lazy'      =>  0,
+   'local'     =>  '',
+   #'logger'    =>  'Syslog,File,Stderr',
+-  'logger'    =>  'Stderr',
++  'logger'    =>  'File',
+   'logfile'   =>  'ocsinventory-agent.log',
+   'password'  =>  '',
+   'realm'     =>  '',
