@@ -228,7 +228,7 @@ sub download_prolog_reader{
 				
 				my($server_name,$server_port,$server_dir);
 				
-				if($_->{INFO_LOC}=~ /^(\w+):(\d{1,5})(.*)$/){
+				if($_->{INFO_LOC}=~ /^([^:]+):(\d{1,5})(.*)$/){
 					$server_name = $1;
 					$server_port = $2;
 					$server_dir = $3;
