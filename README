@@ -56,6 +56,8 @@ NOTE
  Solaris:
   Sun Studio seems to be needed to build the dependency.
   The generated Makefile needs gmake to be exectuted
+  The default installation will install the binary in /usr/perl5/5.XXXXX/bin,
+  set you $PATH variable according to that.
 
  Crontab:
   If you use the crontab to launch the agent you'll probably have to redefine
