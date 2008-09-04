@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-UNRELEASED YET
+0.0.10beta1    Thu, 04 Sep 2008 18:16:49 +0200
        * Fix a "ocs server name" => URI side effect (Pascal DANEK)
        * Download::Store: used absolute path to "cp" on STORE action (Pascal DANEK)
        * Download::Store: set -dpR flags to "cp" (Pascal DANEK)
@@ -28,7 +28,6 @@ UNRELEASED YET
          - Added tools/darwin/ support scripts/code for OS X enterprise deployment
        * add the follow_skip==2 flag to File::Find in Backend.pm so it doesn't detect the same
          file two time
-TODO       * correctly detect Ubuntu system
        * import of backend module for RAID controler on Linux (3ware, Adaptec, HP and Lsilogic)
          (Edouard GAMIN)
        * remove a warning in Debug mod, if a backend module has no run() function
