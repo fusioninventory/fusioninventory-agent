@@ -92,10 +92,10 @@ echo "building package"
 sudo rm -R -f ./OCSNG.pkg
 sudo /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -proj OCSNG.pmproj -p ./OCSNG.pkg
 
-FILES="Agent_MacOSX.packproj README INSTALL ver launchfiles OCSNG.pkg scripts ocsinventory-agent.cfg modules.conf cacert.pem"
+FILES="patches/tele_package.php-MacOSX.patch patches/multicritere.php-MacOSX.patch Agent_MacOSX.packproj README INSTALL ver launchfiles OCSNG.pkg scripts ocsinventory-agent.cfg modules.conf cacert.pem"
 
 mkdir Agent-MacOSX
 cp -R $FILES Agent-MacOSX/
-zip -r Agent-MacOSX Agent-MacOSX/
+zip -r Agent-MacOSX Agent-MacOSX/ -x \*CVS\*
 rm -R -f Agent-MacOSX/
 echo "done"
