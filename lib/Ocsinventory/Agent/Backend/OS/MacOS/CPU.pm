@@ -28,6 +28,9 @@ sub run {
             $processors =~ s/ GHz//;
             $processors = ($processors * 1000);
     }
+    if($processors =~ /MHz$/){
+            $processors =~ s/ MHz//;
+    }
 
     ### mem convert it to meg's if it comes back in gig's
     my $mem = $h->{'Memory'};
@@ -35,6 +38,10 @@ sub run {
         $mem =~ s/\sGB$//;
         $mem = ($mem * 1024);
     }
+    if($mem =~ /MB$/){
+	$mem =~ s/\sMB$//;
+    }
+
 
     $inventory->setHardware({
         PROCESSORT  => $processort,
