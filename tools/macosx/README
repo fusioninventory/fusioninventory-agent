@@ -29,7 +29,7 @@ COPYRIGHT
 
 See AUTHORS file. Ocsinventory-Agent is released under GNU GPL 2 licence. Portions of the Xcode project may fall under other, open licences (individual files will elaborate). The Xcode project files are not core pieces of OCSNG and are to be treated as a supplement tool for building the agent for OSX deployment.
 
-NOTE
+NOTES
 
 - Darwin tools contributed by claimid.com/saxjazman9, don't bug the core OCSNG guys with bugs and quirks... they have better things to do.
 
@@ -39,5 +39,7 @@ NOTE
   - adding launch daemons to launchd
 
 - Use these scripts at your own risk, I claim no responsibilty nor give any warranty that they work.
+
+- If you intend to use Package Deployment (via SSL), be sure to modify the cert file included. Also be sure to apply the supplied php patches to your webserver, which will allow you to select MacOSX as part of the deployment group.
 
 - This package works on 10.3.9 - 10.5.3 [intel and ppc], It includes some modifications when running on OS 10.3.9 [panther] since the startup infrastructure is slightly different. The changes are in the installer-darwin.sh and it autochecks for darwin release [uname -r] 7.9.0. Otherwise it does its default install (Tiger and Leopard use LaunchD).
