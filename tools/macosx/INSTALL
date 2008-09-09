@@ -12,6 +12,7 @@
 - Open up ICEBERG and browse to $TMP$/Agent-MacOSX/Agent_MacOSX.packproj
 - ensure that none of the "script" links are red
 - Use ICEBERG to build the deployment Package.
+- ICEBERG will build the Agent-MacOSX.pkg under the folder: ./Deployment
 
 This package will:
 
