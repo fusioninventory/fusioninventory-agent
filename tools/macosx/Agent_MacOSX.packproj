@@ -75,11 +75,11 @@
 									<key>GID</key>
 									<integer>80</integer>
 									<key>Path</key>
-									<string>/Volumes/Users/phear/Projects/ocsng/cvs/unified_unix_agent/tools/darwin/package-root/Applications/OCSNG.app</string>
+									<string>OCSNG.app</string>
 									<key>Path Type</key>
-									<integer>1</integer>
+									<integer>2</integer>
 									<key>Privileges</key>
-									<integer>360</integer>
+									<integer>365</integer>
 									<key>Type</key>
 									<integer>3</integer>
 									<key>UID</key>
