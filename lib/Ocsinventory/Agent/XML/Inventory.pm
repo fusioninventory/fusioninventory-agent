@@ -520,4 +520,53 @@ sub saveLastState {
 	(will be synchronized by GLPI!!): $!"); 
   }
 }
+
+sub addSection {
+  my ($self, $args) = @_;
+  my $logger = $self->{logger};
+  my $multi = $args->{multi};
+  my $tagname = $args->{tagname};
+ 
+  for( keys %{$self->{h}{CONTENT}} ){
+    if( $tagname eq $_ ){
+      $logger->debug("Tag name `$tagname` already exists - Don't add it");
+      return 0;
+    }
+  }
+  
+  if($multi){
+    $self->{h}{CONTENT}{$tagname} = [];
+  }
+  else{
+    $self->{h}{CONTENT}{$tagname} = {};
+  }
+  return 1;
+}
+
+sub feedSection{
+  my ($self, $args) = @_;
+  my $tagname = $args->{tagname};
+  my $values = $args->{data};
+  my $logger = $self->{logger};
+  
+  my $found=0;
+  for( keys %{$self->{h}{CONTENT}} ){
+    $found = 1 if $tagname eq $_;
+  }
+  
+  if(!$found){
+    $logger->debug("Tag name `$tagname` doesn't exist - Cannot feed it");
+    return 0;
+  }
+ 
+  if( $self->{h}{CONTENT}{$tagname} =~ /ARRAY/ ){
+    push @{$self->{h}{CONTENT}{$tagname}}, $args->{data};
+  }
+  else{
+    $self->{h}{CONTENT}{$tagname} = $values;
+  }
+
+  return 1;
+}
+
 1;
