@@ -1,16 +1,19 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::SuSE;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Ubuntu;
 use strict;
 
-sub check { can_read ("/etc/SuSE-release") }
+use vars qw($runAfter);
+$runAfter = ["Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Debian"];
+
+sub check {-f "/etc/ubuntu_version"}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/SuSE-release" or warn;
+  open V, "</etc/ubuntu_version" or warn;
   chomp ($v=<V>);
   close V;
-  $v;
+  return "Ubuntu $v";
 }
 
 sub run {
@@ -24,9 +27,6 @@ sub run {
       OSNAME => findRelease(),
       OSCOMMENTS => "$OSComment"
     });
-
 }
-
-
 
 1;

@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Redhat;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Redhat;
 use strict;
 
 sub check {-f "/etc/redhat-release" && !readlink ("/etc/redhat-release")}

@@ -1,16 +1,16 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Trustix;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Debian;
 use strict;
 
-sub check {-f "/etc/trustix-release"}
+sub check {-f "/etc/debian_version" || !-f "/etc/ubuntu_version"}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/trustix-release" or warn;
+  open V, "</etc/debian_version" or warn;
   chomp ($v=<V>);
   close V;
-  $v;
+  return "Debian GNU/Linux $v";
 }
 
 sub run {
@@ -25,7 +25,5 @@ sub run {
       OSCOMMENTS => "$OSComment"
     });
 }
-
-
 
 1;

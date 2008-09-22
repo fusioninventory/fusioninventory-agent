@@ -1,16 +1,18 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Debian;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Mandriva;
 use strict;
 
-sub check {-f "/etc/debian_version" || !-f "/etc/ubuntu_version"}
+sub check {-f "/etc/mandrake-release" && -f "/etc/mandriva-release"}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/debian_version" or warn;
+  open V, "</etc/mandriva-release" or warn;
   chomp ($v=<V>);
   close V;
-  return "Debian GNU/Linux $v";
+  return $v if $v;
+
+  0;
 }
 
 sub run {
@@ -24,6 +26,7 @@ sub run {
       OSNAME => findRelease(),
       OSCOMMENTS => "$OSComment"
     });
+
 }
 
 1;

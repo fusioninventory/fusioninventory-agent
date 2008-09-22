@@ -1,14 +1,14 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Fedora;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Mandrake;
 use strict;
 
-sub check {-f "/etc/fedora-release"}
+sub check {-f "/etc/mandrake-release" && !-f "/etc/mandriva-release"}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/fedora-release" or warn;
-  chomp ($v=<V>);
+  open V, "</etc/mandrake-release" or warn;
+  chomp ($v = <V>);
   close V;
   $v;
 }
@@ -24,8 +24,7 @@ sub run {
       OSNAME => findRelease(),
       OSCOMMENTS => "$OSComment"
     });
+
 }
-
-
 
 1;

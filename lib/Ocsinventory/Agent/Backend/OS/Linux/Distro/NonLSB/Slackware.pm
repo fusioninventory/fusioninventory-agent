@@ -1,17 +1,16 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Knoppix;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Slackware;
 use strict;
 
-sub check {-f "/etc/knoppix_version"}
+sub check {-f "/etc/slackware-version"}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/knoppix_version" or warn;
+  open V, "</etc/slackware-version" or warn;
   chomp ($v=<V>);
   close V;
-  print $v."\n";
-  return "Knoppix GNU/Linux $v";
+  $v;
 }
 
 sub run {
@@ -26,5 +25,6 @@ sub run {
       OSCOMMENTS => "$OSComment"
     });
 }
+
 
 1;

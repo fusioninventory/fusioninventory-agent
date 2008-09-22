@@ -1,18 +1,16 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Mandriva;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::SuSE;
 use strict;
 
-sub check {-f "/etc/mandrake-release" && -f "/etc/mandriva-release"}
+sub check { can_read ("/etc/SuSE-release") }
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/mandriva-release" or warn;
+  open V, "</etc/SuSE-release" or warn;
   chomp ($v=<V>);
   close V;
-  return $v if $v;
-
-  0;
+  $v;
 }
 
 sub run {
@@ -28,5 +26,7 @@ sub run {
     });
 
 }
+
+
 
 1;

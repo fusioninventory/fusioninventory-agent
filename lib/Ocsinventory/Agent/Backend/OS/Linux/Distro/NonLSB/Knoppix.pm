@@ -1,16 +1,17 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::Gentoo;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Knoppix;
 use strict;
 
-sub check {-f "/etc/gentoo-release"}
+sub check {-f "/etc/knoppix_version"}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/gentoo-release" or warn;
+  open V, "</etc/knoppix_version" or warn;
   chomp ($v=<V>);
   close V;
-  return "Gentoo Linux $v";
+  print $v."\n";
+  return "Knoppix GNU/Linux $v";
 }
 
 sub run {
