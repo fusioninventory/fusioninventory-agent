@@ -136,7 +136,7 @@ sub initModList {
     $self->{modules}->{$m}->{enable} = $enable;
     $self->{modules}->{$m}->{checkFunc} = $package->{"check"};
     $self->{modules}->{$m}->{runAfter} = $package->{'runAfter'};
-    $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = \@{$package->{'runMeIfTheseChecksFailed'}};
+    $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{'runMeIfTheseChecksFailed'};
 #    $self->{modules}->{$m}->{replace} = \@replace;
     $self->{modules}->{$m}->{runFunc} = $package->{'run'};
     $self->{modules}->{$m}->{mem} = {};
@@ -180,12 +180,18 @@ sub initModList {
     }
   }
 
-
   # Remove the runMeIfTheseChecksFailed if needed
   foreach my $m (sort keys %{$self->{modules}}) {
     next unless	$self->{modules}->{$m}->{enable};
-    foreach (@{$self->{modules}->{$m}->{runMeIfTheseChecksFailed}}) {
-      $self->{modules}->{$m}->{enable} = 0 if $_->{enable};
+    next unless	$self->{modules}->{$m}->{runMeIfTheseChecksFailed};
+    foreach my $condmod (@{${$self->{modules}->{$m}->{runMeIfTheseChecksFailed}}}) {
+       if ($self->{modules}->{$condmod}->{enable}) {
+         foreach (keys %{$self->{modules}}) {
+           next unless /^$m($|::)/ && $self->{modules}->{$_}->{enable};
+           $self->{modules}->{$_}->{enable} = 0;
+           $logger->debug ("$_ disabled because of a 'runMeIfTheseChecksFailed' in '$m'\n");
+         }
+      }
     }
   }
 }
