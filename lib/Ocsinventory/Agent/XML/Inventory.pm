@@ -463,7 +463,7 @@ sub processChecksum {
 
   my $checksum = 0;
 
-  if (!$self->{params}{local}) {
+  if (!$self->{params}{local} && $self->{params}->{last_statefile}) {
     if (-f $self->{params}->{last_statefile}) {
       # TODO: avoid a violant death in case of problem with XML
       $self->{last_state_content} = XML::Simple::XMLin(
