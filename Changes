@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-0.0.10beta2
+0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
        * Added extra section support for backends (Pascal DANEK)
        * Fix the way submodules are disabled with $runMeIfTheseChecksFailed
