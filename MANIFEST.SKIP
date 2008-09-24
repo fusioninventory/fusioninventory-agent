@@ -1,5 +1,6 @@
 CVS/
 ^.cvsignore$
+^.svn
 
 ^blib
 ^_build
