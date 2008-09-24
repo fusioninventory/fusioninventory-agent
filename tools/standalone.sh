@@ -22,7 +22,7 @@ if [ ! -x "`which pp 2>/dev/null`" ]; then
     exit 1
 fi
 
-MODULES="`cat MANIFEST | perl -pe 's/.*// unless (!/^inc/ && /pm$/); s/lib\/(.*)\.pm/ -M $1/; s/\//::/g; chomp'` -M XML::SAX::Expat -M XML::SAX::PurePerl -M PerlIO "
+MODULES="`cat MANIFEST | perl -pe 's/.*// unless (!/^inc/ && /pm$/); s/lib\/(.*)\.pm/ -M $1/; s/\//::/g; chomp'` -M XML::SAX::Expat -M XML::SAX::PurePerl -M PerlIO -M Getopt::Long -M Digest::MD5"
 
 for i in `echo $MODULES| perl -nle 's/\-M//g;print'`; do  perl -I "lib" -M$i -e "1" || MISSING="$MISSING $i" ;done
 
@@ -32,7 +32,10 @@ if [ ! -z "$MISSING" ]; then
   exit 1
 fi
 
-pp --lib lib $MODULES -o ocsinventory-agent.bin ocsinventory-agent 
+#pp --lib lib $MODULES -o ocsinventory-agent.bin ocsinventory-agent
+pp --lib lib $MODULES -p ocsinventory-agent -o ocsinventory-agent.par
+pp -o ocsinventory-agent.bin ocsinventory-agent.par
+
 if [ -f ocsinventory-agent.bin ]; then
     echo "ocsinventory-agent.bin generated!"
 else
