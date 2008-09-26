@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+0.0.10beta3
+       * Hide warning messages when tw_cli or hpacucli are not present on CentOS
+
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
        * Added extra section support for backends (Pascal DANEK)

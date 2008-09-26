@@ -21,8 +21,7 @@ sub check {
 
   my ($card, $res);
 # Do we have tw_cli ?
-  `which tw_cli`;
-  if (($? >> 8) == 0) {
+  if (can_run("tw_cli")) {
     foreach (`tw_cli info`) {
       $card = $1 if /^(c\d+).*/;
       if ($card) {

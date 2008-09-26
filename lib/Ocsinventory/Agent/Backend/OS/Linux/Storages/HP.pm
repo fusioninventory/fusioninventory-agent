@@ -15,8 +15,7 @@ sub check {
 
   my $slot;
 # Do we have hpacucli ?
-  `which hpacucli`;
-  if (($? >> 8) == 0) {
+  if (can_run("hpacucli")) {
     foreach (`hpacucli ctrl all show 2> /dev/null`) {
       $slot = $1 if /.*Slot\s(\d*).*/;
     }
