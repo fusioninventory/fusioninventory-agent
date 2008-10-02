@@ -4,11 +4,16 @@ use inc::Module::Install;
 # Hack to be able to run a post install script
 sub MY::postamble
 {
-    return '
+
+	my $re;
+
+	$re = '
 install :: all pure_install doc_install
-	$(NOECHO) $(NOOP)
-	[ ! -f run-postinst ] || perl postinst.pl
-';
+	$(NOECHO) $(NOOP)';
+
+	$re .= "\n\t[ ! -f run-postinst ] || $^X postinst.pl\n";
+
+    return $re;
 }
 
 use Config;
