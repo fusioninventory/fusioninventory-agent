@@ -7,6 +7,11 @@
 ## code is always made freely available.
 ## Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 ################################################################################
+# Function by hook:
+# -download_prolog_reader, download_message, download
+# -download_inventory_handler
+# -download_end_handler, begin, done, clean, finish, period, download, execute,
+#   check_signature and build_package
 package Ocsinventory::Agent::Option::Download;
 
 use strict;
@@ -625,7 +630,7 @@ sub execute{
 	# 		$p->{NOTIFY_TEXT}
 	# 		$p->{NOTIFY_COUNTDOWN}
 	# 		$p->{NOTIFY_CAN_ABORT}
-	#TODO: Message broadcast vers les terminaux + eventuellement une messagebox si on detecte un environnement graphique (detection gtk/Qt, Modules necessaires..?)
+        # TODO: notification to send through DBUS to the user
 		
 		
 		eval{
