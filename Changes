@@ -7,6 +7,7 @@ Revision history for Ocsinventory::Agent
        * LSB.pm: properly use can_run
        * Avoid a warning in CompatibilityLayer.pm in local mode
        * Improve the README file
+       * Avoid a warning at runtime if rpm is not correctly installed
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.

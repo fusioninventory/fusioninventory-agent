@@ -18,7 +18,7 @@ sub run {
 
   my @list;
   my $buff;
-  foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} %{SUMMARY}\n--\n"`) {
+  foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} %{SUMMARY}\n--\n" 2>/dev/null`) {
     if (! /^--/) {
       chomp;
       $buff .= $_;
