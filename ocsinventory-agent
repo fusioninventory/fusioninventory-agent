@@ -227,7 +227,7 @@ if ($params->{nosoft}) {
 }
 
 
-if ($params->{server} !~ /^http(|s):\/\//) {
+if (!$params->{'stdout'} && !$params->{'local'} && $params->{server} !~ /^http(|s):\/\//) {
     $logger->debug("the --server passed doesn't have a protocle, assume http as default");
     $params->{server} = "http://".$params->{server}.'/ocsinventory';
 }
