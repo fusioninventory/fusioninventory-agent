@@ -32,10 +32,16 @@ sub new {
   }
 
   if (!$self->{dontuse}) {
+      my $ocsAgentServerUri;
+
+      # to avoid a warning if $self->{params}->{server} is not defined
+      if ($self->{params}->{server}) {
+          $ocsAgentServerUri = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
+      }
 
     $self->{current_context} = {
       OCS_AGENT_LOG_PATH => $self->{params}->{logdir}."modexec.log",
-      OCS_AGENT_SERVER_URI => "http://".$self->{params}->{server}.$self->{params}->{remotedir},
+      OCS_AGENT_SERVER_URI => $ocsAgentServerUri,
       OCS_AGENT_INSTALL_PATH => $self->{params}->{vardir},
       OCS_AGENT_DEBUG_LEVEL => 2, # TODO
       OCS_AGENT_EXE_PATH => $Bin,
