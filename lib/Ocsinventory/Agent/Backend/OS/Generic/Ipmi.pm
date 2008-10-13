@@ -20,8 +20,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Ipmi;
 use Net::IP qw(:PROC);;
 
 sub check {
-  my @ipmitool = `ipmitool lan print 2> /dev/null`;
-  return unless @ipmitool;
+  can_run('ipmitool');
 }
 
 # Initialise the distro entry
