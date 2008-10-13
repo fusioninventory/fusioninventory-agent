@@ -7,25 +7,40 @@ DESCRIPTION
 PREREQUISITES
 
   Perl 5.8. You can try the old linux_agent 1.01 if you still use Perl 5.6 on Linux)
-  These modules are needed:
+  Those modules are needed:
     Digest::MD5
+
     XML::Simple
+
     Net::IP: optional, it is only needed to compute the network information
+
     LWP
-    Proc::Daemon: optional, only for Daemon mode
-    Proc::PID::File: optional but brings the pid file support
-                     if Proc::Daemon is installed
-    Compress::Zlib: needed for OCS server prior 1.02
-  On Linux and *BSD (i386, amd64, ia64) dmidecode is required to read the BIOS stats.
-  On Linux and *BSD lspci (from the pciutils package) is required to list PCI devices.
-  To get the serial number of the screen you will need one of these tools:
-   - monitor-edid from Mandriva is needed to fetch the monitor. A package is avalaible
-     in Fedora repository.
-     information http://wiki.mandriva.com/en/Tools/monitor-edid
-   - get-edid from the read-edid package
-  On Solaris/sparc, you must install sneep and record the Serial Number with it :
-    (download it from http://www.sun.com/download/products.xml?id=4304155a)
-  On MacOSX you'll need Mac::SysProfile to collect the device informations.
+
+    dmidecode on Linux and *BSD (i386, amd64, ia64) dmidecode is required to read the BIOS stats.
+
+    lspci on Linux and *BSD (pciutils package) is required to list PCI devices.
+
+    Mac::SysProfile on MacOSX to collect the device informations.
+
+    sneep on Solaris/sparc, you must install sneep and record the Serial Number with it :
+                  (download it from http://www.sun.com/download/products.xml?id=4304155a)
+
+ 
+   Those modules are optional
+
+    Proc::Daemon Daemon mode
+
+    Proc::PID::File brings the pid file support if Proc::Daemon is installed
+
+    ipmitoolif you want to collect information about IPMI
+
+    Compress::Zlib needed for OCS server prior 1.02
+
+    To get the serial number of the screen you will need one of these tools:
+      - monitor-edid from Mandriva is needed to fetch the monitor. A package is avalaible
+        in Fedora repository.
+        information http://wiki.mandriva.com/en/Tools/monitor-edid
+      - get-edid from the read-edid package
 
 BUILDING/INSTALLING
 
@@ -38,10 +53,11 @@ BUILDING/INSTALLING
   You can also run the agent from the tarball directory.
 
   The agent needs some directories to store internal settings.
-  mkdir -p /etc/ocsinventory-agent
-  mkdir -p /var/lib/ocsinventory-agent
-  mkdir -p /var/log/ocsinventory-agent
-  mkdir -p /var/run
+
+   mkdir -p /etc/ocsinventory-agent
+   mkdir -p /var/lib/ocsinventory-agent
+   mkdir -p /var/log/ocsinventory-agent
+   mkdir -p /var/run
 
   you can choose other directories by changing the default settings
   directly in the ocsinventory-agent file.
@@ -49,6 +65,10 @@ BUILDING/INSTALLING
   You need to launch the agent with root privilege. For debugging you can
   try to launch it with the -l flag:
   eg: ocsinventory-agent -l /tmp --debug
+
+  It's also possible to run directly from the tarball directory:
+
+   sudo ./ocsinventory-agent --devlib --server http://foo/ocsinventory 
 
 
 NOTE
@@ -66,9 +86,10 @@ NOTE
   At the begining of the cron file.
 
 
-
-CVS
-You can prepare a tarball from the CVS with these commands:
+SVN
+You can prepare a tarball from the SVN devel branch with those commands:
+   svn co https://ocsinventory.svn.sourceforge.net/svnroot/ocsinventory/trunk/unified_unix_agent
+   cd unified_unix_agent
    perl Makefile.PL
    make manifest
    make dist
@@ -78,7 +99,8 @@ COPYRIGHT
 
   See AUTHORS file.  Ocsinventory-Agent is released under GNU GPL 2 license
 
-The memconf script is maintained by Tom Schmidt 
+The memconf script is maintained by Tom Schmidt
+http://myweb.cableone.net/4schmidts/memconf.html
 Copyright © 1996-2008 Tom Schmidt
 
 memconf is free software; you can redistribute it and/or modify it under the

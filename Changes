@@ -5,7 +5,8 @@ Revision history for Ocsinventory::Agent
        * Avoid unnecessary about missing 'http://' in local mode
        * Ipmi.pm: use can_run do detect ipmitool
        * LSB.pm: properly use can_run
-       * Avoid a warning in CompatibilityLayer.pm in local mode 
+       * Avoid a warning in CompatibilityLayer.pm in local mode
+       * Improve the README file
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
