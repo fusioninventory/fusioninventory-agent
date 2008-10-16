@@ -8,3 +8,4 @@ Jean-Jacques MICHEL: Solaris patches
 Etienne GUILLAUMONT: AIX4 CPU detection
 Wes YOUNG: MacOSX support and patches
 Edouard GAMIN: RAID devices support for Linux
+David DURIEUX: AMD64 detection on BSD systems
