@@ -5,7 +5,7 @@ use strict;
 sub check{
     my $arch;
     chomp($arch=`sysctl -n hw.machine`);
-    return if ($arch ne "i386");
+    return if (($arch ne "i386") && ($arch ne "amd64"));
     # dmidecode must not be present
     `dmidecode 2>&1`;
     return if ($? >> 8)==0;
