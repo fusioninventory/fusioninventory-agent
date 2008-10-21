@@ -13,13 +13,16 @@ use strict;
 
 sub check {
 
-  my $slot;
+  my $ret = 0;
 # Do we have hpacucli ?
   if (can_run("hpacucli")) {
     foreach (`hpacucli ctrl all show 2> /dev/null`) {
-      $slot = $1 if /.*Slot\s(\d*).*/;
+      if (/.*Slot\s(\d*).*/) {
+	  	$ret = 1;
+		last;
+	  }
     }
-    $slot?return 1:return 0;
+    return $ret;
   }
 
 }
@@ -31,7 +34,7 @@ sub run {
   my $inventory = $params->{inventory};
   my $logger = $params->{logger};
 
-  my ($pd, $slot, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
+  my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
 
   foreach (`hpacucli ctrl all show 2> /dev/null`) {
 
@@ -39,8 +42,10 @@ sub run {
 #    
 # Smart Array E200 in Slot 2    (sn: PA6C90K9SUH1ZA)
 
-    $slot = $1 if /.*Slot\s(\d*).*/;
-    if ($slot) {
+    if (/.*Slot\s(\d*).*/) {
+
+	  my $slot = $1;
+	  
       foreach (`hpacucli ctrl slot=$slot pd all show 2> /dev/null`) {
 
 # Example output :
@@ -90,7 +95,9 @@ sub run {
           if ($media eq 'Data Drive') {
             $media = 'disk';
           }
-          print "HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware\n";
+
+          $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
+
           $inventory->addStorages({
               NAME => 'unknown',
               MANUFACTURER => $manufacturer,
