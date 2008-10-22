@@ -99,7 +99,7 @@ sub run {
                     $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
 
                     $inventory->addStorages({
-                            NAME => 'unknown',
+                            NAME => $model,
                             MANUFACTURER => $manufacturer,
                             MODEL => $model,
                             DESCRIPTION => $description,
