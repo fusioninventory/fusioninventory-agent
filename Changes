@@ -13,6 +13,7 @@ Revision history for Ocsinventory::Agent
        * HP.pm minor clean up + indentation
        * HP.pm send the $model as NAME to avoid NAME == 'unknown' (Remi COLLET)
        * New backend module ServeRaid for IBM ServeRAID card (Remi COLLET)
+       * Linux::Storages, fix the hdparm call (Remi COLLET)
 TODO: http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
