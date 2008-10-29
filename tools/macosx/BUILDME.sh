@@ -96,6 +96,6 @@ FILES="patches/tele_package.php-MacOSX.patch patches/multicritere.php-MacOSX.pat
 
 mkdir Agent-MacOSX
 cp -R $FILES Agent-MacOSX/
-zip -r Agent-MacOSX Agent-MacOSX/ -x \*CVS\*
+zip -r Agent-MacOSX Agent-MacOSX/ -x \*CVS\* -x \*svn\*
 rm -R -f Agent-MacOSX/
 echo "done"
