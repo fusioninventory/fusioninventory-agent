@@ -9,11 +9,10 @@ PREREQUISITES
 - Darwin Perl dependancies [A tarball with all the PerlDep's you'll need for this to run in darwin-land, see create....cpan.pl script]
 - OCSNG.pmproj [Apple PackageMaker binrary settings file]
 - PackageMaker [xcode]
-- Iceberg [http://s.sudre.free.fr/Software/Iceberg.html]
 
 BUILDING/INSTALLING
 
-- Check out CVS if needed
+- Check out SVN if needed
 - copy the inc/ directory (might need to get it out of one of the previous releases) to unified_unix_agent
 - cd ./unified_unix_agent/tools/macosx
 - run the create-darwin-perl-lib_fromCPAN.pl script which will create the ~/darwin-perl-lib directory. This directory will stash a built version of all the perl libraries needed to run this client (ie: no running CPAN on the hosts you're deploying this on)
@@ -31,7 +30,7 @@ See AUTHORS file. Ocsinventory-Agent is released under GNU GPL 2 licence. Portio
 
 NOTES
 
-- Darwin tools contributed by claimid.com/saxjazman9, don't bug the core OCSNG guys with bugs and quirks... they have better things to do.
+- macosx tools contributed by claimid.com/wesyoung, don't bug the core OCSNG guys with bugs and quirks... they have better things to do.
 
 - READ THE INSTALL AND UNINSTALL SCRIPTS BEFORE DEPLOYING!!! These scripts require sudo access and will modify your system by:
   - adding users
@@ -39,7 +38,5 @@ NOTES
   - adding launch daemons to launchd
 
 - Use these scripts at your own risk, I claim no responsibilty nor give any warranty that they work.
-
-- If you intend to use Package Deployment (via SSL), be sure to modify the cert file included. Also be sure to apply the supplied php patches to your webserver, which will allow you to select MacOSX as part of the deployment group.
 
 - This package works on 10.3.9 - 10.5.3 [intel and ppc], It includes some modifications when running on OS 10.3.9 [panther] since the startup infrastructure is slightly different. The changes are in the installer-darwin.sh and it autochecks for darwin release [uname -r] 7.9.0. Otherwise it does its default install (Tiger and Leopard use LaunchD).
