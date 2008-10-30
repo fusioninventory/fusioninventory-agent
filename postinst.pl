@@ -16,6 +16,9 @@ my $old_linux_agent_dir = "/etc/ocsinventory-client";
 
 my $config;
 my @cacert;
+my $binpath;
+my $randomtime;
+my $cron_line;
 
 sub ask_yn {
     my $prompt = shift;
@@ -230,7 +233,12 @@ if (ask_yn('Do you want to apply an administrative tag on this machine', 'y')) {
 }
 
 
-chomp(my $binpath = `which ocsinventory-agent 2>/dev/null`);
+chomp($binpath = `which ocsinventory-agent 2>/dev/null`);
+if (! -x $binpath) {
+	# Packaged version with perl and agent ?
+	$binpath = $^X;
+	$binpath =~ s/perl/ocsinventory-agent/;
+}
 
 if (! -x $binpath) {
     print "sorry, can't find ocsinventory-agent in \$PATH\n";
@@ -239,9 +247,26 @@ if (! -x $binpath) {
     print "ocsinventory agent presents: $binpath\n";
 }
 
-if (-d "/etc/cron.d") {
+
+$randomtime = int(rand(60)).' '.int(rand(24));
+$cron_line = $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
+
+if ($^O =~ /solaris/) {
+    if (ask_yn("Do yo want to install the cron task in current user crontab ?", 'y')) {
+	my $crontab = `crontab -l`;
+
+	# Let's suppress Linux cron/anacron user column
+	$cron_line =~ s/ root /  /;
+	$crontab .= $cron_line;
+
+	open CRONP, "| crontab" || die "Can't run crontab: $!";
+	print CRONP $crontab;
+	close(CRONP);
+
+    }
+}
+elsif (-d "/etc/cron.d") {
     if (ask_yn("Do yo want to install the cron task in /etc/cron.d", 'y')) {
-        my $randomtime = int(rand(60)).' '.int(rand(24));
 
         open DEST, '>/etc/cron.d/ocsinventory-agent' or die $!;
         print  DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
