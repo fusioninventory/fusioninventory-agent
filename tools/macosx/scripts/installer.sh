@@ -23,6 +23,8 @@ INSTALL_PATH="/Applications/OCSNG.app"
 echo "Copying uninstall script to $INSTALL_PATH"
 sudo chmod 700 $PREFIX/scripts/uninstaller.sh
 sudo cp $PREFIX/scripts/uninstaller.sh $INSTALL_PATH/Contents/Resources/
+sudo chmod -R o-rwx,u-w $INSTALL_PATH
+sudo chown -R $USERID:$GROUPID $INSTALL_PATH
 
 TPATH="/etc/ocsinventory-agent"
 sudo mkdir $TPATH/

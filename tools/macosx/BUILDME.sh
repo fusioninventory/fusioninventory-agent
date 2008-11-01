@@ -3,6 +3,7 @@
 OCSNG_PATH="OCSNG.app"
 PATCHES_PATH="patches"
 TOOLS_PATH="tools/macosx"
+FINAL_PKG_NAME="unified_unix_agent-macosx"
 
 if [ ! -x ../../inc ]; then
 	echo "You're probably building from CVS, you're missing the "inc" directory in ../../"
@@ -77,16 +78,8 @@ cp ocsinventory-agent $OCSNG_PATH/Contents/Resources/
 echo 'copying down darwin-dep libs'
 cp -R darwin-perl-lib/ $OCSNG_PATH/Contents/Resources/lib/
 
-# we're setting the default permissions with those we use in system_scripts/dscl-adduser.sh script, if you change those, change this
-sudo chown -R 3995:3995 $OCSNG_PATH
-sudo chmod -R o-w,u-w $OCSNG_PATH
-
 echo 'copying .app to package-root'
 sudo cp -R $OCSNG_PATH ./package-root/Applications/
-
-# we're setting the default permissions with those we use in system_scripts/dscl-adduser.sh script, if you change those, change this
-sudo chown -R 3995:3995 ./package-root/Applications/$OCSNG_PATH
-sudo chmod -R o-rwx,u-w ./package-root/Applications/$OCSNG_PATH
 
 echo 'setting default permissions on ./package-root/Applications'
 sudo chown root:admin ./package-root/Applications
@@ -97,10 +90,10 @@ echo "building package"
 sudo rm -R -f ./OCSNG.pkg
 sudo /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -proj OCSNG.pmproj -p ./OCSNG.pkg
 
-FILES="patches/tele_package.php-MacOSX.patch patches/multicritere.php-MacOSX.patch Agent_MacOSX.packproj README INSTALL ver launchfiles OCSNG.pkg scripts ocsinventory-agent.cfg modules.conf cacert.pem"
+FILES="ocsinventory-agent patches/tele_package.php-MacOSX.patch patches/multicritere.php-MacOSX.patch README INSTALL launchfiles OCSNG.pkg scripts ocsinventory-agent.cfg modules.conf cacert.pem"
 
-mkdir Agent-MacOSX
-cp -R $FILES Agent-MacOSX/
-zip -r Agent-MacOSX Agent-MacOSX/ -x \*CVS\* -x \*svn\*
-rm -R -f Agent-MacOSX/
+mkdir $FINAL_PKG_NAME
+cp -R $FILES $FINAL_PKG_NAME/
+zip -r $FINAL_PKG_NAME $FINAL_PKG_NAME/ -x \*CVS\* -x \*svn\*
+rm -R -f $FINAL_PKG_NAME
 echo "done"

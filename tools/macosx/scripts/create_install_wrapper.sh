@@ -2,7 +2,8 @@
 
 FILES="OCSNG.pkg cacert.pem launchfiles modules.conf scripts"
 EXCLUDE="--exclude=*CVS* --exclude=*.svn/* --exclude=*DS_Store*"
-DEPLOYMENT_DIR="Agent-MacOSX"
+DEPLOYMENT_DIR="unified_unix_agent-macosx"
+PKG_NAME="unified_unix_agent-macosx"
 
 if [ ! -d ./$DEPLOYMENT_DIR ]; then
 	echo "making deployment directory $DEPLOYMENT_DIR"
@@ -15,7 +16,7 @@ for FILE in $FILES; do
 done
 
 echo "tar'ing the file..."
-tar $EXCLUDE -zcf Agent-MacOSX.tar.gz $DEPLOYMENT_DIR
+tar $EXCLUDE -zcf $PKG_NAME.tar.gz $DEPLOYMENT_DIR
 
 echo "generating the installer_wrapper.sh script"
 # this is where we create the install_wrapper script
@@ -74,10 +75,10 @@ EOF
 
 # end of generated script for installer_wrapper.sh
 
-echo "Appending Agent-MacOSX.tar.gz to the install_wrapper.sh"
-uuencode Agent-MacOSX.tar.gz Agent-MacOSX.tar.gz >> install_wrapper.sh
+echo "Appending $PKG_NAME.tar.gz to the install_wrapper.sh"
+uuencode $PKG_NAME.tar.gz $PKG_NAME.tar.gz >> install_wrapper.sh
 
 echo "Cleaning up..."
 rm -R -f $DEPLOYMENT_DIR
-rm Agent-MacOSX.tar.gz
+rm $PKG_NAME.tar.gz
 echo "Done, you may now use the installer_wrapper.sh to deploy the agent"
