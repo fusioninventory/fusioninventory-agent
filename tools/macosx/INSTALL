@@ -1,10 +1,10 @@
 [REVIEW README FIRST]
 
-- Unzip Agent-MacOSX.zip into a temporary directory (eg: /Users/$ROB$/tmp/)
+- Unzip unified_unix_agent-macosx-XXXXX.zip into a temporary directory (eg: /Users/$ROB$/tmp/)
 - Open up a terminal window
 - cd to the the temp directory:
 
-	$> cd Agent-MacOSX/
+	$> cd unified_unix_agent-macosx.../
 
 - Replace the file: cacert.pem with your own local version (if you're using a self-signed ssl cert for package deployment)
 - run:
