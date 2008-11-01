@@ -24,6 +24,8 @@ echo "generating the installer_wrapper.sh script"
 cat > install_wrapper.sh << EOF
 #!/bin/bash
 
+VERSION=`perl scripts/extract_version.pl`
+
 function usage {
         echo "This program does..."
         echo "usage: \$0 [-s] [-t]"
