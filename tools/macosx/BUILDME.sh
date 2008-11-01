@@ -10,8 +10,13 @@ if [ ! -x ../../inc ]; then
 fi
 
 if [ ! -x ./darwin-perl-lib ]; then
-	echo "You're missing the darwin-perl-lib directory, did you run the create-darwin-perl-lib_fromCPAN.pl script?"
-	exit 1;
+	if [ ! -e ./scripts/macosx-perl-lib-dep-snapshot.tar.gz ]; then
+		echo "You're missing the darwin-perl-lib directory, did you run the create-darwin-perl-lib_fromCPAN.pl script?"
+		exit 1;
+	else
+		echo 'extracting from snapshot perl-lib deps to ./'
+		tar -zxvf ./scripts/macosx-perl-lib-dep-snapshot.tar.gz
+	fi
 fi
 
 if [ -x $OCSNG_PATH ]; then
