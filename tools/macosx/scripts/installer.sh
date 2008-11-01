@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PREFIX=Agent_MacOSX.pkg/Contents/Resources
+PREFIX=./
 
 echo 'determining OS Version'
 OSVER=`uname -r`
@@ -9,8 +9,15 @@ echo "OS: $OSVER"
 echo 'Running user creation script'
 $PREFIX/scripts/dscl-adduser.sh
 
-#echo 'Running package installer'
-#sudo installer -pkg OCSNG.pkg -target /
+# what uid/gid did we end up going with?
+USERID=`sudo dscl . -read /Users/_ocsng UniqueID | awk -F' ' '{print $2}'`
+GROUPID=`sudo dscl . -read /Groups/_ocsng PrimaryGroupID | awk -F' ' '{print $2}'`
+
+echo "Using UserID: $USERID"
+echo "Using GroupID: $GROUPID"
+
+echo 'Running package installer'
+sudo installer -pkg OCSNG.pkg -target /
 
 INSTALL_PATH="/Applications/OCSNG.app"
 echo "Copying uninstall script to $INSTALL_PATH"
@@ -26,12 +33,12 @@ sudo cp $PREFIX/modules.conf $TPATH/
 
 TPATH="/var/lib/ocsinventory-agent"
 sudo mkdir -p $TPATH
-sudo chown 3995:admin $TPATH
+sudo chown $USERID:admin $TPATH
 
 if [ -e $PREFIX/cacert.pem ]; then
 	echo "copying cacert.pem to $TPATH/"
 	sudo cp $PREFIX/cacert.pem $TPATH/
-	sudo chown 3995:admin $TPATH/cacert.pem
+	sudo chown $USERID:admin $TPATH/cacert.pem
 	sudo cp $PREFIX/cacert.pem $TPATH/
 fi
 
