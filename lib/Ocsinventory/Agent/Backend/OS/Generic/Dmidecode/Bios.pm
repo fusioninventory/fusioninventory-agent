@@ -26,8 +26,8 @@ sub run {
     if(/dmi type 1,/i){$flag=1;}
     last if($flag && (/dmi type (\d+),/i) && ($1!=1));
     if((/^serial number:\s*(.+?)(\s*)$/i) && ($flag)) { $SystemSerial = $1 }
-    if((/^product name:\s*(.+?)(\s*)$/i) && ($flag)) { $SystemModel = $1 }
-    if((/^manufacturer:\s*(.+?)(\s*)$/i) && ($flag)) { $SystemManufacturer = $1 }
+    if((/^(product name|product):\s*(.+?)(\s*)$/i) && ($flag)) { $SystemModel = $2 }
+    if((/^(manufacturer|vendor):\s*(.+?)(\s*)$/i) && ($flag)) { $SystemManufacturer = $2 }
   }
 
   $flag=0;

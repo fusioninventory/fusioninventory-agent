@@ -15,6 +15,7 @@ Revision history for Ocsinventory::Agent
        * New backend module ServeRaid for IBM ServeRAID card (Remi COLLET)
        * Linux::Storages, fix the hdparm call (Remi COLLET)
 TODO: http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
+       * OS::Generic::Dmidecode::Bios, fix for RHEL2 dmidecode (Remi COLLET) 
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
