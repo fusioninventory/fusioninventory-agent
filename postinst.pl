@@ -35,10 +35,15 @@ sub ask_yn {
 
     die unless $default =~ /^(y|n)$/;
 
+    my $cpt = 5;
     while (1) {
         my $line = prompt("$promptUser\nPlease enter 'y' or 'n'?>", $default);
         return 1 if $line =~ /^y$/;
         return if $line =~ /^n$/;
+        if ($cpt-- < 0) {
+            print STDERR "to much user input, exit...\n";
+            exit(0);
+        }
     }
 }
 
@@ -49,6 +54,7 @@ sub promptUser {
     $string .= "?>";
 
     my $line;
+    my $cpt = 5;
     while (1) {
 
         $line = prompt($string, $default);
@@ -57,6 +63,11 @@ sub promptUser {
             print STDERR $notice."\n";
         } else {
             last;
+        }
+
+        if ($cpt-- < 0) {
+            print STDERR "to much user input, exit...\n";
+            exit(0);
         }
 
     }
