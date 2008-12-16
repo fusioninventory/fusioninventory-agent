@@ -229,21 +229,22 @@ sub runMod {
       });
   }
 
-  $logger->debug ("Running $m"); 
+  $logger->debug ("Running $m");
 
   if ($self->{modules}->{$m}->{runFunc}) {
-    eval {
-      &{$self->{modules}->{$m}->{runFunc}}({
-          accountconfig => $self->{accountconfig},
-          accountinfo => $self->{accountinfo},
-          inventory => $inventory,
-          logger => $logger,
-          params => $self->{params},
-          prologresp => $self->{prologresp},
-          mem => $self->{modules}->{$m}->{mem},
-          storage => $self->{modules}->{$m}->{storage},
-          });
-    };
+      $self->runWithTimeout(
+          $m,
+          {
+              accountconfig => $self->{accountconfig},
+              accountinfo => $self->{accountinfo},
+              inventory => $inventory,
+              logger => $logger,
+              params => $self->{params},
+              prologresp => $self->{prologresp},
+              mem => $self->{modules}->{$m}->{mem},
+              storage => $self->{modules}->{$m}->{storage},
+          }
+      );
   }
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
@@ -309,5 +310,28 @@ sub saveStorage {
 
 }
 
+sub runWithTimeout {
+    my ($self, $m, $params) = @_;
+
+    my $logger = $self->{logger};
+
+    eval {
+        local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
+        alarm 30;
+        &{$self->{modules}->{$m}->{runFunc}}($params);
+    };
+
+
+    if ($@) {
+        if ($@ ne "alarm\n") {
+            $logger->debug("runWithTimeout(): unexpected error");
+        } else {
+            $logger->debug("$m got killed by a timeout.");
+            return;
+        }
+    } else {
+        return 1;
+    }
+}
 
 1;
