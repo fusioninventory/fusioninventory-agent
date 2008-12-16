@@ -21,7 +21,7 @@ sub loadModules {
     foreach (@modules) {
         eval "use $_;";
         if ($@) {
-            print "Failed to load $_. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
+            print STDERR "Failed to load $_. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
             exit 1;
 
         }
@@ -35,12 +35,8 @@ sub ask_yn {
 
     die unless $default =~ /^(y|n)$/;
 
-    print $promptUser."?\n";
-
     while (1) {
-        print "Please enter 'y' or 'n'(default $default)>\n";
-        chomp(my $line = <STDIN>);
-	$line = $default unless $line;
+        my $line = prompt("$promptUser\nPlease enter 'y' or 'n'?>", $default);
         return 1 if $line =~ /^y$/;
         return if $line =~ /^n$/;
     }
@@ -81,15 +77,19 @@ sub pickConfigdir {
         }
     }
 
-    print "Where do you want to write the configuration file?\n";
+    print STDERR "Where do you want to write the configuration file?\n";
     foreach (0..$#choices) {
-        print " ".$_." -> ".$choices[$_]."\n";
+        print STDERR " ".$_." -> ".$choices[$_]."\n";
     }
     my $input = -1;
     my $configdir;
-    while (!($input =~ /^\d+$/ && $input >= 0 && $input <= $#choices)) {
-        print ">";
-        chomp($input = <STDIN>);
+    while (1) {
+        $input = prompt("?>");
+        if ($input =~ /^\d+$/ && $input >= 0 && $input <= $#choices) {
+            last;
+        } else {
+            print STDERR "Value must be between 0 and ".$#choices."\n";
+        }
     }
 
 
