@@ -4,14 +4,8 @@ use strict;
 
 use lib 'lib';
 
-use ExtUtils::MakeMaker;
 use Ocsinventory::Agent::Config;
 
-eval "use XML::Simple;";
-if ($@) {
-    print "Failed to load XML::Simple. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
-    exit 1;
-}
 
 my $old_linux_agent_dir = "/etc/ocsinventory-client";
 
@@ -20,6 +14,20 @@ my @cacert;
 my $binpath;
 my $randomtime;
 my $cron_line;
+
+sub loadModules {
+    my @modules = @_;
+
+    foreach (@modules) {
+        eval "use $_;";
+        if ($@) {
+            print "Failed to load $_. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
+            exit 1;
+
+        }
+    }
+
+}
 
 sub ask_yn {
     my $promptUser = shift;
@@ -136,6 +144,8 @@ sub mkFullServerUrl {
 ####################################################
 ################### main ###########################
 ####################################################
+
+loadModules (qw/XML::Simple ExtUtils::MakeMaker/);
 
 if (!ask_yn("Do you want to configure the agent", 'y')) {
     exit 0;
