@@ -4,6 +4,7 @@ use strict;
 
 use lib 'lib';
 
+use ExtUtils::MakeMaker;
 use Ocsinventory::Agent::Config;
 
 eval "use XML::Simple;";
@@ -21,12 +22,12 @@ my $randomtime;
 my $cron_line;
 
 sub ask_yn {
-    my $prompt = shift;
+    my $promptUser = shift;
     my $default = shift;
 
     die unless $default =~ /^(y|n)$/;
 
-    print $prompt."?\n";
+    print $promptUser."?\n";
 
     while (1) {
         print "Please enter 'y' or 'n'(default $default)>\n";
@@ -37,27 +38,22 @@ sub ask_yn {
     }
 }
 
-sub prompt {
-    my ($prompt, $default, $regex, $notice) = @_;
+sub promptUser {
+    my ($promptUser, $default, $regex, $notice) = @_;
 
-    print $prompt;
-    print "($default)" if $default;
-    print "?:\n";
+    my $string = $promptUser;
+    $string .= "?>";
 
     my $line;
     while (1) {
 
-        print ">\n";
-        chomp($line = <STDIN>);
-        if ($line =~ /^$/ and $default) {
-            print "[info] Using the default value ($default)\n";
-            $line = $default;
+        $line = prompt($string, $default);
+
+        if ($regex && $line !~ /$regex/) {
+            print STDERR $notice."\n";
+        } else {
             last;
         }
-
-        last unless $regex && $line !~ /$regex/;
-        
-        print $notice."\n";
 
     }
 
@@ -201,7 +197,7 @@ if (-f $configdir."/ocsinventory-agent.cfg") {
 
 print "[info] The config file will be written in /etc/ocsinventory/ocsinventory-agent.cfg,\n";
 
-my $tmp = prompt('What is the address of your ocs server', exists ($config->{server})?$config->{server}:'ocsinventory-ng');
+my $tmp = promptUser('What is the address of your ocs server', exists ($config->{server})?$config->{server}:'ocsinventory-ng');
 $config->{server} = mkFullServerUrl($tmp);
 if (!$config->{server}) {
     print "Server is empty. Leaving...\n";
@@ -215,10 +211,10 @@ if ($config->{server} =~ /^http(|s):\/\//) {
 }
 
 if (ask_yn ("Do you need credential for the server? (You probably don't)", 'n')) {
-    $config->{user} = prompt("user".(exists($config->{user})?"(".$config->{user}.")":'' ));
-    $config->{password} = prompt("password");
+    $config->{user} = promptUser("user".(exists($config->{user})?"(".$config->{user}.")":'' ));
+    $config->{password} = promptUser("password");
     print "[info] The realm can be found in the login popup of your Internet browser.\n[info] In general, it's something like 'Restricted Area'.\n";
-    $config->{realm} = prompt("realm");
+    $config->{realm} = promptUser("realm");
 } else {
     delete ($config->{user});
     delete ($config->{password});
@@ -227,7 +223,7 @@ if (ask_yn ("Do you need credential for the server? (You probably don't)", 'n'))
 
 if (ask_yn('Do you want to apply an administrative tag on this machine', 'y')) {
 
-    $config->{tag} = prompt("tag".(exists($config->{tag})?"(".$config->{tag}.")":'' ), $config->{tag});
+    $config->{tag} = promptUser("tag".(exists($config->{tag})?"(".$config->{tag}.")":'' ), $config->{tag});
 } else {
     delete($config->{tag});
 }
@@ -281,7 +277,7 @@ if ($^O =~ /solaris/) {
 	$default_vardir = '/var/lib/ocsinventory-agent'
 }
 	
-$config->{basevardir} = prompt('Where do you want the agent to store its files?', exists ($config->{basevardir})?$config->{basevardir}:$default_vardir, '^\/\w+', 'The location must begin with /');
+$config->{basevardir} = promptUser('Where do you want the agent to store its files?', exists ($config->{basevardir})?$config->{basevardir}:$default_vardir, '^\/\w+', 'The location must begin with /');
 
 if (!-d $config->{basevardir}) {
     if (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n", 'y')) {
