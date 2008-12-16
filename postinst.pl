@@ -155,24 +155,28 @@ if (-f $old_linux_agent_dir.'/ocsinv.conf' && ask_yn("Should the old linux_agent
     }
 
     my $admcontent = '';
-    if (!open(ADM, "<:encoding(iso-8859-1)", "$old_linux_agent_dir/ocsinv.adm")) {
-        warn "Can't open $old_linux_agent_dir/ocsinv.adm";
-    } else {
-        $admcontent .= $_ foreach (<ADM>);
-        close ADM;
-        my $admdata = XMLin($admcontent) or die;
-	if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
-            foreach (@{$admdata->{ACCOUNTINFO}}) {
-                $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
+
+
+    if (-f "$old_linux_agent_dir/ocsinv.adm") {
+        if (!open(ADM, "<:encoding(iso-8859-1)", "$old_linux_agent_dir/ocsinv.adm")) {
+            warn "Can't open $old_linux_agent_dir/ocsinv.adm";
+        } else {
+            $admcontent .= $_ foreach (<ADM>);
+            close ADM;
+            my $admdata = XMLin($admcontent) or die;
+            if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
+                foreach (@{$admdata->{ACCOUNTINFO}}) {
+                    $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
+                }
+            } elsif (
+                exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
+                exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
+                $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
+            ) {
+                print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
+                $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
             }
-	} elsif (
-            exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
-            exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
-	    $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
-	    ) {
-	    print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
-            $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
-	}
+        }
     }
 }
 
