@@ -17,6 +17,8 @@ Revision history for Ocsinventory::Agent
 TODO: http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
        * OS::Generic::Dmidecode::Bios, fix for RHEL2 dmidecode (Remi COLLET)
        * launch backend modules with a 30sec timeout
+       * post-inst.pl: use prompt() from ExtUtils::MakeMaker to avoid
+         unexpected error with cpan
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
