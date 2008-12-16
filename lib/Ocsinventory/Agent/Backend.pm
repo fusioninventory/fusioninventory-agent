@@ -150,7 +150,10 @@ sub initModList {
     next unless $self->{modules}->{$m}->{checkFunc};
 # find modules to disable and their submodules
     if($self->{modules}->{$m}->{enable} &&
-    !&{$self->{modules}->{$m}->{checkFunc}}({
+    !$self->runWithTimeout(
+        $m,
+        $self->{modules}->{$m}->{checkFunc},
+        {
             accountconfig => $self->{accountconfig},
             accountinfo => $self->{accountinfo},
             inventory => $self->{inventory},
@@ -234,6 +237,7 @@ sub runMod {
   if ($self->{modules}->{$m}->{runFunc}) {
       $self->runWithTimeout(
           $m,
+          $self->{modules}->{$m}->{runFunc},
           {
               accountconfig => $self->{accountconfig},
               accountinfo => $self->{accountinfo},
@@ -311,14 +315,16 @@ sub saveStorage {
 }
 
 sub runWithTimeout {
-    my ($self, $m, $params) = @_;
+    my ($self, $m, $func, $params) = @_;
 
     my $logger = $self->{logger};
+
+    my $ret;
 
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm 30;
-        &{$self->{modules}->{$m}->{runFunc}}($params);
+        $ret = &{$func}($params);
     };
 
 
@@ -326,11 +332,11 @@ sub runWithTimeout {
         if ($@ ne "alarm\n") {
             $logger->debug("runWithTimeout(): unexpected error");
         } else {
-            $logger->debug("$m got killed by a timeout.");
+            $logger->debug("$m killed by a timeout.");
             return;
         }
     } else {
-        return 1;
+        return $ret;
     }
 }
 
