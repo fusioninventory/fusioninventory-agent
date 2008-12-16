@@ -291,7 +291,7 @@ if ($^O =~ /solaris/) {
 	$default_vardir = '/var/lib/ocsinventory-agent'
 }
 	
-$config->{basevardir} = promptUser('Where do you want the agent to store its files?', exists ($config->{basevardir})?$config->{basevardir}:$default_vardir, '^\/\w+', 'The location must begin with /');
+$config->{basevardir} = promptUser('Where do you want the agent to store its files? (You probably don\'t need to change it)', exists ($config->{basevardir})?$config->{basevardir}:$default_vardir, '^\/\w+', 'The location must begin with /');
 
 if (!-d $config->{basevardir}) {
     if (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n", 'y')) {
