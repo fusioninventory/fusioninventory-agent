@@ -236,7 +236,7 @@ if ($config->{server} =~ /^http(|s):\/\//) {
 }
 
 if (ask_yn ("Do you need credential for the server? (You probably don't)", 'n')) {
-    $config->{user} = promptUser("user".(exists($config->{user})?"(".$config->{user}.")":'' ));
+    $config->{user} = promptUser("user", $config->{user});
     $config->{password} = promptUser("password");
     print "[info] The realm can be found in the login popup of your Internet browser.\n[info] In general, it's something like 'Restricted Area'.\n";
     $config->{realm} = promptUser("realm");
@@ -248,7 +248,7 @@ if (ask_yn ("Do you need credential for the server? (You probably don't)", 'n'))
 
 if (ask_yn('Do you want to apply an administrative tag on this machine', 'y')) {
 
-    $config->{tag} = promptUser("tag".(exists($config->{tag})?"(".$config->{tag}.")":'' ), $config->{tag});
+    $config->{tag} = promptUser("tag", $config->{tag});
 } else {
     delete($config->{tag});
 }
