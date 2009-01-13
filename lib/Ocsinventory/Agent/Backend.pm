@@ -330,7 +330,7 @@ sub runWithTimeout {
 
     if ($@) {
         if ($@ ne "alarm\n") {
-            $logger->debug("runWithTimeout(): unexpected error");
+            $logger->debug("runWithTimeout(): unexpected error: $@");
         } else {
             $logger->debug("$m killed by a timeout.");
             return;
