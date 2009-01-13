@@ -249,6 +249,8 @@ sub runMod {
               storage => $self->{modules}->{$m}->{storage},
           }
       );
+  } else {
+      $logger->debug("$m has no run() function -> ignored");
   }
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
