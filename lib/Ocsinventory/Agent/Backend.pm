@@ -285,7 +285,17 @@ sub feedInventory {
 sub retrieveStorage {
     my ($self, $m) = @_;
 
+    my $logger = $self->{logger};
+
     my $storagefile = $self->{params}->{vardir}."/$m.storage";
+
+    if (!exists &retrieve) {
+        eval "use Storable;";
+        if ($@) {
+            $logger->debug("Storable.pm is not avalaible, can't load Backend module data");
+            return;
+        }
+    }
 
     return (-f $storagefile)?retrieve($storagefile):{};
 
@@ -306,7 +316,7 @@ sub saveStorage {
     }
 
     my $storagefile = $self->{params}->{vardir}."/$m.storage";
-    if ($data && keys (%$data)>1) {
+    if ($data && keys (%$data)>0) {
 	store ($data, $storagefile) or die;
     } elsif (-f $storagefile) {
 	unlink $storagefile;
