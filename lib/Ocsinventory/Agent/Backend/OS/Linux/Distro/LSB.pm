@@ -7,7 +7,7 @@ sub run {
   my $inventory = $params->{inventory};
 
   my $release;
-  foreach (`lsb_release -a`) {
+  foreach (`lsb_release -d`) {
     $release = $1 if /Description:\s+(.+)/;
   }
   my $OSComment;
