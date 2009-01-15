@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Debian;
 use strict;
 
-sub check {-f "/etc/debian_version" || !-f "/etc/ubuntu_version"}
+sub check {-f "/etc/debian_version" && !-f "/etc/ubuntu_version"}
 
 #####
 sub findRelease {
