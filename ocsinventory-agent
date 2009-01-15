@@ -8,7 +8,7 @@ eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
 use strict;
 use warnings;
 
-use lib 'lib';
+# use lib 'lib';
 use Getopt::Long;
 
 use Ocsinventory::Logger;
