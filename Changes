@@ -22,6 +22,8 @@ TODO: http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
        * avoid the "No LSB modules are available." warning message
        * Backend: --debug print a warning when arun() function is not found
        * Fix the Debian/Ubuntu detection for non lsb system
+       * postinst.pl also drop /etc/cron.d/ocsinventory-client is the user
+         want to drop the old linux_agent
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.

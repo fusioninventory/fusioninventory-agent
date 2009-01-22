@@ -325,6 +325,7 @@ if (ask_yn ("Should I remove the old linux_agent", 'n')) {
         /etc/ocsinventory-client
         /etc/logtotate.d/ocsinventor-client
         /usr/sbin/ocsinventory-client.pl
+        /etc/cron.d/ocsinventory-client
         /bin/ocsinv
         #) {
         print $_."\n";
