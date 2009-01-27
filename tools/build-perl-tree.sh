@@ -4,99 +4,79 @@
 # This in order to be able to provide an installation for system without
 # Perl > 5.6
 
-PREFIX="/opt/ocsinventory-agent"
+set -e
+
 PERL="$PREFIX/bin/perl"
 MAKE="make"
+TMP="/home2/goneri/tmp"
+PREFIX="$TMP/build/opt/ocsinventory-agent"
 
 ETCDIR="$PREFIX/etc"
 BASEDIR="$PREFIX/var/ocsinventory-agent"
 LOGDIR="$PREFIX/log/ocsinventory-agent"
 PIDFILE="$PREFIX/var/run"
-rm -rf tmp 
-mkdir tmp
-cd tmp
-for i in `ls ../tarballs/*.gz`; do
-  gunzip < $i | tar xvf -
-done
+PERLVERSION="5.10.0"
 
-cd perl-5.8.8
-rm -f config.sh Policy.sh
+if [ ! -d $TMP ]; then
+  echo "tmp $TMP dir is missing"
+fi
+cd $TMP
+if [ ! -f perl-$PERLVERSION.tar.gz ]; then
+  wget -O perl-$PERLVERSION.tar.gz.part http://cpan.perl.org/src/perl-$PERLVERSION.tar.gz
+  mv perl-$PERLVERSION.tar.gz.part perl-$PERLVERSION.tar.gz 
+fi
+gunzip < perl-$PERLVERSION.tar.gz | tar xvf -
+cd perl-$PERLVERSION
+
 # AIX
 #./Configure -Dusenm -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
 ./Configure -Dcc="gcc" -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
 $MAKE
 $MAKE install
+
+PATH=$PREFIX/bin:$PATH
+export PATH
+cpanp 's conf prereqs 1; i XML::SAX'
+cpanp 's conf prereqs 1; i XML::Simple'
+cpanp 's conf prereqs 1; i LWP'
+cpanp 's conf prereqs 1; i Proc::Daemon'
+cpanp 's conf prereqs 1; i HTML::Parser' # For what? 
+# Report error about IPv6 on Solaris 10
+cpanp 's conf prereqs 1; i --force Net::IP'
+cpanp 's conf prereqs 1; i --force PAR::Packer'
+cpanp 's conf prereqs 1; i --force Net::SSLeay'
+
+exit;
+
+if [ ! openssl-0.9.8j.tar.gz ]; then
+  wget -O openssl-0.9.8j.tar.gz.part http://www.openssl.org/source/openssl-0.9.8j.tar.gz
+  mv openssl-0.9.8j.tar.gz.part openssl-0.9.8j.tar.gz 
+fi 
+gunzip < openssl-0.9.8j.tar.gz | tar xvf -
+cd openssl-0.9.8j
+./config --prefix=/home2/goneri/tmp/openssl
+make
+make install
+ln -s apps bin
+
+for i in `ls ../tarballs/*.gz`; do
+  gunzip < $i | tar xvf -
+done
+
 #cd ../expat-2.0.0/
 #./configure --prefix=$PREFIX
 #$MAKE
-cd ../Net-IP-1.25
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../XML-NamespaceSupport-1.09/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../XML-Parser-2.34
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../XML-SAX-0.15/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-#cd ../XML-SAX-Expat-0.37/
+#cd ../Ocsinventory-Agent-0.0.2/
 #$PERL Makefile.PL PREFIX=$PREFIX
 #$MAKE PREFIX=$PREFIX
 #$MAKE install PREFIX=$PREFIX
-cd ../XML-Simple-2.16/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../URI-1.35/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../HTML-Parser-3.56/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../Proc-Daemon-0.03/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../libwww-perl-5.805/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../Compress-Raw-Zlib-2.003/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../IO-Compress-Base-2.003/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../IO-Compress-Zlib-2.003/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
-cd ../Compress-Zlib-2.003/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
 
-cd ../Ocsinventory-Agent-0.0.2/
-$PERL Makefile.PL PREFIX=$PREFIX
-$MAKE PREFIX=$PREFIX
-$MAKE install PREFIX=$PREFIX
+#:$PATH#perl -i -pe "s!/etc/ocsinventory-agent!$ETCDIR!" $PREFIX/bin/ocsinventory-agent
+#perl -i -pe "s!/var/lib/ocsinventory-agent!$BASEDIR!" $PREFIX/bin/ocsinventory-agent
+#perl -i -pe "s!/var/log/ocsinventory-agent!$LOGDIR!" $PREFIX/bin/ocsinventory-agent
+#perl -i -pe "s!/var/run/ocsinventory-agent.pid!$PIDFILE!" $PREFIX/bin/ocsinventory-agent
 
-perl -i -pe "s!/etc/ocsinventory-agent!$ETCDIR!" $PREFIX/bin/ocsinventory-agent
-perl -i -pe "s!/var/lib/ocsinventory-agent!$BASEDIR!" $PREFIX/bin/ocsinventory-agent
-perl -i -pe "s!/var/log/ocsinventory-agent!$LOGDIR!" $PREFIX/bin/ocsinventory-agent
-perl -i -pe "s!/var/run/ocsinventory-agent.pid!$PIDFILE!" $PREFIX/bin/ocsinventory-agent
-
-mkdir -p $ETCDIR 
-mkdir -p $BASEDIR 
-mkdir -p $LOGDIR 
-mkdir -p $PIDFILE 
+#mkdir -p $ETCDIR 
+#mkdir -p $BASEDIR 
+#mkdir -p $LOGDIR 
+#mkdir -p $PIDFILE 
