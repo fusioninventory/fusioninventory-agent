@@ -23,8 +23,8 @@ sub run {
   chomp($OSComment=`uname -v`);
 
    open(FH, "< /etc/release") and do {
-       $OSVersion = readline (FH);
-       $OSVersion =~ s/^\b//;
+       chomp($OSVersion = readline (FH));
+       $OSVersion =~ s/^\s+//;
        close FH;
    };
 
