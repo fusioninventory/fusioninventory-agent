@@ -57,7 +57,8 @@ sub initModList {
   my $params = $self->{params};
 
   my @dirToScan;
-  my @installed_mod;
+  my @installed_mods;
+  my @installed_files;
 
   # This is a workaround for PAR::Packer. Since it resets @INC
   # I can't find the backend modules to load dynamically. So
@@ -67,7 +68,7 @@ sub initModList {
     $logger->debug("use Ocsinventory::Agent::Backend::ModuleToLoad to get the modules ".
       "to load. This should not append unless you use the standalone agent built with ".
       "PAR::Packer (pp)"); 
-    push @installed_mod, @Ocsinventory::Agent::Backend::ModuleToLoad::list;
+    push @installed_mods, @Ocsinventory::Agent::Backend::ModuleToLoad::list;
   }
 
   if ($params->{devlib}) {
@@ -76,7 +77,7 @@ sub initModList {
   } else {
     my ($inst) = ExtUtils::Installed->new();
 
-    eval {@installed_mod =
+    eval {@installed_files =
       $inst->files('Ocsinventory')};
 
 # ExtUtils::Installed is nice but it needs properly installed package with
@@ -99,7 +100,7 @@ sub initModList {
       File::Find::find(
         {
           wanted => sub {
-            push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
+            push @installed_files, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
           },
           follow => 1,
           follow_skip => 2
@@ -108,30 +109,30 @@ sub initModList {
     }
   }
 
-  if (!@installed_mod) {
+
+  foreach my $file (@installed_files) {
+    my $t = $file;
+    next unless $t =~ s!.*?(Ocsinventory/Agent/Backend/)(.*?)\.pm$!$1$2!;
+    my $m = join ('::', split /\//, $t);
+  }
+
+  if (!@installed_mods) {
     $logger->info("ZERO backend module found! Is Ocsinventory-Agent ".
     "correctly installed? Use the --devlib flag if you want to run the agent ".
     "directly from the source directory.")
   }
 
-# Find installed modules
-  foreach my $file (@installed_mod) {
+  foreach my $m (@installed_mods) {
     my @runAfter;
     my @runMeIfTheseChecksFailed;
-#    my @replace;
     my $enable = 1;
-
-    my $t = $file;
-    next unless $t =~ s!.*?(Ocsinventory/Agent/Backend/)(.*?)\.pm$!$1$2!;
-    my $m = join ('::', split /\//, $t);
 
     if (exists ($self->{modules}->{$m}->{name})) {
       $logger->debug($m." already loaded.");
       next;
     }
     
-    eval {require $file}; # I do require directly on the file to avoid issues
-    # with AIX perl 5.8.0
+    eval "use $m;";
     if ($@) {
       $logger->debug ("Failed to load $m: $@");
       $enable = 0;
