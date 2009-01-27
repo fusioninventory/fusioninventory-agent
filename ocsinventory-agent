@@ -8,7 +8,7 @@ eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
 use strict;
 use warnings;
 
-#use lib 'lib';
+use lib 'lib';
 # THIS IS AN UGLY WORKAROUND FOR
 # http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
@@ -42,7 +42,7 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.10beta2';
+our $VERSION = '0.0.10beta3';
 
 my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';
