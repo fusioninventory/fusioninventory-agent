@@ -8,6 +8,7 @@ sub run {
   my $model;
   my $params = shift;
   my $inventory = $params->{inventory};
+  my $logger = $params->{logger};
 
   my $capacity;
   my $description;
@@ -47,7 +48,7 @@ sub run {
 
   if($sun_class == 0) 
   {
-    print "sorry, unknown model, could not detect memory configuration\n";
+    $logger->debug("sorry, unknown model, could not detect memory configuration");
   }
 
   if($sun_class == 1)
