@@ -42,8 +42,10 @@ sub run {
 #print $capacity."\n";
       }
       ## To be removed when FIRMWARE will be supported
-      $description .= " FW:$rev"  if( $rev );
-      ##
+      if ($rev) {
+        $description .= ' ' if $description;
+        $description .= "FW:$rev";
+      }
 
       $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
       if( $rdisk_path =~ /.*->.*scsi_vhci.*/ ) {
