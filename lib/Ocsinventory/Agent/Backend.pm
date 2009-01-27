@@ -88,7 +88,6 @@ sub initModList {
       push @dirToScan, $_;
     }
   }
-
   if (@dirToScan) {
     eval {require File::Find};
     if ($@) {
@@ -109,11 +108,11 @@ sub initModList {
     }
   }
 
-
   foreach my $file (@installed_files) {
     my $t = $file;
     next unless $t =~ s!.*?(Ocsinventory/Agent/Backend/)(.*?)\.pm$!$1$2!;
     my $m = join ('::', split /\//, $t);
+    push @installed_mods, $m;
   }
 
   if (!@installed_mods) {
