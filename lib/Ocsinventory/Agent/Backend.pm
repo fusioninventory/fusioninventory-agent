@@ -77,22 +77,24 @@ sub initModList {
     }
   }
 
-  eval {require File::Find};
-  if ($@) {
-    $logger->debug("Failed to load File::Find");
-  } else {
+  if (@dirToScan) {
+    eval {require File::Find};
+    if ($@) {
+      $logger->debug("Failed to load File::Find");
+    } else {
 # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
 # changes the @INC content if i use $_ directly
 # thanks to @rgs on irc.perl.org
-    File::Find::find(
-      {
-        wanted => sub {
-          push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
-        },
-        follow => 1,
-	follow_skip => 2
-      }
-      , @dirToScan);
+      File::Find::find(
+        {
+          wanted => sub {
+            push @installed_mod, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
+          },
+          follow => 1,
+          follow_skip => 2
+        }
+        , @dirToScan);
+    }
   }
 
   if (!@installed_mod) {
