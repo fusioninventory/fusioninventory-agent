@@ -1,4 +1,7 @@
 CVS/
+.git
+^00
+^.gitignore$
 ^.cvsignore$
 .svn
 

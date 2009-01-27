@@ -27,6 +27,7 @@ TODO: http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
        * Backend::OS::Solaris::Memory: use the Logger instead of "print"
        * Solaris: Drop unwanted spaces around OSVERSION and STORAGES/DESCRIPTION
        * Solaris: Avoid warning is the user can't use fstyp 
+       * MANIFEST.SKIP: ignore .git/ and .gitignore
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
