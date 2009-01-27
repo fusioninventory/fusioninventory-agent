@@ -41,6 +41,7 @@ sub run {
 
       if($filesystem =~ /^\/dev\/\S*/){	 
 	chomp($type=`fstyp $filesystem`);
+        $type = '' if $type =~ /cannot stat/;
       }
       else {$type="";}	 
 #print "FILESYS ".$filesystem." FILETYP ".$type." TOTAL ".$total." FREE ".$free." VOLUMN ".$volumn."\n";
