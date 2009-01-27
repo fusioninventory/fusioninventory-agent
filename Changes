@@ -31,6 +31,7 @@ TODO: http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
        * add a workaround for http://rt.cpan.org/Ticket/Display.html?id=38067 
        * build-perl-tree.sh use cpanp and perl 5.10 now
        * Backend.pm: do a eval around require File::Find
+       * Add a workaround to find the backend modules for PAR::Packer
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.

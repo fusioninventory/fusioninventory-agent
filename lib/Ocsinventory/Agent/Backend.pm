@@ -59,6 +59,17 @@ sub initModList {
   my @dirToScan;
   my @installed_mod;
 
+  # This is a workaround for PAR::Packer. Since it resets @INC
+  # I can't find the backend modules to load dynamically. So
+  # I prepare a list and include it.
+  eval "use Ocsinventory::Agent::Backend::ModuleToLoad;";
+  if (!$@) {
+    $logger->debug("use Ocsinventory::Agent::Backend::ModuleToLoad to get the modules ".
+      "to load. This should not append unless you use the standalone agent built with ".
+      "PAR::Packer (pp)"); 
+    push @installed_mod, @Ocsinventory::Agent::Backend::ModuleToLoad::list;
+  }
+
   if ($params->{devlib}) {
   # devlib enable, I only search for backend module in ./lib
     push (@dirToScan, './lib');
