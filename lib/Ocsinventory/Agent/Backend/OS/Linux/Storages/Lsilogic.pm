@@ -51,7 +51,7 @@ sub run {
       if (/.*phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+).*/) {
         $serialnumber = undef;
         foreach (`smartctl -i /dev/sg$1`) {
-          $serialnumber = $1 if /^Serial number:\s+(\S*)/;
+          $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
         }
         my $model = $2;
         my $size = 1024*$4; # GB => MB

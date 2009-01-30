@@ -53,7 +53,7 @@ sub run {
             $firmware = $2;
             $manufacturer = Ocsinventory::Agent::Backend::OS::Linux::Storages::getManufacturer($model);
             foreach (`smartctl -i /dev/sg$count`) {
-              $serialnumber = $1 if /^Serial number:\s+(\S*).*/;
+              $serialnumber = $1 if /^Serial Number:\s+(\S*).*/;
             }
             $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
             $host = undef;
