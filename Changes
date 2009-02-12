@@ -34,6 +34,7 @@ TODO: http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
        * Add a workaround to find the backend modules for PAR::Packer
        * Backend.pm: internal change, now do eval 'use $pmodule' instead of require
        * fix serialnum detection in Lsilogic.pm and Adaptec.pm (Edouard GAMIN)
+       * drop wait() from Makefile.PL, not used
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
