@@ -36,6 +36,8 @@ TODO: http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
        * fix serialnum detection in Lsilogic.pm and Adaptec.pm (Edouard GAMIN)
        * Makefile.PL: drop wait(), not used
        * Makefile.PL: fix a syntax error
+       * add tools/makedist.sh to document the workaround used to avoid
+         http://rt.cpan.org/Public/Bug/Display.html?id=43060
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
