@@ -39,6 +39,7 @@ Revision history for Ocsinventory::Agent
          http://rt.cpan.org/Public/Bug/Display.html?id=43060
        * Fix --logfile=/somewhere.log, see
          http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
+       * tools/build-perl-tree.sh, add a new script
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
