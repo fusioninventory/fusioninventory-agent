@@ -58,7 +58,7 @@ my $params = {
   'local'     =>  '',
   #'logger'    =>  'Syslog,File,Stderr',
   'logger'    =>  'Stderr',
-  'logfile'   =>  'ocsinventory-agent.log',
+  'logfile'   =>  '',
   'password'  =>  '',
   'realm'     =>  '',
   'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
@@ -232,6 +232,10 @@ version() if $params->{version};
 #} else {
 #  close(STDERR);
 #}
+
+if ($params->{logfile}) {
+    $params->{logger} = 'File';
+}
 
 my $logger = new Ocsinventory::Logger ({
 
@@ -629,7 +633,7 @@ Write an inventory in the I<DIR> directory. A new file will be created if needed
 
 =item B<--logfile>=I<FILE>
 
-Log message in I<FILE>.
+Log message in I<FILE> and turn off STDERR
 
 =item B<-p>, B<--password>=I<PASSWORD>
 

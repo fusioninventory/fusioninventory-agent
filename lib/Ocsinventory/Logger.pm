@@ -21,9 +21,17 @@ sub new {
     push @logger, 'Stderr';
   }
 
+  my @loadedMbackends;
   foreach (@logger) {
     my $backend = "Ocsinventory::LoggerBackend::".$_;
     eval ("require $backend"); # TODO deal with error
+    if ($@) {
+        print STDERR "Failed to load Logger backend: $backend ($@)\n";
+        next;
+    } else {
+        push @loadedMbackends, $_;
+    }
+
     my $obj = new $backend ({
       params => $self->{params},
       });
@@ -33,7 +41,7 @@ sub new {
   my $version = "Ocsinventory unified agent for UNIX and Linux";
   $version .= exists ($self->{params}->{VERSION})?$self->{params}->{VERSION}:'';
   $self->debug($version."\n");
-  $self->debug("Log system initialised");
+  $self->debug("Log system initialised (@loadedMbackends)");
 
   $self;
 }
