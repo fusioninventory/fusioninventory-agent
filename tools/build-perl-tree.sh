@@ -30,7 +30,8 @@ cd perl-$PERLVERSION
 
 # AIX
 #./Configure -Dusenm -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
-./Configure -Dcc="gcc" -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+#./Configure -Dcc="gcc" -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+./Configure -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
 $MAKE
 $MAKE install
 
@@ -59,9 +60,9 @@ make
 make install
 ln -s apps bin
 
-for i in `ls ../tarballs/*.gz`; do
-  gunzip < $i | tar xvf -
-done
+#for i in `ls ../tarballs/*.gz`; do
+#  gunzip < $i | tar xvf -
+#done
 
 #cd ../expat-2.0.0/
 #./configure --prefix=$PREFIX
