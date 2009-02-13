@@ -34,15 +34,17 @@ recommends 'Proc::Daemon' => undef;
 recommends 'Proc::PID::File' => undef;
 
 install_script  'ocsinventory-agent';
-#bundle 'Compress::Zlib' => undef;
-#bundle 'Digest::MD5' => undef;
-#bundle 'File::Temp' => undef;
-#bundle 'Net::IP' => undef;
-#bundle 'XML::Simple' => undef;
-#bundle 'XML::SAX' => undef;
-#bundle 'XML::NamespaceSupport' => undef;
-#bundle 'URI' => undef;
-#bundle 'LWP' => undef;
+
+
+# We want a release bundled with the needed dependency to be able to
+# prepare a standealone binay with PAR::Packer 
+if ($ENV{OCS_BUNDLE_RELEASE}) {
+  foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
+    bundle $module;
+    requires $module;
+  } 
+}
+
 
 
 if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
