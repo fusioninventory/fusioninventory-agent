@@ -6,7 +6,6 @@
 
 set -e
 
-PERL="$PREFIX/bin/perl"
 MAKE="make"
 TMP="/home2/goneri/tmp"
 PREFIX="$TMP/build/opt/ocsinventory-agent"
