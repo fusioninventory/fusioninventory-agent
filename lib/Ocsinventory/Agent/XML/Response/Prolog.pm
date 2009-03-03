@@ -7,7 +7,7 @@ our @ISA = ('Ocsinventory::Agent::XML::Response');
 
 sub new {
     my ($class, @params) = @_;
-    
+
     my $this = $class->SUPER::new(@params);
 
     bless ($this, $class);
@@ -53,10 +53,10 @@ sub updatePrologFreq {
         }
         else{
             $logger->info("PROLOG_FREQ has not changed since last process");
-        }  
+        }
     }
 }
-    
+
 
 sub saveNextTime {
     my ($self, $args) = @_;
@@ -77,7 +77,7 @@ sub saveNextTime {
     close NEXT_TIME or warn;
 
     my $serverdelay = $self->{accountconfig}->get('PROLOG_FREQ');
-    
+
     my $time;
     if( $self->{prologFreqChanged} ){
         $logger->debug("Compute next_time file with random value");
@@ -87,7 +87,7 @@ sub saveNextTime {
         $time = time + ($serverdelay?$serverdelay:$self->{params}->{delaytime})*3600;
     }
     utime $time,$time,$self->{params}->{next_timefile};
-    
+
     if ($self->{params}->{cron}) {
         $logger->info ("Next inventory after ".localtime($time));
     }

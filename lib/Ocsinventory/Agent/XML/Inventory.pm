@@ -22,8 +22,8 @@ sub new {
     $logger->fault ('deviceid unititalised!');
   }
 
-  $self->{h}{QUERY} = ['INVENTORY']; 
-  $self->{h}{DEVICEID} = [$self->{params}->{deviceid}]; 
+  $self->{h}{QUERY} = ['INVENTORY'];
+  $self->{h}{DEVICEID} = [$self->{params}->{deviceid}];
   $self->{h}{CONTENT}{ACCESSLOG} = {};
   $self->{h}{CONTENT}{BIOS} = {};
   $self->{h}{CONTENT}{CONTROLLERS} = [];
@@ -150,7 +150,7 @@ sub addMemories {
   my $speed =  $args->{SPEED};
   my $type = $args->{TYPE};
   my $description = $args->{DESCRIPTION};
-  my $caption = $args->{CAPTION}; 
+  my $caption = $args->{CAPTION};
   my $numslots = $args->{NUMSLOTS};
 
   my $serialnumber = $args->{SERIALNUMBER};
@@ -375,7 +375,7 @@ sub getContent {
   my $logger = $self->{logger};
 
   $self->initialise();
-  
+
   $self->processChecksum();
 
   #  checks for MAC, NAME and SSN presence
@@ -394,11 +394,11 @@ sub getContent {
   }
 
   $self->{accountinfo}->setAccountInfo($self);
-  
+
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>', SuppressEmpty => undef );
 
   my $clean_content;
-  # To avoid strange breakage I remove the unprintable caractere in the XML 
+  # To avoid strange breakage I remove the unprintable caractere in the XML
   foreach (split "\n", $content) {
       s/[[:cntrl:]]//g;
       $clean_content .= $_."\n";
@@ -474,11 +474,11 @@ sub processChecksum {
     if (-f $self->{params}->{last_statefile}) {
       # TODO: avoid a violant death in case of problem with XML
       $self->{last_state_content} = XML::Simple::XMLin(
-  
+
         $self->{params}->{last_statefile},
         SuppressEmpty => undef,
         ForceArray => 1
-  
+
       );
     } else {
       $logger->debug ('last_state file: `'.
@@ -524,7 +524,7 @@ sub saveLastState {
     close LAST_STATE or warn;
   } else {
     $logger->debug ("Cannot save the checksum values in ".$self->{params}->{last_statefile}."
-	(will be synchronized by GLPI!!): $!"); 
+	(will be synchronized by GLPI!!): $!");
   }
 }
 
@@ -533,14 +533,14 @@ sub addSection {
   my $logger = $self->{logger};
   my $multi = $args->{multi};
   my $tagname = $args->{tagname};
- 
+
   for( keys %{$self->{h}{CONTENT}} ){
     if( $tagname eq $_ ){
       $logger->debug("Tag name `$tagname` already exists - Don't add it");
       return 0;
     }
   }
-  
+
   if($multi){
     $self->{h}{CONTENT}{$tagname} = [];
   }
@@ -555,17 +555,17 @@ sub feedSection{
   my $tagname = $args->{tagname};
   my $values = $args->{data};
   my $logger = $self->{logger};
-  
+
   my $found=0;
   for( keys %{$self->{h}{CONTENT}} ){
     $found = 1 if $tagname eq $_;
   }
-  
+
   if(!$found){
     $logger->debug("Tag name `$tagname` doesn't exist - Cannot feed it");
     return 0;
   }
- 
+
   if( $self->{h}{CONTENT}{$tagname} =~ /ARRAY/ ){
     push @{$self->{h}{CONTENT}{$tagname}}, $args->{data};
   }
