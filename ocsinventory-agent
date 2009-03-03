@@ -72,11 +72,11 @@ my $params = {
 #  'xml'       =>  0,
   'nosoft'    =>  0, # DEPRECATED!
   'nosoftware'=>  0,
+  'delaytime' =>  '3600', # max delay time (seconds)
 
   # Other values that can't be changed with the
   # CLI parameters
   'VERSION'   => $VERSION,
-  'delaytime' =>  '3600', # max delay time (seconds)
   'deviceid'  => '',
   'basevardir'=>  $basedir.'/var/lib/ocsinventory-agent',
   'logdir'    =>  $basedir.'/var/log/ocsinventory-agent',
