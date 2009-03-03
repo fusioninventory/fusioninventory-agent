@@ -62,6 +62,12 @@ sub saveNextTime {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
+
+    if (!$self->{params}->{next_timefile}) {
+        $logger->debug("no next_timefile to save!");
+	return;
+    }
+
     my $parsedContent = $self->getParsedContent();
 
     if (!open NEXT_TIME, ">".$self->{params}->{next_timefile}) {
