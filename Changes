@@ -41,6 +41,8 @@ Revision history for Ocsinventory::Agent
          http://forums.ocsinventory-ng.org/viewtopic.php?id=3092
        * tools/build-perl-tree.sh, add a new script
        * Don't print ugly error if next_timefile can't be saved
+       * OS::Linux::Domains, improve the way it deals with multiple
+        domaine entries (Remi COLLET)
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.

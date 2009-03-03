@@ -20,7 +20,11 @@ sub run {
 
     open RESOLV, "/etc/resolv.conf" or warn;
     while(<RESOLV>){
-      $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+         if (/^(domain|search)\s+(.+)/) {
+               foreach (split(/\s+/,$2)) {
+                       $domain{$_} = 1;
+               }
+         }
     }
     close RESOLV;
 
