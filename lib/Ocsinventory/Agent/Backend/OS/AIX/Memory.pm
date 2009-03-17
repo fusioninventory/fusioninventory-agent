@@ -43,6 +43,15 @@ sub run {
 	}; 
 	
   }
+  # End of Loop
+  # The last *FC ???????? missing
+		$inventory->addMemories({
+		CAPACITY => $capacity,
+		DESCRIPTION => $description,
+		NUMSLOTS => $numslots,
+		SPEED => $speed,
+		TYPE => $type,
+
 }
 
 1;
