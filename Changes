@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
+       * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
+
 1.0    Sun, 22 Mar 2009 20:14:26 +0100
        * Hide warning messages when tw_cli or hpacucli are not present on CentOS
        * Avoid unnecessary about missing 'http://' in local mode

@@ -51,7 +51,7 @@ sub run {
 		NUMSLOTS => $numslots,
 		SPEED => $speed,
 		TYPE => $type,
-
+	});
 }
 
 1;
