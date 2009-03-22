@@ -1,0 +1,57 @@
+package Ocsinventory::Agent::Backend::Virtualization::VmWareESX;
+
+use strict;
+
+
+sub check { can_run('vmware-cmd') }
+
+sub run {
+    my $params = shift;
+    my $inventory = $params->{inventory};
+
+
+    foreach my $vmx (`vmware-cmd -l`) {
+        chomp $vmx;
+        next unless -f $vmx;
+
+        my %machineInfo;
+
+        open VMX, "<$vmx" or warn;
+        foreach (<VMX>) {
+            if (/^(\S+)\s*=\s*(\S+.*)/) {
+                my $key = $1;
+                my $value = $2;
+                $value =~ s/(^"|"$)//g;
+                $machineInfo{$key} = $value;
+            }
+        }
+        close VMX;
+
+        my $status = 'unknow';
+        if ( `vmware-cmd $vmx getstate` =~ /=\ (\w+)/ ) {
+            # off 
+            $status = $1;
+        }
+
+        my $memory = $machineInfo{'memsize'};
+        my $name = $machineInfo{'displayName'};
+        my $uuid = $machineInfo{'uuid.bios'};
+
+        my $machine = {
+
+            MEMORY => $memory,
+            NAME => $name,
+            UUID => $uuid,
+            STATUS => $status,
+            SUBSYSTEM => "VmWareESX",
+            VMTYPE => "VmWare",
+
+        };
+
+        $inventory->addVirtualMachine($machine);
+
+
+    }
+}
+
+1;

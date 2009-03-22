@@ -1,0 +1,116 @@
+ ne sont pas foutu de garder une interface commune
+[19:54:58] <Remi Collet> # vmware-vim-cmd vmsvc/get.summary 
+Insufficient arguments.
+Usage: get.summary vmid
+
+Retrieves and displays the listsummary status from the vm.
+
+[root@cambridge ~]# vmware-vim-cmd vmsvc/get.summary  112
+Listsummary:
+
+(vim.vm.Summary) {
+   dynamicType = <unset>, 
+   vm = 'vim.VirtualMachine:112', 
+   runtime = (vim.vm.RuntimeInfo) {
+      dynamicType = <unset>, 
+      host = 'vim.HostSystem:ha-host', 
+      connectionState = "connected", 
+      powerState = "poweredOff", 
+      faultToleranceState = "notConfigured", 
+      toolsInstallerMounted = false, 
+      suspendTime = <unset>, 
+      bootTime = <unset>, 
+      suspendInterval = 0, 
+      question = (vim.vm.QuestionInfo) null, 
+      memoryOverhead = <unset>, 
+      maxCpuUsage = 1596, 
+      maxMemoryUsage = 700, 
+      numMksConnections = 0, 
+      recordReplayState = "inactive", 
+   }, 
+   guest = (vim.vm.Summary.GuestSummary) {
+      dynamicType = <unset>, 
+      guestId = <unset>, 
+      guestFullName = <unset>, 
+      toolsStatus = "toolsNotRunning", 
+      hostName = <unset>, 
+      ipAddress = <unset>, 
+   }, 
+   config = (vim.vm.Summary.ConfigSummary) {
+      dynamicType = <unset>, 
+      name = "CentOS-5", 
+      template = false, 
+      vmPathName = "[standard] CentOS-5/CentOS-5.vmx", 
+      memorySizeMB = 700, 
+      cpuReservation = <unset>, 
+      memoryReservation = <unset>, 
+      numCpu = 1, 
+      numEthernetCards = 1, 
+      numVirtualDisks = 1, 
+      uuid = "564d9ff1-ee8a-5db2-141e-dd3316693c8b", 
+      instanceUuid = "", 
+      guestId = "other26xLinuxGuest", 
+      guestFullName = "Other 2.6x Linux (32-bit)", 
+      annotation = "", 
+      product = (vim.vService.ProductInfo) null, 
+      installBootRequired = <unset>, 
+   }, 
+   storage = (vim.vm.Summary.StorageSummary) null, 
+   quickStats = (vim.vm.Summary.QuickStats) {
+      dynamicType = <unset>, 
+      overallCpuUsage = <unset>, 
+      overallCpuDemand = <unset>, 
+      guestMemoryUsage = <unset>, 
+      hostMemoryUsage = <unset>, 
+      guestHeartbeatStatus = "gray", 
+      distributedCpuEntitlement = <unset>, 
+      distributedMemoryEntitlement = <unset>, 
+      privateMemory = <unset>, 
+      sharedMemory = <unset>, 
+      swappedMemory = <unset>, 
+      balloonedMemory = <unset>, 
+   }, 
+   overallStatus = "green", 
+}
+
+[19:55:42] <Gonéri> c'est sur ta machine perso que tu l'as installé ?
+[19:55:46] <Remi Collet> oui
+
+
+[19:55:42] <Gonéri> c'est sur ta machine perso que tu l'as installé ?
+[19:55:46] <Remi Collet> oui
+[19:56:33] <Remi Collet> sinon méthode brutale
+[19:57:31] <Gonéri> un Backend par version de VmWare
+[19:57:38] <Gonéri> et paff
+[19:58:06] <Remi Collet> # grep VMDIR /etc/vmware/locations
+[19:58:11] <Remi Collet> answer VMDIR /var/lib/vmware/Virtual Machines
+
+[19:58:31] <Remi Collet> # find "/var/lib/vmware/Virtual Machines" -name \*.vmx
+/var/lib/vmware/Virtual Machines/W2000Pro/W2000Pro.vmx
+/var/lib/vmware/Virtual Machines/CentOS-5/CentOS-5.vmx
+/var/lib/vmware/Virtual Machines/Fedora-6/Fedora-6.vmx
+/var/lib/vmware/Virtual Machines/Fedora-5/Fedora-5.vmx
+/var/lib/vmware/Virtual Machines/Fedora-4/Fedora-4.vmx
+/var/lib/vmware/Virtual Machines/Fedora-7/Fedora-7.vmx
+/var/lib/vmware/Virtual Machines/CentOS-3/CentOS-3.vmx
+/var/lib/vmware/Virtual Machines/CentOS-2/CentOS-2.vmx
+/var/lib/vmware/Virtual Machines/test/test.vmx
+/var/lib/vmware/Virtual Machines/Fedora-8/Fedora-8.vmx
+/var/lib/vmware/Virtual Machines/CentOS-4/Centos-4.vmx
+
+[19:58:41] <Gonéri> hihi
+[19:59:12] <Gonéri> par contre, il y a un problème
+[19:59:28] <Gonéri> vmware-vim-cmd vmsvc/getallvms retourne moins de machine
+[20:00:04] <Remi Collet> oui, j'ai des machines que je n'ais pas encore importé (donc jamais booté)
+[20:00:32] <Gonéri> tu utilises vmware pour le packaging oO
+[20:00:46] <Remi Collet> oui/non
+[20:00:59] <Remi Collet> pour construire les paquets => usine de refab => mock
+[20:01:08] <Remi Collet> (qui d'ailleurs marche très bien sous debian)
+[20:01:19] <Remi Collet> vmware, c'est pour les tests
+[20:01:56] <Gonéri> tu n'utilises pas de chroot pour ça
+[20:02:13] <Remi Collet> mock = chroot + install + build
+[20:02:23] <Gonéri> tu ne peux pas te logger dans un chroot
+[20:02:26] *Gonéri installe mock
+[20:02:52] <Remi Collet> je connais même un contributeur fedora qui construit tous ces paquets sous debiazn,
+[20:03:42] <Remi Collet> d'ailleurs, là je galère avec Informix... impossible à packager, faut être root....
+[20:04:56] <Gonéri> Informix ?

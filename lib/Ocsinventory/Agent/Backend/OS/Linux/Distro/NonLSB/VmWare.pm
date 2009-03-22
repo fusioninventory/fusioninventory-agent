@@ -1,19 +1,13 @@
-package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Redhat;
+package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::VmWare;
 use strict;
 
-sub check {
-    -f "/etc/redhat-release"
-      &&
-    !readlink ("/etc/redhat-release")
-      && !
-    !-f "/etc/vmware-release"
-}
+sub check { -f "/etc/vmware-release" }
 
 ####
 sub findRelease {
   my $v;
 
-  open V, "</etc/redhat-release" or warn;
+  open V, "</etc/vmware-release" or warn;
   chomp ($v=<V>);
   close V;
   $v;
