@@ -43,7 +43,7 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '0.0.10beta3';
+our $VERSION = '1.0';
 
 my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';

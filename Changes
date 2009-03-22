@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-0.0.10beta3
+1.0    Sun, 22 Mar 2009 20:14:26 +0100
        * Hide warning messages when tw_cli or hpacucli are not present on CentOS
        * Avoid unnecessary about missing 'http://' in local mode
        * Ipmi.pm: use can_run do detect ipmitool
@@ -45,6 +45,8 @@ Revision history for Ocsinventory::Agent
          domaine entries (Remi COLLET)
        * AIX: Record the last memory Slot (Wilfried BRUNKEN)
          http://sourceforge.net/tracker/?func=detail&atid=487492&aid=2350694&group_id=58373
+       * Bump 0.0.10 to 1.0 because it's the first release to be officially part
+         of the OCSInventory distribution
 
 0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
        * README: add a not about the $PATH varible on Solaris.
