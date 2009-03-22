@@ -3,7 +3,8 @@ use strict;
 sub check { 1 }
 
 # NOTE:
-# SSN can also use `uname -n`? What is the best?
+# Q: SSN can also use `uname -n`? What is the best?
+# A: uname -n since it doesn't need root priv
 
 sub run {
   my $params = shift;
