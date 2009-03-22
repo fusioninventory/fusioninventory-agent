@@ -18,7 +18,7 @@ sub run {
     return(undef) unless(ref($h) eq 'HASH');
 
     foreach my $printer (keys %$h){
-        $inventory->setPrinters({
+        $inventory->addPrinter({
                 NAME    => $printer,
                 DRIVER  => $h->{$printer}->{'PPD'},
         });

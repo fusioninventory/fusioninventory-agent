@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+futur
+       * Can use Net::CUPS to find the printer
+
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
 

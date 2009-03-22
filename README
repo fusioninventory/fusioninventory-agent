@@ -42,6 +42,8 @@ PREREQUISITES
         information http://wiki.mandriva.com/en/Tools/monitor-edid
       - get-edid from the read-edid package
 
+    If avalaible, Net::CUPS is used to detect the printer
+
 BUILDING/INSTALLING
 
   Once the archive is unpacked, use these commands:

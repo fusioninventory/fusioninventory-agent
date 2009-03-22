@@ -320,6 +320,24 @@ sub addNetworks {
   };
 }
 
+sub addPrinter {
+  my ($self, $args) = @_;
+
+  my $description = $args->{DESCRIPTION};
+  my $driver = $args->{DRIVER};
+  my $name = $args->{NAME};
+
+  push @{$self->{h}{CONTENT}{PRINTERS}},
+  {
+
+    DESCRIPTION => [$description],
+    DRIVER => [$driver],
+    NAME => [$name],
+
+  };
+}
+
+
 sub setHardware {
   my ($self, $args, $nonDeprecated) = @_;
 
