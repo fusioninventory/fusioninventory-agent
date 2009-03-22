@@ -52,7 +52,7 @@ sub updatePrologFreq {
              $self->{accountconfig}->set("PROLOG_FREQ", $parsedContent->{PROLOG_FREQ});
         }
         else{
-            $logger->info("PROLOG_FREQ has not changed since last process");
+            $logger->debug("PROLOG_FREQ has not changed since last process");
         }
     }
 }
