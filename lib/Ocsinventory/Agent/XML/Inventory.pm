@@ -5,6 +5,7 @@ use warnings;
 
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
+use Config;
 
 use Ocsinventory::Agent::Backend;
 
@@ -27,8 +28,12 @@ sub new {
   $self->{h}{CONTENT}{ACCESSLOG} = {};
   $self->{h}{CONTENT}{BIOS} = {};
   $self->{h}{CONTENT}{CONTROLLERS} = [];
+  $self->{h}{CONTENT}{CPUS} = [];
   $self->{h}{CONTENT}{DRIVES} = [];
-  $self->{h}{CONTENT}{HARDWARE} = {};
+  $self->{h}{CONTENT}{HARDWARE} = {
+    # TODO move that in a backend module 
+    ARCHNAME => [$Config{archname}]
+  };
   $self->{h}{CONTENT}{MONITORS} = [];
   $self->{h}{CONTENT}{PORTS} = [];
   $self->{h}{CONTENT}{SLOTS} = [];
@@ -316,13 +321,18 @@ sub addNetworks {
 }
 
 sub setHardware {
-  my ($self, $args) = @_;
+  my ($self, $args, $nonDeprecated) = @_;
+
+  my $logger = $self->{logger};
 
   foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
     PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
     DESCRIPTION MEMORY/) {
 
     if (exists $args->{$key}) {
+      if ($key eq 'PROCESSORS' && !$nonDeprecated) {
+          $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
+      }
       $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
     }
   }
@@ -338,6 +348,39 @@ sub setBios {
     }
   }
 }
+
+sub addCPU {
+  my ($self, $args) = @_;
+
+  # The CPU FLAG
+  my $manufacturer = $args->{MANUFACTURER};
+  my $type = $args->{TYPE};
+  my $serial = $args->{SERIAL};
+  my $speed = $args->{SPEED};
+
+  push @{$self->{h}{CONTENT}{CPUS}},
+  {
+
+    MANUFACTURER => [$manufacturer],
+    TYPE => [$type],
+    SERIAL => [$serial],
+    SPEED => [$speed],
+
+  };
+
+  # For the compatibility with HARDWARE/PROCESSOR*
+  my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
+  my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
+  my $processort = $self->{h}{CONTENT}{CPUS}[0]{TYPE}[0];
+
+  $self->setHardware ({
+    PROCESSORN => $processorn,
+    PROCESSORS => $processors,
+    PROCESSORT => $processort,
+  }, 1);
+
+}
+
 
 sub setAccessLog {
   my ($self, $args) = @_;
@@ -463,6 +506,7 @@ sub processChecksum {
     'VIDEOS'        => 32768,
     'SOFTWARES'     => 65536
   );
+  # TODO CPUS is not in the list
 
   if (!$self->{params}->{vardir}) {
     $logger->fault ("vardir uninitialised!");
