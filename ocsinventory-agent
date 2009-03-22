@@ -13,7 +13,8 @@ use lib 'lib';
 # http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
 
-{
+eval {XMLout("<a>b</a>");};
+if ($@){
     no strict 'refs';
     ${*{"XML::SAX::"}{HASH}{parsers}} = sub {
         return [ {
