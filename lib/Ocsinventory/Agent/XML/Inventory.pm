@@ -331,7 +331,7 @@ sub setHardware {
 sub setBios {
   my ($self, $args) = @_;
 
-  foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER/) {
+  foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER ASSETTAG/) {
 
     if (exists $args->{$key}) {
       $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};

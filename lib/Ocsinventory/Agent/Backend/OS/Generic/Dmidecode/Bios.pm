@@ -8,7 +8,7 @@ sub run {
 # Parsing dmidecode output
 # Using "type 0" section
   my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-    $BiosVersion, $BiosDate, $YEAR, $MONTH, $DAY, $HOUR, $MIN, $SEC);
+    $BiosVersion, $BiosDate, $YEAR, $MONTH, $DAY, $HOUR, $MIN, $SEC, $AssetTag);
 
   my @dmidecode = `dmidecode`;
   s/^\s+// for (@dmidecode);
@@ -39,6 +39,22 @@ sub run {
     if((/^manufacturer:\s*(.+?)(\s*)/i) && ($flag) && (!$SystemManufacturer)) { $SystemManufacturer = $1 }
   }
 
+  $flag=0;
+  for(@dmidecode){
+      if ($flag) {
+          if (/^Asset Tag:\s*(.+\S)/i) {
+              $AssetTag = $1;
+              $AssetTag = '' if $AssetTag eq 'Not Specified';
+              last;
+          } elsif (/dmi type \d+,/i) {  # End of the section
+              last;
+          }
+      }
+      if (/dmi type 3,/i) {
+          $flag=1;
+      }
+  }
+
 # Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
   if (!$SystemSerial ||$SystemSerial =~ /^0+$/) {
     $flag=0;
@@ -55,6 +71,7 @@ sub run {
 
 # Writing data
   $inventory->setBios ({
+      ASSETTAG => $AssetTag,
       SMANUFACTURER => $SystemManufacturer,
       SMODEL => $SystemModel,
       SSN => $SystemSerial,
