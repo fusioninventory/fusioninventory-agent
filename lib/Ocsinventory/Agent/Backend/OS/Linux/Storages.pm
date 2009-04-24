@@ -39,6 +39,7 @@ sub getFromUdev {
         $type = $1 if /^E:ID_TYPE=(.*)/;
         $bus = $1 if /^E:ID_BUS=(.*)/;
       }
+      $serial_short = $serial unless $serial_short =~ /\S/;
       $capacity = getCapacity($device);
       push (@devs, {NAME => $device, MANUFACTURER => $vendor, MODEL => $model, DESCRIPTION => $bus, TYPE => $type, DISKSIZE => $capacity, SERIALNUMBER => $serial_short, FIRMWARE => $revision, SCSI_COID => $scsi_coid, SCSI_CHID => $scsi_chid, SCSI_UNID => $scsi_unid, SCSI_LUN => $scsi_lun});
       close (PATH);

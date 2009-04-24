@@ -10,3 +10,4 @@ Wes YOUNG: MacOSX support and patches
 Edouard GAMIN: RAID devices support for Linux
 David DURIEUX: AMD64 detection on BSD systems
 Wilfried BRUNKEN: patch for memory detection on AIX
+Vladimir ELISSEEV: patches
