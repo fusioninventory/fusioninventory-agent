@@ -37,6 +37,7 @@ sub new {
   $self->{compress} = new Ocsinventory::Compress ({logger => $logger});
   # Connect to server
   $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
+  $self->{ua}->env_proxy;
   my $version = 'OCS-NG_unified_unix_agent_v';
   $version .= exists ($self->{params}->{VERSION})?$self->{params}->{VERSION}:'';
   $self->{ua}->agent($version);

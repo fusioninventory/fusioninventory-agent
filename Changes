@@ -4,6 +4,7 @@ futur
        * Can use Net::CUPS to find the printer
        * AIX: Hide procfs in Filesystem
        * OS::Linux::Storages, correctly retrieve the serial (Vladimir ELISSEEV)
+       * load $http_proxy env settings
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
