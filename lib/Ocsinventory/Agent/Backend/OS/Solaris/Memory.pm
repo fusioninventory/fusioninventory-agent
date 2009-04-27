@@ -43,6 +43,7 @@ sub run {
   if ($model eq "SUNW,Sun-Fire-V250") { $sun_class = 2; }
   if ($model eq "SUNW,Sun-Fire-T200") { $sun_class = 3; }
   if ($model eq "SUNW,Sun-Fire-T1000") { $sun_class = 3; }
+  if ($model eq "SUNW,SPARC-Enterprise-T5220") { $sun_class = 4; }
   # debug print model
   #print "sunclass: $sun_class\n";
   # now we can look at memory information, depending from our class
@@ -217,6 +218,71 @@ sub run {
     #print "# of RAM Modules: " . $module_count . "\n";
     #print "# of empty slots: " . $empty_slots . "\n";
   }
+
+  if($sun_class == 4)
+  {
+    foreach(`memconf 2>&1`) 
+    {
+      # debug
+      #print "line: " .$j++ . " " . $flag_mt . "/" . $flag ." : " . "$_";
+      # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
+      # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
+      if(/^empty sockets:\s*(\S+)/)
+      {
+        $flag = 0;
+        # cut of first 15 char containing the string empty sockets:
+        substr ($_,0,15) = "";
+        $capacity = "empty";
+        $numslots = 0;
+        foreach $caption (split)
+        {
+          if ($caption eq "None") 
+          {
+            $empty_slots = 0;
+            # no empty slots -> exit loop
+            last;
+          }
+          # debug
+          #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+          $empty_slots++;
+          $inventory->addMemories({
+            CAPACITY => $capacity,
+            DESCRIPTION => $description,
+            CAPTION => $caption,
+            SPEED => $speed,
+            TYPE => $type,
+            NUMSLOTS => $numslots
+          })
+        }
+      }
+  
+      # we only grap for information if flag = 1
+      # socket MB/CMP0/BR0/CH0/D0 has a Samsung 501-7953-01 Rev 05 2GB FB-DIMM
+      if(/^socket\s+(\S+) has a (.+)\s+(\S+)GB\s+(\S+)$/i)
+      {
+	$caption = $1;
+        $description = $2;
+        $type = $4;
+        $numslots = 0;
+        $capacity = $3 * 1024;
+        # debug
+        #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+        $module_count++;
+        $inventory->addMemories({
+          CAPACITY => $capacity,
+          DESCRIPTION => $description,
+          CAPTION => $caption,
+          SPEED => $speed,
+          TYPE => $type,
+          NUMSLOTS => $numslots
+        })
+      }
+    }
+    # debug: show number of modules found and number of empty slots
+    #print "# of RAM Modules: " . $module_count . "\n";
+    #print "# of empty slots: " . $empty_slots . "\n";
+  }
+  
 }
 #run();
 1;

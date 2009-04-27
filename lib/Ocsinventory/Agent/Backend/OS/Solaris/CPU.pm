@@ -31,12 +31,14 @@ sub run {
   #	1               Sun Microsystems, Inc. Sun Fire 880 (4 X UltraSPARC-III 750MHz)
   #	2               Sun Microsystems, Inc. Sun Fire V490 (2 X dual-thread UltraSPARC-IV 1350MHz)
   #	3               Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (8-core quad-thread UltraSPARC-T1 1000MHz)
+  #	4		Sun Microsystems, Inc. SPARC Enterprise T5220 (4-core 8-thread UltraSPARC-T2 1165MHz)
   #
   if ($model eq "SUNW,Sun-Fire-480R") { $sun_class_cpu = 1; }
   if ($model eq "SUNW,Sun-Fire-V240") { $sun_class_cpu = 1; }
   if ($model eq "SUNW,Sun-Fire-V250") { $sun_class_cpu = 1; }
   if ($model eq "SUNW,Sun-Fire-V490") { $sun_class_cpu = 2; }
   if ($model eq "SUNW,Sun-Fire-T200") { $sun_class_cpu = 3; }
+  if ($model eq "SUNW,SPARC-Enterprise-T5220") { $sun_class_cpu = 4; }
 
   if($sun_class_cpu == 0)
   {
@@ -85,6 +87,18 @@ sub run {
       if(/^Sun Microsystems, Inc.\s+\S+\s+\(\S+\s+\S+\s+\S+\)\s+\((\S+)\s+(\S+)\s+(\S+)\s+(\d+)/)
       {
         # T2000 has only one cCPU
+        $cpu_slot = 1;
+        $cpu_type = $3 . " (" . $1 . " " . $2 . ")";
+        $cpu_speed = $4;
+      }
+    }
+  } 
+  if($sun_class_cpu == 4) 
+  {
+    foreach (`memconf 2>&1`) 
+    {
+      if(/^Sun Microsystems, Inc\..+\((\S+)\s+(\S+)\s+(\S+)\s+(\d+)(\w+)\)$/)
+      {
         $cpu_slot = 1;
         $cpu_type = $3 . " (" . $1 . " " . $2 . ")";
         $cpu_speed = $4;
