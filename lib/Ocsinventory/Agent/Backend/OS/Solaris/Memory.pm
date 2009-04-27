@@ -36,6 +36,7 @@ sub run {
   # cut the CR from string model
   $model = substr($model, 0, length($model)-1);
   # we map (hopfully) our server model to a known class 
+  if ($model eq "SUNW,Sun-Fire-280R") { $sun_class = 1; }
   if ($model eq "SUNW,Sun-Fire-480R") { $sun_class = 1; }
   if ($model eq "SUNW,Sun-Fire-V490") { $sun_class = 1; }
   if ($model eq "SUNW,Sun-Fire-880")  { $sun_class = 1; }
@@ -60,7 +61,7 @@ sub run {
       # debug
       #print "count: " .$j++ . " " . $flag_mt . " : " . "$_";
       # if we find "empty groups:", we have reached the end and indicate that by setting flag = 0
-      if(/^empty groups:\s(\S+)/)
+      if(/^empty \w+:\s(\S+)/)
       {
         $flag = 0;
         if($1 eq "None"){$empty_slots = 0;}

@@ -11,6 +11,7 @@ futur
        * Solaris: Sun Fire T1000 patches for memory (Vladimir ELISSEEV)
        * Solaris: memory SPARC Enterprise T5220 (Vladimir ELISSEEV)
        * Solaris: CPU SPARC Enterprise T5220 (Vladimir ELISSEEV)
+       * Solaris: CPU SPARC Enterprise T5220 (Vladimir ELISSEEV)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
