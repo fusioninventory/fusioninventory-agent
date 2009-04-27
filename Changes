@@ -5,8 +5,10 @@ futur
        * AIX: Hide procfs in Filesystem
        * OS::Linux::Storages, correctly retrieve the serial (Vladimir ELISSEEV)
        * load $http_proxy env settings
-       * Add OS::Linux::Distro::NonLSB::ArchLinux (Julien XXXXXX)
+       * Add OS::Linux::Distro::NonLSB::ArchLinux (Julien SAFAR)
        * pacman support (Julien XXXXXXX)
+       * Solaris: Better output for $OSVErsion (Vladimir ELISSEEV)
+       * Solaris: Sun Fire T1000 patches for memory (Vladimir ELISSEEV)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 

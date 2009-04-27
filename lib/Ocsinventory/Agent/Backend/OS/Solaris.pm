@@ -29,7 +29,10 @@ sub run {
    };
 
   chomp($OSVersion=`uname -v`) unless $OSVersion;
-
+  chomp($OSVersion);
+  $OSVersion=~s/^\s*//;
+  $OSVersion=~s/\s*$//;
+      
   # Hardware informations
   chomp($karch=`arch -k`);
   chomp($hostid=`hostid`);

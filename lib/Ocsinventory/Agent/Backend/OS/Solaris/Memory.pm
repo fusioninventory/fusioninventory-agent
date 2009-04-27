@@ -42,6 +42,7 @@ sub run {
   if ($model eq "SUNW,Sun-Fire-V240") { $sun_class = 2; }
   if ($model eq "SUNW,Sun-Fire-V250") { $sun_class = 2; }
   if ($model eq "SUNW,Sun-Fire-T200") { $sun_class = 3; }
+  if ($model eq "SUNW,Sun-Fire-T1000") { $sun_class = 3; }
   # debug print model
   #print "sunclass: $sun_class\n";
   # now we can look at memory information, depending from our class
@@ -196,6 +197,7 @@ sub run {
       {
 	$caption = $1;
         $description = $3;
+        $type = $3;
         $numslots = 0;
         $capacity = $2;
         # debug
