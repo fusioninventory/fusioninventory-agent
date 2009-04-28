@@ -12,3 +12,4 @@ David DURIEUX: AMD64 detection on BSD systems
 Wilfried BRUNKEN: patch for memory detection on AIX
 Vladimir ELISSEEV: various patches
 Julien SAFAR: ArchLinux support
+Damien MAURAN: MacOSX packaging and support
