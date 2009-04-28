@@ -13,6 +13,8 @@ futur
        * Solaris: CPU SPARC Enterprise T5220 (Vladimir ELISSEEV)
        * Solaris: CPU SPARC Enterprise T5220 (Vladimir ELISSEEV)
        * Linux: split the /proc/cpuinfo parsing depending on the arch
+       * Linux: drop Linux::Controllers which is duplicated with
+         Generic::Lspci::Controllers (Vladimir ELISSEEV)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
