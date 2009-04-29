@@ -61,6 +61,7 @@ my $params = {
   'logger'    =>  'Stderr',
   'logfile'   =>  '',
   'password'  =>  '',
+  'proxy'  =>  '',
   'realm'     =>  '',
   'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
                                    # --server instead
@@ -105,6 +106,7 @@ my %options = (
   "nosoft"          =>   \$params->{nosoft},
   "nosoftware"      =>   \$params->{nosoftware},
   "p|password=s"    =>   \$params->{password},
+  "P|proxy=s"    =>   \$params->{proxy},
   "r|realm=s"       =>   \$params->{realm},
   "R|remotedir=s"   =>   \$params->{remotedir},
   "s|server=s"      =>   \$params->{server},
@@ -164,6 +166,7 @@ sub help {
   "inventory in DIR directory in XML (".$params->{local}.")\n";
   print STDERR "\t   --logfile=FILE   log message in FILE (".$params->{logfile}.")\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
+  print STDERR "\t-P --proxy=PROX     proxy address. e.g: http://user:pass\@proxy:port\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$params->{realm}.")\n";
   print STDERR "\t-s --server=uri     server uri (".$params->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";

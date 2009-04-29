@@ -4,7 +4,7 @@ futur
        * Can use Net::CUPS to find the printer
        * AIX: Hide procfs in Filesystem
        * OS::Linux::Storages, correctly retrieve the serial (Vladimir ELISSEEV)
-       * load $http_proxy env settings
+       * load $http_proxy env settings and --proxy option is available
        * Add OS::Linux::Distro::NonLSB::ArchLinux (Julien SAFAR)
        * pacman support (Julien XXXXXXX)
        * Solaris: Better output for $OSVErsion (Vladimir ELISSEEV)
