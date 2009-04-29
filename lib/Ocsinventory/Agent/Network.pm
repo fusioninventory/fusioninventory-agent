@@ -38,10 +38,9 @@ sub new {
   # Connect to server
   $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
   if ($self->{params}->{proxy}) {
-  $self->{ua}->proxy(['http', 'https'], "$self->{params}->{proxy}");
-  }
-  else {
-  $self->{ua}->env_proxy;
+    $self->{ua}->proxy(['http', 'https'], $self->{params}->{proxy});
+  }  else {
+    $self->{ua}->env_proxy;
   }
   my $version = 'OCS-NG_unified_unix_agent_v';
   $version .= exists ($self->{params}->{VERSION})?$self->{params}->{VERSION}:'';
