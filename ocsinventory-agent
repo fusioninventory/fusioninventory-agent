@@ -166,7 +166,7 @@ sub help {
   "inventory in DIR directory in XML (".$params->{local}.")\n";
   print STDERR "\t   --logfile=FILE   log message in FILE (".$params->{logfile}.")\n";
   print STDERR "\t-p --password=PWD   password for server auth\n";
-  print STDERR "\t-P --proxy=PROX     proxy address. e.g: http://user:pass\@proxy:port\n";
+  print STDERR "\t-P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$params->{realm}.")\n";
   print STDERR "\t-s --server=uri     server uri (".$params->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";
