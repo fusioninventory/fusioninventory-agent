@@ -328,7 +328,7 @@ sub setHardware {
 
   foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
     PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
-    DESCRIPTION MEMORY UUID/) {
+    DESCRIPTION MEMORY UUID DNS/) {
 
     if (exists $args->{$key}) {
       if ($key eq 'PROCESSORS' && !$nonDeprecated) {

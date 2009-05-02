@@ -14,29 +14,39 @@ sub run {
   my $inventory = $params->{inventory};
 
   my $domain;
+  my %domain;
+  my @dns_list;
+  my $srvdns;
   my $hostname;
   chomp ($hostname = `hostname`);
   my @domain = split (/\./, $hostname);
   shift (@domain);
   $domain = join ('.',@domain);
 
-  if (!$domain) {
-    my %domain;
+  open RESOLV, "/etc/resolv.conf" or warn;
 
-    open RESOLV, "/etc/resolv.conf" or warn;
     while(<RESOLV>){
-      $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+      if (/^nameserver\s+(\S+)/i) {
+        push(@dns_list,$1);
+      }
+      elsif (!$domain) {
+        $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+      }
     }
     close RESOLV;
 
-    $domain = join "/", keys %domain;
-  }
+    if (!$domain) {
+      $domain = join "/", keys %domain;
+    }
 
-  # If no domain name, we send "WORKGROUP"
+  $srvdns=join("/",@dns_list);
+  
+# If no domain name, we send "WORKGROUP"
   $domain = 'WORKGROUP' unless $domain;
 
   $inventory->setHardware({
-      WORKGROUP => $domain
+      WORKGROUP => $domain,
+      DNS => $srvdns
     });
 
 }
