@@ -407,6 +407,37 @@ sub addVirtualMachine {
 
 }
 
+sub addProcesses {
+  my ($self, $args) = @_;
+
+  my $user = $args->{USER};
+  my $pid = $args->{PID};
+  my $cpu = $args->{CPU};
+  my $mem = $args->{MEM};
+  my $vsz = $args->{VSZ};
+  my $rss = $args->{RSS};
+  my $tty = $args->{TTY};
+  my $stat = $args->{STAT};
+  my $started = $args->{STARTED};
+  my $time = $args->{TIME};
+  my $cmd = $args->{CMD};
+
+  push @{$self->{h}{CONTENT}{PROCESSES}},
+  {
+    USER => [$user?$user:''],
+    PID => [$pid?$pid:''],
+    CPU => [$cpu?$cpu:''],
+    MEM => [$mem?$mem:''],
+    VSZ => [$vsz?$vsz:''],
+    RSS => [$rss?$rss:''],
+    TTY => [$tty?$tty:''],
+    STAT => [$stat?$stat:''],
+    STARTED => [$started?$started:''],
+    TIME => [$time?$time:''],
+    CMD => [$cmd?$cmd:''],
+  };
+}
+
 
 sub setAccessLog {
   my ($self, $args) = @_;
