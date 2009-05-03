@@ -7,7 +7,7 @@ futur
        * load $http_proxy env settings and --proxy option is available
        * Add OS::Linux::Distro::NonLSB::ArchLinux (Julien SAFAR)
        * pacman support (Julien XXXXXXX)
-       * BSD: New Backend processes list, Detect DNS Servers 
+       * New Backend OS::Generic::Processes 
        * Solaris: Better output for $OSVErsion (Vladimir ELISSEEV)
        * Solaris: Sun Fire T1000 patches for memory (Vladimir ELISSEEV)
        * Solaris: memory SPARC Enterprise T5220 (Vladimir ELISSEEV)

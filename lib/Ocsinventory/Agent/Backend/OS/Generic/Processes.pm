@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::OS::BSD::Processes;
+package Ocsinventory::Agent::Backend::OS::Generic::Processes;
 use strict;
 
 sub check {can_run("ps")}
