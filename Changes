@@ -8,6 +8,7 @@ futur
        * Add OS::Linux::Distro::NonLSB::ArchLinux (Julien SAFAR)
        * pacman support (Julien XXXXXXX)
        * New Backend OS::Generic::Processes 
+       * Linux/BSD: detect DNS servers config 
        * Solaris: Better output for $OSVErsion (Vladimir ELISSEEV)
        * Solaris: Sun Fire T1000 patches for memory (Vladimir ELISSEEV)
        * Solaris: memory SPARC Enterprise T5220 (Vladimir ELISSEEV)
