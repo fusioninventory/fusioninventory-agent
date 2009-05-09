@@ -25,9 +25,9 @@ sub run {
      if (/dmi type 1,/i) {
          $flag = 1;
          next;
-    }
+     }
 
-   if ($flag) {
+     if ($flag) {
         if (/^\s+UUID:\s+(\S+)/) {
             $uuid = $1;
             last;
@@ -35,8 +35,8 @@ sub run {
             last;
         }
 
+      }
    }
-
 
 
    $inventory->setHardware({
