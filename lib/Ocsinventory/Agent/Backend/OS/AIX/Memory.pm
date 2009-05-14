@@ -12,45 +12,58 @@ sub run {
   my $speed;
   my $type;
   my $n;
+  my $serial;
+  my $mversion;
+  my $caption;
   my $flag=0;
   #lsvpd
   my @lsvpd = `lsvpd`;
   # Remove * (star) at the beginning of lines
   s/^\*// for (@lsvpd);
-  
+ 
+  $numslots = -1; 
   for(@lsvpd){
-    if(/^DS (.+MS.*)/){
+    if(/^DS Memory DIMM/){
+      $description = $_;
       $flag=1; (defined($n))?($n++):($n=0);
-      $description = $1;
-      $description =~ s/\s+$//;
+      $description =~ s/DS //;
+      $description =~ s/\n//;
     }
     if((/^SZ (.+)/) && ($flag)) {$capacity = $1;}
 	if((/^PN (.+)/) && ($flag)) {$type = $1;}
 	# localisation slot dans type
-	if((/^YL\s(.+)/) && ($flag)) {$numslots = $1;}
+	if((/^YL\s(.+)/) && ($flag)) {$caption = "Slot ".$1;}
+	if((/^SN (.+)/) && ($flag)) {$serial = $1;}
+	if((/^VK (.+)/) && ($flag)) {$mversion = $1};
 	#print $numslots."\n";
 	# On rencontre un champ FC alors c'est la fin pour ce device
 	if((/^FC .+/) && ($flag)) {
 		$flag=0;
+		$numslots = $numslots +1;
 		$inventory->addMemories({
 		CAPACITY => $capacity,	
 	  	DESCRIPTION => $description,
+		CAPTION => $caption,
 	  	NUMSLOTS => $numslots,
-	  	SPEED => $speed,
+	  	VERSION => $mversion,
 	  	TYPE => $type,
+	        SERIALNUMBER=> $serial,	
+
 	})
-		
-	}; 
-	
-  }
+		}; 
+}
+  
+		$numslots = $numslots +1;
   # End of Loop
   # The last *FC ???????? missing
 		$inventory->addMemories({
 		CAPACITY => $capacity,
 		DESCRIPTION => $description,
+		CAPTION => $caption,
 		NUMSLOTS => $numslots,
-		SPEED => $speed,
+		VERSION => $mversion,
 		TYPE => $type,
+		SERIALNUMBER=> $serial,
 	});
 }
 
