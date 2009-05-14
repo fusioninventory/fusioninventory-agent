@@ -49,6 +49,44 @@ sub run {
     });
 	$n++;
   }
+#Virtual disks
+  @scsi= ();
+  @lsattr= ();
+  $n=0;
+  @scsi=`lsdev -Cc disk -s vscsi -F 'name:description'`;
+  for(@scsi){
+        chomp $scsi[$n];
+        /^(.+):(.+)/;
+        $device=$1;
+        $description=$2;
+	@lsattr=`lspv  $device 2>&1`;
+	for (@lsattr){
+		if ( ! ( /^0516-320.*/ ) )
+		{
+          		if (/TOTAL PPs:/ ) {
+	
+				($capacity,$model) = split(/\(/, $_);
+				($capacity,$model) = split(/ /,$model);
+			}
+        	}
+		else
+		{
+			$capacity=0;
+		}
+	}
+        $inventory->addStorages({
+          MANUFACTURER => "VIO Disk",
+          MODEL => "Virtual Disk",
+          DESCRIPTION => $description,
+          TYPE => 'VSCSI',
+	  NAME => $device,
+          DISKSIZE => $capacity
+    });
+        $n++;
+  }
+
+
+
   #CDROM
   @scsi= ();
   @lsattr= ();
