@@ -348,7 +348,7 @@ sub runWithTimeout {
 
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm 30;
+        alarm 180;
         $ret = &{$func}($params);
     };
 
