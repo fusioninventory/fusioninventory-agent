@@ -18,7 +18,7 @@ futur
        * Linux: drop Linux::Controllers which is duplicated with
          Generic::Lspci::Controllers (Vladimir ELISSEEV)
        * AIX: Various fixes in Memory.pm (Sebastien DAGNICOURT)
-       * AIX: Virtual disks support (Sebastien DAGNICOURT)
+       * AIX: Storages.pm, Virtual disks support and fixes (Sebastien DAGNICOURT)
        * Backend.pm: Bump the default timeout from 30 to 180 secondes
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100

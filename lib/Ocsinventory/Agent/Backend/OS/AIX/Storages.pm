@@ -25,7 +25,7 @@ sub run {
 	chomp $scsi[$n];
 	/^(.+):(.+)/;
 	$device=$1;
-	$description=$1." ".$2;
+	$description=$2;
     @lsattr=`lsattr -EOl $device -a 'size_in_mb'`;
 	for (@lsattr){
 	  if (! /^#/ ){
@@ -41,6 +41,7 @@ sub run {
 	  if ((/^FC .+/) && $flag) {$flag=0;last}
 	}
 	$inventory->addStorages({
+	  NAME => $device,
 	  MANUFACTURER => $manufacturer,
 	  MODEL => $model,
 	  DESCRIPTION => $description,
@@ -97,7 +98,7 @@ sub run {
     /^(.+):(.+):(.+)/;
     $device=$1;
     $status=$3;
-    $description=$1." ".$2;
+    $description=$2;
     $capacity="";
     if (($status =~ /Available/)){
       @lsattr=`lsattr -EOl $device -a 'size_in_mb'`;
@@ -116,6 +117,7 @@ sub run {
 		if ((/^FC .+/) && $flag) {$flag=0;last}
       }
       $inventory->addStorages({
+	    NAME => $device,
 	    MANUFACTURER => $manufacturer,
 	    MODEL => $model,
 	    DESCRIPTION => $description,
@@ -137,7 +139,7 @@ sub run {
 	/^(.+):(.+):(.+)/;
 	$device=$1;
 	$status=$3;
-	$description=$1." ".$2;
+	$description=$2;
 	$capacity="";
 	if (($status =~ /Available/)){
       @lsattr=`lsattr -EOl $device -a 'size_in_mb'`;
@@ -155,6 +157,7 @@ sub run {
 		if ((/^FC .+/) && $flag) {$flag=0;last}
    	  }
    	  $inventory->addStorages({
+	    NAME => $device,
 	    MANUFACTURER => $manufacturer,
 	    MODEL => $model,
 	    DESCRIPTION => $description,
@@ -176,7 +179,7 @@ sub run {
     /^(.+):(.+):(.+)/;
     $device=$1;
     $status=$3;
-    $description=$1." ".$2;
+    $description=$2;
     $capacity="";
     if (($status =~ /Available/)){
       @lsattr=`lsattr -EOl $device -a 'fdtype'`;
@@ -189,6 +192,7 @@ sub run {
       #On le force en retour taille disquette non affichable
       $capacity ="";
       $inventory->addStorages({
+	    NAME => $device,
 	    MANUFACTURER => 'N/A',
 	    MODEL => 'N/A',
 	    DESCRIPTION => $description,
