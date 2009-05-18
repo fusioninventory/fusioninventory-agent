@@ -234,7 +234,7 @@ sub addSoftwares {
     FOLDER => [$folder?$folder:''],
     NAME => [$name?$name:''],
     PUBLISHER => [$publisher?$publisher:''],
-    VERSION => [$version?$version:''],
+    VERSION => [$version],
 
   };
 }

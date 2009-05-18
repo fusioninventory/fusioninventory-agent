@@ -20,6 +20,7 @@ futur
        * AIX: Various fixes in Memory.pm (Sebastien DAGNICOURT)
        * AIX: Storages.pm, Virtual disks support and fixes (Sebastien DAGNICOURT)
        * Backend.pm: Bump the default timeout from 30 to 180 secondes
+       * Agent/XML/Inventory: Fix when version == 0, bug found by neisen
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
