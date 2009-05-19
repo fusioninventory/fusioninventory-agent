@@ -42,13 +42,13 @@ if ($ENV{OCS_BUNDLE_RELEASE}) {
   foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
     bundle $module;
     requires $module;
-  } 
+  }
 }
 
 
 
 if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
-    unlink 'run-postinst';  
+    unlink 'run-postinst';
 } else {
     open POSTINST, '>run-postinst' or die $!;
     close POSTINST;
@@ -56,11 +56,11 @@ if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
 
 
 if (!can_use('Compress::Zlib')) {
-    print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n"; 
+    print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
 }
 
 if (!can_use('Crypt::SSLeay')) {
-    print "Please install Crypt::SSLeay if you want to use SSL.\n"; 
+    print "Please install Crypt::SSLeay if you want to use SSL.\n";
 }
 
 if (!can_run('ipdiscover') && !can_run('nmap')) {
@@ -73,7 +73,7 @@ if (!can_run('ipdiscover') && !can_run('nmap')) {
 
 my $archname;
 eval { # config_re is not avalaible on Perl 5.6
-    my @t = Config::config_re('archname'); 
+    my @t = Config::config_re('archname');
     $archname = $t[0];
 };
 if ($^O =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd64)/i)) {
