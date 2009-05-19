@@ -191,7 +191,7 @@ sub help {
 }
 
 sub version {
-  print "Ocsinventory unified agent for UNIX and Linux (".$VERSION.")\n";
+  print "Ocsinventory unified agent for UNIX, Linux and MacOSX (".$VERSION.")\n";
   exit 0;
 }
 
@@ -584,7 +584,7 @@ tested on AIX 5.1, 5.2 and 5.3 (PPC)
 
 =item F<MacOSX>
 
-tested with system from 10.3.9 to 10.5.2 
+tested with system from 10.3.9 to 10.5.3
 
 =back
 

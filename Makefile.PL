@@ -20,7 +20,7 @@ use Config;
 
 name 'Ocsinventory-Agent';
 include 'Module::AutoInstall';
-abstract 'Ocs-Inventory unified Agent for UNIX and Linux';
+abstract 'Ocs-Inventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
 version_from 'ocsinventory-agent';
 perl_version '5.006';
