@@ -1,3 +1,6 @@
+Olivier ANDREOTTI: AIX, Solaris patches
+Thierry LACOSTE: BSD portage
+Didier LIROULET: Installation script
 Remi COLLET: bug fixes and Fedora/RedHat maintainer
 Walid NOUH: gave access to PowerPC hardware to help the portage
 Olivier ROUSSY: minor patches 
@@ -8,6 +11,8 @@ Jean-Jacques MICHEL: Solaris patches
 Etienne GUILLAUMONT: AIX4 CPU detection
 Wes YOUNG: MacOSX support and patches
 Edouard GAMIN: RAID devices support for Linux
+Christoph HALMES: Solaris patches
+Jean PARPAILLON: IPMI backends and patches
 David DURIEUX: AMD64 detection on BSD systems
 Wilfried BRUNKEN: patch for memory detection on AIX
 Vladimir ELISSEEV: various patches
