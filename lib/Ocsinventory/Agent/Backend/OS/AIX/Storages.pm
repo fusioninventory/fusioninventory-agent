@@ -45,7 +45,7 @@ sub run {
 	  MANUFACTURER => $manufacturer,
 	  MODEL => $model,
 	  DESCRIPTION => $description,
-	  TYPE => 'SCSI',
+	  TYPE => 'disk',
 	  DISKSIZE => $capacity
     });
 	$n++;
@@ -79,7 +79,7 @@ sub run {
           MANUFACTURER => "VIO Disk",
           MODEL => "Virtual Disk",
           DESCRIPTION => $description,
-          TYPE => 'VSCSI',
+          TYPE => 'disk',
 	  NAME => $device,
           DISKSIZE => $capacity
     });
@@ -121,7 +121,7 @@ sub run {
 	    MANUFACTURER => $manufacturer,
 	    MODEL => $model,
 	    DESCRIPTION => $description,
-	    TYPE => 'SCSI',
+	    TYPE => 'cd',
 	    DISKSIZE => $capacity
       });
       $n++;
@@ -161,7 +161,7 @@ sub run {
 	    MANUFACTURER => $manufacturer,
 	    MODEL => $model,
 	    DESCRIPTION => $description,
-	    TYPE => 'SCSI',
+	    TYPE => 'tape',
 	    DISKSIZE => $capacity
       });
       $n++;
@@ -196,7 +196,7 @@ sub run {
 	    MANUFACTURER => 'N/A',
 	    MODEL => 'N/A',
 	    DESCRIPTION => $description,
-	    TYPE => 'SCSI',
+	    TYPE => 'floppy',
 	    DISKSIZE => ''
       });
 	  $n++;
