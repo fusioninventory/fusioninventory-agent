@@ -20,7 +20,11 @@ sub run {
         $inventory->setBios({
                 SMANUFACTURER   => 'Apple Inc', # duh
                 SMODEL          => $h->{'Model Identifier'} || $h->{'Machine Model'},
-                SSN             => $h->{'Serial Number'},
+        #       SSN             => $h->{'Serial Number'}
+        # New method to get the SSN, because of MacOS 10.5.7 update
+        # system_profiler gives 'Serial Number (system): XXXXX' where 10.5.6
+        # and lower give 'Serial Number: XXXXX'
+                SSN             => $h->{'Serial Number'} || $h->{'Serial Number (system)'},
                 BVERSION        => $h->{'Boot ROM Version'},
         });
 }
