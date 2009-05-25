@@ -41,6 +41,7 @@ sub run {
   if ($model eq "SUNW,Sun-Fire-V490") { $sun_class = 1; }
   if ($model eq "SUNW,Sun-Fire-880")  { $sun_class = 1; }
   if ($model eq "SUNW,Sun-Fire-V240") { $sun_class = 2; }
+  if ($model eq "SUNW,Sun-Fire-V440") { $sun_class = 2; }
   if ($model eq "SUNW,Sun-Fire-V250") { $sun_class = 2; }
   if ($model eq "SUNW,Sun-Fire-T200") { $sun_class = 3; }
   if ($model eq "SUNW,Sun-Fire-T1000") { $sun_class = 3; }
@@ -134,7 +135,11 @@ sub run {
           })
         }
       }
-  
+	if(/.*Memory Module Groups.*/)
+	{
+		$flag = 0;
+		$flag_mt = 0;
+	}	
       # we only grap for information if flag = 1
       if($flag && /^\s*\S+\s+\S+\s+(\S+)/){ $caption = $1; }
       if($flag && /^\s*(\S+)/){ $numslots = $1; }
@@ -146,21 +151,19 @@ sub run {
         $module_count++;
         $inventory->addMemories({
           CAPACITY => $capacity,
-          DESCRIPTION => $description,
-          CAPTION => $caption,
+          DESCRIPTION => "DIMM",
+          CAPTION => "Ram slot ".$numslots,
           SPEED => $speed,
           TYPE => $type,
           NUMSLOTS => $numslots
         })
       }
         # this is the caption line 
-      if(/^ControllerID\s+\S+\s+\S+\s+\S+\s+(\S+)/) { $flag_mt = 1; $description = $1;}
+      if(/^ID       ControllerID/) { $flag_mt = 1; $description = $1;}
       # if we find "---", we set flag = 1, and in next line, we start to look for information
   		if($flag_mt && /^-+/){ $flag = 1;}
     }
     # debug: show number of modules found and number of empty slots
-    #print "# of RAM Modules: " . $module_count . "\n";
-    #print "# of empty slots: " . $empty_slots . "\n";
   }
  
   if($sun_class == 3)
