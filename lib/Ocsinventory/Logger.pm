@@ -38,7 +38,7 @@ sub new {
     push @{$self->{backend}}, $obj if $obj;
   }
   
-  my $version = "Ocsinventory unified agent for UNIX and Linux";
+  my $version = "Ocsinventory unified agent for UNIX, Linux and MacOSX ";
   $version .= exists ($self->{params}->{VERSION})?$self->{params}->{VERSION}:'';
   $self->debug($version."\n");
   $self->debug("Log system initialised (@loadedMbackends)");

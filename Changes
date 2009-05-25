@@ -23,6 +23,7 @@ futur
        * Agent/XML/Inventory: Fix when version == 0, bug found by neisen
        * AIX: device type adjustment (Sebastien DAGNICOURT)
        * Solaris: Sun-Fire-V440 support (Sebastien DAGNICOURT)
+       * Add a missing space is the name banner in --debug mode
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
