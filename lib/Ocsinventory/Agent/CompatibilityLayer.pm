@@ -22,6 +22,7 @@ sub new {
     $modulefile = $_.'/modules.conf';
     if (-f $modulefile) {
       if (do $modulefile) {
+	$logger->debug("Turns CompatibilityLayer on for $modulefile");
 	$self->{dontuse} = 0;
       } else {
 	$logger->debug("Failed to load `$modulefile': $?. No external module will".
@@ -39,11 +40,15 @@ sub new {
           $ocsAgentServerUri = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
       }
 
+      if ($self->{params}->{debug}) {
+        $::debug = 2;
+      }
+
     $self->{current_context} = {
       OCS_AGENT_LOG_PATH => $self->{params}->{logdir}."modexec.log",
       OCS_AGENT_SERVER_URI => $ocsAgentServerUri,
       OCS_AGENT_INSTALL_PATH => $self->{params}->{vardir},
-      OCS_AGENT_DEBUG_LEVEL => 2, # TODO
+      OCS_AGENT_DEBUG_LEVEL => $::debug,
       OCS_AGENT_EXE_PATH => $Bin,
       OCS_AGENT_SERVER_NAME => $self->{params}->{server},
       OCS_AGENT_AUTH_USER => $self->{params}->{user},
