@@ -221,6 +221,8 @@ sub addSoftwares {
   my $comments = $args->{COMMENTS};
   my $filesize = $args->{FILESIZE};
   my $folder = $args->{FOLDER};
+  my $from = $args->{FROM};
+  my $installdate = $args->{INSTALLDATE};
   my $name = $args->{NAME};
   my $publisher = $args->{PUBLISHER};
   my $version = $args->{VERSION};
@@ -232,6 +234,8 @@ sub addSoftwares {
     COMMENTS => [$comments?$comments:''],
     FILESIZE => [$filesize?$filesize:''],
     FOLDER => [$folder?$folder:''],
+    FROM => [$from?$from:''],
+    INSTALLDATE => [$installdate?$installdate:'']
     NAME => [$name?$name:''],
     PUBLISHER => [$publisher?$publisher:''],
     VERSION => [$version],
@@ -328,7 +332,8 @@ sub setHardware {
 
   foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
     PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
-    DESCRIPTION MEMORY UUID DNS/) {
+    DESCRIPTION MEMORY UUID DNS INSTALLDATE LASTLOGGEDUSER
+    DATELASTLOGGEDUSER OSARCHITECTURE/) {
 
     if (exists $args->{$key}) {
       if ($key eq 'PROCESSORS' && !$nonDeprecated) {
