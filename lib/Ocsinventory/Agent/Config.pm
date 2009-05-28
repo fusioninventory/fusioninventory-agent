@@ -18,12 +18,12 @@ sub get {
       $file = $_.'/ocsinventory-agent.cfg';
       last if -f $file;
     }
-    return {} unless -f $file;
+    return $config unless -f $file;
   }
 
   $config->{configfile} = $file;
 
-  open (CONFIG, "<".$file) or return {};
+  open (CONFIG, "<".$file) or return $config;
 
   foreach (<CONFIG>) {
     s/#.+//;
