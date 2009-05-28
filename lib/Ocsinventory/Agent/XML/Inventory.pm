@@ -235,7 +235,7 @@ sub addSoftwares {
     FILESIZE => [$filesize?$filesize:''],
     FOLDER => [$folder?$folder:''],
     FROM => [$from?$from:''],
-    INSTALLDATE => [$installdate?$installdate:'']
+    INSTALLDATE => [$installdate?$installdate:''],
     NAME => [$name?$name:''],
     PUBLISHER => [$publisher?$publisher:''],
     VERSION => [$version],
