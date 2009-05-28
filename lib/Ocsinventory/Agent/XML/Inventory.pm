@@ -383,7 +383,7 @@ sub addCPU {
     PROCESSORN => $processorn,
     PROCESSORS => $processors,
     PROCESSORT => $processort,
-}, 1);
+  }, 1);
 
 }
 
