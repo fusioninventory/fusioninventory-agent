@@ -1,7 +1,7 @@
 Revision history for Ocsinventory::Agent
 
 futur
-       * Can use Net::CUPS to find the printer
+       * Can use Net::CUPS to find the default printer
        * AIX: Hide procfs in Filesystem
        * OS::Linux::Storages, correctly retrieve the serial (Vladimir ELISSEEV)
        * load $http_proxy env settings and --proxy option is available

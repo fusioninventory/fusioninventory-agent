@@ -387,6 +387,27 @@ sub addCPU {
 
 }
 
+sub addPrinters {
+  my ($self, $args) = @_;
+
+  my $description = $args->{DESCRIPTION};
+  my $driver = $args->{DRIVER};
+  my $name = $args->{NAME};
+  my $port = $args->{PORT};
+
+  push @{$self->{h}{CONTENT}{PRINTERS}},
+  {
+
+    DESCRIPTION => [$description?$description:''],
+    DRIVER => [$driver?$driver:''],
+    NAME => [$name?$name:''],
+    PORT => [$port?$port:''],
+
+  };
+}
+
+
+
 sub addVirtualMachine {
   my ($self, $args) = @_;
 
