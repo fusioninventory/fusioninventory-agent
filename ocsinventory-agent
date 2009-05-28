@@ -48,7 +48,7 @@ our $VERSION = '1.0.1';
 my $basedir = '';
 #$basedir = 'c:/cvs_ocs/ocsinventory-agent';
 # default settings;
-my $params = { 
+my $params = {
   'daemon'    =>  0,
   'debug'     =>  0,
   'devlib'    =>  0,
@@ -249,7 +249,7 @@ my $logger = new Ocsinventory::Logger ({
 
 if ($params->{nosoft}) {
     $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
-    $params->{nosoftware} = 1 
+    $params->{nosoftware} = 1
 }
 
 
@@ -259,7 +259,7 @@ if (!$params->{'stdout'} && !$params->{'local'} && $params->{server} !~ /^http(|
 }
 
 ############################
-#### Objects initilisation 
+#### Objects initilisation
 ############################
 
 # The agent can contact different servers. Each server accountconfig is
@@ -339,7 +339,7 @@ if ($params->{lazy}) {
   my $nexttime = (stat($params->{next_timefile}))[9];
 
   if ($nexttime && $nexttime > time) {
-    $logger->info("Must wait until ".localtime($nexttime)." exiting...");
+    $logger->info("[Lazy] Must wait until ".localtime($nexttime)." exiting...");
     exit 0;
   }
 }
@@ -367,7 +367,7 @@ my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
   });
 
 if ($params->{daemon}) {
-  
+
   $logger->debug("Time to call Proc::Daemon");
   eval { require Proc::Daemon; };
   if ($@) {
@@ -379,6 +379,7 @@ if ($params->{daemon}) {
   if (isAgentAlreadyRunning({
       logger => $logger,
   })) {
+    $logger->debug("An agent is already runnnig, exiting...");
     exit 1;
   }
 
@@ -439,7 +440,7 @@ while (1) {
   } else { # I've to contact the server
 
     my $net = new Ocsinventory::Agent::Network ({
-	
+
 	accountconfig => $accountconfig,
 	accountinfo => $accountinfo,
 	compatibilityLayer => $compatibilityLayer,
@@ -460,7 +461,7 @@ while (1) {
 	});
 
       $prologresp = $net->send({message => $prolog});
-      
+
       if (!$prologresp) { # Failed to reach the server
         if ($params->{lazy}) {
           # To avoid flooding a heavy loaded server
@@ -530,7 +531,7 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
 
     % ocsinventory-agent --server localhost
     # sent an inventory to the OCS server
-    
+
     % ocsinventory-agent --server http://localhost/ocsinventory2
     # sent an inventory over http to a server with a non standard
     # virtual directory
@@ -540,9 +541,9 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
 
     % ocsinventory-agent --local /tmp
     # write an inventory in the /tmp directory
-    
+
     % ocsinventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
-    # send a report to a server protected by a basic authentification 
+    # send a report to a server protected by a basic authentification
     % ocsinventory-agent --lazy
     # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Usefull for package maintainer.
 
@@ -593,8 +594,8 @@ tested with system from 10.3.9 to 10.5.3
 Most of the options are available in a I<short> form and a I<long> form.  For
 example, the two lines below are all equivalent:
 
-    % ocsinventory-agent -s localhost 
-    % ocsinventory-agent --server localhost 
+    % ocsinventory-agent -s localhost
+    % ocsinventory-agent --server localhost
 
 =over 4
 
@@ -694,19 +695,19 @@ Do not inventory the software installed on the machin. B<--nosoft> is deperecate
 
 Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE, Didier LIROULET
 
-=head1 SEE ALSO 
+=head1 SEE ALSO
 
 =over 4
 
 =item OCS-Inventory website,
 
- http://www.ocsinventory-ng.org/ 
+ http://www.ocsinventory-ng.org/
 
 =item forum,
 
  http://forums.ocsinventory-ng.org/
 
-=item and wiki 
+=item and wiki
 
  http://wiki.ocsinventory-ng.org/
 
