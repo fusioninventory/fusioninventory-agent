@@ -18,20 +18,23 @@ sub run {
 
   my @list;
   my $buff;
-  foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} %{SUMMARY}\n--\n" 2>/dev/null`) {
+  foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} --%{INSTALLTIME:date}-- --%{SIZE}-- %{SUMMARY}\n--\n" 2>/dev/null`) {
     if (! /^--/) {
       chomp;
       $buff .= $_;
-    } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+(.*)//) {
+    } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+--(.*)--\s+(.*)//) {
     $inventory->addSoftwares({
-	'NAME'          => $1,
-	'VERSION'       => $2,
-	'COMMENTS'      => $3,
-	});
-  } else {
-    warn "Should never go here!";
-    $buff = '';
-  }
+        'NAME'          => $1,
+        'VERSION'       => $2,
+        'INSTALLDATE'   => $3,
+        'FILESIZE'      => $4,
+        'COMMENTS'      => $5,
+        'FROM'          => 'rpm'
+		});
+    } else {
+      warn "Should never go here!";
+      $buff = '';
+    }
   }
 }
 
