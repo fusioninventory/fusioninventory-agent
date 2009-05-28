@@ -75,7 +75,7 @@ sub run {
 
   foreach (`ifconfig -a`) {
     if (/^$/ && $description !~ /^(lo|vmnet\d+|sit\d+)$/) {
-      # end of interface section 
+      # end of interface section
       # I write the entry
       my $binip = ip_iptobin ($ipaddress ,4);
       my $binmask = ip_iptobin ($ipmask ,4);
@@ -87,7 +87,7 @@ sub run {
 	$type = "Wifi";
       }
 
-      $ipgateway = $gateway{$ipsubnet}; 
+      $ipgateway = $gateway{$ipsubnet};
 
       $inventory->addNetworks({
 
