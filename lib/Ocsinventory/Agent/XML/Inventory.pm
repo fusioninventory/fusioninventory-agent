@@ -226,8 +226,6 @@ sub addSoftwares {
   my $name = $args->{NAME};
   my $publisher = $args->{PUBLISHER};
   my $version = $args->{VERSION};
-  my $from = $args->{FROM};
-  my $installdate = $args->{INSTALLDATE};
 
 
   push @{$self->{h}{CONTENT}{SOFTWARES}},
@@ -241,8 +239,6 @@ sub addSoftwares {
     NAME => [$name?$name:''],
     PUBLISHER => [$publisher?$publisher:''],
     VERSION => [$version],
-    FROM => [$from?$from:''],
-    INSTALLDATE => [$installdate?$installdate:'']
 
   };
 }
@@ -337,7 +333,7 @@ sub setHardware {
   foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
     PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
     DESCRIPTION MEMORY UUID DNS INSTALLDATE LASTLOGGEDUSER
-    DATELASTLOGGEDUSER OSARCHITECTURE DEFAULTGATEWAY DATELASTLOGGEDUSER/) {
+    DATELASTLOGGEDUSER OSARCHITECTURE DEFAULTGATEWAY/) {
 
     if (exists $args->{$key}) {
       if ($key eq 'PROCESSORS' && !$nonDeprecated) {
