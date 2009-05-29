@@ -34,6 +34,8 @@ futur
        * RPM: collect the install date and the size (Nicolas EISEN)
        * Linux: Collect LASTLOGGEDUSER and DATELASTLOGGEDUSER (Nicolas EISEN)
        * DPKG: collect the Installed-Size (Nicolas EISEN)
+       * Linux: Collect the ext{2,3,4} and xfs serial number
+       * Linux: Collect the ext{2,3,4} creation date
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 

@@ -106,16 +106,20 @@ sub addModems {
 sub addDrives {
   my ($self, $args) = @_;
 
+  my $createdate = $args->{CREATEDATE};
   my $free = $args->{FREE};
   my $filesystem = $args->{FILESYSTEM};
+  my $serial = $args->{SERIAL};
   my $total = $args->{TOTAL};
   my $type = $args->{TYPE};
   my $volumn = $args->{VOLUMN};
 
   push @{$self->{h}{CONTENT}{DRIVES}},
   {
+    CREATEDATE => [$createdate?$createdate:''],
     FREE => [$free?$free:''],
     FILESYSTEM => [$filesystem?$filesystem:''],
+    SERIAL => [$serial?$serial:''],
     TOTAL => [$total?$total:''],
     TYPE => [$type?$type:''],
     VOLUMN => [$volumn?$volumn:'']
