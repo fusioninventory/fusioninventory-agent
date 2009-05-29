@@ -8,14 +8,6 @@ sub check {
   0
 }
 
-sub getSerial {
-  my ($type, $volume) = @_;
-
-  my $serial;
-
-  return $serial;
-}
-
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
