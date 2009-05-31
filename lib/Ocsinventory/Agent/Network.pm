@@ -118,7 +118,7 @@ sub send {
   }
   $tmp->import();
   my $response = $tmp->new ({
-     
+
      accountconfig => $self->{accountconfig},
      accountinfo => $self->{accountinfo},
      content => $content,

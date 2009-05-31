@@ -116,7 +116,7 @@ my %options = (
   "version"         =>   \$params->{version},
   "w|wait=s"        =>   \$params->{wait},
 #  "x|xml"          =>   \$params{xml},
-  "delaytime"	    => 	 \$params->{delaytime},
+  "delaytime"	    =>	 \$params->{delaytime},
 );
 
 ##########################################
