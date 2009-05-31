@@ -37,6 +37,7 @@ futur
        * Linux: Collect the ext{2,3,4} and xfs serial number
        * Linux: Collect the ext{2,3,4} creation date
        * Add a warning when no certificat is found
+       * Turns off alarm once it's backend run is finish
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 

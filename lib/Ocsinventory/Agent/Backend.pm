@@ -351,6 +351,7 @@ sub runWithTimeout {
         alarm 180;
         $ret = &{$func}($params);
     };
+    alarm 0;
 
 
     if ($@) {
