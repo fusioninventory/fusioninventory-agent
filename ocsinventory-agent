@@ -644,6 +644,10 @@ Log message in I<FILE> and turn off STDERR
 
 Use I<PASSWORD> for an HTTP identification with the server.
 
+=item B<-P>, B<--proxy>=I<PROXY>
+
+Use I<PROXY> to specify a proxy HTTP server. By default, the script use HTTP_PROXY environment variable. 
+
 =item B<-r>, B<--realm>=I<REALM>
 
 Use I<REALM> for an HTTP identification with the server. For example, the value can be 'Restricted Area'. You can find it in the login popup of your Internet browser.
