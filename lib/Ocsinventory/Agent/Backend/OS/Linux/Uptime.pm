@@ -1,13 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Uptime;
 use strict;
 
-sub check {
-  return unless can_run("mount");
-  foreach (`mount`) {
-    return 1 if (/type\ proc/);
-  }
-  return;
-}
+sub check { can_read("/proc/uptime") }
 
 sub run {
   my $params = shift;

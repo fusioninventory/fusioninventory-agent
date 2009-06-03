@@ -30,6 +30,11 @@ futur
        * Initialize etcdir key even if there is no config file
        * CompatibilityLayer: correctly set $debug
        * CompatibilityLayer: better log messages
+       * getOptionInfoByName return an array ref now
+       * rename getOptionInfoByName to getOptionsInfoByName
+       * --debug print the XML on STDERR
+       * Rename the params key to config to avoid ambiguity
+         with $params
        * set HARDWARE/DEFAULTGATEWAY (Nicolas EISEN)
        * RPM: collect the install date and the size (Nicolas EISEN)
        * Linux: Collect LASTLOGGEDUSER and DATELASTLOGGEDUSER (Nicolas EISEN)
@@ -39,6 +44,18 @@ futur
        * Add a warning when no certificat is found
        * Turns off alarm once it's backend run is finish
        * Fix the IPMI module detection
+       * Linux: Store the PCISLOT and the driver name
+       * NETWORKDS, only store Networks with an address
+       * Linux: detect virtual network device
+       * Linux: Store CONTROLLERS/DRIVER and CONTROLLERS/PCISLOT
+       * Linux: Collects xfs, ext{2,3,4} and vfat label
+       * runs the backend module from main() it's possible to
+         reuse the Backend object.
+       * Linux: filter non standard MAC address returned by ifconfig like
+         00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00 mac
+       * Linux: Fix the Uptime check()
+       * Preliminary libvirt support
+       * Partial rewrite of the Download.pm backend
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 

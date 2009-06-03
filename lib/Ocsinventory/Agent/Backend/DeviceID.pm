@@ -5,14 +5,14 @@ package Ocsinventory::Agent::Backend::DeviceID;
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
-  my $params = $params->{params};
+  my $config = $params->{config};
 
   my $UsersLoggedIn = join "/", keys %user;
 
-  if ($params->{old_deviceid}) {
-    $inventory->setHardware({ OLD_DEVICEID => $params->{old_deviceid} });
+  if ($config->{old_deviceid}) {
+    $inventory->setHardware({ OLD_DEVICEID => $config->{old_deviceid} });
   }
-  $inventory->setHardware({ DEVICEID => $params->{deviceid} });
+  $inventory->setHardware({ DEVICEID => $config->{deviceid} });
 
 }
 

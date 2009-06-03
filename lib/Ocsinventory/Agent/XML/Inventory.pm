@@ -10,21 +10,21 @@ use Config;
 use Ocsinventory::Agent::Backend;
 
 sub new {
-  my (undef,$params) = @_;
+  my (undef, $params) = @_;
 
   my $self = {};
   $self->{accountinfo} = $params->{accountinfo};
   $self->{accountconfig} = $params->{accountconfig};
+  $self->{backend} = $params->{backend};
   my $logger = $self->{logger} = $params->{logger};
-  $self->{params} = $params->{params};
-  $self->{prologresp} = $params->{prologresp};
+  $self->{config} = $params->{config};
 
-  if (!($self->{params}{deviceid})) {
+  if (!($self->{config}{deviceid})) {
     $logger->fault ('deviceid unititalised!');
   }
 
-  $self->{h}{QUERY} = ['INVENTORY']; 
-  $self->{h}{DEVICEID} = [$self->{params}->{deviceid}]; 
+  $self->{h}{QUERY} = ['INVENTORY'];
+  $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
   $self->{h}{CONTENT}{ACCESSLOG} = {};
   $self->{h}{CONTENT}{BIOS} = {};
   $self->{h}{CONTENT}{CONTROLLERS} = [];
@@ -55,34 +55,25 @@ sub initialise {
 
   return if $self->{isInitialised};
 
-  my $backend = new Ocsinventory::Agent::Backend ({
-
-	  accountinfo => $self->{accountinfo},
-	  accountconfig => $self->{accountconfig},
-	  logger => $self->{logger},
-	  params => $self->{params},
-	  prologresp => $self->{prologresp},
-
-      });
-
-  $backend->feedInventory ({inventory => $self});
-
-  $self->{isInitialised} = 1;
+  $self->{backend}->feedInventory ({inventory => $self});
 
 }
 
 sub addController {
   my ($self, $args) = @_;
 
+  my $driver = $args->{DRIVER};
   my $name = $args->{NAME};
   my $manufacturer = $args->{MANUFACTURER};
+  my $pcislot = $args->{PCISLOT};
   my $type = $args->{TYPE};
 
   push @{$self->{h}{CONTENT}{CONTROLLERS}},
   {
-
+    DRIVER => [$driver?$driver:''],
     NAME => [$name],
     MANUFACTURER => [$manufacturer],
+    PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
 
   };
@@ -109,6 +100,7 @@ sub addDrives {
   my $createdate = $args->{CREATEDATE};
   my $free = $args->{FREE};
   my $filesystem = $args->{FILESYSTEM};
+  my $label = $args->{LABEL};
   my $serial = $args->{SERIAL};
   my $total = $args->{TOTAL};
   my $type = $args->{TYPE};
@@ -119,6 +111,7 @@ sub addDrives {
     CREATEDATE => [$createdate?$createdate:''],
     FREE => [$free?$free:''],
     FILESYSTEM => [$filesystem?$filesystem:''],
+    LABEL => [$label?$label:''],
     SERIAL => [$serial?$serial:''],
     TOTAL => [$total?$total:''],
     TYPE => [$type?$type:''],
@@ -160,7 +153,7 @@ sub addMemories {
   my $speed =  $args->{SPEED};
   my $type = $args->{TYPE};
   my $description = $args->{DESCRIPTION};
-  my $caption = $args->{CAPTION}; 
+  my $caption = $args->{CAPTION};
   my $numslots = $args->{NUMSLOTS};
 
   my $serialnumber = $args->{SERIALNUMBER};
@@ -304,30 +297,56 @@ sub addNetworks {
   my ($self, $args) = @_;
 
   my $description = $args->{DESCRIPTION};
+  my $driver = $args->{DRIVER};
   my $ipaddress = $args->{IPADDRESS};
   my $ipdhcp = $args->{IPDHCP};
   my $ipgateway = $args->{IPGATEWAY};
   my $ipmask = $args->{IPMASK};
   my $ipsubnet = $args->{IPSUBNET};
   my $macaddr = $args->{MACADDR};
+  my $pcislot = $args->{PCISLOT};
   my $status = $args->{STATUS};
   my $type = $args->{TYPE};
+  my $virtualdev = $args->{VIRTUALDEV};
+
+  return unless $ipaddress;
 
   push @{$self->{h}{CONTENT}{NETWORKS}},
   {
 
     DESCRIPTION => [$description?$description:''],
+    DRIVER => [$driver?$driver:''],
     IPADDRESS => [$ipaddress?$ipaddress:''],
     IPDHCP => [$ipdhcp?$ipdhcp:''],
     IPGATEWAY => [$ipgateway?$ipgateway:''],
     IPMASK => [$ipmask?$ipmask:''],
     IPSUBNET => [$ipsubnet?$ipsubnet:''],
     MACADDR => [$macaddr?$macaddr:''],
+    PCISLOT => [$pcislot?$pcislot:''],
     STATUS => [$status?$status:''],
     TYPE => [$type?$type:''],
+    VIRTUALDEV => [$virtualdev?$virtualdev:''],
 
   };
 }
+
+sub addPrinter {
+  my ($self, $args) = @_;
+
+  my $description = $args->{DESCRIPTION};
+  my $driver = $args->{DRIVER};
+  my $name = $args->{NAME};
+
+  push @{$self->{h}{CONTENT}{PRINTERS}},
+  {
+
+    DESCRIPTION => [$description],
+    DRIVER => [$driver],
+    NAME => [$name],
+
+  };
+}
+
 
 sub setHardware {
   my ($self, $args, $nonDeprecated) = @_;
@@ -351,7 +370,7 @@ sub setHardware {
 sub setBios {
   my ($self, $args) = @_;
 
-  foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER/) {
+  foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER ASSETTAG/) {
 
     if (exists $args->{$key}) {
       $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
@@ -505,7 +524,7 @@ sub getContent {
   my $logger = $self->{logger};
 
   $self->initialise();
-  
+
   $self->processChecksum();
 
   #  checks for MAC, NAME and SSN presence
@@ -524,11 +543,11 @@ sub getContent {
   }
 
   $self->{accountinfo}->setAccountInfo($self);
-  
+
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>', SuppressEmpty => undef );
 
   my $clean_content;
-  # To avoid strange breakage I remove the unprintable caractere in the XML 
+  # To avoid strange breakage I remove the unprintable caractere in the XML
   foreach (split "\n", $content) {
       s/[[:cntrl:]]//g;
       $clean_content .= $_."\n";
@@ -549,13 +568,13 @@ sub writeXML {
 
   my $logger = $self->{logger};
 
-  if ($self->{params}{local} =~ /^$/) {
+  if ($self->{config}{local} =~ /^$/) {
     $logger->fault ('local path unititalised!');
   }
 
   $self->initialise();
 
-  my $localfile = $self->{params}{local}."/".$self->{params}{deviceid}.'.ocs';
+  my $localfile = $self->{config}{local}."/".$self->{config}{deviceid}.'.ocs';
   $localfile =~ s!(//){1,}!/!;
 
   # Convert perl data structure into xml strings
@@ -595,25 +614,25 @@ sub processChecksum {
   );
   # TODO CPUS is not in the list
 
-  if (!$self->{params}->{vardir}) {
+  if (!$self->{config}->{vardir}) {
     $logger->fault ("vardir uninitialised!");
   }
 
   my $checksum = 0;
 
-  if (!$self->{params}{local} && $self->{params}->{last_statefile}) {
-    if (-f $self->{params}->{last_statefile}) {
+  if (!$self->{config}{local} && $self->{config}->{last_statefile}) {
+    if (-f $self->{config}->{last_statefile}) {
       # TODO: avoid a violant death in case of problem with XML
       $self->{last_state_content} = XML::Simple::XMLin(
   
-        $self->{params}->{last_statefile},
+        $self->{config}->{last_statefile},
         SuppressEmpty => undef,
         ForceArray => 1
-  
+
       );
     } else {
       $logger->debug ('last_state file: `'.
-  	$self->{params}->{last_statefile}.
+  	$self->{config}->{last_statefile}.
   	"' doesn't exist (yet).");
     }
   }
@@ -645,16 +664,16 @@ sub saveLastState {
 	  $self->processChecksum();
   }
 
-  if (!defined ($self->{params}->{last_statefile})) {
+  if (!defined ($self->{config}->{last_statefile})) {
     $logger->debug ("Can't save the last_state file. File path is not initialised.");
     return;
   }
 
-  if (open LAST_STATE, ">".$self->{params}->{last_statefile}) {
+  if (open LAST_STATE, ">".$self->{config}->{last_statefile}) {
     print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
   } else {
-    $logger->debug ("Cannot save the checksum values in ".$self->{params}->{last_statefile}."
+    $logger->debug ("Cannot save the checksum values in ".$self->{config}->{last_statefile}."
 	(will be synchronized by GLPI!!): $!"); 
   }
 }
@@ -664,14 +683,14 @@ sub addSection {
   my $logger = $self->{logger};
   my $multi = $args->{multi};
   my $tagname = $args->{tagname};
- 
+
   for( keys %{$self->{h}{CONTENT}} ){
     if( $tagname eq $_ ){
       $logger->debug("Tag name `$tagname` already exists - Don't add it");
       return 0;
     }
   }
-  
+
   if($multi){
     $self->{h}{CONTENT}{$tagname} = [];
   }
@@ -686,17 +705,17 @@ sub feedSection{
   my $tagname = $args->{tagname};
   my $values = $args->{data};
   my $logger = $self->{logger};
-  
+
   my $found=0;
   for( keys %{$self->{h}{CONTENT}} ){
     $found = 1 if $tagname eq $_;
   }
-  
+
   if(!$found){
     $logger->debug("Tag name `$tagname` doesn't exist - Cannot feed it");
     return 0;
   }
- 
+
   if( $self->{h}{CONTENT}{$tagname} =~ /ARRAY/ ){
     push @{$self->{h}{CONTENT}{$tagname}}, $args->{data};
   }

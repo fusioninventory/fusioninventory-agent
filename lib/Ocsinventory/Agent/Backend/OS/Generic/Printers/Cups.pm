@@ -18,10 +18,9 @@ sub run {
     # Just grab the default printer, is I use getDestinations, CUPS
     # returns all the printer of the local subnet (is it can)
     # TODO There is room for improvement here
-    $inventory->addPrinters({
+    $inventory->addPrinter({
             NAME    => $printer->getName(),
             DESCRIPTION => $printer->getDescription(),
-            PORT => $printer->getUri(),
 #                DRIVER =>  How to get the PPD?!!
         });
 

@@ -9,16 +9,16 @@ sub new {
     my $self = {};
     bless $self;
 
-    $self->{params} = $params->{params};
+    $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
 
     my $logger = $self->{logger} = $params->{logger};
 
 
-    if ($self->{params}->{accountinfofile}) {
+    if ($self->{config}->{accountinfofile}) {
 
-        $logger->debug ('Accountinfo file: '. $self->{params}->{accountinfofile});
-        if (! -f $self->{params}->{accountinfofile}) {
+        $logger->debug ('Accountinfo file: '. $self->{config}->{accountinfofile});
+        if (! -f $self->{config}->{accountinfofile}) {
             $logger->info ("Accountinfo file doesn't exist. I create an empty one.");
             $self->write();
         } else {
@@ -27,7 +27,7 @@ sub new {
 
             eval {
                 $xmladm = XML::Simple::XMLin(
-                    $self->{params}->{accountinfofile},
+                    $self->{config}->{accountinfofile},
                     ForceArray => [ 'ACCOUNTINFO' ]
                 );
             };
@@ -122,7 +122,7 @@ sub write {
     my $xml=XML::Simple::XMLout( $tmp, RootName => 'ADM' );
 
     my $fault;
-    if (!open ADM, ">".$self->{params}->{accountinfofile}) {
+    if (!open ADM, ">".$self->{config}->{accountinfofile}) {
 
         $fault = 1;
 
@@ -137,7 +137,7 @@ sub write {
         $logger->debug ("Account info updated successfully");
     } else {
         $logger->error ("Can't save account info in `".
-            $self->{params}->{accountinfofile});
+            $self->{config}->{accountinfofile});
     }
 }
 

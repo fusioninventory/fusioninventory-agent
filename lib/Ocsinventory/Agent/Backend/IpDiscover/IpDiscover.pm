@@ -13,15 +13,15 @@ sub run {
   my $logger = $params->{logger};
 
   # Let's find network interfaces and call ipdiscover on it
-  my $options = $prologresp->getOptionInfoByName("IPDISCOVER");
+  my $options = $prologresp->getOptionsInfoByName("IPDISCOVER");
   my $ipdisc_lat;
   my $network;
-  if (exists($options->{IPDISC_LAT}) && $options->{IPDISC_LAT}) {
-    $ipdisc_lat = $options->{IPDISC_LAT};
+  if ($options->[0] && exists($options->[0]->{IPDISC_LAT}) && $options->[0]->{IPDISC_LAT}) {
+    $ipdisc_lat = $options->[0]->{IPDISC_LAT};
   }
 
-  if (exists($options->{content})) {
-    $network = $options->{content};
+  if ($options->[0] && exists($options->[0]->{content})) {
+    $network = $options->[0]->{content};
   } else {
     return;
   }

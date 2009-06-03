@@ -17,41 +17,42 @@ sub new {
   $self->{accountinfo} = $params->{accountinfo}; 
   $self->{compatibilityLayer} = $params->{compatibilityLayer}; 
   my $logger = $self->{logger} = $params->{logger};
-  $self->{params} = $params->{params};
+use Data::Dumper;
+  $self->{config} = $params->{config};
   my $uaserver;
-  if ($self->{params}->{server} =~ /^http(|s):\/\//) {
-      $self->{URI} = $self->{params}->{server};
-      $uaserver = $self->{params}->{server};
+  if ($self->{config}->{server} =~ /^http(|s):\/\//) {
+      $self->{URI} = $self->{config}->{server};
+      $uaserver = $self->{config}->{server};
       $uaserver =~ s/^http(|s):\/\///;
       $uaserver =~ s/\/.*//;
       if ($uaserver !~ /:\d+$/) {
-          $uaserver .= ':443' if $self->{params}->{server} =~ /^https:/;
-          $uaserver .= ':80' if $self->{params}->{server} =~ /^http:/;
+          $uaserver .= ':443' if $self->{config}->{server} =~ /^https:/;
+          $uaserver .= ':80' if $self->{config}->{server} =~ /^http:/;
       }
   } else {
-      $self->{URI} = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
-      $uaserver = $self->{params}->{server};
+      $self->{URI} = "http://".$self->{config}->{server}.$self->{config}->{remotedir};
+      $uaserver = $self->{config}->{server};
   }
 
 
   $self->{compress} = new Ocsinventory::Compress ({logger => $logger});
   # Connect to server
   $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
-  if ($self->{params}->{proxy}) {
-    $self->{ua}->proxy(['http', 'https'], $self->{params}->{proxy});
+  if ($self->{config}->{proxy}) {
+    $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
   }  else {
     $self->{ua}->env_proxy;
   }
   my $version = 'OCS-NG_unified_unix_agent_v';
-  $version .= exists ($self->{params}->{VERSION})?$self->{params}->{VERSION}:'';
+  $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
   $self->{ua}->agent($version);
-    $self->{params}->{user}.",".
-    $self->{params}->{password}."";
+    $self->{config}->{user}.",".
+    $self->{config}->{password}."";
   $self->{ua}->credentials(
     $uaserver, # server:port, port is needed 
-    $self->{params}->{realm},
-    $self->{params}->{user},
-    $self->{params}->{password}
+    $self->{config}->{realm},
+    $self->{config}->{user},
+    $self->{config}->{password}
   );
 
   bless $self;
@@ -82,6 +83,8 @@ sub send {
     $compatibilityLayer->hook({name => 'prolog_writers'}, $message->{h});
   }
   #############
+
+  $logger->debug ("sending: ".$message->getContent());
 
   my $compressed = $compress->compress( $message->getContent() );
 
@@ -124,7 +127,7 @@ sub send {
      content => $content,
      logger => $logger,
      origmsg => $message,
-     params => $self->{params}
+     config => $self->{config}
 
       });
 

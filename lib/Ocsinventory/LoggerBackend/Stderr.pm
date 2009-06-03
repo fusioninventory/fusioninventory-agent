@@ -4,7 +4,7 @@ sub new {
   my (undef, $params) = @_;
 
   my $self = {};
-  $self->{params} = $params->{params};
+  $self->{config} = $params->{config};
   bless $self;
 }
 
@@ -19,8 +19,8 @@ sub addMsg {
   
   # if STDERR has been hijacked, I take its saved ref
   my $stderr;
-  if (exists ($self->{params}->{savedstderr})) {
-    $stderr = $self->{params}->{savedstderr};
+  if (exists ($self->{config}->{savedstderr})) {
+    $stderr = $self->{config}->{savedstderr};
   } else {
     open ($stderr, ">&STDERR");
   }

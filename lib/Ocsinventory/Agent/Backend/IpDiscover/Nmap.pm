@@ -34,11 +34,11 @@ sub run {
   my $logger = $params->{logger};
 
   # Let's find network interfaces and call ipdiscover on it
-  my $options = $prologresp->getOptionInfoByName("IPDISCOVER");
+  my $options = $prologresp->getOptionsInfoByName("IPDISCOVER");
 
   my $network;
-  if (exists($options->{content})) {
-    $network = $options->{content};
+  if ($options->[0] && exists($options->[0]->{content})) {
+    $network = $options->[0]->{content};
   } else {
     return;
   }

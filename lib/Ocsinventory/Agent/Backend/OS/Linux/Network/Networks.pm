@@ -58,13 +58,16 @@ sub run {
   my $logger = $params->{logger};
 
   my $description;
+  my $driver;
   my $ipaddress;
   my $ipgateway;
   my $ipmask;
   my $ipsubnet;
   my $macaddr;
+  my $pcislot;
   my $status;
   my $type;
+  my $virtualdev;
 
   my %gateway;
   foreach (`route -n`) {
@@ -79,8 +82,10 @@ sub run {
     });
   }
 
+
+
   foreach (`ifconfig -a`) {
-    if (/^$/ && $description !~ /^(lo|vmnet\d+|sit\d+)$/) {
+    if (/^$/ && $description && $ipaddress) {
       # end of interface section
       # I write the entry
       my $binip = ip_iptobin ($ipaddress ,4);
@@ -100,30 +105,63 @@ sub run {
         $ipgateway = $gateway{'0.0.0.0'}
       }
 
+      if (open UEVENT, "</sys/class/net/$description/device/uevent") {
+        foreach (<UEVENT>) {
+          $driver = $1 if /^DRIVER=(\S+)/;
+	  $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+        }
+        close UEVENT;
+      }
+
+      # Reliable way to get the info
+      if (-d "/sys/devices/virtual/net/") {
+        $virtualdev = (-d "/sys/devices/virtual/net/$description")?"yes":"no";
+      } else {
+        # Let's guess
+        my %bridge;
+        foreach (`brctl show`) {
+          next if /^bridge name/;
+          $bridge{$1} = 1 if /^(\w+)\s/;
+        }
+        if ($pcislot) {
+          $virtualdev = "no";
+        } elsif ($bridge{$description}) {
+          $virtualdev = "yes";
+        }
+      }
+
       $inventory->addNetworks({
 
 	  DESCRIPTION => $description,
+	  DRIVER => $driver,
 	  IPADDRESS => $ipaddress,
 	  IPDHCP => _ipdhcp($description),
 	  IPGATEWAY => $ipgateway,
 	  IPMASK => $ipmask,
 	  IPSUBNET => $ipsubnet,
 	  MACADDR => $macaddr,
+	  PCISLOT => $pcislot,
 	  STATUS => $status?"Up":"Down",
 	  TYPE => $type,
+	  VIRTUALDEV => $virtualdev,
 
 	});
 
-      $description = $ipaddress = $ipgateway = $macaddr = $status =  $type = undef;
-      next;
     }
+
+    if (/^$/) { # End of section
+
+      $description = $driver = $ipaddress = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = undef;
+
+    } else { # In a section
 
       $description = $1 if /^(\S+)/; # Interface name
       $ipaddress = $1 if /inet addr:(\S+)/i;
       $ipmask = $1 if /\S*mask:(\S+)/i;
-      $macaddr = $1 if /hwadd?r\s+(\S+)/i;
+      $macaddr = $1 if /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
       $status = 1 if /^\s+UP\s/;
       $type = $1 if /link encap:(\S+)/i;
+    }
 
 
   }

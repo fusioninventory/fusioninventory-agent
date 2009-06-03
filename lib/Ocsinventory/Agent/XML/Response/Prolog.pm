@@ -28,17 +28,20 @@ sub isInventoryAsked {
     0
 }
 
-sub getOptionInfoByName {
+sub getOptionsInfoByName {
     my ($self, $name) = @_;
 
     my $parsedContent = $self->getParsedContent();
 
+    my $ret = [];
     return unless ($parsedContent && $parsedContent->{OPTION});
     foreach (@{$parsedContent->{OPTION}}) {
       if ($_->{NAME} && $_->{NAME} =~ /^$name$/i) {
-        return $_->{PARAM}[0]
+        $ret = $_->{PARAM}
       }
     }
+
+    return $ret;
 }
 
 sub updatePrologFreq {
@@ -63,15 +66,15 @@ sub saveNextTime {
 
     my $logger = $self->{logger};
 
-    if (!$self->{params}->{next_timefile}) {
+    if (!$self->{config}->{next_timefile}) {
         $logger->debug("no next_timefile to save!");
 	return;
     }
 
     my $parsedContent = $self->getParsedContent();
 
-    if (!open NEXT_TIME, ">".$self->{params}->{next_timefile}) {
-        $logger->error ("Cannot create the ".$self->{params}->{next_timefile}.": $!");
+    if (!open NEXT_TIME, ">".$self->{config}->{next_timefile}) {
+        $logger->error ("Cannot create the next_timefile `".$self->{config}->{next_timefile}."': $!");
         return;
     }
     close NEXT_TIME or warn;
@@ -81,14 +84,14 @@ sub saveNextTime {
     my $time;
     if( $self->{prologFreqChanged} ){
         $logger->debug("Compute next_time file with random value");
-        $time  = time + int rand(($serverdelay?$serverdelay:$self->{params}->{delaytime})*3600);
+        $time  = time + int rand(($serverdelay?$serverdelay:$self->{config}->{delaytime})*3600);
     }
     else{
-        $time = time + ($serverdelay?$serverdelay:$self->{params}->{delaytime})*3600;
+        $time = time + ($serverdelay?$serverdelay:$self->{config}->{delaytime})*3600;
     }
-    utime $time,$time,$self->{params}->{next_timefile};
-
-    if ($self->{params}->{cron}) {
+    utime $time,$time,$self->{config}->{next_timefile};
+    
+    if ($self->{config}->{cron}) {
         $logger->info ("Next inventory after ".localtime($time));
     }
 }

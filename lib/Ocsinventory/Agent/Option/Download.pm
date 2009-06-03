@@ -22,9 +22,9 @@ our @ISA = qw /Exporter/;
 
 our @EXPORT = qw/
 	download_inventory_handler
-	download_prolog_reader
 	download_end_handler
 /;
+#download_prolog_reader
 
 use Fcntl qw/:flock/;
 use XML::Simple;

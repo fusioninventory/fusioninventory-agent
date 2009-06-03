@@ -13,31 +13,36 @@ sub new {
   $self->{accountinfo} = $params->{accountinfo};
   $self->{accountconfig} = $params->{accountconfig};
   my $logger = $self->{logger} = $params->{logger};
-  $self->{params} = $params->{params};
+  $self->{config} = $params->{config};
 
   $self->{dontuse} = 1;
 
   my $modulefile;
-  foreach (@{$self->{params}->{etcdir}}) {
+  foreach (@{$self->{config}->{etcdir}}) {
     $modulefile = $_.'/modules.conf';
     if (-f $modulefile) {
       if (do $modulefile) {
 	$logger->debug("Turns CompatibilityLayer on for $modulefile");
 	$self->{dontuse} = 0;
+        last;
       } else {
-	$logger->debug("Failed to load `$modulefile': $?. No external module will".
-	  " be used.");
+          $logger->debug("Failed to load `$modulefile': $?");
       }
-      last;
     }
   }
 
-  if (!$self->{dontuse}) {
+  if ($self->{dontuse}) {
+      $logger->debug("No legacy module will be used.");
+  } else {
       my $ocsAgentServerUri;
 
-      # to avoid a warning if $self->{params}->{server} is not defined
-      if ($self->{params}->{server}) {
-          $ocsAgentServerUri = "http://".$self->{params}->{server}.$self->{params}->{remotedir};
+      # to avoid a warning if $self->{config}->{server} is not defined
+      if ($self->{config}->{server}) {
+          $ocsAgentServerUri = "http://".$self->{config}->{server}.$self->{config}->{remotedir};
+      }
+
+      if ($self->{params}->{debug}) {
+        $::debug = 2;
       }
 
       if ($self->{params}->{debug}) {
@@ -45,19 +50,19 @@ sub new {
       }
 
     $self->{current_context} = {
-      OCS_AGENT_LOG_PATH => $self->{params}->{logdir}."modexec.log",
+      OCS_AGENT_LOG_PATH => $self->{config}->{logdir}."modexec.log",
       OCS_AGENT_SERVER_URI => $ocsAgentServerUri,
       OCS_AGENT_INSTALL_PATH => $self->{params}->{vardir},
       OCS_AGENT_DEBUG_LEVEL => $::debug,
       OCS_AGENT_EXE_PATH => $Bin,
-      OCS_AGENT_SERVER_NAME => $self->{params}->{server},
-      OCS_AGENT_AUTH_USER => $self->{params}->{user},
-      OCS_AGENT_AUTH_PWD => $self->{params}->{password},
-      OCS_AGENT_AUTH_REALM => $self->{params}->{realm},
-      OCS_AGENT_DEVICEID => $self->{params}->{deviceid},
-      OCS_AGENT_VERSION => $self->{params}->{VERSION},
+      OCS_AGENT_SERVER_NAME => $self->{config}->{server},
+      OCS_AGENT_AUTH_USER => $self->{config}->{user},
+      OCS_AGENT_AUTH_PWD => $self->{config}->{password},
+      OCS_AGENT_AUTH_REALM => $self->{config}->{realm},
+      OCS_AGENT_DEVICEID => $self->{config}->{deviceid},
+      OCS_AGENT_VERSION => $self->{config}->{VERSION},
       OCS_AGENT_CMDL => "TOTO", # TODO cmd line parameter changed with the unified agent
-      OCS_AGENT_CONFIG => $self->{params}->{accountconfig},
+      OCS_AGENT_CONFIG => $self->{config}->{accountconfig},
       # The prefered way to log message
       OCS_AGENT_LOGGER => $self->{logger},
     };

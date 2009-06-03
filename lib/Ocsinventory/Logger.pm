@@ -8,14 +8,13 @@ sub new {
   my $self = {};
   bless $self;
   $self->{backend} = [];
-  $self->{params} = $params->{params};
+  $self->{config} = $params->{config};
 
-  $self->{debug} = $self->{params}->{debug}?1:0;
-#  print "Logging backend(s): ".$self->{params}->{logger}."\n";
+  $self->{debug} = $self->{config}->{debug}?1:0;
   my @logger;
 
-  if (exists ($self->{params}->{logger})) {
-    @logger = split /,/, $self->{params}->{logger};
+  if (exists ($self->{config}->{logger})) {
+    @logger = split /,/, $self->{config}->{logger};
   } else {
     # if no 'logger' parameter exist I use Stderr as default backend
     push @logger, 'Stderr';
@@ -33,13 +32,13 @@ sub new {
     }
 
     my $obj = new $backend ({
-      params => $self->{params},
+      config => $self->{config},
       });
     push @{$self->{backend}}, $obj if $obj;
   }
   
   my $version = "Ocsinventory unified agent for UNIX, Linux and MacOSX ";
-  $version .= exists ($self->{params}->{VERSION})?$self->{params}->{VERSION}:'';
+  $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
   $self->debug($version."\n");
   $self->debug("Log system initialised (@loadedMbackends)");
 

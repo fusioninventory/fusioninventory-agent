@@ -14,7 +14,7 @@ sub new {
     $self->{accountconfig} = $params->{accountconfig};
     $self->{accountinfo} = $params->{accountinfo};
     $self->{content}  = $params->{content};
-    $self->{params} = $params->{params};
+    $self->{config} = $params->{config};
     my $logger = $self->{logger}  = $params->{logger};
     $self->{origmsg}  = $params->{origmsg};
 

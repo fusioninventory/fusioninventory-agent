@@ -1,9 +1,8 @@
 #!/usr/bin/perl
 
 eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
-    if 0; # not running under some shell
-# forcer un upload si changement en local
-# ajouter /etc/ocsinventory-agent.conf
+if 0; # not running under some shell
+# TODO force an upload after any local change
 
 use strict;
 use warnings;
@@ -15,21 +14,19 @@ use XML::Simple;
 
 eval {XMLout("<a>b</a>");};
 if ($@){
-    no strict 'refs';
-    ${*{"XML::SAX::"}{HASH}{parsers}} = sub {
-        return [ {
-            'Features' => {
-                'http://xml.org/sax/features/namespaces' => '1'
-            },
-            'Name' => 'XML::SAX::PurePerl'
-        }
-        ]
-    };
+  no strict 'refs';
+  ${*{"XML::SAX::"}{HASH}{parsers}} = sub {
+    return [ {
+      'Features' => {
+        'http://xml.org/sax/features/namespaces' => '1'
+      },
+      'Name' => 'XML::SAX::PurePerl'
+    }
+    ]
+  };
 }
 
 # END OF THE UGLY FIX!
-use Getopt::Long;
-
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::XML::Inventory;
 use Ocsinventory::Agent::XML::Prolog;
@@ -43,81 +40,13 @@ use Ocsinventory::Agent::Config;
 
 use Ocsinventory::Agent::CompatibilityLayer;
 
-our $VERSION = '1.0.1';
-
-my $basedir = '';
-#$basedir = 'c:/cvs_ocs/ocsinventory-agent';
-# default settings;
-my $params = {
-  'daemon'    =>  0,
-  'debug'     =>  0,
-  'devlib'    =>  0,
-  'force'     =>  0,
-  'help'      =>  0,
-  'info'      =>  1,
-  'lazy'      =>  0,
-  'local'     =>  '',
-  #'logger'    =>  'Syslog,File,Stderr',
-  'logger'    =>  'Stderr',
-  'logfile'   =>  '',
-  'password'  =>  '',
-  'proxy'  =>  '',
-  'realm'     =>  '',
-  'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
-                                   # --server instead
-  'server'    =>  'http://ocsinventory-ng/ocsinventory',
-  'stdout'    =>  0,
-  'tag'       =>  '',
-  'user'      =>  '',
-  'version'   =>  0,
-  'wait'      =>  '',
-#  'xml'       =>  0,
-  'nosoft'    =>  0, # DEPRECATED!
-  'nosoftware'=>  0,
-  'delaytime' =>  '3600', # max delay time (seconds)
-
-  # Other values that can't be changed with the
-  # CLI parameters
-  'VERSION'   => $VERSION,
-  'deviceid'  => '',
-  'basevardir'=>  $basedir.'/var/lib/ocsinventory-agent',
-  'logdir'    =>  $basedir.'/var/log/ocsinventory-agent',
-#  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
-};
 
 # Load setting from the config file
-my $config = Ocsinventory::Agent::Config::get;
-$params->{$_} = $config->{$_} foreach (keys %$config);
+my $config = new Ocsinventory::Agent::Config;
+#$params->{$_} = $config->{$_} foreach (keys %$config);
 
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
-
-my %options = (
-  "basevardir=s"      =>   \$params->{basevardir},
-  "d|daemon"        =>   \$params->{daemon},
-  "debug"           =>   \$params->{debug},
-  "devlib"          =>   \$params->{devlib},
-  "f|force"         =>   \$params->{force},
-  "h|help"          =>   \$params->{help},
-  "i|info"          =>   \$params->{info},
-  "lazy"            =>   \$params->{lazy},
-  "l|local=s"       =>   \$params->{local},
-  "logfile=s"       =>   \$params->{logfile},
-  "nosoft"          =>   \$params->{nosoft},
-  "nosoftware"      =>   \$params->{nosoftware},
-  "p|password=s"    =>   \$params->{password},
-  "P|proxy=s"    =>   \$params->{proxy},
-  "r|realm=s"       =>   \$params->{realm},
-  "R|remotedir=s"   =>   \$params->{remotedir},
-  "s|server=s"      =>   \$params->{server},
-  "stdout"          =>   \$params->{stdout},
-  "t|tag=s"         =>   \$params->{tag},
-  "u|user=s"        =>   \$params->{user},
-  "version"         =>   \$params->{version},
-  "w|wait=s"        =>   \$params->{wait},
-#  "x|xml"          =>   \$params{xml},
-  "delaytime"	    =>	 \$params->{delaytime},
-);
 
 ##########################################
 ##########################################
@@ -141,59 +70,7 @@ sub recMkdir {
 }
 
 
-sub help {
-  my $error = shift;
-  if ($error) {
-    chomp $error;
-    print "ERROR: $error\n\n";
-  }
 
-  if ($config->{configfile}) {
-      print STDERR "Setting initialised with values retrieved from ".
-      "the config found at ".$config->{configfile}."\n";
-  }
-
-  print STDERR "\n";
-  print STDERR "Usage:\n";
-  print STDERR "\t--basevardir=/path  indicate the directory where should the agent store its files (".$params->{basevardir}.")\n";
-  print STDERR "\t-d  --daemon        detach the agent in background (".$params->{daemon}.")\n";
-  print STDERR "\t    --debug         debug mode (".$params->{debug}.")\n";
-  print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$params->{devlib}.")\n";
-  print STDERR "\t-f --force          always send data to server (Don't ask before) (".$params->{force}.")\n";
-  print STDERR "\t-i --info           verbose mode (".$params->{info}.")\n";
-  print STDERR "\t--lazy              do not contact the server more than one time during the PROLOG_FREQ (".$params->{lazy}.")\n";
-  print STDERR "\t-l --local=DIR      do not contact server but write ".
-  "inventory in DIR directory in XML (".$params->{local}.")\n";
-  print STDERR "\t   --logfile=FILE   log message in FILE (".$params->{logfile}.")\n";
-  print STDERR "\t-p --password=PWD   password for server auth\n";
-  print STDERR "\t-P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port\n";
-  print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$params->{realm}.")\n";
-  print STDERR "\t-s --server=uri     server uri (".$params->{server}.")\n";
-  print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";
-  print STDERR "\t-t --tag=TAG        use TAG as tag (".$params->{tag}."). ".
-  "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t-u --user=USER      user for server auth (".$params->{user}.")\n";
-  print STDERR "\t   --version        print the version\n";
-  print STDERR "\t-w --wait=server||nbr_seconds           wait during a random periode before".
-  "  contacting server like --daemon do (".$params->{wait}.")\n";
-#  print STDERR "\t-x --xml            write output in a xml file ($params->{xml})\n";
-  print STDERR "\t--nosoft           DEPRECATED, use --nosoftware instead\n";
-  print STDERR "\t--nosoftware       do not return installed software list (".$params->{nosoftware}.")\n";
-  print STDERR "\t--delaytime	     set a max delay time if no PROLOG_FREQ is set (".$params->{delaytime}.")\n";
-
-  print STDERR "\n";
-  print STDERR "Manpage:\n";
-  print STDERR "\tSee man ocsinventory-agent\n";
-
-  print STDERR "\n";
-  print STDERR "Ocsinventory-Agent is released under GNU GPL 2 license\n";
-  exit 1;
-}
-
-sub version {
-  print "Ocsinventory unified agent for UNIX, Linux and MacOSX (".$VERSION.")\n";
-  exit 0;
-}
 
 sub isAgentAlreadyRunning {
   my $params = shift;
@@ -220,8 +97,7 @@ sub isAgentAlreadyRunning {
 ############################
 #### CLI parameters ########
 ############################
-help() if (!GetOptions(%options) || $params->{help});
-version() if $params->{version};
+$config->loadUserParams();
 
 # I close STDERR to avoid error message during the module execution
 # at the begining I was doing shell redirection:
@@ -237,25 +113,25 @@ version() if $params->{version};
 #  close(STDERR);
 #}
 
-if ($params->{logfile}) {
-    $params->{logger} = 'File';
+if ($config->{config}{logfile}) {
+  $config->{config}{logger} = 'File';
 }
 
 my $logger = new Ocsinventory::Logger ({
 
-    params => $params
+    config => $config->{config}
 
   });
 
-if ($params->{nosoft}) {
-    $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
-    $params->{nosoftware} = 1
+if ($config->{config}{nosoft}) {
+  $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
+  $config->{config}{nosoftware} = 1
 }
 
-
-if (!$params->{'stdout'} && !$params->{'local'} && $params->{server} !~ /^http(|s):\/\//) {
-    $logger->debug("the --server passed doesn't have a protocle, assume http as default");
-    $params->{server} = "http://".$params->{server}.'/ocsinventory';
+# TODO put that in Ocsinventory::Agent::Config
+if (!$config->{config}{'stdout'} && !$config->{config}{'local'} && $config->{config}{server} !~ /^http(|s):\/\//) {
+  $logger->debug("the --server passed doesn't have a protocle, assume http as default");
+  $config->{config}{server} = "http://".$config->{config}{server}.'/ocsinventory';
 }
 
 ############################
@@ -264,43 +140,43 @@ if (!$params->{'stdout'} && !$params->{'local'} && $params->{server} !~ /^http(|
 
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
-if (!recMkdir ($params->{basevardir})) {
+if (!recMkdir ($config->{config}{basevardir})) {
 
   if (! -d $ENV{HOME}."/.ocsinventory/var") {
-    $logger->info("Failed to create $params->{basevardir} directory: $!. ".
+    $logger->info("Failed to create ".$config->{config}{basevardir}." directory: $!. ".
       "I'm going to use the home directory instead (~/.ocsinventory/var).");
   }
 
-  $params->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
-  if (!recMkdir ($params->{basevardir})) {
-    $logger->error("Failed to create $params->{basedir} directory: $!".
-    "The HOSTID will not be written on the harddrive. You may have duplicated ".
-    "entry of this computer in your OCS database");
+  $config->{config}{basevardir} = $ENV{HOME}."/.ocsinventory/var";
+  if (!recMkdir ($config->{config}{basevardir})) {
+    $logger->error("Failed to create ".$config->{config}{basedir}." directory: $!".
+      "The HOSTID will not be written on the harddrive. You may have duplicated ".
+      "entry of this computer in your OCS database");
   }
-  $logger->debug("var files are stored in ".$params->{basevardir});
+  $logger->debug("var files are stored in ".$config->{config}{basevardir});
 }
 
-if (defined($params->{server}) && $params->{server}) {
-  my $dir = $params->{server};
+if (defined($config->{config}{server}) && $config->{config}{server}) {
+  my $dir = $config->{config}{server};
   $dir =~ s/\//_/g;
-  $params->{vardir} = $params->{basevardir}."/".$dir;
-  if (defined ($params->{local}) && $params->{local}) {
-      $logger->debug ("--server ignored since you also use --local");
-      $params->{server} = undef;
+  $config->{config}{vardir} = $config->{config}{basevardir}."/".$dir;
+  if (defined ($config->{config}{local}) && $config->{config}{local}) {
+    $logger->debug ("--server ignored since you also use --local");
+    $config->{config}{server} = undef;
   }
-} elsif (defined($params->{local}) && $params->{local}) {
-  $params->{vardir} = $params->{basevardir}."/__LOCAL__";
+} elsif (defined($config->{config}{local}) && $config->{config}{local}) {
+  $config->{config}{vardir} = $config->{config}{basevardir}."/__LOCAL__";
 }
 
-if (!recMkdir ($params->{vardir})) {
-  $logger->error("Failed to create $params->{vardir} directory: $!");
+if (!recMkdir ($config->{config}{vardir})) {
+  $logger->error("Failed to create ".$config->{config}{vardir}." directory: $!");
 }
 
-if (-d $params->{vardir}) {
-  $params->{accountconfig} = $params->{vardir}."/ocsinv.conf";
-  $params->{accountinfofile} = $params->{vardir}."/ocsinv.adm";
-  $params->{last_statefile} = $params->{vardir}."/last_state";
-  $params->{next_timefile} = $params->{vardir}."/next_timefile";
+if (-d $config->{config}{vardir}) {
+  $config->{config}{accountconfig} = $config->{config}{vardir}."/ocsinv.conf";
+  $config->{config}{accountinfofile} = $config->{config}{vardir}."/ocsinv.adm";
+  $config->{config}{last_statefile} = $config->{config}{vardir}."/last_state";
+  $config->{config}{next_timefile} = $config->{config}{vardir}."/next_timefile";
 }
 ######
 
@@ -308,35 +184,37 @@ if (-d $params->{vardir}) {
 # load CFG files
 my $accountconfig = new Ocsinventory::Agent::AccountConfig({
     logger => $logger,
-    params => $params,
+    # TODO
+    config => $config->{config},
   });
 
 my $srv = $accountconfig->get('OCSFSERVER');
-$params->{server} = $srv if $srv;
-$params->{deviceid}   = $accountconfig->get('DEVICEID');
+$config->{config}{server} = $srv if $srv;
+$config->{config}{deviceid}   = $accountconfig->get('DEVICEID');
 
 # Should I create a new deviceID?
 chomp(my $hostname = `uname -n| cut -d . -f 1`);
-if ((!$params->{deviceid}) || $params->{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
+if ((!$config->{config}{deviceid}) || $config->{config}{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
   my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
     (time))[5,4,3,2,1,0];
-  $params->{old_deviceid} = $params->{deviceid};
-  $params->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+  $config->{config}{old_deviceid} = $config->{config}{deviceid};
+  $config->{config}{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
   $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
-  $accountconfig->set('DEVICEID',$params->{deviceid});
+  $accountconfig->set('DEVICEID',$config->{config}{deviceid});
   $accountconfig->write();
 }
 
 my $accountinfo = new Ocsinventory::Agent::AccountInfo({
 
     logger => $logger,
-    params => $params,
+    # TODOparams => $params,
+    config => $config->{config},
 
   });
 
 # --lazy
-if ($params->{lazy}) {
-  my $nexttime = (stat($params->{next_timefile}))[9];
+if ($config->{config}{lazy}) {
+  my $nexttime = (stat($config->{config}{next_timefile}))[9];
 
   if ($nexttime && $nexttime > time) {
     $logger->info("[Lazy] Must wait until ".localtime($nexttime)." exiting...");
@@ -345,13 +223,13 @@ if ($params->{lazy}) {
 }
 
 
-if ($params->{tag}) {
+if ($config->{config}{tag}) {
   if ($accountinfo->get("TAG")) {
     $logger->debug("A TAG seems to already exist in the server for this".
       "machine. If so, the -t paramter is useless. Please change the TAG".
       "directly on the server.");
   } else {
-    $accountinfo->set("TAG",$params->{tag});
+    $accountinfo->set("TAG",$config->{config}{tag});
   }
 }
 
@@ -362,23 +240,24 @@ my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
     accountinfo => $accountinfo,
     accountconfig => $accountconfig,
     logger => $logger,
-    params => $params,
+    # TODO
+    config => $config->{config},
 
   });
 
-if ($params->{daemon}) {
+if ($config->{config}{daemon}) {
 
   $logger->debug("Time to call Proc::Daemon");
   eval { require Proc::Daemon; };
   if ($@) {
-      print "Can't load Proc::Daemon. Is the module installed?";
-      exit 1;
+    print "Can't load Proc::Daemon. Is the module installed?";
+    exit 1;
   }
   Proc::Daemon::Init();
   $logger->debug("Daemon started");
   if (isAgentAlreadyRunning({
-      logger => $logger,
-  })) {
+        logger => $logger,
+      })) {
     $logger->debug("An agent is already runnnig, exiting...");
     exit 1;
   }
@@ -393,15 +272,15 @@ while (1) {
 
   my $exitcode = 0;
   my $wait;
-  if ($params->{daemon} || $params->{wait}) {
+  if ($config->{config}{daemon} || $config->{config}{wait}) {
     my $serverdelay;
-    if(($params->{wait} eq 'server') || ($params->{wait}!~/^\d+$/)){
+    if(($config->{config}{wait} eq 'server') || ($config->{config}{wait}!~/^\d+$/)){
       $serverdelay = $accountconfig->get('PROLOG_FREQ')*3600;
     }
     else{
-      $serverdelay = $params->{wait};
+      $serverdelay = $config->{config}{wait};
     }
-    $wait = int rand($serverdelay?$serverdelay:$params->{delaytime});
+    $wait = int rand($serverdelay?$serverdelay:$config->{config}{delaytime});
     $logger->info("Going to sleep for $wait second(s)");
     sleep ($wait);
 
@@ -409,78 +288,89 @@ while (1) {
 
   $compatibilityLayer->hook({name => 'start_handler'});
 
-  my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+#  my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+#
+#      accountinfo => $accountinfo,
+#      accountconfig => $accountinfo,
+#      config => $config->{config},
+#      logger => $logger,
+#
+#    });
 
-	  accountinfo => $accountinfo,
-	  accountconfig => $accountinfo,
-	  logger => $logger,
-	  params => $params,
+
+  if ($config->{config}{stdout} || $config->{config}{local}) { # Local mode
+
+    # TODO, avoid to create Backend a two different place
+    my $backend = new Ocsinventory::Agent::Backend ({
+
+          accountinfo => $accountinfo,
+          accountconfig => $accountconfig,
+          logger => $logger,
+          config => $config->{config},
+
+        });
+
+    my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+
+        # TODO, check if the accoun{info,config} are needed in localmode
+        accountinfo => $accountinfo,
+        accountconfig => $accountinfo,
+        backend => $backend,
+        config => $config->{config},
+        logger => $logger,
 
       });
 
-
-  if ($params->{stdout} || $params->{local}) { # Local mode
-
-      my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-
-	      # TODO, check if the accoun{info,config} are needed in localmode
-	      accountinfo => $accountinfo,
-	      accountconfig => $accountinfo,
-	      logger => $logger,
-	      params => $params,
-
-	  });
-
-      if ($params->{stdout}) {
-	  $inventory->printXML();
-      } elsif ($params->{local}) {
-	  $inventory->writeXML();
-      }
+    if ($config->{config}{stdout}) {
+      $inventory->printXML();
+    } elsif ($config->{config}{local}) {
+      $inventory->writeXML();
+    }
 
   } else { # I've to contact the server
 
     my $net = new Ocsinventory::Agent::Network ({
 
-	accountconfig => $accountconfig,
-	accountinfo => $accountinfo,
-	compatibilityLayer => $compatibilityLayer,
-	logger => $logger,
-	params => $params,
+        accountconfig => $accountconfig,
+        accountinfo => $accountinfo,
+        compatibilityLayer => $compatibilityLayer,
+        logger => $logger,
+        config => $config->{config},
 
       });
 
     my $sendInventory = 1;
     my $prologresp;
-    if (!$params->{force}) {
+    if (!$config->{config}{force}) {
       my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
-	  accountinfo => $accountinfo,
-	  logger => $logger,
-	  params => $params,
+          accountinfo => $accountinfo,
+          logger => $logger,
+          config => $config->{config},
 
-	});
+        });
 
       $prologresp = $net->send({message => $prolog});
 
       if (!$prologresp) { # Failed to reach the server
-        if ($params->{lazy}) {
+        if ($config->{config}{lazy}) {
           # To avoid flooding a heavy loaded server
-	  my $previousPrologFreq;
-	  if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
-	    $previousPrologFreq = $params->{delaytime};
-	    $logger->info("No previous PROLOG_FREQ found - using fallback delay($params->{delaytime} seconds)");
-	  }
-	  else{
-	    $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
-	    $previousPrologFreq = $previousPrologFreq*3600;
-	  }
+          my $previousPrologFreq;
+          if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
+            $previousPrologFreq = $config->{config}{delaytime};
+            $logger->info("No previous PROLOG_FREQ found - using fallback delay(".$config->{config}{delaytime}." seconds)");
+          }
+          else{
+            $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
+            $previousPrologFreq = $previousPrologFreq*3600;
+          }
           my $time = time + $previousPrologFreq;
-          utime $time,$time,$params->{next_timefile};
+          utime $time,$time,$config->{config}{next_timefile};
         }
-        exit 1 unless $params->{daemon};
+        exit 1 unless $config->{config}{daemon};
         $sendInventory = 0;
       } elsif (!$prologresp->isInventoryAsked()) {
-	$sendInventory = 0;
+        $sendInventory = 0;
       }
     }
 
@@ -490,30 +380,42 @@ while (1) {
 
     } else { # Send the inventory!
 
-	my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+      my $backend = new Ocsinventory::Agent::Backend ({
 
-		# TODO, check if the accoun{info,config} are needed in localmode
-		accountinfo => $accountinfo,
-		accountconfig => $accountinfo,
-		logger => $logger,
-		params => $params,
-		prologresp => $prologresp,
+          accountinfo => $accountinfo,
+          accountconfig => $accountconfig,
+          logger => $logger,
+          config => $config->{config},
+          prologresp => $prologresp,
 
-	    });
+        });
+
+      my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+
+          # TODO, check if the accoun{info,config} are needed in localmode
+          accountinfo => $accountinfo,
+          accountconfig => $accountinfo,
+          backend => $backend,
+          config => $config->{config},
+          logger => $logger,
+
+        });
+
+      $backend->feedInventory ({inventory => $inventory});
 
       if (my $response = $net->send({message => $inventory})) {
-	#if ($response->isAccountUpdated()) {
-	  $inventory->saveLastState();
-	#}
+        #if ($response->isAccountUpdated()) {
+        $inventory->saveLastState();
+        #}
       } else {
-          exit (1) unless $params->{daemon};
+        exit (1) unless $config->{config}{daemon};
       }
-  }
+    }
 
   }
 
   $compatibilityLayer->hook({name => 'end_handler'});
-  exit (0) unless $params->{daemon};
+  exit (0) unless $config->{config}{daemon};
 
 }
 

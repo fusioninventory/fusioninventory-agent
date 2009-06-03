@@ -16,6 +16,7 @@ sub run {
     my $createdate;
     my $free;
     my $filesystem;
+    my $label;
     my $total;
     my $type;
     my $volumn;
@@ -38,27 +39,37 @@ sub run {
             $serial = $1;
           } elsif (/Filesystem created:\s+(\S+.*)/) {
             $createdate = $1;
-	  }
+          } elsif (/Filesystem volume name:\s*(\S.*)/) {
+            $label = $1 unless $1 eq '<none>';
+          }
         }
       } elsif ($type =~ /^xfs$/ && can_run('xfs_db')) {
         foreach (`xfs_db -r -c uuid $volumn`) {
-          if (/^UUID =\s+(\S+)/) {
-            $serial = $1;
-            last;
+          $serial = $1 if /^UUID =\s+(\S+)/;
+            ;
           }
+        foreach (`xfs_db -r -c label $volumn`) {
+          $label = $1 if /^label =\s+"(\S+)"/;
         }
+      } elsif ($type =~ /^vfat$/ && can_run('dosfslabel')) {
+          chomp ($label = `dosfslabel /dev/sdb1`);
       }
+
+      $label =~ s/\s+$//;
+      $serial =~ s/\s+$//;
+
 
 
       $inventory->addDrives({
           CREATEDATE => $createdate,
-	  FREE => $free,
-	  FILESYSTEM => $filesystem,
-	  TOTAL => $total,
-	  TYPE => $type,
-	  VOLUMN => $volumn,
-	  SERIAL => $serial
-	})
+          FREE => $free,
+          FILESYSTEM => $filesystem,
+          LABEL => $label,
+          TOTAL => $total,
+          TYPE => $type,
+          VOLUMN => $volumn,
+          SERIAL => $serial
+        })
     }
   }
 }
