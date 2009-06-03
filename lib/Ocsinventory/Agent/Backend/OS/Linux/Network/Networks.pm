@@ -35,13 +35,13 @@ sub _ipdhcp {
       $lease = 0 if(/^\s*}\s*$/);
       #Interface name
       if ($lease) { #inside a lease section
-	if(/interface\s+"(.+?)"\s*/){
-	  $dhcp = ($1 =~ /^$if$/);
-	}
-	#Server IP
-	if(/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/ and $dhcp){
-	  $ipdhcp = $1;
-	}
+        if(/interface\s+"(.+?)"\s*/){
+          $dhcp = ($1 =~ /^$if$/);
+        }
+        #Server IP
+        if(/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/ and $dhcp){
+          $ipdhcp = $1;
+        }
       }
     }
     close DHCP or warn;
@@ -78,14 +78,14 @@ sub run {
 
   if (defined ($gateway{'0.0.0.0'})) {
     $inventory->setHardware({
-      DEFAULTGATEWAY => $gateway{'0.0.0.0'}
-    });
+        DEFAULTGATEWAY => $gateway{'0.0.0.0'}
+      });
   }
 
 
 
-  foreach (`ifconfig -a`) {
-    if (/^$/ && $description && $ipaddress) {
+  foreach my $line (`ifconfig -a`) {
+    if ($line =~ /^$/ && $description && $ipaddress) {
       # end of interface section
       # I write the entry
       my $binip = ip_iptobin ($ipaddress ,4);
@@ -95,7 +95,7 @@ sub run {
 
       my @wifistatus = `iwconfig $description 2>>/dev/null`;
       if ( @wifistatus > 2 ) {
-	$type = "Wifi";
+        $type = "Wifi";
       }
 
       $ipgateway = $gateway{$ipsubnet};
@@ -108,7 +108,7 @@ sub run {
       if (open UEVENT, "</sys/class/net/$description/device/uevent") {
         foreach (<UEVENT>) {
           $driver = $1 if /^DRIVER=(\S+)/;
-	  $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+          $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
         }
         close UEVENT;
       }
@@ -132,35 +132,35 @@ sub run {
 
       $inventory->addNetworks({
 
-	  DESCRIPTION => $description,
-	  DRIVER => $driver,
-	  IPADDRESS => $ipaddress,
-	  IPDHCP => _ipdhcp($description),
-	  IPGATEWAY => $ipgateway,
-	  IPMASK => $ipmask,
-	  IPSUBNET => $ipsubnet,
-	  MACADDR => $macaddr,
-	  PCISLOT => $pcislot,
-	  STATUS => $status?"Up":"Down",
-	  TYPE => $type,
-	  VIRTUALDEV => $virtualdev,
+          DESCRIPTION => $description,
+          DRIVER => $driver,
+          IPADDRESS => $ipaddress,
+          IPDHCP => _ipdhcp($description),
+          IPGATEWAY => $ipgateway,
+          IPMASK => $ipmask,
+          IPSUBNET => $ipsubnet,
+          MACADDR => $macaddr,
+          PCISLOT => $pcislot,
+          STATUS => $status?"Up":"Down",
+          TYPE => $type,
+          VIRTUALDEV => $virtualdev,
 
-	});
+        });
 
     }
 
-    if (/^$/) { # End of section
+    if ($line =~ /^$/) { # End of section
 
       $description = $driver = $ipaddress = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = undef;
 
     } else { # In a section
 
-      $description = $1 if /^(\S+)/; # Interface name
-      $ipaddress = $1 if /inet addr:(\S+)/i;
-      $ipmask = $1 if /\S*mask:(\S+)/i;
-      $macaddr = $1 if /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
-      $status = 1 if /^\s+UP\s/;
-      $type = $1 if /link encap:(\S+)/i;
+      $description = $1 if $line =~ /^(\S+)/; # Interface name
+      $ipaddress = $1 if $line =~ /inet addr:(\S+)/i;
+      $ipmask = $1 if $line =~ /\S*mask:(\S+)/i;
+      $macaddr = $1 if $line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
+      $status = 1 if $line =~ /^\s+UP\s/;
+      $type = $1 if $line =~ /link encap:(\S+)/i;
     }
 
 
