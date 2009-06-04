@@ -25,7 +25,7 @@ futur
        * Solaris: Sun-Fire-V440 support (Sebastien DAGNICOURT)
        * Add a missing space is the name banner in --debug mode
        * Agent/XML/Inventory.pm: Add FROM and INSTALLDATE fields in software
-         list and INSTALLDATE LASTLOGGEDUSER DATELASTLOGGEDUSER OSARCHITECTURE
+         list and INSTALLDATE LASTLOGGEDUSER DATELASTLOGGEDUSER
          in HARDWARE (Nicolas EISEN)
        * Initialize etcdir key even if there is no config file
        * CompatibilityLayer: correctly set $debug
