@@ -118,9 +118,7 @@ if ($config->{config}{logfile}) {
 }
 
 my $logger = new Ocsinventory::Logger ({
-
-    config => $config->{config}
-
+  config => $config->{config}
   });
 
 if ( `id -u` ne '0' ) {
@@ -187,10 +185,9 @@ if (-d $config->{config}{vardir}) {
 
 # load CFG files
 my $accountconfig = new Ocsinventory::Agent::AccountConfig({
-    logger => $logger,
-    # TODO
-    config => $config->{config},
-  });
+  logger => $logger,
+  config => $config->{config},
+});
 
 my $srv = $accountconfig->get('OCSFSERVER');
 $config->{config}{server} = $srv if $srv;
@@ -209,12 +206,10 @@ if ((!$config->{config}{deviceid}) || $config->{config}{deviceid} !~ /\Q$hostnam
 }
 
 my $accountinfo = new Ocsinventory::Agent::AccountInfo({
-
-    logger => $logger,
-    # TODOparams => $params,
-    config => $config->{config},
-
-  });
+  logger => $logger,
+  # TODOparams => $params,
+  config => $config->{config},
+});
 
 # --lazy
 if ($config->{config}{lazy}) {
@@ -240,14 +235,11 @@ if ($config->{config}{tag}) {
 # Create compatibility layer. It's used to keep compatibility with the
 # linux_agent 1.x and below
 my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
-
-    accountinfo => $accountinfo,
-    accountconfig => $accountconfig,
-    logger => $logger,
-    # TODO
-    config => $config->{config},
-
-  });
+  accountinfo => $accountinfo,
+  accountconfig => $accountconfig,
+  logger => $logger,
+  config => $config->{config},
+});
 
 if ($config->{config}{daemon}) {
 
