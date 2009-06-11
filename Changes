@@ -57,6 +57,7 @@ futur
        * Preliminary libvirt support
        * Partial rewrite of the Download.pm backend
        * Add a warning if the user is no root (Nicolas EISEN)
+       * SPARC-Enterprise M4000 and M5000 support (Sylvain LUCE)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 

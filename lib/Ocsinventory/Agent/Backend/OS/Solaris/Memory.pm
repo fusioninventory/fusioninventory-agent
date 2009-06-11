@@ -46,6 +46,7 @@ sub run {
   if ($model eq "SUNW,Sun-Fire-T200") { $sun_class = 3; }
   if ($model eq "SUNW,Sun-Fire-T1000") { $sun_class = 3; }
   if ($model eq "SUNW,SPARC-Enterprise-T5220") { $sun_class = 4; }
+  if ($model eq "SUNW,SPARC-Enterprise") { $sun_class = 5; } # for M5000 && M4000
   # debug print model
   #print "sunclass: $sun_class\n";
   # now we can look at memory information, depending from our class
@@ -285,6 +286,46 @@ sub run {
     # debug: show number of modules found and number of empty slots
     #print "# of RAM Modules: " . $module_count . "\n";
     #print "# of empty slots: " . $empty_slots . "\n";
+  }
+
+  if ($sun_class ==  5 )
+  {
+    foreach(`memconf 2>&1`)
+    {
+        # debug
+        #print "line: " .$j++ . " " . $flag_mt . "/" . $flag ." : " . "$_";
+        # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
+        # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
+        if(/^total memory:\s*(\S+)/) { $flag = 0;}
+
+        #print "flag : $flag\n";
+        if($flag_mt && /^\s+\S+\s+\S+\s+\S+\s+(\S+)/) {$flag_mt=0;  $description = $1;}
+        #print "description : $description\n";
+
+        if ($flag && /^\s(\S+)\s+(\S+)/) { $numslots = "LSB " . $1 . " Group " . $2; }
+        if ($flag && /^\s(\S+)\s+(\S+)/) { $caption = "LSB " . $1 . " Group " . $2; }
+        if ($flag && /^\s+\S+\s+\S\s+\S+\s+\S+\s+(\d+)/) { $capacity = $1; }
+        if ($flag && /^\s+\S+\s+\S\s+(\d+)/) { $banksize = $1; }
+        #print "Num slot ". $numslots  . " Bank Number: " . $numslots . " Bank size " .  $banksize . " DIMM Capacity: " .  $capacity . "MB\n";
+        if ($flag && $capacity > 1 )
+        {
+                for (my $i = 1; $i <= ($banksize / $capacity); $i++)
+                {
+                #print "caption ". $caption  . " Bank Number: " . $numslots . " Bank size " .  $banksize . " DIMM Capacity: " .  $capacity . "MB\n";
+                $inventory->addMemories({
+                CAPACITY => $capacity,
+                DESCRIPTION => $description,
+                CAPTION => $caption,
+                SPEED => $speed,
+                TYPE => $type,
+                NUMSLOTS => $module_count
+                })
+                }
+                $module_count++;
+        }
+        #Caption Line
+        if (/^Sun Microsystems/) { $flag_mt=1; $flag=1; }
+    }
   }
   
 }
