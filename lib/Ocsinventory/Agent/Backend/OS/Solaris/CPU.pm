@@ -66,6 +66,12 @@ sub run {
         $cpu_type = $2;
         $cpu_speed = $3;
       }
+      elsif (/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\S+)\s+(\d+)/)
+      {
+          $cpu_slot="1";
+          $cpu_type=$1;
+          $cpu_speed=$2;
+      }
     }
   } 
 
