@@ -121,10 +121,10 @@ my $logger = new Ocsinventory::Logger ({
   config => $config->{config}
   });
 
-# Doesn't work on Solaris
-#if ( `id -u` ne '0' ) {
-#  $logger->debug("You should run this program as super-user.");
-#}
+# $< == $REAL_USER_ID
+if ( $< ne '0' ) {
+  $logger->info("You should run this program as super-user.");
+}
 
 if ($config->{config}{nosoft}) {
   $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
