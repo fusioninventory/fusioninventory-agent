@@ -45,9 +45,9 @@ sub run {
   {
   # if our maschine is not in one of the sun classes from upside, we use psrinfo
 	# a generic methode
-    foreach (`psrinfo -v`) 
+    foreach (`psrinfo -v`)
     {
-      if (/^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/) 
+      if (/^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/)
       {
         $cpu_type = $1;
         $cpu_speed = $2;
@@ -56,9 +56,9 @@ sub run {
     }
   }
 
-  if($sun_class_cpu == 1) 
+  if($sun_class_cpu == 1)
   {
-    foreach (`memconf 2>&1`) 
+    foreach (`memconf 2>&1`)
     {
       if(/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\d+)\s+X\s+(\S+)\s+(\d+)/)
       {
@@ -73,11 +73,11 @@ sub run {
           $cpu_speed=$2;
       }
     }
-  } 
+  }
 
-  if($sun_class_cpu == 2) 
+  if($sun_class_cpu == 2)
   {
-    foreach (`memconf 2>&1`) 
+    foreach (`memconf 2>&1`)
     {
       if(/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\d+)\s+X\s+(\S+)\s+(\S+)\s+(\d+)/)
       {
@@ -86,10 +86,10 @@ sub run {
         $cpu_speed = $4;
       }
     }
-  } 
-  if($sun_class_cpu == 3) 
+  }
+  if($sun_class_cpu == 3)
   {
-    foreach (`memconf 2>&1`) 
+    foreach (`memconf 2>&1`)
     {
       if(/^Sun Microsystems, Inc.\s+\S+\s+\(\S+\s+\S+\s+\S+\)\s+\((\S+)\s+(\S+)\s+(\S+)\s+(\d+)/)
       {
@@ -99,10 +99,10 @@ sub run {
         $cpu_speed = $4;
       }
     }
-  } 
-  if($sun_class_cpu == 4) 
+  }
+  if($sun_class_cpu == 4)
   {
-    foreach (`memconf 2>&1`) 
+    foreach (`memconf 2>&1`)
     {
       if(/^Sun Microsystems, Inc\..+\((\S+)\s+(\S+)\s+(\S+)\s+(\d+)(\w+)\)$/)
       {
@@ -111,7 +111,7 @@ sub run {
         $cpu_speed = $4;
       }
     }
-  } 
+  }
   # for debug only
   #print "cpu_slot: " . $cpu_slot . "\n";
   #print "cpu_type: " . $cpu_type . "\n";
