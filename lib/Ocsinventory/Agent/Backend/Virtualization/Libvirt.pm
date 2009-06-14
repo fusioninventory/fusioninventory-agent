@@ -33,6 +33,7 @@ sub run {
                 STATUS => $status,
                 SUBSYSTEM => "libvirt",
                 VMTYPE => $vmtype,
+                VCPU   => $vcpu,
 
             };
 

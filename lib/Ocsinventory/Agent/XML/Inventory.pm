@@ -441,6 +441,7 @@ sub addVirtualMachine {
   my $status = $args->{STATUS};
   my $subsystem = $args->{SUBSYSTEM};
   my $vmtype = $args->{VMTYPE};
+  my $vcpu = $args->{VCPU};
 
   push @{$self->{h}{CONTENT}{VIRTUALMACHINES}},
   {
@@ -451,6 +452,7 @@ sub addVirtualMachine {
       STATUS => [$status],
       SUBSYSTEM => [$subsystem],
       VMTYPE => [$vmtype],
+      VCPU => [$vcpu],
 
   };
 
