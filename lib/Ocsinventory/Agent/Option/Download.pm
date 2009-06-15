@@ -862,7 +862,7 @@ sub done{
 	open DONE, ">$p->{'ID'}/done";
 	close(DONE);
 	# Put it in history file
-	open DONE, ">>history" or warn("Cannot open history file: $!");
+	open DONE, "history" or warn("Cannot open history file: $!");
 	flock(DONE, LOCK_EX);
 	my @historyIds = <DONE>;
 	if( &_already_in_array($p->{'ID'}, @historyIds) ){
