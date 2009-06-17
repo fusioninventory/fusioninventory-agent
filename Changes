@@ -62,6 +62,7 @@ futur
          Sylvain LUCE
        * SPARC-Enterprise M4000 and M5000 support (Sylvain LUCE)
        * Libvirt: collect VCPU info (Philippe LIBAT)
+       * Add Virtualization::Xen module (Philippe LIBAT)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
