@@ -2,7 +2,18 @@ package Ocsinventory::Agent::Backend::OS::Solaris::CPU;
 
 use strict;
 
-sub check { can_run ("memconf") }
+sub check {
+  my $params = shift;
+
+  my $logger = $params->{logger};
+
+  if (can_run ("memconf")) {
+    $logger->debug('memconf not found in $PATH');
+    return;
+  }
+
+  1;
+}
 
 sub run {
   my $params = shift;
