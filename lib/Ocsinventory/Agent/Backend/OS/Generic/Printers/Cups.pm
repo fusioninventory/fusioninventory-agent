@@ -15,6 +15,8 @@ sub run {
     my $cups = Net::CUPS->new();
     my $printer = $cups->getDestination();
 
+    return unless $printer;
+
     # Just grab the default printer, is I use getDestinations, CUPS
     # returns all the printer of the local subnet (is it can)
     # TODO There is room for improvement here
