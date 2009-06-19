@@ -42,7 +42,7 @@ sub getContent {
   my ($self, $args) = @_;
 
   $self->{accountinfo}->setAccountInfo($self);
-  my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>',
+  my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
     SuppressEmpty => undef );
 
   return $content;

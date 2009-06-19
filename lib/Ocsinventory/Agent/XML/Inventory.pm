@@ -546,7 +546,7 @@ sub getContent {
 
   $self->{accountinfo}->setAccountInfo($self);
 
-  my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="ISO-8859-1"?>', SuppressEmpty => undef );
+  my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 
   my $clean_content;
   # To avoid strange breakage I remove the unprintable caractere in the XML
