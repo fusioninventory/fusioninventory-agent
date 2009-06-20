@@ -1,14 +1,11 @@
 Revision history for Ocsinventory::Agent
 
 futur
-       * Fixed the history flood in Download.pm 
-	 https://sourceforge.net/tracker/index.php?func=detail&aid=2806585&group_id=58373&atid=487492
        * Can use Net::CUPS to find the default printer
        * AIX: Hide procfs in Filesystem
        * OS::Linux::Storages, correctly retrieve the serial (Vladimir ELISSEEV)
        * load $http_proxy env settings and --proxy option is available
        * Add OS::Linux::Distro::NonLSB::ArchLinux (Julien SAFAR)
-       * pacman support (Julien XXXXXXX)
        * New Backend OS::Generic::Processes 
        * Linux/BSD: detect DNS servers config 
        * Solaris: Better output for $OSVErsion (Vladimir ELISSEEV)
@@ -66,6 +63,9 @@ futur
        * Solaris: add a warning if memconf is not in $PATH
        * Switch the XML content from ISO-8859-1 to UTF-8, BTW we force
          LC_ALL=C...
+       * Fix the history flood in Download.pm (Pascal DANEK) 
+       	 https://sourceforge.net/tracker/index.php?func=detail&aid=2806585&group_id=58373&atid=487492
+
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
