@@ -14,7 +14,7 @@ sub run {
   my $domain;
   my %domain;
   my @dns_list;
-  my $srvdns;
+  my $dns;
   chomp($domain = `hostname -d`);
 
   open RESOLV, "/etc/resolv.conf" or warn;
@@ -32,13 +32,13 @@ sub run {
     $domain = join "/", keys %domain;
   }
   
-  $srvdns=join("/",@dns_list);
+  $dns=join("/",@dns_list);
   # If no domain name, we send "WORKGROUP"
   $domain = 'WORKGROUP' unless $domain;
 
   $inventory->setHardware({
       WORKGROUP => $domain,
-      DNS => $srvdns
+      DNS => $dns
     });
 
 }
