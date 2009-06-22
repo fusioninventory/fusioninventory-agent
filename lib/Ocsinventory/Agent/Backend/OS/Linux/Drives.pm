@@ -12,6 +12,19 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
 
+  my %months = (
+    Jan => 1,
+    Fev => 2,
+    Mar => 3,
+    Apr => 4,
+    May => 5,
+    Jun => 6,
+    Aug => 7,
+    Sep => 8,
+    Nov => 9,
+    Dec => 12,
+  );
+
   foreach(`df -TP`) { # TODO retrive error
     my $createdate;
     my $free;
@@ -37,8 +50,8 @@ sub run {
         foreach (`dumpe2fs -h $volumn 2> /dev/null`) {
           if (/Filesystem UUID:\s+(\S+)/) {
             $serial = $1;
-          } elsif (/Filesystem created:\s+(\S+.*)/) {
-            $createdate = $1;
+          } elsif (/Filesystem created:\s+\w+ (\w+) (\d+) ([\d:]+) (\d{4})$/) {
+            $createdate = $4.'/'.$months{$1}.'/'.$2.' '.$3;
           } elsif (/Filesystem volume name:\s*(\S.*)/) {
             $label = $1 unless $1 eq '<none>';
           }
