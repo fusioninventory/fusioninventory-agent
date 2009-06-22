@@ -124,6 +124,8 @@ sub addDrives {
 sub addStorages {
   my ($self, $args) = @_;
 
+  my $logger = $self->{logger};
+
   my $description = $args->{DESCRIPTION};
   my $disksize = $args->{DISKSIZE};
   my $manufacturer = $args->{MANUFACTURER};
@@ -134,7 +136,11 @@ sub addStorages {
   my $serialnumber = $args->{SERIALNUMBER};
   my $firmware = $args->{FIRMWARE};
 
-  $serial = $serialnumber unless $serial;
+  if ($serialnumber) {
+    $logger->debug("STORAGES/SERIALNUMBER is deprecated, please use ".
+      "STORAGES/SERIAL instead");
+    $serial = $serialnumber;
+  }
 
   push @{$self->{h}{CONTENT}{STORAGES}},
   {
