@@ -145,6 +145,8 @@ sub addStorages {
     MODEL => [$model?$model:''],
     NAME => [$name?$name:''],
     TYPE => [$type?$type:''],
+    SERIAL => [$serial?$serial:''],
+    # SERIALNUMBER is deprecated 
     SERIALNUMBER => [$serialnumber?$serialnumber:''],
     FIRMWARE => [$firmware?$firmware:'']
 
