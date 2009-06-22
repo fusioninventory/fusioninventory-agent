@@ -65,6 +65,7 @@ sub addController {
   my $driver = $args->{DRIVER};
   my $name = $args->{NAME};
   my $manufacturer = $args->{MANUFACTURER};
+  my $pciid = $args->{PCIID};
   my $pcislot = $args->{PCISLOT};
   my $type = $args->{TYPE};
 
@@ -73,6 +74,7 @@ sub addController {
     DRIVER => [$driver?$driver:''],
     NAME => [$name],
     MANUFACTURER => [$manufacturer],
+    PCIID => [$pciid?$pciid:''],
     PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
 
