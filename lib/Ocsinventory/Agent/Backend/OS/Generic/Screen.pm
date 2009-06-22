@@ -580,12 +580,15 @@ sub run {
   my $raw_perl = 1;
   my $verbose;
   my $MonitorsDB;
+  my $base64;
+  my $uuencode;
   
   my $raw_edid;
   foreach (1..5) { # Sometime get-edid return an empty string...
     $raw_edid = getEdid();
     last if (length($raw_edid) == 128 || length($raw_edid) == 256);
   }
+  return unless $raw_edid;
 
   length($raw_edid) == 128 || length($raw_edid) == 256 or
   $logger->debug("incorrect lenght: bad edid");
@@ -600,14 +603,22 @@ sub run {
   my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
   my $serial = $edid->{serial_number2}[0];
 
-  return unless ($caption||$description||$manufacturer||$serial);
-
+  eval "use MIME::Base64;";
+  $base64 = encode_base64($raw_edid) if !$@;
+  if (can_run("uuencode")) {
+    $uuencode = `echo $raw_edid|uuencode -`;
+    if (!$base64) {
+      $base64 = `echo $raw_edid|uuencode -m -`;
+    }
+  }
   $inventory->addMonitors ({
 
+      BASE64 => $base64,
       CAPTION => $caption,
       DESCRIPTION => $description,
       MANUFACTURER => $manufacturer,
       SERIAL => $serial,
+      UUENCODE => $uuencode,
 
     });
 }

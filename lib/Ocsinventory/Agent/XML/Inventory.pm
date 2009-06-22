@@ -256,19 +256,23 @@ sub addSoftwares {
 sub addMonitors {
   my ($self, $args) = @_;
 
+  my $base64 = $args->{BASE64};
   my $caption = $args->{CAPTION};
   my $description = $args->{DESCRIPTION};
   my $manufacturer = $args->{MANUFACTURER};
   my $serial = $args->{SERIAL};
+  my $uuencode = $args->{UUENCODE};
 
 
   push @{$self->{h}{CONTENT}{MONITORS}},
   {
 
+    BASE64 => [$base64?$base64:''],
     CAPTION => [$caption?$caption:''],
     DESCRIPTION => [$description?$description:''],
     MANUFACTURER => [$manufacturer?$manufacturer:''],
     SERIAL => [$serial?$serial:''],
+    UUENCODE => [$uuencode?$uuencode:''],
 
   };
 }
