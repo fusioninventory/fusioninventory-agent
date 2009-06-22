@@ -130,8 +130,11 @@ sub addStorages {
   my $model = $args->{MODEL};
   my $name = $args->{NAME};
   my $type = $args->{TYPE};
+  my $serial = $args->{SERIAL};
   my $serialnumber = $args->{SERIALNUMBER};
   my $firmware = $args->{FIRMWARE};
+
+  $serial = $serialnumber unless $serial;
 
   push @{$self->{h}{CONTENT}{STORAGES}},
   {
