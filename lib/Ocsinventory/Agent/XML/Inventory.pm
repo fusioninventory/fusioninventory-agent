@@ -459,6 +459,7 @@ sub addVirtualMachine {
   my $subsystem = $args->{SUBSYSTEM};
   my $vmtype = $args->{VMTYPE};
   my $vcpu = $args->{VCPU};
+  my $vmid = $args->{VMID};
 
   push @{$self->{h}{CONTENT}{VIRTUALMACHINES}},
   {
@@ -470,6 +471,7 @@ sub addVirtualMachine {
       SUBSYSTEM => [$subsystem],
       VMTYPE => [$vmtype],
       VCPU => [$vcpu],
+      VMID => [$vmid],
 
   };
 
@@ -630,6 +632,7 @@ sub processChecksum {
     'SOUNDS'        => 16384,
     'VIDEOS'        => 32768,
     'SOFTWARES'     => 65536
+    'VIRTUALMACHINES' => 131072,
   );
   # TODO CPUS is not in the list
 
