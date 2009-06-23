@@ -2,35 +2,52 @@ package Ocsinventory::Agent::Backend::OS::Linux::Archs::PowerPC::CPU;
 
 use strict;
 
+#processor       : 0
+#cpu             : POWER4+ (gq)
+#clock           : 1452.000000MHz
+#revision        : 2.1
+#
+#processor       : 1
+#cpu             : POWER4+ (gq)
+#clock           : 1452.000000MHz
+#revision        : 2.1
+#
+#timebase        : 181495202
+#machine         : CHRP IBM,7029-6C3
+#
+#
+
 sub check { can_read ("/proc/cpuinfo") };
 
+
 sub run {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
-    my @cpu;
-    my $current;
-    open CPUINFO, "</proc/cpuinfo" or warn;
-    foreach(<CPUINFO>) {
-        if (/^processor\s+:\s*:/) {
+  my @cpus;
+  my $current;
+  my $isIBM;
+  open CPUINFO, "</proc/cpuinfo" or warn;
+  foreach(<CPUINFO>) {
 
-            if ($current) {
-                $inventory->addCPU($current);
-            }
+    $isIBM = 1 if /^machine\s*:.*IBM/;
+    $current->{TYPE} = $1 if /cpu\s+:\s+(\S.*)/;
+    $current->{SPEED} = $1 if /clock\s+:\s+(\S.*)/;
+    $current->{SPEED} =~ s/\.0+MHz/MHz/;
 
-            $current = {
-                ARCH => 'PowerPC',
-            };
-
-        }
-
-        $current->{TYPE} = $1 if /cpu\s+:\s+(\S.*)/;
-#        $current->{SPEED} = $1 if /clock\s+:\s+(\S.*)/;
-
+    if (/^\s*$/) {
+      if ($current->{TYPE}) {
+        push @cpus, $current;
+      }
+      $current = {};
     }
+  }
 
-    # The last one
-    $inventory->addCPU($current);
+
+  foreach my $cpu (@cpus) {
+    $cpu->{MANUFACTURER} = 'IBM' if $isIBM;
+    $inventory->addCPU($cpu);
+  }
 }
 
 1

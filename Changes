@@ -69,6 +69,8 @@ futur
        * Storage the monitor EDID string in BASE64 and UUENCODE
        * Linux: Storages: reorganize the code base and use lshal
        * Linux: Drives, complete inforamtions with lshal (Nicolas EISEN)
+       * Linux: fix the PowerPC CPU detection
+         https://sourceforge.net/tracker/?func=detail&atid=487492&aid=2043221&group_id=58373
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
