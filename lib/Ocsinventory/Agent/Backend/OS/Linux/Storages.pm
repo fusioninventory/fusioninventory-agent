@@ -4,6 +4,43 @@ use strict;
 
 sub check {1}
 
+######## TODO
+# Do not remove, used by other modules
+sub getFromUdev {
+  my @devs;
+
+  foreach (glob ("/dev/.udev/db/*")) {
+    my ($scsi_coid, $scsi_chid, $scsi_unid, $scsi_lun, $path, $device, $vendor, $model, $revision, $serial, $serial_short, $type, $bus, $capacity);
+    if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/) {
+      $path = $1;
+      $device = $2;
+      open (PATH, $1 . $2);
+      while (<PATH>) {
+        if (/^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
+          $scsi_coid = $1;
+          $scsi_chid = $2;
+          $scsi_unid = $3;
+          $scsi_lun = $4;
+        }
+        $vendor = $1 if /^E:ID_VENDOR=(.*)/; 
+        $model = $1 if /^E:ID_MODEL=(.*)/; 
+        $revision = $1 if /^E:ID_REVISION=(.*)/;
+        $serial = $1 if /^E:ID_SERIAL=(.*)/;
+        $serial_short = $1 if /^E:ID_SERIAL_SHORT=(.*)/;
+        $type = $1 if /^E:ID_TYPE=(.*)/;
+        $bus = $1 if /^E:ID_BUS=(.*)/;
+      }
+      $serial_short = $serial unless $serial_short =~ /\S/;
+      $capacity = getCapacity($device);
+      push (@devs, {NAME => $device, MANUFACTURER => $vendor, MODEL => $model, DESCRIPTION => $bus, TYPE => $type, DISKSIZE => $capacity, SERIALNUMBER => $serial_short, FIRMWARE => $revision, SCSI_COID => $scsi_coid, SCSI_CHID => $scsi_chid, SCSI_UNID => $scsi_unid, SCSI_LUN => $scsi_lun});
+      close (PATH);
+    }
+  }
+
+  return @devs;
+}
+
+
 sub getFromSysProc {
   my($dev, $file) = @_;
 
