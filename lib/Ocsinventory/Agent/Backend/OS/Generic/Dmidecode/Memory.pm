@@ -35,7 +35,7 @@ sub run {
 
       $inventory->addMemories({
 
-	  CAPACITY => $capacity,	
+	  CAPACITY => $capacity,
 	  DESCRIPTION => $description,
 	  CAPTION => $caption,
 	  SPEED => $speed,
