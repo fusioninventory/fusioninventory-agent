@@ -67,7 +67,8 @@ futur
        	 https://sourceforge.net/tracker/index.php?func=detail&aid=2806585&group_id=58373&atid=487492
        * Stores PCIID in CONTROLLERS/PCIID
        * Storage the monitor EDID string in BASE64 and UUENCODE
-       * Linux, Storages: reorganize the code base and use lshal
+       * Linux: Storages: reorganize the code base and use lshal
+       * Linux: Drives, complete inforamtions with lshal (Nicolas EISEN)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
