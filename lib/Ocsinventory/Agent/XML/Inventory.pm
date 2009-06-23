@@ -135,12 +135,12 @@ sub addStorages {
   my $serial = $args->{SERIAL};
   my $serialnumber = $args->{SERIALNUMBER};
   my $firmware = $args->{FIRMWARE};
+  my $scsi_coid = $args->{SCSI_COID};
+  my $scsi_chid = $args->{SCSI_CHID};
+  my $scsi_unid = $args->{SCSI_UNID};
+  my $scsi_lun = $args->{SCSI_LUN};
 
-  if ($serialnumber) {
-    $logger->debug("STORAGES/SERIALNUMBER is deprecated, please use ".
-      "STORAGES/SERIAL instead");
-    $serial = $serialnumber;
-  }
+  $serialnumber = $serial;
 
   push @{$self->{h}{CONTENT}{STORAGES}},
   {
@@ -151,10 +151,12 @@ sub addStorages {
     MODEL => [$model?$model:''],
     NAME => [$name?$name:''],
     TYPE => [$type?$type:''],
-    SERIAL => [$serial?$serial:''],
-    # SERIALNUMBER is deprecated 
     SERIALNUMBER => [$serialnumber?$serialnumber:''],
-    FIRMWARE => [$firmware?$firmware:'']
+    FIRMWARE => [$firmware?$firmware:''],
+    SCSI_COID => [$scsi_coid?$scsi_coid:''],
+    SCSI_CHID => [$scsi_chid?$scsi_chid:''],
+    SCSI_UNID => [$scsi_unid?$scsi_unid:''],
+    SCSI_LUN => [$scsi_lun?$scsi_lun:''],
 
   };
 }

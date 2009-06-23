@@ -66,10 +66,8 @@ futur
        * Fix the history flood in Download.pm (Pascal DANEK) 
        	 https://sourceforge.net/tracker/index.php?func=detail&aid=2806585&group_id=58373&atid=487492
        * Stores PCIID in CONTROLLERS/PCIID
-       * Storage: feed STORAGES/SERIAL with STORAGES/SERIALNUMBER to be
-         consistant with the rest of the XML
        * Storage the monitor EDID string in BASE64 and UUENCODE
-
+       * Linux, Storages: reorganize the code base and use lshal
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
