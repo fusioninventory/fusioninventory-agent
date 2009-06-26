@@ -73,6 +73,8 @@ futur
          https://sourceforge.net/tracker/?func=detail&atid=487492&aid=2043221&group_id=58373
        * Warns the user during the install process if one of
          the recommended module is not installed
+       * Update out copy of memconf, thanks WeatherDave who notified the new
+         revision and of course Tom Schmidt who do a great job 
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
