@@ -70,6 +70,16 @@ if (!can_run('ipdiscover') && !can_run('nmap')) {
     "discover feature.\n";
 }
 
+if (!can_use('Net::IP')) {
+    print "Net::IP is strongly recommended since it's required to retrieve "
+    ."network information\n";
+}
+
+if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
+    print "Please install Proc::Daemon and Proc::PID::File if you ".
+    "want to use the daemon monde.\n";
+}
+
 
 my $archname;
 eval { # config_re is not avalaible on Perl 5.6
