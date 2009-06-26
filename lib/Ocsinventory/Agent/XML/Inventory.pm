@@ -484,28 +484,22 @@ sub addProcesses {
 
   my $user = $args->{USER};
   my $pid = $args->{PID};
-  my $cpu = $args->{CPU};
+  my $cpu = $args->{CPUUSAGE};
   my $mem = $args->{MEM};
-  my $vsz = $args->{VSZ};
-  my $rss = $args->{RSS};
+  my $vsz = $args->{VIRTUALMEMORY};
   my $tty = $args->{TTY};
-  my $stat = $args->{STAT};
   my $started = $args->{STARTED};
-  my $time = $args->{TIME};
   my $cmd = $args->{CMD};
 
   push @{$self->{h}{CONTENT}{PROCESSES}},
   {
     USER => [$user?$user:''],
     PID => [$pid?$pid:''],
-    CPU => [$cpu?$cpu:''],
+    CPUUSAGE => [$cpu?$cpu:''],
     MEM => [$mem?$mem:''],
-    VSZ => [$vsz?$vsz:0],
-    RSS => [$rss?$rss:0],
+    VIRTUALMEMORY => [$vsz?$vsz:0],
     TTY => [$tty?$tty:''],
-    STAT => [$stat?$stat:''],
     STARTED => [$started?$started:''],
-    TIME => [$time?$time:''],
     CMD => [$cmd?$cmd:''],
   };
 }
