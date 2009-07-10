@@ -34,6 +34,8 @@ sub run {
         # apple "xml" blows. Hard.
         foreach my $display (keys %{$h->{$x}}){
             my $ref = $h->{$x}->{$display};
+            next unless(ref($ref) eq 'HASH');
+
             $inventory->addMonitors({
                 'CAPTION'       => $ref->{'Resolution'},
                 'DESCRIPTION'   => $display,
