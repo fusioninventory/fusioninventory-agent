@@ -75,6 +75,8 @@ futur
          the recommended module is not installed
        * Update out copy of memconf, thanks WeatherDave who notified the new
          revision and of course Tom Schmidt who do a great job 
+       * MacOSX: Avoid a scalar used has hash ref error, thanks Adadov
+       * Save VIDEOS/MEMORY and VIDEOS/RESOLUTION
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
