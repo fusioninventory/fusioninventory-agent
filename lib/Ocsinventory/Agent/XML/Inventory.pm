@@ -283,13 +283,17 @@ sub addVideos {
   my ($self, $args) = @_;
 
   my $chipset = $args->{CHIPSET};
+  my $memory = $args->{MEMORY};
   my $name = $args->{NAME};
+  my $resolution = $args->{RESOLUTION};
 
   push @{$self->{h}{CONTENT}{VIDEOS}},
   {
 
     CHIPSET => [$chipset?$chipset:''],
+    MEMORY => [$memory?$memory:''],
     NAME => [$name?$name:''],
+    RESOLUTION => [$resolution?$resolution:''],
 
   };
 }
