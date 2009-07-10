@@ -74,7 +74,7 @@ sub loadFromCfgFile {
   if (!$file || !-f $file) {
     foreach (@{$self->{config}{etcdir}}) {
       $file = $_.'/ocsinventory-agent.cfg';
-      last if -f $self;
+      last if -f $file;
     }
     return $config unless -f $file;
   }
