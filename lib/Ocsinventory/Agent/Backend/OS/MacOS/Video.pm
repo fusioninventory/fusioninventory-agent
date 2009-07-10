@@ -23,10 +23,12 @@ sub run {
 
     # add the video information
     foreach my $x (keys %$h){
+        my $memory = $h->{$x}->{'VRAM (Total)'};
+        $memory =~ s/ MB$//;
         $inventory->addVideos({
                 'NAME'        => $x,
                 'CHIPSET'     => $h->{$x}->{'Chipset Model'},
-                'MEMORY'    => $h->{$x}->{'VRAM (Total)'},
+                'MEMORY'    => $memory,
         });
 
         # this doesn't work yet, need to fix the Mac::SysProfile module to not be such a hack (parser only goes down one level)
