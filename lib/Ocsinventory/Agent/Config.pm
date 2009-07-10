@@ -71,20 +71,20 @@ sub loadFromCfgFile {
   push (@{$self->{config}{etcdir}}, '/etc/ocsinventory-agent');
   push (@{$self->{config}{etcdir}}, $ENV{HOME}.'/.ocsinventory'); # Should I?
 
-  my $file = $self->{file};
+  my $file;
   if (!$file || !-f $file) {
     foreach (@{$self->{config}{etcdir}}) {
       $file = $_.'/ocsinventory-agent.cfg';
-      last if -f $self->{file};
+      last if -f $self;
     }
     return $config unless -f $file;
   }
 
   $self->{configfile} = $file;
 
-  if (open (CONFIG, "<".$file)) {
-	$logger->error("Failed to open $file");
-	return $config;
+  if (!open (CONFIG, "<".$file)) {
+    $logger->error("Failed to open $file");
+	  return $config;
   }
 
   foreach (<CONFIG>) {
