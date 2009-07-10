@@ -61,7 +61,6 @@ sub new {
 sub loadFromCfgFile {
   my $self = shift;
 
-  my $logger = $self->{logger};
   my $config;
 
   $self->{config}{etcdir} = [];
@@ -83,7 +82,7 @@ sub loadFromCfgFile {
   $self->{configfile} = $file;
 
   if (!open (CONFIG, "<".$file)) {
-    $logger->error("Failed to open $file");
+    print(STDERR "Config: Failed to open $file");
 	  return $config;
   }
 
