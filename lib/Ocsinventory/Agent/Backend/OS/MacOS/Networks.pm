@@ -114,13 +114,14 @@ sub run {
         my $binmask = sprintf("%b", oct($ipmask));
         my $binsubnet = $binip & $binmask;
         $ipsubnet = ip_bintoip($binsubnet,4);
+        my $mask = ip_bintoip($binmask,4);
         $inventory->addNetworks({
 
             DESCRIPTION => $description,
             IPADDRESS => ($status?$ipaddress:undef),
             IPDHCP => _ipdhcp($description),
             IPGATEWAY => ($status?$ipgateway:undef),
-            IPMASK => ($status?$ipmask:undef),
+            IPMASK => ($status?$mask:undef),
             IPSUBNET => ($status?$ipsubnet:undef),
             MACADDR => $macaddr,
             STATUS => ($status?"Up":"Down"),
