@@ -348,10 +348,11 @@ sub runWithTimeout {
     my $logger = $self->{logger};
 
     my $ret;
-
+    
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm 180;
+        my $timeout = $params->{accountinfo}{config}{backendCollectTimeout};
+        alarm $timeout;
         $ret = &{$func}($params);
     };
     alarm 0;
