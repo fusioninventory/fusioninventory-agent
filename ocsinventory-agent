@@ -498,6 +498,10 @@ example, the two lines below are all equivalent:
 
 =over 4
 
+=item B<--backend-collect-timeout=SECONDS_BEFORE_KILL>
+
+Time before OCS kill modules processing who don't end before the timeout.
+
 =item B<--basevardir>=I<DIR>
 
 Indicate the place where the agent should store its files.
