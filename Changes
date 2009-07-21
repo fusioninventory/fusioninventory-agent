@@ -83,6 +83,9 @@ futur
          (David OLIVIER)
        * add --backend-collect-timeout parameter (Nicolas EISEN)
        * MacOSX: convert the IP mask from hex (David OLIVIER)
+       * MacOSX: add a workaround to avoid Mac::SysProfile failure on
+         MacOSX 10.5.7 (David OLIVIER)
+       
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 

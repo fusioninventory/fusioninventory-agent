@@ -18,6 +18,12 @@ sub run {
     my $h = $pro->gettype('SPMemoryDataType');
     return(undef) unless(ref($h) eq 'HASH');
 
+    # Workaround for MacOSX 10.5.7
+    if ($h->{'Memory Slots'}) {
+      $h = $h->{'Memory Slots'};
+    }
+
+
     foreach my $x (keys %$h){
         # tare out the slot number
         my $slot = $x;
