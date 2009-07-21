@@ -332,7 +332,7 @@ sub addNetworks {
   my $type = $args->{TYPE};
   my $virtualdev = $args->{VIRTUALDEV};
 
-  return unless $ipaddress;
+#  return unless $ipaddress;
 
   push @{$self->{h}{CONTENT}{NETWORKS}},
   {
