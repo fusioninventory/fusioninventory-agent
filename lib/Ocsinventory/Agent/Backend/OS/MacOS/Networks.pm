@@ -106,7 +106,7 @@ sub run {
             $ipaddress = $1 if /inet (\S+)/i;
             $ipmask = $1 if /netmask\s+(\S+)/i;
             $macaddr = $2 if /(address:|ether|lladdr)\s+(\S+)/i;
-            $status = 1 if /<UP/i;
+            $status = 1 if /status:\s+active/i;
             $type = $1 if /media:\s+(\S+)/i;
         }
         my $binip = &ip_iptobin ($ipaddress ,4);
@@ -117,14 +117,14 @@ sub run {
         $inventory->addNetworks({
 
             DESCRIPTION => $description,
-            IPADDRESS => $ipaddress,
+            IPADDRESS => ($status?$ipaddress:undef),
             IPDHCP => _ipdhcp($description),
             IPGATEWAY => ($status?$ipgateway:undef),
-            IPMASK => $ipmask,
+            IPMASK => ($status?$ipmask:undef),
             IPSUBNET => ($status?$ipsubnet:undef),
             MACADDR => $macaddr,
-            STATUS => $status?"Up":"Down",
-            TYPE => $type
+            STATUS => ($status?"Up":"Down"),
+            TYPE => ($status?$type:undef)
 
         });
     }

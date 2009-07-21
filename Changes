@@ -77,6 +77,8 @@ futur
          revision and of course Tom Schmidt who do a great job 
        * MacOSX: Avoid a scalar used has hash ref error, thanks Adadov
        * Save VIDEOS/MEMORY and VIDEOS/RESOLUTION
+       * MacOSX: Correctilly detect Up/Down network interfaces
+         (David OLIVIER)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
