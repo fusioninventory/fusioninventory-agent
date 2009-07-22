@@ -21,6 +21,8 @@ PREREQUISITES
     lspci on Linux and *BSD (pciutils package) is required to list PCI devices.
 
     Mac::SysProfile on MacOSX to collect the device informations.
+      If you use MacOSX 10.5, you may have this bug
+      https://rt.cpan.org/Public/Bug/Display.html?id=48059
 
     sneep on Solaris/sparc, you must install sneep and record the Serial Number with it :
                   (download it from http://www.sun.com/download/products.xml?id=4304155a)
