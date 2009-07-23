@@ -25,6 +25,7 @@ sub run {
 
 
     foreach my $x (keys %$h){
+        next unless $x =~ /^BANK|SODIMM/;
         # tare out the slot number
         my $slot = $x;
 		# memory in 10.5
