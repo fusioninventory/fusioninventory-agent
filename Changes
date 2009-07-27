@@ -86,6 +86,7 @@ futur
        * MacOSX: add a workaround to avoid Mac::SysProfile failure on
          MacOSX 10.5.7 (David OLIVIER)
        * Add Virtualization::VirtualBox module (Nicolas EISEN)
+       * Add Virtualization::Qemu module (Nicolas EISEN)
        
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
