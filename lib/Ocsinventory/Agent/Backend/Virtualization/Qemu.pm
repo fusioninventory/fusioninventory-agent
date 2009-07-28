@@ -1,7 +1,4 @@
 package Ocsinventory::Agent::Backend::Virtualization::Qemu;
-#
-# initial version Nicolas EISEN
-#
 # With Qemu 0.10.X, some option will be exist to get more and easly information (UUID, memory, ...)
 
 use strict;
@@ -13,17 +10,19 @@ sub run {
     my $inventory = $params->{inventory};
 
     foreach ( `ps -ef` ) {
-        if (m/^.*((qemu|kvm).*\-([fh]d[a-d]|cdrom).*)$/) {      # match only if an qemu instance
+        if (m/^.*((qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|cdrom).*)$/) {      # match only if an qemu instance
             
-            my $name;
+            my $name = "N/A";
             my $mem = 0;
             my $vmtype = $2;
                         
             my @process = split (/\-/, $1);     #separate options
             
             foreach my $option ( @process ) {
-                if ($option =~ m/^([fh]d[a-d]|cdrom) (\S+)/) {
+                if ($name eq "N/A" and $option =~ m/^([fh]d[a-d]|cdrom) (\S+)/) {
                     $name = $2;
+                } elsif ($option =~ m/^name (\S+)/) {
+                    $name = $1;
                 } elsif ($option =~ m/^m (\S+)/) {
                     $mem = $1;
                 }
