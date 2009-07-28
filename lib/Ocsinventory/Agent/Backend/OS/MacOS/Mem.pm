@@ -25,17 +25,21 @@ sub run {
 
 
     foreach my $x (keys %$h){
-        next unless $x =~ /^BANK|SODIMM/;
+        next unless $x =~ /^BANK|SODIMM|DIMM/;
         # tare out the slot number
         my $slot = $x;
-		# memory in 10.5
+	# memory in 10.5
         if($slot =~ /^BANK (\d)\/DIMM\d/){
             $slot = $1;
         }
-		# 10.4
-		if($slot =~ /^SODIMM(\d)\/.*$/){
-			$slot = $1;
-		}
+	# 10.4
+	if($slot =~ /^SODIMM(\d)\/.*$/){
+		$slot = $1;
+	}
+	# 10.4 PPC
+	if($slot =~ /^DIMM(\d)\/.*$/){
+		$slot = $1;
+	}
 
         my $size = $h->{$x}->{'Size'};
 
