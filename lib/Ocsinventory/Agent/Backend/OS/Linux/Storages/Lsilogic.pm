@@ -15,8 +15,7 @@ sub check {
 
   my $device;
 # Do we have smartctl ?
-  `which smartctl`;
-  if (($? >> 8) == 0) {
+  if (can_run('smartctl')) {
     foreach my $node (glob("/dev/sd?")) {
       foreach (`smartctl -i $node`) {
         $device = $1 if /.*Device:\s(\w*).*/;
@@ -24,6 +23,7 @@ sub check {
     }
     ($device eq 'LSILOGIC')?return 1:return 0;
   }
+  return 0;
 }
 
 sub run {
