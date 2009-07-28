@@ -89,6 +89,7 @@ futur
        * Add Virtualization::Qemu module (Nicolas EISEN)
        * Add Virtualization::Vmsystem module (Nicolas EISEN)
        * Better smartctl detection (Nicolas EISEN)
+       * optimization and vm users detection Virtualization::VirtualBox (Nicolas EISEN)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
