@@ -36,6 +36,10 @@ sub run {
         my $memory = $machineInfo{'memsize'};
         my $name = $machineInfo{'displayName'};
         my $uuid = $machineInfo{'uuid.bios'};
+        
+        # correct uuid format
+        $uuid =~ s/\s+//g;	# delete space
+        $uuid =~ s!^(........)(....)(....)-(....)(.+)$!\1-\2-\3-\4-\5!; # add dashs
 
         my $machine = {
 
