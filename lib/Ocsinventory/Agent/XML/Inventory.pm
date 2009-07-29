@@ -140,7 +140,7 @@ sub addStorages {
   my $scsi_unid = $args->{SCSI_UNID};
   my $scsi_lun = $args->{SCSI_LUN};
 
-  $serialnumber = $serial;
+  $serialnumber = $serialnumber?$serialnumber:$serial;
 
   push @{$self->{h}{CONTENT}{STORAGES}},
   {
