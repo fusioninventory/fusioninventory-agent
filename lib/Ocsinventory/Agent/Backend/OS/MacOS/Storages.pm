@@ -9,6 +9,18 @@ sub getManufacturer {
   if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
     return ucfirst(lc($1));
   }
+  elsif ($model =~ /^HP/) {
+    return "Hewlett Packard";
+  }
+  elsif ($model =~ /^WDC/) {
+    return "Western Digital";
+  }
+  elsif ($model =~ /^ST/) {
+    return "Seagate";
+  }
+  elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
+    return "Hitachi";
+  }
 }
 
 sub run {
@@ -25,8 +37,6 @@ sub run {
 
   return undef unless( ref($sata) eq 'HASH' );
   
-  use Data::Dumper;
-
   foreach my $x ( keys %$sata ) {
     my $controller = $sata->{$x};
     foreach my $y ( keys %$controller ) {
@@ -51,7 +61,6 @@ sub run {
         DESCRIPTION => 'disk drive',
         MODEL => $model
       };
-      warn Dumper($devices);
 
     }
   }
