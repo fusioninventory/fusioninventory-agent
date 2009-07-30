@@ -3,7 +3,7 @@
 OSVER=`uname -r`
 echo "OSVer is $OSVER"
 
-PID=`ps ax -e | grep OCSNG | grep -v grep | awk '{print $1}'`
+PID=`ps ax -e | grep OCSNG | grep -v grep | grep -v $0 | awk '{print $1}'`
 if [ "$PID" !=  "" ]; then
 	echo "killing process: $PID"
 	sudo kill $PID
