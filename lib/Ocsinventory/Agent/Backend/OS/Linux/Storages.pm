@@ -238,26 +238,26 @@ sub run {
   }
 
 
-  if (can_run("hdparm")) {
-    foreach my $device (keys %$devices) {
-#Serial & Firmware
-      if (!$devices->{$device}->{SERIALNUMBER} || !$devices->{$device}->{FIRMWARE}) {
-        my $cmd = "hdparm -I /dev/".$devices->{$device}->{NAME}." 2> /dev/null";
-        foreach (`$cmd`) {
-          if (/^\s+Serial Number\s*:\s*(.+)/ && !$devices->{$device}->{SERIALNUMBER}) {
-            my $serialnumber = $1;
-            $serialnumber =~ s/\s+$//;
-            $devices->{$device}->{SERIALNUMBER} = $serialnumber;
-          }
-          if (/^\s+Firmware Revision\s*:\s*(.+)/i && !$devices->{$device}->{FIRMWARE}) {
-            my $firmware = $1;
-            $firmware =~ s/\s+$//;
-            $devices->{$device}->{FIRMWARE} = $firmware;
-          }
-        }
-      }
-    }
-  }
+#  if (can_run("hdparm")) {
+#    foreach my $device (keys %$devices) {
+##Serial & Firmware
+#      if (!$devices->{$device}->{SERIALNUMBER} || !$devices->{$device}->{FIRMWARE}) {
+#        my $cmd = "hdparm -I /dev/".$devices->{$device}->{NAME}." 2> /dev/null";
+#        foreach (`$cmd`) {
+#          if (/^\s+Serial Number\s*:\s*(.+)/ && !$devices->{$device}->{SERIALNUMBER}) {
+#            my $serialnumber = $1;
+#            $serialnumber =~ s/\s+$//;
+#            $devices->{$device}->{SERIALNUMBER} = $serialnumber;
+#          }
+#          if (/^\s+Firmware Revision\s*:\s*(.+)/i && !$devices->{$device}->{FIRMWARE}) {
+#            my $firmware = $1;
+#            $firmware =~ s/\s+$//;
+#            $devices->{$device}->{FIRMWARE} = $firmware;
+#          }
+#        }
+#      }
+#    }
+#  }
 
   foreach my $device (keys %$devices) {
 #    if (($devices->{$device}->{MANUFACTURER} ne 'AMCC') and ($devices->{$device}->{MANUFACTURER} ne '3ware') and ($devices->{$device}->{MODEL} ne '') and ($devices->{$device}->{MANUFACTURER} ne 'LSILOGIC') and ($devices->{$device}->{MANUFACTURER} ne 'Adaptec')) {
