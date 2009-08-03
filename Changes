@@ -90,7 +90,7 @@ futur
        * Add Virtualization::Vmsystem module (Nicolas EISEN)
        * Better smartctl detection (Nicolas EISEN)
        * optimization and vm users detection Virtualization::VirtualBox (Nicolas EISEN)
-       * Add Virtualization::VmwareFusion module (Walid Nouh)
+       * Add Virtualization::VmwareFusion module (Walid NOUH)
        * Don't use hdparm anymore, see
          http://forums.ocsinventory-ng.org/viewtopic.php?pid=20768
 
