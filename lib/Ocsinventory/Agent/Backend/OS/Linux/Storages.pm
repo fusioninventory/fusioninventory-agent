@@ -99,6 +99,20 @@ sub getManufacturer {
   }
 }
 
+# some hdparm release generated kernel error if they are
+# run on CDROM device
+# http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
+sub correctHdparmAvailable {
+  return unless can_run("hdparm");
+  my $hdparmVersion = `hdparm -V`;
+  if ($hdparmVersion =~ /^hdparm v(\d+)\.(\d+)(\.|$)/) {
+    return 1 if $1>9;
+    return 1 if $1==9 && $2>=2;
+  }
+  return;
+}
+
+
 sub run {
   my $params = shift;
   my $logger = $params->{logger};
@@ -238,26 +252,26 @@ sub run {
   }
 
 
-#  if (can_run("hdparm")) {
-#    foreach my $device (keys %$devices) {
-##Serial & Firmware
-#      if (!$devices->{$device}->{SERIALNUMBER} || !$devices->{$device}->{FIRMWARE}) {
-#        my $cmd = "hdparm -I /dev/".$devices->{$device}->{NAME}." 2> /dev/null";
-#        foreach (`$cmd`) {
-#          if (/^\s+Serial Number\s*:\s*(.+)/ && !$devices->{$device}->{SERIALNUMBER}) {
-#            my $serialnumber = $1;
-#            $serialnumber =~ s/\s+$//;
-#            $devices->{$device}->{SERIALNUMBER} = $serialnumber;
-#          }
-#          if (/^\s+Firmware Revision\s*:\s*(.+)/i && !$devices->{$device}->{FIRMWARE}) {
-#            my $firmware = $1;
-#            $firmware =~ s/\s+$//;
-#            $devices->{$device}->{FIRMWARE} = $firmware;
-#          }
-#        }
-#      }
-#    }
-#  }
+  if (correctHdparmAvailable()) {
+    foreach my $device (keys %$devices) {
+#Serial & Firmware
+      if (!$devices->{$device}->{SERIALNUMBER} || !$devices->{$device}->{FIRMWARE}) {
+        my $cmd = "hdparm -I /dev/".$devices->{$device}->{NAME}." 2> /dev/null";
+        foreach (`$cmd`) {
+          if (/^\s+Serial Number\s*:\s*(.+)/ && !$devices->{$device}->{SERIALNUMBER}) {
+            my $serialnumber = $1;
+            $serialnumber =~ s/\s+$//;
+            $devices->{$device}->{SERIALNUMBER} = $serialnumber;
+          }
+          if (/^\s+Firmware Revision\s*:\s*(.+)/i && !$devices->{$device}->{FIRMWARE}) {
+            my $firmware = $1;
+            $firmware =~ s/\s+$//;
+            $devices->{$device}->{FIRMWARE} = $firmware;
+          }
+        }
+      }
+    }
+  }
 
   foreach my $device (keys %$devices) {
 #    if (($devices->{$device}->{MANUFACTURER} ne 'AMCC') and ($devices->{$device}->{MANUFACTURER} ne '3ware') and ($devices->{$device}->{MODEL} ne '') and ($devices->{$device}->{MANUFACTURER} ne 'LSILOGIC') and ($devices->{$device}->{MANUFACTURER} ne 'Adaptec')) {

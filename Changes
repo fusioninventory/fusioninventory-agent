@@ -91,7 +91,7 @@ futur
        * Better smartctl detection (Nicolas EISEN)
        * optimization and vm users detection Virtualization::VirtualBox (Nicolas EISEN)
        * Add Virtualization::VmwareFusion module (Walid NOUH)
-       * Don't use hdparm anymore, see
+       * Don't use hdparm prior 9.2.2 anymore to avoid crap in kernel log, see
          http://forums.ocsinventory-ng.org/viewtopic.php?pid=20768
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
