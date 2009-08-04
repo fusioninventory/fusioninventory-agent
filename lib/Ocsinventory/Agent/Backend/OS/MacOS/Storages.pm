@@ -6,8 +6,20 @@ sub check {return can_load('Mac::SysProfile');}
 
 sub getManufacturer {
   my $model = shift;
-  if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend|matshita)/i) {
+  if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend|matshita|pioneer)/i) {
     return ucfirst(lc($1));
+  }
+  elsif ($model =~ /^HP/) {
+    return "Hewlett Packard";
+  }
+  elsif ($model =~ /^WDC/) {
+    return "Western Digital";
+  }
+  elsif ($model =~ /^ST/) {
+    return "Seagate";
+  }
+  elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
+    return "Hitachi";
   }
 }
 
