@@ -104,7 +104,7 @@ sub run {
   my $logger = $params->{logger};
   my $inventory = $params->{inventory};
 
-  my $devices;
+  my $devices = {};
 
   # Get complementary information in hash tab
   if (can_run ("lshal")) {
