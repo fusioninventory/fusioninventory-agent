@@ -12,7 +12,6 @@ sub run {
 
   my $hostname;
 
-  use Mac::SysProfile;
   my $prof = Mac::SysProfile->new();
   my $nfo = $prof->gettype('SPSoftwareDataType');
   
