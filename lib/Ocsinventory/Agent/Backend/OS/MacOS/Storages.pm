@@ -13,7 +13,6 @@ sub getManufacturer {
 
 sub run {
 
-  use Mac::SysProfile;
   my $params = shift;
   my $logger = $params->{logger};
   my $inventory = $params->{inventory};
