@@ -107,7 +107,7 @@ sub correctHdparmAvailable {
   my $hdparmVersion = `hdparm -V`;
   if ($hdparmVersion =~ /^hdparm v(\d+)\.(\d+)(\.|$)/) {
     return 1 if $1>9;
-    return 1 if $1==9 && $2>=2;
+    return 1 if $1==9 && $2>=15;
   }
   return;
 }
