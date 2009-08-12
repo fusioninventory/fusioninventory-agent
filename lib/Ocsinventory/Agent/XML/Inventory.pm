@@ -585,6 +585,8 @@ sub getContent {
 
       s/\r|\n//g;
 
+      # Is that a good idea. Intent to drop some nasty char
+      # s/[A-z0-9_\-<>\/:\.,#\ \?="'\(\)]//g;
       $clean_content .= $_."\n";
   }
 
