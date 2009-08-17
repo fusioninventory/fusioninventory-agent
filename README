@@ -90,10 +90,10 @@ NOTE
   At the begining of the cron file.
 
 
-SVN
-You can prepare a tarball from the SVN devel branch with those commands:
-   svn co https://ocsinventory.svn.sourceforge.net/svnroot/ocsinventory/trunk/unified_unix_agent
-   cd unified_unix_agent
+SOURCES
+You can prepare a tarball from the Bazaar devel branch with those commands:
+   bzr branch lp:ocs-unix-agent
+   cd ocs-unix-agent 
    perl Makefile.PL
    make manifest
    make dist
@@ -101,11 +101,15 @@ You can prepare a tarball from the SVN devel branch with those commands:
 
 COPYRIGHT
 
-  See AUTHORS file.  Ocsinventory-Agent is released under GNU GPL 2 license
+  Copyright OCS Inventory Contributor 2006-2009 
+  released under GNU GPL 2 license
+  
+AUTHORS
+  See AUTHORS file.
 
 The memconf script is maintained by Tom Schmidt
 http://myweb.cableone.net/4schmidts/memconf.html
-Copyright © 1996-2008 Tom Schmidt
+Copyright © 1996-2009 Tom Schmidt
 
 memconf is free software; you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
