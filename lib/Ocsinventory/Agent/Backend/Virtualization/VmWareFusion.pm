@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::Virtualization::VmwareFusion;
+package Ocsinventory::Agent::Backend::Virtualization::VmWareFusion;
 #
 # initial version: Walid Nouh
 #
@@ -34,7 +34,7 @@ sub run {
                             }
                     }
 
-            $uuid =~ s/\ //g;
+            #$uuid =~ s/\ //g;
             $inventory->addVirtualMachine ({
                         NAME      => $name,
                         VCPU      => 1,
