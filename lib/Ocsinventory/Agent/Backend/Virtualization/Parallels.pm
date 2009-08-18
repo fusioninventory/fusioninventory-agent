@@ -12,7 +12,7 @@ sub run {
             'running' => 'running',
             'blocked' => 'blocked',
             'paused' => 'paused',
-            'stopped' => 'shutdown',
+            'suspended' => 'suspended',
             'crashed' => 'crashed',
             'dying' => 'dying',
     );
