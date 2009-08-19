@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::Virtualization::VmWareFusion;
+package Ocsinventory::Agent::Backend::Virtualization::VmWareDesktop;
 #
 # initial version: Walid Nouh
 #
@@ -34,13 +34,12 @@ sub run {
                             }
                     }
 
-            #$uuid =~ s/\ //g;
             $inventory->addVirtualMachine ({
                         NAME      => $name,
                         VCPU      => 1,
                         UUID      => $uuid,
                         MEMORY    => $mem,
-                        STATUS    => "Running",
+                        STATUS    => "running",
                         SUBSYSTEM => "VmWare Fusion",
                         VMTYPE    => "VmWare",
                     });
