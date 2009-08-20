@@ -1,5 +1,10 @@
 Revision history for Ocsinventory::Agent
 
+
+newdeploy
+       * post-install.pl: Don't ask the user if Download.pm should be
+         enabled
+
 1.1_beta2
        * addMemorie() renamed to addMemories(), this had been broken during
          the addMemories() → addMemory() transition
