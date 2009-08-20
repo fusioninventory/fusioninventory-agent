@@ -84,7 +84,8 @@ sub send {
   }
   #############
 
-  $logger->debug ("sending: ".$message->getContent());
+  # Print the XMLs in the debug output
+  #$logger->debug ("sending: ".$message->getContent());
 
   my $compressed = $compress->compress( $message->getContent() );
 
