@@ -409,10 +409,15 @@ sub run {
 
         }
 
-        $compatibilityLayer->hook({name => 'end_handler'});
-        exit (0) unless $config->{config}{daemon};
+#        $compatibilityLayer->hook({name => 'end_handler'});
+#        exit (0) unless $config->{config}{daemon};
 
-    }
+      # call the longRun() function in the Backend
+      $backend->longRuns({
+          config => $config,
+          logger => $logger
+      });
+
 }
 1;
 
