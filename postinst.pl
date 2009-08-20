@@ -349,26 +349,6 @@ if (@cacert) { # we need to migrate the certificat
     print "Certificat copied in ".$vardir."/cacert.pem\n";
 }
 
-my $download_enable = ask_yn("Do you want to use OCS-Inventory software deployment feature?", 'y');
-
-open MODULE, ">$configdir/modules.conf" or die "Can't write modules.conf in $configdir: ".$!;
-print MODULE "# this list of module will be load by the at run time\n";
-print MODULE "# to check its syntax do:\n";
-print MODULE "# #perl modules.conf\n";
-print MODULE "# You must have NO error. Else the content will be ignored\n";
-print MODULE "# This mechanism goal it to keep compatibility with 'plugin'\n";
-print MODULE "# created for the previous linux_agent.\n";
-print MODULE "# The new unified_agent have its own extension system that allow\n";
-print MODULE "# user to add new information easily.\n";
-print MODULE "\n";
-print MODULE ($download_enable?'':'#');
-print MODULE "use Ocsinventory::Agent::Option::Download;\n";
-print MODULE "\n";
-print MODULE "# DO NOT REMOVE THE 1;\n";
-print MODULE "1;\n";
-close MODULE;
-
-
 if (ask_yn("Do you want to send an inventory of this machine?", 'y')) {
     system("$binpath --force");
     if (($? >> 8)==0) {
