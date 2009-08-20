@@ -165,6 +165,7 @@ sub initModList {
     $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{'runMeIfTheseChecksFailed'};
 #    $self->{modules}->{$m}->{replace} = \@replace;
     $self->{modules}->{$m}->{runFunc} = $package->{'run'};
+    $self->{modules}->{$m}->{longRunFunc} = $package->{'longRun'};
     $self->{modules}->{$m}->{mem} = {};
 # Load the Storable object is existing or return undef
     $self->{modules}->{$m}->{storage} = $self->retrieveStorage($m);
@@ -185,10 +186,12 @@ sub initModList {
             config => $self->{config},
             inventory => $self->{inventory},
             logger => $self->{logger},
-            params => $self->{params}, # Compatibiliy with agent 0.0.10 <=
-	    prologresp => $self->{prologresp},
-	    mem => $self->{modules}->{$m}->{mem},
-	    storage => $self->{modules}->{$m}->{storage},
+            # Compatibiliy with agent 0.0.10 <=
+            # We continue to pass params->{params}
+            params => $self->{params},
+            prologresp => $self->{prologresp},
+            mem => $self->{modules}->{$m}->{mem},
+            storage => $self->{modules}->{$m}->{storage},
 	})) {
       $logger->debug ($m." ignored");
       foreach (keys %{$self->{modules}}) {
@@ -381,6 +384,28 @@ sub runWithTimeout {
     } else {
         return $ret;
     }
+}
+
+sub longRuns {
+  my ($self) = @_;
+
+  my $logger = $self->{logger};
+  my $config = $self->{config};
+
+  foreach my $m (sort keys %{$self->{modules}}) {
+    if ($self->{modules}{$m}{longRunFunc}) {
+      $logger->debug("$m: runs longRun()");
+      $self->{modules}{$m}{longRunFunc}({
+        config => $config,
+        logger => $logger,
+      });
+#    } else {
+#      $logger->debug("$m: longRun() not found.");
+    }
+  }
+
+
+
 }
 
 1;
