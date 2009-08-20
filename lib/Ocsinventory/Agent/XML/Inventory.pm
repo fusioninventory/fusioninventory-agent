@@ -952,8 +952,8 @@ sub processChecksum {
       );
     } else {
       $logger->debug ('last_state file: `'.
-  	$self->{config}->{last_statefile}.
-  	"' doesn't exist (yet).");
+      $self->{config}->{last_statefile}.
+        "' doesn't exist (yet).");
     }
   }
 
