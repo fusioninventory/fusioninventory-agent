@@ -38,8 +38,7 @@ sub getParsedContent {
     my $self = shift;
 
     if(!$self->{parsedcontent}) {
-	$self->{parsedcontent} = XML::Simple::XMLin( $self->{content}, ForceArray => ['OPTION','PARAM'] );
-	# print Dumper($self->{parsedcontent});
+        $self->{parsedcontent} = XML::Simple::XMLin( $self->{content}, ForceArray => ['OPTION','PARAM'] );
     }
 
     return $self->{parsedcontent};
