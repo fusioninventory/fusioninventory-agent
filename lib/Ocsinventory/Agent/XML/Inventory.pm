@@ -31,7 +31,7 @@ sub new {
   $self->{h}{CONTENT}{CPUS} = [];
   $self->{h}{CONTENT}{DRIVES} = [];
   $self->{h}{CONTENT}{HARDWARE} = {
-    # TODO move that in a backend module 
+    # TODO move that in a backend module
     ARCHNAME => [$Config{archname}]
   };
   $self->{h}{CONTENT}{MONITORS} = [];
@@ -568,7 +568,7 @@ sub getContent {
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 
   my $clean_content;
-  
+
   # To avoid strange breakage I remove the unprintable caractere in the XML
   foreach (split "\n", $content) {
 #      s/[[:cntrl:]]//g;
@@ -581,7 +581,10 @@ sub getContent {
       |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
       | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
       |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-      )*\z/x) { s/[[:cntrl:]]//g; print 'non utf-8'.$_."\n"; }
+      )*\z/x) {
+      s/[[:cntrl:]]//g;
+      $logger->debug("non utf-8 '".$_."'");
+    }
 
       s/\r|\n//g;
 
@@ -662,7 +665,7 @@ sub processChecksum {
     if (-f $self->{config}->{last_statefile}) {
       # TODO: avoid a violant death in case of problem with XML
       $self->{last_state_content} = XML::Simple::XMLin(
-  
+
         $self->{config}->{last_statefile},
         SuppressEmpty => undef,
         ForceArray => 1
@@ -712,7 +715,7 @@ sub saveLastState {
     close LAST_STATE or warn;
   } else {
     $logger->debug ("Cannot save the checksum values in ".$self->{config}->{last_statefile}."
-	(will be synchronized by GLPI!!): $!"); 
+	(will be synchronized by GLPI!!): $!");
   }
 }
 
