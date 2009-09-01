@@ -47,6 +47,7 @@ sub run {
   if ($model eq "SUNW,Sun-Fire-T1000") { $sun_class = 3; }
   if ($model eq "SUNW,SPARC-Enterprise-T5220") { $sun_class = 4; }
   if ($model eq "SUNW,SPARC-Enterprise") { $sun_class = 5; } # for M5000 && M4000
+  if ($model eq "i86pc") { $sun_class = 6; }
   # debug print model
   #print "sunclass: $sun_class\n";
   # now we can look at memory information, depending from our class
@@ -327,6 +328,64 @@ sub run {
         if (/^Sun Microsystems/) { $flag_mt=1; $flag=1; }
     }
   }
+  if($sun_class == 6)
+  {
+    foreach(`memconf 2>&1`)
+    {
+      # debug
+      #print "line: " .$j++ . " " . $flag_mt . "/" . $flag ." : " . "$_";
+      if(/^empty memory sockets:\s*(\S+)/)
+      {
+        # cut of first 22 char containing the string empty sockets:
+        substr ($_,0,22) = "";
+        $capacity = "0";
+        $numslots = 0;
+        foreach $caption (split(/, /,$_))
+        {
+          if ($caption eq "None")
+          {
+            $empty_slots = 0;
+            # no empty slots -> exit loop
+            last;
+          }
+          # debug
+          #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+          $empty_slots++;
+          $inventory->addMemories({
+            CAPACITY => $capacity,
+            DESCRIPTION => "empty",
+            CAPTION => $caption,
+            SPEED => 'n/a',
+            TYPE => 'n/a',
+            NUMSLOTS => $numslots
+          })
+        }
+      }
+      if(/^socket DIMM(\d+):\s+(\d+)MB\s(\S+)/)
+      {
+        $caption = "DIMM$1";
+        $description = "DIMM$1";
+        $numslots = $1;
+        $capacity = $2;
+	$type = $3;
+        # debug
+        #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
+        $module_count++;
+        $inventory->addMemories({
+          CAPACITY => $capacity,
+          DESCRIPTION => $description,
+          CAPTION => $caption,
+          SPEED => $speed,
+          TYPE => $type,
+          NUMSLOTS => $numslots
+        })
+      }
+    }
+    # debug: show number of modules found and number of empty slots
+    #print "# of RAM Modules: " . $module_count . "\n";
+    #print "# of empty slots: " . $empty_slots . "\n";
+  }
+
   
 }
 #run();
