@@ -12,6 +12,8 @@ sub run {
 
   my @dmidecode = `dmidecode`;
   s/^\s+// for (@dmidecode);
+
+  # get the BIOS values
   my $flag=0;
   for(@dmidecode){
     $flag=1 if /dmi type 0,/i;
@@ -20,7 +22,8 @@ sub run {
     if((/^release\ date:\s*(.+?)(\s*)$/i) && ($flag)) { $BiosDate = $1 }
     if((/^version:\s*(.+?)(\s*)$/i) && ($flag)) { $BiosVersion = $1 }
   }
-  
+ 
+  # Try to query the machine itself 
   $flag=0;
   for(@dmidecode){
     if(/dmi type 1,/i){$flag=1;}
@@ -30,6 +33,7 @@ sub run {
     if((/^(manufacturer|vendor):\s*(.+?)(\s*)$/i) && ($flag)) { $SystemManufacturer = $2 }
   }
 
+  # Failback on the motherbord
   $flag=0;
   for(@dmidecode){
     if(/dmi type 2,/i){$flag=1;}
