@@ -52,7 +52,7 @@ sub run {
             'CAPACITY'      => $size,
             'SPEED'         => $h->{$x}->{'Speed'},
             'TYPE'          => $h->{$x}->{'Type'},
-            'SERIALNUMBER ' => $h->{$x}->{'Serial Number'},
+            'SERIALNUMBER' => $h->{$x}->{'Serial Number'},
             'DESCRIPTION'   => $h->{$x}->{'Part Number'} || $x,
             'NUMSLOTS'      => $slot,
             'CAPTION'       => 'Status: '.$h->{$x}->{'Status'},
