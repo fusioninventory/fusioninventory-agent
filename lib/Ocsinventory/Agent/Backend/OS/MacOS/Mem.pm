@@ -53,7 +53,7 @@ sub run {
             'SPEED'         => $h->{$x}->{'Speed'},
             'TYPE'          => $h->{$x}->{'Type'},
             'SERIALNUMBER ' => $h->{$x}->{'Serial Number'},
-            'DESCRIPTION'   => $h->{$x}->{'Part Number'} | $x,
+            'DESCRIPTION'   => $h->{$x}->{'Part Number'} || $x,
             'NUMSLOTS'      => $slot,
             'CAPTION'       => 'Status: '.$h->{$x}->{'Status'},
         });
