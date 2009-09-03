@@ -95,6 +95,7 @@ futur
          http://forums.ocsinventory-ng.org/viewtopic.php?pid=20768
        * Correctly detect ipmitool
        * Solaris: i86pc Memory support (Jean-François BOUCHER)
+       * Solaris Zone support (Maurizio BERTABONI)
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
