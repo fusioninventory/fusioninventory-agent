@@ -2,7 +2,32 @@ package Ocsinventory::Agent::Backend::Virtualization::SolarisZones;
 
 use strict;
 
-sub check { can_run('zoneadm') }
+sub check { 
+  return can_run('zoneadm'); 
+  return check_solaris_valid_release();
+}
+sub check_solaris_valid_release{
+  #check if Solaris 10 release is higher than 08/07
+  my @rlines;
+  my $release_file;
+  my $release;
+  my $year;
+  
+  $release_file = "/etc/release";
+  open(SOLVERSION, $release_file);
+  @rlines = <SOLVERSION>;
+  @rlines = grep(/Solaris/,@rlines);
+  $release = @rlines[0];
+  $release =~ m/(\d)\/(\d+)/;
+  $release = $1;
+  $year = $2;
+  $release =~ s/^0*//g;
+  $year =~ s/^0*//g;
+  if ($year <= 7 and $release < 8 ){
+  return 0;
+  }
+  1 
+}
 
 sub run {
   my @zones;
