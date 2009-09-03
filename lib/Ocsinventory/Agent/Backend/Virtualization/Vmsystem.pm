@@ -36,6 +36,7 @@ package Ocsinventory::Agent::Backend::Virtualization::Vmsystem;
 #   Virtual Machine
 #   VMware
 #   QEMU
+#   SolarisZone
 #
 # If no virtualization has been detected:
 #   Physical
@@ -44,8 +45,11 @@ package Ocsinventory::Agent::Backend::Virtualization::Vmsystem;
 
 use strict;
 
-sub check {   # 2.6 and under haven't -t parameter
-  if ( can_run ("dmidecode") ) {    
+sub check { 
+  if ( can_run("zoneadm")){ # Is a solaris zone system capable ?
+      return 1; 
+  }
+  if ( can_run ("dmidecode") ) { # 2.6 and under haven't -t parameter   
     if ( `dmidecode -V` >= 2.7 ) {
       return 1;
     }
@@ -64,7 +68,15 @@ sub run {
 
     my $status = "Physical";
     my $found = 0;
-    
+    # Solaris zones
+    my @solaris_zones;
+    @solaris_zones = `/usr/sbin/zoneadm list`;
+    @solaris_zones = grep (!/global/,@solaris_zones);
+    if(@solaris_zones){
+        $status = "SolarisZone";
+        $found = 1;
+    }
+ 
     # paravirtualized oldstyle Xen - very simple ;)
     if(-d '/proc/xen') {
         $status = "Xen";
