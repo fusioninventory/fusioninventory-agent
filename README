@@ -20,9 +20,7 @@ PREREQUISITES
 
     lspci on Linux and *BSD (pciutils package) is required to list PCI devices.
 
-    Mac::SysProfile on MacOSX to collect the device informations.
-      If you use MacOSX 10.5, you may have this bug
-      https://rt.cpan.org/Public/Bug/Display.html?id=48059
+    Mac::SysProfile 0.0.3 is need on MacOSX to collect the device informations.
 
     sneep on Solaris/sparc, you must install sneep and record the Serial Number with it :
                   (download it from http://www.sun.com/download/products.xml?id=4304155a)
@@ -74,6 +72,15 @@ BUILDING/INSTALLING
 
    sudo ./ocsinventory-agent --devlib --server http://foo/ocsinventory 
 
+PATCHES
+  If you want to improve OCS Inventory, please use the Bazaar branch
+  directly, publish you changes and ask for the merge
+  http://wiki.ocsinventory-ng.org/index.php/Developers:Bazaar
+
+  The source of the agent can be download with this command:
+
+  bzr branch lp:ocsinventory-unix-agent
+
 
 NOTE
  
@@ -101,7 +108,7 @@ You can prepare a tarball from the Bazaar devel branch with those commands:
 
 COPYRIGHT
 
-  Copyright OCS Inventory Contributor 2006-2009 
+  Copyright © 2006-2009 OCS Inventory Contributor
   released under GNU GPL 2 license
   
 AUTHORS
