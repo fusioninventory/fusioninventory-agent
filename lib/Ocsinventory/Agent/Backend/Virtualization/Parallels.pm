@@ -24,27 +24,32 @@ sub run {
     my $cpus = 1;
     my @users = ();
 
-    my $lscommand = "ls /Users";
-    foreach my $lsuser ( `$lscommand` ) {
-        chomp ($lsuser);
-        if ($lsuser !~ m/Shared|^\.|\s/) {	
-            push(@users,$lsuser);
-        }
+    foreach my $lsuser ( glob("/Users/*") ) {
+        $lsuser =~ s/.*\///; # Just keep the login
+        next if /Shared/i;
+        next if /^\./i; # Ignore hidden directory
+        next if /\ /; # Ignore directory with space in the name
+        next if /'/; # Ignore directory with space in the name
+
+        push(@users,$lsuser);
     }
 
     foreach my $user (@users) {
-        my @command = `sudo -u $user prlctl list -a`;
+        my @command = `sudo -u '$user' prlctl list -a`;
         shift (@command);
 
         foreach my $line ( @command ) {
             chomp $line; 
-            my @params = split( /  /, $line);
+            my @params = split(/  /, $line);
             $uuid = $params[0];
             #$status = $params[1];
             $status = $status_list{$params[1]};
             $name = $params[4];
 
-            foreach my $infos ( `sudo -u $user prlctl list -i $uuid`) {
+            # Avoid security risk. Should never appends
+            next if $uuid =~ /(;\||&)/;
+
+            foreach my $infos ( `sudo -u '$user' prlctl list -i $uuid`) {
             if ($infos =~ m/^\s\smemory\s(.*)Mb/) {
                 $mem = $1;
             }
