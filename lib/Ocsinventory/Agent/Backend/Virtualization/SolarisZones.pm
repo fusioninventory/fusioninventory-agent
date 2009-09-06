@@ -14,7 +14,9 @@ sub check_solaris_valid_release{
   my $year;
   
   $release_file = "/etc/release";
-  open(SOLVERSION, $release_file);
+  if (!open(SOLVERSION, $release_file)) {
+    return;
+  }
   @rlines = <SOLVERSION>;
   @rlines = grep(/Solaris/,@rlines);
   $release = @rlines[0];
@@ -44,6 +46,7 @@ sub run {
   my $vcpu;
   my $params = shift;
   my $inventory = $params->{inventory};
+  my $logger = $params->{logger};
 
   @zones = `/usr/sbin/zoneadm list -p`;
   @zones = grep (!/global/,@zones);
@@ -54,7 +57,10 @@ sub run {
 	# Memory considerations depends on rcapd or project definitions
 	# Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
         $zonefile = "/etc/zones/$zonename.xml";
-        open(ZONE, $zonefile);    
+        if (!open(ZONE, $zonefile)) {
+            $logger->debug("Failed to open $zonefile");
+            next;
+        }
         @lines = <ZONE>;
         @lines = grep(/mcap/,@lines);
         $memcap = @lines[0];
