@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Modems;
 use strict;
 
-sub check {`which lsdev 2>&1`; ($? >> 8)?0:1}
+sub check {can_run("lsdev")}
 
 sub run {
   my $params = shift;

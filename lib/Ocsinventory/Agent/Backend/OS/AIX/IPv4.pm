@@ -1,7 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::AIX::IPv4;
 
-sub check {`which ifconfig 2>&1`; ($? >> 8)?0:1 
-}
+sub check {can_run("ifconfig")}
 
 # Initialise the distro entry
 sub run {

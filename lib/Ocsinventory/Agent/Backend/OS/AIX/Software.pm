@@ -9,8 +9,7 @@ sub check {
   # Do not run an package inventory if there is the --nosoft parameter
   return if ($params->{config}->{nosoft});
 
-  `lslpp -l 2>&1`;
-  return if ($? >> 8)!=0;
+  return unless can_run("lslpp");
   1;
 }
 

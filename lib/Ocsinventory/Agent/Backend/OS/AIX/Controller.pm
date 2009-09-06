@@ -2,8 +2,7 @@ package Ocsinventory::Agent::Backend::OS::AIX::Controller;
 use strict;
 
 sub check {
-	`which lsdev 2>&1`;
-	return if($? >> 8)!=0;
+	return unless can_run('lsdev');
 	my @lsdev = `lsdev -Cc adapter -F 'name:type:description'`;	
 	return 1 if @lsdev;
 	0
