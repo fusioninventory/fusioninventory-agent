@@ -3,8 +3,8 @@ package Ocsinventory::Agent::Backend::Virtualization::SolarisZones;
 use strict;
 
 sub check { 
-  return can_run('zoneadm'); 
-  return check_solaris_valid_release();
+  return unless can_run('zoneadm'); 
+  return unless check_solaris_valid_release();
 }
 sub check_solaris_valid_release{
   #check if Solaris 10 release is higher than 08/07
