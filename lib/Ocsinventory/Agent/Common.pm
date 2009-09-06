@@ -8,6 +8,9 @@
 ## Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 ################################################################################
 package Ocsinventory::Agent::Common;
+# - BIG FAT WARNING -
+# PLEASE, DON'T USE THIS MODULE. IT ONLY USED FOR THE COMPATIBILITY
+# WITH THE PREVIOUS PLUGIN MECHANISM AND WILL BE DROPPED IN THE FUTUR
 
 use strict;
 
