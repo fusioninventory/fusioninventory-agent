@@ -1,5 +1,5 @@
 package Ocsinventory::Agent::Backend::Virtualization::Qemu;
-# With Qemu 0.10.X, some option will be exist to get more and easly information (UUID, memory, ...)
+# With Qemu 0.10.X, some option will be added to get more and easly information (UUID, memory, ...)
 
 use strict;
 
