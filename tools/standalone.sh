@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "WARNINGS: Very experimental tool"
+
 [ -f standalone.sh ] && cd ..
 if [ ! -f tools/standalone.sh ]; then
     echo "Can't find tools/standalone.sh"
