@@ -27,7 +27,7 @@ sub run {
     my $lscommand = "ls /Users";
     foreach my $lsuser ( `$lscommand` ) {
         chomp ($lsuser);
-        if ($lsuser !~ m/Shared|^\./) {	
+        if ($lsuser !~ m/Shared|^\.|\s/) {	
             push(@users,$lsuser);
         }
     }
