@@ -72,7 +72,7 @@ sub loadFromCfgFile {
   push (@{$self->{config}{etcdir}}, $ENV{HOME}.'/.ocsinventory'); # Should I?
 
   my $file;
-  if (!$file || !-f $file) {
+if (!$file || !-f $file) {
     foreach (@{$self->{config}{etcdir}}) {
       $file = $_.'/ocsinventory-agent.cfg';
       last if -f $file;
@@ -83,7 +83,7 @@ sub loadFromCfgFile {
   $self->{configfile} = $file;
 
   if (!open (CONFIG, "<".$file)) {
-    print(STDERR "Config: Failed to open $file");
+    print(STDERR "Config: Failed to open $file\n");
 	  return $config;
   }
 
