@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
-our $VERSION = '1.1';
+our $VERSION = '1.1bzr';
 my $basedir = '';
 my $default = {
   'daemon'    =>  0,
@@ -174,7 +174,7 @@ sub help {
   "Will be ignored by server if a value already exists.\n";
   print STDERR "\t-u --user=USER      user for server auth (".$self->{config}{user}.")\n";
   print STDERR "\t   --version        print the version\n";
-  print STDERR "\t-w --wait=server||nbr_seconds           wait during a random periode before".
+  print STDERR "\t-w --wait=seconds   wait during a random periode before".
   "  contacting server like --daemon do (".$self->{config}{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($self->{config}{xml})\n";
   print STDERR "\t--nosoft           DEPRECATED, use --nosoftware instead\n";
