@@ -10,6 +10,7 @@ sub check { return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun')
 sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $uuid;
     my $mem;
@@ -20,8 +21,13 @@ sub run {
     my $commande = "/Library/Application\\ Support/VMware\\ Fusion\/vmrun list";
     foreach my $vmxpath ( `$commande` ) {
         next unless $i++ > 0; # Ignore the first line
-        $vmxpath =~ s/ /\\\ /g;
-        my @vminfos = `cat $vmxpath`;
+        if (!open TMP, "<$vmxpath") {
+            $logger->debug("Can't open $vmxpath\n");
+            next;
+        }
+        my @vminfos = <TMP>;
+        close TMP;
+
         foreach my $line (@vminfos) {
             if ($line =~ m/^displayName =\s\"+(.*)\"/) {
                 $name = $1;
