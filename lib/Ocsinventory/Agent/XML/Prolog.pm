@@ -3,7 +3,6 @@ package Ocsinventory::Agent::XML::Prolog;
 use strict;
 use warnings;
 
-use Data::Dumper; # XXX Debug
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 
@@ -26,6 +25,7 @@ sub new {
 
 sub dump {
   my $self = shift;
+  eval "use Data::Dumper;";
   print Dumper($self->{h});
 
 }
