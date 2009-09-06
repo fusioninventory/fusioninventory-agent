@@ -10,7 +10,8 @@ sub run {
     my $inventory = $params->{inventory};
 
     foreach ( `ps -ef` ) {
-        if (m/^.*((qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|cdrom).*)$/) {      # match only if an qemu instance
+        if (m/^.*((qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|cdrom).*)$/) {
+            # match only if an qemu instance
             
             my $name = "N/A";
             my $mem = 0;
@@ -29,6 +30,7 @@ sub run {
             }
             
             if ($mem == 0 ) {
+                # Default value
                 $mem = 128;
             }
             
