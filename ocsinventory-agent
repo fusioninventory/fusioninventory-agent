@@ -453,38 +453,26 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
 
 F<ocsinventory-agent> creates inventory and sent or write them. This agent is the
 successor of the former linux_agent which was release with OCS 1.01 and prior. It also
-replaces the Solaris/AIX/BSD unofficial agents. It supports the following operating
-systems:
+replaces the Solaris/AIX/BSD unofficial agents. The detailed list of supported
+Operating System is avalaible in the Wiki.
 
 =over 4
 
-=item F<Linux 2.4 and 2.6>
-
-any distribution on x86, x86_64/AMD64, Sparc64, ARM and PowerPC. Other architectures may work.
+=item F<GNU/Linux>
 
 =item F<Solaris>
 
-tested on Solaris 8, 9 and 10 (x86 and Sparc)
-
 =item F<FreeBSD>
-
-x86 and Sparc
 
 =item F<NetBSD>
 
-x86 and Sparc
-
 =item F<OpenBSD>
-
-x86 and Sparc
 
 =item F<AIX>
 
-tested on AIX 5.1, 5.2 and 5.3 (PPC)
-
 =item F<MacOSX>
 
-tested with system from 10.3.9 to 10.5.3
+=item F<GNU/kFreeBSD>
 
 =back
 
@@ -592,15 +580,19 @@ Else if duration is a numerical value, it will be used directly.
 
     % ocsinventory-agent --wait 5 --server localhost
 
-=item B<--nosoftware>, B<--nosoft>
+=item B<--nosoftware>
 
-Do not inventory the software installed on the machin. B<--nosoft> is deperecated, use B<--nosoftware>
+Do not inventory the software installed on the machin. B<--nosoft> also
+works but is deperecated.
 
 =back
 
 =head1 AUTHORS
 
-Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE, Didier LIROULET
+The maintainer is Goneri LE BOUDER <goneri@rulezlan.org>
+
+Please read the AUTHORS, Changes and THANKS files to see who is behind OCS
+Inventory Agent.
 
 =head1 SEE ALSO
 
@@ -609,6 +601,10 @@ Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE,
 =item OCS-Inventory website,
 
  http://www.ocsinventory-ng.org/
+
+=item LaunchPad project page,
+
+ http://launchpad.net/ocsinventory-unix-agent
 
 =item forum,
 
@@ -622,7 +618,9 @@ Goneri LE BOUDER (maintainer), Pascal DANEK, Olivier ANDREOTTI, Thierry LACOSTE,
 
 =head1 BUGS
 
-Please, use the forum as much as possible. You can send your patches to <goneri@rulezlan.org>.
+Please, use the forum as much as possible. You can open you bug.
+Patches are welcome. You can also use LaunchPad bugtracker or
+push your Bazaar branch on LaunchPad and do a merge request.
 
 =head1 COPYRIGHT
 
