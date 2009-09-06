@@ -15,11 +15,11 @@ sub run {
     my $mem;
     my $status;
     my $name;
-    my $index = 0;
+    my $i = 0;
 
     my $commande = "/Library/Application\\ Support/VMware\\ Fusion\/vmrun list";
     foreach my $vmxpath ( `$commande` ) {
-            if ($index>0) {
+        next unless $i++ > 0; # Ignore the first line
                     $vmxpath =~ s/ /\\\ /g;
                     my @vminfos = `cat $vmxpath`;
                     foreach my $line (@vminfos) {
@@ -43,8 +43,6 @@ sub run {
                         SUBSYSTEM => "VmWare Fusion",
                         VMTYPE    => "VmWare",
                     });
-            }
-            $index++;
     }
 }
 
