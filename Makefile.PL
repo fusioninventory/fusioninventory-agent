@@ -22,7 +22,7 @@ name 'Ocsinventory-Agent';
 include 'Module::AutoInstall';
 abstract 'Ocs-Inventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
-version_from 'ocsinventory-agent';
+version_from 'lib/Ocsinventory/Agent/Config.pm';
 perl_version '5.006';
 requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
