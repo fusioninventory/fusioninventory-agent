@@ -4,4 +4,4 @@ MANIFEST.bak
 META.yml
 Makefile
 run-postinst
-Ocsinventory-Agent*.tar.gz
+Ocsinventory-Agent*
