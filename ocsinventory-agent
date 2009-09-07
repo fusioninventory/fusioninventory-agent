@@ -226,11 +226,10 @@ if ($config->{config}{lazy}) {
 if ($config->{config}{tag}) {
   if ($accountinfo->get("TAG")) {
     $logger->debug("A TAG seems to already exist in the server for this".
-      "machine. If so, the -t paramter is useless. Please change the TAG".
-      "directly on the server.");
-  } else {
-    $accountinfo->set("TAG",$config->{config}{tag});
+      "machine. The -t paramter may be ignored by the server useless it".
+      "has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
   }
+  $accountinfo->set("TAG",$config->{config}{tag});
 }
 
 # Create compatibility layer. It's used to keep compatibility with the
