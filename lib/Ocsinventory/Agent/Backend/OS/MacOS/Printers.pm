@@ -21,6 +21,7 @@ sub run {
         $inventory->addPrinter({
                 NAME    => $printer,
                 DRIVER  => $h->{$printer}->{'PPD'},
+		PORT	=> $h->{$printer}->{'URI'},
         });
     }
 

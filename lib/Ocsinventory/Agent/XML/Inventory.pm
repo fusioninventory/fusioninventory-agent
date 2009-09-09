@@ -359,6 +359,7 @@ sub addPrinter {
   my $description = $args->{DESCRIPTION};
   my $driver = $args->{DRIVER};
   my $name = $args->{NAME};
+  my $port = $args->{PORT};
 
   push @{$self->{h}{CONTENT}{PRINTERS}},
   {
@@ -366,6 +367,7 @@ sub addPrinter {
     DESCRIPTION => [$description],
     DRIVER => [$driver],
     NAME => [$name],
+    PORT => [$port],
 
   };
 }
