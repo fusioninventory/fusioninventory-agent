@@ -25,7 +25,7 @@ for arg in $@; do
         devlib="-Ilib"
     fi
 done
-if [ -n ]; then
+if [ -n "$devlib" ]; then
     echo "[info] --devlib are found, Developer mode enabled"
 fi
 perl $devlib  -MOcsinventory::Agent -e 'Ocsinventory::Agent::run();' -- $@
