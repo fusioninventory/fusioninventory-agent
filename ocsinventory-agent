@@ -133,7 +133,7 @@ if ($config->{config}{nosoft}) {
 
 # TODO put that in Ocsinventory::Agent::Config
 if (!$config->{config}{'stdout'} && !$config->{config}{'local'} && $config->{config}{server} !~ /^http(|s):\/\//) {
-  $logger->debug("the --server passed doesn't have a protocle, assume http as default");
+  $logger->debug("the --server passed doesn't have a protocol, assume http as default");
   $config->{config}{server} = "http://".$config->{config}{server}.'/ocsinventory';
 }
 
@@ -225,8 +225,8 @@ if ($config->{config}{lazy}) {
 
 if ($config->{config}{tag}) {
   if ($accountinfo->get("TAG")) {
-    $logger->debug("A TAG seems to already exist in the server for this".
-      "machine. The -t paramter may be ignored by the server useless it".
+    $logger->debug("A TAG seems to already exist in the server for this ".
+      "machine. The -t paramter may be ignored by the server useless it ".
       "has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
   }
   $accountinfo->set("TAG",$config->{config}{tag});
@@ -450,7 +450,7 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
 
 =head1 DESCRIPTION
 
-F<ocsinventory-agent> creates inventory and sent or write them. This agent is the
+F<ocsinventory-agent> creates an inventory and sends it to a server or writes it to a file. This agent is the
 successor of the former linux_agent which was release with OCS 1.01 and prior. It also
 replaces the Solaris/AIX/BSD unofficial agents. The detailed list of supported
 Operating System is avalaible in the Wiki.

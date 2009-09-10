@@ -174,8 +174,8 @@ sub help {
   "Will be ignored by server if a value already exists.\n";
   print STDERR "\t-u --user=USER      user for server auth (".$self->{config}{user}.")\n";
   print STDERR "\t   --version        print the version\n";
-  print STDERR "\t-w --wait=seconds   wait during a random periode before".
-  "  contacting server like --daemon do (".$self->{config}{wait}.")\n";
+  print STDERR "\t-w --wait=seconds   wait a random period before ".
+  "  contacting server like --daemon does (".$self->{config}{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($self->{config}{xml})\n";
   print STDERR "\t--nosoft           DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware       do not return installed software list (".$self->{config}{nosoftware}.")\n";
