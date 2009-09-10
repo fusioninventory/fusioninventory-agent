@@ -99,7 +99,8 @@ futur
        * Always send tag, even if server already has one
        * Add the byHand software collect method (Sébastien DAGNICOURT)
        * Move Ocsinventory::Agent in a .pm and add a wrapper script to load
-         it 
+         it in order to fix:
+         https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/426812 
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
