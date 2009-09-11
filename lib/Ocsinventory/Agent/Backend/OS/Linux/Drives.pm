@@ -117,7 +117,7 @@ sub run {
         }
       }
 
-      $inventory->addDrives({
+      $inventory->addDrive({
       	  CREATEDATE => $createdate,
           FREE => $free,
           FILESYSTEM => $filesystem,
@@ -132,7 +132,7 @@ sub run {
 
   if (can_run ("lshal")) {
     while (my ($k,$v) = each %listVolume ) {
-      $inventory->addDrives({
+      $inventory->addDrive({
         FILESYSTEM => $v->{'volume.fstype'},
         LABEL => $v->{'volume.label'},
         TOTAL => int ($v->{'volume.size'}/(1024*1024) + 0.5),

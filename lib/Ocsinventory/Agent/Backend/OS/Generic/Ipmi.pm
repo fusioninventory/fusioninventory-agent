@@ -61,7 +61,7 @@ sub run {
   $status = 1 if $ipaddress != '0.0.0.0';
   $type = 'Ethernet';
 
-  $inventory->addNetworks({
+  $inventory->addNetwork({
       
       DESCRIPTION => $description,
       IPADDRESS => $ipaddress,

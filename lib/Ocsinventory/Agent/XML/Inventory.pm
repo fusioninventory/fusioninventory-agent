@@ -3,12 +3,29 @@ package Ocsinventory::Agent::XML::Inventory;
 use strict;
 use warnings;
 
+=head1 NAME
+
+Ocsinventory::Agent::XML::Inventory - the XML abstraction layer
+
+=head1 DESCRIPTION
+
+OCS Inventory uses XML for the data transmition. The module is the
+abstraction layer. It's mostly used in the backend module where it
+called $inventory in general.
+
+=cut
+
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 use Config;
 
 use Ocsinventory::Agent::Backend;
 
+=item new()
+
+The usual constructor.
+
+=cut
 sub new {
   my (undef, $params) = @_;
 
@@ -51,6 +68,11 @@ sub new {
   bless $self;
 }
 
+=item initialise
+
+Runs the backend modules to initilise the data.
+
+=cut
 sub initialise {
   my ($self) = @_;
 
@@ -60,6 +82,11 @@ sub initialise {
 
 }
 
+=item addController
+
+Add a controller in the inventory.
+
+=cut
 sub addController {
   my ($self, $args) = @_;
 
@@ -82,7 +109,12 @@ sub addController {
   };
 }
 
-sub addModems {
+=item addModem
+
+Add a modem in the inventory.
+
+=cut
+sub addModem {
   my ($self, $args) = @_;
 
   my $description = $args->{DESCRIPTION};
@@ -96,8 +128,21 @@ sub addModems {
 
   };
 }
+# For compatibiliy
+sub addModems {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addDrives {
+   $logger->debug("please rename addModems to addModem()");
+   $self->addModem(@_);
+}
+
+=item addDrive
+
+Add a partition in the inventory.
+
+=cut
+sub addDrive {
   my ($self, $args) = @_;
 
   my $createdate = $args->{CREATEDATE};
@@ -121,7 +166,20 @@ sub addDrives {
     VOLUMN => [$volumn?$volumn:'']
   };
 }
+# For compatibiliy
+sub addDrives {
+   my $self = shift;
+   my $logger = $self->{logger};
 
+   $logger->debug("please rename addDrives to addDrive()");
+   $self->addDrive(@_);
+}
+
+=item addStorages
+
+Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
+
+=cut
 sub addStorages {
   my ($self, $args) = @_;
 
@@ -161,8 +219,22 @@ sub addStorages {
 
   };
 }
+# For compatibiliy
+sub addStorage {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addMemories {
+   $logger->debug("please rename addStorages to addStorage()");
+   $self->addStorage(@_);
+}
+
+
+=item addMemory
+
+Add a memory module in the inventory.
+
+=cut
+sub addMemory {
   my ($self, $args) = @_;
 
   my $capacity = $args->{CAPACITY};
@@ -187,8 +259,21 @@ sub addMemories {
 
   };
 }
+# For compatibiliy
+sub addMemorie {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addPorts {
+   $logger->debug("please rename addMemorie to addMemory()");
+   $self->addMemory(@_);
+}
+
+=item addPort
+
+Add a port module in the inventory.
+
+=cut
+sub addPorts{
   my ($self, $args) = @_;
 
   my $caption = $args->{CAPTION};
@@ -207,8 +292,21 @@ sub addPorts {
 
   };
 }
+# For compatibiliy
+sub addPort {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addSlots {
+   $logger->debug("please rename addPorts to addPort()");
+   $self->addPort(@_);
+}
+
+=item addSlot
+
+Add a slot in the inventory. 
+
+=cut
+sub addSlot {
   my ($self, $args) = @_;
 
   my $description = $args->{DESCRIPTION};
@@ -227,8 +325,21 @@ sub addSlots {
 
   };
 }
+# For compatibiliy
+sub addSlots {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addSoftwares {
+   $logger->debug("please rename addSlots to addSlot()");
+   $self->addSlot(@_);
+}
+
+=item addSoftware
+
+Register a software in the inventory.
+
+=cut
+sub addSoftware {
   my ($self, $args) = @_;
 
   my $comments = $args->{COMMENTS};
@@ -255,8 +366,21 @@ sub addSoftwares {
 
   };
 }
+# For compatibiliy
+sub addSoftwares {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addMonitors {
+   $logger->debug("please rename addSoftwares to addSoftware()");
+   $self->addSoftware(@_);
+}
+
+=item addMonitor
+
+Add a monitor (screen) in the inventory.
+
+=cut
+sub addMonitor {
   my ($self, $args) = @_;
 
   my $base64 = $args->{BASE64};
@@ -279,8 +403,21 @@ sub addMonitors {
 
   };
 }
+# For compatibiliy
+sub addMonitors {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addVideos {
+   $logger->debug("please rename addMonitors to addMonitor()");
+   $self->addMonitor(@_);
+}
+
+=item addVideo
+
+Add a video card in the inventory.
+
+=cut
+sub addVideo {
   my ($self, $args) = @_;
 
   my $chipset = $args->{CHIPSET};
@@ -298,8 +435,21 @@ sub addVideos {
 
   };
 }
+# For compatibiliy
+sub addVideos {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addSounds {
+   $logger->debug("please rename addVideos to addVideo()");
+   $self->addVideo(@_);
+}
+
+=item addSound
+
+Add a sound card in the inventory.
+
+=cut
+sub addSound {
   my ($self, $args) = @_;
 
   my $description = $args->{DESCRIPTION};
@@ -315,8 +465,21 @@ sub addSounds {
 
   };
 }
+# For compatibiliy
+sub addSounds {
+   my $self = shift;
+   my $logger = $self->{logger};
 
-sub addNetworks {
+   $logger->debug("please rename addSounds to addSound()");
+   $self->addSound(@_);
+}
+
+=item addNetwork
+
+Register a network in the inventory.
+
+=cut
+sub addNetwork {
   # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
   my ($self, $args) = @_;
 
@@ -353,7 +516,20 @@ sub addNetworks {
 
   };
 }
+# For compatibiliy
+sub addNetworks {
+   my $self = shift;
+   my $logger = $self->{logger};
 
+   $logger->debug("please rename addNetworks to addNetwork()");
+   $self->addNetwork(@_);
+}
+
+=item addPrinter
+
+Add a printer in the inventory.
+
+=cut
 sub addPrinter {
   my ($self, $args) = @_;
 
@@ -374,6 +550,14 @@ sub addPrinter {
 }
 
 
+=item setHardware
+
+Save global information regarding the machine.
+
+The use of setHardware() to update USERID and PROCESSOR* informations is
+deprecated, please, use addUser() and addCPU() instead.
+
+=cut
 sub setHardware {
   my ($self, $args, $nonDeprecated) = @_;
 
@@ -397,6 +581,11 @@ sub setHardware {
   }
 }
 
+=item setBios
+
+Set BIOS informations.
+
+=cut
 sub setBios {
   my ($self, $args) = @_;
 
@@ -408,6 +597,11 @@ sub setBios {
   }
 }
 
+=item addCPU
+
+Add a CPU in the inventory.
+
+=cut
 sub addCPU {
   my ($self, $args) = @_;
 
@@ -440,6 +634,11 @@ sub addCPU {
 
 }
 
+=item addUser
+
+Add an user in the list of logged user.
+
+=cut
 sub addUser {
   my ($self, $args) = @_;
 
@@ -476,6 +675,11 @@ sub addUser {
 
 }
 
+=item addPrinter
+
+Add a printer in the inventory.
+
+=cut
 sub addPrinters {
   my ($self, $args) = @_;
 
@@ -494,9 +698,20 @@ sub addPrinters {
 
   };
 }
+# For compatibiliy
+sub addPrinters {
+   my $self = shift;
+   my $logger = $self->{logger};
 
+   $logger->debug("please rename addPrinters to addPrinter()");
+   $self->addPrinter(@_);
+}
 
+=item addVirtualMachine
 
+Add a Virtual Machine in the inventory.
+
+=cut
 sub addVirtualMachine {
   my ($self, $args) = @_;
 
@@ -526,7 +741,12 @@ sub addVirtualMachine {
 
 }
 
-sub addProcesses {
+=item addProcess
+
+Record a running process in the inventory.
+
+=cut
+sub addProcess {
   my ($self, $args) = @_;
 
   my $user = $args->{USER};
@@ -552,6 +772,11 @@ sub addProcesses {
 }
 
 
+=item setAccessLog
+
+What is that for? :)
+
+=cut
 sub setAccessLog {
   my ($self, $args) = @_;
 
@@ -563,6 +788,14 @@ sub setAccessLog {
   }
 }
 
+=item addIpDiscoverEntry
+
+IpDiscover is used to identify network interface on the local network. This
+is done on the ARP level.
+
+This function adds a network interface in the inventory.
+
+=cut
 sub addIpDiscoverEntry {
   my ($self, $args) = @_;
 
@@ -582,6 +815,11 @@ sub addIpDiscoverEntry {
   };
 }
 
+=item getContent
+
+Return the inventory as a XML string.
+
+=cut
 sub getContent {
   my ($self, $args) = @_;
 
@@ -639,6 +877,11 @@ sub getContent {
   return $clean_content;
 }
 
+=item printXML
+
+Only for debugging purpose. Print the inventory on STDOUT.
+
+=cut
 sub printXML {
   my ($self, $args) = @_;
 
@@ -646,6 +889,12 @@ sub printXML {
   print $self->getContent();
 }
 
+=item writeXML
+
+Save the generated inventory as an XML file. The 'local' key of the config
+is used to know where the file as to be saved.
+
+=cut
 sub writeXML {
   my ($self, $args) = @_;
 
@@ -671,6 +920,15 @@ sub writeXML {
   }
 }
 
+=item processChecksum
+
+Compute the <CHECKSUM/> field. This information is used by the server to
+know which parts of the XML have changed since the last inventory.
+
+The is done thank to the last_file file. It has MD5 prints of the previous
+inventory. 
+
+=cut
 sub processChecksum {
   my $self = shift;
 
@@ -737,8 +995,12 @@ sub processChecksum {
   $self->setHardware({CHECKSUM => $checksum});
 }
 
-# At the end of the process IF the inventory was saved
-# correctly, I save the last_state
+=item saveLastState
+
+At the end of the process IF the inventory was saved
+correctly, the last_state is saved.
+
+=cut
 sub saveLastState {
   my ($self, $args) = @_;
 
@@ -762,6 +1024,12 @@ sub saveLastState {
   }
 }
 
+=item addSection
+
+A generic way to save a section in the inventory. Please avoid this
+solution.
+
+=cut
 sub addSection {
   my ($self, $args) = @_;
   my $logger = $self->{logger};
@@ -784,6 +1052,12 @@ sub addSection {
   return 1;
 }
 
+=item feedSection
+
+Add information in inventory.
+
+=cut
+# Q: is that really useful()? Can't we merge with addSection()?
 sub feedSection{
   my ($self, $args) = @_;
   my $tagname = $args->{tagname};

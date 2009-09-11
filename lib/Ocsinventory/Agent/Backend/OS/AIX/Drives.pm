@@ -33,7 +33,7 @@ sub run {
 
     next if $filesystem =~ /procfs/;
 
-    $inventory->addDrives({
+    $inventory->addDrive({
 	FREE => $free,
 	FILESYSTEM => $filesystem,
 	TOTAL => $total,

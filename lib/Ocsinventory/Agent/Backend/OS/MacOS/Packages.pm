@@ -27,7 +27,7 @@ sub run {
         my $a = $apps->{$app};
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
-        $inventory->addSoftwares({
+        $inventory->addSoftware({
             'NAME'      => $app,
             'VERSION'   => $a->{'Version'} || 'unknown',
             'COMMENTS'  => $comments,

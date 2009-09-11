@@ -10,7 +10,7 @@ sub run {
  for(`lsdev -Cc adapter -F 'name:type:description'`){
 		if(/graphics|vga|video/i){
 			if(/^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
-				 $inventory->addVideos({
+				 $inventory->addVideo({
 	  				'CHIPSET'  => $1,
 	  				'NAME'     => $2,
 				});

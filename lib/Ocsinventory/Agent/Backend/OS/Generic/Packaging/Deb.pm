@@ -12,7 +12,7 @@ sub run {
 # use dpkg-query -W -f='${Package}|||${Version}\n'
   foreach(`dpkg-query -W -f='\${Package}---\${Version}---\${Installed-Size}---\${Description}\n'`) {
      if (/^(\S+)---(\S+)---(\S+)---(.*)/) {     	     	
-       $inventory->addSoftwares ({
+       $inventory->addSoftware ({
          'NAME'          => $1,
          'VERSION'       => $2,
          'FILESIZE'      => $3,

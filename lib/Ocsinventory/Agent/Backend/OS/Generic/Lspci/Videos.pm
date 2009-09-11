@@ -9,7 +9,7 @@ sub run {
 
     if(/graphics|vga|video/i && /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
 
-      $inventory->addVideos({
+      $inventory->addVideo({
 	  'CHIPSET'  => $1,
 	  'NAME'     => $2,
 	});

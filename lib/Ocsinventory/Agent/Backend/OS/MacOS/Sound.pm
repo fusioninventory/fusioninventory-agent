@@ -20,7 +20,7 @@ sub run {
 
     # add sound cards
     foreach my $x (keys %$h){
-        $inventory->addSounds({
+        $inventory->addSound({
             'NAME'          => $x,
             'MANUFACTURER'  => $x,
             'DESCRIPTION'   => $x,

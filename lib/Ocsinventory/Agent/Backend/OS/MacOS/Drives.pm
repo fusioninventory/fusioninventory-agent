@@ -29,7 +29,7 @@ sub run {
             $free = sprintf("%i",$4/1024);
             $volumn = $6;
 
-          $inventory->addDrives({
+          $inventory->addDrive({
               FREE => $free,
               FILESYSTEM => $filesystem,
               TOTAL => $total,

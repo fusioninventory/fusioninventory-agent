@@ -12,7 +12,7 @@ sub run {
       my $version = $2;
       my $comments = $3;
       
-      $inventory->addSoftwares({
+      $inventory->addSoftware({
 	  'COMMENTS' => $comments,
 	  'NAME' => $name,
 	  'VERSION' => $version

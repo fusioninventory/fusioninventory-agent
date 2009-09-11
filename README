@@ -70,7 +70,7 @@ BUILDING/INSTALLING
 
   It's also possible to run directly from the tarball directory:
 
-   sudo ./ocsinventory-agent --devlib --server http://foo/ocsinventory 
+   sudo ./ocsinventory-agent --devlib --server http://foo/ocsinventory
 
 PATCHES
   If you want to improve OCS Inventory, please use the Bazaar branch
