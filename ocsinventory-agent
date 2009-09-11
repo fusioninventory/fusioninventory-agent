@@ -20,7 +20,8 @@
 
 # This is a wrapper script for Ocsinventory::Agent
 # Thanks to it, $PATH is initialized even if it started as a cron task
-for arg in $@; do
+args=$@
+for arg in $args; do
     if [ "$arg" == "--devlib" ]; then
         devlib="-Ilib"
     fi
@@ -28,4 +29,4 @@ done
 if [ -n "$devlib" ]; then
     echo "[info] --devlib are found, Developer mode enabled"
 fi
-perl $devlib  -MOcsinventory::Agent -e 'Ocsinventory::Agent::run();' -- $@
+exec perl $devlib  -MOcsinventory::Agent -e 'Ocsinventory::Agent::run();' -- $*
