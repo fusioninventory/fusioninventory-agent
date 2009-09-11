@@ -52,7 +52,7 @@ sub new {
       my $cmd = shift;
       return unless $cmd;
 
-      $self->{logger}->debug(" - run $cmd");
+      # $self->{logger}->debug(" - run $cmd");
 
       return `$cmd`;
     }

@@ -111,7 +111,7 @@ sub run {
       my $binsubnet = $binip & $binmask;
       $ipsubnet = ip_bintoip($binsubnet,4);
 
-      $inventory->addNetworks({
+      $inventory->addNetwork({
 	  
 	  DESCRIPTION => $description,
 	  IPADDRESS => $ipaddress,

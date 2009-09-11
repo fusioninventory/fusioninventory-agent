@@ -88,7 +88,7 @@ sub run {
       my $subnet = $binip & $binmask;
       $ipsubnet = ip_bintoip($subnet,4);
     }
-    $inventory->addNetworks({
+    $inventory->addNetwork({
 	DESCRIPTION => $description,
 	IPADDRESS => $ipaddress,
 	IPDHCP => $ipdhcp,

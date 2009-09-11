@@ -11,7 +11,7 @@ sub run {
       my $name = $1;
       my $version = $2;
      
-      $inventory->addSoftwares({
+      $inventory->addSoftware({
       'NAME' => $name,
       'VERSION' => $version
       });

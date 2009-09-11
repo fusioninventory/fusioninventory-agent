@@ -50,7 +50,7 @@ sub run()
                     $ligne = $_;
                     chomp($ligne);
                     ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
-                    $inventory->addSoftwares ({
+                    $inventory->addSoftware ({
                             'PUBLISHER' => $vendor,
                             'NAME'          => $soft,
                             'VERSION'       => $version,

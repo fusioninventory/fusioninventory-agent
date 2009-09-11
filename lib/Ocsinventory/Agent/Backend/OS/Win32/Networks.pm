@@ -43,7 +43,7 @@ foreach ($nic->IPAddress) {
 print ">>$ipaddress\n";
     $macaddr = $nic->MACAddress;
 
-    $inventory->addNetworks({
+    $inventory->addNetwork({
 	  DESCRIPTION => $description,
       IPADDRESS => $ipaddress,
       IPDHCP => $ipdhcp,

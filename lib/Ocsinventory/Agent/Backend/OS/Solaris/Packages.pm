@@ -22,7 +22,7 @@ sub run {
   my $publisher;
   foreach (`pkginfo -l`) {
     if (/^\s*$/) {
-      $inventory->addSoftwares({
+      $inventory->addSoftware({
           'NAME'          => $name,
           'VERSION'       => $version,
           'COMMENTS'      => $comments,

@@ -45,7 +45,7 @@ sub run {
       }
       else {$type="";}	 
 #print "FILESYS ".$filesystem." FILETYP ".$type." TOTAL ".$total." FREE ".$free." VOLUMN ".$volumn."\n";
-      $inventory->addDrives({
+      $inventory->addDrive({
 	  FREE => $free,
 	  FILESYSTEM => $filesystem,
 	  TOTAL => $total,

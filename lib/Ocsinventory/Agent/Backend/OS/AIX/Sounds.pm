@@ -10,7 +10,7 @@ sub run {
 	for(`lsdev -Cc adapter -F 'name:type:description'`){
 		if(/audio/i){
 			if(/^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
-			 $inventory->addSounds({
+			 $inventory->addSound({
 	  			'DESCRIPTION'  => $3,
 	  			'MANUFACTURER' => $2,
 	  			'NAME'     => $1,

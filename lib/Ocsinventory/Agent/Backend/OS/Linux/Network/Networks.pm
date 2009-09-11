@@ -130,7 +130,7 @@ sub run {
         }
       }
 
-      $inventory->addNetworks({
+      $inventory->addNetwork({
 
           DESCRIPTION => $description,
           DRIVER => $driver,

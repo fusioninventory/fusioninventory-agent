@@ -25,7 +25,7 @@ sub run {
     foreach my $x (keys %$h){
         my $memory = $h->{$x}->{'VRAM (Total)'};
         $memory =~ s/ MB$//;
-        $inventory->addVideos({
+        $inventory->addVideo({
                 'NAME'        => $x,
                 'CHIPSET'     => $h->{$x}->{'Chipset Model'},
                 'MEMORY'    => $memory,
@@ -38,7 +38,7 @@ sub run {
             my $ref = $h->{$x}->{$display};
             next unless(ref($ref) eq 'HASH');
 
-            $inventory->addMonitors({
+            $inventory->addMonitor({
                 'CAPTION'       => $ref->{'Resolution'},
                 'DESCRIPTION'   => $display,
             })

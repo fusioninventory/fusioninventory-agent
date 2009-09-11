@@ -23,7 +23,7 @@ sub run {
       chomp;
       $buff .= $_;
     } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+--(.*)--\s+(.*)//) {
-    $inventory->addSoftwares({
+    $inventory->addSoftware({
         'NAME'          => $1,
         'VERSION'       => $2,
         'INSTALLDATE'   => $3,
