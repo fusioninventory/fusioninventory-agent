@@ -42,7 +42,7 @@ sub run {
             if ($started =~ /^(\w{3})/)  {
                 my $d=substr($started, 3);
                 my $m=substr($started, 0,3);
-                $begin=$the_year."-".$month{'$m'}."-".$d." ".$time; 
+                $begin=$the_year."-".$month{$m}."-".$d." ".$time; 
             }  else {
                 $begin=$the_year."-".$mon."-".$mday." ".$started;
             }
