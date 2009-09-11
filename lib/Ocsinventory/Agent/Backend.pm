@@ -24,8 +24,11 @@ sub new {
 
     can_run => sub {
       my $binary = shift;
+
+      my $calling_namespace = caller(0);
       chomp(my $binpath=`which $binary 2>/dev/null`);
       return unless -x $binpath;
+      $self->{logger}->debug(" - $binary found");
       1
     },
     can_load => sub {
@@ -35,12 +38,14 @@ sub new {
       eval "package $calling_namespace; use $module;";
 #      print STDERR "$module not loaded in $calling_namespace! $!: $@\n" if $@;
       return if $@;
+      $self->{logger}->debug(" - $module loaded");
 #      print STDERR "$module loaded in $calling_namespace!\n";
       1;
     },
     can_read => sub {
       my $file = shift;
       return unless -r $file;
+      $self->{logger}->debug(" - $file can be read");
       1;
     }
   };
