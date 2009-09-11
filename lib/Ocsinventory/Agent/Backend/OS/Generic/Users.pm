@@ -15,12 +15,9 @@ sub run {
   my %user;
   # Logged on users
   for(`who`){
-    $user{$1} = 1 if /^(\S+)./;
+    my $user = $1 if /^(\S+)./;
+    $inventory->addUser ({ LOGIN => $user });
   }
-
-  my $UsersLoggedIn = join "/", keys %user;
-
-  $inventory->setHardware ({ USERID => $UsersLoggedIn });
 
 }
 
