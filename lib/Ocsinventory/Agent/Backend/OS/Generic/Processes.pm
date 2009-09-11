@@ -28,7 +28,8 @@ sub run {
     open(PS, "ps aux|");
     while ($line = <PS>) {
         next if ($. ==1);
-        if ($line =~ /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*)/){
+        if ($line =~
+            /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*?)\s*$/){
             my $user = $1;
             my $pid= $2;
             my $cpu= $3;
@@ -47,7 +48,7 @@ sub run {
                 $begin=$the_year."-".$mon."-".$mday." ".$started;
             }
 
-            $inventory->addProcesses({
+            $inventory->addProcess({
                     'USER' => $user,
                     'PID' => $pid,
                     'CPUUSAGE' => $cpu,
