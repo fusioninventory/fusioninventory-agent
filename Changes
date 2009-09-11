@@ -98,6 +98,7 @@ futur
        * Solaris Zone support (Maurizio BERTABONI)
        * Always send tag, even if server already has one
        * Add the byHand software collect method (Sébastien DAGNICOURT)
+       * Add the runcmd() in the Backend modules
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
