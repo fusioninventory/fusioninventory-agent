@@ -47,6 +47,14 @@ sub new {
       return unless -r $file;
       $self->{logger}->debug(" - $file can be read");
       1;
+    },
+    runcmd => sub {
+      my $cmd = shift;
+      return unless $cmd;
+
+      $self->{logger}->debug(" - run $cmd");
+
+      return `$cmd`;
     }
   };
 
