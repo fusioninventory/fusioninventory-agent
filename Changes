@@ -101,6 +101,9 @@ futur
        * add logging to can_read(), can_load() and can_run()
        * use addUser() instead of setHardware() 
        * Add the runcmd() in the Backend modules
+       * Move Ocsinventory::Agent in a .pm and add a wrapper script to load
+         it in order to fix:
+         https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/426812 
 
 1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
