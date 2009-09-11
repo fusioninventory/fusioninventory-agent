@@ -39,6 +39,7 @@ sub new {
   $self->{h}{CONTENT}{SLOTS} = [];
   $self->{h}{CONTENT}{STORAGES} = [];
   $self->{h}{CONTENT}{SOFTWARES} = [];
+  $self->{h}{CONTENT}{USERS} = [];
   $self->{h}{CONTENT}{VIDEOS} = [];
   $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
   $self->{h}{CONTENT}{SOUNDS} = [];
@@ -387,6 +388,10 @@ sub setHardware {
       if ($key eq 'PROCESSORS' && !$nonDeprecated) {
           $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
       }
+      if ($key eq 'USERID' && !$nonDeprecated) {
+          $logger->debug("USERID shouldn't be set directly anymore. Please use addCPU() method instead.");
+      }
+
       $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
     }
   }
@@ -431,6 +436,42 @@ sub addCPU {
     PROCESSORN => $processorn,
     PROCESSORS => $processors,
     PROCESSORT => $processort,
+  }, 1);
+
+}
+
+sub addUser {
+  my ($self, $args) = @_;
+
+#  my $name  = $args->{NAME};
+#  my $gid   = $args->{GID};
+  my $login = $args->{LOGIN};
+#  my $uid   = $args->{UID};
+
+  return unless $login;
+
+  # Is the login, already in the XML ?
+  foreach my $user (@{$self->{h}{CONTENT}{USERS}}) {
+      return if $user->{LOGIN}[0] eq $login;
+  }
+
+  push @{$self->{h}{CONTENT}{USERS}},
+  {
+
+#      NAME => [$name],
+#      UID => [$uid],
+#      GID => [$gid],
+      LOGIN => [$login]
+
+  };
+
+  my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
+
+  $userString .= '/' if $userString;
+  $userString .= $login;
+
+  $self->setHardware ({
+    USERID => $userString,
   }, 1);
 
 }
