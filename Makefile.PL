@@ -16,13 +16,20 @@ install :: all pure_install doc_install
     return $re;
 }
 
+require 'lib/Ocsinventory/Agent/Config.pm';
 use Config;
+
+my $version = $Ocsinventory::Agent::Config::VERSION; 
+if (-d '.bzr') {
+    chomp( my $bzrRev = `bzr revno`);
+    $version .= "~bzr".$bzrRev;
+}
 
 name 'Ocsinventory-Agent';
 include 'Module::AutoInstall';
 abstract 'Ocs-Inventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
-version_from 'lib/Ocsinventory/Agent/Config.pm';
+version $version;
 perl_version '5.006';
 requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
