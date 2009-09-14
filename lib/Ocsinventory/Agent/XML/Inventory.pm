@@ -656,7 +656,7 @@ sub addUser {
 Add a printer in the inventory.
 
 =cut
-sub addPrinters {
+sub addPrinter {
   my ($self, $args) = @_;
 
   my $description = $args->{DESCRIPTION};
