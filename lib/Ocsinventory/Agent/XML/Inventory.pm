@@ -525,30 +525,6 @@ sub addNetworks {
    $self->addNetwork(@_);
 }
 
-=item addPrinter
-
-Add a printer in the inventory.
-
-=cut
-sub addPrinter {
-  my ($self, $args) = @_;
-
-  my $description = $args->{DESCRIPTION};
-  my $driver = $args->{DRIVER};
-  my $name = $args->{NAME};
-  my $port = $args->{PORT};
-
-  push @{$self->{h}{CONTENT}{PRINTERS}},
-  {
-
-    DESCRIPTION => [$description],
-    DRIVER => [$driver],
-    NAME => [$name],
-    PORT => [$port],
-
-  };
-}
-
 
 =item setHardware
 
