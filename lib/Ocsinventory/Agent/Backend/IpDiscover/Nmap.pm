@@ -46,7 +46,6 @@ sub run {
 
   my $ip;
   my $cmd = "nmap -sP -PR $network/24";
-  print $cmd."\n";
   foreach (`$cmd`) {
       print;
       if (/^Host (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
