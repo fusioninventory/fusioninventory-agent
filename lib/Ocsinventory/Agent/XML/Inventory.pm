@@ -21,6 +21,8 @@ use Config;
 
 use Ocsinventory::Agent::Backend;
 
+=over 4
+
 =item new()
 
 The usual constructor.
@@ -68,7 +70,7 @@ sub new {
   bless $self;
 }
 
-=item initialise
+=item initialise()
 
 Runs the backend modules to initilise the data.
 
@@ -82,7 +84,7 @@ sub initialise {
 
 }
 
-=item addController
+=item addController()
 
 Add a controller in the inventory.
 
@@ -109,7 +111,7 @@ sub addController {
   };
 }
 
-=item addModem
+=item addModem()
 
 Add a modem in the inventory.
 
@@ -137,7 +139,7 @@ sub addModems {
    $self->addModem(@_);
 }
 
-=item addDrive
+=item addDrive()
 
 Add a partition in the inventory.
 
@@ -175,7 +177,7 @@ sub addDrives {
    $self->addDrive(@_);
 }
 
-=item addStorages
+=item addStorages()
 
 Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
 
@@ -229,7 +231,7 @@ sub addStorage {
 }
 
 
-=item addMemory
+=item addMemory()
 
 Add a memory module in the inventory.
 
@@ -268,7 +270,7 @@ sub addMemorie {
    $self->addMemory(@_);
 }
 
-=item addPort
+=item addPort()
 
 Add a port module in the inventory.
 
@@ -301,7 +303,7 @@ sub addPort {
    $self->addPort(@_);
 }
 
-=item addSlot
+=item addSlot()
 
 Add a slot in the inventory. 
 
@@ -334,7 +336,7 @@ sub addSlots {
    $self->addSlot(@_);
 }
 
-=item addSoftware
+=item addSoftware()
 
 Register a software in the inventory.
 
@@ -375,7 +377,7 @@ sub addSoftwares {
    $self->addSoftware(@_);
 }
 
-=item addMonitor
+=item addMonitor()
 
 Add a monitor (screen) in the inventory.
 
@@ -412,7 +414,7 @@ sub addMonitors {
    $self->addMonitor(@_);
 }
 
-=item addVideo
+=item addVideo()
 
 Add a video card in the inventory.
 
@@ -444,7 +446,7 @@ sub addVideos {
    $self->addVideo(@_);
 }
 
-=item addSound
+=item addSound()
 
 Add a sound card in the inventory.
 
@@ -474,7 +476,7 @@ sub addSounds {
    $self->addSound(@_);
 }
 
-=item addNetwork
+=item addNetwork()
 
 Register a network in the inventory.
 
@@ -526,7 +528,7 @@ sub addNetworks {
 }
 
 
-=item setHardware
+=item setHardware()
 
 Save global information regarding the machine.
 
@@ -557,7 +559,7 @@ sub setHardware {
   }
 }
 
-=item setBios
+=item setBios()
 
 Set BIOS informations.
 
@@ -573,7 +575,7 @@ sub setBios {
   }
 }
 
-=item addCPU
+=item addCPU()
 
 Add a CPU in the inventory.
 
@@ -610,7 +612,7 @@ sub addCPU {
 
 }
 
-=item addUser
+=item addUser()
 
 Add an user in the list of logged user.
 
@@ -651,7 +653,7 @@ sub addUser {
 
 }
 
-=item addPrinter
+=item addPrinter()
 
 Add a printer in the inventory.
 
@@ -683,7 +685,7 @@ sub addPrinters {
    $self->addPrinter(@_);
 }
 
-=item addVirtualMachine
+=item addVirtualMachine()
 
 Add a Virtual Machine in the inventory.
 
@@ -717,7 +719,7 @@ sub addVirtualMachine {
 
 }
 
-=item addProcess
+=item addProcess()
 
 Record a running process in the inventory.
 
@@ -748,7 +750,7 @@ sub addProcess {
 }
 
 
-=item setAccessLog
+=item setAccessLog()
 
 What is that for? :)
 
@@ -764,7 +766,7 @@ sub setAccessLog {
   }
 }
 
-=item addIpDiscoverEntry
+=item addIpDiscoverEntry()
 
 IpDiscover is used to identify network interface on the local network. This
 is done on the ARP level.
@@ -791,7 +793,7 @@ sub addIpDiscoverEntry {
   };
 }
 
-=item getContent
+=item getContent()
 
 Return the inventory as a XML string.
 
@@ -853,7 +855,7 @@ sub getContent {
   return $clean_content;
 }
 
-=item printXML
+=item printXML()
 
 Only for debugging purpose. Print the inventory on STDOUT.
 
@@ -865,7 +867,7 @@ sub printXML {
   print $self->getContent();
 }
 
-=item writeXML
+=item writeXML()
 
 Save the generated inventory as an XML file. The 'local' key of the config
 is used to know where the file as to be saved.
@@ -896,7 +898,7 @@ sub writeXML {
   }
 }
 
-=item processChecksum
+=item processChecksum()
 
 Compute the <CHECKSUM/> field. This information is used by the server to
 know which parts of the XML have changed since the last inventory.
@@ -971,7 +973,7 @@ sub processChecksum {
   $self->setHardware({CHECKSUM => $checksum});
 }
 
-=item saveLastState
+=item saveLastState()
 
 At the end of the process IF the inventory was saved
 correctly, the last_state is saved.
@@ -1000,7 +1002,7 @@ sub saveLastState {
   }
 }
 
-=item addSection
+=item addSection()
 
 A generic way to save a section in the inventory. Please avoid this
 solution.
@@ -1028,10 +1030,11 @@ sub addSection {
   return 1;
 }
 
-=item feedSection
+=item feedSection()
 
 Add information in inventory.
 
+=back
 =cut
 # Q: is that really useful()? Can't we merge with addSection()?
 sub feedSection{
