@@ -22,9 +22,9 @@ our @ISA = qw /Exporter/;
 
 our @EXPORT = qw/
 	download_inventory_handler
+	download_prolog_reader
 	download_end_handler
 /;
-#download_prolog_reader
 
 use Fcntl qw/:flock/;
 use XML::Simple;
@@ -199,11 +199,11 @@ sub download_prolog_reader{
 			# Special value INSTALL_PATH
 			$_->{CERT_PATH} =~ s/INSTALL_PATH/$current_context->{OCS_AGENT_INSTALL_PATH}/;
 			$_->{CERT_FILE} =~ s/INSTALL_PATH/$current_context->{OCS_AGENT_INSTALL_PATH}/;
+		
+            if (!-f $_->{CERT_FILE}) {
+                &log("No certificat found in ".$_->{CERT_FILE});
+            }
 
-			if (!-f $_->{CERT_FILE}) {
-				&log("No certificat found in ".$_->{CERT_FILE});
-			}
-			
 			# Getting info file
 			&log("Retrieving info file for $fileid");
 			
