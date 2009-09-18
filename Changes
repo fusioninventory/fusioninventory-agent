@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-futur
+1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer
        * AIX: Hide procfs in Filesystem
        * OS::Linux::Storages, correctly retrieve the serial (Vladimir ELISSEEV)
@@ -105,7 +105,7 @@ futur
          it in order to fix:
          https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/426812 
 
-1.0.1   Sun, 22 Mar 2009 20:48:49 +0100
+1.0.1    Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
 
 1.0    Sun, 22 Mar 2009 20:14:26 +0100
