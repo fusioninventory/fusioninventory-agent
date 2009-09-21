@@ -83,7 +83,7 @@ sub run {
         {
           #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
           $module_count++;
-          $inventory->addMemories({
+          $inventory->addMemory({
             CAPACITY => $capacity,
             DESCRIPTION => $description,
             CAPTION => $caption,
@@ -127,7 +127,7 @@ sub run {
           # debug
           #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
           $empty_slots++;
-          $inventory->addMemories({
+          $inventory->addMemory({
             CAPACITY => $capacity,
             DESCRIPTION => $description,
             CAPTION => $caption,
@@ -151,7 +151,7 @@ sub run {
         # debug
         #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
         $module_count++;
-        $inventory->addMemories({
+        $inventory->addMemory({
           CAPACITY => $capacity,
           DESCRIPTION => "DIMM",
           CAPTION => "Ram slot ".$numslots,
@@ -190,7 +190,7 @@ sub run {
           # debug
           #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
           $empty_slots++;
-          $inventory->addMemories({
+          $inventory->addMemory({
             CAPACITY => $capacity,
             DESCRIPTION => $description,
             CAPTION => $caption,
@@ -210,7 +210,7 @@ sub run {
         # debug
         #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
         $module_count++;
-        $inventory->addMemories({
+        $inventory->addMemory({
           CAPACITY => $capacity,
           DESCRIPTION => $description,
           CAPTION => $caption,
@@ -251,7 +251,7 @@ sub run {
           # debug
           #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
           $empty_slots++;
-          $inventory->addMemories({
+          $inventory->addMemory({
             CAPACITY => $capacity,
             DESCRIPTION => $description,
             CAPTION => $caption,
@@ -274,7 +274,7 @@ sub run {
         # debug
         #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
         $module_count++;
-        $inventory->addMemories({
+        $inventory->addMemory({
           CAPACITY => $capacity,
           DESCRIPTION => $description,
           CAPTION => $caption,
@@ -313,7 +313,7 @@ sub run {
                 for (my $i = 1; $i <= ($banksize / $capacity); $i++)
                 {
                 #print "caption ". $caption  . " Bank Number: " . $numslots . " Bank size " .  $banksize . " DIMM Capacity: " .  $capacity . "MB\n";
-                $inventory->addMemories({
+                $inventory->addMemory({
                 CAPACITY => $capacity,
                 DESCRIPTION => $description,
                 CAPTION => $caption,
@@ -351,7 +351,7 @@ sub run {
           # debug
           #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
           $empty_slots++;
-          $inventory->addMemories({
+          $inventory->addMemory({
             CAPACITY => $capacity,
             DESCRIPTION => "empty",
             CAPTION => $caption,
@@ -371,7 +371,7 @@ sub run {
         # debug
         #print "Caption: " . $caption . " Description: " . $description . " Bank Number: " . $numslots . " DIMM Capacity: " .  $capacity . "MB\n";
         $module_count++;
-        $inventory->addMemories({
+        $inventory->addMemory({
           CAPACITY => $capacity,
           DESCRIPTION => $description,
           CAPTION => $caption,

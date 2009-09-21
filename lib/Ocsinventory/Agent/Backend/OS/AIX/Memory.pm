@@ -40,7 +40,7 @@ sub run {
 	if((/^FC .+/) && ($flag)) {
 		$flag=0;
 		$numslots = $numslots +1;
-		$inventory->addMemories({
+		$inventory->addMemory({
 		CAPACITY => $capacity,	
 	  	DESCRIPTION => $description,
 		CAPTION => $caption,
@@ -56,7 +56,7 @@ sub run {
 		$numslots = $numslots +1;
   # End of Loop
   # The last *FC ???????? missing
-		$inventory->addMemories({
+		$inventory->addMemory({
 		CAPACITY => $capacity,
 		DESCRIPTION => $description,
 		CAPTION => $caption,

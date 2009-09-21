@@ -48,7 +48,7 @@ sub run {
                 $size =~ s/GB$//;
                 $size *= 1024;
         }
-        $inventory->addMemories({
+        $inventory->addMemory({
             'CAPACITY'      => $size,
             'SPEED'         => $h->{$x}->{'Speed'},
             'TYPE'          => $h->{$x}->{'Type'},

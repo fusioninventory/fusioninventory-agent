@@ -49,7 +49,7 @@ sub run {
       $status = $1;
     }
     if($flag && $flag_pci){
-      $inventory->addSlots({
+      $inventory->addSlot({
           DESCRIPTION =>  $description,
           DESIGNATION =>  $designation,
           NAME            =>  $name,
@@ -80,7 +80,7 @@ sub run {
     	#print $_."\n";
 
         if($flag && $flag_pci){
-        $inventory->addSlots({
+        $inventory->addSlot({
           DESCRIPTION =>  $description,
           DESIGNATION =>  $designation,
           NAME            =>  $name,

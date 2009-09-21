@@ -31,7 +31,7 @@ sub run {
     } elsif ($flag && /^$/) {
       $flag=0;
 
-      $inventory->addSlots({
+      $inventory->addSlot({
 	  DESCRIPTION =>  $description,
 	  DESIGNATION =>  $designation,
 	  NAME =>  $name,

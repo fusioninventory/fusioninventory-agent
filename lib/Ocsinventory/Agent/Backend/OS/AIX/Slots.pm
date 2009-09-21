@@ -29,7 +29,7 @@ sub run {
 	    }
 	 if ((/^FC .+/) && $flag) {$flag=0;last}
 	 }	 	 
-    $inventory->addSlots({
+    $inventory->addSlot({
 	  DESCRIPTION =>  $description,
 	  DESIGNATION =>  $designation,
 	  NAME 		  =>  $name,

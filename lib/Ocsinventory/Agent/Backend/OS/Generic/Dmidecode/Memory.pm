@@ -33,7 +33,7 @@ sub run {
     } elsif ($flag && /^$/) { # end of section
       $flag = 0;
 
-      $inventory->addMemories({
+      $inventory->addMemory({
 
 	  CAPACITY => $capacity,
 	  DESCRIPTION => $description,
