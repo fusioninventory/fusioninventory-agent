@@ -5,6 +5,8 @@ Revision history for Ocsinventory::Agent
          the addMemories() → addMemory() transition
        * Debug mode: msg "check function failed" changed to "ignored" since
          the fails may be wanted by the check() function
+       * CompatibilityLayer: $self->{params} changed to $self->{config},
+         this restore the debug mode in Download.pm
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer

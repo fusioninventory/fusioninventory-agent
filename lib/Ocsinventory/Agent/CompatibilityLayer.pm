@@ -41,18 +41,14 @@ sub new {
           $ocsAgentServerUri = "http://".$self->{config}->{server}.$self->{config}->{remotedir};
       }
 
-      if ($self->{params}->{debug}) {
-        $::debug = 2;
-      }
-
-      if ($self->{params}->{debug}) {
+      if ($self->{config}->{debug}) {
         $::debug = 2;
       }
 
     $self->{current_context} = {
       OCS_AGENT_LOG_PATH => $self->{config}->{logdir}."modexec.log",
       OCS_AGENT_SERVER_URI => $ocsAgentServerUri,
-      OCS_AGENT_INSTALL_PATH => $self->{params}->{vardir},
+      OCS_AGENT_INSTALL_PATH => $self->{config}->{vardir},
       OCS_AGENT_DEBUG_LEVEL => $::debug,
       OCS_AGENT_EXE_PATH => $Bin,
       OCS_AGENT_SERVER_NAME => $self->{config}->{server},
