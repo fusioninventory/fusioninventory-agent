@@ -262,11 +262,11 @@ sub addMemory {
   };
 }
 # For compatibiliy
-sub addMemorie {
+sub addMemories {
    my $self = shift;
    my $logger = $self->{logger};
 
-   $logger->debug("please rename addMemorie to addMemory()");
+   $logger->debug("please rename addMemories to addMemory()");
    $self->addMemory(@_);
 }
 
