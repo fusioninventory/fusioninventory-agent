@@ -190,7 +190,7 @@ sub initModList {
 	    mem => $self->{modules}->{$m}->{mem},
 	    storage => $self->{modules}->{$m}->{storage},
 	})) {
-      $logger->debug ($m." check function failed");
+      $logger->debug ($m." ignored");
       foreach (keys %{$self->{modules}}) {
 	$self->{modules}->{$_}->{enable} = 0 if /^$m($|::)/;
       }
