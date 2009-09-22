@@ -849,7 +849,7 @@ sub begin{
 		return 0;
 	}else{
 		close(LOCK_R);
-		&log("Cannot begin work... :-(");
+		&log("$pidfile locked. Cannot begin work... :-(");
 		return 1;
 	}
 }
