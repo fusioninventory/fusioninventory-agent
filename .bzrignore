@@ -5,3 +5,4 @@ META.yml
 Makefile
 run-postinst
 Ocsinventory-Agent*
+blib
