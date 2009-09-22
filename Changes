@@ -9,7 +9,10 @@ Revision history for Ocsinventory::Agent
          this restore the debug mode in Download.pm
        * Continue XML::Inventory functions name clean up. Rename:
         - addSlots() calls to addSlot()
-        - addMemories() calls to addMemory()  
+        - addMemories() calls to addMemory()
+       * Move ocsinventory-agent POD documentation frol Ocsinventory::Agent
+         to the ocsinventory-agent shell script. So now the manpage has the
+         correct name
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer
