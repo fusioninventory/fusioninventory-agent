@@ -395,12 +395,13 @@ sub longRuns {
   foreach my $m (sort keys %{$self->{modules}}) {
     if ($self->{modules}{$m}{longRunFunc}) {
       $logger->debug("$m: runs longRun()");
+      my $storage = $self->retrieveStorage($m);
       $self->{modules}{$m}{longRunFunc}({
         config => $config,
         logger => $logger,
+        storage => $self->{modules}->{$m}->{storage},
       });
-#    } else {
-#      $logger->debug("$m: longRun() not found.");
+      $self->saveStorage($m, $storage);
     }
   }
 

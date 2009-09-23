@@ -39,7 +39,7 @@ sub check {
     open TMP, ">$downloadBaseDir/config.$$";
     print TMP XMLout($conf, RootName => 'CONF');
     close TMP;
-    move("$downloadBaseDir/config.$$", "$downloadBaseDir/config");
+#    move("$downloadBaseDir/config.$$", "$downloadBaseDir/config");
 
     print "La conf : ".Dumper($prologresp);
 
@@ -50,10 +50,7 @@ sub check {
     foreach my $paramHash (@$conf) {
         if ($paramHash->{TYPE} eq 'CONF') {
             # Save the config sent during the PROLOG
-            open TMP, ">$downloadBaseDir/config.$$";
-            print TMP XMLout($conf->[0], RootName => 'CONF');
-            close TMP;
-            move("$downloadBaseDir/config.$$", "$downloadBaseDir/config");
+            $storage->{config} = $conf->[0];
         } elsif ($paramHash->{TYPE} eq 'PACK') {
             if ($storage->{byId}{$paramHash->{ID}}) {
               $logger->debug($paramHash->{ID}." already in the queue.");
