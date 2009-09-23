@@ -17,40 +17,40 @@ sub downloadById {
 
 
 
-      my $order = $storage->{byId}->{$orderID};
-      $logger->debug("processing ".$orderID);
-      next unless $order->{ID} =~ /^\d+$/; # Security
+    my $order = $storage->{byId}->{$orderID};
+    $logger->debug("processing ".$orderID);
+    next unless $order->{ID} =~ /^\d+$/; # Security
 
-      my $targetDir = $downloadBaseDir.'/'.$orderID;
-      if (!-d $targetDir && !mkdir ($targetDir)) {
+    my $targetDir = $downloadBaseDir.'/'.$orderID;
+    if (!-d $targetDir && !mkdir ($targetDir)) {
         $logger->error("Failed to create $targetDir");
-      }
+    }
 
-      my $baseUrl;
-      if ($order->{PROTO} eq 'HTTP') {
+    my $baseUrl;
+    if ($order->{PROTO} eq 'HTTP') {
         $baseUrl = "http://";
-      }
+    }
 
-      $baseUrl .= $order->{PACK_LOC};
+    $baseUrl .= $order->{PACK_LOC};
 
-      if ($order->{PACK_LOC} !~ /\/$/) {
+    if ($order->{PACK_LOC} !~ /\/$/) {
         $baseUrl .= '/';
-      }
+    }
 
-      $baseUrl .= $orderID;
+    $baseUrl .= $orderID;
 
-      foreach my $fragID (1..$order->{FRAGS}) {
+    foreach my $fragID (1..$order->{FRAGS}) {
         my $frag = $orderID.'-'.$fragID;
 
         my $remoteFile = $baseUrl.'/'.$frag;
         my $localFile = $targetDir.'/'.$frag;
         my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
         if (is_success($rc) && move($localFile.'.part', $localFile)) {
-          $logger->debug($remoteFile.' -> '.$localFile.': success');
+            $logger->debug($remoteFile.' -> '.$localFile.': success');
         } else {
-          $logger->debug($remoteFile.' -> '.$localFile.': failed');
+            $logger->debug($remoteFile.' -> '.$localFile.': failed');
         }
-      }
+    }
 
 
 }
@@ -99,31 +99,31 @@ sub check {
             $storage->{config} = $conf->[0];
         } elsif ($paramHash->{TYPE} eq 'PACK') {
             if ($storage->{byId}{$paramHash->{ID}}) {
-              $logger->debug($paramHash->{ID}." already in the queue.");
-              next;
+                $logger->debug($paramHash->{ID}." already in the queue.");
+                next;
             }
 
             my $infoURI = 'https://'.$paramHash->{INFO_LOC}.'/'.$paramHash->{ID}.'/info';
             my $content = LWP::Simple::get($infoURI);
             if (!$content) {
-              $logger->error("Failed to read info file `$infoURI'");
+                $logger->error("Failed to read info file `$infoURI'");
             }
 
             my $infoHash = XML::Simple::XMLin( $content );
             if (!$infoHash) {
-              $logger->error("Failed to parse info file `$infoURI'");
+                $logger->error("Failed to parse info file `$infoURI'");
             }
 
             if (!$infoHash->{ID} || $infoHash->{ID} !~ /^\d+$/ || !$infoHash->{ACT}) {
-              $logger->error("Incorrect content in info file `$infoURI'");
-              # TODO report the info the server
+                $logger->error("Incorrect content in info file `$infoURI'");
+                # TODO report the info the server
             } else {
-              $storage->{byId}{$infoHash->{ID}} = $infoHash;
-              foreach (keys %$paramHash) {
-                $storage->{byId}{$infoHash->{ID}}{$_} = $paramHash->{$_};
-              }
+                $storage->{byId}{$infoHash->{ID}} = $infoHash;
+                foreach (keys %$paramHash) {
+                    $storage->{byId}{$infoHash->{ID}}{$_} = $paramHash->{$_};
+                }
 
-              $logger->debug("New download added in the queue. Info is `$infoURI'");
+                $logger->debug("New download added in the queue. Info is `$infoURI'");
             }
         }
     }
@@ -148,8 +148,8 @@ sub longRun {
 
     foreach my $orderId (keys %{$storage->{byId}}) {
         downloadById({
-                    logger => $logger,
-                    orderId => $orderId,
+                logger => $logger,
+                orderId => $orderId,
             });
     }
 }
