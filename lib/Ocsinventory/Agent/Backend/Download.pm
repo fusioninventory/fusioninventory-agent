@@ -53,9 +53,6 @@ sub downloadById {
       }
 
 
-
-
-
 }
 
 sub check {
@@ -89,7 +86,6 @@ sub check {
     open TMP, ">$downloadBaseDir/config.$$";
     print TMP XMLout($conf, RootName => 'CONF');
     close TMP;
-#    move("$downloadBaseDir/config.$$", "$downloadBaseDir/config");
 
     print "La conf : ".Dumper($prologresp);
 
