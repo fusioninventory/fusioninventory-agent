@@ -8,6 +8,56 @@ use File::Path;
 
 use Data::Dumper;
 
+
+sub downloadById {
+    my $params = shift;
+
+    my $logger = $params->{logger};
+    my $orderId = $params->{orderId};
+
+
+
+      my $order = $storage->{byId}->{$orderID};
+      $logger->debug("processing ".$orderID);
+      next unless $order->{ID} =~ /^\d+$/; # Security
+
+      my $targetDir = $downloadBaseDir.'/'.$orderID;
+      if (!-d $targetDir && !mkdir ($targetDir)) {
+        $logger->error("Failed to create $targetDir");
+      }
+
+      my $baseUrl;
+      if ($order->{PROTO} eq 'HTTP') {
+        $baseUrl = "http://";
+      }
+
+      $baseUrl .= $order->{PACK_LOC};
+
+      if ($order->{PACK_LOC} !~ /\/$/) {
+        $baseUrl .= '/';
+      }
+
+      $baseUrl .= $orderID;
+
+      foreach my $fragID (1..$order->{FRAGS}) {
+        my $frag = $orderID.'-'.$fragID;
+
+        my $remoteFile = $baseUrl.'/'.$frag;
+        my $localFile = $targetDir.'/'.$frag;
+        my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
+        if (is_success($rc) && move($localFile.'.part', $localFile)) {
+          $logger->debug($remoteFile.' -> '.$localFile.': success');
+        } else {
+          $logger->debug($remoteFile.' -> '.$localFile.': failed');
+        }
+      }
+
+
+
+
+
+}
+
 sub check {
     my $params = shift;
 
@@ -79,8 +129,6 @@ sub check {
 
               $logger->debug("New download added in the queue. Info is `$infoURI'");
             }
-
-
         }
     }
 
@@ -102,42 +150,11 @@ sub longRun {
         $logger->error("Failed to create $downloadBaseDir");
     }
 
-    foreach my $orderID (keys %{$storage->{byId}}) {
-      my $order = $storage->{byId}->{$orderID};
-      $logger->debug("processing ".$orderID);
-      next unless $order->{ID} =~ /^\d+$/; # Security
-
-      my $targetDir = $downloadBaseDir.'/'.$orderID;
-      if (!-d $targetDir && !mkdir ($targetDir)) {
-        $logger->error("Failed to create $targetDir");
-      }
-
-      my $baseUrl;
-      if ($order->{PROTO} eq 'HTTP') {
-        $baseUrl = "http://";
-      }
-
-      $baseUrl .= $order->{PACK_LOC};
-
-      if ($order->{PACK_LOC} !~ /\/$/) {
-        $baseUrl .= '/';
-      }
-
-      $baseUrl .= $orderID;
-
-      foreach my $fragID (1..$order->{FRAGS}) {
-        my $frag = $orderID.'-'.$fragID;
-
-        my $remoteFile = $baseUrl.'/'.$frag;
-        my $localFile = $targetDir.'/'.$frag;
-        my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
-        if (is_success($rc) && move($localFile.'.part', $localFile)) {
-          $logger->debug($remoteFile.' -> '.$localFile.': success');
-        } else {
-          $logger->debug($remoteFile.' -> '.$localFile.': failed');
-        }
-      }
-
+    foreach my $orderId (keys %{$storage->{byId}}) {
+        downloadById({
+                    logger => $logger,
+                    orderId => $orderId,
+            });
     }
 }
 
