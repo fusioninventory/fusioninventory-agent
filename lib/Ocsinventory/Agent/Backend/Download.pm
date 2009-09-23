@@ -45,7 +45,7 @@ sub check {
 
     print "GOGO\n";
 
-    # The XML is ill formated and we have to run a while to
+    # The XML is ill formated and we have to run a loop to retriev
     # the different keys
     foreach my $paramHash (@$conf) {
         if ($paramHash->{TYPE} eq 'CONF') {
