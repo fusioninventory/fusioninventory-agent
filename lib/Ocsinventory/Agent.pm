@@ -35,8 +35,6 @@ use Ocsinventory::Agent::AccountInfo;
 #use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
 
-use Ocsinventory::Agent::CompatibilityLayer;
-
 
 sub run {
 
@@ -231,15 +229,6 @@ sub run {
         $accountinfo->set("TAG",$config->{config}{tag});
     }
 
-# Create compatibility layer. It's used to keep compatibility with the
-# linux_agent 1.x and below
-    my $compatibilityLayer = new Ocsinventory::Agent::CompatibilityLayer({
-            accountinfo => $accountinfo,
-            accountconfig => $accountconfig,
-            logger => $logger,
-            config => $config->{config},
-        });
-
     if ($config->{config}{daemon}) {
 
         $logger->debug("Time to call Proc::Daemon");
@@ -280,8 +269,6 @@ sub run {
             sleep ($wait);
 
         }
-
-        $compatibilityLayer->hook({name => 'start_handler'});
 
 #  my $inventory = new Ocsinventory::Agent::XML::Inventory ({
         #
@@ -328,7 +315,6 @@ sub run {
 
                     accountconfig => $accountconfig,
                     accountinfo => $accountinfo,
-                    compatibilityLayer => $compatibilityLayer,
                     logger => $logger,
                     config => $config->{config},
 
@@ -412,7 +398,6 @@ sub run {
                         logger => $logger
                     });
 
-                $compatibilityLayer->hook({name => 'end_handler'});
                 exit (0) unless $config->{config}{daemon};
             }
         }
