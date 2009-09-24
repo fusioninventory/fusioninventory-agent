@@ -36,38 +36,33 @@ sub download {
         $logger->error("Failed to create $targetDir");
     }
 
-    my $baseUrl;
-    if ($order->{PROTO} eq 'HTTP') {
-        $baseUrl = "http://";
-    }
-
+    my $baseUrl = ($order->{PROTO} =~ /^HTTP$/i)?"http://":"";
     $baseUrl .= $order->{PACK_LOC};
-
-    if ($order->{PACK_LOC} !~ /\/$/) {
-        $baseUrl .= '/';
-    }
-
+    $baseUrl .= '/' = if $order->{PACK_LOC} !~ /\/$/;
     $baseUrl .= $orderId;
 
-    foreach my $fragID (1..$order->{FRAGS}) {
+    $order->{CURRENT_FRAG} = 1 unless $order->{CURRENT_FRAG};
+    # TODO randomise the order
+    foreach my $fragID ($order->{CURRENT_FRAG}..$order->{FRAGS}) {
         my $frag = $orderId.'-'.$fragID;
 
         my $remoteFile = $baseUrl.'/'.$frag;
         my $localFile = $targetDir.'/'.$frag;
         my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
         if (is_success($rc) && move($localFile.'.part', $localFile)) {
+            # TODO to a md5sum/sha256 check here
             $logger->debug($remoteFile.' -> '.$localFile.': success');
+
         } else {
             $logger->debug($remoteFile.' -> '.$localFile.': failed');
+            unlink ($localFile.'.part');
+            unlink ($localFile);
+            return;
         }
     }
 
-
-
-
-
-
 }
+
 
 sub unpackAndUncompress {
 
