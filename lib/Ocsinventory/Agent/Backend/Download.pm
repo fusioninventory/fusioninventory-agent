@@ -38,7 +38,7 @@ sub download {
 
     my $baseUrl = ($order->{PROTO} =~ /^HTTP$/i)?"http://":"";
     $baseUrl .= $order->{PACK_LOC};
-    $baseUrl .= '/' = if $order->{PACK_LOC} !~ /\/$/;
+    $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/;
     $baseUrl .= $orderId;
 
     $order->{CURRENT_FRAG} = 1 unless $order->{CURRENT_FRAG};
