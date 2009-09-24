@@ -1,5 +1,8 @@
 package Ocsinventory::Agent::Backend::Download;
 
+use strict;
+use warnings;
+
 use XML::Simple;
 use File::Copy;
 use LWP::Simple;
@@ -9,19 +12,26 @@ use File::Path;
 use Data::Dumper;
 
 
-sub downloadById {
+sub download {
     my $params = shift;
 
+    use Data::Dumper;
+    print Dumper($params);
+    my $config = $params->{config};
     my $logger = $params->{logger};
     my $orderId = $params->{orderId};
+    my $storage = $params->{storage};
+
+    my $downloadBaseDir = $config->{vardir}.'/download';
 
 
+    my $order = $storage->{byId}->{$orderId};
+    $logger->fault("order not correctly initialised") unless $order;
+    $logger->fault("config not correctly initialised") unless $config;
+    
+    $logger->debug("processing ".$orderId);
 
-    my $order = $storage->{byId}->{$orderID};
-    $logger->debug("processing ".$orderID);
-    next unless $order->{ID} =~ /^\d+$/; # Security
-
-    my $targetDir = $downloadBaseDir.'/'.$orderID;
+    my $targetDir = $downloadBaseDir.'/'.$orderId;
     if (!-d $targetDir && !mkdir ($targetDir)) {
         $logger->error("Failed to create $targetDir");
     }
@@ -37,10 +47,10 @@ sub downloadById {
         $baseUrl .= '/';
     }
 
-    $baseUrl .= $orderID;
+    $baseUrl .= $orderId;
 
     foreach my $fragID (1..$order->{FRAGS}) {
-        my $frag = $orderID.'-'.$fragID;
+        my $frag = $orderId.'-'.$fragID;
 
         my $remoteFile = $baseUrl.'/'.$frag;
         my $localFile = $targetDir.'/'.$frag;
@@ -53,7 +63,18 @@ sub downloadById {
     }
 
 
+
+
+
+
 }
+
+sub unpackAndUncompress {
+
+
+
+}
+
 
 sub check {
     my $params = shift;
@@ -63,6 +84,24 @@ sub check {
     my $logger = $params->{logger};
     my $storage = $params->{storage};
     print "Storage".Dumper($storage);
+
+    if (!$storage) {
+        $storage->{config} = {};
+        $storage->{byId} = {};
+        $storage->{byPriority} = [
+        0  => {},
+        1  => {},
+        2  => {},
+        4  => {},
+        5  => {},
+        5  => {},
+        6  => {},
+        7  => {},
+        8  => {},
+        9  => {},
+        10 => {},
+        ];
+    }
 
     my $downloadBaseDir = $config->{vardir}.'/download';
 
@@ -83,11 +122,6 @@ sub check {
     }
 
 
-    open TMP, ">$downloadBaseDir/config.$$";
-    print TMP XMLout($conf, RootName => 'CONF');
-    close TMP;
-
-    print "La conf : ".Dumper($prologresp);
 
     print "GOGO\n";
 
@@ -114,7 +148,15 @@ sub check {
                 $logger->error("Failed to parse info file `$infoURI'");
             }
 
-            if (!$infoHash->{ID} || $infoHash->{ID} !~ /^\d+$/ || !$infoHash->{ACT}) {
+            if (
+                !$infoHash->{ID}
+                ||
+                $infoHash->{ID} !~ /^\d+$/
+                ||
+                !$infoHash->{ACT}
+                ||
+                $infoHash->{PRI} !~ /^\d+$/
+            ) {
                 $logger->error("Incorrect content in info file `$infoURI'");
                 # TODO report the info the server
             } else {
@@ -123,6 +165,7 @@ sub check {
                     $storage->{byId}{$infoHash->{ID}}{$_} = $paramHash->{$_};
                 }
 
+                $storage->{byPriority}->[$infoHash->{PRI}]->{$infoHash->{ID}} = $storage->{byId}{$infoHash->{ID}};
                 $logger->debug("New download added in the queue. Info is `$infoURI'");
             }
         }
@@ -142,15 +185,20 @@ sub longRun {
     print "Storage".Dumper($storage);
 
     my $downloadBaseDir = $config->{vardir}.'/download';
-    if (!mkpath($downloadBaseDir)) {
+    if (!-f $downloadBaseDir && !mkpath($downloadBaseDir)) {
         $logger->error("Failed to create $downloadBaseDir");
     }
 
-    foreach my $orderId (keys %{$storage->{byId}}) {
-        downloadById({
-                logger => $logger,
-                orderId => $orderId,
-            });
+    foreach my $priority (0..10) {
+        foreach my $orderId (keys %{$storage->{byPriority}->[$priority]}) {
+            print $orderId."\n";
+            download({
+                    config => $config,
+                    logger => $logger,
+                    orderId => $orderId,
+                    storage => $storage,
+                });
+        }
     }
 }
 
