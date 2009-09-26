@@ -8,15 +8,17 @@ use File::Copy;
 use LWP::Simple;
 use File::Path;
 
+use Archive::Extract;
+
 
 use Data::Dumper;
 
 
-sub download {
+sub downloadAndExtract {
     my $params = shift;
 
     use Data::Dumper;
-    print Dumper($params);
+#    print Dumper($params);
     my $config = $params->{config};
     my $logger = $params->{logger};
     my $orderId = $params->{orderId};
@@ -27,7 +29,7 @@ sub download {
     my $downloadBaseDir = $config->{vardir}.'/download';
     if (!$order->{FRAGS}) {
         $logger->info("No files to download");
-        return;
+        return 1;
     }
 
 
@@ -101,7 +103,32 @@ sub download {
     }
     close FINALEFILE; # TODO catch the ret code
 
+    # Archive can be either tar.gz or zip
+    if (!-f "$targetDir/run" && mkdir("$targetDir/run")) {
+        $logger->error("Failed to create $targetDir/run");
+        return;
+    }
 
+    # Turns debug mode on if needed
+    #$Archive::Extract::DEBUG=1 if $config->{debug};
+    # Prefere local binaries
+    $Archive::Extract::PREFER_BIN=1;
+
+    my $success = 0;
+    foreach my $type (qw/tgz zip tar tbz/) {
+        my $archive = Archive::Extract->new(
+            archive => "$targetDir/final",
+            type => $type);
+        if ($archive && $archive->extract(to => "$targetDir/run")) {
+            $logger->debug("Archive is type: $type");
+            $logger->info("Files extracted in $targetDir/run");
+            last;
+        }
+    }
+    
+
+
+    return $success;
 }
 
 
@@ -119,7 +146,7 @@ sub check {
     my $config = $params->{config};
     my $logger = $params->{logger};
     my $storage = $params->{storage};
-    print "Storage".Dumper($storage);
+#    print "Storage".Dumper($storage);
 
     if (!$storage) {
         $storage->{config} = {};
@@ -218,7 +245,7 @@ sub longRun {
     my $config = $params->{config};
     my $logger = $params->{logger};
     my $storage = $params->{storage};
-    print "Storage".Dumper($storage);
+#    print "Storage".Dumper($storage);
 
     my $downloadBaseDir = $config->{vardir}.'/download';
     if (!-f $downloadBaseDir && !mkpath($downloadBaseDir)) {
@@ -228,7 +255,13 @@ sub longRun {
     foreach my $priority (0..10) {
         foreach my $orderId (keys %{$storage->{byPriority}->[$priority]}) {
             print $orderId."\n";
-            download({
+            next unless downloadAndExtract({
+                    config => $config,
+                    logger => $logger,
+                    orderId => $orderId,
+                    storage => $storage,
+                });
+            next unless process({
                     config => $config,
                     logger => $logger,
                     orderId => $orderId,
