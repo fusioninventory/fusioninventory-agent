@@ -22,10 +22,15 @@ sub download {
     my $orderId = $params->{orderId};
     my $storage = $params->{storage};
 
-    my $downloadBaseDir = $config->{vardir}.'/download';
-
-
     my $order = $storage->{byId}->{$orderId};
+
+    my $downloadBaseDir = $config->{vardir}.'/download';
+    if (!$order->{FRAGS}) {
+        $logger->info("No files to download");
+        return;
+    }
+
+
     $logger->fault("order not correctly initialised") unless $order;
     $logger->fault("config not correctly initialised") unless $config;
     
@@ -41,25 +46,61 @@ sub download {
     $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/;
     $baseUrl .= $orderId;
 
-    $order->{CURRENT_FRAG} = 1 unless $order->{CURRENT_FRAG};
+    $logger->info("Download the file(s)");
     # TODO randomise the order
-    foreach my $fragID ($order->{CURRENT_FRAG}..$order->{FRAGS}) {
+    foreach my $fragID (1..$order->{FRAGS}) {
         my $frag = $orderId.'-'.$fragID;
 
         my $remoteFile = $baseUrl.'/'.$frag;
         my $localFile = $targetDir.'/'.$frag;
+
+        next if -f $localFile; # Local file already here
+
         my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
         if (is_success($rc) && move($localFile.'.part', $localFile)) {
             # TODO to a md5sum/sha256 check here
             $logger->debug($remoteFile.' -> '.$localFile.': success');
 
         } else {
-            $logger->debug($remoteFile.' -> '.$localFile.': failed');
+            $logger->error($remoteFile.' -> '.$localFile.': failed');
             unlink ($localFile.'.part');
             unlink ($localFile);
+            # TODO Count the number of failure
             return;
         }
     }
+
+
+    ### Construct the archive
+    $logger->info("Construct the archive");
+    if (!open (FINALFILE, ">$targetDir/final")) {
+        $logger->error("Failed to open $targetDir/final");
+        return;
+    }
+    foreach my $fragID (1..$order->{FRAGS}) {
+        my $frag = $orderId.'-'.$fragID;
+
+        my $localFile = $targetDir.'/'.$frag;
+        if (!open (FRAG, "<$localFile")) {
+            $logger->error("Failed to open $localFile");
+            close FINALFILE;
+            $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
+            return;
+        }
+
+        foreach (<FRAG>) {
+            if (!print FINALFILE) {
+                # TODO, imagine a graceful clean up function
+                $logger->error("Failed to open $localFile");
+                close FINALFILE;
+                $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
+                return;
+            }
+        }
+        close FRAG;
+    }
+    close FINALEFILE; # TODO catch the ret code
+
 
 }
 
