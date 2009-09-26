@@ -15,6 +15,7 @@ sub check {
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
+  my $logger = $params->{logger};
 
   my @list;
   my $buff;
@@ -22,7 +23,7 @@ sub run {
     if (! /^--/) {
       chomp;
       $buff .= $_;
-    } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+--(.*)--\s+(.*)//) {
+    } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+(.*)//) {
     $inventory->addSoftware({
         'NAME'          => $1,
         'VERSION'       => $2,
@@ -32,7 +33,7 @@ sub run {
         'FROM'          => 'rpm'
 		});
     } else {
-      warn "Should never go here!";
+      $logger->debug("Should never go here!");
       $buff = '';
     }
   }
