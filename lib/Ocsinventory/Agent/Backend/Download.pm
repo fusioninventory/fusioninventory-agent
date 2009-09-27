@@ -5,14 +5,43 @@ use warnings;
 
 use XML::Simple;
 use File::Copy;
+use File::Glob;
 use LWP::Simple;
 use File::Path;
 
 use Archive::Extract;
+use File::Copy::Recursive qw(dirmove);
 
 
 use Data::Dumper;
+use Cwd;
 
+sub clean {
+    my $params = shift;
+
+    my $config = $params->{config};
+    my $logger = $params->{logger};
+    my $orderId = $params->{orderId};
+    my $storage = $params->{storage};
+
+    my $level = [
+
+    # Level 0
+    # only clean the run directory.
+
+    # Level 1
+    # clean the extracted files
+
+    # Level 2
+    # clean the final file
+
+    # Level 3
+    # clean the PACK
+
+    ];
+
+    $logger->fault
+}
 
 sub downloadAndExtract {
     my $params = shift;
@@ -27,115 +56,156 @@ sub downloadAndExtract {
     my $order = $storage->{byId}->{$orderId};
 
     my $downloadBaseDir = $config->{vardir}.'/download';
-    if (!$order->{FRAGS}) {
-        $logger->info("No files to download");
-        return 1;
-    }
-
-
-    $logger->fault("order not correctly initialised") unless $order;
-    $logger->fault("config not correctly initialised") unless $config;
-    
-    $logger->debug("processing ".$orderId);
-
     my $targetDir = $downloadBaseDir.'/'.$orderId;
     if (!-d $targetDir && !mkdir ($targetDir)) {
         $logger->error("Failed to create $targetDir");
     }
 
-    my $baseUrl = ($order->{PROTO} =~ /^HTTP$/i)?"http://":"";
-    $baseUrl .= $order->{PACK_LOC};
-    $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/;
-    $baseUrl .= $orderId;
 
-    $logger->info("Download the file(s)");
-    # TODO randomise the order
-    foreach my $fragID (1..$order->{FRAGS}) {
-        my $frag = $orderId.'-'.$fragID;
-
-        my $remoteFile = $baseUrl.'/'.$frag;
-        my $localFile = $targetDir.'/'.$frag;
-
-        next if -f $localFile; # Local file already here
-
-        my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
-        if (is_success($rc) && move($localFile.'.part', $localFile)) {
-            # TODO to a md5sum/sha256 check here
-            $logger->debug($remoteFile.' -> '.$localFile.': success');
-
-        } else {
-            $logger->error($remoteFile.' -> '.$localFile.': failed');
-            unlink ($localFile.'.part');
-            unlink ($localFile);
-            # TODO Count the number of failure
-            return;
-        }
-    }
-
-
-    ### Construct the archive
-    $logger->info("Construct the archive");
-    if (!open (FINALFILE, ">$targetDir/final")) {
-        $logger->error("Failed to open $targetDir/final");
+    if (!-f "$targetDir/run" && mkpath("$targetDir/run")) {
+        $logger->error("Failed to create $targetDir/run");
         return;
     }
-    foreach my $fragID (1..$order->{FRAGS}) {
-        my $frag = $orderId.'-'.$fragID;
 
-        my $localFile = $targetDir.'/'.$frag;
-        if (!open (FRAG, "<$localFile")) {
-            $logger->error("Failed to open $localFile");
-            close FINALFILE;
-            $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
-            return;
+
+    if (!$order->{FRAGS}) {
+        $logger->info("No files to download/extract");
+    } else {
+
+
+        $logger->fault("order not correctly initialised") unless $order;
+        $logger->fault("config not correctly initialised") unless $config;
+
+        $logger->debug("processing ".$orderId);
+
+
+        my $baseUrl = ($order->{PROTO} =~ /^HTTP$/i)?"http://":"";
+        $baseUrl .= $order->{PACK_LOC};
+        $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/;
+        $baseUrl .= $orderId;
+
+        $logger->info("Download the file(s)");
+        # TODO randomise the order
+        foreach my $fragID (1..$order->{FRAGS}) {
+            my $frag = $orderId.'-'.$fragID;
+
+            my $remoteFile = $baseUrl.'/'.$frag;
+            my $localFile = $targetDir.'/'.$frag;
+
+            next if -f $localFile; # Local file already here
+
+            my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
+            if (is_success($rc) && move($localFile.'.part', $localFile."/")) {
+                # TODO to a md5sum/sha256 check here
+                $logger->debug($remoteFile.' -> '.$localFile.': success');
+
+            } else {
+                $logger->error($remoteFile.' -> '.$localFile.': failed');
+                unlink ($localFile.'.part');
+                unlink ($localFile);
+                # TODO Count the number of failure
+                return;
+            }
         }
 
-        foreach (<FRAG>) {
-            if (!print FINALFILE) {
-                # TODO, imagine a graceful clean up function
+
+        ### Recreate the archive
+        $logger->info("Construct the archive");
+        if (!open (FINALFILE, ">$targetDir/final")) {
+            $logger->error("Failed to open $targetDir/final");
+            return;
+        }
+        foreach my $fragID (1..$order->{FRAGS}) {
+            my $frag = $orderId.'-'.$fragID;
+
+            my $localFile = $targetDir.'/'.$frag;
+            if (!open (FRAG, "<$localFile")) {
                 $logger->error("Failed to open $localFile");
                 close FINALFILE;
                 $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
                 return;
             }
+
+            foreach (<FRAG>) {
+                if (!print FINALFILE) {
+                    # TODO, imagine a graceful clean up function
+                    $logger->error("Failed to open $localFile");
+                    close FINALFILE;
+                    $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
+                    return;
+                }
+            }
+            close FRAG;
         }
-        close FRAG;
-    }
-    close FINALEFILE; # TODO catch the ret code
+        close FINALEFILE; # TODO catch the ret code
 
-    # Archive can be either tar.gz or zip
-    if (!-f "$targetDir/run" && mkdir("$targetDir/run")) {
-        $logger->error("Failed to create $targetDir/run");
-        return;
-    }
+        
+        # Turns debug mode on if needed
+        #$Archive::Extract::DEBUG=1 if $config->{debug};
+        # Prefere local binaries
+        $Archive::Extract::PREFER_BIN=1;
 
-    # Turns debug mode on if needed
-    #$Archive::Extract::DEBUG=1 if $config->{debug};
-    # Prefere local binaries
-    $Archive::Extract::PREFER_BIN=1;
-
-    my $success = 0;
-    foreach my $type (qw/tgz zip tar tbz/) {
-        my $archive = Archive::Extract->new(
-            archive => "$targetDir/final",
-            type => $type);
-        if ($archive && $archive->extract(to => "$targetDir/run")) {
-            $logger->debug("Archive is type: $type");
-            $logger->info("Files extracted in $targetDir/run");
-            last;
+        my $success = 0;
+        foreach my $type (qw/tgz zip tar tbz/) {
+            my $archive = Archive::Extract->new(
+                archive => "$targetDir/final",
+                type => $type);
+            if ($archive && $archive->extract(to => "$targetDir/run")) {
+                $logger->debug("Archive is type: $type");
+                $logger->info("Files extracted in $targetDir/run");
+                $success = 1; 
+                last;
+            }
         }
+
+        if (!$success) {
+            $logger->error("Failed to extract $targetDir/final");
+            return;
+        }
+    } # No attach file to download/extract
+
+
+    my $cwd = getcwd;
+    if ($order->{ACT} eq 'EXECUTE') {
+        $logger->debug("Execute ".$order->{COMMAND});
+        chdir("$targetDir/run");
+        system($order->{COMMAND});
+        chdir($cwd);
+
+        # TODO, return the exit code
+    } elsif ($order->{ACT} eq 'STORE') {
+        $logger->debug("Move extracted file in ".$order->{PATH});
+        if (!-d $order->{PATH} && !mkpath($order->{PATH})) {
+            $logger->error("Failed to create ".$order->{PATH});
+            # TODO clean up
+            return;
+        }
+        foreach (glob("$targetDir/run/*")) {
+            if ((-d $_ && !dirmove($_, $order->{PATH}))
+                &&
+                (-f $_ && !move($_, $order->{PATH}))) {
+                $logger->error("Failed to copy $_ in ".
+                    $order->{PATH}." :$!");
+            }
+        }
+    } elsif ($order->{ACT} eq 'LAUNCH') {
+        my $cmd = $order->{'NAME'};
+
+        $logger->debug("Launching $cmd...");
+        if (!-f "$targetDir/run/$cmd") {
+            $logger->error("$targetDir/run/$cmd not found");
+            return;
+        }
+
+        if (chmod(0755, "$targetDir/run/$cmd")) {
+            $logger->debug("Cannot chmod: $!");
+        }
+        # TODO, add ./ only for non Windows OS.
+        chdir("$targetDir/run");
+        system( "./".$cmd );
+        chdir($cwd);
+        # TODO, return the exit code
     }
-    
-
-
-    return $success;
-}
-
-
-sub unpackAndUncompress {
-
-
-
 }
 
 
@@ -184,9 +254,6 @@ sub check {
         return;
     }
 
-
-
-    print "GOGO\n";
 
     # The XML is ill formated and we have to run a loop to retriev
     # the different keys
@@ -245,7 +312,7 @@ sub longRun {
     my $config = $params->{config};
     my $logger = $params->{logger};
     my $storage = $params->{storage};
-#    print "Storage".Dumper($storage);
+    print "Storage".Dumper($storage);
 
     my $downloadBaseDir = $config->{vardir}.'/download';
     if (!-f $downloadBaseDir && !mkpath($downloadBaseDir)) {
@@ -256,12 +323,6 @@ sub longRun {
         foreach my $orderId (keys %{$storage->{byPriority}->[$priority]}) {
             print $orderId."\n";
             next unless downloadAndExtract({
-                    config => $config,
-                    logger => $logger,
-                    orderId => $orderId,
-                    storage => $storage,
-                });
-            next unless process({
                     config => $config,
                     logger => $logger,
                     orderId => $orderId,
