@@ -24,23 +24,54 @@ sub clean {
     my $orderId = $params->{orderId};
     my $storage = $params->{storage};
 
+    my $downloadBaseDir = $config->{vardir}.'/download';
+    my $targetDir = $downloadBaseDir.'/'.$orderId;
+
+    $logger->fault("no orderId") unless $orderId;
+    return unless -d $targetDir;
+
+
     my $level = [
 
     # Level 0
     # only clean the run directory.
+    sub {
+        foreach (glob("$targetDir/*.part")) {
+            if (!unlink($_)) {
+                $logger->error("Failed to clean $_ up");
+            }
+        }
+    },
 
     # Level 1
-    # clean the extracted files
+    # only clean the run directory.
+    sub {
+        if (-d "$targetDir/run" && !rmtree("$targetDir/run")) {
+            $logger->error("Failed to clean $targetDir/run up");
+        }
+    },
 
     # Level 2
     # clean the final file
+    sub {
+        if (-f "$targetDir/final" && !unlink("$targetDir/final")) {
+            $logger->error("Failed to clean $targetDir/final up");
+        }
+    },
 
     # Level 3
     # clean the PACK
+    sub {
+        foreach (glob("$targetDir/*-*")) {
+            if (!unlink($_)) {
+                $logger->error("Failed to clean $_ up");
+            }
+        }
+    },
+
 
     ];
 
-    $logger->fault
 }
 
 sub downloadAndExtract {
