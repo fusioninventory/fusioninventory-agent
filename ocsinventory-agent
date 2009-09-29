@@ -175,6 +175,10 @@ Print the inventory on stdout.
     # prepare an inventory and write it in the /tmp/report.xml file.
     # A file will be created.
 
+=item B<--scan-homedirs>
+
+Authorized OCS to scan home directories to increase the inventory.
+
 =item B<--tag>=I<TAG>
 
 Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
