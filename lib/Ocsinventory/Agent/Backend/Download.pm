@@ -76,8 +76,8 @@ sub clean {
 
         $logger->debug("Remove the fragment in $targetDir ");
         if (!rmtree("$targetDir/run")) {
-                $logger->error("Failed to remove $targetDir");
-            }
+            $logger->error("Failed to remove $targetDir");
+        }
     },
 
 
@@ -206,7 +206,7 @@ sub processOrderCmd {
                 $logger->error("Cannot chmod: $!");
             }
         }
-        
+
         $logger->debug("Launching $cmd...");
 
         # TODO, add ./ only for non Windows OS.
@@ -238,91 +238,91 @@ sub downloadAndConstruct {
 
 
 
-        $logger->fault("order not correctly initialised") unless $order;
-        $logger->fault("config not correctly initialised") unless $config;
+    $logger->fault("order not correctly initialised") unless $order;
+    $logger->fault("config not correctly initialised") unless $config;
 
-        $logger->debug("processing ".$orderId);
-
-
-        my $baseUrl = ($order->{PROTO} =~ /^HTTP$/i)?"http://":"";
-        $baseUrl .= $order->{PACK_LOC};
-        $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/;
-        $baseUrl .= $orderId;
-
-        $logger->info("Download the file(s) if needed");
+    $logger->debug("processing ".$orderId);
 
 
-        # Randomise the download order
-        my @downloadToDo;
-        foreach (0..($order->{FRAGS})) {
-            push (@downloadToDo, '1');
-        }
-        while (grep (/1/, @downloadToDo)) {
+    my $baseUrl = ($order->{PROTO} =~ /^HTTP$/i)?"http://":"";
+    $baseUrl .= $order->{PACK_LOC};
+    $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/;
+    $baseUrl .= $orderId;
 
-            my $fragID = int(rand(@downloadToDo)+1); # pick a random frag
-            next unless $downloadToDo[$fragID-1]; # Already done?
-            $downloadToDo[$fragID-1] = 0;
+    $logger->info("Download the file(s) if needed");
 
 
+    # Randomise the download order
+    my @downloadToDo;
+    foreach (0..($order->{FRAGS})) {
+        push (@downloadToDo, '1');
+    }
+    while (grep (/1/, @downloadToDo)) {
 
-            my $frag = $orderId.'-'.$fragID;
-
-            my $remoteFile = $baseUrl.'/'.$frag;
-            my $localFile = $targetDir.'/'.$frag;
-
-            next if -f $localFile; # Local file already here
-
-            my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
-            if (is_success($rc) && move($localFile.'.part', $localFile)) {
-                # TODO to a md5sum/sha256 check here
-                $logger->debug($remoteFile.' -> '.$localFile.': success');
-
-            } else {
-                $logger->error($remoteFile.' -> '.$localFile.': failed');
-                unlink ($localFile.'.part');
-                unlink ($localFile);
-                # TODO Count the number of failure
-                return;
-            }
-        }
+        my $fragID = int(rand(@downloadToDo)+1); # pick a random frag
+        next unless $downloadToDo[$fragID-1]; # Already done?
+        $downloadToDo[$fragID-1] = 0;
 
 
-        ### Recreate the archive
-        $logger->info("Construct the archive in $targetDir/final");
-        if (!open (FINALFILE, ">$targetDir/final")) {
-            $logger->error("Failed to open $targetDir/final");
+
+        my $frag = $orderId.'-'.$fragID;
+
+        my $remoteFile = $baseUrl.'/'.$frag;
+        my $localFile = $targetDir.'/'.$frag;
+
+        next if -f $localFile; # Local file already here
+
+        my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
+        if (is_success($rc) && move($localFile.'.part', $localFile)) {
+            # TODO to a md5sum/sha256 check here
+            $logger->debug($remoteFile.' -> '.$localFile.': success');
+
+        } else {
+            $logger->error($remoteFile.' -> '.$localFile.': failed');
+            unlink ($localFile.'.part');
+            unlink ($localFile);
+            # TODO Count the number of failure
             return;
         }
-        foreach my $fragID (1..$order->{FRAGS}) {
-            my $frag = $orderId.'-'.$fragID;
+    }
 
-            my $localFile = $targetDir.'/'.$frag;
-            if (!open (FRAG, "<$localFile")) {
-                $logger->error("Failed to open $localFile");
-                close FINALFILE;
-                $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
+
+    ### Recreate the archive
+    $logger->info("Construct the archive in $targetDir/final");
+    if (!open (FINALFILE, ">$targetDir/final")) {
+        $logger->error("Failed to open $targetDir/final");
+        return;
+    }
+    foreach my $fragID (1..$order->{FRAGS}) {
+        my $frag = $orderId.'-'.$fragID;
+
+        my $localFile = $targetDir.'/'.$frag;
+        if (!open (FRAG, "<$localFile")) {
+            $logger->error("Failed to open $localFile");
+            close FINALFILE;
+            $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
+            return;
+        }
+
+        foreach (<FRAG>) {
+            if (!print FINALFILE) {
+                # TODO, imagine a graceful clean up function
+                $logger->error("Failed to write in $localFile: $!");
+                clean(2);
                 return;
             }
-
-            foreach (<FRAG>) {
-                if (!print FINALFILE) {
-                    # TODO, imagine a graceful clean up function
-                    $logger->error("Failed to write in $localFile: $!");
-                    clean(2);
-                    return;
-                }
-            }
-            close FRAG;
         }
-        close FINALFILE; # TODO catch the ret code
+        close FRAG;
+    }
+    close FINALFILE; # TODO catch the ret code
 
-        
-        return unless extractArchive({
+
+    return unless extractArchive({
             config => $config,
             logger => $logger,
             orderId => $orderId,
-            
-            });
+
+        });
 
 
 }
