@@ -294,7 +294,7 @@ sub run {
 
         } else { # I've to contact the server
 
-            my $net = new Ocsinventory::Agent::Network ({
+            my $network = new Ocsinventory::Agent::Network ({
 
                     accountconfig => $accountconfig,
                     accountinfo => $accountinfo,
@@ -314,7 +314,7 @@ sub run {
 
                     });
 
-                $prologresp = $net->send({message => $prolog});
+                $prologresp = $network->send({message => $prolog});
 
                 if (!$prologresp) { # Failed to reach the server
                     if ($config->{config}{lazy}) {
@@ -350,6 +350,7 @@ sub run {
                         accountconfig => $accountconfig,
                         logger => $logger,
                         config => $config->{config},
+                        network => $network,
                         prologresp => $prologresp,
 
                     });
@@ -367,7 +368,7 @@ sub run {
 
                 $backend->feedInventory ({inventory => $inventory});
 
-                if (my $response = $net->send({message => $inventory})) {
+                if (my $response = $network->send({message => $inventory})) {
                     #if ($response->isAccountUpdated()) {
                     $inventory->saveLastState();
                     #}

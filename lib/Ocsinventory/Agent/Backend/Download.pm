@@ -428,6 +428,7 @@ sub longRun {
 
     my $prologresp = $params->{prologresp};
     my $config = $params->{config};
+    my $network = $params->{network};
     my $logger = $params->{logger};
     my $storage = $params->{storage};
     print "Storage".Dumper($storage);

@@ -16,6 +16,7 @@ sub new {
   $self->{config} = $params->{config};
   $self->{inventory} = $params->{inventory};
   my $logger = $self->{logger} = $params->{logger};
+  $self->{network} = $params->{network};
   $self->{prologresp} = $params->{prologresp};
 
   $self->{modules} = {};
@@ -186,6 +187,7 @@ sub initModList {
             config => $self->{config},
             inventory => $self->{inventory},
             logger => $self->{logger},
+            network => $self->{network},
             # Compatibiliy with agent 0.0.10 <=
             # We continue to pass params->{params}
             params => $self->{params},
@@ -391,6 +393,7 @@ sub longRuns {
 
   my $logger = $self->{logger};
   my $config = $self->{config};
+  my $network = $self->{network};
 
   foreach my $m (sort keys %{$self->{modules}}) {
     if ($self->{modules}{$m}{longRunFunc}) {
@@ -399,6 +402,7 @@ sub longRuns {
       $self->{modules}{$m}{longRunFunc}({
         config => $config,
         logger => $logger,
+        network => $network,
         storage => $self->{modules}->{$m}->{storage},
       });
       $self->saveStorage($m, $storage);
