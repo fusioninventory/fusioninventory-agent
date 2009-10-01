@@ -8,6 +8,7 @@ use warnings;
 # THIS IS AN UGLY WORKAROUND FOR
 # http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
+use File::Path;
 
 eval {XMLout("<a>b</a>");};
 if ($@){
@@ -49,24 +50,6 @@ sub run {
 ##########################################
 ##########################################
 ##########################################
-    sub recMkdir {
-        my $dir = shift;
-
-        my @t = split /\//, $dir;
-        shift @t;
-        return unless @t;
-
-        my $t;
-        foreach (@t) {
-            $t .= '/'.$_;
-            if ((!-d $t) && (!mkdir $t)) {
-                return;
-            }
-        }
-        1;
-    }
-
-
 
 
     sub isAgentAlreadyRunning {
@@ -140,7 +123,7 @@ sub run {
 
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
-    if (!recMkdir ($config->{config}{basevardir})) {
+    if (!-d $config->{config}{basevardir} && !mkpath ($config->{config}{basevardir})) {
 
         if (! -d $ENV{HOME}."/.ocsinventory/var") {
             $logger->info("Failed to create ".$config->{config}{basevardir}." directory: $!. ".
@@ -148,7 +131,7 @@ sub run {
         }
 
         $config->{config}{basevardir} = $ENV{HOME}."/.ocsinventory/var";
-        if (!recMkdir ($config->{config}{basevardir})) {
+        if (!-d $config->{config}{basevardir} && !mkpath ($config->{config}{basevardir})) {
             $logger->error("Failed to create ".$config->{config}{basedir}." directory: $!".
                 "The HOSTID will not be written on the harddrive. You may have duplicated ".
                 "entry of this computer in your OCS database");
@@ -168,7 +151,7 @@ sub run {
         $config->{config}{vardir} = $config->{config}{basevardir}."/__LOCAL__";
     }
 
-    if (!recMkdir ($config->{config}{vardir})) {
+    if (!-d $config->{config}{vardir} && mkpath ($config->{config}{vardir})) {
         $logger->error("Failed to create ".$config->{config}{vardir}." directory: $!");
     }
 

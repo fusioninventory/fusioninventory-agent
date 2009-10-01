@@ -4,6 +4,7 @@ use strict;
 
 use lib 'lib';
 
+use File::Path;
 use Ocsinventory::Agent::Config;
 
 
@@ -117,23 +118,6 @@ sub pickConfigdir {
     }
 
     return $choices[$input];
-}
-
-sub recMkdir {
-  my $dir = shift;
-
-  my @t = split /\//, $dir;
-  shift @t;
-  return unless @t;
-
-  my $t;
-  foreach (@t) {
-    $t .= '/'.$_;
-    if ((!-d $t) && (!mkdir $t)) {
-      return;
-    }
-  }
-  1;
 }
 
 sub mkFullServerUrl {
@@ -340,7 +324,9 @@ if (ask_yn ("Should I remove the old linux_agent", 'n')) {
 my $dir = $config->{server};
 $dir =~ s/\//_/g;
 my $vardir = $config->{basevardir}."/".$dir;
-recMkdir($vardir) or die "Can't create $vardir!";
+if (!-d $vardir && !mkpath($vardir)) {
+    or die "Can't create $vardir!";
+}
 
 if (@cacert) { # we need to migrate the certificat
     open CACERT, ">".$vardir."/cacert.pem" or die "Can't open ".$vardir.'/cacert.pem: '.$!;
