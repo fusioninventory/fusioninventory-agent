@@ -171,6 +171,22 @@ sub initModList {
 # Load the Storable object is existing or return undef
     $self->{modules}->{$m}->{storage} = $self->retrieveStorage($m);
 
+    if (exists($package->{'new'})) {
+        $self->{modules}->{$m}->{instance} = $m->new({
+
+            accountconfig => $self->{accountconfig},
+            accountinfo => $self->{accountinfo},
+            config => $self->{config},
+            inventory => $self->{inventory},
+            logger => $self->{logger},
+            network => $self->{network},
+            prologresp => $self->{prologresp},
+            mem => $self->{modules}->{$m}->{mem},
+            storage => $self->{modules}->{$m}->{storage},           
+            
+            }); 
+    }
+
   }
 
 # the sort is just for the presentation
@@ -318,6 +334,13 @@ sub feedInventory {
 
 }
 
+
+=item retrieveStorage()
+
+Load the $ModuleName.storage file from the filesystem. These .storage files
+are used to offert persistance storage to modules.
+
+=cut
 sub retrieveStorage {
     my ($self, $m) = @_;
 
@@ -337,6 +360,11 @@ sub retrieveStorage {
 
 }
 
+=item saveStorage()
+
+Save the $storage hash reference on the harddrive. 
+
+=cut
 sub saveStorage {
     my ($self, $m, $data) = @_;
 
@@ -360,6 +388,11 @@ sub saveStorage {
 
 }
 
+=item runWithTimeout()
+
+Run a function with a timeout.
+
+=cut
 sub runWithTimeout {
     my ($self, $m, $func, $params) = @_;
 
@@ -396,15 +429,23 @@ sub longRuns {
   my $network = $self->{network};
 
   foreach my $m (sort keys %{$self->{modules}}) {
-    if ($self->{modules}{$m}{longRunFunc}) {
-      $logger->debug("$m: runs longRun()");
-      my $storage = $self->retrieveStorage($m);
-      $self->{modules}{$m}{longRunFunc}({
-        config => $config,
-        logger => $logger,
-        network => $network,
-        storage => $self->{modules}->{$m}->{storage},
-      });
+
+      if ($self->{modules}{$m}{longRunFunc}) {
+          my $storage = $self->retrieveStorage($m);
+          if (exists($self->{modules}->{$m}->{instance})) {
+              $logger->debug("$m: runs mod->longRun()");
+              my $instance = $self->{modules}->{$m}->{instance};
+              $instance->{'storage'} = $storage;
+              $instance->longRun();
+          } else {
+              $logger->debug("$m: runs Mod::longRun()");
+              $self->{modules}{$m}{longRunFunc}({
+                      config => $config,
+                      logger => $logger,
+                      network => $network,
+                      storage => $self->{modules}->{$m}->{storage},
+                  });
+          }
       $self->saveStorage($m, $storage);
     }
   }

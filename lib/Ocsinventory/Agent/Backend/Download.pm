@@ -15,15 +15,34 @@ use File::Copy::Recursive qw(dirmove);
 use Data::Dumper;
 use Cwd;
 
+use Ocsinventory::Agent::XML::SimpleMessage;
+
+sub new {
+  my (undef, $params) = @_;
+
+  my $self = {};
+  
+  $self->{accountconfig} = $params->{accountconfig};
+  $self->{accountinfo} = $params->{accountinfo};
+  $self->{config} = $params->{config};
+  $self->{inventory} = $params->{inventory};
+  my $logger = $self->{logger} = $params->{logger};
+  $self->{network} = $params->{network};
+  $self->{prologresp} = $params->{prologresp};
+
+  bless $self;
+
+}
+
 sub clean {
-    my $params = shift;
+    my ($this, $params) = @_;
 
-    my $config = $params->{config};
-    my $logger = $params->{logger};
+    my $config = $this->{config};
+    my $logger = $this->{logger};
+    my $storage = $this->{storage};
+
+    my $cleanUpLevel = $params->{cleanUpLevel};
     my $orderId = $params->{orderId};
-    my $storage = $params->{storage};
-
-    my $cleanUpLevel = shift;
 
     my $downloadBaseDir = $config->{vardir}.'/download';
     my $targetDir = $downloadBaseDir.'/'.$orderId;
@@ -94,12 +113,13 @@ sub clean {
 }
 
 sub extractArchive {
-    my $params = shift;
+    my ($this, $params) = @_;
 
-    my $config = $params->{config};
-    my $logger = $params->{logger};
+    my $config = $this->{config};
+    my $logger = $this->{logger};
+    my $storage = $this->{storage};
+    
     my $orderId = $params->{orderId};
-    my $storage = $params->{storage};
 
     my $order = $storage->{byId}->{$orderId};
 
@@ -156,13 +176,13 @@ sub extractArchive {
 }
 
 sub processOrderCmd {
-    my $params = shift;
+    my ($this, $params) = @_;
 
-    my $config = $params->{config};
-    my $logger = $params->{logger};
+    my $config = $this->{config};
+    my $logger = $this->{logger};
+    my $storage = $this->{storage};
+
     my $orderId = $params->{orderId};
-    my $storage = $params->{storage};
-
     my $order = $storage->{byId}->{$orderId};
 
     my $downloadBaseDir = $config->{vardir}.'/download';
@@ -224,13 +244,13 @@ sub processOrderCmd {
 }
 
 sub downloadAndConstruct {
-    my $params = shift;
+    my ($this, $params) = @_;
 
-    my $config = $params->{config};
-    my $logger = $params->{logger};
+    my $config = $this->{config};
+    my $logger = $this->{logger};
+    my $storage = $this->{storage};
+
     my $orderId = $params->{orderId};
-    my $storage = $params->{storage};
-
     my $order = $storage->{byId}->{$orderId};
 
     my $downloadBaseDir = $config->{vardir}.'/download';
@@ -260,7 +280,7 @@ sub downloadAndConstruct {
     while (grep (/1/, @downloadToDo)) {
 
         my $fragID = int(rand(@downloadToDo))+1; # pick a random frag
-        next unless $downloadToDo[$fragID-1] = 1; # Already done?
+        next unless $downloadToDo[$fragID-1] == 1; # Already done?
         $downloadToDo[$fragID-1] = 0;
 
 
@@ -316,25 +336,40 @@ sub downloadAndConstruct {
     close FINALFILE; # TODO catch the ret code
 
 
-    return unless extractArchive({
-            config => $config,
-            logger => $logger,
-            orderId => $orderId,
+#    return unless extractArchive({
+#            config => $config,
+#            logger => $logger,
+#            orderId => $orderId,
+#
+#        });
+}
 
+
+sub sendMsgToServer {
+    my ($this, $params) = @_;
+
+    my $config = $this->{config};
+    my $logger = $this->{logger};
+
+    my $query = $this->{params};
+
+    my $msg = new Ocsinventory::Agent::XML::SimpleMessage({
+       config => $config,
+       logger => $logger,
+       query => $query,
+        
         });
-
 
 }
 
 
 sub check {
-    my $params = shift;
+    my $this = shift;
 
-    my $prologresp = $params->{prologresp};
-    my $config = $params->{config};
-    my $logger = $params->{logger};
-    my $storage = $params->{storage};
-#    print "Storage".Dumper($storage);
+    my $prologresp = $this->{prologresp};
+    my $config = $this->{config};
+    my $logger = $this->{logger};
+    my $storage = $this->{storage};
 
     if (!$storage) {
         $storage->{config} = {};
@@ -424,14 +459,13 @@ sub check {
 
 sub longRun {
 
-    my $params = shift;
+    my $this = shift;
 
-    my $prologresp = $params->{prologresp};
-    my $config = $params->{config};
-    my $network = $params->{network};
-    my $logger = $params->{logger};
-    my $storage = $params->{storage};
-    print "Storage".Dumper($storage);
+    my $prologresp = $this->{prologresp};
+    my $config = $this->{config};
+    my $network = $this->{network};
+    my $logger = $this->{logger};
+    my $storage = $this->{storage};
 
     my $downloadBaseDir = $config->{vardir}.'/download';
     if (!-d $downloadBaseDir && !mkpath($downloadBaseDir)) {
@@ -440,13 +474,11 @@ sub longRun {
 
     foreach my $priority (0..10) {
         foreach my $orderId (keys %{$storage->{byPriority}->[$priority]}) {
-            clean({
-                    config => $config,
-                    logger => $logger,
-                    orderId => $orderId,
-                    storage => $storage,
-                }, 2);
-
+            $this->clean({
+                    cleanUpLevel => 2,
+                    orderId => $orderId
+                });
+           
             my $targetDir = $downloadBaseDir.'/'.$orderId;
             if (!-d "$targetDir/run" && !mkpath("$targetDir/run")) {
                 $logger->error("Failed to create $targetDir/run");
@@ -457,31 +489,21 @@ sub longRun {
 
             # A file is attached to this order
             if ($order->{FRAGS}) {
-                downloadAndConstruct({
-                        config => $config,
-                        logger => $logger,
-                        orderId => $orderId,
-                        storage => $storage,
-                    });
-                extractArchive({
-                        config => $config,
-                        logger => $logger,
-                        orderId => $orderId,
-                        storage => $storage,
-                    });
+                $this->downloadAndConstruct({
+                            orderId => $orderId
+                        });
+                $this->extractArchive({
+                            orderId => $orderId
+                        });
             }
-            processOrderCmd({
-                    config => $config,
-                    logger => $logger,
-                    orderId => $orderId,
-                    storage => $storage,
+
+            $this->processOrderCmd({
+                    orderId => $orderId
                 });
-            clean({
-                    config => $config,
-                    logger => $logger,
-                    orderId => $orderId,
-                    storage => $storage,
-                }, 2);
+            $this->clean({
+                    cleanUpLevel => 2,
+                    orderId => $orderId
+                });
         }
     }
 }

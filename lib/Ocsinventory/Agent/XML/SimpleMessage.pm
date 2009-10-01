@@ -3,20 +3,22 @@ package Ocsinventory::Agent::XML::SimpleMessage;
 use strict;
 use warnings;
 
-use Data::Dumper; # XXX Debug
 use XML::Simple;
-use Digest::MD5 qw(md5_base64);
-
-use Ocsinventory::Agent::XML::Prolog;
 
 sub new {
-  my (undef, $params) = @_;
+  my (undef, $params, $msg) = @_;
 
   my $self = {};
   $self->{config} = $params->{config};
-  $self->{accountinfo} = $params->{accountinfo};
+  $self->{query} = $params->{query};
+
+  my $logger = $self->{logger} = $params->{logger};
+
+  $self->{h} = $msg;
  
-  die unless ($self->{config}->{deviceid}); #XXX
+  if (!$self->{config}->{deviceid}) {
+    $logger->fault("No device ID found in the config");
+  }
 
   $self->{h}{QUERY} = ['PROLOG']; 
   $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
@@ -30,13 +32,6 @@ sub dump {
 
 }
 
-sub set {
-  my ($self, $args) = @_;
-
-  foreach (keys %$args) {
-      $self->{h}{$_} = [$args->{$_}]; 
-  }
-}
 
 sub getContent {
   my ($self, $args) = @_;
