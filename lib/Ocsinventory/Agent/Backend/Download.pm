@@ -254,15 +254,14 @@ sub downloadAndConstruct {
 
     # Randomise the download order
     my @downloadToDo;
-    foreach (0..($order->{FRAGS})) {
+    foreach (1..($order->{FRAGS})) {
         push (@downloadToDo, '1');
     }
     while (grep (/1/, @downloadToDo)) {
 
-        my $fragID = int(rand(@downloadToDo)+1); # pick a random frag
-        next unless $downloadToDo[$fragID-1]; # Already done?
+        my $fragID = int(rand(@downloadToDo))+1; # pick a random frag
+        next unless $downloadToDo[$fragID-1] = 1; # Already done?
         $downloadToDo[$fragID-1] = 0;
-
 
 
         my $frag = $orderId.'-'.$fragID;
