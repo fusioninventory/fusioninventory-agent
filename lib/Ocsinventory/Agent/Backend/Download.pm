@@ -106,8 +106,6 @@ sub extractArchive {
     my $downloadBaseDir = $config->{vardir}.'/download';
     my $targetDir = $downloadBaseDir.'/'.$orderId;
 
-    return unless $order->{FRAGS}; # no frags → nothing to extract
-
     if (!open FILE, "<$targetDir/final") {
         $logger->error("Failed to open $targetDir/final: $!");
         return;
@@ -238,12 +236,6 @@ sub downloadAndConstruct {
     my $downloadBaseDir = $config->{vardir}.'/download';
     my $targetDir = $downloadBaseDir.'/'.$orderId;
 
-    return unless $order->{FRAGS}; # no frags → nothing to extract
-
-
-    if (!$order->{FRAGS}) {
-        $logger->info("No files to download/extract");
-    } else {
 
 
         $logger->fault("order not correctly initialised") unless $order;
@@ -262,14 +254,14 @@ sub downloadAndConstruct {
 
         # Randomise the download order
         my @downloadToDo;
-        foreach (0..($order->{FRAGS}-1)) {
-            push (@downloadToDo, 'a');
+        foreach (0..($order->{FRAGS})) {
+            push (@downloadToDo, '1');
         }
-        while (grep (/a/, @downloadToDo)) {
+        while (grep (/1/, @downloadToDo)) {
 
-            my $fragID = int(rand(@downloadToDo)); # pick a random frag
-            next unless $downloadToDo[$fragID]; # Already done?
-            $downloadToDo[$fragID] = undef;
+            my $fragID = int(rand(@downloadToDo)+1); # pick a random frag
+            next unless $downloadToDo[$fragID-1]; # Already done?
+            $downloadToDo[$fragID-1] = 0;
 
 
 
@@ -332,8 +324,6 @@ sub downloadAndConstruct {
             
             });
 
-
-    } # No attach file to download/extract
 
 }
 
@@ -462,20 +452,24 @@ sub longRun {
                 $logger->error("Failed to create $targetDir/run");
                 return;
             }
+            my $order = $storage->{byId}->{$orderId};
 
 
-            downloadAndConstruct({
-                    config => $config,
-                    logger => $logger,
-                    orderId => $orderId,
-                    storage => $storage,
-                });
-            extractArchive({
-                    config => $config,
-                    logger => $logger,
-                    orderId => $orderId,
-                    storage => $storage,
-                });
+            # A file is attached to this order
+            if ($order->{FRAGS}) {
+                downloadAndConstruct({
+                        config => $config,
+                        logger => $logger,
+                        orderId => $orderId,
+                        storage => $storage,
+                    });
+                extractArchive({
+                        config => $config,
+                        logger => $logger,
+                        orderId => $orderId,
+                        storage => $storage,
+                    });
+            }
             processOrderCmd({
                     config => $config,
                     logger => $logger,
