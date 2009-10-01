@@ -445,7 +445,7 @@ sub longRun {
                     logger => $logger,
                     orderId => $orderId,
                     storage => $storage,
-                },2);
+                }, 2);
 
             my $targetDir = $downloadBaseDir.'/'.$orderId;
             if (!-d "$targetDir/run" && !mkpath("$targetDir/run")) {
@@ -481,7 +481,7 @@ sub longRun {
                     logger => $logger,
                     orderId => $orderId,
                     storage => $storage,
-                },2);
+                }, 2);
         }
     }
 }
