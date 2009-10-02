@@ -18,8 +18,6 @@
 #USA.
 #
 
-# This is a wrapper script for Ocsinventory::Agent
-# Thanks to it, $PATH is initialized even if it started as a cron task
 args=$@
 for arg in $args; do
     if [ "$arg" = "--devlib" ]; then
