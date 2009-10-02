@@ -28,7 +28,7 @@ sub run {
         close VMX;
 
         my $status = 'unknow';
-        if ( `vmware-cmd $vmx getstate` =~ /=\ (\w+)/ ) {
+        if ( `vmware-cmd "$vmx" getstate` =~ /=\ (\w+)/ ) {
             # off 
             $status = $1;
         }

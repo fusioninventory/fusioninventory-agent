@@ -14,6 +14,8 @@ Revision history for Ocsinventory::Agent
          to the ocsinventory-agent shell script. So now the manpage has the
          correct name
        * Fix RPM output parsing (Remi COLLET)
+       * VMWareESX: avoid breakage is VM has spaces in its name
+         (Christian Michallek)
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer
