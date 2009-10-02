@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::Virtualization::Qemu;
 
 use strict;
 
-sub check { return can_run('qemu') }
+sub check { return (can_run('qemu') || can_run('qemu'))}
 
 sub run {
     my $params = shift;
@@ -15,6 +15,7 @@ sub run {
             
             my $name = "N/A";
             my $mem = 0;
+            my $uuid;
             my $vmtype = $2;
                         
             my @process = split (/\-/, $1);     #separate options
@@ -26,6 +27,8 @@ sub run {
                     $name = $1;
                 } elsif ($option =~ m/^m (\S+)/) {
                     $mem = $1;
+                } elsif ($option =~ m/^uuid (\S+)/) {
+                    $uuid = $1;
                 }
             }
             
@@ -36,6 +39,7 @@ sub run {
             
             $inventory->addVirtualMachine ({
                 NAME      => $name,
+                UUID      => $uuid,
                 VCPU      => 1,
                 MEMORY    => $mem,
                 STATUS    => "running",
