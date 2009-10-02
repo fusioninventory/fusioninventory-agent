@@ -4,12 +4,16 @@ package Ocsinventory::Agent::Backend::Virtualization::VirtualBox;
 
 use strict;
 
+use XML::Simple;
+use File::Glob ':glob';
+
 sub check { return can_run('VirtualBox') and can_run('VBoxManage') }
 
 sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
-
+    my $scanhomedirs = $params->{accountinfo}{config}{scanhomedirs};
+  
     my $cmd_list_vms = "VBoxManage -nologo list vms";
 
     my ( $version ) = ( `VBoxManage --version` =~ m/^(\d\.\d).*$/ ) ;
@@ -66,9 +70,9 @@ sub run {
         });
     }
     
-    
     # try to found another VMs, not exectute by root
-    
+    my @vmRunnings = ();
+    my $index = 0 ;
     foreach my $line ( `ps -ef` ) {
         chomp($line);
         if ( $line !~ m/^root/) {
@@ -86,18 +90,94 @@ sub run {
                     }
                 }
                 
-                $inventory->addVirtualMachine ({
+                if ($scanhomedirs == 1 ) {    # If I will scan Home directories,
+                  $vmRunnings [$index] = $uuid;   # save the no-root running machine
+                  $index += 1;
+                } else {
+                  $inventory->addVirtualMachine ({  # add in inventory
                     NAME      => $name,
                     VCPU      => 1,
                     UUID      => $uuid,
                     STATUS    => "running",
                     SUBSYSTEM => "Sun xVM VirtualBox",
                     VMTYPE    => "VirtualBox",
-                });
+                  });
+                }
             }
         }
     }
-    
+        
+    # If home directories scan is authorized
+    if ($scanhomedirs == 1 ) {
+      # Read every Machines Xml File of every user
+      foreach my $xmlMachine (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
+        chomp($xmlMachine);
+        # Open config file ...
+        my $configFile = new XML::Simple;
+        my $data = $configFile->XMLin($xmlMachine);
+          
+        # ... and read it
+        if ($data->{Machine}->{uuid}) {
+          my $uuid = $data->{Machine}->{uuid};
+          $uuid =~ s/^{?(.{36})}?$/\1/;
+          my $status = "off";
+          foreach my $vmRun (@vmRunnings) {
+            if ($uuid eq $vmRun) {
+              $status = "running";
+            }
+          }
+          
+          $inventory->addVirtualMachine ({
+              NAME      => $data->{Machine}->{name},
+              VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
+              UUID      => $uuid,
+              MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
+              STATUS    => $status,
+              SUBSYSTEM => "Sun xVM VirtualBox",
+              VMTYPE    => "VirtualBox",
+          });
+        }
+      }
+      
+      foreach my $xmlVirtualBox (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
+        chomp($xmlVirtualBox);
+        # Open config file ...
+        my $configFile = new XML::Simple;
+        my $data = $configFile->XMLin($xmlVirtualBox);
+        
+        # ... and read it
+        my $defaultMachineFolder = $data->{Global}->{SystemProperties}->{defaultMachineFolder};
+        if ( $defaultMachineFolder != 0 and $defaultMachineFolder != "Machines" 
+            and $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/ ) {
+          
+          foreach my $xmlMachine (bsd_glob($defaultMachineFolder."/*/*.xml")) {
+            my $configFile = new XML::Simple;
+            my $data = $configFile->XMLin($xmlVirtualBox);
+            
+            if ( $data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
+              my $uuid = $data->{Machine}->{uuid};
+              $uuid =~ s/^{?(.{36})}?$/\1/;
+              my $status = "off";
+              foreach my $vmRun (@vmRunnings) {
+                if ($uuid eq $vmRun) {
+                  $status = "running";
+                }
+              }
+              
+              $inventory->addVirtualMachine ({
+                  NAME      => $data->{Machine}->{name},
+                  VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
+                  UUID      => $uuid,
+                  MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
+                  STATUS    => $status,
+                  SUBSYSTEM => "Sun xVM VirtualBox",
+                  VMTYPE    => "VirtualBox",
+              });
+            }
+          }
+        }
+      }
+    }
 }
 
 1;
