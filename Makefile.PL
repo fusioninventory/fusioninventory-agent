@@ -70,6 +70,11 @@ if (!can_use('Crypt::SSLeay')) {
     print "Please install Crypt::SSLeay if you want to use SSL.\n";
 }
 
+if (!can_use('Net::SSLeay')) {
+    print "Please install Net::SSLeay if you want to use the software deployment.\n";
+}
+
+
 if (!can_run('ipdiscover') && !can_run('nmap')) {
     print "Plese install nmap ";
     print "or ipdiscover " if $^O =~ /^linux$/i;

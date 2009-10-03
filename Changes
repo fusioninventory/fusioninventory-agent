@@ -17,6 +17,7 @@ Revision history for Ocsinventory::Agent
        * VMWareESX: avoid breakage is VM has spaces in its name
          (Christian Michallek)
        * Try to detect kvm --uuid value
+       * Makefile.PL, check for Net::SSLeay
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer
