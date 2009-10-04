@@ -336,12 +336,6 @@ sub downloadAndConstruct {
     close FINALFILE; # TODO catch the ret code
 
 
-#    return unless extractArchive({
-#            config => $config,
-#            logger => $logger,
-#            orderId => $orderId,
-#
-#        });
 }
 
 
