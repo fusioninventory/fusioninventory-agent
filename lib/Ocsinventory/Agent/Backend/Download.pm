@@ -417,15 +417,25 @@ sub check {
             # Save the config sent during the PROLOG
             $storage->{config} = $conf->[0];
         } elsif ($paramHash->{TYPE} eq 'PACK') {
-            if ($storage->{byId}{$paramHash->{ID}}) {
-                $logger->debug($paramHash->{ID}." already in the queue.");
+            my $orderId = $paramHash->{ID};
+            if ($storage->{byId}{$orderId}) {
+                $logger->debug($orderId." already in the queue.");
+                $this->sendMsgToServer({
+                        orderId => $orderId,
+                        errorCode => 'ERR_ALREADY_SETUP', 
+                    });
                 next;
             }
 
-            my $infoURI = 'https://'.$paramHash->{INFO_LOC}.'/'.$paramHash->{ID}.'/info';
+            my $infoURI = 'https://'.$paramHash->{INFO_LOC}.'/'.$orderId.'/info';
             my $content = LWP::Simple::get($infoURI);
             if (!$content) {
                 $logger->error("Failed to read info file `$infoURI'");
+                $this->sendMsgToServer({
+                        orderId => $orderId,
+                        errorCode => 'ERR_DOWNLOAD_INFO', 
+                    });
+                next;
             }
 
             my $infoHash = XML::Simple::XMLin( $content );
@@ -434,9 +444,9 @@ sub check {
             }
 
             if (
-                !$infoHash->{ID}
+                !$orderId
                 ||
-                $infoHash->{ID} !~ /^\d+$/
+                $orderId !~ /^\d+$/
                 ||
                 !$infoHash->{ACT}
                 ||
@@ -445,12 +455,12 @@ sub check {
                 $logger->error("Incorrect content in info file `$infoURI'");
                 # TODO report the info the server
             } else {
-                $storage->{byId}{$infoHash->{ID}} = $infoHash;
+                $storage->{byId}{$orderId} = $infoHash;
                 foreach (keys %$paramHash) {
-                    $storage->{byId}{$infoHash->{ID}}{$_} = $paramHash->{$_};
+                    $storage->{byId}{$orderId}{$_} = $paramHash->{$_};
                 }
 
-                $storage->{byPriority}->[$infoHash->{PRI}]->{$infoHash->{ID}} = $storage->{byId}{$infoHash->{ID}};
+                $storage->{byPriority}->[$infoHash->{PRI}]->{$orderId} = $storage->{byId}{$orderId};
                 $logger->debug("New download added in the queue. Info is `$infoURI'");
             }
         }
