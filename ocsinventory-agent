@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/perl
 
 #Copyright (C) 2006-2009 OCS Inventory Developers
 #
@@ -18,16 +18,27 @@
 #USA.
 #
 
-args=$@
-for arg in $args; do
-    if [ "$arg" = "--devlib" ]; then
-        devlib="-Ilib"
-    fi
-done
-if [ -n "$devlib" ]; then
-    echo "[info] --devlib are found, Developer mode enabled"
-fi
-exec perl $devlib  -MOcsinventory::Agent -e 'Ocsinventory::Agent::run();' -- $*
+use strict;
+use warnings;
+
+my $devlib;
+foreach (@ARGV) {
+    if (/^--devlib$/) {
+        print "[info] --devlib are found, Developer mode enabled\n";
+        eval "use lib 'lib';";
+    }
+}
+
+eval "use Ocsinventory::Agent;";
+if ($@) {
+    print "Failed to load Ocsinventory::Agent, $@\n";
+    print "you can run the agent directly for its source directory ";
+    print "with --devlib";
+    exit 1;
+}
+
+eval "Ocsinventory::Agent::run();";
+print $@;
 __END__
 
 =head1 NAME
