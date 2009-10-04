@@ -16,7 +16,6 @@ sub new {
   $self->{accountconfig} = $params->{accountconfig}; 
   $self->{accountinfo} = $params->{accountinfo}; 
   my $logger = $self->{logger} = $params->{logger};
-use Data::Dumper;
   $self->{config} = $params->{config};
   my $uaserver;
   if ($self->{config}->{server} =~ /^http(|s):\/\//) {
@@ -89,17 +88,22 @@ sub send {
 
   # Checking if connected
   if(!$res->is_success) {
-    $logger->error ('Cannot establish communication : '.$res->status_line);
+    $logger->error ('Cannot establish communication with `'.
+        $self->{URI}.': '.
+        $res->status_line).'`';
     return;
   }
 
   # stop or send in the http's body
 
-  my $content = $compress->uncompress($res->content);
+  my $content = '';
 
-  if (!$content) {
-    $logger->error ("Deflating problem");
-    return;
+  if ($res->content) {
+    $content = $compress->uncompress($res->content);
+    if (!$content) {
+        $logger->error ("Deflating problem");
+        return;
+    }
   }
 
   # AutoLoad the proper response object

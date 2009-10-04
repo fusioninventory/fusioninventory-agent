@@ -12,7 +12,6 @@ use File::Path;
 use Archive::Extract;
 use File::Copy::Recursive qw(dirmove);
 
-use Data::Dumper;
 use Cwd;
 
 use Ocsinventory::Agent::XML::SimpleMessage;
@@ -237,10 +236,10 @@ sub processOrderCmd {
         if (!chdir($cwd)) {
             $logger->fault("Failed to chdir to $cwd");
         }
-        # TODO, return the exit code
+
     }
 
-
+    1;
 }
 
 sub downloadAndConstruct {
@@ -344,15 +343,24 @@ sub sendMsgToServer {
 
     my $config = $this->{config};
     my $logger = $this->{logger};
+    my $network = $this->{network};
+    my $orderId = $params->{orderId};
+    my $errorCode = $params->{errorCode};
 
-    my $query = $this->{params};
+    my $msg = {
+        QUERY => 'DOWNLOAD',
+        ID => $orderId,
+        ERR => $errorCode,
+    };
 
-    my $msg = new Ocsinventory::Agent::XML::SimpleMessage({
+    my $message = new Ocsinventory::Agent::XML::SimpleMessage({
        config => $config,
        logger => $logger,
-       query => $query,
+       msg => $msg,
         
         });
+
+    $network->send({message => $message});
 
 }
 
@@ -491,8 +499,12 @@ sub longRun {
                         });
             }
 
-            $this->processOrderCmd({
+            next unless $this->processOrderCmd({
                     orderId => $orderId
+                });
+            $this->sendMsgToServer({
+                    orderId => $orderId,
+                    errorCode => 'CODE_SUCCESS', 
                 });
             $this->clean({
                     cleanUpLevel => 2,

@@ -6,22 +6,20 @@ use warnings;
 use XML::Simple;
 
 sub new {
-  my (undef, $params, $msg) = @_;
+  my (undef, $params) = @_;
 
   my $self = {};
   $self->{config} = $params->{config};
-  $self->{query} = $params->{query};
+  $self->{h} = $params->{msg};
 
   my $logger = $self->{logger} = $params->{logger};
 
-  $self->{h} = $msg;
- 
+  $logger->fault("No msg") unless $params->{msg};
+
   if (!$self->{config}->{deviceid}) {
     $logger->fault("No device ID found in the config");
   }
-
-  $self->{h}{QUERY} = ['PROLOG']; 
-  $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
+  $self->{h}{DEVICEID} = $self->{config}->{deviceid};
 
   bless $self;
 }
@@ -36,7 +34,6 @@ sub dump {
 sub getContent {
   my ($self, $args) = @_;
 
-  $self->{accountinfo}->setAccountInfo($self);
   my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
     SuppressEmpty => undef );
 
