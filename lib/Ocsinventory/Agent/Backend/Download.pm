@@ -427,6 +427,17 @@ sub check {
                 next;
             }
 
+            if (!$config->{unsecureSoftwareDeployment}) {
+                eval 'use Net::SSLGlue::LWP SSL_ca_path => TODO';
+                if ($@) {
+                    $logger->error("Failed to load Net::SSLGlue::LWP, to ".
+                        "validate the server SSL cert.");
+                    return;
+                }
+            } else {
+                $logger->info("--unsecure-software-deployment parameter".
+                    "found. Don't check server identity!!!");
+            }
             my $infoURI = 'https://'.$paramHash->{INFO_LOC}.'/'.$orderId.'/info';
             my $content = LWP::Simple::get($infoURI);
             if (!$content) {

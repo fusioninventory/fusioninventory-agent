@@ -90,7 +90,7 @@ sub send {
   if(!$res->is_success) {
     $logger->error ('Cannot establish communication with `'.
         $self->{URI}.': '.
-        $res->status_line).'`';
+        $res->status_line.'`');
     return;
   }
 

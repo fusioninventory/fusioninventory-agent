@@ -33,6 +33,7 @@ my $default = {
   'nosoftware'=>  0,
   'delaytime' =>  '3600', # max delay time (seconds)
   'backendCollectTimeout'   => '180',   # timeOut of process : see Backend.pm
+  'unsecureSoftwareDeployment' => 0,
 
   # Other values that can't be changed with the
   # CLI parameters
@@ -127,6 +128,7 @@ sub loadUserParams {
 		"s|server=s"      =>   \$self->{config}{server},
 		"stdout"          =>   \$self->{config}{stdout},
 		"t|tag=s"         =>   \$self->{config}{tag},
+        "unsecure-software-deployment" => \$self->{config}{unsecureSoftwareDeployment},
 		"u|user=s"        =>   \$self->{config}{user},
 		"version"         =>   \$self->{config}{version},
 		"w|wait=s"        =>   \$self->{config}{wait},
@@ -172,6 +174,9 @@ sub help {
   print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$self->{config}{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
+  print STDERR "\t-u --unsecure-software-deploymentuser\n";
+  print STDERR "                      do not check the SSL connexion with
+  the server (".$self->{config}{unsecureSoftwareDeployment}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$self->{config}{user}.")\n";
   print STDERR "\t   --version        print the version\n";
   print STDERR "\t-w --wait=seconds   wait during a random periode before".
