@@ -64,6 +64,9 @@ sub new {
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
 
+  # For software deployment
+  $self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE} = [];
+
   # Is the XML centent initialised?
   $self->{isInitialised} = undef;
 
@@ -791,6 +794,23 @@ sub addIpDiscoverEntry {
     M => [$macaddr?$macaddr:""],
     N => [$name?$name:"-"], # '-' is the default value reteurned by ipdiscover
   };
+}
+
+=item addSoftwareDeploymentPackage()
+
+This function is for software deployment.
+
+Order sent to the agent are recorded on the client side and then send back
+to the server in the inventory.
+
+=cut
+sub addSoftwareDeploymentPackage {
+  my ($self, $args) = @_;
+
+  my $orderId = $args->{ORDERID};
+
+  push (@{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE}}, $orderId);
+
 }
 
 =item getContent()

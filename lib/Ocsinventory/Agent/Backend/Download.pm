@@ -427,6 +427,8 @@ sub check {
                 next;
             }
 
+            # LWP doesn't support SSL cert check and
+            # Net::SSLGlue::LWP is a workaround to fix that
             if (!$config->{unsecureSoftwareDeployment}) {
                 eval 'use Net::SSLGlue::LWP SSL_ca_path => TODO';
                 if ($@) {
@@ -438,6 +440,12 @@ sub check {
                 $logger->info("--unsecure-software-deployment parameter".
                     "found. Don't check server identity!!!");
             }
+
+
+
+
+
+
             my $infoURI = 'https://'.$paramHash->{INFO_LOC}.'/'.$orderId.'/info';
             my $content = LWP::Simple::get($infoURI);
             if (!$content) {
@@ -464,21 +472,46 @@ sub check {
                 $infoHash->{PRI} !~ /^\d+$/
             ) {
                 $logger->error("Incorrect content in info file `$infoURI'");
-                # TODO report the info the server
-            } else {
-                $storage->{byId}{$orderId} = $infoHash;
-                foreach (keys %$paramHash) {
-                    $storage->{byId}{$orderId}{$_} = $paramHash->{$_};
-                }
-
-                $storage->{byPriority}->[$infoHash->{PRI}]->{$orderId} = $storage->{byId}{$orderId};
-                $logger->debug("New download added in the queue. Info is `$infoURI'");
+                $this->sendMsgToServer({
+                        orderId => $orderId,
+                        errorCode => 'ERR_DOWNLOAD_INFO', 
+                    });
+                next;
             }
+
+            $storage->{byId}{$orderId} = $infoHash;
+            foreach (keys %$paramHash) {
+                $storage->{byId}{$orderId}{$_} = $paramHash->{$_};
+            }
+
+            $storage->{byPriority}->[$infoHash->{PRI}]->{$orderId} = $storage->{byId}{$orderId};
+
+            $this->sendMsgToServer({
+                    orderId => $orderId,
+                    errorCode => 'ERR_DOWNLOAD_INFO', 
+                });
+            next;
+            $logger->debug("New download added in the queue. Info is `$infoURI'");
         }
     }
 
     1;
 }
+
+sub run {
+
+  my $params = shift;
+  my $inventory = $params->{inventory};
+  my $storage = $params->{storage};
+
+  use Data::Dumper;
+  print Dumper($storage);
+  foreach (keys %{$storage->{byId}}) {
+    $inventory->addSoftwareDeploymentPackage($_);
+  }
+
+}
+
 
 sub longRun {
 
@@ -534,6 +567,8 @@ sub longRun {
         }
     }
 }
+
+
 
 1;
 
