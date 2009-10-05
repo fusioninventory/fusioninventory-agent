@@ -344,8 +344,11 @@ sub sendMsgToServer {
     my $config = $this->{config};
     my $logger = $this->{logger};
     my $network = $this->{network};
+    my $storage = $this->{storage};
     my $orderId = $params->{orderId};
     my $errorCode = $params->{errorCode};
+    
+    my $order = $storage->{byId}->{$orderId};
 
     my $msg = {
         QUERY => 'DOWNLOAD',
@@ -359,6 +362,9 @@ sub sendMsgToServer {
        msg => $msg,
         
         });
+
+    $order->{ERR} = $errorCode;
+    $order->{ANWSER_DATE} = time;
 
     $network->send({message => $message});
 
@@ -461,6 +467,7 @@ sub check {
             if (!$infoHash) {
                 $logger->error("Failed to parse info file `$infoURI'");
             }
+            $infoHash->{RECEIVED_DATE} = time;
 
             if (
                 !$orderId
@@ -486,11 +493,6 @@ sub check {
 
             $storage->{byPriority}->[$infoHash->{PRI}]->{$orderId} = $storage->{byId}{$orderId};
 
-            $this->sendMsgToServer({
-                    orderId => $orderId,
-                    errorCode => 'ERR_DOWNLOAD_INFO', 
-                });
-            next;
             $logger->debug("New download added in the queue. Info is `$infoURI'");
         }
     }
@@ -528,6 +530,9 @@ sub longRun {
         $logger->error("Failed to create $downloadBaseDir");
     }
 
+    use Data::Dumper;
+    print Dumper($storage);
+
     foreach my $priority (0..10) {
         foreach my $orderId (keys %{$storage->{byPriority}->[$priority]}) {
             $this->clean({
@@ -560,6 +565,7 @@ sub longRun {
                     orderId => $orderId,
                     errorCode => 'CODE_SUCCESS', 
                 });
+            delete ($storage->{byPriority}->[$priority]->{$orderId});
             $this->clean({
                     cleanUpLevel => 2,
                     orderId => $orderId
