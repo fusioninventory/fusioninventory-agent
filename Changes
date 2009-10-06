@@ -20,6 +20,12 @@ newdeploy
          to the ocsinventory-agent shell script. So now the manpage has the
          correct name
        * Fix RPM output parsing (Remi COLLET)
+       * VMWareESX: avoid breakage is VM has spaces in its name
+         (Christian Michallek)
+       * Try to detect kvm --uuid value
+       * Makefile.PL, check for Net::SSLeay
+       * Move Ocsinventory::Agent in a .pm and add a wrapper script to load
+         in order to by able to process --devlib
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer
@@ -122,9 +128,6 @@ newdeploy
        * add logging to can_read(), can_load() and can_run()
        * use addUser() instead of setHardware() 
        * Add the runcmd() in the Backend modules
-       * Move Ocsinventory::Agent in a .pm and add a wrapper script to load
-         it in order to fix:
-         https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/426812 
 
 1.0.1    Sun, 22 Mar 2009 20:48:49 +0100
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 

@@ -34,6 +34,7 @@ my $default = {
   'delaytime' =>  '3600', # max delay time (seconds)
   'backendCollectTimeout'   => '180',   # timeOut of process : see Backend.pm
   'unsecureSoftwareDeployment' => 0,
+  'scanhomedirs' => 0,
 
   # Other values that can't be changed with the
   # CLI parameters
@@ -133,7 +134,8 @@ sub loadUserParams {
 		"version"         =>   \$self->{config}{version},
 		"w|wait=s"        =>   \$self->{config}{wait},
 #  "x|xml"          =>   \$self->{config}{xml},
-		"delaytime"	  =>   \$self->{config}{delaytime},
+		"delaytime"       =>   \$self->{config}{delaytime},
+		"scan-homedirs"   =>   \$self->{config}{scanhomedirs},
 	);
 
 	$self->help() if (!GetOptions(%options) || $self->{config}{help});
@@ -184,7 +186,8 @@ sub help {
 #  print STDERR "\t-x --xml            write output in a xml file ($self->{config}{xml})\n";
   print STDERR "\t--nosoft            DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware        do not return installed software list (".$self->{config}{nosoftware}.")\n";
-  print STDERR "\t--delaytime	      set a max delay time if no PROLOG_FREQ is set (".$self->{config}{delaytime}.")\n";
+  print STDERR "\t--delaytime	        set a max delay time if no PROLOG_FREQ is set (".$self->{config}{delaytime}.")\n";
+  print STDERR "\t--scan-homedirs     permit to scan home user directories (".$self->{config}{scanhomedirs}.")\n" ;
 
   print STDERR "\n";
   print STDERR "Manpage:\n";

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/perl
 
 #Copyright (C) 2006-2009 OCS Inventory Developers
 #
@@ -18,18 +18,27 @@
 #USA.
 #
 
-# This is a wrapper script for Ocsinventory::Agent
-# Thanks to it, $PATH is initialized even if it started as a cron task
-args=$@
-for arg in $args; do
-    if [ "$arg" = "--devlib" ]; then
-        devlib="-Ilib"
-    fi
-done
-if [ -n "$devlib" ]; then
-    echo "[info] --devlib are found, Developer mode enabled"
-fi
-exec perl $devlib  -MOcsinventory::Agent -e 'Ocsinventory::Agent::run();' -- $*
+use strict;
+use warnings;
+
+my $devlib;
+foreach (@ARGV) {
+    if (/^--devlib$/) {
+        print "[info] --devlib are found, Developer mode enabled\n";
+        eval "use lib 'lib';";
+    }
+}
+
+eval "use Ocsinventory::Agent;";
+if ($@) {
+    print "Failed to load Ocsinventory::Agent, $@\n";
+    print "you can run the agent directly for its source directory ";
+    print "with --devlib";
+    exit 1;
+}
+
+eval "Ocsinventory::Agent::run();";
+print $@;
 __END__
 
 =head1 NAME
@@ -174,6 +183,10 @@ Print the inventory on stdout.
     % ocsinventory-agent --stdout > /tmp/report.xml
     # prepare an inventory and write it in the /tmp/report.xml file.
     # A file will be created.
+
+=item B<--scan-homedirs>
+
+Authorized OCS to scan home directories to increase the inventory.
 
 =item B<--tag>=I<TAG>
 

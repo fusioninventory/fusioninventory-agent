@@ -106,6 +106,10 @@ sub run {
         $logger->info("You should run this program as super-user.");
     }
 
+    if (not $config->{config}{scanhomedirs}) {
+        $logger->debug("--scan-homedirs missing. Don't scan user directories");
+    }
+
     if ($config->{config}{nosoft}) {
         $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
         $config->{config}{nosoftware} = 1
@@ -229,9 +233,8 @@ sub run {
             exit 1;
         }
 
-
     }
-
+    
     $logger->debug("OCS Agent initialised");
 #######################################################
 #######################################################
