@@ -49,6 +49,7 @@ recommends 'File::Path' => undef;
 recommends 'Archive::Extract' => undef;
 recommends 'File::Copy::Recursive' => undef;
 recommends 'Net::SSLGlue::LWP' => undef;
+recommends 'Digest::MD5' => undef;
 
 use Data::Dumper;
 use Cwd;

@@ -8,6 +8,8 @@ use File::Copy;
 use File::Glob;
 use LWP::Simple;
 use File::Path;
+use Digest::MD5 qw(md5);
+
 
 use Archive::Extract;
 use File::Copy::Recursive qw(dirmove);
@@ -61,7 +63,7 @@ sub clean {
         $logger->debug("Clean the partially downloaded files for $orderId");
         foreach (glob("$targetDir/*.part")) {
             if (!unlink($_)) {
-                $logger->reportError($orderId, "Failed to clean $_ up");
+                $this->reportError($orderId, "Failed to clean $_ up");
             }
         }
     },
@@ -72,7 +74,7 @@ sub clean {
         return unless -d "$targetDir/run";
         $logger->debug("Clean the $targetDir/run directory");
         if (!rmtree("$targetDir/run")) {
-            $logger->reportError($orderId, "Failed to clean $targetDir/run up");
+            $this->reportError($orderId, "Failed to clean $targetDir/run up");
         }
     },
 
@@ -83,7 +85,7 @@ sub clean {
 
         $logger->debug("Clean the $targetDir/file file");
         if (!unlink("$targetDir/final")) {
-            $logger->reportError($orderId, "Failed to clean $targetDir/final up");
+            $this->reportError($orderId, "Failed to clean $targetDir/final up");
         }
     },
 
@@ -94,7 +96,7 @@ sub clean {
 
         $logger->debug("Remove the fragment in $targetDir ");
         if (!rmtree("$targetDir/run")) {
-            $logger->reportError($orderId, "Failed to remove $targetDir");
+            $this->reportError($orderId, "Failed to remove $targetDir");
         }
     },
 
@@ -125,17 +127,19 @@ sub extractArchive {
     my $downloadBaseDir = $config->{vardir}.'/download';
     my $targetDir = $downloadBaseDir.'/'.$orderId;
 
+    $this->setErrorCode('ERR_EXECUTE'); # ERR_EXTRACT ?
     if (!open FILE, "<$targetDir/final") {
-        $logger->error("Failed to open $targetDir/final: $!");
+        $this->reportError($orderId, "Failed to open $targetDir/final: $!");
         return;
     }
+    binmode(FILE);
 
     my $tmp;
     read(FILE, $tmp, 16);
     my $magicNumber = unpack("S<", $tmp);
 
     if (!$magicNumber) {
-        $logger->error("Failed to read magic number for $targetDir/final");
+        $this->reportError($orderId, "Failed to read magic number for $targetDir/final");
         return;
     }
 
@@ -149,7 +153,7 @@ sub extractArchive {
     };
 
     if (!$type->{$magicNumber}) {
-        $logger->error("Unknow magic number $magicNumber! ".
+        $this->reportError($orderId, "Unknow magic number $magicNumber! ".
             "Sorry I can't extract this archive ( $targetDir/final ). ".
             "If you think, your archive is valide, please submit a bug on ".
             "http://launchpad.net/ocsinventory with this message and the ".
@@ -166,12 +170,13 @@ sub extractArchive {
     );
 
     if (!$archiveExtract->extract(to => "$targetDir/run")) {
-        $logger->error("Failed to extract archive $targetDir/run");
+        $this->reportError($orderId, "Failed to extract archive $targetDir/run");
         return;
     }
 
     $logger->debug("Archive $targetDir/run extracted");
 
+    1;
 }
 
 sub processOrderCmd {
@@ -187,18 +192,12 @@ sub processOrderCmd {
     my $downloadBaseDir = $config->{vardir}.'/download';
     my $targetDir = $downloadBaseDir.'/'.$orderId;
 
+    $this->setErrorCode('ERR_EXECUTE');
     my $cwd = getcwd;
-    if ($order->{ACT} eq 'EXECUTE') {
-        $logger->debug("Execute ".$order->{COMMAND});
-        chdir("$targetDir/run");
-        system($order->{COMMAND});
-        chdir($cwd);
-
-        # TODO, return the exit code
-    } elsif ($order->{ACT} eq 'STORE') {
+    if ($order->{ACT} eq 'STORE') {
         $logger->debug("Move extracted file in ".$order->{PATH});
         if (!-d $order->{PATH} && !mkpath($order->{PATH})) {
-            $logger->error("Failed to create ".$order->{PATH});
+            $this->reportError($orderId, "Failed to create ".$order->{PATH});
             # TODO clean up
             return;
         }
@@ -206,23 +205,26 @@ sub processOrderCmd {
             if ((-d $_ && !dirmove($_, $order->{PATH}))
                 &&
                 (-f $_ && !move($_, $order->{PATH}))) {
-                $logger->error("Failed to copy $_ in ".
+                $this->reportError($orderId, "Failed to copy $_ in ".
                     $order->{PATH}." :$!");
             }
         }
-    } elsif ($order->{ACT} eq 'LAUNCH') {
+    } elsif ($order->{ACT} =~ /^(LAUNCH|EXECUTE)$/) {
 
         my $cmd = $order->{'NAME'};
         if (!-f "$targetDir/run/$cmd") {
-            $logger->error("$targetDir/run/$cmd not found");
+            $this->reportError($orderId, "$targetDir/run/$cmd not found");
             return;
         }
 
 
-        if ($^O !~ /^MSWin/) {
-            $cmd .= './' unless $cmd =~ /^\//;
-            if (chmod(0755, "$targetDir/run/$cmd")) {
-                $logger->error("Cannot chmod: $!");
+        if ($order->{ACT} eq 'LAUNCH') {
+            if ($^O !~ /^MSWin/) {
+                $cmd .= './' unless $cmd =~ /^\//;
+                if (chmod(0755, "$targetDir/run/$cmd")) {
+                    $this->reportError($orderId, "Cannot chmod: $!");
+                    return;
+                }
             }
         }
 
@@ -230,16 +232,30 @@ sub processOrderCmd {
 
         # TODO, add ./ only for non Windows OS.
         if (!chdir("$targetDir/run")) {
-            $logger->fault("Failed to chdir to $cwd");
+            $this->reportError($orderId, "Failed to chdir to '$cwd'");
+            return;
         }
         system( $cmd );
+        if ($?) { # perldoc -f system :) 
+            $this->reportError($orderId, "Failed to execute '$cmd'");
+            return;
+        } elsif ($? & 127) {
+            my $msg = sprintf "'$cmd' died with signal %d, %s coredump\n", ($? & 127),  ($? & 128) ? 'with' : 'without';
+            $this->reportError($orderId, $msg);
+            return;
+        } elsif ($order->{RET_VAL} != ($? >> 8)) {
+            my $msg = sprintf "'$cmd' exited with value %d\n", $? >> 8;
+            $this->reportError($orderId, $msg);
+            return;
+        }
+
         if (!chdir($cwd)) {
             $logger->fault("Failed to chdir to $cwd");
         }
 
     }
     $this->setErrorCode('CODE_SUCCESS');
-    $this->sendMsgToServer($orderId, "$cmd executed");
+    $this->reportError($orderId, "order processed");
 
     1;
 }
@@ -315,6 +331,8 @@ sub downloadAndConstruct {
         $logger->error("Failed to open $targetDir/final");
         return;
     }
+    binmode(FINALFILE); # ...
+
     foreach my $fragID (1..$order->{FRAGS}) {
         my $frag = $orderId.'-'.$fragID;
 
@@ -327,6 +345,7 @@ sub downloadAndConstruct {
             $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
             return;
         }
+        binmode(FRAG);
 
         foreach (<FRAG>) {
             if (!print FINALFILE) {
@@ -338,43 +357,31 @@ sub downloadAndConstruct {
         close FRAG;
     }
 
-    close FINALFILE; # TODO catch the ret code
+    close FINALFILE;
 
+    $this->setErrorCode("ERR_BAD_DIGEST");
+    if ($order->{DIGEST_ALGO} ne 'MD5') {
+        $this->reportError($orderId, "Digest '".$order->{DIGEST_ALGO}."' ".
+            "not supported by the agent");
 
+        return;
+    }
+    my $md5 = Digest::MD5->new;
+    if (open (FINALFILE, "<$targetDir/final")) {
+        binmode(FINALFILE); # ...
+        $md5->add($_) while (<FINALFILE>);
+        close FINALFILE;
+    }
+    if ($md5->hexdigest ne $order->{DIGEST}) {
+        $this->reportError($orderId, "Failed to validated the MD5 of ".
+            "the file : ".$md5->hexdigest." != ".$order->{DIGEST});
+        return;
+    }
+
+    1;
 }
 
 
-sub sendMsgToServer {
-    my ($this, $params) = @_;
-
-    my $config = $this->{config};
-    my $logger = $this->{logger};
-    my $network = $this->{network};
-    my $storage = $this->{storage};
-    my $orderId = $params->{orderId};
-    my $errorCode = $params->{errorCode};
-    
-    my $order = $storage->{byId}->{$orderId};
-
-    my $msg = {
-        QUERY => 'DOWNLOAD',
-        ID => $orderId,
-        ERR => $errorCode,
-    };
-
-    my $message = new Ocsinventory::Agent::XML::SimpleMessage({
-       config => $config,
-       logger => $logger,
-       msg => $msg,
-        
-        });
-
-    $order->{ERR} = $errorCode;
-    $order->{ANWSER_DATE} = time;
-
-    $network->send({message => $message});
-
-}
 
 =item setErrorCode
 
@@ -400,23 +407,65 @@ Report error to the server and to the user throught the logger
 sub reportError {
     my ($this, $orderId, $message) = @_;
 
+    my $config = $this->{config};
     my $logger = $this->{logger};
+    my $storage = $this->{storage};
 
     my $errorCode = $this->{errorCode};
+    my $order = $storage->{byId}->{$orderId};
 
     $logger->fault('$errorCode is not set!') unless $errorCode;
     $logger->fault('$message should be set!') unless $message;
 
 
     $logger->error("$orderId> $message");
-    $this->sendMsgToServer({
-            orderId => $orderId,
-            errorCode => $errorCode,
-            message => $message,
-        });
-    clean(2);
+
+    my $xmlMsg = new Ocsinventory::Agent::XML::SimpleMessage({
+       config => $config,
+       logger => $logger,
+       msg => {
+           QUERY => 'DOWNLOAD',
+           ID => $orderId,
+           ERR => $errorCode,
+       },
+   });
+
+    if (!$storage->{errorStack}) {
+        $storage->{errorStack} = [];
+    }
+
+    push @{$storage->{errorStack}}, $xmlMsg;
+    $order->{ERR} = $errorCode;
+    $order->{ANWSER_DATE} = time;
+
+    $this->pushErrorStack();
+}
+
+sub pushErrorStack {
+    my ($this) = @_;
 
 
+    my $logger = $this->{logger};
+    my $network = $this->{network};
+    my $storage = $this->{storage};
+
+
+    if (!$storage->{errorStack}) {
+        $storage->{errorStack} = [];
+    }
+
+    if (@{$storage->{errorStack}}) {
+        my $message = $storage->{errorStack}->[0];
+        if ($network->send({message => $message})) {
+            shift(@{$storage->{errorStack}});
+        } else {
+            $logger->error("Failed to contact server!");
+            return;
+        }
+
+    }
+
+    1;
 }
 
 
@@ -524,7 +573,7 @@ sub check {
                 ||
                 $infoHash->{PRI} !~ /^\d+$/
             ) {
-                $logger->reportError($orderId, "Incorrect content in info file `$infoURI'");
+                $this->reportError($orderId, "Incorrect content in info file `$infoURI'");
                 next;
             }
 
@@ -539,6 +588,9 @@ sub check {
         }
     }
 
+    # Just in case
+    $this->pushErrorStack();
+
     1;
 }
 
@@ -546,9 +598,14 @@ sub check {
 
 sub run {
 
-  my $params = shift;
-  my $inventory = $params->{inventory};
-  my $storage = $params->{storage};
+  my $this = shift;
+  my $inventory = $this->{inventory};
+  my $storage = $this->{storage};
+
+  # Just in case the stack is not empty
+  $this->pushErrorStack();
+
+
 
   use Data::Dumper;
   print Dumper($storage);
@@ -574,6 +631,11 @@ sub longRun {
         $logger->error("Failed to create $downloadBaseDir");
     }
 
+    # Just in case
+    $this->pushErrorStack();
+
+
+
     use Data::Dumper;
     print Dumper($storage);
 
@@ -594,15 +656,12 @@ sub longRun {
 
             # A file is attached to this order
             if ($order->{FRAGS}) {
-                $this->downloadAndConstruct({
+                next unless $this->downloadAndConstruct({
                             orderId => $orderId
                         });
-                if (!$this->extractArchive({
+                next unless $this->extractArchive({
                             orderId => $orderId
-                        })) {
-
-
-                }
+                        });
             }
 
             next unless $this->processOrderCmd({
@@ -615,6 +674,7 @@ sub longRun {
                 });
         }
     }
+
 }
 
 
