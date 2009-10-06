@@ -61,7 +61,7 @@ sub clean {
         $logger->debug("Clean the partially downloaded files for $orderId");
         foreach (glob("$targetDir/*.part")) {
             if (!unlink($_)) {
-                $logger->error("Failed to clean $_ up");
+                $logger->reportError($orderId, "Failed to clean $_ up");
             }
         }
     },
@@ -72,7 +72,7 @@ sub clean {
         return unless -d "$targetDir/run";
         $logger->debug("Clean the $targetDir/run directory");
         if (!rmtree("$targetDir/run")) {
-            $logger->error("Failed to clean $targetDir/run up");
+            $logger->reportError($orderId, "Failed to clean $targetDir/run up");
         }
     },
 
@@ -83,7 +83,7 @@ sub clean {
 
         $logger->debug("Clean the $targetDir/file file");
         if (!unlink("$targetDir/final")) {
-            $logger->error("Failed to clean $targetDir/final up");
+            $logger->reportError($orderId, "Failed to clean $targetDir/final up");
         }
     },
 
@@ -94,7 +94,7 @@ sub clean {
 
         $logger->debug("Remove the fragment in $targetDir ");
         if (!rmtree("$targetDir/run")) {
-            $logger->error("Failed to remove $targetDir");
+            $logger->reportError($orderId, "Failed to remove $targetDir");
         }
     },
 
@@ -238,6 +238,8 @@ sub processOrderCmd {
         }
 
     }
+    $this->setErrorCode('CODE_SUCCESS');
+    $this->sendMsgToServer($orderId, "$cmd executed");
 
     1;
 }
@@ -255,6 +257,7 @@ sub downloadAndConstruct {
     my $downloadBaseDir = $config->{vardir}.'/download';
     my $targetDir = $downloadBaseDir.'/'.$orderId;
 
+    $this->setErrorCode("ERR_DOWNLOAD_PACK");
 
 
     $logger->fault("order not correctly initialised") unless $order;
@@ -306,6 +309,7 @@ sub downloadAndConstruct {
 
 
     ### Recreate the archive
+    $this->setErrorCode('ERR_BUILD'); 
     $logger->info("Construct the archive in $targetDir/final");
     if (!open (FINALFILE, ">$targetDir/final")) {
         $logger->error("Failed to open $targetDir/final");
@@ -317,6 +321,8 @@ sub downloadAndConstruct {
         my $localFile = $targetDir.'/'.$frag;
         if (!open (FRAG, "<$localFile")) {
             $logger->error("Failed to open $localFile");
+
+
             close FINALFILE;
             $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
             return;
@@ -324,14 +330,14 @@ sub downloadAndConstruct {
 
         foreach (<FRAG>) {
             if (!print FINALFILE) {
-                # TODO, imagine a graceful clean up function
-                $logger->error("Failed to write in $localFile: $!");
-                clean(2);
+                close FINALFILE;
+                $this->reportError($orderId, "Failed to write in $localFile: $!");
                 return;
             }
         }
         close FRAG;
     }
+
     close FINALFILE; # TODO catch the ret code
 
 
@@ -367,6 +373,49 @@ sub sendMsgToServer {
     $order->{ANWSER_DATE} = time;
 
     $network->send({message => $message});
+
+}
+
+=item setErrorCode
+
+Set the ErrCode to report for the following code block in case of error.
+
+=cut
+sub setErrorCode {
+    my ($this, $errorCode) = @_;
+
+    my $logger = $this->{logger};
+
+    $logger->fault('No $errorCode!') unless $errorCode;
+
+    $this->{errorCode} = $errorCode;
+
+}
+
+=item reportError
+
+Report error to the server and to the user throught the logger
+
+=cut
+sub reportError {
+    my ($this, $orderId, $message) = @_;
+
+    my $logger = $this->{logger};
+
+    my $errorCode = $this->{errorCode};
+
+    $logger->fault('$errorCode is not set!') unless $errorCode;
+    $logger->fault('$message should be set!') unless $message;
+
+
+    $logger->error("$orderId> $message");
+    $this->sendMsgToServer({
+            orderId => $orderId,
+            errorCode => $errorCode,
+            message => $message,
+        });
+    clean(2);
+
 
 }
 
@@ -425,21 +474,21 @@ sub check {
         } elsif ($paramHash->{TYPE} eq 'PACK') {
             my $orderId = $paramHash->{ID};
             if ($storage->{byId}{$orderId}) {
-                $logger->debug($orderId." already in the queue.");
-                $this->sendMsgToServer({
-                        orderId => $orderId,
-                        errorCode => 'ERR_ALREADY_SETUP', 
-                    });
+                $this->setErrorCode('ERR_ALREADY_SETUP');
+                $this->reportError($orderId, "$orderId has already been".
+                    "processed");
                 next;
             }
 
+            $this->setErrorCode('ERR_DOWNLOAD_INFO');
             # LWP doesn't support SSL cert check and
             # Net::SSLGlue::LWP is a workaround to fix that
             if (!$config->{unsecureSoftwareDeployment}) {
                 eval 'use Net::SSLGlue::LWP SSL_ca_path => TODO';
                 if ($@) {
-                    $logger->error("Failed to load Net::SSLGlue::LWP, to ".
-                        "validate the server SSL cert.");
+                    $this->reportError($orderId, "Failed to load ".
+                        "Net::SSLGlue::LWP, to validate the server ".
+                        "SSL cert.");
                     return;
                 }
             } else {
@@ -455,17 +504,14 @@ sub check {
             my $infoURI = 'https://'.$paramHash->{INFO_LOC}.'/'.$orderId.'/info';
             my $content = LWP::Simple::get($infoURI);
             if (!$content) {
-                $logger->error("Failed to read info file `$infoURI'");
-                $this->sendMsgToServer({
-                        orderId => $orderId,
-                        errorCode => 'ERR_DOWNLOAD_INFO', 
-                    });
+                $this->reportError($orderId, "Failed to read info file `$infoURI'");
                 next;
             }
 
             my $infoHash = XML::Simple::XMLin( $content );
             if (!$infoHash) {
-                $logger->error("Failed to parse info file `$infoURI'");
+                $this->reportError($orderId, "Failed to read info file `$infoURI'");
+                next;
             }
             $infoHash->{RECEIVED_DATE} = time;
 
@@ -478,11 +524,7 @@ sub check {
                 ||
                 $infoHash->{PRI} !~ /^\d+$/
             ) {
-                $logger->error("Incorrect content in info file `$infoURI'");
-                $this->sendMsgToServer({
-                        orderId => $orderId,
-                        errorCode => 'ERR_DOWNLOAD_INFO', 
-                    });
+                $logger->reportError($orderId, "Incorrect content in info file `$infoURI'");
                 next;
             }
 
@@ -499,6 +541,8 @@ sub check {
 
     1;
 }
+
+
 
 sub run {
 
@@ -553,20 +597,19 @@ sub longRun {
                 $this->downloadAndConstruct({
                             orderId => $orderId
                         });
-                $this->extractArchive({
+                if (!$this->extractArchive({
                             orderId => $orderId
-                        });
+                        })) {
+
+
+                }
             }
 
             next unless $this->processOrderCmd({
                     orderId => $orderId
                 });
-            $this->sendMsgToServer({
-                    orderId => $orderId,
-                    errorCode => 'CODE_SUCCESS', 
-                });
             delete ($storage->{byPriority}->[$priority]->{$orderId});
-            $this->clean({
+            next unless $this->clean({
                     cleanUpLevel => 2,
                     orderId => $orderId
                 });
