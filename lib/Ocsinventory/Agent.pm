@@ -23,6 +23,8 @@ if ($@){
     };
 }
 
+use Sys::Hostname;
+
 # END OF THE UGLY FIX!
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::XML::Inventory;
@@ -198,7 +200,7 @@ sub run {
     $config->{config}{deviceid}   = $accountconfig->get('DEVICEID');
 
 # Should I create a new deviceID?
-    chomp(my $hostname = `uname -n| cut -d . -f 1`);
+    my $hostname = hostname; # Sys::Hostname
     if ((!$config->{config}{deviceid}) || $config->{config}{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
         my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
             (time))[5,4,3,2,1,0];
