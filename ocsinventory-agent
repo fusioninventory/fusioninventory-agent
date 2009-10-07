@@ -37,7 +37,13 @@ if ($@) {
     exit 1;
 }
 
-eval "Ocsinventory::Agent::run();";
+eval '
+
+my $agent = new Ocsinventory::Agent;
+
+$agent->run();
+
+';
 print $@;
 __END__
 
@@ -138,6 +144,12 @@ This option defaults to waiting a random() time between 0 and 3600 before initia
 The agent will first contact the server during the PROLOG period. If the server doesn't know the machin or have outdated information, it will ask for an inventory.
 With this option, the agent doesn't run the PROLOG with the server first but directly send an inventory.
 
+=item B<--allow-rpc>
+
+Turns on the built in light HTTPD server. It's used to speed the software
+deployment up and allow remote control over the agent. This option enables
+B<--daemon>.
+
 =item B<-i>, B<--info>
 
 Turn the verbose mode on. The flag is ignored if B<--debug> is enable.
@@ -191,6 +203,12 @@ Authorized OCS to scan home directories to increase the inventory.
 =item B<--tag>=I<TAG>
 
 Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
+
+=item B<--unsecure-software-deployment>
+
+Do _NOT_ check SSL identity of the server from where the software deployment
+order are download. Please never use this option in production. This is just
+a very bad idea. It's just useful for debugging.
 
 =item B<-u> I<USER>, B<--user>=I<USER>
 

@@ -15,9 +15,7 @@ sub new {
   
   $self->{accountconfig} = $params->{accountconfig}; 
   $self->{accountinfo} = $params->{accountinfo}; 
-  $self->{compatibilityLayer} = $params->{compatibilityLayer}; 
   my $logger = $self->{logger} = $params->{logger};
-use Data::Dumper;
   $self->{config} = $params->{config};
   my $uaserver;
   if ($self->{config}->{server} =~ /^http(|s):\/\//) {
@@ -63,7 +61,6 @@ sub send {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
-  my $compatibilityLayer = $self->{compatibilityLayer};
   my $compress = $self->{compress};
   my $message = $args->{message};
   my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
@@ -75,16 +72,8 @@ sub send {
 
   $logger->debug ("sending XML");
 
-  #############
-  ### Compatibility with linux_agent modules
-  if ($msgtype eq "Inventory") {
-    $compatibilityLayer->hook({name => 'inventory_handler'}, $message->{h});
-  } elsif ($msgtype eq "Prolog") {
-    $compatibilityLayer->hook({name => 'prolog_writers'}, $message->{h});
-  }
-  #############
-
-  $logger->debug ("sending: ".$message->getContent());
+  # Print the XMLs in the debug output
+  #$logger->debug ("sending: ".$message->getContent());
 
   my $compressed = $compress->compress( $message->getContent() );
 
@@ -99,17 +88,22 @@ sub send {
 
   # Checking if connected
   if(!$res->is_success) {
-    $logger->error ('Cannot establish communication : '.$res->status_line);
+    $logger->error ('Cannot establish communication with `'.
+        $self->{URI}.': '.
+        $res->status_line.'`');
     return;
   }
 
   # stop or send in the http's body
 
-  my $content = $compress->uncompress($res->content);
+  my $content = '';
 
-  if (!$content) {
-    $logger->error ("Deflating problem");
-    return;
+  if ($res->content) {
+    $content = $compress->uncompress($res->content);
+    if (!$content) {
+        $logger->error ("Deflating problem");
+        return;
+    }
   }
 
   # AutoLoad the proper response object
@@ -130,13 +124,6 @@ sub send {
      config => $self->{config}
 
       });
-
-
-  ### Compatibility with linux_agent modules
-  if ($msgtype eq "Prolog") {
-    $compatibilityLayer->hook({name => 'prolog_reader'}, $response->getRawXML());
-  }
-  #############
 
   return $response;
 }

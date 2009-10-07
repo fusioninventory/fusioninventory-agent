@@ -40,6 +40,22 @@ recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 recommends 'Proc::PID::File' => undef;
 
+# For the software deployment
+recommends 'XML::Simple' => undef;
+recommends 'File::Copy' => undef;
+recommends 'File::Glob' => undef;
+recommends 'LWP::Simple' => undef;
+recommends 'File::Path' => undef;
+recommends 'Archive::Extract' => undef;
+recommends 'File::Copy::Recursive' => undef;
+recommends 'Net::SSLGlue::LWP' => undef;
+recommends 'Digest::MD5' => undef;
+recommends 'HTTP::Server::Brick' => undef; # --allow-rpc
+
+use Data::Dumper;
+use Cwd;
+
+
 install_script  'ocsinventory-agent';
 
 

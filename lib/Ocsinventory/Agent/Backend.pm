@@ -16,6 +16,7 @@ sub new {
   $self->{config} = $params->{config};
   $self->{inventory} = $params->{inventory};
   my $logger = $self->{logger} = $params->{logger};
+  $self->{network} = $params->{network};
   $self->{prologresp} = $params->{prologresp};
 
   $self->{modules} = {};
@@ -165,34 +166,43 @@ sub initModList {
     $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{'runMeIfTheseChecksFailed'};
 #    $self->{modules}->{$m}->{replace} = \@replace;
     $self->{modules}->{$m}->{runFunc} = $package->{'run'};
-    $self->{modules}->{$m}->{mem} = {};
+    $self->{modules}->{$m}->{longRunFunc} = $package->{'longRun'};
+    $self->{modules}->{$m}->{mem} = {}; # Deprecated
 # Load the Storable object is existing or return undef
     $self->{modules}->{$m}->{storage} = $self->retrieveStorage($m);
 
-  }
+    if (exists($package->{'new'})) {
+        $self->{modules}->{$m}->{instance} = $m->new({
 
-# the sort is just for the presentation
-  foreach my $m (sort keys %{$self->{modules}}) {
-    next unless $self->{modules}->{$m}->{checkFunc};
-# find modules to disable and their submodules
-    if($self->{modules}->{$m}->{enable} &&
-    !$self->runWithTimeout(
-        $m,
-        $self->{modules}->{$m}->{checkFunc},
-        {
             accountconfig => $self->{accountconfig},
             accountinfo => $self->{accountinfo},
             config => $self->{config},
             inventory => $self->{inventory},
             logger => $self->{logger},
-            params => $self->{params}, # Compatibiliy with agent 0.0.10 <=
-	    prologresp => $self->{prologresp},
-	    mem => $self->{modules}->{$m}->{mem},
-	    storage => $self->{modules}->{$m}->{storage},
-	})) {
+            network => $self->{network},
+            prologresp => $self->{prologresp},
+#            mem => $self->{modules}->{$m}->{mem},# Deprecated
+#            storage => $self->{modules}->{$m}->{storage},           
+            
+            }); 
+    }
+
+  }
+
+# the sort is just for the presentation
+  foreach my $m (sort keys %{$self->{modules}}) {
+      next unless $self->{modules}->{$m}->{checkFunc};
+# find modules to disable and their submodules
+
+      next unless $self->{modules}->{$m}->{enable};
+
+      my $enable = $self->runWithTimeout($m, "check");
+
+
+    if (!$enable) {
       $logger->debug ($m." ignored");
       foreach (keys %{$self->{modules}}) {
-	$self->{modules}->{$_}->{enable} = 0 if /^$m($|::)/;
+          $self->{modules}->{$_}->{enable} = 0 if /^$m($|::)/;
       }
     }
 
@@ -232,7 +242,6 @@ sub runMod {
   my $logger = $self->{logger};
 
   my $m = $params->{modname};
-  my $inventory = $params->{inventory};
 
   return if (!$self->{modules}->{$m}->{enable});
   return if ($self->{modules}->{$m}->{done});
@@ -254,7 +263,6 @@ sub runMod {
       $logger->fault ("Circular dependency hell with $m and $_->{name}");
     }
     $self->runMod({
-        inventory => $inventory,
         modname => $_->{name},
       });
   }
@@ -262,21 +270,7 @@ sub runMod {
   $logger->debug ("Running $m");
 
   if ($self->{modules}->{$m}->{runFunc}) {
-      $self->runWithTimeout(
-          $m,
-          $self->{modules}->{$m}->{runFunc},
-          {
-              accountconfig => $self->{accountconfig},
-              accountinfo => $self->{accountinfo},
-              config => $self->{config},
-              inventory => $inventory,
-              logger => $logger,
-              params => $self->{params}, # For compat with agent 0.0.10 <=
-              prologresp => $self->{prologresp},
-              mem => $self->{modules}->{$m}->{mem},
-              storage => $self->{modules}->{$m}->{storage},
-          }
-      );
+      $self->runWithTimeout($m, "run");
   } else {
       $logger->debug("$m has no run() function -> ignored");
   }
@@ -288,10 +282,13 @@ sub runMod {
 sub feedInventory {
   my ($self, $params) = @_;
 
-  my $inventory;
-  if ($params->{inventory}) {
-    $inventory = $params->{inventory};
+  my $logger = $self->{logger};
+
+  if (!$params->{inventory}) {
+      $logger->fault('Missing inventory parameter.');
   }
+
+  my $inventory = $self->{inventory} = $params->{inventory};
 
   if (!keys %{$self->{modules}}) {
     $self->initModList();
@@ -301,7 +298,6 @@ sub feedInventory {
   foreach my $m (sort keys %{$self->{modules}}) {
     die ">$m Houston!!!" unless $m;
       $self->runMod ({
-	  inventory => $inventory,
 	  modname => $m,
 	  });
   }
@@ -313,6 +309,13 @@ sub feedInventory {
 
 }
 
+
+=item retrieveStorage()
+
+Load the $ModuleName.storage file from the filesystem. These .storage files
+are used to offert persistance storage to modules.
+
+=cut
 sub retrieveStorage {
     my ($self, $m) = @_;
 
@@ -332,6 +335,11 @@ sub retrieveStorage {
 
 }
 
+=item saveStorage()
+
+Save the $storage hash reference on the harddrive. 
+
+=cut
 sub saveStorage {
     my ($self, $m, $data) = @_;
 
@@ -355,23 +363,56 @@ sub saveStorage {
 
 }
 
+=item runWithTimeout()
+
+Run a function with a timeout.
+
+=cut
 sub runWithTimeout {
-    my ($self, $m, $func, $params) = @_;
+    my ($self, $m, $funcName) = @_;
 
     my $logger = $self->{logger};
 
     my $ret;
-    
+
+    my $storage = $self->retrieveStorage($m);
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        my $timeout = $params->{accountinfo}{config}{backendCollectTimeout};
+        my $timeout = $self->{accountinfo}{config}{backendCollectTimeout};
         alarm $timeout;
-        $ret = &{$func}($params);
+
+
+
+        my $instance = $self->{modules}->{$m}->{instance};
+        if ($instance) {
+
+            $instance->{storage} = $storage;
+            $instance->$funcName();
+
+        } else {
+
+            my $func = $self->{modules}->{$m}->{$funcName."Func"};
+
+            $ret = &{$func}({
+                    accountconfig => $self->{accountconfig},
+                    accountinfo => $self->{accountinfo},
+                    config => $self->{config},
+                    inventory => $self->{inventory},
+                    logger => $self->{logger},
+                    network => $self->{network},
+                    # Compatibiliy with agent 0.0.10 <=
+                    # We continue to pass params->{params}
+                    params => $self->{params},
+                    prologresp => $self->{prologresp},
+                    storage => $storage
+                });
+        }
     };
     alarm 0;
+    my $evalRet = $@;
+    $self->saveStorage($m, $storage);
 
-
-    if ($@) {
+    if ($evalRet) {
         if ($@ ne "alarm\n") {
             $logger->debug("runWithTimeout(): unexpected error: $@");
         } else {
@@ -381,6 +422,24 @@ sub runWithTimeout {
     } else {
         return $ret;
     }
+}
+
+sub longRuns {
+  my ($self) = @_;
+
+  my $logger = $self->{logger};
+  my $config = $self->{config};
+  my $network = $self->{network};
+
+  foreach my $m (sort keys %{$self->{modules}}) {
+
+      if ($self->{modules}{$m}{longRunFunc}) {
+          $self->runWithTimeout($m, "longRun");
+    }
+  }
+
+
+
 }
 
 1;
