@@ -20,6 +20,8 @@ Revision history for Ocsinventory::Agent
        * Makefile.PL, check for Net::SSLeay
        * Move Ocsinventory::Agent in a .pm and add a wrapper script to load
          in order to by able to process --devlib
+       * Parallels.pm: doesn't use sudo anymore and check for
+         --scan-homedirs
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer
