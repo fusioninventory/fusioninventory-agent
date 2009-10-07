@@ -38,6 +38,7 @@ use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
 #use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
+use Ocsinventory::Agent::Rpc;
 
 sub new {
     my (undef, $this) = @_;
@@ -124,7 +125,7 @@ sub new {
 
 
 # load CFG files
-    my $accountconfig = new Ocsinventory::Agent::AccountConfig({
+    my $accountconfig = $this->{accountconfig} = new Ocsinventory::Agent::AccountConfig({
             logger => $logger,
             config => $config,
         });
