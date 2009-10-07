@@ -36,6 +36,21 @@ use Ocsinventory::Agent::AccountInfo;
 #use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
 
+sub isAgentAlreadyRunning {
+    my $params = shift;
+    my $logger = $params->{logger};
+    # TODO add a workaround if Proc::PID::File is not installed
+    eval { require Proc::PID::File; };
+    if(!$@) {
+        $logger->debug('Proc::PID::File avalaible, checking for pid file');
+        if (Proc::PID::File->running()) {
+            $logger->debug('parent process already exists');
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 sub run {
 
@@ -52,21 +67,7 @@ sub run {
 ##########################################
 
 
-    sub isAgentAlreadyRunning {
-        my $params = shift;
-        my $logger = $params->{logger};
-        # TODO add a workaround if Proc::PID::File is not installed
-        eval { require Proc::PID::File; };
-        if(!$@) {
-            $logger->debug('Proc::PID::File avalaible, checking for pid file');
-            if (Proc::PID::File->running()) {
-                $logger->debug('parent process already exists');
-                return 1;
-            }
-        }
 
-        return 0;
-    }
 
 
 #####################################
