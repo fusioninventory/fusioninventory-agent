@@ -5,7 +5,7 @@
  # ajouter /etc/ocsinventory-agent.conf
  
 +BEGIN {
-+    push(@INC,'/Applications/OCSNG.app/Contents/Resources/lib/');
++    unshift(@INC,'/Applications/OCSNG.app/Contents/Resources/lib/');
 +}
 +
 +
