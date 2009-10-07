@@ -189,7 +189,7 @@ sub new {
         }
 
     }
-    
+
     $logger->debug("OCS Agent initialised");
 
 
@@ -228,37 +228,37 @@ sub run {
 ##########################################
 
     # Local mode, no need to contact the server
-        if ($config->{stdout} || $config->{local}) { # Local mode
+    if ($config->{stdout} || $config->{local}) { # Local mode
 
-            # TODO, avoid to create Backend a two different place
-            my $backend = new Ocsinventory::Agent::Backend ({
+        # TODO, avoid to create Backend a two different place
+        my $backend = new Ocsinventory::Agent::Backend ({
 
-                    accountinfo => $accountinfo,
-                    accountconfig => $accountconfig,
-                    logger => $logger,
-                    config => $config,
+                accountinfo => $accountinfo,
+                accountconfig => $accountconfig,
+                logger => $logger,
+                config => $config,
 
-                });
+            });
 
-            my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+        my $inventory = new Ocsinventory::Agent::XML::Inventory ({
 
-                    # TODO, check if the accoun{info,config} are needed in localmode
-                    accountinfo => $accountinfo,
-                    accountconfig => $accountinfo,
-                    backend => $backend,
-                    config => $config,
-                    logger => $logger,
+                # TODO, check if the accoun{info,config} are needed in localmode
+                accountinfo => $accountinfo,
+                accountconfig => $accountinfo,
+                backend => $backend,
+                config => $config,
+                logger => $logger,
 
-                });
+            });
 
-            if ($config->{stdout}) {
-                $inventory->printXML();
-            } elsif ($config->{local}) {
-                $inventory->writeXML();
-            }
-            exit (0);
+        if ($config->{stdout}) {
+            $inventory->printXML();
+        } elsif ($config->{local}) {
+            $inventory->writeXML();
         }
-        # Local mode, no need to continue
+        exit (0);
+    }
+    # Local mode, no need to continue
 
 
 
@@ -289,96 +289,96 @@ sub run {
 
 
 
-            my $network = new Ocsinventory::Agent::Network ({
+        my $network = new Ocsinventory::Agent::Network ({
 
-                    accountconfig => $accountconfig,
+                accountconfig => $accountconfig,
+                accountinfo => $accountinfo,
+                logger => $logger,
+                config => $config,
+
+            });
+
+        my $sendInventory = 1;
+        my $prologresp;
+        if (!$config->{force}) {
+            my $prolog = new Ocsinventory::Agent::XML::Prolog({
+
                     accountinfo => $accountinfo,
                     logger => $logger,
                     config => $config,
 
                 });
 
-            my $sendInventory = 1;
-            my $prologresp;
-            if (!$config->{force}) {
-                my $prolog = new Ocsinventory::Agent::XML::Prolog({
+            $prologresp = $network->send({message => $prolog});
 
-                        accountinfo => $accountinfo,
-                        logger => $logger,
-                        config => $config,
-
-                    });
-
-                $prologresp = $network->send({message => $prolog});
-
-                if (!$prologresp) { # Failed to reach the server
-                    if ($config->{lazy}) {
-                        # To avoid flooding a heavy loaded server
-                        my $previousPrologFreq;
-                        if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
-                            $previousPrologFreq = $config->{delaytime};
-                            $logger->info("No previous PROLOG_FREQ found - using fallback delay(".$config->{delaytime}." seconds)");
-                        }
-                        else{
-                            $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
-                            $previousPrologFreq = $previousPrologFreq*3600;
-                        }
-                        my $time = time + $previousPrologFreq;
-                        utime $time,$time,$config->{next_timefile};
+            if (!$prologresp) { # Failed to reach the server
+                if ($config->{lazy}) {
+                    # To avoid flooding a heavy loaded server
+                    my $previousPrologFreq;
+                    if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
+                        $previousPrologFreq = $config->{delaytime};
+                        $logger->info("No previous PROLOG_FREQ found - using fallback delay(".$config->{delaytime}." seconds)");
                     }
-                    exit 1 unless $config->{daemon};
-                    $sendInventory = 0;
-                } elsif (!$prologresp->isInventoryAsked()) {
-                    $sendInventory = 0;
+                    else{
+                        $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
+                        $previousPrologFreq = $previousPrologFreq*3600;
+                    }
+                    my $time = time + $previousPrologFreq;
+                    utime $time,$time,$config->{next_timefile};
                 }
+                exit 1 unless $config->{daemon};
+                $sendInventory = 0;
+            } elsif (!$prologresp->isInventoryAsked()) {
+                $sendInventory = 0;
+            }
+        }
+
+        if (!$sendInventory) {
+
+            $logger->info("Don't send the inventory");
+
+        } else { # Send the inventory!
+
+            my $backend = new Ocsinventory::Agent::Backend ({
+
+                    accountinfo => $accountinfo,
+                    accountconfig => $accountconfig,
+                    logger => $logger,
+                    config => $config,
+                    network => $network,
+                    prologresp => $prologresp,
+
+                });
+
+            my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+
+                    # TODO, check if the accoun{info,config} are needed in localmode
+                    accountinfo => $accountinfo,
+                    accountconfig => $accountinfo,
+                    backend => $backend,
+                    config => $config,
+                    logger => $logger,
+
+                });
+
+            $backend->feedInventory ({inventory => $inventory});
+
+            if (my $response = $network->send({message => $inventory})) {
+                #if ($response->isAccountUpdated()) {
+                $inventory->saveLastState();
+                #}
+            } else {
+                exit (1) unless $config->{daemon};
             }
 
-            if (!$sendInventory) {
+            # call the longRun() function in the Backend
+            $backend->longRuns({
+                    config => $config,
+                    logger => $logger
+                });
 
-                $logger->info("Don't send the inventory");
-
-            } else { # Send the inventory!
-
-                my $backend = new Ocsinventory::Agent::Backend ({
-
-                        accountinfo => $accountinfo,
-                        accountconfig => $accountconfig,
-                        logger => $logger,
-                        config => $config,
-                        network => $network,
-                        prologresp => $prologresp,
-
-                    });
-
-                my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-
-                        # TODO, check if the accoun{info,config} are needed in localmode
-                        accountinfo => $accountinfo,
-                        accountconfig => $accountinfo,
-                        backend => $backend,
-                        config => $config,
-                        logger => $logger,
-
-                    });
-
-                $backend->feedInventory ({inventory => $inventory});
-
-                if (my $response = $network->send({message => $inventory})) {
-                    #if ($response->isAccountUpdated()) {
-                    $inventory->saveLastState();
-                    #}
-                } else {
-                    exit (1) unless $config->{daemon};
-                }
-
-                # call the longRun() function in the Backend
-                $backend->longRuns({
-                        config => $config,
-                        logger => $logger
-                    });
-
-                # Break the loop if needed 
-                exit (0) unless $config->{daemon};
+            # Break the loop if needed 
+            exit (0) unless $config->{daemon};
         }
     }
 }
