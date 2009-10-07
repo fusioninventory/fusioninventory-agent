@@ -227,35 +227,7 @@ sub run {
 ##########################################
 ##########################################
 
-
-
-
-
-#####################################
-################ MAIN ###############
-#####################################
-
-
-#######################################################
-#######################################################
-    while (1) {
-
-        my $exitcode = 0;
-        my $wait;
-        if ($config->{daemon} || $config->{wait}) {
-            my $serverdelay;
-            if(($config->{wait} eq 'server') || ($config->{wait}!~/^\d+$/)){
-                $serverdelay = $accountconfig->get('PROLOG_FREQ')*3600;
-            }
-            else{
-                $serverdelay = $config->{wait};
-            }
-            $wait = int rand($serverdelay?$serverdelay:$config->{delaytime});
-            $logger->info("Going to sleep for $wait second(s)");
-            sleep ($wait);
-
-        }
-
+    # Local mode, no need to contact the server
         if ($config->{stdout} || $config->{local}) { # Local mode
 
             # TODO, avoid to create Backend a two different place
@@ -284,8 +256,38 @@ sub run {
             } elsif ($config->{local}) {
                 $inventory->writeXML();
             }
+            exit (0);
+        }
+        # Local mode, no need to continue
 
-        } else { # I've to contact the server
+
+
+#####################################
+################ MAIN ###############
+#####################################
+
+
+#######################################################
+#######################################################
+    while (1) {
+
+        my $exitcode = 0;
+        my $wait;
+        if ($config->{daemon} || $config->{wait}) {
+            my $serverdelay;
+            if(($config->{wait} eq 'server') || ($config->{wait}!~/^\d+$/)){
+                $serverdelay = $accountconfig->get('PROLOG_FREQ')*3600;
+            }
+            else{
+                $serverdelay = $config->{wait};
+            }
+            $wait = int rand($serverdelay?$serverdelay:$config->{delaytime});
+            $logger->info("Going to sleep for $wait second(s)");
+            sleep ($wait);
+
+        }
+
+
 
             my $network = new Ocsinventory::Agent::Network ({
 
@@ -377,7 +379,6 @@ sub run {
 
                 # Break the loop if needed 
                 exit (0) unless $config->{daemon};
-            }
         }
     }
 }
