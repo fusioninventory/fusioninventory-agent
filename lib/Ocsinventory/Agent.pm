@@ -212,7 +212,7 @@ sub isAgentAlreadyRunning {
     return 0;
 }
 
-sub run {
+sub main {
     my ($this) = @_;
 
 # Load setting from the config file

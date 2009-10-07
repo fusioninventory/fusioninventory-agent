@@ -41,7 +41,7 @@ eval '
 
 my $agent = new Ocsinventory::Agent;
 
-$agent->run();
+$agent->main();
 
 ';
 print $@;
