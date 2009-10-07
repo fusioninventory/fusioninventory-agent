@@ -256,16 +256,6 @@ sub run {
 
         }
 
-#  my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-        #
-#      accountinfo => $accountinfo,
-#      accountconfig => $accountinfo,
-#      config => $config->{config},
-#      logger => $logger,
-        #
-#    });
-
-
         if ($config->{config}{stdout} || $config->{config}{local}) { # Local mode
 
             # TODO, avoid to create Backend a two different place
