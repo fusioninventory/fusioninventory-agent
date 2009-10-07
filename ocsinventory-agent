@@ -186,7 +186,7 @@ Print the inventory on stdout.
 
 =item B<--scan-homedirs>
 
-Authorized OCS to scan home directories to increase the inventory.
+Authorized OCS to scan home directories to increase the Virtual Machine inventory.
 
 =item B<--tag>=I<TAG>
 
