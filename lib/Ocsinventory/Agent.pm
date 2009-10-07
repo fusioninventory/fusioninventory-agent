@@ -79,20 +79,6 @@ sub run {
 ############################
     $config->loadUserParams();
 
-# I close STDERR to avoid error message during the module execution
-# at the begining I was doing shell redirection:
-#  my @ret = `cmd 2> /dev/null`;
-# but this syntax is not supported on (at least) FreeBSD and Solaris
-# c.f: http://www.perlmonks.org/?node_id=571072
-#my $tmp;
-#open ($tmp, ">&STDERR");
-#$params->{"savedstderr"} = $tmp;
-#if($params->{debug}) {
-#  $params->{verbose} = 1;
-#} else {
-#  close(STDERR);
-#}
-
     if ($config->{config}{logfile}) {
         $config->{config}{logger} = 'File';
     }
