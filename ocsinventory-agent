@@ -37,7 +37,13 @@ if ($@) {
     exit 1;
 }
 
-eval "Ocsinventory::Agent::run();";
+eval '
+
+my $agent = new Ocsinventory::Agent;
+
+$agent->run();
+
+';
 print $@;
 __END__
 
