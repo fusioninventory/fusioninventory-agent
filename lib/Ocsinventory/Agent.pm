@@ -84,7 +84,7 @@ sub new {
 
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
-    if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
+    if (!-d $config->{basevardir} && !mkpath ($config->{basevardir} && $^O =~ /^MSWin/)) {
 
         if (! -d $ENV{HOME}."/.ocsinventory/var") {
             $logger->info("Failed to create ".$config->{basevardir}." directory: $!. ".
@@ -103,13 +103,16 @@ sub new {
     if (defined($config->{server}) && $config->{server}) {
         my $dir = $config->{server};
         $dir =~ s/\//_/g;
+	# On Windows, we can't have ':' in directory path
+        $dir =~ s/:/../g if $^O =~ /^MSWin/;
         $config->{vardir} = $config->{basevardir}."/".$dir;
         if (defined ($config->{local}) && $config->{local}) {
             $logger->debug ("--server ignored since you also use --local");
             $config->{server} = undef;
         }
-    } elsif (defined($config->{local}) && $config->{local}) {
-        $config->{vardir} = $config->{basevardir}."/__LOCAL__";
+# Useless, nothing is written in local mode
+#    } elsif (defined($config->{local}) && $config->{local}) {
+#        $config->{vardir} = $config->{basevardir}."/__LOCAL__";
     }
 
     if (!-d $config->{vardir} && mkpath ($config->{vardir})) {
