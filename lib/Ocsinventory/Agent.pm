@@ -385,6 +385,7 @@ sub run {
                         logger => $logger
                     });
 
+                # Break the loop if needed 
                 exit (0) unless $config->{config}{daemon};
             }
         }

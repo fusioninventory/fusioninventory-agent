@@ -138,6 +138,12 @@ This option defaults to waiting a random() time between 0 and 3600 before initia
 The agent will first contact the server during the PROLOG period. If the server doesn't know the machin or have outdated information, it will ask for an inventory.
 With this option, the agent doesn't run the PROLOG with the server first but directly send an inventory.
 
+=item B<--allow-rpc>
+
+Turns on the built in light HTTPD server. It's used to speed the software
+deployment up and allow remote control over the agent. This option enables
+B<--daemon>.
+
 =item B<-i>, B<--info>
 
 Turn the verbose mode on. The flag is ignored if B<--debug> is enable.

@@ -136,6 +136,7 @@ sub loadUserParams {
 #  "x|xml"          =>   \$self->{config}{xml},
 		"delaytime"       =>   \$self->{config}{delaytime},
 		"scan-homedirs"   =>   \$self->{config}{scanhomedirs},
+		"allow-rpc"       =>   \$self->{config}{allowRpc},
 	);
 
 	$self->help() if (!GetOptions(%options) || $self->{config}{help});
@@ -165,6 +166,7 @@ sub help {
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$self->{config}{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$self->{config}{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$self->{config}{info}.")\n";
+  print STDERR "\t-i --allow-rpc      allow remote connexion (".$self->{config}{allowRpc}.")\n";
   print STDERR "\t--lazy              do not contact the server more than one time during the PROLOG_FREQ (".$self->{config}{lazy}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
   "inventory in DIR directory in XML (".$self->{config}{local}.")\n";

@@ -50,6 +50,7 @@ recommends 'Archive::Extract' => undef;
 recommends 'File::Copy::Recursive' => undef;
 recommends 'Net::SSLGlue::LWP' => undef;
 recommends 'Digest::MD5' => undef;
+recommends 'HTTP::Server::Brick' => undef; # --allow-rpc
 
 use Data::Dumper;
 use Cwd;
