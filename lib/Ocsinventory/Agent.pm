@@ -377,6 +377,12 @@ sub main {
                     logger => $logger
                 });
 
+            # Start the built in HTTP daemon if --allow-rpc is enabled
+            $backend->runRpc() if $config->{allowRpc};
+            sleep(180);
+
+
+
             # Break the loop if needed 
             exit (0) unless $config->{daemon};
         }

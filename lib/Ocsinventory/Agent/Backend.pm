@@ -168,6 +168,7 @@ sub initModList {
     $self->{modules}->{$m}->{runFunc} = $package->{'run'};
     $self->{modules}->{$m}->{longRunFunc} = $package->{'longRun'};
     $self->{modules}->{$m}->{mem} = {}; # Deprecated
+    $self->{modules}->{$m}->{rpcCfg} = $package->{'rpcCfg'};
 # Load the Storable object is existing or return undef
     $self->{modules}->{$m}->{storage} = $self->retrieveStorage($m);
 
@@ -437,9 +438,42 @@ sub longRuns {
           $self->runWithTimeout($m, "longRun");
     }
   }
+}
 
 
 
+sub runRpc {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+
+    $logger->fault("--allow-rpc missing!") unless $config->{allowRpc};
+
+    eval "use HTTP::Server::Brick;";
+    if ($@) {
+        $logger->info("HTTP::Server::Brick is not installed, rpc mode disabled");
+        return;
+    }
+
+    $logger->info("Starting the RPC server");
+# the sort is just for the presentation
+    foreach my $m (sort keys %{$self->{modules}}) {
+# find modules to disable and their submodules
+
+        next unless $self->{modules}->{$m}->{enable};
+        $logger->error("enable $m");
+
+        next unless $self->{modules}->{$m}->{rpcCfg};
+        $logger->error("rpcCfg $m");
+        my $rpcCfg = $self->{modules}->{$m}->{rpcCfg};
+
+        use Data::Dumper;
+        print Dumper($rpcCfg);
+
+
+
+    }
 }
 
 1;

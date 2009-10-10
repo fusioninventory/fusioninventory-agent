@@ -339,7 +339,6 @@ sub downloadAndConstruct {
         if (!open (FRAG, "<$localFile")) {
             $logger->error("Failed to open $localFile");
 
-
             close FINALFILE;
             $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
             return;
@@ -461,7 +460,6 @@ sub pushErrorStack {
             $logger->error("Failed to contact server!");
             return;
         }
-
     }
 
     1;
@@ -546,9 +544,6 @@ sub check {
 
 
 
-
-
-
             my $infoURI = 'https://'.$paramHash->{INFO_LOC}.'/'.$orderId.'/info';
             my $content = LWP::Simple::get($infoURI);
             if (!$content) {
@@ -587,7 +582,8 @@ sub check {
         }
     }
 
-    # Just in case
+    # Just in case the server was down when when we tried to send the last
+    # messages.
     $this->pushErrorStack();
 
     1;
@@ -678,7 +674,27 @@ sub longRun {
 
 }
 
+sub rpcCfg {
 
+    return {
+
+        castor => {
+            path => '/tmp'
+        },
+        lapon => {
+
+            myHandler => sub {
+                my ($req, $res) = @_;
+                $res->add_content("flubber");
+                $res->header('Content-type', 'text/plain');
+                1;
+
+            }
+
+        }
+    };
+
+}
 
 1;
 
