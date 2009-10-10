@@ -173,8 +173,7 @@ sub help {
   print STDERR "\t   --stdout         do not write or post the inventory but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$config->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t-u --unsecure-software-deploymentuser\n";
-  print STDERR "                      do not check the SSL connexion with
+  print STDERR "\t--unsecure-software-deployment   do not check the SSL connexion with
   the server (".$config->{unsecureSoftwareDeployment}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$config->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
