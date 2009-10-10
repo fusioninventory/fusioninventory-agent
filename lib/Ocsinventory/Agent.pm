@@ -38,7 +38,6 @@ use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
 #use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
-use Ocsinventory::Agent::Rpc;
 
 sub new {
     my (undef, $this) = @_;
