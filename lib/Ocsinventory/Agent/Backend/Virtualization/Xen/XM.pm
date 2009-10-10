@@ -2,9 +2,9 @@ package Ocsinventory::Agent::Backend::Virtualization::Xen::XM;
 
 use strict;
 
-sub check { can_run('xm') }
+sub isInventoryEnabled { can_run('xm') }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

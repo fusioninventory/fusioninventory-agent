@@ -20,7 +20,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Screen;
 #
 use strict;
 
-sub check {
+sub isInventoryEnabled {
 
   return unless (can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
   
@@ -572,7 +572,7 @@ sub group_by2 {
 }
 
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my $logger = $params->{logger};

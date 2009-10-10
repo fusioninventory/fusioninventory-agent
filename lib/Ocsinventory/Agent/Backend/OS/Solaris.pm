@@ -4,9 +4,9 @@ use strict;
 use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::Generic"];
 
-sub check {$^O =~ /^solaris$/}
+sub isInventoryEnabled {$^O =~ /^solaris$/}
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::BSD::Archs::I386;
 # for i386 in case dmidecode is not available
 use strict;
 
-sub check{
+sub isInventoryEnabled{
     my $arch;
     chomp($arch=`sysctl -n hw.machine`);
     return if (($arch ne "i386") && ($arch ne "amd64"));
@@ -12,7 +12,7 @@ sub check{
     1;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

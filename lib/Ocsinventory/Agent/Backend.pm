@@ -157,16 +157,29 @@ sub initModList {
       $package->{$func} = $self->{backendSharedFuncs}->{$func};
     }
 
+    if ($package->{'check'}) {
+        $logger->error("$m: check() function is deprecated, please rename it to ".
+            "isInventoryEnabled()");
+    }
+    if ($package->{'run'}) {
+        $logger->error("$m: run() function is deprecated, please rename it to ".
+            "doInventory()");
+    }
+    if ($package->{'longRun'}) {
+        $logger->error("$m: longRun() function is deprecated, please rename it to ".
+            "postInventory()");
+    }
+
     $self->{modules}->{$m}->{name} = $m;
     $self->{modules}->{$m}->{done} = 0;
     $self->{modules}->{$m}->{inUse} = 0;
     $self->{modules}->{$m}->{enable} = $enable;
-    $self->{modules}->{$m}->{checkFunc} = $package->{"check"};
+
+    $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{'isInventoryEnabled'};
     $self->{modules}->{$m}->{runAfter} = $package->{'runAfter'};
     $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{'runMeIfTheseChecksFailed'};
-#    $self->{modules}->{$m}->{replace} = \@replace;
-    $self->{modules}->{$m}->{runFunc} = $package->{'run'};
-    $self->{modules}->{$m}->{longRunFunc} = $package->{'longRun'};
+    $self->{modules}->{$m}->{doInventoryFunc} = $package->{'doInventory'};
+    $self->{modules}->{$m}->{postExecFunc} = $package->{'postExec'};
     $self->{modules}->{$m}->{mem} = {}; # Deprecated
     $self->{modules}->{$m}->{rpcCfg} = $package->{'rpcCfg'};
 # Load the Storable object is existing or return undef
@@ -192,12 +205,12 @@ sub initModList {
 
 # the sort is just for the presentation
   foreach my $m (sort keys %{$self->{modules}}) {
-      next unless $self->{modules}->{$m}->{checkFunc};
+      next unless $self->{modules}->{$m}->{isInventoryEnabledFunc};
 # find modules to disable and their submodules
 
       next unless $self->{modules}->{$m}->{enable};
 
-      my $enable = $self->runWithTimeout($m, "check");
+      my $enable = $self->runWithTimeout($m, "isInventoryEnabled");
 
 
     if (!$enable) {
@@ -270,10 +283,10 @@ sub runMod {
 
   $logger->debug ("Running $m");
 
-  if ($self->{modules}->{$m}->{runFunc}) {
-      $self->runWithTimeout($m, "run");
+  if ($self->{modules}->{$m}->{doInventoryFunc}) {
+      $self->runWithTimeout($m, "doInventory");
   } else {
-      $logger->debug("$m has no run() function -> ignored");
+      $logger->debug("$m has no doInventory() function -> ignored");
   }
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
@@ -425,7 +438,7 @@ sub runWithTimeout {
     }
 }
 
-sub longRuns {
+sub postExecs {
   my ($self) = @_;
 
   my $logger = $self->{logger};
@@ -434,8 +447,8 @@ sub longRuns {
 
   foreach my $m (sort keys %{$self->{modules}}) {
 
-      if ($self->{modules}{$m}{longRunFunc}) {
-          $self->runWithTimeout($m, "longRun");
+      if ($self->{modules}{$m}{postExecFunc}) {
+          $self->runWithTimeout($m, "postExec");
     }
   }
 }

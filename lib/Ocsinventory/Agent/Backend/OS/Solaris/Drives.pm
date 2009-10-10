@@ -9,9 +9,9 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Drives;
 
 
 use strict;
-sub check { can_run ("df") }
+sub isInventoryEnabled { can_run ("df") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

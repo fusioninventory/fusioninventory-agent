@@ -5,7 +5,7 @@ package Ocsinventory::Agent::Backend::OS::MacOS::Networks;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
   can_run("ifconfig") && can_load("Net::IP qw(:PROC)")
 }
 
@@ -63,7 +63,7 @@ sub _ipdhcp {
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

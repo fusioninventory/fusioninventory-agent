@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Users;
 
-sub check { can_run ("who") } 
+sub isInventoryEnabled { can_run ("who") } 
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

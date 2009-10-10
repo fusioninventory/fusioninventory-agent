@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::DeviceID;
 
 # Initialise the DeviceID. In fact this value is a bit specific since
 # it generates in the main script.
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my $config = $params->{config};

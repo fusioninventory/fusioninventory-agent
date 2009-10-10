@@ -16,9 +16,9 @@ use strict;
 #Illegal Request: 1 Predictive Failure Analysis: 0 
 
 
-sub check { can_run ("iostat") }
+sub isInventoryEnabled { can_run ("iostat") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

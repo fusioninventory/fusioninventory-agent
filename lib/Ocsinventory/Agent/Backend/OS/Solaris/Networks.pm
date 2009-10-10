@@ -7,12 +7,12 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Networks;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
   can_run("ifconfig") && can_run("netstat") && can_load ("Net::IP qw(:PROC)")
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

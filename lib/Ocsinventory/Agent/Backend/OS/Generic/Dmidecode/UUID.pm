@@ -2,9 +2,9 @@ package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::UUID;
 
 use strict;
 
-sub check { return can_run('dmidecode') }
+sub isInventoryEnabled { return can_run('dmidecode') }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

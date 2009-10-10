@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Solaris::CPU;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
   my $params = shift;
 
   my $logger = $params->{logger};
@@ -15,7 +15,7 @@ sub check {
   1;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

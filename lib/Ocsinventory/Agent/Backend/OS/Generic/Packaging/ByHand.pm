@@ -12,7 +12,7 @@ use strict;
 use warnings;
 
 
-sub check { 
+sub isInventoryEnabled { 
     return(1);
     1;
 }

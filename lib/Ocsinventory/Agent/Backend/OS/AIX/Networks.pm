@@ -2,11 +2,11 @@ package Ocsinventory::Agent::Backend::OS::AIX::Networks;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
   can_load("Net::IP qw(:PROC)");
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

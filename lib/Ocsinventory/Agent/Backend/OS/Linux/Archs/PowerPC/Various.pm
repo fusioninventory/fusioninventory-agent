@@ -2,9 +2,9 @@ package Ocsinventory::Agent::Backend::OS::Linux::Archs::PowerPC::Various;
 
 use strict;
 
-sub check { 1 };
+sub isInventoryEnabled { 1 };
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

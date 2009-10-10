@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Controllers;
 use strict;
 
-sub check { can_run ("cfgadm") }
+sub isInventoryEnabled { can_run ("cfgadm") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

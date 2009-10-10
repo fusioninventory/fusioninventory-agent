@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Uptime;
 use strict;
 
-sub check { can_read("/proc/uptime") }
+sub isInventoryEnabled { can_read("/proc/uptime") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

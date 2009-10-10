@@ -1,12 +1,12 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Hardware;
 use strict;
-sub check { 1 }
+sub isInventoryEnabled { 1 }
 
 # NOTE:
 # Q: SSN can also use `uname -n`? What is the best?
 # A: uname -n since it doesn't need root priv
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

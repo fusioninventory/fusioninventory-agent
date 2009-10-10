@@ -1,14 +1,14 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Controller;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
 	return unless can_run('lsdev');
 	my @lsdev = `lsdev -Cc adapter -F 'name:type:description'`;	
 	return 1 if @lsdev;
 	0
 }
 
-sub run {
+sub doInventory {
 	my $params = shift;
 	my $inventory = $params->{inventory};
 	

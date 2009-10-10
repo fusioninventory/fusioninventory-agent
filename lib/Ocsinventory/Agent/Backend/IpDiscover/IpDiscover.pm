@@ -3,9 +3,9 @@ package Ocsinventory::Agent::Backend::IpDiscover::IpDiscover;
 use strict;
 use warnings;
 
-sub check { can_run ("ipdiscover") }
+sub isInventoryEnabled { can_run ("ipdiscover") }
 
-sub run {
+sub doInventory {
   my $params = shift;
 
   my $inventory = $params->{inventory};

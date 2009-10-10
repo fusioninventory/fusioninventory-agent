@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Knoppix;
 use strict;
 
-sub check {-f "/etc/knoppix_version"}
+sub isInventoryEnabled {-f "/etc/knoppix_version"}
 
 #####
 sub findRelease {
@@ -14,7 +14,7 @@ sub findRelease {
   return "Knoppix GNU/Linux $v";
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

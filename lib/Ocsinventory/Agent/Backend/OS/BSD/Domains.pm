@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::BSD::Domains;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
   my $hostname;
   chomp ($hostname = `hostname`);
   my @domain = split (/\./, $hostname);
@@ -9,7 +9,7 @@ sub check {
   return 1 if @domain;
   -f "/etc/resolv.conf"
  }
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

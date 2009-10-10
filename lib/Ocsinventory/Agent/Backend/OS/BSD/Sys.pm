@@ -2,14 +2,14 @@ package Ocsinventory::Agent::Backend::OS::BSD::Sys;
 
 #$LunchAfter = "Ocsinventory::Agent::Backend::OS::Linux::VirtualFs::Sys";
 
-sub check {
+sub isInventoryEnabled {
 	foreach (`mount`) {
 		return 1 if (/type\ sysfs/);
 	}
 	return;
 }
 
-sub run {
+sub doInventory {
   # Hum?
 	return "";
 }

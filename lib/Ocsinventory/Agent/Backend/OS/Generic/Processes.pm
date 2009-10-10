@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Processes;
 use strict;
 
-sub check {can_run("ps")}
+sub isInventoryEnabled {can_run("ps")}
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

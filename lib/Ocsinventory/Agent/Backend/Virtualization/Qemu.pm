@@ -3,9 +3,9 @@ package Ocsinventory::Agent::Backend::Virtualization::Qemu;
 
 use strict;
 
-sub check { return (can_run('qemu') || can_run('qemu'))}
+sub isInventoryEnabled { return (can_run('qemu') || can_run('qemu'))}
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

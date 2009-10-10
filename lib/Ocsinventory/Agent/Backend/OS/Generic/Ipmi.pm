@@ -17,14 +17,14 @@
 #
 package Ocsinventory::Agent::Backend::OS::Generic::Ipmi;
 
-sub check {
+sub isInventoryEnabled {
   return unless can_run("ipmitool");
 	my @ipmitool = `ipmitool lan print 2> /dev/null`;
     return unless @ipmitool;
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

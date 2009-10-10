@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::BSD::Drives;
 
 use strict;
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

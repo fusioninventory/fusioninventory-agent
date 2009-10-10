@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::BSD::Mem;
 use strict;
 
-sub check { 	
+sub isInventoryEnabled { 	
 	`which sysctl 2>&1`;
 	return 0 if($? >> 8);
 	`which swapctl 2>&1`;
@@ -9,7 +9,7 @@ sub check {
 	1;
 };
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

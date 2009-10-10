@@ -7,9 +7,9 @@ use strict;
 use XML::Simple;
 use File::Glob ':glob';
 
-sub check { return can_run('VirtualBox') and can_run('VBoxManage') }
+sub isInventoryEnabled { return can_run('VirtualBox') and can_run('VBoxManage') }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my $scanhomedirs = $params->{accountinfo}{config}{scanhomedirs};

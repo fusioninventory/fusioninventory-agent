@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Memory;
 use strict;
 
-sub check { can_run ("memconf") }
+sub isInventoryEnabled { can_run ("memconf") }
 
-sub run {
+sub doInventory {
 
   my $model;
   my $params = shift;

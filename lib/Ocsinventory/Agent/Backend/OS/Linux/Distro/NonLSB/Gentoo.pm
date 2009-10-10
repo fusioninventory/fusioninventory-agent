@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Gentoo;
 use strict;
 
-sub check {-f "/etc/gentoo-release"}
+sub isInventoryEnabled {-f "/etc/gentoo-release"}
 
 #####
 sub findRelease {
@@ -13,7 +13,7 @@ sub findRelease {
   return "Gentoo Linux $v";
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

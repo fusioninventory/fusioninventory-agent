@@ -1,8 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::LSB;
 
-sub check {can_run("lsb_release")}
+sub isInventoryEnabled {can_run("lsb_release")}
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

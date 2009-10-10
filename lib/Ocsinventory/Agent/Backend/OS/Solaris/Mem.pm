@@ -2,9 +2,9 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Mem;
 
 use strict;
 
-sub check { can_run ("swap") && can_run ("prtconf") }
+sub isInventoryEnabled { can_run ("swap") && can_run ("prtconf") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 #my $unit = 1024;

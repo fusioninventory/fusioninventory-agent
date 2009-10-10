@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::OS::AIX::Software;
 use strict;
 use warnings;
 
-sub check {
+sub isInventoryEnabled {
   my $params = shift;
 
   # Do not run an package inventory if there is the --nosoft parameter
@@ -13,7 +13,7 @@ sub check {
   1;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

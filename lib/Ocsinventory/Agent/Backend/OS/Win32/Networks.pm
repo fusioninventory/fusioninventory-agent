@@ -7,11 +7,11 @@ use strict;
 # No check here. If Win32::OLE and Win32::OLE::Variant not avalaible, the module
 # will fail to load.
 
-sub check {
+sub isInventoryEnabled {
   can_load("Win32::OLE") && can_load("Win32::OLE::Variant") && can_load("Net::IP qw(:PROC)");
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

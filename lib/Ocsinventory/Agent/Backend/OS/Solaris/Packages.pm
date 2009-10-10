@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Packages;
 use strict;
 use warnings;
 
-sub check {
+sub isInventoryEnabled {
   my $params = shift;
 
   # Do not run an package inventory if there is the --nosoft parameter
@@ -12,7 +12,7 @@ sub check {
   can_run("pkginfo");
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

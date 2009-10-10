@@ -2,9 +2,9 @@ package Ocsinventory::Agent::Backend::Virtualization::Parallels;
 
 use strict;
 
-sub check { return can_run('prlctl') }
+sub isInventoryEnabled { return can_run('prlctl') }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my $config = $params->{config};

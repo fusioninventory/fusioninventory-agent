@@ -1,8 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Memory;
 use strict;
-sub check { 1 } # TODO create a better check here
+sub isInventoryEnabled { 1 } # TODO create a better check here
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

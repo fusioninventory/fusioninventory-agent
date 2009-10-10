@@ -1,14 +1,14 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Printers::Cups;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
     # If we are on a MAC, Mac::SysProfile will do the job
     return if -r '/usr/sbin/system_profiler';
     return unless can_load("Net::CUPS");
     return 1;
 }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

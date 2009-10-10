@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::OS::MacOS::Packages;
 use strict;
 use warnings;
 
-sub check {
+sub isInventoryEnabled {
     my $params = shift;
 
     return unless can_load("Mac::SysProfile");
@@ -13,7 +13,7 @@ sub check {
     1;
 }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

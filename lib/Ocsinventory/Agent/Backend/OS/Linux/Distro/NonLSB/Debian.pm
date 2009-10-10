@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Debian;
 use strict;
 
-sub check {-f "/etc/debian_version" && !-f "/etc/ubuntu_version"}
+sub isInventoryEnabled {-f "/etc/debian_version" && !-f "/etc/ubuntu_version"}
 
 #####
 sub findRelease {
@@ -13,7 +13,7 @@ sub findRelease {
   return "Debian GNU/Linux $v";
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

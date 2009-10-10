@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Sounds;
 use strict;
 
-sub check { can_run("lspci") }
+sub isInventoryEnabled { can_run("lspci") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

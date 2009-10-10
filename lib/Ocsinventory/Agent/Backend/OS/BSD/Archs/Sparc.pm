@@ -2,13 +2,13 @@ package Ocsinventory::Agent::Backend::OS::BSD::Archs::Sparc;
 
 use strict;
 
-sub check{
+sub isInventoryEnabled{
     my $arch;
     chomp($arch=`sysctl -n hw.machine`);
     $arch =~ /^sparc/;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

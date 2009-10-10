@@ -2,14 +2,14 @@ package Ocsinventory::Agent::Backend::OS::MacOS::IPv4;
 
 # straight up theft from the other modules
 
-sub check {
+sub isInventoryEnabled {
     my @ifconfig = `ifconfig -a 2>/dev/null`;
     return 1 if @ifconfig;
     return;
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my @ip;

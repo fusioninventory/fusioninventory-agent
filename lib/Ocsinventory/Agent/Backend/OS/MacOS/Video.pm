@@ -3,14 +3,14 @@ use strict;
 
 use constant DATATYPE => 'SPDisplaysDataType'; # careful this could change when looking at lower versions of OSX
 
-sub check {
+sub isInventoryEnabled {
     # make sure the user has access, cause that's the command that's gonna be run
     return(undef) unless -r '/usr/sbin/system_profiler';
     return(undef) unless can_load("Mac::SysProfile");
     return 1;
 }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

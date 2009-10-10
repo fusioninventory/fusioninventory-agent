@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Domains;
 use strict;
 
-sub check { can_run ("domainname") }
+sub isInventoryEnabled { can_run ("domainname") }
 
-sub run { 
+sub doInventory { 
   my $params = shift;
   my $inventory = $params->{inventory};
 

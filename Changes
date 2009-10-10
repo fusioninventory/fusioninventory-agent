@@ -4,7 +4,11 @@ Revision history for Ocsinventory::Agent
 newdeploy
        * post-install.pl: Don't ask the user if Download.pm should be
          enabled
-       * drop the linux_agent modules compatibility layer
+       * Drop the linux_agent modules compatibility layer
+       * Rename module hook functions:
+          check()    → isInventoryEnabled()
+          run()      → doInventory()
+          longRun()  → postInventory() 
 
 1.1_beta2
        * addMemorie() renamed to addMemories(), this had been broken during

@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::IpDiscover;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
     my $params = shift;
 
     my $prologresp = $params->{prologresp};

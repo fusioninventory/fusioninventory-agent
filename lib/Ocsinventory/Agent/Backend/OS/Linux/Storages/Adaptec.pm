@@ -11,7 +11,7 @@ use strict;
 
 my @devices = Ocsinventory::Agent::Backend::OS::Linux::Storages::getFromUdev();
 
-sub check {
+sub isInventoryEnabled {
 
     if (can_run ('smartctl') ) { 
       foreach my $hd (@devices) {
@@ -22,7 +22,7 @@ sub check {
 
 }
 
-sub run {
+sub doInventory {
 
   my $params = shift;
   my $inventory = $params->{inventory};

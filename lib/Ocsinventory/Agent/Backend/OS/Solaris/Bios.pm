@@ -59,9 +59,9 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Bios;
 
 use strict;
 
-sub check { can_run ("showrev") }
+sub isInventoryEnabled { can_run ("showrev") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

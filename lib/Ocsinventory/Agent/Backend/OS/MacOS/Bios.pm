@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Bios;
 use strict;
 
-sub check { return can_load("Mac::SysProfile") }
+sub isInventoryEnabled { return can_load("Mac::SysProfile") }
 
-sub run {
+sub doInventory {
         my $params = shift;
         my $inventory = $params->{inventory};
 

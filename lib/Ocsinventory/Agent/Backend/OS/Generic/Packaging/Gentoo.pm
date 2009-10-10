@@ -3,9 +3,9 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Gentoo;
 use strict;
 use warnings;
 
-sub check {can_run("equery")}
+sub isInventoryEnabled {can_run("equery")}
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

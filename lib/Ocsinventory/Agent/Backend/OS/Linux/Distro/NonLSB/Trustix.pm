@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Trustix;
 use strict;
 
-sub check {-f "/etc/trustix-release"}
+sub isInventoryEnabled {-f "/etc/trustix-release"}
 
 #####
 sub findRelease {
@@ -13,7 +13,7 @@ sub findRelease {
   $v;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

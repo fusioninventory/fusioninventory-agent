@@ -1,14 +1,14 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Drives;
 
 use strict;
-sub check {
+sub isInventoryEnabled {
   return unless can_run ("df");
   my $df = `df -TP`;
   return 1 if $df =~ /\w+/;
   0
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::RPM;
 use strict;
 use warnings;
 
-sub check {
+sub isInventoryEnabled {
   return unless can_run("rpm");
 
   # Some time rpm is a wrapper or an alias for another
@@ -12,7 +12,7 @@ sub check {
   1;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my $logger = $params->{logger};

@@ -5,7 +5,7 @@ $runMeIfTheseChecksFailed = ["Ocsinventory::Agent::Backend::IpDiscover::IpDiscov
 use strict;
 use warnings;
 
-sub check {
+sub isInventoryEnabled {
   my $params = shift;
 
   return unless can_run("nmap");
@@ -26,7 +26,7 @@ sub check {
 }
 
 
-sub run {
+sub doInventory {
   my $params = shift;
 
   my $inventory = $params->{inventory};

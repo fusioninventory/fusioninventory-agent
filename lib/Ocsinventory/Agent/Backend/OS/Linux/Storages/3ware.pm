@@ -17,7 +17,7 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
 
   my ($card, $res);
 # Do we have tw_cli ?
@@ -36,7 +36,7 @@ sub check {
 
 }
 
-sub run {
+sub doInventory {
 
 
   my $params = shift;

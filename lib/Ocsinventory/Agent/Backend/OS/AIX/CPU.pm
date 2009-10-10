@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::AIX::CPU;
 use strict;
 use warnings;
 
-sub check { 1 }	 
+sub isInventoryEnabled { 1 }	 
 
 # try to simulate a modern lsattr output on AIX4
 sub lsattrForAIX4 {
@@ -44,7 +44,7 @@ sub lsattrForAIX4 {
 
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   

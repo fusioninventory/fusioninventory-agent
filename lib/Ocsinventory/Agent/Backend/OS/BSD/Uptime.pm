@@ -1,13 +1,13 @@
 package Ocsinventory::Agent::Backend::OS::BSD::Uptime;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
   my $boottime = `sysctl -n kern.boottime 2>/dev/null`;
   return 1 if $boottime;
   return;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   

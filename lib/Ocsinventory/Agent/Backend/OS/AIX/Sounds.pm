@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Sounds;
 use strict;
 
-sub check {can_run("lsdev")}
+sub isInventoryEnabled {can_run("lsdev")}
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   

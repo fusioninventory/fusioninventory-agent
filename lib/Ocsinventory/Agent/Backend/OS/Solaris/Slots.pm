@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Slots;
 
 use strict;
-sub check { can_run ("prtdiag") }
+sub isInventoryEnabled { can_run ("prtdiag") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

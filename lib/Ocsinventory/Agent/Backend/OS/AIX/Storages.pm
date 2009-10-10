@@ -2,13 +2,13 @@ package Ocsinventory::Agent::Backend::OS::AIX::Storages;
 use strict;
 #use warning;
 
-sub check {
+sub isInventoryEnabled {
 	`which lsdev 2>&1`;
 	return if($? >> 8)!=0;
 	`which lsattr 2>&1`;
 	($? >> 8)?0:1}
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

@@ -1,6 +1,6 @@
 package Ocsinventory::Agent::Backend::AccessLog;
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

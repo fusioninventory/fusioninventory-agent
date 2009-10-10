@@ -5,9 +5,9 @@ package Ocsinventory::Agent::Backend::Virtualization::VmWareDesktop;
 
 use strict;
 
-sub check { return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') }
+sub isInventoryEnabled { return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};

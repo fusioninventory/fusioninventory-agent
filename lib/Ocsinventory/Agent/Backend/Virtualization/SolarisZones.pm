@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::Virtualization::SolarisZones;
 
 use strict;
 
-sub check { 
+sub isInventoryEnabled { 
   return unless can_run('zoneadm'); 
   return unless check_solaris_valid_release();
 }
@@ -31,7 +31,7 @@ sub check_solaris_valid_release{
   1 
 }
 
-sub run {
+sub doInventory {
   my @zones;
   my @lines;
   my $zone;

@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::Ports;
 
 use strict;
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

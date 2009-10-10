@@ -11,7 +11,7 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
 
     my $ret;
 # Do we have hpacucli ?
@@ -27,7 +27,7 @@ sub check {
 
 }
 
-sub run {
+sub doInventory {
 
 
     my $params = shift;

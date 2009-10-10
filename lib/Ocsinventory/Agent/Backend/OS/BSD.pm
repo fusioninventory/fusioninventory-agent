@@ -5,9 +5,9 @@ use strict;
 use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::Generic"];
 
-sub check { $^O =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/ }
+sub isInventoryEnabled { $^O =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/ }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

@@ -3,13 +3,13 @@ use strict;
 
 use constant DATATYPE   => 'SPAudioDataType'; # may need to fix to work with older versions of osx
 
-sub check {
+sub isInventoryEnabled {
     return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
     return(undef) unless can_load("Mac::SysProfile"); # check perms
     return 1;
 }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

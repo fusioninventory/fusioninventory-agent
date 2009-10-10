@@ -45,7 +45,7 @@ package Ocsinventory::Agent::Backend::Virtualization::Vmsystem;
 
 use strict;
 
-sub check { 
+sub isInventoryEnabled { 
   if ( can_run("zoneadm")){ # Is a solaris zone system capable ?
       return 1; 
   }
@@ -57,7 +57,7 @@ sub check {
   return 0;
 } 
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

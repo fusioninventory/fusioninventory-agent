@@ -4,7 +4,7 @@ use strict;
 
 use Config;
 
-sub check { 
+sub isInventoryEnabled { 
   return 1 if $Config{'archname'} =~ /^mips/;
   0; 
 };

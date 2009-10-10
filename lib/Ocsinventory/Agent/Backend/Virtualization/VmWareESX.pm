@@ -3,9 +3,9 @@ package Ocsinventory::Agent::Backend::Virtualization::VmWareESX;
 use strict;
 
 
-sub check { can_run('vmware-cmd') }
+sub isInventoryEnabled { can_run('vmware-cmd') }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

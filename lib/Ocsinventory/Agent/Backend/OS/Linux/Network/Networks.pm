@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Backend::OS::Linux::Network::Networks;
 use strict;
 use warnings;
 
-sub check {
+sub isInventoryEnabled {
   return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)");
 
   1;
@@ -52,7 +52,7 @@ sub _ipdhcp {
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my $logger = $params->{logger};

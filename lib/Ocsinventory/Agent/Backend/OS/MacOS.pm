@@ -2,14 +2,14 @@ package Ocsinventory::Agent::Backend::OS::MacOS;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
 	my $r;
 	# we check far darwin because that's the _real_ underlying OS
 	$r = 1 if (uc($^O) =~ /^DARWIN$/);
 	return($r);
 }
 
-sub run {
+sub doInventory {
         my $params = shift;
         my $inventory = $params->{inventory};
 

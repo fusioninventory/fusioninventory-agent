@@ -3,9 +3,9 @@ package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Deb;
 use strict;
 use warnings;
 
-sub check { can_run("dpkg") }
+sub isInventoryEnabled { can_run("dpkg") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   

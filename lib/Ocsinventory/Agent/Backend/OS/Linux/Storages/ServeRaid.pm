@@ -11,7 +11,7 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
 
 	my $ret = 0;
 
@@ -27,7 +27,7 @@ sub check {
 	return $ret;
 }
 
-sub run {
+sub doInventory {
 
 	my $params = shift;
 	my $inventory = $params->{inventory};

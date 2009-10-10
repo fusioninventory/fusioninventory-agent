@@ -4,7 +4,7 @@ use strict;
 use vars qw($runAfter);
 $runAfter = ["Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Debian"];
 
-sub check {-f "/etc/ubuntu_version"}
+sub isInventoryEnabled {-f "/etc/ubuntu_version"}
 
 #####
 sub findRelease {
@@ -16,7 +16,7 @@ sub findRelease {
   return "Ubuntu $v";
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

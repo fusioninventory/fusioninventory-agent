@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Redhat;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
     -f "/etc/redhat-release"
       &&
     !readlink ("/etc/redhat-release")
@@ -19,7 +19,7 @@ sub findRelease {
   $v;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

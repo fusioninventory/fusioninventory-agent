@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::ArchLinux;
 use strict;
 
-sub check {-f "/etc/arch-release"}
+sub isInventoryEnabled {-f "/etc/arch-release"}
 
 #####
 sub findRelease {
@@ -13,7 +13,7 @@ sub findRelease {
   return "ArchLinux $v";
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

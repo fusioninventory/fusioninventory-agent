@@ -4,9 +4,9 @@ use strict;
 
 use XML::Simple;
 
-sub check { can_run('virsh') }
+sub isInventoryEnabled { can_run('virsh') }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

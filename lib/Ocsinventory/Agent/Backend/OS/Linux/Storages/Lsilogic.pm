@@ -11,7 +11,7 @@ use Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 use strict;
 
-sub check {
+sub isInventoryEnabled {
 
   my $device;
 # Do we have smartctl ?
@@ -26,7 +26,7 @@ sub check {
   return 0;
 }
 
-sub run {
+sub doInventory {
 
 
   my $params = shift;

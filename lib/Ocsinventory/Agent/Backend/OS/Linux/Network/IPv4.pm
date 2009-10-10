@@ -1,12 +1,12 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Network::IPv4;
 
-sub check {
+sub isInventoryEnabled {
   return unless can_run ("ifconfig");
   1;
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my @ip;

@@ -2,9 +2,9 @@ package Ocsinventory::Agent::Backend::OS::BSD::Storages;
 
 use strict;
 
-sub check {-r '/etc/fstab'}
+sub isInventoryEnabled {-r '/etc/fstab'}
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

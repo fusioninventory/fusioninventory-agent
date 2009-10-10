@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Linux::Sys;
 
 #$LunchAfter = "Ocsinventory::Agent::Backend::OS::Linux::VirtualFs::Sys";
 
-sub check {
+sub isInventoryEnabled {
   return unless can_run ("mount");
   foreach (`mount`) {
     return 1 if (/type\ sysfs/);
@@ -10,6 +10,6 @@ sub check {
   0;
 }
 
-sub run {}
+sub doInventory {}
 
 1

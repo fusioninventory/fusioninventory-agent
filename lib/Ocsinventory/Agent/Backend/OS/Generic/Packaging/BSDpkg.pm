@@ -1,8 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Packaging::BSDpkg;
 
-sub check {can_run("pkg_info")}
+sub isInventoryEnabled {can_run("pkg_info")}
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

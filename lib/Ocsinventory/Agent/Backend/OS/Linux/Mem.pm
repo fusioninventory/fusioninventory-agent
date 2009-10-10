@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Mem;
 use strict;
 
-sub check { can_read ("/proc/meminfo") }
+sub isInventoryEnabled { can_read ("/proc/meminfo") }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my $unit = 1024;

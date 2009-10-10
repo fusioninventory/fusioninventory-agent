@@ -1,13 +1,13 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Hostname;
 
-sub check {
+sub isInventoryEnabled {
   return 1 if can_load ("Sys::Hostname");
   return 1 if can_run ("hostname");
   0;
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

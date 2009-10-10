@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::BSD::CPU;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
   return unless -r "/dev/mem";
 
   `which dmidecode 2>&1`;
@@ -11,7 +11,7 @@ sub check {
   1;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

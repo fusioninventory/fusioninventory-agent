@@ -2,9 +2,9 @@ package Ocsinventory::Agent::Backend::OS::Linux::Archs::SPARC::CPU;
 
 use strict;
 
-sub check { can_read ("/proc/cpuinfo") };
+sub isInventoryEnabled { can_read ("/proc/cpuinfo") };
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

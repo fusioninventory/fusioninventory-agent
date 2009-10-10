@@ -371,8 +371,8 @@ sub main {
                 exit (1) unless $config->{daemon};
             }
 
-            # call the longRun() function in the Backend
-            $backend->longRuns({
+            # call the postExec() function in the Backend
+            $backend->postExecs({
                     config => $config,
                     logger => $logger
                 });

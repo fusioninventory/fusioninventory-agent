@@ -1,14 +1,14 @@
 package Ocsinventory::Agent::Backend::OS::AIX::Mem;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
 	return unless can_run("lsdev");
 	return unless can_run("which");
 	return unless can_run("lsattr");
 	
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   

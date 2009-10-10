@@ -3,6 +3,6 @@ package Ocsinventory::Agent::Backend::OS::Generic;
 use strict;
 
 
-sub run {}
+sub doInventory {}
 
 1;

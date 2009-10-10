@@ -1,13 +1,13 @@
 package Ocsinventory::Agent::Backend::OS::MacOS::Mem;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
     return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
     return (undef) unless can_load("Mac::SysProfile");
     return 1;
 }
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

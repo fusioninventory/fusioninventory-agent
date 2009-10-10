@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::MacOS::Storages;
 
 use strict;
 
-sub check {return can_load('Mac::SysProfile');}
+sub isInventoryEnabled {return can_load('Mac::SysProfile');}
 
 sub getManufacturer {
   my $model = shift;
@@ -23,7 +23,7 @@ sub getManufacturer {
   }
 }
 
-sub run {
+sub doInventory {
 
   my $params = shift;
   my $logger = $params->{logger};

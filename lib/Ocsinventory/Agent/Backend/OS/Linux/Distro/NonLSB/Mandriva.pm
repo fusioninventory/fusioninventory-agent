@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Mandriva;
 use strict;
 
-sub check {-f "/etc/mandrake-release" && -f "/etc/mandriva-release"}
+sub isInventoryEnabled {-f "/etc/mandrake-release" && -f "/etc/mandriva-release"}
 
 #####
 sub findRelease {
@@ -15,7 +15,7 @@ sub findRelease {
   0;
 }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

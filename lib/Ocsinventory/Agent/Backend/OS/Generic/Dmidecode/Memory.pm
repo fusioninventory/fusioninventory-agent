@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Dmidecode::Memory;
 use strict;
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

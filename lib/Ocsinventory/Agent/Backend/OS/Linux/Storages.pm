@@ -2,7 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Linux::Storages;
 
 use strict;
 
-sub check {1}
+sub isInventoryEnabled {1}
 
 ######## TODO
 # Do not remove, used by other modules
@@ -113,7 +113,7 @@ sub correctHdparmAvailable {
 }
 
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $logger = $params->{logger};
   my $inventory = $params->{inventory};

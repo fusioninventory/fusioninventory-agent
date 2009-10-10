@@ -6,9 +6,9 @@ use strict;
 # would have used Mac::SysProfile, but the xml isn't quite fully supported
 # the drives come back in apple xml tree's, and the module can't handle it yet (soon as I find the time to fix the patch)
 
-sub check {1}
+sub isInventoryEnabled {1}
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 

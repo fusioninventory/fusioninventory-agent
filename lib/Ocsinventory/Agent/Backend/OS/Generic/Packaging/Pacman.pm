@@ -1,8 +1,8 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Packaging::Pacman;
 
-sub check {can_run("pacman")}
+sub isInventoryEnabled {can_run("pacman")}
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

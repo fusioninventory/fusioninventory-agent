@@ -1,13 +1,13 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Domains;
 use strict;
 
-sub check {
+sub isInventoryEnabled {
   return unless can_run ("hostname");
   my @domain = `hostname -d`;
   return 1 if @domain || can_read ("/etc/resolv.conf");
   0;
 }
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

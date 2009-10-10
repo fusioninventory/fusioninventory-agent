@@ -466,7 +466,7 @@ sub pushErrorStack {
 }
 
 
-sub check {
+sub isInventoryEnabled {
     my $this = shift;
 
     my $prologresp = $this->{prologresp};
@@ -591,7 +591,7 @@ sub check {
 
 
 
-sub run {
+sub doInventory {
 
   my $this = shift;
   my $inventory = $this->{inventory};
@@ -613,7 +613,7 @@ sub run {
 }
 
 
-sub longRun {
+sub doPostExec {
 
     my $this = shift;
 

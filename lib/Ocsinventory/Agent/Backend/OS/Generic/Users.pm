@@ -1,6 +1,6 @@
 package Ocsinventory::Agent::Backend::OS::Generic::Users;
 
-sub check {
+sub isInventoryEnabled {
 # Useless check for a posix system i guess
   my @who = `who 2>/dev/null`;
   return 1 if @who;
@@ -8,7 +8,7 @@ sub check {
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 

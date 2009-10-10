@@ -1,9 +1,9 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::IPv4;
 
-sub check { can_run ("ifconfig") }
+sub isInventoryEnabled { can_run ("ifconfig") }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my %ip;
