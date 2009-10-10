@@ -16,8 +16,7 @@ sub isInventoryEnabled {
     return(1);
     1;
 }
-sub run()
-{
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my $ligne;
