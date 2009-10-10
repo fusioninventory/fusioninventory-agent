@@ -33,7 +33,7 @@ eval "use Ocsinventory::Agent;";
 if ($@) {
     print "Failed to load Ocsinventory::Agent, $@\n";
     print "you can run the agent directly for its source directory ";
-    print "with --devlib";
+    print "with --devlib\n";
     exit 1;
 }
 
