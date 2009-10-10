@@ -5,6 +5,11 @@ use Getopt::Long;
 
 our $VERSION = '1.1_beta2';
 my $basedir = '';
+
+if ($^O =~ /^MSWin/) {
+    $basedir = $ENV{APPDATA}.'/ocsinventory-agent';
+}
+
 my $default = {
   'daemon'    =>  0,
   'debug'     =>  0,
@@ -196,7 +201,7 @@ sub help {
 
 
 sub version {
-  print "Ocsinventory unified agent for UNIX, Linux and MacOSX (".$VERSION.")\n";
+  print "Ocsinventory unified agent for UNIX, Linux, MacOSX and Windows (".$VERSION.")\n";
   exit 0;
 }
 

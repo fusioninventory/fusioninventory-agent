@@ -27,6 +27,8 @@ if ($@){
     };
 }
 
+use Sys::Hostname;
+
 # END OF THE UGLY FIX!
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::XML::Inventory;
@@ -82,7 +84,7 @@ sub new {
 
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
-    if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
+    if (!-d $config->{basevardir} && !mkpath ($config->{basevardir} && $^O =~ /^MSWin/)) {
 
         if (! -d $ENV{HOME}."/.ocsinventory/var") {
             $logger->info("Failed to create ".$config->{basevardir}." directory: $!. ".
@@ -101,13 +103,16 @@ sub new {
     if (defined($config->{server}) && $config->{server}) {
         my $dir = $config->{server};
         $dir =~ s/\//_/g;
+	# On Windows, we can't have ':' in directory path
+        $dir =~ s/:/../g if $^O =~ /^MSWin/;
         $config->{vardir} = $config->{basevardir}."/".$dir;
         if (defined ($config->{local}) && $config->{local}) {
             $logger->debug ("--server ignored since you also use --local");
             $config->{server} = undef;
         }
-    } elsif (defined($config->{local}) && $config->{local}) {
-        $config->{vardir} = $config->{basevardir}."/__LOCAL__";
+# Useless, nothing is written in local mode
+#    } elsif (defined($config->{local}) && $config->{local}) {
+#        $config->{vardir} = $config->{basevardir}."/__LOCAL__";
     }
 
     if (!-d $config->{vardir} && mkpath ($config->{vardir})) {
@@ -134,7 +139,7 @@ sub new {
     $config->{deviceid}   = $accountconfig->get('DEVICEID');
 
 # Should I create a new deviceID?
-    chomp(my $hostname = `uname -n| cut -d . -f 1`);
+    my $hostname = hostname; # Sys::Hostname
     if ((!$config->{deviceid}) || $config->{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
         my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
             (time))[5,4,3,2,1,0];

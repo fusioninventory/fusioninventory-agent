@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent
 
+futur
+       * Use Sys::Hostname instead of uname for better portability
 
 newdeploy
        * post-install.pl: Don't ask the user if Download.pm should be
