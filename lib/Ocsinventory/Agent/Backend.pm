@@ -173,13 +173,18 @@ sub initModList {
     $self->{modules}->{$m}->{name} = $m;
     $self->{modules}->{$m}->{done} = 0;
     $self->{modules}->{$m}->{inUse} = 0;
-    $self->{modules}->{$m}->{enable} = $enable;
+    $self->{modules}->{$m}->{inventoryFuncEnable} = $enable;
+
+    # TODO add a isPostInventoryEnabled() function to know if we need to run
+    # the postInventory() function.
+    # Is that really needed?
+    $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
 
     $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{'isInventoryEnabled'};
     $self->{modules}->{$m}->{runAfter} = $package->{'runAfter'};
     $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{'runMeIfTheseChecksFailed'};
     $self->{modules}->{$m}->{doInventoryFunc} = $package->{'doInventory'};
-    $self->{modules}->{$m}->{postExecFunc} = $package->{'postExec'};
+    $self->{modules}->{$m}->{doPostInventoryFunc} = $package->{'doPostInventory'};
     $self->{modules}->{$m}->{mem} = {}; # Deprecated
     $self->{modules}->{$m}->{rpcCfg} = $package->{'rpcCfg'};
 # Load the Storable object is existing or return undef
@@ -208,7 +213,7 @@ sub initModList {
       next unless $self->{modules}->{$m}->{isInventoryEnabledFunc};
 # find modules to disable and their submodules
 
-      next unless $self->{modules}->{$m}->{enable};
+      next unless $self->{modules}->{$m}->{inventoryFuncEnable};
 
       my $enable = $self->runWithTimeout($m, "isInventoryEnabled");
 
@@ -216,7 +221,7 @@ sub initModList {
     if (!$enable) {
       $logger->debug ($m." ignored");
       foreach (keys %{$self->{modules}}) {
-          $self->{modules}->{$_}->{enable} = 0 if /^$m($|::)/;
+          $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
       }
     }
 
@@ -236,13 +241,13 @@ sub initModList {
 
   # Remove the runMeIfTheseChecksFailed if needed
   foreach my $m (sort keys %{$self->{modules}}) {
-    next unless	$self->{modules}->{$m}->{enable};
+    next unless	$self->{modules}->{$m}->{inventoryFuncEnable};
     next unless	$self->{modules}->{$m}->{runMeIfTheseChecksFailed};
     foreach my $condmod (@{${$self->{modules}->{$m}->{runMeIfTheseChecksFailed}}}) {
-       if ($self->{modules}->{$condmod}->{enable}) {
+       if ($self->{modules}->{$condmod}->{inventoryFuncEnable}) {
          foreach (keys %{$self->{modules}}) {
-           next unless /^$m($|::)/ && $self->{modules}->{$_}->{enable};
-           $self->{modules}->{$_}->{enable} = 0;
+           next unless /^$m($|::)/ && $self->{modules}->{$_}->{inventoryFuncEnable};
+           $self->{modules}->{$_}->{inventoryFuncEnable} = 0;
            $logger->debug ("$_ disabled because of a 'runMeIfTheseChecksFailed' in '$m'\n");
          }
       }
@@ -257,7 +262,7 @@ sub runMod {
 
   my $m = $params->{modname};
 
-  return if (!$self->{modules}->{$m}->{enable});
+  return if (!$self->{modules}->{$m}->{inventoryFuncEnable});
   return if ($self->{modules}->{$m}->{done});
 
   $self->{modules}->{$m}->{inUse} = 1; # lock the module
@@ -310,7 +315,7 @@ sub feedInventory {
 
   my $begin = time();
   foreach my $m (sort keys %{$self->{modules}}) {
-    die ">$m Houston!!!" unless $m;
+    $logger->fault(">$m Houston!!!") unless $m;
       $self->runMod ({
 	  modname => $m,
 	  });
@@ -438,7 +443,7 @@ sub runWithTimeout {
     }
 }
 
-sub postExecs {
+sub doPostInventorys {
   my ($self) = @_;
 
   my $logger = $self->{logger};
@@ -447,8 +452,8 @@ sub postExecs {
 
   foreach my $m (sort keys %{$self->{modules}}) {
 
-      if ($self->{modules}{$m}{postExecFunc}) {
-          $self->runWithTimeout($m, "postExec");
+      if ($self->{modules}{$m}{doPostInventoryFunc}) {
+          $self->runWithTimeout($m, "doPostInventory");
     }
   }
 }
@@ -469,21 +474,43 @@ sub runRpc {
         return;
     }
 
-    $logger->info("Starting the RPC server");
-# the sort is just for the presentation
-    foreach my $m (sort keys %{$self->{modules}}) {
-# find modules to disable and their submodules
+    my $server = HTTP::Server::Brick->new( port => 8888 );
 
-        next unless $self->{modules}->{$m}->{enable};
-        $logger->error("enable $m");
+    $logger->info("Starting the RPC server");
+    foreach my $m (sort keys %{$self->{modules}}) {
 
         next unless $self->{modules}->{$m}->{rpcCfg};
         $logger->error("rpcCfg $m");
         my $rpcCfg = $self->{modules}->{$m}->{rpcCfg};
+        next unless $rpcCfg;
 
         use Data::Dumper;
-        print Dumper($rpcCfg);
+        my $cfg = &$rpcCfg;
 
+        return unless $cfg;
+
+        print Dumper($cfg);
+
+        my $server = HTTP::Server::Brick->new( port => 8888 );
+
+        foreach (keys %$cfg) {
+            my $mountPoint = '/'.$m.'/'.$_;
+
+            print "$mountPoint\n";
+            if (exists ($cfg->{$mountPoint}->{path})) {
+                my $path = '/'.$m.$cfg->{$mountPoint}->{path};
+
+                $server->mount($mountPoint => {
+                        path => $path
+                    });
+            } elsif (exists ($cfg->{$mountPoint}->{myHandler})) {
+                print "castor";
+            }
+
+
+        }
+
+        $server->start;
 
 
     }

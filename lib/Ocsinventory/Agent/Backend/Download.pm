@@ -10,6 +10,7 @@ use LWP::Simple;
 use File::Path;
 use Digest::MD5 qw(md5);
 
+use Data::Dumper;
 
 use Archive::Extract;
 use File::Copy::Recursive qw(dirmove);
@@ -676,7 +677,7 @@ sub doPostExec {
 
 sub rpcCfg {
 
-    return {
+    my $h = {
 
         castor => {
             path => '/tmp'
@@ -694,6 +695,7 @@ sub rpcCfg {
         }
     };
 
+    return $h;
 }
 
 1;

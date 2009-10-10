@@ -8,7 +8,8 @@ newdeploy
        * Rename module hook functions:
           check()    → isInventoryEnabled()
           run()      → doInventory()
-          longRun()  → postInventory() 
+          longRun()  → postInventory()
+       * Add isPostInventoryEnabled() function
 
 1.1_beta2
        * addMemorie() renamed to addMemories(), this had been broken during

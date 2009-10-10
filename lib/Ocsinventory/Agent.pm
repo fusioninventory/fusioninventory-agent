@@ -372,7 +372,7 @@ sub main {
             }
 
             # call the postExec() function in the Backend
-            $backend->postExecs({
+            $backend->doPostInventorys({
                     config => $config,
                     logger => $logger
                 });
