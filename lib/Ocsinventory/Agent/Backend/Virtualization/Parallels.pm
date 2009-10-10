@@ -7,6 +7,7 @@ sub check { return can_run('prlctl') }
 sub run {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $config = $params->{config};
 
     my %status_list = (
         'running' => 'running',
@@ -24,6 +25,9 @@ sub run {
     my $cpus = 1;
     my @users = ();
 
+    # We don't want to scan user directories unless --scan-homedirs is used
+    return unless $config->{scanhomedirs};
+
     foreach my $lsuser ( glob("/Users/*") ) {
         $lsuser =~ s/.*\///; # Just keep the login
         next if /Shared/i;
@@ -35,7 +39,7 @@ sub run {
     }
 
     foreach my $user (@users) {
-        my @command = `sudo -u '$user' prlctl list -a`;
+        my @command = `su '$user' -c "prlctl list -a"`;
         shift (@command);
 
         foreach my $line ( @command ) {
