@@ -685,7 +685,6 @@ sub rpcCfg {
 
     my $h = {
         files => {
-            lock => 1,
             path => $downloadBaseDir
         }
     };
