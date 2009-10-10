@@ -684,9 +684,10 @@ sub rpcCfg {
         },
         lapon => {
 
-            myHandler => sub {
-                my ($req, $res) = @_;
-                $res->add_content("flubber");
+            handler => sub {
+                my ($req, $res, $params) = @_;
+
+                $res->add_content(Dumper($params->{config}));
                 $res->header('Content-type', 'text/plain');
                 1;
 

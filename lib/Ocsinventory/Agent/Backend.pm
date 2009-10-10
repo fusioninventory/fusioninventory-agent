@@ -465,6 +465,7 @@ sub runRpc {
 
     my $logger = $self->{logger};
     my $config = $self->{config};
+    my $inventory = $self->{inventory};
 
     $logger->fault("--allow-rpc missing!") unless $config->{allowRpc};
 
@@ -496,15 +497,42 @@ sub runRpc {
         foreach (keys %$cfg) {
             my $mountPoint = '/'.$m.'/'.$_;
 
+            $logger->debug("Launch $mountPoint");
+
             print "$mountPoint\n";
-            if (exists ($cfg->{$mountPoint}->{path})) {
+            if (exists ($cfg->{$_}->{path})) {
                 my $path = '/'.$m.$cfg->{$mountPoint}->{path};
 
                 $server->mount($mountPoint => {
                         path => $path
                     });
-            } elsif (exists ($cfg->{$mountPoint}->{myHandler})) {
-                print "castor";
+            } elsif (exists ($cfg->{$_}->{handler})) {
+                my $func = $cfg->{$_}->{handler};
+                my $storage = $self->retrieveStorage($m);
+                $server->mount(
+                    $mountPoint => {
+                        handler => sub {
+                            my ($req, $res) = @_;
+
+
+                            return &$func(
+                                $req,
+                                $res,
+                                {
+                                    config => $config,
+                                    inventory => $inventory,
+                                    logger => $logger,
+                                    storage => $storage,
+                                    prologresp => $prologresp,
+
+                                }
+                            );
+                        }
+
+                    });
+                $self->saveStorage($m);
+            } else {
+                $logger->fault("Badly formated rpcCfg() in module $m");
             }
 
 
