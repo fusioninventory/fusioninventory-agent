@@ -453,6 +453,7 @@ sub doPostInventorys {
   foreach my $m (sort keys %{$self->{modules}}) {
 
       if ($self->{modules}{$m}{doPostInventoryFunc}) {
+          $logger->info("$m → doPostInventory");
           $self->runWithTimeout($m, "doPostInventory");
     }
   }
@@ -476,7 +477,6 @@ sub runRpc {
         return;
     }
 
-    my $server = HTTP::Server::Brick->new( port => 62354 );
 
     $logger->info("Starting the RPC server");
     foreach my $m (sort keys %{$self->{modules}}) {
@@ -494,6 +494,7 @@ sub runRpc {
         print Dumper($cfg);
 
 
+        my @HTTPServerBrickMountPoints;
         foreach (keys %$cfg) {
             my $mountPoint = '/'.$m.'/'.$_;
 
@@ -503,14 +504,13 @@ sub runRpc {
                 my $path = $cfg->{$_}->{path};
 
                 $logger->debug("$mountPoint → $path");
-                $server->mount($mountPoint => {
+                push @HTTPServerBrickMountPoints, [$mountPoint => {
                         path => $path
-                    });
+                    }];
             } elsif (exists ($cfg->{$_}->{handler})) {
                 my $func = $cfg->{$_}->{handler};
                 my $storage = $self->retrieveStorage($m);
-                $server->mount(
-                    $mountPoint => {
+                push @HTTPServerBrickMountPoints, [$mountPoint => {
                         handler => sub {
                             my ($req, $res) = @_;
 
@@ -529,7 +529,7 @@ sub runRpc {
                             );
                         }
 
-                    });
+                    }];
                 $self->saveStorage($m);
             } else {
                 $logger->fault("Badly formated rpcCfg() in module $m");
@@ -538,7 +538,17 @@ sub runRpc {
 
         }
 
-        $server->start;
+
+        # Let's create the HTTP::Server::Brick object and start it in
+        # a thread...
+        my $thr = threads->create(sub {
+                my $server = HTTP::Server::Brick->new( port => 62354 );
+                foreach (@HTTPServerBrickMountPoints) {
+                    $server->mount($_->[0], $_->[1]);
+                }
+            }
+        );
+        print $thr."\n";
 
 
     }

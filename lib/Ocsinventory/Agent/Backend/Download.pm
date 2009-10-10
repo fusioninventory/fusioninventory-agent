@@ -536,7 +536,7 @@ sub isInventoryEnabled {
                     $this->reportError($orderId, "Failed to load ".
                         "Net::SSLGlue::LWP, to validate the server ".
                         "SSL cert.");
-                    return;
+                    next;
                 }
             } else {
                 $logger->info("--unsecure-software-deployment parameter".
@@ -614,7 +614,7 @@ sub doInventory {
 }
 
 
-sub doPostExec {
+sub doPostInventory {
 
     my $this = shift;
 

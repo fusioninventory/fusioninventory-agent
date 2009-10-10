@@ -20,6 +20,7 @@
 
 use strict;
 use warnings;
+use threads;
 
 my $devlib;
 foreach (@ARGV) {

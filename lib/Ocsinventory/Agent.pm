@@ -371,18 +371,19 @@ sub main {
                 exit (1) unless $config->{daemon};
             }
 
+            # Start the built in HTTP daemon if --allow-rpc is enabled
+            #    $backend->runRpc() if $config->{allowRpc};
+            $backend->runRpc();
+
             # call the postExec() function in the Backend
             $backend->doPostInventorys({
                     config => $config,
                     logger => $logger
                 });
 
-            # Start the built in HTTP daemon if --allow-rpc is enabled
-            $backend->runRpc() if $config->{allowRpc};
-            sleep(180);
 
-
-
+            $logger->debug("Sleeping...ZzZZZ");
+            sleep(15);
             # Break the loop if needed 
             exit (0) unless $config->{daemon};
         }
