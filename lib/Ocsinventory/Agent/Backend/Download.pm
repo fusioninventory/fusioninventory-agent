@@ -230,7 +230,6 @@ sub processOrderCmd {
 
         $logger->debug("Launching $cmd...");
 
-        # TODO, add ./ only for non Windows OS.
         if (!chdir("$targetDir/run")) {
             $this->reportError($orderId, "Failed to chdir to '$cwd'");
             return;
@@ -609,6 +608,8 @@ sub run {
 
   use Data::Dumper;
   print Dumper($storage);
+
+  # Record in the Inventory the commands already recieved by the agent
   foreach (keys %{$storage->{byId}}) {
     $inventory->addSoftwareDeploymentPackage($_);
   }
