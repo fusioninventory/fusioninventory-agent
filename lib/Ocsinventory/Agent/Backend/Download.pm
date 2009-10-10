@@ -676,26 +676,20 @@ sub doPostExec {
 }
 
 sub rpcCfg {
+    my $self = shift;
+
+    my $config = $self->{config};
+
+    my $filesPath;
+    my $downloadBaseDir = $config->{vardir}.'/download';
 
     my $h = {
-
-        castor => {
-            path => '/tmp'
-        },
-        lapon => {
-
-            handler => sub {
-                my ($req, $res, $params) = @_;
-
-                $res->add_content(Dumper($params->{config}));
-                $res->header('Content-type', 'text/plain');
-                1;
-
-            }
-
+        files => {
+            lock => 1,
+            path => $downloadBaseDir
         }
     };
-
+       
     return $h;
 }
 

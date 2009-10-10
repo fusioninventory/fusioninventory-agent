@@ -466,6 +466,7 @@ sub runRpc {
     my $logger = $self->{logger};
     my $config = $self->{config};
     my $inventory = $self->{inventory};
+    my $prologresp = $self->{prologresp};
 
     $logger->fault("--allow-rpc missing!") unless $config->{allowRpc};
 
@@ -475,7 +476,7 @@ sub runRpc {
         return;
     }
 
-    my $server = HTTP::Server::Brick->new( port => 8888 );
+    my $server = HTTP::Server::Brick->new( port => 62354 );
 
     $logger->info("Starting the RPC server");
     foreach my $m (sort keys %{$self->{modules}}) {
@@ -492,17 +493,16 @@ sub runRpc {
 
         print Dumper($cfg);
 
-        my $server = HTTP::Server::Brick->new( port => 8888 );
 
         foreach (keys %$cfg) {
             my $mountPoint = '/'.$m.'/'.$_;
 
             $logger->debug("Launch $mountPoint");
 
-            print "$mountPoint\n";
             if (exists ($cfg->{$_}->{path})) {
-                my $path = '/'.$m.$cfg->{$mountPoint}->{path};
+                my $path = $cfg->{$_}->{path};
 
+                $logger->debug("$mountPoint → $path");
                 $server->mount($mountPoint => {
                         path => $path
                     });
