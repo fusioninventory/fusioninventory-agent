@@ -140,6 +140,7 @@ sub run {
         $config->{config}{server} = "http://".$config->{config}{server}.'/ocsinventory';
     }
 
+
 ############################
 #### Objects initilisation
 ############################
