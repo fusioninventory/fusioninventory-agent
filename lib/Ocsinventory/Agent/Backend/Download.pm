@@ -304,14 +304,14 @@ sub downloadAndConstruct {
 
     $logger->debug("processing ".$orderId);
 
+    my $fragLatency = $storage->{config}->{FRAG_LATENCY};
+    $order->{ERROR_COUNT}=0 unless exists($order->{ERROR_COUNT});
+
 
     my $baseUrl = ($order->{PROTO} =~ /^HTTP$/i)?"http://":"";
     $baseUrl .= $order->{PACK_LOC};
     $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/;
     $baseUrl .= $orderId;
-
-    $logger->info("Download the file(s) if needed");
-
 
     # Randomise the download order
     my @downloadToDo;
@@ -320,22 +320,24 @@ sub downloadAndConstruct {
 
         my $localFile = $targetDir.'/'.$frag;
 
-        next if -f $localFile; # Local file already here
-
-        push (@downloadToDo, '1');
+        if (-f $localFile) {
+            push (@downloadToDo, '0');
+        } else {
+            push (@downloadToDo, '1');
+        }
     }
-    my $fragLatency = $storage->{config}->{FRAG_LATENCY};
 
     if (@downloadToDo) {
-        $logger->info("Will download ".int(@downloadToDo)." ".
-            "fragments and wait `$fragLatency'".
-            "second(s) between each of them");
+        $logger->info("Will download ".
+            int(grep (/1/, @downloadToDo)).
+            " ".
+            "fragments in a random order and wait `$fragLatency'".
+            " second(s) between each of them");
     }
     while (grep (/1/, @downloadToDo)) {
 
         my $fragID = int(rand(@downloadToDo))+1; # pick a random frag
         next unless $downloadToDo[$fragID-1] == 1; # Already done?
-        $downloadToDo[$fragID-1] = 0;
 
 
         my $frag = $orderId.'-'.$fragID;
@@ -346,7 +348,9 @@ sub downloadAndConstruct {
         my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
         if (is_success($rc) && move($localFile.'.part', $localFile)) {
             # TODO to a md5sum/sha256 check here
+            $order->{ERROR_COUNT}=0;
             $logger->debug($remoteFile.' -> '.$localFile.': success');
+            $downloadToDo[$fragID-1] = 0;
 
             sleep ($fragLatency);
 
@@ -354,7 +358,13 @@ sub downloadAndConstruct {
             $logger->error($remoteFile.' -> '.$localFile.': failed');
             unlink ($localFile.'.part');
             unlink ($localFile);
-            # TODO Count the number of failure
+            $order->{ERROR_COUNT}++;
+
+            sleep ($fragLatency);
+        }
+
+        if ($order->{ERROR_COUNT}>30) {
+            $this->reportError($orderId, "Max download error reached");
             return;
         }
     }
@@ -377,7 +387,6 @@ sub downloadAndConstruct {
             $logger->error("Failed to open $localFile");
 
             close FINALFILE;
-            $logger->error("Failed to remove $baseUrl") unless unlink $baseUrl;
             return;
         }
         binmode(FRAG);
@@ -556,7 +565,8 @@ sub isInventoryEnabled {
             $storage->{config} = $conf->[0];
         } elsif ($paramHash->{TYPE} eq 'PACK') {
             my $orderId = $paramHash->{ID};
-            if ($storage->{byId}{$orderId}) {
+            if ($storage->{byId}{$orderId}{ERR}) {
+                # ERR is set at the end of the process (SUCCESS or ERROR)
                 $this->setErrorCode('ERR_ALREADY_SETUP');
                 $this->reportError($orderId, "$orderId has already been".
                     "processed");
