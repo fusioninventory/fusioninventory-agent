@@ -1,5 +1,28 @@
 package Ocsinventory::Agent::Backend::Download;
 
+# TODO
+# TIMEOUT="30" number of retry to do on a download
+# CYCLE_LATENCY="60" time to wait between each different priority processing
+# PERIOD_LENGTH="10" nbr of cylce during a period 
+#
+# DONE
+# FRAG_LATENCY="10" time to wait between to frag
+# PERIOD_LATENCY="1" time to wait between to package
+
+#
+# period()
+#  for i in PERIOD_LENGTH
+#    foreach priority
+#      foreach package per priority
+#         ' download each frags
+#         ' sleep()FRAG_LATENCY
+#      - then sleep(CYCLE_LATENCY)
+#    - at the end sleep(PERIOD_LATENCY)
+#
+#
+#
+#
+
 use strict;
 use warnings;
 
@@ -293,7 +316,20 @@ sub downloadAndConstruct {
     # Randomise the download order
     my @downloadToDo;
     foreach (1..($order->{FRAGS})) {
+        my $frag = $orderId.'-'.$_;
+
+        my $localFile = $targetDir.'/'.$frag;
+
+        next if -f $localFile; # Local file already here
+
         push (@downloadToDo, '1');
+    }
+    my $fragLatency = $storage->{config}->{FRAG_LATENCY};
+
+    if (@downloadToDo) {
+        $logger->info("Will download ".int(@downloadToDo)." ".
+            "fragments and wait `$fragLatency'".
+            "second(s) between each of them");
     }
     while (grep (/1/, @downloadToDo)) {
 
@@ -307,12 +343,12 @@ sub downloadAndConstruct {
         my $remoteFile = $baseUrl.'/'.$frag;
         my $localFile = $targetDir.'/'.$frag;
 
-        next if -f $localFile; # Local file already here
-
         my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
         if (is_success($rc) && move($localFile.'.part', $localFile)) {
             # TODO to a md5sum/sha256 check here
             $logger->debug($remoteFile.' -> '.$localFile.': success');
+
+            sleep ($fragLatency);
 
         } else {
             $logger->error($remoteFile.' -> '.$localFile.': failed');
@@ -637,41 +673,53 @@ sub doPostInventory {
     use Data::Dumper;
     print Dumper($storage);
 
-    foreach my $priority (0..10) {
-        foreach my $orderId (keys %{$storage->{byPriority}->[$priority]}) {
-            $this->clean({
-                    cleanUpLevel => 2,
-                    orderId => $orderId
-                });
-           
-            my $targetDir = $downloadBaseDir.'/'.$orderId;
-            if (!-d "$targetDir/run" && !mkpath("$targetDir/run")) {
-                $logger->error("Failed to create $targetDir/run");
-                return;
-            }
-            my $order = $storage->{byId}->{$orderId};
+    # Try to imitate as much as I can the Windows agent
+#    foreach (0..$storage->{config}->{PERIOD_LENGTH}) {
+        foreach my $priority (1..10) {
+            foreach my $orderId (keys %{$storage->{byPriority}->[$priority]}) {
+                my $order = $storage->{byId}->{$orderId};
+
+                # Already processed
+                next if exists($order->{ERR});
+
+                $this->clean({
+                        cleanUpLevel => 2,
+                        orderId => $orderId
+                    });
+
+                my $targetDir = $downloadBaseDir.'/'.$orderId;
+                if (!-d "$targetDir/run" && !mkpath("$targetDir/run")) {
+                    $logger->error("Failed to create $targetDir/run");
+                    return;
+                }
 
 
-            # A file is attached to this order
-            if ($order->{FRAGS}) {
-                next unless $this->downloadAndConstruct({
+                # A file is attached to this order
+                if ($order->{FRAGS}) {
+                    next unless $this->downloadAndConstruct({
                             orderId => $orderId
                         });
-                next unless $this->extractArchive({
+                    next unless $this->extractArchive({
                             orderId => $orderId
                         });
-            }
+                }
 
-            next unless $this->processOrderCmd({
-                    orderId => $orderId
-                });
-            delete ($storage->{byPriority}->[$priority]->{$orderId});
-            next unless $this->clean({
-                    cleanUpLevel => 2,
-                    orderId => $orderId
-                });
+                next unless $this->processOrderCmd({
+                        orderId => $orderId
+                    });
+                delete ($storage->{byPriority}->[$priority]->{$orderId});
+                next unless $this->clean({
+                        cleanUpLevel => 2,
+                        orderId => $orderId
+                    });
+                $logger->debug("order $orderId processed, wait ".
+                    $storage->{config}->{CYCLE_LATENCY}." seconds.");
+                sleep ($storage->{config}->{CYCLE_LATENCY});
+            }
         }
-    }
+        $logger->debug("End of period...");
+#        sleep($storage->{config}-> {PERIOD_LATENCY});
+#    }
 
 }
 
