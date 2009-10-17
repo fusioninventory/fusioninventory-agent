@@ -166,7 +166,7 @@ sub help {
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$config->{info}.")\n";
-  print STDERR "\t-i --allow-rpc      allow remote connexion (".$config->{allowRpc}.")\n";
+  print STDERR "\t   --allow-rpc      allow remote connexion (".$config->{allowRpc}.")\n";
   print STDERR "\t--lazy              do not contact the server more than one time during the PROLOG_FREQ (".$config->{lazy}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
   "inventory in DIR directory in XML (".$config->{local}.")\n";
