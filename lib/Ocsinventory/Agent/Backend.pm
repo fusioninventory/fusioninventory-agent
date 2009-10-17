@@ -469,7 +469,9 @@ sub runRpc {
     my $inventory = $self->{inventory};
     my $prologresp = $self->{prologresp};
 
-    $logger->fault("--allow-rpc missing!") unless $config->{allowRpc};
+    if (!$config->{allowRpc}) {
+        $logger->debug("--allow-rpc, RPC mode disabled");
+    }
 
     eval "use HTTP::Server::Brick;";
     if ($@) {
