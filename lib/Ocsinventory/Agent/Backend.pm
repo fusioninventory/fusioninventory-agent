@@ -388,16 +388,19 @@ Run a function with a timeout.
 
 =cut
 sub runWithTimeout {
-    my ($self, $m, $funcName) = @_;
+    my ($self, $m, $funcName, $timeout) = @_;
 
     my $logger = $self->{logger};
 
     my $ret;
+    
+    if (!$timeout) {
+        $timeout = $self->{accountinfo}{config}{backendCollectTimeout};
+    }
 
     my $storage = $self->retrieveStorage($m);
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        my $timeout = $self->{accountinfo}{config}{backendCollectTimeout};
         alarm $timeout;
 
 
@@ -454,7 +457,7 @@ sub doPostInventorys {
 
       if ($self->{modules}{$m}{doPostInventoryFunc}) {
           $logger->info("$m → doPostInventory");
-          $self->runWithTimeout($m, "doPostInventory");
+          $self->runWithTimeout($m, "doPostInventory", 3600*2);
     }
   }
 }
