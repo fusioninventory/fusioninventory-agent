@@ -214,6 +214,21 @@ works but is deperecated.
 
 =back
 
+=head1 CONFIG FILE
+
+The agent try to initilise the settings from the B<ocsinventory-agent.cfg>
+config file.
+
+It looks for the file in these directory:
+
+=item /etc/ocsinventory
+
+=item /usr/local/etc/ocsinventory
+
+=item /etc/ocsinventory-agent
+
+=back
+
 =head1 AUTHORS
 
 The maintainer is Goneri LE BOUDER <goneri@rulezlan.org>
