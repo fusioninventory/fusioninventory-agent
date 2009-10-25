@@ -78,6 +78,7 @@ sub new {
         $config->{server} = "http://".$config->{server}.'/ocsinventory';
     }
 
+
 ############################
 #### Objects initilisation
 ############################
