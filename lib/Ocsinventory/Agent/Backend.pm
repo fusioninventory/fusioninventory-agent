@@ -519,6 +519,7 @@ sub runRpc {
                         handler => sub {
                             my ($req, $res) = @_;
 
+                            my %params = $req->{_uri}->query_form;
 
                             return &$func(
                                 $req,
@@ -529,6 +530,7 @@ sub runRpc {
                                     logger => $logger,
                                     storage => $storage,
                                     prologresp => $prologresp,
+                                    uriParams => \%params
 
                                 }
                             );
@@ -551,6 +553,7 @@ sub runRpc {
                 foreach (@HTTPServerBrickMountPoints) {
                     $server->mount($_->[0], $_->[1]);
                 }
+                $server->start();
             }
         );
         print $thr."\n";
