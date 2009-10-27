@@ -496,9 +496,10 @@ sub runRpc {
         $logger->error("rpcCfg $m");
         my $rpcCfg = $self->{modules}->{$m}->{rpcCfg};
         next unless $rpcCfg;
+        my $instance = $self->{modules}->{$m}->{instance};
 
         use Data::Dumper;
-        my $cfg = &$rpcCfg;
+        my $cfg = $instance?$instance->rpcCfg():&$rpcCfg;
 
         return unless $cfg;
 
