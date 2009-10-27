@@ -738,13 +738,49 @@ sub rpcCfg {
 
     my $config = $self->{config};
 
-    my $filesPath;
-    my $downloadBaseDir = $config->{vardir}.'/download';
+#    my $downloadBaseDir = $config->{vardir}.'/download';
 
     my $h = {
-        files => {
-            path => $downloadBaseDir
+#        files => {
+#            path => $downloadBaseDir
+#        },
+        download => {
+            handler => sub {
+                my ($req, $res, $params) = @_;
+
+                my $config = $params->{config};
+                my $uriParams = $params->{uriParams};
+                
+                my $orderId = $uriParams->{orderId};
+                my $fragId = $uriParams->{fragId};
+
+                my $downloadBaseDir = $config->{vardir}.'/download';
+                my $targetDir = $downloadBaseDir.'/'.$orderId;
+                my $targetFile = $targetDir.'/'.$orderId.'-'.$fragId;
+
+                if (!-f $targetFile) {
+#                    $res->code(404);
+                    return 404;
+                }
+
+                print Dumper($uriParams);
+
+                if (!open FILE, "<".$targetFile) {
+#                    $res->code(403);
+                    return 403;
+                }
+                binmode(FILE);
+
+                $res->header('Content-Type' => 'binary/octet-stream');
+                my $buff;
+                while(read(FILE, $buff, 512)) {
+                    $res->add_content($buff);
+                }
+
+                close FILE;
+            },
         }
+
     };
        
     return $h;
