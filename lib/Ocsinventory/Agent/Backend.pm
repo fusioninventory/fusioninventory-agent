@@ -340,7 +340,10 @@ sub retrieveStorage {
 
     my $logger = $self->{logger};
 
-    my $storagefile = $self->{config}->{vardir}."/$m.storage";
+    my $fileName = "/$m.storage";
+    $fileName =~ s/::/-/g; # Windows doesn't allow : in filename
+
+    my $storagefile = $self->{config}->{vardir}.$fileName;
 
     if (!exists &retrieve) {
         eval "use Storable;";
@@ -373,7 +376,10 @@ sub saveStorage {
         }
     }
 
-    my $storagefile = $self->{config}->{vardir}."/$m.storage";
+    my $fileName = "/$m.storage";
+    $fileName =~ s/::/-/g; # Windows doesn't allow : in filename
+
+    my $storagefile = $self->{config}->{vardir}.$fileName;
     if ($data && keys (%$data)>0) {
 	store ($data, $storagefile) or die;
     } elsif (-f $storagefile) {
