@@ -389,7 +389,7 @@ sub main {
 
 
             $logger->debug("Sleeping...ZzZZZ");
-            sleep(15);
+            sleep(35);
             # Break the loop if needed 
             exit (0) unless $config->{daemon};
         }
