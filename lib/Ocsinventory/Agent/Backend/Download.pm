@@ -70,10 +70,10 @@ sub clean {
     my $orderId = $params->{orderId};
 
     my $downloadBaseDir = $config->{vardir}.'/download';
-    my $targetDir = $downloadBaseDir.'/'.$orderId;
+    my $downloadTargetDir = $downloadBaseDir.'/'.$orderId;
 
     $logger->fault("no orderId") unless $orderId;
-    return unless -d $targetDir;
+    return unless -d $downloadTargetDir;
 
 
     my $level = [
@@ -81,11 +81,11 @@ sub clean {
     # Level 0
     # only clean the part files
     sub {
-        my @part = glob("$targetDir/*.part");
+        my @part = glob("$downloadTargetDir/*.part");
         return unless @part;
 
         $logger->debug("Clean the partially downloaded files for $orderId");
-        foreach (glob("$targetDir/*.part")) {
+        foreach (glob("$downloadTargetDir/*.part")) {
             if (!unlink($_)) {
                 $this->reportError($orderId, "Failed to clean $_ up");
             }
@@ -95,32 +95,32 @@ sub clean {
     # Level 1
     # only clean the run directory.
     sub {
-        return unless -d "$targetDir/run";
-        $logger->debug("Clean the $targetDir/run directory");
-        if (!rmtree("$targetDir/run")) {
-            $this->reportError($orderId, "Failed to clean $targetDir/run up");
+        return unless -d "$downloadTargetDir/run";
+        $logger->debug("Clean the $downloadTargetDir/run directory");
+        if (!rmtree("$downloadTargetDir/run")) {
+            $this->reportError($orderId, "Failed to clean $downloadTargetDir/run up");
         }
     },
 
     # Level 2
     # clean the final file
     sub {
-        return unless -f "$targetDir/final";
+        return unless -f "$downloadTargetDir/final";
 
-        $logger->debug("Clean the $targetDir/file file");
-        if (!unlink("$targetDir/final")) {
-            $this->reportError($orderId, "Failed to clean $targetDir/final up");
+        $logger->debug("Clean the $downloadTargetDir/file file");
+        if (!unlink("$downloadTargetDir/final")) {
+            $this->reportError($orderId, "Failed to clean $downloadTargetDir/final up");
         }
     },
 
     # Level 3
     # clean the PACK
     sub {
-        return unless -d $targetDir;
+        return unless -d $downloadTargetDir;
 
-        $logger->debug("Remove the fragment in $targetDir ");
-        if (!rmtree("$targetDir/run")) {
-            $this->reportError($orderId, "Failed to remove $targetDir");
+        $logger->debug("Remove the fragment in $downloadTargetDir ");
+        if (!rmtree("$downloadTargetDir/run")) {
+            $this->reportError($orderId, "Failed to remove $downloadTargetDir");
         }
     },
 
@@ -149,11 +149,11 @@ sub extractArchive {
     my $order = $storage->{byId}->{$orderId};
 
     my $downloadBaseDir = $config->{vardir}.'/download';
-    my $targetDir = $downloadBaseDir.'/'.$orderId;
+    my $downloadTargetDir = $downloadBaseDir.'/'.$orderId;
 
     $this->setErrorCode('ERR_EXECUTE'); # ERR_EXTRACT ?
-    if (!open FILE, "<$targetDir/final") {
-        $this->reportError($orderId, "Failed to open $targetDir/final: $!");
+    if (!open FILE, "<$downloadTargetDir/final") {
+        $this->reportError($orderId, "Failed to open $downloadTargetDir/final: $!");
         return;
     }
     binmode(FILE);
@@ -163,7 +163,7 @@ sub extractArchive {
     my $magicNumber = unpack("S<", $tmp);
 
     if (!$magicNumber) {
-        $this->reportError($orderId, "Failed to read magic number for $targetDir/final");
+        $this->reportError($orderId, "Failed to read magic number for $downloadTargetDir/final");
         return;
     }
 
@@ -178,7 +178,7 @@ sub extractArchive {
 
     if (!$type->{$magicNumber}) {
         $this->reportError($orderId, "Unknow magic number $magicNumber! ".
-            "Sorry I can't extract this archive ( $targetDir/final ). ".
+            "Sorry I can't extract this archive ( $downloadTargetDir/final ). ".
             "If you think, your archive is valide, please submit a bug on ".
             "http://launchpad.net/ocsinventory with this message and the ".
             "archive.");
@@ -188,17 +188,17 @@ sub extractArchive {
     $Archive::Extract::DEBUG=$config->{debug}?1:0;
     my $archiveExtract = Archive::Extract->new(
 
-        archive => "$targetDir/final",
+        archive => "$downloadTargetDir/final",
         type => $type->{$magicNumber}
 
     );
 
-    if (!$archiveExtract->extract(to => "$targetDir/run")) {
-        $this->reportError($orderId, "Failed to extract archive $targetDir/run");
+    if (!$archiveExtract->extract(to => "$downloadTargetDir/run")) {
+        $this->reportError($orderId, "Failed to extract archive $downloadTargetDir/run");
         return;
     }
 
-    $logger->debug("Archive $targetDir/run extracted");
+    $logger->debug("Archive $downloadTargetDir/run extracted");
 
     1;
 }
@@ -214,7 +214,7 @@ sub processOrderCmd {
     my $order = $storage->{byId}->{$orderId};
 
     my $downloadBaseDir = $config->{vardir}.'/download';
-    my $targetDir = $downloadBaseDir.'/'.$orderId;
+    my $downloadTargetDir = $downloadBaseDir.'/'.$orderId;
 
     $this->setErrorCode('ERR_EXECUTE');
     my $cwd = getcwd;
@@ -225,7 +225,7 @@ sub processOrderCmd {
             # TODO clean up
             return;
         }
-        foreach (glob("$targetDir/run/*")) {
+        foreach (glob("$downloadTargetDir/run/*")) {
             if ((-d $_ && !dirmove($_, $order->{PATH}))
                 &&
                 (-f $_ && !move($_, $order->{PATH}))) {
@@ -236,8 +236,8 @@ sub processOrderCmd {
     } elsif ($order->{ACT} =~ /^(LAUNCH|EXECUTE)$/) {
 
         my $cmd = $order->{'NAME'};
-        if (!-f "$targetDir/run/$cmd") {
-            $this->reportError($orderId, "$targetDir/run/$cmd not found");
+        if (!-f "$downloadTargetDir/run/$cmd") {
+            $this->reportError($orderId, "$downloadTargetDir/run/$cmd not found");
             return;
         }
 
@@ -245,7 +245,7 @@ sub processOrderCmd {
         if ($order->{ACT} eq 'LAUNCH') {
             if ($^O !~ /^MSWin/) {
                 $cmd .= './' unless $cmd =~ /^\//;
-                if (chmod(0755, "$targetDir/run/$cmd")) {
+                if (chmod(0755, "$downloadTargetDir/run/$cmd")) {
                     $this->reportError($orderId, "Cannot chmod: $!");
                     return;
                 }
@@ -254,7 +254,7 @@ sub processOrderCmd {
 
         $logger->debug("Launching $cmd...");
 
-        if (!chdir("$targetDir/run")) {
+        if (!chdir("$downloadTargetDir/run")) {
             $this->reportError($orderId, "Failed to chdir to '$cwd'");
             return;
         }
@@ -294,7 +294,7 @@ sub downloadAndConstruct {
     my $order = $storage->{byId}->{$orderId};
 
     my $downloadBaseDir = $config->{vardir}.'/download';
-    my $targetDir = $downloadBaseDir.'/'.$orderId;
+    my $downloadTargetDir = $downloadBaseDir.'/'.$orderId;
 
     $this->setErrorCode("ERR_DOWNLOAD_PACK");
 
@@ -318,7 +318,7 @@ sub downloadAndConstruct {
     foreach (1..($order->{FRAGS})) {
         my $frag = $orderId.'-'.$_;
 
-        my $localFile = $targetDir.'/'.$frag;
+        my $localFile = $downloadTargetDir.'/'.$frag;
 
         if (-f $localFile) {
             push (@downloadToDo, '0');
@@ -343,7 +343,7 @@ sub downloadAndConstruct {
         my $frag = $orderId.'-'.$fragID;
 
         my $remoteFile = $baseUrl.'/'.$frag;
-        my $localFile = $targetDir.'/'.$frag;
+        my $localFile = $downloadTargetDir.'/'.$frag;
 
         my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
         if (is_success($rc) && move($localFile.'.part', $localFile)) {
@@ -372,9 +372,9 @@ sub downloadAndConstruct {
 
     ### Recreate the archive
     $this->setErrorCode('ERR_BUILD'); 
-    $logger->info("Construct the archive in $targetDir/final");
-    if (!open (FINALFILE, ">$targetDir/final")) {
-        $logger->error("Failed to open $targetDir/final");
+    $logger->info("Construct the archive in $downloadTargetDir/final");
+    if (!open (FINALFILE, ">$downloadTargetDir/final")) {
+        $logger->error("Failed to open $downloadTargetDir/final");
         return;
     }
     binmode(FINALFILE); # ...
@@ -382,7 +382,7 @@ sub downloadAndConstruct {
     foreach my $fragID (1..$order->{FRAGS}) {
         my $frag = $orderId.'-'.$fragID;
 
-        my $localFile = $targetDir.'/'.$frag;
+        my $localFile = $downloadTargetDir.'/'.$frag;
         if (!open (FRAG, "<$localFile")) {
             $logger->error("Failed to open $localFile");
 
@@ -411,7 +411,7 @@ sub downloadAndConstruct {
         return;
     }
     my $md5 = Digest::MD5->new;
-    if (open (FINALFILE, "<$targetDir/final")) {
+    if (open (FINALFILE, "<$downloadTargetDir/final")) {
         binmode(FINALFILE); # ...
         $md5->add($_) while (<FINALFILE>);
         close FINALFILE;
@@ -697,9 +697,9 @@ sub doPostInventory {
                         orderId => $orderId
                     });
 
-                my $targetDir = $downloadBaseDir.'/'.$orderId;
-                if (!-d "$targetDir/run" && !mkpath("$targetDir/run")) {
-                    $logger->error("Failed to create $targetDir/run");
+                my $downloadTargetDir = $downloadBaseDir.'/'.$orderId;
+                if (!-d "$downloadTargetDir/run" && !mkpath("$downloadTargetDir/run")) {
+                    $logger->error("Failed to create $downloadTargetDir/run");
                     return;
                 }
 
@@ -755,8 +755,8 @@ sub rpcCfg {
 #                my $fragId = $uriParams->{fragId};
 #
 #                my $downloadBaseDir = $config->{vardir}.'/download';
-#                my $targetDir = $downloadBaseDir.'/'.$orderId;
-#                my $targetFile = $targetDir.'/'.$orderId.'-'.$fragId;
+#                my $downloadTargetDir = $downloadBaseDir.'/'.$orderId;
+#                my $targetFile = $downloadTargetDir.'/'.$orderId.'-'.$fragId;
 #
 #                if (!-f $targetFile) {
 ##                    $res->code(404);
