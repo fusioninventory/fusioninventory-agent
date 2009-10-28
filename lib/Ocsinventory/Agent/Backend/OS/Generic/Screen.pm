@@ -522,6 +522,7 @@ sub _getManifacturerFromCode {
     "ICL" => "Fujitsu ICL",
     "IVM" => "Idek Iiyama North America, Inc.",
     "KFC" => "KFC Computek",
+    "LGD" => "LG Display",
     "LKM" => "ADLAS / AZALEA",
     "LNK" => "LINK Technologies, Inc.",
     "LTN" => "Lite-On",
