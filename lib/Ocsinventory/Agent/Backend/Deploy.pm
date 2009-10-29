@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Backend::Download;
+package Ocsinventory::Agent::Backend::Deploy;
 
 # TODO
 # TIMEOUT="30" number of retry to do on a download
