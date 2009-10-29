@@ -828,7 +828,6 @@ sub findMirror {
                 my $address = $1;
                 next if $address =~ /^127\./;
                 push @addresses, $address;
-                print $address."\n";
             }
 
         }
@@ -853,7 +852,7 @@ sub findMirror {
             next;
         }
 
-        $logger->debug("scanning $prefix"."0/24");
+#        $logger->debug("scanning $prefix"."0/24");
 
         foreach (grep (/1/, @IpToCheck)) {
             if (threads->list(threads::running) > 50) {
@@ -916,6 +915,7 @@ sub findMirror {
         # We got a winner!
         if ($result) {
             $_->join foreach threads->list;
+            $logger->debug("File found here: $result");
             return $result;
         }
 
