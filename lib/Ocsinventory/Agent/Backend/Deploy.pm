@@ -91,7 +91,7 @@ sub clean {
     $logger->fault("orderId missing") unless $orderId;
 
     my $downloadDir = $self->{downloadBaseDir}.'/'.$orderId;
-    my $runDir = $self->{downloadBaseDir}.'/'.$orderId;
+    my $runDir = $self->{runBaseDir}.'/'.$orderId;
 
     $logger->fault("no orderId") unless $orderId;
     return unless -d $downloadDir;
@@ -718,7 +718,7 @@ sub doPostInventory {
                 next if exists($order->{ERR});
 
                 $self->clean({
-                        cleanUpLevel => 2,
+                        cleanUpLevel => 1,
                         orderId => $orderId
                     });
 
@@ -750,7 +750,7 @@ sub doPostInventory {
                     });
                 delete ($storage->{byPriority}->[$priority]->{$orderId});
                 next unless $self->clean({
-                        cleanUpLevel => 2,
+                        cleanUpLevel => 1,
                         orderId => $orderId
                     });
                 $logger->debug("order $orderId processed, wait ".
