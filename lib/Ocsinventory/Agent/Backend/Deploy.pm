@@ -371,25 +371,25 @@ sub downloadAndConstruct {
             # Can't find a mirror in my networks with the file, I grab it
             # directly from the main server
             $remoteFile = $baseUrl.'/'.$frag;
+            sleep ($fragLatency);
         }
         my $localFile = $downloadDir.'/'.$frag;
 
         my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
         if (is_success($rc) && move($localFile.'.part', $localFile)) {
+
             # TODO to a md5sum/sha256 check here
             $order->{ERROR_COUNT}=0;
             $logger->debug($remoteFile.' -> '.$localFile.': success');
             $downloadToDo[$fragID-1] = 0;
 
-            sleep ($fragLatency);
-
         } else {
+
             $logger->error($remoteFile.' -> '.$localFile.': failed');
             unlink ($localFile.'.part');
             unlink ($localFile);
             $order->{ERROR_COUNT}++;
 
-            sleep ($fragLatency);
         }
 
         if ($order->{ERROR_COUNT}>30) {
