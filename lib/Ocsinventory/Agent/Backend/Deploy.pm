@@ -866,7 +866,7 @@ sub findMirror {
 
             my $ip = $prefix.$id;
             my $url =
-            "http://$ip:62354/Ocsinventory::Agent::Backend::Download/$orderId/$orderId-$fragId";
+            "http://$ip:62354/Ocsinventory::Agent::Backend::Deploy/$orderId/$orderId-$fragId";
 
 
 
