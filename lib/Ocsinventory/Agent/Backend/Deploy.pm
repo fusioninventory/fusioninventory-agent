@@ -634,7 +634,7 @@ sub isInventoryEnabled {
 
             my $infoHash = XML::Simple::XMLin( $content );
             if (!$infoHash) {
-                $self->reportError($orderId, "Failed to read info file `$infoURI'");
+                $self->reportError($orderId, "Failed to parse info file `$infoURI'");
                 next;
             }
             $infoHash->{RECEIVED_DATE} = time;
