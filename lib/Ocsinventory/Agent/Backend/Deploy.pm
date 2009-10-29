@@ -885,18 +885,19 @@ sub findMirror {
 
                         my $rc = LWP::Simple::getstore($url, $tempFile);
                         if (is_success($rc)) {
-                            $linkIsOk=1;
+                            return ($url);
+#                            $linkIsOk=1;
                         }
 
                         alarm 0;
                     };
-                    my $sb = stat($tempFile);
-                    if ($sb && $sb->size > 100000) {
-                        $linkIsOk=1;
-                        unlink $tempFile;
-                        return ($url); 
-                    }
-                    unlink $tempFile;
+#                    my $sb = stat($tempFile);
+#                    if ($sb && $sb->size > 100000) {
+#                        $linkIsOk=1;
+#                        unlink $tempFile;
+#                        return ($url); 
+#                    }
+#                    unlink $tempFile;
                     return; 
                 });
 
