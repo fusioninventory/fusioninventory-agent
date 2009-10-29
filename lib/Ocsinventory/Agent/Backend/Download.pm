@@ -29,8 +29,9 @@ use warnings;
 use XML::Simple;
 use File::Copy;
 use File::Glob;
-use LWP::Simple;
+use LWP::Simple qw ($ua getstore is_success);
 use File::Path;
+use File::stat;
 use Digest::MD5 qw(md5);
 
 use Data::Dumper;
@@ -315,6 +316,9 @@ sub downloadAndConstruct {
 
     my $downloadBaseDir = $config->{vardir}.'/download';
     my $downloadDir = $downloadBaseDir.'/'.$orderId;
+    if (!-d $downloadDir && !mkpath($downloadDir)) {
+        $logger->error("Failed to create $downloadDir");
+    }
 
     $self->setErrorCode("ERR_DOWNLOAD_PACK");
 
@@ -362,7 +366,12 @@ sub downloadAndConstruct {
 
         my $frag = $orderId.'-'.$fragID;
 
-        my $remoteFile = $baseUrl.'/'.$frag;
+        my $remoteFile = $self->findMirror($orderId, $fragID);
+        if (!$remoteFile) {
+            # Can't find a mirror in my networks with the file, I grab it
+            # directly from the main server
+            $remoteFile = $baseUrl.'/'.$frag;
+        }
         my $localFile = $downloadDir.'/'.$frag;
 
         my $rc = LWP::Simple::getstore($remoteFile, $localFile.'.part');
@@ -716,6 +725,10 @@ sub doPostInventory {
                 my $downloadDir = $self->{downloadBaseDir}.'/'.$orderId;
                 my $runDir = $self->{runBaseDir}.'/'.$orderId;
 
+                if (!-d "$downloadDir" && !mkpath("$downloadDir")) {
+                    $logger->error("Failed to create $downloadDir");
+                    return;
+                }
                 if (!-d "$runDir" && !mkpath("$runDir")) {
                     $logger->error("Failed to create $runDir");
                     return;
@@ -800,6 +813,102 @@ sub rpcCfg {
     };
        
     return $h;
+}
+
+sub findMirror {
+    my ($self, $orderId, $fragId) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    my @networks;
+    if ($^O =~ /^linux/) {
+        foreach (`ifconfig`) {
+            if (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.)/) {
+                my $prefix = $1;
+                next if $prefix =~ /^127\./;
+                push @networks, $prefix;
+                print $prefix."\n";
+            }
+
+        }
+    }
+
+
+    my $result;
+    foreach my $prefix (@networks) {
+        $logger->debug("scanning $prefix"."0/24"); 
+        my @IpToCheck;
+        foreach (0..254) {
+            $IpToCheck[$_]=1;
+        }
+
+        foreach (grep (/1/, @IpToCheck)) {
+            if (threads->list(threads::running) > 50) {
+                sleep(1);
+                next;
+            }
+
+            my $id = int(rand(@IpToCheck))+1;
+            next unless $IpToCheck[$id-1] == 1; 
+            $IpToCheck[$id-1] = 0; 
+
+            my $ip = $prefix.$id;
+            my $url =
+            "http://$ip:62354/Ocsinventory::Agent::Backend::Download/$orderId/$orderId-$fragId";
+
+
+
+
+            my $thr = threads->create( sub {
+
+                    my $linkIsOk;
+
+                    my $rand = int rand(0xffffffff);
+                    my $tempFile = $self->{config}->{vardir}."/tmp.".$rand;
+
+                    $ua->timeout(2);
+                    eval {
+                        local $SIG{ALRM} = sub { die "alarm\n" };
+                        alarm 3;
+
+                        my $rc = LWP::Simple::getstore($url, $tempFile);
+                        if (is_success($rc)) {
+                            $linkIsOk=1;
+                        }
+
+                        alarm 0;
+                    };
+                    my $sb = stat($tempFile);
+                    if ($sb && $sb->size > 100000) {
+                        $linkIsOk=1;
+                        unlink $tempFile;
+                        return ($url); 
+                    }
+                    unlink $tempFile;
+                    return; 
+                });
+
+            foreach (threads->list(threads::joinable)) {
+                my $tmp = $_->join();
+                $result = $tmp if $tmp;
+            }
+
+
+        }
+        foreach (threads->list(threads::joinable)) {
+            my $tmp = $_->join();
+            $result = $tmp if $tmp;
+        }
+
+        # We got a winner!
+        if ($result) {
+            $_->join foreach threads->list;
+            return $result;
+        }
+
+
+    }
 }
 
 1;
