@@ -821,21 +821,26 @@ sub findMirror {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    my @addresses;
+    my %addresses;
     if ($^O =~ /^linux/) {
         foreach (`ifconfig`) {
             if (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
-                my $address = $1;
-                next if $address =~ /^127\./;
-                push @addresses, $address;
+                $addresses{$1} = 1;
             }
 
+        }
+    } elsif ($^O =~ /^MSWin/) {
+        foreach (`route print -4`) {
+            next unless /^\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+\s+/;    
+            next unless /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+)\s+\d+$/;
+            $addresses{$1} = 1;
         }
     }
 
 
     my $result;
-    foreach my $address (@addresses) {
+    foreach my $address (keys %addresses) {
+        next if $address =~ /^127\./;
 
         my @IpToCheck;
         foreach (0..254) {
@@ -867,9 +872,6 @@ sub findMirror {
             my $ip = $prefix.$id;
             my $url =
             "http://$ip:62354/Ocsinventory::Agent::Backend::Deploy/files/$orderId/$orderId-$fragId";
-
-
-
 
             my $thr = threads->create( sub {
 
