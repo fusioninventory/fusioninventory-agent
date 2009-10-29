@@ -821,14 +821,14 @@ sub findMirror {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    my @networks;
+    my @addresses;
     if ($^O =~ /^linux/) {
         foreach (`ifconfig`) {
-            if (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.)/) {
-                my $prefix = $1;
-                next if $prefix =~ /^127\./;
-                push @networks, $prefix;
-                print $prefix."\n";
+            if (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
+                my $address = $1;
+                next if $address =~ /^127\./;
+                push @addresses, $address;
+                print $address."\n";
             }
 
         }
@@ -836,12 +836,24 @@ sub findMirror {
 
 
     my $result;
-    foreach my $prefix (@networks) {
-        $logger->debug("scanning $prefix"."0/24"); 
+    foreach my $address (@addresses) {
+
         my @IpToCheck;
         foreach (0..254) {
             $IpToCheck[$_]=1;
         }
+
+        my $prefix;
+        my $myAddNum;
+        if ($address =~ /(\d{1,3}\.\d{1,3}\.\d{1,3}\.)(\d{1,3})/) {
+            $prefix = $1;
+            $IpToCheck[$2-1]=0; # Don't check my own address
+        } else {
+            $logger->error("Invalid address: $address");
+            next;
+        }
+
+        $logger->debug("scanning $prefix"."0/24");
 
         foreach (grep (/1/, @IpToCheck)) {
             if (threads->list(threads::running) > 50) {
