@@ -871,7 +871,7 @@ sub findMirror {
 
             my $ip = $prefix.$id;
             my $url =
-            "http://$ip:62354/Ocsinventory::Agent::Backend::Deploy/$orderId/$orderId-$fragId";
+            "http://$ip:62354/Ocsinventory::Agent::Backend::Deploy/files/$orderId/$orderId-$fragId";
 
             my $thr = threads->create( sub {
 
