@@ -42,7 +42,7 @@ sub getEdid {
   if (!$raw_edid) {
     foreach (1..5) { # Sometime get-edid return an empty string...
       $raw_edid = `get-edid 2>/dev/null`;
-      return 1 if (length($raw_edid) == 128 || length($raw_edid) == 256);
+      last if (length($raw_edid) == 128 || length($raw_edid) == 256);
     }
   }
   return unless (length($raw_edid) == 128 || length($raw_edid) == 256);
@@ -522,6 +522,7 @@ sub _getManifacturerFromCode {
     "ICL" => "Fujitsu ICL",
     "IVM" => "Idek Iiyama North America, Inc.",
     "KFC" => "KFC Computek",
+    "LGD" => "LG Display",
     "LKM" => "ADLAS / AZALEA",
     "LNK" => "LINK Technologies, Inc.",
     "LTN" => "Lite-On",
@@ -583,11 +584,8 @@ sub doInventory {
   my $base64;
   my $uuencode;
   
-  my $raw_edid;
-  foreach (1..5) { # Sometime get-edid return an empty string...
-    $raw_edid = getEdid();
-    last if (length($raw_edid) == 128 || length($raw_edid) == 256);
-  }
+  my $raw_edid = getEdid();
+
   return unless $raw_edid;
 
   length($raw_edid) == 128 || length($raw_edid) == 256 or

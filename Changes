@@ -37,6 +37,7 @@ newdeploy
          --scan-homedirs
        * Prune 'Mac OS X' from the version on Mac + typo fixes (Scott HANNAHS)
        * POD doc, add a paragraph about the config file
+       * LP: #462529, Fix EDID screen detection, thanks Sergio MERINO
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer
