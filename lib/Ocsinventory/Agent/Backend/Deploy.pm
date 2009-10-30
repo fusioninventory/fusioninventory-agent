@@ -860,9 +860,14 @@ sub findMirror {
 #        $logger->debug("scanning $prefix"."0/24");
 
         foreach (grep (/1/, @IpToCheck)) {
-            if (threads->list(threads::running) > 50) {
-                sleep(1);
-                next;
+            if (threads->list(threads::running) > 5) {
+                foreach (threads->list) {
+                    my $tmp = $_->join();
+                    if ($tmp) {
+                        $result = $tmp;
+                        last;
+                    }
+                }
             }
 
             my $id = int(rand(@IpToCheck))+1;
@@ -903,24 +908,21 @@ sub findMirror {
                     return; 
                 });
 
-            foreach (threads->list(threads::joinable)) {
-                my $tmp = $_->join();
-                $result = $tmp if $tmp;
-            }
+
 
 
         }
-        foreach (threads->list(threads::joinable)) {
-            my $tmp = $_->join();
-            $result = $tmp if $tmp;
-        }
+    }
+    foreach (threads->list()) {
+        my $tmp = $_->join();
+        $result = $tmp if $tmp;
+    }
 
-        # We got a winner!
-        if ($result) {
-            $_->join foreach threads->list;
-            $logger->debug("File found here: $result");
-            return $result;
-        }
+    # We got a winner!
+    if ($result) {
+        $_->join foreach threads->list;
+        $logger->debug("File found here: $result");
+        return $result;
 
 
     }
