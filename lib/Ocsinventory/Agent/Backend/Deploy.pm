@@ -625,7 +625,7 @@ sub isInventoryEnabled {
 
 
 
-            my $infoURI = 'https://'.$paramHash->{INFO_LOC}.'/'.$orderId.'/info';
+            my $infoURI = 'http://'.$paramHash->{INFO_LOC}.'/'.$orderId.'/info';
             my $content = LWP::Simple::get($infoURI);
             if (!$content) {
                 $self->reportError($orderId, "Failed to read info file `$infoURI'");
@@ -839,11 +839,12 @@ sub findMirror {
 
 
     my $result;
+    my @threads;
     foreach my $address (keys %addresses) {
         next if $address =~ /^127\./;
 
         my @IpToCheck;
-        foreach (0..254) {
+        foreach (0..255) {
             $IpToCheck[$_]=1;
         }
 
@@ -851,7 +852,7 @@ sub findMirror {
         my $myAddNum;
         if ($address =~ /(\d{1,3}\.\d{1,3}\.\d{1,3}\.)(\d{1,3})/) {
             $prefix = $1;
-            $IpToCheck[$2-1]=0; # Don't check my own address
+#            $IpToCheck[$2-1]=0; # Don't check my own address
         } else {
             $logger->error("Invalid address: $address");
             next;
@@ -860,8 +861,9 @@ sub findMirror {
 #        $logger->debug("scanning $prefix"."0/24");
 
         foreach (grep (/1/, @IpToCheck)) {
-            if (threads->list(threads::running) > 5) {
-                foreach (threads->list) {
+            if (@threads > 5) {
+                foreach (@threads) {
+                    next unless $_->is_joinable();
                     my $tmp = $_->join();
                     if ($tmp) {
                         $result = $tmp;
@@ -878,7 +880,7 @@ sub findMirror {
             my $url =
             "http://$ip:62354/Ocsinventory::Agent::Backend::Deploy/files/$orderId/$orderId-$fragId";
 
-            my $thr = threads->create( sub {
+            my $thr = threads->create( { 'scalar' => 1 }, sub {
 
                     my $linkIsOk;
 
@@ -886,13 +888,14 @@ sub findMirror {
                     my $tempFile = $self->{config}->{vardir}."/tmp.".$rand;
 
                     $ua->timeout(2);
+                    my $ret;
                     eval {
                         local $SIG{ALRM} = sub { die "alarm\n" };
                         alarm 3;
 
                         my $rc = LWP::Simple::getstore($url, $tempFile);
                         if (is_success($rc)) {
-                            return ($url);
+                            $ret = $url;
 #                            $linkIsOk=1;
                         }
 
@@ -905,22 +908,23 @@ sub findMirror {
 #                        return ($url); 
 #                    }
 #                    unlink $tempFile;
-                    return; 
+                    return ($ret); 
                 });
+            push @threads, $thr;
 
 
 
 
         }
     }
-    foreach (threads->list()) {
+    foreach (@threads) {
+        next unless $_->is_joinable();
         my $tmp = $_->join();
         $result = $tmp if $tmp;
     }
 
     # We got a winner!
     if ($result) {
-        $_->join foreach threads->list;
         $logger->debug("File found here: $result");
         return $result;
 
