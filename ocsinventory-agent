@@ -160,7 +160,7 @@ Use I<PASSWORD> for an HTTP identification with the server.
 
 =item B<-P>, B<--proxy>=I<PROXY>
 
-Use I<PROXY> to specify a proxy HTTP server. By default, the script use HTTP_PROXY environment variable. 
+Use I<PROXY> to specify a proxy HTTP server. By default, the agent uses HTTP_PROXY environment variable. 
 
 =item B<-r>, B<--realm>=I<REALM>
 
