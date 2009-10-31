@@ -443,7 +443,7 @@ sub main {
             );
 
             $logger->debug("Sleeping...ZzZZZ");
-            sleep(35);
+            sleep(3600);
 
             # Break the loop if needed
             exit(0) unless $config->{daemon};
