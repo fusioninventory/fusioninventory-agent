@@ -62,11 +62,19 @@ sub new {
 
     $self->{downloadBaseDir} = $self->{config}->{vardir} . '/download';
     $self->{runBaseDir}      = $self->{config}->{vardir} . '/run';
+    $self->{tmpBaseDir}      = $self->{config}->{vardir} . '/tmp';
 
-    if ( !-d $self->{downloadBaseDir} && !mkpath( $self->{downloadBaseDir} ) ) {
-        $logger->error("Failed to create $self->{downloadBaseDir}");
+
+    foreach (qw/downloadBaseDir runBaseDir tmpBaseDir/) {
+        if ( !-d $self->{$_} && !mkpath( $self->{$_} ) ) {
+            $logger->error("Failed to create $self->{$_}");
+        }
     }
 
+    $self->{hosts} = {};
+    $self->{findMirrorThreads} = [];
+
+    
     bless $self;
 
     # Just in case
@@ -97,13 +105,14 @@ sub clean {
     my $level = [
 
         # Level 0
-        # only clean the part files
+        # only clean the part files and the temp files
         sub {
-            my @part = glob("$downloadDir/*.part");
+            my @part =
+            (glob("$downloadDir/*.part"),glob($self->{tmpBaseDir}));
             return unless @part;
 
             $logger->debug("Clean the partially downloaded files for $orderId");
-            foreach ( glob("$downloadDir/*.part") ) {
+            foreach ( glob("$downloadDir/*.part"), glob($self->{tmpBaseDir}) ) {
                 if ( !unlink($_) ) {
                     $self->reportError( $orderId, "Failed to clean $_ up" );
                 }
@@ -721,6 +730,7 @@ sub doPostInventory {
             # Already processed
             next if exists( $order->{ERR} );
 
+            $self->setErrorCode('ERR_CLEAN');
             $self->clean(
                 {
                     cleanUpLevel => 1,
@@ -819,117 +829,152 @@ sub rpcCfg {
     return $h;
 }
 
+sub _joinFindMirrorThread {
+    my ($self) = @_;
+
+    my $lastValdidIp;
+
+    foreach ( @{$self->{findMirrorThreads}} ) {
+        my ($ip, $rc, $speed) = $_->join();
+        if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/) {
+            if ($rc==200 || $rc==404) {
+                $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=1;
+                $self->{hosts}{$1}{$2}{$3}{$4}{speed}=$speed;
+            } else {
+                $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=0;
+                $self->{hosts}{$1}{$2}{$3}{$4}{speed}=undef;
+            }
+            $self->{hosts}{$1}{$2}{$3}{$4}{lastCheck}=time;
+            if ($rc==200) {
+                $lastValdidIp = $ip;
+            }
+        } else {
+            print "parse error `$ip'\n";
+        }
+    }
+    $self->{findMirrorThreads} = [];
+
+    return $lastValdidIp;
+}
+
 sub findMirror {
     my ( $self, $orderId, $fragId ) = @_;
 
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    my %addresses;
+    my @addresses;
     if ( $^O =~ /^linux/ ) {
         foreach (`ifconfig`) {
-            if (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
-                $addresses{$1} = 1;
+            if
+            (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*Mask:255.255.255.0$/) {
+                push @addresses, $1;
             }
 
         }
     }
     elsif ( $^O =~ /^MSWin/ ) {
         foreach (`route print -4`) {
-            next unless /^\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+\s+/;
+            next unless
+            /^\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+\s+255\.255\.255\.0/;
             next unless /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+)\s+\d+$/;
-            $addresses{$1} = 1;
+            push @addresses, $1;
         }
     }
 
-    my $result;
-    foreach my $address ( keys %addresses ) {
-        next if $address =~ /^127\./;
+    foreach (@addresses) {
+        next if /^127/; # Ignore 127.x.x.x addresses
+        next unless /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
 
-        my @IpToCheck;
-        foreach ( 0 .. 254 ) {
-            $IpToCheck[$_] = 1;
+        foreach (1..255) {
+            next if $4==$_; # Ignore myself :) 
+            next if exists ($self->{hosts}{$1}{$2}{$3}{$_});
+            $self->{hosts}{$1}{$2}{$3}{$_}{lastCheck}=0;
+            $self->{hosts}{$1}{$2}{$3}{$_}{isUp}=undef;
+            $self->{hosts}{$1}{$2}{$3}{$_}{speed}=undef;
         }
+    }
 
-        my $prefix;
-        my $myAddNum;
-        if ( $address =~ /(\d{1,3}\.\d{1,3}\.\d{1,3}\.)(\d{1,3})/ ) {
-            $prefix = $1;
-            $IpToCheck[ $2 - 1 ] = 0;    # Don't check my own address
-        }
-        else {
-            $logger->error("Invalid address: $address");
-            next;
-        }
+    my $lastValdidIp;
 
-        #        $logger->debug("scanning $prefix"."0/24");
 
-        foreach ( grep ( /1/, @IpToCheck ) ) {
-            if ( threads->list(threads::running) > 5 ) {
-                foreach ( threads->list ) {
-                    my $tmp = $_->join();
-                    if ($tmp) {
-                        $result = $tmp;
-                        last;
+    my @threads;
+    NETSCAN: foreach my $a (keys %{$self->{hosts}}) {
+        foreach my $b (keys %{$self->{hosts}{$a}}) {
+            foreach my $c (keys %{$self->{hosts}{$a}{$b}}) {
+                foreach my $d (keys %{$self->{hosts}{$a}{$b}{$c}}) {
+                    if ( @{$self->{findMirrorThreads}} > 15 ) {
+                        my $tmp = $self->_joinFindMirrorThread();
+                        if ($tmp) {
+                            $lastValdidIp = $tmp;
+                            last NETSCAN;
+                        }
                     }
+
+                    # If the host had been detected as down during the last
+                    # 10 minutes, I ignore it
+                    if ($self->{hosts}{$a}{$b}{$c}{$d}{lastCheck}>(time -
+                            600)) {
+                        if (!$self->{hosts}{$a}{$b}{$c}{$d}{isUp}) {
+                            next;
+                        }
+                    }
+
+                    my $ip = "$a.$b.$c.$d";
+
+                    my $thr = threads->create(
+                        { 'context'    => 'list' },
+                        sub {
+
+                            my $speed=0;
+                            my $url =
+                            "http://$ip:62354/Ocsinventory::Agent::Backend::Deploy/files/$orderId/$orderId-$fragId";
+
+                            my $rand     = int rand(0xffffffff);
+                            my $tempFile = $self->{tmpBaseDir}."/tmp." . $rand;
+
+                            my $rc;
+                            my $begin;
+                            my $end;
+                            $ua->timeout(2);
+                            eval {
+                                local $SIG{ALRM} = sub { die "alarm\n" };
+                                alarm 3;
+                                $begin = Time::HiRes::time();
+
+                                $rc = LWP::Simple::getstore( $url, $tempFile
+                                ) or die;
+
+                                alarm 0;
+                            };
+                            $end = Time::HiRes::time();
+
+                            my $size = (stat($tempFile))[7];
+                            if ($size) {
+                                $speed = int($size / ($end - $begin) / 1024);
+                            }
+                            unlink $tempFile;
+                            return ($ip, $rc, $speed);
+                        }
+                    );
+
+                    if ($thr) {
+                        push @{$self->{findMirrorThreads}}, $thr;
+                    }
+
                 }
             }
-
-            my $id = int( rand(@IpToCheck) ) + 1;
-            next unless $IpToCheck[ $id - 1 ] == 1;
-            $IpToCheck[ $id - 1 ] = 0;
-
-            my $ip = $prefix . $id;
-            my $url =
-"http://$ip:62354/Ocsinventory::Agent::Backend::Deploy/files/$orderId/$orderId-$fragId";
-
-            my $thr = threads->create(
-                sub {
-
-                    my $linkIsOk;
-
-                    my $rand     = int rand(0xffffffff);
-                    my $tempFile = $self->{config}->{vardir} . "/tmp." . $rand;
-
-                    $ua->timeout(2);
-                    eval {
-                        local $SIG{ALRM} = sub { die "alarm\n" };
-                        alarm 3;
-
-                        my $rc = LWP::Simple::getstore( $url, $tempFile );
-                        if ( is_success($rc) ) {
-                            return ($url);
-
-                            #                            $linkIsOk=1;
-                        }
-
-                        alarm 0;
-                    };
-
-                    #                    my $sb = stat($tempFile);
-                    #                    if ($sb && $sb->size > 100000) {
-                    #                        $linkIsOk=1;
-                    #                        unlink $tempFile;
-                    #                        return ($url);
-                    #                    }
-                    #                    unlink $tempFile;
-                    return;
-                }
-            );
-
         }
     }
-    foreach ( threads->list() ) {
-        my $tmp = $_->join();
-        $result = $tmp if $tmp;
-    }
-
-    # We got a winner!
-    if ($result) {
-        $_->join foreach threads->list;
-        $logger->debug("File found here: $result");
-        return $result;
-
+    my $tmp = $self->_joinFindMirrorThread();
+    $lastValdidIp = $tmp if $tmp;
+    if ($lastValdidIp) {
+        return
+        "http://$lastValdidIp:62354/".
+        "Ocsinventory::Agent::Backend::Deploy".
+        "/files/$orderId/$orderId-$fragId";
+    } else {
+        return;
     }
 }
 
