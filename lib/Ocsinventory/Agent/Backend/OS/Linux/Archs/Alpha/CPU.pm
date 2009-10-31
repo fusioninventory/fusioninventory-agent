@@ -5,26 +5,26 @@ use strict;
 sub isInventoryEnabled { can_read("/proc/cpuinfo") }
 
 sub doInventory {
-    my $params = shift;
+    my $params    = shift;
     my $inventory = $params->{inventory};
 
     my @cpu;
     my $current;
     open CPUINFO, "</proc/cpuinfo" or warn;
-    foreach(<CPUINFO>) {
+    foreach (<CPUINFO>) {
         print;
         if (/^cpu\s*:/) {
             if ($current) {
                 $inventory->addCPU($current);
             }
 
-            $current = {
-                ARCH => 'Alpha',
-            };
-        } else {
+            $current = { ARCH => 'Alpha', };
+        }
+        else {
 
             $current->{SERIAL} = $1 if /^cpu serial number\s+:\s+(\S.*)/;
-            $current->{SPEED} = $1 if /cycle frequency \[Hz\]\s+:\s+(\d+)000000/;
+            $current->{SPEED} = $1
+              if /cycle frequency \[Hz\]\s+:\s+(\d+)000000/;
             $current->{TYPE} = $1 if /platform string\s+:\s+(\S.*)/;
 
         }

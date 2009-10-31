@@ -1,5 +1,6 @@
 package Ocsinventory::Agent::Backend::Virtualization::Xen;
 
-$runMeIfTheseChecksFailed = ["Ocsinventory::Agent::Backend::Virtualization::Libvirt"];
+$runMeIfTheseChecksFailed =
+  ["Ocsinventory::Agent::Backend::Virtualization::Libvirt"];
 
 1;

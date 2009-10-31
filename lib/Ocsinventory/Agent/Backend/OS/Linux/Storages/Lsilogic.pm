@@ -1,6 +1,7 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Storages::Lsilogic;
 
 use Ocsinventory::Agent::Backend::OS::Linux::Storages;
+
 # Tested on 2.6.* kernels
 #
 # Cards tested :
@@ -13,32 +14,33 @@ use strict;
 
 sub isInventoryEnabled {
 
-  my $device;
-# Do we have smartctl ?
-  if (can_run('smartctl')) {
-    foreach my $node (glob("/dev/sd?")) {
-      foreach (`smartctl -i $node`) {
-        $device = $1 if /.*Device:\s(\w*).*/;
-      }
+    my $device;
+
+    # Do we have smartctl ?
+    if ( can_run('smartctl') ) {
+        foreach my $node ( glob("/dev/sd?") ) {
+            foreach (`smartctl -i $node`) {
+                $device = $1 if /.*Device:\s(\w*).*/;
+            }
+        }
+        ( $device eq 'LSILOGIC' ) ? return 1 : return 0;
     }
-    ($device eq 'LSILOGIC')?return 1:return 0;
-  }
-  return 0;
+    return 0;
 }
 
 sub doInventory {
 
+    my $params    = shift;
+    my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-  my $params = shift;
-  my $inventory = $params->{inventory};
-  my $logger = $params->{logger};
+    my $serialnumber;
 
-  my $serialnumber;
+    my @devices =
+      Ocsinventory::Agent::Backend::OS::Linux::Storages::getFromUdev();
 
-  my @devices = Ocsinventory::Agent::Backend::OS::Linux::Storages::getFromUdev();
-
-  foreach my $hd (@devices) {
-    foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
+    foreach my $hd (@devices) {
+        foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
 
 # Example output :
 #
@@ -48,30 +50,39 @@ sub doInventory {
 #scsi_id:1 100%
 #scsi_id:0 100%
 
-      if (/.*phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+).*/) {
-        $serialnumber = undef;
-        foreach (`smartctl -i /dev/sg$1`) {
-          $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
-        }
-        my $model = $2;
-        my $size = 1024*$4; # GB => MB
-        my $firmware = $3;
-        my $manufacturer = Ocsinventory::Agent::Backend::OS::Linux::Storages::getManufacturer($model);
-        $logger->debug("Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware");
+            if (
+/.*phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+).*/
+              )
+            {
+                $serialnumber = undef;
+                foreach (`smartctl -i /dev/sg$1`) {
+                    $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
+                }
+                my $model    = $2;
+                my $size     = 1024 * $4;    # GB => MB
+                my $firmware = $3;
+                my $manufacturer =
+                  Ocsinventory::Agent::Backend::OS::Linux::Storages::getManufacturer(
+                    $model);
+                $logger->debug(
+"Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware"
+                );
 
-        $inventory->addStorages({
-            NAME => $hd->{NAME},
-            MANUFACTURER => $manufacturer,
-            MODEL => $model,
-            DESCRIPTION => 'SATA',
-            TYPE => 'disk',
-            DISKSIZE => $size,
-            SERIALNUMBER => $serialnumber,
-            FIRMWARE => $firmware,
-            });
-      }
+                $inventory->addStorages(
+                    {
+                        NAME         => $hd->{NAME},
+                        MANUFACTURER => $manufacturer,
+                        MODEL        => $model,
+                        DESCRIPTION  => 'SATA',
+                        TYPE         => 'disk',
+                        DISKSIZE     => $size,
+                        SERIALNUMBER => $serialnumber,
+                        FIRMWARE     => $firmware,
+                    }
+                );
+            }
+        }
     }
-  }
 
 }
 

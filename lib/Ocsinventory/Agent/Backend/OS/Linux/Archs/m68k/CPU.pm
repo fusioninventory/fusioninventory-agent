@@ -4,13 +4,13 @@ use strict;
 sub isInventoryEnabled { can_read("/proc/cpuinfo") }
 
 sub doInventory {
-    my $params = shift;
+    my $params    = shift;
     my $inventory = $params->{inventory};
 
     my @cpu;
     my $current;
     open CPUINFO, "</proc/cpuinfo" or warn;
-    foreach(<CPUINFO>) {
+    foreach (<CPUINFO>) {
         print;
         if (/^CPU\s+:\s*:/) {
 
@@ -18,13 +18,12 @@ sub doInventory {
                 $inventory->addCPU($current);
             }
 
-            $current = {
-                ARCH => 'm68k',
-            };
+            $current = { ARCH => 'm68k', };
 
-        } else {
+        }
+        else {
 
-            $current->{TYPE} = $1 if /CPU:\s+(\S.*)/;
+            $current->{TYPE}  = $1 if /CPU:\s+(\S.*)/;
             $current->{SPEED} = $1 if /Clocking:\s+:\s+(\S.*)/;
 
         }

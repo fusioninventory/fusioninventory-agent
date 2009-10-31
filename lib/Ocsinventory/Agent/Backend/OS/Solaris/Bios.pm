@@ -30,7 +30,6 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Bios;
 #    newio-addr:  00000001
 #    name:  'SUNW,Sun-Fire'
 
-
 #  X64
 # $ showrev
 #Hostname: stlaurent
@@ -38,8 +37,8 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Bios;
 #Release: 5.10
 #Kernel architecture: i86pc
 #Application architecture: i386
-#Hardware provider: 
-#Domain: 
+#Hardware provider:
+#Domain:
 #Kernel version: SunOS 5.10 Generic_127112-07
 #
 # $ smbios -t SMB_TYPE_SYSTEM
@@ -53,81 +52,89 @@ package Ocsinventory::Agent::Backend::OS::Solaris::Bios;
 #
 #  UUID: be1630df-d130-41a4-be32-fd28bb4bd1ac
 #  Wake-Up Event: 0x6 (power switch)
-#  SKU Number: 
-#  Family: 
-
+#  SKU Number:
+#  Family:
 
 use strict;
 
-sub isInventoryEnabled { can_run ("showrev") }
+sub isInventoryEnabled { can_run("showrev") }
 
 sub doInventory {
-  my $params = shift;
-  my $inventory = $params->{inventory};
+    my $params    = shift;
+    my $inventory = $params->{inventory};
 
-  my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-    $BiosVersion, $BiosDate, $aarch);
-    
-  foreach(`showrev`){
-  	if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
-  	if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
-  	if(/^Application architecture:\s+(\S+)/){$aarch = $1};
-  }
-  if( $aarch eq "i386" ){
-    #
-    # For a Intel/AMD arch, we're using smbios
-    #
-    foreach(`/usr/sbin/smbios -t SMB_TYPE_SYSTEM`) {
-      if(/^\s*Manufacturer:\s*(.+)$/){$SystemManufacturer = $1};
-      if(/^\s*Serial Number:\s*(.+)$/){$SystemSerial = $1;}
-      if(/^\s*Product:\s*(.+)$/){$SystemModel = $1;}
+    my ( $SystemSerial, $SystemModel, $SystemManufacturer, $BiosManufacturer,
+        $BiosVersion, $BiosDate, $aarch );
+
+    foreach (`showrev`) {
+        if (/^Application architecture:\s+(\S+)/) { $SystemModel        = $1 }
+        if (/^Hardware provider:\s+(\S+)/)        { $SystemManufacturer = $1 }
+        if (/^Application architecture:\s+(\S+)/) { $aarch              = $1 }
     }
-    foreach(`/usr/sbin/smbios -t SMB_TYPE_BIOS`) {
-      if(/^\s*Vendor:\s*(.+)$/){$BiosManufacturer = $1};
-      if(/^\s*Version String:\s*(.+)$/){$BiosVersion = $1};
-      if(/^\s*Release Date:\s*(.+)$/){$BiosDate = $1};
-    }
-  } elsif( $aarch eq "sparc" ) {
-    #
-    # For a Sparc arch, we're using prtconf
-    #
-    my $name;
-    my $OBPstring;
-    foreach(`/usr/sbin/prtconf -pv`) {
-      # prtconf is an awful thing to parse
-      if(/^\s*banner-name:\s*'(.+)'$/){$SystemModel = $1;}
-      unless ($name)
-        { if(/^\s*name:\s*'(.+)'$/){$name = $1;} }
-      unless ($OBPstring) {
-	if(/^\s*version:\s*'(.+)'$/){
-          $OBPstring = $1;
-	  # looks like : "OBP 4.16.4 2004/12/18 05:18"
-          #    with further informations sometimes
-          if( $OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ ){
-            $BiosVersion = "OBP $1";
-            $BiosDate = "$2/$3/$4";
-          } else { $BiosVersion = $OBPstring }
+    if ( $aarch eq "i386" ) {
+
+        #
+        # For a Intel/AMD arch, we're using smbios
+        #
+        foreach (`/usr/sbin/smbios -t SMB_TYPE_SYSTEM`) {
+            if (/^\s*Manufacturer:\s*(.+)$/)  { $SystemManufacturer = $1 }
+            if (/^\s*Serial Number:\s*(.+)$/) { $SystemSerial       = $1; }
+            if (/^\s*Product:\s*(.+)$/)       { $SystemModel        = $1; }
         }
-      } 
+        foreach (`/usr/sbin/smbios -t SMB_TYPE_BIOS`) {
+            if (/^\s*Vendor:\s*(.+)$/)         { $BiosManufacturer = $1 }
+            if (/^\s*Version String:\s*(.+)$/) { $BiosVersion      = $1 }
+            if (/^\s*Release Date:\s*(.+)$/)   { $BiosDate         = $1 }
+        }
     }
-    $SystemModel .= " ($name)" if( $name );
-    if( -x "/opt/SUNWsneep/bin/sneep" ) {
-      chomp($SystemSerial = `/opt/SUNWsneep/bin/sneep`);
-    }
-    else {
-      $SystemSerial = "Please install package SUNWsneep";
-    }
-  } 
+    elsif ( $aarch eq "sparc" ) {
 
- 
-  # Writing data
-  $inventory->setBios ({
-      BVERSION => $BiosVersion,
-      BDATE => $BiosDate,
-      SMANUFACTURER => $SystemManufacturer,
-      SMODEL => $SystemModel,
-      SSN => $SystemSerial     
-    });
+        #
+        # For a Sparc arch, we're using prtconf
+        #
+        my $name;
+        my $OBPstring;
+        foreach (`/usr/sbin/prtconf -pv`) {
+
+            # prtconf is an awful thing to parse
+            if (/^\s*banner-name:\s*'(.+)'$/) { $SystemModel = $1; }
+            unless ($name) {
+                if (/^\s*name:\s*'(.+)'$/) { $name = $1; }
+            }
+            unless ($OBPstring) {
+                if (/^\s*version:\s*'(.+)'$/) {
+                    $OBPstring = $1;
+
+                    # looks like : "OBP 4.16.4 2004/12/18 05:18"
+                    #    with further informations sometimes
+                    if ( $OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ )
+                    {
+                        $BiosVersion = "OBP $1";
+                        $BiosDate    = "$2/$3/$4";
+                    }
+                    else { $BiosVersion = $OBPstring }
+                }
+            }
+        }
+        $SystemModel .= " ($name)" if ($name);
+        if ( -x "/opt/SUNWsneep/bin/sneep" ) {
+            chomp( $SystemSerial = `/opt/SUNWsneep/bin/sneep` );
+        }
+        else {
+            $SystemSerial = "Please install package SUNWsneep";
+        }
+    }
+
+    # Writing data
+    $inventory->setBios(
+        {
+            BVERSION      => $BiosVersion,
+            BDATE         => $BiosDate,
+            SMANUFACTURER => $SystemManufacturer,
+            SMODEL        => $SystemModel,
+            SSN           => $SystemSerial
+        }
+    );
 }
 
 1;

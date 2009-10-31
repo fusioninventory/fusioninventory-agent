@@ -1,32 +1,33 @@
 package Ocsinventory::LoggerBackend::Syslog;
+
 # Not tested yet!
 use Sys::Syslog qw( :DEFAULT setlogsock);
 
 sub new {
-  my (undef, $params) = @_;
+    my ( undef, $params ) = @_;
 
-  my $self = {};
+    my $self = {};
 
-  setlogsock('unix');
-  openlog("ocs-agent", 'cons,pid', $ENV{'USER'});
-  syslog('debug', 'syslog backend enabled');
-  closelog();
+    setlogsock('unix');
+    openlog( "ocs-agent", 'cons,pid', $ENV{'USER'} );
+    syslog( 'debug', 'syslog backend enabled' );
+    closelog();
 
-  bless $self;
+    bless $self;
 }
 
 sub addMsg {
 
-  my (undef, $args) = @_;
+    my ( undef, $args ) = @_;
 
-  my $level = $args->{level};
-  my $message = $args->{message};
+    my $level   = $args->{level};
+    my $message = $args->{message};
 
-  return if $message =~ /^$/;
+    return if $message =~ /^$/;
 
-  openlog("ocs-agent", 'cons,pid', $ENV{'USER'});
-  syslog('info', $message);
-  closelog();
+    openlog( "ocs-agent", 'cons,pid', $ENV{'USER'} );
+    syslog( 'info', $message );
+    closelog();
 
 }
 

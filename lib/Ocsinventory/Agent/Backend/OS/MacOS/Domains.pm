@@ -5,41 +5,40 @@ use strict;
 
 sub isInventoryEnabled {
     my $hostname;
-    chomp ($hostname = `hostname`);
-    my @domain = split (/\./, $hostname);
-    shift (@domain);
+    chomp( $hostname = `hostname` );
+    my @domain = split( /\./, $hostname );
+    shift(@domain);
     return 1 if @domain;
-    -f "/etc/resolv.conf"
- }
+    -f "/etc/resolv.conf";
+}
+
 sub doInventory {
-    my $params = shift;
+    my $params    = shift;
     my $inventory = $params->{inventory};
 
     my $domain;
     my $hostname;
-    chomp ($hostname = `hostname`);
-    my @domain = split (/\./, $hostname);
-    shift (@domain);
-    $domain = join ('.',@domain);
+    chomp( $hostname = `hostname` );
+    my @domain = split( /\./, $hostname );
+    shift(@domain);
+    $domain = join( '.', @domain );
 
-    if (!$domain) {
-      my %domain;
+    if ( !$domain ) {
+        my %domain;
 
-      open RESOLV, "/etc/resolv.conf" or warn;
-      while(<RESOLV>){
-        $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
-      }
-      close RESOLV;
+        open RESOLV, "/etc/resolv.conf" or warn;
+        while (<RESOLV>) {
+            $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+        }
+        close RESOLV;
 
-      $domain = join "/", keys %domain;
+        $domain = join "/", keys %domain;
     }
 
     # If no domain name, we send "WORKGROUP"
     $domain = 'WORKGROUP' unless $domain;
 
-    $inventory->setHardware({
-        WORKGROUP => $domain
-    });
+    $inventory->setHardware( { WORKGROUP => $domain } );
 }
 
 1;
