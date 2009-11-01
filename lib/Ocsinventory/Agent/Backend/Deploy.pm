@@ -641,10 +641,12 @@ sub isInventoryEnabled {
             else {
                 $logger->info( "--unsecure-software-deployment parameter "
                       . "found. Don't check server identity!!!" );
+                $protocl="http";
             }
 
             my $infoURI =
               $protocl.'://' . $paramHash->{INFO_LOC} . '/' . $orderId . '/info';
+            $ua->timeout(30);
             my $content = LWP::Simple::get($infoURI);
             if ( !$content ) {
                 $self->reportError( $orderId,
