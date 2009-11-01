@@ -619,7 +619,7 @@ sub isInventoryEnabled {
                 # ERR is set at the end of the process (SUCCESS or ERROR)
                 $self->setErrorCode('ERR_ALREADY_SETUP');
                 $self->reportError( $orderId,
-                    "$orderId has already been" . "processed" );
+                    "$orderId has already been processed" );
                 next;
             }
 
