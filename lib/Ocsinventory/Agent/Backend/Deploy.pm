@@ -639,7 +639,7 @@ sub isInventoryEnabled {
                 }
             }
             else {
-                $logger->info( "--unsecure-software-deployment parameter"
+                $logger->info( "--unsecure-software-deployment parameter "
                       . "found. Don't check server identity!!!" );
             }
 
