@@ -616,11 +616,20 @@ sub isInventoryEnabled {
             my $orderId = $paramHash->{ID};
             if ( $storage->{byId}{$orderId}{ERR} ) {
 
-                # ERR is set at the end of the process (SUCCESS or ERROR)
-                $self->setErrorCode('ERR_ALREADY_SETUP');
-                $self->reportError( $orderId,
-                    "$orderId has already been processed" );
-                next;
+                if ($paramHash->{FORCEREPLAY}) {
+
+                    $logger->debug("Replay $orderId");
+                    $storage->{byId}{$orderId} = {};
+
+                } else {
+
+# ERR is set at the end of the process (SUCCESS or ERROR)
+                    $self->setErrorCode('ERR_ALREADY_SETUP');
+                    $self->reportError( $orderId,
+                            "$orderId has already been processed" );
+                    next;
+
+                }
             }
 
             $self->setErrorCode('ERR_DOWNLOAD_INFO');
