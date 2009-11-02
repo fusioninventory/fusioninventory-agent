@@ -38,6 +38,7 @@ use Data::Dumper;
 
 use Archive::Extract;
 use File::Copy::Recursive qw(dirmove);
+use Time::HiRes;
 
 use Cwd;
 
