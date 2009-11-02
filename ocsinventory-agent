@@ -214,9 +214,8 @@ Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by t
 
 =item B<--unsecure-software-deployment>
 
-Do _NOT_ check SSL identity of the server from where the software deployment
-order are download. Please never use this option in production. This is just
-a very bad idea. It's just useful for debugging.
+Use HTTP instead of HTTPS to download the deployment order from the server.
+Please never use this option in production. This is just a very bad idea.
 
 =item B<-u> I<USER>, B<--user>=I<USER>
 

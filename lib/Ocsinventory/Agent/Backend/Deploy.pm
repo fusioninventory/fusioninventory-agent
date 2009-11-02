@@ -625,6 +625,7 @@ sub isInventoryEnabled {
 
             $self->setErrorCode('ERR_DOWNLOAD_INFO');
 
+            my $protocl="https";
             # LWP doesn't support SSL cert check and
             # Net::SSLGlue::LWP is a workaround to fix that
             if ( !$config->{unsecureSoftwareDeployment} ) {
@@ -643,7 +644,7 @@ sub isInventoryEnabled {
             }
 
             my $infoURI =
-              'https://' . $paramHash->{INFO_LOC} . '/' . $orderId . '/info';
+              $protocl.'://' . $paramHash->{INFO_LOC} . '/' . $orderId . '/info';
             my $content = LWP::Simple::get($infoURI);
             if ( !$content ) {
                 $self->reportError( $orderId,
