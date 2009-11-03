@@ -604,9 +604,9 @@ sub run {
   eval "use MIME::Base64;";
   $base64 = encode_base64($raw_edid) if !$@;
   if (can_run("uuencode")) {
-    $uuencode = `echo $raw_edid|uuencode -`;
+    chomp($uuencode = `echo $raw_edid|uuencode -`);
     if (!$base64) {
-      $base64 = `echo $raw_edid|uuencode -m -`;
+      chomp($base64 = `echo $raw_edid|uuencode -m -`);
     }
   }
   $inventory->addMonitors ({
