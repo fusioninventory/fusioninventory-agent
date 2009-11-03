@@ -115,7 +115,7 @@ sub run {
 
       # Reliable way to get the info
       if (-d "/sys/devices/virtual/net/") {
-        $virtualdev = (-d "/sys/devices/virtual/net/$description")?"yes":"no";
+        $virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
       } else {
         # Let's guess
         my %bridge;
