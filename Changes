@@ -27,6 +27,7 @@ Revision history for Ocsinventory::Agent
        * LP: #462529, Fix EDID screen detection, thanks Sergio MERINO
        * Use boolean for networks/virtualdev
        * Generic/Screen: chomp uuencode output
+       * Generic/Screen: HSD code for "Hanns.G" (Remi COLLET)
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer

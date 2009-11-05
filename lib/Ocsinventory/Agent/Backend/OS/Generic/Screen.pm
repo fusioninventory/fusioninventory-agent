@@ -515,6 +515,7 @@ sub _getManifacturerFromCode {
     "GWY" => "Gateway 2000",
     "HEI" => "Hyundai Electronics Industries Co., Ltd.",
     "HIT" => "Hitachi",
+    "HSD" => "Hanns.G",
     "HSL" => "Hansol Electronics",
     "HTC" => "Hitachi Ltd. / Nissei Sangyo America Ltd.",
     "HWP" => "Hewlett Packard",
