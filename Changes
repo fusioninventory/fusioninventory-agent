@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-1.1     Tue, 03 Nov 2009 13:36:28 +0100
+1.1     Fri, 06 Nov 2009 16:07:08 +0100
        * addMemorie() renamed to addMemories(), this had been broken during
          the addMemories() → addMemory() transition
        * Debug mode: msg "check function failed" changed to "ignored" since
@@ -28,6 +28,7 @@ Revision history for Ocsinventory::Agent
        * Use boolean for networks/virtualdev
        * Generic/Screen: chomp uuencode output
        * Generic/Screen: HSD code for "Hanns.G" (Remi COLLET)
+       * postinst.pl, put user $PATH in /etc/cron.d/ocsinventory-agent
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer

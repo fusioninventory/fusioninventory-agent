@@ -290,7 +290,9 @@ elsif (-d "/etc/cron.d") {
     if (ask_yn("Do yo want to install the cron task in /etc/cron.d", 'y')) {
 
         open DEST, '>/etc/cron.d/ocsinventory-agent' or die $!;
-        print  DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
+        # Save the root PATH
+        print DEST "PATH=".$ENV{PATH}."\n";
+        print DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
         close DEST;
     }
 }
