@@ -15,6 +15,7 @@ sub run {
   my $OSComment;
   my $OSVersion;
   my $OSLevel;
+  my $OSArchi;
 
   # Operating system informations
   chomp($OSName=`uname -s`);
