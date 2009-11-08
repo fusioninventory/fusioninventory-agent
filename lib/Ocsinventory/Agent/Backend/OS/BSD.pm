@@ -19,6 +19,7 @@ sub run {
   # Operating system informations
   chomp($OSName=`uname -s`);
   chomp($OSVersion=`uname -r`);
+  chomp($OSArchi=`uname -p`);
 
   # Retrieve the origin of the kernel configuration file
   my ($date, $origin, $kernconf);
@@ -32,7 +33,7 @@ sub run {
   chomp($OSComment=`uname -v`) unless $OSComment; 
   
   $inventory->setHardware({
-      OSNAME => $OSName,
+      OSNAME => $OSName." ".$OSArchi,
       OSCOMMENTS => $OSComment,
       OSVERSION => $OSVersion,
     });
