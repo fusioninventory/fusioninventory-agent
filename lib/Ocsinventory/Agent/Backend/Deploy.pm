@@ -38,6 +38,7 @@ use Data::Dumper;
 
 use Archive::Extract;
 use File::Copy::Recursive qw(dirmove);
+use Time::HiRes;
 
 use Cwd;
 
@@ -616,11 +617,20 @@ sub isInventoryEnabled {
             my $orderId = $paramHash->{ID};
             if ( $storage->{byId}{$orderId}{ERR} ) {
 
-                # ERR is set at the end of the process (SUCCESS or ERROR)
-                $self->setErrorCode('ERR_ALREADY_SETUP');
-                $self->reportError( $orderId,
-                    "$orderId has already been" . "processed" );
-                next;
+                if ($paramHash->{FORCEREPLAY}) {
+
+                    $logger->debug("Replay $orderId");
+                    $storage->{byId}{$orderId} = {};
+
+                } else {
+
+# ERR is set at the end of the process (SUCCESS or ERROR)
+                    $self->setErrorCode('ERR_ALREADY_SETUP');
+                    $self->reportError( $orderId,
+                            "$orderId has already been processed" );
+                    next;
+
+                }
             }
 
             $self->setErrorCode('ERR_DOWNLOAD_INFO');
@@ -641,10 +651,12 @@ sub isInventoryEnabled {
             else {
                 $logger->info( "--unsecure-software-deployment parameter "
                       . "found. Don't check server identity!!!" );
+                $protocl="http";
             }
 
             my $infoURI =
               $protocl.'://' . $paramHash->{INFO_LOC} . '/' . $orderId . '/info';
+            $ua->timeout(30);
             my $content = LWP::Simple::get($infoURI);
             if ( !$content ) {
                 $self->reportError( $orderId,
