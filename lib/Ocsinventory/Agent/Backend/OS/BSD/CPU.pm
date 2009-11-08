@@ -28,20 +28,11 @@ sub run {
   my $flag=0;
   my $status=0; ### XXX 0 if Unpopulated
   for(`dmidecode`){
-    $flag=1 if /dmi type 4,/i;
-    if((/dmi type (\d+),/i) && ($flag)){
-      if ($status){
-        $status=0;
-        $processorn++;
-      }
-      last if ($1!='4');
-    }
+    $processorn = `sysctl -n hw.ncpu`;
     
     $status = 1 if $flag && /^\s*status\s*:.*enabled/i;
-    $family = $1 if $flag && /^\s*family\s*:\s*(.*)/i;
-    $manufacturer = $1 if $flag && /^\s*manufacturer\s*:\s*(.*)/i;
     $processors = $1 if $flag && /^\s*current speed\s*:\s*(\d+).+/i;
-    $processort = "$manufacturer $family" if $manufacturer && $family;
+    $processort = `sysctl -n hw.model`;
   }
   
   $inventory->setHardware({
