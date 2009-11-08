@@ -1,32 +1,32 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::SuSE;
 use strict;
 
-sub isInventoryEnabled { can_read("/etc/SuSE-release") }
+sub isInventoryEnabled { can_read ("/etc/SuSE-release") }
 
 #####
 sub findRelease {
-    my $v;
+  my $v;
 
-    open V, "</etc/SuSE-release" or warn;
-    chomp( $v = <V> );
-    close V;
-    $v;
+  open V, "</etc/SuSE-release" or warn;
+  chomp ($v=<V>);
+  close V;
+  $v;
 }
 
 sub doInventory {
-    my $params    = shift;
-    my $inventory = $params->{inventory};
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
-    my $OSComment;
-    chomp( $OSComment = `uname -v` );
+  my $OSComment;
+  chomp($OSComment =`uname -v`);
 
-    $inventory->setHardware(
-        {
-            OSNAME     => findRelease(),
-            OSCOMMENTS => "$OSComment"
-        }
-    );
+  $inventory->setHardware({ 
+      OSNAME => findRelease(),
+      OSCOMMENTS => "$OSComment"
+    });
 
 }
+
+
 
 1;

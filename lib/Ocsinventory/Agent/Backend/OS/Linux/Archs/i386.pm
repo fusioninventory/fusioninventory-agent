@@ -4,9 +4,9 @@ use strict;
 
 use Config;
 
-sub isInventoryEnabled {
-    return 1 if $Config{'archname'} =~ /^(i\d86|x86_64)/;
-    0;
-}
+sub isInventoryEnabled { 
+  return 1 if $Config{'archname'} =~ /^(i\d86|x86_64)/;
+  0; 
+};
 
 1

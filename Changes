@@ -13,7 +13,7 @@ newdeploy
           longRun()  → postInventory()
        * Add isPostInventoryEnabled() function
 
-1.1_beta2
+1.1     Fri, 06 Nov 2009 16:07:08 +0100
        * addMemorie() renamed to addMemories(), this had been broken during
          the addMemories() → addMemory() transition
        * Debug mode: msg "check function failed" changed to "ignored" since
@@ -38,6 +38,10 @@ newdeploy
        * Prune 'Mac OS X' from the version on Mac + typo fixes (Scott HANNAHS)
        * POD doc, add a paragraph about the config file
        * LP: #462529, Fix EDID screen detection, thanks Sergio MERINO
+       * Use boolean for networks/virtualdev
+       * Generic/Screen: chomp uuencode output
+       * Generic/Screen: HSD code for "Hanns.G" (Remi COLLET)
+       * postinst.pl, put user $PATH in /etc/cron.d/ocsinventory-agent
 
 1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
        * Can use Net::CUPS to find the default printer

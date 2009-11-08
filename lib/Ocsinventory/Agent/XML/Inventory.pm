@@ -1,5 +1,4 @@
 package Ocsinventory::Agent::XML::Inventory;
-
 # TODO: resort the functions
 use strict;
 use warnings;
@@ -29,51 +28,49 @@ use Ocsinventory::Agent::Backend;
 The usual constructor.
 
 =cut
-
 sub new {
-    my ( undef, $params ) = @_;
+  my (undef, $params) = @_;
 
-    my $self = {};
-    $self->{accountinfo}   = $params->{accountinfo};
-    $self->{accountconfig} = $params->{accountconfig};
-    $self->{backend}       = $params->{backend};
-    my $logger = $self->{logger} = $params->{logger};
-    $self->{config} = $params->{config};
+  my $self = {};
+  $self->{accountinfo} = $params->{accountinfo};
+  $self->{accountconfig} = $params->{accountconfig};
+  $self->{backend} = $params->{backend};
+  my $logger = $self->{logger} = $params->{logger};
+  $self->{config} = $params->{config};
 
-    if ( !( $self->{config}{deviceid} ) ) {
-        $logger->fault('deviceid unititalised!');
-    }
+  if (!($self->{config}{deviceid})) {
+    $logger->fault ('deviceid unititalised!');
+  }
 
-    $self->{h}{QUERY}                = ['INVENTORY'];
-    $self->{h}{DEVICEID}             = [ $self->{config}->{deviceid} ];
-    $self->{h}{CONTENT}{ACCESSLOG}   = {};
-    $self->{h}{CONTENT}{BIOS}        = {};
-    $self->{h}{CONTENT}{CONTROLLERS} = [];
-    $self->{h}{CONTENT}{CPUS}        = [];
-    $self->{h}{CONTENT}{DRIVES}      = [];
-    $self->{h}{CONTENT}{HARDWARE}    = {
+  $self->{h}{QUERY} = ['INVENTORY'];
+  $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
+  $self->{h}{CONTENT}{ACCESSLOG} = {};
+  $self->{h}{CONTENT}{BIOS} = {};
+  $self->{h}{CONTENT}{CONTROLLERS} = [];
+  $self->{h}{CONTENT}{CPUS} = [];
+  $self->{h}{CONTENT}{DRIVES} = [];
+  $self->{h}{CONTENT}{HARDWARE} = {
+    # TODO move that in a backend module
+    ARCHNAME => [$Config{archname}]
+  };
+  $self->{h}{CONTENT}{MONITORS} = [];
+  $self->{h}{CONTENT}{PORTS} = [];
+  $self->{h}{CONTENT}{SLOTS} = [];
+  $self->{h}{CONTENT}{STORAGES} = [];
+  $self->{h}{CONTENT}{SOFTWARES} = [];
+  $self->{h}{CONTENT}{USERS} = [];
+  $self->{h}{CONTENT}{VIDEOS} = [];
+  $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
+  $self->{h}{CONTENT}{SOUNDS} = [];
+  $self->{h}{CONTENT}{MODEMS} = [];
 
-        # TODO move that in a backend module
-        ARCHNAME => [ $Config{archname} ]
-    };
-    $self->{h}{CONTENT}{MONITORS}        = [];
-    $self->{h}{CONTENT}{PORTS}           = [];
-    $self->{h}{CONTENT}{SLOTS}           = [];
-    $self->{h}{CONTENT}{STORAGES}        = [];
-    $self->{h}{CONTENT}{SOFTWARES}       = [];
-    $self->{h}{CONTENT}{USERS}           = [];
-    $self->{h}{CONTENT}{VIDEOS}          = [];
-    $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
-    $self->{h}{CONTENT}{SOUNDS}          = [];
-    $self->{h}{CONTENT}{MODEMS}          = [];
+  # For software deployment
+  $self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE} = [];
 
-    # For software deployment
-    $self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE} = [];
+  # Is the XML centent initialised?
+  $self->{isInitialised} = undef;
 
-    # Is the XML centent initialised?
-    $self->{isInitialised} = undef;
-
-    bless $self;
+  bless $self;
 }
 
 =item initialise()
@@ -81,13 +78,12 @@ sub new {
 Runs the backend modules to initilise the data.
 
 =cut
-
 sub initialise {
-    my ($self) = @_;
+  my ($self) = @_;
 
-    return if $self->{isInitialised};
+  return if $self->{isInitialised};
 
-    $self->{backend}->feedInventory( { inventory => $self } );
+  $self->{backend}->feedInventory ({inventory => $self});
 
 }
 
@@ -96,26 +92,26 @@ sub initialise {
 Add a controller in the inventory.
 
 =cut
-
 sub addController {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $driver       = $args->{DRIVER};
-    my $name         = $args->{NAME};
-    my $manufacturer = $args->{MANUFACTURER};
-    my $pciid        = $args->{PCIID};
-    my $pcislot      = $args->{PCISLOT};
-    my $type         = $args->{TYPE};
+  my $driver = $args->{DRIVER};
+  my $name = $args->{NAME};
+  my $manufacturer = $args->{MANUFACTURER};
+  my $pciid = $args->{PCIID};
+  my $pcislot = $args->{PCISLOT};
+  my $type = $args->{TYPE};
 
-    push @{ $self->{h}{CONTENT}{CONTROLLERS} }, {
-        DRIVER => [ $driver ? $driver : '' ],
-        NAME => [$name],
-        MANUFACTURER => [$manufacturer],
-        PCIID        => [ $pciid ? $pciid : '' ],
-        PCISLOT      => [ $pcislot ? $pcislot : '' ],
-        TYPE         => [$type],
+  push @{$self->{h}{CONTENT}{CONTROLLERS}},
+  {
+    DRIVER => [$driver?$driver:''],
+    NAME => [$name],
+    MANUFACTURER => [$manufacturer],
+    PCIID => [$pciid?$pciid:''],
+    PCISLOT => [$pcislot?$pcislot:''],
+    TYPE => [$type],
 
-    };
+  };
 }
 
 =item addModem()
@@ -123,28 +119,27 @@ sub addController {
 Add a modem in the inventory.
 
 =cut
-
 sub addModem {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $description = $args->{DESCRIPTION};
-    my $name        = $args->{NAME};
+  my $description = $args->{DESCRIPTION};
+  my $name = $args->{NAME};
 
-    push @{ $self->{h}{CONTENT}{MODEMS} }, {
+  push @{$self->{h}{CONTENT}{MODEMS}},
+  {
 
-        DESCRIPTION => [$description],
-        NAME        => [$name],
+    DESCRIPTION => [$description],
+    NAME => [$name],
 
-    };
+  };
 }
-
 # For compatibiliy
 sub addModems {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addModems to addModem()");
-    $self->addModem(@_);
+   $logger->debug("please rename addModems to addModem()");
+   $self->addModem(@_);
 }
 
 =item addDrive()
@@ -152,39 +147,37 @@ sub addModems {
 Add a partition in the inventory.
 
 =cut
-
 sub addDrive {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $createdate = $args->{CREATEDATE};
-    my $free       = $args->{FREE};
-    my $filesystem = $args->{FILESYSTEM};
-    my $label      = $args->{LABEL};
-    my $serial     = $args->{SERIAL};
-    my $total      = $args->{TOTAL};
-    my $type       = $args->{TYPE};
-    my $volumn     = $args->{VOLUMN};
+  my $createdate = $args->{CREATEDATE};
+  my $free = $args->{FREE};
+  my $filesystem = $args->{FILESYSTEM};
+  my $label = $args->{LABEL};
+  my $serial = $args->{SERIAL};
+  my $total = $args->{TOTAL};
+  my $type = $args->{TYPE};
+  my $volumn = $args->{VOLUMN};
 
-    push @{ $self->{h}{CONTENT}{DRIVES} },
-      {
-        CREATEDATE => [ $createdate ? $createdate : '' ],
-        FREE       => [ $free       ? $free       : '' ],
-        FILESYSTEM => [ $filesystem ? $filesystem : '' ],
-        LABEL      => [ $label      ? $label      : '' ],
-        SERIAL     => [ $serial     ? $serial     : '' ],
-        TOTAL      => [ $total      ? $total      : '' ],
-        TYPE       => [ $type       ? $type       : '' ],
-        VOLUMN     => [ $volumn     ? $volumn     : '' ]
-      };
+  push @{$self->{h}{CONTENT}{DRIVES}},
+  {
+    CREATEDATE => [$createdate?$createdate:''],
+    FREE => [$free?$free:''],
+    FILESYSTEM => [$filesystem?$filesystem:''],
+    LABEL => [$label?$label:''],
+    SERIAL => [$serial?$serial:''],
+    TOTAL => [$total?$total:''],
+    TYPE => [$type?$type:''],
+    VOLUMN => [$volumn?$volumn:'']
+  };
 }
-
 # For compatibiliy
 sub addDrives {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addDrives to addDrive()");
-    $self->addDrive(@_);
+   $logger->debug("please rename addDrives to addDrive()");
+   $self->addDrive(@_);
 }
 
 =item addStorages()
@@ -192,93 +185,92 @@ sub addDrives {
 Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
 
 =cut
-
 sub addStorages {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
+  my $logger = $self->{logger};
 
-    my $description  = $args->{DESCRIPTION};
-    my $disksize     = $args->{DISKSIZE};
-    my $manufacturer = $args->{MANUFACTURER};
-    my $model        = $args->{MODEL};
-    my $name         = $args->{NAME};
-    my $type         = $args->{TYPE};
-    my $serial       = $args->{SERIAL};
-    my $serialnumber = $args->{SERIALNUMBER};
-    my $firmware     = $args->{FIRMWARE};
-    my $scsi_coid    = $args->{SCSI_COID};
-    my $scsi_chid    = $args->{SCSI_CHID};
-    my $scsi_unid    = $args->{SCSI_UNID};
-    my $scsi_lun     = $args->{SCSI_LUN};
+  my $description = $args->{DESCRIPTION};
+  my $disksize = $args->{DISKSIZE};
+  my $manufacturer = $args->{MANUFACTURER};
+  my $model = $args->{MODEL};
+  my $name = $args->{NAME};
+  my $type = $args->{TYPE};
+  my $serial = $args->{SERIAL};
+  my $serialnumber = $args->{SERIALNUMBER};
+  my $firmware = $args->{FIRMWARE};
+  my $scsi_coid = $args->{SCSI_COID};
+  my $scsi_chid = $args->{SCSI_CHID};
+  my $scsi_unid = $args->{SCSI_UNID};
+  my $scsi_lun = $args->{SCSI_LUN};
 
-    $serialnumber = $serialnumber ? $serialnumber : $serial;
+  $serialnumber = $serialnumber?$serialnumber:$serial;
 
-    push @{ $self->{h}{CONTENT}{STORAGES} }, {
+  push @{$self->{h}{CONTENT}{STORAGES}},
+  {
 
-        DESCRIPTION  => [ $description  ? $description  : '' ],
-        DISKSIZE     => [ $disksize     ? $disksize     : '' ],
-        MANUFACTURER => [ $manufacturer ? $manufacturer : '' ],
-        MODEL        => [ $model        ? $model        : '' ],
-        NAME         => [ $name         ? $name         : '' ],
-        TYPE         => [ $type         ? $type         : '' ],
-        SERIALNUMBER => [ $serialnumber ? $serialnumber : '' ],
-        FIRMWARE     => [ $firmware     ? $firmware     : '' ],
-        SCSI_COID    => [ $scsi_coid    ? $scsi_coid    : '' ],
-        SCSI_CHID    => [ $scsi_chid    ? $scsi_chid    : '' ],
-        SCSI_UNID    => [ $scsi_unid    ? $scsi_unid    : '' ],
-        SCSI_LUN     => [ $scsi_lun     ? $scsi_lun     : '' ],
+    DESCRIPTION => [$description?$description:''],
+    DISKSIZE => [$disksize?$disksize:''],
+    MANUFACTURER => [$manufacturer?$manufacturer:''],
+    MODEL => [$model?$model:''],
+    NAME => [$name?$name:''],
+    TYPE => [$type?$type:''],
+    SERIALNUMBER => [$serialnumber?$serialnumber:''],
+    FIRMWARE => [$firmware?$firmware:''],
+    SCSI_COID => [$scsi_coid?$scsi_coid:''],
+    SCSI_CHID => [$scsi_chid?$scsi_chid:''],
+    SCSI_UNID => [$scsi_unid?$scsi_unid:''],
+    SCSI_LUN => [$scsi_lun?$scsi_lun:''],
 
-    };
+  };
 }
-
 # For compatibiliy
 sub addStorage {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addStorages to addStorage()");
-    $self->addStorage(@_);
+   $logger->debug("please rename addStorages to addStorage()");
+   $self->addStorage(@_);
 }
+
 
 =item addMemory()
 
 Add a memory module in the inventory.
 
 =cut
-
 sub addMemory {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $capacity    = $args->{CAPACITY};
-    my $speed       = $args->{SPEED};
-    my $type        = $args->{TYPE};
-    my $description = $args->{DESCRIPTION};
-    my $caption     = $args->{CAPTION};
-    my $numslots    = $args->{NUMSLOTS};
+  my $capacity = $args->{CAPACITY};
+  my $speed =  $args->{SPEED};
+  my $type = $args->{TYPE};
+  my $description = $args->{DESCRIPTION};
+  my $caption = $args->{CAPTION};
+  my $numslots = $args->{NUMSLOTS};
 
-    my $serialnumber = $args->{SERIALNUMBER};
+  my $serialnumber = $args->{SERIALNUMBER};
 
-    push @{ $self->{h}{CONTENT}{MEMORIES} }, {
+  push @{$self->{h}{CONTENT}{MEMORIES}},
+  {
 
-        CAPACITY     => [ $capacity     ? $capacity     : '' ],
-        DESCRIPTION  => [ $description  ? $description  : '' ],
-        CAPTION      => [ $caption      ? $caption      : '' ],
-        SPEED        => [ $speed        ? $speed        : '' ],
-        TYPE         => [ $type         ? $type         : '' ],
-        NUMSLOTS     => [ $numslots     ? $numslots     : 0 ],
-        SERIALNUMBER => [ $serialnumber ? $serialnumber : '' ]
+    CAPACITY => [$capacity?$capacity:''],
+    DESCRIPTION => [$description?$description:''],
+    CAPTION => [$caption?$caption:''],
+    SPEED => [$speed?$speed:''],
+    TYPE => [$type?$type:''],
+    NUMSLOTS => [$numslots?$numslots:0],
+    SERIALNUMBER => [$serialnumber?$serialnumber:'']
 
-    };
+  };
 }
-
 # For compatibiliy
 sub addMemories {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addMemories to addMemory()");
-    $self->addMemory(@_);
+   $logger->debug("please rename addMemories to addMemory()");
+   $self->addMemory(@_);
 }
 
 =item addPort()
@@ -286,32 +278,32 @@ sub addMemories {
 Add a port module in the inventory.
 
 =cut
+sub addPorts{
+  my ($self, $args) = @_;
 
-sub addPorts {
-    my ( $self, $args ) = @_;
+  my $caption = $args->{CAPTION};
+  my $description = $args->{DESCRIPTION};
+  my $name = $args->{NAME};
+  my $type = $args->{TYPE};
 
-    my $caption     = $args->{CAPTION};
-    my $description = $args->{DESCRIPTION};
-    my $name        = $args->{NAME};
-    my $type        = $args->{TYPE};
 
-    push @{ $self->{h}{CONTENT}{PORTS} }, {
+  push @{$self->{h}{CONTENT}{PORTS}},
+  {
 
-        CAPTION     => [ $caption     ? $caption     : '' ],
-        DESCRIPTION => [ $description ? $description : '' ],
-        NAME        => [ $name        ? $name        : '' ],
-        TYPE        => [ $type        ? $type        : '' ],
+    CAPTION => [$caption?$caption:''],
+    DESCRIPTION => [$description?$description:''],
+    NAME => [$name?$name:''],
+    TYPE => [$type?$type:''],
 
-    };
+  };
 }
-
 # For compatibiliy
 sub addPort {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addPorts to addPort()");
-    $self->addPort(@_);
+   $logger->debug("please rename addPorts to addPort()");
+   $self->addPort(@_);
 }
 
 =item addSlot()
@@ -319,32 +311,32 @@ sub addPort {
 Add a slot in the inventory. 
 
 =cut
-
 sub addSlot {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $description = $args->{DESCRIPTION};
-    my $designation = $args->{DESIGNATION};
-    my $name        = $args->{NAME};
-    my $status      = $args->{STATUS};
+  my $description = $args->{DESCRIPTION};
+  my $designation = $args->{DESIGNATION};
+  my $name = $args->{NAME};
+  my $status = $args->{STATUS};
 
-    push @{ $self->{h}{CONTENT}{SLOTS} }, {
 
-        DESCRIPTION => [ $description ? $description : '' ],
-        DESIGNATION => [ $designation ? $designation : '' ],
-        NAME        => [ $name        ? $name        : '' ],
-        STATUS      => [ $status      ? $status      : '' ],
+  push @{$self->{h}{CONTENT}{SLOTS}},
+  {
 
-    };
+    DESCRIPTION => [$description?$description:''],
+    DESIGNATION => [$designation?$designation:''],
+    NAME => [$name?$name:''],
+    STATUS => [$status?$status:''],
+
+  };
 }
-
 # For compatibiliy
 sub addSlots {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addSlots to addSlot()");
-    $self->addSlot(@_);
+   $logger->debug("please rename addSlots to addSlot()");
+   $self->addSlot(@_);
 }
 
 =item addSoftware()
@@ -352,40 +344,40 @@ sub addSlots {
 Register a software in the inventory.
 
 =cut
-
 sub addSoftware {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $comments    = $args->{COMMENTS};
-    my $filesize    = $args->{FILESIZE};
-    my $folder      = $args->{FOLDER};
-    my $from        = $args->{FROM};
-    my $installdate = $args->{INSTALLDATE};
-    my $name        = $args->{NAME};
-    my $publisher   = $args->{PUBLISHER};
-    my $version     = $args->{VERSION};
+  my $comments = $args->{COMMENTS};
+  my $filesize = $args->{FILESIZE};
+  my $folder = $args->{FOLDER};
+  my $from = $args->{FROM};
+  my $installdate = $args->{INSTALLDATE};
+  my $name = $args->{NAME};
+  my $publisher = $args->{PUBLISHER};
+  my $version = $args->{VERSION};
 
-    push @{ $self->{h}{CONTENT}{SOFTWARES} }, {
 
-        COMMENTS    => [ $comments    ? $comments    : '' ],
-        FILESIZE    => [ $filesize    ? $filesize    : '' ],
-        FOLDER      => [ $folder      ? $folder      : '' ],
-        FROM        => [ $from        ? $from        : '' ],
-        INSTALLDATE => [ $installdate ? $installdate : '' ],
-        NAME        => [ $name        ? $name        : '' ],
-        PUBLISHER   => [ $publisher   ? $publisher   : '' ],
-        VERSION     => [$version],
+  push @{$self->{h}{CONTENT}{SOFTWARES}},
+  {
 
-    };
+    COMMENTS => [$comments?$comments:''],
+    FILESIZE => [$filesize?$filesize:''],
+    FOLDER => [$folder?$folder:''],
+    FROM => [$from?$from:''],
+    INSTALLDATE => [$installdate?$installdate:''],
+    NAME => [$name?$name:''],
+    PUBLISHER => [$publisher?$publisher:''],
+    VERSION => [$version],
+
+  };
 }
-
 # For compatibiliy
 sub addSoftwares {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addSoftwares to addSoftware()");
-    $self->addSoftware(@_);
+   $logger->debug("please rename addSoftwares to addSoftware()");
+   $self->addSoftware(@_);
 }
 
 =item addMonitor()
@@ -393,36 +385,36 @@ sub addSoftwares {
 Add a monitor (screen) in the inventory.
 
 =cut
-
 sub addMonitor {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $base64       = $args->{BASE64};
-    my $caption      = $args->{CAPTION};
-    my $description  = $args->{DESCRIPTION};
-    my $manufacturer = $args->{MANUFACTURER};
-    my $serial       = $args->{SERIAL};
-    my $uuencode     = $args->{UUENCODE};
+  my $base64 = $args->{BASE64};
+  my $caption = $args->{CAPTION};
+  my $description = $args->{DESCRIPTION};
+  my $manufacturer = $args->{MANUFACTURER};
+  my $serial = $args->{SERIAL};
+  my $uuencode = $args->{UUENCODE};
 
-    push @{ $self->{h}{CONTENT}{MONITORS} }, {
 
-        BASE64       => [ $base64       ? $base64       : '' ],
-        CAPTION      => [ $caption      ? $caption      : '' ],
-        DESCRIPTION  => [ $description  ? $description  : '' ],
-        MANUFACTURER => [ $manufacturer ? $manufacturer : '' ],
-        SERIAL       => [ $serial       ? $serial       : '' ],
-        UUENCODE     => [ $uuencode     ? $uuencode     : '' ],
+  push @{$self->{h}{CONTENT}{MONITORS}},
+  {
 
-    };
+    BASE64 => [$base64?$base64:''],
+    CAPTION => [$caption?$caption:''],
+    DESCRIPTION => [$description?$description:''],
+    MANUFACTURER => [$manufacturer?$manufacturer:''],
+    SERIAL => [$serial?$serial:''],
+    UUENCODE => [$uuencode?$uuencode:''],
+
+  };
 }
-
 # For compatibiliy
 sub addMonitors {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addMonitors to addMonitor()");
-    $self->addMonitor(@_);
+   $logger->debug("please rename addMonitors to addMonitor()");
+   $self->addMonitor(@_);
 }
 
 =item addVideo()
@@ -430,32 +422,31 @@ sub addMonitors {
 Add a video card in the inventory.
 
 =cut
-
 sub addVideo {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $chipset    = $args->{CHIPSET};
-    my $memory     = $args->{MEMORY};
-    my $name       = $args->{NAME};
-    my $resolution = $args->{RESOLUTION};
+  my $chipset = $args->{CHIPSET};
+  my $memory = $args->{MEMORY};
+  my $name = $args->{NAME};
+  my $resolution = $args->{RESOLUTION};
 
-    push @{ $self->{h}{CONTENT}{VIDEOS} }, {
+  push @{$self->{h}{CONTENT}{VIDEOS}},
+  {
 
-        CHIPSET    => [ $chipset    ? $chipset    : '' ],
-        MEMORY     => [ $memory     ? $memory     : '' ],
-        NAME       => [ $name       ? $name       : '' ],
-        RESOLUTION => [ $resolution ? $resolution : '' ],
+    CHIPSET => [$chipset?$chipset:''],
+    MEMORY => [$memory?$memory:''],
+    NAME => [$name?$name:''],
+    RESOLUTION => [$resolution?$resolution:''],
 
-    };
+  };
 }
-
 # For compatibiliy
 sub addVideos {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addVideos to addVideo()");
-    $self->addVideo(@_);
+   $logger->debug("please rename addVideos to addVideo()");
+   $self->addVideo(@_);
 }
 
 =item addSound()
@@ -463,30 +454,29 @@ sub addVideos {
 Add a sound card in the inventory.
 
 =cut
-
 sub addSound {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $description  = $args->{DESCRIPTION};
-    my $manufacturer = $args->{MANUFACTURER};
-    my $name         = $args->{NAME};
+  my $description = $args->{DESCRIPTION};
+  my $manufacturer = $args->{MANUFACTURER};
+  my $name = $args->{NAME};
 
-    push @{ $self->{h}{CONTENT}{SOUNDS} }, {
+  push @{$self->{h}{CONTENT}{SOUNDS}},
+  {
 
-        DESCRIPTION  => [ $description  ? $description  : '' ],
-        MANUFACTURER => [ $manufacturer ? $manufacturer : '' ],
-        NAME         => [ $name         ? $name         : '' ],
+    DESCRIPTION => [$description?$description:''],
+    MANUFACTURER => [$manufacturer?$manufacturer:''],
+    NAME => [$name?$name:''],
 
-    };
+  };
 }
-
 # For compatibiliy
 sub addSounds {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addSounds to addSound()");
-    $self->addSound(@_);
+   $logger->debug("please rename addSounds to addSound()");
+   $self->addSound(@_);
 }
 
 =item addNetwork()
@@ -494,53 +484,52 @@ sub addSounds {
 Register a network in the inventory.
 
 =cut
-
 sub addNetwork {
+  # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
+  my ($self, $args) = @_;
 
-    # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
-    my ( $self, $args ) = @_;
+  my $description = $args->{DESCRIPTION};
+  my $driver = $args->{DRIVER};
+  my $ipaddress = $args->{IPADDRESS};
+  my $ipdhcp = $args->{IPDHCP};
+  my $ipgateway = $args->{IPGATEWAY};
+  my $ipmask = $args->{IPMASK};
+  my $ipsubnet = $args->{IPSUBNET};
+  my $macaddr = $args->{MACADDR};
+  my $pcislot = $args->{PCISLOT};
+  my $status = $args->{STATUS};
+  my $type = $args->{TYPE};
+  my $virtualdev = $args->{VIRTUALDEV};
 
-    my $description = $args->{DESCRIPTION};
-    my $driver      = $args->{DRIVER};
-    my $ipaddress   = $args->{IPADDRESS};
-    my $ipdhcp      = $args->{IPDHCP};
-    my $ipgateway   = $args->{IPGATEWAY};
-    my $ipmask      = $args->{IPMASK};
-    my $ipsubnet    = $args->{IPSUBNET};
-    my $macaddr     = $args->{MACADDR};
-    my $pcislot     = $args->{PCISLOT};
-    my $status      = $args->{STATUS};
-    my $type        = $args->{TYPE};
-    my $virtualdev  = $args->{VIRTUALDEV};
+#  return unless $ipaddress;
 
-    #  return unless $ipaddress;
+  push @{$self->{h}{CONTENT}{NETWORKS}},
+  {
 
-    push @{ $self->{h}{CONTENT}{NETWORKS} }, {
+    DESCRIPTION => [$description?$description:''],
+    DRIVER => [$driver?$driver:''],
+    IPADDRESS => [$ipaddress?$ipaddress:''],
+    IPDHCP => [$ipdhcp?$ipdhcp:''],
+    IPGATEWAY => [$ipgateway?$ipgateway:''],
+    IPMASK => [$ipmask?$ipmask:''],
+    IPSUBNET => [$ipsubnet?$ipsubnet:''],
+    MACADDR => [$macaddr?$macaddr:''],
+    PCISLOT => [$pcislot?$pcislot:''],
+    STATUS => [$status?$status:''],
+    TYPE => [$type?$type:''],
+    VIRTUALDEV => [$virtualdev?$virtualdev:''],
 
-        DESCRIPTION => [ $description ? $description : '' ],
-        DRIVER      => [ $driver      ? $driver      : '' ],
-        IPADDRESS   => [ $ipaddress   ? $ipaddress   : '' ],
-        IPDHCP      => [ $ipdhcp      ? $ipdhcp      : '' ],
-        IPGATEWAY   => [ $ipgateway   ? $ipgateway   : '' ],
-        IPMASK      => [ $ipmask      ? $ipmask      : '' ],
-        IPSUBNET    => [ $ipsubnet    ? $ipsubnet    : '' ],
-        MACADDR     => [ $macaddr     ? $macaddr     : '' ],
-        PCISLOT     => [ $pcislot     ? $pcislot     : '' ],
-        STATUS      => [ $status      ? $status      : '' ],
-        TYPE        => [ $type        ? $type        : '' ],
-        VIRTUALDEV  => [ $virtualdev  ? $virtualdev  : '' ],
-
-    };
+  };
 }
-
 # For compatibiliy
 sub addNetworks {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addNetworks to addNetwork()");
-    $self->addNetwork(@_);
+   $logger->debug("please rename addNetworks to addNetwork()");
+   $self->addNetwork(@_);
 }
+
 
 =item setHardware()
 
@@ -550,35 +539,27 @@ The use of setHardware() to update USERID and PROCESSOR* informations is
 deprecated, please, use addUser() and addCPU() instead.
 
 =cut
-
 sub setHardware {
-    my ( $self, $args, $nonDeprecated ) = @_;
+  my ($self, $args, $nonDeprecated) = @_;
 
-    my $logger = $self->{logger};
+  my $logger = $self->{logger};
 
-    foreach my $key (
-        qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
-        PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
-        DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER
-        DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM/
-      )
-    {
+  foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
+    PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
+    DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER
+    DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM/) {
 
-        if ( exists $args->{$key} ) {
-            if ( $key eq 'PROCESSORS' && !$nonDeprecated ) {
-                $logger->debug(
-"PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead."
-                );
-            }
-            if ( $key eq 'USERID' && !$nonDeprecated ) {
-                $logger->debug(
-"USERID shouldn't be set directly anymore. Please use addCPU() method instead."
-                );
-            }
+    if (exists $args->{$key}) {
+      if ($key eq 'PROCESSORS' && !$nonDeprecated) {
+          $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
+      }
+      if ($key eq 'USERID' && !$nonDeprecated) {
+          $logger->debug("USERID shouldn't be set directly anymore. Please use addCPU() method instead.");
+      }
 
-            $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
-        }
+      $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
     }
+  }
 }
 
 =item setBios()
@@ -586,18 +567,15 @@ sub setHardware {
 Set BIOS informations.
 
 =cut
-
 sub setBios {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    foreach my $key (
-        qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER ASSETTAG/)
-    {
+  foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER ASSETTAG/) {
 
-        if ( exists $args->{$key} ) {
-            $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
-        }
+    if (exists $args->{$key}) {
+      $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
     }
+  }
 }
 
 =item addCPU()
@@ -605,38 +583,35 @@ sub setBios {
 Add a CPU in the inventory.
 
 =cut
-
 sub addCPU {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    # The CPU FLAG
-    my $manufacturer = $args->{MANUFACTURER};
-    my $type         = $args->{TYPE};
-    my $serial       = $args->{SERIAL};
-    my $speed        = $args->{SPEED};
+  # The CPU FLAG
+  my $manufacturer = $args->{MANUFACTURER};
+  my $type = $args->{TYPE};
+  my $serial = $args->{SERIAL};
+  my $speed = $args->{SPEED};
 
-    push @{ $self->{h}{CONTENT}{CPUS} }, {
+  push @{$self->{h}{CONTENT}{CPUS}},
+  {
 
-        MANUFACTURER => [$manufacturer],
-        TYPE         => [$type],
-        SERIAL       => [$serial],
-        SPEED        => [$speed],
+    MANUFACTURER => [$manufacturer],
+    TYPE => [$type],
+    SERIAL => [$serial],
+    SPEED => [$speed],
 
-    };
+  };
 
-    # For the compatibility with HARDWARE/PROCESSOR*
-    my $processorn = int @{ $self->{h}{CONTENT}{CPUS} };
-    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
-    my $processort = $self->{h}{CONTENT}{CPUS}[0]{TYPE}[0];
+  # For the compatibility with HARDWARE/PROCESSOR*
+  my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
+  my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
+  my $processort = $self->{h}{CONTENT}{CPUS}[0]{TYPE}[0];
 
-    $self->setHardware(
-        {
-            PROCESSORN => $processorn,
-            PROCESSORS => $processors,
-            PROCESSORT => $processort,
-        },
-        1
-    );
+  $self->setHardware ({
+    PROCESSORN => $processorn,
+    PROCESSORS => $processors,
+    PROCESSORT => $processort,
+  }, 1);
 
 }
 
@@ -645,38 +620,39 @@ sub addCPU {
 Add an user in the list of logged user.
 
 =cut
-
 sub addUser {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    #  my $name  = $args->{NAME};
-    #  my $gid   = $args->{GID};
-    my $login = $args->{LOGIN};
+#  my $name  = $args->{NAME};
+#  my $gid   = $args->{GID};
+  my $login = $args->{LOGIN};
+#  my $uid   = $args->{UID};
 
-    #  my $uid   = $args->{UID};
+  return unless $login;
 
-    return unless $login;
+  # Is the login, already in the XML ?
+  foreach my $user (@{$self->{h}{CONTENT}{USERS}}) {
+      return if $user->{LOGIN}[0] eq $login;
+  }
 
-    # Is the login, already in the XML ?
-    foreach my $user ( @{ $self->{h}{CONTENT}{USERS} } ) {
-        return if $user->{LOGIN}[0] eq $login;
-    }
+  push @{$self->{h}{CONTENT}{USERS}},
+  {
 
-    push @{ $self->{h}{CONTENT}{USERS} }, {
+#      NAME => [$name],
+#      UID => [$uid],
+#      GID => [$gid],
+      LOGIN => [$login]
 
-        #      NAME => [$name],
-        #      UID => [$uid],
-        #      GID => [$gid],
-        LOGIN => [$login]
+  };
 
-    };
+  my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
 
-    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
+  $userString .= '/' if $userString;
+  $userString .= $login;
 
-    $userString .= '/' if $userString;
-    $userString .= $login;
-
-    $self->setHardware( { USERID => $userString, }, 1 );
+  $self->setHardware ({
+    USERID => $userString,
+  }, 1);
 
 }
 
@@ -685,32 +661,31 @@ sub addUser {
 Add a printer in the inventory.
 
 =cut
-
 sub addPrinter {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $description = $args->{DESCRIPTION};
-    my $driver      = $args->{DRIVER};
-    my $name        = $args->{NAME};
-    my $port        = $args->{PORT};
+  my $description = $args->{DESCRIPTION};
+  my $driver = $args->{DRIVER};
+  my $name = $args->{NAME};
+  my $port = $args->{PORT};
 
-    push @{ $self->{h}{CONTENT}{PRINTERS} }, {
+  push @{$self->{h}{CONTENT}{PRINTERS}},
+  {
 
-        DESCRIPTION => [ $description ? $description : '' ],
-        DRIVER      => [ $driver      ? $driver      : '' ],
-        NAME        => [ $name        ? $name        : '' ],
-        PORT        => [ $port        ? $port        : '' ],
+    DESCRIPTION => [$description?$description:''],
+    DRIVER => [$driver?$driver:''],
+    NAME => [$name?$name:''],
+    PORT => [$port?$port:''],
 
-    };
+  };
 }
-
 # For compatibiliy
 sub addPrinters {
-    my $self   = shift;
-    my $logger = $self->{logger};
+   my $self = shift;
+   my $logger = $self->{logger};
 
-    $logger->debug("please rename addPrinters to addPrinter()");
-    $self->addPrinter(@_);
+   $logger->debug("please rename addPrinters to addPrinter()");
+   $self->addPrinter(@_);
 }
 
 =item addVirtualMachine()
@@ -718,32 +693,32 @@ sub addPrinters {
 Add a Virtual Machine in the inventory.
 
 =cut
-
 sub addVirtualMachine {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    # The CPU FLAG
-    my $memory    = $args->{MEMORY};
-    my $name      = $args->{NAME};
-    my $uuid      = $args->{UUID};
-    my $status    = $args->{STATUS};
-    my $subsystem = $args->{SUBSYSTEM};
-    my $vmtype    = $args->{VMTYPE};
-    my $vcpu      = $args->{VCPU};
-    my $vmid      = $args->{VMID};
+  # The CPU FLAG
+  my $memory = $args->{MEMORY};
+  my $name = $args->{NAME};
+  my $uuid = $args->{UUID};
+  my $status = $args->{STATUS};
+  my $subsystem = $args->{SUBSYSTEM};
+  my $vmtype = $args->{VMTYPE};
+  my $vcpu = $args->{VCPU};
+  my $vmid = $args->{VMID};
 
-    push @{ $self->{h}{CONTENT}{VIRTUALMACHINES} }, {
+  push @{$self->{h}{CONTENT}{VIRTUALMACHINES}},
+  {
 
-        MEMORY    => [$memory],
-        NAME      => [$name],
-        UUID      => [$uuid],
-        STATUS    => [$status],
-        SUBSYSTEM => [$subsystem],
-        VMTYPE    => [$vmtype],
-        VCPU      => [$vcpu],
-        VMID      => [$vmid],
+      MEMORY =>  [$memory],
+      NAME => [$name],
+      UUID => [$uuid],
+      STATUS => [$status],
+      SUBSYSTEM => [$subsystem],
+      VMTYPE => [$vmtype],
+      VCPU => [$vcpu],
+      VMID => [$vmid],
 
-    };
+  };
 
 }
 
@@ -752,47 +727,46 @@ sub addVirtualMachine {
 Record a running process in the inventory.
 
 =cut
-
 sub addProcess {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $user    = $args->{USER};
-    my $pid     = $args->{PID};
-    my $cpu     = $args->{CPUUSAGE};
-    my $mem     = $args->{MEM};
-    my $vsz     = $args->{VIRTUALMEMORY};
-    my $tty     = $args->{TTY};
-    my $started = $args->{STARTED};
-    my $cmd     = $args->{CMD};
+  my $user = $args->{USER};
+  my $pid = $args->{PID};
+  my $cpu = $args->{CPUUSAGE};
+  my $mem = $args->{MEM};
+  my $vsz = $args->{VIRTUALMEMORY};
+  my $tty = $args->{TTY};
+  my $started = $args->{STARTED};
+  my $cmd = $args->{CMD};
 
-    push @{ $self->{h}{CONTENT}{PROCESSES} },
-      {
-        USER          => [ $user    ? $user    : '' ],
-        PID           => [ $pid     ? $pid     : '' ],
-        CPUUSAGE      => [ $cpu     ? $cpu     : '' ],
-        MEM           => [ $mem     ? $mem     : '' ],
-        VIRTUALMEMORY => [ $vsz     ? $vsz     : 0 ],
-        TTY           => [ $tty     ? $tty     : '' ],
-        STARTED       => [ $started ? $started : '' ],
-        CMD           => [ $cmd     ? $cmd     : '' ],
-      };
+  push @{$self->{h}{CONTENT}{PROCESSES}},
+  {
+    USER => [$user?$user:''],
+    PID => [$pid?$pid:''],
+    CPUUSAGE => [$cpu?$cpu:''],
+    MEM => [$mem?$mem:''],
+    VIRTUALMEMORY => [$vsz?$vsz:0],
+    TTY => [$tty?$tty:''],
+    STARTED => [$started?$started:''],
+    CMD => [$cmd?$cmd:''],
+  };
 }
+
 
 =item setAccessLog()
 
 What is that for? :)
 
 =cut
-
 sub setAccessLog {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    foreach my $key (qw/USERID LOGDATE/) {
+  foreach my $key (qw/USERID LOGDATE/) {
 
-        if ( exists $args->{$key} ) {
-            $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
-        }
+    if (exists $args->{$key}) {
+      $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
     }
+  }
 }
 
 =item addIpDiscoverEntry()
@@ -803,26 +777,23 @@ is done on the ARP level.
 This function adds a network interface in the inventory.
 
 =cut
-
 sub addIpDiscoverEntry {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $ipaddress = $args->{IPADDRESS};
-    my $macaddr   = $args->{MACADDR};
-    my $name      = $args->{NAME};
+  my $ipaddress = $args->{IPADDRESS};
+  my $macaddr = $args->{MACADDR};
+  my $name = $args->{NAME};
 
-    if ( !$self->{h}{CONTENT}{IPDISCOVER}{H} ) {
-        $self->{h}{CONTENT}{IPDISCOVER}{H} = [];
-    }
+  if (!$self->{h}{CONTENT}{IPDISCOVER}{H}) {
+    $self->{h}{CONTENT}{IPDISCOVER}{H} = [];
+  }
 
-    push @{ $self->{h}{CONTENT}{IPDISCOVER}{H} }, {
-
-        # If I or M is undef, the server will ingore the host
-        I => [ $ipaddress ? $ipaddress : "" ],
-        M => [ $macaddr   ? $macaddr   : "" ],
-        N => [ $name      ? $name      : "-" ]
-        ,    # '-' is the default value reteurned by ipdiscover
-    };
+  push @{$self->{h}{CONTENT}{IPDISCOVER}{H}}, {
+    # If I or M is undef, the server will ingore the host
+    I => [$ipaddress?$ipaddress:""],
+    M => [$macaddr?$macaddr:""],
+    N => [$name?$name:"-"], # '-' is the default value reteurned by ipdiscover
+  };
 }
 
 =item addSoftwareDeploymentPackage()
@@ -833,13 +804,12 @@ Order sent to the agent are recorded on the client side and then send back
 to the server in the inventory.
 
 =cut
-
 sub addSoftwareDeploymentPackage {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $orderId = $args->{ORDERID};
+  my $orderId = $args->{ORDERID};
 
-    push( @{ $self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE} }, $orderId );
+  push (@{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE}}, $orderId);
 
 }
 
@@ -848,51 +818,40 @@ sub addSoftwareDeploymentPackage {
 Return the inventory as a XML string.
 
 =cut
-
 sub getContent {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
+  my $logger = $self->{logger};
 
-    $self->initialise();
+  $self->initialise();
 
-    $self->processChecksum();
+  $self->processChecksum();
 
-    #  checks for MAC, NAME and SSN presence
-    my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
-    my $ssn     = $self->{h}->{CONTENT}->{BIOS}->{SSN}->[0];
-    my $name    = $self->{h}->{CONTENT}->{HARDWARE}->{NAME}->[0];
+  #  checks for MAC, NAME and SSN presence
+  my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
+  my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN}->[0];
+  my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME}->[0];
 
-    my $missing;
+  my $missing;
 
-    $missing .= "MAC-address " unless $macaddr;
-    $missing .= "SSN "         unless $ssn;
-    $missing .= "HOSTNAME "    unless $name;
+  $missing .= "MAC-address " unless $macaddr;
+  $missing .= "SSN " unless $ssn;
+  $missing .= "HOSTNAME " unless $name;
 
-    if ($missing) {
-        $logger->debug( 'Missing value(s): ' 
-              . $missing
-              . '. I will send this inventory to the server BUT important value(s) to identify the computer are missing'
-        );
-    }
+  if ($missing) {
+    $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
+  }
 
-    $self->{accountinfo}->setAccountInfo($self);
+  $self->{accountinfo}->setAccountInfo($self);
 
-    my $content = XMLout(
-        $self->{h},
-        RootName      => 'REQUEST',
-        XMLDecl       => '<?xml version="1.0" encoding="UTF-8"?>',
-        SuppressEmpty => undef
-    );
+  my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 
-    my $clean_content;
+  my $clean_content;
 
-    # To avoid strange breakage I remove the unprintable caractere in the XML
-    foreach ( split "\n", $content ) {
-
-        #      s/[[:cntrl:]]//g;
-        if (
-            !m/\A(
+  # To avoid strange breakage I remove the unprintable caractere in the XML
+  foreach (split "\n", $content) {
+#      s/[[:cntrl:]]//g;
+    if (! m/\A(
       [\x09\x0A\x0D\x20-\x7E]            # ASCII
       | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
       |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
@@ -901,21 +860,19 @@ sub getContent {
       |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
       | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
       |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-      )*\z/x
-          )
-        {
-            s/[[:cntrl:]]//g;
-            $logger->debug( "non utf-8 '" . $_ . "'" );
-        }
-
-        s/\r|\n//g;
-
-        # Is that a good idea. Intent to drop some nasty char
-        # s/[A-z0-9_\-<>\/:\.,#\ \?="'\(\)]//g;
-        $clean_content .= $_ . "\n";
+      )*\z/x) {
+      s/[[:cntrl:]]//g;
+      $logger->debug("non utf-8 '".$_."'");
     }
 
-    return $clean_content;
+      s/\r|\n//g;
+
+      # Is that a good idea. Intent to drop some nasty char
+      # s/[A-z0-9_\-<>\/:\.,#\ \?="'\(\)]//g;
+      $clean_content .= $_."\n";
+  }
+
+  return $clean_content;
 }
 
 =item printXML()
@@ -923,12 +880,11 @@ sub getContent {
 Only for debugging purpose. Print the inventory on STDOUT.
 
 =cut
-
 sub printXML {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    $self->initialise();
-    print $self->getContent();
+  $self->initialise();
+  print $self->getContent();
 }
 
 =item writeXML()
@@ -937,32 +893,29 @@ Save the generated inventory as an XML file. The 'local' key of the config
 is used to know where the file as to be saved.
 
 =cut
-
 sub writeXML {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
+  my $logger = $self->{logger};
 
-    if ( $self->{config}{local} =~ /^$/ ) {
-        $logger->fault('local path unititalised!');
-    }
+  if ($self->{config}{local} =~ /^$/) {
+    $logger->fault ('local path unititalised!');
+  }
 
-    $self->initialise();
+  $self->initialise();
 
-    my $localfile =
-      $self->{config}{local} . "/" . $self->{config}{deviceid} . '.ocs';
-    $localfile =~ s!(//){1,}!/!;
+  my $localfile = $self->{config}{local}."/".$self->{config}{deviceid}.'.ocs';
+  $localfile =~ s!(//){1,}!/!;
 
-    # Convert perl data structure into xml strings
+  # Convert perl data structure into xml strings
 
-    if ( open OUT, ">$localfile" ) {
-        print OUT $self->getContent();
-        close OUT or warn;
-        $logger->info("Inventory saved in $localfile");
-    }
-    else {
-        warn "Can't open `$localfile': $!";
-    }
+  if (open OUT, ">$localfile") {
+    print OUT $self->getContent();
+    close OUT or warn;
+    $logger->info("Inventory saved in $localfile");
+  } else {
+    warn "Can't open `$localfile': $!"
+  }
 }
 
 =item processChecksum()
@@ -974,80 +927,70 @@ The is done thank to the last_file file. It has MD5 prints of the previous
 inventory. 
 
 =cut
-
 sub processChecksum {
-    my $self = shift;
+  my $self = shift;
 
-    my $logger = $self->{logger};
+  my $logger = $self->{logger};
+#To apply to $checksum with an OR
+  my %mask = (
+    'HARDWARE'      => 1,
+    'BIOS'          => 2,
+    'MEMORIES'      => 4,
+    'SLOTS'         => 8,
+    'REGISTRY'      => 16,
+    'CONTROLLERS'   => 32,
+    'MONITORS'      => 64,
+    'PORTS'         => 128,
+    'STORAGES'      => 256,
+    'DRIVES'        => 512,
+    'INPUT'         => 1024,
+    'MODEMS'        => 2048,
+    'NETWORKS'      => 4096,
+    'PRINTERS'      => 8192,
+    'SOUNDS'        => 16384,
+    'VIDEOS'        => 32768,
+    'SOFTWARES'     => 65536,
+    'VIRTUALMACHINES' => 131072,
+  );
+  # TODO CPUS is not in the list
 
-    #To apply to $checksum with an OR
-    my %mask = (
-        'HARDWARE'        => 1,
-        'BIOS'            => 2,
-        'MEMORIES'        => 4,
-        'SLOTS'           => 8,
-        'REGISTRY'        => 16,
-        'CONTROLLERS'     => 32,
-        'MONITORS'        => 64,
-        'PORTS'           => 128,
-        'STORAGES'        => 256,
-        'DRIVES'          => 512,
-        'INPUT'           => 1024,
-        'MODEMS'          => 2048,
-        'NETWORKS'        => 4096,
-        'PRINTERS'        => 8192,
-        'SOUNDS'          => 16384,
-        'VIDEOS'          => 32768,
-        'SOFTWARES'       => 65536,
-        'VIRTUALMACHINES' => 131072,
-    );
+  if (!$self->{config}->{vardir}) {
+    $logger->fault ("vardir uninitialised!");
+  }
 
-    # TODO CPUS is not in the list
+  my $checksum = 0;
 
-    if ( !$self->{config}->{vardir} ) {
-        $logger->fault("vardir uninitialised!");
+  if (!$self->{config}{local} && $self->{config}->{last_statefile}) {
+    if (-f $self->{config}->{last_statefile}) {
+      # TODO: avoid a violant death in case of problem with XML
+      $self->{last_state_content} = XML::Simple::XMLin(
+
+        $self->{config}->{last_statefile},
+        SuppressEmpty => undef,
+        ForceArray => 1
+
+      );
+    } else {
+      $logger->debug ('last_state file: `'.
+      $self->{config}->{last_statefile}.
+        "' doesn't exist (yet).");
     }
+  }
 
-    my $checksum = 0;
-
-    if ( !$self->{config}{local} && $self->{config}->{last_statefile} ) {
-        if ( -f $self->{config}->{last_statefile} ) {
-
-            # TODO: avoid a violant death in case of problem with XML
-            $self->{last_state_content} = XML::Simple::XMLin(
-
-                $self->{config}->{last_statefile},
-                SuppressEmpty => undef,
-                ForceArray    => 1
-
-            );
-        }
-        else {
-            $logger->debug( 'last_state file: `'
-                  . $self->{config}->{last_statefile}
-                  . "' doesn't exist (yet)." );
-        }
+  foreach my $section (keys %mask) {
+    #If the checksum has changed...
+    my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
+    if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
+      $logger->debug ("Section $section has changed since last inventory");
+      #We make OR on $checksum with the mask of the current section
+      $checksum |= $mask{$section};
+      # Finally I store the new value.
+      $self->{last_state_content}->{$section}[0] = $hash;
     }
+  }
 
-    foreach my $section ( keys %mask ) {
 
-        #If the checksum has changed...
-        my $hash =
-          md5_base64( XML::Simple::XMLout( $self->{h}{'CONTENT'}{$section} ) );
-        if (  !$self->{last_state_content}->{$section}[0]
-            || $self->{last_state_content}->{$section}[0] ne $hash )
-        {
-            $logger->debug("Section $section has changed since last inventory");
-
-            #We make OR on $checksum with the mask of the current section
-            $checksum |= $mask{$section};
-
-            # Finally I store the new value.
-            $self->{last_state_content}->{$section}[0] = $hash;
-        }
-    }
-
-    $self->setHardware( { CHECKSUM => $checksum } );
+  $self->setHardware({CHECKSUM => $checksum});
 }
 
 =item saveLastState()
@@ -1056,35 +999,27 @@ At the end of the process IF the inventory was saved
 correctly, the last_state is saved.
 
 =cut
-
 sub saveLastState {
-    my ( $self, $args ) = @_;
+  my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
+  my $logger = $self->{logger};
 
-    if ( !defined( $self->{last_state_content} ) ) {
-        $self->processChecksum();
-    }
+  if (!defined($self->{last_state_content})) {
+	  $self->processChecksum();
+  }
 
-    if ( !defined( $self->{config}->{last_statefile} ) ) {
-        $logger->debug(
-            "Can't save the last_state file. File path is not initialised.");
-        return;
-    }
+  if (!defined ($self->{config}->{last_statefile})) {
+    $logger->debug ("Can't save the last_state file. File path is not initialised.");
+    return;
+  }
 
-    if ( open LAST_STATE, ">" . $self->{config}->{last_statefile} ) {
-        print LAST_STATE my $string =
-          XML::Simple::XMLout( $self->{last_state_content},
-            RootName => 'LAST_STATE' );
-        close LAST_STATE or warn;
-    }
-    else {
-        $logger->debug(
-            "Cannot save the checksum values in "
-              . $self->{config}->{last_statefile} . "
-	(will be synchronized by GLPI!!): $!"
-        );
-    }
+  if (open LAST_STATE, ">".$self->{config}->{last_statefile}) {
+    print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
+    close LAST_STATE or warn;
+  } else {
+    $logger->debug ("Cannot save the checksum values in ".$self->{config}->{last_statefile}."
+	(will be synchronized by GLPI!!): $!");
+  }
 }
 
 =item addSection()
@@ -1093,27 +1028,26 @@ A generic way to save a section in the inventory. Please avoid this
 solution.
 
 =cut
-
 sub addSection {
-    my ( $self, $args ) = @_;
-    my $logger  = $self->{logger};
-    my $multi   = $args->{multi};
-    my $tagname = $args->{tagname};
+  my ($self, $args) = @_;
+  my $logger = $self->{logger};
+  my $multi = $args->{multi};
+  my $tagname = $args->{tagname};
 
-    for ( keys %{ $self->{h}{CONTENT} } ) {
-        if ( $tagname eq $_ ) {
-            $logger->debug("Tag name `$tagname` already exists - Don't add it");
-            return 0;
-        }
+  for( keys %{$self->{h}{CONTENT}} ){
+    if( $tagname eq $_ ){
+      $logger->debug("Tag name `$tagname` already exists - Don't add it");
+      return 0;
     }
+  }
 
-    if ($multi) {
-        $self->{h}{CONTENT}{$tagname} = [];
-    }
-    else {
-        $self->{h}{CONTENT}{$tagname} = {};
-    }
-    return 1;
+  if($multi){
+    $self->{h}{CONTENT}{$tagname} = [];
+  }
+  else{
+    $self->{h}{CONTENT}{$tagname} = {};
+  }
+  return 1;
 }
 
 =item feedSection()
@@ -1122,32 +1056,31 @@ Add information in inventory.
 
 =back
 =cut
-
 # Q: is that really useful()? Can't we merge with addSection()?
-sub feedSection {
-    my ( $self, $args ) = @_;
-    my $tagname = $args->{tagname};
-    my $values  = $args->{data};
-    my $logger  = $self->{logger};
+sub feedSection{
+  my ($self, $args) = @_;
+  my $tagname = $args->{tagname};
+  my $values = $args->{data};
+  my $logger = $self->{logger};
 
-    my $found = 0;
-    for ( keys %{ $self->{h}{CONTENT} } ) {
-        $found = 1 if $tagname eq $_;
-    }
+  my $found=0;
+  for( keys %{$self->{h}{CONTENT}} ){
+    $found = 1 if $tagname eq $_;
+  }
 
-    if ( !$found ) {
-        $logger->debug("Tag name `$tagname` doesn't exist - Cannot feed it");
-        return 0;
-    }
+  if(!$found){
+    $logger->debug("Tag name `$tagname` doesn't exist - Cannot feed it");
+    return 0;
+  }
 
-    if ( $self->{h}{CONTENT}{$tagname} =~ /ARRAY/ ) {
-        push @{ $self->{h}{CONTENT}{$tagname} }, $args->{data};
-    }
-    else {
-        $self->{h}{CONTENT}{$tagname} = $values;
-    }
+  if( $self->{h}{CONTENT}{$tagname} =~ /ARRAY/ ){
+    push @{$self->{h}{CONTENT}{$tagname}}, $args->{data};
+  }
+  else{
+    $self->{h}{CONTENT}{$tagname} = $values;
+  }
 
-    return 1;
+  return 1;
 }
 
 1;

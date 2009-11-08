@@ -2,6 +2,7 @@ package Ocsinventory::Agent::Backend::OS::Generic;
 
 use strict;
 
-sub doInventory { }
+
+sub doInventory {}
 
 1;

@@ -1,33 +1,29 @@
 package Ocsinventory::Agent::Backend::OS::Linux::Distro::NonLSB::Mandrake;
 use strict;
 
-sub isInventoryEnabled {
-    -f "/etc/mandrake-release" && !-f "/etc/mandriva-release";
-}
+sub isInventoryEnabled {-f "/etc/mandrake-release" && !-f "/etc/mandriva-release"}
 
 #####
 sub findRelease {
-    my $v;
+  my $v;
 
-    open V, "</etc/mandrake-release" or warn;
-    chomp( $v = <V> );
-    close V;
-    $v;
+  open V, "</etc/mandrake-release" or warn;
+  chomp ($v = <V>);
+  close V;
+  $v;
 }
 
 sub doInventory {
-    my $params    = shift;
-    my $inventory = $params->{inventory};
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
-    my $OSComment;
-    chomp( $OSComment = `uname -v` );
+  my $OSComment;
+  chomp($OSComment =`uname -v`);
 
-    $inventory->setHardware(
-        {
-            OSNAME     => findRelease(),
-            OSCOMMENTS => "$OSComment"
-        }
-    );
+  $inventory->setHardware({ 
+      OSNAME => findRelease(),
+      OSCOMMENTS => "$OSComment"
+    });
 
 }
 

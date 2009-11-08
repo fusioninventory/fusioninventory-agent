@@ -1,22 +1,21 @@
 package Ocsinventory::Agent::Backend::OS::Solaris::Users;
 
-sub isInventoryEnabled { can_run("who") }
+sub isInventoryEnabled { can_run ("who") } 
 
 # Initialise the distro entry
 sub doInventory {
-    my $params    = shift;
-    my $inventory = $params->{inventory};
+  my $params = shift;
+  my $inventory = $params->{inventory};
 
-    my %user;
+  my %user;
+# Logged on users
+  for(`who`){
+    $user{$1} = 1 if /^(\S+)./;
+  }
 
-    # Logged on users
-    for (`who`) {
-        $user{$1} = 1 if /^(\S+)./;
-    }
+  my $UsersLoggedIn = join "/", keys %user;
 
-    my $UsersLoggedIn = join "/", keys %user;
-
-    $inventory->setHardware( { USERID => $UsersLoggedIn } );
+  $inventory->setHardware ({ USERID => $UsersLoggedIn });
 
 }
 
