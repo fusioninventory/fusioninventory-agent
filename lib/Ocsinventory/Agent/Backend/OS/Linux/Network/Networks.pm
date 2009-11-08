@@ -124,9 +124,9 @@ sub doInventory {
           $bridge{$1} = 1 if /^(\w+)\s/;
         }
         if ($pcislot) {
-          $virtualdev = "no";
+          $virtualdev = "1";
         } elsif ($bridge{$description}) {
-          $virtualdev = "yes";
+          $virtualdev = "0";
         }
       }
 
