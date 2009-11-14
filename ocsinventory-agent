@@ -238,6 +238,8 @@ config file.
 
 It looks for the file in these directory:
 
+=over
+
 =item /etc/ocsinventory
 
 =item /usr/local/etc/ocsinventory

@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Task::Inventory::Virtualization::Qemu;
 
 use strict;
 
-sub isInventoryEnabled { return (can_run('qemu') || can_run('qemu'))}
+sub isInventoryEnabled { return (can_run('qemu') || can_run('kvm') || can_run('qemu-kvm'))}
 
 sub doInventory {
     my $params = shift;

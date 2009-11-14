@@ -16,6 +16,7 @@ newdeploy
 1.1.1
        * NETWORKS/VIRTUALDEV should be 1 or 0
        * FreeBSD: Fix CPU detection (David DURIEUX)
+       * Virtualization::Qemu, fix kvm detection
 
 1.1     Fri, 06 Nov 2009 16:07:08 +0100
        * addMemorie() renamed to addMemories(), this had been broken during
