@@ -364,7 +364,7 @@ sub runWithTimeout {
     
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        my $timeout = $params->{accountinfo}{config}{backendCollectTimeout};
+        my $timeout = $params->{config}{backendCollectTimeout};
         alarm $timeout;
         $ret = &{$func}($params);
     };
