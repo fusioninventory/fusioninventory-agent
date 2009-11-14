@@ -21,14 +21,6 @@
 use strict;
 use warnings;
 
-eval "use forks;";
-if ($@) {
-    eval "use threads;";
-}
-if ($@) {
-    print "[error] can't load forks or threads."
-}
-
 my $devlib;
 foreach (@ARGV) {
     if (/^--devlib$/) {
@@ -50,7 +42,7 @@ eval '
 my $agent = new Ocsinventory::Agent;
 
 $agent->main();
-sleep(700);
+
 ';
 print $@;
 __END__
