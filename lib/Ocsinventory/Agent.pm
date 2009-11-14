@@ -235,7 +235,7 @@ sub isAgentAlreadyRunning {
 sub isDirectoryWritable {
     my $dir = shift;
 
-    my $tmpFile = $dir."/tmp";
+    my $tmpFile = $dir."/file.tmp";
 
     open TMP, ">$tmpFile" or return;
     print TMP "1" or return;
