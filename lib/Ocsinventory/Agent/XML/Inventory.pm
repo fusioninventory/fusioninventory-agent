@@ -842,7 +842,8 @@ sub getContent {
     $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
   }
 
-  $self->{accountinfo}->setAccountInfo($self);
+  print STDERR "TODO\n";
+  #$self->{accountinfo}->setAccountInfo($self);
 
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 

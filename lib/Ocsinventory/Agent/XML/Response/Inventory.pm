@@ -34,6 +34,7 @@ sub updateAccountInfo {
 
     my $parsedContent = $self->getParsedContent();
 
-    $self->{accountinfo}->reSetAll($parsedContent->{ACCOUNTINFO});
+    print STDERR "TODO\n";
+    #$self->{accountinfo}->reSetAll($parsedContent->{ACCOUNTINFO});
 }
 1;

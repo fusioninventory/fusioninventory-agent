@@ -3,6 +3,8 @@ package Ocsinventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
+use Storable;
+
 our $VERSION = '1.1';
 my $basedir = '';
 
@@ -61,6 +63,26 @@ sub load {
     loadUserParams($config);
 
 	return $config;
+}
+
+sub save {
+    my $config = shift;
+
+	store ($config, $config->{'vardir'}.'/config.dump') or die;
+        
+
+}
+
+sub restore {
+    my $config = shift;
+
+    my ($vardir) = @ARGV;
+
+    my $file = "$vardir/config.dump";
+    if (-f $file) {
+        return retrieve($file);
+    }
+
 }
 
 sub loadFromCfgFile {

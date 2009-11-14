@@ -305,97 +305,106 @@ sub main {
 
             });
 
-        my $sendInventory = 1;
+#        my $sendInventory = 1;
         my $prologresp;
-        if (!$config->{force}) {
-            my $prolog = new Ocsinventory::Agent::XML::Prolog({
+#        if (!$config->{force}) {
+        my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
-                    accountinfo => $accountinfo,
-                    logger => $logger,
-                    config => $config,
+                accountinfo => $accountinfo,
+                logger => $logger,
+                config => $config,
 
-                });
+            });
 
-            $prologresp = $network->send({message => $prolog});
+        $prologresp = $network->send({message => $prolog});
+        
+        Ocsinventory::Agent::Config::save($config);
+        $logger->debug("Start: Exec Inventory");
+        system("perl -Ilib -MOcsinventory::Agent::Task::Inventory ".
+            " -e 'Ocsinventory::Agent::Task::Inventory::main();' -- ".$config->{vardir});
+        $logger->debug("End: Exec Inventory");
 
-            if (!$prologresp) { # Failed to reach the server
-                if ($config->{lazy}) {
-                    # To avoid flooding a heavy loaded server
-                    my $previousPrologFreq;
-                    if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
-                        $previousPrologFreq = $config->{delaytime};
-                        $logger->info("No previous PROLOG_FREQ found - using fallback delay(".$config->{delaytime}." seconds)");
-                    }
-                    else{
-                        $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
-                        $previousPrologFreq = $previousPrologFreq*3600;
-                    }
-                    my $time = time + $previousPrologFreq;
-                    utime $time,$time,$config->{next_timefile};
-                }
-                exit 1 unless $config->{daemon};
-                $sendInventory = 0;
-            } elsif (!$prologresp->isInventoryAsked()) {
-                $sendInventory = 0;
-            }
-        }
+#            if (!$prologresp) { # Failed to reach the server
+#                if ($config->{lazy}) {
+#                    # To avoid flooding a heavy loaded server
+#                    my $previousPrologFreq;
+#                    if( ! ($previousPrologFreq = $accountconfig->get('PROLOG_FREQ') ) ){
+#                        $previousPrologFreq = $config->{delaytime};
+#                        $logger->info("No previous PROLOG_FREQ found - using fallback delay(".$config->{delaytime}." seconds)");
+#                    }
+#                    else{
+#                        $logger->info("Previous PROLOG_FREQ found ($previousPrologFreq)");
+#                        $previousPrologFreq = $previousPrologFreq*3600;
+#                    }
+#                    my $time = time + $previousPrologFreq;
+#                    utime $time,$time,$config->{next_timefile};
+#                }
+#                exit 1 unless $config->{daemon};
+#                $sendInventory = 0;
+#            } elsif (!$prologresp->isInventoryAsked()) {
+#                $sendInventory = 0;
+#            }
+#        }
+#
+#        if (!$sendInventory) {
+#
+#            $logger->info("Don't send the inventory");
+#
+#        } else { # Send the inventory!
+#
+#            my $backend = new Ocsinventory::Agent::Task::Inventory ({
+#
+#                    accountinfo => $accountinfo,
+#                    accountconfig => $accountconfig,
+#                    logger => $logger,
+#                    config => $config,
+#                    network => $network,
+#                    prologresp => $prologresp,
+#
+#                });
+#
+#            my $inventory = new Ocsinventory::Agent::XML::Inventory ({
+#
+#                    # TODO, check if the accoun{info,config} are needed in localmode
+#                    accountinfo => $accountinfo,
+#                    accountconfig => $accountinfo,
+#                    backend => $backend,
+#                    config => $config,
+#                    logger => $logger,
+#
+#                });
+#
+#            $backend->feedInventory ({inventory => $inventory});
+#
+#            if (my $response = $network->send({message => $inventory})) {
+#                #if ($response->isAccountUpdated()) {
+#                $inventory->saveLastState();
+#                #}
+#            } else {
+#                exit (1) unless $config->{daemon};
+#            }
+#
+#            # Start the built in HTTP daemon if --allow-rpc is enabled
+#            #    $backend->runRpc() if $config->{allowRpc};
+#            $backend->runRpc();
+#
+#            # call the postExec() function in the Backend
+#            $backend->doPostInventorys(
+#                {
+#                    config => $config,
+#                    logger => $logger
+#                }
+#            );
+#
+#            $logger->debug("Sleeping...ZzZZZ");
+#            sleep(3600);
+#
+#            # Break the loop if needed
+#            exit(0) unless $config->{daemon};
+#        }
 
-        if (!$sendInventory) {
-
-            $logger->info("Don't send the inventory");
-
-        } else { # Send the inventory!
-
-            my $backend = new Ocsinventory::Agent::Task::Inventory ({
-
-                    accountinfo => $accountinfo,
-                    accountconfig => $accountconfig,
-                    logger => $logger,
-                    config => $config,
-                    network => $network,
-                    prologresp => $prologresp,
-
-                });
-
-            my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-
-                    # TODO, check if the accoun{info,config} are needed in localmode
-                    accountinfo => $accountinfo,
-                    accountconfig => $accountinfo,
-                    backend => $backend,
-                    config => $config,
-                    logger => $logger,
-
-                });
-
-            $backend->feedInventory ({inventory => $inventory});
-
-            if (my $response = $network->send({message => $inventory})) {
-                #if ($response->isAccountUpdated()) {
-                $inventory->saveLastState();
-                #}
-            } else {
-                exit (1) unless $config->{daemon};
-            }
-
-            # Start the built in HTTP daemon if --allow-rpc is enabled
-            #    $backend->runRpc() if $config->{allowRpc};
-            $backend->runRpc();
-
-            # call the postExec() function in the Backend
-            $backend->doPostInventorys(
-                {
-                    config => $config,
-                    logger => $logger
-                }
-            );
-
-            $logger->debug("Sleeping...ZzZZZ");
-            sleep(3600);
-
-            # Break the loop if needed
-            exit(0) unless $config->{daemon};
-        }
+            print "TODO sleep...\n";
+            sleep(600);
     }
 }
 1;

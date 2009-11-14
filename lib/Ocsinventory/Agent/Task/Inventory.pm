@@ -6,18 +6,22 @@ use warnings;
 
 use ExtUtils::Installed;
 
-sub new {
+use Data::Dumper;
+
+use Ocsinventory::Logger;
+use Ocsinventory::Agent::Config;
+use Ocsinventory::Agent::XML::Inventory;
+use Ocsinventory::Agent::Network;
+
+sub main {
   my (undef, $params) = @_;
 
   my $self = {};
+  bless $self;
 
-  $self->{accountconfig} = $params->{accountconfig};
-  $self->{accountinfo} = $params->{accountinfo};
-  $self->{config} = $params->{config};
-  $self->{inventory} = $params->{inventory};
-  my $logger = $self->{logger} = $params->{logger};
-  $self->{network} = $params->{network};
-  $self->{prologresp} = $params->{prologresp};
+  my $config = $self->{config} = Ocsinventory::Agent::Config::restore();
+
+#  print Dumper($self->{config});
 
   $self->{modules} = {};
 
@@ -59,8 +63,45 @@ sub new {
     }
   };
 
+  my $logger = $self->{logger} = new Ocsinventory::Logger ({
+          config => $self->{config}
+      });
 
-  bless $self;
+  $self->{inventory} = new Ocsinventory::Agent::XML::Inventory ({
+
+          # TODO, check if the accoun{info,config} are needed in localmode
+#          accountinfo => $accountinfo,
+#          accountconfig => $accountinfo,
+#          backend => $backend,
+          config => $self->{config},
+          logger => $logger,
+
+      });
+
+
+  $self->feedInventory();
+
+
+  my $network = new Ocsinventory::Agent::Network ({
+
+#          accountconfig => $accountconfig,
+#          accountinfo => $accountinfo,
+          logger => $logger,
+          config => $config,
+
+      });
+
+  if (my $response = $network->send({message => $self->{inventory}})) {
+      #if ($response->isAccountUpdated()) {
+      print STDERR "TODO\n";
+      #$self->saveLastState();
+  }
+               #}
+
+
+#  print Dumper($self);
+
+  return $self;
 
 }
 
@@ -304,11 +345,11 @@ sub feedInventory {
 
   my $logger = $self->{logger};
 
-  if (!$params->{inventory}) {
+  if (!$self->{inventory}) {
       $logger->fault('Missing inventory parameter.');
   }
 
-  my $inventory = $self->{inventory} = $params->{inventory};
+  my $inventory = $self->{inventory};
 
   if (!keys %{$self->{modules}}) {
     $self->initModList();
@@ -402,7 +443,7 @@ sub runWithTimeout {
     my $ret;
     
     if (!$timeout) {
-        $timeout = $self->{accountinfo}{config}{backendCollectTimeout};
+        $timeout = $self->{config}{backendCollectTimeout};
     }
 
     my $storage = $self->retrieveStorage($m);
@@ -453,121 +494,5 @@ sub runWithTimeout {
     }
 }
 
-sub doPostInventorys {
-  my ($self) = @_;
-
-  my $logger = $self->{logger};
-  my $config = $self->{config};
-  my $network = $self->{network};
-
-  foreach my $m (sort keys %{$self->{modules}}) {
-
-      if ($self->{modules}{$m}{doPostInventoryFunc}) {
-          $logger->info("$m → doPostInventory");
-          $self->runWithTimeout($m, "doPostInventory", 3600*2);
-    }
-  }
-}
-
-
-
-sub runRpc {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-    my $inventory = $self->{inventory};
-    my $prologresp = $self->{prologresp};
-
-    if (!$config->{allowRpc}) {
-        $logger->debug("--allow-rpc, RPC mode disabled");
-    }
-
-    eval "use HTTP::Server::Brick;";
-    if ($@) {
-        $logger->info("HTTP::Server::Brick is not installed, rpc mode disabled");
-        return;
-    }
-
-
-    $logger->info("Starting the RPC server");
-    foreach my $m (sort keys %{$self->{modules}}) {
-
-        next unless $self->{modules}->{$m}->{rpcCfg};
-        $logger->error("rpcCfg $m");
-        my $rpcCfg = $self->{modules}->{$m}->{rpcCfg};
-        next unless $rpcCfg;
-        my $instance = $self->{modules}->{$m}->{instance};
-
-        use Data::Dumper;
-        my $cfg = $instance?$instance->rpcCfg():&$rpcCfg;
-
-        return unless $cfg;
-
-        print Dumper($cfg);
-
-
-        my @HTTPServerBrickMountPoints;
-        foreach (keys %$cfg) {
-            my $mountPoint = '/'.$m.'/'.$_;
-
-            $logger->debug("Launch $mountPoint");
-
-            if (exists ($cfg->{$_}->{path})) {
-                my $path = $cfg->{$_}->{path};
-
-                $logger->debug("$mountPoint → $path");
-                push @HTTPServerBrickMountPoints, [$mountPoint => {
-                        path => $path
-                    }];
-            } elsif (exists ($cfg->{$_}->{handler})) {
-                my $func = $cfg->{$_}->{handler};
-                my $storage = $self->retrieveStorage($m);
-                push @HTTPServerBrickMountPoints, [$mountPoint => {
-                        handler => sub {
-                            my ($req, $res) = @_;
-
-                            my %params = $req->{_uri}->query_form;
-
-                            return &$func(
-                                $req,
-                                $res,
-                                {
-                                    config => $config,
-                                    inventory => $inventory,
-                                    logger => $logger,
-                                    storage => $storage,
-                                    prologresp => $prologresp,
-                                    uriParams => \%params
-
-                                }
-                            );
-                        }
-
-                    }];
-                $self->saveStorage($m);
-            } else {
-                $logger->fault("Badly formated rpcCfg() in module $m");
-            }
-
-
-        }
-
-
-        # Let's create the HTTP::Server::Brick object and start it in
-        # a thread...
-        my $thr = threads->create(sub {
-                my $server = HTTP::Server::Brick->new( port => 62354 );
-                foreach (@HTTPServerBrickMountPoints) {
-                    $server->mount($_->[0], $_->[1]);
-                }
-                $server->start();
-            }
-        );
-        print $thr."\n";
-
-
-    }
-}
 
 1;
