@@ -82,19 +82,27 @@ sub main {
   $self->feedInventory();
 
 
-  my $network = new Ocsinventory::Agent::Network ({
+  if ($config->{stdout}) {
+      $self->{inventory}->printXML();
+  } elsif ($config->{local}) {
+      $self->{inventory}->writeXML();
+  } elsif ($config->{server}) {
+  print "SERVER: ".$config->{server}."\n";
+      my $network = new Ocsinventory::Agent::Network ({
 
 #          accountconfig => $accountconfig,
 #          accountinfo => $accountinfo,
-          logger => $logger,
-          config => $config,
+              logger => $logger,
+              config => $config,
 
-      });
+          });
 
-  if (my $response = $network->send({message => $self->{inventory}})) {
-      #if ($response->isAccountUpdated()) {
-      print STDERR "TODO\n";
-      #$self->saveLastState();
+      if (my $response = $network->send({message => $self->{inventory}})) {
+          #if ($response->isAccountUpdated()) {
+          print STDERR "TODO\n";
+          #$self->saveLastState();
+      }
+
   }
                #}
 

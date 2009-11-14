@@ -86,7 +86,12 @@ sub new {
 
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
-    if (!-d $config->{basevardir} && !mkpath ($config->{basevardir} && $^O =~ /^MSWin/)) {
+    if (
+        ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
+            !isDirectoryWritable($config->{basevardir}))
+        
+        &&
+        $^O !~ /^MSWin/) {
 
         if (! -d $ENV{HOME}."/.ocsinventory/var") {
             $logger->info("Failed to create ".$config->{basevardir}." directory: $!. ".
@@ -106,7 +111,8 @@ sub new {
         my $dir = $config->{server};
         $dir =~ s/\//_/g;
 	# On Windows, we can't have ':' in directory path
-        $dir =~ s/:/../g if $^O =~ /^MSWin/;
+        $dir =~ s/:/../g if $^O =~ /^MSWin/; # Conditional because there is
+        # already directory like that created by 2.x < agent
         $config->{vardir} = $config->{basevardir}."/".$dir;
         if (defined ($config->{local}) && $config->{local}) {
             $logger->debug ("--server ignored since you also use --local");
@@ -121,12 +127,19 @@ sub new {
         $logger->error("Failed to create ".$config->{vardir}." directory: $!");
     }
 
+    if (!isDirectoryWritable($config->{vardir})) {
+        $logger->error("Can't write in ".$config->{vardir});
+        exit(1);
+    }
+
     if (-d $config->{vardir}) {
         $config->{accountconfig} = $config->{vardir}."/ocsinv.conf";
         $config->{accountinfofile} = $config->{vardir}."/ocsinv.adm";
         $config->{last_statefile} = $config->{vardir}."/last_state";
         $config->{next_timefile} = $config->{vardir}."/next_timefile";
     }
+
+
 ######
 
 
@@ -219,6 +232,18 @@ sub isAgentAlreadyRunning {
     return 0;
 }
 
+sub isDirectoryWritable {
+    my $dir = shift;
+
+    my $tmpFile = $dir."/tmp";
+
+    open TMP, ">$tmpFile" or return;
+    print TMP "1" or return;
+    close TMP or return;
+    unlink($tmpFile) or return;
+
+}
+
 sub main {
     my ($this) = @_;
 
@@ -227,45 +252,6 @@ sub main {
     my $accountinfo = $this->{accountinfo};
     my $accountconfig = $this->{accountconfig};
     my $logger = $this->{logger};
-
-
-##########################################
-##########################################
-##########################################
-##########################################
-
-    # Local mode, no need to contact the server
-    if ($config->{stdout} || $config->{local}) { # Local mode
-
-        # TODO, avoid to create Backend a two different place
-        my $backend = new Ocsinventory::Agent::Task::Inventory ({
-
-                accountinfo => $accountinfo,
-                accountconfig => $accountconfig,
-                logger => $logger,
-                config => $config,
-
-            });
-
-        my $inventory = new Ocsinventory::Agent::XML::Inventory ({
-
-                # TODO, check if the accoun{info,config} are needed in localmode
-                accountinfo => $accountinfo,
-                accountconfig => $accountinfo,
-                backend => $backend,
-                config => $config,
-                logger => $logger,
-
-            });
-
-        if ($config->{stdout}) {
-            $inventory->printXML();
-        } elsif ($config->{local}) {
-            $inventory->writeXML();
-        }
-        exit (0);
-    }
-    # Local mode, no need to continue
 
 
 
