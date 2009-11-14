@@ -281,28 +281,29 @@ sub main {
         }
 
 
+        if (!$config->{local}) {
+            my $network = new Ocsinventory::Agent::Network ({
 
-        my $network = new Ocsinventory::Agent::Network ({
+                    accountconfig => $accountconfig,
+                    accountinfo => $accountinfo,
+                    logger => $logger,
+                    config => $config,
 
-                accountconfig => $accountconfig,
-                accountinfo => $accountinfo,
-                logger => $logger,
-                config => $config,
-
-            });
+                });
 
 #        my $sendInventory = 1;
-        my $prologresp;
+            my $prologresp;
 #        if (!$config->{force}) {
-        my $prolog = new Ocsinventory::Agent::XML::Prolog({
+            my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
-                accountinfo => $accountinfo,
-                logger => $logger,
-                config => $config,
+                    accountinfo => $accountinfo,
+                    logger => $logger,
+                    config => $config,
 
-            });
+                });
 
-        $prologresp = $network->send({message => $prolog});
+            $prologresp = $network->send({message => $prolog});
+        }
         
         Ocsinventory::Agent::Config::save($config);
         $logger->debug("Start: Exec Inventory");
