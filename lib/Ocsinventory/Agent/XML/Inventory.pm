@@ -19,7 +19,7 @@ use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 use Config;
 
-use Ocsinventory::Agent::Backend;
+use Ocsinventory::Agent::Task::Inventory;
 
 =over 4
 

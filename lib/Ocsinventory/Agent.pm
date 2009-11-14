@@ -35,7 +35,7 @@ use Ocsinventory::Agent::XML::Inventory;
 use Ocsinventory::Agent::XML::Prolog;
 
 use Ocsinventory::Agent::Network;
-use Ocsinventory::Agent::Backend;
+use Ocsinventory::Agent::Task::Inventory;
 use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
 #use Ocsinventory::Agent::Pid;
@@ -238,7 +238,7 @@ sub main {
     if ($config->{stdout} || $config->{local}) { # Local mode
 
         # TODO, avoid to create Backend a two different place
-        my $backend = new Ocsinventory::Agent::Backend ({
+        my $backend = new Ocsinventory::Agent::Task::Inventory ({
 
                 accountinfo => $accountinfo,
                 accountconfig => $accountconfig,
@@ -346,7 +346,7 @@ sub main {
 
         } else { # Send the inventory!
 
-            my $backend = new Ocsinventory::Agent::Backend ({
+            my $backend = new Ocsinventory::Agent::Task::Inventory ({
 
                     accountinfo => $accountinfo,
                     accountconfig => $accountconfig,

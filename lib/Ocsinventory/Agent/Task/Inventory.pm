@@ -113,7 +113,8 @@ sub initModList {
       File::Find::find(
         {
           wanted => sub {
-            push @installed_files, $File::Find::name if $File::Find::name =~ /Ocsinventory\/Agent\/Backend\/.*\.pm$/;
+            push @installed_files, $File::Find::name if $File::Find::name =~
+            /Ocsinventory\/Agent\/Task\/Inventory\/.*\.pm$/;
           },
           follow => 1,
           follow_skip => 2
@@ -124,7 +125,7 @@ sub initModList {
 
   foreach my $file (@installed_files) {
     my $t = $file;
-    next unless $t =~ s!.*?(Ocsinventory/Agent/Backend/)(.*?)\.pm$!$1$2!;
+    next unless $t =~ s!.*?(Ocsinventory/Agent/Task/Inventory/)(.*?)\.pm$!$1$2!;
     my $m = join ('::', split /\//, $t);
     push @installed_mods, $m;
   }
