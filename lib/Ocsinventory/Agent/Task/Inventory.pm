@@ -13,6 +13,8 @@ use Ocsinventory::Agent::Config;
 use Ocsinventory::Agent::XML::Inventory;
 use Ocsinventory::Agent::Network;
 
+use Ocsinventory::Agent::XML::Response::Prolog;
+
 sub main {
   my (undef, $params) = @_;
 
@@ -21,47 +23,12 @@ sub main {
 
   my $config = $self->{config} = Ocsinventory::Agent::Config::restore();
 
-#  print Dumper($self->{config});
+  my $prologresp = $self->{config}{prologresp};
+  #$prologresp->getParsedContent();
+  $prologresp->isInventoryAsked();
+  die;
 
   $self->{modules} = {};
-
-  $self->{backendSharedFuncs} = {
-
-    can_run => sub {
-      my $binary = shift;
-
-      my $calling_namespace = caller(0);
-      chomp(my $binpath=`which $binary 2>/dev/null`);
-      return unless -x $binpath;
-      $self->{logger}->debug(" - $binary found");
-      1
-    },
-    can_load => sub {
-      my $module = shift;
-
-      my $calling_namespace = caller(0);
-      eval "package $calling_namespace; use $module;";
-#      print STDERR "$module not loaded in $calling_namespace! $!: $@\n" if $@;
-      return if $@;
-      $self->{logger}->debug(" - $module loaded");
-#      print STDERR "$module loaded in $calling_namespace!\n";
-      1;
-    },
-    can_read => sub {
-      my $file = shift;
-      return unless -r $file;
-      $self->{logger}->debug(" - $file can be read");
-      1;
-    },
-    runcmd => sub {
-      my $cmd = shift;
-      return unless $cmd;
-
-      # $self->{logger}->debug(" - run $cmd");
-
-      return `$cmd`;
-    }
-  };
 
   my $logger = $self->{logger} = new Ocsinventory::Logger ({
           config => $self->{config}
@@ -122,6 +89,52 @@ sub initModList {
   my @dirToScan;
   my @installed_mods;
   my @installed_files;
+
+
+  # Hackish. The function we want to export
+  # in the module
+  my $backendSharedFuncs = {
+
+    # TODO replace that by the standard can_run()
+    can_run => sub {
+      my $binary = shift;
+
+      my $calling_namespace = caller(0);
+      chomp(my $binpath=`which $binary 2>/dev/null`);
+      return unless -x $binpath;
+      $self->{logger}->debug(" - $binary found");
+      1
+    },
+    can_load => sub {
+      my $module = shift;
+
+      my $calling_namespace = caller(0);
+      eval "package $calling_namespace; use $module;";
+#      print STDERR "$module not loaded in $calling_namespace! $!: $@\n" if $@;
+      return if $@;
+      $self->{logger}->debug(" - $module loaded");
+#      print STDERR "$module loaded in $calling_namespace!\n";
+      1;
+    },
+    can_read => sub {
+      my $file = shift;
+      return unless -r $file;
+      $self->{logger}->debug(" - $file can be read");
+      1;
+    },
+    runcmd => sub {
+      my $cmd = shift;
+      return unless $cmd;
+
+      # $self->{logger}->debug(" - run $cmd");
+
+      return `$cmd`;
+    }
+  };
+
+
+
+
 
   # This is a workaround for PAR::Packer. Since it resets @INC
   # I can't find the backend modules to load dynamically. So
@@ -203,8 +216,8 @@ sub initModList {
 
     my $package = $m."::";
     # Load in the module the backendSharedFuncs
-    foreach my $func (keys %{$self->{backendSharedFuncs}}) {
-      $package->{$func} = $self->{backendSharedFuncs}->{$func};
+    foreach my $func (keys %{$backendSharedFuncs}) {
+      $package->{$func} = $backendSharedFuncs->{$func};
     }
 
     if ($package->{'check'}) {
