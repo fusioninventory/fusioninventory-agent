@@ -302,7 +302,8 @@ sub main {
 
                 });
 
-            $prologresp = $network->send({message => $prolog});
+            $config->{prologresp} = $network->send({message => $prolog});
+
         }
         
         Ocsinventory::Agent::Config::save($config);

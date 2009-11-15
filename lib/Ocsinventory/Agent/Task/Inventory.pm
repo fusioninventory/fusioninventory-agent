@@ -22,14 +22,9 @@ sub main {
   bless $self;
 
   my $config = $self->{config} = Ocsinventory::Agent::Config::restore();
-
   my $prologresp = $self->{config}{prologresp};
-  #$prologresp->getParsedContent();
-  $prologresp->isInventoryAsked();
-  die;
-
   $self->{modules} = {};
-
+  
   my $logger = $self->{logger} = new Ocsinventory::Logger ({
           config => $self->{config}
       });
@@ -39,12 +34,21 @@ sub main {
           # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
-#          backend => $backend,
           config => $self->{config},
           logger => $logger,
 
       });
 
+  if (!$config->{'stdout'} && !$config->{'local'}) {
+      $logger->fault("No prologresp!") unless $prologresp;
+    
+      if ($config->{'force'}) {
+        $logger->debug("Force enable, ignore prolog and run inventory.");
+      } elsif (!$prologresp->isInventoryAsked()) {
+        $logger->debug("No inventory requested in the prolog...");
+        exit(0);
+      }
+  }
 
   $self->feedInventory();
 
