@@ -60,18 +60,30 @@ sub main {
   } elsif ($config->{local}) {
       $self->{inventory}->writeXML();
   } elsif ($config->{server}) {
-  print "SERVER: ".$config->{server}."\n";
+
+      my $accountinfo = $self->{accountinfo} = new
+      Ocsinventory::Agent::AccountInfo({
+
+              logger => $logger,
+              config => $config,
+
+          });
+
+
+      # Put ACCOUNTINFO values in the inventory
+      $accountinfo->setAccountInfo($self->{inventory});
+
       my $network = new Ocsinventory::Agent::Network ({
 
-#          accountconfig => $accountconfig,
-#          accountinfo => $accountinfo,
               logger => $logger,
               config => $config,
 
           });
 
       my $response = $network->send({message => $self->{inventory}});
+
       return unless $response;
+
       my $parsedContent = $response->getParsedContent();
       if ($parsedContent
           &&
@@ -79,17 +91,12 @@ sub main {
           &&
           $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
       ) {
-          my $accountinfo = $self->{accountinfo} = new
-          Ocsinventory::Agent::AccountInfo({
-                  logger => $logger,
-                  config => $config,
-              });
           $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
       }
 
   }
 
-  return $self;
+  exit(0);
 
 }
 

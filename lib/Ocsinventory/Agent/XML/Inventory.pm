@@ -32,8 +32,6 @@ sub new {
   my (undef, $params) = @_;
 
   my $self = {};
-  $self->{accountinfo} = $params->{accountinfo};
-  $self->{accountconfig} = $params->{accountconfig};
   $self->{backend} = $params->{backend};
   my $logger = $self->{logger} = $params->{logger};
   $self->{config} = $params->{config};
@@ -841,9 +839,6 @@ sub getContent {
   if ($missing) {
     $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
   }
-
-  print STDERR "TODO\n";
-  #$self->{accountinfo}->setAccountInfo($self);
 
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 
