@@ -13,6 +13,8 @@ use Ocsinventory::Agent::Config;
 use Ocsinventory::Agent::XML::Inventory;
 use Ocsinventory::Agent::Network;
 
+use Ocsinventory::Agent::AccountInfo;
+
 use Ocsinventory::Agent::XML::Response::Prolog;
 
 sub main {
@@ -68,17 +70,24 @@ sub main {
 
           });
 
-      if (my $response = $network->send({message => $self->{inventory}})) {
-          #if ($response->isAccountUpdated()) {
-          print STDERR "TODO\n";
-          #$self->saveLastState();
+      my $response = $network->send({message => $self->{inventory}});
+      return unless $response;
+      my $parsedContent = $response->getParsedContent();
+      if ($parsedContent
+          &&
+          exists ($parsedContent->{RESPONSE})
+          &&
+          $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
+      ) {
+          my $accountinfo = $self->{accountinfo} = new
+          Ocsinventory::Agent::AccountInfo({
+                  logger => $logger,
+                  config => $config,
+              });
+          $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
       }
 
   }
-               #}
-
-
-#  print Dumper($self);
 
   return $self;
 

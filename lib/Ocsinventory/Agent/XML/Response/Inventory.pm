@@ -10,10 +10,6 @@ sub new {
     my $this = $class->SUPER::new(@params);
     bless ($this, $class);
 
-    my $parsedContent = $this->getParsedContent();
-    if ($parsedContent && exists ($parsedContent->{RESPONSE}) && $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
-      $this->updateAccountInfo();
-    }
     return $this;
 }
 
