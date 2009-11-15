@@ -302,6 +302,7 @@ sub main {
 
                 });
 
+            # TODO Don't mix settings and temp value
             $config->{prologresp} = $network->send({message => $prolog});
 
         }
