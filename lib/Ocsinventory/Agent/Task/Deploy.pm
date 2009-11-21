@@ -66,7 +66,7 @@ sub main {
             config => $self->{config}
         });
 
-    $self->{prologresp} = $params->{prologresp};
+    $self->{prologresp} = $data->{prologresp};
 
     if ( !exists( $self->{config}->{vardir} ) ) {
         $logger->fault('No vardir in $config');
@@ -659,8 +659,10 @@ sub readProlog {
 
     # The orders are send during the PROLOG. Since the prolog is
     # one of the arg of the check() function. We can process it.
-    return unless $prologresp;
+    $logger->debut("Not prolog") unless $prologresp;
     my $conf = $prologresp->getOptionsInfoByName("DOWNLOAD");
+
+    print Dumper($prologresp);
 
     if ( !@$conf ) {
         $logger->debug("no DOWNLOAD options returned during PROLOG");
