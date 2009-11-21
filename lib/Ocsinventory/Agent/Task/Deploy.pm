@@ -42,6 +42,8 @@ use Time::HiRes;
 
 use Cwd;
 
+use Ocsinventory::Logger;
+use Ocsinventory::Agent::Storage;
 use Ocsinventory::Agent::XML::SimpleMessage;
 
 sub main {
