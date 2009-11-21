@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Task::Inventory::Deploy;
+package Ocsinventory::Agent::Task::Deploy;
 
 # TODO
 # TIMEOUT="30" number of retry to do on a download
@@ -82,6 +82,76 @@ sub new {
     $self->pushErrorStack();
 
     return $self;
+
+    my $prologresp = $self->{prologresp};
+    my $config     = $self->{config};
+    my $network    = $self->{network};
+    my $logger     = $self->{logger};
+    my $storage    = $self->{storage};
+
+    #    use Data::Dumper;
+    #    print Dumper($storage);
+
+    # Try to imitate as much as I can the Windows agent
+    #    foreach (0..$storage->{config}->{PERIOD_LENGTH}) {
+    foreach my $priority ( 1 .. 10 ) {
+        foreach my $orderId ( keys %{ $storage->{byPriority}->[$priority] } ) {
+            my $order = $storage->{byId}->{$orderId};
+
+            # Already processed
+            next if exists( $order->{ERR} );
+
+            $self->setErrorCode('ERR_CLEAN');
+            $self->clean(
+                {
+                    cleanUpLevel => 1,
+                    orderId      => $orderId
+                }
+            );
+
+            my $downloadDir = $self->{downloadBaseDir} . '/' . $orderId;
+            my $runDir      = $self->{runBaseDir} . '/' . $orderId;
+
+            if ( !-d "$downloadDir" && !mkpath("$downloadDir") ) {
+                $logger->error("Failed to create $downloadDir");
+                return;
+            }
+            if ( !-d "$runDir" && !mkpath("$runDir") ) {
+                $logger->error("Failed to create $runDir");
+                return;
+            }
+
+            # A file is attached to this order
+            if ( $order->{FRAGS} ) {
+                next
+                  unless $self->downloadAndConstruct( { orderId => $orderId } );
+                next unless $self->extractArchive( { orderId => $orderId } );
+            }
+
+            next unless $self->processOrderCmd( { orderId => $orderId } );
+            delete( $storage->{byPriority}->[$priority]->{$orderId} );
+            next
+              unless $self->clean(
+                {
+                    cleanUpLevel => 1,
+                    orderId      => $orderId
+                }
+              );
+            $logger->debug( "order $orderId processed, wait "
+                  . $storage->{config}->{CYCLE_LATENCY}
+                  . " seconds." );
+            sleep( $storage->{config}->{CYCLE_LATENCY} );
+        }
+    }
+    $logger->debug("End of period...");
+
+    #        sleep($storage->{config}-> {PERIOD_LATENCY});
+    #    }
+
+}
+
+
+
 
 }
 
@@ -700,96 +770,6 @@ sub isInventoryEnabled {
     $self->pushErrorStack();
 
     1;
-}
-
-sub doInventory {
-
-    my $self      = shift;
-    my $inventory = $self->{inventory};
-    my $storage   = $self->{storage};
-
-    # Just in case the stack is not empty
-    $self->pushErrorStack();
-
-    use Data::Dumper;
-    print Dumper($storage);
-
-    # Record in the Inventory the commands already recieved by the agent
-    foreach ( keys %{ $storage->{byId} } ) {
-        $inventory->addSoftwareDeploymentPackage($_);
-    }
-
-}
-
-sub doPostInventory {
-
-    my $self = shift;
-
-    my $prologresp = $self->{prologresp};
-    my $config     = $self->{config};
-    my $network    = $self->{network};
-    my $logger     = $self->{logger};
-    my $storage    = $self->{storage};
-
-    #    use Data::Dumper;
-    #    print Dumper($storage);
-
-    # Try to imitate as much as I can the Windows agent
-    #    foreach (0..$storage->{config}->{PERIOD_LENGTH}) {
-    foreach my $priority ( 1 .. 10 ) {
-        foreach my $orderId ( keys %{ $storage->{byPriority}->[$priority] } ) {
-            my $order = $storage->{byId}->{$orderId};
-
-            # Already processed
-            next if exists( $order->{ERR} );
-
-            $self->setErrorCode('ERR_CLEAN');
-            $self->clean(
-                {
-                    cleanUpLevel => 1,
-                    orderId      => $orderId
-                }
-            );
-
-            my $downloadDir = $self->{downloadBaseDir} . '/' . $orderId;
-            my $runDir      = $self->{runBaseDir} . '/' . $orderId;
-
-            if ( !-d "$downloadDir" && !mkpath("$downloadDir") ) {
-                $logger->error("Failed to create $downloadDir");
-                return;
-            }
-            if ( !-d "$runDir" && !mkpath("$runDir") ) {
-                $logger->error("Failed to create $runDir");
-                return;
-            }
-
-            # A file is attached to this order
-            if ( $order->{FRAGS} ) {
-                next
-                  unless $self->downloadAndConstruct( { orderId => $orderId } );
-                next unless $self->extractArchive( { orderId => $orderId } );
-            }
-
-            next unless $self->processOrderCmd( { orderId => $orderId } );
-            delete( $storage->{byPriority}->[$priority]->{$orderId} );
-            next
-              unless $self->clean(
-                {
-                    cleanUpLevel => 1,
-                    orderId      => $orderId
-                }
-              );
-            $logger->debug( "order $orderId processed, wait "
-                  . $storage->{config}->{CYCLE_LATENCY}
-                  . " seconds." );
-            sleep( $storage->{config}->{CYCLE_LATENCY} );
-        }
-    }
-    $logger->debug("End of period...");
-
-    #        sleep($storage->{config}-> {PERIOD_LATENCY});
-    #    }
-
 }
 
 sub rpcCfg {
