@@ -322,8 +322,12 @@ sub main {
 
             });
 
-        #foreach my $task (qw/Inventory Deploy/) {
-        foreach my $task (qw/Deploy/) {
+
+        my @tasks;
+        push @tasks, 'Inventory' unless $config->{'noinventory'};
+        push @tasks, 'Deploy' unless $config->{'nodeploy'};
+
+        foreach my $task (@tasks) {
             $logger->debug("[task]start of ".$task);
             system(
                 "perl -Ilib -MOcsinventory::Agent::Task::".$task.

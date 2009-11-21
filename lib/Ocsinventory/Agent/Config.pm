@@ -36,6 +36,9 @@ my $default = {
   'version'   =>  0,
   'wait'      =>  '',
 #  'xml'       =>  0,
+  'nodeploy'  =>  0,
+  'noinventory'
+              =>  0,
   'nosoft'    =>  0, # DEPRECATED!
   'nosoftware'=>  0,
   'delaytime' =>  '3600', # max delay time (seconds)
@@ -121,6 +124,8 @@ sub loadUserParams {
 		"lazy"            =>   \$config->{lazy},
 		"l|local=s"       =>   \$config->{local},
 		"logfile=s"       =>   \$config->{logfile},
+		"nodeploy"        =>   \$config->{nodeploy},
+		"noinventory"     =>   \$config->{noinventory},
 		"nosoft"          =>   \$config->{nosoft},
 		"nosoftware"      =>   \$config->{nosoftware},
 		"p|password=s"    =>   \$config->{password},
@@ -186,6 +191,8 @@ sub help {
   print STDERR "\t-w --wait=seconds   wait during a random periode before".
   "  contacting server like --daemon do (".$config->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($config->{xml})\n";
+  print STDERR "\t--nodeploy          Do not deploy packages or run command (".$config->{nodeploy}.")\n";
+  print STDERR "\t--noinventory       Do not generate inventory (".$config->{noinventory}.")\n";
   print STDERR "\t--nosoft            DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware        do not return installed software list (".$config->{nosoftware}.")\n";
   print STDERR "\t--delaytime	        set a max delay time if no PROLOG_FREQ is set (".$config->{delaytime}.")\n";

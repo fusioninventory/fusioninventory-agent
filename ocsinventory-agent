@@ -224,6 +224,21 @@ Else if duration is a numerical value, it will be used directly.
 
     % ocsinventory-agent --wait 5 --server localhost
 
+=item B<--nodeploy>
+
+Disable the software deployment.
+
+=back
+
+=item B<--noinventory>
+
+Do not generate inventory.
+
+=back
+
+
+
+
 =item B<--nosoftware>
 
 Do not inventory the software installed on the machin. B<--nosoft> also
