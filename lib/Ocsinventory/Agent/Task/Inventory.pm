@@ -30,7 +30,7 @@ sub main {
           vardir => $ARGV[0],
       }
   });
-  my $data = $storage->restore();
+  my $data = $storage->restore("Ocsinventory::Agent");
 
   my $config = $self->{config} = $data->{config};
   my $prologresp = $self->{prologresp} = $data->{prologresp};
