@@ -170,7 +170,7 @@ sub main {
 
 
 sub clean {
-    my ( $self, $params ) = @_;
+    my ( $self, $params, $purge ) = @_;
 
     my $config  = $self->{config};
     my $logger  = $self->{logger};
@@ -181,70 +181,21 @@ sub clean {
 
     $logger->fault("orderId missing") unless $orderId;
 
-    my $downloadDir = $self->{downloadBaseDir} . '/' . $orderId;
-    my $runDir      = $self->{runBaseDir} . '/' . $orderId;
-
-    $logger->fault("no orderId") unless $orderId;
-    return unless -d $downloadDir;
-
-    my $level = [
-
-        # Level 0
-        # only clean the part files and the temp files
-        sub {
-            my @part =
-            (glob("$downloadDir/*.part"),glob($self->{tmpBaseDir}));
-            return unless @part;
-
-            $logger->debug("Clean the partially downloaded files for $orderId");
-            foreach ( glob("$downloadDir/*.part"), glob($self->{tmpBaseDir}) ) {
-                if ( !unlink($_) ) {
-                    $self->reportError( $orderId, "Failed to clean $_ up" );
-                }
-            }
-        },
-
-        # Level 1
-        # only clean the run directory.
-        sub {
-            return unless -d $runDir;
-            $logger->debug("Clean the $runDir directory");
-            if ( !rmtree($runDir) ) {
-                $self->reportError( $orderId, "Failed to clean $runDir up" );
-            }
-        },
-
-        # Level 2
-        # clean the final file
-        sub {
-            return unless -f "$downloadDir/final";
-
-            $logger->debug("Clean the $downloadDir/final file");
-            if ( !unlink("$downloadDir/final") ) {
-                $self->reportError( $orderId,
-                    "Failed to clean $downloadDir/final up" );
-            }
-        },
-
-        # Level 3
-        # clean the PACK
-        sub {
-            return unless -d $downloadDir;
-
-            $logger->debug("Remove the fragment in $downloadDir ");
-            if ( !rmtree("$downloadDir/run") ) {
-                $self->reportError( $orderId, "Failed to remove $downloadDir" );
-            }
-        },
-
-    ];
-
-    if ( !$cleanUpLevel || $cleanUpLevel >= @$level ) {
-        $cleanUpLevel = @$level - 1;
+    my @dirToCleanUp;
+    push (@dirToCleanUp, $self->{runBaseDir} . '/' . $orderId);
+    push (@dirToCleanUp, $self->{tmpBaseDir});
+    if ($purge) {
+        push (@dirToCleanUp, $self->{downloadBaseDir} . '/' . $orderId);
     }
 
-    foreach ( 0 .. $cleanUpLevel ) {
-        $level->[$_]();
+    $logger->fault("no orderId") unless $orderId;
+
+    foreach (@dirToCleanUp) {
+        next unless -d;
+#        $logger->debug("Clean the $_ directory");
+        if ( !rmtree($_) ) {
+            $self->reportError( $orderId, "Failed to clean $_" );
+        }
     }
 
 }
@@ -454,6 +405,7 @@ sub downloadAndConstruct {
               . " second(s) between each of them" );
     }
     while ( grep ( /1/, @downloadToDo ) ) {
+        print ".";
 
         my $fragID = int( rand(@downloadToDo) ) + 1;    # pick a random frag
         next unless $downloadToDo[ $fragID - 1 ] == 1;  # Already done?
