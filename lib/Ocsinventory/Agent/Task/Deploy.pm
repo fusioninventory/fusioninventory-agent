@@ -121,7 +121,6 @@ sub main {
             $self->setErrorCode('ERR_CLEAN');
             $self->clean(
                 {
-                    cleanUpLevel => 1,
                     orderId      => $orderId
                 }
             );
@@ -150,7 +149,6 @@ sub main {
             next
               unless $self->clean(
                 {
-                    cleanUpLevel => 1,
                     orderId      => $orderId
                 }
               );
@@ -170,14 +168,14 @@ sub main {
 
 
 sub clean {
-    my ( $self, $params, $purge ) = @_;
+    my ( $self, $params ) = @_;
 
     my $config  = $self->{config};
     my $logger  = $self->{logger};
     my $myData = $self->{myData};
 
-    my $cleanUpLevel = $params->{cleanUpLevel} || 3;
     my $orderId = $params->{orderId};
+    my $purge = $params->{purge} || 0;
 
     $logger->fault("orderId missing") unless $orderId;
 
