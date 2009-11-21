@@ -1,5 +1,5 @@
 package Ocsinventory::Agent::Task::Deploy;
-
+use threads;
 # TODO
 # TIMEOUT="30" number of retry to do on a download
 # CYCLE_LATENCY="60" time to wait between each different priority processing
@@ -46,6 +46,7 @@ use Ocsinventory::Logger;
 use Ocsinventory::Agent::Storage;
 use Ocsinventory::Agent::XML::SimpleMessage;
 use Ocsinventory::Agent::XML::Response::Prolog;
+use Ocsinventory::Agent::Network;
 
 sub main {
     my ( undef ) = @_;
@@ -59,21 +60,29 @@ sub main {
             }
         });
 
-    my $data = $storage->restore();
+    my $data = $storage->restore("Ocsinventory::Agent");
+    my $myData = $self->{myData} = $storage->restore(__PACKAGE__);
 
     my $config = $self->{config} = $data->{config};
-    my $network = $self->{network} = $data->{network};
     my $logger = $self->{logger} = new Ocsinventory::Logger ({
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
+
+
 
     if (!$config->{'server'}) {
         $logger->debug("No server. Exiting...");
         exit(0);
     }
 
-    print Dumper($self->{prologresp});
+    my $network = $self->{network} = new Ocsinventory::Agent::Network ({
+
+            logger => $logger,
+            config => $config,
+
+        });
+
 
     if ( !exists( $self->{config}->{vardir} ) ) {
         $logger->fault('No vardir in $config');
@@ -100,13 +109,11 @@ sub main {
 
     $self->readProlog();
 
-
-
     # Try to imitate as much as I can the Windows agent
-    #    foreach (0..$storage->{config}->{PERIOD_LENGTH}) {
+    #    foreach (0..$myData->{config}->{PERIOD_LENGTH}) {
     foreach my $priority ( 1 .. 10 ) {
-        foreach my $orderId ( keys %{ $storage->{byPriority}->[$priority] } ) {
-            my $order = $storage->{byId}->{$orderId};
+        foreach my $orderId ( keys %{ $myData->{byPriority}->[$priority] } ) {
+            my $order = $myData->{byId}->{$orderId};
 
             # Already processed
             next if exists( $order->{ERR} );
@@ -124,11 +131,11 @@ sub main {
 
             if ( !-d "$downloadDir" && !mkpath("$downloadDir") ) {
                 $logger->error("Failed to create $downloadDir");
-                return;
+                next;
             }
             if ( !-d "$runDir" && !mkpath("$runDir") ) {
                 $logger->error("Failed to create $runDir");
-                return;
+                next;
             }
 
             # A file is attached to this order
@@ -139,7 +146,7 @@ sub main {
             }
 
             next unless $self->processOrderCmd( { orderId => $orderId } );
-            delete( $storage->{byPriority}->[$priority]->{$orderId} );
+            delete( $myData->{byPriority}->[$priority]->{$orderId} );
             next
               unless $self->clean(
                 {
@@ -148,14 +155,17 @@ sub main {
                 }
               );
             $logger->debug( "order $orderId processed, wait "
-                  . $storage->{config}->{CYCLE_LATENCY}
+                  . $myData->{config}->{CYCLE_LATENCY}
                   . " seconds." );
-            sleep( $storage->{config}->{CYCLE_LATENCY} );
+            sleep( $myData->{config}->{CYCLE_LATENCY} );
         }
     }
     $logger->debug("End of period...");
 
-    return $self;
+    print Dumper($myData);
+    $storage->save($myData);
+
+    exit(0);
 }
 
 
@@ -164,7 +174,7 @@ sub clean {
 
     my $config  = $self->{config};
     my $logger  = $self->{logger};
-    my $storage = $self->{storage};
+    my $myData = $self->{myData};
 
     my $cleanUpLevel = $params->{cleanUpLevel} || 3;
     my $orderId = $params->{orderId};
@@ -244,11 +254,11 @@ sub extractArchive {
 
     my $config  = $self->{config};
     my $logger  = $self->{logger};
-    my $storage = $self->{storage};
+    my $myData = $self->{myData};
 
     my $orderId = $params->{orderId};
 
-    my $order = $storage->{byId}->{$orderId};
+    my $order = $myData->{byId}->{$orderId};
 
     my $downloadDir = $self->{downloadBaseDir} . '/' . $orderId;
     my $runDir      = $self->{runBaseDir} . '/' . $orderId;
@@ -311,10 +321,10 @@ sub processOrderCmd {
 
     my $config  = $self->{config};
     my $logger  = $self->{logger};
-    my $storage = $self->{storage};
+    my $myData = $self->{myData};
 
     my $orderId = $params->{orderId};
-    my $order   = $storage->{byId}->{$orderId};
+    my $order   = $myData->{byId}->{$orderId};
 
     my $downloadDir = $self->{downloadBaseDir} . '/' . $orderId;
     my $runDir      = $self->{runBaseDir} . '/' . $orderId;
@@ -396,10 +406,10 @@ sub downloadAndConstruct {
 
     my $config  = $self->{config};
     my $logger  = $self->{logger};
-    my $storage = $self->{storage};
+    my $myData = $self->{myData};
 
     my $orderId = $params->{orderId};
-    my $order   = $storage->{byId}->{$orderId};
+    my $order   = $myData->{byId}->{$orderId};
 
     my $downloadBaseDir = $config->{vardir} . '/download';
     my $downloadDir     = $downloadBaseDir . '/' . $orderId;
@@ -414,7 +424,7 @@ sub downloadAndConstruct {
 
     $logger->debug( "processing " . $orderId );
 
-    my $fragLatency = $storage->{config}->{FRAG_LATENCY};
+    my $fragLatency = $myData->{config}->{FRAG_LATENCY};
     $order->{ERROR_COUNT} = 0 unless exists( $order->{ERROR_COUNT} );
 
     my $baseUrl = ( $order->{PROTO} =~ /^HTTP$/i ) ? "http://" : "";
@@ -578,10 +588,10 @@ sub reportError {
 
     my $config  = $self->{config};
     my $logger  = $self->{logger};
-    my $storage = $self->{storage};
+    my $myData = $self->{myData};
 
     my $errorCode = $self->{errorCode};
-    my $order     = $storage->{byId}->{$orderId};
+    my $order     = $myData->{byId}->{$orderId};
 
     $logger->fault('$errorCode is not set!')  unless $errorCode;
     $logger->fault('$message should be set!') unless $message;
@@ -600,11 +610,11 @@ sub reportError {
         }
     );
 
-    if ( !$storage->{errorStack} ) {
-        $storage->{errorStack} = [];
+    if ( !$myData->{errorStack} ) {
+        $myData->{errorStack} = [];
     }
 
-    push @{ $storage->{errorStack} }, $xmlMsg;
+    push @{ $myData->{errorStack} }, $xmlMsg;
     $order->{ERR}         = $errorCode;
     $order->{ANWSER_DATE} = time;
 
@@ -616,16 +626,16 @@ sub pushErrorStack {
 
     my $logger  = $self->{logger};
     my $network = $self->{network};
-    my $storage = $self->{storage};
+    my $myData = $self->{myData};
 
-    if ( !$storage->{errorStack} ) {
-        $storage->{errorStack} = [];
+    if ( !$myData->{errorStack} ) {
+        $myData->{errorStack} = [];
     }
 
-    if ( @{ $storage->{errorStack} } ) {
-        my $message = $storage->{errorStack}->[0];
+    if ( @{ $myData->{errorStack} } ) {
+        my $message = $myData->{errorStack}->[0];
         if ( $network->send( { message => $message } ) ) {
-            shift( @{ $storage->{errorStack} } );
+            shift( @{ $myData->{errorStack} } );
         }
         else {
             $logger->error("Failed to contact server!");
@@ -642,12 +652,12 @@ sub readProlog {
     my $prologresp = $self->{prologresp};
     my $config     = $self->{config};
     my $logger     = $self->{logger};
-    my $storage    = $self->{storage};
+    my $myData    = $self->{myData};
 
-    if ( !$storage ) {
-        $storage->{config}     = {};
-        $storage->{byId}       = {};
-        $storage->{byPriority} = [
+    if ( !$myData ) {
+        $myData->{config}     = {};
+        $myData->{byId}       = {};
+        $myData->{byPriority} = [
             0  => {},
             1  => {},
             2  => {},
@@ -687,16 +697,16 @@ sub readProlog {
         if ( $paramHash->{TYPE} eq 'CONF' ) {
 
             # Save the config sent during the PROLOG
-            $storage->{config} = $conf->[0];
+            $myData->{config} = $conf->[0];
         }
         elsif ( $paramHash->{TYPE} eq 'PACK' ) {
             my $orderId = $paramHash->{ID};
-            if ( $storage->{byId}{$orderId}{ERR} ) {
+            if ( $myData->{byId}{$orderId}{ERR} ) {
 
                 if ($paramHash->{FORCEREPLAY}) {
 
                     $logger->debug("Replay $orderId");
-                    $storage->{byId}{$orderId} = {};
+                    $myData->{byId}{$orderId} = {};
 
                 } else {
 
@@ -758,13 +768,13 @@ sub readProlog {
                 next;
             }
 
-            $storage->{byId}{$orderId} = $infoHash;
+            $myData->{byId}{$orderId} = $infoHash;
             foreach ( keys %$paramHash ) {
-                $storage->{byId}{$orderId}{$_} = $paramHash->{$_};
+                $myData->{byId}{$orderId}{$_} = $paramHash->{$_};
             }
 
-            $storage->{byPriority}->[ $infoHash->{PRI} ]->{$orderId} =
-              $storage->{byId}{$orderId};
+            $myData->{byPriority}->[ $infoHash->{PRI} ]->{$orderId} =
+              $myData->{byId}{$orderId};
 
             $logger->debug(
                 "New download added in the queue. Info is `$infoURI'");
