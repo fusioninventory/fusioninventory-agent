@@ -23,16 +23,23 @@ sub new {
 sub save {
     my ($self, $data) = @_;
 
-	print "SAVE CONFIG IN:". $self->{'vardir'}."/config.dump\n";
+    my $tmp = caller(0);
+    $tmp =~ s/::/-/g; # Drop the ::
+    # They are forbiden on Windows in file path
+    my $file = $self->{'vardir'}."/".$tmp.".dump";
+	print "SAVE CONFIG IN:". $file."\n";
 
-	store ($data, $self->{'vardir'}.'/config.dump') or die;
+	store ($data, $file) or die;
 
 }
 
 sub restore {
-    my ($self) = @_;
+    my ($self, $module) = @_;
 
-    my $file = $self->{vardir}."/config.dump";
+    my $tmp = $module || caller(0);
+    $tmp =~ s/::/-/g;
+
+    my $file = $self->{vardir}."/$tmp.dump";
 	print "RESTORE CONFIG FROM: $file\n";
     if (-f $file) {
         return retrieve($file);
