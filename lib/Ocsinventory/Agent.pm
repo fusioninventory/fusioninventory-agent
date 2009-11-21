@@ -282,9 +282,10 @@ sub main {
         }
 
 
+        my $network;
         my $prologresp;
         if (!$config->{local}) {
-            my $network = new Ocsinventory::Agent::Network ({
+            $network = new Ocsinventory::Agent::Network ({
 
                     accountconfig => $accountconfig,
                     accountinfo => $accountinfo,
@@ -309,13 +310,18 @@ sub main {
         }
         
         my $storage = new Ocsinventory::Agent::Storage({
+
                 config => $config,
                 logger => $logger,
+
             });
         $storage->save({
+
             config => $config,
             logger => $logger,
+            network => $network,
             prologresp => $prologresp
+
             });
 
         foreach my $task (qw/Inventory Deploy/) {
