@@ -143,12 +143,9 @@ sub main {
     }
     $logger->debug("End of period...");
 
-}
-
-
-
 
 }
+
 
 sub clean {
     my ( $self, $params ) = @_;
