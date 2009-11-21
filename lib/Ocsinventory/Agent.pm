@@ -319,12 +319,12 @@ sub main {
 
             config => $config,
             logger => $logger,
-            network => $network,
             prologresp => $prologresp
 
             });
 
-        foreach my $task (qw/Inventory Deploy/) {
+        #foreach my $task (qw/Inventory Deploy/) {
+        foreach my $task (qw/Deploy/) {
             $logger->debug("[task]start of ".$task);
             system(
                 "perl -Ilib -MOcsinventory::Agent::Task::".$task.
