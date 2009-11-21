@@ -47,7 +47,7 @@ use Ocsinventory::Agent::Storage;
 use Ocsinventory::Agent::XML::SimpleMessage;
 
 sub main {
-    my ( undef, $params ) = @_;
+    my ( undef ) = @_;
 
     my $self = {};
     bless $self;
