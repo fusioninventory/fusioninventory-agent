@@ -87,10 +87,13 @@ sub main {
     $self->{findMirrorThreads} = [];
 
     
-    # Just in case
+    # Just in case some errors had not been sent
+    # previously
     $self->pushErrorStack();
 
-    return $self;
+    $self->readProlog();
+
+
 
     # Try to imitate as much as I can the Windows agent
     #    foreach (0..$storage->{config}->{PERIOD_LENGTH}) {
@@ -145,7 +148,7 @@ sub main {
     }
     $logger->debug("End of period...");
 
-
+    return $self;
 }
 
 
@@ -626,7 +629,7 @@ sub pushErrorStack {
     1;
 }
 
-sub isInventoryEnabled {
+sub readProlog {
     my $self = shift;
 
     my $prologresp = $self->{prologresp};
