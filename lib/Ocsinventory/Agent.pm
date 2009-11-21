@@ -282,10 +282,9 @@ sub main {
         }
 
 
-        my $network;
         my $prologresp;
         if (!$config->{local}) {
-            $network = new Ocsinventory::Agent::Network ({
+            my $network = new Ocsinventory::Agent::Network ({
 
                     accountconfig => $accountconfig,
                     accountinfo => $accountinfo,
