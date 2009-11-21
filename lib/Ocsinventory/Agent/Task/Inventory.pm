@@ -29,7 +29,7 @@ sub main {
       config => {
           vardir => $ARGV[0],
       }
-      });
+  });
   my $data = $storage->restore();
 
   my $config = $self->{config} = $data->{config};
