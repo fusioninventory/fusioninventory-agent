@@ -45,6 +45,7 @@ use Cwd;
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::Storage;
 use Ocsinventory::Agent::XML::SimpleMessage;
+use Ocsinventory::Agent::XML::Response::Prolog;
 
 sub main {
     my ( undef ) = @_;
@@ -65,8 +66,14 @@ sub main {
     my $logger = $self->{logger} = new Ocsinventory::Logger ({
             config => $self->{config}
         });
-
     $self->{prologresp} = $data->{prologresp};
+
+    if (!$config->{'server'}) {
+        $logger->debug("No server. Exiting...");
+        exit(0);
+    }
+
+    print Dumper($self->{prologresp});
 
     if ( !exists( $self->{config}->{vardir} ) ) {
         $logger->fault('No vardir in $config');
@@ -659,7 +666,7 @@ sub readProlog {
 
     # The orders are send during the PROLOG. Since the prolog is
     # one of the arg of the check() function. We can process it.
-    $logger->debut("Not prolog") unless $prologresp;
+    $logger->fault("No prolog object") unless $prologresp;
     my $conf = $prologresp->getOptionsInfoByName("DOWNLOAD");
 
     print Dumper($prologresp);
