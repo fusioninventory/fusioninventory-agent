@@ -160,7 +160,6 @@ sub main {
     }
     $logger->debug("End of period...");
 
-    print Dumper($myData);
     $storage->save($myData);
 
     exit(0);
@@ -628,8 +627,6 @@ sub readProlog {
     # one of the arg of the check() function. We can process it.
     $logger->fault("No prolog object") unless $prologresp;
     my $conf = $prologresp->getOptionsInfoByName("DOWNLOAD");
-
-    print Dumper($prologresp);
 
     if ( !@$conf ) {
         $logger->debug("no DOWNLOAD options returned during PROLOG");
