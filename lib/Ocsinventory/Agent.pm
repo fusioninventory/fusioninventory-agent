@@ -38,6 +38,7 @@ use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Task::Inventory;
 use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
+use Ocsinventory::Agent::Storage;
 #use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
 #use Ocsinventory::Agent::Rpc;
@@ -281,6 +282,7 @@ sub main {
         }
 
 
+        my $prologresp;
         if (!$config->{local}) {
             my $network = new Ocsinventory::Agent::Network ({
 
@@ -292,7 +294,6 @@ sub main {
                 });
 
 #        my $sendInventory = 1;
-            my $prologresp;
 #        if (!$config->{force}) {
             my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
@@ -303,16 +304,30 @@ sub main {
                 });
 
             # TODO Don't mix settings and temp value
-            $config->{prologresp} = $network->send({message => $prolog});
+            $prologresp = $network->send({message => $prolog});
 
         }
         
-        Ocsinventory::Agent::Config::save($config);
-        $logger->debug("Start: Exec Inventory");
-        system("perl -Ilib -MOcsinventory::Agent::Task::Inventory ".
-            " -e 'Ocsinventory::Agent::Task::Inventory::main();' -- ".$config->{vardir});
-        $logger->debug("End: Exec Inventory");
+        my $storage = new Ocsinventory::Agent::Storage({
+                config => $config,
+                logger => $logger,
+            });
+        $storage->save({
+            config => $config,
+            logger => $logger,
+            prologresp => $prologresp
+            });
 
+        foreach my $task (qw/Inventory Deploy/) {
+            $logger->debug("[task]start of ".$task);
+            system(
+                "perl -Ilib -MOcsinventory::Agent::Task::".$task.
+                " -e 'Ocsinventory::Agent::Task::".
+                $task."::main();' -- ".$config->{vardir});
+            $logger->debug("[task] end of ".$task);
+        }
+
+        $storage->remove();
 #            if (!$prologresp) { # Failed to reach the server
 #                if ($config->{lazy}) {
 #                    # To avoid flooding a heavy loaded server
