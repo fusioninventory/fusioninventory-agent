@@ -25,7 +25,6 @@ sub main {
   my $self = {};
   bless $self;
 
-  print Dumper(\@ARGV);
   my $storage = new Ocsinventory::Agent::Storage({
       config => {
           vardir => $ARGV[0],
