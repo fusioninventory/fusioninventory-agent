@@ -44,17 +44,26 @@ use Cwd;
 
 use Ocsinventory::Agent::XML::SimpleMessage;
 
-sub new {
+sub main {
     my ( undef, $params ) = @_;
 
     my $self = {};
+    bless $self;
 
-    $self->{accountconfig} = $params->{accountconfig};
-    $self->{accountinfo}   = $params->{accountinfo};
-    $self->{config}        = $params->{config};
-    $self->{inventory}     = $params->{inventory};
-    my $logger = $self->{logger} = $params->{logger};
-    $self->{network}    = $params->{network};
+    my $storage = new Ocsinventory::Agent::Storage({
+            config => {
+                vardir => $ARGV[0],
+            }
+        });
+
+    my $data = $storage->restore();
+
+    my $config = $self->{config} = $data->{config};
+    my $network = $self->{network} = $data->{network};
+    my $logger = $self->{logger} = new Ocsinventory::Logger ({
+            config => $self->{config}
+        });
+
     $self->{prologresp} = $params->{prologresp};
 
     if ( !exists( $self->{config}->{vardir} ) ) {
@@ -76,21 +85,10 @@ sub new {
     $self->{findMirrorThreads} = [];
 
     
-    bless $self;
-
     # Just in case
     $self->pushErrorStack();
 
     return $self;
-
-    my $prologresp = $self->{prologresp};
-    my $config     = $self->{config};
-    my $network    = $self->{network};
-    my $logger     = $self->{logger};
-    my $storage    = $self->{storage};
-
-    #    use Data::Dumper;
-    #    print Dumper($storage);
 
     # Try to imitate as much as I can the Windows agent
     #    foreach (0..$storage->{config}->{PERIOD_LENGTH}) {
@@ -144,9 +142,6 @@ sub new {
         }
     }
     $logger->debug("End of period...");
-
-    #        sleep($storage->{config}-> {PERIOD_LATENCY});
-    #    }
 
 }
 
