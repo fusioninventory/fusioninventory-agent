@@ -17,14 +17,25 @@ use Ocsinventory::Agent::AccountInfo;
 
 use Ocsinventory::Agent::XML::Response::Prolog;
 
+use Ocsinventory::Agent::Storage;
+
 sub main {
   my (undef, $params) = @_;
 
   my $self = {};
   bless $self;
 
-  my $config = $self->{config} = Ocsinventory::Agent::Config::restore();
-  my $prologresp = $self->{config}{prologresp};
+  print Dumper(\@ARGV);
+  my $storage = new Ocsinventory::Agent::Storage({
+      config => {
+          vardir => $ARGV[0],
+      }
+      });
+  my $data = $storage->restore();
+
+  my $config = $self->{config} = $data->{config};
+  my $prologresp = $self->{prologresp} = $data->{prologresp};
+  
   $self->{modules} = {};
   
   my $logger = $self->{logger} = new Ocsinventory::Logger ({
