@@ -75,13 +75,6 @@ sub new {
         $config->{nosoftware} = 1
     }
 
-# TODO put that in Ocsinventory::Agent::Config
-    if (!$config->{'stdout'} && !$config->{'local'} && $config->{server} !~ /^http(|s):\/\//) {
-        $logger->debug("the --server passed doesn't have a protocle, assume http as default");
-        $config->{server} = "http://".$config->{server}.'/ocsinventory';
-    }
-
-
 ############################
 #### Objects initilisation
 ############################

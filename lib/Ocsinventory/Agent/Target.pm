@@ -5,10 +5,8 @@ sub new {
 
     my $self = {};
 
-    my $config = $self->{config} = $params->{config};
-    my $logger = $self->{logger} = $params->{logger};
-
-    $self->{targets} = [];
+    $self->{'type'} = $params->{'type'};
+    $self->{'path'} = $params->{'path'};
 
 
     bless $self;
