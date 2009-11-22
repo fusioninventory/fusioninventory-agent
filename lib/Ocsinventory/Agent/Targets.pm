@@ -46,6 +46,8 @@ sub initialise {
 
     if ($config->{'stdout'}) {
         my $target = new Ocsinventory::Agent::Target({
+                'logger' => $logger,
+                config => $config,
                 'type' => 'stdout',
             });
         $self->addTarget({
@@ -55,6 +57,8 @@ sub initialise {
 
     if ($config->{'local'}) {
         my $target = new Ocsinventory::Agent::Target({
+                'config' => $config,
+                'logger' => $logger,
                 'type' => 'local',
                 'path' => $config->{'local'}
             });
@@ -74,6 +78,8 @@ sub initialise {
             $url = $val;
         }
         my $target = new Ocsinventory::Agent::Target({
+                'config' => $config,
+                'logger' => $logger,
                 'type' => 'server',
                 'path' => $url
             });

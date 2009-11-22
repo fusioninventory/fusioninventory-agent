@@ -8,7 +8,6 @@ use warnings;
 # THIS IS AN UGLY WORKAROUND FOR
 # http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
-use File::Path;
 
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
@@ -78,61 +77,6 @@ sub new {
 ############################
 #### Objects initilisation
 ############################
-
-# The agent can contact different servers. Each server accountconfig is
-# stored in a specific file:
-    if (
-        ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
-            !isDirectoryWritable($config->{basevardir}))
-        
-        &&
-        $^O !~ /^MSWin/) {
-
-        if (! -d $ENV{HOME}."/.ocsinventory/var") {
-            $logger->info("Failed to create ".$config->{basevardir}." directory: $!. ".
-                "I'm going to use the home directory instead (~/.ocsinventory/var).");
-        }
-
-        $config->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
-        if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
-            $logger->error("Failed to create ".$config->{basedir}." directory: $!".
-                "The HOSTID will not be written on the harddrive. You may have duplicated ".
-                "entry of this computer in your OCS database");
-        }
-        $logger->debug("var files are stored in ".$config->{basevardir});
-    }
-
-    if (defined($config->{server}) && $config->{server}) {
-        my $dir = $config->{server};
-        $dir =~ s/\//_/g;
-	# On Windows, we can't have ':' in directory path
-        $dir =~ s/:/../g if $^O =~ /^MSWin/; # Conditional because there is
-        # already directory like that created by 2.x < agent
-        $config->{vardir} = $config->{basevardir}."/".$dir;
-        if (defined ($config->{local}) && $config->{local}) {
-            $logger->debug ("--server ignored since you also use --local");
-            $config->{server} = undef;
-        }
-# Useless, nothing is written in local mode
-#    } elsif (defined($config->{local}) && $config->{local}) {
-#        $config->{vardir} = $config->{basevardir}."/__LOCAL__";
-    }
-
-    if (!-d $config->{vardir} && mkpath ($config->{vardir})) {
-        $logger->error("Failed to create ".$config->{vardir}." directory: $!");
-    }
-
-    if (!isDirectoryWritable($config->{vardir})) {
-        $logger->error("Can't write in ".$config->{vardir});
-        exit(1);
-    }
-
-    if (-d $config->{vardir}) {
-        $config->{accountconfig} = $config->{vardir}."/ocsinv.conf";
-        $config->{accountinfofile} = $config->{vardir}."/ocsinv.adm";
-        $config->{last_statefile} = $config->{vardir}."/last_state";
-        $config->{next_timefile} = $config->{vardir}."/next_timefile";
-    }
 
 
 ######
@@ -233,18 +177,6 @@ sub isAgentAlreadyRunning {
     }
 
     return 0;
-}
-
-sub isDirectoryWritable {
-    my $dir = shift;
-
-    my $tmpFile = $dir."/file.tmp";
-
-    open TMP, ">$tmpFile" or return;
-    print TMP "1" or return;
-    close TMP or return;
-    unlink($tmpFile) or return;
-
 }
 
 sub main {
