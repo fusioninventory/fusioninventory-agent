@@ -26,9 +26,8 @@ if ($@){
     };
 }
 
-use Sys::Hostname;
-
 # END OF THE UGLY FIX!
+use Sys::Hostname;
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::XML::Inventory;
 use Ocsinventory::Agent::XML::Prolog;
