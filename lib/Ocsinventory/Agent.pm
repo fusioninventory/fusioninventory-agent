@@ -42,6 +42,7 @@ use Ocsinventory::Agent::Storage;
 #use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Agent::RPC;
+use Ocsinventory::Agent::Targets;
 
 sub new {
     my (undef, $this) = @_;
@@ -142,12 +143,19 @@ sub new {
 
 
 ######
+    $this->{targets} = new Ocsinventory::Agent::Targets({
 
+            logger => $logger,
+            config => $config,           
+            
+        });
 
 # load CFG files
     my $accountconfig = $this->{accountconfig} = new Ocsinventory::Agent::AccountConfig({
+
             logger => $logger,
             config => $config,
+
         });
 
     my $srv = $accountconfig->get('OCSFSERVER');
@@ -254,6 +262,7 @@ sub main {
     my $accountinfo = $this->{accountinfo};
     my $accountconfig = $this->{accountconfig};
     my $logger = $this->{logger};
+    my $targets = $this->{targets};
 
 
 
