@@ -21,6 +21,9 @@
 use strict;
 use warnings;
 
+use threads;
+use threads::shared;
+
 my $devlib;
 foreach (@ARGV) {
     if (/^--devlib$/) {

@@ -41,7 +41,7 @@ use Ocsinventory::Agent::AccountInfo;
 use Ocsinventory::Agent::Storage;
 #use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
-#use Ocsinventory::Agent::Rpc;
+use Ocsinventory::Agent::RPC;
 
 sub new {
     my (undef, $this) = @_;
@@ -210,11 +210,12 @@ sub new {
         }
 
     }
+    $this->{rpc} = new Ocsinventory::Agent::RPC;
 
     $logger->debug("OCS Agent initialised");
 
-
     bless $this;
+
 }
 
 sub isAgentAlreadyRunning {
@@ -417,7 +418,7 @@ sub main {
 #        }
 
             print "TODO sleep...\n";
-            sleep(600);
+            sleep(5);
     }
 }
 1;
