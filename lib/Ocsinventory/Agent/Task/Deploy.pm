@@ -64,6 +64,7 @@ sub main {
     my $myData = $self->{myData} = $storage->restore(__PACKAGE__);
 
     my $config = $self->{config} = $data->{config};
+    my $target = $self->{'target'} = $data->{'target'};
     my $logger = $self->{logger} = new Ocsinventory::Logger ({
             config => $self->{config}
         });
@@ -71,7 +72,7 @@ sub main {
 
 
 
-    if (!$config->{'server'}) {
+    if ($target->{'type'} ne 'server') {
         $logger->debug("No server. Exiting...");
         exit(0);
     }
@@ -84,13 +85,13 @@ sub main {
         });
 
 
-    if ( !exists( $self->{config}->{vardir} ) ) {
-        $logger->fault('No vardir in $config');
+    if ( !exists( $self->{'target'}->{'vardir'} ) ) {
+        $logger->fault('No vardir in $target');
     }
 
-    $self->{downloadBaseDir} = $self->{config}->{vardir} . '/download';
-    $self->{runBaseDir}      = $self->{config}->{vardir} . '/run';
-    $self->{tmpBaseDir}      = $self->{config}->{vardir} . '/tmp';
+    $self->{downloadBaseDir} = $self->{'target'}->{'vardir'} . '/download';
+    $self->{runBaseDir}      = $self->{target}->{vardir} . '/run';
+    $self->{tmpBaseDir}      = $self->{target}->{vardir} . '/tmp';
 
 
     foreach (qw/downloadBaseDir runBaseDir tmpBaseDir/) {
@@ -353,13 +354,14 @@ sub downloadAndConstruct {
     my ( $self, $params ) = @_;
 
     my $config  = $self->{config};
+    my $target  = $self->{target};
     my $logger  = $self->{logger};
     my $myData = $self->{myData};
 
     my $orderId = $params->{orderId};
     my $order   = $myData->{byId}->{$orderId};
 
-    my $downloadBaseDir = $config->{vardir} . '/download';
+    my $downloadBaseDir = $target->{vardir} . '/download';
     my $downloadDir     = $downloadBaseDir . '/' . $orderId;
     if ( !-d $downloadDir && !mkpath($downloadDir) ) {
         $logger->error("Failed to create $downloadDir");
@@ -600,6 +602,7 @@ sub readProlog {
 
     my $prologresp = $self->{prologresp};
     my $config     = $self->{config};
+    my $target     = $self->{target};
     my $logger     = $self->{logger};
     my $myData    = $self->{myData};
 
@@ -621,11 +624,14 @@ sub readProlog {
         ];
     }
 
-    my $downloadBaseDir = $config->{vardir} . '/download';
+    my $downloadBaseDir = $target->{vardir} . '/download';
 
     # The orders are send during the PROLOG. Since the prolog is
     # one of the arg of the check() function. We can process it.
-    $logger->fault("No prolog object") unless $prologresp;
+    if (!$prologresp) {
+        $logger->debug("No prolog found.");
+        return;
+    }
     my $conf = $prologresp->getOptionsInfoByName("DOWNLOAD");
 
     if ( !@$conf ) {
@@ -633,7 +639,7 @@ sub readProlog {
         return;
     }
 
-    if ( !$config->{vardir} ) {
+    if ( !$target->{vardir} ) {
         $logger->error("vardir is not initialized!");
         return;
     }

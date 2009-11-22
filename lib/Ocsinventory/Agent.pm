@@ -197,7 +197,7 @@ sub main {
 
 #######################################################
 #######################################################
-    while (1) {
+    while (my $target = $targets->getNext()) {
 
         my $exitcode = 0;
         my $wait;
@@ -241,16 +241,18 @@ sub main {
             $prologresp = $network->send({message => $prolog});
 
         }
-        
+    
         my $storage = new Ocsinventory::Agent::Storage({
 
                 config => $config,
                 logger => $logger,
+                target => $target,
 
             });
         $storage->save({
 
             config => $config,
+            target => $target,
             logger => $logger,
             prologresp => $prologresp
 
@@ -266,7 +268,7 @@ sub main {
             system(
                 "perl -Ilib -MOcsinventory::Agent::Task::".$task.
                 " -e 'Ocsinventory::Agent::Task::".
-                $task."::main();' -- ".$config->{vardir});
+                $task."::main();' -- ".$target->{vardir});
             $logger->debug("[task] end of ".$task);
         }
 

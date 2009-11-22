@@ -14,6 +14,7 @@ sub new {
     my $self = {};
 
     my $config = $self->{config} = $params->{config};
+    my $target = $self->{target} = $params->{target};
 
     $self->{vardir} = $config->{vardir};
 
@@ -23,10 +24,12 @@ sub new {
 sub save {
     my ($self, $data) = @_;
 
+    my $target = $self->{target};
+
     my $tmp = caller(0);
     $tmp =~ s/::/-/g; # Drop the ::
     # They are forbiden on Windows in file path
-    my $file = $self->{'vardir'}."/".$tmp.".dump";
+    my $file = $target->{'vardir'}."/".$tmp.".dump";
 	print "SAVE CONFIG IN:". $file."\n";
 
 	store ($data, $file) or die;

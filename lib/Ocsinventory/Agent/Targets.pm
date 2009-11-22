@@ -18,11 +18,10 @@ sub new {
     $self->{targets} = [];
 
 
-    print Dumper($config->{server});
 
     bless $self;
 
-    $self->initialise();
+    $self->init();
 
     return $self;
 }
@@ -38,7 +37,7 @@ sub addTarget {
 
 }
 
-sub initialise {
+sub init {
     my ($self) = @_;
 
     my $config = $self->{config};
@@ -67,7 +66,7 @@ sub initialise {
             });
     }
 
-    foreach my $val (split(/;/, $config->{'server'})) {
+    foreach my $val (split(/,/, $config->{'server'})) {
         my $url;
         if ($val !~ /^http(|s):\/\//) {
             $logger->debug("the --server passed doesn't ".
@@ -89,6 +88,14 @@ sub initialise {
     }
 
     print Dumper($self);
+
+}
+
+sub getNext {
+    my ($self) = @_;
+
+    return shift (@{$self->{targets}});
+
 
 }
 
