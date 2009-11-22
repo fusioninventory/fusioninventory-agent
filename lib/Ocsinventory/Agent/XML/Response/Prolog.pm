@@ -9,13 +9,13 @@ our @ISA = ('Ocsinventory::Agent::XML::Response');
 sub new {
     my ($class, @params) = @_;
 
-    my $this = $class->SUPER::new(@params);
+    my $self = $class->SUPER::new(@params);
 
-    bless ($this, $class);
-    $this->updatePrologFreq();
-    $this->saveNextTime();
+    bless ($self, $class);
+    $self->updatePrologFreq();
+    $self->saveNextTime();
 
-    return $this;
+    return $self;
 }
 
 sub isInventoryAsked {

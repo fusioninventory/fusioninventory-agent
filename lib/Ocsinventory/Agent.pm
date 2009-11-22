@@ -43,19 +43,19 @@ use Ocsinventory::Agent::RPC;
 use Ocsinventory::Agent::Targets;
 
 sub new {
-    my (undef, $this) = @_;
+    my (undef, $self) = @_;
 
 ############################
 #### CLI parameters ########
 ############################
-    my $config = $this->{config} = Ocsinventory::Agent::Config::load();
+    my $config = $self->{config} = Ocsinventory::Agent::Config::load();
 
     # TODO: should be in Config.pm
     if ($config->{logfile}) {
         $config->{logger} = 'File';
     }
 
-    my $logger = $this->{logger} = new Ocsinventory::Logger ({
+    my $logger = $self->{logger} = new Ocsinventory::Logger ({
             config => $config
         });
 
@@ -79,7 +79,7 @@ sub new {
 
 
 ######
-    $this->{targets} = new Ocsinventory::Agent::Targets({
+    $self->{targets} = new Ocsinventory::Agent::Targets({
 
             logger => $logger,
             config => $config,           
@@ -87,7 +87,7 @@ sub new {
         });
 
 # load CFG files
-    my $accountconfig = $this->{accountconfig} = new Ocsinventory::Agent::AccountConfig({
+    my $accountconfig = $self->{accountconfig} = new Ocsinventory::Agent::AccountConfig({
 
             logger => $logger,
             config => $config,
@@ -110,7 +110,7 @@ sub new {
         $accountconfig->write();
     }
 
-    my $accountinfo = $this->{accountinfo} = new Ocsinventory::Agent::AccountInfo({
+    my $accountinfo = $self->{accountinfo} = new Ocsinventory::Agent::AccountInfo({
             logger => $logger,
             # TODOparams => $params,
             config => $config,
@@ -154,11 +154,11 @@ sub new {
         }
 
     }
-    $this->{rpc} = new Ocsinventory::Agent::RPC;
+    $self->{rpc} = new Ocsinventory::Agent::RPC;
 
     $logger->debug("OCS Agent initialised");
 
-    bless $this;
+    bless $self;
 
 }
 
@@ -179,14 +179,14 @@ sub isAgentAlreadyRunning {
 }
 
 sub main {
-    my ($this) = @_;
+    my ($self) = @_;
 
 # Load setting from the config file
-    my $config = $this->{config};
-    my $accountinfo = $this->{accountinfo};
-    my $accountconfig = $this->{accountconfig};
-    my $logger = $this->{logger};
-    my $targets = $this->{targets};
+    my $config = $self->{config};
+    my $accountinfo = $self->{accountinfo};
+    my $accountconfig = $self->{accountconfig};
+    my $logger = $self->{logger};
+    my $targets = $self->{targets};
 
 
 
