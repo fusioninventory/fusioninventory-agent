@@ -25,8 +25,10 @@ sub run {
 			
 			$h = $h->{'System Software Overview'};
 			
-			$OSName = 'MacOSX';
+			$OSName = $h->{'System Version'};
+			$OSName =~ s/ [1-9].*//s;
 			$OSVersion = $h->{'System Version'};
+			$OSVersion =~ s/^$OSName //s;
 		} else {
 			# we can't load the system profiler, use the basic BSD stype information
 			# Operating system informations
