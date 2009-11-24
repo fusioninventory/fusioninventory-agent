@@ -10,7 +10,7 @@ sub new {
 
     bless $self;
 
-    my $thr = threads->create('server', $self);
+    $self->{thr} = threads->create('server', $self);
 
 
     return $self;
