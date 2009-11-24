@@ -34,6 +34,7 @@ sub main {
 
   my $config = $self->{config} = $data->{config};
   my $prologresp = $self->{prologresp} = $data->{prologresp};
+  my $target = $self->{target} = $data->{target};
   
   $self->{modules} = {};
   
@@ -46,6 +47,7 @@ sub main {
           # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
+          target => $self->{target},
           config => $self->{config},
           logger => $logger,
 
@@ -436,7 +438,7 @@ sub retrieveStorage {
     my $fileName = "/$m.storage";
     $fileName =~ s/::/-/g; # Windows doesn't allow : in filename
 
-    my $storagefile = $self->{config}->{vardir}.$fileName;
+    my $storagefile = $self->{target}->{vardir}.$fileName;
 
     if (!exists &retrieve) {
         eval "use Storable;";
@@ -472,7 +474,7 @@ sub saveStorage {
     my $fileName = "/$m.storage";
     $fileName =~ s/::/-/g; # Windows doesn't allow : in filename
 
-    my $storagefile = $self->{config}->{vardir}.$fileName;
+    my $storagefile = $self->{target}->{vardir}.$fileName;
     if ($data && keys (%$data)>0) {
 	store ($data, $storagefile) or die;
     } elsif (-f $storagefile) {

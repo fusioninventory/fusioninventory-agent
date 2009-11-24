@@ -35,6 +35,7 @@ sub new {
   $self->{backend} = $params->{backend};
   my $logger = $self->{logger} = $params->{logger};
   $self->{config} = $params->{config};
+  $self->{target} = $params->{target};
 
   if (!($self->{config}{deviceid})) {
     $logger->fault ('deviceid unititalised!');
@@ -950,7 +951,7 @@ sub processChecksum {
   );
   # TODO CPUS is not in the list
 
-  if (!$self->{config}->{vardir}) {
+  if (!$self->{target}->{vardir}) {
     $logger->fault ("vardir uninitialised!");
   }
 

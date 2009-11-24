@@ -55,7 +55,7 @@ sub main {
     bless $self;
 
     my $storage = new Ocsinventory::Agent::Storage({
-            config => {
+            target => {
                 vardir => $ARGV[0],
             }
         });

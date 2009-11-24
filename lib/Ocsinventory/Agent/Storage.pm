@@ -16,7 +16,7 @@ sub new {
     my $config = $self->{config} = $params->{config};
     my $target = $self->{target} = $params->{target};
 
-    $self->{vardir} = $config->{vardir};
+    $self->{vardir} = $target->{vardir};
 
     bless $self;
 }
@@ -42,7 +42,9 @@ sub restore {
     my $tmp = $module || caller(0);
     $tmp =~ s/::/-/g;
 
-    my $file = $self->{vardir}."/$tmp.dump";
+    my $target = $self->{target};
+
+    my $file = $target->{'vardir'}."/$tmp.dump";
 	print "RESTORE CONFIG FROM: $file\n";
     if (-f $file) {
         return retrieve($file);
