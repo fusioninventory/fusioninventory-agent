@@ -70,6 +70,14 @@ sub send {
   $req->header('Pragma' => 'no-cache', 'Content-type',
     'application/x-compress');
 
+  # Check server name against provided SSL certificate
+  if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/ ) {
+    my $cn = $1;
+    $cn =~ s/([\-\.])/\\$1/g;
+    $req->header('If-SSL-Cert-Subject' => '/CN='.$cn);
+    $logger->debug ("Validating Cert CN=".$cn);
+  }
+
   $logger->debug ("sending XML");
 
   # Print the XMLs in the debug output
