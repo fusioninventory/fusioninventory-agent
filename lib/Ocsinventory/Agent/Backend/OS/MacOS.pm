@@ -26,7 +26,7 @@ sub run {
 			$h = $h->{'System Software Overview'};
 			
 			my $SystemVersion = $h->{'System Version'};
-			if ($SystemVersion =~ /(^.*?)\ (\d+.*)/) {
+			if ($SystemVersion =~ /^(.*?)\s+(\d+.*)/) {
 			    $OSName=$1;
 			    $OSVersion=$2;
 			} else {
