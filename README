@@ -7,7 +7,7 @@ DESCRIPTION
 PREREQUISITES
 
   Perl 5.8.
-  Those modules are needed:
+  The following modules are needed:
     Digest::MD5
 
     XML::Simple
@@ -26,7 +26,7 @@ PREREQUISITES
                   (download it from http://www.sun.com/download/products.xml?id=4304155a)
 
  
-   Those modules are optional
+  The following modules are optional:
 
     Proc::Daemon Daemon mode
 
@@ -43,6 +43,12 @@ PREREQUISITES
       - get-edid from the read-edid package
 
     If avalaible, Net::CUPS is used to detect the printer
+
+
+  The following module is needed if you plan to prepare a tarball or install
+  directly from the Bazaar devel branch. (See SOURCES below.):
+
+    Module::Install (Ubuntu package libmodule-install-perl). 
 
 BUILDING/INSTALLING
 
@@ -98,9 +104,9 @@ NOTE
 
 
 SOURCES
-You can prepare a tarball from the Bazaar devel branch with those commands:
-   bzr branch lp:ocs-unix-agent
-   cd ocs-unix-agent 
+You can prepare a tarball from the Bazaar devel branch with following commands:
+   bzr branch lp:ocsinventory-unix-agent
+   cd ocsinventory-unix-agent 
    perl Makefile.PL
    make manifest
    make dist
