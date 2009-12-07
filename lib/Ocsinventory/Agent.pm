@@ -130,7 +130,7 @@ sub new {
     if ($config->{tag}) {
         if ($accountinfo->get("TAG")) {
             $logger->debug("A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server useless it ".
+                "machine. The -t paramter may be ignored by the server unless it ".
                 "has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
         }
         $accountinfo->set("TAG",$config->{tag});
@@ -214,7 +214,6 @@ sub main {
             sleep ($wait);
 
         }
-
 
         my $prologresp;
         if (!$config->{local}) {

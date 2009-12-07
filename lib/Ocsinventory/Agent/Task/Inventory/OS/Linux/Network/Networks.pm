@@ -115,8 +115,8 @@ sub doInventory {
 
       # Reliable way to get the info
       if (-d "/sys/devices/virtual/net/") {
-        $virtualdev = (-d "/sys/devices/virtual/net/$description")?"yes":"no";
-      } else {
+        $virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
+      } elsif (can_run("brctl")) {
         # Let's guess
         my %bridge;
         foreach (`brctl show`) {

@@ -61,14 +61,14 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
 =head1 EXAMPLES
 
     % ocsinventory-agent --server localhost
-    # sent an inventory to the OCS server
+    # send an inventory to the OCS server
 
     % ocsinventory-agent --server http://localhost/ocsinventory2
-    # sent an inventory over http to a server with a non standard
+    # send an inventory over http to a server with a non standard
     # virtual directory
 
     % ocsinventory-agent --server https://localhost/ocsinventory
-    # sent an inventory over https to the OCS server
+    # send an inventory over https to the OCS server
 
     % ocsinventory-agent --local /tmp
     # write an inventory in the /tmp directory
@@ -76,17 +76,17 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
     % ocsinventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
     # send a report to a server protected by a basic authentification
     % ocsinventory-agent --lazy
-    # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Usefull for package maintainer.
+    # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Useful for package maintainer.
 
     % ocsinventory-agent --delaytime 60 -d
     # If NO PROLOG_FREQ has been preset, pick a time between execution and --delaytime for the agent to contact the server [default is 3600 seconds]
 
 =head1 DESCRIPTION
 
-F<ocsinventory-agent> creates inventory and sent or write them. This agent is the
-successor of the former linux_agent which was release with OCS 1.01 and prior. It also
+F<ocsinventory-agent> creates inventory and send or write them. This agent is the
+successor of the former linux_agent which was released with OCS 1.01 and prior. It also
 replaces the Solaris/AIX/BSD unofficial agents. The detailed list of supported
-Operating System is avalaible in the Wiki.
+Operating System is available in the Wiki.
 
 =over 4
 
@@ -120,7 +120,7 @@ example, the two lines below are all equivalent:
 
 =item B<--backend-collect-timeout=SECONDS_BEFORE_KILL>
 
-Time before OCS kill modules processing who don't end before the timeout.
+Time before OCS kills modules processing which don't end before the timeout.
 
 =item B<--basevardir>=I<DIR>
 
@@ -144,8 +144,8 @@ This option defaults to waiting a random() time between 0 and 3600 before initia
 
 =item B<-f>, B<--force>
 
-The agent will first contact the server during the PROLOG period. If the server doesn't know the machin or have outdated information, it will ask for an inventory.
-With this option, the agent doesn't run the PROLOG with the server first but directly send an inventory.
+The agent will first contact the server during the PROLOG period. If the server doesn't know the machine or has outdated informations, it will ask for an inventory.
+With this option, the agent doesn't run the PROLOG with the server first but directly sends an inventory.
 
 =item B<--allow-rpc>
 
@@ -205,7 +205,7 @@ Authorized OCS to scan home directories to increase the Virtual Machine inventor
 
 =item B<--tag>=I<TAG>
 
-Mark the machin with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
+Mark the machine with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
 
 =item B<--unsecure-software-deployment>
 
@@ -244,17 +244,19 @@ Do not generate inventory.
 
 =item B<--nosoftware>
 
-Do not inventory the software installed on the machin. B<--nosoft> also
+Do not inventory the software installed on the machine. B<--nosoft> also
 works but is deperecated.
 
 =back
 
 =head1 CONFIG FILE
 
-The agent try to initilise the settings from the B<ocsinventory-agent.cfg>
+The agent try to initialize the settings from the B<ocsinventory-agent.cfg>
 config file.
 
-It looks for the file in these directory:
+It looks for the file in these directories:
+
+=over
 
 =over
 
@@ -297,7 +299,7 @@ Inventory Agent.
 
 =head1 BUGS
 
-Please, use the forum as much as possible. You can open you bug.
+Please, use the forum as much as possible. You can open your own bug tickets.
 Patches are welcome. You can also use LaunchPad bugtracker or
 push your Bazaar branch on LaunchPad and do a merge request.
 
