@@ -44,7 +44,7 @@ install_script  'ocsinventory-agent';
 
 
 # We want a release bundled with the needed dependency to be able to
-# prepare a standealone binay with PAR::Packer 
+# prepare a standalone binary with PAR::Packer 
 if ($ENV{OCS_BUNDLE_RELEASE}) {
   foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
     bundle $module;
@@ -76,7 +76,7 @@ if (!can_use('Net::SSLeay')) {
 
 
 if (!can_run('ipdiscover') && !can_run('nmap')) {
-    print "Plese install nmap ";
+    print "Please install nmap ";
     print "or ipdiscover " if $^O =~ /^linux$/i;
     print "if you want to use the network ".
     "discover feature.\n";
@@ -94,7 +94,7 @@ if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
 
 
 my $archname;
-eval { # config_re is not avalaible on Perl 5.6
+eval { # config_re is not available on Perl 5.6
     my @t = Config::config_re('archname');
     $archname = $t[0];
 };
@@ -102,7 +102,7 @@ if ($^O =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd6
     foreach (qw/dmidecode lspci/) {
         if (!can_run($_)) {
             print "\n";
-            print "[WARNING] $_ is needed if you want a complet inventory on x86 and AMD64/x86_64.\n";
+            print "[WARNING] $_ is needed if you want a complete inventory on x86 and AMD64/x86_64.\n";
             print "\n";
         }
     }

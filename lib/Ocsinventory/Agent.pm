@@ -77,7 +77,7 @@ sub run {
         # TODO add a workaround if Proc::PID::File is not installed
         eval { require Proc::PID::File; };
         if(!$@) {
-            $logger->debug('Proc::PID::File avalaible, checking for pid file');
+            $logger->debug('Proc::PID::File available, checking for pid file');
             if (Proc::PID::File->running()) {
                 $logger->debug('parent process already exists');
                 return 1;
@@ -130,13 +130,13 @@ sub run {
     }
 
     if ($config->{config}{nosoft}) {
-        $logger->info("the parameter --nosoft is deprecated and may be removed in a futur release, please use --nosoftware instead.");
+        $logger->info("the parameter --nosoft is deprecated and may be removed in a future release, please use --nosoftware instead.");
         $config->{config}{nosoftware} = 1
     }
 
 # TODO put that in Ocsinventory::Agent::Config
     if (!$config->{config}{'stdout'} && !$config->{config}{'local'} && $config->{config}{server} !~ /^http(|s):\/\//) {
-        $logger->debug("the --server passed doesn't have a protocle, assume http as default");
+        $logger->debug("the --server passed doesn't have a protocol, assume http as default");
         $config->{config}{server} = "http://".$config->{config}{server}.'/ocsinventory';
     }
 
@@ -230,7 +230,7 @@ sub run {
     if ($config->{config}{tag}) {
         if ($accountinfo->get("TAG")) {
             $logger->debug("A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server useless it ".
+                "machine. The -t paramter may be ignored by the server unless it ".
                 "has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
         }
         $accountinfo->set("TAG",$config->{config}{tag});
@@ -299,7 +299,7 @@ sub run {
 
         if ($config->{config}{stdout} || $config->{config}{local}) { # Local mode
 
-            # TODO, avoid to create Backend a two different place
+            # TODO, avoid to create Backend a two different places
             my $backend = new Ocsinventory::Agent::Backend ({
 
                     accountinfo => $accountinfo,

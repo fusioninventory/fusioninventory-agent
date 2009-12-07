@@ -87,7 +87,7 @@ sub reSetAll {
     }
 }
 
-# Add accountinfo stuff to an inventary
+# Add accountinfo stuff to an inventory
 sub setAccountInfo {
     my $self = shift;
     my $inventary = shift;

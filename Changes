@@ -5,6 +5,7 @@ Revision history for Ocsinventory::Agent
        * FreeBSD: Fix CPU detection (David DURIEUX)
        * Virtualization::Qemu, fix kvm detection
        * Don't run brctl if it's not installed
+       * Various wording fixes (Vincent KNECHT)
 
 1.1     Fri, 06 Nov 2009 16:07:08 +0100
        * addMemorie() renamed to addMemories(), this had been broken during

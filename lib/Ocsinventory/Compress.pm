@@ -16,10 +16,10 @@ sub new {
 
   chomp(my $gzippath=`which gzip 2>/dev/null`);
   if ($self->{mode} eq 'natif') {
-    $logger->debug ('Compress::Zlib is avalaible.');
+    $logger->debug ('Compress::Zlib is available.');
   } elsif (-x $gzippath) {
     $logger->debug (
-	'Compress::Zlib is not avalaible! The data will be compressed with
+	'Compress::Zlib is not available! The data will be compressed with
 	gzip instead but won\'t be accepted by server prior 1.02');
       $self->{mode} = 'gzip';
       $self->{tmpdir} = tempdir( CLEANUP => 1 );

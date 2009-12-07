@@ -26,7 +26,7 @@ sub run {
   # This will probably be overwritten by a Linux::Distro module.
   $inventory->setHardware({
       OSNAME => "Linux",
-      OSCOMMENTS => "Unknow Linux distribution",
+      OSCOMMENTS => "Unknown Linux distribution",
       OSVERSION => $osversion,
       LASTLOGGEDUSER => $lastloggeduser,
       DATELASTLOGGEDUSER => $datelastlog

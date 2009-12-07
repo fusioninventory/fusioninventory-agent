@@ -4,7 +4,7 @@ package Ocsinventory::Agent::Backend::OS::Win32::Networks;
 
 use strict;
 
-# No check here. If Win32::OLE and Win32::OLE::Variant not avalaible, the module
+# No check here. If Win32::OLE and Win32::OLE::Variant not available, the module
 # will fail to load.
 
 sub check {
