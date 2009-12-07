@@ -87,6 +87,8 @@ PATCHES
 
   bzr branch lp:ocsinventory-unix-agent
 
+  /!\ You may need bzr-loom plugin to retrieve the branch /!\ 
+
 
 NOTE
  
