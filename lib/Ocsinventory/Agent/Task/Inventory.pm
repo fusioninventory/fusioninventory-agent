@@ -443,7 +443,7 @@ sub retrieveStorage {
     if (!exists &retrieve) {
         eval "use Storable;";
         if ($@) {
-            $logger->debug("Storable.pm is not avalaible, can't load Backend module data");
+            $logger->debug("Storable.pm is not available, can't load Backend module data");
             return;
         }
     }
@@ -466,7 +466,7 @@ sub saveStorage {
     if (!exists &store) {
         eval "use Storable;";
         if ($@) {
-            $logger->debug("Storable.pm is not avalaible, can't save Backend module data");
+            $logger->debug("Storable.pm is not available, can't save Backend module data");
             return;
         }
     }

@@ -5,7 +5,7 @@ sub isInventoryEnabled {
     -f "/etc/redhat-release"
       &&
     !readlink ("/etc/redhat-release")
-      && !
+      &&
     !-f "/etc/vmware-release"
 }
 
