@@ -87,8 +87,6 @@ sub init {
             });
     }
 
-    print Dumper($self);
-
 }
 
 sub getNext {
