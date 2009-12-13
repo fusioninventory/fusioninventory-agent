@@ -93,6 +93,7 @@ sub getNext {
     my ($self) = @_;
 
     my $config = $self->{'config'};
+    my $logger = $self->{'logger'};
 
     if ($config->{'daemon'}) {
         while (1) {
@@ -103,8 +104,14 @@ sub getNext {
             }
             sleep(10);
         }
-    } elsif ($config->{'wait'}) {
-        # TODO
+    } elsif ($config->{'lazy'}) {
+        my $target = shift @{$self->{targets}};
+        if (time > $target->getNextRunDate()) {
+            $logger->debug("Processing ".$target->{'path'});
+            return $target;
+        } else {
+            $logger->debug("Nothing to do for ".$target->{'path'});
+        }
     } else {
         return shift @{$self->{targets}}
     }
