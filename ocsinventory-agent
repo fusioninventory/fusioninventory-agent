@@ -76,7 +76,7 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
     % ocsinventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
     # send a report to a server protected by a basic authentification
     % ocsinventory-agent --lazy
-    # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Useful for package maintainer.
+    # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over.
 
     % ocsinventory-agent --delaytime 60 -d
     # If NO PROLOG_FREQ has been preset, pick a time between execution and --delaytime for the agent to contact the server [default is 3600 seconds]
@@ -159,7 +159,9 @@ Turn the verbose mode on. The flag is ignored if B<--debug> is enable.
 
 =item B<--lazy>
 
-Do not contact the server more than one time during the PROLOG_FREQ. This option is useful for package. Thanks to it they can start the script regulary from the crontab.
+Do not contact the server more than one time during the PROLOG_FREQ and do
+an exit if there is nothing to do. Useful if you want to start the agent
+script regulary from the crontab but don't want to overload the server.
 
 =item B<-l>, B<--local>=I<DIR>
 
