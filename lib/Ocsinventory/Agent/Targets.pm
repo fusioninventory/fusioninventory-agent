@@ -92,10 +92,21 @@ sub init {
 sub getNext {
     my ($self) = @_;
 
-    foreach my $target (@{$self->{targets}}) {
-        if (time > $target->getNextRunDate()) {
-            return $target;
+    my $config = $self->{'config'};
+
+    if ($config->{'daemon'}) {
+        while (1) {
+            foreach my $target (@{$self->{targets}}) {
+                if (time > $target->getNextRunDate()) {
+                    return $target;
+                }
+            }
+            sleep(10);
         }
+    } elsif ($config->{'wait'}) {
+        # TODO
+    } else {
+        return shift @{$self->{targets}}
     }
 
     return;
