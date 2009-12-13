@@ -1,6 +1,11 @@
 package Ocsinventory::Agent::Target;
 
+use Ocsinventory::Agent::AccountConfig;
 use File::Path;
+use Sys::Hostname;
+
+use strict;
+use warnings;
 
 sub new {
     my (undef, $params) = @_;
@@ -13,7 +18,7 @@ sub new {
     $self->{'path'} = $params->{'path'};
 
     my $logger = $self->{'logger'};
-
+    my $config = $self->{'config'};
 
 
     bless $self;
@@ -27,6 +32,30 @@ sub new {
     if (!-d $self->{'vardir'}) {
         $logger->fault("Bad vardir setting!");
     }
+
+
+    $self->{accountconfig} = new Ocsinventory::Agent::AccountConfig({
+
+            logger => $logger,
+            config => $config,
+
+        });
+
+    my $accountconfig = $self->{accountconfig};
+
+    my $hostname = hostname; # Sys::Hostname
+    if ((!$config->{deviceid}) || $config->{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
+        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
+            (time))[5,4,3,2,1,0];
+        $config->{old_deviceid} = $config->{deviceid};
+        $config->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+        $accountconfig->set('DEVICEID',$config->{deviceid});
+        $accountconfig->write();
+    }
+
+
+
 
     return $self;
 }
@@ -45,9 +74,11 @@ sub isDirectoryWritable {
 
 
 
+# TODO refactoring needed here.
 sub init {
     my ($self) = @_;
 
+    my $config = $self->{'config'};
     my $logger = $self->{'logger'};
 
 # The agent can contact different servers. Each server accountconfig is
@@ -103,6 +134,33 @@ sub init {
 
 
 }
+
+
+sub getNextRunDate {
+    my ($self) = @_;
+
+    my $accountconfig = $self->{accountconfig};
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    return $self->{'nextRunDate'} if $self->{'nextRunDate'};
+
+    # No nextRunDate, Need to compute nextRunDate
+
+    my $prologFreq = $accountconfig->get('PROLOG_FREQ');
+    if ($prologFreq) {
+        my $serverdelay = $prologFreq*3600;
+        $self->{'nextRunDate'} = time + int rand($serverdelay);
+    } else {
+        $self->{'nextRunDate'} = time + int rand($config->{delaytime});
+    }
+    $logger->info("nextRunDate: ".$self->{'nextRunDate'});
+
+    return $self->{'nextRunDate'};
+
+
+}
+
 
 
 1;

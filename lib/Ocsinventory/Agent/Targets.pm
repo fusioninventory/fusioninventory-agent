@@ -92,9 +92,13 @@ sub init {
 sub getNext {
     my ($self) = @_;
 
-    return shift (@{$self->{targets}});
+    foreach my $target (@{$self->{targets}}) {
+        if (time > $target->getNextRunDate()) {
+            return $target;
+        }
+    }
 
-
+    return;
 }
 
 1;
