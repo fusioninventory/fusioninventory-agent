@@ -8,6 +8,9 @@ Revision history for Ocsinventory::Agent
        * Various wording fixes (Vincent KNECHT)
        * Improve README (Barius DRUBECK)
        * Get serial number from ext4 partition if ext4dev driver is used
+       * LP: #494908 Agent fails to retrieve info file when a package is
+         activated only on the server name (Pascal DANEK)
+       * LP: #495398 Fix RedHat version detection (Stéphane URBANOVSKI)
 
 1.1     Fri, 06 Nov 2009 16:07:08 +0100
        * addMemorie() renamed to addMemories(), this had been broken during
