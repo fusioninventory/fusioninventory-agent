@@ -241,12 +241,12 @@ sub main {
             # TODO Don't mix settings and temp value
             $prologresp = $network->send({message => $prolog});
 
+            if (!$prologresp) {
+                $logger->error("No anwser from the server");
+                next;
+            }
         }
 
-        if (!$prologresp) {
-            $logger->error("No anwser from the server");
-            next;
-        }
     
         my $storage = new Ocsinventory::Agent::Storage({
 
