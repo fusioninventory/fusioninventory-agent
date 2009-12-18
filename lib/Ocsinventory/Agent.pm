@@ -34,10 +34,8 @@ use Ocsinventory::Agent::XML::Prolog;
 
 use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Task::Inventory;
-#use Ocsinventory::Agent::AccountConfig;
 use Ocsinventory::Agent::AccountInfo;
 use Ocsinventory::Agent::Storage;
-#use Ocsinventory::Agent::Pid;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Agent::RPC;
 use Ocsinventory::Agent::Targets;
@@ -85,30 +83,6 @@ sub new {
             config => $config,           
             
         });
-
-# load CFG files
-#    my $accountconfig = $self->{accountconfig} = new Ocsinventory::Agent::AccountConfig({
-#
-#            logger => $logger,
-#            config => $config,
-#
-#        });
-
-#    my $srv = $accountconfig->get('OCSFSERVER');
-#    $config->{server} = $srv if $srv;
-#    $config->{deviceid}   = $accountconfig->get('DEVICEID');
-
-# Should I create a new deviceID?
-#    my $hostname = hostname; # Sys::Hostname
-#    if ((!$config->{deviceid}) || $config->{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
-#        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
-#            (time))[5,4,3,2,1,0];
-#        $config->{old_deviceid} = $config->{deviceid};
-#        $config->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-#        $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
-#        $accountconfig->set('DEVICEID',$config->{deviceid});
-#        $accountconfig->write();
-#    }
 
     my $accountinfo = $self->{accountinfo} = new Ocsinventory::Agent::AccountInfo({
             logger => $logger,
@@ -201,20 +175,6 @@ sub main {
 
         my $exitcode = 0;
         my $wait;
-#        if ($config->{daemon} || $config->{wait}) {
-#            my $serverdelay;
-#            if(($config->{wait} eq 'server') || ($config->{wait}!~/^\d+$/)){
-#                $serverdelay = $accountconfig->get('PROLOG_FREQ')*3600;
-#            }
-#            else{
-#                $serverdelay = $config->{wait};
-#            }
-#            $wait = int rand($serverdelay?$serverdelay:$config->{delaytime});
-#            $logger->info("Going to sleep for $wait second(s)");
-#            sleep ($wait);
-#
-#        }
-#
 
         my $prologresp;
         if (!$target->{local}) {
@@ -228,8 +188,6 @@ sub main {
 
                 });
 
-#        my $sendInventory = 1;
-#        if (!$config->{force}) {
             my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
                     accountinfo => $accountinfo, #? XXX
