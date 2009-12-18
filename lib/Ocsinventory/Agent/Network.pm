@@ -15,21 +15,23 @@ sub new {
   
   $self->{accountconfig} = $params->{accountconfig}; 
   $self->{accountinfo} = $params->{accountinfo}; 
+
+  my $config = $self->{config} = $params->{config};
   my $logger = $self->{logger} = $params->{logger};
-  $self->{config} = $params->{config};
+  my $target = $self->{target} = $params->{target};
+  
+  $logger->fault('$target not initialised') unless $target;
+  $logger->fault('$config not initialised') unless $config;
+
   my $uaserver;
-  if ($self->{config}->{server} =~ /^http(|s):\/\//) {
-      $self->{URI} = $self->{config}->{server};
-      $uaserver = $self->{config}->{server};
+  if ($target->{path} =~ /^http(|s):\/\//) {
+      $uaserver = $self->{URI} = $target->{path};
       $uaserver =~ s/^http(|s):\/\///;
       $uaserver =~ s/\/.*//;
       if ($uaserver !~ /:\d+$/) {
           $uaserver .= ':443' if $self->{config}->{server} =~ /^https:/;
           $uaserver .= ':80' if $self->{config}->{server} =~ /^http:/;
       }
-  } else {
-      $self->{URI} = "http://".$self->{config}->{server}.$self->{config}->{remotedir};
-      $uaserver = $self->{config}->{server};
   }
 
 

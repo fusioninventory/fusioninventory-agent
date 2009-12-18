@@ -217,13 +217,14 @@ sub main {
 #
 
         my $prologresp;
-        if (!$config->{local}) {
+        if (!$target->{local}) {
             my $network = new Ocsinventory::Agent::Network ({
 
                     accountconfig => $target->{'accountconfig'},
                     accountinfo => $accountinfo, #? XXX
                     logger => $logger,
                     config => $config,
+                    target => $target,
 
                 });
 
@@ -240,6 +241,11 @@ sub main {
             # TODO Don't mix settings and temp value
             $prologresp = $network->send({message => $prolog});
 
+        }
+
+        if (!$prologresp) {
+            $logger->error("No anwser from the server");
+            next;
         }
     
         my $storage = new Ocsinventory::Agent::Storage({

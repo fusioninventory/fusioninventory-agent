@@ -89,6 +89,7 @@ sub main {
 
               logger => $logger,
               config => $config,
+              target => $target,
 
           });
 
