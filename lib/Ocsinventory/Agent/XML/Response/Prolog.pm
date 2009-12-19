@@ -13,7 +13,7 @@ sub new {
 
     bless ($self, $class);
     $self->updatePrologFreq();
-    $self->saveNextTime();
+    $self->saveNextRunTime();
 
     return $self;
 }
@@ -62,7 +62,7 @@ sub updatePrologFreq {
 }
 
 
-sub saveNextTime {
+sub saveNextRunTime {
     my ($self, $args) = @_;
 
     my $config = $self->{config};
