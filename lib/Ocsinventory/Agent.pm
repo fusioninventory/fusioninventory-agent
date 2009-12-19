@@ -90,17 +90,6 @@ sub new {
             config => $config,
         });
 
-# --lazy
-    if ($config->{lazy}) {
-        my $nexttime = (stat($config->{next_timefile}))[9];
-
-        if ($nexttime && $nexttime > time) {
-            $logger->info("[Lazy] Must wait until ".localtime($nexttime)." exiting...");
-            exit 0;
-        }
-    }
-
-
     if ($config->{tag}) {
         if ($accountinfo->get("TAG")) {
             $logger->debug("A TAG seems to already exist in the server for this ".

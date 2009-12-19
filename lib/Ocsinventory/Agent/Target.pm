@@ -41,6 +41,17 @@ sub new {
 
         });
 
+    $self->{storage} = new Ocsinventory::Agent::Storage({
+            target => $self
+        });
+
+
+    if ($self->{'type'} eq 'server') {
+        my $storage = $self->{storage};
+        $self->{myData} = $storage->restore();
+    }
+
+
     my $accountconfig = $self->{accountconfig};
 
     my $hostname = hostname; # Sys::Hostname
@@ -53,8 +64,6 @@ sub new {
         $accountconfig->set('DEVICEID',$config->{deviceid});
         $accountconfig->write();
     }
-
-
 
 
     return $self;
@@ -129,12 +138,41 @@ sub init {
         $self->{accountconfig} = $self->{vardir}."/ocsinv.conf";
         $self->{accountinfofile} = $self->{vardir}."/ocsinv.adm";
         $self->{last_statefile} = $self->{vardir}."/last_state";
-        $self->{next_timefile} = $self->{vardir}."/next_timefile";
     }
 
 
 }
 
+
+sub setNextRunDate {
+
+    my ($self, $args) = @_;
+
+    my $accountconfig = $self->{accountconfig};
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $storage = $self->{storage};
+
+    my $serverdelay = $accountconfig->get('PROLOG_FREQ');
+
+    my $time;
+    if( $self->{prologFreqChanged} ){
+        $logger->debug("Compute next_time file with random value");
+        $time  = time + int rand(($serverdelay?$serverdelay:$config->{delaytime})*3600);
+    }
+    else{
+        $time = time + ($serverdelay?$serverdelay:$config->{delaytime})*3600;
+    }
+
+    $self->{'myData'}{'nextRunDate'}=$time;
+    $storage->save($self->{'myData'});
+
+    if ($self->{config}->{cron}) {
+        $logger->info ("Next inventory after ".localtime($time));
+    }
+
+
+}
 
 sub getNextRunDate {
     my ($self) = @_;
@@ -143,21 +181,18 @@ sub getNextRunDate {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    return $self->{'nextRunDate'} if $self->{'nextRunDate'};
+    # Only for server mode
+    return 1 if $self->{'type'} ne 'server';
 
-    # No nextRunDate, Need to compute nextRunDate
+    return $self->{'myData'}{'nextRunDate'} if $self->{'myData'}{'nextRunDate'};
 
-    my $prologFreq = $accountconfig->get('PROLOG_FREQ');
-    if ($prologFreq) {
-        my $serverdelay = $prologFreq*3600;
-        $self->{'nextRunDate'} = time + int rand($serverdelay);
-    } else {
-        $self->{'nextRunDate'} = time + int rand($config->{delaytime});
+    $self->setNextRunDate();
+
+    if (!$self->{'myData'}{'nextRunDate'}) {
+        fault('nextRunDate not set!');
     }
-    $logger->info("nextRunDate: ".$self->{'nextRunDate'});
 
-    return $self->{'nextRunDate'};
-
+    return $self->{'myData'}{'nextRunDate'} ;
 
 }
 

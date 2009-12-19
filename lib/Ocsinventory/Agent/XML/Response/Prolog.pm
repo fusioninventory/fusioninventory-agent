@@ -13,7 +13,6 @@ sub new {
 
     bless ($self, $class);
     $self->updatePrologFreq();
-    $self->{target}->setNextRunDate();
 
     return $self;
 }
@@ -46,13 +45,16 @@ sub getOptionsInfoByName {
 }
 
 sub updatePrologFreq {
-    my $self = shift;
+    my ($self) = @_;
+
+    my $target = $self->{target};
+
     my $parsedContent = $self->getParsedContent();
      my $logger = $self->{logger};
     if ($parsedContent && exists ($parsedContent->{PROLOG_FREQ})) {
         if( $parsedContent->{PROLOG_FREQ} ne $self->{accountconfig}->get("PROLOG_FREQ")){
              $logger->info("PROLOG_FREQ has changed since last process(old=".$self->{accountconfig}->get("PROLOG_FREQ").",new=".$parsedContent->{PROLOG_FREQ}.")");
-             $self->{prologFreqChanged} = 1;
+             $target->setNextRunDate();
              $self->{accountconfig}->set("PROLOG_FREQ", $parsedContent->{PROLOG_FREQ});
         }
         else{
