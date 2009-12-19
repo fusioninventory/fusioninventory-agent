@@ -5,12 +5,20 @@ use HTTP::Daemon;
 use threads;
 
 sub new {
+    my (undef, $params) = @_;
 
     my $self = {};
 
+    $self->{config} = $params->{config};
+    
+    my $config = $self->{config};
+
+
     bless $self;
 
-    $self->{thr} = threads->create('server', $self);
+    if ($self->{deamon}) {
+        $self->{thr} = threads->create('server', $self);
+    }
 
 
     return $self;
