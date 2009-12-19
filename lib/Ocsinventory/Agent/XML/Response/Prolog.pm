@@ -65,17 +65,19 @@ sub updatePrologFreq {
 sub saveNextTime {
     my ($self, $args) = @_;
 
+    my $config = $self->{config};
     my $logger = $self->{logger};
+    my $target = $self->{target};
 
-    if (!$self->{config}->{next_timefile}) {
+    if (!$target->{next_timefile}) {
         $logger->debug("no next_timefile to save!");
-	return;
+        return;
     }
 
     my $parsedContent = $self->getParsedContent();
 
-    if (!open NEXT_TIME, ">".$self->{config}->{next_timefile}) {
-        $logger->error ("Cannot create the next_timefile `".$self->{config}->{next_timefile}."': $!");
+    if (!open NEXT_TIME, ">".$target->{next_timefile}) {
+        $logger->error ("Cannot create the next_timefile `".$target->{next_timefile}."': $!");
         return;
     }
     close NEXT_TIME or warn;
@@ -85,12 +87,12 @@ sub saveNextTime {
     my $time;
     if( $self->{prologFreqChanged} ){
         $logger->debug("Compute next_time file with random value");
-        $time  = time + int rand(($serverdelay?$serverdelay:$self->{config}->{delaytime})*3600);
+        $time  = time + int rand(($serverdelay?$serverdelay:$config->{delaytime})*3600);
     }
     else{
-        $time = time + ($serverdelay?$serverdelay:$self->{config}->{delaytime})*3600;
+        $time = time + ($serverdelay?$serverdelay:$config->{delaytime})*3600;
     }
-    utime $time,$time,$self->{config}->{next_timefile};
+    utime $time,$time,$target->{next_timefile};
     
     if ($self->{config}->{cron}) {
         $logger->info ("Next inventory after ".localtime($time));

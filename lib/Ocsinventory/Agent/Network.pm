@@ -63,6 +63,8 @@ sub send {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
+  my $target = $self->{target};
+  
   my $compress = $self->{compress};
   my $message = $args->{message};
   my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
@@ -131,6 +133,7 @@ sub send {
      content => $content,
      logger => $logger,
      origmsg => $message,
+     target => $target,
      config => $self->{config}
 
       });
