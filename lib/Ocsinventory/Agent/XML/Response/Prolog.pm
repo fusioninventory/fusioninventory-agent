@@ -13,7 +13,7 @@ sub new {
 
     bless ($self, $class);
     $self->updatePrologFreq();
-    $self->{target}->saveNextRunTime();
+    $self->{target}->setNextRunDate();
 
     return $self;
 }
