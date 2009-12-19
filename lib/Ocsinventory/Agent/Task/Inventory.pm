@@ -73,14 +73,7 @@ sub main {
       $self->{inventory}->writeXML();
   } elsif ($config->{server}) {
 
-      my $accountinfo = $self->{accountinfo} = new
-      Ocsinventory::Agent::AccountInfo({
-
-              logger => $logger,
-              config => $config,
-
-          });
-
+      my $accountinfo = $target->{accountinfo};
 
       # Put ACCOUNTINFO values in the inventory
       $accountinfo->setAccountInfo($self->{inventory});

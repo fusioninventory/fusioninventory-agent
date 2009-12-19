@@ -11,8 +11,10 @@ sub new {
 
     $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
+    $self->{target} = $params->{target};
 
-    my $logger = $self->{logger} = $params->{logger};
+    my $logger = $self->{logger};
+    my $target = $self->{target};
 
 
     if ($self->{config}->{accountinfofile}) {
@@ -110,6 +112,7 @@ sub write {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
+    my $target = $self->{target};
 
     my $tmp;
     $tmp->{ACCOUNTINFO} = [];
@@ -122,8 +125,7 @@ sub write {
     my $xml=XML::Simple::XMLout( $tmp, RootName => 'ADM' );
 
     my $fault;
-    if (!open ADM, ">".$self->{config}->{accountinfofile}) {
-
+    if (!open ADM, ">".$target->{accountinfofile}) {
         $fault = 1;
 
     } else {

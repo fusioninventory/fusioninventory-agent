@@ -17,8 +17,9 @@ sub new {
     $self->{'type'} = $params->{'type'};
     $self->{'path'} = $params->{'path'};
 
-    my $logger = $self->{'logger'};
     my $config = $self->{'config'};
+    my $logger = $self->{'logger'};
+    my $target = $self->{'target'};
 
 
     bless $self;
@@ -41,12 +42,35 @@ sub new {
 
         });
 
+
+
+
     $self->{storage} = new Ocsinventory::Agent::Storage({
             target => $self
         });
 
 
     if ($self->{'type'} eq 'server') {
+
+        $self->{accountinfo} = new Ocsinventory::Agent::AccountInfo({
+
+                logger => $logger,
+                config => $config,
+                target => $self,
+
+            });
+    
+        my $accountinfo = $self->{accountinfo};
+
+        if ($config->{tag}) {
+            if ($accountinfo->get("TAG")) {
+                $logger->debug("A TAG seems to already exist in the server for this ".
+                    "machine. The -t paramter may be ignored by the server unless it ".
+                    "has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
+            }
+            $accountinfo->set("TAG",$config->{tag});
+        }
+
         my $storage = $self->{storage};
         $self->{myData} = $storage->restore();
     }

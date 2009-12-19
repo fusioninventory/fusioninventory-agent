@@ -128,8 +128,8 @@ sub send {
   $tmp->import();
   my $response = $tmp->new ({
 
-     accountconfig => $self->{accountconfig},
-     accountinfo => $self->{accountinfo},
+     accountconfig => $target->{accountconfig},
+     accountinfo => $target->{accountinfo},
      content => $content,
      logger => $logger,
      origmsg => $message,

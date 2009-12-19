@@ -84,21 +84,6 @@ sub new {
             
         });
 
-    my $accountinfo = $self->{accountinfo} = new Ocsinventory::Agent::AccountInfo({
-            logger => $logger,
-            # TODOparams => $params,
-            config => $config,
-        });
-
-    if ($config->{tag}) {
-        if ($accountinfo->get("TAG")) {
-            $logger->debug("A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server unless it ".
-                "has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
-        }
-        $accountinfo->set("TAG",$config->{tag});
-    }
-
     if ($config->{daemon}) {
 
         $logger->debug("Time to call Proc::Daemon");
@@ -146,8 +131,6 @@ sub main {
 
 # Load setting from the config file
     my $config = $self->{config};
-    my $accountinfo = $self->{accountinfo};
-#    my $accountconfig = $self->{accountconfig};
     my $logger = $self->{logger};
     my $targets = $self->{targets};
 
@@ -167,10 +150,9 @@ sub main {
 
         my $prologresp;
         if (!$target->{local}) {
+
             my $network = new Ocsinventory::Agent::Network ({
 
-                    accountconfig => $target->{'accountconfig'},
-                    accountinfo => $accountinfo, #? XXX
                     logger => $logger,
                     config => $config,
                     target => $target,
@@ -179,7 +161,7 @@ sub main {
 
             my $prolog = new Ocsinventory::Agent::XML::Prolog({
 
-                    accountinfo => $accountinfo, #? XXX
+                    accountinfo => $target->{accountinfo}, #? XXX
                     logger => $logger,
                     config => $config,
 
