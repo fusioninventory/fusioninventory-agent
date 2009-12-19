@@ -13,7 +13,7 @@ sub new {
 
     bless ($self, $class);
     $self->updatePrologFreq();
-    $self->saveNextRunTime();
+    $self->{target}->saveNextRunTime();
 
     return $self;
 }
@@ -58,44 +58,6 @@ sub updatePrologFreq {
         else{
             $logger->debug("PROLOG_FREQ has not changed since last process");
         }
-    }
-}
-
-
-sub saveNextRunTime {
-    my ($self, $args) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-
-    if (!$target->{next_timefile}) {
-        $logger->debug("no next_timefile to save!");
-        return;
-    }
-
-    my $parsedContent = $self->getParsedContent();
-
-    if (!open NEXT_TIME, ">".$target->{next_timefile}) {
-        $logger->error ("Cannot create the next_timefile `".$target->{next_timefile}."': $!");
-        return;
-    }
-    close NEXT_TIME or warn;
-
-    my $serverdelay = $self->{accountconfig}->get('PROLOG_FREQ');
-
-    my $time;
-    if( $self->{prologFreqChanged} ){
-        $logger->debug("Compute next_time file with random value");
-        $time  = time + int rand(($serverdelay?$serverdelay:$config->{delaytime})*3600);
-    }
-    else{
-        $time = time + ($serverdelay?$serverdelay:$config->{delaytime})*3600;
-    }
-    utime $time,$time,$target->{next_timefile};
-    
-    if ($self->{config}->{cron}) {
-        $logger->info ("Next inventory after ".localtime($time));
     }
 }
 
