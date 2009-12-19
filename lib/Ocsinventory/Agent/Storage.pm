@@ -30,7 +30,7 @@ sub save {
     $tmp =~ s/::/-/g; # Drop the ::
     # They are forbiden on Windows in file path
     my $file = $target->{'vardir'}."/".$tmp.".dump";
-	print "SAVE CONFIG IN:". $file."\n";
+	print "[storage]save data in:". $file."\n";
 
 	store ($data, $file) or die;
 
@@ -45,7 +45,7 @@ sub restore {
     my $target = $self->{target};
 
     my $file = $target->{'vardir'}."/$tmp.dump";
-	print "RESTORE CONFIG FROM: $file\n";
+	print "[storage]restore data from: $file\n";
     if (-f $file) {
         return retrieve($file);
     }
