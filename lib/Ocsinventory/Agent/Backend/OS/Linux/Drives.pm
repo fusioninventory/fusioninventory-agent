@@ -79,7 +79,7 @@ sub run {
       next if ($filesystem =~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/);
       next if ($type =~ /^(tmpfs)$/);
 
-      if ($filesystem =~ /^ext(2|3|4)/ && can_run('dumpe2fs')) {
+      if ($filesystem =~ /^ext(2|3|4|4dev)/ && can_run('dumpe2fs')) {
         foreach (`dumpe2fs -h $volumn 2> /dev/null`) {
           if (/Filesystem UUID:\s+(\S+)/) {
             $serial = $1;
