@@ -42,7 +42,12 @@ sub run {
       $current = {};
     }
   }
-
+  if (/^\s*$/) {
+      if ($current->{TYPE}) {
+          push @cpus, $current;
+      }
+      $current = {};
+  }
 
   foreach my $cpu (@cpus) {
     $cpu->{MANUFACTURER} = 'IBM' if $isIBM;
