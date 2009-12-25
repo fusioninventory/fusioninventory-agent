@@ -145,7 +145,7 @@ sub loadUserParams {
 		"allow-rpc"       =>   \$config->{allowRpc},
 	);
 
-	help() if (!GetOptions(%options) || $config->{help});
+	help($config) if (!GetOptions(%options) || $config->{help});
 	version() if $config->{version};
 
 }
