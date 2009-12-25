@@ -50,7 +50,7 @@ sub check {
       return 1; 
   }
   if ( can_run ("dmidecode") ) { # 2.6 and under haven't -t parameter   
-    if ( `dmidecode -V` >= 2.7 ) {
+    if ( `dmidecode -V 2>/dev/null` >= 2.7 ) {
       return 1;
     }
   } 
