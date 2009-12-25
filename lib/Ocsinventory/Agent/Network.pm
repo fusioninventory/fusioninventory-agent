@@ -32,6 +32,8 @@ sub new {
           $uaserver .= ':443' if $self->{config}->{server} =~ /^https:/;
           $uaserver .= ':80' if $self->{config}->{server} =~ /^http:/;
       }
+  } else {
+    $logger->fault("Failed to parse URI: ".$target->{path});
   }
 
 
