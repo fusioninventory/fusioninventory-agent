@@ -144,8 +144,10 @@ This option defaults to waiting a random() time between 0 and 3600 before initia
 
 =item B<-f>, B<--force>
 
-The agent will first contact the server during the PROLOG period. If the server doesn't know the machine or has outdated informations, it will ask for an inventory.
-With this option, the agent doesn't run the PROLOG with the server first but directly sends an inventory.
+The agent ask first the server if it should send an inventoroy of the
+machine. If the server doesn't know the machine or has outdated
+informations, it will request it.
+With this option, the agent ignore the server anwser and send an inventory.
 
 =item B<--allow-rpc>
 
