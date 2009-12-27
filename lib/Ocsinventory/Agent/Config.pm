@@ -204,7 +204,7 @@ sub help {
   print STDERR "\t--noinventory       Do not generate inventory (".$config->{noinventory}.")\n";
   print STDERR "\t--nosoft            DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware        do not return installed software list (".$config->{nosoftware}.")\n";
-  print STDERR "\t--delaytime	        set a max delay time if no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
+  print STDERR "\t--delaytime	      set a max delay time if no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
   print STDERR "\t--scan-homedirs     permit to scan home user directories (".$config->{scanhomedirs}.")\n" ;
 
   print STDERR "\n";
