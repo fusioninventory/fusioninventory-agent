@@ -2,8 +2,7 @@ Revision history for Ocsinventory::Agent
 
 futur
        * Use Sys::Hostname instead of uname for better portability
-
-newdeploy
+       * add --daemon-no-fork
        * post-install.pl: Don't ask the user if Download.pm should be
          enabled
        * Drop the linux_agent modules compatibility layer

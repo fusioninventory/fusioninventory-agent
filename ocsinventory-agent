@@ -128,7 +128,11 @@ Indicate the place where the agent should store its files.
 
 =item B<-d>, B<--daemon>
 
-Launch ocsinventory-agent in background. Proc::Daemon is needed.
+Launch ocsinventory-agent as daemon in background. Proc::Daemon is needed.
+
+=item B<-D>, B<--daemon-no-fork>
+
+Launch ocsinventory-agent in daemon but do fork in background.
 
 =item B<--debug>
 
@@ -149,11 +153,11 @@ machine. If the server doesn't know the machine or has outdated
 informations, it will request it.
 With this option, the agent ignore the server anwser and send an inventory.
 
-=item B<--allow-rpc>
+=item B<--no-socket>
 
-Turns on the built in light HTTPD server. It's used to speed the software
-deployment up and allow remote control over the agent. This option enables
-B<--daemon>.
+In daemon mode, a socket is open to allow remote control of the agent. This
+socket is used for the peer to peer software deployment.
+b<--no-socket> turns it off.
 
 =item B<-i>, B<--info>
 

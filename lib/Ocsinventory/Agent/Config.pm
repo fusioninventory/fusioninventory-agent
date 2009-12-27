@@ -14,6 +14,7 @@ if ($^O =~ /^MSWin/) {
 
 my $default = {
   'daemon'    =>  0,
+  'daemonNoFork'    =>  0,
   'debug'     =>  0,
   'devlib'    =>  0,
   'force'     =>  0,
@@ -116,6 +117,7 @@ sub loadUserParams {
 		"backend-collect-timeout=s"  =>   \$config->{backendCollectTimeout},
 		"basevardir=s"    =>   \$config->{basevardir},
 		"d|daemon"        =>   \$config->{daemon},
+		"D|daemon-no-fork"=>   \$config->{daemonNoFork},
 		"debug"           =>   \$config->{debug},
 		"devlib"          =>   \$config->{devlib},
 		"f|force"         =>   \$config->{force},
@@ -142,7 +144,7 @@ sub loadUserParams {
 #  "x|xml"          =>   \$config->{xml},
 		"delaytime"       =>   \$config->{delaytime},
 		"scan-homedirs"   =>   \$config->{scanhomedirs},
-		"allow-rpc"       =>   \$config->{allowRpc},
+		"no-socket"       =>   \$config->{noSocket},
 	);
 
 	help($config) if (!GetOptions(%options) || $config->{help});
@@ -168,11 +170,12 @@ sub help {
   print STDERR "\t--backend-collect-timeout set a max delay time of one action (search package id, ...) is set (".$config->{backendCollectTimeout}.")\n";
   print STDERR "\t--basevardir=/path  indicate the directory where should the agent store its files (".$config->{basevardir}.")\n";
   print STDERR "\t-d  --daemon        detach the agent in background (".$config->{daemon}.")\n";
+  print STDERR "\t-D  --daemon-no-fork detach the agent in background (".$config->{daemon}.")\n";
   print STDERR "\t    --debug         debug mode (".$config->{debug}.")\n";
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$config->{info}.")\n";
-  print STDERR "\t   --allow-rpc      allow remote connexion (".$config->{allowRpc}.")\n";
+  print STDERR "\t   --no-socket      allow remote connexion (".$config->{noSocket}.")\n";
   print STDERR "\t--lazy              do not contact the server more than one time during the PROLOG_FREQ (".$config->{lazy}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
   "inventory in DIR directory in XML (".$config->{local}.")\n";
