@@ -3,6 +3,7 @@ Revision history for Ocsinventory::Agent
 1.1.2    Sun, 27 Dec 2009 17:24:43 +0100
        * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)
        * Fix internal --delaytime handling. That's seconds, not hours!
+       * Download.pm: improve a error message
 
 1.1.1    Mon, 21 Dec 2009 22:38:12 +0100
        * NETWORKS/VIRTUALDEV should be 1 or 0
