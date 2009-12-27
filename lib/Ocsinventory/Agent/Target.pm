@@ -23,7 +23,9 @@ sub new {
 
 
     bless $self;
-
+   
+    $self->{debugPrintTimer} = 0;
+    
     $self->init();
 
     if ($params->{'type'} !~ /^(server|local|stdout)$/ ) {
@@ -191,11 +193,6 @@ sub setNextRunDate {
     $self->{'myData'}{'nextRunDate'}=$time;
     $storage->save($self->{'myData'});
 
-    if ($self->{config}->{cron}) {
-        $logger->info ("Next inventory after ".localtime($time));
-    }
-
-
 }
 
 sub getNextRunDate {
@@ -208,7 +205,20 @@ sub getNextRunDate {
     # Only for server mode
     return 1 if $self->{'type'} ne 'server';
 
-    return $self->{'myData'}{'nextRunDate'} if $self->{'myData'}{'nextRunDate'};
+
+    if ($self->{'myData'}{'nextRunDate'}) {
+      
+        if ($self->{debugPrintTimer} < time) {
+            $logger->debug (
+                "[".$self->{'path'}."]".
+                " Next inventory after ".
+                localtime($self->{'myData'}{'nextRunDate'})
+            );
+            $self->{debugPrintTimer} = time + 600;
+        }; 
+
+        return $self->{'myData'}{'nextRunDate'};
+    }
 
     $self->setNextRunDate();
 
