@@ -95,7 +95,7 @@ sub getNext {
     my $config = $self->{'config'};
     my $logger = $self->{'logger'};
 
-    if ($config->{'daemon'}) {
+    if ($config->{'daemon'} or $config->{'daemonNoFork'}) {
         while (1) {
             foreach my $target (@{$self->{targets}}) {
                 if (time > $target->getNextRunDate()) {
