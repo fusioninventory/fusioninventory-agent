@@ -184,10 +184,10 @@ sub setNextRunDate {
     my $time;
     if( $self->{prologFreqChanged} ){
         $logger->debug("Compute next_time file with random value");
-        $time  = time + int rand(($serverdelay?$serverdelay:$config->{delaytime})*3600);
+        $time  = time + int rand(($serverdelay?$serverdelay*3600:$config->{delaytime}));
     }
     else{
-        $time = time + ($serverdelay?$serverdelay:$config->{delaytime})*3600;
+        $time = time + ($serverdelay?$serverdelay*3600:$config->{delaytime});
     }
 
     $self->{'myData'}{'nextRunDate'}=$time;

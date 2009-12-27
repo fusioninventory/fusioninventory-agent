@@ -12,16 +12,24 @@ futur
           longRun()  → postInventory()
        * Add isPostInventoryEnabled() function
 
-1.1.1
+1.1.2  
+       * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)
+       * Fix internal --delaytime handling. That's seconds, not hours!
+
+1.1.1    Mon, 21 Dec 2009 22:38:12 +0100
        * NETWORKS/VIRTUALDEV should be 1 or 0
        * FreeBSD: Fix CPU detection (David DURIEUX)
        * Virtualization::Qemu, fix kvm detection
        * Don't run brctl if it's not installed
        * Various wording fixes (Vincent KNECHT)
+       * Improve README (Barius DRUBECK)
+       * Get serial number from ext4 partition if ext4dev driver is used
        * LP: #494908 Agent fails to retrieve info file when a package is
-         activated only on the server name (Pascal DANEK)
+         activated only with the server name (Pascal DANEK)
        * LP: #495398 Fix RedHat version detection (Stéphane URBANOVSKI)
        * Improve README (Barius DRUBECK)
+       * LP: #490774 Fix PowerPC CPU detection on Linux, thanks darkpep for
+         the bug report
 
 1.1     Fri, 06 Nov 2009 16:07:08 +0100
        * addMemorie() renamed to addMemories(), this had been broken during
