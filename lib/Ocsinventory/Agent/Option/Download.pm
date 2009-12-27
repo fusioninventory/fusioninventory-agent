@@ -104,7 +104,8 @@ sub download_prolog_reader{
 				# Type of param
 				if($_->{'TYPE'} eq 'CONF'){
 					# Writing configuration
-					open FH, ">$opt_dir/config" or die("Cannot open/create config file");
+					open FH, ">$opt_dir/config" or die("Cannot open/create
+                        config file ($opt_dir/config)");
 					if(flock(FH, LOCK_EX)){
 						&log("Writing config file.");
 						print FH XMLout($_, RootName => 'CONF');
