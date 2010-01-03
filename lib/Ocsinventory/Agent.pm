@@ -149,7 +149,7 @@ sub main {
         my $wait;
 
         my $prologresp;
-        if (!$target->{type} eq 'local') {
+        if ($target->{type} eq 'server') {
 
             my $network = new Ocsinventory::Agent::Network ({
 
