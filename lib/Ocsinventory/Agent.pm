@@ -174,6 +174,7 @@ sub main {
 
             if (!$prologresp) {
                 $logger->error("No anwser from the server");
+                $target->setNextRunDate();
                 next;
             }
         }

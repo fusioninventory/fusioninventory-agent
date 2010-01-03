@@ -191,6 +191,14 @@ sub setNextRunDate {
     }
 
     $self->{'myData'}{'nextRunDate'}=$time;
+
+    $logger->debug (
+        "[".$self->{'path'}."]".
+        " Next server contact'd just been planned for ".
+        localtime($self->{'myData'}{'nextRunDate'})
+    );
+
+
     $storage->save($self->{'myData'});
 
 }
@@ -211,7 +219,7 @@ sub getNextRunDate {
         if ($self->{debugPrintTimer} < time) {
             $logger->debug (
                 "[".$self->{'path'}."]".
-                " Next inventory after ".
+                " Next server contact planned for ".
                 localtime($self->{'myData'}{'nextRunDate'})
             );
             $self->{debugPrintTimer} = time + 600;
