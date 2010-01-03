@@ -90,7 +90,7 @@ sub main {
         $logger->fault('No vardir in $target');
     }
 
-    $self->{downloadBaseDir} = $self->{'target'}->{'vardir'} . '/download';
+    $self->{downloadBaseDir} = $self->{'target'}->{'vardir'} . '/deploy';
     $self->{runBaseDir}      = $self->{target}->{vardir} . '/run';
     $self->{tmpBaseDir}      = $self->{target}->{vardir} . '/tmp';
 
@@ -362,7 +362,7 @@ sub downloadAndConstruct {
     my $orderId = $params->{orderId};
     my $order   = $myData->{byId}->{$orderId};
 
-    my $downloadBaseDir = $target->{vardir} . '/download';
+    my $downloadBaseDir = $target->{vardir} . '/deploy';
     my $downloadDir     = $downloadBaseDir . '/' . $orderId;
     if ( !-d $downloadDir && !mkpath($downloadDir) ) {
         $logger->error("Failed to create $downloadDir");
