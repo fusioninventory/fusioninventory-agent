@@ -146,6 +146,7 @@ sub loadUserParams {
 		"no-socket"       =>   \$config->{noSocket},
 	);
 
+    Getopt::Long::Configure( "no_ignorecase" );
 	help($config) if (!GetOptions(%options) || $config->{help});
 	version() if $config->{version};
 
@@ -172,7 +173,8 @@ sub help {
   " the agent store its files (".$config->{basevardir}.")\n";
   print STDERR "\t-d  --daemon        detach the agent in background ".
   "(".$config->{daemon}.")\n";
-  print STDERR "\t-D  --daemon-no-fork detach the agent in background (".$config->{daemon}.")\n";
+  print STDERR "\t-D  --daemon-no-fork detach the agent in background
+  (".$config->{daemonNoFork}.")\n";
   print STDERR "\t    --debug         debug mode (".$config->{debug}.")\n";
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
