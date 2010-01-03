@@ -167,7 +167,7 @@ sub help {
   print STDERR "\n";
   print STDERR "Usage:\n";
   print STDERR "\t--backend-collect-timeout set a max delay time of one ".
-  "action (search package id, ...) is set (".$config->{backendCollectTimeout}.")\n";
+  "inventory data collect job (".$config->{backendCollectTimeout}.")\n";
   print STDERR "\t--basevardir=/path  indicate the directory where should".
   " the agent store its files (".$config->{basevardir}.")\n";
   print STDERR "\t-d  --daemon        detach the agent in background ".
