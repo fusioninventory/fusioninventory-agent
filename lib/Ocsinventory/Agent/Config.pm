@@ -3,8 +3,7 @@ package Ocsinventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
-our $VERSION = '1.1.1';
-
+our $VERSION = '1.1.3';
 my $basedir = '';
 
 if ($^O =~ /^MSWin/) {
