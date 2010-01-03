@@ -65,7 +65,7 @@ B<ocsinventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tm
     # write an inventory in the /tmp directory
 
     % ocsinventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
-    # send a report to a server protected by a basic authentification
+    # send a report to a server protected by a basic authentication
     % ocsinventory-agent --lazy
     # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over.
 
@@ -196,7 +196,7 @@ Mark the machine with the I<TAG> tag. Once the initial inventory is accepted by 
 
 =item B<-u> I<USER>, B<--user>=I<USER>
 
-Use I<USER> for the server authentification.
+Use I<USER> for the server authentication.
 
 =item B<--version>=I<USER>
 
