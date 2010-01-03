@@ -2,6 +2,8 @@
 
 package Ocsinventory::Agent;
 
+use English;
+
 use strict;
 use warnings;
 
@@ -200,10 +202,17 @@ sub main {
 
         foreach my $task (@tasks) {
             $logger->debug("[task]start of ".$task);
-            system(
-                "perl -Ilib -MOcsinventory::Agent::Task::".$task.
-                " -e 'Ocsinventory::Agent::Task::".
-                $task."::main();' -- ".$target->{vardir});
+
+
+            my $cmd;
+            $cmd .= $EXECUTABLE_NAME; # The Perl binary path
+            $cmd .= " -Ilib" if $config->{devlib};
+            $cmd .= " -MOcsinventory::Agent::Task::".$task;
+            $cmd .= " -e 'Ocsinventory::Agent::Task::".$task."::main();' --";
+            $cmd .= " ".$target->{vardir};
+
+            system($cmd);
+
             $logger->debug("[task] end of ".$task);
         }
 
