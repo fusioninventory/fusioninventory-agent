@@ -126,13 +126,13 @@ sub init {
         $^O !~ /^MSWin/) {
 
         if (! -d $ENV{HOME}."/.ocsinventory/var") {
-            $logger->info("Failed to create ".$config->{basevardir}." directory: $!. ".
+            $logger->info("Failed to create basevardir: ".$config->{basevardir}." directory: $!. ".
                 "I'm going to use the home directory instead (~/.ocsinventory/var).");
         }
 
         $config->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
         if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
-            $logger->error("Failed to create ".$config->{basedir}." directory: $!".
+            $logger->error("Failed to create basedir: ".$config->{basedir}." directory: $!".
                 "The HOSTID will not be written on the harddrive. You may have duplicated ".
                 "entry of this computer in your OCS database");
         }
@@ -152,7 +152,7 @@ sub init {
     $logger->debug("vardir: ".$self->{vardir});
 
     if (!-d $self->{vardir} && mkpath ($self->{vardir})) {
-        $logger->error("Failed to create ".$self->{vardir}." directory: $!");
+        $logger->error("Failed to create vardir: ".$self->{vardir}." directory: $!");
     }
 
     if (!$self->isDirectoryWritable($self->{vardir})) {
