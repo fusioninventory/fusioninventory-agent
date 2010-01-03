@@ -151,7 +151,7 @@ sub init {
     }
     $logger->debug("vardir: ".$self->{vardir});
 
-    if (!-d $self->{vardir} && mkpath ($self->{vardir})) {
+    if (!-d $self->{vardir} && !mkpath ($self->{vardir})) {
         $logger->error("Failed to create vardir: ".$self->{vardir}." directory: $!");
     }
 
