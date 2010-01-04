@@ -85,6 +85,7 @@ sub new {
             config => $config,           
             
         });
+    my $targets = $self->{targets};
 
     if ($config->{daemon}) {
 
@@ -104,7 +105,13 @@ sub new {
         }
 
     }
-    $self->{rpc} = new Ocsinventory::Agent::RPC;
+    $self->{rpc} = new Ocsinventory::Agent::RPC ({
+          
+            logger => $logger,
+            config => $config,
+            targets => $targets,
+  
+        });
 
     $logger->debug("OCS Agent initialised");
 
