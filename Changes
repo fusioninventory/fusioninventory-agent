@@ -4,6 +4,8 @@ Revision history for Ocsinventory::Agent
        * Remove exec flag on
          lib/Ocsinventory/Agent/Backend/OS/MacOS/Hostname.pm (Remi COLLET)
        * spelling in manpage authentification → authentication
+       * MacOSX: Correctly identify the CPU frequency on MacOSX 1.6 French,
+         thanks Grek
 
 1.1.2    Sun, 27 Dec 2009 17:24:43 +0100
        * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)

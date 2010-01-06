@@ -26,6 +26,9 @@ sub run {
     # lamp spits out an sql error if there is something other than an int (MHZ) here....
     if($processors =~ /GHz$/){
             $processors =~ s/ GHz//;
+            # French Mac returns 2,60 Ghz instead of
+            # 2.60 Ghz :D
+            $processors =~ s/,/./;
             $processors = ($processors * 1000);
     }
     if($processors =~ /MHz$/){
