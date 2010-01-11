@@ -12,6 +12,13 @@ sub new {
 
     my $self = {};
 
+    my $lock : shared;
+    $self->{'lock'} = \$lock;
+    lock($self->{'lock'});
+
+    my $nextRunDate : shared;
+    $self->{'nextRunDate'} = \$nextRunDate;
+
     $self->{'config'} = $params->{'config'};
     $self->{'logger'} = $params->{'logger'};
     $self->{'type'} = $params->{'type'};
@@ -75,6 +82,8 @@ sub new {
 
         my $storage = $self->{storage};
         $self->{myData} = $storage->restore();
+
+        ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
     }
 
 
@@ -116,6 +125,7 @@ sub init {
     my $config = $self->{'config'};
     my $logger = $self->{'logger'};
 
+    lock($self->{'lock'});
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
     if (
@@ -181,6 +191,8 @@ sub setNextRunDate {
 
     my $serverdelay = $accountconfig->get('PROLOG_FREQ');
 
+    lock($self->{'lock'});
+
     my $time;
     if( $self->{prologFreqChanged} ){
         $logger->debug("Compute next_time file with random value");
@@ -190,7 +202,9 @@ sub setNextRunDate {
         $time = time + ($serverdelay?$serverdelay*3600:$config->{delaytime});
     }
 
-    $self->{'myData'}{'nextRunDate'}=$time;
+    $self->{'myData'}{'nextRunDate'} = $time;
+    
+    ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
 
     $logger->debug (
         "[".$self->{'path'}."]".
@@ -210,11 +224,13 @@ sub getNextRunDate {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
+    lock($self->{'lock'});
+
     # Only for server mode
     return 1 if $self->{'type'} ne 'server';
 
 
-    if ($self->{'myData'}{'nextRunDate'}) {
+    if (${$self->{'nextRunDate'}}) {
       
         if ($self->{debugPrintTimer} < time) {
             $logger->debug (
@@ -225,19 +241,32 @@ sub getNextRunDate {
             $self->{debugPrintTimer} = time + 600;
         }; 
 
-        return $self->{'myData'}{'nextRunDate'};
+        return ${$self->{'nextRunDate'}};
     }
 
     $self->setNextRunDate();
 
-    if (!$self->{'myData'}{'nextRunDate'}) {
-        fault('nextRunDate not set!');
+    if (!${$self->{'nextRunDate'}}) {
+        $logger->fault('nextRunDate not set!');
     }
 
     return $self->{'myData'}{'nextRunDate'} ;
 
 }
 
+sub resetNextRunDate {
+    my ($self) = @_;
 
+    my $logger = $self->{logger};
+    my $storage = $self->{storage};
+
+    lock($self->{'lock'});
+    $logger->debug("Force run now");
+    
+    $self->{'myData'}{'nextRunDate'} = 1;
+    $storage->save($self->{'myData'});
+    
+    ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
+}
 
 1;

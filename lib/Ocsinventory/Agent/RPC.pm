@@ -30,6 +30,8 @@ sub handler {
     my ($self, $c) = @_;
     
     my $logger = $self->{logger};
+    my $targets = $self->{targets};
+
     my $r = $c->get_request;
     if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\/-]+)$/) {
         my $file = $1;
@@ -39,13 +41,14 @@ sub handler {
                 $c->send_file_response($target->{vardir}."/deploy/".$file);
             }
         }
-        $logger->debug("RPC: Err, 404");
+        $logger->debug("[RPC]Err, 404");
         $c->send_error(404)
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/reset$/) {
-        $logger->debug("RPC: RESET catched");
+        $logger->debug("[RPC]RESET catched");
+        $targets->resetNextRunDate();
         $c->send_status_line(200, "ACK bob")
     } else {
-        $logger->debug("RPC: Err, 500");
+        $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
     }
     $c->close;

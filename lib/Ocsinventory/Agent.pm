@@ -225,6 +225,7 @@ sub main {
         }
 
         $storage->remove();
+        $target->setNextRunDate();
 
         sleep(5);
     }

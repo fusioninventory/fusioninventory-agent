@@ -15,7 +15,6 @@ sub new {
   $self->{config} = $params->{config};
 
   my $lock :shared;
-
   $self->{'lock'} = \$lock;
 
   $self->{debug} = $self->{config}->{debug}?1:0;

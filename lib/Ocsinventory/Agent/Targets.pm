@@ -3,6 +3,8 @@ package Ocsinventory::Agent::Targets;
 use strict;
 use warnings;
 
+use threads::shared;
+
 use Ocsinventory::Agent::Target;
 
 use Data::Dumper;
@@ -15,6 +17,7 @@ sub new {
     my $config = $self->{config} = $params->{config};
     my $logger = $self->{logger} = $params->{logger};
 
+    $self->{targets} = [];
     $self->{targets} = [];
 
 
@@ -117,6 +120,17 @@ sub getNext {
     }
 
     return;
+}
+
+sub resetNextRunDate {
+    my ($self) = @_;
+
+
+    foreach my $target (@{$self->{targets}}) {
+        $target->resetNextRunDate();
+    }
+
+
 }
 
 1;
