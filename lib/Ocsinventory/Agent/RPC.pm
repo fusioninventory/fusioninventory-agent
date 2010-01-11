@@ -11,7 +11,7 @@ sub new {
 
     $self->{config} = $params->{config};
     $self->{targets} = $params->{targets};
-    
+
     my $config = $self->{config};
 
 
@@ -25,6 +25,28 @@ sub new {
     return $self;
 }
 
+sub handler {
+    my ($self, $c) = @_;
+
+    my $r = $c->get_request;
+    if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\/-]+)$/) {
+        my $file = $1;
+        foreach my $target (@{$targets->{targets}}) {
+            print $target->{vardir}."/deploy/".$file."\n";
+            if (-f $target->{vardir}."/deploy/".$file) {
+                $c->send_file_response($target->{vardir}."/deploy/".$file);
+            }
+        }
+        $c->send_error(404)
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/reset$/) {
+        print "RESET catched\n";
+    } else {
+        $c->send_error(500)
+    }
+    $c->close;
+    undef($c);
+}
+
 sub server {
     my ($self) = @_;
 
@@ -32,23 +54,7 @@ sub server {
     my $daemon = $self->{daemon} = HTTP::Daemon->new(LocalPort => 62354) || die;
     print "Please contact me at: <URL:", $daemon->url, ">\n";
     while (my $c = $daemon->accept) {
-        while (my $r = $c->get_request) {
-            if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\/-]+)$/) {
-                my $file = $1;
-                foreach my $target (@{$targets->{targets}}) {
-                    print $target->{vardir}."/deploy/".$file."\n";
-                    if (-f $target->{vardir}."/deploy/".$file) {
-                        $c->send_file_response($target->{vardir}."/deploy/".$file);
-                    }
-                }
-                $c->send_error(404)
-            }
-            else {
-                $c->send_error(500)
-            }
-        }
-        $c->close;
-        undef($c);
+        threads->create(\&handler, $self, $c)->detach();
     }
 }
 
