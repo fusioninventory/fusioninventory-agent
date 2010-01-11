@@ -51,7 +51,12 @@ sub server {
     my ($self) = @_;
 
     my $targets = $self->{targets};
-    my $daemon = $self->{daemon} = HTTP::Daemon->new(LocalPort => 62354) || die;
+    my $logger = $self->{logger};
+
+    my $daemon = $self->{daemon} = HTTP::Daemon->new(
+        LocalPort => 62354,
+        Reuse => 1);
+   
     print "Please contact me at: <URL:", $daemon->url, ">\n";
     while (my $c = $daemon->accept) {
         threads->create(\&handler, $self, $c)->detach();
