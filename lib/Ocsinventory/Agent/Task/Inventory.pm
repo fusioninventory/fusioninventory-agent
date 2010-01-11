@@ -4,6 +4,8 @@ use strict;
 no strict 'refs';
 use warnings;
 
+use threads;
+
 use ExtUtils::Installed;
 
 use Data::Dumper;
