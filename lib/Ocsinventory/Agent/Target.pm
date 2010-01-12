@@ -83,7 +83,14 @@ sub new {
         my $storage = $self->{storage};
         $self->{myData} = $storage->restore();
 
-        ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
+        if ($self->{myData}{'nextRunDate'}) {
+            $logger->debug (
+                "[".$self->{'path'}."]".
+                " Next server contact planned for ".
+                localtime($self->{'myData'}{'nextRunDate'})
+            );
+            ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
+        }
     }
 
 
@@ -233,11 +240,6 @@ sub getNextRunDate {
     if (${$self->{'nextRunDate'}}) {
       
         if ($self->{debugPrintTimer} < time) {
-            $logger->debug (
-                "[".$self->{'path'}."]".
-                " Next server contact planned for ".
-                localtime($self->{'myData'}{'nextRunDate'})
-            );
             $self->{debugPrintTimer} = time + 600;
         }; 
 
