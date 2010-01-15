@@ -47,7 +47,15 @@ my $agent = new Ocsinventory::Agent;
 $agent->main();
 
 ';
-print $@;
+if ($@) {
+    print "OCS Execution failed. Are you sur the software is fully ";
+    print "installed\n";
+    print "and an old version of the agent not already present on the ";
+    print "system?\n";
+    print "___\n";
+    print $@;
+    exit 1;
+}
 __END__
 
 =head1 NAME
