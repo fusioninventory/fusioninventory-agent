@@ -69,7 +69,7 @@ sub server {
         $logger->error("Failed to start the RPC server");
         return;
    } 
-    print "Please contact me at: <URL:", $daemon->url, ">\n";
+    $logger->info("RPC service started at: ". $daemon->url);
     while (my $c = $daemon->accept) {
         threads->create(\&handler, $self, $c)->detach();
     }
