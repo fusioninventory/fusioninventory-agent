@@ -46,7 +46,7 @@ sub new {
   
   my $version = "Ocsinventory unified agent for UNIX, Linux and MacOSX ";
   $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
-  $self->debug($version."\n");
+  $self->debug($version);
   $self->debug("Log system initialised (@loadedMbackends)");
 
   $self;
