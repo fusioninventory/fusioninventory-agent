@@ -44,13 +44,28 @@ sub run {
   #	3               Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (8-core quad-thread UltraSPARC-T1 1000MHz)
   #	4		Sun Microsystems, Inc. SPARC Enterprise T5220 (4-core 8-thread UltraSPARC-T2 1165MHz)
   #
-  if ($model eq "SUNW,Sun-Fire-280R") { $sun_class_cpu = 1; }
-  if ($model eq "SUNW,Sun-Fire-480R") { $sun_class_cpu = 1; }
-  if ($model eq "SUNW,Sun-Fire-V240") { $sun_class_cpu = 1; }
-  if ($model eq "SUNW,Sun-Fire-V250") { $sun_class_cpu = 1; }
-  if ($model eq "SUNW,Sun-Fire-V490") { $sun_class_cpu = 2; }
-  if ($model eq "SUNW,Sun-Fire-T200") { $sun_class_cpu = 3; }
-  if ($model eq "SUNW,SPARC-Enterprise-T5220") { $sun_class_cpu = 4; }
+  #if ($model eq "SUNW,Sun-Fire-280R") { $sun_class_cpu = 1; }
+  #if ($model eq "SUNW,Sun-Fire-480R") { $sun_class_cpu = 1; }
+  #if ($model eq "SUNW,Sun-Fire-V240") { $sun_class_cpu = 1; }
+  #if ($model eq "SUNW,Sun-Fire-V245") { $sun_class_cpu = 1; }  
+  #if ($model eq "SUNW,Sun-Fire-V250") { $sun_class_cpu = 1; }
+  #if ($model eq "SUNW,Sun-Fire-V440") { $sun_class_cpu = 1; }
+  #if ($model eq "SUNW,Sun-Fire-V445") { $sun_class_cpu = 1; }
+  #if ($model eq "SUNW,Sun-Fire-880") { $sun_class_cpu = 1; }
+  #if ($model eq "SUNW,Sun-Fire-V490") { $sun_class_cpu = 2; }
+  #if ($model eq "SUNW,Netra-T12") { $sun_class_cpu = 2; }	
+  #if ($model eq "SUNW,Sun-Fire-T200") { $sun_class_cpu = 3; } 
+  #if ($model eq "SUNW,SPARC-Enterprise-T1000") { $sun_class_cpu = 4; }
+  #if ($model eq "SUNW,SPARC-Enterprise-T5220") { $sun_class_cpu = 4; }
+  #if ($model eq "SUNW,SPARC-Enterprise-T5240") { $sun_class_cpu = 4; }
+  #if ($model eq "SUNW,SPARC-Enterprise-T5120") { $sun_class_cpu = 4; }
+  #if ($model eq "SUNW,SPARC-Enterprise") { $sun_class_cpu = 4; } 
+  
+  if ($model  =~ /SUNW,SPARC-Enterprise-T\d/){ $sun_class_cpu = 4; }
+  if ($model  =~ /SUNW,Netra-T/){ $sun_class_cpu = 2; }
+  if ($model  =~ /SUNW,Sun-Fire-V/){ $sun_class_cpu = 1; }  
+  if ($model  =~ /SUNW,Sun-Fire-T\d/) { $sun_class_cpu = 3; }
+  if ($model  =~ /SUNW,Sun-Fire-\d/){ $sun_class_cpu = 1; }  
 
   if($sun_class_cpu == 0)
   {
