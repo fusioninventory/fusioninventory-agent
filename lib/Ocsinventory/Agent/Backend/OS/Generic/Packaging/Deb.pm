@@ -9,8 +9,8 @@ sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
   
-# use dpkg-query -W -f='${Package}|||${Version}\n'
-  foreach(`dpkg-query -W -f='\${Package}---\${Version}---\${Installed-Size}---\${Description}\n'`) {
+# use dpkg-query --show --showformat='${Package}|||${Version}\n'
+  foreach(`dpkg-query --show --showformat='\${Package}---\${Version}---\${Installed-Size}---\${Description}\n'`) {
      if (/^(\S+)---(\S+)---(\S+)---(.*)/) {     	     	
        $inventory->addSoftware ({
          'NAME'          => $1,
