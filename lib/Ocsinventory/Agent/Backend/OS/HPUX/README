@@ -1,0 +1,71 @@
+#####################################################
+# 17/12/2009
+# Auteur: dwizz.donowin@yahoo.fr
+#
+# This code is open source and may be copied and modified as long as the source
+# code is always made freely available.
+# Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
+#
+################################################################################
+
+Version Francaise
+-----------------
+(for english version see below)
+
+Ces fichiers sont generes pour etre utilisis avec
+l'agent Unix OCS-NG 1.02 
+
+Installation:
+
+Installer le client OCS-NG 1.02 avec ces prerequis
+extraire les fichiers dans le repertoire 
+
+Ocsinventory/Agent/Backend/OS
+
+Ils seront automatiquement pris en compte par le client OCS
+
+Je n'ai pu tester ces fichiers que sur N4000 actuellement en version HP-UX 11.0
+J'ai commence sur un rp3440 mais je n'ai pas encore toutes les informations 
+car le format des certaines donnees change.
+
+N'hesitez pas a m'aider a le faire evoluer.
+
+
+English version
+---------------
+
+This files are producted for using with
+the OCS-NG 1.02 Unix Agent
+
+Install:
+
+Install the OCS-NG 1.02 Agent with the prerequesit 
+
+Extract the files in the
+
+Ocsinventory/Agent/Backend/OS
+
+It will be used automaticly
+
+I have test the script on only n4000 system for th moment on HP-Ux 11.0
+I try it on rp3440 but some informations are not in the same format
+
+If you wish to help me, you are welwome.
+
+the files are
+HPUX.pm
+
+HPUX sub directory
+	Bios.pm
+	CPU.pm
+	Controller.pm
+	Domains.pm
+	Drives.pm
+	IPv4.pm
+	Mem.pm
+	Memory.pm
+	Networks.pm
+	Slots.pm
+	Software.pm
+	Storages.pm
+

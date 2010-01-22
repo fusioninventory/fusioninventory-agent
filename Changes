@@ -3,6 +3,7 @@ Revision history for Ocsinventory::Agent
 1.2.x
        * Solaris: use regex to identify CPU class (Jerome LEBAS)
        * Solaris/Network: support Zone (Jerome LEBAS)
+       * HP-UX: initial support, tested on RP3440 (François MERMET)
 
 1.1.3
        * Remove exec flag on
