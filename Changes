@@ -8,6 +8,8 @@ Revision history for Ocsinventory::Agent
        * MacOSX: Distinguish clearly between "OS Name" and "System Version" by
          parsing output carefully for both variables. Clean up language in
          description. (Scott HANNAHS)
+       * Add an in contrib example of script to identify specific software
+         (Simon CLARA)
 
 1.1.3
        * Remove exec flag on
