@@ -11,10 +11,26 @@ futur
           run()      → doInventory()
           longRun()  → postInventory()
        * Add isPostInventoryEnabled() function
+
+1.2.x
+       * Solaris: use regex to identify CPU class (Jerome LEBAS)
+       * Solaris/Network: support Zone (Jerome LEBAS)
+       * HP-UX: initial support, tested on RP3440 (François MERMET)
+       * Changed arguments to dpkg-query for compatibility (Scott HANNAHS)
+       * MacOSX: Distinguish clearly between "OS Name" and "System Version" by
+         parsing output carefully for both variables. Clean up language in
+         description. (Scott HANNAHS)
+       * Add an in contrib example of script to identify specific software
+         (Simon CLARA)
+
 1.1.3
        * Remove exec flag on
          lib/Ocsinventory/Agent/Backend/OS/MacOS/Hostname.pm (Remi COLLET)
        * spelling in manpage authentification → authentication
+       * MacOSX: Correctly identify the CPU frequency on MacOSX 1.6 French,
+         thanks Grek
+       * Improve the README about non-interactive installation
+       * Bump copyright date from 2009 to 2010
 
 1.1.2    Sun, 27 Dec 2009 17:24:43 +0100
        * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)

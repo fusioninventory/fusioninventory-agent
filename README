@@ -58,7 +58,13 @@ BUILDING/INSTALLING
       make
       make install
 
-  You can also run the agent from the tarball directory.
+  If you want to turn of the interactive post install script, just do
+       PERL_AUTOINSTALL=1 perl Makefile.PL
+  instead of the 
+       perl Makefile.PL
+
+  You can also run the agent from the tarball directory. In this case, use
+  the --devlib flag to load the library from the local directory.
 
   The agent needs some directories to store internal settings.
 
@@ -116,7 +122,7 @@ You can prepare a tarball from the Bazaar devel branch with following commands:
 
 COPYRIGHT
 
-  Copyright © 2006-2009 OCS Inventory Contributor
+  Copyright © 2006-2010 OCS Inventory Contributor
   released under GNU GPL 2 license
   
 AUTHORS
