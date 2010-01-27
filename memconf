@@ -1,8 +1,12 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl 
+#
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# MODIFY THE LOCATION OF PERL ABOVE IF NECESSARY
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #
 # @(#) memconf - Identify sizes of memory modules installed on a
-# @(#)           Solaris, Linux or HP-UX workstation or server.
-# @(#) Micron Technology, Inc. - Tom Schmidt 10-Mar-2009 V2.10
+# @(#)           Solaris, Linux, FreeBSD or HP-UX workstation or server.
+# @(#) Micron Technology, Inc. - Tom Schmidt 13-Jan-2010 V2.13
 #
 # Maintained by Tom Schmidt (tschmidt@micron.com)
 #
@@ -40,7 +44,7 @@
 # Tested to work on:
 # - Solaris 10 6/06 or later on x86 with /usr/platform/i86pc/sbin/prtdiag
 # - Linux on SPARC with sparc-utils and /dev/openprom
-# - Linux on x86 with kernel-utils or pmtools for /usr/sbin/dmidecode
+# - Linux/FreeBSD on x86 with kernel-utils or pmtools for /usr/sbin/dmidecode
 # - most HP-UX systems with Support Tools Manager (cstm)
 # - Solaris (SunOS 4.X or 5.X) on the following SPARC systems
 #   - sun4c Sun SS1, SS2, IPC, IPX, ELC with Open Boot PROM V2.X
@@ -56,7 +60,7 @@
 #   - sun4u Sun SPARCengine CP 1400, CP 1500, CP2140
 #   - sun4u Sun Netra t1 100/105, t1120/1125, ft1800, X1, T1 200, AX1105-500, 120
 #   - sun4u Sun Netra 20 (Netra T4)
-#   - sun4u Sun Netra ct400, ct800
+#   - sun4u Sun Netra ct800
 #   - sun4u Sun Blade 100, 150, 1000, 1500, 2000, 2500
 #   - sun4u Sun Fire 280R
 #   - sun4u Sun Fire 3800, 4800, 4810, 6800
@@ -72,9 +76,10 @@
 #   - sun4u Sun Ultra 45 Workstation
 #   - sun4u Sun/Fujitsu Siemens SPARC Enterprise M3000, M4000, M5000, M8000 Server
 #   - sun4v Sun Fire T2000, T1000, Netra T2000
-#   - sun4v Sun Blade T6300, T6320
+#   - sun4v Sun Blade T6300, T6320, T6340
 #   - sun4v Sun SPARC Enterprise T2000, T1000 Server
-#   - sun4v Sun SPARC Enterprise T5120, T5140, T5220, T5240 Server
+#   - sun4v Sun SPARC Enterprise T5120, T5140, T5220, T5240 Server, Netra T5220
+#   - sun4v Sun SPARC Enterprise T5440 Server
 #   - sun4m Tatung COMPstation 5, 10, 20AL, 20S and 20SL clones
 #   - sun4m transtec SPARCstation 20I clone
 #   - sun4m Rave Axil-255 SPARCstation 5 clone
@@ -100,9 +105,9 @@
 # Untested systems that should work:
 # - sun4c Sun SS1+ with Open Boot PROM V2.X
 # - sun4m Tatung COMPstation 20A clone
+# - sun4u Sun Netra ct400, ct410, ct810
 # - sun4u Sun SPARCengine CP2040, CP2060, CP2080, CP2160
 # - sun4u Sun/Fujitsu Siemens SPARC Enterprise M9000 Server
-# - sun4v Sun SPARC Enterprise T5440 Server
 # - May not work properly on Sun clones
 #
 # Won't work on:
@@ -120,8 +125,8 @@
 #use diagnostics;
 $^W=1;	# Enables -w warning switch, put here for SunOS4 compatibility.
 
-$version="V2.10";
-$version_date="10-Mar-2009";
+$version="V2.13";
+$version_date="13-Jan-2010";
 $URL="http://www.4schmidts.com/unix.html";
 
 $newpath="/usr/sbin:/bin:/usr/bin:/usr/ucb:/usr/local/bin:/var/local/bin";
@@ -144,14 +149,15 @@ $uname="/bin/uname" if (-x '/bin/uname');
 if (-x $uname) {
 	$hostname=&mychomp(`$uname -n`);
 	$machine=&mychomp(`$uname -m`);
-	$operating_system=&mychomp(`$uname`);
+	$os=&mychomp(`$uname`);
+	$os="Linux" if ("$os" eq "FreeBSD");
 	$osrel=&mychomp(`$uname -r`);
 	$kernver=&mychomp(`$uname -v`);
 	$platform=$machine;
 } else {
 	$hostname="";
 	$machine="";
-	$operating_system="this unsupported";
+	$os="this unsupported";
 	$osrel="";
 	$kernver="";
 }
@@ -159,6 +165,7 @@ $osrelease="";
 $prtdiag_cmd="";
 $prtdiag_exec="";
 $have_prtdiag_data=0;
+$prtdiag_checked=0;
 $prtfru_cmd="";
 $have_prtfru_data=0;
 $prtpicl_cmd="";
@@ -166,12 +173,13 @@ $have_prtpicl_data=0;
 $psrinfo_cmd="";
 $have_psrinfo_data=0;
 $use_psrinfo_data=1;
+$psrinfo_checked=0;
 $cfgadm_cmd="";
 $have_cfgadm_data=0;
 $ipmitool_cmd="";
 $have_ipmitool_data=0;
-$ipmi_cpu_cnt=0;
-$ipmi_cputype="";
+$cpucnt_ipmi=0;
+$cputype_ipmi="";
 @ipmi_mem=("");
 $smbios_cmd="";
 $have_smbios_data=0;
@@ -304,18 +312,27 @@ $cpufreq=0;
 $cputype="";
 $cputype_prtconf="";
 $cputype_psrinfo="";
+$cputype_cpuinfo="";
 @cpucnt=();
 $cpucntfrom="";
 $cpucntflag=0;
+$cpucnt_cpuinfo=0;
+$have_cpuinfo_data=0;
+$corecnt_cpuinfo=0;
+$cpucores_cpuinfo=0;
+$foundGenuineIntel=0;
 @diagcpucnt=();
 $diagthreadcnt=0;
 $psrcpucnt=0;
 $foundpsrinfocpu=0;
 $ncpu=0;	# remains 0 if using prtdiag output only
-$npcpu=0;
-$nvcpu=0;
+$ndcpu=0;	# prtdiag cpu count
+$npcpu=0;	# physical cpu count
+$nvcpu=0;	# virtual cpu count
+$necpu=0;	# empty cpu socket count
 $threadcnt=0;
 $corecnt=1;
+$hyperthread=0;
 $header_shown=0;
 $romver="";
 $romvernum="";
@@ -326,6 +343,7 @@ $cpubanner="";
 $diagbanner="";
 $model="";
 $modelmore="";
+$model_checked=0;
 $BSD=0; # Initially assume SunOS 5.X
 $config_cmd="/usr/sbin/prtconf -vp";
 $config_command="prtconf";
@@ -333,6 +351,7 @@ $config_permission=0;
 $permission_error="";
 $dmidecode_error="";
 $freephys=0;
+$isX86=0;
 $HPUX=0;
 $devname="";	# Sun internal development code name
 $familypn="";	# Sun family part number (system code)
@@ -382,7 +401,7 @@ foreach $name (@ARGV) {
 		# Sun Explorer output
 		$SUNWexplo=1;
 		# Special case for regression testing Sun Explorer data
-		$operating_system="SunOS";
+		$os="SunOS";
 		open(FILE, "<$name/sysconfig/prtconf-vp.out");
 		@config=<FILE>;
 		close(FILE);
@@ -470,23 +489,27 @@ foreach $name (@ARGV) {
 		$have_ldm_data=1;
 		@free=@config;
 		$have_free_data=1;
+		@cpuinfo=@config;
+		$have_cpuinfo_data=1;
 		@smbios=@config;
 		$have_smbios_data=1;
 		@machinfo=@config;
 		$hostname="";
 		$osrel="";
-		for ($val=0; $val < 10; $val++) {
+		# Check test file to determine OS and machine
+		for ($val=0; $val <= $#config; $val++) {
 			if ($config[$val]) {
 				if ($config[$val] =~ /System Configuration:/) {
 					# Special case for regression testing SunOS prtconf files
-					$operating_system="SunOS";
+					$os="SunOS";
 					@machinearr=split(/\s+/, $config[$val]);
 					$machine=$machinearr[4];
 					$machine="" if (! defined($machine));
+					$platform=$machine;
 					last;
 				} elsif ($config[$val] =~ / dmidecode / || $config[$val] =~ /DMI .* present/) {
 					# Special case for regression testing Linux dmidecode files
-					$operating_system="Linux";
+					$os="Linux";
 					$LnxDMI=1;
 					if ($config[$val] =~ / dmidecode /) {
 						$dmidecode_ver=&mychomp($config[$val]);
@@ -498,13 +521,17 @@ foreach $name (@ARGV) {
 				}
 			}
 		}
-		# Special case for regression testing SunOS4 files
+		# Special case for regression testing SunOS4 and SunOS5 files
 		if ($name =~ /devinfo\./) {
-			$operating_system="SunOS";
+			$os="SunOS";
 			$BSD=1;
 		}
+		if ($name =~ /prtconf\./) {
+			$os="SunOS";
+			$BSD=0;
+		}
 		# Special case for regression testing Linux SPARC files
-		$operating_system="Linux" if ($name =~ /prtconf\.Linux/);
+		$os="Linux" if ($name =~ /prtconf\.Linux/);
 		$filename="$name";
 	} else {
 		&show_help;
@@ -512,7 +539,7 @@ foreach $name (@ARGV) {
 }
 &linux_dmi if ($LnxDMI);
 if ($filename eq "") {
-	if ("$operating_system" eq "HP-UX") {
+	if ("$os" eq "HP-UX") {
 		$HPUX=1;
 		if (-x '/usr/sbin/cstm') {
 			&hpux_cstm;
@@ -520,7 +547,7 @@ if ($filename eq "") {
 			&show_header;
 			&show_supported;
 		}
-	} elsif ("$operating_system" eq "Linux") {
+	} elsif ("$os" eq "Linux") {
 		&linux_release if ("$release" eq "");
 		&find_helpers;
 		&linux_dmi if ($config_cmd =~ /dmidecode/);
@@ -528,7 +555,7 @@ if ($filename eq "") {
 			&show_header;
 			&show_supported;
 		}
-	} elsif ("$operating_system" ne "SunOS") {
+	} elsif ("$os" ne "SunOS") {
 		&show_header;
 		&show_supported;
 	}
@@ -652,9 +679,10 @@ sub please_wait {
 sub find_helpers {
 	return if ($helpers_defined);
 	$helpers_defined=1;
-	if ("$operating_system" eq "HP-UX") {
+	if ("$os" eq "HP-UX") {
 		$config_cmd="echo 'selclass qualifier cpu;info;wait;selclass qualifier memory;info;wait;infolog'|/usr/sbin/cstm";
-	} elsif ("$operating_system" eq "Linux") {
+	} elsif ("$os" eq "Linux") {
+		$config_cmd="dmidecode";
 		if (defined($ENV{DMIDECODE}) && -x $ENV{DMIDECODE}) {
 			# this may be a setuid-root version of dmidecode
 			$config_cmd=$ENV{DMIDECODE};
@@ -676,10 +704,10 @@ sub find_helpers {
 		$smbios_cmd='/usr/sbin/smbios' if (-x '/usr/sbin/smbios');
 		$ldm_cmd='/opt/SUNWldm/bin/ldm' if (-x '/opt/SUNWldm/bin/ldm');
 	}
-	if ("$operating_system" eq "Linux") {
+	if ("$os" eq "Linux") {
 		$free_cmd='/usr/bin/free -m';
 	}
-	if ("$operating_system" eq "SunOS" || "$operating_system" eq "Linux") {
+	if ("$os" eq "SunOS" || "$os" eq "Linux") {
 		if (defined($ENV{IPMITOOL}) && -x $ENV{IPMITOOL}) {
 			# this may be a setuid-root version of ipmitool
 			$ipmitool_cmd=$ENV{IPMITOOL};
@@ -697,7 +725,7 @@ sub find_helpers {
 sub show_helpers {
 	$s=shift;
 	print "$s$config_cmd\n";
-	if ("$operating_system" eq "SunOS") {
+	if ("$os" eq "SunOS") {
 		print "$s$prtdiag_cmd -v\n" if ($prtdiag_exec ne "");
 		print "$s$prtfru_cmd -x\n" if ($prtfru_cmd ne "");
 		print "$s$prtpicl_cmd -v\n" if ($prtpicl_cmd ne "");
@@ -713,20 +741,21 @@ sub show_helpers {
 		print "$s$smbios_cmd\n" if ($smbios_cmd ne "");
 		print "$s$ldm_cmd list-devices -a -p\n" if ($ldm_cmd ne "");
 	}
-	if ("$operating_system" eq "Linux") {
+	if ("$os" eq "Linux") {
 		print "$s$free_cmd\n" if ($free_cmd ne "");
+		print "${s}cat /proc/cpuinfo\n" if (-r '/proc/cpuinfo');
 	}
-	if ("$operating_system" eq "SunOS" || "$operating_system" eq "Linux") {
+	if ("$os" eq "SunOS" || "$os" eq "Linux") {
 		print "$s$ipmitool_cmd fru\n" if ($ipmitool_cmd ne "");
 	}
-	if ("$operating_system" eq "HP-UX") {
+	if ("$os" eq "HP-UX") {
 		print "$s/usr/contrib/bin/machinfo\n" if (-x '/usr/contrib/bin/machinfo');
 	}
 }
 
 sub show_help {
 	&find_helpers;
-	$config_cmd="dmidecode" if ("$operating_system" eq "Linux" && $config_cmd =~ /prtconf/);
+	$config_cmd="dmidecode" if ("$os" eq "Linux" && $config_cmd =~ /prtconf/);
 	print "Usage: memconf [ -v | -D | -h ] [explorer_dir]\n";
 	print "                 -v            verbose mode\n";
 	print "                 -D            E-mail results to memconf maintainer\n";
@@ -734,7 +763,7 @@ sub show_help {
 	print "                 explorer_dir  Sun Explorer output directory\n";
 	print "\nThis is memconf, $version $version_date\n\nCheck my website ";
 	print "at $URL to get the latest\nversion of memconf.\n\n";
-	&show_supported if ("$operating_system" ne "SunOS" && "$operating_system" ne "HP-UX" && "$operating_system" ne "Linux");
+	&show_supported if ("$os" ne "SunOS" && "$os" ne "HP-UX" && "$os" ne "Linux");
 	print "Please send bug reports and enhancement requests along with ";
 	print "the output of the\nfollowing commands to tschmidt\@micron.com ";
 	print "as E-mail attachments so that memconf\nmay be enhanced. ";
@@ -753,6 +782,7 @@ sub cpubanner {
 			$cputype=$1;
 			$cpufreq=$2;
 		}
+		&x86multicorecnt($cputype);
 		$ncpu=$cpucnt{"$cputype $cpufreq"};
 		if ($cpucntflag == 0 && $npcpu == 0) {
 			for $tmp (2,3,4,6,8,12) {
@@ -760,14 +790,9 @@ sub cpubanner {
 			}
 		}
 		$ncpu=$npcpu if ($npcpu != 0);
-		$cpubanner .= "$ncpu X " if ($ncpu > 1);
-		$cpubanner .= "Dual Core " if ($corecnt == 2 && $cputype !~ /Dual.Core/i);
-		$cpubanner .= "Triple Core " if ($corecnt == 3 && $cputype !~ /Triple.Core/i);
-		$cpubanner .= "Quad Core " if ($corecnt == 4 && $cputype !~ /Quad.Core/i);
-		$cpubanner .= "Hex Core " if ($corecnt == 6 && $cputype !~ /Hex.Core/i);
-		$cpubanner .= "Octal Core " if ($corecnt == 8 && $cputype !~ /Octal.Core/i);
-		$cpubanner .= "Twelve Core " if ($corecnt == 12 && $cputype !~ /Twelve.Core/i);
-		$cpubanner .= "$cputype";
+		$cpubanner="$ncpu X " if ($ncpu > 1);
+		$tmp=&multicore_cputype($cputype,$corecnt);
+		$cpubanner .= "$tmp";
 		$cpubanner .= " x86" if ($cputype eq "AMD");
 		$cpubanner .= " ${cpufreq}MHz" if ($cpufreq ne "" && $cpufreq ne "0" && $cputype !~ /Hz$/);
 	}
@@ -784,11 +809,8 @@ sub show_header {
 	print "memconf:  $version $version_date $URL\n" if ($verbose);
 	print "hostname: $hostname\n" if ($hostname);
 	if ($filename) {
-		if ($SUNWexplo) {
-			print "Sun Explorer directory: $filename\n";
-		} else {
-			print "filename: $filename\n";
-		}
+		print (($SUNWexplo) ? "Sun Explorer directory" : "filename");
+		print ": $filename\n";
 	}
 	if ($diagthreadcnt && $cpucntfrom eq "prtdiag") {
 		# Replace @cpucnt with @diagcpucnt
@@ -860,21 +882,21 @@ sub show_header {
 				print "$solaris, ";
 				print "${kernbit}-bit kernel, " if ($kernbit);
 			}
-			if ("$operating_system" eq "Linux" && "$release" ne "") {
+			if ("$os" eq "Linux" && "$release" ne "") {
 				print "$release\n";
 			} else {
-				print "$operating_system $osrel";
+				print "$os $osrel";
 				print " ($osrelease)" if ($osrelease ne "");
 				print ", ${kernbit}" if ($kernbit && $HPUX);
 				print "\n";
 			}
 		} elsif ($HPUX) {
-			print "$operating_system";
+			print "$os";
 			print " $osrel" if ($osrel ne "");
 			print " ($osrelease)" if ($osrelease ne "");
 			print ", ${kernbit}" if ($kernbit);
 			print "\n";
-		} elsif ("$operating_system" eq "Linux") {
+		} elsif ("$os" eq "Linux") {
 			if ("$release" ne "") {
 				print "$release\n";
 			} elsif ($LnxDMI) {
@@ -898,19 +920,18 @@ sub show_header {
 					}
 					$cpucntflag=1;
 				}
-				$cnt=$npcpu if ($npcpu != 0);
+				if ($npcpu != 0) {
+					$cnt=$npcpu;
+				} else {
+					$cnt=$ndcpu if ($ndcpu != 0);
+				}
 				$x++;
 				$cf=~/^(.*) (\d*)$/;
 				$ctype=$1;
+				$ctype=$cf if (! $ctype);
 				$cfreq=$2;
-				if ($model eq "i86pc" || $machine eq "i86pc") {
-					$ctype="Dual Core $ctype" if ($corecnt == 2 && $ctype !~ /Dual.Core/i);
-					$ctype="Triple Core $ctype" if ($corecnt == 3 && $ctype !~ /Triple.Core/i);
-					$ctype="Quad Core $ctype" if ($corecnt == 4 && $ctype !~ /Quad.Core/i);
-					$ctype="Hex Core $ctype" if ($corecnt == 6 && $ctype !~ /Hex.Core/i);
-					$ctype="Octal Core $ctype" if ($corecnt == 8 && $ctype !~ /Octal.Core/i);
-					$ctype="Twelve Core $ctype" if ($corecnt == 12 && $ctype !~ /Twelve.Core/i);
-				}
+				&checkX86;
+				$ctype=&multicore_cputype($ctype,$corecnt) if ($isX86);
 				&multicore_cpu_cnt("");
 				print "$cnt $ctype";
 				if ($cfreq) {
@@ -920,13 +941,7 @@ sub show_header {
 				print "s" if ($cnt > 1);
 				print ", " if ($x < scalar(@cputypecnt));
 			}
-			if ($x > 0) {
-				if ($sysfreq) {
-					print ", ";
-				} else {
-					print "\n";
-				}
-			}
+			print (($sysfreq) ? ", " : "\n") if ($x > 0);
 		}
 		print "system freq: ${sysfreq}MHz\n" if ($sysfreq);
 	} else {
@@ -991,10 +1006,10 @@ sub show_header {
 		}
 		if ($model ne "SPARCserver-1000" && $model ne "SPARCcenter-2000") {
 			print @boards_cpu if (! $ldm_memory);
-			print "Memory Units:\n";
+			print "Memory Units:\n" if (! &is_virtualmachine);
 		}
 	}
-	if ($interleave) {
+	if ($interleave && ! &is_virtualmachine) {
 		print "Memory Interleave Factor: $interleave";
 		print "-way" if ($interleave =~/^\d+$/);
 		print "\n";
@@ -1010,20 +1025,20 @@ sub show_unrecognized {
 	} else {
 		print "       This is most likely because memconf $version";
 		print " does not completely\n";
-		print "       recognize this $operating_system $osrel $platform system.\n";
+		print "       recognize this $os $osrel $platform system.\n";
 		&show_request if ($untested == 0);
 	}
 }
 
 sub show_untested {
 	if ($untested_type eq "OS") {
-		print "WARNING: This is an untested $operating_system $osrel operating";
+		print "WARNING: This is an untested $os $osrel operating";
 	} elsif ($untested_type eq "OBP") {
-		print "ERROR: This is an untested $operating_system $osrel OBP $romvernum";
+		print "ERROR: This is an untested $os $osrel OBP $romvernum";
 	} elsif ($untested_type eq "CPU") {
-		print "ERROR: This is an untested CPU type on this $operating_system $osrel";
+		print "ERROR: This is an untested CPU type on this $os $osrel";
 	} else {
-		print "ERROR: This is an untested $operating_system $osrel";
+		print "ERROR: This is an untested $os $osrel";
 	}
 	print " system by memconf $version\n";
 	print "       Please let the author know how it works.\n";
@@ -1051,20 +1066,16 @@ sub show_request {
 
 sub show_supported {
 	print "memconf:  $version $version_date $URL\n" if (! $verbose);
-	print "ERROR: memconf $version is not supported on this $operating_system";
+	print "ERROR: memconf $version is not supported on this $os";
 	print" $osrel $machine system.\n       memconf is supported on:\n";
 	print "           Solaris (SunOS 4.X or 5.X) on SPARC\n";
 	print "           Solaris 10 6/06 or later on x86 with /usr/platform/i86pc/sbin/prtdiag\n";
 	print "           Linux on SPARC with sparc-utils and /dev/openprom\n";
 	print "           Linux on x86 with kernel-utils or pmtools for /usr/sbin/dmidecode\n";
 	print "           most HP-UX systems with Support Tools Manager (cstm)\n";
-	if ("$operating_system" eq "Linux") {
+	if ("$os" eq "Linux") {
 		print "NOTICE: This may be corrected by installing the ";
-		if ("$machine" =~ /.86/) {
-			print "kernel-utils or pmtools";
-		} else {
-			print "sparc-utils";
-		}
+		print (("$machine" =~ /.86/) ? "kernel-utils or pmtools" : "sparc-utils");
 		print "\n       package if available for this $machine system.\n";
 	}
 	print "       memconf may be able to process Sun Explorer data on this";
@@ -1112,7 +1123,7 @@ sub check_model {
 	$model=~s/RDI,//g;
 	$model=~s/\s+$//;
 	$ultra="ultra" if ($ultra eq 0 && ($model =~ /Ultra/ || $model =~ /Blade/ || $model =~ /Fire/));
-	if ($model =~ /Fire[- ]X/ || $model =~ /Fire[- ]B[12]00x/) {
+	if ($model =~ /Fire[- ]X/i || $model =~ /Fire[- ]B[12]00x/i) {
 		# Sun Fire X??00 Servers, i86pc
 		# Sun B100x or B200x Blade Servers, i86pc
 		$ultra="";
@@ -1202,8 +1213,9 @@ sub check_model {
 	$ultra="T6320" if ($model =~ /Sun-Blade-T6320\b/ || $banner =~ /\bT6320\b/);
 	# UltraSPARC-T2+ (Victoria Falls) systems
 	$ultra="T5140" if ($model =~ /SPARC-Enterprise-T5140/ || $banner =~ /\bT5140\b/);
-	$ultra="T5240" if ($model =~ /SPARC-Enterprise-T5240/ || $banner =~ /\bT5240\b/);
-	$ultra="T5440" if ($model =~ /SPARC-Enterprise-T5440/ || $model =~ /Netra-T5440/ || $banner =~ /\bT5440\b/);
+	$ultra="T5240" if ($model =~ /SPARC-Enterprise-T5240/ || $banner =~ /\bT5240\b/ || $model =~ /SPARC-USBRDT-5240/);
+	$ultra="T5440" if ($model =~ /SPARC-Enterprise-T5440/ || $model =~ /Netra-T5440/ || $banner =~ /\bT5440\b/ || $model =~ /SPARC-USBRDT-5440/);
+	$ultra="T6340" if ($model =~ /Sun-Blade-T6340\b/ || $banner =~ /\bT6340\b/);
 	# Older SPARCstations
 	$modelmore="SPARCstation SLC" if ($model eq "Sun 4/20");
 	$modelmore="SPARCstation ELC" if ($model eq "Sun 4/25");
@@ -1222,12 +1234,15 @@ sub check_model {
 		$modelmore="SPARCstation Voyager";
 	}
 	# x86
-	if ($model eq "i86pc" || $machine eq "i86pc") {
+	&checkX86;
+	if ($isX86) {
 		$modelmore="(Solaris x86 machine)";
 		$cputype="x86";
 		$machine=$model;
 		$ultra=0;
 		$cpucntfrom="prtconf" if ($cpucntfrom eq "");
+		return if ($model_checked);
+		&check_prtdiag if ($use_psrinfo_data == 2);
 		&check_psrinfo;
 		&cpubanner;
 		$cpucnt{"$cputype $cpufreq"}++;
@@ -1274,6 +1289,7 @@ sub check_model {
 		$bannermore=$model;
 		$bannermore=~s/PowerLite-//g;
 	}
+	$model_checked=1;
 }
 
 sub check_banner {
@@ -1301,7 +1317,9 @@ sub check_banner {
 	$ultra="Sun Blade 1000" if ($banner =~ /Sun Excalibur\b/); # prototype
 	$ultra="Sun Blade 2000" if ($banner =~ /Sun Blade 2000\b/);
 	$ultra="Netra ct400" if ($banner =~ /Netra ct400\b/);
+	$ultra="Netra ct410" if ($banner =~ /Netra ct410\b/);
 	$ultra="Netra ct800" if ($banner =~ /Netra ct800\b/);
+	$ultra="Netra ct810" if ($banner =~ /Netra ct810\b/);
 	$ultra="Sun Blade 150" if ($banner =~ /Sun Blade 150\b/);
 	# Sun Fire 12K, E25K, etc. systems identifies itself as Sun Fire 15K
 	$ultra="Sun Fire 12K" if ($banner =~ /Sun Fire 12000\b/ || $banner =~ /Sun Fire 12K\b/);
@@ -1360,12 +1378,12 @@ sub check_for_prtdiag {
 		$line=&dos2unix($line);
 		# Some Solaris prtdiag outputs have malformed header, so
 		# handle them also.
-		if ($line =~ /^System Configuration: +/ || $line =~ /.BIOS Configuration: / || $line =~ /Sun Microsystems *Sun Fire X/ || $line =~ /Sun Microsystems .*Memory size: / || ($line =~ /Sun Microsystems *Sun Ultra / && $machine eq i86pc)) {
+		if ($line =~ /^System Configuration: +/ || $line =~ /.BIOS Configuration: / || $line =~ /Sun Microsystems .*Fire *X/i || $line =~ /Sun Microsystems .*Blade *X/i || $line =~ /Sun Microsystems .*Memory size: / || ($line =~ /Sun Microsystems .*Ultra / && $machine eq i86pc)) {
 			$line=&mychomp($line);
 			$tmp=$line;
 			$line=~s/System Configuration: +//g;
 			$line=~s/BIOS Configuration: .*//g;
-			if ($line =~ /^Sun Microsystems/) {
+			if ($line =~ /^Sun Microsystems/i) {
 				$manufacturer="Sun Microsystems, Inc.";
 			} elsif ($line =~ /Inc\./) {
 				$manufacturer=$line;
@@ -1389,15 +1407,26 @@ sub check_for_prtdiag {
 				$diagbanner=$line;
 				$diagbanner=~s/Sun Microsystems +sun\w+ +//g;
 				$diagbanner=~s/Memory size: .*$//g;
-			} elsif ($line =~ /^Sun Microsystems *Sun +/) {
+			} elsif ($line =~ /^Sun Microsystems *Sun +/i) {
 				$diagbanner=$line;
-				$diagbanner=~s/Sun Microsystems *Sun/Sun/g;
+				$diagbanner=~s/Sun Microsystems *Sun/Sun/ig;
 				$diagbanner=~s/Memory size: .*$//g;
-			} elsif ($line =~ /^Sun Microsystems, Inc. *Sun +/) {
+				$diagbanner=~s/ BLADE / Blade /g;
+				$diagbanner=~s/ FIRE / Fire /g;
+				$diagbanner=~s/ SERVER / Server /g;
+			} elsif ($line =~ /^Sun Microsystems, Inc. *Sun +/i) {
 				$diagbanner=$line;
-				$diagbanner=~s/Sun Microsystems, Inc. *Sun/Sun/g;
+				$diagbanner=~s/Sun Microsystems, Inc. *Sun/Sun/ig;
+				$diagbanner=~s/Memory size: .*$//g;
+				$diagbanner=~s/ BLADE / Blade /g;
+				$diagbanner=~s/ FIRE / Fire /g;
+				$diagbanner=~s/ SERVER / Server /g;
+			} elsif ($line =~ /^Sun Microsystems.*Ultra/) {
+				$diagbanner=$line;
+				$diagbanner=~s/Sun Microsystems.*Ultra/Ultra/g;
 				$diagbanner=~s/Memory size: .*$//g;
 			}
+			$diagbanner=~s/\s+$//;
 		}
 		$prtdiag_failed=1 if ($line =~ /Prtdiag Failed/i);
 		# prtdiag only works on the global zone (container), so find out
@@ -1446,12 +1475,16 @@ sub check_for_prtdiag {
 }
 
 sub check_prtdiag {
+	return if ($prtdiag_checked);
 	print &runtime . "in check_prtdiag\n" if ($DEBUG);
+	$prtdiag_checked=1;
 	return if ("$prtdiag_exec" eq "" && $filename eq "");
 	&check_for_prtdiag;
+	$flag_cpu=0;
+	$flag_mem=0;
 	foreach $line (@prtdiag) {
 		$line=&dos2unix($line);
-		if ($line =~ /====/) {
+		if ($line =~ /====/ || $line =~ /\/ \(picl,/) {
 			$flag_cpu=0;	# End of CPU section
 			$flag_mem=0;	# End of memory section
 		}
@@ -1605,7 +1638,10 @@ sub check_prtdiag {
 			}
 			if ($linearr[$#linearr] =~ /MB\/CMP[0-3]\/BR[0-3]\/CH[01]\/D[01]/ || $linearr[$#linearr] =~ /MB\/CMP[01]\/MR[01]\/BR[01]\/CH[01]\/D[23]/) {
 				# UltraSPARC-T2 systems: T5120, T5220, T6320
-				# UltraSPARC-T2+ systems: T5140, T5240, T5440
+				# UltraSPARC-T2+ systems: T5140, T5240
+				$sockets_used .= " $linearr[$#linearr]";
+			}
+			if ($linearr[$#linearr] =~ /MB\/CPU[01]\/CMP[01]\/BR[01]\/CH[01]\/D[01]/ || $linearr[$#linearr] =~ /MB\/MEM[01]\/CMP[01]\/BR[01]\/CH[01]\/D[01]/) {
 				$sockets_used .= " $linearr[$#linearr]";
 			}
 		}
@@ -1636,7 +1672,8 @@ sub check_prtdiag {
 				push(@boards_cpu, "$line");
 			}
 			$boardfound_cpu=1;
-			if (($flag_cpu == 2) && ($model eq "i86pc" || $machine eq "i86pc")) {
+			&checkX86;
+			if (($flag_cpu == 2) && $isX86) {
 				# Solaris x86 CPU type found in prtdiag
 				$cputype2=&mychomp($line);
 				$cputype2=~s/\s\s+.*//;
@@ -1647,11 +1684,17 @@ sub check_prtdiag {
 				$cputype2=~s/\s+$//;
 				&x86multicorecnt($cputype2);
 				# rewrite %cpucnt $cputype2
+				$cfreq=0;
 				while (($cf,$cnt)=each(%cpucnt)) {
 					$cf=~/^(.*) (\d+)$/;
-					$cfreq=$2;
-					delete $cpucnt{"$1 $2"};
+					if (! defined($2)) {
+						delete $cpucnt{"$cf"};
+					} else {
+						$cfreq=$2;
+						delete $cpucnt{"$1 $2"};
+					}
 				}
+				$ndcpu++;
 				if ($cpucntfrom ne "psrinfo") {
 					$cpucntfrom="prtdiag";
 					$cpucntflag=1;
@@ -1722,12 +1765,13 @@ sub check_prtdiag {
 			# file that has more detailed information about the
 			# CPUs. Assumes all CPUs are same.
 			$foundpsrinfocpu=1 if ($line =~ /.+ \d+ virtual processor/);
-			if ($foundpsrinfocpu && (($line =~ /.+Hz$/ && $line !~ /Speed: /) || $line =~ /\bAMD .* Processor /) && $line !~ / x86 /) {
+			if ($foundpsrinfocpu && (($line =~ /.+Hz$/ && $line !~ /Speed: / && $line !~ / PCI/) || $line =~ /\bAMD .* Processor /) && $line !~ / x86 /) {
 				$cputype=&mychomp($line);
 				$cputype=~s/ CPU / /;
 				$cputype=~s/\s+/ /g;
 				$cputype=~s/^\s+//;
 				$cputype=~s/\s+$//;
+				$cputype=~s/^Version:\s+//;
 				# rewrite %cpucnt $cputype with cputype
 				while (($cf,$cnt)=each(%cpucnt)) {
 					$cf=~/^(.*) (\d+)$/;
@@ -2044,7 +2088,7 @@ sub prtdiag_threadcount {
 	if ($line =~ /\bUS-/) {
 		$cputype=$linearr[4];
 		$cputype=~s/US-/UltraSPARC-/;
-		$cputype=~s/UltraSPARC-IV/dual-core UltraSPARC-IV/;
+		$cputype=~s/UltraSPARC-IV/Dual-Core UltraSPARC-IV/;
 		$cpufreq=$linearr[2];
 	}
 	$diagcpucnt{"$cputype $cpufreq"}++;
@@ -2062,10 +2106,16 @@ sub check_prtpicl {
 	$flag_mem_bank=0;
 	$flag_mem_chan=0;
 	$flag_mem_mod=0;
+	$cpumembrd="";
 	foreach $line (@prtpicl) {
 		$line=&dos2unix($line);
 		$line=&mychomp($line);
 		$line=~s/\s+$//;
+		if ($line =~ /^\s+:Label\s+CPU[01]/ || $line =~ /^\s+:Label\s+MEM[01]/) {
+			$cpumembrd=$line;
+			$cpumembrd=~s/^.*:Label\s+(.*)$/$1/;
+			$cpumembrd .= "/";
+		}
 		if ($line =~ /^\s+:Label\s+CMP[0-3]/) {
 			$cmp=$line;
 			$cmp=~s/^.*:Label\s+(.*)$/$1/;
@@ -2073,7 +2123,7 @@ sub check_prtpicl {
 		if ($line =~ /\s+:name\s/) {
 			$flag_mem_seg=0;
 			if ($flag_mem_mod) {
-				$socket="MB/$cmp/$mem_branch/$mem_channel/$mem_dimm";
+				$socket="MB/$cpumembrd$cmp/$mem_branch/$mem_channel/$mem_dimm";
 				$flag_mem_mod=0;	# End of memory module section
 				$sockets_used .= " $socket" if ($sockets_used !~ /$socket/);
 				$picl_mem_pn{"$socket"}="$mem_mfg $mem_model";
@@ -2173,37 +2223,66 @@ sub check_prtpicl {
 	}
 }
 
+sub multicore_cputype {
+	$s=shift;
+	$tmp=shift;
+	return if (! defined($s));
+	return if (! defined($tmp));
+	$s="Hyper-Threaded $s" if ($hyperthread);
+	$s="Dual-Core $s" if ($tmp == 2 && $s !~ /Dual.Core/i);
+	$s="Triple-Core $s" if ($tmp == 3 && $s !~ /Triple.Core/i);
+	$s="Quad-Core $s" if ($tmp == 4 && $s !~ /Quad.Core/i);
+	$s="Hex-Core $s" if ($tmp == 6 && $s !~ /Hex.Core/i);
+	$s="Octal-Core $s" if ($tmp == 8 && $s !~ /Octal.Core/i);
+	$s="Twelve-Core $s" if ($tmp == 12 && $s !~ /Twelve.Core/i);
+	$s=~s/ Core/-Core/ if ($s =~ /Dual Core/i || $s =~ /Triple Core/i || $s =~ /Quad Core/i || $s =~ /Hex Core/i || $s =~ /Octal Core/i || $s =~ /Twelve Core/i || $s =~ /[0-9] Core/i);
+	return($s);
+}
+
+sub cleanup_cputype {
+	$_=shift;
+	return "" if (! defined($_));
+	s/ CPU//;
+	s/ [Pp]rocessor//;
+	s/ +MHz/MHz/;
+	s/ *$//;
+	s/ +/ /g;
+	s/ Core/-Core/ if (/Dual Core/i || /Triple Core/i || /Quad Core/i || /Hex Core/i || /Octal Core/i || /Twelve Core/i || /[0-9] Core/i);
+	return($_);
+}
+
 sub multicore_cpu_cnt {
 	$arg=shift;
+#	return if ($isX86);
 	&check_psrinfo;
 	print &runtime . "in multicore_cpu_cnt, cputype=$cputype\n" if ($DEBUG);
 	if ($cputype =~ /UltraSPARC-T1\b/) {
 		$cputype="UltraSPARC-T1";
-		# Count 4-thread (4, 6, or 8 core) Niagara CPUs as 1 CPU
+		# Count 4-Thread (4, 6, or 8 Core) Niagara CPUs as 1 CPU
 		if ($npcpu && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
-			# Assume each CPU has 8 cores max (32 threads)
+			# Assume each CPU has 8 Cores max (32 threads)
 			$ncpu=int(($threadcnt - 1) / 32) + 1;
 		}
 		if (defined($arg)) {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 4 / $ncpu . "-core quad-thread $cputype";
+		$cputype=$threadcnt / 4 / $ncpu . "-Core Quad-Thread $cputype";
 		$cpucnt{"$cputype $cpufreq"}=$ncpu;
 	} elsif ($cputype =~ /UltraSPARC-T2\+/) {
 		$cputype="UltraSPARC-T2+";
-		# Count 8-thread (4, 6, or 8 core) Victoria Falls CPUs as 1 CPU
+		# Count 8-Thread (4, 6, or 8 Core) Victoria Falls CPUs as 1 CPU
 		if ($npcpu && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
 			# Assume there are no single-cpu systems with the US-T2+
 			$ncpu=2;
 			# Valid configurations:
-			#  T5140,T5240: 2 x 4-core (64 threads), 2 x 6-core
-			#    (96 threads), 2 x 8-core (128 threads)
-			#  T5440 (Guess): 4 x 4-core (128 threads), 4 x 8-core
+			#  T5140,T5240: 2 x 4-Core (64 threads), 2 x 6-Core
+			#    (96 threads), 2 x 8-Core (128 threads)
+			#  T5440: 4 x 4-Core (128 threads), 4 x 8-Core
 			#    (256 threads)
 			if ($ultra eq "T5140" || $ultra eq "T5240") {
 				$ncpu=2;
@@ -2215,45 +2294,45 @@ sub multicore_cpu_cnt {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-core 8-thread $cputype";
+		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
 		$cpucnt{"$cputype $cpufreq"}=$ncpu;
 	} elsif ($cputype =~ /UltraSPARC-T2\b/) {
 		$cputype="UltraSPARC-T2";
-		# Count 8-thread (4 or 8 core) Niagara-II CPUs as 1 CPU
+		# Count 8-Thread (4 or 8 Core) Niagara-II CPUs as 1 CPU
 		if ($npcpu && ! $have_ldm_data) {
 			$ncpu=$npcpu;
 		} else {
-			# Assume each CPU has 8 cores max (64 threads)
+			# Assume each CPU has 8 Cores max (64 threads)
 			$ncpu=int(($threadcnt - 1) / 64) + 1;
 		}
 		if (defined($arg)) {
 			$cnt=$ncpu;
 			return;
 		}
-		$cputype=$threadcnt / 8 / $ncpu . "-core 8-thread $cputype";
+		$cputype=$threadcnt / 8 / $ncpu . "-Core 8-Thread $cputype";
 		$cpucnt{"$cputype $cpufreq"}=$ncpu;
 	} elsif ($cputype =~ /SPARC64-VI\b/) {
-		# Count dual-core dual-thread Olympus-C SPARC64-VI CPUs as 1 CPU
+		# Count Dual-Core Dual-Thread Olympus-C SPARC64-VI CPUs as 1 CPU
 		$ncpu=$threadcnt / 4;
-		$cputype="dual-core dual-thread SPARC64-VI";
+		$cputype="Dual-Core Dual-Thread SPARC64-VI";
 		if (defined($arg)) {
 			$cnt=$ncpu;
 			return;
 		}
 		$cpucnt{"$cputype $cpufreq"}=$ncpu;
 	} elsif ($cputype =~ /SPARC64-VII\b/) {
-		# Count quad-core dual-thread Jupiter SPARC64-VII CPUs as 1 CPU
+		# Count Quad-Core Dual-Thread Jupiter SPARC64-VII CPUs as 1 CPU
 		$ncpu=$threadcnt / 8;
-		$cputype="quad-core dual-thread SPARC64-VII";
+		$cputype="Quad-Core Dual-Thread SPARC64-VII";
 		if (defined($arg)) {
 			$cnt=$ncpu;
 			return;
 		}
 		$cpucnt{"$cputype $cpufreq"}=$ncpu;
 	} elsif ($cputype =~ /SPARC64-VII\+\b/) {
-		# Count quad-core dual-thread Jupiter+ SPARC64-VII+ CPUs as 1 CPU
+		# Count Quad-Core Dual-Thread Jupiter+ SPARC64-VII+ CPUs as 1 CPU
 		$ncpu=$threadcnt / 8;
-		$cputype="quad-core dual-thread SPARC64-VII+";
+		$cputype="Quad-Core Dual-Thread SPARC64-VII+";
 		if (defined($arg)) {
 			$cnt=$ncpu;
 			return;
@@ -2261,9 +2340,9 @@ sub multicore_cpu_cnt {
 		$cpucnt{"$cputype $cpufreq"}=$ncpu;
 	} elsif ($cputype =~ /SPARC64-VIII\b/) {
 		# Guess on the Venus SPARC64-VIII name ???
-		# Count 8-core dual-thread Venus SPARC64-VIII CPUs as 1 CPU
+		# Count 8-Core Dual-Thread Venus SPARC64-VIII CPUs as 1 CPU
 		$ncpu=$threadcnt / 16;
-		$cputype="8-core dual-thread SPARC64-VIII";
+		$cputype="8-Core Dual-Thread SPARC64-VIII";
 		if (defined($arg)) {
 			$cnt=$ncpu;
 			return;
@@ -2283,14 +2362,31 @@ sub x86multicorecnt {
 	$corecnt=12 if (/\bTwelve.Core/i);
 }
 
+sub checkX86 {
+	$isX86=1 if ($model eq "i86pc" || $machine eq "i86pc" || $model eq "i86xpv" || $machine eq "i86xpv");
+	# Use CPU count from prtdiag (ndcpu) and thread count from psrinfo to
+	# get core count per cpu for i86xpv
+	$use_psrinfo_data=2 if ($model eq "i86xpv" || $machine eq "i86xpv");
+}
+
 sub check_psrinfo {
-	print &runtime . "in check_psrinfo, npcpu=$npcpu, nvcpu=$nvcpu\n" if ($DEBUG);
+	return if ($psrinfo_checked);
+	print &runtime . "in check_psrinfo, ndcpu=$ndcpu, npcpu=$npcpu, nvcpu=$nvcpu\n" if ($DEBUG);
+	$psrinfo_checked=1;
 	return if ($nvcpu);
 	return if (! $use_psrinfo_data);
 	if ($filename) {
 		$npcpu=0;
+		$j=0;
+		$have_npcpu=0;
 		foreach $line (@psrinfo) {
 			$line=&dos2unix($line);
+			# May have "psrinfo -p" output in regression test file
+			# that has number of physical CPUs.
+			if ($line =~ /^#psrinfo -p$/ && $psrinfo[$j + 1] =~ /^\d+$/) {
+				$npcpu=&mychomp($psrinfo[$j + 1]);
+				$have_npcpu=1;
+			}
 			# May have "psrinfo -p -v" output in regression test
 			# file that has number of virtual CPUs. Assumes all
 			# CPUs are same.
@@ -2299,10 +2395,17 @@ sub check_psrinfo {
 				$nvcpu=~s/.+ processor has //;
 				$nvcpu=~s/ virtual processor.+//;
 				$corecnt=$nvcpu if ($nvcpu >= 2);
-				$npcpu++;
+				$corecnt /= 2 if ($hyperthread);
+				if ($use_psrinfo_data == 2 && $ndcpu > 1) {
+					$corecnt /= $ndcpu;
+					$npcpu=$ndcpu if ($have_npcpu == 0);
+				} else {
+					$npcpu++ if ($have_npcpu == 0);
+				}
 				$cpucntfrom="psrinfo" if ($cpucntfrom ne "ldm");
 				$cpucntflag="0";	# reset flag
 			}
+			$j++;
 		}
 	} elsif ($psrinfo_cmd ne "") {
 		$ncpu=&mychomp(`$psrinfo_cmd | wc -l`);	# physical & virtual CPUs
@@ -2321,6 +2424,11 @@ sub check_psrinfo {
 					$nvcpu=~s/.+ processor has //;
 					$nvcpu=~s/ virtual processor.+//;
 					$corecnt=$nvcpu if ($nvcpu >= 2);
+					$corecnt /= 2 if ($hyperthread);
+					if ($use_psrinfo_data == 2 && $ndcpu > 1) {
+						$corecnt /= $ndcpu;
+						$npcpu=$ndcpu;
+					}
 				}
 			}
 			if ($cputype eq "x86") {
@@ -2353,7 +2461,8 @@ sub get_mfg {
 		s/JEDEC ID://g;
 		s/ //g;
 	}
-	s/^\s*//;
+	s/^\s+//;
+	s/\s+$//;
 	s/^0x//;
 	return "" if (/^$/ || /^\r$/ || /^FFFFFFFFFFFF/i || /Manufacturer\d/i);
 	# Based on JEDEC JEP106-X
@@ -2400,6 +2509,9 @@ sub check_ipmitool {
 	$cputype2="";
 	$mem_mfg="";
 	$mem_model="";
+	$flag_cpu=0;
+	$flag_mem=0;
+	$socket="";
 	foreach $line (@ipmitool) {
 		$line=&dos2unix($line);
 		$line=&mychomp($line);
@@ -2407,12 +2519,12 @@ sub check_ipmitool {
 			# store cpu and memory modules in hash
 			if ($flag_cpu) {
 				if ($cputype2 ne "") {
-					$cputype2=~s/DUAL.CORE/Dual Core/;
-					$cputype2=~s/QUAD.CORE/Quad Core/;
-					$cputype2=~s/-Core/ Core/;
+					$cputype2=~s/DUAL.CORE/Dual-Core/;
+					$cputype2=~s/QUAD.CORE/Quad-Core/;
+					$cputype2=~s/ Core/-Core/;
 					$cputype2=~s/OPTERON\(TM\) PROCESSOR/Opteron\(tm\) Processor/;
-					$ipmi_cputype="$cputype2";
-					$ipmi_cpu_cnt++;
+					$cputype_ipmi="$cputype2";
+					$cpucnt_ipmi++;
 				}
 			}
 			if ($flag_mem && $socket ne "") {
@@ -2452,22 +2564,22 @@ sub check_ipmitool {
 		}
 	}
 	# Is ipmitool CPU count better?
-#	print &runtime . "ipmi_cpu_cnt=$ipmi_cpu_cnt\n" if ($DEBUG);
-	if ($ncpu != $ipmi_cpu_cnt && $npcpu == 0 && $ipmi_cpu_cnt != 0) {
-		$ncpu=$ipmi_cpu_cnt;
-		$npcpu=$ipmi_cpu_cnt;
+#	print &runtime . "cpucnt_ipmi=$cpucnt_ipmi\n" if ($DEBUG);
+	if ($ncpu != $cpucnt_ipmi && $npcpu == 0 && $cpucnt_ipmi != 0) {
+		$ncpu=$cpucnt_ipmi;
+		$npcpu=$cpucnt_ipmi;
 		$cpucntfrom="ipmitool";
-		$cpucnt{"$cputype $cpufreq"}=$ipmi_cpu_cnt;
+		$cpucnt{"$cputype $cpufreq"}=$cpucnt_ipmi;
 	}
 	# Did ipmitool find a better cputype?
-	if (&lc($cputype) ne &lc($ipmi_cputype) && $ipmi_cputype ne "") {
+	if (&lc($cputype) ne &lc($cputype_ipmi) && $cputype_ipmi ne "") {
 		# rewrite %cpucnt $cputype with cputype
 		while (($cf,$cnt)=each(%cpucnt)) {
 			$cf=~/^(.*) (\d+)$/;
 			$cpufreq=$2;
 			delete $cpucnt{"$1 $2"};
 		}
-		$cpucnt{"$ipmi_cputype $cpufreq"}=$ipmi_cpu_cnt;
+		$cpucnt{"$cputype_ipmi $cpufreq"}=$cpucnt_ipmi;
 	}
 }
 
@@ -2602,8 +2714,8 @@ sub check_smbios {
 			if ($line =~ /Memory Type:/) {
 				$memtype=$line;
 				$memtype=~s/^ *Memory Type:.*\((.*)\).*/$1/g;
-				$memtype="" if ($memtype =~ /Memory Type:/);
 				$memtype .= " " if ($formfactor ne "");
+				$memtype="" if ($memtype =~ /Memory Type:/ || $memtype =~ /^other/);
 			}
 			if ($line =~ /Form Factor:/) {
 				$formfactor=$line;
@@ -2628,12 +2740,14 @@ sub check_smbios {
 	if (defined($tmp)) {
 		if ($tmp > 0) {
 			&show_header;
-			for (sort keys %smbios_mem) {
-				if ($smbios_mem{$_} eq "") {
-					$sockets_empty .= "," if ($sockets_empty ne "");
-					$sockets_empty .= " $_";
-				} else {
-					print "socket $_: $smbios_mem{$_}\n";
+			if (! &is_virtualmachine) {
+				for (sort keys %smbios_mem) {
+					if ($smbios_mem{$_} eq "") {
+						$sockets_empty .= "," if ($sockets_empty ne "");
+						$sockets_empty .= " $_";
+					} else {
+						print "socket $_: $smbios_mem{$_}\n";
+					}
 				}
 			}
 			$totmem=$installed_memory;
@@ -2651,13 +2765,10 @@ sub found_empty_bank {
 }
 
 sub print_empty_memory {
+	return if (&is_virtualmachine);
 	$s=shift;
 	print "empty $s:";
-	if ($sockets_empty ne "") {
-		print "$sockets_empty\n";
-	} else {
-		print " None\n";
-	}
+	print (($sockets_empty ne "") ? "$sockets_empty\n" : " None\n");
 }
 
 sub found_nvsimm_bank {
@@ -2697,7 +2808,7 @@ sub dos2unix {
 
 sub convert_freq {
 	($freqx)=@_;
-	if ($model eq "i86pc" || $machine eq "i86pc") {
+	if ($isX86) {
 		$freq=int(hex("0x$freqx") / 10000 + 0.5);
 	} else {
 		if ($freqx =~ /'/) {
@@ -2799,7 +2910,6 @@ $i=0;
 # May not have had permission to run prtconf, so see if prtdiag works
 &check_for_prtdiag;
 if ($diagbanner) {
-	$diagbanner=~s/\s+$//;
 	if ($filename eq "" || $SUNWexplo) {
 		$model=$platform;
 		$model=~s/SUNW,//g;
@@ -2836,6 +2946,7 @@ foreach $line (@config) {
 		$banner=~s/SUNW,//g;
 		$banner=~s/TWS,//g;
 		$banner=~s/CYCLE,//g;
+		$banner=~s/\s+$//;
 		&check_banner;
 	}
 	if ($line =~ /model:.*AXUS/) {
@@ -2850,14 +2961,14 @@ foreach $line (@config) {
 	    $line =~ /SUNW,Grover/ || $line =~ /SUNW,Enchilada/ ||
 	    $line =~ /SUNW,Serverblade1/ || $line =~ /SUNW,Enterprise/ ||
 	    $line =~ /SUNW,A[0-9]/ || $line =~ /SUNW,T[0-9]/ ||
-	    $line =~ /\s+name:.*'i86pc'/ || $line =~ /^i86pc/ ||
+	    $line =~ /\s+name:.*'i86pc'/ || $line =~ /^i86pc/ || $line =~ /^i86xpv/ ||
 	    $line =~ /model:\s+'SPARC CPU-/ || $line =~ /model:\s+'SPARC CPCI-/ ||
 	    $line =~ /SUNW,Axil-/ || $line =~ /\s+name:.*COMPstation/ ||
 	    $line =~ /\s+name:.*Tadpole/ || $line =~ /\s+name:.*Auspex/ ||
 	    $line =~ /\s+name:.*S-4/ || $line =~ /\s+name:.*FJSV,GP/ ||
 	    $line =~ /\s+name:.*CompuAdd/ || $line =~ /\s+name:.*RDI,/) &&
 	    $line !~ /\s+:Description\s+/ && $line !~ /\s+:*whoami:*\s+/ &&
-	    $line !~ /\s+:*impl-arch-name:*\s+/) {
+	    $line !~ /\s+:*impl-arch-name:*\s+/ && $line !~ /Sun 4x Quad/i) {
 		$model=$line;
 		$model=~s/\s+name:\s+//;
 		$model=~s/\s+model:\s+//;
@@ -3046,6 +3157,12 @@ foreach $line (@config) {
 				$cputype=~s/SUNW,//g;
 				$cputype=~s/FJSV,//g;
 				$cputype=~s/ .*//g;
+			} elsif ($cpuline =~ /\sname:\s/ && $model eq "") {
+				$model=&mychomp($cpuline);
+				$model=~s/\s+name:\s+//;
+				$model=~s/'//g;
+				$model=~s/SUNW,//g;
+				$model=~s/FJSV,//g;
 			}
 			$j++;
 			$cpuline=($config[$j]) ? $config[$j] : "";
@@ -3077,47 +3194,47 @@ foreach $line (@config) {
 			$cputype="hyperSPARC $cputype";
 			$machine="sun4m";
 		} elsif ($cputype =~ /UltraSPARC-IV/) {
-			# Count dual-core US-IV & US-IV+ as 1 CPU
-			$cputype="dual-core $cputype";
+			# Count Dual-Core US-IV & US-IV+ as 1 CPU
+			$cputype="Dual-Core $cputype";
 			$machine="sun4u";
 			$threadcnt++;
 			$threadcnt=0 if ($threadcnt == 2);
 			# CPU count is better from prtdiag than psrinfo for
-			# US-IV & US-IV+ dual-core processors.
+			# US-IV & US-IV+ Dual-Core processors.
 			$use_psrinfo_data=0;
 		} elsif ($cputype =~ /UltraSPARC-T1\b/) {
-			# Count 4-thread (4, 6, or 8 core) Niagara CPUs as 1 CPU
+			# Count 4-Thread (4, 6, or 8 Core) Niagara CPUs as 1 CPU
 			$machine="sun4v";
 			$threadcnt++;
 			# Number of cores & CPUs counted outside this loop below
 		} elsif ($cputype =~ /UltraSPARC-T2\+/) {
-			# Count 8-thread (4, 6, or 8 core) Victoria Falls CPUs as 1 CPU
+			# Count 8-Thread (4, 6, or 8 Core) Victoria Falls CPUs as 1 CPU
 			$machine="sun4v";
 			$threadcnt++;
 			# Number of cores & CPUs counted outside this loop below
 		} elsif ($cputype =~ /UltraSPARC-T2\b/) {
-			# Count 8-thread (4 or 8 core) Niagara-II CPUs as 1 CPU
+			# Count 8-Thread (4 or 8 Core) Niagara-II CPUs as 1 CPU
 			$machine="sun4v";
 			$threadcnt++;
 			# Number of cores & CPUs counted outside this loop below
 		} elsif ($cputype =~ /SPARC64-VI\b/ && $devtype eq "cpu") {
-			# Count dual-core dual-thread as 1 CPU
+			# Count Dual-Core Dual-Thread as 1 CPU
 			$machine="sun4u";
 			$threadcnt++;
 			# Number of cores & CPUs counted outside this loop below
 		} elsif ($cputype =~ /SPARC64-VII\b/ && $devtype eq "cpu") {
-			# Count quad-core dual-thread as 1 CPU
+			# Count Quad-Core Dual-Thread as 1 CPU
 			$machine="sun4u";
 			$threadcnt++;
 			# Number of cores & CPUs counted outside this loop below
 		} elsif ($cputype =~ /SPARC64-VII\+\b/ && $devtype eq "cpu") {
-			# Count quad-core dual-thread as 1 CPU
+			# Count Quad-Core Dual-Thread as 1 CPU
 			$machine="sun4u";
 			$threadcnt++;
 			# Number of cores & CPUs counted outside this loop below
 		} elsif ($cputype eq "SPARC64-VIII" && $devtype eq "cpu") {
 			# Guess on the Venus SPARC64-VIII name ???
-			# Count 8-core dual-thread as 1 CPU
+			# Count 8-Core Dual-Thread as 1 CPU
 			$machine="sun4u";
 			$threadcnt++;
 			# Number of cores & CPUs counted outside this loop below
@@ -3125,7 +3242,7 @@ foreach $line (@config) {
 		if ($threadcnt == 0 && $devtype eq "cpu") {
 			$ncpu++;
 			$cpucnt{"$cputype $cpufreq"}++;
-			$cpucntfrom="prtconf";
+			$cpucntfrom=$config_command;
 		}
 		$devtype="";
 	}
@@ -3161,6 +3278,7 @@ if ($osrel eq "") {
 		$osrel="4.X";
 		$config_cmd="/usr/etc/devinfo -pv";
 		$config_command="devinfo";
+		$cpucntfrom="devinfo";
 	} else {
 		$osrel="5.X";
 		$solaris="2.X";
@@ -3222,15 +3340,15 @@ if ($model eq "Sun 4/20" || $model eq "Sun 4/25" || $model eq "Sun 4/40" || $mod
 	$need_obp2=1 if ($model eq "Sun 4/40" || $model eq "Sun 4/60" || $model eq "Sun 4/65");
 }
 
-&check_prtdiag if ($model eq "i86pc" || $machine eq "i86pc");
-if ($model eq "i86pc" || $machine eq "i86pc") {
+&check_prtdiag if ($isX86);
+if ($isX86) {
 	# Round up Solaris x86 memory (may have 128MB or more reserved)
 	$installed_memory=&roundup_memory($installed_memory);
 }
 
 
 if ($gotmemory eq "" && $ultra eq 0 && $machine ne "sun4d" && $boardfound_mem eq 0) {
-	&check_prtdiag if ($model ne "i86pc");
+	&check_prtdiag;
 	&show_header;
 	if ($installed_memory) {
 		print "total memory = ";
@@ -3245,11 +3363,7 @@ if ($gotmemory eq "" && $ultra eq 0 && $machine ne "sun4d" && $boardfound_mem eq
 		print "ERROR: no 'memory' line in \"$config_cmd\" output.\n" if ($model ne "i86pc");
 		if (! $config_permission && $machine =~ /sun4/ && $prtconf_warn eq "") {
 			print "       This user ";
-			if ($permission_error) {
-				print "does";
-			} else {
-				print "may";
-			}
+			print (($permission_error) ? "does" : "may");
 			print " not have permission to run $config_command.\n";
 			print "       Try running memconf as a privileged user like root.\n" if ($uid ne "0");
 		} elsif ($need_obp2) {
@@ -3362,7 +3476,7 @@ if ($model eq "Sun 4/60" || $model eq "Sun 4/65") {
 		$devname="Campus";
 		$untested=0;
 	} else {
-		$devname="CampusB";
+		$devname="CampusB, Campus+";
 		$untested=1;
 	}
 	$simmrangex="00000010";
@@ -3481,6 +3595,7 @@ if ($model =~ /SPARCstation-10/ || $model eq "Premier-24" || $motherboard eq "SU
 	# depending on the OBP revision. OBP 2.12 and older detects the 32MB
 	# SIMM as 16MB, OBP 2.19 and later properly detects the 32MB SIMM.
 	$devname="Campus2" if ($model =~ /SPARCstation-10/);
+	$devname="Campus2+" if ($model =~ /Premier-24/);
 	$untested=0;
 	$simmrangex="00000040";
 	$simmbanks=8;
@@ -3586,7 +3701,7 @@ if ($model eq "Ultra-30" || $ultra eq 30) {
 	# DIMMs can be installed in any order of pairs.
 	# Interleaving requires a fully populated quad.
 	# Each quad addresses 512MB of memory.
-	$devname="Quark";
+	$devname="Quark (Ultra-30), Lightweight (Netra t 1100)";
 	$familypn="A16 (Ultra-30), N01 (Netra t 1100)";
 	$untested=0;
 	# simmrangex, simmbanks, and simmsperbank set later after determining
@@ -3630,7 +3745,7 @@ if ($model eq "Ultra-60" || $ultra eq 60 || $ultra eq "220R") {
 	# U0801-U0804 bank 1 address 0x20000000-0x3fffffff
 	# U0701-U0704 bank 0 address 0x00000000-0x1fffffff
 	if ($model eq "Ultra-60" || $ultra eq 60) {
-		$devname="Deuterium";
+		$devname="Deuterium (Ultra-60), Lightweight 2 (Netra t112x)";
 		$familypn="A23 (Ultra-60), N02/N04 (Netra t1120), N03 (Netra t1125)";
 	}
 	if ($ultra eq "220R") {
@@ -3649,9 +3764,11 @@ if ($model eq "Ultra-60" || $ultra eq 60 || $ultra eq "220R") {
 #
 # SPARCengine systems
 #
-if ($banner =~ /Netra t1\b/ || $ultra eq "Netra t1" || $model eq "Netra t1" || $banner =~ /Ultra CP 1500\b/ || $ultra eq "CP1500" || $ultra eq "Netra ct400" || $ultra eq "Netra ct800") {
-	# Netra t1 100/105, Netra ct400/800, SPARCengine CP1500
+if ($banner =~ /Netra t1\b/ || $ultra eq "Netra t1" || $model eq "Netra t1" || $banner =~ /Ultra CP 1500\b/ || $ultra eq "CP1500" || $ultra eq "Netra ct400" || $ultra eq "Netra ct410" || $ultra eq "Netra ct800" || $ultra eq "Netra ct810") {
+	# Netra t1 100/105, Netra ct400/410/800/810, SPARCengine CP1500
 	#  Accepts 1 or 2 64MB, 128MB, 256MB or 512MB mezzanine memory cards
+	# Netra ct400/800 use the Netra ct1600 DC chassis (N08)
+	# Netra ct410/810 use the Netra ct1600 AC chassis (N09)
 	# Also used in Sun Fire 12K & Sun Fire 15K
 	# Install the highest capacity memory board first
 	# The 370-4155 was sold for use in the Netra t1 100/105
@@ -3681,9 +3798,15 @@ if ($banner =~ /Netra t1\b/ || $ultra eq "Netra t1" || $model eq "Netra t1" || $
 		$devname="Flyweight (Model 100), Flapjack (Model 105)";
 		$familypn="N07 (Model 100), N06 (Model 105)";
 	}
-	$devname="Tonga, Monte Carlo" if ($ultra =~ /Netra ct[48]00\b/);
+	$devname="Tonga" if ($ultra eq "Netra ct400");
+	$devname="Monte Carlo" if ($ultra eq "Netra ct800");
+	$familypn="N08" if ($ultra =~ /Netra ct[48]00/);
+	if ($ultra =~ /Netra ct[48]10/) {
+		$devname="Makaha";
+		$familypn="N09";
+	}
 	$untested=0;
-	$untested=1 if ($ultra eq "Netra ct400");
+	$untested=1 if ($ultra eq "Netra ct400" || $ultra =~ /Netra ct[48]10/);
 	$memtype="memory card";
 	$sockettype="";
 	$simmrangex="00000100";
@@ -3717,6 +3840,7 @@ if ($banner =~ /Ultra CP 1400\b/ || $ultra eq "CP1400") {
 	# Motherboard, address 0x00000000-0x03ffffff
 	# Upper board, address 0x08000000-0xffffffff, 0x28000000-0x2fffffff
 	# Lower board, address 0x10000000-0x17ffffff, 0x30000000-0x37ffffff
+	$devname="Casanova";
 	$untested=0;
 	$memtype="memory card";
 	$sockettype="";
@@ -3732,6 +3856,7 @@ if ($ultra eq "AX" || $ultra eq "AX-300") {
 	# SPARCengine Ultra AX and AX-300
 	# Accepts 8MB, 16MB, 32MB or 64MB DIMMs on motherboard
 	# AX-300 also accepts 128MB DIMMs on motherboard
+	$devname="Photon";
 	$untested=0;		# unsure if socket order is correct
 	$simmrangex="00000200";
 	$simmbanks=2;
@@ -3749,6 +3874,7 @@ if ($ultra eq "AXi") {
 	#  (leave Pairs 1 & 3 empty)
 	# DIMMs should be chosen as all 10-bit or all 11-bit column address type
 	# Use 60ns DIMMs only
+	#$devname="unknown";
 	$untested=0;
 	$simmrangex="00000100";
 	$simmbanks=4;
@@ -3767,6 +3893,7 @@ if ($ultra eq "AXmp" || $ultra eq "AXmp+") {
 	#  Accepts 8MB, 16MB, 32MB, 64MB, 128MB or 256MB DIMMs on motherboard
 	#  Accepts dual-bank DIMMs in both bank 0 and 1
 	#  Can't distinguish dual-bank DIMMs from two banks of single bank DIMMs
+	$devname="Crichton";
 	$untested=0;
 	$simmbanks=2;
 	$simmsperbank=8;
@@ -3785,6 +3912,7 @@ if ($ultra eq "AXe") {
 	# SPARCengine Ultra AXe
 	# Accepts 32MB, 64MB, 128MB or 256MB single or dual bank DIMMs
 	# DIMMs should be chosen as all 10-bit or all 11-bit column address type
+	$devname="Topdog";
 	$untested=0;
 	$simmrangex="00000100";
 	$simmbanks=2;
@@ -3801,6 +3929,7 @@ if ($ultra eq "AX-e2") {
 	# DIMMs; 128MB Minimum, 2GB Maximum
 	# DIMM0 & DIMM1 form Bank 0, DIMM2 & DIMM3 form Bank 1
 	# DIMMs don't have to be installed as pairs
+	$devname="Birdsnest Lite";
 	$untested=0;
 	$simmrangex="00000200";
 	$simmbanks=4;
@@ -3823,11 +3952,9 @@ if ($ultra eq "Netra X1" || $ultra eq "Sun Fire V100") {
 	#  mapped to the lowest address range.
 	# When mixed size DIMMs are installed, the slot number with the largest
 	#  size DIMM is mapped to the lowest address range.
-	if ($ultra eq "Netra X1") {
-		$devname="Flapjack-lite";
-		$familypn="N19";
-	}
+	$devname="Flapjack-lite" if ($ultra eq "Netra X1");
 	$devname="Flapjack-liteCD500" if ($ultra eq "Sun Fire V100");
+	$familypn="N19";
 	$untested=0;
 	$simmrangex=($cpufreq > 520) ? "00000400" : "00000200";
 	$simmbanks=4;
@@ -3854,7 +3981,7 @@ if ($ultra eq "Netra T1 200" || $ultra eq "Sun Fire V120" || $ultra eq "Netra 12
 		$familypn="N21";
 	}
 	if ($ultra eq "Sun Fire V120" || $ultra eq "Netra 120") {
-		$devname="Flapjack2 plus";
+		$devname="Flapjack2+";
 		$familypn="N25";
 	}
 	$untested=0;
@@ -3878,6 +4005,11 @@ if ($banner =~ /\bCP2000\b/ || $ultra =~ /^CP2[01]\d0$/) {
 	# 2GB Double-Wide module 375-3114
 	# Max number of stacked memory boards is two
 	# Install double wide memory first, then single wide memory
+	$devname="Othello" if ($ultra eq "CP2040");
+	$devname="Sputnik Bluesky" if ($ultra eq "CP2060");
+	$devname="Sputnik Orion" if ($ultra eq "CP2080");
+	$devname="Othello+" if ($ultra eq "CP2140");
+	$devname="Sputnik+" if ($ultra eq "CP2160");
 	$untested=1;
 	$untested=0 if ($ultra eq "CP2140");
 	if ($ultra eq "CP2060") {
@@ -4222,7 +4354,9 @@ if ($model =~ /\bVoyagerIIi\b/) {
 #
 if ($model eq "SPARCserver-1000" || $model eq "SPARCcenter-2000") {
 	$devname="Scorpion" if ($model eq "SPARCserver-1000");
+	$devname="Scorpion+" if ($banner =~ "1000E");
 	$devname="Dragon" if ($model eq "SPARCcenter-2000");
+	$devname="Dragon+" if ($banner =~ "2000E");
 	# Accepts 8MB and 32MB SIMMs on motherboard
 	$untested=0;
 	@simmsizes=(8,32);
@@ -4411,6 +4545,7 @@ if ($ultra eq "Sun Blade 1000" || $ultra eq "Sun Blade 2000" || $ultra eq "Sun F
 	if ($ultra eq "Sun Blade 1000") {
 		$modelmore=$banner;
 		$modelmore=~s/Sun-Blade-1000/or Sun-Blade-2000/g;
+		$modelmore=~s/\s+$//;
 		while (($cf,$cnt)=each(%cpucnt)) {
 			$cf=~/^(.*) (\d*)$/;
 			$cfreq=$2;
@@ -4441,7 +4576,7 @@ if ($model eq "Sun-Blade-100" || $ultra eq "Sun Blade 100" || $ultra eq "Sun Bla
 		$familypn="A36";
 	}
 	if ($ultra eq "Sun Blade 150") {
-		$devname="Grover Plus";
+		$devname="Grover+";
 		$familypn="A41";
 	}
 	$untested=0;
@@ -4531,8 +4666,14 @@ if ($ultra eq "Sun Fire" || $ultra eq "Sun Fire 15K" || $ultra eq "Sun Fire 12K"
 		$familypn="F15K";
 	}
 	$devname="Starkitty" if ($ultra eq "Sun Fire 12K");
-	$devname="Amazon 2" if ($banner =~ /Sun Fire E2900\b/ || $diagbanner eq "Sun Fire E2900");
-	$devname="Amazon 4" if ($banner =~ /Sun Fire E4900\b/ || $diagbanner eq "Sun Fire E4900");
+	if ($banner =~ /Sun Fire E2900\b/ || $diagbanner eq "Sun Fire E2900") {
+		$devname="Amazon 2";
+		$familypn="E29";
+	}
+	if ($banner =~ /Sun Fire E4900\b/ || $diagbanner eq "Sun Fire E4900") {
+		$devname="Amazon 4";
+		$familypn="E49";
+	}
 	$devname="Amazon 6" if ($banner =~ /Sun Fire E6900\b/ || $diagbanner eq "Sun Fire E6900");
 	$devname="Amazon 20" if ($banner =~ /Sun Fire E20K\b/ || $diagbanner eq "Sun Fire E20K");
 	$devname="Amazon 25" if ($banner =~ /Sun Fire E25K\b/ || $diagbanner eq "Sun Fire E25K");
@@ -4572,8 +4713,8 @@ if ($ultra eq "Sun Fire V880") {
 	#  5      Slot D             A0,A1
 	#  7      Slot D             B0,B1
 	#
-	$devname="Daktari";
-	$familypn="A30 (V880) or A31 (V880z)";
+	$devname="Daktari (V880), Nandi (V880z)";
+	$familypn="A30 (V880), A47 (V880z)";
 	$untested=0;
 	@simmsizes=($cpufreq < 800) ? (128,256,512) : (256,512,1024,2048);
 	@banksstr=("A0","A1","B0","B1");
@@ -4584,7 +4725,7 @@ if ($ultra eq "Sun Fire V480") {
 	# 2 or 4 UltraSPARC-III processors, 900MHz or faster
 	# Up to 32GB memory, 8GB max per CPU, 4 DIMMs per CPU, 2 CPUs per board
 	# Smaller version of Sun Fire V880 above
-	$devname="Cherrystone, cstone";
+	$devname="Cherrystone";
 	$familypn="A37";
 	$untested=0;
 	@simmsizes=(256,512,1024,2048);
@@ -4621,7 +4762,7 @@ if ($ultra eq "Netra T12") {
 	# A populated DIMM bank requires an UltraSPARC III CPU.
 	# DIMMs are 232-pin 3.3V ECC 7ns SDRAM
 	# prtdiag output shows the memory installed.
-	$devname="Lightweight_8";
+	$devname="Lightweight 8";
 	$familypn="A40 (Sun Fire V1280), N40 (Netra 1280)";
 	$untested=0;
 	$prtdiag_has_mem=1;
@@ -4642,7 +4783,10 @@ if ($ultra eq "Enchilada") {
 		$devname="Enchilada 1U";
 		$familypn="N31";
 	}
-	$familypn="N79" if ($model =~ /Netra-210\b/);
+	if ($model =~ /Netra-210\b/) {
+		$devname="Salsa 19";
+		$familypn="N79";
+	}
 	if ($banner =~ /Sun Fire V240\b/ || $model =~ /Sun-Fire-V240/) {
 		$devname="Enchilada 2U";
 		$familypn="N32";
@@ -4689,24 +4833,6 @@ if ($ultra eq "Sun Fire V440" || $ultra eq "Netra 440") {
 	push(@socketstr, "C2/P0/B0/D0","C2/P0/B0/D1","C2/P0/B1/D0","C2/P0/B1/D1","?","?","?","?","?","?","?","?","?","?","?","?") if ($ncpu > 2);
 	push(@socketstr, "C3/P0/B0/D0","C3/P0/B0/D1","C3/P0/B1/D0","C3/P0/B1/D1") if ($ncpu > 3);
 }
-if ($ultra eq "Sun Fire V450") {
-	# untested ??? Guesses below
-	# 1-2 UltraSPARC-IIIi (Jalapeno) processors
-	# UltraSPARC IIIi supports 128MB to 1GB single bank DIMMs.
-	# UltraSPARC IIIi supports 256MB to 2GB dual bank DIMMs.
-	# DDR-1 SDRAM PC2100 DIMMs, 8 DIMM slots, 4 DIMMs per processor,
-	#  2 banks per processor, 2 DIMMs per bank
-	# prtdiag output shows the memory installed.
-#	$devname="Chalupa"; # ???
-	$untested=1;
-	$prtdiag_has_mem=1;
-	$prtdiag_banktable_has_dimms=1;
-	$simmbanks=4;
-	$simmsperbank=2;
-	@simmsizes=(128,256,512,1024,2048);
-	# To Do: only print empty sockets for processors that are installed
-#	@socketstr=("C0/P0/B0/D0","C0/P0/B0/D1","C0/P0/B1/D0","C0/P0/B1/D1","C0/P1/B0/D0","C0/P1/B0/D1","C0/P1/B1/D0","C0/P1/B1/D1");
-}
 if ($ultra eq "Sun Blade 1500") {
 	# 1 UltraSPARC-IIIi (Jalapeno) processor
 	# UltraSPARC IIIi supports 128MB to 1GB single bank DIMMs.
@@ -4714,6 +4840,7 @@ if ($ultra eq "Sun Blade 1500") {
 	# 184-pin DDR-1 SDRAM PC2100 DIMMs installed in pairs, 4 DIMM slots
 	# prtdiag output can show the memory installed.
 	$devname="Taco";
+	$devname .= "+" if ($modelmore =~ /\(Silver\)/ || $banner =~ /\(Silver\)/);
 	$familypn="A43";
 	$untested=0;
 	$prtdiag_has_mem=1;
@@ -4733,6 +4860,7 @@ if ($ultra eq "Sun Blade 2500" || $ultra eq "Sun Fire V250") {
 	# prtdiag output can show the memory installed.
 	if ($ultra eq "Sun Blade 2500") {
 		$devname="Enchilada Workstation";
+		$devname .= " Silver" if ($modelmore =~ /\(Silver\)/ || $banner =~ /\(Silver\)/);
 		$familypn="A39";
 	}
 	if ($ultra eq "Sun Fire V250") {
@@ -4783,6 +4911,7 @@ if ($ultra eq "Sun Ultra 25 Workstation") {
 	# maximum of 4 DIMMs (8GB)
 	# Bank0 DIMM1&DIMM3 blue sockets, Bank1 DIMM0&DIMM2 black sockets
 	# prtdiag output can show the memory installed.
+	$devname="Southside";
 	$familypn="A89";
 	$untested=0;
 	$prtdiag_has_mem=1;
@@ -4800,6 +4929,7 @@ if ($ultra eq "Sun Fire V125") {
 	# DDR-1 SDRAM PC2100 DIMMs, 4 DIMM slots, 2 DIMMs per bank
 	# Mixing DIMM sizes and capacities is not supported.
 	# prtdiag output can show the memory installed.
+	$devname="El Paso";
 	$familypn="125";
 	$untested=0;
 	$prtdiag_has_mem=1;
@@ -4883,8 +5013,8 @@ if ($ultra eq "Serverblade1") {
 }
 if ($ultra eq "T2000") {
 	# 1 UltraSPARC-T1 (Niagara) processor with "CoolThreads" multithreading
-	# 8 core 1.2GHz (9.6GHz clock speed rating) or 4, 6, or 8 core 1.0GHz
-	#  or 8 core 1.4GHz
+	# 8 Core 1.2GHz (9.6GHz clock speed rating) or 4, 6, or 8 Core 1.0GHz
+	#  or 8 Core 1.4GHz
 	# Up to 64GB DDR2 memory in 16 slots w/ Chipkill and DRAM sparing, ECC
 	#  registered DIMMs. Supports 512MB, 1GB, 2GB and 4GB DIMMs.
 	# Option X7800A - 1GB (2x512MB DDR2) 370-6207, 512MB DDR2 DIMM, 533MHz
@@ -4923,9 +5053,12 @@ if ($ultra eq "T2000") {
 	#             | J1901    Channel 2    Rank 1    DIMM 1 | DIMM 16
 	#             +----------------------------------------+
 	$devname="Ontario";
-	$familypn="T20 (Sun Fire T2000), N20 (Netra T2000)";
-	$familypn="N20" if ($model =~ /Netra-T2000\b/ || $banner =~ /Netra T2000\b/);
-	$familypn="SEB" if ($model =~ /SPARC-Enterprise-T2000/ || $banner =~ /SPARC Enterprise T2000/);
+	$familypn="T20";
+	if ($model =~ /Netra-T2000\b/ || $banner =~ /Netra T2000\b/) {
+		$devname="Pelton";
+		$familypn="N20";
+	}
+	$familypn="T20, SEB" if ($model =~ /SPARC-Enterprise-T2000/ || $banner =~ /SPARC Enterprise T2000/);
 	$untested=0;
 	$simmrangex="00002000";
 	if (scalar(@slots) == 8) {
@@ -4944,7 +5077,7 @@ if ($ultra eq "T2000") {
 }
 if ($ultra eq "T1000") {
 	# 1 UltraSPARC-T1 (Niagara) processor with "CoolThreads" multithreading
-	# 6 or 8 core 1.0GHz
+	# 6 or 8 Core 1.0GHz
 	# Up to 32GB DDR2 memory in 8 slots w/ Chipkill and DRAM sparing, ECC
 	#  registered DIMMs. Supports 512MB, 1GB, 2GB and 4GB DIMMs.
 	# Option X7800A - 1GB (2x512MB DDR2) 370-6207, 512MB DDR2 DIMM, 533MHz
@@ -4974,7 +5107,7 @@ if ($ultra eq "T1000") {
 	#             +----------------------------------------+
 	$devname="Erie";
 	$familypn="T10";
-	$familypn="SEA" if ($model =~ /SPARC-Enterprise-T1000/ || $banner =~ /SPARC Enterprise T1000/);
+	$familypn="T10, SEA" if ($model =~ /SPARC-Enterprise-T1000/ || $banner =~ /SPARC Enterprise T1000/);
 	$untested=0;
 	$simmrangex="00002000";
 	if (scalar(@slots) == 8) {
@@ -4991,7 +5124,7 @@ if ($ultra eq "T1000") {
 }
 if ($ultra eq "T6300") {
 	# 1 UltraSPARC-T1 (Niagara) processor with "CoolThreads" multithreading
-	# 6-core 1.0GHz, 8-core 1.0GHz, 1.2GHz or 1.4GHz
+	# 6-Core 1.0GHz, 8-Core 1.0GHz, 1.2GHz or 1.4GHz
 	# Up to 32GB ECC Registered DDR2 PC4200
 	#  Supports 1GB, 2GB and 4GB DIMMs.
 	# DIMMs must be installed in sets of 4.
@@ -5003,6 +5136,7 @@ if ($ultra eq "T6300") {
 	#  the lowest capacity of all the DIMMs installed. Therefore, it is
 	#  ideal to install eight identical DIMMs (not four DIMMs of one
 	#  capacity and four DIMMs of another capacity).
+	$devname="St. Paul";
 	$familypn="A94";
 	$untested=0;
 	$memtype="FB-DIMM";
@@ -5017,7 +5151,7 @@ if ($ultra eq "T6300") {
 }
 if ($ultra eq "T5120" || $ultra eq "T5220" || $ultra eq "T6320") {
 	# 1 UltraSPARC-T2 (Niagara-II) multicore processor with "CoolThreads"
-	#  multithreading, 1.2GHz 4 or 8-core or 1.4GHz 8-core
+	#  multithreading, 1.2GHz 4 or 8-Core or 1.4GHz 8-Core
 	# Up to 64GB Fully Buffered ECC-registered DDR2 @ 667MHz
 	#  Supports 1GB, 2GB and 4GB DIMMs.
 	# DIMMs must be installed in sets of 4.
@@ -5051,15 +5185,23 @@ if ($ultra eq "T5120" || $ultra eq "T5220" || $ultra eq "T6320") {
 	# Note - FB-DIMM names in ILOM messages are displayed with the full FRU
 	# name, such as /SYS/MB/CMP0/BR0/CH0/D0.
 	$devname="Huron";
-	$familypn="SEC" if ($ultra eq "T5120");
-	$familypn="SED" if ($ultra eq "T5220");
-	$familypn="NT52" if ($banner =~ /Netra T5220\b/);
+	if ($ultra eq "T5120") {
+		$devname="Huron 1U";
+		$familypn="SEC";
+	}
+	if ($ultra eq "T5220") {
+		$devname="Huron 2U";
+		$familypn="SED";
+	}
+	if ($banner =~ /Netra T5220\b/) {
+		$devname="Turgo";
+		$familypn="NT52";
+	}
 	if ($ultra eq "T6320") {
 		$devname="Glendale";
 		$familypn="A95";
 	}
 	$untested=0;
-	$untested=1 if ($banner =~ /Netra T5220\b/ || $model =~ /Netra-T5220/);
 	$memtype="FB-DIMM";
 	$simmrangex="00004000";
 	$showrange=0;
@@ -5069,12 +5211,13 @@ if ($ultra eq "T5120" || $ultra eq "T5220" || $ultra eq "T6320") {
 	@socketstr=("MB/CMP0/BR0/CH0/D0","MB/CMP0/BR1/CH0/D0","MB/CMP0/BR2/CH0/D0","MB/CMP0/BR3/CH0/D0","MB/CMP0/BR0/CH1/D0","MB/CMP0/BR1/CH1/D0","MB/CMP0/BR2/CH1/D0","MB/CMP0/BR3/CH1/D0","MB/CMP0/BR0/CH0/D1","MB/CMP0/BR1/CH0/D1","MB/CMP0/BR2/CH0/D1","MB/CMP0/BR3/CH0/D1","MB/CMP0/BR0/CH1/D1","MB/CMP0/BR1/CH1/D1","MB/CMP0/BR2/CH1/D1","MB/CMP0/BR3/CH1/D1");
 	&check_for_LDOM;
 }
-if ($ultra eq "T5140" || $ultra eq "T5240" || $ultra eq "T5440") {
+if ($ultra eq "T5140" || $ultra eq "T5240" || $ultra eq "T6340") {
 	# T5140 has 2 UltraSPARC-T2+ (Victoria Falls) multicore processors with
-	#  "CoolThreads" multithreading, 1.2GHz 4, 6, or 8-core
+	#  "CoolThreads" multithreading, 1.2GHz 4, 6, or 8-Core
 	# T5240 has 2 UltraSPARC-T2+ (Victoria Falls) multicore processors with
-	#  "CoolThreads" multithreading, 1.2GHz 4, 6, or 8-core or 1.4GHz 8-core
-	# T5440 has 4 UltraSPARC-T2+ (Victoria Falls) multicore processors
+	#  "CoolThreads" multithreading, 1.2GHz 4, 6, or 8-Core or 1.4GHz 8-Core
+	# T6340 has 2 UltraSPARC-T2+ (Victoria Falls) multicore processors with
+	#  "CoolThreads" multithreading, 1.4GHz 8-Core
 	# 8GB to 64GB Fully Buffered ECC-registered DDR2 @ 667MHz
 	# Supports 1GB, 2GB and 4GB DIMMs.
 	# T5240 also supports optional mezzanine memory board doubling memory
@@ -5130,11 +5273,20 @@ if ($ultra eq "T5140" || $ultra eq "T5240" || $ultra eq "T5440") {
 	# Note - FB-DIMM names in ILOM messages are displayed with the full FRU
 	# name, such as /SYS/MB/CMP0/BR0/CH0/D0.
 	$devname="Maramba";
-	$devname="Botaka" if ($ultra eq "T5440");
-	$familypn="SET" if ($ultra eq "T5140");
-	$familypn="SEU" if ($ultra eq "T5240");
+	if ($ultra eq "T5140") {
+		$devname="Maramba 1U";
+		$familypn="SET";
+	}
+	if ($ultra eq "T5240") {
+		$devname="Maramba 2U";
+		$familypn="SEU";
+	}
 	$untested=0;
-	$untested=1 if ($ultra eq "T5440" || $model =~ /SPARC-Enterprise-T5440/ || $model =~ /Netra-T5440/ || $banner =~ /\bT5440\b/);
+	if ($model =~ /Sun-USBRDT-5240/) {
+		$devname="Thunder";
+		$untested=1;
+	}
+	$devname="Scottsdale" if ($ultra eq "T6340");
 	$memtype="FB-DIMM";
 	$simmrangex="00004000";
 	$showrange=0;
@@ -5146,9 +5298,31 @@ if ($ultra eq "T5140" || $ultra eq "T5240" || $ultra eq "T5440") {
 	push(@socketstr, "MB/CMP0/MR0/BR0/CH0/D2","MB/CMP0/MR0/BR0/CH0/D3","MB/CMP0/MR0/BR0/CH1/D2","MB/CMP0/MR0/BR0/CH1/D3","MB/CMP0/MR0/BR1/CH0/D2","MB/CMP0/MR0/BR1/CH0/D3","MB/CMP0/MR0/BR1/CH1/D2","MB/CMP0/MR0/BR1/CH1/D3","MB/CMP1/MR1/BR0/CH0/D2","MB/CMP1/MR1/BR0/CH0/D3","MB/CMP1/MR1/BR0/CH1/D2","MB/CMP1/MR1/BR0/CH1/D3","MB/CMP1/MR1/BR1/CH0/D2","MB/CMP1/MR1/BR1/CH0/D3","MB/CMP1/MR1/BR1/CH1/D2","MB/CMP1/MR1/BR1/CH1/D3") if ($ultra eq "T5240");
 	&check_for_LDOM;
 }
+if ($ultra eq "T5440") {
+	# T5440 has 4 UltraSPARC-T2+ (Victoria Falls) multicore processors
+	# 8GB to 64GB Fully Buffered ECC-registered DDR2 @ 667MHz
+	# Supports 1GB, 2GB and 4GB DIMMs.
+	# All FB-DIMMs must be the same density (same type and Sun part number)
+	#
+	# Note - FB-DIMM names in ILOM messages are displayed with the full FRU
+	# name, such as /SYS/MB/CMP0/BR0/CH0/D0.
+	$devname="Batoka" if ($ultra eq "T5440");
+	$devname="Congo" if ($model =~ /Netra-T5440/);
+	$devname="Lightning" if ($model =~ /Sun-USBRDT-5440/);
+	$untested=1;
+	$untested=0 if ($banner eq "T5440");
+	$memtype="FB-DIMM";
+	$simmrangex="00004000";
+	$showrange=0;
+	$simmbanks=4;
+	$simmsperbank=4;
+	@simmsizes=(1024,2048,4096);
+	@socketstr=("MB/CPU0/CMP0/BR0/CH0/D0","MB/CPU0/CMP0/BR0/CH1/D0","MB/CPU0/CMP0/BR1/CH0/D0","MB/CPU0/CMP0/BR1/CH1/D0","MB/CPU1/CMP1/BR0/CH0/D0","MB/CPU1/CMP1/BR0/CH1/D0","MB/CPU1/CMP1/BR1/CH0/D0","MB/CPU1/CMP1/BR1/CH1/D0","MB/MEM0/CMP0/BR0/CH0/D1","MB/MEM0/CMP0/BR0/CH1/D1","MB/MEM0/CMP0/BR1/CH0/D1","MB/MEM0/CMP0/BR1/CH1/D1","MB/MEM1/CMP1/BR0/CH0/D1","MB/MEM1/CMP1/BR0/CH1/D1","MB/MEM1/CMP1/BR1/CH0/D1","MB/MEM1/CMP1/BR1/CH1/D1");
+	&check_for_LDOM;
+}
 if ($model eq "SPARC-Enterprise" || $ultra =~ /SPARC Enterprise M[34589]000 Server/) {
-	# CPUs:  dual-core dual-thread SPARC64-VI or
-	#        quad-core dual-thread SPARC64-VII
+	# CPUs:  Dual-Core Dual-Thread SPARC64-VI or
+	#        Quad-Core Dual-Thread SPARC64-VII
 	# M3000: 2RU rack, single SPARC64-VII 2.52GHz cpu
 	#        up to 32GB, uses DDR2-533 4GB or 8GB memory DIMMs
 	# M4000: 6RU rack, up to 4 SPARC64-VI or SPARC64-VII cpus
@@ -5172,8 +5346,14 @@ if ($model eq "SPARC-Enterprise" || $ultra =~ /SPARC Enterprise M[34589]000 Serv
 	#        Up to 16 CPU memory boards (CMU), Up to 4 processors and up to
 	#        128 GB memory per board based on 32 4GB DIMMs
 	#        Main memory Up to 2TB per domain / system
-	$familypn="SEE" if ($ultra =~ /Sun SPARC Enterprise M4000 Server/);
-	$familypn="SEF" if ($ultra =~ /Sun SPARC Enterprise M5000 Server/);
+	if ($ultra =~ /Sun SPARC Enterprise M4000 Server/) {
+		$devname="OPL FF1";
+		$familypn="SEE";
+	}
+	if ($ultra =~ /Sun SPARC Enterprise M5000 Server/) {
+		$devname="OPL FF2";
+		$familypn="SEF";
+	}
 	$untested=1;
 	$untested=0 if ($ultra =~ /SPARC Enterprise M[3458]000 Server/);
 	$prtdiag_has_mem=1;
@@ -5196,14 +5376,15 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 	$devname="Sunfire" if ($banner =~ /\bE?6[05]00\b/);
 	$devname .= "+" if ($banner =~ /\bE?[3-6]500\b/);
 	$devname="Starfire" if ($model =~ /-10000\b/);
-	$familypn="E3000 or A17" if ($banner =~ /\bE?3000\b/);
+	$familypn="E3000, A17" if ($banner =~ /\bE?3000\b/);
 	$familypn="E3500" if ($banner =~ /\bE?3500\b/);
-	$familypn="E4000 or A18" if ($banner =~ /\bE?4000\b/);
+	$familypn="E4000, A18" if ($banner =~ /\bE?4000\b/);
 	$familypn="E4500" if ($banner =~ /\bE?4500\b/);
 	$familypn="E5000" if ($banner =~ /\bE?5000\b/);
 	$familypn="E5500" if ($banner =~ /\bE?5500\b/);
 	$familypn="E6000" if ($banner =~ /\bE?6000\b/);
 	$familypn="E6500" if ($banner =~ /\bE?6500\b/);
+	$familypn="E10000" if ($model =~ /-10000\b/);
 	$untested=1;
 	if ($banner =~ /\bE?[3-6][05]00\b/ || $model =~ /-Enterprise-E?[3-6][05]00/ || $model eq "Ultra-Enterprise") {
 		$untested=0;
@@ -5216,6 +5397,8 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 	$prtdiag_has_mem=1;
 	@prtdiag=&run("$prtdiag_exec") if ($filename eq "");
 	$i=0;
+	$flag_cpu=0;
+	$flag_mem=0;
 	foreach $line (@prtdiag) {
 		$line=&dos2unix($line);
 		if ($line =~ /Memory Units:/) {
@@ -5486,9 +5669,9 @@ if (($model =~ /-Enterprise/ || $ultra eq "e") && $model !~ /SPARC-Enterprise/) 
 #
 # Check to see if this system has memory defined in the prtdiag output
 #
-&check_prtdiag if ($model ne "i86pc");
-$model=$diagbanner if ($diagbanner ne "" && ($model eq "i86pc" || $machine eq "i86pc"));
-$untested=0 if ($boardfound_mem && ($model eq "i86pc" || $machine eq "i86pc") && $have_x86_devname == 0);
+&check_prtdiag;
+$model=$diagbanner if ($diagbanner ne "" && $isX86);
+$untested=0 if ($boardfound_mem && $isX86 && $have_x86_devname == 0);
 &x86_devname;
 # Don't use prtdiag data on this clone
 $boardfound_mem=0 if ($manufacturer eq "AXUS");
@@ -5520,11 +5703,7 @@ if ($gotmodule ne "" || $gotmodulenames ne "") {
 		}
 	}
 	&show_header;
-	if ($boardfound_mem) {
-		print @boards_mem;
-	} else {
-		print @memorylines;
-	}
+	print (($boardfound_mem) ? @boards_mem : @memorylines);
 	$totmem=$installed_memory;
 	&finish;
 	exit;
@@ -5565,7 +5744,7 @@ if ($have_ipmitool_data) {
 #
 if ($boardfound_mem) {
 	&show_header;
-	print @boards_mem;
+	print @boards_mem if (! &is_virtualmachine);
 	$totmem=$installed_memory;
 }
 #
@@ -5733,7 +5912,7 @@ if ($banner =~ /COMPstation_U60_Series/ || $banner =~ /COMPstation_U80D_Series/)
 	for ($val=0; $val < scalar(@newslots); $val += 2) {
 		$simmbanks=4 if ($newslots[$val] =~ /00000[46]00/);
 		# Check for 256MB DIMMs or 256MB address range per bank
-		if ($newslots[$val+1] =~ /00000400/ || $newslots[$val] =~ /00000c00/) {
+		if ($newslots[$val + 1] =~ /00000400/ || $newslots[$val] =~ /00000c00/) {
 			$simmrangex="00000400";
 			$simmbanks=4;
 		}
@@ -5804,10 +5983,10 @@ if (($ultra eq "Sun Blade 1000" || $ultra eq "Sun Blade 2000" || $ultra eq "Sun 
 	}
 }
 
-# for prtconf output only
+# for prtconf output only, or fully stuffed LDOM servers
 if ($ultra eq "T5120" || $ultra eq "T5220" || $ultra eq "T6320"|| $ultra eq "T5140") {
 	# Hack: Rewrite fully stuffed memory line
-	if ($newslots[1] eq "00010000" && $installed_memory >= 65408) {
+	if ($installed_memory >= 65408) {
 		$newslots[0]="00000000";
 		$newslots[1]="00004000";
 		$newslots[2]="00004000";
@@ -5820,7 +5999,7 @@ if ($ultra eq "T5120" || $ultra eq "T5220" || $ultra eq "T6320"|| $ultra eq "T51
 }
 if ($ultra eq "T5240") {
 	# Hack: Rewrite fully stuffed memory line
-	if ($newslots[1] eq "00020000" && $installed_memory >= 130816) {
+	if ($installed_memory >= 130816) {
 		$newslots[0]="00000000";
 		$newslots[1]="00004000";
 		$newslots[2]="00004000";
@@ -5922,9 +6101,9 @@ for ($val=0; $val < scalar(@newslots); $val += 2) {
 						$socketlabel=" ($socketlabelstr[$cnt3])" if (defined($socketlabelstr[$cnt3]));
 					}
 					if ($found10bit && $newslots[$val] !~ /00000[0-3]00/) {
-						$socket=$socketstr[$cnt3+4];
+						$socket=$socketstr[$cnt3 + 4];
 						if ($#socketlabelstr) {
-							$socketlabel=" ($socketlabelstr[$cnt3+4])" if (defined($socketlabelstr[$cnt3+4]));
+							$socketlabel=" ($socketlabelstr[$cnt3 + 4])" if (defined($socketlabelstr[$cnt3 + 4]));
 						}
 					}
 				}
@@ -5933,7 +6112,7 @@ for ($val=0; $val < scalar(@newslots); $val += 2) {
 				$slotnum=$slotstr[$cnt3] if ($#slotstr);
 				if ($#bankstr) {
 					$bank=$bankstr[$cnt3];
-					$bank=$bankstr[$cnt3+4] if ($found10bit && $newslots[$val] !~ /00000[0-3]00/);
+					$bank=$bankstr[$cnt3 + 4] if ($found10bit && $newslots[$val] !~ /00000[0-3]00/);
 				}
 				$banks=$banksstr[$cnt3/$simmsperbank] if ($#banksstr);
 				$byte=$bytestr[$cnt3] if ($#bytestr);
@@ -5982,11 +6161,11 @@ for ($val=0; $val < scalar(@newslots); $val += 2) {
 						$found11bit=1;
 					}
 					if ($found10bit && $newslots[$val] !~ /00000[0-3]00/) {
-						$socket=$socketstr[$cnt3+4];
+						$socket=$socketstr[$cnt3 + 4];
 						if ($#socketlabelstr) {
-							$socketlabel=" ($socketlabelstr[$cnt3+4])" if (defined($socketlabelstr[$cnt3+4]));
+							$socketlabel=" ($socketlabelstr[$cnt3 + 4])" if (defined($socketlabelstr[$cnt3 + 4]));
 						}
-						$bank=$bankstr[$cnt3+4];
+						$bank=$bankstr[$cnt3 + 4];
 					}
 				}
 			} else {
@@ -6150,9 +6329,9 @@ for ($val=0; $val < scalar(@newslots); $val += 2) {
 					$socketlabel=" ($socketlabelstr[$cnt3])" if (defined($socketlabelstr[$cnt3]));
 				}
 				if ($found10bit && $newslots[$val] !~ /00000[0-3]00/) {
-					$socket=$socketstr[$cnt3+4];
+					$socket=$socketstr[$cnt3 + 4];
 					if ($#socketlabelstr) {
-						$socketlabel=" ($socketlabelstr[$cnt3+4])" if (defined($socketlabelstr[$cnt3+4]));
+						$socketlabel=" ($socketlabelstr[$cnt3 + 4])" if (defined($socketlabelstr[$cnt3 + 4]));
 					}
 				}
 #				print &runtime . "socketstr[$cnt3], bankcnt=$bankcnt, cnt2=$cnt2\n" if ($DEBUG);
@@ -6162,7 +6341,7 @@ for ($val=0; $val < scalar(@newslots); $val += 2) {
 			$slotnum=$slotstr[$cnt3] if ($#slotstr);
 			if ($#bankstr) {
 				$bank=$bankstr[$cnt3];
-				$bank=$bankstr[$cnt3+4] if ($found10bit && $newslots[$val] !~ /00000[0-3]00/);
+				$bank=$bankstr[$cnt3 + 4] if ($found10bit && $newslots[$val] !~ /00000[0-3]00/);
 			}
 			$banks=$banksstr[$cnt3/$simmsperbank] if ($#banksstr);
 			$byte=$bytestr[$cnt3] if ($#bytestr);
@@ -6215,6 +6394,7 @@ if ($model eq "Ultra-5_10" || $ultra eq "5_10" || $ultra eq 5 || $ultra eq 10) {
 exit;
 
 sub hpux_cstm {
+	print &runtime . "in hpux_cstm\n" if ($DEBUG);
 	$HPUX=1;
 	$config_cmd="echo 'selclass qualifier memory;info;wait;infolog'|/usr/sbin/cstm";
 	if (($filename eq "") && ($verbose == 3)) {
@@ -6309,7 +6489,7 @@ sub hpux_cstm {
 		$model="";
 		$machine="";
 		$platform="";
-		$operating_system="HP-UX";
+		$os="HP-UX";
 	}
 	$model="HP $model" if ($model !~ /HP/i);
 	$model=~s/ +$//;
@@ -6329,6 +6509,7 @@ sub hpux_cstm {
 			$cputype=&mychomp($line);
 			$cputype=~s/^.* (PA [78]\d+).*/$1/;
 			$cputype=~s/ //g;
+			print &runtime . "hpux_cstm cputype=$cputype\n" if ($DEBUG);
 			$ncpu++;
 		}
 		if ($line =~ /^'9000\// && $model eq "HP" && $machine eq "") {
@@ -6427,6 +6608,7 @@ sub hpux_kernelval {
 }
 
 sub hpux_machinfo {
+	print &runtime . "in hpux_machinfo\n" if ($DEBUG);
 	$flag_cpu=0;
 	$flag_platform=0;
 	$flag_os=0;
@@ -6461,6 +6643,7 @@ sub hpux_machinfo {
 					$cfreq=~s/ MHz.*$//;
 				}
 				$flag_cpu=0;
+				print &runtime . "hpux_machinfo cputype=$cputype\n" if ($DEBUG);
 				next;
 			} elsif ($line =~ /Number of CPUs = /) {
 				@linearr=split('=', $line);
@@ -6472,6 +6655,7 @@ sub hpux_machinfo {
 				$cputype=$linearr[1];
 				$cputype=~s/^ *\d+ +//;
 				$cputype=~s/ processor$//;
+				print &runtime . "hpux_machinfo cputype=$cputype\n" if ($DEBUG);
 				next;
 			} elsif ($line =~ /Clock speed = \d+ [GM]Hz/) {
 				@linearr=split('=', $line);
@@ -6551,162 +6735,270 @@ sub myawk {
 
 sub x86_devname {
 	return if ($have_x86_devname);
+	return if ($machine =~ /sun4/);
+	return if (! defined($model));
+	print &runtime . "in x86_devname, model=$model\n" if ($DEBUG);
 	# x86 Sun development names and family part number
-	if (defined($model)) {
-		$m=(defined($manufacturer)) ? "$manufacturer$model" : $model;
-		$m=~s/-/ /g;
-		if ($m =~ /Sun .*W1100z\b/) {
-			$devname="Metropolis 1P";
-			$familypn="A58";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*W2100z\b/) {
-			$devname="Metropolis 2P";
-			$familypn="A59";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*W1100z.*2100z\b/) {
-			$devname="Metropolis";
-			$familypn="A58 (W1100z), A59 (W2100z)";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*V20z\b/) {
-			$devname="Stinger 2P";
-			$familypn="A55";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*V40z\b/) {
-			$devname="Stinger 4P";
-			$familypn="A57";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*V20z.*40z\b/) {
-			$devname="Stinger";
-			$familypn="A55 (V20z), A57 (V40z)";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*X2100\b/) {
-			$devname="Aquarius";
-			$familypn="A75";
-			$familypn="A84" if ($m =~ /Sun .*X2100 M2\b/);
-			$untested=0;
-		}
-		if ($m =~ /Sun .*X2200 M2\b/) {
-			$familypn="A85";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*X2250\b/) {
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X4100\b/) {
-			$devname="Galaxy 1";
-			$familypn="A64";
-			$familypn="A86" if ($m =~ /Sun .*X4100 M2\b/);
-			$untested=0;
-		}
-		if ($m =~ /Sun .*X4140\b/) {
-			$familypn="B12";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X4150\b/) {
-			$familypn="B13";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X4200\b/ || $m =~ /Netra .*X4200\b/) {
-			$devname="Galaxy 2";
-			$familypn="A65";
-			$familypn="A87" if ($m =~ /Sun .*X4200 M2\b/);
-			$familypn="N87" if ($m =~ /Netra .*X4200 M2\b/);
-			$untested=1;
-			$untested=0 if ($m !~ /Netra .*X4200\b/);
-		}
-		if ($m =~ /Sun .*X4240\b/) {
-			$familypn="B14";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X4250\b/) {
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X4440\b/) {
-			$familypn="B16";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*X4450\b/) {
-			$familypn="B15";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*X4500\b/) {
-			$devname="Thumper";
-			$familypn="A76";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*X4540\b/) {
-			$familypn="B24";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*X4600\b/) {
-			$devname="Galaxy 4";
-			$familypn="A67";	# Same for X4600 M2
-			$untested=0;
-		}
-		if ($m =~ /Sun .*Blade 8000\b/) {
-			$devname="Andromeda";
-			$familypn="A81";
-			$familypn="A82" if ($m =~ /Sun .*Blade 8000 P\b/);
-			$untested=1;
-		}
-		if ($m =~ /Sun .*Fire V6[05]x\b/) {
-			$familypn="A48";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*Ultra 20\b/) {
-			$familypn="A63";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*Ultra 20 M2\b/) {
-			$familypn="A88";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*Ultra 24\b/) {
-			$familypn="B21";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*Ultra 40\b/) {
-			$familypn="A71";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*Ultra 40 M2\b/) {
-			$familypn="A83";
-			$untested=0;
-		}
-		if ($m =~ /Sun .*Blade 6000\b/) {
-			$familypn="A90";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*Blade 6048\b/) {
-			$familypn="B22";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X6220\b/) {
-			$familypn="A92";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X6250\b/) {
-			$familypn="A93";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X6450\b/) {
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X8440\b/) {
-			$familypn="A98";
-			$untested=1;
-		}
-		if ($m =~ /Sun .*X8450\b/) {
-			$untested=1;
-		}
-		$have_x86_devname=1;
+	$m=(defined($manufacturer)) ? "$manufacturer $model" : $model;
+	$m=~s/-/ /g;
+	$untested=2 if ($m =~ /Sun /i || $m =~ /Netra /i);
+	if ($m =~ /Sun .*W1100z\b/i) {
+		$devname="Metropolis 1P";
+		$familypn="A58";
 	}
+	if ($m =~ /Sun .*W2100z\b/i) {
+		$devname="Metropolis 2P";
+		$familypn="A59";
+	}
+	if ($m =~ /Sun .*W1100z.*2100z\b/i) {
+		$devname="Metropolis";
+		$familypn="A58 (W1100z), A59 (W2100z)";
+		$untested=0 if ("$os" eq "Linux");
+	}
+	if ($m =~ /Sun .*V20z\b/i) {
+		$devname="Stinger 2P";
+		$familypn="A55";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*V40z\b/i) {
+		$devname="Stinger 4P";
+		$familypn="A57";
+		$untested=0;
+	}
+	if ($m =~ /Sun .*V20z.*40z\b/i) {
+		$devname="Stinger";
+		$familypn="A55 (V20z), A57 (V40z)";
+	}
+	if ($m =~ /Sun .*X2100\b/i) {
+		$devname="Aquarius";
+		$familypn="A75";
+		$untested=0;
+	}
+	if ($m =~ /Sun .*X2100 M2\b/i) {
+		$devname="Leo";
+		$familypn="A84";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X2200 M2\b/i) {
+		$devname="Taurus";
+		$familypn="A85";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X2200 speedbump\b/i) {
+		# AMD 4-Core Barcelona processor
+		$devname="Taurus2";
+	}
+	if ($m =~ /Sun .*X2250\b/i) {
+		$devname="Venus";
+	}
+	if ($m =~ /Sun .*X2270\b/i) {
+		# X2270 has 1 or 2 Quad-Core hyperthreaded CPUs
+		$hyperthread=1;
+	}
+	if ($m =~ /Sun .*X4100\b/i) {
+		$devname="Galaxy 1U";
+		$familypn="A64";
+		$untested=0;
+	}
+	if ($m =~ /Sun .*X4100 M2\b/i) {
+		$devname="Galaxy 1F";
+		$familypn="A86";
+		$untested=0;
+	}
+	if ($m =~ /Sun .*X4100E\b/i) {
+		$devname="Galaxy 1E";	# Cancelled
+		$familypn="A72";
+	}
+	if ($m =~ /Sun .*X4140\b/i) {
+		$devname="Dorado 1U";
+		$familypn="B12";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X4150\b/i) {
+		$devname="Doradi 1U";
+		$familypn="B13";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X4170\b/i) {
+		# X4170 has 1 or 2 Quad-Core hyperthreaded CPUs
+		$hyperthread=1;
+		$devname="Lynx 1U";
+		$untested=0 if ("$os" eq "Linux");
+	}
+	if ($m =~ /Sun .*X4200\b/i) {
+		$devname="Galaxy 2U";
+		$familypn="A65";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X4200 M2\b/i) {
+		$devname="Galaxy 2F";
+		$familypn="A87";
+		$untested=0;
+	}
+	if ($m =~ /Netra .*X4200\b/i) {
+		$devname="Draco";
+		$familypn="N87";
+	}
+	if ($m =~ /Sun .*X4200E\b/i) {
+		$devname="Galaxy 2E";	# Cancelled
+		$familypn="A73";
+	}
+	if ($m =~ /Sun .*X4240\b/i) {
+		$devname="Dorado 2U";
+		$familypn="B14";
+	}
+	if ($m =~ /Netra .*X4250\b/i) {
+		$devname="Aries";
+	}
+	if ($m =~ /Sun .*X4250\b/i) {
+		$devname="Doradi 2U";
+	}
+	if ($m =~ /Sun .*X4270\b/i || $m =~ /Sun .*X4275\b/i ) {
+		# X4270/X4275 has 1 or 2 Quad-Core hyperthreaded CPUs
+		$hyperthread=1;
+		$devname="Lynx 2U";
+		$untested=0;
+	}
+	if ($m =~ /Sun .*X4440\b/i) {
+		$devname="Tucana";
+		$familypn="B16";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X4450\b/i) {
+		$devname="Tucani";
+		$familypn="B15";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Netra .*X4450\b/i) {
+		$devname="Argo";
+	}
+	if ($m =~ /Sun .*X4500\b/i) {
+		$devname="Thumper";
+		$familypn="A76";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X4540\b/i) {
+		$devname="Thor";
+		$familypn="B24";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X4600\b/i) {
+		$devname="Galaxy 4U";
+		$familypn="A67";	# Same for X4600 M2
+		$devname="Galaxy 4F" if ($m =~ /Sun .*X4600 M2\b/);
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X4950\b/i) {
+		$devname="Streamstar StreamSwitch 2";
+		$familypn="A91";
+	}
+	# The Sun Blade 8000 Modular System uses the Sun Blade
+	# X8420/X8440/X8450 Server Modules
+	if ($m =~ /Sun .*Blade 8000\b/i) {
+		$devname="Andromeda 19";
+		$familypn="A81";
+		if ($m =~ /Sun .*Blade 8000 P\b/i) {
+			$devname="Andromeda 14";
+			$familypn="A82";
+		}
+		$untested=2;
+	}
+	if ($m =~ /Sun .*Fire V60x\b/i) {
+		$devname="Grizzly";
+		$familypn="A48";
+	}
+	if ($m =~ /Sun .*Fire V65x\b/i) {
+		$devname="Grizzly 2U";
+		$familypn="A48";
+	}
+	if ($m =~ /Sun .*Ultra *20\b/i) {
+		$devname="Marrakesh";
+		$familypn="A63";
+		$untested=2;
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*Ultra *20 M2\b/i) {
+		$devname="Munich";
+		$familypn="A88";
+		$untested=2;
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*Ultra *24\b/i) {
+		$devname="Ursa";
+		$familypn="B21";
+		$untested=0;
+	}
+	if ($m =~ /Sun .*Ultra *40\b/i) {
+		$devname="Sirius";
+		$familypn="A71";
+		$untested=2;
+		$untested=0 if ("$os" eq "Linux");
+	}
+	if ($m =~ /Sun .*Ultra *40 M2\b/i) {
+		$devname="Stuttgart";
+		$familypn="A83";
+		$untested=2;
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	# The Sun Blade 6000 and 6048 Modular Systems use the Sun Blade
+	# X6220, X6250 or T6300 Server Modules.
+	if ($m =~ /Sun .*Blade 6000\b/i) {
+		$devname="Constellation 10";
+		$familypn="A90";
+		$untested=2;
+	}
+	if ($m =~ /Sun .*Blade 6048\b/i) {
+		$devname="Constellation 48";
+		$familypn="B22";
+		$untested=2;
+	}
+	if ($m =~ /Sun .*X6220\b/i) {
+		$devname="Gemini";
+		$familypn="A92";
+	}
+	if ($m =~ /Sun .*X6240\b/i) {
+		$devname="Gemini+";
+	}
+	if ($m =~ /Sun .*X6250\b/i) {
+		$devname="Wolf";
+		$familypn="A93";
+		$untested=0 if ("$os" eq "SunOS");
+	}
+	if ($m =~ /Sun .*X6270\b/i) {
+		# X6270 has 1 or 2 Quad-Core hyperthreaded CPUs
+		$hyperthread=1;
+	}
+	if ($m =~ /Sun .*X6275\b/i ) {
+		# X6275 has 2 or 4 Quad-Core hyperthreaded CPUs
+		$hyperthread=1;
+	}
+	if ($m =~ /Sun .*X6420\b/i) {
+		$devname="Pegasus";
+	}
+	if ($m =~ /Sun .*X6440\b/i) {
+		$devname="Pegasus+";
+	}
+	if ($m =~ /Sun .*X6450\b/i) {
+		$devname="Hercules2";
+	}
+	if ($m =~ /Sun .*X8400\b/i) {
+		$devname="Andromeda";
+	}
+	if ($m =~ /Sun .*X8420\b/i) {
+		$devname="Capella";
+	}
+	if ($m =~ /Sun .*X8440\b/i) {
+		$devname="Mira";
+		$familypn="A98";
+	}
+	if ($m =~ /Sun .*X8450\b/i) {
+		# Quad-Core CPU for Sun Blade 8000 chassis
+		$devname="Scorpio";
+	}
+	if ($m =~ /Sun .*X8600\b/i) {
+		$devname="Antares";
+	}
+	$have_x86_devname=1 if ($devname ne "");
 }
 
 sub linux_release {
@@ -6718,7 +7010,7 @@ sub linux_release {
 		# FreeBSD
 		@linearr=split(' ', $kernver);
 		$release=$linearr[0] . " " . $linearr[1];
-		$release .= ", $kernbit$operating_system $osrel";
+		$release .= ", $kernbit$os $osrel";
 		return;
 	}
 	foreach $relfile ('/etc/centos-release','/etc/fedora-release',
@@ -6728,7 +7020,7 @@ sub linux_release {
 			  '/etc/SuSE-release') {
 		if (-f "$relfile") {
 			$release=&mychomp(`head -1 $relfile`);
-			$release .= ", $kernbit$operating_system $osrel";
+			$release .= ", $kernbit$os $osrel";
 			return;
 		}
 	}
@@ -6755,7 +7047,7 @@ sub linux_release {
 			close(FILE);
 		}
 		$release="Knoppix" if ($release eq "");
-		$release .= ", $kernbit$operating_system $osrel";
+		$release .= ", $kernbit$os $osrel";
 		if (-f '/etc/issue') {
 			$tmp=&mychomp(`head -1 /etc/issue`);
 			$tmp=~s/\s*\\n.*//;
@@ -6763,7 +7055,7 @@ sub linux_release {
 		}
 		return;
 	} elsif (-f '/gos/gOS/gos.html') {
-		$release="gOS, $kernbit$operating_system $osrel";
+		$release="gOS, $kernbit$os $osrel";
 		if (-f '/etc/issue') {
 			$tmp=&mychomp(`head -1 /etc/issue`);
 			$tmp=~s/\s*\\n.*//;
@@ -6774,11 +7066,11 @@ sub linux_release {
 		$release=&mychomp(`head -1 /etc/motd.static`);
 		$release=~s/\s*\(.*//;
 		$release=~s/^Welcome to //;
-		$release .= ", $kernbit$operating_system $osrel";
+		$release .= ", $kernbit$os $osrel";
 		if ($release =~ /Knoppix/i && -f '/etc/issue') {
 			$tmp=&mychomp(`head -1 /etc/issue`);
 			$tmp=~s/\s*\\n.*//;
-			$release="Knoppix, $kernbit$operating_system $osrel, $tmp";
+			$release="Knoppix, $kernbit$os $osrel, $tmp";
 		}
 		return;
 	} elsif (-f '/etc/issue') {
@@ -6790,7 +7082,7 @@ sub linux_release {
 		$release=~s/\s*\(.*//;
 		$release=~s/^Welcome to //;
 	}
-	$release=(defined($release)) ? "$release, $kernbit$operating_system $osrel" : "";
+	$release=(defined($release)) ? "$release, $kernbit$os $osrel" : "";
 }
 
 sub roundup_memory {
@@ -6799,10 +7091,13 @@ sub roundup_memory {
 	for ($val=1024; $val <= 4096; $val += 512) {
 		$newval=$val if ($newval >= $val-128 && $newval < $val);
 	}
-	for ($val=4096; $val <= 32768; $val += 1024) {
+	for ($val=4096; $val <= 7168; $val += 1024) {
 		$newval=$val if ($newval >= $val-256 && $newval < $val);
 	}
-	for ($val=32768; $val <= 262144; $val += 2048) {
+	for ($val=7168; $val <= 14336; $val += 1024) {
+		$newval=$val if ($newval >= $val-512 && $newval < $val);
+	}
+	for ($val=14336; $val <= 262144; $val += 2048) {
 		$newval=$val if ($newval >= $val-512 && $newval < $val);
 	}
 	return($newval);
@@ -6862,7 +7157,7 @@ sub linux_dmi {
 	}
 	open(FILE, $DmiFile);
 	while(<FILE>) {
-		next if (/<OUT OF SPEC>/i || / Unknown/i);
+		next if (/<OUT OF SPEC>/i || / Unknown/i || /: Other/i || /: \.\./ || /: Not Specified/i || /:\s+$/);
 		($dmidecode_ver)=(/.* dmidecode (.*)/i) if (/ dmidecode /i);
 		($permission_error)=(/(.*)/) if (/Permission denied/i);
 		($dmidecode_error)=(/# *(.*)/) if (/No SMBIOS nor DMI entry point found/i);
@@ -6871,26 +7166,26 @@ sub linux_dmi {
 
 		# Check system information
 		if ($DMItype == 1) {
-			($manufacturer)=(/: +(.*\S) *$/) if (/^\t*Manufacturer: /i || /^\t*Vendor: /i);
-			($model)=(/: +(.*\S) *$/) if (/^\t*Product Name: /i || /^\t*Product: /i);
+			($manufacturer)=(/: +(.*\S) *$/) if (/^\s*Manufacturer: /i || /^\s*Vendor: /i);
+			($model)=(/: +(.*\S) *$/) if (/^\s*Product Name: /i || /^\s*Product: /i);
 		}
 		if ($DMItype == 2) {
 			if ($manufacturer) {
 				if ($manufacturer =~ /To Be Filled/i || $manufacturer =~ /System Manufacturer/i) {
-					($manufacturer)=(/: +(.*\S) *$/) if (/^\t*Manufacturer: /i || /^\t*Vendor: /i);
+					($manufacturer)=(/: +(.*\S) *$/) if (/^\s*Manufacturer: /i || /^\s*Vendor: /i);
 				}
 			} else {
-				($manufacturer)=(/: +(.*\S) *$/) if (/^\t*Manufacturer: /i || /^\t*Vendor: /i);
+				($manufacturer)=(/: +(.*\S) *$/) if (/^\s*Manufacturer: /i || /^\s*Vendor: /i);
 			}
 			if ($model) {
 				if ($model =~ /To Be Filled/i || $model =~ /System Name/i || $model =~ /XXXX/i) {
-					($model)=(/: +(.*\S) *$/) if (/^\t*Product Name: /i || /^\t*Product: /i);
+					($model)=(/: +(.*\S) *$/) if (/^\s*Product Name: /i || /^\s*Product: /i);
 					if ($manufacturer) {
 						$model=~s/^$manufacturer // if ($model);
 					}
 				}
 			} else {
-				($model)=(/: +(.*\S) *$/) if (/^\t*Product Name: /i || /^\t*Product: /i);
+				($model)=(/: +(.*\S) *$/) if (/^\s*Product Name: /i || /^\s*Product: /i);
 				if ($manufacturer) {
 					$model=~s/^$manufacturer // if ($model);
 				}
@@ -6899,37 +7194,43 @@ sub linux_dmi {
 
 		# Check CPU information
 		if ($DMItype == 4) {
-			if (/^\t*Processor Information$/i || /^\t*Processor$/i) {
+			if (/^\s*Processor Information$/i || /^\s*Processor$/i) {
 				$cpuarr++;
 				$ncpu++;
 			}
-			($CPUSocketDesignation[$cpuarr])=(/: +(.*\S) *$/) if (/^\t*Socket Designation: /i);
-			($CPUFamily[$cpuarr])=(/: +(.*\S) *$/) if ((/^\t*Family: /i || /^\t*Processor Family: /i) && ! /: Other/i);
-			($CPUManufacturer[$cpuarr])=(/: +(.*\S) *$/) if (/^\t*Manufacturer: /i || /^\t*Processor Manufacturer: /i);
-			($CPUVersion[$cpuarr])=(/: +(.*\S) *$/) if ((/^\t*Version: /i || /^\t*Processor Version: /i) && ! /: Not Specified/i);
-			($ExtSpeed[$cpuarr])=(/: +(.*\S) *$/) if (/^\t*External Clock: /i);
-			($CPUSpeed[$cpuarr])=(/: +(.*\S) *$/) if (/^\t*Current Speed: /i);
-			if (/^\t*Status: /i) {
+			($CPUSocketDesignation[$cpuarr])=(/: +(.*\S) *$/) if (/^\s*Socket Designation: /i);
+			($CPUFamily[$cpuarr])=(/: +(.*\S) *$/) if (/^\s*Family: /i || /^\s*Processor Family: /i);
+			if (/^\s*Manufacturer: /i || /^\s*Processor Manufacturer: /i) {
+				($CPUManufacturer[$cpuarr])=(/: +(.*\S) *$/);
+				$CPUManufacturer[$cpuarr]=~s/GenuineIntel/Intel/;
+			}
+			($CPUVersion[$cpuarr])=(/: +(.*\S) *$/) if (/^\s*Version: /i || /^\s*Processor Version: /i);
+			($ExtSpeed[$cpuarr])=(/: +(.*\S) *$/) if (/^\s*External Clock: /i);
+			($CPUSpeed[$cpuarr])=(/: +(.*\S) *$/) if (/^\s*Current Speed: /i);
+			if (/^\s*Status: /i) {
 				($CPUStatus[$cpuarr])=(/: +(.*\S) *$/);
-				$ncpu-- if ($CPUStatus[$cpuarr] =~ /Unpopulated/i);
+				if ($CPUStatus[$cpuarr] =~ /Unpopulated/i) {
+					$ncpu--;
+					$necpu++;
+				}
 			}
 		}
 
 		# Check memory controller information
 		if ($DMItype == 5) {
-			($ECC)=(/: +(.*\S) *$/) if (/^\t*Error Detecting Method: /i && ! $ECC);
-			($interleave)=(/: +(.*\S) *$/) if (/^\t*Current Interleave: /i && ! /Other/i && $interleave eq "0");
-			($MAXMEM)=(/: +(.*\S) *$/) if (/^\t*Maximum Total Memory Size: /i && ! $MAXMEM);
+			($ECC)=(/: +(.*\S) *$/) if (/^\s*Error Detecting Method: /i && ! $ECC);
+			($interleave)=(/: +(.*\S) *$/) if (/^\s*Current Interleave: /i && $interleave eq "0");
+			($MAXMEM)=(/: +(.*\S) *$/) if (/^\s*Maximum Total Memory Size: /i && ! $MAXMEM);
 		}
 
 		# Check each memory device
 		if ($DMItype == 6) {
 			$DMI6=1;
-			$memarr++ if (/^\t*Memory Module Information$/i || /^\t*Memory Bank$/i);
-			($Locator6[$memarr])=(/: +(.*\S) *$/) if (/^\t*Socket Designation: /i || /^\t*Socket: /i);
-			($Speed6[$memarr])=(/: +(.*\S) *$/) if (/^\t*Current Speed: /i);
-			($Type6[$memarr])=(/: +(.*\S) *$/) if (/^\t*Type: /i);
-			if (/^\t*Installed Size: /i) {
+			$memarr++ if (/^\s*Memory Module Information$/i || /^\s*Memory Bank$/i);
+			($Locator6[$memarr])=(/: +(.*\S) *$/) if (/^\s*Socket Designation: /i || /^\s*Socket: /i);
+			($Speed6[$memarr])=(/: +(.*\S) *$/) if (/^\s*Current Speed: /i);
+			($Type6[$memarr])=(/: +(.*\S) *$/) if (/^\s*Type: /i);
+			if (/^\s*Installed Size: /i) {
 				($Size6[$memarr])=(/: +(.*\S) *$/);
 				if ($Size6[$memarr] !~ /Not Installed/i && $Size6[$memarr] !~ /No Module Installed/i) {
 					$simmsize=$Size6[$memarr];
@@ -6946,9 +7247,9 @@ sub linux_dmi {
 		# SMBIOS 2.1 added DMI Types 16 & 17, obsoleting Types 5 & 6
 		# Check physical memory array
 		if ($DMItype == 16) {
-			($ECC)=(/: +(.*\S) *$/) if (/^\t*Error Correction Type: /i && ! $ECC);
-			($MAXMEM)=(/: +(.*\S) *$/) if (/^\t*Maximum Capacity: /i && ! $MAXMEM);
-			($NUMMOD)=(/: +(.*\S) *$/) if (/^\t*Number Of Devices: /i && ! $NUMMOD);
+			($ECC)=(/: +(.*\S) *$/) if (/^\s*Error Correction Type: /i && ! $ECC);
+			($MAXMEM)=(/: +(.*\S) *$/) if (/^\s*Maximum Capacity: /i && ! $MAXMEM);
+			($NUMMOD)=(/: +(.*\S) *$/) if (/^\s*Number Of Devices: /i && ! $NUMMOD);
 		}
 
 		# Check each memory device
@@ -6958,20 +7259,20 @@ sub linux_dmi {
 				$memarr=-1 if (! $DMI17);
 			}
 			$DMI17=1;
-			$memarr++ if (/^\t*Memory Device$/i);
-			($FormFactor[$memarr])=(/: +(.*\S) *$/) if (/^\t*Form Factor: /i);
-			($Locator17[$memarr])=(/: +(.*\S) *$/) if (/^\t*Locator: /i);
-			($BankLocator[$memarr])=(/: +(.*\S) *$/) if (/^\t*Bank Locator: /i && ! /Not Specified/i);
-			($Type17[$memarr])=(/: +(.*\S) *$/) if (/^\t*Type: /i);
-			($TypeDetail[$memarr])=(/: +(.*\S) *$/) if (/^\t*Type Detail: /i);
-			($Size17[$memarr])=(/: +(.*\S) *$/) if (/^\t*Size: /i);
+			$memarr++ if (/^\s*Memory Device$/i);
+			($FormFactor[$memarr])=(/: +(.*\S) *$/) if (/^\s*Form Factor: /i);
+			($Locator17[$memarr])=(/: +(.*\S) *$/) if (/^\s*Locator: /i);
+			($BankLocator[$memarr])=(/: +(.*\S) *$/) if (/^\s*Bank Locator: /i);
+			($Type17[$memarr])=(/: +(.*\S) *$/) if (/^\s*Type: /i);
+			($TypeDetail[$memarr])=(/: +(.*\S) *$/) if (/^\s*Type Detail: /i);
+			($Size17[$memarr])=(/: +(.*\S) *$/) if (/^\s*Size: /i);
 
-			($Speed17[$memarr])=(/: +(.*\S) *$/) if (/^\t*Speed: /i);
-			($MemManufacturer[$memarr])=&get_mfg(/: +(.*\S) *$/) if (/^\t*Manufacturer: /i && ! /Not Specified/i && ! /:\s+$/);
-			($MemPartNum[$memarr])=(/: +(.*\S) *$/) if (/^\t*Part Number: /i && ! /PartNum\d/i && ! /Not Specified/i);
+			($Speed17[$memarr])=(/: +(.*\S) *$/) if (/^\s*Speed: /i);
+			($MemManufacturer[$memarr])=&get_mfg(/: +(.*\S) *$/) if (/^\s*Manufacturer: /i);
+			($MemPartNum[$memarr])=(/: +(.*\S) *$/) if (/^\s*Part Number: /i && ! /PartNum\d/i);
 			# Ignore Flash chips for DMI17cnt
-			$DMI17cnt=$memarr + 1 if (/^\t*Form Factor: /i && ! /\bChip\b/i);
-			if (/^\t*Size: /i) {
+			$DMI17cnt=$memarr + 1 if (/^\s*Form Factor: /i && ! /\bChip\b/i);
+			if (/^\s*Size: /i) {
 				($Size17[$memarr])=(/: +(.*\S) *$/);
 				# Ignore Flash chips for DMI17totmem (Size
 				# reported as KB)
@@ -6986,22 +7287,69 @@ sub linux_dmi {
 	}
 	close(FILE);
 
+	# Check kernel to see how many processors it sees (for multi-core and
+	# hyperthreaded CPUs)
+	if (($filename eq "") && -r '/proc/cpuinfo') {
+		open(FILE, "/proc/cpuinfo");
+		@cpuinfo=<FILE>;
+		close(FILE);
+		$have_cpuinfo_data=1;
+	}
+	if ($have_cpuinfo_data) {
+		foreach $line (@cpuinfo) {
+			$line=&dos2unix($line);
+			$_=$line;
+			$cpucnt_cpuinfo++ if (/^processor\b.*: \d+/);
+			$corecnt_cpuinfo++ if (/^core id\b.*: \d+/);
+			($cpucores_cpuinfo)=(/^cpu cores\b.*: (.*)$/) if (/^cpu cores\b.*: \d+/);
+			# Only GenuineIntel x86 has hyperthreading capability
+			$foundGenuineIntel=1 if (/^vendor_id\b.*: GenuineIntel/);
+			if (/^model name\b.*: /) {
+				($cputype_cpuinfo)=(/^model name\b.*: (.*)$/);
+				$cputype_cpuinfo=&cleanup_cputype($cputype_cpuinfo);
+			}
+		}
+		print &runtime . "cputype_cpuinfo=$cputype_cpuinfo, ncpu=$ncpu, cpucnt_cpuinfo=$cpucnt_cpuinfo, corecnt_cpuinfo=$corecnt_cpuinfo, cpucores_cpuinfo=$cpucores_cpuinfo, foundGenuineIntel=$foundGenuineIntel\n" if ($DEBUG);
+	}
+
 	# hash CPUs
 	for ($val=0; $val < $ncpu; $val++) {
 		$cputype="";
 		$cpufreq="";
 		if ($CPUVersion[$val]) {
-			$cputype .= "$CPUManufacturer[$val] " if ($CPUManufacturer[$val] ne "" && $CPUVersion[$val] !~ /$CPUManufacturer[$val]/i);
-			$CPUVersion[$val]=~s/ CPU//;
-			$CPUVersion[$val]=~s/ [Pp]rocessor//;
-			$CPUVersion[$val]=~s/ +MHz/MHz/;
-			$cputype .= "$CPUVersion[$val] ";
+			if ($CPUVersion[$val] eq "AMD" && $cputype_cpuinfo ne "" && ! &is_virtualmachine) {
+				print &runtime . "Adding \$cputype_cpuinfo=$cputype_cpuinfo to cputype\n" if ($DEBUG);
+				$cputype .= "$CPUManufacturer[$val] " if ($CPUManufacturer[$val] ne "" && $cputype_cpuinfo !~ /$CPUManufacturer[$val]/i);
+				$cputype .= "$cputype_cpuinfo ";
+			} else {
+				print &runtime . "Adding \$CPUVersion[\$val]=$CPUVersion[$val] to cputype\n" if ($DEBUG);
+				$cputype .= "$CPUManufacturer[$val] " if ($CPUManufacturer[$val] ne "" && $CPUVersion[$val] !~ /$CPUManufacturer[$val]/i);
+				$CPUVersion[$val]=&cleanup_cputype($CPUVersion[$val]);
+				$cputype .= "$CPUVersion[$val] ";
+			}
+		} elsif ($cputype_cpuinfo ne "" && ! &is_virtualmachine) {
+			print &runtime . "Adding \$cputype_cpuinfo=$cputype_cpuinfo to cputype\n" if ($DEBUG);
+			$cputype .= "$CPUManufacturer[$val] " if ($CPUManufacturer[$val] ne "" && $cputype_cpuinfo !~ /$CPUManufacturer[$val]/i);
+			$cputype .= "$cputype_cpuinfo ";
 		} else {
 			$cputype .= "$CPUManufacturer[$val] " if ($CPUManufacturer[$val]);
 			$cputype .= "$CPUFamily[$val] " if ($CPUFamily[$val]);
 		}
-		$cputype=~s/ *$//;
+		if (! $machine && $CPUFamily[$val]) {
+			$machine="ia64" if ($CPUFamily[$val] eq "Itanium");
+		}
+		$cputype=~s/^\s+//;
+		$cputype=~s/\s+$//;
 		$cputype=~s/ +/ /g;
+		if ($ncpu < $cpucnt_cpuinfo && $cpucnt_cpuinfo > 0) {
+			# Distinguish Dual-Core from hyperthreading
+			$hyperthread=1 if ($foundGenuineIntel && $corecnt_cpuinfo != $ncpu * $cpucores_cpuinfo && $cpucores_cpuinfo > 0 && $corecnt_cpuinfo > 1);
+			if ($cpucores_cpuinfo > 0) {
+				$cputype=&multicore_cputype($cputype,$cpucores_cpuinfo);
+			} else {
+				$cputype=&multicore_cputype($cputype,$cpucnt_cpuinfo / $ncpu);
+			}
+		}
 		if ($CPUSpeed[$val]) {
 			$cpufreq="$CPUSpeed[$val]";
 			$cpufreq=~s/ *MHz$//;
@@ -7075,7 +7423,7 @@ sub linux_dmi {
 	}
 
 	# Memory information
-	print "Memory Error Correction: $ECC\n" if ($ECC);
+	print "Memory Error Correction: $ECC\n" if ($ECC && ! &is_virtualmachine);
 	$max=0;
 	if ($MAXMEM) {
 		if ($MAXMEM =~ /\d+ MB/) {
@@ -7133,7 +7481,8 @@ sub linux_dmi {
 					$buffer .= " $TypeDetail[$cnt]" if ($TypeDetail[$cnt] !~ /None/i);
 				}
 				if ($FormFactor[$cnt]) {
-					$buffer .= " $Type17[$cnt] $FormFactor[$cnt]";
+					$buffer .= " $Type17[$cnt]";
+					$buffer .= " $FormFactor[$cnt]" if ($Type17[$cnt] !~ /$FormFactor[$cnt]/);
 				} elsif ($Type6[$cnt]) {
 					$buffer .= " $Type6[$cnt]";
 				}
@@ -7185,7 +7534,13 @@ sub linux_dmi {
 					$buffer .= " $TypeDetail[$cnt]" if ($TypeDetail[$cnt] !~ /None/i);
 				}
 				$buffer .= " $Type17[$cnt]" if ($Type17[$cnt]);
-				$buffer .= " $FormFactor[$cnt]" if ($FormFactor[$cnt]);
+				if ($FormFactor[$cnt]) {
+					if ($Type17[$cnt]) {
+						$buffer .= " $FormFactor[$cnt]" if ($Type17[$cnt] !~ /$FormFactor[$cnt]/);
+					} else {
+						$buffer .= " $FormFactor[$cnt]";
+					}
+				}
 				if ($MemManufacturer[$cnt]) {
 					$buffer .= ", $MemManufacturer[$cnt]" if ($MemManufacturer[$cnt] !~ /None/i);
 					if ($MemPartNum[$cnt]) {
@@ -7196,15 +7551,17 @@ sub linux_dmi {
 			}
 		}
 	}
-	print "Maximum Memory: ";
-	if ((! $MAXMEM) || ($max < $totmem) || ($max == 0)) {
-		$MAXMEM="Unknown";
-		$MAXMEM .= " (DMI incorrectly reports ${max}MB)" if (($max < $totmem) && ($max > 0));
-		print "$MAXMEM\n";
-	} else {
-		&show_memory($max);
+	if (! &is_virtualmachine) {
+		print "Maximum Memory: ";
+		if ((! $MAXMEM) || ($max < $totmem) || ($max == 0)) {
+			$MAXMEM="Unknown";
+			$MAXMEM .= " (DMI incorrectly reports ${max}MB)" if (($max < $totmem) && ($max > 0));
+			print "$MAXMEM\n";
+		} else {
+			&show_memory($max);
+		}
+		print $buffer if ($buffer ne "");
 	}
-	print $buffer if ($buffer ne "");
 
 	#
 	# Print total memory
@@ -7215,12 +7572,12 @@ sub linux_dmi {
 		&check_dmidecode_ver;
 		$exitstatus=1;
 	} else {
-		&print_empty_memory("memory sockets");
+		&print_empty_memory("memory sockets") if (! &is_virtualmachine);
 		print "total memory = ";
 		&show_memory($totmem);
 	}
 	print "ERROR: $dmidecode_error\n" if ($dmidecode_error);
-	if ($freephys > $totmem) {
+	if ($freephys > $totmem  && ! &is_virtualmachine) {
 		print "ERROR: Total physical memory (${freephys}MB) is ";
 		print "greater than the total memory found.\n    The total ";
 		print "physical memory reported by 'free -m' does not match ";
@@ -7232,15 +7589,50 @@ sub linux_dmi {
 		$recognized=0;
 		$exitstatus=1;
 	}
+	# See if half of the memory is unused due to missing a second CPU
+	if ($totmem > 0 && $totmem == &roundup_memory($freephys) * 2 && $ncpu == 1 && $necpu == 1) {
+		print "WARNING: Half of the installed memory is not being ";
+		print "used due to only having a\n         single CPU ";
+		print "installed in this dual-CPU capable system.\n";
+	}
+	if ("$os" eq "Linux" && &roundup_memory($freephys) < $totmem) {
+		$tmp=0;
+		@tmp=("");
+		if (-r '/var/log/dmesg' && ($filename eq "")) {
+			open(FILE, "</var/log/dmesg");
+			@tmp=<FILE>;
+			close(FILE);
+		} elsif ($filename ne "") {
+			@tmp=@config;
+		}
+		foreach $line (@tmp) {
+			if ($line =~ /Warning only \d.*B will be used/) {
+				$line=~s/Warning o/WARNING: O/;
+				print $line;
+				$tmp=1;
+			}
+			if ($line =~ /Use a PAE enabled kernel/) {
+				print "WARNING: " . $line;
+				$tmp=1;
+			}
+		}
+		if ($tmp) {
+			print "WARNING: Total memory available to the OS is ";
+			print "less than the total memory found.\n    An ";
+			print "upgraded BIOS may fix this issue. This is not ";
+			print "a bug in memconf.\n";
+			$recognized=0;
+			$exitstatus=1;
+		}
+	}
 	# Flag untested CPU types (machine="" or "x86" on regression test files)
-	if ($machine eq "" || $machine eq "x86" || $machine =~ /i.86/ || $machine eq "x86_64") {
-		$untested=0;
+	# Linux tested so far on x86, i86pc, x86_64, and Itanium ia64
+	if ($machine eq "" || $machine eq "x86" || $machine =~ /i.86/ || $machine eq "x86_64" || $machine eq "ia64") {
+		$untested=0 if ($untested == 1);
 	} else {
 		# Linux on SPARC
 #		if ($machine =~ /sparc/) {
 #		if ($machine eq "sparc64") {
-		# Linux on Itanium
-#		if ($machine eq "ia64") {
 		$untested=1;
 		$untested_type="CPU" if ("$untested_type" eq "");
 	}
@@ -7250,15 +7642,60 @@ sub linux_dmi {
 	exit $exitstatus;
 }
 
-sub check_virtualmachine {
+sub show_total_memory {
+	#
+	# Print total memory
+	#
+	print "total memory = ";
+	&show_memory($totmem);
+	print "$permission_error\n" if ($permission_error);
+	if ($prtconf_warn ne "") {
+		print "WARNING: $prtconf_warn\n";
+		print "         This may be corrected by installing ";
+		print "a Sun patch on this system.\n";
+	}
+}
+
+sub show_control_LDOM_message {
+	#
+	# Post notice if on control domain
+	#
+	print "NOTICE: Control Logical Domain (LDOM) detected.  The cpus and memory modules\n";
+	print "    reported are for the system, not necessarily the control domain.\n";
+}
+
+sub is_virtualmachine {
 	if ($model =~ /VMware|Virtual Platform|Virtual Machine/i || $diagbanner =~ /Virtual Machine/i) {
-		print "NOTICE: Details shown are for the configuration of this Virtual Machine, not\n        the physical CPUs and memory of the host it is running on.\n";
+		return(1);
+	}
+	return(0);
+}
+
+sub check_virtualmachine {
+	if (&is_virtualmachine) {
+		print "NOTICE: Details shown are for the configuration of this Virtual Machine (VM),\n        not the physical CPUs and memory of the VM server it is running on.\n";
+		if ($cputype_cpuinfo ne "") {
+			print "        VM server CPU";
+			print (($cpucnt_cpuinfo > 1) ? "s: $cpucnt_cpuinfo X" : ":");
+			print " $cputype_cpuinfo\n";
+		}
 	}
 }
 
 sub finish {
 	&show_header;
 	#print "newslots=@newslots\n" if ($#newslots > 0 && $verbose > 1);
+# TLS
+	# Cannot accurately determine installed memory unless information is
+	# is in prtpicl output, or if system is fully stuffed
+	if ($ldm_memory && ! $picl_foundmemory) {
+		&show_control_LDOM_message;
+		$totmem=$installed_memory;
+		&show_total_memory;
+# TLS ToDo: If fully stuffed, rewrite output
+# TLS ToDo: If not fully stuffed, clear bogus module sizes found
+		return;
+	}
 	print $buffer if ($buffer ne "");
 	#
 	# Special memory options
@@ -7371,7 +7808,7 @@ sub finish {
 		print "memory sockets used: $sockets_used\n";
 	}
 	# Look for duplicate sockets
-	if ($sockets_used ne "" && $prtdiag_exec ne "") {
+	if ($sockets_used ne "" && $have_prtdiag_data) {
 		$dup_sockets="";
 		foreach $socket (sort split(' ', $sockets_used)) {
 			next if ($socket eq "board" || $socket eq "mezzanine");
@@ -7399,7 +7836,7 @@ sub finish {
 	# Look for unlabeled sockets
 	if ($sockets_used =~ /\s-\s|^-\s|\s-$|^-$/) {
 		print "WARNING: Unlabeled socket found";
-		print " in the 'prtdiag' command output" if ($prtdiag_exec ne "");
+		print " in the 'prtdiag' command output" if ($have_prtdiag_data);
 		print ".\n         This may cause the reported empty sockets";
 		print " to be incorrect.\n";
 		&recommend_prtdiag_patch;
@@ -7418,22 +7855,12 @@ sub finish {
 	#
 	# Print total memory
 	#
-	print "total memory = ";
-	&show_memory($totmem);
-	print "$permission_error\n" if ($permission_error);
-	if ($prtconf_warn ne "") {
-		print "WARNING: $prtconf_warn\n";
-		print "         This may be corrected by installing ";
-		print "a Sun patch on this system.\n";
-	}
+	&show_total_memory;
 
 	#
 	# Post notice if on control domain
 	#
-	if ($ldm_memory) {
-		print "NOTICE: Control Logical Domain (LDOM) detected.  The cpus and memory modules\n";
-		print "    reported are for the system, not necessarily the control domain.\n";
-	}
+	&show_control_LDOM_message if ($ldm_memory);
 
 	#
 	# Post notice if on a virtual machine
@@ -7715,12 +8142,8 @@ sub finish {
 			print "       SunOS $osrel $platform system to be accurately determined.\n";
 			print "       This is a bug in Sun's OBP, not a bug in memconf.  The latest OBP\n";
 			print "       release (OBP 3.33.0 2003/10/07 from patch 109082-06) ";
-			if ($totmem eq 1024) {
-				print "still has this bug.\n";
-			} else {
-				print "should fix this.\n";
-			}
-			print "       This system is using $romver\n";
+			print (($totmem eq 1024) ? "still has this bug" : "should fix this");
+			print ".\n       This system is using $romver\n";
 			$exitstatus=1;
 		}
 		if ($ultra eq "Sun Blade 1000" || $ultra eq "Sun Blade 2000" || $ultra eq "Sun Fire 280R" || $ultra eq "Netra 20") {
@@ -7757,6 +8180,11 @@ sub finish {
 			print "WARNING: Cannot distinguish between four";
 			print " 370-4155 256MB mezzanine boards and\n";
 			print "         two 512MB mezzanine boards.\n";
+		}
+		if ($totmem eq 768) {
+			print "WARNING: Cannot distinguish between three";
+			print " 370-4155 256MB mezzanine boards and\n";
+			print "         one 512MB and one 256MB mezzanine boards.\n";
 		}
 	}
 	if ($installed_memory > 0) {
@@ -7811,7 +8239,7 @@ sub finish {
 	}
 	# Dual-Core and Quad-Core x86 CPUs have been tested, so flag
 	# Triple-Core and other multicore x86 CPUs
-	if (($model eq "i86pc" || $machine eq "i86pc") && ($corecnt == 3 || $corecnt >= 5)) {
+	if ($isX86 && ($corecnt == 3 || $corecnt >= 5)) {
 		$untested=1;
 		$untested_type="CPU" if ("$untested_type" eq "");
 	}
@@ -7877,7 +8305,7 @@ sub mailmaintainer {
 	print MAILFILE "$linebreak";
 	print MAILFILE "$attaching'$config_cmd'\n";
 	if ($uuencode_cmd ne "") {
-		if ("$operating_system" eq "SunOS") {
+		if ("$os" eq "SunOS") {
 			print MAILFILE "$attaching'$prtdiag_cmd -v'\n" if ($prtdiag_exec ne "");
 			print MAILFILE "$attaching'$prtfru_cmd -x'\n" if ($prtfru_cmd ne "");
 			print MAILFILE "$attaching'$prtpicl_cmd -v'\n" if ($prtpicl_cmd ne "");
@@ -7886,13 +8314,13 @@ sub mailmaintainer {
 			print MAILFILE "$attaching'$smbios_cmd'\n" if ($smbios_cmd ne "");
 			print MAILFILE "$attaching'$ldm_cmd list-devices -a -p'\n" if ($ldm_cmd ne "");
 		}
-		if ("$operating_system" eq "Linux") {
+		if ("$os" eq "Linux") {
 			print MAILFILE "$attaching'$free_cmd'\n" if ($free_cmd ne "");
 		}
-		if ("$operating_system" eq "SunOS" || "$operating_system" eq "Linux") {
+		if ("$os" eq "SunOS" || "$os" eq "Linux") {
 			print MAILFILE "$attaching'$ipmitool_cmd fru'\n" if ($ipmitool_cmd ne "");
 		}
-		if ("$operating_system" eq "HP-UX") {
+		if ("$os" eq "HP-UX") {
 			print MAILFILE "$attaching'/usr/contrib/bin/machinfo'\n" if (-x '/usr/contrib/bin/machinfo');
 		}
 		print MAILFILE "$linebreak";
@@ -7902,7 +8330,7 @@ sub mailmaintainer {
 	&attach_mail("${outfile}.txt",@memconf_output) if ($uuencode_cmd ne "");
 	@config=&run("$config_cmd") if (! $config[0]);
 	&attach_mail("${outfile}_${config_command}.txt",@config);
-	if ("$operating_system" eq "SunOS") {
+	if ("$os" eq "SunOS") {
 		&attach_mail("${outfile}_prtdiag.txt",@prtdiag) if ($prtdiag_exec ne "");
 		&attach_mail("${outfile}_prtfru.txt",@prtfru) if ($prtfru_cmd ne "");
 		&attach_mail("${outfile}_prtpicl.txt",@prtpicl) if ($prtpicl_cmd ne "");
@@ -7912,8 +8340,9 @@ sub mailmaintainer {
 		&attach_mail("${outfile}_ldm.txt",@ldm) if ($ldm_cmd ne "");
 	}
 	&attach_mail("${outfile}_free.txt",@free) if ($free_cmd ne "");
+	&attach_mail("${outfile}_cpuinfo.txt",@cpuinfo) if (-r '/proc/cpuinfo');
 	&attach_mail("${outfile}_ipmitool.txt",@ipmitool) if ($ipmitool_cmd ne "");
-	if ("$operating_system" eq "HP-UX") {
+	if ("$os" eq "HP-UX") {
 		&attach_mail("${outfile}_machinfo.txt",@machinfo) if (-x '/usr/contrib/bin/machinfo');
 	}
 	if ($uuencode_cmd eq "") {

@@ -10,6 +10,7 @@ Revision history for Ocsinventory::Agent
          description. (Scott HANNAHS)
        * Add an in contrib example of script to identify specific software
          (Simon CLARA)
+       * Upgrade memconf to V2.13
 
 1.1.3
        * Remove exec flag on
