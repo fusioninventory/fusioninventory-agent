@@ -43,10 +43,10 @@ sub handler {
         }
         $logger->debug("[RPC]Err, 404");
         $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/reset$/) {
-        $logger->debug("[RPC]RESET catched");
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now$/) {
+        $logger->debug("[RPC]'now' catched");
         $targets->resetNextRunDate();
-        $c->send_status_line(200, "ACK bob")
+        $c->send_status_line(200)
     } else {
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
