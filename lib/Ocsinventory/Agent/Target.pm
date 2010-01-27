@@ -13,8 +13,8 @@ sub new {
     my $self = {};
 
     my $lock : shared;
-    $self->{'lock'} = \$lock;
-    lock($self->{'lock'});
+    ${$self->{'lock'}} = \$lock;
+    lock(${$self->{'lock'}});
 
     my $nextRunDate : shared;
     $self->{'nextRunDate'} = \$nextRunDate;
@@ -132,7 +132,7 @@ sub init {
     my $config = $self->{'config'};
     my $logger = $self->{'logger'};
 
-    lock($self->{'lock'});
+    lock(${$self->{'lock'}});
 # The agent can contact different servers. Each server accountconfig is
 # stored in a specific file:
     if (
@@ -198,7 +198,7 @@ sub setNextRunDate {
 
     my $serverdelay = $accountconfig->get('PROLOG_FREQ');
 
-    lock($self->{'lock'});
+    lock(${$self->{'lock'}});
 
     my $time;
     if( $self->{prologFreqChanged} ){
@@ -231,7 +231,7 @@ sub getNextRunDate {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    lock($self->{'lock'});
+    lock(${$self->{'lock'}});
 
     # Only for server mode
     return 1 if $self->{'type'} ne 'server';
@@ -262,7 +262,7 @@ sub resetNextRunDate {
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
-    lock($self->{'lock'});
+    lock(${$self->{'lock'}});
     $logger->debug("Force run now");
     
     $self->{'myData'}{'nextRunDate'} = 1;
