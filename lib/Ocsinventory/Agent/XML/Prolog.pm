@@ -14,9 +14,10 @@ sub new {
   my $self = {};
   $self->{config} = $params->{config};
   $self->{accountinfo} = $params->{accountinfo};
+  my $logger = $params->{logger};
   my $rpc = $params->{rpc};
 
-  die unless ($self->{config}->{deviceid}); #XXX
+  $logger->fault("No DEVICEID") unless ($self->{config}->{deviceid});
 
   $self->{h}{QUERY} = ['PROLOG'];
   $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
