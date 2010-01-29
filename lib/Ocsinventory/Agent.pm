@@ -142,6 +142,7 @@ sub main {
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $targets = $self->{targets};
+    my $rpc = $self->{rpc};
 
 
 
@@ -173,6 +174,7 @@ sub main {
                     accountinfo => $target->{accountinfo}, #? XXX
                     logger => $logger,
                     config => $config,
+                    rpc => $rpc,
 
                 });
 

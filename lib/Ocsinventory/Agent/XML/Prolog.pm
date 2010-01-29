@@ -14,11 +14,13 @@ sub new {
   my $self = {};
   $self->{config} = $params->{config};
   $self->{accountinfo} = $params->{accountinfo};
+  my $rpc = $params->{rpc};
 
   die unless ($self->{config}->{deviceid}); #XXX
 
   $self->{h}{QUERY} = ['PROLOG'];
   $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
+  $self->{h}{TOKEN} = [$rpc->getToken()];
 
   bless $self;
 }
