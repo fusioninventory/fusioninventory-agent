@@ -177,11 +177,9 @@ sub init {
         exit(1);
     }
 
-    if (-d $self->{vardir}) {
-        $self->{accountconfig} = $self->{vardir}."/ocsinv.conf";
-        $self->{accountinfofile} = $self->{vardir}."/ocsinv.adm";
-        $self->{last_statefile} = $self->{vardir}."/last_state";
-    }
+    $self->{accountconfig} = $self->{vardir}."/ocsinv.conf";
+    $self->{accountinfofile} = $self->{vardir}."/ocsinv.adm";
+    $self->{last_statefile} = $self->{vardir}."/last_state";
 
 
 }
