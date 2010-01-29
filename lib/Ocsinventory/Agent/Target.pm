@@ -1,6 +1,5 @@
 package Ocsinventory::Agent::Target;
 
-use Ocsinventory::Agent::AccountConfig;
 use File::Path;
 use Sys::Hostname;
 
@@ -13,7 +12,7 @@ sub new {
     my $self = {};
 
     my $lock : shared;
-    ${$self->{'lock'}} = \$lock;
+    $self->{'lock'} = \$lock; ### BORKEN !!! TODO !
     lock(${$self->{'lock'}});
 
     my $nextRunDate : shared;
@@ -42,15 +41,6 @@ sub new {
     if (!-d $self->{'vardir'}) {
         $logger->fault("Bad vardir setting!");
     }
-
-
-    $self->{accountconfig} = new Ocsinventory::Agent::AccountConfig({
-
-            logger => $logger,
-            config => $config,
-
-        });
-
 
 
 
@@ -94,8 +84,6 @@ sub new {
     }
 
 
-    my $accountconfig = $self->{accountconfig};
-
     my $hostname = hostname; # Sys::Hostname
     if ((!$config->{deviceid}) || $config->{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
         my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
@@ -103,8 +91,6 @@ sub new {
         $config->{old_deviceid} = $config->{deviceid};
         $config->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
         $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
-        $accountconfig->set('DEVICEID',$config->{deviceid});
-        $accountconfig->write();
     }
 
 
@@ -133,8 +119,8 @@ sub init {
     my $logger = $self->{'logger'};
 
     lock(${$self->{'lock'}});
-# The agent can contact different servers. Each server accountconfig is
-# stored in a specific file:
+# The agent can contact different servers. Each server has it's own
+# directory to store data
     if (
         ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
             !$self->isDirectoryWritable($config->{basevardir}))
@@ -177,7 +163,6 @@ sub init {
         exit(1);
     }
 
-    $self->{accountconfig} = $self->{vardir}."/ocsinv.conf";
     $self->{accountinfofile} = $self->{vardir}."/ocsinv.adm";
     $self->{last_statefile} = $self->{vardir}."/last_state";
 
@@ -189,12 +174,11 @@ sub setNextRunDate {
 
     my ($self, $args) = @_;
 
-    my $accountconfig = $self->{accountconfig};
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
-    my $serverdelay = $accountconfig->get('PROLOG_FREQ');
+    my $serverdelay = $self->{myData}{prologFreq};
 
     lock(${$self->{'lock'}});
 
@@ -225,7 +209,6 @@ sub setNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $accountconfig = $self->{accountconfig};
     my $config = $self->{config};
     my $logger = $self->{logger};
 
@@ -268,5 +251,36 @@ sub resetNextRunDate {
     
     ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
 }
+
+sub setPrologFreq {
+
+    my ($self, $prologFreq) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $storage = $self->{storage};
+
+    return unless $prologFreq;
+
+    if ($self->{'myData'}{'prologFreq'} eq $prologFreq) {
+        return;
+    }
+    $logger->info("PROLOG_FREQ has changed since last
+        process(old=".$self->{'myData'}{'prologFreq'}.",new=".$prologFreq.")");
+
+    $self->{'myData'}{'prologFreq'} = $prologFreq;
+    $storage->save($self->{'myData'});
+
+    $logger->debug (
+        "[".$self->{'path'}."]".
+        " Next server contact'd just been planned for ".
+        localtime($self->{'myData'}{'nextRunDate'})
+    );
+
+
+    $storage->save($self->{'myData'});
+
+}
+
 
 1;

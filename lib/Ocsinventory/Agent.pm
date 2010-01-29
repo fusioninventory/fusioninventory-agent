@@ -175,6 +175,7 @@ sub main {
                     logger => $logger,
                     config => $config,
                     rpc => $rpc,
+                    target => $target
 
                 });
 

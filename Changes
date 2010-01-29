@@ -11,6 +11,7 @@ futur
           run()      → doInventory()
           longRun()  → postInventory()
        * Add isPostInventoryEnabled() function
+       * Drop AccountConfig. replaced by Storage
 
 1.2.x
        * Solaris: use regex to identify CPU class (Jerome LEBAS)
