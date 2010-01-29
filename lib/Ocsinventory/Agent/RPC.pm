@@ -1,8 +1,12 @@
 package Ocsinventory::Agent::RPC;
 
 use HTTP::Daemon;
+use Ocsinventory::Agent::Storage;
 
 use threads;
+
+use strict;
+use warnings;
 
 sub new {
     my (undef, $params) = @_;
@@ -14,6 +18,14 @@ sub new {
     $self->{targets} = $params->{targets};
 
     my $config = $self->{config};
+
+    use Data::Dumper;
+
+    my $storage = $self->{storage} = new Ocsinventory::Agent::Storage({
+            target => {
+                vardir => $config->{basevardir},
+            }
+        });
 
 
     bless $self;
@@ -36,17 +48,21 @@ sub handler {
     if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\/-]+)$/) {
         my $file = $1;
         foreach my $target (@{$targets->{targets}}) {
-            print $target->{vardir}."/deploy/".$file."\n";
             if (-f $target->{vardir}."/deploy/".$file) {
                 $c->send_file_response($target->{vardir}."/deploy/".$file);
             }
         }
         $logger->debug("[RPC]Err, 404");
         $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now$/) {
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now\/(\S+)$/) {
+        my $token = $1;
         $logger->debug("[RPC]'now' catched");
-        $targets->resetNextRunDate();
-        $c->send_status_line(200)
+        if ($token ne $self->getToken()) {
+            $c->send_status_line(403)
+        } else {
+            $targets->resetNextRunDate();
+            $c->send_status_line(200)
+        }
     } else {
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
@@ -75,6 +91,34 @@ sub server {
     }
 }
 
+sub getToken {
+    my ($self, $reset) = @_; 
 
+    my $lock :shared;
+ 
+    my $storage = $self->{storage};
+    my $logger = $self->{logger};
+
+    lock($lock);
+
+    if ($self->{token}) {
+
+    }
+    my $myData = $storage->restore(__PACKAGE__);
+    if (!$myData->{token}) {
+
+        my $tmp = '';
+        $tmp .= pack("W",65+rand(24)) foreach (0..100);
+        $myData->{token} = $tmp;
+
+        $storage->save($myData);
+    }
+    $self->{token} = $myData->{token};
+    
+    $logger->debug("token is :".$self->{token});
+
+    return $self->{token};
+
+}
 
 1;
