@@ -58,8 +58,10 @@ sub handler {
         my $token = $1;
         $logger->debug("[RPC]'now' catched");
         if ($token ne $self->getToken()) {
+            $logger->debug("[RPC] bad token $token != ".$self->getToken());
             $c->send_status_line(403)
         } else {
+            $self->getToken('forceNewToken');
             $targets->resetNextRunDate();
             $c->send_status_line(200)
         }
@@ -92,7 +94,7 @@ sub server {
 }
 
 sub getToken {
-    my ($self, $reset) = @_; 
+    my ($self, $forceNewToken) = @_; 
 
     my $lock :shared;
  
@@ -101,11 +103,8 @@ sub getToken {
 
     lock($lock);
 
-    if ($self->{token}) {
-
-    }
     my $myData = $storage->restore(__PACKAGE__);
-    if (!$myData->{token}) {
+    if ($forceNewToken || !$myData->{token}) {
 
         my $tmp = '';
         $tmp .= pack("W",65+rand(24)) foreach (0..100);
@@ -113,11 +112,10 @@ sub getToken {
 
         $storage->save($myData);
     }
-    $self->{token} = $myData->{token};
     
-    $logger->debug("token is :".$self->{token});
+    $logger->debug("token is :".$myData->{token});
 
-    return $self->{token};
+    return $myData->{token};
 
 }
 
