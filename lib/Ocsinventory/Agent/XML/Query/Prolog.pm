@@ -5,15 +5,17 @@ use warnings;
 
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
+use Ocsinventory::Agent::XML::Query;
 
+our @ISA = ('Ocsinventory::Agent::XML::Query');
 #use Ocsinventory::Agent::XML::Query::Prolog;
 
 sub new {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
-  my $self = {};
-  $self->{config} = $params->{config};
-  $self->{accountinfo} = $params->{accountinfo};
+  my $self = $class->SUPER::new($params);
+  bless ($self, $class);
+
   my $logger = $params->{logger};
   my $rpc = $params->{rpc};
 
@@ -23,7 +25,7 @@ sub new {
   $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
   $self->{h}{TOKEN} = [$rpc->getToken()];
 
-  bless $self;
+  return $self;
 }
 
 sub dump {

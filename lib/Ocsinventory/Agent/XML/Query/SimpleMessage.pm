@@ -4,15 +4,19 @@ use strict;
 use warnings;
 
 use XML::Simple;
+use Ocsinventory::Agent::XML::Query;
+
+our @ISA = ('Ocsinventory::Agent::XML::Query');
 
 sub new {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
-  my $self = {};
-  $self->{config} = $params->{config};
+  my $self = $class->SUPER::new($params);
+  bless ($self, $class);
+
   $self->{h} = $params->{msg};
 
-  my $logger = $self->{logger} = $params->{logger};
+  my $logger = $self->{logger};
 
   $logger->fault("No msg") unless $params->{msg};
 
@@ -21,7 +25,7 @@ sub new {
   }
   $self->{h}{DEVICEID} = $self->{config}->{deviceid};
 
-  bless $self;
+  return $self;
 }
 
 sub dump {
