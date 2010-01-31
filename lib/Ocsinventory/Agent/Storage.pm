@@ -22,12 +22,12 @@ sub new {
 }
 
 sub getFilePath {
-    my ($self, $data) = @_;
+    my ($self, $module) = @_;
 
     my $target = $self->{target};
     my $config = $self->{config};
 
-    my $fileName = caller(1);
+    my $fileName = $module || caller(1);
     $fileName =~ s/::/-/g; # Drop the ::
     # They are forbiden on Windows in file path
 
@@ -57,7 +57,7 @@ sub save {
 sub restore {
     my ($self, $module) = @_;
 
-    my $filePath = $self->getFilePath();
+    my $filePath = $self->getFilePath($module);
 	print "[storage]restore data from: $filePath\n";
 
     if (-f $filePath) {
