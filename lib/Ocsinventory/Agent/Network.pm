@@ -13,7 +13,6 @@ sub new {
 
   my $self = {};
   
-  $self->{accountconfig} = $params->{accountconfig}; 
   $self->{accountinfo} = $params->{accountinfo}; 
 
   my $config = $self->{config} = $params->{config};
@@ -130,7 +129,6 @@ sub send {
   $tmp->import();
   my $response = $tmp->new ({
 
-     accountconfig => $target->{accountconfig},
      accountinfo => $target->{accountinfo},
      content => $content,
      logger => $logger,

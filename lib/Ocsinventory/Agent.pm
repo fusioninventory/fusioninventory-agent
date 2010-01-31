@@ -10,6 +10,7 @@ use warnings;
 # THIS IS AN UGLY WORKAROUND FOR
 # http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
+use Sys::Hostname;
 
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
@@ -31,8 +32,8 @@ if ($@){
 # END OF THE UGLY FIX!
 #use Sys::Hostname;
 use Ocsinventory::Logger;
-use Ocsinventory::Agent::XML::Inventory;
-use Ocsinventory::Agent::XML::Prolog;
+use Ocsinventory::Agent::XML::Query::Inventory;
+use Ocsinventory::Agent::XML::Query::Prolog;
 
 use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Task::Inventory;
@@ -73,6 +74,29 @@ sub new {
         $config->{nosoftware} = 1
     }
 
+
+    my $hostname = hostname; # Sys::Hostname
+
+# /!\ $rootStorage save/read data in 'basevardir', not in a target directory!
+    my $rootStorage = new Ocsinventory::Agent::Storage({
+        config => $config
+    });
+    my $myRootData = $rootStorage->restore();
+
+    if (!defined($myRootData->{previousHostname}) || defined($myRootData->{previousHostname}) &&  ($myRootData->{previousHostname} ne $hostname)) {
+        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
+            (time))[5,4,3,2,1,0];
+        $self->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+
+        $myRootData->{previousHostname} = $hostname;
+        $myRootData->{deviceid} = $self->{deviceid};
+        $rootStorage->save($myRootData);
+    } else {
+        $self->{deviceid} = $myRootData->{deviceid}
+    }
+
+
 ############################
 #### Objects initilisation
 ############################
@@ -82,7 +106,8 @@ sub new {
     $self->{targets} = new Ocsinventory::Agent::Targets({
 
             logger => $logger,
-            config => $config,           
+            config => $config,
+            deviceid => $self->{deviceid}
             
         });
     my $targets = $self->{targets};
@@ -169,12 +194,13 @@ sub main {
 
                 });
 
-            my $prolog = new Ocsinventory::Agent::XML::Prolog({
+            my $prolog = new Ocsinventory::Agent::XML::Query::Prolog({
 
                     accountinfo => $target->{accountinfo}, #? XXX
                     logger => $logger,
                     config => $config,
                     rpc => $rpc,
+                    target => $target
 
                 });
 
@@ -186,6 +212,8 @@ sub main {
                 $target->setNextRunDate();
                 next;
             }
+
+            $target->setCurrentDeviceID ($self->{deviceid});
         }
 
     
@@ -200,7 +228,7 @@ sub main {
 
             config => $config,
             target => $target,
-            logger => $logger,
+            #logger => $logger, # XXX Needed?
             prologresp => $prologresp
 
             });

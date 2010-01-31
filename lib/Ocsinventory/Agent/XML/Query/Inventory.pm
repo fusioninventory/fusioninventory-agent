@@ -1,11 +1,11 @@
-package Ocsinventory::Agent::XML::Inventory;
+package Ocsinventory::Agent::XML::Query::Inventory;
 # TODO: resort the functions
 use strict;
 use warnings;
 
 =head1 NAME
 
-Ocsinventory::Agent::XML::Inventory - the XML abstraction layer
+Ocsinventory::Agent::XML::Query::Inventory - the XML abstraction layer
 
 =head1 DESCRIPTION
 
@@ -18,8 +18,11 @@ called $inventory in general.
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 use Config;
+use Ocsinventory::Agent::XML::Query;
 
 use Ocsinventory::Agent::Task::Inventory;
+
+our @ISA = ('Ocsinventory::Agent::XML::Query');
 
 =over 4
 
@@ -29,20 +32,20 @@ The usual constructor.
 
 =cut
 sub new {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
-  my $self = {};
+  my $self = $class->SUPER::new($params);
+  bless ($self, $class);
+
   $self->{backend} = $params->{backend};
-  my $logger = $self->{logger} = $params->{logger};
-  $self->{config} = $params->{config};
-  $self->{target} = $params->{target};
+  my $logger = $self->{logger};
+  my $target = $self->{target};
 
-  if (!($self->{config}{deviceid})) {
+  if (!($target->{deviceid})) {
     $logger->fault ('deviceid unititalised!');
   }
 
   $self->{h}{QUERY} = ['INVENTORY'];
-  $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
   $self->{h}{CONTENT}{ACCESSLOG} = {};
   $self->{h}{CONTENT}{BIOS} = {};
   $self->{h}{CONTENT}{CONTROLLERS} = [];
@@ -69,7 +72,7 @@ sub new {
   # Is the XML centent initialised?
   $self->{isInitialised} = undef;
 
-  bless $self;
+  return $self;
 }
 
 =item initialise()

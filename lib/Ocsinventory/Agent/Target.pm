@@ -1,8 +1,6 @@
 package Ocsinventory::Agent::Target;
 
-use Ocsinventory::Agent::AccountConfig;
 use File::Path;
-use Sys::Hostname;
 
 use strict;
 use warnings;
@@ -13,7 +11,7 @@ sub new {
     my $self = {};
 
     my $lock : shared;
-    ${$self->{'lock'}} = \$lock;
+    $self->{'lock'} = \$lock; ### BORKEN !!! TODO !
     lock(${$self->{'lock'}});
 
     my $nextRunDate : shared;
@@ -23,6 +21,7 @@ sub new {
     $self->{'logger'} = $params->{'logger'};
     $self->{'type'} = $params->{'type'};
     $self->{'path'} = $params->{'path'};
+    $self->{'deviceid'} = $params->{'deviceid'};
 
     my $config = $self->{'config'};
     my $logger = $self->{'logger'};
@@ -42,15 +41,6 @@ sub new {
     if (!-d $self->{'vardir'}) {
         $logger->fault("Bad vardir setting!");
     }
-
-
-    $self->{accountconfig} = new Ocsinventory::Agent::AccountConfig({
-
-            logger => $logger,
-            config => $config,
-
-        });
-
 
 
 
@@ -92,20 +82,9 @@ sub new {
             ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
         }
     }
+    $self->{'currentDeviceid'} = $self->{myData}{'currentDeviceid'};
 
 
-    my $accountconfig = $self->{accountconfig};
-
-    my $hostname = hostname; # Sys::Hostname
-    if ((!$config->{deviceid}) || $config->{deviceid} !~ /\Q$hostname\E-(?:\d{4})(?:-\d{2}){5}/) {
-        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
-            (time))[5,4,3,2,1,0];
-        $config->{old_deviceid} = $config->{deviceid};
-        $config->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
-        $accountconfig->set('DEVICEID',$config->{deviceid});
-        $accountconfig->write();
-    }
 
 
     return $self;
@@ -133,8 +112,8 @@ sub init {
     my $logger = $self->{'logger'};
 
     lock(${$self->{'lock'}});
-# The agent can contact different servers. Each server accountconfig is
-# stored in a specific file:
+# The agent can contact different servers. Each server has it's own
+# directory to store data
     if (
         ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
             !$self->isDirectoryWritable($config->{basevardir}))
@@ -177,11 +156,8 @@ sub init {
         exit(1);
     }
 
-    if (-d $self->{vardir}) {
-        $self->{accountconfig} = $self->{vardir}."/ocsinv.conf";
-        $self->{accountinfofile} = $self->{vardir}."/ocsinv.adm";
-        $self->{last_statefile} = $self->{vardir}."/last_state";
-    }
+    $self->{accountinfofile} = $self->{vardir}."/ocsinv.adm";
+    $self->{last_statefile} = $self->{vardir}."/last_state";
 
 
 }
@@ -191,12 +167,11 @@ sub setNextRunDate {
 
     my ($self, $args) = @_;
 
-    my $accountconfig = $self->{accountconfig};
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
-    my $serverdelay = $accountconfig->get('PROLOG_FREQ');
+    my $serverdelay = $self->{myData}{prologFreq};
 
     lock(${$self->{'lock'}});
 
@@ -227,7 +202,6 @@ sub setNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $accountconfig = $self->{accountconfig};
     my $config = $self->{config};
     my $logger = $self->{logger};
 
@@ -270,5 +244,56 @@ sub resetNextRunDate {
     
     ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
 }
+
+sub setPrologFreq {
+
+    my ($self, $prologFreq) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $storage = $self->{storage};
+
+    return unless $prologFreq;
+
+    if ($self->{'myData'}{'prologFreq'} && ($self->{'myData'}{'prologFreq'}
+            eq $prologFreq)) {
+        return;
+    }
+    $logger->info("PROLOG_FREQ has changed since last ".
+        "process(old=".$self->{'myData'}{'prologFreq'}.",new=".$prologFreq.")");
+
+    $self->{'myData'}{'prologFreq'} = $prologFreq;
+    $storage->save($self->{'myData'});
+
+    $storage->save($self->{'myData'});
+
+}
+
+sub setCurrentDeviceID {
+
+    my ($self, $deviceid) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $storage = $self->{storage};
+
+    return unless $deviceid;
+
+    if ($self->{'myData'}{'currentDeviceid'} &&
+        ($self->{'myData'}{'currentDeviceid'} eq $deviceid)) {
+        return;
+    }
+    $logger->info("DEVICEID has changed since last ".
+        "process(old=".$self->{'myData'}{'currentDeviceid'}.",new=".$deviceid.")");
+
+    $self->{'myData'}{'currentDeviceid'} = $deviceid;
+    $storage->save($self->{'myData'});
+
+    $self->{'currentDeviceid'} = $deviceid;
+
+    $storage->save($self->{'myData'});
+
+}
+
 
 1;

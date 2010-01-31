@@ -21,40 +21,61 @@ sub new {
     bless $self;
 }
 
+sub getFilePath {
+    my ($self, $module) = @_;
+
+    my $target = $self->{target};
+    my $config = $self->{config};
+
+    my $fileName = $module || caller(1);
+    $fileName =~ s/::/-/g; # Drop the ::
+    # They are forbiden on Windows in file path
+
+    my $dirName;
+    if ($target) {
+        $dirName = $target->{'vardir'};
+    } elsif ($config) {
+        $dirName = $config->{'basevardir'};
+    } else {
+        die;
+    }
+    return $dirName."/".$fileName.".dump";
+
+}
+
+
 sub save {
     my ($self, $data) = @_;
 
-    my $target = $self->{target};
+    my $filePath = $self->getFilePath();
+	print "[storage]save data in:". $filePath."\n";
 
-    my $tmp = caller(0);
-    $tmp =~ s/::/-/g; # Drop the ::
-    # They are forbiden on Windows in file path
-    my $file = $target->{'vardir'}."/".$tmp.".dump";
-	print "[storage]save data in:". $file."\n";
-
-	store ($data, $file) or die;
+	store ($data, $filePath) or warn;
 
 }
 
 sub restore {
     my ($self, $module) = @_;
 
-    my $tmp = $module || caller(0);
-    $tmp =~ s/::/-/g;
+    my $filePath = $self->getFilePath($module);
+	print "[storage]restore data from: $filePath\n";
 
-    my $target = $self->{target};
-
-    my $file = $target->{'vardir'}."/$tmp.dump";
-	print "[storage]restore data from: $file\n";
-    if (-f $file) {
-        return retrieve($file);
+    if (-f $filePath) {
+        return retrieve($filePath);
     }
 
+    return;
 }
 
 sub remove {
-    # TODO
+    my ($self, $module) = @_;
+    
+    my $filePath = $self->getFilePath();
+	print "[storage] delete $filePath\n";
 
+    if (!unlink($filePath)) {
+	    print "[storage] failed to delete $filePath\n";
+    }
 }
 
 1;
