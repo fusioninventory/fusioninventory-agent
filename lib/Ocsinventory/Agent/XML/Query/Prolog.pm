@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::XML::Prolog;
+package Ocsinventory::Agent::XML::Query::Prolog;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use warnings;
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 
-#use Ocsinventory::Agent::XML::Prolog;
+#use Ocsinventory::Agent::XML::Query::Prolog;
 
 sub new {
   my (undef, $params) = @_;

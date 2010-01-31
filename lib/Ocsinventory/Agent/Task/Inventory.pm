@@ -12,7 +12,7 @@ use Data::Dumper;
 
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::Config;
-use Ocsinventory::Agent::XML::Inventory;
+use Ocsinventory::Agent::XML::Query::Inventory;
 use Ocsinventory::Agent::Network;
 
 use Ocsinventory::Agent::AccountInfo;
@@ -44,7 +44,7 @@ sub main {
           config => $self->{config}
       });
 
-  $self->{inventory} = new Ocsinventory::Agent::XML::Inventory ({
+  $self->{inventory} = new Ocsinventory::Agent::XML::Query::Inventory ({
 
           # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,

@@ -31,8 +31,8 @@ if ($@){
 # END OF THE UGLY FIX!
 #use Sys::Hostname;
 use Ocsinventory::Logger;
-use Ocsinventory::Agent::XML::Inventory;
-use Ocsinventory::Agent::XML::Prolog;
+use Ocsinventory::Agent::XML::Query::Inventory;
+use Ocsinventory::Agent::XML::Query::Prolog;
 
 use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::Task::Inventory;
@@ -169,7 +169,7 @@ sub main {
 
                 });
 
-            my $prolog = new Ocsinventory::Agent::XML::Prolog({
+            my $prolog = new Ocsinventory::Agent::XML::Query::Prolog({
 
                     accountinfo => $target->{accountinfo}, #? XXX
                     logger => $logger,

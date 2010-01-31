@@ -12,6 +12,8 @@ futur
           longRun()  → postInventory()
        * Add isPostInventoryEnabled() function
        * Drop AccountConfig. replaced by Storage
+       * Move Ocsinventory::Agent::XML::{Inventory,Prolog,SimpleMessage} in
+         Ocsinventory::Agent::XML::Query
 
 1.2.x
        * Solaris: use regex to identify CPU class (Jerome LEBAS)

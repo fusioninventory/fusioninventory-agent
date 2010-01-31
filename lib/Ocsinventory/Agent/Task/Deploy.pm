@@ -44,7 +44,7 @@ use Cwd;
 
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::Storage;
-use Ocsinventory::Agent::XML::SimpleMessage;
+use Ocsinventory::Agent::XML::Query::SimpleMessage;
 use Ocsinventory::Agent::XML::Response::Prolog;
 use Ocsinventory::Agent::Network;
 
@@ -550,7 +550,7 @@ sub reportError {
 
     $logger->error("$orderId> $message");
 
-    my $xmlMsg = new Ocsinventory::Agent::XML::SimpleMessage(
+    my $xmlMsg = new Ocsinventory::Agent::XML::Query::SimpleMessage(
         {
             config => $config,
             logger => $logger,

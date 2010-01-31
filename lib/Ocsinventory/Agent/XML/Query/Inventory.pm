@@ -1,11 +1,11 @@
-package Ocsinventory::Agent::XML::Inventory;
+package Ocsinventory::Agent::XML::Query::Inventory;
 # TODO: resort the functions
 use strict;
 use warnings;
 
 =head1 NAME
 
-Ocsinventory::Agent::XML::Inventory - the XML abstraction layer
+Ocsinventory::Agent::XML::Query::Inventory - the XML abstraction layer
 
 =head1 DESCRIPTION
 

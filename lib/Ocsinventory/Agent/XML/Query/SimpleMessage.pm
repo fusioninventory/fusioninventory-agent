@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::XML::SimpleMessage;
+package Ocsinventory::Agent::XML::Query::SimpleMessage;
 
 use strict;
 use warnings;
