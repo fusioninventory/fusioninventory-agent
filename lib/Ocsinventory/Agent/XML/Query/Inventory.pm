@@ -39,13 +39,13 @@ sub new {
 
   $self->{backend} = $params->{backend};
   my $logger = $self->{logger};
+  my $target = $self->{target};
 
-  if (!($self->{config}{deviceid})) {
+  if (!($target->{deviceid})) {
     $logger->fault ('deviceid unititalised!');
   }
 
   $self->{h}{QUERY} = ['INVENTORY'];
-  $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
   $self->{h}{CONTENT}{ACCESSLOG} = {};
   $self->{h}{CONTENT}{BIOS} = {};
   $self->{h}{CONTENT}{CONTROLLERS} = [];

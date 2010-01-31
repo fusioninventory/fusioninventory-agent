@@ -48,7 +48,6 @@ my $default = {
   # Other values that can't be changed with the
   # CLI parameters
   'VERSION'   => $VERSION,
-  'deviceid'  => '',
   'basevardir'=>  $basedir.'/var/lib/ocsinventory-agent',
   'logdir'    =>  $basedir.'/var/log/ocsinventory-agent',
 #  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',

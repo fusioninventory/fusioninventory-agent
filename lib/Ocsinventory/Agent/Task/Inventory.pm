@@ -44,6 +44,10 @@ sub main {
           config => $self->{config}
       });
 
+  if (!$target) {
+    $logger->fault("target is undef");
+  }
+
   $self->{inventory} = new Ocsinventory::Agent::XML::Query::Inventory ({
 
           # TODO, check if the accoun{info,config} are needed in localmode

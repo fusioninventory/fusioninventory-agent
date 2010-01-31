@@ -16,6 +16,7 @@ sub new {
 
     my $config = $self->{config} = $params->{config};
     my $logger = $self->{logger} = $params->{logger};
+    $self->{deviceid} = $params->{deviceid};
 
     $self->{targets} = [];
     $self->{targets} = [];
@@ -45,12 +46,15 @@ sub init {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
+    my $deviceid = $self->{deviceid};
+
 
     if ($config->{'stdout'}) {
         my $target = new Ocsinventory::Agent::Target({
                 'logger' => $logger,
                 config => $config,
                 'type' => 'stdout',
+                'deviceid' => $deviceid,
             });
         $self->addTarget({
                 target => $target
@@ -62,7 +66,8 @@ sub init {
                 'config' => $config,
                 'logger' => $logger,
                 'type' => 'local',
-                'path' => $config->{'local'}
+                'path' => $config->{'local'},
+                'deviceid' => $deviceid,
             });
         $self->addTarget({
                 target => $target
@@ -83,7 +88,8 @@ sub init {
                 'config' => $config,
                 'logger' => $logger,
                 'type' => 'server',
-                'path' => $url
+                'path' => $url,
+                'deviceid' => $deviceid,
             });
         $self->addTarget({
                 target => $target

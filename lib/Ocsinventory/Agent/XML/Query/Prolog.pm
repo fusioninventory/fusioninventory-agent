@@ -16,13 +16,12 @@ sub new {
   my $self = $class->SUPER::new($params);
   bless ($self, $class);
 
-  my $logger = $params->{logger};
+  my $logger = $self->{logger};
+  my $target = $self->{target};
   my $rpc = $params->{rpc};
 
-  $logger->fault("No DEVICEID") unless ($self->{config}->{deviceid});
 
   $self->{h}{QUERY} = ['PROLOG'];
-  $self->{h}{DEVICEID} = [$self->{config}->{deviceid}];
   $self->{h}{TOKEN} = [$rpc->getToken()];
 
   return $self;

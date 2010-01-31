@@ -14,16 +14,14 @@ sub new {
   my $self = $class->SUPER::new($params);
   bless ($self, $class);
 
-  $self->{h} = $params->{msg};
+  foreach (keys %{$params->{msg}}) {
+    $self->{h}{$_} = $params->{msg}{$_};
+  }
 
   my $logger = $self->{logger};
+  my $target = $self->{target};
 
   $logger->fault("No msg") unless $params->{msg};
-
-  if (!$self->{config}->{deviceid}) {
-    $logger->fault("No device ID found in the config");
-  }
-  $self->{h}{DEVICEID} = $self->{config}->{deviceid};
 
   return $self;
 }
