@@ -11,6 +11,7 @@ if ($^O =~ /^MSWin/) {
 }
 
 my $default = {
+  'color'     =>  0,
   'daemon'    =>  0,
   'daemonNoFork'    =>  0,
   'debug'     =>  0,
@@ -113,6 +114,7 @@ sub loadUserParams {
 	my %options = (
 		"backend-collect-timeout=s"  =>   \$config->{backendCollectTimeout},
 		"basevardir=s"    =>   \$config->{basevardir},
+		"color"           =>   \$config->{color},
 		"d|daemon"        =>   \$config->{daemon},
 		"D|daemon-no-fork"=>   \$config->{daemonNoFork},
 		"debug"           =>   \$config->{debug},
@@ -169,6 +171,7 @@ sub help {
   "inventory data collect job (".$config->{backendCollectTimeout}.")\n";
   print STDERR "\t--basevardir=/path  indicate the directory where should".
   " the agent store its files (".$config->{basevardir}.")\n";
+  print STDERR "\t    --color         use color in the console (".$config->{color}.")\n".
   print STDERR "\t-d  --daemon        detach the agent in background ".
   "(".$config->{daemon}.")\n";
   print STDERR "\t-D  --daemon-no-fork daemon but don't fork in background (".$config->{daemonNoFork}.")\n";

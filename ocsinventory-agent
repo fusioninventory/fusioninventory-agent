@@ -134,6 +134,10 @@ Time before OCS kills modules processing which don't end before the timeout.
 
 Indicate the place where the agent should store its files.
 
+=item B<--color>
+
+Display color on the terminal.
+
 =item B<-d>, B<--daemon>
 
 Launch ocsinventory-agent as daemon in background. Proc::Daemon is needed.
