@@ -2,7 +2,6 @@ package Ocsinventory::Agent::XML::Response::Prolog;
 
 use strict;
 use Ocsinventory::Agent::XML::Response;
-use Ocsinventory::Agent::XML::Response::Prolog;
 
 our @ISA = ('Ocsinventory::Agent::XML::Response');
 
