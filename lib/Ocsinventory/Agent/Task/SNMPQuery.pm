@@ -551,7 +551,6 @@ sub query_device_threaded {
             });
 
 
-
 	if (!defined($session->{SNMPSession}->{session})) {
 		#debug($log,"[".$device->{IP}."] Error on connection","",$PID,$Bin);
 		#print("SNMP ERROR: %s.\n", $error);

@@ -652,7 +652,6 @@ sub discovery_ip_threaded {
       }
       for my $key ( keys %{$authlist} ) {
          if ($authlist->{$key}->{VERSION} eq $snmpv) {
-
             my $session = new Ocsinventory::Agent::SNMP ({
 
                version      => $authlist->{$key}->{VERSION},
@@ -666,29 +665,31 @@ sub discovery_ip_threaded {
                translate    => 1,
 
             });
+            if ($ip->{IP} eq "192.168.0.80") {
+               print Dumper($session->{SNMPSession});
+            }
             if (!defined($session->{SNMPSession}->{session})) {
                #print("SNMP ERROR: %s.\n", $error);
-#               print "[".$ip->{IP}."] GNERROR (".$error.")".$authlist->{$key}->{VERSION}."\n";
+#               print "[".$ip->{IP}."] GNERROR ()".$authlist->{$key}->{VERSION}."\n";
             } else {
 #            print Dumper($session);
-#            print "[".$ip->{IP}."] GNE (".$error.") \n";
+            print "[".$ip->{IP}."] GNE () \n";
                my $description = $session->snmpget({
                      oid => '1.3.6.1.2.1.1.1.0',
                      up  => 1,
                   });
                if ($description =~ m/No response from remote host/) {
-#                  print "[".$ip->{IP}."] No response\n";
-                  debug($log,"[".$ip->{IP}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."] ".$session->error, "",$PID,$Bin);
-                  $session->close;
+                  print "[".$ip->{IP}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
+                  #$session->close;
                } elsif ($description =~ m/No buffer space available/) {
-                  debug($log,"[".$ip->{IP}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."] ".$session->error, "",$PID,$Bin);
-                  $session->close;
+                  print "[".$ip->{IP}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
+                  #$session->close;
                } elsif ($description ne "null") {
-                  debug($log,"[".$ip->{IP}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]", "",$PID,$Bin);
+                  print "[".$ip->{IP}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
 
                   # ***** manufacturer specifications
                   # If HP printer detected, get best sysDescr
-                  $description = hp_discovery($description);
+                  $description = hp_discovery($description, $session);
 
                   # If Wyse thin clients
                   $description = wyse_discovery($description);
@@ -736,7 +737,7 @@ sub discovery_ip_threaded {
                   $datadevice->{SNMPHOSTNAME} = $name;
                   $datadevice->{IP} = $ip->{IP};
                   $datadevice->{ENTITY} = $entity;
-                  $session->close;
+                  #$session->close;
                   return $datadevice;
        #           return constructxmlDiscovery($description, $name, $serial, $ip, $type,$entity,$model,$$authSNMP_discovery{$key}{'ID'},$macaddress,$hostname,$domain,$user,$machine,$netportvendor);
                } else {
@@ -772,6 +773,120 @@ sub special_char {
    }
 }
 
+
+
+sub verifySerial {
+	return ("", 0, "");
+}
+
+
+############# Contructors #################
+
+
+sub hp_discovery {
+   my $description = shift;
+   my $session     = shift;
+
+   if($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) {
+      my $description_new = $session->snmpget('.1.3.6.1.2.1.25.3.2.1.3.1',1);
+      if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
+         $description = $description_new;
+      } elsif ($description_new eq "No response from remote host") {
+         $description_new = $session->snmpget('.1.3.6.1.4.1.11.2.3.9.1.1.7.0',1);
+         if ($description_new ne "null") {
+            my @infos = split(/;/,$description_new);
+            foreach (@infos) {
+               if ($_ =~ /^MDL:/) {
+                  $_ =~ s/MDL://;
+                  $description = $_;
+                  last;
+               } elsif ($_ =~ /^MODEL:/) {
+                  $_ =~ s/MODEL://;
+                  $description = $_;
+                  last;
+               }
+            }
+         }
+      }
+   }
+   return $description;
+}
+
+
+
+sub wyse_discovery {
+   my $description = shift;
+
+   if ($description =~ m/Linux/) {
+      my $description_new = snmpget('.1.3.6.1.4.1.714.1.2.5.6.1.2.1.6.1',1);
+      if ($description_new ne "null") {
+         $description = "Wyse ".$description_new;
+      }
+   }
+
+   # OR ($description{'.1.3.6.1.2.1.1.1.0'} =~ m/Windows/))
+   # In other oid for Windows
+
+   return $description;
+}
+
+
+sub samsung_discovery {
+   my $description = shift;
+
+   if($description =~ m/SAMSUNG NETWORK PRINTER,ROM/) {
+      my $description_new = snmpget('.1.3.6.1.4.1.236.11.5.1.1.1.1.0',1);
+      if ($description_new ne "null") {
+         $description = $description_new;
+      }
+   }
+   return $description;
+}
+
+
+sub epson_discovery {
+   my $description = shift;
+
+   if($description =~ m/EPSON Built-in/) {
+      my $description_new = snmpget('.1.3.6.1.4.1.1248.1.1.3.1.3.8.0',1);
+      if ($description_new ne "null") {
+         $description = $description_new;
+      }
+   }
+   return $description;
+}
+
+
+sub alcatel_discovery {
+   my $description = shift;
+
+   # example : 5.1.6.485.R02 Service Release, September 26, 2008.
+
+   if ($description =~ m/^([1-9]{1}).([0-9]{1}).([0-9]{1})(.*) Service Release,(.*)([0-9]{1}).$/ ) {
+      my $description_new = snmpget('.1.3.6.1.2.1.47.1.1.1.1.13.1',1);
+      if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
+         if ($description_new eq "OS66-P24") {
+            $description = "OmniStack 6600-P24";
+         } else {
+            $description = $description_new;
+         }
+      }
+   }
+   return $description;
+}
+
+
+sub kyocera_discovery {
+   my $description = shift;
+
+   if($description =~ m/,HP,JETDIRECT,J/) {
+      my $description_new = snmpget('.1.3.6.1.4.1.1229.2.2.2.1.15.1',1);
+      if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
+         $description = $description_new;
+      }
+   }
+   return $description;
+}
 
 
 1;

@@ -39,7 +39,7 @@ sub new {
 
    if ($version eq 'snmpv3') {
       if($privprotocol =~ /hash/i){
-         ($session = $self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+         ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
                -timeout   => 1,
                -retries   => 0,
                -hostname     => $hostname,
@@ -52,7 +52,7 @@ sub new {
                -port      => 161
          );
       } else {
-         ($session = $self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+         ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
                -timeout   => 1,
                -retries   => 0,
                -hostname     => $hostname,
@@ -69,7 +69,7 @@ sub new {
 
       }
    } else { # snmpv2c && snmpv1 #
-      ($session = $self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+      ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
          -version   => $version,
          -timeout   => 1,
          -retries   => 0,
@@ -274,5 +274,17 @@ sub snmpgetnext {
 #
 #}
 
+
+sub special_char {
+   if (defined($_[0])) {
+      if ($_[0] =~ /0x$/) {
+         return "";
+      }
+      $_[0] =~ s/([\x80-\xFF])//g;
+      return $_[0];
+   } else {
+      return "";
+   }
+}
 
 1;
