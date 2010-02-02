@@ -30,7 +30,7 @@ sub new {
 
     bless $self;
 
-    if ($config->{deamon} || $config->{daemonNoFork}) {
+    if ($config->{daemon} || $config->{daemonNoFork}) {
         $self->{thr} = threads->create('server', $self);
     }
 
