@@ -19,7 +19,6 @@ use HTTP::Request::Common;
 use XML::Simple;
 use File::stat;
 
-
 use ExtUtils::Installed;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Logger;
@@ -59,7 +58,6 @@ sub main {
    $min  = sprintf("%02d", $min);
    $yday = sprintf("%04d", $yday);
    $self->{PID} = $yday.$hour.$min;
-
 
     my $continue = 0;
     foreach my $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}}) {

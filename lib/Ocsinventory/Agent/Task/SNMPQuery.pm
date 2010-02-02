@@ -1,102 +1,23 @@
 package Ocsinventory::Agent::Task::SNMPQuery;
 
-$0 = "Tracker_agent";
-
-###########################################
-################ Read Args ################
-###########################################
-
-my $xmlexportlocal = 0;
-my $argnodisplay = 0;
-my $argnoprogressbar = 0;
-
-###########################################
-############### Load modules ##############
-###########################################
-
-# Debug
-   use diagnostics;
-   use Data::Dumper;
-
 use strict;
-use Config;
+no strict 'refs';
+use warnings;
+
+use threads;
+use threads::shared;
+if ($threads::VERSION > 1.32){
+   threads->set_stack_size(20*8192);
+}
+
+use Data::Dumper;
+
 use Net::SNMP qw(:snmp);
 use Compress::Zlib;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use XML::Simple;
-use FindBin qw($Bin);
 use File::stat;
-#use FileHandle;
-if (! $Config{'useithreads'}) {
-	print("1..0 # Skip: Perl not compiled with 'useithreads'\n");
-	exit(0);
-}else {
-	use threads;
-	use threads::shared;
-   if ($argnodisplay == 0) {
-      print "Threads version: $threads::VERSION\n";
-   }
-	if ($threads::VERSION > 1.32){
-		threads->set_stack_size(20*8192);
-		my $thread_version="new";
-      print "Compiled with Thread\n";
-	} else {
-      if ($argnodisplay == 0) {
-         print "Perl is compiled with old version of thread, this script is run in degraded mod and can crash often\n";
-      }
-		my $thread_version="old";
-	}
-}
-
-$| = 1;
-
-###########################################
-######### Initial values of Agent #########
-###########################################
-
-my $agent_version = '2.0 Beta';
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-$hour  = sprintf("%02d", $hour);
-$min  = sprintf("%02d", $min);
-$yday = sprintf("%04d", $yday);
-my $PID = $yday.$hour.$min;
-my $max_procs;
-my $pm;
-my $description;
-
-###########################################
-##### Include serials for discovery
-###########################################
-
-#require $Bin.'/inc/errors.pm';
-#require $Bin.'/inc/device_serials.pm';
-#require $Bin.'/inc/functions.pm';
-#require $Bin.'/inc/communications_serveur.pm';
-#require $Bin.'/inc/tracker_snmp.pm';
-#require $Bin.'/inc/tracker_xml.pm';
-#
-## Manufacturer specifications
-#require $Bin.'/inc/devices/3com.pm';
-#require $Bin.'/inc/devices/alcatel.pm';
-#require $Bin.'/inc/devices/cisco.pm';
-#require $Bin.'/inc/devices/epson.pm';
-#require $Bin.'/inc/devices/hp.pm';
-#require $Bin.'/inc/devices/kyocera.pm';
-#require $Bin.'/inc/devices/samsung.pm';
-#require $Bin.'/inc/devices/wyse.pm';
-#
-#require $Bin.'/inc/tracker_discovery.pm';
-#require $Bin.'/inc/tracker_query.pm';
-#
-#require $Bin.'/inc/tracker_pid.pm';
-#
-#pid_check_lock();
-
-#######################################################
-############# Begin to start NetDiscovery #############
-#######################################################
-
 
 use ExtUtils::Installed;
 use Ocsinventory::Agent::Config;
@@ -131,12 +52,19 @@ sub main {
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
-    
+
+   my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+   $hour  = sprintf("%02d", $hour);
+   $min  = sprintf("%02d", $min);
+   $yday = sprintf("%04d", $yday);
+   $self->{PID} = $yday.$hour.$min;
+
     my $continue = 0;
     foreach my $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}}) {
       if (defined($num)) {
         if ($num->{NAME} eq "SNMPQUERY") {
             $continue = 1;
+            $self->{SNMPQUERY} = $num;
         }
       }
     }
@@ -172,13 +100,10 @@ sub StartThreads {
    my @devicetype;
    my $num;
    my $log;
-#print Dumper($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]);
-	my $nb_threads_query = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{THREADS_QUERY};
-	my $nb_core_query = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{CORE_QUERY};
-print "**************************************\n";
-print "* Threads query : ".$nb_threads_query."\n";
-print "* Core query : ".$nb_core_query."\n";
-print "**************************************\n";
+
+my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
+	my $nb_core_query = $self->{SNMPQUERY}->{PARAM}->[0]->{CORE_QUERY};
+
    $devicetype[0] = "NETWORKING";
    $devicetype[1] = "PRINTER";
 
@@ -188,7 +113,7 @@ print "**************************************\n";
    $xml_thread->{DEVICEID} = $self->{config}->{deviceid};
    $xml_thread->{CONTENT}->{AGENT}->{START} = '1';
    $xml_thread->{CONTENT}->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{PID};
+   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
    $self->SendInformations($xml_thread);
    undef($xml_thread);
 
@@ -221,27 +146,27 @@ print "**************************************\n";
    }
 
    $core_counter = 0;
-   if (defined($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE})) {
-      if (ref($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}) eq "HASH"){
+   if (defined($self->{SNMPQUERY}->{DEVICE})) {
+      if (ref($self->{SNMPQUERY}->{DEVICE}) eq "HASH"){
          #if (keys (%{$data->{DEVICE}}) eq "0") {
          for (@devicetype) {
-            if ($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}->{TYPE} eq $_) {
-               if (ref($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}) eq "HASH"){
+            if ($self->{SNMPQUERY}->{DEVICE}->{TYPE} eq $_) {
+               if (ref($self->{SNMPQUERY}->{DEVICE}) eq "HASH"){
                   if ($core_counter eq $nb_core_query) {
                      $core_counter = 0;
                   }
                   $devicelist->{$core_counter}->{$countnb[$core_counter]} = {
-                                 ID             => $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}->{ID},
-                                 IP             => $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}->{IP},
-                                 TYPE           => $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}->{TYPE},
-                                 AUTHSNMP_ID    => $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}->{AUTHSNMP_ID},
-                                 MODELSNMP_ID   => $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}->{MODELSNMP_ID}
+                                 ID             => $self->{SNMPQUERY}->{DEVICE}->{ID},
+                                 IP             => $self->{SNMPQUERY}->{DEVICE}->{IP},
+                                 TYPE           => $self->{SNMPQUERY}->{DEVICE}->{TYPE},
+                                 AUTHSNMP_ID    => $self->{SNMPQUERY}->{DEVICE}->{AUTHSNMP_ID},
+                                 MODELSNMP_ID   => $self->{SNMPQUERY}->{DEVICE}->{MODELSNMP_ID}
                               };
                   $devicelist2{$core_counter}{$countnb[$core_counter]} = $countnb[$core_counter];
                   $countnb[$core_counter]++;
                   $core_counter++;
                } else {
-                  foreach $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}->{$_}}) {
+                  foreach $num (@{$self->{SNMPQUERY}->{DEVICE}->{$_}}) {
                      if ($core_counter eq $nb_core_query) {
                         $core_counter = 0;
                      }
@@ -255,7 +180,7 @@ print "**************************************\n";
             }
          }
       } else {
-         foreach $device (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{DEVICE}}) {
+         foreach $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
             if (defined($device)) {
                if (ref($device) eq "HASH"){
                   if ($core_counter eq $nb_core_query) {
@@ -290,15 +215,17 @@ print "**************************************\n";
    }
 
    # Models SNMP
-   $modelslist = $self->ModelParser($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]);
+   $modelslist = $self->ModelParser($self->{SNMPQUERY});
 
    # Auth SNMP
-   $authlist = $self->AuthParser($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]);
+   $authlist = $self->AuthParser($self->{SNMPQUERY});
+
+   my $pm;
 
    #============================================
 	# Begin ForkManager (multiple core / process)
 	#============================================
-   $max_procs = $nb_core_query*$nb_threads_query;
+   my $max_procs = $nb_core_query*$nb_threads_query;
    if ($nb_core_query > 1) {
       use Parallel::ForkManager;
       $pm=new Parallel::ForkManager($max_procs);
@@ -327,11 +254,11 @@ print "**************************************\n";
       $ArgumentsThread{'PID'}[$p] = &share([]);
 
       my $i = 0;
-
+      my $Bin;
       while ($i < $nb_threads_query) {
          $ArgumentsThread{'Bin'}[$p][$i] = $Bin;
          $ArgumentsThread{'log'}[$p][$i] = $log;
-         $ArgumentsThread{'PID'}[$p][$i] = $PID;
+         $ArgumentsThread{'PID'}[$p][$i] = $self->{PID};
          $i++;
       }
       #===================================
@@ -378,13 +305,13 @@ print "**************************************\n";
                                                          $ArgumentsThread{'log'}[$p][$t],
                                                          $ArgumentsThread{'Bin'}[$p][$t],
                                                          $ArgumentsThread{'PID'}[$p][$t],
-                                                         $agent_version,
+                                                         $self->{config}->{VERSION},
                                                          $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}}, # Passer uniquement le modèlle correspondant au device, ex : $modelslist->{'1'}
                                                          $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
                                                          );
                                                       #undef $devicelist[$p]{$device_id};
                                                       $xml_thread->{CONTENT}->{DEVICE}->[$count] = $datadevice;
-                                                      $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{PID};
+                                                      $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
                                                       $count++;
                                                       if ($count eq "4") { # Send all of 4 devices
                                                          $xml_thread->{QUERY} = "SNMPQUERY";
@@ -397,7 +324,7 @@ print "**************************************\n";
                                                    $self->SendInformations($xml_thread);
                                                    $TuerThread{$p}[$t] = 1;
                                                    return;
-                                                }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$PID)->detach();
+                                                }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self->{PID})->detach();
          sleep 1;
       }
 
@@ -427,7 +354,7 @@ print "**************************************\n";
    undef($xml_thread);
    $xml_thread->{QUERY} = "SNMPQUERY";
    $xml_thread->{CONTENT}->{AGENT}->{END} = '1';
-   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{PID};
+   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
    $self->SendInformations($xml_thread);
    undef($xml_thread);
 
@@ -458,7 +385,7 @@ sub SendInformations{
       my $xml = $xmlout->XMLout($message);
       if ($xml ne "") {
          my $data_compressed = Compress::Zlib::compress($xml);
-         send_snmp_http2($data_compressed,$PID,$config->{'server'});
+         send_snmp_http2($data_compressed,$self->{PID},$config->{'server'});
       }
    }
 }
@@ -650,7 +577,7 @@ sub query_device_threaded {
 
 	my $error = '';
 	# Query for timeout #
-	$description = snmpget('.1.3.6.1.2.1.1.1.0',1);
+	my $description = snmpget('.1.3.6.1.2.1.1.1.0',1);
 	my $insertXML = '';
 	if ($description =~ m/No response from remote host/) {
 		$error = "No response from remote host";
