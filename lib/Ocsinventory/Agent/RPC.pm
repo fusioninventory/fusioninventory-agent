@@ -19,8 +19,6 @@ sub new {
 
     my $config = $self->{config};
 
-    use Data::Dumper;
-
     my $storage = $self->{storage} = new Ocsinventory::Agent::Storage({
             target => {
                 vardir => $config->{basevardir},
