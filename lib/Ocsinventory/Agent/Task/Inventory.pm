@@ -38,11 +38,19 @@ sub main {
   my $prologresp = $self->{prologresp} = $data->{prologresp};
   my $target = $self->{target} = $data->{target};
   
-  $self->{modules} = {};
   
   my $logger = $self->{logger} = new Ocsinventory::Logger ({
           config => $self->{config}
       });
+
+  if (!exists($prologresp->{parsedcontent}->{RESPONSE}) || $prologresp->{parsedcontent}->{RESPONSE} !~ /^SEND$/) {
+    $logger->debug('<RESPONSE>SEND</RESPONSE> not found in PROLOG, do not '.
+        'send an inventory.');
+    exit(0);
+  }
+
+
+  $self->{modules} = {};
 
   if (!$target) {
     $logger->fault("target is undef");
