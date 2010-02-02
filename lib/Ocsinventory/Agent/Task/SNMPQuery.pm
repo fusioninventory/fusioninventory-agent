@@ -102,7 +102,7 @@ use ExtUtils::Installed;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::Storage;
-use Ocsinventory::Agent::XML::SimpleMessage;
+use Ocsinventory::Agent::XML::Query::SimpleMessage;
 use Ocsinventory::Agent::XML::Response::Prolog;
 use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::SNMP;

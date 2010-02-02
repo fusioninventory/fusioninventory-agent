@@ -1,108 +1,30 @@
 package Ocsinventory::Agent::Task::NetDiscovery;
 
-$0 = "Tracker_agent";
-
-###########################################
-################ Read Args ################
-###########################################
-
-my $xmlexportlocal = 0;
-my $argnodisplay = 0;
-my $argnoprogressbar = 0;
-
-###########################################
-############### Load modules ##############
-###########################################
-
-# Debug
-   use diagnostics;
-   use Data::Dumper;
-
 use strict;
-use Config;
+no strict 'refs';
+use warnings;
+
+use threads;
+use threads::shared;
+if ($threads::VERSION > 1.32){
+   threads->set_stack_size(20*8192);
+}
+
+use Data::Dumper;
+
 use Net::SNMP qw(:snmp);
 use Compress::Zlib;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use XML::Simple;
-use FindBin qw($Bin);
 use File::stat;
-#use FileHandle;
-if (! $Config{'useithreads'}) {
-	print("1..0 # Skip: Perl not compiled with 'useithreads'\n");
-	exit(0);
-}else {
-	use threads;
-	use threads::shared;
-   if ($argnodisplay == 0) {
-      print "Threads version: $threads::VERSION\n";
-   }
-	if ($threads::VERSION > 1.32){
-		threads->set_stack_size(20*8192);
-		my $thread_version="new";
-      print "Compiled with Thread\n";
-	} else {
-      if ($argnodisplay == 0) {
-         print "Perl is compiled with old version of thread, this script is run in degraded mod and can crash often\n";
-      }
-		my $thread_version="old";
-	}
-}
-
-$| = 1;
-
-###########################################
-######### Initial values of Agent #########
-###########################################
-
-my $agent_version = '2.0 Beta';
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-$hour  = sprintf("%02d", $hour);
-$min  = sprintf("%02d", $min);
-$yday = sprintf("%04d", $yday);
-my $PID = $yday.$hour.$min;
-my $max_procs;
-my $pm;
-my $description;
-
-###########################################
-##### Include serials for discovery
-###########################################
-
-#require $Bin.'/inc/errors.pm';
-#require $Bin.'/inc/device_serials.pm';
-#require $Bin.'/inc/functions.pm';
-#require $Bin.'/inc/communications_serveur.pm';
-#require $Bin.'/inc/tracker_snmp.pm';
-#require $Bin.'/inc/tracker_xml.pm';
-#
-## Manufacturer specifications
-#require $Bin.'/inc/devices/3com.pm';
-#require $Bin.'/inc/devices/alcatel.pm';
-#require $Bin.'/inc/devices/cisco.pm';
-#require $Bin.'/inc/devices/epson.pm';
-#require $Bin.'/inc/devices/hp.pm';
-#require $Bin.'/inc/devices/kyocera.pm';
-#require $Bin.'/inc/devices/samsung.pm';
-#require $Bin.'/inc/devices/wyse.pm';
-#
-#require $Bin.'/inc/tracker_discovery.pm';
-#require $Bin.'/inc/tracker_query.pm';
-#
-#require $Bin.'/inc/tracker_pid.pm';
-#
-#pid_check_lock();
-
-#######################################################
-############# Begin to start NetDiscovery #############
-#######################################################
 
 
 use ExtUtils::Installed;
 use Ocsinventory::Agent::Config;
 use Ocsinventory::Logger;
 use Ocsinventory::Agent::Storage;
-use Ocsinventory::Agent::XML::SimpleMessage;
+use Ocsinventory::Agent::XML::Query::SimpleMessage;
 use Ocsinventory::Agent::XML::Response::Prolog;
 use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::SNMP;
@@ -111,7 +33,7 @@ use Ocsinventory::Agent::AccountInfo;
 
 sub main {
     my ( undef ) = @_;
-exit(0);
+
     my $self = {};
     bless $self;
 
@@ -132,11 +54,19 @@ exit(0);
         });
     $self->{prologresp} = $data->{prologresp};
 
+   my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+   $hour  = sprintf("%02d", $hour);
+   $min  = sprintf("%02d", $min);
+   $yday = sprintf("%04d", $yday);
+   $self->{PID} = $yday.$hour.$min;
+
+
     my $continue = 0;
     foreach my $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}}) {
       if (defined($num)) {
         if ($num->{NAME} eq "NETDISCOVERY") {
             $continue = 1;
+            $self->{NETDISCOVERY} = $num;
         }
       }
     }
@@ -178,9 +108,12 @@ sub StartThreads {
 #   my $agentkey = shift;   =>   $self->{config}->{deviceid}
 my $Bin;
 my $log;
-my $PID;
-	my $nb_threads_discovery = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{THREADS_DISCOVERY};
-	my $nb_core_discovery = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{CORE_DISCOVERY};
+
+
+	my $nb_threads_discovery = $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY};
+	my $nb_core_discovery    = $self->{NETDISCOVERY}->{PARAM}->[0]->{CORE_DISCOVERY};
+
+
 #   print "**************************************\n";
 #   print "* Threads discovery : ".$nb_threads_discovery."\n";
 #   print "* Core discovery : ".$nb_core_discovery."\n";
@@ -192,7 +125,7 @@ my $PID;
    $xml_thread->{DEVICEID} = $self->{config}->{deviceid};
    $xml_thread->{CONTENT}->{AGENT}->{START} = '1';
    $xml_thread->{CONTENT}->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{PID};
+   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
    $self->SendInformations($xml_thread);
    undef($xml_thread);
 
@@ -224,7 +157,7 @@ my $PID;
    }
 
    # Auth SNMP
-   my $authlist = $self->AuthParser($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]);
+   my $authlist = $self->AuthParser($self->{NETDISCOVERY});
 
    ##### Get IP to scan
    use Net::IP;
@@ -238,11 +171,14 @@ my $PID;
    my $core_counter = 0;
    my $limitip = $nb_threads_discovery * 25;
    my $ip;
+   my $max_procs;
+   my $pm;
+   my $description;
 
    #============================================
    # Begin ForkManager (multiple core / process)
    #============================================
-   $max_procs = $nb_core_discovery*$nb_threads_discovery;
+   $max_procs = $nb_core_discovery * $nb_threads_discovery;
    if ($nb_core_discovery > 1) {
       use Parallel::ForkManager;
       $pm=new Parallel::ForkManager($max_procs);
@@ -274,40 +210,40 @@ my $PID;
          }
 
 
-         if (ref($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}) eq "HASH"){
-            if ($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{IPSTART} eq $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{IPEND}) {
+         if (ref($self->{NETDISCOVERY}->{RANGEIP}) eq "HASH"){
+            if ($self->{NETDISCOVERY}->{RANGEIP}->{IPSTART} eq $self->{NETDISCOVERY}->{RANGEIP}->{IPEND}) {
    #print "1 - ".localtime()."\n";
                if ($threads_run eq "0") {
                   $iplist->{$countnb} = &share({});
                }
-               $iplist->{$countnb}->{IP} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{IPSTART};
-               $iplist->{$countnb}->{ENTITY} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{ENTITY};
+               $iplist->{$countnb}->{IP} = $self->{NETDISCOVERY}->{RANGEIP}->{IPSTART};
+               $iplist->{$countnb}->{ENTITY} = $self->{NETDISCOVERY}->{RANGEIP}->{ENTITY};
                $iplist2->{$countnb} = $countnb;
                $countnb++;
                $nbip++;
             } else {
    #print "2 - ".localtime()."\n";
-               $ip = new Net::IP ($self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{IPSTART}.' - '.$self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{IPEND});
+               $ip = new Net::IP ($self->{NETDISCOVERY}->{RANGEIP}->{IPSTART}.' - '.$self->{NETDISCOVERY}->{RANGEIP}->{IPEND});
                do {
                   if ($threads_run eq "0") {
                      $iplist->{$countnb} = &share({});
                   }
                   $iplist->{$countnb}->{IP} = $ip->ip();
-                  $iplist->{$countnb}->{ENTITY} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{ENTITY};
+                  $iplist->{$countnb}->{ENTITY} = $self->{NETDISCOVERY}->{RANGEIP}->{ENTITY};
                   $iplist2->{$countnb} = $countnb;
                   $countnb++;
                   $nbip++;
                   if ($nbip eq $limitip) {
-                     if ($ip->ip() ne $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{IPEND}) {
-                        $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}->{IPSTART} = $ip->ip();
+                     if ($ip->ip() ne $self->{NETDISCOVERY}->{RANGEIP}->{IPEND}) {
+                        $self->{NETDISCOVERY}->{RANGEIP}->{IPSTART} = $ip->ip();
                         goto CONTINUE;
                      }
                   }
                } while (++$ip);
-               undef $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP};
+               undef $self->{NETDISCOVERY}->{RANGEIP};
             }
          } else {
-            foreach my $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{RANGEIP}}) {
+            foreach my $num (@{$self->{NETDISCOVERY}->{RANGEIP}}) {
                if ($num->{IPSTART} eq $num->{IPEND}) {
    #print "3 - ".localtime()."\n";
                   if ($threads_run eq "0") {
@@ -351,7 +287,7 @@ my $PID;
          $xml_thread = {};
          $xml_thread->{QUERY} = "NETDISCOVERY";
          $xml_thread->{CONTENT}->{AGENT}->{NBIP} = $nbip;
-         $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{PID};
+         $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
          $self->SendInformations($xml_thread);
          undef($xml_thread);
 
@@ -377,7 +313,7 @@ my $PID;
          while ($i < $nb_threads_discovery) {
             $ArgumentsThread{'Bin'}[$p][$i] = $Bin;
             $ArgumentsThread{'log'}[$p][$i] = $log;
-            $ArgumentsThread{'PID'}[$p][$i] = $PID;
+            $ArgumentsThread{'PID'}[$p][$i] = $self->{PID};
             $i++;
          }
          #===================================
@@ -456,7 +392,7 @@ my $PID;
                                                                   $ArgumentsThread{'log'}[$p][$t],
                                                                   $ArgumentsThread{'Bin'}[$p][$t],
                                                                   $ArgumentsThread{'PID'}[$p][$t],
-                                                                  $agent_version,
+                                                                  $self->{config}->{VERSION},
                                                                   $authlist,
                                                                   $ModuleNmapScanner,
                                                                   $ModuleNetNBName,
@@ -467,7 +403,7 @@ my $PID;
                                                             if (keys %{$datadevice}) {
                                                                $xml_thread->{CONTENT}->{DEVICE}->[$count] = $datadevice;
                                                                $xml_thread->{DEVICEID} = $self->{config}->{deviceid};
-                                                               $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{PID};
+                                                               $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
                                                                $count++;
                                                             }
                                                          }
@@ -510,7 +446,7 @@ my $PID;
    undef($xml_thread);
    $xml_thread->{QUERY} = "NETDISCOVERY";
    $xml_thread->{CONTENT}->{AGENT}->{END} = '1';
-   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{'prologresp'}->{'parsedcontent'}->{OPTION}->[1]->{PARAM}->[0]->{PID};
+   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
    $self->SendInformations($xml_thread);
    undef($xml_thread);
 
@@ -541,7 +477,7 @@ sub SendInformations{
       my $xml = $xmlout->XMLout($message);
       if ($xml ne "") {
          my $data_compressed = Compress::Zlib::compress($xml);
-         send_snmp_http2($data_compressed,$PID,$config->{'server'});
+         send_snmp_http2($data_compressed,$self->{PID},$config->{'server'});
       }
    }
 }
