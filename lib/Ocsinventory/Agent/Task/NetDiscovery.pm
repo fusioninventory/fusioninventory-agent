@@ -27,6 +27,7 @@ use Ocsinventory::Agent::XML::Query::SimpleMessage;
 use Ocsinventory::Agent::XML::Response::Prolog;
 use Ocsinventory::Agent::Network;
 use Ocsinventory::Agent::SNMP;
+use Ocsinventory::Agent::Task::NetDiscovery::dico;
 
 use Ocsinventory::Agent::AccountInfo;
 
@@ -665,9 +666,7 @@ sub discovery_ip_threaded {
                translate    => 1,
 
             });
-            if ($ip->{IP} eq "192.168.0.80") {
-               print Dumper($session->{SNMPSession});
-            }
+
             if (!defined($session->{SNMPSession}->{session})) {
                #print("SNMP ERROR: %s.\n", $error);
 #               print "[".$ip->{IP}."] GNERROR ()".$authlist->{$key}->{VERSION}."\n";
@@ -717,7 +716,7 @@ sub discovery_ip_threaded {
                      $name = "";
                   }
                   # Serial Number
-                  my ($serial, $type, $model) = verifySerial($description);
+                  my ($serial, $type, $model, $mac) = verifySerial($description, $session);
                   if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
                      $serial = '';
                   }
@@ -736,6 +735,7 @@ sub discovery_ip_threaded {
                   $datadevice->{TYPE} = $type;
                   $datadevice->{SNMPHOSTNAME} = $name;
                   $datadevice->{IP} = $ip->{IP};
+                  $datadevice->{MAC} = $mac;
                   $datadevice->{ENTITY} = $entity;
                   #$session->close;
                   return $datadevice;
@@ -776,7 +776,42 @@ sub special_char {
 
 
 sub verifySerial {
-	return ("", 0, "");
+   my $description = shift;
+   my $session     = shift;
+
+   my $oid;
+
+   my $xmlDico = Ocsinventory::Agent::Task::NetDiscovery::dico::loadDico();
+   foreach my $num (@{$xmlDico->{DEVICE}}) {
+      if ($num->{SYSDESCR} =~ /sasyamal/){
+            print Dumper($num->{SYSDESCR});
+         }
+      if ($num->{SYSDESCR} eq $description) {
+         my $serial;
+         my $serialreturn;
+         if (defined($num->{SERIAL})) {
+            $oid = $num->{SERIAL};
+				$serial = $session->snmpget({
+                     oid => $oid,
+                     up  => 1,
+                  });
+         }
+         if ($serial ne "null") {
+            $serialreturn = $serial;
+         }
+         my $typereturn  = $num->{TYPE};
+         my $modelreturn = $num->{MODELSNMP};
+         $oid = $num->{MAC};
+         my $macreturn   = $session->snmpget({
+                     oid => $oid,
+                     up  => 1,
+                  });
+
+			return ($serialreturn, $typereturn, $modelreturn, $macreturn);
+
+      }
+   }
+	return ("", 0, "", "");
 }
 
 

@@ -233,18 +233,30 @@ sub snmpgetnext {
 
 
 
-#sub getbadmacaddress {
-#
-#   my $OID_ifTable = shift;
-#   my $oid_value = shift;
-#
-#   if ($oid_value !~ /0x/) {
-#      return "0x".unpack 'H*', $oid_value;
-#   # Supression du code ci-dessous ******
-#      my $OID_ifPhysAddress = $OID_ifTable;
-#
-#      my %table; # Hash to store the results
-#
+sub special_char {
+   if (defined($_[0])) {
+      if ($_[0] =~ /0x$/) {
+         return "";
+      }
+      $_[0] =~ s/([\x80-\xFF])//g;
+      return $_[0];
+   } else {
+      return "";
+   }
+}
+
+
+sub getbadmacaddress {
+   my $OID_ifTable = shift;
+   my $oid_value = shift;
+
+   if ($oid_value !~ /0x/) {
+      return "0x".unpack 'H*', $oid_value;
+   # Supression du code ci-dessous ******
+      my $OID_ifPhysAddress = $OID_ifTable;
+
+      my %table; # Hash to store the results
+
 #      my $result = $session2->get_request(
 #         -varbindlist => [$OID_ifPhysAddress]
 #      );
@@ -268,23 +280,16 @@ sub snmpgetnext {
 #            }
 #         }
 #      }
-#
-#   }
-#   return $oid_value;
-#
-#}
 
-
-sub special_char {
-   if (defined($_[0])) {
-      if ($_[0] =~ /0x$/) {
-         return "";
-      }
-      $_[0] =~ s/([\x80-\xFF])//g;
-      return $_[0];
-   } else {
-      return "";
    }
+
+
+   my @array = split(/(\S{2})/, $oid_value);
+   $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
+
+   return $oid_value;
+
 }
+
 
 1;
