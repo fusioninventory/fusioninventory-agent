@@ -211,7 +211,6 @@ my $log;
 
          if (ref($self->{NETDISCOVERY}->{RANGEIP}) eq "HASH"){
             if ($self->{NETDISCOVERY}->{RANGEIP}->{IPSTART} eq $self->{NETDISCOVERY}->{RANGEIP}->{IPEND}) {
-   #print "1 - ".localtime()."\n";
                if ($threads_run eq "0") {
                   $iplist->{$countnb} = &share({});
                }
@@ -221,7 +220,6 @@ my $log;
                $countnb++;
                $nbip++;
             } else {
-   #print "2 - ".localtime()."\n";
                $ip = new Net::IP ($self->{NETDISCOVERY}->{RANGEIP}->{IPSTART}.' - '.$self->{NETDISCOVERY}->{RANGEIP}->{IPEND});
                do {
                   if ($threads_run eq "0") {
@@ -244,7 +242,6 @@ my $log;
          } else {
             foreach my $num (@{$self->{NETDISCOVERY}->{RANGEIP}}) {
                if ($num->{IPSTART} eq $num->{IPEND}) {
-   #print "3 - ".localtime()."\n";
                   if ($threads_run eq "0") {
                      $iplist->{$countnb} = &share({});
                   }
@@ -255,7 +252,6 @@ my $log;
                   $nbip++;
                } else {
                   if ($num->{IPSTART} ne "") {
-   #print "4 - ".localtime()."\n";
                      $ip = new Net::IP ($num->{IPSTART}.' - '.$num->{IPEND});
                      do {
                         if ($threads_run eq "0") {
@@ -280,6 +276,8 @@ my $log;
             }
          }
          $loopip = 0;
+
+         $nb_threads_discovery = int($nbip / 25);
          CONTINUE:
 
          # Send NB ips to server :
@@ -421,18 +419,16 @@ my $log;
                                                          }
                                                          return;
                                                       }, $p, $j, $authlist)->detach();
-               if ($k eq "1") {
+               if ($k eq "2") {
                   sleep 1;
                   $k = 0;
                }
             }
          }
-
         while($exit ne "1") {
            sleep 2;
         }
       } # End loopip
-
      if ($nb_core_discovery > 1) {
          $pm->finish;
       }
@@ -448,7 +444,6 @@ my $log;
    $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
    $self->SendInformations($xml_thread);
    undef($xml_thread);
-
 }
 
 
@@ -672,19 +667,19 @@ sub discovery_ip_threaded {
 #               print "[".$ip->{IP}."] GNERROR ()".$authlist->{$key}->{VERSION}."\n";
             } else {
 #            print Dumper($session);
-            print "[".$ip->{IP}."] GNE () \n";
+            #print "[".$ip->{IP}."] GNE () \n";
                my $description = $session->snmpget({
                      oid => '1.3.6.1.2.1.1.1.0',
                      up  => 1,
                   });
                if ($description =~ m/No response from remote host/) {
-                  print "[".$ip->{IP}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
+                  #print "[".$ip->{IP}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
                   #$session->close;
                } elsif ($description =~ m/No buffer space available/) {
-                  print "[".$ip->{IP}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
+                  #print "[".$ip->{IP}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
                   #$session->close;
                } elsif ($description ne "null") {
-                  print "[".$ip->{IP}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
+                  #print "[".$ip->{IP}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
 
                   # ***** manufacturer specifications
                   # If HP printer detected, get best sysDescr
@@ -738,6 +733,7 @@ sub discovery_ip_threaded {
                   $datadevice->{MAC} = $mac;
                   $datadevice->{ENTITY} = $entity;
                   #$session->close;
+                  print Dumper($datadevice);
                   return $datadevice;
        #           return constructxmlDiscovery($description, $name, $serial, $ip, $type,$entity,$model,$$authSNMP_discovery{$key}{'ID'},$macaddress,$hostname,$domain,$user,$machine,$netportvendor);
                } else {
@@ -780,6 +776,10 @@ sub verifySerial {
    my $session     = shift;
 
    my $oid;
+   my $macreturn = '';
+   my $modelreturn = '';
+   my $serial;
+   my $serialreturn = '';
 
    my $xmlDico = Ocsinventory::Agent::Task::NetDiscovery::dico::loadDico();
    foreach my $num (@{$xmlDico->{DEVICE}}) {
@@ -787,8 +787,7 @@ sub verifySerial {
             print Dumper($num->{SYSDESCR});
          }
       if ($num->{SYSDESCR} eq $description) {
-         my $serial;
-         my $serialreturn;
+         
          if (defined($num->{SERIAL})) {
             $oid = $num->{SERIAL};
 				$serial = $session->snmpget({
@@ -796,19 +795,22 @@ sub verifySerial {
                      up  => 1,
                   });
          }
-         if ($serial ne "null") {
+         if (defined($serial)) {
             $serialreturn = $serial;
          }
          my $typereturn  = $num->{TYPE};
-         my $modelreturn = $num->{MODELSNMP};
-         $oid = $num->{MAC};
-         my $macreturn   = $session->snmpget({
-                     oid => $oid,
-                     up  => 1,
-                  });
+         if (defined($num->{MODELSNMP})) {
+            $modelreturn = $num->{MODELSNMP};
+         }
+         if (defined($num->{MAC})) {
+            $oid = $num->{MAC};
+            $macreturn  = $session->snmpget({
+                        oid => $oid,
+                        up  => 1,
+                     });
+         }
 
 			return ($serialreturn, $typereturn, $modelreturn, $macreturn);
-
       }
    }
 	return ("", 0, "", "");
@@ -823,11 +825,17 @@ sub hp_discovery {
    my $session     = shift;
 
    if($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) {
-      my $description_new = $session->snmpget('.1.3.6.1.2.1.25.3.2.1.3.1',1);
+      my $description_new = $session->snmpget({
+                        oid => '.1.3.6.1.2.1.25.3.2.1.3.1',
+                        up  => 1,
+                     });
       if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
          $description = $description_new;
       } elsif ($description_new eq "No response from remote host") {
-         $description_new = $session->snmpget('.1.3.6.1.4.1.11.2.3.9.1.1.7.0',1);
+         $description_new = $session->snmpget({
+                        oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
+                        up  => 1,
+                     });
          if ($description_new ne "null") {
             my @infos = split(/;/,$description_new);
             foreach (@infos) {
