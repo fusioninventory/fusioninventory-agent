@@ -733,7 +733,6 @@ sub discovery_ip_threaded {
                   $datadevice->{MAC} = $mac;
                   $datadevice->{ENTITY} = $entity;
                   #$session->close;
-                  print Dumper($datadevice);
                   return $datadevice;
        #           return constructxmlDiscovery($description, $name, $serial, $ip, $type,$entity,$model,$$authSNMP_discovery{$key}{'ID'},$macaddress,$hostname,$domain,$user,$machine,$netportvendor);
                } else {
