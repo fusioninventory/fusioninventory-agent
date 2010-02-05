@@ -121,7 +121,7 @@ my $log;
    # Send infos to server :
    my $xml_thread = {};
    $xml_thread->{QUERY} = "NETDISCOVERY";
-   $xml_thread->{DEVICEID} = $self->{config}->{deviceid};
+   $xml_thread->{DEVICEID} = $self->{target}->{deviceid};
    $xml_thread->{CONTENT}->{AGENT}->{START} = '1';
    $xml_thread->{CONTENT}->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
    $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
@@ -399,7 +399,7 @@ my $log;
                                                             undef $iplist->{$device_id}->{ENTITY};
                                                             if (keys %{$datadevice}) {
                                                                $xml_thread->{CONTENT}->{DEVICE}->[$count] = $datadevice;
-                                                               $xml_thread->{DEVICEID} = $self->{config}->{deviceid};
+                                                               $xml_thread->{DEVICEID} = $self->{target}->{deviceid};
                                                                $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
                                                                $count++;
                                                             }
@@ -686,20 +686,20 @@ sub discovery_ip_threaded {
                   $description = hp_discovery($description, $session);
 
                   # If Wyse thin clients
-                  $description = wyse_discovery($description);
+                  $description = wyse_discovery($description, $session);
                   #$description = cisco_discovery($description);
 
                   # If Samsung printer detected, get best sysDescr
-                  $description = samsung_discovery($description);
+                  $description = samsung_discovery($description, $session);
 
                   # If Epson printer detected, get best sysDescr
-                  $description = epson_discovery($description);
+                  $description = epson_discovery($description, $session);
 
                   # If Altacel switch detected, get best sysDescr
-                  $description = alcatel_discovery($description);
+                  $description = alcatel_discovery($description, $session);
 
                   # If Kyocera printer detected, get best sysDescr
-                  $description = kyocera_discovery($description);
+                  $description = kyocera_discovery($description, $session);
 
                   $datadevice->{DESCRIPTION} = $description;
 
@@ -858,9 +858,13 @@ sub hp_discovery {
 
 sub wyse_discovery {
    my $description = shift;
+   my $session     = shift;
 
    if ($description =~ m/Linux/) {
-      my $description_new = snmpget('.1.3.6.1.4.1.714.1.2.5.6.1.2.1.6.1',1);
+      my $description_new = $session->snmpget({
+                        oid => '.1.3.6.1.4.1.714.1.2.5.6.1.2.1.6.1',
+                        up  => 1,
+                     });
       if ($description_new ne "null") {
          $description = "Wyse ".$description_new;
       }
@@ -875,9 +879,13 @@ sub wyse_discovery {
 
 sub samsung_discovery {
    my $description = shift;
+   my $session     = shift;
 
    if($description =~ m/SAMSUNG NETWORK PRINTER,ROM/) {
-      my $description_new = snmpget('.1.3.6.1.4.1.236.11.5.1.1.1.1.0',1);
+      my $description_new = $session->snmpget({
+                        oid => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0',
+                        up  => 1,
+                     });
       if ($description_new ne "null") {
          $description = $description_new;
       }
@@ -888,9 +896,13 @@ sub samsung_discovery {
 
 sub epson_discovery {
    my $description = shift;
+   my $session     = shift;
 
    if($description =~ m/EPSON Built-in/) {
-      my $description_new = snmpget('.1.3.6.1.4.1.1248.1.1.3.1.3.8.0',1);
+      my $description_new = $session->snmpget({
+                        oid => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0',
+                        up  => 1,
+                     });
       if ($description_new ne "null") {
          $description = $description_new;
       }
@@ -920,9 +932,13 @@ sub alcatel_discovery {
 
 sub kyocera_discovery {
    my $description = shift;
+   my $session     = shift;
 
    if($description =~ m/,HP,JETDIRECT,J/) {
-      my $description_new = snmpget('.1.3.6.1.4.1.1229.2.2.2.1.15.1',1);
+      my $description_new = $session->snmpget({
+                        oid => '.1.3.6.1.4.1.1229.2.2.2.1.15.1',
+                        up  => 1,
+                     });
       if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
          $description = $description_new;
       }

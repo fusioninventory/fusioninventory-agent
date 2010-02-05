@@ -110,7 +110,7 @@ my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
    # Send infos to server :
    my $xml_thread = {};
    $xml_thread->{QUERY} = "SNMPQUERY";
-   $xml_thread->{DEVICEID} = $self->{config}->{deviceid};
+   $xml_thread->{DEVICEID} = $self->{target}->{deviceid};
    $xml_thread->{CONTENT}->{AGENT}->{START} = '1';
    $xml_thread->{CONTENT}->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
    $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
