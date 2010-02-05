@@ -101,7 +101,7 @@ sub StartThreads {
    my $num;
    my $log;
 
-my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
+   my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
 	my $nb_core_query = $self->{SNMPQUERY}->{PARAM}->[0]->{CORE_QUERY};
 
    $devicetype[0] = "NETWORKING";
@@ -116,7 +116,6 @@ my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
    $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
    $self->SendInformations($xml_thread);
    undef($xml_thread);
-
 
 	#===================================
 	# Threads et variables partagées

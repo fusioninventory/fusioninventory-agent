@@ -168,7 +168,8 @@ my $log;
    my $nbip = 0;
    my $countnb;
    my $core_counter = 0;
-   my $limitip = $nb_threads_discovery * 25;
+   my $nb_ip_per_thread = 25;
+   my $limitip = $nb_threads_discovery * $nb_ip_per_thread;
    my $ip;
    my $max_procs;
    my $pm;
@@ -277,9 +278,8 @@ my $log;
          }
          $loopip = 0;
 
-         $nb_threads_discovery = int($nbip / 25);
+         $nb_threads_discovery = int($nbip / $nb_ip_per_thread) + 1;
          CONTINUE:
-
          # Send NB ips to server :
          $xml_thread = {};
          $xml_thread->{QUERY} = "NETDISCOVERY";
@@ -319,7 +319,6 @@ my $log;
          $exit = 2;
 
          if ($threads_run eq "0") {
-
             my $Threadmanagement = threads->create( sub {
                                                       $nb_threads_discovery = shift;
 
@@ -361,6 +360,7 @@ my $log;
             for(my $j = 0; $j < $nb_threads_discovery; $j++) {
                $threads_run = 1;
                $k++;
+               print "BEFORE THREAD : ".$j."\n";
                $Thread[$p][$j] = threads->create( sub {
                                                          my $p = shift;
                                                          my $t = shift;
@@ -405,7 +405,7 @@ my $log;
                                                             }
                                                          }
                                                          $xml_thread->{QUERY} = "NETDISCOVERY";
-                                                         if ($count > 0) {
+                                                         if (($count > 0) && (!empty($xml_thread))) {
                                                             $self->SendInformations($xml_thread);
                                                          }
                                                          if ($loopip eq "1") {
