@@ -278,7 +278,14 @@ my $log;
          }
          $loopip = 0;
 
-         $nb_threads_discovery = int($nbip / $nb_ip_per_thread) + 1;
+         if ($nbip > ($nb_ip_per_thread * 4)) {
+            
+         } elsif ($nbip > $nb_ip_per_thread) {
+            $nb_threads_discovery = int($nbip / $nb_ip_per_thread) + 4;
+         } else {
+            $nb_threads_discovery = $nbip;
+         }
+
          CONTINUE:
          # Send NB ips to server :
          $xml_thread = {};
@@ -360,7 +367,6 @@ my $log;
             for(my $j = 0; $j < $nb_threads_discovery; $j++) {
                $threads_run = 1;
                $k++;
-               print "BEFORE THREAD : ".$j."\n";
                $Thread[$p][$j] = threads->create( sub {
                                                          my $p = shift;
                                                          my $t = shift;
