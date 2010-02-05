@@ -7,10 +7,22 @@ sub check {`which ifconfig 2>&1`; ($? >> 8)?0:1
 sub run {
   my $params = shift;
   my $inventory = $params->{inventory};
-  my @ip;
+  my $ip;
+  my $hostname;
 
-  $ip=`grep n4004rec /etc/hosts | head -1 | cut -f 1`;
-  $inventory->setHardware({IPADDR => $ip});
+  if ( `hostname` =~ /(\S+)/ )
+  {
+      $hostname=$1;
+  }
+
+  for ( `grep $hostname /etc/hosts ` )
+  {
+     if ( /(^\d+\.\d+\.\d+\.\d+)\s+/ )
+     {
+        $ip=$1;
+        $inventory->setHardware({IPADDR => $ip});
+     }
+  }
 }
 
 1;

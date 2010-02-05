@@ -42,6 +42,7 @@ sub run {
        $macaddr=$1;
        $lanid=$4;
 
+       #print "name $name macaddr $macaddr lanid $lanid\n";
        for ( `lanadmin -g $lanid` ) {
 	 if (/Type.+=\s(.+)/) { $type = $1; };
 	 if (/Description\s+=\s(.+)/) { $description = $1; };
@@ -56,7 +57,7 @@ sub run {
 	 if (/Operation Status.+=\s(.+)/) { $status = $1; };
 
        }; # for lanadmin
-
+       #print "name $name macaddr $macaddr lanid $lanid speed $speed status $status \n";
        for ( `ifconfig $name 2> /dev/null` ) {
 	 if ( /inet\s(\S+)\snetmask\s(\S+)\s/ ) {
             $ipaddress=$1;
