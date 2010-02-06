@@ -33,7 +33,10 @@ sub run {
     $isIBM = 1 if /^machine\s*:.*IBM/;
     $current->{TYPE} = $1 if /cpu\s+:\s+(\S.*)/;
     $current->{SPEED} = $1 if /clock\s+:\s+(\S.*)/;
-    $current->{SPEED} =~ s/\.0+MHz/MHz/;
+    $current->{SPEED} =~ s/\.\d+/MHz/;
+    $current->{SPEED} =~ s/MHz//;
+    $current->{SPEED} =~ s/GHz//;
+
 
     if (/^\s*$/) {
       if ($current->{TYPE}) {
