@@ -297,7 +297,7 @@ my $log;
 
          if ($threads_run eq "0") {
             #write_pid();
-            # Création des threads
+            # CrÃ©ation des threads
             $TuerThread{$p} = &share([]);
          }
 
@@ -378,7 +378,7 @@ my $log;
 
                                                          BOUCLET: while (1) {
                                                             #print "Thread\n";
-                                                            # Lance la procédure et récupère le résultat
+                                                            # Lance la procÃ©dure et rÃ©cupÃ¨re le rÃ©sultat
                                                             $device_id = "";
                                                             {
                                                                lock $iplist2;
@@ -940,7 +940,7 @@ sub kyocera_discovery {
    my $description = shift;
    my $session     = shift;
 
-   if($description =~ m/,HP,JETDIRECT,J/) {
+   if ($description =~ m/,HP,JETDIRECT,J/) {
       my $description_new = $session->snmpget({
                         oid => '.1.3.6.1.4.1.1229.2.2.2.1.15.1',
                         up  => 1,
@@ -948,6 +948,15 @@ sub kyocera_discovery {
       if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
          $description = $description_new;
       }
+   } elsif ($description eq "KYOCERA MITA Printing System") {
+      my $description_new = $session->snmpget({
+                        oid => '.1.3.6.1.4.1.1347.42.5.1.1.2.1',
+                        up  => 1,
+                     });
+      if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
+         $description = $description_new;
+      }
+
    }
    return $description;
 }
