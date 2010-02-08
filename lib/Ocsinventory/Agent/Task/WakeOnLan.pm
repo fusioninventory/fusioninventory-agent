@@ -6,6 +6,17 @@ use warnings;
 
 use Net::Wake;
 
+use ExtUtils::Installed;
+use Ocsinventory::Agent::Config;
+use Ocsinventory::Logger;
+use Ocsinventory::Agent::Storage;
+use Ocsinventory::Agent::XML::Query::SimpleMessage;
+use Ocsinventory::Agent::XML::Response::Prolog;
+use Ocsinventory::Agent::Network;
+use Ocsinventory::Agent::SNMP;
+use Ocsinventory::Agent::Task::NetDiscovery::dico;
+
+use Ocsinventory::Agent::AccountInfo;
 
 sub main {
     my ( undef ) = @_;
@@ -68,9 +79,7 @@ sub StartMachine {
 
    my $macaddress =  $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
 
-   my $start = new Net::Wake;
-   $start->by_udp(undef,$macaddress);
-   
+   Net::Wake::by_udp(undef,$macaddress);
 }
 
 
