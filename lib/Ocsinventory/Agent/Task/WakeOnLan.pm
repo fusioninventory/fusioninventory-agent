@@ -67,7 +67,7 @@ sub main {
             target => $target,
 
         });
-
+        
    $self->StartMachine();
 
    exit(0);
@@ -77,9 +77,10 @@ sub main {
 sub StartMachine {
    my ($self, $params) = @_;
 
-   my $macaddress =  $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
+   my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
+   my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
 
-   Net::Wake::by_udp(undef,$macaddress);
+   Net::Wake::by_udp($ip, $macaddress, 9);  
 }
 
 
