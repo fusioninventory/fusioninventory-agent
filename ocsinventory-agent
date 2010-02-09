@@ -259,6 +259,12 @@ Do not generate inventory.
 
 =back
 
+=item B<--nowakeonlan>
+
+Do not use the wakeonlan.
+
+=back
+
 
 
 
@@ -268,6 +274,7 @@ Do not inventory the software installed on the machine. B<--nosoft> also
 works but is deperecated.
 
 =back
+
 
 =head1 CONFIG FILE
 

@@ -41,6 +41,7 @@ my $default = {
               =>  0,
   'nosoft'    =>  0, # DEPRECATED!
   'nosoftware'=>  0,
+  'nowakeonlan'=> 0,
   'delaytime' =>  '3600', # max delay time (seconds)
   'backendCollectTimeout'   => '180',   # timeOut of process : see Backend.pm
   'unsecureSoftwareDeployment' => 0,
@@ -129,6 +130,7 @@ sub loadUserParams {
 		"noinventory"     =>   \$config->{noinventory},
 		"nosoft"          =>   \$config->{nosoft},
 		"nosoftware"      =>   \$config->{nosoftware},
+      "nowakeonlan"     =>   \$config->{nowakeonlan},
 		"p|password=s"    =>   \$config->{password},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
@@ -205,6 +207,7 @@ sub help {
   print STDERR "\t--noinventory       Do not generate inventory (".$config->{noinventory}.")\n";
   print STDERR "\t--nosoft            DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware        do not return installed software list (".$config->{nosoftware}.")\n";
+  print STDERR "\t--nowakeonlan       do not use wakeonlan function (".$config->{nowakeonlan}.")\n";
   print STDERR "\t--delaytime	      set a max delay time (in second) if".
   " no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
   print STDERR "\t--scan-homedirs     permit to scan home user directories (".$config->{scanhomedirs}.")\n" ;
