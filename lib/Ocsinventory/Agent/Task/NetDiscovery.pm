@@ -411,7 +411,8 @@ my $log;
                                                             }
                                                          }
                                                          $xml_thread->{QUERY} = "NETDISCOVERY";
-                                                         if (($count > 0) && (!empty($xml_thread))) {
+                                                         #if (($count > 0) && (!empty($xml_thread))) {
+                                                         if ($count > 0) {
                                                             $self->SendInformations($xml_thread);
                                                          }
                                                          if ($loopip eq "1") {
