@@ -4,7 +4,6 @@ use strict;
 no strict 'refs';
 use warnings;
 
-use Net::Wake;
 
 use ExtUtils::Installed;
 use Ocsinventory::Agent::Config;
@@ -20,6 +19,10 @@ use Ocsinventory::Agent::AccountInfo;
 
 sub main {
     my ( undef ) = @_;
+
+
+    eval "use Net::Wake;";
+    exit(1) if $@;
 
     my $self = {};
     bless $self;
