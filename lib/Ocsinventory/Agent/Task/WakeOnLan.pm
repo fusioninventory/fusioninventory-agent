@@ -12,8 +12,6 @@ use Ocsinventory::Agent::Storage;
 use Ocsinventory::Agent::XML::Query::SimpleMessage;
 use Ocsinventory::Agent::XML::Response::Prolog;
 use Ocsinventory::Agent::Network;
-use Ocsinventory::Agent::SNMP;
-use Ocsinventory::Agent::Task::NetDiscovery::dico;
 
 use Ocsinventory::Agent::AccountInfo;
 
