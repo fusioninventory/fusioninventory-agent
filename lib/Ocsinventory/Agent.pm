@@ -251,6 +251,16 @@ sub main {
             $cmd .= " ".$target->{vardir};
 
             system($cmd);
+            if ($? == -1) {
+                $logger->error("failed to execute '$cmd': $!");
+            }
+            elsif ($? & 127) {
+                $logger->error("Task $task died with signal ".($? & 127));
+            }
+            else {
+                $logger->error("Task $task exited with value ".($? >> 8));
+            }
+
 
             $logger->debug("[task] end of ".$task);
         }
