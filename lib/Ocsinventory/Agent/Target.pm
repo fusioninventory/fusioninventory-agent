@@ -259,8 +259,12 @@ sub setPrologFreq {
             eq $prologFreq)) {
         return;
     }
-    $logger->info("PROLOG_FREQ has changed since last ".
-        "process(old=".$self->{'myData'}{'prologFreq'}.",new=".$prologFreq.")");
+    if (defined($self->{'myData'}{'prologFreq'})) {
+        $logger->info("PROLOG_FREQ has changed since last ".
+            "process(old=".$self->{'myData'}{'prologFreq'}.",new=".$prologFreq.")");
+    } else {
+        $logger->info("PROLOG_FREQ has been set: ".$prologFreq.")");
+    }
 
     $self->{'myData'}{'prologFreq'} = $prologFreq;
     $storage->save($self->{'myData'});
