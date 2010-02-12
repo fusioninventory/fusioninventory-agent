@@ -789,9 +789,6 @@ sub verifySerial {
 
    my $xmlDico = Ocsinventory::Agent::Task::NetDiscovery::dico::loadDico();
    foreach my $num (@{$xmlDico->{DEVICE}}) {
-      if ($num->{SYSDESCR} =~ /sasyamal/){
-            print Dumper($num->{SYSDESCR});
-         }
       if ($num->{SYSDESCR} eq $description) {
          
          if (defined($num->{SERIAL})) {
@@ -812,11 +809,24 @@ sub verifySerial {
             $oid = $num->{MAC};
             $macreturn  = $session->snmpget({
                         oid => $oid,
-                        up  => 1,
+                        up  => 0,
                      });
-         }
 
-			return ($serialreturn, $typereturn, $modelreturn, $macreturn);
+         }
+         if (defined($num->{MACDYN})) {
+            $oid = $num->{MACDYN};
+            my $Arraymacreturn = {};
+            $Arraymacreturn  = $session->snmpwalk({
+                        oid_start => $oid
+                     });
+            while ( (my $oid,my $macadress) = each (%{$Arraymacreturn}) ) {
+               if ($macadress ne '') {
+                  $macreturn = $macadress;
+               }
+            }
+
+         }
+         return ($serialreturn, $typereturn, $modelreturn, $macreturn);
       }
    }
 	return ("", 0, "", "");

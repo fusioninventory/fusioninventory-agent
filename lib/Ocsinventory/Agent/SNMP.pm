@@ -108,7 +108,7 @@ sub snmpget {
    } else {
       if ($result->{$oid} =~ /noSuchInstance/) {
          $return = "null";
-      } else {
+      } else {        
          if ($oid =~ /No response from remote host/) {
             $return = "null";
          } else {
