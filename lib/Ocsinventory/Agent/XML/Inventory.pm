@@ -494,6 +494,7 @@ sub addNetwork {
   my $ipsubnet = $args->{IPSUBNET};
   my $macaddr = $args->{MACADDR};
   my $pcislot = $args->{PCISLOT};
+  my $slaves = $args->{SLAVES}; # For Network bonding
   my $status = $args->{STATUS};
   my $type = $args->{TYPE};
   my $virtualdev = $args->{VIRTUALDEV};
@@ -512,6 +513,7 @@ sub addNetwork {
     IPSUBNET => [$ipsubnet?$ipsubnet:''],
     MACADDR => [$macaddr?$macaddr:''],
     PCISLOT => [$pcislot?$pcislot:''],
+    SLAVES => [$slaves?$slaves:''],
     STATUS => [$status?$status:''],
     TYPE => [$type?$type:''],
     VIRTUALDEV => [$virtualdev?$virtualdev:''],

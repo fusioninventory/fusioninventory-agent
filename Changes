@@ -12,6 +12,7 @@ Revision history for Ocsinventory::Agent
          (Simon CLARA)
        * Upgrade memconf to V2.13
        * Use parameters to simplify the way dmidecode is called (Dmitry ILYIN)
+       * Solaris: Bonding support (Stéphane URBANOVSKI)
 
 1.1.3
        * Remove exec flag on
