@@ -541,6 +541,7 @@ sub reportError {
     my $config  = $self->{config};
     my $logger  = $self->{logger};
     my $myData = $self->{myData};
+    my $target  = $self->{target};
 
     my $errorCode = $self->{errorCode};
     my $order     = $myData->{byId}->{$orderId};
@@ -554,6 +555,7 @@ sub reportError {
         {
             config => $config,
             logger => $logger,
+            target => $target,
             msg    => {
                 QUERY => 'DOWNLOAD',
                 ID    => $orderId,
