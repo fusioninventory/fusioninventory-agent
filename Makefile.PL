@@ -16,18 +16,18 @@ install :: all pure_install doc_install
     return $re;
 }
 
-require 'lib/Ocsinventory/Agent/Config.pm';
+require 'lib/FusionInventory/Agent/Config.pm';
 use Config;
 
-my $version = $Ocsinventory::Agent::Config::VERSION; 
+my $version = $FusionInventory::Agent::Config::VERSION;
 if (-d '.bzr') {
     chomp( my $bzrRev = `bzr revno`);
     $version .= "~bzr".$bzrRev;
 }
 
-name 'Ocsinventory-Agent';
+name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
-abstract 'Ocs-Inventory unified Agent for UNIX, Linux and MacOSX';
+abstract 'FusionInventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
 version $version;
 perl_version '5.006';
@@ -56,12 +56,12 @@ use Data::Dumper;
 use Cwd;
 
 
-install_script  'ocsinventory-agent';
+install_script  'FusionInventory-agent';
 
 
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 
-if ($ENV{OCS_BUNDLE_RELEASE}) {
+if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
   foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
     bundle $module;
     requires $module;

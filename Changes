@@ -15,6 +15,7 @@ futur
        * Move Ocsinventory::Agent::XML::{Inventory,Prolog,SimpleMessage} in
          Ocsinventory::Agent::XML::Query
        * WakeOnLan support (David DURIEUX)
+       * Ocsinventory to FusionInventory namage change
 
 1.2.x
        * Solaris: use regex to identify CPU class (Jerome LEBAS)

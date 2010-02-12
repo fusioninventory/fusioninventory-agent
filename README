@@ -1,6 +1,6 @@
 DESCRIPTION
 
-  Ocsinventory-Agent is an agent for ocsinventory NG. It supports Linux,
+  FusionInventory-Agent is an agent for OCS NG & GLPI. It supports Linux,
   Solaris and AIX. *BSD support is in progress. A port to non UNIX system
   is also possible (e.g: Win32).
 
@@ -68,30 +68,30 @@ BUILDING/INSTALLING
 
   The agent needs some directories to store internal settings.
 
-   mkdir -p /etc/ocsinventory-agent
-   mkdir -p /var/lib/ocsinventory-agent
-   mkdir -p /var/log/ocsinventory-agent
+   mkdir -p /etc/FusionInventory-agent
+   mkdir -p /var/lib/FusionInventory-agent
+   mkdir -p /var/log/FusionInventory-agent
    mkdir -p /var/run
 
   you can choose other directories by changing the default settings
-  directly in the ocsinventory-agent file.
+  directly in the FusionInventory-agent file.
 
   You need to launch the agent with root privilege. For debugging you can
   try to launch it with the -l flag:
-  eg: ocsinventory-agent -l /tmp --debug
+  eg: FusionInventory-agent -l /tmp --debug
 
   It's also possible to run directly from the tarball directory:
 
-   sudo ./ocsinventory-agent --devlib --server http://foo/ocsinventory
+   sudo ./FusionInventory-agent --devlib --server http://foo/FusionInventory
 
 PATCHES
   If you want to improve OCS Inventory, please use the Bazaar branch
   directly, publish you changes and ask for the merge
-  http://wiki.ocsinventory-ng.org/index.php/Developers:Bazaar
+  http://wiki.FusionInventory-ng.org/index.php/Developers:Bazaar
 
   The source of the agent can be download with this command:
 
-  bzr branch lp:ocsinventory-unix-agent
+  bzr branch lp:FusionInventory-unix-agent
 
   /!\ You may need bzr-loom plugin to retrieve the branch /!\ 
 
@@ -113,8 +113,8 @@ NOTE
 
 SOURCES
 You can prepare a tarball from the Bazaar devel branch with following commands:
-   bzr branch lp:ocsinventory-unix-agent
-   cd ocsinventory-unix-agent 
+   bzr branch lp:FusionInventory-unix-agent
+   cd FusionInventory-unix-agent
    perl Makefile.PL
    make manifest
    make dist
@@ -122,7 +122,7 @@ You can prepare a tarball from the Bazaar devel branch with following commands:
 
 COPYRIGHT
 
-  Copyright © 2006-2010 OCS Inventory Contributor
+  Copyright © 2006-2010 FusionInventory Contributor
   released under GNU GPL 2 license
   
 AUTHORS
@@ -137,7 +137,7 @@ terms of the GNU General Public License as published by the Free Software
 Foundation; either version 2 of the License, or (at your option) any later
 version.
 
-Ocsinventory::Agent::Backend::Virtualization::Vmsystem uses code from
+FusionInventory::Agent::Backend::Virtualization::Vmsystem uses code from
 imvirt:
 
    Authors:

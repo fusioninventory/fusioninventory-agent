@@ -2,12 +2,12 @@
 #
 # The complet name of the package
 # the path MUST be valid or the package won't be loaded
-package Ocsinventory::Agent::Backend::OS::Generic::Tarballs;
+package FusionInventory::Agent::Backend::OS::Generic::Tarballs;
 use strict;
 # I need to declare $runAfter because of the strict mode 
 use vars qw($runAfter);
 # The package must be run after OS::Generic
-$runAfter = ["Ocsinventory::Agent::Backend::OS::Generic"];
+$runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 
 # This is the check function. The agent runs it just once the module is loaded.
 # If the function return false, the module and its children are not executed

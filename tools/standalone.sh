@@ -24,20 +24,20 @@ if [ ! -x "`which pp 2>/dev/null`" ]; then
     exit 1
 fi
 
-BACKENDMODULE=`cat MANIFEST | perl -pe 's/.*// unless (/Ocsinventory\/Agent\/Backend\// && !/^inc/ && /pm$/); s/lib\/(.*)\.pm/ $1/; s/\//::/g; chomp'`
+BACKENDMODULE=`cat MANIFEST | perl -pe 's/.*// unless (/FusionInventory\/Agent\/Backend\// && !/^inc/ && /pm$/); s/lib\/(.*)\.pm/ $1/; s/\//::/g; chomp'`
 
-cat > lib/Ocsinventory/Agent/Backend/ModuleToLoad.pm <<EOF
+cat > lib/FusionInventory/Agent/Backend/ModuleToLoad.pm <<EOF
 # This is a workaround for PAR::Packer. Since it resets @INC
 # I can't find the backend modules to load dynamically. So
 # I prepare a list and include it.
-package Ocsinventory::Agent::Backend::ModuleToLoad;
+package FusionInventory::Agent::Backend::ModuleToLoad;
 
 our @list = qw/ $BACKENDMODULE /; 
 
 1;
 EOF
 
-MODULES="`cat MANIFEST | perl -pe 's/.*// unless (!/^inc/ && /pm$/); s/lib\/(.*)\.pm/ -M $1/; s/\//::/g; chomp'` -M XML::SAX::PurePerl -M PerlIO -M Getopt::Long -M Digest::MD5 -M Ocsinventory::Agent::Backend::ModuleToLoad"
+MODULES="`cat MANIFEST | perl -pe 's/.*// unless (!/^inc/ && /pm$/); s/lib\/(.*)\.pm/ -M $1/; s/\//::/g; chomp'` -M XML::SAX::PurePerl -M PerlIO -M Getopt::Long -M Digest::MD5 -M FusionInventory::Agent::Backend::ModuleToLoad"
 
 for i in `echo $MODULES| perl -nle 's/\-M//g;print'`; do  perl -I "lib" -M$i -e "1" || MISSING="$MISSING $i" ;done
 
