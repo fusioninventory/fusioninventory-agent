@@ -248,7 +248,7 @@ Else if duration is a numerical value, it will be used directly.
 
     % fusioninventory-agent --wait 5 --server localhost
 
-=item B<--nodeploy>
+=item B<--noocsdeploy>
 
 Disable the software deployment.
 

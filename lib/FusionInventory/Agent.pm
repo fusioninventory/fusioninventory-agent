@@ -236,7 +236,7 @@ sub main {
 
         my @tasks;
         push @tasks, 'Inventory' unless $config->{'noinventory'};
-        push @tasks, 'Deploy' unless $config->{'nodeploy'};
+        push @tasks, 'OcsDeploy' unless $config->{'noocsdeploy'};
         push @tasks, 'WakeOnLan' unless $config->{'nowakeonlan'};
 
         foreach my $task (@tasks) {

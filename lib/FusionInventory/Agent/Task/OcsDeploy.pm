@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Deploy;
+package FusionInventory::Agent::Task::OcsDeploy;
 use threads;
 # TODO
 # TIMEOUT="30" number of retry to do on a download

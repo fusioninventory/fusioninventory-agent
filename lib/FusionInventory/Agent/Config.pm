@@ -36,7 +36,7 @@ my $default = {
   'version'   =>  0,
   'wait'      =>  '',
 #  'xml'       =>  0,
-  'nodeploy'  =>  0,
+  'noocsdeploy'  =>  0,
   'noinventory'
               =>  0,
   'nosoft'    =>  0, # DEPRECATED!
@@ -125,7 +125,7 @@ sub loadUserParams {
 		"lazy"            =>   \$config->{lazy},
 		"l|local=s"       =>   \$config->{local},
 		"logfile=s"       =>   \$config->{logfile},
-		"nodeploy"        =>   \$config->{nodeploy},
+		"noocsdeploy"        =>   \$config->{noocsdeploy},
 		"noinventory"     =>   \$config->{noinventory},
 		"nosoft"          =>   \$config->{nosoft},
 		"nosoftware"      =>   \$config->{nosoftware},
@@ -201,8 +201,8 @@ sub help {
   print STDERR "\t-w --wait=seconds   wait during a random periode before".
   "  contacting server like --daemon do (".$config->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($config->{xml})\n";
-  print STDERR "\t--nodeploy          Do not deploy packages or run command".
-  "(".$config->{nodeploy}.")\n";
+  print STDERR "\t--noocsdeploy          Do not deploy packages or run command".
+  "(".$config->{noocsdeploy}.")\n";
   print STDERR "\t--noinventory       Do not generate inventory (".$config->{noinventory}.")\n";
   print STDERR "\t--nosoft            DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware        do not return installed software list (".$config->{nosoftware}.")\n";
