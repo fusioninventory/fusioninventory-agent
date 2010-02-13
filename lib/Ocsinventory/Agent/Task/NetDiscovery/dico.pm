@@ -3,7 +3,7 @@ package Ocsinventory::Agent::Task::NetDiscovery::dico;
 use strict;
 use XML::Simple;
 
-sub loadDico() {
+sub loadDico {
    my $dico = '<?xml version="1.0" encoding="UTF-8"?>
 <SNMPDISCOVERY>
    <DEVICE SYSDESCR="Ordinateur CHRP PowerPC IBM&#13;&#10;TCP/IP Client Support  version: 05.03.0000.0050" MANUFACTURER="0" TYPE="1"/>
