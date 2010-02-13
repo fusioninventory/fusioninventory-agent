@@ -1,7 +1,7 @@
 package Ocsinventory::Agent::Task::NetDiscovery;
 
 use strict;
-no strict 'refs';
+#no strict 'refs';
 use warnings;
 
 use threads;
@@ -33,9 +33,8 @@ use Ocsinventory::Agent::AccountInfo;
 
 sub main {
     my ( undef ) = @_;
-
     my $self = {};
-    bless $self;
+    bless $self, 'Ocsinventory::Agent::Task::NetDiscovery';
 
     my $storage = new Ocsinventory::Agent::Storage({
             target => {
@@ -359,7 +358,6 @@ my $log;
                                                       return;
                                                    }, $nb_threads_discovery)->detach();
 
-
             #===================================
             # Create all Threads
             #===================================
@@ -426,6 +424,7 @@ my $log;
                                                          }
                                                          return;
                                                       }, $p, $j, $authlist)->detach();
+
                if ($k eq "2") {
                   sleep 1;
                   $k = 0;
@@ -443,7 +442,6 @@ my $log;
    if ($nb_core_discovery > 1) {
       $pm->wait_all_children;
    }
-
    # Send infos to server :
    undef($xml_thread);
    $xml_thread->{QUERY} = "NETDISCOVERY";
