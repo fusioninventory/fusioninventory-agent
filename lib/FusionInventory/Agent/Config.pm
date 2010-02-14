@@ -42,6 +42,8 @@ my $default = {
   'nosoft'    =>  0, # DEPRECATED!
   'nosoftware'=>  0,
   'nowakeonlan'=> 0,
+  'nosnmpquery'=> 0,
+  'nonetdiscovery' => 0,
   'delaytime' =>  '3600', # max delay time (seconds)
   'backendCollectTimeout'   => '180',   # timeOut of process : see Backend.pm
   'unsecureSoftwareDeployment' => 0,
@@ -129,7 +131,9 @@ sub loadUserParams {
 		"noinventory"     =>   \$config->{noinventory},
 		"nosoft"          =>   \$config->{nosoft},
 		"nosoftware"      =>   \$config->{nosoftware},
-      "nowakeonlan"     =>   \$config->{nowakeonlan},
+        "nowakeonlan"     =>   \$config->{nowakeonlan},
+		"nosnmpquery"     =>   \$config->{nosnmpquery},
+		"nonetdiscovery"  =>   \$config->{nonetdiscovery},
 		"p|password=s"    =>   \$config->{password},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},

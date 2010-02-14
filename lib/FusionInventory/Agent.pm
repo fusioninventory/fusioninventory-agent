@@ -238,6 +238,8 @@ sub main {
         push @tasks, 'Inventory' unless $config->{'noinventory'};
         push @tasks, 'Deploy' unless $config->{'nodeploy'};
         push @tasks, 'WakeOnLan' unless $config->{'nowakeonlan'};
+        push @tasks, 'SNMPQuery' unless $config->{'nosnmpquery'};
+        push @tasks, 'NetDiscovery' unless $config->{'nonetdiscovery'};
 
         foreach my $task (@tasks) {
             $logger->debug("[task]start of ".$task);
