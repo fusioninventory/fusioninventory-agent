@@ -251,21 +251,13 @@ sub main {
             $cmd .= " ".$target->{vardir};
 
             $logger->debug("cmd is: '$cmd'");
-            system($cmd);
-            if ($? == -1) {
-                $logger->error("failed to execute '$cmd': $!");
-            }
-            elsif ($? & 127) {
-                $logger->error("Task $task died with signal ".($? & 127));
-            }
-            elsif (($? >> 8) != 0) {
-                $logger->error("Task $task exited with value ".($? >> 8));
-            }
+            use IPC::Run;
+            IPC::Run::run($cmd);
 
             $logger->debug("[task] end of ".$task);
         }
 
-        $storage->remove();
+#        $storage->remove();
         $target->setNextRunDate();
 
         sleep(5);

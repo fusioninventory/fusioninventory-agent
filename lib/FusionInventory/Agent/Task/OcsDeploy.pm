@@ -854,46 +854,58 @@ sub findMirror {
 
                     my $ip = "$a.$b.$c.$d";
 
-                    my $thr = threads->create(
-                        { 'context'    => 'list' },
-                        sub {
 
-                            my $speed=0;
-                            my $url =
-                            "http://$ip:62354/FusionInventory::Agent::Task::Inventory::Deploy/files/$orderId/$orderId-$fragId";
+                    my $func = sub {
 
-                            my $rand     = int rand(0xffffffff);
-                            my $tempFile = $self->{tmpBaseDir}."/tmp." . $rand;
+                        print "check $ip\n";
+                        my $speed=0;
+                        my $url =
+                        "http://$ip:62354/FusionInventory::Agent::Task::Inventory::Deploy/files/$orderId/$orderId-$fragId";
 
-                            my $rc;
-                            my $begin;
-                            my $end;
-                            $ua->timeout(2);
-                            eval {
-                                local $SIG{ALRM} = sub { die "alarm\n" };
-                                alarm 3;
-                                $begin = Time::HiRes::time();
+                        my $rand     = int rand(0xffffffff);
+                        my $tempFile = $self->{tmpBaseDir}."/tmp." . $rand;
 
-                                $rc = LWP::Simple::getstore( $url, $tempFile
-                                ) or croak;
+                        my $rc;
+                        my $begin;
+                        my $end;
+                        $ua->timeout(2);
+                        eval {
+                            local $SIG{ALRM} = sub { die "alarm\n" };
+                            alarm 1;
+                            $begin = Time::HiRes::time();
 
-                                alarm 0;
-                            };
-                            print "Eval failed: $@\n" if $@;
-                            $end = Time::HiRes::time();
+                            $rc = LWP::Simple::getstore( $url, $tempFile
+                            ) or croak;
 
-                            my $size = (stat($tempFile))[7];
-                            if ($size) {
-                                $speed = int($size / ($end - $begin) / 1024);
-                            }
-                            unlink $tempFile;
-                            return ($ip, $rc, $speed);
+                            alarm 0;
+                        };
+                        print "Eval failed: $@\n" if $@;
+                        $end = Time::HiRes::time();
+
+                        my $size = (stat($tempFile))[7];
+                        if ($size) {
+                            $speed = int($size / ($end - $begin) / 1024);
                         }
-                    );
+                        unlink $tempFile;
+                        return ($ip, $rc, $speed);
+                    };
 
-                    if ($thr) {
-                        push @{$self->{findMirrorThreads}}, $thr;
+
+                    # https://rt.cpan.org/Public/Bug/Display.html?id=41007
+                    # http://www.perlmonks.org/index.pl?node_id=407374
+                    # 
+                    if ( $^O =~ /^MSWin/x ) {
+                        my $thr = threads->create(
+                            { 'context'    => 'list' },
+                            $func
+                        );
+                        if ($thr) {
+                            push @{$self->{findMirrorThreads}}, $thr;
+                        }
+                    } else {
+                        &$func();
                     }
+
 
                 }
             }

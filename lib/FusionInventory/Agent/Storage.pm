@@ -64,7 +64,7 @@ sub restore {
         return retrieve($filePath);
     }
 
-    return;
+    return {};
 }
 
 sub remove {
