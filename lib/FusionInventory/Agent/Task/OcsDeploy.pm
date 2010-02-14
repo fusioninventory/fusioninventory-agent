@@ -775,7 +775,11 @@ sub _joinFindMirrorThread {
     }
     $self->{findMirrorThreads} = [];
 
-    return ($lastValdidIp, $url);
+    if ($lastValdidIp) {
+        return ($lastValdidIp, $url);
+    } else {
+        return ();
+    }
 }
 
 sub _processFindMirrorResult {
@@ -793,14 +797,14 @@ sub _processFindMirrorResult {
             $self->{hosts}{$1}{$2}{$3}{$4}{lastCheck}=time;
         }
         if ($rc==200) {
-            $logger->debug("Mirror found at $url");
+#            $logger->debug("Mirror found at $url");
             return  ($ip, $url);
         }
     } else {
         print "parse error `$ip'\n";
     }
 
-    return;
+    return ();
 
 }
 
@@ -914,17 +918,18 @@ sub findMirror {
                             push @{$self->{findMirrorThreads}}, $thr;
                         }
                     } else {
-                        ($lastValdidIp) = $self->_processFindMirrorResult(&$func());
+                        ($lastValdidIp, $url) = $self->_processFindMirrorResult(&$func());
                         last NETSCAN if $lastValdidIp;
                     }
                 }
             }
         }
     }
-    ($lastValdidIp, $url) = $self->_joinFindMirrorThread();
+    my @ret = $self->_joinFindMirrorThread();
+    ($lastValdidIp, $url) = @ret if @ret;
 
     if ($url) {
-        $logger->debug("Mirror found at $lastValdidIp");
+        $logger->debug("Mirror found on host $lastValdidIp");
     } else {
         $logger->debug("No mirror found");
     }
