@@ -498,12 +498,6 @@ sub send_snmp_http {
 	'content_type' => 'multipart/form-data');
 
 	print $response->error_as_HTML . "\n" if $response->is_error;
-   if ($response->content eq "Impossible to copy file in ../../../files/_plugins/tracker/") {
-      ErrorCode('1002');
-      delete_pid();
-      exit;
-   }
-	#print $response->content."\n";
 }
 
 sub send_snmp_http2 {
