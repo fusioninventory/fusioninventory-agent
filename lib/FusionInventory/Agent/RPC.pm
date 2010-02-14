@@ -47,10 +47,12 @@ sub handler {
         my $file = $1;
         foreach my $target (@{$targets->{targets}}) {
             if (-f $target->{vardir}."/deploy/".$file) {
+                $logger->debug("Send /deploy/".$file);
                 $c->send_file_response($target->{vardir}."/deploy/".$file);
+            } else {
+                $logger->debug("Not found /deploy/".$file);
             }
         }
-        $logger->debug("[RPC]Err, 404");
         $c->send_error(404)
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now\/(\S+)$/) {
         my $token = $1;
