@@ -857,7 +857,6 @@ sub findMirror {
 
                     my $func = sub {
 
-                        print "check $ip\n";
                         my $speed=0;
                         my $url =
                         "http://$ip:62354/FusionInventory::Agent::Task::Inventory::Deploy/files/$orderId/$orderId-$fragId";
@@ -879,7 +878,6 @@ sub findMirror {
 
                             alarm 0;
                         };
-                        print "Eval failed: $@\n" if $@;
                         $end = Time::HiRes::time();
 
                         my $size = (stat($tempFile))[7];
@@ -893,7 +891,6 @@ sub findMirror {
 
                     # https://rt.cpan.org/Public/Bug/Display.html?id=41007
                     # http://www.perlmonks.org/index.pl?node_id=407374
-                    # 
                     if ( $^O =~ /^MSWin/x ) {
                         my $thr = threads->create(
                             { 'context'    => 'list' },
