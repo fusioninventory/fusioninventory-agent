@@ -43,7 +43,7 @@ sub handler {
     my $targets = $self->{targets};
 
     my $r = $c->get_request;
-    if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\/-]+)$/) {
+    if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
         my $file = $1;
         foreach my $target (@{$targets->{targets}}) {
             if (-f $target->{vardir}."/deploy/".$file) {
