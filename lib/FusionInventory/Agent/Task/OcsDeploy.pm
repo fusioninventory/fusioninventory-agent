@@ -26,6 +26,7 @@ use threads;
 use strict;
 use warnings;
 
+use Carp;
 use XML::Simple;
 use File::Copy;
 use File::Glob;
@@ -33,8 +34,6 @@ use LWP::Simple qw ($ua getstore is_success);
 use File::Path;
 use File::stat;
 use Digest::MD5 qw(md5);
-
-use Data::Dumper;
 
 use Archive::Extract;
 use File::Copy::Recursive qw(dirmove);
@@ -54,7 +53,7 @@ sub main {
     my $self = {};
     bless $self;
 
-    my $storage = new FusionInventory::Agent::Storage({
+    my $storage = FusionInventory::Agent::Storage->new({
             target => {
                 vardir => $ARGV[0],
             }
@@ -65,7 +64,7 @@ sub main {
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
-    my $logger = $self->{logger} = new FusionInventory::Logger ({
+    my $logger = $self->{logger} = FusionInventory::Logger->new ({
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
@@ -77,7 +76,7 @@ sub main {
         exit(0);
     }
 
-    my $network = $self->{network} = new FusionInventory::Agent::Network ({
+    my $network = $self->{network} = FusionInventory::Agent::Network->new ({
 
             logger => $logger,
             config => $config,
@@ -197,6 +196,7 @@ sub clean {
         }
     }
 
+    return;
 }
 
 sub extractArchive {
@@ -214,14 +214,16 @@ sub extractArchive {
     my $runDir      = $self->{runBaseDir} . '/' . $orderId;
 
     $self->setErrorCode('ERR_EXECUTE');    # ERR_EXTRACT ?
-    if ( !open FILE, "<$downloadDir/final" ) {
+    my $fileFd;
+    if ( !open $fileFd, "<", "$downloadDir/final" ) {
         $self->reportError( $orderId, "Failed to open $downloadDir/final: $!" );
         return;
     }
-    binmode(FILE);
+    binmode($fileFd);
 
     my $tmp;
-    read( FILE, $tmp, 16 );
+    read( $fileFd, $tmp, 16 );
+    close($fileFd);
     my $magicNumber = unpack( "S<", $tmp );
 
     if ( !$magicNumber ) {
@@ -263,7 +265,7 @@ sub extractArchive {
 
     $logger->debug("Archive $downloadDir/run extracted");
 
-    1;
+    return 1;
 }
 
 sub processOrderCmd {
@@ -299,7 +301,7 @@ sub processOrderCmd {
             }
         }
     }
-    elsif ( $order->{ACT} =~ /^(LAUNCH|EXECUTE)$/ ) {
+    elsif ( $order->{ACT} =~ /^(LAUNCH|EXECUTE)$/x ) {
 
         my $cmd = $order->{'NAME'};
         if ( !-f "$runDir/$cmd" ) {
@@ -308,8 +310,8 @@ sub processOrderCmd {
         }
 
         if ( $order->{ACT} eq 'LAUNCH' ) {
-            if ( $^O !~ /^MSWin/ ) {
-                $cmd .= './' unless $cmd =~ /^\//;
+            if ( $^O !~ /^MSWin/x ) {
+                $cmd .= './' unless $cmd =~ /^\//x;
                 if ( chmod( 0755, "$runDir/$cmd" ) ) {
                     $self->reportError( $orderId, "Cannot chmod: $!" );
                     return;
@@ -348,7 +350,7 @@ sub processOrderCmd {
     $self->setErrorCode('CODE_SUCCESS');
     $self->reportError( $orderId, "order processed" );
 
-    1;
+    return 1;
 }
 
 sub downloadAndConstruct {
@@ -377,10 +379,17 @@ sub downloadAndConstruct {
 
     my $fragLatency = $myData->{config}->{FRAG_LATENCY};
     $order->{ERROR_COUNT} = 0 unless exists( $order->{ERROR_COUNT} );
+    
+    if ($order->{PACK_LOC} =~ /nana\.rulezlan\.org/x) {
+        $order->{PROTO} = 'https';
+    }
+    my $baseUrl = ( $order->{PROTO} =~ /^HTTP$/ix ) ? "http://" : "";
+    if ($order->{PACK_LOC} =~ /nana\.rulezlan\.org/x) {
+        $baseUrl = 'https://';
+    }
 
-    my $baseUrl = ( $order->{PROTO} =~ /^HTTP$/i ) ? "http://" : "";
     $baseUrl .= $order->{PACK_LOC};
-    $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/;
+    $baseUrl .= '/' if $order->{PACK_LOC} !~ /\/$/x;
     $baseUrl .= $orderId;
 
     # Randomise the download order
@@ -405,7 +414,6 @@ sub downloadAndConstruct {
               . " second(s) between each of them" );
     }
     while ( grep ( /1/, @downloadToDo ) ) {
-        print ".";
 
         my $fragID = int( rand(@downloadToDo) ) + 1;    # pick a random frag
         next unless $downloadToDo[ $fragID - 1 ] == 1;  # Already done?
@@ -449,36 +457,39 @@ sub downloadAndConstruct {
     ### Recreate the archive
     $self->setErrorCode('ERR_BUILD');
     $logger->info("Construct the archive in $downloadDir/final");
-    if ( !open( FINALFILE, ">$downloadDir/final" ) ) {
+    
+    my $finaleFileFd;
+    if ( !open $finaleFileFd, ">$downloadDir/final" ) {
         $logger->error("Failed to open $downloadDir/final");
         return;
     }
-    binmode(FINALFILE);    # ...
+    binmode($finaleFileFd);    # ...
 
     foreach my $fragID ( 1 .. $order->{FRAGS} ) {
         my $frag = $orderId . '-' . $fragID;
 
         my $localFile = $downloadDir . '/' . $frag;
-        if ( !open( FRAG, "<$localFile" ) ) {
+        my $fragFd;
+        if (! open $fragFd, "<", "$localFile" ) {
             $logger->error("Failed to open $localFile");
 
-            close FINALFILE;
+            close $finaleFileFd;
             return;
         }
-        binmode(FRAG);
+        binmode($fragFd);
 
-        foreach (<FRAG>) {
-            if ( !print FINALFILE) {
-                close FINALFILE;
+        foreach (<$fragFd>) {
+            if ( !print $finaleFileFd) {
+                close $finaleFileFd;
                 $self->reportError( $orderId,
                     "Failed to write in $localFile: $!" );
                 return;
             }
         }
-        close FRAG;
+        close $fragFd;
     }
 
-    close FINALFILE;
+    close $finaleFileFd;
 
     $self->setErrorCode("ERR_BAD_DIGEST");
     if ( $order->{DIGEST_ALGO} ne 'MD5' ) {
@@ -492,10 +503,10 @@ sub downloadAndConstruct {
         return;
     }
     my $md5 = Digest::MD5->new;
-    if ( open( FINALFILE, "<$downloadDir/final" ) ) {
-        binmode(FINALFILE);    # ...
-        $md5->add($_) while (<FINALFILE>);
-        close FINALFILE;
+    if ( open( $finaleFileFd, "<", "$downloadDir/final" ) ) {
+        binmode($finaleFileFd);    # ...
+        $md5->add($_) while (<$finaleFileFd>);
+        close $finaleFileFd;
     }
     if ( $md5->hexdigest ne $order->{DIGEST} ) {
         $self->reportError( $orderId,
@@ -509,7 +520,7 @@ sub downloadAndConstruct {
         return;
     }
 
-    1;
+    return 1;
 }
 
 =item setErrorCode
@@ -527,6 +538,7 @@ sub setErrorCode {
 
     $self->{errorCode} = $errorCode;
 
+    return 1;
 }
 
 =item reportError
@@ -551,7 +563,7 @@ sub reportError {
 
     $logger->error("$orderId> $message");
 
-    my $xmlMsg = new FusionInventory::Agent::XML::Query::SimpleMessage(
+    my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
         {
             config => $config,
             logger => $logger,
@@ -572,7 +584,7 @@ sub reportError {
     $order->{ERR}         = $errorCode;
     $order->{ANWSER_DATE} = time;
 
-    $self->pushErrorStack();
+    return $self->pushErrorStack();
 }
 
 sub pushErrorStack {
@@ -597,7 +609,7 @@ sub pushErrorStack {
         }
     }
 
-    1;
+    return 1;
 }
 
 sub readProlog {
@@ -681,7 +693,7 @@ sub readProlog {
             # LWP doesn't support SSL cert check and
             # Net::SSLGlue::LWP is a workaround to fix that
             if ( !$config->{unsecureSoftwareDeployment} ) {
-                eval 'use Net::SSLGlue::LWP SSL_ca_path => TODO';
+                eval 'use Net::SSLGlue::LWP SSL_ca_path => \'/etc/ssl/certs\';';
                 if ($@) {
                     $self->reportError( $orderId,
                             "Failed to load "
@@ -694,6 +706,11 @@ sub readProlog {
                 $logger->info( "--unsecure-software-deployment parameter "
                       . "found. Don't check server identity!!!" );
                 $protocl="http";
+            }
+
+            ## For debug 
+            if ($paramHash->{INFO_LOC} =~ /nana\.rulezlan\.org/x) {
+                $protocl = 'https';
             }
 
             my $infoURI =
@@ -715,9 +732,9 @@ sub readProlog {
             $infoHash->{RECEIVED_DATE} = time;
 
             if (  !$orderId
-                || $orderId !~ /^\d+$/
+                || $orderId !~ /^\d+$/x
                 || !$infoHash->{ACT}
-                || $infoHash->{PRI} !~ /^\d+$/ )
+                || $infoHash->{PRI} !~ /^\d+$/x )
             {
                 $self->reportError( $orderId,
                     "Incorrect content in info file `$infoURI'" );
@@ -741,7 +758,7 @@ sub readProlog {
     # messages.
     $self->pushErrorStack();
 
-    1;
+    return 1;
 }
 
 sub _joinFindMirrorThread {
@@ -751,7 +768,7 @@ sub _joinFindMirrorThread {
 
     foreach ( @{$self->{findMirrorThreads}} ) {
         my ($ip, $rc, $speed) = $_->join();
-        if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/) {
+        if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
             if ($rc==200 || $rc==404) {
                 $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=1;
                 $self->{hosts}{$1}{$2}{$3}{$4}{speed}=$speed;
@@ -779,27 +796,28 @@ sub findMirror {
     my $logger = $self->{logger};
 
     my @addresses;
-    if ( $^O =~ /^linux/ ) {
+    if ( $^O =~ /^linux/x ) {
         foreach (`ifconfig`) {
             if
-            (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*Mask:255.255.255.0$/) {
+            (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*Mask:255.255.255.0$/x) {
                 push @addresses, $1;
             }
 
         }
     }
-    elsif ( $^O =~ /^MSWin/ ) {
+    elsif ( $^O =~ /^MSWin/x ) {
         foreach (`route print -4`) {
             next unless
-            /^\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+\s+255\.255\.255\.0/;
-            next unless /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+)\s+\d+$/;
-            push @addresses, $1;
+            /^\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+\s+255\.255\.255\.0/x;
+            if (/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+)\s+\d+$/x) {
+                push @addresses, $1;
+            }
         }
     }
 
     foreach (@addresses) {
-        next if /^127/; # Ignore 127.x.x.x addresses
-        next unless /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+        next if /^127/x; # Ignore 127.x.x.x addresses
+        next unless /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x;
 
         foreach (1..255) {
             next if $4==$_; # Ignore myself :) 
@@ -813,12 +831,11 @@ sub findMirror {
     my $lastValdidIp;
 
 
-    my @threads;
     NETSCAN: foreach my $a (keys %{$self->{hosts}}) {
         foreach my $b (keys %{$self->{hosts}{$a}}) {
             foreach my $c (keys %{$self->{hosts}{$a}{$b}}) {
                 foreach my $d (keys %{$self->{hosts}{$a}{$b}{$c}}) {
-                    if ( @{$self->{findMirrorThreads}} > 15 ) {
+                    if ( @{$self->{findMirrorThreads}} > 1 ) {
                         my $tmp = $self->_joinFindMirrorThread();
                         if ($tmp) {
                             $lastValdidIp = $tmp;
@@ -858,10 +875,11 @@ sub findMirror {
                                 $begin = Time::HiRes::time();
 
                                 $rc = LWP::Simple::getstore( $url, $tempFile
-                                ) or die;
+                                ) or croak;
 
                                 alarm 0;
                             };
+                            print "Eval failed: $@\n" if $@;
                             $end = Time::HiRes::time();
 
                             my $size = (stat($tempFile))[7];
@@ -888,9 +906,9 @@ sub findMirror {
         "http://$lastValdidIp:62354/".
         "FusionInventory::Agent::Task::Inventory::Deploy".
         "/files/$orderId/$orderId-$fragId";
-    } else {
-        return;
     }
+
+    return;
 }
 
 1;
