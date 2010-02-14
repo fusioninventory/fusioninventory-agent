@@ -765,28 +765,43 @@ sub _joinFindMirrorThread {
     my ($self) = @_;
 
     my $lastValdidIp;
+    my $url;
+
+    my $logger = $self->{logger};
 
     foreach ( @{$self->{findMirrorThreads}} ) {
-        my ($ip, $rc, $speed) = $_->join();
-        if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
-            if ($rc==200 || $rc==404) {
-                $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=1;
-                $self->{hosts}{$1}{$2}{$3}{$4}{speed}=$speed;
-            } else {
-                $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=0;
-                $self->{hosts}{$1}{$2}{$3}{$4}{speed}=undef;
-            }
-            $self->{hosts}{$1}{$2}{$3}{$4}{lastCheck}=time;
-            if ($rc==200) {
-                $lastValdidIp = $ip;
-            }
-        } else {
-            print "parse error `$ip'\n";
-        }
+          my @ret = $self->_processFindMirrorResult($_->join());
+          ($lastValdidIp, $url) = @ret if @ret;
     }
     $self->{findMirrorThreads} = [];
 
-    return $lastValdidIp;
+    return ($lastValdidIp, $url);
+}
+
+sub _processFindMirrorResult {
+    my ($self, $ip, $rc, $speed, $url) = @_;
+
+    my $logger = $self->{logger};
+
+    if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
+        if ($rc==200 || $rc==404) {
+            $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=1;
+            $self->{hosts}{$1}{$2}{$3}{$4}{speed}=$speed;
+        } else {
+            $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=0;
+            $self->{hosts}{$1}{$2}{$3}{$4}{speed}=undef;
+        }
+        $self->{hosts}{$1}{$2}{$3}{$4}{lastCheck}=time;
+        if ($rc==200) {
+            $logger->debug("Mirror found at $url");
+            return  ($ip, $url);
+        }
+    } else {
+        print "parse error `$ip'\n";
+    }
+
+    return;
+
 }
 
 sub findMirror {
@@ -828,36 +843,29 @@ sub findMirror {
         }
     }
 
+    my $url;
     my $lastValdidIp;
-
 
     $logger->debug("Looking for a proxy in my network");
     NETSCAN: foreach my $a (keys %{$self->{hosts}}) {
         foreach my $b (keys %{$self->{hosts}{$a}}) {
             foreach my $c (keys %{$self->{hosts}{$a}{$b}}) {
                 foreach my $d (keys %{$self->{hosts}{$a}{$b}{$c}}) {
-                    if ( @{$self->{findMirrorThreads}} > 1 ) {
-                        my $tmp = $self->_joinFindMirrorThread();
-                        if ($tmp) {
-                            $lastValdidIp = $tmp;
-                            last NETSCAN;
-                        }
-                    }
-
+                    print ".\n";
                     # If the host had been detected as down during the last
                     # 10 minutes, I ignore it
                     if ($self->{hosts}{$a}{$b}{$c}{$d}{lastCheck}>(time -
                             600)) {
                         if (!$self->{hosts}{$a}{$b}{$c}{$d}{isUp}) {
+                            print "next...\n";
                             next;
                         }
                     }
 
-                    my $ip = "$a.$b.$c.$d";
-
 
                     my $func = sub {
 
+                        my $ip = "$a.$b.$c.$d";
                         my $speed=0;
                         my $url =
                         "http://$ip:62354/FusionInventory::Agent::Task::Inventory::Deploy/files/$orderId/$orderId-$fragId";
@@ -886,13 +894,20 @@ sub findMirror {
                             $speed = int($size / ($end - $begin) / 1024);
                         }
                         unlink $tempFile;
-                        return ($ip, $rc, $speed);
+                        return ($ip, $rc, $speed, $url);
                     };
 
 
                     # https://rt.cpan.org/Public/Bug/Display.html?id=41007
                     # http://www.perlmonks.org/index.pl?node_id=407374
                     if ( $^O =~ /^MSWin/x ) {
+
+                        if ( @{$self->{findMirrorThreads}} > 1 ) {
+                            ($lastValdidIp, $url) = $self->_joinFindMirrorThread();
+                            last NETSCAN if $lastValdidIp;
+                        }
+
+
                         my $thr = threads->create(
                             { 'context'    => 'list' },
                             $func
@@ -901,26 +916,21 @@ sub findMirror {
                             push @{$self->{findMirrorThreads}}, $thr;
                         }
                     } else {
-                        &$func();
+                        ($lastValdidIp) = $self->_processFindMirrorResult(&$func());
+                        last NETSCAN if $lastValdidIp;
                     }
-
-
                 }
             }
         }
     }
-    my $tmp = $self->_joinFindMirrorThread();
-    $lastValdidIp = $tmp if $tmp;
-    if ($lastValdidIp) {
-        $logger->debug("Mirror found at $lastValdidIp");
-        return
-        "http://$lastValdidIp:62354/".
-        "FusionInventory::Agent::Task::Inventory::Deploy".
-        "/files/$orderId/$orderId-$fragId";
-    }
+    ($lastValdidIp, $url) = $self->_joinFindMirrorThread();
 
-    $logger->debug("No mirror found");
-    return;
+    if ($url) {
+        $logger->debug("Mirror found at $lastValdidIp");
+    } else {
+        $logger->debug("No mirror found");
+    }
+    return $url;
 }
 
 1;
