@@ -479,7 +479,7 @@ sub downloadAndConstruct {
         binmode($fragFd);
 
         foreach (<$fragFd>) {
-            if ( !print $finaleFileFd) {
+            if ( !print {$finaleFileFd} $_ ) {
                 close $finaleFileFd;
                 $self->reportError( $orderId,
                     "Failed to write in $localFile: $!" );
@@ -790,8 +790,8 @@ sub _processFindMirrorResult {
         } else {
             $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=0;
             $self->{hosts}{$1}{$2}{$3}{$4}{speed}=undef;
+            $self->{hosts}{$1}{$2}{$3}{$4}{lastCheck}=time;
         }
-        $self->{hosts}{$1}{$2}{$3}{$4}{lastCheck}=time;
         if ($rc==200) {
             $logger->debug("Mirror found at $url");
             return  ($ip, $url);
@@ -846,18 +846,16 @@ sub findMirror {
     my $url;
     my $lastValdidIp;
 
-    $logger->debug("Looking for a proxy in my network");
+    $logger->debug("Looking for a proxy in my network for $orderId-$fragId");
     NETSCAN: foreach my $a (keys %{$self->{hosts}}) {
         foreach my $b (keys %{$self->{hosts}{$a}}) {
             foreach my $c (keys %{$self->{hosts}{$a}{$b}}) {
                 foreach my $d (keys %{$self->{hosts}{$a}{$b}{$c}}) {
-                    print ".\n";
                     # If the host had been detected as down during the last
                     # 10 minutes, I ignore it
                     if ($self->{hosts}{$a}{$b}{$c}{$d}{lastCheck}>(time -
                             600)) {
                         if (!$self->{hosts}{$a}{$b}{$c}{$d}{isUp}) {
-                            print "next...\n";
                             next;
                         }
                     }
@@ -868,7 +866,7 @@ sub findMirror {
                         my $ip = "$a.$b.$c.$d";
                         my $speed=0;
                         my $url =
-                        "http://$ip:62354/FusionInventory::Agent::Task::Inventory::Deploy/files/$orderId/$orderId-$fragId";
+                        "http://$ip:62354/deploy/$orderId/$orderId-$fragId";
 
                         my $rand     = int rand(0xffffffff);
                         my $tempFile = $self->{tmpBaseDir}."/tmp." . $rand;
