@@ -831,6 +831,7 @@ sub findMirror {
     my $lastValdidIp;
 
 
+    $logger->debug("Looking for a proxy in my network");
     NETSCAN: foreach my $a (keys %{$self->{hosts}}) {
         foreach my $b (keys %{$self->{hosts}{$a}}) {
             foreach my $c (keys %{$self->{hosts}{$a}{$b}}) {
@@ -911,12 +912,14 @@ sub findMirror {
     my $tmp = $self->_joinFindMirrorThread();
     $lastValdidIp = $tmp if $tmp;
     if ($lastValdidIp) {
+        $logger->debug("Mirror found at $lastValdidIp");
         return
         "http://$lastValdidIp:62354/".
         "FusionInventory::Agent::Task::Inventory::Deploy".
         "/files/$orderId/$orderId-$fragId";
     }
 
+    $logger->debug("No mirror found");
     return;
 }
 
