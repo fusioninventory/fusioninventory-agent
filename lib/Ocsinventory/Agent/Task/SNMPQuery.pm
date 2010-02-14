@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Task::SNMPQuery;
+package FusionInventory::Agent::Task::SNMPQuery;
 
 use strict;
 no strict 'refs';
@@ -20,15 +20,15 @@ use XML::Simple;
 use File::stat;
 
 use ExtUtils::Installed;
-use Ocsinventory::Agent::Config;
-use Ocsinventory::Logger;
-use Ocsinventory::Agent::Storage;
-use Ocsinventory::Agent::XML::Query::SimpleMessage;
-use Ocsinventory::Agent::XML::Response::Prolog;
-use Ocsinventory::Agent::Network;
-use Ocsinventory::Agent::SNMP;
+use FusionInventory::Agent::Config;
+use FusionInventory::Logger;
+use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::XML::Query::SimpleMessage;
+use FusionInventory::Agent::XML::Response::Prolog;
+use FusionInventory::Agent::Network;
+use FusionInventory::Agent::SNMP;
 
-use Ocsinventory::Agent::AccountInfo;
+use FusionInventory::Agent::AccountInfo;
 
 sub main {
     my ( undef ) = @_;
@@ -36,19 +36,19 @@ sub main {
     my $self = {};
     bless $self;
 
-    my $storage = new Ocsinventory::Agent::Storage({
+    my $storage = new FusionInventory::Agent::Storage({
             target => {
                 vardir => $ARGV[0],
             }
         });
 
-    my $data = $storage->restore("Ocsinventory::Agent");
+    my $data = $storage->restore("FusionInventory::Agent");
     $self->{data} = $data;
     my $myData = $self->{myData} = $storage->restore(__PACKAGE__);
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
-    my $logger = $self->{logger} = new Ocsinventory::Logger ({
+    my $logger = $self->{logger} = new FusionInventory::Logger ({
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
@@ -78,7 +78,7 @@ sub main {
         exit(0);
     }
 
-    my $network = $self->{network} = new Ocsinventory::Agent::Network ({
+    my $network = $self->{network} = new FusionInventory::Agent::Network ({
 
             logger => $logger,
             config => $config,
@@ -544,7 +544,7 @@ sub query_device_threaded {
 	#threads->yield;
 print $device->{IP}."\n";
 	############### SNMP Queries ###############
-   my $session = new Ocsinventory::Agent::SNMP ({
+   my $session = new FusionInventory::Agent::SNMP ({
 
                version      => $authlist->{VERSION},
                hostname     => $device->{IP},
@@ -566,7 +566,7 @@ print $device->{IP}."\n";
 print "SNMP HS\n";
 		return $datadevice;
 	}
-   my $session2 = new Ocsinventory::Agent::SNMP ({
+   my $session2 = new FusionInventory::Agent::SNMP ({
 
                version      => $authlist->{VERSION},
                hostname     => $device->{IP},

@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::SNMP;
+package FusionInventory::Agent::SNMP;
 
 use Net::SNMP qw(:snmp);
 

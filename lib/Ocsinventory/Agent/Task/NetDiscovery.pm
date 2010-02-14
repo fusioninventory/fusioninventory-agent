@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Task::NetDiscovery;
+package FusionInventory::Agent::Task::NetDiscovery;
 
 use strict;
 #no strict 'refs';
@@ -20,35 +20,35 @@ use XML::Simple;
 use File::stat;
 
 use ExtUtils::Installed;
-use Ocsinventory::Agent::Config;
-use Ocsinventory::Logger;
-use Ocsinventory::Agent::Storage;
-use Ocsinventory::Agent::XML::Query::SimpleMessage;
-use Ocsinventory::Agent::XML::Response::Prolog;
-use Ocsinventory::Agent::Network;
-use Ocsinventory::Agent::SNMP;
-use Ocsinventory::Agent::Task::NetDiscovery::dico;
+use FusionInventory::Agent::Config;
+use FusionInventory::Logger;
+use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::XML::Query::SimpleMessage;
+use FusionInventory::Agent::XML::Response::Prolog;
+use FusionInventory::Agent::Network;
+use FusionInventory::Agent::SNMP;
+use FusionInventory::Agent::Task::NetDiscovery::dico;
 
-use Ocsinventory::Agent::AccountInfo;
+use FusionInventory::Agent::AccountInfo;
 
 sub main {
     my ( undef ) = @_;
     my $self = {};
-    bless $self, 'Ocsinventory::Agent::Task::NetDiscovery';
+    bless $self, 'FusionInventory::Agent::Task::NetDiscovery';
 
-    my $storage = new Ocsinventory::Agent::Storage({
+    my $storage = new FusionInventory::Agent::Storage({
             target => {
                 vardir => $ARGV[0],
             }
         });
 
-    my $data = $storage->restore("Ocsinventory::Agent");
+    my $data = $storage->restore("FusionInventory::Agent");
     $self->{data} = $data;
     my $myData = $self->{myData} = $storage->restore(__PACKAGE__);
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
-    my $logger = $self->{logger} = new Ocsinventory::Logger ({
+    my $logger = $self->{logger} = new FusionInventory::Logger ({
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
@@ -78,7 +78,7 @@ sub main {
         exit(0);
     }
 
-    my $network = $self->{network} = new Ocsinventory::Agent::Network ({
+    my $network = $self->{network} = new FusionInventory::Agent::Network ({
 
             logger => $logger,
             config => $config,
@@ -616,7 +616,7 @@ sub discovery_ip_threaded {
       }
       for my $key ( keys %{$params->{authlist}} ) {
          if ($params->{authlist}->{$key}->{VERSION} eq $snmpv) {
-            my $session = new Ocsinventory::Agent::SNMP ({
+            my $session = new FusionInventory::Agent::SNMP ({
 
                version      => $params->{authlist}->{$key}->{VERSION},
                hostname     => $params->{ip},
@@ -750,7 +750,7 @@ sub verifySerial {
    my $serial;
    my $serialreturn = q{}; # Empty string
 
-   my $xmlDico = Ocsinventory::Agent::Task::NetDiscovery::dico::loadDico();
+   my $xmlDico = FusionInventory::Agent::Task::NetDiscovery::dico::loadDico();
    foreach my $num (@{$xmlDico->{DEVICE}}) {
       if ($num->{SYSDESCR} eq $description) {
          

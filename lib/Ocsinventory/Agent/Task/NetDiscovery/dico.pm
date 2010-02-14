@@ -1,4 +1,4 @@
-package Ocsinventory::Agent::Task::NetDiscovery::dico;
+package FusionInventory::Agent::Task::NetDiscovery::dico;
 
 use strict;
 use XML::Simple;
