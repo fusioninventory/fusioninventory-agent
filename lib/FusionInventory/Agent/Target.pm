@@ -287,8 +287,13 @@ sub setCurrentDeviceID {
         ($self->{'myData'}{'currentDeviceid'} eq $deviceid)) {
         return;
     }
-    $logger->info("DEVICEID has changed since last ".
-        "process(old=".$self->{'myData'}{'currentDeviceid'}.",new=".$deviceid.")");
+
+    if (!$self->{'myData'}{'currentDeviceid'}) {
+        $logger->debug("DEVICEID initialized at $deviceid");
+    } else {
+        $logger->info("DEVICEID has changed since last ".
+            "process(old=".$self->{'myData'}{'currentDeviceid'}.",new=".$deviceid.")");
+    }
 
     $self->{'myData'}{'currentDeviceid'} = $deviceid;
     $storage->save($self->{'myData'});
