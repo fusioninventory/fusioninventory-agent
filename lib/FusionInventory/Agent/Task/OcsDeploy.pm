@@ -156,7 +156,7 @@ sub main {
         }
     }
     $logger->debug("End of period...");
-    foreach my $priority ( 1 .. 10 ) {
+    foreach my $priority ( 0 .. 10 ) {
         foreach my $orderId ( keys %{ $myData->{byPriority}->[$priority] } ) {
             my $order = $myData->{byId}->{$orderId};
 
