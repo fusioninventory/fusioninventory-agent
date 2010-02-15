@@ -27,6 +27,9 @@ futur
          description. (Scott HANNAHS)
        * Add an in contrib example of script to identify specific software
          (Simon CLARA)
+       * Upgrade memconf to V2.13
+       * Use parameters to simplify the way dmidecode is called (Dmitry ILYIN)
+       * Solaris: Bonding support (Stéphane URBANOVSKI)
 
 1.1.3
        * Remove exec flag on
@@ -36,6 +39,7 @@ futur
          thanks Grek
        * Improve the README about non-interactive installation
        * Bump copyright date from 2009 to 2010
+       * Linux/PPC: Frequency is an integer, not a float 
 
 1.1.2    Sun, 27 Dec 2009 17:24:43 +0100
        * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)

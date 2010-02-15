@@ -499,6 +499,7 @@ sub addNetwork {
   my $ipsubnet = $args->{IPSUBNET};
   my $macaddr = $args->{MACADDR};
   my $pcislot = $args->{PCISLOT};
+  my $slaves = $args->{SLAVES}; # For Network bonding
   my $status = $args->{STATUS};
   my $type = $args->{TYPE};
   my $virtualdev = $args->{VIRTUALDEV};
@@ -517,6 +518,7 @@ sub addNetwork {
     IPSUBNET => [$ipsubnet?$ipsubnet:''],
     MACADDR => [$macaddr?$macaddr:''],
     PCISLOT => [$pcislot?$pcislot:''],
+    SLAVES => [$slaves?$slaves:''],
     STATUS => [$status?$status:''],
     TYPE => [$type?$type:''],
     VIRTUALDEV => [$virtualdev?$virtualdev:''],
@@ -572,7 +574,7 @@ Set BIOS informations.
 sub setBios {
   my ($self, $args) = @_;
 
-  foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER ASSETTAG/) {
+  foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG/) {
 
     if (exists $args->{$key}) {
       $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
