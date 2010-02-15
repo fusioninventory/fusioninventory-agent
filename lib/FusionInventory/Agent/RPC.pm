@@ -77,12 +77,22 @@ sub handler {
 sub server {
     my ($self) = @_;
 
+    my $config = $self->{config};
     my $targets = $self->{targets};
     my $logger = $self->{logger};
 
-    my $daemon = $self->{daemon} = HTTP::Daemon->new(
-        LocalPort => 62354,
-        Reuse => 1);
+    my $daemon;
+   
+    if ($config->{rpcIp}) {
+        $daemon = $self->{daemon} = HTTP::Daemon->new(
+            LocalAddr => $config->{rpcIp},
+            LocalPort => 62354,
+            Reuse => 1);
+    } else {
+        $daemon = $self->{daemon} = HTTP::Daemon->new(
+            LocalPort => 62354,
+            Reuse => 1);
+    }
   
    if (!$daemon) {
         $logger->error("Failed to start the RPC server");

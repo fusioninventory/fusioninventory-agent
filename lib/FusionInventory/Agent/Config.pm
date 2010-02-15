@@ -133,6 +133,7 @@ sub loadUserParams {
 		"p|password=s"    =>   \$config->{password},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
+		"rpc-ip=s"        =>   \$config->{rpcIp},
 		"R|remotedir=s"   =>   \$config->{remotedir},
 		"s|server=s"      =>   \$config->{server},
 		"stdout"          =>   \$config->{stdout},
@@ -189,6 +190,9 @@ sub help {
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port (".$config->{proxy}.")\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
+  print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
+  print STDERR "\t--rpc-ip=IP         ip of the interface to use for peer ".
+  "to peer exchange\n";
   print STDERR "\t-s --server=uri     server uri (".$config->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory".
   " but print it on STDOUT\n";

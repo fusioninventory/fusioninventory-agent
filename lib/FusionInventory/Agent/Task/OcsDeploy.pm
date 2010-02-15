@@ -856,7 +856,10 @@ sub findMirror {
     my $network = $self->{network};
 
     my @addresses;
-    if ( $^O =~ /^linux/x ) {
+
+    if ($config->{rpcIp}) {
+        push @addresses, $config->{rpcIp};
+    } elsif ( $^O =~ /^linux/x ) {
         foreach (`ifconfig`) {
             if
             (/inet\saddr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*Mask:255.255.255.0$/x) {
@@ -875,16 +878,19 @@ sub findMirror {
         }
     }
 
-    foreach (@addresses) {
-        next if /^127/x; # Ignore 127.x.x.x addresses
-        next unless /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x;
+    foreach my $ip (@addresses) {
+        next if $ip =~ /^127/x; # Ignore 127.x.x.x addresses
+        if (/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
 
-        foreach (1..255) {
-            next if $4==$_; # Ignore myself :) 
-            next if exists ($self->{hosts}{$1}{$2}{$3}{$_});
-            $self->{hosts}{$1}{$2}{$3}{$_}{lastCheck}=0;
-            $self->{hosts}{$1}{$2}{$3}{$_}{isUp}=undef;
-            $self->{hosts}{$1}{$2}{$3}{$_}{speed}=undef;
+            foreach (1..255) {
+                next if $4==$_; # Ignore myself :) 
+                next if exists ($self->{hosts}{$1}{$2}{$3}{$_});
+                $self->{hosts}{$1}{$2}{$3}{$_}{lastCheck}=0;
+                $self->{hosts}{$1}{$2}{$3}{$_}{isUp}=undef;
+                $self->{hosts}{$1}{$2}{$3}{$_}{speed}=undef;
+            }
+        } else {
+            $logger->fault("Invalid IP `$ip'");
         }
     }
 

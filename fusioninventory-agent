@@ -202,6 +202,11 @@ Use I<PROXY> to specify a proxy HTTP server. By default, the agent uses HTTP_PRO
 
 Use I<REALM> for an HTTP identification with the server. For example, the value can be 'Restricted Area'. You can find it in the login popup of your Internet browser.
 
+=item B<--rpc-ip>=IP<REALM>
+
+The IP address of the interface to use for the P2P exchange. The default
+is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
+
 =item B<-s>, B<--server>=I<URI>
 
 The uri of the server. If I<URI> doesn't start with http:// or https://, the assume the parameter is a hostname and rewrite it like that:
