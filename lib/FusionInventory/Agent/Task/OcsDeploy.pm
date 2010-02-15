@@ -159,12 +159,65 @@ sub main {
         }
     }
     $logger->debug("End of period...");
+    foreach my $priority ( 1 .. 10 ) {
+        foreach my $orderId ( keys %{ $myData->{byPriority}->[$priority] } ) {
+            my $order = $myData->{byId}->{$orderId};
+
+            # We keep the fragment 30 days. This should be a parameter. 
+            if ($order->{ANWSER_DATE} < time - 3600*24*30) {
+
+                $self->clean({
+                        orderId      => $orderId,
+                        purge        => 1 
+                    });
+
+            }
+        }
+    }
+
+
+    if ($self->diskIsFull()) {
+
+        $self->clean({
+                purge        => 1 
+            });
+
+    }
+
 
     $storage->save($myData);
 
     exit(0);
 }
 
+sub diskIsFull {
+    my ( $self, $params ) = @_;
+
+    my $logger = $self->{logger};
+
+    my $spaceFree;
+    if ($^O =~ /^MSWin/) {
+        $logger->fault("isDiskFull doesn't work on Windows");
+    } else {
+        my $dfFh;
+        if (open($dfFh, '-|', "df", '-m', $self->{downloadBaseDir})) {
+            foreach(<$dfFh>) {
+                if (/^\S+\s+\S+\s+(\d+)/) {
+                    $spaceFree = $1;
+                }
+            }
+            close $dfFh
+        } else {
+            $logger->error("Failed to exec df");
+        }
+    }
+
+    $logger->fault('$spaceFree is undef!') unless defined ($spaceFree);
+
+
+    # 400MB Free, should be set by a config option
+    return ($spaceFree < 40000);
+}
 
 sub clean {
     my ( $self, $params ) = @_;
@@ -176,20 +229,21 @@ sub clean {
     my $orderId = $params->{orderId};
     my $purge = $params->{purge} || 0;
 
-    $logger->fault("orderId missing") unless $orderId;
-
     my @dirToCleanUp;
-    push (@dirToCleanUp, $self->{runBaseDir} . '/' . $orderId);
-    push (@dirToCleanUp, $self->{tmpBaseDir});
-    if ($purge) {
-        push (@dirToCleanUp, $self->{downloadBaseDir} . '/' . $orderId);
-    }
+    if ($orderId) {
+        push (@dirToCleanUp, $self->{runBaseDir} . '/' . $orderId);
+        push (@dirToCleanUp, $self->{tmpBaseDir});
+        push (@dirToCleanUp, $self->{downloadBaseDir} . '/' . $orderId) if $purge;
+    } else {
+        push (@dirToCleanUp, $self->{runBaseDir});
+        push (@dirToCleanUp, $self->{tmpBaseDir});
+        push (@dirToCleanUp, $self->{downloadBaseDir}) if $purge;
 
-    $logger->fault("no orderId") unless $orderId;
+    }
 
     foreach (@dirToCleanUp) {
         next unless -d;
-#        $logger->debug("Clean the $_ directory");
+        $logger->debug("Clean the $_ directory");
         if ( !rmtree($_) ) {
             $self->reportError( $orderId, "Failed to clean $_" );
         }
