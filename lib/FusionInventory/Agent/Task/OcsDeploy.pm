@@ -891,7 +891,7 @@ sub findMirror {
     my $url;
     my $lastValdidIp;
 
-    $logger->debug("Looking for a proxy in my network for $orderId-$fragId");
+    $logger->debug("Looking for a peer with the file in my network for $orderId-$fragId");
     NETSCAN: foreach my $a (keys %{$self->{hosts}}) {
         foreach my $b (keys %{$self->{hosts}{$a}}) {
             foreach my $c (keys %{$self->{hosts}{$a}{$b}}) {
