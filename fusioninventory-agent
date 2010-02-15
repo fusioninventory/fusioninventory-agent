@@ -228,10 +228,10 @@ Authorized the agent to scan home directories to increase the Virtual Machine in
 
 Mark the machine with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
 
-=item B<--unsecure-software-deployment>
+=item B<--no-ssl-check>
 
-Use HTTP instead of HTTPS to download the deployment order from the server.
-Please never use this option in production. This is just a very bad idea.
+Do now validate HTTPS certificat with the servers. Please never use this
+option in production. This is just a very bad idea.
 
 =item B<-u> I<USER>, B<--user>=I<USER>
 

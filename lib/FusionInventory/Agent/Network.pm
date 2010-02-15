@@ -146,8 +146,8 @@ sub loadNetSSLGlueLWP {
   my $config = $args->{config};
 
 
-  if ($config->{unsecureSoftwareDeployment}) {
-      $logger->info( "--unsecure-software-deployment parameter "
+  if ($config->{noSslCheck}) {
+      $logger->info( "--no-ssl-check parameter "
           . "found. Don't check server identity!!!" );
   }
 
@@ -158,7 +158,7 @@ sub loadNetSSLGlueLWP {
          "validate the server SSL cert. If you want ".
          "to ignore this message and want to ignore SSL ".
          "verification, you can use the ".
-         "--unsecure-software-deployment parameter."
+         "--no-ssl-check parameter."
       );
   }
 

@@ -44,7 +44,7 @@ my $default = {
   'nowakeonlan'=> 0,
   'delaytime' =>  '3600', # max delay time (seconds)
   'backendCollectTimeout'   => '180',   # timeOut of process : see Backend.pm
-  'unsecureSoftwareDeployment' => 0,
+  'noSslCheck' => 0,
   'scanhomedirs' => 0,
 
   # Other values that can't be changed with the
@@ -137,7 +137,7 @@ sub loadUserParams {
 		"s|server=s"      =>   \$config->{server},
 		"stdout"          =>   \$config->{stdout},
 		"t|tag=s"         =>   \$config->{tag},
-        "unsecure-software-deployment" => \$config->{unsecureSoftwareDeployment},
+        "no-ssl-check" => \$config->{noSslCheck},
 		"u|user=s"        =>   \$config->{user},
 		"version"         =>   \$config->{version},
 		"w|wait=s"        =>   \$config->{wait},
@@ -194,8 +194,8 @@ sub help {
   " but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$config->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t--unsecure-software-deployment   do not check the ".
-  "SSL connexion with the server (".$config->{unsecureSoftwareDeployment}.")\n";
+  print STDERR "\t--no-ssl-check      do not check the ".
+  "SSL connexion with the server (".$config->{noSslCheck}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$config->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
   print STDERR "\t-w --wait=seconds   wait during a random periode before".
