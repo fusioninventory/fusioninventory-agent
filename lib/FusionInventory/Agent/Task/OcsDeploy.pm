@@ -356,29 +356,34 @@ sub processOrderCmd {
     }
     elsif ( $order->{ACT} =~ /^(LAUNCH|EXECUTE)$/x ) {
 
-        my $cmd = $order->{'NAME'};
-        if ( !-f "$runDir/$cmd" ) {
-            $self->reportError( $orderId, "$runDir/$cmd not found" );
-            return;
+        my $cmd;
+
+        if ( !-d $runDir ) {
+            $logger->error( "$runDir not found" );
         }
 
         if ( $order->{ACT} eq 'LAUNCH' ) {
+            $cmd = $order->{'NAME'};
             if ( $^O !~ /^MSWin/x ) {
-                $cmd .= './' unless $cmd =~ /^\//x;
-                if ( chmod( 0755, "$runDir/$cmd" ) ) {
+# Mimic the old Download.pm agent...
+                $cmd = './'.$cmd unless $cmd =~ /^\//x;
+                print "chmod : $runDir/$cmd\n";
+                if ( !-x "$runDir/$cmd" && chmod( 0755, "$runDir/$cmd" ) ) {
                     $self->reportError( $orderId, "Cannot chmod: $!" );
                     return;
                 }
             }
+        } elsif ($order->{ACT} eq 'EXECUTE') {
+            $cmd = $order->{'COMMAND'};
         }
 
-        $logger->debug("Launching $cmd...");
+        $logger->debug("Launching $cmd in $runDir...");
 
-        if ( !chdir("$runDir/") ) {
+        if ( !chdir($runDir) ) {
             $self->reportError( $orderId, "Failed to chdir to '$runDir'" );
             return;
         }
-        system($cmd );
+        system($cmd);
         if ($?) {    # perldoc -f system :)
             $self->reportError( $orderId, "Failed to execute '$cmd'" );
             return;
@@ -389,7 +394,8 @@ sub processOrderCmd {
             $self->reportError( $orderId, $msg );
             return;
         }
-        elsif ( $order->{RET_VAL} != ( $? >> 8 ) ) {
+        # RET_VAL doesn't exist yet server side
+        elsif ( $order->{RET_VAL} && $order->{RET_VAL} != ( $? >> 8 ) ) {
             my $msg = sprintf "'$cmd' exited with value %d\n", $? >> 8;
             $self->reportError( $orderId, $msg );
             return;
