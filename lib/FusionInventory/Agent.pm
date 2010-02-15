@@ -7,6 +7,8 @@ use English;
 use strict;
 use warnings;
 
+use File::Path;
+
 # THIS IS AN UGLY WORKAROUND FOR
 # http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
@@ -63,6 +65,10 @@ sub new {
 # $< == $REAL_USER_ID
     if ( $< ne '0' ) {
         $logger->info("You should run this program as super-user.");
+    }
+
+    if (!-f $config->{basevardir} && !mkpath($config->{basevardir})) {
+        $logger->error("Failed to create ".$config->{basevardir});
     }
 
     if (not $config->{scanhomedirs}) {
