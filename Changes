@@ -1,6 +1,6 @@
 Revision history for Ocsinventory::Agent
 
-futur
+2.0beta1
        * Use Sys::Hostname instead of uname for better portability
        * add --daemon-no-fork
        * post-install.pl: Don't ask the user if Download.pm should be
@@ -16,6 +16,12 @@ futur
          Ocsinventory::Agent::XML::Query
        * WakeOnLan support (David DURIEUX)
        * Ocsinventory renamed to FusionInventory
+       * OcsDeply jull rewrite
+       *  P2P mode in daemon mode (-d or -D)
+       * add --rpc-ip
+       * SNMP support (David DURIEUX)
+       * Network discovery (David DURIEUX)
+       * WakeOnLan (David DURIEUX)
 
 1.2.x
        * Solaris: use regex to identify CPU class (Jerome LEBAS)
