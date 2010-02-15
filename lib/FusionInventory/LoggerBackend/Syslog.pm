@@ -8,7 +8,7 @@ sub new {
   my $self = {};
 
   setlogsock('unix');
-  openlog("ocs-agent", 'cons,pid', $ENV{'USER'});
+  openlog("fusioninventory-agent", 'cons,pid', $ENV{'USER'});
   syslog('debug', 'syslog backend enabled');
   closelog();
 
@@ -24,7 +24,7 @@ sub addMsg {
 
   return if $message =~ /^$/;
 
-  openlog("ocs-agent", 'cons,pid', $ENV{'USER'});
+  openlog("fusioninventory-agent", 'cons,pid', $ENV{'USER'});
   syslog('info', $message);
   closelog();
 

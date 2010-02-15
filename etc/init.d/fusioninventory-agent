@@ -1,12 +1,12 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:         ocs-inventory-agent 
+# Provides:         fusioninventory-agent 
 # Required-Start:    $local_fs $remote_fs
 # Required-Stop:     $local_fs $remote_fs
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: OCS-Inventory Agent 
-# Description:	     This script laucn OCS Agent as daemon 
+# Short-Description: FusionInventory Agent 
+# Description:	     This script launch FusionInventory Agent as daemon 
 ### END INIT INFO
 
 # Author: Gonéri Le Bouder <goneri@rulezlan.org> 
@@ -16,8 +16,8 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="OCS Inventory Agent"
-NAME=ocsinventory-agent
+DESC="FusionInventory Agent"
+NAME=fusioninventory-agent
 DAEMON=/usr/sbin/$NAME
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
