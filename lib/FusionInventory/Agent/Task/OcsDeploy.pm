@@ -759,7 +759,8 @@ sub readProlog {
                 });
             if ( !$content ) {
                 $self->reportError( $orderId,
-                    "Failed to read info file `$infoURI'" );
+                    "Failed to read info file `$infoURI', is SSL ".
+                    "certificat valide?" );
                 next;
             }
 
