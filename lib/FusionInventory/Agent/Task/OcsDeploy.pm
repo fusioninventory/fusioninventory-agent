@@ -30,7 +30,6 @@ use Carp;
 use XML::Simple;
 use File::Copy;
 use File::Glob;
-use LWP::Simple qw ($ua getstore is_success);
 use File::Path;
 use File::stat;
 use Digest::MD5 qw(md5);
@@ -360,6 +359,7 @@ sub downloadAndConstruct {
     my $target  = $self->{target};
     my $logger  = $self->{logger};
     my $myData = $self->{myData};
+    my $network = $self->{network};
 
     my $orderId = $params->{orderId};
     my $order   = $myData->{byId}->{$orderId};
@@ -430,7 +430,12 @@ sub downloadAndConstruct {
         }
         my $localFile = $downloadDir . '/' . $frag;
 
-        my $rc = LWP::Simple::getstore( $remoteFile, $localFile . '.part' );
+        my $rc = $network->getStore({
+                source => $remoteFile,
+                target => $localFile . '.part'
+                
+            });
+        
         if ( is_success($rc) && move( $localFile . '.part', $localFile ) ) {
 
             # TODO to a md5sum/sha256 check here
@@ -617,6 +622,7 @@ sub readProlog {
 
     my $prologresp = $self->{prologresp};
     my $config     = $self->{config};
+    my $network = $self->{network};
     my $target     = $self->{target};
     my $logger     = $self->{logger};
     my $myData    = $self->{myData};
@@ -690,33 +696,13 @@ sub readProlog {
             $self->setErrorCode('ERR_DOWNLOAD_INFO');
 
             my $protocl="https";
-            # LWP doesn't support SSL cert check and
-            # Net::SSLGlue::LWP is a workaround to fix that
-            if ( !$config->{unsecureSoftwareDeployment} ) {
-                eval 'use Net::SSLGlue::LWP SSL_ca_path => \'/etc/ssl/certs\';';
-                if ($@) {
-                    $self->reportError( $orderId,
-                            "Failed to load "
-                          . "Net::SSLGlue::LWP, to validate the server "
-                          . "SSL cert." );
-                    next;
-                }
-            }
-            else {
-                $logger->info( "--unsecure-software-deployment parameter "
-                      . "found. Don't check server identity!!!" );
-                $protocl="http";
-            }
-
-            ## For debug 
-            if ($paramHash->{INFO_LOC} =~ /nana\.rulezlan\.org/x) {
-                $protocl = 'https';
-            }
 
             my $infoURI =
               $protocl.'://' . $paramHash->{INFO_LOC} . '/' . $orderId . '/info';
-            $ua->timeout(30);
-            my $content = LWP::Simple::get($infoURI);
+            my $content = $network->get({
+                    source => $infoURI,
+                    timeout => 30
+                });
             if ( !$content ) {
                 $self->reportError( $orderId,
                     "Failed to read info file `$infoURI'" );
@@ -797,7 +783,6 @@ sub _processFindMirrorResult {
             $self->{hosts}{$1}{$2}{$3}{$4}{lastCheck}=time;
         }
         if ($rc==200) {
-#            $logger->debug("Mirror found at $url");
             return  ($ip, $url);
         }
     } else {
@@ -813,6 +798,7 @@ sub findMirror {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
+    my $network = $self->{network};
 
     my @addresses;
     if ( $^O =~ /^linux/x ) {
@@ -878,14 +864,16 @@ sub findMirror {
                         my $rc;
                         my $begin;
                         my $end;
-                        $ua->timeout(2);
                         eval {
                             local $SIG{ALRM} = sub { die "alarm\n" };
                             alarm 1;
                             $begin = Time::HiRes::time();
 
-                            $rc = LWP::Simple::getstore( $url, $tempFile
-                            ) or croak;
+                            $rc = $network->getStore({
+                                    source => $url,
+                                    target => $tempFile,
+                                    timeout => 1
+                                }) or croak;
 
                             alarm 0;
                         };
