@@ -342,7 +342,7 @@ sub processOrderCmd {
             $self->reportError( $orderId,
                 "Failed to create " . $order->{PATH} );
 
-            # TODO clean up
+            $self->clean( { orderId => $orderId, purge => 1 } );
             return;
         }
         foreach ( glob("$runDir/*") ) {
