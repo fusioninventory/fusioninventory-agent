@@ -44,7 +44,7 @@ sub new {
   }  else {
     $self->{ua}->env_proxy;
   }
-  my $version = 'OCS-NG_unified_unix_agent_v';
+  my $version = 'FusionInventory-Agent_v';
   $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
   $self->{ua}->agent($version);
     $self->{config}->{user}.",".
