@@ -490,7 +490,7 @@ sub downloadAndConstruct {
                 
             });
         
-        if ( is_success($rc) && move( $localFile . '.part', $localFile ) ) {
+        if ( $network->isSuccess({code => $rc}) && move( $localFile . '.part', $localFile ) ) {
 
             # TODO to a md5sum/sha256 check here
             $order->{ERROR_COUNT} = 0;

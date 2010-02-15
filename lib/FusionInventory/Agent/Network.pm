@@ -142,13 +142,14 @@ sub send {
 sub loadNetSSLGlueLWP {
   my ($self, $args) = @_;
 
-  my $logger = $args->{logger};
-  my $config = $args->{config};
+  my $logger = $self->{logger};
+  my $config = $self->{config};
 
 
   if ($config->{noSslCheck}) {
       $logger->info( "--no-ssl-check parameter "
           . "found. Don't check server identity!!!" );
+      return;
   }
 
   eval 'use Net::SSLGlue::LWP SSL_ca_path => \'/etc/ssl/certs\';';
@@ -175,7 +176,8 @@ sub getStore {
 
   $self->loadNetSSLGlueLWP() if $source =~ /^https/i;
 
-  return LWP::Simple::getstore( $source, $target );
+  my $rc = LWP::Simple::getstore( $source, $target );
+
 }
 
 sub get {
@@ -192,5 +194,13 @@ sub get {
 
 }
 
+sub isSuccess {
+  my ($self, $args) = @_;
+
+  my $code = $args->{code};
+
+  return is_success($code);
+
+}
 
 1;
