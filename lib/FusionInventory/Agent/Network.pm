@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
+use LWP::Simple qw ($ua getstore is_success);
 
 use FusionInventory::Compress;
 
@@ -65,6 +66,7 @@ sub send {
 
   my $logger = $self->{logger};
   my $target = $self->{target};
+  my $config = $self->{config};
   
   my $compress = $self->{compress};
   my $message = $args->{message};
@@ -75,13 +77,7 @@ sub send {
   $req->header('Pragma' => 'no-cache', 'Content-type',
     'application/x-compress');
 
-  # Check server name against provided SSL certificate
-  if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/ ) {
-    my $cn = $1;
-    $cn =~ s/([\-\.])/\\$1/g;
-    $req->header('If-SSL-Cert-Subject' => '/CN='.$cn);
-    $logger->debug ("Validating Cert CN=".$cn);
-  }
+  $self->loadNetSSLGlueLWP() if $self->{URI} =~ /^https/i;
 
   $logger->debug ("sending XML");
 
@@ -140,5 +136,61 @@ sub send {
 
   return $response;
 }
+
+# LWP doesn't support SSL cert check and
+# Net::SSLGlue::LWP is a workaround to fix that
+sub loadNetSSLGlueLWP {
+  my ($self, $args) = @_;
+
+  my $logger = $args->{logger};
+  my $config = $args->{config};
+
+
+  if ($config->{unsecureSoftwareDeployment}) {
+      $logger->info( "--unsecure-software-deployment parameter "
+          . "found. Don't check server identity!!!" );
+  }
+
+  eval 'use Net::SSLGlue::LWP SSL_ca_path => \'/etc/ssl/certs\';';
+  if ($@) {
+      $logger->error(
+          "Failed to load Net::SSLGlue::LWP, to ".
+         "validate the server SSL cert. If you want ".
+         "to ignore this message and want to ignore SSL ".
+         "verification, you can use the ".
+         "--unsecure-software-deployment parameter."
+      );
+  }
+
+} 
+
+sub getStore {
+  my ($self, $args) = @_;
+
+  my $source = $args->{source};
+  my $target = $args->{target};
+  my $timeout = $args->{timeout};
+
+  $ua->timeout($timeout) if $timeout;
+
+  $self->loadNetSSLGlueLWP() if $source =~ /^https/i;
+
+  return LWP::Simple::getstore( $source, $target );
+}
+
+sub get {
+  my ($self, $args) = @_;
+
+  my $source = $args->{source};
+  my $timeout = $args->{timeout};
+            
+  $ua->timeout($timeout) if $timeout;
+
+  $self->loadNetSSLGlueLWP() if $source =~ /^https/i;
+
+  return LWP::Simple::get($source);
+
+}
+
 
 1;
