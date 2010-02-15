@@ -129,7 +129,7 @@ sub loadUserParams {
 		"noinventory"     =>   \$config->{noinventory},
 		"nosoft"          =>   \$config->{nosoft},
 		"nosoftware"      =>   \$config->{nosoftware},
-      "nowakeonlan"     =>   \$config->{nowakeonlan},
+        "nowakeonlan"     =>   \$config->{nowakeonlan},
 		"p|password=s"    =>   \$config->{password},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
