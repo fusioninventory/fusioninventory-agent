@@ -119,10 +119,7 @@ sub main {
             next if exists( $order->{ERR} );
 
             $self->setErrorCode('ERR_CLEAN');
-            $self->clean(
-                {
-                    orderId      => $orderId
-                }
+            $self->clean({ orderId => $orderId  }
             );
 
             my $downloadDir = $self->{downloadBaseDir} . '/' . $orderId;
@@ -178,9 +175,7 @@ sub main {
 
     if ($self->diskIsFull()) {
 
-        $self->clean({
-                purge        => 1 
-            });
+        $self->clean({ purge => 1 });
 
     }
 
