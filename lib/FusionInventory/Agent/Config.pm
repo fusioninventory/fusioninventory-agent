@@ -36,7 +36,7 @@ my $default = {
   'version'   =>  0,
   'wait'      =>  '',
 #  'xml'       =>  0,
-  'nodeploy'  =>  0,
+  'noocsdeploy'  =>  0,
   'noinventory'
               =>  0,
   'nosoft'    =>  0, # DEPRECATED!
@@ -46,7 +46,7 @@ my $default = {
   'nonetdiscovery' => 0,
   'delaytime' =>  '3600', # max delay time (seconds)
   'backendCollectTimeout'   => '180',   # timeOut of process : see Backend.pm
-  'unsecureSoftwareDeployment' => 0,
+  'noSslCheck' => 0,
   'scanhomedirs' => 0,
 
   # Other values that can't be changed with the
@@ -127,7 +127,7 @@ sub loadUserParams {
 		"lazy"            =>   \$config->{lazy},
 		"l|local=s"       =>   \$config->{local},
 		"logfile=s"       =>   \$config->{logfile},
-		"nodeploy"        =>   \$config->{nodeploy},
+		"noocsdeploy"        =>   \$config->{noocsdeploy},
 		"noinventory"     =>   \$config->{noinventory},
 		"nosoft"          =>   \$config->{nosoft},
 		"nosoftware"      =>   \$config->{nosoftware},
@@ -137,11 +137,12 @@ sub loadUserParams {
 		"p|password=s"    =>   \$config->{password},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
+		"rpc-ip=s"        =>   \$config->{rpcIp},
 		"R|remotedir=s"   =>   \$config->{remotedir},
 		"s|server=s"      =>   \$config->{server},
 		"stdout"          =>   \$config->{stdout},
 		"t|tag=s"         =>   \$config->{tag},
-        "unsecure-software-deployment" => \$config->{unsecureSoftwareDeployment},
+        "no-ssl-check" => \$config->{noSslCheck},
 		"u|user=s"        =>   \$config->{user},
 		"version"         =>   \$config->{version},
 		"w|wait=s"        =>   \$config->{wait},
@@ -193,20 +194,23 @@ sub help {
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port (".$config->{proxy}.")\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
+  print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
+  print STDERR "\t--rpc-ip=IP         ip of the interface to use for peer ".
+  "to peer exchange\n";
   print STDERR "\t-s --server=uri     server uri (".$config->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory".
   " but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$config->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t--unsecure-software-deployment   do not check the ".
-  "SSL connexion with the server (".$config->{unsecureSoftwareDeployment}.")\n";
+  print STDERR "\t--no-ssl-check      do not check the ".
+  "SSL connexion with the server (".$config->{noSslCheck}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$config->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
   print STDERR "\t-w --wait=seconds   wait during a random periode before".
   "  contacting server like --daemon do (".$config->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($config->{xml})\n";
-  print STDERR "\t--nodeploy          Do not deploy packages or run command".
-  "(".$config->{nodeploy}.")\n";
+  print STDERR "\t--noocsdeploy          Do not deploy packages or run command".
+  "(".$config->{noocsdeploy}.")\n";
   print STDERR "\t--noinventory       Do not generate inventory (".$config->{noinventory}.")\n";
   print STDERR "\t--nosoft            DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t--nosoftware        do not return installed software list (".$config->{nosoftware}.")\n";

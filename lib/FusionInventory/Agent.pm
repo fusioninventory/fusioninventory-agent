@@ -7,6 +7,8 @@ use English;
 use strict;
 use warnings;
 
+use File::Path;
+
 # THIS IS AN UGLY WORKAROUND FOR
 # http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
@@ -63,6 +65,10 @@ sub new {
 # $< == $REAL_USER_ID
     if ( $< ne '0' ) {
         $logger->info("You should run this program as super-user.");
+    }
+
+    if (!-f $config->{basevardir} && !mkpath($config->{basevardir})) {
+        $logger->error("Failed to create ".$config->{basevardir});
     }
 
     if (not $config->{scanhomedirs}) {
@@ -236,7 +242,7 @@ sub main {
 
         my @tasks;
         push @tasks, 'Inventory' unless $config->{'noinventory'};
-        push @tasks, 'Deploy' unless $config->{'nodeploy'};
+        push @tasks, 'OcsDeploy' unless $config->{'noocsdeploy'};
         push @tasks, 'WakeOnLan' unless $config->{'nowakeonlan'};
         push @tasks, 'SNMPQuery' unless $config->{'nosnmpquery'};
         push @tasks, 'NetDiscovery' unless $config->{'nonetdiscovery'};
@@ -253,21 +259,13 @@ sub main {
             $cmd .= " ".$target->{vardir};
 
             $logger->debug("cmd is: '$cmd'");
-            system($cmd);
-            if ($? == -1) {
-                $logger->error("failed to execute '$cmd': $!");
-            }
-            elsif ($? & 127) {
-                $logger->error("Task $task died with signal ".($? & 127));
-            }
-            elsif (($? >> 8) != 0) {
-                $logger->error("Task $task exited with value ".($? >> 8));
-            }
+            use IPC::Run;
+            IPC::Run::run($cmd);
 
             $logger->debug("[task] end of ".$task);
         }
 
-        $storage->remove();
+#        $storage->remove();
         $target->setNextRunDate();
 
         sleep(5);

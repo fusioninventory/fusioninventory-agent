@@ -28,6 +28,7 @@ sub new {
 
     bless $self;
 
+    $SIG{PIPE} = 'IGNORE';
     if ($config->{daemon} || $config->{daemonNoFork}) {
         $self->{thr} = threads->create('server', $self);
     }
@@ -43,14 +44,16 @@ sub handler {
     my $targets = $self->{targets};
 
     my $r = $c->get_request;
-    if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\/-]+)$/) {
+    if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
         my $file = $1;
         foreach my $target (@{$targets->{targets}}) {
             if (-f $target->{vardir}."/deploy/".$file) {
+                $logger->debug("Send /deploy/".$file);
                 $c->send_file_response($target->{vardir}."/deploy/".$file);
+            } else {
+                $logger->debug("Not found /deploy/".$file);
             }
         }
-        $logger->debug("[RPC]Err, 404");
         $c->send_error(404)
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now\/(\S+)$/) {
         my $token = $1;
@@ -74,12 +77,22 @@ sub handler {
 sub server {
     my ($self) = @_;
 
+    my $config = $self->{config};
     my $targets = $self->{targets};
     my $logger = $self->{logger};
 
-    my $daemon = $self->{daemon} = HTTP::Daemon->new(
-        LocalPort => 62354,
-        Reuse => 1);
+    my $daemon;
+   
+    if ($config->{rpcIp}) {
+        $daemon = $self->{daemon} = HTTP::Daemon->new(
+            LocalAddr => $config->{rpcIp},
+            LocalPort => 62354,
+            Reuse => 1);
+    } else {
+        $daemon = $self->{daemon} = HTTP::Daemon->new(
+            LocalPort => 62354,
+            Reuse => 1);
+    }
   
    if (!$daemon) {
         $logger->error("Failed to start the RPC server");

@@ -202,6 +202,11 @@ Use I<PROXY> to specify a proxy HTTP server. By default, the agent uses HTTP_PRO
 
 Use I<REALM> for an HTTP identification with the server. For example, the value can be 'Restricted Area'. You can find it in the login popup of your Internet browser.
 
+=item B<--rpc-ip>=IP<REALM>
+
+The IP address of the interface to use for the P2P exchange. The default
+is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
+
 =item B<-s>, B<--server>=I<URI>
 
 The uri of the server. If I<URI> doesn't start with http:// or https://, the assume the parameter is a hostname and rewrite it like that:
@@ -228,10 +233,10 @@ Authorized the agent to scan home directories to increase the Virtual Machine in
 
 Mark the machine with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
 
-=item B<--unsecure-software-deployment>
+=item B<--no-ssl-check>
 
-Use HTTP instead of HTTPS to download the deployment order from the server.
-Please never use this option in production. This is just a very bad idea.
+Do now validate HTTPS certificat with the servers. Please never use this
+option in production. This is just a very bad idea.
 
 =item B<-u> I<USER>, B<--user>=I<USER>
 
@@ -248,7 +253,7 @@ Else if duration is a numerical value, it will be used directly.
 
     % fusioninventory-agent --wait 5 --server localhost
 
-=item B<--nodeploy>
+=item B<--noocsdeploy>
 
 Disable the software deployment.
 
