@@ -216,7 +216,7 @@ sub diskIsFull {
 
 
     # 400MB Free, should be set by a config option
-    return ($spaceFree < 40000);
+    return ($spaceFree < 400);
 }
 
 sub clean {
