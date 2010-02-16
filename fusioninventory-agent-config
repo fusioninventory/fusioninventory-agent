@@ -1,0 +1,379 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+use lib 'lib';
+
+use File::Path;
+use FusionInventory::Agent::Config;
+
+
+# DEB/RPM/... maintainers, turn this to '1'
+my $packaged = 1;
+
+my $config;
+my @cacert;
+my $randomtime;
+my $cron_line;
+
+sub loadModules {
+    my @modules = @_;
+
+    foreach (@modules) {
+        eval "use $_;";
+        if ($@) {
+            print STDERR "Failed to load $_. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
+            exit 1;
+
+        }
+    }
+
+}
+
+sub ask_yn {
+    my $promptUser = shift;
+    my $default = shift;
+
+    die unless $default =~ /^(y|n)$/;
+
+    my $cpt = 5;
+    while (1) {
+        my $line = prompt("$promptUser\nPlease enter 'y' or 'n'?>", $default);
+        return 1 if $line =~ /^y$/;
+        return if $line =~ /^n$/;
+        if ($cpt-- < 0) {
+            print STDERR "to much user input, exit...\n";
+            exit(0);
+        }
+    }
+}
+
+sub promptUser {
+    my ($promptUser, $default, $regex, $notice) = @_;
+
+    my $string = $promptUser;
+    $string .= "?>";
+
+    my $line;
+    my $cpt = 5;
+    while (1) {
+
+        $line = prompt($string, $default);
+
+        if ($regex && $line !~ /$regex/) {
+            print STDERR $notice."\n";
+        } else {
+            last;
+        }
+
+        if ($cpt-- < 0) {
+            print STDERR "to much user input, exit...\n";
+            exit(0);
+        }
+
+    }
+
+    return $line;
+}
+
+sub pickConfigdir {
+    my ($args) = @_;
+
+    my $dirs = $args->{dirs};
+    my $files = $args->{files};
+
+
+    foreach my $dir (@$dirs) {
+        foreach my $file (@$files) {
+            my $t = $dir.'/'.$file;
+            if (-f $t) {
+                return $dir."/".$file; 
+            }
+        }
+    }
+}
+
+sub mkFullServerUrl {
+
+    my $server = shift;
+
+    my $ret = 'http://' unless $server =~ /^http(s|):\/\//;
+    $ret .= $server;
+
+    if ($server !~ /http(|s):\/\/\S+\/\S+/) {
+        $ret .= '/ocsinventory';
+    }
+
+    return $ret;
+
+}
+
+
+####################################################
+################### main ###########################
+####################################################
+
+loadModules (qw/XML::Simple ExtUtils::MakeMaker/);
+
+if (!ask_yn("Do you want to configure the agent", 'y')) {
+    exit 0;
+}
+
+my $defaultConfigDir = "/etc/fusioninventory";
+my $defaultCfgFile = "agent.cfg";
+my $newConfigFile = pickConfigdir ({
+        dirs => [ 
+        $defaultConfigDir,
+        "/usr/local/etc/fusioninventory"
+        ],
+        files => [$defaultCfgFile]
+    });
+my $ocsConfigFile = pickConfigdir ({
+        dirs => [ 
+        "/etc/ocsinventory",
+        "/usr/local/etc/ocsinventory",
+        "/etc/ocsinventory-agent"
+        ],
+        files => ['ocsinventory-agent.cfg']
+    });
+my $oldOcsConfigdir = "/etc/ocsinventory-client";
+
+if (!-d $defaultConfigDir) { 
+    if (ask_yn ("Do you want to create the directory ".
+            $defaultConfigDir."?", 'y')) {
+        if (!mkdir $defaultConfigDir) {
+            print "Failed to create ".$defaultConfigDir.". Are you root?\n";
+            exit 1;
+        }
+    } else {
+        print "Please create the ".$defaultConfigDir." directory first.\n";
+        exit 1;
+    }
+}
+
+
+
+
+if (-f $oldOcsConfigdir.'/ocsinv.conf' && ask_yn("Should the old linux_agent settings be imported?", 'y')) {
+    my $ocsinv = XMLin($oldOcsConfigdir.'/ocsinv.conf');
+    $config->{server} = mkFullServerUrl($ocsinv->{'OCSFSERVER'});
+
+    if (-f $oldOcsConfigdir.'/cacert.pem') {
+        open CACERT, $oldOcsConfigdir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
+        @cacert = <CACERT>;
+        close CACERT;
+    }
+
+    my $admcontent = '';
+
+
+    if (-f "$oldOcsConfigdir/ocsinv.adm") {
+        if (!open(ADM, "<:encoding(iso-8859-1)", "$oldOcsConfigdir/ocsinv.adm")) {
+            warn "Can't open $oldOcsConfigdir/ocsinv.adm";
+        } else {
+            $admcontent .= $_ foreach (<ADM>);
+            close ADM;
+            my $admdata = XMLin($admcontent) or die;
+            if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
+                foreach (@{$admdata->{ACCOUNTINFO}}) {
+                    $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
+                }
+            } elsif (
+                exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
+                exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
+                $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
+            ) {
+                print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
+                $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
+            }
+        }
+    }
+}
+
+foreach ($newConfigFile, $ocsConfigFile) {
+    if (-f $_) {
+        open (CONFIG, "<".$_) or
+        die "Can't open ".$_.": ".$!;
+        print "Load settings from $_\n";
+
+        foreach (<CONFIG>) {
+            s/#.+//;
+            if (/(\w+)\s*=\s*(.+)/) {
+                my $key = $1;
+                my $val = $2;
+                # Remove the quotes
+                $val =~ s/\s+$//;
+                $val =~ s/^'(.*)'$/$1/;
+                $val =~ s/^"(.*)"$/$1/;
+                $config->{$key} = $val;
+            }
+        }
+        close CONFIG;
+        last;
+    }
+}
+
+print "[info] The config file will be written in $defaultConfigDir/$defaultCfgFile,\n";
+
+my $tmp = promptUser('What is the address of your ocs server', exists
+    ($config->{server})?$config->{server}:'http://ocsinventory-ng/ocsinventory');
+$config->{server} = mkFullServerUrl($tmp);
+if (!$config->{server}) {
+    print "Server is empty. Leaving...\n";
+    exit 1;
+}
+
+if (ask_yn ("Do you need credential for the server? (You probably don't)", 'n')) {
+    $config->{user} = promptUser("user", $config->{user});
+    $config->{password} = promptUser("password");
+    print "[info] The realm can be found in the login popup of your Internet browser.\n[info] In general, it's something like 'Restricted Area'.\n";
+    $config->{realm} = promptUser("realm");
+} else {
+    delete ($config->{user});
+    delete ($config->{password});
+    delete ($config->{realm});
+}
+
+if (ask_yn('Do you want to apply an administrative tag on this machine', 'y')) {
+
+    $config->{tag} = promptUser("tag", $config->{tag});
+} else {
+    delete($config->{tag});
+}
+
+
+chomp(my $binpath = `which fusioninventory-agent 2>/dev/null`);
+print $binpath."\n";
+if (! -x $binpath) {
+    # Packaged version with perl and agent ?
+    $binpath = $^X;
+    $binpath =~ s/perl/fusioninventory-agent/;
+}
+if (! -x $binpath) {
+    print "sorry, can't find fusioninventory-agent in \$PATH\n";
+    exit 1;
+} else {
+    print "FusionInventory Agent found: $binpath\n";
+}
+
+
+if (!$packaged) {
+    $randomtime = int(rand(60)).' '.int(rand(24));
+    $cron_line = $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
+
+    if ($^O =~ /solaris/) {
+        if (ask_yn("Do yo want to install the cron task in current user crontab ?", 'y')) {
+            my $crontab = `crontab -l`;
+
+            # Let's suppress Linux cron/anacron user column
+            $cron_line =~ s/ root /  /;
+            $crontab .= $cron_line;
+
+            open CRONP, "| crontab" || die "Can't run crontab: $!";
+            print CRONP $crontab;
+            close(CRONP);
+
+        }
+    }
+    elsif (-d "/etc/cron.d") {
+        if (ask_yn("Do yo want to install the cron task in /etc/cron.d", 'y')) {
+
+            open DEST, '>/etc/cron.d/fusioninventory-agent' or die $!;
+            # Save the root PATH
+            print DEST "PATH=".$ENV{PATH}."\n";
+            print DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
+            close DEST;
+        }
+    }
+
+    my $old_vardir;
+    my $default_vardir = $config->{basevardir};
+    if ($^O =~ /solaris/) {
+        $default_vardir = '/var/opt/fusioninventory-agent';
+        $old_vardir = '/var/opt/ocsinventory-agent';
+
+    } else { 
+        $default_vardir = '/var/lib/fusioninventory-agent';
+        $old_vardir = '/var/lib/ocsinventory-agent';
+    }
+
+
+
+
+    $config->{basevardir} = promptUser('Where do you want the agent to store its files? (You probably don\'t need to change it)', exists ($config->{basevardir})?$config->{basevardir}:$default_vardir, '^\/\w+', 'The location must begin with /');
+
+    if (!-d $config->{basevardir}) {
+        if (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n", 'y')) {
+            mkdir $config->{basevardir} or die $!;
+        } else {
+            print "Please create the ".$config->{basevardir}." directory\n";
+            exit 1;
+        }
+    }
+
+    if (-d  $config->{basevardir} && !-d $default_vardir && ask_yn("Do yo want to ".
+            "migration  $old_vardir for FusionInventory Agent", 'y')) {
+        system('mv', $old_vardir, $default_vardir);
+    }
+
+    my @oldFiles = qw(
+    /etc/ocsinventory-client
+    /etc/logtotate.d/ocsinventor-agent
+    /etc/logtotate.d/ocsinventor-client
+    /usr/sbin/ocsinventory-agent
+    /usr/bin/ocsinventory-agent
+    /usr/sbin/ocsinventory-client.pl
+    /etc/cron.d/ocsinventory-client
+    /bin/ocsinv);
+
+    my $doCleanUp;
+    foreach (@oldFiles) {
+        if (-f||-d||-l) {
+            $doCleanUp=1;
+            last;
+        }
+    }
+    if ($doCleanUp && pask_yn ("Should I remove the Ocsinventory Agent files", 'n')) {
+        foreach (@oldFiles) {
+            next unless -f;
+            print $_."\n";
+            rmdir if -d;
+            unlink if -f || -l;
+        }
+        print "done\n"
+    }
+
+# Create the vardirectory for this server
+    my $dir = $config->{server};
+    $dir =~ s/\//_/g;
+    $dir =~ s/:/../g if $^O =~ /^MSWin/; # Conditional because there is
+    my $vardir = $config->{basevardir}."/".$dir;
+    if (!-d $vardir && !mkpath($vardir)) {
+        die "Can't create $vardir!";
+    }
+
+    if (@cacert) { # we need to migrate the certificat
+        open CACERT, ">".$vardir."/cacert.pem" or die "Can't open ".$vardir.'/cacert.pem: '.$!;
+        print CACERT foreach (@cacert);
+        close CACERT;
+        print "Certificat copied in ".$vardir."/cacert.pem\n";
+    }
+
+
+
+}
+
+open CONFIG, ">$defaultConfigDir/$defaultCfgFile" or die "Can't write the config file in $defaultConfigDir/$defaultCfgFile: ".$!;
+print CONFIG $_."=".$config->{$_}."\n" foreach (keys %$config);
+close CONFIG;
+chmod 0600, "$defaultConfigDir/$defaultCfgFile";
+
+if (ask_yn("Do you want to send an inventory of this machine?", 'y')) {
+    system("$binpath --force");
+}
+
+print  "################################\n";
+print "New settings written! Thank you for using FusionInventory!\n";
+print "  http://www.FusionInventory.org\n";
+
+

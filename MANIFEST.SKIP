@@ -13,6 +13,7 @@ CVS/
 ^Makefile(\.old)?$
 ^MANIFEST\.
 ^pm_to_blib$
+^run-postinst
 
 ~$
 \.bak$

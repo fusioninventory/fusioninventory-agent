@@ -11,7 +11,7 @@ sub MY::postamble
 install :: all pure_install doc_install
 	$(NOECHO) $(NOOP)';
 
-	$re .= "\n\t[ ! -f run-postinst ] || $^X postinst.pl\n";
+	$re .= "\n\t[ ! -f run-postinst ] || $^X fusioninventory-agent-config\n";
 
     return $re;
 }
@@ -25,7 +25,7 @@ if (-d '.bzr') {
     $version .= "~bzr".$bzrRev;
 }
 
-name 'FusionInventory-Agent';
+name 'fusioninventory-agent';
 include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
@@ -56,7 +56,8 @@ use Data::Dumper;
 use Cwd;
 
 
-install_script  'FusionInventory-agent';
+install_script  'fusioninventory-agent';
+install_script  'fusioninventory-agent-config';
 
 
 # We want a release bundled with the needed dependency to be able to
