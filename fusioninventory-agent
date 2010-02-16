@@ -147,6 +147,16 @@ Launch fusioninventory-agent as daemon in background. Proc::Daemon is needed.
 
 Launch fusioninventory-agent in daemon but do fork in background.
 
+=item B<--ca-cert-dir=PATH>
+
+The directory where public SSL certificat are stored. In general it
+/etc/ssl/certs;
+
+=item B<--ca-cert-file=FILE>
+
+The path to the public certificat (e.g: /etc/ssl/certs/cacert.pem). If
+--ca-cert-file is used, --ca-cert-dir is ignored.
+
 =item B<--debug>
 
 Turn the debug mode on.

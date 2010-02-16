@@ -11,6 +11,8 @@ if ($^O =~ /^MSWin/) {
 }
 
 my $default = {
+  'caCertDir' =>  '/etc/ssl/certs',
+  'caCertFile'=>  '', 
   'color'     =>  0,
   'daemon'    =>  0,
   'daemonNoFork'    =>  0,
@@ -116,6 +118,8 @@ sub loadUserParams {
 	my %options = (
 		"backend-collect-timeout=s"  =>   \$config->{backendCollectTimeout},
 		"basevardir=s"    =>   \$config->{basevardir},
+        "ca-cert-dir=s"   =>   \$config->{caCertDir},
+        "ca-cert-file=s"  =>   \$config->{caCertFile},
 		"color"           =>   \$config->{color},
 		"d|daemon"        =>   \$config->{daemon},
 		"D|daemon-no-fork"=>   \$config->{daemonNoFork},
@@ -127,13 +131,13 @@ sub loadUserParams {
 		"lazy"            =>   \$config->{lazy},
 		"l|local=s"       =>   \$config->{local},
 		"logfile=s"       =>   \$config->{logfile},
-		"noocsdeploy"        =>   \$config->{noocsdeploy},
-		"noinventory"     =>   \$config->{noinventory},
-		"nosoft"          =>   \$config->{nosoft},
-		"nosoftware"      =>   \$config->{nosoftware},
-        "nowakeonlan"     =>   \$config->{nowakeonlan},
-		"nosnmpquery"     =>   \$config->{nosnmpquery},
-		"nonetdiscovery"  =>   \$config->{nonetdiscovery},
+		"no-ocsdeploy"    =>   \$config->{noocsdeploy},
+		"no-inventory"    =>   \$config->{noinventory},
+		"no-soft"         =>   \$config->{nosoft},
+		"no-software"     =>   \$config->{nosoftware},
+		"no-wakeonlan"    =>   \$config->{nowakeonlan},
+		"no-snmpquery"    =>   \$config->{nosnmpquery},
+		"no-netdiscovery" =>   \$config->{nonetdiscovery},
 		"p|password=s"    =>   \$config->{password},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
@@ -142,7 +146,7 @@ sub loadUserParams {
 		"s|server=s"      =>   \$config->{server},
 		"stdout"          =>   \$config->{stdout},
 		"t|tag=s"         =>   \$config->{tag},
-        "no-ssl-check" => \$config->{noSslCheck},
+        "no-ssl-check"    =>   \$config->{noSslCheck},
 		"u|user=s"        =>   \$config->{user},
 		"version"         =>   \$config->{version},
 		"w|wait=s"        =>   \$config->{wait},
@@ -173,15 +177,21 @@ sub help {
 
   print STDERR "\n";
   print STDERR "Usage:\n";
-  print STDERR "\t--backend-collect-timeout set a max delay time of one ".
+  print STDERR "\t    --backend-collect-timeout set a max delay time of one ".
   "inventory data collect job (".$config->{backendCollectTimeout}.")\n";
-  print STDERR "\t--basevardir=/path  indicate the directory where should".
+  print STDERR "\t    --basevardir=/path  indicate the directory where should".
   " the agent store its files (".$config->{basevardir}.")\n";
+  print STDERR "\t    --ca-cert-dir=D  SSL certificat directory ".
+  "(".$config->{caCertDir}.")\n".
+  print STDERR "\t    --ca-cert-file=F SSL certificat file ".
+  "(".$config->{caCertFile}.")\n".
   print STDERR "\t    --color         use color in the console (".$config->{color}.")\n".
   print STDERR "\t-d  --daemon        detach the agent in background ".
   "(".$config->{daemon}.")\n";
   print STDERR "\t-D  --daemon-no-fork daemon but don't fork in background (".$config->{daemonNoFork}.")\n";
   print STDERR "\t    --debug         debug mode (".$config->{debug}.")\n";
+  print STDERR "\t--delaytime	      set a max delay time (in second) if".
+  " no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$config->{info}.")\n";
@@ -191,33 +201,31 @@ sub help {
   print STDERR "\t-l --local=DIR      do not contact server but write ".
   "inventory in DIR directory in XML (".$config->{local}.")\n";
   print STDERR "\t   --logfile=FILE   log message in FILE (".$config->{logfile}.")\n";
+  print STDERR "\t   --no-ocsdeploy   Do not deploy packages or run command".
+  "(".$config->{noocsdeploy}.")\n";
+  print STDERR "\t   --no-inventory   Do not generate inventory (".$config->{noinventory}.")\n";
+  print STDERR "\t   --no-software    do not return installed software list (".$config->{nosoftware}.")\n";
+  print STDERR "\t   --no-wakeonlan   do not use wakeonlan function (".$config->{nowakeonlan}.")\n";
+
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port (".$config->{proxy}.")\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
-  print STDERR "\t--rpc-ip=IP         ip of the interface to use for peer ".
+  print STDERR "\t   --rpc-ip=IP         ip of the interface to use for peer ".
+  print STDERR "\t   --scan-homedirs     permit to scan home user directories (".$config->{scanhomedirs}.")\n" ;
   "to peer exchange\n";
   print STDERR "\t-s --server=uri     server uri (".$config->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory".
   " but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$config->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t--no-ssl-check      do not check the ".
+  print STDERR "\t   --no-ssl-check      do not check the ".
   "SSL connexion with the server (".$config->{noSslCheck}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$config->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
   print STDERR "\t-w --wait=seconds   wait during a random periode before".
   "  contacting server like --daemon do (".$config->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($config->{xml})\n";
-  print STDERR "\t--noocsdeploy          Do not deploy packages or run command".
-  "(".$config->{noocsdeploy}.")\n";
-  print STDERR "\t--noinventory       Do not generate inventory (".$config->{noinventory}.")\n";
-  print STDERR "\t--nosoft            DEPRECATED, use --nosoftware instead\n";
-  print STDERR "\t--nosoftware        do not return installed software list (".$config->{nosoftware}.")\n";
-  print STDERR "\t--nowakeonlan       do not use wakeonlan function (".$config->{nowakeonlan}.")\n";
-  print STDERR "\t--delaytime	      set a max delay time (in second) if".
-  " no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
-  print STDERR "\t--scan-homedirs     permit to scan home user directories (".$config->{scanhomedirs}.")\n" ;
 
   print STDERR "\n";
   print STDERR "Manpage:\n";
