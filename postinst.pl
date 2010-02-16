@@ -7,7 +7,6 @@ use lib 'lib';
 use File::Path;
 use FusionInventory::Agent::Config;
 
-die "need to be fixed for FusionInventory\n";
 my $old_linux_agent_dir = "/etc/ocsinventory-client";
 
 my $config;
