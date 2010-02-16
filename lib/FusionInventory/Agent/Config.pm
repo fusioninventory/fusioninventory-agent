@@ -131,13 +131,13 @@ sub loadUserParams {
 		"lazy"            =>   \$config->{lazy},
 		"l|local=s"       =>   \$config->{local},
 		"logfile=s"       =>   \$config->{logfile},
-		"noocsdeploy"        =>   \$config->{noocsdeploy},
-		"noinventory"     =>   \$config->{noinventory},
-		"nosoft"          =>   \$config->{nosoft},
-		"nosoftware"      =>   \$config->{nosoftware},
-        "nowakeonlan"     =>   \$config->{nowakeonlan},
-		"nosnmpquery"     =>   \$config->{nosnmpquery},
-		"nonetdiscovery"  =>   \$config->{nonetdiscovery},
+		"no-ocsdeploy"    =>   \$config->{noocsdeploy},
+		"no-inventory"    =>   \$config->{noinventory},
+		"no-soft"         =>   \$config->{nosoft},
+		"no-software"     =>   \$config->{nosoftware},
+		"no-wakeonlan"    =>   \$config->{nowakeonlan},
+		"no-snmpquery"    =>   \$config->{nosnmpquery},
+		"no-netdiscovery" =>   \$config->{nonetdiscovery},
 		"p|password=s"    =>   \$config->{password},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
@@ -204,7 +204,6 @@ sub help {
   print STDERR "\t   --no-ocsdeploy   Do not deploy packages or run command".
   "(".$config->{noocsdeploy}.")\n";
   print STDERR "\t   --no-inventory   Do not generate inventory (".$config->{noinventory}.")\n";
-  print STDERR "\t   --no-soft        DEPRECATED, use --nosoftware instead\n";
   print STDERR "\t   --no-software    do not return installed software list (".$config->{nosoftware}.")\n";
   print STDERR "\t   --no-wakeonlan   do not use wakeonlan function (".$config->{nowakeonlan}.")\n";
 
