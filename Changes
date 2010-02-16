@@ -22,6 +22,7 @@ Revision history for Ocsinventory::Agent
        * SNMP support (David DURIEUX)
        * Network discovery (David DURIEUX)
        * WakeOnLan (David DURIEUX)
+       * postinst.pl is now and is installed in the $PATH
 
 1.2.x
        * Solaris: use regex to identify CPU class (Jerome LEBAS)
