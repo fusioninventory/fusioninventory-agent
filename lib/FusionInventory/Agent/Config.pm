@@ -11,6 +11,8 @@ if ($^O =~ /^MSWin/) {
 }
 
 my $default = {
+  'caCertDir' =>  '/etc/ssl/certs',
+  'caCertFile'=>  '', 
   'color'     =>  0,
   'daemon'    =>  0,
   'daemonNoFork'    =>  0,
@@ -116,6 +118,8 @@ sub loadUserParams {
 	my %options = (
 		"backend-collect-timeout=s"  =>   \$config->{backendCollectTimeout},
 		"basevardir=s"    =>   \$config->{basevardir},
+        "ca-cert-dir=s"   =>   \$config->{caCertDir},
+        "ca-cert-file=s"  =>   \$config->{caCertFile},
 		"color"           =>   \$config->{color},
 		"d|daemon"        =>   \$config->{daemon},
 		"D|daemon-no-fork"=>   \$config->{daemonNoFork},
@@ -177,6 +181,10 @@ sub help {
   "inventory data collect job (".$config->{backendCollectTimeout}.")\n";
   print STDERR "\t--basevardir=/path  indicate the directory where should".
   " the agent store its files (".$config->{basevardir}.")\n";
+  print STDERR "\t    --ca-cert-dir=D  SSL certificat directory ".
+  "(".$config->{caCertDir}.")\n".
+  print STDERR "\t    --ca-cert-file=F SSL certificat file ".
+  "(".$config->{caCertFile}.")\n".
   print STDERR "\t    --color         use color in the console (".$config->{color}.")\n".
   print STDERR "\t-d  --daemon        detach the agent in background ".
   "(".$config->{daemon}.")\n";

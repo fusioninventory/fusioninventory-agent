@@ -152,9 +152,26 @@ sub loadNetSSLGlueLWP {
       return;
   }
 
+  my $parameter;
+  if ($config->{caCertFile}) {
+    if (!-f $config->{caCertFile} || !-l $config->{caCertFile}) {
+        $logger->fault("--ca-cert-file doesn't existe ".
+            "`".$config->{caCertFile}."'");
+    }
+
+    $parameter = " SSL_ca_file=".$config->{caCertFile};
+  } elsif ($config->{caCertDir}) {
+    if (!-d $config->{caCertDir}) {
+        $logger->fault("--ca-cert-dir doesn't existe ".
+            "`".$config->{caCertDir}."'");
+    }
+
+    $parameter = " SSL_ca_path=".$config->{caCertDir};
+  }
+
   eval 'use Net::SSLGlue::LWP SSL_ca_path => \'/etc/ssl/certs\';';
   if ($@) {
-      $logger->error(
+      $logger->fault(
           "Failed to load Net::SSLGlue::LWP, to ".
          "validate the server SSL cert. If you want ".
          "to ignore this message and want to ignore SSL ".
