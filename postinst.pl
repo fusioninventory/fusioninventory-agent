@@ -327,7 +327,7 @@ my $dir = $config->{server};
 $dir =~ s/\//_/g;
 my $vardir = $config->{basevardir}."/".$dir;
 if (!-d $vardir && !mkpath($vardir)) {
-    or die "Can't create $vardir!";
+    die "Can't create $vardir!";
 }
 
 if (@cacert) { # we need to migrate the certificat
