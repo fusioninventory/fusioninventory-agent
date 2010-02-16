@@ -25,7 +25,7 @@ if (-d '.bzr') {
     $version .= "~bzr".$bzrRev;
 }
 
-name 'FusionInventory-Agent';
+name 'fusioninventory-agent';
 include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
