@@ -89,12 +89,12 @@ if (!$file || !-f $file) {
     return $config unless -f $file;
   }
 
-  $config->{configFile} = $file;
-
   if (!open (CONFIG, "<".$file)) {
-    print(STDERR "Config: Failed to open $file\n");
-	  return $config;
+    print(STDERR "Config: Failed to open $file: $!\n");
+	return $config;
   }
+  
+  $config->{configFile} = $file;
 
   foreach (<CONFIG>) {
     s/#.+//;
