@@ -179,24 +179,25 @@ sub help {
   print STDERR "Usage:\n";
   print STDERR "\t    --backend-collect-timeout set a max delay time of one ".
   "inventory data collect job (".$config->{backendCollectTimeout}.")\n";
-  print STDERR "\t    --basevardir=/path  indicate the directory where should".
-  " the agent store its files (".$config->{basevardir}.")\n";
+  print STDERR "\t    --basevardir=/path  indicate the directory where ".
+  "should the agent store its files (".$config->{basevardir}.")\n";
   print STDERR "\t    --ca-cert-dir=D  SSL certificat directory ".
-  "(".$config->{caCertDir}.")\n".
+  "(".$config->{caCertDir}.")\n";
   print STDERR "\t    --ca-cert-file=F SSL certificat file ".
-  "(".$config->{caCertFile}.")\n".
-  print STDERR "\t    --color         use color in the console (".$config->{color}.")\n".
+  "(".$config->{caCertFile}.")\n";
+  print STDERR "\t    --color         use color in the console ".
+  "(".$config->{color}.")\n";
   print STDERR "\t-d  --daemon        detach the agent in background ".
   "(".$config->{daemon}.")\n";
   print STDERR "\t-D  --daemon-no-fork daemon but don't fork in background (".$config->{daemonNoFork}.")\n";
   print STDERR "\t    --debug         debug mode (".$config->{debug}.")\n";
-  print STDERR "\t--delaytime	      set a max delay time (in second) if".
+  print STDERR "\t    --delaytime     set a max delay time (in second) if".
   " no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$config->{info}.")\n";
   print STDERR "\t   --no-socket      allow remote connexion (".$config->{noSocket}.")\n";
-  print STDERR "\t--lazy              do not contact the server more than ".
+  print STDERR "\t   --lazy           do not contact the server more than ".
   "one time during the PROLOG_FREQ (".$config->{lazy}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
   "inventory in DIR directory in XML (".$config->{local}.")\n";
@@ -211,15 +212,15 @@ sub help {
   print STDERR "\t-P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port (".$config->{proxy}.")\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
-  print STDERR "\t   --rpc-ip=IP         ip of the interface to use for peer ".
-  print STDERR "\t   --scan-homedirs     permit to scan home user directories (".$config->{scanhomedirs}.")\n" ;
+  print STDERR "\t   --rpc-ip=IP      ip of the interface to use for peer ".
   "to peer exchange\n";
+  print STDERR "\t   --scan-homedirs  permit to scan home user directories (".$config->{scanhomedirs}.")\n" ;
   print STDERR "\t-s --server=uri     server uri (".$config->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory".
   " but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$config->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t   --no-ssl-check      do not check the ".
+  print STDERR "\t   --no-ssl-check   do not check the ".
   "SSL connexion with the server (".$config->{noSslCheck}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$config->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
