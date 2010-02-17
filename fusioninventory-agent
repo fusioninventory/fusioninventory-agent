@@ -65,7 +65,7 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local /tmp> ]>...
+B<fusioninventory-agent> S<[ ... ]> S<[ I<--server server> | I<--local /tmp> ]>...
 
 =head1 EXAMPLES
 
@@ -82,13 +82,16 @@ B<fusioninventory-agent> S<[ B<-fhilpruw> ]> S<[ I<--server server> | I<--local 
     % fusioninventory-agent --local /tmp
     # write an inventory in the /tmp directory
 
-    % fusioninventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
+    % fusioninventory-agent --server localhost --user=toto --password=pw
+--realm="Restricted Area"
     # send a report to a server protected by a basic authentication
     % fusioninventory-agent --lazy
-    # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over.
+    # send an inventory only if the a random delay between 0 and PROLOG_FREQ
+had been run over.
 
     % fusioninventory-agent --delaytime 60 -d
-    # If NO PROLOG_FREQ has been preset, pick a time between execution and --delaytime for the agent to contact the server [default is 3600 seconds]
+    # If NO PROLOG_FREQ has been preset, pick a time between execution and
+--delaytime for the agent to contact the server [default is 3600 seconds]
 
 =head1 DESCRIPTION
 
@@ -115,6 +118,8 @@ Operating System is available in the Wiki.
 
 =item F<GNU/kFreeBSD>
 
+=item F<HP-UX>
+
 =back
 
 =head1 OPTIONS
@@ -129,7 +134,8 @@ example, the two lines below are all equivalent:
 
 =item B<--backend-collect-timeout=SECONDS_BEFORE_KILL>
 
-Time before the agent kills modules processing which don't end before the timeout.
+Time before the agent kills modules processing which don't end before the
+timeout.
 
 =item B<--basevardir>=I<DIR>
 
@@ -163,11 +169,20 @@ Turn the debug mode on.
 
 =item B<--devlib>
 
-This option is designed for backend module developer. With it enabled, ocsinventry-agent won't try to load the Backend module installed on the system. Instead it will scan the ./lib directory.
+This option is designed for the developer. With it enabled,
+fusioninventory-agent won't try to load the Backend module installed
+on the system. Instead it will scan the ./lib directory.
+It may also be useful if you don't want to install the agent on
+your system.
 
 =item B<--delaytime=SECONDS_TO_WAIT>
 
-This option defaults to waiting a random() time between 0 and 3600 before initially contacting the server assuming NO PROLOG_FREQ has been set. Once PROLOG_FREQ has been set, it uses that number at the top end of it's random setting. Useful for pre-setting a deployed agent's initial start time (so you don't jam the server all at once, but don't have to wait an hour to make sure the deployment worked).
+This option defaults to waiting a random() time between 0 and 3600 before
+initially contacting the server assuming NO PROLOG_FREQ has been set.
+Once PROLOG_FREQ has been set, it uses that number at the top end of
+it's random setting. Useful for pre-setting a deployed agent's initial
+start time (so you don't jam the server all at once, but don't have to
+wait an hour to make sure the deployment worked).
 
 =item B<-f>, B<--force>
 
@@ -175,12 +190,6 @@ The agent ask first the server if it should send an inventoroy of the
 machine. If the server doesn't know the machine or has outdated
 informations, it will request it.
 With this option, the agent ignore the server anwser and send an inventory.
-
-=item B<--no-socket>
-
-In daemon mode, a socket is open to allow remote control of the agent. This
-socket is used for the peer to peer software deployment.
-b<--no-socket> turns it off.
 
 =item B<-i>, B<--info>
 
@@ -200,26 +209,50 @@ Write an inventory in the I<DIR> directory. A new file will be created if needed
 
 Log message in I<FILE> and turn off STDERR
 
+=item B<--no-ocsdeploy>
+
+Disable the software deployment.
+
+=item B<--no-inventory>
+
+Do not generate inventory.
+
+=item B<--no-wakeonlan>
+
+Do not use the wakeonlan.
+
+=item B<--no-software>
+
+Do not inventory the software installed on the machine.
+
 =item B<-p>, B<--password>=I<PASSWORD>
 
 Use I<PASSWORD> for an HTTP identification with the server.
 
 =item B<-P>, B<--proxy>=I<PROXY>
 
-Use I<PROXY> to specify a proxy HTTP server. By default, the agent uses HTTP_PROXY environment variable. 
+Use I<PROXY> to specify a proxy HTTP server. By default, the agent uses
+HTTP_PROXY environment variable. 
 
 =item B<-r>, B<--realm>=I<REALM>
 
-Use I<REALM> for an HTTP identification with the server. For example, the value can be 'Restricted Area'. You can find it in the login popup of your Internet browser.
+Use I<REALM> for an HTTP identification with the server. For example, the
+value can be 'Restricted Area'. You can find it in the login popup of your
+Internet browser.
 
 =item B<--rpc-ip>=I<IP>
 
 The IP address of the interface to use for the P2P exchange. The default
 is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
 
+=item B<--scan-homedirs>
+
+Should the VirtualMachine inventory include users own VM?
+
 =item B<-s>, B<--server>=I<URI>
 
-The uri of the server. If I<URI> doesn't start with http:// or https://, the assume the parameter is a hostname and rewrite it like that:
+The uri of the server. If I<URI> doesn't start with http:// or https://, the
+assume the parameter is a hostname and rewrite it like that:
 
     % http://servername/ocsinventory
 
@@ -237,11 +270,15 @@ Print the inventory on stdout.
 
 =item B<--scan-homedirs>
 
-Authorized the agent to scan home directories to increase the Virtual Machine inventory.
+Authorized the agent to scan home directories to increase the Virtual Machine
+inventory.
 
 =item B<--tag>=I<TAG>
 
-Mark the machine with the I<TAG> tag. Once the initial inventory is accepted by the server this value is ignored and you've to change the information directly on the server. The server do so in order to centralize the administration of the machine.
+Mark the machine with the I<TAG> tag. Once the initial inventory
+is accepted by the server this value is ignored and you've to
+change the information directly on the server. The server do so
+in order to centralize the administration of the machine.
 
 =item B<--no-ssl-check>
 
@@ -252,33 +289,18 @@ option in production. This is just a very bad idea.
 
 Use I<USER> for the server authentication.
 
-=item B<--version>=I<USER>
+=item B<--version>
 
 Print the version and exit.
 
 =item B<-w> I<DURATION>, B<--wait>=I<DURATION>
 
-Wait before initializing the connexion with the server. If I<DURATION> equal I<server> the agent will use the PROLOG_FREQ of the server to determine the duration of this periode. Exactly like it would had done if it was in --daemon mode.
-Else if duration is a numerical value, it will be used directly.
+Wait before initializing the connexion with the server. If I<DURATION> equal
+I<server> the agent will use the PROLOG_FREQ of the server to determine the
+duration of this periode. Exactly like it would had done if it was in --daemon
+mode. Else if duration is a numerical value, it will be used directly.
 
     % fusioninventory-agent --wait 5 --server localhost
-
-=item B<--noocsdeploy>
-
-Disable the software deployment.
-
-=item B<--noinventory>
-
-Do not generate inventory.
-
-=item B<--nowakeonlan>
-
-Do not use the wakeonlan.
-
-=item B<--nosoftware>
-
-Do not inventory the software installed on the machine. B<--nosoft> also
-works but is deperecated.
 
 =back
 
@@ -288,13 +310,13 @@ works but is deperecated.
 The agent try to initialize the settings from the B<agent.cfg>
 config file.
 
-It looks for the file in these directories:
+It looks for the file in these location:
 
 =over
 
-=item /etc/fusioninventory
+=item /etc/fusioninventory/agent.cfg
 
-=item /usr/local/etc/fusioninventory
+=item /usr/local/etc/fusioninventory/agent.cfg
 
 =back
 
@@ -309,20 +331,18 @@ FusionInventory.
 
 =over 4
 
-=item FusionInventory website,
+=item FusionInventory website: L<http://www.FusionInventory.org/>
 
- http://www.FusionInventory.org/
+=item LaunchPad project page: L<http://launchpad.net/fusioninventory-agent>
 
-=item LaunchPad project page,
-
- http://launchpad.net/fusioninventory-agent
+=item the Mailing lists and IRC
 
 =back
 
 =head1 BUGS
 
-Please, use the forum as much as possible. You can open your own bug tickets.
-Patches are welcome. You can also use LaunchPad bugtracker or
+Please, use the mailing lists as much as possible. You can open your own bug
+tickets. Patches are welcome. You can also use LaunchPad bugtracker or
 push your Bazaar branch on LaunchPad and do a merge request.
 
 =head1 COPYRIGHT
