@@ -2,6 +2,8 @@ Revision history for Ocsinventory::Agent
 
 2.0beta2 Wed, 17 Feb 2010 23:21:59 +0100
        * Update dico for detected devices in NETDISCOVERY module
+         (David DURIEUX)
+       * Changes file clean up
 
 2.0beta1 Wed, 17 Feb 2010 22:08:00 +0100
        * Use Sys::Hostname instead of uname for better portability
