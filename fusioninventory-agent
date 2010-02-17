@@ -212,7 +212,7 @@ Use I<PROXY> to specify a proxy HTTP server. By default, the agent uses HTTP_PRO
 
 Use I<REALM> for an HTTP identification with the server. For example, the value can be 'Restricted Area'. You can find it in the login popup of your Internet browser.
 
-=item B<--rpc-ip>=IP<REALM>
+=item B<--rpc-ip>=I<IP>
 
 The IP address of the interface to use for the P2P exchange. The default
 is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
@@ -267,22 +267,13 @@ Else if duration is a numerical value, it will be used directly.
 
 Disable the software deployment.
 
-=back
-
 =item B<--noinventory>
 
 Do not generate inventory.
 
-=back
-
 =item B<--nowakeonlan>
 
 Do not use the wakeonlan.
-
-=back
-
-
-
 
 =item B<--nosoftware>
 
