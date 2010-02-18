@@ -147,9 +147,12 @@ sub loadNetSSLGlueLWP {
 
 
   if ($config->{noSslCheck}) {
+    if (!$config->{SslCheckWarningShown}) {
       $logger->info( "--no-ssl-check parameter "
-          . "found. Don't check server identity!!!" );
-      return;
+        . "found. Don't check server identity!!!" );
+      $config->{SslCheckWarningShown} = 1;
+    }
+    return;
   }
 
   my $parameter;
