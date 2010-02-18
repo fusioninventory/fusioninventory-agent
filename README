@@ -85,9 +85,9 @@ BUILDING/INSTALLING
    sudo ./FusionInventory-agent --devlib --server http://foo/FusionInventory
 
 PATCHES
-  If you want to improve OCS Inventory, please use the Bazaar branch
+  If you want to improve FusionInventory, please use the Bazaar branch
   directly, publish you changes and ask for the merge
-  http://wiki.FusionInventory-ng.org/index.php/Developers:Bazaar
+  http://launchpad.net/fusioninventory-agent
 
   The source of the agent can be download with this command:
 
@@ -113,8 +113,8 @@ NOTE
 
 SOURCES
 You can prepare a tarball from the Bazaar devel branch with following commands:
-   bzr branch lp:FusionInventory-unix-agent
-   cd FusionInventory-unix-agent
+   bzr branch lp:fusioninventory-agent
+   cd fusioninventory-agent
    perl Makefile.PL
    make manifest
    make dist
