@@ -5,6 +5,7 @@ Revision history for Ocsinventory::Agent
        * Do not use IPC::Run, thanks Mario Gzuk
        * Fix --local
        * fix: Invalid type 'W' in pack in RPC.pm, thanks Mario Gzuk
+       * HP-UX: fix Domains.pm
 
 2.0beta2 Wed, 17 Feb 2010 23:21:59 +0100
        * Update dico for detected devices in NETDISCOVERY module
