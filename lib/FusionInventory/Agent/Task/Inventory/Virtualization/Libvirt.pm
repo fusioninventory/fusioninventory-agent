@@ -11,7 +11,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
 
-    foreach (`virsh list --all`) {
+    foreach (`virsh list --all 2>/dev/null`) {
         if (/^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
             my $name = $2;
             my $status = $3;
