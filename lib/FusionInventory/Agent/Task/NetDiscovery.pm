@@ -548,8 +548,14 @@ sub discovery_ip_threaded {
          $datadevice->{NETPORTVENDOR} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{vendor});
       }
 
-      if (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->{name})) {
-         $datadevice->{DNSHOSTNAME} = special_char($scan->{HOSTS}->{$params->{ip}}->{hostnames}->{name});
+      if (ref($scan->{HOSTS}->{$params->{ip}}->{hostnames}) eq "HASH"){
+         if (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->{name})) {
+            $datadevice->{DNSHOSTNAME} = special_char($scan->{HOSTS}->{$params->{ip}}->{hostnames}->{name});
+         }
+      } elsif (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0])) {
+         if (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0]->{name})) {
+            $datadevice->{DNSHOSTNAME} = special_char($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0]->{name});
+         }
       }
    } elsif ($params->{ModuleNmapScanner} eq "1") {
       my $scan = new Nmap::Scanner;
