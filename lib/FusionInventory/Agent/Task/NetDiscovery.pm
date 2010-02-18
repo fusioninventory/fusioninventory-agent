@@ -256,6 +256,7 @@ sub StartThreads {
                }
             }
          }
+         print "LOOPIP = 0\n";
          $loopip = 0;
 
          if ($nbip > ($nb_ip_per_thread * 4)) {
@@ -267,6 +268,7 @@ sub StartThreads {
          }
 
          CONTINUE:
+         print "NPIP : ".$nbip."\n";
          # Send NB ips to server :
          $xml_thread = {};
          $xml_thread->{QUERY} = "NETDISCOVERY";
@@ -546,8 +548,8 @@ sub discovery_ip_threaded {
          $datadevice->{NETPORTVENDOR} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{vendor});
       }
 
-      if (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0]->{name})) {
-         $datadevice->{DNSHOSTNAME} = special_char($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0]->{name});
+      if (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->{name})) {
+         $datadevice->{DNSHOSTNAME} = special_char($scan->{HOSTS}->{$params->{ip}}->{hostnames}->{name});
       }
    } elsif ($params->{ModuleNmapScanner} eq "1") {
       my $scan = new Nmap::Scanner;
