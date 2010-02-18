@@ -48,7 +48,7 @@ sub save {
     my ($self, $data) = @_;
 
     my $filePath = $self->getFilePath();
-	print "[storage]save data in:". $filePath."\n";
+    #print "[storage]save data in:". $filePath."\n";
 
 	store ($data, $filePath) or warn;
 
@@ -58,7 +58,7 @@ sub restore {
     my ($self, $module) = @_;
 
     my $filePath = $self->getFilePath($module);
-	print "[storage]restore data from: $filePath\n";
+    #print "[storage]restore data from: $filePath\n";
 
     if (-f $filePath) {
         return retrieve($filePath);
@@ -71,10 +71,10 @@ sub remove {
     my ($self, $module) = @_;
     
     my $filePath = $self->getFilePath();
-	print "[storage] delete $filePath\n";
+    #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
-	    print "[storage] failed to delete $filePath\n";
+        #print "[storage] failed to delete $filePath\n";
     }
 }
 
