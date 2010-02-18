@@ -259,8 +259,7 @@ sub main {
             $cmd .= " ".$target->{vardir};
 
             $logger->debug("cmd is: '$cmd'");
-            use IPC::Run;
-            IPC::Run::run($cmd);
+            system($cmd);
 
             $logger->debug("[task] end of ".$task);
         }
