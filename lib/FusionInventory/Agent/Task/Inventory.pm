@@ -44,7 +44,7 @@ sub main {
       });
 
   if (!exists($prologresp->{parsedcontent}->{RESPONSE}) || $prologresp->{parsedcontent}->{RESPONSE} !~ /^SEND$/) {
-    $logger->debug('<RESPONSE>SEND</RESPONSE> not found in PROLOG, do not '.
+    $logger->debug('<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not '.
         'send an inventory.');
     exit(0);
   }
