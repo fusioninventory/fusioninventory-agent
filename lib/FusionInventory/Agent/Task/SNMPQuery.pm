@@ -14,8 +14,6 @@ use Data::Dumper;
 
 use Net::SNMP qw(:snmp);
 use Compress::Zlib;
-use LWP::UserAgent;
-use HTTP::Request::Common;
 use XML::Simple;
 use File::stat;
 
@@ -47,7 +45,7 @@ sub main {
     my $myData = $self->{myData} = $storage->restore(__PACKAGE__);
 
     my $config = $self->{config} = $data->{config};
-    my $target = $self->{'target'} = $data->{'target'};
+    my $target = $self->{target} = $data->{target};
     my $logger = $self->{logger} = new FusionInventory::Logger ({
             config => $self->{config}
         });
@@ -85,6 +83,18 @@ sub main {
             target => $target,
 
         });
+
+      $self->{inventory} = new FusionInventory::Agent::XML::Query::SimpleMessage ({
+
+          # TODO, check if the accoun{info,config} are needed in localmode
+#          accountinfo => $accountinfo,
+#          accountconfig => $accountinfo,
+          target => $target,
+          config => $config,
+          logger => $logger,
+
+      });
+
 
    $self->StartThreads();
 
@@ -270,10 +280,11 @@ sub StartThreads {
                                                    my $devicelist = shift;
                                                    my $modelslist = shift;
                                                    my $authlist = shift;
-                                                   my $PID = shift;
+                                                   my $self = shift;
 
                                                    my $device_id;
-                                                   my $xml_thread = {};
+
+                                                   my $xml_thread = {};                                                   
                                                    my $count = 0;
                                                    my $xmlout;
                                                    my $xml;
@@ -298,33 +309,27 @@ sub StartThreads {
                                                             last BOUCLET;
                                                          }
                                                       }
-                                                      #print Dumper($devicelist->{$device_id});
-                                                      my $datadevice = query_device_threaded(
-                                                         $devicelist->{$device_id},
-                                                         $ArgumentsThread{'log'}[$p][$t],
-                                                         $ArgumentsThread{'Bin'}[$p][$t],
-                                                         $ArgumentsThread{'PID'}[$p][$t],
-                                                         $self->{config}->{VERSION},
-                                                         $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}}, # Passer uniquement le modèlle correspondant au device, ex : $modelslist->{'1'}
-                                                         $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
-                                                         );
-                                                         print Dumper($datadevice);
+                                                      my $datadevice = $self->query_device_threaded({
+                                                            device              => $devicelist->{$device_id},
+                                                            modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
+                                                            authlist            => $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
+                                                         });
                                                       #undef $devicelist[$p]{$device_id};
-                                                      $xml_thread->{CONTENT}->{DEVICE}->[$count] = $datadevice;
-                                                      $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+                                                      $self->{inventory}->{h}->{CONTENT}->{DEVICE}->[$count] = $datadevice;
+                                                      $self->{inventory}->{h}->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
                                                       $count++;
                                                       if ($count eq "4") { # Send all of 4 devices
-                                                         $xml_thread->{QUERY} = "SNMPQUERY";
-                                                         $self->SendInformations($xml_thread);
+                                                         $self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
+                                                         $self->SendInformations();
                                                          $TuerThread{$p}[$t] = 1;
                                                          $count = 0;
                                                       }
                                                    }
-                                                   $xml_thread->{QUERY} = "SNMPQUERY";
-                                                   $self->SendInformations($xml_thread);
+                                                   $self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
+                                                   $self->SendInformations();
                                                    $TuerThread{$p}[$t] = 1;
                                                    return;
-                                                }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self->{PID})->detach();
+                                                }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self)->detach();
          sleep 1;
       }
 
@@ -365,30 +370,32 @@ sub SendInformations{
    my ($self, $message) = @_;
 
    my $config = $self->{config};
-   my $target = $self->{'target'};
-   my $logger = $self->{logger};
-
-   my $network = $self->{network};
+#   my $target = $self->{'target'};
+#   my $logger = $self->{logger};
+#
+#   my $network = $self->{network};
 
    if ($config->{stdout}) {
-      $message->printXML();
+      $self->{inventory}->printXML();
    } elsif ($config->{local}) {
-      $message->writeXML();
+      $self->{inventory}->writeXML();
    } elsif ($config->{server}) {
 
-      my $xmlout = new XML::Simple(
-                           RootName => 'REQUEST',
-                           NoAttr => 1,
-                           KeyAttr => [],
-                           suppressempty => 1
-                        );
-      my $xml = $xmlout->XMLout($message);
-      if (($xml ne "") && ($xml ne "<REQUEST>
-  <QUERY>SNMPQUERY</QUERY>
-</REQUEST>")){
-         my $data_compressed = Compress::Zlib::compress($xml);
-         send_snmp_http2($data_compressed,$self->{PID},$config->{'server'});
-      }
+#      my $xmlout = new XML::Simple(
+#                           RootName => 'REQUEST',
+#                           NoAttr => 1,
+#                           KeyAttr => [],
+#                           suppressempty => 1
+#                        );
+#      my $xml = $xmlout->XMLout($message);
+#      if (($xml ne "") && ($xml ne "<REQUEST>
+#  <QUERY>SNMPQUERY</QUERY>
+#</REQUEST>")){
+#         my $data_compressed = Compress::Zlib::compress($xml);
+print Dumper($self->{inventory});
+         $self->{network}->send({message => $self->{inventory}});
+         #send_snmp_http2($data_compressed,$self->{PID},$config->{'server'});
+#      }
    }
 }
 
@@ -477,59 +484,14 @@ sub ModelParser {
          undef $lists;
       }
    }
-         print Dumper($modelslist);
+         #print Dumper($modelslist);
    return $modelslist;
 }
 
 
 
-sub send_snmp_http {
-	my $data_compressed = shift;
-	my $PID = shift;
-	my $config = shift;
-
- 	my $url = $config;
-	# Must send file and not by POST
-	my $userAgent = LWP::UserAgent->new();
-	my $response = $userAgent->post($url, [
-	'upload' => '1',
-	'data' => [ undef, $PID.'.xml.gz', Content => $data_compressed ],
-	'md5_gzip' => '567894'],
-	'content_type' => 'multipart/form-data');
-
-	print $response->error_as_HTML . "\n" if $response->is_error;
-}
-
-sub send_snmp_http2 {
-	my $data_compressed = shift;
-	my $PID = shift;
-	my $config = shift;
-
-   my $req = HTTP::Request->new(POST => $config);
-   $req->header('Pragma' => 'no-cache', 'Content-type',
-      'application/x-compress');
-
-   $req->content($data_compressed);
-   my $req2 = LWP::UserAgent->new(keep_alive => 1);
-   my $res = $req2->request($req);
-
-   # Checking if connected
-   if(!$res->is_success) {
-      print "PROBLEM\n";
-      return;
-   }
-}
-
-
-
 sub query_device_threaded {
-	my $device = shift;
-	my $log = shift;
-	my $Bin = shift;
-	my $PID = shift;
-	my $agent_version = shift;
-   my $modelslist = shift;
-   my $authlist = shift;
+   my ($self, $params) = @_;
 
 # GESTION DES VLANS : CISCO
 # .1.3.6.1.4.1.9.9.68.1.2.2.1.2 = vlan id
@@ -542,18 +504,18 @@ sub query_device_threaded {
    my $datadevice = {};
 
 	#threads->yield;
-print $device->{IP}."\n";
+#print $params->{device}->{IP}."\n";
 	############### SNMP Queries ###############
    my $session = new FusionInventory::Agent::SNMP ({
 
-               version      => $authlist->{VERSION},
-               hostname     => $device->{IP},
-               community    => $authlist->{COMMUNITY},
-               username     => $authlist->{USERNAME},
-               authpassword => $authlist->{AUTHPASSWORD},
-               authprotocol => $authlist->{AUTHPROTOCOL},
-               privpassword => $authlist->{PRIVPASSWORD},
-               privprotocol => $authlist->{PRIVPROTOCOL},
+               version      => $params->{authlist}->{VERSION},
+               hostname     => $params->{device}->{IP},
+               community    => $params->{authlist}->{COMMUNITY},
+               username     => $params->{authlist}->{USERNAME},
+               authpassword => $params->{authlist}->{AUTHPASSWORD},
+               authprotocol => $params->{authlist}->{AUTHPROTOCOL},
+               privpassword => $params->{authlist}->{PRIVPASSWORD},
+               privprotocol => $params->{authlist}->{PRIVPROTOCOL},
                translate    => 1,
 
             });
@@ -563,19 +525,19 @@ print $device->{IP}."\n";
 #      $datadevice->{ERROR}->{ID} = $device->{ID};
 #      $datadevice->{ERROR}->{TYPE} = $device->{TYPE};
 #      $datadevice->{ERROR}->{MESSAGE} = $error;
-print "SNMP HS\n";
+#print "SNMP HS\n";
 		return $datadevice;
 	}
    my $session2 = new FusionInventory::Agent::SNMP ({
 
-               version      => $authlist->{VERSION},
-               hostname     => $device->{IP},
-               community    => $authlist->{COMMUNITY},
-               username     => $authlist->{USERNAME},
-               authpassword => $authlist->{AUTHPASSWORD},
-               authprotocol => $authlist->{AUTHPROTOCOL},
-               privpassword => $authlist->{PRIVPASSWORD},
-               privprotocol => $authlist->{PRIVPROTOCOL},
+               version      => $params->{authlist}->{VERSION},
+               hostname     => $params->{device}->{IP},
+               community    => $params->{authlist}->{COMMUNITY},
+               username     => $params->{authlist}->{USERNAME},
+               authpassword => $params->{authlist}->{AUTHPASSWORD},
+               authprotocol => $params->{authlist}->{AUTHPROTOCOL},
+               privpassword => $params->{authlist}->{PRIVPASSWORD},
+               privprotocol => $params->{authlist}->{PRIVPROTOCOL},
                translate    => 0,
 
             });
@@ -591,19 +553,19 @@ print "SNMP HS\n";
 	if ($description =~ m/No response from remote host/) {
 		$error = "No response from remote host";
 		#debug($log,"[".$device->{IP}."] $error","",$PID,$Bin);
-      $datadevice->{ERROR}->{ID} = $device->{ID};
-      $datadevice->{ERROR}->{TYPE} = $device->{TYPE};
+      $datadevice->{ERROR}->{ID} = $params->{device}->{ID};
+      $datadevice->{ERROR}->{TYPE} = $params->{device}->{TYPE};
       $datadevice->{ERROR}->{MESSAGE} = $error;
 		return $datadevice;
 	} else {
 		# Query SNMP get #
-      for my $key ( keys %{$modelslist->{GET}} ) {
-         if ($modelslist->{GET}->{$key}->{VLAN} eq "0") {
+      for my $key ( keys %{$params->{modellist}->{GET}} ) {
+         if ($params->{modellist}->{GET}->{$key}->{VLAN} eq "0") {
             my $oid_result = $session->snmpget({
-                     oid => $modelslist->{GET}->{$key}->{OID},
+                     oid => $params->{modellist}->{GET}->{$key}->{OID},
                      up  => 1,
                   });
-print $modelslist->{GET}->{$key}->{OID}." = ".$oid_result."\n";
+#print $params->{modellist}->{GET}->{$key}->{OID}." = ".$oid_result."\n";
             if (defined $oid_result
                && $oid_result ne ""
                && $oid_result ne "noSuchObject") {
@@ -611,31 +573,31 @@ print $modelslist->{GET}->{$key}->{OID}." = ".$oid_result."\n";
             }
          }
       }
-      $datadevice->{INFO}->{ID} = $device->{ID};
-      $datadevice->{INFO}->{TYPE} = $device->{TYPE};
+      $datadevice->{INFO}->{ID} = $params->{device}->{ID};
+      $datadevice->{INFO}->{TYPE} = $params->{device}->{TYPE};
       # Conversion
       ($datadevice, $HashDataSNMP) = ConstructDataDeviceSimple($HashDataSNMP,$datadevice);
 #print Dumper($HashDataSNMP);
-      print "DATADEVICE GET ========================\n";
-print Dumper($datadevice);
+      #print "DATADEVICE GET ========================\n";
+#print Dumper($datadevice);
 
       # Query SNMP walk #
       my $vlan_query = 0;
-      for my $key ( keys %{$modelslist->{WALK}} ) {
+      for my $key ( keys %{$params->{modellist}->{WALK}} ) {
          my $ArraySNMPwalk = {};
          $ArraySNMPwalk = $session->snmpwalk({
-                        oid_start => $modelslist->{WALK}->{$key}->{OID}
+                        oid_start => $params->{modellist}->{WALK}->{$key}->{OID}
                      });
-         print Dumper($ArraySNMPwalk);
+         #print Dumper($ArraySNMPwalk);
          $HashDataSNMP->{$key} = $ArraySNMPwalk;
-         if ($modelslist->{WALK}->{$key}->{VLAN} eq "1") {
+         if ($params->{modellist}->{WALK}->{$key}->{VLAN} eq "1") {
             $vlan_query = 1;
          }
       }
       # Conversion
 
       ($datadevice, $HashDataSNMP) = ConstructDataDeviceMultiple($HashDataSNMP,$datadevice);
-#      print "DATADEVICE WALK ========================\n";
+#      #print "DATADEVICE WALK ========================\n";
 
 # print Dumper($datadevice);
 # print Dumper($HashDataSNMP);
@@ -645,10 +607,10 @@ print Dumper($datadevice);
          # Implique de recréer une session spécialement pour chaque vlan : communauté@vlanID
          if ($vlan_query eq "1") {
             while ( (my $vlan_id,my $vlan_name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
-               for my $link ( keys %{$modelslist->{WALK}} ) {
-                  if ($modelslist->{WALK}->{$link}->{VLAN} eq "1") {
+               for my $link ( keys %{$params->{modellist}->{WALK}} ) {
+                  if ($params->{modellist}->{WALK}->{$link}->{VLAN} eq "1") {
                      $ArraySNMPwalk = {};
-                     $ArraySNMPwalk = snmpwalk($modelslist->{WALK}->{$link}->{OID});
+                     $ArraySNMPwalk = snmpwalk($params->{modellist}->{WALK}->{$link}->{OID});
                      $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $ArraySNMPwalk;
                   }
                }
@@ -810,79 +772,79 @@ sub ConstructDataDeviceMultiple {
    }
    if (exists $HashDataSNMP->{ifIndex}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifIndex}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFNUMBER} = $data;
+         $datadevice->{PORTS}->{PORT}->[$data]->{IFNUMBER} = $data;
       }
       delete $HashDataSNMP->{ifIndex};
    }
    if (exists $HashDataSNMP->{ifdescr}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifdescr}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFDESCR} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFDESCR} = $data;
       }
       delete $HashDataSNMP->{ifdescr};
    }
    if (exists $HashDataSNMP->{ifName}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifName}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFNAME} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFNAME} = $data;
       }
       delete $HashDataSNMP->{ifName};
    }
    if (exists $HashDataSNMP->{ifType}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifType}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFTYPE} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFTYPE} = $data;
       }
       delete $HashDataSNMP->{ifType};
    }
    if (exists $HashDataSNMP->{ifmtu}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifmtu}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFMTU} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFMTU} = $data;
       }
       delete $HashDataSNMP->{ifmtu};
    }
    if (exists $HashDataSNMP->{ifspeed}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifspeed}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFSPEED} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFSPEED} = $data;
       }
       delete $HashDataSNMP->{ifspeed};
    }
    if (exists $HashDataSNMP->{ifstatus}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifstatus}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFSTATUS} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFSTATUS} = $data;
       }
       delete $HashDataSNMP->{ifstatus};
    }
    if (exists $HashDataSNMP->{ifinternalstatus}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifinternalstatus}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFINTERNALSTATUS} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINTERNALSTATUS} = $data;
       }
       delete $HashDataSNMP->{ifinternalstatus};
    }
    if (exists $HashDataSNMP->{iflastchange}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{iflastchange}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFLASTCHANGE} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFLASTCHANGE} = $data;
       }
       delete $HashDataSNMP->{iflastchange};
    }
    if (exists $HashDataSNMP->{ifinoctets}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifinoctets}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFINOCTETS} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINOCTETS} = $data;
       }
       delete $HashDataSNMP->{ifinoctets};
    }
    if (exists $HashDataSNMP->{ifoutoctets}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifoutoctets}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFOUTOCTETS} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFOUTOCTETS} = $data;
       }
       delete $HashDataSNMP->{ifoutoctets};
    }
    if (exists $HashDataSNMP->{ifinerrors}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifinerrors}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFINERRORS} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINERRORS} = $data;
       }
       delete $HashDataSNMP->{ifinerrors};
    }
    if (exists $HashDataSNMP->{ifouterrors}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifouterrors}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFOUTERRORS} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFOUTERRORS} = $data;
       }
       delete $HashDataSNMP->{ifouterrors};
    }
@@ -890,14 +852,14 @@ sub ConstructDataDeviceMultiple {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{ifPhysAddress}}) ) {
          if ($data ne "") {
             my @array = split(/(\S{2})/, $data);
-            $datadevice->{PORTS}->{PORT}->[$object]->{MAC} = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
+            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{MAC} = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
          }
       }
       delete $HashDataSNMP->{ifPhysAddress};
    }
    if (exists $HashDataSNMP->{portDuplex}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{portDuplex}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{IFPORTDUPLEX} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFPORTDUPLEX} = $data;
       }
       delete $HashDataSNMP->{portDuplex};
    }
@@ -913,8 +875,8 @@ sub ConstructDataDeviceMultiple {
    # Detect VLAN
    if (exists $HashDataSNMP->{vmvlan}) {
       while ( my ($object,$data) = each (%{$HashDataSNMP->{vmvlan}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$object]->{VLANS}->{VLAN}->{NUMBER} = $data;
-         $datadevice->{PORTS}->{PORT}->[$object]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$data};
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{VLANS}->{VLAN}->{NUMBER} = $data;
+         $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$data};
       }
       delete $HashDataSNMP->{vmvlan};
    }
@@ -958,5 +920,55 @@ sub PutPourcentageOid {
 }
 
 
+sub Cisco_TrunkPorts {
+   my $HashDataSNMP = shift,
+   my $datadevice = shift;
+
+   while ( (my $port_id, my $trunk) = each (%{$HashDataSNMP->{vlanTrunkPortDynamicStatus}}) ) {
+      if ($trunk eq "1") {
+         $datadevice->{PORTS}->{PORT}->[$port_id]->{TRUNK} = $trunk;
+      } else {
+         $datadevice->{PORTS}->{PORT}->[$port_id]->{TRUNK} = '0';
+      }
+      delete $HashDataSNMP->{vlanTrunkPortDynamicStatus}->{$port_id};
+   }
+   if (keys (%{$HashDataSNMP->{vlanTrunkPortDynamicStatus}}) eq "0") {
+      delete $HashDataSNMP->{vlanTrunkPortDynamicStatus};
+   }
+   return $datadevice, $HashDataSNMP;
+}
+
+sub Cisco_CDPPorts {
+   my $HashDataSNMP = shift,
+   my $datadevice = shift;
+
+   while ( (my $number, my $ip_hex) = each (%{$HashDataSNMP->{cdpCacheAddress}}) ) {
+      my @array = split(/\./, $number);
+      my @ip_num = split(/(\S{2})/, $ip_hex);
+      my $ip = (hex $ip_num[3]).".".(hex $ip_num[5]).".".(hex $ip_num[7]).".".(hex $ip_num[9]);
+
+      $datadevice->{PORTS}->{PORT}->[$array[0]]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
+      $datadevice->{PORTS}->{PORT}->[$array[0]]->{CONNECTIONS}->{CDP} = "1";
+      $datadevice->{PORTS}->{PORT}->[$array[0]]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$number};
+
+      delete $HashDataSNMP->{cdpCacheAddress}->{$number};
+      delete $HashDataSNMP->{cdpCacheDevicePort}->{$number};
+   }
+   if (keys (%{$HashDataSNMP->{cdpCacheAddress}}) eq "0") {
+      delete $HashDataSNMP->{cdpCacheAddress};
+   }
+   if (keys (%{$HashDataSNMP->{cdpCacheDevicePort}}) eq "0") {
+      delete $HashDataSNMP->{cdpCacheDevicePort};
+   }
+   return $datadevice, $HashDataSNMP;
+}
+
+
+sub lastSplitObject {
+   my $var = shift;
+
+   my @array = split(/\./, $var);
+   return $array[-1];
+}
 
 1;
