@@ -118,7 +118,7 @@ sub getToken {
     if ($forceNewToken || !$myData->{token}) {
 
         my $tmp = '';
-        $tmp .= pack("W",65+rand(24)) foreach (0..100);
+        $tmp .= pack("C",65+rand(24)) foreach (0..100);
         $myData->{token} = $tmp;
 
         $storage->save($myData);
