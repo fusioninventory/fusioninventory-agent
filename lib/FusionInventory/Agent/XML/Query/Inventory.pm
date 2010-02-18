@@ -899,14 +899,16 @@ sub writeXML {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
+  my $config = $self->{config};
+  my $target = $self->{target};
 
-  if ($self->{config}{local} =~ /^$/) {
+  if ($config->{local} =~ /^$/) {
     $logger->fault ('local path unititalised!');
   }
 
   $self->initialise();
 
-  my $localfile = $self->{config}{local}."/".$self->{config}{deviceid}.'.ocs';
+  my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
   $localfile =~ s!(//){1,}!/!;
 
   # Convert perl data structure into xml strings

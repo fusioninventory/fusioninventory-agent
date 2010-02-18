@@ -43,7 +43,10 @@ sub main {
           config => $self->{config}
       });
 
-  if (!exists($prologresp->{parsedcontent}->{RESPONSE}) || $prologresp->{parsedcontent}->{RESPONSE} !~ /^SEND$/) {
+  if ($target->{type} eq 'server' &&
+      (!exists($prologresp->{parsedcontent}->{RESPONSE})
+          ||
+          $prologresp->{parsedcontent}->{RESPONSE} !~ /^SEND$/)) {
     $logger->debug('<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not '.
         'send an inventory.');
     exit(0);
