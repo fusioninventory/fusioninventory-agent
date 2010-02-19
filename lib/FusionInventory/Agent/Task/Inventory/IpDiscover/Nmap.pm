@@ -42,6 +42,8 @@ sub doInventory {
   } else {
     return;
   }
+
+  return unless $network =~ /^\d+\.\d+\.\d+\.\d+$/;
   $logger->debug("scanning the $network network");
 
   my $ip;
