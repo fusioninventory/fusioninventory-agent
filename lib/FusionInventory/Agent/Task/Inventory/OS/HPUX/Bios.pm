@@ -37,6 +37,14 @@ sub run {
       };
   };
 
+  # Added for HPUX 11.31
+  for ( `machinfo |grep "achine serial number"` )
+  {
+      if ( /:\s+(\w+)/ )
+      {
+         $SystemSerial=$1;
+      };
+  };
 
   $inventory->setBios ({
       BVERSION => $BiosVersion,
