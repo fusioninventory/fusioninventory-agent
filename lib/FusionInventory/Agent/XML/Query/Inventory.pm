@@ -9,9 +9,9 @@ FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
 
 =head1 DESCRIPTION
 
-OCS Inventory uses XML for the data transmition. The module is the
-abstraction layer. It's mostly used in the backend module where it
-called $inventory in general.
+FusionInventory uses OCS Inventory XML format for the data transmition. This
+module is the abstraction layer. It's mostly used in the backend module where
+it called $inventory in general.
 
 =cut
 
