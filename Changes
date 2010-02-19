@@ -10,6 +10,7 @@ Revision history for Ocsinventory::Agent
        * Bump copyright date from 2009 to 2010
        * Linux/PPC: Frequency is an integer, not a float
        * run dosfslabel on the correct device
+       * Nmap: Check ip send by server
 
 1.1.2    Sun, 27 Dec 2009 17:24:43 +0100
        * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)
