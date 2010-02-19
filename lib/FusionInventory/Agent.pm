@@ -255,11 +255,11 @@ sub main {
             $cmd .= $EXECUTABLE_NAME; # The Perl binary path
             $cmd .= "  -Ilib" if $config->{devlib};
             $cmd .= " -MFusionInventory::Agent::Task::".$task;
-            $cmd .= " -e 'FusionInventory::Agent::Task::".$task."::main();' --";
+            $cmd .= " -eFusionInventory::Agent::Task::".$task."::main(); --";
             $cmd .= " ".$target->{vardir};
 
             $logger->debug("cmd is: '$cmd'");
-            system($cmd);
+            system($cmd." 2>&1");
 
             $logger->debug("[task] end of ".$task);
         }
