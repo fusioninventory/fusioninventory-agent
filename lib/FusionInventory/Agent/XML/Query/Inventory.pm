@@ -362,6 +362,8 @@ sub addSoftware {
   my $uninstallString = $args->{UNINSTALL_STRING};
   my $urlInfoAbout = $args->{URL_INFO_ABOUT};
   my $version = $args->{VERSION};
+  my $versionMinor = $args->{VERSION_MINOR};
+  my $versionMajor = $args->{VERSION_MAJOR};
 
 
   push @{$self->{h}{CONTENT}{SOFTWARES}},
@@ -380,6 +382,8 @@ sub addSoftware {
     UNINSTALL_STRING => [$uninstallString],
     URL_INFO_ABOUT => [$urlInfoAbout],
     VERSION => [$version],
+    VERSION_MINOR => [$versionMinor?$versionMinor:''],
+    VERSION_MAJOR => [$versionMajor?$versionMajor:''],
 
   };
 }
