@@ -4,6 +4,34 @@ package FusionInventory::Agent::Network;
 use strict;
 use warnings;
 
+=head1 NAME
+
+FusionInventory::Agent::Network - the Network abstraction layer
+
+=head1 DESCRIPTION
+
+This module is the abstraction layer for network interaction. It uses LWP.
+Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.
+
+=cut
+
+=over 4
+
+=item new()
+
+The constructor. These keys are expected: config, logger, target.
+
+        my $network = FusionInventory::Agent::Network->new ({
+    
+                logger => $logger,
+                config => $config,
+                target => $target,
+    
+            });
+
+
+=cut
+
 use LWP::UserAgent;
 use LWP::Simple qw ($ua getstore is_success);
 
@@ -59,6 +87,13 @@ sub new {
 
   bless $self;
 }
+
+=item send()
+
+Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
+server).
+
+=cut
 
 
 sub send {
@@ -137,6 +172,7 @@ sub send {
   return $response;
 }
 
+# No POD documentation here, it's an internal fuction
 # LWP doesn't support SSL cert check and
 # Net::SSLGlue::LWP is a workaround to fix that
 sub loadNetSSLGlueLWP {
@@ -182,6 +218,19 @@ sub loadNetSSLGlueLWP {
 
 } 
 
+
+=item getStore()
+
+Wrapper for LWP::Simple::getstore.
+
+        my $rc = $network->getStore({
+                source => 'http://www.FusionInventory.org/',
+                target => '/tmp/fusioinventory.html'
+            });
+
+$rc, can be read by isSuccess()
+
+=cut
 sub getStore {
   my ($self, $args) = @_;
 
@@ -197,6 +246,19 @@ sub getStore {
 
 }
 
+=item get()
+
+Wrapper for LWP::Simple::get.
+
+        my $content = $network->get({
+                source => 'http://www.FusionInventory.org/',
+                timeout => 15
+            });
+
+Act like LWP::Simple::get, return the HTTP content of the URL in 'source'.
+The timeout is optional
+
+=cut
 sub get {
   my ($self, $args) = @_;
 
@@ -210,6 +272,13 @@ sub get {
   return LWP::Simple::get($source);
 
 }
+
+=item isSuccess()
+
+Wrapper for LWP::is_success;
+
+        die unless $network->isSuccess({ code => $rc });
+=cut
 
 sub isSuccess {
   my ($self, $args) = @_;
