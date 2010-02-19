@@ -98,7 +98,7 @@ sub run {
           $label = $1 if /^label =\s+"(\S+)"/;
         }
       } elsif ($filesystem =~ /^vfat$/ && can_run('dosfslabel')) {
-          chomp ($label = `dosfslabel /dev/sdb1`);
+          chomp ($label = `dosfslabel $volumn`);
       }
 
       $label =~ s/\s+$//;
