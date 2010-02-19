@@ -1,5 +1,8 @@
 Revision history for Ocsinventory::Agent
 
+2.1
+       * Windows: Add new values for SOFTWARES key
+
 2.0beta3
        * README: clean up
        * Do not use IPC::Run, thanks Mario Gzuk

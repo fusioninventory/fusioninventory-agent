@@ -353,9 +353,14 @@ sub addSoftware {
   my $filesize = $args->{FILESIZE};
   my $folder = $args->{FOLDER};
   my $from = $args->{FROM};
-  my $installdate = $args->{INSTALLDATE};
+  my $helpLink = $args->{HELPLINK};
+  my $installDate = $args->{INSTALLDATE};
   my $name = $args->{NAME};
+  my $noRemove = $args->{NO_REMOVE};
+  my $releaseType = $args->{RELEASE_TYPE};
   my $publisher = $args->{PUBLISHER};
+  my $uninstallString = $args->{UNINSTALL_STRING};
+  my $urlInfoAbout = $args->{URL_INFO_ABOUT};
   my $version = $args->{VERSION};
 
 
@@ -366,9 +371,14 @@ sub addSoftware {
     FILESIZE => [$filesize?$filesize:''],
     FOLDER => [$folder?$folder:''],
     FROM => [$from?$from:''],
-    INSTALLDATE => [$installdate?$installdate:''],
+    HELPLINK => [$helpLink?$helpLink:''],
+    INSTALLDATE => [$installDate?$installDate:''],
     NAME => [$name?$name:''],
+    NOREMOVE => [$noRemove?$noRemove:''],
+    RELEASETYPE => [$releaseType?$releaseType:''],
     PUBLISHER => [$publisher?$publisher:''],
+    UNINSTALL_STRING => [$uninstallString],
+    URL_INFO_ABOUT => [$urlInfoAbout],
     VERSION => [$version],
 
   };
