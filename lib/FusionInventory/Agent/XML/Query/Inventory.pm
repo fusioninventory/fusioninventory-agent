@@ -591,7 +591,9 @@ sub addCPU {
   my ($self, $args) = @_;
 
   # The CPU FLAG
+  my $code = $args->{CODE};
   my $manufacturer = $args->{MANUFACTURER};
+  my $thread = $args->{THREAD};
   my $type = $args->{TYPE};
   my $serial = $args->{SERIAL};
   my $speed = $args->{SPEED};
@@ -599,7 +601,9 @@ sub addCPU {
   push @{$self->{h}{CONTENT}{CPUS}},
   {
 
+    CORE => [$code],
     MANUFACTURER => [$manufacturer],
+    THREAD => [$thread],
     TYPE => [$type],
     SERIAL => [$serial],
     SPEED => [$speed],

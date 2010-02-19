@@ -11,6 +11,7 @@ Revision history for Ocsinventory::Agent
        * --no-ssl-check, show warning just one time
        * Libvirt.pm: ignore stderr
        * HP-UX: Fix CPU/serial detection on HP-UX 11.31 (Marty RIEDLING)
+       * CPU: Add CORE/THREAD 
 
 2.0beta2 Wed, 17 Feb 2010 23:21:59 +0100
        * Update dico for detected devices in NETDISCOVERY module
