@@ -11,9 +11,9 @@ use Win32::OLE;
 use Win32::OLE::Variant;
 
 
-sub check {1}
+sub isInventoryEnabled {1}
 
-sub run {
+sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
