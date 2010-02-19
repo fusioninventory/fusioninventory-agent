@@ -8,7 +8,7 @@ Revision history for Ocsinventory::Agent
        * Do not use IPC::Run, thanks Mario Gzuk
        * Fix --local
        * fix: Invalid type 'W' in pack in RPC.pm, thanks Mario Gzuk
-       * HP-UX: fix Domains.pm
+       * HP-UX: fix the module. They'd been broken during the merge
        * Turns Off FusionInventory::Agent::Storage
        * Correctly checks if $basevardir exist (-d instead of -f)
        * --no-ssl-check, show warning just one time
@@ -17,6 +17,9 @@ Revision history for Ocsinventory::Agent
        * POD documentation for FusionInventory::Agent::Network
        * POD documentation clean in FusionInventory::Agent::XML::Query::Inventory
        * POD documentation for FusionInventory::Agent::XML::Query::SimpleMessage
+       * Linux: Handle channel bonding interfaces (Stéphane URBANOVSKI) 
+       * XML: clean up addNetwork (Stéphane URBANOVSKI) 
+       * CPU: Add CORE/THREAD 
 
 2.0beta2 Wed, 17 Feb 2010 23:21:59 +0100
        * Update dico for detected devices in NETDISCOVERY module
@@ -65,7 +68,9 @@ Revision history for Ocsinventory::Agent
          thanks Grek
        * Improve the README about non-interactive installation
        * Bump copyright date from 2009 to 2010
-       * Linux/PPC: Frequency is an integer, not a float 
+       * Linux/PPC: Frequency is an integer, not a float
+       * run dosfslabel on the correct device
+       * Nmap: Check ip send by server
 
 1.1.2    Sun, 27 Dec 2009 17:24:43 +0100
        * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)

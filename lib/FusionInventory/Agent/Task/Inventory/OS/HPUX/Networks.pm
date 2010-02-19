@@ -1,8 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Networks;
 
-sub doInventory  { can_load("Net::IP qw(:PROC)"); }
+sub isInventoryEnabled  { can_load("Net::IP qw(:PROC)"); }
 
-sub run {
+sub doInventory {
    my $params = shift;
    my $inventory = $params->{inventory};
 

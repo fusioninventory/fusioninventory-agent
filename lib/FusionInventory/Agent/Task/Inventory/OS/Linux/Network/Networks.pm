@@ -57,18 +57,6 @@ sub doInventory {
   my $inventory = $params->{inventory};
   my $logger = $params->{logger};
 
-  my $description;
-  my $driver;
-  my $ipaddress;
-  my $ipgateway;
-  my $ipmask;
-  my $ipsubnet;
-  my $macaddr;
-  my $pcislot;
-  my $status;
-  my $type;
-  my $virtualdev;
-
   my %gateway;
   foreach (`route -n`) {
     if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
@@ -82,40 +70,56 @@ sub doInventory {
       });
   }
 
-
+  my %ifData = (
+    STATUS => 'Down',
+  );
 
   foreach my $line (`ifconfig -a`) {
-    if ($line =~ /^$/ && $description && $ipaddress) {
+    if ( $line =~ /^$/ ) {
       # end of interface section
       # I write the entry
-      my $binip = ip_iptobin ($ipaddress ,4);
-      my $binmask = ip_iptobin ($ipmask ,4);
-      my $binsubnet = $binip & $binmask;
-      $ipsubnet = ip_bintoip($binsubnet,4);
+      
+      if ( !defined($ifData{DESCRIPTION}) ) {
+        next;
+      }
+      
+      if ( defined($ifData{IPADDRESS}) && defined($ifData{IPMASK}) ) {
+        my $binip = ip_iptobin ($ifData{IPADDRESS} ,4);
+        my $binmask = ip_iptobin ($ifData{IPMASK} ,4);
+        my $binsubnet = $binip & $binmask;
+        $ifData{IPSUBNET} = ip_bintoip($binsubnet,4);
+        $ifData{IPGATEWAY} = $gateway{$ifData{IPSUBNET}};
+        # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
+        if (defined($ifData{IPGATEWAY}) and $ifData{IPGATEWAY} eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
+          $ifData{IPGATEWAY} = $gateway{'0.0.0.0'}
+        }
+      }
 
-      my @wifistatus = `iwconfig $description 2>>/dev/null`;
+      my @wifistatus = `iwconfig $ifData{DESCRIPTION} 2>>/dev/null`;
       if ( @wifistatus > 2 ) {
-        $type = "Wifi";
+        $ifData{TYPE} = "Wifi";
       }
 
-      $ipgateway = $gateway{$ipsubnet};
-
-      # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
-      if (defined($ipgateway) and $ipgateway eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
-        $ipgateway = $gateway{'0.0.0.0'}
-      }
-
-      if (open UEVENT, "</sys/class/net/$description/device/uevent") {
+      if (open UEVENT, "</sys/class/net/".$ifData{DESCRIPTION}."/device/uevent") {
         foreach (<UEVENT>) {
-          $driver = $1 if /^DRIVER=(\S+)/;
-          $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+          $ifData{DRIVER} = $1 if /^DRIVER=(\S+)/;
+          $ifData{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
         }
         close UEVENT;
       }
+      
+      # Handle channel bonding interfaces
+      my @slaves = ();
+      while (my $slave = glob("/sys/class/net/".$ifData{DESCRIPTION}."/slave_*")) {
+        if ( $slave =~ /\/slave_(\w+)/ ) {
+          push( @slaves, $1 );
+        }
+      }
+      $ifData{SLAVES} = join(',',@slaves);
 
-      # Reliable way to get the info
+      # Handle virtual devices (bridge)
       if (-d "/sys/devices/virtual/net/") {
-        $virtualdev = (-d "/sys/devices/virtual/net/$description")?"1":"0";
+        $ifData{VIRTUALDEV} = (-d "/sys/devices/virtual/net/".$ifData{DESCRIPTION})?"1":"0";
       } elsif (can_run("brctl")) {
         # Let's guess
         my %bridge;
@@ -123,47 +127,32 @@ sub doInventory {
           next if /^bridge name/;
           $bridge{$1} = 1 if /^(\w+)\s/;
         }
-        if ($pcislot) {
-          $virtualdev = "1";
-        } elsif ($bridge{$description}) {
-          $virtualdev = "0";
+        if ($ifData{PCISLOT}) {
+          $ifData{VIRTUALDEV} = "no";
+        } elsif ($bridge{$ifData{DESCRIPTION}}) {
+          $ifData{VIRTUALDEV} = "yes";
         }
       }
+      
+      $ifData{IPDHCP} = _ipdhcp($ifData{DESCRIPTION});
 
-      $inventory->addNetwork({
-
-          DESCRIPTION => $description,
-          DRIVER => $driver,
-          IPADDRESS => $ipaddress,
-          IPDHCP => _ipdhcp($description),
-          IPGATEWAY => $ipgateway,
-          IPMASK => $ipmask,
-          IPSUBNET => $ipsubnet,
-          MACADDR => $macaddr,
-          PCISLOT => $pcislot,
-          STATUS => $status?"Up":"Down",
-          TYPE => $type,
-          VIRTUALDEV => $virtualdev,
-
-        });
-
-    }
-
-    if ($line =~ /^$/) { # End of section
-
-      $description = $driver = $ipaddress = $ipgateway = $macaddr = $pcislot = $status =  $type = $virtualdev = undef;
+      $inventory->addNetwork(\%ifData);
+      
+      %ifData = (
+        STATUS => 'Down',
+      );
 
     } else { # In a section
 
-      $description = $1 if $line =~ /^(\S+)/; # Interface name
-      $ipaddress = $1 if $line =~ /inet addr:(\S+)/i;
-      $ipmask = $1 if $line =~ /\S*mask:(\S+)/i;
-      $macaddr = $1 if $line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
-      $status = 1 if $line =~ /^\s+UP\s/;
-      $type = $1 if $line =~ /link encap:(\S+)/i;
+      $ifData{DESCRIPTION} = $1 if $line =~ /^(\S+)/; # Interface name
+      $ifData{IPADDRESS} = $1 if $line =~ /inet addr:(\S+)/i;
+      $ifData{IPMASK} = $1 if $line =~ /\S*mask:(\S+)/i;
+      $ifData{MACADDR} = $1 if $line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
+      $ifData{STATUS} = 'Up' if $line =~ /^\s+UP\s/;
+      $ifData{TYPE} = $1 if $line =~ /link encap:(\S+)/i;
     }
-
 
   }
 }
 1;
+

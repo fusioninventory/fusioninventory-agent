@@ -1,10 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::IPv4;
 
-sub doInventory {`which ifconfig 2>&1`; ($? >> 8)?0:1 
+sub isInventoryEnabled {`which ifconfig 2>&1`; ($? >> 8)?0:1 
 }
 
 # Initialise the distro entry
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my $ip;

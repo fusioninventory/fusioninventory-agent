@@ -1,6 +1,4 @@
 package FusionInventory::Agent::Network;
-# TODO:
-#  - set the correct deviceID and olddeviceID
 use strict;
 use warnings;
 
@@ -42,7 +40,7 @@ sub new {
 
   my $self = {};
   
-  $self->{accountinfo} = $params->{accountinfo}; 
+  $self->{accountinfo} = $params->{accountinfo}; # Q: Is that needed? 
 
   my $config = $self->{config} = $params->{config};
   my $logger = $self->{logger} = $params->{logger};

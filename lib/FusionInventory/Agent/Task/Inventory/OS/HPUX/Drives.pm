@@ -1,8 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Drives;
 
-sub doInventory  { $^O =~ /hpux/ }
+sub isInventoryEnabled  { $^O =~ /hpux/ }
 
-sub run {
+sub doInventory {
    my $params = shift;
    my $inventory = $params->{inventory};
 

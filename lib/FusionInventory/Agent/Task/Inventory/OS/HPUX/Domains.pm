@@ -3,7 +3,7 @@ use strict;
 
 sub isInventoryEnabled { return can_run ("domainname") }
 
-sub doInventory {
+sub isInventoryEnabled {
   my $params = shift;
   my $inventory = $params->{inventory};
 

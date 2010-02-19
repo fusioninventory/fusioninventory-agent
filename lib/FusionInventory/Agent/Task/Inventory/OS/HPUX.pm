@@ -1,12 +1,12 @@
-package FusionInventory::Agent::Backend::OS::HPUX;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX;
 
 use strict;
 use vars qw($runAfter);
 $runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 
-sub check  { $^O =~ /hpux/ }
+sub isInventoryEnabled  { $^O =~ /hpux/ }
 
-sub run {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
   my $OSName;
