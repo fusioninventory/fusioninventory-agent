@@ -540,16 +540,17 @@ sub discovery_ip_threaded {
    #** Nmap discovery
    if ($params->{ModuleNmapParser} eq "1") {
       my $scan = new Nmap::Parser;
-      $scan->parsescan('nmap','-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ', $params->{ip});
-      if (exists($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{addr})) {
-         $datadevice->{MAC} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{addr});
-      }
-      if (exists($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{vendor})) {
-         $datadevice->{NETPORTVENDOR} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{vendor});
-      }
+      if (eval {$scan->parsescan('nmap','-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ', $params->{ip})}) {
+         if (exists($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{addr})) {
+            $datadevice->{MAC} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{addr});
+         }
+         if (exists($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{vendor})) {
+            $datadevice->{NETPORTVENDOR} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{vendor});
+         }
 
-      if (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0])) {
-         $datadevice->{DNSHOSTNAME} = special_char($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0]);
+         if (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0])) {
+            $datadevice->{DNSHOSTNAME} = special_char($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0]);
+         }
       }
    } elsif ($params->{ModuleNmapScanner} eq "1") {
       my $scan = new Nmap::Scanner;
