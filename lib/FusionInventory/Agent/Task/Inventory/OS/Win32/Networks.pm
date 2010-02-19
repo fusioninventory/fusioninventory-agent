@@ -65,6 +65,7 @@ sub doInventory {
                 IPMASK => $netif->{ipmask},
                 IPSUBNET => $netif->{ipsubnet},
                 MACADDR => $netif->{macaddr},
+                MTU => $netif->{mtu},
                 STATUS => $netif->{status},
                 TYPE => $netif->{type},
                 VIRTUALDEV => $netif->{virtualdev}

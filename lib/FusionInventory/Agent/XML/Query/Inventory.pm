@@ -512,6 +512,7 @@ sub addNetwork {
   my $ipmask = $args->{IPMASK};
   my $ipsubnet = $args->{IPSUBNET};
   my $macaddr = $args->{MACADDR};
+  my $mtu = $args->{MTU};
   my $pcislot = $args->{PCISLOT};
   my $slaves = $args->{SLAVES}; # For Network bonding
   my $status = $args->{STATUS};
@@ -531,6 +532,7 @@ sub addNetwork {
     IPMASK => [$ipmask?$ipmask:''],
     IPSUBNET => [$ipsubnet?$ipsubnet:''],
     MACADDR => [$macaddr?$macaddr:''],
+    MTU => [$mtu?$mtu:''],
     PCISLOT => [$pcislot?$pcislot:''],
     SLAVES => [$slaves?$slaves:''],
     STATUS => [$status?$status:''],
