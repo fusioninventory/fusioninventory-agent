@@ -290,6 +290,7 @@ sub StartThreads {
                                                    my $xml;
                                                    my $data_compressed;
 
+
                                                    #$xml_thread->{CONTENT}->{AGENT}->{DEVICEID}; # Key
                                                    # PID ?
                                                    #
@@ -315,18 +316,23 @@ sub StartThreads {
                                                             authlist            => $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
                                                          });
                                                       #undef $devicelist[$p]{$device_id};
-                                                      $self->{inventory}->{h}->{CONTENT}->{DEVICE}->[$count] = $datadevice;
-                                                      $self->{inventory}->{h}->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+                                                      $xml_thread->{DEVICE}->[$count] = $datadevice;
+                                                      $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
                                                       $count++;
                                                       if ($count eq "4") { # Send all of 4 devices
-                                                         $self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
-                                                         $self->SendInformations();
+                                                         #$self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
+                                                         $self->SendInformations({
+                                                            data => $xml_thread
+                                                            });
                                                          $TuerThread{$p}[$t] = 1;
                                                          $count = 0;
                                                       }
                                                    }
-                                                   $self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
-                                                   $self->SendInformations();
+                                                   #$self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
+
+                                                   $self->SendInformations({
+                                                      data => $xml_thread
+                                                      });
                                                    $TuerThread{$p}[$t] = 1;
                                                    return;
                                                 }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self)->detach();
@@ -393,7 +399,20 @@ sub SendInformations{
 #</REQUEST>")){
 #         my $data_compressed = Compress::Zlib::compress($xml);
 print Dumper($self->{inventory});
-         $self->{network}->send({message => $self->{inventory}});
+
+    my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
+        {
+            config => $self->{config},
+            logger => $self->{logger},
+            target => $self->{target},
+            msg    => {
+                QUERY => 'SNMPQUERY',
+                CONTENT   => $message->{data},
+            },
+        }
+    );
+    
+         $self->{network}->send({message => $xmlMsg});
          #send_snmp_http2($data_compressed,$self->{PID},$config->{'server'});
 #      }
    }
@@ -435,6 +454,7 @@ sub ModelParser {
 
    my $modelslist = {};
    my $lists;
+   my $list;
    if (ref($dataModel->{MODEL}) eq "HASH"){
       foreach $lists (@{$dataModel->{MODEL}->{GET}}) {
          $modelslist->{$dataModel->{MODEL}->{ID}}->{GET}->{$lists->{OBJECT}} = {
@@ -454,11 +474,11 @@ sub ModelParser {
       undef $lists;
    } else {
       foreach my $num (@{$dataModel->{MODEL}}) {
-         foreach my $list ($num->{GET}) {
+         foreach $list ($num->{GET}) {
             if (ref($list) eq "HASH") {
 
             } else {
-               foreach my $lists (@{$list}) {
+               foreach $lists (@{$list}) {
                   $modelslist->{ $num->{ID} }->{GET}->{$lists->{OBJECT}} = {
                         OBJECT   => $lists->{OBJECT},
                         OID      => $lists->{OID},
@@ -466,13 +486,13 @@ sub ModelParser {
                      };
                }
             }
+            undef $lists;
          }
-         undef $lists;
-         foreach my $list ($num->{WALK}) {
+         foreach $list ($num->{WALK}) {
             if (ref($list) eq "HASH") {
 
             } else {
-               foreach my $lists (@{$list}) {
+               foreach $lists (@{$list}) {
                   $modelslist->{ $num->{ID} }->{WALK}->{$lists->{OBJECT}} = {
                           OBJECT   => $lists->{OBJECT},
                           OID      => $lists->{OID},
@@ -480,8 +500,8 @@ sub ModelParser {
                         };
                }
             }
-         }
-         undef $lists;
+            undef $lists;
+         }         
       }
    }
          #print Dumper($modelslist);
@@ -502,6 +522,7 @@ sub query_device_threaded {
    my $ArraySNMPwalk = {};
    my $HashDataSNMP = {};
    my $datadevice = {};
+   my $key;
 
 	#threads->yield;
 #print $params->{device}->{IP}."\n";
@@ -559,7 +580,7 @@ sub query_device_threaded {
 		return $datadevice;
 	} else {
 		# Query SNMP get #
-      for my $key ( keys %{$params->{modellist}->{GET}} ) {
+      for $key ( keys %{$params->{modellist}->{GET}} ) {
          if ($params->{modellist}->{GET}->{$key}->{VLAN} eq "0") {
             my $oid_result = $session->snmpget({
                      oid => $params->{modellist}->{GET}->{$key}->{OID},
@@ -583,8 +604,8 @@ sub query_device_threaded {
 
       # Query SNMP walk #
       my $vlan_query = 0;
-      for my $key ( keys %{$params->{modellist}->{WALK}} ) {
-         my $ArraySNMPwalk = {};
+      for $key ( keys %{$params->{modellist}->{WALK}} ) {
+         
          $ArraySNMPwalk = $session->snmpwalk({
                         oid_start => $params->{modellist}->{WALK}->{$key}->{OID}
                      });
@@ -761,95 +782,98 @@ sub ConstructDataDeviceSimple {
 sub ConstructDataDeviceMultiple {
    my $HashDataSNMP = shift;
    my $datadevice = shift;
+   
+   my $object;
+   my $data;
 
    if (exists $HashDataSNMP->{ipAdEntAddr}) {
       my $i = 0;
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ipAdEntAddr}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ipAdEntAddr}}) ) {
          $datadevice->{INFO}->{IPS}->{IP}->[$i] = $data;
          $i++;
       }
       delete $HashDataSNMP->{ipAdEntAddr};
    }
    if (exists $HashDataSNMP->{ifIndex}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifIndex}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifIndex}}) ) {
          $datadevice->{PORTS}->{PORT}->[$data]->{IFNUMBER} = $data;
       }
       delete $HashDataSNMP->{ifIndex};
    }
    if (exists $HashDataSNMP->{ifdescr}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifdescr}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifdescr}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFDESCR} = $data;
       }
       delete $HashDataSNMP->{ifdescr};
    }
    if (exists $HashDataSNMP->{ifName}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifName}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifName}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFNAME} = $data;
       }
       delete $HashDataSNMP->{ifName};
    }
    if (exists $HashDataSNMP->{ifType}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifType}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifType}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFTYPE} = $data;
       }
       delete $HashDataSNMP->{ifType};
    }
    if (exists $HashDataSNMP->{ifmtu}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifmtu}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifmtu}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFMTU} = $data;
       }
       delete $HashDataSNMP->{ifmtu};
    }
    if (exists $HashDataSNMP->{ifspeed}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifspeed}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifspeed}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFSPEED} = $data;
       }
       delete $HashDataSNMP->{ifspeed};
    }
    if (exists $HashDataSNMP->{ifstatus}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifstatus}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifstatus}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFSTATUS} = $data;
       }
       delete $HashDataSNMP->{ifstatus};
    }
    if (exists $HashDataSNMP->{ifinternalstatus}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifinternalstatus}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifinternalstatus}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINTERNALSTATUS} = $data;
       }
       delete $HashDataSNMP->{ifinternalstatus};
    }
    if (exists $HashDataSNMP->{iflastchange}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{iflastchange}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{iflastchange}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFLASTCHANGE} = $data;
       }
       delete $HashDataSNMP->{iflastchange};
    }
    if (exists $HashDataSNMP->{ifinoctets}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifinoctets}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifinoctets}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINOCTETS} = $data;
       }
       delete $HashDataSNMP->{ifinoctets};
    }
    if (exists $HashDataSNMP->{ifoutoctets}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifoutoctets}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifoutoctets}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFOUTOCTETS} = $data;
       }
       delete $HashDataSNMP->{ifoutoctets};
    }
    if (exists $HashDataSNMP->{ifinerrors}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifinerrors}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifinerrors}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINERRORS} = $data;
       }
       delete $HashDataSNMP->{ifinerrors};
    }
    if (exists $HashDataSNMP->{ifouterrors}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifouterrors}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifouterrors}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFOUTERRORS} = $data;
       }
       delete $HashDataSNMP->{ifouterrors};
    }
    if (exists $HashDataSNMP->{ifPhysAddress}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{ifPhysAddress}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifPhysAddress}}) ) {
          if ($data ne "") {
             my @array = split(/(\S{2})/, $data);
             $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{MAC} = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
@@ -858,7 +882,7 @@ sub ConstructDataDeviceMultiple {
       delete $HashDataSNMP->{ifPhysAddress};
    }
    if (exists $HashDataSNMP->{portDuplex}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{portDuplex}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{portDuplex}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFPORTDUPLEX} = $data;
       }
       delete $HashDataSNMP->{portDuplex};
@@ -874,7 +898,7 @@ sub ConstructDataDeviceMultiple {
 
    # Detect VLAN
    if (exists $HashDataSNMP->{vmvlan}) {
-      while ( my ($object,$data) = each (%{$HashDataSNMP->{vmvlan}}) ) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{vmvlan}}) ) {
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{VLANS}->{VLAN}->{NUMBER} = $data;
          $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$data};
       }

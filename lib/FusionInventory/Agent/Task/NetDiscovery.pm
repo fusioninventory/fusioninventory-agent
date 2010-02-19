@@ -597,7 +597,7 @@ sub discovery_ip_threaded {
                $datadevice->{USERSESSION} = special_char($rr->name);
              }
              if ($rr->suffix eq "0" && $rr->G eq "UNIQUE") {
-                 $machine = $rr->name unless $rr->name =~ /^IS~/x;
+                 $machine = $rr->name unless $rr->name =~ /^IS~/;
                  $datadevice->{NETBIOSNAME} = special_char($machine);
                  $type = 1;
              }
@@ -731,10 +731,10 @@ sub discovery_ip_threaded {
 sub special_char {
    my $variable = shift;
    if (defined($variable)) {
-      if ($variable =~ /0x$/x) {
+      if ($variable =~ /0x$/) {
          return "";
       }
-      $variable =~ s/([\x80-\xFF])//x;
+      $variable =~ s/([\x80-\xFF])//;
       return $variable;
    } else {
       return "";
@@ -806,7 +806,7 @@ sub hp_discovery {
    my $description = shift;
    my $session     = shift;
 
-   if($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/x) {
+   if($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) {
       my $description_new = $session->snmpget({
                         oid => '.1.3.6.1.2.1.25.3.2.1.3.1',
                         up  => 1,
@@ -821,12 +821,12 @@ sub hp_discovery {
          if ($description_new ne "null") {
             my @infos = split(/;/,$description_new);
             foreach (@infos) {
-               if ($_ =~ /^MDL:/xms) {
-                  $_ =~ s/MDL://xms;
+               if ($_ =~ /^MDL:/) {
+                  $_ =~ s/MDL://;
                   $description = $_;
                   last;
-               } elsif ($_ =~ /^MODEL:/xms) {
-                  $_ =~ s/MODEL://xms;
+               } elsif ($_ =~ /^MODEL:/) {
+                  $_ =~ s/MODEL://;
                   $description = $_;
                   last;
                }
@@ -843,7 +843,7 @@ sub wyse_discovery {
    my $description = shift;
    my $session     = shift;
 
-   if ($description =~ m/Linux/xms) {
+   if ($description =~ m/Linux/) {
       my $description_new = $session->snmpget({
                         oid => '.1.3.6.1.4.1.714.1.2.5.6.1.2.1.6.1',
                         up  => 1,
@@ -864,7 +864,7 @@ sub samsung_discovery {
    my $description = shift;
    my $session     = shift;
 
-   if($description =~ m/SAMSUNG NETWORK PRINTER,ROM/xms) {
+   if($description =~ m/SAMSUNG NETWORK PRINTER,ROM/) {
       my $description_new = $session->snmpget({
                         oid => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0',
                         up  => 1,
@@ -881,7 +881,7 @@ sub epson_discovery {
    my $description = shift;
    my $session     = shift;
 
-   if($description =~ m/EPSON Built-in/xms) {
+   if($description =~ m/EPSON Built-in/) {
       my $description_new = $session->snmpget({
                         oid => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0',
                         up  => 1,
@@ -899,7 +899,7 @@ sub alcatel_discovery {
 
    # example : 5.1.6.485.R02 Service Release, September 26, 2008.
 
-   if ($description =~ m/^([1-9]{1}).([0-9]{1}).([0-9]{1})(.*) Service Release,(.*)([0-9]{1}).$/xms ) {
+   if ($description =~ m/^([1-9]{1}).([0-9]{1}).([0-9]{1})(.*) Service Release,(.*)([0-9]{1}).$/ ) {
       my $description_new = snmpget('.1.3.6.1.2.1.47.1.1.1.1.13.1',1);
       if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
          if ($description_new eq "OS66-P24") {
@@ -917,7 +917,7 @@ sub kyocera_discovery {
    my $description = shift;
    my $session     = shift;
 
-   if ($description =~ m/,HP,JETDIRECT,J/xms) {
+   if ($description =~ m/,HP,JETDIRECT,J/) {
       my $description_new = $session->snmpget({
                         oid => '.1.3.6.1.4.1.1229.2.2.2.1.15.1',
                         up  => 1,
