@@ -34,8 +34,12 @@ sub doInventory {
             }
         }
 
-        $netifs[$idx]{ipgateway} = $nic->DefaultIPGateway;
-        $netifs[$idx]{ipsubnet} = $nic->IPSubnet;
+        if ($nic->DefaultIPGateway) {
+            $netifs[$idx]{ipgateway} = $nic->DefaultIPGateway()->[0];
+        }
+        if ($nic->IPSubnet) {
+            $netifs[$idx]{ipsubnet} = $nic->IPSubnet()->[0];
+        }
         $netifs[$idx]{status} = $nic->IPEnabled?"Up":"Down";
         $netifs[$idx]{name} = $nic->Name;
         $netifs[$idx]{ipdhcp} = $nic->DHCPServer;
