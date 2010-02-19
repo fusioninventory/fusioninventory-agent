@@ -7,6 +7,7 @@ Revision history for Ocsinventory::Agent
        * fix: Invalid type 'W' in pack in RPC.pm, thanks Mario Gzuk
        * POD documentation for FusionInventory::Agent::Network
        * POD documentation clean in FusionInventory::Agent::XML::Query::Inventory
+       * POD documentation for FusionInventory::Agent::XML::Query::SimpleMessage
 
 2.0beta2 Wed, 17 Feb 2010 23:21:59 +0100
        * Update dico for detected devices in NETDISCOVERY module
