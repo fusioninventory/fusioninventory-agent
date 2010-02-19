@@ -1,6 +1,4 @@
 package FusionInventory::Agent::Network;
-# TODO:
-#  - set the correct deviceID and olddeviceID
 use strict;
 use warnings;
 
