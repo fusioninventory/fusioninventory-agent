@@ -490,13 +490,13 @@ Register a network interface in the inventory.
 sub addNetwork {
 my ($self, $args) = @_;
 
-my %tmpXml = ();
+    my %tmpXml = ();
 
-foreach my $item ('DESCRIPTION','DRIVER','IPADDRESS','IPDHCP','IPGATEWAY','IPMASK','IPSUBNET','MACADDR','PCISLOT','STATUS','TYPE','VIRTUALDEV','SLAVES')
-{
-    $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
-}
-push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
+    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS IPDHCP IPGATEWAY
+        IPMASK IPSUBNET MACADDR PCISLOT STATUS TYPE VIRTUALDEV SLAVES/) {
+        $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
+    }
+    push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
 
 }
 
