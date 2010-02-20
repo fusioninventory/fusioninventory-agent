@@ -586,7 +586,6 @@ sub query_device_threaded {
                      oid => $params->{modellist}->{GET}->{$key}->{OID},
                      up  => 1,
                   });
-#print $params->{modellist}->{GET}->{$key}->{OID}." = ".$oid_result."\n";
             if (defined $oid_result
                && $oid_result ne ""
                && $oid_result ne "noSuchObject") {
@@ -598,9 +597,7 @@ sub query_device_threaded {
       $datadevice->{INFO}->{TYPE} = $params->{device}->{TYPE};
       # Conversion
       ($datadevice, $HashDataSNMP) = ConstructDataDeviceSimple($HashDataSNMP,$datadevice);
-#print Dumper($HashDataSNMP);
-      #print "DATADEVICE GET ========================\n";
-#print Dumper($datadevice);
+
 
       # Query SNMP walk #
       my $vlan_query = 0;
@@ -609,7 +606,6 @@ sub query_device_threaded {
          $ArraySNMPwalk = $session->snmpwalk({
                         oid_start => $params->{modellist}->{WALK}->{$key}->{OID}
                      });
-         #print Dumper($ArraySNMPwalk);
          $HashDataSNMP->{$key} = $ArraySNMPwalk;
          if ($params->{modellist}->{WALK}->{$key}->{VLAN} eq "1") {
             $vlan_query = 1;
@@ -630,14 +626,15 @@ sub query_device_threaded {
             while ( (my $vlan_id,my $vlan_name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
                for my $link ( keys %{$params->{modellist}->{WALK}} ) {
                   if ($params->{modellist}->{WALK}->{$link}->{VLAN} eq "1") {
-                     $ArraySNMPwalk = {};
-                     $ArraySNMPwalk = snmpwalk($params->{modellist}->{WALK}->{$link}->{OID});
+                     $ArraySNMPwalk = $session->snmpwalk({
+                        oid_start => $params->{modellist}->{WALK}->{$link}->{OID}
+                     });
                      $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $ArraySNMPwalk;
                   }
                }
                # Detect mac adress on each port
                if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-                  ($datadevice, $HashDataSNMP) = Cisco_GetMAC($HashDataSNMP,$datadevice,$vlan_id);
+                  ($datadevice, $HashDataSNMP) = Cisco_GetMAC($HashDataSNMP,$datadevice,$vlan_id,$self, $params->{modellist}->{WALK});
                }
                delete $HashDataSNMP->{VLAN}->{$vlan_id};
             }
@@ -1003,5 +1000,72 @@ sub lastSplitObject {
    my @array = split(/\./, $var);
    return $array[-1];
 }
+
+
+sub Cisco_GetMAC {
+   my $HashDataSNMP = shift,
+   my $datadevice = shift;
+   my $vlan_id = shift;
+   my $self = shift;
+   my $oid_walks = shift;
+
+   my $ifIndex;
+   my $numberip;
+   my $mac;
+   my $short_number;
+   my $dot1dTpFdbPort;
+
+   my $i = 0;
+
+   # Chaque VLAN WALK de chaque port
+   while ( my ($number,$ifphysaddress) = each (%{$HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) ) {
+      $short_number = $number;
+      $short_number =~ s/$oid_walks->{dot1dTpFdbAddress}->{OID}//;
+      $dot1dTpFdbPort = $oid_walks->{dot1dTpFdbPort}->{OID};
+      if (exists $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}) {
+         if (exists $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
+                              $oid_walks->{dot1dBasePortIfIndex}->{OID}.".".
+                              $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+                           }) {
+
+            $ifIndex = $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
+                              $oid_walks->{dot1dBasePortIfIndex}->{OID}.".".
+                              $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+                           };
+            if (not exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
+               my $add = 1;
+               if (defined($datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC})) {
+                  if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
+                     $add = 0;
+                  }
+               }
+               if ($ifphysaddress eq "") {
+                  $add = 0;
+               }
+               if ($add eq "1") {
+                  if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{MAC}) {
+                     $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{MAC}};
+                     #$i++;
+                  } else {
+                     $i = 0;
+                  }
+                  $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{MAC}->[$i] = $ifphysaddress;
+                  ## Search IP in ARP of Switch
+#                  while ( ($numberip,$mac) = each (%{$HashDataSNMP->{VLAN}->{$vlan_id}->{ipNetToMediaPhysAddress}}) ) {
+#                     if ($mac eq $ifphysaddress) {
+#                        $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{IP}->[$i] = $ifphysaddress;
+#                     }
+#                  }
+                  $i++;
+               }
+            }
+         }
+      }
+      delete $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}->{$number};
+      delete $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number};
+   }
+   return $datadevice, $HashDataSNMP;
+}
+
 
 1;
