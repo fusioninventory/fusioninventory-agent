@@ -245,10 +245,12 @@ sub addMemory {
   my ($self, $args) = @_;
 
   my $capacity = $args->{CAPACITY};
+  my $caption = $args->{CAPTION};
+  my $formfactor = $args->{FORMFACTOR};
+  my $removable =  $args->{REMOVABLE};
   my $speed =  $args->{SPEED};
   my $type = $args->{TYPE};
   my $description = $args->{DESCRIPTION};
-  my $caption = $args->{CAPTION};
   my $numslots = $args->{NUMSLOTS};
 
   my $serialnumber = $args->{SERIALNUMBER};
@@ -257,8 +259,10 @@ sub addMemory {
   {
 
     CAPACITY => [$capacity?$capacity:''],
-    DESCRIPTION => [$description?$description:''],
     CAPTION => [$caption?$caption:''],
+    DESCRIPTION => [$description?$description:''],
+    FORMFACTOR => [$formfactor?$formfactor:''],
+    REMOVABLE => [$removable?$removable:''],
     SPEED => [$speed?$speed:''],
     TYPE => [$type?$type:''],
     NUMSLOTS => [$numslots?$numslots:0],
