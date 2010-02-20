@@ -580,20 +580,24 @@ sub addCPU {
   my ($self, $args) = @_;
 
   # The CPU FLAG
-  my $code = $args->{CODE};
+  my $cache = $args->{CACHE};
+  my $core = $args->{CORE};
+  my $description = $args->{DESCRIPTION},
   my $manufacturer = $args->{MANUFACTURER};
+  my $name = $args->{NAME};
   my $thread = $args->{THREAD};
-  my $type = $args->{TYPE};
   my $serial = $args->{SERIAL};
   my $speed = $args->{SPEED};
 
   push @{$self->{h}{CONTENT}{CPUS}},
   {
 
-    CORE => [$code],
+    CACHESIZE => [$cache],
+    CORE => [$core],
+    DESCRIPTION => [$description?$description:''],
     MANUFACTURER => [$manufacturer],
+    NAME => [$name],
     THREAD => [$thread],
-    TYPE => [$type],
     SERIAL => [$serial],
     SPEED => [$speed],
 
@@ -602,7 +606,7 @@ sub addCPU {
   # For the compatibility with HARDWARE/PROCESSOR*
   my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
   my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
-  my $processort = $self->{h}{CONTENT}{CPUS}[0]{TYPE}[0];
+  my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME}[0];
 
   $self->setHardware ({
     PROCESSORN => $processorn,
