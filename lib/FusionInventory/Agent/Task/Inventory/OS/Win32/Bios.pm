@@ -65,12 +65,30 @@ sub doInventory {
         my $assettag = $Properties->{Manufacturer};
 
         $inventory->setBios({
-                
+
                 ASSETTAG => $assettag
 
                 });
 
     }
+
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_ComputerSystem' ) ) )
+    {
+
+        my $smanufacturer = $Properties->{Manufacturer};
+        my $smodel = $Properties->{Model};
+
+        $inventory->setBios({
+
+                SMANUFACTURER => $smanufacturer,
+                SMODEL => $smodel
+
+                });
+
+    }
+
+
 
 }
 1;
