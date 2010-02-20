@@ -41,9 +41,9 @@ sub doInventory {
         $inventory->addCPU({
                 CACHE => $cache,
                 CORE => $core,
-                DESCRIPTION => $description->utf8,
-                NAME => $name->utf8,
-                MANUFACTURER => $manufacturer->utf8,
+                DESCRIPTION => $description,
+                NAME => $name,
+                MANUFACTURER => $manufacturer,
                 SERIAL => $serial,
                 SPEED => $speed
 

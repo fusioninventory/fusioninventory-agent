@@ -10,7 +10,6 @@ Win32::OLE-> Option(CP=>CP_UTF8);
 use Win32::OLE::Enum;
 
 # http://techtasks.com/code/viewbookcode/1417
-
 sub isInventoryEnabled {1}
 
 sub doInventory {
@@ -58,7 +57,7 @@ sub doInventory {
 
     foreach my $netif (@netifs) {
         $inventory->addNetwork({
-                DESCRIPTION => $netif->{description}->utf8,
+                DESCRIPTION => $netif->{description},
                 IPADDRESS => $netif->{ipaddress},
                 IPDHCP => $netif->{ipdhcp},
                 IPGATEWAY => $netif->{ipgateway},
@@ -67,7 +66,7 @@ sub doInventory {
                 MACADDR => $netif->{macaddr},
                 MTU => $netif->{mtu},
                 STATUS => $netif->{status},
-                TYPE => $netif->{type}->utf8,
+                TYPE => $netif->{type},
                 VIRTUALDEV => $netif->{virtualdev}
             });
 

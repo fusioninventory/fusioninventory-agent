@@ -90,8 +90,8 @@ sub doInventory {
     {
 
         my $capacity = sprintf("%i",$Properties->{Capacity}/(1024*1024));
-        my $caption = $Properties->{Caption}->utf8;
-        my $description = $Properties->{Description}->utf8;
+        my $caption = $Properties->{Caption};
+        my $description = $Properties->{Description};
         my $formfactor = $formFactorVal[$Properties->{FormFactor}];
         my $removable = $Properties->{Removable}?1:0;
         my $speed = $Properties->{Speed};
