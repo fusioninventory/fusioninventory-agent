@@ -481,50 +481,25 @@ sub addSounds {
    $self->addSound(@_);
 }
 
+
 =item addNetwork()
 
-Register a network in the inventory.
+Register a network interface in the inventory.
 
 =cut
 sub addNetwork {
-  # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
-  my ($self, $args) = @_;
+my ($self, $args) = @_;
 
-  my $description = $args->{DESCRIPTION};
-  my $driver = $args->{DRIVER};
-  my $ipaddress = $args->{IPADDRESS};
-  my $ipdhcp = $args->{IPDHCP};
-  my $ipgateway = $args->{IPGATEWAY};
-  my $ipmask = $args->{IPMASK};
-  my $ipsubnet = $args->{IPSUBNET};
-  my $macaddr = $args->{MACADDR};
-  my $pcislot = $args->{PCISLOT};
-  my $slaves = $args->{SLAVES}; # For Network bonding
-  my $status = $args->{STATUS};
-  my $type = $args->{TYPE};
-  my $virtualdev = $args->{VIRTUALDEV};
+my %tmpXml = ();
 
-#  return unless $ipaddress;
-
-  push @{$self->{h}{CONTENT}{NETWORKS}},
-  {
-
-    DESCRIPTION => [$description?$description:''],
-    DRIVER => [$driver?$driver:''],
-    IPADDRESS => [$ipaddress?$ipaddress:''],
-    IPDHCP => [$ipdhcp?$ipdhcp:''],
-    IPGATEWAY => [$ipgateway?$ipgateway:''],
-    IPMASK => [$ipmask?$ipmask:''],
-    IPSUBNET => [$ipsubnet?$ipsubnet:''],
-    MACADDR => [$macaddr?$macaddr:''],
-    PCISLOT => [$pcislot?$pcislot:''],
-    SLAVES => [$slaves?$slaves:''],
-    STATUS => [$status?$status:''],
-    TYPE => [$type?$type:''],
-    VIRTUALDEV => [$virtualdev?$virtualdev:''],
-
-  };
+foreach my $item ('DESCRIPTION','DRIVER','IPADDRESS','IPDHCP','IPGATEWAY','IPMASK','IPSUBNET','MACADDR','PCISLOT','STATUS','TYPE','VIRTUALDEV','SLAVES')
+{
+    $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
 }
+push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
+
+}
+
 # For compatibiliy
 sub addNetworks {
    my $self = shift;
