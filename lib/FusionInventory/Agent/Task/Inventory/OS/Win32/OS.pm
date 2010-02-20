@@ -43,7 +43,29 @@ sub doInventory {
 
                 });
 
+    }
 
+
+
+
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_ComputerSystem' ) ) )
+    {
+
+        my $workgroup = $Properties->{Workgroup};
+        my $userdomain;
+        my $userid;
+        my @tmp = split(/\\/, $Properties->{UserName});
+        $userdomain = $tmp[0];
+        $userid = $tmp[1]; # Deprecated, will be ignored by $inventory
+
+        $inventory->setHardware({
+
+                USERDOMAIN => $userdomain,
+                USERDID => $userid,
+                WORKGROUP => $workgroup
+
+                });
 
     }
 }
