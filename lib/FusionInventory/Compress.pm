@@ -1,6 +1,8 @@
 package FusionInventory::Compress;
 use strict;
 
+use Encode qw(encode);
+
 use File::Temp qw/ tempdir tempfile /;
 
 sub new {
@@ -43,7 +45,7 @@ sub compress {
 
 # native mode (zlib)
   if ($self->{mode} eq 'natif') {
-    return Compress::Zlib::compress($content);
+    return Compress::Zlib::compress(encode("UTF-8", $content));
   }
 # gzip mode
   elsif($self->{mode} eq 'gzip'){

@@ -22,6 +22,8 @@ use FusionInventory::Agent::XML::Query;
 
 use FusionInventory::Agent::Task::Inventory;
 
+use Encode qw(encode);
+
 our @ISA = ('FusionInventory::Agent::XML::Query');
 
 =over 4
@@ -970,7 +972,8 @@ sub processChecksum {
 
   foreach my $section (keys %mask) {
     #If the checksum has changed...
-    my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
+    my $hash =
+        md5_base64(encode("UTF-8",XML::Simple::XMLout($self->{h}{'CONTENT'}{$section})));
     if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
       $logger->debug ("Section $section has changed since last inventory");
       #We make OR on $checksum with the mask of the current section
