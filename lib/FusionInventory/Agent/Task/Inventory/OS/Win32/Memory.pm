@@ -8,6 +8,7 @@ Win32::OLE-> Option(CP=>CP_UTF8);
  
 use Win32::OLE::Enum;
 
+use Encode qw(encode);
 
 sub isInventoryEnabled {1}
 
@@ -90,8 +91,8 @@ sub doInventory {
     {
 
         my $capacity = sprintf("%i",$Properties->{Capacity}/(1024*1024));
-        my $caption = $Properties->{Caption};
-        my $description = $Properties->{Description};
+        my $caption = encode('UTF-8', $Properties->{Caption});
+        my $description = encode('UTF-8', $Properties->{Description});
         my $formfactor = $formFactorVal[$Properties->{FormFactor}];
         my $removable = $Properties->{Removable}?1:0;
         my $speed = $Properties->{Speed};

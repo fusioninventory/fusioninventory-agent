@@ -8,6 +8,7 @@ Win32::OLE-> Option(CP=>CP_UTF8);
 
 use Win32::OLE::Enum;
 
+use Encode qw(encode);
 
 sub isInventoryEnabled {1}
 
@@ -37,9 +38,9 @@ sub doInventory {
 
         $inventory->setHardware({
 
-                OSNAME =>  $osname,
-                OSVERSION =>  $osversion,
-                WINPRODKEY => $serialnumber,
+                OSNAME =>  encode('UTF-8', $osname),
+                OSVERSION =>  encode('UTF-8', $osversion),
+                WINPRODKEY => encode('UTF-8', $serialnumber),
 
                 });
 
@@ -61,9 +62,9 @@ sub doInventory {
 
         $inventory->setHardware({
 
-                USERDOMAIN => $userdomain,
-                USERDID => $userid,
-                WORKGROUP => $workgroup
+                USERDOMAIN => encode('UTF-8', $userdomain),
+                USERDID => encode('UTF-8', $userid),
+                WORKGROUP => encode('UTF-8', $workgroup)
 
                 });
 
