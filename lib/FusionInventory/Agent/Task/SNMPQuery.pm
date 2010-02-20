@@ -119,12 +119,12 @@ sub StartThreads {
 
    # Send infos to server :
    my $xml_thread = {};
-   $xml_thread->{QUERY} = "SNMPQUERY";
-   $xml_thread->{DEVICEID} = $self->{target}->{deviceid};
-   $xml_thread->{CONTENT}->{AGENT}->{START} = '1';
-   $xml_thread->{CONTENT}->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
-   $self->SendInformations($xml_thread);
+   $xml_thread->{AGENT}->{START} = '1';
+   $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
+   $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+   $self->SendInformations({
+      data => $xml_thread
+      });
    undef($xml_thread);
 
 	#===================================
@@ -363,10 +363,11 @@ sub StartThreads {
 
    # Send infos to server :
    undef($xml_thread);
-   $xml_thread->{QUERY} = "SNMPQUERY";
-   $xml_thread->{CONTENT}->{AGENT}->{END} = '1';
-   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
-   $self->SendInformations($xml_thread);
+   $xml_thread->{AGENT}->{END} = '1';
+   $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+   $self->SendInformations({
+      data => $xml_thread
+      });
    undef($xml_thread);
 
 }
@@ -376,10 +377,6 @@ sub SendInformations{
    my ($self, $message) = @_;
 
    my $config = $self->{config};
-#   my $target = $self->{'target'};
-#   my $logger = $self->{logger};
-#
-#   my $network = $self->{network};
 
    if ($config->{stdout}) {
       $self->{inventory}->printXML();
@@ -387,34 +384,18 @@ sub SendInformations{
       $self->{inventory}->writeXML();
    } elsif ($config->{server}) {
 
-#      my $xmlout = new XML::Simple(
-#                           RootName => 'REQUEST',
-#                           NoAttr => 1,
-#                           KeyAttr => [],
-#                           suppressempty => 1
-#                        );
-#      my $xml = $xmlout->XMLout($message);
-#      if (($xml ne "") && ($xml ne "<REQUEST>
-#  <QUERY>SNMPQUERY</QUERY>
-#</REQUEST>")){
-#         my $data_compressed = Compress::Zlib::compress($xml);
-print Dumper($self->{inventory});
-
-    my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
-        {
-            config => $self->{config},
-            logger => $self->{logger},
-            target => $self->{target},
-            msg    => {
-                QUERY => 'SNMPQUERY',
-                CONTENT   => $message->{data},
-            },
-        }
-    );
+      my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
+           {
+               config => $self->{config},
+               logger => $self->{logger},
+               target => $self->{target},
+               msg    => {
+                   QUERY => 'SNMPQUERY',
+                   CONTENT   => $message->{data},
+               },
+           });
     
-         $self->{network}->send({message => $xmlMsg});
-         #send_snmp_http2($data_compressed,$self->{PID},$config->{'server'});
-#      }
+    $self->{network}->send({message => $xmlMsg});
    }
 }
 

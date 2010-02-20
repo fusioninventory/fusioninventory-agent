@@ -12,10 +12,6 @@ if ($threads::VERSION > 1.32){
 
 use Data::Dumper;
 
-use Net::SNMP qw(:snmp);
-use Compress::Zlib;
-use LWP::UserAgent;
-use HTTP::Request::Common;
 use XML::Simple;
 use File::stat;
 
@@ -98,24 +94,20 @@ sub StartThreads {
 	my $nb_threads_discovery = $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY};
 	my $nb_core_discovery    = $self->{NETDISCOVERY}->{PARAM}->[0]->{CORE_DISCOVERY};
 
-#   print "**************************************\n";
-#   print "* Threads discovery : ".$nb_threads_discovery."\n";
-#   print "* Core discovery : ".$nb_core_discovery."\n";
-#   print "**************************************\n";
-
    # Send infos to server :
    my $xml_thread = {};
-   $xml_thread->{QUERY} = "NETDISCOVERY";
-   $xml_thread->{DEVICEID} = $self->{target}->{deviceid};
-   $xml_thread->{CONTENT}->{AGENT}->{START} = '1';
-   $xml_thread->{CONTENT}->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-   $self->SendInformations($xml_thread);
+   $xml_thread->{AGENT}->{START} = '1';
+   $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
+   $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+   $self->SendInformations({
+      data => $xml_thread
+      });
    undef($xml_thread);
 
    my $ModuleNmapScanner = 0;
-   my $ModuleNmapParser = 0;
-   my $ModuleNetNBName = 0;
+   my $ModuleNmapParser  = 0;
+   my $ModuleNetNBName   = 0;
+   my $ModuleNetSNMP     = 0;
    my $iplist = {};
    my $iplist2 = &share({});
    my %TuerThread;
@@ -125,7 +117,7 @@ sub StartThreads {
       $ModuleNmapParser = 1;
    } elsif ( eval { require Nmap::Scanner; 1 } ) {
       if ($@) {
-         print "Can't load Nmap::Parser && map::Scanner. Nmap can't be used!";
+         $self->{logger}->debug("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
       } else {
          $ModuleNmapScanner = 1;
       }
@@ -134,8 +126,15 @@ sub StartThreads {
    if ( eval { require Net::NBName; 1 } ) {
       $ModuleNetNBName = 1;
    } else {
-      print "Can't load Net::NBName. Netbios detection can't be used!";
+      $self->{logger}->debug("Can't load Net::NBName. Netbios detection can't be used!");
    }
+
+   if ( eval { require Net::SNMP; 1 } ) {
+      $ModuleNetSNMP = 1;
+   } else {
+      $self->{logger}->debug("Can't load Net::SNMP. SNMP detection can't be used!");
+   }
+
 
    # Auth SNMP
    my $authlist = $self->AuthParser($self->{NETDISCOVERY});
@@ -271,10 +270,11 @@ sub StartThreads {
          print "NPIP : ".$nbip."\n";
          # Send NB ips to server :
          $xml_thread = {};
-         $xml_thread->{QUERY} = "NETDISCOVERY";
-         $xml_thread->{CONTENT}->{AGENT}->{NBIP} = $nbip;
-         $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-         $self->SendInformations($xml_thread);
+         $xml_thread->{AGENT}->{NBIP} = $nbip;
+         $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+         $self->SendInformations({
+            data => $xml_thread
+            });
          undef($xml_thread);
 
          if ($threads_run eq "0") {
@@ -372,21 +372,21 @@ sub StartThreads {
                                                                   authlist            => $authlistt,
                                                                   ModuleNmapScanner   => $ModuleNmapScanner,
                                                                   ModuleNetNBName     => $ModuleNetNBName,
-                                                                  ModuleNmapParser    => $ModuleNmapParser
+                                                                  ModuleNmapParser    => $ModuleNmapParser,
+                                                                  ModuleNetSNMP       => $ModuleNetSNMP
                                                                });
                                                             undef $iplist->{$device_id}->{IP};
                                                             undef $iplist->{$device_id}->{ENTITY};
                                                             if (keys %{$datadevice}) {
-                                                               $xml_threadt->{CONTENT}->{DEVICE}->[$count] = $datadevice;
-                                                               $xml_threadt->{DEVICEID} = $self->{target}->{deviceid};
-                                                               $xml_threadt->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+                                                               $xml_threadt->{DEVICE}->[$count] = $datadevice;
+                                                               $xml_threadt->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
                                                                $count++;
                                                             }
                                                          }
-                                                         $xml_threadt->{QUERY} = "NETDISCOVERY";
-                                                         #if (($count > 0) && (!empty($xml_threadt))) {
                                                          if ($count > 0) {
-                                                            $self->SendInformations($xml_threadt);
+                                                            $self->SendInformations({
+                                                                  data => $xml_threadt
+                                                               });
                                                          }
                                                          if ($loopip eq "1") {
                                                             $TuerThread{$p}[$t] = 2;
@@ -419,10 +419,11 @@ sub StartThreads {
    }
    # Send infos to server :
    undef($xml_thread);
-   $xml_thread->{QUERY} = "NETDISCOVERY";
-   $xml_thread->{CONTENT}->{AGENT}->{END} = '1';
-   $xml_thread->{CONTENT}->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-   $self->SendInformations($xml_thread);
+   $xml_thread->{AGENT}->{END} = '1';
+   $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+   $self->SendInformations({
+      data => $xml_thread
+      });
    undef($xml_thread);
 
    return;
@@ -433,31 +434,29 @@ sub SendInformations{
    my ($self, $message) = @_;
 
    my $config = $self->{config};
-   my $target = $self->{'target'};
-   my $logger = $self->{logger};
-
-   my $network = $self->{network};
 
    if ($config->{stdout}) {
-      $message->printXML();
+      $self->{inventory}->printXML();
    } elsif ($config->{local}) {
-      $message->writeXML();
+      $self->{inventory}->writeXML();
    } elsif ($config->{server}) {
 
-      my $xmlout = new XML::Simple(
-                           RootName => 'REQUEST',
-                           NoAttr => 1,
-                           KeyAttr => [],
-                           suppressempty => 1
-                        );
-      my $xml = $xmlout->XMLout($message);
-      if ($xml ne "") {
-         my $data_compressed = Compress::Zlib::compress($xml);
-         send_snmp_http2($data_compressed,$self->{PID},$config->{'server'});
-      }
+      my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
+           {
+               config => $self->{config},
+               logger => $self->{logger},
+               target => $self->{target},
+               msg    => {
+                   QUERY => 'NETDISCOVERY',
+                   CONTENT   => $message->{data},
+               },
+           });
+
+    $self->{network}->send({message => $xmlMsg});
    }
-   return;
 }
+
+
 
 sub AuthParser {
    my ($self, $dataAuth) = @_;
@@ -490,45 +489,6 @@ sub AuthParser {
    return $authlist;
 }
 
-
-
-sub send_snmp_http {
-	my $data_compressed = shift;
-	my $PID = shift;
-	my $config = shift;
-
- 	my $url = $config;
-	# Must send file and not by POST
-	my $userAgent = LWP::UserAgent->new();
-	my $response = $userAgent->post($url, [
-	'upload' => '1',
-	'data' => [ undef, $PID.'.xml.gz', Content => $data_compressed ],
-	'md5_gzip' => '567894'],
-	'content_type' => 'multipart/form-data');
-
-	print $response->error_as_HTML . "\n" if $response->is_error;
-   return;
-}
-
-sub send_snmp_http2 {
-	my $data_compressed = shift;
-	my $PID = shift;
-	my $config = shift;
-
-   my $req = HTTP::Request->new(POST => $config);
-   $req->header('Pragma' => 'no-cache', 'Content-type',
-      'application/x-compress');
-
-   $req->content($data_compressed);
-   my $req2 = LWP::UserAgent->new(keep_alive => 1);
-   my $res = $req2->request($req);
-
-   # Checking if connected
-   if(!$res->is_success) {
-      print "PROBLEM\n";
-      return;
-   }
-}
 
 
 sub discovery_ip_threaded {
@@ -605,118 +565,113 @@ sub discovery_ip_threaded {
       }
    }
 
-#my $clock2 = [gettimeofday];
-#print "[".$params->{ip}."] NetBios : ".tv_interval($clock2, $clock1)."\n";
 
-   #threads->yield;
-   my $i = "4";
-   my $snmpv;
-   while ($i ne "1") {
-      $i--;
-      $snmpv = $i;
-      if ($i eq "2") {
-         $snmpv = "2c";
-      }
-      for my $key ( keys %{$params->{authlist}} ) {
-         if ($params->{authlist}->{$key}->{VERSION} eq $snmpv) {
-            my $session = new FusionInventory::Agent::SNMP ({
+   if ($params->{ModuleNetSNMP} eq "1") {
+      my $i = "4";
+      my $snmpv;
+      while ($i ne "1") {
+         $i--;
+         $snmpv = $i;
+         if ($i eq "2") {
+            $snmpv = "2c";
+         }
+         for my $key ( keys %{$params->{authlist}} ) {
+            if ($params->{authlist}->{$key}->{VERSION} eq $snmpv) {
+               my $session = new FusionInventory::Agent::SNMP ({
 
-               version      => $params->{authlist}->{$key}->{VERSION},
-               hostname     => $params->{ip},
-               community    => $params->{authlist}->{$key}->{COMMUNITY},
-               username     => $params->{authlist}->{$key}->{USERNAME},
-               authpassword => $params->{authlist}->{$key}->{AUTHPASSWORD},
-               authprotocol => $params->{authlist}->{$key}->{AUTHPROTOCOL},
-               privpassword => $params->{authlist}->{$key}->{PRIVPASSWORD},
-               privprotocol => $params->{authlist}->{$key}->{PRIVPROTOCOL},
-               translate    => 1,
+                  version      => $params->{authlist}->{$key}->{VERSION},
+                  hostname     => $params->{ip},
+                  community    => $params->{authlist}->{$key}->{COMMUNITY},
+                  username     => $params->{authlist}->{$key}->{USERNAME},
+                  authpassword => $params->{authlist}->{$key}->{AUTHPASSWORD},
+                  authprotocol => $params->{authlist}->{$key}->{AUTHPROTOCOL},
+                  privpassword => $params->{authlist}->{$key}->{PRIVPASSWORD},
+                  privprotocol => $params->{authlist}->{$key}->{PRIVPROTOCOL},
+                  translate    => 1,
 
-            });
+               });
 
-            if (!defined($session->{SNMPSession}->{session})) {
-               #print("SNMP ERROR: %s.\n", $error);
-#               print "[".$params->{ip}."] GNERROR ()".$authlist->{$key}->{VERSION}."\n";
-            } else {
-#            print Dumper($session);
-            #print "[".$params->{ip}."] GNE () \n";
-               my $description = $session->snmpget({
-                     oid => '1.3.6.1.2.1.1.1.0',
-                     up  => 1,
-                  });
-               if ($description =~ m/No response from remote host/) {
-                  #print "[".$params->{ip}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
-                  #$session->close;
-               } elsif ($description =~ m/No buffer space available/) {
-                  #print "[".$params->{ip}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
-                  #$session->close;
-               } elsif ($description ne "null") {
-                  #print "[".$params->{ip}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
-
-                  # ***** manufacturer specifications
-                  # If HP printer detected, get best sysDescr
-                  $description = hp_discovery($description, $session);
-
-                  # If Wyse thin clients
-                  $description = wyse_discovery($description, $session);
-                  #$description = cisco_discovery($description);
-
-                  # If Samsung printer detected, get best sysDescr
-                  $description = samsung_discovery($description, $session);
-
-                  # If Epson printer detected, get best sysDescr
-                  $description = epson_discovery($description, $session);
-
-                  # If Altacel switch detected, get best sysDescr
-                  $description = alcatel_discovery($description, $session);
-
-                  # If Kyocera printer detected, get best sysDescr
-                  $description = kyocera_discovery($description, $session);
-
-                  $datadevice->{DESCRIPTION} = $description;
-
-                  my $name = $session->snmpget({
-                        oid => '.1.3.6.1.2.1.1.5.0',
+               if (!defined($session->{SNMPSession}->{session})) {
+                  #print("SNMP ERROR: %s.\n", $error);
+   #               print "[".$params->{ip}."] GNERROR ()".$authlist->{$key}->{VERSION}."\n";
+               } else {
+   #            print Dumper($session);
+               #print "[".$params->{ip}."] GNE () \n";
+                  my $description = $session->snmpget({
+                        oid => '1.3.6.1.2.1.1.1.0',
                         up  => 1,
                      });
-                  if ($name eq "null") {
-                     $name = q{}; # Empty string
+                  if ($description =~ m/No response from remote host/) {
+                     #print "[".$params->{ip}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
+                     #$session->close;
+                  } elsif ($description =~ m/No buffer space available/) {
+                     #print "[".$params->{ip}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
+                     #$session->close;
+                  } elsif ($description ne "null") {
+                     #print "[".$params->{ip}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
+
+                     # ***** manufacturer specifications
+                     # If HP printer detected, get best sysDescr
+                     $description = hp_discovery($description, $session);
+
+                     # If Wyse thin clients
+                     $description = wyse_discovery($description, $session);
+                     #$description = cisco_discovery($description);
+
+                     # If Samsung printer detected, get best sysDescr
+                     $description = samsung_discovery($description, $session);
+
+                     # If Epson printer detected, get best sysDescr
+                     $description = epson_discovery($description, $session);
+
+                     # If Altacel switch detected, get best sysDescr
+                     $description = alcatel_discovery($description, $session);
+
+                     # If Kyocera printer detected, get best sysDescr
+                     $description = kyocera_discovery($description, $session);
+
+                     $datadevice->{DESCRIPTION} = $description;
+
+                     my $name = $session->snmpget({
+                           oid => '.1.3.6.1.2.1.1.5.0',
+                           up  => 1,
+                        });
+                     if ($name eq "null") {
+                        $name = q{}; # Empty string
+                     }
+                     # Serial Number
+                     my ($serial, $type, $model, $mac) = verifySerial($description, $session);
+                     if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
+                        $serial = q{}; # Empty string
+                     }
+                     if ($serial eq "noSuchInstance") {
+                        $serial = q{}; # Empty string
+                     }
+                     if ($serial eq "noSuchObject") {
+                        $serial = q{}; # Empty string
+                     }
+                     if ($serial eq "No response from remote host") {
+                        $serial = q{}; # Empty string
+                     }
+                     $datadevice->{SERIAL} = $serial;
+                     $datadevice->{MODELSNMP} = $model;
+                     $datadevice->{AUTHSNMP} = $key;
+                     $datadevice->{TYPE} = $type;
+                     $datadevice->{SNMPHOSTNAME} = $name;
+                     $datadevice->{IP} = $params->{ip};
+                     $datadevice->{MAC} = $mac;
+                     $datadevice->{ENTITY} = $entity;
+                     #$session->close;
+                     return $datadevice;
+                  } else {
+                     #debug($log,"[".$params->{ip}."][NO][".$$authSNMP_discovery{$key}{'version'}."][".$$authSNMP_discovery{$key}{'community'}."] ".$session->error, "",$PID,$Bin);
+                     $session->close;
                   }
-                  # Serial Number
-                  my ($serial, $type, $model, $mac) = verifySerial($description, $session);
-                  if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
-                     $serial = q{}; # Empty string
-                  }
-                  if ($serial eq "noSuchInstance") {
-                     $serial = q{}; # Empty string
-                  }
-                  if ($serial eq "noSuchObject") {
-                     $serial = q{}; # Empty string
-                  }
-                  if ($serial eq "No response from remote host") {
-                     $serial = q{}; # Empty string
-                  }
-                  $datadevice->{SERIAL} = $serial;
-                  $datadevice->{MODELSNMP} = $model;
-                  $datadevice->{AUTHSNMP} = $key;
-                  $datadevice->{TYPE} = $type;
-                  $datadevice->{SNMPHOSTNAME} = $name;
-                  $datadevice->{IP} = $params->{ip};
-                  $datadevice->{MAC} = $mac;
-                  $datadevice->{ENTITY} = $entity;
-                  #$session->close;
-                  return $datadevice;
-       #           return constructxmlDiscovery($description, $name, $serial, $params->{ip}, $type,$entity,$model,$$authSNMP_discovery{$key}{'ID'},$macaddress,$hostname,$domain,$user,$machine,$netportvendor);
-               } else {
-                  #debug($log,"[".$params->{ip}."][NO][".$$authSNMP_discovery{$key}{'version'}."][".$$authSNMP_discovery{$key}{'community'}."] ".$session->error, "",$PID,$Bin);
-                  $session->close;
                }
             }
          }
       }
    }
-
-#my $clock3 = [gettimeofday];
-#print "[".$params->{ip}."] SNMP : ".tv_interval($clock3, $clock2)."\n";
 
    if ((exists($datadevice->{MAC})) || (exists($datadevice->{DNSHOSTNAME})) || (exists($datadevice->{NETBIOSNAME}))) {
       $datadevice->{IP} = $params->{ip};
