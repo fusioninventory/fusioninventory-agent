@@ -1,6 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Software;
 
-sub doInventory  { 
+sub isInventoryEnabled  { 
    my $params = shift;
 
    # Do not run an package inventory if there is the --nosoft parameter
@@ -9,7 +9,7 @@ sub doInventory  {
    $^O =~ /hpux/ 
 }
 
-sub run {
+sub doInventory {
    my $params = shift;
    my $inventory = $params->{inventory};
 

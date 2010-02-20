@@ -5,7 +5,7 @@ Revision history for Ocsinventory::Agent
        * Do not use IPC::Run, thanks Mario Gzuk
        * Fix --local
        * fix: Invalid type 'W' in pack in RPC.pm, thanks Mario Gzuk
-       * HP-UX: fix Domains.pm
+       * HP-UX: fix the module. They'd been broken during the merge
        * Turns Off FusionInventory::Agent::Storage
        * Correctly checks if $basevardir exist (-d instead of -f)
        * --no-ssl-check, show warning just one time
