@@ -1,15 +1,15 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Networks;
 
 
-# http://techtasks.com/code/viewbookcode/1417
-
 use strict;
+use Win32::OLE qw(in CP_UTF8);
+use Win32::OLE::Const;
+ 
+Win32::OLE-> Option(CP=>CP_UTF8);
+ 
+use Win32::OLE::Enum;
 
-# No check here. If Win32::OLE and Win32::OLE::Variant not available, the module
-# will fail to load.
-use Win32::OLE;
-use Win32::OLE::Variant;
-
+# http://techtasks.com/code/viewbookcode/1417
 
 sub isInventoryEnabled {1}
 
@@ -58,7 +58,7 @@ sub doInventory {
 
     foreach my $netif (@netifs) {
         $inventory->addNetwork({
-                DESCRIPTION => $netif->{description},
+                DESCRIPTION => $netif->{description}->utf8,
                 IPADDRESS => $netif->{ipaddress},
                 IPDHCP => $netif->{ipdhcp},
                 IPGATEWAY => $netif->{ipgateway},
@@ -67,7 +67,7 @@ sub doInventory {
                 MACADDR => $netif->{macaddr},
                 MTU => $netif->{mtu},
                 STATUS => $netif->{status},
-                TYPE => $netif->{type},
+                TYPE => $netif->{type}->utf8,
                 VIRTUALDEV => $netif->{virtualdev}
             });
 

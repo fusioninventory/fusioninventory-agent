@@ -1,8 +1,11 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::CPU;
 
-
 use strict;
-use Win32::OLE;
+use Win32::OLE qw(in CP_UTF8);
+use Win32::OLE::Const;
+ 
+Win32::OLE-> Option(CP=>CP_UTF8);
+ 
 use Win32::OLE::Enum;
 
 
@@ -38,9 +41,9 @@ sub doInventory {
         $inventory->addCPU({
                 CACHE => $cache,
                 CORE => $core,
-                DESCRIPTION => $description,
-                NAME => $name,
-                MANUFACTURER => $manufacturer,
+                DESCRIPTION => $description->utf8,
+                NAME => $name->utf8,
+                MANUFACTURER => $manufacturer->utf8,
                 SERIAL => $serial,
                 SPEED => $speed
 
