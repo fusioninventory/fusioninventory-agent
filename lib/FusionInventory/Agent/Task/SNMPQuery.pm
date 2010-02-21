@@ -12,8 +12,6 @@ if ($threads::VERSION > 1.32){
 
 use Data::Dumper;
 
-use Net::SNMP qw(:snmp);
-use Compress::Zlib;
 use XML::Simple;
 use File::stat;
 
@@ -33,6 +31,12 @@ sub main {
 
     my $self = {};
     bless $self;
+
+   if ( not eval { require Net::SNMP; 1 } ) {
+      $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
+      exit(0);
+   }
+
 
     my $storage = new FusionInventory::Agent::Storage({
             target => {
