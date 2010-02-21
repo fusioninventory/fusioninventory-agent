@@ -33,6 +33,7 @@ sub main {
       }
   });
   my $data = $storage->restore("FusionInventory::Agent");
+  $self->{storage} = $storage;
 
   my $config = $self->{config} = $data->{config};
   my $prologresp = $self->{prologresp} = $data->{prologresp};
@@ -128,6 +129,7 @@ sub initModList {
 
   my $logger = $self->{logger};
   my $config = $self->{config};
+  my $storage = $self->{storage};
 
   my @dirToScan;
   my @installed_mods;
@@ -294,7 +296,7 @@ sub initModList {
     $self->{modules}->{$m}->{mem} = {}; # Deprecated
     $self->{modules}->{$m}->{rpcCfg} = $package->{'rpcCfg'};
 # Load the Storable object is existing or return undef
-    $self->{modules}->{$m}->{storage} = $self->retrieveStorage($m);
+    $self->{modules}->{$m}->{storage} = $storage;
 
     if (exists($package->{'new'})) {
         $self->{modules}->{$m}->{instance} = $m->new({
@@ -401,7 +403,6 @@ sub runMod {
   }
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
-  $self->saveStorage($m, $self->{modules}->{$m}->{storage});
 }
 
 sub feedInventory {
@@ -434,66 +435,6 @@ sub feedInventory {
 
 }
 
-
-=item retrieveStorage()
-
-Load the $ModuleName.storage file from the filesystem. These .storage files
-are used to offert persistance storage to modules.
-
-=cut
-sub retrieveStorage {
-    my ($self, $m) = @_;
-
-    my $logger = $self->{logger};
-
-    my $fileName = "/$m.storage";
-    $fileName =~ s/::/-/g; # Windows doesn't allow : in filename
-
-    my $storagefile = $self->{target}->{vardir}.$fileName;
-
-    if (!exists &retrieve) {
-        eval "use Storable;";
-        if ($@) {
-            $logger->debug("Storable.pm is not available, can't load Backend module data");
-            return;
-        }
-    }
-
-    return (-f $storagefile)?retrieve($storagefile):{};
-
-}
-
-=item saveStorage()
-
-Save the $storage hash reference on the harddrive. 
-
-=cut
-sub saveStorage {
-    my ($self, $m, $data) = @_;
-
-    my $logger = $self->{logger};
-
-# Perl 5.6 doesn't provide Storable.pm
-    if (!exists &store) {
-        eval "use Storable;";
-        if ($@) {
-            $logger->debug("Storable.pm is not available, can't save Backend module data");
-            return;
-        }
-    }
-
-    my $fileName = "/$m.storage";
-    $fileName =~ s/::/-/g; # Windows doesn't allow : in filename
-
-    my $storagefile = $self->{target}->{vardir}.$fileName;
-    if ($data && keys (%$data)>0) {
-	store ($data, $storagefile) or die;
-    } elsif (-f $storagefile) {
-	unlink $storagefile;
-    }
-
-}
-
 =item runWithTimeout()
 
 Run a function with a timeout.
@@ -503,6 +444,7 @@ sub runWithTimeout {
     my ($self, $m, $funcName, $timeout) = @_;
 
     my $logger = $self->{logger};
+    my $storage = $self->{storage};
 
     my $ret;
     
@@ -510,7 +452,6 @@ sub runWithTimeout {
         $timeout = $self->{config}{backendCollectTimeout};
     }
 
-    my $storage = $self->retrieveStorage($m);
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm $timeout;
@@ -544,7 +485,6 @@ sub runWithTimeout {
     };
     alarm 0;
     my $evalRet = $@;
-    $self->saveStorage($m, $storage);
 
     if ($evalRet) {
         if ($@ ne "alarm\n") {
