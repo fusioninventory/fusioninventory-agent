@@ -4,6 +4,7 @@ use strict;
 no strict 'refs';
 use warnings;
 
+use Socket;
 
 use ExtUtils::Installed;
 use FusionInventory::Agent::Config;
@@ -19,8 +20,8 @@ sub main {
     my ( undef ) = @_;
 
 
-    eval "use Net::Wake;";
-    exit(1) if $@;
+#    eval "use Net::Wake;";
+#    exit(1) if $@;
 
     my $self = {};
     bless $self;
@@ -78,10 +79,13 @@ sub main {
 sub StartMachine {
    my ($self, $params) = @_;
 
+   my $port = 9;
+
    my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
    my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
+   my $broadcast  = $self->{WAKEONLAN}->{PARAM}->[0]->{BROADCAST};
 
-   Net::Wake::by_udp($ip, $macaddress, 9);  
+   Net::Wake::by_udp($ip, $macaddress, 9);
 }
 
 
