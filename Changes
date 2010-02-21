@@ -18,6 +18,7 @@ Revision history for Ocsinventory::Agent
        * XML: clean up addNetwork (Stéphane URBANOVSKI) 
        * CPU: Add CORE/THREAD 
        * Inventory: use the standard Inventory object
+       * Inventory: correctly save OcsDeploy package ID 
 
 2.0beta2 Wed, 17 Feb 2010 23:21:59 +0100
        * Update dico for detected devices in NETDISCOVERY module
