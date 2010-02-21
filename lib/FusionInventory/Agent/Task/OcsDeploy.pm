@@ -881,7 +881,7 @@ sub findMirror {
 
     foreach my $ip (@addresses) {
         next if $ip =~ /^127/x; # Ignore 127.x.x.x addresses
-        if (/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
+        if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
 
             foreach (1..255) {
                 next if $4==$_; # Ignore myself :) 
