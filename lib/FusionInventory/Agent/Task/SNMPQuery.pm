@@ -605,6 +605,8 @@ sub query_device_threaded {
          # Implique de recréer une session spécialement pour chaque vlan : communauté@vlanID
          if ($vlan_query eq "1") {
             while ( (my $vlan_id,my $vlan_name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
+               $ArraySNMPwalk = {};
+               $HashDataSNMP  = {};
                for my $link ( keys %{$params->{modellist}->{WALK}} ) {
                   if ($params->{modellist}->{WALK}->{$link}->{VLAN} eq "1") {
                      $ArraySNMPwalk = $session->snmpwalk({
@@ -625,8 +627,6 @@ sub query_device_threaded {
             }
          }
       }
-      #print Dumper($datadevice);
-      #print Dumper($HashDataSNMP);
 	}
 	#debug($log,"[".$device->{infos}->{ip}."] : end Thread", "",$PID,$Bin);
    return $datadevice;
@@ -1015,22 +1015,25 @@ sub Cisco_GetMAC {
                            };
             if (not exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
                my $add = 1;
-               if (defined($datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC})) {
-                  if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
-                     $add = 0;
-                  }
-               }
+#               if (defined($datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC})) {
+#                  #while ($macnb) = each (@{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}}) {
+#                     if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
+#                        $add = 0;
+#                     }
+#                  #}
+#               }
                if ($ifphysaddress eq "") {
                   $add = 0;
                }
                if ($add eq "1") {
-                  if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{MAC}) {
-                     $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{MAC}};
+                  if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+                     $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
                      #$i++;
+                     print "Number : ".$i."\n";
                   } else {
                      $i = 0;
                   }
-                  $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{MAC}->[$i] = $ifphysaddress;
+                  $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
                   ## Search IP in ARP of Switch
 #                  while ( ($numberip,$mac) = each (%{$HashDataSNMP->{VLAN}->{$vlan_id}->{ipNetToMediaPhysAddress}}) ) {
 #                     if ($mac eq $ifphysaddress) {
