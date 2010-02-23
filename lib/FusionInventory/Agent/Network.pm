@@ -31,7 +31,6 @@ The constructor. These keys are expected: config, logger, target.
 =cut
 
 use LWP::UserAgent;
-use LWP::Simple qw (getstore is_success);
 
 use FusionInventory::Compress;
 
@@ -197,7 +196,7 @@ sub turnSSLCheckOn {
   eval 'use Crypt::SSLeay;';
   my $hasCrypSSLeay = ($@)?0:1;
 
-  eval 'IO::Socket::SSL;';
+  eval 'use IO::Socket::SSL;';
   my $hasIOSocketSSL = ($@)?0:1;
 
   if (!$hasCrypSSLeay && !$hasIOSocketSSL) {
