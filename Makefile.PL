@@ -82,8 +82,8 @@ if (!can_use('Compress::Zlib')) {
     print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
 }
 
-if (!can_use('Crypt::SSLeay')) {
-    print "Please install Crypt::SSLeay if you want to use SSL.\n";
+if (!can_use('Crypt::SSLeay') && !can_use('IO::Socket::SSL')) {
+    print "Please install Crypt::SSLeay or IO::Socket::SSL if you want to use SSL.\n";
 }
 
 if (!can_use('Net::SSLeay')) {
