@@ -44,7 +44,6 @@ recommends 'Proc::PID::File' => undef;
 recommends 'XML::Simple' => undef;
 recommends 'File::Copy' => undef;
 recommends 'File::Glob' => undef;
-recommends 'LWP::Simple' => undef;
 recommends 'File::Path' => undef;
 recommends 'Archive::Extract' => undef;
 recommends 'File::Copy::Recursive' => undef;

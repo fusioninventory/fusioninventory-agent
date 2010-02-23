@@ -265,7 +265,7 @@ sub setSslRemoteHost {
 
 =item getStore()
 
-Wrapper for LWP::Simple::getstore.
+Acts like LWP::Simple::getstore.
 
         my $rc = $network->getStore({
                 source => 'http://www.FusionInventory.org/',
@@ -295,8 +295,6 @@ sub getStore {
 }
 
 =item get()
-
-Wrapper for LWP::Simple::get.
 
         my $content = $network->get({
                 source => 'http://www.FusionInventory.org/',

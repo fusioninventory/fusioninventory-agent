@@ -5,6 +5,7 @@ Revision history for Ocsinventory::Agent
          are not avalaible on RHEL5.x, thank you Remi Collet for pointing
          this issue.
        * Makefile.PL: suggest IO::Socket::SSL for SSL
+       * Drop the Dependency on LWP::Simple
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
