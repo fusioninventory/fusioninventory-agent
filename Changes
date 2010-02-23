@@ -1,5 +1,10 @@
 Revision history for Ocsinventory::Agent
 
+2.0beta4
+       * Drop the dependency on Net::SSLGlue::LWP because its own dependencies
+         are not avalaible on RHEL5.x, thank you Remi Collet for pointing
+         this issue.
+
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
        * Do not use IPC::Run, thanks Mario Gzuk
