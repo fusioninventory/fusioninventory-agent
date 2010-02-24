@@ -6,6 +6,7 @@ Revision history for Ocsinventory::Agent
          this issue.
        * Makefile.PL: suggest IO::Socket::SSL for SSL
        * Drop the Dependency on LWP::Simple
+       * HP-UX: Use can_run to know if machinfo if avalaible  (François MERMET)
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
