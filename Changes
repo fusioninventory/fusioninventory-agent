@@ -6,6 +6,7 @@ Revision history for Ocsinventory::Agent
          this issue.
        * Makefile.PL: suggest IO::Socket::SSL for SSL
        * Drop the Dependency on LWP::Simple
+       * RPC: Do not die if client send random data
        * HP-UX: Use can_run to know if machinfo if avalaible  (François MERMET)
        * HP-UX: code clean up  (François MERMET)
        * Net::IP is now required. 
