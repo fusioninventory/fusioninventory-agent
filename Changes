@@ -9,7 +9,8 @@ Revision history for Ocsinventory::Agent
        * RPC: Do not die if client send random data
        * HP-UX: Use can_run to know if machinfo if avalaible  (François MERMET)
        * HP-UX: code clean up  (François MERMET)
-       * Net::IP is now required. 
+       * Net::IP is now required.
+       * OcsDeploy: Fix 2 malformed regex, thank you Mario Gzuk
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
