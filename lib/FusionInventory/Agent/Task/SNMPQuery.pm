@@ -32,12 +32,6 @@ sub main {
     my $self = {};
     bless $self;
 
-   if ( not eval { require Net::SNMP; 1 } ) {
-      $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
-      exit(0);
-   }
-
-
     my $storage = new FusionInventory::Agent::Storage({
             target => {
                 vardir => $ARGV[0],
@@ -54,6 +48,11 @@ sub main {
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
+
+   if ( not eval { require Net::SNMP; 1 } ) {
+      $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
+      exit(0);
+   }
 
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
    $hour  = sprintf("%02d", $hour);
