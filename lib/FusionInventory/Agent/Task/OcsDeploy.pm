@@ -829,6 +829,8 @@ sub _processFindMirrorResult {
 
     my $logger = $self->{logger};
 
+    return unless $rc;
+
     if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
         if ($rc==200 || $rc==404) {
             $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=1;
