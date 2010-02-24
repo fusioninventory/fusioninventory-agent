@@ -23,7 +23,7 @@ use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::SNMP;
-use FusionInventory::Agent::Task::NetDiscovery::dico;
+use FusionInventory::Agent::Task::NetDiscovery::Dico;
 
 use FusionInventory::Agent::AccountInfo;
 
@@ -708,7 +708,7 @@ sub verifySerial {
    my $serial;
    my $serialreturn = q{}; # Empty string
 
-   my $xmlDico = FusionInventory::Agent::Task::NetDiscovery::dico::loadDico();
+   my $xmlDico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
    foreach my $num (@{$xmlDico->{DEVICE}}) {
       if ($num->{SYSDESCR} eq $description) {
          
