@@ -35,7 +35,7 @@ requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
 requires 'LWP' => undef;
 requires 'File::Temp' => undef;
-recommends 'Net::IP' => undef;
+requires 'Net::IP' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 recommends 'Proc::PID::File' => undef;
