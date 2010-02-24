@@ -218,11 +218,19 @@ sub turnSSLCheckOn {
 
     $ENV{HTTPS_CA_FILE} = $config->{caCertFile};
 
-    if ($hasIOSocketSSL) {
-      IO::Socket::SSL::set_ctx_defaults(
-        verify_mode => Net::SSLeay->VERIFY_PEER(),
-        ca_file => $config->{caCertFile}
-      );
+    if (!$hasCrypSSLeay && $hasIOSocketSSL) {
+      eval {
+        IO::Socket::SSL::set_ctx_defaults(
+          verify_mode => Net::SSLeay->VERIFY_PEER(),
+          ca_file => $config->{caCertFile}
+        );
+      };
+      $logger->fault(
+                     "Failed to set ca-cert-file: $@".
+                     "Your IO::Socket::SSL distribution is too old. ".
+                     "Please install Crypt::SSLeay or disable ".
+                     "SSL server check with --no-ssl-check"
+		    ) if $@;
     }
 
   } elsif ($config->{caCertDir}) {
@@ -232,11 +240,19 @@ sub turnSSLCheckOn {
     }
 
     $ENV{HTTPS_CA_DIR} =$config->{caCertDir};
-    if ($hasIOSocketSSL) {
-      IO::Socket::SSL::set_ctx_defaults(
-        verify_mode => Net::SSLeay->VERIFY_PEER(),
-        ca_path => $config->{caCertDir}
-      );
+    if (!$hasCrypSSLeay && $hasIOSocketSSL) {
+      eval {
+        IO::Socket::SSL::set_ctx_defaults(
+          verify_mode => Net::SSLeay->VERIFY_PEER(),
+          ca_path => $config->{caCertDir}
+        );
+      };
+      $logger->fault(
+                     "Failed to set ca-cert-file: $@".
+                     "Your IO::Socket::SSL distribution is too old. ".
+                     "Please install Crypt::SSLeay or disable ".
+                     "SSL server check with --no-ssl-check"
+		    ) if $@;
     }
   }
 
