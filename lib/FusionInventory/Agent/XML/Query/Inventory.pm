@@ -386,7 +386,7 @@ sub addSoftware {
     VERSION => [$version],
     VERSION_MINOR => [$versionMinor?$versionMinor:''],
     VERSION_MAJOR => [$versionMajor?$versionMajor:''],
-    IS64BIT => $is64bit,
+    IS64BIT => [$is64bit],
 
   };
 }
