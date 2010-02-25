@@ -368,6 +368,7 @@ sub addSoftware {
   my $version = $args->{VERSION};
   my $versionMinor = $args->{VERSION_MINOR};
   my $versionMajor = $args->{VERSION_MAJOR};
+  my $is64bit = $args->{IS64BIT};
 
 
   push @{$self->{h}{CONTENT}{SOFTWARES}},
@@ -388,6 +389,7 @@ sub addSoftware {
     VERSION => [$version],
     VERSION_MINOR => [$versionMinor?$versionMinor:''],
     VERSION_MAJOR => [$versionMajor?$versionMajor:''],
+    IS64BIT => $is64bit,
 
   };
 }

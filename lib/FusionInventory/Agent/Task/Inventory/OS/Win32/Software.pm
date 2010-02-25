@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Software;
 
-
+use strict;
+use warnings;
 # http://techtasks.com/code/viewbookcode/1417
 
 
@@ -11,7 +12,9 @@ sub isInventoryEnabled {1}
 sub hexToDec {
     my $val = shift;
 
-    return $val unless /^0x/; 
+    return unless $val;
+
+    return $val unless $val =~ /^0x/; 
 
     my $tmp = $val;
 
@@ -19,18 +22,22 @@ sub hexToDec {
     return hex($tmp); 
 }
 
-sub doInventory {
+sub processSoftwares {
     my $params = shift;
-    my $inventory = $params->{inventory};
 
-    my $softwares=
-        $Registry->{"HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+    my $softwares = $params->{softwares};
+
+    my $inventory = $params->{inventory};
+    my $is64bit = $params->{is64bit};
 
     foreach my $name ( keys %$softwares ) {
         my $data = $softwares->{$name};
         next unless keys %$data;
 
+    # odd, found on Win2003
+        next unless keys %$data > 2;
 
+    
         my $name = $data->{'/DisplayName'};
         my $comments = $data->{'/Comments'};
         my $version = $data->{'/DisplayVersion'};
@@ -38,11 +45,16 @@ sub doInventory {
         my $urlInfoAbout = $data->{'/URLInfoAbout'};
         my $helpLink = $data->{'/HelpLink'};
         my $uninstallString = $data->{'/UninstallString'};
-        my $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
+        my $noRemove;
         my $releaseType = $data->{'/ReleaseType'};
         my $installDate = $data->{'/InstallDate'};
         my $versionMinor = hexToDec($data->{'/VersionMinor'});
         my $versionMajor = hexToDec($data->{'/VersionMajor'});
+
+
+        if ($data->{'/NoRemove'}) {
+           $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
+       }
 
         $inventory->addSoftware ({
             COMMENTS => $comments,
@@ -60,7 +72,29 @@ sub doInventory {
             VERSION => $version,
             VERSION_MINOR => $versionMinor,
             VERSION_MAJOR => $versionMajor,
+            IS64BIT => $is64bit,
         });
+}
+
+sub doInventory {
+    my $params = shift;
+
+    my $inventory = $params->{inventory};
+
+    my $KEY_WOW64_64KEY = 0x100; 
+    my $KEY_WOW64_32KEY = 0x200; 
+    my $machKey32bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_32KEY,Delimiter=>"/"} );
+    my $machKey64bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+
+    my $softwares=
+        $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+    processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
+
+
+    $softwares=
+        $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+    processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
     }
 
 
