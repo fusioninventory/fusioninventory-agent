@@ -85,11 +85,11 @@ sub main {
   $self->feedInventory();
 
 
-  if ($config->{stdout}) {
+  if ($target->{type} eq 'stdout') {
       $self->{inventory}->printXML();
-  } elsif ($config->{local}) {
+  } elsif ($target->{'type'} eq 'local') {
       $self->{inventory}->writeXML();
-  } elsif ($config->{server}) {
+  } elsif ($target->{'type'} eq 'server') {
 
       my $accountinfo = $target->{accountinfo};
 

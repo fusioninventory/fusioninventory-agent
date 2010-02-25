@@ -894,7 +894,7 @@ sub writeXML {
   my $config = $self->{config};
   my $target = $self->{target};
 
-  if ($config->{local} =~ /^$/) {
+  if ($target->{path} =~ /^$/) {
     $logger->fault ('local path unititalised!');
   }
 

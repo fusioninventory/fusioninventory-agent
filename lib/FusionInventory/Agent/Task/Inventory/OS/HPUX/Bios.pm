@@ -29,7 +29,7 @@ sub doInventory {
         if ( /Firmware\s+revision\s+[:=]\s+(\S+)/ )
         {
            $BiosVersion=$1;
-        
+        } 
         elsif ( /achine\s+serial\s+number\s+[:=]\s+(\S+)/ )
         {
 	   $SystemSerial=$1;
