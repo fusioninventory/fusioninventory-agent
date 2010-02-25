@@ -45,10 +45,10 @@ recommends 'XML::Simple' => undef;
 recommends 'File::Copy' => undef;
 recommends 'File::Glob' => undef;
 recommends 'File::Path' => undef;
-recommends 'Archive::Extract' => undef;
 recommends 'File::Copy::Recursive' => undef;
 recommends 'Digest::MD5' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
+recommends 'Archive::Extract' => undef; # RPC
 
 use Data::Dumper;
 use Cwd;

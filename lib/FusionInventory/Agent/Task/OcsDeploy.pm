@@ -34,7 +34,6 @@ use File::Path;
 use File::stat;
 use Digest::MD5 qw(md5);
 
-use Archive::Extract;
 use File::Copy::Recursive qw(dirmove);
 use Time::HiRes;
 
@@ -297,18 +296,31 @@ sub extractArchive {
         return;
     }
 
-    $Archive::Extract::DEBUG = $config->{debug} ? 1 : 0;
-    my $archiveExtract = Archive::Extract->new(
+    eval "use Archive::Extract;";
+    if ($@) {
+        $logger->debug("Archive::Extract not found: $@, will use tar directly.");
+	if ($type->{$magicNumber} eq 'tgz') {
+            system("cd $runDir && gunzip -q < $downloadDir/final | tar xvf -")
+        } else {
+            $logger->error("Archive type: `".$type->{$magicNumber}.
+                            " not supported. Please install ".
+                            " Archive::Extractsubmit a patch.");
+        }
+    } else {
+        $logger->debug("Archive::Extract found");
+        $Archive::Extract::DEBUG = $config->{debug} ? 1 : 0;
+        my $archiveExtract = Archive::Extract->new(
 
-        archive => "$downloadDir/final",
-        type    => $type->{$magicNumber}
+            archive => "$downloadDir/final",
+            type    => $type->{$magicNumber}
 
-    );
-
-    if ( !$archiveExtract->extract( to => "$runDir" ) ) {
-        $self->reportError( $orderId,
-            "Failed to extract archive $downloadDir/run" );
-        return;
+        );
+    
+        if ( !$archiveExtract->extract( to => "$runDir" ) ) {
+            $self->reportError( $orderId,
+                "Failed to extract archive $downloadDir/final" );
+            return;
+        }
     }
 
     $logger->debug("Archive $downloadDir/run extracted");

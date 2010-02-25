@@ -12,6 +12,7 @@ Revision history for Ocsinventory::Agent
        * Net::IP is now required.
        * OcsDeploy: Fix 2 malformed regex, thank you Mario Gzuk
        * OcsDeploy: avoid a warning if $rc in unset on Perl 5.8
+       * OcsDeploy: Archive::Extract is just recommended now 
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
