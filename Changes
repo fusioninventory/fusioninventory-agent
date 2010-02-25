@@ -14,6 +14,7 @@ Revision history for Ocsinventory::Agent
        * OcsDeploy: avoid a warning if $rc in unset on Perl 5.8
        * OcsDeploy: Archive::Extract is just recommended now
        * Network: load HTTP::Status
+       * standalone.sh dropped, was deprecated with the 2.0 changes
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
