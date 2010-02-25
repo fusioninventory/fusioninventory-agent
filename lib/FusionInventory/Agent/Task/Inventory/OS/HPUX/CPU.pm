@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::CPU;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU;
                                                                                                    
 ###                                                                                                
 # Version 1.1                                                                                      
