@@ -2,8 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Software;
 
 use strict;
 use warnings;
-# http://techtasks.com/code/viewbookcode/1417
 
+use Encode qw(encode);
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
@@ -38,10 +38,10 @@ sub processSoftwares {
         next unless keys %$data > 2;
 
     
-        my $name = $data->{'/DisplayName'};
-        my $comments = $data->{'/Comments'};
-        my $version = $data->{'/DisplayVersion'};
-        my $publisher = $data->{'/Publisher'};
+        my $name = encode('UTF-8', $data->{'/DisplayName'});
+        my $comments = encode('UTF-8', $data->{'/Comments'});
+        my $version = encode('UTF-8', $data->{'/DisplayVersion'});
+        my $publisher = encode('UTF-8', $data->{'/Publisher'});
         my $urlInfoAbout = $data->{'/URLInfoAbout'};
         my $helpLink = $data->{'/HelpLink'};
         my $uninstallString = $data->{'/UninstallString'};
