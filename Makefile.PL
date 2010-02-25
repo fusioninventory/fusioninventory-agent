@@ -36,6 +36,7 @@ requires 'XML::Simple' => undef;
 requires 'LWP' => undef;
 requires 'File::Temp' => undef;
 requires 'Net::IP' => undef;
+requires 'HTTP::Status' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 recommends 'Proc::PID::File' => undef;

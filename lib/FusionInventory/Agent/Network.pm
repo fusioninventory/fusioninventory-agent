@@ -30,6 +30,7 @@ The constructor. These keys are expected: config, logger, target.
 
 =cut
 
+use HTTP::Status;
 use LWP::UserAgent;
 
 use FusionInventory::Compress;
