@@ -1,7 +1,5 @@
 package FusionInventory::Agent::SNMP;
 
-use Net::SNMP qw(:snmp);
-
 use strict;
 use warnings;
 
@@ -13,6 +11,11 @@ sub new {
    my ( undef, $params ) = @_;
 
    my $self = {};
+
+   if ( not eval { require Net::SNMP; 1 } ) {
+      $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
+      exit(0);
+   }
 
    my $session = $self->{SNMPSession} = $params->{config};
    my $SNMPVersion;

@@ -3,7 +3,7 @@ package FusionInventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
-our $VERSION = '2.0beta2';
+our $VERSION = '2.0beta3';
 my $basedir = '';
 
 if ($^O =~ /^MSWin/) {

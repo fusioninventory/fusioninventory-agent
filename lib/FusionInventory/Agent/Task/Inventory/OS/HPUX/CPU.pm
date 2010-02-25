@@ -1,4 +1,12 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::CPU;
+                                                                                                   
+###                                                                                                
+# Version 1.1                                                                                      
+# Correction of Bug n 522774                                                                       
+#                                                                                                  
+# thanks to Marty Riedling for this correction                                                     
+#                                                                                                  
+###                                                                                                
 
 sub isInventoryEnabled  { $^O =~ /hpux/ }
 
@@ -47,7 +55,7 @@ sub doInventory {
                 "N4000-44"=>"8500 440",
                 "ia64 hp server rx1620"=>"itanium 1600");
 
-   if ( `machinfo` )
+   if (can_run("machinfo"))
    {
       foreach ( `machinfo`)
       {

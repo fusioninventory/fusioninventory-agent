@@ -3,7 +3,23 @@ Revision history for Ocsinventory::Agent
 2.1
        * Windows: Add new values for SOFTWARES key
 
-2.0beta3
+2.0beta4
+       * Drop the dependency on Net::SSLGlue::LWP because its own dependencies
+         are not avalaible on RHEL5.x, thank you Remi Collet for pointing
+         this issue.
+       * Makefile.PL: suggest IO::Socket::SSL for SSL
+       * Drop the Dependency on LWP::Simple
+       * RPC: Do not die if client send random data
+       * HP-UX: Use can_run to know if machinfo if avalaible  (François MERMET)
+       * HP-UX: code clean up  (François MERMET)
+       * Net::IP is now required.
+       * OcsDeploy: Fix 2 malformed regex, thank you Mario Gzuk
+       * OcsDeploy: avoid a warning if $rc in unset on Perl 5.8
+       * OcsDeploy: Archive::Extract is just recommended now
+       * Network: load HTTP::Status
+       * standalone.sh dropped, was deprecated with the 2.0 changes
+
+2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
        * Do not use IPC::Run, thanks Mario Gzuk
        * Fix --local
@@ -20,6 +36,9 @@ Revision history for Ocsinventory::Agent
        * Linux: Handle channel bonding interfaces (Stéphane URBANOVSKI) 
        * XML: clean up addNetwork (Stéphane URBANOVSKI) 
        * CPU: Add CORE/THREAD 
+       * Inventory: use the standard Inventory object
+       * Inventory: correctly save OcsDeploy package ID
+       * NetDiscover/SNMP: Various changes (David DURIEUX)
 
 2.0beta2 Wed, 17 Feb 2010 23:21:59 +0100
        * Update dico for detected devices in NETDISCOVERY module

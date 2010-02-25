@@ -35,7 +35,8 @@ requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
 requires 'LWP' => undef;
 requires 'File::Temp' => undef;
-recommends 'Net::IP' => undef;
+requires 'Net::IP' => undef;
+requires 'HTTP::Status' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef;
 recommends 'Proc::PID::File' => undef;
@@ -44,13 +45,11 @@ recommends 'Proc::PID::File' => undef;
 recommends 'XML::Simple' => undef;
 recommends 'File::Copy' => undef;
 recommends 'File::Glob' => undef;
-recommends 'LWP::Simple' => undef;
 recommends 'File::Path' => undef;
-recommends 'Archive::Extract' => undef;
 recommends 'File::Copy::Recursive' => undef;
-recommends 'Net::SSLGlue::LWP' => undef;
 recommends 'Digest::MD5' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
+recommends 'Archive::Extract' => undef; # RPC
 
 use Data::Dumper;
 use Cwd;
@@ -83,8 +82,8 @@ if (!can_use('Compress::Zlib')) {
     print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
 }
 
-if (!can_use('Crypt::SSLeay')) {
-    print "Please install Crypt::SSLeay if you want to use SSL.\n";
+if (!can_use('Crypt::SSLeay') && !can_use('IO::Socket::SSL')) {
+    print "Please install Crypt::SSLeay or IO::Socket::SSL if you want to use SSL.\n";
 }
 
 if (!can_use('Net::SSLeay')) {

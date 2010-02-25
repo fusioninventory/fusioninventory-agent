@@ -66,9 +66,6 @@ sub new {
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
 
-  # For software deployment
-  $self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE} = [];
-
   # Is the XML centent initialised?
   $self->{isInitialised} = undef;
 
@@ -817,8 +814,13 @@ sub addSoftwareDeploymentPackage {
 
   my $orderId = $args->{ORDERID};
 
-  push (@{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE}}, $orderId);
+  # For software deployment
+  if (!$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}) {
+      $self->{h}{CONTENT}{DOWNLOAD}{HISTORY} = [];
+  }
 
+  push (@{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}->[0]{PACKAGE}}, { ID =>
+          $orderId });
 }
 
 =item getContent()

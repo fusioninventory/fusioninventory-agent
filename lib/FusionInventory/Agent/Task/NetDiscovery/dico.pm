@@ -71,11 +71,11 @@ sub loadDico {
    <DEVICE SYSDESCR="Brother NC-6400h, Firmware Ver.1.15 (07.01.23),MID 8C5-B45,FID 2" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Brother NC-6500h, Firmware Ver.1.06 (07.04.16),MID 84E-101" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Brother NC-6500h, Firmware Ver.1.09 (07.11.28),MID 84E-101" MANUFACTURER="" TYPE="3"/>
-   <DEVICE SYSDESCR="Canon CLC5000 series" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="Canon CLC5000 series" MANUFACTURER="" TYPE="3" MODELSNMP="PrinterPrinter0117" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="Canon Inc., LBP-1760 Printer" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Canon iR 3170C EUR /P" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Canon iR C2880 /P" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0032" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
-   <DEVICE SYSDESCR="Canon iR C2880-J1 /P" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="Canon iR C2880-J1 /P" MANUFACTURER="" TYPE="3" MODELSNMP="Printer0005" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="Canon iR C3080 /P" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0061" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="Canon iR C3200 /P" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Canon iR C3220 /P" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0032" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
@@ -83,7 +83,7 @@ sub loadDico {
    <DEVICE SYSDESCR="Canon iR C5185 /P" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Canon iR1024 /P" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Canon iR2200 /P" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0059" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
-   <DEVICE SYSDESCR="Canon iR2230 /P" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="Canon iR2230 /P" MANUFACTURER="" TYPE="3" MODELSNMP="PrinterPrinter0119" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="Canon iR2870 /P" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0011" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="Cisco Internetwork Operating System Software &#13;&#10;IOS (tm) C2600 Software (C2600-I-M), Version 12.0(4)T,  RELEASE SOFTWARE (fc1)&#13;&#10;Copyright (c) 1986-1999 by cisco Systems, Inc.&#13;&#10;Compiled Wed 28-Apr-99 16:50 by kpma" MANUFACTURER="" TYPE="2"/>
    <DEVICE SYSDESCR="Cisco Internetwork Operating System Software &#13;&#10;IOS (tm) C2950 Software (C2950-I6K2L2Q4-M), Version 12.1(22)EA12, RELEASE SOFTWARE (fc1)&#13;&#10;Copyright (c) 1986-2008 by cisco Systems, Inc.&#13;&#10;Compiled Tue 08-Jul-08 00:03 by amvarma" MANUFACTURER="" TYPE="2"/>
@@ -103,8 +103,8 @@ sub loadDico {
    <DEVICE SYSDESCR="Cisco IOS Software, C3560 Software (C3560-IPBASE-M), Version 12.2(35)SE5, RELEASE SOFTWARE (fc1)&#13;&#10;Copyright (c) 1986-2007 by Cisco Systems, Inc.&#13;&#10;Compiled Thu 19-Jul-07 18:15 by nachen" MANUFACTURER="" TYPE="2"/>
    <DEVICE SYSDESCR="Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)&#13;&#10;Copyright (c) 1986-2008 by Cisco Systems, Inc.&#13;&#10;Compiled Thu 21-Aug-08 15:43 by nachen" MANUFACTURER="" TYPE="2"/>
    <DEVICE SYSDESCR="Cisco Systems Catalyst 1900,V9.00.00    " MANUFACTURER="" TYPE="2"/>
-   <DEVICE SYSDESCR="Dell Laser Printer 3000cn; Net 6.31, Controller 200503021148, Engine 01.06.90" MANUFACTURER="" TYPE="3"/>
-   <DEVICE SYSDESCR="Dell Laser Printer 5100cn (Net 6.26, Controller 200408201123, Engine 01.00.03)" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="Dell Laser Printer 3000cn; Net 6.31, Controller 200503021148, Engine 01.06.90" MANUFACTURER="" TYPE="3" MODELSNMP="PrinterPrinter0116" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
+   <DEVICE SYSDESCR="Dell Laser Printer 5100cn (Net 6.26, Controller 200408201123, Engine 01.00.03)" MANUFACTURER="" TYPE="3" MODELSNMP="PrinterPrinter0114" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="Dlink DES-3018 Fast Ethernet Switch" MANUFACTURER="" TYPE="2"/>
    <DEVICE SYSDESCR="EPSON AL-C2000 01.00" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0036" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="EPSON Type-B 10Base-T/100Base-TX Print Server" MANUFACTURER="" TYPE="3"/>
@@ -157,16 +157,16 @@ sub loadDico {
    <DEVICE SYSDESCR="HP J4813A ProCurve Switch 2524, revision F.04.08, ROM F.02.01 (/sw/code/build/info(f01))" MANUFACTURER="" TYPE="2"/>
    <DEVICE SYSDESCR="HP J4813A ProCurve Switch 2524, revision F.05.17, ROM F.02.01 (/sw/code/build/info(s02))" MANUFACTURER="" TYPE="2"/>
    <DEVICE SYSDESCR="HP J4900B ProCurve Switch 2626, revision H.08.67, ROM H.08.02 (/sw/code/build/fish(f04))" MANUFACTURER="" TYPE="2"/>
-   <DEVICE SYSDESCR="HP LaserJet 1200" MANUFACTURER="" TYPE="3"/>
-   <DEVICE SYSDESCR="HP LaserJet 4000 Series" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="HP LaserJet 1200" MANUFACTURER="" TYPE="3" MODELSNMP="PrinterPrinter0115" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
+   <DEVICE SYSDESCR="HP LaserJet 4000 Series" MANUFACTURER="" TYPE="3" MODELSNMP="PrinterPrinter0113" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="HP LaserJet 4050 Series " MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0086" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
-   <DEVICE SYSDESCR="HP LaserJet 4100 Series" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="HP LaserJet 4100 Series " MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0077" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="hp LaserJet 4200" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0078" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="hp LaserJet 4350" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0078" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="HP LaserJet 5100 Series" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0077" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="HP LaserJet 5M" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="HP LaserJet 6P" MANUFACTURER="" TYPE="3"/>
-   <DEVICE SYSDESCR="HP LaserJet 8000 Series" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="HP LaserJet 8000 Series" MANUFACTURER="" TYPE="3" MODELSNMP="Printer0086" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="HP LaserJet P1505n" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0084" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="HP LaserJet P4014" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="HP Officejet Pro K850" MANUFACTURER="" TYPE="3"/>
@@ -228,7 +228,7 @@ sub loadDico {
    <DEVICE SYSDESCR="ProCurve J9085A Switch 2610-24, revision R.11.07, ROM R.10.06 (/sw/code/build/nemo(ndx))" MANUFACTURER="" TYPE="2"/>
    <DEVICE SYSDESCR="ProCurve J9088A Switch 2610-48, revision R.11.07, ROM R.10.06 (/sw/code/build/nemo(ndx))" MANUFACTURER="0" TYPE="2" MODELSNMP="Networking0013" SERIAL=".1.3.6.1.2.1.47.1.1.1.1.11.1" MAC=".1.3.6.1.2.1.17.1.1.0"/>
    <DEVICE SYSDESCR="RICOH Aficio 1515 0.29.04 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3"/>
-   <DEVICE SYSDESCR="RICOH Aficio 2016 0.40.12 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="RICOH Aficio 2016 0.40.12 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3" MODELSNMP="Printer0012" SERIAL=".1.3.6.1.4.1.367.3.2.1.2.1.4.0" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="RICOH Aficio 2018D 0.40.08 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="RICOH Aficio 2020 0.40.12 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="RICOH Aficio 2022 1.04 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3"/>
@@ -240,7 +240,7 @@ sub loadDico {
    <DEVICE SYSDESCR="RICOH Aficio 3232C 1.11 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="RICOH Aficio 3235C 1.27 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="RICOH Aficio 3245C 1.30 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
-   <DEVICE SYSDESCR="RICOH Aficio AP410N 1.05 / RICOH Network Printer C model" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="RICOH Aficio AP410N 1.05 / RICOH Network Printer C model" MANUFACTURER="" TYPE="3" MODELSNMP="Printer0071" SERIAL=".1.3.6.1.4.1.367.3.2.1.2.1.4.0" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="RICOH Aficio MP 161 1.04 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="RICOH Aficio MP 161 1.05 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0067" SERIAL=".1.3.6.1.4.1.367.3.2.1.2.1.4.0" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="RICOH Aficio MP 2000 1.05 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
@@ -252,7 +252,7 @@ sub loadDico {
    <DEVICE SYSDESCR="RICOH Aficio MP 4500 1.01 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="RICOH Aficio MP 5000 1.06 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="RICOH Aficio MP 7500 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
-   <DEVICE SYSDESCR="RICOH Aficio MP C2000 1.67 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="RICOH Aficio MP C2000 1.67 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3" MODELSNMP="Printer0046" SERIAL=".1.3.6.1.4.1.367.3.2.1.2.1.4.0" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="RICOH Aficio MP C2000 1.68 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model" MANUFACTURER="" TYPE="3" MODELSNMP="Printer0109" SERIAL=".1.3.6.1.4.1.367.3.2.1.2.1.4.0" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="RICOH Aficio MP C3000 1.47.7 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="RICOH Aficio MP C3500 1.62 / RICOH Network Printer C model / RICOH Network Scanner C model" MANUFACTURER="" TYPE="3"/>
@@ -273,7 +273,7 @@ sub loadDico {
    <DEVICE SYSDESCR="TOSHIBA e-STUDIO281c" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="TOSHIBA e-STUDIO2820C" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="TOSHIBA e-STUDIO351c" MANUFACTURER="" TYPE="3"/>
-   <DEVICE SYSDESCR="Xerox 4112;ESS PS1.203.0,IOT 45.26.0,HCF 3.17.0,FIN D3.7.4,IIT 15.4.1,IIT D14.0.4,ADF 12.2.2,SJFI3.0.10,SSMI1.9.0" MANUFACTURER="" TYPE="3"/>
+   <DEVICE SYSDESCR="Xerox 4112;ESS PS1.203.0,IOT 45.26.0,HCF 3.17.0,FIN D3.7.4,IIT 15.4.1,IIT D14.0.4,ADF 12.2.2,SJFI3.0.10,SSMI1.9.0" MANUFACTURER="" TYPE="3" MODELSNMP="PrinterPrinter0118" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
    <DEVICE SYSDESCR="Xerox Document Centre 432ST, v3.0 - post-launch, Multi-function System, ESS 3_2_1_3s, DCSYS XCE245, UI S3.69" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Xerox Phaser 7300 DX v(2.08/15.52.08.29.2002/0.1.22/4.68) Printer 384MB LPM010175" MANUFACTURER="" TYPE="3"/>
    <DEVICE SYSDESCR="Ordinateur CHRP PowerPC IBM&#13;&#10;TCP/IP Client Support version: 05.03.0000.0054" MANUFACTURER="" TYPE="1"/>
@@ -489,6 +489,10 @@ sub loadDico {
    <DEVICE SYSDESCR="Optical Access OptiSwitch-400 classifier version 3.61 " MANUFACTURER="0" TYPE="2" MODELSNMP="Networking0055"/>
    <DEVICE SYSDESCR="TD-8816 2.0" MANUFACTURER="0" TYPE="2" MODELSNMP="Networking0034"/>
    <DEVICE SYSDESCR="Xerox WorkCentre PE120 Series ; OS 4.12 Engine 1.1.06 NIC V1.06 BootLoader V1.05(2M)" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0111" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
+   <DEVICE SYSDESCR="Cisco IOS Software, C3750 Software (C3750-IPBASE-M), Version 12.2(25)SEB4, RELEASE SOFTWARE (fc1)&#13;&#10;Copyright (c) 1986-2005 by Cisco Systems, Inc.&#13;&#10;Compiled Tue 30-Aug-05 15:47 by yenanh" MANUFACTURER="0" TYPE="2" MODELSNMP="Networking0056" SERIAL=".1.3.6.1.2.1.47.1.1.1.1.11.1001" MAC=".1.3.6.1.2.1.17.1.1.0"/>
+   <DEVICE SYSDESCR="Fibre Channel Switch." MANUFACTURER="0" TYPE="2" MODELSNMP="Networking0057" SERIAL=".1.3.6.1.2.1.47.1.1.1.1.11.1"/>
+   <DEVICE SYSDESCR="EPL-5900" MANUFACTURER="0" TYPE="3" MODELSNMP="PrinterPrinter0112" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
+   <DEVICE SYSDESCR="hp color LaserJet 4650" MANUFACTURER="0" TYPE="3" MODELSNMP="Printer0080" SERIAL=".1.3.6.1.2.1.43.5.1.1.17.1" MACDYN=".1.3.6.1.2.1.2.2.1.6"/>
 </SNMPDISCOVERY>
 ';
 
