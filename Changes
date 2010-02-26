@@ -20,6 +20,7 @@ Revision history for Ocsinventory::Agent
        * Inventory: create one last_state file per server
        * Inventory: save last_state if server send a response
        * Storage: use umask 077 for stored files
+       * Target: fix the lock, use a global var now 
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
