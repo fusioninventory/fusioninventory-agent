@@ -916,6 +916,11 @@ sub processChecksum {
   my $self = shift;
 
   my $logger = $self->{logger};
+  my $target  = $self->{target};
+
+  # Not needed in local mode
+  return unless $target->{type} eq 'server';
+
 #To apply to $checksum with an OR
   my %mask = (
     'HARDWARE'      => 1,
@@ -988,6 +993,10 @@ sub saveLastState {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
+  my $target  = $self->{target};
+
+  # Not needed in local mode
+  return unless $target->{type} eq 'server';
 
   if (!defined($self->{last_state_content})) {
 	  $self->processChecksum();

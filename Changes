@@ -16,6 +16,7 @@ Revision history for Ocsinventory::Agent
        * Network: load HTTP::Status
        * standalone.sh dropped, was deprecated with the 2.0 changes
        * Do not ignore --server if --local is present
+       * Inventory: No need to generate in local mode
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
