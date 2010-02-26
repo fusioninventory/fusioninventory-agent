@@ -950,19 +950,19 @@ sub processChecksum {
 
   my $checksum = 0;
 
-  if (!$self->{config}{local} && $self->{config}->{last_statefile}) {
-    if (-f $self->{config}->{last_statefile}) {
+  if ($target->{last_statefile}) {
+    if (-f $target->{last_statefile}) {
       # TODO: avoid a violant death in case of problem with XML
       $self->{last_state_content} = XML::Simple::XMLin(
 
-        $self->{config}->{last_statefile},
+        $target->{last_statefile},
         SuppressEmpty => undef,
         ForceArray => 1
 
       );
     } else {
       $logger->debug ('last_state file: `'.
-      $self->{config}->{last_statefile}.
+      $target->{last_statefile}.
         "' doesn't exist (yet).");
     }
   }
@@ -1002,16 +1002,16 @@ sub saveLastState {
 	  $self->processChecksum();
   }
 
-  if (!defined ($self->{config}->{last_statefile})) {
+  if (!defined ($target->{last_statefile})) {
     $logger->debug ("Can't save the last_state file. File path is not initialised.");
     return;
   }
 
-  if (open LAST_STATE, ">".$self->{config}->{last_statefile}) {
+  if (open LAST_STATE, ">".$target->{last_statefile}) {
     print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
   } else {
-    $logger->debug ("Cannot save the checksum values in ".$self->{config}->{last_statefile}."
+    $logger->debug ("Cannot save the checksum values in ".$target->{last_statefile}."
 	(will be synchronized by GLPI!!): $!");
   }
 }
