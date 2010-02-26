@@ -18,7 +18,8 @@ Revision history for Ocsinventory::Agent
        * Do not ignore --server if --local is present
        * Inventory: No need to generate in local mode
        * Inventory: create one last_state file per server
-       * Inventory: save last_state if server send a response 
+       * Inventory: save last_state if server send a response
+       * Storage: use umask 077 for stored files
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up

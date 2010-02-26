@@ -50,7 +50,10 @@ sub save {
     my $filePath = $self->getFilePath();
     #print "[storage]save data in:". $filePath."\n";
 
+    my $oldMask = umask();
+    umask(077) or die "Can't restrict access to $filePath\n";
 	store ($data, $filePath) or warn;
+    umask($oldMask) or die "Can't restore old mask\n";
 
 }
 
