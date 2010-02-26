@@ -70,6 +70,7 @@ sub main {
           logger => $logger,
 
       });
+  my $inventory = $self->{inventory};
 
   if (!$config->{'stdout'} && !$config->{'local'}) {
       $logger->fault("No prologresp!") unless $prologresp;
@@ -104,9 +105,10 @@ sub main {
 
           });
 
-      my $response = $network->send({message => $self->{inventory}});
+      my $response = $network->send({message => $inventory});
 
       return unless $response;
+      $inventory->saveLastState();
 
       my $parsedContent = $response->getParsedContent();
       if ($parsedContent
