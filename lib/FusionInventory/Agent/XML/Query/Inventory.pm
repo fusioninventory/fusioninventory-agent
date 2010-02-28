@@ -974,9 +974,9 @@ sub processChecksum {
       $logger->debug ("Section $section has changed since last inventory");
       #We make OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
-      # Finally I store the new value.
-      $self->{last_state_content}->{$section}[0] = $hash;
     }
+    # Finally I store the new value.
+    $self->{last_state_content}->{$section}[0] = $hash;
   }
 
 
