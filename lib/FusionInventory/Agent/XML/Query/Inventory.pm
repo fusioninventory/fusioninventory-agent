@@ -40,6 +40,7 @@ sub new {
   $self->{backend} = $params->{backend};
   my $logger = $self->{logger};
   my $target = $self->{target};
+  my $config = $self->{config};
 
   if (!($target->{deviceid})) {
     $logger->fault ('deviceid unititalised!');
@@ -65,6 +66,7 @@ sub new {
   $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
+  $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
   $self->{isInitialised} = undef;
