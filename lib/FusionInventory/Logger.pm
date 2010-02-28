@@ -5,6 +5,8 @@ use Carp;
 use threads;
 use threads::shared;
 
+my $lock :shared;
+
 sub new {
 
   my (undef, $params) = @_;
@@ -13,9 +15,6 @@ sub new {
   bless $self;
   $self->{backend} = [];
   $self->{config} = $params->{config};
-
-  my $lock :shared;
-  ${$self->{'lock'}} = \$lock;
 
   $self->{debug} = $self->{config}->{debug}?1:0;
   my @logger;
@@ -76,34 +75,34 @@ sub log {
 sub debug {
   my ($self, $msg) = @_;
 
-  lock(${$self->{'lock'}});
+  lock($lock);
   $self->log({ level => 'debug', message => $msg});
 }
 
 sub info {
   my ($self, $msg) = @_;
   
-  lock(${$self->{'lock'}});
+  lock($lock);
   $self->log({ level => 'info', message => $msg});
 }
 
 sub error {
   my ($self, $msg) = @_;
   
-  lock(${$self->{'lock'}});
+  lock($lock);
   $self->log({ level => 'error', message => $msg});
 }
 
 sub fault {
   my ($self, $msg) = @_;
   
-  lock(${$self->{'lock'}});
+  lock($lock);
   $self->log({ level => 'fault', message => $msg});
 }
 
 sub user {
   
-  lock(${$self->{'lock'}});
+  lock($lock);
   my ($self, $msg) = @_;
   $self->log({ level => 'user', message => $msg});
 }
