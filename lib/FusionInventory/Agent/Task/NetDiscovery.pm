@@ -388,6 +388,7 @@ sub StartThreads {
                                                                   data => $xml_threadt
                                                                });
                                                          }
+                                                         undef($xml_threadt);
                                                          if ($loopip eq "1") {
                                                             $TuerThread{$p}[$t] = 2;
                                                             while ($TuerThread{$p}[$t] eq "2") {
