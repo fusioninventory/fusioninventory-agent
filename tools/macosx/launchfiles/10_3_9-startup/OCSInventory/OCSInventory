@@ -19,11 +19,11 @@ StartService ()
 
 	ConsoleMessage "Got Network..."
 
-	ConsoleMessage "Starting OCSNG.app as user _ocsng"
+	ConsoleMessage "Starting FusionInventory-Agent.app as user _ocsng"
 
-	sudo -u _ocsng /Applications/OCSNG.app/Contents/MacOS/OCSNG
+	sudo -u _ocsng /Applications/FusionInventory-Agent.app/Contents/MacOS/OCSNG
 
-	PID=`ps ax -e | grep OCSNG | grep -v grep | awk '{print $1}'`
+	PID=`ps ax -e | grep FusionInventory-Agent | grep -v grep | awk '{print $1}'`
 	# give the agent a chance to start
 	sleep 10
 

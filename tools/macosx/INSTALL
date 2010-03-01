@@ -21,7 +21,7 @@ The install_wrapper.sh:
 The installer.sh:
 
 - create the user/group: _ocsng with an uid/gid of 3995 via the dscl command [see scripts directory]
-- install OCSNG.app to /Applications/OCSNG.app
+- install FusionInventory-Agent.app to /Applications/OCSNG.app
 - copy the config file to /etc/ocsinventory
 - install a startup plist file to launchd
 - install ocsng.log to /var/log (viewable via the console utility)
@@ -33,7 +33,7 @@ Once installed, the agent should contact the server and upload an initial invent
 
 Notes:
 
-- You can't click on /Applications/OCSNG.app, it won't work (and thats the way its meant to be). Everything is called via LaunchD, the .app is just there "for show" in case it needs to be manually removed.
+- You can't click on /Applications/FusionInventory-Agent.app, it won't work (and thats the way its meant to be). Everything is called via LaunchD, the .app is just there "for show" in case it needs to be manually removed.
 - To uninstall the .app, use the uninstaller.sh script. This will kill the service, remove all the users that were added and remove all the files (no restart required).
 
 Additional Scripts:

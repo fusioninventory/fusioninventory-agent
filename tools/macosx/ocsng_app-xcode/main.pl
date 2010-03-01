@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #  main.pl
-#  OCSNG
+#  FusionInventory-Agent
 #
 #  Created by Wes Young - claimid.com/saxjazman9 on 5/28/08.
 #  CopyLeft Barely3am.com 2008. All rights reserved.

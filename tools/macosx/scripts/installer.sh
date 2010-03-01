@@ -17,9 +17,9 @@ echo "Using UserID: $USERID"
 echo "Using GroupID: $GROUPID"
 
 echo 'Running package installer'
-sudo installer -pkg OCSNG.pkg -target /
+sudo installer -pkg FusionInventory-Agent.pkg -target /
 
-INSTALL_PATH="/Applications/OCSNG.app"
+INSTALL_PATH="/Applications/FusionInventory-Agent.app"
 echo "Copying uninstall script to $INSTALL_PATH"
 sudo chmod 700 $PREFIX/scripts/uninstaller.sh
 sudo cp $PREFIX/scripts/uninstaller.sh $INSTALL_PATH/Contents/Resources/

@@ -30,7 +30,7 @@
 
 #
 # This is just a basic script that checks to make sure that all
-# the modules needed by OCSNG before you can compile it.
+# the modules needed by FusionInventory-Agent before you can compile it.
 #
 
 #
@@ -169,7 +169,7 @@ sub help {
     print <<'.';
 
 By default, testdeps determine whether you have 
-installed all the perl modules OCSNG.app needs to run.
+installed all the perl modules FusionInventory-Agent.app needs to run.
 
 	--install		Install missing modules
 	

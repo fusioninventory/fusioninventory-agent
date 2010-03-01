@@ -22,7 +22,7 @@ sudo sh installer-darwin.sh
 cd ../
 rm -R -f $TMPDIR
 
-PID=`ps ax -e | grep OCSNG | grep -v grep | awk '{print $1}'`
+PID=`ps ax -e | grep FusionInventory-Agent | grep -v grep | awk '{print $1}'`
 if [ "$PID" !=  "" ]; then
         echo "Service launched under Pid: $PID"
 	echo "Done"

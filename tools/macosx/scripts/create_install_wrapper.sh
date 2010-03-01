@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILES="OCSNG.pkg cacert.pem launchfiles modules.conf scripts"
+FILES="FusionInventory-Agent.pkg cacert.pem launchfiles modules.conf scripts"
 EXCLUDE="--exclude=*CVS* --exclude=*.svn/* --exclude=*DS_Store*"
 DEPLOYMENT_DIR="unified_unix_agent-macosx"
 PKG_NAME="unified_unix_agent-macosx"

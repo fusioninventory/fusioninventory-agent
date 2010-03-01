@@ -3,13 +3,13 @@
 OSVER=`uname -r`
 echo "OSVer is $OSVER"
 
-PID=`ps ax -e | grep OCSNG | grep -v grep | grep -v $0 | awk '{print $1}'`
+PID=`ps ax -e | grep FusionInventory-Agent | grep -v grep | grep -v $0 | awk '{print $1}'`
 if [ "$PID" !=  "" ]; then
 	echo "killing process: $PID"
 	sudo kill $PID
 fi
 
-FILES="/Library/Receipts/OCSNG* /etc/ocsinventory-agent/ /var/lib/ocsinventory-agent/ /Applications/OCSNG.app /var/log/ocsng.log"
+FILES="/Library/Receipts/FusionInventory-Agent* /etc/ocsinventory-agent/ /var/lib/ocsinventory-agent/ /Applications/OCSNG.app /var/log/ocsng.log"
 
 if [ "$OSVER" == "7.9.0" ]; then
 	FILES="$FILES /Library/StartupItems/OCSInventory"

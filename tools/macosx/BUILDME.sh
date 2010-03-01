@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-OCSNG_PATH="FusionInventory-Agent.app"
+FUSIONINVENTORY_PATH="FusionInventory-Agent.app"
 PATCHES_PATH="patches"
 TOOLS_PATH="tools/macosx"
 FINAL_PKG_NAME="unified_unix_agent-macosx"
@@ -22,9 +22,9 @@ if [ ! -x ./darwin-perl-lib ]; then
 	fi
 fi
 
-if [ -x $OCSNG_PATH ]; then
-	echo "removing old $OCSNG_PATH"
-        rm -R -f $OCSNG_PATH
+if [ -x $FUSIONINVENTORY_PATH ]; then
+	echo "removing old $FUSIONINVENTORY_PATH"
+        rm -R -f $FUSIONINVENTORY_PATH
 fi
 
 if [ -x package-root ]; then
@@ -35,10 +35,10 @@ fi
 echo "Building OS X App"
 cd ocsng_app-xcode/
 xcodebuild
-cp -R ./build/UninstalledProducts/$OCSNG_PATH ../
+cp -R ./build/UninstalledProducts/$FUSIONINVENTORY_PATH ../
 xcodebuild clean
 cd ../
-mkdir $OCSNG_PATH/Contents/Resources/lib
+mkdir $FUSIONINVENTORY_PATH/Contents/Resources/lib
 
 echo "Creating default config"
 
@@ -62,19 +62,19 @@ echo "Building Makefile.pl...."
 cd $ROOTDIR 
 perl Makefile.PL
 make
-cp -R blib/lib ./$TOOLS_PATH/$OCSNG_PATH/Contents/Resources
+cp -R blib/lib ./$TOOLS_PATH/$FUSIONINVENTORY_PATH/Contents/Resources
 cp fusioninventory-agent ./$TOOLS_PATH/
 make clean
 
 echo 'patching main perl script for OS X'
 cd ./$TOOLS_PATH/
-cp fusioninventory-agent $OCSNG_PATH/Contents/Resources/
+cp fusioninventory-agent $FUSIONINVENTORY_PATH/Contents/Resources/
 
 echo 'copying down darwin-dep libs'
-cp -R darwin-perl-lib/ $OCSNG_PATH/Contents/Resources/lib/
+cp -R darwin-perl-lib/ $FUSIONINVENTORY_PATH/Contents/Resources/lib/
 
 echo 'copying .app to package-root'
-cp -R $OCSNG_PATH ./package-root/Applications/
+cp -R $FUSIONINVENTORY_PATH ./package-root/Applications/
 
 echo 'setting default permissions on ./package-root/Applications'
 chown root:admin ./package-root/Applications

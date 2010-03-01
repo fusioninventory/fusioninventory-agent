@@ -6,7 +6,7 @@
 	<string>org.ocsng.agent</string>
 	<key>ProgramArguments</key>
 		<array>
-			<string>/Applications/OCSNG.app/Contents/MacOS/OCSNG</string>
+			<string>/Applications/FusionInventory-Agent.app/Contents/MacOS/OCSNG</string>
 		</array>	
 	<key>UserName</key>
 	<string>_ocsng</string>

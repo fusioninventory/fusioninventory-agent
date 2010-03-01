@@ -1,6 +1,6 @@
 //
 //  main.m
-//  OCSNG
+//  FusionInventory-Agent
 //
 //  Created by Wes Young - claimid.com/saxjazman9 on 5/28/08.
 //  CopyLeft Barely3am.com 2008. All rights reserved.
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 	unsigned int numberMatches;
 
 	// simple way of geting our PID, see if we're already running....
-	int error = GetAllPIDsForProcessName("OCSNG",myArray,kPIDArrayLength,&numberMatches,NULL);
+	int error = GetAllPIDsForProcessName("FusionInventory-Agent",myArray,kPIDArrayLength,&numberMatches,NULL);
 	if (error == 0) { // Success
 		if (numberMatches > 1) {
 			// There's already a copy of this app running

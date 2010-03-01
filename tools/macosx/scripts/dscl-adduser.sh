@@ -16,7 +16,7 @@ echo "Creating Primary _ocsng Group: $GROUPID"
 sudo dscl . -create /Groups/_ocsng
 sudo dscl . -append /Groups/_ocsng RecordName ocsng
 sudo dscl . -create /Groups/_ocsng PrimaryGroupID $GROUPID
-sudo dscl . -create /Groups/_ocsng RealName "OCSNG Group"
+sudo dscl . -create /Groups/_ocsng RealName "FusionInventory-Agent Group"
 
 echo "Creating Primary _ocsng User: $USERID"
 
@@ -25,7 +25,7 @@ sudo dscl . -append /Users/_ocsng RecordName ocsng
 sudo dscl . -create /Users/_ocsng UniqueID $USERID
 sudo dscl . -create /Users/_ocsng PrimaryGroupID $GROUPID
 sudo dscl . -create /Users/_ocsng UserShell /usr/bin/false
-sudo dscl . -create /Users/_ocsng RealName "OCSNG Daemon User"
+sudo dscl . -create /Users/_ocsng RealName "FusionInventory-Agent Daemon User"
 sudo dscl . -create /Users/_ocsng NFSHomeDirectory /var/empty
 
 echo "Adding _ocsng user to admin and daemon groups"
