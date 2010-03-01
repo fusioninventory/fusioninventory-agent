@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -v -e
 
 FUSIONINVENTORY_PATH="FusionInventory-Agent.app"
 PATCHES_PATH="patches"
