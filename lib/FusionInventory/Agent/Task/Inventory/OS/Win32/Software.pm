@@ -101,16 +101,25 @@ sub doInventory {
         my $softwares=
             $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
         processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
+
+        my $machKey32bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_32KEY,Delimiter=>"/"} );
+
+        $softwares=
+            $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
+
+    } else {
+        my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+
+        my $softwares=
+            $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
+
     }
 
 
-
-    my $machKey32bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_32KEY,Delimiter=>"/"} );
-
-    my $softwares=
-        $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-    processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
 
 
 
