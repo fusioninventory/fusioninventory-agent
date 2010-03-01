@@ -22,6 +22,7 @@ Revision history for Ocsinventory::Agent
        * Storage: use umask 077 for stored files
        * Target and Logger: fix the lock, use a global var now
        * Inventory: Set the VERSIONCLIENT XML key
+       * HPUX: Software, fix the package name
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up

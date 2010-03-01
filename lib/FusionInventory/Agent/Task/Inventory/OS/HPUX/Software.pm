@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Software;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Software;
 
 sub isInventoryEnabled  { 
    my $params = shift;
