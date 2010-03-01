@@ -11,7 +11,7 @@ if ($^O =~ /^MSWin/) {
 }
 
 my $default = {
-  'caCertDir' =>  '/etc/ssl/certs',
+  'caCertDir' =>  '',
   'caCertFile'=>  '', 
   'color'     =>  0,
   'daemon'    =>  0,
