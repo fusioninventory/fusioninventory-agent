@@ -23,6 +23,8 @@ Revision history for Ocsinventory::Agent
        * Target and Logger: fix the lock, use a global var now
        * Inventory: Set the VERSIONCLIENT XML key
        * HPUX: Software, fix the package name
+       * MacOSX, move the MacOSX packing files from the main branch to
+         lp:fusioninventory-agent/macosx
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
