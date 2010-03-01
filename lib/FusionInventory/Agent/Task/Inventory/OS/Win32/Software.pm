@@ -3,6 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Software;
 use strict;
 use warnings;
 
+use Config;
+
+
 use Encode qw(encode);
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
@@ -34,10 +37,10 @@ sub processSoftwares {
         my $data = $softwares->{$name};
         next unless keys %$data;
 
-    # odd, found on Win2003
+# odd, found on Win2003
         next unless keys %$data > 2;
 
-    
+
         my $name = encode('UTF-8', $data->{'/DisplayName'});
         my $comments = encode('UTF-8', $data->{'/Comments'});
         my $version = encode('UTF-8', $data->{'/DisplayVersion'});
@@ -53,27 +56,28 @@ sub processSoftwares {
 
 
         if ($data->{'/NoRemove'}) {
-           $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
-       }
+            $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
+        }
 
         $inventory->addSoftware ({
-            COMMENTS => $comments,
+                COMMENTS => $comments,
 #            FILESIZE => $filesize,
 #            FOLDER => $folder,
-            FROM => "registry",
-            HELPLINK => $helpLink,
-            INSTALLDATE => $installDate,
-            NAME => $name,
-            NOREMOVE => $noRemove,
-            RELEASETYPE => $releaseType,
-            PUBLISHER => $publisher,
-            UNINSTALL_STRING => $uninstallString,
-            URL_INFO_ABOUT => $urlInfoAbout,
-            VERSION => $version,
-            VERSION_MINOR => $versionMinor,
-            VERSION_MAJOR => $versionMajor,
-            IS64BIT => $is64bit,
-        });
+                FROM => "registry",
+                HELPLINK => $helpLink,
+                INSTALLDATE => $installDate,
+                NAME => $name,
+                NOREMOVE => $noRemove,
+                RELEASETYPE => $releaseType,
+                PUBLISHER => $publisher,
+                UNINSTALL_STRING => $uninstallString,
+                URL_INFO_ABOUT => $urlInfoAbout,
+                VERSION => $version,
+                VERSION_MINOR => $versionMinor,
+                VERSION_MAJOR => $versionMajor,
+                IS64BIT => $is64bit,
+                });
+    }
 }
 
 sub doInventory {
@@ -83,19 +87,31 @@ sub doInventory {
 
     my $KEY_WOW64_64KEY = 0x100; 
     my $KEY_WOW64_32KEY = 0x200; 
+
+
+    my $Config;
+
+    if ($Config{use64bitint}) {
+# I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read 32bit
+# entries. This is not the case on Win2003 and if I correctly understand
+# MSDN, this sounds very odd
+
+        my $machKey64bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+
+        my $softwares=
+            $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+        processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
+    }
+
+
+
     my $machKey32bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_32KEY,Delimiter=>"/"} );
-    my $machKey64bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
 
     my $softwares=
         $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
     processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
 
-
-    $softwares=
-        $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-    processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
-    }
 
 
 }
