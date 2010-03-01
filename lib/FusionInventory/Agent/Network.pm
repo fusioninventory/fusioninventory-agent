@@ -82,9 +82,6 @@ sub new {
   );
 
   bless $self;
-
-  $self->turnSSLCheckOn();
-
   return $self;
 }
 
@@ -204,9 +201,16 @@ sub turnSSLCheckOn {
          "validate the server SSL cert. If you want ".
          "to ignore this message and want to ignore SSL ".
          "verification, you can use the ".
-         "--no-ssl-check parameter."
+         "--no-ssl-check parameter to disable SSL check."
     );
   }
+  if (!$config->{caCertFile} && !$config->{caCertDir}) {
+      $logger->fault("You need to use either --ca-cert-file ".
+          "or --ca-cert-dir to give the location of your SSL ".
+          "certificat. You can also disable SSL check with ".
+          "--no-ssl-check but this is very unsecure.");
+  }
+
 
   my $parameter;
   if ($config->{caCertFile}) {
@@ -260,17 +264,28 @@ sub turnSSLCheckOn {
 sub setSslRemoteHost {
   my ($self, $args) = @_;
 
-  my $url = $self->{url};
+  my $uri = $self->{URI};
 
   my $config = $self->{config};
+  my $logger = $self->{logger};
+
   my $ua = $self->{ua};
 
   if ($config->{noSslCheck}) {
       return;
   }
 
+  if (!$self->{URI}) {
+    $logger->fault("setSslRemoteHost(), no url parameter!");
+  }
+
+  if ($self->{URI} !~ /^https:/i) {
+      return;
+  }
+  $self->turnSSLCheckOn();
+
   # Check server name against provided SSL certificate
-  if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/ ) {
+  if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
       my $cn = $1;
       $cn =~ s/([\-\.])/\\$1/g;
       $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$cn);
