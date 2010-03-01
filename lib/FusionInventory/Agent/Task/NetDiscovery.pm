@@ -377,6 +377,7 @@ sub StartThreads {
                                                                });
                                                             undef $iplist->{$device_id}->{IP};
                                                             undef $iplist->{$device_id}->{ENTITY};
+                                                            
                                                             if (keys %{$datadevice}) {
                                                                $xml_threadt->{DEVICE}->[$count] = $datadevice;
                                                                $xml_threadt->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
@@ -387,8 +388,9 @@ sub StartThreads {
                                                             $self->SendInformations({
                                                                   data => $xml_threadt
                                                                });
+                                                            $count = 0;
                                                          }
-                                                         undef($xml_threadt);
+                                                         $xml_threadt = {};
                                                          if ($loopip eq "1") {
                                                             $TuerThread{$p}[$t] = 2;
                                                             while ($TuerThread{$p}[$t] eq "2") {
