@@ -369,6 +369,7 @@ sub StartThreads {
                                                             }
                                                             my $datadevice = $self->discovery_ip_threaded({
                                                                   ip                  => $iplist->{$device_id}->{IP},
+                                                                  entity              => $iplist->{$device_id}->{ENTITY},
                                                                   authlist            => $authlistt,
                                                                   ModuleNmapScanner   => $ModuleNmapScanner,
                                                                   ModuleNetNBName     => $ModuleNetNBName,
@@ -498,7 +499,6 @@ sub discovery_ip_threaded {
    my ($self, $params) = @_;
 
    my $datadevice = {};
-   my $entity=0;
 
    #** Nmap discovery
    if ($params->{ModuleNmapParser} eq "1") {
@@ -663,7 +663,7 @@ sub discovery_ip_threaded {
                      $datadevice->{SNMPHOSTNAME} = $name;
                      $datadevice->{IP} = $params->{ip};
                      $datadevice->{MAC} = $mac;
-                     $datadevice->{ENTITY} = $entity;
+                     $datadevice->{ENTITY} = $params->{entity};
                      #$session->close;
                      return $datadevice;
                   } else {
@@ -678,7 +678,7 @@ sub discovery_ip_threaded {
 
    if ((exists($datadevice->{MAC})) || (exists($datadevice->{DNSHOSTNAME})) || (exists($datadevice->{NETBIOSNAME}))) {
       $datadevice->{IP} = $params->{ip};
-      $datadevice->{ENTITY} = $entity;
+      $datadevice->{ENTITY} = $params->{entity};
       $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
    }
    return $datadevice;
