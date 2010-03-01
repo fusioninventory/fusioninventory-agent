@@ -239,7 +239,7 @@ sub help {
 
 
 sub version {
-  print "FusionInventory Agent for UNIX, Linux, MacOSX and Windows (".$VERSION.")\n";
+  print "FusionInventory Agent (".$VERSION.")\n";
   exit 0;
 }
 
