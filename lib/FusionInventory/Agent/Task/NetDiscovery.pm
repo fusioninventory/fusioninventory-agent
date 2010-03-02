@@ -681,6 +681,9 @@ sub discovery_ip_threaded {
       $datadevice->{ENTITY} = $params->{entity};
       $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
    }
+   if (exists($datadevice->{MAC})) {
+      $datadevice->{MAC} =~ tr/A-F/a-f/;
+   }
    return $datadevice;
 }
 
