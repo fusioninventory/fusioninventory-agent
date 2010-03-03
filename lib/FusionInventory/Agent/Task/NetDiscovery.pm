@@ -94,6 +94,13 @@ sub StartThreads {
 	my $nb_threads_discovery = $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY};
 	my $nb_core_discovery    = $self->{NETDISCOVERY}->{PARAM}->[0]->{CORE_DISCOVERY};
 
+   if ( not eval { require Parallel::ForkManager; 1 } ) {
+      if ($nb_core_discovery > 1) {
+         $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
+         $nb_core_discovery = 1;
+      }
+   }
+
    # Send infos to server :
    my $xml_thread = {};
    $xml_thread->{AGENT}->{START} = '1';
@@ -160,7 +167,6 @@ sub StartThreads {
    #============================================
    $max_procs = $nb_core_discovery * $nb_threads_discovery;
    if ($nb_core_discovery > 1) {
-      use Parallel::ForkManager;
       $pm=new Parallel::ForkManager($max_procs);
    }
 

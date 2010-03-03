@@ -4,6 +4,10 @@ use strict;
 no strict 'refs';
 use warnings;
 
+use constant ETH_P_ALL => 0x0003;
+use constant PF_PACKET => 17;
+use constant SOCK_PACKET => 10;
+
 use Socket;
 use ExtUtils::Installed;
 use FusionInventory::Agent::Config;
@@ -78,21 +82,21 @@ sub StartMachine {
    my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
 
 # for LINUX ONLY:
-   socket(SOCKET, PF_PACKET, SOCK_PACKET, 0) or die "Couldn't create raw socket: $!";
+   if ( eval { socket(SOCKET, PF_PACKET, SOCK_PACKET, 0) or die "Couldn't create raw socket: $!"; }) {
 
-   setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1) or warn "Can't do setsockopt: $!\n";
+      setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1) or warn "Can't do setsockopt: $!\n";
 
-   # TODO : get mac adress of eth0
-   my $macaddresseth0 = "";
+      # TODO : get mac adress of eth0
+      my $macaddresseth0 = "";
 
-   $macaddress =~ s/://g;
-   $macaddresseth0 =~ s/://g;
+      $macaddress =~ s/://g;
+      $macaddresseth0 =~ s/://g;
 
-   my $magic_packet = (pack('H12', $macaddress)) . (pack('H12', $macaddresseth0)) . (pack('H4', "0842"));
-   $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
-   my $destination = pack("Sa14", 0, "eth0");
-   send(SOCKET, $magic_packet, 0, $destination) or die "Couldn't send packet: $!";
-
+      my $magic_packet = (pack('H12', $macaddress)) . (pack('H12', $macaddresseth0)) . (pack('H4', "0842"));
+      $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
+      my $destination = pack("Sa14", 0, "eth0");
+      send(SOCKET, $magic_packet, 0, $destination) or die "Couldn't send packet: $!";
+   }
 
 # For FreeBSD, send to /dev/bpf ....
 

@@ -117,6 +117,13 @@ sub StartThreads {
    my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
 	my $nb_core_query = $self->{SNMPQUERY}->{PARAM}->[0]->{CORE_QUERY};
 
+   if ( not eval { require Parallel::ForkManager; 1 } ) {
+      if ($nb_core_query > 1) {
+         $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
+         $nb_core_query = 1;      
+      }
+   }
+
    $devicetype[0] = "NETWORKING";
    $devicetype[1] = "PRINTER";
 
@@ -239,7 +246,6 @@ sub StartThreads {
 	#============================================
    my $max_procs = $nb_core_query*$nb_threads_query;
    if ($nb_core_query > 1) {
-      use Parallel::ForkManager;
       $pm=new Parallel::ForkManager($max_procs);
    }
 
