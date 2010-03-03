@@ -1,5 +1,14 @@
 Revision history for Ocsinventory::Agent
 
+2.0beta4
+       * SNMPQUERY : Update Dico to known new devices (David DURIEUX)
+       * SNMPQUERY : Corrections of ports, mac address and other things (David DURIEUX)
+       * NETDISCOVERY : Correction of NMAP discovery (David DURIEUX)
+       * NETDISCOVERY : Correction of many bugs (empty devices, data send to server...) (David DURIEUX)
+       * rename FusionInventory::Agent::Task::NetDiscovery::dico in FusionInventory::Agent::Task::NetDiscovery::Dico;
+       * WAKEONLAN : Begin to rewrite good WOL, so send magic packet directly on OSI2 of network card (ONLY FOR LINUX UNDER ROOT) (David DURIEUX)
+
+
 2.0beta1
        * Use Sys::Hostname instead of uname for better portability
        * add --daemon-no-fork
