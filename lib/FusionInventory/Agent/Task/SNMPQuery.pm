@@ -597,7 +597,7 @@ sub query_device_threaded {
       }
       # Conversion
 
-      ($datadevice, $HashDataSNMP) = ConstructDataDeviceMultiple($HashDataSNMP,$datadevice, $self);
+      ($datadevice, $HashDataSNMP) = ConstructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $params->{modellist}->{WALK}->{vtpVlanName}->{OID});
 #      #print "DATADEVICE WALK ========================\n";
 
 # print Dumper($datadevice);
@@ -765,6 +765,7 @@ sub ConstructDataDeviceMultiple {
    my $HashDataSNMP = shift;
    my $datadevice = shift;
    my $self = shift;
+   my $vtpVlanName_oid = shift;
    
    my $object;
    my $data;
@@ -887,7 +888,7 @@ sub ConstructDataDeviceMultiple {
    if (exists $HashDataSNMP->{vmvlan}) {
       while ( ($object,$data) = each (%{$HashDataSNMP->{vmvlan}}) ) {
          $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NUMBER} = $data;
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$data};
+         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$vtpVlanName_oid.".".$data};
       }
       delete $HashDataSNMP->{vmvlan};
    }
