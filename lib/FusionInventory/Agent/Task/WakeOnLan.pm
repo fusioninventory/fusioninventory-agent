@@ -36,7 +36,7 @@ sub main {
     my $myData = $self->{myData} = $storage->restore(__PACKAGE__);
 
     my $config = $self->{config} = $data->{config};
-    my $target = $self->{'target'} = $data->{'target'};
+    my $target = $self->{target} = $data->{'target'};
     my $logger = $self->{logger} = new FusionInventory::Logger ({
             config => $self->{config}
         });
@@ -81,24 +81,39 @@ sub StartMachine {
    my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
    my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
 
-# for LINUX ONLY:
-   if ( eval { socket(SOCKET, PF_PACKET, SOCK_PACKET, 0) or die "Couldn't create raw socket: $!"; }) {
+   if ($macaddress !~ /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/) {
+      $self->{logger}->debug("Invalid MacAddress. Exiting...");
+      exit(0);
+   }
+   $macaddress =~ s/://g;
+
+   ###  for LINUX ONLY ###
+   if ( eval { socket(SOCKET, PF_PACKET, SOCK_PACKET, 0); }) {
 
       setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1) or warn "Can't do setsockopt: $!\n";
 
-      # TODO : get mac adress of eth0
-      my $macaddresseth0 = "";
+      my $rec = `/sbin/ifconfig -a | grep "HWaddr"`;
+      my @netcards = split(/\n/, $rec);
+      foreach (@netcards) {
+         my ($netName, $field2, $field3, $field4, $netMac) = split(/\s+/, $_);
 
-      $macaddress =~ s/://g;
-      $macaddresseth0 =~ s/://g;
+         $netMac =~ s/://g;
 
-      my $magic_packet = (pack('H12', $macaddress)) . (pack('H12', $macaddresseth0)) . (pack('H4', "0842"));
-      $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
-      my $destination = pack("Sa14", 0, "eth0");
-      send(SOCKET, $magic_packet, 0, $destination) or die "Couldn't send packet: $!";
+         my $magic_packet = (pack('H12', $macaddress)) . (pack('H12', $netMac)) . (pack('H4', "0842"));
+         $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
+         my $destination = pack("Sa14", 0, $netName);
+         send(SOCKET, $magic_packet, 0, $destination) or warn "Couldn't send packet: $!";
+      }
+# TODO : For FreeBSD, send to /dev/bpf ....
+   } else { # degraded wol by UDP
+      if ( eval { socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp')) }) {
+         my $magic_packet = chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
+         my $sinbroadcast = sockaddr_in("9", inet_aton("255.255.255.255"));
+         send(SOCKET, $magic_packet, 0, $sinbroadcast);
+      } else {
+         $self->{logger}->debug("Impossible to send magic packet...");
+      }
    }
-
-# For FreeBSD, send to /dev/bpf ....
 
 
 # For Windows, I don't know, just test
