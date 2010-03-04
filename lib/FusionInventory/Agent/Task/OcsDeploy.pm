@@ -722,7 +722,7 @@ sub readProlog {
     }
     my $conf = $prologresp->getOptionsInfoByName("DOWNLOAD");
 
-    if ( !@$conf ) {
+    if ( !$conf || !@$conf ) {
         $logger->debug("no DOWNLOAD options returned during PROLOG");
         return;
     }
