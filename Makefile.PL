@@ -108,11 +108,6 @@ if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
     "want to use the daemon mode.\n";
 }
 
-if (!can_use('Net::Wake')) {
-    print "Please install Net::Wake if you ".
-    "want to use the wakeonlan mode.\n";
-}
-
 
 my $archname;
 eval { # config_re is not available on Perl 5.6
