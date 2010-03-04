@@ -32,12 +32,6 @@ sub main {
     my $self = {};
     bless $self;
 
-   if ( not eval { require Net::SNMP; 1 } ) {
-      $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
-      exit(0);
-   }
-
-
     my $storage = new FusionInventory::Agent::Storage({
             target => {
                 vardir => $ARGV[0],
@@ -54,6 +48,11 @@ sub main {
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
+
+   if ( not eval { require Net::SNMP; 1 } ) {
+      $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
+      exit(0);
+   }
 
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
    $hour  = sprintf("%02d", $hour);
@@ -117,6 +116,13 @@ sub StartThreads {
 
    my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
 	my $nb_core_query = $self->{SNMPQUERY}->{PARAM}->[0]->{CORE_QUERY};
+
+   if ( not eval { require Parallel::ForkManager; 1 } ) {
+      if ($nb_core_query > 1) {
+         $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
+         $nb_core_query = 1;      
+      }
+   }
 
    $devicetype[0] = "NETWORKING";
    $devicetype[1] = "PRINTER";
@@ -240,7 +246,6 @@ sub StartThreads {
 	#============================================
    my $max_procs = $nb_core_query*$nb_threads_query;
    if ($nb_core_query > 1) {
-      use Parallel::ForkManager;
       $pm=new Parallel::ForkManager($max_procs);
    }
 
@@ -598,7 +603,7 @@ sub query_device_threaded {
       }
       # Conversion
 
-      ($datadevice, $HashDataSNMP) = ConstructDataDeviceMultiple($HashDataSNMP,$datadevice, $self);
+      ($datadevice, $HashDataSNMP) = ConstructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $params->{modellist}->{WALK}->{vtpVlanName}->{OID});
 #      #print "DATADEVICE WALK ========================\n";
 
 # print Dumper($datadevice);
@@ -766,6 +771,7 @@ sub ConstructDataDeviceMultiple {
    my $HashDataSNMP = shift;
    my $datadevice = shift;
    my $self = shift;
+   my $vtpVlanName_oid = shift;
    
    my $object;
    my $data;
@@ -888,7 +894,7 @@ sub ConstructDataDeviceMultiple {
    if (exists $HashDataSNMP->{vmvlan}) {
       while ( ($object,$data) = each (%{$HashDataSNMP->{vmvlan}}) ) {
          $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NUMBER} = $data;
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$data};
+         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$vtpVlanName_oid.".".$data};
       }
       delete $HashDataSNMP->{vmvlan};
    }

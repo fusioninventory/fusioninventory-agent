@@ -23,7 +23,7 @@ use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::SNMP;
-use FusionInventory::Agent::Task::NetDiscovery::dico;
+use FusionInventory::Agent::Task::NetDiscovery::Dico;
 
 use FusionInventory::Agent::AccountInfo;
 
@@ -94,6 +94,13 @@ sub StartThreads {
 	my $nb_threads_discovery = $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY};
 	my $nb_core_discovery    = $self->{NETDISCOVERY}->{PARAM}->[0]->{CORE_DISCOVERY};
 
+   if ( not eval { require Parallel::ForkManager; 1 } ) {
+      if ($nb_core_discovery > 1) {
+         $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
+         $nb_core_discovery = 1;
+      }
+   }
+
    # Send infos to server :
    my $xml_thread = {};
    $xml_thread->{AGENT}->{START} = '1';
@@ -160,7 +167,6 @@ sub StartThreads {
    #============================================
    $max_procs = $nb_core_discovery * $nb_threads_discovery;
    if ($nb_core_discovery > 1) {
-      use Parallel::ForkManager;
       $pm=new Parallel::ForkManager($max_procs);
    }
 
@@ -369,6 +375,7 @@ sub StartThreads {
                                                             }
                                                             my $datadevice = $self->discovery_ip_threaded({
                                                                   ip                  => $iplist->{$device_id}->{IP},
+                                                                  entity              => $iplist->{$device_id}->{ENTITY},
                                                                   authlist            => $authlistt,
                                                                   ModuleNmapScanner   => $ModuleNmapScanner,
                                                                   ModuleNetNBName     => $ModuleNetNBName,
@@ -377,6 +384,7 @@ sub StartThreads {
                                                                });
                                                             undef $iplist->{$device_id}->{IP};
                                                             undef $iplist->{$device_id}->{ENTITY};
+                                                            
                                                             if (keys %{$datadevice}) {
                                                                $xml_threadt->{DEVICE}->[$count] = $datadevice;
                                                                $xml_threadt->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
@@ -387,7 +395,9 @@ sub StartThreads {
                                                             $self->SendInformations({
                                                                   data => $xml_threadt
                                                                });
+                                                            $count = 0;
                                                          }
+                                                         $xml_threadt = {};
                                                          if ($loopip eq "1") {
                                                             $TuerThread{$p}[$t] = 2;
                                                             while ($TuerThread{$p}[$t] eq "2") {
@@ -495,7 +505,6 @@ sub discovery_ip_threaded {
    my ($self, $params) = @_;
 
    my $datadevice = {};
-   my $entity=0;
 
    #** Nmap discovery
    if ($params->{ModuleNmapParser} eq "1") {
@@ -660,7 +669,7 @@ sub discovery_ip_threaded {
                      $datadevice->{SNMPHOSTNAME} = $name;
                      $datadevice->{IP} = $params->{ip};
                      $datadevice->{MAC} = $mac;
-                     $datadevice->{ENTITY} = $entity;
+                     $datadevice->{ENTITY} = $params->{entity};
                      #$session->close;
                      return $datadevice;
                   } else {
@@ -675,8 +684,11 @@ sub discovery_ip_threaded {
 
    if ((exists($datadevice->{MAC})) || (exists($datadevice->{DNSHOSTNAME})) || (exists($datadevice->{NETBIOSNAME}))) {
       $datadevice->{IP} = $params->{ip};
-      $datadevice->{ENTITY} = $entity;
+      $datadevice->{ENTITY} = $params->{entity};
       $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
+   }
+   if (exists($datadevice->{MAC})) {
+      $datadevice->{MAC} =~ tr/A-F/a-f/;
    }
    return $datadevice;
 }
@@ -708,7 +720,7 @@ sub verifySerial {
    my $serial;
    my $serialreturn = q{}; # Empty string
 
-   my $xmlDico = FusionInventory::Agent::Task::NetDiscovery::dico::loadDico();
+   my $xmlDico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
    foreach my $num (@{$xmlDico->{DEVICE}}) {
       if ($num->{SYSDESCR} eq $description) {
          
