@@ -298,17 +298,13 @@ sub StartThreads {
                                                    my $xmlout;
                                                    my $xml;
                                                    my $data_compressed;
+                                                   my $loopthread = 0;
 
+                                                   $self->{logger}->debug("Core $p - Thread $t created");
 
-                                                   #$xml_thread->{CONTENT}->{AGENT}->{DEVICEID}; # Key
-                                                   # PID ?
-                                                   #
-
-                                                   BOUCLET: while (1) {
-                                                      #print "Thread\n";
+                                                   while ($loopthread ne "1") {
                                                       # Lance la procédure et récupère le résultat
                                                       $device_id = "";
-
                                                       {
                                                          lock %devicelist2;
                                                          if (keys %{$devicelist2{$p}} ne "0") {
@@ -316,34 +312,32 @@ sub StartThreads {
                                                             $device_id = pop @keys;
                                                             delete $devicelist2{$p}{$device_id};
                                                          } else {
-                                                            last BOUCLET;
+                                                            $loopthread = 1;
                                                          }
                                                       }
-                                                      my $datadevice = $self->query_device_threaded({
-                                                            device              => $devicelist->{$device_id},
-                                                            modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
-                                                            authlist            => $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
-                                                         });
-                                                      #undef $devicelist[$p]{$device_id};
-                                                      $xml_thread->{DEVICE}->[$count] = $datadevice;
-                                                      $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
-                                                      $count++;
-                                                      if ($count eq "4") { # Send all of 4 devices
-                                                         #$self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
-                                                         $self->SendInformations({
-                                                            data => $xml_thread
+                                                      if ($loopthread ne "1") {
+                                                         my $datadevice = $self->query_device_threaded({
+                                                               device              => $devicelist->{$device_id},
+                                                               modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
+                                                               authlist            => $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
                                                             });
-                                                         $TuerThread{$p}[$t] = 1;
-                                                         $count = 0;
+                                                         $xml_thread->{DEVICE}->[$count] = $datadevice;
+                                                         $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+                                                         $count++;
+                                                         if (($count eq "4") || (($loopthread eq "1") && ($count > 0))) {
+                                                            $self->SendInformations({
+                                                               data => $xml_thread
+                                                               });
+                                                            $TuerThread{$p}[$t] = 1;
+                                                            $count = 0;
+                                                         }
                                                       }
                                                    }
-                                                   #$self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
-
                                                    $self->SendInformations({
                                                       data => $xml_thread
                                                       });
                                                    $TuerThread{$p}[$t] = 1;
-                                                   return;
+                                                   $self->{logger}->debug("Core $p - Thread $t deleted");
                                                 }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self)->detach();
          sleep 1;
       }
