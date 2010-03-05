@@ -3,7 +3,7 @@ package FusionInventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
-our $VERSION = '2.0beta3';
+our $VERSION = '2.0beta4';
 my $basedir = '';
 
 if ($^O =~ /^MSWin/) {
@@ -11,7 +11,7 @@ if ($^O =~ /^MSWin/) {
 }
 
 my $default = {
-  'caCertDir' =>  '/etc/ssl/certs',
+  'caCertDir' =>  '',
   'caCertFile'=>  '', 
   'color'     =>  0,
   'daemon'    =>  0,
@@ -239,7 +239,7 @@ sub help {
 
 
 sub version {
-  print "FusionInventory Agent for UNIX, Linux, MacOSX and Windows (".$VERSION.")\n";
+  print "FusionInventory Agent (".$VERSION.")\n";
   exit 0;
 }
 

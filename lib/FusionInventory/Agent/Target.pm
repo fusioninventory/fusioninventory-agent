@@ -5,14 +5,15 @@ use File::Path;
 use strict;
 use warnings;
 
+# resetNextRunDate() can also be call from another thread (RPC)
+my $lock : shared;
+
 sub new {
     my (undef, $params) = @_;
 
     my $self = {};
 
-    my $lock : shared;
-    $self->{'lock'} = \$lock; ### BORKEN !!! TODO !
-    lock(${$self->{'lock'}});
+    lock($lock);
 
     my $nextRunDate : shared;
     $self->{'nextRunDate'} = \$nextRunDate;
@@ -111,7 +112,7 @@ sub init {
     my $config = $self->{'config'};
     my $logger = $self->{'logger'};
 
-    lock(${$self->{'lock'}});
+    lock($lock);
 # The agent can contact different servers. Each server has it's own
 # directory to store data
     if (
@@ -171,9 +172,11 @@ sub setNextRunDate {
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
+    lock($lock);
+
     my $serverdelay = $self->{myData}{prologFreq};
 
-    lock(${$self->{'lock'}});
+    lock($lock);
 
     my $time;
     if( $self->{prologFreqChanged} ){
@@ -205,7 +208,7 @@ sub getNextRunDate {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    lock(${$self->{'lock'}});
+    lock($lock);
 
     # Only for server mode
     return 1 if $self->{'type'} ne 'server';
@@ -236,7 +239,7 @@ sub resetNextRunDate {
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
-    lock(${$self->{'lock'}});
+    lock($lock);
     $logger->debug("Force run now");
     
     $self->{'myData'}{'nextRunDate'} = 1;

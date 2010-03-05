@@ -3,7 +3,12 @@ Revision history for Ocsinventory::Agent
 2.1
        * Windows: Add new values for SOFTWARES key
 
-2.0beta4
+2.0beta5
+       * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
+         option
+       * Drop the Net::Walk dependency
+
+2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies
          are not avalaible on RHEL5.x, thank you Remi Collet for pointing
          this issue.
@@ -19,6 +24,21 @@ Revision history for Ocsinventory::Agent
        * Network: load HTTP::Status
        * standalone.sh dropped, was deprecated with the 2.0 changes
        * Do not ignore --server if --local is present
+       * Inventory: No need to generate in local mode
+       * Inventory: create one last_state file per server
+       * Inventory: save last_state if server send a response
+       * Storage: use umask 077 for stored files
+       * Target and Logger: fix the lock, use a global var now
+       * Inventory: Set the VERSIONCLIENT XML key
+       * HPUX: Software, fix the package name
+       * MacOSX, move the MacOSX packing files from the main branch to
+         lp:fusioninventory-agent/macosx
+       * SNMPQUERY : Update Dico to known new devices (David DURIEUX)
+       * SNMPQUERY : Corrections of ports, mac address and other things (David DURIEUX)
+       * NETDISCOVERY : Correction of NMAP discovery (David DURIEUX)
+       * NETDISCOVERY : Correction of many bugs (empty devices, data send to server...) (David DURIEUX)
+       * rename FusionInventory::Agent::Task::NetDiscovery::dico in FusionInventory::Agent::Task::NetDiscovery::Dico;
+       * WAKEONLAN : Begin to rewrite good WOL, so send magic packet directly on OSI2 of network card (ONLY FOR LINUX UNDER ROOT) (David DURIEUX)
 
 2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
        * README: clean up
