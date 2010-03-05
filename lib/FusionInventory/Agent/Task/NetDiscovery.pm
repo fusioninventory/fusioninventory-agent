@@ -178,13 +178,16 @@ sub StartThreads {
       }
 
       my $threads_run = 0;
-      my $loopip : shared = 1;
+      my $loop_action : shared = 1;
       my $exit : shared = 0;
 
+      my %ThreadState : shared;
+      my %ThreadAction : shared;
       $iplist = &share({});
+      my $loop_nbthreads : shared;
 
 
-      while ($loopip eq "1") {
+      while ($loop_action > 0) {
          $countnb = 0;
          $nbip = 0;
          $core_counter = 0;
@@ -261,19 +264,18 @@ sub StartThreads {
                }
             }
          }
-         print "LOOPIP = 0\n";
-         $loopip = 0;
+         $loop_action = 0;
 
-         if ($nbip > ($nb_ip_per_thread * 4)) {
-            
-         } elsif ($nbip > $nb_ip_per_thread) {
-            $nb_threads_discovery = int($nbip / $nb_ip_per_thread) + 4;
-         } else {
-            $nb_threads_discovery = $nbip;
-         }
+#         if ($nbip > ($nb_ip_per_thread * 4)) {
+#            
+#         } elsif ($nbip > $nb_ip_per_thread) {
+#            $nb_threads_discovery = int($nbip / $nb_ip_per_thread) + 4;
+#         } else {
+#            $nb_threads_discovery = $nbip;
+#         }
 
          CONTINUE:
-         print "NPIP : ".$nbip."\n";
+         $loop_nbthreads = $nb_threads_discovery;
          # Send NB ips to server :
          $xml_thread = {};
          $xml_thread->{AGENT}->{NBIP} = $nbip;
@@ -283,14 +285,9 @@ sub StartThreads {
             });
          undef($xml_thread);
 
-         if ($threads_run eq "0") {
-            #write_pid();
-            # CrÃ©ation des threads
-            $TuerThread{$p} = &share([]);
-         }
-
          for(my $j = 0 ; $j < $nb_threads_discovery ; $j++) {
-            $TuerThread{$p}[$j] = 0; # 0 : thread en vie, 1 : thread se termine
+            $ThreadState{$j} = "0";
+            $ThreadAction{$j} = "0";
          }
          #==================================
          # Prepare in variables devices to query
@@ -307,40 +304,7 @@ sub StartThreads {
          #===================================
          $exit = 2;
 
-         if ($threads_run eq "0") {
-            my $Threadmanagement = threads->create( sub {
-                                                      $nb_threads_discovery = shift;
-
-                                                      $exit = 0;
-
-                                                      BOUCLETMANAGE: while($exit eq "0") {
-                                                         sleep 2;
-                                                         my $count = 0;
-                                                         for(my $it = 0 ; $it < $nb_threads_discovery ; $it++) {
-                                                            if ($TuerThread{$p}[$it] eq "1") {
-                                                               $count++;
-                                                            }
-                                                            if ($TuerThread{$p}[$it] eq "2") {
-                                                               $count++;
-                                                            }
-                                                            if ( $count eq $nb_threads_discovery ) {
-                                                               $exit = 1;
-                                                            }
-                                                         }
-                                                      }
-                                                      if ($loopip eq "1") {
-                                                         while($exit ne "2") {
-                                                            sleep 1;
-                                                         }
-                                                         for(my $it2 = 0 ; $it2 < $nb_threads_discovery ; $it2++) {
-                                                            $TuerThread{$p}[$it2] = "0";
-                                                         }
-                                                         $exit = 0;
-                                                         goto BOUCLETMANAGE;
-                                                      }
-                                                      return;
-                                                   }, $nb_threads_discovery)->detach();
-
+         if ($threads_run eq "0") {            
             #===================================
             # Create all Threads
             #===================================
@@ -348,78 +312,178 @@ sub StartThreads {
             for(my $j = 0; $j < $nb_threads_discovery; $j++) {
                $threads_run = 1;
                $k++;
-               $Thread[$p][$j] = threads->create( sub {
-                                                         my $p = shift;
-                                                         my $t = shift;
-                                                         my $authlistt = shift;
-                                                         my $self = shift;
+               $Thread[$p][$j] = threads->create(
+                  sub {
+                     my $p = shift;
+                     my $t = shift;
+                     my $authlistt = shift;
+                     my $self = shift;
+                     my $loopthread = 0;
+                     my $loopbigthread = 0;
+                     my $count = 0;
+                     my $device_id;
+                     my $xml_threadt;
 
-                                                         $self->{logger}->debug("Core $p - Thread $t created");
-                                                         my $device_id;
-                                                         my $xml_threadt = {};
-                                                         my $count = 0;
+                     $self->{logger}->debug("Core $p - Thread $t created");
+                     while ($loopbigthread ne "1") {
+                        ##### WAIT ACTION #####
+                        $loopthread = 0;
+                        while ($loopthread ne "1") {
+                           if ($ThreadAction{$t} eq "3") { # STOP
+                              $ThreadState{$t} = "2";
+                              $self->{logger}->debug("Core $p - Thread $t deleted");
+                              return;
+                           } elsif ($ThreadAction{$t} ne "0") { # RUN
+                              $ThreadState{$t} = "1";
+                              $loopthread  = 1;
+                           }
+                           sleep 1;
+                        }
+                        ##### RUN ACTION #####
+                        $loopthread = 0;
+                        while ($loopthread ne "1") {
+                           $device_id = q{}; # Empty string
+                           {
+                              lock $iplist2;
+                              if (keys %{$iplist2} ne "0") {
+                                 my @keys = sort keys %{$iplist2};
+                                 $device_id = pop @keys;
+                                 delete $iplist2->{$device_id};
+                              } else {
+                                 $loopthread = 1;
+                              }
+                           }
+                           if ($loopthread ne "1") {
+                              my $datadevice = $self->discovery_ip_threaded({
+                                    ip                  => $iplist->{$device_id}->{IP},
+                                    entity              => $iplist->{$device_id}->{ENTITY},
+                                    authlist            => $authlistt,
+                                    ModuleNmapScanner   => $ModuleNmapScanner,
+                                    ModuleNetNBName     => $ModuleNetNBName,
+                                    ModuleNmapParser    => $ModuleNmapParser,
+                                    ModuleNetSNMP       => $ModuleNetSNMP
+                                 });
+                              undef $iplist->{$device_id}->{IP};
+                              undef $iplist->{$device_id}->{ENTITY};
 
-                                                         BOUCLET: while (1) {
-                                                            #print "Thread\n";
-                                                            # Lance la procÃ©dure et rÃ©cupÃ¨re le rÃ©sultat
-                                                            $device_id = q{}; # Empty string
-                                                            {
-                                                               lock $iplist2;
-                                                               if (keys %{$iplist2} ne "0") {
-                                                                  my @keys = sort keys %{$iplist2};
-                                                                  $device_id = pop @keys;
-                                                                  delete $iplist2->{$device_id};
-                                                               } else {
-                                                                  last BOUCLET;
-                                                               }
-                                                            }
-                                                            my $datadevice = $self->discovery_ip_threaded({
-                                                                  ip                  => $iplist->{$device_id}->{IP},
-                                                                  entity              => $iplist->{$device_id}->{ENTITY},
-                                                                  authlist            => $authlistt,
-                                                                  ModuleNmapScanner   => $ModuleNmapScanner,
-                                                                  ModuleNetNBName     => $ModuleNetNBName,
-                                                                  ModuleNmapParser    => $ModuleNmapParser,
-                                                                  ModuleNetSNMP       => $ModuleNetSNMP
-                                                               });
-                                                            undef $iplist->{$device_id}->{IP};
-                                                            undef $iplist->{$device_id}->{ENTITY};
-                                                            
-                                                            if (keys %{$datadevice}) {
-                                                               $xml_threadt->{DEVICE}->[$count] = $datadevice;
-                                                               $xml_threadt->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-                                                               $count++;
-                                                            }
-                                                         }
-                                                         if ($count > 0) {
-                                                            $self->SendInformations({
-                                                                  data => $xml_threadt
-                                                               });
-                                                            $count = 0;
-                                                         }
-                                                         $xml_threadt = {};
-                                                         if ($loopip eq "1") {
-                                                            $TuerThread{$p}[$t] = 2;
-                                                            while ($TuerThread{$p}[$t] eq "2") {
-                                                               sleep 1;
-                                                            }
-                                                            goto BOUCLET;
-                                                         } else {
-                                                            $TuerThread{$p}[$t] = 1;
-                                                         }
-                                                         $self->{logger}->debug("Core $p - Thread $t deleted");
-                                                         return;
-                                                      }, $p, $j, $authlist, $self)->detach();
-               if ($k eq "2") {
+                              if (keys %{$datadevice}) {
+                                 $xml_threadt->{DEVICE}->[$count] = $datadevice;
+                                 $xml_threadt->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+                                 $count++;
+                              }
+                           }
+                           if (($count eq "4") || (($loopthread eq "1") && ($count > 0))) {
+                              $self->SendInformations({
+                                    data => $xml_threadt
+                                 });
+                              $count = 0;
+                           }
+                        }
+                        ##### CHANGE STATE #####
+                        if ($ThreadAction{$t} eq "2") { # STOP
+                           $ThreadState{$t} = 2;
+                           $ThreadAction{$t} = 0;
+                           $self->{logger}->debug("Core $p - Thread $t deleted");
+                           return;
+                        } elsif ($ThreadAction{$t} eq "1") { # PAUSE
+                           $ThreadState{$t} = 0;
+                           $ThreadAction{$t} = 0;
+                        }
+                     }
+                  }, $p, $j, $authlist, $self
+               )->detach();
+
+               
+               if ($k eq "4") {
                   sleep 1;
                   $k = 0;
                }
             }
+            ##### Start Thread Management #####
+               my $Threadmanagement = threads->create(
+                  sub {
+                     my ($self, $params) = @_;
+
+                     my $count;
+                     my $i;
+                     my $loopthread;
+
+                     while (1) {
+                        if ($loop_action eq "0") {
+                           ## Kill threads who do nothing partiel ##
+#                              for($i = ($loop_nbthreads - 1) ; $i < $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY} ; $i++) {
+#                                 $ThreadAction{$i} = "3";
+#                              }
+
+                           ## Start + end working threads (faire fonction) ##
+                              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                                 $ThreadAction{$i} = "2";
+                                 #$ThreadState{$i} = "1";
+                              }
+                           ## Fonction etat des working threads (s'ils sont arretes) ##
+                              $count = 0;
+                              $loopthread = 0;
+
+                              while ($loopthread ne "1") {
+                                 for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                                    if ($ThreadState{$i} eq "2") {
+                                       $count++;
+                                    }
+                                 }
+                                 if ($count eq $loop_nbthreads) {
+                                    $loopthread = 1;
+                                 } else {
+                                    $count = 0;
+                                 }
+                                 sleep 1;
+                              }
+                              $exit = 1;
+                              return;
+                              
+                        } elsif ($loop_action eq "1") {
+                           ## Start + pause working Threads (faire fonction) ##
+                              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                                 $ThreadAction{$i} = "1";
+                                 #$ThreadState{$i} = "1";
+                              }
+                           sleep 1;
+
+                           ## Fonction etat des working threads (s'il sont tous en pause) ##
+                              $count = 0;
+                              $loopthread = 0;
+
+                              while ($loopthread ne "1") {
+                                 for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                                    #print "ThreadState ".$i." = ".$ThreadState{$i}."\n";
+                                    if ($ThreadState{$i} eq "0") {
+                                       $count++;
+                                    }
+                                 }
+                                 if ($count eq $loop_nbthreads) {
+                                    $loopthread = 1;
+                                 } else {
+                                    $count = 0;
+                                 }
+                                 sleep 1;
+                              }
+                              $exit = 1;
+
+                        }
+                        $loop_action = "2";
+                        sleep 1;
+                     }
+
+                     return;
+                  },
+                  $self
+               )->detach();
+
          }
+        
         while($exit ne "1") {
            sleep 2;
         }
-      } # End loopip
+      } 
      if ($nb_core_discovery > 1) {
          $pm->finish;
       }
@@ -670,6 +734,7 @@ sub discovery_ip_threaded {
                      $datadevice->{IP} = $params->{ip};
                      $datadevice->{MAC} = $mac;
                      $datadevice->{ENTITY} = $params->{entity};
+                     $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
                      #$session->close;
                      return $datadevice;
                   } else {
