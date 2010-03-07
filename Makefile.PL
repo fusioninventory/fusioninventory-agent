@@ -57,6 +57,7 @@ use Cwd;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
+install_script  'fusioninventory-win32-service' if $^O =~ /^MSWin/;
 
 
 # We want a release bundled with the needed dependency to be able to

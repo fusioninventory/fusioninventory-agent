@@ -29,7 +29,7 @@ sub new {
     bless $self;
 
     $SIG{PIPE} = 'IGNORE';
-    if ($config->{daemon} || $config->{daemonNoFork}) {
+    if ($config->{daemon} || $config->{daemonNoFork} || $config->{winService}) {
         $self->{thr} = threads->create('server', $self);
     }
 

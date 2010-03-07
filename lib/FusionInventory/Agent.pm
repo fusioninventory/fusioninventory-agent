@@ -46,12 +46,16 @@ use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::Targets;
 
 sub new {
-    my (undef, $self) = @_;
+    my (undef, $self, $params) = @_;
 
 ############################
 #### CLI parameters ########
 ############################
     my $config = $self->{config} = FusionInventory::Agent::Config::load();
+
+    if ($params->{winService}) {
+        $config->{winService} = 1;
+    }
 
     # TODO: should be in Config.pm
     if ($config->{logfile}) {

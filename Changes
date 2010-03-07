@@ -2,6 +2,7 @@ Revision history for Ocsinventory::Agent
 
 2.1
        * Windows: Add new values for SOFTWARES key
+       * Add Windows service
 
 2.0beta5
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
