@@ -1034,11 +1034,13 @@ sub Cisco_GetMAC {
                if ($ifphysaddress eq "") {
                   $add = 0;
                }
+               if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
+                  $add = 0;
+               }
                if ($add eq "1") {
                   if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
                      $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
                      #$i++;
-                     print "Number : ".$i."\n";
                   } else {
                      $i = 0;
                   }
