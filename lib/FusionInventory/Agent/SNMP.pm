@@ -286,10 +286,10 @@ sub getbadmacaddress {
 
    }
 
-
    my @array = split(/(\S{2})/, $oid_value);
-   $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
-
+   if (@array eq "14") {
+      $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
+   }
    return $oid_value;
 
 }
