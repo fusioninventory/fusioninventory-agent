@@ -627,6 +627,8 @@ sub query_device_threaded {
          } else {
             if ($datadevice->{INFO}->{COMMENTS} =~ /3Com IntelliJack/) {
                ($datadevice, $HashDataSNMP) = threecom_GetMAC($HashDataSNMP,$datadevice,$self,$params->{modellist}->{WALK});
+            } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
+               ($datadevice, $HashDataSNMP) = Procurve_GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
             }
          }
       }
@@ -882,6 +884,9 @@ sub ConstructDataDeviceMultiple {
       if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
          ($datadevice, $HashDataSNMP) = Cisco_TrunkPorts($HashDataSNMP,$datadevice, $self);
          ($datadevice, $HashDataSNMP) = Cisco_CDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
+      } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
+         ($datadevice, $HashDataSNMP) = Cisco_TrunkPorts($HashDataSNMP,$datadevice, $self);
+         ($datadevice, $HashDataSNMP) = Cisco_CDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
       }
    }
 
@@ -932,6 +937,19 @@ sub PutPourcentageOid {
    return $datadevice, $HashDataSNMP;
 }
 
+
+
+sub lastSplitObject {
+   my $var = shift;
+
+   my @array = split(/\./, $var);
+   return $array[-1];
+}
+
+
+#############################################################################
+######################## MANUFACTURER SPECIFICATIONS ########################
+#############################################################################
 
 sub Cisco_TrunkPorts {
    my $HashDataSNMP = shift,
@@ -984,14 +1002,6 @@ sub Cisco_CDPPorts {
 }
 
 
-sub lastSplitObject {
-   my $var = shift;
-
-   my @array = split(/\./, $var);
-   return $array[-1];
-}
-
-
 sub Cisco_GetMAC {
    my $HashDataSNMP = shift,
    my $datadevice = shift;
@@ -1024,13 +1034,6 @@ sub Cisco_GetMAC {
                            };
             if (not exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
                my $add = 1;
-#               if (defined($datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC})) {
-#                  #while ($macnb) = each (@{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}}) {
-#                     if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
-#                        $add = 0;
-#                     }
-#                  #}
-#               }
                if ($ifphysaddress eq "") {
                   $add = 0;
                }
@@ -1045,12 +1048,6 @@ sub Cisco_GetMAC {
                      $i = 0;
                   }
                   $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
-                  ## Search IP in ARP of Switch
-#                  while ( ($numberip,$mac) = each (%{$HashDataSNMP->{VLAN}->{$vlan_id}->{ipNetToMediaPhysAddress}}) ) {
-#                     if ($mac eq $ifphysaddress) {
-#                        $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{IP}->[$i] = $ifphysaddress;
-#                     }
-#                  }
                   $i++;
                }
             }
@@ -1061,6 +1058,7 @@ sub Cisco_GetMAC {
    }
    return $datadevice, $HashDataSNMP;
 }
+
 
 sub threecom_GetMAC {
    my $HashDataSNMP = shift,
@@ -1099,6 +1097,63 @@ sub threecom_GetMAC {
          $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
          $i++;
       }
+   }
+   return $datadevice, $HashDataSNMP;
+}
+
+
+
+sub Procurve_GetMAC {
+   my $HashDataSNMP = shift,
+   my $datadevice = shift;
+   my $self = shift;
+   my $oid_walks = shift;
+
+   my $ifIndex;
+   my $numberip;
+   my $mac;
+   my $short_number;
+   my $dot1dTpFdbPort;
+
+   my $i = 0;
+
+   while ( my ($number,$ifphysaddress) = each (%{$HashDataSNMP->{dot1dTpFdbAddress}}) ) {
+      $short_number = $number;
+      $short_number =~ s/$oid_walks->{dot1dTpFdbAddress}->{OID}//;
+      $dot1dTpFdbPort = $oid_walks->{dot1dTpFdbPort}->{OID};
+      if (exists $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}) {
+         if (exists $HashDataSNMP->{dot1dBasePortIfIndex}->{
+                              $oid_walks->{dot1dBasePortIfIndex}->{OID}.".".
+                              $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+                           }) {
+
+            $ifIndex = $HashDataSNMP->{dot1dBasePortIfIndex}->{
+                              $oid_walks->{dot1dBasePortIfIndex}->{OID}.".".
+                              $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+                           };
+            if (not exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
+               my $add = 1;
+               if ($ifphysaddress eq "") {
+                  $add = 0;
+               }
+               if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
+                  $add = 0;
+               }
+               if ($add eq "1") {
+                  if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+                     $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+                     #$i++;
+                  } else {
+                     $i = 0;
+                  }
+                  $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+                  $i++;
+               }
+            }
+         }
+      }
+      delete $HashDataSNMP->{dot1dTpFdbAddress}->{$number};
+      delete $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number};
    }
    return $datadevice, $HashDataSNMP;
 }
