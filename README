@@ -44,6 +44,8 @@ PREREQUISITES
 
     If available, Net::CUPS is used to detect the printer
 
+    File::Copy::Recursive
+
 
   The following module is needed if you plan to prepare a tarball or install
   directly from the Bazaar devel branch. (See SOURCES below.):
