@@ -564,6 +564,9 @@ sub query_device_threaded {
 		return $datadevice;
 	} else {
 		# Query SNMP get #
+      if ($params->{device}->{TYPE} eq "PRINTER") {
+         $params = cartridgesupport($params);
+      }
       for $key ( keys %{$params->{modellist}->{GET}} ) {
          if ($params->{modellist}->{GET}->{$key}->{VLAN} eq "0") {
             my $oid_result = $session->snmpget({
@@ -655,7 +658,6 @@ sub special_char {
 sub ConstructDataDeviceSimple {
    my $HashDataSNMP = shift;
    my $datadevice = shift;
-
    if (exists $HashDataSNMP->{macaddr}) {
 #      my @array = split(/(\S{2})/, $HashDataSNMP->{macaddr});
 #      $datadevice->{INFO}->{MAC} = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
@@ -684,27 +686,24 @@ sub ConstructDataDeviceSimple {
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'ram','INFO','RAM');
 
    if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesblack','CARTRIDGES','BLACK');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesblackphoto','CARTRIDGES','BLACKPHOTO');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgescyan','CARTRIDGES','CYAN');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesyellow','CARTRIDGES','YELLOW');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesmagenta','CARTRIDGES','MAGENTA');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgescyanlight','CARTRIDGES','CYANLIGHT');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesmagentalight','CARTRIDGES','MAGENTALIGHT');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductor','CARTRIDGES','PHOTOCONDUCTOR');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorblack','CARTRIDGES','PHOTOCONDUCTORBLACK');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcolor','CARTRIDGES','PHOTOCONDUCTORCOLOR');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcyan','CARTRIDGES','PHOTOCONDUCTORCYAN');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductoryellow','CARTRIDGES','PHOTOCONDUCTORYELLOW');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductormagenta','CARTRIDGES','PHOTOCONDUCTORMAGENTA');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesunittransfertblack','CARTRIDGES','UNITTRANSFERBLACK');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesunittransfertcyan','CARTRIDGES','UNITTRANSFERCYAN');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesunittransfertyellow','CARTRIDGES','UNITTRANSFERYELLOW');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesunittransfertmagenta','CARTRIDGES','UNITTRANSFERMAGENTA');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgeswaste','CARTRIDGES','WASTE');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesfuser','CARTRIDGES','FUSER');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesbeltcleaner','CARTRIDGES','BELTCLEANER');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesmaintenancekit','CARTRIDGES','MAINTENANCEKIT');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'tonerblack','CARTRIDGES','TONERBLACK');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'tonerblack2','CARTRIDGES','TONERBLACK2');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'tonercyan','CARTRIDGES','TONERCYAN');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'tonermagenta','CARTRIDGES','TONERMAGENTA');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'toneryellow','CARTRIDGES','TONERYELLOW');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'wastetoner','CARTRIDGES','WASTETONER');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgeblack','CARTRIDGES','CARTRIDGEBLACK');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgeblackphoto','CARTRIDGES','CARTRIDGEBLACKPHOTO');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgecyan','CARTRIDGES','CARTRIDGECYAN');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgecyanlight','CARTRIDGES','CARTRIDGECYANLIGHT');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgemagenta','CARTRIDGES','CARTRIDGEMAGENTA');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgemagentalight','CARTRIDGES','CARTRIDGEMAGENTALIGHT');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgeyellow','CARTRIDGES','CARTRIDGEYELLOW');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'maintenancekit','CARTRIDGES','MAINTENANCEKIT');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'drumblack','CARTRIDGES','DRUMBLACK');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'drumcyan','CARTRIDGES','DRUMCYAN');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'drummagenta','CARTRIDGES','DRUMMAGENTA');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'drumyellow','CARTRIDGES','DRUMYELLOW');
 
       ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages','PAGECOUNTERS','TOTAL');
       ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages','PAGECOUNTERS','BLACK');
@@ -918,6 +917,13 @@ sub PutSimpleOid {
       if ($element eq "firmware1") {
          $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
          delete $HashDataSNMP->{"firmware2"};
+      } elsif (($element =~ /^toner/) || ($element eq "wastetoner") || ($element =~ /^cartridge/) || ($element eq "maintenancekit") || ($element =~ /^drum/)) {
+         if ($HashDataSNMP->{$element."-level"} eq "-3") {
+            $datadevice->{$xmlelement1}->{$xmlelement2} = "OK";
+         } else {
+            ($datadevice, $HashDataSNMP) = PutPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
+            #$datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element."-level"};
+         }
       } else {
          $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
       }
@@ -934,8 +940,7 @@ sub PutPourcentageOid {
    my $element2 = shift;
    my $xmlelement1 = shift;
    my $xmlelement2 = shift;
-
-   if (exists $HashDataSNMP->{$xmlelement1}) {
+   if (exists $HashDataSNMP->{$element1}) {
       $datadevice->{$xmlelement1}->{$xmlelement2} = int ( ( 100 * $HashDataSNMP->{$element2} )
       / $HashDataSNMP->{$element1} );
       delete $HashDataSNMP->{$element2};
@@ -951,6 +956,24 @@ sub lastSplitObject {
 
    my @array = split(/\./, $var);
    return $array[-1];
+}
+
+
+sub cartridgesupport {
+   my $params = shift;
+
+   for my $key ( keys %{$params->{modellist}->{GET}} ) {
+      if (($key =~ /^toner/) || ($key eq "wastetoner") || ($key =~ /^cartridge/) || ($key eq "maintenancekit") || ($key =~ /^drum/)) {
+         $params->{modellist}->{GET}->{$key."-capacitytype"}->{OID} = $params->{modellist}->{GET}->{$key}->{OID};
+         $params->{modellist}->{GET}->{$key."-capacitytype"}->{OID} =~ s/43.11.1.1.6/43.11.1.1.8/;
+         $params->{modellist}->{GET}->{$key."-capacitytype"}->{VLAN} = 0;
+
+         $params->{modellist}->{GET}->{$key."-level"}->{OID} = $params->{modellist}->{GET}->{$key}->{OID};
+         $params->{modellist}->{GET}->{$key."-level"}->{OID} =~ s/43.11.1.1.6/43.11.1.1.9/;
+         $params->{modellist}->{GET}->{$key."-level"}->{VLAN} = 0;
+      }
+   }
+   return $params;
 }
 
 
