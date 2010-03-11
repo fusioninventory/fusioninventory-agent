@@ -670,6 +670,7 @@ sub ConstructDataDeviceSimple {
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cpu','INFO','CPU');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'location','INFO','LOCATION');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'firmware','INFO','FIRMWARE');
+   ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'firmware1','INFO','FIRMWARE');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'contact','INFO','CONTACT');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'comments','INFO','COMMENTS');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'uptime','INFO','UPTIME');
@@ -914,8 +915,14 @@ sub PutSimpleOid {
       if (($element eq "ram") || ($element eq "memory")) {
          $HashDataSNMP->{$element} = int(( $HashDataSNMP->{$element} / 1024 ) / 1024);
       }
-      $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
+      if ($element eq "firmware1") {
+         $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
+         delete $HashDataSNMP->{"firmware2"};
+      } else {
+         $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
+      }
       delete $HashDataSNMP->{$element};
+      
    }
    return $datadevice, $HashDataSNMP;
 }
