@@ -264,7 +264,7 @@ sub main {
             $logger->debug("[task] end of ".$task);
         }
 
-#        $storage->remove();
+        $storage->remove();
         $target->setNextRunDate();
 
         sleep(5);
