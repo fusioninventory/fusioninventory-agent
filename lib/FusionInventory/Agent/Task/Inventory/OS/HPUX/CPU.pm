@@ -1,8 +1,16 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::CPU;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU;
+                                                                                                   
+###                                                                                                
+# Version 1.1                                                                                      
+# Correction of Bug n 522774                                                                       
+#                                                                                                  
+# thanks to Marty Riedling for this correction                                                     
+#                                                                                                  
+###                                                                                                
 
-sub doInventory  { $^O =~ /hpux/ }
+sub isInventoryEnabled  { $^O =~ /hpux/ }
 
-sub run {
+sub doInventory {
    my $params = shift;
    my $inventory = $params->{inventory};
 
@@ -47,7 +55,7 @@ sub run {
                 "N4000-44"=>"8500 440",
                 "ia64 hp server rx1620"=>"itanium 1600");
 
-   if ( `machinfo` )
+   if (can_run("machinfo"))
    {
       foreach ( `machinfo`)
       {
@@ -59,6 +67,16 @@ sub run {
          {
             $processors=$1;
          }
+         # Added for HPUX 11.31
+	 if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ || /Intel\(R\) Itanium 2 9000 series processors \((\d+\.\d+)/ )
+         {
+            $processors=$1*1000;
+         }
+         if ( /(\d+)\s+logical processors/ )
+         {
+            $processorn=$1;
+         }
+         # end HPUX 11.31
       }
    }
    else

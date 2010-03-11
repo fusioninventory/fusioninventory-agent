@@ -33,6 +33,7 @@ sub main {
       }
   });
   my $data = $storage->restore("FusionInventory::Agent");
+  $self->{storage} = $storage;
 
   my $config = $self->{config} = $data->{config};
   my $prologresp = $self->{prologresp} = $data->{prologresp};
@@ -43,8 +44,11 @@ sub main {
           config => $self->{config}
       });
 
-  if (!exists($prologresp->{parsedcontent}->{RESPONSE}) || $prologresp->{parsedcontent}->{RESPONSE} !~ /^SEND$/) {
-    $logger->debug('<RESPONSE>SEND</RESPONSE> not found in PROLOG, do not '.
+  if ($target->{type} eq 'server' &&
+      (!exists($prologresp->{parsedcontent}->{RESPONSE})
+          ||
+          $prologresp->{parsedcontent}->{RESPONSE} !~ /^SEND$/)) {
+    $logger->debug('<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not '.
         'send an inventory.');
     exit(0);
   }
@@ -66,6 +70,7 @@ sub main {
           logger => $logger,
 
       });
+  my $inventory = $self->{inventory};
 
   if (!$config->{'stdout'} && !$config->{'local'}) {
       $logger->fault("No prologresp!") unless $prologresp;
@@ -81,11 +86,11 @@ sub main {
   $self->feedInventory();
 
 
-  if ($config->{stdout}) {
+  if ($target->{type} eq 'stdout') {
       $self->{inventory}->printXML();
-  } elsif ($config->{local}) {
+  } elsif ($target->{'type'} eq 'local') {
       $self->{inventory}->writeXML();
-  } elsif ($config->{server}) {
+  } elsif ($target->{'type'} eq 'server') {
 
       my $accountinfo = $target->{accountinfo};
 
@@ -100,9 +105,10 @@ sub main {
 
           });
 
-      my $response = $network->send({message => $self->{inventory}});
+      my $response = $network->send({message => $inventory});
 
       return unless $response;
+      $inventory->saveLastState();
 
       my $parsedContent = $response->getParsedContent();
       if ($parsedContent
@@ -125,6 +131,7 @@ sub initModList {
 
   my $logger = $self->{logger};
   my $config = $self->{config};
+  my $storage = $self->{storage};
 
   my @dirToScan;
   my @installed_mods;
@@ -291,7 +298,7 @@ sub initModList {
     $self->{modules}->{$m}->{mem} = {}; # Deprecated
     $self->{modules}->{$m}->{rpcCfg} = $package->{'rpcCfg'};
 # Load the Storable object is existing or return undef
-    $self->{modules}->{$m}->{storage} = $self->retrieveStorage($m);
+    $self->{modules}->{$m}->{storage} = $storage;
 
     if (exists($package->{'new'})) {
         $self->{modules}->{$m}->{instance} = $m->new({
@@ -398,7 +405,6 @@ sub runMod {
   }
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
-  $self->saveStorage($m, $self->{modules}->{$m}->{storage});
 }
 
 sub feedInventory {
@@ -431,66 +437,6 @@ sub feedInventory {
 
 }
 
-
-=item retrieveStorage()
-
-Load the $ModuleName.storage file from the filesystem. These .storage files
-are used to offert persistance storage to modules.
-
-=cut
-sub retrieveStorage {
-    my ($self, $m) = @_;
-
-    my $logger = $self->{logger};
-
-    my $fileName = "/$m.storage";
-    $fileName =~ s/::/-/g; # Windows doesn't allow : in filename
-
-    my $storagefile = $self->{target}->{vardir}.$fileName;
-
-    if (!exists &retrieve) {
-        eval "use Storable;";
-        if ($@) {
-            $logger->debug("Storable.pm is not available, can't load Backend module data");
-            return;
-        }
-    }
-
-    return (-f $storagefile)?retrieve($storagefile):{};
-
-}
-
-=item saveStorage()
-
-Save the $storage hash reference on the harddrive. 
-
-=cut
-sub saveStorage {
-    my ($self, $m, $data) = @_;
-
-    my $logger = $self->{logger};
-
-# Perl 5.6 doesn't provide Storable.pm
-    if (!exists &store) {
-        eval "use Storable;";
-        if ($@) {
-            $logger->debug("Storable.pm is not available, can't save Backend module data");
-            return;
-        }
-    }
-
-    my $fileName = "/$m.storage";
-    $fileName =~ s/::/-/g; # Windows doesn't allow : in filename
-
-    my $storagefile = $self->{target}->{vardir}.$fileName;
-    if ($data && keys (%$data)>0) {
-	store ($data, $storagefile) or die;
-    } elsif (-f $storagefile) {
-	unlink $storagefile;
-    }
-
-}
-
 =item runWithTimeout()
 
 Run a function with a timeout.
@@ -500,6 +446,7 @@ sub runWithTimeout {
     my ($self, $m, $funcName, $timeout) = @_;
 
     my $logger = $self->{logger};
+    my $storage = $self->{storage};
 
     my $ret;
     
@@ -507,7 +454,6 @@ sub runWithTimeout {
         $timeout = $self->{config}{backendCollectTimeout};
     }
 
-    my $storage = $self->retrieveStorage($m);
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm $timeout;
@@ -541,7 +487,6 @@ sub runWithTimeout {
     };
     alarm 0;
     my $evalRet = $@;
-    $self->saveStorage($m, $storage);
 
     if ($evalRet) {
         if ($@ ne "alarm\n") {

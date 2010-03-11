@@ -1,11 +1,37 @@
 package FusionInventory::Agent::Network;
-# TODO:
-#  - set the correct deviceID and olddeviceID
 use strict;
 use warnings;
 
+=head1 NAME
+
+FusionInventory::Agent::Network - the Network abstraction layer
+
+=head1 DESCRIPTION
+
+This module is the abstraction layer for network interaction. It uses LWP.
+Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.
+
+=cut
+
+=over 4
+
+=item new()
+
+The constructor. These keys are expected: config, logger, target.
+
+        my $network = FusionInventory::Agent::Network->new ({
+    
+                logger => $logger,
+                config => $config,
+                target => $target,
+    
+            });
+
+
+=cut
+
+use HTTP::Status;
 use LWP::UserAgent;
-use LWP::Simple qw ($ua getstore is_success);
 
 use FusionInventory::Compress;
 
@@ -14,7 +40,7 @@ sub new {
 
   my $self = {};
   
-  $self->{accountinfo} = $params->{accountinfo}; 
+  $self->{accountinfo} = $params->{accountinfo}; # Q: Is that needed? 
 
   my $config = $self->{config} = $params->{config};
   my $logger = $self->{logger} = $params->{logger};
@@ -48,8 +74,6 @@ sub new {
   my $version = 'FusionInventory-Agent_v';
   $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
   $self->{ua}->agent($version);
-    $self->{config}->{user}.",".
-    $self->{config}->{password}."";
   $self->{ua}->credentials(
     $uaserver, # server:port, port is needed 
     $self->{config}->{realm},
@@ -58,7 +82,15 @@ sub new {
   );
 
   bless $self;
+  return $self;
 }
+
+=item send()
+
+Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
+server).
+
+=cut
 
 
 sub send {
@@ -72,12 +104,13 @@ sub send {
   my $message = $args->{message};
   my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
 
+  $self->setSslRemoteHost({ url => $self->{URI} });
+
   my $req = HTTP::Request->new(POST => $self->{URI});
 
   $req->header('Pragma' => 'no-cache', 'Content-type',
     'application/x-compress');
 
-  $self->loadNetSSLGlueLWP() if $self->{URI} =~ /^https/i;
 
   $logger->debug ("sending XML");
 
@@ -137,9 +170,9 @@ sub send {
   return $response;
 }
 
-# LWP doesn't support SSL cert check and
-# Net::SSLGlue::LWP is a workaround to fix that
-sub loadNetSSLGlueLWP {
+# No POD documentation here, it's an internal fuction
+# http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
+sub turnSSLCheckOn {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
@@ -147,10 +180,37 @@ sub loadNetSSLGlueLWP {
 
 
   if ($config->{noSslCheck}) {
+    if (!$config->{SslCheckWarningShown}) {
       $logger->info( "--no-ssl-check parameter "
-          . "found. Don't check server identity!!!" );
-      return;
+        . "found. Don't check server identity!!!" );
+      $config->{SslCheckWarningShown} = 1;
+    }
+    return;
   }
+
+
+  eval 'use Crypt::SSLeay;';
+  my $hasCrypSSLeay = ($@)?0:1;
+
+  eval 'use IO::Socket::SSL;';
+  my $hasIOSocketSSL = ($@)?0:1;
+
+  if (!$hasCrypSSLeay && !$hasIOSocketSSL) {
+    $logger->fault(
+      "Failed to load Crypt::SSLeay or IO::Socket::SSL, to ".
+         "validate the server SSL cert. If you want ".
+         "to ignore this message and want to ignore SSL ".
+         "verification, you can use the ".
+         "--no-ssl-check parameter to disable SSL check."
+    );
+  }
+  if (!$config->{caCertFile} && !$config->{caCertDir}) {
+      $logger->fault("You need to use either --ca-cert-file ".
+          "or --ca-cert-dir to give the location of your SSL ".
+          "certificat. You can also disable SSL check with ".
+          "--no-ssl-check but this is very unsecure.");
+  }
+
 
   my $parameter;
   if ($config->{caCertFile}) {
@@ -159,57 +219,147 @@ sub loadNetSSLGlueLWP {
             "`".$config->{caCertFile}."'");
     }
 
-    $parameter = " SSL_ca_file=".$config->{caCertFile};
+    $ENV{HTTPS_CA_FILE} = $config->{caCertFile};
+
+    if (!$hasCrypSSLeay && $hasIOSocketSSL) {
+      eval {
+        IO::Socket::SSL::set_ctx_defaults(
+          verify_mode => Net::SSLeay->VERIFY_PEER(),
+          ca_file => $config->{caCertFile}
+        );
+      };
+      $logger->fault(
+                     "Failed to set ca-cert-file: $@".
+                     "Your IO::Socket::SSL distribution is too old. ".
+                     "Please install Crypt::SSLeay or disable ".
+                     "SSL server check with --no-ssl-check"
+		    ) if $@;
+    }
+
   } elsif ($config->{caCertDir}) {
     if (!-d $config->{caCertDir}) {
         $logger->fault("--ca-cert-dir doesn't existe ".
             "`".$config->{caCertDir}."'");
     }
 
-    $parameter = " SSL_ca_path=".$config->{caCertDir};
-  }
-
-  eval 'use Net::SSLGlue::LWP SSL_ca_path => \'/etc/ssl/certs\';';
-  if ($@) {
+    $ENV{HTTPS_CA_DIR} =$config->{caCertDir};
+    if (!$hasCrypSSLeay && $hasIOSocketSSL) {
+      eval {
+        IO::Socket::SSL::set_ctx_defaults(
+          verify_mode => Net::SSLeay->VERIFY_PEER(),
+          ca_path => $config->{caCertDir}
+        );
+      };
       $logger->fault(
-          "Failed to load Net::SSLGlue::LWP, to ".
-         "validate the server SSL cert. If you want ".
-         "to ignore this message and want to ignore SSL ".
-         "verification, you can use the ".
-         "--no-ssl-check parameter."
-      );
+                     "Failed to set ca-cert-file: $@".
+                     "Your IO::Socket::SSL distribution is too old. ".
+                     "Please install Crypt::SSLeay or disable ".
+                     "SSL server check with --no-ssl-check"
+		    ) if $@;
+    }
   }
 
 } 
 
+sub setSslRemoteHost {
+  my ($self, $args) = @_;
+
+  my $uri = $self->{URI};
+
+  my $config = $self->{config};
+  my $logger = $self->{logger};
+
+  my $ua = $self->{ua};
+
+  if ($config->{noSslCheck}) {
+      return;
+  }
+
+  if (!$self->{URI}) {
+    $logger->fault("setSslRemoteHost(), no url parameter!");
+  }
+
+  if ($self->{URI} !~ /^https:/i) {
+      return;
+  }
+  $self->turnSSLCheckOn();
+
+  # Check server name against provided SSL certificate
+  if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
+      my $cn = $1;
+      $cn =~ s/([\-\.])/\\$1/g;
+      $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$cn);
+  }
+}
+
+
+=item getStore()
+
+Acts like LWP::Simple::getstore.
+
+        my $rc = $network->getStore({
+                source => 'http://www.FusionInventory.org/',
+                target => '/tmp/fusioinventory.html'
+            });
+
+$rc, can be read by isSuccess()
+
+=cut
 sub getStore {
   my ($self, $args) = @_;
 
   my $source = $args->{source};
   my $target = $args->{target};
   my $timeout = $args->{timeout};
+  
+  my $ua = $self->{ua};
 
+  $self->setSslRemoteHost({ url => $source });
   $ua->timeout($timeout) if $timeout;
 
-  $self->loadNetSSLGlueLWP() if $source =~ /^https/i;
+  my $request = HTTP::Request->new(GET => $source);
+  my $response = $ua->request($request, $target);
 
-  my $rc = LWP::Simple::getstore( $source, $target );
+  return $response->code;
 
 }
 
+=item get()
+
+        my $content = $network->get({
+                source => 'http://www.FusionInventory.org/',
+                timeout => 15
+            });
+
+Act like LWP::Simple::get, return the HTTP content of the URL in 'source'.
+The timeout is optional
+
+=cut
 sub get {
   my ($self, $args) = @_;
 
   my $source = $args->{source};
   my $timeout = $args->{timeout};
-            
+
+  my $ua = $self->{ua};
+
+  $self->setSslRemoteHost({ url => $source });
   $ua->timeout($timeout) if $timeout;
 
-  $self->loadNetSSLGlueLWP() if $source =~ /^https/i;
+  my $response = $ua->get($source);
 
-  return LWP::Simple::get($source);
+  return $response->decoded_content if $response->is_success;
+
+  return undef;
 
 }
+
+=item isSuccess()
+
+Wrapper for LWP::is_success;
+
+        die unless $network->isSuccess({ code => $rc });
+=cut
 
 sub isSuccess {
   my ($self, $args) = @_;

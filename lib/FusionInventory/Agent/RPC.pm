@@ -44,7 +44,11 @@ sub handler {
     my $targets = $self->{targets};
 
     my $r = $c->get_request;
-    if ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
+    if (!$r) {
+        $c->close;
+        undef($c);
+        return;
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
         my $file = $1;
         foreach my $target (@{$targets->{targets}}) {
             if (-f $target->{vardir}."/deploy/".$file) {
@@ -118,7 +122,7 @@ sub getToken {
     if ($forceNewToken || !$myData->{token}) {
 
         my $tmp = '';
-        $tmp .= pack("W",65+rand(24)) foreach (0..100);
+        $tmp .= pack("C",65+rand(24)) foreach (0..100);
         $myData->{token} = $tmp;
 
         $storage->save($myData);

@@ -9,9 +9,9 @@ FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
 
 =head1 DESCRIPTION
 
-OCS Inventory uses XML for the data transmition. The module is the
-abstraction layer. It's mostly used in the backend module where it
-called $inventory in general.
+FusionInventory uses OCS Inventory XML format for the data transmition. This
+module is the abstraction layer. It's mostly used in the backend module where
+it called $inventory in general.
 
 =cut
 
@@ -40,6 +40,7 @@ sub new {
   $self->{backend} = $params->{backend};
   my $logger = $self->{logger};
   my $target = $self->{target};
+  my $config = $self->{config};
 
   if (!($target->{deviceid})) {
     $logger->fault ('deviceid unititalised!');
@@ -65,9 +66,7 @@ sub new {
   $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
-
-  # For software deployment
-  $self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE} = [];
+  $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
   $self->{isInitialised} = undef;
@@ -481,50 +480,25 @@ sub addSounds {
    $self->addSound(@_);
 }
 
+
 =item addNetwork()
 
-Register a network in the inventory.
+Register a network interface in the inventory.
 
 =cut
 sub addNetwork {
-  # TODO IPSUBNET, IPMASK IPADDRESS seem to be missing.
-  my ($self, $args) = @_;
+my ($self, $args) = @_;
 
-  my $description = $args->{DESCRIPTION};
-  my $driver = $args->{DRIVER};
-  my $ipaddress = $args->{IPADDRESS};
-  my $ipdhcp = $args->{IPDHCP};
-  my $ipgateway = $args->{IPGATEWAY};
-  my $ipmask = $args->{IPMASK};
-  my $ipsubnet = $args->{IPSUBNET};
-  my $macaddr = $args->{MACADDR};
-  my $pcislot = $args->{PCISLOT};
-  my $slaves = $args->{SLAVES}; # For Network bonding
-  my $status = $args->{STATUS};
-  my $type = $args->{TYPE};
-  my $virtualdev = $args->{VIRTUALDEV};
+    my %tmpXml = ();
 
-#  return unless $ipaddress;
+    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS IPDHCP IPGATEWAY
+        IPMASK IPSUBNET MACADDR PCISLOT STATUS TYPE VIRTUALDEV SLAVES/) {
+        $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
+    }
+    push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
 
-  push @{$self->{h}{CONTENT}{NETWORKS}},
-  {
-
-    DESCRIPTION => [$description?$description:''],
-    DRIVER => [$driver?$driver:''],
-    IPADDRESS => [$ipaddress?$ipaddress:''],
-    IPDHCP => [$ipdhcp?$ipdhcp:''],
-    IPGATEWAY => [$ipgateway?$ipgateway:''],
-    IPMASK => [$ipmask?$ipmask:''],
-    IPSUBNET => [$ipsubnet?$ipsubnet:''],
-    MACADDR => [$macaddr?$macaddr:''],
-    PCISLOT => [$pcislot?$pcislot:''],
-    SLAVES => [$slaves?$slaves:''],
-    STATUS => [$status?$status:''],
-    TYPE => [$type?$type:''],
-    VIRTUALDEV => [$virtualdev?$virtualdev:''],
-
-  };
 }
+
 # For compatibiliy
 sub addNetworks {
    my $self = shift;
@@ -591,7 +565,9 @@ sub addCPU {
   my ($self, $args) = @_;
 
   # The CPU FLAG
+  my $code = $args->{CODE};
   my $manufacturer = $args->{MANUFACTURER};
+  my $thread = $args->{THREAD};
   my $type = $args->{TYPE};
   my $serial = $args->{SERIAL};
   my $speed = $args->{SPEED};
@@ -599,7 +575,9 @@ sub addCPU {
   push @{$self->{h}{CONTENT}{CPUS}},
   {
 
+    CORE => [$code],
     MANUFACTURER => [$manufacturer],
+    THREAD => [$thread],
     TYPE => [$type],
     SERIAL => [$serial],
     SPEED => [$speed],
@@ -813,8 +791,13 @@ sub addSoftwareDeploymentPackage {
 
   my $orderId = $args->{ORDERID};
 
-  push (@{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}{PACKAGE}}, $orderId);
+  # For software deployment
+  if (!$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}) {
+      $self->{h}{CONTENT}{DOWNLOAD}{HISTORY} = [];
+  }
 
+  push (@{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}->[0]{PACKAGE}}, { ID =>
+          $orderId });
 }
 
 =item getContent()
@@ -899,14 +882,16 @@ sub writeXML {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
+  my $config = $self->{config};
+  my $target = $self->{target};
 
-  if ($self->{config}{local} =~ /^$/) {
+  if ($target->{path} =~ /^$/) {
     $logger->fault ('local path unititalised!');
   }
 
   $self->initialise();
 
-  my $localfile = $self->{config}{local}."/".$self->{config}{deviceid}.'.ocs';
+  my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
   $localfile =~ s!(//){1,}!/!;
 
   # Convert perl data structure into xml strings
@@ -933,6 +918,11 @@ sub processChecksum {
   my $self = shift;
 
   my $logger = $self->{logger};
+  my $target  = $self->{target};
+
+  # Not needed in local mode
+  return unless $target->{type} eq 'server';
+
 #To apply to $checksum with an OR
   my %mask = (
     'HARDWARE'      => 1,
@@ -962,19 +952,19 @@ sub processChecksum {
 
   my $checksum = 0;
 
-  if (!$self->{config}{local} && $self->{config}->{last_statefile}) {
-    if (-f $self->{config}->{last_statefile}) {
+  if ($target->{last_statefile}) {
+    if (-f $target->{last_statefile}) {
       # TODO: avoid a violant death in case of problem with XML
       $self->{last_state_content} = XML::Simple::XMLin(
 
-        $self->{config}->{last_statefile},
+        $target->{last_statefile},
         SuppressEmpty => undef,
         ForceArray => 1
 
       );
     } else {
       $logger->debug ('last_state file: `'.
-      $self->{config}->{last_statefile}.
+      $target->{last_statefile}.
         "' doesn't exist (yet).");
     }
   }
@@ -986,9 +976,9 @@ sub processChecksum {
       $logger->debug ("Section $section has changed since last inventory");
       #We make OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
-      # Finally I store the new value.
-      $self->{last_state_content}->{$section}[0] = $hash;
     }
+    # Finally I store the new value.
+    $self->{last_state_content}->{$section}[0] = $hash;
   }
 
 
@@ -1005,21 +995,25 @@ sub saveLastState {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
+  my $target  = $self->{target};
+
+  # Not needed in local mode
+  return unless $target->{type} eq 'server';
 
   if (!defined($self->{last_state_content})) {
 	  $self->processChecksum();
   }
 
-  if (!defined ($self->{config}->{last_statefile})) {
+  if (!defined ($target->{last_statefile})) {
     $logger->debug ("Can't save the last_state file. File path is not initialised.");
     return;
   }
 
-  if (open LAST_STATE, ">".$self->{config}->{last_statefile}) {
+  if (open LAST_STATE, ">".$target->{last_statefile}) {
     print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
     close LAST_STATE or warn;
   } else {
-    $logger->debug ("Cannot save the checksum values in ".$self->{config}->{last_statefile}."
+    $logger->debug ("Cannot save the checksum values in ".$target->{last_statefile}."
 	(will be synchronized by GLPI!!): $!");
   }
 }

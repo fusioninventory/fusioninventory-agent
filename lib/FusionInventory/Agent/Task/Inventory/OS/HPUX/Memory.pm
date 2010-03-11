@@ -1,9 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Memory;
 use strict;
 
-sub doInventory { $^O =~ /hpux/ }
+sub isInventoryEnabled { $^O =~ /hpux/ }
 
-sub run { 
+sub doInventory { 
   my $params = shift;
   my $inventory = $params->{inventory};
 

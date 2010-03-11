@@ -34,7 +34,6 @@ use File::Path;
 use File::stat;
 use Digest::MD5 qw(md5);
 
-use Archive::Extract;
 use File::Copy::Recursive qw(dirmove);
 use Time::HiRes;
 
@@ -195,7 +194,7 @@ sub diskIsFull {
         $logger->fault("isDiskFull doesn't work on Windows");
     } else {
         my $dfFh;
-        if (open($dfFh, '-|', "df", '-m', $self->{downloadBaseDir})) {
+        if (open($dfFh, '-|', "df", '-Pm', $self->{downloadBaseDir})) {
             foreach(<$dfFh>) {
                 if (/^\S+\s+\S+\s+(\d+)/) {
                     $spaceFree = $1;
@@ -297,18 +296,31 @@ sub extractArchive {
         return;
     }
 
-    $Archive::Extract::DEBUG = $config->{debug} ? 1 : 0;
-    my $archiveExtract = Archive::Extract->new(
+    eval "use Archive::Extract;";
+    if ($@) {
+        $logger->debug("Archive::Extract not found: $@, will use tar directly.");
+	if ($type->{$magicNumber} eq 'tgz') {
+            system("cd $runDir && gunzip -q < $downloadDir/final | tar xvf -")
+        } else {
+            $logger->error("Archive type: `".$type->{$magicNumber}.
+                            " not supported. Please install ".
+                            " Archive::Extractsubmit a patch.");
+        }
+    } else {
+        $logger->debug("Archive::Extract found");
+        $Archive::Extract::DEBUG = $config->{debug} ? 1 : 0;
+        my $archiveExtract = Archive::Extract->new(
 
-        archive => "$downloadDir/final",
-        type    => $type->{$magicNumber}
+            archive => "$downloadDir/final",
+            type    => $type->{$magicNumber}
 
-    );
-
-    if ( !$archiveExtract->extract( to => "$runDir" ) ) {
-        $self->reportError( $orderId,
-            "Failed to extract archive $downloadDir/run" );
-        return;
+        );
+    
+        if ( !$archiveExtract->extract( to => "$runDir" ) ) {
+            $self->reportError( $orderId,
+                "Failed to extract archive $downloadDir/final" );
+            return;
+        }
     }
 
     $logger->debug("Archive $downloadDir/run extracted");
@@ -710,7 +722,7 @@ sub readProlog {
     }
     my $conf = $prologresp->getOptionsInfoByName("DOWNLOAD");
 
-    if ( !@$conf ) {
+    if ( !$conf || !@$conf ) {
         $logger->debug("no DOWNLOAD options returned during PROLOG");
         return;
     }
@@ -829,6 +841,8 @@ sub _processFindMirrorResult {
 
     my $logger = $self->{logger};
 
+    return unless $rc;
+
     if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
         if ($rc==200 || $rc==404) {
             $self->{hosts}{$1}{$2}{$3}{$4}{isUp}=1;
@@ -872,8 +886,8 @@ sub findMirror {
     elsif ( $^O =~ /^MSWin/x ) {
         foreach (`route print -4`) {
             next unless
-            /^\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+\s+255\.255\.255\.0/x;
-            if (/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}+)\s+\d+$/x) {
+            /^\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\s+255\.255\.255\.0/x;
+            if (/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+\d+$/x) {
                 push @addresses, $1;
             }
         }
@@ -881,7 +895,7 @@ sub findMirror {
 
     foreach my $ip (@addresses) {
         next if $ip =~ /^127/x; # Ignore 127.x.x.x addresses
-        if (/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
+        if ($ip =~ /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/x) {
 
             foreach (1..255) {
                 next if $4==$_; # Ignore myself :) 

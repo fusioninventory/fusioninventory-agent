@@ -1,9 +1,9 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Domains;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Domains;
 use strict;
 
-sub doInventory { can_run ("domainname") }
+sub isInventoryEnabled { return can_run ("domainname") }
 
-sub run { 
+sub isInventoryEnabled {
   my $params = shift;
   my $inventory = $params->{inventory};
 
@@ -16,7 +16,7 @@ sub run {
 
     if (open RESOLV, "/etc/resolv.conf") {
       while(<RESOLV>) {
-	$domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+    $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
       }
       close RESOLV;
     }
