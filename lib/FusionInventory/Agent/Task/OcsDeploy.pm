@@ -194,7 +194,7 @@ sub diskIsFull {
         $logger->fault("isDiskFull doesn't work on Windows");
     } else {
         my $dfFh;
-        if (open($dfFh, '-|', "df", '-m', $self->{downloadBaseDir})) {
+        if (open($dfFh, '-|', "df", '-Pm', $self->{downloadBaseDir})) {
             foreach(<$dfFh>) {
                 if (/^\S+\s+\S+\s+(\d+)/) {
                     $spaceFree = $1;
