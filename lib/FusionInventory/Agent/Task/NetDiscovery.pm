@@ -222,6 +222,7 @@ sub StartThreads {
                   if ($nbip eq $limitip) {
                      if ($ip->ip() ne $self->{NETDISCOVERY}->{RANGEIP}->{IPEND}) {
                         $self->{NETDISCOVERY}->{RANGEIP}->{IPSTART} = $ip->ip();
+                        $loop_action = 1;
                         goto CONTINUE;
                      }
                   }
@@ -254,6 +255,7 @@ sub StartThreads {
                         if ($nbip eq $limitip) {
                            if ($ip->ip() ne $num->{IPEND}) {
                               $num->{IPSTART} = $ip->ip();
+                              $loop_action = 1;
                               goto CONTINUE;
                            }
                         }
@@ -409,7 +411,7 @@ sub StartThreads {
                      my $loopthread;
 
                      while (1) {
-                        if ($loop_action eq "0") {
+                        if (($loop_action eq "0") && ($exit eq "2")) {
                            ## Kill threads who do nothing partiel ##
 #                              for($i = ($loop_nbthreads - 1) ; $i < $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY} ; $i++) {
 #                                 $ThreadAction{$i} = "3";
@@ -440,7 +442,7 @@ sub StartThreads {
                               $exit = 1;
                               return;
                               
-                        } elsif ($loop_action eq "1") {
+                        } elsif (($loop_action eq "1") && ($exit eq "2")) {
                            ## Start + pause working Threads (faire fonction) ##
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                  $ThreadAction{$i} = "1";
@@ -569,6 +571,15 @@ sub discovery_ip_threaded {
    my ($self, $params) = @_;
 
    my $datadevice = {};
+
+   if (!defined($params->{ip})) {
+      $self->{logger}->debug("ip address empty...");
+      return $datadevice;
+   }
+   if ($params->{ip} !~ m/^(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)/ ) {
+      $self->{logger}->debug("Invalid ip address...");
+      return $datadevice;
+   }
 
    #** Nmap discovery
    if ($params->{ModuleNmapParser} eq "1") {
