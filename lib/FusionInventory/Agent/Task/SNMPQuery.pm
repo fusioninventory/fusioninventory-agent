@@ -589,13 +589,14 @@ sub query_device_threaded {
       # Query SNMP walk #
       my $vlan_query = 0;
       for $key ( keys %{$params->{modellist}->{WALK}} ) {
-         
          $ArraySNMPwalk = $session->snmpwalk({
                         oid_start => $params->{modellist}->{WALK}->{$key}->{OID}
                      });
          $HashDataSNMP->{$key} = $ArraySNMPwalk;
-         if ($params->{modellist}->{WALK}->{$key}->{VLAN} eq "1") {
-            $vlan_query = 1;
+         if (exists($params->{modellist}->{WALK}->{$key}->{VLAN})) {
+            if ($params->{modellist}->{WALK}->{$key}->{VLAN} eq "1") {
+               $vlan_query = 1;
+            }
          }
       }
       # Conversion

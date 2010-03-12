@@ -836,6 +836,7 @@ sub getContent {
   # To avoid strange breakage I remove the unprintable caractere in the XML
   foreach (split "\n", $content) {
 #      s/[[:cntrl:]]//g;
+    s/\0//g;
     if (! m/\A(
       [\x09\x0A\x0D\x20-\x7E]            # ASCII
       | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
