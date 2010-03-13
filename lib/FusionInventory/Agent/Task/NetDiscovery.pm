@@ -185,6 +185,7 @@ sub StartThreads {
       my %ThreadAction : shared;
       $iplist = &share({});
       my $loop_nbthreads : shared;
+      my $sendbylwp : shared;
 
 
       while ($loop_action > 0) {
@@ -277,14 +278,18 @@ sub StartThreads {
 #         }
 
          CONTINUE:
+#$self->{logger}->debug("LOOP : ".$loop_action);
          $loop_nbthreads = $nb_threads_discovery;
          # Send NB ips to server :
          $xml_thread = {};
          $xml_thread->{AGENT}->{NBIP} = $nbip;
          $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-         $self->SendInformations({
-            data => $xml_thread
-            });
+         {
+            lock $sendbylwp;
+            $self->SendInformations({
+               data => $xml_thread
+               });
+         }
          undef($xml_thread);
 
          for(my $j = 0 ; $j < $nb_threads_discovery ; $j++) {
@@ -305,7 +310,7 @@ sub StartThreads {
          # Create Thread management others threads
          #===================================
          $exit = 2;
-
+#$self->{logger}->debug("exit : ".$exit);
          if ($threads_run eq "0") {            
             #===================================
             # Create all Threads
@@ -331,6 +336,7 @@ sub StartThreads {
                         ##### WAIT ACTION #####
                         $loopthread = 0;
                         while ($loopthread ne "1") {
+#$self->{logger}->debug("[".$t."] : waiting...");
                            if ($ThreadAction{$t} eq "3") { # STOP
                               $ThreadState{$t} = "2";
                               $self->{logger}->debug("Core $p - Thread $t deleted");
@@ -342,6 +348,7 @@ sub StartThreads {
                            sleep 1;
                         }
                         ##### RUN ACTION #####
+#$self->{logger}->debug("[".$t."] : run...");
                         $loopthread = 0;
                         while ($loopthread ne "1") {
                            $device_id = q{}; # Empty string
@@ -375,9 +382,12 @@ sub StartThreads {
                               }
                            }
                            if (($count eq "4") || (($loopthread eq "1") && ($count > 0))) {
-                              $self->SendInformations({
-                                    data => $xml_threadt
-                                 });
+                              {
+                                 lock $sendbylwp;
+                                 $self->SendInformations({
+                                       data => $xml_threadt
+                                    });
+                              }
                               $count = 0;
                            }
                         }
@@ -385,6 +395,7 @@ sub StartThreads {
                         if ($ThreadAction{$t} eq "2") { # STOP
                            $ThreadState{$t} = 2;
                            $ThreadAction{$t} = 0;
+#$self->{logger}->debug("[".$t."] : stoping...");
                            $self->{logger}->debug("Core $p - Thread $t deleted");
                            return;
                         } elsif ($ThreadAction{$t} eq "1") { # PAUSE
@@ -451,27 +462,27 @@ sub StartThreads {
                            sleep 1;
 
                            ## Fonction etat des working threads (s'il sont tous en pause) ##
-                              $count = 0;
-                              $loopthread = 0;
+                           $count = 0;
+                           $loopthread = 0;
 
-                              while ($loopthread ne "1") {
-                                 for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                                    #print "ThreadState ".$i." = ".$ThreadState{$i}."\n";
-                                    if ($ThreadState{$i} eq "0") {
-                                       $count++;
-                                    }
+                           while ($loopthread ne "1") {
+                              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                                 #print "ThreadState ".$i." = ".$ThreadState{$i}."\n";
+                                 if ($ThreadState{$i} eq "0") {
+                                    $count++;
                                  }
-                                 if ($count eq $loop_nbthreads) {
-                                    $loopthread = 1;
-                                 } else {
-                                    $count = 0;
-                                 }
-                                 sleep 1;
                               }
-                              $exit = 1;
-
+                              if ($count eq $loop_nbthreads) {
+                                 $loopthread = 1;
+                              } else {
+                                 $count = 0;
+                              }
+                              sleep 1;
+                           }
+                           $exit = 1;
+                           $loop_action = "2";
                         }
-                        $loop_action = "2";
+                        
                         sleep 1;
                      }
 
@@ -497,6 +508,7 @@ sub StartThreads {
    undef($xml_thread);
    $xml_thread->{AGENT}->{END} = '1';
    $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+   sleep 1; # Wait for threads be terminated
    $self->SendInformations({
       data => $xml_thread
       });
@@ -527,8 +539,9 @@ sub SendInformations{
                    CONTENT   => $message->{data},
                },
            });
-
+print Dumper($xmlMsg);
     $self->{network}->send({message => $xmlMsg});
+    sleep 1;
    }
 }
 

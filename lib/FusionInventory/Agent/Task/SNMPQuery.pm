@@ -114,6 +114,8 @@ sub StartThreads {
    my $num;
    my $log;
 
+   push(@LWP::Protocol::http::EXTRA_SOCK_OPTS, MaxLineLength => 16*1024);
+
    my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
 	my $nb_core_query = $self->{SNMPQUERY}->{PARAM}->[0]->{CORE_QUERY};
 
@@ -259,6 +261,7 @@ sub StartThreads {
 #      write_pid();
       # Création des threads
       $TuerThread{$p} = &share([]);
+      my $sendbylwp : shared;
 
       for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
          $TuerThread{$p}[$j]    = 0;					# 0 : thread en vie, 1 : thread se termine
@@ -306,7 +309,7 @@ sub StartThreads {
                                                       # Lance la procédure et récupère le résultat
                                                       $device_id = "";
                                                       {
-                                                         lock %devicelist2;
+                                                         lock(%devicelist2);
                                                          if (keys %{$devicelist2{$p}} ne "0") {
                                                             my @keys = sort keys %{$devicelist2{$p}};
                                                             $device_id = pop @keys;
@@ -315,7 +318,9 @@ sub StartThreads {
                                                             $loopthread = 1;
                                                          }
                                                       }
+#$self->{logger}->debug("[".$t."] : loopthread : ".$loopthread."...");
                                                       if ($loopthread ne "1") {
+#$self->{logger}->debug("[".$t."] : ip : ".$devicelist->{$device_id}->{IP}."...");
                                                          my $datadevice = $self->query_device_threaded({
                                                                device              => $devicelist->{$device_id},
                                                                modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
@@ -324,18 +329,26 @@ sub StartThreads {
                                                          $xml_thread->{DEVICE}->[$count] = $datadevice;
                                                          $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
                                                          $count++;
-                                                         if (($count eq "4") || (($loopthread eq "1") && ($count > 0))) {
-                                                            $self->SendInformations({
-                                                               data => $xml_thread
-                                                               });
-                                                            $TuerThread{$p}[$t] = 1;
+                                                         if (($count eq "1") || (($loopthread eq "1") && ($count > 0))) {
+                                                            {
+                                                               lock($sendbylwp);
+                                                               $self->SendInformations({
+                                                                  data => $xml_thread
+                                                                  });
+                                                             }
+                                                            #$TuerThread{$p}[$t] = 1;
                                                             $count = 0;
                                                          }
                                                       }
+#$self->{logger}->debug("[".$t."] : pause...");
+                                                      sleep 1;
                                                    }
-                                                   $self->SendInformations({
-                                                      data => $xml_thread
-                                                      });
+                                                   {
+                                                      lock($sendbylwp);
+                                                      $self->SendInformations({
+                                                         data => $xml_thread
+                                                         });
+                                                   }
                                                    $TuerThread{$p}[$t] = 1;
                                                    $self->{logger}->debug("Core $p - Thread $t deleted");
                                                 }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self)->detach();
@@ -368,6 +381,7 @@ sub StartThreads {
    undef($xml_thread);
    $xml_thread->{AGENT}->{END} = '1';
    $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+   sleep 1; # Wait for threads be terminated
    $self->SendInformations({
       data => $xml_thread
       });
@@ -399,6 +413,7 @@ sub SendInformations{
            });
     
     $self->{network}->send({message => $xmlMsg});
+    sleep 1;
    }
 }
 
@@ -920,7 +935,7 @@ sub PutSimpleOid {
          delete $HashDataSNMP->{"firmware2"};
       } elsif (($element =~ /^toner/) || ($element eq "wastetoner") || ($element =~ /^cartridge/) || ($element eq "maintenancekit") || ($element =~ /^drum/)) {
          if ($HashDataSNMP->{$element."-level"} eq "-3") {
-            $datadevice->{$xmlelement1}->{$xmlelement2} = "OK";
+            $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
          } else {
             ($datadevice, $HashDataSNMP) = PutPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
             #$datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element."-level"};
