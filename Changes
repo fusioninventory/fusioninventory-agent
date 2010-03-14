@@ -6,6 +6,7 @@ Revision history for Ocsinventory::Agent
        * Drop the Net::Walk dependency
        * README, add File::Copy::Recursive in the list of dependency
        * OcsDeploy: use 'df -Pm' to get a consistent output with GNU tools
+       * Task exec: Log the errcode return by the system()
 
 2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies

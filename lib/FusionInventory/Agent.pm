@@ -259,7 +259,7 @@ sub main {
             $cmd .= " ".$target->{vardir};
 
             $logger->debug("cmd is: '$cmd'");
-            system($cmd);
+            system($cmd) == 0 or $logger->error("system failed: $?");
 
             $logger->debug("[task] end of ".$task);
         }
