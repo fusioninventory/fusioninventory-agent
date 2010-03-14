@@ -264,7 +264,11 @@ sub main {
             $logger->debug("[task] end of ".$task);
         }
 
-        $storage->remove();
+        if (!$config->{debug}) {
+            # In debug mode, I do not clean the FusionInventory-Agent.dump
+            # so I can replay the sub task directly
+            $storage->remove();
+        }
         $target->setNextRunDate();
 
         sleep(5);
