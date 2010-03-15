@@ -3,7 +3,6 @@ package FusionInventory::Agent::Config;
 use strict;
 use Getopt::Long;
 
-our $VERSION = '2.0beta4';
 my $basedir = '';
 
 if ($^O =~ /^MSWin/) {
@@ -53,7 +52,7 @@ my $default = {
 
   # Other values that can't be changed with the
   # CLI parameters
-  'VERSION'   => $VERSION,
+  'VERSION'   => $FusionInventory::Agent::VERSION,
   'basevardir'=>  $basedir.'/var/lib/fusioninventory-agent',
   'logdir'    =>  $basedir.'/var/log/fusioninventory-agent',
 #  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
@@ -239,7 +238,7 @@ sub help {
 
 
 sub version {
-  print "FusionInventory Agent (".$VERSION.")\n";
+  print "FusionInventory Agent (".$FusionInventory::Agent::VERSION.")\n";
   exit 0;
 }
 
