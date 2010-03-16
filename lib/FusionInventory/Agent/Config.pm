@@ -52,7 +52,6 @@ my $default = {
 
   # Other values that can't be changed with the
   # CLI parameters
-  'VERSION'   => $FusionInventory::Agent::VERSION,
   'basevardir'=>  $basedir.'/var/lib/fusioninventory-agent',
   'logdir'    =>  $basedir.'/var/log/fusioninventory-agent',
 #  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
@@ -63,7 +62,8 @@ sub load {
 
 
 	my $config = $default;
-	
+    $config->{VERSION} = $FusionInventory::Agent::VERSION;
+
     loadFromCfgFile($config);
     loadUserParams($config);
 
