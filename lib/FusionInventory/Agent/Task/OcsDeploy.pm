@@ -58,7 +58,7 @@ sub main {
         });
 
     my $data = $storage->restore("FusionInventory::Agent");
-    my $myData = $self->{myData} = $storage->restore(__PACKAGE__);
+    my $myData = $self->{myData} = $storage->restore();
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
@@ -179,7 +179,7 @@ sub main {
     }
 
 
-    $storage->save($myData);
+    $storage->save({ data => $myData });
 
     exit(0);
 }

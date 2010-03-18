@@ -10,7 +10,7 @@ Revision history for FusionInventory::Agent
        * Debug: do not drop the FusionInventory-Agent.dump to help debbuging
        * VERSION is not defined in $FusionInventory::Agent::VERSION
        * README: Clean up
->>>>>>> MERGE-SOURCE
+       * Storage: Use only hashref to pass arguments
 
 2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies

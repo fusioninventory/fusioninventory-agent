@@ -98,7 +98,7 @@ sub new {
 
         $myRootData->{previousHostname} = $hostname;
         $myRootData->{deviceid} = $self->{deviceid};
-        $rootStorage->save($myRootData);
+        $rootStorage->save({ data => $myRootData });
     } else {
         $self->{deviceid} = $myRootData->{deviceid}
     }
@@ -233,10 +233,12 @@ sub main {
             });
         $storage->save({
 
-            config => $config,
-            target => $target,
-            #logger => $logger, # XXX Needed?
-            prologresp => $prologresp
+            data => {
+                config => $config,
+                target => $target,
+                #logger => $logger, # XXX Needed?
+                prologresp => $prologresp
+            }
 
             });
 
