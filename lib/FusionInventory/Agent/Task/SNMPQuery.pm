@@ -40,7 +40,6 @@ sub main {
 
     my $data = $storage->restore({ module => "FusionInventory::Agent" });
     $self->{data} = $data;
-    my $myData = $self->{myData} = $storage->restore();
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{target} = $data->{target};
