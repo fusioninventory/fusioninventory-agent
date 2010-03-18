@@ -8,6 +8,39 @@ use warnings;
 
 use Data::Dumper;
 
+=head1 NAME
+
+FusionInventory::Agent::Storage - the light data storage API. Data will be
+stored in a subdirectory in the 'vardir' directory. This subdirectory depends
+on the caller module name.
+
+=head1 SYNOPSIS
+
+  my $storage = new FusionInventory::Agent::Storage({
+      target => {
+          vardir => $ARGV[0],
+      }
+  });
+  my $data = $storage->restore({
+          module => "FusionInventory::Agent"
+      });
+
+  $data->{foo} = 'bar';
+
+  $storage->save($data);
+
+=head1 DESCRIPTION
+
+This module is a wrapper for restore and save.
+it called $inventory in general.
+
+=over 4
+
+=item new()
+
+Create the object
+
+=cut
 sub new {
     my ( undef, $params ) = @_;
 
@@ -21,8 +54,9 @@ sub new {
     bless $self;
 }
 
+# Internal function, no POD doc
 sub getFilePath {
-    my ($self, $module) = @_;
+    my ($self, $module, $id) = @_;
 
     my $target = $self->{target};
     my $config = $self->{config};
@@ -43,11 +77,17 @@ sub getFilePath {
 
 }
 
+=item save($ref, $id)
 
+Save the reference.
+$id is an integer. You can use if if you want to save more than one file for the
+module. This number will be add at the of the file
+
+=cut
 sub save {
-    my ($self, $data) = @_;
+    my ($self, $data, $id) = @_;
 
-    my $filePath = $self->getFilePath();
+    my $filePath = $self->getFilePath($id);
     #print "[storage]save data in:". $filePath."\n";
 
     my $oldMask = umask();
@@ -57,8 +97,14 @@ sub save {
 
 }
 
+=item restore($module, $id)
+
+Returns a reference to the stored data. If $id is defined, it will open this
+substorage.
+
+=cut
 sub restore {
-    my ($self, $module) = @_;
+    my ($self, $module, $id) = @_;
 
     my $filePath = $self->getFilePath($module);
     #print "[storage]restore data from: $filePath\n";
@@ -70,7 +116,30 @@ sub restore {
     return {};
 }
 
+=item remove($module, $id)
+
+Returns the files stored on the filesystem for the module $module or for the caller module.
+If $id is defined, only the submodule $id will be removed.
+
+=cut
 sub remove {
+    my ($self, $module, $id) = @_;
+    
+    my $filePath = $self->getFilePath();
+    #print "[storage] delete $filePath\n";
+
+    if (!unlink($filePath)) {
+        #print "[storage] failed to delete $filePath\n";
+    }
+}
+
+=item removeAll($module, $id)
+
+Returns the files stored on the filesystem for the module $module or for the caller module.
+
+=cut
+
+sub removeAll {
     my ($self, $module) = @_;
     
     my $filePath = $self->getFilePath();
