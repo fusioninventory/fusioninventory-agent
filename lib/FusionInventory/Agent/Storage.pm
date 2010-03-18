@@ -5,6 +5,7 @@ use Storable;
 use strict;
 use warnings;
 
+my $lock :shared;
 
 use Data::Dumper;
 
@@ -105,6 +106,8 @@ sub save {
 
     my $data = $params->{data};
     my $idx = $params->{idx};
+
+    lock($lock);
 
     my $filePath = $self->getFilePath({ idx => $idx });
     print "[storage]save data in:". $filePath."\n";
