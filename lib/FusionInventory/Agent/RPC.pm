@@ -8,6 +8,8 @@ use threads;
 use strict;
 use warnings;
 
+my $lock :shared;
+
 sub new {
     my (undef, $params) = @_;
 
@@ -111,7 +113,6 @@ sub server {
 sub getToken {
     my ($self, $forceNewToken) = @_; 
 
-    my $lock :shared;
  
     my $storage = $self->{storage};
     my $logger = $self->{logger};
