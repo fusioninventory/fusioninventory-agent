@@ -377,7 +377,7 @@ sub StartThreads {
 
    foreach my $idx (0..$maxIdx) {
 
-       my $data = $self->restore({
+       my $data = $storage->restore({
                idx => $idx
            });
 
