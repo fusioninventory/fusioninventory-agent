@@ -62,7 +62,7 @@ sub getFilePath {
     my $config = $self->{config};
 
     my $module = $params->{module};
-    my $id = $params->{id};
+    my $idx = $params->{idx};
 
     my $fileName = $module || caller(1);
     $fileName =~ s/::/-/g; # Drop the ::
@@ -79,23 +79,24 @@ sub getFilePath {
 
 
     my $extension = '';
-    if ($id) {
-        if ($$id !~ /^\d+$/) {
-            print "[fault] id must be an integer!\n";
+    if ($idx) {
+        if ($idx !~ /^\d+$/) {
+            print "[fault] idx must be an integer!\n";
             die;
         } 
-        $extension = '.'-$id;
+        $extension = '.'.$idx;
     }
 
 
+    print $dirName."/".$fileName.$extension.".dump\n";
     return $dirName."/".$fileName.$extension.".dump";
 
 }
 
-=item save({ data => $date, id => $ref })
+=item save({ data => $date, idx => $ref })
 
 Save the reference.
-$id is an integer. You can use if if you want to save more than one file for the
+$idx is an integer. You can use if if you want to save more than one file for the
 module. This number will be add at the of the file
 
 =cut
@@ -103,10 +104,10 @@ sub save {
     my ($self, $params) = @_;
 
     my $data = $params->{data};
-    my $id = $params->{id};
+    my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({ id => $id });
-    #print "[storage]save data in:". $filePath."\n";
+    my $filePath = $self->getFilePath({ idx => $idx });
+    print "[storage]save data in:". $filePath."\n";
 
     my $oldMask = umask();
     umask(077) or die "Can't restrict access to $filePath\n";
@@ -115,9 +116,9 @@ sub save {
 
 }
 
-=item restore({ module => $module, id => $id})
+=item restore({ module => $module, idx => $idx})
 
-Returns a reference to the stored data. If $id is defined, it will open this
+Returns a reference to the stored data. If $idx is defined, it will open this
 substorage.
 
 =cut
@@ -125,11 +126,11 @@ sub restore {
     my ($self, $params ) = @_;
 
     my $module = $params->{module};
-    my $id = $params->{id};
+    my $idx = $params->{idx};
 
     my $filePath = $self->getFilePath({
             module => $module,
-            id => $id
+            idx => $idx
     });
     #print "[storage]restore data from: $filePath\n";
 
@@ -140,18 +141,18 @@ sub restore {
     return {};
 }
 
-=item remove({ module => $module, id => $id })
+=item remove({ module => $module, idx => $idx })
 
 Returns the files stored on the filesystem for the module $module or for the caller module.
-If $id is defined, only the submodule $id will be removed.
+If $idx is defined, only the submodule $idx will be removed.
 
 =cut
 sub remove {
     my ($self, $params) = @_;
 
-    my $id = $params->{id};
+    my $idx = $params->{idx};
     
-    my $filePath = $self->getFilePath({ id => $id });
+    my $filePath = $self->getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
@@ -159,7 +160,7 @@ sub remove {
     }
 }
 
-=item removeAll({ module => $module, id => $id })
+=item removeAll({ module => $module, idx => $idx })
 
 Returns the files stored on the filesystem for the module $module or for the caller module.
 
@@ -167,9 +168,9 @@ Returns the files stored on the filesystem for the module $module or for the cal
 sub removeAll {
     my ($self, $params) = @_;
     
-    my $id = $params->{id};
+    my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({ id => $id });
+    my $filePath = $self->getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
