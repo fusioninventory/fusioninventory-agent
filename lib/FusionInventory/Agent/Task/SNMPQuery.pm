@@ -26,13 +26,15 @@ use FusionInventory::Agent::SNMP;
 
 use FusionInventory::Agent::AccountInfo;
 
+my $maxIdx : shared;
+
 sub main {
     my ( undef ) = @_;
 
     my $self = {};
     bless $self;
 
-    my $storage = new FusionInventory::Agent::Storage({
+    my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
             target => {
                 vardir => $ARGV[0],
             }
@@ -112,6 +114,8 @@ sub StartThreads {
    my @devicetype;
    my $num;
    my $log;
+
+  my $storage = $self->{storage};
 
    push(@LWP::Protocol::http::EXTRA_SOCK_OPTS, MaxLineLength => 16*1024);
 
@@ -330,25 +334,19 @@ sub StartThreads {
                                                          $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
                                                          $count++;
                                                          if (($count eq "1") || (($loopthread eq "1") && ($count > 0))) {
-                                                            {
-                                                               lock($sendbylwp);
-                                                               $self->SendInformations({
-                                                                  data => $xml_thread
-                                                                  });
-                                                             }
-                                                            #$TuerThread{$p}[$t] = 1;
+                                                             $storage->save({
+                                                                     idx =>
+                                                                     $maxIdx,
+                                                                     data => $xml_thread
+                                                                 });
+                                                             $maxIdx++;
                                                             $count = 0;
                                                          }
                                                       }
 #$self->{logger}->debug("[".$t."] : pause...");
                                                       sleep 1;
                                                    }
-                                                   {
-                                                      lock($sendbylwp);
-                                                      $self->SendInformations({
-                                                         data => $xml_thread
-                                                         });
-                                                   }
+
                                                    $TuerThread{$p}[$t] = 1;
                                                    $self->{logger}->debug("Core $p - Thread $t deleted");
                                                 }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self)->detach();
@@ -376,6 +374,23 @@ sub StartThreads {
    if ($nb_core_query > 1) {
    	$pm->wait_all_children;
    }
+
+   foreach my $idx (0..$maxIdx) {
+
+       my $data = $self->restore({
+               idx => $idx
+           });
+
+       $self->SendInformations({
+               data => $data
+           });
+
+   }
+   $storage->removeSubDumps();
+
+   $self->SendInformations({
+           data => $xml_thread
+       });
 
    # Send infos to server :
    undef($xml_thread);

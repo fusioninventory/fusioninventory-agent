@@ -5,6 +5,8 @@ use Storable;
 use strict;
 use warnings;
 
+use File::Glob ':glob';
+
 my $lock :shared;
 
 use Data::Dumper;
@@ -55,6 +57,26 @@ sub new {
     bless $self;
 }
 
+sub getFileName {
+    my ($self, $params ) = @_;
+
+    my $module = $params->{module};
+
+
+    my $callerModule;
+    my $i = 0;
+    while ($callerModule = caller($i++)) {
+        last if $callerModule ne 'FusionInventory::Agent::Storage';
+    }
+
+    my $fileName = $module || $callerModule;
+    $fileName =~ s/::/-/g; # Drop the ::
+    # They are forbiden on Windows in file path
+
+
+    return $fileName;
+}
+
 # Internal function, no POD doc
 sub getFilePath {
     my ($self, $params ) = @_;
@@ -62,22 +84,15 @@ sub getFilePath {
     my $target = $self->{target};
     my $config = $self->{config};
 
-    my $module = $params->{module};
     my $idx = $params->{idx};
+    my $module = $params->{module};
 
-    my $fileName = $module || caller(1);
-    $fileName =~ s/::/-/g; # Drop the ::
-    # They are forbiden on Windows in file path
+    my $fileName = $self->getFileName({
+        module => $module
+    });
 
-    my $dirName;
-    if ($target) {
-        $dirName = $target->{'vardir'};
-    } elsif ($config) {
-        $dirName = $config->{'basevardir'};
-    } else {
-        die;
-    }
 
+    my $dirName = $self->getFileDir();
 
     my $extension = '';
     if ($idx) {
@@ -89,10 +104,34 @@ sub getFilePath {
     }
 
 
-    print $dirName."/".$fileName.$extension.".dump\n";
     return $dirName."/".$fileName.$extension.".dump";
 
 }
+
+
+sub getFileDir {
+    my ($self, $params ) = @_;
+
+    my $target = $self->{target};
+    my $config = $self->{config};
+
+    my $module = $params->{module};
+    my $idx = $params->{idx};
+
+    my $dirName;
+    if ($target) {
+        $dirName = $target->{'vardir'};
+    } elsif ($config) {
+        $dirName = $config->{'basevardir'};
+    } else {
+        die;
+    }
+
+    return $dirName;
+
+}
+
+
 
 =item save({ data => $date, idx => $ref })
 
@@ -165,7 +204,7 @@ sub remove {
 
 =item removeAll({ module => $module, idx => $idx })
 
-Returns the files stored on the filesystem for the module $module or for the caller module.
+Deletes the files stored on the filesystem for the module $module or for the caller module.
 
 =cut
 sub removeAll {
@@ -180,5 +219,24 @@ sub removeAll {
         #print "[storage] failed to delete $filePath\n";
     }
 }
+
+=item removeSubDumps({ module => $module })
+
+Deletes the sub files stored on the filesystem for the module $module or for the caller module.
+
+=cut
+sub removeSubDumps {
+    my ($self, $params) = @_;
+   
+    my $module = $params->{module};
+
+    my $fileDir = $self->getFileDir();
+    my $fileName = $self->getFileName({ module => $module });
+
+    foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
+        unlink($file) or warn "[error] Can't unlink $file\n";
+    }
+}
+
 
 1;
