@@ -256,11 +256,12 @@ sub StartThreads {
    		my $pid = $pm->start and next;
       }
 #      write_pid();
-      # Création des threads
+      # create the threads
       $TuerThread{$p} = &share([]);
 
+# 0 : thread is alive, 1 : thread is dead 
       for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
-         $TuerThread{$p}[$j]    = 0;					# 0 : thread en vie, 1 : thread se termine
+         $TuerThread{$p}[$j]    = 0;
       }
       #==================================
       # Prepare in variables devices to query
@@ -1007,7 +1008,7 @@ sub Cisco_GetMAC {
 
    my $i = 0;
 
-   # Chaque VLAN WALK de chaque port
+   # each VLAN WALK per port
    while ( my ($number,$ifphysaddress) = each (%{$HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) ) {
       $short_number = $number;
       $short_number =~ s/$oid_walks->{dot1dTpFdbAddress}->{OID}//;

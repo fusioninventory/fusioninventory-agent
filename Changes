@@ -11,6 +11,7 @@ Revision history for FusionInventory::Agent
        * VERSION is not defined in $FusionInventory::Agent::VERSION
        * README: Clean up
        * Storage: Use only hashref to pass arguments
+       * SNMPQuery: translate in english some comments
 
 2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies
