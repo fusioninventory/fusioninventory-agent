@@ -22,7 +22,8 @@ sub loadModules {
     foreach (@modules) {
         eval "use $_;";
         if ($@) {
-            print STDERR "Failed to load $_. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
+            print STDERR "Failed to load $_. Please install it and ".
+            "restart the fusioninventory-agent-config script.\n";
             exit 1;
 
         }
