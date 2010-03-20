@@ -149,7 +149,7 @@ sub save {
     lock($lock);
 
     my $filePath = $self->getFilePath({ idx => $idx });
-    print "[storage]save data in:". $filePath."\n";
+#    print "[storage]save data in:". $filePath."\n";
 
     my $oldMask = umask();
     umask(077) or die "Can't restrict access to $filePath\n";
