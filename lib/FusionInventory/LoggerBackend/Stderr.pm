@@ -31,7 +31,7 @@ sub addMsg {
   }
 
 
-  if ($config->{color}) {
+  if ($config->{color} && $^O !~ /^^MSWin/) {
     if ($level eq 'error') {
       print $stderr  "\033[1;35m[$level]";
     } elsif ($level eq 'fault') {

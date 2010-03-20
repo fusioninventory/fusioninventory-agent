@@ -3,6 +3,7 @@ Revision history for FusionInventory::Agent
 2.1
        * Windows: Add new values for SOFTWARES key
        * Add Windows service
+       * disable --color for Windows
 
 2.0beta5
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
