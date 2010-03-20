@@ -39,7 +39,8 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 use FusionInventory::Agent::Network;
-use FusionInventory::Agent::Task::Inventory;
+use FusionInventory::Agent::Task;
+#use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Config;
@@ -223,7 +224,7 @@ sub main {
             $target->setCurrentDeviceID ($self->{deviceid});
         }
 
-    
+
         my $storage = new FusionInventory::Agent::Storage({
 
                 config => $config,
@@ -243,28 +244,26 @@ sub main {
             });
 
 
-        my @tasks;
-        push @tasks, 'Inventory' unless $config->{'noinventory'};
-        push @tasks, 'OcsDeploy' unless $config->{'noocsdeploy'};
-        push @tasks, 'WakeOnLan' unless $config->{'nowakeonlan'};
-        push @tasks, 'SNMPQuery' unless $config->{'nosnmpquery'};
-        push @tasks, 'NetDiscovery' unless $config->{'nonetdiscovery'};
+        my %taskOptions = (
+            Inventory => 'noinventory',
+            OcsDeploy => 'noocsdeploy',
+            WakeOnLan => 'nowakeonlan',
+            SNMPQuery => 'nosnmpquery',
+            NetDiscovery => 'nonetdiscovery'
+            );
 
-        foreach my $task (@tasks) {
-            $logger->debug("[task]start of ".$task);
+        foreach my $module (keys %taskOptions) {
+            my $task = new FusionInventory::Agent::Task({
+                    config => $config,
+                    logger => $logger,
+                    module => $module,
+                    name => $taskOptions{$module},
+                    target => $target,
 
+                });
 
-            my $cmd;
-            $cmd .= $EXECUTABLE_NAME; # The Perl binary path
-            $cmd .= "  -Ilib" if $config->{devlib};
-            $cmd .= " -MFusionInventory::Agent::Task::".$task;
-            $cmd .= " -e 'FusionInventory::Agent::Task::".$task."::main();' --";
-            $cmd .= " ".$target->{vardir};
-
-            $logger->debug("cmd is: '$cmd'");
-            system($cmd) == 0 or $logger->error("system failed: $?");
-
-            $logger->debug("[task] end of ".$task);
+            next unless $task;
+            $task->run();
         }
 
         if (!$config->{debug}) {

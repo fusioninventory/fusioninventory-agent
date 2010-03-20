@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent
 
+2.1
+       * Check if the module is installed before the execution
+
 2.0beta5
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
          option
