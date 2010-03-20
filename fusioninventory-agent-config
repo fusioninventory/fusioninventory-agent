@@ -377,4 +377,14 @@ print  "################################\n";
 print "New settings written! Thank you for using FusionInventory!\n";
 print "  http://www.FusionInventory.org\n";
 
+__END__
+
+=head1 NAME
+
+fusioninventory-agent-config - FusionInventory Agent configuration script 
+
+=head1 SYNOPSIS
+
+B<fusioninventory-agent-config>
+
 
