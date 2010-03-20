@@ -198,7 +198,7 @@ sub setNextRunDate {
     );
 
 
-    $storage->save($self->{'myData'});
+    $storage->save({ data => $self->{'myData'} });
 
 }
 
@@ -243,7 +243,7 @@ sub resetNextRunDate {
     $logger->debug("Force run now");
     
     $self->{'myData'}{'nextRunDate'} = 1;
-    $storage->save($self->{'myData'});
+    $storage->save({ data => $self->{'myData'} });
     
     ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
 }
@@ -270,9 +270,7 @@ sub setPrologFreq {
     }
 
     $self->{'myData'}{'prologFreq'} = $prologFreq;
-    $storage->save($self->{'myData'});
-
-    $storage->save($self->{'myData'});
+    $storage->save({ data => $self->{'myData'} });
 
 }
 
@@ -299,11 +297,9 @@ sub setCurrentDeviceID {
     }
 
     $self->{'myData'}{'currentDeviceid'} = $deviceid;
-    $storage->save($self->{'myData'});
+    $storage->save({ data => $self->{'myData'} });
 
     $self->{'currentDeviceid'} = $deviceid;
-
-    $storage->save($self->{'myData'});
 
 }
 

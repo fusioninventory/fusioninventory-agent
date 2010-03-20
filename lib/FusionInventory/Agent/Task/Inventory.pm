@@ -32,7 +32,9 @@ sub main {
           vardir => $ARGV[0],
       }
   });
-  my $data = $storage->restore("FusionInventory::Agent");
+  my $data = $storage->restore({
+          module => "FusionInventory::Agent"
+      });
   $self->{storage} = $storage;
 
   my $config = $self->{config} = $data->{config};

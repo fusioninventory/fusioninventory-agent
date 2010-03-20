@@ -2,10 +2,7 @@ package FusionInventory::Agent::SNMP;
 
 use strict;
 use warnings;
-
-
-use Data::Dumper;
-
+use Encode qw(encode);
 
 sub new {
    my ( undef, $params ) = @_;
@@ -148,44 +145,46 @@ sub snmpwalk {
    my $ArraySNMP = {};
 
    my $oid_prec = $oid_start;
-   while($oid_prec =~ m/$oid_start/) {
-      my $response = $self->{SNMPSession}->{session}->get_next_request($oid_prec);
-      my $err = $self->{SNMPSession}->{session}->error;
-      if ($err){
-         #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
-         #debug($log,"[".$_[1]."] Oid Error : ".$oid_prec,"",$PID);
-         return $ArraySNMP;
-      }
-      my %pdesc = %{$response};
-      #print %pdesc;
-      while ((my $object,my $oid) = each (%pdesc))
-      {
-         if ($object =~ /$oid_start/)
-         {
-            if ($oid !~ /No response from remote host/) {
-               if ($object =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-                  $oid = getbadmacaddress($object,$oid)
-               }
-               if ($object =~ /.1.3.6.1.2.1.17.1.1.0/) {
-                  $oid = getbadmacaddress($object,$oid)
-               }
-               if ($object =~ /.1.3.6.1.2.1.2.2.1.6/) {
-                  $oid = getbadmacaddress($object,$oid)
-               }
-               if ($object =~ /.1.3.6.1.2.1.4.22.1.2/) {
-                  $oid = getbadmacaddress($object,$oid)
-               }
-               if ($object =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-                  $oid = getbadmacaddress($object,$oid)
-               }
-               my $object2 = $object;
-               $object2 =~ s/$_[0].//;
-               $oid = special_char($oid);
-               $oid =~ s/\n$//;
-               $ArraySNMP->{$object2} = $oid;
-            }
+   if (defined($oid_start)) {
+      while($oid_prec =~ m/$oid_start/) {
+         my $response = $self->{SNMPSession}->{session}->get_next_request($oid_prec);
+         my $err = $self->{SNMPSession}->{session}->error;
+         if ($err){
+            #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
+            #debug($log,"[".$_[1]."] Oid Error : ".$oid_prec,"",$PID);
+            return $ArraySNMP;
          }
-         $oid_prec = $object;
+         my %pdesc = %{$response};
+         #print %pdesc;
+         while ((my $object,my $oid) = each (%pdesc))
+         {
+            if ($object =~ /$oid_start/)
+            {
+               if ($oid !~ /No response from remote host/) {
+                  if ($object =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
+                     $oid = getbadmacaddress($object,$oid)
+                  }
+                  if ($object =~ /.1.3.6.1.2.1.17.1.1.0/) {
+                     $oid = getbadmacaddress($object,$oid)
+                  }
+                  if ($object =~ /.1.3.6.1.2.1.2.2.1.6/) {
+                     $oid = getbadmacaddress($object,$oid)
+                  }
+                  if ($object =~ /.1.3.6.1.2.1.4.22.1.2/) {
+                     $oid = getbadmacaddress($object,$oid)
+                  }
+                  if ($object =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
+                     $oid = getbadmacaddress($object,$oid)
+                  }
+                  my $object2 = $object;
+                  $object2 =~ s/$_[0].//;
+                  $oid = special_char($oid);
+                  $oid =~ s/\n$//;
+                  $ArraySNMP->{$object2} = $oid;
+               }
+            }
+            $oid_prec = $object;
+         }
       }
    }
    return $ArraySNMP;
@@ -237,10 +236,12 @@ sub snmpgetnext {
 
 
 sub special_char {
-   if (defined($_[0])) {
+   if (defined($_[0])) {      
       if ($_[0] =~ /0x$/) {
          return "";
       }
+      $_[0] = encode('UTF-8', $_[0]);
+      $_[0] =~ s/\0//g;
       $_[0] =~ s/([\x80-\xFF])//g;
       return $_[0];
    } else {
@@ -286,10 +287,10 @@ sub getbadmacaddress {
 
    }
 
-
    my @array = split(/(\S{2})/, $oid_value);
-   $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
-
+   if (@array eq "14") {
+      $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
+   }
    return $oid_value;
 
 }
