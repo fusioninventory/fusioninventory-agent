@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use English;
-use File::Find;
 
 sub new {
     my (undef, $params) = @_;
@@ -38,32 +37,13 @@ sub new {
 sub isModInstalled {
     my ($self) = @_;
 
-    my $config = $self->{config};
-    my $logger = $self->{logger};
+    my $module = $self->{module};
 
-    my $module = $self->{logger};
-
-    my @dir;
-
-    foreach (@INC) {
-        next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
-        push @dir;
+    foreach my $inc (@INC) {
+        return 1 if -f $inc.'/FusionInventory/Agent/Task/'.$module.'.pm'; 
     }
 
-    push @dir, 'lib' if $config->{devlib};
-
-    my $found;
-    File::Find::find({
-            wanted => sub {
-                $found = 1 if $File::Find::name =~
-                /FusionInventory\/Agent\/Task\/$module\/.*\.pm$/;
-            },
-            follow => 1,
-            follow_skip => 2
-        }
-        , @dir);
-
-    return $found;
+    return 0;
 }
 
 sub run {
