@@ -9,7 +9,7 @@ use FusionInventory::Agent::Config;
 
 
 # DEB/RPM/... maintainers, turn this to '1'
-my $packaged = 1;
+my $packaged = 0;
 
 my $config;
 my @cacert;
