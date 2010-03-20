@@ -1,8 +1,5 @@
 Revision history for FusionInventory::Agent
 
-2.1
-       * Check if the module is installed before the execution
-
 2.0beta5
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
          option
@@ -23,6 +20,7 @@ Revision history for FusionInventory::Agent
          ocsinventor-agent → ocsinventory-agent
        * Don't try to parse empty response from server
        * fusioninventory-agent-config: RPM/DEB mode turn off by default
+       * Check if the module is installed before the execution
 
 2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies
