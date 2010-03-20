@@ -12,8 +12,8 @@ Revision history for FusionInventory::Agent
        * README: Clean up
        * Storage: Use only hashref to pass arguments
        * SNMPQuery: translate in english some comments
-       * FusionInventory::Agent::Task::{OcsDeploy,NetDiscovery} are now maintained in
-         new sub-projects
+       * FusionInventory::Agent::Task::{OcsDeploy,NetDiscovery,SNMPQuery} are now
+         maintained in new sub-projects
        * backport a fix from ocsinventory in fusioninventory-agent-config to fix a typo
          thanks Guillaume PROTET and Jean-Sebastien NORMAND
          ocsinventor-agent → ocsinventory-agent
