@@ -16,7 +16,6 @@ install :: all pure_install doc_install
     return $re;
 }
 
-require 'lib/FusionInventory/Agent/Config.pm';
 use Config;
 
 my $version = $FusionInventory::Agent::VERSION;
@@ -29,7 +28,7 @@ name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
-version $version;
+version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.006';
 requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
