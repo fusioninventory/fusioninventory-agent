@@ -26,21 +26,22 @@ use FusionInventory::Agent::SNMP;
 
 use FusionInventory::Agent::AccountInfo;
 
+my $maxIdx : shared;
+
 sub main {
     my ( undef ) = @_;
 
     my $self = {};
     bless $self;
 
-    my $storage = new FusionInventory::Agent::Storage({
+    my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
             target => {
                 vardir => $ARGV[0],
             }
         });
 
-    my $data = $storage->restore("FusionInventory::Agent");
+    my $data = $storage->restore({ module => "FusionInventory::Agent" });
     $self->{data} = $data;
-    my $myData = $self->{myData} = $storage->restore(__PACKAGE__);
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{target} = $data->{target};
@@ -113,6 +114,10 @@ sub StartThreads {
    my @devicetype;
    my $num;
    my $log;
+
+  my $storage = $self->{storage};
+
+   push(@LWP::Protocol::http::EXTRA_SOCK_OPTS, MaxLineLength => 16*1024);
 
    my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
 	my $nb_core_query = $self->{SNMPQUERY}->{PARAM}->[0]->{CORE_QUERY};
@@ -257,11 +262,13 @@ sub StartThreads {
    		my $pid = $pm->start and next;
       }
 #      write_pid();
-      # Création des threads
+      # create the threads
       $TuerThread{$p} = &share([]);
+      my $sendbylwp : shared;
 
+# 0 : thread is alive, 1 : thread is dead 
       for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
-         $TuerThread{$p}[$j]    = 0;					# 0 : thread en vie, 1 : thread se termine
+         $TuerThread{$p}[$j]    = 0;
       }
       #==================================
       # Prepare in variables devices to query
@@ -298,52 +305,50 @@ sub StartThreads {
                                                    my $xmlout;
                                                    my $xml;
                                                    my $data_compressed;
+                                                   my $loopthread = 0;
 
+                                                   $self->{logger}->debug("Core $p - Thread $t created");
 
-                                                   #$xml_thread->{CONTENT}->{AGENT}->{DEVICEID}; # Key
-                                                   # PID ?
-                                                   #
-
-                                                   BOUCLET: while (1) {
-                                                      #print "Thread\n";
+                                                   while ($loopthread ne "1") {
                                                       # Lance la procédure et récupère le résultat
                                                       $device_id = "";
-
                                                       {
-                                                         lock %devicelist2;
+                                                         lock(%devicelist2);
                                                          if (keys %{$devicelist2{$p}} ne "0") {
                                                             my @keys = sort keys %{$devicelist2{$p}};
                                                             $device_id = pop @keys;
                                                             delete $devicelist2{$p}{$device_id};
                                                          } else {
-                                                            last BOUCLET;
+                                                            $loopthread = 1;
                                                          }
                                                       }
-                                                      my $datadevice = $self->query_device_threaded({
-                                                            device              => $devicelist->{$device_id},
-                                                            modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
-                                                            authlist            => $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
-                                                         });
-                                                      #undef $devicelist[$p]{$device_id};
-                                                      $xml_thread->{DEVICE}->[$count] = $datadevice;
-                                                      $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
-                                                      $count++;
-                                                      if ($count eq "4") { # Send all of 4 devices
-                                                         #$self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
-                                                         $self->SendInformations({
-                                                            data => $xml_thread
+#$self->{logger}->debug("[".$t."] : loopthread : ".$loopthread."...");
+                                                      if ($loopthread ne "1") {
+#$self->{logger}->debug("[".$t."] : ip : ".$devicelist->{$device_id}->{IP}."...");
+                                                         my $datadevice = $self->query_device_threaded({
+                                                               device              => $devicelist->{$device_id},
+                                                               modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
+                                                               authlist            => $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
                                                             });
-                                                         $TuerThread{$p}[$t] = 1;
-                                                         $count = 0;
+                                                         $xml_thread->{DEVICE}->[$count] = $datadevice;
+                                                         $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+                                                         $count++;
+                                                         if (($count eq "1") || (($loopthread eq "1") && ($count > 0))) {
+                                                             $storage->save({
+                                                                     idx =>
+                                                                     $maxIdx,
+                                                                     data => $xml_thread
+                                                                 });
+                                                             $maxIdx++;
+                                                            $count = 0;
+                                                         }
                                                       }
+#$self->{logger}->debug("[".$t."] : pause...");
+                                                      sleep 1;
                                                    }
-                                                   #$self->{inventory}->{h}->{QUERY} = "SNMPQUERY";
 
-                                                   $self->SendInformations({
-                                                      data => $xml_thread
-                                                      });
                                                    $TuerThread{$p}[$t] = 1;
-                                                   return;
+                                                   $self->{logger}->debug("Core $p - Thread $t deleted");
                                                 }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self)->detach();
          sleep 1;
       }
@@ -370,10 +375,28 @@ sub StartThreads {
    	$pm->wait_all_children;
    }
 
+   foreach my $idx (0..$maxIdx) {
+
+       my $data = $storage->restore({
+               idx => $idx
+           });
+
+       $self->SendInformations({
+               data => $data
+           });
+
+   }
+   $storage->removeSubDumps();
+
+   $self->SendInformations({
+           data => $xml_thread
+       });
+
    # Send infos to server :
    undef($xml_thread);
    $xml_thread->{AGENT}->{END} = '1';
    $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+   sleep 1; # Wait for threads be terminated
    $self->SendInformations({
       data => $xml_thread
       });
@@ -405,6 +428,7 @@ sub SendInformations{
            });
     
     $self->{network}->send({message => $xmlMsg});
+    sleep 1;
    }
 }
 
@@ -570,6 +594,9 @@ sub query_device_threaded {
 		return $datadevice;
 	} else {
 		# Query SNMP get #
+      if ($params->{device}->{TYPE} eq "PRINTER") {
+         $params = cartridgesupport($params);
+      }
       for $key ( keys %{$params->{modellist}->{GET}} ) {
          if ($params->{modellist}->{GET}->{$key}->{VLAN} eq "0") {
             my $oid_result = $session->snmpget({
@@ -592,18 +619,19 @@ sub query_device_threaded {
       # Query SNMP walk #
       my $vlan_query = 0;
       for $key ( keys %{$params->{modellist}->{WALK}} ) {
-         
          $ArraySNMPwalk = $session->snmpwalk({
                         oid_start => $params->{modellist}->{WALK}->{$key}->{OID}
                      });
          $HashDataSNMP->{$key} = $ArraySNMPwalk;
-         if ($params->{modellist}->{WALK}->{$key}->{VLAN} eq "1") {
-            $vlan_query = 1;
+         if (exists($params->{modellist}->{WALK}->{$key}->{VLAN})) {
+            if ($params->{modellist}->{WALK}->{$key}->{VLAN} eq "1") {
+               $vlan_query = 1;
+            }
          }
       }
       # Conversion
 
-      ($datadevice, $HashDataSNMP) = ConstructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $params->{modellist}->{WALK}->{vtpVlanName}->{OID});
+      ($datadevice, $HashDataSNMP) = ConstructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $params->{modellist}->{WALK}->{vtpVlanName}->{OID}, $params->{modellist}->{WALK});
 #      #print "DATADEVICE WALK ========================\n";
 
 # print Dumper($datadevice);
@@ -632,7 +660,9 @@ sub query_device_threaded {
             }
          } else {
             if ($datadevice->{INFO}->{COMMENTS} =~ /3Com IntelliJack/) {
-               ($datadevice, $HashDataSNMP) = threecom_GetMAC($HashDataSNMP,$datadevice);
+               ($datadevice, $HashDataSNMP) = threecom_GetMAC($HashDataSNMP,$datadevice,$self,$params->{modellist}->{WALK});
+            } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
+               ($datadevice, $HashDataSNMP) = Procurve_GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
             }
          }
       }
@@ -659,7 +689,6 @@ sub special_char {
 sub ConstructDataDeviceSimple {
    my $HashDataSNMP = shift;
    my $datadevice = shift;
-
    if (exists $HashDataSNMP->{macaddr}) {
 #      my @array = split(/(\S{2})/, $HashDataSNMP->{macaddr});
 #      $datadevice->{INFO}->{MAC} = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
@@ -674,6 +703,7 @@ sub ConstructDataDeviceSimple {
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cpu','INFO','CPU');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'location','INFO','LOCATION');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'firmware','INFO','FIRMWARE');
+   ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'firmware1','INFO','FIRMWARE');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'contact','INFO','CONTACT');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'comments','INFO','COMMENTS');
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'uptime','INFO','UPTIME');
@@ -687,27 +717,24 @@ sub ConstructDataDeviceSimple {
    ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'ram','INFO','RAM');
 
    if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesblack','CARTRIDGES','BLACK');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesblackphoto','CARTRIDGES','BLACKPHOTO');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgescyan','CARTRIDGES','CYAN');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesyellow','CARTRIDGES','YELLOW');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesmagenta','CARTRIDGES','MAGENTA');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgescyanlight','CARTRIDGES','CYANLIGHT');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesmagentalight','CARTRIDGES','MAGENTALIGHT');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductor','CARTRIDGES','PHOTOCONDUCTOR');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorblack','CARTRIDGES','PHOTOCONDUCTORBLACK');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcolor','CARTRIDGES','PHOTOCONDUCTORCOLOR');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcyan','CARTRIDGES','PHOTOCONDUCTORCYAN');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductoryellow','CARTRIDGES','PHOTOCONDUCTORYELLOW');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesphotoconductormagenta','CARTRIDGES','PHOTOCONDUCTORMAGENTA');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesunittransfertblack','CARTRIDGES','UNITTRANSFERBLACK');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesunittransfertcyan','CARTRIDGES','UNITTRANSFERCYAN');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesunittransfertyellow','CARTRIDGES','UNITTRANSFERYELLOW');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesunittransfertmagenta','CARTRIDGES','UNITTRANSFERMAGENTA');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgeswaste','CARTRIDGES','WASTE');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesfuser','CARTRIDGES','FUSER');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesbeltcleaner','CARTRIDGES','BELTCLEANER');
-      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgesmaintenancekit','CARTRIDGES','MAINTENANCEKIT');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'tonerblack','CARTRIDGES','TONERBLACK');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'tonerblack2','CARTRIDGES','TONERBLACK2');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'tonercyan','CARTRIDGES','TONERCYAN');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'tonermagenta','CARTRIDGES','TONERMAGENTA');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'toneryellow','CARTRIDGES','TONERYELLOW');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'wastetoner','CARTRIDGES','WASTETONER');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgeblack','CARTRIDGES','CARTRIDGEBLACK');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgeblackphoto','CARTRIDGES','CARTRIDGEBLACKPHOTO');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgecyan','CARTRIDGES','CARTRIDGECYAN');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgecyanlight','CARTRIDGES','CARTRIDGECYANLIGHT');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgemagenta','CARTRIDGES','CARTRIDGEMAGENTA');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgemagentalight','CARTRIDGES','CARTRIDGEMAGENTALIGHT');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'cartridgeyellow','CARTRIDGES','CARTRIDGEYELLOW');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'maintenancekit','CARTRIDGES','MAINTENANCEKIT');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'drumblack','CARTRIDGES','DRUMBLACK');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'drumcyan','CARTRIDGES','DRUMCYAN');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'drummagenta','CARTRIDGES','DRUMMAGENTA');
+      ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'drumyellow','CARTRIDGES','DRUMYELLOW');
 
       ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages','PAGECOUNTERS','TOTAL');
       ($datadevice, $HashDataSNMP) = PutSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages','PAGECOUNTERS','BLACK');
@@ -772,6 +799,7 @@ sub ConstructDataDeviceMultiple {
    my $datadevice = shift;
    my $self = shift;
    my $vtpVlanName_oid = shift;
+   my $walkoid = shift;
    
    my $object;
    my $data;
@@ -886,7 +914,10 @@ sub ConstructDataDeviceMultiple {
    if (defined ($datadevice->{INFO}->{COMMENTS})) {
       if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
          ($datadevice, $HashDataSNMP) = Cisco_TrunkPorts($HashDataSNMP,$datadevice, $self);
-         ($datadevice, $HashDataSNMP) = Cisco_CDPPorts($HashDataSNMP,$datadevice);
+         ($datadevice, $HashDataSNMP) = Cisco_CDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
+      } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
+         ($datadevice, $HashDataSNMP) = Cisco_TrunkPorts($HashDataSNMP,$datadevice, $self);
+         ($datadevice, $HashDataSNMP) = Cisco_CDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
       }
    }
 
@@ -914,8 +945,21 @@ sub PutSimpleOid {
       if (($element eq "ram") || ($element eq "memory")) {
          $HashDataSNMP->{$element} = int(( $HashDataSNMP->{$element} / 1024 ) / 1024);
       }
-      $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
+      if ($element eq "firmware1") {
+         $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
+         delete $HashDataSNMP->{"firmware2"};
+      } elsif (($element =~ /^toner/) || ($element eq "wastetoner") || ($element =~ /^cartridge/) || ($element eq "maintenancekit") || ($element =~ /^drum/)) {
+         if ($HashDataSNMP->{$element."-level"} eq "-3") {
+            $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
+         } else {
+            ($datadevice, $HashDataSNMP) = PutPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
+            #$datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element."-level"};
+         }
+      } else {
+         $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
+      }
       delete $HashDataSNMP->{$element};
+      
    }
    return $datadevice, $HashDataSNMP;
 }
@@ -927,8 +971,7 @@ sub PutPourcentageOid {
    my $element2 = shift;
    my $xmlelement1 = shift;
    my $xmlelement2 = shift;
-
-   if (exists $HashDataSNMP->{$xmlelement1}) {
+   if (exists $HashDataSNMP->{$element1}) {
       $datadevice->{$xmlelement1}->{$xmlelement2} = int ( ( 100 * $HashDataSNMP->{$element2} )
       / $HashDataSNMP->{$element1} );
       delete $HashDataSNMP->{$element2};
@@ -937,6 +980,37 @@ sub PutPourcentageOid {
    return $datadevice, $HashDataSNMP;
 }
 
+
+
+sub lastSplitObject {
+   my $var = shift;
+
+   my @array = split(/\./, $var);
+   return $array[-1];
+}
+
+
+sub cartridgesupport {
+   my $params = shift;
+
+   for my $key ( keys %{$params->{modellist}->{GET}} ) {
+      if (($key =~ /^toner/) || ($key eq "wastetoner") || ($key =~ /^cartridge/) || ($key eq "maintenancekit") || ($key =~ /^drum/)) {
+         $params->{modellist}->{GET}->{$key."-capacitytype"}->{OID} = $params->{modellist}->{GET}->{$key}->{OID};
+         $params->{modellist}->{GET}->{$key."-capacitytype"}->{OID} =~ s/43.11.1.1.6/43.11.1.1.8/;
+         $params->{modellist}->{GET}->{$key."-capacitytype"}->{VLAN} = 0;
+
+         $params->{modellist}->{GET}->{$key."-level"}->{OID} = $params->{modellist}->{GET}->{$key}->{OID};
+         $params->{modellist}->{GET}->{$key."-level"}->{OID} =~ s/43.11.1.1.6/43.11.1.1.9/;
+         $params->{modellist}->{GET}->{$key."-level"}->{VLAN} = 0;
+      }
+   }
+   return $params;
+}
+
+
+#############################################################################
+######################## MANUFACTURER SPECIFICATIONS ########################
+#############################################################################
 
 sub Cisco_TrunkPorts {
    my $HashDataSNMP = shift,
@@ -960,36 +1034,32 @@ sub Cisco_TrunkPorts {
 sub Cisco_CDPPorts {
    my $HashDataSNMP = shift,
    my $datadevice = shift;
+   my $oid_walks = shift;
+   my $self = shift;
+   
+   my $short_number;
 
-# TODO : debug
-#   while ( (my $number, my $ip_hex) = each (%{$HashDataSNMP->{cdpCacheAddress}}) ) {
-#      print $number." (mac)\n";
-#      my @array = split(/\./, $number);
-#      my @ip_num = split(/(\S{2})/, $ip_hex);
-#      my $ip = (hex $ip_num[3]).".".(hex $ip_num[5]).".".(hex $ip_num[7]).".".(hex $ip_num[9]);
-#
-#      $datadevice->{PORTS}->{PORT}->[$array[0]]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
-#      $datadevice->{PORTS}->{PORT}->[$array[0]]->{CONNECTIONS}->{CDP} = "1";
-#      $datadevice->{PORTS}->{PORT}->[$array[0]]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$number};
-#
-#      delete $HashDataSNMP->{cdpCacheAddress}->{$number};
-#      delete $HashDataSNMP->{cdpCacheDevicePort}->{$number};
-#   }
-#   if (keys (%{$HashDataSNMP->{cdpCacheAddress}}) eq "0") {
-#      delete $HashDataSNMP->{cdpCacheAddress};
-#   }
-#   if (keys (%{$HashDataSNMP->{cdpCacheDevicePort}}) eq "0") {
-#      delete $HashDataSNMP->{cdpCacheDevicePort};
-#   }
+   while ( my ( $number, $ip_hex) = each (%{$HashDataSNMP->{cdpCacheAddress}}) ) {
+      $ip_hex =~ s/://g;
+      $short_number = $number;
+      $short_number =~ s/$oid_walks->{cdpCacheAddress}->{OID}//;
+      my @array = split(/\./, $short_number);
+      my @ip_num = split(/(\S{2})/, $ip_hex);
+      my $ip = (hex $ip_num[3]).".".(hex $ip_num[5]).".".(hex $ip_num[7]).".".(hex $ip_num[9]);
+      $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
+      $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
+      $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number};
+
+      delete $HashDataSNMP->{cdpCacheAddress}->{$number};
+      delete $HashDataSNMP->{cdpCacheDevicePort}->{$number};
+   }
+   if (keys (%{$HashDataSNMP->{cdpCacheAddress}}) eq "0") {
+      delete $HashDataSNMP->{cdpCacheAddress};
+   }
+   if (keys (%{$HashDataSNMP->{cdpCacheDevicePort}}) eq "0") {
+      delete $HashDataSNMP->{cdpCacheDevicePort};
+   }
    return $datadevice, $HashDataSNMP;
-}
-
-
-sub lastSplitObject {
-   my $var = shift;
-
-   my @array = split(/\./, $var);
-   return $array[-1];
 }
 
 
@@ -1008,7 +1078,7 @@ sub Cisco_GetMAC {
 
    my $i = 0;
 
-   # Chaque VLAN WALK de chaque port
+   # each VLAN WALK per port
    while ( my ($number,$ifphysaddress) = each (%{$HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) ) {
       $short_number = $number;
       $short_number =~ s/$oid_walks->{dot1dTpFdbAddress}->{OID}//;
@@ -1025,31 +1095,20 @@ sub Cisco_GetMAC {
                            };
             if (not exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
                my $add = 1;
-#               if (defined($datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC})) {
-#                  #while ($macnb) = each (@{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}}) {
-#                     if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
-#                        $add = 0;
-#                     }
-#                  #}
-#               }
                if ($ifphysaddress eq "") {
+                  $add = 0;
+               }
+               if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
                   $add = 0;
                }
                if ($add eq "1") {
                   if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
                      $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
                      #$i++;
-                     print "Number : ".$i."\n";
                   } else {
                      $i = 0;
                   }
                   $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
-                  ## Search IP in ARP of Switch
-#                  while ( ($numberip,$mac) = each (%{$HashDataSNMP->{VLAN}->{$vlan_id}->{ipNetToMediaPhysAddress}}) ) {
-#                     if ($mac eq $ifphysaddress) {
-#                        $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->{IP}->[$i] = $ifphysaddress;
-#                     }
-#                  }
                   $i++;
                }
             }
@@ -1061,5 +1120,103 @@ sub Cisco_GetMAC {
    return $datadevice, $HashDataSNMP;
 }
 
+
+sub threecom_GetMAC {
+   my $HashDataSNMP = shift,
+   my $datadevice = shift;
+   my $self = shift;
+   my $oid_walks = shift;
+
+   my $ifIndex;
+   my $numberip;
+   my $mac;
+   my $short_number;
+   my $dot1dTpFdbPort;
+   my $add = 0;
+   my $i;
+   
+   while ( my ($number,$ifphysaddress) = each (%{$HashDataSNMP->{dot1dTpFdbAddress}}) ) {
+      $short_number = $number;
+      $short_number =~ s/$oid_walks->{dot1dTpFdbAddress}->{OID}//;
+      $dot1dTpFdbPort = $oid_walks->{dot1dTpFdbPort}->{OID};
+      
+      $add = 1;
+      if ($ifphysaddress eq "") {
+         $add = 0;
+      }
+      if (($add eq "1") && (exists($HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}))) {
+         $ifIndex = $HashDataSNMP->{dot1dBasePortIfIndex}->{
+               $oid_walks->{dot1dBasePortIfIndex}->{OID}.".".
+               $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+            };
+
+         if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+            $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+         } else {
+            $i = 0;
+         }
+         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+         $i++;
+      }
+   }
+   return $datadevice, $HashDataSNMP;
+}
+
+
+
+sub Procurve_GetMAC {
+   my $HashDataSNMP = shift,
+   my $datadevice = shift;
+   my $self = shift;
+   my $oid_walks = shift;
+
+   my $ifIndex;
+   my $numberip;
+   my $mac;
+   my $short_number;
+   my $dot1dTpFdbPort;
+
+   my $i = 0;
+
+   while ( my ($number,$ifphysaddress) = each (%{$HashDataSNMP->{dot1dTpFdbAddress}}) ) {
+      $short_number = $number;
+      $short_number =~ s/$oid_walks->{dot1dTpFdbAddress}->{OID}//;
+      $dot1dTpFdbPort = $oid_walks->{dot1dTpFdbPort}->{OID};
+      if (exists $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}) {
+         if (exists $HashDataSNMP->{dot1dBasePortIfIndex}->{
+                              $oid_walks->{dot1dBasePortIfIndex}->{OID}.".".
+                              $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+                           }) {
+
+            $ifIndex = $HashDataSNMP->{dot1dBasePortIfIndex}->{
+                              $oid_walks->{dot1dBasePortIfIndex}->{OID}.".".
+                              $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+                           };
+            if (not exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
+               my $add = 1;
+               if ($ifphysaddress eq "") {
+                  $add = 0;
+               }
+               if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
+                  $add = 0;
+               }
+               if ($add eq "1") {
+                  if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+                     $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+                     #$i++;
+                  } else {
+                     $i = 0;
+                  }
+                  $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+                  $i++;
+               }
+            }
+         }
+      }
+      delete $HashDataSNMP->{dot1dTpFdbAddress}->{$number};
+      delete $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number};
+   }
+   return $datadevice, $HashDataSNMP;
+}
 
 1;

@@ -19,7 +19,7 @@ install :: all pure_install doc_install
 require 'lib/FusionInventory/Agent/Config.pm';
 use Config;
 
-my $version = $FusionInventory::Agent::Config::VERSION;
+my $version = $FusionInventory::Agent::VERSION;
 if (-d '.bzr') {
     chomp( my $bzrRev = `bzr revno`);
     $version .= "~bzr".$bzrRev;

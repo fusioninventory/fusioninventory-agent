@@ -14,6 +14,7 @@ use File::Path;
 use XML::Simple;
 use Sys::Hostname;
 
+our $VERSION = '2.0';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
@@ -101,7 +102,7 @@ sub new {
 
         $myRootData->{previousHostname} = $hostname;
         $myRootData->{deviceid} = $self->{deviceid};
-        $rootStorage->save($myRootData);
+        $rootStorage->save({ data => $myRootData });
     } else {
         $self->{deviceid} = $myRootData->{deviceid}
     }
@@ -236,10 +237,12 @@ sub main {
             });
         $storage->save({
 
-            config => $config,
-            target => $target,
-            #logger => $logger, # XXX Needed?
-            prologresp => $prologresp
+            data => {
+                config => $config,
+                target => $target,
+                #logger => $logger, # XXX Needed?
+                prologresp => $prologresp
+            }
 
             });
 
@@ -263,12 +266,16 @@ sub main {
             $cmd .= " ".$target->{vardir};
 
             $logger->debug("cmd is: '$cmd'");
-            system($cmd." 2>&1");
+            system($cmd) == 0 or $logger->error("system failed: $?");
 
             $logger->debug("[task] end of ".$task);
         }
 
-#        $storage->remove();
+        if (!$config->{debug}) {
+            # In debug mode, I do not clean the FusionInventory-Agent.dump
+            # so I can replay the sub task directly
+            $storage->remove();
+        }
         $target->setNextRunDate();
 
         sleep(5);

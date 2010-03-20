@@ -8,6 +8,8 @@ use threads;
 use strict;
 use warnings;
 
+my $lock :shared;
+
 sub new {
     my (undef, $params) = @_;
 
@@ -111,21 +113,20 @@ sub server {
 sub getToken {
     my ($self, $forceNewToken) = @_; 
 
-    my $lock :shared;
  
     my $storage = $self->{storage};
     my $logger = $self->{logger};
 
     lock($lock);
 
-    my $myData = $storage->restore(__PACKAGE__);
+    my $myData = $storage->restore();
     if ($forceNewToken || !$myData->{token}) {
 
         my $tmp = '';
         $tmp .= pack("C",65+rand(24)) foreach (0..100);
         $myData->{token} = $tmp;
 
-        $storage->save($myData);
+        $storage->save({ data => $myData });
     }
     
     $logger->debug("token is :".$myData->{token});

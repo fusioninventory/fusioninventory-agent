@@ -44,6 +44,8 @@ PREREQUISITES
 
     If available, Net::CUPS is used to detect the printer
 
+    File::Copy::Recursive
+
 
   The following module is needed if you plan to prepare a tarball or install
   directly from the Bazaar devel branch. (See SOURCES below.):
@@ -68,21 +70,16 @@ BUILDING/INSTALLING
 
   The agent needs some directories to store internal settings.
 
-   mkdir -p /etc/FusionInventory-agent
-   mkdir -p /var/lib/FusionInventory-agent
-   mkdir -p /var/log/FusionInventory-agent
-   mkdir -p /var/run
-
   you can choose other directories by changing the default settings
-  directly in the FusionInventory-agent file.
+  directly in the fusioninventory-agent config file.
 
   You need to launch the agent with root privilege. For debugging you can
   try to launch it with the -l flag:
-  eg: FusionInventory-agent -l /tmp --debug
+  eg: fusioninventory-agent -l /tmp --debug
 
   It's also possible to run directly from the tarball directory:
 
-   sudo ./FusionInventory-agent --devlib --server http://foo/FusionInventory
+   sudo ./fusioninventory-agent --devlib --server http://server/ocsinventory
 
 PATCHES
   If you want to improve FusionInventory, please use the Bazaar branch
@@ -122,7 +119,8 @@ You can prepare a tarball from the Bazaar devel branch with following commands:
 
 COPYRIGHT
 
-  Copyright © 2006-2010 FusionInventory Contributor
+  Copyright © 2006-2010 OCS Inventory Contributors
+  Copyright © 2010 FusionInventory Contributors
   released under GNU GPL 2 license
   
 AUTHORS

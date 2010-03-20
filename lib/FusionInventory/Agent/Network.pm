@@ -71,8 +71,7 @@ sub new {
   }  else {
     $self->{ua}->env_proxy;
   }
-  my $version = 'FusionInventory-Agent_v';
-  $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
+  my $version = 'FusionInventory-Agent_v'.$config->{VERSION};
   $self->{ua}->agent($version);
   $self->{ua}->credentials(
     $uaserver, # server:port, port is needed 
