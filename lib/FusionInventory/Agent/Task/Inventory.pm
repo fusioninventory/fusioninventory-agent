@@ -1,5 +1,17 @@
 package FusionInventory::Agent::Task::Inventory;
 
+=head1 NAME
+
+FusionInventory::Agent::Task::Inventory - The Inventory module for FusionInventory 
+
+=head1 DESCRIPTION
+
+This module load and run the submodules needed to get the informations
+regarding the Hardware and Software installation.
+
+=cut
+
+
 use strict;
 no strict 'refs';
 use warnings;
@@ -439,11 +451,11 @@ sub feedInventory {
 
 }
 
-=item runWithTimeout()
-
-Run a function with a timeout.
-
-=cut
+#=item runWithTimeout()
+#
+#Run a function with a timeout.
+#
+#=cut
 sub runWithTimeout {
     my ($self, $m, $funcName, $timeout) = @_;
 
