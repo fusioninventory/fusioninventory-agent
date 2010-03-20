@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::NetDiscovery;
 
+our $VERSION = '1';
+
 use strict;
 #no strict 'refs';
 use warnings;
@@ -15,7 +17,6 @@ use Data::Dumper;
 use XML::Simple;
 use File::stat;
 
-use ExtUtils::Installed;
 use FusionInventory::Agent::Config;
 use FusionInventory::Logger;
 use FusionInventory::Agent::Storage;
