@@ -14,6 +14,9 @@ Revision history for FusionInventory::Agent
        * SNMPQuery: translate in english some comments
        * FusionInventory::Agent::Task::OcsDeploy is now maintained in
          another sub-project
+       * backport a fix from ocsinventory in fusioninventory-agent-config to fix a typo
+         thanks Guillaume PROTET and Jean-Sebastien NORMAND
+         ocsinventor-agent → ocsinventory-agent
 
 2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies

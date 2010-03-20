@@ -318,8 +318,8 @@ if (!$packaged) {
 
     my @oldFiles = qw(
     /etc/ocsinventory-client
-    /etc/logtotate.d/ocsinventor-agent
-    /etc/logtotate.d/ocsinventor-client
+    /etc/logtotate.d/ocsinventory-agent
+    /etc/logtotate.d/ocsinventory-client
     /usr/sbin/ocsinventory-agent
     /usr/bin/ocsinventory-agent
     /usr/sbin/ocsinventory-client.pl
