@@ -21,7 +21,8 @@ Revision history for FusionInventory::Agent
        * Don't try to parse empty response from server
        * fusioninventory-agent-config: RPM/DEB mode turn off by default
        * Check if the module is installed before the execution
-       * fusioninventory-agent-config: add a minimalist POD doc 
+       * fusioninventory-agent-config: add a minimalist POD doc
+       * FusionInventory::Agent::RPC add POD documentation
 
 2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies
