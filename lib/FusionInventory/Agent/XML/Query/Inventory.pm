@@ -152,6 +152,7 @@ sub addDrive {
   my ($self, $args) = @_;
 
   my $createdate = $args->{CREATEDATE};
+  my $description = $args->{DESCRIPTION};
   my $free = $args->{FREE};
   my $filesystem = $args->{FILESYSTEM};
   my $label = $args->{LABEL};
@@ -164,6 +165,8 @@ sub addDrive {
   push @{$self->{h}{CONTENT}{DRIVES}},
   {
     CREATEDATE => [$createdate?$createdate:''],
+# Windows only, e.g: Network drive
+    DESCRIPTION => [$description?$description:''],
     FREE => [$free?$free:''],
     FILESYSTEM => [$filesystem?$filesystem:''],
     LABEL => [$label?$label:''],
