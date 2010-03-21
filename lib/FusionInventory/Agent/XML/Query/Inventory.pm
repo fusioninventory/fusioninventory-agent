@@ -155,6 +155,7 @@ sub addDrive {
   my $free = $args->{FREE};
   my $filesystem = $args->{FILESYSTEM};
   my $label = $args->{LABEL};
+  my $letter = $args->{LETTER};
   my $serial = $args->{SERIAL};
   my $total = $args->{TOTAL};
   my $type = $args->{TYPE};
@@ -166,6 +167,7 @@ sub addDrive {
     FREE => [$free?$free:''],
     FILESYSTEM => [$filesystem?$filesystem:''],
     LABEL => [$label?$label:''],
+    LETTER => [$letter?$letter:''],
     SERIAL => [$serial?$serial:''],
     TOTAL => [$total?$total:''],
     TYPE => [$type?$type:''],
