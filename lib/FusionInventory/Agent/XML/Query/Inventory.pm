@@ -169,13 +169,14 @@ sub addDrive {
     DESCRIPTION => [$description?$description:''],
     FREE => [$free?$free:''],
     FILESYSTEM => [$filesystem?$filesystem:''],
+# On windows the LABEL is also in VOLUMN
     LABEL => [$label?$label:''],
     LETTER => [$letter?$letter:''],
     SERIAL => [$serial?$serial:''],
     TOTAL => [$total?$total:''],
 # type is Mount point on Linux/UNIX/MacOSX
     TYPE => [$type?$type:''],
-# UNIX only e.g: /dev/XXXX
+# UNIX: /dev/XXXX, on Windows, the LABEL...
     VOLUMN => [$volumn?$volumn:'']
   };
 }

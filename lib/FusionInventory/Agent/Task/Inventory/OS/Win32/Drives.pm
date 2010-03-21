@@ -53,7 +53,7 @@ sub doInventory {
                        SERIAL => $Properties->{VolumeSerialNumber},
                        TOTAL => int($Properties->{Size}/(1024*1024)),
                        TYPE => $type[$Properties->{DriveType}] || 'Unknown',
-                       VOLUMN => '',
+                       VOLUMN => encode('UTF-8', $Properties->{VolumeName}),
 
         };
 
