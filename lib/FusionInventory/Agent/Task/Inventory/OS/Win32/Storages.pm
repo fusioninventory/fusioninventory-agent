@@ -56,7 +56,13 @@ sub doInventory {
             DESCRIPTION => encode('UTF-8', $Properties->{Description}),
             NAME => encode('UTF-8', $Properties->{Name}),
             TYPE => encode('UTF-8', $Properties->{MediaType}),
+            FIRMWARE => $Properties->{FirmwareRevision},
+            SERIAL => $Properties->{SerialNumber},
             DISKSIZE => $Properties->{Size}/(1024*1024)
+            SCSI_CHID => $Properties->{SCSILogicialUnit}
+            SCSI_COID => $Properties->{SCSIPort}
+            SCSI_LUN => $Properties->{SCSILogicalUnit}
+            SCSI_UNID => $Properties->{SCSITargetId}
         };
 
     }
