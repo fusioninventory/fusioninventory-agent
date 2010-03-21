@@ -216,6 +216,7 @@ sub addStorages {
     MODEL => [$model?$model:''],
     NAME => [$name?$name:''],
     TYPE => [$type?$type:''],
+    SERIAL => [$serialnumber?$serialnumber:''],
     SERIALNUMBER => [$serialnumber?$serialnumber:''],
     FIRMWARE => [$firmware?$firmware:''],
     SCSI_COID => [$scsi_coid?$scsi_coid:''],
