@@ -170,7 +170,9 @@ sub addDrive {
     LETTER => [$letter?$letter:''],
     SERIAL => [$serial?$serial:''],
     TOTAL => [$total?$total:''],
+# type is Mount point on Linux/UNIX/MacOSX
     TYPE => [$type?$type:''],
+# UNIX only e.g: /dev/XXXX
     VOLUMN => [$volumn?$volumn:'']
   };
 }
