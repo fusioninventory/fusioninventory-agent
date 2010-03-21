@@ -193,6 +193,7 @@ sub addStorages {
 
   my $description = $args->{DESCRIPTION};
   my $disksize = $args->{DISKSIZE};
+  my $interface = $args->{INTERFACE};
   my $manufacturer = $args->{MANUFACTURER};
   my $model = $args->{MODEL};
   my $name = $args->{NAME};
@@ -216,6 +217,9 @@ sub addStorages {
     MODEL => [$model?$model:''],
     NAME => [$name?$name:''],
     TYPE => [$type?$type:''],
+# INTERFACE can be SCSI/HDC/IDE/USB/1394
+# (See: Win32_DiskDrive / InterfaceType)
+    INTERFACE => [$interface?$interface:''],
     SERIAL => [$serialnumber?$serialnumber:''],
     SERIALNUMBER => [$serialnumber?$serialnumber:''],
     FIRMWARE => [$firmware?$firmware:''],
