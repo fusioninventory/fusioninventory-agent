@@ -119,8 +119,7 @@ sub doInventory {
 
   $inventory->setHardware({
 
-      MEMORY =>  sprintf("%i",$fullMemory/(1024*1024)),
-#      SWAP =>    sprintf("%i", $SwapFileSize/1024),
+      MEMORY =>  int($fullMemory/(1024*1024)),
 
     });
 
