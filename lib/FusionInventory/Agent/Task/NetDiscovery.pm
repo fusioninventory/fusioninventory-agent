@@ -33,7 +33,7 @@ sub main {
     my $self = {};
     bless $self, 'FusionInventory::Agent::Task::NetDiscovery';
 
-    my $storage = new FusionInventory::Agent::Storage({
+    my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
             target => {
                 vardir => $ARGV[0],
             }
@@ -102,15 +102,7 @@ sub StartThreads {
       }
    }
 
-   # Send infos to server :
    my $xml_thread = {};
-   $xml_thread->{AGENT}->{START} = '1';
-   $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-   $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-   $self->SendInformations({
-      data => $xml_thread
-      });
-   undef($xml_thread);
 
    my $ModuleNmapScanner = 0;
    my $ModuleNmapParser  = 0;
@@ -120,6 +112,8 @@ sub StartThreads {
    my $iplist2 = &share({});
    my %TuerThread;
    my %ArgumentsThread;
+   my $maxIdx : shared = 0;
+   my $storage = $self->{storage};
 
    if ( eval { require Nmap::Parser; 1 } ) {
       $ModuleNmapParser = 1;
@@ -281,17 +275,7 @@ sub StartThreads {
          CONTINUE:
 #$self->{logger}->debug("LOOP : ".$loop_action);
          $loop_nbthreads = $nb_threads_discovery;
-         # Send NB ips to server :
-         $xml_thread = {};
-         $xml_thread->{AGENT}->{NBIP} = $nbip;
-         $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-         {
-            lock $sendbylwp;
-            $self->SendInformations({
-               data => $xml_thread
-               });
-         }
-         undef($xml_thread);
+
 
          for(my $j = 0 ; $j < $nb_threads_discovery ; $j++) {
             $ThreadState{$j} = "0";
@@ -383,12 +367,12 @@ sub StartThreads {
                               }
                            }
                            if (($count eq "4") || (($loopthread eq "1") && ($count > 0))) {
-                              {
-                                 lock $sendbylwp;
-                                 $self->SendInformations({
-                                       data => $xml_threadt
-                                    });
-                              }
+                              $storage->save({
+                                    idx =>
+                                    $maxIdx,
+                                    data => $xml_threadt
+                                });
+                              $maxIdx++;
                               $count = 0;
                            }
                         }
@@ -491,12 +475,75 @@ sub StartThreads {
                   },
                   $self
                )->detach();
-
+            ### END Threads Creation
          }
-        
+
+         my $network = $self->{network} = new FusionInventory::Agent::Network ({
+
+                  logger => $self->{logger},
+                  config => $self->{config},
+                  target => $self->{target},
+
+              });
+
+         # Send infos to server :
+         my $xml_thread = {};
+         $xml_thread->{AGENT}->{START} = '1';
+         $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
+         $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+         $self->SendInformations({
+            data => $xml_thread
+            });
+         undef($xml_thread);
+
+         # Send NB ips to server :
+         $xml_thread = {};
+         $xml_thread->{AGENT}->{NBIP} = $nbip;
+         $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+         {
+            lock $sendbylwp;
+            $self->SendInformations({
+               data => $xml_thread
+               });
+         }
+         undef($xml_thread);
+
+         my $sentxml = {};
         while($exit ne "1") {
            sleep 2;
+            foreach my $idx (0..$maxIdx) {
+               if (!defined($sentxml->{$idx})) {
+                   my $data = $storage->restore({
+                           idx => $idx
+                       });
+
+                   $self->SendInformations({
+                           data => $data
+                       });
+                   $sentxml->{$idx} = 1;
+                   $storage->remove({
+                        idx => $idx
+                     });
+                }
+            }
+
         }
+
+      foreach my $idx (0..$maxIdx) {
+         if (!defined($sentxml->{$idx})) {
+             my $data = $storage->restore({
+                     idx => $idx
+                 });
+
+             $self->SendInformations({
+                     data => $data
+                 });
+             $sentxml->{$idx} = 1;
+         }
+
+      }
+      $storage->removeSubDumps();
+
       } 
      if ($nb_core_discovery > 1) {
          $pm->finish;
@@ -540,9 +587,7 @@ sub SendInformations{
                    CONTENT   => $message->{data},
                },
            });
-print Dumper($xmlMsg);
     $self->{network}->send({message => $xmlMsg});
-    sleep 1;
    }
 }
 
@@ -693,7 +738,7 @@ sub discovery_ip_threaded {
                   #print("SNMP ERROR: %s.\n", $error);
    #               print "[".$params->{ip}."] GNERROR ()".$authlist->{$key}->{VERSION}."\n";
                } else {
-   #            print Dumper($session);
+
                #print "[".$params->{ip}."] GNE () \n";
                   my $description = $session->snmpget({
                         oid => '1.3.6.1.2.1.1.1.0',
@@ -727,6 +772,12 @@ sub discovery_ip_threaded {
 
                      # If Kyocera printer detected, get best sysDescr
                      $description = kyocera_discovery($description, $session);
+
+                     # If zebranet printserver
+                     $description = zebranet_discovery($description, $session);
+
+                     # If AXIS printserver
+                     $description = axis_discovery($description, $session);
 
                      $datadevice->{DESCRIPTION} = $description;
 
@@ -991,6 +1042,61 @@ sub kyocera_discovery {
          $description = $description_new;
       }
 
+   }
+   return $description;
+}
+
+sub zebranet_discovery {
+   my $description = shift;
+   my $session     = shift;
+
+   if($description =~ m/ZebraNet PrintServer/) {
+      my $description_new = $session->snmpget({
+                     oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
+                     up  => 1,
+                  });
+      if ($description_new ne "null") {
+         my @infos = split(/;/,$description_new);
+         foreach (@infos) {
+            if ($_ =~ /^MDL:/) {
+               $_ =~ s/MDL://;
+               $description = $_;
+               last;
+            } elsif ($_ =~ /^MODEL:/) {
+               $_ =~ s/MODEL://;
+               $description = $_;
+               last;
+            }
+         }
+      }
+   }
+   return $description;
+}
+
+
+sub axis_discovery {
+   my $description = shift;
+   my $session     = shift;
+
+   if ($description =~ m/AXIS OfficeBasic Network Print Server/) {
+      my $description_new = $session->snmpget({
+                     oid => '.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1',
+                     up  => 1,
+                  });
+      if ($description_new ne "null") {
+         my @infos = split(/;/,$description_new);
+         foreach (@infos) {
+            if ($_ =~ /^MDL:/) {
+               $_ =~ s/MDL://;
+               $description = $_;
+               last;
+            } elsif ($_ =~ /^MODEL:/) {
+               $_ =~ s/MODEL://;
+               $description = $_;
+               last;
+            }
+         }
+      }
    }
    return $description;
 }
