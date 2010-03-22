@@ -23,15 +23,17 @@ sub doInventory {
 
     my $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapterConfiguration');
 
+    my @ips;
     my @netifs;
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
         $netifs[$idx]{description} =  encode('UTF-8', $nic->Description);
+        $netifs[$idx]{ipaddress} = [];
 
         if ($nic->IPAddress) {
             foreach (@{$nic->IPAddress}) {
-                $netifs[$idx]{ipaddress} .= '/' if $netifs[$idx]{ipaddress};
-                $netifs[$idx]{ipaddress} .= $_;
+                push @{$netifs[$idx]{ipaddress}}, $netifs[$idx]{ipaddress};
+                push @ips, $_;
             }
         }
 
@@ -60,7 +62,7 @@ sub doInventory {
     foreach my $netif (@netifs) {
         $inventory->addNetwork({
                 DESCRIPTION => $netif->{description},
-                IPADDRESS => $netif->{ipaddress},
+                IPADDRESS => join('/', @{$netif->{ipaddress}}),
                 IPDHCP => $netif->{ipdhcp},
                 IPGATEWAY => $netif->{ipgateway},
                 IPMASK => $netif->{ipmask},
@@ -72,6 +74,12 @@ sub doInventory {
                 VIRTUALDEV => $netif->{virtualdev}
             });
 
+  $inventory->setHardware({
+
+          IPADDR =>  join('/',@ips),
+#      SWAP =>    sprintf("%i", $SwapFileSize/1024),
+
+    });
 
 
     }
