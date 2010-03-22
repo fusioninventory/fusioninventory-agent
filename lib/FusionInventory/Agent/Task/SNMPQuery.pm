@@ -80,14 +80,6 @@ sub main {
         exit(0);
     }
 
-    my $network = $self->{network} = new FusionInventory::Agent::Network ({
-
-            logger => $logger,
-            config => $config,
-            target => $target,
-
-        });
-
       $self->{inventory} = new FusionInventory::Agent::XML::Query::SimpleMessage ({
 
           # TODO, check if the accoun{info,config} are needed in localmode
@@ -117,7 +109,6 @@ sub StartThreads {
 
   my $storage = $self->{storage};
 
-   push(@LWP::Protocol::http::EXTRA_SOCK_OPTS, MaxLineLength => 16*1024);
 
    my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
 	my $nb_core_query = $self->{SNMPQUERY}->{PARAM}->[0]->{CORE_QUERY};
@@ -132,15 +123,7 @@ sub StartThreads {
    $devicetype[0] = "NETWORKING";
    $devicetype[1] = "PRINTER";
 
-   # Send infos to server :
    my $xml_thread = {};
-   $xml_thread->{AGENT}->{START} = '1';
-   $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-   $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
-   $self->SendInformations({
-      data => $xml_thread
-      });
-   undef($xml_thread);
 
 	#===================================
 	# Threads et variables partagées
@@ -322,9 +305,7 @@ sub StartThreads {
                                                             $loopthread = 1;
                                                          }
                                                       }
-#$self->{logger}->debug("[".$t."] : loopthread : ".$loopthread."...");
                                                       if ($loopthread ne "1") {
-#$self->{logger}->debug("[".$t."] : ip : ".$devicelist->{$device_id}->{IP}."...");
                                                          my $datadevice = $self->query_device_threaded({
                                                                device              => $devicelist->{$device_id},
                                                                modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
@@ -343,7 +324,6 @@ sub StartThreads {
                                                             $count = 0;
                                                          }
                                                       }
-#$self->{logger}->debug("[".$t."] : pause...");
                                                       sleep 1;
                                                    }
 
@@ -352,6 +332,26 @@ sub StartThreads {
                                                 }, $p, $j, $devicelist->{$p},$modelslist,$authlist,$self)->detach();
          sleep 1;
       }
+
+      my $network = $self->{network} = new FusionInventory::Agent::Network ({
+
+               logger => $self->{logger},
+               config => $self->{config},
+               target => $self->{target},
+
+           });
+      push(@LWP::Protocol::http::EXTRA_SOCK_OPTS, MaxLineLength => 16*1024);
+
+      # Send infos to server :
+      my $xml_thread = {};
+      $xml_thread->{AGENT}->{START} = '1';
+      $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
+      $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+      $self->SendInformations({
+         data => $xml_thread
+         });
+      undef($xml_thread);
+
 
       my $exit = 0;
       while($exit eq "0") {
@@ -376,7 +376,7 @@ sub StartThreads {
    }
 
    foreach my $idx (0..$maxIdx) {
-
+print "maxIdx : ".$idx."\n";
        my $data = $storage->restore({
                idx => $idx
            });
@@ -426,11 +426,11 @@ sub SendInformations{
                    CONTENT   => $message->{data},
                },
            });
-    
     $self->{network}->send({message => $xmlMsg});
-    sleep 1;
    }
 }
+
+
 
 sub AuthParser {
    #my ($self, $dataAuth) = @_;
@@ -671,19 +671,6 @@ sub query_device_threaded {
    return $datadevice;
 }
 
-
-
-sub special_char {
-   if (defined($_[0])) {
-      if ($_[0] =~ /0x$/) {
-         return "";
-      }
-      $_[0] =~ s/([\x80-\xFF])//g;
-      return $_[0];
-   } else {
-      return "";
-   }
-}
 
 
 sub ConstructDataDeviceSimple {
