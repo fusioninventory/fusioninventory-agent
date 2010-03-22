@@ -43,6 +43,7 @@ recommends 'File::Glob' => undef;
 recommends 'File::Path' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
 recommends 'Archive::Extract' => undef;
+recommends 'Net::CUPS' => undef;
 
 use Data::Dumper;
 use Cwd;
