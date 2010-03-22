@@ -24,25 +24,49 @@ sub doInventory {
     my $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapterConfiguration');
 
     my @ips;
+    my @ip6s;
     my @netifs;
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
         $netifs[$idx]{description} =  encode('UTF-8', $nic->Description);
         $netifs[$idx]{ipaddress} = [];
+        $netifs[$idx]{ipsubnet} = [];
+        $netifs[$idx]{ipmask} = [];
+        $netifs[$idx]{ipaddress6} = [];
+        $netifs[$idx]{ipsubnet6} = [];
+        $netifs[$idx]{ipmask6} = [];
 
         if ($nic->IPAddress) {
-            foreach (@{$nic->IPAddress}) {
-                push @{$netifs[$idx]{ipaddress}}, $netifs[$idx]{ipaddress};
-                push @ips, $_;
+            foreach (0..@{$nic->IPAddress}) {
+                if (${$nic->IPAddress}[$_] =~ /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
+                    push @ips, ${$nic->IPAddress}[$_];
+                    push @{$netifs[$idx]{ipaddress}}, ${$nic->IPAddress}[$_];
+                    push @{$netifs[$idx]{ipmask}}, ${$nic->IPSubnet}[$_];
+                    if (can_load("Net::IP qw(:PROC)")) {
+                        my $binip = ip_iptobin (${$nic->IPAddress}[$_] , 4);
+                        my $binmask = ip_iptobin (${$nic->IPSubnet}[$_] , 4);
+                        my $binsubnet = $binip & $binmask;
+                        push @{$netifs[$idx]{ipsubnet}}, ip_bintoip($binsubnet, 4);
+                    }
+                } elsif (${$nic->IPAddress}[$_] =~ /\S+/) {
+                    push @ip6s, ${$nic->IPAddress}[$_];
+                    push @{$netifs[$idx]{ipaddress6}}, ${$nic->IPAddress}[$_];
+                    push @{$netifs[$idx]{ipmask6}}, ${$nic->IPSubnet}[$_];
+                    if (can_load("Net::IP qw(:PROC)")) {
+                        my $binip = ip_iptobin (${$nic->IPAddress}[$_] , 6);
+                        my $binmask = ip_iptobin (${$nic->IPSubnet}[$_] , 6);
+                        my $binsubnet = $binip & $binmask;
+                        push @{$netifs[$idx]{ipsubnet6}}, 
+ip_bintoip($binsubnet, 6);
+                    }
+                }
             }
         }
 
         if ($nic->DefaultIPGateway) {
             $netifs[$idx]{ipgateway} = $nic->DefaultIPGateway()->[0];
         }
-        if ($nic->IPSubnet) {
-            $netifs[$idx]{ipsubnet} = $nic->IPSubnet()->[0];
-        }
+
         $netifs[$idx]{status} = $nic->IPEnabled?"Up":"Down";
         $netifs[$idx]{name} = $nic->Name;
         $netifs[$idx]{ipdhcp} = $nic->DHCPServer;
@@ -65,8 +89,11 @@ sub doInventory {
                 IPADDRESS => join('/', @{$netif->{ipaddress}}),
                 IPDHCP => $netif->{ipdhcp},
                 IPGATEWAY => $netif->{ipgateway},
-                IPMASK => $netif->{ipmask},
-                IPSUBNET => $netif->{ipsubnet},
+                IPMASK => join('/', @{$netif->{ipmask}}),
+                IPSUBNET => join('/', @{$netif->{ipsubnet}}),
+                IPADDRESS6 => join('/', @{$netif->{ipaddress6}}),
+                IPMASK6 => join('/', @{$netif->{ipmask6}}),
+                IPSUBNET6 => join('/', @{$netif->{ipsubnet6}}),
                 MACADDR => $netif->{macaddr},
                 MTU => $netif->{mtu},
                 STATUS => $netif->{status},

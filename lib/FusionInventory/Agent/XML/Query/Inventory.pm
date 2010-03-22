@@ -524,8 +524,10 @@ my ($self, $args) = @_;
 
     my %tmpXml = ();
 
-    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS IPDHCP IPGATEWAY
-        IPMASK IPSUBNET MACADDR MTU PCISLOT STATUS TYPE VIRTUALDEV SLAVES/) {
+    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS
+        IPADDRESS6 IPDHCP IPGATEWAY IPMASK IPSUBNET
+        IPMASK6 IPSUBNET6 MACADDR MTU PCISLOT STATUS
+        TYPE VIRTUALDEV SLAVES/) {
         $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
     }
     push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
