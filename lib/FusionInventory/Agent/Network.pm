@@ -30,9 +30,6 @@ The constructor. These keys are expected: config, logger, target.
 
 =cut
 
-use HTTP::Status;
-use LWP::UserAgent;
-
 use FusionInventory::Compress;
 
 sub new {
@@ -48,6 +45,14 @@ sub new {
   
   $logger->fault('$target not initialised') unless $target;
   $logger->fault('$config not initialised') unless $config;
+
+  if (! eval "use LWP::UserAgent; 1;") {
+    $logger->fault("Can't load LWP::UserAgent. Is the package installed?");
+  }
+  if (! eval "use HTTP::Status; 1;") {
+    $logger->fault("Can't load HTTP::Status. Is the package installed?");
+  }
+
 
   my $uaserver;
   if ($target->{path} =~ /^http(|s):\/\//) {

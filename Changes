@@ -17,11 +17,21 @@ Revision history for FusionInventory::Agent
        * README: Clean up
        * Storage: Use only hashref to pass arguments
        * SNMPQuery: translate in english some comments
-       * FusionInventory::Agent::Task::OcsDeploy is now maintained in
-         another sub-project
+       * FusionInventory::Agent::Task::{OcsDeploy,NetDiscovery,SNMPQuery} are now
+         maintained in new sub-projects
+         - drop their dependencies in Makefile.PL
        * backport a fix from ocsinventory in fusioninventory-agent-config to fix a typo
          thanks Guillaume PROTET and Jean-Sebastien NORMAND
          ocsinventor-agent → ocsinventory-agent
+       * Don't try to parse empty response from server
+       * fusioninventory-agent-config: RPM/DEB mode turn off by default
+       * Check if the module is installed before the execution
+       * fusioninventory-agent-config: add a minimalist POD doc
+       * FusionInventory::Agent::RPC add POD documentation
+       * Network.pm: Load LWP::UserAgent and HTTP::Status in an eval to get these
+         dependencies loaded only when needed
+       * Makefile.PL add Net::CUPS is recommended
+       * Linux, retrieve the PCI Class
 
 2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies

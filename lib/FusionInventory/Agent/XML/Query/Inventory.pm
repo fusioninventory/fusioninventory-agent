@@ -99,6 +99,7 @@ sub addController {
   my $driver = $args->{DRIVER};
   my $name = $args->{NAME};
   my $manufacturer = $args->{MANUFACTURER};
+  my $pciclass = $args->{PCICLASS};
   my $pciid = $args->{PCIID};
   my $pcislot = $args->{PCISLOT};
   my $type = $args->{TYPE};
@@ -108,6 +109,8 @@ sub addController {
     DRIVER => [$driver?$driver:''],
     NAME => [$name],
     MANUFACTURER => [$manufacturer],
+# The PCI Class in hexa. e.g: 0c03
+    PCICLASS => [$pciclass?$pciclass:''],
 # E.g: 8086:2a40
     PCIID => [$pciid?$pciid:''],
 # E.g: 00:00.0
