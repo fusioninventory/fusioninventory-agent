@@ -1,6 +1,6 @@
 Revision history for FusionInventory::Agent
 
-2.0beta5
+2.0 (Zygotene Bouquet)   Tue, 23 Mar 2010 18:53:36 +0100
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
          option
        * Drop the Net::Walk dependency
