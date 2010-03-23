@@ -108,7 +108,9 @@ sub addController {
     DRIVER => [$driver?$driver:''],
     NAME => [$name],
     MANUFACTURER => [$manufacturer],
+# E.g: 8086:2a40
     PCIID => [$pciid?$pciid:''],
+# E.g: 00:00.0
     PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
 
