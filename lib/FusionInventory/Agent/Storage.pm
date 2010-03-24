@@ -151,10 +151,20 @@ sub save {
     my $filePath = $self->getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
+    my $isWindows = $^O =~ /^^MSWin/;
     my $oldMask = umask();
-    umask(077) or die "Can't restrict access to $filePath\n";
+
+    if (!$isWindows) {
+        umask(077) or die "Can't restrict access to $filePath\n";
+    } else {
+        print "TODO, restrict access to temp file!\n";
+}
+
 	store ($data, $filePath) or warn;
-    umask($oldMask) or die "Can't restore old mask\n";
+    
+    if (!$isWindows) {
+        umask($oldMask) or die "Can't restore old mask\n";
+    }
 
 }
 
