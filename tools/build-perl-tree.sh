@@ -8,7 +8,7 @@ set -e
 
 MAKE="make"
 TMP="$HOME/tmp"
-PREFIX="$HOME/perl-no-thread"
+PREFIX="$HOME/perl"
 
 PERLVERSION="5.10.1"
 
@@ -24,9 +24,9 @@ gunzip < perl-$PERLVERSION.tar.gz | tar xvf -
 cd perl-$PERLVERSION
 
 # AIX
-#./Configure -Dusenm -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
-#./Configure -Dcc="gcc" -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
-./Configure -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+#./Configure -Dusethreads -Dusenm -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+#./Configure -Dusethreads -Dcc="gcc" -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+./Configure -Dusethreads -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
 $MAKE
 $MAKE install
 
