@@ -4,7 +4,8 @@ Revision history for FusionInventory::Agent
        * tools/build-perl-tree.sh: clean up
        * Only use thread if Perl has got thread support, thank you
          Lei Andy Shi for the bug report (LP: #545477)
-       * -D/-d avoid unless loop if --local is used too 
+       * -D/-d avoid unless loop if --local is used too
+       * RPC: correctly initialize $logger in new()
 
 2.0 (Zygotene Bouquet)   Tue, 23 Mar 2010 18:53:36 +0100
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD

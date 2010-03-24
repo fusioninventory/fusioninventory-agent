@@ -29,7 +29,7 @@ sub new {
     $self->{logger} = $params->{logger};
     $self->{targets} = $params->{targets};
     my $config = $self->{config};
-    my $logger = $self->{loger};
+    my $logger = $self->{logger};
 
     if (!$Config{usethreads}) {
       $logger->debug("threads support is need for RPC"); 
