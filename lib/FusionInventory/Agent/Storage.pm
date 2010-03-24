@@ -5,6 +5,8 @@ use Storable;
 use strict;
 use warnings;
 
+use Config;
+
 use File::Glob ':glob';
 
 my $lock :shared;
@@ -48,6 +50,12 @@ sub new {
     my ( undef, $params ) = @_;
 
     my $self = {};
+
+    if ($Config{usethreads}) {
+        if (!(eval "use threads;1;" && eval "use threads::shared;1;")) {
+            print "[error]Failed to use threads!\n";
+        }
+    }
 
     my $config = $self->{config} = $params->{config};
     my $target = $self->{target} = $params->{target};
