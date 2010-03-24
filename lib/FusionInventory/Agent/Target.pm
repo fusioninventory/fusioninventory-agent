@@ -222,10 +222,6 @@ sub getNextRunDate {
 
     lock($lock);
 
-    # Only for server mode
-    return 1 if $self->{'type'} ne 'server';
-
-
     if (${$self->{'nextRunDate'}}) {
       
         if ($self->{debugPrintTimer} < time) {
