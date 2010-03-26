@@ -181,7 +181,7 @@ sub StartThreads {
       $iplist = &share({});
       my $loop_nbthreads : shared;
       my $sendbylwp : shared;
-
+      my $sentxml = {};
 
       while ($loop_action > 0) {
          $countnb = 0;
@@ -367,12 +367,13 @@ sub StartThreads {
                               }
                            }
                            if (($count eq "4") || (($loopthread eq "1") && ($count > 0))) {
+                              $maxIdx++;
                               $storage->save({
                                     idx =>
                                     $maxIdx,
                                     data => $xml_threadt
                                 });
-                              $maxIdx++;
+                              
                               $count = 0;
                            }
                         }
@@ -508,10 +509,10 @@ sub StartThreads {
          }
          undef($xml_thread);
 
-         my $sentxml = {};
+         
         while($exit ne "1") {
            sleep 2;
-            foreach my $idx (0..$maxIdx) {
+            foreach my $idx (1..$maxIdx) {
                if (!defined($sentxml->{$idx})) {
                    my $data = $storage->restore({
                            idx => $idx
@@ -526,10 +527,9 @@ sub StartThreads {
                      });
                 }
             }
-
         }
 
-      foreach my $idx (0..$maxIdx) {
+      foreach my $idx (1..$maxIdx) {
          if (!defined($sentxml->{$idx})) {
              my $data = $storage->restore({
                      idx => $idx
@@ -914,7 +914,7 @@ sub hp_discovery {
    my $description = shift;
    my $session     = shift;
 
-   if($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) {
+   if (($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) || ($description =~ m/A SNMP proxy agent, EEPROM/)){
       my $description_new = $session->snmpget({
                         oid => '.1.3.6.1.2.1.25.3.2.1.3.1',
                         up  => 1,
