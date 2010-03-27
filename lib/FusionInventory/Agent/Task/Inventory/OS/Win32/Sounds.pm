@@ -35,7 +35,8 @@ sub doInventory {
         push @sounds, {
 
             NAME => encode('UTF-8', $Properties->{Name}),
-            MANUFACTURER => encode('UTF-8', $Properties->{Caption}),
+            CAPTION => encode('UTF-8', $Properties->{Caption}),
+            MANUFACTURER => encode('UTF-8', $Properties->{Manufacturer}),
             DESCRIPTION => encode('UTF-8', $Properties->{Description}),
 
         };
