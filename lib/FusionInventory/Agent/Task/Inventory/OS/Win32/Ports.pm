@@ -25,55 +25,6 @@ sub doInventory {
         print Win32::OLE->LastError();
     }
 
-#        uIndex = 0;
-#        if (m_dllWMI.BeginEnumClassObject( _T( "Win32_SerialPort")))
-#        {
-#            while (m_dllWMI.MoveNextEnumClassObject())
-#            {
-#                myObject.SetType( SYSTEM_PORT_SERIAL);
-#                csBuffer = m_dllWMI.GetClassObjectStringValue( _T( "Name"));
-#                myObject.SetName( csBuffer);
-#                csBuffer = m_dllWMI.GetClassObjectStringValue( _T( "Caption"));
-#                myObject.SetCaption( csBuffer);
-#                csBuffer = m_dllWMI.GetClassObjectStringValue( _T( "Description"));
-#                myObject.SetDescription( csBuffer);
-#                pMyList->AddTail( myObject);
-#                uIndex ++;
-#            }
-#            m_dllWMI.CloseEnumClassObject();
-#        }
-#        if (uIndex > 0)
-#        {
-#            uTotal += uIndex;
-#            AddLog( _T( "OK (%u objects)\n"), uIndex);
-#        }
-#        else
-#            AddLog( _T( "Failed because no Win32_SerialPort object !\n"));
-#    }
-#    catch (CException *pEx)
-#    {
-#        pEx->Delete();
-#        AddLog( _T( "Failed because unknown exception !\n"));
-#    }
-#    // Get parallel ports
-#    AddLog( _T( "WMI GetSystemPorts: Trying to find Win32_ParallelPort WMI objects..."));
-#    try
-#    {
-#        uIndex = 0;
-#        if (m_dllWMI.BeginEnumClassObject( _T( "Win32_ParallelPort")))
-#        {
-#            while (m_dllWMI.MoveNextEnumClassObject())
-#            {
-#                myObject.SetType( SYSTEM_PORT_PARALLEL);
-#                csBuffer = m_dllWMI.GetClassObjectStringValue( _T( "Name"));
-#                myObject.SetName( csBuffer);
-#                csBuffer = m_dllWMI.GetClassObjectStringValue( _T( "Caption"));
-#                myObject.SetCaption( csBuffer);
-#                csBuffer = m_dllWMI.GetClassObjectStringValue( _T( "Description"));
-#                myObject.SetDescription( csBuffer);
-#                pMyList->AddTail( myObject);
-#                uIndex ++;
-#
 
     my @ports;
     foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
