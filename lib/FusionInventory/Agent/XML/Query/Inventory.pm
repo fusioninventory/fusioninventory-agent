@@ -779,6 +779,31 @@ sub addProcess {
   };
 }
 
+=item addInput()
+
+Add an input device (mouce/keyboard) in the inventory.
+
+=cut
+sub addInput {
+  my ($self, $args) = @_;
+
+  my $caption = $args->{CAPTION};
+  my $description = $args->{DESCRIPTION};
+  my $interface = $args->{INTERFACE};
+  my $pointtype = $args->{POINTTYPE};
+  my $type = $args->{TYPE};
+
+  push @{$self->{h}{CONTENT}{INPUTS}},
+  {
+
+    CAPTION=> [$caption?$caption:''],
+    DESCRIPTION => [$description?$description:''],
+    INTERFACE => [$interface?$interface:''],
+    POINTTYPE => [$pointtype?$pointtype:''],
+    TYPE => [$type?$type:''],
+
+  };
+}
 
 =item setAccessLog()
 
