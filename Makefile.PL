@@ -18,11 +18,6 @@ install :: all pure_install doc_install
 
 use Config;
 
-my $version = $FusionInventory::Agent::VERSION;
-if (-d '.bzr') {
-    chomp( my $bzrRev = `bzr revno`);
-    $version .= "~bzr".$bzrRev;
-}
 
 name 'FusionInventory-Agent';
 include 'Module::AutoInstall';

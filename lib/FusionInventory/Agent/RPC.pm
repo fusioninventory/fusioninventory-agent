@@ -3,10 +3,20 @@ package FusionInventory::Agent::RPC;
 use HTTP::Daemon;
 use FusionInventory::Agent::Storage;
 
-use threads;
+use Config;
 
 use strict;
 use warnings;
+
+BEGIN {
+  # threads and threads::shared must be load before
+  # $lock is initialized
+  if ($Config{usethreads}) {
+    if (!eval "use threads;1;" || !eval "use threads::shared;1;") {
+      print "[error]Failed to use threads!\n"; 
+    }
+  }
+}
 
 my $lock :shared;
 
@@ -18,8 +28,15 @@ sub new {
     $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
     $self->{targets} = $params->{targets};
-
     my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    if (!$Config{usethreads}) {
+      $logger->debug("threads support is need for RPC"); 
+      return;
+    }
+
+
 
     my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
             target => {

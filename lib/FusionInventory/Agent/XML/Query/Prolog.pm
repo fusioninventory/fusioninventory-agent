@@ -22,7 +22,11 @@ sub new {
 
 
   $self->{h}{QUERY} = ['PROLOG'];
-  $self->{h}{TOKEN} = [$rpc->getToken()];
+
+  # $rpc can be undef if thread not enabled in Perl
+  if ($rpc) {
+    $self->{h}{TOKEN} = [$rpc->getToken()];
+  }
 
   return $self;
 }

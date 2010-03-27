@@ -85,7 +85,7 @@ sub new {
 }
 
 
-sub snmpget {
+sub snmpGet {
    my ($self, $args) = @_;
    
    my $oid = $args->{oid};
@@ -137,7 +137,7 @@ sub snmpget {
 }
 
 
-sub snmpwalk {
+sub snmpWalk {
    my ($self, $args) = @_;
 
    my $oid_start = $args->{oid_start};
@@ -192,7 +192,7 @@ sub snmpwalk {
 
 
 
-sub snmpgetnext {
+sub snmpGetNext {
    my ($self, $args) = @_;
 
    my $oid_start = $args->{oid_start};
@@ -235,7 +235,7 @@ sub snmpgetnext {
 
 
 
-sub special_char {
+sub specialChar {
    if (defined($_[0])) {      
       if ($_[0] =~ /0x$/) {
          return "";
@@ -250,7 +250,7 @@ sub special_char {
 }
 
 
-sub getbadmacaddress {
+sub getBadMACAddress {
    my $OID_ifTable = shift;
    my $oid_value = shift;
 
