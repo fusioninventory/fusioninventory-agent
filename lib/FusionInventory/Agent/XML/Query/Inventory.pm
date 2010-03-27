@@ -790,6 +790,7 @@ sub addInput {
   my $caption = $args->{CAPTION};
   my $description = $args->{DESCRIPTION};
   my $interface = $args->{INTERFACE};
+  my $layout = $args->{LAYOUT};
   my $pointtype = $args->{POINTTYPE};
   my $type = $args->{TYPE};
 
@@ -799,6 +800,8 @@ sub addInput {
     CAPTION=> [$caption?$caption:''],
     DESCRIPTION => [$description?$description:''],
     INTERFACE => [$interface?$interface:''],
+# Free-form string indicating the layout of the keyboard
+    LAYOUT => [$layout?$layout:''],
     POINTTYPE => [$pointtype?$pointtype:''],
     TYPE => [$type?$type:''],
 
