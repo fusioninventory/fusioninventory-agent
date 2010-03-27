@@ -1,5 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Ports;
-# Had never been tested. There is no slot on my virtal machine.
+# Had never been tested.
 use strict;
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
