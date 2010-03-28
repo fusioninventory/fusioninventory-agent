@@ -265,6 +265,8 @@ sub addMemory {
   my $caption = $args->{CAPTION};
   my $formfactor = $args->{FORMFACTOR};
   my $removable =  $args->{REMOVABLE};
+# E.g: System Memory
+  my $purpose =  $args->{PURPOSE};
   my $speed =  $args->{SPEED};
   my $type = $args->{TYPE};
   my $description = $args->{DESCRIPTION};
@@ -280,6 +282,7 @@ sub addMemory {
     DESCRIPTION => [$description?$description:''],
     FORMFACTOR => [$formfactor?$formfactor:''],
     REMOVABLE => [$removable?$removable:''],
+    PURPOSE => [$purpose?$purpose:''],
     SPEED => [$speed?$speed:''],
     TYPE => [$type?$type:''],
     NUMSLOTS => [$numslots?$numslots:0],
