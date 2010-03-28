@@ -26,7 +26,7 @@ use FusionInventory::Agent::SNMP;
 
 use FusionInventory::Agent::AccountInfo;
 
-my $maxIdx : shared;
+my $maxIdx : shared = 0;
 
 sub main {
     my ( undef ) = @_;
@@ -135,6 +135,7 @@ sub StartThreads {
    my $modelslist = {};
    my $authlist = {};
 	my @Thread;
+   my $sentxml = {};
 
 	$ArgumentsThread{'id'} = &share([]);
 	$ArgumentsThread{'log'} = &share([]);
@@ -237,6 +238,10 @@ sub StartThreads {
       $pm=new Parallel::ForkManager($max_procs);
    }
 
+   if ($countnb[0] <  $nb_threads_query) {
+      $nb_threads_query = $countnb[0];
+   }
+
    my $xml_Thread : shared = '';
    my %xml_out : shared;
    my $sendXML :shared = 0;
@@ -315,12 +320,13 @@ sub StartThreads {
                                                          $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
                                                          $count++;
                                                          if (($count eq "1") || (($loopthread eq "1") && ($count > 0))) {
+                                                            $maxIdx++;
                                                              $storage->save({
                                                                      idx =>
                                                                      $maxIdx,
                                                                      data => $xml_thread
                                                                  });
-                                                             $maxIdx++;
+                                                             
                                                             $count = 0;
                                                          }
                                                       }
@@ -365,6 +371,21 @@ sub StartThreads {
                $exit = 1;
             }
          }
+         foreach my $idx (1..$maxIdx) {
+            if (!defined($sentxml->{$idx})) {
+                my $data = $storage->restore({
+                        idx => $idx
+                    });
+
+                $self->SendInformations({
+                        data => $data
+                    });
+                $sentxml->{$idx} = 1;
+                $storage->remove({
+                     idx => $idx
+                  });
+             }
+         }
       }
 
       if ($nb_core_query > 1) {
@@ -375,22 +396,19 @@ sub StartThreads {
    	$pm->wait_all_children;
    }
 
-   foreach my $idx (0..$maxIdx) {
-print "maxIdx : ".$idx."\n";
-       my $data = $storage->restore({
-               idx => $idx
-           });
-
-       $self->SendInformations({
-               data => $data
-           });
+   foreach my $idx (1..$maxIdx) {
+      if (!defined($sentxml->{$idx})) {
+          my $data = $storage->restore({
+                  idx => $idx
+              });
+          $self->SendInformations({
+                  data => $data
+              });
+          $sentxml->{$idx} = 1;
+       }
 
    }
    $storage->removeSubDumps();
-
-   $self->SendInformations({
-           data => $xml_thread
-       });
 
    # Send infos to server :
    undef($xml_thread);
@@ -403,6 +421,7 @@ print "maxIdx : ".$idx."\n";
    undef($xml_thread);
 
 }
+
 
 
 sub SendInformations{
@@ -461,6 +480,7 @@ my $dataAuth = shift;
    }
    return $authlist;
 }
+
 
 
 sub ModelParser {
