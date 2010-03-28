@@ -6,6 +6,7 @@ Revision history for FusionInventory::Agent
          Lei Andy Shi for the bug report (LP: #545477)
        * -D/-d avoid unless loop if --local is used too
        * RPC: correctly initialize $logger in new()
+       * Add a warning for the Storage.pm breakage with pre 2.0 tasks
 
 2.0 (Zygotene Bouquet)   Tue, 23 Mar 2010 18:53:36 +0100
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
