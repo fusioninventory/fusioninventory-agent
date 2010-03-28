@@ -49,6 +49,7 @@ sub main {
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
+    $self->{logger}->debug("FusionInventory SNMPQuery module 1.0");
 
    if ( not eval { require Net::SNMP; 1 } ) {
       $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
