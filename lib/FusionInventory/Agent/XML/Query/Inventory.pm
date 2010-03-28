@@ -261,15 +261,19 @@ Add a memory module in the inventory.
 sub addMemory {
   my ($self, $args) = @_;
 
+# In MB, e.g 2048
   my $capacity = $args->{CAPACITY};
+# Physical Memory
   my $caption = $args->{CAPTION};
   my $formfactor = $args->{FORMFACTOR};
   my $removable =  $args->{REMOVABLE};
 # E.g: System Memory
   my $purpose =  $args->{PURPOSE};
+# In Mhz, e.g: 800
   my $speed =  $args->{SPEED};
   my $type = $args->{TYPE};
   my $description = $args->{DESCRIPTION};
+# Eg. 2, start at 1, not 0
   my $numslots = $args->{NUMSLOTS};
 
   my $serialnumber = $args->{SERIALNUMBER};
