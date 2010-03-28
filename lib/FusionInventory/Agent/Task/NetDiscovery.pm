@@ -49,6 +49,8 @@ sub main {
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
+    $self->{logger}->debug("FusionInventory NetDiscovery module 1.0");
+
 
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
    $hour  = sprintf("%02d", $hour);
