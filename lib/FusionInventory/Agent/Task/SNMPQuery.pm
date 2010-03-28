@@ -600,7 +600,7 @@ sub query_device_threaded {
 
 	my $error = '';
 	# Query for timeout #
-	my $description = $session->snmpget({
+	my $description = $session->snmpGet({
                      oid => '.1.3.6.1.2.1.1.1.0',
                      up  => 1,
                   });
@@ -619,7 +619,7 @@ sub query_device_threaded {
       }
       for $key ( keys %{$params->{modellist}->{GET}} ) {
          if ($params->{modellist}->{GET}->{$key}->{VLAN} eq "0") {
-            my $oid_result = $session->snmpget({
+            my $oid_result = $session->snmpGet({
                      oid => $params->{modellist}->{GET}->{$key}->{OID},
                      up  => 1,
                   });
@@ -639,7 +639,7 @@ sub query_device_threaded {
       # Query SNMP walk #
       my $vlan_query = 0;
       for $key ( keys %{$params->{modellist}->{WALK}} ) {
-         $ArraySNMPwalk = $session->snmpwalk({
+         $ArraySNMPwalk = $session->snmpWalk({
                         oid_start => $params->{modellist}->{WALK}->{$key}->{OID}
                      });
          $HashDataSNMP->{$key} = $ArraySNMPwalk;
@@ -666,7 +666,7 @@ sub query_device_threaded {
                $HashDataSNMP  = {};
                for my $link ( keys %{$params->{modellist}->{WALK}} ) {
                   if ($params->{modellist}->{WALK}->{$link}->{VLAN} eq "1") {
-                     $ArraySNMPwalk = $session->snmpwalk({
+                     $ArraySNMPwalk = $session->snmpWalk({
                         oid_start => $params->{modellist}->{WALK}->{$link}->{OID}
                      });
                      $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $ArraySNMPwalk;
