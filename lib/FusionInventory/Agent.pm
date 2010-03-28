@@ -146,7 +146,7 @@ sub new {
   
         });
 
-    $logger->debug("OCS Agent initialised");
+    $logger->debug("FusionInventory Agent initialised");
 
     bless $self;
 
