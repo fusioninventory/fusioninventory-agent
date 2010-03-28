@@ -740,7 +740,7 @@ sub discovery_ip_threaded {
                } else {
 
                #print "[".$params->{ip}."] GNE () \n";
-                  my $description = $session->snmpget({
+                  my $description = $session->snmpGet({
                         oid => '1.3.6.1.2.1.1.1.0',
                         up  => 1,
                      });
@@ -781,7 +781,7 @@ sub discovery_ip_threaded {
 
                      $datadevice->{DESCRIPTION} = $description;
 
-                     my $name = $session->snmpget({
+                     my $name = $session->snmpGet({
                            oid => '.1.3.6.1.2.1.1.5.0',
                            up  => 1,
                         });
@@ -867,7 +867,7 @@ sub verifySerial {
          
          if (defined($num->{SERIAL})) {
             $oid = $num->{SERIAL};
-				$serial = $session->snmpget({
+				$serial = $session->snmpGet({
                      oid => $oid,
                      up  => 1,
                   });
@@ -881,7 +881,7 @@ sub verifySerial {
          }
          if (defined($num->{MAC})) {
             $oid = $num->{MAC};
-            $macreturn  = $session->snmpget({
+            $macreturn  = $session->snmpGet({
                         oid => $oid,
                         up  => 0,
                      });
@@ -890,7 +890,7 @@ sub verifySerial {
          if (defined($num->{MACDYN})) {
             $oid = $num->{MACDYN};
             my $Arraymacreturn = {};
-            $Arraymacreturn  = $session->snmpwalk({
+            $Arraymacreturn  = $session->snmpWalk({
                         oid_start => $oid
                      });
             while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
@@ -915,14 +915,14 @@ sub hp_discovery {
    my $session     = shift;
 
    if (($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) || ($description =~ m/A SNMP proxy agent, EEPROM/)){
-      my $description_new = $session->snmpget({
+      my $description_new = $session->snmpGet({
                         oid => '.1.3.6.1.2.1.25.3.2.1.3.1',
                         up  => 1,
                      });
       if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
          $description = $description_new;
       } elsif ($description_new eq "No response from remote host") {
-         $description_new = $session->snmpget({
+         $description_new = $session->snmpGet({
                         oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                         up  => 1,
                      });
@@ -952,7 +952,7 @@ sub wyse_discovery {
    my $session     = shift;
 
    if ($description =~ m/Linux/) {
-      my $description_new = $session->snmpget({
+      my $description_new = $session->snmpGet({
                         oid => '.1.3.6.1.4.1.714.1.2.5.6.1.2.1.6.1',
                         up  => 1,
                      });
@@ -973,7 +973,7 @@ sub samsung_discovery {
    my $session     = shift;
 
    if($description =~ m/SAMSUNG NETWORK PRINTER,ROM/) {
-      my $description_new = $session->snmpget({
+      my $description_new = $session->snmpGet({
                         oid => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0',
                         up  => 1,
                      });
@@ -990,7 +990,7 @@ sub epson_discovery {
    my $session     = shift;
 
    if($description =~ m/EPSON Built-in/) {
-      my $description_new = $session->snmpget({
+      my $description_new = $session->snmpGet({
                         oid => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0',
                         up  => 1,
                      });
@@ -1004,11 +1004,15 @@ sub epson_discovery {
 
 sub alcatel_discovery {
    my $description = shift;
+   my $session     = shift;
 
    # example : 5.1.6.485.R02 Service Release, September 26, 2008.
 
    if ($description =~ m/^([1-9]{1}).([0-9]{1}).([0-9]{1})(.*) Service Release,(.*)([0-9]{1}).$/ ) {
-      my $description_new = snmpget('.1.3.6.1.2.1.47.1.1.1.1.13.1',1);
+      my $description_new = $session->snmpGet({
+                        oid => '.1.3.6.1.2.1.47.1.1.1.1.13.1',
+                        up  => 1,
+                     });
       if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
          if ($description_new eq "OS66-P24") {
             $description = "OmniStack 6600-P24";
@@ -1026,7 +1030,7 @@ sub kyocera_discovery {
    my $session     = shift;
 
    if ($description =~ m/,HP,JETDIRECT,J/) {
-      my $description_new = $session->snmpget({
+      my $description_new = $session->snmpGet({
                         oid => '.1.3.6.1.4.1.1229.2.2.2.1.15.1',
                         up  => 1,
                      });
@@ -1034,7 +1038,7 @@ sub kyocera_discovery {
          $description = $description_new;
       }
    } elsif ($description eq "KYOCERA MITA Printing System") {
-      my $description_new = $session->snmpget({
+      my $description_new = $session->snmpGet({
                         oid => '.1.3.6.1.4.1.1347.42.5.1.1.2.1',
                         up  => 1,
                      });
@@ -1051,7 +1055,7 @@ sub zebranet_discovery {
    my $session     = shift;
 
    if($description =~ m/ZebraNet PrintServer/) {
-      my $description_new = $session->snmpget({
+      my $description_new = $session->snmpGet({
                      oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                      up  => 1,
                   });
@@ -1079,7 +1083,7 @@ sub axis_discovery {
    my $session     = shift;
 
    if ($description =~ m/AXIS OfficeBasic Network Print Server/) {
-      my $description_new = $session->snmpget({
+      my $description_new = $session->snmpGet({
                      oid => '.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1',
                      up  => 1,
                   });
