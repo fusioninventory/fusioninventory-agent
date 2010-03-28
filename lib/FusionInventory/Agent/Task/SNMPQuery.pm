@@ -1,5 +1,5 @@
 package FusionInventory::Agent::Task::SNMPQuery;
-our $VERSION = '1';
+our $VERSION = '1.0';
 use strict;
 no strict 'refs';
 use warnings;
@@ -49,7 +49,7 @@ sub main {
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
-    $self->{logger}->debug("FusionInventory SNMPQuery module 1.0");
+    $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
 
    if ( not eval { require Net::SNMP; 1 } ) {
       $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
