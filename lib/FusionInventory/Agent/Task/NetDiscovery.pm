@@ -1,6 +1,6 @@
 package FusionInventory::Agent::Task::NetDiscovery;
 
-our $VERSION = '1';
+our $VERSION = '1.0';
 
 use strict;
 #no strict 'refs';
@@ -49,7 +49,7 @@ sub main {
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
-    $self->{logger}->debug("FusionInventory NetDiscovery module 1.0");
+    $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
 
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
