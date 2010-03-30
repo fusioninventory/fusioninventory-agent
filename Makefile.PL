@@ -40,10 +40,6 @@ recommends 'HTTP::Daemon' => undef; # RPC
 recommends 'Archive::Extract' => undef;
 recommends 'Net::CUPS' => undef;
 
-use Data::Dumper;
-use Cwd;
-
-
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
 install_script  'fusioninventory-win32-service' if $^O =~ /^MSWin/;
