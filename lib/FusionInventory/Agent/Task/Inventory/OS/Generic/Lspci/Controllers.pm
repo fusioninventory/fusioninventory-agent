@@ -10,6 +10,7 @@ sub doInventory {
 	my $driver;
 	my $name;
 	my $manufacturer;
+  my $pciclass;
   my $pciid;
 	my $pcislot;
 	my $type;
@@ -17,9 +18,14 @@ sub doInventory {
 
   foreach(`lspci -vvv -nn`){
 		if (/^(\S+)\s+(\w+.*?):\s(.*)/) {
+			$pciclass = $1;
 			$pcislot = $1;
 			$name = $2;
 			$manufacturer = $3;
+
+            if ($name =~ s/\[(\S+)\]$//) {
+                $pciclass = $1;
+            }
 
 			if ($manufacturer =~ s/ \((rev \S+)\)//) {
 				$type = $1;
@@ -42,11 +48,12 @@ sub doInventory {
 					'DRIVER'        => $driver,
 					'NAME'          => $name,
 					'MANUFACTURER'  => $manufacturer,
+					'PCICLASS'       => $pciclass,
 					'PCIID'       => $pciid,
 					'PCISLOT'       => $pcislot,
 					'TYPE'          => $type,
 				});
-			$driver = $name = $pciid = $pcislot = $manufacturer = $type = undef;
+			$driver = $name = $pciclass = $pciid = $pcislot = $manufacturer = $type = undef;
 		}
   }
 

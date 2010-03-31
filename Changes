@@ -1,14 +1,41 @@
-Revision history for Ocsinventory::Agent
+Revision history for FusionInventory::Agent
 
-2.1
-       * Check if the module is installed before the execution
+2.0.1 (Solarium)
+       * tools/build-perl-tree.sh: clean up
+       * Only use thread if Perl has got thread support, thank you
+         Lei Andy Shi for the bug report (LP: #545477)
+       * -D/-d avoid unless loop if --local is used too
+       * RPC: correctly initialize $logger in new()
+       * Add a warning for the Storage.pm breakage with pre 2.0 tasks
+       * SNMP.pm: fixes (David DURIEUX)
 
-2.0beta5
+2.0 (Zygotene Bouquet)   Tue, 23 Mar 2010 18:53:36 +0100
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
          option
        * Drop the Net::Walk dependency
        * README, add File::Copy::Recursive in the list of dependency
        * OcsDeploy: use 'df -Pm' to get a consistent output with GNU tools
+       * Task exec: Log the errcode return by the system()
+       * Debug: do not drop the FusionInventory-Agent.dump to help debbuging
+       * VERSION is not defined in $FusionInventory::Agent::VERSION
+       * README: Clean up
+       * Storage: Use only hashref to pass arguments
+       * SNMPQuery: translate in english some comments
+       * FusionInventory::Agent::Task::{OcsDeploy,NetDiscovery,SNMPQuery} are now
+         maintained in new sub-projects
+         - drop their dependencies in Makefile.PL
+       * backport a fix from ocsinventory in fusioninventory-agent-config to fix a typo
+         thanks Guillaume PROTET and Jean-Sebastien NORMAND
+         ocsinventor-agent → ocsinventory-agent
+       * Don't try to parse empty response from server
+       * fusioninventory-agent-config: RPM/DEB mode turn off by default
+       * Check if the module is installed before the execution
+       * fusioninventory-agent-config: add a minimalist POD doc
+       * FusionInventory::Agent::RPC add POD documentation
+       * Network.pm: Load LWP::UserAgent and HTTP::Status in an eval to get these
+         dependencies loaded only when needed
+       * Makefile.PL add Net::CUPS is recommended
+       * Linux, retrieve the PCI Class
 
 2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies

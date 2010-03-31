@@ -6,3 +6,4 @@ Makefile
 run-postinst
 Ocsinventory-Agent*
 blib
+lib/FusionInventory/Agent/Task/OcsDeploy.pm

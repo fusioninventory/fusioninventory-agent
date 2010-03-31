@@ -9,7 +9,7 @@ use FusionInventory::Agent::Config;
 
 
 # DEB/RPM/... maintainers, turn this to '1'
-my $packaged = 1;
+my $packaged = 0;
 
 my $config;
 my @cacert;
@@ -22,7 +22,8 @@ sub loadModules {
     foreach (@modules) {
         eval "use $_;";
         if ($@) {
-            print STDERR "Failed to load $_. Please install it and restart the postinst.pl script ( ./postinst.pl ).\n";
+            print STDERR "Failed to load $_. Please install it and ".
+            "restart the fusioninventory-agent-config script.\n";
             exit 1;
 
         }
@@ -318,8 +319,8 @@ if (!$packaged) {
 
     my @oldFiles = qw(
     /etc/ocsinventory-client
-    /etc/logtotate.d/ocsinventor-agent
-    /etc/logtotate.d/ocsinventor-client
+    /etc/logtotate.d/ocsinventory-agent
+    /etc/logtotate.d/ocsinventory-client
     /usr/sbin/ocsinventory-agent
     /usr/bin/ocsinventory-agent
     /usr/sbin/ocsinventory-client.pl
@@ -375,5 +376,15 @@ if (ask_yn("Do you want to send an inventory of this machine?", 'y')) {
 print  "################################\n";
 print "New settings written! Thank you for using FusionInventory!\n";
 print "  http://www.FusionInventory.org\n";
+
+__END__
+
+=head1 NAME
+
+fusioninventory-agent-config - FusionInventory Agent configuration script 
+
+=head1 SYNOPSIS
+
+B<fusioninventory-agent-config>
 
 

@@ -2,14 +2,24 @@ package FusionInventory::Logger;
 # TODO use Log::Log4perl instead.
 use Carp;
 
-use threads;
-use threads::shared;
+use Config;
+
+BEGIN {
+  # threads and threads::shared must be load before
+  # $lock is initialized
+  if ($Config{usethreads}) {
+    if (!eval "use threads;1;" || !eval "use threads::shared;1;") {
+      print "[error]Failed to use threads!\n"; 
+    }
+  }
+}
 
 my $lock :shared;
 
 sub new {
 
   my (undef, $params) = @_;
+
 
   my $self = {};
   bless $self;

@@ -16,20 +16,14 @@ install :: all pure_install doc_install
     return $re;
 }
 
-require 'lib/FusionInventory/Agent/Config.pm';
 use Config;
 
-my $version = $FusionInventory::Agent::Config::VERSION;
-if (-d '.bzr') {
-    chomp( my $bzrRev = `bzr revno`);
-    $version .= "~bzr".$bzrRev;
-}
 
 name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
-version $version;
+version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.006';
 requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
@@ -38,18 +32,13 @@ requires 'File::Temp' => undef;
 requires 'Net::IP' => undef;
 requires 'HTTP::Status' => undef;
 recommends 'Compress::Zlib';
-recommends 'Proc::Daemon' => undef;
-recommends 'Proc::PID::File' => undef;
-
-# For the software deployment
-recommends 'XML::Simple' => undef;
-recommends 'File::Copy' => undef;
+recommends 'Proc::Daemon' => undef unless $^O =~ /^MSWin/;
+recommends 'Proc::PID::File' => undef unless $^O =~ /^MSWin/;
 recommends 'File::Glob' => undef;
 recommends 'File::Path' => undef;
-recommends 'File::Copy::Recursive' => undef;
-recommends 'Digest::MD5' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
-recommends 'Archive::Extract' => undef; # RPC
+recommends 'Archive::Extract' => undef;
+recommends 'Net::CUPS' => undef;
 
 use Data::Dumper;
 use Cwd;
@@ -96,11 +85,6 @@ if (!can_run('ipdiscover') && !can_run('nmap')) {
     print "or ipdiscover " if $^O =~ /^linux$/i;
     print "if you want to use the network ".
     "discover feature.\n";
-}
-
-if (!can_use('Net::IP')) {
-    print "Net::IP is strongly recommended since it's required to retrieve "
-    ."network information\n";
 }
 
 if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {

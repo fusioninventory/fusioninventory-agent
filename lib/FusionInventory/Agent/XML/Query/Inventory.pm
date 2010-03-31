@@ -99,6 +99,7 @@ sub addController {
   my $driver = $args->{DRIVER};
   my $name = $args->{NAME};
   my $manufacturer = $args->{MANUFACTURER};
+  my $pciclass = $args->{PCICLASS};
   my $pciid = $args->{PCIID};
   my $pcislot = $args->{PCISLOT};
   my $type = $args->{TYPE};
@@ -108,6 +109,8 @@ sub addController {
     DRIVER => [$driver?$driver:''],
     NAME => [$name],
     MANUFACTURER => [$manufacturer],
+    # The PCI Class in hexa. e.g: 0c03
+    PCICLASS => [$pciclass?$pciclass:''],
     PCIID => [$pciid?$pciid:''],
     PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
@@ -836,6 +839,7 @@ sub getContent {
   # To avoid strange breakage I remove the unprintable caractere in the XML
   foreach (split "\n", $content) {
 #      s/[[:cntrl:]]//g;
+    s/\0//g;
     if (! m/\A(
       [\x09\x0A\x0D\x20-\x7E]            # ASCII
       | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte

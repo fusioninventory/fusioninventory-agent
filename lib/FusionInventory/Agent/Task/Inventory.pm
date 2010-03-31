@@ -1,10 +1,20 @@
 package FusionInventory::Agent::Task::Inventory;
 
+=head1 NAME
+
+FusionInventory::Agent::Task::Inventory - The Inventory module for FusionInventory 
+
+=head1 DESCRIPTION
+
+This module load and run the submodules needed to get the informations
+regarding the Hardware and Software installation.
+
+=cut
+
+
 use strict;
 no strict 'refs';
 use warnings;
-
-use threads;
 
 use ExtUtils::Installed;
 
@@ -32,7 +42,9 @@ sub main {
           vardir => $ARGV[0],
       }
   });
-  my $data = $storage->restore("FusionInventory::Agent");
+  my $data = $storage->restore({
+          module => "FusionInventory::Agent"
+      });
   $self->{storage} = $storage;
 
   my $config = $self->{config} = $data->{config};
@@ -437,11 +449,11 @@ sub feedInventory {
 
 }
 
-=item runWithTimeout()
-
-Run a function with a timeout.
-
-=cut
+#=item runWithTimeout()
+#
+#Run a function with a timeout.
+#
+#=cut
 sub runWithTimeout {
     my ($self, $m, $funcName, $timeout) = @_;
 

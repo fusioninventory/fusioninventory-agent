@@ -3,10 +3,22 @@ package FusionInventory::Agent::RPC;
 use HTTP::Daemon;
 use FusionInventory::Agent::Storage;
 
-use threads;
+use Config;
 
 use strict;
 use warnings;
+
+BEGIN {
+  # threads and threads::shared must be load before
+  # $lock is initialized
+  if ($Config{usethreads}) {
+    if (!eval "use threads;1;" || !eval "use threads::shared;1;") {
+      print "[error]Failed to use threads!\n"; 
+    }
+  }
+}
+
+my $lock :shared;
 
 sub new {
     my (undef, $params) = @_;
@@ -16,8 +28,15 @@ sub new {
     $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
     $self->{targets} = $params->{targets};
-
     my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    if (!$Config{usethreads}) {
+      $logger->debug("threads support is need for RPC"); 
+      return;
+    }
+
+
 
     my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
             target => {
@@ -111,21 +130,20 @@ sub server {
 sub getToken {
     my ($self, $forceNewToken) = @_; 
 
-    my $lock :shared;
  
     my $storage = $self->{storage};
     my $logger = $self->{logger};
 
     lock($lock);
 
-    my $myData = $storage->restore(__PACKAGE__);
+    my $myData = $storage->restore();
     if ($forceNewToken || !$myData->{token}) {
 
         my $tmp = '';
         $tmp .= pack("C",65+rand(24)) foreach (0..100);
         $myData->{token} = $tmp;
 
-        $storage->save($myData);
+        $storage->save({ data => $myData });
     }
     
     $logger->debug("token is :".$myData->{token});
@@ -135,3 +153,36 @@ sub getToken {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::RPC - the RPC interface 
+
+=head1 DESCRIPTION
+
+FusionInventory Agent can listen on the network through an embedded HTTP
+server. This server can only be used to wakeup the agent of download
+OcsDeploy cached files. The server uses port 62354.
+
+Every time the agent contact the server, it pushs a token, this token will
+be needed to identify the server who want to awake an agent.
+
+Once an agent is awake, its agent will contact the server as usual to know
+the jobs it need to do.
+
+=head1 SYNOPSIS
+
+In this example, we want to wakeup machine "aMachine":
+
+  use LWP::Simple;
+
+  my $machine = "aMachine";
+  my $token = "aaaaaaaaaaaaaa";
+  if (!get("http://$machine:62354/now/$token")) {
+    print "Failed to wakeup $machine\n"; 
+  }
+
+
+=cut
+

@@ -14,6 +14,7 @@ use File::Path;
 use XML::Simple;
 use Sys::Hostname;
 
+our $VERSION = '2.0.1';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
@@ -98,7 +99,7 @@ sub new {
 
         $myRootData->{previousHostname} = $hostname;
         $myRootData->{deviceid} = $self->{deviceid};
-        $rootStorage->save($myRootData);
+        $rootStorage->save({ data => $myRootData });
     } else {
         $self->{deviceid} = $myRootData->{deviceid}
     }
@@ -145,7 +146,7 @@ sub new {
   
         });
 
-    $logger->debug("OCS Agent initialised");
+    $logger->debug("FusionInventory Agent initialised");
 
     bless $self;
 
@@ -233,10 +234,12 @@ sub main {
             });
         $storage->save({
 
+            data => {
                 config => $config,
                 target => $target,
                 #logger => $logger, # XXX Needed?
                 prologresp => $prologresp
+            }
 
             });
 
@@ -263,7 +266,11 @@ sub main {
             $task->run();
         }
 
-        $storage->remove();
+        if (!$config->{debug}) {
+            # In debug mode, I do not clean the FusionInventory-Agent.dump
+            # so I can replay the sub task directly
+            $storage->remove();
+        }
         $target->setNextRunDate();
 
         sleep(5);
