@@ -150,7 +150,7 @@ sub loadUserParams {
 		"version"         =>   \$config->{version},
 		"w|wait=s"        =>   \$config->{wait},
 #  "x|xml"          =>   \$config->{xml},
-		"delaytime"       =>   \$config->{delaytime},
+		"delaytime=s"     =>   \$config->{delaytime},
 		"scan-homedirs"   =>   \$config->{scanhomedirs},
 		"no-socket"       =>   \$config->{noSocket},
 	);
