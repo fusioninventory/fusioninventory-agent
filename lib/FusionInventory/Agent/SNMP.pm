@@ -212,36 +212,7 @@ sub getBadMACAddress {
    my $oid_value = shift;
 
    if ($oid_value !~ /0x/) {
-      return "0x".unpack 'H*', $oid_value;
-   # Supression du code ci-dessous ******
-      my $OID_ifPhysAddress = $OID_ifTable;
-
-      my %table; # Hash to store the results
-
-#      my $result = $session2->get_request(
-#         -varbindlist => [$OID_ifPhysAddress]
-#      );
-#
-#      # Now initiate the SNMP message exchange.
-#
-#      snmp_dispatcher();
-#
-#      $table{$OID_ifPhysAddress} = $result->{$OID_ifPhysAddress};
-#      # Print the results, specifically formatting ifPhysAddress.
-#
-#      for my $oid (oid_lex_sort(keys %table)) {
-#         if (!oid_base_match($OID_ifPhysAddress, $oid)) {
-#            #printf "%s = %s\n", $oid, $table{$oid};
-#            return $table{$oid};
-#         } else {
-#            if (undef $table{$oid}) {
-#               return '';
-#            } else {
-#               return "0x".unpack 'H*', $table{$oid};
-#            }
-#         }
-#      }
-
+      $oid_value = "0x".unpack 'H*', $oid_value;
    }
 
    my @array = split(/(\S{2})/, $oid_value);
@@ -249,7 +220,6 @@ sub getBadMACAddress {
       $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
    }
    return $oid_value;
-
 }
 
 
