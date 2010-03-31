@@ -25,7 +25,11 @@ sub doInventory {
     );
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
     my $the_year=$year+1900;
-    open(PS, "ps aux|");
+    if ($^O =~ /^solaris$/) {
+        open(PS, "ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm|");
+    } else {
+        open(PS, "ps aux|");
+    }
     while ($line = <PS>) {
         next if ($. ==1);
         if ($line =~
