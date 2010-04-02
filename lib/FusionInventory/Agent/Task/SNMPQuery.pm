@@ -1,5 +1,5 @@
 package FusionInventory::Agent::Task::SNMPQuery;
-our $VERSION = '1.0';
+our $VERSION = '1.1';
 use strict;
 no strict 'refs';
 use warnings;
