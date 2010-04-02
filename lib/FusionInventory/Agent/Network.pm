@@ -208,7 +208,7 @@ sub turnSSLCheckOn {
          "--no-ssl-check parameter to disable SSL check."
     );
   }
-  if (!$config->{caCertFile} && !$config->{caCertDir}) {
+  if (!$config->{caCertFile} && !$config->{'ca-cert-dir'}) {
       $logger->fault("You need to use either --ca-cert-file ".
           "or --ca-cert-dir to give the location of your SSL ".
           "certificat. You can also disable SSL check with ".
@@ -240,18 +240,18 @@ sub turnSSLCheckOn {
 		    ) if $@;
     }
 
-  } elsif ($config->{caCertDir}) {
-    if (!-d $config->{caCertDir}) {
+  } elsif ($config->{'ca-cert-dir'}) {
+    if (!-d $config->{'ca-cert-dir'}) {
         $logger->fault("--ca-cert-dir doesn't existe ".
-            "`".$config->{caCertDir}."'");
+            "`".$config->{'ca-cert-dir'}."'");
     }
 
-    $ENV{HTTPS_CA_DIR} =$config->{caCertDir};
+    $ENV{HTTPS_CA_DIR} =$config->{'ca-cert-dir'};
     if (!$hasCrypSSLeay && $hasIOSocketSSL) {
       eval {
         IO::Socket::SSL::set_ctx_defaults(
           verify_mode => Net::SSLeay->VERIFY_PEER(),
-          ca_path => $config->{caCertDir}
+          ca_path => $config->{'ca-cert-dir'}
         );
       };
       $logger->fault(

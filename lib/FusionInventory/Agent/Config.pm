@@ -10,7 +10,7 @@ if ($^O =~ /^MSWin/) {
 }
 
 my $default = {
-  'caCertDir' =>  '',
+  'ca-cert-dir' =>  '',
   'caCertFile'=>  '', 
   'color'     =>  0,
   'daemon'    =>  0,
@@ -117,7 +117,7 @@ sub loadUserParams {
 	my %options = (
 		"backend-collect-timeout=s"  =>   \$config->{backendCollectTimeout},
 		"basevardir=s"    =>   \$config->{basevardir},
-        "ca-cert-dir=s"   =>   \$config->{caCertDir},
+        "ca-cert-dir=s"   =>   \$config->{'ca-cert-dir'},
         "ca-cert-file=s"  =>   \$config->{caCertFile},
 		"color"           =>   \$config->{color},
 		"d|daemon"        =>   \$config->{daemon},
