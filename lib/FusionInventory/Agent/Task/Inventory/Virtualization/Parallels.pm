@@ -26,7 +26,7 @@ sub doInventory {
     my @users = ();
 
     # We don't want to scan user directories unless --scan-homedirs is used
-    return unless $config->{scanhomedirs};
+    return unless $config->{'scan-homedirs'};
 
     foreach my $lsuser ( glob("/Users/*") ) {
         $lsuser =~ s/.*\///; # Just keep the login
