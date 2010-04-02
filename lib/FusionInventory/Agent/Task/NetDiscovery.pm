@@ -705,6 +705,11 @@ sub discovery_ip_threaded {
                  $type = 1;
              }
          }
+         if (not exists($datadevice->{MAC})) {
+            my $NetbiosMac = $ns->mac_address;
+            $NetbiosMac =~ tr/-/:/;
+            $datadevice->{MAC} = $NetbiosMac;
+         }
       }
    }
 
