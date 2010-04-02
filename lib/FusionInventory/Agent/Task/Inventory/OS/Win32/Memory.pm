@@ -3,9 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Memory;
 use strict;
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
- 
+
 Win32::OLE-> Option(CP=>CP_UTF8);
- 
+
 use Win32::OLE::Enum;
 
 use Encode qw(encode);
@@ -68,6 +68,16 @@ DDR
 DDR-2
 /;
 
+my @memoryErrorProtection = ( 
+        undef,
+        'Other',
+        undef,
+        'None',
+        'Parity',
+        'Single-bit ECC',
+        'Multi-bit ECC',
+        'CRC',
+        );
 
 
 
@@ -86,6 +96,7 @@ sub doInventory {
 
     my $cpt = 0;
     my $fullMemory = 0;
+    my @memories;
     foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
                     'Win32_PhysicalMemory' ) ) )
     {
@@ -99,29 +110,56 @@ sub doInventory {
         my $type = $memoryTypeVal[$Properties->{MemoryType}];
         my $numslots = $cpt++;
         my $serialnumber = $Properties->{SerialNumber};
-        
+
         $fullMemory += $Properties->{Capacity};
 
+        push @memories, {
+            CAPACITY => $capacity,
+                     CAPTION => $caption,
+                     DESCRIPTION => $description,
+                     FORMFACTOR => $formfactor,
+                     REMOVABLE => $removable,
+                     SPEED => $speed,
+                     TYPE => $type,
+                     NUMSLOTS => $numslots,
+                     SERIALNUMBER => $serialnumber
+        }
 
-        $inventory->addMemory({
-                CAPACITY => $capacity,
-                CAPTION => $caption,
-                DESCRIPTION => $description,
-                FORMFACTOR => $formfactor,
-                REMOVABLE => $removable,
-                SPEED => $speed,
-                TYPE => $type,
-                NUMSLOTS => $numslots,
-                SERIALNUMBER => $serialnumber
-                });
     }
 
 
-  $inventory->setHardware({
 
-      MEMORY =>  int($fullMemory/(1024*1024)),
 
-    });
+
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_PhysicalMemoryArray' ) ) )
+    {
+        my $memory = $memories[$Properties->{MemoryDevices} - 1];
+        if (!$memory->{SERIALNUMBER}) {
+            $memory->{SERIALNUMBER} =
+                $Properties->{SerialNumber};
+        }
+        $memory->{MEMORYCORRECTION} =
+            $memoryErrorProtection[$Properties->{PhysicalMemoryCorrection}];
+
+        if ($memory->{MEMORYCORRECTION}) {
+            $memory->{DESCRIPTION} .= " (".$memory->{MEMORYCORRECTION}.")";
+        }
+    }
+
+
+
+
+    foreach my $memory (@memories) {
+        $inventory->addMemory($memory);
+    }
+
+
+    $inventory->setHardware({
+
+            MEMORY =>  int($fullMemory/(1024*1024)),
+
+            });
 
 
 }
