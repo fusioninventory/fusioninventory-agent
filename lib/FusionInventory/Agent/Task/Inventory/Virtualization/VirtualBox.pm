@@ -12,7 +12,7 @@ sub isInventoryEnabled { return can_run('VirtualBox') and can_run('VBoxManage') 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
-    my $scanhomedirs = $params->{accountinfo}{config}{scanhomedirs};
+    my $scanhomedirs = $params->{accountinfo}{config}{'scan-homedirs'};
   
     my $cmd_list_vms = "VBoxManage -nologo list vms";
 

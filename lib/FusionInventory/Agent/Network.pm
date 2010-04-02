@@ -183,7 +183,7 @@ sub turnSSLCheckOn {
   my $config = $self->{config};
 
 
-  if ($config->{noSslCheck}) {
+  if ($config->{'no-ssl-check'}) {
     if (!$config->{SslCheckWarningShown}) {
       $logger->info( "--no-ssl-check parameter "
         . "found. Don't check server identity!!!" );
@@ -208,7 +208,7 @@ sub turnSSLCheckOn {
          "--no-ssl-check parameter to disable SSL check."
     );
   }
-  if (!$config->{caCertFile} && !$config->{'ca-cert-dir'}) {
+  if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
       $logger->fault("You need to use either --ca-cert-file ".
           "or --ca-cert-dir to give the location of your SSL ".
           "certificat. You can also disable SSL check with ".
@@ -217,19 +217,19 @@ sub turnSSLCheckOn {
 
 
   my $parameter;
-  if ($config->{caCertFile}) {
-    if (!-f $config->{caCertFile} || !-l $config->{caCertFile}) {
+  if ($config->{'ca-cert-file'}) {
+    if (!-f $config->{'ca-cert-file'} || !-l $config->{'ca-cert-file'}) {
         $logger->fault("--ca-cert-file doesn't existe ".
-            "`".$config->{caCertFile}."'");
+            "`".$config->{'ca-cert-file'}."'");
     }
 
-    $ENV{HTTPS_CA_FILE} = $config->{caCertFile};
+    $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
 
     if (!$hasCrypSSLeay && $hasIOSocketSSL) {
       eval {
         IO::Socket::SSL::set_ctx_defaults(
           verify_mode => Net::SSLeay->VERIFY_PEER(),
-          ca_file => $config->{caCertFile}
+          ca_file => $config->{'ca-cert-file'}
         );
       };
       $logger->fault(
@@ -275,7 +275,7 @@ sub setSslRemoteHost {
 
   my $ua = $self->{ua};
 
-  if ($config->{noSslCheck}) {
+  if ($config->{'no-ssl-check'}) {
       return;
   }
 
