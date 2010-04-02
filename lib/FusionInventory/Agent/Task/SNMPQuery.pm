@@ -131,7 +131,7 @@ sub StartThreads {
    my $xml_thread = {};
 
 	#===================================
-	# Threads et variables partagées
+	# Threads et variables partagÃ©es
 	#===================================
    my %TuerThread : shared;
 	my %ArgumentsThread :shared;
@@ -303,7 +303,7 @@ sub StartThreads {
                                                    $self->{logger}->debug("Core $p - Thread $t created");
 
                                                    while ($loopthread ne "1") {
-                                                      # Lance la procédure et récupère le résultat
+                                                      # Lance la procÃ©dure et rÃ©cupÃ¨re le rÃ©sultat
                                                       $device_id = "";
                                                       {
                                                          lock(%devicelist2);
@@ -645,15 +645,46 @@ sub query_device_threaded {
 
       if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
          # Scan for each vlan (for specific switch manufacturer && model)
-         # Implique de recréer une session spécialement pour chaque vlan : communauté@vlanID
+         # Implique de recrÃ©er une session spÃ©cialement pour chaque vlan : communautÃ©@vlanID
          if ($vlan_query eq "1") {
             while ( (my $vlan_id,my $vlan_name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
+               my $vlan_id_short = $vlan_id;
+               $vlan_id_short =~ s/$params->{modellist}->{WALK}->{vtpVlanName}->{OID}//;
+               $vlan_id_short =~ s/^.//;
+                #Initiate SNMP connection on this VLAN
+               my $session = new FusionInventory::Agent::SNMP ({
+
+                              version      => $params->{authlist}->{VERSION},
+                              hostname     => $params->{device}->{IP},
+                              community    => $params->{authlist}->{COMMUNITY}."@".$vlan_id_short,
+                              username     => $params->{authlist}->{USERNAME},
+                              authpassword => $params->{authlist}->{AUTHPASSWORD},
+                              authprotocol => $params->{authlist}->{AUTHPROTOCOL},
+                              privpassword => $params->{authlist}->{PRIVPASSWORD},
+                              privprotocol => $params->{authlist}->{PRIVPROTOCOL},
+                              translate    => 1,
+
+                           });
+                  my $session2 = new FusionInventory::Agent::SNMP ({
+
+                              version      => $params->{authlist}->{VERSION},
+                              hostname     => $params->{device}->{IP},
+                              community    => $params->{authlist}->{COMMUNITY}."@".$vlan_id_short,
+                              username     => $params->{authlist}->{USERNAME},
+                              authpassword => $params->{authlist}->{AUTHPASSWORD},
+                              authprotocol => $params->{authlist}->{AUTHPROTOCOL},
+                              privpassword => $params->{authlist}->{PRIVPASSWORD},
+                              privprotocol => $params->{authlist}->{PRIVPROTOCOL},
+                              translate    => 0,
+
+                           });
+
                $ArraySNMPwalk = {};
-               $HashDataSNMP  = {};
+               #$HashDataSNMP  = {};
                for my $link ( keys %{$params->{modellist}->{WALK}} ) {
                   if ($params->{modellist}->{WALK}->{$link}->{VLAN} eq "1") {
                      $ArraySNMPwalk = $session->snmpWalk({
-                        oid_start => $params->{modellist}->{WALK}->{$link}->{OID}
+                                        oid_start => $params->{modellist}->{WALK}->{$link}->{OID}
                      });
                      $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $ArraySNMPwalk;
                   }

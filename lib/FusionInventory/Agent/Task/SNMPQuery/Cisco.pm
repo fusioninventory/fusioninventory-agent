@@ -72,7 +72,6 @@ sub GetMAC {
    my $dot1dTpFdbPort;
 
    my $i = 0;
-
    # each VLAN WALK per port
    while ( my ($number,$ifphysaddress) = each (%{$HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) ) {
       $short_number = $number;
