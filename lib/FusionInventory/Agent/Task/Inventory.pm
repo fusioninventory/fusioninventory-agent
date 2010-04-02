@@ -465,7 +465,7 @@ sub runWithTimeout {
     my $ret;
     
     if (!$timeout) {
-        $timeout = $self->{config}{backendCollectTimeout};
+        $timeout = $self->{config}{'backend-collect-timeout'};
     }
 
     eval {

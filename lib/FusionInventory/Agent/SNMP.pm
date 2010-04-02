@@ -87,7 +87,7 @@ sub new {
 
 sub snmpGet {
    my ($self, $args) = @_;
-   
+
    my $oid = $args->{oid};
    my $up = $args->{up};
 
@@ -108,26 +108,26 @@ sub snmpGet {
    } else {
       if ($result->{$oid} =~ /noSuchInstance/) {
          $return = "null";
-      } else {        
+      } else {
          if ($oid =~ /No response from remote host/) {
             $return = "null";
          } else {
             if ($oid =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-               $result->{$oid} = getbadmacaddress($oid,$result->{$oid});
+               $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
             }
             if ($oid =~ /.1.3.6.1.2.1.17.1.1.0/) {
-               $result->{$oid} = getbadmacaddress($oid,$result->{$oid});
+               $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
             }
             if ($oid =~ /.1.3.6.1.2.1.2.2.1.6/) {
-               $result->{$oid} = getbadmacaddress($oid,$result->{$oid});
+               $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
             }
             if ($oid =~ /.1.3.6.1.2.1.4.22.1.2/) {
-               $result->{$oid} = getbadmacaddress($oid,$result->{$oid});
+               $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
             }
             if ($oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-               $result->{$oid} = getbadmacaddress($oid,$result->{$oid});
+               $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
             }
-            $result->{$oid} = special_char($result->{$oid});
+            $result->{$oid} = specialChar($result->{$oid});
             $result->{$oid} =~ s/\n$//;
             $return = $result->{$oid};
          }
@@ -162,23 +162,23 @@ sub snmpWalk {
             {
                if ($oid !~ /No response from remote host/) {
                   if ($object =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-                     $oid = getbadmacaddress($object,$oid)
+                     $oid = getBadMACAddress($object,$oid)
                   }
                   if ($object =~ /.1.3.6.1.2.1.17.1.1.0/) {
-                     $oid = getbadmacaddress($object,$oid)
+                     $oid = getBadMACAddress($object,$oid)
                   }
                   if ($object =~ /.1.3.6.1.2.1.2.2.1.6/) {
-                     $oid = getbadmacaddress($object,$oid)
+                     $oid = getBadMACAddress($object,$oid)
                   }
                   if ($object =~ /.1.3.6.1.2.1.4.22.1.2/) {
-                     $oid = getbadmacaddress($object,$oid)
+                     $oid = getBadMACAddress($object,$oid)
                   }
                   if ($object =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-                     $oid = getbadmacaddress($object,$oid)
+                     $oid = getBadMACAddress($object,$oid)
                   }
                   my $object2 = $object;
                   $object2 =~ s/$_[0].//;
-                  $oid = special_char($oid);
+                  $oid = specialChar($oid);
                   $oid =~ s/\n$//;
                   $ArraySNMP->{$object2} = $oid;
                }
@@ -192,51 +192,8 @@ sub snmpWalk {
 
 
 
-sub snmpGetNext {
-   my ($self, $args) = @_;
-
-   my $oid_start = $args->{oid_start};
-   my $oid_prec = $args->{oid_prec};
-
-   if($oid_prec =~ m/$oid_start/) {
-      my $response = $self->{SNMPSession}->{session}->get_next_request($oid_prec);
-      my $err = $self->{SNMPSession}->{session}->error;
-      if ($err) {
-         return ("", "");
-      }
-      my %pdesc = %{$response};
-
-      while ((my $object,my $oid) = each (%pdesc)) {
-         if ($object =~ /$oid_start/) {
-            if ($object =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-#               $oid = getbadmacaddress($object,$oid)
-            }
-            if ($object =~ /.1.3.6.1.2.1.17.1.1.0/) {
-#               $oid = getbadmacaddress($object,$oid)
-            }
-            if ($object =~ /.1.3.6.1.2.1.2.2.1.6/) {
-#               $oid = getbadmacaddress($object,$oid)
-            }
-            if ($object =~ /.1.3.6.1.2.1.4.22.1.2/) {
-#               $oid = getbadmacaddress($object,$oid)
-            }
-            if ($object =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-#               $oid = getbadmacaddress($object,$oid)
-            }
-            $oid = special_char($oid);
-            $oid =~ s/\n$//;
-            return ($object, $oid);
-         }
-         $oid_prec = $object;
-      }
-   }
-   return ("", "");
-}
-
-
-
 sub specialChar {
-   if (defined($_[0])) {      
+   if (defined($_[0])) {
       if ($_[0] =~ /0x$/) {
          return "";
       }
@@ -255,36 +212,7 @@ sub getBadMACAddress {
    my $oid_value = shift;
 
    if ($oid_value !~ /0x/) {
-      return "0x".unpack 'H*', $oid_value;
-   # Supression du code ci-dessous ******
-      my $OID_ifPhysAddress = $OID_ifTable;
-
-      my %table; # Hash to store the results
-
-#      my $result = $session2->get_request(
-#         -varbindlist => [$OID_ifPhysAddress]
-#      );
-#
-#      # Now initiate the SNMP message exchange.
-#
-#      snmp_dispatcher();
-#
-#      $table{$OID_ifPhysAddress} = $result->{$OID_ifPhysAddress};
-#      # Print the results, specifically formatting ifPhysAddress.
-#
-#      for my $oid (oid_lex_sort(keys %table)) {
-#         if (!oid_base_match($OID_ifPhysAddress, $oid)) {
-#            #printf "%s = %s\n", $oid, $table{$oid};
-#            return $table{$oid};
-#         } else {
-#            if (undef $table{$oid}) {
-#               return '';
-#            } else {
-#               return "0x".unpack 'H*', $table{$oid};
-#            }
-#         }
-#      }
-
+      $oid_value = "0x".unpack 'H*', $oid_value;
    }
 
    my @array = split(/(\S{2})/, $oid_value);
@@ -292,7 +220,6 @@ sub getBadMACAddress {
       $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
    }
    return $oid_value;
-
 }
 
 

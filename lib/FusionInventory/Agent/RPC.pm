@@ -44,11 +44,12 @@ sub new {
             }
         });
 
+    return if $config->{'no-socket'};
 
     bless $self;
 
     $SIG{PIPE} = 'IGNORE';
-    if ($config->{daemon} || $config->{daemonNoFork} || $config->{winService}) {
+    if ($config->{daemon} || $config->{'daemon-no-fork'} || $config->{winService}) {
         $self->{thr} = threads->create('server', $self);
     }
 
@@ -106,9 +107,9 @@ sub server {
 
     my $daemon;
    
-    if ($config->{rpcIp}) {
+    if ($config->{'rpc-ip'}) {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalAddr => $config->{rpcIp},
+            LocalAddr => $config->{'rpc-ip'},
             LocalPort => 62354,
             Reuse => 1);
     } else {
