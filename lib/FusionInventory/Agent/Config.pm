@@ -152,7 +152,7 @@ sub loadUserParams {
 #  "x|xml"          =>   \$config->{xml},
 		"delaytime=s"     =>   \$config->{delaytime},
 		"scan-homedirs"   =>   \$config->{'scan-homedirs'},
-		"no-socket"       =>   \$config->{noSocket},
+		"no-socket"       =>   \$config->{'no-socket'},
 	);
 
     Getopt::Long::Configure( "no_ignorecase" );
@@ -196,7 +196,8 @@ sub help {
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$config->{info}.")\n";
-  print STDERR "\t   --no-socket      don't allow remote connexion (".$config->{noSocket}.")\n";
+  print STDERR "\t   --no-socket      don't allow remote connexion".
+  " (".$config->{'no-socket'}.")\n";
   print STDERR "\t   --lazy           do not contact the server more than ".
   "one time during the PROLOG_FREQ (".$config->{lazy}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".

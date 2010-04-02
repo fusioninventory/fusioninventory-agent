@@ -44,7 +44,7 @@ sub new {
             }
         });
 
-    return if $config->{noSocket};
+    return if $config->{'no-socket'};
 
     bless $self;
 
