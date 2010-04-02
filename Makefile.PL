@@ -12,6 +12,7 @@ requires 'XML::Simple' => undef;
 requires 'Net::IP' => undef;
 requires 'File::stat' => undef;
 requires 'Parallel::ForkManager' => undef;
+requires 'Net::SNMP' => undef;
 requires 'Nmap::Parser' => undef;
 requires 'Net::NBName' => undef;
 WriteAll;
