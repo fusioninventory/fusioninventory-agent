@@ -334,7 +334,7 @@ if (!$packaged) {
             last;
         }
     }
-    if ($doCleanUp && pask_yn ("Should I remove the Ocsinventory Agent files", 'n')) {
+    if ($doCleanUp && ask_yn ("Should I remove the Ocsinventory Agent files", 'n')) {
         foreach (@oldFiles) {
             next unless -f;
             print $_."\n";

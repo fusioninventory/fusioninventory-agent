@@ -150,7 +150,7 @@ sub loadUserParams {
 		"version"         =>   \$config->{version},
 		"w|wait=s"        =>   \$config->{wait},
 #  "x|xml"          =>   \$config->{xml},
-		"delaytime"       =>   \$config->{delaytime},
+		"delaytime=s"     =>   \$config->{delaytime},
 		"scan-homedirs"   =>   \$config->{scanhomedirs},
 		"no-socket"       =>   \$config->{noSocket},
 	);
@@ -195,7 +195,7 @@ sub help {
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
   print STDERR "\t-i --info           verbose mode (".$config->{info}.")\n";
-  print STDERR "\t   --no-socket      allow remote connexion (".$config->{noSocket}.")\n";
+  print STDERR "\t   --no-socket      don't allow remote connexion (".$config->{noSocket}.")\n";
   print STDERR "\t   --lazy           do not contact the server more than ".
   "one time during the PROLOG_FREQ (".$config->{lazy}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
