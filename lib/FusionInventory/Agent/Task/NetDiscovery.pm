@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::NetDiscovery;
 our $VERSION = '1.1';
+
+$ENV{XML_SIMPLE_PREFERRED_PARSER} = 'XML::SAX::PurePerl';
+
 use strict;
 #no strict 'refs';
 use warnings;
