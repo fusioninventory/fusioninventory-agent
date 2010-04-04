@@ -13,7 +13,6 @@ if ($threads::VERSION > 1.32){
 use Data::Dumper;
 
 use XML::Simple;
-use File::stat;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Logger;
