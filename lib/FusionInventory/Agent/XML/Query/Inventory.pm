@@ -109,9 +109,11 @@ sub addController {
     DRIVER => [$driver?$driver:''],
     NAME => [$name],
     MANUFACTURER => [$manufacturer],
-    # The PCI Class in hexa. e.g: 0c03
+# The PCI Class in hexa. e.g: 0c03
     PCICLASS => [$pciclass?$pciclass:''],
+# E.g: 8086:2a40
     PCIID => [$pciid?$pciid:''],
+# E.g: 00:00.0
     PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
 
@@ -155,9 +157,11 @@ sub addDrive {
   my ($self, $args) = @_;
 
   my $createdate = $args->{CREATEDATE};
+  my $description = $args->{DESCRIPTION};
   my $free = $args->{FREE};
   my $filesystem = $args->{FILESYSTEM};
   my $label = $args->{LABEL};
+  my $letter = $args->{LETTER};
   my $serial = $args->{SERIAL};
   my $total = $args->{TOTAL};
   my $type = $args->{TYPE};
@@ -166,12 +170,18 @@ sub addDrive {
   push @{$self->{h}{CONTENT}{DRIVES}},
   {
     CREATEDATE => [$createdate?$createdate:''],
+# Windows only, e.g: Network drive
+    DESCRIPTION => [$description?$description:''],
     FREE => [$free?$free:''],
     FILESYSTEM => [$filesystem?$filesystem:''],
+# On windows the LABEL is also in VOLUMN
     LABEL => [$label?$label:''],
+    LETTER => [$letter?$letter:''],
     SERIAL => [$serial?$serial:''],
     TOTAL => [$total?$total:''],
+# type is Mount point on Linux/UNIX/MacOSX
     TYPE => [$type?$type:''],
+# UNIX: /dev/XXXX, on Windows, the LABEL...
     VOLUMN => [$volumn?$volumn:'']
   };
 }
@@ -196,6 +206,7 @@ sub addStorages {
 
   my $description = $args->{DESCRIPTION};
   my $disksize = $args->{DISKSIZE};
+  my $interface = $args->{INTERFACE};
   my $manufacturer = $args->{MANUFACTURER};
   my $model = $args->{MODEL};
   my $name = $args->{NAME};
@@ -219,6 +230,10 @@ sub addStorages {
     MODEL => [$model?$model:''],
     NAME => [$name?$name:''],
     TYPE => [$type?$type:''],
+# INTERFACE can be SCSI/HDC/IDE/USB/1394
+# (See: Win32_DiskDrive / InterfaceType)
+    INTERFACE => [$interface?$interface:''],
+    SERIAL => [$serialnumber?$serialnumber:''],
     SERIALNUMBER => [$serialnumber?$serialnumber:''],
     FIRMWARE => [$firmware?$firmware:''],
     SCSI_COID => [$scsi_coid?$scsi_coid:''],
@@ -246,11 +261,19 @@ Add a memory module in the inventory.
 sub addMemory {
   my ($self, $args) = @_;
 
+# In MB, e.g 2048
   my $capacity = $args->{CAPACITY};
+# Physical Memory
+  my $caption = $args->{CAPTION};
+  my $formfactor = $args->{FORMFACTOR};
+  my $removable =  $args->{REMOVABLE};
+# E.g: System Memory
+  my $purpose =  $args->{PURPOSE};
+# In Mhz, e.g: 800
   my $speed =  $args->{SPEED};
   my $type = $args->{TYPE};
   my $description = $args->{DESCRIPTION};
-  my $caption = $args->{CAPTION};
+# Eg. 2, start at 1, not 0
   my $numslots = $args->{NUMSLOTS};
 
   my $serialnumber = $args->{SERIALNUMBER};
@@ -259,8 +282,11 @@ sub addMemory {
   {
 
     CAPACITY => [$capacity?$capacity:''],
-    DESCRIPTION => [$description?$description:''],
     CAPTION => [$caption?$caption:''],
+    DESCRIPTION => [$description?$description:''],
+    FORMFACTOR => [$formfactor?$formfactor:''],
+    REMOVABLE => [$removable?$removable:''],
+    PURPOSE => [$purpose?$purpose:''],
     SPEED => [$speed?$speed:''],
     TYPE => [$type?$type:''],
     NUMSLOTS => [$numslots?$numslots:0],
@@ -355,10 +381,18 @@ sub addSoftware {
   my $filesize = $args->{FILESIZE};
   my $folder = $args->{FOLDER};
   my $from = $args->{FROM};
-  my $installdate = $args->{INSTALLDATE};
+  my $helpLink = $args->{HELPLINK};
+  my $installDate = $args->{INSTALLDATE};
   my $name = $args->{NAME};
+  my $noRemove = $args->{NO_REMOVE};
+  my $releaseType = $args->{RELEASE_TYPE};
   my $publisher = $args->{PUBLISHER};
+  my $uninstallString = $args->{UNINSTALL_STRING};
+  my $urlInfoAbout = $args->{URL_INFO_ABOUT};
   my $version = $args->{VERSION};
+  my $versionMinor = $args->{VERSION_MINOR};
+  my $versionMajor = $args->{VERSION_MAJOR};
+  my $is64bit = $args->{IS64BIT};
 
 
   push @{$self->{h}{CONTENT}{SOFTWARES}},
@@ -368,10 +402,18 @@ sub addSoftware {
     FILESIZE => [$filesize?$filesize:''],
     FOLDER => [$folder?$folder:''],
     FROM => [$from?$from:''],
-    INSTALLDATE => [$installdate?$installdate:''],
+    HELPLINK => [$helpLink?$helpLink:''],
+    INSTALLDATE => [$installDate?$installDate:''],
     NAME => [$name?$name:''],
+    NOREMOVE => [$noRemove?$noRemove:''],
+    RELEASETYPE => [$releaseType?$releaseType:''],
     PUBLISHER => [$publisher?$publisher:''],
+    UNINSTALL_STRING => [$uninstallString],
+    URL_INFO_ABOUT => [$urlInfoAbout],
     VERSION => [$version],
+    VERSION_MINOR => [$versionMinor?$versionMinor:''],
+    VERSION_MAJOR => [$versionMajor?$versionMajor:''],
+    IS64BIT => [$is64bit],
 
   };
 }
@@ -494,8 +536,10 @@ my ($self, $args) = @_;
 
     my %tmpXml = ();
 
-    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS IPDHCP IPGATEWAY
-        IPMASK IPSUBNET MACADDR PCISLOT STATUS TYPE VIRTUALDEV SLAVES/) {
+    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS
+        IPADDRESS6 IPDHCP IPGATEWAY IPMASK IPSUBNET
+        IPMASK6 IPSUBNET6 MACADDR MTU PCISLOT STATUS
+        TYPE VIRTUALDEV SLAVES/) {
         $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
     }
     push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
@@ -527,8 +571,9 @@ sub setHardware {
 
   foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
     PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
-    DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER
-    DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM/) {
+    DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
+    DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
+    WINPRODKEY WINCOMPANY/) {
 
     if (exists $args->{$key}) {
       if ($key eq 'PROCESSORS' && !$nonDeprecated) {
@@ -568,20 +613,24 @@ sub addCPU {
   my ($self, $args) = @_;
 
   # The CPU FLAG
-  my $code = $args->{CODE};
+  my $cache = $args->{CACHE};
+  my $core = $args->{CORE};
+  my $description = $args->{DESCRIPTION},
   my $manufacturer = $args->{MANUFACTURER};
+  my $name = $args->{NAME};
   my $thread = $args->{THREAD};
-  my $type = $args->{TYPE};
   my $serial = $args->{SERIAL};
   my $speed = $args->{SPEED};
 
   push @{$self->{h}{CONTENT}{CPUS}},
   {
 
-    CORE => [$code],
+    CACHESIZE => [$cache],
+    CORE => [$core],
+    DESCRIPTION => [$description?$description:''],
     MANUFACTURER => [$manufacturer],
+    NAME => [$name],
     THREAD => [$thread],
-    TYPE => [$type],
     SERIAL => [$serial],
     SPEED => [$speed],
 
@@ -590,7 +639,7 @@ sub addCPU {
   # For the compatibility with HARDWARE/PROCESSOR*
   my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
   my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
-  my $processort = $self->{h}{CONTENT}{CPUS}[0]{TYPE}[0];
+  my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME}[0];
 
   $self->setHardware ({
     PROCESSORN => $processorn,
@@ -737,6 +786,34 @@ sub addProcess {
   };
 }
 
+=item addInput()
+
+Add an input device (mouce/keyboard) in the inventory.
+
+=cut
+sub addInput {
+  my ($self, $args) = @_;
+
+  my $caption = $args->{CAPTION};
+  my $description = $args->{DESCRIPTION};
+  my $interface = $args->{INTERFACE};
+  my $layout = $args->{LAYOUT};
+  my $pointtype = $args->{POINTTYPE};
+  my $type = $args->{TYPE};
+
+  push @{$self->{h}{CONTENT}{INPUTS}},
+  {
+
+    CAPTION=> [$caption?$caption:''],
+    DESCRIPTION => [$description?$description:''],
+    INTERFACE => [$interface?$interface:''],
+# Free-form string indicating the layout of the keyboard
+    LAYOUT => [$layout?$layout:''],
+    POINTTYPE => [$pointtype?$pointtype:''],
+    TYPE => [$type?$type:''],
+
+  };
+}
 
 =item setAccessLog()
 
@@ -975,7 +1052,8 @@ sub processChecksum {
 
   foreach my $section (keys %mask) {
     #If the checksum has changed...
-    my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
+    my $hash =
+        md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
     if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
       $logger->debug ("Section $section has changed since last inventory");
       #We make OR on $checksum with the mask of the current section

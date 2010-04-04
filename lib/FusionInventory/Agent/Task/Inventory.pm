@@ -156,6 +156,8 @@ sub initModList {
 
     # TODO replace that by the standard can_run()
     can_run => sub {
+# TODO: doesn't Work on Windows Yet
+      return if $^O =~ /^MSWin/;
       my $binary = shift;
 
       my $calling_namespace = caller(0);

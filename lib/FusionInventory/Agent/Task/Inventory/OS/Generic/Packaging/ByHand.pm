@@ -34,6 +34,9 @@ sub doInventory {
             last if -d $file;
         }
     }
+
+    return unless $file;
+
     my $logger = $params->{logger};
 
     if ( opendir(my $dh, $file) )

@@ -64,10 +64,41 @@ sub load {
 	my $config = $default;
     $config->{VERSION} = $FusionInventory::Agent::VERSION;
 
-    loadFromCfgFile($config);
-    loadUserParams($config);
+    if ($^O =~ /^MSWin/) {
+        loadFromWinRegistry($config);
+    } else {
+        loadFromCfgFile($config);
+    }
 
+    loadUserParams($config);
 	return $config;
+}
+
+sub loadFromWinRegistry {
+  my $config = shift;
+
+  if (!eval ("
+    use Encode qw(encode);
+    use Win32::TieRegistry ( Delimiter=>\"/\", ArrayValues=>0 );
+    1
+  ")) {
+    print "[error] $@";
+    return;
+  }
+
+  my $machKey = $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+  my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
+
+  foreach my $rawKey (keys %$settings) {
+    next unless $rawKey =~ /^\/(\S+)/;
+    my $key = $1;
+    my $val = $settings->{$rawKey};
+    # Remove the quotes
+    $val =~ s/\s+$//;
+    $val =~ s/^'(.*)'$/$1/;
+    $val =~ s/^"(.*)"$/$1/;
+    $config->{$key} = $val;
+  }
 }
 
 sub loadFromCfgFile {

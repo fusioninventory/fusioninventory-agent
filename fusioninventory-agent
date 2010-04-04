@@ -140,7 +140,7 @@ Indicate the place where the agent should store its files.
 
 =item B<--color>
 
-Display color on the terminal.
+Display color on the terminal. This feature is disabled on Windows.
 
 =item B<-d>, B<--daemon>
 

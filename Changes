@@ -1,6 +1,9 @@
 Revision history for FusionInventory::Agent
 
 2.1
+       * Windows: Add new values for SOFTWARES key
+       * Add Windows service
+       * disable --color for Windows
        * Collect Solaris process informations (Emengao)
 
 2.0.2
