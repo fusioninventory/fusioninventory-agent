@@ -7,7 +7,7 @@ DESCRIPTION
   - report printer cartridge and ounter status
   - support management of SNMP versions v1, v2, v3
 
- The plugin depends on FusionInventory for GLPI.
+ The plugin depends on FusionInventory for GLPI. OCS Inventory can't use this plugin.
 
 LICENSE
  This program is free software; you can redistribute it and/or modify
