@@ -16,7 +16,6 @@ if ($threads::VERSION > 1.32){
 use Data::Dumper;
 
 use XML::Simple;
-use File::stat;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Logger;
@@ -1115,3 +1114,95 @@ sub axis_discovery {
 
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::NetDiscovery - SNMP support for FusionInventory Agent
+
+=head1 DESCRIPTION
+
+This module scans your networks to get informations from devices with SNMP protocol
+
+=over 4
+
+=item *
+networking devices discovery within an IP range
+
+=item *
+network switche, printer and router analyse
+
+=item *
+relation between computer / printer / switch port
+
+=item *
+identify unknown MAC addresses
+
+=item *
+report printer cartridge and ounter status
+
+=item *
+support management of SNMP versions v1, v2, v3
+
+=back
+
+The plugin depends on FusionInventory for GLPI.
+
+=head1 AUTHORS
+
+The maintainer is David DURIEUX <d.durieux@siprossii.com>
+
+Please read the AUTHORS, Changes and THANKS files to see who is behind
+FusionInventory.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item *
+FusionInventory website: L<http://www.FusionInventory.org/>
+
+=item *
+LaunchPad project page: L<http://launchpad.net/fusioninventory-agent-task-netdiscovery>
+
+=item *
+the Mailing lists and IRC
+
+=back
+
+=head1 BUGS
+
+Please, use the mailing lists as much as possible. You can open your own bug
+tickets. Patches are welcome. You can also use LaunchPad bugtracker or
+push your Bazaar branch on LaunchPad and do a merge request.
+
+=head1 COPYRIGHT
+
+=over 4
+
+=item *
+
+Copyright (C) 2009 David Durieux
+
+=item *
+
+=back
+
+Copyright (C) 2010 FusionInventory Team
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+=cut

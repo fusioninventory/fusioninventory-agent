@@ -1,4 +1,9 @@
 Revision history for Ocsinventory::Agent::Task::NetDiscovery
 
+1.1
+       * Drop the dependency on File::stat
+       * add a POD doc
+       * Improve the README
+
 1.0    Sun, 28 Mar 2010 22:49:57 +0200
        * Initial independent release of the module
