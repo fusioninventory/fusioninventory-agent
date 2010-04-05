@@ -4,8 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use XML::Simple;
-use Data::Dumper;
+use XML::TreePP;
 use Digest::MD5 qw(md5_base64);
 
 #use FusionInventory::Agent::XML::Query::Prolog;
@@ -38,8 +37,9 @@ sub getContent {
     my ($self, $args) = @_;
 
     $self->{accountinfo}->setAccountInfo($self);
-    my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
-        SuppressEmpty => undef );
+
+    my $tpp = XML::TreePP->new();
+    my $content= $tpp->write( { REQUEST => $self->{h} } );
 
     return $content;
 }

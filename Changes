@@ -1,4 +1,9 @@
 Revision history for FusionInventory::Agent
+
+       * XML::Simple → XML::TreePP transition
+TODO, test VirtualBox
+
+
 2.1
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
        * Windows: Add new values for SOFTWARES key
