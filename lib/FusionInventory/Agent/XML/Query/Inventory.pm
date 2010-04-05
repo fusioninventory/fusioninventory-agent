@@ -1095,6 +1095,8 @@ inventory.
 sub processChecksum {
     my $self = shift;
 
+    my $myData = $self->{myData};
+
     my $logger = $self->{logger};
     my $target = $self->{target};
 
@@ -1170,27 +1172,12 @@ correctly, the last_state is saved.
 sub saveLastState {
     my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
-    my $target = $self->{target};
+    my $myData = $self->{myData};
+    my $storage = $self->{storage};
 
-    if (!defined($self->{last_state_content})) {
-        $self->processChecksum();
-    }
+    $myData->{last_state} = $self->{current_state};
 
-    if (!defined ($target->{last_statefile})) {
-        $logger->debug ("Can't save the last_state file. File path is not initialised.");
-        return;
-    }
-
-    if (open my $handle, '>', $target->{last_statefile}) {
-        print $handle XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
-        close $handle;
-    } else {
-        $logger->debug (
-            "Cannot save the checksum values in $target->{last_statefile} " .
-            "(will be synchronized by GLPI!!): $ERRNO"
-        );
-    }
+    $storage->save($myData);
 }
 
 =item addSection()
