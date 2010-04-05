@@ -68,7 +68,7 @@ sub doInventory {
                 UUID      => $uuid,
                 MEMORY    => $mem,
                 STATUS    => $status,
-                SUBSYSTEM => "",
+                SUBSYSTEM => "Parallels",
                 VMTYPE    => "Parallels",
             });
     }
