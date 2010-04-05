@@ -10,7 +10,7 @@ PREREQUISITES
   The following modules are needed:
     Digest::MD5
 
-    XML::Simple
+    XML::TreePP
 
     Net::IP: optional, it is only needed to compute the network information
 
