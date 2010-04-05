@@ -745,7 +745,9 @@ sub addVirtualMachine {
       NAME => [$name],
       UUID => [$uuid],
       STATUS => [$status],
+      # VmWare ESX
       SUBSYSTEM => [$subsystem],
+      # VmWare
       VMTYPE => [$vmtype],
       VCPU => [$vcpu],
       VMID => [$vmid],
