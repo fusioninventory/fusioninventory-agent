@@ -91,7 +91,7 @@ sub write {
     my $target = $self->{target};
     my $storage = $self->{storage};
 
-    $storage->save($self->{myData});
+    $storage->save({ data => $self->{myData} });
 }
 
 1;
