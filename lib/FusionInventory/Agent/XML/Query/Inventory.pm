@@ -779,7 +779,6 @@ sub addVirtualMachine {
         'sectionName' => 'VIRTUALMACHINES',
         'values' => $args,
     });
-
 }
 
 =item addProcess()
