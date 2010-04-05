@@ -8,30 +8,12 @@ use English qw(-no_match_vars);
 
 use File::Path;
 
-# THIS IS AN UGLY WORKAROUND FOR
-# http://rt.cpan.org/Ticket/Display.html?id=38067
-use XML::Simple;
 use Sys::Hostname;
 
 our $VERSION = '2.1beta1';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
-eval {XMLout("<a>b</a>");};
-if ($EVAL_ERROR) {
-    no strict 'refs'; ## no critic
-    ${*{"XML::SAX::"}{HASH}{'parsers'}} = sub {
-        return [ {
-            'Features' => {
-                'http://xml.org/sax/features/namespaces' => '1'
-            },
-            'Name' => 'XML::SAX::PurePerl'
-        }
-        ]
-    };
-}
-
-# END OF THE UGLY FIX!
 #use Sys::Hostname;
 use FusionInventory::Logger;
 use FusionInventory::Agent::XML::Query::Inventory;
