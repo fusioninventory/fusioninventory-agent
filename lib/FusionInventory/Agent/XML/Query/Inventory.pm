@@ -754,7 +754,9 @@ sub addVirtualMachine {
       UUID => [$uuid],
 # running, idle, paused, shutdown, crashed, dying, off
       STATUS => [$status],
+      # VmWare ESX
       SUBSYSTEM => [$subsystem],
+      # VmWare
       VMTYPE => [$vmtype],
       VCPU => [$vcpu],
       VMID => [$vmid],
