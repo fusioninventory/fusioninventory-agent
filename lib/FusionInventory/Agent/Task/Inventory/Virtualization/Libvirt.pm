@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
 
 use strict;
 
-use XML::Simple;
+use XML::TreePP;
 
 sub isInventoryEnabled { can_run('virsh') }
 
@@ -10,20 +10,22 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-
+    chomp (my $subsystem = `libvirtd --version`);
     foreach (`virsh list --all 2>/dev/null`) {
         if (/^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
             my $name = $2;
             my $status = $3;
 
-            my $status =~ s/^shut off/off/;
+            $status =~ s/^shut off/off/;
             my $xml = `virsh dumpxml $name`;
-            my $data = XMLin($xml);
 
-            my $vcpu = $data->{vcpu};
-            my $uuid = $data->{uuid};
-            my $vmtype = $data->{type};
-            my $memory = $1 if $data->{currentMemory} =~ /(\d+)\d{3}$/;
+            my $tpp = XML::TreePP->new();
+            my $data = $tpp->parse( $xml );
+
+            my $vcpu = $data->{domain}->{vcpu};
+            my $uuid = $data->{domain}->{uuid};
+            my $vmtype = $data->{domain}->{type};
+            my $memory = $1 if $data->{domain}->{currentMemory} =~ /(\d+)\d{3}$/;
 
             my $machine = {
 
@@ -31,8 +33,8 @@ sub doInventory {
                 NAME => $name,
                 UUID => $uuid,
                 STATUS => $status,
-                SUBSYSTEM => "libvirt",
-                VMTYPE => $vmtype,
+                SUBSYSTEM => $subsystem,
+                VMTYPE => "libvirt",
                 VCPU   => $vcpu,
 
             };

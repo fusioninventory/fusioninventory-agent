@@ -15,12 +15,10 @@ it called $inventory in general.
 
 =cut
 
-use XML::Simple;
+use XML::TreePP;
 use Digest::MD5 qw(md5_base64);
 use Config;
 use FusionInventory::Agent::XML::Query;
-
-use FusionInventory::Agent::Task::Inventory;
 
 our @ISA = ('FusionInventory::Agent::XML::Query');
 
@@ -909,7 +907,8 @@ sub getContent {
     $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
   }
 
-  my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
+  my $tpp = XML::TreePP->new();
+  my $content = $tpp->write( { REQUEST => $self->{h} } );
 
   my $clean_content;
 

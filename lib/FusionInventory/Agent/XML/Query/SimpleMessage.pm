@@ -67,15 +67,9 @@ sub dump {
 sub getContent {
   my ($self, $args) = @_;
 
-  my $contentTOTO=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl =>
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      SuppressEmpty => undef, NoAttr => 1, KeyAttr => [] );
-  print "XML::Simple ".$contentTOTO."\n";
-
   my $tpp = XML::TreePP->new();
   my $content= $tpp->write({ REQUEST => $self->{h} });
 
-  print "XML::TreePP ".$content."\n";
   return $content;
 }
 

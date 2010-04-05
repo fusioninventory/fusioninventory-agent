@@ -26,7 +26,7 @@ license 'gpl';
 version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.006';
 requires 'Digest::MD5' => undef;
-requires 'XML::Simple' => undef;
+requires 'XML::TreePP' => undef;
 requires 'LWP' => undef;
 requires 'File::Temp' => undef;
 requires 'Net::IP' => undef;
@@ -48,7 +48,7 @@ install_script  'fusioninventory-win32-service' if $^O =~ /^MSWin/;
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 
 if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
-  foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
+  foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::TreePP/) {
     bundle $module;
     requires $module;
   }
