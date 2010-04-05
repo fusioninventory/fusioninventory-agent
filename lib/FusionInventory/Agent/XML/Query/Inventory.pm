@@ -1000,7 +1000,9 @@ sub processChecksum {
   my $self = shift;
 
   my $logger = $self->{logger};
-  my $target  = $self->{target};
+  my $target = $self->{target};
+
+  my $myData = $self->{myData};
 
   # Not needed in local mode
   return unless $target->{type} eq 'server';
@@ -1077,28 +1079,13 @@ correctly, the last_state is saved.
 sub saveLastState {
   my ($self, $args) = @_;
 
-  my $logger = $self->{logger};
-  my $target  = $self->{target};
+  my $myData = $self->{myData};
+  my $storage = $self->{storage};
 
-  # Not needed in local mode
-  return unless $target->{type} eq 'server';
+  $myData->{last_state} = $self->{current_state};
 
-  if (!defined($self->{last_state_content})) {
-	  $self->processChecksum();
-  }
+  $storage->save($myData);
 
-  if (!defined ($target->{last_statefile})) {
-    $logger->debug ("Can't save the last_state file. File path is not initialised.");
-    return;
-  }
-
-  if (open LAST_STATE, ">".$target->{last_statefile}) {
-    print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
-    close LAST_STATE or warn;
-  } else {
-    $logger->debug ("Cannot save the checksum values in ".$target->{last_statefile}."
-	(will be synchronized by GLPI!!): $!");
-  }
 }
 
 =item addSection()
