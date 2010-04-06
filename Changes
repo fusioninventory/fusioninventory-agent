@@ -3,7 +3,8 @@ Revision history for FusionInventory::Agent
 2.0.2
        * fusioninventory-agent-config: Fix a typo, thank you Act
        * --delaytime really read the parameter, thanks Walid NOUH
-       * fix --no-socket 
+       * fix --no-socket
+       * Fix a typo in fusioninventory-agent-config, logtotate (Girish NAVUDA)
 
 2.0.1 (Solarium)
        * tools/build-perl-tree.sh: clean up
