@@ -6,6 +6,7 @@ Revision history for FusionInventory::Agent
        * fix --no-socket
        * Fix a typo in fusioninventory-agent-config, logtotate (Girish NAVUDA)
        * Do not load Crypt::SSLeay and IO::Socket::SSL at the same
+       * POD doc, explain how to use more than one server
 
 2.0.1 (Solarium)
        * tools/build-perl-tree.sh: clean up

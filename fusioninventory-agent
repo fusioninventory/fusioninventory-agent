@@ -251,9 +251,14 @@ Should the VirtualMachine inventory include users own VM?
 The uri of the server. If I<URI> doesn't start with http:// or https://, the
 assume the parameter is a hostname and rewrite it like that:
 
-    % http://servername/ocsinventory
+    % --server=http://servername/ocsinventory
 
-If you want to use https or another virtual directory you need to enter the full path.
+If you want to use https or another virtual directory (e.g: /ocsinventory2)
+you need to enter the full path.
+
+You can declare more than one server if you use the ',' delimiter.
+
+    % --server=http://servername/ocsinventory,server2
 
 B<--server> is ignored if B<--local> is in use.
 
