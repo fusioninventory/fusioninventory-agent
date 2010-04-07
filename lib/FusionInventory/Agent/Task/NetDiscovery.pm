@@ -712,6 +712,10 @@ sub discovery_ip_threaded {
             my $NetbiosMac = $ns->mac_address;
             $NetbiosMac =~ tr/-/:/;
             $datadevice->{MAC} = $NetbiosMac;
+         } elsif ($detadevice->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+            my $NetbiosMac = $ns->mac_address;
+            $NetbiosMac =~ tr/-/:/;
+            $datadevice->{MAC} = $NetbiosMac;
          }
       }
    }
