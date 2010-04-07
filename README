@@ -1,5 +1,13 @@
-ABOUT
- To use this module, you'll need FusionInventory plugin for GLPI.
+DESCRIPTION 
+ This module scans your networks to get informations from devices with SNMP protocol:
+  -networking devices discovery within an IP range
+  - network switche, printer and router analyse
+  - relation between computer / printer / switch port
+  - identify unknown MAC addresses
+  - report printer cartridge and ounter status
+  - support management of SNMP versions v1, v2, v3
+
+ The plugin depends on FusionInventory for GLPI. OCS Inventory can't use this plugin.
 
 LICENSE
  This program is free software; you can redistribute it and/or modify
