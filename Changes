@@ -5,6 +5,7 @@ Revision history for FusionInventory::Agent
        * Add Windows service
        * disable --color for Windows
        * Collect Solaris process informations (Emengao)
+       * VirtualMachine: Add Vserver.pm
 
 2.0.2
        * fusioninventory-agent-config: Fix a typo, thank you Act
