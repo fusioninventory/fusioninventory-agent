@@ -730,6 +730,8 @@ Add a Virtual Machine in the inventory.
 sub addVirtualMachine {
   my ($self, $args) = @_;
 
+  my $logger = $self->{logger};
+
   # The CPU FLAG
   my $memory = $args->{MEMORY};
   my $name = $args->{NAME};
@@ -740,12 +742,17 @@ sub addVirtualMachine {
   my $vcpu = $args->{VCPU};
   my $vmid = $args->{VMID};
 
+  if ($status !~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+    $logger->erro("Unknown status '$status' from ".caller(0));
+  }
+
   push @{$self->{h}{CONTENT}{VIRTUALMACHINES}},
   {
 
       MEMORY =>  [$memory],
       NAME => [$name],
       UUID => [$uuid],
+# running, idle, paused, shutdown, crashed, dying, off
       STATUS => [$status],
       SUBSYSTEM => [$subsystem],
       VMTYPE => [$vmtype],
