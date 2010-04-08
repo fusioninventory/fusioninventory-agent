@@ -330,7 +330,7 @@ FusionInventory.
 
 =item FusionInventory website: L<http://www.FusionInventory.org/>
 
-=item LaunchPad project page: L<http://launchpad.net/fusioninventory-agent>
+=item project Forge: L<http://Forge.FusionInventory.org>
 
 =item the Mailing lists and IRC
 
@@ -339,8 +339,8 @@ FusionInventory.
 =head1 BUGS
 
 Please, use the mailing lists as much as possible. You can open your own bug
-tickets. Patches are welcome. You can also use LaunchPad bugtracker or
-push your Bazaar branch on LaunchPad and do a merge request.
+tickets. Patches are welcome. You can also use the bugtracker on
+http://Forge.FusionInventory.org
 
 =head1 COPYRIGHT
 
