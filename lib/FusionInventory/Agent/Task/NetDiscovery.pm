@@ -818,7 +818,7 @@ sub discovery_ip_threaded {
                      $datadevice->{TYPE} = $type;
                      $datadevice->{SNMPHOSTNAME} = $name;
                      $datadevice->{IP} = $params->{ip};
-                     if (exists($datadevice->{MAC}) {
+                     if (exists($datadevice->{MAC})) {
                         if ($datadevice->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
                            $datadevice->{MAC} = $mac;
                         }
@@ -839,13 +839,15 @@ sub discovery_ip_threaded {
       }
    }
 
+   if (exists($datadevice->{MAC})) {
+      $datadevice->{MAC} =~ tr/A-F/a-f/;
+   }
    if ((exists($datadevice->{MAC})) || (exists($datadevice->{DNSHOSTNAME})) || (exists($datadevice->{NETBIOSNAME}))) {
       $datadevice->{IP} = $params->{ip};
       $datadevice->{ENTITY} = $params->{entity};
       $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
-   }
-   if (exists($datadevice->{MAC})) {
-      $datadevice->{MAC} =~ tr/A-F/a-f/;
+   } else {
+      $self->{logger}->debug("[$params->{ip}] Not found !");
    }
    return $datadevice;
 }
