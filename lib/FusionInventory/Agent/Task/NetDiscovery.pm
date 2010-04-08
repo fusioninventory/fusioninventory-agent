@@ -770,7 +770,6 @@ sub discovery_ip_threaded {
 
                      # If Wyse thin clients
                      $description = wyse_discovery($description, $session);
-                     #$description = cisco_discovery($description);
 
                      # If Samsung printer detected, get best sysDescr
                      $description = samsung_discovery($description, $session);
@@ -819,7 +818,11 @@ sub discovery_ip_threaded {
                      $datadevice->{TYPE} = $type;
                      $datadevice->{SNMPHOSTNAME} = $name;
                      $datadevice->{IP} = $params->{ip};
-                     if ($datadevice->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+                     if (exists($datadevice->{MAC}) {
+                        if ($datadevice->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+                           $datadevice->{MAC} = $mac;
+                        }
+                     } else {
                         $datadevice->{MAC} = $mac;
                      }
                      $datadevice->{ENTITY} = $params->{entity};
