@@ -819,7 +819,9 @@ sub discovery_ip_threaded {
                      $datadevice->{TYPE} = $type;
                      $datadevice->{SNMPHOSTNAME} = $name;
                      $datadevice->{IP} = $params->{ip};
-                     $datadevice->{MAC} = $mac;
+                     if ($datadevice->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+                        $datadevice->{MAC} = $mac;
+                     }
                      $datadevice->{ENTITY} = $params->{entity};
                      $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
                      #$session->close;
