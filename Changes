@@ -7,6 +7,7 @@ Revision history for FusionInventory::Agent
        * Collect Solaris process informations (Emengao)
        * VirtualMachine: Add Vserver.pm
        * VirtualMachine: Check is the status is correct
+       * detect Slackware packages (David DURIEUX)
 
 2.0.2
        * fusioninventory-agent-config: Fix a typo, thank you Act
