@@ -742,8 +742,10 @@ sub addVirtualMachine {
   my $vcpu = $args->{VCPU};
   my $vmid = $args->{VMID};
 
-  if ($status !~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
-    $logger->erro("Unknown status '$status' from ".caller(0));
+  if (!$status) {
+      $logger->error("status not set by ".caller(0));
+  } elsif (!$status =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+    $logger->error("Unknown status '$status' from ".caller(0));
   }
 
   push @{$self->{h}{CONTENT}{VIRTUALMACHINES}},
