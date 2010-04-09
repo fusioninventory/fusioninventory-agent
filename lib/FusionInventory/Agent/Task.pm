@@ -61,7 +61,7 @@ sub run {
     $cmd .= "  -Ilib" if $config->{devlib};
     $cmd .= " -MFusionInventory::Agent::Task::".$module;
     $cmd .= " -e \"FusionInventory::Agent::Task::".$module."::main();\" --";
-    $cmd .= " ".$target->{vardir};
+    $cmd .= " \"".$target->{vardir}."\"";
 
     $logger->debug("cmd is: '$cmd'");
     system($cmd);
