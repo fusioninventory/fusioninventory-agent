@@ -196,7 +196,7 @@ sub turnSSLCheckOn {
   my $hasIOSocketSSL;
 
   eval 'use Crypt::SSLeay;';
-  my $hasCrypSSLeay = ($@)?0:1;
+  $hasCrypSSLeay = ($@)?0:1;
 
   if (!$hasCrypSSLeay) {
       eval 'use IO::Socket::SSL;';

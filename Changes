@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent
 
+2.0.3     Sun, 11 Apr 2010 00:38:18 +0200
+       * Fix a syntax problem in FusionInventory::Agent::Network
+
 2.0.2     Sat Apr 10 23:31:48 2010 +0200
        * fusioninventory-agent-config: Fix a typo, thank you Act
        * --delaytime really read the parameter, thanks Walid NOUH
