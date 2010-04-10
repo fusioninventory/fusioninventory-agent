@@ -195,7 +195,7 @@ sub setNextRunDate {
         $time  = time + int rand(($serverdelay?$serverdelay*3600:$config->{delaytime}));
     }
     else{
-        $time = time + ($serverdelay?$serverdelay*3600:$config->{delaytime});
+        $time = time + int rand($serverdelay?$serverdelay*3600:$config->{delaytime});
     }
 
     $self->{'myData'}{'nextRunDate'} = $time;
