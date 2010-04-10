@@ -1,14 +1,5 @@
 Revision history for FusionInventory::Agent
 
-2.1
-       * Windows: Add new values for SOFTWARES key
-       * Add Windows service
-       * disable --color for Windows
-       * Collect Solaris process informations (Emengao)
-       * VirtualMachine: Add Vserver.pm
-       * VirtualMachine: Check is the status is correct
-       * detect Slackware packages (David DURIEUX)
-
 2.0.2
        * fusioninventory-agent-config: Fix a typo, thank you Act
        * --delaytime really read the parameter, thanks Walid NOUH
