@@ -11,8 +11,9 @@ Revision history for FusionInventory::Agent
          still based on server PROLOG_FREQ
        * SNMP.pm: Correct bug when oid result is pack and put mac in right format
          (David DURIEUX)
+       * Set 2.0.1 release date in Changes file
 
-2.0.1 (Solarium)
+2.0.1 (Solarium)    Sun Mar 28 22:26:47 2010 +0200
        * tools/build-perl-tree.sh: clean up
        * Only use thread if Perl has got thread support, thank you
          Lei Andy Shi for the bug report (LP: #545477)
