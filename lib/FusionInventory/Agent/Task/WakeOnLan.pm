@@ -81,44 +81,49 @@ sub StartMachine {
    my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
    my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
 
-   if ($macaddress !~ /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/) {
-      $self->{logger}->debug("Invalid MacAddress. Exiting...");
-      exit(0);
-   }
-   $macaddress =~ s/://g;
+   my $logger = $self->{logger};
 
-   ###  for LINUX ONLY ###
-   if ( eval { socket(SOCKET, PF_PACKET, SOCK_PACKET, 0); }) {
+   if (defined($macaddress)) {
 
-      setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1) or warn "Can't do setsockopt: $!\n";
-
-      my $rec = `/sbin/ifconfig -a | grep "HWaddr"`;
-      my @netcards = split(/\n/, $rec);
-      foreach (@netcards) {
-         my ($netName, $field2, $field3, $field4, $netMac) = split(/\s+/, $_);
-
-         $netMac =~ s/://g;
-
-         my $magic_packet = (pack('H12', $macaddress)) . (pack('H12', $netMac)) . (pack('H4', "0842"));
-         $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
-         my $destination = pack("Sa14", 0, $netName);
-         send(SOCKET, $magic_packet, 0, $destination) or warn "Couldn't send packet: $!";
+      if ($macaddress !~ /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/) {
+         $self->{logger}->debug("Invalid MacAddress. Exiting...");
+         exit(0);
       }
-# TODO : For FreeBSD, send to /dev/bpf ....
-   } else { # degraded wol by UDP
-      if ( eval { socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp')) }) {
-         my $magic_packet = chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
-         my $sinbroadcast = sockaddr_in("9", inet_aton("255.255.255.255"));
-         send(SOCKET, $magic_packet, 0, $sinbroadcast);
-      } else {
-         $self->{logger}->debug("Impossible to send magic packet...");
+      $macaddress =~ s/://g;
+
+      ###  for LINUX ONLY ###
+      if ( eval { socket(SOCKET, PF_PACKET, SOCK_PACKET, 0); }) {
+
+         setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1) or warn "Can't do setsockopt: $!\n";
+
+         my $rec = `/sbin/ifconfig -a | grep "HWaddr"`;
+         my @netcards = split(/\n/, $rec);
+         foreach (@netcards) {
+            my ($netName, $field2, $field3, $field4, $netMac) = split(/\s+/, $_);
+            $logger->debug("Send magic packet to ".$macaddress." directly on card driver");
+            $netMac =~ s/://g;
+
+            my $magic_packet = (pack('H12', $macaddress)) . (pack('H12', $netMac)) . (pack('H4', "0842"));
+            $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
+            my $destination = pack("Sa14", 0, $netName);
+            send(SOCKET, $magic_packet, 0, $destination) or warn "Couldn't send packet: $!";
+         }
+   # TODO : For FreeBSD, send to /dev/bpf ....
+      } else { # degraded wol by UDP
+         if ( eval { socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp')) }) {
+            my $magic_packet = chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
+            my $sinbroadcast = sockaddr_in("9", inet_aton("255.255.255.255"));
+            $logger->debug("Send magic packet to ".$macaddress." in UDP mode (degraded wol)");
+            send(SOCKET, $magic_packet, 0, $sinbroadcast);
+         } else {
+            $logger->debug("Impossible to send magic packet...");
+         }
       }
+
+
+   # For Windows, I don't know, just test
+   # See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx
    }
-
-
-# For Windows, I don't know, just test
-# See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx
-
 }
 
 
