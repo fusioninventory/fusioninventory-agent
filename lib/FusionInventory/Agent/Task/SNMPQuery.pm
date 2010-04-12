@@ -994,10 +994,11 @@ sub PutPourcentageOid {
    my $xmlelement1 = shift;
    my $xmlelement2 = shift;
    if (exists $HashDataSNMP->{$element1}) {
-      $datadevice->{$xmlelement1}->{$xmlelement2} = int ( ( 100 * $HashDataSNMP->{$element2} )
-      / $HashDataSNMP->{$element1} );
-      delete $HashDataSNMP->{$element2};
-      delete $HashDataSNMP->{$element1};
+      if ((is_integer($HashDataSNMP->{$element2})) && (is_integer($HashDataSNMP->{$element1}))) {
+         $datadevice->{$xmlelement1}->{$xmlelement2} = int ( ( 100 * $HashDataSNMP->{$element2} ) / $HashDataSNMP->{$element1} );
+         delete $HashDataSNMP->{$element2};
+         delete $HashDataSNMP->{$element1};
+      }
    }
    return $datadevice, $HashDataSNMP;
 }
@@ -1027,6 +1028,11 @@ sub cartridgesupport {
       }
    }
    return $params;
+}
+
+
+sub is_integer {
+   $_[0] =~ /^[+-]?\d+$/;
 }
 
 
