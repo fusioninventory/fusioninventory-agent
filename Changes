@@ -8,6 +8,8 @@ Revision history for FusionInventory::Agent
        * VirtualMachine: Add Vserver.pm
        * VirtualMachine: Check is the status is correct
        * detect Slackware packages (David DURIEUX)
+       * Libvirt.pm switch SUBSYSTEM and VMTYPE values.VMTYPE is "libvirt"
+         now
 
 2.0.2     Sat Apr 10 23:31:48 2010 +0200
        * fusioninventory-agent-config: Fix a typo, thank you Act

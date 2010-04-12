@@ -31,8 +31,8 @@ sub doInventory {
                 NAME => $name,
                 UUID => $uuid,
                 STATUS => $status,
-                SUBSYSTEM => "libvirt",
-                VMTYPE => $vmtype,
+                SUBSYSTEM => $vmtype,
+                VMTYPE => "libvirt",
                 VCPU   => $vcpu,
 
             };
