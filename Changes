@@ -1,4 +1,7 @@
 Revision history for Ocsinventory::Agent::Task::NetDiscovery
 
+1.1
+       * Add a test script: t/use.t
+
 1.0
        * Initial independent release of the module
