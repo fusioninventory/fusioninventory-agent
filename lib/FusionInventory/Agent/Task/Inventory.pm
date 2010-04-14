@@ -163,7 +163,6 @@ sub initModList {
       my $calling_namespace = caller(0);
       chomp(my $binpath=`which $binary 2>/dev/null`);
       return unless -x $binpath;
-      $self->{logger}->debug(" - $binary found");
       1
     },
     can_load => sub {
@@ -173,14 +172,12 @@ sub initModList {
       eval "package $calling_namespace; use $module;";
 #      print STDERR "$module not loaded in $calling_namespace! $!: $@\n" if $@;
       return if $@;
-      $self->{logger}->debug(" - $module loaded");
 #      print STDERR "$module loaded in $calling_namespace!\n";
       1;
     },
     can_read => sub {
       my $file = shift;
       return unless -r $file;
-      $self->{logger}->debug(" - $file can be read");
       1;
     },
     runcmd => sub {
@@ -272,7 +269,6 @@ sub initModList {
     my $enable = 1;
 
     if (!$self->{modules}->{$m}->{inventoryFuncEnable}) {
-        $logger->debug($m." ignored.");
         next;
     }
     if (exists ($self->{modules}->{$m}->{name})) {
