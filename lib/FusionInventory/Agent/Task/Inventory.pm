@@ -260,27 +260,53 @@ sub initModList {
     "directly from the source directory.")
   }
 
+  # First all the module are flagged as 'OK'
+  foreach my $m (@installed_mods) {
+    $self->{modules}->{$m}->{inventoryFuncEnable} = 1;
+  }
+
+
   foreach my $m (@installed_mods) {
     my @runAfter;
     my @runMeIfTheseChecksFailed;
     my $enable = 1;
 
+    if (!$self->{modules}->{$m}->{inventoryFuncEnable}) {
+        $logger->debug($m." ignored.");
+        next;
+    }
     if (exists ($self->{modules}->{$m}->{name})) {
       $logger->debug($m." already loaded.");
       next;
     }
 
+    my $package = $m."::";
+
     eval "use $m;";
     if ($@) {
       $logger->debug ("Failed to load $m: $@");
       $enable = 0;
+      next;
     }
 
-    my $package = $m."::";
     # Load in the module the backendSharedFuncs
     foreach my $func (keys %{$backendSharedFuncs}) {
       $package->{$func} = $backendSharedFuncs->{$func};
     }
+
+    if ($package->{'isInventoryEnabled'}) {
+      $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{'isInventoryEnabled'};
+      $enable = $self->runWithTimeout($m, "isInventoryEnabled");
+    }
+    if (!$enable) {
+      $logger->debug ($m." ignored");
+      foreach (keys %{$self->{modules}}) {
+          $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+      }
+    }
+
+
+
 
     if ($package->{'check'}) {
         $logger->error("$m: check() function is deprecated, please rename it to ".
@@ -300,12 +326,21 @@ sub initModList {
     $self->{modules}->{$m}->{inUse} = 0;
     $self->{modules}->{$m}->{inventoryFuncEnable} = $enable;
 
+
+    if (!$enable) {
+        $logger->debug ($m." ignored");
+        foreach (keys %{$self->{modules}}) {
+            $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+        }
+        next;
+    }
+
+
     # TODO add a isPostInventoryEnabled() function to know if we need to run
     # the postInventory() function.
     # Is that really needed?
     $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
 
-    $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{'isInventoryEnabled'};
     $self->{modules}->{$m}->{runAfter} = $package->{'runAfter'};
     $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{'runMeIfTheseChecksFailed'};
     $self->{modules}->{$m}->{doInventoryFunc} = $package->{'doInventory'};
