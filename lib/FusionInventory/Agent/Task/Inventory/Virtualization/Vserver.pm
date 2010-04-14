@@ -13,7 +13,7 @@ sub doInventory {
 
     my $utilVserver;
     my $cfgDir;
-    foreach (`vserver-info`) {
+    foreach (`vserver-info 2>&1`) {
         $cfgDir = $1 if /^\s+cfg-Directory:\s+(.*)$/;
         $utilVserver = $1 if /^\s+util-vserver:\s+(.*)$/;
     }
