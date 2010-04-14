@@ -315,22 +315,6 @@ sub initModList {
 # Load the Storable object is existing or return undef
     $self->{modules}->{$m}->{storage} = $storage;
 
-    if (exists($package->{'new'})) {
-        $self->{modules}->{$m}->{instance} = $m->new({
-
-            accountconfig => $self->{accountconfig},
-            accountinfo => $self->{accountinfo},
-            config => $self->{config},
-            inventory => $self->{inventory},
-            logger => $self->{logger},
-            network => $self->{network},
-            prologresp => $self->{prologresp},
-#            mem => $self->{modules}->{$m}->{mem},# Deprecated
-#            storage => $self->{modules}->{$m}->{storage},           
-            
-            }); 
-    }
-
   }
 
 # the sort is just for the presentation
@@ -474,31 +458,21 @@ sub runWithTimeout {
         alarm $timeout;
 
 
+        my $func = $self->{modules}->{$m}->{$funcName."Func"};
 
-        my $instance = $self->{modules}->{$m}->{instance};
-        if ($instance) {
-
-            $instance->{storage} = $storage;
-            $instance->$funcName();
-
-        } else {
-
-            my $func = $self->{modules}->{$m}->{$funcName."Func"};
-
-            $ret = &{$func}({
-                    accountconfig => $self->{accountconfig},
-                    accountinfo => $self->{accountinfo},
-                    config => $self->{config},
-                    inventory => $self->{inventory},
-                    logger => $self->{logger},
-                    network => $self->{network},
-                    # Compatibiliy with agent 0.0.10 <=
-                    # We continue to pass params->{params}
-                    params => $self->{params},
-                    prologresp => $self->{prologresp},
-                    storage => $storage
-                });
-        }
+        $ret = &{$func}({
+                accountconfig => $self->{accountconfig},
+                accountinfo => $self->{accountinfo},
+                config => $self->{config},
+                inventory => $self->{inventory},
+                logger => $self->{logger},
+                network => $self->{network},
+                # Compatibiliy with agent 0.0.10 <=
+                # We continue to pass params->{params}
+                params => $self->{params},
+                prologresp => $self->{prologresp},
+                storage => $storage
+            });
     };
     alarm 0;
     my $evalRet = $@;
