@@ -222,6 +222,7 @@ sub initModList {
 # This is a workaround for 'invalide' installations...
     foreach (@INC) {
       next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
+      next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
       push @dirToScan, $_;
     }
   }
