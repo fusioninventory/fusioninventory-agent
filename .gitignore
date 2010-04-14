@@ -7,3 +7,5 @@ run-postinst
 Ocsinventory-Agent*
 blib
 lib/FusionInventory/Agent/Task/OcsDeploy.pm
+lib/FusionInventory/Agent/Task/NetDiscovery.pm
+lib/FusionInventory/Agent/Task/SNMPQuery.pm

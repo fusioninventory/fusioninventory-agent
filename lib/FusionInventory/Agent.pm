@@ -73,8 +73,11 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (!-d $config->{basevardir} && !mkpath($config->{basevardir})) {
-        $logger->error("Failed to create ".$config->{basevardir});
+    if (!-d $config->{basevardir} && !mkpath($config->{basevardir}, {error => undef})) {
+        $logger->error(
+            "Failed to create ".$config->{basevardir}.
+            " Please use --basevardir to point to a R/W directory."
+        );
     }
 
     if (not $config->{scanhomedirs}) {

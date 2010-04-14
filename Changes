@@ -10,6 +10,8 @@ Revision history for FusionInventory::Agent
        * detect Slackware packages (David DURIEUX)
        * Libvirt.pm switch SUBSYSTEM and VMTYPE values.VMTYPE is "libvirt"
          now
+       * add test scripts in t/
+       * Better error handling if it's not possible to create basevardir
 
 2.0.2     Sat Apr 10 23:31:48 2010 +0200
        * fusioninventory-agent-config: Fix a typo, thank you Act
