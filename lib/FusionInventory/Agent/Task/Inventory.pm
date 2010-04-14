@@ -430,8 +430,8 @@ sub runMod {
 
   if ($self->{modules}->{$m}->{doInventoryFunc}) {
       $self->runWithTimeout($m, "doInventory");
-  } else {
-      $logger->debug("$m has no doInventory() function -> ignored");
+#  } else {
+#      $logger->debug("$m has no doInventory() function -> ignored");
   }
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
