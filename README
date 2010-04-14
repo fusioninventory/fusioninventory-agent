@@ -105,8 +105,13 @@ NOTE
 
 
 SOURCES
-You can prepare a tarball from the Bazaar devel branch with following commands:
-   bzr branch lp:fusioninventory-agent
+You can download the sources from Github or Gitorious:
+ http://github.com/fusinv/fusioninventory-agent
+ http://gitorious.org/fusioninventory/agent
+
+You can prepare a tarball from a Git export, run the following commands:
+
+   git clone git://forge.fusioninventory.org/git/fusioninventory/agent.git
    cd fusioninventory-agent
    perl Makefile.PL
    make manifest
