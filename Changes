@@ -14,6 +14,13 @@ Revision history for FusionInventory::Agent
        * Better error handling if it's not possible to create basevardir
        * Inventory: reduce the number of debug messages
 
+2.0.4
+       * Add debug message on WOL and correction when no mac address comes
+         in xml file from server (David DURIEUX)
+
+2.0.3     Sun, 11 Apr 2010 00:38:18 +0200
+       * Fix a syntax problem in FusionInventory::Agent::Network
+
 2.0.2     Sat Apr 10 23:31:48 2010 +0200
        * fusioninventory-agent-config: Fix a typo, thank you Act
        * --delaytime really read the parameter, thanks Walid NOUH
