@@ -8,8 +8,34 @@ Win32::OLE-> Option(CP=>CP_UTF8);
 
 use Win32::OLE::Enum;
 
+use Encode qw(encode);
+
+use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
 sub isInventoryEnabled {1}
+
+sub getBiosInfoFromRegistry {
+    my $KEY_WOW64_64KEY = 0x100; 
+
+    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+
+    my $data =
+        $machKey->{"Hardware/Description/System/BIOS"};
+
+    my $info;
+
+    foreach my $tmpkey (%$data) {
+        next unless $tmpkey =~ /^\/(.*)/;
+        my $key = $1;
+
+        $info->{$key} = $data->{$tmpkey};
+    }
+
+    return $info;
+}
+
+
+
 
 sub doInventory {
     my $params = shift;
@@ -36,6 +62,11 @@ sub doInventory {
     my $assettag;
 
 
+    my $registryInfo = getBiosInfoFromRegistry();
+
+    $bdate = $registryInfo->{BIOSReleaseDate};
+
+
     foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
                     'Win32_BaseBoard' ) ) )
     {
@@ -56,8 +87,6 @@ sub doInventory {
         $bversion = $Properties->{SMBIOSBIOSVersion} unless $bversion;
         $bversion = $Properties->{BIOSVersion} unless $bversion;
         $bversion = $Properties->{Version} unless $bversion;
-        $bdate = "$3/$2/$1" if $bdate && $Properties->{ReleaseData} =~ 
-/^(\d{4})(\d{2})(\d{2})/;
     }
 
 
