@@ -9,3 +9,4 @@ blib
 lib/FusionInventory/Agent/Task/OcsDeploy.pm
 lib/FusionInventory/Agent/Task/NetDiscovery.pm
 lib/FusionInventory/Agent/Task/SNMPQuery.pm
+pm_to_blib
