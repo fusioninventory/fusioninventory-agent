@@ -57,7 +57,7 @@ sub doInventory {
 
         my $info = getCPUInfoFromRegistry($cpuId++);
 
-        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
+#        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
         my $core = $Properties->{NumberOfCores};
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
@@ -71,7 +71,7 @@ sub doInventory {
         $manufacturer=~ s/CentaurHauls/VIA/;
 
         $inventory->addCPU({
-                CACHE => $cache,
+#                CACHE => $cache,
                 CORE => $core,
                 DESCRIPTION => $description,
                 NAME => $name,
