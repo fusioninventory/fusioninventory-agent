@@ -29,6 +29,7 @@ sub doInventory {
                     'Win32_OperatingSystem' ) ) )
     {
 
+        my $oslanguage = $Properties->{OSLanguage};
         my $osname = $Properties->{Caption};
         my $osversion = $Properties->{Version};
         my $serialnumber = $Properties->{SerialNumber};
@@ -38,6 +39,7 @@ sub doInventory {
 
         $inventory->setHardware({
 
+                WINLANG => $oslanguage,
                 OSNAME =>  encode('UTF-8', $osname),
                 OSVERSION =>  encode('UTF-8', $osversion),
                 WINPRODKEY => encode('UTF-8', $serialnumber),

@@ -576,8 +576,8 @@ sub setHardware {
     PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
     DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
     DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-    WINPRODKEY WINCOMPANY/) {
-
+    WINPRODKEY WINCOMPANY WINLANG/) {
+# WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
     if (exists $args->{$key}) {
       if ($key eq 'PROCESSORS' && !$nonDeprecated) {
           $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
