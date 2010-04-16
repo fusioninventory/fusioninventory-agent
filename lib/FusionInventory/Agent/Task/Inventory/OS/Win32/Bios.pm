@@ -24,20 +24,62 @@ sub doInventory {
         print Win32::OLE->LastError();
     }
 
+    my $smodel;
+    my $smanufacturer;
+    my $ssn;
+    my $bdate;
+    my $bversion;
+    my $bmanufacturer;
+    my $mmanufacturer;
+    my $msn;
+    my $model;
+    my $assettag;
+
+
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_BaseBoard' ) ) )
+    {
+
+        $ssn = $Properties->{SerialNumber};
+        $smodel = $Properties->{Product};
+        $smanufacturer = $Properties->{Manufacturer};
+
+    }
+
+
     foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
                     'Win32_Bios' ) ) )
     {
 
-        my $smodel = $Properties->{SerialNumber};
-        my $smanufacturer;
-        my $ssn;
-        my $bdate;
-        my $bversion = $Properties->{Version};
-        my $bmanufacturer = $Properties->{Manufacturer};
-        my $mmanufacturer;
-        my $msn;
-        my $model;
-        my $assettag;
+        $ssn = $Properties->{SerialNumber} unless $ssn;
+        $bmanufacturer = $Properties->{Manufacturer} unless $bmanufacturer;
+        $bversion = $Properties->{SMBIOSBIOSVersion} unless $bversion;
+        $bversion = $Properties->{BIOSVersion} unless $bversion;
+        $bversion = $Properties->{Version} unless $bversion;
+        $bdate = "$3/$2/$1" if $bdate && $Properties->{ReleaseData} =~ 
+/^(\d{4})(\d{2})(\d{2})/;
+    }
+
+
+
+
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_SystemEnclosure' ) ) )
+    {
+
+        $ssn = $Properties->{SerialNumber} unless $ssn;
+        $assettag = $Properties->{SMBIOSAssetTag} unless $assettag;
+
+    }
+
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_ComputerSystem' ) ) )
+    {
+
+        $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
+        $smodel = $Properties->{Model} unless $smodel;
+
+    }
 
 
 
@@ -54,39 +96,6 @@ sub doInventory {
                 ASSETTAG => $assettag
 
                 });
-
-    }
-
-
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_SystemEnclosure' ) ) )
-    {
-
-        my $assettag = $Properties->{Manufacturer};
-
-        $inventory->setBios({
-
-                ASSETTAG => $assettag
-
-                });
-
-    }
-
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_ComputerSystem' ) ) )
-    {
-
-        my $smanufacturer = $Properties->{Manufacturer};
-        my $smodel = $Properties->{Model};
-
-        $inventory->setBios({
-
-                SMANUFACTURER => $smanufacturer,
-                SMODEL => $smodel
-
-                });
-
-    }
 
 
 
