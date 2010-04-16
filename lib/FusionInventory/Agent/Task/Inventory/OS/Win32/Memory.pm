@@ -95,8 +95,8 @@ sub doInventory {
     }
 
     my $cpt = 0;
-    my $fullMemory = 0;
     my @memories;
+
     foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
                     'Win32_PhysicalMemory' ) ) )
     {
@@ -110,8 +110,6 @@ sub doInventory {
         my $type = $memoryTypeVal[$Properties->{MemoryType}];
         my $numslots = $cpt++;
         my $serialnumber = $Properties->{SerialNumber};
-
-        $fullMemory += $Properties->{Capacity};
 
         push @memories, {
             CAPACITY => $capacity,
@@ -153,6 +151,18 @@ sub doInventory {
     foreach my $memory (@memories) {
         $inventory->addMemory($memory);
     }
+
+
+
+
+    my $fullMemory = 0;
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_ComputerSystem' ) ) )
+    {
+        $fullMemory = $Properties->{TotalPhysicalMemory};
+    }
+
+
 
 
     $inventory->setHardware({
