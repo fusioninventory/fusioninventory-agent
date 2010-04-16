@@ -5,6 +5,8 @@ use inc::Module::Install;
 sub MY::postamble
 {
 
+    return if $^O =~ /^MSWin/;
+
 	my $re;
 
 	$re = '
