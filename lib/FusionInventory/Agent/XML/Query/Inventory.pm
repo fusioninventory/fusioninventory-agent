@@ -163,6 +163,7 @@ sub addDrive {
   my $label = $args->{LABEL};
   my $letter = $args->{LETTER};
   my $serial = $args->{SERIAL};
+  my $systemdrive = $args->{SYSTEMDRIVE};
   my $total = $args->{TOTAL};
   my $type = $args->{TYPE};
   my $volumn = $args->{VOLUMN};
@@ -178,6 +179,8 @@ sub addDrive {
     LABEL => [$label?$label:''],
     LETTER => [$letter?$letter:''],
     SERIAL => [$serial?$serial:''],
+# Is it the system partition
+    SYSTEMDRIVE => [$systemdrive?$systemdrive:''],
     TOTAL => [$total?$total:''],
 # type is Mount point on Linux/UNIX/MacOSX
     TYPE => [$type?$type:''],

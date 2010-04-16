@@ -36,6 +36,12 @@ sub doInventory {
         print Win32::OLE->LastError();
     }
 
+    my $systemDrive = '';
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_OperatingSystem' ) ) )
+    {
+        $systemDrive = lc($Properties->{SystemDrive});
+    }
 
     my @drives;
     foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
@@ -51,6 +57,7 @@ sub doInventory {
                        LABEL => encode('UTF-8', $Properties->{VolumeName}),
                        LETTER => $Properties->{DeviceID} || $Properties->{Caption},
                        SERIAL => $Properties->{VolumeSerialNumber},
+                       SYSTEMDRIVE => (lc($Properties->{DeviceID}) eq $systemDrive),
                        TOTAL => int($Properties->{Size}/(1024*1024)),
                        TYPE => $type[$Properties->{DriveType}] || 'Unknown',
                        VOLUMN => encode('UTF-8', $Properties->{VolumeName}),
