@@ -92,8 +92,6 @@ ip_bintoip($binsubnet, 6);
                 IPMASK => join('/', @{$netif->{ipmask}}),
                 IPSUBNET => join('/', @{$netif->{ipsubnet}}),
                 IPADDRESS6 => join('/', @{$netif->{ipaddress6}}),
-                IPMASK6 => join('/', @{$netif->{ipmask6}}),
-                IPSUBNET6 => join('/', @{$netif->{ipsubnet6}}),
                 MACADDR => $netif->{macaddr},
                 MTU => $netif->{mtu},
                 STATUS => $netif->{status},
