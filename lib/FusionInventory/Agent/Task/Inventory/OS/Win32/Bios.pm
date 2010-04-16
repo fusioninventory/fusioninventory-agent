@@ -77,7 +77,7 @@ sub doInventory {
     {
 
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
-        $smodel = $Properties->{Model} unless $smodel;
+        $model = $Properties->{Model} unless $model;
 
     }
 
