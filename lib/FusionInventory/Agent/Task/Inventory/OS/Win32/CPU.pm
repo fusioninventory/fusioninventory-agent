@@ -65,6 +65,7 @@ sub doInventory {
         my $serial = $Properties->{ProcessorId};
         my $speed = $Properties->{MaxClockSpeed};
 
+        $manufacturer =~ s/Genuine//;
         $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
         $manufacturer =~ s/CyrixInstead/Cyrix/;
         $manufacturer=~ s/CentaurHauls/VIA/;
