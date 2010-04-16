@@ -156,11 +156,18 @@ sub doInventory {
 
 
     my $fullMemory = 0;
+    my $swapMemory = 0;
     foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
                     'Win32_ComputerSystem' ) ) )
     {
         $fullMemory = $Properties->{TotalPhysicalMemory};
     }
+    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    'Win32_OperatingSystem' ) ) )
+    {
+        $swapMemory = $Properties->{TotalSwapSpaceSize};
+    }
+
 
 
 
@@ -168,6 +175,7 @@ sub doInventory {
     $inventory->setHardware({
 
             MEMORY =>  int($fullMemory/(1024*1024)),
+            SWAP =>  int($swapMemory/(1024)),
 
             });
 
