@@ -21,6 +21,26 @@ my @status = (
         'Offline',
         );
 
+my @errStatus = (
+        'Unknown',
+        'Other',
+        'No Error',
+        'Low Paper',
+        'No Paper',
+        'Low Toner',
+        'No Toner',
+        'Door Open',
+        'Jammed',
+        'Service Requested',
+        'Output Bin Full',
+        'Paper Problem',
+        'Cannot Print Page',
+        'User Intervention Required',
+        'Out of Memory',
+        'Server Unknown',
+        );
+
+
 sub isInventoryEnabled {1}
 
 sub doInventory {
@@ -43,6 +63,10 @@ sub doInventory {
     {
 
 
+        my $errStatus;
+        if ($Properties->{ExtendedDetectedErrorState}) {
+            $errStatus = $errStatus[$Properties->{ExtendedDetectedErrorState}];
+        }
         $inventory->addPrinter({
                 NAME => $Properties->{Name},
                 DESCRIPTION => $Properties->{Description},
@@ -51,6 +75,7 @@ sub doInventory {
                 NETWORK => $Properties->{Network},
                 SHARED => $Properties->{Shared},
                 STATUS => $status[$Properties->{PrinterStatus}],
+                ERRSTATUS => $errStatus,
                 });
 
     }    
