@@ -66,7 +66,7 @@ sub doInventory {
 
     }
     foreach (@drives) {
-        $inventory->addDrives($_);
+        $inventory->addDrive($_);
     }
 
 }
