@@ -32,14 +32,14 @@ sub doInventory {
     {
 
 
-        push @ports, {
+        $inventory->addPorts({
 
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
             DESCRIPTION => $Properties->{Description},
             TYPE => 'Serial',
 
-        };
+        });
 
     }
 
@@ -48,20 +48,15 @@ sub doInventory {
     {
 
 
-        push @ports, {
+        $inventory->addPorts({
 
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
             DESCRIPTION => $Properties->{Description},
             TYPE => 'Parallel',
 
-        };
+        });
 
     }
-
-    foreach (@ports) {
-        $inventory->addPorts($_);
-    }
-
 }
 1;
