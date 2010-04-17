@@ -37,6 +37,7 @@ sub doInventory {
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
             DESCRIPTION => $Properties->{Description},
+            TYPE => 'Serial',
 
         };
 
@@ -52,6 +53,7 @@ sub doInventory {
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
             DESCRIPTION => $Properties->{Description},
+            TYPE => 'Parallel',
 
         };
 
