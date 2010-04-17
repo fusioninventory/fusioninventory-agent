@@ -84,14 +84,34 @@ ip_bintoip($binsubnet, 6);
     }
 
     foreach my $netif (@netifs) {
+
+        my $ipaddress;
+        my $ipmask;
+        my $ipsubnet;
+        my $ipaddress6;
+
+
+        if ($netif->{ipaddress}) {
+            $ipaddress = join('/', @{$netif->{ipaddress}});
+        }
+        if ($netif->{ipmask}) {
+            $ipmask = join('/', @{$netif->{ipmask}});
+        } 
+        if ($netif->{ipsubnet}) {
+            $ipsubnet = join('/', @{$netif->{ipsubnet}});
+        }
+        if ($netif->{ipaddress6}) {
+            $ipaddress6 = join('/', @{$netif->{ipaddress6}});
+        }
+
         $inventory->addNetwork({
                 DESCRIPTION => $netif->{description},
-                IPADDRESS => join('/', @{$netif->{ipaddress}}),
+                IPADDRESS => $ipaddress,
                 IPDHCP => $netif->{ipdhcp},
                 IPGATEWAY => $netif->{ipgateway},
-                IPMASK => join('/', @{$netif->{ipmask}}),
-                IPSUBNET => join('/', @{$netif->{ipsubnet}}),
-                IPADDRESS6 => join('/', @{$netif->{ipaddress6}}),
+                IPMASK => $ipmask,
+                IPSUBNET => $ipsubnet,
+                IPADDRESS6 => $ipaddress6,
                 MACADDR => $netif->{macaddr},
                 MTU => $netif->{mtu},
                 STATUS => $netif->{status},
