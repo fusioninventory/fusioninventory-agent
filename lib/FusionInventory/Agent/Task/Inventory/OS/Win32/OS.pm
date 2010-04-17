@@ -74,5 +74,12 @@ sub doInventory {
                 });
 
     }
+
+
+    foreach (`query session`) {
+        if (/^(\s|)\S+\s+(\S+)\s+\d+/) {
+            $inventory->addUser({ LOGIN => encode('UTF-8', $2) });
+        }
+    }
 }
 1;
