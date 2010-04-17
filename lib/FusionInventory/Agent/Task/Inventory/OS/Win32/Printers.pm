@@ -69,6 +69,7 @@ sub doInventory {
         }
         $inventory->addPrinter({
                 NAME => $Properties->{Name},
+                COMMENT => $Properties->{Comment},
                 DESCRIPTION => $Properties->{Description},
                 DRIVER => $Properties->{DriverName},
                 PORT => $Properties->{PortName},

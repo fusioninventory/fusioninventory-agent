@@ -707,6 +707,7 @@ Add a printer in the inventory.
 sub addPrinter {
   my ($self, $args) = @_;
 
+  my $comment = $args->{COMMENT};
   my $description = $args->{DESCRIPTION};
   my $driver = $args->{DRIVER};
   my $name = $args->{NAME};
@@ -722,6 +723,8 @@ sub addPrinter {
   push @{$self->{h}{CONTENT}{PRINTERS}},
   {
 
+# Comment: See win32_Printer.Comment
+    COMMENT => [$comment?$comment:''],
     DESCRIPTION => [$description?$description:''],
     DRIVER => [$driver?$driver:''],
     NAME => [$name?$name:''],
