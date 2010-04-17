@@ -67,12 +67,20 @@ sub doInventory {
         if ($Properties->{ExtendedDetectedErrorState}) {
             $errStatus = $errStatus[$Properties->{ExtendedDetectedErrorState}];
         }
+
+        my $resolution;
+
+        if ($Properties->{HorizontalResolution}) {
+            $resolution =
+$Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
+        }
         $inventory->addPrinter({
                 NAME => $Properties->{Name},
                 COMMENT => $Properties->{Comment},
                 DESCRIPTION => $Properties->{Description},
                 DRIVER => $Properties->{DriverName},
                 PORT => $Properties->{PortName},
+                RESOLUTION => $resolution,
                 NETWORK => $Properties->{Network},
                 SHARED => $Properties->{Shared},
                 STATUS => $status[$Properties->{PrinterStatus}],
