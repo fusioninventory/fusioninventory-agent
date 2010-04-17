@@ -710,6 +710,7 @@ sub addPrinter {
   my $description = $args->{DESCRIPTION};
   my $driver = $args->{DRIVER};
   my $name = $args->{NAME};
+  my $network = $args->{NETWORK};
   my $port = $args->{PORT};
 
   push @{$self->{h}{CONTENT}{PRINTERS}},
@@ -718,6 +719,8 @@ sub addPrinter {
     DESCRIPTION => [$description?$description:''],
     DRIVER => [$driver?$driver:''],
     NAME => [$name?$name:''],
+# Network: True if it's a network printer
+    NETWORK => [$network?$network:''],
     PORT => [$port?$port:''],
 
   };

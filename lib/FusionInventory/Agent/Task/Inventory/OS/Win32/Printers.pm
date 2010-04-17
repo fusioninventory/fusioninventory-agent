@@ -37,6 +37,7 @@ sub doInventory {
                 DESCRIPTION => $Properties->{Description},
                 DRIVER => $Properties->{DriverName},
                 PORT => $Properties->{PortName},
+                NETWORK => $Properties->{Network},
                 });
 
     }    
