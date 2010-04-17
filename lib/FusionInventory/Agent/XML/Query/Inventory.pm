@@ -326,6 +326,7 @@ sub addPorts{
     CAPTION => [$caption?$caption:''],
     DESCRIPTION => [$description?$description:''],
     NAME => [$name?$name:''],
+# e.g: Parallel, Serial, SATA, 
     TYPE => [$type?$type:''],
 
   };
