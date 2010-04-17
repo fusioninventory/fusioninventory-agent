@@ -62,8 +62,7 @@ sub doInventory {
 
 
     my @portType = (
-
-            'None',
+            undef,
             'Parallel Port XT/AT Compatible',
             'Parallel Port PS/2',
             'Parallel Port ECP',
@@ -108,7 +107,8 @@ sub doInventory {
         my $type;
         if ($Properties->{ConnectorType}) {
             $type = $portType[$Properties->{ConnectorType}]; 
-        } else {
+        }
+        if (!$type) {
             $type = $Properties->{InternalReferenceDesignator};
             $type =~ s/\ \d.*//; # Drop the port number
         }
@@ -121,9 +121,9 @@ sub doInventory {
 
         $inventory->addPorts({
 
-            NAME => $Properties->{InternalReferenceDesignator},
-            CAPTION => $Properties->{InternalReferenceDesignator},
-            DESCRIPTION => $Properties->{InternalReferenceDesignator},
+            NAME => $Properties->{InternalReferenceDesignator}||$type,
+            CAPTION => $Properties->{InternalReferenceDesignator}||$type,
+            DESCRIPTION => $Properties->{InternalReferenceDesignator}||$type,
             TYPE => $type
 
         });
