@@ -715,6 +715,8 @@ sub addPrinter {
   my $shared = $args->{SHARED};
   my $status = $args->{STATUS};
   my $errStatus = $args->{ERRSTATUS};
+  my $serverName = $args->{SERVERNAME};
+  my $shareName = $args->{SHARENAME};
 
   push @{$self->{h}{CONTENT}{PRINTERS}},
   {
@@ -731,6 +733,8 @@ sub addPrinter {
     STATUS => [$status?$status:''],
 # ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
     ERRSTATUS => [$errStatus?$errStatus:''],
+    SERVERNAME => [$serverName?$serverName:''],
+    SHARENAME => [$shareName?$shareName:''],
 
 
   };

@@ -76,6 +76,8 @@ sub doInventory {
                 SHARED => $Properties->{Shared},
                 STATUS => $status[$Properties->{PrinterStatus}],
                 ERRSTATUS => $errStatus,
+                SERVERNAME => $Properties->{ServerName},
+                SHARENAME => $Properties->{ShareName}
                 });
 
     }    
