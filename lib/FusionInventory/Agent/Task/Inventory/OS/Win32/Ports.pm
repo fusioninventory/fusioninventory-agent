@@ -110,7 +110,7 @@ sub doInventory {
             $type = $portType[$Properties->{ConnectorType}]; 
         } else {
             $type = $Properties->{InternalReferenceDesignator};
-            $type =~ s/\ \d.//; # Drop the port number
+            $type =~ s/\ \d.*//; # Drop the port number
         }
 
         if($Properties->{InternalReferenceDesignator} =~ /SERIAL/) {
