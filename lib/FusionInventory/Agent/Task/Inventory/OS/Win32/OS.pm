@@ -60,13 +60,12 @@ sub doInventory {
         my $userid;
         my @tmp = split(/\\/, $Properties->{UserName});
         $userdomain = $tmp[0];
-        $userid = $tmp[1]; # Deprecated, will be ignored by $inventory
         my $winowner = encode("UTF-8", $Properties->{PrimaryOwnerName});
 
+        $inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
         $inventory->setHardware({
 
                 USERDOMAIN => encode('UTF-8', $userdomain),
-                USERDID => encode('UTF-8', $userid),
                 WORKGROUP => encode('UTF-8', $workgroup),
                 WINOWNER => $winowner,
 

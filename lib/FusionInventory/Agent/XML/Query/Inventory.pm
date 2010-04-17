@@ -685,11 +685,17 @@ sub addUser {
   my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
 
   $userString .= '/' if $userString;
-  $userString .= $login;
 
-  $self->setHardware ({
-    USERID => $userString,
-  }, 1);
+  # We ignore the Windows domain in the user name... like OCS
+  if ($login =~ /(.*\\|)(\S+)/) {
+      $userString .= $2;
+
+
+      $self->setHardware ({
+          USERID => $userString,
+      }, 1);
+  }
+
 
 }
 
