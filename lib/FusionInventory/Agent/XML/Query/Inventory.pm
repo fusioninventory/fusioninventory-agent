@@ -712,6 +712,8 @@ sub addPrinter {
   my $name = $args->{NAME};
   my $network = $args->{NETWORK};
   my $port = $args->{PORT};
+  my $shared = $args->{SHARED};
+  my $status = $args->{STATUS};
 
   push @{$self->{h}{CONTENT}{PRINTERS}},
   {
@@ -722,6 +724,11 @@ sub addPrinter {
 # Network: True if it's a network printer
     NETWORK => [$network?$network:''],
     PORT => [$port?$port:''],
+# Shared: True if the printer is shared (Win32)
+    SHARED => [$shared?$shared:''],
+# Status: See Win32_Printer.PrinterStatus
+    STATUS => [$status?$status:''],
+
 
   };
 }

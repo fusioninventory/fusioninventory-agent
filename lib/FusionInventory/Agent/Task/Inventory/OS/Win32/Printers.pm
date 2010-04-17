@@ -10,6 +10,17 @@ use Win32::OLE::Enum;
 
 use Encode qw(encode);
 
+my @status = (
+        'Unknown', # 0 is not defined
+        'Other',
+        'Unknown',
+        'Idle',
+        'Printing',
+        'Warming Up',
+        'Stopped printing',
+        'Offline',
+        );
+
 sub isInventoryEnabled {1}
 
 sub doInventory {
@@ -38,6 +49,8 @@ sub doInventory {
                 DRIVER => $Properties->{DriverName},
                 PORT => $Properties->{PortName},
                 NETWORK => $Properties->{Network},
+                SHARED => $Properties->{Shared},
+                STATUS => $status[$Properties->{PrinterStatus}],
                 });
 
     }    
