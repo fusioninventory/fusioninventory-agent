@@ -717,6 +717,7 @@ sub addPrinter {
   my $errStatus = $args->{ERRSTATUS};
   my $serverName = $args->{SERVERNAME};
   my $shareName = $args->{SHARENAME};
+  my $printProcessor = $args->{PRINTPROCESSOR};
 
   push @{$self->{h}{CONTENT}{PRINTERS}},
   {
@@ -735,6 +736,7 @@ sub addPrinter {
     ERRSTATUS => [$errStatus?$errStatus:''],
     SERVERNAME => [$serverName?$serverName:''],
     SHARENAME => [$shareName?$shareName:''],
+    PRINTPROCESSOR => [$printProcessor?$printProcessor:''],
 
 
   };
