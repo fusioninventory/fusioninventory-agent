@@ -17,15 +17,22 @@ sub doInventory {
     $arch = 'x86' if $Config{'archname'} =~ /^i\d86/;
     $arch = 'x86_64' if $Config{'archname'} =~ /^x86_64/;
 
+    chomp(my $frequency = `dmidecode -s processor-frequency`);
+    $frequency =~ s/\ *MHz//i;
+    if ($frequency =~ s/\ *GHz//i) {
+        $frequency *= 1000;
+    }
+
+    my @cpu;
     open CPUINFO, "</proc/cpuinfo" or warn;
     foreach(<CPUINFO>) {
         if (/^processor\s*:/) {
             if ($current) {
-                $inventory->addCPU($current);
+                push @cpu, $current;
             }
 
             $current = {
-                MANUFACTURER => 'unknow'
+                MANUFACTURER => 'unknown'
             };
 
         }
@@ -37,13 +44,20 @@ sub doInventory {
             $current->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
             $current->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
         }
-        $current->{SPEED} = $1 if /^cpu\sMHz\s*:\s*(\d+)(|\.\d+)$/i;
+
+        if ($frequency) {
+            $current->{SPEED} = $frequency;
+
+        } elsif(/^cpu\sMHz\s*:\s*(\d+)(|\.\d+)$/i) {
+            $current->{SPEED} = $1;
+        }
         $current->{NAME} = $1 if /^model\sname\s*:\s*(.+)/i;
 
     }
 
-    # The last one
-    $inventory->addCPU($current);
+    foreach (@cpu) {
+        $inventory->addCPU($_);
+    }
 }
 
 1
