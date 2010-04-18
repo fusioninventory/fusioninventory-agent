@@ -37,11 +37,12 @@ sub doInventory {
         if ($in && /^\s*$/) {
             $in = 0;
             $serial =~ s/\s//g;
+            $thread = 1 unless $thread;
             push @cpu, {
                 SPEED => $frequency,
                 MANUFACTURER => 'unknown',
                 SERIAL => $serial,
-               THREAD => $thread 
+                THREAD => $thread
             }
         }
     }
