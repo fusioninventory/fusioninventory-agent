@@ -1158,6 +1158,9 @@ sub addSection {
   my $multi = $args->{multi};
   my $tagname = $args->{tagname};
 
+  $logger->debug("Please, don't use addSection(). This function may be ".
+      "dropped in the future.");
+
   for( keys %{$self->{h}{CONTENT}} ){
     if( $tagname eq $_ ){
       $logger->debug("Tag name `$tagname` already exists - Don't add it");
