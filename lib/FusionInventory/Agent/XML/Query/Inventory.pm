@@ -1213,3 +1213,391 @@ sub feedSection{
 }
 
 1;
+=head1 XML STRUCTURE
+
+This section presents the XML structure used by FusionInventory. The schema
+is based on OCS Inventory XML with various additions.
+
+=head2 BIOS
+
+=over 4
+
+=item SMODEL
+
+=item SMANUFACTURER
+
+=item SSN
+
+The motherboard serial number
+
+=item BDATE
+
+=item BVERSION
+
+The BIOS revision
+
+=item BMANUFACTURER
+
+=item MMANUFACTURER
+
+=item MSN
+
+=item MMODEL
+
+=item ASSETTAG
+
+The optional asset tag for this machine.
+
+=back
+
+=head2 CONTROLLERS
+
+=over 4
+
+=item DRIVER
+
+=item NAME
+
+=item MANUFACTURER
+
+=item PCICLASS
+
+=item PCIID
+
+The PCI ID, e.g: 8086:2a40 (only for PCI device)
+
+=item PCISLOT
+
+The PCI slot, e.g: 00:02.1 (only for PCI device)
+
+=item TYPE
+
+The controller revision, e.g: rev 02. This field may be renamed
+in the future.
+
+=back
+
+=head2 CPUS
+
+=over 4
+
+=item CACHESIZE
+
+The total CPU cache size in KB. e.g: 3072
+
+=item CORE
+
+Number of core.
+
+=item DESCRIPTION
+
+=item MANUFACTURER
+
+=item NAME
+
+The name of the CPU, e.g: Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz
+
+=item THREAD
+
+Number of thread.
+
+=item SERIAL
+
+CPU Id/Serial
+
+=item SPEED
+
+Frequency in MHz
+
+=back
+
+=head2 DRIVES
+
+=over 4
+
+=item CREATEDATE
+
+=item DESCRIPTION
+
+=item FREE
+
+=item FILESYSTEM
+
+=item LABEL
+
+=item LETTER
+
+Windows driver letter. Windows only
+
+=item SERIAL
+
+Partition serial number
+
+=item SYSTEMDRIVE
+
+Boolean. Is the system partition?
+
+=item TOTAL
+
+Total space avalaible.
+
+=item TYPE
+
+=item VOLUMN
+
+=back
+
+=head2 HARDWARE
+
+=over 4
+
+=item USERID
+
+=item OSVERSION
+
+=item PROCESSORN
+
+=item OSCOMMENTS
+
+=item CHECKSUM
+
+=item PROCESSORT
+
+=item NAME
+
+=item PROCESSORS
+
+=item SWAP
+
+=item ETIME
+
+=item TYPE
+
+=item OSNAME
+
+=item IPADDR
+
+=item WORKGROUP
+
+=item DESCRIPTION
+
+=item MEMORY
+
+=item UUID
+
+=item DNS
+
+=item LASTLOGGEDUSER
+
+=item USERDOMAIN
+
+=item DATELASTLOGGEDUSER
+
+=item DEFAULTGATEWAY
+
+=item VMSYSTEM
+
+=item WINOWNER
+
+=item WINPRODID
+
+=item WINPRODKEY
+
+=item WINCOMPANY
+
+=item WINLANG
+
+=back
+
+=head2 MONITORS
+
+=over 4
+
+=item BASE64
+
+=item CAPTION
+
+=item DESCRIPTION
+
+=item MANUFACTURER
+
+=item SERIAL
+
+=item UUENCODE
+
+=back
+
+=head2 PORTS
+
+=over 4
+
+=item CAPTION
+
+=item DESCRIPTION
+
+=item NAME
+
+=item TYPE
+
+=back
+
+=head2 SLOTS
+
+=over 4
+
+=item CAPACITY
+
+=item CAPTION
+
+=item FORMFACTOR
+
+=item REMOVABLE
+
+=item PURPOSE
+
+=item SPEED
+
+=item TYPE
+
+=item DESCRIPTION
+
+=back
+
+=head2 STORAGES
+
+=over 4
+
+
+=item DESCRIPTION
+
+=item DISKSIZE
+
+=item INTERFACE
+
+=item MANUFACTURER
+
+=item MODEL
+
+=item NAME
+
+=item TYPE
+
+=item SERIAL
+
+=item SERIALNUMBER
+
+=item FIRMWARE
+
+=item SCSI_COID
+
+=item SCSI_CHID
+
+=item SCSI_UNID
+
+=item SCSI_LUN
+
+=back
+
+=head2 SOFTWARES
+
+=over 4
+
+=item COMMENTS
+
+=item FILESIZE
+
+=item FOLDER
+
+=item FROM
+
+=item HELPLINK
+
+=item INSTALLDATE
+
+=item NAME
+
+=item NO_REMOVE
+
+=item RELEASE_TYPE
+
+=item PUBLISHER
+
+=item UNINSTALL_STRING
+
+=item URL_INFO_ABOUT
+
+=item VERSION
+
+=item VERSION_MINOR
+
+=item VERSION_MAJOR
+
+=item IS64BIT
+
+=back
+
+=head2 USERS
+
+=over 4
+
+=item LOGIN
+
+=back
+
+=head2 VIDEOS
+
+=over 4
+
+=item CHIPSET
+
+=item MEMORY
+
+=item NAME
+
+=item RESOLUTION
+
+=back
+
+=head2 VIRTUALMACHINES
+
+=over 4
+
+=item MEMORY
+
+=item NAME
+
+=item UUID
+
+=item STATUS
+
+=item SUBSYSTEM
+
+=item VMTYPE
+
+=item VCPU
+
+=item VMID
+
+=back
+
+=head2 SOUNDS
+
+=over 4
+
+=item DESCRIPTION
+
+=item MANUFACTURER
+
+=item NAME
+
+=back
+
+=head2 MODEMS
+
+=over 4
+
+=item DESCRIPTION
+
+=item NAME
+
+=back
