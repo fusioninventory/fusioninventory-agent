@@ -4,7 +4,7 @@ use strict;
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
  
-Win32::OLE-> Option(CP=>CP_UTF8);
+#Win32::OLE-> Option(CP=>CP_UTF8);
  
 use Win32::OLE::Enum;
 

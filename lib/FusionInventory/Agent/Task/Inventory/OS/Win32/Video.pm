@@ -31,8 +31,7 @@ sub doInventory {
 
         my $resolution;
         if ($Properties->{CurrentHorizontalResolution}) {
-            $resolution = $Properties->{CurrentHorizontalResolution} ." x
-                ".$Properties->{CurrentVerticalResolution};
+            $resolution = $Properties->{CurrentHorizontalResolution} ."x".$Properties->{CurrentVerticalResolution};
         }
 
         $inventory->addVideo({
