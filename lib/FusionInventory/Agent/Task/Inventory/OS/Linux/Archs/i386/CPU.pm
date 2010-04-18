@@ -17,42 +17,61 @@ sub doInventory {
     $arch = 'x86' if $Config{'archname'} =~ /^i\d86/;
     $arch = 'x86_64' if $Config{'archname'} =~ /^x86_64/;
 
-    chomp(my $frequency = `dmidecode -s processor-frequency`);
-    $frequency =~ s/\ *MHz//i;
-    if ($frequency =~ s/\ *GHz//i) {
-        $frequency *= 1000;
+
+    my $in;
+    my $frequency;
+    my $serial;
+    my $manufacturer;
+    my $thread;
+    foreach (`dmidecode`) {
+        $in = 1 if /^\s*Processor Information/;
+
+        if ($in) {
+            $frequency = $1 if /^\s*Max Speed:\s*(\d+)\s*MHz/i;
+            $frequency = $1*1000 if /^\s*Max Speed:\s*(\d+)\s*GHz/i;
+            $serial = $1 if /^\s*ID:\s*(\S.+)/i;
+            $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
+            $thread = int($1) if /Thread Count:\s*(\S.*)/;
+        }
+
+        if ($in && /^\s*$/) {
+            $in = 0;
+            $serial =~ s/\s//g;
+            push @cpu, {
+                SPEED => $frequency,
+                MANUFACTURER => 'unknown',
+                SERIAL => $serial,
+               THREAD => $thread 
+            }
+        }
     }
 
-    my @cpu;
+    my %current;
+    my $id=0;
+    my $lastPhysicalId;
     open CPUINFO, "</proc/cpuinfo" or warn;
     foreach(<CPUINFO>) {
-        if (/^processor\s*:/) {
-            if ($current) {
-                push @cpu, $current;
+        if (/^$/) {
+            $current = {};
+            if (!$id) {
+                $lastPhysicalId=$current{'physical id'};
+            } elsif ($lastPhysicalId != $current{'physical id'}) {
+                $id++;
             }
 
-            $current = {
-                MANUFACTURER => 'unknown'
-            };
+            if ($current{vendor_id}) {
+                $cpu[$id]->{MANUFACTURER} = $current{vendor_id};
+                $cpu[$id]->{MANUFACTURER} =~ s/Genuine//;
+                $cpu[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+                $cpu[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
+                $cpu[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
+            }
+            $cpu[$id]->{NAME} = $current{'model name'};
+            $cpu[$id]->{CORE}++;
 
-        }
 
-#            $current->{SERIAL} = $1 TODO with dmidecode;
-        if (/^vendor_id\s*:\s*(Authentic|Genuine|)(.+)/i) {
-            $current->{MANUFACTURER} = $2;
-            $current->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $current->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
-            $current->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
-        }
-
-        if ($frequency) {
-            $current->{SPEED} = $frequency;
-
-        } elsif(/^cpu\sMHz\s*:\s*(\d+)(|\.\d+)$/i) {
-            $current->{SPEED} = $1;
-        }
-        $current->{NAME} = $1 if /^model\sname\s*:\s*(.+)/i;
-
+        };
+        $current{lc($1)} = $2 if /^\s*(\S+.*\S+)\s*:\s*(.+)/i;
     }
 
     foreach (@cpu) {
