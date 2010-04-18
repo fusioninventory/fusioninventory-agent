@@ -1,14 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::OS;
 
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
-use Win32::OLE qw(in CP_UTF8);
-use Win32::OLE::Const;
-
-Win32::OLE-> Option(CP=>CP_UTF8);
-
-use Win32::OLE::Enum;
-
-use Encode qw(encode);
 
 sub isInventoryEnabled {1}
 
@@ -16,44 +9,26 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-
-
-    my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-    if (!$WMIServices) {
-        print Win32::OLE->LastError();
-    }
-
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_OperatingSystem' ) ) )
-    {
-
-        my $oslanguage = $Properties->{OSLanguage};
-        my $osname = $Properties->{Caption};
-        my $osversion = $Properties->{Version};
-        my $serialnumber = $Properties->{SerialNumber};
-
-
-
+        foreach my $Properties
+            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_OperatingSystem',
+qw/OSLanguage Caption Version SerialNumber/)) {
 
         $inventory->setHardware({
 
-                WINLANG => $oslanguage,
-                OSNAME =>  encode('UTF-8', $osname),
-                OSVERSION =>  encode('UTF-8', $osversion),
-                WINPRODKEY => encode('UTF-8', $serialnumber),
+                WINLANG => $Properties->{OSLanguage},
+                OSNAME => $Properties->{Caption},
+                OSVERSION =>  $Properties->{Version},
+                WINPRODKEY => $Properties->{SerialNumber},
 
                 });
 
     }
 
 
+        foreach my $Properties
+            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_ComputerSystem',
+qw/Workgroup UserName PrimaryOwnerName/)) {
 
-
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_ComputerSystem' ) ) )
-    {
 
         my $workgroup = $Properties->{Workgroup};
         my $userdomain;
@@ -61,14 +36,14 @@ sub doInventory {
         my @tmp = split(/\\/, $Properties->{UserName});
         $userdomain = $tmp[0];
         $userid = $tmp[1];
-        my $winowner = encode("UTF-8", $Properties->{PrimaryOwnerName});
+        my $winowner = $Properties->{PrimaryOwnerName};
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
-        $inventory->addUser({ LOGIN => encode('UTF-8', $userid) });
+        $inventory->addUser({ LOGIN => $userid });
         $inventory->setHardware({
 
-                USERDOMAIN => encode('UTF-8', $userdomain),
-                WORKGROUP => encode('UTF-8', $workgroup),
+                USERDOMAIN => $userdomain,
+                WORKGROUP => $workgroup,
                 WINOWNER => $winowner,
 
                 });
@@ -78,7 +53,7 @@ sub doInventory {
 
     foreach (`query session`) {
         if (/^(\s|)\S+\s+(\S+)\s+\d+/) {
-            $inventory->addUser({ LOGIN => encode('UTF-8', $2) });
+            $inventory->addUser({ LOGIN => $2 });
         }
     }
 }

@@ -1,14 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Memory;
 
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
-use Win32::OLE qw(in CP_UTF8);
-use Win32::OLE::Const;
-
-Win32::OLE-> Option(CP=>CP_UTF8);
-
-use Win32::OLE::Enum;
-
-use Encode qw(encode);
 
 sub isInventoryEnabled {1}
 
@@ -86,24 +79,17 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
 
-
-    my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-    if (!$WMIServices) {
-        print Win32::OLE->LastError();
-    }
-
     my $cpt = 0;
     my @memories;
 
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_PhysicalMemory' ) ) )
-    {
+        foreach my $Properties
+            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_PhysicalMemory',
+qw/Capacity Caption Description FormFactor Removable Speed MemoryType
+SerialNumber/)) {
 
         my $capacity = sprintf("%i",$Properties->{Capacity}/(1024*1024));
-        my $caption = encode('UTF-8', $Properties->{Caption});
-        my $description = encode('UTF-8', $Properties->{Description});
+        my $caption = $Properties->{Caption};
+        my $description = $Properties->{Description};
         my $formfactor = $formFactorVal[$Properties->{FormFactor}];
         my $removable = $Properties->{Removable}?1:0;
         my $speed = $Properties->{Speed};
@@ -126,12 +112,10 @@ sub doInventory {
     }
 
 
+        foreach my $Properties
+            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_PhysicalMemoryArray',
+qw/MemoryDevices SerialNumber PhysicalMemoryCorrection/)) {
 
-
-
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_PhysicalMemoryArray' ) ) )
-    {
         my $memory = $memories[$Properties->{MemoryDevices} - 1];
         if (!$memory->{SERIALNUMBER}) {
             $memory->{SERIALNUMBER} =
@@ -157,14 +141,14 @@ sub doInventory {
 
     my $fullMemory = 0;
     my $swapMemory = 0;
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_ComputerSystem' ) ) )
-    {
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_ComputerSystem',
+qw/TotalPhysicalMemory/)) {
         $fullMemory = $Properties->{TotalPhysicalMemory};
     }
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_OperatingSystem' ) ) )
-    {
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_OperatingSystem',
+qw/TotalSwapSpaceSize/)) {
         $swapMemory = $Properties->{TotalSwapSpaceSize};
     }
 

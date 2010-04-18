@@ -1,15 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Drives;
 
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
-use Win32::OLE qw(in CP_UTF8);
-use Win32::OLE::Const;
-
-Win32::OLE-> Option(CP=>CP_UTF8);
-
-use Win32::OLE::Enum;
-
-use Encode qw(encode);
-
 
 my @type = (
         'Unknown', 
@@ -29,38 +21,32 @@ sub doInventory {
     my $logger = $params->{logger};
     my $inventory = $params->{inventory};
 
-    my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-    if (!$WMIServices) {
-        print Win32::OLE->LastError();
-    }
-
     my $systemDrive = '';
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_OperatingSystem' ) ) )
-    {
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_OperatingSystem',
+qw/SystemDrive/)) {
         $systemDrive = lc($Properties->{SystemDrive});
     }
 
     my @drives;
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_LogicalDisk' ) ) )
-    {
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_LogicalDisk',
+qw/InstallDate Description FileSystem VolumeName Caption VolumeSerialNumber
+DeviceID Size DriveType VolumeName/)) {
 
         push @drives, {
 
             CREATEDATE => $Properties->{InstallDate},
-                       DESCRIPTION => encode('UTF-8',$Properties->{Description}),
+                       DESCRIPTION => $Properties->{Description},
                        FREE => int($Properties->{FreeSpace}/(1024*1024)),
                        FILESYSTEM => $Properties->{FileSystem},
-                       LABEL => encode('UTF-8', $Properties->{VolumeName}),
+                       LABEL => $Properties->{VolumeName},
                        LETTER => $Properties->{DeviceID} || $Properties->{Caption},
                        SERIAL => $Properties->{VolumeSerialNumber},
                        SYSTEMDRIVE => (lc($Properties->{DeviceID}) eq $systemDrive),
                        TOTAL => int($Properties->{Size}/(1024*1024)),
                        TYPE => $type[$Properties->{DriveType}] || 'Unknown',
-                       VOLUMN => encode('UTF-8', $Properties->{VolumeName}),
+                       VOLUMN => $Properties->{VolumeName},
 
         };
 

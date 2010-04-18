@@ -1,14 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Slots;
 # Had never been tested. There is no slot on my virtal machine.
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
-use Win32::OLE qw(in CP_UTF8);
-use Win32::OLE::Const;
-
-Win32::OLE-> Option(CP=>CP_UTF8);
-
-use Win32::OLE::Enum;
-
-use Encode qw(encode);
 
 sub isInventoryEnabled {1}
 
@@ -27,10 +20,9 @@ sub doInventory {
 
 
     my @slots;
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_SystemSlot' ) ) )
-    {
-
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_SystemSlot',
+qw/Name Description SlotDesignation Status Shared/)) {
 
         push @slots, {
 

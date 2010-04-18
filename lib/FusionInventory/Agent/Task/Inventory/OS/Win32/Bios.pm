@@ -1,14 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Bios;
 
 use strict;
-use Win32::OLE qw(in CP_UTF8);
-use Win32::OLE::Const;
-
-Win32::OLE-> Option(CP=>CP_UTF8);
-
-use Win32::OLE::Enum;
-
-use Encode qw(encode);
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
@@ -41,15 +33,6 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-
-
-    my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-    if (!$WMIServices) {
-        print Win32::OLE->LastError();
-    }
-
     my $smodel;
     my $smanufacturer;
     my $ssn;
@@ -66,22 +49,18 @@ sub doInventory {
 
     $bdate = $registryInfo->{BIOSReleaseDate};
 
-
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_BaseBoard' ) ) )
-    {
-
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_BaseBoard',
+qw/SerialNumber Product Manufacturer/)) {
         $ssn = $Properties->{SerialNumber};
         $smodel = $Properties->{Product};
         $smanufacturer = $Properties->{Manufacturer};
 
     }
 
-
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_Bios' ) ) )
-    {
-
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_Bios',
+qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $bmanufacturer = $Properties->{Manufacturer} unless $bmanufacturer;
         $bversion = $Properties->{SMBIOSBIOSVersion} unless $bversion;
@@ -91,19 +70,18 @@ sub doInventory {
 
 
 
-
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_SystemEnclosure' ) ) )
-    {
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_SystemEnclosure',
+qw/SerialNumber SMBIOSAssetTag/)) {
 
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $assettag = $Properties->{SMBIOSAssetTag} unless $assettag;
 
     }
 
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    'Win32_ComputerSystem' ) ) )
-    {
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_ComputerSystem',
+qw/Manufacturer Model/)) {
 
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
         $model = $Properties->{Model} unless $model;

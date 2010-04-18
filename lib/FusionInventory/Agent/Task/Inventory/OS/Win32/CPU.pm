@@ -1,14 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::CPU;
 
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
-use Win32::OLE qw(in CP_UTF8);
-use Win32::OLE::Const;
- 
-Win32::OLE-> Option(CP=>CP_UTF8);
- 
-use Win32::OLE::Enum;
-
-use Encode qw(encode);
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
@@ -43,17 +36,10 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-
-
-    my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-    if (!$WMIServices) {
-        print Win32::OLE->LastError();
-    }
     my $cpuId = 0;
-    foreach my $Properties ( Win32::OLE::in( $WMIServices->InstancesOf( 'Win32_Processor' ) ) )
-    {
+    foreach my $Properties
+        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_Processor',
+qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
 
         my $info = getCPUInfoFromRegistry($cpuId++);
 
