@@ -14,6 +14,7 @@ Revision history for FusionInventory::Agent
        * Better error handling if it's not possible to create basevardir
        * Inventory: reduce the number of debug messages
        * Add DRIVES/SYSTEMDRIVE to know if it's the system partition
+       * Inventory.pm, fix: addStorages is deprecred, not addStorage
 
 2.0.4
        * Add debug message on WOL and correction when no mac address comes

@@ -197,12 +197,12 @@ sub addDrives {
    $self->addDrive(@_);
 }
 
-=item addStorages()
+=item addStorage()
 
 Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
 
 =cut
-sub addStorages {
+sub addStorage {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
@@ -247,7 +247,7 @@ sub addStorages {
   };
 }
 # For compatibiliy
-sub addStorage {
+sub addStorages {
    my $self = shift;
    my $logger = $self->{logger};
 
