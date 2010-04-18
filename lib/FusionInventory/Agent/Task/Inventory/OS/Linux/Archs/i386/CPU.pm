@@ -38,7 +38,7 @@ sub doInventory {
             $current->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
         }
         $current->{SPEED} = $1 if /^cpu\sMHz\s*:\s*(\d+)(|\.\d+)$/i;
-        $current->{TYPE} = $1 if /^model\sname\s*:\s*(.+)/i;
+        $current->{NAME} = $1 if /^model\sname\s*:\s*(.+)/i;
 
     }
 
