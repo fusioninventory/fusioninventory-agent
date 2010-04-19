@@ -1,8 +1,7 @@
 DESCRIPTION
 
   FusionInventory-Agent is an agent for OCS NG & GLPI. It supports Linux,
-  Solaris and AIX. *BSD support is in progress. A port to non UNIX system
-  is also possible (e.g: Win32).
+  BSD, Solaris, HP-UX and AIX. and Windows.
 
 PREREQUISITES
 
