@@ -31,7 +31,6 @@ sub doInventory {
             (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties($wmiClass,
 qw/Name Manufacturer Caption Description DeviceID HardwareVersion/)) {
 
-        print $Properties->{DeviceID}."\n";
             my $pciid = getPciIDFromDeviceID($Properties->{DeviceID});
 
 # I scan CIM_LogicalDevice to identify more devices but I don't want
