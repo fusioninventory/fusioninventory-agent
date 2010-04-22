@@ -106,9 +106,9 @@ qw/ConnectorType InternalReferenceDesignator/)) {
 
         $inventory->addPorts({
 
-            NAME => $Properties->{InternalReferenceDesignator}||$type,
-            CAPTION => $Properties->{InternalReferenceDesignator}||$type,
-            DESCRIPTION => $Properties->{InternalReferenceDesignator}||$type,
+            NAME => $Properties->{InternalReferenceDesignator},
+            CAPTION => $Properties->{InternalReferenceDesignator},
+            DESCRIPTION => $Properties->{InternalReferenceDesignator},
             TYPE => $type
 
         });
