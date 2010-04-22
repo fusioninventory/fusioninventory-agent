@@ -32,14 +32,13 @@ qw/Workgroup UserName PrimaryOwnerName/)) {
 
         my $workgroup = $Properties->{Workgroup};
         my $userdomain;
-        my $userid;
-        my @tmp = split(/\\/, $Properties->{UserName});
-        $userdomain = $tmp[0];
-        $userid = $tmp[1];
+#        my $userid;
+#        my @tmp = split(/\\/, $Properties->{UserName});
+#        $userdomain = $tmp[0];
+#        $userid = $tmp[1];
         my $winowner = $Properties->{PrimaryOwnerName};
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
-        $inventory->addUser({ LOGIN => $userid });
         $inventory->setHardware({
 
                 USERDOMAIN => $userdomain,
