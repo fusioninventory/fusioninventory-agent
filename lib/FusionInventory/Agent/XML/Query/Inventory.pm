@@ -664,6 +664,7 @@ sub addUser {
 #  my $name  = $args->{NAME};
 #  my $gid   = $args->{GID};
   my $login = $args->{LOGIN};
+  my $domain = $args->{DOMAIN}; # Windows only
 #  my $uid   = $args->{UID};
 
   return unless $login;
@@ -679,7 +680,8 @@ sub addUser {
 #      NAME => [$name],
 #      UID => [$uid],
 #      GID => [$gid],
-      LOGIN => [$login]
+      LOGIN => [$login],
+      DOMAIN => [$domain]
 
   };
 
