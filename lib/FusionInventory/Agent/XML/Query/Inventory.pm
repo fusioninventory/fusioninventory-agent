@@ -1422,7 +1422,6 @@ should use the USERS section instead.
 
 This field is deprecated, you should use the USERS section instead.
 
-
 =item DATELASTLOGGEDUSER
 
 =item DEFAULTGATEWAY
