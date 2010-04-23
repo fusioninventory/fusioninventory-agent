@@ -1376,6 +1376,9 @@ Total space avalaible.
 
 =item USERID
 
+The current user list, '/' is the delemiter. This field is deprecated, you
+should use the USERS section instead.
+
 =item OSVERSION
 
 =item PROCESSORN
@@ -1413,6 +1416,9 @@ Total space avalaible.
 =item LASTLOGGEDUSER
 
 =item USERDOMAIN
+
+This field is deprecated, you should use the USERS section instead.
+
 
 =item DATELASTLOGGEDUSER
 
