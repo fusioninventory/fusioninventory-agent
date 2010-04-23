@@ -41,12 +41,5 @@ sub doInventory {
         }
     
     }
-    
-
-    foreach (`query session`) {
-        if (/^(\s|)\S+\s+(\S+)\s+\d+/) {
-            $inventory->addUser({ LOGIN => $2 });
-        }
-    }
 }
 1;
