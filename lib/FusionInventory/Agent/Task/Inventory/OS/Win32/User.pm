@@ -43,5 +43,20 @@ sub doInventory {
     
     }
 
+    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    foreach (
+        "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",
+        "SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"
+    ) {
+        my $lastloggeduser=encodeFromRegistry($machKey->{$_});
+        if ($lastloggeduser) {
+            $lastloggeduser =~ s,.*\\,,;
+            $inventory->setHardware({
+               LASTLOGGEDUSER => $lastloggeduser
+            });
+        }
+    }
+
+
 }
 1;
