@@ -6,10 +6,11 @@ use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
  
 Win32::OLE-> Option(CP=>CP_UTF8);
- 
+
+
 use Win32::OLE::Enum;
 
-use Encode qw(encode);
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 # http://techtasks.com/code/viewbookcode/1417
 sub isInventoryEnabled {1}
@@ -28,7 +29,7 @@ sub doInventory {
     my @netifs;
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
-        $netifs[$idx]{description} =  encode('UTF-8', $nic->Description);
+        $netifs[$idx]{description} =  encodeFromWmi($nic->Description);
         $netifs[$idx]{ipaddress} = [];
         $netifs[$idx]{ipsubnet} = [];
         $netifs[$idx]{ipmask} = [];
