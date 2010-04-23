@@ -30,7 +30,7 @@ sub doInventory {
 
     my @inputs;
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_Keyboard',
+            (getWmiProperties('Win32_Keyboard',
 qw/Name Caption Manufacturer Description Layout/))
     {
 
@@ -47,7 +47,7 @@ qw/Name Caption Manufacturer Description Layout/))
     }
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_PointingDevice',
+            (getWmiProperties('Win32_PointingDevice',
 qw/Name Caption Manufacturer Description PointingType/))
     {
 

@@ -21,7 +21,7 @@ sub doInventory {
 
     my @slots;
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_SystemSlot',
+        (getWmiProperties('Win32_SystemSlot',
 qw/Name Description SlotDesignation Status Shared/)) {
 
         push @slots, {

@@ -13,7 +13,7 @@ sub doInventory {
 
 
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_SoundDevice',
+        (getWmiProperties('Win32_SoundDevice',
 qw/Name Manufacturer Caption Description/)) {
 
         $inventory->addSound({

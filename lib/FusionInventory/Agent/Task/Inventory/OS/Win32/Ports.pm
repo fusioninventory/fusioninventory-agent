@@ -15,7 +15,7 @@ sub doInventory {
 
     my @ports;
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_SerialPort',
+        (getWmiProperties('Win32_SerialPort',
 qw/Name Caption Description/)) {
 
 
@@ -31,7 +31,7 @@ qw/Name Caption Description/)) {
     }
 
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_ParallelPort',
+        (getWmiProperties('Win32_ParallelPort',
 qw/Name Caption Description/)) {
 
         $inventory->addPorts({

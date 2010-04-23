@@ -28,7 +28,7 @@ sub doInventory {
             Win32_PCMCIAController CIM_LogicalDevice/) {
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties($wmiClass,
+            (getWmiProperties($wmiClass,
 qw/Name Manufacturer Caption Description DeviceID HardwareVersion/)) {
 
             my $pciid = getPciIDFromDeviceID($Properties->{DeviceID});

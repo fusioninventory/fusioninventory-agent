@@ -45,7 +45,7 @@ sub doInventory {
     my @slots;
 
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_Printer',
+        (getWmiProperties('Win32_Printer',
 qw/ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name Comment DescriptionDriverName
  PortName Network Shared PrinterStatus ServerName ShareName PrintProcessor
 /)) {

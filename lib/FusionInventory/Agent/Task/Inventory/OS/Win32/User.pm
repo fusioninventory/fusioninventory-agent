@@ -11,6 +11,7 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
 
+use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
 sub isInventoryEnabled {1}
 
@@ -41,5 +42,6 @@ sub doInventory {
         }
     
     }
+
 }
 1;

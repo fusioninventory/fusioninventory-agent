@@ -38,7 +38,7 @@ sub doInventory {
 
     my $cpuId = 0;
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_Processor',
+        (getWmiProperties('Win32_Processor',
 qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
 
         my $info = getCPUInfoFromRegistry($cpuId++);

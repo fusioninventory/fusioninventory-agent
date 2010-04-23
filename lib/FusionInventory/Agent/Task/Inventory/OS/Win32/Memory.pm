@@ -83,7 +83,7 @@ sub doInventory {
     my @memories;
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_PhysicalMemory',
+            (getWmiProperties('Win32_PhysicalMemory',
 qw/Capacity Caption Description FormFactor Removable Speed MemoryType
 SerialNumber/)) {
 
@@ -113,7 +113,7 @@ SerialNumber/)) {
 
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_PhysicalMemoryArray',
+            (getWmiProperties('Win32_PhysicalMemoryArray',
 qw/MemoryDevices SerialNumber PhysicalMemoryCorrection/)) {
 
         my $memory = $memories[$Properties->{MemoryDevices} - 1];
@@ -142,12 +142,12 @@ qw/MemoryDevices SerialNumber PhysicalMemoryCorrection/)) {
     my $fullMemory = 0;
     my $swapMemory = 0;
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_ComputerSystem',
+        (getWmiProperties('Win32_ComputerSystem',
 qw/TotalPhysicalMemory/)) {
         $fullMemory = $Properties->{TotalPhysicalMemory};
     }
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_OperatingSystem',
+        (getWmiProperties('Win32_OperatingSystem',
 qw/TotalSwapSpaceSize/)) {
         $swapMemory = $Properties->{TotalSwapSpaceSize};
     }

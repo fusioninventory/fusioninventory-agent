@@ -11,7 +11,7 @@ sub doInventory {
 
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_VideoController',
+            (getWmiProperties('Win32_VideoController',
 qw/CurrentHorizontalResolution CurrentVerticalResolution VideoProcessor
 AdaptaterRAM Name/)) {
 

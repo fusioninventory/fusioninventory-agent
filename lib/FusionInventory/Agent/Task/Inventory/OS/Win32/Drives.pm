@@ -23,14 +23,14 @@ sub doInventory {
 
     my $systemDrive = '';
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_OperatingSystem',
+        (getWmiProperties('Win32_OperatingSystem',
 qw/SystemDrive/)) {
         $systemDrive = lc($Properties->{SystemDrive});
     }
 
     my @drives;
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_LogicalDisk',
+        (getWmiProperties('Win32_LogicalDisk',
 qw/InstallDate Description FileSystem VolumeName Caption VolumeSerialNumber
 DeviceID Size DriveType VolumeName/)) {
         push @drives, {

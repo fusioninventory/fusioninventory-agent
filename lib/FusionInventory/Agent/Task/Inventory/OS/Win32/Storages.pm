@@ -14,7 +14,7 @@ sub doInventory {
 
     my @storages;
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_DiskDrive',
+            (getWmiProperties('Win32_DiskDrive',
 qw/Name Manufacturer Model MediaType InterfaceType FirmwareRevision
 SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
 
@@ -38,7 +38,7 @@ SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
 
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_CDROMDrive',
+            (getWmiProperties('Win32_CDROMDrive',
 qw/Manufacturer Caption Description Name MediaType InterfaceType FirmwareRevision
 SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
 
@@ -62,7 +62,7 @@ SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
     }
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_TapeDrive',
+            (getWmiProperties('Win32_TapeDrive',
 qw/Manufacturer Caption Description Name MediaType InterfaceType FirmwareRevision
 SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
 

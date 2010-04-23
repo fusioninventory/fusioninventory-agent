@@ -19,7 +19,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_OperatingSystem',
+            (getWmiProperties('Win32_OperatingSystem',
 qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser/)) {
 
         $inventory->setHardware({
@@ -37,7 +37,7 @@ qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser/)) {
 
 
         foreach my $Properties
-            (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_ComputerSystem',
+            (getWmiProperties('Win32_ComputerSystem',
 qw/Workgroup UserName PrimaryOwnerName/)) {
 
 
