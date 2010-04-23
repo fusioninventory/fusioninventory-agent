@@ -1,11 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Users;
 
-sub isInventoryEnabled {
-# Useless check for a posix system i guess
-  my @who = `who 2>/dev/null`;
-  return 1 if @who;
-  return;
-}
+sub isInventoryEnabled { can_run('who') }
 
 # Initialise the distro entry
 sub doInventory {
