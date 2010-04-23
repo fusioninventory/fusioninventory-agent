@@ -6,7 +6,7 @@ use warnings;
 use Config;
 
 
-use Encode qw(encode);
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
@@ -41,10 +41,10 @@ sub processSoftwares {
         next unless keys %$data > 2;
 
 
-        my $name = encode('UTF-8', $data->{'/DisplayName'});
-        my $comments = encode('UTF-8', $data->{'/Comments'});
-        my $version = encode('UTF-8', $data->{'/DisplayVersion'});
-        my $publisher = encode('UTF-8', $data->{'/Publisher'});
+        my $name = encodeFromRegistry($data->{'/DisplayName'});
+        my $comments = encodeFromRegistry($data->{'/Comments'});
+        my $version = encodeFromRegistry($data->{'/DisplayVersion'});
+        my $publisher = encodeFromRegistry($data->{'/Publisher'});
         my $urlInfoAbout = $data->{'/URLInfoAbout'};
         my $helpLink = $data->{'/HelpLink'};
         my $uninstallString = $data->{'/UninstallString'};

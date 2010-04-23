@@ -7,7 +7,7 @@ $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 require Exporter;
 
 our @ISA = qw(Exporter);
-our @EXPORT = qw(getWmiProperties encodeFromWmi);
+our @EXPORT = qw(getWmiProperties encodeFromWmi encodeFromRegistry);
 
 use Encode;
 
@@ -16,6 +16,13 @@ sub encodeFromWmi {
     my ($string) = @_;
 
     return (Win32::GetOSName() ne 'Win7')?encode("UTF-8", $string):$string; 
+
+}
+
+sub encodeFromRegistry {
+    my ($string) = @_;
+
+    encode("UTF-8", $string); 
 
 }
 
