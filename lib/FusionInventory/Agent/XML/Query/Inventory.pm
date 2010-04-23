@@ -1420,6 +1420,10 @@ Total space avalaible.
 
 =item VMSYSTEM
 
+The virtualization technologie the machine is a virtual machine.
+
+Can by: Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+
 =item WINOWNER
 
 =item WINPRODID

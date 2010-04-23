@@ -104,6 +104,12 @@ qw/Manufacturer Model/)) {
 
                 });
 
+    if ($bmanufacturer eq 'Bochs' || $model eq 'Bochs') {
+        $inventory->setHardware ({
+           VMSYSTEM => 'QEMU',
+        });
+    }
+
 
 
 }
