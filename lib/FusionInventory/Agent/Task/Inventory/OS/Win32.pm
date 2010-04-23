@@ -15,7 +15,8 @@ use Encode;
 sub encodeFromWmi {
     my ($string) = @_;
 
-    return (Win32::GetOSName() ne 'Win7')?encode("UTF-8", $string):$string; 
+#  return (Win32::GetOSName() ne 'Win7')?encode("UTF-8", $string):$string; 
+    encode("UTF-8", $string); 
 
 }
 
