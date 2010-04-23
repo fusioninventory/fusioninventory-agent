@@ -33,8 +33,8 @@ sub processSoftwares {
     my $inventory = $params->{inventory};
     my $is64bit = $params->{is64bit};
 
-    foreach my $name ( keys %$softwares ) {
-        my $data = $softwares->{$name};
+    foreach ( keys %$softwares ) {
+        my $data = $softwares->{$_};
         next unless keys %$data;
 
 # odd, found on Win2003
@@ -42,6 +42,8 @@ sub processSoftwares {
 
 
         my $name = encodeFromRegistry($data->{'/DisplayName'});
+# Use the folder name if there is no DisplayName
+        $name = encodeFromRegistry($_) unless $name;
         my $comments = encodeFromRegistry($data->{'/Comments'});
         my $version = encodeFromRegistry($data->{'/DisplayVersion'});
         my $publisher = encodeFromRegistry($data->{'/Publisher'});
