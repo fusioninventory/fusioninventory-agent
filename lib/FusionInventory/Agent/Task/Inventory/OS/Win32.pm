@@ -4,6 +4,20 @@ use strict;
 use vars qw($runAfter);
 $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
+require Exporter;
+
+our @ISA = qw(Exporter);
+our @EXPORT = qw(getWmiProperties encodeFromWmi);
+
+use Encode;
+
+# We don't need to encode to UTF-8 on Win7
+sub encodeFromWmi {
+    my ($string) = @_;
+
+    return (Win32::GetOSName() ne 'Win7')?encode("UTF-8", $string):$string; 
+
+}
 
 sub getWmiProperties {
     my $wmiClass = shift;
@@ -31,7 +45,6 @@ sub getWmiProperties {
     }
 
 
-    my $encodeNeeded = (Win32::GetOSName() ne 'Win7');
     my @properties;
     foreach my $properties ( Win32::OLE::in( $WMIServices->InstancesOf(
                     $wmiClass ) ) )
@@ -39,8 +52,7 @@ sub getWmiProperties {
         my $tmp;
         foreach (@keys) {
             my $val = $properties->{$_};
-            $val = Encode::encode($val) if $encodeNeeded;
-            $tmp->{$_} = $val;
+            $tmp->{$_} = encodeFromWmi($val);
         }
         push @properties, $tmp;
     }
