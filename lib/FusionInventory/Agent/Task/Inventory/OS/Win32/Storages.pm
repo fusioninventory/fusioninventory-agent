@@ -86,7 +86,7 @@ SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
 
 
     foreach (@storages) {
-        $inventory->addStorages($_);
+        $inventory->addStorage($_);
     }
 
 }
