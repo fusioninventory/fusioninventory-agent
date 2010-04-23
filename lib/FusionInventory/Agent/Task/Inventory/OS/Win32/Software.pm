@@ -45,12 +45,12 @@ sub processSoftwares {
         my $comments = encodeFromRegistry($data->{'/Comments'});
         my $version = encodeFromRegistry($data->{'/DisplayVersion'});
         my $publisher = encodeFromRegistry($data->{'/Publisher'});
-        my $urlInfoAbout = $data->{'/URLInfoAbout'};
-        my $helpLink = $data->{'/HelpLink'};
-        my $uninstallString = $data->{'/UninstallString'};
+        my $urlInfoAbout = encodeFromRegistry($data->{'/URLInfoAbout'});
+        my $helpLink = encodeFromRegistry($data->{'/HelpLink'});
+        my $uninstallString = encodeFromRegistry($data->{'/UninstallString'});
         my $noRemove;
-        my $releaseType = $data->{'/ReleaseType'};
-        my $installDate = $data->{'/InstallDate'};
+        my $releaseType = encodeFromRegistry($data->{'/ReleaseType'});
+        my $installDate = encodeFromRegistry($data->{'/InstallDate'});
         my $versionMinor = hexToDec($data->{'/VersionMinor'});
         my $versionMajor = hexToDec($data->{'/VersionMajor'});
 
