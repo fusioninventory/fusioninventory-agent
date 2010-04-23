@@ -1514,6 +1514,8 @@ Total space avalaible.
 
 =item INSTALLDATE
 
+Installation day in DD/MM/YYYY format. Windows only.
+
 =item NAME
 
 =item NO_REMOVE

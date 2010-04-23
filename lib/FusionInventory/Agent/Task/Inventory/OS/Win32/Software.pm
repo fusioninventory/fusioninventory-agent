@@ -25,6 +25,18 @@ sub hexToDec {
     return hex($tmp); 
 }
 
+sub dateFormat {
+    my ($installDate) = @_; 
+
+    return unless $installDate;
+
+    if ($installDate =~ /^(\d{4})(\d{2})(\d{2})/) {
+        return "$3/$2/$1";
+    } else { 
+        return;
+    }
+}
+
 sub processSoftwares {
     my $params = shift;
 
@@ -52,7 +64,7 @@ sub processSoftwares {
         my $uninstallString = encodeFromRegistry($data->{'/UninstallString'});
         my $noRemove;
         my $releaseType = encodeFromRegistry($data->{'/ReleaseType'});
-        my $installDate = encodeFromRegistry($data->{'/InstallDate'});
+        my $installDate = dateFormat($data->{'/InstallDate'});
         my $versionMinor = hexToDec($data->{'/VersionMinor'});
         my $versionMajor = hexToDec($data->{'/VersionMajor'});
 
