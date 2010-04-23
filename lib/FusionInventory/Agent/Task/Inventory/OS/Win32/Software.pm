@@ -58,6 +58,7 @@ sub processSoftwares {
         if ($data->{'/NoRemove'}) {
             $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
         }
+        $uninstallString =~ s/^"(.*)"$/$1/;
 
         $inventory->addSoftware ({
                 COMMENTS => $comments,
