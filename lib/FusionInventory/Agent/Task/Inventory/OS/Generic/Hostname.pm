@@ -16,7 +16,7 @@ sub doInventory {
   if (can_load("Sys::Hostname")) {
     $hostname = Sys::Hostname::hostname();
   } else {
-    chomp ( $hostname = `hostname` ); # TODO: This is not generic.
+    chomp ( $hostname = `hostname` );
   }
   $hostname =~ s/\..*//; # keep just the hostname
 
