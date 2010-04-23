@@ -20,7 +20,7 @@ sub doInventory {
 
         foreach my $Properties
             (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_OperatingSystem',
-qw/OSLanguage Caption Version SerialNumber/)) {
+qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser/)) {
 
         $inventory->setHardware({
 
@@ -28,6 +28,8 @@ qw/OSLanguage Caption Version SerialNumber/)) {
                 OSNAME => $Properties->{Caption},
                 OSVERSION =>  $Properties->{Version},
                 WINPRODKEY => $Properties->{SerialNumber},
+                WINCOMPANY => $Properties->{Organization},
+                WINOWNER => $Properties->{RegistredUser},
 
                 });
 
