@@ -33,8 +33,6 @@ qw/SystemDrive/)) {
         (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_LogicalDisk',
 qw/InstallDate Description FileSystem VolumeName Caption VolumeSerialNumber
 DeviceID Size DriveType VolumeName/)) {
-use Data::Dumper;
-print Dumper($Properties);
         push @drives, {
 
             CREATEDATE => $Properties->{InstallDate},
