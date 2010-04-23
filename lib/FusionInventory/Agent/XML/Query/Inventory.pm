@@ -66,6 +66,7 @@ sub new {
   $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
+  $self->{h}{CONTENT}{ENVS} = [];
   $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
@@ -863,6 +864,28 @@ sub addInput {
   };
 }
 
+=item addEnv()
+
+Register an environement variable.
+
+=cut
+sub addEnv {
+  my ($self, $args) = @_;
+
+  my $key = $args->{KEY};
+  my $val = $args->{VAL};
+
+  push @{$self->{h}{CONTENT}{ENVS}},
+  {
+
+    KEY => [$key?$key:''],
+    VAL => [$val?$val:''],
+
+  };
+}
+
+
+
 =item setAccessLog()
 
 What is that for? :)
@@ -1601,5 +1624,17 @@ Installation day in DD/MM/YYYY format. Windows only.
 =item DESCRIPTION
 
 =item NAME
+
+=back
+
+=head2 ENVS
+
+Environement variables
+
+=over 4
+
+=item KEY
+
+=item VAL
 
 =back
