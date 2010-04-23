@@ -67,6 +67,7 @@ sub new {
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
   $self->{h}{CONTENT}{ENVS} = [];
+  $self->{h}{CONTENT}{UPDATES} = [];
   $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
@@ -887,6 +888,26 @@ sub addEnv {
   };
 }
 
+=item addUpdate()
+
+Windows Update
+
+=cut
+sub addUpdate {
+  my ($self, $args) = @_;
+
+  my $id = $args->{ID};
+  my $kb = $args->{KB};
+
+  push @{$self->{h}{CONTENT}{UPDATES}},
+  {
+
+    ID => [$id?$id:''],
+    KB => [$kb?$kb:''],
+
+  };
+}
+
 
 
 =item setAccessLog()
@@ -1648,5 +1669,21 @@ Environement variables
 =item KEY
 
 =item VAL
+
+=back
+
+=head2 UPDATES 
+
+Windows updates
+
+=over 4
+
+=item ID 
+
+Update Id
+
+=item KB
+
+List of KB, delimiter is '/'
 
 =back
