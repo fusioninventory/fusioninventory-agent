@@ -51,7 +51,7 @@ sub doInventory {
 
 
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_ComputerSystem',
+        (getWmiProperties('Win32_ComputerSystem',
 qw/Manufacturer Model/)) {
 
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
@@ -60,7 +60,7 @@ qw/Manufacturer Model/)) {
     }
 
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_SystemEnclosure',
+        (getWmiProperties('Win32_SystemEnclosure',
 qw/SerialNumber SMBIOSAssetTag/)) {
 
         $ssn = $Properties->{SerialNumber} unless $ssn;
@@ -69,7 +69,7 @@ qw/SerialNumber SMBIOSAssetTag/)) {
     }
 
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_BaseBoard',
+        (getWmiProperties('Win32_BaseBoard',
 qw/SerialNumber Product Manufacturer/)) {
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $smodel = $Properties->{Product} unless $smodel;
@@ -78,7 +78,7 @@ qw/SerialNumber Product Manufacturer/)) {
     }
 
     foreach my $Properties
-        (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_Bios',
+        (getWmiProperties('Win32_Bios',
 qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $bmanufacturer = $Properties->{Manufacturer} unless $bmanufacturer;
