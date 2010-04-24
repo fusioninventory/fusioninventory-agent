@@ -602,7 +602,8 @@ Set BIOS informations.
 sub setBios {
   my ($self, $args) = @_;
 
-  foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG/) {
+  foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
+MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL BIOSSERIAL/) {
 
     if (exists $args->{$key}) {
       $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
@@ -1275,8 +1276,6 @@ is based on OCS Inventory XML with various additions.
 
 =item SSN
 
-The motherboard serial number
-
 =item BDATE
 
 =item BVERSION
@@ -1292,6 +1291,12 @@ The BIOS revision
 =item MMODEL
 
 =item ASSETTAG
+
+=item ENCLOSURESERIAL
+
+=item BASEBOARDSERIAL
+
+=item BIOSSERIAL
 
 The optional asset tag for this machine.
 

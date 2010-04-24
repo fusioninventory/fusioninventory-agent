@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Bios;
 
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
+
 use strict;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
@@ -36,6 +38,9 @@ sub doInventory {
     my $smodel;
     my $smanufacturer;
     my $ssn;
+    my $enclosureSerial;
+    my $baseBoardSerial;
+    my $biosSerial;
     my $bdate;
     my $bversion;
     my $bmanufacturer;
@@ -63,6 +68,7 @@ qw/Manufacturer Model/)) {
         (getWmiProperties('Win32_SystemEnclosure',
 qw/SerialNumber SMBIOSAssetTag/)) {
 
+        $enclosureSerial = $Properties->{SerialNumber} ;
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $assettag = $Properties->{SMBIOSAssetTag} unless $assettag;
 
@@ -71,6 +77,7 @@ qw/SerialNumber SMBIOSAssetTag/)) {
     foreach my $Properties
         (getWmiProperties('Win32_BaseBoard',
 qw/SerialNumber Product Manufacturer/)) {
+        $baseBoardSerial = $Properties->{SerialNumber};
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $smodel = $Properties->{Product} unless $smodel;
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
@@ -80,6 +87,7 @@ qw/SerialNumber Product Manufacturer/)) {
     foreach my $Properties
         (getWmiProperties('Win32_Bios',
 qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
+        $biosSerial = $Properties->{SerialNumber};
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $bmanufacturer = $Properties->{Manufacturer} unless $bmanufacturer;
         $bversion = $Properties->{SMBIOSBIOSVersion} unless $bversion;
@@ -91,6 +99,7 @@ qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
 
 
         $inventory->setBios({
+
                 SMODEL => $smodel,
                 SMANUFACTURER =>  $smanufacturer,
                 SSN => $ssn,
@@ -100,7 +109,10 @@ qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
                 MMANUFACTURER => $mmanufacturer,
                 MSN => $msn,
                 MMODEL => $model,
-                ASSETTAG => $assettag
+                ASSETTAG => $assettag,
+                ENCLOSURESERIAL => $enclosureSerial,
+                BASEBOARDSERIAL => $baseBoardSerial,
+                BIOSSERIAL => $biosSerial,
 
                 });
 
