@@ -18,10 +18,10 @@ qw/Name Manufacturer Caption Description/)) {
 
         $inventory->addSound({
 
-            NAME => encode('UTF-8', $Properties->{Name}),
-            CAPTION => encode('UTF-8', $Properties->{Caption}),
-            MANUFACTURER => encode('UTF-8', $Properties->{Manufacturer}),
-            DESCRIPTION => encode('UTF-8', $Properties->{Description}),
+            NAME => $Properties->{Name},
+            CAPTION => $Properties->{Caption},
+            MANUFACTURER => $Properties->{Manufacturer},
+            DESCRIPTION => $Properties->{Description},
 
         });
 
