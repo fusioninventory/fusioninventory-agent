@@ -20,6 +20,7 @@ Revision history for FusionInventory::Agent
        * Linux/PC/CPU: set CPU name and detect CORE/THREAD
        * Stores environement variables
        * Bios, add ENCLOSURESERIAL BASEBOARDSERIAL and BIOSSERIAL keys
+       * Identify USB devices (Windows, Linux)
 
 2.0.4
        * Add debug message on WOL and correction when no mac address comes
