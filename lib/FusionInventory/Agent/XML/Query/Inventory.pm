@@ -68,6 +68,7 @@ sub new {
   $self->{h}{CONTENT}{MODEMS} = [];
   $self->{h}{CONTENT}{ENVS} = [];
   $self->{h}{CONTENT}{UPDATES} = [];
+  $self->{h}{CONTENT}{USBDEVICES} = [];
   $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
@@ -909,6 +910,29 @@ sub addUpdate {
   };
 }
 
+=item addUSBDevice()
+
+USB device
+
+=cut
+sub addUSBDevice {
+  my ($self, $args) = @_;
+
+  my $vendorId = $args->{VENDORID};
+  my $productId = $args->{PRODUCTID};
+  my $serial = $args->{SERIAL};
+
+  push @{$self->{h}{CONTENT}{USBDEVICES}},
+  {
+
+    VENDORID => [$vendorId?$vendorId:''],
+    PRODUCTID => [$productId?$productId:''],
+    SERIAL => [$serial?$serial:''],
+
+  };
+}
+
+
 
 
 =item setAccessLog()
@@ -1690,5 +1714,31 @@ Update Id
 =item KB
 
 List of KB, delimiter is '/'
+
+=back
+
+=head2 USBDEVICES 
+
+USB Devices
+
+=over 4
+
+=item VENDORID 
+
+Vendor USB ID. 4 hexa char.
+
+=item PRODUCTID 
+
+Product USB ID. 4 hexa char.
+
+=item SERIAL
+
+=item CLASS
+
+USB Class (e.g: 8 for Mass Storage)
+
+=item SUBCLASS
+
+USB Sub Class
 
 =back
