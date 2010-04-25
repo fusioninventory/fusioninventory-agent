@@ -54,6 +54,16 @@ sub doInventory {
 
     $bdate = $registryInfo->{BIOSReleaseDate};
 
+    foreach my $Properties
+        (getWmiProperties('Win32_Bios',
+qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
+        $biosSerial = $Properties->{SerialNumber};
+        $ssn = $Properties->{SerialNumber} unless $ssn;
+        $bmanufacturer = $Properties->{Manufacturer} unless $bmanufacturer;
+        $bversion = $Properties->{SMBIOSBIOSVersion} unless $bversion;
+        $bversion = $Properties->{BIOSVersion} unless $bversion;
+        $bversion = $Properties->{Version} unless $bversion;
+    }
 
     foreach my $Properties
         (getWmiProperties('Win32_ComputerSystem',
@@ -82,17 +92,6 @@ qw/SerialNumber Product Manufacturer/)) {
         $smodel = $Properties->{Product} unless $smodel;
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
 
-    }
-
-    foreach my $Properties
-        (getWmiProperties('Win32_Bios',
-qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
-        $biosSerial = $Properties->{SerialNumber};
-        $ssn = $Properties->{SerialNumber} unless $ssn;
-        $bmanufacturer = $Properties->{Manufacturer} unless $bmanufacturer;
-        $bversion = $Properties->{SMBIOSBIOSVersion} unless $bversion;
-        $bversion = $Properties->{BIOSVersion} unless $bversion;
-        $bversion = $Properties->{Version} unless $bversion;
     }
 
 
