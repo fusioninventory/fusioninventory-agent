@@ -98,7 +98,9 @@ qw/ConnectorType InternalReferenceDesignator/)) {
             $type =~ s/\ \d.*//; # Drop the port number
         }
 
-        if($Properties->{InternalReferenceDesignator} =~ /SERIAL/) {
+        if(!$type && !$Properties->{InternalReferenceDesignator}) {
+            next;
+        } elsif($Properties->{InternalReferenceDesignator} =~ /SERIAL/) {
             next; # Already done
         } elsif($Properties->{InternalReferenceDesignator} =~ /PARALLEL/) {
             next; # Already done
