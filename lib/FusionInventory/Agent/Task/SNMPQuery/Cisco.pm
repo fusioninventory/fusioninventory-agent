@@ -2,8 +2,6 @@ package FusionInventory::Agent::Task::SNMPQuery::Cisco;
 
 use strict;
 
-
-
 sub TrunkPorts {
    my $HashDataSNMP = shift,
    my $datadevice = shift;
@@ -33,25 +31,31 @@ sub CDPPorts {
 
    my $short_number;
 
-   while ( my ( $number, $ip_hex) = each (%{$HashDataSNMP->{cdpCacheAddress}}) ) {
-      $ip_hex =~ s/://g;
-      $short_number = $number;
-      $short_number =~ s/$oid_walks->{cdpCacheAddress}->{OID}//;
-      my @array = split(/\./, $short_number);
-      my @ip_num = split(/(\S{2})/, $ip_hex);
-      my $ip = (hex $ip_num[3]).".".(hex $ip_num[5]).".".(hex $ip_num[7]).".".(hex $ip_num[9]);
-      $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
-      $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
-      $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number};
+   if (ref($HashDataSNMP->{cdpCacheAddress}) eq "HASH"){
+      while ( my ( $number, $ip_hex) = each (%{$HashDataSNMP->{cdpCacheAddress}}) ) {
+         $ip_hex =~ s/://g;
+         $short_number = $number;
+         $short_number =~ s/$oid_walks->{cdpCacheAddress}->{OID}//;
+         my @array = split(/\./, $short_number);
+         my @ip_num = split(/(\S{2})/, $ip_hex);
+         my $ip = (hex $ip_num[3]).".".(hex $ip_num[5]).".".(hex $ip_num[7]).".".(hex $ip_num[9]);
+         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
+         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
+         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number};
 
-      delete $HashDataSNMP->{cdpCacheAddress}->{$number};
-      delete $HashDataSNMP->{cdpCacheDevicePort}->{$number};
-   }
-   if (keys (%{$HashDataSNMP->{cdpCacheAddress}}) eq "0") {
-      delete $HashDataSNMP->{cdpCacheAddress};
-   }
-   if (keys (%{$HashDataSNMP->{cdpCacheDevicePort}}) eq "0") {
-      delete $HashDataSNMP->{cdpCacheDevicePort};
+         delete $HashDataSNMP->{cdpCacheAddress}->{$number};
+         if (ref($HashDataSNMP->{cdpCacheDevicePort}) eq "HASH"){
+            delete $HashDataSNMP->{cdpCacheDevicePort}->{$number};
+         }
+      }
+      if (keys (%{$HashDataSNMP->{cdpCacheAddress}}) eq "0") {
+         delete $HashDataSNMP->{cdpCacheAddress};
+      }
+      if (ref($HashDataSNMP->{cdpCacheDevicePort}) eq "HASH"){
+         if (keys (%{$HashDataSNMP->{cdpCacheDevicePort}}) eq "0") {
+            delete $HashDataSNMP->{cdpCacheDevicePort};
+         }
+      }
    }
    return $datadevice, $HashDataSNMP;
 }
