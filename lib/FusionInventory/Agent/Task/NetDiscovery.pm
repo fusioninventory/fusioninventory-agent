@@ -85,6 +85,8 @@ sub main {
 
         });
 
+   $self->{countxml} = 0;
+
    $self->StartThreads();
 
    exit(0);
@@ -93,7 +95,7 @@ sub main {
 
 sub StartThreads {
    my ($self, $params) = @_;
-
+   
 	my $nb_threads_discovery = $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY};
 	my $nb_core_discovery    = $self->{NETDISCOVERY}->{PARAM}->[0]->{CORE_DISCOVERY};
 
@@ -574,9 +576,9 @@ sub SendInformations{
    my $config = $self->{config};
 
    if ($config->{stdout}) {
-      $self->{inventory}->printXML();
+      $self->printXML();
    } elsif ($config->{local}) {
-      $self->{inventory}->writeXML();
+      $self->writeXML($message);
    } elsif ($config->{server}) {
 
       my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
@@ -1121,6 +1123,56 @@ sub axis_discovery {
       }
    }
    return $description;
+}
+
+
+sub printXML {
+  my ($self, $args) = @_;
+
+  print $self->getContent();
+}
+
+
+sub writeXML {
+  my ($self, $message) = @_;
+
+  my $logger = $self->{logger};
+  my $config = $self->{config};
+  my $target = $self->{target};
+
+  if ($target->{path} =~ /^$/) {
+    $logger->fault ('local path unititalised!');
+  }
+
+   my $dir = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+  $dir =~ s/\//-/;
+
+  my $localfile = $config->{local}."/".$target->{deviceid}.'.'.$dir.'-'.$self->{countxml}.'.xml';
+  $localfile =~ s!(//){1,}!/!;
+
+  $self->{countxml} = $self->{countxml} + 1;
+
+  # Convert perl data structure into xml strings
+
+   my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
+        {
+            config => $self->{config},
+            logger => $self->{logger},
+            target => $self->{target},
+            msg    => {
+                QUERY => 'NETDISCOVERY',
+                CONTENT   => $message->{data},
+            },
+        });
+
+  if (open OUT, ">$localfile") {
+    print OUT $xmlMsg;
+
+    close OUT or warn;
+    $logger->info("Inventory saved in $localfile");
+  } else {
+    warn "Can't open `$localfile': $!"
+  }
 }
 
 
