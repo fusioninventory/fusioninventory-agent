@@ -794,6 +794,9 @@ sub discovery_ip_threaded {
                      # If AXIS printserver
                      $description = axis_discovery($description, $session);
 
+                     # If dd_wrt router
+                     $description = ddwrt_discovery($description, $session);
+
                      $datadevice->{DESCRIPTION} = $description;
 
                      my $name = $session->snmpGet({
@@ -1088,7 +1091,7 @@ sub kyocera_discovery {
          }
       }
 
-   }
+}
    return $description;
 }
 
@@ -1146,6 +1149,27 @@ sub axis_discovery {
    }
    return $description;
 }
+
+
+sub ddwrt_discovery {
+   my $description = shift;
+   my $session     = shift;
+
+   if ($description =~ m/Linux/) {
+      my $description_new = $session->snmpGet({
+                        oid => '.1.3.6.1.2.1.1.5.0',
+                        up  => 1,
+                     });
+      if ($description_new eq "dd-wrt") {
+         $description = "dd-wrt";
+      }
+   }
+   return $description;
+}
+
+
+
+
 
 
 sub printXML {
