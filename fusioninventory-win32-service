@@ -22,6 +22,8 @@ $PrevState = SERVICE_START_PENDING;
 my $thr;
 
 sub startAgent {
+
+        return if $thr;
         $thr = threads->create(sub {
                 my $agent = new FusionInventory::Agent({winService => 1});
                 $agent->main();
@@ -32,6 +34,7 @@ sub startAgent {
 sub killAgent {
 
     $thr->kill('KILL');
+    $thr = undef;
 
 }
 
