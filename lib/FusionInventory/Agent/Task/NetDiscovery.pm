@@ -366,6 +366,7 @@ sub StartThreads {
 
                               if (keys %{$datadevice}) {
                                  $xml_threadt->{DEVICE}->[$count] = $datadevice;
+                                 $xml_threadt->{MODULEVERSION} = $VERSION;
                                  $xml_threadt->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
                                  $count++;
                               }
@@ -495,6 +496,7 @@ sub StartThreads {
          my $xml_thread = {};
          $xml_thread->{AGENT}->{START} = '1';
          $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
+         $xml_thread->{MODULEVERSION} = $VERSION;
          $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
          $self->SendInformations({
             data => $xml_thread
@@ -559,6 +561,7 @@ sub StartThreads {
    # Send infos to server :
    undef($xml_thread);
    $xml_thread->{AGENT}->{END} = '1';
+   $xml_thread->{MODULEVERSION} = $VERSION;
    $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
    sleep 1; # Wait for threads be terminated
    $self->SendInformations({
