@@ -672,6 +672,7 @@ sub addUser {
 #  my $uid   = $args->{UID};
 
   return unless $login;
+  $domain = "" unless $domain;
 
   # Is the login, already in the XML ?
   foreach my $user (@{$self->{h}{CONTENT}{USERS}}) {

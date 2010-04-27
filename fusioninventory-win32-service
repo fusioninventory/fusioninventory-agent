@@ -12,7 +12,6 @@ use Win32::Daemon;
 #
 my $win32service = 1;
 use threads;
-use lib 'c:/work/2.0.x/lib';
 use threads::shared;
 use FusionInventory::Agent;
 
@@ -23,16 +22,19 @@ $PrevState = SERVICE_START_PENDING;
 my $thr;
 
 sub startAgent {
-        $thr = threads->create(sub {
-                my $agent = new FusionInventory::Agent({winService => 1});
-                $agent->main();
-                });
+
+    return if $thr;
+    $thr = threads->create(sub {
+            my $agent = new FusionInventory::Agent({winService => 1});
+            $agent->main();
+        });
 
 }
 
 sub killAgent {
 
     $thr->kill('KILL');
+    $thr = undef;
 
 }
 
@@ -77,7 +79,7 @@ while( SERVICE_STOPPED != ( $State = Win32::Daemon::State() ) ){
 # Check for any outstanding commands. Pass in a non zero value
 # and it resets the Last Message to SERVICE_CONTROL_NONE.
     if( SERVICE_CONTROL_NONE != ( my $Message = 
-                Win32::Daemon::LastControlMessage( 1 ) ) ) {
+            Win32::Daemon::LastControlMessage( 1 ) ) ) {
         if( SERVICE_CONTROL_INTERROGATE == $Message ) {
 # Got here if the Service Control Manager is requesting
 # the current state of the service. This can happen for

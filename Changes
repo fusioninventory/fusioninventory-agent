@@ -21,6 +21,7 @@ Revision history for FusionInventory::Agent
        * Stores environement variables
        * Bios, add ENCLOSURESERIAL BASEBOARDSERIAL and BIOSSERIAL keys
        * Identify USB devices (Windows, Linux)
+       * --realm was two time in --help
 
 2.0.4
        * Add debug message on WOL and correction when no mac address comes

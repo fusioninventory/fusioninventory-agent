@@ -246,7 +246,6 @@ sub help {
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port (".$config->{proxy}.")\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
-  print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
   print STDERR "\t   --rpc-ip=IP      ip of the interface to use for peer ".
   "to peer exchange\n";
   print STDERR "\t   --scan-homedirs  permit to scan home user directories".
