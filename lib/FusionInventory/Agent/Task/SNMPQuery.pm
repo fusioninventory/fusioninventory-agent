@@ -322,6 +322,7 @@ sub StartThreads {
                                                                authlist            => $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
                                                             });
                                                          $xml_thread->{DEVICE}->[$count] = $datadevice;
+                                                         $xml_thread->{MODULEVERSION} = $VERSION;
                                                          $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
                                                          $count++;
                                                          if (($count eq "1") || (($loopthread eq "1") && ($count > 0))) {
@@ -357,6 +358,7 @@ sub StartThreads {
       my $xml_thread = {};
       $xml_thread->{AGENT}->{START} = '1';
       $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
+      $xml_thread->{MODULEVERSION} = $VERSION;
       $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
       $self->SendInformations({
          data => $xml_thread
