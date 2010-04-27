@@ -12,7 +12,6 @@ use Win32::Daemon;
 #
 my $win32service = 1;
 use threads;
-use lib 'c:/work/2.0.x/lib';
 use threads::shared;
 use FusionInventory::Agent;
 
