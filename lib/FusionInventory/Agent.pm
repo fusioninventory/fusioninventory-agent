@@ -251,20 +251,19 @@ sub main {
             });
 
 
-        my %taskOptions = (
-            Inventory => 'noinventory',
-            OcsDeploy => 'noocsdeploy',
-            WakeOnLan => 'nowakeonlan',
-            SNMPQuery => 'nosnmpquery',
-            NetDiscovery => 'nonetdiscovery'
-            );
+        my @tasks = qw/
+            Inventory
+            OcsDeploy
+            WakeOnLan
+            SNMPQuery
+            NetDiscovery
+            /;
 
-        foreach my $module (keys %taskOptions) {
+        foreach my $module (@tasks) {
             my $task = new FusionInventory::Agent::Task({
                     config => $config,
                     logger => $logger,
                     module => $module,
-                    name => $taskOptions{$module},
                     target => $target,
 
                 });
