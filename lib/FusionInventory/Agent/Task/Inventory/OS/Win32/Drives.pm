@@ -31,7 +31,7 @@ qw/SystemDrive/)) {
     my @drives;
     foreach my $Properties
         (getWmiProperties('Win32_LogicalDisk',
-qw/InstallDate Description FileSystem VolumeName Caption VolumeSerialNumber
+qw/InstallDate Description FreeSpace FileSystem VolumeName Caption VolumeSerialNumber
 DeviceID Size DriveType VolumeName/)) {
         push @drives, {
 
