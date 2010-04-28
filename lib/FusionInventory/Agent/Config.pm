@@ -97,7 +97,7 @@ sub loadFromWinRegistry {
     $val =~ s/\s+$//;
     $val =~ s/^'(.*)'$/$1/;
     $val =~ s/^"(.*)"$/$1/;
-    $config->{$key} = $val;
+    $config->{lc($key)} = $val;
   }
 }
 
