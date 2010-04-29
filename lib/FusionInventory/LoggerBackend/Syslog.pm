@@ -7,10 +7,8 @@ sub new {
 
   my $self = {};
 
-  setlogsock('unix');
-  openlog("fusioninventory-agent", 'cons,pid', $ENV{'USER'});
-  syslog('debug', 'syslog backend enabled');
-  closelog();
+  openlog("fusinv-agent", 'cons,pid', $params->{config}->{logfacility});
+
 
   bless $self;
 }
@@ -24,10 +22,13 @@ sub addMsg {
 
   return if $message =~ /^$/;
 
-  openlog("fusioninventory-agent", 'cons,pid', $ENV{'USER'});
   syslog('info', $message);
-  closelog();
 
 }
+
+sub DESTROY {
+  closelog();
+}
+
 
 1;

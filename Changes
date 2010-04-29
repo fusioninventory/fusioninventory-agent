@@ -22,6 +22,8 @@ Revision history for FusionInventory::Agent
        * Bios, add ENCLOSURESERIAL BASEBOARDSERIAL and BIOSSERIAL keys
        * Identify USB devices (Windows, Linux)
        * --realm was two time in --help
+       * Fix Syslog backend, cf: https://bugs.launchpad.net/bugs/571655
+         (Guillaume ROUSSE)
 
 2.0.4
        * Add debug message on WOL and correction when no mac address comes

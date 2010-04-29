@@ -25,6 +25,7 @@ my $default = {
   #'logger'    =>  'Syslog,File,Stderr',
   'logger'    =>  'Stderr',
   'logfile'   =>  '',
+  'logfacility' =>  'LOG_USER',
   'password'  =>  '',
   'proxy'     =>  '',
   'realm'     =>  '',
