@@ -820,6 +820,8 @@ sub discovery_ip_threaded {
                      if ($serial eq "No response from remote host") {
                         $serial = q{}; # Empty string
                      }
+                     $serial =~ s/^\s+//;
+                     $serial =~ s/\s+$//;
                      $datadevice->{SERIAL} = $serial;
                      $datadevice->{MODELSNMP} = $model;
                      $datadevice->{AUTHSNMP} = $key;
