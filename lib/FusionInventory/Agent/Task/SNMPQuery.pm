@@ -969,6 +969,10 @@ sub PutSimpleOid {
       if (($element eq "ram") || ($element eq "memory")) {
          $HashDataSNMP->{$element} = int(( $HashDataSNMP->{$element} / 1024 ) / 1024);
       }
+      if ($element eq "serial") {
+         $HashDataSNMP->{$element} =~ s/^\s+//;
+         $HashDataSNMP->{$element} =~ s/\s+$//;
+      }
       if ($element eq "firmware1") {
          $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
          delete $HashDataSNMP->{"firmware2"};
