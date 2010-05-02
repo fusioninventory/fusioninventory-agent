@@ -13,18 +13,19 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $cups = Net::CUPS->new();
-    my $printer = $cups->getDestination();
+    my @printers = $cups->getDestinations();
 
-    return unless $printer;
+    return unless scalar(@printers);
 
-    # Just grab the default printer, is I use getDestinations, CUPS
-    # returns all the printer of the local subnet (is it can)
-    # TODO There is room for improvement here
-    $inventory->addPrinter({
+    foreach my $printer  (@printers)
+    {
+        $inventory->addPrinter({
             NAME    => $printer->getName(),
             DESCRIPTION => $printer->getDescription(),
-#                DRIVER =>  How to get the PPD?!!
+            DRIVER => $printer->getOptionValue("printer-make-and-model"),
+            PORT => $printer->getUri() 
         });
+    }
 
 }
 1;
