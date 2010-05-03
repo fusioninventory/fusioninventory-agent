@@ -57,7 +57,14 @@ sub getFromSysProc {
 sub getCapacity {
   my ($dev) = @_;
   my $cap;
+  if ( `fdisk -v` =~ '^GNU.*')
+  {
+       chomp ($cap = `fdisk -p -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
+  }
+  else
+  {
   chomp ($cap = `fdisk -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
+  }
   $cap = int ($cap/1000) if $cap;
   return $cap;
 }
@@ -218,12 +225,27 @@ sub doInventory {
       $partitions->{$1} = undef
         if (/^\/sys\/block\/([sh]d[a-z])$/)
     }
+    
+    if ( `fdisk -v` =~ '^GNU.*')
+    {
+    foreach (`fdisk -p -l`) {# call fdisk to list partitions
+      chomp;
+      next unless (/^\//);
+      $partitions->{$1} = undef
+        if (/^\/dev\/([sh]d[a-z])/);
+    }
+    }
+    else
+    {
     foreach (`fdisk -l`) {# call fdisk to list partitions
       chomp;
       next unless (/^\//);
       $partitions->{$1} = undef
         if (/^\/dev\/([sh]d[a-z])/);
     }
+ 
+    }
+
     foreach my $device (keys %$partitions) {
 
       if (!$devices->{$device}->{MANUFACTURER}) {

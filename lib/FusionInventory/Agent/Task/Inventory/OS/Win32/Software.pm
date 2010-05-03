@@ -47,8 +47,8 @@ sub processSoftwares {
     my $inventory = $params->{inventory};
     my $is64bit = $params->{is64bit};
 
-    foreach ( keys %$softwares ) {
-        my $data = $softwares->{$_};
+    foreach my $guid ( keys %$softwares ) {
+        my $data = $softwares->{$guid};
         next unless keys %$data;
 
 # odd, found on Win2003
@@ -92,6 +92,7 @@ sub processSoftwares {
                 VERSION_MINOR => $versionMinor,
                 VERSION_MAJOR => $versionMajor,
                 IS64BIT => $is64bit,
+                GUID => $guid,
                 });
     }
 }

@@ -1,5 +1,4 @@
 Revision history for FusionInventory::Agent
-
 2.1
        * Windows: Add new values for SOFTWARES key
        * Add Windows service
@@ -22,13 +21,21 @@ Revision history for FusionInventory::Agent
        * Bios, add ENCLOSURESERIAL BASEBOARDSERIAL and BIOSSERIAL keys
        * Identify USB devices (Windows, Linux)
        * --realm was two time in --help
+       * Fix Syslog backend, cf: https://bugs.launchpad.net/bugs/571655
+         (Guillaume ROUSSE)
+	   * Cups.pm: gets all installed printers and their drivers names
+        (Aurelien Bondis)
+       * ocsinventory-ng is not more the default server hostname
 
 2.0.4
        * Add debug message on WOL and correction when no mac address comes
          in xml file from server (David DURIEUX)
+       * etc/cron.d/fusioninventory-agent, call fusioninventory-agent
+         instead of ocsinventory-agent
 
 2.0.3     Sun, 11 Apr 2010 00:38:18 +0200
        * Fix a syntax problem in FusionInventory::Agent::Network
+       * Inputs.pm: adds Inputs support for Linux clients
 
 2.0.2     Sat Apr 10 23:31:48 2010 +0200
        * fusioninventory-agent-config: Fix a typo, thank you Act

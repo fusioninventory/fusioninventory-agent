@@ -25,12 +25,13 @@ my $default = {
   #'logger'    =>  'Syslog,File,Stderr',
   'logger'    =>  'Stderr',
   'logfile'   =>  '',
+  'logfacility' =>  'LOG_USER',
   'password'  =>  '',
   'proxy'     =>  '',
   'realm'     =>  '',
   'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
                                    # --server instead
-  'server'    =>  'http://ocsinventory-ng/ocsinventory',
+  'server'    =>  '',
   'stdout'    =>  0,
   'tag'       =>  '',
   'user'      =>  '',
@@ -97,7 +98,7 @@ sub loadFromWinRegistry {
     $val =~ s/\s+$//;
     $val =~ s/^'(.*)'$/$1/;
     $val =~ s/^"(.*)"$/$1/;
-    $config->{$key} = $val;
+    $config->{lc($key)} = $val;
   }
 }
 

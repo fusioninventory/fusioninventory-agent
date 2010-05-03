@@ -400,6 +400,7 @@ sub addSoftware {
   my $versionMinor = $args->{VERSION_MINOR};
   my $versionMajor = $args->{VERSION_MAJOR};
   my $is64bit = $args->{IS64BIT};
+  my $guid = $args->{GUID};
 
 
   push @{$self->{h}{CONTENT}{SOFTWARES}},
@@ -421,6 +422,7 @@ sub addSoftware {
     VERSION_MINOR => [$versionMinor?$versionMinor:''],
     VERSION_MAJOR => [$versionMajor?$versionMajor:''],
     IS64BIT => [$is64bit],
+    GUID => [$guid],
 
   };
 }
@@ -1621,6 +1623,10 @@ Installation day in DD/MM/YYYY format. Windows only.
 =item VERSION_MAJOR
 
 =item IS64BIT
+
+=item GUID
+
+Windows software GUID
 
 =back
 
