@@ -123,8 +123,13 @@ sub server {
         return;
    } 
     $logger->info("RPC service started at: ". $daemon->url);
-    while (my $c = $daemon->accept) {
-        threads->create(\&handler, $self, $c)->detach();
+
+    my @stack;
+    while (sleep 1) {
+        next if threads->list(threads::running) > 10;
+        my $c = $daemon->accept;
+        my $thr = threads->create(\&handler, $self, $c);
+        push @stack, $thr;
     }
 }
 
