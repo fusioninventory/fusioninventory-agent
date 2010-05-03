@@ -31,6 +31,7 @@ Revision history for FusionInventory::Agent
          in xml file from server (David DURIEUX)
        * etc/cron.d/fusioninventory-agent, call fusioninventory-agent
          instead of ocsinventory-agent
+       * limit the number of RPC connection, and fix the Win32 issue
 
 2.0.3     Sun, 11 Apr 2010 00:38:18 +0200
        * Fix a syntax problem in FusionInventory::Agent::Network
