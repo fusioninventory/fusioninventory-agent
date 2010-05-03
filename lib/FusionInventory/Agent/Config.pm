@@ -31,7 +31,7 @@ my $default = {
   'realm'     =>  '',
   'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
                                    # --server instead
-  'server'    =>  'http://ocsinventory-ng/ocsinventory',
+  'server'    =>  '',
   'stdout'    =>  0,
   'tag'       =>  '',
   'user'      =>  '',
