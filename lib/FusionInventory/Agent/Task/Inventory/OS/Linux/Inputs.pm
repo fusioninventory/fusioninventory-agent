@@ -45,8 +45,13 @@ sub doInventory {
             }
             if (/^H: Handlers=(\w+)/i) {
                 $logger->debug("dans le type $1");
+		if ( $1 =~ ".*kbd.*")
+		{ $device->{type}="Keyboard"; }
+		elsif ( $1 =~ ".*mouse.*")
+		{ $device->{type}="Pointing"; }
+		
                 # Keyboard ou Pointing
-                $device->{type}=$1;
+                else {$device->{type}=$1;};
             }
         }
     }
