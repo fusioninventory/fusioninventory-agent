@@ -28,6 +28,7 @@ Revision history for FusionInventory::Agent
        * ocsinventory-ng is not more the default server hostname
        * Inputs.pm: adds Inputs support for Linux clients (Aurelien Bondis)
        * Turns off interactive mode of GNU fdisk (Aurelien Bondis)
+       * Add a few new PNP monitor IDs (Alex Mauer)
 
 2.0.4
        * Add debug message on WOL and correction when no mac address comes
