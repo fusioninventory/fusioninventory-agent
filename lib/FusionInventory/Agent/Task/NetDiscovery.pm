@@ -923,7 +923,9 @@ sub verifySerial {
                      });
             while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
                if ($macadress ne '') {
-                  $macreturn = $macadress;
+                  if ($macreturn eq "") {
+                     $macreturn = $macadress;
+                  }
                }
             }
 
