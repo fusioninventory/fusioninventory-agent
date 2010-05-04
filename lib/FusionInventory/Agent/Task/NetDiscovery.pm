@@ -922,8 +922,8 @@ sub verifySerial {
                         oid_start => $oid
                      });
             while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
-               if ($macadress ne '') {
-                  if ($macreturn eq "") {
+               if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
+                  if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
                      $macreturn = $macadress;
                   }
                }
