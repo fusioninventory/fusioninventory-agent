@@ -14,7 +14,7 @@ use File::Path;
 use XML::Simple;
 use Sys::Hostname;
 
-our $VERSION = '2.0.3';
+our $VERSION = '2.0.4';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
