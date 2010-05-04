@@ -121,6 +121,8 @@ sub getNext {
         } else {
             $logger->debug("Nothing to do for ".$target->{'path'});
         }
+    } elsif ($config->{'wait'} && sleep($config->{'wait'})) {
+        return shift @{$self->{targets}}
     } else {
         return shift @{$self->{targets}}
     }
