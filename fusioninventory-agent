@@ -297,10 +297,8 @@ Print the version and exit.
 
 =item B<-w> I<DURATION>, B<--wait>=I<DURATION>
 
-Wait before initializing the connexion with the server. If I<DURATION> equal
-I<server> the agent will use the PROLOG_FREQ of the server to determine the
-duration of this periode. Exactly like it would had done if it was in --daemon
-mode. Else if duration is a numerical value, it will be used directly.
+Wait during a random period between 0 and DURATION second before initializing
+the connexion with the server.
 
     % fusioninventory-agent --wait 5 --server localhost
 

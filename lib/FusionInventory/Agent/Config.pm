@@ -223,8 +223,9 @@ sub help {
   "SSL connexion with the server (".$config->{noSslCheck}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$config->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
-  print STDERR "\t-w --wait=seconds   wait during a random periode before".
-  "  contacting server like --daemon do (".$config->{wait}.")\n";
+  print STDERR "\t-w --wait=DURATION  wait during a random periode ".
+  "between 0 and DURATION seconds before ".
+  "contacting server (".$config->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($config->{xml})\n";
 
   print STDERR "\n";
