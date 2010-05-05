@@ -8,6 +8,7 @@ Revision history for FusionInventory::Agent
        * limit the number of RPC connection, and fix the Win32 issue
        * Restore --wait XXX
        * Fix --wait documentation.
+       * Avoid an error with --lazy, thanks Remi Collet
 
 2.0.3     Sun, 11 Apr 2010 00:38:18 +0200
        * Fix a syntax problem in FusionInventory::Agent::Network
