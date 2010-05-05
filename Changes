@@ -9,6 +9,8 @@ Revision history for FusionInventory::Agent
        * Restore --wait XXX
        * Fix --wait documentation.
        * Avoid an error with --lazy, thanks Remi Collet
+       * Bump "Next server contact planned for ..." message severity from
+         debug to info
 
 2.0.3     Sun, 11 Apr 2010 00:38:18 +0200
        * Fix a syntax problem in FusionInventory::Agent::Network
