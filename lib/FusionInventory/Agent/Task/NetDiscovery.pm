@@ -915,8 +915,30 @@ sub verifySerial {
                      });
 
          }
-         if (defined($num->{MACDYN})) {
-            $oid = $num->{MACDYN};
+        
+         $oid = $num->{MACDYN};
+         my $Arraymacreturn = {};
+         $Arraymacreturn  = $session->snmpWalk({
+                     oid_start => $oid
+                  });
+         while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
+            if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
+               if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+                  $macreturn = $macadress;
+               }
+            }
+         }
+
+         # Mac of switchs
+         if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+            $oid = ".1.3.6.1.2.1.17.1.1.0";
+            $macreturn  = $session->snmpGet({
+                        oid => $oid,
+                        up  => 0,
+                     });
+         }
+         if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+            $oid = ".1.3.6.1.2.1.2.2.1.6";
             my $Arraymacreturn = {};
             $Arraymacreturn  = $session->snmpWalk({
                         oid_start => $oid
@@ -928,11 +950,35 @@ sub verifySerial {
                   }
                }
             }
-
          }
+
          return ($serialreturn, $typereturn, $modelreturn, $macreturn);
       }
    }
+
+   # Mac of switchs
+   if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+      $oid = ".1.3.6.1.2.1.17.1.1.0";
+      $macreturn  = $session->snmpGet({
+                  oid => $oid,
+                  up  => 0,
+               });
+   }
+   if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+      $oid = ".1.3.6.1.2.1.2.2.1.6";
+      my $Arraymacreturn = {};
+      $Arraymacreturn  = $session->snmpWalk({
+                  oid_start => $oid
+               });
+      while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
+         if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
+            if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+               $macreturn = $macadress;
+            }
+         }
+      }
+   }
+
 	return ("", 0, "", "");
 }
 
