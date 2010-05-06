@@ -113,7 +113,7 @@ sub getNext {
             }
             sleep(10);
         }
-    } elsif ($config->{'lazy'}) {
+    } elsif ($config->{'lazy'} && @{$self->{targets}}) {
         my $target = shift @{$self->{targets}};
         if (time > $target->getNextRunDate()) {
             $logger->debug("Processing ".$target->{'path'});
@@ -121,7 +121,11 @@ sub getNext {
         } else {
             $logger->debug("Nothing to do for ".$target->{'path'});
         }
-    } elsif ($config->{'wait'} && sleep($config->{'wait'})) {
+    } elsif ($config->{'wait'}) {
+        my $wait = int rand($config->{'wait'});
+        $logger->info("Going to sleep for $wait second(s) because of the".
+            " wait parameter");
+        sleep($wait);
         return shift @{$self->{targets}}
     } else {
         return shift @{$self->{targets}}

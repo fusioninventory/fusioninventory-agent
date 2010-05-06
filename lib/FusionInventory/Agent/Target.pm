@@ -87,7 +87,7 @@ sub new {
         $self->{myData} = $storage->restore();
 
         if ($self->{myData}{'nextRunDate'}) {
-            $logger->debug (
+            $logger->info (
                 "[".$self->{'path'}."]".
                 " Next server contact planned for ".
                 localtime($self->{'myData'}{'nextRunDate'})
