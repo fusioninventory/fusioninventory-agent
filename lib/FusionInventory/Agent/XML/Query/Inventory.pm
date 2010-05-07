@@ -606,7 +606,6 @@ sub setBios {
   my ($self, $args) = @_;
 
   foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
-MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL BIOSSERIAL/) {
 
     if (exists $args->{$key}) {
       $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
