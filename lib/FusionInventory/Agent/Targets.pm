@@ -119,7 +119,10 @@ sub getNext {
             $logger->debug("Processing ".$target->{'path'});
             return $target;
         } else {
-            $logger->debug("Nothing to do for ".$target->{'path'});
+            $logger->info("Nothing to do for ".$target->{'path'}.
+		". Next server contact planned for ".
+                localtime($target->getNextRunDate())
+		);
         }
     } elsif ($config->{'wait'}) {
         my $wait = int rand($config->{'wait'});
