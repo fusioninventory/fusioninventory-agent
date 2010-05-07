@@ -26,7 +26,7 @@ include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
 version_from 'lib/FusionInventory/Agent.pm';
-perl_version '5.006';
+perl_version '5.008';
 requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
 requires 'LWP' => undef;
