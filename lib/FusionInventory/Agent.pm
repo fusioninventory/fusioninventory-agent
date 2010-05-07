@@ -48,8 +48,9 @@ use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::Targets;
 
 sub new {
-    my (undef, $self, $params) = @_;
+    my (undef, $params) = @_;
 
+    my $self = {};
 ############################
 #### CLI parameters ########
 ############################
