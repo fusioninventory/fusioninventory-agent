@@ -10,6 +10,7 @@ Revision history for FusionInventory::Agent
        * daemon mode: don't change current directory to / if --devlib is
          on
        * Add MIME::Base64 as recommended package
+       * A Fedora RPC spec file in contrib/fedora (Remi COLLET)
 
 2.0.4    Thu, 06 May 2010 18:43:30 +0200
        * Add debug message on WOL and correction when no mac address comes
