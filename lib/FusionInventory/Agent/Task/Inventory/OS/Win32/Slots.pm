@@ -37,7 +37,7 @@ qw/Name Description SlotDesignation Status Shared/)) {
     }
 
     foreach (@slots) {
-        $inventory->addSlots($_);
+        $inventory->addSlot($_);
     }
 
 }
