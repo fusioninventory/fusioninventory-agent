@@ -41,7 +41,9 @@ sub doInventory {
             push @cpu, {
                 SPEED => $frequency,
                 MANUFACTURER => 'unknown',
-                SERIAL => $serial,
+                SERIAL => $seriali,
+# Thread per core according to my understanding of
+# http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
                 THREAD => $thread
             }
         }

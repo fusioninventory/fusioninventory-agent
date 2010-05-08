@@ -239,6 +239,7 @@ sub help {
   "(".$config->{noocsdeploy}.")\n";
   print STDERR "\t   --no-inventory   Do not generate inventory".
   " (".$config->{'no-inventory'}.")\n";
+  print STDERR "\t   --no-ssl-check   do not check the ".
   print STDERR "\t   --no-software    do not return installed ".
   "software list (".$config->{'no-software'}.")\n";
   print STDERR "\t   --no-wakeonlan   do not use wakeonlan function".
@@ -256,12 +257,12 @@ sub help {
   " but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$config->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t   --no-ssl-check   do not check the ".
   "SSL connexion with the server (".$config->{'no-ssl-check'}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$config->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
-  print STDERR "\t-w --wait=seconds   wait during a random periode before".
-  "  contacting server like --daemon do (".$config->{wait}.")\n";
+  print STDERR "\t-w --wait=DURATION  wait during a random periode ".
+  "between 0 and DURATION seconds before ".
+  "contacting server (".$config->{wait}.")\n";
 #  print STDERR "\t-x --xml            write output in a xml file ($config->{xml})\n";
 
   print STDERR "\n";

@@ -159,11 +159,16 @@ sub save {
     my $filePath = $self->getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
-    my $isWindows = $^O =~ /^^MSWin/;
+    my $isWindows = $^O =~ /^MSWin/;
     my $oldMask = umask();
 
     if (!$isWindows) {
-        umask(077) or die "Can't restrict access to $filePath\n";
+        my $wantedUmask = "077";
+        umask(oct($wantedUmask));
+        my $currentUmask = sprintf "%lo", umask() & 07777;
+        if ($currentUmask != $wantedUmask) {
+            die "Failed to set umask $wantedUmask ($currentUmask)";
+        }
     } else {
         print "TODO, restrict access to temp file!\n";
 }

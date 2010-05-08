@@ -26,16 +26,35 @@ Revision history for FusionInventory::Agent
 	   * Cups.pm: gets all installed printers and their drivers names
         (Aurelien Bondis)
        * ocsinventory-ng is not more the default server hostname
+       * Inputs.pm: adds Inputs support for Linux clients (Aurelien Bondis)
+       * Turns off interactive mode of GNU fdisk (Aurelien Bondis)
+       * Add a few new PNP monitor IDs (Alex Mauer)
+       * Minimal Perl version is Perl 5.8.
 
-2.0.4
+2.0.5
+       * Don't use dmidecode with -t and -s parameter since it's not
+         supported on RHEL4
+       * Remove wrong code to detect problem with umask. umask(077) will
+         returns the previous umask. In daemon mode, the umask is set to
+         0 which was seen as an error code
+       * Fix a minor typo in Storage.pm
+       * daemon mode: don't change current directory to / if --devlib is
+         on
+
+2.0.4    Thu, 06 May 2010 18:43:30 +0200
        * Add debug message on WOL and correction when no mac address comes
          in xml file from server (David DURIEUX)
        * etc/cron.d/fusioninventory-agent, call fusioninventory-agent
          instead of ocsinventory-agent
+       * limit the number of RPC connection, and fix the Win32 issue
+       * Restore --wait XXX
+       * Fix --wait documentation.
+       * Avoid an error with --lazy, thanks Remi Collet
+       * Bump "Next server contact planned for ..." message severity from
+         debug to info
 
 2.0.3     Sun, 11 Apr 2010 00:38:18 +0200
        * Fix a syntax problem in FusionInventory::Agent::Network
-       * Inputs.pm: adds Inputs support for Linux clients
 
 2.0.2     Sat Apr 10 23:31:48 2010 +0200
        * fusioninventory-agent-config: Fix a typo, thank you Act
