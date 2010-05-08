@@ -5,6 +5,7 @@ Revision history for FusionInventory::Agent
          supported on RHEL4
        * Remove wrong code to detect problem with umask. umask(077) will
          returns the previous umask and so 0 in daemon mode.
+       * Fix a minor typo in Storage.pm
 
 2.0.4    Thu, 06 May 2010 18:43:30 +0200
        * Add debug message on WOL and correction when no mac address comes
