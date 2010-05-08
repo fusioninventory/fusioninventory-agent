@@ -78,7 +78,7 @@ sub init {
         my $url;
         if ($val !~ /^http(|s):\/\//) {
             $logger->debug("the --server passed doesn't ".
-                "have a protocle, ".
+                "have a protocole, ".
                 "assume http as default");
             $url = "http://".$val.'/ocsinventory';
         } else {
