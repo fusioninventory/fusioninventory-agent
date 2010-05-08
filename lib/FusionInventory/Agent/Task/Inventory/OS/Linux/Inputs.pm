@@ -21,7 +21,6 @@ sub doInventory {
             $in =0;
             if ( $device->{phys} =~ "input" )
             {
-                $logger->debug("ca match ! phys=$device->{phys}");
                 push @inputs, {
                     DESCRIPTION => $device->{name},
                     CAPTION => $device->{name},
@@ -32,19 +31,15 @@ sub doInventory {
             $device = {};
         } elsif ($in) {
             if (/^P: Phys=.*(button).*/i) {
-                $logger->debug("dans le phys nodev $1");
                 $device->{phys}="nodev";
             }
             elsif (/^P: Phys=.*(input).*/i) {
-                $logger->debug("dans le phys input $1");
                 $device->{phys}="input";
             }
             if (/^N: Name=\"(.*)\"/i) {
-                $logger->debug("dans le name $1");
                 $device->{name}=$1;
             }
             if (/^H: Handlers=(\w+)/i) {
-                $logger->debug("dans le type $1");
 		if ( $1 =~ ".*kbd.*")
 		{ $device->{type}="Keyboard"; }
 		elsif ( $1 =~ ".*mouse.*")
