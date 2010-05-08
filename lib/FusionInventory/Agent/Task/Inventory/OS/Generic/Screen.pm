@@ -662,7 +662,7 @@ sub doInventory {
 
     }
 
-      $inventory->addMonitors ({
+      $inventory->addMonitor ({
 
               BASE64 => $base64,
               CAPTION => $caption,
