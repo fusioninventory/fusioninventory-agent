@@ -163,7 +163,7 @@ sub save {
     my $oldMask = umask();
 
     if (!$isWindows) {
-        umask(077) or die "Can't restrict access to $filePath\n";
+        umask(077);
     } else {
         print "TODO, restrict access to temp file!\n";
 }
