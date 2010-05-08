@@ -22,32 +22,75 @@ use strict;
 
 sub isInventoryEnabled {
 
-  return unless (can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
+  return unless ($^O =~ /^MSWin/ || can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
   
   1;
 }
 
-sub getEdid {
-  my $raw_edid;
+sub getScreens {
+  my @raw_edid;
+
+
+  if ($^O =~ /^MSWin/) {
+
+      if (!eval {
+              use FusionInventory::Agent::Task::Inventory::OS::Win32;
+
+              use Win32::TieRegistry ( Access=>"KEY_READ", Delimiter=>"/", ArrayValues=>0 );
+              1;}) {
+          print "Failed to load Win32::OLE and Win32::TieRegistry\n";
+          return;
+      }
+
+      use constant wbemFlagReturnImmediately => 0x10;
+      use constant wbemFlagForwardOnly => 0x20;
+
+
+      my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or die "WMI connection failed.\n";
+      my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
+              wbemFlagReturnImmediately | wbemFlagForwardOnly);
+
+      foreach my $objItem (getWmiProperties('Win32_DesktopMonitor',
+                  qw/
+                  Caption
+                  PNPDeviceID
+                  /)) {
+
+          next unless $objItem->{"PNPDeviceID"};
+          my $name = $objItem->{"Caption"};
+
+          my $a= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>"KEY_READ",Delimiter=>"/"} )
+              or  die "Can't open HKEY_LOCAL_MACHINE key: $^E\n";
+
+          my $edid = $a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device Parameters/EDID'}."\n";
+        $edid =~ s/^\s+$//;
+
+          push @raw_edid, { name => $name, edid => $edid };
+      }
+
+  } else {
 
 # Mandriva
-  $raw_edid = `monitor-get-edid-using-vbe 2>/dev/null`;
+      my $raw_edid = `monitor-get-edid-using-vbe 2>/dev/null`;
 
-  # Since monitor-edid 1.15, it's possible to retrieve EDID information
-  # through DVI link but we need to use monitor-get-edid
-  if (!$raw_edid) {
-      $raw_edid = `monitor-get-edid 2>/dev/null`;
+# Since monitor-edid 1.15, it's possible to retrieve EDID information
+# through DVI link but we need to use monitor-get-edid
+      if (!$raw_edid) {
+          $raw_edid = `monitor-get-edid 2>/dev/null`;
+      }
+
+      if (!$raw_edid) {
+          foreach (1..5) { # Sometime get-edid return an empty string...
+              $raw_edid = `get-edid 2>/dev/null`;
+              last if (length($raw_edid) == 128 || length($raw_edid) == 256);
+          }
+      }
+      return unless (length($raw_edid) == 128 || length($raw_edid) == 256);
+
+      push @raw_edid, { edid => $raw_edid };
   }
 
-  if (!$raw_edid) {
-    foreach (1..5) { # Sometime get-edid return an empty string...
-      $raw_edid = `get-edid 2>/dev/null`;
-      last if (length($raw_edid) == 128 || length($raw_edid) == 256);
-    }
-  }
-  return unless (length($raw_edid) == 128 || length($raw_edid) == 256);
-
-  return $raw_edid;
+  return @raw_edid;
 }
 
 my @CVT_ratios = qw(5/4 4/3 3/2 16/10 15/9 16/9);
@@ -581,44 +624,55 @@ sub doInventory {
   my $raw_perl = 1;
   my $verbose;
   my $MonitorsDB;
-  my $base64;
-  my $uuencode;
   
-  my $raw_edid = getEdid();
+  my @screens = getScreens();
 
-  return unless $raw_edid;
+  return unless @screens;
 
-  length($raw_edid) == 128 || length($raw_edid) == 256 or
-  $logger->debug("incorrect lenght: bad edid");
+  foreach my $screen (@screens) {
+    my $name = $screen->{name};
 
-  my $edid = parse_edid($raw_edid);
-  if (my $err = check_parsed_edid($edid)) {
-    $logger->debug("check failed: bad edid: $err");
-  }
+    my $caption = $name;
+    my $description;
+    my $manufacturer;
+    my $serial;
+    my $base64;
+    my $uuencode;
 
-  my $caption = $edid->{monitor_name};
-  my $description = $edid->{week}."/".$edid->{year};
-  my $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
-  my $serial = $edid->{serial_number2}[0];
+    if ($screen->{edid}) {
+        my $edid = parse_edid($screen->{edid});
+        if (my $err = check_parsed_edid($edid)) {
+            $logger->debug("check failed: bad edid: $err");
+        } else {
 
-  eval "use MIME::Base64;";
-  $base64 = encode_base64($raw_edid) if !$@;
-  if (can_run("uuencode")) {
-    $uuencode = `echo $raw_edid|uuencode -`;
-    if (!$base64) {
-      $base64 = `echo $raw_edid|uuencode -m -`;
+            $caption = $edid->{monitor_name};
+            $description = $edid->{week}."/".$edid->{year};
+            $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
+            $serial = $edid->{serial_number2}[0];
+        }
+
+        eval "use MIME::Base64;";
+        $base64 = encode_base64($screen->{edid}) if !$@;
+        if (can_run("uuencode")) {
+            $uuencode = `echo $screen->{edid}|uuencode -`;
+            if (!$base64) {
+                $base64 = `echo $screen->{edid}|uuencode -m -`;
+            }
+        }
+
     }
+
+      $inventory->addMonitors ({
+
+              BASE64 => $base64,
+              CAPTION => $caption,
+              DESCRIPTION => $description,
+              MANUFACTURER => $manufacturer,
+              SERIAL => $serial,
+              UUENCODE => $uuencode,
+
+              });
   }
-  $inventory->addMonitors ({
-
-      BASE64 => $base64,
-      CAPTION => $caption,
-      DESCRIPTION => $description,
-      MANUFACTURER => $manufacturer,
-      SERIAL => $serial,
-      UUENCODE => $uuencode,
-
-    });
 }
 1;
 
