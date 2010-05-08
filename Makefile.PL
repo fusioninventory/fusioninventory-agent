@@ -39,6 +39,7 @@ recommends 'File::Path' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
 recommends 'Archive::Extract' => undef;
 recommends 'Net::CUPS' => undef;
+recommends 'MIME::Base64' => undef;
 
 use Data::Dumper;
 use Cwd;

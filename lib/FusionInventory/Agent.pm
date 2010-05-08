@@ -2,6 +2,7 @@
 
 package FusionInventory::Agent;
 
+use Cwd;
 use English;
 
 use strict;
@@ -123,6 +124,8 @@ sub new {
     if ($config->{daemon}) {
 
         $logger->debug("Time to call Proc::Daemon");
+
+        my $cwd = getcwd();
         eval { require Proc::Daemon; };
         if ($@) {
             print "Can't load Proc::Daemon. Is the module installed?";
@@ -136,6 +139,9 @@ sub new {
             $logger->debug("An agent is already runnnig, exiting...");
             exit 1;
         }
+        # If we are in dev mode, we want to stay in the source directory to
+        # be able to access the 'lib' directory
+        chdir $cwd if $config->{devlib};
 
     }
     $self->{rpc} = new FusionInventory::Agent::RPC ({

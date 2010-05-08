@@ -3,6 +3,13 @@ Revision history for FusionInventory::Agent
 2.0.5
        * Don't use dmidecode with -t and -s parameter since it's not
          supported on RHEL4
+       * Remove wrong code to detect problem with umask. umask(077) will
+         returns the previous umask. In daemon mode, the umask is set to
+         0 which was seen as an error code
+       * Fix a minor typo in Storage.pm
+       * daemon mode: don't change current directory to / if --devlib is
+         on
+       * Add MIME::Base64 as recommended package
 
 2.0.4    Thu, 06 May 2010 18:43:30 +0200
        * Add debug message on WOL and correction when no mac address comes
