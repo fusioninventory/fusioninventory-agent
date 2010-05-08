@@ -1,11 +1,19 @@
+%global gitver ddfdeaf
+
 Name:        fusioninventory-agent
 Summary:     FusionInventory agent
 Summary(fr): Agent FusionInventory
 
 Version:   2.0.4
-Release:   3%{?dist}
 
+%if 0%{?gitver:1}
+Release:   4.git%{gitver}%{?dist}
+Source0:   fusinv-fusioninventory-agent-2.0.4-9-gddfdeaf.tar.gz
+%else
+Release:   1.%{?dist}
 Source0:   http://search.cpan.org/CPAN/authors/id/F/FU/FUSINV/FusionInventory-Agent-%{version}.tar.gz
+%endif
+
 Source1:   %{name}.cron
 Source2:   %{name}.init
 
@@ -61,7 +69,11 @@ Vous pouvez ajouter les paquets additionnels pour les tâches optionnelles :
 
 
 %prep
+%if 0%{?gitver:1}
+%setup -q -n fusinv-fusioninventory-agent-%{gitver}
+%else
 %setup -q -n FusionInventory-Agent-%{version}
+%endif
 
 cat <<EOF | tee logrotate
 %{_localstatedir}/log/%{name}/*.log {
@@ -80,6 +92,8 @@ cat <<EOF | tee %{name}.conf
 #
 # Add tools directory if needed (tw_cli, hpacucli, ipssend, ...)
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
+# Global options
+#FUSINVOPT=--debug
 # Mode, change to "cron" or "daemon" to activate
 OCSMODE[0]=none
 # OCS server URI
@@ -167,13 +181,18 @@ exit 0
 
 
 %changelog
+* Sat May 08 2010 Remi Collet <Fedora@famillecollet.com> 2.0.4-4.gitddfdeaf
+- git snapshot fix daemon issue
+- add FUSINVOPT for global options (p.e.--debug)
+
 * Sat May 08 2010 Remi Collet <Fedora@famillecollet.com> 2.0.4-3
 - add support for daemon mode
 
 * Fri May 07 2010 Remi Collet <Fedora@famillecollet.com> 2.0.4-2
 - info about perl-FusionInventory-Agent-Task-OcsDeploy 
-- spec cleanup + translation
-- set Net::CUPS optionnal
+- spec cleanup
+- french translation
+- set Net::CUPS and Archive::Extract optionnal on RHEL4
 
 * Fri May 07 2010 Remi Collet <Fedora@famillecollet.com> 2.0.4-1
 - update to 2.0.4 which fixes important bugs when cron is used

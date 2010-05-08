@@ -29,7 +29,7 @@ do
 		        OPTS="$OPTS --lazy --server=${OCSSERVER[$i]}"	
 		fi
 		echo "[$(date '+%c')] Running $NAME $OPTS"
-		/usr/bin/$NAME --logfile=$LOG $OPTS
+		/usr/bin/$NAME $FUSINVOPT --logfile=$LOG $OPTS
 	fi
 	((i++))
 done
