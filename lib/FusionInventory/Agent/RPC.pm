@@ -87,6 +87,11 @@ sub handler {
         my $output = <FH>;
         $output =~ s/%%STATUS%%/$status/;
         $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
+        if (!$config->{'rpc-trust-localhost'}) {
+            $output =~
+            s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
+        }
+        $output =~ s/%%(END|)IF_.*?%%//g;
         my $r = HTTP::Response->new(
             200,
             'OK',
