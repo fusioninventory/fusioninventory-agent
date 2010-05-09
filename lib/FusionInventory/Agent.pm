@@ -190,6 +190,7 @@ sub main {
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $rpc = $self->{rpc};
+    $rpc->setCurrentStatus("waiting");
 
 
 
@@ -275,9 +276,11 @@ sub main {
 
                 });
 
+            $rpc->setCurrentStatus("running task $module");
             next unless $task;
             $task->run();
         }
+        $rpc->setCurrentStatus("waiting");
 
         if (!$config->{debug}) {
             # In debug mode, I do not clean the FusionInventory-Agent.dump

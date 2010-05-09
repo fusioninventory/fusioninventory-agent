@@ -19,6 +19,7 @@ BEGIN {
 }
 
 my $lock :shared;
+my $status :shared = "unknown";
 
 sub new {
     my (undef, $params) = @_;
@@ -44,9 +45,9 @@ sub new {
             }
         });
 
-    return if $config->{'no-socket'};
-
     bless $self;
+
+    return $self if $config->{'no-socket'};
 
     $SIG{PIPE} = 'IGNORE';
     if ($config->{daemon} || $config->{'daemon-no-fork'} || $config->{winService}) {
@@ -90,6 +91,16 @@ sub handler {
             $targets->resetNextRunDate();
             $c->send_status_line(200)
         }
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/status$/) {
+        #$c->send_status_line(200, $status)
+        my $r = HTTP::Response->new(
+            200,
+            'OK',
+            HTTP::Headers->new('Content-Type' => 'text/plain'),
+           "status: ".$status
+        );
+        $c->send_response($r);
+
     } else {
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
@@ -158,6 +169,13 @@ sub getToken {
 
 }
 
+sub setStatus {
+    my ($self, $newStatus) = @_;
+
+    $status = $newStatus;
+
+}
+
 1;
 __END__
 
@@ -186,8 +204,12 @@ In this example, we want to wakeup machine "aMachine":
   my $machine = "aMachine";
   my $token = "aaaaaaaaaaaaaa";
   if (!get("http://$machine:62354/now/$token")) {
-    print "Failed to wakeup $machine\n"; 
+    print "Failed to wakeup $machine\n";
+    return;
   }
+  sleep(10);
+  print "Current status\n";
+  print get("http://$machine:62354/status");
 
 
 =cut
