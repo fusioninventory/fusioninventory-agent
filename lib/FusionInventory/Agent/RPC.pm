@@ -59,12 +59,13 @@ sub new {
 }
 
 sub handler {
-    my ($self, $c) = @_;
+    my ($self, $c, $clientIp) = @_;
     
     my $logger = $self->{logger};
     my $targets = $self->{targets};
 
     my $r = $c->get_request;
+    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
     if (!$r) {
         $c->close;
         undef($c);
@@ -138,8 +139,10 @@ sub server {
     my @stack;
     while (sleep 1) {
         next if threads->list(threads::running) > 10;
-        my $c = $daemon->accept;
-        my $thr = threads->create(\&handler, $self, $c);
+        my ($c, $socket) = $daemon->accept;
+        my(undef,$iaddr) = sockaddr_in($socket);
+        my $clientIp = inet_ntoa($iaddr);
+        my $thr = threads->create(\&handler, $self, $c, $clientIp);
         push @stack, $thr;
     }
 }
