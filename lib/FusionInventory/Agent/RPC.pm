@@ -81,6 +81,7 @@ sub handler {
         if (!open FH, $indexFile) {
             $logger->error("Can't open share $indexFile");
             $c->send_error(404);
+            return;
         }
         undef $/;
         my $output = <FH>;
