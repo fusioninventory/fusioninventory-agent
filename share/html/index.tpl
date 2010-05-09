@@ -1,3 +1,5 @@
+<img src="http://localhost:62354/logo.png" alt="FusionInventory" />
+<br />
 This is FusionInventory Agent %%AGENT_VERSION%%<br />
 The current status is "%%STATUS%%"<br />
 

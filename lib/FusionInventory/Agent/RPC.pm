@@ -152,6 +152,8 @@ sub handler {
         );
         $c->send_response($r);
 
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/logo.png$/) {
+        $c->send_file_response($htmlDir."/logo.png");
     } else {
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
