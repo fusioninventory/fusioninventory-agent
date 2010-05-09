@@ -63,6 +63,7 @@ sub handler {
     
     my $logger = $self->{logger};
     my $targets = $self->{targets};
+    my $config = $self->{config};
 
     my $r = $c->get_request;
     $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
@@ -70,6 +71,25 @@ sub handler {
         $c->close;
         undef($c);
         return;
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
+        my $indexFile = "share/html/index.tpl";
+        if (!open FH, $indexFile) {
+            $logger->error("Can't open share $indexFile");
+            $c->send_error(404);
+        }
+        undef $/;
+        my $output = <FH>;
+        $output =~ s/%%STATUS%%/$status/;
+        $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
+        my $r = HTTP::Response->new(
+            200,
+            'OK',
+            HTTP::Headers->new('Content-Type' => 'text/html'),
+            $output
+        );
+        $c->send_response($r);
+
+
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
         my $file = $1;
         foreach my $target (@{$targets->{targets}}) {
