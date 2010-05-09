@@ -169,7 +169,7 @@ sub getToken {
 
 }
 
-sub setStatus {
+sub setCurrentStatus {
     my ($self, $newStatus) = @_;
 
     $status = $newStatus;
