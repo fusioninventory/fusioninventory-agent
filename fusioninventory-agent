@@ -242,6 +242,11 @@ Internet browser.
 The IP address of the interface to use for the P2P exchange. The default
 is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
 
+=item B<--rpc-trust-localhost>
+
+Allow local users to access to http://127.0.0.1:62354/now to force an
+inventory immediately.
+
 =item B<--scan-homedirs>
 
 Should the VirtualMachine inventory include users own VM?

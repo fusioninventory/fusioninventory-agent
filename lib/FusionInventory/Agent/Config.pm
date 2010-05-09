@@ -173,6 +173,7 @@ sub loadUserParams {
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
 		"rpc-ip=s"        =>   \$config->{'rpc-ip'},
+		"rpc-trust-localhost" =>   \$config->{'rpc-trust-localhost'},
 		"R|remotedir=s"   =>   \$config->{remotedir},
 		"s|server=s"      =>   \$config->{server},
 		"stdout"          =>   \$config->{stdout},
@@ -250,6 +251,8 @@ sub help {
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
   print STDERR "\t   --rpc-ip=IP      ip of the interface to use for peer ".
   "to peer exchange\n";
+  print STDERR "\t   --rpc-trust-localhost      allow local users to ".
+  "http://127.0.0.1:62354/now to force an inventory\n";
   print STDERR "\t   --scan-homedirs  permit to scan home user directories".
   " (".$config->{'scan-homedirs'}.")\n" ;
   print STDERR "\t-s --server=uri     server uri (".$config->{server}.")\n";

@@ -32,6 +32,7 @@ Revision history for FusionInventory::Agent
        * Minimal Perl version is Perl 5.8.
        * RPC: Add http://hostname:62354/status to get the current status of
          the agent
+       * Add --rpc-trust-localhost
 
 2.0.5
        * Don't use dmidecode with -t and -s parameter since it's not

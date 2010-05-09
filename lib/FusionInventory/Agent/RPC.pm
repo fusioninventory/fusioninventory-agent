@@ -107,16 +107,23 @@ sub handler {
             }
         }
         $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now\/(\S+)$/) {
-        my $token = $1;
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(|\/)(\S*)$/) {
+        my $token = $2;
         $logger->debug("[RPC]'now' catched");
-        if ($token ne $self->getToken()) {
-            $logger->debug("[RPC] bad token $token != ".$self->getToken());
-            $c->send_status_line(403)
-        } else {
+        if (
+            ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
+                or
+            ($token eq $self->getToken())
+        ) {
             $self->getToken('forceNewToken');
             $targets->resetNextRunDate();
             $c->send_status_line(200)
+
+        } else {
+
+            $logger->debug("[RPC] bad token $token != ".$self->getToken());
+            $c->send_status_line(403)
+
         }
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/status$/) {
         #$c->send_status_line(200, $status)
