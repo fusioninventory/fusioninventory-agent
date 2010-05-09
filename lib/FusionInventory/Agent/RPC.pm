@@ -72,6 +72,11 @@ sub handler {
         undef($c);
         return;
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
+        if ($clientIp !~ /^127\./) {
+            $c->send_error(404);
+            return;
+        }
+
         my $indexFile = "share/html/index.tpl";
         if (!open FH, $indexFile) {
             $logger->error("Can't open share $indexFile");
