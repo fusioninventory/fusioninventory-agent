@@ -3,6 +3,9 @@ package FusionInventory::Agent::RPC;
 use HTTP::Daemon;
 use FusionInventory::Agent::Storage;
 
+use File::ShareDir 'dist_file';
+
+
 use Config;
 
 use strict;
@@ -38,6 +41,14 @@ sub new {
     }
 
 
+    if ($config->{'devlib'}) {
+        $self->{htmlDir} = "./share/html";
+    } else {
+        my $distDir = File::ShareDir::dist_dir('FusionInventory-Agent');
+        $self->{htmlDir} = $distDir."/html";
+    }
+    $logger->debug("[RPC] static files are in ".$self->{htmlDir});
+
 
     my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
             target => {
@@ -64,6 +75,7 @@ sub handler {
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $config = $self->{config};
+    my $htmlDir = $self->{htmlDir};
 
     my $r = $c->get_request;
     $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
@@ -77,7 +89,7 @@ sub handler {
             return;
         }
 
-        my $indexFile = "share/html/index.tpl";
+        my $indexFile = $htmlDir."/index.tpl";
         if (!open FH, $indexFile) {
             $logger->error("Can't open share $indexFile");
             $c->send_error(404);
