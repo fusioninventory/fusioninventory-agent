@@ -51,8 +51,8 @@ sub main {
     $self->{prologresp} = $data->{prologresp};
     $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
-    if ($target->{type} eq 'server') {
-        $logger->debug("Nothing to do in local mode, existing");
+    if ($target->{type} ne 'server') {
+        $logger->debug("No server. Exiting...");
         exit(0);
     }
 
