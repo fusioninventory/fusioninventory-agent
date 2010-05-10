@@ -531,6 +531,7 @@ sub StartThreads {
                    $storage->remove({
                         idx => $idx
                      });
+                   sleep 1;
                 }
             }
         }
@@ -545,6 +546,7 @@ sub StartThreads {
                      data => $data
                  });
              $sentxml->{$idx} = 1;
+             sleep 1;
          }
 
       }
