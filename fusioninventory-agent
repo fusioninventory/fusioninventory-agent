@@ -192,7 +192,7 @@ With this option, the agent ignore the server anwser and send an inventory.
 
 Alternative directory where the static HTML are stored. You probably don't
 need this option unless you don't want to use the Makefile.PL installation
-procedure.
+procedure or if File::ShareDir is not avalaible.
 
 =item B<-i>, B<--info>
 

@@ -3,9 +3,6 @@ package FusionInventory::Agent::RPC;
 use HTTP::Daemon;
 use FusionInventory::Agent::Storage;
 
-use File::ShareDir 'dist_file';
-
-
 use Config;
 
 use strict;
@@ -45,7 +42,7 @@ sub new {
         $self->{htmlDir} = $config->{'html-dir'};
     } elsif ($config->{'devlib'}) {
         $self->{htmlDir} = "./share/html";
-    } else {
+    } elsif (eval "use File::ShareDir; 1;") {
         my $distDir = File::ShareDir::dist_dir('FusionInventory-Agent');
         $self->{htmlDir} = $distDir."/html";
     }

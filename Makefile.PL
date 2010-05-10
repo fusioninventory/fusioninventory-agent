@@ -42,6 +42,7 @@ recommends 'HTTP::Daemon' => undef; # RPC
 recommends 'Archive::Extract' => undef;
 recommends 'Net::CUPS' => undef;
 recommends 'MIME::Base64' => undef;
+recommends 'File::ShareDir' => undef; # You'll need to use --html-dir
 
 test_requires  'Test::More'  => undef;
 
