@@ -19,6 +19,7 @@ my $default = {
   'devlib'    =>  0,
   'force'     =>  0,
   'help'      =>  0,
+  'html-dir'  =>  '',
   'info'      =>  1,
   'lazy'      =>  0,
   'local'     =>  '',
@@ -158,6 +159,7 @@ sub loadUserParams {
 		"devlib"          =>   \$config->{devlib},
 		"f|force"         =>   \$config->{force},
 		"h|help"          =>   \$config->{help},
+		"html-dir=s"      =>   \$config->{'html-dir'},
 		"i|info"          =>   \$config->{info},
 		"lazy"            =>   \$config->{lazy},
 		"l|local=s"       =>   \$config->{'local'},
@@ -228,6 +230,8 @@ sub help {
   " no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
+  print STDERR "\t   --html-dir       alternative directory where the ".
+  "static HTML are stored\n";
   print STDERR "\t-i --info           verbose mode (".$config->{info}.")\n";
   print STDERR "\t   --no-socket      don't allow remote connexion".
   " (".$config->{'no-socket'}.")\n";

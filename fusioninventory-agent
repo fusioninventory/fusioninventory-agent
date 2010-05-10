@@ -188,6 +188,12 @@ machine. If the server doesn't know the machine or has outdated
 informations, it will request it.
 With this option, the agent ignore the server anwser and send an inventory.
 
+=item B<--html-directory>
+
+Alternative directory where the static HTML are stored. You probably don't
+need this option unless you don't want to use the Makefile.PL installation
+procedure.
+
 =item B<-i>, B<--info>
 
 Turn the verbose mode on. The flag is ignored if B<--debug> is enable.

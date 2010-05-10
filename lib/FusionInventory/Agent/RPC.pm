@@ -41,7 +41,9 @@ sub new {
     }
 
 
-    if ($config->{'devlib'}) {
+    if ($config->{'html-dir'}) {
+        $self->{htmlDir} = $config->{'html-dir'};
+    } elsif ($config->{'devlib'}) {
         $self->{htmlDir} = "./share/html";
     } else {
         my $distDir = File::ShareDir::dist_dir('FusionInventory-Agent');
