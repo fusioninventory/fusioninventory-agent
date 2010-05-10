@@ -189,7 +189,17 @@ sub server {
 
     my @stack;
     while (sleep 1) {
-        next if threads->list(threads::running) > 10;
+        # Limit to 10 the max number of running thread
+        while (@stack > 10) {
+            foreach (0..@stack-1) {
+                my $thr = $stack[$_];
+                if ($thr->is_joinable()) {
+                    $thr->join();
+                    splice(@stack, $_, 1);
+                    last;
+                }
+            }
+        }
         my ($c, $socket) = $daemon->accept;
         my(undef,$iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
