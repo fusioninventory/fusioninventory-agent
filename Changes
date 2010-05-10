@@ -33,6 +33,7 @@ Revision history for FusionInventory::Agent
        * RPC: Add http://hostname:62354/status to get the current status of
          the agent
        * Add --rpc-trust-localhost
+       * html-dir parameter
 
 2.0.5
        * Don't use dmidecode with -t and -s parameter since it's not
