@@ -188,7 +188,7 @@ sub server {
     $logger->info("RPC service started at: ". $daemon->url);
 
     my @stack;
-    while (sleep 1) {
+    while (1) {
         # Limit to 10 the max number of running thread
         while (@stack > 10) {
             foreach (0..@stack-1) {
