@@ -40,7 +40,7 @@ recommends 'File::Glob' => undef;
 recommends 'File::Path' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
 recommends 'Archive::Extract' => undef;
-recommends 'Net::CUPS' => undef;
+recommends 'Net::CUPS' => 0.60;
 
 test_requires  'Test::More'  => undef;
 
