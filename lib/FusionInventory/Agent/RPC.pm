@@ -193,12 +193,17 @@ sub server {
         while (@stack > 10) {
             foreach (0..@stack-1) {
                 my $thr = $stack[$_];
-                if ($thr->is_joinable()) {
+                # is_joinable is not avalaible on perl 5.8
+                if (eval {$thr->is_joinable();1;}) {
+                    print "ok\n";
                     $thr->join();
                     splice(@stack, $_, 1);
                     last;
                 }
             }
+            # This is the plan B
+            my $thr = shift(@stack);
+            $thr->join();
         }
         my ($c, $socket) = $daemon->accept;
         my(undef,$iaddr) = sockaddr_in($socket);
