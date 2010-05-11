@@ -222,7 +222,7 @@ sub turnSSLCheckOn {
 
   my $parameter;
   if ($config->{caCertFile}) {
-    if (!-f $config->{caCertFile} || !-l $config->{caCertFile}) {
+    if (!-f $config->{caCertFile} && !-l $config->{caCertFile}) {
         $logger->fault("--ca-cert-file doesn't existe ".
             "`".$config->{caCertFile}."'");
     }
