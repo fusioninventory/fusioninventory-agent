@@ -33,11 +33,12 @@ sub getScreens {
 
     if ($^O =~ /^MSWin/) {
 
-        if (!eval {
+        if (!eval "
                 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
-                use Win32::TieRegistry ( Access=>"KEY_READ", Delimiter=>"/", ArrayValues=>0 );
-                1;}) {
+                use Win32::TieRegistry ( Access=>\"KEY_READ\",
+                Delimiter=>\"/\", ArrayValues=>0 );
+                1;") {
             print "Failed to load Win32::OLE and Win32::TieRegistry\n";
             return;
         }
