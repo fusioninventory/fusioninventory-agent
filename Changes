@@ -11,6 +11,8 @@ Revision history for FusionInventory::Agent
          on
        * Add MIME::Base64 as recommended package
        * A Fedora RPC spec file in contrib/fedora (Remi COLLET)
+       * RPC: drop the sleep(1) before every new request
+       * RPC: avoid threads::running to keep compatiblity with Perl < 5.10
 
 2.0.4    Thu, 06 May 2010 18:43:30 +0200
        * Add debug message on WOL and correction when no mac address comes
