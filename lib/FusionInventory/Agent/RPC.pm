@@ -127,14 +127,14 @@ sub server {
     my @stack;
     while (sleep 1) {
         # Limit to 10 the max number of running thread
-        while (@stack > 10) {
+        LIMIT: while (@stack > 10) {
             foreach (0..@stack-1) {
                 my $thr = $stack[$_];
                 # is_joinable is not avalaible on perl 5.8
                 if (eval {$thr->is_joinable();1;}) {
                     $thr->join();
                     splice(@stack, $_, 1);
-                    last;
+                    last LIMIT;
                 }
             }
             # This is the plan B
