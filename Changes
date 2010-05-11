@@ -34,6 +34,7 @@ Revision history for FusionInventory::Agent
          the agent
        * Add --rpc-trust-localhost
        * html-dir parameter
+       * Linux/Domains. Use Sys::Domain to get the domain
 
 2.0.5
        * Don't use dmidecode with -t and -s parameter since it's not

@@ -2,20 +2,19 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Domains;
 use strict;
 
 sub isInventoryEnabled {
-  return unless can_run ("hostname");
-  my @domain = `hostname -d`;
-  return 1 if @domain || can_read ("/etc/resolv.conf");
+  return 1 if can_load ("Sys::Hostname") or can_read ("/etc/resolv.conf");
   0;
 }
 sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  my $domain;
+  my $domain = $Sys::Hostname::hostname;
   my %domain;
   my @dns_list;
   my $dns;
-  chomp($domain = `hostname -d`);
+
+  $domain =~ s/\..*//;
 
   open RESOLV, "/etc/resolv.conf" or warn;
     while(<RESOLV>){
