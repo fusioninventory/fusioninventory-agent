@@ -221,6 +221,7 @@ sub StartThreads {
                   $nbip++;
                   if ($nbip eq $limitip) {
                      if ($ip->ip() ne $self->{NETDISCOVERY}->{RANGEIP}->{IPEND}) {
+                        ++$ip;
                         $self->{NETDISCOVERY}->{RANGEIP}->{IPSTART} = $ip->ip();
                         $loop_action = 1;
                         goto CONTINUE;
@@ -254,6 +255,7 @@ sub StartThreads {
                         $nbip++;
                         if ($nbip eq $limitip) {
                            if ($ip->ip() ne $num->{IPEND}) {
+                              ++$ip;
                               $num->{IPSTART} = $ip->ip();
                               $loop_action = 1;
                               goto CONTINUE;
