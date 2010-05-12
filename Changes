@@ -14,6 +14,11 @@ Revision history for FusionInventory::Agent
        * RPC: drop the sleep(1) before every new request
        * RPC: avoid threads::running to keep compatiblity with Perl < 5.10
        * SSL: --ca-cert-file correctly detect if the cert is present
+       * Don't use ExtUtils::Installed to identify the installed files,
+         ExtUtils::Installed looks all the @INC directory for .pack files,
+         including '.'. When the agent was launched by a cron task or in
+         daemon mode, the current directory is / and so the whole system was
+         scanned, thank you Remi COLLET for pointing this issue.
 
 2.0.4    Thu, 06 May 2010 18:43:30 +0200
        * Add debug message on WOL and correction when no mac address comes
