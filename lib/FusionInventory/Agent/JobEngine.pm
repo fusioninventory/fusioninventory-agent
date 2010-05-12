@@ -1,5 +1,8 @@
 package FusionInventory::Agent::JobEngine;
 
+use strict;
+use warnings;
+
 use IPC::Open3;
 use IO::Select;
 use POSIX ":sys_wait_h";
@@ -11,9 +14,10 @@ sub new {
 
     my $self = {};
 
+    $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
 
-    $self->{jobs} = @_;
+    $self->{jobs} = [];
 
     # We can't have more than on task at the same time
     $self->{runningTask} = undef;
@@ -74,6 +78,7 @@ sub isATaskRunning {
 sub startTask {
     my ($self, $params) = @_;
 
+    my $config = $self->{config};
     my $target = $params->{target};
     my $module = $params->{module};
     my $logger = $self->{logger};
