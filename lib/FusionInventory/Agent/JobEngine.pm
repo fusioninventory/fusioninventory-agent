@@ -44,8 +44,8 @@ sub start {
 
     push @{$self->{jobs}}, $job;
 
-        my $t = $job->{stdout};
-        print foreach (<$t>);
+    my $t = $job->{stdout};
+    print foreach (<$t>);
     return $job
 }
 

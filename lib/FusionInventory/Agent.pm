@@ -284,18 +284,18 @@ sub main {
             NetDiscovery
             /;
 
-            while (@modulesToDo && sleep (1)) {
-                next if $jobEngine->isATaskRunning();
+        while (@modulesToDo && sleep (1)) {
+            next if $jobEngine->isATaskRunning();
 
-                my $module = shift @modulesToDo;
-                print "starting: $module\n";
-                $jobEngine->startTask({
-                        module => $module,
-                        target => $target,
-                    });
-                $rpc->setCurrentStatus("running task $module");
+            my $module = shift @modulesToDo;
+            print "starting: $module\n";
+            $jobEngine->startTask({
+                    module => $module,
+                    target => $target,
+                });
+            $rpc->setCurrentStatus("running task $module");
 
-            }
+        }
         $rpc->setCurrentStatus("waiting");
 
         if (!$config->{debug}) {
