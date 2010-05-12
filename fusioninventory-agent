@@ -140,7 +140,7 @@ Indicate the place where the agent should store its files.
 
 =item B<--color>
 
-Display color on the terminal.
+Display color on the terminal. This feature is disabled on Windows.
 
 =item B<-d>, B<--daemon>
 
@@ -187,6 +187,12 @@ The agent ask first the server if it should send an inventoroy of the
 machine. If the server doesn't know the machine or has outdated
 informations, it will request it.
 With this option, the agent ignore the server anwser and send an inventory.
+
+=item B<--html-directory>
+
+Alternative directory where the static HTML are stored. You probably don't
+need this option unless you don't want to use the Makefile.PL installation
+procedure or if File::ShareDir is not avalaible.
 
 =item B<-i>, B<--info>
 
@@ -241,6 +247,11 @@ Internet browser.
 
 The IP address of the interface to use for the P2P exchange. The default
 is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
+
+=item B<--rpc-trust-localhost>
+
+Allow local users to access to http://127.0.0.1:62354/now to force an
+inventory immediately.
 
 =item B<--scan-homedirs>
 
@@ -333,7 +344,7 @@ FusionInventory.
 
 =item FusionInventory website: L<http://www.FusionInventory.org/>
 
-=item LaunchPad project page: L<http://launchpad.net/fusioninventory-agent>
+=item project Forge: L<http://Forge.FusionInventory.org>
 
 =item the Mailing lists and IRC
 
@@ -342,8 +353,8 @@ FusionInventory.
 =head1 BUGS
 
 Please, use the mailing lists as much as possible. You can open your own bug
-tickets. Patches are welcome. You can also use LaunchPad bugtracker or
-push your Bazaar branch on LaunchPad and do a merge request.
+tickets. Patches are welcome. You can also use the bugtracker on
+http://Forge.FusionInventory.org
 
 =head1 COPYRIGHT
 

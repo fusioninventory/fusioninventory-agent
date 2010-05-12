@@ -154,12 +154,13 @@ sub initModList {
 
     # TODO replace that by the standard can_run()
     can_run => sub {
+# TODO: doesn't Work on Windows Yet
+      return if $^O =~ /^MSWin/;
       my $binary = shift;
 
       my $calling_namespace = caller(0);
       chomp(my $binpath=`which $binary 2>/dev/null`);
       return unless -x $binpath;
-      $self->{logger}->debug(" - $binary found");
       1
     },
     can_load => sub {
@@ -169,14 +170,12 @@ sub initModList {
       eval "package $calling_namespace; use $module;";
 #      print STDERR "$module not loaded in $calling_namespace! $!: $@\n" if $@;
       return if $@;
-      $self->{logger}->debug(" - $module loaded");
 #      print STDERR "$module loaded in $calling_namespace!\n";
       1;
     },
     can_read => sub {
       my $file = shift;
       return unless -r $file;
-      $self->{logger}->debug(" - $file can be read");
       1;
     },
     runcmd => sub {
@@ -210,6 +209,7 @@ sub initModList {
   } else {
     foreach (@INC) {
       next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
+      next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
       push @dirToScan, $_;
     }
   }
@@ -247,27 +247,52 @@ sub initModList {
     "directly from the source directory.")
   }
 
+  # First all the module are flagged as 'OK'
+  foreach my $m (@installed_mods) {
+    $self->{modules}->{$m}->{inventoryFuncEnable} = 1;
+  }
+
+
   foreach my $m (@installed_mods) {
     my @runAfter;
     my @runMeIfTheseChecksFailed;
     my $enable = 1;
 
+    if (!$self->{modules}->{$m}->{inventoryFuncEnable}) {
+        next;
+    }
     if (exists ($self->{modules}->{$m}->{name})) {
       $logger->debug($m." already loaded.");
       next;
     }
 
+    my $package = $m."::";
+
     eval "use $m;";
     if ($@) {
       $logger->debug ("Failed to load $m: $@");
       $enable = 0;
+      next;
     }
 
-    my $package = $m."::";
     # Load in the module the backendSharedFuncs
     foreach my $func (keys %{$backendSharedFuncs}) {
       $package->{$func} = $backendSharedFuncs->{$func};
     }
+
+    if ($package->{'isInventoryEnabled'}) {
+      $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{'isInventoryEnabled'};
+      $enable = $self->runWithTimeout($m, "isInventoryEnabled");
+    }
+    if (!$enable) {
+      $logger->debug ($m." ignored");
+      foreach (keys %{$self->{modules}}) {
+          $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+      }
+    }
+
+
+
 
     if ($package->{'check'}) {
         $logger->error("$m: check() function is deprecated, please rename it to ".
@@ -287,12 +312,21 @@ sub initModList {
     $self->{modules}->{$m}->{inUse} = 0;
     $self->{modules}->{$m}->{inventoryFuncEnable} = $enable;
 
+
+    if (!$enable) {
+        $logger->debug ($m." ignored");
+        foreach (keys %{$self->{modules}}) {
+            $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+        }
+        next;
+    }
+
+
     # TODO add a isPostInventoryEnabled() function to know if we need to run
     # the postInventory() function.
     # Is that really needed?
     $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
 
-    $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{'isInventoryEnabled'};
     $self->{modules}->{$m}->{runAfter} = $package->{'runAfter'};
     $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{'runMeIfTheseChecksFailed'};
     $self->{modules}->{$m}->{doInventoryFunc} = $package->{'doInventory'};
@@ -301,22 +335,6 @@ sub initModList {
     $self->{modules}->{$m}->{rpcCfg} = $package->{'rpcCfg'};
 # Load the Storable object is existing or return undef
     $self->{modules}->{$m}->{storage} = $storage;
-
-    if (exists($package->{'new'})) {
-        $self->{modules}->{$m}->{instance} = $m->new({
-
-            accountconfig => $self->{accountconfig},
-            accountinfo => $self->{accountinfo},
-            config => $self->{config},
-            inventory => $self->{inventory},
-            logger => $self->{logger},
-            network => $self->{network},
-            prologresp => $self->{prologresp},
-#            mem => $self->{modules}->{$m}->{mem},# Deprecated
-#            storage => $self->{modules}->{$m}->{storage},           
-            
-            }); 
-    }
 
   }
 
@@ -402,8 +420,8 @@ sub runMod {
 
   if ($self->{modules}->{$m}->{doInventoryFunc}) {
       $self->runWithTimeout($m, "doInventory");
-  } else {
-      $logger->debug("$m has no doInventory() function -> ignored");
+#  } else {
+#      $logger->debug("$m has no doInventory() function -> ignored");
   }
   $self->{modules}->{$m}->{done} = 1;
   $self->{modules}->{$m}->{inUse} = 0; # unlock the module
@@ -453,7 +471,7 @@ sub runWithTimeout {
     my $ret;
     
     if (!$timeout) {
-        $timeout = $self->{config}{backendCollectTimeout};
+        $timeout = $self->{config}{'backend-collect-timeout'};
     }
 
     eval {
@@ -461,31 +479,21 @@ sub runWithTimeout {
         alarm $timeout;
 
 
+        my $func = $self->{modules}->{$m}->{$funcName."Func"};
 
-        my $instance = $self->{modules}->{$m}->{instance};
-        if ($instance) {
-
-            $instance->{storage} = $storage;
-            $instance->$funcName();
-
-        } else {
-
-            my $func = $self->{modules}->{$m}->{$funcName."Func"};
-
-            $ret = &{$func}({
-                    accountconfig => $self->{accountconfig},
-                    accountinfo => $self->{accountinfo},
-                    config => $self->{config},
-                    inventory => $self->{inventory},
-                    logger => $self->{logger},
-                    network => $self->{network},
-                    # Compatibiliy with agent 0.0.10 <=
-                    # We continue to pass params->{params}
-                    params => $self->{params},
-                    prologresp => $self->{prologresp},
-                    storage => $storage
-                });
-        }
+        $ret = &{$func}({
+                accountconfig => $self->{accountconfig},
+                accountinfo => $self->{accountinfo},
+                config => $self->{config},
+                inventory => $self->{inventory},
+                logger => $self->{logger},
+                network => $self->{network},
+                # Compatibiliy with agent 0.0.10 <=
+                # We continue to pass params->{params}
+                params => $self->{params},
+                prologresp => $self->{prologresp},
+                storage => $storage
+            });
     };
     alarm 0;
     my $evalRet = $@;

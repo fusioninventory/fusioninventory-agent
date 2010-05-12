@@ -165,8 +165,7 @@ sub init {
     }
 
     if (!$self->isDirectoryWritable($self->{vardir})) {
-        $logger->error("Can't write in ".$self->{vardir});
-        exit(1);
+        $logger->fault("Can't write in ".$self->{vardir});
     }
 
     $self->{accountinfofile} = $self->{vardir}."/ocsinv.adm";

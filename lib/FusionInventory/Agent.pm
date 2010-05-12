@@ -49,12 +49,17 @@ use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::Targets;
 
 sub new {
-    my (undef, $self) = @_;
+    my (undef, $params) = @_;
 
+    my $self = {};
 ############################
 #### CLI parameters ########
 ############################
     my $config = $self->{config} = FusionInventory::Agent::Config::load();
+
+    if ($params->{winService}) {
+        $config->{winService} = 1;
+    }
 
     # TODO: should be in Config.pm
     if ($config->{logfile}) {
@@ -70,8 +75,11 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (!-d $config->{basevardir} && !mkpath($config->{basevardir})) {
-        $logger->error("Failed to create ".$config->{basevardir});
+    if (!-d $config->{basevardir} && !mkpath($config->{basevardir}, {error => undef})) {
+        $logger->error(
+            "Failed to create ".$config->{basevardir}.
+            " Please use --basevardir to point to a R/W directory."
+        );
     }
 
     if (not $config->{scanhomedirs}) {
@@ -182,6 +190,7 @@ sub main {
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $rpc = $self->{rpc};
+    $rpc->setCurrentStatus("waiting");
 
 
 
@@ -250,27 +259,28 @@ sub main {
             });
 
 
-        my %taskOptions = (
-            Inventory => 'noinventory',
-            OcsDeploy => 'noocsdeploy',
-            WakeOnLan => 'nowakeonlan',
-            SNMPQuery => 'nosnmpquery',
-            NetDiscovery => 'nonetdiscovery'
-            );
+        my @tasks = qw/
+            Inventory
+            OcsDeploy
+            WakeOnLan
+            SNMPQuery
+            NetDiscovery
+            /;
 
-        foreach my $module (keys %taskOptions) {
+        foreach my $module (@tasks) {
             my $task = new FusionInventory::Agent::Task({
                     config => $config,
                     logger => $logger,
                     module => $module,
-                    name => $taskOptions{$module},
                     target => $target,
 
                 });
 
+            $rpc->setCurrentStatus("running task $module");
             next unless $task;
             $task->run();
         }
+        $rpc->setCurrentStatus("waiting");
 
         if (!$config->{debug}) {
             # In debug mode, I do not clean the FusionInventory-Agent.dump

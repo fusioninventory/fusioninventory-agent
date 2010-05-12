@@ -5,6 +5,8 @@ use inc::Module::Install;
 sub MY::postamble
 {
 
+    return if $^O =~ /^MSWin/;
+
 	my $re;
 
 	$re = '
@@ -24,7 +26,7 @@ include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux and MacOSX';
 license 'gpl';
 version_from 'lib/FusionInventory/Agent.pm';
-perl_version '5.006';
+perl_version '5.008';
 requires 'Digest::MD5' => undef;
 requires 'XML::Simple' => undef;
 requires 'LWP' => undef;
@@ -38,16 +40,16 @@ recommends 'File::Glob' => undef;
 recommends 'File::Path' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
 recommends 'Archive::Extract' => undef;
-recommends 'Net::CUPS' => undef;
+recommends 'Net::CUPS' => 0.60;
 recommends 'MIME::Base64' => undef;
+recommends 'File::ShareDir' => undef; # You'll need to use --html-dir
 
-use Data::Dumper;
-use Cwd;
-
+test_requires  'Test::More'  => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
-
+install_script  'fusioninventory-win32-service' if $^O =~ /^MSWin/;
+install_share 'share';
 
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 

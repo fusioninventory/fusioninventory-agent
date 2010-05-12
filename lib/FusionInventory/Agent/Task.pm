@@ -15,14 +15,15 @@ sub new {
     $self->{target} = $params->{target};
 
     $self->{module} = $params->{module};
-    $self->{name} = $params->{name};
+
 
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $module = $self->{module};
-    my $name = $self->{name};
 
-    return if $config->{$name};
+
+    return if $config->{'no-'.lc($self->{module})};
+
 
     bless $self;
     if (!$self->isModInstalled()) {
@@ -54,14 +55,14 @@ sub run {
     my $target = $self->{target};
     
     my $module = $self->{module};
-    my $name = $self->{name};
+
 
     my $cmd;
-    $cmd .= $EXECUTABLE_NAME; # The Perl binary path
+    $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
     $cmd .= "  -Ilib" if $config->{devlib};
     $cmd .= " -MFusionInventory::Agent::Task::".$module;
-    $cmd .= " -e 'FusionInventory::Agent::Task::".$module."::main();' --";
-    $cmd .= " ".$target->{vardir};
+    $cmd .= " -e \"FusionInventory::Agent::Task::".$module."::main();\" --";
+    $cmd .= " \"".$target->{vardir}."\"";
 
     $logger->debug("cmd is: '$cmd'");
     system($cmd);

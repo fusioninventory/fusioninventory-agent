@@ -1,4 +1,40 @@
 Revision history for FusionInventory::Agent
+2.1
+       * Windows: Add new values for SOFTWARES key
+       * Add Windows service
+       * disable --color for Windows
+       * Collect Solaris process informations (Emengao)
+       * VirtualMachine: Add Vserver.pm
+       * VirtualMachine: Check is the status is correct
+       * detect Slackware packages (David DURIEUX)
+       * Libvirt.pm switch SUBSYSTEM and VMTYPE values.VMTYPE is "libvirt"
+         now
+       * add test scripts in t/
+       * Better error handling if it's not possible to create basevardir
+       * Inventory: reduce the number of debug messages
+       * Add DRIVES/SYSTEMDRIVE to know if it's the system partition
+       * Inventory.pm, fix: addStorages is deprecred, not addStorage
+       * Inventory.pm, addSection() is now deprecated and a warning is
+         printed everytime the function is called
+       * Linux/PC/CPU: set CPU name and detect CORE/THREAD
+       * Stores environement variables
+       * Bios, add ENCLOSURESERIAL BASEBOARDSERIAL and BIOSSERIAL keys
+       * Identify USB devices (Windows, Linux)
+       * --realm was two time in --help
+       * Fix Syslog backend, cf: https://bugs.launchpad.net/bugs/571655
+         (Guillaume ROUSSE)
+	   * Cups.pm: gets all installed printers and their drivers names
+        (Aurelien Bondis)
+       * ocsinventory-ng is not more the default server hostname
+       * Inputs.pm: adds Inputs support for Linux clients (Aurelien Bondis)
+       * Turns off interactive mode of GNU fdisk (Aurelien Bondis)
+       * Add a few new PNP monitor IDs (Alex Mauer)
+       * Minimal Perl version is Perl 5.8.
+       * RPC: Add http://hostname:62354/status to get the current status of
+         the agent
+       * Add --rpc-trust-localhost
+       * html-dir parameter
+       * Linux/Domains. Use Sys::Domain to get the domain
 
 2.0.5
        * Don't use dmidecode with -t and -s parameter since it's not
@@ -40,6 +76,8 @@ Revision history for FusionInventory::Agent
        * --delaytime really read the parameter, thanks Walid NOUH
        * fix --no-socket
        * Fix a typo in fusioninventory-agent-config, logtotate (Girish NAVUDA)
+       * Fix: between two server query, really wait during a random period
+         still based on server PROLOG_FREQ
        * Do not load Crypt::SSLeay and IO::Socket::SSL at the same
        * POD doc, explain how to use more than one server
        * Fix: between two server query, really wait during a random period

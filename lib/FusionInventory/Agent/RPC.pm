@@ -19,6 +19,7 @@ BEGIN {
 }
 
 my $lock :shared;
+my $status :shared = "unknown";
 
 sub new {
     my (undef, $params) = @_;
@@ -37,6 +38,16 @@ sub new {
     }
 
 
+    if ($config->{'html-dir'}) {
+        $self->{htmlDir} = $config->{'html-dir'};
+    } elsif ($config->{'devlib'}) {
+        $self->{htmlDir} = "./share/html";
+    } elsif (eval "use File::ShareDir; 1;") {
+        my $distDir = File::ShareDir::dist_dir('FusionInventory-Agent');
+        $self->{htmlDir} = $distDir."/html";
+    }
+    $logger->debug("[RPC] static files are in ".$self->{htmlDir});
+
 
     my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
             target => {
@@ -44,12 +55,12 @@ sub new {
             }
         });
 
-    return if $config->{noSocket};
-
     bless $self;
 
+    return $self if $config->{'no-socket'};
+
     $SIG{PIPE} = 'IGNORE';
-    if ($config->{daemon} || $config->{daemonNoFork}) {
+    if ($config->{daemon} || $config->{'daemon-no-fork'} || $config->{winService}) {
         $self->{thr} = threads->create('server', $self);
     }
 
@@ -58,16 +69,49 @@ sub new {
 }
 
 sub handler {
-    my ($self, $c) = @_;
+    my ($self, $c, $clientIp) = @_;
     
     my $logger = $self->{logger};
     my $targets = $self->{targets};
+    my $config = $self->{config};
+    my $htmlDir = $self->{htmlDir};
 
     my $r = $c->get_request;
+    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
     if (!$r) {
         $c->close;
         undef($c);
         return;
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
+        if ($clientIp !~ /^127\./) {
+            $c->send_error(404);
+            return;
+        }
+
+        my $indexFile = $htmlDir."/index.tpl";
+        if (!open FH, $indexFile) {
+            $logger->error("Can't open share $indexFile");
+            $c->send_error(404);
+            return;
+        }
+        undef $/;
+        my $output = <FH>;
+        $output =~ s/%%STATUS%%/$status/;
+        $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
+        if (!$config->{'rpc-trust-localhost'}) {
+            $output =~
+            s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
+        }
+        $output =~ s/%%(END|)IF_.*?%%//g;
+        my $r = HTTP::Response->new(
+            200,
+            'OK',
+            HTTP::Headers->new('Content-Type' => 'text/html'),
+            $output
+        );
+        $c->send_response($r);
+
+
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
         my $file = $1;
         foreach my $target (@{$targets->{targets}}) {
@@ -79,17 +123,36 @@ sub handler {
             }
         }
         $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now\/(\S+)$/) {
-        my $token = $1;
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(|\/)(\S*)$/) {
+        my $token = $2;
         $logger->debug("[RPC]'now' catched");
-        if ($token ne $self->getToken()) {
-            $logger->debug("[RPC] bad token $token != ".$self->getToken());
-            $c->send_status_line(403)
-        } else {
+        if (
+            ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
+                or
+            ($token eq $self->getToken())
+        ) {
             $self->getToken('forceNewToken');
             $targets->resetNextRunDate();
             $c->send_status_line(200)
+
+        } else {
+
+            $logger->debug("[RPC] bad token $token != ".$self->getToken());
+            $c->send_status_line(403)
+
         }
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/status$/) {
+        #$c->send_status_line(200, $status)
+        my $r = HTTP::Response->new(
+            200,
+            'OK',
+            HTTP::Headers->new('Content-Type' => 'text/plain'),
+           "status: ".$status
+        );
+        $c->send_response($r);
+
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/logo.png$/) {
+        $c->send_file_response($htmlDir."/logo.png");
     } else {
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
@@ -107,9 +170,9 @@ sub server {
 
     my $daemon;
    
-    if ($config->{rpcIp}) {
+    if ($config->{'rpc-ip'}) {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalAddr => $config->{rpcIp},
+            LocalAddr => $config->{'rpc-ip'},
             LocalPort => 62354,
             Reuse => 1);
     } else {
@@ -141,8 +204,10 @@ sub server {
             my $thr = shift(@stack);
             $thr->join();
         }
-        my $c = $daemon->accept;
-        my $thr = threads->create(\&handler, $self, $c);
+        my ($c, $socket) = $daemon->accept;
+        my(undef,$iaddr) = sockaddr_in($socket);
+        my $clientIp = inet_ntoa($iaddr);
+        my $thr = threads->create(\&handler, $self, $c, $clientIp);
         push @stack, $thr;
     }
 }
@@ -169,6 +234,13 @@ sub getToken {
     $logger->debug("token is :".$myData->{token});
 
     return $myData->{token};
+
+}
+
+sub setCurrentStatus {
+    my ($self, $newStatus) = @_;
+
+    $status = $newStatus;
 
 }
 
@@ -200,8 +272,12 @@ In this example, we want to wakeup machine "aMachine":
   my $machine = "aMachine";
   my $token = "aaaaaaaaaaaaaa";
   if (!get("http://$machine:62354/now/$token")) {
-    print "Failed to wakeup $machine\n"; 
+    print "Failed to wakeup $machine\n";
+    return;
   }
+  sleep(10);
+  print "Current status\n";
+  print get("http://$machine:62354/status");
 
 
 =cut

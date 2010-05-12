@@ -22,7 +22,7 @@ sub doInventory {
            $interface=$3;
            $info=$4;
            $type=$1;
-           $inventory->addSlots({
+           $inventory->addSlot({
                DESCRIPTION =>  "$name",
                DESIGNATION =>  "$interface $info",
                NAME            =>  "$type",

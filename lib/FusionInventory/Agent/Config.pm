@@ -10,45 +10,47 @@ if ($^O =~ /^MSWin/) {
 }
 
 my $default = {
-  'caCertDir' =>  '',
-  'caCertFile'=>  '', 
+  'ca-cert-dir' =>  '',
+  'ca-cert-file'=>  '', 
   'color'     =>  0,
   'daemon'    =>  0,
-  'daemonNoFork'    =>  0,
+  'daemon-no-fork'    =>  0,
   'debug'     =>  0,
   'devlib'    =>  0,
   'force'     =>  0,
   'help'      =>  0,
+  'html-dir'  =>  '',
   'info'      =>  1,
   'lazy'      =>  0,
   'local'     =>  '',
   #'logger'    =>  'Syslog,File,Stderr',
   'logger'    =>  'Stderr',
   'logfile'   =>  '',
+  'logfacility' =>  'LOG_USER',
   'password'  =>  '',
   'proxy'     =>  '',
   'realm'     =>  '',
   'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
                                    # --server instead
-  'server'    =>  'http://ocsinventory-ng/ocsinventory',
+  'server'    =>  '',
   'stdout'    =>  0,
   'tag'       =>  '',
   'user'      =>  '',
   'version'   =>  0,
   'wait'      =>  '',
 #  'xml'       =>  0,
-  'noocsdeploy'  =>  0,
-  'noinventory'
+  'no-ocsdeploy'  =>  0,
+  'no-inventory'
               =>  0,
   'nosoft'    =>  0, # DEPRECATED!
-  'nosoftware'=>  0,
-  'nowakeonlan'=> 0,
-  'nosnmpquery'=> 0,
-  'nonetdiscovery' => 0,
+  'no-software'=>  0,
+  'no-wakeonlan'=> 0,
+  'no-snmpquery'=> 0,
+  'no-netdiscovery' => 0,
   'delaytime' =>  '3600', # max delay time (seconds)
-  'backendCollectTimeout'   => '180',   # timeOut of process : see Backend.pm
-  'noSslCheck' => 0,
-  'scanhomedirs' => 0,
+  'backend-collect-timeout'   => '180',   # timeOut of process : see Backend.pm
+  'no-ssl-check' => 0,
+  'scan-homedirs' => 0,
 
   # Other values that can't be changed with the
   # CLI parameters
@@ -64,10 +66,41 @@ sub load {
 	my $config = $default;
     $config->{VERSION} = $FusionInventory::Agent::VERSION;
 
-    loadFromCfgFile($config);
-    loadUserParams($config);
+    if ($^O =~ /^MSWin/) {
+        loadFromWinRegistry($config);
+    } else {
+        loadFromCfgFile($config);
+    }
 
+    loadUserParams($config);
 	return $config;
+}
+
+sub loadFromWinRegistry {
+  my $config = shift;
+
+  if (!eval ("
+    use Encode qw(encode);
+    use Win32::TieRegistry ( Delimiter=>\"/\", ArrayValues=>0 );
+    1
+  ")) {
+    print "[error] $@";
+    return;
+  }
+
+  my $machKey = $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+  my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
+
+  foreach my $rawKey (keys %$settings) {
+    next unless $rawKey =~ /^\/(\S+)/;
+    my $key = $1;
+    my $val = $settings->{$rawKey};
+    # Remove the quotes
+    $val =~ s/\s+$//;
+    $val =~ s/^'(.*)'$/$1/;
+    $val =~ s/^"(.*)"$/$1/;
+    $config->{lc($key)} = $val;
+  }
 }
 
 sub loadFromCfgFile {
@@ -115,44 +148,46 @@ sub loadUserParams {
 
 
 	my %options = (
-		"backend-collect-timeout=s"  =>   \$config->{backendCollectTimeout},
+		"backend-collect-timeout=s"  => \$config->{'backend-collect-timeout'},
 		"basevardir=s"    =>   \$config->{basevardir},
-        "ca-cert-dir=s"   =>   \$config->{caCertDir},
-        "ca-cert-file=s"  =>   \$config->{caCertFile},
+        "ca-cert-dir=s"   =>   \$config->{'ca-cert-dir'},
+        "ca-cert-file=s"  =>   \$config->{'ca-cert-file'},
 		"color"           =>   \$config->{color},
 		"d|daemon"        =>   \$config->{daemon},
-		"D|daemon-no-fork"=>   \$config->{daemonNoFork},
+		"D|daemon-no-fork"=>   \$config->{'daemon-no-fork'},
 		"debug"           =>   \$config->{debug},
 		"devlib"          =>   \$config->{devlib},
 		"f|force"         =>   \$config->{force},
 		"h|help"          =>   \$config->{help},
+		"html-dir=s"      =>   \$config->{'html-dir'},
 		"i|info"          =>   \$config->{info},
 		"lazy"            =>   \$config->{lazy},
-		"l|local=s"       =>   \$config->{local},
+		"l|local=s"       =>   \$config->{'local'},
 		"logfile=s"       =>   \$config->{logfile},
-		"no-ocsdeploy"    =>   \$config->{noocsdeploy},
-		"no-inventory"    =>   \$config->{noinventory},
-		"no-soft"         =>   \$config->{nosoft},
-		"no-software"     =>   \$config->{nosoftware},
-		"no-wakeonlan"    =>   \$config->{nowakeonlan},
-		"no-snmpquery"    =>   \$config->{nosnmpquery},
-		"no-netdiscovery" =>   \$config->{nonetdiscovery},
+		"no-ocsdeploy"    =>   \$config->{'no-ocsdeploy'},
+		"no-inventory"    =>   \$config->{'no-inventory'},
+		"no-soft"         =>   \$config->{'no-soft'},
+		"no-software"     =>   \$config->{'no-software'},
+		"no-wakeonlan"    =>   \$config->{'no-wakeonlan'},
+		"no-snmpquery"    =>   \$config->{'no-snmpquery'},
+		"no-netdiscovery" =>   \$config->{'no-netdiscovery'},
 		"p|password=s"    =>   \$config->{password},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
-		"rpc-ip=s"        =>   \$config->{rpcIp},
+		"rpc-ip=s"        =>   \$config->{'rpc-ip'},
+		"rpc-trust-localhost" =>   \$config->{'rpc-trust-localhost'},
 		"R|remotedir=s"   =>   \$config->{remotedir},
 		"s|server=s"      =>   \$config->{server},
 		"stdout"          =>   \$config->{stdout},
 		"t|tag=s"         =>   \$config->{tag},
-        "no-ssl-check"    =>   \$config->{noSslCheck},
+        "no-ssl-check"    =>   \$config->{'no-ssl-check'},
 		"u|user=s"        =>   \$config->{user},
 		"version"         =>   \$config->{version},
-		"w|wait=s"        =>   \$config->{wait},
+		"w|wait=s"        =>   \$config->{'wait'},
 #  "x|xml"          =>   \$config->{xml},
 		"delaytime=s"     =>   \$config->{delaytime},
-		"scan-homedirs"   =>   \$config->{scanhomedirs},
-		"no-socket"       =>   \$config->{noSocket},
+		"scan-homedirs"   =>   \$config->{'scan-homedirs'},
+		"no-socket"       =>   \$config->{'no-socket'},
 	);
 
     Getopt::Long::Configure( "no_ignorecase" );
@@ -177,25 +212,29 @@ sub help {
   print STDERR "\n";
   print STDERR "Usage:\n";
   print STDERR "\t    --backend-collect-timeout set a max delay time of one ".
-  "inventory data collect job (".$config->{backendCollectTimeout}.")\n";
+  "inventory data collect job (".$config->{'backend-collect-timeout'}.")\n";
   print STDERR "\t    --basevardir=/path  indicate the directory where ".
   "should the agent store its files (".$config->{basevardir}.")\n";
   print STDERR "\t    --ca-cert-dir=D  SSL certificat directory ".
-  "(".$config->{caCertDir}.")\n";
+  "(".$config->{'ca-cert-dir'}.")\n";
   print STDERR "\t    --ca-cert-file=F SSL certificat file ".
-  "(".$config->{caCertFile}.")\n";
+  "(".$config->{'ca-cert-file'}.")\n";
   print STDERR "\t    --color         use color in the console ".
   "(".$config->{color}.")\n";
   print STDERR "\t-d  --daemon        detach the agent in background ".
   "(".$config->{daemon}.")\n";
-  print STDERR "\t-D  --daemon-no-fork daemon but don't fork in background (".$config->{daemonNoFork}.")\n";
+  print STDERR "\t-D  --daemon-no-fork daemon but don't fork in background".
+  " (".$config->{'daemon-no-fork'}.")\n";
   print STDERR "\t    --debug         debug mode (".$config->{debug}.")\n";
   print STDERR "\t    --delaytime     set a max delay time (in second) if".
   " no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
+  print STDERR "\t   --html-dir       alternative directory where the ".
+  "static HTML are stored\n";
   print STDERR "\t-i --info           verbose mode (".$config->{info}.")\n";
-  print STDERR "\t   --no-socket      don't allow remote connexion (".$config->{noSocket}.")\n";
+  print STDERR "\t   --no-socket      don't allow remote connexion".
+  " (".$config->{'no-socket'}.")\n";
   print STDERR "\t   --lazy           do not contact the server more than ".
   "one time during the PROLOG_FREQ (".$config->{lazy}.")\n";
   print STDERR "\t-l --local=DIR      do not contact server but write ".
@@ -203,24 +242,29 @@ sub help {
   print STDERR "\t   --logfile=FILE   log message in FILE (".$config->{logfile}.")\n";
   print STDERR "\t   --no-ocsdeploy   Do not deploy packages or run command".
   "(".$config->{noocsdeploy}.")\n";
-  print STDERR "\t   --no-inventory   Do not generate inventory (".$config->{noinventory}.")\n";
-  print STDERR "\t   --no-software    do not return installed software list (".$config->{nosoftware}.")\n";
-  print STDERR "\t   --no-wakeonlan   do not use wakeonlan function (".$config->{nowakeonlan}.")\n";
+  print STDERR "\t   --no-inventory   Do not generate inventory".
+  " (".$config->{'no-inventory'}.")\n";
+  print STDERR "\t   --no-ssl-check   do not check the ".
+  print STDERR "\t   --no-software    do not return installed ".
+  "software list (".$config->{'no-software'}.")\n";
+  print STDERR "\t   --no-wakeonlan   do not use wakeonlan function".
+  " (".$config->{'no-wakeonlan'}.")\n";
 
   print STDERR "\t-p --password=PWD   password for server auth\n";
   print STDERR "\t-P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port (".$config->{proxy}.")\n";
   print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
-  print STDERR "\t-r --realm=REALM    realm for server auth. e.g: 'Restricted Area' (".$config->{realm}.")\n";
   print STDERR "\t   --rpc-ip=IP      ip of the interface to use for peer ".
   "to peer exchange\n";
-  print STDERR "\t   --scan-homedirs  permit to scan home user directories (".$config->{scanhomedirs}.")\n" ;
+  print STDERR "\t   --rpc-trust-localhost      allow local users to ".
+  "http://127.0.0.1:62354/now to force an inventory\n";
+  print STDERR "\t   --scan-homedirs  permit to scan home user directories".
+  " (".$config->{'scan-homedirs'}.")\n" ;
   print STDERR "\t-s --server=uri     server uri (".$config->{server}.")\n";
   print STDERR "\t   --stdout         do not write or post the inventory".
   " but print it on STDOUT\n";
   print STDERR "\t-t --tag=TAG        use TAG as tag (".$config->{tag}."). ".
   "Will be ignored by server if a value already exists.\n";
-  print STDERR "\t   --no-ssl-check   do not check the ".
-  "SSL connexion with the server (".$config->{noSslCheck}.")\n";
+  "SSL connexion with the server (".$config->{'no-ssl-check'}.")\n";
   print STDERR "\t-u --user=USER      user for server auth (".$config->{user}.")\n";
   print STDERR "\t   --version        print the version\n";
   print STDERR "\t-w --wait=DURATION  wait during a random periode ".

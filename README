@@ -1,8 +1,7 @@
 DESCRIPTION
 
   FusionInventory-Agent is an agent for OCS NG & GLPI. It supports Linux,
-  Solaris and AIX. *BSD support is in progress. A port to non UNIX system
-  is also possible (e.g: Win32).
+  BSD, Solaris, HP-UX and AIX. and Windows.
 
 PREREQUISITES
 
@@ -82,16 +81,12 @@ BUILDING/INSTALLING
    sudo ./fusioninventory-agent --devlib --server http://server/ocsinventory
 
 PATCHES
-  If you want to improve FusionInventory, please use the Bazaar branch
-  directly, publish you changes and ask for the merge
-  http://launchpad.net/fusioninventory-agent
-
-  The source of the agent can be download with this command:
-
-  bzr branch lp:FusionInventory-unix-agent
-
-  /!\ You may need bzr-loom plugin to retrieve the branch /!\ 
-
+  If you want to improve FusionInventory, please use the Git branch
+  directly, publish you changes and ask for the merge on
+   Github ( http://github.com/fusinv )
+   Gitorious ( http://www.gitorious.net/fusioninventory )
+  Plain test patches are also welcome :)
+  http://Forge.FusionInventory.org
 
 NOTE
  
@@ -109,8 +104,13 @@ NOTE
 
 
 SOURCES
-You can prepare a tarball from the Bazaar devel branch with following commands:
-   bzr branch lp:fusioninventory-agent
+You can download the sources from Github or Gitorious:
+ http://github.com/fusinv/fusioninventory-agent
+ http://gitorious.org/fusioninventory/agent
+
+You can prepare a tarball from a Git export, run the following commands:
+
+   git clone git://forge.fusioninventory.org/git/fusioninventory/agent.git
    cd fusioninventory-agent
    perl Makefile.PL
    make manifest

@@ -66,6 +66,9 @@ sub new {
   $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
   $self->{h}{CONTENT}{SOUNDS} = [];
   $self->{h}{CONTENT}{MODEMS} = [];
+  $self->{h}{CONTENT}{ENVS} = [];
+  $self->{h}{CONTENT}{UPDATES} = [];
+  $self->{h}{CONTENT}{USBDEVICES} = [];
   $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
@@ -109,9 +112,11 @@ sub addController {
     DRIVER => [$driver?$driver:''],
     NAME => [$name],
     MANUFACTURER => [$manufacturer],
-    # The PCI Class in hexa. e.g: 0c03
+# The PCI Class in hexa. e.g: 0c03
     PCICLASS => [$pciclass?$pciclass:''],
+# E.g: 8086:2a40
     PCIID => [$pciid?$pciid:''],
+# E.g: 00:00.0
     PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
 
@@ -155,10 +160,13 @@ sub addDrive {
   my ($self, $args) = @_;
 
   my $createdate = $args->{CREATEDATE};
+  my $description = $args->{DESCRIPTION};
   my $free = $args->{FREE};
   my $filesystem = $args->{FILESYSTEM};
   my $label = $args->{LABEL};
+  my $letter = $args->{LETTER};
   my $serial = $args->{SERIAL};
+  my $systemdrive = $args->{SYSTEMDRIVE};
   my $total = $args->{TOTAL};
   my $type = $args->{TYPE};
   my $volumn = $args->{VOLUMN};
@@ -166,12 +174,20 @@ sub addDrive {
   push @{$self->{h}{CONTENT}{DRIVES}},
   {
     CREATEDATE => [$createdate?$createdate:''],
+# Windows only, e.g: Network drive
+    DESCRIPTION => [$description?$description:''],
     FREE => [$free?$free:''],
     FILESYSTEM => [$filesystem?$filesystem:''],
+# On windows the LABEL is also in VOLUMN
     LABEL => [$label?$label:''],
+    LETTER => [$letter?$letter:''],
     SERIAL => [$serial?$serial:''],
+# Is it the system partition
+    SYSTEMDRIVE => [$systemdrive?$systemdrive:''],
     TOTAL => [$total?$total:''],
+# type is Mount point on Linux/UNIX/MacOSX
     TYPE => [$type?$type:''],
+# UNIX: /dev/XXXX, on Windows, the LABEL...
     VOLUMN => [$volumn?$volumn:'']
   };
 }
@@ -184,18 +200,19 @@ sub addDrives {
    $self->addDrive(@_);
 }
 
-=item addStorages()
+=item addStorage()
 
 Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
 
 =cut
-sub addStorages {
+sub addStorage {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
 
   my $description = $args->{DESCRIPTION};
   my $disksize = $args->{DISKSIZE};
+  my $interface = $args->{INTERFACE};
   my $manufacturer = $args->{MANUFACTURER};
   my $model = $args->{MODEL};
   my $name = $args->{NAME};
@@ -219,6 +236,10 @@ sub addStorages {
     MODEL => [$model?$model:''],
     NAME => [$name?$name:''],
     TYPE => [$type?$type:''],
+# INTERFACE can be SCSI/HDC/IDE/USB/1394
+# (See: Win32_DiskDrive / InterfaceType)
+    INTERFACE => [$interface?$interface:''],
+    SERIAL => [$serialnumber?$serialnumber:''],
     SERIALNUMBER => [$serialnumber?$serialnumber:''],
     FIRMWARE => [$firmware?$firmware:''],
     SCSI_COID => [$scsi_coid?$scsi_coid:''],
@@ -229,7 +250,7 @@ sub addStorages {
   };
 }
 # For compatibiliy
-sub addStorage {
+sub addStorages {
    my $self = shift;
    my $logger = $self->{logger};
 
@@ -246,11 +267,19 @@ Add a memory module in the inventory.
 sub addMemory {
   my ($self, $args) = @_;
 
+# In MB, e.g 2048
   my $capacity = $args->{CAPACITY};
+# Physical Memory
+  my $caption = $args->{CAPTION};
+  my $formfactor = $args->{FORMFACTOR};
+  my $removable =  $args->{REMOVABLE};
+# E.g: System Memory
+  my $purpose =  $args->{PURPOSE};
+# In Mhz, e.g: 800
   my $speed =  $args->{SPEED};
   my $type = $args->{TYPE};
   my $description = $args->{DESCRIPTION};
-  my $caption = $args->{CAPTION};
+# Eg. 2, start at 1, not 0
   my $numslots = $args->{NUMSLOTS};
 
   my $serialnumber = $args->{SERIALNUMBER};
@@ -259,8 +288,11 @@ sub addMemory {
   {
 
     CAPACITY => [$capacity?$capacity:''],
-    DESCRIPTION => [$description?$description:''],
     CAPTION => [$caption?$caption:''],
+    DESCRIPTION => [$description?$description:''],
+    FORMFACTOR => [$formfactor?$formfactor:''],
+    REMOVABLE => [$removable?$removable:''],
+    PURPOSE => [$purpose?$purpose:''],
     SPEED => [$speed?$speed:''],
     TYPE => [$type?$type:''],
     NUMSLOTS => [$numslots?$numslots:0],
@@ -297,6 +329,7 @@ sub addPorts{
     CAPTION => [$caption?$caption:''],
     DESCRIPTION => [$description?$description:''],
     NAME => [$name?$name:''],
+# e.g: Parallel, Serial, SATA, 
     TYPE => [$type?$type:''],
 
   };
@@ -355,10 +388,19 @@ sub addSoftware {
   my $filesize = $args->{FILESIZE};
   my $folder = $args->{FOLDER};
   my $from = $args->{FROM};
-  my $installdate = $args->{INSTALLDATE};
+  my $helpLink = $args->{HELPLINK};
+  my $installDate = $args->{INSTALLDATE};
   my $name = $args->{NAME};
+  my $noRemove = $args->{NO_REMOVE};
+  my $releaseType = $args->{RELEASE_TYPE};
   my $publisher = $args->{PUBLISHER};
+  my $uninstallString = $args->{UNINSTALL_STRING};
+  my $urlInfoAbout = $args->{URL_INFO_ABOUT};
   my $version = $args->{VERSION};
+  my $versionMinor = $args->{VERSION_MINOR};
+  my $versionMajor = $args->{VERSION_MAJOR};
+  my $is64bit = $args->{IS64BIT};
+  my $guid = $args->{GUID};
 
 
   push @{$self->{h}{CONTENT}{SOFTWARES}},
@@ -368,10 +410,19 @@ sub addSoftware {
     FILESIZE => [$filesize?$filesize:''],
     FOLDER => [$folder?$folder:''],
     FROM => [$from?$from:''],
-    INSTALLDATE => [$installdate?$installdate:''],
+    HELPLINK => [$helpLink?$helpLink:''],
+    INSTALLDATE => [$installDate?$installDate:''],
     NAME => [$name?$name:''],
+    NOREMOVE => [$noRemove?$noRemove:''],
+    RELEASETYPE => [$releaseType?$releaseType:''],
     PUBLISHER => [$publisher?$publisher:''],
+    UNINSTALL_STRING => [$uninstallString],
+    URL_INFO_ABOUT => [$urlInfoAbout],
     VERSION => [$version],
+    VERSION_MINOR => [$versionMinor?$versionMinor:''],
+    VERSION_MAJOR => [$versionMajor?$versionMajor:''],
+    IS64BIT => [$is64bit],
+    GUID => [$guid],
 
   };
 }
@@ -494,8 +545,10 @@ my ($self, $args) = @_;
 
     my %tmpXml = ();
 
-    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS IPDHCP IPGATEWAY
-        IPMASK IPSUBNET MACADDR PCISLOT STATUS TYPE VIRTUALDEV SLAVES/) {
+    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS
+        IPADDRESS6 IPDHCP IPGATEWAY IPMASK IPSUBNET
+        MACADDR MTU PCISLOT STATUS
+        TYPE VIRTUALDEV SLAVES/) {
         $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
     }
     push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
@@ -527,9 +580,10 @@ sub setHardware {
 
   foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
     PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
-    DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER
-    DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM/) {
-
+    DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
+    DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
+    WINPRODKEY WINCOMPANY WINLANG/) {
+# WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
     if (exists $args->{$key}) {
       if ($key eq 'PROCESSORS' && !$nonDeprecated) {
           $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
@@ -551,7 +605,9 @@ Set BIOS informations.
 sub setBios {
   my ($self, $args) = @_;
 
-  foreach my $key (qw/SMODEL SMANUFACTURER BDATE SSN BVERSION BMANUFACTURER MSN MMODEL ASSETTAG/) {
+  foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
+      MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
+      BIOSSERIAL/) {
 
     if (exists $args->{$key}) {
       $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
@@ -568,20 +624,24 @@ sub addCPU {
   my ($self, $args) = @_;
 
   # The CPU FLAG
-  my $code = $args->{CODE};
+  my $cache = $args->{CACHE};
+  my $core = $args->{CORE};
+  my $description = $args->{DESCRIPTION},
   my $manufacturer = $args->{MANUFACTURER};
+  my $name = $args->{NAME};
   my $thread = $args->{THREAD};
-  my $type = $args->{TYPE};
   my $serial = $args->{SERIAL};
   my $speed = $args->{SPEED};
 
   push @{$self->{h}{CONTENT}{CPUS}},
   {
 
-    CORE => [$code],
+    CACHESIZE => [$cache],
+    CORE => [$core],
+    DESCRIPTION => [$description?$description:''],
     MANUFACTURER => [$manufacturer],
+    NAME => [$name],
     THREAD => [$thread],
-    TYPE => [$type],
     SERIAL => [$serial],
     SPEED => [$speed],
 
@@ -590,7 +650,7 @@ sub addCPU {
   # For the compatibility with HARDWARE/PROCESSOR*
   my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
   my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
-  my $processort = $self->{h}{CONTENT}{CPUS}[0]{TYPE}[0];
+  my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME}[0];
 
   $self->setHardware ({
     PROCESSORN => $processorn,
@@ -611,9 +671,11 @@ sub addUser {
 #  my $name  = $args->{NAME};
 #  my $gid   = $args->{GID};
   my $login = $args->{LOGIN};
+  my $domain = $args->{DOMAIN}; # Windows only
 #  my $uid   = $args->{UID};
 
   return unless $login;
+  $domain = "" unless $domain;
 
   # Is the login, already in the XML ?
   foreach my $user (@{$self->{h}{CONTENT}{USERS}}) {
@@ -626,18 +688,28 @@ sub addUser {
 #      NAME => [$name],
 #      UID => [$uid],
 #      GID => [$gid],
-      LOGIN => [$login]
+      LOGIN => [$login],
+      DOMAIN => [$domain]
 
   };
 
   my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
+  my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN}[0] || "";
 
   $userString .= '/' if $userString;
-  $userString .= $login;
+  $domainString .= '/' if $domainString;
 
-  $self->setHardware ({
-    USERID => $userString,
-  }, 1);
+  if ($login =~ /(.*\\|)(\S+)/) {
+      $domainString .= $domain;
+      $userString .= $2;
+
+
+      $self->setHardware ({
+          USERID => $userString,
+          USERDOMAIN => $domainString,
+      }, 1);
+  }
+
 
 }
 
@@ -649,18 +721,43 @@ Add a printer in the inventory.
 sub addPrinter {
   my ($self, $args) = @_;
 
+  my $comment = $args->{COMMENT};
   my $description = $args->{DESCRIPTION};
   my $driver = $args->{DRIVER};
   my $name = $args->{NAME};
+  my $network = $args->{NETWORK};
   my $port = $args->{PORT};
+  my $resolution = $args->{RESOLUTION};
+  my $shared = $args->{SHARED};
+  my $status = $args->{STATUS};
+  my $errStatus = $args->{ERRSTATUS};
+  my $serverName = $args->{SERVERNAME};
+  my $shareName = $args->{SHARENAME};
+  my $printProcessor = $args->{PRINTPROCESSOR};
 
   push @{$self->{h}{CONTENT}{PRINTERS}},
   {
 
+# Comment: See win32_Printer.Comment
+    COMMENT => [$comment?$comment:''],
     DESCRIPTION => [$description?$description:''],
     DRIVER => [$driver?$driver:''],
     NAME => [$name?$name:''],
+# Network: True if it's a network printer
+    NETWORK => [$network?$network:''],
     PORT => [$port?$port:''],
+# Resolution: eg. 600x600
+    RESOLUTION => [$resolution?$resolution:''],
+# Shared: True if the printer is shared (Win32)
+    SHARED => [$shared?$shared:''],
+# Status: See Win32_Printer.PrinterStatus
+    STATUS => [$status?$status:''],
+# ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
+    ERRSTATUS => [$errStatus?$errStatus:''],
+    SERVERNAME => [$serverName?$serverName:''],
+    SHARENAME => [$shareName?$shareName:''],
+    PRINTPROCESSOR => [$printProcessor?$printProcessor:''],
+
 
   };
 }
@@ -681,6 +778,8 @@ Add a Virtual Machine in the inventory.
 sub addVirtualMachine {
   my ($self, $args) = @_;
 
+  my $logger = $self->{logger};
+
   # The CPU FLAG
   my $memory = $args->{MEMORY};
   my $name = $args->{NAME};
@@ -691,14 +790,23 @@ sub addVirtualMachine {
   my $vcpu = $args->{VCPU};
   my $vmid = $args->{VMID};
 
+  if (!$status) {
+      $logger->error("status not set by ".caller(0));
+  } elsif (!$status =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+    $logger->error("Unknown status '$status' from ".caller(0));
+  }
+
   push @{$self->{h}{CONTENT}{VIRTUALMACHINES}},
   {
 
       MEMORY =>  [$memory],
       NAME => [$name],
       UUID => [$uuid],
+# running, idle, paused, shutdown, crashed, dying, off
       STATUS => [$status],
+      # VmWare ESX
       SUBSYSTEM => [$subsystem],
+      # VmWare
       VMTYPE => [$vmtype],
       VCPU => [$vcpu],
       VMID => [$vmid],
@@ -736,6 +844,99 @@ sub addProcess {
     CMD => [$cmd?$cmd:''],
   };
 }
+
+=item addInput()
+
+Add an input device (mouce/keyboard) in the inventory.
+
+=cut
+sub addInput {
+  my ($self, $args) = @_;
+
+  my $caption = $args->{CAPTION};
+  my $description = $args->{DESCRIPTION};
+  my $interface = $args->{INTERFACE};
+  my $layout = $args->{LAYOUT};
+  my $pointtype = $args->{POINTTYPE};
+  my $type = $args->{TYPE};
+
+  push @{$self->{h}{CONTENT}{INPUTS}},
+  {
+
+    CAPTION=> [$caption?$caption:''],
+    DESCRIPTION => [$description?$description:''],
+    INTERFACE => [$interface?$interface:''],
+# Free-form string indicating the layout of the keyboard
+    LAYOUT => [$layout?$layout:''],
+    POINTTYPE => [$pointtype?$pointtype:''],
+    TYPE => [$type?$type:''],
+
+  };
+}
+
+=item addEnv()
+
+Register an environement variable.
+
+=cut
+sub addEnv {
+  my ($self, $args) = @_;
+
+  my $key = $args->{KEY};
+  my $val = $args->{VAL};
+
+  push @{$self->{h}{CONTENT}{ENVS}},
+  {
+
+    KEY => [$key?$key:''],
+    VAL => [$val?$val:''],
+
+  };
+}
+
+=item addUpdate()
+
+Windows Update
+
+=cut
+sub addUpdate {
+  my ($self, $args) = @_;
+
+  my $id = $args->{ID};
+  my $kb = $args->{KB};
+
+  push @{$self->{h}{CONTENT}{UPDATES}},
+  {
+
+    ID => [$id?$id:''],
+    KB => [$kb?$kb:''],
+
+  };
+}
+
+=item addUSBDevice()
+
+USB device
+
+=cut
+sub addUSBDevice {
+  my ($self, $args) = @_;
+
+  my $vendorId = $args->{VENDORID};
+  my $productId = $args->{PRODUCTID};
+  my $serial = $args->{SERIAL};
+
+  push @{$self->{h}{CONTENT}{USBDEVICES}},
+  {
+
+    VENDORID => [$vendorId?$vendorId:''],
+    PRODUCTID => [$productId?$productId:''],
+    SERIAL => [$serial?$serial:''],
+
+  };
+}
+
+
 
 
 =item setAccessLog()
@@ -975,7 +1176,8 @@ sub processChecksum {
 
   foreach my $section (keys %mask) {
     #If the checksum has changed...
-    my $hash = md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
+    my $hash =
+        md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
     if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
       $logger->debug ("Section $section has changed since last inventory");
       #We make OR on $checksum with the mask of the current section
@@ -1034,6 +1236,9 @@ sub addSection {
   my $multi = $args->{multi};
   my $tagname = $args->{tagname};
 
+  $logger->debug("Please, don't use addSection(). This function may be ".
+      "dropped in the future.");
+
   for( keys %{$self->{h}{CONTENT}} ){
     if( $tagname eq $_ ){
       $logger->debug("Tag name `$tagname` already exists - Don't add it");
@@ -1084,3 +1289,464 @@ sub feedSection{
 }
 
 1;
+=head1 XML STRUCTURE
+
+This section presents the XML structure used by FusionInventory. The schema
+is based on OCS Inventory XML with various additions.
+
+=head2 BIOS
+
+=over 4
+
+=item SMODEL
+
+=item SMANUFACTURER
+
+=item SSN
+
+=item BDATE
+
+=item BVERSION
+
+The BIOS revision
+
+=item BMANUFACTURER
+
+=item MMANUFACTURER
+
+=item MSN
+
+=item MMODEL
+
+=item ASSETTAG
+
+=item ENCLOSURESERIAL
+
+=item BASEBOARDSERIAL
+
+=item BIOSSERIAL
+
+The optional asset tag for this machine.
+
+=back
+
+=head2 CONTROLLERS
+
+=over 4
+
+=item DRIVER
+
+=item NAME
+
+=item MANUFACTURER
+
+=item PCICLASS
+
+=item PCIID
+
+The PCI ID, e.g: 8086:2a40 (only for PCI device)
+
+=item PCISLOT
+
+The PCI slot, e.g: 00:02.1 (only for PCI device)
+
+=item TYPE
+
+The controller revision, e.g: rev 02. This field may be renamed
+in the future.
+
+=back
+
+=head2 CPUS
+
+=over 4
+
+=item CACHESIZE
+
+The total CPU cache size in KB. e.g: 3072
+
+=item CORE
+
+Number of core.
+
+=item DESCRIPTION
+
+=item MANUFACTURER
+
+=item NAME
+
+The name of the CPU, e.g: Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz
+
+=item THREAD
+
+Number of thread.
+
+=item SERIAL
+
+CPU Id/Serial
+
+=item SPEED
+
+Frequency in MHz
+
+=back
+
+=head2 DRIVES
+
+=over 4
+
+=item CREATEDATE
+
+=item DESCRIPTION
+
+=item FREE
+
+=item FILESYSTEM
+
+=item LABEL
+
+=item LETTER
+
+Windows driver letter. Windows only
+
+=item SERIAL
+
+Partition serial number
+
+=item SYSTEMDRIVE
+
+Boolean. Is the system partition?
+
+=item TOTAL
+
+Total space avalaible.
+
+=item TYPE
+
+=item VOLUMN
+
+=back
+
+=head2 HARDWARE
+
+=over 4
+
+=item USERID
+
+The current user list, '/' is the delemiter. This field is deprecated, you
+should use the USERS section instead.
+
+=item OSVERSION
+
+=item PROCESSORN
+
+=item OSCOMMENTS
+
+=item CHECKSUM
+
+=item PROCESSORT
+
+=item NAME
+
+=item PROCESSORS
+
+=item SWAP
+
+=item ETIME
+
+=item TYPE
+
+=item OSNAME
+
+=item IPADDR
+
+=item WORKGROUP
+
+=item DESCRIPTION
+
+=item MEMORY
+
+=item UUID
+
+=item DNS
+
+=item LASTLOGGEDUSER
+
+=item USERDOMAIN
+
+This field is deprecated, you should use the USERS section instead.
+
+=item DATELASTLOGGEDUSER
+
+=item DEFAULTGATEWAY
+
+=item VMSYSTEM
+
+The virtualization technologie the machine is a virtual machine.
+
+Can by: Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+
+=item WINOWNER
+
+=item WINPRODID
+
+=item WINPRODKEY
+
+=item WINCOMPANY
+
+=item WINLANG
+
+=back
+
+=head2 MONITORS
+
+=over 4
+
+=item BASE64
+
+=item CAPTION
+
+=item DESCRIPTION
+
+=item MANUFACTURER
+
+=item SERIAL
+
+=item UUENCODE
+
+=back
+
+=head2 PORTS
+
+=over 4
+
+=item CAPTION
+
+=item DESCRIPTION
+
+=item NAME
+
+=item TYPE
+
+=back
+
+=head2 SLOTS
+
+=over 4
+
+=item CAPACITY
+
+=item CAPTION
+
+=item FORMFACTOR
+
+=item REMOVABLE
+
+=item PURPOSE
+
+=item SPEED
+
+=item TYPE
+
+=item DESCRIPTION
+
+=back
+
+=head2 STORAGES
+
+=over 4
+
+
+=item DESCRIPTION
+
+=item DISKSIZE
+
+=item INTERFACE
+
+=item MANUFACTURER
+
+=item MODEL
+
+=item NAME
+
+=item TYPE
+
+=item SERIAL
+
+=item SERIALNUMBER
+
+=item FIRMWARE
+
+=item SCSI_COID
+
+=item SCSI_CHID
+
+=item SCSI_UNID
+
+=item SCSI_LUN
+
+=back
+
+=head2 SOFTWARES
+
+=over 4
+
+=item COMMENTS
+
+=item FILESIZE
+
+=item FOLDER
+
+=item FROM
+
+=item HELPLINK
+
+=item INSTALLDATE
+
+Installation day in DD/MM/YYYY format. Windows only.
+
+=item NAME
+
+=item NO_REMOVE
+
+=item RELEASE_TYPE
+
+=item PUBLISHER
+
+=item UNINSTALL_STRING
+
+=item URL_INFO_ABOUT
+
+=item VERSION
+
+=item VERSION_MINOR
+
+=item VERSION_MAJOR
+
+=item IS64BIT
+
+=item GUID
+
+Windows software GUID
+
+=back
+
+=head2 USERS
+
+=over 4
+
+=item LOGIN
+
+=back
+
+=head2 VIDEOS
+
+=over 4
+
+=item CHIPSET
+
+=item MEMORY
+
+=item NAME
+
+=item RESOLUTION
+
+=back
+
+=head2 VIRTUALMACHINES
+
+=over 4
+
+=item MEMORY
+
+=item NAME
+
+=item UUID
+
+=item STATUS
+
+=item SUBSYSTEM
+
+=item VMTYPE
+
+=item VCPU
+
+=item VMID
+
+=back
+
+=head2 SOUNDS
+
+=over 4
+
+=item DESCRIPTION
+
+=item MANUFACTURER
+
+=item NAME
+
+=back
+
+=head2 MODEMS
+
+=over 4
+
+=item DESCRIPTION
+
+=item NAME
+
+=back
+
+=head2 ENVS
+
+Environement variables
+
+=over 4
+
+=item KEY
+
+=item VAL
+
+=back
+
+=head2 UPDATES 
+
+Windows updates
+
+=over 4
+
+=item ID 
+
+Update Id
+
+=item KB
+
+List of KB, delimiter is '/'
+
+=back
+
+=head2 USBDEVICES 
+
+USB Devices
+
+=over 4
+
+=item VENDORID 
+
+Vendor USB ID. 4 hexa char.
+
+=item PRODUCTID 
+
+Product USB ID. 4 hexa char.
+
+=item SERIAL
+
+=item CLASS
+
+USB Class (e.g: 8 for Mass Storage)
+
+=item SUBCLASS
+
+USB Sub Class
+
+=back
