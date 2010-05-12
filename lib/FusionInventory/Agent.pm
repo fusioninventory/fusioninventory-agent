@@ -47,6 +47,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::Targets;
+use FusionInventory::Agent::JobEngine;
 
 sub new {
     my (undef, $params) = @_;
@@ -135,6 +136,15 @@ sub new {
         exit(1);
     }
 
+    $self->{jobEngine} = new FusionInventory::Agent::JobEngine({
+
+            logger => $logger,
+            config => $config,
+
+        });
+    my $jobFactory = $self->{jobFactory};
+
+
     if ($config->{daemon}) {
 
         $logger->debug("Time to call Proc::Daemon");
@@ -196,6 +206,7 @@ sub main {
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $rpc = $self->{rpc};
+    my $jobEngine = $self->{jobEngine};
     $rpc->setCurrentStatus("waiting");
 
 
@@ -265,7 +276,7 @@ sub main {
             });
 
 
-        my @tasks = qw/
+        my @modulesToDo = qw/
             Inventory
             OcsDeploy
             WakeOnLan
@@ -273,19 +284,18 @@ sub main {
             NetDiscovery
             /;
 
-        foreach my $module (@tasks) {
-            my $task = new FusionInventory::Agent::Task({
-                    config => $config,
-                    logger => $logger,
-                    module => $module,
-                    target => $target,
+            while (@modulesToDo && sleep (1)) {
+                next if $jobEngine->isATaskRunning();
 
-                });
+                my $module = shift @modulesToDo;
+                print "starting: $module\n";
+                $jobEngine->startTask({
+                        module => $module,
+                        target => $target,
+                    });
+                $rpc->setCurrentStatus("running task $module");
 
-            $rpc->setCurrentStatus("running task $module");
-            next unless $task;
-            $task->run();
-        }
+            }
         $rpc->setCurrentStatus("waiting");
 
         if (!$config->{debug}) {

@@ -13,6 +13,11 @@ sub new {
 
     $self->{logger} = $params->{logger};
 
+    $self->{jobs} = @_;
+
+    # We can't have more than on task at the same time
+    $self->{runningTask} = undef;
+
     bless $self;
 }
 
@@ -21,27 +26,37 @@ sub start {
     my $name = shift;
     my @cmd = @_;
 
-    $self->{name} = $name;
+    my $job = {};
 
-    $self->{pid} = open3(
-        $self->{stdin},
-        $self->{stdout},
-        $self->{stderr},
+    $job->{name} = $name;
+
+    $job->{pid} = open3(
+        $job->{stdin},
+        $job->{stdout},
+        $job->{stderr},
         @cmd
     );
 
-    if (!$self->{pid}) {
+    if (!$job->{pid}) {
         print "Failed to start cmd\n";
     }
+    print "Job started (".$job->{pid}.")\n";
+
+    push @{$self->{jobs}}, $job;
+
+        my $t = $job->{stdout};
+        print foreach (<$t>);
+    return $job
 }
 
 
 sub isModInstalled {
-    my ($self) = @_;
+    my ($self, $params) = @_;
 
-    my $module = $self->{module};
+    my $module = $params->{module};
 
     foreach my $inc (@INC) {
+        print $inc.'/FusionInventory/Agent/Task/'.$module.'.pm'."\n";
         return 1 if -f $inc.'/FusionInventory/Agent/Task/'.$module.'.pm';
     }
 
@@ -49,17 +64,30 @@ sub isModInstalled {
 }
 
 
-sub startTask {
-    my ($self, $module) = @_;
+sub isATaskRunning {
+    my ($self, $params) = @_;
 
+    return $self->{runningTask}?1:undef;
+
+}
+
+sub startTask {
+    my ($self, $params) = @_;
+
+    my $target = $params->{target};
+    my $module = $params->{module};
     my $logger = $self->{logger};
 
-    if (!$self->isModInstalled($module)) {
+    if ($self->{runningTask}) {
+        $logger->fault("A task is already running with PID ".$self->{runningTask});
+    }
+
+    if (!$self->isModInstalled({ module => $module })) {
         $logger->debug("$module is not avalaible");
     }
 
     my @cmd;
-    push @cmd, "\"$EXECUTABLE_NAME\"";
+    push @cmd, "$EXECUTABLE_NAME";
     push @cmd, "-Ilib" if $config->{devlib};
     push @cmd, "-MFusionInventory::Agent::Task::".$module;
     push @cmd, "-e";
@@ -67,7 +95,7 @@ sub startTask {
     push @cmd, "--";
     push @cmd, $target->{vardir};
 
-    $self->start("Module $module", @cmd);
+    $self->{runningTask} = $self->start("Module $module", @cmd);
 
 }
 
