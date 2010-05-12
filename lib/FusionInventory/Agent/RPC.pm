@@ -232,7 +232,7 @@ sub getToken {
         $storage->save({ data => $myData });
     }
     
-    $logger->debug("token is :".$myData->{token});
+    $logger->debug("token is: ".$myData->{token});
 
     return $myData->{token};
 
