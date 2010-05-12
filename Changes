@@ -19,6 +19,8 @@ Revision history for FusionInventory::Agent
          including '.'. When the agent was launched by a cron task or in
          daemon mode, the current directory is / and so the whole system was
          scanned, thank you Remi COLLET for pointing this issue.
+       * BIOS: correctly set SMANUFACTURER and SSN instead of
+         SMANUFACTURERSSN
 
 2.0.4    Thu, 06 May 2010 18:43:30 +0200
        * Add debug message on WOL and correction when no mac address comes
