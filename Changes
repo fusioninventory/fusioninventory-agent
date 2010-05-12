@@ -1,8 +1,9 @@
 Revision history for FusionInventory::Agent
 2.1
+       * Add Windows support for 2000/XP/2003/Vista/2008/Seven
        * Windows: Add new values for SOFTWARES key
        * Add Windows service
-       * disable --color for Windows
+       * disable --color for Windows for now
        * Collect Solaris process informations (Emengao)
        * VirtualMachine: Add Vserver.pm
        * VirtualMachine: Check is the status is correct
@@ -25,16 +26,18 @@ Revision history for FusionInventory::Agent
          (Guillaume ROUSSE)
 	   * Cups.pm: gets all installed printers and their drivers names
         (Aurelien Bondis)
-       * ocsinventory-ng is not more the default server hostname
+       * ocsinventory-ng is not more the default server hostname, you've to
+         set it yourself in agent.cfg
        * Inputs.pm: adds Inputs support for Linux clients (Aurelien Bondis)
        * Turns off interactive mode of GNU fdisk (Aurelien Bondis)
        * Add a few new PNP monitor IDs (Alex Mauer)
-       * Minimal Perl version is Perl 5.8.
+       * Makefile.PL: Define Perl 5.8 as the minimal version.
        * RPC: Add http://hostname:62354/status to get the current status of
          the agent
        * Add --rpc-trust-localhost
-       * html-dir parameter
-       * Linux/Domains. Use Sys::Domain to get the domain
+       * RPC: serve a basic page to present the agent
+       * --html-dir parameter
+       * Linux/Domains. Use Sys::Hostname to get the domain
 
 2.0.5
        * Don't use dmidecode with -t and -s parameter since it's not
