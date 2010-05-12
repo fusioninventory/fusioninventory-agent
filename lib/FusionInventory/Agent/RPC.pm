@@ -153,7 +153,7 @@ sub handler {
 
     } elsif ($r->method eq 'GET' and $r->uri->path =~
         /^\/(logo.png|site.css|favicon.ico)$/) {
-        $c->send_file_response($htmlDir."/logo.png");
+        $c->send_file_response($htmlDir."/$1");
     } else {
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
