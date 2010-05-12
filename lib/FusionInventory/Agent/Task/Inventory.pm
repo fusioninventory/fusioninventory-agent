@@ -18,7 +18,7 @@ use warnings;
 
 use Data::Dumper;
 
-use FusionInventory::Logger;
+use FusionInventory::Agent::Job::Logger;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Network;
@@ -50,9 +50,7 @@ sub main {
   my $target = $self->{target} = $data->{target};
   
   
-  my $logger = $self->{logger} = new FusionInventory::Logger ({
-          config => $self->{config}
-      });
+  my $logger = $self->{logger} = new FusionInventory::Agent::Job::Logger ();
 
   if ($target->{type} eq 'server' &&
       (!exists($prologresp->{parsedcontent}->{RESPONSE})
