@@ -11,7 +11,7 @@ use constant SOCK_PACKET => 10;
 use Socket;
 use ExtUtils::Installed;
 use FusionInventory::Agent::Config;
-use FusionInventory::Logger;
+use FusionInventory::Agent::Job::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Agent::XML::Response::Prolog;
@@ -37,9 +37,7 @@ sub main {
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{target} = $data->{'target'};
-    my $logger = $self->{logger} = new FusionInventory::Logger ({
-            config => $self->{config}
-        });
+    my $logger = $self->{logger} = new FusionInventory::Agent::Job::Logger ();
     $self->{prologresp} = $data->{prologresp};
 
     my $continue = 0;
