@@ -28,9 +28,9 @@ BuildRequires: perl(Module::Install)
 Requires:  perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 Requires:  perl(LWP) perl(Net::IP) perl(HTTP::Status) perl(Net::SSLeay) perl(Crypt::SSLeay)
 Requires:  perl(Proc::Daemon) perl(Proc::PID::File)
-# Not yet available in EPEL ... 
+# Not yet available in EPEL ...
 %if %{?fedora}%{?rhel} > 4
-Requires:  perl(Archive::Extract) 
+Requires:  perl(Archive::Extract)
 Requires:  perl(Net::CUPS)
 %endif
 Requires(post): /sbin/chkconfig
@@ -50,7 +50,7 @@ or GLPI server with the FusionInventory for GLPI plugin.
 
 You can add additional packages for optionnal tasks:
 
-* perl-FusionInventory-Agent-Task-OcsDeploy 
+* perl-FusionInventory-Agent-Task-OcsDeploy
     OCS Inventory Software deployment support
 
 
@@ -64,7 +64,7 @@ OCS Inventory NG ou à un serveur GLPI disposant de l'extension FusionInventory.
 
 Vous pouvez ajouter les paquets additionnels pour les tâches optionnelles :
 
-* perl-FusionInventory-Agent-Task-OcsDeploy 
+* perl-FusionInventory-Agent-Task-OcsDeploy
     Gestion du déploiement logiciel OCS Inventory
 
 
@@ -86,7 +86,7 @@ cat <<EOF | tee logrotate
 EOF
 
 cat <<EOF | tee %{name}.conf
-# 
+#
 # Fusion Inventory Agent Configuration File
 # used by hourly cron job used to override the %{name}.cfg setup.
 #
@@ -100,7 +100,7 @@ OCSMODE[0]=none
 # OCSSERVER[0]=your.ocsserver.name
 # corresponds with --local=%{_localstatedir}/lib/%{name}
 # OCSSERVER[0]=local
-# Wait before inventory 
+# Wait before inventory
 OCSPAUSE[0]=120
 # Administrative TAG (optional, must be filed before first inventory)
 OCSTAG[0]=
@@ -189,7 +189,7 @@ exit 0
 - add support for daemon mode
 
 * Fri May 07 2010 Remi Collet <Fedora@famillecollet.com> 2.0.4-2
-- info about perl-FusionInventory-Agent-Task-OcsDeploy 
+- info about perl-FusionInventory-Agent-Task-OcsDeploy
 - spec cleanup
 - french translation
 - set Net::CUPS and Archive::Extract optionnal on RHEL4

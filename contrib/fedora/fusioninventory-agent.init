@@ -38,7 +38,7 @@ do_start()
 				OPTS="$OPTS --local=/var/lib/$prog"
 			elif [ ! -z "${OCSSERVER[$i]}" ]; then
 				# Remote inventory
-				OPTS="$OPTS --server=${OCSSERVER[$i]}"	
+				OPTS="$OPTS --server=${OCSSERVER[$i]}"
 			fi
 		fi
 		((i++))
@@ -48,7 +48,7 @@ do_start()
 		daemon $prog $FUSINVOPT --logfile=$logfile --daemon $OPTS
 		RETVAL=$?
 		echo
-	else 
+	else
 		RETVAL=1
 	fi
 	[ $RETVAL -eq 0 ] && touch $lockfile
