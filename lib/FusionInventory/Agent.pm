@@ -129,6 +129,12 @@ sub new {
         });
     my $targets = $self->{targets};
 
+    if (!$targets->numberOfTargets()) {
+        $logger->error("No target defined. Please use ".
+            "--server=SERVER or --local=/directory");
+        exit(1);
+    }
+
     if ($config->{daemon}) {
 
         $logger->debug("Time to call Proc::Daemon");

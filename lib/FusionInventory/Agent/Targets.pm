@@ -137,6 +137,12 @@ sub getNext {
     return;
 }
 
+sub numberOfTargets {
+    my ($self) = @_;
+
+    return @{$self->{targets}}
+}
+
 sub resetNextRunDate {
     my ($self) = @_;
 
