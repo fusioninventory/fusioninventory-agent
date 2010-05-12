@@ -4,10 +4,14 @@ use IPC::Open3;
 use IO::Select;
 use POSIX ":sys_wait_h";
 
+use English;
 
 sub new {
+    my (undef, $params) = @_;
+
     my $self = {};
 
+    $self->{logger} = $params->{logger};
 
     bless $self;
 }
@@ -29,6 +33,42 @@ sub start {
     if (!$self->{pid}) {
         print "Failed to start cmd\n";
     }
+}
+
+
+sub isModInstalled {
+    my ($self) = @_;
+
+    my $module = $self->{module};
+
+    foreach my $inc (@INC) {
+        return 1 if -f $inc.'/FusionInventory/Agent/Task/'.$module.'.pm';
+    }
+
+    return 0;
+}
+
+
+sub startTask {
+    my ($self, $module) = @_;
+
+    my $logger = $self->{logger};
+
+    if (!$self->isModInstalled($module)) {
+        $logger->debug("$module is not avalaible");
+    }
+
+    my @cmd;
+    push @cmd, "\"$EXECUTABLE_NAME\"";
+    push @cmd, "-Ilib" if $config->{devlib};
+    push @cmd, "-MFusionInventory::Agent::Task::".$module;
+    push @cmd, "-e";
+    push @cmd, "FusionInventory::Agent::Task::".$module."::main();";
+    push @cmd, "--";
+    push @cmd, $target->{vardir};
+
+    $self->start("Module $module", @cmd);
+
 }
 
 sub isDead {
