@@ -2,6 +2,11 @@ Revision history for Ocsinventory::Agent::Task::NetDiscovery
 
 1.1
        * Add a test script: t/use.t
+       * Add sleep for 1 second between two send to server
+       * Remove space before and after serial number
+       * Add MODULEVERSION in XML
+       * Add better support of Cisco
+       * Fix on calculate pourcentages when var isn't numeric and so crash thread.
 
 1.0
        * Initial independent release of the module
