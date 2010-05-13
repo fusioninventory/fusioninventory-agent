@@ -26,13 +26,16 @@ sub new {
 }
 
 sub start {
-    my $self = shift;
-    my $name = shift;
-    my @cmd = @_;
+    my ($self, $params) = @_;
+
+    my $name = $params->{name};
+    my @cmd = @{$params->{cmd}};
+    my $isTask = $params->{isTask};
 
     my $job = {};
 
     $job->{name} = $name;
+    $job->{isTask} = $isTask;
 
     $job->{pid} = open3(
         $job->{stdin},
@@ -87,6 +90,7 @@ sub startTask {
 
     if (!$self->isModInstalled({ module => $module })) {
         $logger->debug("$module is not avalaible");
+        return;
     }
 
     my @cmd;
@@ -98,19 +102,23 @@ sub startTask {
     push @cmd, "--";
     push @cmd, $target->{vardir};
 
-    $self->{runningTask} = $self->start("$module", @cmd);
+    $self->{runningTask} = $self->start({
+            name => $module,
+            isTask => 1,
+            cmd => \@cmd
+        });
 
 }
 
 sub isStillAlive {
     my ($self, $job) = @_;
 
-    return if waitpid( $job->{pid}, WNOHANG) == 0;
+    return 1 if waitpid( $job->{pid}, WNOHANG) == 0;
 
     my $child_exit_status = $? >> 8;
     print "End of task ".$job->{name}. " With return code ".$child_exit_status."\n";
 
-    return 1;
+    return 0;
 }
 
 sub stderr {
@@ -164,18 +172,17 @@ sub beat {
     my ($self) = @_;
 
 
+    sleep(3);
     use Data::Dumper;
 
-    print Dumper($self->{jobs});
-    print "Beat\n";
     foreach my $id (1..@{$self->{jobs}}) {
         my $job = $self->{jobs}[$id-1];
         $self->fetchBuffer($job);
         if (!$self->isStillAlive($job)) {
+            $self->{runningTask} = undef if $job->{isTask};
             splice(@{$self->{jobs}}, $id-1,1)
         }
     }
-    print Dumper($self->{jobs});
 
     1;
 }
