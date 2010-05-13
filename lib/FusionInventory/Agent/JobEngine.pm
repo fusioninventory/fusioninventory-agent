@@ -36,8 +36,8 @@ sub start {
 
     $job->{pid} = open3(
         $job->{stdin},
-        $job->{stdout},
         $job->{stderr},
+        $job->{stdout},
         @cmd
     );
 
@@ -48,8 +48,6 @@ sub start {
 
     push @{$self->{jobs}}, $job;
 
-    my $t = $job->{stdout};
-    print foreach (<$t>);
     return $job
 }
 
@@ -100,42 +98,86 @@ sub startTask {
     push @cmd, "--";
     push @cmd, $target->{vardir};
 
-    $self->{runningTask} = $self->start("Module $module", @cmd);
+    $self->{runningTask} = $self->start("$module", @cmd);
 
 }
 
-sub isDead {
-    my ($self) = @_;
+sub isStillAlive {
+    my ($self, $job) = @_;
 
-    return if waitpid( $self->{pid}, WNOHANG) == 0;
+    return if waitpid( $job->{pid}, WNOHANG) == 0;
 
     my $child_exit_status = $? >> 8;
-    print "End of task ".$self->{name}. " With return code ".$child_exit_status."\n";
+    print "End of task ".$job->{name}. " With return code ".$child_exit_status."\n";
 
     return 1;
 }
 
-sub getError {
+sub stderr {
+    my ($self, $job, $buffer) = @_;
+
+    my $logger = $self->{logger};
+
+    return unless defined($buffer);
+    while ($buffer =~ s/(\w+):\s(.*?)\n//) {
+        $logger->$1($job->{name}.") ".$2);
+    }
+    if ($buffer) {
+        print "WARNING: remaining error messages:\n $buffer\n";
+    }
+}
+
+sub stdin {
+
+
+}
+
+sub stdout {
+
+
+}
+
+sub fetchBuffer {
+    my ($self, $job) = @_;
+
+    my $logger = $self->{logger};
+
+
+    foreach my $buffName (qw/stdout stderr/) {
+        my $h = $job->{$buffName};
+        my $s = IO::Select->new();
+        $s->add($h);
+
+        my $buffer;
+
+        my $tmp;
+        while ($s->can_read(.5) && ($tmp = <$h>)) {
+            last unless defined($tmp);
+            $buffer .= $tmp;
+        }
+        $self->$buffName($job, $buffer);
+    }
+
+}
+
+sub beat {
     my ($self) = @_;
 
-    my $h = $self->{stdout};
-    my $s = IO::Select->new();
-    $s->add($h);
 
-    my $buffer;
+    use Data::Dumper;
 
-    my $tmp;
-    while ($s->can_read(.5) && ($tmp = <$h>)) {
-        last unless defined($tmp);
-        $buffer .= $tmp;
+    print Dumper($self->{jobs});
+    print "Beat\n";
+    foreach my $id (1..@{$self->{jobs}}) {
+        my $job = $self->{jobs}[$id-1];
+        $self->fetchBuffer($job);
+        if (!$self->isStillAlive($job)) {
+            splice(@{$self->{jobs}}, $id-1,1)
+        }
     }
-    return unless defined($buffer);
+    print Dumper($self->{jobs});
 
-    while ($buffer =~ s/(\w+):(.*?)\n//) {
-        print "Error($1): $2\n";
-
-    }
-    print "remaining error messages:\n $buffer\n";
+    1;
 }
 
 1;
