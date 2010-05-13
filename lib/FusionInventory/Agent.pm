@@ -284,7 +284,7 @@ sub main {
             NetDiscovery
             /;
 
-        while (@modulesToDo && sleep (1)) {
+        while (@modulesToDo && $jobEngine->beat()) {
             next if $jobEngine->isATaskRunning();
 
             my $module = shift @modulesToDo;
@@ -293,6 +293,7 @@ sub main {
                     module => $module,
                     target => $target,
                 });
+            print "Ok\n";
             $rpc->setCurrentStatus("running task $module");
 
         }
