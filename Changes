@@ -5,6 +5,16 @@ Revision history for Ocsinventory::Agent::Task::NetDiscovery
        * add a POD doc
        * Improve the README
        * Add a test script: t/use.t
+       * Add MODULEVERSION in XML
+       * Add support of a certain type of KYOCERA printer server
+       * Add support of dd-wrt firmware in routers
+       * Update dico for devices detection
+       * Remove space before and after serial number
+       * Fix mac address in SNMP
+       * Fix to get mac address of device when it is in dico but not have oid for mac address
+       * Add sleep for 1 second between two send to server
+       * Fix for sometimes IP scanned 2 times
+       * Fix send starting discovery to server many times in a certain case
 
 1.0    Sun, 28 Mar 2010 22:49:57 +0200
        * Initial independent release of the module
