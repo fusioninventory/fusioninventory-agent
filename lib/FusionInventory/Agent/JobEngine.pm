@@ -61,7 +61,6 @@ sub isModInstalled {
     my $module = $params->{module};
 
     foreach my $inc (@INC) {
-        print $inc.'/FusionInventory/Agent/Task/'.$module.'.pm'."\n";
         return 1 if -f $inc.'/FusionInventory/Agent/Task/'.$module.'.pm';
     }
 
