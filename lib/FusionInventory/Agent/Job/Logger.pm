@@ -15,31 +15,31 @@ sub _print {
 sub debug {
   my ($self, $msg) = @_;
 
-  _print('debug', $msg);
+  $self->_print('debug', $msg);
 }
 
 sub info {
   my ($self, $msg) = @_;
 
-  _print('info', $msg);
+  $self->_print('info', $msg);
 }
 
 sub error {
   my ($self, $msg) = @_;
 
-  _print('error', $msg);
+  $self->_print('error', $msg);
 }
 
 sub fault {
   my ($self, $msg) = @_;
 
-  _print('fault', $msg);
+  $self->_print('fault', $msg);
 }
 
 sub user {
   my ($self, $msg) = @_;
 
-  _print('user', $msg);
+  $self->_print('user', $msg);
 }
 
 
