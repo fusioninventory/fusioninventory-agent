@@ -122,6 +122,7 @@ sub StartThreads {
    my %ArgumentsThread;
    my $maxIdx : shared = 0;
    my $storage = $self->{storage};
+   my $sendstart = 0;
 
    if ( eval { require Nmap::Parser; 1 } ) {
       $ModuleNmapParser = 1;
@@ -225,6 +226,7 @@ sub StartThreads {
                   $nbip++;
                   if ($nbip eq $limitip) {
                      if ($ip->ip() ne $self->{NETDISCOVERY}->{RANGEIP}->{IPEND}) {
+                        ++$ip;
                         $self->{NETDISCOVERY}->{RANGEIP}->{IPSTART} = $ip->ip();
                         $loop_action = 1;
                         goto CONTINUE;
@@ -258,6 +260,7 @@ sub StartThreads {
                         $nbip++;
                         if ($nbip eq $limitip) {
                            if ($ip->ip() ne $num->{IPEND}) {
+                              ++$ip;
                               $num->{IPSTART} = $ip->ip();
                               $loop_action = 1;
                               goto CONTINUE;
@@ -497,15 +500,18 @@ sub StartThreads {
               });
 
          # Send infos to server :
-         my $xml_thread = {};
-         $xml_thread->{AGENT}->{START} = '1';
-         $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-         $xml_thread->{MODULEVERSION} = $VERSION;
-         $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-         $self->SendInformations({
-            data => $xml_thread
-            });
-         undef($xml_thread);
+         if ($sendstart eq "0") {
+            my $xml_thread = {};
+            $xml_thread->{AGENT}->{START} = '1';
+            $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
+            $xml_thread->{MODULEVERSION} = $VERSION;
+            $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+            $self->SendInformations({
+               data => $xml_thread
+               });
+            undef($xml_thread);
+            $sendstart = 1;
+         }
 
          # Send NB ips to server :
          $xml_thread = {};
@@ -535,6 +541,7 @@ sub StartThreads {
                    $storage->remove({
                         idx => $idx
                      });
+                   sleep 1;
                 }
             }
         }
@@ -549,6 +556,7 @@ sub StartThreads {
                      data => $data
                  });
              $sentxml->{$idx} = 1;
+             sleep 1;
          }
 
       }
