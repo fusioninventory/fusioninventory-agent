@@ -13,6 +13,7 @@ BuildArch:      noarch
 BuildRequires:  perl(ExtUtils::MakeMaker) perl(Module::Install)
 # For tests
 BuildRequires:  perl(FusionInventory::Agent) >= 2.0
+BuildRequires:  perl(Test::More)
 
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 Requires:       perl(FusionInventory::Agent) >= 2.0
