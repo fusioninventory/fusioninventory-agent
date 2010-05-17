@@ -238,7 +238,7 @@ sub initModList {
     my $t = $file;
     next unless $t =~ s!.*?(FusionInventory/Agent/Task/Inventory/)(.*?)\.pm$!$1$2!;
     my $m = join ('::', split /\//, $t);
-    push @installed_mods, $m;
+    push @installed_mods, $m unless grep (/^$m$/, @installed_mods);
   }
 
   if (!@installed_mods) {

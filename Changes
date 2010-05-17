@@ -39,6 +39,8 @@ Revision history for FusionInventory::Agent
        * --html-dir parameter
        * Linux/Domains. Use Sys::Hostname to get the domain
        * Exit if no --server or --target is defined
+       * Inventory: If two modules with the same name are found, only load
+         the first
 
 2.0.5
        * Don't use dmidecode with -t and -s parameter since it's not
