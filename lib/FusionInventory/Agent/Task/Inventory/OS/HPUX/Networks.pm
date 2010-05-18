@@ -51,7 +51,7 @@ sub doInventory {
     $lanid="";
     $ipmask="";
     $ipgateway="";
-    $status="Down";
+    $status="";
     $macaddr="";
     $speed="";
     $type="";
@@ -71,10 +71,13 @@ sub doInventory {
         if (/Speed.+=\s(\d+)/) {
           $speed = ($1 > 1000000)? $1/1000000 : $1; # in old version speed was given in Mbps and we want speed in Mbps
         }
-        if (/Operation Status.+=\s(.+)/) { $status = $1; }
+        if (/Operation Status.+=\sdown\W/i) { $status = "Down"; } #It is not the only criteria
       } # for lanadmin
       #print "name $name macaddr $macaddr lanid $lanid speed $speed status $status \n";
       for ( `ifconfig $name 2> /dev/null` ) {
+        if ( not $status and /$name:\s+flags=.*\WUP\W/ ) { #Its status is not reported as down in lanadmin -g
+          $status = 'Up';
+        }
         if ( /inet\s(\S+)\snetmask\s(\S+)\s/ ) {
           $ipaddress=$1;
           $ipmask=$2;
@@ -94,13 +97,18 @@ sub doInventory {
         $ipgateway = $gateway{'default/0.0.0.0'}
       }
 
+      #Some cleanups
+      if ( $ipaddress eq '0.0.0.0' ) { $ipaddress = "" }
+      if ( not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0' ) { $ipsubnet = "" }
+      if ( not $status ) { $status = 'Down' }
+
       $inventory->addNetwork({
         DESCRIPTION => $description,
         IPADDRESS => $ipaddress,
         IPMASK => $ipmask,
         IPSUBNET => $ipsubnet,
         MACADDR => $macaddr,
-        STATUS => $status?"Up":"Down",
+        STATUS => $status,
         TYPE => $type,
         SPEED => $speed,
         IPGATEWAY => $ipgateway,
