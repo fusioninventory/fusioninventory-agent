@@ -13,20 +13,16 @@ Version Francaise
 (for english version see below)
 
 Ces fichiers sont generes pour etre utilisis avec
-l'agent Unix OCS-NG 1.02 
+l'agent Unix FusionInventory
 
 Installation:
 
-Installer le client OCS-NG 1.02 avec ces prerequis
+Installer le client FusionInventory avec ces prerequis
 extraire les fichiers dans le repertoire 
 
-FusionInventory/Agent/Backend/OS
+FusionInventory/Agent/Task/Inventory/OS
 
 Ils seront automatiquement pris en compte par le client OCS
-
-Je n'ai pu tester ces fichiers que sur N4000 actuellement en version HP-UX 11.0
-J'ai commence sur un rp3440 mais je n'ai pas encore toutes les informations 
-car le format des certaines donnees change.
 
 N'hesitez pas a m'aider a le faire evoluer.
 
@@ -35,20 +31,17 @@ English version
 ---------------
 
 This files are producted for using with
-the OCS-NG 1.02 Unix Agent
+the FusionInventory Agent
 
 Install:
 
-Install the OCS-NG 1.02 Agent with the prerequesit 
+Install FusionInventory Agent with the prerequesit 
 
 Extract the files in the
 
-FusionInventory/Agent/Backend/OS
+FusionInventory/Agent/Task/Inventory/OS
 
 It will be used automaticly
-
-I have test the script on only n4000 system for th moment on HP-Ux 11.0
-I try it on rp3440 but some informations are not in the same format
 
 If you wish to help me, you are welwome.
 
@@ -61,11 +54,10 @@ HPUX sub directory
 	Controller.pm
 	Domains.pm
 	Drives.pm
-	IPv4.pm
-	Mem.pm
 	Memory.pm
 	Networks.pm
 	Slots.pm
 	Software.pm
 	Storages.pm
+	Uptime.pm
 
