@@ -83,7 +83,7 @@ sub doInventory {
         foreach (`dumpe2fs -h $volumn 2> /dev/null`) {
           if (/Filesystem UUID:\s+(\S+)/) {
             $serial = $1;
-          } elsif (/Filesystem created:\s+\w+ (\w+) (\d+) ([\d:]+) (\d{4})$/) {
+          } elsif (/Filesystem created:\s+\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+(\d{4})$/) {
             $createdate = $4.'/'.$months{$1}.'/'.$2.' '.$3;
           } elsif (/Filesystem volume name:\s*(\S.*)/) {
             $label = $1 unless $1 eq '<none>';
