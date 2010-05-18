@@ -1,6 +1,6 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Storages;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Storages;
 
-sub isInventoryEnabled  { $^O =~ /hpux/ }
+sub isInventoryEnabled  { can_run('ioscan') and can_run('cut') and can_run('pvdisplay') and can_run('diskinfo') }
 
 sub doInventory {
    my $params = shift;
