@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Bios;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Bios;
 use strict;
 
 ###
