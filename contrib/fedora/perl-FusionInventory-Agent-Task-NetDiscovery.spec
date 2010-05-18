@@ -24,6 +24,8 @@ Requires:       perl(Nmap::Parser)
 Requires:       perl(Net::NBName)
 Requires:       nmap
 
+%{?perl_default_filter}
+
 
 %description
 This module scans your networks to get information from devices with
@@ -42,7 +44,7 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
+make pure_install DESTDIR=$RPM_BUILD_ROOT
 
 find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
 find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
