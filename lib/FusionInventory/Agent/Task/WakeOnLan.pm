@@ -9,7 +9,6 @@ use constant PF_PACKET => 17;
 use constant SOCK_PACKET => 10;
 
 use Socket;
-use ExtUtils::Installed;
 use FusionInventory::Agent::Config;
 use FusionInventory::Logger;
 use FusionInventory::Agent::Storage;
