@@ -12,6 +12,9 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $config = $params->{config};
+
+    return if $config->{'no-printer'};
 
     my $pro = Mac::SysProfile->new();
     my $h = $pro->gettype(DATATYPE());

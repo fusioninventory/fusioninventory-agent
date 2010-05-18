@@ -45,6 +45,7 @@ Revision history for FusionInventory::Agent
        * HP-UX numerous improvement (Amir PAKDEL)
        * Add NETWORKS/SPEED (in MB/s) (Amir PAKDEL)
        * Inventory: POD doc for NETWORKS part
+       * add --no-printer parameter
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem

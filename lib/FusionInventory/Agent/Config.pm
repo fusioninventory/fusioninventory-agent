@@ -43,6 +43,7 @@ my $default = {
   'no-inventory'
               =>  0,
   'nosoft'    =>  0, # DEPRECATED!
+  'no-printer'=>  0,
   'no-software'=>  0,
   'no-wakeonlan'=> 0,
   'no-snmpquery'=> 0,
@@ -167,6 +168,7 @@ sub loadUserParams {
 		"no-ocsdeploy"    =>   \$config->{'no-ocsdeploy'},
 		"no-inventory"    =>   \$config->{'no-inventory'},
 		"no-soft"         =>   \$config->{'no-soft'},
+		"no-printer"     =>   \$config->{'no-printer'},
 		"no-software"     =>   \$config->{'no-software'},
 		"no-wakeonlan"    =>   \$config->{'no-wakeonlan'},
 		"no-snmpquery"    =>   \$config->{'no-snmpquery'},
@@ -245,6 +247,8 @@ sub help {
   print STDERR "\t   --no-inventory   Do not generate inventory".
   " (".$config->{'no-inventory'}.")\n";
   print STDERR "\t   --no-ssl-check   do not check the ".
+  print STDERR "\t   --no-printer     do not return printer list in".
+  " inventory ".$config->{'no-printer'}.")\n";
   print STDERR "\t   --no-software    do not return installed ".
   "software list (".$config->{'no-software'}.")\n";
   print STDERR "\t   --no-wakeonlan   do not use wakeonlan function".

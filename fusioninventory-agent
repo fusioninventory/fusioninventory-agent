@@ -224,6 +224,10 @@ Do not generate inventory.
 
 Do not use the wakeonlan.
 
+=item B<--no-printer>
+
+Do not inventory the printer.
+
 =item B<--no-software>
 
 Do not inventory the software installed on the machine.
