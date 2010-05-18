@@ -548,7 +548,7 @@ my ($self, $args) = @_;
     foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS
         IPADDRESS6 IPDHCP IPGATEWAY IPMASK IPSUBNET
         MACADDR MTU PCISLOT STATUS
-        TYPE VIRTUALDEV SLAVES/) {
+        TYPE VIRTUALDEV SLAVES SPEED/) {
         $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
     }
     push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
@@ -1748,5 +1748,45 @@ USB Class (e.g: 8 for Mass Storage)
 =item SUBCLASS
 
 USB Sub Class
+
+=back
+
+=head2 NETWORKS
+
+=item DESCRIPTION
+
+=item DRIVER
+
+=item IPADDRESS
+
+=item IPADDRESS6
+
+=item IPDHCP
+
+=item IPGATEWAY
+
+=item IPMASK
+
+=item IPSUBNET
+
+=item MACADDR
+
+=item MTU
+
+=item PCISLOT
+
+=item STATUS
+
+=item TYPE
+
+=item VIRTUALDEV
+
+If the interface exist or not (1 or empty)
+
+=item SLAVES
+
+=item SPEED
+
+Interface speed in MB/s
 
 =back
