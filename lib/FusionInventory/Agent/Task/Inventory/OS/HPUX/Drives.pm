@@ -1,6 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Drives;
 
-sub isInventoryEnabled  { $^O =~ /hpux/ }
+sub isInventoryEnabled  { can_run('fstyp') and can_run('grep') and can_run('bdf') }
 
 sub doInventory {
    my $params = shift;
