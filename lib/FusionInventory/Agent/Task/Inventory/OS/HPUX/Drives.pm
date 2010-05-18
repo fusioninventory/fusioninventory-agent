@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Drives;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Drives;
 
 sub isInventoryEnabled  { can_run('fstyp') and can_run('grep') and can_run('bdf') }
 
