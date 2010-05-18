@@ -69,14 +69,13 @@ sub new {
 }
 
 sub handler {
-    my ($self, $c, $clientIp) = @_;
+    my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $config = $self->{config};
     my $htmlDir = $self->{htmlDir};
 
-    my $r = $c->get_request;
     $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
     if (!$r) {
         $c->close;
@@ -208,7 +207,10 @@ sub server {
         my ($c, $socket) = $daemon->accept;
         my(undef,$iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
-        my $thr = threads->create(\&handler, $self, $c, $clientIp);
+# HTTP::Daemon::get_request is not thread
+# safe and must be called from the master thread
+        my $r = $c->get_request;
+        my $thr = threads->create(\&handler, $self, $c, $r, $clientIp);
         push @stack, $thr;
     }
 }
