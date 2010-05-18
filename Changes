@@ -42,6 +42,7 @@ Revision history for FusionInventory::Agent
        * Inventory: If two modules with the same name are found, only load
          the first
        * Linux/Storages: detect floppy and block devices (Amir PAKDEL)
+       * HP-UX numerous improvement (Amir PAKDEL)
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
