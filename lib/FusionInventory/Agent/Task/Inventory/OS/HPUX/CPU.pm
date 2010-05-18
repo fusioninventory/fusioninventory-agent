@@ -8,18 +8,14 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU;
 #                                                                                                  
 ###                                                                                                
 
-sub isInventoryEnabled  { $^O =~ /hpux/ }
+sub isInventoryEnabled  { $^O =~ /^hpux$/ }
 
 sub doInventory {
    my $params = shift;
    my $inventory = $params->{inventory};
 
-   my $processort;
-   my $processorn;
-   my $processors="";
-   my $DeviceType;
-   my $cpuInfo;
-   my $serie;
+   my $CPUinfo = { MANUFACTURER => 'unknow', TYPE => 'unknow', SERIAL => 'No Serial Number available!', SPEED => 0 };
+   my $CPUcount;
 
    # Using old system HpUX without machinfo
    # the Hpux whith machinfo will be done after
@@ -55,78 +51,62 @@ sub doInventory {
                 "N4000-44"=>"8500 440",
                 "ia64 hp server rx1620"=>"itanium 1600");
 
-   if (can_run("machinfo"))
-   {
-      foreach ( `machinfo`)
-      {
-         if ( /Number of CPUs\s+=\s+(\d+)/ )
-         {
-            $processorn=$1;
-         }
-         if ( /Clock speed\s+=\s+(\d+)\s+MHz/ )
-         {
-            $processors=$1;
-         }
-         # Added for HPUX 11.31
-	 if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ || /Intel\(R\) Itanium 2 9000 series processors \((\d+\.\d+)/ )
-         {
-            $processors=$1*1000;
-         }
-         if ( /(\d+)\s+logical processors/ )
-         {
-            $processorn=$1;
-         }
-         # end HPUX 11.31
-      }
-   }
-   else
-   {
-      chomp($DeviceType =`model |cut -f 3- -d/`);
-      my $cpuInfo = $cpuInfos{"$DeviceType"};
-      if ( "$cpuInfo" =~ /^(\S+)\s(\S+)/ ) 
-      {
-         $processort=$1;
-         $processors=$2;
-      } 
-      else 
-      {
-        for ( `echo 'sc product cpu;il' | /usr/sbin/cstm | grep "CPU Module"` ) 
-        {
-	   if ( /(\S+)\s+CPU\s+Module/ ) 
-           {
-             $processort=$1;
-           }
-        };
-        for ( `echo 'itick_per_usec/D' | adb -k /stand/vmunix /dev/kmem` )
-        {
-            if ( /tick_per_usec:\s+(\d+)/ )
-	    {
-	       $processors=$1;
-            }
+   if ( can_run ("/usr/contrib/bin/machinfo") ) {
+      my @machinfo = `/usr/contrib/bin/machinfo`;
+      s/\s+/ /g for (@machinfo);
+      foreach (@machinfo) {
+        if (/Number of CPUs = (\d+)/) {
+          $CPUcount = $1;
+        } elsif (/processor model: \d+ (.+)$/) {
+          $CPUinfo->{TYPE} = $1;
+        } elsif (/Clock speed = (\d+) MHz/) {
+          $CPUinfo->{SPEED} = $1;
+        } elsif (/vendor information =\W+(\w+)/) {
+          $CPUinfo->{MANUFACTURER} = $1;
+        } elsif (/Cache info:/) {
+         # last; #Not tested on versions other that B11.23
         }
-      };
+        # Added for HPUX 11.31
+        if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
+          $CPUinfo->{SPEED} = $1*1000;
+        }
+        if ( /(\d+) logical processors/ ) {
+          $CPUcount = $1;
+        }
+        # end HPUX 11.31
+      }
+   } else {
+      chomp(my $DeviceType =`model |cut -f 3- -d/`);
+      my $tempCpuInfo = $cpuInfos{"$DeviceType"};
+      if ( $tempCpuInfo =~ /^(\S+)\s(\S+)/ ) {
+        $CPUinfo->{TYPE} = $1;
+        $CPUinfo->{SPEED} = $2;
+      } else {
+        for ( `echo 'sc product cpu;il' | /usr/sbin/cstm | grep "CPU Module"` ) {
+          if ( /(\S+)\s+CPU\s+Module/ ) {
+            $CPUinfo->{TYPE} = $1;
+          }
+        }
+        for ( `echo 'itick_per_usec/D' | adb -k /stand/vmunix /dev/kmem` ) {
+          if ( /tick_per_usec:\s+(\d+)/ ) {
+            $CPUinfo->{SPEED} = $1;
+          }
+        }
+      }
       # NBR CPU
-      chomp($processorn=`ioscan -Fk -C processor | wc -l`);
-      #print "HP $processort A $processorn A $processors ";
+      chomp($CPUcount=`ioscan -Fk -C processor | wc -l`);
    }
 
+   my $serie;
    chomp($serie = `uname -m`);
-   if ( $serie =~ /ia64/) 
-   {
-      $processort="Itanium"
+   if ( $CPUinfo->{TYPE} eq 'unknow' and $serie =~ /ia64/) {
+     $CPUinfo->{TYPE} = "Itanium"
    }
-   if ( $serie =~ /9000/) 
-   {
-      $processort="PA$processort";
+   if ( $serie =~ /9000/) {
+     $CPUinfo->{TYPE} = "PA" . $CPUinfo->{TYPE};
    }
-   $inventory->setHardware({
 
-      PROCESSORT => $processort,
-      PROCESSORN => $processorn,
-      PROCESSORS => $processors,
-    });
-
-
+   foreach ( 1..$CPUcount ) { $inventory->addCPU($CPUinfo) }
 }
 
 1;
