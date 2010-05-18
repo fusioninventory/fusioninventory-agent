@@ -937,6 +937,29 @@ sub addUSBDevice {
 }
 
 
+=item addRegistry()
+
+USB device
+
+=cut
+sub addRegistry {
+  my ($self, $args) = @_;
+
+  my $name = $args->{NAME};
+  my $regvalue = $args->{REGVALUE};
+  my $hive = $args->{HIVE};
+
+  push @{$self->{h}{CONTENT}{REGISTRY}},
+  {
+
+    NAME => [$name?$name:''],
+    REGVALUE => [$regvalue?$regvalue:''],
+    HIVE => [$hive?$hive:''],
+
+  };
+}
+
+
 
 
 =item setAccessLog()
