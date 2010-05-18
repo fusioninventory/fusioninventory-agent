@@ -41,6 +41,7 @@ Revision history for FusionInventory::Agent
        * Exit if no --server or --target is defined
        * Inventory: If two modules with the same name are found, only load
          the first
+       * Linux/Storages: detect floppy and block devices (Amir PAKDEL)
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem

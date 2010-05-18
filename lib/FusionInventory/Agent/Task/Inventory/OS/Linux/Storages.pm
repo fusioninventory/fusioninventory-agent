@@ -136,7 +136,7 @@ sub doInventory {
     my $value;
     foreach my $line (`lshal`) {
       chomp $line;
-      if ( $line =~ s{^udi = '/org/freedesktop/Hal/devices/storage.*}{}) {
+      if ( $line =~ s{^udi = '/org/freedesktop/Hal/devices/(storage|legacy_floppy|block).*}{}) {
         $in = 1;
         %temp = ();
       } elsif ($in == 1 and $line =~ s{^\s+(\S+) = (.*) \s*\((int|string|bool|string list|uint64)\)}{} ) {
@@ -223,7 +223,7 @@ sub doInventory {
     my ($manufacturer, $model, $media, $firmware, $serialnumber, $capacity, $partitions, $description);
     foreach (glob ("/sys/block/*")) {# /sys fs style
       $partitions->{$1} = undef
-        if (/^\/sys\/block\/([sh]d[a-z])$/)
+        if (/^\/sys\/block\/([sh]d[a-z]|fd\d)$/)
     }
     
     if ( `fdisk -v` =~ '^GNU.*')
