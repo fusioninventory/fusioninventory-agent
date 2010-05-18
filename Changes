@@ -43,6 +43,7 @@ Revision history for FusionInventory::Agent
          the first
        * Linux/Storages: detect floppy and block devices (Amir PAKDEL)
        * HP-UX numerous improvement (Amir PAKDEL)
+       * Add NETWORKS/SPEED (in MB/s) (Amir PAKDEL)
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
