@@ -24,9 +24,9 @@ sub doInventory {
            $fs=$6;
 	   $inventory->addDrives({
                FREE => $free,
-               FILESYSTEM => $fs,
+               FILESYSTEM => $type,
                TOTAL => $total,
-               TYPE => $type,
+               TYPE => $fs,
                VOLUMN => $lv,
 				 });
 
@@ -41,9 +41,9 @@ sub doInventory {
 	# print "fs $fs lv $lv total $total free $free type $type\n";
         $inventory->addDrives({
            FREE => $free,
-           FILESYSTEM => $fs,
+           FILESYSTEM => $type,
            TOTAL => $total,
-           TYPE => $type,
+           TYPE => $fs,
            VOLUMN => $lv,
 			     });
         };
