@@ -39,7 +39,6 @@ sub doInventory {
 
     use Data::Dumper;
     foreach my $option (@$options) {
-        print Dumper($option);
         my $name = $option->{NAME};
         my $regkey = $option->{REGKEY};
         my $regtree = $option->{REGTREE};
@@ -54,7 +53,6 @@ sub doInventory {
                     NAME => $name, 
                     REGVALUE => $values->{$content}
                     });
-            print $values->{$content}."\n\n";
         } else {
             foreach my $keyWithDelimiter ( keys %$values ) {
                 next unless $keyWithDelimiter =~ /^\/(.*)/;
