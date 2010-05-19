@@ -45,7 +45,7 @@ sub doInventory {
               if ( $alternate eq 0 ) {
                  #$size = `diskinfo -b $devrdsk`;
 	         
-		 for ( `diskinfo -v $devrdsk`) {
+		 for ( `diskinfo -v $devrdsk 2>/dev/null`) {
 		   if ( /^\s+size:\s+(\S+)/ ) {
 		     $size=$1;
                      $size = int ( $size/1024 ) if $size;
@@ -55,7 +55,7 @@ sub doInventory {
 		   };
                  };
                  #print "vendor $vendor ref $ref type $type description $description path $path size $size\n";
-                 $inventory->addStorages({
+                 $inventory->addStorage({
                     MANUFACTURER => $vendor,
                     MODEL => $ref,
                     NAME => $devdsk,
@@ -70,7 +70,7 @@ sub doInventory {
            # We look for tapes
 	   if ( /^\s+(\/dev\/rmt\/\Sm)\s+/ ) {
 	      $devdsk=$1;
-	   $inventory->addStorages({
+	   $inventory->addStorage({
                  MANUFACTURER => $vendor,
                  MODEL => $ref,
                  NAME => $devdsk,
