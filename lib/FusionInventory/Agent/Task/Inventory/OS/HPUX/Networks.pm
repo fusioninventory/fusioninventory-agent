@@ -1,4 +1,6 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Networks;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks;
+
+#TODO Get driver pcislot virtualdev
 
 sub isInventoryEnabled { can_run("lanadmin") and can_run("lanscan") and can_run("netstat") 
              and can_run("ifconfig") and can_run("hostname") and can_run("uname") }

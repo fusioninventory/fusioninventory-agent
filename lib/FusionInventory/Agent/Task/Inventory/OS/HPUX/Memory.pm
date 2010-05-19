@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Memory;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory;
 use strict;
 
 sub isInventoryEnabled { $^O =~ /hpux/ }
