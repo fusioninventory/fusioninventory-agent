@@ -24,7 +24,7 @@ sub doInventory {
     if (-f $hdparm) {
         foreach my $l ('a'..'z') {
             my $disk;
-            foreach (`\"$hdparm\" -I /dev/hd$l`) {
+            foreach (`\"$hdparm\" -I /dev/hd$l 2>&1`) {
                 $disk->{model} = $1 if /Model Number:\s+(\S*)/;
             $disk->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
             $disk->{serial} = $1 if /Serial Number:\s+(\S*)/;
@@ -36,7 +36,7 @@ sub doInventory {
 
         foreach my $n (0..9) {
             my $cdrom;
-            foreach (`$hdparm -I /dev/scd$n`) {
+            foreach (`$hdparm -I /dev/scd$n 2>&1`) {
                 $cdrom->{model} = $1 if /Model Number:\s+(\S*)/;
                 $cdrom->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
                 $cdrom->{serial} = $1 if /Serial Number:\s+(\S*)/;
