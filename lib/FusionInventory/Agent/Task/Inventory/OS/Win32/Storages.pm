@@ -57,7 +57,7 @@ sub doInventory {
 
             my $hdparmDisk = $hdparmDisks[$cpt];
 
-            push @storages, {
+            $inventory->addStorage({
                 MANUFACTURER => $Properties->{Manufacturer},
                              MODEL => $hdparmDisk->{model} || $Properties->{Model},
                              DESCRIPTION => $Properties->{Description},
@@ -71,7 +71,7 @@ sub doInventory {
                              SCSI_COID => $Properties->{SCSIPort},
                              SCSI_LUN => $Properties->{SCSILogicalUnit},
                              SCSI_UNID => $Properties->{SCSITargetId},
-            };
+            });
 
             $cpt++;
         }
@@ -85,7 +85,7 @@ sub doInventory {
 
             my $hdparmCdrom = $hdparmCdroms[$cpt];
 
-            push @storages, {
+            $inventory->addStorage({
                 MANUFACTURER => $Properties->{Manufacturer},
                 MODEL => $hdparmCdrom->{model} || $Properties->{Caption},
                 DESCRIPTION => $Properties->{Description},
@@ -99,7 +99,7 @@ sub doInventory {
                 SCSI_COID => $Properties->{SCSIPort},
                 SCSI_LUN => $Properties->{SCSILogicalUnit},
                 SCSI_UNID => $Properties->{SCSITargetId},
-            };
+            });
 
             $cpt++;
         }
@@ -109,7 +109,7 @@ sub doInventory {
                           qw/Manufacturer Caption Description Name MediaType InterfaceType FirmwareRevision
                           SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
 
-            push @storages, {
+            $inventory->addStorage({
                 MANUFACTURER => encode('UTF-8', $Properties->{Manufacturer}),
                 MODEL => encode('UTF-8', $Properties->{Caption}),
                 DESCRIPTION => encode('UTF-8', $Properties->{Description}),
@@ -123,13 +123,8 @@ sub doInventory {
                 SCSI_COID => $Properties->{SCSIPort},
                 SCSI_LUN => $Properties->{SCSILogicalUnit},
                 SCSI_UNID => $Properties->{SCSITargetId},
-            };
+            });
 
-        }
-
-
-    foreach (@storages) {
-        $inventory->addStorage($_);
     }
 
 }
