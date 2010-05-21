@@ -1468,6 +1468,8 @@ should use the USERS section instead.
 
 =item OSCOMMENTS
 
+Service Pack on Windows, kernel build date on Linux
+
 =item CHECKSUM
 
 =item PROCESSORT
