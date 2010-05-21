@@ -11,14 +11,12 @@ sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  my $OSName;
   my $OSComment;
   my $OSVersion;
   my $OSLevel;
   my $OSArchi;
 
   # Operating system informations
-  chomp($OSName=`uname -s`);
   chomp($OSVersion=`uname -r`);
   chomp($OSArchi=`uname -p`);
 
@@ -34,7 +32,7 @@ sub doInventory {
   chomp($OSComment=`uname -v`) unless $OSComment; 
   
   $inventory->setHardware({
-      OSNAME => $OSName." ".$OSArchi,
+      OSNAME => $^O,
       OSCOMMENTS => $OSComment,
       OSVERSION => $OSVersion,
     });
