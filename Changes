@@ -48,6 +48,7 @@ Revision history for FusionInventory::Agent
        * Inventory: POD doc for NETWORKS part
        * add --no-printer parameter
        * BSD: don't use uname to get the OSName, but $^O aka $SNAME
+       * BSD: chomp() the number of CPU
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
