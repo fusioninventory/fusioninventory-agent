@@ -702,13 +702,16 @@ sub addUser {
   if ($login =~ /(.*\\|)(\S+)/) {
       $domainString .= $domain;
       $userString .= $2;
+  } else {
+      $domainString .= $domain;
+      $userString .= $login;
+  }
 
 
-      $self->setHardware ({
+  $self->setHardware ({
           USERID => $userString,
           USERDOMAIN => $domainString,
-      }, 1);
-  }
+  }, 1);
 
 
 }
