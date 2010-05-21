@@ -138,25 +138,25 @@ sub doInventory {
 
 # Copyright (c) 2009 Megagram
 # Code from Win32::WindowsUpdate
-    my $updateSession = Win32::OLE->new("Microsoft.Update.Session") or die "WMI connection failed.\n";
-    my $updateSearcher = $updateSession->CreateUpdateSearcher() or die;
-    my $queryResult = $updateSearcher->Search("Isinstalled = 1");
-    
-    my $updates = $queryResult->Updates;
-    foreach my $update (in $updates) {
-        my $id = $update->Identity->UpdateID;
-        my $kb;
-        foreach (in $update->KBArticleIDs) {
-            $kb.="/" if $kb;
-            $kb.="KB".$_;
-        }
-        $inventory->addUpdate({
-
-                ID => $id, 
-                KB => $kb
-
-                });
-    }
+#    my $updateSession = Win32::OLE->new("Microsoft.Update.Session") or die "WMI connection failed.\n";
+#    my $updateSearcher = $updateSession->CreateUpdateSearcher() or die;
+#    my $queryResult = $updateSearcher->Search("Isinstalled = 1");
+#    
+#    my $updates = $queryResult->Updates;
+#    foreach my $update (in $updates) {
+#        my $id = $update->Identity->UpdateID;
+#        my $kb;
+#        foreach (in $update->KBArticleIDs) {
+#            $kb.="/" if $kb;
+#            $kb.="KB".$_;
+#        }
+#        $inventory->addUpdate({
+#
+#                ID => $id, 
+#                KB => $kb
+#
+#                });
+#    }
 
 }
 1;
