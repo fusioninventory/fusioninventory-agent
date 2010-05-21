@@ -28,7 +28,7 @@ qw/DeviceID/)) {
                     $serial =~ s/.*?&//;
                     $serial =~ s/&.*$//;
 
-                    next if $vendorId eq "0" && $productId eq "0";
+                    next if $vendorId =~ /^0+$/;
             
                     $inventory->addUSBDevice({
                             VENDORID => $vendorId,
