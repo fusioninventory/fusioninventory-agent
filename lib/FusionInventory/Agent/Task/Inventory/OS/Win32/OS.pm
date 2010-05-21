@@ -20,7 +20,7 @@ sub doInventory {
 
         foreach my $Properties
             (getWmiProperties('Win32_OperatingSystem',
-qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser/)) {
+qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser CSDVersion/)) {
 
         $inventory->setHardware({
 
@@ -30,6 +30,7 @@ qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser/)) {
                 WINPRODKEY => $Properties->{SerialNumber},
                 WINCOMPANY => $Properties->{Organization},
                 WINOWNER => $Properties->{RegistredUser},
+                OSCOMMENTS => $Properties->{CSDVersion},
 
                 });
 
