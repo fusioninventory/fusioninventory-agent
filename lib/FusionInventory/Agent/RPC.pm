@@ -76,12 +76,14 @@ sub handler {
     my $config = $self->{config};
     my $htmlDir = $self->{htmlDir};
 
-    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
     if (!$r) {
         $c->close;
         undef($c);
         return;
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
+    }
+
+    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
+    if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
         if ($clientIp !~ /^127\./) {
             $c->send_error(404);
             return;
