@@ -18,17 +18,22 @@ sub doInventory {
             (getWmiProperties($wmiClass,
 qw/DeviceID/)) {
 
-                if ($Properties->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(\\|$)/) {
+                if ($Properties->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(\\|$)(.*)/) {
 
                     my $vendorId = $1;
                     my $productId = $2;
 
+                    my $serial = $4;
 
-                    next if $vendorId eq "0" && $productId eq "0";
+                    $serial =~ s/.*?&//;
+                    $serial =~ s/&.*$//;
+
+                    next if $vendorId =~ /^0+$/;
             
                     $inventory->addUSBDevice({
                             VENDORID => $vendorId,
-                            PRODUCTID => $productId
+                            PRODUCTID => $productId,
+                            SERIAL => $serial
                             });
 
                 }
