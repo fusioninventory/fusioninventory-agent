@@ -12,13 +12,12 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 use strict;
 
 sub getHpacuacliFromWinRegistry {
-
     return unless eval ("use Win32::TieRegistry ( Delimiter=>\"/\",".
 "ArrayValues=>0 ); 1;");
     my $machKey= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
 
     my $uninstallValues =
-        $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HA CUCLI'};
+        $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};
     use Data::Dumper;
     print Dumper($uninstallValues);
     my $uninstallString = $uninstallValues->{'/UninstallString'};
@@ -42,7 +41,7 @@ sub isInventoryEnabled {
     my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry();
 # Do we have hpacucli ?
     if ($hpacuacliPath) {
-        foreach (`$hpacuacliPath ctrl all show 2> /dev/null`) {
+        foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
             if (/.*Slot\s(\d*).*/) {
                 $ret = 1;
                 last;
@@ -63,7 +62,7 @@ sub doInventory {
     my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
 
     my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry();
-    foreach (`$hpacuacliPath ctrl all show 2> /dev/null`) {
+    foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
 
 # Example output :
 #    
@@ -73,7 +72,7 @@ sub doInventory {
 
             my $slot = $1;
 
-            foreach (`$hpacuacliPath ctrl slot=$slot pd all show 2> /dev/null`) {
+            foreach (`"$hpacuacliPath" ctrl slot=$slot pd all show 2> /dev/null`) {
 
 # Example output :
                 #
@@ -86,7 +85,7 @@ sub doInventory {
 
                 if (/.*physicaldrive\s(\S*)/) {
                     my $pd = $1;
-                    foreach (`$hpacuacliPath ctrl slot=$slot pd $pd show 2> /dev/null`) {
+                    foreach (`"$hpacuacliPath" ctrl slot=$slot pd $pd show 2> /dev/null`) {
 
 # Example output :
 #  
