@@ -18,19 +18,14 @@ sub getHpacuacliFromWinRegistry {
 
     my $uninstallValues =
         $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};
-    use Data::Dumper;
-    print Dumper($uninstallValues);
     my $uninstallString = $uninstallValues->{'/UninstallString'};
-    print Dumper($uninstallString);
 
     my $hpacuacliPath;
     if ($uninstallString =~ /(.*\\)hpuninst\.exe/) {
         $hpacuacliPath = $1.'bin\\hpacucli.exe';
         return $hpacuacliPath if -f $hpacuacliPath;
-        print "grr".$hpacuacliPath."Doesn't eixiste\n";
     }
 
-    print "hpacuacli not found\n";
     return;
 }
 
