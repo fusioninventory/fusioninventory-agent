@@ -129,7 +129,7 @@ sub stderr {
     while ($buffer =~ s/(\w+):\s(.*?)\n//) {
         $logger->$1($job->{name}.") ".$2);
     }
-    if ($buffer) {
+    if ($buffer !~ /^\s*$/) {
         print "WARNING: remaining error messages:\n $buffer\n";
     }
 }
