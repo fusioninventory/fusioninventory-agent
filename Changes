@@ -51,6 +51,7 @@ Revision history for FusionInventory::Agent
        * BSD: chomp() the number of CPU
        * HP RAID disk detection is now in Generic directory and so, can be
          used by Windows and probably HP-UX.
+       * Linux: use blkid to get the partition serial number
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
