@@ -1,0 +1,72 @@
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::iLO;
+
+use strict;
+use warnings;
+
+sub isInventoryEnabled {
+  return unless can_run("hponcfg");
+  1;
+}
+
+sub doInventory {
+  my $params = shift;
+  my $inventory = $params->{inventory};
+  my $logger = $params->{logger};
+
+  my $name;
+
+  my $ipmask;
+  my $ipgateway;
+  my $speed;
+  my $ipsubnet;
+  my $ipaddress;
+  my $status;
+#  my $macaddr;
+
+# Static values
+  my $type = 'Ethernet';
+  my $description = "Management Interface - HP iLO";
+
+
+  foreach (`hponcfg -aw -`) {
+    if ( /<IP_ADDRESS VALUE="([0-9.]+)"\/>/ ) {
+      $ipaddress = $1;
+    } elsif ( /<SUBNET_MASK VALUE="([0-9.]+)"\/>/ ) {
+      $ipmask = $1;
+    } elsif ( /<GATEWAY_IP_ADDRESS VALUE="([0-9.]+)"\/>/ ) {
+      $ipgateway = $1;
+    } elsif ( /<NIC_SPEED VALUE="([0-9]+)"\/>/ ) {
+      $speed = $1;
+    } elsif ( /<DNS_NAME VALUE="([^"]+)"\/>/ ) {
+      $name = $1;
+    } elsif ( /<ENABLE_NIC VALUE="(.)"\/>/ ) {
+      $status = 'Up' if $1 =~ /Y/i;
+    }
+  }
+  $ipsubnet = join '.', unpack('C4C4C4C4', pack('B32', 
+                               unpack('B32', pack('C4C4C4C4', split(/\./, $ipaddress))) 
+                             & unpack('B32', pack('C4C4C4C4', split(/\./, $ipmask))) 
+                        ));
+
+  #Some cleanups
+  if ( $ipaddress eq '0.0.0.0' ) { $ipaddress = "" }
+  if ( not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0' ) { $ipsubnet = "" }
+  if ( not $status ) { $status = 'Down' }
+
+  $inventory->addNetwork({
+        DESCRIPTION => $description,
+        IPADDRESS => $ipaddress,
+        IPMASK => $ipmask,
+        IPSUBNET => $ipsubnet,
+        STATUS => $status,
+        TYPE => $type,
+        SPEED => $speed,
+        IPGATEWAY => $ipgateway,
+#        MACADDR => $macaddr,
+#        PCISLOT => $pcislot,
+#        DRIVER => $driver,
+#        VIRTUALDEV => $virtualdev,
+  });
+}
+1;
+
