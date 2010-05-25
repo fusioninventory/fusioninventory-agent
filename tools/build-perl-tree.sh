@@ -10,7 +10,7 @@ MAKE="make"
 TMP="$PWD/tmp"
 PREFIX="$TMP/perl"
 BUILDDIR="$TMP/build"
-MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple Crypt::SSLeay File::ShareDir File::Copy::Recursive Net::SNMP HTTP::Daemon"
+MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP HTTP::Daemon"
 
 PERLVERSION="5.12.1"
 
@@ -40,6 +40,7 @@ cd perl-$PERLVERSION
 # AIX
 #./Configure -Dusethreads -Dusenm -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
 #./Configure -Dusethreads -Dcc="gcc" -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+
 ./Configure -Duserelocatableinc -Dusethreads -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
 $MAKE
 $MAKE install
@@ -54,6 +55,7 @@ cd openssl-0.9.8n
 make depend
 make install
 # hack for Crypt::SSLeay
+mkdir $TMP/openssl/include/openssl/openssl
 cp $TMP/openssl/include/openssl/*.h $TMP/openssl/include/openssl/openssl
 export OPENSSL_PREFIX=$TMP/openssl # Pour Net::SSLeay
 
@@ -70,7 +72,6 @@ gunzip < ../Crypt-SSLeay-0.57.tar.gz | tar xvf -
 cd Crypt-SSLeay-0.57
 perl Makefile.PL --default --static --lib=$TMP/openssl
 make install
-mkdir $TMP/openssl/include/openssl/openssl
 
 cd $TMP
 
