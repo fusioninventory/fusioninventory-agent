@@ -11,6 +11,7 @@ if [ ! -d '../tools' ]; then
     exit 1
 fi
 
+ROOT="$PWD/.."
 MAKE="make"
 TMP="$PWD/tmp"
 PREFIX="$TMP/perl"
@@ -92,7 +93,10 @@ for module in $MODULES; do
     perl -M$module -e1
 done
 
-cd ..
+cd $ROOT
+perl Makefile.PL
+make manifest
+make
 make test
 
 TARBALLNAME=`./perl/bin/perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
