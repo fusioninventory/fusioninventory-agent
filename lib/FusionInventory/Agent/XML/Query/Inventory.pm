@@ -1149,6 +1149,8 @@ sub processChecksum {
   my $self = shift;
 
   my $logger = $self->{logger};
+  my $target = $self->{target};
+
 #To apply to $checksum with an OR
   my %mask = (
     'HARDWARE'      => 1,
@@ -1222,6 +1224,7 @@ sub saveLastState {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
+  my $target = $self->{target};
 
   if (!defined($self->{last_state_content})) {
 	  $self->processChecksum();
