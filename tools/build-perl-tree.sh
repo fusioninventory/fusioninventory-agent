@@ -10,7 +10,8 @@ MAKE="make"
 TMP="$PWD/tmp"
 PREFIX="$TMP/perl"
 BUILDDIR="$TMP/build"
-MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP HTTP::Daemon"
+MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP"
+FINALDIR=$PWD
 
 PERLVERSION="5.12.1"
 
