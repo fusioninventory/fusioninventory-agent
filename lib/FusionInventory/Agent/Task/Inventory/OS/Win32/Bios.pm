@@ -115,12 +115,17 @@ qw/SerialNumber Product Manufacturer/)) {
 
                 });
 
+
+    my $vmsystem;
     if ($bmanufacturer eq 'Bochs' || $model eq 'Bochs') {
-        $inventory->setHardware ({
-           VMSYSTEM => 'QEMU',
-        });
+        $vmsystem = 'QEMU';
+    } elsif ($bversion eq 'VirtualBox' || $model eq 'VirtualBox') {
+        $vmsystem = 'VirtualBox';
     }
 
+    $inventory->setHardware ({
+        VMSYSTEM => $vmsystem 
+    });
 
 
 }
