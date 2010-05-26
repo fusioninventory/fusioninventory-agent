@@ -52,12 +52,11 @@ Revision history for FusionInventory::Agent
        * HP RAID disk detection is now in Generic directory and so, can be
          used by Windows and probably HP-UX.
        * Linux: use blkid to get the partition serial number
-       * Revert a85fe84 Inventory: No need to generate in local mode, OCS
-         server needs CHECKSUM field, or it gives an err 500. Thanks
-         Eric Feron
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
+       * Inventory: Always generate a CHECKSUM, OCS is not able to import
+         inventory is the key is missing, thanks Eric Feron
 
 2.0.5   Wed, 12 May 2010 10:50:51 +0200
        * Don't use dmidecode with -t and -s parameter since it's not
