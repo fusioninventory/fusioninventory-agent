@@ -1377,6 +1377,32 @@ in the future.
 
 =back
 
+=head2 MEMORIES
+
+=over 4
+
+=item CAPACITY
+
+=item CAPTION
+
+=item DESCRIPTION
+
+=item FORMFACTOR
+
+=item REMOVABLE
+
+=item PURPOSE
+
+=item SPEED
+
+=item TYPE
+
+=item NUMSLOTS
+
+=item SERIALNUMBER
+
+=back
+
 =head2 CPUS
 
 =over 4
