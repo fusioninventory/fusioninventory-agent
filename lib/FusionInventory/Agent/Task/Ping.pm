@@ -37,8 +37,15 @@ sub main {
 
     if ($target->{'type'} ne 'server') {
         $logger->debug("No server. Exiting...");
-        exit(0);
+       # exit(0);
     }
+
+    my $option = $data->{'prologresp'}->getOptionsInfoByName('PING');
+
+    return unless $option;
+
+    $logger->debug("Ping ID:". $option->{ID});
+
 
     my $network = $self->{network} = FusionInventory::Agent::Network->new ({
 
@@ -47,10 +54,6 @@ sub main {
             target => $target,
 
         });
-
-    my $option = $data->{'prologresp'}->getOptionsInfoByName('PING');
-
-    return unless $option;
 
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(                                                               
         {
