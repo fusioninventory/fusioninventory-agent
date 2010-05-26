@@ -37,7 +37,7 @@ sub main {
 
     if ($target->{'type'} ne 'server') {
         $logger->debug("No server. Exiting...");
-       # exit(0);
+        exit(0);
     }
 
     my $options = $data->{'prologresp'}->getOptionsInfoByName('PING');
