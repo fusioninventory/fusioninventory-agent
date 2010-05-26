@@ -125,12 +125,13 @@ sub handler {
         }
         $c->send_error(404)
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
-        my $token = $2;
+        my $sentToken = $2;
+        my $currentToken = $self->getToken();
         $logger->debug("[RPC]'now' catched");
         if (
             ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                 or
-            ($token eq $self->getToken())
+            ($sentToken eq $currentToken)
         ) {
             $self->getToken('forceNewToken');
             $targets->resetNextRunDate();
@@ -138,7 +139,7 @@ sub handler {
 
         } else {
 
-            $logger->debug("[RPC] bad token $token != ".$self->getToken());
+            $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
             $c->send_status_line(403)
 
         }
