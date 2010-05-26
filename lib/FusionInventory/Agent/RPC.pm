@@ -177,11 +177,13 @@ sub server {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalAddr => $config->{'rpc-ip'},
             LocalPort => 62354,
-            Reuse => 1);
+            Reuse => 1,
+            Timeout => 5);
     } else {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalPort => 62354,
-            Reuse => 1);
+            Reuse => 1,
+            Timeout => 5);
     }
   
    if (!$daemon) {
