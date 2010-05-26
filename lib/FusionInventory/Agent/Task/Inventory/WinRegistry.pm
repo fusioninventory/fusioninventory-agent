@@ -37,7 +37,6 @@ sub doInventory {
 
     my $options = $prologresp->getOptionsInfoByName("REGISTRY");
 
-    use Data::Dumper;
     foreach my $option (@$options) {
         my $name = $option->{NAME};
         my $regkey = $option->{REGKEY};
