@@ -40,8 +40,9 @@ sub main {
        # exit(0);
     }
 
-    my $option = $data->{'prologresp'}->getOptionsInfoByName('PING');
-
+    my $options = $data->{'prologresp'}->getOptionsInfoByName('PING');
+    return unless $options;
+    my $option = shift @$options;
     return unless $option;
 
     $logger->debug("Ping ID:". $option->{ID});
