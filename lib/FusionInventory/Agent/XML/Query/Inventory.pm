@@ -1689,6 +1689,10 @@ Windows software GUID
 
 =item LOGIN
 
+=item DOMAIN
+
+The Windows domain of the user, if avalaible.
+
 =back
 
 =head2 VIDEOS
