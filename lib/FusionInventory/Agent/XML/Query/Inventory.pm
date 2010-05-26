@@ -1389,9 +1389,13 @@ in the future.
 
 =item FORMFACTOR
 
+Only avalaible on Windows, See Win32_PhysicalMemory documentation on MSDN.
+
 =item REMOVABLE
 
 =item PURPOSE
+
+Only avalaible on Windows, See Win32_PhysicalMemory documentation on MSDN.
 
 =item SPEED
 
