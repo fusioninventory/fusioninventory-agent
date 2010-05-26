@@ -124,7 +124,7 @@ sub handler {
             }
         }
         $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(|\/)(\S*)$/) {
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
         my $token = $2;
         $logger->debug("[RPC]'now' catched");
         if (
