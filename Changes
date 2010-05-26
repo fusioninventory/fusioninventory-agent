@@ -2,6 +2,8 @@ Revision history for FusionInventory::Agent
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
+       * Inventory: Always generate a CHECKSUM, OCS is not able to import
+         inventory is the key is missing, thanks Eric Feron
 
 2.0.5   Wed, 12 May 2010 10:50:51 +0200
        * Don't use dmidecode with -t and -s parameter since it's not
