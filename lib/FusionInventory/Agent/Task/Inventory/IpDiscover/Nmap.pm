@@ -47,7 +47,7 @@ sub doInventory {
   $logger->debug("scanning the $network network");
 
   my $ip;
-  my $cmd = "nmap -sP -PR $network/24";
+  my $cmd = "nmap -n -sP -PR $network/24";
   foreach (`$cmd`) {
       print;
       if (/^Host (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
