@@ -12,7 +12,11 @@ my $logger = FusionInventory::Logger->new();
 my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
 		logger => $logger,
 		config => { VERSION => 'test' },
-		target => { deviceid => 'CASTROLAPON', type => 'local', vardir => '/tmp/fusinv' }
+		target => {
+            deviceid => 'CASTROLAPON',
+            type => 'local',
+            vardir => '/tmp/fusinv'
+        }
 	});
 
 $inventory->addCPU({
