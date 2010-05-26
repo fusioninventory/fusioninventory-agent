@@ -1801,6 +1801,8 @@ USB Sub Class
 
 =head2 NETWORKS
 
+=over 4
+
 =item DESCRIPTION
 
 =item DRIVER
