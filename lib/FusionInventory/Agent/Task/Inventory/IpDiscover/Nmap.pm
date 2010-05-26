@@ -57,6 +57,9 @@ sub doInventory {
              IPADDRESS => $ip,
                 MACADDR => lc($1),
              });
+         $ip = undef;
+      } else {
+        $ip = undef;
       }
   }
 }
