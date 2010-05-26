@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-  return unless can_run("hponcfg");
+  return unless can_run("hponcfg") && can_load("Net::IP");
   1;
 }
 
@@ -43,10 +43,9 @@ sub doInventory {
       $status = 'Up' if $1 =~ /Y/i;
     }
   }
-  $ipsubnet = join '.', unpack('C4C4C4C4', pack('B32', 
-                               unpack('B32', pack('C4C4C4C4', split(/\./, $ipaddress))) 
-                             & unpack('B32', pack('C4C4C4C4', split(/\./, $ipmask))) 
-                        ));
+  if ( defined($ipaddress) && defined($ipmask) ) {
+    $ipsubnet = ip_bintoip(ip_iptobin ($ipaddress ,4) & ip_iptobin ($ipmask ,4), 4);
+  }
 
   #Some cleanups
   if ( $ipaddress eq '0.0.0.0' ) { $ipaddress = "" }
