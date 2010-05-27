@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-  return unless can_run("hponcfg") && can_load("Net::IP");
+  return unless can_run("hponcfg") && can_load("Net::IP qw(:PROC)");
   1;
 }
 
@@ -14,7 +14,6 @@ sub doInventory {
   my $logger = $params->{logger};
 
   my $name;
-
   my $ipmask;
   my $ipgateway;
   my $speed;
@@ -22,11 +21,6 @@ sub doInventory {
   my $ipaddress;
   my $status;
 #  my $macaddr;
-
-# Static values
-  my $type = 'Ethernet';
-  my $description = "Management Interface - HP iLO";
-
 
   foreach (`hponcfg -aw -`) {
     if ( /<IP_ADDRESS VALUE="([0-9.]+)"\/>/ ) {
@@ -53,12 +47,12 @@ sub doInventory {
   if ( not $status ) { $status = 'Down' }
 
   $inventory->addNetwork({
-        DESCRIPTION => $description,
+        DESCRIPTION => 'Management Interface - HP iLO',
         IPADDRESS => $ipaddress,
         IPMASK => $ipmask,
         IPSUBNET => $ipsubnet,
         STATUS => $status,
-        TYPE => $type,
+        TYPE => 'Ethernet',
         SPEED => $speed,
         IPGATEWAY => $ipgateway,
         MANAGEMENT => 'iLO',
