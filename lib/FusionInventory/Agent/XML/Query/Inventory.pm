@@ -1534,7 +1534,7 @@ This field is deprecated, you should use the USERS section instead.
 
 =item VMSYSTEM
 
-The virtualization technologie the machine is a virtual machine.
+The virtualization technologie used if the machine is a virtual machine.
 
 Can by: Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
