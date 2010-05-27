@@ -56,6 +56,8 @@ Revision history for FusionInventory::Agent
        * HTTP::Daemon::get_request is not thread safe and must be called from
          the master thread. The timeout is set at 5 seconds to avoid
          blockage
+       * Linux: HP Integrated Lights-Out (iLO) (Management Interface of HP ProLiant servers)
+       * HP-UX: HP Management Processor (MP) (Management Interface of HP Integrity servers)
 
 
 2.0.6

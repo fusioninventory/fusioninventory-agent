@@ -548,7 +548,7 @@ my ($self, $args) = @_;
     foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS
         IPADDRESS6 IPDHCP IPGATEWAY IPMASK IPSUBNET
         MACADDR MTU PCISLOT STATUS
-        TYPE VIRTUALDEV SLAVES SPEED/) {
+        TYPE VIRTUALDEV SLAVES SPEED MANAGEMENT/) {
         $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
     }
     push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
@@ -1844,6 +1844,10 @@ If the interface exist or not (1 or empty)
 =item SLAVES
 
 =item SPEED
+
+=item MANAGEMENT
+
+Whether or not it is a HP iLO, Sun SC, HP MP or other kink of Remote Management Interface
 
 Interface speed in MB/s
 
