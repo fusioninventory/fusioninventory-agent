@@ -52,6 +52,7 @@ Revision history for FusionInventory::Agent
        * HP RAID disk detection is now in Generic directory and so, can be
          used by Windows and probably HP-UX.
        * Linux: use blkid to get the partition serial number
+       * Linux: HP Integrated Lights-Out (iLO) (Management Interface of HP ProLiant servers)
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
