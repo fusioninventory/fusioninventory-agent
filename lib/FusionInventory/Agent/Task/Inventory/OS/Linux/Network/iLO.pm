@@ -61,6 +61,7 @@ sub doInventory {
         TYPE => $type,
         SPEED => $speed,
         IPGATEWAY => $ipgateway,
+        MANAGEMENT => 'iLO',
 #        MACADDR => $macaddr,
 #        PCISLOT => $pcislot,
 #        DRIVER => $driver,
