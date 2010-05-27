@@ -68,6 +68,10 @@ Revision history for FusionInventory::Agent
          inventory is the key is missing, thanks Eric Feron
        * Ipdiscover: Fix, wrong IP/MAC pair, thanks anto1ne
          https://bugs.launchpad.net/bugs/585753
+       * Fix dmidecode version comparaison
+         https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586321
+         (Guillaume ROUSSE)
+
 
 2.0.5   Wed, 12 May 2010 10:50:51 +0200
        * Don't use dmidecode with -t and -s parameter since it's not

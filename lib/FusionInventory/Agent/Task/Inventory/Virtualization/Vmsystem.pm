@@ -44,13 +44,15 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 ##
 
 use strict;
+use version;
 
 sub isInventoryEnabled { 
   if ( can_run("zoneadm")){ # Is a solaris zone system capable ?
       return 1; 
   }
   if ( can_run ("dmidecode") ) { # 2.6 and under haven't -t parameter   
-    if ( `dmidecode -V 2>/dev/null` >= 2.7 ) {
+    if (version->parse(`dmidecode -V 2>/dev/null`) >= version->parse('v2.7') ) {
+
       return 1;
     }
   } 
