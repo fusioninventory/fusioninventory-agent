@@ -9,6 +9,9 @@ Revision history for FusionInventory::Agent
        * Fix dmidecode version comparaison
          https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586321
          (Guillaume ROUSSE)
+       * Mismatch between xen dom0 and xen PV host
+         https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586337
+         (Guillaume ROUSSE)
 
 
 2.0.5   Wed, 12 May 2010 10:50:51 +0200
