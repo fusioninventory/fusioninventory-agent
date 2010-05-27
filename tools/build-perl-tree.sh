@@ -16,7 +16,7 @@ MAKE="make"
 TMP="$PWD/tmp"
 PREFIX="$TMP/perl"
 BUILDDIR="$TMP/build"
-MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP"
+MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Zlib Compress::Raw::Zlib Archive::Extract Digest::MD5 File::Copy File::Glob File::Path File::stat File::Temp Net::NBName Net::SSLeay Parallel::ForkManager Nmap::Parser "
 FINALDIR=$PWD
 
 PERLVERSION="5.12.1"
@@ -89,7 +89,7 @@ CPANM=$PWD/App-cpanminus-1.0004/bin/cpanm
 
 # Tree dependencies not pulled by cpanm
 for module in $MODULES; do
-    perl $CPANM $module
+    perl $CPANM --skip-installed $module
     perl -M$module -e1
 done
 
@@ -99,5 +99,6 @@ make manifest
 make
 make test
 
-TARBALLNAME=`./perl/bin/perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
+cd $TMP
+TARBALLNAME=`perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
 tar cf $FINALDIR/$TARBALLNAME perl
