@@ -61,5 +61,22 @@ qw/Workgroup UserName PrimaryOwnerName/)) {
 
     }
 
+        foreach my $Properties
+            (getWmiProperties('Win32_ComputerSystemProduct',
+qw/UUID/)) {
+
+
+        my $uuid = $Properties->{UUID};
+        $uuid = '' if $uuid =~ /^[0-]+$/;
+        #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
+        $inventory->setHardware({
+
+                UUID => $uuid,
+
+                });
+
+    }
+
+
 }
 1;

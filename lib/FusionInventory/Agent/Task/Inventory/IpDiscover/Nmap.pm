@@ -47,16 +47,19 @@ sub doInventory {
   $logger->debug("scanning the $network network");
 
   my $ip;
-  my $cmd = "nmap -sP -PR $network/24";
+  my $cmd = "nmap -n -sP -PR $network/24";
   foreach (`$cmd`) {
       print;
       if (/^Host (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
           $ip = $1;
-      } elsif (/MAC Address: (\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/) {
+      } elsif ($ip && /MAC Address: (\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/) {
           $inventory->addIpDiscoverEntry({
              IPADDRESS => $ip,
                 MACADDR => lc($1),
              });
+         $ip = undef;
+      } else {
+        $ip = undef;
       }
   }
 }

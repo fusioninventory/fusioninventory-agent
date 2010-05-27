@@ -52,10 +52,19 @@ Revision history for FusionInventory::Agent
        * HP RAID disk detection is now in Generic directory and so, can be
          used by Windows and probably HP-UX.
        * Linux: use blkid to get the partition serial number
+       * Task: Add the Ping.pm module for debugging purpose
+       * HTTP::Daemon::get_request is not thread safe and must be called from
+         the master thread. The timeout is set at 5 seconds to avoid
+         blockage
        * Linux: HP Integrated Lights-Out (iLO) (Management Interface of HP ProLiant servers)
+
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
+       * Inventory: Always generate a CHECKSUM, OCS is not able to import
+         inventory is the key is missing, thanks Eric Feron
+       * Ipdiscover: Fix, wrong IP/MAC pair, thanks anto1ne
+         https://bugs.launchpad.net/bugs/585753
 
 2.0.5   Wed, 12 May 2010 10:50:51 +0200
        * Don't use dmidecode with -t and -s parameter since it's not

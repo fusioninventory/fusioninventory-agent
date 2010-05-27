@@ -1149,10 +1149,7 @@ sub processChecksum {
   my $self = shift;
 
   my $logger = $self->{logger};
-  my $target  = $self->{target};
-
-  # Not needed in local mode
-  return unless $target->{type} eq 'server';
+  my $target = $self->{target};
 
 #To apply to $checksum with an OR
   my %mask = (
@@ -1227,10 +1224,7 @@ sub saveLastState {
   my ($self, $args) = @_;
 
   my $logger = $self->{logger};
-  my $target  = $self->{target};
-
-  # Not needed in local mode
-  return unless $target->{type} eq 'server';
+  my $target = $self->{target};
 
   if (!defined($self->{last_state_content})) {
 	  $self->processChecksum();
@@ -1380,6 +1374,36 @@ The PCI slot, e.g: 00:02.1 (only for PCI device)
 
 The controller revision, e.g: rev 02. This field may be renamed
 in the future.
+
+=back
+
+=head2 MEMORIES
+
+=over 4
+
+=item CAPACITY
+
+=item CAPTION
+
+=item DESCRIPTION
+
+=item FORMFACTOR
+
+Only avalaible on Windows, See Win32_PhysicalMemory documentation on MSDN.
+
+=item REMOVABLE
+
+=item PURPOSE
+
+Only avalaible on Windows, See Win32_PhysicalMemory documentation on MSDN.
+
+=item SPEED
+
+=item TYPE
+
+=item NUMSLOTS
+
+=item SERIALNUMBER
 
 =back
 
@@ -1665,6 +1689,10 @@ Windows software GUID
 
 =item LOGIN
 
+=item DOMAIN
+
+The Windows domain of the user, if avalaible.
+
 =back
 
 =head2 VIDEOS
@@ -1780,6 +1808,8 @@ USB Sub Class
 =back
 
 =head2 NETWORKS
+
+=over 4
 
 =item DESCRIPTION
 

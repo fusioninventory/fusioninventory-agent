@@ -6,16 +6,23 @@
 
 set -e
 
+if [ ! -d '../tools' ]; then
+    echo "Please run the script in the ./tools directory"
+    exit 1
+fi
+
+ROOT="$PWD/.."
 MAKE="make"
 TMP="$PWD/tmp"
 PREFIX="$TMP/perl"
 BUILDDIR="$TMP/build"
-MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP HTTP::Daemon"
+MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP"
+FINALDIR=$PWD
 
 PERLVERSION="5.12.1"
 
 # Clean up
-rm -rf $BUILDDIR $TMP/openssl $TMP/perl $TMP/Compress::Zlib
+rm -rf $BUILDDIR $TMP/openssl $TMP/perl $TMP/Compress::Zlib $TMP/App-cpanminus-1.0004
 
 [ -d $TMP ] || mkdir $TMP
 
@@ -27,6 +34,7 @@ fi
 wget -c http://www.openssl.org/source/openssl-0.9.8n.tar.gz
 wget -c http://search.cpan.org/CPAN/authors/id/F/FL/FLORA/Net-SSLeay-1.36.tar.gz
 wget -c http://search.cpan.org/CPAN/authors/id/D/DL/DLAND/Crypt-SSLeay-0.57.tar.gz
+wget -c http://search.cpan.org/CPAN/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.0004.tar.gz
 
 mkdir $BUILDDIR
 if [ ! -d $BUILDDIR ]; then
@@ -70,21 +78,26 @@ make install
 cd $BUILDDIR
 gunzip < ../Crypt-SSLeay-0.57.tar.gz | tar xvf -
 cd Crypt-SSLeay-0.57
-perl Makefile.PL --default --static --lib=$TMP/openssl
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL --default --static --lib=$TMP/openssl
 make install
 
 cd $TMP
 
-if [ ! -f cpanm ]; then
-    echo "Can't find cpanm in $TMP directory"
-    exit 1
-fi
+cd $BUILDDIR
+gunzip < ../App-cpanminus-1.0004.tar.gz | tar xvf -
+CPANM=$PWD/App-cpanminus-1.0004/bin/cpanm
 
 # Tree dependencies not pulled by cpanm
 for module in $MODULES; do
-    perl cpanm $module
+    perl $CPANM $module
     perl -M$module -e1
 done
 
+cd $ROOT
+perl Makefile.PL
+make manifest
+make
+make test
+
 TARBALLNAME=`./perl/bin/perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
-tar cf $TARBALLNAME perl
+tar cf $FINALDIR/$TARBALLNAME perl

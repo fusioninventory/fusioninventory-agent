@@ -124,13 +124,14 @@ sub handler {
             }
         }
         $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(|\/)(\S*)$/) {
-        my $token = $2;
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
+        my $sentToken = $2;
+        my $currentToken = $self->getToken();
         $logger->debug("[RPC]'now' catched");
         if (
             ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                 or
-            ($token eq $self->getToken())
+            ($sentToken eq $currentToken)
         ) {
             $self->getToken('forceNewToken');
             $targets->resetNextRunDate();
@@ -138,7 +139,7 @@ sub handler {
 
         } else {
 
-            $logger->debug("[RPC] bad token $token != ".$self->getToken());
+            $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
             $c->send_status_line(403)
 
         }
@@ -176,11 +177,13 @@ sub server {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalAddr => $config->{'rpc-ip'},
             LocalPort => 62354,
-            Reuse => 1);
+            Reuse => 1,
+            Timeout => 5);
     } else {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalPort => 62354,
-            Reuse => 1);
+            Reuse => 1,
+            Timeout => 5);
     }
   
    if (!$daemon) {
@@ -230,7 +233,7 @@ sub getToken {
     if ($forceNewToken || !$myData->{token}) {
 
         my $tmp = '';
-        $tmp .= pack("C",65+rand(24)) foreach (0..100);
+        $tmp .= pack("C",65+rand(24)) foreach (0..7);
         $myData->{token} = $tmp;
 
         $storage->save({ data => $myData });
