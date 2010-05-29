@@ -15,12 +15,10 @@ it called $inventory in general.
 
 =cut
 
-use XML::Simple;
+use XML::TreePP;
 use Digest::MD5 qw(md5_base64);
 use Config;
 use FusionInventory::Agent::XML::Query;
-
-use FusionInventory::Agent::Task::Inventory;
 
 our @ISA = ('FusionInventory::Agent::XML::Query');
 
@@ -40,11 +38,13 @@ sub new {
   $self->{backend} = $params->{backend};
   my $logger = $self->{logger};
   my $target = $self->{target};
+  my $storage = $self->{storage};
   my $config = $self->{config};
 
   if (!($target->{deviceid})) {
     $logger->fault ('deviceid unititalised!');
   }
+  $self->{myData} = $storage->restore();
 
   $self->{h}{QUERY} = ['INVENTORY'];
   $self->{h}{CONTENT}{ACCESSLOG} = {};
@@ -1059,7 +1059,8 @@ sub getContent {
     $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
   }
 
-  my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
+  my $tpp = XML::TreePP->new();
+  my $content = $tpp->write( { REQUEST => $self->{h} } );
 
   my $clean_content;
 
@@ -1151,6 +1152,8 @@ sub processChecksum {
   my $logger = $self->{logger};
   my $target = $self->{target};
 
+  my $myData = $self->{myData};
+
 #To apply to $checksum with an OR
   my %mask = (
     'HARDWARE'      => 1,
@@ -1180,36 +1183,19 @@ sub processChecksum {
 
   my $checksum = 0;
 
-  if ($target->{last_statefile}) {
-    if (-f $target->{last_statefile}) {
-      # TODO: avoid a violant death in case of problem with XML
-      $self->{last_state_content} = XML::Simple::XMLin(
-
-        $target->{last_statefile},
-        SuppressEmpty => undef,
-        ForceArray => 1
-
-      );
-    } else {
-      $logger->debug ('last_state file: `'.
-      $target->{last_statefile}.
-        "' doesn't exist (yet).");
-    }
-  }
-
+  my $tpp = XML::TreePP->new();
   foreach my $section (keys %mask) {
     #If the checksum has changed...
-    my $hash =
-        md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-    if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
+    my $hash = md5_base64($tpp->write({ XML => $self->{h}{'CONTENT'}{$section} }));
+    if (!$myData->{last_state}->{$section}[0] || $myData->{last_state}->{$section}[0] ne $hash ) {
       $logger->debug ("Section $section has changed since last inventory");
       #We make OR on $checksum with the mask of the current section
       $checksum |= $mask{$section};
     }
-    # Finally I store the new value.
-    $self->{last_state_content}->{$section}[0] = $hash;
+    # Finally I store the new value. If the transmition is ok, this will
+    # be the new last_state
+    $self->{current_state}->{$section}[0] = $hash;
   }
-
 
   $self->setHardware({CHECKSUM => $checksum});
 }
@@ -1223,25 +1209,13 @@ correctly, the last_state is saved.
 sub saveLastState {
   my ($self, $args) = @_;
 
-  my $logger = $self->{logger};
-  my $target = $self->{target};
+  my $myData = $self->{myData};
+  my $storage = $self->{storage};
 
-  if (!defined($self->{last_state_content})) {
-	  $self->processChecksum();
-  }
+  $myData->{last_state} = $self->{current_state};
 
-  if (!defined ($target->{last_statefile})) {
-    $logger->debug ("Can't save the last_state file. File path is not initialised.");
-    return;
-  }
+  $storage->save({ data => $myData });
 
-  if (open LAST_STATE, ">".$target->{last_statefile}) {
-    print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
-    close LAST_STATE or warn;
-  } else {
-    $logger->debug ("Cannot save the checksum values in ".$target->{last_statefile}."
-	(will be synchronized by GLPI!!): $!");
-  }
 }
 
 =item addSection()

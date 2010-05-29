@@ -78,6 +78,7 @@ sub main {
           target => $self->{target},
           config => $self->{config},
           logger => $logger,
+          storage => $storage
 
       });
   my $inventory = $self->{inventory};

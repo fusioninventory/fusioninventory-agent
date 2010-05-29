@@ -60,7 +60,7 @@ sub new {
     $self->{storage} = new FusionInventory::Agent::Storage({
             target => $self
         });
-
+    my $storage = $self->{storage};
 
     if ($self->{'type'} eq 'server') {
 
@@ -68,6 +68,7 @@ sub new {
 
                 logger => $logger,
                 config => $config,
+                storage => $storage,
                 target => $self,
 
             });

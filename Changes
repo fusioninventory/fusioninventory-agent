@@ -1,4 +1,8 @@
 Revision history for FusionInventory::Agent
+
+XXXX
+       * XML::Simple → XML::TreePP transition
+
 2.1
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
        * Windows: Add new values for SOFTWARES key
@@ -74,7 +78,6 @@ Revision history for FusionInventory::Agent
        * Mismatch between xen dom0 and xen PV host
          https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586337
          (Guillaume ROUSSE)
-
 
 2.0.5   Wed, 12 May 2010 10:50:51 +0200
        * Don't use dmidecode with -t and -s parameter since it's not

@@ -5,7 +5,7 @@ use warnings;
 
 use Data::Dumper;
 
-use XML::Simple;
+use XML::TreePP;
 sub new {
     my (undef, $params) = @_;
 
@@ -39,7 +39,10 @@ sub getParsedContent {
     my $self = shift;
 
     if(!$self->{parsedcontent} && $self->{content}) {
-        $self->{parsedcontent} = XML::Simple::XMLin( $self->{content}, ForceArray => ['OPTION','PARAM'] );
+        my $tpp =  XML::TreePP->new( force_array => [ 'OPTION','PARAM' ] );
+        my $tmp = $tpp->parse( $self->{content} );
+        return unless $tmp->{REPLY};
+        $self->{parsedcontent} = $tmp->{REPLY};
     }
 
     return $self->{parsedcontent};

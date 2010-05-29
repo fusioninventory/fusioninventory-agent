@@ -4,7 +4,7 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
 
 use strict;
 
-use XML::Simple;
+use XML::TreePP;
 use File::Glob ':glob';
 
 sub isInventoryEnabled { return can_run('VirtualBox') and can_run('VBoxManage') }
@@ -113,8 +113,8 @@ sub doInventory {
       foreach my $xmlMachine (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
         chomp($xmlMachine);
         # Open config file ...
-        my $configFile = new XML::Simple;
-        my $data = $configFile->XMLin($xmlMachine);
+        my $tpp = XML::TreePP->new();
+        my $data = $tpp->parse($xmlMachine);
           
         # ... and read it
         if ($data->{Machine}->{uuid}) {
@@ -142,8 +142,8 @@ sub doInventory {
       foreach my $xmlVirtualBox (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
         chomp($xmlVirtualBox);
         # Open config file ...
-        my $configFile = new XML::Simple;
-        my $data = $configFile->XMLin($xmlVirtualBox);
+        my $tpp = XML::TreePP->new();
+        my $data = $tpp->parse($xmlVirtualBox);
         
         # ... and read it
         my $defaultMachineFolder = $data->{Global}->{SystemProperties}->{defaultMachineFolder};
@@ -151,8 +151,8 @@ sub doInventory {
             and $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/ ) {
           
           foreach my $xmlMachine (bsd_glob($defaultMachineFolder."/*/*.xml")) {
-            my $configFile = new XML::Simple;
-            my $data = $configFile->XMLin($xmlVirtualBox);
+            my $tpp = XML::TreePP->new();
+            my $data = $tpp->parse($xmlVirtualBox);
             
             if ( $data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
               my $uuid = $data->{Machine}->{uuid};
