@@ -16,6 +16,7 @@ if ($threads::VERSION > 1.32){
 use Data::Dumper;
 
 use XML::Simple;
+use Digest::MD5 qw(md5_hex);
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Logger;
@@ -119,6 +120,60 @@ sub StartThreads {
    my $maxIdx : shared = 0;
    my $storage = $self->{storage};
    my $sendstart = 0;
+   my $dico;
+   my $dicohash;
+
+   # Load storage with XML dico
+   if (defined($self->{NETDISCOVERY}->{DICO})) {
+      $storage->save({
+            idx => 999998,
+            data => $self->{NETDISCOVERY}->{DICO}
+        });
+      $dicohash->{HASH} = md5_hex($self->{NETDISCOVERY}->{DICO});
+      $storage->save({
+            idx => 999999,
+            data => $dicohash
+        });
+   }
+
+   $dico = $storage->restore({
+         idx => 999998
+      });
+   $dicohash = $storage->restore({
+         idx => 999999
+      });
+
+   if ( (!defined($dico)) || !(%$dico)) {
+      $dico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
+      $storage->save({
+            idx => 999998,
+            data => $dico
+        });
+      $dicohash->{HASH} = md5_hex($dico);
+      $storage->save({
+            idx => 999999,
+            data => $dicohash
+        });
+   }
+   if (defined($self->{NETDISCOVERY}->{DICOHASH})) {
+      if ($dicohash->{HASH} eq $self->{NETDISCOVERY}->{DICOHASH}) {
+         $self->{logger}->debug("Dico is up to date.");
+      } else {
+         # Send Dico request to plugin for next time :
+         undef($xml_thread);
+         $xml_thread->{AGENT}->{END} = '1';
+         $xml_thread->{MODULEVERSION} = $VERSION;
+         $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
+         $xml_thread->{DICO}          = "REQUEST";
+         $self->SendInformations({
+            data => $xml_thread
+            });
+         undef($xml_thread);
+         $self->{logger}->debug("Dico is old. Exiting...");
+         exit(0);
+      }
+   }
+   $self->{logger}->debug("Dico loaded.");
 
    if ( eval { require Nmap::Parser; 1 } ) {
       $ModuleNmapParser = 1;
@@ -362,7 +417,8 @@ sub StartThreads {
                                     ModuleNmapScanner   => $ModuleNmapScanner,
                                     ModuleNetNBName     => $ModuleNetNBName,
                                     ModuleNmapParser    => $ModuleNmapParser,
-                                    ModuleNetSNMP       => $ModuleNetSNMP
+                                    ModuleNetSNMP       => $ModuleNetSNMP,
+                                    dico                => $dico
                                  });
                               undef $iplist->{$device_id}->{IP};
                               undef $iplist->{$device_id}->{ENTITY};
@@ -815,7 +871,7 @@ sub discovery_ip_threaded {
                         $name = q{}; # Empty string
                      }
                      # Serial Number
-                     my ($serial, $type, $model, $mac) = verifySerial($description, $session);
+                     my ($serial, $type, $model, $mac) = verifySerial($description, $session, $params->{dico});
                      if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
                         $serial = q{}; # Empty string
                      }
@@ -890,6 +946,7 @@ sub special_char {
 sub verifySerial {
    my $description = shift;
    my $session     = shift;
+   my $dico    = shift;
 
    my $oid;
    my $macreturn = q{}; # Empty string
@@ -897,8 +954,7 @@ sub verifySerial {
    my $serial;
    my $serialreturn = q{}; # Empty string
 
-   my $xmlDico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
-   foreach my $num (@{$xmlDico->{DEVICE}}) {
+   foreach my $num (@{$dico->{DEVICE}}) {
       if ($num->{SYSDESCR} eq $description) {
          
          if (defined($num->{SERIAL})) {
