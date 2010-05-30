@@ -52,6 +52,10 @@ sub main {
     $self->{prologresp} = $data->{prologresp};
     $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
+    if ($target->{type} ne 'server') {
+        $logger->debug("No server. Exiting...");
+        exit(0);
+    }
 
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
    $hour  = sprintf("%02d", $hour);
@@ -642,24 +646,17 @@ sub SendInformations{
 
    my $config = $self->{config};
 
-   if ($config->{stdout}) {
-      $self->printXML();
-   } elsif ($config->{local}) {
-      $self->writeXML($message);
-   } elsif ($config->{server}) {
-
-      my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
-           {
-               config => $self->{config},
-               logger => $self->{logger},
-               target => $self->{target},
-               msg    => {
-                   QUERY => 'NETDISCOVERY',
-                   CONTENT   => $message->{data},
-               },
-           });
-    $self->{network}->send({message => $xmlMsg});
-   }
+   my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
+       {
+           config => $self->{config},
+           logger => $self->{logger},
+           target => $self->{target},
+           msg    => {
+               QUERY => 'NETDISCOVERY',
+               CONTENT   => $message->{data},
+           },
+       });
+   $self->{network}->send({message => $xmlMsg});
 }
 
 

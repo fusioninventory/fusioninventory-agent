@@ -1,5 +1,7 @@
 Revision history for Ocsinventory::Agent::Task::NetDiscovery
 
+       * Silently exit if started in local mode
+
 1.1
        * Drop the dependency on File::stat
        * add a POD doc

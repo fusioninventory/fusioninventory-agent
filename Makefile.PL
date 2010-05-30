@@ -10,7 +10,6 @@ requires 'FusionInventory::Agent' => '2.0';
 requires 'threads' => undef;
 requires 'XML::Simple' => undef;
 requires 'Net::IP' => undef;
-requires 'File::stat' => undef;
 requires 'Parallel::ForkManager' => undef;
 requires 'Net::SNMP' => undef;
 requires 'Nmap::Parser' => undef;
