@@ -69,6 +69,7 @@ sub new {
   $self->{h}{CONTENT}{ENVS} = [];
   $self->{h}{CONTENT}{UPDATES} = [];
   $self->{h}{CONTENT}{USBDEVICES} = [];
+  $self->{h}{CONTENT}{BATTERIES} = [];
   $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
@@ -938,6 +939,36 @@ sub addUSBDevice {
 
   };
 }
+
+=item addBattery()
+
+Battery
+
+=cut
+sub addBattery {
+  my ($self, $args) = @_;
+
+  my $capacity = $args->{ CAPACITY};
+  my $date = $args->{ DATE};
+  my $name = $args->{ NAME};
+  my $serial = $args->{ SERIAL};
+  my $manufacturer = $args->{ MANUFACTURER};
+  my $voltage = $args->{ VOLTAGE};
+
+  push @{$self->{h}{CONTENT}{BATTERIES}},
+  {
+
+      CAPACITY => [$capacity?$capacity:''],
+      DATE => [$date?$date:''],
+      NAME => [$name?$name:''],
+      SERIAL => [$serial?$serial:''],
+      MANUFACTURER => [$manufacturer?$manufacturer:''],
+      VOLTAGE => [$voltage?$voltage:'']
+
+
+  };
+}
+
 
 
 =item addRegistry()
@@ -1850,5 +1881,35 @@ If the interface exist or not (1 or empty)
 Whether or not it is a HP iLO, Sun SC, HP MP or other kink of Remote Management Interface
 
 Interface speed in MB/s
+
+=back
+
+=head2 BATTERIES
+
+=over 4
+
+=item CAPACITY
+
+Battery capacity in mWh
+
+=item DATE
+
+Manufacture date in the DD/MM/YYYY format
+
+=item NAME
+
+Name of the device
+
+=item SERIAL
+
+Serial number
+
+=item MANUFACTURER
+
+Battery manufacturer
+
+=item VOLTAGE
+
+Voltage in mV
 
 =back

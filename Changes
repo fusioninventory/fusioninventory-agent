@@ -60,6 +60,7 @@ Revision history for FusionInventory::Agent
          ProLiant servers) (Amir PAKDEL)
        * HP-UX: HP Management Processor (MP) (Management Interface of HP
          Integrity servers) (Amir PAKDEL)
+       * Collect Batteries information
 
 
 2.0.6
