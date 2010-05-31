@@ -27,6 +27,8 @@ use FusionInventory::Agent::Network;
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 
+use FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard;
+
 use FusionInventory::Agent::AccountInfo;
 
 sub main {
@@ -91,6 +93,8 @@ sub main {
         });
 
    $self->{countxml} = 0;
+
+   $self->initModList();
 
    $self->StartThreads();
 
@@ -831,32 +835,9 @@ sub discovery_ip_threaded {
                      #print "[".$params->{ip}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
 
                      # ***** manufacturer specifications
-                     # If HP printer detected, get best sysDescr
-                     $description = hp_discovery($description, $session);
-
-                     # If Wyse thin clients
-                     $description = wyse_discovery($description, $session);
-
-                     # If Samsung printer detected, get best sysDescr
-                     $description = samsung_discovery($description, $session);
-
-                     # If Epson printer detected, get best sysDescr
-                     $description = epson_discovery($description, $session);
-
-                     # If Altacel switch detected, get best sysDescr
-                     $description = alcatel_discovery($description, $session);
-
-                     # If Kyocera printer detected, get best sysDescr
-                     $description = kyocera_discovery($description, $session);
-
-                     # If zebranet printserver
-                     $description = zebranet_discovery($description, $session);
-
-                     # If AXIS printserver
-                     $description = axis_discovery($description, $session);
-
-                     # If dd_wrt router
-                     $description = ddwrt_discovery($description, $session);
+                     for my $m ( keys %{$self->{modules}} ) {
+                        $description = $m->discovery($description, $session,$description);
+                     }
 
                      $datadevice->{DESCRIPTION} = $description;
 
@@ -1044,253 +1025,6 @@ sub verifySerial {
 }
 
 
-############# Contructors #################
-
-
-sub hp_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   if (($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) || ($description =~ m/A SNMP proxy agent, EEPROM/)){
-      my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.2.1.25.3.2.1.3.1',
-                        up  => 1,
-                     });
-      if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-         $description = $description_new;
-      } elsif ($description_new eq "No response from remote host") {
-         $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
-                        up  => 1,
-                     });
-         if ($description_new ne "null") {
-            my @infos = split(/;/,$description_new);
-            foreach (@infos) {
-               if ($_ =~ /^MDL:/) {
-                  $_ =~ s/MDL://;
-                  $description = $_;
-                  last;
-               } elsif ($_ =~ /^MODEL:/) {
-                  $_ =~ s/MODEL://;
-                  $description = $_;
-                  last;
-               }
-            }
-         }
-      }
-   }
-   return $description;
-}
-
-
-
-sub wyse_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   if ($description =~ m/Linux/) {
-      my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.4.1.714.1.2.5.6.1.2.1.6.1',
-                        up  => 1,
-                     });
-      if ($description_new ne "null") {
-         $description = "Wyse ".$description_new;
-      }
-   }
-
-   # OR ($description{'.1.3.6.1.2.1.1.1.0'} =~ m/Windows/))
-   # In other oid for Windows
-
-   return $description;
-}
-
-
-sub samsung_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   if($description =~ m/SAMSUNG NETWORK PRINTER,ROM/) {
-      my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0',
-                        up  => 1,
-                     });
-      if ($description_new ne "null") {
-         $description = $description_new;
-      }
-   }
-   return $description;
-}
-
-
-sub epson_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   if($description =~ m/EPSON Built-in/) {
-      my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0',
-                        up  => 1,
-                     });
-      if ($description_new ne "null") {
-         $description = $description_new;
-      }
-   }
-   return $description;
-}
-
-
-sub alcatel_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   # example : 5.1.6.485.R02 Service Release, September 26, 2008.
-
-   if ($description =~ m/^([1-9]{1}).([0-9]{1}).([0-9]{1})(.*) Service Release,(.*)([0-9]{1}).$/ ) {
-      my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.2.1.47.1.1.1.1.13.1',
-                        up  => 1,
-                     });
-      if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-         if ($description_new eq "OS66-P24") {
-            $description = "OmniStack 6600-P24";
-         } else {
-            $description = $description_new;
-         }
-      }
-   }
-   return $description;
-}
-
-
-sub kyocera_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   if ($description =~ m/,HP,JETDIRECT,J/) {
-      my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.4.1.1229.2.2.2.1.15.1',
-                        up  => 1,
-                     });
-      if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-         $description = $description_new;
-      }
-   } elsif (($description eq "KYOCERA MITA Printing System") || ($description eq "KYOCERA Printer I/F")) {
-      my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.4.1.1347.42.5.1.1.2.1',
-                        up  => 1,
-                     });
-      if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-         $description = $description_new;
-      } elsif ($description_new eq "No response from remote host") {
-         my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.4.1.1347.43.5.1.1.1.1',
-                        up  => 1,
-                     });
-         if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-            $description = $description_new;
-         } elsif ($description_new eq "No response from remote host") {
-            my $description_new = $session->snmpGet({
-                           oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
-                           up  => 1,
-                        });
-            if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-               my @infos = split(/;/,$description_new);
-               foreach (@infos) {
-                  if ($_ =~ /^MDL:/) {
-                     $_ =~ s/MDL://;
-                     $description = $_;
-                     last;
-                  } elsif ($_ =~ /^MODEL:/) {
-                     $_ =~ s/MODEL://;
-                     $description = $_;
-                     last;
-                  }
-               }
-            }
-         }
-      }
-
-}
-   return $description;
-}
-
-sub zebranet_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   if($description =~ m/ZebraNet PrintServer/) {
-      my $description_new = $session->snmpGet({
-                     oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
-                     up  => 1,
-                  });
-      if ($description_new ne "null") {
-         my @infos = split(/;/,$description_new);
-         foreach (@infos) {
-            if ($_ =~ /^MDL:/) {
-               $_ =~ s/MDL://;
-               $description = $_;
-               last;
-            } elsif ($_ =~ /^MODEL:/) {
-               $_ =~ s/MODEL://;
-               $description = $_;
-               last;
-            }
-         }
-      }
-   }
-   return $description;
-}
-
-
-sub axis_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   if ($description =~ m/AXIS OfficeBasic Network Print Server/) {
-      my $description_new = $session->snmpGet({
-                     oid => '.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1',
-                     up  => 1,
-                  });
-      if ($description_new ne "null") {
-         my @infos = split(/;/,$description_new);
-         foreach (@infos) {
-            if ($_ =~ /^MDL:/) {
-               $_ =~ s/MDL://;
-               $description = $_;
-               last;
-            } elsif ($_ =~ /^MODEL:/) {
-               $_ =~ s/MODEL://;
-               $description = $_;
-               last;
-            }
-         }
-      }
-   }
-   return $description;
-}
-
-
-sub ddwrt_discovery {
-   my $description = shift;
-   my $session     = shift;
-
-   if ($description =~ m/Linux/) {
-      my $description_new = $session->snmpGet({
-                        oid => '.1.3.6.1.2.1.1.5.0',
-                        up  => 1,
-                     });
-      if ($description_new eq "dd-wrt") {
-         $description = "dd-wrt";
-      }
-   }
-   return $description;
-}
-
-
-
-
-
-
 sub printXML {
   my ($self, $args) = @_;
 
@@ -1340,6 +1074,60 @@ sub writeXML {
   }
 }
 
+sub initModList {
+   my $self = shift;
+
+   my $logger = $self->{logger};
+   my $config = $self->{config};
+
+   my @dirToScan;
+   my @installed_mods;
+   my @installed_files;
+
+   if ($config->{devlib}) {
+      # devlib enable, I only search for backend module in ./lib
+      push (@dirToScan, './lib');
+   } else {
+      foreach (@INC) {
+         next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
+         next if ! -d $_.'/FusionInventory/Agent/Task/NetDiscovery/Manufacturer';
+         push @dirToScan, $_;
+      }
+   }
+   if (@dirToScan) {
+      eval {require File::Find};
+      if ($@) {
+         $logger->debug("Failed to load File::Find");
+      } else {
+         # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
+         # changes the @INC content if i use $_ directly
+         # thanks to @rgs on irc.perl.org
+         File::Find::find(
+           {
+             wanted => sub {
+               push @installed_files, $File::Find::name if $File::Find::name =~
+               /FusionInventory\/Agent\/Task\/NetDiscovery\/Manufacturer\/.*\.pm$/;
+             },
+             follow => 1,
+             follow_skip => 2
+           }
+           , @dirToScan);
+      }
+   }
+   foreach my $file (@installed_files) {
+      my $t = $file;
+      next unless $t =~ s!.*?(FusionInventory/Agent/Task/NetDiscovery/Manufacturer/)(.*?)\.pm$!$1$2!;
+      my $m = join ('::', split /\//, $t);
+      eval "use $m;";
+      if ($@) {
+         $logger->debug ("Failed to load $m: $@");
+         next;
+      } else {
+         $logger->debug ($m." loaded");
+         $self->{modules}->{$m} = 1;
+      }
+   }
+}
 
 1;
 
