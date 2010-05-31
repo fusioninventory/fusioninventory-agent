@@ -29,6 +29,7 @@ sub doInventory {
     my $capacity;
     my $voltage;
     my $name;
+    my $chemistry;
     my $serial;
     my $date;
     my $manufacturer;
@@ -36,11 +37,13 @@ sub doInventory {
     # get the BIOS values
     my $type;
     for(`dmidecode`){
+        s/\s+$//;
         if (/dmi type (\d+),/i) {
 
             if ($type == 22) {
                 $inventory->addBattery({
                         CAPACITY => $capacity,
+                        CHEMISTRY => $chemistry,
                         DATE => $date,
                         NAME => $name,
                         SERIAL => $serial,
@@ -49,6 +52,7 @@ sub doInventory {
                     });
                 $capacity = $date = $name = undef;
                 $serial = $manufacturer = $voltage = undef;
+                $chemistry = undef;
             }
             $type = $1;
         }
@@ -58,7 +62,7 @@ sub doInventory {
 
             if(/Name:\s*(.+?)(\s*)$/i) {
                 $name = $1;
-            } elsif(/Capacity:\s*(\d+)\s*mWh/i) {
+            } elsif(/Capacity:\s*(\d+)\s*m(W|A)h/i) {
                 $capacity = $1;
             } elsif(/Manufacturer:\s*(.+?)(\s*)$/i) {
                 $manufacturer = $1;
@@ -68,6 +72,8 @@ sub doInventory {
                 $date = parseDate($1);
             } elsif(/Voltage:\s*(\d+)\s*mV/i) {
                 $voltage = $1;
+            } elsif(/Chemistry:\s*(\S+\s*)/i) {
+                $chemistry = $1;
             }
         }
 

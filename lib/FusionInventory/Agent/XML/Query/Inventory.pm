@@ -949,16 +949,17 @@ sub addBattery {
   my ($self, $args) = @_;
 
   my $capacity = $args->{ CAPACITY};
+  my $chemistry = $args->{ CHEMISTRY};
   my $date = $args->{ DATE};
   my $name = $args->{ NAME};
   my $serial = $args->{ SERIAL};
   my $manufacturer = $args->{ MANUFACTURER};
   my $voltage = $args->{ VOLTAGE};
-
   push @{$self->{h}{CONTENT}{BATTERIES}},
   {
 
       CAPACITY => [$capacity?$capacity:''],
+      CHEMISTRY => [$chemistry?$chemistry:''],
       DATE => [$date?$date:''],
       NAME => [$name?$name:''],
       SERIAL => [$serial?$serial:''],
