@@ -1401,6 +1401,10 @@ The optional asset tag for this machine.
 
 The PCI ID, e.g: 8086:2a40 (only for PCI device)
 
+=item PCISUBSYSTEMID
+
+The PCI subsystem ID, e.g: 8086:2a40 (only for PCI device)
+
 =item PCISLOT
 
 The PCI slot, e.g: 00:02.1 (only for PCI device)
