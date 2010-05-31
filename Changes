@@ -63,6 +63,7 @@ Revision history for FusionInventory::Agent
        * Collect Batteries information
        * Add --disable-perllib-envvar to be able to ignore PERLLIB and
          PERL5LIB envvar
+       * turns off PERL5LIB envvar in win32-service
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
