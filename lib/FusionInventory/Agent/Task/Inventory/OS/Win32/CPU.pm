@@ -56,6 +56,9 @@ qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
         $manufacturer =~ s/CyrixInstead/Cyrix/;
         $manufacturer=~ s/CentaurHauls/VIA/;
 
+        $name =~ s/^\s+//;
+        $name =~ s/\s+$//;
+
         $inventory->addCPU({
 #                CACHE => $cache,
                 CORE => $core,
