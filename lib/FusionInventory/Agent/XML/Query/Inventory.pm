@@ -54,7 +54,8 @@ sub new {
   $self->{h}{CONTENT}{DRIVES} = [];
   $self->{h}{CONTENT}{HARDWARE} = {
     # TODO move that in a backend module
-    ARCHNAME => [$Config{archname}]
+    ARCHNAME => [$Config{archname}],
+    VMSYSTEM => ["Physical"] # Default value
   };
   $self->{h}{CONTENT}{MONITORS} = [];
   $self->{h}{CONTENT}{PORTS} = [];
@@ -105,6 +106,7 @@ sub addController {
   my $manufacturer = $args->{MANUFACTURER};
   my $pciclass = $args->{PCICLASS};
   my $pciid = $args->{PCIID};
+  my $pcisubsystemid = $args->{PCISUBSYSTEMID};
   my $pcislot = $args->{PCISLOT};
   my $type = $args->{TYPE};
 
@@ -117,6 +119,7 @@ sub addController {
     PCICLASS => [$pciclass?$pciclass:''],
 # E.g: 8086:2a40
     PCIID => [$pciid?$pciid:''],
+    PCISUBSYSTEMID => [$pcisubsystemid?$pcisubsystemid:''],
 # E.g: 00:00.0
     PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
@@ -1568,7 +1571,7 @@ This field is deprecated, you should use the USERS section instead.
 
 The virtualization technologie used if the machine is a virtual machine.
 
-Can by: Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item WINOWNER
 
