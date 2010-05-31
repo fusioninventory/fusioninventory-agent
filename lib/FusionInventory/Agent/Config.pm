@@ -17,6 +17,7 @@ my $default = {
   'daemon-no-fork'    =>  0,
   'debug'     =>  0,
   'devlib'    =>  0,
+  'disable-perllib-envvar' => 0,
   'force'     =>  0,
   'help'      =>  0,
   'html-dir'  =>  '',
@@ -158,6 +159,7 @@ sub loadUserParams {
 		"D|daemon-no-fork"=>   \$config->{'daemon-no-fork'},
 		"debug"           =>   \$config->{debug},
 		"devlib"          =>   \$config->{devlib},
+        "disable-perllib-envvar" => \$config->{'disable-perllib-envvar'},
 		"f|force"         =>   \$config->{force},
 		"h|help"          =>   \$config->{help},
 		"html-dir=s"      =>   \$config->{'html-dir'},
@@ -231,6 +233,9 @@ sub help {
   print STDERR "\t    --delaytime     set a max delay time (in second) if".
   " no PROLOG_FREQ is set (".$config->{delaytime}.")\n";
   print STDERR "\t    --devlib        search for Backend mod in ./lib only (".$config->{devlib}.")\n";
+  print STDERR "\t    --disable-perllib-envvar    do not load Perl lib ".
+  "from PERL5LIB and PERLIB environment variable ".
+  " (".$config->{'disable-perllib-envvar'}.")\n";
   print STDERR "\t-f --force          always send data to server (Don't ask before) (".$config->{force}.")\n";
   print STDERR "\t   --html-dir       alternative directory where the ".
   "static HTML are stored\n";
