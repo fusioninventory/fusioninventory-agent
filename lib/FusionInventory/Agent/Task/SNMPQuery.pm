@@ -1052,7 +1052,7 @@ sub HexaToString {
    my $val = shift;
 
    if ($val =~ /0x/) {
-      $val =~ s/\0//g;
+      $val =~ s/0x//g;
       $val =~ s/([a-fA-F0-9][a-fA-F0-9])/chr(hex($1))/eg;
    }
    return $val;
