@@ -41,13 +41,14 @@ if ($@) {
     exit 1;
 }
 
-eval '
+eval {
 
 my $agent = new FusionInventory::Agent;
 
 $agent->main();
 
-';
+};
+
 if ($@) {
     print "Execution failed. Are you sur the software is fully ";
     print "installed\n";
