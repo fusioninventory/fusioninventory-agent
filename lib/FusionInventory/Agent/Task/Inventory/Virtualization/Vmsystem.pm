@@ -52,9 +52,6 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $dmidecode = '/usr/sbin/dmidecode';
-    my $cmd = '$dmidecode -t system';
-
     my $dmesg = '/bin/dmesg | head -n 750';
 
     my $status;
