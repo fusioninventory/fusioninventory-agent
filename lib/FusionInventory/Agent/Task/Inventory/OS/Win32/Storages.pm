@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Storages;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {can_run("hdparm")}
 
 sub doInventory {
 
@@ -16,34 +16,27 @@ sub doInventory {
     my @hdparmDisks;
     my @hdparmCdroms;
 
-    my $hdparm;
-    if ($^X =~ /(^.*\\)/) {
-        $hdparm = $1."hdparm.exe";
-    }
-
-    if (-f $hdparm) {
-        foreach my $l ('a'..'z') {
-            my $disk;
-            foreach (`\"$hdparm\" -I /dev/hd$l 2>&1`) {
-                $disk->{model} = $1 if /Model Number:\s+(\S*)/;
+    foreach my $l ('a'..'z') {
+        my $disk;
+        foreach (`hdparm -I /dev/hd$l 2>&1`) {
+            $disk->{model} = $1 if /Model Number:\s+(\S*)/;
             $disk->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
             $disk->{serial} = $1 if /Serial Number:\s+(\S*)/;
             $disk->{size} = $1 if /1000:\s+(\d*)\sMBytes\s\(/;
         }
         push @hdparmDisks, $disk if keys %$disk;
+    }
+
+
+    foreach my $n (0..9) {
+        my $cdrom;
+        foreach (`hdparm -I /dev/scd$n 2>&1`) {
+            $cdrom->{model} = $1 if /Model Number:\s+(\S*)/;
+            $cdrom->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
+            $cdrom->{serial} = $1 if /Serial Number:\s+(\S*)/;
         }
+        push @hdparmCdroms, $cdrom if keys %$cdrom;
 
-
-        foreach my $n (0..9) {
-            my $cdrom;
-            foreach (`$hdparm -I /dev/scd$n 2>&1`) {
-                $cdrom->{model} = $1 if /Model Number:\s+(\S*)/;
-                $cdrom->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
-                $cdrom->{serial} = $1 if /Serial Number:\s+(\S*)/;
-            }
-            push @hdparmCdroms, $cdrom if keys %$cdrom;
-
-        }
     }
 
 
