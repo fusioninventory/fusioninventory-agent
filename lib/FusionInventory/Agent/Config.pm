@@ -174,6 +174,7 @@ sub loadUserParams {
 		"no-snmpquery"    =>   \$config->{'no-snmpquery'},
 		"no-netdiscovery" =>   \$config->{'no-netdiscovery'},
 		"p|password=s"    =>   \$config->{password},
+		"perl-bin-dir-in-path" => \$config->{'perl-bin-dir-in-path'},
 		"P|proxy=s"       =>   \$config->{proxy},
 		"r|realm=s"       =>   \$config->{realm},
 		"rpc-ip=s"        =>   \$config->{'rpc-ip'},

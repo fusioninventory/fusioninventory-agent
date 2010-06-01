@@ -60,6 +60,7 @@ Revision history for FusionInventory::Agent
          ProLiant servers) (Amir PAKDEL)
        * HP-UX: HP Management Processor (MP) (Management Interface of HP
          Integrity servers) (Amir PAKDEL)
+       * Add --perl-bin-dir-in-path parameter for the Windows package
 
 
 2.0.6
