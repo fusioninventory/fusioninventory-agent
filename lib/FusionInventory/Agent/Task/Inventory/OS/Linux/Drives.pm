@@ -84,6 +84,8 @@ sub doInventory {
         my $tmp = `blkid $volumn 2> /dev/null`;
         $serial = $1 if ($tmp =~ /\sUUID="(\S*)"\s/);
       } elsif ($filesystem =~ /^ext(2|3|4|4dev)/ && can_run('dumpe2fs')) {
+        # tune2fs -l /dev/hda1 give the same output and should be call as
+        # alternative solution
         foreach (`dumpe2fs -h $volumn 2> /dev/null`) {
           if (/Filesystem UUID:\s+(\S+)/) {
             $serial = $1;
