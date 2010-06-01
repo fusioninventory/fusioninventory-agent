@@ -81,6 +81,9 @@ qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
         $manufacturer=~ s/CentaurHauls/VIA/;
         $serial =~ s/\s//g;
 
+        $name =~ s/^\s+//;
+        $name =~ s/\s+$//;
+
         $inventory->addCPU({
 #                CACHE => $cache,
                 CORE => $core,

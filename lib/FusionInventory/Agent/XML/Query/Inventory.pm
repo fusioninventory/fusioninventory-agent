@@ -54,7 +54,8 @@ sub new {
   $self->{h}{CONTENT}{DRIVES} = [];
   $self->{h}{CONTENT}{HARDWARE} = {
     # TODO move that in a backend module
-    ARCHNAME => [$Config{archname}]
+    ARCHNAME => [$Config{archname}],
+    VMSYSTEM => ["Physical"] # Default value
   };
   $self->{h}{CONTENT}{MONITORS} = [];
   $self->{h}{CONTENT}{PORTS} = [];
@@ -69,6 +70,7 @@ sub new {
   $self->{h}{CONTENT}{ENVS} = [];
   $self->{h}{CONTENT}{UPDATES} = [];
   $self->{h}{CONTENT}{USBDEVICES} = [];
+  $self->{h}{CONTENT}{BATTERIES} = [];
   $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
@@ -104,6 +106,7 @@ sub addController {
   my $manufacturer = $args->{MANUFACTURER};
   my $pciclass = $args->{PCICLASS};
   my $pciid = $args->{PCIID};
+  my $pcisubsystemid = $args->{PCISUBSYSTEMID};
   my $pcislot = $args->{PCISLOT};
   my $type = $args->{TYPE};
 
@@ -116,6 +119,7 @@ sub addController {
     PCICLASS => [$pciclass?$pciclass:''],
 # E.g: 8086:2a40
     PCIID => [$pciid?$pciid:''],
+    PCISUBSYSTEMID => [$pcisubsystemid?$pcisubsystemid:''],
 # E.g: 00:00.0
     PCISLOT => [$pcislot?$pcislot:''],
     TYPE => [$type],
@@ -939,6 +943,37 @@ sub addUSBDevice {
   };
 }
 
+=item addBattery()
+
+Battery
+
+=cut
+sub addBattery {
+  my ($self, $args) = @_;
+
+  my $capacity = $args->{ CAPACITY};
+  my $chemistry = $args->{ CHEMISTRY};
+  my $date = $args->{ DATE};
+  my $name = $args->{ NAME};
+  my $serial = $args->{ SERIAL};
+  my $manufacturer = $args->{ MANUFACTURER};
+  my $voltage = $args->{ VOLTAGE};
+  push @{$self->{h}{CONTENT}{BATTERIES}},
+  {
+
+      CAPACITY => [$capacity?$capacity:''],
+      CHEMISTRY => [$chemistry?$chemistry:''],
+      DATE => [$date?$date:''],
+      NAME => [$name?$name:''],
+      SERIAL => [$serial?$serial:''],
+      MANUFACTURER => [$manufacturer?$manufacturer:''],
+      VOLTAGE => [$voltage?$voltage:'']
+
+
+  };
+}
+
+
 
 =item addRegistry()
 
@@ -1366,6 +1401,10 @@ The optional asset tag for this machine.
 
 The PCI ID, e.g: 8086:2a40 (only for PCI device)
 
+=item PCISUBSYSTEMID
+
+The PCI subsystem ID, e.g: 8086:2a40 (only for PCI device)
+
 =item PCISLOT
 
 The PCI slot, e.g: 00:02.1 (only for PCI device)
@@ -1536,7 +1575,7 @@ This field is deprecated, you should use the USERS section instead.
 
 The virtualization technologie used if the machine is a virtual machine.
 
-Can by: Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item WINOWNER
 
@@ -1850,5 +1889,35 @@ If the interface exist or not (1 or empty)
 Whether or not it is a HP iLO, Sun SC, HP MP or other kink of Remote Management Interface
 
 Interface speed in MB/s
+
+=back
+
+=head2 BATTERIES
+
+=over 4
+
+=item CAPACITY
+
+Battery capacity in mWh
+
+=item DATE
+
+Manufacture date in the DD/MM/YYYY format
+
+=item NAME
+
+Name of the device
+
+=item SERIAL
+
+Serial number
+
+=item MANUFACTURER
+
+Battery manufacturer
+
+=item VOLTAGE
+
+Voltage in mV
 
 =back

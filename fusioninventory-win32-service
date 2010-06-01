@@ -1,20 +1,17 @@
 #!/usr/bin/perl
 
+$ENV{PERL5LIB}=undef;
+$ENV{PERLLIB}=undef;
+
+
+eval ("
 use Win32;
 use Win32::Daemon;
-
-# Grrr, doesn't work...
-#my $AcceptedControls = Win32::Daemon::AcceptedControls();
-#Win32::Daemon::AcceptedControls([
-#        &SERVICE_CONTROL_PAUSE ^
-#        $AcceptedControls
-#        ]);
-#
-my $win32service = 1;
 use threads;
 use threads::shared;
-use FusionInventory::Agent;
+use FusionInventory::Agent;1") or die "$@";
 
+my $win32service = 1;
 Win32::Daemon::StartService();
 $SERVICE_SLEEP_TIME = 2000; # 20 milliseconds
 $PrevState = SERVICE_START_PENDING;

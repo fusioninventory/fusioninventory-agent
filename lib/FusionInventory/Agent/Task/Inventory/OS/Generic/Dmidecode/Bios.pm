@@ -10,6 +10,8 @@ sub doInventory {
   my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
     $BiosVersion, $BiosDate, $YEAR, $MONTH, $DAY, $HOUR, $MIN, $SEC, $AssetTag);
 
+  my $vmsystem;
+
   my @dmidecode = `dmidecode`;
   s/^\s+// for (@dmidecode);
 
@@ -18,7 +20,17 @@ sub doInventory {
   for(@dmidecode){
     $flag=1 if /dmi type 0,/i;
     last if($flag && (/dmi type (\d+),/i) && ($1!=0));
-    if((/^vendor:\s*(.+?)(\s*)$/i) && ($flag)) { $BiosManufacturer = $1 }
+    if((/^vendor:\s*(.+?)(\s*)$/i) && ($flag)) {
+        $BiosManufacturer = $1;
+        if ($BiosManufacturer =~ /QEMU/i) {
+            $vmsystem = 'QEMU';
+        } elsif ($BiosManufacturer =~ /VirtualBox/i) {
+            $vmsystem = 'VirtualBox';
+        } elsif ($BiosManufacturer =~ /^Xen/i) {
+            $vmsystem = 'Xen';
+        }
+
+    }
     if((/^release\ date:\s*(.+?)(\s*)$/i) && ($flag)) { $BiosDate = $1 }
     if((/^version:\s*(.+?)(\s*)$/i) && ($flag)) { $BiosVersion = $1 }
   }
@@ -29,7 +41,14 @@ sub doInventory {
     if(/dmi type 1,/i){$flag=1;}
     last if($flag && (/dmi type (\d+),/i) && ($1!=1));
     if((/^serial number:\s*(.+?)(\s*)$/i) && ($flag)) { $SystemSerial = $1 }
-    if((/^(product name|product):\s*(.+?)(\s*)$/i) && ($flag)) { $SystemModel = $2 }
+    if((/^(product name|product):\s*(.+?)(\s*)$/i) && ($flag)) {
+        $SystemModel = $2;
+        if ($SystemModel =~ /VMware/i) {
+            $vmsystem = 'VMware';
+        } elsif ($SystemModel =~ /Virtual Machine/i) {
+            $vmsystem = 'Virtual Machine';
+        }
+    }
     if((/^(manufacturer|vendor):\s*(.+?)(\s*)$/i) && ($flag)) { $SystemManufacturer = $2 }
   }
 
@@ -83,6 +102,14 @@ sub doInventory {
       BVERSION => $BiosVersion,
       BDATE => $BiosDate,
     });
+
+    if ($vmsystem) {
+        $inventory->setHardware ({
+            VMSYSTEM => $vmsystem,
+        });
+    }
+
+
 }
 
 1;

@@ -61,7 +61,11 @@ Revision history for FusionInventory::Agent
        * HP-UX: HP Management Processor (MP) (Management Interface of HP
          Integrity servers) (Amir PAKDEL)
        * Add --perl-bin-dir-in-path parameter for the Windows package
-
+       * Collect Batteries information
+       * Add --disable-perllib-envvar to be able to ignore PERLLIB and
+         PERL5LIB envvar
+       * turns off PERL5LIB envvar in win32-service
+       * Get CONTROLLERS/PCISUBSYSTEMID
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
