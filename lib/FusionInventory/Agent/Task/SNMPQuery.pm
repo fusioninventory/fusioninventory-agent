@@ -3,6 +3,7 @@ our $VERSION = '1.1';
 use strict;
 no strict 'refs';
 use warnings;
+use Encode qw(encode);
 
 use threads;
 use threads::shared;
@@ -1054,6 +1055,10 @@ sub HexaToString {
    if ($val =~ /0x/) {
       $val =~ s/0x//g;
       $val =~ s/([a-fA-F0-9][a-fA-F0-9])/chr(hex($1))/eg;
+      $val = encode('UTF-8', $val);
+      $val =~ s/\0//g;
+      $val =~ s/([\x80-\xFF])//g;
+      $val =~ s/[\x00-\x1F\x7F]//g;
    }
    return $val;
 }
