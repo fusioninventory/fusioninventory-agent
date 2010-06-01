@@ -46,18 +46,7 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 use strict;
 use version;
 
-sub isInventoryEnabled { 
-  if ( can_run("zoneadm")){ # Is a solaris zone system capable ?
-      return 1; 
-  }
-  if ( can_run ("dmidecode") ) { # 2.6 and under haven't -t parameter   
-    if (version->parse(`dmidecode -V 2>/dev/null`) >= version->parse('v2.7') ) {
-
-      return 1;
-    }
-  } 
-  return 0;
-} 
+sub isInventoryEnabled {1}
 
 sub doInventory {
     my $params = shift;
@@ -68,7 +57,7 @@ sub doInventory {
 
     my $dmesg = '/bin/dmesg | head -n 750';
 
-    my $status = "Physical";
+    my $status;
     my $found = 0;
     # Solaris zones
     my @solaris_zones;
@@ -92,27 +81,6 @@ sub doInventory {
         } else {
           # domU PV host
           $status = "Xen";
-        }
-    }
-
-    # dmidecode needs root to work :(
-    if ($found == 0 and -r '/dev/mem' && -x $dmidecode) {
-        my $sysprod = `$dmidecode -s system-product-name`;
-        if ($sysprod =~ /^VMware/) {
-          $status = "VMware";
-          $found = 1;
-        } elsif ($sysprod =~ /^Virtual Machine/) {
-          $status = "Virtual Machine";
-          $found = 1;
-        } else {
-          my $biosvend = `$dmidecode -s bios-vendor`;
-          if ($biosvend =~ /^QEMU/) {
-            $status = "QEMU";
-            $found = 1;
-          } elsif ($biosvend =~ /^Xen/) { # virtualized Xen
-            $status = "Xen";
-            $found = 1;
-          }
         }
     }
 
@@ -208,9 +176,11 @@ sub doInventory {
         close(HSCSI);
     }
 
-    $inventory->setHardware ({
-      VMSYSTEM => $status,
-      });
+    if ($status) {
+        $inventory->setHardware ({
+                VMSYSTEM => $status,
+            });
+    }
 }
 
 sub check_file_content {
