@@ -92,16 +92,16 @@ ip_bintoip($binsubnet, 6);
         my $ipaddress6;
 
 
-        if ($netif->{ipaddress}) {
+        if (defined($netif->{ipaddress})) {
             $ipaddress = join('/', @{$netif->{ipaddress}});
         }
-        if ($netif->{ipmask}) {
+        if (defined($netif->{ipmask})) {
             $ipmask = join('/', @{$netif->{ipmask}});
         } 
-        if ($netif->{ipsubnet}) {
+        if (defined($netif->{ipsubnet})) {
             $ipsubnet = join('/', @{$netif->{ipsubnet}});
         }
-        if ($netif->{ipaddress6}) {
+        if (defined($netif->{ipaddress6})) {
             $ipaddress6 = join('/', @{$netif->{ipaddress6}});
         }
 
