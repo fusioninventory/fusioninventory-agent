@@ -968,6 +968,11 @@ sub PutSimpleOid {
    my $xmlelement2 = shift;
 
    if (exists $HashDataSNMP->{$element}) {
+      # Rewrite hexa to string
+      if (($element eq "name") || ($element eq "otherserial")) {
+         $HashDataSNMP->{$element} = HexaToString($HashDataSNMP->{$element});
+      }
+      # End rewrite hexa to string
       if (($element eq "ram") || ($element eq "memory")) {
          $HashDataSNMP->{$element} = int(( $HashDataSNMP->{$element} / 1024 ) / 1024);
       }
@@ -1043,5 +1048,14 @@ sub is_integer {
    $_[0] =~ /^[+-]?\d+$/;
 }
 
+sub HexaToString {
+   my $val = shift;
+
+   if ($val =~ /0x/) {
+      $val =~ s/\0//g;
+      $val =~ s/([a-fA-F0-9][a-fA-F0-9])/chr(hex($1))/eg;
+   }
+   return $val;
+}
 
 1;
