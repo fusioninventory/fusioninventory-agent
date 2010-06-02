@@ -42,19 +42,21 @@ sub doInventory {
     my $speed;
 
     my @dmidecodeCpu;
-    my $in;
-    foreach (`dmidecode`) {
-        if ($in && /^Handle/)  {
-            push @dmidecodeCpu, {serial => $serial, speed => $speed};
-            $in = 0;
-        }
+    if (can_run("dmidecode")) {
+        my $in;
+        foreach (`dmidecode`) {
+            if ($in && /^Handle/)  {
+                push @dmidecodeCpu, {serial => $serial, speed => $speed};
+                $in = 0;
+            }
 
-        if (/^Handle.*type 4,/) {
-            $in = 1 
-        } elsif ($in) {
-            $speed = $1 if /Max Speed:\s+(\d+)\s+MHz/i;
-            $speed = $1*1000 if /Max Speed:\s+(\w+)\s+GHz/i;
-            $serial = $1 if /ID:\s+(.*)/i;
+            if (/^Handle.*type 4,/) {
+                $in = 1 
+            } elsif ($in) {
+                $speed = $1 if /Max Speed:\s+(\d+)\s+MHz/i;
+                $speed = $1*1000 if /Max Speed:\s+(\w+)\s+GHz/i;
+                $serial = $1 if /ID:\s+(.*)/i;
+            }
         }
     }
 
