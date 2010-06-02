@@ -5,6 +5,7 @@ use warnings;
 
 use Config;
 
+use Win32;
 use Win32::OLE('in');
 use Win32::OLE::Variant;
 
@@ -108,7 +109,12 @@ sub doInventory {
 
     my $Config;
 
-    if ($Config{use64bitint}) {
+# use64bitint is not set on Windows Seven 64bit but we should be able
+# to query 64bit software on a 32bit system without  drawback
+    my ($osname, $major, $minor) = Win32::GetOSVersion();
+    if ($major >= 5 && $minor => 1) {
+
+
 # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read 32bit
 # entries. This is not the case on Win2003 and if I correctly understand
 # MSDN, this sounds very odd
