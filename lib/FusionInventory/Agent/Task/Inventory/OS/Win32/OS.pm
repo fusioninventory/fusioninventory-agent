@@ -27,7 +27,7 @@ qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser CSDVersio
                 WINLANG => $Properties->{OSLanguage},
                 OSNAME => $Properties->{Caption},
                 OSVERSION =>  $Properties->{Version},
-                WINPRODKEY => $Properties->{SerialNumber},
+                WINPRODID => $Properties->{SerialNumber},
                 WINCOMPANY => $Properties->{Organization},
                 WINOWNER => $Properties->{RegistredUser},
                 OSCOMMENTS => $Properties->{CSDVersion},
