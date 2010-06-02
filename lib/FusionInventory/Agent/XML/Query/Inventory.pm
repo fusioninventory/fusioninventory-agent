@@ -1482,9 +1482,13 @@ Frequency in MHz
 
 =head2 DRIVES
 
+Drive is actually a filesystem.
+
 =over 4
 
 =item CREATEDATE
+
+Date of the create of the filesystem in in DD/MM/YYYY format.
 
 =item DESCRIPTION
 
@@ -1514,6 +1518,8 @@ Total space avalaible.
 
 =item VOLUMN
 
+Name of the partition.
+
 =back
 
 =head2 HARDWARE
@@ -1535,15 +1541,23 @@ Service Pack on Windows, kernel build date on Linux
 
 =item CHECKSUM
 
+Deprecated, OCS only.
+
 =item PROCESSORT
 
 =item NAME
 
 =item PROCESSORS
 
+The processor speed in MHz, this field is deprecated, see CPUS instead.
+
 =item SWAP
 
+The swap space in MB.
+
 =item ETIME
+
+The time needed to run the inventory on the agent side.
 
 =item TYPE
 
@@ -1563,6 +1577,8 @@ Service Pack on Windows, kernel build date on Linux
 
 =item LASTLOGGEDUSER
 
+The login of the last logged user.
+
 =item USERDOMAIN
 
 This field is deprecated, you should use the USERS section instead.
@@ -1575,7 +1591,7 @@ This field is deprecated, you should use the USERS section instead.
 
 The virtualization technologie used if the machine is a virtual machine.
 
-Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item WINOWNER
 
@@ -1595,19 +1611,29 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item BASE64
 
+The uuencoded EDID trame. Optional.
+
 =item CAPTION
 
 =item DESCRIPTION
 
 =item MANUFACTURER
 
+The manufacturer retrieved from the EDID trame.
+
 =item SERIAL
 
+The serial number retrieved from the EDID trame.
+
 =item UUENCODE
+
+The uuencoded EDID trame. Optional.
 
 =back
 
 =head2 PORTS
+
+Serial, Printer, etc
 
 =over 4
 
@@ -1635,8 +1661,6 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item PURPOSE
 
-=item SPEED
-
 =item TYPE
 
 =item DESCRIPTION
@@ -1647,10 +1671,11 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =over 4
 
-
 =item DESCRIPTION
 
 =item DISKSIZE
+
+The disk size in MB.
 
 =item INTERFACE
 
@@ -1664,7 +1689,11 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item SERIAL
 
+The harddrive serial number
+
 =item SERIALNUMBER
+
+Deprecated. The harddrive serial number, same as SERIAL.
 
 =item FIRMWARE
 
@@ -1690,6 +1719,9 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item FROM
 
+Where the information about the software come from, can be:
+registry, rpm, deb, etc
+
 =item HELPLINK
 
 =item INSTALLDATE
@@ -1702,9 +1734,13 @@ Installation day in DD/MM/YYYY format. Windows only.
 
 =item RELEASE_TYPE
 
+Windows only for now, come from the registry
+
 =item PUBLISHER
 
 =item UNINSTALL_STRING
+
+Windows only, come from the registry
 
 =item URL_INFO_ABOUT
 
@@ -1712,9 +1748,15 @@ Installation day in DD/MM/YYYY format. Windows only.
 
 =item VERSION_MINOR
 
+Windows only, come from the registry
+
 =item VERSION_MAJOR
 
+Windows only, come from the registry
+
 =item IS64BIT
+
+If the software is in 32 or 64bit, (1/0)
 
 =item GUID
 
@@ -1746,6 +1788,8 @@ The Windows domain of the user, if avalaible.
 
 =item RESOLUTION
 
+Resolution in pixel. 1024x768.
+
 =back
 
 =head2 VIRTUALMACHINES
@@ -1754,19 +1798,29 @@ The Windows domain of the user, if avalaible.
 
 =item MEMORY
 
+Memory size, in MB.
+
 =item NAME
+
+The name of the virtual machine.
 
 =item UUID
 
 =item STATUS
 
+The VM status: running, idle, paused, shutdown, crashed, dying, off
+
 =item SUBSYSTEM
 
 =item VMTYPE
 
+The name of the virtualisation system, eg. Xen.
+
 =item VCPU
 
 =item VMID
+
+The ID of virtual machine in the virtual managment system.
 
 =back
 
@@ -1882,13 +1936,13 @@ If the interface exist or not (1 or empty)
 
 =item SLAVES
 
-=item SPEED
-
 =item MANAGEMENT
 
 Whether or not it is a HP iLO, Sun SC, HP MP or other kink of Remote Management Interface
 
-Interface speed in MB/s
+=item SPEED
+
+Interface speed in Mb/s
 
 =back
 
