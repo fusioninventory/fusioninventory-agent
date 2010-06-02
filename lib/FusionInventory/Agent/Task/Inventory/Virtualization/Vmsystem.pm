@@ -52,8 +52,8 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $dmidecode = '/usr/sbin/dmidecode';
-    my $cmd = '$dmidecode -t system';
+    # return immediatly if vm type has already been found
+    return if $inventory->{h}{HARDWARE}{VMSYSTEM} ne "Physical";
 
     my $dmesg = '/bin/dmesg | head -n 750';
 
