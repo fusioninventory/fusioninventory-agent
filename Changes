@@ -66,7 +66,9 @@ Revision history for FusionInventory::Agent
          PERL5LIB envvar
        * turns off PERL5LIB envvar in win32-service
        * Get CONTROLLERS/PCISUBSYSTEMID
-       * add a template config file in etc/agent.cfg
+       * Add a template config file in etc/agent.cfg
+       * Add --conf-file=XXX parameter to allow the user to use another
+         config file
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
