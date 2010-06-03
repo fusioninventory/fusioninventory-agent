@@ -93,12 +93,6 @@ for module in $MODULES; do
     perl -M$module -e1
 done
 
-cd $ROOT
-perl Makefile.PL
-make manifest
-make
-make test
-
 cd $TMP
 TARBALLNAME=`perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
 tar cf $FINALDIR/$TARBALLNAME perl
