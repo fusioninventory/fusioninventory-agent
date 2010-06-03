@@ -115,7 +115,7 @@ sub loadFromCfgFile {
 
   my $in;
   foreach (@ARGV) {
-    if (/!$in && ^--conf-file=\./) {
+    if (!$in && /^--conf-file=(.*)/) {
       $file = $1;
       $file =~ s/'(.*)'/$1/;
       $file =~ s/"(.*)"/$1/;
@@ -123,8 +123,9 @@ sub loadFromCfgFile {
       $in = 1;
     } elsif ($in) {
       $file = $_;
+      $in = 0;
     } else {
-        $in = 0;
+      $in = 0;
     }
   }
 
@@ -149,7 +150,7 @@ if (!$file || !-f $file) {
 
   foreach (<CONFIG>) {
     s/#.+//;
-    if (/(\w+)\s*=\s*(.+)/) {
+    if (/([\w-]+)\s*=\s*(.+)/) {
       my $key = $1;
       my $val = $2;
       # Remove the quotes

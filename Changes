@@ -69,6 +69,7 @@ Revision history for FusionInventory::Agent
        * Add a template config file in etc/agent.cfg
        * Add --conf-file=XXX parameter to allow the user to use another
          config file
+       * Fix, allow dash in key name in config file
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
