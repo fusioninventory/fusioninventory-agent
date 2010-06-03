@@ -92,5 +92,5 @@ for module in $MODULES; do
 done
 
 cd $TMP
-TARBALLNAME=` $PREFIX_PROFILE/bin/perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
+TARBALLNAME=` $PREFIX_PERL/bin/perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
 tar cf $FINALDIR/$TARBALLNAME perl
