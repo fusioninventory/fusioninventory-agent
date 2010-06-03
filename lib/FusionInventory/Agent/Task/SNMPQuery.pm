@@ -701,11 +701,13 @@ sub query_device_threaded {
                delete $HashDataSNMP->{VLAN}->{$vlan_id};
             }
          } else {
-            if ($datadevice->{INFO}->{COMMENTS} =~ /3Com IntelliJack/) {
-               ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::ThreeCom::GetMAC($HashDataSNMP,$datadevice,$self,$params->{modellist}->{WALK});
-               $datadevice = FusionInventory::Agent::Task::SNMPQuery::ThreeCom::RewritePortOf225($datadevice, $self);
-            } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
-               ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
+            if (defined ($datadevice->{INFO}->{COMMENTS})) {
+               if ($datadevice->{INFO}->{COMMENTS} =~ /3Com IntelliJack/) {
+                  ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::ThreeCom::GetMAC($HashDataSNMP,$datadevice,$self,$params->{modellist}->{WALK});
+                  $datadevice = FusionInventory::Agent::Task::SNMPQuery::ThreeCom::RewritePortOf225($datadevice, $self);
+               } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
+                  ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
+               }
             }
          }
       }
