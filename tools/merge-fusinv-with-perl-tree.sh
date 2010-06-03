@@ -4,6 +4,11 @@ PERLVERSION="5.12.1"
 set -e
 
 TARBALL=$1
+RELEASE=$2
+
+OS=`echo $TARBALL|sed 's,.tar$,,'`
+DATE=`date +%Y%m%d`
+GITCOMMIT=`git log --oneline -1|awk '{print $1}'`
 
 if [ -z $TARBALL ]; then
     echo "Merge the agent with a perl tarball generated with build-perl-tree.sh"
@@ -31,6 +36,15 @@ mkdir fusioninventory-agent
 tar xf $TARBALL
 mv perl fusioninventory-agent
 
+# Purge some files we don't need
+find -type f -exec chmod u+w {} \;
+find . -name '*.pod' -delete
+rm -r fusioninventory-agent/perl/man
+mv fusioninventory-agent/perl/bin fusioninventory-agent/perl/bin.tmp
+mkdir fusioninventory-agent/perl/bin
+mv fusioninventory-agent/perl/bin.tmp/perl fusioninventory-agent/perl/bin
+
+# Install the agent.sh
 cat >> fusioninventory-agent/agent.sh << EOF
 #!/bin/sh
 # Try to detect lib directory with the XS files
@@ -47,3 +61,17 @@ cp ../etc/fusioninventory/agent.cfg fusioninventory-agent
 cp ../fusioninventory-agent fusioninventory-agent/perl/bin
 cp -r ../share fusioninventory-agent
 cp -r ../lib/FusionInventory fusioninventory-agent/perl/lib/site_perl/$PERLVERSION/
+
+
+FINALNAME=fusioninventory-agent_$OS
+if [ ! -z $RELEASE ]; then
+    FINALNAME=$FINALNAME'_'$RELEASE
+else
+    FINALNAME=$FINALNAME'_dev-'$DATE
+    if [ ! -z $GITCOMMIT ]; then
+        FINALNAME=$FINALNAME"-git"$GITCOMMIT
+    fi
+    echo $FINALNAME
+fi
+mv fusioninventory-agent $FINALNAME
+tar czf $FINALNAME.tar.gz $FINALNAME
