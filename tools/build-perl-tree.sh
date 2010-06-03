@@ -54,8 +54,6 @@ $MAKE
 $MAKE install
 
 
-export PATH=$PERL_PREFIX/bin:$PATH
-
 cd $BUILDDIR
 gunzip < ../openssl-0.9.8n.tar.gz | tar xvf -
 cd openssl-0.9.8n
@@ -72,13 +70,13 @@ export OPENSSL_PREFIX=$TMP/openssl # Pour Net::SSLeay
 cd $BUILDDIR
 gunzip < ../Net-SSLeay-1.36.tar.gz | tar xvf -
 cd Net-SSLeay-1.36
-PERL_MM_USE_DEFAULT=1 perl Makefile.PL
+PERL_MM_USE_DEFAULT=1 $PERL_PREFIX/bin/perl Makefile.PL
 make install
 
 cd $BUILDDIR
 gunzip < ../Crypt-SSLeay-0.57.tar.gz | tar xvf -
 cd Crypt-SSLeay-0.57
-PERL_MM_USE_DEFAULT=1 perl Makefile.PL --default --static --lib=$TMP/openssl
+PERL_MM_USE_DEFAULT=1 $PERL_PREFIX/bin/perl Makefile.PL --default --static --lib=$TMP/openssl
 make install
 
 cd $TMP
@@ -89,10 +87,10 @@ CPANM=$PWD/App-cpanminus-1.0004/bin/cpanm
 
 # Tree dependencies not pulled by cpanm
 for module in $MODULES; do
-    perl $CPANM --skip-installed $module
-    perl -M$module -e1
+    $PERL_PREFIX/bin/perl $CPANM --skip-installed $module
+    $PERL_PREFIX/bin/perl -M$module -e1
 done
 
 cd $TMP
-TARBALLNAME=`perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
+TARBALLNAME=` $PREFIX_PROFILE/bin/perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
 tar cf $FINALDIR/$TARBALLNAME perl
