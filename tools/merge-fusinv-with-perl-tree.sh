@@ -6,7 +6,7 @@ set -e
 TARBALL=$1
 RELEASE=$2
 
-OS=`echo $TARBALL|sed 's,.tar$,,'`
+OS=`basename $TARBALL|sed 's,.tar$,,'`
 DATE=`date +%Y%m%d`
 GITCOMMIT=`git log --oneline -1|awk '{print $1}'`
 
@@ -37,7 +37,7 @@ tar xf $TARBALL
 mv perl fusioninventory-agent
 
 # Purge some files we don't need
-find -type f -exec chmod u+w {} \;
+chmod -R u+w *
 find . -name '*.pod' -delete
 rm -r fusioninventory-agent/perl/man
 mv fusioninventory-agent/perl/bin fusioninventory-agent/perl/bin.tmp
