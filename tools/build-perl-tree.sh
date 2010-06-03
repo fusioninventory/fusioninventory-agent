@@ -14,7 +14,7 @@ fi
 ROOT="$PWD/.."
 MAKE="make"
 TMP="$PWD/tmp"
-PREFIX="$TMP/perl"
+PERL_PREFIX="$TMP/perl"
 BUILDDIR="$TMP/build"
 MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Zlib Compress::Raw::Zlib Archive::Extract Digest::MD5 File::Copy File::Glob File::Path File::stat File::Temp Net::NBName Net::SSLeay Parallel::ForkManager Nmap::Parser "
 FINALDIR=$PWD
@@ -46,15 +46,15 @@ gunzip < ../perl-$PERLVERSION.tar.gz | tar xvf -
 cd perl-$PERLVERSION
 
 # AIX
-#./Configure -Dusethreads -Dusenm -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
-#./Configure -Dusethreads -Dcc="gcc" -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+#./Configure -Dusethreads -Dusenm -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
+#./Configure -Dusethreads -Dcc="gcc" -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
 
-./Configure -Duserelocatableinc -Dusethreads -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+./Configure -Duserelocatableinc -Dusethreads -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
 $MAKE
 $MAKE install
 
 
-export PATH=$PREFIX/bin:$PATH
+export PATH=$PERL_PREFIX/bin:$PATH
 
 cd $BUILDDIR
 gunzip < ../openssl-0.9.8n.tar.gz | tar xvf -
