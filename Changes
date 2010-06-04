@@ -66,6 +66,7 @@ Revision history for FusionInventory::Agent
          PERL5LIB envvar
        * turns off PERL5LIB envvar in win32-service
        * Get CONTROLLERS/PCISUBSYSTEMID
+       * Simplify a lot Inventory.pm, add _addEntry() function
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
