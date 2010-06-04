@@ -126,6 +126,10 @@ ip_bintoip($binsubnet, 6);
                 VIRTUALDEV => $netif->{virtualdev}
             });
 
+
+    }
+
+
   $inventory->setHardware({
 
           DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
@@ -134,6 +138,5 @@ ip_bintoip($binsubnet, 6);
     });
 
 
-    }
 }
 1;
