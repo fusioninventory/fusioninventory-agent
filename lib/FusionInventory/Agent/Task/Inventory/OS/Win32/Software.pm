@@ -109,10 +109,20 @@ sub doInventory {
 
     my $Config;
 
-# use64bitint is not set on Windows Seven 64bit but we should be able
-# to query 64bit software on a 32bit system without  drawback
-    my ($osname, $major, $minor) = Win32::GetOSVersion();
-    if ($major >= 5 && $minor => 1) {
+    my $is64bit;
+    foreach my $Properties
+        (getWmiProperties('Win32_Processor',
+                          qw/AddressWidth/)) {
+            print$Properties->{AddressWidth}."\n";
+            if ($Properties->{AddressWidth} eq 64) {
+                $is64bit = 1;
+            }
+
+        }
+
+
+
+    if ($is64bit) {
 
 
 # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read 32bit
