@@ -41,6 +41,8 @@ sub doInventory {
     my $serial;
     my $speed;
 
+    my $vmsystem;
+
     my @dmidecodeCpu;
     if (can_run("dmidecode")) {
         my $in;
@@ -86,6 +88,8 @@ qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
         $name =~ s/^\s+//;
         $name =~ s/\s+$//;
 
+        $vmsystem = "QEMU"if $name =~ /QEMU/i;
+
         $inventory->addCPU({
 #                CACHE => $cache,
                 CORE => $core,
@@ -99,6 +103,13 @@ qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
 
         $cpuId++;
     }
+
+    if ($vmsystem) {
+        $inventory->setHardware ({
+                VMSYSTEM => $vmsystem 
+                });
+    }
+
 
 
 

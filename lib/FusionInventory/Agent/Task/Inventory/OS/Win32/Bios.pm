@@ -122,9 +122,13 @@ qw/SerialNumber Product Manufacturer/)) {
 
 
     my $vmsystem;
-    if ($bmanufacturer eq 'Bochs' || $model eq 'Bochs') {
-        $vmsystem = 'QEMU';
-    } elsif ($bversion eq 'VirtualBox' || $model eq 'VirtualBox') {
+# it's more reliable to do a regex on the CPU NAME
+# QEMU Virtual CPU version 0.12.4
+#    if ($bmanufacturer eq 'Bochs' || $model eq 'Bochs') {
+#        $vmsystem = 'QEMU';
+#    } els
+
+    if ($bversion eq 'VirtualBox' || $model eq 'VirtualBox') {
         $vmsystem = 'VirtualBox';
     }
 
