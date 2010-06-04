@@ -113,7 +113,6 @@ sub doInventory {
     foreach my $Properties
         (getWmiProperties('Win32_Processor',
                           qw/AddressWidth/)) {
-            print$Properties->{AddressWidth}."\n";
             if ($Properties->{AddressWidth} eq 64) {
                 $is64bit = 1;
             }
