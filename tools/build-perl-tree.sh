@@ -85,6 +85,12 @@ cd $BUILDDIR
 gunzip < ../App-cpanminus-1.0004.tar.gz | tar xvf -
 CPANM=$PWD/App-cpanminus-1.0004/bin/cpanm
 
+if [ -f "/usr/include/cups/cups.h" ]; then
+    echo "CUPS found, enable Net::CUPS"
+    MODULES="$MODULE Net::CUPS"
+fi
+
+
 # Tree dependencies not pulled by cpanm
 for module in $MODULES; do
     $PERL_PREFIX/bin/perl $CPANM --skip-installed $module
