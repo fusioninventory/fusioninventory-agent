@@ -929,18 +929,22 @@ USB device
 sub addUSBDevice {
   my ($self, $args) = @_;
 
-  my $vendorId = $args->{VENDORID};
-  my $productId = $args->{PRODUCTID};
-  my $serial = $args->{SERIAL};
+  my @fields = qw/VENDORID PRODUCTID SERIAL/;
 
-  push @{$self->{h}{CONTENT}{USBDEVICES}},
-  {
+  my $usbdevice;
+  foreach (qw/VENDORID PRODUCTID SERIAL/) {
+    $usbdevice->{$_}[0] = $args->{$_} || '';
+  }
 
-    VENDORID => [$vendorId?$vendorId:''],
-    PRODUCTID => [$productId?$productId:''],
-    SERIAL => [$serial?$serial:''],
+  # Don't create two time the same device
+  USBDEVICE: foreach my $entry (@{$self->{h}{CONTENT}{USBDEVICES}}) {
+    foreach (@fields) {
+        next USBDEVICE if $entry->{$_}[0] ne $usbdevice->{$_}[0];
+    }
+    return;
+  }
 
-  };
+  push @{$self->{h}{CONTENT}{USBDEVICES}}, $usbdevice;
 }
 
 =item addBattery()
