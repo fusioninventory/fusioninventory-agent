@@ -70,6 +70,7 @@ Revision history for FusionInventory::Agent
        * Add --conf-file=XXX parameter to allow the user to use another
          config file
        * Fix, allow dash in key name in config file
+       * Rethink the script in ./tools, see ./tools/README
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
