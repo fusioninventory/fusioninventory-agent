@@ -103,18 +103,10 @@ ip_bintoip($binsubnet, 6);
         my $ipaddress6;
 
 
-        if (defined($netif->{ipaddress})) {
-            $ipaddress = join('/', @{$netif->{ipaddress}});
-        }
-        if (defined($netif->{ipmask})) {
-            $ipmask = join('/', @{$netif->{ipmask}});
-        } 
-        if (defined($netif->{ipsubnet})) {
-            $ipsubnet = join('/', @{$netif->{ipsubnet}});
-        }
-        if (defined($netif->{ipaddress6})) {
-            $ipaddress6 = join('/', @{$netif->{ipaddress6}});
-        }
+        $ipaddress = join('/', @{$netif->{ipaddress} || []});
+        $ipmask = join('/', @{$netif->{ipmask} || []});
+        $ipsubnet = join('/', @{$netif->{ipsubnet} || []});
+        $ipaddress6 = join('/', @{$netif->{ipaddress6} || []});
 
         $inventory->addNetwork({
                 DESCRIPTION => $netif->{description},
