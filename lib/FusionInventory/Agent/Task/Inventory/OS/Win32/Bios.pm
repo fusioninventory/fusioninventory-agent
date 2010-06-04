@@ -128,9 +128,11 @@ qw/SerialNumber Product Manufacturer/)) {
         $vmsystem = 'VirtualBox';
     }
 
-    $inventory->setHardware ({
-        VMSYSTEM => $vmsystem 
-    });
+    if ($vmsystem) {
+        $inventory->setHardware ({
+                VMSYSTEM => $vmsystem 
+                });
+    }
 
 
 }
