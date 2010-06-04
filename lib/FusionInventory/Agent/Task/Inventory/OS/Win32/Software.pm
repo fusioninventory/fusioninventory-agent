@@ -48,9 +48,12 @@ sub processSoftwares {
     my $inventory = $params->{inventory};
     my $is64bit = $params->{is64bit};
 
-    foreach my $guid ( keys %$softwares ) {
-        my $data = $softwares->{$guid};
+    foreach my $rawGuid ( keys %$softwares ) {
+        my $data = $softwares->{$rawGuid};
         next unless keys %$data;
+        
+        my $guid = $rawGuid;
+        $guid =~ s/\/$//; # drop the tailing / 
 
 # odd, found on Win2003
         next unless keys %$data > 2;
@@ -109,10 +112,19 @@ sub doInventory {
 
     my $Config;
 
-# use64bitint is not set on Windows Seven 64bit but we should be able
-# to query 64bit software on a 32bit system without  drawback
-    my ($osname, $major, $minor) = Win32::GetOSVersion();
-    if ($major >= 5 && $minor => 1) {
+    my $is64bit;
+    foreach my $Properties
+        (getWmiProperties('Win32_Processor',
+                          qw/AddressWidth/)) {
+            if ($Properties->{AddressWidth} eq 64) {
+                $is64bit = 1;
+            }
+
+        }
+
+
+
+    if ($is64bit) {
 
 
 # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read 32bit

@@ -66,6 +66,10 @@ Revision history for FusionInventory::Agent
          PERL5LIB envvar
        * turns off PERL5LIB envvar in win32-service
        * Get CONTROLLERS/PCISUBSYSTEMID
+       * Simplify a lot Inventory.pm, add _addEntry() function
+       * Do not set CPU Id as MBoard serial number anymore
+       * XML: Only set the non empty field to decrease the final file
+         size and improve the performance
        * Add a template config file in etc/agent.cfg
        * Add --conf-file=XXX parameter to allow the user to use another
          config file

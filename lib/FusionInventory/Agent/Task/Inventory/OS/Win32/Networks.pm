@@ -24,9 +24,12 @@ sub doInventory {
 
     my $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapterConfiguration');
 
+    my $defaultGw;
     my @ips;
     my @ip6s;
     my @netifs;
+    my %defaultgateways;
+    my %dns;
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
         $netifs[$idx]{description} =  encodeFromWmi($nic->Description);
@@ -36,6 +39,14 @@ sub doInventory {
         $netifs[$idx]{ipaddress6} = [];
         $netifs[$idx]{ipsubnet6} = [];
         $netifs[$idx]{ipmask6} = [];
+
+        foreach (@{$nic->DefaultIPGateway || []}) {
+            $defaultgateways{$_} = 1;
+        }
+
+        foreach (@{$nic->DNSServerSearchOrder || []}) {
+            $dns{$_} = 1;
+        }
 
         if ($nic->IPAddress) {
             foreach (0..@{$nic->IPAddress}) {
@@ -92,18 +103,10 @@ ip_bintoip($binsubnet, 6);
         my $ipaddress6;
 
 
-        if (defined($netif->{ipaddress})) {
-            $ipaddress = join('/', @{$netif->{ipaddress}});
-        }
-        if (defined($netif->{ipmask})) {
-            $ipmask = join('/', @{$netif->{ipmask}});
-        } 
-        if (defined($netif->{ipsubnet})) {
-            $ipsubnet = join('/', @{$netif->{ipsubnet}});
-        }
-        if (defined($netif->{ipaddress6})) {
-            $ipaddress6 = join('/', @{$netif->{ipaddress6}});
-        }
+        $ipaddress = join('/', @{$netif->{ipaddress} || []});
+        $ipmask = join('/', @{$netif->{ipmask} || []});
+        $ipsubnet = join('/', @{$netif->{ipsubnet} || []});
+        $ipaddress6 = join('/', @{$netif->{ipaddress6} || []});
 
         $inventory->addNetwork({
                 DESCRIPTION => $netif->{description},
@@ -120,14 +123,18 @@ ip_bintoip($binsubnet, 6);
                 VIRTUALDEV => $netif->{virtualdev}
             });
 
+
+    }
+
+
   $inventory->setHardware({
 
+          DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
+          DNS =>  join('/', keys %dns),
           IPADDR =>  join('/',@ips),
-#      SWAP =>    sprintf("%i", $SwapFileSize/1024),
 
     });
 
 
-    }
 }
 1;
