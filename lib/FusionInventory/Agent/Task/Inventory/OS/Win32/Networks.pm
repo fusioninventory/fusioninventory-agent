@@ -29,6 +29,7 @@ sub doInventory {
     my @ip6s;
     my @netifs;
     my %defaultgateways;
+    my %dns;
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
         $netifs[$idx]{description} =  encodeFromWmi($nic->Description);
@@ -41,6 +42,10 @@ sub doInventory {
 
         foreach (@{$nic->DefaultIPGateway || []}) {
             $defaultgateways{$_} = 1;
+        }
+
+        foreach (@{$nic->DNSServerSearchOrder || []}) {
+            $dns{$_} = 1;
         }
 
         if ($nic->IPAddress) {
@@ -133,6 +138,7 @@ ip_bintoip($binsubnet, 6);
   $inventory->setHardware({
 
           DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
+          DNS =>  join('/', keys %dns),
           IPADDR =>  join('/',@ips),
 
     });
