@@ -22,7 +22,7 @@ sub doInventory {
     last if($flag && (/dmi type (\d+),/i) && ($1!=0));
     if((/^vendor:\s*(.+?)(\s*)$/i) && ($flag)) {
         $BiosManufacturer = $1;
-        if ($BiosManufacturer =~ /QEMU/i) {
+        if ($BiosManufacturer =~ /(QEMU|Bochs)/i) {
             $vmsystem = 'QEMU';
         } elsif ($BiosManufacturer =~ /VirtualBox/i) {
             $vmsystem = 'VirtualBox';
@@ -76,20 +76,6 @@ sub doInventory {
       if (/dmi type 3,/i) {
           $flag=1;
       }
-  }
-
-# Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
-  if (!$SystemSerial ||$SystemSerial =~ /^0+$/) {
-    $flag=0;
-    for(@dmidecode){
-      if(/dmi type 4,/i){$flag=1;}
-      elsif(/^processor information:/i){$flag=2;}
-      elsif((/^ID:\s*(.*)/i) && ($flag)) {
-	$SystemSerial = $1;
-	$SystemSerial =~ s/\ /-/g;
-	last
-      }
-    }
   }
 
 # Writing data
