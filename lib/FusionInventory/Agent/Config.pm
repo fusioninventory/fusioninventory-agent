@@ -11,7 +11,8 @@ if ($^O =~ /^MSWin/) {
 
 my $default = {
   'ca-cert-dir' =>  '',
-  'ca-cert-file'=>  '', 
+  'ca-cert-file'=>  '',
+  'conf-file'  => '',
   'color'     =>  0,
   'daemon'    =>  0,
   'daemon-no-fork'    =>  0,
@@ -110,11 +111,28 @@ sub loadFromCfgFile {
 
   $config->{etcdir} = [];
 
+  my $file;
+
+  my $in;
+  foreach (@ARGV) {
+    if (!$in && /^--conf-file=(.*)/) {
+      $file = $1;
+      $file =~ s/'(.*)'/$1/;
+      $file =~ s/"(.*)"/$1/;
+    } elsif (/^--conf-file$/) {
+      $in = 1;
+    } elsif ($in) {
+      $file = $_;
+      $in = 0;
+    } else {
+      $in = 0;
+    }
+  }
+
   push (@{$config->{etcdir}}, '/etc/fusioninventory');
   push (@{$config->{etcdir}}, '/usr/local/etc/fusioninventory');
 #  push (@{$config->{etcdir}}, $ENV{HOME}.'/.ocsinventory'); # Should I?
 
-  my $file;
 if (!$file || !-f $file) {
     foreach (@{$config->{etcdir}}) {
       $file = $_.'/agent.cfg';
@@ -128,11 +146,11 @@ if (!$file || !-f $file) {
 	return $config;
   }
   
-  $config->{configFile} = $file;
+  $config->{'conf-file'} = $file;
 
   foreach (<CONFIG>) {
     s/#.+//;
-    if (/(\w+)\s*=\s*(.+)/) {
+    if (/([\w-]+)\s*=\s*(.+)/) {
       my $key = $1;
       my $val = $2;
       # Remove the quotes
@@ -154,6 +172,7 @@ sub loadUserParams {
 		"basevardir=s"    =>   \$config->{basevardir},
         "ca-cert-dir=s"   =>   \$config->{'ca-cert-dir'},
         "ca-cert-file=s"  =>   \$config->{'ca-cert-file'},
+        "conf-file=s"      =>   \$config->{'conf-file'},
 		"color"           =>   \$config->{color},
 		"d|daemon"        =>   \$config->{daemon},
 		"D|daemon-no-fork"=>   \$config->{'daemon-no-fork'},
@@ -209,9 +228,9 @@ sub help {
     print "ERROR: $error\n\n";
   }
 
-  if ($config->{configFile}) {
+  if ($config->{'conf-file'}) {
       print STDERR "Setting initialised with values retrieved from ".
-      "the config found at ".$config->{configFile}."\n";
+      "the config found at ".$config->{'conf-file'}."\n";
   }
 
   print STDERR "\n";

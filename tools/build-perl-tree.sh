@@ -14,7 +14,7 @@ fi
 ROOT="$PWD/.."
 MAKE="make"
 TMP="$PWD/tmp"
-PREFIX="$TMP/perl"
+PERL_PREFIX="$TMP/perl"
 BUILDDIR="$TMP/build"
 MODULES="XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Zlib Compress::Raw::Zlib Archive::Extract Digest::MD5 File::Copy File::Glob File::Path File::stat File::Temp Net::NBName Net::SSLeay Parallel::ForkManager Nmap::Parser "
 FINALDIR=$PWD
@@ -46,15 +46,13 @@ gunzip < ../perl-$PERLVERSION.tar.gz | tar xvf -
 cd perl-$PERLVERSION
 
 # AIX
-#./Configure -Dusethreads -Dusenm -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
-#./Configure -Dusethreads -Dcc="gcc" -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+#./Configure -Dusethreads -Dusenm -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
+#./Configure -Dusethreads -Dcc="gcc" -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
 
-./Configure -Duserelocatableinc -Dusethreads -des -Dinstallprefix=$PREFIX -Dsiteprefix=$PREFIX -Dprefix=$PREFIX
+./Configure -Duserelocatableinc -Dusethreads -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
 $MAKE
 $MAKE install
 
-
-export PATH=$PREFIX/bin:$PATH
 
 cd $BUILDDIR
 gunzip < ../openssl-0.9.8n.tar.gz | tar xvf -
@@ -72,13 +70,13 @@ export OPENSSL_PREFIX=$TMP/openssl # Pour Net::SSLeay
 cd $BUILDDIR
 gunzip < ../Net-SSLeay-1.36.tar.gz | tar xvf -
 cd Net-SSLeay-1.36
-PERL_MM_USE_DEFAULT=1 perl Makefile.PL
+PERL_MM_USE_DEFAULT=1 $PERL_PREFIX/bin/perl Makefile.PL
 make install
 
 cd $BUILDDIR
 gunzip < ../Crypt-SSLeay-0.57.tar.gz | tar xvf -
 cd Crypt-SSLeay-0.57
-PERL_MM_USE_DEFAULT=1 perl Makefile.PL --default --static --lib=$TMP/openssl
+PERL_MM_USE_DEFAULT=1 $PERL_PREFIX/bin/perl Makefile.PL --default --static --lib=$TMP/openssl
 make install
 
 cd $TMP
@@ -89,16 +87,10 @@ CPANM=$PWD/App-cpanminus-1.0004/bin/cpanm
 
 # Tree dependencies not pulled by cpanm
 for module in $MODULES; do
-    perl $CPANM --skip-installed $module
-    perl -M$module -e1
+    $PERL_PREFIX/bin/perl $CPANM --skip-installed $module
+    $PERL_PREFIX/bin/perl -M$module -e1
 done
 
-cd $ROOT
-perl Makefile.PL
-make manifest
-make
-make test
-
 cd $TMP
-TARBALLNAME=`perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
+TARBALLNAME=` $PERL_PREFIX/bin/perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
 tar cf $FINALDIR/$TARBALLNAME perl

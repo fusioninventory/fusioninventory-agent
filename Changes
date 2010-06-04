@@ -70,6 +70,10 @@ Revision history for FusionInventory::Agent
        * Do not set CPU Id as MBoard serial number anymore
        * XML: Only set the non empty field to decrease the final file
          size and improve the performance
+       * Add a template config file in etc/agent.cfg
+       * Add --conf-file=XXX parameter to allow the user to use another
+         config file
+       * Fix, allow dash in key name in config file
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
