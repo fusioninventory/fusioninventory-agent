@@ -68,6 +68,8 @@ Revision history for FusionInventory::Agent
        * Get CONTROLLERS/PCISUBSYSTEMID
        * Simplify a lot Inventory.pm, add _addEntry() function
        * Do not set CPU Id as MBoard serial number anymore
+       * XML: Only set the non empty field to decrease the final file
+         size and improve the performance
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem

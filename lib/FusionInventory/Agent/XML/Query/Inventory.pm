@@ -82,6 +82,7 @@ sub new {
 sub _addEntry {
     my ($self, $params) = @_;
 
+    my $config = $self->{config};
 
     my $fields = $params->{'field'};
     my $sectionName = $params->{'sectionName'};
@@ -90,13 +91,20 @@ sub _addEntry {
 
     my $newEntry;
 
+    my $showAll = 0;
+
     foreach (@$fields) {
+        if (!$showAll && !$values->{$_}) {
+            next;
+        }
         $newEntry->{$_}[0] = $values->{$_} || '';
     }
 
 # Don't create two time the same device
     ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
         foreach (@$fields) {
+            next ENTRY unless defined($entry->{$_}[0]) && 
+defined($newEntry->{$_}[0]);
             next ENTRY if $entry->{$_}[0] ne $newEntry->{$_}[0];
         }
         return;
