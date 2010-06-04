@@ -24,9 +24,11 @@ sub doInventory {
 
     my $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapterConfiguration');
 
+    my $defaultGw;
     my @ips;
     my @ip6s;
     my @netifs;
+    my %defaultgateways;
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
         $netifs[$idx]{description} =  encodeFromWmi($nic->Description);
@@ -36,6 +38,10 @@ sub doInventory {
         $netifs[$idx]{ipaddress6} = [];
         $netifs[$idx]{ipsubnet6} = [];
         $netifs[$idx]{ipmask6} = [];
+
+        foreach (@{$nic->DefaultIPGateway || []}) {
+            $defaultgateways{$_} = 1;
+        }
 
         if ($nic->IPAddress) {
             foreach (0..@{$nic->IPAddress}) {
@@ -122,8 +128,8 @@ ip_bintoip($binsubnet, 6);
 
   $inventory->setHardware({
 
+          DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
           IPADDR =>  join('/',@ips),
-#      SWAP =>    sprintf("%i", $SwapFileSize/1024),
 
     });
 
