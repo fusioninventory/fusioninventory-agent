@@ -2,7 +2,7 @@
 
 PERLVERSION="5.12.1"
 
-# one some platforms like MacOS X wget is non standard, use curl instead
+# one some platforms like MacOS X wget is non standard, use curl instead and in BSD, use fetch
 if [ ! -z $(which wget) ]; then
   WGET="wget -c"
   WPRINT="wget -nv -O -"
@@ -10,7 +10,12 @@ else
   if [ ! -z $(which curl) ]; then
     WGET="curl --location  -O"
     WPRINT="curl -s -L"
-  fi 
+  else
+    if [ ! -z $(which fetch) ]; then
+      WGET="fetch"
+      WPRINT="fetch -v -o -"
+    fi
+  fi
 fi
 
 MODULES="HTML::Parser App::cpanminus URI HTML::Tagset Crypt::SSLeay
