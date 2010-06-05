@@ -50,7 +50,7 @@ buildPerl () {
 buildOpenSSL () {
 
     cd $TMP
-    if [ -f openssl-0.9.8n.tar.gz ]; then
+    if [ ! -f openssl-0.9.8n.tar.gz ]; then
         echo "Please run ./download-perl-dependencies.sh first to retrieve"
         echo "the dependencies"
         exit
