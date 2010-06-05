@@ -21,7 +21,7 @@ Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Zlib
 Compress::Raw::Zlib Archive::Extract Digest::MD5
 File::Path File::Temp Net::NBName Net::SSLeay
 Parallel::ForkManager Nmap::Parser Net::CUPS Compress::Zlib
-Compress::Raw::Bzip2"
+Compress::Raw::Bzip2 Nmap::Scanner"
 
 [ -d "tmp" ] || mkdir tmp
 cd tmp
