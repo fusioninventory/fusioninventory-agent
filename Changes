@@ -75,6 +75,8 @@ Revision history for FusionInventory::Agent
          config file
        * Fix, allow dash in key name in config file
        * Rethink the script in ./tools, see ./tools/README
+       * Inventory: use encode('UTF-8', $string) to reencode to UTF-8
+         string detected invalide.
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem

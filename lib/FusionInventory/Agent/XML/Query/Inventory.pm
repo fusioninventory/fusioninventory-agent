@@ -15,6 +15,7 @@ it called $inventory in general.
 
 =cut
 
+use Encode qw/encode/;
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 use Config;
@@ -97,7 +98,8 @@ sub _addEntry {
         if (!$showAll && !$values->{$_}) {
             next;
         }
-        $newEntry->{$_}[0] = $values->{$_} || '';
+        my $string = $self->_encode({ string => $values->{$_} }) || '';
+        $newEntry->{$_}[0] = $string;
     }
 
 # Don't create two time the same device
@@ -114,6 +116,36 @@ defined($newEntry->{$_}[0]);
 
 }
 
+sub _encode {
+    my ($self, $params) = @_;
+
+    my $string = $params->{string};
+
+    my $logger = $self->{logger};
+
+    my $ret;
+
+    $string =~ s/\0//g;
+
+    $string =~  s/\r|\n//g;
+
+
+    if ($string !~ m/\A(
+      [\x09\x0A\x0D\x20-\x7E]            # ASCII
+      | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+      |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+      | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+      |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+      |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+      | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+      |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+      )*\z/x) {
+        $logger->debug("Non-UTF8 string: $string");
+        return encode("UTF-8", $string);
+  } else {
+      return $string;
+  }
+}
 
 =item initialise()
 
@@ -561,7 +593,8 @@ sub setHardware {
           $logger->debug("USERID shouldn't be set directly anymore. Please use addCPU() method instead.");
       }
 
-      $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
+      my $string = $self->_encode({ string => $args->{$key} });
+      $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $string;
     }
   }
 }
@@ -579,7 +612,8 @@ sub setBios {
       BIOSSERIAL/) {
 
     if (exists $args->{$key}) {
-      $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
+      my $string = $self->_encode({ string => $args->{$key} });
+      $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $string;
     }
   }
 }
@@ -1005,34 +1039,7 @@ sub getContent {
 
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 
-  my $clean_content;
-
-  # To avoid strange breakage I remove the unprintable caractere in the XML
-  foreach (split "\n", $content) {
-#      s/[[:cntrl:]]//g;
-    s/\0//g;
-    if (! m/\A(
-      [\x09\x0A\x0D\x20-\x7E]            # ASCII
-      | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-      |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-      | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-      |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-      |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-      | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-      |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-      )*\z/x) {
-      s/[[:cntrl:]]//g;
-      $logger->debug("non utf-8 '".$_."'");
-    }
-
-      s/\r|\n//g;
-
-      # Is that a good idea. Intent to drop some nasty char
-      # s/[A-z0-9_\-<>\/:\.,#\ \?="'\(\)]//g;
-      $clean_content .= $_."\n";
-  }
-
-  return $clean_content;
+  return $content;
 }
 
 =item printXML()
