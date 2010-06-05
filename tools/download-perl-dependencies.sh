@@ -1,5 +1,17 @@
 #!/bin/sh
 
+PERLVERSION="5.12.1"
+
+# one some platforms like MacOS X wget is non standard, use curl instead
+if [ ! -z $(which wget) ]; then
+  WGET="wget -c"
+  WPRINT="wget -nv -O -"
+else
+  if [ ! -z $(which curl) ]; then
+    WGET="curl --location  -O"
+    WPRINT="curl -s -L"
+  fi 
+fi
 
 MODULES="HTML::Parser App::cpanminus URI HTML::Tagset Crypt::SSLeay
 Net::SSLeay XML::SAX
@@ -14,10 +26,14 @@ Compress::Raw::Bzip2"
 [ -d "tmp" ] || mkdir tmp
 cd tmp
 
+
+$WGET http://cpan.perl.org/src/perl-$PERLVERSION.tar.gz
+$WGET http://www.openssl.org/source/openssl-0.9.8n.tar.gz
+
 for modName in $MODULES; do
     echo "$modName"
     echo http://cpanmetadb.appspot.com/v1.0/package/$modName
-    distfile=`curl -s -L http://cpanmetadb.appspot.com/v1.0/package/$modName|grep ^distfile:|awk '{print $2}'`
+    distfile=`$WPRINT http://cpanmetadb.appspot.com/v1.0/package/$modName|grep ^distfile:|awk '{print $2}'`
     echo http://search.cpan.org/CPAN/authors/id/$distfile
-    curl -L -O  http://search.cpan.org/CPAN/authors/id/$distfile
+    $WGET  http://search.cpan.org/CPAN/authors/id/$distfile
 done

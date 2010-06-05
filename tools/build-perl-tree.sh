@@ -27,8 +27,9 @@ buildPerl () {
 
     cd $TMP
     if [ ! -f perl-$PERLVERSION.tar.gz ]; then
-        wget -O perl-$PERLVERSION.tar.gz.part http://cpan.perl.org/src/perl-$PERLVERSION.tar.gz
-        mv perl-$PERLVERSION.tar.gz.part perl-$PERLVERSION.tar.gz 
+        echo "Please run ./download-perl-dependencies.sh first to retrieve"
+        echo "the dependencies"
+        exit
     fi
 
     cd $BUILDDIR
@@ -49,7 +50,11 @@ buildPerl () {
 buildOpenSSL () {
 
     cd $TMP
-    [ -f openssl-0.9.8n.tar.gz ] || wget http://www.openssl.org/source/openssl-0.9.8n.tar.gz
+    if [ -f openssl-0.9.8n.tar.gz ]; then
+        echo "Please run ./download-perl-dependencies.sh first to retrieve"
+        echo "the dependencies"
+        exit
+    fi
 
     cd $BUILDDIR
     gunzip < ../openssl-0.9.8n.tar.gz | tar xvf -
@@ -72,17 +77,17 @@ MAKE="make"
 TMP="$PWD/tmp"
 PERL_PREFIX="$TMP/perl"
 BUILDDIR="$TMP/build"
-MODULES="Compress::Raw::Bzip2 URI HTML::Parser HTML::Tagset XML::NamespaceSupport HTML::Tagset
-Class::Inspector Digest::MD5 Net::IP XML::SAX XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Raw::Zlib Archive::Extract Digest::MD5 File::Path File::Temp Net::NBName Net::SSLeay Parallel::ForkManager "
+MODULES="Compress::Raw::Bzip2 URI XML::NamespaceSupport HTML::Tagset Class::Inspector Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Raw::Zlib Archive::Extract Digest::MD5 File::Copy File::Path File::Temp Net::NBName Net::SSLeay Parallel::ForkManager"
 FINALDIR=$PWD
 NO_CLEANUP=0
 NO_PERL_REBUILD=0
 NO_OPENSSL_REBUILD=0
 
+
 PERLVERSION="5.12.1"
 
 # Clean up
-if [ -z $NO_CLEANUP ]; then
+if [ "$NO_CLEANUP" = "0" ]; then
     cleanUp
 fi
 
@@ -95,11 +100,11 @@ fi
 
 
 
-if [ -z $NO_PERL_REBUILD]; then
+if [ "$NO_PERL_REBUILD" = "0" ]; then
     buildPerl
 fi
 
-if [ -z $NO_OPENSSL_REBUILD]; then
+if [ "$NO_OPENSSL_REBUILD" = "0" ]; then
     buildOpenSSL
 fi
 export OPENSSL_PREFIX=$TMP/openssl # Pour Net::SSLeay
@@ -130,13 +135,14 @@ if [ -f "/usr/include/cups/cups.h" ]; then
     installMod "Net::CUPS"
 fi
 
+installMod "LWP" "libwww-perl"
+installMod "Compress::Zlib" "IO-Compress"
+
 # Tree dependencies not pulled by cpanm
 for modName in $MODULES; do
     installMod $modName
 done
 
-installMod "LWP" "libwww-perl"
-installMod "Compress::Zlib" "IO-Compress"
 
 cd $TMP
 TARBALLNAME=` $PERL_PREFIX/bin/perl -MConfig -e'print $Config{osname}."_".$Config{archname}."_".$Config{osvers}.".tar"'`
