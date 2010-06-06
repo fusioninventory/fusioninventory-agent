@@ -121,6 +121,8 @@ sub _encode {
 
     my $string = $params->{string};
 
+    return unless $string;
+
     my $logger = $self->{logger};
 
     my $ret;
