@@ -72,6 +72,7 @@ sub new {
   $self->{h}{CONTENT}{UPDATES} = [];
   $self->{h}{CONTENT}{USBDEVICES} = [];
   $self->{h}{CONTENT}{BATTERIES} = [];
+  $self->{h}{CONTENT}{ANTIVIRUS} = [];
   $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
@@ -856,25 +857,7 @@ sub addEnv {
         });
 }
 
-=item addUpdate()
 
-Windows Update
-
-=cut
-sub addUpdate {
-  my ($self, $args) = @_;
-
-  my $id = $args->{ID};
-  my $kb = $args->{KB};
-
-  push @{$self->{h}{CONTENT}{UPDATES}},
-  {
-
-    ID => [$id?$id:''],
-    KB => [$kb?$kb:''],
-
-  };
-}
 
 =item addUSBDevice()
 
@@ -923,7 +906,7 @@ sub addBattery {
 
 =item addRegistry()
 
-USB device
+Windows Registry key
 
 =cut
 sub addRegistry {
@@ -943,6 +926,23 @@ sub addRegistry {
 }
 
 
+=item addAntiVirus()
+
+Registred Anti-Virus on Windows
+
+=cut
+sub addAntiVirus {
+  my ($self, $args) = @_;
+
+  my @fields = qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/;
+
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'ANTIVIRUS',
+        'values' => $args,
+        'noDuplicated' => 1
+        });
+}
 
 
 =item setAccessLog()
@@ -1947,4 +1947,29 @@ ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
 
 =item PRINTPROCESSOR
 
-."=back
+=back
+
+
+=head2 ANTIVIRUS
+
+=over 4
+
+=item COMPANY
+
+Comapny name
+
+=item NAME
+
+=item GUID
+
+Unique ID
+
+=item ENABLED
+
+1 if the antivirus is enabled.
+
+=item UPTODATE
+
+1 if the antivirus is up to date.
+
+=item VERSION
