@@ -149,56 +149,55 @@ if (!$file || !-f $file) {
 sub loadUserParams {
 	my $config = shift;
 
-
-	my %options = (
-		"backend-collect-timeout=s"  => \$config->{'backend-collect-timeout'},
-		"basevardir=s"    =>   \$config->{basevardir},
-        "ca-cert-dir=s"   =>   \$config->{'ca-cert-dir'},
-        "ca-cert-file=s"  =>   \$config->{'ca-cert-file'},
-		"color"           =>   \$config->{color},
-		"d|daemon"        =>   \$config->{daemon},
-		"D|daemon-no-fork"=>   \$config->{'daemon-no-fork'},
-		"debug"           =>   \$config->{debug},
-		"devlib"          =>   \$config->{devlib},
-        "disable-perllib-envvar" => \$config->{'disable-perllib-envvar'},
-		"f|force"         =>   \$config->{force},
-		"h|help"          =>   \$config->{help},
-		"html-dir=s"      =>   \$config->{'html-dir'},
-		"i|info"          =>   \$config->{info},
-		"lazy"            =>   \$config->{lazy},
-		"l|local=s"       =>   \$config->{'local'},
-		"logfile=s"       =>   \$config->{logfile},
-		"no-ocsdeploy"    =>   \$config->{'no-ocsdeploy'},
-		"no-inventory"    =>   \$config->{'no-inventory'},
-		"no-soft"         =>   \$config->{'no-soft'},
-		"no-printer"     =>   \$config->{'no-printer'},
-		"no-software"     =>   \$config->{'no-software'},
-		"no-wakeonlan"    =>   \$config->{'no-wakeonlan'},
-		"no-snmpquery"    =>   \$config->{'no-snmpquery'},
-		"no-netdiscovery" =>   \$config->{'no-netdiscovery'},
-		"p|password=s"    =>   \$config->{password},
-		"P|proxy=s"       =>   \$config->{proxy},
-		"r|realm=s"       =>   \$config->{realm},
-		"rpc-ip=s"        =>   \$config->{'rpc-ip'},
-		"rpc-trust-localhost" =>   \$config->{'rpc-trust-localhost'},
-		"R|remotedir=s"   =>   \$config->{remotedir},
-		"s|server=s"      =>   \$config->{server},
-		"stdout"          =>   \$config->{stdout},
-		"t|tag=s"         =>   \$config->{tag},
-        "no-ssl-check"    =>   \$config->{'no-ssl-check'},
-		"u|user=s"        =>   \$config->{user},
-		"version"         =>   \$config->{version},
-		"w|wait=s"        =>   \$config->{'wait'},
-#  "x|xml"          =>   \$config->{xml},
-		"delaytime=s"     =>   \$config->{delaytime},
-		"scan-homedirs"   =>   \$config->{'scan-homedirs'},
-		"no-socket"       =>   \$config->{'no-socket'},
-	);
-
     Getopt::Long::Configure( "no_ignorecase" );
-	help($config) if (!GetOptions(%options) || $config->{help});
-	version() if $config->{version};
 
+	GetOptions(
+        $config,
+		'backend-collect-timeout=s',
+		'basevardir=s',
+        'ca-cert-dir=s',
+        'ca-cert-file=s',
+		'color',
+		'daemon|d',
+		'daemon-no-fork|D',
+		'debug',
+		'devlib',
+        'disable-perllib-envvar',
+		'force|f',
+		'help|h',
+		'html-dir=s',
+		'info|i',
+		'lazy',
+		'local|l=s',
+		'logfile=s',
+		'no-ocsdeploy',
+		'no-inventory',
+		'no-soft',
+		'no-printer',
+		'no-software',
+		'no-wakeonlan',
+		'no-snmpquery',
+		'no-netdiscovery',
+		'password|p=s',
+		'proxy|P=s',
+		'realm|r=s',
+		'rpc-ip=s',
+		'rpc-trust-localhost',
+		'remotedir|R=s',
+		'server|s=s',
+		'stdout',
+		'tag|t=s',
+        'no-ssl-check',
+		'user|u=s',
+		'version',
+		'wait|w=s',
+		'delaytime=s',
+		'scan-homedirs',
+		'no-socket'
+	) or help($config);
+
+	help($config) if $config->{help};
+	version() if $config->{version};
 }
 
 
