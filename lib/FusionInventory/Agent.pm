@@ -49,7 +49,7 @@ use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::Targets;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 ############################
@@ -167,7 +167,7 @@ sub new {
 
     $logger->debug("FusionInventory Agent initialised");
 
-    bless $self;
+    bless $self, $class;
 
 }
 
