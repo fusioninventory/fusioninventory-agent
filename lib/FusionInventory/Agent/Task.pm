@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
@@ -25,7 +25,7 @@ sub new {
     return if $config->{'no-'.lc($self->{module})};
 
 
-    bless $self;
+    bless $self, $class;
     if (!$self->isModInstalled()) {
         $logger->info("Module FusionInventory::Agent::Task::$module is not installed.");
         return;
