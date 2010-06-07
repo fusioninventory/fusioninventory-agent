@@ -70,8 +70,7 @@ sub new {
             config => $config
         });
 
-# $< == $REAL_USER_ID
-    if ( $< ne '0' ) {
+    if ( $REAL_USER_ID ne '0' ) {
         $logger->info("You should run this program as super-user.");
     }
 
