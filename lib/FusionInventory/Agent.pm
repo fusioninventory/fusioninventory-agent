@@ -134,7 +134,7 @@ sub new {
     if (!$targets->numberOfTargets()) {
         $logger->error("No target defined. Please use ".
             "--server=SERVER or --local=/directory");
-        exit(1);
+        exit 1;
     }
 
     if ($config->{daemon}) {
