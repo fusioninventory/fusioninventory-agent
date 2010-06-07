@@ -99,7 +99,10 @@ sub new {
     });
     my $myRootData = $rootStorage->restore();
 
-    if (!defined($myRootData->{previousHostname}) || defined($myRootData->{previousHostname}) &&  ($myRootData->{previousHostname} ne $hostname)) {
+    if (
+        !defined($myRootData->{previousHostname}) ||
+        $myRootData->{previousHostname} ne $hostname
+    ) {
         my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
             (time))[5,4,3,2,1,0];
         $self->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
