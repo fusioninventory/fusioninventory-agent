@@ -2,10 +2,11 @@ package FusionInventory::Agent::Config;
 
 use strict;
 use Getopt::Long;
+use English qw(-no_match_vars);
 
 my $basedir = '';
 
-if ($^O =~ /^MSWin/) {
+if ($OSNAME =~ /^MSWin/) {
     $basedir = $ENV{APPDATA}.'/fusioninventory-agent';
 }
 
@@ -68,7 +69,7 @@ sub load {
 	my $config = $default;
     $config->{VERSION} = $FusionInventory::Agent::VERSION;
 
-    if ($^O =~ /^MSWin/) {
+    if ($OSNAME =~ /^MSWin/) {
         loadFromWinRegistry($config);
     } else {
         loadFromCfgFile($config);
