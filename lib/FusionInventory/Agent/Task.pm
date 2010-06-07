@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task;
 use strict;
 use warnings;
 
-use English;
+use English qw(-no_match_vars);
 
 sub new {
     my (undef, $params) = @_;
