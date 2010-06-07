@@ -3,7 +3,7 @@
 package FusionInventory::Agent;
 
 use Cwd;
-use English;
+use English qw(-no_match_vars);
 
 use strict;
 use warnings;
