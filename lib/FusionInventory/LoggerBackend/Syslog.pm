@@ -9,8 +9,8 @@ sub new {
 
   openlog("fusinv-agent", 'cons,pid', $params->{config}->{logfacility});
 
-
   bless $self, $class;
+  return $self;
 }
 
 sub addMsg {

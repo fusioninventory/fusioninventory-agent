@@ -9,6 +9,7 @@ sub new {
   $self->{logfile} = $self->{config}->{logdir}."/".$self->{config}->{logfile};
 
   bless $self, $class;
+  return $self;
 }
 
 sub addMsg {

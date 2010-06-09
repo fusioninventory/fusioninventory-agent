@@ -12,6 +12,7 @@ sub new {
   $self->{config} = $params->{config};
 
   bless $self, $class;
+  return $self;
 }
 
 sub addMsg {
