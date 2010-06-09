@@ -46,7 +46,7 @@ sub parseDmidecode {
 
         if ($type == 0) {
             # BIOS values
-            if ($line =~ /^\s+vendor:\s*(.+?)(\s*)$/i) {
+            if ($line =~ /^\s+vendor:\s*(.+?)\s*$/i) {
                 $result{BiosManufacturer} = $1;
                 if ($result{BiosManufacturer} =~ /QEMU/i) {
                     $result{vmsystem} = 'QEMU';
@@ -55,37 +55,37 @@ sub parseDmidecode {
                 } elsif ($result{BiosManufacturer} =~ /^Xen/i) {
                     $result{vmsystem} = 'Xen';
                 }
-            } elsif ($line =~ /^\s+release\ date:\s*(.+?)(\s*)$/i) {
+            } elsif ($line =~ /^\s+release\ date:\s*(.+?)\s*$/i) {
                 $result{BiosDate} = $1
-            } elsif ($line =~ /^\s+version:\s*(.+?)(\s*)$/i) {
+            } elsif ($line =~ /^\s+version:\s*(.+?)\s*$/i) {
                 $result{BiosVersion} = $1
             }
             next;
         }
 
         if ($type == 1) {
-            if ($line =~ /^\s+serial number:\s*(.+?)(\s*)$/i) {
+            if ($line =~ /^\s+serial number:\s*(.+?)\s*$/i) {
                 $result{SystemSerial} = $1
-            } elsif ($line =~ /^\s+(product name|product):\s*(.+?)(\s*)$/i) {
-                $result{SystemModel} = $2;
+            } elsif ($line =~ /^\s+(?:product name|product):\s*(.+?)\s*$/i) {
+                $result{SystemModel} = $1;
                 if ($result{SystemModel} =~ /VMware/i) {
                     $result{vmsystem} = 'VMware';
                 } elsif ($result{SystemModel} =~ /Virtual Machine/i) {
                     $result{vmsystem} = 'Virtual Machine';
                 }
-            } elsif ($line =~ /^\s+(manufacturer|vendor):\s*(.+?)(\s*)$/i) {
-                $result{SystemManufacturer} = $2
+            } elsif ($line =~ /^\s+(?:manufacturer|vendor):\s*(.+?)\s*$/i) {
+                $result{SystemManufacturer} = $1
             }
             next;
         }
 
         if ($type == 2) {
             # Failback on the motherbord
-            if ($line =~ /^\s+serial number:\s*(.+?)(\s*)/i) {
+            if ($line =~ /^\s+serial number:\s*(.+?)\s*/i) {
                 $result{SystemSerial} = $1 if !$result{SystemSerial};
-            } elsif ($line =~ /^\s+product name:\s*(.+?)(\s*)/i) {
+            } elsif ($line =~ /^\s+product name:\s*(.+?)\s*/i) {
                 $result{SystemModel} = $1 if !$result{SystemModel};
-            } elsif ($line =~ /^\s+manufacturer:\s*(.+?)(\s*)/i) {
+            } elsif ($line =~ /^\s+manufacturer:\s*(.+?)\s*/i) {
                 $result{SystemManufacturer} = $1
                     if !$result{SystemManufacturer};
             }
