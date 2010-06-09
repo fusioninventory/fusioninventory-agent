@@ -1,11 +1,12 @@
 
 use inc::Module::Install;
+use English qw(-no_match_vars);
 
 # Hack to be able to run a post install script
 sub MY::postamble
 {
 
-    return if $^O =~ /^MSWin/;
+    return if $OSNAME =~ /^MSWin/;
 
 	my $re;
 
@@ -34,8 +35,8 @@ requires 'File::Temp' => undef;
 requires 'Net::IP' => undef;
 requires 'HTTP::Status' => undef;
 recommends 'Compress::Zlib';
-recommends 'Proc::Daemon' => undef unless $^O =~ /^MSWin/;
-recommends 'Proc::PID::File' => undef unless $^O =~ /^MSWin/;
+recommends 'Proc::Daemon' => undef unless $OSNAME =~ /^MSWin/;
+recommends 'Proc::PID::File' => undef unless $OSNAME =~ /^MSWin/;
 recommends 'File::Glob' => undef;
 recommends 'File::Path' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
@@ -48,7 +49,7 @@ test_requires  'Test::More'  => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
-install_script  'fusioninventory-win32-service' if $^O =~ /^MSWin/;
+install_script  'fusioninventory-win32-service' if $OSNAME =~ /^MSWin/;
 install_share 'share';
 
 # We want a release bundled with the needed dependency to be able to
@@ -85,7 +86,7 @@ if (!can_use('Net::SSLeay')) {
 
 if (!can_run('ipdiscover') && !can_run('nmap')) {
     print "Please install nmap ";
-    print "or ipdiscover " if $^O =~ /^linux$/i;
+    print "or ipdiscover " if $OSNAME =~ /^linux$/i;
     print "if you want to use the network ".
     "discover feature.\n";
 }
@@ -101,7 +102,7 @@ eval { # config_re is not available on Perl 5.6
     my @t = Config::config_re('archname');
     $archname = $t[0];
 };
-if ($^O =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd64)/i)) {
+if ($OSNAME =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd64)/i)) {
     foreach (qw/dmidecode lspci/) {
         if (!can_run($_)) {
             print "\n";
@@ -111,7 +112,7 @@ if ($^O =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd6
     }
 }
 
-if ($^O =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
+if ($OSNAME =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
     print "\n";
     print "[WARNING] Mac::SysProfile is needed on MacOS to detect most of the device information.\n";
     print "\n";
@@ -119,7 +120,7 @@ if ($^O =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
 }
 
 # memconf is needed by Solaris backend module
-if ($^O =~ /^solaris$/i) {
+if ($OSNAME =~ /^solaris$/i) {
     install_script  'memconf';
 }
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
