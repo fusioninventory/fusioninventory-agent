@@ -7,7 +7,9 @@ use English qw(-no_match_vars);
 
 $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
-sub isInventoryEnabled { return $OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/ }
+sub isInventoryEnabled {
+    return $OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/;
+}
 
 sub doInventory {
   my $params = shift;
