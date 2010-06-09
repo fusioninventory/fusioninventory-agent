@@ -10,7 +10,7 @@ use English qw(-no_match_vars);
 #                                                                                                  
 ###                                                                                                
 
-sub isInventoryEnabled  { $OSNAME =~ /^hpux$/ }
+sub isInventoryEnabled  { return $OSNAME =~ /^hpux$/ }
 
 sub doInventory {
    my $params = shift;

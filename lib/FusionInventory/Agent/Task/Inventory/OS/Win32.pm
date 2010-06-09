@@ -72,7 +72,7 @@ sub getWmiProperties {
 }
 
 
-sub isInventoryEnabled { $OSNAME =~ /^MSWin32$/ }
+sub isInventoryEnabled { return $OSNAME =~ /^MSWin32$/ }
 
 sub doInventory {
 
