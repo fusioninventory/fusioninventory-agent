@@ -2,9 +2,10 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux;
 
 use strict;
 use vars qw($runAfter);
+use English qw(-no_match_vars);
 $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
-sub isInventoryEnabled { $^O =~ /^linux$/ }
+sub isInventoryEnabled { $OSNAME =~ /^linux$/ }
 
 sub doInventory {
   my $params = shift;
