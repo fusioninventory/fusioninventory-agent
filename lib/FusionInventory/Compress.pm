@@ -4,7 +4,7 @@ use strict;
 use File::Temp qw/ tempdir tempfile /;
 
 sub new {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
   my $self = {};
 
@@ -34,7 +34,7 @@ sub new {
     but won\'t be accepted by server prior 1.02');
   }
 
-  bless $self;
+  bless $self, $class;
 }
 
 sub compress {
