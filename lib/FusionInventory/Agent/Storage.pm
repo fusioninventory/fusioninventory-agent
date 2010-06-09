@@ -12,6 +12,7 @@ use File::Glob ':glob';
 my $lock :shared;
 
 use Data::Dumper;
+use English qw(-no_match_vars);
 
 =head1 NAME
 
@@ -159,7 +160,7 @@ sub save {
     my $filePath = $self->getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
-    my $isWindows = $^O =~ /^MSWin/;
+    my $isWindows = $OSNAME =~ /^MSWin/;
     my $oldMask = umask();
 
     if (!$isWindows) {

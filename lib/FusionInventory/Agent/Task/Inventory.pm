@@ -16,6 +16,7 @@ use strict;
 no strict 'refs';
 use warnings;
 
+use English qw(-no_match_vars);
 use Data::Dumper;
 
 use FusionInventory::Logger;
@@ -155,7 +156,7 @@ sub initModList {
     # TODO replace that by the standard can_run()
     can_run => sub {
 # TODO: doesn't Work on Windows Yet
-      return if $^O =~ /^MSWin/;
+      return if $OSNAME =~ /^MSWin/;
       my $binary = shift;
 
       my $calling_namespace = caller(0);

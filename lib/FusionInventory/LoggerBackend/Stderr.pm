@@ -3,6 +3,8 @@ package FusionInventory::LoggerBackend::Stderr;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub new {
   my (undef, $params) = @_;
 
@@ -31,7 +33,7 @@ sub addMsg {
   }
 
 
-  if ($config->{color} && $^O !~ /^^MSWin/) {
+  if ($config->{color} && $OSNAME !~ /^^MSWin/) {
     if ($level eq 'error') {
       print $stderr  "\033[1;35m[$level]";
     } elsif ($level eq 'fault') {

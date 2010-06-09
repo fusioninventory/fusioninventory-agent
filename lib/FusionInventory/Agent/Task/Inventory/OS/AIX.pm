@@ -2,11 +2,14 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX;
 
 use strict;
 use vars qw($runAfter);
+
+use English qw(-no_match_vars);
+
 $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled {
 	my $r;
-	$r = 1 if $^O =~ /^aix$/;
+	$r = 1 if $OSNAME =~ /^aix$/;
 	$r;
 }
 

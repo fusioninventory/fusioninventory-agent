@@ -1,6 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Processes;
 use strict;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {can_run("ps")}
 
 sub doInventory {
@@ -25,7 +27,7 @@ sub doInventory {
     );
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
     my $the_year=$year+1900;
-    if ($^O =~ /^solaris$/) {
+    if ($OSNAME =~ /^solaris$/) {
         open(PS, "ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm|");
     } else {
         open(PS, "ps aux|");
