@@ -68,7 +68,7 @@ sub new {
   }
 
 
-  $self->{compress} = new FusionInventory::Compress ({logger => $logger});
+  $self->{compress} = FusionInventory::Compress->new({logger => $logger});
   # Connect to server
   $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
   if ($self->{config}->{proxy}) {
@@ -160,7 +160,7 @@ sub send {
       $logger->error ("Can't load response module $tmp: $@");
   }
   $tmp->import();
-  my $response = $tmp->new ({
+  my $response = $tmp->new({
 
      accountinfo => $target->{accountinfo},
      content => $content,

@@ -47,7 +47,7 @@ sub new {
         push @loadedMbackends, $_;
     }
 
-    my $obj = new $backend ({
+    my $obj = $backend->new({
       config => $self->{config},
       });
     push @{$self->{backend}}, $obj if $obj;

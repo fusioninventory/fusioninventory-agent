@@ -22,7 +22,7 @@ on the caller module name.
 
 =head1 SYNOPSIS
 
-  my $storage = new FusionInventory::Agent::Storage({
+  my $storage = FusionInventory::Agent::Storage->new({
       target => {
           vardir => $ARGV[0],
       }

@@ -64,7 +64,7 @@ sub new {
         $config->{logger} = 'File';
     }
 
-    my $logger = $self->{logger} = new FusionInventory::Logger ({
+    my $logger = $self->{logger} = FusionInventory::Logger->new({
             config => $config
         });
 
@@ -92,7 +92,7 @@ sub new {
     my $hostname = hostname; # Sys::Hostname
 
 # /!\ $rootStorage save/read data in 'basevardir', not in a target directory!
-    my $rootStorage = new FusionInventory::Agent::Storage({
+    my $rootStorage = FusionInventory::Agent::Storage->new({
         config => $config
     });
     my $myRootData = $rootStorage->restore();
@@ -120,7 +120,7 @@ sub new {
 
 
 ######
-    $self->{targets} = new FusionInventory::Agent::Targets({
+    $self->{targets} = FusionInventory::Agent::Targets->new({
 
             logger => $logger,
             config => $config,
@@ -158,7 +158,7 @@ sub new {
         chdir $cwd if $config->{devlib};
 
     }
-    $self->{rpc} = new FusionInventory::Agent::RPC ({
+    $self->{rpc} = FusionInventory::Agent::RPC->new({
           
             logger => $logger,
             config => $config,
@@ -216,7 +216,7 @@ sub main {
         my $prologresp;
         if ($target->{type} eq 'server') {
 
-            my $network = new FusionInventory::Agent::Network ({
+            my $network = FusionInventory::Agent::Network->new({
 
                     logger => $logger,
                     config => $config,
@@ -224,7 +224,7 @@ sub main {
 
                 });
 
-            my $prolog = new FusionInventory::Agent::XML::Query::Prolog({
+            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
 
                     accountinfo => $target->{accountinfo}, #? XXX
                     logger => $logger,
@@ -247,7 +247,7 @@ sub main {
         }
 
 
-        my $storage = new FusionInventory::Agent::Storage({
+        my $storage = FusionInventory::Agent::Storage->new({
 
                 config => $config,
                 logger => $logger,
@@ -276,7 +276,7 @@ sub main {
             /;
 
         foreach my $module (@tasks) {
-            my $task = new FusionInventory::Agent::Task({
+            my $task = FusionInventory::Agent::Task->new({
                     config => $config,
                     logger => $logger,
                     module => $module,

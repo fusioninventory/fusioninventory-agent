@@ -36,7 +36,7 @@ sub main {
   my $self = {};
   bless $self, $class;
 
-  my $storage = new FusionInventory::Agent::Storage({
+  my $storage = FusionInventory::Agent::Storage->new({
       target => {
           vardir => $ARGV[0],
       }
@@ -51,7 +51,7 @@ sub main {
   my $target = $self->{target} = $data->{target};
   
   
-  my $logger = $self->{logger} = new FusionInventory::Logger ({
+  my $logger = $self->{logger} = FusionInventory::Logger->new({
           config => $self->{config}
       });
 
@@ -71,7 +71,7 @@ sub main {
     $logger->fault("target is undef");
   }
 
-  $self->{inventory} = new FusionInventory::Agent::XML::Query::Inventory ({
+  $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
 
           # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
@@ -108,7 +108,7 @@ sub main {
       # Put ACCOUNTINFO values in the inventory
       $accountinfo->setAccountInfo($self->{inventory});
 
-      my $network = new FusionInventory::Agent::Network ({
+      my $network = FusionInventory::Agent::Network->new({
 
               logger => $logger,
               config => $config,

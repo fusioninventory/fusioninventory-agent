@@ -50,7 +50,7 @@ sub init {
 
 
     if ($config->{'stdout'}) {
-        my $target = new FusionInventory::Agent::Target({
+        my $target = FusionInventory::Agent::Target->new({
                 'logger' => $logger,
                 config => $config,
                 'type' => 'stdout',
@@ -62,7 +62,7 @@ sub init {
     }
 
     if ($config->{'local'}) {
-        my $target = new FusionInventory::Agent::Target({
+        my $target = FusionInventory::Agent::Target->new({
                 'config' => $config,
                 'logger' => $logger,
                 'type' => 'local',
@@ -84,7 +84,7 @@ sub init {
         } else {
             $url = $val;
         }
-        my $target = new FusionInventory::Agent::Target({
+        my $target = FusionInventory::Agent::Target->new({
                 'config' => $config,
                 'logger' => $logger,
                 'type' => 'server',

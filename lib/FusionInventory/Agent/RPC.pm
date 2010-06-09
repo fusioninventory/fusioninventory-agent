@@ -49,7 +49,7 @@ sub new {
     $logger->debug("[RPC] static files are in ".$self->{htmlDir});
 
 
-    my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
+    my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
             target => {
                 vardir => $config->{basevardir},
             }

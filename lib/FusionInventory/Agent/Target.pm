@@ -58,14 +58,14 @@ sub new {
 
 
 
-    $self->{storage} = new FusionInventory::Agent::Storage({
+    $self->{storage} = FusionInventory::Agent::Storage->new({
             target => $self
         });
 
 
     if ($self->{'type'} eq 'server') {
 
-        $self->{accountinfo} = new FusionInventory::Agent::AccountInfo({
+        $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
 
                 logger => $logger,
                 config => $config,
