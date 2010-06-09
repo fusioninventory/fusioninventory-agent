@@ -1,5 +1,7 @@
 package FusionInventory::LoggerBackend::File;
+
 use strict;
+use warnings;
 
 sub new {
   my ($class, $params) = @_;

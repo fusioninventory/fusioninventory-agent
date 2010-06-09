@@ -1,4 +1,7 @@
 package FusionInventory::LoggerBackend::Syslog;
+
+use strict;
+use warnings;
 # Not tested yet!
 use Sys::Syslog qw( :DEFAULT setlogsock);
 
