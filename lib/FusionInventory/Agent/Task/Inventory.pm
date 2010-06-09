@@ -31,10 +31,10 @@ use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::Storage;
 
 sub main {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
   my $self = {};
-  bless $self;
+  bless $self, $class;
 
   my $storage = new FusionInventory::Agent::Storage({
       target => {
