@@ -55,7 +55,7 @@ sub parseDmidecode {
                 } elsif ($result{BiosManufacturer} =~ /^Xen/i) {
                     $result{vmsystem} = 'Xen';
                 }
-            } elsif ($line =~ /^\s+release\ date:\s*(.+?)\s*$/i) {
+            } elsif ($line =~ /^\s+release date:\s*(.+?)\s*$/i) {
                 $result{BiosDate} = $1
             } elsif ($line =~ /^\s+version:\s*(.+?)\s*$/i) {
                 $result{BiosVersion} = $1
