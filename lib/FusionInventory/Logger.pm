@@ -58,7 +58,7 @@ sub new {
   $self->debug($version);
   $self->debug("Log system initialised (@loadedMbackends)");
 
-  $self;
+  return $self;
 }
 
 sub log {

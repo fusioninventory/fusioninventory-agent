@@ -46,7 +46,7 @@ sub new {
         }
     } else { $logger->debug("No accountinfo file defined") }
 
-    $self;
+    return $self;
 }
 
 sub get {
