@@ -6,11 +6,12 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub new {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
   my $self = {};
   $self->{config} = $params->{config};
-  bless $self;
+
+  bless $self, $class;
 }
 
 sub addMsg {

@@ -2,14 +2,13 @@ package FusionInventory::LoggerBackend::File;
 use strict;
 
 sub new {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
   my $self = {};
   $self->{config} = $params->{config};
   $self->{logfile} = $self->{config}->{logdir}."/".$self->{config}->{logfile};
 
-
-  bless $self;
+  bless $self, $class;
 }
 
 sub addMsg {
