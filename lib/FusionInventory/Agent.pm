@@ -1,5 +1,3 @@
-#!/usr/bin/perl
-
 package FusionInventory::Agent;
 
 use Cwd;
