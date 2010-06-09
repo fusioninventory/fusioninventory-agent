@@ -14,7 +14,7 @@ sub MY::postamble
 install :: all pure_install doc_install
 	$(NOECHO) $(NOOP)';
 
-	$re .= "\n\t[ ! -f run-postinst ] || $^X fusioninventory-agent-config\n";
+	$re .= "\n\t[ ! -f run-postinst ] || $EXECUTABLE_NAME fusioninventory-agent-config\n";
 
     return $re;
 }
