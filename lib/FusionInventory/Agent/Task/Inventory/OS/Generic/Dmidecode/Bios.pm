@@ -48,13 +48,9 @@ sub parseDmidecode {
             # BIOS values
             if ($line =~ /^\s+vendor:\s*(.+?)\s*$/i) {
                 $result{BiosManufacturer} = $1;
-                if ($result{BiosManufacturer} =~ /QEMU/i) {
-                    $result{vmsystem} = 'QEMU';
-                } elsif ($result{BiosManufacturer} =~ /VirtualBox/i) {
-                    $result{vmsystem} = 'VirtualBox';
-                } elsif ($result{BiosManufacturer} =~ /^Xen/i) {
-                    $result{vmsystem} = 'Xen';
-                }
+                if ($result{BiosManufacturer} =~ /(QEMU|VirtualBox|Xen)/i) {
+                    $result{vmsystem} = $1;
+                };
             } elsif ($line =~ /^\s+release date:\s*(.+?)\s*$/i) {
                 $result{BiosDate} = $1
             } elsif ($line =~ /^\s+version:\s*(.+?)\s*$/i) {
@@ -68,10 +64,8 @@ sub parseDmidecode {
                 $result{SystemSerial} = $1
             } elsif ($line =~ /^\s+(?:product name|product):\s*(.+?)\s*$/i) {
                 $result{SystemModel} = $1;
-                if ($result{SystemModel} =~ /VMware/i) {
-                    $result{vmsystem} = 'VMware';
-                } elsif ($result{SystemModel} =~ /Virtual Machine/i) {
-                    $result{vmsystem} = 'Virtual Machine';
+                if ($result{SystemModel} =~ /(VMware|Virtual Machine)/i) {
+                    $result{vmsystem} = $1;
                 }
             } elsif ($line =~ /^\s+(?:manufacturer|vendor):\s*(.+?)\s*$/i) {
                 $result{SystemManufacturer} = $1
