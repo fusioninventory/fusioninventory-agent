@@ -22,7 +22,7 @@ BEGIN {
 my $lock : shared;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
@@ -42,7 +42,7 @@ sub new {
     my $target = $self->{'target'};
 
 
-    bless $self;
+    bless $self, $class;
    
     $self->{debugPrintTimer} = 0;
     

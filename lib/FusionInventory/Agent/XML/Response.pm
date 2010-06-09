@@ -7,7 +7,7 @@ use Data::Dumper;
 
 use XML::Simple;
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
@@ -25,7 +25,7 @@ sub new {
 
     $self->{parsedcontent}  = undef;
 
-    bless $self;
+    bless $self, $class;
 }
 
 sub getRawXML {

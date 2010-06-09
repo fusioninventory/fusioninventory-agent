@@ -18,11 +18,11 @@ my $lock :shared;
 
 sub new {
 
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
 
   my $self = {};
-  bless $self;
+  bless $self, $class;
   $self->{backend} = [];
   $self->{config} = $params->{config};
 

@@ -4,10 +4,10 @@ use strict;
 use warnings;
 
 sub new {
-    my (undef,$params) = @_;
+    my ($class,$params) = @_;
 
     my $self = {};
-    bless $self;
+    bless $self, $class;
 
     $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};

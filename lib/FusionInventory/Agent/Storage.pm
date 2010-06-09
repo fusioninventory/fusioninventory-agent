@@ -48,7 +48,7 @@ Create the object
 
 =cut
 sub new {
-    my ( undef, $params ) = @_;
+    my ( $class, $params ) = @_;
 
     my $self = {};
 
@@ -63,7 +63,7 @@ sub new {
 
     $self->{vardir} = $target->{vardir};
 
-    bless $self;
+    bless $self, $class;
 }
 
 sub getFileName {

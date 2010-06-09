@@ -14,10 +14,10 @@ use FusionInventory::Agent::Network;
 use FusionInventory::Agent::AccountInfo;
 
 sub main {
-    my ( undef ) = @_;
+    my ($class) = @_;
 
     my $self = {};
-    bless $self;
+    bless $self, $class;
 
     my $storage = new FusionInventory::Agent::Storage({
             target => {

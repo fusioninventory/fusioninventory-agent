@@ -10,7 +10,7 @@ use FusionInventory::Agent::Target;
 use Data::Dumper;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
@@ -23,7 +23,7 @@ sub new {
 
 
 
-    bless $self;
+    bless $self, $class;
 
     $self->init();
 

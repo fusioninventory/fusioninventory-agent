@@ -22,7 +22,7 @@ my $lock :shared;
 my $status :shared = "unknown";
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
@@ -55,7 +55,7 @@ sub new {
             }
         });
 
-    bless $self;
+    bless $self, $class;
 
     return $self if $config->{'no-socket'};
 

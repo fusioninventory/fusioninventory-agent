@@ -5,7 +5,7 @@ use warnings;
 use Encode qw(encode);
 
 sub new {
-   my ( undef, $params ) = @_;
+   my ($class, $params ) = @_;
 
    my $self = {};
 
@@ -81,7 +81,7 @@ sub new {
       );
    }
 
-   bless $self;
+   bless $self, $class;
 }
 
 

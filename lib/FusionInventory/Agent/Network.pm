@@ -33,7 +33,7 @@ The constructor. These keys are expected: config, logger, target.
 use FusionInventory::Compress;
 
 sub new {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
   my $self = {};
   
@@ -85,7 +85,7 @@ sub new {
     $self->{config}->{password}
   );
 
-  bless $self;
+  bless $self, $class;
   return $self;
 }
 
