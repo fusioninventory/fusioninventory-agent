@@ -17,9 +17,8 @@ sub findRelease {
   open V, '<', $file or warn;
   chomp ($v = <V>);
   close V;
-  return $v if $v;
 
-  0;
+  return $v ? $v : 0;
 }
 
 sub doInventory {
