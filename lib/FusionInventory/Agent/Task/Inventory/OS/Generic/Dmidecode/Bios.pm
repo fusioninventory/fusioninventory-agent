@@ -32,101 +32,87 @@ sub parseDmidecode {
     my ($dmidecode) = @_;
 
     my %result;
+    my $type;
 
-    s/^\s+// for (@$dmidecode);
+    foreach my $line (@$dmidecode) {
+        chomp $line;
+        $line =~ s/^\s+//;
 
-    # get the BIOS values
-    my $flag=0;
-    for(@$dmidecode) {
-        $flag=1 if /dmi type 0,/i;
-        last if($flag && (/dmi type (\d+),/i) && ($1!=0));
-        if((/^vendor:\s*(.+?)(\s*)$/i) && ($flag)) {
-            $result{BiosManufacturer} = $1;
-            if ($result{BiosManufacturer} =~ /QEMU/i) {
-                $result{vmsystem} = 'QEMU';
-            } elsif ($result{BiosManufacturer} =~ /VirtualBox/i) {
-                $result{vmsystem} = 'VirtualBox';
-            } elsif ($result{BiosManufacturer} =~ /^Xen/i) {
-                $result{vmsystem} = 'Xen';
+        if ($line =~ /DMI type (\d+)/i) {
+            $type = $1;
+            next;
+        }
+
+        next unless defined $type;
+
+        if ($type == 0) {
+            # BIOS values
+            if ($line =~ /^vendor:\s*(.+?)(\s*)$/i) {
+                $result{BiosManufacturer} = $1;
+                if ($result{BiosManufacturer} =~ /QEMU/i) {
+                    $result{vmsystem} = 'QEMU';
+                } elsif ($result{BiosManufacturer} =~ /VirtualBox/i) {
+                    $result{vmsystem} = 'VirtualBox';
+                } elsif ($result{BiosManufacturer} =~ /^Xen/i) {
+                    $result{vmsystem} = 'Xen';
+                }
+            } elsif ($line =~ /^release\ date:\s*(.+?)(\s*)$/i) {
+                $result{BiosDate} = $1
+            } elsif ($line =~ /^version:\s*(.+?)(\s*)$/i) {
+                $result{BiosVersion} = $1
             }
+            next;
+        }
 
-        }
-        if((/^release\ date:\s*(.+?)(\s*)$/i) && ($flag)) {
-            $result{BiosDate} = $1
-        }
-        if((/^version:\s*(.+?)(\s*)$/i) && ($flag)) {
-            $result{BiosVersion} = $1
-        }
-    }
-     
-    # Try to query the machine itself 
-    $flag=0;
-    for(@$dmidecode) {
-        if(/dmi type 1,/i){$flag=1;}
-        last if($flag && (/dmi type (\d+),/i) && ($1!=1));
-        if((/^serial number:\s*(.+?)(\s*)$/i) && ($flag)) {
-            $result{SystemSerial} = $1
-        }
-        if((/^(product name|product):\s*(.+?)(\s*)$/i) && ($flag)) {
-            $result{SystemModel} = $2;
-            if ($result{SystemModel} =~ /VMware/i) {
-                $result{vmsystem} = 'VMware';
-            } elsif ($result{SystemModel} =~ /Virtual Machine/i) {
-                $result{vmsystem} = 'Virtual Machine';
+        if ($type == 1) {
+            if ($line =~ /^serial number:\s*(.+?)(\s*)$/i) {
+                $result{SystemSerial} = $1
+            } elsif ($line =~ /^(product name|product):\s*(.+?)(\s*)$/i) {
+                $result{SystemModel} = $2;
+                if ($result{SystemModel} =~ /VMware/i) {
+                    $result{vmsystem} = 'VMware';
+                } elsif ($result{SystemModel} =~ /Virtual Machine/i) {
+                    $result{vmsystem} = 'Virtual Machine';
+                }
+            } elsif ($line =~ /^(manufacturer|vendor):\s*(.+?)(\s*)$/i) {
+                $result{SystemManufacturer} = $2
             }
+            next;
         }
-        if((/^(manufacturer|vendor):\s*(.+?)(\s*)$/i) && ($flag)) {
-            $result{SystemManufacturer} = $2
-        }
-    }
 
-    # Failback on the motherbord
-    $flag=0;
-    for(@$dmidecode){
-        if(/dmi type 2,/i){$flag=1;}
-        last if($flag && (/dmi type (\d+),/i) && ($1!=2));
-        if((/^serial number:\s*(.+?)(\s*)/i) && ($flag) && (!$result{SystemSerial})) {
-            $result{SystemSerial} = $1
-        }
-        if((/^product name:\s*(.+?)(\s*)/i) && ($flag) && (!$result{SystemModel})) {
-            $result{SystemModel} = $1
-        }
-        if((/^manufacturer:\s*(.+?)(\s*)/i) && ($flag) && (!$result{SystemManufacturer})) {
-            $result{SystemManufacturer} = $1
-        }
-    }
-
-    $flag=0;
-    for(@$dmidecode) {
-        if ($flag) {
-            if (/^Asset Tag:\s*(.+\S)/i) {
-                $result{AssetTag} = $1;
-                $result{AssetTag} = '' if $result{AssetTag} eq 'Not Specified';
-                last;
-            } elsif (/dmi type \d+,/i) {  # End of the section
-                last;
+        if ($type == 2) {
+            # Failback on the motherbord
+            if ($line =~ /^serial number:\s*(.+?)(\s*)/i) {
+                $result{SystemSerial} = $1 if !$result{SystemSerial};
+            } elsif ($line =~ /^product name:\s*(.+?)(\s*)/i) {
+                $result{SystemModel} = $1 if !$result{SystemModel};
+            } elsif ($line =~ /^manufacturer:\s*(.+?)(\s*)/i) {
+                $result{SystemManufacturer} = $1
+                    if !$result{SystemManufacturer};
             }
         }
-        if (/dmi type 3,/i) {
-            $flag=1;
-        }
-    }
 
-    # Some bioses don't provide a serial number so I check for CPU ID (e.g: server from dedibox.fr)
-    if (!$result{SystemSerial} ||$result{SystemSerial} =~ /^0+$/) {
-        $flag=0;
-        for(@$dmidecode) {
-            if(/dmi type 4,/i){$flag=1;}
-            elsif(/^processor information:/i){$flag=2;}
-            elsif((/^ID:\s*(.*)/i) && ($flag)) {
-                $result{SystemSerial} = $1;
-                $result{SystemSerial} =~ s/\ /-/g;
-                last
+        if ($type == 3) {
+            if ($line =~ /^Asset Tag:\s*(.+\S)/i) {
+                $result{AssetTag} = $1 eq 'Not Specified'  ? '' : $1;
             }
+            next;
+        }
+
+        if ($type == 4) {
+            # Some bioses don't provide a serial number so I check for CPU ID
+            # (e.g: server from dedibox.fr)
+            if ($line =~ /^ID:\s*(.*)/i) {
+                if (!$result{SystemSerial}) {
+                    $result{SystemSerial} = $1;
+                    $result{SystemSerial} =~ s/\ /-/g;
+                }
+            }
+            next;
         }
     }
 
-  return %result;
+    return %result;
 
 }
 
