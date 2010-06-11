@@ -15,6 +15,7 @@ it called $inventory in general.
 
 =cut
 
+use Encode qw/encode/;
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 use Config;
@@ -71,12 +72,82 @@ sub new {
   $self->{h}{CONTENT}{UPDATES} = [];
   $self->{h}{CONTENT}{USBDEVICES} = [];
   $self->{h}{CONTENT}{BATTERIES} = [];
+  $self->{h}{CONTENT}{ANTIVIRUS} = [];
   $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
 
   # Is the XML centent initialised?
   $self->{isInitialised} = undef;
 
   return $self;
+}
+
+sub _addEntry {
+    my ($self, $params) = @_;
+
+    my $config = $self->{config};
+
+    my $fields = $params->{'field'};
+    my $sectionName = $params->{'sectionName'};
+    my $values = $params->{'values'};
+    my $noDuplicated = $params->{'noDuplicated'};
+
+    my $newEntry;
+
+    my $showAll = 0;
+
+    foreach (@$fields) {
+        if (!$showAll && !$values->{$_}) {
+            next;
+        }
+        my $string = $self->_encode({ string => $values->{$_} }) || '';
+        $newEntry->{$_}[0] = $string;
+    }
+
+# Don't create two time the same device
+    ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
+        foreach (@$fields) {
+            next ENTRY unless defined($entry->{$_}[0]) && 
+defined($newEntry->{$_}[0]);
+            next ENTRY if $entry->{$_}[0] ne $newEntry->{$_}[0];
+        }
+        return;
+    }
+
+    push @{$self->{h}{CONTENT}{$sectionName}}, $newEntry;
+
+}
+
+sub _encode {
+    my ($self, $params) = @_;
+
+    my $string = $params->{string};
+
+    return unless $string;
+
+    my $logger = $self->{logger};
+
+    my $ret;
+
+    $string =~ s/\0//g;
+
+    $string =~  s/\r|\n//g;
+
+
+    if ($string !~ m/\A(
+      [\x09\x0A\x0D\x20-\x7E]            # ASCII
+      | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+      |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+      | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+      |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+      |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+      | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+      |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+      )*\z/x) {
+        $logger->debug("Non-UTF8 string: $string");
+        return encode("UTF-8", $string);
+  } else {
+      return $string;
+  }
 }
 
 =item initialise()
@@ -101,30 +172,22 @@ Add a controller in the inventory.
 sub addController {
   my ($self, $args) = @_;
 
-  my $driver = $args->{DRIVER};
-  my $name = $args->{NAME};
-  my $manufacturer = $args->{MANUFACTURER};
-  my $pciclass = $args->{PCICLASS};
-  my $pciid = $args->{PCIID};
-  my $pcisubsystemid = $args->{PCISUBSYSTEMID};
-  my $pcislot = $args->{PCISLOT};
-  my $type = $args->{TYPE};
+  my @fields = qw/
+      DRIVER
+      NAME
+      MANUFACTURER
+      PCICLASS
+      PCIID
+      PCISUBSYSTEMID
+      PCISLOT
+      TYPE
+      /;
 
-  push @{$self->{h}{CONTENT}{CONTROLLERS}},
-  {
-    DRIVER => [$driver?$driver:''],
-    NAME => [$name],
-    MANUFACTURER => [$manufacturer],
-# The PCI Class in hexa. e.g: 0c03
-    PCICLASS => [$pciclass?$pciclass:''],
-# E.g: 8086:2a40
-    PCIID => [$pciid?$pciid:''],
-    PCISUBSYSTEMID => [$pcisubsystemid?$pcisubsystemid:''],
-# E.g: 00:00.0
-    PCISLOT => [$pcislot?$pcislot:''],
-    TYPE => [$type],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'CONTROLLERS',
+        'values' => $args,
+        });
 }
 
 =item addModem()
@@ -135,16 +198,17 @@ Add a modem in the inventory.
 sub addModem {
   my ($self, $args) = @_;
 
-  my $description = $args->{DESCRIPTION};
-  my $name = $args->{NAME};
+  my @fields = qw/
+      DESCRIPTION
+      NAME
+      /;
 
-  push @{$self->{h}{CONTENT}{MODEMS}},
-  {
 
-    DESCRIPTION => [$description],
-    NAME => [$name],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'MODEMS',
+        'values' => $args,
+        });
 }
 # For compatibiliy
 sub addModems {
@@ -163,37 +227,25 @@ Add a partition in the inventory.
 sub addDrive {
   my ($self, $args) = @_;
 
-  my $createdate = $args->{CREATEDATE};
-  my $description = $args->{DESCRIPTION};
-  my $free = $args->{FREE};
-  my $filesystem = $args->{FILESYSTEM};
-  my $label = $args->{LABEL};
-  my $letter = $args->{LETTER};
-  my $serial = $args->{SERIAL};
-  my $systemdrive = $args->{SYSTEMDRIVE};
-  my $total = $args->{TOTAL};
-  my $type = $args->{TYPE};
-  my $volumn = $args->{VOLUMN};
+  my @fields = qw/
+      CREATEDATE
+      DESCRIPTION
+      FREE
+      FILESYSTEM
+      LABEL
+      LETTER
+      SERIAL
+      SYSTEMDRIVE
+      TOTAL
+      TYPE
+      VOLUMN
+      /;
 
-  push @{$self->{h}{CONTENT}{DRIVES}},
-  {
-    CREATEDATE => [$createdate?$createdate:''],
-# Windows only, e.g: Network drive
-    DESCRIPTION => [$description?$description:''],
-    FREE => [$free?$free:''],
-    FILESYSTEM => [$filesystem?$filesystem:''],
-# On windows the LABEL is also in VOLUMN
-    LABEL => [$label?$label:''],
-    LETTER => [$letter?$letter:''],
-    SERIAL => [$serial?$serial:''],
-# Is it the system partition
-    SYSTEMDRIVE => [$systemdrive?$systemdrive:''],
-    TOTAL => [$total?$total:''],
-# type is Mount point on Linux/UNIX/MacOSX
-    TYPE => [$type?$type:''],
-# UNIX: /dev/XXXX, on Windows, the LABEL...
-    VOLUMN => [$volumn?$volumn:'']
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'DRIVES',
+        'values' => $args,
+        });
 }
 # For compatibiliy
 sub addDrives {
@@ -214,44 +266,33 @@ sub addStorage {
 
   my $logger = $self->{logger};
 
-  my $description = $args->{DESCRIPTION};
-  my $disksize = $args->{DISKSIZE};
-  my $interface = $args->{INTERFACE};
-  my $manufacturer = $args->{MANUFACTURER};
-  my $model = $args->{MODEL};
-  my $name = $args->{NAME};
-  my $type = $args->{TYPE};
-  my $serial = $args->{SERIAL};
-  my $serialnumber = $args->{SERIALNUMBER};
-  my $firmware = $args->{FIRMWARE};
-  my $scsi_coid = $args->{SCSI_COID};
-  my $scsi_chid = $args->{SCSI_CHID};
-  my $scsi_unid = $args->{SCSI_UNID};
-  my $scsi_lun = $args->{SCSI_LUN};
+  my @fields = qw/
+      DESCRIPTION
+      DISKSIZE
+      INTERFACE
+      MANUFACTURER
+      MODEL
+      NAME
+      TYPE
+      SERIAL
+      SERIALNUMBER
+      FIRMWARE
+      SCSI_COID
+      SCSI_CHID
+      SCSI_UNID
+      SCSI_LUN
+      /;
 
-  $serialnumber = $serialnumber?$serialnumber:$serial;
+  my $values = $args;
+  if (!$values->{serialnumber}) {
+      $values->{serialnumber} = $values->{serial}
+  }
 
-  push @{$self->{h}{CONTENT}{STORAGES}},
-  {
-
-    DESCRIPTION => [$description?$description:''],
-    DISKSIZE => [$disksize?$disksize:''],
-    MANUFACTURER => [$manufacturer?$manufacturer:''],
-    MODEL => [$model?$model:''],
-    NAME => [$name?$name:''],
-    TYPE => [$type?$type:''],
-# INTERFACE can be SCSI/HDC/IDE/USB/1394
-# (See: Win32_DiskDrive / InterfaceType)
-    INTERFACE => [$interface?$interface:''],
-    SERIAL => [$serialnumber?$serialnumber:''],
-    SERIALNUMBER => [$serialnumber?$serialnumber:''],
-    FIRMWARE => [$firmware?$firmware:''],
-    SCSI_COID => [$scsi_coid?$scsi_coid:''],
-    SCSI_CHID => [$scsi_chid?$scsi_chid:''],
-    SCSI_UNID => [$scsi_unid?$scsi_unid:''],
-    SCSI_LUN => [$scsi_lun?$scsi_lun:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'STORAGES',
+        'values' => $values,
+        });
 }
 # For compatibiliy
 sub addStorages {
@@ -271,38 +312,24 @@ Add a memory module in the inventory.
 sub addMemory {
   my ($self, $args) = @_;
 
-# In MB, e.g 2048
-  my $capacity = $args->{CAPACITY};
-# Physical Memory
-  my $caption = $args->{CAPTION};
-  my $formfactor = $args->{FORMFACTOR};
-  my $removable =  $args->{REMOVABLE};
-# E.g: System Memory
-  my $purpose =  $args->{PURPOSE};
-# In Mhz, e.g: 800
-  my $speed =  $args->{SPEED};
-  my $type = $args->{TYPE};
-  my $description = $args->{DESCRIPTION};
-# Eg. 2, start at 1, not 0
-  my $numslots = $args->{NUMSLOTS};
+  my @fields = qw/
+      CAPACITY
+      CAPTION
+      FORMFACTOR
+      REMOVABLE
+      PURPOSE
+      SPEED
+      SERIALNUMBER
+      TYPE
+      DESCRIPTION
+      NUMSLOTS
+      /;
 
-  my $serialnumber = $args->{SERIALNUMBER};
-
-  push @{$self->{h}{CONTENT}{MEMORIES}},
-  {
-
-    CAPACITY => [$capacity?$capacity:''],
-    CAPTION => [$caption?$caption:''],
-    DESCRIPTION => [$description?$description:''],
-    FORMFACTOR => [$formfactor?$formfactor:''],
-    REMOVABLE => [$removable?$removable:''],
-    PURPOSE => [$purpose?$purpose:''],
-    SPEED => [$speed?$speed:''],
-    TYPE => [$type?$type:''],
-    NUMSLOTS => [$numslots?$numslots:0],
-    SERIALNUMBER => [$serialnumber?$serialnumber:'']
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'MEMORIES',
+        'values' => $args,
+        });
 }
 # For compatibiliy
 sub addMemories {
@@ -321,22 +348,18 @@ Add a port module in the inventory.
 sub addPorts{
   my ($self, $args) = @_;
 
-  my $caption = $args->{CAPTION};
-  my $description = $args->{DESCRIPTION};
-  my $name = $args->{NAME};
-  my $type = $args->{TYPE};
+  my @fields = qw/
+      CAPTION
+      DESCRIPTION
+      NAME
+      TYPE
+      /;
 
-
-  push @{$self->{h}{CONTENT}{PORTS}},
-  {
-
-    CAPTION => [$caption?$caption:''],
-    DESCRIPTION => [$description?$description:''],
-    NAME => [$name?$name:''],
-# e.g: Parallel, Serial, SATA, 
-    TYPE => [$type?$type:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'PORTS',
+        'values' => $args,
+        });
 }
 # For compatibiliy
 sub addPort {
@@ -355,21 +378,18 @@ Add a slot in the inventory.
 sub addSlot {
   my ($self, $args) = @_;
 
-  my $description = $args->{DESCRIPTION};
-  my $designation = $args->{DESIGNATION};
-  my $name = $args->{NAME};
-  my $status = $args->{STATUS};
+  my @fields = qw/
+      DESCRIPTION
+      DESIGNATION
+      NAME
+      STATUS
+      /;
 
-
-  push @{$self->{h}{CONTENT}{SLOTS}},
-  {
-
-    DESCRIPTION => [$description?$description:''],
-    DESIGNATION => [$designation?$designation:''],
-    NAME => [$name?$name:''],
-    STATUS => [$status?$status:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'SLOTS',
+        'values' => $args,
+        });
 }
 # For compatibiliy
 sub addSlots {
@@ -388,47 +408,16 @@ Register a software in the inventory.
 sub addSoftware {
   my ($self, $args) = @_;
 
-  my $comments = $args->{COMMENTS};
-  my $filesize = $args->{FILESIZE};
-  my $folder = $args->{FOLDER};
-  my $from = $args->{FROM};
-  my $helpLink = $args->{HELPLINK};
-  my $installDate = $args->{INSTALLDATE};
-  my $name = $args->{NAME};
-  my $noRemove = $args->{NO_REMOVE};
-  my $releaseType = $args->{RELEASE_TYPE};
-  my $publisher = $args->{PUBLISHER};
-  my $uninstallString = $args->{UNINSTALL_STRING};
-  my $urlInfoAbout = $args->{URL_INFO_ABOUT};
-  my $version = $args->{VERSION};
-  my $versionMinor = $args->{VERSION_MINOR};
-  my $versionMajor = $args->{VERSION_MAJOR};
-  my $is64bit = $args->{IS64BIT};
-  my $guid = $args->{GUID};
+  my @fields = qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
+NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING URL_INFO_ABOUT VERSION
+VERSION_MINOR VERSION_MAJOR IS64BIT GUID/;
 
-
-  push @{$self->{h}{CONTENT}{SOFTWARES}},
-  {
-
-    COMMENTS => [$comments?$comments:''],
-    FILESIZE => [$filesize?$filesize:''],
-    FOLDER => [$folder?$folder:''],
-    FROM => [$from?$from:''],
-    HELPLINK => [$helpLink?$helpLink:''],
-    INSTALLDATE => [$installDate?$installDate:''],
-    NAME => [$name?$name:''],
-    NOREMOVE => [$noRemove?$noRemove:''],
-    RELEASETYPE => [$releaseType?$releaseType:''],
-    PUBLISHER => [$publisher?$publisher:''],
-    UNINSTALL_STRING => [$uninstallString],
-    URL_INFO_ABOUT => [$urlInfoAbout],
-    VERSION => [$version],
-    VERSION_MINOR => [$versionMinor?$versionMinor:''],
-    VERSION_MAJOR => [$versionMajor?$versionMajor:''],
-    IS64BIT => [$is64bit],
-    GUID => [$guid],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'SOFTWARES',
+        'values' => $args,
+        'noDuplicated' => 1
+        });
 }
 # For compatibiliy
 sub addSoftwares {
@@ -447,25 +436,20 @@ Add a monitor (screen) in the inventory.
 sub addMonitor {
   my ($self, $args) = @_;
 
-  my $base64 = $args->{BASE64};
-  my $caption = $args->{CAPTION};
-  my $description = $args->{DESCRIPTION};
-  my $manufacturer = $args->{MANUFACTURER};
-  my $serial = $args->{SERIAL};
-  my $uuencode = $args->{UUENCODE};
+  my @fields = qw/
+      BASE64
+      CAPTION
+      DESCRIPTION
+      MANUFACTURER
+      SERIAL
+      UUENCODE
+      /;
 
-
-  push @{$self->{h}{CONTENT}{MONITORS}},
-  {
-
-    BASE64 => [$base64?$base64:''],
-    CAPTION => [$caption?$caption:''],
-    DESCRIPTION => [$description?$description:''],
-    MANUFACTURER => [$manufacturer?$manufacturer:''],
-    SERIAL => [$serial?$serial:''],
-    UUENCODE => [$uuencode?$uuencode:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'MONITORS',
+        'values' => $args,
+        });
 }
 # For compatibiliy
 sub addMonitors {
@@ -484,20 +468,20 @@ Add a video card in the inventory.
 sub addVideo {
   my ($self, $args) = @_;
 
-  my $chipset = $args->{CHIPSET};
-  my $memory = $args->{MEMORY};
-  my $name = $args->{NAME};
-  my $resolution = $args->{RESOLUTION};
+  my @fields = qw/
+      CHIPSET
+      MEMORY
+      NAME
+      RESOLUTION
+      /;
 
-  push @{$self->{h}{CONTENT}{VIDEOS}},
-  {
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'VIDEOS',
+        'values' => $args,
+        'noDuplicated' => 1
+        });
 
-    CHIPSET => [$chipset?$chipset:''],
-    MEMORY => [$memory?$memory:''],
-    NAME => [$name?$name:''],
-    RESOLUTION => [$resolution?$resolution:''],
-
-  };
 }
 # For compatibiliy
 sub addVideos {
@@ -516,18 +500,17 @@ Add a sound card in the inventory.
 sub addSound {
   my ($self, $args) = @_;
 
-  my $description = $args->{DESCRIPTION};
-  my $manufacturer = $args->{MANUFACTURER};
-  my $name = $args->{NAME};
+  my @fields = qw/
+      DESCRIPTION
+      MANUFACTURER
+      NAME
+      /;
 
-  push @{$self->{h}{CONTENT}{SOUNDS}},
-  {
-
-    DESCRIPTION => [$description?$description:''],
-    MANUFACTURER => [$manufacturer?$manufacturer:''],
-    NAME => [$name?$name:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'SOUNDS',
+        'values' => $args,
+        });
 }
 # For compatibiliy
 sub addSounds {
@@ -547,16 +530,33 @@ Register a network interface in the inventory.
 sub addNetwork {
 my ($self, $args) = @_;
 
-    my %tmpXml = ();
+    my @fields = qw/
+        DESCRIPTION
+        DRIVER
+        IPADDRESS
+        IPADDRESS6
+        IPDHCP
+        IPGATEWAY
+        IPMASK
+        IPSUBNET
+        MACADDR
+        MTU
+        PCISLOT
+        STATUS
+        TYPE
+        VIRTUALDEV
+        SLAVES
+        SPEED
+        MANAGEMENT
+        /;
 
-    foreach my $item (qw/DESCRIPTION DRIVER IPADDRESS
-        IPADDRESS6 IPDHCP IPGATEWAY IPMASK IPSUBNET
-        MACADDR MTU PCISLOT STATUS
-        TYPE VIRTUALDEV SLAVES SPEED MANAGEMENT/) {
-        $tmpXml{$item} = [$args->{$item} ? $args->{$item} : ''];
-    }
-    push (@{$self->{h}{CONTENT}{NETWORKS}},\%tmpXml);
 
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'NETWORKS',
+        'values' => $args,
+        'noDuplicated' => 1
+        });
 }
 
 # For compatibiliy
@@ -596,7 +596,8 @@ sub setHardware {
           $logger->debug("USERID shouldn't be set directly anymore. Please use addCPU() method instead.");
       }
 
-      $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $args->{$key};
+      my $string = $self->_encode({ string => $args->{$key} });
+      $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $string;
     }
   }
 }
@@ -614,7 +615,8 @@ sub setBios {
       BIOSSERIAL/) {
 
     if (exists $args->{$key}) {
-      $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $args->{$key};
+      my $string = $self->_encode({ string => $args->{$key} });
+      $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $string;
     }
   }
 }
@@ -627,29 +629,23 @@ Add a CPU in the inventory.
 sub addCPU {
   my ($self, $args) = @_;
 
-  # The CPU FLAG
-  my $cache = $args->{CACHE};
-  my $core = $args->{CORE};
-  my $description = $args->{DESCRIPTION},
-  my $manufacturer = $args->{MANUFACTURER};
-  my $name = $args->{NAME};
-  my $thread = $args->{THREAD};
-  my $serial = $args->{SERIAL};
-  my $speed = $args->{SPEED};
+  my @fields = qw/
+      CACHE
+      CORE
+      DESCRIPTION
+      MANUFACTURER
+      NAME
+      THREAD
+      SERIAL
+      SPEED
+      /;
 
-  push @{$self->{h}{CONTENT}{CPUS}},
-  {
-
-    CACHESIZE => [$cache],
-    CORE => [$core],
-    DESCRIPTION => [$description?$description:''],
-    MANUFACTURER => [$manufacturer],
-    NAME => [$name],
-    THREAD => [$thread],
-    SERIAL => [$serial],
-    SPEED => [$speed],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'CPUS',
+        'values' => $args,
+        'noDuplicated' => 1
+        });
 
   # For the compatibility with HARDWARE/PROCESSOR*
   my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
@@ -672,37 +668,32 @@ Add an user in the list of logged user.
 sub addUser {
   my ($self, $args) = @_;
 
-#  my $name  = $args->{NAME};
-#  my $gid   = $args->{GID};
-  my $login = $args->{LOGIN};
-  my $domain = $args->{DOMAIN}; # Windows only
-#  my $uid   = $args->{UID};
+  my @fields = qw/
+      LOGIN
+      DOMAIN
+      /;
 
-  return unless $login;
-  $domain = "" unless $domain;
+  my $values = $args;
+  return unless $values->{login};
 
-  # Is the login, already in the XML ?
-  foreach my $user (@{$self->{h}{CONTENT}{USERS}}) {
-      return if $user->{LOGIN}[0] eq $login;
-  }
+  $self->_addEntry({
+         'field' => \@fields,
+        'sectionName' => 'USERS',
+        'values' => $args,
+        'noDuplicated' => 1
+        });
 
-  push @{$self->{h}{CONTENT}{USERS}},
-  {
 
-#      NAME => [$name],
-#      UID => [$uid],
-#      GID => [$gid],
-      LOGIN => [$login],
-      DOMAIN => [$domain]
-
-  };
-
+# Compare with old system 
   my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
   my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN}[0] || "";
 
   $userString .= '/' if $userString;
   $domainString .= '/' if $domainString;
 
+  my $login = $args->{LOGIN}; 
+  my $domain = $args->{DOMAIN}; 
+# TODO: I don't think we should change the parmater this way. 
   if ($login =~ /(.*\\|)(\S+)/) {
       $domainString .= $domain;
       $userString .= $2;
@@ -728,45 +719,27 @@ Add a printer in the inventory.
 sub addPrinter {
   my ($self, $args) = @_;
 
-  my $comment = $args->{COMMENT};
-  my $description = $args->{DESCRIPTION};
-  my $driver = $args->{DRIVER};
-  my $name = $args->{NAME};
-  my $network = $args->{NETWORK};
-  my $port = $args->{PORT};
-  my $resolution = $args->{RESOLUTION};
-  my $shared = $args->{SHARED};
-  my $status = $args->{STATUS};
-  my $errStatus = $args->{ERRSTATUS};
-  my $serverName = $args->{SERVERNAME};
-  my $shareName = $args->{SHARENAME};
-  my $printProcessor = $args->{PRINTPROCESSOR};
+  my @fields = qw/
+      COMMENT
+      DESCRIPTION
+      DRIVER
+      NAME
+      NETWORK
+      PORT
+      RESOLUTION
+      SHARED
+      STATUS
+      ERRSTATUS
+      SERVERNAME
+      SHARENAME
+      PRINTPROCESSOR
+      /;
 
-  push @{$self->{h}{CONTENT}{PRINTERS}},
-  {
-
-# Comment: See win32_Printer.Comment
-    COMMENT => [$comment?$comment:''],
-    DESCRIPTION => [$description?$description:''],
-    DRIVER => [$driver?$driver:''],
-    NAME => [$name?$name:''],
-# Network: True if it's a network printer
-    NETWORK => [$network?$network:''],
-    PORT => [$port?$port:''],
-# Resolution: eg. 600x600
-    RESOLUTION => [$resolution?$resolution:''],
-# Shared: True if the printer is shared (Win32)
-    SHARED => [$shared?$shared:''],
-# Status: See Win32_Printer.PrinterStatus
-    STATUS => [$status?$status:''],
-# ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
-    ERRSTATUS => [$errStatus?$errStatus:''],
-    SERVERNAME => [$serverName?$serverName:''],
-    SHARENAME => [$shareName?$shareName:''],
-    PRINTPROCESSOR => [$printProcessor?$printProcessor:''],
-
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'PRINTERS',
+        'values' => $args,
+        });
 }
 # For compatibiliy
 sub addPrinters {
@@ -787,38 +760,29 @@ sub addVirtualMachine {
 
   my $logger = $self->{logger};
 
-  # The CPU FLAG
-  my $memory = $args->{MEMORY};
-  my $name = $args->{NAME};
-  my $uuid = $args->{UUID};
-  my $status = $args->{STATUS};
-  my $subsystem = $args->{SUBSYSTEM};
-  my $vmtype = $args->{VMTYPE};
-  my $vcpu = $args->{VCPU};
-  my $vmid = $args->{VMID};
+  my @fields = qw/
+      logger
+      MEMORY
+      NAME
+      UUID
+      STATUS
+      SUBSYSTEM
+      VMTYPE
+      VCPU
+      VMID
+      /;
 
-  if (!$status) {
+  if (!$args->{status}) {
       $logger->error("status not set by ".caller(0));
-  } elsif (!$status =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
-    $logger->error("Unknown status '$status' from ".caller(0));
+  } elsif (!$args->{status} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+    $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
   }
 
-  push @{$self->{h}{CONTENT}{VIRTUALMACHINES}},
-  {
-
-      MEMORY =>  [$memory],
-      NAME => [$name],
-      UUID => [$uuid],
-# running, idle, paused, shutdown, crashed, dying, off
-      STATUS => [$status],
-      # VmWare ESX
-      SUBSYSTEM => [$subsystem],
-      # VmWare
-      VMTYPE => [$vmtype],
-      VCPU => [$vcpu],
-      VMID => [$vmid],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'VIRTUALMACHINES',
+        'values' => $args,
+        });
 
 }
 
@@ -830,26 +794,23 @@ Record a running process in the inventory.
 sub addProcess {
   my ($self, $args) = @_;
 
-  my $user = $args->{USER};
-  my $pid = $args->{PID};
-  my $cpu = $args->{CPUUSAGE};
-  my $mem = $args->{MEM};
-  my $vsz = $args->{VIRTUALMEMORY};
-  my $tty = $args->{TTY};
-  my $started = $args->{STARTED};
-  my $cmd = $args->{CMD};
+  my @fields = qw/
+      USER
+      PID
+      CPUUSAGE
+      MEM
+      VIRTUALMEMORY
+      TTY
+      STARTED
+      CMD
+      /;
 
-  push @{$self->{h}{CONTENT}{PROCESSES}},
-  {
-    USER => [$user?$user:''],
-    PID => [$pid?$pid:''],
-    CPUUSAGE => [$cpu?$cpu:''],
-    MEM => [$mem?$mem:''],
-    VIRTUALMEMORY => [$vsz?$vsz:0],
-    TTY => [$tty?$tty:''],
-    STARTED => [$started?$started:''],
-    CMD => [$cmd?$cmd:''],
-  };
+
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'PROCESSES',
+        'values' => $args,
+        });
 }
 
 =item addInput()
@@ -860,25 +821,20 @@ Add an input device (mouce/keyboard) in the inventory.
 sub addInput {
   my ($self, $args) = @_;
 
-  my $caption = $args->{CAPTION};
-  my $description = $args->{DESCRIPTION};
-  my $interface = $args->{INTERFACE};
-  my $layout = $args->{LAYOUT};
-  my $pointtype = $args->{POINTTYPE};
-  my $type = $args->{TYPE};
+  my @fields = qw/
+      CAPTION
+      DESCRIPTION
+      INTERFACE
+      LAYOUT
+      POINTTYPE
+      TYPE
+      /;
 
-  push @{$self->{h}{CONTENT}{INPUTS}},
-  {
-
-    CAPTION=> [$caption?$caption:''],
-    DESCRIPTION => [$description?$description:''],
-    INTERFACE => [$interface?$interface:''],
-# Free-form string indicating the layout of the keyboard
-    LAYOUT => [$layout?$layout:''],
-    POINTTYPE => [$pointtype?$pointtype:''],
-    TYPE => [$type?$type:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'INPUTS',
+        'values' => $args,
+        });
 }
 
 =item addEnv()
@@ -889,37 +845,19 @@ Register an environement variable.
 sub addEnv {
   my ($self, $args) = @_;
 
-  my $key = $args->{KEY};
-  my $val = $args->{VAL};
+  my @fields = qw/
+      KEY
+      VAL
+      /;
 
-  push @{$self->{h}{CONTENT}{ENVS}},
-  {
-
-    KEY => [$key?$key:''],
-    VAL => [$val?$val:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'ENVS',
+        'values' => $args,
+        });
 }
 
-=item addUpdate()
 
-Windows Update
-
-=cut
-sub addUpdate {
-  my ($self, $args) = @_;
-
-  my $id = $args->{ID};
-  my $kb = $args->{KB};
-
-  push @{$self->{h}{CONTENT}{UPDATES}},
-  {
-
-    ID => [$id?$id:''],
-    KB => [$kb?$kb:''],
-
-  };
-}
 
 =item addUSBDevice()
 
@@ -929,18 +867,14 @@ USB device
 sub addUSBDevice {
   my ($self, $args) = @_;
 
-  my $vendorId = $args->{VENDORID};
-  my $productId = $args->{PRODUCTID};
-  my $serial = $args->{SERIAL};
+  my @fields = qw/VENDORID PRODUCTID SERIAL/;
 
-  push @{$self->{h}{CONTENT}{USBDEVICES}},
-  {
-
-    VENDORID => [$vendorId?$vendorId:''],
-    PRODUCTID => [$productId?$productId:''],
-    SERIAL => [$serial?$serial:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'USBDEVICES',
+        'values' => $args,
+        'noDuplicated' => 1
+        });
 }
 
 =item addBattery()
@@ -951,53 +885,64 @@ Battery
 sub addBattery {
   my ($self, $args) = @_;
 
-  my $capacity = $args->{ CAPACITY};
-  my $chemistry = $args->{ CHEMISTRY};
-  my $date = $args->{ DATE};
-  my $name = $args->{ NAME};
-  my $serial = $args->{ SERIAL};
-  my $manufacturer = $args->{ MANUFACTURER};
-  my $voltage = $args->{ VOLTAGE};
-  push @{$self->{h}{CONTENT}{BATTERIES}},
-  {
+  my @fields = qw/
+      CAPACITY
+      CHEMISTRY
+      DATE
+      NAME
+      SERIAL
+      MANUFACTURER
+      VOLTAGE
+      /;
 
-      CAPACITY => [$capacity?$capacity:''],
-      CHEMISTRY => [$chemistry?$chemistry:''],
-      DATE => [$date?$date:''],
-      NAME => [$name?$name:''],
-      SERIAL => [$serial?$serial:''],
-      MANUFACTURER => [$manufacturer?$manufacturer:''],
-      VOLTAGE => [$voltage?$voltage:'']
-
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'BATTERIES',
+        'values' => $args,
+        });
 }
 
 
 
 =item addRegistry()
 
-USB device
+Windows Registry key
 
 =cut
 sub addRegistry {
   my ($self, $args) = @_;
 
-  my $name = $args->{NAME};
-  my $regvalue = $args->{REGVALUE};
-  my $hive = $args->{HIVE};
+  my @fields = qw/
+      NAME
+      REGVALUE
+      HIVE
+      /;
 
-  push @{$self->{h}{CONTENT}{REGISTRY}},
-  {
-
-    NAME => [$name?$name:''],
-    REGVALUE => [$regvalue?$regvalue:''],
-    HIVE => [$hive?$hive:''],
-
-  };
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'REGISTRY',
+        'values' => $args,
+        });
 }
 
 
+=item addAntiVirus()
+
+Registred Anti-Virus on Windows
+
+=cut
+sub addAntiVirus {
+  my ($self, $args) = @_;
+
+  my @fields = qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/;
+
+  $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'ANTIVIRUS',
+        'values' => $args,
+        'noDuplicated' => 1
+        });
+}
 
 
 =item setAccessLog()
@@ -1096,34 +1041,7 @@ sub getContent {
 
   my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
 
-  my $clean_content;
-
-  # To avoid strange breakage I remove the unprintable caractere in the XML
-  foreach (split "\n", $content) {
-#      s/[[:cntrl:]]//g;
-    s/\0//g;
-    if (! m/\A(
-      [\x09\x0A\x0D\x20-\x7E]            # ASCII
-      | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-      |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-      | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-      |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-      |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-      | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-      |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-      )*\z/x) {
-      s/[[:cntrl:]]//g;
-      $logger->debug("non utf-8 '".$_."'");
-    }
-
-      s/\r|\n//g;
-
-      # Is that a good idea. Intent to drop some nasty char
-      # s/[A-z0-9_\-<>\/:\.,#\ \?="'\(\)]//g;
-      $clean_content .= $_."\n";
-  }
-
-  return $clean_content;
+  return $content;
 }
 
 =item printXML()
@@ -1424,6 +1342,8 @@ in the future.
 
 =item CAPTION
 
+E.g: Physical Memory
+
 =item DESCRIPTION
 
 =item FORMFACTOR
@@ -1438,9 +1358,13 @@ Only avalaible on Windows, See Win32_PhysicalMemory documentation on MSDN.
 
 =item SPEED
 
+In Mhz, e.g: 800
+
 =item TYPE
 
 =item NUMSLOTS
+
+Eg. 2, start at 1, not 0
 
 =item SERIALNUMBER
 
@@ -1482,9 +1406,13 @@ Frequency in MHz
 
 =head2 DRIVES
 
+Drive is actually a filesystem.
+
 =over 4
 
 =item CREATEDATE
+
+Date of the create of the filesystem in in DD/MM/YYYY format.
 
 =item DESCRIPTION
 
@@ -1514,6 +1442,8 @@ Total space avalaible.
 
 =item VOLUMN
 
+Name of the partition.
+
 =back
 
 =head2 HARDWARE
@@ -1535,15 +1465,23 @@ Service Pack on Windows, kernel build date on Linux
 
 =item CHECKSUM
 
+Deprecated, OCS only.
+
 =item PROCESSORT
 
 =item NAME
 
 =item PROCESSORS
 
+The processor speed in MHz, this field is deprecated, see CPUS instead.
+
 =item SWAP
 
+The swap space in MB.
+
 =item ETIME
+
+The time needed to run the inventory on the agent side.
 
 =item TYPE
 
@@ -1563,6 +1501,8 @@ Service Pack on Windows, kernel build date on Linux
 
 =item LASTLOGGEDUSER
 
+The login of the last logged user.
+
 =item USERDOMAIN
 
 This field is deprecated, you should use the USERS section instead.
@@ -1575,7 +1515,7 @@ This field is deprecated, you should use the USERS section instead.
 
 The virtualization technologie used if the machine is a virtual machine.
 
-Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item WINOWNER
 
@@ -1595,19 +1535,29 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item BASE64
 
+The uuencoded EDID trame. Optional.
+
 =item CAPTION
 
 =item DESCRIPTION
 
 =item MANUFACTURER
 
+The manufacturer retrieved from the EDID trame.
+
 =item SERIAL
 
+The serial number retrieved from the EDID trame.
+
 =item UUENCODE
+
+The uuencoded EDID trame. Optional.
 
 =back
 
 =head2 PORTS
+
+Serial, Parallel, SATA, etc
 
 =over 4
 
@@ -1635,8 +1585,6 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item PURPOSE
 
-=item SPEED
-
 =item TYPE
 
 =item DESCRIPTION
@@ -1647,10 +1595,11 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =over 4
 
-
 =item DESCRIPTION
 
 =item DISKSIZE
+
+The disk size in MB.
 
 =item INTERFACE
 
@@ -1662,9 +1611,17 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item TYPE
 
+INTERFACE can be SCSI/HDC/IDE/USB/1394
+(See: Win32_DiskDrive / InterfaceType in MSDN documentation
+
+
 =item SERIAL
 
+The harddrive serial number
+
 =item SERIALNUMBER
+
+Deprecated. The harddrive serial number, same as SERIAL.
 
 =item FIRMWARE
 
@@ -1690,6 +1647,9 @@ Can by: Physical, Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
 
 =item FROM
 
+Where the information about the software come from, can be:
+registry, rpm, deb, etc
+
 =item HELPLINK
 
 =item INSTALLDATE
@@ -1702,9 +1662,13 @@ Installation day in DD/MM/YYYY format. Windows only.
 
 =item RELEASE_TYPE
 
+Windows only for now, come from the registry
+
 =item PUBLISHER
 
 =item UNINSTALL_STRING
+
+Windows only, come from the registry
 
 =item URL_INFO_ABOUT
 
@@ -1712,9 +1676,15 @@ Installation day in DD/MM/YYYY format. Windows only.
 
 =item VERSION_MINOR
 
+Windows only, come from the registry
+
 =item VERSION_MAJOR
 
+Windows only, come from the registry
+
 =item IS64BIT
+
+If the software is in 32 or 64bit, (1/0)
 
 =item GUID
 
@@ -1746,6 +1716,8 @@ The Windows domain of the user, if avalaible.
 
 =item RESOLUTION
 
+Resolution in pixel. 1024x768.
+
 =back
 
 =head2 VIRTUALMACHINES
@@ -1754,19 +1726,32 @@ The Windows domain of the user, if avalaible.
 
 =item MEMORY
 
+Memory size, in MB.
+
 =item NAME
+
+The name of the virtual machine.
 
 =item UUID
 
 =item STATUS
 
+The VM status: running, idle, paused, shutdown, crashed, dying, off
+
 =item SUBSYSTEM
 
+The virtualisation software.
+E.g: VmWare ESX
+
 =item VMTYPE
+
+The name of the virtualisation system family, eg. Xen or VmWare.
 
 =item VCPU
 
 =item VMID
+
+The ID of virtual machine in the virtual managment system.
 
 =back
 
@@ -1882,13 +1867,13 @@ If the interface exist or not (1 or empty)
 
 =item SLAVES
 
-=item SPEED
-
 =item MANAGEMENT
 
 Whether or not it is a HP iLO, Sun SC, HP MP or other kink of Remote Management Interface
 
-Interface speed in MB/s
+=item SPEED
+
+Interface speed in Mb/s
 
 =back
 
@@ -1921,3 +1906,70 @@ Battery manufacturer
 Voltage in mV
 
 =back
+
+=head2 PRINTERS
+
+=over 4
+
+=item COMMENT
+
+=item DESCRIPTION
+
+=item DRIVER
+
+=item NAME
+
+=item NETWORK
+
+Network: True (1) if it's a network printer
+
+=item PORT
+
+=item RESOLUTION
+
+Resolution: eg. 600x600
+
+=item SHARED
+
+Shared: True if the printer is shared (Win32)
+
+=item STATUS
+
+Status: See Win32_Printer.PrinterStatus
+
+=item ERRSTATUS
+
+ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
+
+=item SERVERNAME
+
+=item SHARENAME
+
+=item PRINTPROCESSOR
+
+=back
+
+
+=head2 ANTIVIRUS
+
+=over 4
+
+=item COMPANY
+
+Comapny name
+
+=item NAME
+
+=item GUID
+
+Unique ID
+
+=item ENABLED
+
+1 if the antivirus is enabled.
+
+=item UPTODATE
+
+1 if the antivirus is up to date.
+
+=item VERSION

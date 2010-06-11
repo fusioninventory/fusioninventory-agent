@@ -12,7 +12,8 @@ if ($OSNAME =~ /^MSWin/) {
 
 my $default = {
   'ca-cert-dir' =>  '',
-  'ca-cert-file'=>  '', 
+  'ca-cert-file'=>  '',
+  'conf-file'  => '',
   'color'     =>  0,
   'daemon'    =>  0,
   'daemon-no-fork'    =>  0,
@@ -111,11 +112,28 @@ sub loadFromCfgFile {
 
   $config->{etcdir} = [];
 
+  my $file;
+
+  my $in;
+  foreach (@ARGV) {
+    if (!$in && /^--conf-file=(.*)/) {
+      $file = $1;
+      $file =~ s/'(.*)'/$1/;
+      $file =~ s/"(.*)"/$1/;
+    } elsif (/^--conf-file$/) {
+      $in = 1;
+    } elsif ($in) {
+      $file = $_;
+      $in = 0;
+    } else {
+      $in = 0;
+    }
+  }
+
   push (@{$config->{etcdir}}, '/etc/fusioninventory');
   push (@{$config->{etcdir}}, '/usr/local/etc/fusioninventory');
 #  push (@{$config->{etcdir}}, $ENV{HOME}.'/.ocsinventory'); # Should I?
 
-  my $file;
 if (!$file || !-f $file) {
     foreach (@{$config->{etcdir}}) {
       $file = $_.'/agent.cfg';
@@ -129,11 +147,11 @@ if (!$file || !-f $file) {
 	return $config;
   }
   
-  $config->{configFile} = $file;
+  $config->{'conf-file'} = $file;
 
   foreach (<CONFIG>) {
     s/#.+//;
-    if (/(\w+)\s*=\s*(.+)/) {
+    if (/([\w-]+)\s*=\s*(.+)/) {
       my $key = $1;
       my $val = $2;
       # Remove the quotes
@@ -147,59 +165,60 @@ if (!$file || !-f $file) {
 }
 
 sub loadUserParams {
-	my $config = shift;
+  my $config = shift;
 
-    Getopt::Long::Configure( "no_ignorecase" );
+  Getopt::Long::Configure( "no_ignorecase" );
 
-	GetOptions(
-        $config,
-		'backend-collect-timeout=s',
-		'basevardir=s',
-        'ca-cert-dir=s',
-        'ca-cert-file=s',
-		'color',
-		'daemon|d',
-		'daemon-no-fork|D',
-		'debug',
-		'devlib',
-        'disable-perllib-envvar',
-		'force|f',
-		'help|h',
-		'html-dir=s',
-		'info|i',
-		'lazy',
-		'local|l=s',
-		'logfile=s',
-		'no-ocsdeploy',
-		'no-inventory',
-		'no-soft',
-		'no-printer',
-		'no-software',
-		'no-wakeonlan',
-		'no-snmpquery',
-		'no-netdiscovery',
-		'password|p=s',
-		'proxy|P=s',
-		'realm|r=s',
-		'rpc-ip=s',
-		'rpc-trust-localhost',
-		'remotedir|R=s',
-		'server|s=s',
-		'stdout',
-		'tag|t=s',
-        'no-ssl-check',
-		'user|u=s',
-		'version',
-		'wait|w=s',
-		'delaytime=s',
-		'scan-homedirs',
-		'no-socket'
-	) or help($config);
+  GetOptions(
+    $config,
+    'backend-collect-timeout=s',
+    'basevardir=s',
+    'ca-cert-dir=s',
+    'ca-cert-file=s',
+    'conf-file=s',
+    'color',
+    'daemon|d',
+    'daemon-no-fork|D',
+    'debug',
+    'devlib',
+    'disable-perllib-envvar',
+    'force|f',
+    'help|h',
+    'html-dir=s',
+    'info|i',
+    'lazy',
+    'local|l=s',
+    'logfile=s',
+    'no-ocsdeploy',
+    'no-inventory',
+    'no-soft',
+    'no-printer',
+    'no-software',
+    'no-wakeonlan',
+    'no-snmpquery',
+    'no-netdiscovery',
+    'password|p=s',
+    'perl-bin-dir-in-path',
+    'proxy|P=s',
+    'realm|r=s',
+    'rpc-ip=s',
+    'rpc-trust-localhost',
+    'remotedir|R=s',
+    'server|s=s',
+    'stdout',
+    'tag|t=s',
+    'no-ssl-check',
+    'user|u=s',
+    'version',
+    'wait|w=s',
+    'delaytime=s',
+    'scan-homedirs',
+    'no-socket'
+  ) or help($config);
 
-	help($config) if $config->{help};
-	version() if $config->{version};
+  help($config) if $config->{help};
+  version() if $config->{version};
 }
-
 
 sub help {
   my ($config, $error) = @_;
@@ -208,9 +227,9 @@ sub help {
     print "ERROR: $error\n\n";
   }
 
-  if ($config->{configFile}) {
+  if ($config->{'conf-file'}) {
       print STDERR "Setting initialised with values retrieved from ".
-      "the config found at ".$config->{configFile}."\n";
+      "the config found at ".$config->{'conf-file'}."\n";
   }
 
   print STDERR <<EOF;

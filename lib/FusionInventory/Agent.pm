@@ -88,7 +88,17 @@ sub new {
         $config->{nosoftware} = 1
     }
 
-
+    # This is a hack to add the perl binary directory
+    # in the $PATH env.
+    # This is useful for the Windows installer.
+    # You probably don't need this feature
+    if ($config->{'perl-bin-dir-in-path'}) {
+        if ($^X =~ /(^.*(\\|\/))/) {
+            $ENV{PATH} .= $Config::Config{path_sep}.$1;
+        } else {
+            $logger->error("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");
+        }
+    }
     my $hostname = hostname; # Sys::Hostname
 
 # /!\ $rootStorage save/read data in 'basevardir', not in a target directory!

@@ -155,14 +155,24 @@ sub initModList {
 
     # TODO replace that by the standard can_run()
     can_run => sub {
-# TODO: doesn't Work on Windows Yet
-      return if $OSNAME =~ /^MSWin/;
       my $binary = shift;
 
-      my $calling_namespace = caller(0);
-      chomp(my $binpath=`which $binary 2>/dev/null`);
-      return unless -x $binpath;
-      1
+      my $ret;
+      if ($OSNAME =~ /^MSWin/) {
+          MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
+              foreach my $ext (qw/.exe .bat/) {
+                  if (-f $_.'/'.$binary.$ext) {
+                      $ret = 1;
+                      last MAIN;
+                  }
+              }
+          }
+      } else {
+          chomp(my $binpath=`which $binary 2>/dev/null`);
+          $ret = -x $binpath;
+      }
+
+      return $ret;
     },
     can_load => sub {
       my $module = shift;

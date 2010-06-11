@@ -48,9 +48,13 @@ sub parseDmidecode {
             # BIOS values
             if ($line =~ /^\s+vendor:\s*(.+?)\s*$/i) {
                 $result{BiosManufacturer} = $1;
-                if ($result{BiosManufacturer} =~ /(QEMU|VirtualBox|Xen)/i) {
-                    $result{vmsystem} = $1;
-                };
+                if ($BiosManufacturer =~ /(QEMU|Bochs)/i) {
+                    $vmsystem = 'QEMU';
+                } elsif ($BiosManufacturer =~ /VirtualBox/i) {
+                    $vmsystem = 'VirtualBox';
+                } elsif ($BiosManufacturer =~ /^Xen/i) {
+                    $vmsystem = 'Xen';
+                }
             } elsif ($line =~ /^\s+release date:\s*(.+?)\s*$/i) {
                 $result{BiosDate} = $1
             } elsif ($line =~ /^\s+version:\s*(.+?)\s*$/i) {

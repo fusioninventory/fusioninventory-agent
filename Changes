@@ -60,11 +60,23 @@ Revision history for FusionInventory::Agent
          ProLiant servers) (Amir PAKDEL)
        * HP-UX: HP Management Processor (MP) (Management Interface of HP
          Integrity servers) (Amir PAKDEL)
+       * Add --perl-bin-dir-in-path parameter for the Windows package
        * Collect Batteries information
        * Add --disable-perllib-envvar to be able to ignore PERLLIB and
          PERL5LIB envvar
        * turns off PERL5LIB envvar in win32-service
        * Get CONTROLLERS/PCISUBSYSTEMID
+       * Simplify a lot Inventory.pm, add _addEntry() function
+       * Do not set CPU Id as MBoard serial number anymore
+       * XML: Only set the non empty field to decrease the final file
+         size and improve the performance
+       * Add a template config file in etc/agent.cfg
+       * Add --conf-file=XXX parameter to allow the user to use another
+         config file
+       * Fix, allow dash in key name in config file
+       * Rethink the script in ./tools, see ./tools/README
+       * Inventory: use encode('UTF-8', $string) to reencode to UTF-8
+         string detected invalide.
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem

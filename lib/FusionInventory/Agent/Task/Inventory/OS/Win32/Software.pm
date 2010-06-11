@@ -5,6 +5,7 @@ use warnings;
 
 use Config;
 
+use Win32;
 use Win32::OLE('in');
 use Win32::OLE::Variant;
 
@@ -47,9 +48,12 @@ sub processSoftwares {
     my $inventory = $params->{inventory};
     my $is64bit = $params->{is64bit};
 
-    foreach my $guid ( keys %$softwares ) {
-        my $data = $softwares->{$guid};
+    foreach my $rawGuid ( keys %$softwares ) {
+        my $data = $softwares->{$rawGuid};
         next unless keys %$data;
+        
+        my $guid = $rawGuid;
+        $guid =~ s/\/$//; # drop the tailing / 
 
 # odd, found on Win2003
         next unless keys %$data > 2;
@@ -108,7 +112,21 @@ sub doInventory {
 
     my $Config;
 
-    if ($Config{use64bitint}) {
+    my $is64bit;
+    foreach my $Properties
+        (getWmiProperties('Win32_Processor',
+                          qw/AddressWidth/)) {
+            if ($Properties->{AddressWidth} eq 64) {
+                $is64bit = 1;
+            }
+
+        }
+
+
+
+    if ($is64bit) {
+
+
 # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read 32bit
 # entries. This is not the case on Win2003 and if I correctly understand
 # MSDN, this sounds very odd
