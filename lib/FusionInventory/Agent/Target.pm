@@ -33,7 +33,7 @@ sub new {
     $self->{'config'} = $params->{'config'};
     $self->{'logger'} = $params->{'logger'};
     $self->{'type'} = $params->{'type'};
-    $self->{'path'} = $params->{'path'};
+    $self->{'path'} = $params->{'path'} || '';
     $self->{'deviceid'} = $params->{'deviceid'};
 
     my $config = $self->{'config'};
@@ -197,7 +197,6 @@ sub setNextRunDate {
     else{
         $time = time + int rand($serverdelay?$serverdelay*3600:$config->{delaytime});
     }
-
     $self->{'myData'}{'nextRunDate'} = $time;
     
     ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
