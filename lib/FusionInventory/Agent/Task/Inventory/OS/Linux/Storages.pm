@@ -9,14 +9,13 @@ sub isInventoryEnabled {1}
 sub getFromUdev {
   my @devs;
 
-  foreach (glob ("/dev/.udev/db/*")) {
-    next unless /^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/;
+  foreach my $file (glob ("/dev/.udev/db/*")) {
+    next unless $file =~ /([sh]d[a-z])$/;
+    my $device = $1;
 
-    my ($scsi_coid, $scsi_chid, $scsi_unid, $scsi_lun, $path, $device, $vendor, $model, $revision, $serial, $serial_short, $type, $bus, $capacity);
+    my ($scsi_coid, $scsi_chid, $scsi_unid, $scsi_lun, $vendor, $model, $revision, $serial, $serial_short, $type, $bus, $capacity);
 
-    $path = $1;
-    $device = $2;
-    open (PATH, $1 . $2);
+    open (PATH, $file);
     while (<PATH>) {
       if (/^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
         $scsi_coid = $1;
