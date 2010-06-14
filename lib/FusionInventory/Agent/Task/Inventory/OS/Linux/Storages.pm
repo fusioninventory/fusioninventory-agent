@@ -10,31 +10,45 @@ sub getFromUdev {
   my @devs;
 
   foreach (glob ("/dev/.udev/db/*")) {
+    next unless /^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/;
+
     my ($scsi_coid, $scsi_chid, $scsi_unid, $scsi_lun, $path, $device, $vendor, $model, $revision, $serial, $serial_short, $type, $bus, $capacity);
-    if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/) {
-      $path = $1;
-      $device = $2;
-      open (PATH, $1 . $2);
-      while (<PATH>) {
-        if (/^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
-          $scsi_coid = $1;
-          $scsi_chid = $2;
-          $scsi_unid = $3;
-          $scsi_lun = $4;
-        }
-        $vendor = $1 if /^E:ID_VENDOR=(.*)/; 
-        $model = $1 if /^E:ID_MODEL=(.*)/; 
-        $revision = $1 if /^E:ID_REVISION=(.*)/;
-        $serial = $1 if /^E:ID_SERIAL=(.*)/;
-        $serial_short = $1 if /^E:ID_SERIAL_SHORT=(.*)/;
-        $type = $1 if /^E:ID_TYPE=(.*)/;
-        $bus = $1 if /^E:ID_BUS=(.*)/;
+
+    $path = $1;
+    $device = $2;
+    open (PATH, $1 . $2);
+    while (<PATH>) {
+      if (/^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
+        $scsi_coid = $1;
+        $scsi_chid = $2;
+        $scsi_unid = $3;
+        $scsi_lun = $4;
       }
-      $serial_short = $serial unless $serial_short =~ /\S/;
-      $capacity = getCapacity($device);
-      push (@devs, {NAME => $device, MANUFACTURER => $vendor, MODEL => $model, DESCRIPTION => $bus, TYPE => $type, DISKSIZE => $capacity, SERIALNUMBER => $serial_short, FIRMWARE => $revision, SCSI_COID => $scsi_coid, SCSI_CHID => $scsi_chid, SCSI_UNID => $scsi_unid, SCSI_LUN => $scsi_lun});
-      close (PATH);
+      $vendor = $1 if /^E:ID_VENDOR=(.*)/; 
+      $model = $1 if /^E:ID_MODEL=(.*)/; 
+      $revision = $1 if /^E:ID_REVISION=(.*)/;
+      $serial = $1 if /^E:ID_SERIAL=(.*)/;
+      $serial_short = $1 if /^E:ID_SERIAL_SHORT=(.*)/;
+      $type = $1 if /^E:ID_TYPE=(.*)/;
+      $bus = $1 if /^E:ID_BUS=(.*)/;
     }
+    $serial_short = $serial unless $serial_short =~ /\S/;
+    $capacity = getCapacity($device) if $type ne 'cd';
+    push (@devs, {
+        NAME => $device,
+        MANUFACTURER => $vendor,
+        MODEL => $model,
+        DESCRIPTION => $bus,
+        TYPE => $type,
+        DISKSIZE => $capacity,
+        SERIALNUMBER => $serial_short,
+        FIRMWARE => $revision,
+        SCSI_COID => $scsi_coid,
+        SCSI_CHID => $scsi_chid,
+        SCSI_UNID => $scsi_unid,
+        SCSI_LUN => $scsi_lun
+    });
+    close (PATH);
   }
 
   return @devs;
@@ -57,13 +71,10 @@ sub getFromSysProc {
 sub getCapacity {
   my ($dev) = @_;
   my $cap;
-  if ( `fdisk -v` =~ '^GNU.*')
-  {
-       chomp ($cap = `fdisk -p -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
-  }
-  else
-  {
-  chomp ($cap = `fdisk -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
+  if ( `fdisk -v` =~ '^GNU.*') {
+    chomp ($cap = `fdisk -p -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
+  } else {
+    chomp ($cap = `fdisk -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
   }
   $cap = int ($cap/1000) if $cap;
   return $cap;
@@ -91,17 +102,13 @@ sub getManufacturer {
   my ($model) = @_;
   if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
     return ucfirst(lc($1));
-  }
-  elsif ($model =~ /^HP/) {
+  } elsif ($model =~ /^HP/) {
     return "Hewlett Packard";
-  }
-  elsif ($model =~ /^WDC/) {
+  } elsif ($model =~ /^WDC/) {
     return "Western Digital";
-  }
-  elsif ($model =~ /^ST/) {
+  } elsif ($model =~ /^ST/) {
     return "Seagate";
-  }
-  elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
+  } elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
     return "Hitachi";
   }
 }
@@ -209,7 +216,8 @@ sub doInventory {
         $devices->{$device}->{SERIALNUMBER} = $serial_short;
       }
       if (!$devices->{$device}->{DISKSIZE}) {
-        $devices->{$device}->{DISKSIZE} = getCapacity($device);
+        $devices->{$device}->{DISKSIZE} = getCapacity($device)
+            if $devices->{$device}->{TYPE} ne 'cd';
       }
       close (PATH);
     }
@@ -226,24 +234,20 @@ sub doInventory {
         if (/^\/sys\/block\/([sh]d[a-z]|fd\d)$/)
     }
     
-    if ( `fdisk -v` =~ '^GNU.*')
-    {
-    foreach (`fdisk -p -l`) {# call fdisk to list partitions
-      chomp;
-      next unless (/^\//);
-      $partitions->{$1} = undef
-        if (/^\/dev\/([sh]d[a-z])/);
-    }
-    }
-    else
-    {
-    foreach (`fdisk -l`) {# call fdisk to list partitions
-      chomp;
-      next unless (/^\//);
-      $partitions->{$1} = undef
-        if (/^\/dev\/([sh]d[a-z])/);
-    }
- 
+    if ( `fdisk -v` =~ '^GNU.*') {
+      foreach (`fdisk -p -l`) {# call fdisk to list partitions
+        chomp;
+        next unless (/^\//);
+        $partitions->{$1} = undef
+          if (/^\/dev\/([sh]d[a-z])/);
+      }
+    } else {
+      foreach (`fdisk -l`) {# call fdisk to list partitions
+        chomp;
+        next unless (/^\//);
+        $partitions->{$1} = undef
+          if (/^\/dev\/([sh]d[a-z])/);
+      }
     }
 
     foreach my $device (keys %$partitions) {
@@ -296,25 +300,24 @@ sub doInventory {
   }
 
   foreach my $device (keys %$devices) {
-#    if (($devices->{$device}->{MANUFACTURER} ne 'AMCC') and ($devices->{$device}->{MANUFACTURER} ne '3ware') and ($devices->{$device}->{MODEL} ne '') and ($devices->{$device}->{MANUFACTURER} ne 'LSILOGIC') and ($devices->{$device}->{MANUFACTURER} ne 'Adaptec')) {
-
 
     $devices->{$device}->{DESCRIPTION} = getDescription(
       $devices->{$device}->{NAME},
       $devices->{$device}->{MANUFACTURER},
       $devices->{$device}->{DESCRIPTION},
-      $devices->{$device}->{SERIALNUMBER});
+      $devices->{$device}->{SERIALNUMBER}
+    );
 
-      if (!$devices->{$device}->{MANUFACTURER} or $devices->{$device}->{MANUFACTURER} eq 'ATA') {
-        $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
-      }
-
-      if ($devices->{$device}->{CAPACITY} =~ /^cdrom$/) {
-        $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME});
-      }
-
-      $inventory->addStorages($devices->{$device});
+    if (!$devices->{$device}->{MANUFACTURER} or $devices->{$device}->{MANUFACTURER} eq 'ATA') {
+      $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
     }
+
+    if ($devices->{$device}->{CAPACITY} =~ /^cd/) {
+      $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME});
+    }
+
+    $inventory->addStorages($devices->{$device});
+  }
 
 }
 

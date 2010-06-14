@@ -5,96 +5,111 @@ sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-# Parsing dmidecode output
-# Using "type 0" section
-  my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-    $BiosVersion, $BiosDate, $YEAR, $MONTH, $DAY, $HOUR, $MIN, $SEC, $AssetTag);
-
-  my $vmsystem;
-
   my @dmidecode = `dmidecode`;
-  s/^\s+// for (@dmidecode);
 
-  # get the BIOS values
-  my $flag=0;
-  for(@dmidecode){
-    $flag=1 if /dmi type 0,/i;
-    last if($flag && (/dmi type (\d+),/i) && ($1!=0));
-    if((/^vendor:\s*(.+?)(\s*)$/i) && ($flag)) {
-        $BiosManufacturer = $1;
-        if ($BiosManufacturer =~ /(QEMU|Bochs)/i) {
-            $vmsystem = 'QEMU';
-        } elsif ($BiosManufacturer =~ /VirtualBox/i) {
-            $vmsystem = 'VirtualBox';
-        } elsif ($BiosManufacturer =~ /^Xen/i) {
-            $vmsystem = 'Xen';
-        }
+  my %result = parseDmidecode(\@dmidecode);
 
-    }
-    if((/^release\ date:\s*(.+?)(\s*)$/i) && ($flag)) { $BiosDate = $1 }
-    if((/^version:\s*(.+?)(\s*)$/i) && ($flag)) { $BiosVersion = $1 }
-  }
- 
-  # Try to query the machine itself 
-  $flag=0;
-  for(@dmidecode){
-    if(/dmi type 1,/i){$flag=1;}
-    last if($flag && (/dmi type (\d+),/i) && ($1!=1));
-    if((/^serial number:\s*(.+?)(\s*)$/i) && ($flag)) { $SystemSerial = $1 }
-    if((/^(product name|product):\s*(.+?)(\s*)$/i) && ($flag)) {
-        $SystemModel = $2;
-        if ($SystemModel =~ /VMware/i) {
-            $vmsystem = 'VMware';
-        } elsif ($SystemModel =~ /Virtual Machine/i) {
-            $vmsystem = 'Virtual Machine';
-        }
-    }
-    if((/^(manufacturer|vendor):\s*(.+?)(\s*)$/i) && ($flag)) { $SystemManufacturer = $2 }
-  }
-
-  # Failback on the motherbord
-  $flag=0;
-  for(@dmidecode){
-    if(/dmi type 2,/i){$flag=1;}
-    last if($flag && (/dmi type (\d+),/i) && ($1!=2));
-    if((/^serial number:\s*(.+?)(\s*)/i) && ($flag) && (!$SystemSerial)) { $SystemSerial = $1 }
-    if((/^product name:\s*(.+?)(\s*)/i) && ($flag) && (!$SystemModel)) { $SystemModel = $1 }
-    if((/^manufacturer:\s*(.+?)(\s*)/i) && ($flag) && (!$SystemManufacturer)) { $SystemManufacturer = $1 }
-  }
-
-  $flag=0;
-  for(@dmidecode){
-      if ($flag) {
-          if (/^Asset Tag:\s*(.+\S)/i) {
-              $AssetTag = $1;
-              $AssetTag = '' if $AssetTag eq 'Not Specified';
-              last;
-          } elsif (/dmi type \d+,/i) {  # End of the section
-              last;
-          }
-      }
-      if (/dmi type 3,/i) {
-          $flag=1;
-      }
-  }
-
-# Writing data
+  # Writing data
   $inventory->setBios ({
-      ASSETTAG => $AssetTag,
-      SMANUFACTURER => $SystemManufacturer,
-      SMODEL => $SystemModel,
-      SSN => $SystemSerial,
-      BMANUFACTURER => $BiosManufacturer,
-      BVERSION => $BiosVersion,
-      BDATE => $BiosDate,
+      ASSETTAG => $result{AssetTag},
+      SMANUFACTURER => $result{SystemManufacturer},
+      SMODEL => $result{SystemModel},
+      SSN => $result{SystemSerial},
+      BMANUFACTURER => $result{BiosManufacturer},
+      BVERSION => $result{BiosVersion},
+      BDATE => $result{BiosDate},
     });
 
-    if ($vmsystem) {
+    if ($result{vmsystem}) {
         $inventory->setHardware ({
-            VMSYSTEM => $vmsystem,
+            VMSYSTEM => $result{vmsystem},
         });
     }
 
+}
+
+sub parseDmidecode {
+    my ($dmidecode) = @_;
+
+    my %result;
+    my $type;
+
+    foreach my $line (@$dmidecode) {
+        chomp $line;
+
+        if ($line =~ /DMI type (\d+)/i) {
+            $type = $1;
+            next;
+        }
+
+        next unless defined $type;
+
+        if ($type == 0) {
+            # BIOS values
+            if ($line =~ /^\s+vendor:\s*(.+?)\s*$/i) {
+                $result{BiosManufacturer} = $1;
+                if ($BiosManufacturer =~ /(QEMU|Bochs)/i) {
+                    $vmsystem = 'QEMU';
+                } elsif ($BiosManufacturer =~ /VirtualBox/i) {
+                    $vmsystem = 'VirtualBox';
+                } elsif ($BiosManufacturer =~ /^Xen/i) {
+                    $vmsystem = 'Xen';
+                }
+            } elsif ($line =~ /^\s+release date:\s*(.+?)\s*$/i) {
+                $result{BiosDate} = $1
+            } elsif ($line =~ /^\s+version:\s*(.+?)\s*$/i) {
+                $result{BiosVersion} = $1
+            }
+            next;
+        }
+
+        if ($type == 1) {
+            if ($line =~ /^\s+serial number:\s*(.+?)\s*$/i) {
+                $result{SystemSerial} = $1
+            } elsif ($line =~ /^\s+(?:product name|product):\s*(.+?)\s*$/i) {
+                $result{SystemModel} = $1;
+                if ($result{SystemModel} =~ /(VMware|Virtual Machine)/i) {
+                    $result{vmsystem} = $1;
+                }
+            } elsif ($line =~ /^\s+(?:manufacturer|vendor):\s*(.+?)\s*$/i) {
+                $result{SystemManufacturer} = $1
+            }
+            next;
+        }
+
+        if ($type == 2) {
+            # Failback on the motherbord
+            if ($line =~ /^\s+serial number:\s*(.+?)\s*/i) {
+                $result{SystemSerial} = $1 if !$result{SystemSerial};
+            } elsif ($line =~ /^\s+product name:\s*(.+?)\s*/i) {
+                $result{SystemModel} = $1 if !$result{SystemModel};
+            } elsif ($line =~ /^\s+manufacturer:\s*(.+?)\s*/i) {
+                $result{SystemManufacturer} = $1
+                    if !$result{SystemManufacturer};
+            }
+        }
+
+        if ($type == 3) {
+            if ($line =~ /^\s+Asset Tag:\s*(.+\S)/i) {
+                $result{AssetTag} = $1 eq 'Not Specified'  ? '' : $1;
+            }
+            next;
+        }
+
+        if ($type == 4) {
+            # Some bioses don't provide a serial number so I check for CPU ID
+            # (e.g: server from dedibox.fr)
+            if ($line =~ /^\s+ID:\s*(.*)/i) {
+                if (!$result{SystemSerial}) {
+                    $result{SystemSerial} = $1;
+                    $result{SystemSerial} =~ s/\ /-/g;
+                }
+            }
+            next;
+        }
+    }
+
+    return %result;
 
 }
 

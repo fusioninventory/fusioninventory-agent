@@ -19,12 +19,12 @@ use FusionInventory::Agent::Network;
 use FusionInventory::Agent::AccountInfo;
 
 sub main {
-    my ( undef ) = @_;
+    my ( $class ) = @_;
 
    my $self = {};
-    bless $self;
+    bless $self, $class;
 
-    my $storage = new FusionInventory::Agent::Storage({
+    my $storage = FusionInventory::Agent::Storage->new({
             target => {
                 vardir => $ARGV[0],
             }
@@ -36,7 +36,7 @@ sub main {
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{target} = $data->{'target'};
-    my $logger = $self->{logger} = new FusionInventory::Logger ({
+    my $logger = $self->{logger} = FusionInventory::Logger->new({
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
@@ -60,7 +60,7 @@ sub main {
         exit(0);
     }
 
-    my $network = $self->{network} = new FusionInventory::Agent::Network ({
+    my $network = $self->{network} = FusionInventory::Agent::Network->new({
 
             logger => $logger,
             config => $config,

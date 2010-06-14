@@ -1,7 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory;
 use strict;
 
-sub isInventoryEnabled { $^O =~ /hpux/ }
+use English qw(-no_match_vars);
+
+sub isInventoryEnabled { $OSNAME =~ /hpux/ }
 
 sub doInventory { 
   my $params = shift;

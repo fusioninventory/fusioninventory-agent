@@ -22,7 +22,7 @@ my $lock :shared;
 my $status :shared = "unknown";
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
@@ -49,13 +49,13 @@ sub new {
     $logger->debug("[RPC] static files are in ".$self->{htmlDir});
 
 
-    my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
+    my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
             target => {
                 vardir => $config->{basevardir},
             }
         });
 
-    bless $self;
+    bless $self, $class;
 
     return $self if $config->{'no-socket'};
 

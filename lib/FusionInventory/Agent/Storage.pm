@@ -12,6 +12,7 @@ use File::Glob ':glob';
 my $lock :shared;
 
 use Data::Dumper;
+use English qw(-no_match_vars);
 
 =head1 NAME
 
@@ -21,7 +22,7 @@ on the caller module name.
 
 =head1 SYNOPSIS
 
-  my $storage = new FusionInventory::Agent::Storage({
+  my $storage = FusionInventory::Agent::Storage->new({
       target => {
           vardir => $ARGV[0],
       }
@@ -47,7 +48,7 @@ Create the object
 
 =cut
 sub new {
-    my ( undef, $params ) = @_;
+    my ( $class, $params ) = @_;
 
     my $self = {};
 
@@ -62,7 +63,7 @@ sub new {
 
     $self->{vardir} = $target->{vardir};
 
-    bless $self;
+    bless $self, $class;
 }
 
 sub getFileName {
@@ -159,7 +160,7 @@ sub save {
     my $filePath = $self->getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
-    my $isWindows = $^O =~ /^MSWin/;
+    my $isWindows = $OSNAME =~ /^MSWin/;
     my $oldMask = umask();
 
     if (!$isWindows) {

@@ -8,7 +8,7 @@ sub new {
     my ($class, @params) = @_;
 
     my $self = $class->SUPER::new(@params);
-    bless ($self, $class);
+    bless $self, $class;
 
     return $self;
 }

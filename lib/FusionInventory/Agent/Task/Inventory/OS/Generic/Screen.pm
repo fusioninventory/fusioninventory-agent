@@ -19,10 +19,11 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Screen;
 # http://svn.mandriva.com/cgi-bin/viewvc.cgi/soft/monitor-edid/trunk/
 #
 use strict;
+use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
 
-    return unless ($^O =~ /^MSWin/ || can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
+    return unless ($OSNAME =~ /^MSWin/ || can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
 
     1;
 }
@@ -31,7 +32,7 @@ sub getScreens {
     my @raw_edid;
 
 
-    if ($^O =~ /^MSWin/) {
+    if ($OSNAME =~ /^MSWin/) {
 
         if (!eval "
                 use FusionInventory::Agent::Task::Inventory::OS::Win32;

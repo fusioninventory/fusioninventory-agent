@@ -2,6 +2,8 @@ package FusionInventory::Agent::Task::Inventory::WinRegistry;
 
 use strict;
 
+use English qw(-no_match_vars);
+
 my @hives = qw/
 HKEY_CLASSES_ROOT
 HKEY_CURRENT_USER
@@ -14,7 +16,7 @@ HKEY_DYN_DATA
 
 
 sub isInventoryEnabled {
-    return unless $^O =~ /^MSWin/;
+    return unless $OSNAME =~ /^MSWin/;
 
     return unless eval "use Win32::TieRegistry ( Delimiter=>\"/\", ArrayValues=>0 );1;";
 

@@ -16,6 +16,7 @@ use strict;
 no strict 'refs';
 use warnings;
 
+use English qw(-no_match_vars);
 use Data::Dumper;
 
 use FusionInventory::Logger;
@@ -30,12 +31,12 @@ use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::Storage;
 
 sub main {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
   my $self = {};
-  bless $self;
+  bless $self, $class;
 
-  my $storage = new FusionInventory::Agent::Storage({
+  my $storage = FusionInventory::Agent::Storage->new({
       target => {
           vardir => $ARGV[0],
       }
@@ -50,7 +51,7 @@ sub main {
   my $target = $self->{target} = $data->{target};
   
   
-  my $logger = $self->{logger} = new FusionInventory::Logger ({
+  my $logger = $self->{logger} = FusionInventory::Logger->new({
           config => $self->{config}
       });
 
@@ -70,7 +71,7 @@ sub main {
     $logger->fault("target is undef");
   }
 
-  $self->{inventory} = new FusionInventory::Agent::XML::Query::Inventory ({
+  $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
 
           # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
@@ -107,7 +108,7 @@ sub main {
       # Put ACCOUNTINFO values in the inventory
       $accountinfo->setAccountInfo($self->{inventory});
 
-      my $network = new FusionInventory::Agent::Network ({
+      my $network = FusionInventory::Agent::Network->new({
 
               logger => $logger,
               config => $config,
@@ -157,7 +158,7 @@ sub initModList {
       my $binary = shift;
 
       my $ret;
-      if ($^O =~ /^MSWin/) {
+      if ($OSNAME =~ /^MSWin/) {
           MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
               foreach my $ext (qw/.exe .bat/) {
                   if (-f $_.'/'.$binary.$ext) {

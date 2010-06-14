@@ -5,6 +5,7 @@ use File::Path;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use Config;
 
 BEGIN {
@@ -21,7 +22,7 @@ BEGIN {
 my $lock : shared;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
@@ -41,7 +42,7 @@ sub new {
     my $target = $self->{'target'};
 
 
-    bless $self;
+    bless $self, $class;
    
     $self->{debugPrintTimer} = 0;
     
@@ -57,14 +58,14 @@ sub new {
 
 
 
-    $self->{storage} = new FusionInventory::Agent::Storage({
+    $self->{storage} = FusionInventory::Agent::Storage->new({
             target => $self
         });
 
 
     if ($self->{'type'} eq 'server') {
 
-        $self->{accountinfo} = new FusionInventory::Agent::AccountInfo({
+        $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
 
                 logger => $logger,
                 config => $config,
@@ -132,7 +133,7 @@ sub init {
             !$self->isDirectoryWritable($config->{basevardir}))
 
         &&
-        $^O !~ /^MSWin/) {
+        $OSNAME !~ /^MSWin/) {
 
         if (! -d $ENV{HOME}."/.ocsinventory/var") {
             $logger->info("Failed to create basevardir: ".$config->{basevardir}." directory: $!. ".
@@ -152,7 +153,7 @@ sub init {
         my $dir = $self->{path};
         $dir =~ s/\//_/g;
         # On Windows, we can't have ':' in directory path
-        $dir =~ s/:/../g if $^O =~ /^MSWin/; # Conditional because there is
+        $dir =~ s/:/../g if $OSNAME =~ /^MSWin/; # Conditional because there is
         # already directory like that created by 2.x < agent
         $self->{vardir} = $config->{basevardir}."/".$dir;
     } else {

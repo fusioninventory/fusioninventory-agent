@@ -18,11 +18,11 @@ my $lock :shared;
 
 sub new {
 
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
 
   my $self = {};
-  bless $self;
+  bless $self, $class;
   $self->{backend} = [];
   $self->{config} = $params->{config};
 
@@ -47,7 +47,7 @@ sub new {
         push @loadedMbackends, $_;
     }
 
-    my $obj = new $backend ({
+    my $obj = $backend->new({
       config => $self->{config},
       });
     push @{$self->{backend}}, $obj if $obj;
@@ -58,7 +58,7 @@ sub new {
   $self->debug($version);
   $self->debug("Log system initialised (@loadedMbackends)");
 
-  $self;
+  return $self;
 }
 
 sub log {

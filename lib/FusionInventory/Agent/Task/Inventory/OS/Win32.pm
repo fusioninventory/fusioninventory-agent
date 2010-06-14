@@ -2,6 +2,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 use strict;
 use vars qw($runAfter);
+
+use English qw(-no_match_vars);
+
 $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 require Exporter;
@@ -69,7 +72,7 @@ sub getWmiProperties {
 }
 
 
-sub isInventoryEnabled { $^O =~ /^MSWin32$/ }
+sub isInventoryEnabled { return $OSNAME =~ /^MSWin32$/ }
 
 sub doInventory {
 
