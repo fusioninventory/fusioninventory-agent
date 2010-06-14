@@ -77,6 +77,7 @@ Revision history for FusionInventory::Agent
        * Rethink the script in ./tools, see ./tools/README
        * Inventory: use encode('UTF-8', $string) to reencode to UTF-8
          string detected invalide.
+       * print help messages on STDERR
 
 2.0.6
        * Fix DRIVES/CREATEDATE for ext* filesystem
