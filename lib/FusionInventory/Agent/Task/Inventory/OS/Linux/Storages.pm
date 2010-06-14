@@ -57,13 +57,10 @@ sub getFromSysProc {
 sub getCapacity {
   my ($dev) = @_;
   my $cap;
-  if ( `fdisk -v` =~ '^GNU.*')
-  {
-       chomp ($cap = `fdisk -p -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
-  }
-  else
-  {
-  chomp ($cap = `fdisk -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
+  if ( `fdisk -v` =~ '^GNU.*') {
+    chomp ($cap = `fdisk -p -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
+  } else {
+    chomp ($cap = `fdisk -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
   }
   $cap = int ($cap/1000) if $cap;
   return $cap;
@@ -91,17 +88,13 @@ sub getManufacturer {
   my ($model) = @_;
   if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
     return ucfirst(lc($1));
-  }
-  elsif ($model =~ /^HP/) {
+  } elsif ($model =~ /^HP/) {
     return "Hewlett Packard";
-  }
-  elsif ($model =~ /^WDC/) {
+  } elsif ($model =~ /^WDC/) {
     return "Western Digital";
-  }
-  elsif ($model =~ /^ST/) {
+  } elsif ($model =~ /^ST/) {
     return "Seagate";
-  }
-  elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
+  } elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
     return "Hitachi";
   }
 }
@@ -227,24 +220,20 @@ sub doInventory {
         if (/^\/sys\/block\/([sh]d[a-z]|fd\d)$/)
     }
     
-    if ( `fdisk -v` =~ '^GNU.*')
-    {
-    foreach (`fdisk -p -l`) {# call fdisk to list partitions
-      chomp;
-      next unless (/^\//);
-      $partitions->{$1} = undef
-        if (/^\/dev\/([sh]d[a-z])/);
-    }
-    }
-    else
-    {
-    foreach (`fdisk -l`) {# call fdisk to list partitions
-      chomp;
-      next unless (/^\//);
-      $partitions->{$1} = undef
-        if (/^\/dev\/([sh]d[a-z])/);
-    }
- 
+    if ( `fdisk -v` =~ '^GNU.*') {
+      foreach (`fdisk -p -l`) {# call fdisk to list partitions
+        chomp;
+        next unless (/^\//);
+        $partitions->{$1} = undef
+          if (/^\/dev\/([sh]d[a-z])/);
+      }
+    } else {
+      foreach (`fdisk -l`) {# call fdisk to list partitions
+        chomp;
+        next unless (/^\//);
+        $partitions->{$1} = undef
+          if (/^\/dev\/([sh]d[a-z])/);
+      }
     }
 
     foreach my $device (keys %$partitions) {
@@ -297,25 +286,24 @@ sub doInventory {
   }
 
   foreach my $device (keys %$devices) {
-#    if (($devices->{$device}->{MANUFACTURER} ne 'AMCC') and ($devices->{$device}->{MANUFACTURER} ne '3ware') and ($devices->{$device}->{MODEL} ne '') and ($devices->{$device}->{MANUFACTURER} ne 'LSILOGIC') and ($devices->{$device}->{MANUFACTURER} ne 'Adaptec')) {
-
 
     $devices->{$device}->{DESCRIPTION} = getDescription(
       $devices->{$device}->{NAME},
       $devices->{$device}->{MANUFACTURER},
       $devices->{$device}->{DESCRIPTION},
-      $devices->{$device}->{SERIALNUMBER});
+      $devices->{$device}->{SERIALNUMBER}
+    );
 
-      if (!$devices->{$device}->{MANUFACTURER} or $devices->{$device}->{MANUFACTURER} eq 'ATA') {
-        $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
-      }
-
-      if ($devices->{$device}->{CAPACITY} =~ /^cd/) {
-        $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME});
-      }
-
-      $inventory->addStorages($devices->{$device});
+    if (!$devices->{$device}->{MANUFACTURER} or $devices->{$device}->{MANUFACTURER} eq 'ATA') {
+      $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
     }
+
+    if ($devices->{$device}->{CAPACITY} =~ /^cd/) {
+      $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME});
+    }
+
+    $inventory->addStorages($devices->{$device});
+  }
 
 }
 
