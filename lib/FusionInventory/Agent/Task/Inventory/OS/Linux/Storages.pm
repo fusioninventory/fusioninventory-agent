@@ -31,7 +31,7 @@ sub getFromUdev {
         $bus = $1 if /^E:ID_BUS=(.*)/;
       }
       $serial_short = $serial unless $serial_short =~ /\S/;
-      $capacity = getCapacity($device);
+      $capacity = getCapacity($device) if $type ne 'cd';
       push (@devs, {NAME => $device, MANUFACTURER => $vendor, MODEL => $model, DESCRIPTION => $bus, TYPE => $type, DISKSIZE => $capacity, SERIALNUMBER => $serial_short, FIRMWARE => $revision, SCSI_COID => $scsi_coid, SCSI_CHID => $scsi_chid, SCSI_UNID => $scsi_unid, SCSI_LUN => $scsi_lun});
       close (PATH);
     }
@@ -209,7 +209,8 @@ sub doInventory {
         $devices->{$device}->{SERIALNUMBER} = $serial_short;
       }
       if (!$devices->{$device}->{DISKSIZE}) {
-        $devices->{$device}->{DISKSIZE} = getCapacity($device);
+        $devices->{$device}->{DISKSIZE} = getCapacity($device)
+            if $devices->{$device}->{TYPE} ne 'cd';
       }
       close (PATH);
     }
@@ -309,7 +310,7 @@ sub doInventory {
         $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
       }
 
-      if ($devices->{$device}->{CAPACITY} =~ /^cdrom$/) {
+      if ($devices->{$device}->{CAPACITY} =~ /^cd/) {
         $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME});
       }
 
