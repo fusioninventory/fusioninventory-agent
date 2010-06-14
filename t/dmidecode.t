@@ -77,9 +77,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "$FindBin::Bin/../resources/$test";
-    open (my $handle, '<', $file) or die "Can't open $file: $!";
-    my @dmidecode = <$handle>;
-    close ($handle);
-    my %result = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::parseDmidecode(\@dmidecode);
+    my %result = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::parseDmidecode($file, '<');
     is_deeply($tests{$test}, \%result, $test);
 }

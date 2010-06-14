@@ -5,9 +5,7 @@ sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  my @dmidecode = `dmidecode`;
-
-  my %result = parseDmidecode(\@dmidecode);
+  my %result = parseDmidecode('/usr/sbin/dmidecode', '-|');
 
   # Writing data
   $inventory->setBios ({
@@ -29,12 +27,13 @@ sub doInventory {
 }
 
 sub parseDmidecode {
-    my ($dmidecode) = @_;
+    my ($file, $mode) = @_;
 
     my %result;
     my $type;
 
-    foreach my $line (@$dmidecode) {
+    open (my $handle, $mode, $file);
+    while (my $line = <$handle>) {
         chomp $line;
 
         if ($line =~ /DMI type (\d+)/i) {
@@ -108,6 +107,7 @@ sub parseDmidecode {
             next;
         }
     }
+    close ($handle);
 
     return %result;
 
