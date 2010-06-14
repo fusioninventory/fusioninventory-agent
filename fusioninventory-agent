@@ -25,7 +25,7 @@ use warnings;
 my $devlib;
 foreach (@ARGV) {
     if (/^--devlib$/) {
-        print "[info] --devlib are found, Developer mode enabled\n";
+        print STDERR "[info] --devlib are found, Developer mode enabled\n";
         eval "use lib 'lib';";
     } elsif (/^--disable-perllib-envvar$/) {
         $ENV{PERL5LIB}=undef;
@@ -35,9 +35,9 @@ foreach (@ARGV) {
 
 eval "use FusionInventory::Agent;";
 if ($@) {
-    print "Failed to load FusionInventory::Agent, $@\n";
-    print "you can run the agent directly for its source directory ";
-    print "with --devlib\n";
+    print STDERR "Failed to load FusionInventory::Agent, $@\n";
+    print STDERR "you can run the agent directly for its source directory ";
+    print STDERR "with --devlib\n";
     exit 1;
 }
 
@@ -50,12 +50,12 @@ $agent->main();
 };
 
 if ($@) {
-    print "Execution failed. Are you sur the software is fully ";
-    print "installed\n";
-    print "and an old version of the agent not already present on the ";
-    print "system?\n";
-    print "___\n";
-    print $@;
+    print STDERR "Execution failed. Are you sur the software is fully ";
+    print STDERR "installed\n";
+    print STDERR "and an old version of the agent not already present on the ";
+    print STDERR "system?\n";
+    print STDERR "___\n";
+    print STDERR $@;
     exit 1;
 }
 __END__
