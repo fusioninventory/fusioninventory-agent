@@ -28,23 +28,25 @@ sub main {
 
     $self->{logger}->debug("Ping ID:". $option->{ID});
 
-    my $network = $self->{network} = FusionInventory::Agent::Network->new ({
+    my $network = FusionInventory::Agent::Network->new({
         logger => $self->{logger},
         config => $self->{config},
         target => $self->{target},
     });
 
-    my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(                                                               
-        {
-            config => $self->{config},
-            logger => $self->{logger},
-            target => $self->{target},
-            msg    => {
-                QUERY => 'PING',
-                ID    => $option->{ID},
-            },
-        }
-    );
+    my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
+        config => $self->{config},
+        logger => $self->{logger},
+        target => $self->{target},
+        msg    => {
+            QUERY => 'PING',
+            ID    => $option->{ID},
+        },
+    });
+
+    # is this really useful ?
+    $self->{network} = $network;
+
     $self->{logger}->debug("Pong!");
     $network->send( { message => $message } );
 
