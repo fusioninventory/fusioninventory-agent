@@ -8,68 +8,68 @@ use FindBin;
 
 my %tests = (
     'dmidecode-freebsd-6.2' => {
-        SystemManufacturer => ' ',
-        SystemModel        => ' ',
-        SystemSerial       => ' ',
+        SMANUFACTURER => ' ',
+        SMODEL        => ' ',
+        SSN           => ' ',
     },
     'dmidecode-linux-2.6' => {
-        AssetTag           => '',
-        SystemManufacturer => 'Dell Inc.',
-        SystemModel        => 'Latitude D610',
-        SystemSerial       => 'D8XD62J',
-        BiosManufacturer   => 'Dell Inc.',
-        BiosVersion        => 'A06',
-        BiosDate           => '10/02/2005'
+        ASSETTAG           => '',
+        SMANUFACTURER => 'Dell Inc.',
+        SMODEL        => 'Latitude D610',
+        SSN           => 'D8XD62J',
+        BMANUFACTURER => 'Dell Inc.',
+        BVERSION      => 'A06',
+        BDATE         => '10/02/2005'
     },
     'dmidecode-openbsd-3.7' => {
-        SystemManufacturer => 'VIA Technologies, Inc.',
-        SystemModel        => 'VT82C691',
-        SystemSerial       => '52-06-00-00-FF-F9-83-01',
-        BiosManufacturer   => 'Award Software International, Inc.',
-        BiosVersion        => '4.51 PG',
-        BiosDate           => '02/11/99'
+        SMANUFACTURER => 'VIA Technologies, Inc.',
+        SMODEL        => 'VT82C691',
+        SSN           => '52-06-00-00-FF-F9-83-01',
+        BMANUFACTURER => 'Award Software International, Inc.',
+        BVERSION      => '4.51 PG',
+        BDATE         => '02/11/99'
     },
     'dmidecode-openbsd-3.8' => {
-        AssetTag           => '',
-        SystemManufacturer => 'Dell Computer Corporation',
-        SystemModel        => 'PowerEdge 1800',
-        SystemSerial       => '2K1012J',
-        BiosManufacturer   => 'Dell Computer Corporation',
-        BiosVersion        => 'A05',
-        BiosDate           => '09/21/2005'
+        ASSETTAG           => '',
+        SMANUFACTURER => 'Dell Computer Corporation',
+        SMODEL        => 'PowerEdge 1800',
+        SSN           => '2K1012J',
+        BMANUFACTURER => 'Dell Computer Corporation',
+        BVERSION      => 'A05',
+        BDATE         => '09/21/2005'
     },
     'dmidecode.rhel.2.1' => {
-        AssetTag           => 'N/A',
-        SystemManufacturer => 'IBM',
-        SystemModel        => '-[84803AX]-',
-        SystemSerial       => 'KBKGW40',
-        BiosManufacturer   => 'IBM',
-        BiosVersion        => '-[JPE130AUS-1.30]-'
+        ASSETTAG      => 'N/A',
+        SMANUFACTURER => 'IBM',
+        SMODEL        => '-[84803AX]-',
+        SSN           => 'KBKGW40',
+        BMANUFACTURER => 'IBM',
+        BVERSION      => '-[JPE130AUS-1.30]-'
     },
     'dmidecode.rhel.3.4' => {
-        AssetTag           => '12345678901234567890123456789012',
-        SystemManufacturer => 'IBM',
-        SystemModel        => 'IBM eServer x226-[8488PCR]-',
-        SystemSerial       => 'KDXPC16',
-        BiosManufacturer   => 'IBM',
-        BiosVersion        => 'IBM BIOS Version 1.57-[PME157AUS-1.57]-',
-        BiosDate           => '08/25/2005'
+        ASSETTAG      => '12345678901234567890123456789012',
+        SMANUFACTURER => 'IBM',
+        SMODEL        => 'IBM eServer x226-[8488PCR]-',
+        SSN           => 'KDXPC16',
+        BMANUFACTURER => 'IBM',
+        BVERSION      => 'IBM BIOS Version 1.57-[PME157AUS-1.57]-',
+        BDATE         => '08/25/2005'
     },
     'dmidecode.rhel.4.3' => {
-        SystemManufacturer => 'IBM',
-        SystemModel        => '-[86494jg]-',
-        SystemSerial       => 'KDMAH1Y',
-        BiosManufacturer   => 'IBM',
-        BiosVersion        => '-[OQE115A]-',
-        BiosDate           => '03/14/2006'
+        SMANUFACTURER => 'IBM',
+        SMODEL        => '-[86494jg]-',
+        SSN           => 'KDMAH1Y',
+        BMANUFACTURER => 'IBM',
+        BVERSION      => '-[OQE115A]-',
+        BDATE         => '03/14/2006'
     },
     'dmidecode.rhel.4.6' => {
-        SystemManufacturer => 'HP',
-        SystemModel        => 'ProLiant ML350 G5',
-        SystemSerial       => 'GB8814HE7S',
-        BiosManufacturer   => 'HP',
-        BiosVersion        => 'D21',
-        BiosDate           => '01/24/2008'
+        SMANUFACTURER => 'HP',
+        SMODEL        => 'ProLiant ML350 G5',
+        SSN           => 'GB8814HE7S',
+        BMANUFACTURER => 'HP',
+        BVERSION      => 'D21',
+        BDATE         => '01/24/2008'
     },
 );
 
@@ -77,9 +77,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "$FindBin::Bin/../resources/$test";
-    open (my $handle, '<', $file) or die "Can't open $file: $!";
-    my @dmidecode = <$handle>;
-    close ($handle);
-    my %result = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::parseDmidecode(\@dmidecode);
-    is_deeply($tests{$test}, \%result, $test);
+    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::parseDmidecode($file, '<');
+    is_deeply($tests{$test}, $bios, $test);
 }

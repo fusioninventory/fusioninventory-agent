@@ -5,36 +5,21 @@ sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  my @dmidecode = `dmidecode`;
-
-  my %result = parseDmidecode(\@dmidecode);
+  my ($bios, $hardware) = parseDmidecode('/usr/sbin/dmidecode', '-|');
 
   # Writing data
-  $inventory->setBios ({
-      ASSETTAG => $result{AssetTag},
-      SMANUFACTURER => $result{SystemManufacturer},
-      SMODEL => $result{SystemModel},
-      SSN => $result{SystemSerial},
-      BMANUFACTURER => $result{BiosManufacturer},
-      BVERSION => $result{BiosVersion},
-      BDATE => $result{BiosDate},
-    });
-
-    if ($result{vmsystem}) {
-        $inventory->setHardware ({
-            VMSYSTEM => $result{vmsystem},
-        });
-    }
+  $inventory->setBios($bios);
+  $inventory->setHardware($hardware) if $hardware;
 
 }
 
 sub parseDmidecode {
-    my ($dmidecode) = @_;
+    my ($file, $mode) = @_;
 
-    my %result;
-    my $type;
+    my ($bios, $hardware, $type);
 
-    foreach my $line (@$dmidecode) {
+    open (my $handle, $mode, $file);
+    while (my $line = <$handle>) {
         chomp $line;
 
         if ($line =~ /DMI type (\d+)/i) {
@@ -47,32 +32,32 @@ sub parseDmidecode {
         if ($type == 0) {
             # BIOS values
             if ($line =~ /^\s+vendor:\s*(.+?)\s*$/i) {
-                $result{BiosManufacturer} = $1;
-                if ($BiosManufacturer =~ /(QEMU|Bochs)/i) {
-                    $vmsystem = 'QEMU';
-                } elsif ($BiosManufacturer =~ /VirtualBox/i) {
-                    $vmsystem = 'VirtualBox';
-                } elsif ($BiosManufacturer =~ /^Xen/i) {
-                    $vmsystem = 'Xen';
+                $bios->{BMANUFACTURER} = $1;
+                if ($bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/i) {
+                    $hardware->{VMSYSTEM} = 'QEMU';
+                } elsif ($bios->{BMANUFACTURER} =~ /VirtualBox/i) {
+                    $hardware->{VMSYSTEM} = 'VirtualBox';
+                } elsif ($bios->{BMANUFACTURER} =~ /^Xen/i) {
+                    $hardware->{VMSYSTEM} = 'Xen';
                 }
             } elsif ($line =~ /^\s+release date:\s*(.+?)\s*$/i) {
-                $result{BiosDate} = $1
+                $bios->{BDATE} = $1
             } elsif ($line =~ /^\s+version:\s*(.+?)\s*$/i) {
-                $result{BiosVersion} = $1
+                $bios->{BVERSION} = $1
             }
             next;
         }
 
         if ($type == 1) {
             if ($line =~ /^\s+serial number:\s*(.+?)\s*$/i) {
-                $result{SystemSerial} = $1
+                $bios->{SSN} = $1
             } elsif ($line =~ /^\s+(?:product name|product):\s*(.+?)\s*$/i) {
-                $result{SystemModel} = $1;
-                if ($result{SystemModel} =~ /(VMware|Virtual Machine)/i) {
-                    $result{vmsystem} = $1;
+                $bios->{SMODEL} = $1;
+                if ($bios->{SMODEL} =~ /(VMware|Virtual Machine)/i) {
+                    $hardware->{VMSYSTEM} = $1;
                 }
             } elsif ($line =~ /^\s+(?:manufacturer|vendor):\s*(.+?)\s*$/i) {
-                $result{SystemManufacturer} = $1
+                $bios->{SMANUFACTURER} = $1
             }
             next;
         }
@@ -80,18 +65,18 @@ sub parseDmidecode {
         if ($type == 2) {
             # Failback on the motherbord
             if ($line =~ /^\s+serial number:\s*(.+?)\s*/i) {
-                $result{SystemSerial} = $1 if !$result{SystemSerial};
+                $bios->{SSN} = $1 if !$bios->{SSN};
             } elsif ($line =~ /^\s+product name:\s*(.+?)\s*/i) {
-                $result{SystemModel} = $1 if !$result{SystemModel};
+                $bios->{SMODEL} = $1 if !$bios->{SMODEL};
             } elsif ($line =~ /^\s+manufacturer:\s*(.+?)\s*/i) {
-                $result{SystemManufacturer} = $1
-                    if !$result{SystemManufacturer};
+                $bios->{SMANUFACTURER} = $1
+                    if !$bios->{SMANUFACTURER};
             }
         }
 
         if ($type == 3) {
             if ($line =~ /^\s+Asset Tag:\s*(.+\S)/i) {
-                $result{AssetTag} = $1 eq 'Not Specified'  ? '' : $1;
+                $bios->{ASSETTAG} = $1 eq 'Not Specified'  ? '' : $1;
             }
             next;
         }
@@ -100,16 +85,17 @@ sub parseDmidecode {
             # Some bioses don't provide a serial number so I check for CPU ID
             # (e.g: server from dedibox.fr)
             if ($line =~ /^\s+ID:\s*(.*)/i) {
-                if (!$result{SystemSerial}) {
-                    $result{SystemSerial} = $1;
-                    $result{SystemSerial} =~ s/\ /-/g;
+                if (!$bios->{SSN}) {
+                    $bios->{SSN} = $1;
+                    $bios->{SSN} =~ s/\ /-/g;
                 }
             }
             next;
         }
     }
+    close ($handle);
 
-    return %result;
+    return $bios, $hardware;
 
 }
 

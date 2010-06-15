@@ -9,46 +9,10 @@ sub isInventoryEnabled {1}
 sub getFromUdev {
   my @devs;
 
-  foreach (glob ("/dev/.udev/db/*")) {
-    next unless /^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/;
-
-    my ($scsi_coid, $scsi_chid, $scsi_unid, $scsi_lun, $path, $device, $vendor, $model, $revision, $serial, $serial_short, $type, $bus, $capacity);
-
-    $path = $1;
-    $device = $2;
-    open (PATH, $1 . $2);
-    while (<PATH>) {
-      if (/^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
-        $scsi_coid = $1;
-        $scsi_chid = $2;
-        $scsi_unid = $3;
-        $scsi_lun = $4;
-      }
-      $vendor = $1 if /^E:ID_VENDOR=(.*)/; 
-      $model = $1 if /^E:ID_MODEL=(.*)/; 
-      $revision = $1 if /^E:ID_REVISION=(.*)/;
-      $serial = $1 if /^E:ID_SERIAL=(.*)/;
-      $serial_short = $1 if /^E:ID_SERIAL_SHORT=(.*)/;
-      $type = $1 if /^E:ID_TYPE=(.*)/;
-      $bus = $1 if /^E:ID_BUS=(.*)/;
-    }
-    $serial_short = $serial unless $serial_short =~ /\S/;
-    $capacity = getCapacity($device) if $type ne 'cd';
-    push (@devs, {
-        NAME => $device,
-        MANUFACTURER => $vendor,
-        MODEL => $model,
-        DESCRIPTION => $bus,
-        TYPE => $type,
-        DISKSIZE => $capacity,
-        SERIALNUMBER => $serial_short,
-        FIRMWARE => $revision,
-        SCSI_COID => $scsi_coid,
-        SCSI_CHID => $scsi_chid,
-        SCSI_UNID => $scsi_unid,
-        SCSI_LUN => $scsi_lun
-    });
-    close (PATH);
+  foreach my $file (glob ("/dev/.udev/db/*")) {
+    next unless $file =~ /([sh]d[a-z])$/;
+    my $device = $1;
+    push (@devs, parseUdev($file, $device));
   }
 
   return @devs;
@@ -319,6 +283,47 @@ sub doInventory {
     $inventory->addStorages($devices->{$device});
   }
 
+}
+
+sub parseUdev {
+  my ($file, $device) = @_;
+
+  my ($result, $serial);
+
+  open (my $handle, '<', $file);
+  while (my $line = <$handle>) {
+    if ($line =~ /^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
+      $result->{SCSI_COID} = $1;
+      $result->{SCSI_CHID} = $2;
+      $result->{SCSI_UNID} = $3;
+      $result->{SCSI_LUN} = $4;
+    } elsif ($line =~ /^E:ID_VENDOR=(.*)/) {
+      $result->{MANUFACTURER} = $1;
+    } elsif ($line =~ /^E:ID_MODEL=(.*)/) {
+      $result->{MODEL} = $1;
+    } elsif ($line =~ /^E:ID_REVISION=(.*)/) {
+      $result->{FIRMWARE} = $1;
+    } elsif ($line =~ /^E:ID_SERIAL=(.*)/) {
+      $serial = $1;
+    } elsif ($line =~ /^E:ID_SERIAL_SHORT=(.*)/) {
+      $result->{SERIALNUMBER} = $1;
+    } elsif ($line =~ /^E:ID_TYPE=(.*)/) {
+      $result->{TYPE} = $1;
+    } elsif ($line =~ /^E:ID_BUS=(.*)/) {
+      $result->{DESCRIPTION} = $1;
+    }
+  }
+  close ($handle);
+
+  $result->{SERIALNUMBER} = $serial
+    unless $result->{SERIALNUMBER} =~ /\S/;
+
+  $result->{DISKSIZE} = getCapacity($device)
+    if $result->{TYPE} ne 'cd';
+
+  $result->{NAME} = $device;
+
+  return $result;
 }
 
 1;
