@@ -18,28 +18,34 @@ use FusionInventory::Agent::Network;
 
 use FusionInventory::Agent::AccountInfo;
 
-sub main {
-    my ( $class ) = @_;
+sub new {
+    my ($class) = @_;
 
-   my $self = {};
+    my $self = {};
     bless $self, $class;
 
     my $storage = FusionInventory::Agent::Storage->new({
-            target => {
-                vardir => $ARGV[0],
-            }
-        });
+        target => {
+            vardir => $ARGV[0],
+        }
+    });
 
     my $data = $storage->restore({ module => "FusionInventory::Agent" });
     $self->{data} = $data;
-    my $myData = $self->{myData} = $storage->restore();
+    $self->{myData} = $storage->restore();
 
-    my $config = $self->{config} = $data->{config};
-    my $target = $self->{target} = $data->{'target'};
-    my $logger = $self->{logger} = FusionInventory::Logger->new({
-            config => $self->{config}
-        });
+    $self->{config} = $data->{config};
+    $self->{target} = $data->{target};
+    $self->{logger} = FusionInventory::Logger->new({
+        config => $self->{config}
+    });
     $self->{prologresp} = $data->{prologresp};
+
+    return $self;
+}
+
+sub main {
+    my $self = FusionInventory::Agent::Task::WakeOnLan->new();
 
     my $continue = 0;
     foreach my $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}}) {
@@ -51,22 +57,20 @@ sub main {
       }
     }
     if ($continue eq "0") {
-        $logger->debug("No WAKEONLAN. Exiting...");
+        $self->{logger}->debug("No WAKEONLAN. Exiting...");
         exit(0);
     }
 
-    if ($target->{'type'} ne 'server') {
-        $logger->debug("No server. Exiting...");
+    if ($self->{target}->{'type'} ne 'server') {
+        $self->{logger}->debug("No server. Exiting...");
         exit(0);
     }
 
-    my $network = $self->{network} = FusionInventory::Agent::Network->new({
-
-            logger => $logger,
-            config => $config,
-            target => $target,
-
-        });
+    $self->{network} = FusionInventory::Agent::Network->new({
+        logger => $self->{logger},
+        config => $self->{config},
+        target => $self->{target},
+    });
 
    $self->StartMachine();
 
