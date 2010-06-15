@@ -71,6 +71,15 @@ my %tests = (
         BVERSION      => 'D21',
         BDATE         => '01/24/2008'
     },
+    'dmidecode-2.10-windows' => {
+        SMANUFACTURER => 'TOSHIBA',
+        SMODEL        => 'Satellite 2410',
+        SSN           => 'X2735244G',
+        BMANUFACTURER => 'TOSHIBA',
+        BVERSION      => 'Version 1.10',
+        BDATE         => '08/13/2002',
+        ASSETTAG      => '0000000000',
+    }
 );
 
 plan tests => scalar keys %tests;
