@@ -356,74 +356,74 @@ sub initModList {
 }
 
 sub runMod {
-  my ($self, $params) = @_;
+    my ($self, $params) = @_;
 
-  my $logger = $self->{logger};
+    my $logger = $self->{logger};
 
-  my $m = $params->{modname};
+    my $m = $params->{modname};
 
-  return if (!$self->{modules}->{$m}->{inventoryFuncEnable});
-  return if ($self->{modules}->{$m}->{done});
+    return if (!$self->{modules}->{$m}->{inventoryFuncEnable});
+    return if ($self->{modules}->{$m}->{done});
 
-  $self->{modules}->{$m}->{inUse} = 1; # lock the module
+    $self->{modules}->{$m}->{inUse} = 1; # lock the module
 # first I run its "runAfter"
 
-  foreach (@{$self->{modules}->{$m}->{runAfter}}) {
-    if (!$_->{name}) {
+    foreach (@{$self->{modules}->{$m}->{runAfter}}) {
+        if (!$_->{name}) {
 # The name is defined during module initialisation so if I
 # can't read it, I can suppose it had not been initialised.
-      $logger->fault ("Module `$m' need to be runAfter a module not found.".
-        "Please fix its runAfter entry or add the module.");
-    }
+            $logger->fault ("Module `$m' need to be runAfter a module not found.".
+                "Please fix its runAfter entry or add the module.");
+        }
 
-    if ($_->{inUse}) {
+        if ($_->{inUse}) {
 # In use 'lock' is taken during the mod execution. If a module
 # need a module also in use, we have provable an issue :).
-      $logger->fault ("Circular dependency hell with $m and $_->{name}");
+            $logger->fault ("Circular dependency hell with $m and $_->{name}");
+        }
+        $self->runMod({
+                modname => $_->{name},
+            });
     }
-    $self->runMod({
-        modname => $_->{name},
-      });
-  }
 
-  $logger->debug ("Running $m");
+    $logger->debug ("Running $m");
 
-  if ($self->{modules}->{$m}->{doInventoryFunc}) {
-      $self->runWithTimeout($m, "doInventory");
+    if ($self->{modules}->{$m}->{doInventoryFunc}) {
+        $self->runWithTimeout($m, "doInventory");
 #  } else {
 #      $logger->debug("$m has no doInventory() function -> ignored");
-  }
-  $self->{modules}->{$m}->{done} = 1;
-  $self->{modules}->{$m}->{inUse} = 0; # unlock the module
+    }
+    $self->{modules}->{$m}->{done} = 1;
+    $self->{modules}->{$m}->{inUse} = 0; # unlock the module
 }
 
 sub feedInventory {
-  my ($self, $params) = @_;
+    my ($self, $params) = @_;
 
-  my $logger = $self->{logger};
+    my $logger = $self->{logger};
 
-  if (!$self->{inventory}) {
-      $logger->fault('Missing inventory parameter.');
-  }
+    if (!$self->{inventory}) {
+        $logger->fault('Missing inventory parameter.');
+    }
 
-  my $inventory = $self->{inventory};
+    my $inventory = $self->{inventory};
 
-  if (!keys %{$self->{modules}}) {
-    $self->initModList();
-  }
+    if (!keys %{$self->{modules}}) {
+        $self->initModList();
+    }
 
-  my $begin = time();
-  foreach my $m (sort keys %{$self->{modules}}) {
-    $logger->fault(">$m Houston!!!") unless $m;
-      $self->runMod ({
-	  modname => $m,
-	  });
-  }
+    my $begin = time();
+    foreach my $m (sort keys %{$self->{modules}}) {
+        $logger->fault(">$m Houston!!!") unless $m;
+        $self->runMod ({
+                modname => $m,
+            });
+    }
 
 # Execution time
-  $inventory->setHardware({ETIME => time() - $begin});
+    $inventory->setHardware({ETIME => time() - $begin});
 
-  $inventory->{isInitialised} = 1;
+    $inventory->{isInitialised} = 1;
 
 }
 
