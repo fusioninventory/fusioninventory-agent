@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Ping;
 use strict;
 no strict 'refs';
 use warnings;
+use base 'FusionInventory::Agent::Task::Base';
 
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
@@ -11,31 +12,6 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Logger;
-
-sub new {
-    my ($class) = @_;
-
-    my $self = {};
-    bless $self, $class;
-
-    my $storage = FusionInventory::Agent::Storage->new({
-        target => {
-            vardir => $ARGV[0],
-        }
-    });
-
-    my $data = $storage->restore({ module => "FusionInventory::Agent" });
-    $self->{data} = $data;
-    $self->{myData} = $storage->restore();
-
-    $self->{config} = $data->{config};
-    $self->{target} = $data->{target};
-    $self->{logger} = FusionInventory::Logger->new({
-        config => $self->{config}
-    });
-
-    return $self;
-}
 
 sub main {
     my $self = FusionInventory::Agent::Task::Ping->new();

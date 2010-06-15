@@ -15,6 +15,7 @@ regarding the Hardware and Software installation.
 use strict;
 no strict 'refs';
 use warnings;
+use base 'FusionInventory::Agent::Task::Base';
 
 use English qw(-no_match_vars);
 
@@ -25,32 +26,6 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
-
-sub new {
-    my ($class) = @_;
-
-    my $self = {};
-    bless $self, $class;
-
-    my $storage = FusionInventory::Agent::Storage->new({
-        target => {
-            vardir => $ARGV[0],
-        }
-    });
-    my $data = $storage->restore({
-        module => "FusionInventory::Agent"
-    });
-    $self->{storage} = $storage;
-
-    $self->{config} = $data->{config};
-    $self->{target} = $data->{target};
-    $self->{logger} = FusionInventory::Logger->new({
-        config => $self->{config}
-    });
-    $self->{prologresp} = $data->{prologresp};
-
-    return $self;
-}
 
 sub main {
   my $self = FusionInventory::Agent::Task::Inventory->new();
