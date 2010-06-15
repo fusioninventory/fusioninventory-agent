@@ -77,11 +77,12 @@ sub StartMachine {
         setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
             or warn "Can't do setsockopt: $ERRNO\n";
 
-        my $rec = `/sbin/ifconfig -a | grep "HWaddr"`;
-        my @netcards = split(/\n/, $rec);
-        foreach (@netcards) {
-            my ($netName, $field2, $field3, $field4, $netMac) =
-                split(/\s+/, $_);
+        open (my $handle, '-|', '/sbin/ifconfig -a')
+            or die "Can't run /sbin/ifconfig: $ERRNO";
+        while (my $line = <$handle>) {
+            next unless $line =~ /(\S+) \s+ Link \s \S+ \s+ HWaddr \s (\S+)/x;
+            my $netName = $1;
+            my $netMac = $2;
             $logger->debug(
                 "Send magic packet to $macaddress directly on card driver"
             );
@@ -96,6 +97,7 @@ sub StartMachine {
             send(SOCKET, $magic_packet, 0, $destination)
                 or warn "Couldn't send packet: $ERRNO";
         }
+        close ($handle);
         # TODO : For FreeBSD, send to /dev/bpf ....
     } else { # degraded wol by UDP
         if ( eval { socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp')) }) {
