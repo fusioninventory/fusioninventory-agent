@@ -17,7 +17,6 @@ no strict 'refs';
 use warnings;
 
 use English qw(-no_match_vars);
-use Data::Dumper;
 
 use FusionInventory::Logger;
 use FusionInventory::Agent::Config;
