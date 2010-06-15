@@ -31,7 +31,7 @@ sub main {
             }
         }
     }
-    if ($continue eq "0") {
+    if ($continue == 0) {
         $self->{logger}->debug("No WAKEONLAN. Exiting...");
         exit(0);
     }
@@ -103,6 +103,5 @@ sub StartMachine {
         # See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx
     }
 }
-
 
 1;
