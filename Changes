@@ -84,6 +84,7 @@ Revision history for FusionInventory::Agent
        * Merge Mandrake.pm in Mandriva.pm (Guillaume ROUSSE)
        * Improve udev parsing (Guillaume ROUSSE)
        * Various code clean up (Guillaume ROUSSE)
+       * RPC: ignore when socket::accept return an undef $socket
 
 2.0.7    Mon, 14 Jun 2010 18:09:27 +0200
        * Avoid a warning if --stdout is used.

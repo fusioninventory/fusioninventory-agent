@@ -210,6 +210,7 @@ sub server {
             $thr->join();
         }
         my ($c, $socket) = $daemon->accept;
+        next unless $socket;
         my(undef,$iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
 # HTTP::Daemon::get_request is not thread
