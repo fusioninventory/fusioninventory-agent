@@ -110,262 +110,249 @@ sub main {
 }
 
 sub initModList {
-  my $self = shift;
+    my $self = shift;
 
-  my $logger = $self->{logger};
-  my $config = $self->{config};
-  my $storage = $self->{storage};
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+    my $storage = $self->{storage};
 
-  my @dirToScan;
-  my @installed_mods;
-  my @installed_files;
+    my @dirToScan;
+    my @installed_mods;
+    my @installed_files;
 
 
-  # Hackish. The function we want to export
-  # in the module
-  my $backendSharedFuncs = {
+    # Hackish. The function we want to export
+    # in the module
+    my $backendSharedFuncs = {
 
-    # TODO replace that by the standard can_run()
-    can_run => sub {
-      my $binary = shift;
+        # TODO replace that by the standard can_run()
+        can_run => sub {
+            my $binary = shift;
 
-      my $ret;
-      if ($OSNAME =~ /^MSWin/) {
-          MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
-              foreach my $ext (qw/.exe .bat/) {
-                  if (-f $_.'/'.$binary.$ext) {
-                      $ret = 1;
-                      last MAIN;
-                  }
-              }
-          }
-      } else {
-          chomp(my $binpath=`which $binary 2>/dev/null`);
-          $ret = -x $binpath;
-      }
+            my $ret;
+            if ($OSNAME =~ /^MSWin/) {
+                MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
+                    foreach my $ext (qw/.exe .bat/) {
+                        if (-f $_.'/'.$binary.$ext) {
+                            $ret = 1;
+                            last MAIN;
+                        }
+                    }
+                }
+            } else {
+                chomp(my $binpath=`which $binary 2>/dev/null`);
+                $ret = -x $binpath;
+            }
 
-      return $ret;
-    },
-    can_load => sub {
-      my $module = shift;
+            return $ret;
+        },
+        can_load => sub {
+            my $module = shift;
 
-      my $calling_namespace = caller(0);
-      eval "package $calling_namespace; use $module;";
+            my $calling_namespace = caller(0);
+            eval "package $calling_namespace; use $module;";
 #      print STDERR "$module not loaded in $calling_namespace! $!: $@\n" if $@;
-      return if $@;
+            return if $@;
 #      print STDERR "$module loaded in $calling_namespace!\n";
-      1;
-    },
-    can_read => sub {
-      my $file = shift;
-      return unless -r $file;
-      1;
-    },
-    runcmd => sub {
-      my $cmd = shift;
-      return unless $cmd;
+            1;
+        },
+        can_read => sub {
+            my $file = shift;
+            return unless -r $file;
+            1;
+        },
+        runcmd => sub {
+            my $cmd = shift;
+            return unless $cmd;
 
-      # $self->{logger}->debug(" - run $cmd");
+            # $self->{logger}->debug(" - run $cmd");
 
-      return `$cmd`;
+            return `$cmd`;
+        }
+    };
+
+    # This is a workaround for PAR::Packer. Since it resets @INC
+    # I can't find the backend modules to load dynamically. So
+    # I prepare a list and include it.
+    eval "use FusionInventory::Agent::Task::Inventory::ModuleToLoad;";
+    if (!$@) {
+        $logger->debug("use FusionInventory::Agent::Task::Inventory::ModuleToLoad to get the modules ".
+            "to load. This should not append unless you use the standalone agent built with ".
+            "PAR::Packer (pp)");
+        push @installed_mods, @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
     }
-  };
 
-
-
-
-
-  # This is a workaround for PAR::Packer. Since it resets @INC
-  # I can't find the backend modules to load dynamically. So
-  # I prepare a list and include it.
-  eval "use FusionInventory::Agent::Task::Inventory::ModuleToLoad;";
-  if (!$@) {
-    $logger->debug("use FusionInventory::Agent::Task::Inventory::ModuleToLoad to get the modules ".
-      "to load. This should not append unless you use the standalone agent built with ".
-      "PAR::Packer (pp)");
-    push @installed_mods, @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
-  }
-
-  if ($config->{devlib}) {
-  # devlib enable, I only search for backend module in ./lib
-    push (@dirToScan, './lib');
-  } else {
-    foreach (@INC) {
-      next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
-      next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
-      push @dirToScan, $_;
-    }
-  }
-  if (@dirToScan) {
-    eval {require File::Find};
-    if ($@) {
-      $logger->debug("Failed to load File::Find");
+    if ($config->{devlib}) {
+        # devlib enable, I only search for backend module in ./lib
+        push (@dirToScan, './lib');
     } else {
+        foreach (@INC) {
+            next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
+            next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
+            push @dirToScan, $_;
+        }
+    }
+    if (@dirToScan) {
+        eval {require File::Find};
+        if ($@) {
+            $logger->debug("Failed to load File::Find");
+        } else {
 # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
 # changes the @INC content if i use $_ directly
 # thanks to @rgs on irc.perl.org
-      File::Find::find(
-        {
-          wanted => sub {
-            push @installed_files, $File::Find::name if $File::Find::name =~
-            /FusionInventory\/Agent\/Task\/Inventory\/.*\.pm$/;
-          },
-          follow => 1,
-          follow_skip => 2
+            File::Find::find(
+                {
+                    wanted => sub {
+                        push @installed_files, $File::Find::name if $File::Find::name =~
+                        /FusionInventory\/Agent\/Task\/Inventory\/.*\.pm$/;
+                    },
+                    follow => 1,
+                    follow_skip => 2
+                }
+                , @dirToScan);
         }
-        , @dirToScan);
-    }
-  }
-
-  foreach my $file (@installed_files) {
-    my $t = $file;
-    next unless $t =~ s!.*?(FusionInventory/Agent/Task/Inventory/)(.*?)\.pm$!$1$2!;
-    my $m = join ('::', split /\//, $t);
-    push @installed_mods, $m unless grep (/^$m$/, @installed_mods);
-  }
-
-  if (!@installed_mods) {
-    $logger->info("ZERO backend module found! Is FusionInventory-Agent ".
-    "correctly installed? Use the --devlib flag if you want to run the agent ".
-    "directly from the source directory.")
-  }
-
-  # First all the module are flagged as 'OK'
-  foreach my $m (@installed_mods) {
-    $self->{modules}->{$m}->{inventoryFuncEnable} = 1;
-  }
-
-
-  foreach my $m (@installed_mods) {
-    my @runAfter;
-    my @runMeIfTheseChecksFailed;
-    my $enable = 1;
-
-    if (!$self->{modules}->{$m}->{inventoryFuncEnable}) {
-        next;
-    }
-    if (exists ($self->{modules}->{$m}->{name})) {
-      $logger->debug($m." already loaded.");
-      next;
     }
 
-    my $package = $m."::";
-
-    eval "use $m;";
-    if ($@) {
-      $logger->debug ("Failed to load $m: $@");
-      $enable = 0;
-      next;
+    foreach my $file (@installed_files) {
+        my $t = $file;
+        next unless $t =~ s!.*?(FusionInventory/Agent/Task/Inventory/)(.*?)\.pm$!$1$2!;
+        my $m = join ('::', split /\//, $t);
+        push @installed_mods, $m unless grep (/^$m$/, @installed_mods);
     }
 
-    # Load in the module the backendSharedFuncs
-    foreach my $func (keys %{$backendSharedFuncs}) {
-      $package->{$func} = $backendSharedFuncs->{$func};
+    if (!@installed_mods) {
+        $logger->info("ZERO backend module found! Is FusionInventory-Agent ".
+            "correctly installed? Use the --devlib flag if you want to run the agent ".
+            "directly from the source directory.")
     }
 
-    if ($package->{isInventoryEnabled}) {
-      $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{isInventoryEnabled};
-      $enable = $self->runWithTimeout($m, "isInventoryEnabled");
-    }
-    if (!$enable) {
-      $logger->debug ($m." ignored");
-      foreach (keys %{$self->{modules}}) {
-          $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
-      }
+    # First all the module are flagged as 'OK'
+    foreach my $m (@installed_mods) {
+        $self->{modules}->{$m}->{inventoryFuncEnable} = 1;
     }
 
 
+    foreach my $m (@installed_mods) {
+        my @runAfter;
+        my @runMeIfTheseChecksFailed;
+        my $enable = 1;
 
-
-    if ($package->{check}) {
-        $logger->error("$m: check() function is deprecated, please rename it to ".
-            "isInventoryEnabled()");
-    }
-    if ($package->{run}) {
-        $logger->error("$m: run() function is deprecated, please rename it to ".
-            "doInventory()");
-    }
-    if ($package->{longRun}) {
-        $logger->error("$m: longRun() function is deprecated, please rename it to ".
-            "postInventory()");
-    }
-
-    $self->{modules}->{$m}->{name} = $m;
-    $self->{modules}->{$m}->{done} = 0;
-    $self->{modules}->{$m}->{inUse} = 0;
-    $self->{modules}->{$m}->{inventoryFuncEnable} = $enable;
-
-
-    if (!$enable) {
-        $logger->debug ($m." ignored");
-        foreach (keys %{$self->{modules}}) {
-            $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+        if (!$self->{modules}->{$m}->{inventoryFuncEnable}) {
+            next;
         }
-        next;
-    }
+        if (exists ($self->{modules}->{$m}->{name})) {
+            $logger->debug($m." already loaded.");
+            next;
+        }
 
+        my $package = $m."::";
 
-    # TODO add a isPostInventoryEnabled() function to know if we need to run
-    # the postInventory() function.
-    # Is that really needed?
-    $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
+        eval "use $m;";
+        if ($@) {
+            $logger->debug ("Failed to load $m: $@");
+            $enable = 0;
+            next;
+        }
 
-    $self->{modules}->{$m}->{runAfter} = $package->{runAfter};
-    $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{runMeIfTheseChecksFailed};
-    $self->{modules}->{$m}->{doInventoryFunc} = $package->{doInventory};
-    $self->{modules}->{$m}->{doPostInventoryFunc} = $package->{doPostInventory};
-    $self->{modules}->{$m}->{mem} = {}; # Deprecated
-    $self->{modules}->{$m}->{rpcCfg} = $package->{rpcCfg};
+        # Load in the module the backendSharedFuncs
+        foreach my $func (keys %{$backendSharedFuncs}) {
+            $package->{$func} = $backendSharedFuncs->{$func};
+        }
+
+        if ($package->{isInventoryEnabled}) {
+            $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{isInventoryEnabled};
+            $enable = $self->runWithTimeout($m, "isInventoryEnabled");
+        }
+        if (!$enable) {
+            $logger->debug ($m." ignored");
+            foreach (keys %{$self->{modules}}) {
+                $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+            }
+        }
+
+        if ($package->{check}) {
+            $logger->error("$m: check() function is deprecated, please rename it to ".
+                "isInventoryEnabled()");
+        }
+        if ($package->{run}) {
+            $logger->error("$m: run() function is deprecated, please rename it to ".
+                "doInventory()");
+        }
+        if ($package->{longRun}) {
+            $logger->error("$m: longRun() function is deprecated, please rename it to ".
+                "postInventory()");
+        }
+
+        $self->{modules}->{$m}->{name} = $m;
+        $self->{modules}->{$m}->{done} = 0;
+        $self->{modules}->{$m}->{inUse} = 0;
+        $self->{modules}->{$m}->{inventoryFuncEnable} = $enable;
+
+        if (!$enable) {
+            $logger->debug ($m." ignored");
+            foreach (keys %{$self->{modules}}) {
+                $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+            }
+            next;
+        }
+
+        # TODO add a isPostInventoryEnabled() function to know if we need to run
+        # the postInventory() function.
+        # Is that really needed?
+        $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
+
+        $self->{modules}->{$m}->{runAfter} = $package->{runAfter};
+        $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{runMeIfTheseChecksFailed};
+        $self->{modules}->{$m}->{doInventoryFunc} = $package->{doInventory};
+        $self->{modules}->{$m}->{doPostInventoryFunc} = $package->{doPostInventory};
+        $self->{modules}->{$m}->{mem} = {}; # Deprecated
+        $self->{modules}->{$m}->{rpcCfg} = $package->{rpcCfg};
 # Load the Storable object is existing or return undef
-    $self->{modules}->{$m}->{storage} = $storage;
+        $self->{modules}->{$m}->{storage} = $storage;
 
-  }
+    }
 
 # the sort is just for the presentation
-  foreach my $m (sort keys %{$self->{modules}}) {
-      next unless $self->{modules}->{$m}->{isInventoryEnabledFunc};
+    foreach my $m (sort keys %{$self->{modules}}) {
+        next unless $self->{modules}->{$m}->{isInventoryEnabledFunc};
 # find modules to disable and their submodules
 
-      next unless $self->{modules}->{$m}->{inventoryFuncEnable};
+        next unless $self->{modules}->{$m}->{inventoryFuncEnable};
 
-      my $enable = $self->runWithTimeout($m, "isInventoryEnabled");
+        my $enable = $self->runWithTimeout($m, "isInventoryEnabled");
 
+        if (!$enable) {
+            $logger->debug ($m." ignored");
+            foreach (keys %{$self->{modules}}) {
+                $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+            }
+        }
 
-    if (!$enable) {
-      $logger->debug ($m." ignored");
-      foreach (keys %{$self->{modules}}) {
-          $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
-      }
+        # add submodule in the runAfter array
+        my $t;
+        foreach (split /::/,$m) {
+            $t .= "::" if $t;
+            $t .= $_;
+            if (exists $self->{modules}->{$t} && $m ne $t) {
+                push @{$self->{modules}->{$m}->{runAfter}}, \%{$self->{modules}->{$t}}
+            }
+        }
     }
 
-
-
-
-# add submodule in the runAfter array
-    my $t;
-    foreach (split /::/,$m) {
-      $t .= "::" if $t;
-      $t .= $_;
-      if (exists $self->{modules}->{$t} && $m ne $t) {
-	push @{$self->{modules}->{$m}->{runAfter}}, \%{$self->{modules}->{$t}}
-      }
+    # Remove the runMeIfTheseChecksFailed if needed
+    foreach my $m (sort keys %{$self->{modules}}) {
+        next unless $self->{modules}->{$m}->{inventoryFuncEnable};
+        next unless $self->{modules}->{$m}->{runMeIfTheseChecksFailed};
+        foreach my $condmod (@{${$self->{modules}->{$m}->{runMeIfTheseChecksFailed}}}) {
+            if ($self->{modules}->{$condmod}->{inventoryFuncEnable}) {
+                foreach (keys %{$self->{modules}}) {
+                    next unless /^$m($|::)/ && $self->{modules}->{$_}->{inventoryFuncEnable};
+                    $self->{modules}->{$_}->{inventoryFuncEnable} = 0;
+                    $logger->debug ("$_ disabled because of a 'runMeIfTheseChecksFailed' in '$m'\n");
+                }
+            }
+        }
     }
-  }
-
-  # Remove the runMeIfTheseChecksFailed if needed
-  foreach my $m (sort keys %{$self->{modules}}) {
-    next unless	$self->{modules}->{$m}->{inventoryFuncEnable};
-    next unless	$self->{modules}->{$m}->{runMeIfTheseChecksFailed};
-    foreach my $condmod (@{${$self->{modules}->{$m}->{runMeIfTheseChecksFailed}}}) {
-       if ($self->{modules}->{$condmod}->{inventoryFuncEnable}) {
-         foreach (keys %{$self->{modules}}) {
-           next unless /^$m($|::)/ && $self->{modules}->{$_}->{inventoryFuncEnable};
-           $self->{modules}->{$_}->{inventoryFuncEnable} = 0;
-           $logger->debug ("$_ disabled because of a 'runMeIfTheseChecksFailed' in '$m'\n");
-         }
-      }
-    }
-  }
 }
 
 sub runMod {
