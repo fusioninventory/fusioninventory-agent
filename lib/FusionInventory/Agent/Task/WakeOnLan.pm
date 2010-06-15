@@ -23,7 +23,7 @@ sub main {
     my $self = FusionInventory::Agent::Task::WakeOnLan->new();
 
     my $continue = 0;
-    foreach my $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}}) {
+    foreach my $num (@{$self->{prologresp}->{parsedcontent}->{OPTION}}) {
       if (defined($num)) {
         if ($num->{NAME} eq "WAKEONLAN") {
             $continue = 1;
@@ -36,7 +36,7 @@ sub main {
         exit(0);
     }
 
-    if ($self->{target}->{'type'} ne 'server') {
+    if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");
         exit(0);
     }

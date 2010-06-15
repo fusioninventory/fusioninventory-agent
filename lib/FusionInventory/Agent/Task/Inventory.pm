@@ -60,10 +60,10 @@ sub main {
       });
   $self->{inventory} = $inventory;
 
-  if (!$self->{config}->{'stdout'} && !$self->{config}->{'local'}) {
+  if (!$self->{config}->{stdout} && !$self->{config}->{local}) {
       $self->{logger}->fault("No prologresp!") unless $self->{prologresp};
     
-      if ($self->{config}->{'force'}) {
+      if ($self->{config}->{force}) {
         $self->{logger}->debug("Force enable, ignore prolog and run inventory.");
       } elsif (!$self->{prologresp}->isInventoryAsked()) {
         $self->{logger}->debug("No inventory requested in the prolog...");
@@ -76,7 +76,7 @@ sub main {
 
   if ($self->{target}->{type} eq 'stdout') {
       $self->{inventory}->printXML();
-  } elsif ($self->{target}->{'type'} eq 'local') {
+  } elsif ($self->{target}->{type} eq 'local') {
       $self->{inventory}->writeXML();
   } elsif ($self->{target}->{type} eq 'server') {
 
@@ -266,8 +266,8 @@ sub initModList {
       $package->{$func} = $backendSharedFuncs->{$func};
     }
 
-    if ($package->{'isInventoryEnabled'}) {
-      $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{'isInventoryEnabled'};
+    if ($package->{isInventoryEnabled}) {
+      $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{isInventoryEnabled};
       $enable = $self->runWithTimeout($m, "isInventoryEnabled");
     }
     if (!$enable) {
@@ -280,15 +280,15 @@ sub initModList {
 
 
 
-    if ($package->{'check'}) {
+    if ($package->{check}) {
         $logger->error("$m: check() function is deprecated, please rename it to ".
             "isInventoryEnabled()");
     }
-    if ($package->{'run'}) {
+    if ($package->{run}) {
         $logger->error("$m: run() function is deprecated, please rename it to ".
             "doInventory()");
     }
-    if ($package->{'longRun'}) {
+    if ($package->{longRun}) {
         $logger->error("$m: longRun() function is deprecated, please rename it to ".
             "postInventory()");
     }
@@ -313,12 +313,12 @@ sub initModList {
     # Is that really needed?
     $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
 
-    $self->{modules}->{$m}->{runAfter} = $package->{'runAfter'};
-    $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{'runMeIfTheseChecksFailed'};
-    $self->{modules}->{$m}->{doInventoryFunc} = $package->{'doInventory'};
-    $self->{modules}->{$m}->{doPostInventoryFunc} = $package->{'doPostInventory'};
+    $self->{modules}->{$m}->{runAfter} = $package->{runAfter};
+    $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{runMeIfTheseChecksFailed};
+    $self->{modules}->{$m}->{doInventoryFunc} = $package->{doInventory};
+    $self->{modules}->{$m}->{doPostInventoryFunc} = $package->{doPostInventory};
     $self->{modules}->{$m}->{mem} = {}; # Deprecated
-    $self->{modules}->{$m}->{rpcCfg} = $package->{'rpcCfg'};
+    $self->{modules}->{$m}->{rpcCfg} = $package->{rpcCfg};
 # Load the Storable object is existing or return undef
     $self->{modules}->{$m}->{storage} = $storage;
 

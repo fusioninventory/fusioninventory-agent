@@ -16,12 +16,12 @@ use FusionInventory::Logger;
 sub main {
     my $self = FusionInventory::Agent::Task::Ping->new();
 
-    if ($self->{target}->{'type'} ne 'server') {
+    if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");
         exit(0);
     }
 
-    my $options = $self->{data}->{'prologresp'}->getOptionsInfoByName('PING');
+    my $options = $self->{data}->{prologresp}->getOptionsInfoByName('PING');
     return unless $options;
     my $option = shift @$options;
     return unless $option;
