@@ -65,7 +65,7 @@ sub StartMachine {
 
     my $byte = '[0-9A-F]{2}';
     if ($macaddress !~ /^$byte:$byte:$byte:$byte:$byte:$byte$/i) {
-        $self->{logger}->debug("Invalid MacAddress. Exiting...");
+        $self->{logger}->debug("Invalid MacAddress $macaddress . Exiting...");
         exit(0);
     }
     $macaddress =~ s/://g;
