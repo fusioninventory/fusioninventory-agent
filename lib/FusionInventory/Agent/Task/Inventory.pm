@@ -28,88 +28,85 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
 
 sub main {
-  my $self = FusionInventory::Agent::Task::Inventory->new();
+    my $self = FusionInventory::Agent::Task::Inventory->new();
 
-  if ($self->{target}->{type} eq 'server' &&
-    (
-      !exists($self->{prologresp}->{parsedcontent}->{RESPONSE}) ||
-      $self->{prologresp}->{parsedcontent}->{RESPONSE} !~ /^SEND$/
-    )
-  ) {
-    $self->{logger}->debug(
-      '<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not send an inventory.'
-    );
-    exit(0);
-  }
+    if ($self->{target}->{type} eq 'server' &&
+        (
+            !exists($self->{prologresp}->{parsedcontent}->{RESPONSE}) ||
+            $self->{prologresp}->{parsedcontent}->{RESPONSE} !~ /^SEND$/
+        )
+    ) {
+        $self->{logger}->debug(
+            '<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not send an inventory.'
+        );
+        exit(0);
+    }
 
-  $self->{modules} = {};
+    $self->{modules} = {};
 
-  if (!$self->{target}) {
-    $self->{logger}->fault("target is undef");
-  }
+    if (!$self->{target}) {
+        $self->{logger}->fault("target is undef");
+    }
 
-  my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
-
-          # TODO, check if the accoun{info,config} are needed in localmode
+    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
+        # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
-          target => $self->{target},
-          config => $self->{config},
-          logger => $self->{logger},
-
-      });
-  $self->{inventory} = $inventory;
-
-  if (!$self->{config}->{stdout} && !$self->{config}->{local}) {
-      $self->{logger}->fault("No prologresp!") unless $self->{prologresp};
-    
-      if ($self->{config}->{force}) {
-        $self->{logger}->debug("Force enable, ignore prolog and run inventory.");
-      } elsif (!$self->{prologresp}->isInventoryAsked()) {
-        $self->{logger}->debug("No inventory requested in the prolog...");
-        exit(0);
-      }
-  }
-
-  $self->feedInventory();
-
-
-  if ($self->{target}->{type} eq 'stdout') {
-      $self->{inventory}->printXML();
-  } elsif ($self->{target}->{type} eq 'local') {
-      $self->{inventory}->writeXML();
-  } elsif ($self->{target}->{type} eq 'server') {
-
-      my $accountinfo = $self->{target}->{accountinfo};
-
-      # Put ACCOUNTINFO values in the inventory
-      $accountinfo->setAccountInfo($self->{inventory});
-
-      my $network = FusionInventory::Agent::Network->new({
-        logger => $self->{logger},
-        config => $self->{config},
         target => $self->{target},
-      });
+        config => $self->{config},
+        logger => $self->{logger},
+    });
+    $self->{inventory} = $inventory;
 
-      my $response = $network->send({message => $inventory});
+    if (!$self->{config}->{stdout} && !$self->{config}->{local}) {
+        $self->{logger}->fault("No prologresp!") unless $self->{prologresp};
 
-      return unless $response;
-      $inventory->saveLastState();
+        if ($self->{config}->{force}) {
+            $self->{logger}->debug("Force enable, ignore prolog and run inventory.");
+        } elsif (!$self->{prologresp}->isInventoryAsked()) {
+            $self->{logger}->debug("No inventory requested in the prolog...");
+            exit(0);
+        }
+    }
 
-      my $parsedContent = $response->getParsedContent();
-      if ($parsedContent
-          &&
-          exists ($parsedContent->{RESPONSE})
-          &&
-          $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
-      ) {
-          $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
-      }
+    $self->feedInventory();
 
-  }
 
-  exit(0);
+    if ($self->{target}->{type} eq 'stdout') {
+        $self->{inventory}->printXML();
+    } elsif ($self->{target}->{type} eq 'local') {
+        $self->{inventory}->writeXML();
+    } elsif ($self->{target}->{type} eq 'server') {
 
+        my $accountinfo = $self->{target}->{accountinfo};
+
+        # Put ACCOUNTINFO values in the inventory
+        $accountinfo->setAccountInfo($self->{inventory});
+
+        my $network = FusionInventory::Agent::Network->new({
+            logger => $self->{logger},
+            config => $self->{config},
+            target => $self->{target},
+        });
+
+        my $response = $network->send({message => $inventory});
+
+        return unless $response;
+        $inventory->saveLastState();
+
+        my $parsedContent = $response->getParsedContent();
+        if ($parsedContent
+            &&
+            exists ($parsedContent->{RESPONSE})
+            &&
+            $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
+        ) {
+            $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
+        }
+
+    }
+
+    exit(0);
 }
 
 sub initModList {
