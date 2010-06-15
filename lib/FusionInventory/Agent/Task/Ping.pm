@@ -1,7 +1,6 @@
 package FusionInventory::Agent::Task::Ping;
 
 use strict;
-no strict 'refs';
 use warnings;
 use base 'FusionInventory::Agent::Task::Base';
 
