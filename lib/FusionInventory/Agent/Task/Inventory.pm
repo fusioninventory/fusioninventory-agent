@@ -37,7 +37,8 @@ sub main {
         )
     ) {
         $self->{logger}->debug(
-            '<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not send an inventory.'
+            '<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not send an ' .
+            'inventory.'
         );
         exit(0);
     }
@@ -62,7 +63,9 @@ sub main {
         $self->{logger}->fault("No prologresp!") unless $self->{prologresp};
 
         if ($self->{config}->{force}) {
-            $self->{logger}->debug("Force enable, ignore prolog and run inventory.");
+            $self->{logger}->debug(
+                "Force enable, ignore prolog and run inventory."
+            );
         } elsif (!$self->{prologresp}->isInventoryAsked()) {
             $self->{logger}->debug("No inventory requested in the prolog...");
             exit(0);
@@ -176,10 +179,14 @@ sub initModList {
     # I prepare a list and include it.
     eval "use FusionInventory::Agent::Task::Inventory::ModuleToLoad;";
     if (!$@) {
-        $logger->debug("use FusionInventory::Agent::Task::Inventory::ModuleToLoad to get the modules ".
-            "to load. This should not append unless you use the standalone agent built with ".
-            "PAR::Packer (pp)");
-        push @installed_mods, @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
+        $logger->debug(
+            "use FusionInventory::Agent::Task::Inventory::ModuleToLoad to " . 
+            "get the modules to load. This should not append unless you use " .
+            "the standalone agent built with PAR::Packer (pp)"
+        );
+        push
+            @installed_mods,
+            @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
     }
 
     if ($config->{devlib}) {
@@ -197,9 +204,9 @@ sub initModList {
         if ($@) {
             $logger->debug("Failed to load File::Find");
         } else {
-# here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
-# changes the @INC content if i use $_ directly
-# thanks to @rgs on irc.perl.org
+            # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
+            # changes the @INC content if i use $_ directly
+            # thanks to @rgs on irc.perl.org
             File::Find::find(
                 {
                     wanted => sub {
@@ -221,16 +228,17 @@ sub initModList {
     }
 
     if (!@installed_mods) {
-        $logger->info("ZERO backend module found! Is FusionInventory-Agent ".
-            "correctly installed? Use the --devlib flag if you want to run the agent ".
-            "directly from the source directory.")
+        $logger->info(
+            "ZERO backend module found! Is FusionInventory-Agent correctly " .
+            "installed? Use the --devlib flag if you want to run the agent " .
+            "directly from the source directory."
+        )
     }
 
     # First all the module are flagged as 'OK'
     foreach my $m (@installed_mods) {
         $self->{modules}->{$m}->{inventoryFuncEnable} = 1;
     }
-
 
     foreach my $m (@installed_mods) {
         my @runAfter;
@@ -260,27 +268,35 @@ sub initModList {
         }
 
         if ($package->{isInventoryEnabled}) {
-            $self->{modules}->{$m}->{isInventoryEnabledFunc} = $package->{isInventoryEnabled};
+            $self->{modules}->{$m}->{isInventoryEnabledFunc} =
+                $package->{isInventoryEnabled};
             $enable = $self->runWithTimeout($m, "isInventoryEnabled");
         }
         if (!$enable) {
             $logger->debug ($m." ignored");
             foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
+                    if /^$m($|::)/;
             }
         }
 
         if ($package->{check}) {
-            $logger->error("$m: check() function is deprecated, please rename it to ".
-                "isInventoryEnabled()");
+            $logger->error(
+                "$m: check() function is deprecated, please rename it to ".
+                "isInventoryEnabled()"
+            );
         }
         if ($package->{run}) {
-            $logger->error("$m: run() function is deprecated, please rename it to ".
-                "doInventory()");
+            $logger->error(
+                "$m: run() function is deprecated, please rename it to ".
+                "doInventory()"
+            );
         }
         if ($package->{longRun}) {
-            $logger->error("$m: longRun() function is deprecated, please rename it to ".
-                "postInventory()");
+            $logger->error(
+                "$m: longRun() function is deprecated, please rename it to ".
+                "postInventory()"
+            );
         }
 
         $self->{modules}->{$m}->{name} = $m;
@@ -291,7 +307,8 @@ sub initModList {
         if (!$enable) {
             $logger->debug ($m." ignored");
             foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
+                    if /^$m($|::)/;
             }
             next;
         }
@@ -302,20 +319,22 @@ sub initModList {
         $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
 
         $self->{modules}->{$m}->{runAfter} = $package->{runAfter};
-        $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{runMeIfTheseChecksFailed};
+        $self->{modules}->{$m}->{runMeIfTheseChecksFailed} =
+            $package->{runMeIfTheseChecksFailed};
         $self->{modules}->{$m}->{doInventoryFunc} = $package->{doInventory};
-        $self->{modules}->{$m}->{doPostInventoryFunc} = $package->{doPostInventory};
+        $self->{modules}->{$m}->{doPostInventoryFunc} =
+            $package->{doPostInventory};
         $self->{modules}->{$m}->{mem} = {}; # Deprecated
         $self->{modules}->{$m}->{rpcCfg} = $package->{rpcCfg};
-# Load the Storable object is existing or return undef
+        # Load the Storable object is existing or return undef
         $self->{modules}->{$m}->{storage} = $storage;
 
     }
 
-# the sort is just for the presentation
+    # the sort is just for the presentation
     foreach my $m (sort keys %{$self->{modules}}) {
         next unless $self->{modules}->{$m}->{isInventoryEnabledFunc};
-# find modules to disable and their submodules
+        # find modules to disable and their submodules
 
         next unless $self->{modules}->{$m}->{inventoryFuncEnable};
 
@@ -324,7 +343,8 @@ sub initModList {
         if (!$enable) {
             $logger->debug ($m." ignored");
             foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0 if /^$m($|::)/;
+                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
+                    if /^$m($|::)/;
             }
         }
 
@@ -334,7 +354,9 @@ sub initModList {
             $t .= "::" if $t;
             $t .= $_;
             if (exists $self->{modules}->{$t} && $m ne $t) {
-                push @{$self->{modules}->{$m}->{runAfter}}, \%{$self->{modules}->{$t}}
+                push
+                    @{$self->{modules}->{$m}->{runAfter}},
+                    \%{$self->{modules}->{$t}}
             }
         }
     }
@@ -348,7 +370,10 @@ sub initModList {
                 foreach (keys %{$self->{modules}}) {
                     next unless /^$m($|::)/ && $self->{modules}->{$_}->{inventoryFuncEnable};
                     $self->{modules}->{$_}->{inventoryFuncEnable} = 0;
-                    $logger->debug ("$_ disabled because of a 'runMeIfTheseChecksFailed' in '$m'\n");
+                    $logger->debug(
+                        "$_ disabled because of a 'runMeIfTheseChecksFailed' " .
+                        "in '$m'\n"
+                    );
                 }
             }
         }
@@ -366,20 +391,22 @@ sub runMod {
     return if ($self->{modules}->{$m}->{done});
 
     $self->{modules}->{$m}->{inUse} = 1; # lock the module
-# first I run its "runAfter"
+    # first I run its "runAfter"
 
     foreach (@{$self->{modules}->{$m}->{runAfter}}) {
         if (!$_->{name}) {
-# The name is defined during module initialisation so if I
-# can't read it, I can suppose it had not been initialised.
-            $logger->fault ("Module `$m' need to be runAfter a module not found.".
-                "Please fix its runAfter entry or add the module.");
+            # The name is defined during module initialisation so if I
+            # can't read it, I can suppose it had not been initialised.
+            $logger->fault(
+                "Module `$m' need to be runAfter a module not found.".
+                "Please fix its runAfter entry or add the module."
+            );
         }
 
         if ($_->{inUse}) {
-# In use 'lock' is taken during the mod execution. If a module
-# need a module also in use, we have provable an issue :).
-            $logger->fault ("Circular dependency hell with $m and $_->{name}");
+            # In use 'lock' is taken during the mod execution. If a module
+            # need a module also in use, we have provable an issue :).
+            $logger->fault("Circular dependency hell with $m and $_->{name}");
         }
         $self->runMod({
             modname => $_->{name},
