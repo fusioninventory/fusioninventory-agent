@@ -34,13 +34,11 @@ sub getFromSysProc {
 
 sub getCapacity {
   my ($dev) = @_;
-  my $cap;
-  if ( `fdisk -v` =~ '^GNU.*') {
-    chomp ($cap = `fdisk -p -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
-  } else {
-    chomp ($cap = `fdisk -s /dev/$dev 2>/dev/null`); #requires permissions on /dev/$dev
-  }
-  $cap = int ($cap/1000) if $cap;
+  my $command = `fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
+  # requires permissions on /dev/$dev
+  my $cap = `$command /dev/$dev 2>/dev/null`;
+  chomp $cap;
+  $cap = int($cap / 1000) if $cap;
   return $cap;
 }
 
