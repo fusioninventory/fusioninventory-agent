@@ -4,14 +4,13 @@ use strict;
 no strict 'refs';
 use warnings;
 
+use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
-use FusionInventory::Logger;
+use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Agent::XML::Response::Prolog;
-use FusionInventory::Agent::Network;
-
-use FusionInventory::Agent::AccountInfo;
+use FusionInventory::Logger;
 
 sub new {
     my ($class) = @_;
