@@ -382,8 +382,8 @@ sub runMod {
             $logger->fault ("Circular dependency hell with $m and $_->{name}");
         }
         $self->runMod({
-                modname => $_->{name},
-            });
+            modname => $_->{name},
+        });
     }
 
     $logger->debug ("Running $m");
@@ -416,11 +416,11 @@ sub feedInventory {
     foreach my $m (sort keys %{$self->{modules}}) {
         $logger->fault(">$m Houston!!!") unless $m;
         $self->runMod ({
-                modname => $m,
-            });
+            modname => $m,
+        });
     }
 
-# Execution time
+    # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
 
     $inventory->{isInitialised} = 1;
@@ -448,22 +448,21 @@ sub runWithTimeout {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm $timeout;
 
-
         my $func = $self->{modules}->{$m}->{$funcName."Func"};
 
         $ret = &{$func}({
-                accountconfig => $self->{accountconfig},
-                accountinfo => $self->{accountinfo},
-                config => $self->{config},
-                inventory => $self->{inventory},
-                logger => $self->{logger},
-                network => $self->{network},
-                # Compatibiliy with agent 0.0.10 <=
-                # We continue to pass params->{params}
-                params => $self->{params},
-                prologresp => $self->{prologresp},
-                storage => $storage
-            });
+            accountconfig => $self->{accountconfig},
+            accountinfo => $self->{accountinfo},
+            config => $self->{config},
+            inventory => $self->{inventory},
+            logger => $self->{logger},
+            network => $self->{network},
+            # Compatibiliy with agent 0.0.10 <=
+            # We continue to pass params->{params}
+            params => $self->{params},
+            prologresp => $self->{prologresp},
+            storage => $storage
+        });
     };
     alarm 0;
     my $evalRet = $@;
