@@ -22,6 +22,11 @@ sub getFromUdev {
     return @devices;
 }
 
+sub getFromHal {
+
+    my $devices = parseLshal('/usr/bin/lshal', '-|');
+    return @$devices;
+}
 
 sub getFromSysProc {
 
@@ -146,31 +151,33 @@ sub doInventory {
     my $logger = $params->{logger};
     my $inventory = $params->{inventory};
 
-    my $devices;
+    my @devices;
 
     # get informations from hal first, if available
     if (can_run ("lshal")) {
-        $devices = parseLshal('/usr/bin/lshal', '-|');
+        @devices = getFromHal();
     }
+
+    # index devices by name for comparaison
+    my %devices = map { $_->{NAME} => $_ } @devices;
 
     # complete with udev for missing bits
     foreach my $device (getFromUdev()) {
         my $name = $device->{NAME};
         foreach my $key (keys %$device) {
-            $devices->{$name}->{$key} = $device->{$key}
-            if !$devices->{$name}->{$key};
+            $devices{$name}->{$key} = $device->{$key}
+                if !$devices{$name}->{$key};
         }
     }
 
     # fallback on sysfs if udev didn't worked
-    if (!%$devices) {
-        $devices = { map { $_->{NAME} => $_ } getFromSysProc() };
+    if (!@devices) {
+        @devices = getFromSysProc();
     }
-
 
     # get serial & firmware numbers from hdparm, if available
     if (correctHdparmAvailable()) {
-        foreach my $device (values %$devices) {
+        foreach my $device (@devices) {
             if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
                 my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
                 open (my $handle, '-|', $command)
@@ -196,7 +203,7 @@ sub doInventory {
         }
     }
 
-    foreach my $device (values %$devices) {
+    foreach my $device (@devices) {
         $device->{DESCRIPTION} = getDescription(
             $device->{NAME},
             $device->{MANUFACTURER},
@@ -273,7 +280,7 @@ sub parseLshal {
         next unless defined $device;
 
         if ($line =~ /^$/) {
-            $devices->{$device->{NAME}} = $device;
+            push(@$devices, $device);
             undef $device;
         } elsif ($line =~ /^\s+ storage.serial \s = \s '([^']+)'/x) {
             $device->{SERIALNUMBER} = $1;
@@ -297,7 +304,5 @@ sub parseLshal {
 
     return $devices;
 }
-
-
 
 1;
