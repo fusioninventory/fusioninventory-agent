@@ -155,8 +155,8 @@ sub initModList {
 
             my $calling_namespace = caller(0);
             eval "package $calling_namespace; use $module;";
-#      print STDERR "$module not loaded in $calling_namespace! $!: $@\n" if $@;
-            return if $@;
+#      print STDERR "$module not loaded in $calling_namespace! $ERRNO: $EVAL_ERROR\n" if $EVAL_ERROR\;
+            return if $EVAL_ERROR
 #      print STDERR "$module loaded in $calling_namespace!\n";
             1;
         },
@@ -181,7 +181,7 @@ sub initModList {
     eval {
         require FusionInventory::Agent::Task::Inventory::ModuleToLoad;
     };
-    if (!$@) {
+    if (!$EVAL_ERROR) {
         $logger->debug(
             "use FusionInventory::Agent::Task::Inventory::ModuleToLoad to " . 
             "get the modules to load. This should not append unless you use " .
@@ -206,7 +206,7 @@ sub initModList {
         eval {
             require File::Find;
         };
-        if ($@) {
+        if ($EVAL_ERROR) {
             $logger->debug("Failed to load File::Find");
         } else {
             # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
@@ -261,8 +261,8 @@ sub initModList {
         my $package = $m."::";
 
         $m->require();
-        if ($@) {
-            $logger->debug ("Failed to load $m: $@");
+        if ($EVAL_ERROR) {
+            $logger->debug ("Failed to load $m: $EVAL_ERROR");
             $enable = 0;
             next;
         }
@@ -497,11 +497,11 @@ sub runWithTimeout {
         });
     };
     alarm 0;
-    my $evalRet = $@;
+    my $evalRet = $EVAL_ERROR;
 
     if ($evalRet) {
-        if ($@ ne "alarm\n") {
-            $logger->debug("runWithTimeout(): unexpected error: $@");
+        if ($EVAL_ERROR ne "alarm\n") {
+            $logger->debug("runWithTimeout(): unexpected error: $EVAL_ERROR");
         } else {
             $logger->debug("$m killed by a timeout.");
             return;

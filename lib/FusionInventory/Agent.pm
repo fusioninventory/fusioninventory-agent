@@ -18,7 +18,7 @@ $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 eval {XMLout("<a>b</a>");};
-if ($@){
+if ($EVAL_ERROR){
     no strict 'refs';
     ${*{"XML::SAX::"}{HASH}{'parsers'}} = sub {
         return [ {
@@ -151,7 +151,7 @@ sub new {
 
         my $cwd = getcwd();
         eval { require Proc::Daemon; };
-        if ($@) {
+        if ($EVAL_ERROR) {
             print "Can't load Proc::Daemon. Is the module installed?";
             exit 1;
         }
@@ -188,7 +188,7 @@ sub isAgentAlreadyRunning {
     my $logger = $params->{logger};
     # TODO add a workaround if Proc::PID::File is not installed
     eval { require Proc::PID::File; };
-    if(!$@) {
+    if(!$EVAL_ERROR) {
         $logger->debug('Proc::PID::File avalaible, checking for pid file');
         if (Proc::PID::File->running()) {
             $logger->debug('parent process already exists');

@@ -92,8 +92,8 @@ sub loadFromWinRegistry {
       ArrayValues => 0
     );
   };
-  if ($@) {
-    print "[error] $@";
+  if ($EVAL_ERROR) {
+    print "[error] $EVAL_ERROR";
     return;
   }
 
@@ -148,7 +148,7 @@ if (!$file || !-f $file) {
   }
 
   if (!open (CONFIG, "<".$file)) {
-    print(STDERR "Config: Failed to open $file: $!\n");
+    print(STDERR "Config: Failed to open $file: $ERRNO\n");
 	return $config;
   }
   

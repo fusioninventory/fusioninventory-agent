@@ -165,8 +165,8 @@ sub send {
   my $msgType = ref($message); # The package name of the message object
   my $tmp = "FusionInventory::Agent::XML::Response::".$msgtype;
   $tmp->require();
-  if ($@) {
-      $logger->error("Can't load response module $tmp: $@");
+  if ($EVAL_ERROR) {
+      $logger->error("Can't load response module $tmp: $EVAL_ERROR");
   }
   $tmp->import();
   my $response = $tmp->new({
@@ -207,13 +207,13 @@ sub turnSSLCheckOn {
   eval {
       require Crypt::SSLeay;
   };
-  $hasCrypSSLeay = ($@)?0:1;
+  $hasCrypSSLeay = $EVAL_ERROR ? 0 : 1;
 
   if (!$hasCrypSSLeay) {
       eval {
           require IO::Socket::SSL;
       };
-      $hasIOSocketSSL = ($@)?0:1;
+      $hasIOSocketSSL = $EVAL_ERROR ? 0 : 1;
   }
 
   if (!$hasCrypSSLeay && !$hasIOSocketSSL) {
@@ -250,11 +250,11 @@ sub turnSSLCheckOn {
         );
       };
       $logger->fault(
-                     "Failed to set ca-cert-file: $@".
+                     "Failed to set ca-cert-file: $EVAL_ERROR".
                      "Your IO::Socket::SSL distribution is too old. ".
                      "Please install Crypt::SSLeay or disable ".
                      "SSL server check with --no-ssl-check"
-		    ) if $@;
+		    ) if $EVAL_ERROR;
     }
 
   } elsif ($config->{'ca-cert-dir'}) {
@@ -272,11 +272,11 @@ sub turnSSLCheckOn {
         );
       };
       $logger->fault(
-                     "Failed to set ca-cert-file: $@".
+                     "Failed to set ca-cert-file: $EVAL_ERROR".
                      "Your IO::Socket::SSL distribution is too old. ".
                      "Please install Crypt::SSLeay or disable ".
                      "SSL server check with --no-ssl-check"
-		    ) if $@;
+		    ) if $EVAL_ERROR;
     }
   }
 

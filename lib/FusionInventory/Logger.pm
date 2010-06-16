@@ -46,8 +46,8 @@ sub new {
   foreach (@logger) {
     my $backend = "FusionInventory::LoggerBackend::".$_;
     $backend->require();
-    if ($@) {
-        print STDERR "Failed to load Logger backend: $backend ($@)\n";
+    if ($EVAL_ERROR) {
+        print STDERR "Failed to load Logger backend: $backend ($EVAL_ERROR)\n";
         next;
     } else {
         push @loadedMbackends, $_;

@@ -46,6 +46,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 use strict;
 use version;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {1}
 
 sub doInventory {
@@ -189,7 +191,7 @@ sub check_file_content {
     return 0 unless -r $file;
 
     my $found = 0;
-    open (my $fh, '<', $file) or die "Can't open file $file: $!";
+    open (my $fh, '<', $file) or die "Can't open file $file: $ERRNO
     while (my $line = <$fh>) {
         if ($line =~ /$pattern/) {
             $found = 1;

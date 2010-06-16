@@ -3,6 +3,8 @@ package FusionInventory::Agent::XML::Query::Inventory;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 =head1 NAME
 
 FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
@@ -1085,7 +1087,7 @@ sub writeXML {
     close OUT or warn;
     $logger->info("Inventory saved in $localfile");
   } else {
-    warn "Can't open `$localfile': $!"
+    warn "Can't open `$localfile': $ERRNO"
   }
 }
 

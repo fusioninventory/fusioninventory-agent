@@ -664,7 +664,7 @@ sub doInventory {
             eval {
                 require MIME::Base64;
             };
-            if (!$@) {
+            if (!$EVAL_ERROR) {
                 $base64 = encode_base64($screen->{edid});
             }
             if (can_run("uuencode")) {

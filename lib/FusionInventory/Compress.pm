@@ -14,7 +14,7 @@ sub new {
   eval {
       require Compress::Zlib;
   };
-  $self->{mode} = 'natif' unless $@;
+  $self->{mode} = 'natif' unless $EVAL_ERROR;
 
   chomp(my $gzippath=`which gzip 2>/dev/null`);
   if ($self->{mode} eq 'natif') {

@@ -42,8 +42,8 @@ sub getWmiProperties {
 
         use Encode qw(encode)';
     };
-    if ($@) {
-        print "STDERR, Failed to load Win32::OLE: $@\n";
+    if ($EVAL_ERROR) {
+        print "STDERR, Failed to load Win32::OLE: $EVAL_ERROR\n";
         return;
     }
 
