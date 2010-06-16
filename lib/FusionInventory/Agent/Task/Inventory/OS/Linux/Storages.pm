@@ -4,7 +4,9 @@ use strict;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 ######## TODO
 # Do not remove, used by other modules
