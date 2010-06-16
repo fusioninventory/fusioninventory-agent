@@ -2,6 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 
 use strict;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {1}
 
 ######## TODO
@@ -20,15 +22,62 @@ sub getFromUdev {
 
 
 sub getFromSysProc {
-  my($dev, $file) = @_;
 
-  my $value;
-  foreach ("/sys/block/$dev/device/$file", "/proc/ide/$dev/$file") {
-    next unless open PATH, $_;
-    chomp(my $value = <PATH>);
+    # compute list of devices
+    my @names;
+
+    foreach my $file (glob ("/sys/block/*")) {
+        next unless $file =~ /([sh]d[a-z]|fd\d)$/;
+        push(@names, $1);
+    }
+
+    my $command = `fdisk -v` =~ '^GNU' ? 'fdisk -p -l' : 'fdisk -l';
+    open (my $handle, '-|', $command) or die "Can't run $command: $ERRNO";
+    while (my $line = <$handle>) {
+        next unless (/^\/dev\/([sh]d[a-z])/);
+        push(@names, $1);
+    }
+    close ($handle);
+
+    # filter duplicates
+    my %seen;
+    @names = grep { !$seen{$_}++ } @names;
+
+    # extract informations
+    my @devices;
+    foreach my $name (@names) {
+        my $device;
+        $device->{NAME}         = $name;
+        $device->{MANUFACTURER} = getValueFromSysProc($device, 'vendor');
+        $device->{MODEL}        = getValueFromSysProc($device, 'model');
+        $device->{FIRMWARE}     = getValueFromSysProc($device, 'rev');
+        $device->{SERIALNUMBER} = getValueFromSysProc($device, 'serial');
+        $device->{TYPE}         = getValueFromSysProc($device, 'removable') ?
+            'removable' : 'disk';
+        push (@devices, $device);
+    }
+
+    return @devices;
+}
+
+sub getValueFromSysProc {
+    my ($device, $key) = @_;
+
+    my $file =
+        -f "/sys/block/$device/device/$key" ? "/sys/block/$device/device/$key" :
+        -f "/proc/ide/$device/$key"         ? "/proc/ide/$device/$key" :
+                                              undef;
+
+    return unless $file;
+
+    open (my $handle, '<', $file) or die "Can't open $file: $ERRNO";
+    my $value = <$handle>;
+    close ($handle);
+
+    chomp $value;
     $value =~ s/^(\w+)\W*/$1/;
+
     return $value;
-  }
 }
 
 
@@ -110,55 +159,9 @@ sub doInventory {
       }
   }
 
-#Get hard drives values from sys or proc in case getting them throught udev doesn't work
+  # fallback on sysfs if udev didn't worked
   if (!%$devices) {
-    my ($manufacturer, $model, $media, $firmware, $serialnumber, $capacity, $partitions, $description);
-    foreach (glob ("/sys/block/*")) {# /sys fs style
-      $partitions->{$1} = undef
-        if (/^\/sys\/block\/([sh]d[a-z]|fd\d)$/)
-    }
-    
-    if ( `fdisk -v` =~ '^GNU.*') {
-      foreach (`fdisk -p -l`) {# call fdisk to list partitions
-        chomp;
-        next unless (/^\//);
-        $partitions->{$1} = undef
-          if (/^\/dev\/([sh]d[a-z])/);
-      }
-    } else {
-      foreach (`fdisk -l`) {# call fdisk to list partitions
-        chomp;
-        next unless (/^\//);
-        $partitions->{$1} = undef
-          if (/^\/dev\/([sh]d[a-z])/);
-      }
-    }
-
-    foreach my $device (keys %$partitions) {
-
-      if (!$devices->{$device}->{MANUFACTURER}) {
-        $devices->{$device}->{MANUFACTURER} = getFromSysProc($device, "vendor");
-      }
-      if (!$devices->{$device}->{MODEL}) {
-        $devices->{$device}->{MODEL} = getFromSysProc($device, "model");
-      }
-      if (!$devices->{$device}->{TYPE}) {
-        $devices->{$device}->{TYPE} = getFromSysProc($device, "removable")?"removable":"disk";
-      }
-      if (!$devices->{$device}->{FIRMWARE}) {
-        $devices->{$device}->{FIRMWARE} = getFromSysProc($device, "rev");
-      }
-      if (!$devices->{$device}->{SERIALNUMBER}) {
-        $devices->{$device}->{SERIALNUMBER} = getFromSysProc($device, "serial");
-      }
-
-
-
-
-#      $logger->debug("Sys: $device, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
-
-
-    }
+      $devices = { map { $_->{NAME} => $_ } getFromSysProc() };
   }
 
 
