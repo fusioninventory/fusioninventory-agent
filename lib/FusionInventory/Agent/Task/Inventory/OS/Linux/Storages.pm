@@ -287,45 +287,38 @@ sub parseUdev {
 sub parseLshal {
     my ($file, $mode) = @_;
 
-    my %temp;
-    my $in = 0;
-    my $value;
-    my $devices;
+    my ($devices, $device);
 
     open (my $handle, $mode, $file);
     while (my $line = <$handle>) {
-      chomp $line;
-      if ( $line =~ s{^udi = '/org/freedesktop/Hal/devices/(storage|legacy_floppy|block).*}{}) {
-        $in = 1;
-        %temp = ();
-      } elsif ($in == 1 and $line =~ s{^\s+(\S+) = (.*) \s*\((int|string|bool|string list|uint64)\)}{} ) {
-        my $key = $1;
-        my $value = $2;
-        $value =~ s/^'(.*)'\s*$/$1/; # Drop the quote
-        $value =~ s/\s+$//; # Drop the trailing white space
-
-        if ($key eq 'storage.serial') {
-          $temp{SERIALNUMBER} = $value;
-        } elsif ($key eq 'storage.firmware_version') {
-          $temp{FIRMWARE} = $value;
-        } elsif ($key eq 'block.device') {
-          $value =~ s/\/dev\/(\S+)/$1/;
-          $temp{NAME} = $value;
-        } elsif ($key eq 'info.vendor') {
-          $temp{MANUFACTURER} = $value;
-        } elsif ($key eq 'storage.model') {
-          $temp{MODEL} = $value;
-        } elsif ($key eq 'storage.drive_type') {
-          $temp{TYPE} = $value;
-        } elsif ($key eq 'storage.size') {
-          $temp{DISKSIZE} = int($value/(1024*1024) + 0.5);
+        chomp $line;
+        if ($line =~ m{^udi = '/org/freedesktop/Hal/devices/(storage|legacy_floppy|block)}) {
+            $device = {};
+            next;
         }
 
+        next unless defined $device;
 
-      }elsif ($in== 1 and $line eq '' and $temp{NAME}) {
-        $in = 0 ;
-        $devices->{$temp{NAME}} = {%temp};
-      }
+        if ($line =~ /^$/) {
+            $devices->{$device->{NAME}} = $device;
+            undef $device;
+        } elsif ($line =~ /^\s+ storage.serial \s = \s '([^']+)'/x) {
+            $device->{SERIALNUMBER} = $1;
+        } elsif ($line =~ /^\s+ storage.firmware_version \s = \s '([^']+)'/x) {
+            $device->{FIRMWARE} = $1;
+        } elsif ($line =~ /^\s+ block.device \s = \s '([^']+)'/x) {
+            my $value = $1;
+            ($device->{NAME}) = $value =~ m{/dev/(\S+)};
+        } elsif ($line =~ /^\s+ info.vendor \s = \s '([^']+)'/x) {
+            $device->{MANUFACTURER} = $1;
+        } elsif ($line =~ /^\s+ storage.model \s = \s '([^']+)'/x) {
+            $device->{MODEL} = $1;
+        } elsif ($line =~ /^\s+ storage.drive_type \s = \s '([^']+)'/x) {
+            $device->{TYPE} = $1;
+        } elsif ($line =~ /^\s+ storage.size \s = \s (\S+)/x) {
+            my $value = $1;
+            $device->{DISKSIZE} = int($value/(1024*1024) + 0.5);
+        }
     }
     close ($handle);
 
