@@ -34,14 +34,19 @@ sub getScreens {
 
     if ($OSNAME =~ /^MSWin/) {
 
-        if (!eval "
-                use FusionInventory::Agent::Task::Inventory::OS::Win32;
-
-                use Win32::TieRegistry ( Access=>\"KEY_READ\",
-                Delimiter=>\"/\", ArrayValues=>0 );
-                1;") {
-            print "Failed to load Win32::OLE and Win32::TieRegistry\n";
-            return;
+        eval {
+                require FusionInventory::Agent::Task::Inventory::OS::Win32;
+                require Win32::TieRegistry;
+                Win32::TieRegistry->import(
+                    Access      => "KEY_READ",
+                    Delimiter   => "/",
+                    ArrayValues => 0
+                );
+            };
+            if ($EVAL_ERROR) {
+                print "Failed to load Win32::OLE and Win32::TieRegistry\n";
+                return;
+            }
         }
 
         use constant wbemFlagReturnImmediately => 0x10;
@@ -656,8 +661,12 @@ sub doInventory {
                 $serial = $edid->{serial_number2}[0];
             }
 
-            eval "use MIME::Base64;";
-            $base64 = encode_base64($screen->{edid}) if !$@;
+            eval {
+                require MIME::Base64;
+            };
+            if (!$@) {
+                $base64 = encode_base64($screen->{edid});
+            }
             if (can_run("uuencode")) {
                 $uuencode = `echo $screen->{edid}|uuencode -`;
                 if (!$base64) {

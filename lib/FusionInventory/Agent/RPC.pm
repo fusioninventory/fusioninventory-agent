@@ -2,6 +2,7 @@ package FusionInventory::Agent::RPC;
 
 use HTTP::Daemon;
 use FusionInventory::Agent::Storage;
+use English qw(-no_match_vars);
 
 use Config;
 
@@ -9,13 +10,17 @@ use strict;
 use warnings;
 
 BEGIN {
-  # threads and threads::shared must be load before
-  # $lock is initialized
-  if ($Config{usethreads}) {
-    if (!eval "use threads;1;" || !eval "use threads::shared;1;") {
-      print "[error]Failed to use threads!\n"; 
+    # threads and threads::shared must be load before
+    # $lock is initialized
+    if ($Config{usethreads}) {
+        eval {
+            require threads;
+            require threads::shared;
+        };
+        if ($EVAL_ERROR) {
+            print "[error]Failed to use threads!\n"; 
+        }
     }
-  }
 }
 
 my $lock :shared;
@@ -42,9 +47,12 @@ sub new {
         $self->{htmlDir} = $config->{'html-dir'};
     } elsif ($config->{'devlib'}) {
         $self->{htmlDir} = "./share/html";
-    } elsif (eval "use File::ShareDir; 1;") {
-        my $distDir = File::ShareDir::dist_dir('FusionInventory-Agent');
-        $self->{htmlDir} = $distDir."/html";
+    } else {
+        eval { 
+            require File::ShareDir;
+            my $distDir = File::ShareDir::dist_dir('FusionInventory-Agent');
+            $self->{htmlDir} = $distDir."/html";
+        };
     }
     $logger->debug("[RPC] static files are in ".$self->{htmlDir});
 

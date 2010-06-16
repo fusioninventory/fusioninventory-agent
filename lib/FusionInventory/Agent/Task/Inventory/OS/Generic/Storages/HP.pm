@@ -12,8 +12,15 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 use strict;
 
 sub getHpacuacliFromWinRegistry {
-    return unless eval ("use Win32::TieRegistry ( Delimiter=>\"/\",".
-"ArrayValues=>0 ); 1;");
+    eval {
+        require Win32::TieRegistry;
+        Win32::TieRegistry->(
+            Delimiter   => "/",
+            ArrayValues => 0
+        );
+    };
+    return if $EVAL_ERROR;
+
     my $machKey= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
 
     my $uninstallValues =

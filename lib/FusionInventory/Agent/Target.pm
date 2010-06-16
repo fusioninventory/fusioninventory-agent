@@ -9,13 +9,17 @@ use English qw(-no_match_vars);
 use Config;
 
 BEGIN {
-  # threads and threads::shared must be load before
-  # $lock is initialized
-  if ($Config{usethreads}) {
-    if (!eval "use threads;1;" || !eval "use threads::shared;1;") {
-      print "[error]Failed to use threads!\n"; 
+    # threads and threads::shared must be load before
+    # $lock is initialized
+    if ($Config{usethreads}) {
+        eval {
+            require threads;
+            require threads::shared;
+        };
+        if ($EVAL_ERROR) {
+            print "[error]Failed to use threads!\n"; 
+        }
     }
-  }
 }
 
 # resetNextRunDate() can also be call from another thread (RPC)

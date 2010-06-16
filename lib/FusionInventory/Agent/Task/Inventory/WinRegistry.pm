@@ -18,7 +18,14 @@ HKEY_DYN_DATA
 sub isInventoryEnabled {
     return unless $OSNAME =~ /^MSWin/;
 
-    return unless eval "use Win32::TieRegistry ( Delimiter=>\"/\", ArrayValues=>0 );1;";
+    eval {
+        require Win32::TieRegistry;
+        Win32::TieRegistry->import(
+            Delimiter   => "/",
+            ArrayValues => 0
+        );
+    };
+    return if $EVAL_ERROR;
 
     my $params = shift;
 

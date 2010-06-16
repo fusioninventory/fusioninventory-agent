@@ -83,11 +83,16 @@ sub load {
 sub loadFromWinRegistry {
   my $config = shift;
 
-  if (!eval ("
-    use Encode qw(encode);
-    use Win32::TieRegistry ( Delimiter=>\"/\", ArrayValues=>0 );
-    1
-  ")) {
+  eval {
+    require Encode;
+    Encode->import('encode');
+    require Win32::TieRegistry;
+    Win32::TieRegistry->import(
+      Delimiter   => "/",
+      ArrayValues => 0
+    );
+  };
+  if ($@) {
     print "[error] $@";
     return;
   }

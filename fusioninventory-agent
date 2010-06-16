@@ -33,7 +33,9 @@ foreach (@ARGV) {
     }
 }
 
-eval "use FusionInventory::Agent;";
+eval {
+    require FusionInventory::Agent;
+};
 if ($@) {
     print STDERR "Failed to load FusionInventory::Agent, $@\n";
     print STDERR "you can run the agent directly for its source directory ";

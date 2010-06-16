@@ -33,9 +33,10 @@ sub new {
 
 sub dump {
   my $self = shift;
-  eval "use Data::Dumper;";
-  print Dumper($self->{h});
-
+  eval {
+      require Data::Dumper;
+      print Dumper($self->{h});
+  };
 }
 
 sub getContent {

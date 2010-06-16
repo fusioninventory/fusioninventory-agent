@@ -11,7 +11,9 @@ sub new {
   my $logger = $self->{logger} = $params->{logger};
 
 
-  eval{require Compress::Zlib;};
+  eval {
+      require Compress::Zlib;
+  };
   $self->{mode} = 'natif' unless $@;
 
   chomp(my $gzippath=`which gzip 2>/dev/null`);

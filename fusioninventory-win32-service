@@ -4,12 +4,14 @@ $ENV{PERL5LIB}=undef;
 $ENV{PERLLIB}=undef;
 
 
-eval ("
-use Win32;
-use Win32::Daemon;
-use threads;
-use threads::shared;
-use FusionInventory::Agent;1") or die "$@";
+eval {
+    require Win32;
+    require Win32::Daemon;
+    require threads;
+    require threads::shared;
+    require FusionInventory::Agent;
+};
+die $@ if $@;
 
 my $win32service = 1;
 Win32::Daemon::StartService();

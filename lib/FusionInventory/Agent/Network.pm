@@ -2,6 +2,9 @@ package FusionInventory::Agent::Network;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+use UNIVERSAL::require;
+
 =head1 NAME
 
 FusionInventory::Agent::Network - the Network abstraction layer
@@ -46,10 +49,16 @@ sub new {
   $logger->fault('$target not initialised') unless $target;
   $logger->fault('$config not initialised') unless $config;
 
-  if (! eval "use LWP::UserAgent; 1;") {
+  eval {
+      require LWP::UserAgent;
+  };
+  if ($EVAL_ERROR) {
     $logger->fault("Can't load LWP::UserAgent. Is the package installed?");
   }
-  if (! eval "use HTTP::Status; 1;") {
+  eval {
+      require HTTP::Status;
+  };
+  if ($EVAL_ERROR) {
     $logger->fault("Can't load HTTP::Status. Is the package installed?");
   }
 
@@ -155,9 +164,9 @@ sub send {
   # AutoLoad the proper response object
   my $msgType = ref($message); # The package name of the message object
   my $tmp = "FusionInventory::Agent::XML::Response::".$msgtype;
-  eval "require $tmp";
+  $tmp->require();
   if ($@) {
-      $logger->error ("Can't load response module $tmp: $@");
+      $logger->error("Can't load response module $tmp: $@");
   }
   $tmp->import();
   my $response = $tmp->new({
@@ -195,11 +204,15 @@ sub turnSSLCheckOn {
   my $hasCrypSSLeay;
   my $hasIOSocketSSL;
 
-  eval 'use Crypt::SSLeay;';
+  eval {
+      require Crypt::SSLeay;
+  };
   $hasCrypSSLeay = ($@)?0:1;
 
   if (!$hasCrypSSLeay) {
-      eval 'use IO::Socket::SSL;';
+      eval {
+          require IO::Socket::SSL;
+      };
       $hasIOSocketSSL = ($@)?0:1;
   }
 

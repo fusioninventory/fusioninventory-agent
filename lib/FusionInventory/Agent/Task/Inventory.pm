@@ -18,6 +18,7 @@ use warnings;
 use base 'FusionInventory::Agent::Task::Base';
 
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
@@ -177,7 +178,9 @@ sub initModList {
     # This is a workaround for PAR::Packer. Since it resets @INC
     # I can't find the backend modules to load dynamically. So
     # I prepare a list and include it.
-    eval "use FusionInventory::Agent::Task::Inventory::ModuleToLoad;";
+    eval {
+        require FusionInventory::Agent::Task::Inventory::ModuleToLoad;
+    };
     if (!$@) {
         $logger->debug(
             "use FusionInventory::Agent::Task::Inventory::ModuleToLoad to " . 
@@ -200,7 +203,9 @@ sub initModList {
         }
     }
     if (@dirToScan) {
-        eval {require File::Find};
+        eval {
+            require File::Find;
+        };
         if ($@) {
             $logger->debug("Failed to load File::Find");
         } else {
@@ -255,7 +260,7 @@ sub initModList {
 
         my $package = $m."::";
 
-        eval "use $m;";
+        $m->require();
         if ($@) {
             $logger->debug ("Failed to load $m: $@");
             $enable = 0;
