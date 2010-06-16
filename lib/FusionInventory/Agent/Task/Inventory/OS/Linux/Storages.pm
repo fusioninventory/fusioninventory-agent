@@ -96,57 +96,19 @@ sub doInventory {
 
   my $devices;
 
-  # Get complementary information in hash tab
+  # get informations from hal first, if available
   if (can_run ("lshal")) {
      $devices = parseLshal('/usr/bin/lshal', '-|');
   }
 
-  foreach (glob ("/dev/.udev/db/*")) {
-    if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/) {
-      my $path = $1;
-      my $device = $2;
-      my $serial_short;
-
-      open (PATH, $1 . $2);
-      while (<PATH>) {
-        if (/^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
-
-          # Not accepted yet in the final XML
-          $devices->{$device}->{SCSI_COID} = $1;
-          $devices->{$device}->{SCSI_CHID} = $2;
-          $devices->{$device}->{SCSI_UNID} = $3;
-          $devices->{$device}->{SCSI_LUN} = $4;
-
-        }
-
-        if (!$devices->{$device}->{MANUFACTURER} && /^E:ID_VENDOR=(.*)/) {
-          $devices->{$device}->{MANUFACTURER} = $1;
-        }
-        if (!$devices->{$device}->{SERIALNUMBER} && /^E:ID_SERIAL=(.*)/) {
-          $devices->{$device}->{SERIALNUMBER} = $1;
-        }
-        if (!$devices->{$device}->{TYPE} && /^E:ID_TYPE=(.*)/) {
-          $devices->{$device}->{TYPE} = $1;
-        }
-        if (!$devices->{$device}->{DESCRIPTION} && /^E:ID_BUS=(.*)/) {
-          $devices->{$device}->{DESCRIPTION} = $1;
-        }
-
+  # complete with udev for missing bits
+  foreach my $device (getFromUdev()) {
+      my $name = $device->{NAME};
+      foreach my $key (keys %$device) {
+          $devices->{$name}->{$key} = $device->{$key}
+              if !$devices->{$name}->{$key};
       }
-
-      if (!$devices->{$device}->{SERIALNUMBER}) {
-        $devices->{$device}->{SERIALNUMBER} = $serial_short;
-      }
-      if (!$devices->{$device}->{DISKSIZE}) {
-        $devices->{$device}->{DISKSIZE} = getCapacity($device)
-            if $devices->{$device}->{TYPE} ne 'cd';
-      }
-      close (PATH);
-    }
   }
-
-
-
 
 #Get hard drives values from sys or proc in case getting them throught udev doesn't work
   if (!%$devices) {
