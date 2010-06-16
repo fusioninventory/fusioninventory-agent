@@ -140,7 +140,7 @@ sub correctHdparmAvailable {
 
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
     my $logger = $params->{logger};
     my $inventory = $params->{inventory};
 
