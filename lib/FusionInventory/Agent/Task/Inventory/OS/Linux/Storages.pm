@@ -168,45 +168,51 @@ sub doInventory {
     }
 
 
+    # get serial & firmware numbers from hdparm, if available
     if (correctHdparmAvailable()) {
-        foreach my $device (keys %$devices) {
-#Serial & Firmware
-            if (!$devices->{$device}->{SERIALNUMBER} || !$devices->{$device}->{FIRMWARE}) {
-                my $cmd = "hdparm -I /dev/".$devices->{$device}->{NAME}." 2> /dev/null";
-                foreach (`$cmd`) {
-                    if (/^\s+Serial Number\s*:\s*(.+)/ && !$devices->{$device}->{SERIALNUMBER}) {
-                        my $serialnumber = $1;
-                        $serialnumber =~ s/\s+$//;
-                        $devices->{$device}->{SERIALNUMBER} = $serialnumber;
+        foreach my $device (values %$devices) {
+            if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
+                my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
+                open (my $handle, '-|', $command)
+                    or die "Can't run $command: $ERRNO";
+                while (my $line = <$handle>) {
+                    if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
+                        my $value = $1;
+                        $value =~ s/\s+$//;
+                        $device->{SERIALNUMBER} = $value
+                            if !$device->{SERIALNUMBER};
+                        next;
                     }
-                    if (/^\s+Firmware Revision\s*:\s*(.+)/i && !$devices->{$device}->{FIRMWARE}) {
-                        my $firmware = $1;
-                        $firmware =~ s/\s+$//;
-                        $devices->{$device}->{FIRMWARE} = $firmware;
+                    if (/^\s+Firmware Revision\s*:\s*(.+)/i) { 
+                        my $value = $1;
+                        $value =~ s/\s+$//;
+                        $device->{FIRMWARE} = $value
+                            if !$device->{FIRMWARE};
+                        next;
                     }
                 }
+                close ($handle);
             }
         }
     }
 
-    foreach my $device (keys %$devices) {
-
-        $devices->{$device}->{DESCRIPTION} = getDescription(
-            $devices->{$device}->{NAME},
-            $devices->{$device}->{MANUFACTURER},
-            $devices->{$device}->{DESCRIPTION},
-            $devices->{$device}->{SERIALNUMBER}
+    foreach my $device (values %$devices) {
+        $device->{DESCRIPTION} = getDescription(
+            $device->{NAME},
+            $device->{MANUFACTURER},
+            $device->{DESCRIPTION},
+            $device->{SERIALNUMBER}
         );
 
-        if (!$devices->{$device}->{MANUFACTURER} or $devices->{$device}->{MANUFACTURER} eq 'ATA') {
-            $devices->{$device}->{MANUFACTURER} = getManufacturer($devices->{$device}->{MODEL});
+        if (!$device->{MANUFACTURER} or $device->{MANUFACTURER} eq 'ATA') {
+            $device->{MANUFACTURER} = getManufacturer($device->{MODEL});
         }
 
-        if ($devices->{$device}->{CAPACITY} =~ /^cd/) {
-            $devices->{$device}->{CAPACITY} = getCapacity($devices->{$device}->{NAME});
+        if ($device->{CAPACITY} =~ /^cd/) {
+            $device->{CAPACITY} = getCapacity($device->{NAME});
         }
 
-        $inventory->addStorages($devices->{$device});
+        $inventory->addStorages($device);
     }
 }
 
