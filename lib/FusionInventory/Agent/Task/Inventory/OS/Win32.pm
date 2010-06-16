@@ -34,13 +34,15 @@ sub getWmiProperties {
     my $wmiClass = shift;
     my @keys = @_;
 
-    eval {' 
-        use Win32::OLE qw(in CP_UTF8);
-        use Win32::OLE::Const;
+    eval {
+        require Win32::OLE;
+        require Win32::OLE::Const;
 
-        Win32::OLE->Option(CP => CP_UTF8);
+        Win32::OLE->import(qw(in CP_UTF8));
+        Win32::OLE->Option(CP => 'CP_UTF8');
 
-        use Encode qw(encode)';
+        require Encode;
+        Encode->import('encode');
     };
     if ($EVAL_ERROR) {
         print "STDERR, Failed to load Win32::OLE: $EVAL_ERROR\n";
