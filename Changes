@@ -1,8 +1,9 @@
 Revision history for FusionInventory::Agent
 
-2.0.7    Mon, 14 Jun 2010 18:09:27 +0200
+2.0.7
        * Avoid a warning if --stdout is used.
        * print help messages on STDERR
+       * --wait: no need to wait before the final exit
 
 2.0.6    Fri, 28 May 2010 15:53:16 +0200
        * Fix DRIVES/CREATEDATE for ext* filesystem
