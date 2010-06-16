@@ -94,52 +94,12 @@ sub doInventory {
   my $logger = $params->{logger};
   my $inventory = $params->{inventory};
 
-  my $devices = {};
+  my $devices;
 
   # Get complementary information in hash tab
   if (can_run ("lshal")) {
-
-
-    my %temp;
-    my $in = 0;
-    my $value;
-    foreach my $line (`lshal`) {
-      chomp $line;
-      if ( $line =~ s{^udi = '/org/freedesktop/Hal/devices/(storage|legacy_floppy|block).*}{}) {
-        $in = 1;
-        %temp = ();
-      } elsif ($in == 1 and $line =~ s{^\s+(\S+) = (.*) \s*\((int|string|bool|string list|uint64)\)}{} ) {
-        my $key = $1;
-        my $value = $2;
-        $value =~ s/^'(.*)'\s*$/$1/; # Drop the quote
-        $value =~ s/\s+$//; # Drop the trailing white space
-
-        if ($key eq 'storage.serial') {
-          $temp{SERIALNUMBER} = $value;
-        } elsif ($key eq 'storage.firmware_version') {
-          $temp{FIRMWARE} = $value;
-        } elsif ($key eq 'block.device') {
-          $value =~ s/\/dev\/(\S+)/$1/;
-          $temp{NAME} = $value;
-        } elsif ($key eq 'info.vendor') {
-          $temp{MANUFACTURER} = $value;
-        } elsif ($key eq 'storage.model') {
-          $temp{MODEL} = $value;
-        } elsif ($key eq 'storage.drive_type') {
-          $temp{TYPE} = $value;
-        } elsif ($key eq 'storage.size') {
-          $temp{DISKSIZE} = int($value/(1024*1024) + 0.5);
-        }
-
-
-      }elsif ($in== 1 and $line eq '' and $temp{NAME}) {
-        $in = 0 ;
-        $devices->{$temp{NAME}} = {%temp};
-      }
-    }
+     $devices = parseLshal('/usr/bin/lshal', '-|');
   }
-
-
 
   foreach (glob ("/dev/.udev/db/*")) {
     if (/^(\/dev\/.udev\/db\/.*)([sh]d[a-z])$/) {
@@ -323,5 +283,55 @@ sub parseUdev {
 
   return $result;
 }
+
+sub parseLshal {
+    my ($file, $mode) = @_;
+
+    my %temp;
+    my $in = 0;
+    my $value;
+    my $devices;
+
+    open (my $handle, $mode, $file);
+    while (my $line = <$handle>) {
+      chomp $line;
+      if ( $line =~ s{^udi = '/org/freedesktop/Hal/devices/(storage|legacy_floppy|block).*}{}) {
+        $in = 1;
+        %temp = ();
+      } elsif ($in == 1 and $line =~ s{^\s+(\S+) = (.*) \s*\((int|string|bool|string list|uint64)\)}{} ) {
+        my $key = $1;
+        my $value = $2;
+        $value =~ s/^'(.*)'\s*$/$1/; # Drop the quote
+        $value =~ s/\s+$//; # Drop the trailing white space
+
+        if ($key eq 'storage.serial') {
+          $temp{SERIALNUMBER} = $value;
+        } elsif ($key eq 'storage.firmware_version') {
+          $temp{FIRMWARE} = $value;
+        } elsif ($key eq 'block.device') {
+          $value =~ s/\/dev\/(\S+)/$1/;
+          $temp{NAME} = $value;
+        } elsif ($key eq 'info.vendor') {
+          $temp{MANUFACTURER} = $value;
+        } elsif ($key eq 'storage.model') {
+          $temp{MODEL} = $value;
+        } elsif ($key eq 'storage.drive_type') {
+          $temp{TYPE} = $value;
+        } elsif ($key eq 'storage.size') {
+          $temp{DISKSIZE} = int($value/(1024*1024) + 0.5);
+        }
+
+
+      }elsif ($in== 1 and $line eq '' and $temp{NAME}) {
+        $in = 0 ;
+        $devices->{$temp{NAME}} = {%temp};
+      }
+    }
+    close ($handle);
+
+    return $devices;
+}
+
+
 
 1;
