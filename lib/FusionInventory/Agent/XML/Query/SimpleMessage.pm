@@ -2,7 +2,7 @@ package FusionInventory::Agent::XML::Query::SimpleMessage;
 
 use strict;
 use warnings;
-
+use base 'FusionInventory::Agent::XML::Query';
 
 =head1 NAME
 
@@ -31,12 +31,7 @@ You can the key you want in the msg structure.
 
 =cut
 
-
-
 use XML::Simple;
-use FusionInventory::Agent::XML::Query;
-
-our @ISA = ('FusionInventory::Agent::XML::Query');
 
 sub new {
   my ($class, $params) = @_;

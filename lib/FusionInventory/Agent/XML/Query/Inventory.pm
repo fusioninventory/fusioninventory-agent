@@ -2,6 +2,7 @@ package FusionInventory::Agent::XML::Query::Inventory;
 # TODO: resort the functions
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::XML::Query';
 
 use English qw(-no_match_vars);
 
@@ -21,11 +22,8 @@ use Encode qw/encode/;
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 use Config;
-use FusionInventory::Agent::XML::Query;
 
 use FusionInventory::Agent::Task::Inventory;
-
-our @ISA = ('FusionInventory::Agent::XML::Query');
 
 =over 4
 

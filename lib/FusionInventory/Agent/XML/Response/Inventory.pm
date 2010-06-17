@@ -2,9 +2,7 @@ package FusionInventory::Agent::XML::Response::Inventory;
 
 use strict;
 use warnings;
-
-use FusionInventory::Agent::XML::Response;
-our @ISA = ('FusionInventory::Agent::XML::Response');
+use base 'FusionInventory::Agent::XML::Response';
 
 sub new {
     my ($class, @params) = @_;

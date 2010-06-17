@@ -2,12 +2,11 @@ package FusionInventory::Agent::XML::Query::Prolog;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::XML::Query';
 
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
-use FusionInventory::Agent::XML::Query;
 
-our @ISA = ('FusionInventory::Agent::XML::Query');
 #use FusionInventory::Agent::XML::Query::Prolog;
 
 sub new {
