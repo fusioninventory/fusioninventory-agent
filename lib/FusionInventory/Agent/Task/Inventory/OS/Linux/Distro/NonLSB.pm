@@ -32,10 +32,13 @@ sub findRelease {
 
   foreach my $file (keys %files) {
       next unless -f $file;
-      open (my $handle, '<', $file) or die "Can't open $file: $ERRNO";
+      if (!open my $handle, '<', $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+      }
       my $version = <$handle>;
       chomp $version;
-      close ($handle);
+      close $handle;
       $release = sprintf $files{$file}, $version;
       last;
   }

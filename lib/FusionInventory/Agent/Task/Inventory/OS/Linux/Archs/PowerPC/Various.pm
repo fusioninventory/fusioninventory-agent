@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::Vari
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled { 1 };
 
 sub doInventory {
@@ -17,40 +19,50 @@ sub doInventory {
   my $BiosVersion;
   my $BiosDate;
 
- if (open SERIAL,"</proc/device-tree/serial-number") {
-   $SystemSerial = <SERIAL>;
+ if (open my $handle, '<', '/proc/device-tree/serial-number') {
+   $SystemSerial = <$handle>;
    $SystemSerial =~ s/[^\,^\.^\w^\ ]//g; # I remove some unprintable char
-   close SERIAL;
+   close $handle;
+ } else {
+     warn "Can't open /proc/device-tree/serial-number: $ERRNO";
  }
 
- if (open MODEL,"</proc/device-tree/model") {
-   $SystemModel = <MODEL>;
+ if (open my $handle, '<', '/proc/device-tree/model') {
+   $SystemModel = <$handle>;
    $SystemModel =~ s/[^\,^\.^\w^\ ]//g;
-   close MODEL;
+   close $handle;
+ } else {
+     warn "Can't open /proc/device-tree/model: $ERRNO";
  }
 
- if (open COLOR,"</proc/device-tree/color-code") {
-   my $tmp = <COLOR>;
-   close COLOR;
+ if (open my $handle, '<', '/proc/device-tree/color-code') {
+   my $tmp = <$handle>;
+   close $handle;
    my ($color) = unpack "h7" , $tmp;
    $SystemModel = $SystemModel." color: $color" if $color;
+ } else {
+     warn "Can't open /proc/device-tree/color-code: $ERRNO";
  }
 
- if (open OPENBOOT,"</proc/device-tree/openprom/model") {
-   $BiosVersion = <OPENBOOT>;
+ if (open my $handle, '<', '/proc/device-tree/openprom/model') {
+   $BiosVersion = <$handle>;
    $BiosVersion =~ s/[^\,^\.^\w^\ ]//g;
-   close OPENBOOT;
+   close $handle;
+ } else {
+     warn "Can't open /proc/device-tree/openprom/model: $ERRNO";
  }
 
- if (open COPYRIGHT,"</proc/device-tree/copyright") {
-   my $tmp = <COPYRIGHT>;
-   close COPYRIGHT;
+ if (open my $handle, '<', '/proc/device-tree/copyright') {
+   my $tmp = <$handle>;
+   close $handle;
 
    if ($tmp =~ /Apple/) {
    # What about the Apple clone?
      $BiosManufacturer = "Apple Computer, Inc.";
      $SystemManufacturer = "Apple Computer, Inc." 
    }
+ } else {
+     warn "Can't open /proc/device-tree/copyright: $ERRNO";
  }
   
   $inventory->setBios ({

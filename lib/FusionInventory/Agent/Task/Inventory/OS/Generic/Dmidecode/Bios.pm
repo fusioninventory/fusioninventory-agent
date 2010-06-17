@@ -18,9 +18,13 @@ sub doInventory {
 sub parseDmidecode {
     my ($file, $mode) = @_;
 
+    if (!open my $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
     my ($bios, $hardware, $type);
 
-    open (my $handle, $mode, $file);
     while (my $line = <$handle>) {
         chomp $line;
 
@@ -95,10 +99,9 @@ sub parseDmidecode {
             next;
         }
     }
-    close ($handle);
+    close $handle;
 
     return $bios, $hardware;
-
 }
 
 1;

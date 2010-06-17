@@ -28,12 +28,12 @@ sub _ipdhcp {
    }
   return undef unless -e $leasepath;
 
-  if (open DHCP, $leasepath) {
+  if (open my $handle, '<', $leasepath) {
     my $lease;
     my $dhcp;
     my $expire;
     # find the last lease for the interface with its expire date
-    while(<DHCP>){
+    while(<$handle>){
       $lease = 1 if(/lease\s*{/i);
       $lease = 0 if(/^\s*}\s*$/);
       if ($lease) { #inside a lease section
@@ -51,7 +51,7 @@ sub _ipdhcp {
 	  }
       }
   }
-    close DHCP or warn;
+    close $handle or warn;
     chomp (my $currenttime = `date +"%Y%m%d%H%M%S"`);
     undef $ipdhcp unless $currenttime <= $expire;
 } else {

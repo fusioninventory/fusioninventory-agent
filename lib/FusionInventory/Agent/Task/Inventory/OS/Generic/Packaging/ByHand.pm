@@ -39,9 +39,9 @@ sub doInventory {
 
     my $logger = $params->{logger};
 
-    if ( opendir(my $dh, $file) )
+    if (opendir my $handle, $file)
     {
-        @dots = readdir($dh);
+        @dots = readdir($handle);
         foreach (@dots) { 
             if ( -f $file."/".$_ )
             {
@@ -67,7 +67,7 @@ sub doInventory {
 
 
 
-        closedir $dh;
+        closedir $handle;
     }
     1;
 }

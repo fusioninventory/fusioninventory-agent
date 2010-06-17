@@ -11,23 +11,27 @@ sub doInventory {
 
     my @cpu;
     my $current;
-    open CPUINFO, "</proc/cpuinfo" or warn;
-    foreach(<CPUINFO>) {
-        print;
-        if (/^system type\s+:\s*:/) {
+    if (open my $handle, '<', '</proc/cpuinfo') {
+        while(<$handle>) {
+            print;
+            if (/^system type\s+:\s*:/) {
 
-            if ($current) {
-                $inventory->addCPU($current);
+                if ($current) {
+                    $inventory->addCPU($current);
+                }
+
+                $current = {
+                    ARCH => 'MIPS',
+                };
+
             }
 
-            $current = {
-                ARCH => 'MIPS',
-            };
+            $current->{TYPE} = $1 if /cpu model\s+:\s+(\S.*)/;
 
         }
-
-        $current->{TYPE} = $1 if /cpu model\s+:\s+(\S.*)/;
-
+        close $handle;
+    } else {
+        warn "Can't open $file: $ERRNO";
     }
 
     # The last one

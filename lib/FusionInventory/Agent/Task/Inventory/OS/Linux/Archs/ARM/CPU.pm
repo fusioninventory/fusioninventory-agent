@@ -3,16 +3,23 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::CPU;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled { can_read("/proc/cpuinfo") }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
+    if (!open my $handle, '<', '/proc/cpuinfo') {
+        warn "Can't open /proc/cpuinfo: $ERRNO";
+        return;
+    }
+
     my @cpu;
     my $current;
-    open CPUINFO, "</proc/cpuinfo" or warn;
-    foreach(<CPUINFO>) {
+
+    while (<$handle>) {
         print;
         if (/^Processor\s+:\s*:/) {
 
@@ -25,10 +32,9 @@ sub doInventory {
             };
 
         }
-
         $current->{TYPE} = $1 if /Processor\s+:\s+(\S.*)/;
-
     }
+    close $handle;
 
     # The last one
     $inventory->addCPU($current);

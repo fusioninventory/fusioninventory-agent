@@ -93,17 +93,21 @@ sub doInventory {
         '^xen_\w+front\s' => 'Xen',
     );
 
-    if ($found == 0 and open(HMODS, '/proc/modules')) {
-        while(<HMODS>) {
-          foreach my $str (keys %modmap) {
-            if (/$str/) {
-              $status = "$modmap{$str}";
-              $found = 1;
-              last;
+    if ($found == 0) {
+        if (open my $handle, '<', '/proc/modules') {
+            while(<$handle>) {
+              foreach my $str (keys %modmap) {
+                if (/$str/) {
+                  $status = "$modmap{$str}";
+                  $found = 1;
+                  last;
+                }
+              }
             }
-          }
+            close($handle);
+        } else {
+            warn "Can't open /proc/modules: $ERRNO";
         }
-        close(HMODS);
     }
 
     # Let's parse some logs & /proc files for well known strings
@@ -139,44 +143,56 @@ sub doInventory {
         'ACPI: DSDT \(v\d+\s+Xen ' => 'Xen',
     );
 
-    if ($found == 0 and open(HDMSG, '/var/log/dmesg')) {
-        while(<HDMSG>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+    if ($found == 0) {
+        if (open my $handle, '<', '/var/log/dmesg') {
+            while(<$handle>) {
+              foreach my $str (keys %msgmap) {
+                if (/$str/) {
+                  $status = "$msgmap{$str}";
+                  $found = 1;
+                  last;
+                }
+              }
             }
-          }
+            close($handle);
+        } else {
+            warn "Can't open /var/log/dmesg: $ERRNO";
         }
-        close(HDMSG);
     }
 
     # Read kernel ringbuffer directly
-    if ($found == 0 and open(HDMSG, '$dmesg |')) {
-        while(<HDMSG>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+    if ($found == 0) {
+        if (open my $handle, '-|', $dmesg) {
+            while (<$handle>) {
+              foreach my $str (keys %msgmap) {
+                if (/$str/) {
+                  $status = "$msgmap{$str}";
+                  $found = 1;
+                  last;
+                }
+              }
             }
-          }
+            close $handle;
+        } else {
+            warn "Can't run $dmesg: $ERRNO";
         }
-        close(HDMSG);
     }
 
-    if ($found == 0 and open(HSCSI, '/proc/scsi/scsi')) {
-        while(<HSCSI>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+    if ($found == 0) {
+        if (open my $handle, '<', '/proc/scsi/scsi') {
+            while (<$handle>) {
+              foreach my $str (keys %msgmap) {
+                if (/$str/) {
+                  $status = "$msgmap{$str}";
+                  $found = 1;
+                  last;
+                }
+              }
             }
-          }
+            close $handle;
+        } else {
+            warn "Can't open /proc/scsi/scsi: $ERRNO";
         }
-        close(HSCSI);
     }
 
     if ($status) {
@@ -191,15 +207,20 @@ sub check_file_content {
 
     return 0 unless -r $file;
 
+    if (!open my $handle, '<', $file) {
+        warn "Can't open file $file: $ERRNO";
+        return;
+    }
+
     my $found = 0;
-    open (my $fh, '<', $file) or die "Can't open file $file: $ERRNO
-    while (my $line = <$fh>) {
+
+    while (my $line = <$handle>) {
         if ($line =~ /$pattern/) {
             $found = 1;
             last;
         }
     }
-    close ($fh);
+    close $handle;
 
     return $found;
 }

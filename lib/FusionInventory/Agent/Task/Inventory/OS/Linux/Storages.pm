@@ -40,12 +40,15 @@ sub getFromSysProc {
     }
 
     my $command = `fdisk -v` =~ '^GNU' ? 'fdisk -p -l' : 'fdisk -l';
-    open (my $handle, '-|', $command) or die "Can't run $command: $ERRNO";
-    while (my $line = <$handle>) {
-        next unless (/^\/dev\/([sh]d[a-z])/);
-        push(@names, $1);
+    if (!open my $handle, '-|', $command) {
+        warn "Can't run $command: $ERRNO";
+    } else {
+        while (my $line = <$handle>) {
+            next unless (/^\/dev\/([sh]d[a-z])/);
+            push(@names, $1);
+        }
+        close $handle;
     }
-    close ($handle);
 
     # filter duplicates
     my %seen;
@@ -78,7 +81,11 @@ sub getValueFromSysProc {
 
     return unless $file;
 
-    open (my $handle, '<', $file) or die "Can't open $file: $ERRNO";
+    if (!open my $handle, '<', $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
     my $value = <$handle>;
     close ($handle);
 
@@ -181,25 +188,27 @@ sub doInventory {
         foreach my $device (@devices) {
             if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
                 my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
-                open (my $handle, '-|', $command)
-                    or die "Can't run $command: $ERRNO";
-                while (my $line = <$handle>) {
-                    if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
-                        my $value = $1;
-                        $value =~ s/\s+$//;
-                        $device->{SERIALNUMBER} = $value
-                            if !$device->{SERIALNUMBER};
-                        next;
+                if (!open my $handle, '-|', $command) {
+                    warn "Can't run $command: $ERRNO";
+                } else {
+                    while (my $line = <$handle>) {
+                        if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
+                            my $value = $1;
+                            $value =~ s/\s+$//;
+                            $device->{SERIALNUMBER} = $value
+                                if !$device->{SERIALNUMBER};
+                            next;
+                        }
+                        if (/^\s+Firmware Revision\s*:\s*(.+)/i) { 
+                            my $value = $1;
+                            $value =~ s/\s+$//;
+                            $device->{FIRMWARE} = $value
+                                if !$device->{FIRMWARE};
+                            next;
+                        }
                     }
-                    if (/^\s+Firmware Revision\s*:\s*(.+)/i) { 
-                        my $value = $1;
-                        $value =~ s/\s+$//;
-                        $device->{FIRMWARE} = $value
-                            if !$device->{FIRMWARE};
-                        next;
-                    }
+                    close ($handle);
                 }
-                close ($handle);
             }
         }
     }
@@ -227,9 +236,13 @@ sub doInventory {
 sub parseUdev {
     my ($file, $device) = @_;
 
-    my ($result, $serial);
 
-    open (my $handle, '<', $file);
+    if (!open my $handle, '<', $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my ($result, $serial);
     while (my $line = <$handle>) {
         if ($line =~ /^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
             $result->{SCSI_COID} = $1;
@@ -268,9 +281,14 @@ sub parseUdev {
 sub parseLshal {
     my ($file, $mode) = @_;
 
+
+    if (!open my $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
     my ($devices, $device);
 
-    open (my $handle, $mode, $file);
     while (my $line = <$handle>) {
         chomp $line;
         if ($line =~ m{^udi = '/org/freedesktop/Hal/devices/(storage|legacy_floppy|block)}) {

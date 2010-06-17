@@ -16,11 +16,13 @@ sub isInventoryEnabled {
   if (!$domain) {
     my %domain;
 
-    if (open RESOLV, "/etc/resolv.conf") {
-      while(<RESOLV>) {
-    $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+    if (open my $handle, '<', '/etc/resolv.conf') {
+      while(<$handle>) {
+        $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
       }
-      close RESOLV;
+      close $handle;
+    } else {
+        warn "Can't open /etc/resolv.conf: $ERRNO";
     }
     $domain = join "/", keys %domain;
   }

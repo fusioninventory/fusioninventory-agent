@@ -76,7 +76,7 @@ sub StartMachine {
         setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
             or warn "Can't do setsockopt: $ERRNO\n";
 
-        open (my $handle, '-|', '/sbin/ifconfig -a')
+        open my $handle, '-|', '/sbin/ifconfig -a'
             or die "Can't run /sbin/ifconfig: $ERRNO";
         while (my $line = <$handle>) {
             next unless $line =~ /(\S+) \s+ Link \s \S+ \s+ HWaddr \s (\S+)/x;
@@ -96,7 +96,7 @@ sub StartMachine {
             send(SOCKET, $magic_packet, 0, $destination)
                 or warn "Couldn't send packet: $ERRNO";
         }
-        close ($handle);
+        close $handle;
         # TODO : For FreeBSD, send to /dev/bpf ....
     } else { # degraded wol by UDP
         if ( eval { socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp')) }) {

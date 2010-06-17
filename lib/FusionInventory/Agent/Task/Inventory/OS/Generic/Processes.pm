@@ -29,12 +29,16 @@ sub doInventory {
     );
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
     my $the_year=$year+1900;
-    if ($OSNAME =~ /^solaris$/) {
-        open(PS, "ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm|");
-    } else {
-        open(PS, "ps aux|");
+
+    my $command = $OSNAME eq 'solaris' ?
+        'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
+
+    if (!open my $handle, '-|', $command) {
+        warn "Can't run $command: $ERRNO";
+        return;
     }
-    while ($line = <PS>) {
+
+    while ($line = <$handle>) {
         next if ($. ==1);
         if ($line =~
             /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*?)\s*$/){
@@ -68,7 +72,7 @@ sub doInventory {
                 });
         }
     }
-    close(PS); 
+    close $handle; 
 }
 
 1;

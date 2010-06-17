@@ -1079,12 +1079,12 @@ sub writeXML {
 
   # Convert perl data structure into xml strings
 
-  if (open OUT, ">$localfile") {
-    print OUT $self->getContent();
-    close OUT or warn;
+  if (open my $handle, '>', $localfile) {
+    print $handle $self->getContent();
+    close $handle;
     $logger->info("Inventory saved in $localfile");
   } else {
-    warn "Can't open `$localfile': $ERRNO"
+    warn "Can't open $localfile: $ERRNO"
   }
 }
 
@@ -1187,12 +1187,14 @@ sub saveLastState {
     return;
   }
 
-  if (open LAST_STATE, ">".$target->{last_statefile}) {
-    print LAST_STATE my $string = XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );;
-    close LAST_STATE or warn;
+  if (open my $handle, '>', $target->{last_statefile}) {
+    print $handle XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
+    close $handle;
   } else {
-    $logger->debug ("Cannot save the checksum values in ".$target->{last_statefile}."
-	(will be synchronized by GLPI!!): $!");
+    $logger->debug (
+        "Cannot save the checksum values in $target->{last_statefile} " .
+	"(will be synchronized by GLPI!!): $ERRNO"
+    );
   }
 }
 

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Adaptec;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 
 # Tested on 2.6.* kernels
@@ -32,7 +34,10 @@ sub doInventory {
 
   if (-r '/proc/scsi/scsi') {
     foreach my $hd (@devices) {
-      open (PATH, '/proc/scsi/scsi');
+      if (!open my $handle, '<', '/proc/scsi/scsi') {
+          warn "Can't open /proc/scsi/scsi: $ERRNO";
+          next;
+      }
 
 # Example output:
 #
@@ -49,7 +54,7 @@ sub doInventory {
 
       my ($host, $model, $firmware, $manufacturer, $size, $serialnumber);
       my $count = -1;
-      while (<PATH>) {
+      while (<$handle>) {
         ($host, $count) = (1, $count+1) if /^Host:\sscsi$hd->{SCSI_COID}.*/;
         if ($host) {
           if ((/.*Model:\s(\S+).*Rev:\s(\S+).*/) and ($1 !~ 'raid.*')) {
@@ -75,7 +80,7 @@ sub doInventory {
           }
         }
       }
-      close (PATH);
+      close $handle;
     }
   }
 

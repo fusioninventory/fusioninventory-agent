@@ -98,13 +98,15 @@ sub handler {
         }
 
         my $indexFile = $htmlDir."/index.tpl";
-        if (!open FH, $indexFile) {
-            $logger->error("Can't open share $indexFile");
+        if (!open my $handle, '<', $indexFile) {
+            $logger->error("Can't open share $indexFile: $ERRNO");
             $c->send_error(404);
             return;
         }
         undef $/;
-        my $output = <FH>;
+        my $output = <$handle>;
+        close $handle;
+
         $output =~ s/%%STATUS%%/$status/;
         $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
         if (!$config->{'rpc-trust-localhost'}) {

@@ -6,6 +6,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::VmWareDesktop;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled { return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') }
 
 sub doInventory {
@@ -22,12 +24,13 @@ sub doInventory {
     my $commande = "/Library/Application\\ Support/VMware\\ Fusion\/vmrun list";
     foreach my $vmxpath ( `$commande` ) {
         next unless $i++ > 0; # Ignore the first line
-        if (!open TMP, "<$vmxpath") {
+        if (!open my $handle, '<', $vmxpath) {
+            warn "Can't open $vmxpath: $ERRNO";
             $logger->debug("Can't open $vmxpath\n");
             next;
         }
-        my @vminfos = <TMP>;
-        close TMP;
+        my @vminfos = <$handle>;
+        close $handle;
 
         foreach my $line (@vminfos) {
             if ($line =~ m/^displayName =\s\"+(.*)\"/) {

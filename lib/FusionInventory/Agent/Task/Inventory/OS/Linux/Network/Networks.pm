@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {
   return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)");
 
@@ -28,9 +30,9 @@ sub _ipdhcp {
   }
   return undef unless -e $leasepath;
 
-  if (open DHCP, $leasepath) {
+  if (open my $handle, '<', $leasepath) {
     my $lease;
-    while(<DHCP>){
+    while (<$handle>) {
       $lease = 1 if(/lease\s*{/i);
       $lease = 0 if(/^\s*}\s*$/);
       #Interface name
@@ -44,9 +46,9 @@ sub _ipdhcp {
         }
       }
     }
-    close DHCP or warn;
+    close $handle;
   } else {
-    warn "Can't open $leasepath\n";
+    warn "Can't open $leasepath: $ERRNO";
   }
   return $ipdhcp;
 }
@@ -100,12 +102,14 @@ sub doInventory {
         $ifData{TYPE} = "Wifi";
       }
 
-      if (open UEVENT, "</sys/class/net/".$ifData{DESCRIPTION}."/device/uevent") {
-        foreach (<UEVENT>) {
+      if (open my $handle, '<', "/sys/class/net/$ifData{DESCRIPTION}/device/uevent") {
+        while (<handle>) {
           $ifData{DRIVER} = $1 if /^DRIVER=(\S+)/;
           $ifData{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
         }
-        close UEVENT;
+        close $handle;
+      } else {
+          warn "Can't open /sys/class/net/$ifData{DESCRIPTION}/device/uevent: $ERRNO";
       }
       
       # Handle channel bonding interfaces

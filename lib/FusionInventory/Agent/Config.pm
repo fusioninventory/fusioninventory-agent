@@ -149,14 +149,14 @@ if (!$file || !-f $file) {
     return $config unless -f $file;
   }
 
-  if (!open (CONFIG, "<".$file)) {
-    print(STDERR "Config: Failed to open $file: $ERRNO\n");
-	return $config;
+  if (!open my $handle, '<', $file) {
+    warn "Config: Failed to open $file: $ERRNO"
+    return $config;
   }
   
   $config->{'conf-file'} = $file;
 
-  foreach (<CONFIG>) {
+  while (<$handle>) {
     s/#.+//;
     if (/([\w-]+)\s*=\s*(.+)/) {
       my $key = $1;
@@ -168,7 +168,7 @@ if (!$file || !-f $file) {
       $config->{$key} = $val;
     }
   }
-  close CONFIG;
+  close $handle;
 }
 
 sub loadUserParams {

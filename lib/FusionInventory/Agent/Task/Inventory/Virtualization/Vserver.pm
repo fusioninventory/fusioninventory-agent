@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vserver;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled { return can_run('vserver') }
 
 sub doInventory {
@@ -21,13 +23,14 @@ sub doInventory {
 
     return unless -d $cfgDir;
 
-    if (!opendir(DH, $cfgDir)) {
+    if (!opendir my $handle, $cfgDir) {
+        warn "Can't open $cfgDir: $ERRNO";
         return;
     }
 
     my $name;
     my $status;
-    while (($name = readdir(DH))) {
+    while ($name = readdir($handle)) {
         next if $name =~ /^\./;
         next unless $name =~ /\S/;
         chomp( my $statusString = `vserver "$name" status`);
@@ -44,6 +47,7 @@ sub doInventory {
                 VMTYPE    => "vserver",
             });
     }
+    close $handle;
 }
 
 1;

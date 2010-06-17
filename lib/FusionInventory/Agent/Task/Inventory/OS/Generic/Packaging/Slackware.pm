@@ -11,9 +11,9 @@ sub doInventory {
 
   my $name;
   
-  opendir(DIR, "/var/log/packages/");
-  my @files= readdir(DIR);
-  closedir(DIR);
+  opendir my $handle, '/var/log/packages/';
+  my @files = readdir($handle);
+  closedir $handle;
 
   foreach my $file (@files) {
      if (($file ne ".") && ($file ne "..")) {

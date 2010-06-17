@@ -25,11 +25,14 @@ sub doInventory {
   chomp($OSLevel=`uname -r`);
   chomp($OSComment=`uname -v`);
 
-   open(FH, "< /etc/release") and do {
-       chomp($OSVersion = readline (FH));
+   if (open my $handle, '<', '/etc/release') {
+       $OSVersion = <$handle>;
+       close $handle;
+       chomp $OSVersion;
        $OSVersion =~ s/^\s+//;
-       close FH;
-   };
+   } else {
+       warn "Can't open /etc/release: $ERRNO";
+   }
 
   chomp($OSVersion=`uname -v`) unless $OSVersion;
   chomp($OSVersion);

@@ -124,22 +124,14 @@ sub write {
 
     my $xml=XML::Simple::XMLout( $tmp, RootName => 'ADM' );
 
-    my $fault;
-    if (!open ADM, ">".$target->{accountinfofile}) {
-        $fault = 1;
-
-    } else {
-
-        print ADM $xml;
-        $fault = 1 unless close ADM;
-
-    }
-
-    if (!$fault) {
+    if (open my $handle, ">", $target->{accountinfofile}) {
+        print $handle $xml;
+        close $handle;
         $logger->debug ("Account info updated successfully");
     } else {
+        warn "Can't open $target->{accountinfofile} for writing: $ERRNO";
         $logger->error ("Can't save account info in `".
-            $self->{config}->{accountinfofile});
+            $target->{accountinfofile});
     }
 }
 

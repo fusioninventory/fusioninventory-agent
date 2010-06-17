@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Storages;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {-r '/etc/fstab'}
 
 sub doInventory {
@@ -12,11 +14,15 @@ sub doInventory {
   my @values;
   my @devices;
   
-  open FSTAB, "/etc/fstab";
-  while(<FSTAB>){
-    if(/^\/dev\/(\D+\d)/) {
-	push @devices, $1 unless grep(/^$1$/, @devices);
-    }
+  if (open my $handle, '<', '/etc/fstab') {
+      while(<$handle>){
+        if(/^\/dev\/(\D+\d)/) {
+            push @devices, $1 unless grep(/^$1$/, @devices);
+        }
+      }
+      close $handle;
+  } else {
+      warn "Can't open /etc/fstab: $ERRNO";
   }
   for my $dev (@devices) {
     my ($model,$capacity,$found, $manufacturer);

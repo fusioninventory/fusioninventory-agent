@@ -3,6 +3,7 @@ package FusionInventory::Compress;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use File::Temp qw/ tempdir tempfile /;
 
 sub new {
@@ -61,9 +62,12 @@ sub compress {
 #  print "filename ".$filename."\n"; 
 
     my $ret;
-    open FILE, "<$filename.gz";
-    $ret .= $_ foreach (<FILE>);
-    close FILE;
+    if (open my $handle, '<', "$filename.gz") {
+        $ret .= $_ foreach (<$handle>);
+        close $handle;
+    } else {
+        warn "Can't open $filename.gz: $ERRNO";
+    }
     if ( ! unlink "$filename.gz" ) {
       $logger->debug("Failed to remove `$filename.gz'");
     }
@@ -93,9 +97,12 @@ sub uncompress {
     my ($uncompressed_filename) = $filename =~ /(.*)\.gz$/;
   
     my $ret;
-    open FILE, "<$uncompressed_filename";
-    $ret .= $_ foreach (<FILE>);
-    close FILE;
+    if (open my $handle, '<', $uncompressed_filename) {
+        $ret .= $_ foreach (<$handle>);
+        close $handle;
+    } else {
+        warn "Can't open $uncompressed_filename: $ERRNO";
+    }
     if ( ! unlink "$uncompressed_filename" ) {
       $logger->debug("Failed to remove `$uncompressed_filename'");
     }
