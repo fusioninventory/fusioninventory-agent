@@ -37,7 +37,6 @@ sub new {
   my ($class, $params) = @_;
 
   my $self = $class->SUPER::new($params);
-  bless $self, $class;
 
   foreach (keys %{$params->{msg}}) {
     $self->{h}{$_} = $params->{msg}{$_};

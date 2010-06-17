@@ -36,7 +36,6 @@ sub new {
   my ($class, $params) = @_;
 
   my $self = $class->SUPER::new($params);
-  bless $self, $class;
 
   $self->{backend} = $params->{backend};
   my $logger = $self->{logger};
