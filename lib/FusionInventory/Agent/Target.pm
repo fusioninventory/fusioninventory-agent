@@ -32,17 +32,17 @@ sub new {
     lock($lock);
 
     my $nextRunDate : shared;
-    $self->{'nextRunDate'} = \$nextRunDate;
+    $self->{nextRunDate} = \$nextRunDate;
 
-    $self->{'config'} = $params->{'config'};
-    $self->{'logger'} = $params->{'logger'};
-    $self->{'type'} = $params->{'type'};
-    $self->{'path'} = $params->{'path'} || '';
-    $self->{'deviceid'} = $params->{'deviceid'};
+    $self->{config} = $params->{config};
+    $self->{logger} = $params->{logger};
+    $self->{type} = $params->{type};
+    $self->{path} = $params->{path} || '';
+    $self->{deviceid} = $params->{deviceid};
 
-    my $config = $self->{'config'};
-    my $logger = $self->{'logger'};
-    my $target = $self->{'target'};
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $target = $self->{target};
 
 
     bless $self, $class;
@@ -51,11 +51,11 @@ sub new {
     
     $self->init();
 
-    if ($params->{'type'} !~ /^(server|local|stdout)$/ ) {
+    if ($params->{type} !~ /^(server|local|stdout)$/ ) {
         $logger->fault('bad type'); 
     }
 
-    if (!-d $self->{'vardir'}) {
+    if (!-d $self->{vardir}) {
         $logger->fault("Bad vardir setting!");
     }
 
@@ -66,7 +66,7 @@ sub new {
         });
 
 
-    if ($self->{'type'} eq 'server') {
+    if ($self->{type} eq 'server') {
 
         $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
 
@@ -90,16 +90,16 @@ sub new {
         my $storage = $self->{storage};
         $self->{myData} = $storage->restore();
 
-        if ($self->{myData}{'nextRunDate'}) {
+        if ($self->{myData}{nextRunDate}) {
             $logger->debug (
-                "[".$self->{'path'}."]".
+                "[".$self->{path}."]".
                 " Next server contact planned for ".
-                localtime($self->{'myData'}{'nextRunDate'})
+                localtime($self->{myData}{nextRunDate})
             );
-            ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
+            ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
         }
     }
-    $self->{'currentDeviceid'} = $self->{myData}{'currentDeviceid'};
+    $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
 
 
 
@@ -125,8 +125,8 @@ sub isDirectoryWritable {
 sub init {
     my ($self) = @_;
 
-    my $config = $self->{'config'};
-    my $logger = $self->{'logger'};
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     lock($lock);
 # The agent can contact different servers. Each server has it's own
@@ -152,7 +152,7 @@ sub init {
         $logger->debug("var files are stored in ".$config->{basevardir});
     }
 
-    if ($self->{'type'} eq 'server') {
+    if ($self->{type} eq 'server') {
         my $dir = $self->{path};
         $dir =~ s/\//_/g;
         # On Windows, we can't have ':' in directory path
@@ -201,18 +201,18 @@ sub setNextRunDate {
     else{
         $time = time + int rand($serverdelay?$serverdelay*3600:$config->{delaytime});
     }
-    $self->{'myData'}{'nextRunDate'} = $time;
+    $self->{myData}{nextRunDate} = $time;
     
-    ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
+    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
 
     $logger->debug (
-        "[".$self->{'path'}."]".
+        "[".$self->{path}."]".
         " Next server contact'd just been planned for ".
-        localtime($self->{'myData'}{'nextRunDate'})
+        localtime($self->{myData}{nextRunDate})
     );
 
 
-    $storage->save({ data => $self->{'myData'} });
+    $storage->save({ data => $self->{myData} });
 
 }
 
@@ -224,22 +224,22 @@ sub getNextRunDate {
 
     lock($lock);
 
-    if (${$self->{'nextRunDate'}}) {
+    if (${$self->{nextRunDate}}) {
       
         if ($self->{debugPrintTimer} < time) {
             $self->{debugPrintTimer} = time + 600;
         }; 
 
-        return ${$self->{'nextRunDate'}};
+        return ${$self->{nextRunDate}};
     }
 
     $self->setNextRunDate();
 
-    if (!${$self->{'nextRunDate'}}) {
+    if (!${$self->{nextRunDate}}) {
         $logger->fault('nextRunDate not set!');
     }
 
-    return $self->{'myData'}{'nextRunDate'} ;
+    return $self->{myData}{nextRunDate} ;
 
 }
 
@@ -252,10 +252,10 @@ sub resetNextRunDate {
     lock($lock);
     $logger->debug("Force run now");
     
-    $self->{'myData'}{'nextRunDate'} = 1;
-    $storage->save({ data => $self->{'myData'} });
+    $self->{myData}{nextRunDate} = 1;
+    $storage->save({ data => $self->{myData} });
     
-    ${$self->{'nextRunDate'}} = $self->{myData}{'nextRunDate'};
+    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
 }
 
 sub setPrologFreq {
@@ -268,19 +268,19 @@ sub setPrologFreq {
 
     return unless $prologFreq;
 
-    if ($self->{'myData'}{'prologFreq'} && ($self->{'myData'}{'prologFreq'}
+    if ($self->{myData}{prologFreq} && ($self->{myData}{prologFreq}
             eq $prologFreq)) {
         return;
     }
-    if (defined($self->{'myData'}{'prologFreq'})) {
+    if (defined($self->{myData}{prologFreq})) {
         $logger->info("PROLOG_FREQ has changed since last ".
-            "process(old=".$self->{'myData'}{'prologFreq'}.",new=".$prologFreq.")");
+            "process(old=".$self->{myData}{prologFreq}.",new=".$prologFreq.")");
     } else {
         $logger->info("PROLOG_FREQ has been set: ".$prologFreq.")");
     }
 
-    $self->{'myData'}{'prologFreq'} = $prologFreq;
-    $storage->save({ data => $self->{'myData'} });
+    $self->{myData}{prologFreq} = $prologFreq;
+    $storage->save({ data => $self->{myData} });
 
 }
 
@@ -294,22 +294,22 @@ sub setCurrentDeviceID {
 
     return unless $deviceid;
 
-    if ($self->{'myData'}{'currentDeviceid'} &&
-        ($self->{'myData'}{'currentDeviceid'} eq $deviceid)) {
+    if ($self->{myData}{currentDeviceid} &&
+        ($self->{myData}{currentDeviceid} eq $deviceid)) {
         return;
     }
 
-    if (!$self->{'myData'}{'currentDeviceid'}) {
+    if (!$self->{myData}{currentDeviceid}) {
         $logger->debug("DEVICEID initialized at $deviceid");
     } else {
         $logger->info("DEVICEID has changed since last ".
-            "process(old=".$self->{'myData'}{'currentDeviceid'}.",new=".$deviceid.")");
+            "process(old=".$self->{myData}{currentDeviceid}.",new=".$deviceid.")");
     }
 
-    $self->{'myData'}{'currentDeviceid'} = $deviceid;
-    $storage->save({ data => $self->{'myData'} });
+    $self->{myData}{currentDeviceid} = $deviceid;
+    $storage->save({ data => $self->{myData} });
 
-    $self->{'currentDeviceid'} = $deviceid;
+    $self->{currentDeviceid} = $deviceid;
 
 }
 
