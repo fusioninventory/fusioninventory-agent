@@ -3,6 +3,8 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 my $devlib;
 foreach (@ARGV) {
     if (/^--devlib$/) {
@@ -17,8 +19,8 @@ foreach (@ARGV) {
 eval {
     require FusionInventory::Agent;
 };
-if ($@) {
-    print STDERR "Failed to load FusionInventory::Agent, $@\n";
+if ($EVAL_ERROR) {
+    print STDERR "Failed to load FusionInventory::Agent, $EVAL_ERROR\n";
     print STDERR "you can run the agent directly for its source directory ";
     print STDERR "with --devlib\n";
     exit 1;
@@ -29,13 +31,13 @@ eval {
     $agent->main();
 };
 
-if ($@) {
+if ($EVAL_ERROR) {
     print STDERR "Execution failed. Are you sur the software is fully ";
     print STDERR "installed\n";
     print STDERR "and an old version of the agent not already present on the ";
     print STDERR "system?\n";
     print STDERR "___\n";
-    print STDERR $@;
+    print STDERR $EVAL_ERROR;
     exit 1;
 }
 __END__
