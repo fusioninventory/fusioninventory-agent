@@ -16,6 +16,7 @@ use strict;
 no strict 'refs';
 use warnings;
 
+use English qw(-no_match_vars);
 use Data::Dumper;
 
 use FusionInventory::Agent::Job::Logger;
@@ -29,64 +30,70 @@ use FusionInventory::Agent::XML::Response::Prolog;
 
 use FusionInventory::Agent::Storage;
 
+sub new {
+    my ($class) = @_;
+
+    my $self = {};
+    bless $self, $class;
+
+    my $storage = FusionInventory::Agent::Storage->new({
+        target => {
+            vardir => $ARGV[0],
+        }
+    });
+    my $data = $storage->restore({
+        module => "FusionInventory::Agent"
+    });
+    $self->{storage} = $storage;
+
+    $self->{config} = $data->{config};
+    $self->{target} = $data->{target};
+    my $logger = $self->{logger} = new FusionInventory::Agent::Job::Logger ();
+    $self->{prologresp} = $data->{prologresp};
+
+    return $self;
+}
+
 sub main {
-  my (undef, $params) = @_;
+  my $self = FusionInventory::Agent::Task::Inventory->new();
 
-  my $self = {};
-  bless $self;
-
-  my $storage = new FusionInventory::Agent::Storage({
-      target => {
-          vardir => $ARGV[0],
-      }
-  });
-  my $data = $storage->restore({
-          module => "FusionInventory::Agent"
-      });
-  $self->{storage} = $storage;
-
-  my $config = $self->{config} = $data->{config};
-  my $prologresp = $self->{prologresp} = $data->{prologresp};
-  my $target = $self->{target} = $data->{target};
-  
-  
-  my $logger = $self->{logger} = new FusionInventory::Agent::Job::Logger ();
-
-  if ($target->{type} eq 'server' &&
-      (!exists($prologresp->{parsedcontent}->{RESPONSE})
-          ||
-          $prologresp->{parsedcontent}->{RESPONSE} !~ /^SEND$/)) {
-    $logger->debug('<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not '.
-        'send an inventory.');
+  if ($self->{target}->{type} eq 'server' &&
+    (
+      !exists($self->{prologresp}->{parsedcontent}->{RESPONSE}) ||
+      $self->{prologresp}->{parsedcontent}->{RESPONSE} !~ /^SEND$/
+    )
+  ) {
+    $self->{logger}->debug(
+      '<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not send an inventory.'
+    );
     exit(0);
   }
 
-
   $self->{modules} = {};
 
-  if (!$target) {
-    $logger->fault("target is undef");
+  if (!$self->{target}) {
+    $self->{logger}->fault("target is undef");
   }
 
-  $self->{inventory} = new FusionInventory::Agent::XML::Query::Inventory ({
+  my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
 
           # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
           target => $self->{target},
           config => $self->{config},
-          logger => $logger,
+          logger => $self->{logger},
 
       });
-  my $inventory = $self->{inventory};
+  $self->{inventory} = $inventory;
 
-  if (!$config->{'stdout'} && !$config->{'local'}) {
-      $logger->fault("No prologresp!") unless $prologresp;
+  if (!$self->{config}->{'stdout'} && !$self->{config}->{'local'}) {
+      $self->{logger}->fault("No prologresp!") unless $self->{prologresp};
     
-      if ($config->{'force'}) {
-        $logger->debug("Force enable, ignore prolog and run inventory.");
-      } elsif (!$prologresp->isInventoryAsked()) {
-        $logger->debug("No inventory requested in the prolog...");
+      if ($self->{config}->{'force'}) {
+        $self->{logger}->debug("Force enable, ignore prolog and run inventory.");
+      } elsif (!$self->{prologresp}->isInventoryAsked()) {
+        $self->{logger}->debug("No inventory requested in the prolog...");
         exit(0);
       }
   }
@@ -94,24 +101,22 @@ sub main {
   $self->feedInventory();
 
 
-  if ($target->{type} eq 'stdout') {
+  if ($self->{target}->{type} eq 'stdout') {
       $self->{inventory}->printXML();
-  } elsif ($target->{'type'} eq 'local') {
+  } elsif ($self->{target}->{'type'} eq 'local') {
       $self->{inventory}->writeXML();
-  } elsif ($target->{'type'} eq 'server') {
+  } elsif ($self->{target}->{type} eq 'server') {
 
-      my $accountinfo = $target->{accountinfo};
+      my $accountinfo = $self->{target}->{accountinfo};
 
       # Put ACCOUNTINFO values in the inventory
       $accountinfo->setAccountInfo($self->{inventory});
 
-      my $network = new FusionInventory::Agent::Network ({
-
-              logger => $logger,
-              config => $config,
-              target => $target,
-
-          });
+      my $network = FusionInventory::Agent::Network->new({
+        logger => $self->{logger},
+        config => $self->{config},
+        target => $self->{target},
+      });
 
       my $response = $network->send({message => $inventory});
 
@@ -151,14 +156,24 @@ sub initModList {
 
     # TODO replace that by the standard can_run()
     can_run => sub {
-# TODO: doesn't Work on Windows Yet
-      return if $^O =~ /^MSWin/;
       my $binary = shift;
 
-      my $calling_namespace = caller(0);
-      chomp(my $binpath=`which $binary 2>/dev/null`);
-      return unless -x $binpath;
-      1
+      my $ret;
+      if ($OSNAME =~ /^MSWin/) {
+          MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
+              foreach my $ext (qw/.exe .bat/) {
+                  if (-f $_.'/'.$binary.$ext) {
+                      $ret = 1;
+                      last MAIN;
+                  }
+              }
+          }
+      } else {
+          chomp(my $binpath=`which $binary 2>/dev/null`);
+          $ret = -x $binpath;
+      }
+
+      return $ret;
     },
     can_load => sub {
       my $module = shift;
@@ -235,7 +250,7 @@ sub initModList {
     my $t = $file;
     next unless $t =~ s!.*?(FusionInventory/Agent/Task/Inventory/)(.*?)\.pm$!$1$2!;
     my $m = join ('::', split /\//, $t);
-    push @installed_mods, $m;
+    push @installed_mods, $m unless grep (/^$m$/, @installed_mods);
   }
 
   if (!@installed_mods) {

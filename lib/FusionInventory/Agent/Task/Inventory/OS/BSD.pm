@@ -3,22 +3,24 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD;
 use strict;
 
 use vars qw($runAfter);
+use English qw(-no_match_vars);
+
 $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
-sub isInventoryEnabled { $^O =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/ }
+sub isInventoryEnabled {
+    return $OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/;
+}
 
 sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  my $OSName;
   my $OSComment;
   my $OSVersion;
   my $OSLevel;
   my $OSArchi;
 
   # Operating system informations
-  chomp($OSName=`uname -s`);
   chomp($OSVersion=`uname -r`);
   chomp($OSArchi=`uname -p`);
 
@@ -34,7 +36,7 @@ sub doInventory {
   chomp($OSComment=`uname -v`) unless $OSComment; 
   
   $inventory->setHardware({
-      OSNAME => $OSName." ".$OSArchi,
+      OSNAME => $OSNAME,
       OSCOMMENTS => $OSComment,
       OSVERSION => $OSVersion,
     });

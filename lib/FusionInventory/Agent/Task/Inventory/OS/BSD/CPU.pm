@@ -27,12 +27,12 @@ sub doInventory {
 # because no /proc on *BSD
   my $flag=0;
   my $status=0; ### XXX 0 if Unpopulated
+  chomp($processorn = `sysctl -n hw.ncpu`);
+  chomp($processort = `sysctl -n hw.model`);
   for(`dmidecode`){
-    $processorn = `sysctl -n hw.ncpu`;
     
     $status = 1 if $flag && /^\s*status\s*:.*enabled/i;
     $processors = $1 if $flag && /^\s*current speed\s*:\s*(\d+).+/i;
-    $processort = `sysctl -n hw.model`;
   }
   
   $inventory->setHardware({

@@ -22,7 +22,7 @@ my $lock :shared;
 my $status :shared = "unknown";
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
@@ -49,13 +49,13 @@ sub new {
     $logger->debug("[RPC] static files are in ".$self->{htmlDir});
 
 
-    my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
+    my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
             target => {
                 vardir => $config->{basevardir},
             }
         });
 
-    bless $self;
+    bless $self, $class;
 
     return $self if $config->{'no-socket'};
 
@@ -69,23 +69,33 @@ sub new {
 }
 
 sub handler {
-    my ($self, $c, $clientIp) = @_;
+    my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $config = $self->{config};
     my $htmlDir = $self->{htmlDir};
 
-    my $r = $c->get_request;
-    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
     if (!$r) {
         $c->close;
         undef($c);
         return;
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
+    }
+
+
+    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
+    if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
         if ($clientIp !~ /^127\./) {
             $c->send_error(404);
             return;
+        }
+
+        my $nextContact = "";
+        foreach my $target (@{$targets->{targets}}) {
+            my $path = $target->{'path'};
+            $path = 'http://@e:@fdef@4545';
+            $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+            $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".localtime($target->getNextRunDate())."</li>\n";
         }
 
         my $indexFile = $htmlDir."/index.tpl";
@@ -97,6 +107,7 @@ sub handler {
         undef $/;
         my $output = <FH>;
         $output =~ s/%%STATUS%%/$status/;
+        $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
         $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
         if (!$config->{'rpc-trust-localhost'}) {
             $output =~
@@ -123,13 +134,14 @@ sub handler {
             }
         }
         $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(|\/)(\S*)$/) {
-        my $token = $2;
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
+        my $sentToken = $2;
+        my $currentToken = $self->getToken();
         $logger->debug("[RPC]'now' catched");
         if (
             ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                 or
-            ($token eq $self->getToken())
+            ($sentToken eq $currentToken)
         ) {
             $self->getToken('forceNewToken');
             $targets->resetNextRunDate();
@@ -137,7 +149,7 @@ sub handler {
 
         } else {
 
-            $logger->debug("[RPC] bad token $token != ".$self->getToken());
+            $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
             $c->send_status_line(403)
 
         }
@@ -175,11 +187,13 @@ sub server {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalAddr => $config->{'rpc-ip'},
             LocalPort => 62354,
-            Reuse => 1);
+            Reuse => 1,
+            Timeout => 5);
     } else {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalPort => 62354,
-            Reuse => 1);
+            Reuse => 1,
+            Timeout => 5);
     }
   
    if (!$daemon) {
@@ -206,9 +220,13 @@ sub server {
             $thr->join();
         }
         my ($c, $socket) = $daemon->accept;
+        next unless $socket;
         my(undef,$iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
-        my $thr = threads->create(\&handler, $self, $c, $clientIp);
+# HTTP::Daemon::get_request is not thread
+# safe and must be called from the master thread
+        my $r = $c->get_request;
+        my $thr = threads->create(\&handler, $self, $c, $r, $clientIp);
         push @stack, $thr;
     }
 }
@@ -226,13 +244,13 @@ sub getToken {
     if ($forceNewToken || !$myData->{token}) {
 
         my $tmp = '';
-        $tmp .= pack("C",65+rand(24)) foreach (0..100);
+        $tmp .= pack("C",65+rand(24)) foreach (0..7);
         $myData->{token} = $tmp;
 
         $storage->save({ data => $myData });
     }
     
-    $logger->debug("token is :".$myData->{token});
+    $logger->debug("token is: ".$myData->{token});
 
     return $myData->{token};
 

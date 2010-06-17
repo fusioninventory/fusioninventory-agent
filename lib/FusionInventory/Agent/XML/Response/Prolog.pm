@@ -10,7 +10,7 @@ sub new {
 
     my $self = $class->SUPER::new(@params);
 
-    bless ($self, $class);
+    bless $self, $class;
 
     my $target = $self->{target};
 

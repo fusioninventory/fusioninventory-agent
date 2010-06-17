@@ -13,6 +13,9 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my $logger = $params->{logger}; 
+    my $config = $params->{config};
+
+    return if $config->{'no-printer'};
 
     my $cups = Net::CUPS->new();
     my @printers = $cups->getDestinations();

@@ -79,11 +79,17 @@ sub doInventory {
       next if ($filesystem =~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/);
       next if ($type =~ /^(tmpfs)$/);
 
-      if ($filesystem =~ /^ext(2|3|4|4dev)/ && can_run('dumpe2fs')) {
+
+      if (can_run('blkid')) {
+        my $tmp = `blkid $volumn 2> /dev/null`;
+        $serial = $1 if ($tmp =~ /\sUUID="(\S*)"\s/);
+      } elsif ($filesystem =~ /^ext(2|3|4|4dev)/ && can_run('dumpe2fs')) {
+        # tune2fs -l /dev/hda1 give the same output and should be call as
+        # alternative solution
         foreach (`dumpe2fs -h $volumn 2> /dev/null`) {
           if (/Filesystem UUID:\s+(\S+)/) {
             $serial = $1;
-          } elsif (/Filesystem created:\s+\w+ (\w+) (\d+) ([\d:]+) (\d{4})$/) {
+          } elsif (/Filesystem created:\s+\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+(\d{4})$/) {
             $createdate = $4.'/'.$months{$1}.'/'.$2.' '.$3;
           } elsif (/Filesystem volume name:\s*(\S.*)/) {
             $label = $1 unless $1 eq '<none>';

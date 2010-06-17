@@ -1,9 +1,7 @@
-#!/usr/bin/perl
-
 package FusionInventory::Agent;
 
 use Cwd;
-use English;
+use English qw(-no_match_vars);
 
 use strict;
 use warnings;
@@ -50,7 +48,7 @@ use FusionInventory::Agent::Targets;
 use FusionInventory::Agent::JobEngine;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 ############################
@@ -67,12 +65,11 @@ sub new {
         $config->{logger} = 'File';
     }
 
-    my $logger = $self->{logger} = new FusionInventory::Logger ({
+    my $logger = $self->{logger} = FusionInventory::Logger->new({
             config => $config
         });
 
-# $< == $REAL_USER_ID
-    if ( $< ne '0' ) {
+    if ( $REAL_USER_ID != 0 ) {
         $logger->info("You should run this program as super-user.");
     }
 
@@ -92,16 +89,29 @@ sub new {
         $config->{nosoftware} = 1
     }
 
-
+    # This is a hack to add the perl binary directory
+    # in the $PATH env.
+    # This is useful for the Windows installer.
+    # You probably don't need this feature
+    if ($config->{'perl-bin-dir-in-path'}) {
+        if ($^X =~ /(^.*(\\|\/))/) {
+            $ENV{PATH} .= $Config::Config{path_sep}.$1;
+        } else {
+            $logger->error("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");
+        }
+    }
     my $hostname = hostname; # Sys::Hostname
 
 # /!\ $rootStorage save/read data in 'basevardir', not in a target directory!
-    my $rootStorage = new FusionInventory::Agent::Storage({
+    my $rootStorage = FusionInventory::Agent::Storage->new({
         config => $config
     });
     my $myRootData = $rootStorage->restore();
 
-    if (!defined($myRootData->{previousHostname}) || defined($myRootData->{previousHostname}) &&  ($myRootData->{previousHostname} ne $hostname)) {
+    if (
+        !defined($myRootData->{previousHostname}) ||
+        $myRootData->{previousHostname} ne $hostname
+    ) {
         my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
             (time))[5,4,3,2,1,0];
         $self->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
@@ -121,7 +131,7 @@ sub new {
 
 
 ######
-    $self->{targets} = new FusionInventory::Agent::Targets({
+    $self->{targets} = FusionInventory::Agent::Targets->new({
 
             logger => $logger,
             config => $config,
@@ -133,7 +143,7 @@ sub new {
     if (!$targets->numberOfTargets()) {
         $logger->error("No target defined. Please use ".
             "--server=SERVER or --local=/directory");
-        exit(1);
+        exit 1;
     }
 
     $self->{jobEngine} = new FusionInventory::Agent::JobEngine({
@@ -168,7 +178,7 @@ sub new {
         chdir $cwd if $config->{devlib};
 
     }
-    $self->{rpc} = new FusionInventory::Agent::RPC ({
+    $self->{rpc} = FusionInventory::Agent::RPC->new({
           
             logger => $logger,
             config => $config,
@@ -178,8 +188,9 @@ sub new {
 
     $logger->debug("FusionInventory Agent initialised");
 
-    bless $self;
+    bless $self, $class;
 
+    return $self;
 }
 
 sub isAgentAlreadyRunning {
@@ -226,7 +237,7 @@ sub main {
         my $prologresp;
         if ($target->{type} eq 'server') {
 
-            my $network = new FusionInventory::Agent::Network ({
+            my $network = FusionInventory::Agent::Network->new({
 
                     logger => $logger,
                     config => $config,
@@ -234,7 +245,7 @@ sub main {
 
                 });
 
-            my $prolog = new FusionInventory::Agent::XML::Query::Prolog({
+            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
 
                     accountinfo => $target->{accountinfo}, #? XXX
                     logger => $logger,
@@ -257,7 +268,7 @@ sub main {
         }
 
 
-        my $storage = new FusionInventory::Agent::Storage({
+        my $storage = FusionInventory::Agent::Storage->new({
 
                 config => $config,
                 logger => $logger,
@@ -282,6 +293,7 @@ sub main {
             WakeOnLan
             SNMPQuery
             NetDiscovery
+            Ping
             /;
 
         while (@modulesToDo && $jobEngine->beat()) {

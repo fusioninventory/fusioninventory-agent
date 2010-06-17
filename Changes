@@ -39,8 +39,73 @@ Revision history for FusionInventory::Agent
        * --html-dir parameter
        * Linux/Domains. Use Sys::Hostname to get the domain
        * Exit if no --server or --target is defined
+       * Inventory: If two modules with the same name are found, only load
+         the first
+       * Linux/Storages: detect floppy and block devices (Amir PAKDEL)
+       * HP-UX numerous improvement (Amir PAKDEL)
+       * Add NETWORKS/SPEED (in MB/s) (Amir PAKDEL)
+       * HP-UX/Drives: Swapped "Type" and "File System" (Amir PAKDEL)
+       * Inventory: POD doc for NETWORKS part
+       * add --no-printer parameter
+       * BSD: don't use uname to get the OSName, but $^O aka $SNAME
+       * BSD: chomp() the number of CPU
+       * HP RAID disk detection is now in Generic directory and so, can be
+         used by Windows and probably HP-UX.
+       * Linux: use blkid to get the partition serial number
+       * Task: Add the Ping.pm module for debugging purpose
+       * HTTP::Daemon::get_request is not thread safe and must be called from
+         the master thread. The timeout is set at 5 seconds to avoid
+         blockage
+       * Linux: HP Integrated Lights-Out (iLO) (Management Interface of HP
+         ProLiant servers) (Amir PAKDEL)
+       * HP-UX: HP Management Processor (MP) (Management Interface of HP
+         Integrity servers) (Amir PAKDEL)
+       * Add --perl-bin-dir-in-path parameter for the Windows package
+       * Collect Batteries information
+       * Add --disable-perllib-envvar to be able to ignore PERLLIB and
+         PERL5LIB envvar
+       * turns off PERL5LIB envvar in win32-service
+       * Get CONTROLLERS/PCISUBSYSTEMID
+       * Simplify a lot Inventory.pm, add _addEntry() function
+       * Do not set CPU Id as MBoard serial number anymore
+       * XML: Only set the non empty field to decrease the final file
+         size and improve the performance
+       * Add a template config file in etc/agent.cfg
+       * Add --conf-file=XXX parameter to allow the user to use another
+         config file
+       * Fix, allow dash in key name in config file
+       * Rethink the script in ./tools, see ./tools/README
+       * Inventory: use encode('UTF-8', $string) to reencode to UTF-8
+         string detected invalide.
+       * print help messages on STDERR
+       * use english name instead of magic variables (Guillaume ROUSSE)
+       * better code for dmidecode parsing (Guillaume ROUSSE)
+       * add a test script for dmidecode parsing (Guillaume ROUSSE)
+       * Merge Mandrake.pm in Mandriva.pm (Guillaume ROUSSE)
+       * Improve udev parsing (Guillaume ROUSSE)
+       * Various code clean up (Guillaume ROUSSE)
+       * RPC: ignore when socket::accept return an undef $socket
+       * RPC: display the date of the next inventory planned
 
-2.0.5
+2.0.7
+       * Avoid a warning if --stdout is used.
+       * print help messages on STDERR
+       * --wait: no need to wait before the final exit
+
+2.0.6    Fri, 28 May 2010 15:53:16 +0200
+       * Fix DRIVES/CREATEDATE for ext* filesystem
+       * Inventory: Always generate a CHECKSUM, OCS is not able to import
+         inventory is the key is missing, thanks Eric Feron
+       * Ipdiscover: Fix, wrong IP/MAC pair, thanks anto1ne
+         https://bugs.launchpad.net/bugs/585753
+       * Fix dmidecode version comparaison
+         https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586321
+         (Guillaume ROUSSE)
+       * Mismatch between xen dom0 and xen PV host
+         https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586337
+         (Guillaume ROUSSE)
+
+2.0.5    Wed, 12 May 2010 10:50:51 +0200
        * Don't use dmidecode with -t and -s parameter since it's not
          supported on RHEL4
        * Remove wrong code to detect problem with umask. umask(077) will
@@ -59,6 +124,8 @@ Revision history for FusionInventory::Agent
          including '.'. When the agent was launched by a cron task or in
          daemon mode, the current directory is / and so the whole system was
          scanned, thank you Remi COLLET for pointing this issue.
+       * BIOS: correctly set SMANUFACTURER and SSN instead of
+         SMANUFACTURERSSN
 
 2.0.4    Thu, 06 May 2010 18:43:30 +0200
        * Add debug message on WOL and correction when no mac address comes

@@ -40,7 +40,10 @@ sub doInventory {
 
     my $params = shift;
     my $logger = $params->{logger};
+    my $config = $params->{config};
     my $inventory = $params->{inventory};
+
+    return if $config->{'no-printer'};
 
     my @slots;
 

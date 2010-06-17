@@ -1,0 +1,15 @@
+body, p, li {
+  font-family: Arial,Helvetica,sans-serif;
+  color: black;
+  font-size:18px;
+}
+a {
+  color: black;
+  text-decoration: underline;
+  font-family: Arial,Helvetica,sans-serif;
+}
+a:hover {
+  color: #ff9900;
+  text-decoration: underline;
+  font-family: Arial,Helvetica,sans-serif;
+}

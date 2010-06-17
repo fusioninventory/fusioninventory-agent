@@ -59,7 +59,7 @@ BUILDING/INSTALLING
       make
       make install
 
-  If you want to turn of the interactive post install script, just do
+  If you want to turn off the interactive post install script, just do
        PERL_AUTOINSTALL=1 perl Makefile.PL
   instead of the 
        perl Makefile.PL
@@ -92,7 +92,7 @@ NOTE
  
  Solaris:
   Sun Studio seems to be needed to build the dependency.
-  The generated Makefile needs gmake to be exectuted
+  The generated Makefile needs gmake to be executed
   The default installation will install the binary in /usr/perl5/5.XXXXX/bin,
   set you $PATH variable according to that.
 
@@ -100,7 +100,7 @@ NOTE
   If you use the crontab to launch the agent you'll probably have to redefine
   the PATH. For example, just add something like:
   PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-  At the begining of the cron file.
+  At the beginning of the cron file.
 
 
 SOURCES

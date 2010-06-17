@@ -1,15 +1,22 @@
 package FusionInventory::LoggerBackend::File;
+
 use strict;
+use warnings;
+
+my $handle;
 
 sub new {
-  my (undef, $params) = @_;
+  my ($class, $params) = @_;
 
   my $self = {};
   $self->{config} = $params->{config};
   $self->{logfile} = $self->{config}->{logdir}."/".$self->{config}->{logfile};
 
+  open $handle, '>>', $self->{config}->{logfile}
+      or warn "Can't open `$self->{config}->{logfile}'\n";
 
-  bless $self;
+  bless $self, $class;
+  return $self;
 }
 
 sub addMsg {
@@ -21,11 +28,12 @@ sub addMsg {
 
   return if $message =~ /^$/;
 
-  open FILE, ">>".$self->{config}->{logfile} or warn "Can't open ".
-  "`".$self->{config}->{logfile}."'\n";
-  print FILE "[".localtime()."][$level] $message\n";
-  close FILE;
+  print $handle "[".localtime()."][$level] $message\n";
 
+}
+
+sub DESTROY {
+  close $handle;
 }
 
 1;

@@ -1,5 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Bios;
 
+# Only run this module if dmidecode has not been found
+use vars qw($runMeIfTheseChecksFailed);
+$runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
+
+
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 use strict;
@@ -115,12 +120,23 @@ qw/SerialNumber Product Manufacturer/)) {
 
                 });
 
-    if ($bmanufacturer eq 'Bochs' || $model eq 'Bochs') {
-        $inventory->setHardware ({
-           VMSYSTEM => 'QEMU',
-        });
+
+    my $vmsystem;
+# it's more reliable to do a regex on the CPU NAME
+# QEMU Virtual CPU version 0.12.4
+#    if ($bmanufacturer eq 'Bochs' || $model eq 'Bochs') {
+#        $vmsystem = 'QEMU';
+#    } els
+
+    if ($bversion eq 'VirtualBox' || $model eq 'VirtualBox') {
+        $vmsystem = 'VirtualBox';
     }
 
+    if ($vmsystem) {
+        $inventory->setHardware ({
+                VMSYSTEM => $vmsystem 
+                });
+    }
 
 
 }

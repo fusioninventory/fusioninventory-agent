@@ -83,6 +83,8 @@ sub startTask {
     my $module = $params->{module};
     my $logger = $self->{logger};
 
+    return if $config->{'no-'.lc($module)};
+
     if ($self->{runningTask}) {
         $logger->fault("A task is already running with PID ".$self->{runningTask});
     }

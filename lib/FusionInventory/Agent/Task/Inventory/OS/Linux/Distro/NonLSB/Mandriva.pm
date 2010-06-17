@@ -1,18 +1,24 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Mandriva;
 use strict;
 
-sub isInventoryEnabled {-f "/etc/mandrake-release" && -f "/etc/mandriva-release"}
+sub isInventoryEnabled {
+    return
+        -f "/etc/mandriva-release" ||
+        -f "/etc/mandrake-release";
+}
 
 #####
 sub findRelease {
   my $v;
 
-  open V, "</etc/mandriva-release" or warn;
-  chomp ($v=<V>);
-  close V;
-  return $v if $v;
+  my $file = -f "/etc/mandriva-release" ?
+    "/etc/mandriva-release" : "/etc/mandrake-release";
 
-  0;
+  open V, '<', $file or warn;
+  chomp ($v = <V>);
+  close V;
+
+  return $v ? $v : 0;
 }
 
 sub doInventory {

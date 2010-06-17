@@ -1,7 +1,7 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Slots;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Slots;
 use strict;
 
-sub isInventoryEnabled { $^O =~ /hpux/ }
+sub isInventoryEnabled { can_run('ioscan') }
 
 sub doInventory { 
   my $params = shift;

@@ -13,6 +13,7 @@ sub doInventory {
   my $pciclass;
   my $pciid;
 	my $pcislot;
+    my $pcisubsystemid;
 	my $type;
 
 
@@ -32,15 +33,19 @@ sub doInventory {
 			}
 			$manufacturer =~ s/\ *$//; # clean up the end of the string
 			$manufacturer =~ s/\s+\(prog-if \d+ \[.*?\]\)$//; # clean up the end of the string
+			$manufacturer =~ s/\s+\(prog-if \d+\)$//;
 
 			if ($manufacturer =~ s/ \[([A-z\d]+:[A-z\d]+)\]$//) {
-        $pciid = $1;
-      }
+                $pciid = $1;
+            }
 		}
 		if ($pcislot && /^\s+Kernel driver in use: (\w+)/) {
 			$driver = $1;
 		}
 
+        if (/Subsystem:.*\[(.*?)\]$/) {
+                $pcisubsystemid = $1;
+            }
 		
 
 		if ($pcislot && /^$/) {
@@ -48,12 +53,15 @@ sub doInventory {
 					'DRIVER'        => $driver,
 					'NAME'          => $name,
 					'MANUFACTURER'  => $manufacturer,
-					'PCICLASS'       => $pciclass,
-					'PCIID'       => $pciid,
+					'PCICLASS'      => $pciclass,
+					'PCIID'         => $pciid,
+					'PCISUBSYSTEMID'=> $pcisubsystemid,
 					'PCISLOT'       => $pcislot,
 					'TYPE'          => $type,
 				});
-			$driver = $name = $pciclass = $pciid = $pcislot = $manufacturer = $type = undef;
+			$driver = $name = $pciclass = $pciid = undef;
+            $pcislot = $manufacturer = undef;
+            $type = $pcisubsystemid = undef;
 		}
   }
 
