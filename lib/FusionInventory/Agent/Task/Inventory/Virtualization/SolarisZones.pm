@@ -16,7 +16,8 @@ sub check_solaris_valid_release{
   my $release;
   my $year;
   
-  if (!open my $handle, '<', '/etc/release') {
+  my $handle;
+  if (!open $handle, '<', '/etc/release') {
     warn "Can't open /etc/release: $ERRNO";
     return;
   }
@@ -62,7 +63,9 @@ sub doInventory {
 	# Memory considerations depends on rcapd or project definitions
 	# Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
         $zonefile = "/etc/zones/$zonename.xml";
-        if (!open my $handle, '<', $zonefile) {
+
+        my $handle;
+        if (!open $handle, '<', $zonefile) {
             warn "Can't open $zonefile: $ERRNO";
             $logger->debug("Failed to open $zonefile");
             next;

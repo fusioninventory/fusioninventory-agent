@@ -12,7 +12,8 @@ sub doInventory {
   my $inventory = $params->{inventory};
 
   # Uptime
-  if (!open my $handle, '<', '/proc/uptime') {
+  my $handle;
+  if (!open $handle, '<', '/proc/uptime') {
       warn "Can't open /proc/uptime: $ERRNO";
       return;
   }

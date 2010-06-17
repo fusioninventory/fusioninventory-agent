@@ -10,8 +10,9 @@ sub doInventory {
   my $inventory = $params->{inventory};
   my $domain;
 
-  #Domain name 
-  if (!open my $handle, '<', '/etc/resolv.conf') {
+  #Domain name
+  my $handle;
+  if (!open $handle, '<', '/etc/resolv.conf') {
       warn "Can't open /etc/resolv.conf: $ERRNO";
       return;
   }

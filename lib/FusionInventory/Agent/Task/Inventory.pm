@@ -155,7 +155,7 @@ sub initModList {
             my $calling_namespace = caller(0);
             eval "package $calling_namespace; use $module;";
 #      print STDERR "$module not loaded in $calling_namespace! $ERRNO: $EVAL_ERROR\n" if $EVAL_ERROR\;
-            return if $EVAL_ERROR
+            return if $EVAL_ERROR;
 #      print STDERR "$module loaded in $calling_namespace!\n";
             1;
         },

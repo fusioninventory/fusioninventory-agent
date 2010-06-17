@@ -149,8 +149,9 @@ if (!$file || !-f $file) {
     return $config unless -f $file;
   }
 
-  if (!open my $handle, '<', $file) {
-    warn "Config: Failed to open $file: $ERRNO"
+  my $handle;
+  if (!open $handle, '<', $file) {
+    warn "Config: Failed to open $file: $ERRNO";
     return $config;
   }
   

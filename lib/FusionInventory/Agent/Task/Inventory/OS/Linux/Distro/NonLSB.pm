@@ -32,7 +32,8 @@ sub findRelease {
 
   foreach my $file (keys %files) {
       next unless -f $file;
-      if (!open my $handle, '<', $file) {
+      my $handle;
+      if (!open $handle, '<', $file) {
         warn "Can't open $file: $ERRNO";
         return;
       }

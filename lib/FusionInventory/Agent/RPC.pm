@@ -98,7 +98,8 @@ sub handler {
         }
 
         my $indexFile = $htmlDir."/index.tpl";
-        if (!open my $handle, '<', $indexFile) {
+        my $handle;
+        if (!open $handle, '<', $indexFile) {
             $logger->error("Can't open share $indexFile: $ERRNO");
             $c->send_error(404);
             return;

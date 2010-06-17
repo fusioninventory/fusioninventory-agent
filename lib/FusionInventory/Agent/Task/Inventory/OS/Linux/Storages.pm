@@ -81,7 +81,8 @@ sub getValueFromSysProc {
 
     return unless $file;
 
-    if (!open my $handle, '<', $file) {
+    my $handle;
+    if (!open $handle, '<', $file) {
         warn "Can't open $file: $ERRNO";
         return;
     }
@@ -237,7 +238,8 @@ sub parseUdev {
     my ($file, $device) = @_;
 
 
-    if (!open my $handle, '<', $file) {
+    my $handle;
+    if (!open $handle, '<', $file) {
         warn "Can't open $file: $ERRNO";
         return;
     }
@@ -282,7 +284,8 @@ sub parseLshal {
     my ($file, $mode) = @_;
 
 
-    if (!open my $handle, $mode, $file) {
+    my $handle;
+    if (!open $handle, $mode, $file) {
         warn "Can't open $file: $ERRNO";
         return;
     }
