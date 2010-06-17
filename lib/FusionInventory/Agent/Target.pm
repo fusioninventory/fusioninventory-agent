@@ -1,11 +1,10 @@
 package FusionInventory::Agent::Target;
 
-use File::Path;
-
 use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use File::Path;
 use Config;
 
 BEGIN {

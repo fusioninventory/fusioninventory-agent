@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Knoppix;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {-f "/etc/knoppix_version"}
 

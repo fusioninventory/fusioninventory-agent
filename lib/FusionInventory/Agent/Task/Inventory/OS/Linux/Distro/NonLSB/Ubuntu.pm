@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Ubuntu;
+
 use strict;
+use warnings;
 
 use vars qw($runAfter);
 $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Debian"];

@@ -1,6 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::I386;
 # for i386 in case dmidecode is not available
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled{
     my $arch;

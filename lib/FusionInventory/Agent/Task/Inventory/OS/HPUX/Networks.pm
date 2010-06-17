@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks;
 
+use strict;
+use warnings;
+
 #TODO Get driver pcislot virtualdev
 
 sub isInventoryEnabled { can_run("lanadmin") and can_run("lanscan") and can_run("netstat") 

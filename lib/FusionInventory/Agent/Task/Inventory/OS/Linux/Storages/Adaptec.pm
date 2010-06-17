@@ -1,4 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Adaptec;
+
+use strict;
+use warnings;
+
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 
 # Tested on 2.6.* kernels
@@ -6,8 +10,6 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # Cards tested :
 #
 # Adaptec AAC-RAID
-
-use strict;
 
 my @devices = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getFromUdev();
 

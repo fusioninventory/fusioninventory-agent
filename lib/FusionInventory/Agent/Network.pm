@@ -1,4 +1,5 @@
 package FusionInventory::Agent::Network;
+
 use strict;
 use warnings;
 

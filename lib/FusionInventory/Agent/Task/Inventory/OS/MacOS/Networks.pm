@@ -2,8 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Networks;
 
 # I think I hijacked most of this from the BSD/Linux modules
 
-
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
   can_run("ifconfig") && can_load("Net::IP qw(:PROC)")

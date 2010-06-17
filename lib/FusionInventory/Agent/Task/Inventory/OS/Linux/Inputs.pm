@@ -2,6 +2,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Inputs;
 # Had never been tested.
 #use FusionInventory::Agent::Task::Inventory::OS::Linux;
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_run("cat") }
 

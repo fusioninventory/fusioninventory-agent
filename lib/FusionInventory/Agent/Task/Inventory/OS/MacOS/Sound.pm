@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Sound;
+
 use strict;
+use warnings;
 
 use constant DATATYPE   => 'SPAudioDataType'; # may need to fix to work with older versions of osx
 

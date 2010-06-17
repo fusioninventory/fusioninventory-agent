@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Users;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled { can_run('who') }
 
 # Initialise the distro entry

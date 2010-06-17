@@ -1,8 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Ports;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
-# Had never been tested.
 use strict;
+use warnings;
+
+# Had never been tested.
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 sub isInventoryEnabled {1}
 

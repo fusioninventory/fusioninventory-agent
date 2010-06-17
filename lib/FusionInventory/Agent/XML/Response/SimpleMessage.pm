@@ -1,6 +1,8 @@
 package FusionInventory::Agent::XML::Response::SimpleMessage;
 
 use strict;
+use warnings;
+
 use FusionInventory::Agent::XML::Response;
 our @ISA = ('FusionInventory::Agent::XML::Response');
 

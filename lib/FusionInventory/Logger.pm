@@ -1,4 +1,8 @@
 package FusionInventory::Logger;
+
+use strict;
+use warnings;
+
 # TODO use Log::Log4perl instead.
 use Carp;
 use English qw(-no_match_vars);

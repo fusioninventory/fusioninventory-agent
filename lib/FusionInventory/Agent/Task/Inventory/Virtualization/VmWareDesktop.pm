@@ -4,6 +4,7 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::VmWareDesktop;
 #
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled { return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') }
 

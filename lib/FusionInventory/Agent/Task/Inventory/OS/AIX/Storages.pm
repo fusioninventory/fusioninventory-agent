@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Storages;
+
 use strict;
-#use warning;
+use warnings;
 
 sub isInventoryEnabled {
 	`which lsdev 2>&1`;

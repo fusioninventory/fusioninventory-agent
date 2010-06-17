@@ -1,6 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Drives;
 
 use strict;
+use warnings;
+
 sub isInventoryEnabled {
   return unless can_run ("df");
   my $df = `df -TP`;

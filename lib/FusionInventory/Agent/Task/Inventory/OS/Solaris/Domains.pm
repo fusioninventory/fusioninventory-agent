@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Domains;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_run ("domainname") }
 

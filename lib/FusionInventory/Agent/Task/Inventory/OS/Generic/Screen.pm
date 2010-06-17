@@ -19,6 +19,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Screen;
 # http://svn.mandriva.com/cgi-bin/viewvc.cgi/soft/monitor-edid/trunk/
 #
 use strict;
+use warnings;
+
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {

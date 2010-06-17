@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds;
+
 use strict;
+use warnings;
 
 sub doInventory {
   my $params = shift;

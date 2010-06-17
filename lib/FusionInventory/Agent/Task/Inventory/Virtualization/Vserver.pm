@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::Vserver;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled { return can_run('vserver') }
 

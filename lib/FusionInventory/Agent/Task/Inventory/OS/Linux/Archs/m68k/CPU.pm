@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::m68k::CPU;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_read("/proc/cpuinfo") }
 

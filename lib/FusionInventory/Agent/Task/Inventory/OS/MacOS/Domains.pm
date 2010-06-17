@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Domains;
+
 use strict;
+use warnings;
 
 # straight up theft from the other modules...
 

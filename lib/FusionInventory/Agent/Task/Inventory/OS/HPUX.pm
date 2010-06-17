@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX;
 
 use strict;
+use warnings;
 use vars qw($runAfter);
 
 use English qw(-no_match_vars);

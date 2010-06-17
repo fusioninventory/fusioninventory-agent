@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Sounds;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_run("lspci") }
 

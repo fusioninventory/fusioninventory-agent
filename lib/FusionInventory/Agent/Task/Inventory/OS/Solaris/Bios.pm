@@ -56,8 +56,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Bios;
 #  SKU Number: 
 #  Family: 
 
-
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_run ("showrev") }
 

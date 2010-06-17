@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::WinRegistry;
 
 use strict;
+use warnings;
 
 use English qw(-no_match_vars);
 

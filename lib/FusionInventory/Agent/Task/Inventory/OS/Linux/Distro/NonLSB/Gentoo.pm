@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Gentoo;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {-f "/etc/gentoo-release"}
 

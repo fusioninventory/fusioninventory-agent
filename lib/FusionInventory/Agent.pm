@@ -1,10 +1,10 @@
 package FusionInventory::Agent;
 
-use Cwd;
-use English qw(-no_match_vars);
-
 use strict;
 use warnings;
+
+use Cwd;
+use English qw(-no_match_vars);
 
 use File::Path;
 

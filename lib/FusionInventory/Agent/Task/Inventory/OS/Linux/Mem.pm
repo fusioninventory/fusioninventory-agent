@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Mem;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_read ("/proc/meminfo") }
 

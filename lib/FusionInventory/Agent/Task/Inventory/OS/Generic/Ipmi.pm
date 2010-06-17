@@ -17,6 +17,9 @@
 #
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Ipmi;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled {
   return unless can_run("ipmitool");
 	my @ipmitool = `ipmitool lan print 2> /dev/null`;

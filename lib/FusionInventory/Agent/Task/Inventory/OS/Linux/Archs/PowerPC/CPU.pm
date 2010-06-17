@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU;
 
 use strict;
+use warnings;
 
 #processor       : 0
 #cpu             : POWER4+ (gq)

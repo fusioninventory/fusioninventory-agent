@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::3ware;
 
+use strict;
+use warnings;
+
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # Tested on 2.6.* kernels
 #
@@ -14,8 +17,6 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # 9650SE-8LPML
 #
 # AMCC/3ware CLI (version 2.00.0X.XXX)
-
-use strict;
 
 sub isInventoryEnabled {
 

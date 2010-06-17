@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::ServeRaid;
 
+use strict;
+use warnings;
+
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 
 # Tested on 2.6.* kernels
@@ -8,8 +11,6 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 #
 # IBM ServeRAID-6M 
 # IBM ServeRAID-6i
-
-use strict;
 
 sub isInventoryEnabled {
 

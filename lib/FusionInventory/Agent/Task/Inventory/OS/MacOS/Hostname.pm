@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Hostname;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled {
   return 1 if can_load ("Mac::SysProfile");
   0;

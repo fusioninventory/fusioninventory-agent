@@ -1,7 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Inputs;
+
+use strict;
+use warnings;
+
 # Had never been tested.
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
-use strict;
 
 my %mouseInterface = (
 

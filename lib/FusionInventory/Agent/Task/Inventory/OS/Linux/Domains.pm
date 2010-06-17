@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Domains;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
   return 1 if can_load ("Sys::Hostname") or can_read ("/etc/resolv.conf");

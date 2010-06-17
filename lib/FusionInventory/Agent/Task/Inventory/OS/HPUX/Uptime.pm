@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Uptime;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_run("uptime") and can_run ("uname") }
 

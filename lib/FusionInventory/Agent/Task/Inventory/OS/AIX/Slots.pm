@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Slots;
+
 use strict;
+use warnings;
+
 sub isInventoryEnabled {can_run("lsdev")}
 
 sub doInventory {

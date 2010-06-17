@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Hostname;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled {
   return 1 if can_load ("Sys::Hostname");
   return 1 if can_run ("hostname");

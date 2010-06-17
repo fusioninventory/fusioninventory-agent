@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC;
 
 use strict;
+use warnings;
 
 use Config;
 

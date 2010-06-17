@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
 # This module detects only all VMs create by the user who launch this module (root VMs).
 
 use strict;
+use warnings;
 
 use XML::Simple;
 use File::Glob ':glob';

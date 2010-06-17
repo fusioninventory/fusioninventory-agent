@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::SolarisZones;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled { 
   return unless can_run('zoneadm'); 

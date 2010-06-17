@@ -1,7 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Networks;
 
-
 use strict;
+use warnings;
+
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
  

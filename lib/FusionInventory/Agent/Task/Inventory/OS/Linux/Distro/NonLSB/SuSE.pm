@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::SuSE;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_read ("/etc/SuSE-release") }
 

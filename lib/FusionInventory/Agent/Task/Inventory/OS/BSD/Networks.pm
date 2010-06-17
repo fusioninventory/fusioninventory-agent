@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Networks;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
   can_run("ifconfig") && can_load("Net::IP qw(:PROC)")

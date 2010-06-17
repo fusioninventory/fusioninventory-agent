@@ -1,7 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::VmWareESX;
 
 use strict;
-
+use warnings;
 
 sub isInventoryEnabled { can_run('vmware-cmd') }
 

@@ -1,6 +1,8 @@
 package FusionInventory::Agent::XML::Response::Prolog;
 
 use strict;
+use warnings;
+
 use FusionInventory::Agent::XML::Response;
 
 our @ISA = ('FusionInventory::Agent::XML::Response');

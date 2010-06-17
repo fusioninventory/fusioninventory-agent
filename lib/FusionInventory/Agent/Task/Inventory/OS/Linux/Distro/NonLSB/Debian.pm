@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Debian;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {-f "/etc/debian_version" && !-f "/etc/ubuntu_version"}
 

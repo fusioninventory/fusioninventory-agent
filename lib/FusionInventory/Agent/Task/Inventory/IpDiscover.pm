@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::IpDiscover;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
     my $params = shift;

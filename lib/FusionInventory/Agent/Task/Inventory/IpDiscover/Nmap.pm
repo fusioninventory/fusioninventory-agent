@@ -1,9 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::IpDiscover::Nmap;
 
-use vars qw($runMeIfTheseChecksFailed);
-$runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::IpDiscover::IpDiscover"];
 use strict;
 use warnings;
+
+use vars qw($runMeIfTheseChecksFailed);
+$runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::IpDiscover::IpDiscover"];
 
 sub isInventoryEnabled {
   my $params = shift;

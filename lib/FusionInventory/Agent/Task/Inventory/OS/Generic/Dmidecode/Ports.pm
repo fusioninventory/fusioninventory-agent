@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports;
 
 use strict;
+use warnings;
 
 sub doInventory {
   my $params = shift;

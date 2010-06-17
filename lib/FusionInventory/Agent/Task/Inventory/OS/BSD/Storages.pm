@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Storages;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled {-r '/etc/fstab'}
 

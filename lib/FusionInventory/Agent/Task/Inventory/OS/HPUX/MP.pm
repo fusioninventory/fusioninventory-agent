@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::MP;
 
+use strict;
+use warnings;
+
 #TODO driver pcislot virtualdev
 
 sub isInventoryEnabled { can_run("/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi") 

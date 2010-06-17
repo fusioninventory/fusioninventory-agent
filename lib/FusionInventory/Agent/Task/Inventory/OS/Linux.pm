@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux;
 
 use strict;
+use warnings;
 use vars qw($runAfter);
 use English qw(-no_match_vars);
 $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];

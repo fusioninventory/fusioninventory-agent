@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Domains;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { return can_run ("domainname") }
 

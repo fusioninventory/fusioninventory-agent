@@ -1,6 +1,8 @@
 package FusionInventory::Agent::Config;
 
 use strict;
+use warnings;
+
 use Getopt::Long;
 use English qw(-no_match_vars);
 

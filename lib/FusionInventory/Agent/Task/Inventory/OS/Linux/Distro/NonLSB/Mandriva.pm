@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Mandriva;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
     return

@@ -1,13 +1,11 @@
 package FusionInventory::Agent::Storage;
         
-use Storable;
-
 use strict;
 use warnings;
 
 use Config;
-
 use File::Glob ':glob';
+use Storable;
 
 my $lock :shared;
 

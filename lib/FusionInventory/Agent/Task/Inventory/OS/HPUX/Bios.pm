@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Bios;
+
 use strict;
+use warnings;
 
 ###
 # Version 1.1

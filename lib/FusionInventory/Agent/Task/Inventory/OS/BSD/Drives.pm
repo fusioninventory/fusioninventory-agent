@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Drives;
 
 use strict;
+use warnings;
 
 sub doInventory {
   my $params = shift;

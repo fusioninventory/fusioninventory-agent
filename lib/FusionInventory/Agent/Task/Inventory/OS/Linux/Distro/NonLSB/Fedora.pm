@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Fedora;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {-f "/etc/fedora-release"}
 

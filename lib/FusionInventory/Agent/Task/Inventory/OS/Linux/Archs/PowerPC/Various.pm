@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::Various;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled { 1 };
 

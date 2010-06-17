@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
 
 use strict;
+use warnings;
 
 use XML::Simple;
 

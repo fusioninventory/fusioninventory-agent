@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Domains;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
   my $hostname;

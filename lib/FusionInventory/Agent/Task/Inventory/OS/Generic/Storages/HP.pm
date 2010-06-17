@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Storages::HP;
 
+use strict;
+use warnings;
+
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # Tested on 2.6.* kernels
 #
@@ -8,8 +11,6 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # Smart Array E200
 #
 # HP Array Configuration Utility CLI 7.85-18.0
-
-use strict;
 
 sub getHpacuacliFromWinRegistry {
     eval {
