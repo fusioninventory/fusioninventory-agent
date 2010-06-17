@@ -3,8 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Ubun
 use strict;
 use warnings;
 
-use vars qw($runAfter);
-$runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Debian"];
+our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB::Debian"];
 
 sub isInventoryEnabled {-f "/etc/ubuntu_version"}
 
