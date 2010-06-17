@@ -26,6 +26,8 @@ sub new {
     $self->{parsedcontent}  = undef;
 
     bless $self, $class;
+
+    return $self;
 }
 
 sub getRawXML {

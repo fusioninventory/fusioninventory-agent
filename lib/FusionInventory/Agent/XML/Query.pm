@@ -31,6 +31,8 @@ sub new {
     $logger->fault("No DEVICEID") unless ($target->{deviceid});
 
     bless $self, $class;
+
+    return $self;
 }
 
 
