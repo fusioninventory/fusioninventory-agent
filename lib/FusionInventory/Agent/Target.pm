@@ -110,16 +110,8 @@ sub new {
 sub isDirectoryWritable {
     my ($self, $dir) = @_;
 
-    my $tmpFile = $dir."/file.tmp";
-
-    open TMP, ">$tmpFile" or return;
-    print TMP "1" or return;
-    close TMP or return;
-    unlink($tmpFile) or return;
-
+    return -w $dir;
 }
-
-
 
 # TODO refactoring needed here.
 sub init {
