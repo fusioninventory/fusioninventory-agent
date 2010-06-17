@@ -44,7 +44,6 @@ sub new {
     my $logger = $self->{logger};
     my $target = $self->{target};
 
-
     bless $self, $class;
    
     $self->{debugPrintTimer} = 0;
@@ -59,32 +58,29 @@ sub new {
         $logger->fault("Bad vardir setting!");
     }
 
-
-
     $self->{storage} = FusionInventory::Agent::Storage->new({
-            target => $self
-        });
-
+        target => $self
+    });
 
     if ($self->{type} eq 'server') {
 
         $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-
-                logger => $logger,
-                config => $config,
-                target => $self,
-
-            });
+            logger => $logger,
+            config => $config,
+            target => $self,
+        });
     
         my $accountinfo = $self->{accountinfo};
 
         if ($config->{tag}) {
             if ($accountinfo->get("TAG")) {
-                $logger->debug("A TAG seems to already exist in the server for this ".
-                    "machine. The -t paramter may be ignored by the server unless it ".
-                    "has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1.");
+                $logger->debug(
+                    "A TAG seems to already exist in the server for this ".
+                    "machine. The -t paramter may be ignored by the server " .
+                    "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
+                );
             }
-            $accountinfo->set("TAG",$config->{tag});
+            $accountinfo->set("TAG", $config->{tag});
         }
 
         my $storage = $self->{storage};
@@ -92,17 +88,13 @@ sub new {
 
         if ($self->{myData}{nextRunDate}) {
             $logger->debug (
-                "[".$self->{path}."]".
-                " Next server contact planned for ".
+                "[$self->{path}] Next server contact planned for ".
                 localtime($self->{myData}{nextRunDate})
             );
             ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
         }
     }
     $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
-
-
-
 
     return $self;
 }
@@ -131,15 +123,21 @@ sub init {
         $OSNAME !~ /^MSWin/) {
 
         if (! -d $ENV{HOME}."/.ocsinventory/var") {
-            $logger->info("Failed to create basevardir: ".$config->{basevardir}." directory: $ERRNO. ".
-                "I'm going to use the home directory instead (~/.ocsinventory/var).");
+            $logger->info(
+                "Failed to create basevardir: $config->{basevardir} " .
+                "directory: $ERRNO. I'm going to use the home directory " .
+                "instead (~/.ocsinventory/var)."
+            );
         }
 
         $config->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
         if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
-            $logger->error("Failed to create basedir: ".$config->{basedir}." directory: $ERRNO".
-                "The HOSTID will not be written on the harddrive. You may have duplicated ".
-                "entry of this computer in your OCS database");
+            $logger->error(
+                "Failed to create basedir: $config->{basedir} directory: " .
+                "$ERRNO. The HOSTID will not be written on the harddrive. " .
+                "You may have duplicated entry of this computer in your OCS " .
+                "database"
+            );
         }
         $logger->debug("var files are stored in ".$config->{basevardir});
     }
@@ -150,26 +148,25 @@ sub init {
         # On Windows, we can't have ':' in directory path
         $dir =~ s/:/../g if $OSNAME =~ /^MSWin/; # Conditional because there is
         # already directory like that created by 2.x < agent
-        $self->{vardir} = $config->{basevardir}."/".$dir;
+        $self->{vardir} = $config->{basevardir} . "/" . $dir;
     } else {
-        $self->{vardir} = $config->{basevardir}."/__LOCAL__";
+        $self->{vardir} = $config->{basevardir} . "/__LOCAL__";
     }
-    $logger->debug("vardir: ".$self->{vardir});
+    $logger->debug("vardir: $self->{vardir}");
 
     if (!-d $self->{vardir} && !mkpath ($self->{vardir})) {
-        $logger->error("Failed to create vardir: ".$self->{vardir}." directory: $ERRNO");
+        $logger->error(
+            "Failed to create vardir: $self->{vardir} directory: $ERRNO"
+        );
     }
 
     if (!$self->isDirectoryWritable($self->{vardir})) {
-        $logger->fault("Can't write in ".$self->{vardir});
+        $logger->fault("Can't write in $self->{vardir}");
     }
 
-    $self->{accountinfofile} = $self->{vardir}."/ocsinv.adm";
-    $self->{last_statefile} = $self->{vardir}."/last_state";
-
-
+    $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
+    $self->{last_statefile} = $self->{vardir} . "/last_state";
 }
-
 
 sub setNextRunDate {
 
@@ -188,24 +185,24 @@ sub setNextRunDate {
     my $time;
     if( $self->{prologFreqChanged} ){
         $logger->debug("Compute next_time file with random value");
-        $time  = time + int rand(($serverdelay?$serverdelay*3600:$config->{delaytime}));
-    }
-    else{
-        $time = time + int rand($serverdelay?$serverdelay*3600:$config->{delaytime});
+        $time = time + int rand(
+            $serverdelay ? $serverdelay * 3600 : $config->{delaytime}
+        );
+    } else {
+        $time = time + int rand(
+            $serverdelay ? $serverdelay * 3600 : $config->{delaytime}
+        );
     }
     $self->{myData}{nextRunDate} = $time;
     
     ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
 
     $logger->debug (
-        "[".$self->{path}."]".
-        " Next server contact'd just been planned for ".
+        "[$self->{path}] Next server contact'd just been planned for ".
         localtime($self->{myData}{nextRunDate})
     );
 
-
     $storage->save({ data => $self->{myData} });
-
 }
 
 sub getNextRunDate {
@@ -265,10 +262,12 @@ sub setPrologFreq {
         return;
     }
     if (defined($self->{myData}{prologFreq})) {
-        $logger->info("PROLOG_FREQ has changed since last ".
-            "process(old=".$self->{myData}{prologFreq}.",new=".$prologFreq.")");
+        $logger->info(
+            "PROLOG_FREQ has changed since last process ". 
+            "(old=$self->{myData}{prologFreq},new=$prologFreq)"
+        );
     } else {
-        $logger->info("PROLOG_FREQ has been set: ".$prologFreq.")");
+        $logger->info("PROLOG_FREQ has been set: $prologFreq");
     }
 
     $self->{myData}{prologFreq} = $prologFreq;
@@ -294,8 +293,10 @@ sub setCurrentDeviceID {
     if (!$self->{myData}{currentDeviceid}) {
         $logger->debug("DEVICEID initialized at $deviceid");
     } else {
-        $logger->info("DEVICEID has changed since last ".
-            "process(old=".$self->{myData}{currentDeviceid}.",new=".$deviceid.")");
+        $logger->info(
+            "DEVICEID has changed since last process ". 
+            "(old=$self->{myData}{currentDeviceid},new=$deviceid"
+        );
     }
 
     $self->{myData}{currentDeviceid} = $deviceid;
@@ -304,6 +305,5 @@ sub setCurrentDeviceID {
     $self->{currentDeviceid} = $deviceid;
 
 }
-
 
 1;
