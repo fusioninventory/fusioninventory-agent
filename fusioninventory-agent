@@ -44,11 +44,8 @@ if ($@) {
 }
 
 eval {
-
-my $agent = new FusionInventory::Agent;
-
-$agent->main();
-
+    my $agent = new FusionInventory::Agent;
+    $agent->main();
 };
 
 if ($@) {
