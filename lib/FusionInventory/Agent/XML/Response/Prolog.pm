@@ -9,8 +9,6 @@ sub new {
 
     my $self = $class->SUPER::new(@params);
 
-    bless $self, $class;
-
     my $target = $self->{target};
 
     my $parsedContent = $self->getParsedContent();
