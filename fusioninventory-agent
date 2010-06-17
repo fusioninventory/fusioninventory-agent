@@ -26,7 +26,7 @@ my $devlib;
 foreach (@ARGV) {
     if (/^--devlib$/) {
         print STDERR "[info] --devlib are found, Developer mode enabled\n";
-        eval "use lib 'lib';";
+        unshift @INC, 'lib';
     } elsif (/^--disable-perllib-envvar$/) {
         $ENV{PERL5LIB}=undef;
         $ENV{PERLLIB}=undef;
