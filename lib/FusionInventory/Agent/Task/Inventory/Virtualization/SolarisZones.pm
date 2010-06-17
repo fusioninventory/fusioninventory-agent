@@ -25,7 +25,7 @@ sub check_solaris_valid_release{
   close $handle;
 
   @rlines = grep(/Solaris/,@rlines);
-  $release = @rlines[0];
+  $release = $rlines[0];
   $release =~ m/(\d)\/(\d+)/;
   $release = $1;
   $year = $2;
@@ -74,7 +74,7 @@ sub doInventory {
         close $handle;
 
         @lines = grep(/mcap/,@lines);
-        $memcap = @lines[0];
+        $memcap = $lines[0];
 	$memcap=~ s/[^\d]+//g;
 	$memory=$memcap/1024/1024;
 	if (!$memcap){

@@ -120,7 +120,7 @@ sub doInventory {
         # ... and read it
         if ($data->{Machine}->{uuid}) {
           my $uuid = $data->{Machine}->{uuid};
-          $uuid =~ s/^{?(.{36})}?$/\1/;
+          $uuid =~ s/^{?(.{36})}?$/$1/;
           my $status = "off";
           foreach my $vmRun (@vmRunnings) {
             if ($uuid eq $vmRun) {
@@ -157,7 +157,7 @@ sub doInventory {
             
             if ( $data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
               my $uuid = $data->{Machine}->{uuid};
-              $uuid =~ s/^{?(.{36})}?$/\1/;
+              $uuid =~ s/^{?(.{36})}?$/$1/;
               my $status = "off";
               foreach my $vmRun (@vmRunnings) {
                 if ($uuid eq $vmRun) {

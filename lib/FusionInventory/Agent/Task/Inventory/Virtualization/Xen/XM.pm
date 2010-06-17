@@ -50,7 +50,7 @@ sub doInventory {
 		    chomp $value;
                     if ($value =~ /uuid/) {
                           $value =~ s/\(|\)//g;
-                          $value =~ s/\s+.*uuid\s+(.*)/\1/;
+                          $value =~ s/\s+.*uuid\s+(.*)/$1/;
                           $uuid = $value;
                           last;
                     }
