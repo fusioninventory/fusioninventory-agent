@@ -35,25 +35,22 @@ sub getScreens {
 
 
     if ($OSNAME =~ /^MSWin/) {
-
         eval {
-                require FusionInventory::Agent::Task::Inventory::OS::Win32;
-                require Win32::TieRegistry;
-                Win32::TieRegistry->import(
-                    Access      => "KEY_READ",
-                    Delimiter   => "/",
-                    ArrayValues => 0
-                );
-            };
-            if ($EVAL_ERROR) {
-                print "Failed to load Win32::OLE and Win32::TieRegistry\n";
-                return;
-            }
+            require FusionInventory::Agent::Task::Inventory::OS::Win32;
+            require Win32::TieRegistry;
+            Win32::TieRegistry->import(
+                Access      => "KEY_READ",
+                Delimiter   => "/",
+                ArrayValues => 0
+            );
+        };
+        if ($EVAL_ERROR) {
+            print "Failed to load Win32::OLE and Win32::TieRegistry\n";
+            return;
         }
 
         use constant wbemFlagReturnImmediately => 0x10;
         use constant wbemFlagForwardOnly => 0x20;
-
 
         my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or die "WMI connection failed.\n";
         my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
