@@ -46,8 +46,8 @@ sub doInventory {
                         SUBSYSTEM => "Sun xVM VirtualBox",
                         VMTYPE    => "VirtualBox",
                     });
-
-                $name = $status = $mem = $uuid = "N\A";     # useless but need it for security (new version, ...)
+                # useless but need it for security (new version, ...)
+                $name = $status = $mem = $uuid = 'N\A';
 
             } elsif ($line =~ m/^UUID:\s+(.*)/) {
                 $uuid = $1;
@@ -80,7 +80,7 @@ sub doInventory {
             if ($line =~ m/^.*VirtualBox (.*)$/) {
                 my @process = split (/\s*\-\-/, $1);     #separate options
 
-                $name = $uuid = "N/A";
+                $name = $uuid = 'N/A';
 
                 foreach my $option ( @process ) {
                     print $option."\n";
