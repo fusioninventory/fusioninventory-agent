@@ -103,141 +103,142 @@ my @CVT_ratios = qw(5/4 4/3 3/2 16/10 15/9 16/9);
 my @known_ratios = @CVT_ratios;
 
 my @edid_info = group_by2(
-        a8 => '_header',
-        a2  => 'manufacturer_name',
+    a8 => '_header',
+    a2  => 'manufacturer_name',
 
-        v => 'product_code',
-        V => 'serial_number',
-        C => 'week',
-        C => 'year',
-        C => 'edid_version',
-        C => 'edid_revision',
-        a => 'video_input_definition',
+    v => 'product_code',
+    V => 'serial_number',
+    C => 'week',
+    C => 'year',
+    C => 'edid_version',
+    C => 'edid_revision',
+    a => 'video_input_definition',
 
-        C => 'max_size_horizontal', # in cm, 0 on projectors
-        C => 'max_size_vertical', # in cm, 0 on projectors
-        C => 'gamma',
-        a => 'feature_support',
-        a10 => '_color_characteristics',
-        a3  => 'established_timings',
-        a16 => 'standard_timings',
-        a72 => 'monitor_details',
+    C => 'max_size_horizontal', # in cm, 0 on projectors
+    C => 'max_size_vertical', # in cm, 0 on projectors
+    C => 'gamma',
+    a => 'feature_support',
+    a10 => '_color_characteristics',
+    a3  => 'established_timings',
+    a16 => 'standard_timings',
+    a72 => 'monitor_details',
 
-        C => 'extension_flag',
-        C => 'checksum',
-        );
+    C => 'extension_flag',
+    C => 'checksum',
+);
 
 my %subfields = (
-        manufacturer_name => [ group_by2(
-            1 => '',
-            5 => '1',
-            5 => '2',
-            5 => '3',
-            ) ],
+    manufacturer_name => [ group_by2(
+        1 => '',
+        5 => '1',
+        5 => '2',
+        5 => '3',
+    ) ],
 
-        video_input_definition => [ group_by2(
-            1 => 'digital',
-            1 => 'separate_sync',
-            1 => 'composite_sync',
-            1 => 'sync_on_green',
-            2 => '',
-            2 => 'voltage_level',
-            ) ],
+    video_input_definition => [ group_by2(
+        1 => 'digital',
+        1 => 'separate_sync',
+        1 => 'composite_sync',
+        1 => 'sync_on_green',
+        2 => '',
+        2 => 'voltage_level',
+    ) ],
 
-        feature_support => [ group_by2(
-            1 => 'DPMS_standby',
-            1 => 'DPMS_suspend',
-            1 => 'DPMS_active_off',        
-            1 => 'rgb',
+    feature_support => [ group_by2(
+        1 => 'DPMS_standby',
+        1 => 'DPMS_suspend',
+        1 => 'DPMS_active_off',        
+        1 => 'rgb',
 
-            1 => '',
-            1 => 'sRGB_compliance',
-            1 => 'has_preferred_timing',
-            1 => 'GTF_compliance',
-            ) ],
+        1 => '',
+        1 => 'sRGB_compliance',
+        1 => 'has_preferred_timing',
+        1 => 'GTF_compliance',
+    ) ],
 
-        established_timings => [ group_by2(
-                1 => '720x400_70',
-                1 => '720x400_88',
-                1 => '640x480_60',
-                1 => '640x480_67',
-                1 => '640x480_72',
-                1 => '640x480_75',
-                1 => '800x600_56',
-                1 => '800x600_60',
-                1 => '800x600_72',
-                1 => '800x600_75',
-                1 => '832x624_75',
-                1 => '1024x768_87i',
-                1 => '1024x768_60',
-                1 => '1024x768_70',
-                1 => '1024x768_75',
-                1 => '1280x1024_75',
-                ) ],
+    established_timings => [ group_by2(
+        1 => '720x400_70',
+        1 => '720x400_88',
+        1 => '640x480_60',
+        1 => '640x480_67',
+        1 => '640x480_72',
+        1 => '640x480_75',
+        1 => '800x600_56',
+        1 => '800x600_60',
+        1 => '800x600_72',
+        1 => '800x600_75',
+        1 => '832x624_75',
+        1 => '1024x768_87i',
+        1 => '1024x768_60',
+        1 => '1024x768_70',
+        1 => '1024x768_75',
+        1 => '1280x1024_75',
+    ) ],
 
-        detailed_timing => [ group_by2(
-                8 => 'horizontal_active',
-                8 => 'horizontal_blanking',
-                4 => 'horizontal_active_hi',
-                4 => 'horizontal_blanking_hi',
-                8 => 'vertical_active',
-                8 => 'vertical_blanking',
-                4 => 'vertical_active_hi',
-                4 => 'vertical_blanking_hi',
-                8 => 'horizontal_sync_offset',
-                8 => 'horizontal_sync_pulse_width',
-                4 => 'vertical_sync_offset',
-                4 => 'vertical_sync_pulse_width',
-                2 => 'horizontal_sync_offset_hi',
-                2 => 'horizontal_sync_pulse_width_hi',
-                2 => 'vertical_sync_offset_hi',
-                2 => 'vertical_sync_pulse_width_hi',
-                8 => 'horizontal_image_size', # in mm
-                8 => 'vertical_image_size', # in mm
-                4 => 'horizontal_image_size_hi',
-                4 => 'vertical_image_size_hi',
-                8 => 'horizontal_border',
-                8 => 'vertical_border',
+    detailed_timing => [ group_by2(
+        8 => 'horizontal_active',
+        8 => 'horizontal_blanking',
+        4 => 'horizontal_active_hi',
+        4 => 'horizontal_blanking_hi',
+        8 => 'vertical_active',
+        8 => 'vertical_blanking',
+        4 => 'vertical_active_hi',
+        4 => 'vertical_blanking_hi',
+        8 => 'horizontal_sync_offset',
+        8 => 'horizontal_sync_pulse_width',
+        4 => 'vertical_sync_offset',
+        4 => 'vertical_sync_pulse_width',
+        2 => 'horizontal_sync_offset_hi',
+        2 => 'horizontal_sync_pulse_width_hi',
+        2 => 'vertical_sync_offset_hi',
+        2 => 'vertical_sync_pulse_width_hi',
+        8 => 'horizontal_image_size', # in mm
+        8 => 'vertical_image_size', # in mm
+        4 => 'horizontal_image_size_hi',
+        4 => 'vertical_image_size_hi',
+        8 => 'horizontal_border',
+        8 => 'vertical_border',
 
-                1 => 'interlaced',
-                2 => 'stereo',      
-                2 => 'digital_composite',
-                1 => 'horizontal_sync_positive',
-                1 => 'vertical_sync_positive',
-                1 => '',
-                ) ],
+        1 => 'interlaced',
+        2 => 'stereo',      
+        2 => 'digital_composite',
+        1 => 'horizontal_sync_positive',
+        1 => 'vertical_sync_positive',
+        1 => '',
+    ) ],
 
-                standard_timing => [ group_by2(
-                        8 => 'X',
-                        2 => 'aspect',
-                        6 => 'vfreq',
-                        ) ],
-                monitor_range => [ group_by2(
-                        8 => 'vertical_min',
-                        8 => 'vertical_max',
-                        8 => 'horizontal_min',
-                        8 => 'horizontal_max',
-                        8 => 'pixel_clock_max',
-                        ) ],
+    standard_timing => [ group_by2(
+        8 => 'X',
+        2 => 'aspect',
+        6 => 'vfreq',
+    ) ],
 
-                manufacturer_specified_range_timing => [ group_by2(
-# http://www.spwg.org/salisbury_march_19_2002.pdf
-# for the glossary: http://www.vesa.org/Public/PSWG/PSWG15v1.pdf
-                        8 => 'horizontal_sync_pulse_width_min', # HSPW (Horizontal Sync Pulse Width)
-                        8 => 'horizontal_sync_pulse_width_max',
-                        8 => 'horizontal_back_porch_min', # t_hbp
-                        8 => 'horizontal_back_porch_max',
-                        8 => 'vertical_sync_pulse_width_min', # VSPW (Vertical Sync Pulse Width)
-                        8 => 'vertical_sync_pulse_width_max',
-                        8 => 'vertical_back_porch_min', # t_vbp (Vertical Back Porch)
-                        8 => 'vertical_back_porch_max',
-                        8 => 'horizontal_blanking_min', # t_hp (Horizontal Period)
-                        8 => 'horizontal_blanking_max',
-                        8 => 'vertical_blanking_min', # t_vp
-                        8 => 'vertical_blanking_max',
-                        8 => 'module_revision',
-                        ) ],
-                );
+    monitor_range => [ group_by2(
+        8 => 'vertical_min',
+        8 => 'vertical_max',
+        8 => 'horizontal_min',
+        8 => 'horizontal_max',
+        8 => 'pixel_clock_max',
+    ) ],
+
+    # http://www.spwg.org/salisbury_march_19_2002.pdf
+    # for the glossary: http://www.vesa.org/Public/PSWG/PSWG15v1.pdf
+    manufacturer_specified_range_timing => [ group_by2(
+        8 => 'horizontal_sync_pulse_width_min', # HSPW (Horizontal Sync Pulse Width)
+        8 => 'horizontal_sync_pulse_width_max',
+        8 => 'horizontal_back_porch_min', # t_hbp
+        8 => 'horizontal_back_porch_max',
+        8 => 'vertical_sync_pulse_width_min', # VSPW (Vertical Sync Pulse Width)
+        8 => 'vertical_sync_pulse_width_max',
+        8 => 'vertical_back_porch_min', # t_vbp (Vertical Back Porch)
+        8 => 'vertical_back_porch_max',
+        8 => 'horizontal_blanking_min', # t_hp (Horizontal Period)
+        8 => 'horizontal_blanking_max',
+        8 => 'vertical_blanking_min', # t_vp
+        8 => 'vertical_blanking_max',
+        8 => 'module_revision',
+    ) ],
+);
 
 sub get_many_bits {
     my ($s, $field_name) = @_;
@@ -540,78 +541,79 @@ sub print_edid {
 }
 
 sub _getManifacturerFromCode {
-  my $code = shift;
-  my $h = {
-    "ACT" => "Targa",
-    "ADI" => "ADI Corporation http://www.adi.com.tw",
-    "AOC" => "AOC International (USA) Ltd.",
-    "API" => "Acer America Corp.",
-    "APP" => "Apple Computer, Inc.",
-    "ART" => "ArtMedia",
-    "AST" => "AST Research",
-    "AUO" => "AU Optronics",
-    "CPL" => "Compal Electronics, Inc. / ALFA",
-    "CPQ" => "COMPAQ Computer Corp.",
-    "CTX" => "CTX - Chuntex Electronic Co.",
-    "DEC" => "Digital Equipment Corporation",
-    "DEL" => "Dell Computer Corp.",
-    "DPC" => "Delta Electronics, Inc.",
-    "DWE" => "Daewoo Telecom Ltd",
-    "ECS" => "ELITEGROUP Computer Systems",
-    "EIZ" => "EIZO",
-    "FCM" => "Funai Electric Company of Taiwan",
-    "FUS" => "Fujitsu Siemens",
-    "GSM" => "LG Electronics Inc. (GoldStar Technology, Inc.)",
-    "GWY" => "Gateway 2000",
-    "HEI" => "Hyundai Electronics Industries Co., Ltd.",
-    "HIT" => "Hitachi",
-    "HSL" => "Hansol Electronics",
-    "HTC" => "Hitachi Ltd. / Nissei Sangyo America Ltd.",
-    "HWP" => "Hewlett Packard",
-    "IBM" => "IBM PC Company",
-    "ICL" => "Fujitsu ICL",
-    "IVM" => "Idek Iiyama North America, Inc.",
-    "KDS" => "KDS USA",
-    "KFC" => "KFC Computek",
-    "LGD" => "LG Display",
-    "LKM" => "ADLAS / AZALEA",
-    "LNK" => "LINK Technologies, Inc.",
-    "LTN" => "Lite-On",
-    "MAG" => "MAG InnoVision",
-    "MAX" => "Maxdata Computer GmbH",
-    "MEI" => "Panasonic Comm. & Systems Co.",
-    "MEL" => "Mitsubishi Electronics",
-    "MIR" => "miro Computer Products AG",
-    "MTC" => "MITAC",
-    "NAN" => "NANAO",
-    "NEC" => "NEC Technologies, Inc.",
-    "NOK" => "Nokia",
-    "OQI" => "OPTIQUEST",
-    "PBN" => "Packard Bell",
-    "PGS" => "Princeton Graphic Systems",
-    "PHL" => "Philips Consumer Electronics Co.",
-    "REL" => "Relisys",
-    "SAM" => "Samsung",
-    "SEC" => "Seiko Epson Corporation",
-    "SMI" => "Smile",
-    "SMC" => "Samtron",
-    "SNI" => "Siemens Nixdorf",
-    "SNY" => "Sony Corporation",
-    "SPT" => "Sceptre",
-    "SRC" => "Shamrock Technology",
-    "STN" => "Samtron",
-    "STP" => "Sceptre",
-    "TAT" => "Tatung Co. of America, Inc.",
-    "TRL" => "Royal Information Company",
-    "TSB" => "Toshiba, Inc.",
-    "UNM" => "Unisys Corporation",
-    "VSC" => "ViewSonic Corporation",
-    "WTC" => "Wen Technology",
-    "ZCM" => "Zenith Data Systems",
-    "___" => "Targa" };
+    my $code = shift;
+    my $h = {
+        "ACT" => "Targa",
+        "ADI" => "ADI Corporation http://www.adi.com.tw",
+        "AOC" => "AOC International (USA) Ltd.",
+        "API" => "Acer America Corp.",
+        "APP" => "Apple Computer, Inc.",
+        "ART" => "ArtMedia",
+        "AST" => "AST Research",
+        "AUO" => "AU Optronics",
+        "CPL" => "Compal Electronics, Inc. / ALFA",
+        "CPQ" => "COMPAQ Computer Corp.",
+        "CTX" => "CTX - Chuntex Electronic Co.",
+        "DEC" => "Digital Equipment Corporation",
+        "DEL" => "Dell Computer Corp.",
+        "DPC" => "Delta Electronics, Inc.",
+        "DWE" => "Daewoo Telecom Ltd",
+        "ECS" => "ELITEGROUP Computer Systems",
+        "EIZ" => "EIZO",
+        "FCM" => "Funai Electric Company of Taiwan",
+        "FUS" => "Fujitsu Siemens",
+        "GSM" => "LG Electronics Inc. (GoldStar Technology, Inc.)",
+        "GWY" => "Gateway 2000",
+        "HEI" => "Hyundai Electronics Industries Co., Ltd.",
+        "HIT" => "Hitachi",
+        "HSL" => "Hansol Electronics",
+        "HTC" => "Hitachi Ltd. / Nissei Sangyo America Ltd.",
+        "HWP" => "Hewlett Packard",
+        "IBM" => "IBM PC Company",
+        "ICL" => "Fujitsu ICL",
+        "IVM" => "Idek Iiyama North America, Inc.",
+        "KDS" => "KDS USA",
+        "KFC" => "KFC Computek",
+        "LGD" => "LG Display",
+        "LKM" => "ADLAS / AZALEA",
+        "LNK" => "LINK Technologies, Inc.",
+        "LTN" => "Lite-On",
+        "MAG" => "MAG InnoVision",
+        "MAX" => "Maxdata Computer GmbH",
+        "MEI" => "Panasonic Comm. & Systems Co.",
+        "MEL" => "Mitsubishi Electronics",
+        "MIR" => "miro Computer Products AG",
+        "MTC" => "MITAC",
+        "NAN" => "NANAO",
+        "NEC" => "NEC Technologies, Inc.",
+        "NOK" => "Nokia",
+        "OQI" => "OPTIQUEST",
+        "PBN" => "Packard Bell",
+        "PGS" => "Princeton Graphic Systems",
+        "PHL" => "Philips Consumer Electronics Co.",
+        "REL" => "Relisys",
+        "SAM" => "Samsung",
+        "SEC" => "Seiko Epson Corporation",
+        "SMI" => "Smile",
+        "SMC" => "Samtron",
+        "SNI" => "Siemens Nixdorf",
+        "SNY" => "Sony Corporation",
+        "SPT" => "Sceptre",
+        "SRC" => "Shamrock Technology",
+        "STN" => "Samtron",
+        "STP" => "Sceptre",
+        "TAT" => "Tatung Co. of America, Inc.",
+        "TRL" => "Royal Information Company",
+        "TSB" => "Toshiba, Inc.",
+        "UNM" => "Unisys Corporation",
+        "VSC" => "ViewSonic Corporation",
+        "WTC" => "Wen Technology",
+        "ZCM" => "Zenith Data Systems",
+        "___" => "Targa"
+    };
 
-  return $h->{$code} if (exists ($h->{$code}) && $h->{$code});
-  return "Unknown manufacturer code ".$code;
+    return $h->{$code} if (exists ($h->{$code}) && $h->{$code});
+    return "Unknown manufacturer code ".$code;
 }
 
 sub sqr { $_[0] * $_[0] }
@@ -676,15 +678,13 @@ sub doInventory {
         }
 
         $inventory->addMonitor ({
-
-                BASE64 => $base64,
-                CAPTION => $caption,
-                DESCRIPTION => $description,
-                MANUFACTURER => $manufacturer,
-                SERIAL => $serial,
-                UUENCODE => $uuencode,
-
-                });
+            BASE64 => $base64,
+            CAPTION => $caption,
+            DESCRIPTION => $description,
+            MANUFACTURER => $manufacturer,
+            SERIAL => $serial,
+            UUENCODE => $uuencode,
+        });
     }
 }
 1;
