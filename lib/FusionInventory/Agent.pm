@@ -18,8 +18,8 @@ $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 eval {XMLout("<a>b</a>");};
-if ($EVAL_ERROR){
-    no strict 'refs';
+if ($EVAL_ERROR) {
+    no strict 'refs'; ## no critic
     ${*{"XML::SAX::"}{HASH}{'parsers'}} = sub {
         return [ {
             'Features' => {
