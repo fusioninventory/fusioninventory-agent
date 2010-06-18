@@ -66,7 +66,7 @@ sub getScreens {
             my $name = $objItem->{"Caption"};
 
             my $a= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>"KEY_READ",Delimiter=>"/"} )
-                or  die "Can't open HKEY_LOCAL_MACHINE key: $^E\n";
+                or  die "Can't open HKEY_LOCAL_MACHINE key: EXTENDED_OS_ERROR\n";
 
             my $edid = $a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device Parameters/EDID'}."\n";
             $edid =~ s/^\s+$//;
