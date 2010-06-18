@@ -174,9 +174,9 @@ sub save {
         }
     } else {
         print "TODO, restrict access to temp file!\n";
-}
+    }
 
-	store ($data, $filePath) or warn;
+    store ($data, $filePath) or warn;
     
     if (!$isWindows) {
         umask($oldMask) or die "Can't restore old mask\n";
@@ -202,8 +202,8 @@ sub restore {
     my $idx = $params->{idx};
 
     my $filePath = $self->getFilePath({
-            module => $module,
-            idx => $idx
+        module => $module,
+        idx => $idx
     });
     #print "[storage]restore data from: $filePath\n";
 
