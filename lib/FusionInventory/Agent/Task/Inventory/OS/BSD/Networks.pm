@@ -95,7 +95,7 @@ sub doInventory {
   }
 
   # for each interface get it's parameters
-  foreach $description (@list) {
+  foreach my $description (@list) {
       $ipaddress = $ipmask = $macaddr = $status =  $type = undef;
       # search interface infos
       @ifconfig = `ifconfig $description`;
