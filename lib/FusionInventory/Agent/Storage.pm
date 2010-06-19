@@ -163,11 +163,11 @@ sub save {
 #    print "[storage]save data in:". $filePath."\n";
 
     my $isWindows = $OSNAME =~ /^MSWin/;
-    my $oldMask = umask();
+    my $oldMask;
 
     if (!$isWindows) {
-        my $wantedUmask = "077";
-        umask(oct($wantedUmask));
+        $oldMask = umask();
+        umask(oct(77));
     } else {
         print "TODO, restrict access to temp file!\n";
     }
