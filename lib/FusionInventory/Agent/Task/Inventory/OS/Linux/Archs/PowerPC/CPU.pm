@@ -27,7 +27,8 @@ sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  if (!open my $handle, '<', '/proc/cpuinfo') {
+  my $handle;
+  if (!open $handle, '<', '/proc/cpuinfo') {
       warn "Can't open /proc/cpuinfo: $ERRNO";
       return
   }

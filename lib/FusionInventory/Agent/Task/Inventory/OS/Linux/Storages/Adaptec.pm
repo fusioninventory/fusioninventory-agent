@@ -34,7 +34,8 @@ sub doInventory {
 
   if (-r '/proc/scsi/scsi') {
     foreach my $hd (@devices) {
-      if (!open my $handle, '<', '/proc/scsi/scsi') {
+      my $handle;
+      if (!open $handle, '<', '/proc/scsi/scsi') {
           warn "Can't open /proc/scsi/scsi: $ERRNO";
           next;
       }

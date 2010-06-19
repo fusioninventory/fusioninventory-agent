@@ -4,6 +4,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Inputs;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {
     return 1;
 }

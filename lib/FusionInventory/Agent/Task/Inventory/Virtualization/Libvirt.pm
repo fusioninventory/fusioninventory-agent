@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use XML::Simple;
 
 sub isInventoryEnabled { can_run('virsh') }

@@ -12,7 +12,7 @@ sub new {
 
    eval {
        require Net::SNMP;
-   }
+   };
    if ($EVAL_ERROR) {
       $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
       exit(0);

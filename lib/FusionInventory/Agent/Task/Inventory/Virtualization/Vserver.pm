@@ -12,8 +12,6 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $config = $params->{config};
 
-
-
     my $utilVserver;
     my $cfgDir;
     foreach (`vserver-info 2>&1`) {
@@ -23,7 +21,8 @@ sub doInventory {
 
     return unless -d $cfgDir;
 
-    if (!opendir my $handle, $cfgDir) {
+    my $handle;
+    if (!opendir $handle, $cfgDir) {
         warn "Can't open $cfgDir: $ERRNO";
         return;
     }

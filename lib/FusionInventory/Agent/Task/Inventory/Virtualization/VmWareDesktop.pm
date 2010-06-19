@@ -24,7 +24,8 @@ sub doInventory {
     my $commande = "/Library/Application\\ Support/VMware\\ Fusion\/vmrun list";
     foreach my $vmxpath ( `$commande` ) {
         next unless $i++ > 0; # Ignore the first line
-        if (!open my $handle, '<', $vmxpath) {
+        my $handle;
+        if (!open $handle, '<', $vmxpath) {
             warn "Can't open $vmxpath: $ERRNO";
             $logger->debug("Can't open $vmxpath\n");
             next;

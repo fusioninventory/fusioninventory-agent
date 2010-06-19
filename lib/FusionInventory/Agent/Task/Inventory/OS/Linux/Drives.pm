@@ -26,7 +26,7 @@ sub doInventory {
         # complete with hal for missing bits
         foreach my $drive (getFromHal()) {
             my $name = $drive->{VOLUMN};
-            foreach my $key (keys %$device) {
+            foreach my $key (keys %$drive) {
                 $drives{$name}->{$key} = $drive->{$key}
                     if !$drives{$name}->{$key};
             }

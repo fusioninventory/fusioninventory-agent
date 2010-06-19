@@ -33,7 +33,8 @@ sub doInventory {
     my $command = $OSNAME eq 'solaris' ?
         'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
 
-    if (!open my $handle, '-|', $command) {
+    my $handle;
+    if (!open $handle, '-|', $command) {
         warn "Can't run $command: $ERRNO";
         return;
     }
