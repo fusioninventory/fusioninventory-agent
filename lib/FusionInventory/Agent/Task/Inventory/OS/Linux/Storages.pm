@@ -99,7 +99,7 @@ sub getValueFromSysProc {
 
 sub getCapacity {
     my ($dev) = @_;
-    my $command = `fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
+    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
     # requires permissions on /dev/$dev
     my $cap = `$command /dev/$dev 2>/dev/null`;
     chomp $cap;
