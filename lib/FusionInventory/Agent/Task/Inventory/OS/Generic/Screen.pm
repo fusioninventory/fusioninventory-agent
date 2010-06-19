@@ -306,7 +306,7 @@ sub parse_edid {
                     $h->{vfreq} += 60;
                     if ($h->{ratio} = $aspect2ratio[$h->{aspect}]) {
                         delete $h->{aspect};
-                        $h->{Y} = $h->{X} / eval($h->{ratio});
+                        $h->{Y} = $h->{X} / eval($h->{ratio}); ## no critic
                     }
                     $h;
                 } else { () }
@@ -450,7 +450,7 @@ sub nearest_ratio {
     my @sorted = 
         sort { $a->[1] <=> $b->[1] }
     map { 
-        my $error = abs($ratio - eval($_));
+        my $error = abs($ratio - eval($_)); ## no critic
         $error > $max_error ? () : [ $_, $error ];
     } @known_ratios;
     $sorted[0][0];
