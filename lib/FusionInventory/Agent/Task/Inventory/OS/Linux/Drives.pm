@@ -93,11 +93,11 @@ sub doInventory {
             # Check information and improve it
             if (keys %listVolume) {
                 if ( defined $listVolume{$volumn} ) {
-                    if ($filesystem eq '')  { $filesystem = $listVolume{$volumn}->{'volume.fstype'};}
-                    if ($label eq '')       { $label = $listVolume{$volumn}->{'volume.label'};}
-                    if ($total eq '')       { $total = int($listVolume{$volumn}->{'volume.size'}/(1024*1024) + 0.5);}
-                    if ($type eq '')        { $type = $listVolume{$volumn}->{'storage.model'};}
-                    if ($serial eq '')      { $serial = $listVolume{$volumn}->{'volume.uuid'};}
+                    if ($filesystem eq '')  { $filesystem = $listVolume{$volumn}->{FILESYSTEM}; }
+                    if ($label eq '')       { $label = $listVolume{$volumn}->{LABEL}; }
+                    if ($total eq '')       { $total = $listVolume{$volumn}->{TOTAL}; }
+                    if ($type eq '')        { $type = $listVolume{$volumn}->{TYPE}; }
+                    if ($serial eq '')      { $serial = $listVolume{$volumn}->{SERIAL}; }
                     delete ($listVolume{$volumn});
                 }
             }
@@ -116,15 +116,8 @@ sub doInventory {
     }
 
     if (can_run ("lshal")) {
-        while (my ($k,$v) = each %listVolume ) {
-            $inventory->addDrive({
-                FILESYSTEM => $v->{'volume.fstype'},
-                LABEL => $v->{'volume.label'},
-                TOTAL => int ($v->{'volume.size'}/(1024*1024) + 0.5),
-                TYPE => $v->{'storage.model'},
-                VOLUMN => $k,
-                SERIAL => $v->{'volume.uuid'}
-            });
+        foreach my $volume (values %listVolume ) {
+            $inventory->addDrive($volume);
         }
     }  
 }
