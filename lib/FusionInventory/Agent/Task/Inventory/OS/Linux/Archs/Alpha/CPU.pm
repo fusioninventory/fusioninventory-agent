@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Linux::Arachs::Alpha::CPU;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha::CPU;
 
 use strict;
 use warnings;
