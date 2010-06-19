@@ -88,7 +88,7 @@ sub getValueFromSysProc {
     }
 
     my $value = <$handle>;
-    close ($handle);
+    close $handle;
 
     chomp $value;
     $value =~ s/^(\w+)\W*/$1/;
@@ -208,7 +208,7 @@ sub doInventory {
                             next;
                         }
                     }
-                    close ($handle);
+                    close $handle;
                 }
             }
         }
@@ -267,7 +267,7 @@ sub parseUdev {
             $result->{DESCRIPTION} = $1;
         }
     }
-    close ($handle);
+    close $handle;
 
     $result->{SERIALNUMBER} = $serial
     unless $result->{SERIALNUMBER} =~ /\S/;
@@ -322,7 +322,7 @@ sub parseLshal {
             $device->{DISKSIZE} = int($value/(1024*1024) + 0.5);
         }
     }
-    close ($handle);
+    close $handle;
 
     return $devices;
 }

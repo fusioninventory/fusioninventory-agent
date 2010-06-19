@@ -104,7 +104,7 @@ sub doInventory {
                 }
               }
             }
-            close($handle);
+            close $handle;
         } else {
             warn "Can't open /proc/modules: $ERRNO";
         }
