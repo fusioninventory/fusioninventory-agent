@@ -111,7 +111,7 @@ sub doInventory {
                                 $capacity = 1024*$1 if /^.*Capacity\s=\s(\S+)\sGB.*/;
                                 $firmware = $1 if /^.*Firmware Version\s=\s(.*)/;
                             }
-                            foreach $hd (@devices) {
+                            foreach my $hd (@devices) {
 
 # How does this work with multiple older cards where serial for units is not implemented ?
 # Need to be tested on a system with multiple 3ware cards.
