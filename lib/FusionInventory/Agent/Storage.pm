@@ -179,7 +179,7 @@ sub save {
     store ($data, $filePath) or warn;
     
     if (!$isWindows) {
-        umask($oldMask) or die "Can't restore old mask\n";
+        umask $oldMask;
     }
 
 }
