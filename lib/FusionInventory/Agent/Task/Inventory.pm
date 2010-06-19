@@ -12,7 +12,6 @@ regarding the Hardware and Software installation.
 =cut
 
 use strict;
-no strict 'refs';
 use warnings;
 use base 'FusionInventory::Agent::Task::Base';
 
@@ -259,6 +258,9 @@ sub initModList {
             $enable = 0;
             next;
         }
+
+        # required to use a string as a HASH reference
+        no strict 'refs'; ## no critic
 
         # Load in the module the backendSharedFuncs
         foreach my $func (keys %{$backendSharedFuncs}) {
