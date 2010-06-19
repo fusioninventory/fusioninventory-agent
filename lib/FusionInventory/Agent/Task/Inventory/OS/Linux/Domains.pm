@@ -13,7 +13,7 @@ sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
-  my $domain = $Sys::Hostname::hostname;
+  my $domain = hostname();
   my %domain;
   my @dns_list;
   my $dns;
