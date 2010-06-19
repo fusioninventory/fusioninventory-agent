@@ -12,7 +12,6 @@ regarding the Hardware and Software installation.
 =cut
 
 use strict;
-no strict 'refs';
 use warnings;
 use base 'FusionInventory::Agent::Task::Base';
 
