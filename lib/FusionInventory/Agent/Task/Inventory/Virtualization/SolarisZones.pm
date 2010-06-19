@@ -57,7 +57,7 @@ sub doInventory {
   @zones = `/usr/sbin/zoneadm list -p`;
   @zones = grep (!/global/,@zones);
 
-  foreach $zone (@zones) {	
+  foreach my $zone (@zones) {	
         ($zoneid,$zonename,$zonestatus,$pathroot,$uuid)=split(/:/,$zone);
 	# 
 	# Memory considerations depends on rcapd or project definitions
