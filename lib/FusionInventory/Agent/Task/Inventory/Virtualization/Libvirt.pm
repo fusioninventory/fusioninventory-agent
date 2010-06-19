@@ -11,8 +11,15 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    while (`virsh list --all 2>/dev/null`) {
-        if (/^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
+    my $command = 'virsh list --all 2>/dev/null';
+    my $handle;
+    if (!open $handle, '-|', $command) {
+         warn "Can't run $command: $ERRNO";
+         return;
+    }
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
             my $name = $2;
             my $status = $3;
             $status =~ s/^shut off/off/;
@@ -41,6 +48,7 @@ sub doInventory {
             $inventory->addVirtualMachine($machine);
         }
     }
+    close $handle;
 
 }
 
