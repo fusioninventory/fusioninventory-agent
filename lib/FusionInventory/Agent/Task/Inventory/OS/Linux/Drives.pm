@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Drives;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {
     return unless can_run ("df");
     my $df = `df -TP`;
@@ -31,33 +33,9 @@ sub doInventory {
 
     # Get complementary information in hash tab
     if (can_run ("lshal")) {
-        my %temp;
-        my $in = 0;
-        my $value;
-        foreach my $line (`lshal`) {
-            chomp $line;
-            if ($line =~ s{^udi = '/org/freedesktop/Hal/devices/volume.*}{}) {
-                $in = 1;
-                %temp = ();
-            } elsif ($in == 1 and $line =~ s{^\s+(\S+) = (.*) \s*\((int|string|bool|string list|uint64)\)}{} ) {
-                if ($3 ne 'int' and $3 ne 'uint64') {
-                    chomp($value = $2);
-                    if ($3 eq 'string') { 
-                        chop($value); 
-                        #$value =~ s/^'?(.*)'?$/$1/g;
-                        $value=substr($value,1,length($value));
-                        $value=substr($value,0,length($value)-1);
-                    }
-
-                    $temp{$1} = $value;
-                } else {
-                    $temp{$1} = (split(/\W/,$2))[0];
-                }
-            } elsif ($in == 1 and $line eq '') {
-                $in = 0;
-                $listVolume{$temp{'block.device'}} = {%temp};
-            }
-        }
+        %listVolume =
+            map { $_->{'block.device'} => $_ }
+            getFromHal();
     }
 
     foreach(`df -TP`) { # TODO retrive error
@@ -149,6 +127,52 @@ sub doInventory {
             });
         }
     }  
+}
+
+sub getFromHal {
+    my $devices = parseLshal('/usr/bin/lshal', '-|');
+    return @$devices;
+}
+
+sub parseLshal {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my $volumes;
+    my %temp;
+    my $in = 0;
+    my $value;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        if ($line =~ s{^udi = '/org/freedesktop/Hal/devices/volume.*}{}) {
+            $in = 1;
+            %temp = ();
+        } elsif ($in == 1 and $line =~ s{^\s+(\S+) = (.*) \s*\((int|string|bool|string list|uint64)\)}{} ) {
+            if ($3 ne 'int' and $3 ne 'uint64') {
+                chomp($value = $2);
+                if ($3 eq 'string') { 
+                    chop($value); 
+                    #$value =~ s/^'?(.*)'?$/$1/g;
+                    $value=substr($value,1,length($value));
+                    $value=substr($value,0,length($value)-1);
+                }
+
+                $temp{$1} = $value;
+            } else {
+                $temp{$1} = (split(/\W/,$2))[0];
+            }
+        } elsif ($in == 1 and $line eq '') {
+            $in = 0;
+            push @$volumes, {%temp};
+        }
+    }
+    return $volumes;
 }
 
 1;
