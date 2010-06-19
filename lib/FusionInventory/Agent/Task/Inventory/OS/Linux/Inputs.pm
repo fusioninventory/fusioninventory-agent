@@ -58,6 +58,8 @@ sub doInventory {
             }
         }
     }
+    close $handle;
+
 #    push @inputs, {
 #        DESCRIPTION => $device->{name},
 #        TYPE=> $device->{type},
