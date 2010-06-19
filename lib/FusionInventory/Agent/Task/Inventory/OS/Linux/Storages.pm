@@ -226,7 +226,7 @@ sub doInventory {
             $device->{MANUFACTURER} = getManufacturer($device->{MODEL});
         }
 
-        if ($device->{CAPACITY} =~ /^cd/) {
+        if ($device->{CAPACITY} && $device->{CAPACITY} =~ /^cd/) {
             $device->{CAPACITY} = getCapacity($device->{NAME});
         }
 
