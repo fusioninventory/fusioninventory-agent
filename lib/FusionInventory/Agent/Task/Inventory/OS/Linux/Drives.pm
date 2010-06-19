@@ -7,7 +7,7 @@ sub isInventoryEnabled {
     return unless can_run ("df");
     my $df = `df -TP`;
     return 1 if $df =~ /\w+/;
-    0
+    return 0;
 }
 
 sub doInventory {
