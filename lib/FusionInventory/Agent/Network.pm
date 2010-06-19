@@ -372,8 +372,7 @@ sub get {
 
   return $response->decoded_content if $response->is_success;
 
-  return undef;
-
+  return;
 }
 
 =item isSuccess()

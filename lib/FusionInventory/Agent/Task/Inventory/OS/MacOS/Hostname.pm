@@ -18,7 +18,7 @@ sub doInventory {
   my $prof = Mac::SysProfile->new();
   my $nfo = $prof->gettype('SPSoftwareDataType');
   
-  return undef unless(ref($nfo) eq 'HASH');
+  return unless(ref($nfo) eq 'HASH');
   
   $hostname = $nfo->{'System Software Overview'}->{'Computer Name'};
   

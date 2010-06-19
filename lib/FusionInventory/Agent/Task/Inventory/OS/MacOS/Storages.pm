@@ -37,7 +37,7 @@ sub doInventory {
   # Get SATA Drives
   my $sata = $prof->gettype('SPSerialATADataType');
 
-  return undef unless( ref($sata) eq 'HASH' );
+  return unless( ref($sata) eq 'HASH' );
   
   use Data::Dumper;
 
