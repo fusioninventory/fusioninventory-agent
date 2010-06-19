@@ -22,7 +22,7 @@ sub doInventory {
    
 
    @softList = `swlist | grep -v '^  PH' | grep -v '^#' |tr -s "\t" " "|tr -s " "` ;
-   foreach $software (@softList) {
+   foreach my $software (@softList) {
       chomp( $software );
       if ( $software =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
          $inventory->addSoftware({
