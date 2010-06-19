@@ -5,7 +5,7 @@ use warnings;
 
 sub isInventoryEnabled { return can_run ("domainname") }
 
-sub isInventoryEnabled {
+sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};
 
