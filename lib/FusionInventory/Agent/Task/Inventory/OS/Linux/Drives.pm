@@ -34,7 +34,7 @@ sub doInventory {
     # Get complementary information in hash tab
     if (can_run ("lshal")) {
         %listVolume =
-            map { $_->{'block.device'} => $_ }
+            map { $_->{VOLUMN} => $_ }
             getFromHal();
     }
 
@@ -143,36 +143,38 @@ sub parseLshal {
         return;
     }
 
-    my $volumes;
-    my %temp;
-    my $in = 0;
-    my $value;
+   my ($devices, $device);
 
     while (my $line = <$handle>) {
         chomp $line;
-        if ($line =~ s{^udi = '/org/freedesktop/Hal/devices/volume.*}{}) {
-            $in = 1;
-            %temp = ();
-        } elsif ($in == 1 and $line =~ s{^\s+(\S+) = (.*) \s*\((int|string|bool|string list|uint64)\)}{} ) {
-            if ($3 ne 'int' and $3 ne 'uint64') {
-                chomp($value = $2);
-                if ($3 eq 'string') { 
-                    chop($value); 
-                    #$value =~ s/^'?(.*)'?$/$1/g;
-                    $value=substr($value,1,length($value));
-                    $value=substr($value,0,length($value)-1);
-                }
+        if ($line =~ m{^udi = '/org/freedesktop/Hal/devices/volume.*}) {
+            $device = {};
+            next;
+        }
 
-                $temp{$1} = $value;
-            } else {
-                $temp{$1} = (split(/\W/,$2))[0];
-            }
-        } elsif ($in == 1 and $line eq '') {
-            $in = 0;
-            push @$volumes, {%temp};
+        next unless defined $device;
+
+        if ($line =~ /^$/) {
+            push(@$devices, $device);
+            undef $device;
+        } elsif ($line =~ /^\s+ block.device \s = \s '([^']+)'/x) {
+            $device->{VOLUMN} = $1;
+        } elsif ($line =~ /^\s+ volume.fstype \s = \s '([^']+)'/x) {
+            $device->{FILESYSTEM} = $1;
+        } elsif ($line =~ /^\s+ volume.label \s = \s '([^']+)'/x) {
+            $device->{LABEL} = $1;
+        } elsif ($line =~ /^\s+ volume.uuid \s = \s '([^']+)'/x) {
+            $device->{SERIAL} = $1;
+        } elsif ($line =~ /^\s+ storage.model \s = \s '([^']+)'/x) {
+            $device->{TYPE} = $1;
+         } elsif ($line =~ /^\s+ volume.size \s = \s (\S+)/x) {
+            my $value = $1;
+            $device->{TOTAL} = int($value/(1024*1024) + 0.5);
         }
     }
-    return $volumes;
+    close $handle;
+
+    return $devices;
 }
 
 1;
