@@ -16,6 +16,37 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
+
+    my @drives = getFromDF();
+
+    if (can_run ("lshal")) {
+       # index devices by name for comparaison
+        my %drives = map { $_->{VOLUMN} => $_ } @drives;
+
+        # complete with hal for missing bits
+        foreach my $drive (getFromHal()) {
+            my $name = $drive->{VOLUMN};
+            foreach my $key (keys %$device) {
+                $drives{$name}->{$key} = $drive->{$key}
+                    if !$drives{$name}->{$key};
+            }
+        }
+    }
+
+    foreach my $drive (@drives) {
+        $inventory->addDrive($drive);
+    }
+}
+
+sub getFromHal {
+    my $devices = parseLshal('/usr/bin/lshal', '-|');
+    return @$devices;
+}
+
+sub getFromDF {
+
+    my @drives;
+
     my %months = (
         Jan => 1,
         Fev => 2,
@@ -29,15 +60,6 @@ sub doInventory {
         Dec => 12,
     );
 
-    my %listVolume = ();
-
-    # Get complementary information in hash tab
-    if (can_run ("lshal")) {
-        %listVolume =
-            map { $_->{VOLUMN} => $_ }
-            getFromHal();
-    }
-
     foreach(`df -TP`) { # TODO retrive error
         my $createdate;
         my $free;
@@ -48,7 +70,7 @@ sub doInventory {
         my $volumn;
         my $serial;
 
-        if(/^(\S+)\s+(\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\n/){
+        if(/^(\S+)\s+(\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\n/) {
             $free = sprintf("%i",($4/1024));
             $filesystem = $2;
             $total = sprintf("%i",($3/1024));
@@ -77,7 +99,6 @@ sub doInventory {
             } elsif ($filesystem =~ /^xfs$/ && can_run('xfs_db')) {
                 foreach (`xfs_db -r -c uuid $volumn`) {
                     $serial = $1 if /^UUID =\s+(\S+)/;
-                    ;
                 }
                 foreach (`xfs_db -r -c label $volumn`) {
                     $label = $1 if /^label =\s+"(\S+)"/;
@@ -89,42 +110,18 @@ sub doInventory {
             $label =~ s/\s+$// if $label;
             $serial =~ s/\s+$// if $serial;
 
-
-            # Check information and improve it
-            if (keys %listVolume) {
-                if (defined $listVolume{$volumn} ) {
-                    if (!$filesystem) { $filesystem = $listVolume{$volumn}->{FILESYSTEM}; }
-                    if (!$label)      { $label = $listVolume{$volumn}->{LABEL}; }
-                    if (!$total)      { $total = $listVolume{$volumn}->{TOTAL}; }
-                    if (!$type)       { $type = $listVolume{$volumn}->{TYPE}; }
-                    if (!$serial)     { $serial = $listVolume{$volumn}->{SERIAL}; }
-                    delete ($listVolume{$volumn});
-                }
-            }
-
-            $inventory->addDrive({
-                CREATEDATE => $createdate,
-                FREE => $free,
+            push @drives, {
+                VOLUMN     => $volumn,
                 FILESYSTEM => $filesystem,
-                LABEL => $label,
-                TOTAL => $total,
-                TYPE => $type,
-                VOLUMN => $volumn,
-                SERIAL => $serial
-            });
+                LABEL      => $label,
+                SERIAL     => $serial,
+                TYPE       => $type,
+                TOTAL      => $total,
+            };
         }
     }
 
-    if (can_run ("lshal")) {
-        foreach my $volume (values %listVolume ) {
-            $inventory->addDrive($volume);
-        }
-    }  
-}
-
-sub getFromHal {
-    my $devices = parseLshal('/usr/bin/lshal', '-|');
-    return @$devices;
+    return @drives;
 }
 
 sub parseLshal {
