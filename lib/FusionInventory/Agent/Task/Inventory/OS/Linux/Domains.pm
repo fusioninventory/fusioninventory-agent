@@ -6,9 +6,11 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-    return 1 if can_load ("Sys::Hostname") or can_read ("/etc/resolv.conf");
-    0;
+    return
+        can_load("Sys::Hostname") ||
+        can_read("/etc/resolv.conf");
 }
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
