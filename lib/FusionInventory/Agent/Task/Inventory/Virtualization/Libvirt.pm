@@ -11,11 +11,9 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-
     while (`virsh list --all 2>/dev/null`) {
         if (/^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
             my $name = $2;
-
             my $status = $3;
             $status =~ s/^shut off/off/;
 
@@ -25,10 +23,12 @@ sub doInventory {
             my $vcpu = $data->{vcpu};
             my $uuid = $data->{uuid};
             my $vmtype = $data->{type};
-            my $memory = $1 if $data->{currentMemory} =~ /(\d+)\d{3}$/;
+            my $memory;
+            if ($data->{currentMemory} =~ /(\d+)\d{3}$/) {
+                $memory = $1;
+            }
 
             my $machine = {
-
                 MEMORY => $memory,
                 NAME => $name,
                 UUID => $uuid,
@@ -36,11 +36,9 @@ sub doInventory {
                 SUBSYSTEM => $vmtype,
                 VMTYPE => "libvirt",
                 VCPU   => $vcpu,
-
             };
 
             $inventory->addVirtualMachine($machine);
-
         }
     }
 
