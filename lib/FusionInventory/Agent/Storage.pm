@@ -168,10 +168,6 @@ sub save {
     if (!$isWindows) {
         my $wantedUmask = "077";
         umask(oct($wantedUmask));
-        my $currentUmask = sprintf "%lo", umask() & 07777;
-        if ($currentUmask != $wantedUmask) {
-            die "Failed to set umask $wantedUmask ($currentUmask)";
-        }
     } else {
         print "TODO, restrict access to temp file!\n";
     }
