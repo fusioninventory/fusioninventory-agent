@@ -4,7 +4,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Inputs;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run("cat") }
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my $params = shift;
@@ -13,13 +15,20 @@ sub doInventory {
     my @inputs;
     my $device;
     my $in;
-    while (`cat /proc/bus/input/devices`) {
-        if (/^I: Bus=.*Vendor=(.*) Prod/) {
+
+    my $handle;
+    if (!open $handle, '<', '/proc/bus/input/devices') {
+         warn "Can't open /proc/bus/input/devices: $ERRNO";
+         return;
+    }
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^I: Bus=.*Vendor=(.*) Prod/) {
             $in = 1;
             $device->{vendor}=$1;
-        } elsif (/^$/) {
+        } elsif ($line =~ /^$/) {
             $in = 0;
-            if ($device->{phys} =~ "input") {
+            if ($device->{phys} && $device->{phys} =~ "input") {
                 push @inputs, {
                     DESCRIPTION => $device->{name},
                     CAPTION => $device->{name},
@@ -29,18 +38,18 @@ sub doInventory {
     
             $device = {};
         } elsif ($in) {
-            if (/^P: Phys=.*(button).*/i) {
+            if ($line =~ /^P: Phys=.*(button).*/i) {
                 $device->{phys}="nodev";
-            } elsif (/^P: Phys=.*(input).*/i) {
+            } elsif ($line =~ /^P: Phys=.*(input).*/i) {
                 $device->{phys}="input";
             }
-            if (/^N: Name=\"(.*)\"/i) {
+            if ($line =~ /^N: Name=\"(.*)\"/i) {
                 $device->{name}=$1;
             }
-            if (/^H: Handlers=(\w+)/i) {
-		if ( $1 =~ ".*kbd.*") {
+            if ($line =~ /^H: Handlers=(\w+)/i) {
+		if ($1 =~ ".*kbd.*") {
                     $device->{type}="Keyboard";
-                } elsif ( $1 =~ ".*mouse.*") {
+                } elsif ($1 =~ ".*mouse.*") {
                     $device->{type}="Pointing";
                 } else {
                     # Keyboard ou Pointing
