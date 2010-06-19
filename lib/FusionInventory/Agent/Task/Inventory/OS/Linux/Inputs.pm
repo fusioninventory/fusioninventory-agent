@@ -13,7 +13,7 @@ sub doInventory {
     my @inputs;
     my $device;
     my $in;
-    foreach (`cat /proc/bus/input/devices`) {
+    while (`cat /proc/bus/input/devices`) {
         if (/^I: Bus=.*Vendor=(.*) Prod/) {
             $in = 1;
             $device->{vendor}=$1;
