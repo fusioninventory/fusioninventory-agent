@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Domains;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled { return can_run ("domainname") }
 
 sub doInventory {
