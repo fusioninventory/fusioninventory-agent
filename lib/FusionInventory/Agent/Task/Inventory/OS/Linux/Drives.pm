@@ -86,18 +86,18 @@ sub doInventory {
                 chomp ($label = `dosfslabel $volumn`);
             }
 
-            $label =~ s/\s+$//;
-            $serial =~ s/\s+$//;
+            $label =~ s/\s+$// if $label;
+            $serial =~ s/\s+$// if $serial;
 
 
             # Check information and improve it
             if (keys %listVolume) {
-                if ( defined $listVolume{$volumn} ) {
-                    if ($filesystem eq '')  { $filesystem = $listVolume{$volumn}->{FILESYSTEM}; }
-                    if ($label eq '')       { $label = $listVolume{$volumn}->{LABEL}; }
-                    if ($total eq '')       { $total = $listVolume{$volumn}->{TOTAL}; }
-                    if ($type eq '')        { $type = $listVolume{$volumn}->{TYPE}; }
-                    if ($serial eq '')      { $serial = $listVolume{$volumn}->{SERIAL}; }
+                if (defined $listVolume{$volumn} ) {
+                    if (!$filesystem) { $filesystem = $listVolume{$volumn}->{FILESYSTEM}; }
+                    if (!$label)      { $label = $listVolume{$volumn}->{LABEL}; }
+                    if (!$total)      { $total = $listVolume{$volumn}->{TOTAL}; }
+                    if (!$type)       { $type = $listVolume{$volumn}->{TYPE}; }
+                    if (!$serial)     { $serial = $listVolume{$volumn}->{SERIAL}; }
                     delete ($listVolume{$volumn});
                 }
             }
