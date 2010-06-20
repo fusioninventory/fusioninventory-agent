@@ -3,12 +3,12 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Domains;
 use strict;
 use warnings;
 
+use Sys::Hostname;
+
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-    return
-        can_load("Sys::Hostname") ||
-        can_read("/etc/resolv.conf");
+    return 1;
 }
 
 sub doInventory {
