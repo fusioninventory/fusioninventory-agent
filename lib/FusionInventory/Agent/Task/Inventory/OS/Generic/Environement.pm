@@ -6,15 +6,15 @@ use warnings;
 sub isInventoryEnabled {1}
 
 sub doInventory {
-  my $params = shift;
-  my $inventory = $params->{inventory};
+    my $params = shift;
+    my $inventory = $params->{inventory};
 
-  foreach my $key (keys %ENV) {
-    $inventory->addEnv({
-        KEY => $key,
-        VAL => $ENV{$key}
+    foreach my $key (keys %ENV) {
+        $inventory->addEnv({
+            KEY => $key,
+            VAL => $ENV{$key}
         });
-  }
+    }
 }
 
 1;

@@ -13,63 +13,59 @@ if ($OSNAME eq 'MSWin32') {
 }
 
 my $default = {
-  'ca-cert-dir' =>  '',
-  'ca-cert-file'=>  '',
-  'conf-file'  => '',
-  'color'     =>  0,
-  'daemon'    =>  0,
-  'daemon-no-fork'    =>  0,
-  'debug'     =>  0,
-  'devlib'    =>  0,
-  'disable-perllib-envvar' => 0,
-  'force'     =>  0,
-  'help'      =>  0,
-  'html-dir'  =>  '',
-  'info'      =>  1,
-  'lazy'      =>  0,
-  'local'     =>  '',
-  #'logger'    =>  'Syslog,File,Stderr',
-  'logger'    =>  'Stderr',
-  'logfile'   =>  '',
-  'logfacility' =>  'LOG_USER',
-  'password'  =>  '',
-  'proxy'     =>  '',
-  'realm'     =>  '',
-  'remotedir' =>  '/ocsinventory', # deprecated, give a complet URL to
-                                   # --server instead
-  'server'    =>  '',
-  'stdout'    =>  0,
-  'tag'       =>  '',
-  'user'      =>  '',
-  'version'   =>  0,
-  'wait'      =>  '',
-#  'xml'       =>  0,
-  'no-ocsdeploy'  =>  0,
-  'no-inventory'
-              =>  0,
-  'nosoft'    =>  0, # DEPRECATED!
-  'no-printer'=>  0,
-  'no-software'=>  0,
-  'no-wakeonlan'=> 0,
-  'no-snmpquery'=> 0,
-  'no-netdiscovery' => 0,
-  'delaytime' =>  '3600', # max delay time (seconds)
-  'backend-collect-timeout'   => '180',   # timeOut of process : see Backend.pm
-  'no-ssl-check' => 0,
-  'scan-homedirs' => 0,
-
-  # Other values that can't be changed with the
-  # CLI parameters
-  'basevardir'=>  $basedir.'/var/lib/fusioninventory-agent',
-  'logdir'    =>  $basedir.'/var/log/fusioninventory-agent',
-#  'pidfile'   =>  $basedir.'/var/run/ocsinventory-agent.pid',
+    'ca-cert-dir'             => '',
+    'ca-cert-file'            => '',
+    'conf-file'               => '',
+    'color'                   => 0,
+    'daemon'                  => 0,
+    'daemon-no-fork'          => 0,
+    'debug'                   => 0,
+    'devlib'                  => 0,
+    'disable-perllib-envvar'  => 0,
+    'force'                   => 0,
+    'help'                    => 0,
+    'html-dir'                => '',
+    'info'                    => 1,
+    'lazy'                    => 0,
+    'local'                   => '',
+#   'logger'                  => 'Syslog,File,Stderr',
+    'logger'                  => 'Stderr',
+    'logfile'                 => '',
+    'logfacility'             => 'LOG_USER',
+    'password'                => '',
+    'proxy'                   => '',
+    'realm'                   => '',
+    'remotedir'               => '/ocsinventory', # deprecated
+    'server'                  => '',
+    'stdout'                  => 0,
+    'tag'                     => '',
+    'user'                    => '',
+    'version'                 => 0,
+    'wait'                    => '',
+#   'xml'                     => 0,
+    'no-ocsdeploy'            => 0,
+    'no-inventory'            => 0,
+    'nosoft'                  => 0, # deprecated
+    'no-printer'              => 0,
+    'no-software'             => 0,
+    'no-wakeonlan'            => 0,
+    'no-snmpquery'            => 0,
+    'no-netdiscovery'         => 0,
+    'delaytime'               => 3600, # max delay time (seconds)
+    'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
+    'no-ssl-check'            => 0,
+    'scan-homedirs'           => 0,
+    # Other values that can't be changed with the
+    # CLI parameters
+    'basevardir'              =>  $basedir.'/var/lib/fusioninventory-agent',
+    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
+#   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
 
 sub load {
-	my (undef, $params) = @_;
+    my (undef, $params) = @_;
 
-
-	my $config = $default;
+    my $config = $default;
     $config->{VERSION} = $FusionInventory::Agent::VERSION;
 
     if ($OSNAME eq 'MSWin32') {
@@ -79,168 +75,168 @@ sub load {
     }
 
     loadUserParams($config);
-	return $config;
+    return $config;
 }
 
 sub loadFromWinRegistry {
-  my $config = shift;
+    my $config = shift;
 
-  eval {
-    require Encode;
-    Encode->import('encode');
-    require Win32::TieRegistry;
-    Win32::TieRegistry->import(
-      Delimiter   => "/",
-      ArrayValues => 0
-    );
-  };
-  if ($EVAL_ERROR) {
-    print "[error] $EVAL_ERROR";
-    return;
-  }
+    eval {
+        require Encode;
+        Encode->import('encode');
+        require Win32::TieRegistry;
+        Win32::TieRegistry->import(
+            Delimiter   => "/",
+            ArrayValues => 0
+        );
+    };
+    if ($EVAL_ERROR) {
+        print "[error] $EVAL_ERROR";
+        return;
+    }
 
-  my $machKey = $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
-  my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
+    my $machKey = $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
 
-  foreach my $rawKey (keys %$settings) {
-    next unless $rawKey =~ /^\/(\S+)/;
-    my $key = $1;
-    my $val = $settings->{$rawKey};
-    # Remove the quotes
-    $val =~ s/\s+$//;
-    $val =~ s/^'(.*)'$/$1/;
-    $val =~ s/^"(.*)"$/$1/;
-    $config->{lc($key)} = $val;
-  }
+    foreach my $rawKey (keys %$settings) {
+        next unless $rawKey =~ /^\/(\S+)/;
+        my $key = $1;
+        my $val = $settings->{$rawKey};
+        # Remove the quotes
+        $val =~ s/\s+$//;
+        $val =~ s/^'(.*)'$/$1/;
+        $val =~ s/^"(.*)"$/$1/;
+        $config->{lc($key)} = $val;
+    }
 }
 
 sub loadFromCfgFile {
-  my $config = shift;
+    my $config = shift;
 
-  $config->{etcdir} = [];
+    $config->{etcdir} = [];
 
-  my $file;
+    my $file;
 
-  my $in;
-  foreach (@ARGV) {
-    if (!$in && /^--conf-file=(.*)/) {
-      $file = $1;
-      $file =~ s/'(.*)'/$1/;
-      $file =~ s/"(.*)"/$1/;
-    } elsif (/^--conf-file$/) {
-      $in = 1;
-    } elsif ($in) {
-      $file = $_;
-      $in = 0;
-    } else {
-      $in = 0;
+    my $in;
+    foreach (@ARGV) {
+        if (!$in && /^--conf-file=(.*)/) {
+            $file = $1;
+            $file =~ s/'(.*)'/$1/;
+            $file =~ s/"(.*)"/$1/;
+        } elsif (/^--conf-file$/) {
+            $in = 1;
+        } elsif ($in) {
+            $file = $_;
+            $in = 0;
+        } else {
+            $in = 0;
+        }
     }
-  }
 
-  push (@{$config->{etcdir}}, '/etc/fusioninventory');
-  push (@{$config->{etcdir}}, '/usr/local/etc/fusioninventory');
+    push (@{$config->{etcdir}}, '/etc/fusioninventory');
+    push (@{$config->{etcdir}}, '/usr/local/etc/fusioninventory');
 #  push (@{$config->{etcdir}}, $ENV{HOME}.'/.ocsinventory'); # Should I?
 
-if (!$file || !-f $file) {
-    foreach (@{$config->{etcdir}}) {
-      $file = $_.'/agent.cfg';
-      last if -f $file;
+    if (!$file || !-f $file) {
+        foreach (@{$config->{etcdir}}) {
+            $file = $_.'/agent.cfg';
+            last if -f $file;
+        }
+        return $config unless -f $file;
     }
-    return $config unless -f $file;
-  }
 
-  my $handle;
-  if (!open $handle, '<', $file) {
-    warn "Config: Failed to open $file: $ERRNO";
-    return $config;
-  }
-  
-  $config->{'conf-file'} = $file;
-
-  while (<$handle>) {
-    s/#.+//;
-    if (/([\w-]+)\s*=\s*(.+)/) {
-      my $key = $1;
-      my $val = $2;
-      # Remove the quotes
-      $val =~ s/\s+$//;
-      $val =~ s/^'(.*)'$/$1/;
-      $val =~ s/^"(.*)"$/$1/;
-      $config->{$key} = $val;
+    my $handle;
+    if (!open $handle, '<', $file) {
+        warn "Config: Failed to open $file: $ERRNO";
+        return $config;
     }
-  }
-  close $handle;
+
+    $config->{'conf-file'} = $file;
+
+    while (<$handle>) {
+        s/#.+//;
+        if (/([\w-]+)\s*=\s*(.+)/) {
+            my $key = $1;
+            my $val = $2;
+            # Remove the quotes
+            $val =~ s/\s+$//;
+            $val =~ s/^'(.*)'$/$1/;
+            $val =~ s/^"(.*)"$/$1/;
+            $config->{$key} = $val;
+        }
+    }
+    close $handle;
 }
 
 sub loadUserParams {
-  my $config = shift;
+    my $config = shift;
 
-  Getopt::Long::Configure( "no_ignorecase" );
+    Getopt::Long::Configure( "no_ignorecase" );
 
-  GetOptions(
-    $config,
-    'backend-collect-timeout=s',
-    'basevardir=s',
-    'ca-cert-dir=s',
-    'ca-cert-file=s',
-    'conf-file=s',
-    'color',
-    'daemon|d',
-    'daemon-no-fork|D',
-    'debug',
-    'devlib',
-    'disable-perllib-envvar',
-    'force|f',
-    'help|h',
-    'html-dir=s',
-    'info|i',
-    'lazy',
-    'local|l=s',
-    'logfile=s',
-    'no-ocsdeploy',
-    'no-inventory',
-    'no-soft',
-    'no-printer',
-    'no-software',
-    'no-wakeonlan',
-    'no-snmpquery',
-    'no-netdiscovery',
-    'password|p=s',
-    'perl-bin-dir-in-path',
-    'proxy|P=s',
-    'realm|r=s',
-    'rpc-ip=s',
-    'rpc-trust-localhost',
-    'remotedir|R=s',
-    'server|s=s',
-    'stdout',
-    'tag|t=s',
-    'no-ssl-check',
-    'user|u=s',
-    'version',
-    'wait|w=s',
-    'delaytime=s',
-    'scan-homedirs',
-    'no-socket'
-  ) or help($config);
+    GetOptions(
+        $config,
+        'backend-collect-timeout=s',
+        'basevardir=s',
+        'ca-cert-dir=s',
+        'ca-cert-file=s',
+        'conf-file=s',
+        'color',
+        'daemon|d',
+        'daemon-no-fork|D',
+        'debug',
+        'devlib',
+        'disable-perllib-envvar',
+        'force|f',
+        'help|h',
+        'html-dir=s',
+        'info|i',
+        'lazy',
+        'local|l=s',
+        'logfile=s',
+        'no-ocsdeploy',
+        'no-inventory',
+        'no-soft',
+        'no-printer',
+        'no-software',
+        'no-wakeonlan',
+        'no-snmpquery',
+        'no-netdiscovery',
+        'password|p=s',
+        'perl-bin-dir-in-path',
+        'proxy|P=s',
+        'realm|r=s',
+        'rpc-ip=s',
+        'rpc-trust-localhost',
+        'remotedir|R=s',
+        'server|s=s',
+        'stdout',
+        'tag|t=s',
+        'no-ssl-check',
+        'user|u=s',
+        'version',
+        'wait|w=s',
+        'delaytime=s',
+        'scan-homedirs',
+        'no-socket'
+    ) or help($config);
 
-  help($config) if $config->{help};
-  version() if $config->{version};
+    help($config) if $config->{help};
+    version() if $config->{version};
 }
 
 sub help {
-  my ($config, $error) = @_;
-  if ($error) {
-    chomp $error;
-    print "ERROR: $error\n\n";
-  }
+    my ($config, $error) = @_;
+    if ($error) {
+        chomp $error;
+        print "ERROR: $error\n\n";
+    }
 
-  if ($config->{'conf-file'}) {
-      print STDERR "Setting initialised with values retrieved from ".
-      "the config found at ".$config->{'conf-file'}."\n";
-  }
+    if ($config->{'conf-file'}) {
+        print STDERR "Setting initialised with values retrieved from ".
+        "the config found at ".$config->{'conf-file'}."\n";
+    }
 
-  print STDERR <<EOF;
+    print STDERR <<EOF;
 
 Usage:
     --backend-collect-timeout set a max delay time of one inventory data collect job ($config->{'backend-collect-timeout'})
@@ -286,14 +282,12 @@ Manpage:
 FusionInventory-Agent is released under GNU GPL 2 license
 EOF
 
-  exit 1;
+    exit 1;
 }
-
 
 sub version {
-  print "FusionInventory Agent (".$FusionInventory::Agent::VERSION.")\n";
-  exit 0;
+    print "FusionInventory Agent (".$FusionInventory::Agent::VERSION.")\n";
+    exit 0;
 }
-
 
 1;

@@ -10,43 +10,40 @@ use Digest::MD5 qw(md5_base64);
 #use FusionInventory::Agent::XML::Query::Prolog;
 
 sub new {
-  my ($class, $params) = @_;
+    my ($class, $params) = @_;
 
-  my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new($params);
 
-  my $logger = $self->{logger};
-  my $target = $self->{target};
-  my $rpc = $params->{rpc};
+    my $logger = $self->{logger};
+    my $target = $self->{target};
+    my $rpc = $params->{rpc};
 
+    $self->{h}{QUERY} = ['PROLOG'];
 
-  $self->{h}{QUERY} = ['PROLOG'];
+    # $rpc can be undef if thread not enabled in Perl
+    if ($rpc) {
+        $self->{h}{TOKEN} = [$rpc->getToken()];
+    }
 
-  # $rpc can be undef if thread not enabled in Perl
-  if ($rpc) {
-    $self->{h}{TOKEN} = [$rpc->getToken()];
-  }
-
-  return $self;
+    return $self;
 }
 
 sub dump {
-  my $self = shift;
-  eval {
-      require Data::Dumper;
-      print Dumper($self->{h});
-  };
+    my $self = shift;
+    eval {
+        require Data::Dumper;
+        print Dumper($self->{h});
+    };
 }
 
 sub getContent {
-  my ($self, $args) = @_;
+    my ($self, $args) = @_;
 
-  $self->{accountinfo}->setAccountInfo($self);
-  my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
-    SuppressEmpty => undef );
+    $self->{accountinfo}->setAccountInfo($self);
+    my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
+        SuppressEmpty => undef );
 
-  return $content;
+    return $content;
 }
-
-
 
 1;

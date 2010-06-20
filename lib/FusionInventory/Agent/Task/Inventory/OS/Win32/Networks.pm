@@ -110,32 +110,26 @@ ip_bintoip($binsubnet, 6);
         $ipaddress6 = join('/', @{$netif->{ipaddress6} || []});
 
         $inventory->addNetwork({
-                DESCRIPTION => $netif->{description},
-                IPADDRESS => $ipaddress,
-                IPDHCP => $netif->{ipdhcp},
-                IPGATEWAY => $netif->{ipgateway},
-                IPMASK => $ipmask,
-                IPSUBNET => $ipsubnet,
-                IPADDRESS6 => $ipaddress6,
-                MACADDR => $netif->{macaddr},
-                MTU => $netif->{mtu},
-                STATUS => $netif->{status},
-                TYPE => $netif->{type},
-                VIRTUALDEV => $netif->{virtualdev}
-            });
-
-
+            DESCRIPTION => $netif->{description},
+            IPADDRESS => $ipaddress,
+            IPDHCP => $netif->{ipdhcp},
+            IPGATEWAY => $netif->{ipgateway},
+            IPMASK => $ipmask,
+            IPSUBNET => $ipsubnet,
+            IPADDRESS6 => $ipaddress6,
+            MACADDR => $netif->{macaddr},
+            MTU => $netif->{mtu},
+            STATUS => $netif->{status},
+            TYPE => $netif->{type},
+            VIRTUALDEV => $netif->{virtualdev}
+        });
     }
 
-
-  $inventory->setHardware({
-
-          DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
-          DNS =>  join('/', keys %dns),
-          IPADDR =>  join('/',@ips),
-
+    $inventory->setHardware({
+        DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
+        DNS =>  join('/', keys %dns),
+        IPADDR =>  join('/',@ips),
     });
-
 
 }
 1;
