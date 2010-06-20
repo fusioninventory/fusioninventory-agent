@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Environement;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my $params = shift;

@@ -14,7 +14,9 @@ use Win32::OLE::Enum;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 # http://techtasks.com/code/viewbookcode/1417
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my $params = shift;

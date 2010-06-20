@@ -10,7 +10,9 @@ use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub getBiosInfoFromRegistry {
     my $KEY_WOW64_64KEY = 0x100; 

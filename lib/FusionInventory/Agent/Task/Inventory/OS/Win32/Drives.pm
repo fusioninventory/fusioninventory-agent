@@ -15,7 +15,9 @@ my @type = (
         'RAM Disk'
         ); 
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
 
