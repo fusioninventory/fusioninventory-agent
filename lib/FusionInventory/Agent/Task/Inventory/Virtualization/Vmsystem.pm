@@ -49,7 +49,9 @@ use version;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my $params = shift;
