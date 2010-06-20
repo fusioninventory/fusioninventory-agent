@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
+use Data::Dumper;
+
 =head1 NAME
 
 FusionInventory::Agent::XML::Query::SimpleMessage a Generic message container
