@@ -15,4 +15,4 @@ sub isInventoryEnabled {
 
 sub doInventory {}
 
-1
+1;

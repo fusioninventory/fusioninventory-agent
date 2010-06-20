@@ -41,4 +41,4 @@ sub doInventory {
     $inventory->addCPU($current);
 }
 
-1
+1;

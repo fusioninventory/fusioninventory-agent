@@ -28,5 +28,4 @@ sub doInventory {
   $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
 }
 
-1
-
+1;
