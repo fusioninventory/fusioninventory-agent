@@ -4,9 +4,10 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    return unless can_run("lsdev");
-    return unless can_run("which");
-    return unless can_run("lsattr");
+    return
+        can_run("lsdev") ||
+        can_run("which") ||
+        can_run("lsattr");
 }
 
 sub doInventory {
