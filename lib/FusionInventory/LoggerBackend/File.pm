@@ -3,6 +3,8 @@ package FusionInventory::LoggerBackend::File;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 my $handle;
 
 sub new {
@@ -13,7 +15,7 @@ sub new {
   $self->{logfile} = $self->{config}->{logdir}."/".$self->{config}->{logfile};
 
   open $handle, '>>', $self->{config}->{logfile}
-      or warn "Can't open `$self->{config}->{logfile}'\n";
+      or warn "Can't open $self->{config}->{logfile}: $ERRNO";
 
   bless $self, $class;
   return $self;

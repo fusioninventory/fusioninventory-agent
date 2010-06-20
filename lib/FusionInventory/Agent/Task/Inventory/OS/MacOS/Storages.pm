@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Storages;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled {return can_load('Mac::SysProfile');}
 
@@ -36,7 +37,7 @@ sub doInventory {
   # Get SATA Drives
   my $sata = $prof->gettype('SPSerialATADataType');
 
-  return undef unless( ref($sata) eq 'HASH' );
+  return unless( ref($sata) eq 'HASH' );
   
   use Data::Dumper;
 

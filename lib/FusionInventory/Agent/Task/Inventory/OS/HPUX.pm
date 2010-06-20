@@ -1,11 +1,11 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX;
 
 use strict;
-use vars qw($runAfter);
+use warnings;
 
 use English qw(-no_match_vars);
 
-$runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
+our $runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 
 sub isInventoryEnabled  { return $OSNAME =~ /hpux/ }
 

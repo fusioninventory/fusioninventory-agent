@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::AccessLog;
 
+use strict;
+use warnings;
+
 sub doInventory {
   my $params = shift;
   my $inventory = $params->{inventory};

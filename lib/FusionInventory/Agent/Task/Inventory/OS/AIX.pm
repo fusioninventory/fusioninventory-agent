@@ -1,11 +1,11 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX;
 
 use strict;
-use vars qw($runAfter);
+use warnings;
 
 use English qw(-no_match_vars);
 
-$runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
+our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled { return $OSNAME =~ /^aix$/ }
 
@@ -24,7 +24,7 @@ sub doInventory {
   chomp($OSVersion=`oslevel`);
   chomp($OSLevel=`oslevel -r`);
   @tabOS=split(/-/,$OSLevel);
-  $OSComment="Maintenance Level :".@tabOS[1];
+  $OSComment="Maintenance Level :".$tabOS[1];
 
   $OSVersion =~ s/(.0)*$//;
   $inventory->setHardware({

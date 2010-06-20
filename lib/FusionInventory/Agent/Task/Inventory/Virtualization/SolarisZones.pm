@@ -1,6 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::SolarisZones;
 
 use strict;
+use warnings;
+
+use English qw(-no_match_vars);
 
 sub isInventoryEnabled { 
   return unless can_run('zoneadm'); 
@@ -13,13 +16,16 @@ sub check_solaris_valid_release{
   my $release;
   my $year;
   
-  $release_file = "/etc/release";
-  if (!open(SOLVERSION, $release_file)) {
+  my $handle;
+  if (!open $handle, '<', '/etc/release') {
+    warn "Can't open /etc/release: $ERRNO";
     return;
   }
-  @rlines = <SOLVERSION>;
+  @rlines = <handle>;
+  close $handle;
+
   @rlines = grep(/Solaris/,@rlines);
-  $release = @rlines[0];
+  $release = $rlines[0];
   $release =~ m/(\d)\/(\d+)/;
   $release = $1;
   $year = $2;
@@ -51,19 +57,24 @@ sub doInventory {
   @zones = `/usr/sbin/zoneadm list -p`;
   @zones = grep (!/global/,@zones);
 
-  foreach $zone (@zones) {	
+  foreach my $zone (@zones) {	
         ($zoneid,$zonename,$zonestatus,$pathroot,$uuid)=split(/:/,$zone);
 	# 
 	# Memory considerations depends on rcapd or project definitions
 	# Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
         $zonefile = "/etc/zones/$zonename.xml";
-        if (!open(ZONE, $zonefile)) {
+
+        my $handle;
+        if (!open $handle, '<', $zonefile) {
+            warn "Can't open $zonefile: $ERRNO";
             $logger->debug("Failed to open $zonefile");
             next;
         }
-        @lines = <ZONE>;
+        @lines = <$handle>;
+        close $handle;
+
         @lines = grep(/mcap/,@lines);
-        $memcap = @lines[0];
+        $memcap = $lines[0];
 	$memcap=~ s/[^\d]+//g;
 	$memory=$memcap/1024/1024;
 	if (!$memcap){

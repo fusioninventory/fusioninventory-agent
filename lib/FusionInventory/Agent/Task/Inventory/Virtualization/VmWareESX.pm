@@ -1,7 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::VmWareESX;
 
 use strict;
+use warnings;
 
+use English qw(-no_match_vars);
 
 sub isInventoryEnabled { can_run('vmware-cmd') }
 
@@ -16,16 +18,19 @@ sub doInventory {
 
         my %machineInfo;
 
-        open VMX, "<$vmx" or warn;
-        foreach (<VMX>) {
-            if (/^(\S+)\s*=\s*(\S+.*)/) {
-                my $key = $1;
-                my $value = $2;
-                $value =~ s/(^"|"$)//g;
-                $machineInfo{$key} = $value;
+        if (open my $handle, '<', $vmx) {
+            while (<$handle>) {
+                if (/^(\S+)\s*=\s*(\S+.*)/) {
+                    my $key = $1;
+                    my $value = $2;
+                    $value =~ s/(^"|"$)//g;
+                    $machineInfo{$key} = $value;
+                }
             }
+            close $handle;
+        } else {
+            warn "Can't open $vmx: $ERRNO";
         }
-        close VMX;
 
         my $status = 'unknow';
         if ( `vmware-cmd "$vmx" getstate` =~ /=\ (\w+)/ ) {
@@ -39,7 +44,7 @@ sub doInventory {
         
         # correct uuid format
         $uuid =~ s/\s+//g;	# delete space
-        $uuid =~ s!^(........)(....)(....)-(....)(.+)$!\1-\2-\3-\4-\5!; # add dashs
+        $uuid =~ s!^(........)(....)(....)-(....)(.+)$!$1-$2-$3-$4-$5!; # add dashs
 
         my $machine = {
 

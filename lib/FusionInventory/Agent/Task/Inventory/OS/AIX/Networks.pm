@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Networks;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
   can_load("Net::IP qw(:PROC)");

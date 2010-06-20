@@ -1,5 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Uptime;
+
 use strict;
+use warnings;
+
+use English qw(-no_match_vars);
 
 sub isInventoryEnabled { can_read("/proc/uptime") }
 
@@ -8,10 +12,15 @@ sub doInventory {
   my $inventory = $params->{inventory};
 
   # Uptime
-  open UPTIME, "/proc/uptime";
-  my $uptime = <UPTIME>;
+  my $handle;
+  if (!open $handle, '<', '/proc/uptime') {
+      warn "Can't open /proc/uptime: $ERRNO";
+      return;
+  }
+
+  my $uptime = <$handle>;
   $uptime =~ s/^(.+)\s+.+/$1/;
-  close UPTIME;
+  close $handle;
 
   # Uptime conversion
   my ($UYEAR, $UMONTH , $UDAY, $UHOUR, $UMIN, $USEC) = (gmtime ($uptime))[5,4,3,2,1,0];

@@ -1,17 +1,27 @@
 package FusionInventory::Logger;
+
+use strict;
+use warnings;
+
 # TODO use Log::Log4perl instead.
 use Carp;
+use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use Config;
 
 BEGIN {
-  # threads and threads::shared must be load before
-  # $lock is initialized
-  if ($Config{usethreads}) {
-    if (!eval "use threads;1;" || !eval "use threads::shared;1;") {
-      print "[error]Failed to use threads!\n"; 
+    # threads and threads::shared must be load before
+    # $lock is initialized
+    if ($Config{usethreads}) {
+        eval {
+            require threads;
+            require threads::shared;
+        };
+        if ($EVAL_ERROR) {
+            print "[error]Failed to use threads!\n"; 
+        }
     }
-  }
 }
 
 my $lock :shared;
@@ -39,9 +49,9 @@ sub new {
   my @loadedMbackends;
   foreach (@logger) {
     my $backend = "FusionInventory::LoggerBackend::".$_;
-    eval ("require $backend"); # TODO deal with error
-    if ($@) {
-        print STDERR "Failed to load Logger backend: $backend ($@)\n";
+    $backend->require();
+    if ($EVAL_ERROR) {
+        print STDERR "Failed to load Logger backend: $backend ($EVAL_ERROR)\n";
         next;
     } else {
         push @loadedMbackends, $_;

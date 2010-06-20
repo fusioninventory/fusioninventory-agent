@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::CPU;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
     return(undef) unless -r '/usr/sbin/system_profiler';

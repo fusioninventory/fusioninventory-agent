@@ -31,9 +31,8 @@ sub addMsg {
   if (exists ($self->{config}->{savedstderr})) {
     $stderr = $self->{config}->{savedstderr};
   } else {
-    open ($stderr, ">&STDERR");
+    $stderr = \*STDERR;
   }
-
 
   if ($config->{color} && $OSNAME !~ /^^MSWin/) {
     if ($level eq 'error') {

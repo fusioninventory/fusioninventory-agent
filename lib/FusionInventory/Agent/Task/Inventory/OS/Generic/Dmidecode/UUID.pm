@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::UUID;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled { return can_run('dmidecode') }
 

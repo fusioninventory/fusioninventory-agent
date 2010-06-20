@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Sgimips;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled{
     my $arch;

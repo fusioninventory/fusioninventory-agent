@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::IPv4;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled {can_run("ifconfig")}
 
 # Initialise the distro entry
@@ -14,7 +17,7 @@ sub doInventory {
     # AIX ligne inet
     if(/^\s*inet\s+(\S+).*/){($1=~/127.+/)?next:push @ip, $1};
   }
-  $ip=join "/", @ip;
+  my $ip=join "/", @ip;
   $inventory->setHardware({IPADDR => $ip});
 }
 

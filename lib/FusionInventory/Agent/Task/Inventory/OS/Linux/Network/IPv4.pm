@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::IPv4;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled {
   return unless can_run ("ifconfig");
   1;

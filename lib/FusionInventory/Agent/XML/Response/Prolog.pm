@@ -1,16 +1,13 @@
 package FusionInventory::Agent::XML::Response::Prolog;
 
 use strict;
-use FusionInventory::Agent::XML::Response;
-
-our @ISA = ('FusionInventory::Agent::XML::Response');
+use warnings;
+use base 'FusionInventory::Agent::XML::Response';
 
 sub new {
     my ($class, @params) = @_;
 
     my $self = $class->SUPER::new(@params);
-
-    bless $self, $class;
 
     my $target = $self->{target};
 

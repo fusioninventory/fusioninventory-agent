@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::Xen::XM;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_run('xm') }
 
@@ -49,7 +50,7 @@ sub doInventory {
 		    chomp $value;
                     if ($value =~ /uuid/) {
                           $value =~ s/\(|\)//g;
-                          $value =~ s/\s+.*uuid\s+(.*)/\1/;
+                          $value =~ s/\s+.*uuid\s+(.*)/$1/;
                           $uuid = $value;
                           last;
                     }

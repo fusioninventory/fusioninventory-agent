@@ -1,7 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::User;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
+use warnings;
+
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 use Win32::OLE::Variant;
 

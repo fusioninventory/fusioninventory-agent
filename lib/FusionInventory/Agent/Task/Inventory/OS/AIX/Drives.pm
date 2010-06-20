@@ -1,6 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Drives;
 
 use strict;
+use warnings;
+
 sub isInventoryEnabled {can_run("df")}
 
 sub doInventory {

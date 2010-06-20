@@ -1,4 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::CPU;
+
 use strict;
 use warnings;
 

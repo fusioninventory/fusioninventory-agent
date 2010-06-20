@@ -1,5 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Domains;
+
 use strict;
+use warnings;
+
+use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
   my $hostname;
@@ -23,9 +27,8 @@ sub doInventory {
   shift (@domain);
   $domain = join ('.',@domain);
 
-  open RESOLV, "/etc/resolv.conf" or warn;
-
-    while(<RESOLV>){
+  if (open my $handle, '<', '/etc/resolv.conf') {
+    while(<$handle>){
       if (/^nameserver\s+(\S+)/i) {
         push(@dns_list,$1);
       }
@@ -33,7 +36,10 @@ sub doInventory {
         $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
       }
     }
-    close RESOLV;
+    close $handle;
+  } else {
+    warn "Can't open /etc/resolv.conf: $ERRNO";
+  }
 
     if (!$domain) {
       $domain = join "/", keys %domain;

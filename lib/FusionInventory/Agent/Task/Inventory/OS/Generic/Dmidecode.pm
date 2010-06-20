@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
   if ($^O !~ /MSWin/) {

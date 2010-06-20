@@ -1,6 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Slots;
 
 use strict;
+use warnings;
+
 sub isInventoryEnabled { can_run ("prtdiag") }
 
 sub doInventory {

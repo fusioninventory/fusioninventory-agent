@@ -2,8 +2,13 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Inputs;
 # Had never been tested.
 #use FusionInventory::Agent::Task::Inventory::OS::Linux;
 use strict;
+use warnings;
 
-sub isInventoryEnabled { can_run("cat") }
+use English qw(-no_match_vars);
+
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my $params = shift;
@@ -12,15 +17,20 @@ sub doInventory {
     my @inputs;
     my $device;
     my $in;
-    foreach (`cat /proc/bus/input/devices`)
-    {
-        if (/^I: Bus=.*Vendor=(.*) Prod/) {
+
+    my $handle;
+    if (!open $handle, '<', '/proc/bus/input/devices') {
+         warn "Can't open /proc/bus/input/devices: $ERRNO";
+         return;
+    }
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^I: Bus=.*Vendor=(.*) Prod/) {
             $in = 1;
             $device->{vendor}=$1;
-        } elsif (/^$/) {
-            $in =0;
-            if ( $device->{phys} =~ "input" )
-            {
+        } elsif ($line =~ /^$/) {
+            $in = 0;
+            if ($device->{phys} && $device->{phys} =~ "input") {
                 push @inputs, {
                     DESCRIPTION => $device->{name},
                     CAPTION => $device->{name},
@@ -30,26 +40,28 @@ sub doInventory {
     
             $device = {};
         } elsif ($in) {
-            if (/^P: Phys=.*(button).*/i) {
+            if ($line =~ /^P: Phys=.*(button).*/i) {
                 $device->{phys}="nodev";
-            }
-            elsif (/^P: Phys=.*(input).*/i) {
+            } elsif ($line =~ /^P: Phys=.*(input).*/i) {
                 $device->{phys}="input";
             }
-            if (/^N: Name=\"(.*)\"/i) {
+            if ($line =~ /^N: Name=\"(.*)\"/i) {
                 $device->{name}=$1;
             }
-            if (/^H: Handlers=(\w+)/i) {
-		if ( $1 =~ ".*kbd.*")
-		{ $device->{type}="Keyboard"; }
-		elsif ( $1 =~ ".*mouse.*")
-		{ $device->{type}="Pointing"; }
-		
-                # Keyboard ou Pointing
-                else {$device->{type}=$1;};
+            if ($line =~ /^H: Handlers=(\w+)/i) {
+		if ($1 =~ ".*kbd.*") {
+                    $device->{type}="Keyboard";
+                } elsif ($1 =~ ".*mouse.*") {
+                    $device->{type}="Pointing";
+                } else {
+                    # Keyboard ou Pointing
+                    $device->{type}=$1;
+                }
             }
         }
     }
+    close $handle;
+
 #    push @inputs, {
 #        DESCRIPTION => $device->{name},
 #        TYPE=> $device->{type},

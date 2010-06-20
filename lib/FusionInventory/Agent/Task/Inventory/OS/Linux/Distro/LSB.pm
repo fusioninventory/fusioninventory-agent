@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::LSB;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled {can_run("lsb_release")}
 
 sub doInventory {

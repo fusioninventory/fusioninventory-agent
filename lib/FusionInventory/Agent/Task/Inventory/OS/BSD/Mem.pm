@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Mem;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { 	
 	`which sysctl 2>&1`;

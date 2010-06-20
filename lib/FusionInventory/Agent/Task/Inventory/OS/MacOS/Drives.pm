@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Drives;
 
 use strict;
+use warnings;
 
 # yea BSD theft!!!!
 # would have used Mac::SysProfile, but the xml isn't quite fully supported

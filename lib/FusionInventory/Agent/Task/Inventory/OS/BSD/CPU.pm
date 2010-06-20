@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::CPU;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
   return unless -r "/dev/mem";

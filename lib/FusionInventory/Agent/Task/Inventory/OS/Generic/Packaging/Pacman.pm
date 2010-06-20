@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Pacman;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled {can_run("pacman")}
 
 sub doInventory {

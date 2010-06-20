@@ -1,11 +1,11 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris;
 
 use strict;
-use vars qw($runAfter);
+use warnings;
 
 use English qw(-no_match_vars);
 
-$runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
+our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled {$OSNAME =~ /^solaris$/}
 
@@ -25,11 +25,14 @@ sub doInventory {
   chomp($OSLevel=`uname -r`);
   chomp($OSComment=`uname -v`);
 
-   open(FH, "< /etc/release") and do {
-       chomp($OSVersion = readline (FH));
+   if (open my $handle, '<', '/etc/release') {
+       $OSVersion = <$handle>;
+       close $handle;
+       chomp $OSVersion;
        $OSVersion =~ s/^\s+//;
-       close FH;
-   };
+   } else {
+       warn "Can't open /etc/release: $ERRNO";
+   }
 
   chomp($OSVersion=`uname -v`) unless $OSVersion;
   chomp($OSVersion);

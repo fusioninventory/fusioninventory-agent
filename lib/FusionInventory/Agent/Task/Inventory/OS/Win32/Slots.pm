@@ -1,7 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Slots;
+
+use strict;
+use warnings;
+
 # Had never been tested. There is no slot on my virtal machine.
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
-use strict;
 
 sub isInventoryEnabled {1}
 

@@ -1,13 +1,12 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Bios;
 
-# Only run this module if dmidecode has not been found
-use vars qw($runMeIfTheseChecksFailed);
-$runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
+use strict;
+use warnings;
 
+# Only run this module if dmidecode has not been found
+our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
-
-use strict;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 

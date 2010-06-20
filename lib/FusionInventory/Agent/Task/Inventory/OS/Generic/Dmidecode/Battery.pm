@@ -1,5 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery;
 use strict;
+use warnings;
 
 sub parseDate {
     my $string = shift;
@@ -39,27 +40,14 @@ sub doInventory {
     for(`dmidecode`){
         s/\s+$//;
         if (/dmi type (\d+),/i) {
-
-            if ($type == 22) {
-                $inventory->addBattery({
-                        CAPACITY => $capacity,
-                        CHEMISTRY => $chemistry,
-                        DATE => $date,
-                        NAME => $name,
-                        SERIAL => $serial,
-                        MANUFACTURER => $manufacturer,
-                        VOLTAGE => $voltage
-                    });
-                $capacity = $date = $name = undef;
-                $serial = $manufacturer = $voltage = undef;
-                $chemistry = undef;
-            }
             $type = $1;
+            next;
         }
+
+        next unless defined $type;
 
 
         if ($type == 22) {
-
             if(/Name:\s*(.+?)(\s*)$/i) {
                 $name = $1;
             } elsif(/Capacity:\s*(\d+)\s*m(W|A)h/i) {
@@ -75,8 +63,21 @@ sub doInventory {
             } elsif(/Chemistry:\s*(\S+\s*)/i) {
                 $chemistry = $1;
             }
+            next;
         }
 
+        last if $type > 22;
+
     }
+
+    $inventory->addBattery({
+        CAPACITY => $capacity,
+        CHEMISTRY => $chemistry,
+        DATE => $date,
+        NAME => $name,
+        SERIAL => $serial,
+        MANUFACTURER => $manufacturer,
+        VOLTAGE => $voltage
+    });
 }
 1;

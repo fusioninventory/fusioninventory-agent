@@ -1,6 +1,8 @@
 package FusionInventory::Agent::Config;
 
 use strict;
+use warnings;
+
 use Getopt::Long;
 use English qw(-no_match_vars);
 
@@ -83,12 +85,17 @@ sub load {
 sub loadFromWinRegistry {
   my $config = shift;
 
-  if (!eval ("
-    use Encode qw(encode);
-    use Win32::TieRegistry ( Delimiter=>\"/\", ArrayValues=>0 );
-    1
-  ")) {
-    print "[error] $@";
+  eval {
+    require Encode;
+    Encode->import('encode');
+    require Win32::TieRegistry;
+    Win32::TieRegistry->import(
+      Delimiter   => "/",
+      ArrayValues => 0
+    );
+  };
+  if ($EVAL_ERROR) {
+    print "[error] $EVAL_ERROR";
     return;
   }
 
@@ -142,14 +149,15 @@ if (!$file || !-f $file) {
     return $config unless -f $file;
   }
 
-  if (!open (CONFIG, "<".$file)) {
-    print(STDERR "Config: Failed to open $file: $!\n");
-	return $config;
+  my $handle;
+  if (!open $handle, '<', $file) {
+    warn "Config: Failed to open $file: $ERRNO";
+    return $config;
   }
   
   $config->{'conf-file'} = $file;
 
-  foreach (<CONFIG>) {
+  while (<$handle>) {
     s/#.+//;
     if (/([\w-]+)\s*=\s*(.+)/) {
       my $key = $1;
@@ -161,7 +169,7 @@ if (!$file || !-f $file) {
       $config->{$key} = $val;
     }
   }
-  close CONFIG;
+  close $handle;
 }
 
 sub loadUserParams {

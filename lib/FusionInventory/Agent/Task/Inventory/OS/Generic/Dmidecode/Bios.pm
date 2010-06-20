@@ -1,5 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
+
 use strict;
+use warnings;
+
+use English qw(-no_match_vars);
 
 sub doInventory {
   my $params = shift;
@@ -16,9 +20,14 @@ sub doInventory {
 sub parseDmidecode {
     my ($file, $mode) = @_;
 
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
     my ($bios, $hardware, $type);
 
-    open (my $handle, $mode, $file);
     while (my $line = <$handle>) {
         chomp $line;
 
@@ -93,10 +102,9 @@ sub parseDmidecode {
             next;
         }
     }
-    close ($handle);
+    close $handle;
 
     return $bios, $hardware;
-
 }
 
 1;

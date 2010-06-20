@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::BSDpkg;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled {can_run("pkg_info")}
 
 sub doInventory {

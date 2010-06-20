@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Drives;
 
+use strict;
+use warnings;
+
 sub isInventoryEnabled  { can_run('fstyp') and can_run('grep') and can_run('bdf') and can_load('POSIX') }
 
 sub doInventory {

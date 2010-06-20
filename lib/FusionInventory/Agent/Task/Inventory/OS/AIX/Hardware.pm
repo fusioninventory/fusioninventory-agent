@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Hardware;
+
 use strict;
+use warnings;
+
 sub isInventoryEnabled { 1 }
 
 # NOTE:

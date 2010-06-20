@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Slots;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { can_run('ioscan') }
 

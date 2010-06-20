@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Lsilogic;
 
+use strict;
+use warnings;
+
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # Tested on 2.6.* kernels
 #
@@ -8,8 +11,6 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # LSI Logic / Symbios Logic SAS1064E PCI-Express Fusion-MPT SAS
 #
 # mpt-status version : 1.2.0
-
-use strict;
 
 sub isInventoryEnabled {
 

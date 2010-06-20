@@ -1,6 +1,10 @@
 package FusionInventory::Agent::Network;
+
 use strict;
 use warnings;
+
+use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 =head1 NAME
 
@@ -46,10 +50,16 @@ sub new {
   $logger->fault('$target not initialised') unless $target;
   $logger->fault('$config not initialised') unless $config;
 
-  if (! eval "use LWP::UserAgent; 1;") {
+  eval {
+      require LWP::UserAgent;
+  };
+  if ($EVAL_ERROR) {
     $logger->fault("Can't load LWP::UserAgent. Is the package installed?");
   }
-  if (! eval "use HTTP::Status; 1;") {
+  eval {
+      require HTTP::Status;
+  };
+  if ($EVAL_ERROR) {
     $logger->fault("Can't load HTTP::Status. Is the package installed?");
   }
 
@@ -155,9 +165,9 @@ sub send {
   # AutoLoad the proper response object
   my $msgType = ref($message); # The package name of the message object
   my $tmp = "FusionInventory::Agent::XML::Response::".$msgtype;
-  eval "require $tmp";
-  if ($@) {
-      $logger->error ("Can't load response module $tmp: $@");
+  $tmp->require();
+  if ($EVAL_ERROR) {
+      $logger->error("Can't load response module $tmp: $EVAL_ERROR");
   }
   $tmp->import();
   my $response = $tmp->new({
@@ -195,12 +205,16 @@ sub turnSSLCheckOn {
   my $hasCrypSSLeay;
   my $hasIOSocketSSL;
 
-  eval 'use Crypt::SSLeay;';
-  $hasCrypSSLeay = ($@)?0:1;
+  eval {
+      require Crypt::SSLeay;
+  };
+  $hasCrypSSLeay = $EVAL_ERROR ? 0 : 1;
 
   if (!$hasCrypSSLeay) {
-      eval 'use IO::Socket::SSL;';
-      $hasIOSocketSSL = ($@)?0:1;
+      eval {
+          require IO::Socket::SSL;
+      };
+      $hasIOSocketSSL = $EVAL_ERROR ? 0 : 1;
   }
 
   if (!$hasCrypSSLeay && !$hasIOSocketSSL) {
@@ -237,11 +251,11 @@ sub turnSSLCheckOn {
         );
       };
       $logger->fault(
-                     "Failed to set ca-cert-file: $@".
+                     "Failed to set ca-cert-file: $EVAL_ERROR".
                      "Your IO::Socket::SSL distribution is too old. ".
                      "Please install Crypt::SSLeay or disable ".
                      "SSL server check with --no-ssl-check"
-		    ) if $@;
+		    ) if $EVAL_ERROR;
     }
 
   } elsif ($config->{'ca-cert-dir'}) {
@@ -259,11 +273,11 @@ sub turnSSLCheckOn {
         );
       };
       $logger->fault(
-                     "Failed to set ca-cert-file: $@".
+                     "Failed to set ca-cert-file: $EVAL_ERROR".
                      "Your IO::Socket::SSL distribution is too old. ".
                      "Please install Crypt::SSLeay or disable ".
                      "SSL server check with --no-ssl-check"
-		    ) if $@;
+		    ) if $EVAL_ERROR;
     }
   }
 
@@ -358,8 +372,7 @@ sub get {
 
   return $response->decoded_content if $response->is_success;
 
-  return undef;
-
+  return;
 }
 
 =item isSuccess()

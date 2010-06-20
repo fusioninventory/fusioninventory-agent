@@ -7,8 +7,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Drives;
 #proc                       0       0       0     0%    /proc
 #mnttab                     0       0       0     0%    /etc/mnttab
 
-
 use strict;
+use warnings;
+
 sub isInventoryEnabled { can_run ("df") }
 
 sub doInventory {
