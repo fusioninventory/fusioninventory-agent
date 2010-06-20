@@ -23,7 +23,7 @@ Revision history for FusionInventory::Agent
        * Identify USB devices (Windows, Linux)
        * --realm was two time in --help
        * Fix Syslog backend, cf: https://bugs.launchpad.net/bugs/571655
-         (Guillaume ROUSSE)
+         (Guillaume Rousse)
 	   * Cups.pm: gets all installed printers and their drivers names
         (Aurelien Bondis)
        * ocsinventory-ng is not more the default server hostname, you've to
@@ -78,6 +78,20 @@ Revision history for FusionInventory::Agent
        * Inventory: use encode('UTF-8', $string) to reencode to UTF-8
          string detected invalide.
        * print help messages on STDERR
+       * all modules now use strict and warning pragmas (Guillaume Rousse)
+       * all Perl Best Practices level 5 violations have been fixed
+         (Guillaume Rousse)
+       * ensure all opened file handles are proprely closed (Guillaume Rousse)
+       * ensure all failures to open a file handle are signaled to user with a
+         meaningful message (Guillaume Rousse)
+       * factorize redundant modules for non-LSDB Linux distribution
+         identification (Guillaume Rousse)
+       * drop redudant code for udev devices detection in Storages.pm
+         (Guillaume Rousse)
+       * rewrite lshal and dmidecode parsing code for readability and
+         efficiency (Guillaume Rousse)
+       * don't reopen file descriptor for every new message in file logger
+         (Guillaume Rousse)
 
 2.0.7    Mon, 14 Jun 2010 18:09:27 +0200
        * Avoid a warning if --stdout is used.
