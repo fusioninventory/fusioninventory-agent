@@ -9,6 +9,11 @@ use English qw(-no_match_vars);
 my @files =
     File::Find::Rule->file()->name('*.pm')->in('lib');
 
+if ($OSNAME ne 'MSWin32') {
+    # exclude windows-specific modules
+    @files = grep { ! /Win32/ } @files
+}
+
 my @modules;
 foreach my $file (@files) {
     my (undef, $dir, $file) = File::Spec->splitpath($file);
