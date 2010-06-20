@@ -12,7 +12,7 @@ sub isAccountUpdated {
     if (
         $parsedContent &&
         exists $parsedContent->{RESPONSE} &&
-        $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
+        $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
     ) {
 	return 1;
     } else {

@@ -26,7 +26,7 @@ sub isInventoryAsked {
     if (
         $parsedContent &&
         exists $parsedContent->{RESPONSE} &&
-        $parsedContent->{RESPONSE} =~ /^SEND$/
+        $parsedContent->{RESPONSE} eq 'SEND'
     ) {
         return 1;
     } else {
