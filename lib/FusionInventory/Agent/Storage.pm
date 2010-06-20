@@ -9,7 +9,6 @@ use Storable;
 
 my $lock :shared;
 
-use Data::Dumper;
 use English qw(-no_match_vars);
 
 =head1 NAME

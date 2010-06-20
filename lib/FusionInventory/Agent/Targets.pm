@@ -7,8 +7,6 @@ use threads::shared;
 
 use FusionInventory::Agent::Target;
 
-use Data::Dumper;
-
 sub new {
     my ($class, $params) = @_;
 
@@ -20,8 +18,6 @@ sub new {
 
     $self->{targets} = [];
     $self->{targets} = [];
-
-
 
     bless $self, $class;
 

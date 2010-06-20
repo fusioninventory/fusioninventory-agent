@@ -39,8 +39,6 @@ sub doInventory {
 
     return unless( ref($sata) eq 'HASH' );
 
-    use Data::Dumper;
-
     foreach my $x ( keys %$sata ) {
         my $controller = $sata->{$x};
         foreach my $y ( keys %$controller ) {
@@ -114,8 +112,6 @@ sub doInventory {
     foreach my $device ( keys %$devices ) {
         $inventory->addStorages($devices->{$device});
     }
-
-#  warn Dumper($devices);
 
 }
 
