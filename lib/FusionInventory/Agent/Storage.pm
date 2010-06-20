@@ -167,9 +167,8 @@ sub save {
     if ($OSNAME ne 'MSWin32') {
         $oldMask = umask();
         umask(oct(77));
-    } else {
-        print "TODO, restrict access to temp file!\n";
     }
+    # TODO: restrict access to temp file under windows
 
     store ($data, $filePath) or warn;
     
