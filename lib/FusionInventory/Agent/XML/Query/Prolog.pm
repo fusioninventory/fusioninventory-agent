@@ -5,6 +5,7 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 use XML::Simple;
+use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 
 #use FusionInventory::Agent::XML::Query::Prolog;
@@ -30,10 +31,7 @@ sub new {
 
 sub dump {
     my $self = shift;
-    eval {
-        require Data::Dumper;
-        print Dumper($self->{h});
-    };
+    print Dumper($self->{h});
 }
 
 sub getContent {
