@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Memory;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run ("memconf") }
+sub isInventoryEnabled {
+    return can_run ("memconf");
+}
 
 sub doInventory {
 

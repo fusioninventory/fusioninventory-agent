@@ -4,7 +4,12 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Qemu;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { return (can_run('qemu') || can_run('kvm') || can_run('qemu-kvm'))}
+sub isInventoryEnabled {
+    return 
+        can_run('qemu') ||
+        can_run('kvm')  ||
+        can_run('qemu-kvm');
+}
 
 sub doInventory {
     my $params = shift;

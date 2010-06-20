@@ -17,7 +17,9 @@ use warnings;
 #Illegal Request: 1 Predictive Failure Analysis: 0 
 
 
-sub isInventoryEnabled { can_run ("iostat") }
+sub isInventoryEnabled {
+    return can_run ("iostat");
+}
 
 sub doInventory {
     my $params = shift;

@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Slots;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run('ioscan') }
+sub isInventoryEnabled {
+    return can_run('ioscan');
+}
 
 sub doInventory { 
     my $params = shift;

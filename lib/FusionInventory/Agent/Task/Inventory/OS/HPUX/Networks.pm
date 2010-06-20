@@ -5,8 +5,15 @@ use warnings;
 
 #TODO Get driver pcislot virtualdev
 
-sub isInventoryEnabled { can_run("lanadmin") and can_run("lanscan") and can_run("netstat") 
-        and can_run("ifconfig") and can_run("hostname") and can_run("uname") }
+sub isInventoryEnabled {
+    return 
+        can_run("lanadmin") &&
+        can_run("lanscan") &&
+        can_run("netstat") &&
+        can_run("ifconfig") &&
+        can_run("hostname") &&
+        can_run("uname");
+}
 
 sub doInventory {
     my $params = shift;

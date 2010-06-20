@@ -59,7 +59,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Bios;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run ("showrev") }
+sub isInventoryEnabled {
+    return can_run ("showrev");
+}
 
 sub doInventory {
     my $params = shift;

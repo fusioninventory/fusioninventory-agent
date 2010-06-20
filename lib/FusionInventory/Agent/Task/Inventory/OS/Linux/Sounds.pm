@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Sounds;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run("lspci") }
+sub isInventoryEnabled {
+    return can_run("lspci");
+}
 
 sub doInventory {
     my $params = shift;

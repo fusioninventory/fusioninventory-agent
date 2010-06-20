@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Xen::XM;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run('xm') }
+sub isInventoryEnabled {
+    return can_run('xm');
+}
 
 sub doInventory {
     my $params = shift;

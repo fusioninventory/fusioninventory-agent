@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::IpDiscover::IpDiscover;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run ("ipdiscover") }
+sub isInventoryEnabled {
+    return can_run ("ipdiscover");
+}
 
 sub doInventory {
     my $params = shift;

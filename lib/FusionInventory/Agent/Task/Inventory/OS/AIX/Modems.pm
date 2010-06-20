@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Modems;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {can_run("lsdev")}
+sub isInventoryEnabled {
+    return can_run("lsdev");
+}
 
 sub doInventory {
     my $params = shift;

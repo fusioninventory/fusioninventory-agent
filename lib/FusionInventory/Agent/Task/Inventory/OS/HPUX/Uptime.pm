@@ -3,7 +3,11 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Uptime;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run("uptime") and can_run ("uname") }
+sub isInventoryEnabled {
+    return
+        can_run("uptime") &&
+        can_run ("uname");
+}
 
 sub doInventory {
     my $params = shift;

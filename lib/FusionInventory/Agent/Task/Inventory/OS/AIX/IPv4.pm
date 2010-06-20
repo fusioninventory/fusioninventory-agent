@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::IPv4;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {can_run("ifconfig")}
+sub isInventoryEnabled {
+    return can_run("ifconfig");
+}
 
 # Initialise the distro entry
 sub doInventory {

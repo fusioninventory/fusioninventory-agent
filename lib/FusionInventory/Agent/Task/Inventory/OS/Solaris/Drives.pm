@@ -10,7 +10,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Drives;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run ("df") }
+sub isInventoryEnabled {
+    return can_run ("df");
+}
 
 sub doInventory {
     my $params = shift;

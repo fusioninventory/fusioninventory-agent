@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Slackwa
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run("pkgtool") }
+sub isInventoryEnabled {
+    return can_run("pkgtool");
+}
 
 sub doInventory {
     my $params = shift;

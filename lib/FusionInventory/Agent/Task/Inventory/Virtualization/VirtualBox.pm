@@ -8,7 +8,11 @@ use warnings;
 use XML::Simple;
 use File::Glob ':glob';
 
-sub isInventoryEnabled { return can_run('VirtualBox') and can_run('VBoxManage') }
+sub isInventoryEnabled {
+    return
+        can_run('VirtualBox') &&
+        can_run('VBoxManage');
+}
 
 sub doInventory {
     my $params = shift;

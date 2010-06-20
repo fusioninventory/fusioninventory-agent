@@ -5,7 +5,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::USB;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {can_run("lsusb")}
+sub isInventoryEnabled {
+    return can_run("lsusb");
+}
 
 sub addDevice {
     my ($inventory, $device) = @_;

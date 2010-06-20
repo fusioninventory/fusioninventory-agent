@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Gentoo;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {can_run("equery")}
+sub isInventoryEnabled {
+    return can_run("equery");
+}
 
 sub doInventory {
     my $params = shift;

@@ -11,7 +11,9 @@ use warnings;
 #
 ###
 
-sub isInventoryEnabled { can_run ("model") }
+sub isInventoryEnabled {
+    return can_run ("model");
+}
 
 sub doInventory { 
     my $params = shift;

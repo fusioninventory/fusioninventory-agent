@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run("dpkg") }
+sub isInventoryEnabled {
+    return can_run("dpkg");
+}
 
 sub doInventory {
     my $params = shift;

@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Controllers;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { can_run ("cfgadm") }
+sub isInventoryEnabled {
+    return can_run ("cfgadm");
+}
 
 sub doInventory {
     my $params = shift;
