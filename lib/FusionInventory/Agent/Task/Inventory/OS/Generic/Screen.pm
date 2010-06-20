@@ -25,9 +25,11 @@ use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
 
-    return unless ($OSNAME eq 'MSWin32' || can_run("monitor-get-edid-using-vbe") || can_run("monitor-get-edid") || can_run("get-edid"));
-
-    1;
+    return
+        $OSNAME eq 'MSWin32'                  ||
+        can_run("monitor-get-edid-using-vbe") ||
+        can_run("monitor-get-edid")           ||
+        can_run("get-edid");
 }
 
 sub getScreens {
