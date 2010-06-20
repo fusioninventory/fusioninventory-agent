@@ -6,8 +6,7 @@ use warnings;
 use Config;
 
 sub isInventoryEnabled { 
-  return 1 if $Config{'archname'} =~ /^(ppc|powerpc)/;
-  0; 
+    return $Config{'archname'} =~ /^(ppc|powerpc)/;
 };
 
-1
+1;
