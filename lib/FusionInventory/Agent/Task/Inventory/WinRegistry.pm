@@ -17,7 +17,7 @@ HKEY_DYN_DATA
 
 
 sub isInventoryEnabled {
-    return unless $OSNAME =~ /^MSWin/;
+    return unless $OSNAME eq 'MSWin32';
 
     eval {
         require Win32::TieRegistry;

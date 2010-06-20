@@ -34,7 +34,7 @@ sub addMsg {
     $stderr = \*STDERR;
   }
 
-  if ($config->{color} && $OSNAME !~ /^^MSWin/) {
+  if ($config->{color} && $OSNAME ne 'MSWin32') {
     if ($level eq 'error') {
       print $stderr  "\033[1;35m[$level]";
     } elsif ($level eq 'fault') {

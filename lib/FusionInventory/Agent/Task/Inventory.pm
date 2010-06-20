@@ -132,7 +132,7 @@ sub initModList {
             my $binary = shift;
 
             my $ret;
-            if ($OSNAME =~ /^MSWin/) {
+            if ($OSNAME eq 'MSWin32') {
                 MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
                     foreach my $ext (qw/.exe .bat/) {
                         if (-f $_.'/'.$binary.$ext) {
