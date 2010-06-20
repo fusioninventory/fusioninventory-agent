@@ -72,20 +72,20 @@ sub doInventory {
         $status = "SolarisZone";
         $found = 1;
     }
- 
+
     if (
         -d '/proc/xen' ||
         check_file_content(
-          '/sys/devices/system/clocksource/clocksource0/available_clocksource',
-          'xen'
+            '/sys/devices/system/clocksource/clocksource0/available_clocksource',
+            'xen'
         )
     ) {
         $found = 1 ;
         if (check_file_content('/proc/xen/capabilities', 'control_d')) {
-          # dom0 host
+            # dom0 host
         } else {
-          # domU PV host
-          $status = "Xen";
+            # domU PV host
+            $status = "Xen";
         }
     }
 
@@ -98,13 +98,13 @@ sub doInventory {
     if ($found == 0) {
         if (open my $handle, '<', '/proc/modules') {
             while(<$handle>) {
-              foreach my $str (keys %modmap) {
-                if (/$str/) {
-                  $status = "$modmap{$str}";
-                  $found = 1;
-                  last;
+                foreach my $str (keys %modmap) {
+                    if (/$str/) {
+                        $status = "$modmap{$str}";
+                        $found = 1;
+                        last;
+                    }
                 }
-              }
             }
             close $handle;
         } else {
@@ -148,13 +148,13 @@ sub doInventory {
     if ($found == 0) {
         if (open my $handle, '<', '/var/log/dmesg') {
             while(<$handle>) {
-              foreach my $str (keys %msgmap) {
-                if (/$str/) {
-                  $status = "$msgmap{$str}";
-                  $found = 1;
-                  last;
+                foreach my $str (keys %msgmap) {
+                    if (/$str/) {
+                        $status = "$msgmap{$str}";
+                        $found = 1;
+                        last;
+                    }
                 }
-              }
             }
             close($handle);
         } else {
@@ -166,13 +166,13 @@ sub doInventory {
     if ($found == 0) {
         if (open my $handle, '-|', $dmesg) {
             while (<$handle>) {
-              foreach my $str (keys %msgmap) {
-                if (/$str/) {
-                  $status = "$msgmap{$str}";
-                  $found = 1;
-                  last;
+                foreach my $str (keys %msgmap) {
+                    if (/$str/) {
+                        $status = "$msgmap{$str}";
+                        $found = 1;
+                        last;
+                    }
                 }
-              }
             }
             close $handle;
         } else {
@@ -183,13 +183,13 @@ sub doInventory {
     if ($found == 0) {
         if (open my $handle, '<', '/proc/scsi/scsi') {
             while (<$handle>) {
-              foreach my $str (keys %msgmap) {
-                if (/$str/) {
-                  $status = "$msgmap{$str}";
-                  $found = 1;
-                  last;
+                foreach my $str (keys %msgmap) {
+                    if (/$str/) {
+                        $status = "$msgmap{$str}";
+                        $found = 1;
+                        last;
+                    }
                 }
-              }
             }
             close $handle;
         } else {
