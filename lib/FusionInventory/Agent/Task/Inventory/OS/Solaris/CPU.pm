@@ -4,16 +4,7 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    my $params = shift;
-
-    my $logger = $params->{logger};
-
-    if (!can_run ("memconf")) {
-        $logger->debug('memconf not found in $PATH');
-        return;
-    }
-
-    1;
+    return can_run ("memconf");
 }
 
 sub doInventory {
