@@ -3,52 +3,59 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $dmidecode = `dmidecode`; # TODO retrieve error
-    # some versions of dmidecode do not separate items with new lines
-    # so add a new line before each handle
-    $dmidecode =~ s/\nHandle/\n\nHandle/g;
-    my @dmidecode = split (/\n/, $dmidecode);
-    # add a new line at the end
-    push @dmidecode, "\n";
+    my ($ports) = parseDmidecode('/usr/sbin/dmidecode', '-|');
 
-    s/^\s+// for (@dmidecode);
+    foreach my $port (@$ports) {
+        $inventory->addPorts($port);
+    }
+}
 
-    my $flag;
+sub parseDmidecode {
+    my ($file, $mode) = @_;
 
-    my $caption;
-    my $description;
-    my $name;
-    my $type;
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
 
-    foreach (@dmidecode) {
+    my ($ports, $port, $type);
 
-        if(/dmi type 8,/i) {
-            $flag = 1;
+     while (my $line = <$handle>) {
+        chomp $line;
 
-        } elsif ($flag && /^$/){ # end of section
-            $flag = 0;
+        if ($line =~ /DMI type (\d+)/i) {
+            $type = $1;
+            if ($port) {
+                push @$ports, $port;
+                undef $port;
+            }
+            next;
+        }
 
-            $inventory->addPorts({
-                CAPTION => $caption,
-                DESCRIPTION => $description,
-                NAME => $name,
-                TYPE => $type,
-            });
+        next unless defined $type;
 
-            $caption = $description = $name = $type = undef;
-        } elsif ($flag) {
-
-            $caption = $1 if /^external connector type\s*:\s*(.+)/i;
-            $description = $1 if /^internal connector type\s*:\s*(.+)/i;
-            $name = $1 if /^internal reference designator\s*:\s*(.+)/i;
-            $type = $1 if /^port type\s*:\s*(.+)/i;
-
+        if ($type == 8) {
+            if ($line =~ /^\s+External connector type:\s*(.+)/i) {
+                $port->{CAPTION} = $1;
+            } elsif ($line =~ /^\s+Internal connector type:\s*(.+)/i) {
+                $port->{DESCRIPTION} = $1;
+            } elsif ($line =~ /^\s+Internal reference designator:\s*(.+)/i) {
+                $port->{NAME} = $1;
+            } elsif ($line =~ /^\s+Port type:\s*(.+)/i) {
+                $port->{TYPE} = $1;
+            }
         }
     }
+    close $handle;
+
+    return $ports;
 }
 
 1;
