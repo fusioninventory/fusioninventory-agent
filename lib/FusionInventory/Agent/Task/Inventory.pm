@@ -25,6 +25,7 @@ use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Logger;
+use FusionInventory::Agent::AccountInfo;
 
 sub main {
     my $self = FusionInventory::Agent::Task::Inventory->new();
