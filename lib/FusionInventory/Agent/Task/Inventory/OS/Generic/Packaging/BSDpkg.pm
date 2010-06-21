@@ -18,9 +18,9 @@ sub doInventory {
         my $comments = $3;
 
         $inventory->addSoftware({
-            'COMMENTS' => $comments,
-            'NAME' => $name,
-            'VERSION' => $version
+            COMMENTS => $comments,
+            NAME     => $name,
+            VERSION  => $version
         });
     }
 }

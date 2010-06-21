@@ -182,9 +182,9 @@ sub addController {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'CONTROLLERS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'CONTROLLERS',
+        values      => $args,
     });
 }
 
@@ -201,11 +201,10 @@ sub addModem {
         NAME
     /;
 
-
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MODEMS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MODEMS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -240,9 +239,9 @@ sub addDrive {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'DRIVES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'DRIVES',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -287,9 +286,9 @@ sub addStorage {
     }
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'STORAGES',
-        'values' => $values,
+        field       => \@fields,
+        sectionName => 'STORAGES',
+        values      => $values,
     });
 }
 # For compatibiliy
@@ -324,9 +323,9 @@ sub addMemory {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MEMORIES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MEMORIES',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -354,9 +353,9 @@ sub addPorts{
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PORTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PORTS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -384,9 +383,9 @@ sub addSlot {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SLOTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'SLOTS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -411,10 +410,10 @@ sub addSoftware {
     VERSION_MINOR VERSION_MAJOR IS64BIT GUID/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SOFTWARES',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'SOFTWARES',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 # For compatibiliy
@@ -444,9 +443,9 @@ sub addMonitor {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MONITORS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MONITORS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -474,10 +473,10 @@ sub addVideo {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'VIDEOS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'VIDEOS',
+        values       => $args,
+        noDuplicated => 1
     });
 
 }
@@ -505,9 +504,9 @@ sub addSound {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SOUNDS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'SOUNDS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -550,10 +549,10 @@ sub addNetwork {
 
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'NETWORKS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'NETWORKS',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 
@@ -639,10 +638,10 @@ sub addCPU {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'CPUS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'CPUS',
+        values       => $args,
+        noDuplicated => 1
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -675,10 +674,10 @@ sub addUser {
     return unless $values->{login};
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'USERS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'USERS',
+        values       => $args,
+        noDuplicated => 1
     });
 
 
@@ -699,7 +698,6 @@ sub addUser {
         $domainString .= $domain;
         $userString .= $login;
     }
-
 
     $self->setHardware ({
         USERID => $userString,
@@ -732,9 +730,9 @@ sub addPrinter {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PRINTERS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PRINTERS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -775,9 +773,9 @@ sub addVirtualMachine {
     }
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'VIRTUALMACHINES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'VIRTUALMACHINES',
+        values      => $args,
     });
 
 }
@@ -803,9 +801,9 @@ sub addProcess {
 
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PROCESSES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PROCESSES',
+        values      => $args,
     });
 }
 
@@ -827,9 +825,9 @@ sub addInput {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'INPUTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'INPUTS',
+        values      => $args,
     });
 }
 
@@ -847,9 +845,9 @@ sub addEnv {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'ENVS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'ENVS',
+        values      => $args,
     });
 }
 
@@ -864,10 +862,10 @@ sub addUSBDevice {
     my @fields = qw/VENDORID PRODUCTID SERIAL/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'USBDEVICES',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'USBDEVICES',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 
@@ -890,9 +888,9 @@ sub addBattery {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'BATTERIES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'BATTERIES',
+        values      => $args,
     });
 }
 
@@ -913,9 +911,9 @@ sub addRegistry {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'REGISTRY',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'REGISTRY',
+        values      => $args,
     });
 }
 
@@ -931,10 +929,10 @@ sub addAntiVirus {
     my @fields = qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'ANTIVIRUS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'ANTIVIRUS',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 
@@ -1100,24 +1098,24 @@ sub processChecksum {
 
 #To apply to $checksum with an OR
     my %mask = (
-        'HARDWARE'      => 1,
-        'BIOS'          => 2,
-        'MEMORIES'      => 4,
-        'SLOTS'         => 8,
-        'REGISTRY'      => 16,
-        'CONTROLLERS'   => 32,
-        'MONITORS'      => 64,
-        'PORTS'         => 128,
-        'STORAGES'      => 256,
-        'DRIVES'        => 512,
-        'INPUT'         => 1024,
-        'MODEMS'        => 2048,
-        'NETWORKS'      => 4096,
-        'PRINTERS'      => 8192,
-        'SOUNDS'        => 16384,
-        'VIDEOS'        => 32768,
-        'SOFTWARES'     => 65536,
-        'VIRTUALMACHINES' => 131072,
+        HARDWARE        => 1,
+        BIOS            => 2,
+        MEMORIES        => 4,
+        SLOTS           => 8,
+        REGISTRY        => 16,
+        CONTROLLERS     => 32,
+        MONITORS        => 64,
+        PORTS           => 128,
+        STORAGES        => 256,
+        DRIVES          => 512,
+        INPUT           => 1024,
+        MODEMS          => 2048,
+        NETWORKS        => 4096,
+        PRINTERS        => 8192,
+        SOUNDS          => 16384,
+        VIDEOS          => 32768,
+        SOFTWARES       => 65536,
+        VIRTUALMACHINES => 131072,
     );
     # TODO CPUS is not in the list
 
@@ -1131,11 +1129,9 @@ sub processChecksum {
         if (-f $target->{last_statefile}) {
             # TODO: avoid a violant death in case of problem with XML
             $self->{last_state_content} = XML::Simple::XMLin(
-
                 $target->{last_statefile},
                 SuppressEmpty => undef,
-                ForceArray => 1
-
+                ForceArray    => 1
             );
         } else {
             $logger->debug ('last_state file: `'.

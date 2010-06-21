@@ -31,8 +31,8 @@ sub doInventory {
             my $version = $array[(@array - 3)]."-".$array[(@array - 2)]."-".$array[(@array - 1)];
 
             $inventory->addSoftware({
-                'NAME' => $name,
-                'VERSION' => $version
+                NAME    => $name,
+                VERSION => $version
             });
         }
     }

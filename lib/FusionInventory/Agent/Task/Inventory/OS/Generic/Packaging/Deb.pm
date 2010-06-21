@@ -15,11 +15,11 @@ sub doInventory {
     foreach(`dpkg-query --show --showformat='\${Package}---\${Version}---\${Installed-Size}---\${Description}\n'`) {
         if (/^(\S+)---(\S+)---(\S+)---(.*)/) {     	     	
             $inventory->addSoftware ({
-                'NAME'          => $1,
-                'VERSION'       => $2,
-                'FILESIZE'      => $3,
-                'COMMENTS'      => $4,
-                'FROM'          => 'deb'
+                NAME     => $1,
+                VERSION  => $2,
+                FILESIZE => $3,
+                COMMENTS => $4,
+                FROM     => 'deb'
             });
         }
     }

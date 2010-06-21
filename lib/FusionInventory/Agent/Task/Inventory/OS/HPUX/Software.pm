@@ -28,11 +28,11 @@ sub doInventory {
         chomp( $software );
         if ( $software =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
             $inventory->addSoftware({
-                    'NAME'          => $1  ,
-                    'VERSION'       => $2 ,
-                    'COMMENTS'      => $3 ,
-                    'PUBLISHER'     => "HP" ,
-                });
+                NAME      => $1,
+                VERSION   => $2,
+                COMMENTS  => $3,
+                PUBLISHER => 'HP'
+            });
         }
     }
 

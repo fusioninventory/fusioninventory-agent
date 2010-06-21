@@ -64,15 +64,15 @@ sub doInventory {
             }
 
             $inventory->addProcess({
-                    'USER' => $user,
-                    'PID' => $pid,
-                    'CPUUSAGE' => $cpu,
-                    'MEM' => $mem,
-                    'VIRTUALMEMORY' => $vsz,
-                    'TTY' => $tty,
-                    'STARTED' => $begin,
-                    'CMD' => $cmd
-                });
+                USER          => $user,
+                PID           => $pid,
+                CPUUSAGE      => $cpu,
+                MEM           => $mem,
+                VIRTUALMEMORY => $vsz,
+                TTY           => $tty,
+                STARTED       => $begin,
+                CMD           => $cmd
+            });
         }
     }
     close $handle; 

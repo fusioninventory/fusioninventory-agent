@@ -25,12 +25,12 @@ sub doInventory {
             $buff .= $_;
         } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+(.*)//) {
             $inventory->addSoftware({
-                'NAME'          => $1,
-                'VERSION'       => $2,
-                'INSTALLDATE'   => $3,
-                'FILESIZE'      => $4,
-                'COMMENTS'      => $5,
-                'FROM'          => 'rpm'
+                NAME        => $1,
+                VERSION     => $2,
+                INSTALLDATE => $3,
+                FILESIZE    => $4,
+                COMMENTS    => $5,
+                FROM        => 'rpm'
             });
         } else {
             $logger->debug("Should never go here!");

@@ -17,8 +17,8 @@ sub doInventory {
         my $version = $2;
 
         $inventory->addSoftware({
-            'NAME' => $name,
-            'VERSION' => $version
+            NAME    => $name,
+            VERSION => $version
         });
     }
 }

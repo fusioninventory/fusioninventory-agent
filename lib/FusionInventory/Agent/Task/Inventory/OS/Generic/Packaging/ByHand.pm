@@ -50,12 +50,12 @@ sub doInventory {
                     chomp($ligne);
                     ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
                     $inventory->addSoftware ({
-                        'PUBLISHER' => $vendor,
-                        'NAME'          => $soft,
-                        'VERSION'       => $version,
-                        'FILESIZE'      => "",
-                        'COMMENTS'      => $commentaire,
-                        'FROM'          => 'ByHand'
+                        PUBLISHER => $vendor,
+                        NAME      => $soft,
+                        VERSION   => $version,
+                        FILESIZE  => '',
+                        COMMENTS  => $commentaire,
+                        FROM      => 'ByHand'
                     });
                 }	
             }

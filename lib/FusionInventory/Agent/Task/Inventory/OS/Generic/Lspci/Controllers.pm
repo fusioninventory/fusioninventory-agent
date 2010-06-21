@@ -49,17 +49,16 @@ sub doInventory {
             $pcisubsystemid = $1;
         }
 
-
         if ($pcislot && /^$/) {
             $inventory->addController({
-                'DRIVER'        => $driver,
-                'NAME'          => $name,
-                'MANUFACTURER'  => $manufacturer,
-                'PCICLASS'      => $pciclass,
-                'PCIID'         => $pciid,
-                'PCISUBSYSTEMID'=> $pcisubsystemid,
-                'PCISLOT'       => $pcislot,
-                'TYPE'          => $type,
+                DRIVER         => $driver,
+                NAME           => $name,
+                MANUFACTURER   => $manufacturer,
+                PCICLASS       => $pciclass,
+                PCIID          => $pciid,
+                PCISUBSYSTEMID => $pcisubsystemid,
+                PCISLOT        => $pcislot,
+                TYPE           => $type,
             });
             $driver = $name = $pciclass = $pciid = undef;
             $pcislot = $manufacturer = undef;
