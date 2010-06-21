@@ -90,11 +90,20 @@ sub handler {
         return;
     }
 
+
     $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
     if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
         if ($clientIp !~ /^127\./) {
             $c->send_error(404);
             return;
+        }
+
+        my $nextContact = "";
+        foreach my $target (@{$targets->{targets}}) {
+            my $path = $target->{'path'};
+            $path = 'http://@e:@fdef@4545';
+            $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+            $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".localtime($target->getNextRunDate())."</li>\n";
         }
 
         my $indexFile = $htmlDir."/index.tpl";
@@ -109,6 +118,7 @@ sub handler {
         close $handle;
 
         $output =~ s/%%STATUS%%/$status/;
+        $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
         $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
         if (!$config->{'rpc-trust-localhost'}) {
             $output =~
@@ -221,6 +231,7 @@ sub server {
             $thr->join();
         }
         my ($c, $socket) = $daemon->accept;
+        next unless $socket;
         my(undef,$iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
 # HTTP::Daemon::get_request is not thread

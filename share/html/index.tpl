@@ -15,5 +15,11 @@ The current status is "%%STATUS%%"<br />
 
 %%IF_ALLOW_LOCALHOST%%<a target="_" href="http://localhost:62354/now">Force an Inventory</a>%%ENDIF_ALLOW_LOCALHOST%%
 
+<br />
+Next server contact planned for:
+<ul>
+%%NEXT_CONTACT%%
+</ul>
+
 </body>
 </html>

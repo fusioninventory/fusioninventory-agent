@@ -1,0 +1,460 @@
+# dmidecode 2.10
+SMBIOS 2.3 present.
+42 structures occupying 1253 bytes.
+Table at 0x000EC000.
+
+Handle 0x0000, DMI type 0, 20 bytes
+BIOS Information
+	Vendor: TOSHIBA
+	Version: Version 1.10
+	Release Date: 08/13/2002
+	Address: 0xE0000
+	Runtime Size: 128 kB
+	ROM Size: 512 kB
+	Characteristics:
+		ISA is supported
+		PCI is supported
+		PC Card (PCMCIA) is supported
+		PNP is supported
+		APM is supported
+		BIOS is upgradeable
+		BIOS shadowing is allowed
+		VLB is supported
+		Boot from CD is supported
+		Selectable boot is supported
+		Boot from PC Card (PCMCIA) is supported
+		EDD is supported
+		Japanese floppy for Toshiba 1.2 MB is supported (int 13h)
+		3.5"/720 kB floppy services are supported (int 13h)
+		Print screen service is supported (int 5h)
+		8042 keyboard services are supported (int 9h)
+		Serial services are supported (int 14h)
+		Printer services are supported (int 17h)
+		ACPI is supported
+		USB legacy is supported
+		AGP is supported
+		BIOS boot specification is supported
+		Function key-initiated network boot is supported
+
+Handle 0x0001, DMI type 1, 25 bytes
+System Information
+	Manufacturer: TOSHIBA
+	Product Name: Satellite 2410
+	Version: PS241E-5J851-FR
+	Serial Number: X2735244G
+	UUID: 7FB4EA00-07CB-18F3-8041-CAD582735244
+	Wake-up Type: Power Switch
+
+Handle 0x0002, DMI type 2, 8 bytes
+Base Board Information
+	Manufacturer: TOSHIBA
+	Product Name: Portable PC
+	Version: Version A0
+	Serial Number: $$T02XB1K9
+
+Handle 0x0003, DMI type 3, 17 bytes
+Chassis Information
+	Manufacturer: TOSHIBA
+	Type: Notebook
+	Lock: Not Present
+	Version: Version 1.0
+	Serial Number: 00000000
+	Asset Tag: 0000000000
+	Boot-up State: Safe
+	Power Supply State: Safe
+	Thermal State: Safe
+	Security Status: None
+	OEM Information: 0x00000000
+
+Handle 0x0004, DMI type 4, 32 bytes
+Processor Information
+	Socket Designation: uFC-PGA Socket
+	Type: Central Processor
+	Family: Pentium 4
+	Manufacturer: Intel Corporation
+	ID: 24 0F 00 00 00 00 00 00
+	Signature: Type 0, Family 15, Model 2, Stepping 4
+	Flags: None
+	Version:  
+	Voltage: 1.3 V
+	External Clock: 100 MHz
+	Max Speed: 1700 MHz
+	Current Speed: 1700 MHz
+	Status: Populated, Enabled
+	Upgrade: ZIF Socket
+	L1 Cache Handle: 0x0012
+	L2 Cache Handle: 0x0013
+	L3 Cache Handle: Not Provided
+
+Handle 0x0009, DMI type 5, 20 bytes
+Memory Controller Information
+	Error Detecting Method: None
+	Error Correcting Capabilities:
+		None
+	Supported Interleave: Other
+	Current Interleave: Other
+	Maximum Memory Module Size: 512 MB
+	Maximum Total Memory Size: 1024 MB
+	Supported Speeds:
+		Other
+	Supported Memory Types:
+		Other
+		DIMM
+		SDRAM
+	Memory Module Voltage: 2.9 V
+	Associated Memory Slots: 2
+		0x000A
+		0x000B
+	Enabled Error Correcting Capabilities:
+		None
+
+Handle 0x000A, DMI type 6, 12 bytes
+Memory Module Information
+	Socket Designation: SO-DIMM
+	Bank Connections: 0 1
+	Current Speed: 8 ns
+	Type: Other DIMM SDRAM
+	Installed Size: 256 MB (Single-bank Connection)
+	Enabled Size: 256 MB (Single-bank Connection)
+	Error Status: OK
+
+Handle 0x000B, DMI type 6, 12 bytes
+Memory Module Information
+	Socket Designation: SO-DIMM
+	Bank Connections: 2
+	Current Speed: 8 ns
+	Type: Other DIMM SDRAM
+	Installed Size: 512 MB (Single-bank Connection)
+	Enabled Size: 512 MB (Single-bank Connection)
+	Error Status: OK
+
+Handle 0x0012, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: CPU Internal
+	Configuration: Enabled, Not Socketed, Level 1
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 8 kB
+	Maximum Size: 8 kB
+	Supported SRAM Types:
+		Other
+	Installed SRAM Type: Other
+	Speed: 1 ns
+	Error Correction Type: Single-bit ECC
+	System Type: Data
+	Associativity: 4-way Set-associative
+
+Handle 0x0013, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: CPU Internal
+	Configuration: Enabled, Not Socketed, Level 2
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 512 kB
+	Maximum Size: 512 kB
+	Supported SRAM Types:
+		Other
+	Installed SRAM Type: Other
+	Speed: 1 ns
+	Error Correction Type: Unknown
+	System Type: Unknown
+	Associativity: Unknown
+
+Handle 0x0016, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: PARALLEL PORT
+	External Connector Type: DB-25 female
+	Port Type: Parallel Port ECP
+
+Handle 0x0017, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: EXTERNAL MONITOR PORT
+	External Connector Type: DB-15 female
+	Port Type: Other
+
+Handle 0x0019, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: BUILT-IN MODEM PORT
+	External Connector Type: RJ-11
+	Port Type: Modem Port
+
+Handle 0x001A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: BUILT-IN LAN PORT
+	External Connector Type: RJ-45
+	Port Type: Network Port
+
+Handle 0x001C, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: INFRARED PORT
+	External Connector Type: Infrared
+	Port Type: Other
+
+Handle 0x001D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: USB PORT
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x001E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: USB PORT
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x001F, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: USB PORT
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0020, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: HEADPHONE JACK
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Other
+
+Handle 0x0021, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: 1394 PORT
+	External Connector Type: IEEE 1394
+	Port Type: Firewire (IEEE P1394)
+
+Handle 0x0022, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: MICROPHONE JACK
+	External Connector Type: Other
+	Port Type: Other
+
+Handle 0x0023, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator:  
+	Internal Connector Type: None
+	External Reference Designator: VIDEO-OUT JACK
+	External Connector Type: Other
+	Port Type: Other
+
+Handle 0x0037, DMI type 9, 13 bytes
+System Slot Information
+	Designation: PCMCIA0
+	Type: 32-bit PC Card (PCMCIA)
+	Current Usage: In Use
+	Length: Other
+	ID: Adapter 1, Socket 0
+	Characteristics:
+		5.0 V is provided
+		3.3 V is provided
+		PC Card-16 is supported
+		Cardbus is supported
+		Modem ring resume is supported
+		Hot-plug devices are supported
+
+Handle 0x0038, DMI type 9, 13 bytes
+System Slot Information
+	Designation: PCMCIA1
+	Type: 32-bit PC Card (PCMCIA)
+	Current Usage: In Use
+	Length: Other
+	ID: Adapter 2, Socket 0
+	Characteristics:
+		5.0 V is provided
+		3.3 V is provided
+		PC Card-16 is supported
+		Cardbus is supported
+		Modem ring resume is supported
+		Hot-plug devices are supported
+
+Handle 0x0039, DMI type 9, 13 bytes
+System Slot Information
+	Designation: SD CARD
+	Type: Other
+	Current Usage: In Use
+	Length: Other
+	Characteristics:
+		3.3 V is provided
+		Hot-plug devices are supported
+
+Handle 0x0058, DMI type 10, 16 bytes
+On Board Device 1 Information
+	Type: Other
+	Status: Enabled
+	Description: MODEM
+On Board Device 2 Information
+	Type: Other
+	Status: Enabled
+	Description: USB
+On Board Device 3 Information
+	Type: Video
+	Status: Enabled
+	Description: VIDEO
+On Board Device 4 Information
+	Type: Ethernet
+	Status: Enabled
+	Description: ETHERNET
+On Board Device 5 Information
+	Type: Sound
+	Status: Enabled
+	Description: SOUND
+On Board Device 6 Information
+	Type: Other
+	Status: Enabled
+	Description: 1394
+
+Handle 0x0059, DMI type 11, 5 bytes
+OEM Strings
+	String 1: PS241E-5J851-FR,SS241-5J851FR+0OL
+
+Handle 0x0069, DMI type 12, 5 bytes
+System Configuration Options
+	Option 1: TOSHIBA
+
+Handle 0x0080, DMI type 15, 23 bytes
+System Event Log
+	Area Length: 124 bytes
+	Header Start Offset: 0x0000
+	Data Start Offset: 0x0000
+	Access Method: General-purpose non-volatile data functions
+	Access Address: 0x0003
+	Status: Valid, Not Full
+	Change Token: 0x00000000
+	Header Format: No Header
+	Supported Log Type Descriptors: 0
+
+Handle 0x0081, DMI type 16, 15 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: None
+	Maximum Capacity: 1 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 2
+
+Handle 0x0082, DMI type 17, 23 bytes
+Memory Device
+	Array Handle: 0x0081
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 256 MB
+	Form Factor: SODIMM
+	Set: Unknown
+	Locator: DIMM 0
+	Bank Locator: CSA 0 & 1
+	Type: SDRAM
+	Type Detail: Synchronous
+	Speed: Unknown
+
+Handle 0x0083, DMI type 17, 23 bytes
+Memory Device
+	Array Handle: 0x0081
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 512 MB
+	Form Factor: SODIMM
+	Set: Unknown
+	Locator: DIMM 1
+	Bank Locator: CSA 2 & 3
+	Type: SDRAM
+	Type Detail: Synchronous
+	Speed: Unknown
+
+Handle 0x0090, DMI type 19, 15 bytes
+Memory Array Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000000A03FF
+	Range Size: 641 kB
+	Physical Array Handle: 0x0081
+	Partition Width: 0
+
+Handle 0x0091, DMI type 19, 15 bytes
+Memory Array Mapped Address
+	Starting Address: 0x00000100000
+	Ending Address: 0x0002FFE03FF
+	Range Size: 785281 kB
+	Physical Array Handle: 0x0081
+	Partition Width: 0
+
+Handle 0x00A0, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000000A03FF
+	Range Size: 641 kB
+	Physical Device Handle: 0x0082
+	Memory Array Mapped Address Handle: 0x0090
+	Partition Row Position: 1
+
+Handle 0x00A1, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000100003FF
+	Range Size: 262145 kB
+	Physical Device Handle: 0x0082
+	Memory Array Mapped Address Handle: 0x0091
+	Partition Row Position: 1
+
+Handle 0x00A2, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00010000000
+	Ending Address: 0x000300003FF
+	Range Size: 524289 kB
+	Physical Device Handle: 0x0083
+	Memory Array Mapped Address Handle: 0x0091
+	Partition Row Position: 1
+
+Handle 0x00B0, DMI type 21, 7 bytes
+Built-in Pointing Device
+	Type: Touch Pad
+	Interface: PS/2
+	Buttons: 2
+
+Handle 0x00B1, DMI type 22, 26 bytes
+Portable Battery
+	Location: 1st Battery
+	Manufacturer: TOSHIBA
+	Manufacture Date: 09/19/02
+	Serial Number: 2000417915
+	Name: L9088A
+	Chemistry: Lithium Ion
+	Design Capacity: 0 mWh
+	Design Voltage: 10800 mV
+	SBDS Version: Not Specified
+	Maximum Error: Unknown
+	OEM-specific Information: 0x00000000
+
+Handle 0x00B7, DMI type 24, 5 bytes
+Hardware Security
+	Power-On Password Status: Disabled
+	Keyboard Password Status: Disabled
+	Administrator Password Status: Disabled
+	Front Panel Reset Status: Disabled
+
+Handle 0x00D0, DMI type 32, 11 bytes
+System Boot Information
+	Status: No errors detected
+
+Handle 0xFEFF, DMI type 127, 4 bytes
+End Of Table
+
