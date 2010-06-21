@@ -230,7 +230,7 @@ sub doInventory {
             $device->{CAPACITY} = getCapacity($device->{NAME});
         }
 
-        $inventory->addStorages($device);
+        $inventory->addStorage($device);
     }
 }
 
