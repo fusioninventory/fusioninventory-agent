@@ -772,9 +772,9 @@ sub addVirtualMachine {
       VMID
       /;
 
-  if (!$args->{status}) {
+  if (!$args->{STATUS}) {
       $logger->error("status not set by ".caller(0));
-  } elsif (!$args->{status} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+  } elsif (!$args->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
     $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
   }
 
