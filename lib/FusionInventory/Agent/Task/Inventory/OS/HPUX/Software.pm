@@ -7,9 +7,11 @@ sub isInventoryEnabled  {
     my $params = shift;
 
     # Do not run an package inventory if there is the --nosoft parameter
-    return if ($params->{params}->{nosoft});
+    return if $params->{params}->{nosoft};
 
-    can_run('swlist') and can_run('grep')
+    return 
+        can_run('swlist') &&
+        can_run('grep');
 }
 
 sub doInventory {
