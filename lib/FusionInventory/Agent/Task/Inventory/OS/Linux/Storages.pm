@@ -200,7 +200,7 @@ sub doInventory {
                                 if !$device->{SERIALNUMBER};
                             next;
                         }
-                        if (/^\s+Firmware Revision\s*:\s*(.+)/i) { 
+                        if ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
                             my $value = $1;
                             $value =~ s/\s+$//;
                             $device->{FIRMWARE} = $value
