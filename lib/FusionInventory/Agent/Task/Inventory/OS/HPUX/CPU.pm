@@ -14,7 +14,7 @@ use English qw(-no_match_vars);
 ###                                                                                                
 
 sub isInventoryEnabled  { 
-    return $OSNAME =~ /^hpux$/;
+    return $OSNAME eq 'hpux';
 }
 
 sub doInventory {
