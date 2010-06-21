@@ -3,60 +3,66 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $dmidecode = `dmidecode`; # TODO retrieve error
-    # some versions of dmidecode do not separate items with new lines
-    # so add a new line before each handle
-    $dmidecode =~ s/\nHandle/\n\nHandle/g;
-    my @dmidecode = split (/\n/, $dmidecode);
-    # add a new line at the end
-    push @dmidecode, "\n";
+    my ($memories) = parseDmidecode('/usr/sbin/dmidecode', '-|');
 
-    s/^\s+// for (@dmidecode);
-
-    my $flag;
-
-    my $capacity;
-    my $speed;
-    my $type;
-    my $description;
-    my $numslot;
-    my $caption;
-    my $serialnumber;
-
-    foreach (@dmidecode) {
-
-        if (/dmi type 17,/i) { # begining of Memory Device section
-            $flag = 1;
-            $numslot++;
-        } elsif ($flag && /^$/) { # end of section
-            $flag = 0;
-
-            $inventory->addMemory({
-                CAPACITY => $capacity,
-                DESCRIPTION => $description,
-                CAPTION => $caption,
-                SPEED => $speed,
-                TYPE => $type,
-                NUMSLOTS => $numslot,
-                SERIALNUMBER => $serialnumber,
-            });
-
-            $capacity = $description = $caption = $type = $type = $serialnumber = undef;
-        } elsif ($flag) { # in the section
-
-            $capacity = $1 if /^size\s*:\s*(\S+)/i;
-            $description = $1 if /^Form Factor\s*:\s*(.+)/i;
-            $caption = $1 if /^Locator\s*:\s*(.+)/i;
-            $speed = $1 if /^speed\s*:\s*(.+)/i;
-            $type = $1 if /^type\s*:\s*(.+)/i;
-            $serialnumber = $1 if /^Serial Number\s*:\s*(.+)/i;
-
-        }
+    foreach my $memory (@$memories) {
+        $inventory->addMemory($memory);
     }
+}
+
+sub parseDmidecode {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my ($memories, $memory, $type);
+    my $slot = 0;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /DMI type (\d+)/i) {
+            $type = $1;
+            if ($memory) {
+                $memory->{NUMSLOTS} = ++$slot;
+                push @$memories, $memory;
+                undef $memory;
+            }
+            next;
+        }
+
+        next unless defined $type;
+
+        if ($type == 17) {
+            if ($line =~ /^\s+Size:\s+(\S+)/i) {
+                $memory->{CAPACITY} = $1;
+            } elsif ($line =~ /^\s+Form Factor:\s+(.+)/i) {
+                $memory->{DESCRIPTION} = $1;
+            } elsif ($line =~ /^\s+Locator:\s*(.+)/i) {
+                $memory->{CAPTION} = $1;
+            } elsif ($line =~ /^\s+Speed:\s*(.+)/i) {
+                $memory->{SPEED} = $1;
+            } elsif ($line =~ /^\s+Type:\s*(.+)/i) {
+                $memory->{TYPE} = $1;
+            } elsif ($line =~ /^\s+Serial Number:\s*(.+)/i) {
+                $memory->{SERIALNUMBER} = $1;
+            }
+        }
+
+    }
+    close $handle;
+
+    return $memories;
 }
 
 1;
