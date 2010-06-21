@@ -22,8 +22,7 @@ use warnings;
 
 sub isInventoryEnabled {
     return unless can_run("ipmitool");
-    my @ipmitool = `ipmitool lan print 2> /dev/null`;
-    return unless @ipmitool;
+    return system('ipmitool lan print 2> /dev/null') == 0;
 }
 
 # Initialise the distro entry
