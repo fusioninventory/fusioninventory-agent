@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {
     return can_run("rpm");
 }
@@ -12,26 +14,50 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my @list;
-    my $buff;
-    foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} --%{INSTALLTIME:date}-- --%{SIZE}-- %{SUMMARY}\n--\n" 2>/dev/null`) {
-        if (! /^--/) {
-            chomp;
-            $buff .= $_;
-        } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+(.*)//) {
-            $inventory->addSoftware({
-                NAME        => $1,
-                VERSION     => $2,
-                INSTALLDATE => $3,
-                FILESIZE    => $4,
-                COMMENTS    => $5,
-                FROM        => 'rpm'
-            });
-        } else {
-            $logger->debug("Should never go here!");
-            $buff = '';
-        }
+    my $command =
+        'rpm -qa --queryformat "' .
+        '%{NAME}.%{ARCH}\t' .
+        '%{VERSION}-%{RELEASE}\t' .
+        '%{INSTALLTIME:date}\t' .
+        '%{SIZE}\t' .
+        '%{SUMMARY}\n' . 
+        '" 2>/dev/null';
+
+    my $packages = parseRpm($command, '-|');
+
+    foreach my $package (@$packages) {
+        $inventory->addSoftware($package);
     }
 }
+
+sub parseRpm {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my $packages;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        my @infos = split("\t", $line);
+        push @$packages, {
+            NAME        => $infos[0],
+            VERSION     => $infos[1],
+            INSTALLDATE => $infos[2],
+            FILESIZE    => $infos[3],
+            COMMENTS    => $infos[4],
+            FROM        => 'rpm'
+        };
+    }
+
+    close $handle;
+
+    return $packages;
+}
+
 
 1;
