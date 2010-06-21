@@ -66,8 +66,6 @@ sub doInventory {
             next;
         }
 
-        last if $type > 22;
-
     }
 
     $inventory->addBattery({
