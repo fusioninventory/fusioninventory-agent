@@ -85,10 +85,10 @@ sub _addEntry {
 
     my $config = $self->{config};
 
-    my $fields = $params->{'field'};
-    my $sectionName = $params->{'sectionName'};
-    my $values = $params->{'values'};
-    my $noDuplicated = $params->{'noDuplicated'};
+    my $fields = $params->{field};
+    my $sectionName = $params->{sectionName};
+    my $values = $params->{values};
+    my $noDuplicated = $params->{noDuplicated};
 
     my $newEntry;
 
@@ -594,7 +594,7 @@ sub setHardware {
             }
 
             my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $string;
+            $self->{h}{CONTENT}{HARDWARE}{$key}[0] = $string;
         }
     }
 }
@@ -613,7 +613,7 @@ sub setBios {
 
         if (exists $args->{$key}) {
             my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $string;
+            $self->{h}{CONTENT}{BIOS}{$key}[0] = $string;
         }
     }
 }
@@ -948,7 +948,7 @@ sub setAccessLog {
     foreach my $key (qw/USERID LOGDATE/) {
 
         if (exists $args->{$key}) {
-            $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
+            $self->{h}{CONTENT}{ACCESSLOG}{$key}[0] = $args->{$key};
         }
     }
 }
@@ -1143,7 +1143,7 @@ sub processChecksum {
     foreach my $section (keys %mask) {
         #If the checksum has changed...
         my $hash =
-        md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
+        md5_base64(XML::Simple::XMLout($self->{h}{CONTENT}{$section}));
         if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
             $logger->debug ("Section $section has changed since last inventory");
             #We make OR on $checksum with the mask of the current section
