@@ -6,10 +6,9 @@ use warnings;
 use constant DATATYPE => 'SPDisplaysDataType'; # careful this could change when looking at lower versions of OSX
 
 sub isInventoryEnabled {
-    # make sure the user has access, cause that's the command that's gonna be run
-    return(undef) unless -r '/usr/sbin/system_profiler';
-    return(undef) unless can_load("Mac::SysProfile");
-    return 1;
+    return
+        -r '/usr/sbin/system_profiler' &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {

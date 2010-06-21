@@ -4,8 +4,7 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    return 1 if can_load ("Mac::SysProfile");
-    0;
+    return can_load ("Mac::SysProfile");
 }
 
 # Initialise the distro entry

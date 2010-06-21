@@ -4,9 +4,9 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
-    return (undef) unless can_load("Mac::SysProfile");
-    return 1;
+    return 
+        -r '/usr/sbin/system_profiler' &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {

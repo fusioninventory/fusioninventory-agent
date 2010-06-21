@@ -4,11 +4,9 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    # If we are on a MAC, Mac::SysProfile will do the job
-    return if -r '/usr/sbin/system_profiler';
-    return unless can_load("Net::CUPS");
-    return 0 if ( $Net::CUPS::VERSION < 0.60 );
-    return 1;
+    return 
+        can_load("Net::CUPS") &&
+        $Net::CUPS::VERSION >= 0.60;
 }
 
 sub doInventory {

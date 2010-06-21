@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Storages;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {return can_load('Mac::SysProfile');}
+sub isInventoryEnabled {
+    return can_load('Mac::SysProfile');
+}
 
 sub getManufacturer {
     my $model = shift;

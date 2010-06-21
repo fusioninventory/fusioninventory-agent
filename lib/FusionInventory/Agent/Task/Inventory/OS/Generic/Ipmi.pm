@@ -57,7 +57,8 @@ sub doInventory {
     my $binip = &ip_iptobin ($ipaddress, 4);
     my $binmask = &ip_iptobin ($ipmask, 4);
     my $binsubnet = $binip & $binmask;
-    if (can_load("Net::IP qw(:PROC)")) {
+    if (can_load("Net::IP")) {
+        Net::IP->import(':PROC');
         $ipsubnet = ip_bintoip($binsubnet, 4);
     }
     $status = 1 if $ipaddress != '0.0.0.0';

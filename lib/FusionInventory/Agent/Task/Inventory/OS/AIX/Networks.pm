@@ -4,12 +4,15 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    can_load("Net::IP qw(:PROC)");
+    return can_load("Net::IP");
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
 
     my %info;  
 

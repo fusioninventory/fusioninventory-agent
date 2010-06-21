@@ -6,9 +6,10 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-    return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)");
-
-    1;
+    return 
+        can_run("ifconfig") &&
+        can_run("route") &&
+        can_load("Net::IP");
 }
 
 
@@ -58,6 +59,9 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
 
     my %gateway;
     foreach (`route -n`) {
