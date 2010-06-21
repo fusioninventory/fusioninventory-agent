@@ -664,11 +664,8 @@ sub doInventory {
                 $serial = $edid->{serial_number2}[0];
             }
 
-            eval {
-                require MIME::Base64;
-            };
-            if (!$EVAL_ERROR) {
-                $base64 = encode_base64($screen->{edid});
+            if (can_load("MIME::Base64")) {
+                $base64 = MIME::Base64::encode_base64($screen->{edid});
             }
             if (can_run("uuencode")) {
                 $uuencode = `echo $screen->{edid}|uuencode -`;
