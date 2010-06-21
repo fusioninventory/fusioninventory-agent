@@ -13,9 +13,9 @@ use warnings;
 
 
 sub isInventoryEnabled { 
-    return(1);
-    1;
+    return 1;
 }
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
