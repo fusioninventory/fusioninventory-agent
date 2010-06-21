@@ -2,9 +2,10 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub parseDate {
     my $string = shift;
-
 
     if ($string =~ /(\d{1,2})([\/-])(\d{1,2})([\/-])(\d{2})/) {
         my $d = $1;
@@ -27,55 +28,55 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $capacity;
-    my $voltage;
-    my $name;
-    my $chemistry;
-    my $serial;
-    my $date;
-    my $manufacturer;
+    my $battery = parseDmidecode('/usr/sbin/dmidecode', '-|');
 
-    # get the BIOS values
-    my $type;
-    for(`dmidecode`){
-        s/\s+$//;
-        if (/dmi type (\d+),/i) {
+    $inventory->addBattery($battery);
+}
+
+sub parseDmidecode {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my ($battery, $type);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /DMI type (\d+)/i) {
             $type = $1;
             next;
         }
 
         next unless defined $type;
 
-
         if ($type == 22) {
-            if(/Name:\s*(.+?)(\s*)$/i) {
-                $name = $1;
-            } elsif(/Capacity:\s*(\d+)\s*m(W|A)h/i) {
-                $capacity = $1;
-            } elsif(/Manufacturer:\s*(.+?)(\s*)$/i) {
-                $manufacturer = $1;
-            } elsif(/Serial\s*Number:\s*(.+?)(\s*)$/i) {
-                $serial = $1
-            } elsif(/Manufacture\s*date:\s*(\S*)$/i) {
-                $date = parseDate($1);
-            } elsif(/Voltage:\s*(\d+)\s*mV/i) {
-                $voltage = $1;
-            } elsif(/Chemistry:\s*(\S+\s*)/i) {
-                $chemistry = $1;
+            if($line =~ /^\s+Name:\s*(.+?)(\s*)$/i) {
+                $battery->{NAME} = $1;
+            } elsif ($line =~ /^\s+Capacity:\s*(\d+)\s*m(W|A)h/i) {
+                $battery->{CAPACITY} = $1;
+            } elsif ($line =~/^\s+Manufacturer:\s*(.+?)(\s*)$/i) {
+                $battery->{MANUFACTURER} = $1;
+            } elsif ($line =~ /^\s+Serial\s*Number:\s*(.+?)(\s*)$/i) {
+                $battery->{SERIAL} = $1
+            } elsif ($line =~ /^\s+Manufacture\s*date:\s*(\S*)$/i) {
+                $battery->{DATE} = parseDate($1);
+            } elsif ($line =~ /^\s+Voltage:\s*(\d+)\s*mV/i) {
+                $battery->{VOLTAGE} = $1;
+            } elsif ($line =~ /^\s+Chemistry:\s*(\S+\s*)/i) {
+                $battery->{CHEMISTRY} = $1;
             }
             next;
         }
 
     }
+    close $handle;
 
-    $inventory->addBattery({
-        CAPACITY => $capacity,
-        CHEMISTRY => $chemistry,
-        DATE => $date,
-        NAME => $name,
-        SERIAL => $serial,
-        MANUFACTURER => $manufacturer,
-        VOLTAGE => $voltage
-    });
+    return $battery;
 }
+
 1;
