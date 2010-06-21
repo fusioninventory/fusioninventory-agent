@@ -95,8 +95,8 @@ sub doInventory {
             $CPUinfo->{TYPE} = $1;
             $CPUinfo->{SPEED} = $2;
         } else {
-            for ( `echo 'sc product cpu;il' | /usr/sbin/cstm | grep "CPU Module"` ) {
-                next
+            for ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
+                next unless /CPU Module/;
                 if ( /(\S+)\s+CPU\s+Module/ ) {
                     $CPUinfo->{TYPE} = $1;
                 }
