@@ -68,7 +68,7 @@ sub doInventory {
     my $found = 0;
 
     # Solaris zones
-    if (can_run('/usr/sbin/zoneadm') {
+    if (can_run('/usr/sbin/zoneadm')) {
         my @solaris_zones =
             grep { !/global/ }
             `/usr/sbin/zoneadm list`;
