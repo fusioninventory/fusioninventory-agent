@@ -21,7 +21,12 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $CPUinfo = { MANUFACTURER => 'unknow', TYPE => 'unknow', SERIAL => 'No Serial Number available!', SPEED => 0 };
+    my $CPUinfo = {
+        MANUFACTURER => 'unknow',
+        TYPE         => 'unknow',
+        SERIAL       => 'No Serial Number available!',
+        SPEED        => 0
+    };
     my $CPUcount;
 
     # Using old system HpUX without machinfo
