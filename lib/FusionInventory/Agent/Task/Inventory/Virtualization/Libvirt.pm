@@ -6,7 +6,9 @@ use warnings;
 use English qw(-no_match_vars);
 use XML::Simple;
 
-sub isInventoryEnabled { can_run('virsh') }
+sub isInventoryEnabled {
+    return can_run('virsh');
+}
 
 sub doInventory {
     my $params = shift;

@@ -15,7 +15,9 @@ use constant wbemFlagForwardOnly => 0x20;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my $params = shift;

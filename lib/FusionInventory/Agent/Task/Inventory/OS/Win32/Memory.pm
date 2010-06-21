@@ -5,9 +5,9 @@ use warnings;
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
-sub isInventoryEnabled {1}
-
-
+sub isInventoryEnabled {
+    return 1;
+}
 
 my @formFactorVal = qw/
 Unknown 

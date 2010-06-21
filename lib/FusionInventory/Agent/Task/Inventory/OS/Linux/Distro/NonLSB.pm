@@ -28,23 +28,23 @@ sub isInventoryEnabled {
 }
 
 sub findRelease {
-  my $release;
+    my $release;
 
-  foreach my $file (keys %files) {
-      next unless -f $file;
-      my $handle;
-      if (!open $handle, '<', $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-      }
-      my $version = <$handle>;
-      chomp $version;
-      close $handle;
-      $release = sprintf $files{$file}, $version;
-      last;
-  }
+    foreach my $file (keys %files) {
+        next unless -f $file;
+        my $handle;
+        if (!open $handle, '<', $file) {
+            warn "Can't open $file: $ERRNO";
+            return;
+        }
+        my $version = <$handle>;
+        chomp $version;
+        close $handle;
+        $release = sprintf $files{$file}, $version;
+        last;
+    }
 
-  return $release;
+    return $release;
 }
 
 sub doInventory {

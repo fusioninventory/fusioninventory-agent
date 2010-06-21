@@ -99,7 +99,7 @@ sub new {
             $logger->error("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");
         }
     }
-    my $hostname = hostname; # Sys::Hostname
+    my $hostname = hostname();
 
 # /!\ $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({

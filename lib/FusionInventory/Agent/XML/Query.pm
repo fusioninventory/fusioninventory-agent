@@ -3,9 +3,8 @@ package FusionInventory::Agent::XML::Query;
 use strict;
 use warnings;
 
-use Data::Dumper;
-
 use XML::Simple;
+
 sub new {
     my ($class, $params) = @_;
 

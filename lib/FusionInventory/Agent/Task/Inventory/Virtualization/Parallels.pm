@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Parallels;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { return can_run('prlctl') }
+sub isInventoryEnabled {
+    return can_run('prlctl');
+}
 
 sub doInventory {
     my $params = shift;

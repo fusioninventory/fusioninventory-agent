@@ -5,7 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { can_run('vmware-cmd') }
+sub isInventoryEnabled { 
+    return can_run('vmware-cmd');
+}
 
 sub doInventory {
     my $params = shift;

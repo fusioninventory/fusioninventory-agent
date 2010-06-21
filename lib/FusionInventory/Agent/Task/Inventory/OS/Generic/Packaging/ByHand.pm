@@ -13,9 +13,9 @@ use warnings;
 
 
 sub isInventoryEnabled { 
-    return(1);
-    1;
+    return 1;
 }
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
@@ -39,33 +39,27 @@ sub doInventory {
 
     my $logger = $params->{logger};
 
-    if (opendir my $handle, $file)
-    {
+    if (opendir my $handle, $file) {
         @dots = readdir($handle);
         foreach (@dots) { 
-            if ( -f $file."/".$_ )
-            {
+            if ( -f $file."/".$_ ) {
                 $comm = $file."/".$_;
                 $logger->debug("Running appli detection scripts from ".$comm);
-                foreach (`$comm`)
-                {
+                foreach (`$comm`) {
                     $ligne = $_;
                     chomp($ligne);
                     ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
                     $inventory->addSoftware ({
-                            'PUBLISHER' => $vendor,
-                            'NAME'          => $soft,
-                            'VERSION'       => $version,
-                            'FILESIZE'      => "",
-                            'COMMENTS'      => $commentaire,
-                            'FROM'          => 'ByHand'
-                        });
+                        'PUBLISHER' => $vendor,
+                        'NAME'          => $soft,
+                        'VERSION'       => $version,
+                        'FILESIZE'      => "",
+                        'COMMENTS'      => $commentaire,
+                        'FROM'          => 'ByHand'
+                    });
                 }	
             }
-
         }	  	
-
-
 
         closedir $handle;
     }

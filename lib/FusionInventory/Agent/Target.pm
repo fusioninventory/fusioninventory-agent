@@ -118,9 +118,8 @@ sub init {
     if (
         ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
             !$self->isDirectoryWritable($config->{basevardir}))
-
-        &&
-        $OSNAME !~ /^MSWin/) {
+        && $OSNAME ne 'MSWin32'
+    ) {
 
         if (! -d $ENV{HOME}."/.ocsinventory/var") {
             $logger->info(
@@ -146,8 +145,7 @@ sub init {
         my $dir = $self->{path};
         $dir =~ s/\//_/g;
         # On Windows, we can't have ':' in directory path
-        $dir =~ s/:/../g if $OSNAME =~ /^MSWin/; # Conditional because there is
-        # already directory like that created by 2.x < agent
+        $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
         $self->{vardir} = $config->{basevardir} . "/" . $dir;
     } else {
         $self->{vardir} = $config->{basevardir} . "/__LOCAL__";

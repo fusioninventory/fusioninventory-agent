@@ -6,14 +6,14 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub doInventory {
-  my $params = shift;
-  my $inventory = $params->{inventory};
+    my $params = shift;
+    my $inventory = $params->{inventory};
 
-  my ($bios, $hardware) = parseDmidecode('/usr/sbin/dmidecode', '-|');
+    my ($bios, $hardware) = parseDmidecode('/usr/sbin/dmidecode', '-|');
 
-  # Writing data
-  $inventory->setBios($bios);
-  $inventory->setHardware($hardware) if $hardware;
+    # Writing data
+    $inventory->setBios($bios);
+    $inventory->setHardware($hardware) if $hardware;
 
 }
 
@@ -79,7 +79,7 @@ sub parseDmidecode {
                 $bios->{SMODEL} = $1 if !$bios->{SMODEL};
             } elsif ($line =~ /^\s+manufacturer:\s*(.+?)\s*/i) {
                 $bios->{SMANUFACTURER} = $1
-                    if !$bios->{SMANUFACTURER};
+                if !$bios->{SMANUFACTURER};
             }
         }
 

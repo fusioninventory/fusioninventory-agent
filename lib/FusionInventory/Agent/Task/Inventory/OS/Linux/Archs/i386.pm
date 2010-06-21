@@ -6,8 +6,7 @@ use warnings;
 use Config;
 
 sub isInventoryEnabled { 
-  return 1 if $Config{'archname'} =~ /^(i\d86|x86_64)/;
-  0; 
+    return $Config{'archname'} =~ /^(i\d86|x86_64)/;
 };
 
-1
+1;

@@ -5,7 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { return can_run('vserver') }
+sub isInventoryEnabled {
+    return can_run('vserver');
+}
 
 sub doInventory {
     my $params = shift;

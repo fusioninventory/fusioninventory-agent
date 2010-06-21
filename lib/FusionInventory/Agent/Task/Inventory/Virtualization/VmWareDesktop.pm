@@ -8,7 +8,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') }
+sub isInventoryEnabled {
+    return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun');
+}
 
 sub doInventory {
     my $params = shift;

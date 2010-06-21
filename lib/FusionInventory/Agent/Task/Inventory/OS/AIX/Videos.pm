@@ -3,22 +3,24 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Videos;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {can_run("lsdev")}
+sub isInventoryEnabled {
+    return can_run("lsdev");
+}
 
 sub doInventory {
-  my $params = shift;
-  my $inventory = $params->{inventory};
+    my $params = shift;
+    my $inventory = $params->{inventory};
 
- for(`lsdev -Cc adapter -F 'name:type:description'`){
-		if(/graphics|vga|video/i){
-			if(/^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
-				 $inventory->addVideo({
-	  				'CHIPSET'  => $1,
-	  				'NAME'     => $2,
-				});
-				
-			}
-		}
-	}
+    for(`lsdev -Cc adapter -F 'name:type:description'`){
+        if(/graphics|vga|video/i){
+            if(/^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
+                $inventory->addVideo({
+                    'CHIPSET'  => $1,
+                    'NAME'     => $2,
+                });
+            }
+        }
+    }
 }
-1
+
+1;

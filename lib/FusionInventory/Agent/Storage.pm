@@ -9,7 +9,6 @@ use Storable;
 
 my $lock :shared;
 
-use Data::Dumper;
 use English qw(-no_match_vars);
 
 =head1 NAME
@@ -162,19 +161,17 @@ sub save {
     my $filePath = $self->getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
-    my $isWindows = $OSNAME =~ /^MSWin/;
     my $oldMask;
 
-    if (!$isWindows) {
+    if ($OSNAME ne 'MSWin32') {
         $oldMask = umask();
         umask(oct(77));
-    } else {
-        print "TODO, restrict access to temp file!\n";
     }
+    # TODO: restrict access to temp file under windows
 
     store ($data, $filePath) or warn;
     
-    if (!$isWindows) {
+    if ($OSNAME ne 'MSWin32') {
         umask $oldMask;
     }
 

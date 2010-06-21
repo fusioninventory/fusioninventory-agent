@@ -8,11 +8,16 @@ sub isAccountUpdated {
     my $self = shift;
 
     my $parsedContent = $self->getParsedContent();
-    if ($parsedContent && exists ($parsedContent->{RESPONSE}) && $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/) {
-	return 1;
-    }
 
-    0
+    if (
+        $parsedContent &&
+        exists $parsedContent->{RESPONSE} &&
+        $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
+    ) {
+	return 1;
+    } else {
+	return 0;
+    }
 
 }
 

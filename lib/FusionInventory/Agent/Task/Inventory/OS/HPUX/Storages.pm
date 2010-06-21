@@ -3,7 +3,13 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Storages;
 use strict;
 use warnings;
 
-sub isInventoryEnabled  { can_run('ioscan') and can_run('cut') and can_run('pvdisplay') and can_run('diskinfo') }
+sub isInventoryEnabled  {
+    return
+        can_run('ioscan') &&
+        can_run('cut') &&
+        can_run('pvdisplay') &&
+        can_run('diskinfo');
+}
 
 sub doInventory {
    my $params = shift;
