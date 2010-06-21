@@ -160,10 +160,8 @@ sub snmpWalk {
          }
          my %pdesc = %{$response};
          #print %pdesc;
-         while ((my $object,my $oid) = each (%pdesc))
-         {
-            if ($object =~ /$oid_start/)
-            {
+         while ((my $object,my $oid) = each (%pdesc)) {
+            if ($object =~ /$oid_start/) {
                if ($oid !~ /No response from remote host/) {
                   if ($object =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
                      $oid = getBadMACAddress($object,$oid)

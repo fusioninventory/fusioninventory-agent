@@ -59,14 +59,11 @@ sub doInventory {
     if ($model  =~ /SUNW,Sun-Fire-T\d/) { $sun_class_cpu = 3; }
     if ($model  =~ /SUNW,Sun-Fire-\d/){ $sun_class_cpu = 1; }  
 
-    if($sun_class_cpu == 0)
-    {
+    if ($sun_class_cpu == 0) {
         # if our maschine is not in one of the sun classes from upside, we use psrinfo
         # a generic methode
-        foreach (`psrinfo -v`)
-        {
-            if (/^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/)
-            {
+        foreach (`psrinfo -v`) {
+            if (/^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/) {
                 $cpu_type = $1;
                 $cpu_speed = $2;
                 $cpu_slot++;
@@ -74,18 +71,13 @@ sub doInventory {
         }
     }
 
-    if($sun_class_cpu == 1)
-    {
-        foreach (`memconf 2>&1`)
-        {
-            if(/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\d+)\s+X\s+(\S+)\s+(\d+)/)
-            {
+    if ($sun_class_cpu == 1) {
+        foreach (`memconf 2>&1`) {
+            if(/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\d+)\s+X\s+(\S+)\s+(\d+)/) {
                 $cpu_slot = $1;
                 $cpu_type = $2;
                 $cpu_speed = $3;
-            }
-            elsif (/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\S+)\s+(\d+)/)
-            {
+            } elsif (/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\S+)\s+(\d+)/) {
                 $cpu_slot="1";
                 $cpu_type=$1;
                 $cpu_speed=$2;
@@ -93,24 +85,18 @@ sub doInventory {
         }
     }
 
-    if($sun_class_cpu == 2)
-    {
-        foreach (`memconf 2>&1`)
-        {
-            if(/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\d+)\s+X\s+(\S+)\s+(\S+)\s+(\d+)/)
-            {
+    if($sun_class_cpu == 2) {
+        foreach (`memconf 2>&1`) {
+            if(/^Sun Microsystems, Inc. Sun Fire\s+\S+\s+\((\d+)\s+X\s+(\S+)\s+(\S+)\s+(\d+)/) {
                 $cpu_slot = $1;
                 $cpu_type = $3 . " (" . $2 . ")";
                 $cpu_speed = $4;
             }
         }
     }
-    if($sun_class_cpu == 3)
-    {
-        foreach (`memconf 2>&1`)
-        {
-            if(/^Sun Microsystems, Inc.\s+\S+\s+\(\S+\s+\S+\s+\S+\)\s+\((\S+)\s+(\S+)\s+(\S+)\s+(\d+)/)
-            {
+    if($sun_class_cpu == 3) {
+        foreach (`memconf 2>&1`) {
+            if(/^Sun Microsystems, Inc.\s+\S+\s+\(\S+\s+\S+\s+\S+\)\s+\((\S+)\s+(\S+)\s+(\S+)\s+(\d+)/) {
                 # T2000 has only one cCPU
                 $cpu_slot = 1;
                 $cpu_type = $3 . " (" . $1 . " " . $2 . ")";
@@ -118,12 +104,9 @@ sub doInventory {
             }
         }
     }
-    if($sun_class_cpu == 4)
-    {
-        foreach (`memconf 2>&1`)
-        {
-            if(/^Sun Microsystems, Inc\..+\((\S+)\s+(\S+)\s+(\S+)\s+(\d+)(\w+)\)$/)
-            {
+    if ($sun_class_cpu == 4) {
+        foreach (`memconf 2>&1`) {
+            if(/^Sun Microsystems, Inc\..+\((\S+)\s+(\S+)\s+(\S+)\s+(\d+)(\w+)\)$/) {
                 $cpu_slot = 1;
                 $cpu_type = $3 . " (" . $1 . " " . $2 . ")";
                 $cpu_speed = $4;
@@ -143,5 +126,5 @@ sub doInventory {
     });
 
 }
-#run();
+
 1;
