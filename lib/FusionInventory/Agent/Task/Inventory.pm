@@ -372,7 +372,7 @@ sub initModList {
                     $self->{modules}->{$_}->{inventoryFuncEnable} = 0;
                     $logger->debug(
                         "$_ disabled because of a 'runMeIfTheseChecksFailed' " .
-                        "in '$m'\n"
+                        "in '$m'"
                     );
                 }
             }
