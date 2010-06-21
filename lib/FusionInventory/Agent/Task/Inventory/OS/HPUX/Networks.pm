@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks;
 use strict;
 use warnings;
 
+use Sys::Hostname;
+
 #TODO Get driver pcislot virtualdev
 
 sub isInventoryEnabled {
@@ -11,7 +13,6 @@ sub isInventoryEnabled {
         can_run("lanscan") &&
         can_run("netstat") &&
         can_run("ifconfig") &&
-        can_run("hostname") &&
         can_run("uname");
 }
 
@@ -31,12 +32,7 @@ sub doInventory {
     my $description;
     my $ipaddress;
 
-    my $hostname = 'Unknown';
-    if ( `hostname` =~ /(\S+)/ ) {
-        $hostname=$1
-    } elsif ( `uname -n` =~ /(\S+)/ ) { # It should never reach here, as `hostname` should never fail!
-        $hostname=$1
-    }
+    my $hostname = hostname();
 
     for ( `grep $hostname /etc/hosts ` ) {
         if ( /(^\d+\.\d+\.\d+\.\d+)\s+/ ) {
