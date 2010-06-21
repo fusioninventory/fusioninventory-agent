@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Printers;
+
 use strict;
+use warnings;
 
 use constant DATATYPE => 'SPPrintersDataType';
 

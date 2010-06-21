@@ -1,17 +1,14 @@
 package FusionInventory::Agent::Storage;
         
-use Storable;
-
 use strict;
 use warnings;
 
 use Config;
-
 use File::Glob ':glob';
+use Storable;
 
 my $lock :shared;
 
-use Data::Dumper;
 use English qw(-no_match_vars);
 
 =head1 NAME
@@ -53,8 +50,12 @@ sub new {
     my $self = {};
 
     if ($Config{usethreads}) {
-        if (!(eval "use threads;1;" && eval "use threads::shared;1;")) {
-            print "[error]Failed to use threads!\n";
+        eval {
+            require threads;
+            require threads::shared;
+        };
+        if ($EVAL_ERROR) {
+            print "[error]Failed to use threads!\n"; 
         }
     }
 
@@ -160,24 +161,18 @@ sub save {
     my $filePath = $self->getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
-    my $isWindows = $OSNAME =~ /^MSWin/;
-    my $oldMask = umask();
+    my $oldMask;
 
-    if (!$isWindows) {
-        my $wantedUmask = "077";
-        umask(oct($wantedUmask));
-        my $currentUmask = sprintf "%lo", umask() & 07777;
-        if ($currentUmask != $wantedUmask) {
-            die "Failed to set umask $wantedUmask ($currentUmask)";
-        }
-    } else {
-        print "TODO, restrict access to temp file!\n";
-}
+    if ($OSNAME ne 'MSWin32') {
+        $oldMask = umask();
+        umask(oct(77));
+    }
+    # TODO: restrict access to temp file under windows
 
-	store ($data, $filePath) or warn;
+    store ($data, $filePath) or warn;
     
-    if (!$isWindows) {
-        umask($oldMask) or die "Can't restore old mask\n";
+    if ($OSNAME ne 'MSWin32') {
+        umask $oldMask;
     }
 
 }
@@ -200,8 +195,8 @@ sub restore {
     my $idx = $params->{idx};
 
     my $filePath = $self->getFilePath({
-            module => $module,
-            idx => $idx
+        module => $module,
+        idx => $idx
     });
     #print "[storage]restore data from: $filePath\n";
 

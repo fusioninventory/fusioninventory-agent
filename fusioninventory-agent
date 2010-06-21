@@ -1,61 +1,43 @@
 #!/usr/bin/perl
 
-#Copyright (C) 2006-2010 OCS Inventory Developers
-#Copyright (C) 2010 FusionInventory Team
-#
-#This program is free software; you can redistribute it and/or
-#modify it under the terms of the GNU General Public License
-#as published by the Free Software Foundation; either version 2
-#of the License, or (at your option) any later version.
-#
-#This program is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU General Public License for more details.
-#
-#You should have received a copy of the GNU General Public License
-#along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
-#USA.
-#
-
 use strict;
 use warnings;
+
+use English qw(-no_match_vars);
 
 my $devlib;
 foreach (@ARGV) {
     if (/^--devlib$/) {
         print STDERR "[info] --devlib are found, Developer mode enabled\n";
-        eval "use lib 'lib';";
+        unshift @INC, 'lib';
     } elsif (/^--disable-perllib-envvar$/) {
         $ENV{PERL5LIB}=undef;
         $ENV{PERLLIB}=undef;
     }
 }
 
-eval "use FusionInventory::Agent;";
-if ($@) {
-    print STDERR "Failed to load FusionInventory::Agent, $@\n";
+eval {
+    require FusionInventory::Agent;
+};
+if ($EVAL_ERROR) {
+    print STDERR "Failed to load FusionInventory::Agent, $EVAL_ERROR\n";
     print STDERR "you can run the agent directly for its source directory ";
     print STDERR "with --devlib\n";
     exit 1;
 }
 
 eval {
-
-my $agent = new FusionInventory::Agent;
-
-$agent->main();
-
+    my $agent = new FusionInventory::Agent;
+    $agent->main();
 };
 
-if ($@) {
+if ($EVAL_ERROR) {
     print STDERR "Execution failed. Are you sur the software is fully ";
     print STDERR "installed\n";
     print STDERR "and an old version of the agent not already present on the ";
     print STDERR "system?\n";
     print STDERR "___\n";
-    print STDERR $@;
+    print STDERR $EVAL_ERROR;
     exit 1;
 }
 __END__

@@ -5,6 +5,7 @@ use strict;
 use lib 'lib';
 
 use File::Path;
+use UNIVERSAL::require;
 use FusionInventory::Agent::Config;
 
 
@@ -19,10 +20,11 @@ my $cron_line;
 sub loadModules {
     my @modules = @_;
 
-    foreach (@modules) {
-        eval "use $_;";
+    foreach my $module (@modules) {
+        $module->require();
+        $module->import();
         if ($@) {
-            print STDERR "Failed to load $_. Please install it and ".
+            print STDERR "Failed to load '$module': $@. Please install it and ".
             "restart the fusioninventory-agent-config script.\n";
             exit 1;
 

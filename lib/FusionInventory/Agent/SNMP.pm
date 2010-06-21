@@ -3,13 +3,17 @@ package FusionInventory::Agent::SNMP;
 use strict;
 use warnings;
 use Encode qw(encode);
+use English qw(-no_match_vars);
 
 sub new {
    my ($class, $params ) = @_;
 
    my $self = {};
 
-   if ( not eval { require Net::SNMP; 1 } ) {
+   eval {
+       require Net::SNMP;
+   };
+   if ($EVAL_ERROR) {
       $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
       exit(0);
    }
@@ -156,10 +160,8 @@ sub snmpWalk {
          }
          my %pdesc = %{$response};
          #print %pdesc;
-         while ((my $object,my $oid) = each (%pdesc))
-         {
-            if ($object =~ /$oid_start/)
-            {
+         while ((my $object,my $oid) = each (%pdesc)) {
+            if ($object =~ /$oid_start/) {
                if ($oid !~ /No response from remote host/) {
                   if ($object =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
                      $oid = getBadMACAddress($object,$oid)

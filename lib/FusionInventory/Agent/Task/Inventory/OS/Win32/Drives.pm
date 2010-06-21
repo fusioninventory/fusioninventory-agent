@@ -1,7 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Drives;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
+use warnings;
+
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 my @type = (
         'Unknown', 
@@ -13,7 +15,9 @@ my @type = (
         'RAM Disk'
         ); 
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
 

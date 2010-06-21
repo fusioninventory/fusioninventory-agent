@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Bios;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled { return can_load("Mac::SysProfile") }
 

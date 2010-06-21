@@ -1,5 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Storages::HP;
 
+use strict;
+use warnings;
+
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # Tested on 2.6.* kernels
 #
@@ -9,11 +14,16 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 #
 # HP Array Configuration Utility CLI 7.85-18.0
 
-use strict;
-
 sub getHpacuacliFromWinRegistry {
-    return unless eval ("use Win32::TieRegistry ( Delimiter=>\"/\",".
-"ArrayValues=>0 ); 1;");
+    eval {
+        require Win32::TieRegistry;
+        Win32::TieRegistry->(
+            Delimiter   => "/",
+            ArrayValues => 0
+        );
+    };
+    return if $EVAL_ERROR;
+
     my $machKey= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
 
     my $uninstallValues =

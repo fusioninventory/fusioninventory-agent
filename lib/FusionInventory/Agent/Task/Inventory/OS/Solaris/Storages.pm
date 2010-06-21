@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Storages;
+
 use strict;
-#use warning;
+use warnings;
 
 #sd0      Soft Errors: 0 Hard Errors: 0 Transport Errors: 0
 #Vendor: HITACHI  Product: DK32EJ72NSUN72G  Revision: PQ08 Serial No: 43W14Z080040A34E
@@ -16,88 +17,90 @@ use strict;
 #Illegal Request: 1 Predictive Failure Analysis: 0 
 
 
-sub isInventoryEnabled { can_run ("iostat") }
+sub isInventoryEnabled {
+    return can_run ("iostat");
+}
 
 sub doInventory {
-  my $params = shift;
-  my $inventory = $params->{inventory};
+    my $params = shift;
+    my $inventory = $params->{inventory};
 
-  my $manufacturer;
-  my $model;
-  my $description;
-  my $capacity;
-  my $name;
-  my $rev;
-  my $sn;
-  my $type;
-  my $flag_first_line;
-  my $rdisk_path;
+    my $manufacturer;
+    my $model;
+    my $description;
+    my $capacity;
+    my $name;
+    my $rev;
+    my $sn;
+    my $type;
+    my $flag_first_line;
+    my $rdisk_path;
 
-  foreach(`iostat -En`){
+    foreach(`iostat -En`){
 #print;
-    if($flag_first_line){  		
-      if(/^.*<(\S+)\s*bytes/){  			
-	$capacity = $1;
-	$capacity = $capacity/(1024*1024);
+        if($flag_first_line){  		
+            if(/^.*<(\S+)\s*bytes/){  			
+                $capacity = $1;
+                $capacity = $capacity/(1024*1024);
 #print $capacity."\n";
-      }
-      ## To be removed when FIRMWARE will be supported
-      if ($rev) {
-        $description .= ' ' if $description;
-        $description .= "FW:$rev";
-      }
+            }
+            ## To be removed when FIRMWARE will be supported
+            if ($rev) {
+                $description .= ' ' if $description;
+                $description .= "FW:$rev";
+            }
 
-      $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
-      if( $rdisk_path =~ /.*->.*scsi_vhci.*/ ) {
-	$type="MPxIO";
-      } 
-      elsif( $rdisk_path =~ /.*->.*fp@.*/ ) {
-        $type="FC";
-      }
-      elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
-        $type="SCSI";
-      }
-      $inventory->addStorages({
-	  NAME => $name,
-	  MANUFACTURER => $manufacturer,
-	  MODEL => $model,
-	  DESCRIPTION => $description,
-	  TYPE => $type,
-          FIRMWARE => $rev,
-          SERIALNUMBER => $sn,
-	  DISKSIZE => $capacity
-	  });
+            $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
+            if( $rdisk_path =~ /.*->.*scsi_vhci.*/ ) {
+                $type="MPxIO";
+            } 
+            elsif( $rdisk_path =~ /.*->.*fp@.*/ ) {
+                $type="FC";
+            }
+            elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
+                $type="SCSI";
+            }
+            $inventory->addStorages({
+                NAME => $name,
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => $description,
+                TYPE => $type,
+                FIRMWARE => $rev,
+                SERIALNUMBER => $sn,
+                DISKSIZE => $capacity
+            });
 
-      $manufacturer='';
-      $model='';
-      $description='';
-      $name='';
-      $rev='';
-      $sn='';
-      $type='';
-    } 
-    $flag_first_line = 0;	
-    if(/^(\S+)\s+Soft/){
-	$name = $1;
-    }
-    if(/^.*Product:\s*(\S+)/){
-      $model = $1;
-    }
-    if(/^.*Serial No:\s*(\S+)/){
-      $sn = $1;
-      ## To be removed when SERIALNUMBER will be supported
-      $description = "S/N:$sn";
-      ##
-    }
-    if(/^.*Revision:\s*(\S+)/){
-      $rev = $1;
-    }
-    if(/^Vendor:\s*(\S+)/){
-      $manufacturer = $1;
-      $flag_first_line = 1;
-    }
+            $manufacturer='';
+            $model='';
+            $description='';
+            $name='';
+            $rev='';
+            $sn='';
+            $type='';
+        } 
+        $flag_first_line = 0;	
+        if(/^(\S+)\s+Soft/){
+            $name = $1;
+        }
+        if(/^.*Product:\s*(\S+)/){
+            $model = $1;
+        }
+        if(/^.*Serial No:\s*(\S+)/){
+            $sn = $1;
+            ## To be removed when SERIALNUMBER will be supported
+            $description = "S/N:$sn";
+            ##
+        }
+        if(/^.*Revision:\s*(\S+)/){
+            $rev = $1;
+        }
+        if(/^Vendor:\s*(\S+)/){
+            $manufacturer = $1;
+            $flag_first_line = 1;
+        }
 
-  }  
+    }  
 }
 
 1;

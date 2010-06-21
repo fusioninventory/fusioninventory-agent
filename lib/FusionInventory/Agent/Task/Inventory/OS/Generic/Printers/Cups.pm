@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Printers::Cups;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
     # If we are on a MAC, Mac::SysProfile will do the job
@@ -21,8 +23,7 @@ sub doInventory {
     my @printers = $cups->getDestinations();
 
     return unless scalar(@printers);
-    foreach my $printer  (@printers)
-    {
+    foreach my $printer  (@printers) {
 
         my $printername = $printer->getUri();
         $printername =~ s/^.*\/\/([^\.]*).*$/$1/eg ;

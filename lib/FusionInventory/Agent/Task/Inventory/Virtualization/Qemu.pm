@@ -2,8 +2,14 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Qemu;
 # With Qemu 0.10.X, some option will be added to get more and easly information (UUID, memory, ...)
 
 use strict;
+use warnings;
 
-sub isInventoryEnabled { return (can_run('qemu') || can_run('kvm') || can_run('qemu-kvm'))}
+sub isInventoryEnabled {
+    return 
+        can_run('qemu') ||
+        can_run('kvm')  ||
+        can_run('qemu-kvm');
+}
 
 sub doInventory {
     my $params = shift;

@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::AIX::Controller;
+
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
 	return unless can_run('lsdev');

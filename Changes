@@ -10,7 +10,6 @@ Revision history for FusionInventory::Agent
        * detect Slackware packages (David DURIEUX)
        * Libvirt.pm switch SUBSYSTEM and VMTYPE values.VMTYPE is "libvirt"
          now
-       * add test scripts in t/
        * Better error handling if it's not possible to create basevardir
        * Inventory: reduce the number of debug messages
        * Add DRIVES/SYSTEMDRIVE to know if it's the system partition
@@ -22,9 +21,11 @@ Revision history for FusionInventory::Agent
        * Bios, add ENCLOSURESERIAL BASEBOARDSERIAL and BIOSSERIAL keys
        * Identify USB devices (Windows, Linux)
        * --realm was two time in --help
-       * Fix Syslog backend, cf: https://bugs.launchpad.net/bugs/571655
-         (Guillaume ROUSSE)
-	   * Cups.pm: gets all installed printers and their drivers names
+       * LoggerBackend/Syslog.pm: fix https://bugs.launchpad.net/bugs/571655
+         (Guillaume Rousse)
+       * LoggerBackend/File.pm: don't reopen file descriptor for every new
+         message (Guillaume Rousse)
+       * Cups.pm: gets all installed printers and their drivers names
         (Aurelien Bondis)
        * ocsinventory-ng is not more the default server hostname, you've to
          set it yourself in agent.cfg
@@ -42,6 +43,10 @@ Revision history for FusionInventory::Agent
        * Inventory: If two modules with the same name are found, only load
          the first
        * Linux/Storages: detect floppy and block devices (Amir PAKDEL)
+       * Linux/Storages: don't attempt to run df on cdrom devices
+         (Guillaume Rousse)
+       * Linux/Storages: factorize redudant code for udev devices detection
+         (Guillaume Rousse)
        * HP-UX numerous improvement (Amir PAKDEL)
        * Add NETWORKS/SPEED (in MB/s) (Amir PAKDEL)
        * HP-UX/Drives: Swapped "Type" and "File System" (Amir PAKDEL)
@@ -78,16 +83,35 @@ Revision history for FusionInventory::Agent
        * Inventory: use encode('UTF-8', $string) to reencode to UTF-8
          string detected invalide.
        * print help messages on STDERR
-       * use english name instead of magic variables (Guillaume ROUSSE)
-       * better code for dmidecode parsing (Guillaume ROUSSE)
-       * add a test script for dmidecode parsing (Guillaume ROUSSE)
-       * Merge Mandrake.pm in Mandriva.pm (Guillaume ROUSSE)
-       * Improve udev parsing (Guillaume ROUSSE)
-       * Various code clean up (Guillaume ROUSSE)
+       * Linux: factorize redundant modules for non-LSB Linux distribution
+         identification (Guillaume Rousse)
+       * rewrite lshal and dmidecode parsing code for readability and
+         efficiency (Guillaume Rousse)
+       * don't test umask() result, it always succeed
+       * don't test Sys::Hostname availability, it's a core module
        * RPC: ignore when socket::accept return an undef $socket
        * RPC: display the date of the next inventory planned
+       * testing: test modules loading (Guillaume Rousse)
+       * testing: test PBP compliance (Guillaume Rousse)
+       * testing: test dmidecode and lshal parsing tests (Guillaume Rousse)
+       * code cleanup: ensure consistent 4-spaces indentation step everyhwere
+        (Guillaume Rousse)
+       * code cleanup: use strict and warning pragmas everywhere
+        (Guillaume Rousse)
+       * code cleanup: use lexical file handles (Guillaume Rousse)
+       * code cleanup: use 3-args open statement (Guillaume Rousse)
+       * code cleanup: use block-style eval statement (Guillaume Rousse)
+       * code cleanup: use english names for magic variables (Guillaume Rousse)
+       * code cleanup: use explicit return statement (Guillaume Rousse)
+       * code cleanup: ensure all opened file handles are proprely closed
+        (Guillaume Rousse)
+       * code cleanup: ensure all open failure are signaled to user with a
+         meaningful message (Guillaume Rousse)
+       * code cleanup: ensure object constructors can handle subclasses
+         (Guillaume Rousse)
+       * Linux/Storages: Rename addStorages to addStorage finally
 
-2.0.7
+2.0.7    Mon, 14 Jun 2010 18:09:27 +0200
        * Avoid a warning if --stdout is used.
        * print help messages on STDERR
        * --wait: no need to wait before the final exit
@@ -100,10 +124,10 @@ Revision history for FusionInventory::Agent
          https://bugs.launchpad.net/bugs/585753
        * Fix dmidecode version comparaison
          https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586321
-         (Guillaume ROUSSE)
+         (Guillaume Rousse)
        * Mismatch between xen dom0 and xen PV host
          https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586337
-         (Guillaume ROUSSE)
+         (Guillaume Rousse)
 
 2.0.5    Wed, 12 May 2010 10:50:51 +0200
        * Don't use dmidecode with -t and -s parameter since it's not
@@ -412,7 +436,7 @@ Revision history for FusionInventory::Agent
        * Switch the XML content from ISO-8859-1 to UTF-8, BTW we force
          LC_ALL=C...
        * Fix the history flood in Download.pm (Pascal DANEK) 
-       	 https://sourceforge.net/tracker/index.php?func=detail&aid=2806585&group_id=58373&atid=487492
+         https://sourceforge.net/tracker/index.php?func=detail&aid=2806585&group_id=58373&atid=487492
        * Stores PCIID in CONTROLLERS/PCIID
        * Storage the monitor EDID string in BASE64 and UUENCODE
        * Linux: Storages: reorganize the code base and use lshal
@@ -661,8 +685,8 @@ Revision history for FusionInventory::Agent
        * do not create an inventory if the server doesnn't need it
        * new parameters for the backend modules (run and check functions):
          - prologresp, the Ocsinventory::Agent::XML::Response::Prolog object returned by
-	   the prolog
-	 - storage: an hashref stored on the harddrive at the end of the execution of the module
+           the prolog
+         - storage: an hashref stored on the harddrive at the end of the execution of the module
        * a backend module without a run function is accepted now 
        * Inventory.pm: add addIpDiscoverEntry() to add host from the same network
        * @runMeIfTheseChecksFailed: new optional setting for Backend module

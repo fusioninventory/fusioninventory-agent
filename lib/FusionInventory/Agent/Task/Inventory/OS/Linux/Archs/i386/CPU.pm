@@ -1,8 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU;
 
 use strict;
+use warnings;
 
 use Config;
+use English qw(-no_match_vars);
 
 sub isInventoryEnabled { can_read("/proc/cpuinfo") }
 
@@ -52,29 +54,33 @@ sub doInventory {
     my %current;
     my $id=0;
     my $lastPhysicalId;
-    open CPUINFO, "</proc/cpuinfo" or warn;
-    foreach(<CPUINFO>) {
-        if (/^$/) {
-            $current = {};
-            if (!$id) {
-                $lastPhysicalId=$current{'physical id'};
-            } elsif ($lastPhysicalId != $current{'physical id'}) {
-                $id++;
-            }
+    if (!open my $handle, '<', '/proc/cpuinfo') {
+        warn "Can't open /proc/cpuinfo: $ERRNO";
+    } else {
+        while (<$handle>) {
+            if (/^$/) {
+                $current = {};
+                if (!$id) {
+                    $lastPhysicalId=$current{'physical id'};
+                } elsif ($lastPhysicalId != $current{'physical id'}) {
+                    $id++;
+                }
 
-            if ($current{vendor_id}) {
-                $cpu[$id]->{MANUFACTURER} = $current{vendor_id};
-                $cpu[$id]->{MANUFACTURER} =~ s/Genuine//;
-                $cpu[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-                $cpu[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
-                $cpu[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
-            }
-            $cpu[$id]->{NAME} = $current{'model name'};
-            $cpu[$id]->{CORE}++;
+                if ($current{vendor_id}) {
+                    $cpu[$id]->{MANUFACTURER} = $current{vendor_id};
+                    $cpu[$id]->{MANUFACTURER} =~ s/Genuine//;
+                    $cpu[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+                    $cpu[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
+                    $cpu[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
+                }
+                $cpu[$id]->{NAME} = $current{'model name'};
+                $cpu[$id]->{CORE}++;
 
 
-        };
-        $current{lc($1)} = $2 if /^\s*(\S+.*\S+)\s*:\s*(.+)/i;
+            };
+            $current{lc($1)} = $2 if /^\s*(\S+.*\S+)\s*:\s*(.+)/i;
+        }
+        close $handle;
     }
 
     foreach (@cpu) {
@@ -82,4 +88,4 @@ sub doInventory {
     }
 }
 
-1
+1;

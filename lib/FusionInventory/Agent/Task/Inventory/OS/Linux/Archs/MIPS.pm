@@ -1,12 +1,12 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::MIPS;
 
 use strict;
+use warnings;
 
 use Config;
 
 sub isInventoryEnabled { 
-  return 1 if $Config{'archname'} =~ /^mips/;
-  0; 
+    return $Config{'archname'} =~ /^mips/;
 };
 
-1
+1;

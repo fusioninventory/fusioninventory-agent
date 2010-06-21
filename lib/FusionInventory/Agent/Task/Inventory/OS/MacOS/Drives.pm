@@ -1,12 +1,15 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Drives;
 
 use strict;
+use warnings;
 
 # yea BSD theft!!!!
 # would have used Mac::SysProfile, but the xml isn't quite fully supported
 # the drives come back in apple xml tree's, and the module can't handle it yet (soon as I find the time to fix the patch)
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my $params = shift;

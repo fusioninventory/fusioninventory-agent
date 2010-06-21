@@ -3,8 +3,11 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::USB;
 # lsusb (usbutils) 0.86
 
 use strict;
+use warnings;
 
-sub isInventoryEnabled {can_run("lsusb")}
+sub isInventoryEnabled {
+    return can_run("lsusb");
+}
 
 sub addDevice {
     my ($inventory, $device) = @_;

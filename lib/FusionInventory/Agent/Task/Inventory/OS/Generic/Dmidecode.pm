@@ -1,13 +1,15 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode;
+
 use strict;
+use warnings;
+
+use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-  if ($^O !~ /MSWin/) {
-    return unless -r "/dev/mem";
-  }
-  return unless can_run("dmidecode");
 
-  1;
+    return
+        -r "/dev/mem" ||
+        can_run("dmidecode");
 }
 
 sub doInventory {}
