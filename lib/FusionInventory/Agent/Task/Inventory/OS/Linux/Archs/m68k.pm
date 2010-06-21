@@ -1,12 +1,12 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::m68k;
 
 use strict;
+use warnings;
 
 use Config;
 
 sub isInventoryEnabled { 
-  return 1 if $Config{'archname'} =~ /^m68k/;
-  0; 
+    return $Config{'archname'} =~ /^m68k/;
 };
 
-1
+1;

@@ -1,9 +1,13 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Controller;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
+use warnings;
 
-sub isInventoryEnabled {1}
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
+
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub getPciIDFromDeviceID {
     my ($DeviceID) = @_;

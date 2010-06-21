@@ -6,31 +6,29 @@ use warnings;
 use Sys::Syslog qw( :DEFAULT setlogsock);
 
 sub new {
-  my ($class, $params) = @_;
+    my ($class, $params) = @_;
 
-  my $self = {};
+    my $self = {};
 
-  openlog("fusinv-agent", 'cons,pid', $params->{config}->{logfacility});
+    openlog("fusinv-agent", 'cons,pid', $params->{config}->{logfacility});
 
-  bless $self, $class;
-  return $self;
+    bless $self, $class;
+    return $self;
 }
 
 sub addMsg {
+    my (undef, $args) = @_;
 
-  my (undef, $args) = @_;
+    my $level = $args->{level};
+    my $message = $args->{message};
 
-  my $level = $args->{level};
-  my $message = $args->{message};
+    return if $message =~ /^$/;
 
-  return if $message =~ /^$/;
-
-  syslog('info', $message);
-
+    syslog('info', $message);
 }
 
 sub DESTROY {
-  closelog();
+    closelog();
 }
 
 

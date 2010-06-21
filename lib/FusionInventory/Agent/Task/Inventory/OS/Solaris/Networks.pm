@@ -8,8 +8,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks;
 #aggr40001:2: flags=201000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4,CoS> mtu 1500 index 3
 #        inet 55.37.101.172 netmask ffffff00 broadcast 223.0.146.255
 
-
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
   can_run("ifconfig") && can_run("netstat") && can_load ("Net::IP qw(:PROC)")

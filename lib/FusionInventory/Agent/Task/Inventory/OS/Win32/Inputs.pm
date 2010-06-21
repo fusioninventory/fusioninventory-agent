@@ -1,7 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Inputs;
+
+use strict;
+use warnings;
+
 # Had never been tested.
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
-use strict;
 
 my %mouseInterface = (
 
@@ -20,7 +23,9 @@ my %mouseInterface = (
 );
 
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
 
@@ -29,10 +34,9 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my @inputs;
-        foreach my $Properties
-            (getWmiProperties('Win32_Keyboard',
-qw/Name Caption Manufacturer Description Layout/))
-    {
+    foreach my $Properties (getWmiProperties(
+            'Win32_Keyboard', qw/Name Caption Manufacturer Description Layout/)
+    ) {
 
         push @inputs, {
 

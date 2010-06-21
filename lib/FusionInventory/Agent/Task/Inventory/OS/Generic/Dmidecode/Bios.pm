@@ -1,24 +1,33 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
+
 use strict;
+use warnings;
+
+use English qw(-no_match_vars);
 
 sub doInventory {
-  my $params = shift;
-  my $inventory = $params->{inventory};
+    my $params = shift;
+    my $inventory = $params->{inventory};
 
-  my ($bios, $hardware) = parseDmidecode('/usr/sbin/dmidecode', '-|');
+    my ($bios, $hardware) = parseDmidecode('/usr/sbin/dmidecode', '-|');
 
-  # Writing data
-  $inventory->setBios($bios);
-  $inventory->setHardware($hardware) if $hardware;
+    # Writing data
+    $inventory->setBios($bios);
+    $inventory->setHardware($hardware) if $hardware;
 
 }
 
 sub parseDmidecode {
     my ($file, $mode) = @_;
 
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
     my ($bios, $hardware, $type);
 
-    open (my $handle, $mode, $file);
     while (my $line = <$handle>) {
         chomp $line;
 
@@ -70,7 +79,7 @@ sub parseDmidecode {
                 $bios->{SMODEL} = $1 if !$bios->{SMODEL};
             } elsif ($line =~ /^\s+manufacturer:\s*(.+?)\s*/i) {
                 $bios->{SMANUFACTURER} = $1
-                    if !$bios->{SMANUFACTURER};
+                if !$bios->{SMANUFACTURER};
             }
         }
 
@@ -93,10 +102,9 @@ sub parseDmidecode {
             next;
         }
     }
-    close ($handle);
+    close $handle;
 
     return $bios, $hardware;
-
 }
 
 1;

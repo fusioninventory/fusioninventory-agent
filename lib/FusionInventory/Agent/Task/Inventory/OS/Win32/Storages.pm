@@ -1,9 +1,13 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Storages;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
+use warnings;
 
-sub isInventoryEnabled {can_run("hdparm")}
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
+
+sub isInventoryEnabled {
+    return can_run("hdparm");
+}
 
 sub doInventory {
 

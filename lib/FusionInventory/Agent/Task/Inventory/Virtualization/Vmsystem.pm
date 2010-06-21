@@ -44,16 +44,21 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 ##
 
 use strict;
+use warnings;
 use version;
 
-sub isInventoryEnabled {1}
+use English qw(-no_match_vars);
+
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
     # return immediatly if vm type has already been found
-    return if $inventory->{h}{HARDWARE}{VMSYSTEM} ne "Physical";
+    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
 
     my $dmesg = '/bin/dmesg | head -n 750';
 
@@ -67,20 +72,20 @@ sub doInventory {
         $status = "SolarisZone";
         $found = 1;
     }
- 
+
     if (
         -d '/proc/xen' ||
         check_file_content(
-          '/sys/devices/system/clocksource/clocksource0/available_clocksource',
-          'xen'
+            '/sys/devices/system/clocksource/clocksource0/available_clocksource',
+            'xen'
         )
     ) {
         $found = 1 ;
         if (check_file_content('/proc/xen/capabilities', 'control_d')) {
-          # dom0 host
+            # dom0 host
         } else {
-          # domU PV host
-          $status = "Xen";
+            # domU PV host
+            $status = "Xen";
         }
     }
 
@@ -90,17 +95,21 @@ sub doInventory {
         '^xen_\w+front\s' => 'Xen',
     );
 
-    if ($found == 0 and open(HMODS, '/proc/modules')) {
-        while(<HMODS>) {
-          foreach my $str (keys %modmap) {
-            if (/$str/) {
-              $status = "$modmap{$str}";
-              $found = 1;
-              last;
+    if ($found == 0) {
+        if (open my $handle, '<', '/proc/modules') {
+            while(<$handle>) {
+                foreach my $str (keys %modmap) {
+                    if (/$str/) {
+                        $status = "$modmap{$str}";
+                        $found = 1;
+                        last;
+                    }
+                }
             }
-          }
+            close $handle;
+        } else {
+            warn "Can't open /proc/modules: $ERRNO";
         }
-        close(HMODS);
     }
 
     # Let's parse some logs & /proc files for well known strings
@@ -136,44 +145,56 @@ sub doInventory {
         'ACPI: DSDT \(v\d+\s+Xen ' => 'Xen',
     );
 
-    if ($found == 0 and open(HDMSG, '/var/log/dmesg')) {
-        while(<HDMSG>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+    if ($found == 0) {
+        if (open my $handle, '<', '/var/log/dmesg') {
+            while(<$handle>) {
+                foreach my $str (keys %msgmap) {
+                    if (/$str/) {
+                        $status = "$msgmap{$str}";
+                        $found = 1;
+                        last;
+                    }
+                }
             }
-          }
+            close($handle);
+        } else {
+            warn "Can't open /var/log/dmesg: $ERRNO";
         }
-        close(HDMSG);
     }
 
     # Read kernel ringbuffer directly
-    if ($found == 0 and open(HDMSG, '$dmesg |')) {
-        while(<HDMSG>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+    if ($found == 0) {
+        if (open my $handle, '-|', $dmesg) {
+            while (<$handle>) {
+                foreach my $str (keys %msgmap) {
+                    if (/$str/) {
+                        $status = "$msgmap{$str}";
+                        $found = 1;
+                        last;
+                    }
+                }
             }
-          }
+            close $handle;
+        } else {
+            warn "Can't run $dmesg: $ERRNO";
         }
-        close(HDMSG);
     }
 
-    if ($found == 0 and open(HSCSI, '/proc/scsi/scsi')) {
-        while(<HSCSI>) {
-          foreach my $str (keys %msgmap) {
-            if (/$str/) {
-              $status = "$msgmap{$str}";
-              $found = 1;
-              last;
+    if ($found == 0) {
+        if (open my $handle, '<', '/proc/scsi/scsi') {
+            while (<$handle>) {
+                foreach my $str (keys %msgmap) {
+                    if (/$str/) {
+                        $status = "$msgmap{$str}";
+                        $found = 1;
+                        last;
+                    }
+                }
             }
-          }
+            close $handle;
+        } else {
+            warn "Can't open /proc/scsi/scsi: $ERRNO";
         }
-        close(HSCSI);
     }
 
     if ($status) {
@@ -188,15 +209,21 @@ sub check_file_content {
 
     return 0 unless -r $file;
 
+    my $handle;
+    if (!open my $handle, '<', $file) {
+        warn "Can't open file $file: $ERRNO";
+        return;
+    }
+
     my $found = 0;
-    open (my $fh, '<', $file) or die "Can't open file $file: $!";
-    while (my $line = <$fh>) {
+
+    while (my $line = <$handle>) {
         if ($line =~ /$pattern/) {
             $found = 1;
             last;
         }
     }
-    close ($fh);
+    close $handle;
 
     return $found;
 }

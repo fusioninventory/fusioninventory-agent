@@ -1,33 +1,41 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Domains;
-use strict;
 
-sub isInventoryEnabled { return can_run ("domainname") }
+use strict;
+use warnings;
+
+use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-  my $params = shift;
-  my $inventory = $params->{inventory};
+    return can_run ("domainname");
+}
 
-  my $domain;
+sub doInventory {
+    my $params = shift;
+    my $inventory = $params->{inventory};
 
-  chomp($domain = `domainname`);
+    my $domain;
 
-  if (!$domain) {
-    my %domain;
+    chomp($domain = `domainname`);
 
-    if (open RESOLV, "/etc/resolv.conf") {
-      while(<RESOLV>) {
-    $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
-      }
-      close RESOLV;
+    if (!$domain) {
+        my %domain;
+
+        if (open my $handle, '<', '/etc/resolv.conf') {
+            while(<$handle>) {
+                $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+            }
+            close $handle;
+        } else {
+            warn "Can't open /etc/resolv.conf: $ERRNO";
+        }
+        $domain = join "/", keys %domain;
     }
-    $domain = join "/", keys %domain;
-  }
 # If no domain name, we send "WORKGROUP"
-  $domain = 'WORKGROUP' unless $domain;
+    $domain = 'WORKGROUP' unless $domain;
 
-  $inventory->setHardware({
-      WORKGROUP => $domain
-      });
+    $inventory->setHardware({
+        WORKGROUP => $domain
+    });
 }
 
 1;

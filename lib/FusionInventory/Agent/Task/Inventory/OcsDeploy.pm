@@ -3,9 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OcsDeploy;
 use strict;
 use warnings;
 
-
-use Data::Dumper;
-
 sub doInventory {
 
     my $params = shift;

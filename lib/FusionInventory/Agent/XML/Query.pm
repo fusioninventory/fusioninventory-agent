@@ -3,9 +3,8 @@ package FusionInventory::Agent::XML::Query;
 use strict;
 use warnings;
 
-use Data::Dumper;
-
 use XML::Simple;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -31,6 +30,8 @@ sub new {
     $logger->fault("No DEVICEID") unless ($target->{deviceid});
 
     bless $self, $class;
+
+    return $self;
 }
 
 

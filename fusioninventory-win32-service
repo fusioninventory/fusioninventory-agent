@@ -1,15 +1,13 @@
 #!/usr/bin/perl
 
-$ENV{PERL5LIB}=undef;
-$ENV{PERLLIB}=undef;
-
-
-eval ("
 use Win32;
 use Win32::Daemon;
 use threads;
 use threads::shared;
-use FusionInventory::Agent;1") or die "$@";
+use FusionInventory::Agent;
+
+$ENV{PERL5LIB}=undef;
+$ENV{PERLLIB}=undef;
 
 my $win32service = 1;
 Win32::Daemon::StartService();
