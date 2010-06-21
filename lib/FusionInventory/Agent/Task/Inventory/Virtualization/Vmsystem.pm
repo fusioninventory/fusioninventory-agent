@@ -66,13 +66,16 @@ sub doInventory {
 
     my $status;
     my $found = 0;
+
     # Solaris zones
-    my @solaris_zones;
-    @solaris_zones = `/usr/sbin/zoneadm list`;
-    @solaris_zones = grep (!/global/,@solaris_zones);
-    if(@solaris_zones){
-        $status = "SolarisZone";
-        $found = 1;
+    if (can_run('/usr/sbin/zoneadm') {
+        my @solaris_zones =
+            grep { !/global/ }
+            `/usr/sbin/zoneadm list`;
+        if (@solaris_zones) {
+            $status = "SolarisZone";
+            $found = 1;
+        }
     }
 
     if (
