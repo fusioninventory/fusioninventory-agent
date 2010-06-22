@@ -47,6 +47,9 @@ Revision history for FusionInventory::Agent
          (Guillaume Rousse)
        * Linux/Storages: factorize redudant code for udev devices detection
          (Guillaume Rousse)
+       * factorize manufacturer sanitisation function
+       * factorize DHCP information retrieval
+       * fix DHCP information retrieval for lease files with random chars
        * HP-UX numerous improvement (Amir PAKDEL)
        * Add NETWORKS/SPEED (in MB/s) (Amir PAKDEL)
        * HP-UX/Drives: Swapped "Type" and "File System" (Amir PAKDEL)
