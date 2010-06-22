@@ -86,7 +86,7 @@ sub getIpDhcp {
                     sprintf "%04d%02d%02d%02d%02d%02d", $1, $2, $3, $4, $5, $6;
             }
         }
-        close $handle or warn;
+        close $handle;
         chomp (my $currenttime = `date +"%Y%m%d%H%M%S"`);
         undef $ipdhcp unless $currenttime <= $expire;
     } else {
