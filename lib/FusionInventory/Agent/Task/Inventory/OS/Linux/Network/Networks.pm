@@ -33,15 +33,41 @@ sub doInventory {
         });
     }
 
-    my $interfaces = parseIfconfig('/sbin/ifconfig -a', '-|', \%gateway);
+    my $interfaces = parseIfconfig('/sbin/ifconfig -a', '-|');
 
     foreach my $interface (@$interfaces) {
+        if (isWifi($interface->{DESCRIPTION})) {
+            $interface->{TYPE} = "Wifi";
+        }
+
+        if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
+            my ($ipsubnet, $ipgateway) = getNetworkInfo(
+                $interface->{IPADDRESS},
+                $interface->{IPMASK},
+                \%gateway
+            );
+            $interface->{IPSUBNET} = $ipsubnet;
+            $interface->{IPGATEWAY} = $ipgateway;
+        }
+
+        my ($driver, $pcislot) = getUevent($interface->{DESCRIPTION});
+        $interface->{DRIVER} = $driver if $driver;
+        $interface->{PCISLOT} = $pcislot if $pcislot;
+
+        $interface->{VIRTUALDEV} = getVirtualDev(
+            $interface->{DESCRIPTION},
+            $interface
+        );
+
+        $interface->{IPDHCP} = getIpDhcp($interface->{DESCRIPTION});
+        $interface->{SLAVES} = getSlaves($interface->{DESCRIPTION});
+
         $inventory->addNetwork($interface);
     }
 }
 
 sub parseIfconfig {
-    my ($file, $mode, $gateway) = @_;
+    my ($file, $mode) = @_;
 
     my $handle;
     if (!open $handle, $mode, $file) {
@@ -56,34 +82,7 @@ sub parseIfconfig {
     while (my $line = <$handle>) {
         if ($line =~ /^$/) {
             # end of interface section
-
             next unless $interface->{DESCRIPTION};
-
-            if (isWifi($interface->{DESCRIPTION})) {
-                $interface->{TYPE} = "Wifi";
-            }
-
-            if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
-                my ($ipsubnet, $ipgateway) = getNetworkInfo(
-                    $interface->{IPADDRESS},
-                    $interface->{IPMASK},
-                    $gateway
-                );
-                $interface->{IPSUBNET} = $ipsubnet;
-                $interface->{IPGATEWAY} = $ipgateway;
-            }
-
-            my ($driver, $pcislot) = getUevent($interface->{DESCRIPTION});
-            $interface->{DRIVER} = $driver if $driver;
-            $interface->{PCISLOT} = $pcislot if $pcislot;
-
-            $interface->{VIRTUALDEV} = getVirtualDev(
-                $interface->{DESCRIPTION},
-                $interface
-            );
-
-            $interface->{IPDHCP} = getIpDhcp($interface->{DESCRIPTION});
-            $interface->{SLAVES} = getSlaves($interface->{DESCRIPTION});
 
             push @$interfaces, $interface;
 
