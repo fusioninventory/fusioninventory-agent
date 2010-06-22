@@ -93,7 +93,7 @@ sub new {
     # This is useful for the Windows installer.
     # You probably don't need this feature
     if ($config->{'perl-bin-dir-in-path'}) {
-        if ($^X =~ /(^.*(\\|\/))/) {
+        if ($EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
             $ENV{PATH} .= $Config::Config{path_sep}.$1;
         } else {
             $logger->error("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");
