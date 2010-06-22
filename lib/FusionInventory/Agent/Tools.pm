@@ -42,21 +42,23 @@ sub getManufacturer {
 sub getIpDhcp {
     my $if = shift;
 
-    my $path;
     my $leasepath;
 
-    foreach ( # XXX BSD paths
+    foreach my $path (
+        # XXX BSD paths
         "/var/db/dhclient.leases.%s",
         "/var/db/dhclient.leases",
         # Linux path for some kFreeBSD based GNU system
         "/var/lib/dhcp3/dhclient.%s.leases",
-        "/var/lib/dhcp3/dhclient.%s.leases",
-        "/var/lib/dhcp/dhclient.leases") {
+        "/var/lib/dhcp/dhclient-%s.leases",
+        "/var/lib/dhcp/dhclient.leases"
+    ) {
 
-        $leasepath = sprintf($_,$if);
-        last if (-e $leasepath);
+        $leasepath = sprintf($path , $if);
+        last if -f $leasepath;
     }
-    return unless -e $leasepath;
+
+    return unless -f $leasepath;
 
     my ($server_ip, $expiration_time);
 
@@ -70,13 +72,19 @@ sub getIpDhcp {
 
     # find the last lease for the interface with its expire date
     while (my $line = <$handle>) {
-        $lease = 1 if $line=~ /lease\s*{/i;
-        $lease = 0 if $line=~ /^\s*}\s*$/;
+        if ($line=~ /^lease/i) {
+            $lease = 1;
+            next;
+        }
+        if ($line=~ /^}/) {
+            $lease = 0;
+            next;
+        }
 
         next unless $lease;
 
         # inside a lease section
-        if ($line =~ /interface\s+"(.+?)"\s*/){
+        if ($line =~ /interface\s+"([^"]+)"/){
             $dhcp = ($1 eq $if);
             next;
         }
@@ -85,13 +93,13 @@ sub getIpDhcp {
 
         if (
             $line =~ 
-            /option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/
+            /option \s+ dhcp-server-identifier \s+ (\d{1,3}(?:\.\d{1,3}){3})/x
         ) {
             # server IP
             $server_ip = $1;
         } elsif (
             $line =~
-            /^\s*expire\s*\d\s*(\d*)\/(\d*)\/(\d*)\s*(\d*):(\d*):(\d*)/
+            /expire \s+ \d \s+ (\d+)\/(\d+)\/(\d+) \s+ (\d+):(\d+):(\d+)/x
         ) {
             $expiration_time =
                 sprintf "%04d%02d%02d%02d%02d%02d", $1, $2, $3, $4, $5, $6;
