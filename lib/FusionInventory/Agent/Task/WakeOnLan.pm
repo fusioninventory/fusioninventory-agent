@@ -15,6 +15,7 @@ use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Logger;
@@ -63,8 +64,7 @@ sub StartMachine {
 
     return unless defined $macaddress;
 
-    my $byte = '[0-9A-F]{2}';
-    if ($macaddress !~ /^$byte:$byte:$byte:$byte:$byte:$byte$/i) {
+    if ($macaddress !~ /^$macaddress_pattern$/) {
         $self->{logger}->debug("Invalid MacAddress $macaddress . Exiting...");
         exit(0);
     }

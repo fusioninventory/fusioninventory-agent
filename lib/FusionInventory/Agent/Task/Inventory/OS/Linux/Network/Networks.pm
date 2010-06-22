@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return 
@@ -99,7 +100,7 @@ sub parseIfconfig {
             if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
             }
-            if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i) {
+            if ($line =~ /hwadd?r\s+($macaddress_pattern)/i) {
                 $interface->{MACADDR} = $1;
             }
             if ($line =~ /^\s+UP\s/) {
