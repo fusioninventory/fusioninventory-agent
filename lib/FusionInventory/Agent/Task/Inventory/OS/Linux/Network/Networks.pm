@@ -134,7 +134,7 @@ sub parseIfconfig {
             if ($line =~ /inet addr:(\S+)/i) {
                 $interface->{IPADDRESS} = $1;
             }
-            if ($line =~ /\S*mask:(\S+)/i) {
+            if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
             }
             if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i) {
