@@ -41,11 +41,11 @@ plan tests => (scalar keys %hal_tests) + (scalar keys %udev_tests);
 foreach my $test (keys %hal_tests) {
     my $file = "$FindBin::Bin/../resources/hal/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::parseLshal($file, '<');
-    is_deeply($hal_tests{$test}, $results, $test);
+    is_deeply($results, $hal_tests{$test}, $test);
 }
 
 foreach my $test (keys %udev_tests) {
     my $file = "$FindBin::Bin/../resources/udev/$test";
     my $result = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::parseUdev($file, 'sda');
-    is_deeply($udev_tests{$test}, $result, $test);
+    is_deeply($result, $udev_tests{$test}, $test);
 }
