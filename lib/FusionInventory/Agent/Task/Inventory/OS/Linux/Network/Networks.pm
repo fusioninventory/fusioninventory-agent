@@ -32,8 +32,8 @@ sub doInventory {
 
     if (defined ($gateway{'0.0.0.0'})) {
         $inventory->setHardware({
-                DEFAULTGATEWAY => $gateway{'0.0.0.0'}
-            });
+            DEFAULTGATEWAY => $gateway{'0.0.0.0'}
+        });
     }
 
     my %ifData = (
@@ -114,13 +114,24 @@ sub doInventory {
             );
 
         } else { # In a section
-
-            $ifData{DESCRIPTION} = $1 if $line =~ /^(\S+)/; # Interface name
-            $ifData{IPADDRESS} = $1 if $line =~ /inet addr:(\S+)/i;
-            $ifData{IPMASK} = $1 if $line =~ /\S*mask:(\S+)/i;
-            $ifData{MACADDR} = $1 if $line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
-            $ifData{STATUS} = 'Up' if $line =~ /^\s+UP\s/;
-            $ifData{TYPE} = $1 if $line =~ /link encap:(\S+)/i;
+            if ($line =~ /^(\S+)/) {
+                $ifData{DESCRIPTION} = $1;
+            }
+            if ($line =~ /inet addr:(\S+)/i) {
+                $ifData{IPADDRESS} = $1;
+            }
+            if ($line =~ /\S*mask:(\S+)/i) {
+                $ifData{IPMASK} = $1;
+            }
+            if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i) {
+                $ifData{MACADDR} = $1;
+            }
+            if ($line =~ /^\s+UP\s/) {
+                $ifData{STATUS} = 'Up';
+            }
+            if ($line =~ /link encap:(\S+)/i) {
+                $ifData{TYPE} = $1;
+            }
         }
 
     }
