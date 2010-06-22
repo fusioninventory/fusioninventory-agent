@@ -36,42 +36,58 @@ sub doInventory {
         });
     }
 
-    my %ifData = (
-        STATUS => 'Down',
-    );
+    my $interfaces = parseIfconfig('/sbin/ifconfig -a', '-|', \%gateway);
 
-    foreach my $line (`ifconfig -a`) {
+    foreach my $interface (@$interfaces) {
+        $inventory->addNetwork($interface);
+    }
+}
+
+sub parseIfconfig {
+    my ($file, $mode, $gateway) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my $interfaces;
+
+    my $interface = { STATUS => 'Down' };
+
+    while (my $line = <$handle>) {
         if ( $line =~ /^$/ ) {
             # end of interface section
             # I write the entry
 
-            if ( !defined($ifData{DESCRIPTION}) ) {
+            if ( !defined($interface->{DESCRIPTION}) ) {
                 next;
             }
 
-            if ( defined($ifData{IPADDRESS}) && defined($ifData{IPMASK}) ) {
-                my $binip = ip_iptobin ($ifData{IPADDRESS} ,4);
-                my $binmask = ip_iptobin ($ifData{IPMASK} ,4);
+            if ( defined($interface->{IPADDRESS}) && defined($interface->{IPMASK}) ) {
+                my $binip = ip_iptobin ($interface->{IPADDRESS} ,4);
+                my $binmask = ip_iptobin ($interface->{IPMASK} ,4);
                 my $binsubnet = $binip & $binmask;
-                $ifData{IPSUBNET} = ip_bintoip($binsubnet,4);
-                $ifData{IPGATEWAY} = $gateway{$ifData{IPSUBNET}};
+                $interface->{IPSUBNET} = ip_bintoip($binsubnet,4);
+                $interface->{IPGATEWAY} = $gateway->{$interface->{IPSUBNET}};
                 # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
-                if (defined($ifData{IPGATEWAY}) and $ifData{IPGATEWAY} eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
-                    $ifData{IPGATEWAY} = $gateway{'0.0.0.0'}
+                if (defined($interface->{IPGATEWAY}) and $interface->{IPGATEWAY} eq '0.0.0.0' and defined($gateway->{'0.0.0.0'})) {
+                    $interface->{IPGATEWAY} = $gateway->{'0.0.0.0'}
                 }
             }
 
-            my @wifistatus = `iwconfig $ifData{DESCRIPTION} 2>>/dev/null`;
+            my @wifistatus = `iwconfig $interface->{DESCRIPTION} 2>>/dev/null`;
             if ( @wifistatus > 2 ) {
-                $ifData{TYPE} = "Wifi";
+                $interface->{TYPE} = "Wifi";
             }
 
-            my $file = "/sys/class/net/$ifData{DESCRIPTION}/device/uevent";
+            my $file = "/sys/class/net/$interface->{DESCRIPTION}/device/uevent";
             if (-r $file) {
                 if (open my $handle, '<', $file) {
                     while (<$handle>) {
-                        $ifData{DRIVER} = $1 if /^DRIVER=(\S+)/;
-                        $ifData{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
+                        $interface->{DRIVER} = $1 if /^DRIVER=(\S+)/;
+                        $interface->{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
                     }
                     close $handle;
                 } else {
@@ -81,16 +97,16 @@ sub doInventory {
 
             # Handle channel bonding interfaces
             my @slaves = ();
-            while (my $slave = glob("/sys/class/net/".$ifData{DESCRIPTION}."/slave_*")) {
+            while (my $slave = glob("/sys/class/net/".$interface->{DESCRIPTION}."/slave_*")) {
                 if ( $slave =~ /\/slave_(\w+)/ ) {
                     push( @slaves, $1 );
                 }
             }
-            $ifData{SLAVES} = join(',',@slaves);
+            $interface->{SLAVES} = join(',',@slaves);
 
             # Handle virtual devices (bridge)
             if (-d "/sys/devices/virtual/net/") {
-                $ifData{VIRTUALDEV} = (-d "/sys/devices/virtual/net/".$ifData{DESCRIPTION})?"1":"0";
+                $interface->{VIRTUALDEV} = (-d "/sys/devices/virtual/net/".$interface->{DESCRIPTION})?"1":"0";
             } elsif (can_run("brctl")) {
                 # Let's guess
                 my %bridge;
@@ -98,43 +114,43 @@ sub doInventory {
                     next if /^bridge name/;
                     $bridge{$1} = 1 if /^(\w+)\s/;
                 }
-                if ($ifData{PCISLOT}) {
-                    $ifData{VIRTUALDEV} = "no";
-                } elsif ($bridge{$ifData{DESCRIPTION}}) {
-                    $ifData{VIRTUALDEV} = "yes";
+                if ($interface->{PCISLOT}) {
+                    $interface->{VIRTUALDEV} = "no";
+                } elsif ($bridge{$interface->{DESCRIPTION}}) {
+                    $interface->{VIRTUALDEV} = "yes";
                 }
             }
 
-            $ifData{IPDHCP} = getIpDhcp($ifData{DESCRIPTION});
+            $interface->{IPDHCP} = getIpDhcp($interface->{DESCRIPTION});
 
-            $inventory->addNetwork(\%ifData);
+            push @$interfaces, $interface;
 
-            %ifData = (
-                STATUS => 'Down',
-            );
+            $interface = { STATUS => 'Down' };
 
         } else { # In a section
             if ($line =~ /^(\S+)/) {
-                $ifData{DESCRIPTION} = $1;
+                $interface->{DESCRIPTION} = $1;
             }
             if ($line =~ /inet addr:(\S+)/i) {
-                $ifData{IPADDRESS} = $1;
+                $interface->{IPADDRESS} = $1;
             }
             if ($line =~ /\S*mask:(\S+)/i) {
-                $ifData{IPMASK} = $1;
+                $interface->{IPMASK} = $1;
             }
             if ($line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i) {
-                $ifData{MACADDR} = $1;
+                $interface->{MACADDR} = $1;
             }
             if ($line =~ /^\s+UP\s/) {
-                $ifData{STATUS} = 'Up';
+                $interface->{STATUS} = 'Up';
             }
             if ($line =~ /link encap:(\S+)/i) {
-                $ifData{TYPE} = $1;
+                $interface->{TYPE} = $1;
             }
         }
 
     }
+
+    return $interfaces;
 }
 
 1;
