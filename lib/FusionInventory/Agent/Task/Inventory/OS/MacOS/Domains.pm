@@ -13,8 +13,8 @@ sub isInventoryEnabled {
 
     return 
         index $hostname, '.' >= 0 || # a simple dot in hostname
-        -f "/etc/resolv.conf"
- }
+        -f "/etc/resolv.conf";
+}
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
@@ -26,18 +26,18 @@ sub doInventory {
     $domain = join ('.',@domain);
 
     if (!$domain) {
-      my %domain;
+        my %domain;
 
-      if (open my $handle, '<', '/etc/resolv.conf') {
-          while(<$handle>){
-            $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
-          }
-          close $handle;
-      } else {
-          warn "Can't open /etc/resolv.conf: $ERRNO";
-      }
+        if (open my $handle, '<', '/etc/resolv.conf') {
+            while(<$handle>){
+                $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+            }
+            close $handle;
+        } else {
+            warn "Can't open /etc/resolv.conf: $ERRNO";
+        }
 
-      $domain = join "/", keys %domain;
+        $domain = join "/", keys %domain;
     }
 
     # If no domain name, we send "WORKGROUP"
