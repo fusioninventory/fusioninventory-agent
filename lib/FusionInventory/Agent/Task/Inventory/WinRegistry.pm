@@ -6,15 +6,13 @@ use warnings;
 use English qw(-no_match_vars);
 
 my @hives = qw/
-HKEY_CLASSES_ROOT
-HKEY_CURRENT_USER
-HKEY_LOCAL_MACHINE
-HKEY_USERS
-HKEY_CURRENT_CONFIG
-HKEY_DYN_DATA
+    HKEY_CLASSES_ROOT
+    HKEY_CURRENT_USER
+    HKEY_LOCAL_MACHINE
+    HKEY_USERS
+    HKEY_CURRENT_CONFIG
+    HKEY_DYN_DATA
 /; 
-
-
 
 sub isInventoryEnabled {
     return unless $OSNAME eq 'MSWin32';
@@ -59,16 +57,16 @@ sub doInventory {
 
         if ($content ne '*') {
             $inventory->addRegistry({
-                    NAME => $name, 
-                    REGVALUE => $values->{$content}
-                    });
+                NAME => $name, 
+                REGVALUE => $values->{$content}
+            });
         } else {
             foreach my $keyWithDelimiter ( keys %$values ) {
                 next unless $keyWithDelimiter =~ /^\/(.*)/;
                 $inventory->addRegistry({
-                        NAME => $name, 
-                        REGVALUE => $1."=".$values->{$keyWithDelimiter}."\n"
-                        });
+                    NAME => $name, 
+                    REGVALUE => $1."=".$values->{$keyWithDelimiter}."\n"
+                });
             }
         }
 
