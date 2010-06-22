@@ -4,24 +4,23 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Sys::Hostname;
 
 # straight up theft from the other modules...
 
 sub isInventoryEnabled {
-    my $hostname;
-    chomp ($hostname = `hostname`);
-    my @domain = split (/\./, $hostname);
-    shift (@domain);
-    return 1 if @domain;
-    -f "/etc/resolv.conf"
+    my $hostname = hostname();
+
+    return 
+        index $hostname, '.' >= 0 || # a simple dot in hostname
+        -f "/etc/resolv.conf"
  }
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
     my $domain;
-    my $hostname;
-    chomp ($hostname = `hostname`);
+    my $hostname = hostname();
     my @domain = split (/\./, $hostname);
     shift (@domain);
     $domain = join ('.',@domain);
