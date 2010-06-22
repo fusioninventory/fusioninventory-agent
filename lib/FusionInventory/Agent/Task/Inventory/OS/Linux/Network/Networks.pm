@@ -20,9 +20,6 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
-
     my %gateway;
     foreach (`route -n`) {
         if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
@@ -66,6 +63,9 @@ sub parseIfconfig {
             }
 
             if ( defined($interface->{IPADDRESS}) && defined($interface->{IPMASK}) ) {
+                # import Net::IP functional interface
+                Net::IP->import(':PROC');
+
                 my $binip = ip_iptobin ($interface->{IPADDRESS} ,4);
                 my $binmask = ip_iptobin ($interface->{IPMASK} ,4);
                 my $binsubnet = $binip & $binmask;
