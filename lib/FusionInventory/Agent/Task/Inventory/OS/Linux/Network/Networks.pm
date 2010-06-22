@@ -5,53 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 
         can_run("ifconfig") &&
         can_run("route") &&
         can_load("Net::IP");
-}
-
-
-sub _ipdhcp {
-    my $if = shift;
-
-    my $path;
-    my $dhcp;
-    my $ipdhcp;
-    my $leasepath;
-
-    foreach (
-        "/var/lib/dhcp3/dhclient.%s.leases",
-        "/var/lib/dhcp3/dhclient.%s.leases",
-        "/var/lib/dhcp/dhclient.leases", ) {
-
-        $leasepath = sprintf($_,$if);
-        last if (-e $leasepath);
-    }
-    return unless -e $leasepath;
-
-    if (open my $handle, '<', $leasepath) {
-        my $lease;
-        while (<$handle>) {
-            $lease = 1 if(/lease\s*{/i);
-            $lease = 0 if(/^\s*}\s*$/);
-            #Interface name
-            if ($lease) { #inside a lease section
-                if(/interface\s+"(.+?)"\s*/){
-                    $dhcp = ($1 =~ /^$if$/);
-                }
-                #Server IP
-                if(/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/ and $dhcp){
-                    $ipdhcp = $1;
-                }
-            }
-        }
-        close $handle;
-    } else {
-        warn "Can't open $leasepath: $ERRNO";
-    }
-    return $ipdhcp;
 }
 
 # Initialise the distro entry
