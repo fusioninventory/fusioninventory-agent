@@ -1,16 +1,5 @@
 package FusionInventory::Agent::Task::Inventory;
 
-=head1 NAME
-
-FusionInventory::Agent::Task::Inventory - The Inventory module for FusionInventory 
-
-=head1 DESCRIPTION
-
-This module load and run the submodules needed to get the informations
-regarding the Hardware and Software installation.
-
-=cut
-
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task::Base';
@@ -507,3 +496,16 @@ sub runWithTimeout {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::Inventory - The Inventory module for FusionInventory 
+
+=head1 DESCRIPTION
+
+This module load and run the submodules needed to get the informations
+regarding the Hardware and Software installation.
+
+=cut

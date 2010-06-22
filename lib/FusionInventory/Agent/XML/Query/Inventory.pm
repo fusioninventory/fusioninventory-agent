@@ -5,19 +5,6 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 use English qw(-no_match_vars);
-
-=head1 NAME
-
-FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
-
-=head1 DESCRIPTION
-
-FusionInventory uses OCS Inventory XML format for the data transmition. This
-module is the abstraction layer. It's mostly used in the backend module where
-it called $inventory in general.
-
-=cut
-
 use Encode qw/encode/;
 use XML::Simple;
 use Digest::MD5 qw(md5_base64);
@@ -1254,6 +1241,21 @@ sub feedSection{
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
+
+=head1 DESCRIPTION
+
+FusionInventory uses OCS Inventory XML format for the data transmition. This
+module is the abstraction layer. It's mostly used in the backend module where
+it called $inventory in general.
+
+=cut
+
 =head1 XML STRUCTURE
 
 This section presents the XML structure used by FusionInventory. The schema
