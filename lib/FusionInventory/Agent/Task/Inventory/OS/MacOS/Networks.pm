@@ -73,14 +73,14 @@ sub doInventory {
         my $mask = ip_bintoip($binmask,4);
         $inventory->addNetwork({
             DESCRIPTION => $description,
-            IPADDRESS => ($status?$ipaddress:undef),
-            IPDHCP => getIpDhcp($description),
-            IPGATEWAY => ($status?$ipgateway:undef),
-            IPMASK => ($status?$mask:undef),
-            IPSUBNET => ($status?$ipsubnet:undef),
-            MACADDR => $macaddr,
-            STATUS => ($status?"Up":"Down"),
-            TYPE => ($status?$type:undef)
+            MACADDR     => $macaddr,
+            IPDHCP      => getIpDhcp($description),
+            IPADDRESS   => ($status ? $ipaddress : undef),
+            IPGATEWAY   => ($status ? $ipgateway : undef),
+            IPMASK      => ($status ? $mask      : undef),
+            IPSUBNET    => ($status ? $ipsubnet  : undef),
+            TYPE        => ($status ? $type      : undef),
+            STATUS      => ($status ? "Up"       : "Down")
         });
     }
 }
