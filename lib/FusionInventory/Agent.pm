@@ -65,8 +65,8 @@ sub new {
     }
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
-            config => $config
-        });
+        config => $config
+    });
 
     if ( $REAL_USER_ID != 0 ) {
         $logger->info("You should run this program as super-user.");
@@ -131,12 +131,10 @@ sub new {
 
 ######
     $self->{targets} = FusionInventory::Agent::Targets->new({
-
-            logger => $logger,
-            config => $config,
-            deviceid => $self->{deviceid}
-            
-        });
+        logger => $logger,
+        config => $config,
+        deviceid => $self->{deviceid}
+    });
     my $targets = $self->{targets};
 
     if (!$targets->numberOfTargets()) {
@@ -157,9 +155,7 @@ sub new {
         }
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
-        if (isAgentAlreadyRunning({
-                    logger => $logger,
-                })) {
+        if (isAgentAlreadyRunning({ logger => $logger })) {
             $logger->debug("An agent is already runnnig, exiting...");
             exit 1;
         }
@@ -169,12 +165,10 @@ sub new {
 
     }
     $self->{rpc} = FusionInventory::Agent::RPC->new({
-          
-            logger => $logger,
-            config => $config,
-            targets => $targets,
-  
-        });
+        logger => $logger,
+        config => $config,
+        targets => $targets,
+    });
 
     $logger->debug("FusionInventory Agent initialised");
 
@@ -227,22 +221,18 @@ sub main {
         if ($target->{type} eq 'server') {
 
             my $network = FusionInventory::Agent::Network->new({
-
-                    logger => $logger,
-                    config => $config,
-                    target => $target,
-
-                });
+                logger => $logger,
+                config => $config,
+                target => $target,
+            });
 
             my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-
-                    accountinfo => $target->{accountinfo}, #? XXX
-                    logger => $logger,
-                    config => $config,
-                    rpc => $rpc,
-                    target => $target
-
-                });
+                accountinfo => $target->{accountinfo}, #? XXX
+                logger => $logger,
+                config => $config,
+                rpc => $rpc,
+                target => $target
+            });
 
             # TODO Don't mix settings and temp value
             $prologresp = $network->send({message => $prolog});
@@ -258,23 +248,18 @@ sub main {
 
 
         my $storage = FusionInventory::Agent::Storage->new({
-
-                config => $config,
-                logger => $logger,
-                target => $target,
-
-            });
+            config => $config,
+            logger => $logger,
+            target => $target,
+        });
         $storage->save({
-
             data => {
                 config => $config,
                 target => $target,
                 #logger => $logger, # XXX Needed?
                 prologresp => $prologresp
             }
-
-            });
-
+        });
 
         my @tasks = qw/
             Inventory
@@ -287,12 +272,11 @@ sub main {
 
         foreach my $module (@tasks) {
             my $task = FusionInventory::Agent::Task->new({
-                    config => $config,
-                    logger => $logger,
-                    module => $module,
-                    target => $target,
-
-                });
+                config => $config,
+                logger => $logger,
+                module => $module,
+                target => $target,
+            });
 
             $rpc->setCurrentStatus("running task $module");
             next unless $task;
