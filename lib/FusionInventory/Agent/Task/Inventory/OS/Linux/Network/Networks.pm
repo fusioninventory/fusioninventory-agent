@@ -27,7 +27,7 @@ sub doInventory {
         }
     }
 
-    if (defined ($gateway{'0.0.0.0'})) {
+    if ($gateway{'0.0.0.0'}) {
         $inventory->setHardware({
             DEFAULTGATEWAY => $gateway{'0.0.0.0'}
         });
@@ -58,21 +58,26 @@ sub parseIfconfig {
             # end of interface section
             # I write the entry
 
-            if ( !defined($interface->{DESCRIPTION}) ) {
+            if (!$interface->{DESCRIPTION}) {
                 next;
             }
 
-            if ( defined($interface->{IPADDRESS}) && defined($interface->{IPMASK}) ) {
+            if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
                 # import Net::IP functional interface
                 Net::IP->import(':PROC');
 
-                my $binip = ip_iptobin ($interface->{IPADDRESS} ,4);
-                my $binmask = ip_iptobin ($interface->{IPMASK} ,4);
+                my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
+                my $binmask = ip_iptobin($interface->{IPMASK}, 4);
                 my $binsubnet = $binip & $binmask;
-                $interface->{IPSUBNET} = ip_bintoip($binsubnet,4);
+                $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
                 $interface->{IPGATEWAY} = $gateway->{$interface->{IPSUBNET}};
-                # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
-                if (defined($interface->{IPGATEWAY}) and $interface->{IPGATEWAY} eq '0.0.0.0' and defined($gateway->{'0.0.0.0'})) {
+                # replace '0.0.0.0' (ie 'default gateway') by the
+                # default gateway IP adress if it exists
+                if (
+                    $interface->{IPGATEWAY} and
+                    $interface->{IPGATEWAY} eq '0.0.0.0' and 
+                    $gateway->{'0.0.0.0'}
+                ) {
                     $interface->{IPGATEWAY} = $gateway->{'0.0.0.0'}
                 }
             }
