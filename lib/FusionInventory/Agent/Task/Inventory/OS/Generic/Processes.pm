@@ -29,8 +29,9 @@ sub doInventory {
         'Nov' => '11',
         'Dec' => '12',
     );
-    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-    my $the_year=$year+1900;
+    my ($sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst) =
+        localtime(time);
+    $year = $year + 1900;
 
     my $command = $OSNAME eq 'solaris' ?
         'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
@@ -43,37 +44,48 @@ sub doInventory {
 
     while ($line = <$handle>) {
         next if $INPUT_LINE_NUMBER == 1;
-        if ($line =~
-            /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*?)\s*$/){
-            my $user = $1;
-            my $pid= $2;
-            my $cpu= $3;
-            my $mem= $4;
-            my $vsz= $5;
-            my $tty= $7;
-            my $started= $9;
-            my $time= $10;
-            my $cmd= $11;
+        next unless $line =~
+            /^
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (.+)
+            $/;
+        my $user = $1;
+        my $pid = $2;
+        my $cpu = $3;
+        my $mem = $4;
+        my $vsz = $5;
+        my $tty = $7;
+        my $started = $9;
+        my $time = $10;
+        my $cmd = $11;
 
-            if ($started =~ /^(\w{3})/)  {
-                my $d=substr($started, 3);
-                my $m=substr($started, 0,3);
-                $begin=$the_year."-".$month{$m}."-".$d." ".$time; 
-            }  else {
-                $begin=$the_year."-".$mon."-".$mday." ".$started;
-            }
-
-            $inventory->addProcess({
-                USER          => $user,
-                PID           => $pid,
-                CPUUSAGE      => $cpu,
-                MEM           => $mem,
-                VIRTUALMEMORY => $vsz,
-                TTY           => $tty,
-                STARTED       => $begin,
-                CMD           => $cmd
-            });
+        if ($started =~ /(\w{3})(\d{2})/) {
+            my $start_month = $1;
+            my $start_day = $2;
+            $begin = "$year-$month{$start_month}-$start_day $time"; 
+        }  else {
+            $begin = "$year-$mon-$day $started";
         }
+
+        $inventory->addProcess({
+            USER          => $user,
+            PID           => $pid,
+            CPUUSAGE      => $cpu,
+            MEM           => $mem,
+            VIRTUALMEMORY => $vsz,
+            TTY           => $tty,
+            STARTED       => $begin,
+            CMD           => $cmd
+        });
     }
     close $handle; 
 }
