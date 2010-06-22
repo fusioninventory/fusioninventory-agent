@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use File::stat;
+
 our @EXPORT = qw(getManufacturer getIpDhcp);
 
 sub getManufacturer {
@@ -42,29 +44,44 @@ sub getManufacturer {
 sub getIpDhcp {
     my $if = shift;
 
-    my $leasepath;
-
-    foreach my $path (
-        # XXX BSD paths
-        "/var/db/dhclient.leases.%s",
-        "/var/db/dhclient.leases",
-        # Linux path for some kFreeBSD based GNU system
-        "/var/lib/dhcp3/dhclient.%s.leases",
-        "/var/lib/dhcp/dhclient-%s.leases",
-        "/var/lib/dhcp/dhclient.leases"
+    my $lease_file;
+    foreach my $dir qw(
+        /var/db
+        /var/lib/dhcp3
+        /var/lib/dhcp
     ) {
+        next unless -d $dir;
 
-        $leasepath = sprintf($path , $if);
-        last if -f $leasepath;
+        my @files =
+            grep { -s $_ }
+            glob("$dir/*$if.lease");
+
+        if (@files) {
+            # sort by creation time 
+            @files =
+                map { $_->[0] } 
+                sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
+                map { [ $_, stat($_) ] }
+                @files;
+
+            # take the last one
+            $lease_file = $files[-1];
+            last;
+        }
+
+        if (-f "$dir/dhclient.leases") {
+            $lease_file = "$dir/dhclient.leases";
+            last;
+        }
     }
 
-    return unless -f $leasepath;
+    return unless $lease_file;
 
     my ($server_ip, $expiration_time);
 
     my $handle;
-    if (!open $handle, '<', $leasepath) {
-        warn "Can't open $leasepath\n";
+    if (!open $handle, '<', $lease_file) {
+        warn "Can't open $lease_file\n";
         return;
     }
 
