@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(getManufacturer _ipdhcp);
+our @EXPORT = qw(getManufacturer getIpDhcp);
 
 sub getManufacturer {
     my ($model) = @_;
@@ -39,7 +39,7 @@ sub getManufacturer {
     return $model;
 }
 
-sub _ipdhcp {
+sub getIpDhcp {
     my $if = shift;
 
     my $path;

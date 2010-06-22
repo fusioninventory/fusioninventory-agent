@@ -105,7 +105,7 @@ sub doInventory {
                 }
             }
 
-            $ifData{IPDHCP} = _ipdhcp($ifData{DESCRIPTION});
+            $ifData{IPDHCP} = getIpDhcp($ifData{DESCRIPTION});
 
             $inventory->addNetwork(\%ifData);
 

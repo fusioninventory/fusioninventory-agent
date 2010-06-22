@@ -74,7 +74,7 @@ sub doInventory {
         $inventory->addNetwork({
             DESCRIPTION => $description,
             IPADDRESS => ($status?$ipaddress:undef),
-            IPDHCP => _ipdhcp($description),
+            IPDHCP => getIpDhcp($description),
             IPGATEWAY => ($status?$ipgateway:undef),
             IPMASK => ($status?$mask:undef),
             IPSUBNET => ($status?$ipsubnet:undef),
