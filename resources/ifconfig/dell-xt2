@@ -1,0 +1,33 @@
+eth0      Link encap:Ethernet  HWaddr A4:BA:DB:A5:F5:FA  
+          inet adr:192.168.0.5  Bcast:192.168.0.255  Masque:255.255.255.0
+          adr inet6: fe80::a6ba:dbff:fea5:f5fa/64 Scope:Lien
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:39172 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:35564 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 lg file transmission:100 
+          RX bytes:24447642 (23.3 MiB)  TX bytes:3479751 (3.3 MiB)
+          Mémoire:f6ae0000-f6b00000 
+
+lo        Link encap:Boucle locale  
+          inet adr:127.0.0.1  Masque:255.0.0.0
+          adr inet6: ::1/128 Scope:Hôte
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:172 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:172 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 lg file transmission:0 
+          RX bytes:13512 (13.1 KiB)  TX bytes:13512 (13.1 KiB)
+
+sit0      Link encap:IPv6-dans-IPv4  
+          NOARP  MTU:1480  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 lg file transmission:0 
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+wlan0     Link encap:Ethernet  HWaddr 00:24:D6:6F:81:3A  
+          BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 lg file transmission:1000 
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
