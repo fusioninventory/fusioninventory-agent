@@ -10,9 +10,6 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $config = $params->{config};
 
-    my %user;
-    my $UsersLoggedIn = join "/", keys %user;
-
     if ($config->{old_deviceid}) {
         $inventory->setHardware({ OLD_DEVICEID => $config->{old_deviceid} });
     }
