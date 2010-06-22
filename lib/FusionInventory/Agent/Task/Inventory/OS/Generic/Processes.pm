@@ -42,7 +42,7 @@ sub doInventory {
     }
 
     while ($line = <$handle>) {
-        next if ($. ==1);
+        next if $INPUT_LINE_NUMBER == 1;
         if ($line =~
             /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*?)\s*$/){
             my $user = $1;
