@@ -44,14 +44,14 @@ sub doInventory {
         $domain = join "/", keys %domain;
     }
 
-    $dns=join("/",@dns_list);
+    $dns = join("/",@dns_list);
     # If no domain name, we send "WORKGROUP"
     $domain = 'WORKGROUP' unless $domain;
 
     $inventory->setHardware({
-            WORKGROUP => $domain,
-            DNS => $dns
-        });
+        WORKGROUP => $domain,
+        DNS => $dns
+    });
 
 }
 
