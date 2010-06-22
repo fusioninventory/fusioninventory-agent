@@ -5,6 +5,7 @@ use warnings;
 use base 'Exporter';
 
 use File::stat;
+use Time::Local;
 
 our @EXPORT = qw(getManufacturer getIpDhcp);
 
@@ -118,14 +119,12 @@ sub getIpDhcp {
             $line =~
             /expire \s+ \d \s+ (\d+)\/(\d+)\/(\d+) \s+ (\d+):(\d+):(\d+)/x
         ) {
-            $expiration_time =
-                sprintf "%04d%02d%02d%02d%02d%02d", $1, $2, $3, $4, $5, $6;
+            $expiration_time = timelocal($6, $5, $4, $3, $2, $1);
         }
     }
     close $handle;
 
-    my $current_time = `date +"%Y%m%d%H%M%S"`;
-    chomp $current_time;
+    my $current_time = time();
 
     return $current_time <= $expiration_time ? $server_ip : undef;
 }
