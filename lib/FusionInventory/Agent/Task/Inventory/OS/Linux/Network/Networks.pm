@@ -54,85 +54,43 @@ sub parseIfconfig {
     my $interface = { STATUS => 'Down' };
 
     while (my $line = <$handle>) {
-        if ( $line =~ /^$/ ) {
+        if ($line =~ /^$/) {
             # end of interface section
-            # I write the entry
 
-            if (!$interface->{DESCRIPTION}) {
-                next;
-            }
+            next unless $interface->{DESCRIPTION};
 
-            if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
-                # import Net::IP functional interface
-                Net::IP->import(':PROC');
-
-                my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
-                my $binmask = ip_iptobin($interface->{IPMASK}, 4);
-                my $binsubnet = $binip & $binmask;
-                $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
-                $interface->{IPGATEWAY} = $gateway->{$interface->{IPSUBNET}};
-                # replace '0.0.0.0' (ie 'default gateway') by the
-                # default gateway IP adress if it exists
-                if (
-                    $interface->{IPGATEWAY} and
-                    $interface->{IPGATEWAY} eq '0.0.0.0' and 
-                    $gateway->{'0.0.0.0'}
-                ) {
-                    $interface->{IPGATEWAY} = $gateway->{'0.0.0.0'}
-                }
-            }
-
-            my @wifistatus = `/sbin/iwconfig $interface->{DESCRIPTION} 2>>/dev/null`;
-            if ( @wifistatus > 2 ) {
+            if (isWifi($interface->{DESCRIPTION})) {
                 $interface->{TYPE} = "Wifi";
             }
 
-            my $file = "/sys/class/net/$interface->{DESCRIPTION}/device/uevent";
-            if (-r $file) {
-                if (open my $handle, '<', $file) {
-                    while (<$handle>) {
-                        $interface->{DRIVER} = $1 if /^DRIVER=(\S+)/;
-                        $interface->{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
-                    }
-                    close $handle;
-                } else {
-                    warn "Can't open $file: $ERRNO";
-                }
+            if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
+                my ($ipsubnet, $ipgateway) = getNetworkInfo(
+                    $interface->{IPADDRESS},
+                    $interface->{IPMASK},
+                    $gateway
+                );
+                $interface->{IPSUBNET} = $ipsubnet;
+                $interface->{IPGATEWAY} = $ipgateway;
             }
 
-            # Handle channel bonding interfaces
-            my @slaves = ();
-            while (my $slave = glob("/sys/class/net/".$interface->{DESCRIPTION}."/slave_*")) {
-                if ( $slave =~ /\/slave_(\w+)/ ) {
-                    push( @slaves, $1 );
-                }
-            }
-            $interface->{SLAVES} = join(',',@slaves);
+            my ($driver, $pcislot) = getUevent($interface->{DESCRIPTION});
+            $interface->{DRIVER} = $driver if $driver;
+            $interface->{PCISLOT} = $pcislot if $pcislot;
 
-            # Handle virtual devices (bridge)
-            if (-d "/sys/devices/virtual/net/") {
-                $interface->{VIRTUALDEV} = (-d "/sys/devices/virtual/net/".$interface->{DESCRIPTION})?"1":"0";
-            } elsif (can_run("brctl")) {
-                # Let's guess
-                my %bridge;
-                foreach (`brctl show`) {
-                    next if /^bridge name/;
-                    $bridge{$1} = 1 if /^(\w+)\s/;
-                }
-                if ($interface->{PCISLOT}) {
-                    $interface->{VIRTUALDEV} = "no";
-                } elsif ($bridge{$interface->{DESCRIPTION}}) {
-                    $interface->{VIRTUALDEV} = "yes";
-                }
-            }
+            $interface->{VIRTUALDEV} = getVirtualDev(
+                $interface->{DESCRIPTION},
+                $interface
+            );
 
             $interface->{IPDHCP} = getIpDhcp($interface->{DESCRIPTION});
+            $interface->{SLAVES} = getSlaves($interface->{DESCRIPTION});
 
             push @$interfaces, $interface;
 
             $interface = { STATUS => 'Down' };
 
-        } else { # In a section
+        } else {
+            # In a section
             if ($line =~ /^(\S+)/) {
                 $interface->{DESCRIPTION} = $1;
             }
@@ -156,6 +114,102 @@ sub parseIfconfig {
     }
 
     return $interfaces;
+}
+
+# Handle slave devices (bonding)
+sub getSlaves {
+    my ($name) = @_;
+
+    my @slaves = ();
+    while (my $slave = glob("/sys/class/net/$name/slave_*")) {
+        if ($slave =~ /\/slave_(\w+)/) {
+            push(@slaves, $1);
+        }
+    }
+
+    return join (",", @slaves);
+}
+
+# Handle virtual devices (bridge)
+sub getVirtualDev {
+    my ($name, $pcislot) = @_;
+
+    my $virtualdev;
+
+    if (-d "/sys/devices/virtual/net/") {
+        $virtualdev = -d "/sys/devices/virtual/net/$name" ? 1 : 0;
+    } else {
+        if (can_run("brctl")) {
+            # Let's guess
+            my %bridge;
+            foreach (`brctl show`) {
+                next if /^bridge name/;
+                $bridge{$1} = 1 if /^(\w+)\s/;
+            }
+            if ($pcislot) {
+                $virtualdev = "no";
+            } elsif ($bridge{$name}) {
+                $virtualdev = "yes";
+            }
+        }
+    }
+
+    return $virtualdev;
+}
+
+sub isWifi {
+    my ($name) = @_;
+
+    my @wifistatus = `/sbin/iwconfig $name 2>/dev/null`;
+    return @wifistatus > 2;
+}
+
+sub getUevent {
+    my ($name) = @_;
+
+    my ($driver, $pcislot);
+
+    my $file = "/sys/class/net/$name/device/uevent";
+    if (-r $file) {
+        if (open my $handle, '<', $file) {
+            while (<$handle>) {
+                $driver = $1 if /^DRIVER=(\S+)/;
+                $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+            }
+            close $handle;
+        } else {
+            warn "Can't open $file: $ERRNO";
+        }
+    }
+
+    return ($driver, $pcislot);
+}
+
+sub getNetworkInfo {
+    my ($address, $mask, $gateway) = @_;
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
+
+    my ($ipsubnet, $ipgateway);
+
+    my $binip = ip_iptobin($address, 4);
+    my $binmask = ip_iptobin($mask, 4);
+    my $binsubnet = $binip & $binmask;
+
+    $ipsubnet = ip_bintoip($binsubnet, 4);
+    $ipgateway = $gateway->{$ipsubnet};
+
+    # replace '0.0.0.0' (ie 'default gateway') by the
+    # default gateway IP adress if it exists
+    if ($ipgateway and
+        $ipgateway eq '0.0.0.0' and 
+        $gateway->{'0.0.0.0'}
+    ) {
+        $ipgateway = $gateway->{'0.0.0.0'}
+    }
+
+    return ($ipsubnet, $ipgateway);
 }
 
 1;
