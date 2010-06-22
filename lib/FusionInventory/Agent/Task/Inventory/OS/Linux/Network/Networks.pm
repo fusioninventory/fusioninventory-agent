@@ -77,7 +77,7 @@ sub parseIfconfig {
                 }
             }
 
-            my @wifistatus = `iwconfig $interface->{DESCRIPTION} 2>>/dev/null`;
+            my @wifistatus = `/sbin/iwconfig $interface->{DESCRIPTION} 2>>/dev/null`;
             if ( @wifistatus > 2 ) {
                 $interface->{TYPE} = "Wifi";
             }
