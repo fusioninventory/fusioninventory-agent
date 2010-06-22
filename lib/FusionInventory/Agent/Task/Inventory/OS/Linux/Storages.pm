@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 1;
 }
@@ -122,22 +124,6 @@ sub getDescription {
         }
     } else {
         return "IDE";
-    }
-}
-
-sub getManufacturer {
-    my ($model) = @_;
-
-    if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
-        return ucfirst(lc($1));
-    } elsif ($model =~ /^HP/) {
-        return "Hewlett Packard";
-    } elsif ($model =~ /^WDC/) {
-        return "Western Digital";
-    } elsif ($model =~ /^ST/) {
-        return "Seagate";
-    } elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
-        return "Hitachi";
     }
 }
 

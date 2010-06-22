@@ -3,27 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Storages;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_load('Mac::SysProfile');
-}
-
-sub getManufacturer {
-    my $model = shift;
-    if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend|matshita|pioneer)/i) {
-        return ucfirst(lc($1));
-    }
-    elsif ($model =~ /^HP/) {
-        return "Hewlett Packard";
-    }
-    elsif ($model =~ /^WDC/) {
-        return "Western Digital";
-    }
-    elsif ($model =~ /^ST/) {
-        return "Seagate";
-    }
-    elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
-        return "Hitachi";
-    }
 }
 
 sub doInventory {
