@@ -43,7 +43,6 @@ sub getIpDhcp {
     my $if = shift;
 
     my $path;
-    my $ipdhcp;
     my $leasepath;
 
     foreach ( # XXX BSD paths
@@ -59,10 +58,10 @@ sub getIpDhcp {
     }
     return unless -e $leasepath;
 
+    my ($server_ip, $expiration_time);
+
     if (open my $handle, '<', $leasepath) {
-        my $lease;
-        my $dhcp;
-        my $expire;
+        my ($lease, $dhcp);
         # find the last lease for the interface with its expire date
         while(<$handle>){
             $lease = 1 if /lease\s*{/i;
@@ -79,20 +78,22 @@ sub getIpDhcp {
 
             if (/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/) {
                 # server IP
-                $ipdhcp = $1;
+                $server_ip = $1;
             }
             if (/^\s*expire\s*\d\s*(\d*)\/(\d*)\/(\d*)\s*(\d*):(\d*):(\d*)/) {
-                $expire =
+                $expiration_time =
                     sprintf "%04d%02d%02d%02d%02d%02d", $1, $2, $3, $4, $5, $6;
             }
         }
         close $handle;
-        chomp (my $currenttime = `date +"%Y%m%d%H%M%S"`);
-        undef $ipdhcp unless $currenttime <= $expire;
     } else {
         warn "Can't open $leasepath\n";
     }
-    return $ipdhcp;
+
+    my $current_time = `date +"%Y%m%d%H%M%S"`;
+    chomp $current_time;
+
+    return $current_time <= $expiration_time ? $server_ip : undef;
 }
 
 1;
