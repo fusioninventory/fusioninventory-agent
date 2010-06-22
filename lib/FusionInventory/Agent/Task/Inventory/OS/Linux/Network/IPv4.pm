@@ -4,8 +4,7 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    return unless can_run ("ifconfig");
-    1;
+    return can_run ("ifconfig");
 }
 
 # Initialise the distro entry
