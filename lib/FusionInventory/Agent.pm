@@ -13,6 +13,9 @@ use File::Path;
 use XML::Simple;
 use Sys::Hostname;
 
+# reap child processes automatically
+$SIG{CHLD} = 'IGNORE';
+
 our $VERSION = '2.1beta1';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
@@ -273,16 +276,35 @@ sub main {
             /;
 
         foreach my $module (@tasks) {
-            my $task = FusionInventory::Agent::Task->new({
-                config => $config,
-                logger => $logger,
-                module => $module,
-                target => $target,
-            });
 
-            $rpc->setCurrentStatus("running task $module");
-            next unless $task;
-            $task->run();
+            next if $config->{'no-'.lc($module)};
+
+            my $package = "FusionInventory::Agent::Task::$module";
+            if (!$package->require()) {
+                $logger->info("Module $package is not installed.");
+                next;
+            }
+
+            # launch task
+            if (my $pid = fork()) {
+                # parent
+                $rpc->setCurrentStatus("running task $module");
+            } else {
+               die "fork failed: $ERRNO" unless defined $pid;
+               # child
+                $logger->debug("[task] executing $module in process $PID");
+
+                my $task = $package->new({
+                    config => $config,
+                    logger => $logger,
+                    target => $target,
+                });
+                $task->main();
+
+                $logger->debug("[task] end of $module");
+                exit 0;
+            }
+
         }
         $rpc->setCurrentStatus("waiting");
 
