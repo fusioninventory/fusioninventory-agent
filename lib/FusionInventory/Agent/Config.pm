@@ -107,7 +107,12 @@ sub loadFromWinRegistry {
         return;
     }
 
-    my $machKey = $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    my $machKey = $Win32::TieRegistry::Registry->Open(
+        "LMachine", {
+            Access    => Win32::TieRegistry::KEY_READ(),
+            Delimiter => "/"
+        }
+    );
     my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
 
     foreach my $rawKey (keys %$settings) {
