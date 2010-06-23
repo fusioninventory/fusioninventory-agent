@@ -112,10 +112,10 @@ sub new {
         !defined($myRootData->{previousHostname}) ||
         $myRootData->{previousHostname} ne $hostname
     ) {
-        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
-            (time))[5,4,3,2,1,0];
-        $self->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+        my ($year, $month , $day, $hour, $min, $sec) =
+            (localtime(time()))[5,4,3,2,1,0];
+        $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+            $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
 
         $myRootData->{previousHostname} = $hostname;
         $myRootData->{deviceid} = $self->{deviceid};
