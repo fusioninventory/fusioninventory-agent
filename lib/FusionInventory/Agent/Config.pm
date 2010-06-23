@@ -77,6 +77,10 @@ sub new {
 
     $self->loadUserParams();
 
+    if ($self->{logfile}) {
+        $self->{logger} = 'File';
+    }
+
     return $self;
 }
 

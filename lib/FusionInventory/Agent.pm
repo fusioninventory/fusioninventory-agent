@@ -59,11 +59,6 @@ sub new {
         $config->{winService} = 1;
     }
 
-    # TODO: should be in Config.pm
-    if ($config->{logfile}) {
-        $config->{logger} = 'File';
-    }
-
     my $logger = $self->{logger} = FusionInventory::Logger->new({
         config => $config
     });
