@@ -4,29 +4,16 @@ use strict;
 use warnings;
 
 sub new {
-    my ($class) = @_;
+    my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        config     => $params->{config},
+        target     => $params->{target},
+        logger     => $params->{logger},
+        prologresp => $params->{prologresp}
+    };
+
     bless $self, $class;
-
-    my $storage = FusionInventory::Agent::Storage->new({
-        target => {
-            vardir => $ARGV[0],
-        }
-    });
-    my $data = $storage->restore({
-        module => "FusionInventory::Agent"
-    });
-    $self->{storage} = $storage;
-    $self->{data} = $data;
-    $self->{myData} = $storage->restore();
-
-    $self->{config} = $data->{config};
-    $self->{target} = $data->{target};
-    $self->{logger} = FusionInventory::Logger->new({
-        config => $self->{config}
-    });
-    $self->{prologresp} = $data->{prologresp};
 
     return $self;
 }
