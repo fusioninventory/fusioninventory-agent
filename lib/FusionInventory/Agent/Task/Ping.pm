@@ -13,7 +13,7 @@ use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Logger;
 
 sub main {
-    my $self = FusionInventory::Agent::Task::Ping->new();
+    my ($self) = @_;
 
     if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");

@@ -21,7 +21,7 @@ use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Logger;
 
 sub main {
-    my $self = FusionInventory::Agent::Task::WakeOnLan->new();
+    my ($self) = @_;
 
     my $continue = 0;
     foreach my $num (@{$self->{prologresp}->{parsedcontent}->{OPTION}}) {

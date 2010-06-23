@@ -16,7 +16,7 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
 
 sub main {
-    my $self = FusionInventory::Agent::Task::Inventory->new();
+    my ($self) = @_;
 
     if ($self->{target}->{type} eq 'server' &&
         (
