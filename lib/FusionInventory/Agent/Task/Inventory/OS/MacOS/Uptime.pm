@@ -16,7 +16,7 @@ sub doInventory {
     # stolen code from bsd.
     chomp (my $boottime = `sysctl -n kern.boottime`);
     $boottime = $1 if $boottime =~ /sec\s*=\s*(\d+)/;
-    chomp (my $currenttime = `date +%s`);
+    my $currenttime = time();
     my $uptime = $currenttime - $boottime;
 
     # Uptime conversion
