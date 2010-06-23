@@ -1414,9 +1414,15 @@ Date of the create of the filesystem in in DD/MM/YYYY format.
 
 =item FREE
 
+Free space
+
 =item FILESYSTEM
 
+File system name. e.g: ext3
+
 =item LABEL
+
+Name of the partition given by the user.
 
 =item LETTER
 
@@ -1436,9 +1442,11 @@ Total space avalaible.
 
 =item TYPE
 
+The mount point on UNIX.
+
 =item VOLUMN
 
-Name of the partition.
+System name of the partition (e.g: /dev/sda1)
 
 =back
 
