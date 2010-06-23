@@ -30,4 +30,5 @@ sub doInventory {
     chomp(my $DeviceType =`uname -m`);
     $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
 }
+
 1;
