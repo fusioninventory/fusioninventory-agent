@@ -69,7 +69,7 @@ sub new {
 
     if (!-d $config->{basevardir} && !mkpath($config->{basevardir}, {error => undef})) {
         $logger->error(
-            "Failed to create ".$config->{basevardir}.
+            "Failed to create $config->{basevardir}" .
             " Please use --basevardir to point to a R/W directory."
         );
     }
@@ -79,7 +79,10 @@ sub new {
     }
 
     if ($config->{nosoft}) {
-        $logger->info("the parameter --nosoft is deprecated and may be removed in a future release, please use --nosoftware instead.");
+        $logger->info(
+            "the parameter --nosoft is deprecated and may be removed in a " .
+            "future release, please use --nosoftware instead."
+        );
         $config->{nosoftware} = 1
     }
 
@@ -91,7 +94,10 @@ sub new {
         if ($EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
             $ENV{PATH} .= $Config::Config{path_sep}.$1;
         } else {
-            $logger->error("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");
+            $logger->error(
+                "Failed to parse $EXECUTABLE_NAME to get the directory for " .
+                "--perl-bin-dir-in-path"
+            );
         }
     }
     my $hostname = hostname();
