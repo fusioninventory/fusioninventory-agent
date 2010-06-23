@@ -4,33 +4,32 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $module = $params->{module};
+    my $config = $params->{config};
+    my $logger = $params->{logger};
+    my $target = $params->{target};
 
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{target} = $params->{target};
+    return if $config->{'no-'.lc($module)};
 
-    $self->{module} = $params->{module};
-
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $module = $self->{module};
-
-
-    return if $config->{'no-'.lc($self->{module})};
-
-
-    bless $self, $class;
-    if (!$self->isModInstalled()) {
-        $logger->info("Module FusionInventory::Agent::Task::$module is not installed.");
+    my $full_module = "FusionInventory::Agent::Task::$module";
+    if (!$full_module->require()) {
+        $logger->info("Module $full_module is not installed.");
         return;
     }
 
+    my $self = {
+        config => $config,
+        logger => $logger,
+        target => $target,
+        module => $module
+    };
+
+    bless $self, $class;
 
     return $self;
 }
