@@ -53,7 +53,7 @@ sub new {
 ############################
 #### CLI parameters ########
 ############################
-    my $config = $self->{config} = FusionInventory::Agent::Config::load();
+    my $config = $self->{config} = FusionInventory::Agent::Config->new();
 
     if ($params->{winService}) {
         $config->{winService} = 1;

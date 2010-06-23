@@ -61,24 +61,37 @@ my $default = {
 #   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
 
-sub load {
-    my (undef, $params) = @_;
+sub new {
+    my ($class) = @_;
 
-    my $config = $default;
-    $config->{VERSION} = $FusionInventory::Agent::VERSION;
+    my $self = $default;
+    bless $self, $class;
+
+    $self->loadDefaults();
 
     if ($OSNAME eq 'MSWin32') {
-        loadFromWinRegistry($config);
+        $self->loadFromWinRegistry();
     } else {
-        loadFromCfgFile($config);
+        $self->loadFromCfgFile();
     }
 
-    loadUserParams($config);
-    return $config;
+    $self->loadUserParams();
+
+    return $self;
+}
+
+sub loadDefaults {
+    my ($self) = @_;
+
+    foreach my $key (keys %$default) {
+        $self->{$key} = $default->{$key};
+    }
+
+    $self->{VERSION} = $FusionInventory::Agent::VERSION;
 }
 
 sub loadFromWinRegistry {
-    my $config = shift;
+    my ($self) = @_;
 
     eval {
         require Encode;
@@ -105,14 +118,14 @@ sub loadFromWinRegistry {
         $val =~ s/\s+$//;
         $val =~ s/^'(.*)'$/$1/;
         $val =~ s/^"(.*)"$/$1/;
-        $config->{lc($key)} = $val;
+        $self->{lc($key)} = $val;
     }
 }
 
 sub loadFromCfgFile {
-    my $config = shift;
+    my ($self) = @_;
 
-    $config->{etcdir} = [];
+    $self->{etcdir} = [];
 
     my $file;
 
@@ -132,25 +145,24 @@ sub loadFromCfgFile {
         }
     }
 
-    push (@{$config->{etcdir}}, '/etc/fusioninventory');
-    push (@{$config->{etcdir}}, '/usr/local/etc/fusioninventory');
-#  push (@{$config->{etcdir}}, $ENV{HOME}.'/.ocsinventory'); # Should I?
+    push (@{$self->{etcdir}}, '/etc/fusioninventory');
+    push (@{$self->{etcdir}}, '/usr/local/etc/fusioninventory');
 
     if (!$file || !-f $file) {
-        foreach (@{$config->{etcdir}}) {
+        foreach (@{$self->{etcdir}}) {
             $file = $_.'/agent.cfg';
             last if -f $file;
         }
-        return $config unless -f $file;
+        return unless -f $file;
     }
 
     my $handle;
     if (!open $handle, '<', $file) {
         warn "Config: Failed to open $file: $ERRNO";
-        return $config;
+        return;
     }
 
-    $config->{'conf-file'} = $file;
+    $self->{'conf-file'} = $file;
 
     while (<$handle>) {
         s/#.+//;
@@ -161,19 +173,19 @@ sub loadFromCfgFile {
             $val =~ s/\s+$//;
             $val =~ s/^'(.*)'$/$1/;
             $val =~ s/^"(.*)"$/$1/;
-            $config->{$key} = $val;
+            $self->{$key} = $val;
         }
     }
     close $handle;
 }
 
 sub loadUserParams {
-    my $config = shift;
+    my ($self) = @_;
 
     Getopt::Long::Configure( "no_ignorecase" );
 
     GetOptions(
-        $config,
+        $self,
         'backend-collect-timeout=s',
         'basevardir=s',
         'ca-cert-dir=s',
@@ -216,62 +228,63 @@ sub loadUserParams {
         'delaytime=s',
         'scan-homedirs',
         'no-socket'
-    ) or help($config);
+    ) or $self->help();
 
-    help($config) if $config->{help};
-    version() if $config->{version};
+    $self->help() if $self->{help};
+    $self->version() if $self->{version};
 }
 
 sub help {
-    my ($config, $error) = @_;
+    my ($self, $error) = @_;
+
     if ($error) {
         chomp $error;
         print "ERROR: $error\n\n";
     }
 
-    if ($config->{'conf-file'}) {
+    if ($self->{'conf-file'}) {
         print STDERR "Setting initialised with values retrieved from ".
-        "the config found at ".$config->{'conf-file'}."\n";
+        "the config found at $self->{'conf-file'}\n";
     }
 
     print STDERR <<EOF;
 
 Usage:
-    --backend-collect-timeout set a max delay time of one inventory data collect job ($config->{'backend-collect-timeout'})
-    --basevardir=/path  indicate the directory where should the agent store its files ($config->{basevardir})
-    --ca-cert-dir=D  SSL certificat directory ($config->{'ca-cert-dir'})
-    --ca-cert-file=F SSL certificat file ($config->{'ca-cert-file'})
-    --color         use color in the console ($config->{color})
-    -d --daemon        detach the agent in background ($config->{daemon})
-    -D --daemon-no-fork daemon but don't fork in background ($config->{'daemon-no-fork'})
-    --debug         debug mode ($config->{debug})
-    --delaytime     set a max delay time (in second) if no PROLOG_FREQ is set ($config->{delaytime})
-    --devlib        search for Backend mod in ./lib only ($config->{devlib})
-    -f --force          always send data to server (Don't ask before) ($config->{force})
+    --backend-collect-timeout set a max delay time of one inventory data collect job ($self->{'backend-collect-timeout'})
+    --basevardir=/path  indicate the directory where should the agent store its files ($self->{basevardir})
+    --ca-cert-dir=D  SSL certificat directory ($self->{'ca-cert-dir'})
+    --ca-cert-file=F SSL certificat file ($self->{'ca-cert-file'})
+    --color         use color in the console ($self->{color})
+    -d --daemon        detach the agent in background ($self->{daemon})
+    -D --daemon-no-fork daemon but don't fork in background ($self->{'daemon-no-fork'})
+    --debug         debug mode ($self->{debug})
+    --delaytime     set a max delay time (in second) if no PROLOG_FREQ is set ($self->{delaytime})
+    --devlib        search for Backend mod in ./lib only ($self->{devlib})
+    -f --force          always send data to server (Don't ask before) ($self->{force})
     --html-dir       alternative directory where the static HTML are stored
-    -i  --info           verbose mode ($config->{info})
-    --no-socket      don't allow remote connexion ($config->{'no-socket'})
-    --lazy           do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
--l --local=DIR      do not contact server but write inventory in DIR directory in XML ($config->{local})
-    --logfile=FILE   log message in FILE ($config->{logfile})
-    --no-ocsdeploy   Do not deploy packages or run command ($config->{noocsdeploy})
-    --no-inventory   Do not generate inventory ($config->{'no-inventory'})
-    --no-ssl-check   do not check the SSL connexion with the server ($config->{'no-ssl-check'})
-    --no-printer     do not return printer list in inventory $config->{'no-printer'})
-    --no-software    do not return installed software list ($config->{'no-software'})
-    --no-wakeonlan   do not use wakeonlan function ($config->{'no-wakeonlan'})
+    -i  --info           verbose mode ($self->{info})
+    --no-socket      don't allow remote connexion ($self->{'no-socket'})
+    --lazy           do not contact the server more than one time during the PROLOG_FREQ ($self->{lazy})
+-l --local=DIR      do not contact server but write inventory in DIR directory in XML ($self->{local})
+    --logfile=FILE   log message in FILE ($self->{logfile})
+    --no-ocsdeploy   Do not deploy packages or run command ($self->{noocsdeploy})
+    --no-inventory   Do not generate inventory ($self->{'no-inventory'})
+    --no-ssl-check   do not check the SSL connexion with the server ($self->{'no-ssl-check'})
+    --no-printer     do not return printer list in inventory $self->{'no-printer'})
+    --no-software    do not return installed software list ($self->{'no-software'})
+    --no-wakeonlan   do not use wakeonlan function ($self->{'no-wakeonlan'})
 
     -p --password=PWD   password for server auth
-    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($config->{proxy})
-    -r --realm=REALM    realm for server auth. e.g: 'Restricted Area' ($config->{realm})
+    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
+    -r --realm=REALM    realm for server auth. e.g: 'Restricted Area' ($self->{realm})
     --rpc-ip=IP      ip of the interface to use for peer to peer exchange
     --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory
-    --scan-homedirs  permit to scan home user directories ($config->{'scan-homedirs'})
-    -s --server=uri     server uri ($config->{server})
+    --scan-homedirs  permit to scan home user directories ($self->{'scan-homedirs'})
+    -s --server=uri     server uri ($self->{server})
     --stdout         do not write or post the inventory but print it on STDOUT
-    -t --tag=TAG        use TAG as tag ($config->{tag}) Will be ignored by server if a value already exists.
+    -t --tag=TAG        use TAG as tag ($self->{tag}) Will be ignored by server if a value already exists.
     --version        print the version
-    -w --wait=DURATION  wait during a random periode between 0 and DURATION seconds before contacting server ($config->{wait})
+    -w --wait=DURATION  wait during a random periode between 0 and DURATION seconds before contacting server ($self->{wait})
 
 Manpage:
     See man fusioninventory-agent
@@ -283,6 +296,8 @@ EOF
 }
 
 sub version {
+    my ($self) = @_;
+
     print "FusionInventory Agent (".$FusionInventory::Agent::VERSION.")\n";
     exit 0;
 }
