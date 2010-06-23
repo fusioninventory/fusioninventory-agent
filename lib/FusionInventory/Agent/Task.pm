@@ -6,6 +6,9 @@ use warnings;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+# reap child processes automatically
+$SIG{CHLD} = 'IGNORE';
+
 sub new {
     my ($class, $params) = @_;
 
@@ -37,26 +40,28 @@ sub new {
 sub run {
     my ($self) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
-    my $target = $self->{target};
-    
     my $module = $self->{module};
 
+    if (my $pid = fork()) {
+        # parent
+    } else {
+       die "fork failed: $ERRNO" unless defined $pid;
+       # child
+        $logger->debug("[task] executing $module in process $PID");
 
-    my $cmd;
-    $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
-    $cmd .= "  -Ilib" if $config->{devlib};
-    $cmd .= " -MFusionInventory::Agent::Task::".$module;
-    $cmd .= " -e \"FusionInventory::Agent::Task::".$module."::main();\" --";
-    $cmd .= " \"".$target->{vardir}."\"";
+        my $package = "FusionInventory::Agent::Task::$module";
+        my $task = $package->new({
+            config => $self->{config},
+            logger => $self->{logger},
+            target => $self->{target},
+        });
+        $task->main();
 
-    $logger->debug("cmd is: '$cmd'");
-    system($cmd);
-
-    $logger->debug("[task] end of ".$module);
+        $logger->debug("[task] end of $module");
+        exit 0;
+    }
 
 }
-
 
 1;
