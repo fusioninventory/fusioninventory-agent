@@ -34,18 +34,6 @@ sub new {
     return $self;
 }
 
-sub isModInstalled {
-    my ($self) = @_;
-
-    my $module = $self->{module};
-
-    foreach my $inc (@INC) {
-        return 1 if -f $inc.'/FusionInventory/Agent/Task/'.$module.'.pm'; 
-    }
-
-    return 0;
-}
-
 sub run {
     my ($self) = @_;
 
