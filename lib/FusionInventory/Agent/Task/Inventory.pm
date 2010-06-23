@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Inventory;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::Base';
+use base 'FusionInventory::Agent::Task';
 
 use English qw(-no_match_vars);
 use UNIVERSAL::require;

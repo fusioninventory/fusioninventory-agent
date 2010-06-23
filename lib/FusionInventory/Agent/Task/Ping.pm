@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Ping;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::Base';
+use base 'FusionInventory::Agent::Task';
 
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
