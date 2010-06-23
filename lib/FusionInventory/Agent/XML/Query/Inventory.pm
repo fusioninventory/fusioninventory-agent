@@ -757,7 +757,6 @@ sub addVirtualMachine {
     my $logger = $self->{logger};
 
     my @fields = qw/
-        logger
         MEMORY
         NAME
         UUID
