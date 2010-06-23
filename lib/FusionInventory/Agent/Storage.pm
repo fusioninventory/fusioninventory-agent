@@ -11,32 +11,6 @@ my $lock :shared;
 
 use English qw(-no_match_vars);
 
-=head1 NAME
-
-FusionInventory::Agent::Storage - the light data storage API. Data will be
-stored in a subdirectory in the 'vardir' directory. This subdirectory depends
-on the caller module name.
-
-=head1 SYNOPSIS
-
-  my $storage = FusionInventory::Agent::Storage->new({
-      target => {
-          vardir => $ARGV[0],
-      }
-  });
-  my $data = $storage->restore({
-          module => "FusionInventory::Agent"
-      });
-
-  $data->{foo} = 'bar';
-
-  $storage->save({ data => $data });
-
-=head1 DESCRIPTION
-
-This module is a wrapper for restore and save.
-it called $inventory in general.
-
 =over 4
 
 =item new({ config => $config, target => $target })
@@ -262,5 +236,31 @@ sub removeSubDumps {
     }
 }
 
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Storage - the light data storage API. Data will be
+stored in a subdirectory in the 'vardir' directory. This subdirectory depends
+on the caller module name.
+
+=head1 SYNOPSIS
+
+  my $storage = FusionInventory::Agent::Storage->new({
+      target => {
+          vardir => $ARGV[0],
+      }
+  });
+  my $data = $storage->restore({
+          module => "FusionInventory::Agent"
+      });
+
+  $data->{foo} = 'bar';
+
+  $storage->save({ data => $data });
+
+=head1 DESCRIPTION
+
+This module is a wrapper for restore and save.
+it called $inventory in general.
