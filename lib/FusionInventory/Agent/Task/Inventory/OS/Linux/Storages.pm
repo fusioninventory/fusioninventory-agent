@@ -132,12 +132,13 @@ sub getDescription {
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
 sub correctHdparmAvailable {
     return unless can_run("hdparm");
-    my $hdparmVersion = `hdparm -V`;
-    if ($hdparmVersion =~ /^hdparm v(\d+)\.(\d+)(\.|$)/) {
-        return 1 if $1>9;
-        return 1 if $1==9 && $2>=15;
-    }
-    return;
+
+    my $version = `hdparm -V`;
+    my ($major, $minor) = $version =~ /^hdparm v(\d+)\.(\d+)/;
+
+    # we need at least version 9.15
+    return compareVersion($major, $minor, 9, 15);
+
 }
 
 

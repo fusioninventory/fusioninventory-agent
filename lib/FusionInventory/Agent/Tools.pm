@@ -13,6 +13,11 @@ our @EXPORT = qw(
     getFormatedDate
     getManufacturer
     getIpDhcp
+    compareVersion
+    can_run
+    can_load
+    can_read
+    runcmd
 );
 
 sub getFormatedLocalTime {
@@ -163,6 +168,19 @@ sub getIpDhcp {
     my $current_time = time();
 
     return $current_time <= $expiration_time ? $server_ip : undef;
+}
+
+sub compareVersion {
+    my ($major, $minor, $min_major, $min_minor) = @_;
+
+    return
+        $major > $minor
+        ||
+        (
+            $major == $min_major
+            &&
+            $minor >= $min_minor
+        );
 }
 
 1;

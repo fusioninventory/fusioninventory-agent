@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Tools;
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::IpDiscover::IpDiscover"];
 
@@ -12,19 +13,12 @@ sub isInventoryEnabled {
 
     return unless can_run("nmap");
 
-    # Do we have nmap 3.90 (or >) 
-    foreach (`nmap -v 2>&1`) {
-        if (/^Starting Nmap (\d+)\.(\d+)/) {
-            my $release = $1;
-            my $minor = $2;
+    # warning, nmap output has two lines
+    my $version = `nmap -V`;
+    my ($major, $minor) = $version =~ /^Nmap version (\d+)\.(\d+)/m;
 
-            if ($release > 3 || ($release > 3 && $minor >= 90)) {
-                return 1;
-            }
-        }
-    }
-
-    0;
+    # we need at least version 3.90
+    return compareVersion($major, $minor, 3, 90);
 }
 
 
