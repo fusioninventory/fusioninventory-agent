@@ -91,6 +91,7 @@ sub getNext {
         $config->{'daemon-no-fork'} or
         $config->{'winService'}
     ) {
+        # block until a target is eligible to run, then return it
         while (1) {
             foreach my $target (@{$self->{targets}}) {
                 if (time > $target->getNextRunDate()) {
@@ -102,6 +103,7 @@ sub getNext {
     } else {
         my $target = shift @{$self->{targets}};
 
+        # return next target if eligible, nothing otherwise
         if ($config->{'lazy'}) {
             if (time > $target->getNextRunDate()) {
                 $logger->debug("Processing $target->{path}");
@@ -115,15 +117,18 @@ sub getNext {
             }
         }
 
+        # return next target after waiting for a random delay
         if ($config->{'wait'}) {
             my $wait = int rand($config->{'wait'});
             $logger->info(
-                "Going to sleep for $wait second(s) because of the wait parameter"
+                "Going to sleep for $wait second(s) because of the wait " .
+                "parameter"
             );
             sleep($wait);
             return $target;
         }
 
+        # return next target immediatly
         return $target;
     }
 
@@ -140,12 +145,9 @@ sub numberOfTargets {
 sub resetNextRunDate {
     my ($self) = @_;
 
-
     foreach my $target (@{$self->{targets}}) {
         $target->resetNextRunDate();
     }
-
-
 }
 
 1;
