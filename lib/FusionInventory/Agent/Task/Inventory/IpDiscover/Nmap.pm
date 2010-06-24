@@ -54,7 +54,7 @@ sub doInventory {
         print;
         if (/^Host ($ip_address_pattern)/) {
             $ip = $1;
-        } elsif ($ip && /MAC Address: (\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/) {
+        } elsif ($ip && /MAC Address: ($mac_address_pattern)/) {
             $inventory->addIpDiscoverEntry({
                 IPADDRESS => $ip,
                 MACADDR => lc($1),
