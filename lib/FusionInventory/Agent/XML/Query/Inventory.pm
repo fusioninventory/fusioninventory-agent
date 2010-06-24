@@ -1080,7 +1080,103 @@ sub writeXML {
     } else {
         warn "Can't open $localfile: $ERRNO"
     }
+
 }
+
+=item writeHTML()
+
+Save the generated inventory as an XML file. The 'local' key of the config
+is used to know where the file as to be saved.
+
+=cut
+sub writeHTML {
+    my ($self, $args) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+    my $target = $self->{target};
+
+    if ($target->{path} =~ /^$/) {
+        $logger->fault ('local path unititalised!');
+    }
+
+    $self->initialise();
+
+    my $localfile = $config->{local}."/".$target->{deviceid}.'.html';
+    $localfile =~ s!(//){1,}!/!;
+
+    # Convert perl data structure into xml strings
+
+
+    my $htmlHeader = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title>FusionInventory-Agent '.$target->{deviceid}.'</title>
+
+    </head>
+    <body>';
+
+
+    my $htmlFooter = "
+    </body>
+    </html>";
+
+    my $htmlBody;
+
+    use Data::Dumper;
+    my $oldSectionName = "";
+    foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
+        next if $sectionName eq 'VERSIONCLIENT';
+
+        my $dataRef = $self->{h}{CONTENT}->{$sectionName};
+
+        if (ref($dataRef) eq 'ARRAY') {
+            foreach my $section (@{$dataRef}) {
+
+                next unless keys %{$section};
+
+                if ($oldSectionName ne $sectionName) {
+                    $htmlBody .= "<h2>$sectionName</h2>\n";
+                    $oldSectionName = $sectionName;
+                }
+
+                $htmlBody .= "<ul>";
+                foreach my $key (sort keys %{$section}) {
+                    $htmlBody .="<li>".$key.": ".
+                    ($section->{$key}[0]||"(empty)").
+                    "</li>\n";
+                }
+                $htmlBody .= "</ul>\n";
+
+            }
+        } else {
+            $htmlBody .= "<h2>$sectionName</h2>\n";
+
+            $htmlBody .= "<ul>";
+            foreach my $key (sort keys %{$dataRef}) {
+                $htmlBody .="<li>".$key.": ".
+                ($dataRef->{$key}[0]||"(empty)").
+                "</li>\n";
+            }
+            $htmlBody .= "</ul>\n";
+        }
+    }
+
+
+    if (open my $handle, '>', $localfile) {
+        print $handle $htmlHeader;
+        print $handle $htmlBody;
+        print $handle $htmlFooter;
+        close $handle;
+        $logger->info("Inventory saved in $localfile");
+    } else {
+        warn "Can't open $localfile: $ERRNO"
+    }
+}
+
+
+
 
 =item processChecksum()
 

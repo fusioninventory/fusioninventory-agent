@@ -77,7 +77,11 @@ sub main {
     if ($self->{target}->{type} eq 'stdout') {
         $self->{inventory}->printXML();
     } elsif ($self->{target}->{type} eq 'local') {
-        $self->{inventory}->writeXML();
+        if ($self->{target}->{format} eq 'XML') {
+            $self->{inventory}->writeXML();
+        } else {
+            $self->{inventory}->writeHTML();
+        }
     } elsif ($self->{target}->{type} eq 'server') {
 
         my $accountinfo = $self->{target}->{accountinfo};

@@ -40,9 +40,14 @@ sub new {
     $self->{path} = $params->{path} || '';
     $self->{deviceid} = $params->{deviceid};
 
+
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $target = $self->{target};
+    my $type   = $self->{type};
+
+
+    $self->{format} = ($type eq 'local' && $config->{html})?'HTML':'XML';
 
     bless $self, $class;
    

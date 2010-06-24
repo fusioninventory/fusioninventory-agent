@@ -245,6 +245,10 @@ machine. If the server doesn't know the machine or has outdated
 informations, it will request it.
 With this option, the agent ignore the server anwser and send an inventory.
 
+=item B<--html>
+
+Save the local inventory requested by B<--local> in HTML.
+
 =item B<--html-directory>
 
 Alternative directory where the static HTML are stored. You probably don't

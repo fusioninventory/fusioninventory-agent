@@ -24,6 +24,7 @@ my $default = {
     'disable-perllib-envvar'  => 0,
     'force'                   => 0,
     'help'                    => 0,
+    'html'                    => 0,
     'html-dir'                => '',
     'info'                    => 1,
     'lazy'                    => 0,
@@ -189,6 +190,7 @@ sub loadUserParams {
         'disable-perllib-envvar',
         'force|f',
         'help|h',
+        'html',
         'html-dir=s',
         'info|i',
         'lazy',
@@ -251,6 +253,7 @@ Usage:
     --devlib        search for Backend mod in ./lib only ($config->{devlib})
     --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($config->{'disable-perllib-envvar'})
     -f --force       always send data to server (Don't ask before) ($config->{force})
+    --html          save in HTML the inventory requested by --local ($config->{html})
     --html-dir       alternative directory where the static HTML are stored
     -i --info           verbose mode ($config->{info})
     --lazy           do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
