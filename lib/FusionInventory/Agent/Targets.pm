@@ -57,10 +57,11 @@ sub init {
     foreach my $val (split(/,/, $config->{'server'})) {
         my $url;
         if ($val !~ /^https?:\/\//) {
-            $logger->debug("the --server passed doesn't ".
-                "have a protocole, ".
-                "assume http as default");
-            $url = "http://".$val.'/ocsinventory';
+            $logger->debug(
+                "the --server passed doesn't have a protocole, assume http " .
+                "as default"
+            );
+            $url = "http://$val/ocsinventory";
         } else {
             $url = $val;
         }
