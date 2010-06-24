@@ -34,6 +34,7 @@ requires 'LWP' => undef;
 requires 'File::Temp' => undef;
 requires 'Net::IP' => undef;
 requires 'HTTP::Status' => undef;
+requires 'File::Find' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef unless $OSNAME =~ /^MSWin/;
 recommends 'Proc::PID::File' => undef unless $OSNAME =~ /^MSWin/;
