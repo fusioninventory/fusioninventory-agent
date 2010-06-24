@@ -56,7 +56,7 @@ sub init {
 
     foreach my $val (split(/,/, $config->{'server'})) {
         my $url;
-        if ($val !~ /^http(|s):\/\//) {
+        if ($val !~ /^https?:\/\//) {
             $logger->debug("the --server passed doesn't ".
                 "have a protocole, ".
                 "assume http as default");
