@@ -100,7 +100,7 @@ sub parseIfconfig {
             if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
             }
-            if ($line =~ /hwadd?r\s+($macaddress_pattern)/i) {
+            if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
                 $interface->{MACADDR} = $1;
             }
             if ($line =~ /^\s+UP\s/) {

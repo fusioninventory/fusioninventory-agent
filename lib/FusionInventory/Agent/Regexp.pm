@@ -5,14 +5,14 @@ use warnings;
 use base 'Exporter';
 
 our @EXPORT = qw(
-    $macaddress_pattern
+    $mac_address_pattern
     $ip_address_pattern
 );
 
 my $hex_byte = qr/[0-9A-F]{2}/i;
 my $dec_byte = qr/[0-9]{1,3}/;
 
-our $macaddress_pattern = qr/
+our $mac_address_pattern = qr/
     $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte
 /x;
 
