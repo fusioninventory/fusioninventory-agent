@@ -23,7 +23,7 @@ sub doInventory {
 
     my %gateway;
     foreach (`route -n`) {
-        if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if (/^($ip_address_pattern) \s+ ($ip_address_pattern)/x) {
             $gateway{$1} = $2;
         }
     }
