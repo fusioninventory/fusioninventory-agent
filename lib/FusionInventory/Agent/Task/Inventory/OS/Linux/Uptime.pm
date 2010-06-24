@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { can_read("/proc/uptime") }
 
 sub doInventory {
@@ -23,10 +25,13 @@ sub doInventory {
     close $handle;
 
     # Uptime conversion
-    my ($UYEAR, $UMONTH , $UDAY, $UHOUR, $UMIN, $USEC) = (gmtime ($uptime))[5,4,3,2,1,0];
+    my ($uyear, $umonth , $uday, $uhour, $umin, $usec) =
+        (gmtime ($uptime))[5,4,3,2,1,0];
 
     # Write in ISO format
-    $uptime=sprintf "%02d-%02d-%02d %02d:%02d:%02d", ($UYEAR-70), $UMONTH, ($UDAY-1), $UHOUR, $UMIN, $USEC;
+    $uptime = getFormatedDate(
+        ($uyear-70), $umonth, ($uday-1), $uhour, $umin, $usec
+    );
 
     chomp(my $DeviceType =`uname -m`);
 #  TODO$h->{'CONTENT'}{'HARDWARE'}{'DESCRIPTION'} = [ "$DeviceType/$uptime" ];

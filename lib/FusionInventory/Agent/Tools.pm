@@ -7,7 +7,15 @@ use base 'Exporter';
 use File::stat;
 use Time::Local;
 
-our @EXPORT = qw(getManufacturer getIpDhcp);
+our @EXPORT = qw(getFormatedDate getManufacturer getIpDhcp);
+
+sub getFormatedDate {
+    my ($year, $month, $day, $hour, $min, $sec) = @_;
+
+    return sprintf
+        "%02d-%02d-%02d %02d:%02d:%02d",
+        $year, $month, $day, $hour, $min, $sec;
+}
 
 sub getManufacturer {
     my ($model) = @_;
