@@ -276,15 +276,15 @@ Usage:
         indicate the directory where should the agent store its files
         ($self->{basevardir})
     --ca-cert-dir=D
-        SSL certificat directory ($self->{'ca-cert-dir'})
+        SSL certificate directory ($self->{'ca-cert-dir'})
     --ca-cert-file=F
-        SSL certificat file ($self->{'ca-cert-file'})
+        SSL certificate file ($self->{'ca-cert-file'})
     --color
         use color in the console ($self->{color})
     -d --daemon
-        detach the agent in background ($self->{daemon})
+        daemonize and detach in background ($self->{daemon})
     -D --daemon-no-fork
-        daemon but don't fork in background ($self->{'daemon-no-fork'})
+        daemoniez but don't fork in background ($self->{'daemon-no-fork'})
     --debug
         debug mode ($self->{debug})
     --delaytime
@@ -293,7 +293,7 @@ Usage:
     --devlib
         search for Backend mod in ./lib only ($self->{devlib})
     -f --force
-        always send data to server (Don't ask before) ($self->{force})
+        always send data to server, without asking before ($self->{force})
     --html-dir
         alternative directory where the static HTML are stored
     -i  --info
@@ -335,10 +335,9 @@ Usage:
     -s --server=uri
         server uri ($self->{server})
     --stdout
-        do not write or post the inventory but print it on STDOUT
+        do not contact server but write inventory on STDOUT
     -t --tag=TAG
-        use TAG as tag ($self->{tag}) Will be ignored by server if a value
-        already exists.
+        use TAG as tag ($self->{tag})
     --version
         print the version
     -w --wait=DURATION
