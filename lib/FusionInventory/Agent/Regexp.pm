@@ -6,9 +6,18 @@ use base 'Exporter';
 
 our @EXPORT = qw(
     $macaddress_pattern
+    $ip_address_pattern
 );
 
-our $byte = qr/[0-9A-F]{2}/i;
-our $macaddress_pattern = qr/$byte : $byte : $byte : $byte : $byte : $byte/x;
+my $hex_byte = qr/[0-9A-F]{2}/i;
+my $dec_byte = qr/[0-9]{1,3}/;
+
+our $macaddress_pattern = qr/
+    $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte
+/x;
+
+our $ip_address_pattern = qr/
+    $dec_byte \. $dec_byte \. $dec_byte \. $dec_byte
+/x;
 
 1;
