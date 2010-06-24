@@ -245,8 +245,6 @@ sub loadUserParams {
         'no-socket'
     ) or $self->help();
 
-    $self->help() if $self->{help};
-    $self->version() if $self->{version};
 }
 
 sub checkContent {
@@ -317,15 +315,6 @@ Manpage:
 
 FusionInventory-Agent is released under GNU GPL 2 license
 EOF
-
-    exit 1;
-}
-
-sub version {
-    my ($self) = @_;
-
-    print $FusionInventory::Agent::VERSION_STRING . "\n";
-    exit 0;
 }
 
 1;

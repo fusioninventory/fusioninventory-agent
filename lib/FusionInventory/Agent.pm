@@ -58,6 +58,15 @@ sub new {
 ############################
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
+    if ($config->{help}) {
+        $config->help();
+        exit 1;
+    }
+    if ($config->{version}) {
+        print $VERSION_STRING . "\n";
+        exit 0;
+    }
+
     my $logger = $self->{logger} = FusionInventory::Logger->new({
         config => $config
     });
