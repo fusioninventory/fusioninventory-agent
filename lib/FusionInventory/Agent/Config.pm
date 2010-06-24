@@ -6,19 +6,19 @@ use warnings;
 use Getopt::Long;
 use English qw(-no_match_vars);
 
-my $basedir = '';
-
-if ($OSNAME eq 'MSWin32') {
-    $basedir = $ENV{APPDATA}.'/fusioninventory-agent';
-}
+my $basedir = $OSNAME eq 'MSWin32' ?
+    $ENV{APPDATA}.'/fusioninventory-agent' : '';
 
 my $default = {
+    'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
+    'basevardir'              => $basedir . '/var/lib/fusioninventory-agent',
     'ca-cert-dir'             => '',
     'ca-cert-file'            => '',
     'conf-file'               => '',
     'color'                   => 0,
     'daemon'                  => 0,
     'daemon-no-fork'          => 0,
+    'delaytime'               => 3600, # max delay time (seconds)
     'debug'                   => 0,
     'devlib'                  => 0,
     'force'                   => 0,
@@ -30,30 +30,28 @@ my $default = {
     'logger'                  => 'Stderr',
     'logfile'                 => '',
     'logfacility'             => 'LOG_USER',
+    'logdir'                  => $basedir . '/var/log/fusioninventory-agent',
+    'no-ocsdeploy'            => 0,
+    'no-inventory'            => 0,
+    'nosoft'                  => 0, # deprecated
+    'no-socket'               => 0, # deprecated
+    'no-printer'              => 0,
+    'no-software'             => 0,
+    'no-wakeonlan'            => 0,
+    'no-snmpquery'            => 0,
+    'no-netdiscovery'         => 0,
+    'no-ssl-check'            => 0,
     'password'                => '',
     'proxy'                   => '',
     'realm'                   => '',
-    'remotedir'               => '/ocsinventory', # deprecated
+    'remotedir'               => '', # deprecated
     'server'                  => '',
     'stdout'                  => 0,
     'tag'                     => '',
     'user'                    => '',
     'version'                 => 0,
     'wait'                    => '',
-    'no-ocsdeploy'            => 0,
-    'no-inventory'            => 0,
-    'nosoft'                  => 0, # deprecated
-    'no-printer'              => 0,
-    'no-software'             => 0,
-    'no-wakeonlan'            => 0,
-    'no-snmpquery'            => 0,
-    'no-netdiscovery'         => 0,
-    'delaytime'               => 3600, # max delay time (seconds)
-    'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
-    'no-ssl-check'            => 0,
     'scan-homedirs'           => 0,
-    'basevardir'              =>  $basedir.'/var/lib/fusioninventory-agent',
-    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
 };
 
 sub new {
@@ -303,8 +301,6 @@ Usage:
         alternative directory where the static HTML are stored
     -i  --info
         verbose mode ($self->{info})
-    --no-socket
-        don't allow remote connexion ($self->{'no-socket'})
     --lazy
         do not contact the server more than one time during the PROLOG_FREQ
         ($self->{lazy})
@@ -314,9 +310,11 @@ Usage:
     --logfile=FILE
         log message in FILE ($self->{logfile})
     --no-ocsdeploy
-        do not deploy packages or run command ($self->{noocsdeploy})
+        do not deploy packages or run command ($self->{'no-ocsdeploy'})
     --no-inventory
         do not generate inventory ($self->{'no-inventory'})
+    --no-socket
+        don't allow remote connexion ($self->{'no-socket'})
     --no-ssl-check
         do not check the SSL connexion with the server ($self->{'no-ssl-check'})
     --no-printer
