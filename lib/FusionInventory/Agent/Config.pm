@@ -250,6 +250,11 @@ sub checkContent {
         $self->{logger} = 'File';
     }
 
+    if ($self->{remotedir}) {
+        print STDERR
+            "the parameter --remotedir is deprecated, and will be ignored\n";
+    }
+
     if ($self->{nosoft}) {
         print STDERR
             "the parameter --nosoft is deprecated and may be removed in a " .
