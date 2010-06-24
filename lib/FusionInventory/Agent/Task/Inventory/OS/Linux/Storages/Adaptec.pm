@@ -5,7 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Tools;
 
 # Tested on 2.6.* kernels
 #
@@ -13,7 +13,7 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 #
 # Adaptec AAC-RAID
 
-my @devices = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getFromUdev();
+my @devices = getDevicesFromUdev();
 
 sub isInventoryEnabled {
 

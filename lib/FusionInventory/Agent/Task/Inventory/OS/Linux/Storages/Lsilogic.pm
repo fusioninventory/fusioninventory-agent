@@ -3,7 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Lsilogic;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Tools;
+
 # Tested on 2.6.* kernels
 #
 # Cards tested :
@@ -36,7 +37,7 @@ sub doInventory {
 
     my $serialnumber;
 
-    my @devices = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getFromUdev();
+    my @devices = getDevicesFromUdev();
 
     foreach my $hd (@devices) {
         foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {

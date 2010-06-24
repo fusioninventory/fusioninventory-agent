@@ -3,7 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::3ware;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Tools;
+
 # Tested on 2.6.* kernels
 #
 # Cards tested :
@@ -46,7 +47,7 @@ sub doInventory {
 
     my ($card, $card_model, $unit, $unit_id, $port, $serialnumber, $serial, $model, $capacity, $firmware, $description, $media, $device, $manufacturer, $sn);
 
-    my @devices = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getFromUdev();
+    my @devices = getDevicesFromUdev();
 
 # First, getting the cards : c0, c1... etc.
     foreach (`tw_cli info`) {

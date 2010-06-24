@@ -6,23 +6,10 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Tools;
 
 sub isInventoryEnabled {
     return 1;
-}
-
-######## TODO
-# Do not remove, used by other modules
-sub getFromUdev {
-    my @devices;
-
-    foreach my $file (glob ("/dev/.udev/db/*")) {
-        next unless $file =~ /([sh]d[a-z])$/;
-        my $device = $1;
-        push (@devices, parseUdev($file, $device));
-    }
-
-    return @devices;
 }
 
 sub getFromHal {
@@ -99,16 +86,6 @@ sub getValueFromSysProc {
 }
 
 
-sub getCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $cap = `$command /dev/$dev 2>/dev/null`;
-    chomp $cap;
-    $cap = int($cap / 1000) if $cap;
-    return $cap;
-}
-
 sub getDescription {
     my ($name, $manufacturer, $description, $serialnumber) = @_;
 
@@ -158,7 +135,7 @@ sub doInventory {
     my %devices = map { $_->{NAME} => $_ } @devices;
 
     # complete with udev for missing bits
-    foreach my $device (getFromUdev()) {
+    foreach my $device (getDevicesFromUdev()) {
         my $name = $device->{NAME};
         foreach my $key (keys %$device) {
             $devices{$name}->{$key} = $device->{$key}
@@ -214,57 +191,11 @@ sub doInventory {
         }
 
         if ($device->{CAPACITY} && $device->{CAPACITY} =~ /^cd/) {
-            $device->{CAPACITY} = getCapacity($device->{NAME});
+            $device->{CAPACITY} = getDeviceCapacity($device->{NAME});
         }
 
         $inventory->addStorages($device);
     }
-}
-
-sub parseUdev {
-    my ($file, $device) = @_;
-
-
-    my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-    my ($result, $serial);
-    while (my $line = <$handle>) {
-        if ($line =~ /^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
-            $result->{SCSI_COID} = $1;
-            $result->{SCSI_CHID} = $2;
-            $result->{SCSI_UNID} = $3;
-            $result->{SCSI_LUN} = $4;
-        } elsif ($line =~ /^E:ID_VENDOR=(.*)/) {
-            $result->{MANUFACTURER} = $1;
-        } elsif ($line =~ /^E:ID_MODEL=(.*)/) {
-            $result->{MODEL} = $1;
-        } elsif ($line =~ /^E:ID_REVISION=(.*)/) {
-            $result->{FIRMWARE} = $1;
-        } elsif ($line =~ /^E:ID_SERIAL=(.*)/) {
-            $serial = $1;
-        } elsif ($line =~ /^E:ID_SERIAL_SHORT=(.*)/) {
-            $result->{SERIALNUMBER} = $1;
-        } elsif ($line =~ /^E:ID_TYPE=(.*)/) {
-            $result->{TYPE} = $1;
-        } elsif ($line =~ /^E:ID_BUS=(.*)/) {
-            $result->{DESCRIPTION} = $1;
-        }
-    }
-    close $handle;
-
-    $result->{SERIALNUMBER} = $serial
-    unless $result->{SERIALNUMBER} =~ /\S/;
-
-    $result->{DISKSIZE} = getCapacity($device)
-    if $result->{TYPE} ne 'cd';
-
-    $result->{NAME} = $device;
-
-    return $result;
 }
 
 sub parseLshal {
