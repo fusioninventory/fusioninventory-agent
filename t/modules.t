@@ -3,11 +3,14 @@
 use strict;
 use warnings;
 use Test::More;
-use File::Find::Rule;
+use File::Find;
 use English qw(-no_match_vars);
 
-my @files =
-    File::Find::Rule->file()->name('*.pm')->in('lib');
+my @files;
+
+find ( sub {
+        push @files, $File::Find::name if /\.pm$/;
+    }, 'lib');
 
 if ($OSNAME ne 'MSWin32') {
     # exclude windows-specific modules
