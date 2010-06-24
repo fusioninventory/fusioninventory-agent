@@ -27,7 +27,6 @@ my $default = {
     'info'                    => 1,
     'lazy'                    => 0,
     'local'                   => '',
-#   'logger'                  => 'Syslog,File,Stderr',
     'logger'                  => 'Stderr',
     'logfile'                 => '',
     'logfacility'             => 'LOG_USER',
@@ -41,7 +40,6 @@ my $default = {
     'user'                    => '',
     'version'                 => 0,
     'wait'                    => '',
-#   'xml'                     => 0,
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'nosoft'                  => 0, # deprecated
@@ -54,11 +52,8 @@ my $default = {
     'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
     'no-ssl-check'            => 0,
     'scan-homedirs'           => 0,
-    # Other values that can't be changed with the
-    # CLI parameters
     'basevardir'              =>  $basedir.'/var/lib/fusioninventory-agent',
     'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
-#   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
 
 sub new {
