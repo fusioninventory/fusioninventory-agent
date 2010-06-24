@@ -25,28 +25,20 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
-    # if STDERR has been hijacked, I take its saved ref
-    my $stderr;
-    if (exists ($self->{config}->{savedstderr})) {
-        $stderr = $self->{config}->{savedstderr};
-    } else {
-        $stderr = \*STDERR;
-    }
-
     if ($config->{color} && $OSNAME ne 'MSWin32') {
         if ($level eq 'error') {
-            print $stderr  "\033[1;35m[$level]";
+            print STDERR "\033[1;35m[$level]";
         } elsif ($level eq 'fault') {
-            print $stderr  "\033[1;31m[$level]";
+            print STDERR "\033[1;31m[$level]";
         } elsif ($level eq 'info') {
-            print $stderr  "\033[1;34m[$level]\033[0m";
+            print STDERR "\033[1;34m[$level]\033[0m";
         } elsif ($level eq 'debug') {
-            print $stderr  "\033[1;1m[$level]\033[0m";
+            print STDERR "\033[1;1m[$level]\033[0m";
         }
-        print $stderr  " $message";
+        print STDERR " $message";
         print "\033[0m\n";
     } else {
-        print $stderr "[$level] $message\n";
+        print STDERR "[$level] $message\n";
     }
 
 }
