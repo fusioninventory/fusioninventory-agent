@@ -83,10 +83,6 @@ sub new {
         }
     }
 
-    if (not $config->{scanhomedirs}) {
-        $logger->debug("--scan-homedirs missing. Don't scan user directories");
-    }
-
     # This is a hack to add the perl binary directory
     # in the $PATH env.
     # This is useful for the Windows installer.
@@ -138,9 +134,13 @@ sub new {
         exit 1;
     }
 
+    if ($config->{scanhomedirs}) {
+        $logger->debug("User directory scanning enabled");
+    }
+
     if ($config->{daemon}) {
 
-        $logger->debug("Time to call Proc::Daemon");
+        $logger->debug("Daemon mode enabled");
 
         my $cwd = getcwd();
         eval { require Proc::Daemon; };
