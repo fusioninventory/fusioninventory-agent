@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::IpDiscover::Nmap;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Regexp;
+
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::IpDiscover::IpDiscover"];
 
 sub isInventoryEnabled {
@@ -50,7 +52,7 @@ sub doInventory {
     my $cmd = "nmap -n -sP -PR $network/24";
     foreach (`$cmd`) {
         print;
-        if (/^Host (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
+        if (/^Host ($ip_address_pattern)/) {
             $ip = $1;
         } elsif ($ip && /MAC Address: (\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/) {
             $inventory->addIpDiscoverEntry({
