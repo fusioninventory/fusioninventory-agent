@@ -274,41 +274,81 @@ sub help {
     print STDERR <<EOF;
 
 Usage:
-    --backend-collect-timeout set a max delay time of one inventory data collect job ($self->{'backend-collect-timeout'})
-    --basevardir=/path  indicate the directory where should the agent store its files ($self->{basevardir})
-    --ca-cert-dir=D  SSL certificat directory ($self->{'ca-cert-dir'})
-    --ca-cert-file=F SSL certificat file ($self->{'ca-cert-file'})
-    --color         use color in the console ($self->{color})
-    -d --daemon        detach the agent in background ($self->{daemon})
-    -D --daemon-no-fork daemon but don't fork in background ($self->{'daemon-no-fork'})
-    --debug         debug mode ($self->{debug})
-    --delaytime     set a max delay time (in second) if no PROLOG_FREQ is set ($self->{delaytime})
-    --devlib        search for Backend mod in ./lib only ($self->{devlib})
-    -f --force          always send data to server (Don't ask before) ($self->{force})
-    --html-dir       alternative directory where the static HTML are stored
-    -i  --info           verbose mode ($self->{info})
-    --no-socket      don't allow remote connexion ($self->{'no-socket'})
-    --lazy           do not contact the server more than one time during the PROLOG_FREQ ($self->{lazy})
--l --local=DIR      do not contact server but write inventory in DIR directory in XML ($self->{local})
-    --logfile=FILE   log message in FILE ($self->{logfile})
-    --no-ocsdeploy   Do not deploy packages or run command ($self->{noocsdeploy})
-    --no-inventory   Do not generate inventory ($self->{'no-inventory'})
-    --no-ssl-check   do not check the SSL connexion with the server ($self->{'no-ssl-check'})
-    --no-printer     do not return printer list in inventory $self->{'no-printer'})
-    --no-software    do not return installed software list ($self->{'no-software'})
-    --no-wakeonlan   do not use wakeonlan function ($self->{'no-wakeonlan'})
-
-    -p --password=PWD   password for server auth
-    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
-    -r --realm=REALM    realm for server auth. e.g: 'Restricted Area' ($self->{realm})
-    --rpc-ip=IP      ip of the interface to use for peer to peer exchange
-    --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory
-    --scan-homedirs  permit to scan home user directories ($self->{'scan-homedirs'})
-    -s --server=uri     server uri ($self->{server})
-    --stdout         do not write or post the inventory but print it on STDOUT
-    -t --tag=TAG        use TAG as tag ($self->{tag}) Will be ignored by server if a value already exists.
-    --version        print the version
-    -w --wait=DURATION  wait during a random periode between 0 and DURATION seconds before contacting server ($self->{wait})
+    --backend-collect-timeout
+        set a max delay time of one inventory data collect job
+        ($self->{'backend-collect-timeout'})
+    --basevardir=/path
+        indicate the directory where should the agent store its files
+        ($self->{basevardir})
+    --ca-cert-dir=D
+        SSL certificat directory ($self->{'ca-cert-dir'})
+    --ca-cert-file=F
+        SSL certificat file ($self->{'ca-cert-file'})
+    --color
+        use color in the console ($self->{color})
+    -d --daemon
+        detach the agent in background ($self->{daemon})
+    -D --daemon-no-fork
+        daemon but don't fork in background ($self->{'daemon-no-fork'})
+    --debug
+        debug mode ($self->{debug})
+    --delaytime
+        set a max delay time (in second) if no PROLOG_FREQ is set
+        ($self->{delaytime})
+    --devlib
+        search for Backend mod in ./lib only ($self->{devlib})
+    -f --force
+        always send data to server (Don't ask before) ($self->{force})
+    --html-dir
+        alternative directory where the static HTML are stored
+    -i  --info
+        verbose mode ($self->{info})
+    --no-socket
+        don't allow remote connexion ($self->{'no-socket'})
+    --lazy
+        do not contact the server more than one time during the PROLOG_FREQ
+        ($self->{lazy})
+    -l --local=DIR
+        do not contact server but write inventory in DIR directory in XML
+        ($self->{local})
+    --logfile=FILE
+        log message in FILE ($self->{logfile})
+    --no-ocsdeploy
+        do not deploy packages or run command ($self->{noocsdeploy})
+    --no-inventory
+        do not generate inventory ($self->{'no-inventory'})
+    --no-ssl-check
+        do not check the SSL connexion with the server ($self->{'no-ssl-check'})
+    --no-printer
+        do not return printer list in inventory $self->{'no-printer'})
+    --no-software
+        do not return installed software list ($self->{'no-software'})
+    --no-wakeonlan
+        do not use wakeonlan function ($self->{'no-wakeonlan'})
+    -p --password=PWD
+        password for server auth
+    -P --proxy=PROXY
+        proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
+    -r --realm=REALM
+        realm for server auth. e.g: 'Restricted Area' ($self->{realm})
+    --rpc-ip=IP
+        ip of the interface to use for peer to peer exchange
+    --rpc-trust-localhost
+        allow local users to http://127.0.0.1:62354/now to force an inventory
+    --scan-homedirs
+        permit to scan home user directories ($self->{'scan-homedirs'})
+    -s --server=uri
+        server uri ($self->{server})
+    --stdout
+        do not write or post the inventory but print it on STDOUT
+    -t --tag=TAG
+        use TAG as tag ($self->{tag}) Will be ignored by server if a value
+        already exists.
+    --version
+        print the version
+    -w --wait=DURATION
+        wait during a random periode between 0 and DURATION seconds before
+        contacting server ($self->{wait})
 
 Manpage:
     See man fusioninventory-agent
