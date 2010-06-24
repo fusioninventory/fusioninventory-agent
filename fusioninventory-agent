@@ -65,27 +65,28 @@ B<fusioninventory-agent> S<[ ... ]> S<[ I<--server server> | I<--local /tmp> ]>.
     % fusioninventory-agent --local /tmp
     # write an inventory in the /tmp directory
 
-    % fusioninventory-agent --server localhost --user=toto --password=pw
---realm="Restricted Area"
+    % fusioninventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
     # send a report to a server protected by a basic authentication
     % fusioninventory-agent --lazy
-    # send an inventory only if the a random delay between 0 and PROLOG_FREQ
-had been run over.
+    # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over.
 
     % fusioninventory-agent --delaytime 60 -d
-    # If NO PROLOG_FREQ has been preset, pick a time between execution and
---delaytime for the agent to contact the server [default is 3600 seconds]
+    # If NO PROLOG_FREQ has been preset, pick a time between execution and --delaytime for the agent to contact the server [default is 3600 seconds]
 
 =head1 DESCRIPTION
 
-F<fusioninventory-agent> creates inventory and send or write them. This agent is the
-successor of the former linux_agent which was released with OCS 1.01 and prior. It also
-replaces the Solaris/AIX/BSD unofficial agents. The detailed list of supported
-Operating System is available in the Wiki.
+F<fusioninventory-agent> is an agent for OCS Inventory server and
+FusionInventory for GLPI servers. It creates local inventory of the machines
+(hardware and software) and send it to the server. It can also write it
+in a local XML file.
+This agent is the successor of the former linux_agent which was released with
+OCS 1.01 and prior. It also replaces the Solaris/AIX/BSD unofficial agents.
 
 =over 4
 
 =item F<GNU/Linux>
+
+=item F<Windows> (since Windows 2000)
 
 =item F<Solaris>
 
@@ -104,6 +105,65 @@ Operating System is available in the Wiki.
 =item F<HP-UX>
 
 =back
+
+PREREQUISITES
+
+Before the installation, please ensure no error had been reported by
+
+ perl Makfile.PL
+
+=head1 INSTALLATION
+
+Once the archive is unpacked, use these commands:
+
+    perl Makefile.PL
+    make
+    make install
+
+If you want to turn off the interactive post install script, just do
+
+     PERL_AUTOINSTALL=1 perl Makefile.PL
+
+instead of the
+
+     perl Makefile.PL
+
+You can also run the agent from the tarball directory. In this case, use
+the --devlib flag to load the library from the local directory.
+
+The agent needs some directories to store internal settings.
+
+you can choose other directories by changing the default settings
+directly in the fusioninventory-agent config file.
+
+You need to launch the agent with root privilege. For debugging you can
+try to launch it with the -l flag:
+eg: fusioninventory-agent -l /tmp --debug
+
+It's also possible to run directly from the tarball directory:
+
+ sudo ./fusioninventory-agent --devlib --server http://server/ocsinventory
+
+=head2 Solaris
+
+Sun Studio seems to be needed to build the dependency.
+The generated Makefile needs gmake to be executed
+The default installation will install the binary in /usr/perl5/5.XXXXX/bin,
+set you $PATH variable according to that.
+
+On Solaris/SPARC, you must install sneep and record the Serial Number with
+it.
+Download it from L<http://www.sun.com/download/products.xml?id=4304155a>
+
+=head2 Crontab
+
+If you use the crontab to launch the agent you'll probably have to redefine
+the PATH. For example, just add something like:
+
+ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+At the beginning of the cron file.
+
 
 =head1 OPTIONS
 
@@ -236,7 +296,7 @@ Use I<PASSWORD> for an HTTP identification with the server.
 =item B<-P>, B<--proxy>=I<PROXY>
 
 Use I<PROXY> to specify a proxy HTTP server. By default, the agent uses
-HTTP_PROXY environment variable. 
+HTTP_PROXY environment variable.
 
 =item B<-r>, B<--realm>=I<REALM>
 
@@ -332,13 +392,19 @@ It looks for the file in these location:
 
 =over
 
-=item /etc/fusioninventory/agent.cfg
+=item
 
-=item /usr/local/etc/fusioninventory/agent.cfg
+/etc/fusioninventory/agent.cfg
+
+=item
+
+/usr/local/etc/fusioninventory/agent.cfg
 
 =back
 
 =head1 AUTHORS
+
+The FusionInventory project L<fusioninventory-devel@lists.alioth.debian.org>
 
 The maintainer is Goneri LE BOUDER <goneri@rulezlan.org>
 
@@ -349,11 +415,49 @@ FusionInventory.
 
 =over 4
 
-=item FusionInventory website: L<http://www.FusionInventory.org/>
+=item
 
-=item project Forge: L<http://Forge.FusionInventory.org>
+FusionInventory website: L<http://www.FusionInventory.org/>
 
-=item the Mailing lists and IRC
+=item
+
+project Forge: L<http://Forge.FusionInventory.org>
+
+=item
+
+The source code of the agent is avalaible on:
+
+=over
+
+=item
+
+Gitorious: L<http://gitorious.org/fusioninventory>
+
+=item
+
+Github: L<http://github.com/fusinv/fusioninventory-agent>
+
+=back
+
+=item
+
+The mailing lists:
+
+=over
+
+=item
+
+L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-devel>
+
+=item
+
+L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-user>
+
+=back
+
+=item
+
+IRC: #FusionInventory on FreeNode IRC Network
 
 =back
 
@@ -362,6 +466,7 @@ FusionInventory.
 Please, use the mailing lists as much as possible. You can open your own bug
 tickets. Patches are welcome. You can also use the bugtracker on
 http://Forge.FusionInventory.org
+
 
 =head1 COPYRIGHT
 
@@ -381,5 +486,40 @@ Copyright (C) 2010 FusionInventory Team
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+The memconf script is maintained by Tom Schmidt
+http://myweb.cableone.net/4schmidts/memconf.html
+Copyright © 1996-2009 Tom Schmidt
+
+memconf is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+FusionInventory::Agent::Backend::Virtualization::Vmsystem uses code from
+imvirt:
+
+   Authors:
+     Thomas Liske <liske@ibh.de>
+
+   Copyright Holder:
+     2008 (C) IBH IT-Service GmbH [http://www.ibh.de/]
+
+   License:
+     This program is free software; you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with this package; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+     USA
+
 
 =cut
