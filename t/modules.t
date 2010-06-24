@@ -6,6 +6,8 @@ use Test::More;
 use File::Find;
 use English qw(-no_match_vars);
 
+use lib 'lib';
+
 my @files;
 
 find ( sub {
