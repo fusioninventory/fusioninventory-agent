@@ -39,7 +39,7 @@ sub doInventory {
         return;
     }
 
-    return unless $network =~ /^\d+\.\d+\.\d+\.\d+$/;
+    return unless $network =~ /^$ip_address_pattern$/;
     $logger->debug("scanning the $network network");
 
     my $ip;
