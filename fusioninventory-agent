@@ -256,7 +256,7 @@ inventory immediately.
 
 =item B<--scan-homedirs>
 
-Should the VirtualMachine inventory include users own VM?
+Should the agent scan the user directories to inventory their virtual machine?
 
 =item B<-s>, B<--server>=I<URI>
 
