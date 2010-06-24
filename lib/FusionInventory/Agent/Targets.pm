@@ -24,17 +24,6 @@ sub new {
     return $self;
 }
 
-sub addTarget {
-    my ($self, $params) = @_;
-
-    my $logger = $self->{'logger'};
-
-    $logger->fault("No target?!") unless $params->{'target'};
-
-    push @{$self->{targets}}, $params->{'target'};
-
-}
-
 sub init {
     my ($self) = @_;
 
@@ -42,30 +31,27 @@ sub init {
     my $logger = $self->{logger};
     my $deviceid = $self->{deviceid};
 
-
     if ($config->{'stdout'}) {
-        my $target = FusionInventory::Agent::Target->new({
-            logger   => $logger,
-            config   => $config,
-            type     => 'stdout',
-            deviceid => $deviceid,
-        });
-        $self->addTarget({
-            target => $target
-        });
+        push
+            @{$self->{targets}},
+            FusionInventory::Agent::Target->new({
+                logger   => $logger,
+                config   => $config,
+                type     => 'stdout',
+                deviceid => $deviceid,
+            });
     }
 
     if ($config->{'local'}) {
-        my $target = FusionInventory::Agent::Target->new({
-            config   => $config,
-            logger   => $logger,
-            type     => 'local',
-            path     => $config->{'local'},
-            deviceid => $deviceid,
-        });
-        $self->addTarget({
-            target => $target
-        });
+        push
+            @{$self->{targets}},
+            FusionInventory::Agent::Target->new({
+                config   => $config,
+                logger   => $logger,
+                type     => 'local',
+                path     => $config->{'local'},
+                deviceid => $deviceid,
+            });
     }
 
     foreach my $val (split(/,/, $config->{'server'})) {
@@ -78,16 +64,15 @@ sub init {
         } else {
             $url = $val;
         }
-        my $target = FusionInventory::Agent::Target->new({
-            config   => $config,
-            logger   => $logger,
-            type     => 'server',
-            path     => $url,
-            deviceid => $deviceid,
-        });
-        $self->addTarget({
-            target => $target
-        });
+        push
+            @{$self->{targets}},
+            FusionInventory::Agent::Target->new({
+                config   => $config,
+                logger   => $logger,
+                type     => 'server',
+                path     => $url,
+                deviceid => $deviceid,
+            });
     }
 
 }
