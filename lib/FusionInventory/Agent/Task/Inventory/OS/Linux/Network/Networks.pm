@@ -21,16 +21,16 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my %gateway;
+    my $routes;
     foreach (`route -n`) {
         if (/^($ip_address_pattern) \s+ ($ip_address_pattern)/x) {
-            $gateway{$1} = $2;
+            $routes->{$1} = $2;
         }
     }
 
-    if ($gateway{'0.0.0.0'}) {
+    if ($routes->{'0.0.0.0'}) {
         $inventory->setHardware({
-            DEFAULTGATEWAY => $gateway{'0.0.0.0'}
+            DEFAULTGATEWAY => $routes->{'0.0.0.0'}
         });
     }
 
@@ -45,7 +45,7 @@ sub doInventory {
             my ($ipsubnet, $ipgateway) = getNetworkInfo(
                 $interface->{IPADDRESS},
                 $interface->{IPMASK},
-                \%gateway
+                $routes
             );
             $interface->{IPSUBNET} = $ipsubnet;
             $interface->{IPGATEWAY} = $ipgateway;
@@ -196,7 +196,7 @@ sub getUevent {
 }
 
 sub getNetworkInfo {
-    my ($address, $mask, $gateway) = @_;
+    my ($address, $mask, $routes) = @_;
 
     # import Net::IP functional interface
     Net::IP->import(':PROC');
@@ -208,15 +208,15 @@ sub getNetworkInfo {
     my $binsubnet = $binip & $binmask;
 
     $ipsubnet = ip_bintoip($binsubnet, 4);
-    $ipgateway = $gateway->{$ipsubnet};
+    $ipgateway = $routes->{$ipsubnet};
 
     # replace '0.0.0.0' (ie 'default gateway') by the
     # default gateway IP adress if it exists
     if ($ipgateway and
         $ipgateway eq '0.0.0.0' and 
-        $gateway->{'0.0.0.0'}
+        $routes->{'0.0.0.0'}
     ) {
-        $ipgateway = $gateway->{'0.0.0.0'}
+        $ipgateway = $routes->{'0.0.0.0'}
     }
 
     return ($ipsubnet, $ipgateway);
