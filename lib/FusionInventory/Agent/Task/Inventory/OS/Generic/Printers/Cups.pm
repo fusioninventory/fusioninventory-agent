@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Printers::Cups;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 
         can_load("Net::CUPS") &&

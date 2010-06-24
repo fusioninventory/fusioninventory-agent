@@ -6,6 +6,8 @@ use warnings;
 use English qw(-no_match_vars);
 use Sys::Hostname;
 
+use FusionInventory::Agent::Tools;
+
 #TODO Get driver pcislot virtualdev
 
 sub isInventoryEnabled {

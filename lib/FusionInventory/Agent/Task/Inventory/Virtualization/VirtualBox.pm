@@ -8,6 +8,8 @@ use warnings;
 use XML::Simple;
 use File::Glob ':glob';
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return
         can_run('VirtualBox') &&

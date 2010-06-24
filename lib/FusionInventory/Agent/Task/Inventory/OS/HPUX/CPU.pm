@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 ###                                                                                                
 # Version 1.1                                                                                      
 # Correction of Bug n 522774                                                                       

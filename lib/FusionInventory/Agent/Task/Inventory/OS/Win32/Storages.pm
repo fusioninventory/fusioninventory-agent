@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return can_run("hdparm");

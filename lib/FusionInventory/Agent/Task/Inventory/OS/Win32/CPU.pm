@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 

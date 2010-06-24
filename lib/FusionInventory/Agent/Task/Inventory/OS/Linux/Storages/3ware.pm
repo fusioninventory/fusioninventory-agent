@@ -3,7 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::3ware;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Tools;
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
 # Tested on 2.6.* kernels
 #

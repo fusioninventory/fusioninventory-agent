@@ -12,6 +12,7 @@ Win32::OLE-> Option(CP=>CP_UTF8);
 use Win32::OLE::Enum;
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools;
 
 # http://techtasks.com/code/viewbookcode/1417
 sub isInventoryEnabled {

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Printers;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 use constant DATATYPE => 'SPPrintersDataType';
 
 sub isInventoryEnabled {

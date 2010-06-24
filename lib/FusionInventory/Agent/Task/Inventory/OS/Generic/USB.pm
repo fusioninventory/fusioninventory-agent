@@ -5,6 +5,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::USB;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run("lsusb");
 }

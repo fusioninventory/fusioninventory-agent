@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use English qw(-no_match_vars);
 use File::stat;
 use Time::Local;
 
@@ -182,5 +183,48 @@ sub compareVersion {
             $minor >= $min_minor
         );
 }
+
+sub can_run {
+    my ($binary) = @_;
+
+    my $ret;
+    if ($OSNAME eq 'MSWin32') {
+        MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
+            foreach my $ext (qw/.exe .bat/) {
+                if (-f $_.'/'.$binary.$ext) {
+                    $ret = 1;
+                    last MAIN;
+                }
+            }
+        }
+    } else {
+        chomp(my $binpath=`which $binary 2>/dev/null`);
+        $ret = -x $binpath;
+    }
+
+    return $ret;
+}
+
+sub can_load {
+    my ($module) = @_;
+
+    return $module->require();
+}
+
+sub can_read {
+    my ($file) = @_;
+    return unless -r $file;
+    1;
+}
+
+sub runcmd {
+    my ($cmd) = @_;
+    return unless $cmd;
+
+    # $self->{logger}->debug(" - run $cmd");
+
+    return `$cmd`;
+}
+
 
 1;

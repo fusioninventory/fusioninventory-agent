@@ -11,6 +11,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 
         can_run("ifconfig") &&

@@ -112,50 +112,6 @@ sub initModList {
     my @installed_files;
 
 
-    # Hackish. The function we want to export
-    # in the module
-    my $backendSharedFuncs = {
-
-        # TODO replace that by the standard can_run()
-        can_run => sub {
-            my $binary = shift;
-
-            my $ret;
-            if ($OSNAME eq 'MSWin32') {
-                MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
-                    foreach my $ext (qw/.exe .bat/) {
-                        if (-f $_.'/'.$binary.$ext) {
-                            $ret = 1;
-                            last MAIN;
-                        }
-                    }
-                }
-            } else {
-                chomp(my $binpath=`which $binary 2>/dev/null`);
-                $ret = -x $binpath;
-            }
-
-            return $ret;
-        },
-        can_load => sub {
-            my $module = shift;
-            return $module->require();
-        },
-        can_read => sub {
-            my $file = shift;
-            return unless -r $file;
-            1;
-        },
-        runcmd => sub {
-            my $cmd = shift;
-            return unless $cmd;
-
-            # $self->{logger}->debug(" - run $cmd");
-
-            return `$cmd`;
-        }
-    };
-
     # This is a workaround for PAR::Packer. Since it resets @INC
     # I can't find the backend modules to load dynamically. So
     # I prepare a list and include it.
@@ -250,11 +206,6 @@ sub initModList {
 
         # required to use a string as a HASH reference
         no strict 'refs'; ## no critic
-
-        # Load in the module the backendSharedFuncs
-        foreach my $func (keys %{$backendSharedFuncs}) {
-            $package->{$func} = $backendSharedFuncs->{$func};
-        }
 
         if ($package->{isInventoryEnabled}) {
             $self->{modules}->{$m}->{isInventoryEnabledFunc} =

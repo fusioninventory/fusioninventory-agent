@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Video;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 use constant DATATYPE => 'SPDisplaysDataType'; # careful this could change when looking at lower versions of OSX
 
 sub isInventoryEnabled {

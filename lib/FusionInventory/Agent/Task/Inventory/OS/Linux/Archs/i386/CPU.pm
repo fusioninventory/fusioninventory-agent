@@ -6,6 +6,8 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { can_read("/proc/cpuinfo") }
 
 sub doInventory {
