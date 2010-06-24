@@ -102,18 +102,19 @@ sub getNext {
     } elsif ($config->{'lazy'}) {
         my $target = shift @{$self->{targets}};
         if (time > $target->getNextRunDate()) {
-            $logger->debug("Processing ".$target->{'path'});
+            $logger->debug("Processing $target->{path}");
             return $target;
         } else {
-            $logger->info("Nothing to do for ".$target->{'path'}.
-		". Next server contact planned for ".
-                localtime($target->getNextRunDate())
-		);
+            $logger->info(
+                "Nothing to do for $target->{path}. Next server contact " .
+                "planned for " . localtime($target->getNextRunDate())
+            );
         }
     } elsif ($config->{'wait'}) {
         my $wait = int rand($config->{'wait'});
-        $logger->info("Going to sleep for $wait second(s) because of the".
-            " wait parameter");
+        $logger->info(
+            "Going to sleep for $wait second(s) because of the wait parameter"
+        );
         sleep($wait);
         return shift @{$self->{targets}}
     } else {
