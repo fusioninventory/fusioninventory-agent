@@ -196,7 +196,6 @@ sub isAgentAlreadyRunning {
 sub main {
     my ($self) = @_;
 
-    # Load setting from the config file
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $targets = $self->{targets};
