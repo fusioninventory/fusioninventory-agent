@@ -89,8 +89,6 @@ sub loadDefaults {
     foreach my $key (keys %$default) {
         $self->{$key} = $default->{$key};
     }
-
-    $self->{VERSION} = $FusionInventory::Agent::VERSION;
 }
 
 sub loadCallerParams {
@@ -331,7 +329,7 @@ EOF
 sub version {
     my ($self) = @_;
 
-    print "FusionInventory Agent (".$FusionInventory::Agent::VERSION.")\n";
+    print $FusionInventory::Agent::VERSION_STRING . "\n";
     exit 0;
 }
 

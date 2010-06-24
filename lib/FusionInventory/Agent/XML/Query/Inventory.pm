@@ -59,7 +59,7 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::USER_STRING];
 
     # Is the XML centent initialised?
     $self->{isInitialised} = undef;

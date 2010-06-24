@@ -23,6 +23,11 @@ use FusionInventory::Logger;
 $SIG{CHLD} = 'IGNORE';
 
 our $VERSION = '2.1beta1';
+our $VERSION_STRING =
+    "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
+our $AGENT_STRING =
+    "FusionInventory-Agent_v$VERSION";
+
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
@@ -294,5 +299,5 @@ sub main {
         sleep(5);
     }
 }
-1;
 
+1;
