@@ -5,7 +5,7 @@ use warnings;
 
 use Cwd;
 use English qw(-no_match_vars);
-use File::Path;
+use File::Path qw(make_path);
 use Sys::Hostname;
 use XML::Simple;
 
@@ -61,11 +61,14 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (!-d $config->{basevardir} && !mkpath($config->{basevardir}, {error => undef})) {
-        $logger->error(
-            "Failed to create $config->{basevardir}" .
-            " Please use --basevardir to point to a R/W directory."
-        );
+    if (!-d $config->{basevardir}) {
+        make_path($config->{basevardir}, {error => \my $err});
+        if (@$err) {
+            $logger->error(
+                "Failed to create $config->{basevardir}" .
+                " Please use --basevardir to point to a R/W directory."
+            );
+        }
     }
 
     if (not $config->{scanhomedirs}) {
