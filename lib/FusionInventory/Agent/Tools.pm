@@ -7,7 +7,35 @@ use base 'Exporter';
 use File::stat;
 use Time::Local;
 
-our @EXPORT = qw(getFormatedDate getManufacturer getIpDhcp);
+our @EXPORT = qw(
+    getFormatedLocalTime
+    getFormatedGmTime
+    getFormatedDate
+    getManufacturer
+    getIpDhcp
+);
+
+sub getFormatedLocalTime {
+    my ($time) = @_;
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime ($time))[5, 4, 3, 2, 1, 0];
+
+    return getFormatedDate(
+        ($year + 1900), ($month + 1), $day, $hour, $min, $sec
+    );
+}
+
+sub getFormatedGmTime {
+    my ($time) = @_;
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (gmtime ($time))[5, 4, 3, 2, 1, 0];
+
+    return getFormatedDate(
+        ($year - 70), $month, ($day - 1), $hour, $min, $sec
+    );
+}
 
 sub getFormatedDate {
     my ($year, $month, $day, $hour, $min, $sec) = @_;

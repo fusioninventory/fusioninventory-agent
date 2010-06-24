@@ -9,12 +9,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my ($year, $month , $day, $hour, $min, $sec) = (localtime
-        (time))[5,4,3,2,1,0];
-
-    my $date = getFormatedDate(
-        ($year + 1900), ($month + 1), $day, $hour, $min, $sec
-    );
+    my $date = getFormatedLocalTime(time());
 
     $inventory->setAccessLog ({
         USERID => 'N/A',

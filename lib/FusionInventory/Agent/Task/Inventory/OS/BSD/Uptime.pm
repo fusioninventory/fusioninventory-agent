@@ -20,14 +20,8 @@ sub doInventory {
     my $currenttime = time();
     my $uptime = $currenttime - $boottime;
 
-    # Uptime conversion
-    my ($uyear, $umonth , $uday, $uhour, $umin, $usec) =
-        (gmtime ($uptime))[5,4,3,2,1,0];
-
-    # Write in ISO format
-    $uptime = getFormatedDate(
-        ($uyear - 70), $umonth, ($uday - 1), $uhour, $umin, $usec
-    );
+    # ISO format string conversion
+    $uptime = getFormatedGmTime($uptime);
 
     chomp(my $DeviceType =`uname -m`);
     $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
