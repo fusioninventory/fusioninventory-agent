@@ -78,9 +78,7 @@ sub new {
     $self->loadUserParams();
     $self->loadCallerParams($params) if $params;
 
-    if ($self->{logfile}) {
-        $self->{logger} = 'File';
-    }
+    $self->checkContent();
 
     return $self;
 }
@@ -251,6 +249,22 @@ sub loadUserParams {
 
     $self->help() if $self->{help};
     $self->version() if $self->{version};
+}
+
+sub checkContent {
+    my ($self) = @_;
+
+    # if a logfile is defined, use file logger
+    if ($self->{logfile}) {
+        $self->{logger} = 'File';
+    }
+
+    if ($self->{nosoft}) {
+        print STDERR
+            "the parameter --nosoft is deprecated and may be removed in a " .
+            "future release, please use --nosoftware instead.";
+        $self->{nosoftware} = 1
+    }
 }
 
 sub help {

@@ -75,14 +75,6 @@ sub new {
         $logger->debug("--scan-homedirs missing. Don't scan user directories");
     }
 
-    if ($config->{nosoft}) {
-        $logger->info(
-            "the parameter --nosoft is deprecated and may be removed in a " .
-            "future release, please use --nosoftware instead."
-        );
-        $config->{nosoftware} = 1
-    }
-
     # This is a hack to add the perl binary directory
     # in the $PATH env.
     # This is useful for the Windows installer.
