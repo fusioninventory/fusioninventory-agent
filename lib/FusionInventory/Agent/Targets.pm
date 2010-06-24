@@ -10,14 +10,12 @@ use FusionInventory::Agent::Target;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    my $config = $self->{config} = $params->{config};
-    my $logger = $self->{logger} = $params->{logger};
-    $self->{deviceid} = $params->{deviceid};
-
-    $self->{targets} = [];
-    $self->{targets} = [];
+    my $self = {
+        config   => $params->{config},
+        logger   => $params->{logger},
+        deviceid => $params->{deviceid},
+        targets  => []
+    };
 
     bless $self, $class;
 
