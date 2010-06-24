@@ -86,7 +86,11 @@ sub getNext {
 
     return unless @{$self->{targets}};
 
-    if ($config->{'daemon'} or $config->{'daemon-no-fork'} or $config->{'winService'}) {
+    if (
+        $config->{'daemon'} or
+        $config->{'daemon-no-fork'} or
+        $config->{'winService'}
+    ) {
         while (1) {
             foreach my $target (@{$self->{targets}}) {
                 if (time > $target->getNextRunDate()) {
