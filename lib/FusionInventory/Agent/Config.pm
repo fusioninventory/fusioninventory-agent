@@ -62,7 +62,7 @@ my $default = {
 };
 
 sub new {
-    my ($class) = @_;
+    my ($class, $params) = @_;
 
     my $self = $default;
     bless $self, $class;
@@ -76,6 +76,7 @@ sub new {
     }
 
     $self->loadUserParams();
+    $self->loadCallerParams($params) if $params;
 
     if ($self->{logfile}) {
         $self->{logger} = 'File';
@@ -92,6 +93,15 @@ sub loadDefaults {
     }
 
     $self->{VERSION} = $FusionInventory::Agent::VERSION;
+}
+
+sub loadCallerParams {
+    my ($self, $params) = @_;
+
+    foreach my $key (keys %$params) {
+        $self->{$key} = $params->{$key};
+    }
+
 }
 
 sub loadFromWinRegistry {

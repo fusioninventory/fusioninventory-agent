@@ -51,11 +51,7 @@ sub new {
 ############################
 #### CLI parameters ########
 ############################
-    my $config = $self->{config} = FusionInventory::Agent::Config->new();
-
-    if ($params->{winService}) {
-        $config->{winService} = 1;
-    }
+    my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
         config => $config
