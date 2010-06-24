@@ -196,22 +196,13 @@ sub isAgentAlreadyRunning {
 sub main {
     my ($self) = @_;
 
-# Load setting from the config file
+    # Load setting from the config file
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $rpc = $self->{rpc};
     $rpc->setCurrentStatus("waiting");
 
-
-
-#####################################
-################ MAIN ###############
-#####################################
-
-
-#######################################################
-#######################################################
     while (my $target = $targets->getNext()) {
 
         my $exitcode = 0;
