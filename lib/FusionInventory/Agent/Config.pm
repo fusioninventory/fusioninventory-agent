@@ -266,12 +266,7 @@ sub checkContent {
 }
 
 sub help {
-    my ($self, $error) = @_;
-
-    if ($error) {
-        chomp $error;
-        print "ERROR: $error\n\n";
-    }
+    my ($self) = @_;
 
     if ($self->{'conf-file'}) {
         print STDERR "Setting initialised with values retrieved from ".
