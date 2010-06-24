@@ -99,7 +99,7 @@ sub getNext {
             }
             sleep(10);
         }
-    } elsif ($config->{'lazy'} && @{$self->{targets}}) {
+    } elsif ($config->{'lazy'}) {
         my $target = shift @{$self->{targets}};
         if (time > $target->getNextRunDate()) {
             $logger->debug("Processing ".$target->{'path'});
