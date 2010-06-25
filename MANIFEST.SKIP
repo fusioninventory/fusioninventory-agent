@@ -29,6 +29,8 @@ tools/build-perl-tree.sh
 ^setup.sh
 resources/.*
 
+.*\.tmp
+
 lib/FusionInventory/Agent/Task/OcsDeploy.pm
 lib/FusionInventory/Agent/Task/SNMPQuery.pm
 lib/FusionInventory/Agent/Task/NetDiscovery.pm
