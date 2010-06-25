@@ -167,6 +167,33 @@ the PATH. For example, just add something like:
 
 At the beginning of the cron file.
 
+=head1 OCS INVENTORY PROTOCOLE
+
+FusionInventory Agent uses OCS Inventory protocle and is compatible with OCS
+Inventory server. The agent uses the same protocle with the FusionInventory
+For GLPI plugin.
+
+The OCS protocole is basicly an exchange of XML file done over HTTP(S).
+
+=head2 First, The PROLOG
+
+The agent send a first message to give it's ID (DEVICEID). The
+server send by a the agent a XML file with a list of parameter. It's the
+PROLOG RESP. You can see it if you're in Debug mode.
+In this PROLOG, the server send the PROLOG_FREQ. The agent will use it to
+know when it need to contact the server for the next time.
+
+=head2 Module execution
+
+The agent will launch each modules and pass the list of options found in the
+PROLOG RESP as parameter. The module can send information directly to the
+server (inventory, SNMP scan result, etc)
+
+=head2 Windows service or Deamon mode
+
+In deamon mode, the agent wait during a period between the last PROLOG and
+PROLOG_FREQ. If PROLOG_FREQ is not set, it will use --delaytime value.
+The default value is 3600.
 
 =head1 OPTIONS
 
