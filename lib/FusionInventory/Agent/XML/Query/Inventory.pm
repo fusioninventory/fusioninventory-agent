@@ -1147,7 +1147,7 @@ sub writeHTML {
                     ($section->{$key}[0]||"(empty)").
                     "</li>\n";
                 }
-                $htmlBody .= "</ul>\n";
+                $htmlBody .= "</ul>\n<br />\n<br />\n";
 
             }
         } else {
@@ -1159,7 +1159,7 @@ sub writeHTML {
                 ($dataRef->{$key}[0]||"(empty)").
                 "</li>\n";
             }
-            $htmlBody .= "</ul>\n";
+            $htmlBody .= "</ul>\n<br />\n";
         }
     }
 
