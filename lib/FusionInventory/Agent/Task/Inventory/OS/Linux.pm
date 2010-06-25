@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled {
-    return $OSNAME =~ /^linux$/;
+    return $OSNAME eq 'linux';
 }
 
 sub doInventory {

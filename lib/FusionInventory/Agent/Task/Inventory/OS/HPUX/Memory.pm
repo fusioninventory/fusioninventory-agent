@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { 
-    return $OSNAME =~ /hpux/;
+    return $OSNAME eq 'hpux';
 }
 
 sub doInventory { 
