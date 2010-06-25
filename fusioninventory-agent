@@ -187,6 +187,12 @@ the PATH. For example, just add something like:
 
 At the beginning of the cron file.
 
+=head2 Windows
+
+If you don't want to use the installer for Windows you can follow the
+installation process avalaible there:
+L<http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/RunAgentWin32>
+
 =head1 OCS INVENTORY PROTOCOLE
 
 FusionInventory Agent uses OCS Inventory protocle and is compatible with OCS
