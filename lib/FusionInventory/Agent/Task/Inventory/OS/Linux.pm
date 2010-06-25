@@ -18,24 +18,21 @@ sub doInventory {
 
     chomp (my $osversion = `uname -r`);
 
-    my $lastloggeduser;
-    my $datelastlog;
+    my ($last_user, $last_date);
     my @query = runcmd("last -R");
-
-    foreach ($query[0]) {
-        if ( s/^(\S+)\s+\S+\s+(\S+\s+\S+\s+\S+\s+\S+)\s+.*// ) {
-            $lastloggeduser = $1;
-            $datelastlog = $2;
-        }
+    my $last = $query[0]; 
+    if ($last =~ /^(\S+) \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x ) {
+        $last_user = $1;
+        $last_date = $2;
     }
 
     # This will probably be overwritten by a Linux::Distro module.
     $inventory->setHardware({
-        OSNAME => "Linux",
-        OSCOMMENTS => "Unknown Linux distribution",
-        OSVERSION => $osversion,
-        LASTLOGGEDUSER => $lastloggeduser,
-        DATELASTLOGGEDUSER => $datelastlog
+        OSNAME             => "Linux",
+        OSCOMMENTS         => "Unknown Linux distribution",
+        OSVERSION          => $osversion,
+        LASTLOGGEDUSER     => $last_user,
+        DATELASTLOGGEDUSER => $last_date
     });
 }
 
