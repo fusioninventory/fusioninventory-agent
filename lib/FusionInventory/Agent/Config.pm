@@ -244,42 +244,42 @@ sub help {
 Usage:
     --backend-collect-timeout set a max delay time of one inventory data collect job ($config->{'backend-collect-timeout'})
     --basevardir=/path  indicate the directory where should the agent store its files ($config->{basevardir})
-    --ca-cert-dir=D  SSL certificat directory ($config->{'ca-cert-dir'})
-    --ca-cert-file=F SSL certificat file ($config->{'ca-cert-file'})
-    --color         use color in the console ($config->{color})
-    -d --daemon     detach the agent in background ($config->{daemon})
+    --ca-cert-dir=D     SSL certificat directory ($config->{'ca-cert-dir'})
+    --ca-cert-file=F    SSL certificat file ($config->{'ca-cert-file'})
+    --color             use color in the console ($config->{color})
+    -d --daemon         detach the agent in background ($config->{daemon})
     -D --daemon-no-fork daemon but don't fork in background ($config->{'daemon-no-fork'})
-    --debug         debug mode ($config->{debug})
-    --delaytime     set a max delay time (in second) if no PROLOG_FREQ is set ($config->{delaytime})
-    --devlib        search for Backend mod in ./lib only ($config->{devlib})
+    --debug             debug mode ($config->{debug})
+    --delaytime         set a max delay time (in second) if no PROLOG_FREQ is set ($config->{delaytime})
+    --devlib            search for Backend mod in ./lib only ($config->{devlib})
     --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($config->{'disable-perllib-envvar'})
-    -f --force       always send data to server (Don't ask before) ($config->{force})
-    --html          save in HTML the inventory requested by --local ($config->{html})
-    --html-dir       alternative directory where the static HTML are stored
+    -f --force          always send data to server (Don't ask before) ($config->{force})
+    --html              save in HTML the inventory requested by --local ($config->{html})
+    --html-dir          alternative directory where the static HTML are stored
     -i --info           verbose mode ($config->{info})
-    --lazy           do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
+    --lazy              do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
     -l --local=DIR      do not contact server but write inventory in DIR directory in XML ($config->{local})
-    --logfile=FILE   log message in FILE ($config->{logfile})
-    --no-ocsdeploy   Do not deploy packages or run command ($config->{'no-ocsdeploy'})
-    --no-inventory   Do not generate inventory ($config->{'no-inventory'})
-    --no-printer     do not return printer list in inventory $config->{'no-printer'})
-    --no-socket      don't allow remote connexion ($config->{'no-socket'})
-    --no-software    do not return installed software list ($config->{'no-software'})
-    --no-ssl-check   do not check the SSL connexion with the server ($config->{'no-ssl-check'})
-    --no-wakeonlan   do not use wakeonlan function ($config->{'no-wakeonlan'})
-    --no-snmpquery   do not use snmpquery function ($config->{'no-snmpquery'})
+    --logfile=FILE      log message in FILE ($config->{logfile})
+    --no-ocsdeploy      Do not deploy packages or run command ($config->{'no-ocsdeploy'})
+    --no-inventory      Do not generate inventory ($config->{'no-inventory'})
+    --no-printer        do not return printer list in inventory $config->{'no-printer'})
+    --no-socket         don't allow remote connexion ($config->{'no-socket'})
+    --no-software       do not return installed software list ($config->{'no-software'})
+    --no-ssl-check      do not check the SSL connexion with the server ($config->{'no-ssl-check'})
+    --no-wakeonlan      do not use wakeonlan function ($config->{'no-wakeonlan'})
+    --no-snmpquery      do not use snmpquery function ($config->{'no-snmpquery'})
     --no-netdiscovery   do not use snmpquery function ($config->{'no-netdiscovery'})
     -p --password=PWD   password for server auth
     -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($config->{proxy})
     -r --realm=REALM    realm for server HTTP auth. e.g: 'Restricted Area' ($config->{realm})
-    --rpc-ip=IP      ip of the interface to use for peer to peer exchange
+    --rpc-ip=IP         ip of the interface to use for peer to peer exchange
     --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory
-    --scan-homedirs  permit to scan home user directories ($config->{'scan-homedirs'})
+    --scan-homedirs     permit to scan home user directories ($config->{'scan-homedirs'})
     -s --server=uri     server uri ($config->{server})
-    --stdout         do not write or post the inventory but print it on STDOUT
+    --stdout            do not write or post the inventory but print it on STDOUT
     -t --tag=TAG        use TAG as tag ($config->{tag}) Will be ignored by server if a value already exists.
-    -u --user        user name to use for server auth
-    --version        print the version
+    -u --user           user name to use for server auth
+    --version           print the version
     -w --wait=DURATION  wait during a random periode between 0 and DURATION seconds before contacting server ($config->{wait})
 
 Manpage:
