@@ -87,25 +87,45 @@ OCS 1.01 and prior. It also replaces the Solaris/AIX/BSD unofficial agents.
 
 =over 4
 
-=item F<GNU/Linux>
+=item
 
-=item F<Windows> (since Windows 2000)
+F<Windows> (since Windows 2000)
 
-=item F<Solaris>
+=item
 
-=item F<FreeBSD>
+F<GNU/Linux>
 
-=item F<NetBSD>
+=item
 
-=item F<OpenBSD>
+F<MacOSX>
 
-=item F<AIX>
+=item
 
-=item F<MacOSX>
+F<Solaris>
 
-=item F<GNU/kFreeBSD>
+=item
 
-=item F<HP-UX>
+F<FreeBSD>
+
+=item
+
+F<NetBSD>
+
+=item
+
+F<OpenBSD>
+
+=item
+
+F<AIX>
+
+=item
+
+F<HP-UX>
+
+=item
+
+F<GNU/kFreeBSD>
 
 =back
 
