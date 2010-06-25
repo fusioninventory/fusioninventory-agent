@@ -48,6 +48,7 @@ my $default = {
     'no-inventory'            => 0,
     'nosoft'                  => 0, # deprecated
     'no-printer'              => 0,
+    'no-socket'               => 0,
     'no-software'             => 0,
     'no-wakeonlan'            => 0,
     'no-snmpquery'            => 0,
