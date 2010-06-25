@@ -262,6 +262,10 @@ The directory where public SSL certificat are stored. In general it
 The path to the public certificat (e.g: /etc/ssl/certs/cacert.pem). If
 --ca-cert-file is used, --ca-cert-dir is ignored.
 
+=item B<--conf-file=FILE>
+
+Load the configuration file from the given location. Ignored on Windows.
+
 =item B<--debug>
 
 Turn the debug mode on.
@@ -461,6 +465,11 @@ It looks for the file in these location:
 /usr/local/etc/fusioninventory/agent.cfg
 
 =back
+
+You can use the B<--conf-file=XXX> parameter to load you own configuration
+file from a specific location.
+On Windows the settings are loaded from the Registry. The configuration file
+is ignored.
 
 =head1 SECURITY
 
