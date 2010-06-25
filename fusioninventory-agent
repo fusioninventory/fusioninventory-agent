@@ -65,6 +65,9 @@ B<fusioninventory-agent> S<[ ... ]> S<[ I<--server server> | I<--local /tmp> ]>.
     % fusioninventory-agent --local /tmp
     # write an inventory in the /tmp directory
 
+    % fusioninventory-agent --local /tmp --html
+    # Use the --html parameter to generate a HTML file
+
     % fusioninventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
     # send a report to a server protected by a basic authentication
     % fusioninventory-agent --lazy
