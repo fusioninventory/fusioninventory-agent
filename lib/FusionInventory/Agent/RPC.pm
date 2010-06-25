@@ -101,7 +101,6 @@ sub handler {
         my $nextContact = "";
         foreach my $target (@{$targets->{targets}}) {
             my $path = $target->{'path'};
-            $path = 'http://@e:@fdef@4545';
             $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
             $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".localtime($target->getNextRunDate())."</li>\n";
         }
