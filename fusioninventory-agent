@@ -406,6 +406,12 @@ It looks for the file in these location:
 
 =back
 
+=head1 SECURITY
+
+Some modules like SNMPQuery needs to sent credential from the agent to the
+agent. We recommend to enable HTTPS support on the OCS or FusionInventory
+For GLPI server.
+
 =head1 AUTHORS
 
 The FusionInventory project L<fusioninventory-devel@lists.alioth.debian.org>
