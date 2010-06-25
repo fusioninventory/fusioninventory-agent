@@ -1112,10 +1112,14 @@ sub writeHTML {
     <html xmlns="http://www.w3.org/1999/xhtml"><head>
 
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent '.$target->{deviceid}.'</title>
+    <title>FusionInventory-Agent '.$target->{deviceid}.' - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
 
     </head>
-    <body>';
+    <body>
+    <h1>Inventory for '.$target->{deviceid}.'</h1>
+    FusionInventory Agent '.$config->{VERSION}.'
+
+    ';
 
 
     my $htmlFooter = "
