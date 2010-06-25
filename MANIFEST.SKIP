@@ -30,3 +30,5 @@ tools/build-perl-tree.sh
 resources/.*
 
 lib/FusionInventory/Agent/Task/OcsDeploy.pm
+lib/FusionInventory/Agent/Task/SNMPQuery.pm
+lib/FusionInventory/Agent/Task/NetDiscovery.pm
