@@ -10,6 +10,7 @@ Revision history for FusionInventory::Agent
          Sébastien Prud'homme
        * load dmidecode from $PATH
        * fix VirtualBox VM detection (David DURIEUX)
+       * Makefile.PL, UNIVERSAL::require is a dependency now
 
 2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
