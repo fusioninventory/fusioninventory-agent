@@ -154,7 +154,13 @@ sub initModList {
         },
         can_load => sub {
             my $module = shift;
-            return $module->require();
+
+            my $calling_namespace = caller(0);
+            eval "package $calling_namespace; use $module;";
+#      print STDERR "$module not loaded in $calling_namespace! $ERRNO: $EVAL_ERROR\n" if $EVAL_ERROR\;
+            return if $EVAL_ERROR;
+#      print STDERR "$module loaded in $calling_namespace!\n";
+            1;
         },
         can_read => sub {
             my $file = shift;
