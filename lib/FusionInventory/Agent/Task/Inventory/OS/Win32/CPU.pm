@@ -3,8 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::CPU;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Win32;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 

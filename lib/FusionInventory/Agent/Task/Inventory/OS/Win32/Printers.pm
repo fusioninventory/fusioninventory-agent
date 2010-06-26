@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Printers;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 my @status = (
         'Unknown', # 0 is not defined
