@@ -52,7 +52,7 @@ sub doInventory {
 
         foreach my $Properties
             (getWmiProperties('Win32_PointingDevice',
-qw/Name Caption Manufacturer Description PointingType/))
+qw/Name Caption Manufacturer Description PointingType DeviceInterface/))
     {
 
         push @inputs, {

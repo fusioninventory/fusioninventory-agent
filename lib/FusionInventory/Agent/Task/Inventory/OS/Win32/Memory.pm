@@ -123,8 +123,11 @@ qw/MemoryDevices SerialNumber PhysicalMemoryCorrection/)) {
             $memory->{SERIALNUMBER} =
                 $Properties->{SerialNumber};
         }
-        $memory->{MEMORYCORRECTION} =
-            $memoryErrorProtection[$Properties->{PhysicalMemoryCorrection}];
+
+        if ($Properties->{PhysicalMemoryCorrection}) {
+            $memory->{MEMORYCORRECTION} =
+                $memoryErrorProtection[$Properties->{PhysicalMemoryCorrection}];
+        }
 
         if ($memory->{MEMORYCORRECTION}) {
             $memory->{DESCRIPTION} .= " (".$memory->{MEMORYCORRECTION}.")";
@@ -161,7 +164,7 @@ qw/TotalSwapSpaceSize/)) {
     $inventory->setHardware({
 
             MEMORY =>  int($fullMemory/(1024*1024)),
-            SWAP =>  int($swapMemory/(1024)),
+            SWAP =>  int(($swapMemory || 0)/(1024)),
 
             });
 
