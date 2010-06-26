@@ -40,6 +40,7 @@ sub parseDmidecode {
 
         if ($type == 0) {
             # BIOS values
+
             if ($line =~ /^\s+vendor:\s*(.+?)\s*$/i) {
                 $bios->{BMANUFACTURER} = $1;
                 if ($bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/i) {
