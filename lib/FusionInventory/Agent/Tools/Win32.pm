@@ -38,9 +38,6 @@ sub getWmiProperties {
 
         Win32::OLE->import(qw(in CP_UTF8));
         Win32::OLE->Option(CP => 'CP_UTF8');
-
-        require Encode;
-        Encode->import('encode');
     };
     if ($EVAL_ERROR) {
         print "STDERR, Failed to load Win32::OLE: $EVAL_ERROR\n";
