@@ -173,6 +173,7 @@ sub addController {
     my ($self, $args) = @_;
 
     my @fields = qw/
+        CAPTION
         DRIVER
         NAME
         MANUFACTURER

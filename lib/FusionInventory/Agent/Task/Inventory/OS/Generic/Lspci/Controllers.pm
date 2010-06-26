@@ -12,15 +12,16 @@ sub getInfoFromPciIds {
     my $pciid = $params->{pciid};
     my $pcisubsystemid = $params->{pcisubsystemid};
 
-    my ($vendorId, $deviceId) = split (/:/, $pciid || '');
+    return unless $pciid;
+
+    my ($vendorId, $deviceId) = split (/:/, $pciid);
     my ($subVendorId, $subDeviceId) = split (/:/, $pcisubsystemid || '');
     my $deviceName;
     my $subDeviceName;
-
     my $classId;
     my $subClassId;
 
-    if ($pciclass =~ /^(\S\S)(\S\S)$/) {
+    if ($pciclass && $pciclass =~ /^(\S\S)(\S\S)$/) {
         $classId = $1;
         $subClassId = $2;
     }
@@ -68,7 +69,7 @@ sub getInfoFromPciIds {
             $current{subClassName} = $2;
         } 
 
-        if (!$current{subDeviceName} && $current{vendorName} && $current{deviceName}) {
+        if (!$ret{subDeviceName} && $current{vendorName} && $current{deviceName}) {
             if ($vendorId eq $current{vendorId}) {
                 $ret{vendorName} = $current{vendorName};
                 if ($deviceId eq $current{deviceId}) {
@@ -79,13 +80,7 @@ sub getInfoFromPciIds {
                         if ($subVendorId eq $current{subVendorId}) {
                             if ($subDeviceId eq $current{subDeviceId}) {
                                 $ret{subDeviceName} = $current{subDeviceName};
-                                # We don't know if the subName is the complet name or just
-                                # a description to add to the deviceName
-                                if (length($ret{subDeviceName}) < (length($ret{subDeviceName}) / 2)) {
-                                    $ret{fullName} = $current{deviceName}.' - '.$current{subDeviceName};
-                                } else {
-                                    $ret{fullName} =$current{subDeviceName};
-                                }
+                                $ret{fullName} =$current{subDeviceName};
                             }
                         }
                     }
@@ -123,7 +118,7 @@ sub doInventory {
     my $pcislot;
     my $pcisubsystemid;
     my $type;
-    my $rev;
+    my $version;
 
     foreach(`lspci -vvv -nn`){
         if (/^(\S+)\s+(\w+.*?):\s(.*)/) {
@@ -139,7 +134,7 @@ sub doInventory {
             }
 
             if ($manufacturer =~ s/ \((rev \S+)\)//) {
-                $rev = $1;
+                $version = $1;
             }
             $manufacturer =~ s/\ *$//; # clean up the end of the string
             $manufacturer =~ s/\s+\(prog-if \d+ \[.*?\]\)$//; # clean up the end of the string
@@ -171,6 +166,7 @@ sub doInventory {
 
 
             $inventory->addController({
+                'CAPTION'       => $info->{deviceName},
                 'DRIVER'        => $driver,
                 'NAME'          => $info->{fullName} || $name,
                 'MANUFACTURER'  => $info->{vendorName} || $manufacturer,
@@ -179,7 +175,7 @@ sub doInventory {
                 'PCISUBSYSTEMID'=> $pcisubsystemid,
                 'PCISLOT'       => $pcislot,
                 'TYPE'          => $info->{fullClassName},
-                'REV'           => $rev,
+                'VERSION'           => $version,
             });
             $driver = $name = $pciclass = $pciid = undef;
             $pcislot = $manufacturer = undef;
