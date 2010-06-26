@@ -40,6 +40,8 @@ sub doInventory {
             if ($manufacturer =~ s/ \[([A-z\d]+:[A-z\d]+)\]$//) {
                 $pciid = $1;
             }
+
+            $name =~ s/\s+$//; # Drop the trailing whitespace
         }
         if ($pcislot && /^\s+Kernel driver in use: (\w+)/) {
             $driver = $1;
