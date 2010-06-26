@@ -4,6 +4,7 @@ Revision history for FusionInventory::Agent
        * MANIFEST.SKIP, we need the resources files for the test suite
        * Linux: set back DRIVES/FREE
        * Linux: CONTROLLERS/NAME drop the trailing whitespace
+       * addEntry(), do not ignore $noDuplicated parameter
 
 2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
