@@ -309,12 +309,6 @@ With this option, the agent ignore the server anwser and send an inventory.
 
 Save the local inventory requested by B<--local> in HTML.
 
-=item B<--html-directory>
-
-Alternative directory where the static HTML are stored. You probably don't
-need this option unless you don't want to use the Makefile.PL installation
-procedure or if File::ShareDir is not avalaible.
-
 =item B<-i>, B<--info>
 
 Turn the verbose mode on. The flag is ignored if B<--debug> is enable.
@@ -397,6 +391,12 @@ You can declare more than one server if you use the ',' delimiter.
     % --server=http://servername/ocsinventory,server2
 
 B<--server> is ignored if B<--local> is in use.
+
+=item B<--share-dir>
+
+The directory where a stored the shared files. You probably don't
+need this option unless you don't want to use the Makefile.PL installation
+procedure or if File::ShareDir is not avalaible.
 
 =item B<--stdout>
 

@@ -43,16 +43,10 @@ sub new {
     }
 
 
-    if ($config->{'html-dir'}) {
-        $self->{htmlDir} = $config->{'html-dir'};
+    if ($config->{'share-dir'}) {
+        $self->{htmlDir} = $config->{'share-dir'}.'/html';
     } elsif ($config->{'devlib'}) {
         $self->{htmlDir} = "./share/html";
-    } else {
-        eval { 
-            require File::ShareDir;
-            my $distDir = File::ShareDir::dist_dir('FusionInventory-Agent');
-            $self->{htmlDir} = $distDir."/html";
-        };
     }
     $logger->debug("[RPC] static files are in ".$self->{htmlDir});
 

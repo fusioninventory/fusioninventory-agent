@@ -25,7 +25,6 @@ my $default = {
     'force'                   => 0,
     'help'                    => 0,
     'html'                    => 0,
-    'html-dir'                => '',
     'info'                    => 1,
     'lazy'                    => 0,
     'local'                   => '',
@@ -38,6 +37,7 @@ my $default = {
     'realm'                   => '',
     'remotedir'               => '/ocsinventory', # deprecated
     'server'                  => '',
+    'share-dir'               => 0,
     'stdout'                  => 0,
     'tag'                     => '',
     'user'                    => '',
@@ -75,8 +75,20 @@ sub load {
     } else {
         loadFromCfgFile($config);
     }
-
     loadUserParams($config);
+
+    if (!$config->{'share-dir'}) {
+        if ($config->{'devlib'}) {
+                $config->{'share-dir'} = './share/';
+        } else {
+            eval { 
+                require File::ShareDir;
+                $config->{'share-dir'} = File::ShareDir::dist_dir('FusionInventory-Agent');
+            };
+        }
+    }
+
+
     return $config;
 }
 
@@ -192,7 +204,6 @@ sub loadUserParams {
         'force|f',
         'help|h',
         'html',
-        'html-dir=s',
         'info|i',
         'lazy',
         'local|l=s',
@@ -215,6 +226,7 @@ sub loadUserParams {
         'rpc-trust-localhost',
         'remotedir|R=s',
         'scan-homedirs',
+        'share-dir=s',
         'server|s=s',
         'stdout',
         'tag|t=s',
@@ -281,12 +293,12 @@ Extra options:
     --devlib            search for Backend mod in ./lib only ($config->{devlib})
     --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($config->{'disable-perllib-envvar'})
     -f --force          always send data to server (Don't ask before) ($config->{force})
-    --html-dir          alternative directory where the static HTML are stored
     -i --info           verbose mode ($config->{info})
     --lazy              do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
     --rpc-ip=IP         ip of the interface to use for peer to peer exchange
     --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory
     --scan-homedirs     permit to scan home user directories ($config->{'scan-homedirs'})
+    --share-dir=DIR     path to the directory where are stored the shared files ($config->{'share-dir'})
     --stdout            do not write or post the inventory but print it on STDOUT
     -t --tag=TAG        use TAG as tag ($config->{tag}) Will be ignored by server if a value already exists.
     -w --wait=DURATION  wait during a random periode between 0 and DURATION seconds before contacting server ($config->{wait})

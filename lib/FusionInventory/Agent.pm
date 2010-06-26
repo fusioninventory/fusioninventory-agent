@@ -88,6 +88,11 @@ sub new {
         $config->{nosoftware} = 1
     }
 
+    if (!-d $config->{'share-dir'}) {
+        $logger->error("share-dir doesn't existe ".
+            "(".$config->{'share-dir'}.")");
+    }
+
     # This is a hack to add the perl binary directory
     # in the $PATH env.
     # This is useful for the Windows installer.
