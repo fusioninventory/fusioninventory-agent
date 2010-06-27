@@ -327,6 +327,32 @@ Write an inventory in the I<DIR> directory. A new file will be created if needed
 
 Log message in I<FILE> and turn off STDERR
 
+=item B<--logger>=I<LOGGER:>
+
+The logger you want to use. It can be:
+
+=over 4
+
+=item
+
+Stderr: print the messages directly in the console. Messages are lost in
+daemon mode (B<--daemon>). You can use B<--color> to turn color mode on.
+
+=item
+
+File: log the error in a log file. Please use B<--logfile> to set the
+location of your log file. B<--logfile> turns this option on automatically
+
+=item
+
+Syslog: use the local syslog server to log the messages.
+
+=back
+
+You can use more than one parameter if you use ',' as delimiter. E.g:
+
+ % fusioinventory-agent --logger=Syslog,Stderr --local=/tmp
+
 =item B<--no-ocsdeploy>
 
 Disable the software deployment.
