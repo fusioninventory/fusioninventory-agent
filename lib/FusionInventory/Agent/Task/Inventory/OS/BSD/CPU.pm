@@ -22,26 +22,49 @@ sub doInventory {
     my $processors;
 
     my $family;
+
+    my @cpu;
+
+    my $in;
+    my $frequency;
+    my $serial;
     my $manufacturer;
+    my $thread;
+    my $name;
+    foreach (`dmidecode`) {
+        $in = 1 if /^\s*Processor Information/;
 
-# XXX Parsing dmidecode output using "type 4" section
-# for nproc type and speed
-# because no /proc on *BSD
-    my $flag=0;
-    my $status=0; ### XXX 0 if Unpopulated
-    chomp($processorn = `sysctl -n hw.ncpu`);
-    chomp($processort = `sysctl -n hw.model`);
-    for(`dmidecode`){
+        if ($in) {
+            $frequency = $1 if /^\s*Max Speed:\s*(\d+)\s*MHz/i;
+            $frequency = $1*1000 if /^\s*Max Speed:\s*(\d+)\s*GHz/i;
+            $serial = $1 if /^\s*ID:\s*(\S.+)/i;
+            $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
+            $thread = int($1) if /Thread Count:\s*(\S.*)/;
+            $name = $1 if /Version:\s*(\S.*)/;
+        }
 
-        $status = 1 if $flag && /^\s*status\s*:.*enabled/i;
-        $processors = $1 if $flag && /^\s*current speed\s*:\s*(\d+).+/i;
+        if ($in && /^\s*$/) {
+            $in = 0;
+            $serial =~ s/\s//g;
+            $thread = 1 unless $thread;
+            push @cpu, {
+                SPEED => $frequency,
+                MANUFACTURER => $manufacturer,
+                SERIAL => $serial,
+# Thread per core according to my understanding of
+# http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
+                THREAD => $thread,
+                NAME => $name
+            }
+        }
     }
 
-    $inventory->setHardware({
-        PROCESSORT => $processort,
-        PROCESSORN => $processorn,
-        PROCESSORS => $processors
-    });
+
+
+
+    foreach (@cpu) {
+        $inventory->addCPU($_);
+    }
 
 }
 1;
