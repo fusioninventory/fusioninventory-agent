@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Linux::Tools;
+package FusionInventory::Agent::Tools::Linux;
 
 use strict;
 use warnings;
