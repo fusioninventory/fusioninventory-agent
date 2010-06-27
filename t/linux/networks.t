@@ -48,7 +48,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "$FindBin::Bin/../resources/ifconfig/$test";
-    my $result = FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks::parseIfconfig($file, '<', undef);
+    my $file = "$FindBin::Bin/../../resources/ifconfig/$test";
+    my $result = FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks::parseIfconfig($file, '<');
     is_deeply($result, $tests{$test}, $test);
 }

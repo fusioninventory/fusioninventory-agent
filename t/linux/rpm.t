@@ -62,7 +62,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "$FindBin::Bin/../resources/rpm/$test";
+    my $file = "$FindBin::Bin/../../resources/rpm/$test";
     my $packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM::parseRpm($file, '<');
     is_deeply($packages, $tests{$test}, $test);
 }
