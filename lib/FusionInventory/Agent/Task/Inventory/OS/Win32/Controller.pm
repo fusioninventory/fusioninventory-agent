@@ -4,8 +4,6 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
-use 
-FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers;
 
 sub isInventoryEnabled {
     return 1;
@@ -57,24 +55,13 @@ qw/Name Manufacturer Caption Description DeviceID HardwareVersion/)) {
                 next if $seen{$pciid};
             }
 
-            my $info =
-FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::getInfoFromPciIds ({
-                    config => $config,
-                    logger => $logger,
-#                    pciclass => $pciclass,
-                    pciid => $pciid,
-                    pcisubsystemid => $pcisubsystemid,
-                });
-
-use Data::Dumper;
-print Dumper($info);
             if($pciid) {
                 $seen{$pciid} = 1;
             }
             $inventory->addController({
-                    NAME => $info->{deviceName} || $Properties->{Name},
-                    MANUFACTURER => $info->{vendorName} || $Properties->{Manufacturer},
-                    CAPTION => $info->{deviceName} || $Properties->{Caption},
+                    NAME => $Properties->{Name},
+                    MANUFACTURER => $Properties->{Manufacturer},
+                    CAPTION => $Properties->{Caption},
                     DESCRIPTION => $Properties->{Description},
                     PCIID => $pciid,
                     'PCISUBSYSTEMID'=> $pcisubsystemid,
