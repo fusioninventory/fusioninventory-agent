@@ -7,13 +7,13 @@ use Test::More;
 use FindBin;
 
 my %tests = (
-    'dmidecode-freebsd-6.2' => {
+    'freebsd-6.2' => {
         SMANUFACTURER => ' ',
         SMODEL        => ' ',
         SSN           => ' ',
     },
-    'dmidecode-linux-2.6' => {
-        ASSETTAG           => '',
+    'linux-2.6' => {
+        ASSETTAG      => '',
         SMANUFACTURER => 'Dell Inc.',
         SMODEL        => 'Latitude D610',
         SSN           => 'D8XD62J',
@@ -21,7 +21,7 @@ my %tests = (
         BVERSION      => 'A06',
         BDATE         => '10/02/2005'
     },
-    'dmidecode-openbsd-3.7' => {
+    'openbsd-3.7' => {
         SMANUFACTURER => 'VIA Technologies, Inc.',
         SMODEL        => 'VT82C691',
         SSN           => '52-06-00-00-FF-F9-83-01',
@@ -29,7 +29,7 @@ my %tests = (
         BVERSION      => '4.51 PG',
         BDATE         => '02/11/99'
     },
-    'dmidecode-openbsd-3.8' => {
+    'openbsd-3.8' => {
         ASSETTAG           => '',
         SMANUFACTURER => 'Dell Computer Corporation',
         SMODEL        => 'PowerEdge 1800',
@@ -38,7 +38,7 @@ my %tests = (
         BVERSION      => 'A05',
         BDATE         => '09/21/2005'
     },
-    'dmidecode.rhel.2.1' => {
+    'rhel-2.1' => {
         ASSETTAG      => 'N/A',
         SMANUFACTURER => 'IBM',
         SMODEL        => '-[84803AX]-',
@@ -46,7 +46,7 @@ my %tests = (
         BMANUFACTURER => 'IBM',
         BVERSION      => '-[JPE130AUS-1.30]-'
     },
-    'dmidecode.rhel.3.4' => {
+    'rhel-3.4' => {
         ASSETTAG      => '12345678901234567890123456789012',
         SMANUFACTURER => 'IBM',
         SMODEL        => 'IBM eServer x226-[8488PCR]-',
@@ -55,7 +55,7 @@ my %tests = (
         BVERSION      => 'IBM BIOS Version 1.57-[PME157AUS-1.57]-',
         BDATE         => '08/25/2005'
     },
-    'dmidecode.rhel.4.3' => {
+    'rhel-4.3' => {
         SMANUFACTURER => 'IBM',
         SMODEL        => '-[86494jg]-',
         SSN           => 'KDMAH1Y',
@@ -63,7 +63,7 @@ my %tests = (
         BVERSION      => '-[OQE115A]-',
         BDATE         => '03/14/2006'
     },
-    'dmidecode.rhel.4.6' => {
+    'rhel-4.6' => {
         SMANUFACTURER => 'HP',
         SMODEL        => 'ProLiant ML350 G5',
         SSN           => 'GB8814HE7S',
@@ -71,7 +71,7 @@ my %tests = (
         BVERSION      => 'D21',
         BDATE         => '01/24/2008'
     },
-    'dmidecode-2.10-windows' => {
+    'windows' => {
         SMANUFACTURER => 'TOSHIBA',
         SMODEL        => 'Satellite 2410',
         SSN           => 'X2735244G',
@@ -85,7 +85,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "$FindBin::Bin/../resources/$test";
+    my $file = "$FindBin::Bin/../../resources/dmidecode/$test";
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::parseDmidecode($file, '<');
     is_deeply($bios, $tests{$test}, $test);
 }
