@@ -61,7 +61,7 @@ sub new {
 
     # TODO: should be in Config.pm
     if ($config->{logfile}) {
-        $config->{logger} = 'File';
+        $config->{logger} .= ',File';
     }
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
