@@ -126,21 +126,22 @@ sub doInventory {
             $name = $2;
             $manufacturer = $3;
 
-            if ($name =~ s/\[(\S+)\]$//) {
+            if ($name =~ s/^([a-f\d]+)$//i) {
                 $pciclass = $1;
-            }
-            if ($name =~ s/Class (\d{4})$//i) {
+            } elsif ($name =~ s/\[([a-f\d]+)\]$//i) {
+                $pciclass = $1;
+            } elsif ($name =~ s/Class ([a-f\d]+)$//i) {
                 $pciclass = $1;
             }
 
-            if ($manufacturer =~ s/ \((rev \S+)\)//) {
+            if ($manufacturer =~ s/\s\(rev\s(\S+)\)//) {
                 $version = $1;
             }
             $manufacturer =~ s/\ *$//; # clean up the end of the string
             $manufacturer =~ s/\s+\(prog-if \d+ \[.*?\]\)$//; # clean up the end of the string
             $manufacturer =~ s/\s+\(prog-if \d+\)$//;
 
-            if ($manufacturer =~ s/ \[([A-z\d]+:[A-z\d]+)\]$//) {
+            if ($manufacturer =~ s/([a-f\d]{4}:[a-f\d]{4})//i) {
                 $pciid = $1;
             }
 
@@ -150,7 +151,7 @@ sub doInventory {
             $driver = $1;
         }
 
-        if (/Subsystem:.*\[(.*?)\]$/) {
+        if (/Subsystem:\s+([a-f\d]{4}:[a-f\d]{4})/i) {
             $pcisubsystemid = $1;
         }
 
