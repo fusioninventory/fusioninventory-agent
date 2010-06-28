@@ -50,14 +50,15 @@ sub doInventory {
     # for each interface get it's parameters
     foreach my $description (@list) {
         my $ipaddress;
-	my $ipmask;
-	my $macaddr;
-	my $status;
-	my $type;
-	my $binmask;
-	my $binsubnet;
-	my $mask;
-	my $binip;
+        my $ipmask;
+        my $macaddr;
+        my $status;
+        my $type;
+        my $binmask;
+        my $binsubnet;
+        my $mask;
+        my $binip;
+        my $virtualdev;
 
         # search interface infos
         @ifconfig = `ifconfig $description`;
@@ -68,25 +69,25 @@ sub doInventory {
             $status = 1 if /status:\s+active/i;
             $type = $1 if /media:\s+(\S+)/i;
         }
-	if ($status) {
-            	$binip = &ip_iptobin ($ipaddress ,4);
-                # In BSD, netmask is given in hex form
-            	$binmask = sprintf("%b", oct($ipmask));
-            	$binsubnet = $binip & $binmask;
-            	$ipsubnet = ip_bintoip($binsubnet,4);
-           	$mask = ip_bintoip($binmask,4);
-	}
+        if ($status) {
+            $binip = &ip_iptobin ($ipaddress ,4);
+            # In BSD, netmask is given in hex form
+            $binmask = sprintf("%b", oct($ipmask));
+            $binsubnet = $binip & $binmask;
+            $ipsubnet = ip_bintoip($binsubnet,4);
+            $mask = ip_bintoip($binmask,4);
+        }
         $inventory->addNetwork({
-            DESCRIPTION => $description,
-            IPADDRESS => $ipaddress,
-            IPDHCP => undef,
-            IPGATEWAY => $ipgateway,
-            IPMASK => $mask,
-            IPSUBNET => $ipsubnet,
-            MACADDR => $macaddr,
-            STATUS => ($status?"Up":"Down"),
-            TYPE => $type
-        });
+                DESCRIPTION => $description,
+                IPADDRESS => $ipaddress,
+                IPDHCP => undef,
+                IPGATEWAY => $ipgateway,
+                IPMASK => $mask,
+                IPSUBNET => $ipsubnet,
+                MACADDR => $macaddr,
+                STATUS => ($status?"Up":"Down"),
+                TYPE => $type
+            });
     }
 }
 
