@@ -3,15 +3,15 @@
 PERLVERSION="5.12.1"
 
 # one some platforms like MacOS X wget is non standard, use curl instead and in BSD, use fetch
-if [ ! -z $(which wget) ]; then
+if [ ! -z `which wget` ]; then
   WGET="wget -c"
   WPRINT="wget -nv -O -"
 else
-  if [ ! -z $(which curl) ]; then
+  if [ ! -z `which curl` ]; then
     WGET="curl --location  -O"
     WPRINT="curl -s -L"
   else
-    if [ ! -z $(which fetch) ]; then
+    if [ ! -z `which fetch` ]; then
       WGET="fetch"
       WPRINT="fetch -v -o -"
     fi
@@ -38,7 +38,7 @@ $WGET http://www.openssl.org/source/openssl-0.9.8n.tar.gz
 for modName in $MODULES; do
     echo "$modName"
     echo http://cpanmetadb.appspot.com/v1.0/package/$modName
-    distfile=`$WPRINT http://cpanmetadb.appspot.com/v1.0/package/$modName|grep ^distfile:|awk '{print $2}'`
+    distfile=`$WPRINT http://cpanmetadb.appspot.com/v1.0/package/$modName|grep '^distfile'|awk '{print $2}'`
     echo http://search.cpan.org/CPAN/authors/id/$distfile
     $WGET  http://search.cpan.org/CPAN/authors/id/$distfile
 done
