@@ -1499,7 +1499,7 @@ The name of the CPU, e.g: Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz
 
 =item THREAD
 
-Number of thread.
+Number of thread per core.
 
 =item SERIAL
 
