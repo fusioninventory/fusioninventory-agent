@@ -43,7 +43,7 @@ sub doInventory {
     foreach (@ifconfig){
         # skip loopback, pseudo-devices and point-to-point interfaces
         #next if /^(lo|fwe|vmnet|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+/;
-        next unless(/^en(0|1)/); # darwin has a lot of interfaces, for this purpose we only want to deal with eth0 and eth1
+#        next unless(/^en(0|1)/); # darwin has a lot of interfaces, for this purpose we only want to deal with eth0 and eth1
         if (/^(\S+):/) { push @list , $1; } # new interface name
     }
 
@@ -58,7 +58,7 @@ sub doInventory {
         my $binsubnet;
         my $mask;
         my $binip;
-        my $virtualdev;
+        my $virtualdev = 1;
 
         # search interface infos
         @ifconfig = `ifconfig $description`;
@@ -68,6 +68,7 @@ sub doInventory {
             $macaddr = $2 if /(address:|ether|lladdr)\s+(\S+)/i;
             $status = 1 if /status:\s+active/i;
             $type = $1 if /media:\s+(\S+)/i;
+            $virtualdev = undef if /supported\smedia:/;
         }
         if ($status) {
             $binip = &ip_iptobin ($ipaddress ,4);
@@ -86,7 +87,8 @@ sub doInventory {
                 IPSUBNET => $ipsubnet,
                 MACADDR => $macaddr,
                 STATUS => ($status?"Up":"Down"),
-                TYPE => $type
+                TYPE => $type,
+                VIRTUALDEV => $virtualdev
             });
     }
 }
