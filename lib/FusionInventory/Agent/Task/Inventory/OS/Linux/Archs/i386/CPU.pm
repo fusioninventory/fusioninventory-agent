@@ -52,40 +52,42 @@ sub doInventory {
         }
     }
 
-    my %current;
-    my $id=0;
-    my $lastPhysicalId;
+    my @cpuProcs;
+    my @cpuCoreCpts;
     if (!open my $handle, '<', '/proc/cpuinfo') {
         $logger->debug("Can't open /proc/cpuinfo: $ERRNO");
     } else {
+        my $id=0;
+        my %current;
+        my $cpuNumber = 0;
+        my $lastPhysicalId=0;
         while (<$handle>) {
-            if (/^$/) {
-                $current = {};
-                if (!$id) {
-                    $lastPhysicalId=$current{'physical id'};
-                } elsif ($lastPhysicalId != $current{'physical id'}) {
-                    $id++;
+            if (/^physical\sid\s*:\s*(\d+)/i) {
+                if ($lastPhysicalId!=$1) {
+                    $lastPhysicalId=$1;
+                    $cpuNumber++;
+                    $cpuCoreCpts[$cpuNumber]++;
+                } else {
+                    $cpuCoreCpts[$cpuNumber]++;
                 }
-
-                if ($current{vendor_id}) {
-                    $cpu[$id]->{MANUFACTURER} = $current{vendor_id};
-                    $cpu[$id]->{MANUFACTURER} =~ s/Genuine//;
-                    $cpu[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-                    $cpu[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
-                    $cpu[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
-                }
-                $cpu[$id]->{NAME} = $current{'model name'};
-                $cpu[$id]->{CORE}++;
-
-
-            };
-            $current{lc($1)} = $2 if /^\s*(\S+.*\S+)\s*:\s*(.+)/i;
+            } elsif (/^\s*(\S+.*\S+)\s*:\s*(.+)/i) {
+                $cpuProcs[$cpuNumber]->{$1} = $2;
+            }
         }
         close $handle;
     }
 
-    foreach (@cpu) {
-        $inventory->addCPU($_);
+    foreach my $id (0..(@cpu-1)) {
+        $cpuProcs[$id]->{vendor_id} =~ s/Genuine//;
+        $cpuProcs[$id]->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+        $cpuProcs[$id]->{vendor_id} =~ s/CyrixInstead/Cyrix/;
+        $cpuProcs[$id]->{vendor_id} =~ s/CentaurHauls/VIA/;
+
+        $cpu[$id]->{MANUFACTURER} = $cpuProcs[$id]->{vendor_id};
+        $cpu[$id]->{NAME} = $cpuProcs[$id]->{'model name'};
+        $cpu[$id]->{CORE} = $cpuCoreCpts[$id];
+
+        $inventory->addCPU($cpu[$id]);
     }
 }
 

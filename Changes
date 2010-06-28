@@ -16,6 +16,7 @@ Revision history for FusionInventory::Agent
        * POD, add for PROCESSES inventory
        * tools/ fixes for Solaris shell
        * Add CONTROLLERS/REV
+       * Fix: Linux/i386: retrieve the number of CORE correctly
 
 2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven

@@ -28,8 +28,8 @@ File::Path File::Temp Net::NBName Net::SSLeay
 Parallel::ForkManager Nmap::Parser Net::CUPS Compress::Zlib
 Compress::Raw::Bzip2 Nmap::Scanner"
 
-[ -d "tmp" ] || mkdir tmp
-cd tmp
+[ -d "files" ] || mkdir files
+cd files
 
 
 $WGET http://cpan.perl.org/src/perl-$PERLVERSION.tar.gz

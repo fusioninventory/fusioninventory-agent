@@ -13,7 +13,7 @@ installMod () {
     if [ -z $distName ]; then
         distName=`echo $modName|sed 's,::,-,g'`
     fi
-    archive=`ls $TMP/$distName*.tar.gz`
+    archive=`ls $FILEDIR/$distName*.tar.gz`
     $PERL_PREFIX/bin/perl $CPANM --skip-installed $archive
     $PERL_PREFIX/bin/perl -M$modName -e1
 }
@@ -26,14 +26,14 @@ cleanUp () {
 buildPerl () {
 
     cd $TMP
-    if [ ! -f perl-$PERLVERSION.tar.gz ]; then
-        echo "Please run ./download-perl-dependencies.sh first to retrieve"
-        echo "the dependencies"
+    if [ ! -f $FILEDIR/perl-$PERLVERSION.tar.gz ]; then
+    echo $FILEDIR/perl-$PERLVERSION.tar.gz
+        echo "Please run ./download-perl-dependencies.sh first to retrieve the dependencies"
         exit
     fi
 
     cd $BUILDDIR
-    gunzip < ../perl-$PERLVERSION.tar.gz | tar xvf -
+    gunzip < $FILEDIR/perl-$PERLVERSION.tar.gz | tar xvf -
     cd perl-$PERLVERSION
     
     # AIX
@@ -50,14 +50,14 @@ buildPerl () {
 buildOpenSSL () {
 
     cd $TMP
-    if [ ! -f openssl-0.9.8n.tar.gz ]; then
+    if [ ! -f $FILEDIR/openssl-0.9.8n.tar.gz ]; then
         echo "Please run ./download-perl-dependencies.sh first to retrieve"
         echo "the dependencies"
         exit
     fi
 
     cd $BUILDDIR
-    gunzip < ../openssl-0.9.8n.tar.gz | tar xvf -
+    gunzip < $FILEDIR/openssl-0.9.8n.tar.gz | tar xvf -
     cd openssl-0.9.8n
     ./config no-shared --prefix=$TMP/openssl
     make depend
@@ -75,6 +75,7 @@ fi
 ROOT="$PWD/.."
 MAKE="make"
 TMP="$PWD/tmp"
+FILEDIR="$PWD/files"
 PERL_PREFIX="$TMP/perl"
 BUILDDIR="$TMP/build"
 MODULES="Compress::Raw::Bzip2 URI XML::NamespaceSupport HTML::Tagset Class::Inspector Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Raw::Zlib Archive::Extract Digest::MD5 File::Copy File::Path File::Temp Net::NBName Net::SSLeay Parallel::ForkManager"
@@ -112,13 +113,13 @@ export OPENSSL_PREFIX=$TMP/openssl # Pour Net::SSLeay
 # Net::SSLeay's Makefile.PL the OpenSSL directory as parmeter, so we can't
 # use cpanm directly
 cd $BUILDDIR
-gunzip < ../Net-SSLeay-1.36.tar.gz | tar xvf -
+gunzip < $FILEDIR/Net-SSLeay-1.36.tar.gz | tar xvf -
 cd Net-SSLeay-1.36
 PERL_MM_USE_DEFAULT=1 $PERL_PREFIX/bin/perl Makefile.PL
 make install
 
 cd $BUILDDIR
-gunzip < ../Crypt-SSLeay-0.57.tar.gz | tar xvf -
+gunzip < $FILEDIR/Crypt-SSLeay-0.57.tar.gz | tar xvf -
 cd Crypt-SSLeay-0.57
 PERL_MM_USE_DEFAULT=1 $PERL_PREFIX/bin/perl Makefile.PL --default --static --lib=$TMP/openssl
 make install

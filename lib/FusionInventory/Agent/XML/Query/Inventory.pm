@@ -1580,6 +1580,8 @@ Deprecated, OCS only.
 
 =item PROCESSORT
 
+Deprecated, OCS only.
+
 =item NAME
 
 =item PROCESSORS
