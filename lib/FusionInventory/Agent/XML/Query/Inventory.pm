@@ -2055,6 +2055,35 @@ ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
 
 =back
 
+=head2 PROCESSES
+
+=item USER
+
+The process owner
+
+=item PID
+
+The process Id
+
+=item CPUUSAGE
+
+The CPU usage.
+
+=item MEM
+
+The memory.
+
+=item VIRTUALMEMORY
+
+=item TTY
+
+=item STARTED
+
+When the process'd been started in the YYYY/MM/DD HH:MM format
+
+=item CMD
+
+The command.
 
 =head2 ANTIVIRUS
 

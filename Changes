@@ -13,6 +13,7 @@ Revision history for FusionInventory::Agent
        * Makefile.PL, UNIVERSAL::require is a dependency now
        * Document --logger
        * Fix --logger: to not overwrite other loggers if --logfile is on
+       * POD, add for PROCESSES inventory
 
 2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
