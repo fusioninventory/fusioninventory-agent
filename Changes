@@ -136,6 +136,8 @@ Revision history for FusionInventory::Agent
        * Avoid a warning if --stdout is used.
        * print help messages on STDERR
        * --wait: no need to wait before the final exit
+       * Inventory PROCESSES. Support more different date format and avoid
+         warning
 
 2.0.6    Fri, 28 May 2010 15:53:16 +0200
        * Fix DRIVES/CREATEDATE for ext* filesystem
