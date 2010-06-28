@@ -182,6 +182,7 @@ sub addController {
         PCISUBSYSTEMID
         PCISLOT
         TYPE
+        REV
     /;
 
     $self->_addEntry({
@@ -1429,6 +1430,10 @@ The PCI slot, e.g: 00:02.1 (only for PCI device)
 
 The controller revision, e.g: rev 02. This field may be renamed
 in the future.
+
+=item REV
+
+Revision of the device in the XX format (e.g: 04)
 
 =back
 
