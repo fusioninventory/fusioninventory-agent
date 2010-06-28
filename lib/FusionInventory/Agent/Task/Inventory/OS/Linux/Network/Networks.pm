@@ -109,7 +109,11 @@ sub doInventory {
                 }
                 close $handle;
             } else {
-                warn "Can't open /sys/class/net/$ifData{DESCRIPTION}/device/uevent: $ERRNO";
+                $logger->debug("Can't open ".
+                    "/sys/class/net/".
+                    $ifData{DESCRIPTION}.
+                    "/device/uevent: ".
+                    $ERRNO);
             }
 
             # Handle channel bonding interfaces

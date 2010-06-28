@@ -115,7 +115,7 @@ sub getDescription {
     return "USB" if (defined ($description) && $description =~ /usb/i);
 
     if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
-        if ($manufacturer =~ /ATA/ || $serialnumber =~ /ATA/) {
+        if (($manufacturer && ($manufacturer =~ /ATA/)) || ($serialnumber && ($serialnumber =~ /ATA/))) {
             return  "SATA";
         } else {
             return "SCSI";
@@ -269,8 +269,9 @@ sub parseUdev {
     }
     close $handle;
 
-    $result->{SERIALNUMBER} = $serial
-    unless $result->{SERIALNUMBER} =~ /\S/;
+    if ($result->{SERIALNUMBER} && $result->{SERIALNUMBER} !~ /^\s+$/) {
+        $result->{SERIALNUMBER} = $serial
+    }
 
     $result->{DISKSIZE} = getCapacity($device)
     if $result->{TYPE} ne 'cd';

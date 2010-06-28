@@ -19,7 +19,11 @@ sub isInventoryEnabled {
 
     if (can_run ('smartctl') ) { 
         foreach my $hd (@devices) {
-            $hd->{MANUFACTURER} eq 'Adaptec'?return 1:1;
+            next unless $hd->{MANUFACTURER};
+
+            if ($hd->{MANUFACTURER} eq 'Adaptec') {
+                return 1;
+            }
         }
     }
     return 0;
