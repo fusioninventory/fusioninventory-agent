@@ -43,8 +43,8 @@ sub doInventory {
               FREE => $free,
               FILESYSTEM => $filesystem,
               TOTAL => $total,
-              TYPE => $type,
-              VOLUMN => $volumn
+              TYPE => $volumn,
+              VOLUMN => $type
             })
         }
       }
