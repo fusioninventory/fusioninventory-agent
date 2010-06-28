@@ -1406,6 +1406,10 @@ The optional asset tag for this machine.
 
 =over 4
 
+=item CAPTION
+
+Windows CAPTION field or subsystem Name from the pci.ids table
+
 =item DRIVER
 
 =item NAME
