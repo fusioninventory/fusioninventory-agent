@@ -11,6 +11,7 @@ sub isInventoryEnabled { can_read("/proc/cpuinfo") }
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my @cpu;
     my $current;
@@ -55,7 +56,7 @@ sub doInventory {
     my $id=0;
     my $lastPhysicalId;
     if (!open my $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
+        $logger->debug("Can't open /proc/cpuinfo: $ERRNO");
     } else {
         while (<$handle>) {
             if (/^$/) {
