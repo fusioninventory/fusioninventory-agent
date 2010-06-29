@@ -4,12 +4,25 @@ use strict;
 use warnings;
 
 use Config;
+use English qw(-no_match_vars);
 use File::Glob ':glob';
 use Storable;
 
-my $lock :shared;
+BEGIN {
+    # threads and threads::shared must be loaded before
+    # $lock is initialized
+    if ($Config{usethreads}) {
+        eval {
+            require threads;
+            require threads::shared;
+        };
+        if ($EVAL_ERROR) {
+            print "[error]Failed to use threads!\n"; 
+        }
+    }
+}
 
-use English qw(-no_match_vars);
+my $lock :shared;
 
 =over 4
 
@@ -22,16 +35,6 @@ sub new {
     my ( $class, $params ) = @_;
 
     my $self = {};
-
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
 
     my $config = $self->{config} = $params->{config};
     my $target = $self->{target} = $params->{target};

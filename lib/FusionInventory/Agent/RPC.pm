@@ -3,14 +3,14 @@ package FusionInventory::Agent::RPC;
 use strict;
 use warnings;
 
-use HTTP::Daemon;
-use FusionInventory::Agent::Storage;
-use English qw(-no_match_vars);
-
 use Config;
+use English qw(-no_match_vars);
+use HTTP::Daemon;
+
+use FusionInventory::Agent::Storage;
 
 BEGIN {
-    # threads and threads::shared must be load before
+    # threads and threads::shared must be loaded before
     # $lock is initialized
     if ($Config{usethreads}) {
         eval {
