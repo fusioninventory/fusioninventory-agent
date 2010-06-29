@@ -42,7 +42,9 @@ sub CDPPorts {
          if ($ip ne "0.0.0.0") {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
-            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number};
+            if (defined($HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number})) {
+               $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number};
+            }
          }
          delete $HashDataSNMP->{cdpCacheAddress}->{$number};
          if (ref($HashDataSNMP->{cdpCacheDevicePort}) eq "HASH"){
