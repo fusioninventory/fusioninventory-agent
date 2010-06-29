@@ -95,10 +95,10 @@ sub _addEntry {
     my $showAll = 0;
 
     foreach (@$fields) {
-        if (!$showAll && !$values->{$_}) {
+        if (!$showAll && !defined($values->{$_})) {
             next;
         }
-        my $string = $self->_encode({ string => $values->{$_} }) || '';
+        my $string = $self->_encode({ string => $values->{$_} });
         $newEntry->{$_}[0] = $string;
     }
 
@@ -123,7 +123,7 @@ sub _encode {
 
     my $string = $params->{string};
 
-    return unless $string;
+    return unless defined($string);
 
     my $logger = $self->{logger};
 
