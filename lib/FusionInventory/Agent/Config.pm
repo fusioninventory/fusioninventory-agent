@@ -192,14 +192,12 @@ sub loadUserParams {
 
     Getopt::Long::Configure( "no_ignorecase" );
 
-    GetOptions(
-        $self,
+    my @options = (
         'backend-collect-timeout=s',
         'basevardir=s',
         'ca-cert-dir=s',
         'ca-cert-file=s',
         'conf-file=s',
-        'color',
         'daemon|d',
         'daemon-no-fork|D',
         'debug',
@@ -236,6 +234,13 @@ sub loadUserParams {
         'delaytime=s',
         'scan-homedirs',
         'no-socket'
+    );
+
+    push(@options, 'color') if $OSNAME ne 'MSWin32';
+
+    GetOptions(
+        $self,
+        @options
     ) or $self->help();
 
 }
@@ -282,8 +287,16 @@ Usage:
         SSL certificate directory ($self->{'ca-cert-dir'})
     --ca-cert-file=F
         SSL certificate file ($self->{'ca-cert-file'})
+EOF
+
+if ($OSNAME ne 'MSWin32') {
+    print STDERR <<EOF;
     --color
         use color in the console ($self->{color})
+EOF
+}
+
+print STDERR <<EOF;
     -d --daemon
         daemonize and detach in background ($self->{daemon})
     -D --daemon-no-fork
