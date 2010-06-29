@@ -864,7 +864,7 @@ USB device
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    my @fields = qw/VENDORID PRODUCTID SERIAL/;
+    my @fields = qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/;
 
     $self->_addEntry({
         'field' => \@fields,
@@ -1945,6 +1945,10 @@ USB Class (e.g: 8 for Mass Storage)
 =item SUBCLASS
 
 USB Sub Class
+
+=item NAME
+
+The name of the device (optional)
 
 =back
 
