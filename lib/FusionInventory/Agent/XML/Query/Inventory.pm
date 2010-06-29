@@ -1862,7 +1862,7 @@ E.g: VmWare ESX
 
 =item VMTYPE
 
-The name of the virtualisation system family, eg. Xen or VmWare.
+The name of the virtualisation system family. The same type found is HARDWARE/VMSYSTEM
 
 =item VCPU
 
