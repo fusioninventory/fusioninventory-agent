@@ -24,7 +24,7 @@ if ($EVAL_ERROR) {
 }
 
 eval {
-    my $agent = new FusionInventory::Agent;
+    my $agent = FusionInventory::Agent->new();
     $agent->main();
 };
 
