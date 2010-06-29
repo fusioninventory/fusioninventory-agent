@@ -49,6 +49,12 @@ sub doInventory {
 # http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
                 THREAD => $thread
             }
+            $in = '';
+            $frequency = '';
+            $serial = '';
+            $manufacturer = '';
+            $thread = '';
+
         }
     }
 
