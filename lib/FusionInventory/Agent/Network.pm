@@ -77,15 +77,20 @@ server).
 sub send {
     my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-    my $config = $self->{config};
-
+    my $logger   = $self->{logger};
+    my $target   = $self->{target};
+    my $config   = $self->{config};
     my $compress = $self->{compress};
-    my $message = $args->{message};
-    my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
 
     $self->setSslRemoteHost({ url => $self->{URI} });
+
+    # create message
+    my $message = $args->{message};
+    my $message_content = $compress->compress($message->getContent());
+    if (!$message_content) {
+        $logger->error('Inflating problem');
+        return;
+    }
 
     my $req = HTTP::Request->new(POST => $self->{URI});
 
@@ -94,56 +99,48 @@ sub send {
         'Content-type' => 'application/x-compress'
     );
 
+    $req->content($message_content);
+
+    # send it
     $logger->debug ("sending XML");
-
-    # Print the XMLs in the debug output
-    #$logger->debug ("sending: ".$message->getContent());
-
-    my $compressed = $compress->compress( $message->getContent() );
-
-    if (!$compressed) {
-        $logger->error ('failed to compress data');
-        return;
-    }
-
-    $req->content($compressed);
 
     my $res = $self->{ua}->request($req);
 
-    # Checking if connected
-    if(!$res->is_success) {
-        $logger->error ('Cannot establish communication with `'.
-            $self->{URI}.': '.
-            $res->status_line.'`');
+    # check result
+    if (!$res->is_success()) {
+        $logger->error(
+            "Cannot establish communication with $self->{URI}: " .
+            $res->status_line()
+        );
         return;
     }
 
-    # stop or send in the http's body
+    # create response
+    my $response_type = ref $message;
+    $response_type =~ s/Query/Response/;
+    $response_type->require();
+    if ($EVAL_ERROR) {
+        $logger->error(
+            "Can't load response module $response_type: $EVAL_ERROR"
+        );
+    }
 
-    my $content = '';
-
-    if ($res->content) {
-        $content = $compress->uncompress($res->content);
-        if (!$content) {
-            $logger->error ("Deflating problem");
+    my $response_content;
+    if ($res->content()) {
+        $response_content = $compress->uncompress($res->content());
+        if (!$response_content) {
+            $logger->error("Deflating problem");
             return;
         }
     }
 
-    # AutoLoad the proper response object
-    my $msgType = ref($message); # The package name of the message object
-    my $tmp = "FusionInventory::Agent::XML::Response::".$msgtype;
-    $tmp->require();
-    if ($EVAL_ERROR) {
-        $logger->error("Can't load response module $tmp: $EVAL_ERROR");
-    }
-    my $response = $tmp->new({
+    my $response = $response_type->new({
         accountinfo => $target->{accountinfo},
-        content => $content,
-        logger => $logger,
-        origmsg => $message,
-        target => $target,
-        config => $self->{config}
+        content     => $response_content,
+        logger      => $logger,
+        origmsg     => $message,
+        target      => $target,
+        config      => $self->{config}
     });
 
     return $response;
