@@ -23,8 +23,6 @@ sub new {
 
     my $self = {};
 
-    $self->{accountinfo} = $params->{accountinfo}; # Q: Is that needed? 
-
     my $config = $self->{config} = $params->{config};
     my $logger = $self->{logger} = $params->{logger};
     my $target = $self->{target} = $params->{target};
