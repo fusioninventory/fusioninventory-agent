@@ -3,9 +3,19 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem;
 use strict;
 use warnings;
 
+my %speedMatrice = (
+    mhz => 1,
+    ghz => 1000,
+);
+my %sizeMatrice = (
+    mb => 1,
+    gb => 1000,
+    tb => 1000*1000,
+);
+
+
 sub isInventoryEnabled {
     return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
-    return (undef) unless can_load("Mac::SysProfile");
     return 1;
 }
 
@@ -13,52 +23,44 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $PhysicalMemory;
 
-    # create the profile object and return undef unless we get something back
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype('SPMemoryDataType');
-    return(undef) unless(ref($h) eq 'HASH');
+    my $revIndent = '';
+    my @memories;
+    my $slot;
+    foreach (`/usr/sbin/system_profiler SPMemoryDataType`) {
+        next if /^\s*$/;
+        next unless /^(\s*)/;
 
-    # Workaround for MacOSX 10.5.7
-    if ($h->{'Memory Slots'}) {
-      $h = $h->{'Memory Slots'};
-    }
-
-
-    foreach my $x (keys %$h){
-        next unless $x =~ /^BANK|SODIMM|DIMM/;
-        # tare out the slot number
-        my $slot = $x;
-	# memory in 10.5
-        if($slot =~ /^BANK (\d)\/DIMM\d/){
-            $slot = $1;
+        if ($1 ne $revIndent) {
+            $revIndent = $1;
+            push @memories, $slot if keys %$slot>2;
+            $slot = {};
         }
-	# 10.4
-	if($slot =~ /^SODIMM(\d)\/.*$/){
-		$slot = $1;
-	}
-	# 10.4 PPC
-	if($slot =~ /^DIMM(\d)\/.*$/){
-		$slot = $1;
-	}
+        if (/^\s+(\S+.*?):\s+(\S.*)/) { # we're probably in a memory section
+            $slot->{$1}=$2;
+        }
+    }
+    push @memories, $slot if keys %$slot>2;
+    my $numSlot=0;
+    foreach (@memories) {
+        my $speed;
+        my $size;
 
-        my $size = $h->{$x}->{'Size'};
-
-        # if system_profiler lables the size in gigs, we need to trim it down to megs so it's displayed properly
-        if($size =~ /GB$/){
-                $size =~ s/GB$//;
-                $size *= 1024;
+        if ($_->{'Speed'} =~ /(\d+)\s+(\S+)/) {
+            $speed = $1*$speedMatrice{lc($2)};
+        }
+        if ($_->{'Size'} =~ /(\d+)\s+(\S+)/) {
+            $speed = $1*$sizeMatrice{lc($2)};
         }
         $inventory->addMemory({
-            'CAPACITY'      => $size,
-            'SPEED'         => $h->{$x}->{'Speed'},
-            'TYPE'          => $h->{$x}->{'Type'},
-            'SERIALNUMBER'  => $h->{$x}->{'Serial Number'},
-            'DESCRIPTION'   => $h->{$x}->{'Part Number'} || $x,
-            'NUMSLOTS'      => $slot,
-            'CAPTION'       => 'Status: '.$h->{$x}->{'Status'},
-        });
+                'CAPACITY'      => $size,
+                'SPEED'         => $speed,
+                'TYPE'          => $_->{'Type'},
+                'SERIALNUMBER'  => $_->{'Serial Number'},
+                'DESCRIPTION'   => $_->{'Part Number'},
+                'NUMSLOTS'      => $numSlot++,
+                'CAPTION'       => 'Status: '.$_->{'Status'},
+            });
     }
 }
 1;

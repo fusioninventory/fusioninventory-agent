@@ -43,7 +43,7 @@ sub getFromSysProc {
     if (!open my $handle, '-|', $command) {
         warn "Can't run $command: $ERRNO";
     } else {
-        while (my $line = <$handle>) {
+        while (<$handle>) {
             next unless (/^\/dev\/([sh]d[a-z])/);
             push(@names, $1);
         }
@@ -127,6 +127,8 @@ sub getDescription {
 
 sub getManufacturer {
     my ($model) = @_;
+
+    return '' unless $model;
 
     if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
         return ucfirst(lc($1));
