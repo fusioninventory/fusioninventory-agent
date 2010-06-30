@@ -449,6 +449,8 @@ in order to centralize the administration of the machine.
 Do now validate HTTPS certificat with the servers. Please never use this
 option in production. This is just a very bad idea.
 
+Hint: you can declare HTTPS_DEBUG to get SSL error messages in the console.
+
 =item B<--perl-bin-dir-in-path>
 
 A the directory where the perl binary is in the $PATH. You probably don't

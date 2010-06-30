@@ -23,6 +23,9 @@ Revision history for FusionInventory::Agent
        * MacOSX: Collect all the net devices and set VIRTUALDEV=1/0
        * MacOSX: collect all the drives (fixes: #119)
        * MacOSX: DRIVES, swap VOLUMN and TYPE fields
+       * Network.pm: drop the dependency on Net::SSLeay and IO::Socket::SSL,
+         we don't need them (!)
+         Fix: HTTP proxy with HTTPS
 
 2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
