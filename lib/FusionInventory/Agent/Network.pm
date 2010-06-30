@@ -156,16 +156,6 @@ sub turnSSLCheckOn {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-
-    if ($config->{'no-ssl-check'}) {
-        if (!$config->{SslCheckWarningShown}) {
-            $logger->info( "--no-ssl-check parameter "
-                . "found. Don't check server identity!!!" );
-            $config->{SslCheckWarningShown} = 1;
-        }
-        return;
-    }
-
     my $hasCrypSSLeay;
     my $hasIOSocketSSL;
 
