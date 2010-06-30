@@ -4,6 +4,8 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use HTTP::Status;
+use LWP::UserAgent;
 use UNIVERSAL::require;
 
 use FusionInventory::Compress;
@@ -29,20 +31,6 @@ sub new {
 
     $logger->fault('$target not initialised') unless $target;
     $logger->fault('$config not initialised') unless $config;
-
-    eval {
-        require LWP::UserAgent;
-    };
-    if ($EVAL_ERROR) {
-        $logger->fault("Can't load LWP::UserAgent. Is the package installed?");
-    }
-    eval {
-        require HTTP::Status;
-    };
-    if ($EVAL_ERROR) {
-        $logger->fault("Can't load HTTP::Status. Is the package installed?");
-    }
-
 
     my $uaserver;
     if ($target->{path} =~ /^http(|s):\/\//) {
