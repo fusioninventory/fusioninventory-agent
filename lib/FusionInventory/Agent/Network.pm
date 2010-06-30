@@ -136,7 +136,6 @@ sub send {
     if ($EVAL_ERROR) {
         $logger->error("Can't load response module $tmp: $EVAL_ERROR");
     }
-    $tmp->import();
     my $response = $tmp->new({
 
             accountinfo => $target->{accountinfo},
