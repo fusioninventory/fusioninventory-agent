@@ -25,21 +25,22 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
+    my $format;
     if ($config->{color}) {
         if ($level eq 'error') {
-            print STDERR "\033[1;35m[$level]";
+            $format = "\033[1;35m[%s] %s\033[0m\n";
         } elsif ($level eq 'fault') {
-            print STDERR "\033[1;31m[$level]";
+            $format = "\033[1;31m[%s] %s\033[0m\n";
         } elsif ($level eq 'info') {
-            print STDERR "\033[1;34m[$level]\033[0m";
+            $format = "\033[1;34m[%s]\033[0m %s\n";
         } elsif ($level eq 'debug') {
-            print STDERR "\033[1;1m[$level]\033[0m";
+            $format = "\033[1;1m[%s]\033[0m %s\n";
         }
-        print STDERR " $message";
-        print "\033[0m\n";
     } else {
-        print STDERR "[$level] $message\n";
+        $format = "[%s] %s\n";
     }
+
+    printf STDERR $format, $level, $message;
 
 }
 
