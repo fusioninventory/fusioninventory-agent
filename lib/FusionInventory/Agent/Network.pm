@@ -44,7 +44,7 @@ sub new {
 
     $self->{compress} = FusionInventory::Compress->new({logger => $logger});
 
-    # Connect to server
+    # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
     if ($self->{config}->{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
@@ -59,6 +59,12 @@ sub new {
         $self->{config}->{password}
     );
 
+    # turns SSL checks on if needed
+    if ($scheme eq 'https' && !$config->{'no-ssl-check'}) {
+        $self->turnSSLCheckOn();
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
+    }
+
     bless $self, $class;
     return $self;
 }
@@ -70,7 +76,6 @@ server).
 
 =cut
 
-
 sub send {
     my ($self, $args) = @_;
 
@@ -78,8 +83,6 @@ sub send {
     my $target   = $self->{target};
     my $config   = $self->{config};
     my $compress = $self->{compress};
-
-    $self->setSslRemoteHost({ url => $self->{URI} });
 
     # create message
     my $message = $args->{message};
@@ -242,36 +245,6 @@ sub turnSSLCheckOn {
 
 } 
 
-sub setSslRemoteHost {
-    my ($self, $args) = @_;
-
-    my $uri = $self->{URI};
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-
-    my $ua = $self->{ua};
-
-    if ($config->{'no-ssl-check'}) {
-        return;
-    }
-
-    if (!$self->{URI}) {
-        $logger->fault("setSslRemoteHost(), no url parameter!");
-    }
-
-    if ($self->{URI} !~ /^https:/i) {
-        return;
-    }
-    $self->turnSSLCheckOn();
-
-    # Check server name against provided SSL certificate
-    if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
-        my $cn = $1;
-        $cn =~ s/([\-\.])/\\$1/g;
-        $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$cn);
-    }
-}
 
 
 =item getStore()
@@ -295,7 +268,6 @@ sub getStore {
 
     my $ua = $self->{ua};
 
-    $self->setSslRemoteHost({ url => $source });
     $ua->timeout($timeout) if $timeout;
 
     my $request = HTTP::Request->new(GET => $source);
@@ -324,7 +296,6 @@ sub get {
 
     my $ua = $self->{ua};
 
-    $self->setSslRemoteHost({ url => $source });
     $ua->timeout($timeout) if $timeout;
 
     my $response = $ua->get($source);
