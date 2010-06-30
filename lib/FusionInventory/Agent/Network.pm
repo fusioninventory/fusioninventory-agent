@@ -6,6 +6,8 @@ use warnings;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+use FusionInventory::Compress;
+
 =over 4
 
 =item new()
@@ -13,8 +15,6 @@ use UNIVERSAL::require;
 The constructor. These keys are expected: config, logger, target.
 
 =cut
-
-use FusionInventory::Compress;
 
 sub new {
     my ($class, $params) = @_;

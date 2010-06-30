@@ -4,11 +4,11 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
+use Config;
+use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
 use Encode qw/encode/;
 use XML::Simple;
-use Digest::MD5 qw(md5_base64);
-use Config;
 
 use FusionInventory::Agent::Task::Inventory;
 
