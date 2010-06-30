@@ -18,6 +18,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $domain;
     my $hostname;
@@ -35,7 +36,7 @@ sub doInventory {
           }
           close $handle;
       } else {
-          warn "Can't open /etc/resolv.conf: $ERRNO";
+          $logger->debug("Can't open /etc/resolv.conf: $ERRNO");
       }
 
       $domain = join "/", keys %domain;

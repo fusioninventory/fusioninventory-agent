@@ -9,7 +9,6 @@ use XML::Simple;
 use File::Glob ':glob';
 sub isInventoryEnabled {
     return
-        can_run('VirtualBox') &&
         can_run('VBoxManage');
 }
 
