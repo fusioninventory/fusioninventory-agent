@@ -27,10 +27,6 @@ sub new {
             gzip instead but won\'t be accepted by server prior 1.02');
         $self->{mode} = 'gzip';
         $self->{tmpdir} = tempdir( CLEANUP => 1 );
-        mkdir $self->{tmpdir};
-        if ( ! -d $self->{tmpdir} ) {
-            $logger->fault("Failed to create the temp dir `$self->{tmpdir}'");
-        }
     } else {
         $self->{mode} = 'deflated';
         $logger->debug ('I need the Compress::Zlib library or the gzip'.
