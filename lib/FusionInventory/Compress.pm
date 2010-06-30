@@ -9,29 +9,35 @@ use File::Temp qw/ tempdir tempfile /;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        logger => $params->{logger}
+    };
 
-    my $logger = $self->{logger} = $params->{logger};
+    my $logger = $self->{logger};
 
     eval {
         require Compress::Zlib;
+        $self->{mode} = 'natif';
+        $logger->debug('Compress::Zlib is available.');
     };
-    $self->{mode} = 'natif' unless $EVAL_ERROR;
 
-    chomp(my $gzippath=`which gzip 2>/dev/null`);
-    if ($self->{mode} eq 'natif') {
-        $logger->debug ('Compress::Zlib is available.');
-    } elsif (-x $gzippath) {
-        $logger->debug (
-            'Compress::Zlib is not available! The data will be compressed with
-            gzip instead but won\'t be accepted by server prior 1.02');
-        $self->{mode} = 'gzip';
-        $self->{tmpdir} = tempdir( CLEANUP => 1 );
-    } else {
-        $self->{mode} = 'deflated';
-        $logger->debug ('I need the Compress::Zlib library or the gzip'.
-            ' command to compress the data - The data will be sent uncompressed
-            but won\'t be accepted by server prior 1.02');
+    if ($EVAL_ERROR) {
+        if (system('which gzip >/dev/null 2>&1') == 0) {
+            $self->{mode} = 'gzip';
+            $self->{tmpdir} = tempdir( CLEANUP => 1 );
+            $logger->debug(
+                "Compress::Zlib is not available! The data will be " .
+                "compressed with gzip instead but won't be accepted by " .
+                "server prior 1.02"
+            );
+        } else {
+            $self->{mode} = 'deflated';
+            $logger->debug(
+                "I need the Compress::Zlib library or the gzip command to " .
+                "compress the data. The data will be sent uncompressed but " .
+                "won't be accepted by server prior 1.02"
+            );
+        }
     }
 
     bless $self, $class;
