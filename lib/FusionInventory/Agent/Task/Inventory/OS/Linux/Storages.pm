@@ -128,6 +128,8 @@ sub getDescription {
 sub getManufacturer {
     my ($model) = @_;
 
+    return '' unless $model;
+
     if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
         return ucfirst(lc($1));
     } elsif ($model =~ /^HP/) {
