@@ -19,6 +19,7 @@ Revision history for FusionInventory::Agent
        * Fix: Linux/i386: retrieve the number of CORE correctly
        * Fix: Vmsystem, don't load 'version', we don't use it anymore
        * Fix: Linux/ARM: drop a debug print
+       * Fix: Linux Storages, fix fdisk parsing
 
 2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven

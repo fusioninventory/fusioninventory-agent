@@ -43,7 +43,7 @@ sub getFromSysProc {
     if (!open my $handle, '-|', $command) {
         warn "Can't run $command: $ERRNO";
     } else {
-        while (my $line = <$handle>) {
+        while (<$handle>) {
             next unless (/^\/dev\/([sh]d[a-z])/);
             push(@names, $1);
         }
