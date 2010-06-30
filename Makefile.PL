@@ -52,7 +52,7 @@ test_requires  'Test::More'  => undef;
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
 install_script  'fusioninventory-win32-service' if $OSNAME =~ /^MSWin/;
-install_share 'share';
+install_share; # No parameter, si http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
 
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 
@@ -76,15 +76,6 @@ if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
 if (!can_use('Compress::Zlib')) {
     print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
 }
-
-if (!can_use('Crypt::SSLeay') && !can_use('IO::Socket::SSL')) {
-    print "Please install Crypt::SSLeay or IO::Socket::SSL if you want to use SSL.\n";
-}
-
-if (!can_use('Net::SSLeay')) {
-    print "Please install Net::SSLeay if you want to use the software deployment.\n";
-}
-
 
 if (!can_run('ipdiscover') && !can_run('nmap')) {
     print "Please install nmap ";

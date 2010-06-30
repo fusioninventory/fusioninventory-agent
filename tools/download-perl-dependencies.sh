@@ -18,15 +18,7 @@ else
   fi
 fi
 
-MODULES="HTML::Parser App::cpanminus URI HTML::Tagset Crypt::SSLeay
-Net::SSLeay XML::SAX
-XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib
-Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive
-Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Zlib
-Compress::Raw::Zlib Archive::Extract Digest::MD5
-File::Path File::Temp Net::NBName Net::SSLeay
-Parallel::ForkManager Nmap::Parser Net::CUPS Compress::Zlib
-Compress::Raw::Bzip2 Nmap::Scanner"
+MODULES="HTML::Parser App::cpanminus URI HTML::Tagset Crypt::SSLeay IO::Socket::SSL XML::SAX XML::NamespaceSupport HTML::Tagset Class::Inspector LWP Compress::Zlib Digest::MD5 Net::IP XML::Simple File::ShareDir File::Copy::Recursive Net::SNMP Net::IP Proc::Daemon Proc::PID::File Compress::Zlib Compress::Raw::Zlib Archive::Extract Digest::MD5 File::Path File::Temp Net::NBName Parallel::ForkManager Nmap::Parser Net::CUPS Compress::Zlib Compress::Raw::Bzip2 Nmap::Scanner"
 
 [ -d "files" ] || mkdir files
 cd files
