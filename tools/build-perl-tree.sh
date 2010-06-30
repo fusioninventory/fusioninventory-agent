@@ -39,8 +39,8 @@ buildPerl () {
     # AIX
     #./Configure -Dusethreads -Dusenm -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
     #./Configure -Dusethreads -Dcc="gcc" -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
-    
-    ./Configure -Duserelocatableinc -Dusethreads -des -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
+
+    ./Configure -Duserelocatableinc -Dusethreads -des $CC -Dinstallprefix=$PERL_PREFIX -Dsiteprefix=$PERL_PREFIX -Dprefix=$PERL_PREFIX
     $MAKE
     $MAKE install
     
@@ -60,8 +60,8 @@ buildOpenSSL () {
     gunzip < $FILEDIR/openssl-0.9.8n.tar.gz | tar xvf -
     cd openssl-0.9.8n
     ./config no-shared --prefix=$TMP/openssl
-    make depend
-    make install
+    $MAKE depend
+    $MAKE install
     # hack for Crypt::SSLeay
     mkdir $TMP/openssl/include/openssl/openssl
     cp $TMP/openssl/include/openssl/*.h $TMP/openssl/include/openssl/openssl
@@ -84,6 +84,18 @@ NO_CLEANUP=0
 NO_PERL_REBUILD=0
 NO_OPENSSL_REBUILD=0
 
+if [ "`uname`" = "SunOS" ]; then
+    if [ "`make -v|grep GNU`" = "" ]; then
+        echo "make command must be GNU make on Solaris"
+        echo "You can create a symlink to /usr/sfw/bin/gmake"
+        exit
+    fi
+    if [ "`ar -V|grep GNU`" = "" ]; then
+        echo "ar command should be GNU ar on Solaris"
+        echo "You can create a symlink to /usr/sfw/bin/gar"
+        exit
+    fi
+fi
 
 PERLVERSION="5.12.1"
 
@@ -108,25 +120,16 @@ fi
 if [ "$NO_OPENSSL_REBUILD" = "0" ]; then
     buildOpenSSL
 fi
-export OPENSSL_PREFIX=$TMP/openssl # Pour Net::SSLeay
-
-# Net::SSLeay's Makefile.PL the OpenSSL directory as parmeter, so we can't
-# use cpanm directly
-cd $BUILDDIR
-gunzip < $FILEDIR/Net-SSLeay-1.36.tar.gz | tar xvf -
-cd Net-SSLeay-1.36
-PERL_MM_USE_DEFAULT=1 $PERL_PREFIX/bin/perl Makefile.PL
-make install
 
 cd $BUILDDIR
 gunzip < $FILEDIR/Crypt-SSLeay-0.57.tar.gz | tar xvf -
 cd Crypt-SSLeay-0.57
 PERL_MM_USE_DEFAULT=1 $PERL_PREFIX/bin/perl Makefile.PL --default --static --lib=$TMP/openssl
-make install
+$MAKE install
 
 cd $BUILDDIR
 echo $PWD
-archive=`ls $TMP/App-cpanminus-*.tar.gz`
+archive=`ls $FILEDIR/App-cpanminus-*.tar.gz`
 echo $archive
 gunzip < $archive | tar xvf -
 CPANM=$BUILDDIR/App-cpanminus-1.0004/bin/cpanm
