@@ -31,18 +31,18 @@ sub new {
     $logger->fault('$target not initialised') unless $target;
     $logger->fault('$config not initialised') unless $config;
 
-    my $uri = URI->new($target->{path});
-    my ($scheme, $host, $port) = ($uri->scheme(), $uri->host(), $uri->port());
+    # check given URI
+    $self->{URI} = URI->new($target->{path});
+    my $scheme = $self->{URI}->scheme();
     if ($scheme ne 'http' && $scheme ne 'https') {
         $logger->fault("Invalid protocol for URI: $target->{path}");
     }
-    $self->{URI} = $target->{path};
+    my $port   = $self->{URI}->port();
     $port =
         $port              ? $port :
         $scheme eq 'https' ? 443   :
                              80    ;
-
-    $self->{compress} = FusionInventory::Compress->new({logger => $logger});
+    my $host   = $self->{URI}->host();
 
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
@@ -64,6 +64,8 @@ sub new {
         $self->turnSSLCheckOn();
         $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
     }
+
+    $self->{compress} = FusionInventory::Compress->new({logger => $logger});
 
     bless $self, $class;
     return $self;
