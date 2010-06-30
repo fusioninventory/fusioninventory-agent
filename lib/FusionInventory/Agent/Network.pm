@@ -7,6 +7,7 @@ use English qw(-no_match_vars);
 use HTTP::Status;
 use LWP::UserAgent;
 use UNIVERSAL::require;
+use URI;
 
 use FusionInventory::Compress;
 
@@ -30,21 +31,19 @@ sub new {
     $logger->fault('$target not initialised') unless $target;
     $logger->fault('$config not initialised') unless $config;
 
-    my $uaserver;
-    if ($target->{path} =~ /^http(|s):\/\//) {
-        $uaserver = $self->{URI} = $target->{path};
-        $uaserver =~ s/^http(|s):\/\///;
-        $uaserver =~ s/\/.*//;
-        if ($uaserver !~ /:\d+$/) {
-            $uaserver .= ':443' if $self->{config}->{server} =~ /^https:/;
-            $uaserver .= ':80' if $self->{config}->{server} =~ /^http:/;
-        }
-    } else {
-        $logger->fault("Failed to parse URI: ".$target->{path});
+    my $uri = URI->new($target->{path});
+    my ($scheme, $host, $port) = ($uri->scheme(), $uri->host(), $uri->port());
+    if ($scheme ne 'http' && $scheme ne 'https') {
+        $logger->fault("Invalid protocol for URI: $target->{path}");
     }
-
+    $self->{URI} = $target->{path};
+    $port =
+        $port              ? $port :
+        $scheme eq 'https' ? 443   :
+                             80    ;
 
     $self->{compress} = FusionInventory::Compress->new({logger => $logger});
+
     # Connect to server
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
     if ($self->{config}->{proxy}) {
@@ -54,7 +53,7 @@ sub new {
     }
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
     $self->{ua}->credentials(
-        $uaserver, # server:port, port is needed 
+        "$host:$port",
         $self->{config}->{realm},
         $self->{config}->{user},
         $self->{config}->{password}
