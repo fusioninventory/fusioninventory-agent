@@ -89,9 +89,10 @@ sub send {
 
     my $req = HTTP::Request->new(POST => $self->{URI});
 
-    $req->header('Pragma' => 'no-cache', 'Content-type',
-        'application/x-compress');
-
+    $req->header(
+        'Pragma'       => 'no-cache',
+        'Content-type' => 'application/x-compress'
+    );
 
     $logger->debug ("sending XML");
 
@@ -137,15 +138,13 @@ sub send {
         $logger->error("Can't load response module $tmp: $EVAL_ERROR");
     }
     my $response = $tmp->new({
-
-            accountinfo => $target->{accountinfo},
-            content => $content,
-            logger => $logger,
-            origmsg => $message,
-            target => $target,
-            config => $self->{config}
-
-        });
+        accountinfo => $target->{accountinfo},
+        content => $content,
+        logger => $logger,
+        origmsg => $message,
+        target => $target,
+        config => $self->{config}
+    });
 
     return $response;
 }
