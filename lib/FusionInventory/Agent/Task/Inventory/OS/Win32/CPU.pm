@@ -58,6 +58,9 @@ sub doInventory {
                 $speed = $1 if /Max Speed:\s+(\d+)\s+MHz/i;
                 $speed = $1*1000 if /Max Speed:\s+(\w+)\s+GHz/i;
                 $serial = $1 if /ID:\s+(.*)/i;
+#                Core Count: 2
+#                Core Enabled: 2
+#                Thread Count: 2
             }
         }
     }
