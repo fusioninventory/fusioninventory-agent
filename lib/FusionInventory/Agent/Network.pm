@@ -6,31 +6,11 @@ use warnings;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-=head1 NAME
-
-FusionInventory::Agent::Network - the Network abstraction layer
-
-=head1 DESCRIPTION
-
-This module is the abstraction layer for network interaction. It uses LWP.
-Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.
-
-=cut
-
 =over 4
 
 =item new()
 
 The constructor. These keys are expected: config, logger, target.
-
-        my $network = FusionInventory::Agent::Network->new ({
-
-                logger => $logger,
-                config => $config,
-                target => $target,
-
-            });
-
 
 =cut
 
@@ -391,3 +371,13 @@ sub isSuccess {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Network - the Network abstraction layer
+
+=head1 DESCRIPTION
+
+This module is the abstraction layer for network interaction. It uses LWP.
+Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.

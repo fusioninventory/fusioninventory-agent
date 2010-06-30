@@ -447,7 +447,6 @@ sub runWithTimeout {
 }
 
 1;
-
 __END__
 
 =head1 NAME
@@ -458,5 +457,3 @@ FusionInventory::Agent::Task::Inventory - The Inventory module for FusionInvento
 
 This module load and run the submodules needed to get the informations
 regarding the Hardware and Software installation.
-
-=cut

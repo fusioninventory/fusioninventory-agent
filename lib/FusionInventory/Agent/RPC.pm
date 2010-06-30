@@ -297,18 +297,14 @@ the jobs it need to do.
 
 In this example, we want to wakeup machine "aMachine":
 
-  use LWP::Simple;
+    use LWP::Simple;
 
-  my $machine = "aMachine";
-  my $token = "aaaaaaaaaaaaaa";
-  if (!get("http://$machine:62354/now/$token")) {
-    print "Failed to wakeup $machine\n";
-    return;
-  }
-  sleep(10);
-  print "Current status\n";
-  print get("http://$machine:62354/status");
-
-
-=cut
-
+    my $machine = "aMachine";
+    my $token = "aaaaaaaaaaaaaa";
+    if (!get("http://$machine:62354/now/$token")) {
+        print "Failed to wakeup $machine\n";
+        return;
+    }
+    sleep(10);
+    print "Current status\n";
+    print get("http://$machine:62354/status");

@@ -19,6 +19,7 @@ use FusionInventory::Agent::Task::Inventory;
 The usual constructor.
 
 =cut
+
 sub new {
     my ($class, $params) = @_;
 
@@ -1942,7 +1943,6 @@ ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
 =item PRINTPROCESSOR
 
 =back
-
 
 =head2 ANTIVIRUS
 
