@@ -20,6 +20,18 @@ Revision history for FusionInventory::Agent
        * Fix: Vmsystem, don't load 'version', we don't use it anymore
        * Fix: Linux/ARM: drop a debug print
        * Fix: Linux Storages, fix fdisk parsing
+       * MacOSX: use addCPU to collect cpu information
+       * MacOSX: the number of core of the CPU
+       * MacOSX: Collect all the net devices and set VIRTUALDEV=1/0
+       * MacOSX: collect all the drives (fixes: #119)
+       * MacOSX: DRIVES, swap VOLUMN and TYPE fields
+       * Makefile.PL, no parameter for install_share, thanks Act from GLPI
+         forum (http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979)
+       * Fix: don't ignore 0 values in the XML
+       * MacOSX: don't use Mac::SysProfile to get memory info
+       * Linux/i386: Igore empty CPU socket, thanks Sébastien Prud'homme,
+         bug: #177
+       * MacOSX: USB devices inventory
 
 2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven

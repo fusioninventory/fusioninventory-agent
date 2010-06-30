@@ -95,10 +95,10 @@ sub _addEntry {
     my $showAll = 0;
 
     foreach (@$fields) {
-        if (!$showAll && !$values->{$_}) {
+        if (!$showAll && !defined($values->{$_})) {
             next;
         }
-        my $string = $self->_encode({ string => $values->{$_} }) || '';
+        my $string = $self->_encode({ string => $values->{$_} });
         $newEntry->{$_}[0] = $string;
     }
 
@@ -123,7 +123,7 @@ sub _encode {
 
     my $string = $params->{string};
 
-    return unless $string;
+    return unless defined($string);
 
     my $logger = $self->{logger};
 
@@ -864,7 +864,7 @@ USB device
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    my @fields = qw/VENDORID PRODUCTID SERIAL/;
+    my @fields = qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/;
 
     $self->_addEntry({
         'field' => \@fields,
@@ -1862,7 +1862,7 @@ E.g: VmWare ESX
 
 =item VMTYPE
 
-The name of the virtualisation system family, eg. Xen or VmWare.
+The name of the virtualisation system family. The same type found is HARDWARE/VMSYSTEM
 
 =item VCPU
 
@@ -1945,6 +1945,10 @@ USB Class (e.g: 8 for Mass Storage)
 =item SUBCLASS
 
 USB Sub Class
+
+=item NAME
+
+The name of the device (optional)
 
 =back
 
