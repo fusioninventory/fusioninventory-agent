@@ -271,7 +271,7 @@ sub parseUdev {
     }
     close $handle;
 
-    if ($result->{SERIALNUMBER} && $result->{SERIALNUMBER} !~ /^\s+$/) {
+    if (!$result->{SERIALNUMBER} || $result->{SERIALNUMBER} =~ /^\s+$/) {
         $result->{SERIALNUMBER} = $serial
     }
 

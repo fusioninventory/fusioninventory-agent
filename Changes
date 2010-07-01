@@ -45,6 +45,7 @@ Revision history for FusionInventory::Agent
          merge-fusinv-with-perl-tree.sh and README are now in a new git
          repository 'agent-tools.git'
        * Linux + Lsilogic, avoid a warning if smartctl is installed
+       * Linux Storage, parseUdev() use SERIALNUMBER _SHORT if avalaible
 
 2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
