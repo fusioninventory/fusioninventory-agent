@@ -45,71 +45,80 @@ sub new {
 }
 
 sub compress {
-    my ($self, $content) = @_;
-    my $logger = $self->{logger};
+    my ($self, $data) = @_;
 
-# native mode (zlib)
     if ($self->{mode} eq 'natif') {
-        return Compress::Zlib::compress($content);
-    } elsif($self->{mode} eq 'gzip'){
-        # gzip mode
-        my ($fh, $filename) = tempfile( DIR => $self->{tmpdir} );
-        print $fh $content;
-        close $fh;
-
-        system ("gzip --best $filename > /dev/null");
-
-#  print "filename ".$filename."\n"; 
-
-        my $ret;
-        if (open my $handle, '<', "$filename.gz") {
-            $ret .= $_ foreach (<$handle>);
-            close $handle;
-        } else {
-            warn "Can't open $filename.gz: $ERRNO";
-        }
-        if ( ! unlink "$filename.gz" ) {
-            $logger->debug("Failed to remove `$filename.gz'");
-        }
-        return $ret;
+        return Compress::Zlib::compress($data);
     }
-# No compression available
-    elsif($self->{mode} eq 'deflated'){
-        return $content;
+
+    if ($self->{mode} eq 'gzip') {
+        my ($handle, $file) = tempfile(DIR => $self->{tmpdir});
+        print $handle $data;
+        close $handle;
+
+        system ("gzip --best $file > /dev/null");
+
+        my $out_file = $file . '.gz';
+        my $out_handle;
+
+        if (! open $out_handle, '<', $out_file) {
+            $self->{logger}->debug("Can't open $out_file: $ERRNO");
+            return;
+        }
+
+        local $/;   # Set input to "slurp" mode.
+        my $out_data = <$out_handle>;
+        close $out_handle;
+
+        if (! unlink $out_file) {
+            $self->{logger}->debug("Can't remove $out_file: $ERRNO");
+        }
+
+        return $out_data;
+    }
+
+    if ($self->{mode} eq 'deflated') {
+        return $data;
     }
 }
 
 sub uncompress {
-    my ($self,$data) = @_;
-    my $logger = $self->{logger};
-# Native mode
+    my ($self, $data) = @_;
+
     if ($self->{mode} eq 'natif') {
         return Compress::Zlib::uncompress($data);
-    } elsif($self->{mode} eq 'gzip'){
-# Gzip mode
-        my ($fh, $filename) = tempfile( DIR => $self->{tmpdir}, SUFFIX => '.gz' );
-
-        print $fh $data;
-        close $fh;
-
-        system ("gzip -d $filename");
-        my ($uncompressed_filename) = $filename =~ /(.*)\.gz$/;
-
-        my $ret;
-        if (open my $handle, '<', $uncompressed_filename) {
-            $ret .= $_ foreach (<$handle>);
-            close $handle;
-        } else {
-            warn "Can't open $uncompressed_filename: $ERRNO";
-        }
-        if ( ! unlink "$uncompressed_filename" ) {
-            $logger->debug("Failed to remove `$uncompressed_filename'");
-        }
-        return $ret;
     }
-# No compression available
-    elsif($self->{mode} eq 'deflated'){
+
+    if ($self->{mode} eq 'gzip') {
+        my ($handle, $file) = tempfile(DIR => $self->{tmpdir}, SUFFIX => '.gz');
+        print $handle $data;
+        close $handle;
+
+        system ("gzip -d $file > /dev/null");
+
+        my $out_file = $file;
+        $out_file =~ s/\.gz$//;
+        my $out_handle;
+
+        if (! open $out_handle, '<', $out_file) {
+            $self->{logger}->debug("Can't open $out_file: $ERRNO");
+            return;
+        }
+
+        local $/;   # Set input to "slurp" mode.
+        my $out_data = <$out_handle>;
+        close $out_handle;
+
+        if (! unlink $out_file) {
+            $self->{logger}->debug("Can't remove $out_file: $ERRNO");
+        }
+
+        return $out_data;
+    }
+
+    if ($self->{mode} eq 'deflated') {
         return $data;
     }
 }
+
 1;
