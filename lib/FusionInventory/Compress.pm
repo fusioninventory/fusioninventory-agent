@@ -17,7 +17,7 @@ sub new {
 
     eval {
         require Compress::Zlib;
-        $self->{mode} = 'natif';
+        $self->{mode} = 'native';
         $logger->debug('Compress::Zlib is available.');
     };
 
@@ -47,7 +47,7 @@ sub new {
 sub compress {
     my ($self, $data) = @_;
 
-    if ($self->{mode} eq 'natif') {
+    if ($self->{mode} eq 'native') {
         return Compress::Zlib::compress($data);
     }
 
@@ -85,7 +85,7 @@ sub compress {
 sub uncompress {
     my ($self, $data) = @_;
 
-    if ($self->{mode} eq 'natif') {
+    if ($self->{mode} eq 'native') {
         return Compress::Zlib::uncompress($data);
     }
 
