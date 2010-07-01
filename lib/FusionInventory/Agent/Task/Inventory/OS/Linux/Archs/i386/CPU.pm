@@ -14,7 +14,6 @@ sub doInventory {
     my $logger = $params->{logger};
 
     my @cpu;
-    my $current;
 
     my $arch = 'unknow';
     $arch = 'x86' if $Config{'archname'} =~ /^i\d86/;
@@ -71,20 +70,17 @@ sub doInventory {
         $logger->debug("Can't open /proc/cpuinfo: $ERRNO");
     } else {
         my $id=0;
-        my %current;
-        my $cpuNumber = 0;
-        my $lastPhysicalId=0;
+        my $cpuInfo = {};
+        my $cpuNbr;
         while (<$handle>) {
             if (/^physical\sid\s*:\s*(\d+)/i) {
-                if ($lastPhysicalId!=$1) {
-                    $lastPhysicalId=$1;
-                    $cpuNumber++;
-                    $cpuCoreCpts[$cpuNumber]++;
-                } else {
-                    $cpuCoreCpts[$cpuNumber]++;
-                }
+                $cpuCoreCpts[$1]++;
+                $cpuNbr = $1;
             } elsif (/^\s*(\S+.*\S+)\s*:\s*(.+)/i) {
-                $cpuProcs[$cpuNumber]->{$1} = $2;
+                $cpuInfo->{$1} = $2;
+            } elsif (/^\s*$/) {
+                $cpuProcs[$cpuNbr]= $cpuInfo;
+                $cpuInfo = {};
             }
         }
         close $handle;
