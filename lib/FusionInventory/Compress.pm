@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Temp qw/ tempdir tempfile /;
+use File::Temp qw/ tempfile /;
 
 sub new {
     my ($class, $params) = @_;
@@ -24,7 +24,6 @@ sub new {
     if ($EVAL_ERROR) {
         if (system('which gzip >/dev/null 2>&1') == 0) {
             $self->{mode} = 'gzip';
-            $self->{tmpdir} = tempdir( CLEANUP => 1 );
             $logger->debug(
                 "Compress::Zlib is not available! The data will be " .
                 "compressed with gzip instead but won't be accepted by " .
@@ -52,7 +51,7 @@ sub compress {
     }
 
     if ($self->{mode} eq 'gzip') {
-        my ($handle, $file) = tempfile(DIR => $self->{tmpdir});
+        my ($handle, $file) = tempfile();
         print $handle $data;
         close $handle;
 
@@ -90,7 +89,7 @@ sub uncompress {
     }
 
     if ($self->{mode} eq 'gzip') {
-        my ($handle, $file) = tempfile(DIR => $self->{tmpdir}, SUFFIX => '.gz');
+        my ($handle, $file) = tempfile(SUFFIX => '.gz');
         print $handle $data;
         close $handle;
 
