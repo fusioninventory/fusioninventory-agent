@@ -13,7 +13,7 @@ use File::Path;
 use XML::Simple;
 use Sys::Hostname;
 
-our $VERSION = '2.1_rc1';
+our $VERSION = '2.1_rc2';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
