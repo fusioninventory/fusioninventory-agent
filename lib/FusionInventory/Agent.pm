@@ -8,8 +8,6 @@ use English qw(-no_match_vars);
 
 use File::Path;
 
-# THIS IS AN UGLY WORKAROUND FOR
-# http://rt.cpan.org/Ticket/Display.html?id=38067
 use XML::Simple;
 use Sys::Hostname;
 
@@ -17,6 +15,8 @@ our $VERSION = '2.1_rc2';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
+# THIS IS AN UGLY WORKAROUND FOR
+# http://rt.cpan.org/Ticket/Display.html?id=38067
 eval {XMLout("<a>b</a>");};
 if ($EVAL_ERROR) {
     no strict 'refs'; ## no critic
