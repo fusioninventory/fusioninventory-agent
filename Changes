@@ -2,6 +2,8 @@ Revision history for FusionInventory::Agent
 
 2.1
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
+       * MacOSX: ignore printer if name start with:
+         The printers list is empty. To add printers (fixes: #169)
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
