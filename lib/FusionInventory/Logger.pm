@@ -34,7 +34,6 @@ sub new {
     $self->{backend} = [];
     $self->{config} = $params->{config};
 
-    $self->{debug} = $self->{config}->{debug}?1:0;
     my @logger;
 
     if (exists ($self->{config}->{logger})) {
@@ -74,7 +73,7 @@ sub log {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    return if ($level =~ /^debug$/ && !($self->{debug}));
+    return if ($level =~ /^debug$/ && !($self->{config}->{debug}));
 
     chomp($message);
     $level = 'info' unless $level;
