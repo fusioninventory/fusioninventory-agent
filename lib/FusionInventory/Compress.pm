@@ -91,7 +91,7 @@ sub _compressGzip {
         return;
     }
 
-    local $/;   # Set input to "slurp" mode.
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
     my $result = <$out>;
     close $out;
 
@@ -112,7 +112,7 @@ sub _uncompressGzip {
         return;
     }
 
-    local $/;   # Set input to "slurp" mode.
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
     my $result = <$out>;
     close $out;
 
