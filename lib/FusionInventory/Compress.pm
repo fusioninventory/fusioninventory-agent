@@ -14,24 +14,20 @@ sub new {
         logger => $params->{logger}
     };
 
-    my $logger = $self->{logger};
-
-
     if (Compress::Zlib->require()) {
         $self->{mode} = 'native';
-        $logger->debug('Compress::Zlib is available.');
+        $self->{logger}->debug(
+            'Using Compress::Zlib for compression'
+        );
     } elsif (system('which gzip >/dev/null 2>&1') == 0) {
         $self->{mode} = 'gzip';
-        $logger->debug(
-            "Compress::Zlib is not available! The data will be compressed " .
-            "with gzip instead but won't be accepted by server prior 1.02"
+        $self->{logger}->debug(
+            'Using gzip for compression (server minimal version 1.02 needed)'
         );
     } else {
         $self->{mode} = 'deflated';
-        $logger->debug(
-            "I need the Compress::Zlib library or the gzip command to " .
-            "compress the data. The data will be sent uncompressed but " .
-            "won't be accepted by server prior 1.02"
+        $self->{logger}->debug(
+            'Not using compression (server minimal version 1.02 needed)'
         );
     }
 
