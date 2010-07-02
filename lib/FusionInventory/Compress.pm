@@ -101,7 +101,7 @@ sub _compressGzip {
 sub _uncompressGzip {
     my ($self, $data) = @_;
 
-    my ($in, $file) = tempfile(SUFFIX => '.gz');
+    my ($in, $file) = tempfile();
     print $in $data;
     close $in;
 
