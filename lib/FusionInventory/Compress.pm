@@ -80,58 +80,43 @@ sub uncompress {
 sub _compressGzip {
     my ($self, $data) = @_;
 
-    my ($handle, $file) = tempfile();
-    print $handle $data;
-    close $handle;
+    my ($in, $file) = tempfile();
+    print $in $data;
+    close $in;
 
-    system ("gzip --best $file > /dev/null");
-
-    my $out_file = $file . '.gz';
-    my $out_handle;
-
-    if (! open $out_handle, '<', $out_file) {
-        $self->{logger}->debug("Can't open $out_file: $ERRNO");
+    my $command = "gzip -c $file";
+    my $out;
+    if (! open $out, '-|', $command) {
+        $self->{logger}->debug("Can't run $command: $ERRNO");
         return;
     }
 
     local $/;   # Set input to "slurp" mode.
-    my $out_data = <$out_handle>;
-    close $out_handle;
+    my $result = <$out>;
+    close $out;
 
-    if (! unlink $out_file) {
-        $self->{logger}->debug("Can't remove $out_file: $ERRNO");
-    }
-
-    return $out_data;
+    return $result;
 }
 
 sub _uncompressGzip {
     my ($self, $data) = @_;
 
-    my ($handle, $file) = tempfile(SUFFIX => '.gz');
-    print $handle $data;
-    close $handle;
+    my ($in, $file) = tempfile(SUFFIX => '.gz');
+    print $in $data;
+    close $in;
 
-    system ("gzip -d $file > /dev/null");
-
-    my $out_file = $file;
-    $out_file =~ s/\.gz$//;
-    my $out_handle;
-
-    if (! open $out_handle, '<', $out_file) {
-        $self->{logger}->debug("Can't open $out_file: $ERRNO");
+    my $command = "gzip -dc $file";
+    my $out;
+    if (! open $out, '-|', $command) {
+        $self->{logger}->debug("Can't run $command: $ERRNO");
         return;
     }
 
     local $/;   # Set input to "slurp" mode.
-    my $out_data = <$out_handle>;
-    close $out_handle;
+    my $result = <$out>;
+    close $out;
 
-    if (! unlink $out_file) {
-        $self->{logger}->debug("Can't remove $out_file: $ERRNO");
-    }
-
-    return $out_data;
+    return $result;
 }
 
 1;
