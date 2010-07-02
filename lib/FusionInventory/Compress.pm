@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use File::Temp;
+use UNIVERSAL::require;
 
 sub new {
     my ($class, $params) = @_;
@@ -15,28 +16,23 @@ sub new {
 
     my $logger = $self->{logger};
 
-    eval {
-        require Compress::Zlib;
+
+    if (Compress::Zlib->require()) {
         $self->{mode} = 'native';
         $logger->debug('Compress::Zlib is available.');
-    };
-
-    if ($EVAL_ERROR) {
-        if (system('which gzip >/dev/null 2>&1') == 0) {
-            $self->{mode} = 'gzip';
-            $logger->debug(
-                "Compress::Zlib is not available! The data will be " .
-                "compressed with gzip instead but won't be accepted by " .
-                "server prior 1.02"
-            );
-        } else {
-            $self->{mode} = 'deflated';
-            $logger->debug(
-                "I need the Compress::Zlib library or the gzip command to " .
-                "compress the data. The data will be sent uncompressed but " .
-                "won't be accepted by server prior 1.02"
-            );
-        }
+    } elsif (system('which gzip >/dev/null 2>&1') == 0) {
+        $self->{mode} = 'gzip';
+        $logger->debug(
+            "Compress::Zlib is not available! The data will be compressed " .
+            "with gzip instead but won't be accepted by server prior 1.02"
+        );
+    } else {
+        $self->{mode} = 'deflated';
+        $logger->debug(
+            "I need the Compress::Zlib library or the gzip command to " .
+            "compress the data. The data will be sent uncompressed but " .
+            "won't be accepted by server prior 1.02"
+        );
     }
 
     bless $self, $class;
