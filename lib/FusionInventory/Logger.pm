@@ -34,34 +34,27 @@ sub new {
     };
     bless $self, $class;
 
-    my @logger;
+    my @backends = $self->{config}->{logger} ?
+        split /,/, $self->{config}->{logger} : 'Stderr';
+    my @backends_ok;
 
-    if (exists ($self->{config}->{logger})) {
-        @logger = split /,/, $self->{config}->{logger};
-    } else {
-        # if no 'logger' parameter exist I use Stderr as default backend
-        push @logger, 'Stderr';
-    }
-
-    my @loadedMbackends;
-    foreach (@logger) {
-        my $backend = "FusionInventory::LoggerBackend::".$_;
-        $backend->require();
+    foreach my $backend (@backends) {
+        my $package = "FusionInventory::LoggerBackend::$backend";
+        $package->require();
         if ($EVAL_ERROR) {
-            print STDERR "Failed to load Logger backend: $backend ($EVAL_ERROR)\n";
+            print STDERR
+                "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
             next;
-        } else {
-            push @loadedMbackends, $_;
         }
 
-        my $obj = $backend->new({
-                config => $self->{config},
-            });
-        push @{$self->{backend}}, $obj if $obj;
+        push
+            @{$self->{backend}},
+            $package->new({config => $self->{config}});
+        push @backends_ok, $backend;
     }
 
     $self->debug($FusionInventory::Agent::STRING_VERSION);
-    $self->debug("Log system initialised (@loadedMbackends)");
+    $self->debug("Log system initialised (@backends_ok)");
 
     return $self;
 }
