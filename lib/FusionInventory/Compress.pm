@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Temp qw/ tempfile /;
+use File::Temp;
 
 sub new {
     my ($class, $params) = @_;
@@ -80,11 +80,11 @@ sub uncompress {
 sub _compressGzip {
     my ($self, $data) = @_;
 
-    my ($in, $file) = tempfile();
+    my $in = File::Temp->new();
     print $in $data;
     close $in;
 
-    my $command = "gzip -c $file";
+    my $command = 'gzip -c ' . $in->filename();
     my $out;
     if (! open $out, '-|', $command) {
         $self->{logger}->debug("Can't run $command: $ERRNO");
@@ -101,11 +101,11 @@ sub _compressGzip {
 sub _uncompressGzip {
     my ($self, $data) = @_;
 
-    my ($in, $file) = tempfile();
+    my $in = File::Temp->new();
     print $in $data;
     close $in;
 
-    my $command = "gzip -dc $file";
+    my $command = 'gzip -dc ' . $in->filename();
     my $out;
     if (! open $out, '-|', $command) {
         $self->{logger}->debug("Can't run $command: $ERRNO");
