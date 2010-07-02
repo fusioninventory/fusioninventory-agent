@@ -28,11 +28,11 @@ my $lock :shared;
 sub new {
     my ($class, $params) = @_;
 
-
-    my $self = {};
+    my $self = {
+        config  => $params->{config},
+        backend => [],
+    };
     bless $self, $class;
-    $self->{backend} = [];
-    $self->{config} = $params->{config};
 
     my @logger;
 
