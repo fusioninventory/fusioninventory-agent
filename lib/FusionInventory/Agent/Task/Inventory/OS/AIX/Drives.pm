@@ -29,7 +29,7 @@ sub doInventory {
 
         if (/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/) {
             $type = $1;
-            @fs=`lsfs -c $6`;
+            @fs = `lsfs -c $6`;
             @fstype = split /:/,$fs[1];     
             $filesystem = $fstype[2];
             $total = sprintf("%i",($2/1024));	
