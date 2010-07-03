@@ -84,7 +84,7 @@ sub doInventory {
 
                     $logger->debug("ServeRaid: found $model, $manufacturer, $model, SCSI, disk, $capacity, $serial, ");
 
-                    $inventory->addStorages({
+                    $inventory->addStorage({
                         NAME 		=> "$manufacturer $model",
                         MANUFACTURER 	=> $manufacturer,
                         MODEL 		=> $model,

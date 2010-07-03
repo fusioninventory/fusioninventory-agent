@@ -95,7 +95,7 @@ sub doInventory {
     }
 
     foreach my $device ( keys %$devices ) {
-        $inventory->addStorages($devices->{$device});
+        $inventory->addStorage($devices->{$device});
     }
 
 }

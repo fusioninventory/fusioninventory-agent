@@ -134,7 +134,7 @@ sub doInventory {
                             $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
                             $port = undef;
                             $logger->debug("3ware: $device, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
-                            $inventory->addStorages({
+                            $inventory->addStorage({
                                     NAME => $device,
                                     MANUFACTURER => $manufacturer,
                                     MODEL => $model,

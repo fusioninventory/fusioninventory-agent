@@ -69,7 +69,7 @@ sub doInventory {
                         $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
                         $host = undef;
 
-                        $inventory->addStorages({
+                        $inventory->addStorage({
                             NAME => $hd->{NAME},
                             MANUFACTURER => $manufacturer,
                             MODEL => $model,

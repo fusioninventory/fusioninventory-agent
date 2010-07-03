@@ -62,7 +62,7 @@ sub doInventory {
             elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
                 $type="SCSI";
             }
-            $inventory->addStorages({
+            $inventory->addStorage({
                 NAME => $name,
                 MANUFACTURER => $manufacturer,
                 MODEL => $model,

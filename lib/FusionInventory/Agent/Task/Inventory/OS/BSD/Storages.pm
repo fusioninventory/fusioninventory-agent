@@ -40,7 +40,7 @@ sub doInventory {
         $model =~ s/^(\s|,)*//;
         $model =~ s/(\s|,)*$//;
 
-        $inventory->addStorages({
+        $inventory->addStorage({
             MANUFACTURER => $manufacturer,
             MODEL => $model,
             DESCRIPTION => $dev,

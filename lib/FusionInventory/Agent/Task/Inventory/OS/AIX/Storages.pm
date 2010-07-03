@@ -41,7 +41,7 @@ sub doInventory {
             if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
             if ((/^FC .+/) && $flag) {$flag=0;last}
         }
-        $inventory->addStorages({
+        $inventory->addStorage({
                 NAME => $device,
                 MANUFACTURER => $manufacturer,
                 MODEL => $model,
@@ -76,7 +76,7 @@ sub doInventory {
                 $capacity=0;
             }
         }
-        $inventory->addStorages({
+        $inventory->addStorage({
                 MANUFACTURER => "VIO Disk",
                 MODEL => "Virtual Disk",
                 DESCRIPTION => $description,
@@ -117,7 +117,7 @@ sub doInventory {
                 if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
                 if ((/^FC .+/) && $flag) {$flag=0;last}
             }
-            $inventory->addStorages({
+            $inventory->addStorage({
                     NAME => $device,
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,
@@ -157,7 +157,7 @@ sub doInventory {
                 if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
                 if ((/^FC .+/) && $flag) {$flag=0;last}
             }
-            $inventory->addStorages({
+            $inventory->addStorage({
                     NAME => $device,
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,
@@ -192,7 +192,7 @@ sub doInventory {
             }
             #On le force en retour taille disquette non affichable
             $capacity ="";
-            $inventory->addStorages({
+            $inventory->addStorage({
                 NAME => $device,
                 MANUFACTURER => 'N/A',
                 MODEL => 'N/A',
