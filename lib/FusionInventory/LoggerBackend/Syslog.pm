@@ -3,7 +3,14 @@ package FusionInventory::LoggerBackend::Syslog;
 use strict;
 use warnings;
 # Not tested yet!
-use Sys::Syslog qw( :DEFAULT setlogsock);
+use Sys::Syslog qw(:standard :macros);
+
+my %syslog_levels = (
+    fault => LOG_CRIT,
+    error => LOG_ERR,
+    info  => LOG_INFO,
+    debug => LOG_DEBUG
+);
 
 sub new {
     my ($class, $params) = @_;
@@ -22,7 +29,7 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    syslog('info', $message);
+    syslog($syslog_levels{$level}, $message);
 }
 
 sub DESTROY {
