@@ -76,7 +76,7 @@ sub log {
             message => $message
         });
     }
-    confess if $level =~ /^fault$/; # Die with a backtace 
+    confess if $level eq 'fault'; # Die with a backtace 
 }
 
 sub debug {
