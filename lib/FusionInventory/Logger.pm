@@ -63,13 +63,12 @@ sub log {
     my ($self, $args) = @_;
 
     # levels: info, debug, warn, fault
-    my $level = $args->{level};
+    my $level = $args->{level} || 'info';
     my $message = $args->{message};
 
     return if $level eq 'debug' && !$self->{config}->{debug};
 
     chomp($message);
-    $level = 'info' unless $level;
 
     foreach (@{$self->{backend}}) {
         $_->addMsg ({
