@@ -209,6 +209,7 @@ sub loadUserParams {
         'lazy',
         'local|l=s',
         'logfile=s',
+        'logger=s',
         'no-ocsdeploy',
         'no-inventory',
         'no-soft',
@@ -322,6 +323,8 @@ print STDERR <<EOF;
         ($self->{local})
     --logfile=FILE
         log message in FILE ($self->{logfile})
+    --logger=BACKEND
+        use BACKEND logger ($self->{logger})
     --no-ocsdeploy
         do not deploy packages or run command ($self->{'no-ocsdeploy'})
     --no-inventory
