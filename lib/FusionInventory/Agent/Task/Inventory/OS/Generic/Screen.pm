@@ -22,6 +22,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use MIME::Base64;
 
 use FusionInventory::Agent::Tools;
 
@@ -666,17 +667,10 @@ sub doInventory {
                 $serial = $edid->{serial_number2}[0];
             }
 
-            eval {
-                require MIME::Base64;
-            };
-            if (!$EVAL_ERROR) {
-                $base64 = encode_base64($screen->{edid});
-            }
+            $base64 = encode_base64($screen->{edid});
+
             if (can_run("uuencode")) {
                 $uuencode = `echo $screen->{edid}|uuencode -`;
-                if (!$base64) {
-                    $base64 = `echo $screen->{edid}|uuencode -m -`;
-                }
             }
 
         }
