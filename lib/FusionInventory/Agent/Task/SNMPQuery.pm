@@ -1096,10 +1096,10 @@ sub HexaToString {
 
 sub signals {
     $SIG{INT} = \&signals;
-    warn "\aThe long habit of living indisposeth us for dying.\n";
+    warn "detection anormal end of runing program, will close it.\n";
 
     main('finish');
-exit();
+    exit();
 }
 
 
