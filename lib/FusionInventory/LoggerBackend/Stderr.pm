@@ -23,8 +23,6 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    return if $message =~ /^$/;
-
     my $format;
     if ($config->{color}) {
         if ($level eq 'error') {

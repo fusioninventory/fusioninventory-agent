@@ -66,6 +66,7 @@ sub log {
     my $level = $args->{level} || 'info';
     my $message = $args->{message};
 
+    return unless $message;
     return if $level eq 'debug' && !$self->{config}->{debug};
 
     foreach (@{$self->{backend}}) {

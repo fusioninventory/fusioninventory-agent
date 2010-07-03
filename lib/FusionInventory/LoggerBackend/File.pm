@@ -27,8 +27,6 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    return if $message =~ /^$/;
-
     print $handle "[".localtime()."][$level] $message\n";
 }
 
