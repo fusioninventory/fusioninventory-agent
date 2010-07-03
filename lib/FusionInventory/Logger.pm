@@ -66,7 +66,7 @@ sub log {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    return if ($level =~ /^debug$/ && !($self->{config}->{debug}));
+    return if $level eq 'debug' && !$self->{config}->{debug};
 
     chomp($message);
     $level = 'info' unless $level;
