@@ -3,11 +3,13 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Storages;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
-    `which lsdev 2>&1`;
-    return if($? >> 8)!=0;
-    `which lsattr 2>&1`;
-    ($? >> 8)?0:1}
+    return
+        can_run("lsdev") &&
+        can_run("lsattr");
+}
 
 sub doInventory {
     my $params = shift;
