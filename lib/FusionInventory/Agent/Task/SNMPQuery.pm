@@ -33,8 +33,10 @@ use FusionInventory::Agent::AccountInfo;
 
 my $maxIdx : shared = 0;
 
+$SIG{INT} = \&signals;
+
 sub main {
-    my ( undef ) = @_;
+    my ( $action ) = @_;
 
     my $self = {};
     bless $self;
@@ -97,9 +99,11 @@ sub main {
 
       });
 
-
-   $self->StartThreads();
-
+   if (defined($action) && $action eq "finish") {
+      $self->sendEndToServer();
+   } else {
+      $self->StartThreads();
+   }
    exit(0);
 }
 
@@ -430,6 +434,30 @@ sub StartThreads {
       });
    undef($xml_thread);
 
+}
+
+
+
+sub sendEndToServer() {
+   my ($self) = @_;
+
+   my $network = $self->{network} = new FusionInventory::Agent::Network ({
+
+            logger => $self->{logger},
+            config => $self->{config},
+            target => $self->{target},
+
+        });
+   push(@LWP::Protocol::http::EXTRA_SOCK_OPTS, MaxLineLength => 16*1024);
+
+   # Send infos to server :
+   my $xml_thread;
+   $xml_thread->{AGENT}->{END} = '1';
+   $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+   $self->SendInformations({
+      data => $xml_thread
+      });
+   undef($xml_thread);
 }
 
 
@@ -1064,5 +1092,15 @@ sub HexaToString {
    }
    return $val;
 }
+
+
+sub signals {
+    $SIG{INT} = \&signals;
+    warn "\aThe long habit of living indisposeth us for dying.\n";
+
+    main('finish');
+exit();
+}
+
 
 1;
