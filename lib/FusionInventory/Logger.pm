@@ -68,8 +68,6 @@ sub log {
 
     return if $level eq 'debug' && !$self->{config}->{debug};
 
-    chomp($message);
-
     foreach (@{$self->{backend}}) {
         $_->addMsg ({
             level => $level,
