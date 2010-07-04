@@ -6,6 +6,8 @@ Revision history for FusionInventory::Agent
          --no-inventory should be used instead
        * Fix: Linux, PC: detect CPU configuration of machine with one
          CPU with one core and 2 threads (Samsung NC10)
+       * Fix: Linux, PC: support /proc/cpuinfo with no "physical id:"
+         thanks Sébastien Prud'homme
 
 2.1     Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
