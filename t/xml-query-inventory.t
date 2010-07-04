@@ -129,7 +129,7 @@ $inventory->addSoftwareDeploymentPackage({ ORDERID => '1234567892' });
 
 my $xml = $inventory->getContent();
 
-my $tpp =  XML::TreePP->new( force_array => [ 'OPTION','PARAM' ] );
+my $tpp =  XML::TreePP->new();
 my $href = $tpp->parse( $xml );
 
 is_deeply($href, $test, "inventory");
