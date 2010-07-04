@@ -28,7 +28,7 @@ sub main {
             '<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not send an ' .
             'inventory.'
         );
-        exit(0);
+        return;
     }
 
     $self->{modules} = {};
@@ -56,7 +56,7 @@ sub main {
             );
         } elsif (!$self->{prologresp}->isInventoryAsked()) {
             $self->{logger}->debug("No inventory requested in the prolog...");
-            exit(0);
+            return;
         }
     }
 
@@ -97,7 +97,6 @@ sub main {
 
     }
 
-    exit(0);
 }
 
 sub initModList {

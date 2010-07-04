@@ -34,12 +34,12 @@ sub main {
     }
     if ($continue == 0) {
         $self->{logger}->debug("No WAKEONLAN. Exiting...");
-        exit(0);
+        return;
     }
 
     if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");
-        exit(0);
+        return;
     }
 
     $self->{network} = FusionInventory::Agent::Network->new({
@@ -50,7 +50,6 @@ sub main {
 
     $self->StartMachine();
 
-    exit(0);
 }
 
 
@@ -66,7 +65,7 @@ sub StartMachine {
 
     if ($macaddress !~ /^$mac_address_pattern$/) {
         $self->{logger}->debug("Invalid MacAddress $macaddress . Exiting...");
-        exit(0);
+        return;
     }
     $macaddress =~ s/://g;
 
