@@ -7,7 +7,9 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled { can_read("/proc/uptime") }
+sub isInventoryEnabled {
+    return -r '/proc/uptime';
+}
 
 sub doInventory {
     my $params = shift;

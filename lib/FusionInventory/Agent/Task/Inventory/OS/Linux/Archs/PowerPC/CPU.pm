@@ -22,8 +22,9 @@ use FusionInventory::Agent::Tools;
 #
 #
 
-sub isInventoryEnabled { can_read ("/proc/cpuinfo") };
-
+sub isInventoryEnabled {
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
     my $params = shift;

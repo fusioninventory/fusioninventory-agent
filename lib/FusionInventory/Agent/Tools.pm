@@ -17,7 +17,6 @@ our @EXPORT = qw(
     compareVersion
     can_run
     can_load
-    can_read
 );
 
 sub getFormatedLocalTime {
@@ -208,11 +207,6 @@ sub can_load {
     my ($module) = @_;
 
     return $module->require();
-}
-
-sub can_read {
-    my ($file) = @_;
-    return -r $file;
 }
 
 1;
