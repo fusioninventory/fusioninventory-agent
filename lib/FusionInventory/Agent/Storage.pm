@@ -66,8 +66,7 @@ sub getFileName {
     return $fileName;
 }
 
-# Internal function, no POD doc
-sub getFilePath {
+sub _getFilePath {
     my ($self, $params) = @_;
 
     my $target = $self->{target};
@@ -134,7 +133,7 @@ sub save {
 
     lock($lock);
 
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
     my $oldMask;
@@ -170,7 +169,7 @@ sub restore {
     my $module = $params->{module};
     my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({
+    my $filePath = $self->_getFilePath({
         module => $module,
         idx => $idx
     });
@@ -194,7 +193,7 @@ sub remove {
 
     my $idx = $params->{idx};
     
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
@@ -212,7 +211,7 @@ sub removeAll {
     
     my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
