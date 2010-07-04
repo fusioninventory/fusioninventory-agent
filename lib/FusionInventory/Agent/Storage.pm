@@ -170,55 +170,53 @@ sub _getFilePath {
     my $config = $self->{config};
 
     my $idx = $params->{idx};
+    if ($idx && $idx !~ /^\d+$/) {
+        print "[fault] idx must be an integer!\n";
+        die;
+    } 
     my $module = $params->{module};
 
-    my $fileName = $self->_getFileName({
-        module => $module
-    });
+    my $path = 
+        $self->_getFileDir() . 
+        '/' . 
+        $self->_getFileName({ module => $module }) .
+        ($idx ? ".$idx" : "" ) .
+        '.dump';
 
-    my $dirName = $self->_getFileDir();
-
-    my $extension = '';
-    if ($idx) {
-        if ($idx !~ /^\d+$/) {
-            print "[fault] idx must be an integer!\n";
-            die;
-        } 
-        $extension = '.'.$idx;
-    }
-
-    return $dirName."/".$fileName.$extension.".dump";
+    return $path;
 }
 
 sub _getFileName {
     my ($self, $params) = @_;
 
-    my $fileName;
+    my $name;
 
     if ($params->{module}) {
-        $fileName = $params->{module};
+        $name = $params->{module};
     } else {
         my $module;
         my $i = 0;
         while ($module = caller($i++)) {
             last if $module ne 'FusionInventory::Agent::Storage';
         }
-        $fileName = $module;
+        $name = $module;
     }
 
     # Drop colons, they are forbiden in Windows file path
-    $fileName =~ s/::/-/g;
+    $name =~ s/::/-/g;
 
-    return $fileName;
+    return $name;
 }
 
 sub _getFileDir {
     my ($self, $params) = @_;
 
-    return
+    my $dir = 
         $self->{target} ? $self->{target}->{vardir}     : 
         $self->{config} ? $self->{config}->{basevardir} : 
                           undef;
+
+    return $dir;
 }
 
 1;
