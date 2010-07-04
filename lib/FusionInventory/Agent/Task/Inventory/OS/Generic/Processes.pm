@@ -55,12 +55,16 @@ sub doInventory {
             my $time= $10;
             my $cmd= $11;
 
-            if ($started =~ /^(\w{3})/)  {
-                my $d=substr($started, 3);
-                my $m=substr($started, 0,3);
-                $begin=$the_year."-".$month{$m}."-".$d." ".$time; 
-            }  else {
+            if ($started =~ /^(\w+)_(\d{1,2})/) { # Solaris
+                $begin=$the_year."-".$month{$1}."-".$2." ".$time;
+            } elsif ($started =~ /^([A-z]{3})(\d{1,2})$/)  {
+                $begin=$the_year."-".$month{$1}."-".$2." ".$time;
+            }  elsif ($started =~ /^(\d{2}):(\d{2})$/) {
                 $begin=$the_year."-".$mon."-".$mday." ".$started;
+            } elsif (my @stat = stat('/proc/'.$pid)) {
+                my (undef,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($stat[10]);
+                my $the_year=$year+1900;
+                $begin=$the_year."-".$mon."-".$mday." ".$hour.':'.$min;
             }
 
             $inventory->addProcess({

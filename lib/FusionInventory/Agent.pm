@@ -10,7 +10,7 @@ use File::Path;
 
 use Sys::Hostname;
 
-our $VERSION = '2.1beta1';
+our $VERSION = '2.1_rc2';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
@@ -43,7 +43,7 @@ sub new {
 
     # TODO: should be in Config.pm
     if ($config->{logfile}) {
-        $config->{logger} = 'File';
+        $config->{logger} .= ',File';
     }
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
@@ -65,9 +65,16 @@ sub new {
         $logger->debug("--scan-homedirs missing. Don't scan user directories");
     }
 
-    if ($config->{nosoft}) {
-        $logger->info("the parameter --nosoft is deprecated and may be removed in a future release, please use --nosoftware instead.");
-        $config->{nosoftware} = 1
+    if ($config->{nosoft} || $config->{nosoftware}) {
+        $logger->info("the parameter --nosoft and --nosoftware are ".
+            "deprecated and may be removed in a future release, ".
+            "please use --no-software instead.");
+        $config->{'no-software'} = 1
+    }
+
+    if (!-d $config->{'share-dir'}) {
+        $logger->error("share-dir doesn't existe ".
+            "(".$config->{'share-dir'}.")");
     }
 
     # This is a hack to add the perl binary directory

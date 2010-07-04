@@ -45,7 +45,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 
 use strict;
 use warnings;
-use version;
 
 use English qw(-no_match_vars);
 

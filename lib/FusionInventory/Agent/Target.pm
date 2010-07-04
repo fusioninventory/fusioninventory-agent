@@ -40,9 +40,14 @@ sub new {
     $self->{path} = $params->{path} || '';
     $self->{deviceid} = $params->{deviceid};
 
+
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $target = $self->{target};
+    my $type   = $self->{type};
+
+
+    $self->{format} = ($type eq 'local' && $config->{html})?'HTML':'XML';
 
     bless $self, $class;
    
@@ -185,17 +190,11 @@ sub setNextRunDate {
 
     lock($lock);
 
-    my $time;
-    if( $self->{prologFreqChanged} ){
-        $logger->debug("Compute next_time file with random value");
-        $time = time + int rand(
-            $serverdelay ? $serverdelay * 3600 : $config->{delaytime}
-        );
-    } else {
-        $time = time + int rand(
-            $serverdelay ? $serverdelay * 3600 : $config->{delaytime}
-        );
-    }
+    my $max = $serverdelay ? $serverdelay * 3600 : $config->{delaytime};
+    $max = 1 unless $max;
+
+    my $time = time + ($max/2) + int rand($max/2);
+
     $self->{myData}{nextRunDate} = $time;
     
     ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};

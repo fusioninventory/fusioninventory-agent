@@ -30,7 +30,9 @@ sub doInventory {
     foreach my $objItem (in $colItems) {
     
         my $cmdLine = $objItem->{CommandLine};
-    
+
+        next unless $cmdLine;
+ 
         if ($cmdLine =~ /\\Explorer\.exe/i) {
             my $name = Variant (VT_BYREF | VT_BSTR, '');
             my $domain = Variant (VT_BYREF | VT_BSTR, '');

@@ -12,10 +12,18 @@ sub isInventoryEnabled {
 sub getPciIDFromDeviceID {
     my ($DeviceID) = @_;
 
-    if ($DeviceID =~ /PCI\\VEN_(\S+)&DEV_(\S+)&SUBSYS_(\S+)/) {
-# We ignore the subsystem for now
-        return $1.':'.$2;
+    my $pciid;
+    my$pcisubsystemid;
+
+    if ($DeviceID =~ /PCI\\VEN_(\S{4})&DEV_(\S{4})/) {
+        $pciid = lc($1.':'.$2);
     }
+
+    if ($DeviceID =~ /&SUBSYS_(\S{4})(\S{4})/) {
+        $pcisubsystemid = lc($2.':'.$1);
+    }
+
+    return ($pciid, $pcisubsystemid);
 }
 
 my %seen;
@@ -24,6 +32,8 @@ sub doInventory {
     my $params = shift;
 
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
+    my $config = $params->{config};
 
     foreach my $wmiClass (qw/
             Win32_FloppyController Win32_IDEController Win32_SCSIController
@@ -35,7 +45,8 @@ sub doInventory {
             (getWmiProperties($wmiClass,
 qw/Name Manufacturer Caption Description DeviceID HardwareVersion/)) {
 
-            my $pciid = getPciIDFromDeviceID($Properties->{DeviceID});
+            my ($pciid, $pcisubsystemid) = getPciIDFromDeviceID($Properties->{DeviceID});
+
 
 # I scan CIM_LogicalDevice to identify more devices but I don't want
 # everything. Only devices with a PCIID sounds resonable
@@ -44,14 +55,16 @@ qw/Name Manufacturer Caption Description DeviceID HardwareVersion/)) {
                 next if $seen{$pciid};
             }
 
-            $seen{$pciid} = 1;
-
+            if($pciid) {
+                $seen{$pciid} = 1;
+            }
             $inventory->addController({
                     NAME => $Properties->{Name},
                     MANUFACTURER => $Properties->{Manufacturer},
                     CAPTION => $Properties->{Caption},
                     DESCRIPTION => $Properties->{Description},
                     PCIID => $pciid,
+                    'PCISUBSYSTEMID'=> $pcisubsystemid,
                     VERSION => $Properties->{HardwareVersion},
                     TYPE => $Properties->{Caption},
                     });

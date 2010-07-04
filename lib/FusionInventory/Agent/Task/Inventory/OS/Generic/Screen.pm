@@ -58,7 +58,8 @@ sub getScreens {
         my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
                 wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
-        foreach my $objItem (getWmiProperties('Win32_DesktopMonitor',
+        foreach my $objItem
+(FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_DesktopMonitor',
                     qw/
                     Caption
                     PNPDeviceID
@@ -70,7 +71,9 @@ sub getScreens {
             my $a= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>"KEY_READ",Delimiter=>"/"} )
                 or  die "Can't open HKEY_LOCAL_MACHINE key: EXTENDED_OS_ERROR\n";
 
-            my $edid = $a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device Parameters/EDID'}."\n";
+            my $edid =
+$a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device
+Parameters/EDID'} || '';
             $edid =~ s/^\s+$//;
 
             push @raw_edid, { name => $name, edid => $edid };

@@ -92,3 +92,9 @@ while( SERVICE_STOPPED != ( $State = Win32::Daemon::State() ) ){
     Win32::Sleep( $SERVICE_SLEEP_TIME );
 }
 
+__END__
+
+=head1 NAME
+
+fusioninventory-win32-service - FusionInventory Agent service for Windows
+

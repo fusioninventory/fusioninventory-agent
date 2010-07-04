@@ -21,20 +21,42 @@ sub doInventory {
     $h = $h->{'Hardware Overview'};
 
     ######### CPU
-    my $processort  = $h->{'Processor Name'} | $h->{'CPU Type'}; # 10.5 || 10.4
-    my $processorn  = $h->{'Number Of Processors'} || $h->{'Number Of CPUs'};
+    my $processort  = $h->{'Processor Name'} || $h->{'CPU Type'}; # 10.5 || 10.4
+    my $processorn  = $h->{'Number Of Processors'} || $h->{'Number Of CPUs'} || 1;
     my $processors  = $h->{'Processor Speed'} || $h->{'CPU Speed'};
+    my $processorCore  = $h->{'Total Number Of Cores'} / $processorn;
+    my $manufacturer;
+    if ($processort =~ /Intel/i) {
+        $manufacturer = "Intel";
+    } elsif ($processort =~ /AMD/i) { # Maybe one day :)
+        $manufacturer = "AMD";
+    }
+# French Mac returns 2,60 Ghz instead of
+# 2.60 Ghz :D
+    $processors =~ s/,/./;
 
     # lamp spits out an sql error if there is something other than an int (MHZ) here....
     if($processors =~ /GHz$/){
-            $processors =~ s/ GHz//;
-            # French Mac returns 2,60 Ghz instead of
-            # 2.60 Ghz :D
-            $processors =~ s/,/./;
+            $processors =~ s/GHz//;
             $processors = ($processors * 1000);
+    } elsif($processors =~ /MHz$/){
+            $processors =~ s/MHz//;
     }
-    if($processors =~ /MHz$/){
-            $processors =~ s/ MHz//;
+    $processors =~ s/\s//g;
+
+
+    foreach(1..$processorn) {
+	$inventory->addCPU ({
+
+            CORE => $processorCore,
+            MANUFACTURER => $manufacturer,
+            NAME => $processort,
+            THREAD => 1,
+            SPEED => $processors
+
+	});
+
+
     }
 
     ### mem convert it to meg's if it comes back in gig's
@@ -49,9 +71,6 @@ sub doInventory {
 
 
     $inventory->setHardware({
-        PROCESSORT  => $processort,
-        PROCESSORN  => $processorn,
-        PROCESSORS  => $processors,
         MEMORY      => $mem,
     });
 }

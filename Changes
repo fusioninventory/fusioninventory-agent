@@ -1,10 +1,73 @@
 Revision history for FusionInventory::Agent
 
        * XML::Simple → XML::TreePP transition
-TODO, test VirtualBox
 
+2.1_rc3
+       * Add resources/cpuinfo/linux-686-samsung-nc10-1
+       * Fix, restore --noinventory support, print a warning saying
+         --no-inventory should be used instead
+       * Fix: Linux, PC: detect CPU configuration of machine with one
+         CPU with one core and 2 threads (Samsung NC10)
+       * Fix: Linux, PC: support /proc/cpuinfo with no "physical id:"
+         thanks Sébastien Prud'homme
+       * Fix: Linux, PC: get the number of core from dmidecode if
+         avaible
+       * Linux, PC: get the CPU frequency from the CPU name, if
+         possible. That's the most reliable way to get the
+         information since 'Max Speed' in dmidecode is most of the
+         time on crack and /proc/cpuinfo is not reliable because of
+         the frequency scaling
+       * Linux, PC: the cpu detection can work if only dmidecode is
+         here
 
-2.1
+2.1_rc2 Thu, 01 Jul 2010 23:05:10 +0200
+       * MANIFEST.SKIP, we need the resources files for the test suite
+       * Linux: set back DRIVES/FREE
+       * Linux: CONTROLLERS/NAME drop the trailing whitespace
+       * addEntry(), do not ignore $noDuplicated parameter
+       * remplace --html-dir by --share-dir
+       * use pciid to know the pci device name and manufacturer, thanks
+         Sébastien Prud'homme
+       * load dmidecode from $PATH
+       * fix VirtualBox VM detection (David DURIEUX)
+       * Makefile.PL, UNIVERSAL::require is a dependency now
+       * Document --logger
+       * Fix --logger: to not overwrite other loggers if --logfile is on
+       * POD, add for PROCESSES inventory
+       * tools/ fixes for Solaris shell
+       * Add CONTROLLERS/REV
+       * Fix: Linux/i386: retrieve the number of CORE correctly
+       * Fix: Vmsystem, don't load 'version', we don't use it anymore
+       * Fix: Linux/ARM: drop a debug print
+       * Fix: Linux Storages, fix fdisk parsing
+       * MacOSX: use addCPU to collect cpu information
+       * MacOSX: the number of core of the CPU
+       * MacOSX: Collect all the net devices and set VIRTUALDEV=1/0
+       * MacOSX: collect all the drives (fixes: #119)
+       * MacOSX: DRIVES, swap VOLUMN and TYPE fields
+       * Makefile.PL, no parameter for install_share, thanks Act from GLPI
+         forum (http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979)
+       * Network.pm: drop the dependency on Net::SSLeay and IO::Socket::SSL,
+         we don't need them (!)
+         Fix: HTTP proxy with HTTPS
+       * Network.pm: drop the dependency on Net::SSLeay and IO::Socket::SSL,
+         we don't need them (!)
+         Fix: HTTP proxy with HTTPS
+       * Makefile.PL, no parameter for install_share, thanks Act from GLPI
+         forum (http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979)
+       * Fix: don't ignore 0 values in the XML
+       * MacOSX: don't use Mac::SysProfile to get memory info
+       * Linux/i386: Igore empty CPU socket, thanks Sébastien Prud'homme,
+         bug: #177
+       * MacOSX: USB devices inventory
+       * LInux/PC: Fix the core detection on multiCPU system
+       * in tools:build-perl-tree.sh  download-perl-dependencies.sh
+         merge-fusinv-with-perl-tree.sh and README are now in a new git
+         repository 'agent-tools.git'
+       * Linux + Lsilogic, avoid a warning if smartctl is installed
+       * Linux Storage, parseUdev() use SERIALNUMBER _SHORT if avalaible
+
+2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
        * Windows: Add new values for SOFTWARES key
        * Add Windows service
@@ -116,11 +179,17 @@ TODO, test VirtualBox
          (Guillaume Rousse)
        * Linux/Storages: Rename addStorages to addStorage finally
        * Add Virtuozzo support (Jan JUNGMANN)
+       * merge README file with the fusioninventory-agent POD documentation
+       * File::Find is required
+       * Add --html parameter
+       * Improve --help presentation
 
 2.0.7    Mon, 14 Jun 2010 18:09:27 +0200
        * Avoid a warning if --stdout is used.
        * print help messages on STDERR
        * --wait: no need to wait before the final exit
+       * Inventory PROCESSES. Support more different date format and avoid
+         warning
 
 2.0.6    Fri, 28 May 2010 15:53:16 +0200
        * Fix DRIVES/CREATEDATE for ext* filesystem

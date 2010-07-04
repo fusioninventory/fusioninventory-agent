@@ -78,7 +78,11 @@ sub main {
     if ($self->{target}->{type} eq 'stdout') {
         $self->{inventory}->printXML();
     } elsif ($self->{target}->{type} eq 'local') {
-        $self->{inventory}->writeXML();
+        if ($self->{target}->{format} eq 'XML') {
+            $self->{inventory}->writeXML();
+        } else {
+            $self->{inventory}->writeHTML();
+        }
     } elsif ($self->{target}->{type} eq 'server') {
 
         my $accountinfo = $self->{target}->{accountinfo};
@@ -151,7 +155,13 @@ sub initModList {
         },
         can_load => sub {
             my $module = shift;
-            return $module->require();
+
+            my $calling_namespace = caller(0);
+            eval "package $calling_namespace; use $module;";
+#      print STDERR "$module not loaded in $calling_namespace! $ERRNO: $EVAL_ERROR\n" if $EVAL_ERROR\;
+            return if $EVAL_ERROR;
+#      print STDERR "$module loaded in $calling_namespace!\n";
+            1;
         },
         can_read => sub {
             my $file = shift;
