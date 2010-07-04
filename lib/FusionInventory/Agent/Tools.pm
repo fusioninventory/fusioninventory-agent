@@ -213,8 +213,7 @@ sub can_load {
 
 sub can_read {
     my ($file) = @_;
-    return unless -r $file;
-    1;
+    return -r $file;
 }
 
 sub runcmd {
