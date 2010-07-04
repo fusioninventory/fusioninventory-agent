@@ -8,22 +8,21 @@ use English qw(-no_match_vars);
 sub new {
     my ($class,$params) = @_;
 
-    my $self = {};
+    my $self = {
+       config => $params->{config},
+       logger => $params->{logger},
+       target => $params->{target},
+    };
     bless $self, $class;
 
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{target} = $params->{target};
-
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-
-
     if ($self->{config}->{accountinfofile}) {
-
-        $logger->debug ('Accountinfo file: '. $self->{config}->{accountinfofile});
+        $self->{logger}->debug(
+            "Accountinfo file: $self->{config}->{accountinfofile}"
+        );
         if (! -f $self->{config}->{accountinfofile}) {
-            $logger->info ("Accountinfo file doesn't exist. I create an empty one.");
+            $self->{logger}->info(
+                "Accountinfo file doesn't exist. I create an empty one."
+            );
             $self->write();
         } else {
 
@@ -40,13 +39,17 @@ sub new {
                 # Store the XML content in a local HASH
                 for(@{$xmladm->{ACCOUNTINFO}}){
                     if (!$_->{KEYNAME}) {
-                        $logger->debug ("Incorrect KEYNAME in ACCOUNTINFO");
+                        $self->{logger}->debug(
+                            "Incorrect KEYNAME in ACCOUNTINFO"
+                        );
                     }
                     $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
                 }
             }
         }
-    } else { $logger->debug("No accountinfo file defined") }
+    } else {
+        $self->{logger}->debug("No accountinfo file defined")
+    }
 
     return $self;
 }
