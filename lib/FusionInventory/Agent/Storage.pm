@@ -101,9 +101,6 @@ sub getFileDir {
     my $target = $self->{target};
     my $config = $self->{config};
 
-    my $module = $params->{module};
-    my $idx = $params->{idx};
-
     my $dirName;
     if ($target) {
         $dirName = $target->{'vardir'};
