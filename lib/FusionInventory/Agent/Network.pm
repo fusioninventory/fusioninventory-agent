@@ -39,27 +39,35 @@ sub new {
     if ($scheme ne 'http' && $scheme ne 'https') {
         croak "Invalid protocol for URI: $self->{target}->{path}";
     }
+    my $host   = $self->{URI}->host();
     my $port   = $self->{URI}->port();
     $port =
         $port              ? $port :
         $scheme eq 'https' ? 443   :
                              80    ;
-    my $host   = $self->{URI}->host();
 
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
+
     if ($self->{config}->{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
     }  else {
         $self->{ua}->env_proxy;
     }
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
-    $self->{ua}->credentials(
-        "$host:$port",
-        $self->{config}->{realm},
-        $self->{config}->{user},
+
+    if (
+        $self->{config}->{realm} ||
+        $self->{config}->{user}  ||
         $self->{config}->{password}
-    );
+    ) {
+        $self->{ua}->credentials(
+            "$host:$port",
+            $self->{config}->{realm},
+            $self->{config}->{user},
+            $self->{config}->{password}
+        );
+    }
 
     # turns SSL checks on if needed
     if ($scheme eq 'https' && !$self->{config}->{'no-ssl-check'}) {
