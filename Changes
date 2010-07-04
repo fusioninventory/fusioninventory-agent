@@ -4,8 +4,8 @@ Revision history for FusionInventory::Agent
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
        * Fix, restore --noinventory support, print a warning saying
          --no-inventory should be used instead
-       * Fix, detect CPU configuration of machine with one CPU with one
-         core and 2 threads (Samsung NC10)
+       * Fix: Linux, PC: detect CPU configuration of machine with one
+         CPU with one core and 2 threads (Samsung NC10)
 
 2.1     Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
