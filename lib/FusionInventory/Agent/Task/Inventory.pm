@@ -21,7 +21,7 @@ sub main {
     if ($self->{target}->{type} eq 'server' &&
         (
             !exists($self->{prologresp}->{parsedcontent}->{RESPONSE}) ||
-            $self->{prologresp}->{parsedcontent}->{RESPONSE} !~ /^SEND$/
+            $self->{prologresp}->{parsedcontent}->{RESPONSE} ne 'SEND'
         )
     ) {
         $self->{logger}->debug(
@@ -86,7 +86,7 @@ sub main {
             &&
             exists ($parsedContent->{RESPONSE})
             &&
-            $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
+            $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
         ) {
             $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
         }
