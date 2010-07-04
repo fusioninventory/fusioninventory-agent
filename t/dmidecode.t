@@ -87,5 +87,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "$FindBin::Bin/../resources/$test";
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::parseDmidecode($file, '<');
-    is_deeply($tests{$test}, $bios, $test);
+    is_deeply($bios, $tests{$test}, $test);
 }

@@ -19,6 +19,7 @@ Revision history for FusionInventory::Agent
          here
        * remove --perl-bin-dir-in-path, turns it on only in the Windows
          service
+       * test scripts: fix is_deeply() argument order
 
 2.1     Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
