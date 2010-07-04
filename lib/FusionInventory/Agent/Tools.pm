@@ -18,7 +18,6 @@ our @EXPORT = qw(
     can_run
     can_load
     can_read
-    runcmd
 );
 
 sub getFormatedLocalTime {
@@ -215,15 +214,5 @@ sub can_read {
     my ($file) = @_;
     return -r $file;
 }
-
-sub runcmd {
-    my ($cmd) = @_;
-    return unless $cmd;
-
-    # $self->{logger}->debug(" - run $cmd");
-
-    return `$cmd`;
-}
-
 
 1;
