@@ -26,6 +26,7 @@ sub doInventory {
     my $manufacturer;
     my $thread;
     my $empty;
+    my $core;
     foreach (`dmidecode`) {
         $in = 1 if /^\s*Processor Information/;
 
@@ -35,6 +36,7 @@ sub doInventory {
             $serial = $1 if /^\s*ID:\s*(\S.+)/i;
             $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
             $thread = int($1) if /Thread Count:\s*(\S.*)/;
+            $core = int($1) if /Core Count:\s*(\S.*)/;
             $empty = 1 if /Status:\s*Unpopulated/i;
 
         }
@@ -50,7 +52,8 @@ sub doInventory {
                     SERIAL => $serial,
 # Thread per core according to my understanding of
 # http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
-                    THREAD => $thread
+                    THREAD => $thread,
+                    CORE => $core,
                 }
             }
 
@@ -60,6 +63,8 @@ sub doInventory {
             $manufacturer = undef;
             $thread = undef;
             $empty = undef;
+            $empty = undef;
+            $core = undef;
 
         }
     }
@@ -75,6 +80,7 @@ sub doInventory {
         my $hasPhysicalId;
         while (<$handle>) {
             if (/^physical\sid\s*:\s*(\d+)/i) {
+                next;
                 if ((!defined($cpuCoreCpts[$1]))||$cpuCoreCpts[$1]<$1+1) {
                     $cpuCoreCpts[$1] = $1+1;
                 }
@@ -99,7 +105,9 @@ sub doInventory {
 
         $cpu[$id]->{MANUFACTURER} = $cpuProcs[$id]->{vendor_id};
         $cpu[$id]->{NAME} = $cpuProcs[$id]->{'model name'};
-        $cpu[$id]->{CORE} = $cpuCoreCpts[$id];
+        if (!$cpu[$id]->{CORE}) {
+            $cpu[$id]->{CORE} = $cpuCoreCpts[$id];
+        }
         if (!$cpu[$id]->{THREAD} && $cpuProcs[$id]->{'siblings'}) {
             $cpu[$id]->{THREAD} = $cpuProcs[$id]->{'siblings'};
         }

@@ -8,6 +8,8 @@ Revision history for FusionInventory::Agent
          CPU with one core and 2 threads (Samsung NC10)
        * Fix: Linux, PC: support /proc/cpuinfo with no "physical id:"
          thanks Sébastien Prud'homme
+       * Fix: Linux, PC: get the number of core from dmidecode if
+         avaible
 
 2.1     Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
