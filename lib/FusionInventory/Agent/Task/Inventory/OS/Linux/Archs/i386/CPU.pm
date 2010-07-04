@@ -111,6 +111,12 @@ sub doInventory {
         if (!$cpu[$id]->{THREAD} && $cpuProcs[$id]->{'siblings'}) {
             $cpu[$id]->{THREAD} = $cpuProcs[$id]->{'siblings'};
         }
+        if ($cpu[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+            $cpu[$id]->{SPEED} = {
+               ghz => 1000,
+               mhz => 1,
+            }->{lc($2)}*$1;
+        }
 
         $inventory->addCPU($cpu[$id]);
     }
