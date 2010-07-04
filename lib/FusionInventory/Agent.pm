@@ -187,12 +187,11 @@ sub isAgentAlreadyRunning {
     # TODO add a workaround if Proc::PID::File is not installed
     eval {
         require Proc::PID::File;
-        $self->{logger}->debug('Proc::PID::File avalaible, checking for pid file');
-        if (Proc::PID::File->running()) {
-            $self->{logger}->debug('parent process already exists');
-            return 1;
-        }
+        return Proc::PID::File->running();
     };
+    $self->{logger}->debug(
+        'Proc::PID::File unavalaible, unable to check for running agent'
+    ) if $EVAL_ERROR;
 
     return 0;
 }
