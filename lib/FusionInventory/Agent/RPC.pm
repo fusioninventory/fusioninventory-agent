@@ -29,11 +29,12 @@ my $status :shared = "unknown";
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        config      => $params->{config},
+        logger      => $params->{logger},
+        targetsList => $params->{targetsList}
+    };
 
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{targetsList} = $params->{targetsList};
     my $config = $self->{config};
     my $logger = $self->{logger};
 
