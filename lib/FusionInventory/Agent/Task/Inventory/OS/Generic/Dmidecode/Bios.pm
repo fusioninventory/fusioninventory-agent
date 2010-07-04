@@ -9,7 +9,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my ($bios, $hardware) = parseDmidecode('/usr/sbin/dmidecode', '-|');
+    my ($bios, $hardware) = parseDmidecode("dmidecode", '-|');
 
     # Writing data
     $inventory->setBios($bios);
@@ -40,6 +40,7 @@ sub parseDmidecode {
 
         if ($type == 0) {
             # BIOS values
+
             if ($line =~ /^\s+vendor:\s*(.+?)\s*$/i) {
                 $bios->{BMANUFACTURER} = $1;
                 if ($bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/i) {

@@ -1,8 +1,0 @@
--download-perl-dependencies.sh
-  Fetch the dependencies with curl and copy them in the ./tmp directory.
--build-perl-tree.sh
-  Take the dependencies and build them offline. It generates a tarball with
-  just the perl distribution.
--merge-fusinv-with-perl-tree.sh
-  Take the generated tarball, merge FusionInventory Agent files and create
-  a final tarball

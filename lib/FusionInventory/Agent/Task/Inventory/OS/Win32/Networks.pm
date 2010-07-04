@@ -1,8 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Networks;
 
-use strict;
-use warnings;
 
+use strict;
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
  
@@ -14,9 +13,7 @@ use Win32::OLE::Enum;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 # http://techtasks.com/code/viewbookcode/1417
-sub isInventoryEnabled {
-    return 1;
-}
+sub isInventoryEnabled {1}
 
 sub doInventory {
     my $params = shift;
@@ -69,10 +66,12 @@ sub doInventory {
                     push @{$netifs[$idx]{ipmask6}}, ${$nic->IPSubnet}[$_];
                     if (can_load("Net::IP qw(:PROC)")) {
                         my $binip = ip_iptobin (${$nic->IPAddress}[$_] , 6);
-                        my $binmask = ip_iptobin (${$nic->IPSubnet}[$_] , 6);
-                        my $binsubnet = $binip & $binmask;
-                        push @{$netifs[$idx]{ipsubnet6}}, 
-ip_bintoip($binsubnet, 6);
+                        if ($binip) {
+                            my $binmask = ip_iptobin (${$nic->IPSubnet}[$_] , 6);
+                            my $binsubnet = $binip & $binmask;
+                            push @{$netifs[$idx]{ipsubnet6}}, 
+                                 ip_bintoip($binsubnet, 6);
+                        }
                     }
                 }
             }
@@ -112,26 +111,32 @@ ip_bintoip($binsubnet, 6);
         $ipaddress6 = join('/', @{$netif->{ipaddress6} || []});
 
         $inventory->addNetwork({
-            DESCRIPTION => $netif->{description},
-            IPADDRESS => $ipaddress,
-            IPDHCP => $netif->{ipdhcp},
-            IPGATEWAY => $netif->{ipgateway},
-            IPMASK => $ipmask,
-            IPSUBNET => $ipsubnet,
-            IPADDRESS6 => $ipaddress6,
-            MACADDR => $netif->{macaddr},
-            MTU => $netif->{mtu},
-            STATUS => $netif->{status},
-            TYPE => $netif->{type},
-            VIRTUALDEV => $netif->{virtualdev}
-        });
+                DESCRIPTION => $netif->{description},
+                IPADDRESS => $ipaddress,
+                IPDHCP => $netif->{ipdhcp},
+                IPGATEWAY => $netif->{ipgateway},
+                IPMASK => $ipmask,
+                IPSUBNET => $ipsubnet,
+                IPADDRESS6 => $ipaddress6,
+                MACADDR => $netif->{macaddr},
+                MTU => $netif->{mtu},
+                STATUS => $netif->{status},
+                TYPE => $netif->{type},
+                VIRTUALDEV => $netif->{virtualdev}
+            });
+
+
     }
 
-    $inventory->setHardware({
-        DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
-        DNS =>  join('/', keys %dns),
-        IPADDR =>  join('/',@ips),
+
+  $inventory->setHardware({
+
+          DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
+          DNS =>  join('/', keys %dns),
+          IPADDR =>  join('/',@ips),
+
     });
+
 
 }
 1;

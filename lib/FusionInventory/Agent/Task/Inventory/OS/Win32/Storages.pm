@@ -82,6 +82,11 @@ sub doInventory {
 
             my $hdparmCdrom = $hdparmCdroms[$cpt];
 
+            my $size;
+            if ($Properties->{Size}) {
+                $size = int($Properties->{Size}/(1024*1024))
+            }
+
             $inventory->addStorage({
                 MANUFACTURER => $Properties->{Manufacturer},
                 MODEL => $hdparmCdrom->{model} || $Properties->{Caption},
@@ -91,7 +96,7 @@ sub doInventory {
                 INTERFACE => $Properties->{InterfaceType},
                 FIRMWARE => $hdparmCdrom->{firmware} || $Properties->{FirmwareRevision},
                 SERIAL => $hdparmCdrom->{serial} || $Properties->{SerialNumber},
-                DISKSIZE => $hdparmCdrom->{size} || int($Properties->{Size}/(1024*1024)),
+                DISKSIZE => $hdparmCdrom->{size} || $size,
                 SCSI_CHID => $Properties->{SCSILogicialUnit},
                 SCSI_COID => $Properties->{SCSIPort},
                 SCSI_LUN => $Properties->{SCSILogicalUnit},
