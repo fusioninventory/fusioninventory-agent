@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Targets;
+package FusionInventory::Agent::TargetsList;
 
 use strict;
 use warnings;

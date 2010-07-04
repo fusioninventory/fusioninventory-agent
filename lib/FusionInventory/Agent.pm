@@ -12,7 +12,7 @@ use XML::Simple;
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
-use FusionInventory::Agent::Targets;
+use FusionInventory::Agent::TargetsList;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::XML::Query::Inventory;
@@ -121,14 +121,14 @@ sub new {
         $self->{deviceid} = $myRootData->{deviceid}
     }
 
-    $self->{targets} = FusionInventory::Agent::Targets->new({
+    $self->{targetsList} = FusionInventory::Agent::TargetsList->new({
         logger => $logger,
         config => $config,
         deviceid => $self->{deviceid}
     });
-    my $targets = $self->{targets};
+    my $targetsList = $self->{targetsList};
 
-    if (!$targets->numberOfTargets()) {
+    if (!$targetsList->numberOfTargets()) {
         $logger->error("No target defined. Please use ".
             "--server=SERVER or --local=/directory");
         exit 1;
@@ -160,9 +160,9 @@ sub new {
 
     }
     $self->{rpc} = FusionInventory::Agent::RPC->new({
-        logger => $logger,
-        config => $config,
-        targets => $targets,
+        logger      => $logger,
+        config      => $config,
+        targetsList => $targetsList,
     });
 
     $logger->debug("FusionInventory Agent initialised");
@@ -194,11 +194,11 @@ sub main {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
-    my $targets = $self->{targets};
+    my $targetsList = $self->{targetsList};
     my $rpc = $self->{rpc};
     $rpc->setCurrentStatus("waiting");
 
-    while (my $target = $targets->getNext()) {
+    while (my $target = $targetsList->getNext()) {
 
         my $exitcode = 0;
         my $wait;

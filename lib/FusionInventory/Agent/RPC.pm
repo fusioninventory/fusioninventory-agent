@@ -33,7 +33,7 @@ sub new {
 
     $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
-    $self->{targets} = $params->{targets};
+    $self->{targetsList} = $params->{targetsList};
     my $config = $self->{config};
     my $logger = $self->{logger};
 
@@ -80,7 +80,7 @@ sub handler {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
-    my $targets = $self->{targets};
+    my $targetsList = $self->{targetsList};
     my $config = $self->{config};
     my $htmlDir = $self->{htmlDir};
 
@@ -99,7 +99,7 @@ sub handler {
         }
 
         my $nextContact = "";
-        foreach my $target (@{$targets->{targets}}) {
+        foreach my $target (@{$targetsList->{targets}}) {
             my $path = $target->{'path'};
             $path = 'http://@e:@fdef@4545';
             $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
@@ -136,7 +136,7 @@ sub handler {
 
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
         my $file = $1;
-        foreach my $target (@{$targets->{targets}}) {
+        foreach my $target (@{$targetsList->{targets}}) {
             if (-f $target->{vardir}."/deploy/".$file) {
                 $logger->debug("Send /deploy/".$file);
                 $c->send_file_response($target->{vardir}."/deploy/".$file);
@@ -155,7 +155,7 @@ sub handler {
             ($sentToken eq $currentToken)
         ) {
             $self->getToken('forceNewToken');
-            $targets->resetNextRunDate();
+            $targetsList->resetNextRunDate();
             $c->send_status_line(200)
 
         } else {
@@ -189,7 +189,7 @@ sub server {
     my ($self) = @_;
 
     my $config = $self->{config};
-    my $targets = $self->{targets};
+    my $targetsList = $self->{targetsList};
     my $logger = $self->{logger};
 
     my $daemon;
