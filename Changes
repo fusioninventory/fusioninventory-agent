@@ -2,6 +2,8 @@ Revision history for FusionInventory::Agent
 
 2.1_rc3
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
+       * Fix, restore --noinventory support, print a warning saying
+         --no-inventory should be used instead
 
 2.1     Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite

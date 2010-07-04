@@ -46,8 +46,10 @@ my $default = {
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'nosoft'                  => 0, # deprecated
+    'nosoftware'              => 0, # deprecated
     'no-printer'              => 0,
     'no-socket'               => 0,
+    'no-software'             => 0,
     'no-software'             => 0,
     'no-wakeonlan'            => 0,
     'no-snmpquery'            => 0,
@@ -208,6 +210,8 @@ sub loadUserParams {
         'local|l=s',
         'logger=s',
         'logfile=s',
+        'nosoft',
+        'nosoftware',
         'no-ocsdeploy',
         'no-inventory',
         'no-printer',
