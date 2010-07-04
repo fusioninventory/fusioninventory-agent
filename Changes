@@ -18,6 +18,11 @@ Revision history for FusionInventory::Agent
          information since 'Max Speed' in dmidecode is most of the
          time on crack and /proc/cpuinfo is not reliable because of
          the frequency scaling
+       * Linux, PC: the cpu detection can work if only dmidecode is
+         here
+       * remove --perl-bin-dir-in-path, turns it on only in the Windows
+         service
+       * test scripts: fix is_deeply() argument order
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite

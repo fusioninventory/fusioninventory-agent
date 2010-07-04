@@ -223,7 +223,6 @@ sub loadUserParams {
         'no-snmpquery',
         'no-netdiscovery',
         'password|p=s',
-        'perl-bin-dir-in-path',
         'proxy|P=s',
         'realm|r=s',
         'rpc-ip=s',

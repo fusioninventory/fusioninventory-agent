@@ -6,7 +6,7 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { can_read("/proc/cpuinfo") }
+sub isInventoryEnabled { can_read("/proc/cpuinfo") || can_run('dmidecode') }
 
 sub doInventory {
     my $params = shift;
@@ -80,7 +80,6 @@ sub doInventory {
         my $hasPhysicalId;
         while (<$handle>) {
             if (/^physical\sid\s*:\s*(\d+)/i) {
-                next;
                 if ((!defined($cpuCoreCpts[$1]))||$cpuCoreCpts[$1]<$1+1) {
                     $cpuCoreCpts[$1] = $1+1;
                 }
@@ -97,13 +96,16 @@ sub doInventory {
         close $handle;
     }
 
-    foreach my $id (0..(@cpu-1)) {
-        $cpuProcs[$id]->{vendor_id} =~ s/Genuine//;
-        $cpuProcs[$id]->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-        $cpuProcs[$id]->{vendor_id} =~ s/CyrixInstead/Cyrix/;
-        $cpuProcs[$id]->{vendor_id} =~ s/CentaurHauls/VIA/;
+    my $maxId = @cpu?@cpu-1:@cpuProcs-1;
+    foreach my $id (0..$maxId) {
+        if ($cpuProcs[$id]->{vendor_id}) {
+            $cpuProcs[$id]->{vendor_id} =~ s/Genuine//;
+            $cpuProcs[$id]->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $cpuProcs[$id]->{vendor_id} =~ s/CyrixInstead/Cyrix/;
+            $cpuProcs[$id]->{vendor_id} =~ s/CentaurHauls/VIA/;
 
-        $cpu[$id]->{MANUFACTURER} = $cpuProcs[$id]->{vendor_id};
+            $cpu[$id]->{MANUFACTURER} = $cpuProcs[$id]->{vendor_id};
+        }
         $cpu[$id]->{NAME} = $cpuProcs[$id]->{'model name'};
         if (!$cpu[$id]->{CORE}) {
             $cpu[$id]->{CORE} = $cpuCoreCpts[$id];
