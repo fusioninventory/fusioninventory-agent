@@ -243,14 +243,6 @@ sub main {
                 logger => $logger,
                 target => $target,
             });
-            $storage->save({
-                data => {
-                    config => $config,
-                    target => $target,
-                    #logger => $logger, # XXX Needed?
-                    prologresp => $prologresp
-                }
-            });
 
             my @tasks = qw/
                 Inventory
