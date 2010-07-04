@@ -20,7 +20,7 @@ sub main {
         return;
     }
 
-    my $options = $self->{data}->{prologresp}->getOptionsInfoByName('PING');
+    my $options = $self->{prologresp}->getOptionsInfoByName('PING');
     return unless $options;
     my $option = shift @$options;
     return unless $option;
