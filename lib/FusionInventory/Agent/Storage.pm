@@ -44,67 +44,6 @@ sub new {
     return $self;
 }
 
-sub _getFileName {
-    my ($self, $params) = @_;
-
-    my $fileName;
-
-    if ($params->{module}) {
-        $fileName = $params->{module};
-    } else {
-        my $module;
-        my $i = 0;
-        while ($module = caller($i++)) {
-            last if $module ne 'FusionInventory::Agent::Storage';
-        }
-        $fileName = $module;
-    }
-
-    # Drop colons, they are forbiden in Windows file path
-    $fileName =~ s/::/-/g;
-
-    return $fileName;
-}
-
-sub _getFilePath {
-    my ($self, $params) = @_;
-
-    my $target = $self->{target};
-    my $config = $self->{config};
-
-    my $idx = $params->{idx};
-    my $module = $params->{module};
-
-    my $fileName = $self->_getFileName({
-        module => $module
-    });
-
-    my $dirName = $self->_getFileDir();
-
-    my $extension = '';
-    if ($idx) {
-        if ($idx !~ /^\d+$/) {
-            print "[fault] idx must be an integer!\n";
-            die;
-        } 
-        $extension = '.'.$idx;
-    }
-
-    return $dirName."/".$fileName.$extension.".dump";
-}
-
-
-sub _getFileDir {
-    my ($self, $params) = @_;
-
-    return
-        $self->{target} ? $self->{target}->{vardir}     : 
-        $self->{config} ? $self->{config}->{basevardir} : 
-                          undef;
-}
-
-
-
 =item save({ data => $date, idx => $ref })
 
 Save the reference.
@@ -222,6 +161,64 @@ sub removeSubDumps {
     foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
         unlink($file) or warn "[error] Can't unlink $file\n";
     }
+}
+
+sub _getFilePath {
+    my ($self, $params) = @_;
+
+    my $target = $self->{target};
+    my $config = $self->{config};
+
+    my $idx = $params->{idx};
+    my $module = $params->{module};
+
+    my $fileName = $self->_getFileName({
+        module => $module
+    });
+
+    my $dirName = $self->_getFileDir();
+
+    my $extension = '';
+    if ($idx) {
+        if ($idx !~ /^\d+$/) {
+            print "[fault] idx must be an integer!\n";
+            die;
+        } 
+        $extension = '.'.$idx;
+    }
+
+    return $dirName."/".$fileName.$extension.".dump";
+}
+
+sub _getFileName {
+    my ($self, $params) = @_;
+
+    my $fileName;
+
+    if ($params->{module}) {
+        $fileName = $params->{module};
+    } else {
+        my $module;
+        my $i = 0;
+        while ($module = caller($i++)) {
+            last if $module ne 'FusionInventory::Agent::Storage';
+        }
+        $fileName = $module;
+    }
+
+    # Drop colons, they are forbiden in Windows file path
+    $fileName =~ s/::/-/g;
+
+    return $fileName;
+}
+
+sub _getFileDir {
+    my ($self, $params) = @_;
+
+    return
+        $self->{target} ? $self->{target}->{vardir}     : 
+        $self->{config} ? $self->{config}->{basevardir} : 
+                          undef;
 }
 
 1;
