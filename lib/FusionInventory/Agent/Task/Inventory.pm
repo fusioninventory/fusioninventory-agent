@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use Carp;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
@@ -44,7 +45,7 @@ sub main {
     $self->{inventory} = $inventory;
 
     if (!$self->{config}->{stdout} && !$self->{config}->{local}) {
-        $self->{logger}->fault("No prologresp!") unless $self->{prologresp};
+        croak "No prologresp!" unless $self->{prologresp};
 
         if ($self->{config}->{force}) {
             $self->{logger}->debug(
@@ -332,16 +333,15 @@ sub runMod {
         if (!$_->{name}) {
             # The name is defined during module initialisation so if I
             # can't read it, I can suppose it had not been initialised.
-            $logger->fault(
+            croak
                 "Module `$m' need to be runAfter a module not found.".
-                "Please fix its runAfter entry or add the module."
-            );
+                "Please fix its runAfter entry or add the module.";
         }
 
         if ($_->{inUse}) {
             # In use 'lock' is taken during the mod execution. If a module
             # need a module also in use, we have provable an issue :).
-            $logger->fault("Circular dependency hell with $m and $_->{name}");
+            croak "Circular dependency hell with $m and $_->{name}";
         }
         $self->runMod({
             modname => $_->{name},
@@ -365,7 +365,7 @@ sub feedInventory {
     my $logger = $self->{logger};
 
     if (!$self->{inventory}) {
-        $logger->fault('Missing inventory parameter.');
+        croak 'Missing inventory parameter.';
     }
 
     my $inventory = $self->{inventory};
@@ -376,7 +376,7 @@ sub feedInventory {
 
     my $begin = time();
     foreach my $m (sort keys %{$self->{modules}}) {
-        $logger->fault(">$m Houston!!!") unless $m;
+        croak ">$m Houston!!!" unless $m;
         $self->runMod ({
             modname => $m,
         });

@@ -137,8 +137,10 @@ sub new {
     my $targetsList = $self->{targetsList};
 
     if (!$targetsList->numberOfTargets()) {
-        $logger->fault("No target defined. Please use ".
-            "--server=SERVER or --local=/directory");
+        $logger->fault(
+            "No target defined. Please use --server or --local option."
+        );
+        exit 1;
     }
 
     if ($config->{scanhomedirs}) {
@@ -153,11 +155,13 @@ sub new {
         eval { require Proc::Daemon; };
         if ($EVAL_ERROR) {
             $logger->fault("Can't load Proc::Daemon. Is the module installed?");
+            exit 1;
         }
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
         if (isAgentAlreadyRunning({ logger => $logger })) {
             $logger->fault("An agent is already runnnig, exiting...");
+            exit 1;
         }
         # If we are in dev mode, we want to stay in the source directory to
         # be able to access the 'lib' directory
@@ -201,106 +205,112 @@ sub main {
     my $logger = $self->{logger};
     my $targetsList = $self->{targetsList};
     my $rpc = $self->{rpc};
-    $rpc->setCurrentStatus("waiting");
 
-    while (my $target = $targetsList->getNext()) {
-
-        my $prologresp;
-        if ($target->{type} eq 'server') {
-
-            my $network = FusionInventory::Agent::Network->new({
-                logger => $logger,
-                config => $config,
-                target => $target,
-            });
-
-            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                accountinfo => $target->{accountinfo}, #? XXX
-                logger => $logger,
-                config => $config,
-                rpc => $rpc,
-                target => $target
-            });
-
-            # TODO Don't mix settings and temp value
-            $prologresp = $network->send({message => $prolog});
-
-            if (!$prologresp) {
-                $logger->error("No anwser from the server");
-                $target->setNextRunDate();
-                next;
-            }
-
-            $target->setCurrentDeviceID ($self->{deviceid});
-        }
-
-
-        my $storage = FusionInventory::Agent::Storage->new({
-            config => $config,
-            logger => $logger,
-            target => $target,
-        });
-        $storage->save({
-            data => {
-                config => $config,
-                target => $target,
-                #logger => $logger, # XXX Needed?
-                prologresp => $prologresp
-            }
-        });
-
-        my @tasks = qw/
-            Inventory
-            OcsDeploy
-            WakeOnLan
-            SNMPQuery
-            NetDiscovery
-            Ping
-            /;
-
-        foreach my $module (@tasks) {
-
-            next if $config->{'no-'.lc($module)};
-
-            my $package = "FusionInventory::Agent::Task::$module";
-            if (!$package->require()) {
-                $logger->info("Module $package is not installed.");
-                next;
-            }
-
-            # launch task
-            if (my $pid = fork()) {
-                # parent
-                $rpc->setCurrentStatus("running task $module");
-            } else {
-               die "fork failed: $ERRNO" unless defined $pid;
-               # child
-                $logger->debug("[task] executing $module in process $PID");
-
-                my $task = $package->new({
-                    config => $config,
-                    logger => $logger,
-                    target => $target,
-                    storage => $storage,
-                    prologresp => $prologresp
-                });
-                $task->main();
-
-                $logger->debug("[task] end of $module");
-                exit 0;
-            }
-
-        }
+    eval {
         $rpc->setCurrentStatus("waiting");
 
-        if (!$config->{debug}) {
-            # In debug mode, I do not clean the FusionInventory-Agent.dump
-            # so I can replay the sub task directly
-            $storage->remove();
-        }
-        $target->setNextRunDate();
+        while (my $target = $targetsList->getNext()) {
 
-        sleep(5);
+            my $prologresp;
+            if ($target->{type} eq 'server') {
+
+                my $network = FusionInventory::Agent::Network->new({
+                    logger => $logger,
+                    config => $config,
+                    target => $target,
+                });
+
+                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+                    accountinfo => $target->{accountinfo}, #? XXX
+                    logger => $logger,
+                    config => $config,
+                    rpc => $rpc,
+                    target => $target
+                });
+
+                # TODO Don't mix settings and temp value
+                $prologresp = $network->send({message => $prolog});
+
+                if (!$prologresp) {
+                    $logger->error("No anwser from the server");
+                    $target->setNextRunDate();
+                    next;
+                }
+
+                $target->setCurrentDeviceID ($self->{deviceid});
+            }
+
+            my $storage = FusionInventory::Agent::Storage->new({
+                config => $config,
+                logger => $logger,
+                target => $target,
+            });
+            $storage->save({
+                data => {
+                    config => $config,
+                    target => $target,
+                    #logger => $logger, # XXX Needed?
+                    prologresp => $prologresp
+                }
+            });
+
+            my @tasks = qw/
+                Inventory
+                OcsDeploy
+                WakeOnLan
+                SNMPQuery
+                NetDiscovery
+                Ping
+                /;
+
+            foreach my $module (@tasks) {
+
+                next if $config->{'no-'.lc($module)};
+
+                my $package = "FusionInventory::Agent::Task::$module";
+                if (!$package->require()) {
+                    $logger->info("Module $package is not installed.");
+                    next;
+                }
+
+                # launch task
+                if (my $pid = fork()) {
+                    # parent
+                    $rpc->setCurrentStatus("running task $module");
+                } else {
+                   die "fork failed: $ERRNO" unless defined $pid;
+                   # child
+                    $logger->debug("[task] executing $module in process $PID");
+
+                    my $task = $package->new({
+                        config => $config,
+                        logger => $logger,
+                        target => $target,
+                        storage => $storage,
+                        prologresp => $prologresp
+                    });
+                    $task->main();
+
+                    $logger->debug("[task] end of $module");
+                    exit 0;
+                }
+
+            }
+            $rpc->setCurrentStatus("waiting");
+
+            if (!$config->{debug}) {
+                # In debug mode, I do not clean the FusionInventory-Agent.dump
+                # so I can replay the sub task directly
+                $storage->remove();
+            }
+            $target->setNextRunDate();
+
+            sleep(5);
+        }
+    };
+    if ($EVAL_ERROR) {
+        $logger->fault($EVAL_ERROR);
+        exit 1;
     }
 }
 

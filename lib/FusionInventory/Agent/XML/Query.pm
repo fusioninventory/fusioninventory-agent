@@ -3,6 +3,7 @@ package FusionInventory::Agent::XML::Query;
 use strict;
 use warnings;
 
+use Carp;
 use XML::Simple;
 
 sub new {
@@ -27,7 +28,7 @@ sub new {
       $self->{h}{OLD_DEVICEID} = [$target->{currentDeviceid}];
     }
   
-    $logger->fault("No DEVICEID") unless ($target->{deviceid});
+    croak "No DEVICEID" unless $target->{deviceid};
 
     bless $self, $class;
 

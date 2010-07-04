@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
+use Carp;
 use Data::Dumper;
 use XML::Simple;
 
@@ -19,7 +20,7 @@ sub new {
     my $logger = $self->{logger};
     my $target = $self->{target};
 
-    $logger->fault("No msg") unless $params->{msg};
+    croak "No msg" unless $params->{msg};
 
     return $self;
 }

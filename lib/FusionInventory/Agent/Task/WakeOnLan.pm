@@ -8,6 +8,7 @@ use constant ETH_P_ALL => 0x0003;
 use constant PF_PACKET => 17;
 use constant SOCK_PACKET => 10;
 
+use Carp;
 use English qw(-no_match_vars);
 use Socket;
 
@@ -65,7 +66,7 @@ sub StartMachine {
     return unless defined $macaddress;
 
     if ($macaddress !~ /^$mac_address_pattern$/) {
-        $self->{logger}->fault("Invalid MacAddress $macaddress . Exiting...");
+        croak "Invalid MacAddress $macaddress . Exiting...";
     }
     $macaddress =~ s/://g;
 

@@ -3,6 +3,7 @@ package FusionInventory::Agent::Target;
 use strict;
 use warnings;
 
+use Carp;
 use Config;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
@@ -28,7 +29,7 @@ sub new {
     my ($class, $params) = @_;
 
     if ($params->{type} !~ /^(server|local|stdout)$/ ) {
-        $logger->fault('bad type'); 
+        croak 'bad type';
     }
 
     my $self = {
@@ -121,7 +122,7 @@ sub init {
     }
 
     if (! -w $self->{vardir}) {
-        $logger->fault("Can't write in $self->{vardir}");
+        croak "Can't write in $self->{vardir}";
     }
 
     $logger->debug("storage directory: $self->{vardir}");
@@ -187,7 +188,7 @@ sub getNextRunDate {
     $self->setNextRunDate();
 
     if (!${$self->{nextRunDate}}) {
-        $logger->fault('nextRunDate not set!');
+        croak 'nextRunDate not set!';
     }
 
     return $self->{myData}{nextRunDate} ;

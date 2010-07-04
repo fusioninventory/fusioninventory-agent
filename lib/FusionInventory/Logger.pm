@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 # TODO use Log::Log4perl instead.
-use Carp;
 use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
@@ -75,7 +74,6 @@ sub log {
             message => $message
         });
     }
-    confess if $level eq 'fault'; # Die with a backtace 
 }
 
 sub debug {

@@ -3,6 +3,7 @@ package FusionInventory::Agent::Network;
 use strict;
 use warnings;
 
+use Carp;
 use English qw(-no_match_vars);
 use HTTP::Status;
 use LWP::UserAgent;
@@ -22,20 +23,21 @@ The constructor. These keys are expected: config, logger, target.
 sub new {
     my ($class, $params) = @_;
 
+    croak 'no target' unless $params->{target};
+    croak 'no config' unless $params->{config};
+
     my $self = {};
 
     my $config = $self->{config} = $params->{config};
     my $logger = $self->{logger} = $params->{logger};
     my $target = $self->{target} = $params->{target};
 
-    $logger->fault('$target not initialised') unless $target;
-    $logger->fault('$config not initialised') unless $config;
 
     # check given URI
     $self->{URI} = URI->new($target->{path});
     my $scheme = $self->{URI}->scheme();
     if ($scheme ne 'http' && $scheme ne 'https') {
-        $logger->fault("Invalid protocol for URI: $target->{path}");
+        croak "Invalid protocol for URI: $target->{path}";
     }
     my $port   = $self->{URI}->port();
     $port =
@@ -172,27 +174,27 @@ sub turnSSLCheckOn {
     }
 
     if (!$hasCrypSSLeay && !$hasIOSocketSSL) {
-        $logger->fault(
+        croak 
             "Failed to load Crypt::SSLeay or IO::Socket::SSL, to ".
             "validate the server SSL cert. If you want ".
             "to ignore this message and want to ignore SSL ".
             "verification, you can use the ".
-            "--no-ssl-check parameter to disable SSL check."
-        );
+            "--no-ssl-check parameter to disable SSL check.";
     }
     if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
-        $logger->fault("You need to use either --ca-cert-file ".
+        croak
+            "You need to use either --ca-cert-file ".
             "or --ca-cert-dir to give the location of your SSL ".
             "certificat. You can also disable SSL check with ".
-            "--no-ssl-check but this is very unsecure.");
+            "--no-ssl-check but this is very unsecure.";
     }
 
 
     my $parameter;
     if ($config->{'ca-cert-file'}) {
         if (!-f $config->{'ca-cert-file'} && !-l $config->{'ca-cert-file'}) {
-            $logger->fault("--ca-cert-file doesn't existe ".
-                "`".$config->{'ca-cert-file'}."'");
+            croak 
+                "--ca-cert-file $config->{'ca-cert-file'} doesn't exist";
         }
 
         $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
@@ -204,18 +206,17 @@ sub turnSSLCheckOn {
                     ca_file => $config->{'ca-cert-file'}
                 );
             };
-            $logger->fault(
+            croak
                 "Failed to set ca-cert-file: $EVAL_ERROR".
                 "Your IO::Socket::SSL distribution is too old. ".
                 "Please install Crypt::SSLeay or disable ".
                 "SSL server check with --no-ssl-check"
-            ) if $EVAL_ERROR;
+            if $EVAL_ERROR;
         }
 
     } elsif ($config->{'ca-cert-dir'}) {
         if (!-d $config->{'ca-cert-dir'}) {
-            $logger->fault("--ca-cert-dir doesn't existe ".
-                "`".$config->{'ca-cert-dir'}."'");
+            croak "--ca-cert-dir $config->{'ca-cert-dir'} doesn't exist";
         }
 
         $ENV{HTTPS_CA_DIR} =$config->{'ca-cert-dir'};
@@ -226,12 +227,12 @@ sub turnSSLCheckOn {
                     ca_path => $config->{'ca-cert-dir'}
                 );
             };
-            $logger->fault(
+            croak
                 "Failed to set ca-cert-file: $EVAL_ERROR".
                 "Your IO::Socket::SSL distribution is too old. ".
                 "Please install Crypt::SSLeay or disable ".
                 "SSL server check with --no-ssl-check"
-            ) if $EVAL_ERROR;
+            if $EVAL_ERROR;
         }
     }
 

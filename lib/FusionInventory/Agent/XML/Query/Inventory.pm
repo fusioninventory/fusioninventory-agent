@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
+use Carp;
 use Config;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
@@ -31,7 +32,7 @@ sub new {
     my $config = $self->{config};
 
     if (!($target->{deviceid})) {
-        $logger->fault ('deviceid unititalised!');
+        croak 'deviceid unitialized!';
     }
 
     $self->{h}{QUERY} = ['INVENTORY'];
@@ -1050,7 +1051,7 @@ sub writeXML {
     my $target = $self->{target};
 
     if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
+        croak 'local path unititalised!';
     }
 
     $self->initialise();
@@ -1108,7 +1109,7 @@ sub processChecksum {
     # TODO CPUS is not in the list
 
     if (!$self->{target}->{vardir}) {
-        $logger->fault ("vardir uninitialised!");
+        croak "vardir uninitialised!";
     }
 
     my $checksum = 0;

@@ -2,6 +2,8 @@ package FusionInventory::Agent::SNMP;
 
 use strict;
 use warnings;
+
+use Carp;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 
@@ -14,7 +16,7 @@ sub new {
        require Net::SNMP;
    };
    if ($EVAL_ERROR) {
-      $self->{logger}->fault("Can't load Net::SNMP. Exiting...");
+        croak "Can't load Net::SNMP. Exiting...";
    }
 
    my $session = $self->{SNMPSession} = $params->{config};
