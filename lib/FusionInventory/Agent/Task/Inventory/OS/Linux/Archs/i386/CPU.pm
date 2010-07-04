@@ -6,7 +6,7 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { can_read("/proc/cpuinfo") }
+sub isInventoryEnabled { can_read("/proc/cpuinfo") || can_run('dmidecode') }
 
 sub doInventory {
     my $params = shift;
