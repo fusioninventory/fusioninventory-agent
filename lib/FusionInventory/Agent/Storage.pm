@@ -44,7 +44,7 @@ sub new {
     return $self;
 }
 
-sub getFileName {
+sub _getFileName {
     my ($self, $params) = @_;
 
     my $fileName;
@@ -75,12 +75,11 @@ sub _getFilePath {
     my $idx = $params->{idx};
     my $module = $params->{module};
 
-    my $fileName = $self->getFileName({
+    my $fileName = $self->_getFileName({
         module => $module
     });
 
-
-    my $dirName = $self->getFileDir();
+    my $dirName = $self->_getFileDir();
 
     my $extension = '';
     if ($idx) {
@@ -95,7 +94,7 @@ sub _getFilePath {
 }
 
 
-sub getFileDir {
+sub _getFileDir {
     my ($self, $params) = @_;
 
     return
@@ -217,8 +216,8 @@ sub removeSubDumps {
    
     my $module = $params->{module};
 
-    my $fileDir = $self->getFileDir();
-    my $fileName = $self->getFileName({ module => $module });
+    my $fileDir = $self->_getFileDir();
+    my $fileName = $self->_getFileName({ module => $module });
 
     foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
         unlink($file) or warn "[error] Can't unlink $file\n";
