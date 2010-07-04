@@ -31,29 +31,26 @@ sub new {
         $logger->fault('bad type'); 
     }
 
-    my $self = {};
+    my $self = {
+        config          => $params->{config},
+        logger          => $params->{logger},
+        type            => $params->{type},
+        path            => $params->{path} || '',
+        deviceid        => $params->{deviceid},
+        debugPrintTimer => 0
+    };
+    bless $self, $class;
 
     lock($lock);
 
     my $nextRunDate : shared;
     $self->{nextRunDate} = \$nextRunDate;
 
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{type} = $params->{type};
-    $self->{path} = $params->{path} || '';
-    $self->{deviceid} = $params->{deviceid};
-
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $target = $self->{target};
 
-    bless $self, $class;
-   
-    $self->{debugPrintTimer} = 0;
-    
     $self->init();
-
 
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
