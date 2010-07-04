@@ -27,6 +27,10 @@ my $lock : shared;
 sub new {
     my ($class, $params) = @_;
 
+    if ($params->{type} !~ /^(server|local|stdout)$/ ) {
+        $logger->fault('bad type'); 
+    }
+
     my $self = {};
 
     lock($lock);
@@ -50,9 +54,6 @@ sub new {
     
     $self->init();
 
-    if ($params->{type} !~ /^(server|local|stdout)$/ ) {
-        $logger->fault('bad type'); 
-    }
 
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
