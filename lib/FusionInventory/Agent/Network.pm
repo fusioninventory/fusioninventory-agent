@@ -26,18 +26,18 @@ sub new {
     croak 'no target' unless $params->{target};
     croak 'no config' unless $params->{config};
 
-    my $self = {};
-
-    my $config = $self->{config} = $params->{config};
-    my $logger = $self->{logger} = $params->{logger};
-    my $target = $self->{target} = $params->{target};
-
+    my $self = {
+        config => $params->{config},
+        logger => $params->{logger},
+        target => $params->{target}
+    };
+    bless $self, $class;
 
     # check given URI
-    $self->{URI} = URI->new($target->{path});
+    $self->{URI} = URI->new($self->{target}->{path});
     my $scheme = $self->{URI}->scheme();
     if ($scheme ne 'http' && $scheme ne 'https') {
-        croak "Invalid protocol for URI: $target->{path}";
+        croak "Invalid protocol for URI: $self->{target}->{path}";
     }
     my $port   = $self->{URI}->port();
     $port =
@@ -62,14 +62,15 @@ sub new {
     );
 
     # turns SSL checks on if needed
-    if ($scheme eq 'https' && !$config->{'no-ssl-check'}) {
+    if ($scheme eq 'https' && !$self->{config}->{'no-ssl-check'}) {
         $self->turnSSLCheckOn();
         $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
     }
 
-    $self->{compress} = FusionInventory::Compress->new({logger => $logger});
+    $self->{compress} = FusionInventory::Compress->new({
+        logger => $self->{logger}
+    });
 
-    bless $self, $class;
     return $self;
 }
 
