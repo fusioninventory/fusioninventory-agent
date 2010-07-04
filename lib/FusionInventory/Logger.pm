@@ -62,7 +62,7 @@ sub new {
 sub log {
     my ($self, $args) = @_;
 
-    # levels: info, debug, warn, fault
+    # levels: info, debug, error, fault
     my $level = $args->{level} || 'info';
     my $message = $args->{message};
 
