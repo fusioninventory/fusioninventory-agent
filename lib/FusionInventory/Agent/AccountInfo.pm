@@ -83,11 +83,11 @@ sub reSetAll {
 
     undef $self->{accountinfo};
 
-    if (ref ($ref) =~ /^ARRAY$/) {
+    if (ref ($ref) eq 'ARRAY') {
         foreach (@$ref) {
             $self->set($_->{KEYNAME}, $_->{KEYVALUE});
         }
-    } elsif (ref ($ref) =~ /^HASH$/) {
+    } elsif (ref ($ref) eq 'HASH') {
         $self->set($ref->{'KEYNAME'}, $ref->{'KEYVALUE'});
     } else {
         $logger->debug ("reSetAll, invalid parameter");
