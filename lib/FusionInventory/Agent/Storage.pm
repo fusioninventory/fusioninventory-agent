@@ -47,17 +47,21 @@ sub new {
 sub getFileName {
     my ($self, $params) = @_;
 
-    my $module = $params->{module};
+    my $fileName;
 
-    my $callerModule;
-    my $i = 0;
-    while ($callerModule = caller($i++)) {
-        last if $callerModule ne 'FusionInventory::Agent::Storage';
+    if ($params->{module}) {
+        $fileName = $params->{module};
+    } else {
+        my $module;
+        my $i = 0;
+        while ($module = caller($i++)) {
+            last if $module ne 'FusionInventory::Agent::Storage';
+        }
+        $fileName = $module;
     }
 
-    my $fileName = $module || $callerModule;
-    $fileName =~ s/::/-/g; # Drop the ::
-    # They are forbiden on Windows in file path
+    # Drop colons, they are forbiden in Windows file path
+    $fileName =~ s/::/-/g;
 
     return $fileName;
 }
