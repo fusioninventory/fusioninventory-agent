@@ -32,7 +32,7 @@ Create the object
 
 =cut
 sub new {
-    my ( $class, $params ) = @_;
+    my ($class, $params) = @_;
 
     my $self = {
         config => $params->{config},
@@ -45,10 +45,9 @@ sub new {
 }
 
 sub getFileName {
-    my ($self, $params ) = @_;
+    my ($self, $params) = @_;
 
     my $module = $params->{module};
-
 
     my $callerModule;
     my $i = 0;
@@ -60,13 +59,12 @@ sub getFileName {
     $fileName =~ s/::/-/g; # Drop the ::
     # They are forbiden on Windows in file path
 
-
     return $fileName;
 }
 
 # Internal function, no POD doc
 sub getFilePath {
-    my ($self, $params ) = @_;
+    my ($self, $params) = @_;
 
     my $target = $self->{target};
     my $config = $self->{config};
@@ -90,14 +88,12 @@ sub getFilePath {
         $extension = '.'.$idx;
     }
 
-
     return $dirName."/".$fileName.$extension.".dump";
-
 }
 
 
 sub getFileDir {
-    my ($self, $params ) = @_;
+    my ($self, $params) = @_;
 
     my $target = $self->{target};
     my $config = $self->{config};
@@ -115,7 +111,6 @@ sub getFileDir {
     }
 
     return $dirName;
-
 }
 
 
