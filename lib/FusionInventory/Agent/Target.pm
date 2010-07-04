@@ -54,10 +54,6 @@ sub new {
         $logger->fault('bad type'); 
     }
 
-    if (!-d $self->{vardir}) {
-        $logger->fault("Bad vardir setting!");
-    }
-
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
