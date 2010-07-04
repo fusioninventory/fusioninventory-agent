@@ -56,7 +56,6 @@ sub new {
     });
 
     if ($self->{type} eq 'server') {
-
         $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
             logger => $logger,
             config => $config,
@@ -87,7 +86,6 @@ sub new {
             ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
         }
     }
-    $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
 
     return $self;
 }
@@ -265,9 +263,6 @@ sub setCurrentDeviceID {
 
     $self->{myData}{currentDeviceid} = $deviceid;
     $storage->save({ data => $self->{myData} });
-
-    $self->{currentDeviceid} = $deviceid;
-
 }
 
 1;
