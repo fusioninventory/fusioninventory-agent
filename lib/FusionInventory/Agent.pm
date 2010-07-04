@@ -159,7 +159,7 @@ sub new {
         }
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
-        if (isAgentAlreadyRunning({ logger => $logger })) {
+        if ($self->isAgentAlreadyRunning()) {
             $logger->fault("An agent is already runnnig, exiting...");
             exit 1;
         }
@@ -182,15 +182,14 @@ sub new {
 }
 
 sub isAgentAlreadyRunning {
-    my $params = shift;
-    my $logger = $params->{logger};
+    my ($self) = @_;
 
     # TODO add a workaround if Proc::PID::File is not installed
     eval {
         require Proc::PID::File;
-        $logger->debug('Proc::PID::File avalaible, checking for pid file');
+        $self->{logger}->debug('Proc::PID::File avalaible, checking for pid file');
         if (Proc::PID::File->running()) {
-            $logger->debug('parent process already exists');
+            $self->{logger}->debug('parent process already exists');
             return 1;
         }
     };
