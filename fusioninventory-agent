@@ -451,12 +451,6 @@ option in production. This is just a very bad idea.
 
 Hint: you can declare HTTPS_DEBUG to get SSL error messages in the console.
 
-=item B<--perl-bin-dir-in-path>
-
-A the directory where the perl binary is in the $PATH. You probably don't
-need this feature, that's why it's not listed in --help menu. It is only
-used by the Windows installer.
-
 =item B<-u> I<USER>, B<--user>=I<USER>
 
 Use I<USER> for the server authentication.
