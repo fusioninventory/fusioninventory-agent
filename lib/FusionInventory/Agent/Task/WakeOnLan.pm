@@ -23,6 +23,11 @@ use FusionInventory::Logger;
 sub main {
     my ($self) = @_;
 
+    if ($self->{target}->{type} ne 'server') {
+        $self->{logger}->debug("No server. Exiting...");
+        return;
+    }
+
     my $continue = 0;
     foreach my $num (@{$self->{prologresp}->{parsedcontent}->{OPTION}}) {
         if (defined($num)) {
@@ -32,13 +37,9 @@ sub main {
             }
         }
     }
+
     if ($continue == 0) {
         $self->{logger}->debug("No WAKEONLAN. Exiting...");
-        return;
-    }
-
-    if ($self->{target}->{type} ne 'server') {
-        $self->{logger}->debug("No server. Exiting...");
         return;
     }
 
