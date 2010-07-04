@@ -6,8 +6,8 @@ use warnings;
 use Sys::Syslog qw(:standard :macros);
 
 my %syslog_levels = (
-    fault => LOG_CRIT,
-    error => LOG_ERR,
+    fault => LOG_ERR,
+    error => LOG_WARNING,
     info  => LOG_INFO,
     debug => LOG_DEBUG
 );
