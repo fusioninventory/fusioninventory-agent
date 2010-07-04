@@ -99,12 +99,6 @@ sub new {
     return $self;
 }
 
-sub isDirectoryWritable {
-    my ($self, $dir) = @_;
-
-    return -w $dir;
-}
-
 # TODO refactoring needed here.
 sub init {
     my ($self) = @_;
@@ -117,7 +111,7 @@ sub init {
 # directory to store data
     if (
         ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
-            !$self->isDirectoryWritable($config->{basevardir}))
+            ! -w $config->{basevardir})
         && $OSNAME ne 'MSWin32'
     ) {
 
@@ -158,7 +152,7 @@ sub init {
         );
     }
 
-    if (!$self->isDirectoryWritable($self->{vardir})) {
+    if (! -w $self->{vardir}) {
         $logger->fault("Can't write in $self->{vardir}");
     }
 
