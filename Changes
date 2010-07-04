@@ -1,6 +1,7 @@
 Revision history for FusionInventory::Agent
 
        * XML::Simple → XML::TreePP transition
+       * Add ./t/xml-response.t
 
 2.1_rc3
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
