@@ -74,7 +74,9 @@ sub doInventory {
         my $cpuNbr;
         while (<$handle>) {
             if (/^physical\sid\s*:\s*(\d+)/i) {
-                $cpuCoreCpts[$1]++;
+                if ((!defined($cpuCoreCpts[$1]))||$cpuCoreCpts[$1]<$1+1) {
+                    $cpuCoreCpts[$1] = $1+1;
+                }
                 $cpuNbr = $1;
             } elsif (/^\s*(\S+.*\S+)\s*:\s*(.+)/i) {
                 $cpuInfo->{$1} = $2;
@@ -95,6 +97,9 @@ sub doInventory {
         $cpu[$id]->{MANUFACTURER} = $cpuProcs[$id]->{vendor_id};
         $cpu[$id]->{NAME} = $cpuProcs[$id]->{'model name'};
         $cpu[$id]->{CORE} = $cpuCoreCpts[$id];
+        if (!$cpu[$id]->{THREAD} && $cpuProcs[$id]->{'siblings'}) {
+            $cpu[$id]->{THREAD} = $cpuProcs[$id]->{'siblings'};
+        }
 
         $inventory->addCPU($cpu[$id]);
     }
