@@ -5,7 +5,7 @@ use warnings;
 
 use Config;
 use English qw(-no_match_vars);
-use File::Path;
+use File::Path qw(make_path);
 
 BEGIN {
     # threads and threads::shared must be loaded before
@@ -99,7 +99,6 @@ sub new {
     return $self;
 }
 
-# TODO refactoring needed here.
 sub init {
     my ($self) = @_;
 
@@ -107,54 +106,47 @@ sub init {
     my $logger = $self->{logger};
 
     lock($lock);
-# The agent can contact different servers. Each server has it's own
-# directory to store data
-    if (
-        ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
-            ! -w $config->{basevardir})
-        && $OSNAME ne 'MSWin32'
-    ) {
 
-        if (! -d $ENV{HOME}."/.ocsinventory/var") {
-            $logger->info(
-                "Failed to create basevardir: $config->{basevardir} " .
-                "directory: $ERRNO. I'm going to use the home directory " .
-                "instead (~/.ocsinventory/var)."
-            );
-        }
+    # The agent can contact different servers. Each server has it's own
+    # directory to store data
 
-        $config->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
-        if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
-            $logger->error(
-                "Failed to create basedir: $config->{basedir} directory: " .
-                "$ERRNO. The HOSTID will not be written on the harddrive. " .
-                "You may have duplicated entry of this computer in your OCS " .
-                "database"
-            );
+    if (! -d $config->{basevardir}) {
+        make_path($config->{basevardir}, {error => \my $err});
+        if (@$err) {
+            $logger->error("Failed to create $config->{basevardir}");
         }
-        $logger->debug("var files are stored in ".$config->{basevardir});
     }
 
+    if (! -w $config->{basevardir}) {
+        $logger->fault("Can't write in $self->{basevardir}");
+    }
+
+    $logger->debug("base storage directory: $config->{basevardir}");
+
+    my $dir;
     if ($self->{type} eq 'server') {
-        my $dir = $self->{path};
+        $dir = $self->{path};
         $dir =~ s/\//_/g;
         # On Windows, we can't have ':' in directory path
         $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
-        $self->{vardir} = $config->{basevardir} . "/" . $dir;
     } else {
-        $self->{vardir} = $config->{basevardir} . "/__LOCAL__";
-    }
-    $logger->debug("vardir: $self->{vardir}");
+        $dir = '__LOCAL__';
 
-    if (!-d $self->{vardir} && !mkpath ($self->{vardir})) {
-        $logger->error(
-            "Failed to create vardir: $self->{vardir} directory: $ERRNO"
-        );
+    }
+    $self->{vardir} = $config->{basevardir} . '/' . $dir;
+
+    if (!-d $self->{vardir}) {
+        make_path($self->{vardir}, {error => \my $err});
+        if (@$err) {
+            $logger->error("Failed to create $self->{vardir}");
+        }
     }
 
     if (! -w $self->{vardir}) {
         $logger->fault("Can't write in $self->{vardir}");
     }
+
+    $logger->debug("storage directory: $self->{vardir}");
 
     $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
     $self->{last_statefile} = $self->{vardir} . "/last_state";
