@@ -14,8 +14,7 @@ sub new {
        require Net::SNMP;
    };
    if ($EVAL_ERROR) {
-      $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
-      return;
+      $self->{logger}->fault("Can't load Net::SNMP. Exiting...");
    }
 
    my $session = $self->{SNMPSession} = $params->{config};

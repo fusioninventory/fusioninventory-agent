@@ -64,8 +64,7 @@ sub StartMachine {
     return unless defined $macaddress;
 
     if ($macaddress !~ /^$mac_address_pattern$/) {
-        $self->{logger}->debug("Invalid MacAddress $macaddress . Exiting...");
-        return;
+        $self->{logger}->fault("Invalid MacAddress $macaddress . Exiting...");
     }
     $macaddress =~ s/://g;
 

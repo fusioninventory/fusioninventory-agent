@@ -137,9 +137,8 @@ sub new {
     my $targetsList = $self->{targetsList};
 
     if (!$targetsList->numberOfTargets()) {
-        $logger->error("No target defined. Please use ".
+        $logger->fault("No target defined. Please use ".
             "--server=SERVER or --local=/directory");
-        exit 1;
     }
 
     if ($config->{scanhomedirs}) {
@@ -153,14 +152,12 @@ sub new {
         my $cwd = getcwd();
         eval { require Proc::Daemon; };
         if ($EVAL_ERROR) {
-            print "Can't load Proc::Daemon. Is the module installed?";
-            exit 1;
+            $logger->fault("Can't load Proc::Daemon. Is the module installed?");
         }
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
         if (isAgentAlreadyRunning({ logger => $logger })) {
-            $logger->debug("An agent is already runnnig, exiting...");
-            exit 1;
+            $logger->fault("An agent is already runnnig, exiting...");
         }
         # If we are in dev mode, we want to stay in the source directory to
         # be able to access the 'lib' directory
