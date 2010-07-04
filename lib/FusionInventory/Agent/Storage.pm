@@ -98,19 +98,10 @@ sub _getFilePath {
 sub getFileDir {
     my ($self, $params) = @_;
 
-    my $target = $self->{target};
-    my $config = $self->{config};
-
-    my $dirName;
-    if ($target) {
-        $dirName = $target->{'vardir'};
-    } elsif ($config) {
-        $dirName = $config->{'basevardir'};
-    } else {
-        die;
-    }
-
-    return $dirName;
+    return
+        $self->{target} ? $self->{target}->{vardir}     : 
+        $self->{config} ? $self->{config}->{basevardir} : 
+                          undef;
 }
 
 
