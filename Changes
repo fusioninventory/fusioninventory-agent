@@ -19,6 +19,8 @@ Revision history for FusionInventory::Agent
          the frequency scaling
        * Linux, PC: the cpu detection can work if only dmidecode is
          here
+       * remove --perl-bin-dir-in-path, turns it on only in the Windows
+         service
 
 2.1_rc2 Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
