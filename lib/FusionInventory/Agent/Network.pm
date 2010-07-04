@@ -40,11 +40,8 @@ sub new {
         croak "Invalid protocol for URI: $self->{target}->{path}";
     }
     my $host   = $self->{URI}->host();
-    my $port   = $self->{URI}->port();
-    $port =
-        $port              ? $port :
-        $scheme eq 'https' ? 443   :
-                             80    ;
+    my $port   = $self->{URI}->port() ||
+                 $scheme eq 'https' ? 443 : 80;
 
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
