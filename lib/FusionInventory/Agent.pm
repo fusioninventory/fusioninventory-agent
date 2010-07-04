@@ -287,6 +287,8 @@ sub main {
                     config => $config,
                     logger => $logger,
                     target => $target,
+                    storage => $storage,
+                    prologresp => $prologresp
                 });
                 $task->main();
 

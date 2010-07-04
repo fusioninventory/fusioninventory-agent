@@ -10,6 +10,7 @@ sub new {
         config     => $params->{config},
         target     => $params->{target},
         logger     => $params->{logger},
+        storage    => $params->{storage},
         prologresp => $params->{prologresp}
     };
 
