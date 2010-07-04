@@ -34,12 +34,10 @@ Create the object
 sub new {
     my ( $class, $params ) = @_;
 
-    my $self = {};
-
-    my $config = $self->{config} = $params->{config};
-    my $target = $self->{target} = $params->{target};
-
-    $self->{vardir} = $target->{vardir};
+    my $self = {
+        config => $params->{config},
+        target => $params->{target}
+    };
 
     bless $self, $class;
 
