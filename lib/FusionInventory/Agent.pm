@@ -208,9 +208,6 @@ sub main {
 
     while (my $target = $targetsList->getNext()) {
 
-        my $exitcode = 0;
-        my $wait;
-
         my $prologresp;
         if ($target->{type} eq 'server') {
 
