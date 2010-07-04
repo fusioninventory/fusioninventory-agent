@@ -48,7 +48,6 @@ sub new {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
-    my $target = $self->{target};
 
     $self->init();
 
