@@ -110,19 +110,6 @@ sub init {
     # The agent can contact different servers. Each server has it's own
     # directory to store data
 
-    if (! -d $config->{basevardir}) {
-        make_path($config->{basevardir}, {error => \my $err});
-        if (@$err) {
-            $logger->error("Failed to create $config->{basevardir}");
-        }
-    }
-
-    if (! -w $config->{basevardir}) {
-        $logger->fault("Can't write in $self->{basevardir}");
-    }
-
-    $logger->debug("base storage directory: $config->{basevardir}");
-
     my $dir;
     if ($self->{type} eq 'server') {
         $dir = $self->{path};

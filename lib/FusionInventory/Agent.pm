@@ -73,15 +73,23 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (!-d $config->{basevardir}) {
+    if (! -d $config->{basevardir}) {
         make_path($config->{basevardir}, {error => \my $err});
         if (@$err) {
             $logger->error(
-                "Failed to create $config->{basevardir}" .
-                " Please use --basevardir to point to a R/W directory."
+                "Failed to create $config->{basevardir} directory"
             );
         }
     }
+
+    if (! -w $config->{basevardir}) {
+        $logger->error(
+            "Non-writable $config->{basevardir} directory. Either fix it, or " .
+            "use --basevardir to point to a R/W directory."
+        );
+    }
+
+    $logger->debug("base storage directory: $config->{basevardir}");
 
     # This is a hack to add the perl binary directory
     # in the $PATH env.
