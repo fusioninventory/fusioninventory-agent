@@ -13,8 +13,11 @@ sub isInventoryEnabled {
 
 my %unitMatrice = (
     Ti => 1000*1000,
+    GB => 1024*1024,
     Gi => 1000,
+    GB => 1024,
     Mi => 1,
+    MB => 1,
 );
 
 sub doInventory {

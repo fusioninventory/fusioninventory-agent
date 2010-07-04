@@ -1,6 +1,9 @@
 Revision history for FusionInventory::Agent
 
 2.1_rc3
+       * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
+       * MacOSX: ignore printer if name start with:
+         The printers list is empty. To add printers (fixes: #169)
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
        * Fix, restore --noinventory support, print a warning saying
          --no-inventory should be used instead
@@ -21,7 +24,7 @@ Revision history for FusionInventory::Agent
          service
        * test scripts: fix is_deeply() argument order
 
-2.1     Thu, 01 Jul 2010 23:05:10 +0200
+2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
        * Linux: set back DRIVES/FREE
        * Linux: CONTROLLERS/NAME drop the trailing whitespace
