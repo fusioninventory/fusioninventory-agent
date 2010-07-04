@@ -87,11 +87,6 @@ substorage.
 sub restore {
     my ($self, $params ) = @_;
 
-    if ($params && ref($params) ne 'HASH') {
-        my ($package, $filename, $line) = caller;
-        print "[error]$package use a deprecated API for Storage. Please\n";
-        print "[error]Please upgrade it or remove $filename\n";
-    }
     my $module = $params->{module};
     my $idx = $params->{idx};
 
