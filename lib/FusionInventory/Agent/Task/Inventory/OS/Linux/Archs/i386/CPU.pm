@@ -98,12 +98,14 @@ sub doInventory {
 
     my $maxId = @cpu?@cpu-1:@cpuProcs-1;
     foreach my $id (0..$maxId) {
-        $cpuProcs[$id]->{vendor_id} =~ s/Genuine//;
-        $cpuProcs[$id]->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-        $cpuProcs[$id]->{vendor_id} =~ s/CyrixInstead/Cyrix/;
-        $cpuProcs[$id]->{vendor_id} =~ s/CentaurHauls/VIA/;
+        if ($cpuProcs[$id]->{vendor_id}) {
+            $cpuProcs[$id]->{vendor_id} =~ s/Genuine//;
+            $cpuProcs[$id]->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $cpuProcs[$id]->{vendor_id} =~ s/CyrixInstead/Cyrix/;
+            $cpuProcs[$id]->{vendor_id} =~ s/CentaurHauls/VIA/;
 
-        $cpu[$id]->{MANUFACTURER} = $cpuProcs[$id]->{vendor_id};
+            $cpu[$id]->{MANUFACTURER} = $cpuProcs[$id]->{vendor_id};
+        }
         $cpu[$id]->{NAME} = $cpuProcs[$id]->{'model name'};
         if (!$cpu[$id]->{CORE}) {
             $cpu[$id]->{CORE} = $cpuCoreCpts[$id];
