@@ -206,10 +206,10 @@ sub server {
             Timeout => 5);
     }
   
-   if (!$daemon) {
+    if (!$daemon) {
         $logger->error("Failed to start the RPC server");
         return;
-   } 
+    } 
     $logger->info("RPC service started at: ". $daemon->url);
 
 # Since perl 5.10, threads::joinable is avalaible
