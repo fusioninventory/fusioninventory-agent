@@ -9,12 +9,13 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    $self->{config} = $params->{config};
-    $self->{accountinfo} = $params->{accountinfo};
-    $self->{logger} = $params->{logger};
-    $self->{target} = $params->{target};
+    my $self = {
+        config      => $params->{config},
+        accountinfo => $params->{accountinfo},
+        logger      => $params->{logger},
+        target      => $params->{target}
+    };
+    bless $self, $class;
 
     my $rpc = $self->{rpc};
     my $target = $self->{target};
@@ -29,8 +30,6 @@ sub new {
     }
   
     croak "No DEVICEID" unless $target->{deviceid};
-
-    bless $self, $class;
 
     return $self;
 }

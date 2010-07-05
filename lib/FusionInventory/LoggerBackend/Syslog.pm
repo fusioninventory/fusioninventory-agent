@@ -16,10 +16,10 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {};
+    bless $self, $class;
 
     openlog("fusinv-agent", 'cons,pid', $params->{config}->{logfacility});
 
-    bless $self, $class;
     return $self;
 }
 
