@@ -36,11 +36,6 @@ sub new {
     my $authprotocol = $self->{SNMPSession}->{authprotocol} = $params->{authprotocol};
     my $privpassword = $self->{SNMPSession}->{privpassword} = $params->{privpassword};
     my $privprotocol = $self->{SNMPSession}->{privprotocol} = $params->{privprotocol};
-    if ($params->{translate} eq '0') {
-        my $translate = $self->{SNMPSession}->{translate} = '-all';
-    } elsif ($params->{translate} eq '1') {
-        my $translate = $self->{SNMPSession}->{translate} = '-octetstring';
-    }
 
     if ($version eq 'snmpv3') {
         if($privprotocol =~ /hash/i){
@@ -53,7 +48,6 @@ sub new {
                 -authpassword => $authpassword,
                 -authprotocol => $authprotocol,
                 -nonblocking => 0,
-                #-translate   => [$translate => 0],
                 -port      => 161
             );
         } else {
@@ -68,7 +62,6 @@ sub new {
                 -privpassword => $privpassword,
                 -privprotocol => $privprotocol,
                 -nonblocking => 0,
-                # -translate   => [$translate => 0],
                 -port      => 161
             );
 
@@ -81,7 +74,6 @@ sub new {
             -hostname  => $hostname,
             -community => $community,
             -nonblocking => 0,
-            #-translate   => [$translate => 0],
             -port      => 161
         );
     }
