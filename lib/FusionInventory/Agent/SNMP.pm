@@ -39,7 +39,7 @@ sub new {
 
     if ($version eq 'snmpv3') {
         if($privprotocol =~ /hash/i){
-            ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+            $self->{SNMPSession}->{session} = Net::SNMP->session(
                 -timeout   => 1,
                 -retries   => 0,
                 -hostname     => $hostname,
@@ -51,7 +51,7 @@ sub new {
                 -port      => 161
             );
         } else {
-            ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+            $self->{SNMPSession}->{session} = Net::SNMP->session(
                 -timeout   => 1,
                 -retries   => 0,
                 -hostname     => $hostname,
@@ -67,7 +67,7 @@ sub new {
 
         }
     } else { # snmpv2c && snmpv1 #
-        ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+        $self->{SNMPSession}->{session} = Net::SNMP->session(
             -version   => $version,
             -timeout   => 1,
             -retries   => 0,
