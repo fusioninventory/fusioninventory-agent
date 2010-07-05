@@ -39,7 +39,7 @@ sub new {
 
     if ($version eq 'snmpv3') {
         if($privprotocol =~ /hash/i){
-            $self->{SNMPSession}->{session} = Net::SNMP->session(
+            $self->{session} = Net::SNMP->session(
                 -timeout   => 1,
                 -retries   => 0,
                 -hostname     => $hostname,
@@ -51,7 +51,7 @@ sub new {
                 -port      => 161
             );
         } else {
-            $self->{SNMPSession}->{session} = Net::SNMP->session(
+            $self->{session} = Net::SNMP->session(
                 -timeout   => 1,
                 -retries   => 0,
                 -hostname     => $hostname,
@@ -67,7 +67,7 @@ sub new {
 
         }
     } else { # snmpv2c && snmpv1 #
-        $self->{SNMPSession}->{session} = Net::SNMP->session(
+        $self->{session} = Net::SNMP->session(
             -version   => $version,
             -timeout   => 1,
             -retries   => 0,
@@ -90,14 +90,14 @@ sub snmpGet {
     my $oid = $args->{oid};
     my $up = $args->{up};
 
-    my $session = $self->{SNMPSession}->{session};
+    my $session = $self->{session};
 
     my $result = $session->get_request(
         -varbindlist => [$oid]
     );
     my $return;
     if (!defined($result)) {
-        my $err = $self->{SNMPSession}->{session}->error;
+        my $err = $self->{session}->error;
         #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
         if ((defined $up) && ($up == 1)) {
             $return = "No response from remote host";
@@ -146,8 +146,8 @@ sub snmpWalk {
     my $oid_prec = $oid_start;
     if (defined($oid_start)) {
         while($oid_prec =~ m/$oid_start/) {
-            my $response = $self->{SNMPSession}->{session}->get_next_request($oid_prec);
-            my $err = $self->{SNMPSession}->{session}->error;
+            my $response = $self->{session}->get_next_request($oid_prec);
+            my $err = $self->{session}->error;
             if ($err){
                 #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
                 #debug($log,"[".$_[1]."] Oid Error : ".$oid_prec,"",$PID);
