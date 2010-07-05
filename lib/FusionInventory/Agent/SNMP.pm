@@ -20,15 +20,11 @@ sub new {
     }
 
     my $session = $self->{SNMPSession} = $params->{config};
-    my $SNMPVersion;
-    if ($params->{version} eq '1') {
-        $SNMPVersion = 'snmpv1';
-    } elsif ($params->{version} eq '2c') {
-        $SNMPVersion = 'snmpv2c';
-    } elsif ($params->{version} eq '3') {
-        $SNMPVersion = 'snmpv3';
-    }
-    my $version = $self->{SNMPSession}->{version} = $SNMPVersion;
+    my $version =
+        $params->{version} eq '1'  ? 'snmpv1'  :
+        $params->{version} eq '2c' ? 'snmpv2c' :
+        $params->{version} eq '3'  ? 'snmpv3'  ;
+
     my $hostname = $self->{SNMPSession}->{hostname} = $params->{hostname};
     my $community = $self->{SNMPSession}->{community} = $params->{community};
     my $username = $self->{SNMPSession}->{username} = $params->{username};
