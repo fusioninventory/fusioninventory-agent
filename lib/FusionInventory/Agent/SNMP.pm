@@ -26,34 +26,19 @@ sub new {
                                      undef     ;
 
     if ($version eq 'snmpv3') {
-        if ($params->{privprotocol} =~ /hash/i){
-            $self->{session} = Net::SNMP->session(
-                -timeout      => 1,
-                -retries      => 0,
-                -version      => $version,
-                -hostname     => $params->{hostname},
-                -username     => $params->{username},
-                -authpassword => $params->{authpassword},
-                -authprotocol => $params->{authprotocol},
-                -nonblocking  => 0,
-                -port         => 161
-            );
-        } else {
-            $self->{session} = Net::SNMP->session(
-                -timeout      => 1,
-                -retries      => 0,
-                -version      => $version,
-                -hostname     => $params->{hostname},
-                -username     => $params->{username},
-                -authpassword => $params->{authpassword},
-                -authprotocol => $params->{authprotocol},
-                -privpassword => $params->{privpassword},
-                -privprotocol => $params->{privprotocol},
-                -nonblocking  => 0,
-                -port         => 161
-            );
-
-        }
+        $self->{session} = Net::SNMP->session(
+            -timeout      => 1,
+            -retries      => 0,
+            -version      => $version,
+            -hostname     => $params->{hostname},
+            -username     => $params->{username},
+            -authpassword => $params->{authpassword},
+            -authprotocol => $params->{authprotocol},
+            -privpassword => $params->{privpassword},
+            -privprotocol => $params->{privprotocol},
+            -nonblocking  => 0,
+            -port         => 161
+        );
     } else { # snmpv2c && snmpv1 #
         $self->{session} = Net::SNMP->session(
             -timeout     => 1,
@@ -206,6 +191,5 @@ sub getBadMACAddress {
     }
     return $oid_value;
 }
-
 
 1;
