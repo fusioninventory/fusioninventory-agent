@@ -19,58 +19,50 @@ sub new {
         croak "Can't load Net::SNMP. Exiting...";
     }
 
-    my $session = $self->{SNMPSession} = $params->{config};
     my $version =
         $params->{version} eq '1'  ? 'snmpv1'  :
         $params->{version} eq '2c' ? 'snmpv2c' :
-        $params->{version} eq '3'  ? 'snmpv3'  ;
-
-    my $hostname = $self->{SNMPSession}->{hostname} = $params->{hostname};
-    my $community = $self->{SNMPSession}->{community} = $params->{community};
-    my $username = $self->{SNMPSession}->{username} = $params->{username};
-    my $authpassword = $self->{SNMPSession}->{authpassword} = $params->{authpassword};
-    my $authprotocol = $self->{SNMPSession}->{authprotocol} = $params->{authprotocol};
-    my $privpassword = $self->{SNMPSession}->{privpassword} = $params->{privpassword};
-    my $privprotocol = $self->{SNMPSession}->{privprotocol} = $params->{privprotocol};
+        $params->{version} eq '3'  ? 'snmpv3'  :
+                                     undef     ;
 
     if ($version eq 'snmpv3') {
-        if($privprotocol =~ /hash/i){
+        if ($params->{privprotocol} =~ /hash/i){
             $self->{session} = Net::SNMP->session(
-                -timeout   => 1,
-                -retries   => 0,
-                -hostname     => $hostname,
+                -timeout      => 1,
+                -retries      => 0,
                 -version      => $version,
-                -username     => $username,
-                -authpassword => $authpassword,
-                -authprotocol => $authprotocol,
-                -nonblocking => 0,
-                -port      => 161
+                -hostname     => $params->{hostname},
+                -username     => $params->{username},
+                -authpassword => $params->{authpassword},
+                -authprotocol => $params->{authprotocol},
+                -nonblocking  => 0,
+                -port         => 161
             );
         } else {
             $self->{session} = Net::SNMP->session(
-                -timeout   => 1,
-                -retries   => 0,
-                -hostname     => $hostname,
+                -timeout      => 1,
+                -retries      => 0,
                 -version      => $version,
-                -username     => $username,
-                -authpassword => $authpassword,
-                -authprotocol => $authprotocol,
-                -privpassword => $privpassword,
-                -privprotocol => $privprotocol,
-                -nonblocking => 0,
-                -port      => 161
+                -hostname     => $params->{hostname},
+                -username     => $params->{username},
+                -authpassword => $params->{authpassword},
+                -authprotocol => $params->{authprotocol},
+                -privpassword => $params->{privpassword},
+                -privprotocol => $params->{privprotocol},
+                -nonblocking  => 0,
+                -port         => 161
             );
 
         }
     } else { # snmpv2c && snmpv1 #
         $self->{session} = Net::SNMP->session(
-            -version   => $version,
-            -timeout   => 1,
-            -retries   => 0,
-            -hostname  => $hostname,
-            -community => $community,
+            -timeout     => 1,
+            -retries     => 0,
+            -version     => $version,
+            -hostname    => $params->{hostname},
+            -community   => $params->{community},
             -nonblocking => 0,
-            -port      => 161
+            -port        => 161
         );
     }
 
