@@ -96,7 +96,13 @@ sub handler {
         foreach my $target (@{$targets->{targets}}) {
             my $path = $target->{'path'};
             $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-            $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".localtime($target->getNextRunDate())."</li>\n";
+            my $timeString;
+            if ($target->getNextRunDate() > 1) {
+                $timeString = localtime($target->getNextRunDate());
+            } else {
+                $timeString = "now";
+            }
+            $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".$timeString."</li>\n";
         }
 
         my $indexFile = $htmlDir."/index.tpl";

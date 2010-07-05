@@ -6,8 +6,8 @@ use threads;
 use threads::shared;
 use FusionInventory::Agent;
 
-$ENV{PERL5LIB}=undef;
-$ENV{PERLLIB}=undef;
+delete($ENV{PERL5LIB});
+delete($ENV{PERLLIB});
 
 if ($^X =~ /(^.*(\\|\/))/) {
     $ENV{PATH} .= $Config::Config{path_sep}.$1;
