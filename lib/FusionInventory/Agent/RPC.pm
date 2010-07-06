@@ -107,7 +107,7 @@ sub handler {
     }
 
     SWITCH: {
-        if ($path =~ /^\/$/) {
+        if ($path eq '/') {
             if ($clientIp !~ /^127\./) {
                 $c->send_error(404);
                 return;
@@ -183,7 +183,7 @@ sub handler {
             last SWITCH;
         }
 
-        if ($path =~ /^\/status$/) {
+        if ($path eq '/status') {
             #$c->send_status_line(200, $status)
             my $r = HTTP::Response->new(
                 200,
