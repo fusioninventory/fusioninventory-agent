@@ -84,7 +84,7 @@ my $query2 = FusionInventory::Agent::XML::Query::SimpleMessage->new({
     }
 });
 
-my $xml = $query2->getContent();
+$xml = $query2->getContent();
 $href = $tpp->parse( $xml );
 
 is_deeply($href, $test2, "simpleMessage");
