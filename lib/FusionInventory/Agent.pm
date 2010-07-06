@@ -222,8 +222,8 @@ sub main {
                     accountinfo => $target->{accountinfo}, #? XXX
                     logger => $logger,
                     config => $config,
-                    rpc => $rpc,
-                    target => $target
+                    target => $target,
+                    token  => $rpc->getToken()
                 });
 
                 # TODO Don't mix settings and temp value
