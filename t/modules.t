@@ -17,7 +17,7 @@ if ($OSNAME ne 'MSWin32') {
 my @modules;
 foreach my $file (@files) {
     my (undef, $dir, $file) = File::Spec->splitpath($file);
-    my @dirs = File::Spec->splitdir($dir);
+    my @dirs = grep { $_} File::Spec->splitdir($dir);
     push @modules, join '::', @dirs, File::Basename::basename($file, '.pm');
 }
 
