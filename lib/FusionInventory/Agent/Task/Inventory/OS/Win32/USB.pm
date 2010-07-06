@@ -17,34 +17,24 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     foreach my $wmiClass (qw/CIM_LogicalDevice/) {
+        foreach my $Properties (getWmiProperties($wmiClass, qw/DeviceID/)) {
+            next unless $Properties->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(\\|$)(.*)/;
 
-        foreach my $Properties
-            (getWmiProperties($wmiClass,
-qw/DeviceID/)) {
+            my $vendorId = $1;
+            my $productId = $2;
 
-                if ($Properties->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(\\|$)(.*)/) {
+            my $serial = $4;
 
-                    my $vendorId = $1;
-                    my $productId = $2;
+            $serial =~ s/.*?&//;
+            $serial =~ s/&.*$//;
 
-                    my $serial = $4;
-
-                    $serial =~ s/.*?&//;
-                    $serial =~ s/&.*$//;
-
-                    next if $vendorId =~ /^0+$/;
-            
-                    $inventory->addUSBDevice({
-                            VENDORID => $vendorId,
-                            PRODUCTID => $productId,
-                            SERIAL => $serial
-                            });
-
-                }
-
-
-
-
+            next if $vendorId =~ /^0+$/;
+    
+            $inventory->addUSBDevice({
+                VENDORID => $vendorId,
+                PRODUCTID => $productId,
+                SERIAL => $serial
+            });
         }
     }
 }
