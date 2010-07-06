@@ -14,15 +14,10 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
 
-    foreach my $Properties (getWmiProperties(
-        'Win32_VideoController',
-        qw/
-            CurrentHorizontalResolution
-            CurrentVerticalResolution
-            VideoProcessor
-            AdaptaterRAM
-            Name
-        /)) {
+    foreach my $Properties (getWmiProperties('Win32_VideoController', qw/
+        CurrentHorizontalResolution CurrentVerticalResolution VideoProcessor
+        AdaptaterRAM Name
+    /)) {
 
         my $resolution;
         if ($Properties->{CurrentHorizontalResolution}) {

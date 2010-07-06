@@ -134,14 +134,15 @@ sub doInventory {
 
     my $fullMemory = 0;
     my $swapMemory = 0;
-    foreach my $Properties
-        (getWmiProperties('Win32_ComputerSystem',
-qw/TotalPhysicalMemory/)) {
+    foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
+        TotalPhysicalMemory
+    /)) {
         $fullMemory = $Properties->{TotalPhysicalMemory};
     }
-    foreach my $Properties
-        (getWmiProperties('Win32_OperatingSystem',
-qw/TotalSwapSpaceSize/)) {
+
+    foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
+        TotalSwapSpaceSize
+    /)) {
         $swapMemory = $Properties->{TotalSwapSpaceSize}
             if $Properties->{TotalSwapSpaceSize};
     }
