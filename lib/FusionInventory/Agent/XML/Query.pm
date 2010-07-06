@@ -9,6 +9,8 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
+    croak "No DEVICEID" unless $params->{target}->{deviceid};
+
     my $self = {
         config      => $params->{config},
         accountinfo => $params->{accountinfo},
@@ -17,19 +19,19 @@ sub new {
     };
     bless $self, $class;
 
-    my $rpc = $self->{rpc};
     my $target = $self->{target};
-    my $logger = $self->{logger};
 
-    $self->{h} = {};
-    $self->{h}{QUERY} = ['UNSET!'];
-    $self->{h}{DEVICEID} = [$target->{deviceid}];
+    $self->{h} = {
+        QUERY    => ['UNSET!'],
+        DEVICEID => [$target->{deviceid}]
+    };
 
-    if ($target->{currentDeviceid} && ($target->{deviceid} ne $target->{currentDeviceid})) {
-      $self->{h}{OLD_DEVICEID} = [$target->{currentDeviceid}];
+    if (
+        $target->{currentDeviceid} &&
+        $target->{deviceid} ne $target->{currentDeviceid}
+    ) {
+      $self->{h}->{OLD_DEVICEID} = [$target->{currentDeviceid}];
     }
-  
-    croak "No DEVICEID" unless $target->{deviceid};
 
     return $self;
 }
