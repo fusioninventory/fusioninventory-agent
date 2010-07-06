@@ -42,7 +42,7 @@ sub getScreens {
 
     if ($OSNAME eq 'MSWin32') {
         eval {
-            require FusionInventory::Agent::Task::Inventory::OS::Win32;
+            require FusionInventory::Agent::Tools::Win32;
             require Win32::TieRegistry;
             Win32::TieRegistry->import(
                 Access      => "KEY_READ",
