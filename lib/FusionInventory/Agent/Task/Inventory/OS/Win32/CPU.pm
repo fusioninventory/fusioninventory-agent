@@ -79,9 +79,9 @@ sub doInventory {
 
 
     my $cpuId = 0;
-    foreach my $Properties
-        (getWmiProperties('Win32_Processor',
-qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
+    foreach my $Properties (getWmiProperties('Win32_Processor', qw/
+        NumberOfCores ProcessorId MaxClockSpeed
+    /)) {
 
         my $info = getCPUInfoFromRegistry($cpuId);
 
@@ -114,23 +114,22 @@ qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
 
 
         $inventory->addCPU({
-#                CACHE => $cache,
-                CORE => $core,
-                DESCRIPTION => $description,
-                NAME => $name,
-                MANUFACTURER => $manufacturer,
-                SERIAL => $serial,
-                SPEED => $speed
-
-                });
+#           CACHE => $cache,
+            CORE => $core,
+            DESCRIPTION => $description,
+            NAME => $name,
+            MANUFACTURER => $manufacturer,
+            SERIAL => $serial,
+            SPEED => $speed
+        });
 
         $cpuId++;
     }
 
     if ($vmsystem) {
         $inventory->setHardware ({
-                VMSYSTEM => $vmsystem 
-                });
+            VMSYSTEM => $vmsystem 
+        });
     }
 
 
