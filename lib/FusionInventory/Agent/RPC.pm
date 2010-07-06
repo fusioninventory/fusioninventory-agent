@@ -150,7 +150,7 @@ sub handler {
             last SWITCH;
         }
 
-        if ($path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
+        if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
             my $file = $1;
             foreach my $target (@{$targetsList->{targets}}) {
                 if (-f $target->{vardir}."/deploy/".$file) {
@@ -164,8 +164,8 @@ sub handler {
             last SWITCH;
         }
 
-        if ($path =~ /^\/now(\/|)(\S*)$/) {
-            my $sentToken = $2;
+        if ($path =~ m{^/now(?:/(\S+))?$}) {
+            my $sentToken = $1;
             my $currentToken = $self->getToken();
             $logger->debug("[RPC]'now' catched");
             if (
@@ -195,7 +195,7 @@ sub handler {
             last SWITCH;
         }
 
-        if ($path =~ /^\/(logo.png|site.css|favicon.ico)$/) {
+        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
             $c->send_file_response($htmlDir."/$1");
             last SWITCH;
         }
