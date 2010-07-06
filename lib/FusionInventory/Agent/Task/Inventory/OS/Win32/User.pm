@@ -2,19 +2,15 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::User;
 
 use strict;
 use warnings;
-
-use FusionInventory::Agent::Tools::Win32;
-
-use Win32::OLE::Variant;
-
-use Carp;
-use Encode qw(encode);
-
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
-
+use Carp;
+use Encode qw(encode);
+use Win32::OLE::Variant;
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+
+use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
     return 1;

@@ -3,16 +3,14 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::OS;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools::Win32;
-
-use Win32::TieRegistry;
-
-use Win32::OLE::Variant;
-
-use Encode qw(encode);
-
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
+
+use Encode qw(encode);
+use Win32::TieRegistry;
+use Win32::OLE::Variant;
+
+use FusionInventory::Agent::Tools::Win32;
 
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson

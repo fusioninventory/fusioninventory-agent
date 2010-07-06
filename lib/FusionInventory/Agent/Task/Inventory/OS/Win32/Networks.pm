@@ -5,14 +5,12 @@ use warnings;
 
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
- 
-Win32::OLE-> Option(CP=>CP_UTF8);
-
-
 use Win32::OLE::Enum;
-
+ 
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools;
+
+Win32::OLE->Option(CP=>CP_UTF8);
 
 # http://techtasks.com/code/viewbookcode/1417
 sub isInventoryEnabled {
