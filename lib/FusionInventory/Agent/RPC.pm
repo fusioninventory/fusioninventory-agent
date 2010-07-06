@@ -95,97 +95,115 @@ sub handler {
         return;
     }
 
+    my $path = $r->uri()->path();
+    $logger->debug("[RPC]$clientIp request $path");
 
-    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
-    if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
-        if ($clientIp !~ /^127\./) {
-            $c->send_error(404);
-            return;
-        }
+    if ($r->method() ne 'GET') {
+        $logger->debug("[RPC]Err, 500");
+        $c->send_error(500);
+        $c->close;
+        undef($c);
+        return;
+    }
 
-        my $nextContact = "";
-        foreach my $target (@{$targetsList->{targets}}) {
-            my $path = $target->{'path'};
-            $path = 'http://@e:@fdef@4545';
-            $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-            $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".localtime($target->getNextRunDate())."</li>\n";
-        }
-
-        my $indexFile = $htmlDir."/index.tpl";
-        my $handle;
-        if (!open $handle, '<', $indexFile) {
-            $logger->error("Can't open share $indexFile: $ERRNO");
-            $c->send_error(404);
-            return;
-        }
-        undef $/;
-        my $output = <$handle>;
-        close $handle;
-
-        $output =~ s/%%STATUS%%/$status/;
-        $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
-        $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-        if (!$config->{'rpc-trust-localhost'}) {
-            $output =~
-            s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
-        }
-        $output =~ s/%%(END|)IF_.*?%%//g;
-        my $r = HTTP::Response->new(
-            200,
-            'OK',
-            HTTP::Headers->new('Content-Type' => 'text/html'),
-            $output
-        );
-        $c->send_response($r);
-
-
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
-        my $file = $1;
-        foreach my $target (@{$targetsList->{targets}}) {
-            if (-f $target->{vardir}."/deploy/".$file) {
-                $logger->debug("Send /deploy/".$file);
-                $c->send_file_response($target->{vardir}."/deploy/".$file);
-            } else {
-                $logger->debug("Not found /deploy/".$file);
+    SWITCH: {
+        if ($path =~ /^\/$/) {
+            if ($clientIp !~ /^127\./) {
+                $c->send_error(404);
+                return;
             }
+
+            my $nextContact = "";
+            foreach my $target (@{$targetsList->{targets}}) {
+                my $path = $target->{'path'};
+                $path = 'http://@e:@fdef@4545';
+                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+                $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".localtime($target->getNextRunDate())."</li>\n";
+            }
+
+            my $indexFile = $htmlDir."/index.tpl";
+            my $handle;
+            if (!open $handle, '<', $indexFile) {
+                $logger->error("Can't open share $indexFile: $ERRNO");
+                $c->send_error(404);
+                return;
+            }
+            undef $/;
+            my $output = <$handle>;
+            close $handle;
+
+            $output =~ s/%%STATUS%%/$status/;
+            $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
+            $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
+            if (!$config->{'rpc-trust-localhost'}) {
+                $output =~
+                s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
+            }
+            $output =~ s/%%(END|)IF_.*?%%//g;
+            my $r = HTTP::Response->new(
+                200,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/html'),
+                $output
+            );
+            $c->send_response($r);
+            last SWITCH;
         }
-        $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
-        my $sentToken = $2;
-        my $currentToken = $self->getToken();
-        $logger->debug("[RPC]'now' catched");
-        if (
-            ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
-                or
-            ($sentToken eq $currentToken)
-        ) {
-            $self->getToken('forceNewToken');
-            $targetsList->resetNextRunDate();
-            $c->send_status_line(200)
 
-        } else {
-
-            $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
-            $c->send_status_line(403)
-
+        if ($path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
+            my $file = $1;
+            foreach my $target (@{$targetsList->{targets}}) {
+                if (-f $target->{vardir}."/deploy/".$file) {
+                    $logger->debug("Send /deploy/".$file);
+                    $c->send_file_response($target->{vardir}."/deploy/".$file);
+                } else {
+                    $logger->debug("Not found /deploy/".$file);
+                }
+            }
+            $c->send_error(404);
+            last SWITCH;
         }
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/status$/) {
-        #$c->send_status_line(200, $status)
-        my $r = HTTP::Response->new(
-            200,
-            'OK',
-            HTTP::Headers->new('Content-Type' => 'text/plain'),
-           "status: ".$status
-        );
-        $c->send_response($r);
 
-    } elsif ($r->method eq 'GET' and $r->uri->path =~
-        /^\/(logo.png|site.css|favicon.ico)$/) {
-        $c->send_file_response($htmlDir."/$1");
-    } else {
+        if ($path =~ /^\/now(\/|)(\S*)$/) {
+            my $sentToken = $2;
+            my $currentToken = $self->getToken();
+            $logger->debug("[RPC]'now' catched");
+            if (
+                ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
+                    or
+                ($sentToken eq $currentToken)
+            ) {
+                $self->getToken('forceNewToken');
+                $targetsList->resetNextRunDate();
+                $c->send_status_line(200)
+            } else {
+                $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
+                $c->send_status_line(403)
+            }
+            last SWITCH;
+        }
+
+        if ($path =~ /^\/status$/) {
+            #$c->send_status_line(200, $status)
+            my $r = HTTP::Response->new(
+                200,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/plain'),
+               "status: ".$status
+            );
+            $c->send_response($r);
+            last SWITCH;
+        }
+
+        if ($path =~ /^\/(logo.png|site.css|favicon.ico)$/) {
+            $c->send_file_response($htmlDir."/$1");
+            last SWITCH;
+        }
+
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
     }
+
     $c->close;
     undef($c);
 }
