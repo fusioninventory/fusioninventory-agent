@@ -7,6 +7,7 @@ use FusionInventory::Agent::Tools::Win32;
 
 use Win32::OLE::Variant;
 
+use Carp;
 use Encode qw(encode);
 
 use constant wbemFlagReturnImmediately => 0x10;
@@ -23,7 +24,8 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or die "WMI connection failed.\n";
+    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+        or croak "WMI connection failed";
     my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_Process", "WQL",
             wbemFlagReturnImmediately | wbemFlagForwardOnly);
 

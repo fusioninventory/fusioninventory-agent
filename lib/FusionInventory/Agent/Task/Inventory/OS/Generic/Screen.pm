@@ -21,6 +21,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Screen;
 use strict;
 use warnings;
 
+use Carp;
 use English qw(-no_match_vars);
 use MIME::Base64;
 
@@ -57,7 +58,8 @@ sub getScreens {
         use constant wbemFlagReturnImmediately => 0x10;
         use constant wbemFlagForwardOnly => 0x20;
 
-        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or die "WMI connection failed.\n";
+        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+            or croak "WMI connection failed";
         my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
                 wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
@@ -70,8 +72,9 @@ sub getScreens {
             next unless $objItem->{"PNPDeviceID"};
             my $name = $objItem->{"Caption"};
 
-            my $a= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>"KEY_READ",Delimiter=>"/"} )
-                or  die "Can't open HKEY_LOCAL_MACHINE key: EXTENDED_OS_ERROR\n";
+            my $a = $Win32::TieRegistry::Registry->Open(
+                "LMachine", {Access=>"KEY_READ",Delimiter=>"/"}
+            ) or croak "Can't open HKEY_LOCAL_MACHINE key: EXTENDED_OS_ERROR";
 
             my $edid = $a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device Parameters/EDID'}."\n";
             $edid =~ s/^\s+$//;
