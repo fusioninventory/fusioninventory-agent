@@ -44,9 +44,9 @@ sub getWmiProperties {
     }
 
     my @properties;
-    foreach my $properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    $wmiClass ) ) )
-    {
+    foreach my $properties (Win32::OLE::in(
+        $WMIServices->InstancesOf($wmiClass)
+    )) {
         my $tmp;
         foreach (@keys) {
             my $val = $properties->{$_};

@@ -63,11 +63,9 @@ sub getScreens {
         my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
                 wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
-        foreach my $objItem (getWmiProperties('Win32_DesktopMonitor',
-                    qw/
-                    Caption
-                    PNPDeviceID
-                    /)) {
+        foreach my $objItem (getWmiProperties('Win32_DesktopMonitor', qw/
+            Caption PNPDeviceID
+        /)) {
 
             next unless $objItem->{"PNPDeviceID"};
             my $name = $objItem->{"Caption"};
