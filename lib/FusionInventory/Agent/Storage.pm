@@ -3,6 +3,7 @@ package FusionInventory::Agent::Storage;
 use strict;
 use warnings;
 
+use Carp;
 use Config;
 use English qw(-no_match_vars);
 use File::Glob ':glob';
@@ -166,8 +167,7 @@ sub _getFilePath {
 
     my $idx = $params->{idx};
     if ($idx && $idx !~ /^\d+$/) {
-        print "[fault] idx must be an integer!\n";
-        die;
+        croak "[fault] idx must be an integer!\n";
     } 
     my $module = $params->{module};
 
