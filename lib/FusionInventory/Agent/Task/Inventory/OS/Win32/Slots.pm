@@ -11,7 +11,6 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-
     my $params = shift;
     my $logger = $params->{logger};
     my $inventory = $params->{inventory};
@@ -25,18 +24,16 @@ sub doInventory {
 
 
     my @slots;
-    foreach my $Properties
-        (getWmiProperties('Win32_SystemSlot',
-qw/Name Description SlotDesignation Status Shared/)) {
+    foreach my $Properties (getWmiProperties('Win32_SystemSlot', qw/
+        Name Description SlotDesignation Status Shared
+    /)) {
 
         push @slots, {
-
             NAME => $Properties->{Name},
             DESCRIPTION => $Properties->{Description},
             DESIGNATION => $Properties->{SlotDesignation},
             STATUS => $Properties->{Status},
             SHARED => $Properties->{Shared}
-
         };
 
     }
