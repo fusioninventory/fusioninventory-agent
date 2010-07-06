@@ -1,5 +1,9 @@
 Revision history for FusionInventory::Agent
 
+       * XML::Simple → XML::TreePP transition
+       * Add ./t/xml-response.t, xml-query-inventory.t,
+         xml-query-simplemessage.t
+
 2.1_rc3
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
        * MacOSX: ignore printer if name start with:
@@ -24,6 +28,7 @@ Revision history for FusionInventory::Agent
          service
        * test scripts: fix is_deeply() argument order
        * RPC: print "now" as next contact date instead of 1/1970
+       * Inventory, correctly store user list
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
