@@ -69,32 +69,28 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-        foreach my $Properties
-            (getWmiProperties('Win32_OperatingSystem',
-qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser CSDVersion/)) {
+    foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
+        OSLanguage Caption Version SerialNumber Organization RegisteredUser
+        CSDVersion
+        /)) {
 
-                my $key = &getXPkey(qq!HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\\\DigitalProductId!); 
+        my $key = &getXPkey(qq!HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\\\DigitalProductId!); 
 
         $inventory->setHardware({
-
-                WINLANG => $Properties->{OSLanguage},
-                OSNAME => $Properties->{Caption},
-                OSVERSION =>  $Properties->{Version},
-                WINPRODKEY => $key,
-                WINPRODID => $Properties->{SerialNumber},
-                WINCOMPANY => $Properties->{Organization},
-                WINOWNER => $Properties->{RegistredUser},
-                OSCOMMENTS => $Properties->{CSDVersion},
-
-                });
-
+            WINLANG => $Properties->{OSLanguage},
+            OSNAME => $Properties->{Caption},
+            OSVERSION =>  $Properties->{Version},
+            WINPRODKEY => $key,
+            WINPRODID => $Properties->{SerialNumber},
+            WINCOMPANY => $Properties->{Organization},
+            WINOWNER => $Properties->{RegistredUser},
+            OSCOMMENTS => $Properties->{CSDVersion},
+        });
     }
 
-
-        foreach my $Properties
-            (getWmiProperties('Win32_ComputerSystem',
-qw/Workgroup UserName PrimaryOwnerName/)) {
-
+    foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
+        Workgroup UserName PrimaryOwnerName
+    /)) {
 
         my $workgroup = $Properties->{Workgroup};
         my $userdomain;
@@ -106,31 +102,24 @@ qw/Workgroup UserName PrimaryOwnerName/)) {
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
         $inventory->setHardware({
-
-                USERDOMAIN => $userdomain,
-                WORKGROUP => $workgroup,
-                WINOWNER => $winowner,
-
-                });
-
+            USERDOMAIN => $userdomain,
+            WORKGROUP => $workgroup,
+            WINOWNER => $winowner,
+        });
     }
 
-        foreach my $Properties
-            (getWmiProperties('Win32_ComputerSystemProduct',
-qw/UUID/)) {
-
+    foreach my $Properties (getWmiProperties('Win32_ComputerSystemProduct', qw/
+        UUID
+    /)) {
 
         my $uuid = $Properties->{UUID};
         $uuid = '' if $uuid =~ /^[0-]+$/;
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
         $inventory->setHardware({
-
-                UUID => $uuid,
-
-                });
+            UUID => $uuid,
+        });
 
     }
-
-
 }
+
 1;
