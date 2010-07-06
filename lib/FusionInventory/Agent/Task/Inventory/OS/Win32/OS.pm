@@ -3,9 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::OS;
 use strict;
 use warnings;
 
-use constant wbemFlagReturnImmediately => 0x10;
-use constant wbemFlagForwardOnly => 0x20;
-
 use Encode qw(encode);
 use Win32::TieRegistry;
 use Win32::OLE::Variant;
