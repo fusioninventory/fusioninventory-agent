@@ -676,7 +676,7 @@ sub addUser {
     /;
 
     my $values = $args;
-    return unless $values->{login};
+    return unless $values->{LOGIN};
 
     $self->_addEntry({
         'field' => \@fields,
@@ -694,7 +694,7 @@ sub addUser {
     $domainString .= '/' if $domainString;
 
     my $login = $args->{LOGIN}; 
-    my $domain = $args->{DOMAIN}; 
+    my $domain = $args->{DOMAIN} || '';
 # TODO: I don't think we should change the parmater this way. 
     if ($login =~ /(.*\\|)(\S+)/) {
         $domainString .= $domain;
