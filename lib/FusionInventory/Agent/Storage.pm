@@ -3,25 +3,13 @@ package FusionInventory::Agent::Storage;
 use strict;
 use warnings;
 
+use threads;
+use threads::shared;
+
 use Carp;
-use Config;
 use English qw(-no_match_vars);
 use File::Glob ':glob';
 use Storable;
-
-BEGIN {
-    # threads and threads::shared must be loaded before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
 
 my $lock :shared;
 

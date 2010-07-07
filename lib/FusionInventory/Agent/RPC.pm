@@ -2,26 +2,13 @@ package FusionInventory::Agent::RPC;
 
 use strict;
 use warnings;
+use threads;
+use threads::shared;
 
-use Config;
 use English qw(-no_match_vars);
 use HTTP::Daemon;
 
 use FusionInventory::Agent::Storage;
-
-BEGIN {
-    # threads and threads::shared must be loaded before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
 
 my $lock :shared;
 my $status :shared = "unknown";
@@ -37,12 +24,6 @@ sub new {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
-
-    if (!$Config{usethreads}) {
-        $logger->debug("threads support is need for RPC"); 
-        return;
-    }
-
 
     if ($config->{'html-dir'}) {
         $self->{htmlDir} = $config->{'html-dir'};

@@ -3,8 +3,6 @@ package FusionInventory::Agent::TargetsList;
 use strict;
 use warnings;
 
-use threads::shared;
-
 use FusionInventory::Agent::Target;
 
 sub new {

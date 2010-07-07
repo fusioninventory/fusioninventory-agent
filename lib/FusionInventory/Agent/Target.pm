@@ -2,28 +2,15 @@ package FusionInventory::Agent::Target;
 
 use strict;
 use warnings;
+use threads;
+use threads::shared;
 
 use Carp;
-use Config;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 
-BEGIN {
-    # threads and threads::shared must be loaded before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
-
 # resetNextRunDate() can also be call from another thread (RPC)
-my $lock : shared;
+my $lock :shared;
 
 sub new {
     my ($class, $params) = @_;
