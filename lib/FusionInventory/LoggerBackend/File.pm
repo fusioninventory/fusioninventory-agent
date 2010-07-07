@@ -5,8 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-my $handle;
-
 sub new {
     my ($class, $params) = @_;
 
@@ -15,11 +13,13 @@ sub new {
         '/' .
         $params->{config}->{logfile};
 
-    my $self = {};
-    bless $self, $class;
-
-    open $handle, '>>', $logfile
+    open my $handle, '>>', $logfile
         or warn "Can't open $logfile: $ERRNO";
+
+    my $self = {
+        handle => $handle
+    };
+    bless $self, $class;
 
     return $self;
 }
@@ -30,11 +30,13 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    print $handle "[".localtime()."][$level] $message\n";
+    print {$self->{handle}} "[".localtime()."][$level] $message\n";
 }
 
 sub DESTROY {
-    close $handle;
+    my ($self) = @_;
+
+    close $self->{handle};
 }
 
 1;
