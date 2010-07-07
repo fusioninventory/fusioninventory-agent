@@ -31,12 +31,12 @@ sub doInventory {
         $systemDrive = lc($Properties->{SystemDrive});
     }
 
-    my @drives;
     foreach my $Properties (getWmiProperties('Win32_LogicalDisk', qw/
         InstallDate Description FreeSpace FileSystem VolumeName Caption
         VolumeSerialNumber DeviceID Size DriveType VolumeName
     /)) {
-        push @drives, {
+
+        $inventory->addDrive({
            CREATEDATE => $Properties->{InstallDate},
            DESCRIPTION => $Properties->{Description},
            FREE => int($Properties->{FreeSpace}/(1024*1024)),
@@ -48,14 +48,9 @@ sub doInventory {
            TOTAL => int($Properties->{Size}/(1024*1024)),
            TYPE => $type[$Properties->{DriveType}] || 'Unknown',
            VOLUMN => $Properties->{VolumeName},
-        };
+        });
 
     }
-
-    foreach (@drives) {
-        $inventory->addDrive($_);
-    }
-
 }
 
 1;

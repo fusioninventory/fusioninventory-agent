@@ -22,24 +22,18 @@ sub doInventory {
         print Win32::OLE->LastError();
     }
 
-
-    my @slots;
     foreach my $Properties (getWmiProperties('Win32_SystemSlot', qw/
         Name Description SlotDesignation Status Shared
     /)) {
 
-        push @slots, {
+        $inventory->addSlot({
             NAME => $Properties->{Name},
             DESCRIPTION => $Properties->{Description},
             DESIGNATION => $Properties->{SlotDesignation},
             STATUS => $Properties->{Status},
             SHARED => $Properties->{Shared}
-        };
+        });
 
-    }
-
-    foreach (@slots) {
-        $inventory->addSlot($_);
     }
 
 }
