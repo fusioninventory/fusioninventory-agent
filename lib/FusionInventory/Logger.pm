@@ -104,11 +104,4 @@ sub fault {
     $self->log({ level => 'fault', message => $msg});
 }
 
-sub user {
-    my ($self, $msg) = @_;
-
-    lock($lock);
-    $self->log({ level => 'user', message => $msg});
-}
-
 1;
