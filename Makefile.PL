@@ -3,18 +3,16 @@ use inc::Module::Install;
 use English qw(-no_match_vars);
 
 # Hack to be able to run a post install script
-sub MY::postamble
-{
+sub MY::postamble {
 
-    return if $OSNAME =~ /^MSWin/;
+    return if $OSNAME eq 'MSWin';
 
-    my $re;
+    my $re = <<'EOF';
 
-    $re = '
-    install :: all pure_install doc_install
-    $(NOECHO) $(NOOP)';
-
-    $re .= "\n\t[ ! -f run-postinst ] || $EXECUTABLE_NAME fusioninventory-agent-config\n";
+install :: all pure_install doc_install
+	$(NOECHO) $(NOOP)
+	[ ! -f run-postinst ] || $(EXECUTABLE_NAME) fusioninventory-agent-config
+EOF
 
     return $re;
 }
@@ -35,8 +33,8 @@ requires 'File::Temp' => undef;
 requires 'Net::IP' => undef;
 requires 'HTTP::Status' => undef;
 recommends 'Compress::Zlib';
-recommends 'Proc::Daemon' => undef unless $OSNAME =~ /^MSWin/;
-recommends 'Proc::PID::File' => undef unless $OSNAME =~ /^MSWin/;
+recommends 'Proc::Daemon' => undef unless $OSNAME eq 'MSWin';
+recommends 'Proc::PID::File' => undef unless $OSNAME eq 'MSWin';
 recommends 'File::Glob' => undef;
 recommends 'File::Path' => undef;
 recommends 'HTTP::Daemon' => undef; # RPC
@@ -49,7 +47,7 @@ test_requires  'Test::More'  => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
-install_script  'fusioninventory-win32-service' if $OSNAME =~ /^MSWin/;
+install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin';
 install_share 'share';
 
 # We want a release bundled with the needed dependency to be able to
@@ -61,15 +59,12 @@ if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
     }
 }
 
-
-
-if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
+if ($ENV{PERL_AUTOINSTALL}) {
     unlink 'run-postinst';
 } else {
     open POSTINST, '>run-postinst' or die $!;
     close POSTINST;
 }
-
 
 if (!can_use('Compress::Zlib')) {
     print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
@@ -112,7 +107,7 @@ if ($OSNAME =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|
     }
 }
 
-if ($OSNAME =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
+if ($OSNAME eq 'darwin' && !can_use('Mac::SysProfile')) {
     print "\n";
     print "[WARNING] Mac::SysProfile is needed on MacOS to detect most of the device information.\n";
     print "\n";
@@ -120,7 +115,7 @@ if ($OSNAME =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
 }
 
 # memconf is needed by Solaris backend module
-if ($OSNAME =~ /^solaris$/i) {
+if ($OSNAME eq 'solaris') {
     install_script  'memconf';
 }
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
