@@ -6,6 +6,7 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use File::stat;
+use Memoize;
 use Time::Local;
 
 our @EXPORT = qw(
@@ -18,6 +19,8 @@ our @EXPORT = qw(
     can_run
     can_load
 );
+
+memoize('can_run');
 
 sub getFormatedLocalTime {
     my ($time) = @_;

@@ -5,11 +5,14 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
+use Memoize;
 
 our @EXPORT = qw(
     getDevicesFromUdev
     getDeviceCapacity
 );
+
+memoize('getDevicesFromUdev');
 
 sub getDevicesFromUdev {
     my @devices;
