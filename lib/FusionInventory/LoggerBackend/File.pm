@@ -10,16 +10,16 @@ my $handle;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {
-        config  => $params->{config},
-        logfile => $params->{config}->{logdir} .
-                   '/' .
-                   $params->{config}->{logfile}
-    };
+    my $logfile = 
+        $params->{config}->{logdir} .
+        '/' .
+        $params->{config}->{logfile};
+
+    my $self = {};
     bless $self, $class;
 
-    open $handle, '>>', $self->{logfile}
-        or warn "Can't open $self->{logfile}: $ERRNO";
+    open $handle, '>>', $logfile
+        or warn "Can't open $logfile: $ERRNO";
 
     return $self;
 }
