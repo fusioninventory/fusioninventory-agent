@@ -59,7 +59,7 @@ sub parseUdevEntry {
     close $handle;
 
     $result->{SERIALNUMBER} = $serial
-    unless $result->{SERIALNUMBER} =~ /\S/;
+        unless $result->{SERIALNUMBER} =~ /\S/;
 
     $result->{DISKSIZE} = getDeviceCapacity($device)
         if $result->{TYPE} ne 'cd';
