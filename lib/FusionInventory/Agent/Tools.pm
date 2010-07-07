@@ -199,8 +199,7 @@ sub can_run {
             }
         }
     } else {
-        chomp(my $binpath=`which $binary 2>/dev/null`);
-        $ret = -x $binpath;
+        $ret = (system("which $binary >/dev/null 2>&1") == 0);
     }
 
     return $ret;
