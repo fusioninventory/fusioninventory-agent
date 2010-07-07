@@ -48,8 +48,6 @@ sub doInventory {
 
     return if $config->{'no-printer'};
 
-    my @slots;
-
     foreach my $Properties (getWmiProperties('Win32_Printer', qw/
         ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
         Comment DescriptionDriverName PortName Network Shared PrinterStatus
