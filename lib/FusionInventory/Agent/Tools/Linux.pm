@@ -20,6 +20,11 @@ sub getDevicesFromUdev {
         push (@devices, parseUdevEntry($file, $device));
     }
 
+    foreach my $device (@devices) {
+        next if $device->{TYPE} eq 'cd';
+        $device->{DISKSIZE} = getDeviceCapacity($device->{NAME})
+    }
+
     return @devices;
 }
 
@@ -60,9 +65,6 @@ sub parseUdevEntry {
 
     $result->{SERIALNUMBER} = $serial
         unless $result->{SERIALNUMBER} =~ /\S/;
-
-    $result->{DISKSIZE} = getDeviceCapacity($device)
-        if $result->{TYPE} ne 'cd';
 
     $result->{NAME} = $device;
 
