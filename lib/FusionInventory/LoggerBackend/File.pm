@@ -18,8 +18,8 @@ sub new {
     };
     bless $self, $class;
 
-    open $handle, '>>', $self->{config}->{logfile}
-        or warn "Can't open $self->{config}->{logfile}: $ERRNO";
+    open $handle, '>>', $self->{logfile}
+        or warn "Can't open $self->{logfile}: $ERRNO";
 
     return $self;
 }
