@@ -76,10 +76,9 @@ sub main {
         $inventory->saveLastState();
 
         my $parsedContent = $response->getParsedContent();
-        if ($parsedContent
-            &&
-            exists ($parsedContent->{RESPONSE})
-            &&
+        if (
+            $parsedContent &&
+            $parsedContent->{RESPONSE} &&
             $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
         ) {
             $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
