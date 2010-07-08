@@ -19,17 +19,24 @@ use FusionInventory::Logger;
 sub main {
     my ($self) = @_;
 
-    if ($self->{target}->{type} eq 'server' &&
-        (
-            !exists($self->{prologresp}->{parsedcontent}->{RESPONSE}) ||
-            $self->{prologresp}->{parsedcontent}->{RESPONSE} ne 'SEND'
-        )
-    ) {
-        $self->{logger}->debug(
-            '<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not send an ' .
-            'inventory.'
-        );
-        return;
+    if ($self->{target}->{type} eq 'server') {
+        croak "No prologresp!" unless $self->{prologresp};
+
+        if ($self->{config}->{force}) {
+            $self->{logger}->debug(
+                "Force enable, ignore prolog and run inventory."
+            );
+        } else {
+            my $parsedContent = $self->{prologresp}->getParsedContent();
+            if (
+                !$parsedContent ||
+                ! $parsedContent->{RESPONSE} ||
+                ! $parsedContent->{RESPONSE} eq 'SEND'
+            ) {
+                $self->{logger}->debug("No inventory requested in the prolog");
+                return;
+            }
+        }
     }
 
     $self->{modules} = {};
@@ -44,21 +51,7 @@ sub main {
     });
     $self->{inventory} = $inventory;
 
-    if (!$self->{config}->{stdout} && !$self->{config}->{local}) {
-        croak "No prologresp!" unless $self->{prologresp};
-
-        if ($self->{config}->{force}) {
-            $self->{logger}->debug(
-                "Force enable, ignore prolog and run inventory."
-            );
-        } elsif (!$self->{prologresp}->isInventoryAsked()) {
-            $self->{logger}->debug("No inventory requested in the prolog...");
-            return;
-        }
-    }
-
     $self->feedInventory();
-
 
     if ($self->{target}->{type} eq 'stdout') {
         $self->{inventory}->printXML();
