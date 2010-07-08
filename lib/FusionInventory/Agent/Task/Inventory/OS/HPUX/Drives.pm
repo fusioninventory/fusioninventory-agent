@@ -23,6 +23,7 @@ sub doInventory {
     my $createdate;
 
     for ( `fstyp -l | grep -v nfs` ) {
+        next if /^\s*$/;
         chomp;
         $filesystem=$_;
         for ( `bdf -t $filesystem `) {

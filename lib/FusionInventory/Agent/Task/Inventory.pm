@@ -137,6 +137,7 @@ sub initModList {
 
             my $ret;
             if ($OSNAME eq 'MSWin32') {
+                # We should use that for UNIX too
                 MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
                     foreach my $ext (qw/.exe .bat/) {
                         if (-f $_.'/'.$binary.$ext) {
