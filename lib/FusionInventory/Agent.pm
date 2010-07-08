@@ -263,28 +263,39 @@ sub main {
                     next;
                 }
 
-                # launch task
-                if (my $pid = fork()) {
+                $rpc->setCurrentStatus("running task $module");
+
+                my $task = $package->new({
+                    config => $config,
+                    logger => $logger,
+                    target => $target,
+                    storage => $storage,
+                    prologresp => $prologresp
+                });
+
+                if (
+                    $config->{daemon}           ||
+                    $config->{'daemon-no-fork'} ||
+                    $config->{winService}
+                ) {
+                    # daemon mode: run each task in a childprocess
+                    my $pid = fork();
+
                     # parent
-                    $rpc->setCurrentStatus("running task $module");
-                } else {
-                   die "fork failed: $ERRNO" unless defined $pid;
-                   # child
+                    next if $pid;
+
+                    die "fork failed: $ERRNO" unless defined $pid;
+
+                    # child
                     $logger->debug("[task] executing $module in process $PID");
-
-                    my $task = $package->new({
-                        config => $config,
-                        logger => $logger,
-                        target => $target,
-                        storage => $storage,
-                        prologresp => $prologresp
-                    });
                     $task->main();
-
                     $logger->debug("[task] end of $module");
-                    exit 0;
+                } else {
+                    # standalone mode: run each task directly
+                    $logger->debug("[task] executing $module");
+                    $task->main();
+                    $logger->debug("[task] end of $module");
                 }
-
             }
             $rpc->setCurrentStatus("waiting");
 
