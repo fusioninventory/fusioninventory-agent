@@ -28,12 +28,14 @@ sub getFromSysProc {
         push(@names, $1);
     }
 
-    my $command = `fdisk -v` =~ '^GNU' ? 'fdisk -p -l' : 'fdisk -l';
+    my $command = `fdisk -v` =~ '^GNU' ?
+        'fdisk -p -l 2>/dev/null' :
+        'fdisk -l 2>/dev/null';
     if (!open my $handle, '-|', $command) {
         warn "Can't run $command: $ERRNO";
     } else {
         while (my $line = <$handle>) {
-            next unless (/^\/dev\/([sh]d[a-z])/);
+            next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
             push(@names, $1);
         }
         close $handle;
