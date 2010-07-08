@@ -31,7 +31,7 @@ sub new {
 
     lock($lock);
 
-    my $nextRunDate : shared;
+    my $nextRunDate :shared;
     $self->{nextRunDate} = \$nextRunDate;
 
     my $config = $self->{config};
