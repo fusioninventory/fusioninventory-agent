@@ -50,10 +50,4 @@ sub getParsedContent {
     return $self->{parsedcontent};
 }
 
-sub origMsgType {
-    my ($self, $package) = @_;
-
-    return ref($package);
-}
-
 1;
