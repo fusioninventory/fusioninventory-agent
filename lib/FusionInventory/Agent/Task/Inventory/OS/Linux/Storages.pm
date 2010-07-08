@@ -12,13 +12,13 @@ sub isInventoryEnabled {
     return 1;
 }
 
-sub getFromHal {
+sub getDevicesFromHal {
 
     my $devices = parseLshal('/usr/bin/lshal', '-|');
     return @$devices;
 }
 
-sub getFromSysProc {
+sub getDevicesFromSysProc {
 
     # compute list of devices
     my @names;
@@ -130,7 +130,7 @@ sub doInventory {
 
     # get informations from hal first, if available
     if (can_run ("lshal")) {
-        @devices = getFromHal();
+        @devices = getDevicesFromHal();
     }
 
     # index devices by name for comparaison
@@ -147,7 +147,7 @@ sub doInventory {
 
     # fallback on sysfs if udev didn't worked
     if (!@devices) {
-        @devices = getFromSysProc();
+        @devices = getDevicesFromSysProc();
     }
 
     # get serial & firmware numbers from hdparm, if available
