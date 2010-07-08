@@ -29,20 +29,16 @@ sub main {
         return;
     }
 
-    my $continue = 0;
-    foreach my $num (@{$self->{prologresp}->{parsedcontent}->{OPTION}}) {
-        if (defined($num)) {
-            if ($num->{NAME} eq "WAKEONLAN") {
-                $continue = 1;
-                $self->{WAKEONLAN} = $num;
-            }
-        }
-    }
-
-    if ($continue == 0) {
-        $self->{logger}->debug("No WAKEONLAN. Exiting...");
+    my $options = $self->{prologresp}->getOptionsInfoByName('WAKEONLAN');
+    if (!$options) {
+        $self->{logger}->debug(
+            "No wake on lan requested in the prolog, exiting"
+        );
         return;
     }
+
+    $self->{macaddress} = $options->{MAC};
+    $self->{ip}         = $options->{IP};
 
     $self->{network} = FusionInventory::Agent::Network->new({
         logger => $self->{logger},
@@ -51,17 +47,15 @@ sub main {
     });
 
     $self->StartMachine();
-
 }
 
 
 sub StartMachine {
     my ($self, $params) = @_;
 
-    my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
-    my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
-
-    my $logger = $self->{logger};
+    my $macaddress = $self->{macaddress};
+    my $ip         = $self->{ip};
+    my $logger     = $self->{logger};
 
     return unless defined $macaddress;
 

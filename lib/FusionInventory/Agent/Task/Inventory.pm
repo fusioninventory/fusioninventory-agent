@@ -33,7 +33,9 @@ sub main {
                 ! $parsedContent->{RESPONSE} ||
                 ! $parsedContent->{RESPONSE} eq 'SEND'
             ) {
-                $self->{logger}->debug("No inventory requested in the prolog");
+                $self->{logger}->debug(
+                    "No inventory requested in the prolog, exiting"
+                );
                 return;
             }
         }
