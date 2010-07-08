@@ -188,21 +188,18 @@ sub compareVersion {
 sub can_run {
     my ($binary) = @_;
 
-    my $ret;
     if ($OSNAME eq 'MSWin32') {
-        MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
+        foreach my $dir (split/$Config::Config{path_sep}/, $ENV{PATH}) {
             foreach my $ext (qw/.exe .bat/) {
-                if (-f $_.'/'.$binary.$ext) {
-                    $ret = 1;
-                    last MAIN;
-                }
+                return 1 if -f $dir . '/' . $binary . $ext;
             }
         }
+        return 0;
     } else {
-        $ret = (system("which $binary >/dev/null 2>&1") == 0);
+        return 
+            system("which $binary >/dev/null 2>&1") == 0;
     }
 
-    return $ret;
 }
 
 sub can_load {
