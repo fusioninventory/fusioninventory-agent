@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-
 use XML::Simple;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -41,7 +41,10 @@ sub getParsedContent {
     my $self = shift;
 
     if(!$self->{parsedcontent} && $self->{content}) {
-        $self->{parsedcontent} = XML::Simple::XMLin( $self->{content}, ForceArray => ['OPTION','PARAM'] );
+        $self->{parsedcontent} = XMLin(
+            $self->{content},
+            ForceArray => ['OPTION','PARAM']
+        );
     }
 
     return $self->{parsedcontent};
