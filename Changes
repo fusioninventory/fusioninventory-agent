@@ -27,6 +27,8 @@ Revision history for FusionInventory::Agent
        * Inventory, correctly store user list
        * Fix the noDuplicated to avoid duplicated XML sections in inventory
        * Import the new FusionInventory logo
+       * Fix, HP-UX errors when listing drives
+         http://forge.fusioninventory.org/issues/188 (Amir PAKDEL)
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
