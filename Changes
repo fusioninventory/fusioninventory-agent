@@ -26,6 +26,7 @@ Revision history for FusionInventory::Agent
        * RPC: print "now" as next contact date instead of 1/1970
        * Inventory, correctly store user list
        * Fix the noDuplicated to avoid duplicated XML sections in inventory
+       * Import the new FusionInventory logo
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
