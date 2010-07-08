@@ -18,22 +18,6 @@ sub new {
     return $self;
 }
 
-sub isInventoryAsked {
-    my $self = shift;
-
-    my $parsedContent = $self->getParsedContent();
-
-    if (
-        $parsedContent &&
-        exists $parsedContent->{RESPONSE} &&
-        $parsedContent->{RESPONSE} eq 'SEND'
-    ) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 sub getOptionsInfoByName {
     my ($self, $name) = @_;
 
