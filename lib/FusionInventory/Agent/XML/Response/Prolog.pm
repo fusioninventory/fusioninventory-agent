@@ -23,16 +23,14 @@ sub getOptionsInfoByName {
 
     my $parsedContent = $self->getParsedContent();
 
-    my $ret = [];
-    return unless ($parsedContent && $parsedContent->{OPTION});
-    foreach (@{$parsedContent->{OPTION}}) {
-      if ($_->{NAME} && $_->{NAME} =~ /^$name$/i) {
-        $ret = $_->{PARAM}
-      }
+    return unless $parsedContent && $parsedContent->{OPTION};
+
+    foreach my $option (@{$parsedContent->{OPTION}}) {
+        next unless $option->{NAME} eq $name;
+        return $option->{PARAM}->[0];
     }
 
-    return $ret;
+    return;
 }
-
 
 1;
