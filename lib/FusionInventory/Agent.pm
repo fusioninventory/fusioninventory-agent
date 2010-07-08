@@ -19,9 +19,6 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
-# reap child processes automatically
-$SIG{CHLD} = 'IGNORE';
-
 our $VERSION = '2.1beta1';
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
@@ -279,17 +276,19 @@ sub main {
                     $config->{winService}
                 ) {
                     # daemon mode: run each task in a childprocess
-                    my $pid = fork();
+                    if (my $pid = fork()) {
+                        # parent
+                        waitpid($pid, 0);
+                    } else {
+                        # child
+                        die "fork failed: $ERRNO" unless defined $pid;
 
-                    # parent
-                    next if $pid;
-
-                    die "fork failed: $ERRNO" unless defined $pid;
-
-                    # child
-                    $logger->debug("[task] executing $module in process $PID");
-                    $task->main();
-                    $logger->debug("[task] end of $module");
+                        $logger->debug(
+                            "[task] executing $module in process $PID"
+                        );
+                        $task->main();
+                        $logger->debug("[task] end of $module");
+                    }
                 } else {
                     # standalone mode: run each task directly
                     $logger->debug("[task] executing $module");
