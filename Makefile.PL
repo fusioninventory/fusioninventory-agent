@@ -1,6 +1,5 @@
 
 use inc::Module::Install;
-use Config;
 use English qw(-no_match_vars);
 
 # Hack to be able to run a post install script
@@ -90,13 +89,11 @@ if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
 }
 
 
-my @t = Config::config_re('archname');
-my $archname = $t[0];
-if ($OSNAME =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd64)/i)) {
+if ($OSNAME =~ /(linux|bsd)/i) {
     foreach (qw/dmidecode lspci/) {
         if (!can_run($_)) {
             print "\n";
-            print "[WARNING] $_ is needed if you want a complete inventory on x86 and AMD64/x86_64.\n";
+            print "[WARNING] $_ is needed if you want a complete inventory\n";
             print "\n";
         }
     }
