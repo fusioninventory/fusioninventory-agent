@@ -141,12 +141,14 @@ sub stderr {
 
     my $logger = $self->{logger};
 
+    die unless $logger;
+
     return unless defined($buffer);
     while ($buffer =~ s/(\w+):\s(.*?)\n//) {
         $logger->$1($job->{name}.") ".$2);
     }
     if ($buffer !~ /^\s*$/) {
-        print "WARNING: remaining error messages:\n $buffer\n";
+        $logger->debug("WARNING: remaining error messages: $buffer");
     }
 }
 
