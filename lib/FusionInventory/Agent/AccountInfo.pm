@@ -29,7 +29,7 @@ sub new {
             my $xmladm;
 
             eval {
-                $xmladm = XML::Simple::XMLin(
+                $xmladm = XMLin(
                     $self->{config}->{accountinfofile},
                     ForceArray => [ 'ACCOUNTINFO' ]
                 );
@@ -127,7 +127,7 @@ sub write {
             [$self->{accountinfo}{$_}]}; 
     }
 
-    my $xml=XML::Simple::XMLout( $tmp, RootName => 'ADM' );
+    my $xml = XMLout( $tmp, RootName => 'ADM' );
 
     if (open my $handle, ">", $target->{accountinfofile}) {
         print $handle $xml;
