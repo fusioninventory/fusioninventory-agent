@@ -13,8 +13,8 @@ sub send {
     
     my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
    
-   print STDOUT "=BEGIN MSG=\n";
-   print $message->getContent();
+   print STDOUT "=BEGIN MSG($msgtype)=\n";
+   print STDOUT $message->getContent()."\n";
    print STDOUT "=END MSG=\n";
 }
 
