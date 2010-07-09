@@ -381,11 +381,6 @@ sub feedInventory {
     my ($self, $params) = @_;
 
     my $logger = $self->{logger};
-
-    if (!$self->{inventory}) {
-        croak 'Missing inventory parameter.';
-    }
-
     my $inventory = $self->{inventory};
 
     if (!keys %{$self->{modules}}) {
