@@ -1010,44 +1010,6 @@ sub getContent {
     return $content;
 }
 
-=item printXML()
-
-Only for debugging purpose. Print the inventory on STDOUT.
-
-=cut
-sub printXML {
-    my ($self, $args) = @_;
-
-    print $self->getContent();
-}
-
-=item writeXML()
-
-Save the generated inventory as an XML file. The 'local' key of the config
-is used to know where the file as to be saved.
-
-=cut
-sub writeXML {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-    my $target = $self->{target};
-
-    my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
-    $localfile =~ s!(//){1,}!/!;
-
-    # Convert perl data structure into xml strings
-
-    if (open my $handle, '>', $localfile) {
-        print $handle $self->getContent();
-        close $handle;
-        $logger->info("Inventory saved in $localfile");
-    } else {
-        warn "Can't open $localfile: $ERRNO"
-    }
-}
-
 =item processChecksum()
 
 Compute the <CHECKSUM/> field. This information is used by the server to

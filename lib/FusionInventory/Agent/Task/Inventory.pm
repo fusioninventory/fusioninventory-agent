@@ -56,9 +56,21 @@ sub main {
     $self->feedInventory();
 
     if ($self->{target}->{type} eq 'stdout') {
-        $self->{inventory}->printXML();
+        print $self->{inventory}->getContent();
     } elsif ($self->{target}->{type} eq 'local') {
-        $self->{inventory}->writeXML();
+        my $file =
+            $self->config->{local} .
+            "/" .
+            $self->target->{deviceid} .
+            '.ocs';
+
+        if (open my $handle, '>', $file) {
+            print $handle $self->getContent();
+            close $handle;
+            $self->{logger}->info("Inventory saved in $file");
+        } else {
+            warn "Can't open $file: $ERRNO"
+        }
     } elsif ($self->{target}->{type} eq 'server') {
 
         my $accountinfo = $self->{target}->{accountinfo};
