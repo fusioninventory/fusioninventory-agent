@@ -28,7 +28,6 @@ sub new {
 
     my $logger = $self->{logger};
     my $target = $self->{target};
-    my $config = $self->{config};
 
     if (!($target->{deviceid})) {
         croak 'deviceid unitialized!';
@@ -67,8 +66,6 @@ sub new {
 
 sub _addEntry {
     my ($self, $params) = @_;
-
-    my $config = $self->{config};
 
     my $fields = $params->{field};
     my $sectionName = $params->{sectionName};

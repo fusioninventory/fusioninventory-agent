@@ -48,7 +48,6 @@ sub main {
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
         target => $self->{target},
-        config => $self->{config},
         logger => $self->{logger},
     });
     $self->{inventory} = $inventory;
