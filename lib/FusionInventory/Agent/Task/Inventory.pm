@@ -19,9 +19,9 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Job::Logger;
+use FusionInventory::Agent::Job::Network;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::AccountInfo;
@@ -90,10 +90,10 @@ sub main {
         # Put ACCOUNTINFO values in the inventory
         $accountinfo->setAccountInfo($self->{inventory});
 
-        my $network = FusionInventory::Agent::Network->new({
-            logger => $self->{logger},
-            config => $self->{config},
-            target => $self->{target},
+        my $network = FusionInventory::Agent::Job::Network->new({
+#            logger => $self->{logger},
+#            config => $self->{config},
+#            target => $self->{target},
         });
 
         my $response = $network->send({message => $inventory});
