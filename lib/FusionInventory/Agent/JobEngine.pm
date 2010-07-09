@@ -144,6 +144,7 @@ sub stderr {
     die unless $logger;
 
     return unless defined($buffer);
+
     while ($buffer =~ s/(\w+):\s(.*?)\n//) {
         $logger->$1($job->{name}.") ".$2);
     }
@@ -152,26 +153,46 @@ sub stderr {
     }
 }
 
-sub stdin {
-
-
-}
-
 sub stdout {
+    my ($self, $job, $buffer) = @_;
 
+    my $logger = $self->{logger};
+    my $network = $job->{network};
+
+    return unless defined($buffer);
+
+    my $msgType;
+    my $in;
+    my $tmp;
+
+    foreach my $line (split /\n/, $buffer) {
+        if ($line =~ /=BEGIN MSG\((.+)\)=/) {
+            $msgType = $1;
+            $in = 1;
+        } elsif ($in && $buffer =~ /=END MSG=/) {
+            $network->send({
+                    msgType => $msgType,
+                    xmlContent => $tmp,
+                });
+            $in = 0;
+            $msgType = undef;
+            $tmp = undef;
+        } elsif ($in) {
+            $tmp .= $line;
+        }
+    }
 
 }
+
 
 sub fetchBuffer {
     my ($self, $job) = @_;
 
     my $logger = $self->{logger};
 
-
-    foreach my $buffName (qw/stdout stderr/) {
+    foreach my $buffName (qw/stderr stdout/) {
         my $h = $job->{$buffName};
-        my $s = IO::Select->new();
-        $s->add($h);
+        my $s = IO::Select->new($h);
 
         my $buffer;
 
