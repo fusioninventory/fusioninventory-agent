@@ -37,12 +37,22 @@ sub start {
     $job->{name} = $name;
     $job->{isTask} = $isTask;
 
+    my $stdin;
+    my $stdout;
+    my $stderr;
+
+    use Symbol 'gensym'; $stderr = gensym;
+
     $job->{pid} = open3(
-        $job->{stdin},
-        $job->{stderr},
-        $job->{stdout},
+        $stdin,
+        $stdout,
+        $stderr,
         @cmd
     );
+    die unless $stderr;
+    $job->{stdin} = $stdin;
+    $job->{stdout} = $stdout;
+    $job->{stderr} = $stderr;
 
     if (!$job->{pid}) {
         print "Failed to start cmd\n";
