@@ -1,5 +1,6 @@
 
 use inc::Module::Install;
+use Config;
 use English qw(-no_match_vars);
 
 # Hack to be able to run a post install script
@@ -16,9 +17,6 @@ EOF
 
     return $re;
 }
-
-use Config;
-
 
 name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
@@ -92,11 +90,8 @@ if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
 }
 
 
-my $archname;
-eval { # config_re is not available on Perl 5.6
-    my @t = Config::config_re('archname');
-    $archname = $t[0];
-};
+my @t = Config::config_re('archname');
+my $archname = $t[0];
 if ($OSNAME =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd64)/i)) {
     foreach (qw/dmidecode lspci/) {
         if (!can_run($_)) {
