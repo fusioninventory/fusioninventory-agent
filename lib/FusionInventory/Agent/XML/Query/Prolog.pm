@@ -5,7 +5,6 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 use XML::Simple;
-use Data::Dumper;
 
 sub new {
     my ($class, $params) = @_;
@@ -16,11 +15,6 @@ sub new {
     $self->{h}->{TOKEN} = [$params->{token}];
 
     return $self;
-}
-
-sub dump {
-    my $self = shift;
-    print Dumper($self->{h});
 }
 
 sub getContent {

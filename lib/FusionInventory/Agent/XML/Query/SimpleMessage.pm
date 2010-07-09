@@ -5,7 +5,6 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 use Carp;
-use Data::Dumper;
 use XML::Simple;
 
 sub new {
@@ -24,12 +23,6 @@ sub new {
 
     return $self;
 }
-
-sub dump {
-    my $self = shift;
-    print Dumper($self->{h});
-}
-
 
 sub getContent {
     my ($self, $args) = @_;
