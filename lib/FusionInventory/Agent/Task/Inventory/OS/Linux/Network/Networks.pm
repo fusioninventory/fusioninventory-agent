@@ -103,7 +103,7 @@ sub doInventory {
             }
 
             if (open my $handle, '<', "/sys/class/net/$ifData{DESCRIPTION}/device/uevent") {
-                while (<handle>) {
+                while (<$handle>) {
                     $ifData{DRIVER} = $1 if /^DRIVER=(\S+)/;
                     $ifData{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
                 }
