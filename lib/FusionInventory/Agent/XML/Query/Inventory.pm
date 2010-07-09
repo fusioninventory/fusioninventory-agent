@@ -19,7 +19,7 @@ it called $inventory in general.
 =cut
 
 use Encode qw/encode/;
-use XML::Simple;
+use XML::TreePP;
 use Digest::MD5 qw(md5_base64);
 use Config;
 
@@ -676,7 +676,7 @@ sub addUser {
     /;
 
     my $values = $args;
-    return unless $values->{login};
+    return unless $values->{LOGIN};
 
     $self->_addEntry({
         'field' => \@fields,
@@ -694,7 +694,7 @@ sub addUser {
     $domainString .= '/' if $domainString;
 
     my $login = $args->{LOGIN}; 
-    my $domain = $args->{DOMAIN}; 
+    my $domain = $args->{DOMAIN} || '';
 # TODO: I don't think we should change the parmater this way. 
     if ($login =~ /(.*\\|)(\S+)/) {
         $domainString .= $domain;
@@ -782,7 +782,6 @@ sub addVirtualMachine {
         'sectionName' => 'VIRTUALMACHINES',
         'values' => $args,
     });
-
 }
 
 =item addProcess()
@@ -1036,7 +1035,8 @@ sub getContent {
         $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
     }
 
-    my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
+    my $tpp = XML::TreePP->new();
+    my $content = $tpp->write( { REQUEST => $self->{h} } );
 
     return $content;
 }
@@ -1198,6 +1198,8 @@ inventory.
 sub processChecksum {
     my $self = shift;
 
+    my $myData = $self->{myData};
+
     my $logger = $self->{logger};
     my $target = $self->{target};
 
@@ -1230,34 +1232,18 @@ sub processChecksum {
 
     my $checksum = 0;
 
-    if ($target->{last_statefile}) {
-        if (-f $target->{last_statefile}) {
-            # TODO: avoid a violant death in case of problem with XML
-            $self->{last_state_content} = XML::Simple::XMLin(
-
-                $target->{last_statefile},
-                SuppressEmpty => undef,
-                ForceArray => 1
-
-            );
-        } else {
-            $logger->debug ('last_state file: `'.
-                $target->{last_statefile}.
-                "' doesn't exist (yet).");
-        }
-    }
-
+    my $tpp = XML::TreePP->new();
     foreach my $section (keys %mask) {
         #If the checksum has changed...
-        my $hash =
-        md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-        if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
+        my $hash = md5_base64($tpp->write({ XML => $self->{h}{'CONTENT'}{$section} }));
+        if (!$myData->{last_state}->{$section}[0] || $myData->{last_state}->{$section}[0] ne $hash ) {
             $logger->debug ("Section $section has changed since last inventory");
             #We make OR on $checksum with the mask of the current section
             $checksum |= $mask{$section};
         }
-        # Finally I store the new value.
-        $self->{last_state_content}->{$section}[0] = $hash;
+        # Finally I store the new value. If the transmition is ok, this will
+        # be the new last_state
+        $self->{current_state}->{$section}[0] = $hash;
     }
 
 
@@ -1273,27 +1259,12 @@ correctly, the last_state is saved.
 sub saveLastState {
     my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
-    my $target = $self->{target};
+    my $myData = $self->{myData};
+    my $storage = $self->{storage};
 
-    if (!defined($self->{last_state_content})) {
-        $self->processChecksum();
-    }
+    $myData->{last_state} = $self->{current_state};
 
-    if (!defined ($target->{last_statefile})) {
-        $logger->debug ("Can't save the last_state file. File path is not initialised.");
-        return;
-    }
-
-    if (open my $handle, '>', $target->{last_statefile}) {
-        print $handle XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
-        close $handle;
-    } else {
-        $logger->debug (
-            "Cannot save the checksum values in $target->{last_statefile} " .
-            "(will be synchronized by GLPI!!): $ERRNO"
-        );
-    }
+    $storage->save({ data => $myData });
 }
 
 =item addSection()

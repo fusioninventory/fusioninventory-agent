@@ -1,5 +1,10 @@
 Revision history for FusionInventory::Agent
 
+       * XML::Simple → XML::TreePP transition
+       * Add ./t/xml-response.t, xml-query-inventory.t,
+         xml-query-simplemessage.t
+       * Inventory, correctly store user list
+
 2.1_rc3
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
        * Fix, restore --noinventory support, print a warning saying
@@ -20,7 +25,7 @@ Revision history for FusionInventory::Agent
        * remove --perl-bin-dir-in-path, turns it on only in the Windows
          service
 
-2.1     Thu, 01 Jul 2010 23:05:10 +0200
+2.1_rc2 Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
        * Linux: set back DRIVES/FREE
        * Linux: CONTROLLERS/NAME drop the trailing whitespace

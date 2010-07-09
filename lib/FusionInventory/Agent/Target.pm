@@ -67,13 +67,18 @@ sub new {
         target => $self
     });
 
-    if ($self->{type} eq 'server') {
+    my $storage = $self->{storage};
 
-        $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-            logger => $logger,
-            config => $config,
-            target => $self,
-        });
+    if ($self->{'type'} eq 'server') {
+
+        $self->{accountinfo} = new FusionInventory::Agent::AccountInfo({
+
+                logger => $logger,
+                config => $config,
+                storage => $storage,
+                target => $self,
+
+            });
     
         my $accountinfo = $self->{accountinfo};
 

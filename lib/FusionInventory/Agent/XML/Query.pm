@@ -14,6 +14,7 @@ sub new {
     $self->{accountinfo} = $params->{accountinfo};
     $self->{logger} = $params->{logger};
     $self->{target} = $params->{target};
+    $self->{storage} = $params->{storage};
 
     my $rpc = $self->{rpc};
     my $target = $self->{target};

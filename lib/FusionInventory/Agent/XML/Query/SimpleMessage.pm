@@ -34,6 +34,10 @@ You can the key you want in the msg structure.
 =cut
 
 use XML::Simple;
+use XML::TreePP;
+use FusionInventory::Agent::XML::Query;
+
+our @ISA = ('FusionInventory::Agent::XML::Query');
 
 sub new {
     my ($class, $params) = @_;
@@ -61,9 +65,15 @@ sub dump {
 sub getContent {
     my ($self, $args) = @_;
 
-    my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
+    my $contentTOTO=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl =>
+        '<?xml version="1.0" encoding="UTF-8"?>',
         SuppressEmpty => undef, NoAttr => 1, KeyAttr => [] );
+    print "XML::Simple ".$contentTOTO."\n";
 
+    my $tpp = XML::TreePP->new();
+    my $content= $tpp->write({ REQUEST => $self->{h} });
+
+    print "XML::TreePP ".$content."\n";
     return $content;
 }
 
