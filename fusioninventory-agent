@@ -5,7 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-my $devlib;
 foreach (@ARGV) {
     if (/^--devlib$/) {
         print STDERR "[info] --devlib are found, Developer mode enabled\n";
