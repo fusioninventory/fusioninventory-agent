@@ -10,6 +10,8 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
+    croak "No msg" unless $params->{msg};
+
     my $self = $class->SUPER::new($params);
 
     foreach (keys %{$params->{msg}}) {
@@ -18,8 +20,6 @@ sub new {
 
     my $logger = $self->{logger};
     my $target = $self->{target};
-
-    croak "No msg" unless $params->{msg};
 
     return $self;
 }
