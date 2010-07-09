@@ -18,9 +18,6 @@ sub new {
         $self->{h}{$_} = $params->{msg}{$_};
     }
 
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-
     return $self;
 }
 
