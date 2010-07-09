@@ -27,8 +27,14 @@ sub new {
 sub getContent {
     my ($self, $args) = @_;
 
-    my $content=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
-        SuppressEmpty => undef, NoAttr => 1, KeyAttr => [] );
+    my $content = XMLout(
+        $self->{h},
+        RootName => 'REQUEST',
+        XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
+        SuppressEmpty => undef,
+        NoAttr => 1,
+        KeyAttr => []
+    );
 
     return $content;
 }
