@@ -26,7 +26,6 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    $self->{backend} = $params->{backend};
     my $logger = $self->{logger};
     my $target = $self->{target};
     my $config = $self->{config};
@@ -62,9 +61,6 @@ sub new {
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
     $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::USER_STRING];
-
-    # Is the XML centent initialised?
-    $self->{isInitialised} = undef;
 
     return $self;
 }
@@ -135,20 +131,6 @@ sub _encode {
     } else {
         return $string;
     }
-}
-
-=item initialise()
-
-Runs the backend modules to initilise the data.
-
-=cut
-sub initialise {
-    my ($self) = @_;
-
-    return if $self->{isInitialised};
-
-    $self->{backend}->feedInventory ({inventory => $self});
-
 }
 
 =item addController()
@@ -1001,8 +983,6 @@ sub getContent {
 
     my $logger = $self->{logger};
 
-    $self->initialise();
-
     $self->processChecksum();
 
     #  checks for MAC, NAME and SSN presence
@@ -1038,7 +1018,6 @@ Only for debugging purpose. Print the inventory on STDOUT.
 sub printXML {
     my ($self, $args) = @_;
 
-    $self->initialise();
     print $self->getContent();
 }
 
@@ -1054,8 +1033,6 @@ sub writeXML {
     my $logger = $self->{logger};
     my $config = $self->{config};
     my $target = $self->{target};
-
-    $self->initialise();
 
     my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
     $localfile =~ s!(//){1,}!/!;
