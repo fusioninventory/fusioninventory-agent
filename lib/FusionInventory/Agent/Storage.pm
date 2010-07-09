@@ -137,6 +137,10 @@ sub getFileDir {
         die;
     }
 
+    if (!$dirName) {
+        die "Can't get the basevardir\n";
+    }
+
     return $dirName;
 
 }
