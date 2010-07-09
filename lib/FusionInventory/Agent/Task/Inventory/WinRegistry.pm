@@ -57,7 +57,9 @@ sub doInventory {
 
         my $values = $machKey->{$regkey};
 
-        if ($content ne '*') {
+        if (!$content) {
+            return; # This should never append, err wait... 
+        } elsif ($content ne '*') {
             $inventory->addRegistry({
                     NAME => $name, 
                     REGVALUE => $values->{$content}

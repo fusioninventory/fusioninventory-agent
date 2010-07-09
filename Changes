@@ -6,6 +6,9 @@ Revision history for FusionInventory::Agent
        * Inventory, correctly store user list
 
 2.1_rc3
+       * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
+       * MacOSX: ignore printer if name start with:
+         The printers list is empty. To add printers (fixes: #169)
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
        * Fix, restore --noinventory support, print a warning saying
          --no-inventory should be used instead
@@ -26,6 +29,13 @@ Revision history for FusionInventory::Agent
          service
 
 2.1_rc2 Thu, 01 Jul 2010 23:05:10 +0200
+       * test scripts: fix is_deeply() argument order
+       * RPC: print "now" as next contact date instead of 1/1970
+       * Inventory, correctly store user list
+       * Fix the noDuplicated to avoid duplicated XML sections in inventory
+       * Import the new FusionInventory logo
+       * Fix, HP-UX errors when listing drives
+         http://forge.fusioninventory.org/issues/188 (Amir PAKDEL)
        * MANIFEST.SKIP, we need the resources files for the test suite
        * Linux: set back DRIVES/FREE
        * Linux: CONTROLLERS/NAME drop the trailing whitespace

@@ -23,6 +23,11 @@ sub doInventory {
     return(undef) unless(ref($h) eq 'HASH');
 
     foreach my $printer (keys %$h){
+        if ($printer && $printer =~ /^The printers list is empty. To add printers/) {
+#http://forge.fusioninventory.org/issues/169
+                next;
+        }
+
         $inventory->addPrinter({
                 NAME    => $printer,
                 DRIVER  => $h->{$printer}->{'PPD'},

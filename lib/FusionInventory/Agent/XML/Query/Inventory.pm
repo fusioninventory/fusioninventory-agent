@@ -105,10 +105,16 @@ sub _addEntry {
 # Don't create two time the same device
     if ($noDuplicated) {
         ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
-            foreach (@$fields) {
-                next ENTRY unless defined($entry->{$_}[0]) && 
-                defined($newEntry->{$_}[0]);
-                next ENTRY if $entry->{$_}[0] ne $newEntry->{$_}[0];
+            foreach my $field (@$fields) {
+                if (defined($entry->{$field}[0]) !=
+                    defined($newEntry->{$field}[0])) {
+                    next ENTRY;
+
+                }
+
+                if (defined($entry->{$field}[0]) && ($entry->{$field}[0] ne $newEntry->{$field}[0])) {
+                    next ENTRY;
+                }
             }
             return;
         }

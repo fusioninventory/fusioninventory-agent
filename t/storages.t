@@ -47,5 +47,5 @@ foreach my $test (keys %hal_tests) {
 foreach my $test (keys %udev_tests) {
     my $file = "$FindBin::Bin/../resources/udev/$test";
     my $result = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::parseUdev($file, 'sda');
-    is_deeply($udev_tests{$test}, $result, $test);
+    is_deeply($result, $udev_tests{$test}, $test);
 }
