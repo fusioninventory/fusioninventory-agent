@@ -160,6 +160,33 @@ sub createUA {
 Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
 server).
 
+            use FusionInventory::Agent::Network;
+
+            $network = FusionInventory::Agent::Network->new({
+
+                    logger => $logger,
+                    config => $config,
+                    target => $target,
+
+                });
+            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+
+                    accountinfo => $target->{accountinfo}, #? XXX
+                    logger => $logger,
+                    config => $config,
+                    rpc => $rpc,
+                    target => $target
+
+                });
+
+            $prologresp = $network->send({message => $prolog});
+
+            $resp = $network->send({
+                    msgType => $msgType,
+                    xmlContent => $tmp,
+                });
+
+
 =cut
 
 
@@ -172,7 +199,17 @@ sub send {
 
     my $compress = $self->{compress};
     my $message = $args->{message};
-    my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
+
+    my $msgType;
+    my $xmlContent;
+    if ($message) {
+        ($msgType) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
+        $xmlContent = $message->getContent();
+    } elsif (!$message) {
+        $msgType= $args->{msgType};
+        $xmlContent = $args->{xmlContent};
+    }
+    die unless $msgType;
 
 
     my $req = HTTP::Request->new(POST => $self->{URI});
@@ -186,7 +223,7 @@ sub send {
     # Print the XMLs in the debug output
     #$logger->debug ("sending: ".$message->getContent());
 
-    my $compressed = $compress->compress( $message->getContent() );
+    my $compressed = $compress->compress( $xmlContent );
 
     if (!$compressed) {
         $logger->error ('failed to compress data');
@@ -219,8 +256,7 @@ sub send {
     }
 
     # AutoLoad the proper response object
-    my $msgType = ref($message); # The package name of the message object
-    my $tmp = "FusionInventory::Agent::XML::Response::".$msgtype;
+    my $tmp = "FusionInventory::Agent::XML::Response::".$msgType;
     $tmp->require();
     if ($EVAL_ERROR) {
         $logger->error("Can't load response module $tmp: $EVAL_ERROR");
