@@ -31,11 +31,13 @@ sub start {
     my $name = $params->{name};
     my @cmd = @{$params->{cmd}};
     my $isTask = $params->{isTask};
+    my $network = $params->{network};
 
     my $job = {};
 
     $job->{name} = $name;
     $job->{isTask} = $isTask;
+    $job->{network} = $network;
 
     my $stdin;
     my $stdout;
@@ -92,6 +94,7 @@ sub startTask {
     my $target = $params->{target};
     my $module = $params->{module};
     my $logger = $self->{logger};
+    my $network = $params->{network};
 
     return if $config->{'no-'.lc($module)};
 
@@ -116,7 +119,8 @@ sub startTask {
     $self->{runningTask} = $self->start({
             name => $module,
             isTask => 1,
-            cmd => \@cmd
+            cmd => \@cmd,
+            network => $network,
         });
 
 }

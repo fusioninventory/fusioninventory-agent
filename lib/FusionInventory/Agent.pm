@@ -212,10 +212,11 @@ sub main {
         my $exitcode = 0;
         my $wait;
 
+        my $network;
         my $prologresp;
         if ($target->{type} eq 'server') {
 
-            my $network = FusionInventory::Agent::Network->new({
+            $network = FusionInventory::Agent::Network->new({
 
                     logger => $logger,
                     config => $config,
@@ -281,6 +282,7 @@ sub main {
             print "starting: $module\n";
             $jobEngine->startTask({
                     module => $module,
+                    network => $network,
                     target => $target,
                 });
             print "Ok\n";
