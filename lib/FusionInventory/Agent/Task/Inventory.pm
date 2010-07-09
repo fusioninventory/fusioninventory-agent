@@ -19,30 +19,6 @@ use FusionInventory::Logger;
 sub main {
     my ($self) = @_;
 
-    if ($self->{target}->{type} eq 'server') {
-        croak "No prologresp!" unless $self->{prologresp};
-
-        if ($self->{config}->{force}) {
-            $self->{logger}->debug(
-                "Force enable, ignore prolog and run inventory."
-            );
-        } else {
-            my $parsedContent = $self->{prologresp}->getParsedContent();
-            if (
-                !$parsedContent ||
-                ! $parsedContent->{RESPONSE} ||
-                ! $parsedContent->{RESPONSE} eq 'SEND'
-            ) {
-                $self->{logger}->debug(
-                    "No inventory requested in the prolog, exiting"
-                );
-                return;
-            }
-        }
-    }
-
-    $self->{modules} = {};
-
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
         # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
@@ -52,51 +28,81 @@ sub main {
     });
     $self->{inventory} = $inventory;
 
+    $self->{modules} = {};
+
     $self->feedInventory();
 
-    if ($self->{target}->{type} eq 'stdout') {
-        print $self->{inventory}->getContent();
-    } elsif ($self->{target}->{type} eq 'local') {
-        my $file =
-            $self->config->{local} .
-            "/" .
-            $self->target->{deviceid} .
-            '.ocs';
-
-        if (open my $handle, '>', $file) {
-            print $handle $self->getContent();
-            close $handle;
-            $self->{logger}->info("Inventory saved in $file");
-        } else {
-            warn "Can't open $file: $ERRNO"
-        }
-    } elsif ($self->{target}->{type} eq 'server') {
-
-        my $accountinfo = $self->{target}->{accountinfo};
-
-        # Put ACCOUNTINFO values in the inventory
-        $accountinfo->setAccountInfo($self->{inventory});
-
-        my $network = FusionInventory::Agent::Network->new({
-            logger => $self->{logger},
-            config => $self->{config},
-            target => $self->{target},
-        });
-
-        my $response = $network->send({message => $inventory});
-
-        return unless $response;
-        $inventory->saveLastState();
-
-        my $parsedContent = $response->getParsedContent();
-        if (
-            $parsedContent &&
-            $parsedContent->{RESPONSE} &&
-            $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
-        ) {
-            $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
+    SWITCH: {
+        if ($self->{target}->{type} eq 'stdout') {
+            print $self->{inventory}->getContent();
+            last SWITCH;
         }
 
+        if ($self->{target}->{type} eq 'local') {
+            my $file =
+                $self->config->{local} .
+                "/" .
+                $self->target->{deviceid} .
+                '.ocs';
+
+            if (open my $handle, '>', $file) {
+                print $handle $self->getContent();
+                close $handle;
+                $self->{logger}->info("Inventory saved in $file");
+            } else {
+                warn "Can't open $file: $ERRNO"
+            }
+            last SWITCH;
+        }
+
+        if ($self->{target}->{type} eq 'server') {
+            croak "No prologresp!" unless $self->{prologresp};
+
+            if ($self->{config}->{force}) {
+                $self->{logger}->debug(
+                    "Force enable, ignore prolog and run inventory."
+                );
+            } else {
+                my $parsedContent = $self->{prologresp}->getParsedContent();
+                if (
+                    !$parsedContent ||
+                    ! $parsedContent->{RESPONSE} ||
+                    ! $parsedContent->{RESPONSE} eq 'SEND'
+                ) {
+                    $self->{logger}->debug(
+                        "No inventory requested in the prolog, exiting"
+                    );
+                    return;
+                }
+            }
+
+            my $accountinfo = $self->{target}->{accountinfo};
+
+            # Put ACCOUNTINFO values in the inventory
+            $accountinfo->setAccountInfo($self->{inventory});
+
+            my $network = FusionInventory::Agent::Network->new({
+                logger => $self->{logger},
+                config => $self->{config},
+                target => $self->{target},
+            });
+
+            my $response = $network->send({message => $inventory});
+
+            return unless $response;
+            $inventory->saveLastState();
+
+            my $parsedContent = $response->getParsedContent();
+            if (
+                $parsedContent &&
+                $parsedContent->{RESPONSE} &&
+                $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
+            ) {
+                $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
+            }
+
+            last SWITCH;
+        }
     }
 
 }
