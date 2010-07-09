@@ -6,9 +6,6 @@ use base 'FusionInventory::Agent::XML::Query';
 
 use XML::Simple;
 use Data::Dumper;
-use Digest::MD5 qw(md5_base64);
-
-#use FusionInventory::Agent::XML::Query::Prolog;
 
 sub new {
     my ($class, $params) = @_;
