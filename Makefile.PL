@@ -78,7 +78,7 @@ if (!can_use('Net::SSLeay')) {
 
 if (!can_run('ipdiscover') && !can_run('nmap')) {
     print "Please install nmap ";
-    print "or ipdiscover " if $OSNAME =~ /^linux$/i;
+    print "or ipdiscover " if $OSNAME eq 'linux';
     print "if you want to use the network ".
     "discover feature.\n";
 }
