@@ -16,19 +16,26 @@ use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
 
-sub main {
-    my ($self) = @_;
+sub new {
+    my ($class, $params) = @_;
 
-    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
+    my $self = $class->SUPER::new($params);
+
+    $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
         target => $self->{target},
         logger => $self->{logger},
     });
-    $self->{inventory} = $inventory;
 
     $self->{modules} = {};
+
+     return $self;
+}
+
+sub main {
+    my ($self) = @_;
 
     $self->feedInventory();
 
@@ -87,10 +94,10 @@ sub main {
                 target => $self->{target},
             });
 
-            my $response = $network->send({message => $inventory});
+            my $response = $network->send({message => $self->{inventory}});
 
             return unless $response;
-            $inventory->saveLastState();
+            $self->{inventory}->saveLastState();
 
             my $parsedContent = $response->getParsedContent();
             if (
