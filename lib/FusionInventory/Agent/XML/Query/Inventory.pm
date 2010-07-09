@@ -1055,10 +1055,6 @@ sub writeXML {
     my $config = $self->{config};
     my $target = $self->{target};
 
-    if ($target->{path} =~ /^$/) {
-        croak 'local path unititalised!';
-    }
-
     $self->initialise();
 
     my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
