@@ -13,7 +13,7 @@ Revision history for FusionInventory::Agent
          thanks Sébastien Prud'homme
        * Fix: Linux, PC: get the number of core from dmidecode if
          avaible
-       * Linux, PC: get the CPU frequency from the CPU name, if
+       * Win32 and Linux, PC: get the CPU frequency from the CPU name, if
          possible. That's the most reliable way to get the
          information since 'Max Speed' in dmidecode is most of the
          time on crack and /proc/cpuinfo is not reliable because of
