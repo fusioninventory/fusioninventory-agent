@@ -29,10 +29,6 @@ sub new {
     my $logger = $self->{logger};
     my $target = $self->{target};
 
-    if (!($target->{deviceid})) {
-        croak 'deviceid unitialized!';
-    }
-
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
     $self->{h}{CONTENT}{BIOS} = {};
