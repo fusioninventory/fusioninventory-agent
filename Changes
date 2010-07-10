@@ -33,6 +33,8 @@ Revision history for FusionInventory::Agent
        * Win32, printer: restore the DRIVER field
        * Win32, drive: restore the SIZE field
        * Win32, get the memories from WMI only if dmidecode is missing
+       * Dmidecode, drop the unit from the memory speed like the Win32 OCS
+         agent do
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
