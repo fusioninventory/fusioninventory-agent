@@ -7,6 +7,8 @@ use IPC::Open3;
 use IO::Select;
 use POSIX ":sys_wait_h";
 
+use Data::Dumper; # to pass mod parameters
+
 use English;
 
 sub new {
@@ -55,6 +57,16 @@ sub start {
     $job->{stdin} = $stdin;
     $job->{stdout} = $stdout;
     $job->{stderr} = $stderr;
+
+    $Data::Dumper::Terse = 1;
+    $Data::Dumper::Varname='parameter',
+
+    print $stdin Data::Dumper({
+            config => $config,
+            target => $target,
+            prologresp => $prologresp
+        });
+
 
     if (!$job->{pid}) {
         print "Failed to start cmd\n";
