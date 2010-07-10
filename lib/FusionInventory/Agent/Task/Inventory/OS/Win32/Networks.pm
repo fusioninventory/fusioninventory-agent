@@ -110,6 +110,9 @@ sub doInventory {
         $ipsubnet = join('/', @{$netif->{ipsubnet} || []});
         $ipaddress6 = join('/', @{$netif->{ipaddress6} || []});
 
+        if (!$ipaddress && !$ipaddress6 && !$netif->{macaddr}) {
+            next;
+        }
         $inventory->addNetwork({
                 DESCRIPTION => $netif->{description},
                 IPADDRESS => $ipaddress,

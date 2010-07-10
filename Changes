@@ -29,6 +29,7 @@ Revision history for FusionInventory::Agent
        * Import the new FusionInventory logo
        * Fix, HP-UX errors when listing drives
          http://forge.fusioninventory.org/issues/188 (Amir PAKDEL)
+       * Win32, network: Filter interfaces with no IP, IPv6 and MAC
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
