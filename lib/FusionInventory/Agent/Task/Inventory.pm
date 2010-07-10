@@ -12,7 +12,6 @@ use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
 
