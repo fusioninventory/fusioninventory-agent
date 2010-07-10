@@ -112,7 +112,7 @@ sub send {
     $req->content($message_content);
 
     # send it
-    $logger->debug ("sending XML");
+    $logger->debug("sending message");
 
     my $res = $self->{ua}->request($req);
 
@@ -143,6 +143,8 @@ sub send {
             return;
         }
     }
+
+    $logger->debug("receiving message: $response_content");
 
     my $response = $response_type->new({
         accountinfo => $target->{accountinfo},
