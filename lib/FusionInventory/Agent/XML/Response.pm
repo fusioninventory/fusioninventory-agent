@@ -23,7 +23,7 @@ sub new {
     return $self;
 }
 
-sub getRawXML {
+sub getContent {
     my $self = shift;
 
     return $self->{content};
