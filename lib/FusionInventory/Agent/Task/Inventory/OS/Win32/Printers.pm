@@ -53,7 +53,7 @@ sub doInventory {
 
     foreach my $Properties
         (getWmiProperties('Win32_Printer',
-qw/ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name Comment DescriptionDriverName
+qw/ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name Comment DescriptionDriverName DriverName
  PortName Network Shared PrinterStatus ServerName ShareName PrintProcessor
 /)) {
 
