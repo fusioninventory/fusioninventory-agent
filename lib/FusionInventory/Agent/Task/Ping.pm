@@ -43,9 +43,6 @@ sub main {
         },
     });
 
-    # is this really useful ?
-    $self->{network} = $network;
-
     $self->{logger}->debug("Pong!");
     $network->send( { message => $message } );
 
