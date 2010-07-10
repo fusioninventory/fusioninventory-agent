@@ -68,7 +68,7 @@ sub new {
 
     # turns SSL checks on if needed
     if ($scheme eq 'https' && !$self->{config}->{'no-ssl-check'}) {
-        $self->turnSSLCheckOn();
+        $self->_turnSSLCheckOn();
         $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
     }
 
@@ -156,9 +156,8 @@ sub send {
     return $response;
 }
 
-# No POD documentation here, it's an internal fuction
 # http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
-sub turnSSLCheckOn {
+sub _turnSSLCheckOn {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
