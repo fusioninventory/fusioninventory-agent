@@ -11,8 +11,6 @@ use English qw(-no_match_vars);
 use Encode qw/encode/;
 use XML::Simple;
 
-use FusionInventory::Agent::Task::Inventory;
-
 =over 4
 
 =item new()
