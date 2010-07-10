@@ -1016,7 +1016,7 @@ sub processChecksum {
     my $logger = $self->{logger};
     my $target = $self->{target};
 
-#To apply to $checksum with an OR
+    # to apply to $checksum with an OR
     my %mask = (
         HARDWARE        => 1,
         BIOS            => 2,
@@ -1054,25 +1054,26 @@ sub processChecksum {
                 ForceArray    => 1
             );
         } else {
-            $logger->debug ('last_state file: `'.
-                $target->{last_statefile}.
-                "' doesn't exist (yet).");
+            $logger->debug(
+                "last_state file $target->{last_statefile} doesn't exist (yet)."
+            );
         }
     }
 
     foreach my $section (keys %mask) {
-        #If the checksum has changed...
-        my $hash =
-        md5_base64(XMLout($self->{h}{CONTENT}{$section}));
-        if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
-            $logger->debug ("Section $section has changed since last inventory");
-            #We make OR on $checksum with the mask of the current section
+        # check if the checksum has changed...
+        my $hash = md5_base64(XMLout($self->{h}{CONTENT}{$section}));
+        if (
+            !$self->{last_state_content}->{$section}[0] ||
+            $self->{last_state_content}->{$section}[0] ne $hash
+        ) {
+            $logger->debug("Section $section has changed since last inventory");
+            # We make OR on $checksum with the mask of the current section
             $checksum |= $mask{$section};
         }
         # Finally I store the new value.
         $self->{last_state_content}->{$section}[0] = $hash;
     }
-
 
     $self->setHardware({CHECKSUM => $checksum});
 }
