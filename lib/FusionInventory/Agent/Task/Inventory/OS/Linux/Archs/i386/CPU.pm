@@ -41,7 +41,7 @@ sub doInventory {
 
         }
 
-        if ($in && /^\s*$/) {
+        if ($in && (/^Handle\s0x/i || /^\s*$/)) {
             if (!$empty) {
                 $serial =~ s/\s//g;
                 $thread = 1 unless $thread;
