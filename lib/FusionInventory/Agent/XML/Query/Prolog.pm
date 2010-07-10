@@ -20,7 +20,6 @@ sub new {
 sub getContent {
     my ($self, $args) = @_;
 
-    $self->{accountinfo}->setAccountInfo($self);
     my $content = XMLout(
         $self->{h},
         RootName => 'REQUEST',
