@@ -12,7 +12,6 @@ sub new {
     croak "No DEVICEID" unless $params->{target}->{deviceid};
 
     my $self = {
-        config      => $params->{config},
         accountinfo => $params->{accountinfo},
         logger      => $params->{logger},
         target      => $params->{target}
