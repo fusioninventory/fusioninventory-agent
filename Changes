@@ -32,6 +32,7 @@ Revision history for FusionInventory::Agent
        * Win32, network: Filter interfaces with no IP, IPv6 and MAC
        * Win32, printer: restore the DRIVER field
        * Win32, drive: restore the SIZE field
+       * Win32, get the memories from WMI only if dmidecode is missing
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
