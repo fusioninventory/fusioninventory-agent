@@ -37,6 +37,7 @@ Revision history for FusionInventory::Agent
          agent do
        * Win32, set the BIOS/TYPE field
        * Win32, storage: clean up. Reduce the number of hdparm call.
+       * Win32, set USBDEVICES/NAME
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
