@@ -105,11 +105,11 @@ sub doInventory {
                           SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
 
             $inventory->addStorage({
-                MANUFACTURER => encode('UTF-8', $Properties->{Manufacturer}),
-                MODEL => encode('UTF-8', $Properties->{Caption}),
-                DESCRIPTION => encode('UTF-8', $Properties->{Description}),
-                NAME => encode('UTF-8', $Properties->{Name}),
-                TYPE => encode('UTF-8', $Properties->{MediaType}),
+                MANUFACTURER => $Properties->{Manufacturer},
+                MODEL => $Properties->{Caption},
+                DESCRIPTION => $Properties->{Description},
+                NAME => $Properties->{Name},
+                TYPE => $Properties->{MediaType},
                 INTERFACE => $Properties->{InterfaceType},
                 FIRMWARE => $Properties->{FirmwareRevision},
                 SERIAL => $Properties->{SerialNumber},
