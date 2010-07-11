@@ -23,7 +23,7 @@ sub doInventory {
     foreach my $l ('a'..'z') {
         my $disk;
         foreach (`hdparm -I /dev/hd$l 2>&1`) {
-            $disk->{model} = $1 if /Model Number:\s+(\S*)/;
+            $disk->{model} = $1 if /Model Number:\s+(.*?)\s*$/;
             $disk->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
             $disk->{serial} = $1 if /Serial Number:\s+(\S*)/;
             $disk->{size} = $1 if /1000:\s+(\d*)\sMBytes\s\(/;
