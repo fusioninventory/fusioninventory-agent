@@ -68,6 +68,8 @@ sub parseDmidecode {
                 }
             } elsif ($line =~ /^\s+(?:manufacturer|vendor):\s*(.+?)\s*$/i) {
                 $bios->{SMANUFACTURER} = $1
+            } elsif ($line =~ /^\s+UUID:\s*(.+?)\s*$/i) {
+                $hardware->{UUID} = $1;
             }
             next;
         }
