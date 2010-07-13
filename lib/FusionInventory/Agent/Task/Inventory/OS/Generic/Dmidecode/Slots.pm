@@ -42,13 +42,13 @@ sub parseDmidecode {
         next unless defined $type;
 
         if ($type == 9) {
-             if ($line =~ /^\s+Type:\s*(.+)/) {
+             if ($line =~ /^\s+Type: (.*\S)/) {
                 $slot->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+ID:\s*(.+)/) {
+            } elsif ($line =~ /^\s+ID: (.*\S)/) {
                 $slot->{DESIGNATION} = $1;
-            } elsif ($line =~ /^\s+Designation:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Designation: (.*\S)/) {
                 $slot->{NAME} = $1;
-            } elsif ($line =~ /^\s+Current Usage:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Current Usage: (.*\S)/) {
                 $slot->{STATUS} = $1;
             }
         }

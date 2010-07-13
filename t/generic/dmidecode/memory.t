@@ -63,7 +63,6 @@ my %tests = (
             SPEED       => '400 MHz (2.5 ns)',
             TYPE        => '<OUT OF SPEC>',
             CAPTION     => 'DIMM2_A',
-            CAPACITY    => 'No'
         },
         {
             NUMSLOTS    => 4,
@@ -71,7 +70,6 @@ my %tests = (
             SPEED       => '400 MHz (2.5 ns)',
             TYPE        => '<OUT OF SPEC>',
             CAPTION     => 'DIMM2_B',
-            CAPACITY    => 'No'
         },
         {
             NUMSLOTS    => 5,
@@ -79,7 +77,6 @@ my %tests = (
             SPEED       => '400 MHz (2.5 ns)',
             TYPE        => '<OUT OF SPEC>',
             CAPTION     => 'DIMM3_A',
-            CAPACITY    => 'No'
         },
         {
             NUMSLOTS    => 6,
@@ -87,7 +84,6 @@ my %tests = (
             SPEED       => '400 MHz (2.5 ns)',
             TYPE        => '<OUT OF SPEC>',
             CAPTION     => 'DIMM3_B',
-            CAPACITY    => 'No'
         }
     ],
     'rhel-2.1' => undef,
@@ -172,7 +168,6 @@ my %tests = (
             SPEED       => 'Unknown',
             TYPE        => '<OUT OF SPEC>',
             CAPTION     => 'DIMM 4D',
-            CAPACITY    => 'No'
         },
         {
             NUMSLOTS    => 5,
@@ -204,7 +199,6 @@ my %tests = (
             SPEED       => 'Unknown',
             TYPE        => '<OUT OF SPEC>',
             CAPTION     => 'DIMM 8D',
-            CAPACITY    => 'No'
         }
     ],
     'windows' => [

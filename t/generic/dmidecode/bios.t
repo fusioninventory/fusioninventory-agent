@@ -8,9 +8,8 @@ use Test::More;
 my %tests = (
     'freebsd-6.2' => {
         bios => {
-            SMANUFACTURER => ' ',
-            SMODEL        => ' ',
-            SSN           => ' ',
+            SMODEL        => 'CN700-8237R',
+            SSN           => 'A9-06-00-00-FF-BB-C9-A7',
         },
         hardware => {
             UUID => 'Not Present'
@@ -42,7 +41,7 @@ my %tests = (
     },
     'openbsd-3.8' => {
         bios => {
-            ASSETTAG           => '',
+            ASSETTAG      => '',
             SMANUFACTURER => 'Dell Computer Corporation',
             SMODEL        => 'PowerEdge 1800',
             SSN           => '2K1012J',

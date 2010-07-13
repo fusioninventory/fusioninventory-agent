@@ -142,24 +142,21 @@ my %tests = (
         }
     ],
     'rhel-2.1' => [
-       {
-            DESCRIPTION => ' '
+        {
+            DESCRIPTION => '32bit PCI'
         },
         {
-            DESCRIPTION => '32bit PCI '
+            DESCRIPTION => '32bit PCI'
         },
         {
-            DESCRIPTION => '32bit PCI '
+            DESCRIPTION => '32bit PCI'
         },
         {
-          DESCRIPTION => '32bit PCI '
+            DESCRIPTION => '32bit PCI'
         },
         {
-            DESCRIPTION => '32bit PCI '
+            DESCRIPTION => '32bit PCI'
         },
-        {
-            DESCRIPTION => '32bit PCI '
-        }
     ],
     'rhel-3.4' => [
         {
@@ -245,19 +242,19 @@ my %tests = (
     ],
     'rhel-4.6' => [
         {
-            NAME        => 'PCI Slot 1  ',
+            NAME        => 'PCI Slot 1',
             DESIGNATION => '1',
             STATUS      => 'Available',
             DESCRIPTION => '64-bit PCI-X'
         },
         {
-            NAME        => 'PCI Slot 2  ',
+            NAME        => 'PCI Slot 2',
             DESIGNATION => '2',
             STATUS      => 'Available',
             DESCRIPTION => '64-bit PCI-X'
         },
         {
-            NAME        => 'PCI Slot 3  ',
+            NAME        => 'PCI Slot 3',
             DESIGNATION => '3',
             STATUS      => 'Available',
             DESCRIPTION => '64-bit PCI-X'

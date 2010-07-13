@@ -457,73 +457,61 @@ my %tests = (
     ],
     'windows' => [
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Parallel Port ECP',
             CAPTION     => 'DB-25 female'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'DB-15 female'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Modem Port',
             CAPTION     => 'RJ-11'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Network Port',
             CAPTION     => 'RJ-45'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'Infrared'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'Mini Jack (headphones)'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Firewire (IEEE P1394)',
             CAPTION     => 'IEEE 1394'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'Other'
         },
         {
-            NAME        => ' ',
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'Other'

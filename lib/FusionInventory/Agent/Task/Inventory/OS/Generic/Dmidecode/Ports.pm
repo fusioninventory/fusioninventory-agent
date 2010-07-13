@@ -42,13 +42,13 @@ sub parseDmidecode {
         next unless defined $type;
 
         if ($type == 8) {
-            if ($line =~ /^\s+External Connector Type:\s*(.+)/) {
+            if ($line =~ /^\s+External Connector Type: (.*\S)/) {
                 $port->{CAPTION} = $1;
-            } elsif ($line =~ /^\s+Internal Connector Type:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Internal Connector Type: (.*\S)/) {
                 $port->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+Internal Reference Designator:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Internal Reference Designator: (.*\S)/) {
                 $port->{NAME} = $1;
-            } elsif ($line =~ /^\s+Port Type:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Port Type: (.*\S)/) {
                 $port->{TYPE} = $1;
             }
         }

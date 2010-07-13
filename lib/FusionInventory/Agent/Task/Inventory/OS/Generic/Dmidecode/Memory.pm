@@ -44,17 +44,17 @@ sub parseDmidecode {
         next unless defined $type;
 
         if ($type == 17) {
-            if ($line =~ /^\s+Size:\s+(\S+)/) {
+            if ($line =~ /^\s+Size: (\d+)\s+MB$/) {
                 $memory->{CAPACITY} = $1;
-            } elsif ($line =~ /^\s+Form Factor:\s+(.+)/) {
+            } elsif ($line =~ /^\s+Form Factor: (.*\S)/) {
                 $memory->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+Locator:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Locator: (.*\S)/) {
                 $memory->{CAPTION} = $1;
-            } elsif ($line =~ /^\s+Speed:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Speed: (.*\S)/) {
                 $memory->{SPEED} = $1;
-            } elsif ($line =~ /^\s+Type:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Type: (.*\S)/) {
                 $memory->{TYPE} = $1;
-            } elsif ($line =~ /^\s+Serial Number:\s*(.+)/) {
+            } elsif ($line =~ /^\s+Serial Number: (.*\S)/) {
                 $memory->{SERIALNUMBER} = $1;
             }
         }
