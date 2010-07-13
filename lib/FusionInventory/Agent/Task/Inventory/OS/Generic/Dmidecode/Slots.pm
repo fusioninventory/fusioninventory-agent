@@ -54,6 +54,8 @@ sub parseDmidecode {
         }
     }
     close $handle;
+
+    return $slots;
 }
 
 1;
