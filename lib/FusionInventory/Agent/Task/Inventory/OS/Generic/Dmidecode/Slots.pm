@@ -3,51 +3,57 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $dmidecode = `dmidecode`;
-    # some versions of dmidecode do not separate items with new lines
-    # so add a new line before each handle
-    $dmidecode =~ s/\nHandle/\n\nHandle/g;
-    my @dmidecode = split (/\n/, $dmidecode);
-    # add a new line at the end
-    push @dmidecode, "\n";
+    my ($slots) = parseDmidecode('/usr/sbin/dmidecode', '-|');
 
-    s/^\s+// for (@dmidecode);
+    foreach my $slot (@$slots) {
+        $inventory->addSlots($slot);
+    }
+}
 
-    my $flag;
+sub parseDmidecode {
+    my ($file, $mode) = @_;
 
-    my $description;
-    my $designation;
-    my $name;
-    my $status;
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
 
+    my ($slots, $slot, $type);
 
-    foreach (@dmidecode) {
+    while (my $line = <$handle>) {
+        chomp $line;
 
-        if(/dmi type 9,/i) {
-            $flag=1;
-        } elsif ($flag && /^$/) {
-            $flag=0;
+        if ($line =~ /DMI type (\d+)/i) {
+            $type = $1;
+            if ($slot) {
+                push @$slots, $slot;
+                undef $slot;
+            }
+            next;
+        }
 
-            $inventory->addSlot({
-                DESCRIPTION =>  $description,
-                DESIGNATION =>  $designation,
-                NAME =>  $name,
-                STATUS =>  $status,
-            });
+        next unless defined $type;
 
-            $description = $designation = $name = $status = undef;
-
-        } elsif ($flag) {
-            $description = $1 if /^type\s*:\s*(.+)/i;
-            $designation = $1 if /^id\s*:\s*(.+)/i;
-            $name = $1 if /^designation\s*:\s*(.+)/i;
-            $status = $1 if /^current usage\s*:\s*(.+)/i;
+        if ($type == 9) {
+             if ($line =~ /^\s+Type:\s*(.+)/i) {
+                $slot->{DESCRIPTION} = $1;
+            } elsif ($line =~ /^\s+ID:\s*(.+)/i) {
+                $slot->{DESIGNATION} = $1;
+            } elsif ($line =~ /^\s+Designation:\s*(.+)/i) {
+                $slot->{NAME} = $1;
+            } elsif ($line =~ /^\s+Current Usage:\s*(.+)/i) {
+                $slot->{STATUS} = $1;
+            }
         }
     }
+    close $handle;
 }
 
 1;
