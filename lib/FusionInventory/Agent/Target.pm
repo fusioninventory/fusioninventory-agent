@@ -37,6 +37,9 @@ sub new {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
+    $self->{format} = $self->{type} eq 'local' && $config->{html} ?
+        'HTML' : 'XML';
+
     $self->init();
 
     $self->{storage} = FusionInventory::Agent::Storage->new({
@@ -132,17 +135,11 @@ sub setNextRunDate {
 
     lock($lock);
 
-    my $time;
-    if( $self->{prologFreqChanged} ){
-        $logger->debug("Compute next_time file with random value");
-        $time = time + int rand(
-            $serverdelay ? $serverdelay * 3600 : $config->{delaytime}
-        );
-    } else {
-        $time = time + int rand(
-            $serverdelay ? $serverdelay * 3600 : $config->{delaytime}
-        );
-    }
+    my $max = $serverdelay ? $serverdelay * 3600 : $config->{delaytime};
+    $max = 1 unless $max;
+
+    my $time = time + ($max/2) + int rand($max/2);
+
     $self->{myData}{nextRunDate} = $time;
     
     ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};

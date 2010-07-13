@@ -63,8 +63,11 @@ sub doInventory {
 
         if ($Properties->{HorizontalResolution}) {
             $resolution =
-$Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
+                $Properties->{HorizontalResolution} . 
+                "x" . 
+                $Properties->{VerticalResolution};
         }
+
         $inventory->addPrinter({
             NAME => $Properties->{Name},
             COMMENT => $Properties->{Comment},

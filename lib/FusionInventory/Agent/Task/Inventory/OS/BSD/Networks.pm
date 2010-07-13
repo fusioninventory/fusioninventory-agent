@@ -27,6 +27,8 @@ sub doInventory {
     my $macaddr;
     my $status;
     my $type;
+    my $mtu;
+    my $virtualdev;
 
 
     # Looking for the gateway
@@ -44,13 +46,14 @@ sub doInventory {
     my @list;
     foreach (@ifconfig){
         # skip loopback, pseudo-devices and point-to-point interfaces
-        next if /^(lo|fwe|vmnet|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+/;
+        next if /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+/;
         if (/^(\S+):/) { push @list , $1; } # new interface name	  
     }
 
     # for each interface get it's parameters
     foreach my $description (@list) {
-        $ipaddress = $ipmask = $macaddr = $status =  $type = undef;
+        $ipaddress = $ipmask = $macaddr = $status =  $type = $mtu = "";
+        $virtualdev = "no";
         # search interface infos
         @ifconfig = `ifconfig $description`;
         foreach (@ifconfig){
@@ -59,12 +62,19 @@ sub doInventory {
             $macaddr = $2 if /(address:|ether|lladdr)\s+(\S+)/i;
             $status = 1 if /<UP/i;
             $type = $1 if /media:\s+(\S+)/i;
+            $mtu = $1 if /mtu\s+(\S+)/i;
         }
+
         my $binip = &ip_iptobin ($ipaddress ,4);
         # In BSD, netmask is given in hex form
         my $binmask = sprintf("%b", oct($ipmask));
         my $binsubnet = $binip & $binmask;
         $ipsubnet = ip_bintoip($binsubnet,4);
+
+        $_ = $description;
+        if (/^(lo|vboxnet|vmnet|tun)\d+/) {
+            $virtualdev = "yes";
+        }
 
         $inventory->addNetwork({
             DESCRIPTION => $description,
@@ -75,7 +85,9 @@ sub doInventory {
             IPSUBNET => ($status?$ipsubnet:undef),
             MACADDR => $macaddr,
             STATUS => $status?"Up":"Down",
-            TYPE => $type
+            TYPE => $type,
+            MTU => $mtu,
+            VIRTUALDEV => $virtualdev
         });
     }
 }

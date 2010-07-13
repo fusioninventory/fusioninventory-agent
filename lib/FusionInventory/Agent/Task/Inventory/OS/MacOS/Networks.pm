@@ -49,13 +49,23 @@ sub doInventory {
     foreach (@ifconfig){
         # skip loopback, pseudo-devices and point-to-point interfaces
         #next if /^(lo|fwe|vmnet|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+/;
-        next unless(/^en(0|1)/); # darwin has a lot of interfaces, for this purpose we only want to deal with eth0 and eth1
+#        next unless(/^en(0|1)/); # darwin has a lot of interfaces, for this purpose we only want to deal with eth0 and eth1
         if (/^(\S+):/) { push @list , $1; } # new interface name
     }
 
     # for each interface get it's parameters
     foreach my $description (@list) {
-        $ipaddress = $ipmask = $macaddr = $status =  $type = undef;
+        my $ipaddress;
+        my $ipmask;
+        my $macaddr;
+        my $status;
+        my $type;
+        my $binmask;
+        my $binsubnet;
+        my $mask;
+        my $binip;
+        my $virtualdev = 1;
+
         # search interface infos
         @ifconfig = `ifconfig $description`;
         foreach (@ifconfig){
@@ -64,23 +74,27 @@ sub doInventory {
             $macaddr = $2 if /(address:|ether|lladdr)\s+(\S+)/i;
             $status = 1 if /status:\s+active/i;
             $type = $1 if /media:\s+(\S+)/i;
+            $virtualdev = undef if /supported\smedia:/;
         }
-        my $binip = &ip_iptobin ($ipaddress ,4);
-        # In BSD, netmask is given in hex form
-        my $binmask = sprintf("%b", oct($ipmask));
-        my $binsubnet = $binip & $binmask;
-        $ipsubnet = ip_bintoip($binsubnet,4);
-        my $mask = ip_bintoip($binmask,4);
+        if ($status) {
+            $binip = &ip_iptobin ($ipaddress ,4);
+            # In BSD, netmask is given in hex form
+            $binmask = sprintf("%b", oct($ipmask));
+            $binsubnet = $binip & $binmask;
+            $ipsubnet = ip_bintoip($binsubnet,4);
+            $mask = ip_bintoip($binmask,4);
+        }
         $inventory->addNetwork({
             DESCRIPTION => $description,
             MACADDR     => $macaddr,
-            IPDHCP      => getIpDhcp($description),
-            IPADDRESS   => ($status ? $ipaddress : undef),
-            IPGATEWAY   => ($status ? $ipgateway : undef),
-            IPMASK      => ($status ? $mask      : undef),
-            IPSUBNET    => ($status ? $ipsubnet  : undef),
-            TYPE        => ($status ? $type      : undef),
-            STATUS      => ($status ? "Up"       : "Down")
+            IPDHCP      => undef,
+            IPADDRESS   => $ipaddress,
+            IPGATEWAY   => $ipgateway,
+            IPMASK      => $mask,
+            IPSUBNET    => $ipsubnet,
+            TYPE        => $type,
+            STATUS      => ($status ? "Up" : "Down"),
+            VIRTUALDEV  => $virtualdev
         });
     }
 }

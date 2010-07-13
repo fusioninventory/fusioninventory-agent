@@ -12,14 +12,13 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run('VirtualBox') &&
         can_run('VBoxManage');
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
-    my $scanhomedirs = $params->{accountinfo}{config}{'scan-homedirs'};
+    my $scanhomedirs = $params->{config}{'scan-homedirs'};
 
     my $cmd_list_vms = "VBoxManage -nologo list vms";
 
@@ -80,7 +79,7 @@ sub doInventory {
     # try to found another VMs, not exectute by root
     my @vmRunnings = ();
     my $index = 0 ;
-    foreach my $line ( `ps -ef` ) {
+    foreach my $line ( `ps -efax` ) {
         chomp($line);
         if ( $line !~ m/^root/) {
             if ($line =~ m/^.*VirtualBox (.*)$/) {
@@ -152,14 +151,19 @@ sub doInventory {
 
             # ... and read it
             my $defaultMachineFolder = $data->{Global}->{SystemProperties}->{defaultMachineFolder};
-            if ( $defaultMachineFolder != 0 and $defaultMachineFolder != "Machines" 
-                    and $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/ ) {
+
+            if ($defaultMachineFolder eq "Machines") {
+                $defaultMachineFolder =~ s/VirtualBox.xml/Machines/;
+            }
+
+            if ( $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/ ) {
 
                 foreach my $xmlMachine (bsd_glob($defaultMachineFolder."/*/*.xml")) {
                     my $data = XMLin($xmlVirtualBox);
 
                     if ( $data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
                         my $uuid = $data->{Machine}->{uuid};
+
                         $uuid =~ s/^{?(.{36})}?$/$1/;
                         my $status = "off";
                         foreach my $vmRun (@vmRunnings) {

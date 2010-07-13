@@ -74,7 +74,9 @@ sub getScreens {
                 "LMachine", {Access=>"KEY_READ",Delimiter=>"/"}
             ) or croak "Can't open HKEY_LOCAL_MACHINE key: EXTENDED_OS_ERROR";
 
-            my $edid = $a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device Parameters/EDID'}."\n";
+            my $edid =
+$a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device
+Parameters/EDID'} || '';
             $edid =~ s/^\s+$//;
 
             push @raw_edid, { name => $name, edid => $edid };
@@ -669,7 +671,6 @@ sub doInventory {
             }
 
             $base64 = encode_base64($screen->{edid});
-
             if (can_run("uuencode")) {
                 $uuencode = `echo $screen->{edid}|uuencode -`;
             }

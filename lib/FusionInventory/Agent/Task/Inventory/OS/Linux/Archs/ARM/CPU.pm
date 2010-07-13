@@ -25,7 +25,6 @@ sub doInventory {
     my $current;
 
     while (<$handle>) {
-        print;
         if (/^Processor\s+:\s*:/) {
 
             if ($current) {

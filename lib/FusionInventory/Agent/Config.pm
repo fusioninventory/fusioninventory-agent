@@ -23,19 +23,20 @@ my $default = {
     'devlib'                  => 0,
     'force'                   => 0,
     'help'                    => 0,
-    'html-dir'                => '',
+    'html'                    => 0,
     'info'                    => 1,
     'lazy'                    => 0,
     'local'                   => '',
     'logger'                  => 'Stderr',
     'logfile'                 => '',
     'logfacility'             => 'LOG_USER',
-    'logdir'                  => $basedir . '/var/log/fusioninventory-agent',
+    'nosoft'                  => 0, # deprecated
+    'nosoftware'              => 0, # deprecated
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
-    'nosoft'                  => 0, # deprecated
-    'no-socket'               => 0, # deprecated
     'no-printer'              => 0,
+    'no-socket'               => 0,
+    'no-software'             => 0,
     'no-software'             => 0,
     'no-wakeonlan'            => 0,
     'no-snmpquery'            => 0,
@@ -45,6 +46,7 @@ my $default = {
     'proxy'                   => '',
     'realm'                   => '',
     'remotedir'               => '', # deprecated
+    'share-dir'               => 0,
     'server'                  => '',
     'stdout'                  => 0,
     'tag'                     => '',
@@ -90,7 +92,6 @@ sub loadCallerParams {
     foreach my $key (keys %$params) {
         $self->{$key} = $params->{$key};
     }
-
 }
 
 sub loadFromWinRegistry {
@@ -201,34 +202,37 @@ sub loadUserParams {
         'daemon|d',
         'daemon-no-fork|D',
         'debug',
+        'delaytime=s',
         'devlib',
         'force|f',
         'help|h',
-        'html-dir=s',
+        'html',
         'info|i',
         'lazy',
         'local|l=s',
-        'logfile=s',
         'logger=s',
+        'logfile=s',
         'no-ocsdeploy',
         'no-inventory',
-        'no-soft',
         'no-printer',
+        'no-socket',
+        'no-soft',
         'no-software',
+        'no-ssl-check',
         'no-wakeonlan',
         'no-snmpquery',
         'no-netdiscovery',
         'password|p=s',
-        'perl-bin-dir-in-path',
         'proxy|P=s',
         'realm|r=s',
         'rpc-ip=s',
         'rpc-trust-localhost',
         'remotedir|R=s',
+        'scan-homedirs',
+        'share-dir=s',
         'server|s=s',
         'stdout',
         'tag|t=s',
-        'no-ssl-check',
         'user|u=s',
         'version',
         'wait|w=s',
@@ -265,6 +269,18 @@ sub checkContent {
             "future release, please use --nosoftware instead.";
         $self->{nosoftware} = 1
     }
+
+    if (!$self->{'share-dir'}) {
+        if ($self->{devlib}) {
+            $self->{'share-dir'} = './share/';
+        } else {
+            eval { 
+                require File::ShareDir;
+                $self->{'share-dir'} =
+                    File::ShareDir::dist_dir('FusionInventory-Agent');
+            };
+        }
+    }
 }
 
 sub help {
@@ -276,92 +292,63 @@ sub help {
     }
 
     print STDERR <<EOF;
+Common options:
+    --debug             debug mode ($self->{debug})
+    --html              save in HTML the inventory requested by --local ($self->{html})
+    -l --local=DIR      do not contact server but write inventory in DIR directory in XML ($self->{local})
+    --logfile=FILE      log message in FILE ($self->{logfile})
+    --version           print the version
 
-Usage:
-    --backend-collect-timeout
-        set a max delay time of one inventory data collect job
-        ($self->{'backend-collect-timeout'})
-    --basevardir=/path
-        indicate the directory where should the agent store its files
-        ($self->{basevardir})
-    --ca-cert-dir=D
-        SSL certificate directory ($self->{'ca-cert-dir'})
-    --ca-cert-file=F
-        SSL certificate file ($self->{'ca-cert-file'})
+Network options:
+    -p --password=PWD   password for server auth
+    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
+    -r --realm=REALM    realm for server HTTP auth. e.g: 'Restricted Area' ($self->{realm})
+    -s --server=uri     server uri, e.g: http://server/ocsinventory ($self->{server})
+    -u --user           user name to use for server auth
+
+SSL options:
+    --ca-cert-dir=D     SSL certificat directory ($self->{'ca-cert-dir'})
+    --ca-cert-file=F    SSL certificat file ($self->{'ca-cert-file'})
+
+Disable options:
+    --no-ocsdeploy      Do not deploy packages or run command ($self->{'no-ocsdeploy'})
+    --no-inventory      Do not generate inventory ($self->{'no-inventory'})
+    --no-printer        do not return printer list in inventory $self->{'no-printer'})
+    --no-socket         don't allow remote connexion ($self->{'no-socket'})
+    --no-software       do not return installed software list ($self->{'no-software'})
+    --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
+    --no-wakeonlan      do not use wakeonlan function ($self->{'no-wakeonlan'})
+    --no-snmpquery      do not use snmpquery function ($self->{'no-snmpquery'})
+    --no-netdiscovery   do not use snmpquery function ($self->{'no-netdiscovery'})
+
+Extra options:
+    --backend-collect-timeout set a max delay time of one inventory data collect job ($self->{'backend-collect-timeout'})
+    --basevardir=/path  indicate the directory where should the agent store its files ($self->{basevardir})
 EOF
 
-if ($OSNAME ne 'MSWin32') {
+    if ($OSNAME ne 'MSWin32') {
+        print STDERR <<EOF;
+    --color             use color in the console ($self->{color})
+EOF
+    }
+
     print STDERR <<EOF;
-    --color
-        use color in the console ($self->{color})
-EOF
-}
-
-print STDERR <<EOF;
-    -d --daemon
-        daemonize and detach in background ($self->{daemon})
-    -D --daemon-no-fork
-        daemoniez but don't fork in background ($self->{'daemon-no-fork'})
-    --debug
-        debug mode ($self->{debug})
-    --delaytime
-        set a max delay time (in second) if no PROLOG_FREQ is set
-        ($self->{delaytime})
-    --devlib
-        search for Backend mod in ./lib only ($self->{devlib})
-    -f --force
-        always send data to server, without asking before ($self->{force})
-    --html-dir
-        alternative directory where the static HTML are stored
-    -i  --info
-        verbose mode ($self->{info})
-    --lazy
-        do not contact the server more than one time during the PROLOG_FREQ
-        ($self->{lazy})
-    -l --local=DIR
-        do not contact server but write inventory in DIR directory in XML
-        ($self->{local})
-    --logfile=FILE
-        log message in FILE ($self->{logfile})
-    --logger=BACKEND
-        use BACKEND logger ($self->{logger})
-    --no-ocsdeploy
-        do not deploy packages or run command ($self->{'no-ocsdeploy'})
-    --no-inventory
-        do not generate inventory ($self->{'no-inventory'})
-    --no-socket
-        don't allow remote connexion ($self->{'no-socket'})
-    --no-ssl-check
-        do not check the SSL connexion with the server ($self->{'no-ssl-check'})
-    --no-printer
-        do not return printer list in inventory $self->{'no-printer'})
-    --no-software
-        do not return installed software list ($self->{'no-software'})
-    --no-wakeonlan
-        do not use wakeonlan function ($self->{'no-wakeonlan'})
-    -p --password=PWD
-        password for server auth
-    -P --proxy=PROXY
-        proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
-    -r --realm=REALM
-        realm for server auth. e.g: 'Restricted Area' ($self->{realm})
-    --rpc-ip=IP
-        ip of the interface to use for peer to peer exchange
-    --rpc-trust-localhost
-        allow local users to http://127.0.0.1:62354/now to force an inventory
-    --scan-homedirs
-        permit to scan home user directories ($self->{'scan-homedirs'})
-    -s --server=uri
-        server uri ($self->{server})
-    --stdout
-        do not contact server but write inventory on STDOUT
-    -t --tag=TAG
-        use TAG as tag ($self->{tag})
-    --version
-        print the version
-    -w --wait=DURATION
-        wait during a random periode between 0 and DURATION seconds before
-        contacting server ($self->{wait})
+    -d --daemon         detach the agent in background ($self->{daemon})
+    -D --daemon-no-fork daemon but don't fork in background ($self->{'daemon-no-fork'})
+    --delaytime         set a max delay time (in second) if no PROLOG_FREQ is set ($self->{delaytime})
+    --devlib            search for Backend mod in ./lib only ($self->{devlib})
+    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($self->{'disable-perllib-envvar'})
+    -f --force          always send data to server (Don't ask before) ($self->{force})
+    -i --info           verbose mode ($self->{info})
+    --lazy              do not contact the server more than one time during the PROLOG_FREQ ($self->{lazy})
+    --logger            Logger you want to use, can be Stderr,File or Syslog ($self->{logger})
+    --rpc-ip=IP         ip of the interface to use for peer to peer exchange
+    --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory
+    --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
+    --share-dir=DIR     path to the directory where are stored the shared files ($self->{'share-dir'})
+    --stdout            do not write or post the inventory but print it on STDOUT
+    -t --tag=TAG        use TAG as tag ($self->{tag}) Will be ignored by server if a value already exists.
+    -w --wait=DURATION  wait during a random periode between 0 and DURATION seconds before contacting server ($self->{wait})
 
 Manpage:
     See man fusioninventory-agent

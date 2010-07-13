@@ -52,7 +52,11 @@ sub main {
                 '.ocs';
 
             if (open my $handle, '>', $file) {
-                print $handle $self->getContent();
+                if ($self->{target}->{format} eq 'XML') {
+                    print $handle $self->{inventory}->getContent();
+                } else {
+                    print $handle $self->{inventory}->getHTMLContent();
+                }
                 close $handle;
                 $self->{logger}->info("Inventory saved in $file");
             } else {
@@ -123,7 +127,6 @@ sub initModList {
     my @dirToScan;
     my @installed_mods;
     my @installed_files;
-
 
     # This is a workaround for PAR::Packer. Since it resets @INC
     # I can't find the backend modules to load dynamically. So
@@ -325,7 +328,7 @@ sub initModList {
                     $self->{modules}->{$_}->{inventoryFuncEnable} = 0;
                     $logger->debug(
                         "$_ disabled because of a 'runMeIfTheseChecksFailed' " .
-                        "in '$m'\n"
+                        "in '$m'"
                     );
                 }
             }

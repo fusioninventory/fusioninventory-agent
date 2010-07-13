@@ -19,7 +19,7 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
-our $VERSION = '2.1beta1';
+our $VERSION = '2.1_rc2';
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -88,20 +88,10 @@ sub new {
 
     $logger->debug("base storage directory: $config->{basevardir}");
 
-    # This is a hack to add the perl binary directory
-    # in the $PATH env.
-    # This is useful for the Windows installer.
-    # You probably don't need this feature
-    if ($config->{'perl-bin-dir-in-path'}) {
-        if ($EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
-            $ENV{PATH} .= $Config::Config{path_sep}.$1;
-        } else {
-            $logger->error(
-                "Failed to parse $EXECUTABLE_NAME to get the directory for " .
-                "--perl-bin-dir-in-path"
-            );
-        }
+    if (!-d $config->{'share-dir'}) {
+        $logger->error("share-dir doesn't existe $config->{'share-dir'}");
     }
+
     my $hostname = hostname();
 
     # $rootStorage save/read data in 'basevardir', not in a target directory!

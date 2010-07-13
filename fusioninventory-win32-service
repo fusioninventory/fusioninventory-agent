@@ -6,8 +6,14 @@ use threads;
 use threads::shared;
 use FusionInventory::Agent;
 
-delete $ENV{PERL5LIB};
-delete $ENV{PERLLIB};
+delete($ENV{PERL5LIB});
+delete($ENV{PERLLIB});
+
+if ($^X =~ /(^.*(\\|\/))/) {
+    $ENV{PATH} .= $Config::Config{path_sep}.$1;
+} else {
+    print("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");
+}
 
 my $win32service = 1;
 Win32::Daemon::StartService();
@@ -88,4 +94,10 @@ while (SERVICE_STOPPED != ($State = Win32::Daemon::State())){
     # Snoose for awhile so we don't suck up cpu time...
     Win32::Sleep($SERVICE_SLEEP_TIME);
 }
+
+__END__
+
+=head1 NAME
+
+fusioninventory-win32-service - FusionInventory Agent service for Windows
 

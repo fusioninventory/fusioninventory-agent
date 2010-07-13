@@ -35,9 +35,7 @@ sub getCPUInfoFromRegistry {
 
 
 
-sub isInventoryEnabled {
-    return 1;
-}
+sub isInventoryEnabled {1}
 
 sub doInventory {
     my $params = shift;
@@ -51,16 +49,10 @@ sub doInventory {
     my @dmidecodeCpu;
     if (can_run("dmidecode")) {
         my $in;
-	my $currentSpeed;
         foreach (`dmidecode`) {
             if ($in && /^Handle/)  {
-                # Mouahaha SONY...
-                $speed = $currentSpeed if $currentSpeed > $speed;
-
                 push @dmidecodeCpu, {serial => $serial, speed => $speed};
                 $in = 0;
-
-		$speed = $serial = $currentSpeed;
             }
 
             if (/^Handle.*type 4,/) {
@@ -68,11 +60,10 @@ sub doInventory {
             } elsif ($in) {
                 $speed = $1 if /Max Speed:\s+(\d+)\s+MHz/i;
                 $speed = $1*1000 if /Max Speed:\s+(\w+)\s+GHz/i;
-
-                $speed = $1 if /Current Speed:\s+(\d+)\s+MHz/i;
-                $speed = $1*1000 if /Current Speed:\s+(\w+)\s+GHz/i;
-		
                 $serial = $1 if /ID:\s+(.*)/i;
+#                Core Count: 2
+#                Core Enabled: 2
+#                Thread Count: 2
             }
         }
     }
@@ -104,6 +95,15 @@ sub doInventory {
         $name =~ s/\s+$//;
 
         $vmsystem = "QEMU"if $name =~ /QEMU/i;
+
+        if ($name =~ /([\d\.]+)s*(GHZ)/i) {
+            $speed = {
+               ghz => 1000,
+               mhz => 1,
+            }->{lc($2)}*$1;
+        }
+
+
 
         $inventory->addCPU({
 #           CACHE => $cache,

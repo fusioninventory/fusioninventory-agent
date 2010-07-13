@@ -119,6 +119,7 @@ sub getFromDF {
                 SERIAL     => $serial,
                 TYPE       => $type,
                 TOTAL      => $total,
+                FREE       => $free,
             };
         }
     }

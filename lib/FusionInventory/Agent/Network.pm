@@ -33,7 +33,6 @@ sub new {
     };
     bless $self, $class;
 
-    # check given URI
     $self->{URI} = URI->new($self->{target}->{path});
     my $scheme = $self->{URI}->scheme();
     if ($scheme ne 'http' && $scheme ne 'https') {
@@ -46,7 +45,7 @@ sub new {
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
 
-    if ($self->{config}->{proxy}) {
+  if ($self->{config}->{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
     }  else {
         $self->{ua}->env_proxy;
@@ -188,6 +187,7 @@ sub _turnSSLCheckOn {
             "verification, you can use the ".
             "--no-ssl-check parameter to disable SSL check.";
     }
+
     if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
         croak
             "You need to use either --ca-cert-file ".
@@ -197,7 +197,6 @@ sub _turnSSLCheckOn {
     }
 
 
-    my $parameter;
     if ($config->{'ca-cert-file'}) {
         if (!-f $config->{'ca-cert-file'} && !-l $config->{'ca-cert-file'}) {
             croak 
@@ -243,7 +242,7 @@ sub _turnSSLCheckOn {
         }
     }
 
-} 
+}
 
 1;
 __END__

@@ -96,7 +96,7 @@ sub getDescription {
     return "USB" if (defined ($description) && $description =~ /usb/i);
 
     if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
-        if ($manufacturer =~ /ATA/ || $serialnumber =~ /ATA/) {
+        if (($manufacturer && ($manufacturer =~ /ATA/)) || ($serialnumber && ($serialnumber =~ /ATA/))) {
             return  "SATA";
         } else {
             return "SCSI";
@@ -166,7 +166,7 @@ sub doInventory {
                                 if !$device->{SERIALNUMBER};
                             next;
                         }
-                        if (/^\s+Firmware Revision\s*:\s*(.+)/i) { 
+                        if ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
                             my $value = $1;
                             $value =~ s/\s+$//;
                             $device->{FIRMWARE} = $value

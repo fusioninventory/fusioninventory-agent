@@ -19,7 +19,7 @@ EOF
 
 name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
-abstract 'FusionInventory unified Agent for UNIX, Linux and MacOSX';
+abstract 'FusionInventory unified Agent for UNIX, Linux, Windows and MacOSX';
 license 'gpl';
 version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
@@ -29,6 +29,8 @@ requires 'LWP' => undef;
 requires 'File::Temp' => undef;
 requires 'Net::IP' => undef;
 requires 'HTTP::Status' => undef;
+requires 'File::Find' => undef;
+requires 'UNIVERSAL::require' => undef;
 recommends 'Compress::Zlib';
 recommends 'Proc::Daemon' => undef unless $OSNAME eq 'MSWin';
 recommends 'Proc::PID::File' => undef unless $OSNAME eq 'MSWin';
@@ -38,14 +40,14 @@ recommends 'HTTP::Daemon' => undef; # RPC
 recommends 'Archive::Extract' => undef;
 recommends 'Net::CUPS' => 0.60;
 recommends 'MIME::Base64' => undef;
-recommends 'File::ShareDir' => undef; # You'll need to use --html-dir
+recommends 'File::ShareDir' => undef; # You'll need to use --share-dir
 
 test_requires  'Test::More'  => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin';
-install_share 'share';
+install_share; # No parameter, si http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
 
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 
@@ -66,15 +68,6 @@ if ($ENV{PERL_AUTOINSTALL}) {
 if (!can_use('Compress::Zlib')) {
     print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
 }
-
-if (!can_use('Crypt::SSLeay') && !can_use('IO::Socket::SSL')) {
-    print "Please install Crypt::SSLeay or IO::Socket::SSL if you want to use SSL.\n";
-}
-
-if (!can_use('Net::SSLeay')) {
-    print "Please install Net::SSLeay if you want to use the software deployment.\n";
-}
-
 
 if (!can_run('ipdiscover') && !can_run('nmap')) {
     print "Please install nmap ";

@@ -27,6 +27,11 @@ sub doInventory {
                 $Properties->{CurrentVerticalResolution};
         }
 
+        my $memory;
+        if ($Properties->{AdaptaterRAM}) {
+            $memory = int($Properties->{AdaptaterRAM} / (1024*1024));
+        }
+
         $inventory->addVideo({
             CHIPSET => $Properties->{VideoProcessor},
             MEMORY =>  int($Properties->{AdaptaterRAM} / (1024*1024)),

@@ -71,21 +71,29 @@ sub _addEntry {
     my $showAll = 0;
 
     foreach (@$fields) {
-        if (!$showAll && !$values->{$_}) {
+        if (!$showAll && !defined($values->{$_})) {
             next;
         }
-        my $string = $self->_encode({ string => $values->{$_} }) || '';
+        my $string = $self->_encode({ string => $values->{$_} });
         $newEntry->{$_}[0] = $string;
     }
 
 # Don't create two time the same device
-    ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
-        foreach (@$fields) {
-            next ENTRY unless defined($entry->{$_}[0]) && 
-            defined($newEntry->{$_}[0]);
-            next ENTRY if $entry->{$_}[0] ne $newEntry->{$_}[0];
+    if ($noDuplicated) {
+        ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
+            foreach my $field (@$fields) {
+                if (defined($entry->{$field}[0]) !=
+                    defined($newEntry->{$field}[0])) {
+                    next ENTRY;
+
+                }
+
+                if (defined($entry->{$field}[0]) && ($entry->{$field}[0] ne $newEntry->{$field}[0])) {
+                    next ENTRY;
+                }
+            }
+            return;
         }
-        return;
     }
 
     push @{$self->{h}{CONTENT}{$sectionName}}, $newEntry;
@@ -97,7 +105,7 @@ sub _encode {
 
     my $string = $params->{string};
 
-    return unless $string;
+    return unless defined($string);
 
     my $logger = $self->{logger};
 
@@ -133,6 +141,7 @@ sub addController {
     my ($self, $args) = @_;
 
     my @fields = qw/
+        CAPTION
         DRIVER
         NAME
         MANUFACTURER
@@ -141,6 +150,7 @@ sub addController {
         PCISUBSYSTEMID
         PCISLOT
         TYPE
+        REV
     /;
 
     $self->_addEntry({
@@ -633,7 +643,7 @@ sub addUser {
     /;
 
     my $values = $args;
-    return unless $values->{login};
+    return unless $values->{LOGIN};
 
     $self->_addEntry({
         field        => \@fields,
@@ -651,7 +661,7 @@ sub addUser {
     $domainString .= '/' if $domainString;
 
     my $login = $args->{LOGIN}; 
-    my $domain = $args->{DOMAIN}; 
+    my $domain = $args->{DOMAIN} || '';
 # TODO: I don't think we should change the parmater this way. 
     if ($login =~ /(.*\\|)(\S+)/) {
         $domainString .= $domain;
@@ -717,7 +727,6 @@ sub addVirtualMachine {
     my $logger = $self->{logger};
 
     my @fields = qw/
-        logger
         MEMORY
         NAME
         UUID
@@ -728,9 +737,9 @@ sub addVirtualMachine {
         VMID
     /;
 
-    if (!$args->{status}) {
+    if (!$args->{STATUS}) {
         $logger->error("status not set by ".caller(0));
-    } elsif (!$args->{status} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+    } elsif (!$args->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
         $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
     }
 
@@ -821,7 +830,7 @@ USB device
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    my @fields = qw/VENDORID PRODUCTID SERIAL/;
+    my @fields = qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/;
 
     $self->_addEntry({
         field        => \@fields,
@@ -992,6 +1001,102 @@ sub getContent {
     }
 
     return $self->SUPER::getContent();
+}
+
+=item writeHTML()
+
+Save the generated inventory as an XML file. The 'local' key of the config
+is used to know where the file as to be saved.
+
+=cut
+sub writeHTML {
+    my ($self, $args) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+    my $target = $self->{target};
+
+    if ($target->{path} =~ /^$/) {
+        $logger->fault ('local path unititalised!');
+    }
+
+    $self->initialise();
+
+    my $localfile = $config->{local}."/".$target->{deviceid}.'.html';
+    $localfile =~ s!(//){1,}!/!;
+
+    # Convert perl data structure into xml strings
+
+
+    my $htmlHeader = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title>FusionInventory-Agent '.$target->{deviceid}.' - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+
+    </head>
+    <body>
+    <h1>Inventory for '.$target->{deviceid}.'</h1>
+    FusionInventory Agent '.$config->{VERSION}.'
+
+    ';
+
+
+    my $htmlFooter = "
+    </body>
+    </html>";
+
+    my $htmlBody;
+
+    use Data::Dumper;
+    my $oldSectionName = "";
+    foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
+        next if $sectionName eq 'VERSIONCLIENT';
+
+        my $dataRef = $self->{h}{CONTENT}->{$sectionName};
+
+        if (ref($dataRef) eq 'ARRAY') {
+            foreach my $section (@{$dataRef}) {
+
+                next unless keys %{$section};
+
+                if ($oldSectionName ne $sectionName) {
+                    $htmlBody .= "<h2>$sectionName</h2>\n";
+                    $oldSectionName = $sectionName;
+                }
+
+                $htmlBody .= "<ul>";
+                foreach my $key (sort keys %{$section}) {
+                    $htmlBody .="<li>".$key.": ".
+                    ($section->{$key}[0]||"(empty)").
+                    "</li>\n";
+                }
+                $htmlBody .= "</ul>\n<br />\n<br />\n";
+
+            }
+        } else {
+            $htmlBody .= "<h2>$sectionName</h2>\n";
+
+            $htmlBody .= "<ul>";
+            foreach my $key (sort keys %{$dataRef}) {
+                $htmlBody .="<li>".$key.": ".
+                ($dataRef->{$key}[0]||"(empty)").
+                "</li>\n";
+            }
+            $htmlBody .= "</ul>\n<br />\n";
+        }
+    }
+
+
+    if (open my $handle, '>', $localfile) {
+        print $handle $htmlHeader;
+        print $handle $htmlBody;
+        print $handle $htmlFooter;
+        close $handle;
+        $logger->info("Inventory saved in $localfile");
+    } else {
+        warn "Can't open $localfile: $ERRNO"
+    }
 }
 
 =item processChecksum()
@@ -1228,6 +1333,10 @@ The optional asset tag for this machine.
 
 =over 4
 
+=item CAPTION
+
+Windows CAPTION field or subsystem Name from the pci.ids table
+
 =item DRIVER
 
 =item NAME
@@ -1252,6 +1361,10 @@ The PCI slot, e.g: 00:02.1 (only for PCI device)
 
 The controller revision, e.g: rev 02. This field may be renamed
 in the future.
+
+=item REV
+
+Revision of the device in the XX format (e.g: 04)
 
 =back
 
@@ -1313,7 +1426,7 @@ The name of the CPU, e.g: Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz
 
 =item THREAD
 
-Number of thread.
+Number of thread per core.
 
 =item SERIAL
 
@@ -1339,9 +1452,15 @@ Date of the create of the filesystem in in DD/MM/YYYY format.
 
 =item FREE
 
+Free space
+
 =item FILESYSTEM
 
+File system name. e.g: ext3
+
 =item LABEL
+
+Name of the partition given by the user.
 
 =item LETTER
 
@@ -1361,9 +1480,11 @@ Total space avalaible.
 
 =item TYPE
 
+The mount point on UNIX.
+
 =item VOLUMN
 
-Name of the partition.
+System name of the partition (e.g: /dev/sda1)
 
 =back
 
@@ -1389,6 +1510,8 @@ Service Pack on Windows, kernel build date on Linux
 Deprecated, OCS only.
 
 =item PROCESSORT
+
+Deprecated, OCS only.
 
 =item NAME
 
@@ -1666,7 +1789,7 @@ E.g: VmWare ESX
 
 =item VMTYPE
 
-The name of the virtualisation system family, eg. Xen or VmWare.
+The name of the virtualisation system family. The same type found is HARDWARE/VMSYSTEM
 
 =item VCPU
 
@@ -1749,6 +1872,10 @@ USB Class (e.g: 8 for Mass Storage)
 =item SUBCLASS
 
 USB Sub Class
+
+=item NAME
+
+The name of the device (optional)
 
 =back
 
@@ -1869,6 +1996,36 @@ ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
 =item PRINTPROCESSOR
 
 =back
+
+=head2 PROCESSES
+
+=item USER
+
+The process owner
+
+=item PID
+
+The process Id
+
+=item CPUUSAGE
+
+The CPU usage.
+
+=item MEM
+
+The memory.
+
+=item VIRTUALMEMORY
+
+=item TTY
+
+=item STARTED
+
+When the process'd been started in the YYYY/MM/DD HH:MM format
+
+=item CMD
+
+The command.
 
 =head2 ANTIVIRUS
 

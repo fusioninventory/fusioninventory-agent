@@ -116,8 +116,11 @@ sub doInventory {
         if (!$memory->{SERIALNUMBER}) {
             $memory->{SERIALNUMBER} = $Properties->{SerialNumber};
         }
-        $memory->{MEMORYCORRECTION} =
-            $memoryErrorProtection[$Properties->{PhysicalMemoryCorrection}];
+
+        if ($Properties->{PhysicalMemoryCorrection}) {
+            $memory->{MEMORYCORRECTION} =
+                $memoryErrorProtection[$Properties->{PhysicalMemoryCorrection}];
+        }
 
         if ($memory->{MEMORYCORRECTION}) {
             $memory->{DESCRIPTION} .= " (".$memory->{MEMORYCORRECTION}.")";

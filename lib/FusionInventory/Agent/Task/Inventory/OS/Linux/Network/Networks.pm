@@ -19,7 +19,6 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
 
     my $routes;
     foreach (`route -n`) {
@@ -51,7 +50,10 @@ sub doInventory {
             $interface->{IPGATEWAY} = $ipgateway;
         }
 
-        my ($driver, $pcislot) = getUevent($interface->{DESCRIPTION});
+        my ($driver, $pcislot) = getUevent(
+            $params->{logger},
+            $interface->{DESCRIPTION}
+        );
         $interface->{DRIVER} = $driver if $driver;
         $interface->{PCISLOT} = $pcislot if $pcislot;
 
@@ -103,9 +105,6 @@ sub parseIfconfig {
             # In a section
             if ($line =~ /^(\S+)/) {
                 $interface->{DESCRIPTION} = $1;
-            }
-            if ($line =~ /inet addr:($ip_address_pattern)/i) {
-                $interface->{IPADDRESS} = $1;
             }
             if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
@@ -175,7 +174,7 @@ sub isWifi {
 }
 
 sub getUevent {
-    my ($name) = @_;
+    my ($logger, $name) = @_;
 
     my ($driver, $pcislot);
 
@@ -188,7 +187,7 @@ sub getUevent {
             }
             close $handle;
         } else {
-            warn "Can't open $file: $ERRNO";
+            $logger->warn("Can't open $file: $ERRNO");
         }
     }
 
