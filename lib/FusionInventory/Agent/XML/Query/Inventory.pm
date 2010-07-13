@@ -739,6 +739,7 @@ sub addPrinter {
         SERVERNAME
         SHARENAME
         PRINTPROCESSOR
+        SERIAL
     /;
 
     $self->_addEntry({
