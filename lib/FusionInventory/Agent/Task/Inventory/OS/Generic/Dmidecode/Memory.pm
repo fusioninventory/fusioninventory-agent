@@ -31,7 +31,7 @@ sub parseDmidecode {
     while (my $line = <$handle>) {
         chomp $line;
 
-        if ($line =~ /DMI type (\d+)/i) {
+        if ($line =~ /DMI type (\d+)/) {
             $type = $1;
             if ($memory) {
                 $memory->{NUMSLOTS} = ++$slot;
@@ -44,17 +44,17 @@ sub parseDmidecode {
         next unless defined $type;
 
         if ($type == 17) {
-            if ($line =~ /^\s+Size:\s+(\S+)/i) {
+            if ($line =~ /^\s+Size:\s+(\S+)/) {
                 $memory->{CAPACITY} = $1;
-            } elsif ($line =~ /^\s+Form Factor:\s+(.+)/i) {
+            } elsif ($line =~ /^\s+Form Factor:\s+(.+)/) {
                 $memory->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+Locator:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Locator:\s*(.+)/) {
                 $memory->{CAPTION} = $1;
-            } elsif ($line =~ /^\s+Speed:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Speed:\s*(.+)/) {
                 $memory->{SPEED} = $1;
-            } elsif ($line =~ /^\s+Type:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Type:\s*(.+)/) {
                 $memory->{TYPE} = $1;
-            } elsif ($line =~ /^\s+Serial Number:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Serial Number:\s*(.+)/) {
                 $memory->{SERIALNUMBER} = $1;
             }
         }

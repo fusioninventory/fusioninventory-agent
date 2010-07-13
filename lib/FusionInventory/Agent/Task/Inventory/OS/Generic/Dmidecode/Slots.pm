@@ -30,7 +30,7 @@ sub parseDmidecode {
     while (my $line = <$handle>) {
         chomp $line;
 
-        if ($line =~ /DMI type (\d+)/i) {
+        if ($line =~ /DMI type (\d+)/) {
             $type = $1;
             if ($slot) {
                 push @$slots, $slot;
@@ -42,13 +42,13 @@ sub parseDmidecode {
         next unless defined $type;
 
         if ($type == 9) {
-             if ($line =~ /^\s+Type:\s*(.+)/i) {
+             if ($line =~ /^\s+Type:\s*(.+)/) {
                 $slot->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+ID:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+ID:\s*(.+)/) {
                 $slot->{DESIGNATION} = $1;
-            } elsif ($line =~ /^\s+Designation:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Designation:\s*(.+)/) {
                 $slot->{NAME} = $1;
-            } elsif ($line =~ /^\s+Current Usage:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Current Usage:\s*(.+)/) {
                 $slot->{STATUS} = $1;
             }
         }

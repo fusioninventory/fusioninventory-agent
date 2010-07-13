@@ -47,7 +47,7 @@ sub parseDmidecode {
     while (my $line = <$handle>) {
         chomp $line;
 
-        if ($line =~ /DMI type (\d+)/i) {
+        if ($line =~ /DMI type (\d+)/) {
             $type = $1;
             next;
         }
@@ -55,19 +55,19 @@ sub parseDmidecode {
         next unless defined $type;
 
         if ($type == 22) {
-            if($line =~ /^\s+Name:\s*(.+?)(\s*)$/i) {
+            if($line =~ /^\s+Name:\s*(.+?)(\s*)$/) {
                 $battery->{NAME} = $1;
-            } elsif ($line =~ /^\s+Capacity:\s*(\d+)\s*m(W|A)h/i) {
+            } elsif ($line =~ /^\s+Capacity:\s*(\d+)\s*m(W|A)h/) {
                 $battery->{CAPACITY} = $1;
-            } elsif ($line =~/^\s+Manufacturer:\s*(.+?)(\s*)$/i) {
+            } elsif ($line =~/^\s+Manufacturer:\s*(.+?)(\s*)$/) {
                 $battery->{MANUFACTURER} = $1;
-            } elsif ($line =~ /^\s+Serial\s*Number:\s*(.+?)(\s*)$/i) {
+            } elsif ($line =~ /^\s+Serial\s*Number:\s*(.+?)(\s*)$/) {
                 $battery->{SERIAL} = $1
-            } elsif ($line =~ /^\s+Manufacture\s*date:\s*(\S*)$/i) {
+            } elsif ($line =~ /^\s+Manufacture\s*Date:\s*(\S*)$/) {
                 $battery->{DATE} = parseDate($1);
-            } elsif ($line =~ /^\s+Voltage:\s*(\d+)\s*mV/i) {
+            } elsif ($line =~ /^\s+Voltage:\s*(\d+)\s*mV/) {
                 $battery->{VOLTAGE} = $1;
-            } elsif ($line =~ /^\s+Chemistry:\s*(\S+\s*)/i) {
+            } elsif ($line =~ /^\s+Chemistry:\s*(\S+\s*)/) {
                 $battery->{CHEMISTRY} = $1;
             }
             next;

@@ -31,7 +31,7 @@ sub parseDmidecode {
     while (my $line = <$handle>) {
         chomp $line;
 
-        if ($line =~ /DMI type (\d+)/i) {
+        if ($line =~ /DMI type (\d+)/) {
             $type = $1;
             next;
         }
@@ -41,34 +41,34 @@ sub parseDmidecode {
         if ($type == 0) {
             # BIOS values
 
-            if ($line =~ /^\s+vendor:\s*(.+?)\s*$/i) {
+            if ($line =~ /^\s+Vendor:\s*(.+?)\s*$/) {
                 $bios->{BMANUFACTURER} = $1;
-                if ($bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/i) {
+                if ($bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/) {
                     $hardware->{VMSYSTEM} = 'QEMU';
-                } elsif ($bios->{BMANUFACTURER} =~ /VirtualBox/i) {
+                } elsif ($bios->{BMANUFACTURER} =~ /VirtualBox/) {
                     $hardware->{VMSYSTEM} = 'VirtualBox';
-                } elsif ($bios->{BMANUFACTURER} =~ /^Xen/i) {
+                } elsif ($bios->{BMANUFACTURER} =~ /^Xen/) {
                     $hardware->{VMSYSTEM} = 'Xen';
                 }
-            } elsif ($line =~ /^\s+release date:\s*(.+?)\s*$/i) {
+            } elsif ($line =~ /^\s+Release Date:\s*(.+?)\s*$/) {
                 $bios->{BDATE} = $1
-            } elsif ($line =~ /^\s+version:\s*(.+?)\s*$/i) {
+            } elsif ($line =~ /^\s+Version:\s*(.+?)\s*$/) {
                 $bios->{BVERSION} = $1
             }
             next;
         }
 
         if ($type == 1) {
-            if ($line =~ /^\s+serial number:\s*(.+?)\s*$/i) {
+            if ($line =~ /^\s+Serial Number:\s*(.+?)\s*$/) {
                 $bios->{SSN} = $1
-            } elsif ($line =~ /^\s+(?:product name|product):\s*(.+?)\s*$/i) {
+            } elsif ($line =~ /^\s+(?:Product Name|Product):\s*(.+?)\s*$/) {
                 $bios->{SMODEL} = $1;
-                if ($bios->{SMODEL} =~ /(VMware|Virtual Machine)/i) {
+                if ($bios->{SMODEL} =~ /(VMware|Virtual Machine)/) {
                     $hardware->{VMSYSTEM} = $1;
                 }
-            } elsif ($line =~ /^\s+(?:manufacturer|vendor):\s*(.+?)\s*$/i) {
+            } elsif ($line =~ /^\s+(?:Manufacturer|Vendor):\s*(.+?)\s*$/) {
                 $bios->{SMANUFACTURER} = $1
-            } elsif ($line =~ /^\s+UUID:\s*(.+?)\s*$/i) {
+            } elsif ($line =~ /^\s+UUID:\s*(.+?)\s*$/) {
                 $hardware->{UUID} = $1;
             }
             next;
@@ -76,18 +76,18 @@ sub parseDmidecode {
 
         if ($type == 2) {
             # Failback on the motherbord
-            if ($line =~ /^\s+serial number:\s*(.+?)\s*/i) {
+            if ($line =~ /^\s+Serial Number:\s*(.+?)\s*/) {
                 $bios->{SSN} = $1 if !$bios->{SSN};
-            } elsif ($line =~ /^\s+product name:\s*(.+?)\s*/i) {
+            } elsif ($line =~ /^\s+Product Name:\s*(.+?)\s*/) {
                 $bios->{SMODEL} = $1 if !$bios->{SMODEL};
-            } elsif ($line =~ /^\s+manufacturer:\s*(.+?)\s*/i) {
+            } elsif ($line =~ /^\s+Manufacturer:\s*(.+?)\s*/) {
                 $bios->{SMANUFACTURER} = $1
                 if !$bios->{SMANUFACTURER};
             }
         }
 
         if ($type == 3) {
-            if ($line =~ /^\s+Asset Tag:\s*(.+\S)/i) {
+            if ($line =~ /^\s+Asset Tag:\s*(.+\S)/) {
                 $bios->{ASSETTAG} = $1 eq 'Not Specified'  ? '' : $1;
             }
             next;
@@ -96,7 +96,7 @@ sub parseDmidecode {
         if ($type == 4) {
             # Some bioses don't provide a serial number so I check for CPU ID
             # (e.g: server from dedibox.fr)
-            if ($line =~ /^\s+ID:\s*(.*)/i) {
+            if ($line =~ /^\s+ID:\s*(.*)/) {
                 if (!$bios->{SSN}) {
                     $bios->{SSN} = $1;
                     $bios->{SSN} =~ s/\ /-/g;
