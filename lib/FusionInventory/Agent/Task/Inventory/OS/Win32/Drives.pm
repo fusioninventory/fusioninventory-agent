@@ -46,7 +46,7 @@ DeviceID Size DriveType VolumeName/)) {
             $freespace = int($Properties->{FreeSpace}/(1024*1024))
         }
         if ($Properties->{Size}) {
-            $freespace = int($Properties->{Size}/(1024*1024))
+            $size = int($Properties->{Size}/(1024*1024))
         }
 
         push @drives, {

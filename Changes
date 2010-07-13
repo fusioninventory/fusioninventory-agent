@@ -13,7 +13,7 @@ Revision history for FusionInventory::Agent
          thanks Sébastien Prud'homme
        * Fix: Linux, PC: get the number of core from dmidecode if
          avaible
-       * Linux, PC: get the CPU frequency from the CPU name, if
+       * Win32 and Linux, PC: get the CPU frequency from the CPU name, if
          possible. That's the most reliable way to get the
          information since 'Max Speed' in dmidecode is most of the
          time on crack and /proc/cpuinfo is not reliable because of
@@ -30,6 +30,14 @@ Revision history for FusionInventory::Agent
        * Fix, HP-UX errors when listing drives
          http://forge.fusioninventory.org/issues/188 (Amir PAKDEL)
        * Win32, network: Filter interfaces with no IP, IPv6 and MAC
+       * Win32, printer: restore the DRIVER field
+       * Win32, drive: restore the SIZE field
+       * Win32, get the memories from WMI only if dmidecode is missing
+       * Dmidecode, drop the unit from the memory speed like the Win32 OCS
+         agent do
+       * Win32, set the BIOS/TYPE field
+       * Win32, storage: clean up. Reduce the number of hdparm call.
+       * Win32, set USBDEVICES/NAME
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite

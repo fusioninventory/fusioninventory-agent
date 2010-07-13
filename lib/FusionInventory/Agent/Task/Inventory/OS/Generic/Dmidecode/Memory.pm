@@ -45,13 +45,14 @@ sub doInventory {
                 SERIALNUMBER => $serialnumber,
             });
 
-            $capacity = $description = $caption = $type = $type = $serialnumber = undef;
+            $capacity = $description = $caption = $type = $type = $speed = $serialnumber = undef;
         } elsif ($flag) { # in the section
 
             $capacity = $1 if /^size\s*:\s*(\S+)/i;
             $description = $1 if /^Form Factor\s*:\s*(.+)/i;
             $caption = $1 if /^Locator\s*:\s*(.+)/i;
-            $speed = $1 if /^speed\s*:\s*(.+)/i;
+            $speed = $1 if /^speed\s*:\s*([\.\d]+)\s*MHz/i;
+            $speed = $1*1000 if /^speed\s*:\s*([\.\d]+)\s*GHz/i;
             $type = $1 if /^type\s*:\s*(.+)/i;
             $serialnumber = $1 if /^Serial Number\s*:\s*(.+)/i;
 

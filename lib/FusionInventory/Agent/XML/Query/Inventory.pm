@@ -620,7 +620,7 @@ sub setBios {
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
         MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
-        BIOSSERIAL/) {
+        BIOSSERIAL TYPE/) {
 
         if (exists $args->{$key}) {
             my $string = $self->_encode({ string => $args->{$key} });

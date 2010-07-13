@@ -6,7 +6,8 @@ use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 sub isInventoryEnabled {
-    return 1;
+# Only if dmidecode is not avalaible
+    return !can_run('dmidecode');
 }
 
 my @formFactorVal = qw/

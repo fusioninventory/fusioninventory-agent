@@ -93,6 +93,15 @@ qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
 
         $vmsystem = "QEMU"if $name =~ /QEMU/i;
 
+        if ($name =~ /([\d\.]+)s*(GHZ)/i) {
+            $speed = {
+               ghz => 1000,
+               mhz => 1,
+            }->{lc($2)}*$1;
+        }
+
+
+
         $inventory->addCPU({
 #                CACHE => $cache,
                 CORE => $core,
