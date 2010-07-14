@@ -145,7 +145,7 @@ sub new {
         });
     my $jobFactory = $self->{jobFactory};
 
-    if ($config->{scanhomedirs}) {
+    if ($config->{'scan-homedirs'}) {
         $logger->debug("User directory scanning enabled");
     }
 

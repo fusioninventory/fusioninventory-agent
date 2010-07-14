@@ -43,6 +43,7 @@ Revision history for FusionInventory::Agent
        * Add more test scripts: xml-query-inventory.t,
          xml-query-simplemessage.t, t/xml-response.t
        * Inventory, correctly store user list
+       * Fix a typo scanhomedirs → scan-homedirs 
 
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
