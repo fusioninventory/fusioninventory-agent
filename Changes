@@ -38,6 +38,9 @@ Revision history for FusionInventory::Agent
        * Win32, set the BIOS/TYPE field
        * Win32, storage: clean up. Reduce the number of hdparm call.
        * Win32, set USBDEVICES/NAME
+       * Add more test scripts: xml-query-inventory.t,
+         xml-query-simplemessage.t, t/xml-response.t
+
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
