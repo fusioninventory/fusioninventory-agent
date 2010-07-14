@@ -64,7 +64,6 @@ my $test = {
                     ]
                 }
             },
-            'ACCESSLOG' => '',
             'HARDWARE' => {
                 'PROCESSORS' => '1456',
                 'ARCHNAME' => 'i486-linux-gnu-thread-multi',
