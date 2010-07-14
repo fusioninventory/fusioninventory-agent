@@ -13,6 +13,7 @@ use XML::TreePP;
 use Digest::MD5 qw(md5_base64);
 use Config;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Task::Inventory;
 
 =over 4
@@ -63,7 +64,7 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::USER_STRING];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::AGENT_STRING];
 
     # Is the XML centent initialised?
     $self->{isInitialised} = undef;
