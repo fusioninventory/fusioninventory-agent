@@ -3,12 +3,14 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Sound;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 use constant DATATYPE   => 'SPAudioDataType'; # may need to fix to work with older versions of osx
 
 sub isInventoryEnabled {
-    return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
-    return(undef) unless can_load("Mac::SysProfile"); # check perms
-    return 1;
+    return 
+        -r '/usr/sbin/system_profiler' &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {

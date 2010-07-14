@@ -3,78 +3,74 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Memory;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
     return 1;
 }
 
 my @formFactorVal = qw/
-Unknown 
-Other
-SIP
-DIP
-ZIP
-SOJ
-Proprietary
-SIMM
-DIMM
-TSOP
-PGA
-RIMM
-SODIMM
-SRIMM
-SMD
-SSMP
-QFP
-TQFP
-SOIC
-LCC
-PLCC
-BGA
-FPBGA
-LGA
+    Unknown 
+    Other
+    SIP
+    DIP
+    ZIP
+    SOJ
+    Proprietary
+    SIMM
+    DIMM
+    TSOP
+    PGA
+    RIMM
+    SODIMM
+    SRIMM
+    SMD
+    SSMP
+    QFP
+    TQFP
+    SOIC
+    LCC
+    PLCC
+    BGA
+    FPBGA
+    LGA
 /;
 
-
-
 my @memoryTypeVal = qw/
-Unknown
-Other
-DRAM
-Synchronous DRAM
-Cache DRAM
-EDO
-EDRAM
-VRAM
-SRAM
-RAM
-ROM
-Flash
-EEPROM
-FEPROM
-EPROM
-CDRAM
-3DRAM
-SDRAM
-SGRAM
-RDRAM
-DDR
-DDR-2
+    Unknown
+    Other
+    DRAM
+    Synchronous DRAM
+    Cache DRAM
+    EDO
+    EDRAM
+    VRAM
+    SRAM
+    RAM
+    ROM
+    Flash
+    EEPROM
+    FEPROM
+    EPROM
+    CDRAM
+    3DRAM
+    SDRAM
+    SGRAM
+    RDRAM
+    DDR
+    DDR-2
 /;
 
 my @memoryErrorProtection = ( 
-        undef,
-        'Other',
-        undef,
-        'None',
-        'Parity',
-        'Single-bit ECC',
-        'Multi-bit ECC',
-        'CRC',
-        );
-
-
+    undef,
+    'Other',
+    undef,
+    'None',
+    'Parity',
+    'Single-bit ECC',
+    'Multi-bit ECC',
+    'CRC',
+);
 
 sub doInventory {
     my $params = shift;
@@ -84,10 +80,10 @@ sub doInventory {
     my $cpt = 0;
     my @memories;
 
-        foreach my $Properties
-            (getWmiProperties('Win32_PhysicalMemory',
-qw/Capacity Caption Description FormFactor Removable Speed MemoryType
-SerialNumber/)) {
+    foreach my $Properties (getWmiProperties('Win32_PhysicalMemory', qw/
+        Capacity Caption Description FormFactor Removable Speed MemoryType
+        SerialNumber
+    /)) {
 
         my $capacity = sprintf("%i",$Properties->{Capacity}/(1024*1024));
         my $caption = $Properties->{Caption};
@@ -101,27 +97,24 @@ SerialNumber/)) {
 
         push @memories, {
             CAPACITY => $capacity,
-                     CAPTION => $caption,
-                     DESCRIPTION => $description,
-                     FORMFACTOR => $formfactor,
-                     REMOVABLE => $removable,
-                     SPEED => $speed,
-                     TYPE => $type,
-                     NUMSLOTS => $numslots,
-                     SERIALNUMBER => $serialnumber
+            CAPTION => $caption,
+            DESCRIPTION => $description,
+            FORMFACTOR => $formfactor,
+            REMOVABLE => $removable,
+            SPEED => $speed,
+            TYPE => $type,
+            NUMSLOTS => $numslots,
+            SERIALNUMBER => $serialnumber
         }
-
     }
 
-
-        foreach my $Properties
-            (getWmiProperties('Win32_PhysicalMemoryArray',
-qw/MemoryDevices SerialNumber PhysicalMemoryCorrection/)) {
+    foreach my $Properties (getWmiProperties('Win32_PhysicalMemoryArray', qw/
+        MemoryDevices SerialNumber PhysicalMemoryCorrection
+    /)) {
 
         my $memory = $memories[$Properties->{MemoryDevices} - 1];
         if (!$memory->{SERIALNUMBER}) {
-            $memory->{SERIALNUMBER} =
-                $Properties->{SerialNumber};
+            $memory->{SERIALNUMBER} = $Properties->{SerialNumber};
         }
 
         if ($Properties->{PhysicalMemoryCorrection}) {
@@ -134,40 +127,27 @@ qw/MemoryDevices SerialNumber PhysicalMemoryCorrection/)) {
         }
     }
 
-
-
-
     foreach my $memory (@memories) {
         $inventory->addMemory($memory);
     }
 
-
-
-
     my $fullMemory = 0;
     my $swapMemory = 0;
-    foreach my $Properties
-        (getWmiProperties('Win32_ComputerSystem',
-qw/TotalPhysicalMemory/)) {
+    foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
+        TotalPhysicalMemory
+    /)) {
         $fullMemory = $Properties->{TotalPhysicalMemory};
     }
-    foreach my $Properties
-        (getWmiProperties('Win32_OperatingSystem',
-qw/TotalSwapSpaceSize/)) {
+    foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
+        TotalSwapSpaceSize
+    /)) {
         $swapMemory = $Properties->{TotalSwapSpaceSize};
     }
 
-
-
-
-
     $inventory->setHardware({
-
-            MEMORY =>  int($fullMemory/(1024*1024)),
-            SWAP =>  int(($swapMemory || 0)/(1024)),
-
-            });
-
+        MEMORY =>  int($fullMemory/(1024*1024)),
+        SWAP =>  int(($swapMemory || 0)/(1024)),
+    });
 
 }
 

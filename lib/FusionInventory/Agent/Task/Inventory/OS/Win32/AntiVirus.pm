@@ -4,14 +4,12 @@ use strict;
 use warnings;
 
 use Config;
-
 use Win32;
 use Win32::OLE('in');
 use Win32::OLE::Variant;
-
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
-
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+
+use FusionInventory::Agent::Tools::Win32;
 
 sub doInventory {
     my $params = shift;

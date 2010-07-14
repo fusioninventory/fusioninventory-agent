@@ -62,9 +62,10 @@ sub start {
     $Data::Dumper::Varname='parameter',
 
     print $stdin Data::Dumper({
-            config => $config,
-            target => $target,
-            prologresp => $prologresp
+            # TODO
+            #config => $config,
+            #target => $target,
+            #prologresp => $prologresp
         });
 
 

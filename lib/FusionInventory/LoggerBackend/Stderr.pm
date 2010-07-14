@@ -8,10 +8,11 @@ use English qw(-no_match_vars);
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-    $self->{config} = $params->{config};
-
+    my $self = {
+        config => $params->{config}
+    };
     bless $self, $class;
+
     return $self;
 }
 
@@ -23,31 +24,22 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    return if $message =~ /^$/;
-
-    # if STDERR has been hijacked, I take its saved ref
-    my $stderr;
-    if (exists ($self->{config}->{savedstderr})) {
-        $stderr = $self->{config}->{savedstderr};
-    } else {
-        $stderr = \*STDERR;
-    }
-
-    if ($config->{color} && $OSNAME ne 'MSWin32') {
+    my $format;
+    if ($config->{color}) {
         if ($level eq 'error') {
-            print $stderr  "\033[1;35m[$level]";
+            $format = "\033[1;35m[%s] %s\033[0m\n";
         } elsif ($level eq 'fault') {
-            print $stderr  "\033[1;31m[$level]";
+            $format = "\033[1;31m[%s] %s\033[0m\n";
         } elsif ($level eq 'info') {
-            print $stderr  "\033[1;34m[$level]\033[0m";
+            $format = "\033[1;34m[%s]\033[0m %s\n";
         } elsif ($level eq 'debug') {
-            print $stderr  "\033[1;1m[$level]\033[0m";
+            $format = "\033[1;1m[%s]\033[0m %s\n";
         }
-        print $stderr  " $message";
-        print "\033[0m\n";
     } else {
-        print $stderr "[$level] $message\n";
+        $format = "[%s] %s\n";
     }
+
+    printf STDERR $format, $level, $message;
 
 }
 

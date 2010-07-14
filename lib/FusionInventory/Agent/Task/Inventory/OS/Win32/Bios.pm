@@ -3,12 +3,13 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Bios;
 use strict;
 use warnings;
 
-# Only run this module if dmidecode has not been found
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
-
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
-
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+
+use FusionInventory::Agent::Tools::Win32;
+
+# Only run this module if dmidecode has not been found
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
 
 sub isInventoryEnabled {
     return 1;
@@ -60,9 +61,9 @@ sub doInventory {
 
     $bdate = $registryInfo->{BIOSReleaseDate};
 
-    foreach my $Properties
-        (getWmiProperties('Win32_Bios',
-qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
+    foreach my $Properties (getWmiProperties('Win32_Bios', qw/
+        SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion
+    /)) {
         $biosSerial = $Properties->{SerialNumber};
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $bmanufacturer = $Properties->{Manufacturer} unless $bmanufacturer;
@@ -71,28 +72,24 @@ qw/SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion/)) {
         $bversion = $Properties->{Version} unless $bversion;
     }
 
-    foreach my $Properties
-        (getWmiProperties('Win32_ComputerSystem',
-qw/Manufacturer Model/)) {
-
+    foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
+        Manufacturer Model
+    /)) {
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
         $model = $Properties->{Model} unless $model;
-
     }
 
-    foreach my $Properties
-        (getWmiProperties('Win32_SystemEnclosure',
-qw/SerialNumber SMBIOSAssetTag/)) {
-
+    foreach my $Properties (getWmiProperties('Win32_SystemEnclosure', qw/
+        SerialNumber SMBIOSAssetTag
+    /)) {
         $enclosureSerial = $Properties->{SerialNumber} ;
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $assettag = $Properties->{SMBIOSAssetTag} unless $assettag;
-
     }
 
-    foreach my $Properties
-        (getWmiProperties('Win32_BaseBoard',
-qw/SerialNumber Product Manufacturer/)) {
+    foreach my $Properties (getWmiProperties('Win32_BaseBoard', qw/
+        SerialNumber Product Manufacturer
+    /)) {
         $baseBoardSerial = $Properties->{SerialNumber};
         $ssn = $Properties->{SerialNumber} unless $ssn;
         $smodel = $Properties->{Product} unless $smodel;
@@ -100,27 +97,21 @@ qw/SerialNumber Product Manufacturer/)) {
 
     }
 
-
-
-
-        $inventory->setBios({
-
-                SMODEL => $smodel,
-                SMANUFACTURER =>  $smanufacturer,
-                SSN => $ssn,
-                BDATE => $bdate,
-                BVERSION => $bversion,
-                BMANUFACTURER => $bmanufacturer,
-                MMANUFACTURER => $mmanufacturer,
-                MSN => $msn,
-                MMODEL => $model,
-                ASSETTAG => $assettag,
-                ENCLOSURESERIAL => $enclosureSerial,
-                BASEBOARDSERIAL => $baseBoardSerial,
-                BIOSSERIAL => $biosSerial,
-
-                });
-
+    $inventory->setBios({
+        SMODEL => $smodel,
+        SMANUFACTURER =>  $smanufacturer,
+        SSN => $ssn,
+        BDATE => $bdate,
+        BVERSION => $bversion,
+        BMANUFACTURER => $bmanufacturer,
+        MMANUFACTURER => $mmanufacturer,
+        MSN => $msn,
+        MMODEL => $model,
+        ASSETTAG => $assettag,
+        ENCLOSURESERIAL => $enclosureSerial,
+        BASEBOARDSERIAL => $baseBoardSerial,
+        BIOSSERIAL => $biosSerial,
+    });
 
     my $vmsystem;
 # it's more reliable to do a regex on the CPU NAME
@@ -135,10 +126,10 @@ qw/SerialNumber Product Manufacturer/)) {
 
     if ($vmsystem) {
         $inventory->setHardware ({
-                VMSYSTEM => $vmsystem 
-                });
+            VMSYSTEM => $vmsystem 
+        });
     }
 
-
 }
+
 1;

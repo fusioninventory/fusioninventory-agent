@@ -3,39 +3,15 @@ package FusionInventory::Agent::Storage;
 use strict;
 use warnings;
 
-use Config;
+use threads;
+use threads::shared;
+
+use Carp;
+use English qw(-no_match_vars);
 use File::Glob ':glob';
 use Storable;
 
 my $lock :shared;
-
-use English qw(-no_match_vars);
-
-=head1 NAME
-
-FusionInventory::Agent::Storage - the light data storage API. Data will be
-stored in a subdirectory in the 'vardir' directory. This subdirectory depends
-on the caller module name.
-
-=head1 SYNOPSIS
-
-  my $storage = FusionInventory::Agent::Storage->new({
-      target => {
-          vardir => $ARGV[0],
-      }
-  });
-  my $data = $storage->restore({
-          module => "FusionInventory::Agent"
-      });
-
-  $data->{foo} = 'bar';
-
-  $storage->save({ data => $data });
-
-=head1 DESCRIPTION
-
-This module is a wrapper for restore and save.
-it called $inventory in general.
 
 =over 4
 
@@ -45,24 +21,12 @@ Create the object
 
 =cut
 sub new {
-    my ( $class, $params ) = @_;
+    my ($class, $params) = @_;
 
-    my $self = {};
-
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-
-    my $config = $self->{config} = $params->{config};
-    my $target = $self->{target} = $params->{target};
-
-    $self->{vardir} = $target->{vardir};
+    my $self = {
+        config => $params->{config},
+        target => $params->{target}
+    };
 
     bless $self, $class;
 }
@@ -142,10 +106,7 @@ sub getFileDir {
     }
 
     return $dirName;
-
 }
-
-
 
 =item save({ data => $date, idx => $ref })
 
@@ -162,7 +123,7 @@ sub save {
 
     lock($lock);
 
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
     my $oldMask;
@@ -190,15 +151,10 @@ substorage.
 sub restore {
     my ($self, $params ) = @_;
 
-    if ($params && ref($params) ne 'HASH') {
-        my ($package, $filename, $line) = caller;
-        print "[error]$package use a deprecated API for Storage. Please\n";
-        print "[error]Please upgrade it or remove $filename\n";
-    }
     my $module = $params->{module};
     my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({
+    my $filePath = $self->_getFilePath({
         module => $module,
         idx => $idx
     });
@@ -222,7 +178,7 @@ sub remove {
 
     my $idx = $params->{idx};
     
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
@@ -240,7 +196,7 @@ sub removeAll {
     
     my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
@@ -258,13 +214,94 @@ sub removeSubDumps {
    
     my $module = $params->{module};
 
-    my $fileDir = $self->getFileDir();
-    my $fileName = $self->getFileName({ module => $module });
+    my $fileDir = $self->_getFileDir();
+    my $fileName = $self->_getFileName({ module => $module });
 
     foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
         unlink($file) or warn "[error] Can't unlink $file\n";
     }
 }
 
+sub _getFilePath {
+    my ($self, $params) = @_;
+
+    my $target = $self->{target};
+    my $config = $self->{config};
+
+    my $idx = $params->{idx};
+    if ($idx && $idx !~ /^\d+$/) {
+        croak "[fault] idx must be an integer!\n";
+    } 
+    my $module = $params->{module};
+
+    my $path = 
+        $self->_getFileDir() . 
+        '/' . 
+        $self->_getFileName({ module => $module }) .
+        ($idx ? ".$idx" : "" ) .
+        '.dump';
+
+    return $path;
+}
+
+sub _getFileName {
+    my ($self, $params) = @_;
+
+    my $name;
+
+    if ($params->{module}) {
+        $name = $params->{module};
+    } else {
+        my $module;
+        my $i = 0;
+        while ($module = caller($i++)) {
+            last if $module ne 'FusionInventory::Agent::Storage';
+        }
+        $name = $module;
+    }
+
+    # Drop colons, they are forbiden in Windows file path
+    $name =~ s/::/-/g;
+
+    return $name;
+}
+
+sub _getFileDir {
+    my ($self, $params) = @_;
+
+    my $dir = 
+        $self->{target} ? $self->{target}->{vardir}     : 
+        $self->{config} ? $self->{config}->{basevardir} : 
+                          undef;
+
+    return $dir;
+}
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Storage - the light data storage API. Data will be
+stored in a subdirectory in the 'vardir' directory. This subdirectory depends
+on the caller module name.
+
+=head1 SYNOPSIS
+
+  my $storage = FusionInventory::Agent::Storage->new({
+      target => {
+          vardir => $ARGV[0],
+      }
+  });
+  my $data = $storage->restore({
+          module => "FusionInventory::Agent"
+      });
+
+  $data->{foo} = 'bar';
+
+  $storage->save({ data => $data });
+
+=head1 DESCRIPTION
+
+This module is a wrapper for restore and save.
+it called $inventory in general.

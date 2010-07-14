@@ -3,34 +3,36 @@ package FusionInventory::Agent::XML::Query;
 use strict;
 use warnings;
 
+use Carp;
 use XML::Simple;
 
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    croak "No DEVICEID" unless $params->{target}->{deviceid};
 
-    $self->{config} = $params->{config};
-    $self->{accountinfo} = $params->{accountinfo};
-    $self->{logger} = $params->{logger};
-    $self->{target} = $params->{target};
-    $self->{storage} = $params->{storage};
-
-    my $rpc = $self->{rpc};
-    my $target = $self->{target};
-    my $logger = $self->{logger};
-
-    $self->{h} = {};
-    $self->{h}{QUERY} = ['UNSET!'];
-    $self->{h}{DEVICEID} = [$target->{deviceid}];
-
-    if ($target->{currentDeviceid} && ($target->{deviceid} ne $target->{currentDeviceid})) {
-      $self->{h}{OLD_DEVICEID} = [$target->{currentDeviceid}];
-    }
-  
-    $logger->fault("No DEVICEID") unless ($target->{deviceid});
-
+    my $self = {
+        config      => $params->{config},
+        accountinfo => $params->{accountinfo},
+        logger      => $params->{logger},
+        target      => $params->{target},
+        storage     => $params->{storage}
+    };
     bless $self, $class;
+
+    my $target = $self->{target};
+
+    $self->{h} = {
+        QUERY    => ['UNSET!'],
+        DEVICEID => [$target->{deviceid}]
+    };
+
+    if (
+        $target->{currentDeviceid} &&
+        $target->{deviceid} ne $target->{currentDeviceid}
+    ) {
+      $self->{h}->{OLD_DEVICEID} = [$target->{currentDeviceid}];
+    }
 
     return $self;
 }

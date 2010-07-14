@@ -3,6 +3,9 @@ package FusionInventory::Agent::Task::Inventory::IpDiscover::Nmap;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Tools;
+
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::IpDiscover::IpDiscover"];
 
 sub isInventoryEnabled {
@@ -10,19 +13,12 @@ sub isInventoryEnabled {
 
     return unless can_run("nmap");
 
-    # Do we have nmap 3.90 (or >) 
-    foreach (`nmap -v 2>&1`) {
-        if (/^Starting Nmap (\d+)\.(\d+)/) {
-            my $release = $1;
-            my $minor = $2;
+    # warning, nmap output has two lines
+    my $version = `nmap -V`;
+    my ($major, $minor) = $version =~ /^Nmap version (\d+)\.(\d+)/m;
 
-            if ($release > 3 || ($release > 3 && $minor >= 90)) {
-                return 1;
-            }
-        }
-    }
-
-    0;
+    # we need at least version 3.90
+    return compareVersion($major, $minor, 3, 90);
 }
 
 
@@ -43,16 +39,16 @@ sub doInventory {
         return;
     }
 
-    return unless $network =~ /^\d+\.\d+\.\d+\.\d+$/;
+    return unless $network =~ /^$ip_address_pattern$/;
     $logger->debug("scanning the $network network");
 
     my $ip;
     my $cmd = "nmap -n -sP -PR $network/24";
     foreach (`$cmd`) {
         print;
-        if (/^Host (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/) {
+        if (/^Host ($ip_address_pattern)/) {
             $ip = $1;
-        } elsif ($ip && /MAC Address: (\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/) {
+        } elsif ($ip && /MAC Address: ($mac_address_pattern)/) {
             $inventory->addIpDiscoverEntry({
                 IPADDRESS => $ip,
                 MACADDR => lc($1),

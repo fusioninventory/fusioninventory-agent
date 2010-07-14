@@ -4,38 +4,31 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Temp qw/ tempdir tempfile /;
+use File::Temp;
+use UNIVERSAL::require;
 
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    my $logger = $self->{logger} = $params->{logger};
-
-    eval {
-        require Compress::Zlib;
+    my $self = {
+        logger => $params->{logger}
     };
-    $self->{mode} = 'natif' unless $EVAL_ERROR;
 
-    chomp(my $gzippath=`which gzip 2>/dev/null`);
-    if ($self->{mode} eq 'natif') {
-        $logger->debug ('Compress::Zlib is available.');
-    } elsif (-x $gzippath) {
-        $logger->debug (
-            'Compress::Zlib is not available! The data will be compressed with
-            gzip instead but won\'t be accepted by server prior 1.02');
+    if (Compress::Zlib->require()) {
+        $self->{mode} = 'native';
+        $self->{logger}->debug(
+            'Using Compress::Zlib for compression'
+        );
+    } elsif (system('which gzip >/dev/null 2>&1') == 0) {
         $self->{mode} = 'gzip';
-        $self->{tmpdir} = tempdir( CLEANUP => 1 );
-        mkdir $self->{tmpdir};
-        if ( ! -d $self->{tmpdir} ) {
-            $logger->fault("Failed to create the temp dir `$self->{tmpdir}'");
-        }
+        $self->{logger}->debug(
+            'Using gzip for compression (server minimal version 1.02 needed)'
+        );
     } else {
         $self->{mode} = 'deflated';
-        $logger->debug ('I need the Compress::Zlib library or the gzip'.
-            ' command to compress the data - The data will be sent uncompressed
-            but won\'t be accepted by server prior 1.02');
+        $self->{logger}->debug(
+            'Not using compression (server minimal version 1.02 needed)'
+        );
     }
 
     bless $self, $class;
@@ -43,71 +36,79 @@ sub new {
 }
 
 sub compress {
-    my ($self, $content) = @_;
-    my $logger = $self->{logger};
+    my ($self, $data) = @_;
 
-# native mode (zlib)
-    if ($self->{mode} eq 'natif') {
-        return Compress::Zlib::compress($content);
-    } elsif($self->{mode} eq 'gzip'){
-        # gzip mode
-        my ($fh, $filename) = tempfile( DIR => $self->{tmpdir} );
-        print $fh $content;
-        close $fh;
-
-        system ("gzip --best $filename > /dev/null");
-
-#  print "filename ".$filename."\n"; 
-
-        my $ret;
-        if (open my $handle, '<', "$filename.gz") {
-            $ret .= $_ foreach (<$handle>);
-            close $handle;
-        } else {
-            warn "Can't open $filename.gz: $ERRNO";
-        }
-        if ( ! unlink "$filename.gz" ) {
-            $logger->debug("Failed to remove `$filename.gz'");
-        }
-        return $ret;
+    if ($self->{mode} eq 'native') {
+        return Compress::Zlib::compress($data);
     }
-# No compression available
-    elsif($self->{mode} eq 'deflated'){
-        return $content;
+
+    if ($self->{mode} eq 'gzip') {
+        return $self->_compressGzip($data);
     }
-}
 
-sub uncompress {
-    my ($self,$data) = @_;
-    my $logger = $self->{logger};
-# Native mode
-    if ($self->{mode} eq 'natif') {
-        return Compress::Zlib::uncompress($data);
-    } elsif($self->{mode} eq 'gzip'){
-# Gzip mode
-        my ($fh, $filename) = tempfile( DIR => $self->{tmpdir}, SUFFIX => '.gz' );
-
-        print $fh $data;
-        close $fh;
-
-        system ("gzip -d $filename");
-        my ($uncompressed_filename) = $filename =~ /(.*)\.gz$/;
-
-        my $ret;
-        if (open my $handle, '<', $uncompressed_filename) {
-            $ret .= $_ foreach (<$handle>);
-            close $handle;
-        } else {
-            warn "Can't open $uncompressed_filename: $ERRNO";
-        }
-        if ( ! unlink "$uncompressed_filename" ) {
-            $logger->debug("Failed to remove `$uncompressed_filename'");
-        }
-        return $ret;
-    }
-# No compression available
-    elsif($self->{mode} eq 'deflated'){
+    if ($self->{mode} eq 'deflated') {
         return $data;
     }
 }
+
+
+
+sub uncompress {
+    my ($self, $data) = @_;
+
+    if ($self->{mode} eq 'native') {
+        return Compress::Zlib::uncompress($data);
+    }
+
+    if ($self->{mode} eq 'gzip') {
+        return $self->_uncompressGzip($data);
+    }
+
+    if ($self->{mode} eq 'deflated') {
+        return $data;
+    }
+}
+
+sub _compressGzip {
+    my ($self, $data) = @_;
+
+    my $in = File::Temp->new();
+    print $in $data;
+    close $in;
+
+    my $command = 'gzip -c ' . $in->filename();
+    my $out;
+    if (! open $out, '-|', $command) {
+        $self->{logger}->debug("Can't run $command: $ERRNO");
+        return;
+    }
+
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $result = <$out>;
+    close $out;
+
+    return $result;
+}
+
+sub _uncompressGzip {
+    my ($self, $data) = @_;
+
+    my $in = File::Temp->new();
+    print $in $data;
+    close $in;
+
+    my $command = 'gzip -dc ' . $in->filename();
+    my $out;
+    if (! open $out, '-|', $command) {
+        $self->{logger}->debug("Can't run $command: $ERRNO");
+        return;
+    }
+
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $result = <$out>;
+    close $out;
+
+    return $result;
+}
+
 1;

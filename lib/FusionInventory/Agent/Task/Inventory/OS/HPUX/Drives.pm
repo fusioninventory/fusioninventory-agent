@@ -3,10 +3,13 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Drives;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled  {
     return
         can_run('fstyp') &&
-        can_run('grep') &&
         can_run('bdf') &&
         can_load('POSIX');
 }
@@ -22,11 +25,19 @@ sub doInventory {
     my $free;
     my $createdate;
 
-    for ( `fstyp -l | grep -v nfs` ) {
+    my $command = 'fstyp -l';
+
+    my $handle;
+    if (!open $handle, '-|', $command) {
+        warn "Can't run $command: $ERRNO";
+        return;
+    }
+
+    while (my $filesystem = <$handle>) {
+        next if $filesystem =~ /nfs/;
         next if /^\s*$/;
-        chomp;
-        $filesystem=$_;
-        for ( `bdf -t $filesystem `) {
+        chomp $filesystem;
+        for (`bdf -t $filesystem`) {
             next if ( /Filesystem/ );
             if ( /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/ ) {
                 $lv=$1;
@@ -78,6 +89,7 @@ sub doInventory {
             }
         } # for bdf -t $filesystem
     }
+    close $handle;
 }
 
 1;

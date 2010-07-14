@@ -3,10 +3,12 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::CPU;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
-    return(undef) unless -r '/usr/sbin/system_profiler';
-    return(undef) unless can_load("Mac::SysProfile");
-    return 1;
+    return 
+        -r '/usr/sbin/system_profiler' &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {

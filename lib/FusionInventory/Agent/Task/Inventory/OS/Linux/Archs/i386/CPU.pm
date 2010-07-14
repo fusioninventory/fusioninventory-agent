@@ -6,7 +6,11 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { can_read("/proc/cpuinfo") || can_run('dmidecode') }
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
     my $params = shift;

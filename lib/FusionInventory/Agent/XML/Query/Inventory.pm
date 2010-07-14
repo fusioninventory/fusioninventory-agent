@@ -4,20 +4,10 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
+use Carp;
+use Config;
+use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
-
-=head1 NAME
-
-FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
-
-=head1 DESCRIPTION
-
-FusionInventory uses OCS Inventory XML format for the data transmition. This
-module is the abstraction layer. It's mostly used in the backend module where
-it called $inventory in general.
-
-=cut
-
 use Encode qw/encode/;
 use XML::TreePP;
 use Digest::MD5 qw(md5_base64);
@@ -32,6 +22,7 @@ use FusionInventory::Agent::Task::Inventory;
 The usual constructor.
 
 =cut
+
 sub new {
     my ($class, $params) = @_;
 
@@ -43,7 +34,7 @@ sub new {
     my $config = $self->{config};
 
     if (!($target->{deviceid})) {
-        $logger->fault ('deviceid unititalised!');
+        croak 'deviceid unitialized!';
     }
 
     $self->{h}{QUERY} = ['INVENTORY'];
@@ -72,7 +63,7 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::USER_STRING];
 
     # Is the XML centent initialised?
     $self->{isInitialised} = undef;
@@ -85,10 +76,10 @@ sub _addEntry {
 
     my $config = $self->{config};
 
-    my $fields = $params->{'field'};
-    my $sectionName = $params->{'sectionName'};
-    my $values = $params->{'values'};
-    my $noDuplicated = $params->{'noDuplicated'};
+    my $fields = $params->{field};
+    my $sectionName = $params->{sectionName};
+    my $values = $params->{values};
+    my $noDuplicated = $params->{noDuplicated};
 
     my $newEntry;
 
@@ -192,9 +183,9 @@ sub addController {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'CONTROLLERS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'CONTROLLERS',
+        values      => $args,
     });
 }
 
@@ -211,11 +202,10 @@ sub addModem {
         NAME
     /;
 
-
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MODEMS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MODEMS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -250,9 +240,9 @@ sub addDrive {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'DRIVES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'DRIVES',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -297,9 +287,9 @@ sub addStorage {
     }
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'STORAGES',
-        'values' => $values,
+        field       => \@fields,
+        sectionName => 'STORAGES',
+        values      => $values,
     });
 }
 # For compatibiliy
@@ -334,9 +324,9 @@ sub addMemory {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MEMORIES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MEMORIES',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -364,9 +354,9 @@ sub addPorts{
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PORTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PORTS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -394,9 +384,9 @@ sub addSlot {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SLOTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'SLOTS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -421,10 +411,10 @@ sub addSoftware {
     VERSION_MINOR VERSION_MAJOR IS64BIT GUID/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SOFTWARES',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'SOFTWARES',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 # For compatibiliy
@@ -454,9 +444,9 @@ sub addMonitor {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MONITORS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MONITORS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -484,10 +474,10 @@ sub addVideo {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'VIDEOS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'VIDEOS',
+        values       => $args,
+        noDuplicated => 1
     });
 
 }
@@ -515,9 +505,9 @@ sub addSound {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SOUNDS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'SOUNDS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -560,10 +550,10 @@ sub addNetwork {
 
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'NETWORKS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'NETWORKS',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 
@@ -605,7 +595,7 @@ sub setHardware {
             }
 
             my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $string;
+            $self->{h}{CONTENT}{HARDWARE}{$key}[0] = $string;
         }
     }
 }
@@ -624,7 +614,7 @@ sub setBios {
 
         if (exists $args->{$key}) {
             my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $string;
+            $self->{h}{CONTENT}{BIOS}{$key}[0] = $string;
         }
     }
 }
@@ -649,10 +639,10 @@ sub addCPU {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'CPUS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'CPUS',
+        values       => $args,
+        noDuplicated => 1
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -685,10 +675,10 @@ sub addUser {
     return unless $values->{LOGIN};
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'USERS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'USERS',
+        values       => $args,
+        noDuplicated => 1
     });
 
 
@@ -709,7 +699,6 @@ sub addUser {
         $domainString .= $domain;
         $userString .= $login;
     }
-
 
     $self->setHardware ({
         USERID => $userString,
@@ -742,9 +731,9 @@ sub addPrinter {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PRINTERS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PRINTERS',
+        values      => $args,
     });
 }
 # For compatibiliy
@@ -784,9 +773,9 @@ sub addVirtualMachine {
     }
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'VIRTUALMACHINES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'VIRTUALMACHINES',
+        values      => $args,
     });
 }
 
@@ -811,9 +800,9 @@ sub addProcess {
 
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PROCESSES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PROCESSES',
+        values      => $args,
     });
 }
 
@@ -835,9 +824,9 @@ sub addInput {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'INPUTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'INPUTS',
+        values      => $args,
     });
 }
 
@@ -855,9 +844,9 @@ sub addEnv {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'ENVS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'ENVS',
+        values      => $args,
     });
 }
 
@@ -872,10 +861,10 @@ sub addUSBDevice {
     my @fields = qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'USBDEVICES',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'USBDEVICES',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 
@@ -898,9 +887,9 @@ sub addBattery {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'BATTERIES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'BATTERIES',
+        values      => $args,
     });
 }
 
@@ -921,9 +910,9 @@ sub addRegistry {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'REGISTRY',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'REGISTRY',
+        values      => $args,
     });
 }
 
@@ -939,10 +928,10 @@ sub addAntiVirus {
     my @fields = qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'ANTIVIRUS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'ANTIVIRUS',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 
@@ -958,7 +947,7 @@ sub setAccessLog {
     foreach my $key (qw/USERID LOGDATE/) {
 
         if (exists $args->{$key}) {
-            $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
+            $self->{h}{CONTENT}{ACCESSLOG}{$key}[0] = $args->{$key};
         }
     }
 }
@@ -1073,7 +1062,7 @@ sub writeXML {
     my $target = $self->{target};
 
     if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
+        croak 'local path unititalised!';
     }
 
     $self->initialise();
@@ -1211,29 +1200,29 @@ sub processChecksum {
 
 #To apply to $checksum with an OR
     my %mask = (
-        'HARDWARE'      => 1,
-        'BIOS'          => 2,
-        'MEMORIES'      => 4,
-        'SLOTS'         => 8,
-        'REGISTRY'      => 16,
-        'CONTROLLERS'   => 32,
-        'MONITORS'      => 64,
-        'PORTS'         => 128,
-        'STORAGES'      => 256,
-        'DRIVES'        => 512,
-        'INPUT'         => 1024,
-        'MODEMS'        => 2048,
-        'NETWORKS'      => 4096,
-        'PRINTERS'      => 8192,
-        'SOUNDS'        => 16384,
-        'VIDEOS'        => 32768,
-        'SOFTWARES'     => 65536,
-        'VIRTUALMACHINES' => 131072,
+        HARDWARE        => 1,
+        BIOS            => 2,
+        MEMORIES        => 4,
+        SLOTS           => 8,
+        REGISTRY        => 16,
+        CONTROLLERS     => 32,
+        MONITORS        => 64,
+        PORTS           => 128,
+        STORAGES        => 256,
+        DRIVES          => 512,
+        INPUT           => 1024,
+        MODEMS          => 2048,
+        NETWORKS        => 4096,
+        PRINTERS        => 8192,
+        SOUNDS          => 16384,
+        VIDEOS          => 32768,
+        SOFTWARES       => 65536,
+        VIRTUALMACHINES => 131072,
     );
     # TODO CPUS is not in the list
 
     if (!$self->{target}->{vardir}) {
-        $logger->fault ("vardir uninitialised!");
+        croak "vardir uninitialised!";
     }
 
     my $checksum = 0;
@@ -1338,6 +1327,21 @@ sub feedSection{
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
+
+=head1 DESCRIPTION
+
+FusionInventory uses OCS Inventory XML format for the data transmition. This
+module is the abstraction layer. It's mostly used in the backend module where
+it called $inventory in general.
+
+=cut
+
 =head1 XML STRUCTURE
 
 This section presents the XML structure used by FusionInventory. The schema

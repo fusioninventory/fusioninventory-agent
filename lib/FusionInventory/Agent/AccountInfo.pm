@@ -8,7 +8,11 @@ use English qw(-no_match_vars);
 sub new {
     my ($class,$params) = @_;
 
-    my $self = {};
+    my $self = {
+       config => $params->{config},
+       logger => $params->{logger},
+       target => $params->{target},
+    };
     bless $self, $class;
 
     $self->{config} = $params->{config};
@@ -54,11 +58,11 @@ sub reSetAll {
 
     $self->{myData} = {};
 
-    if (ref ($ref) =~ /^ARRAY$/) {
+    if (ref ($ref) eq 'ARRAY') {
         foreach (@$ref) {
             $self->set($_->{KEYNAME}, $_->{KEYVALUE});
         }
-    } elsif (ref ($ref) =~ /^HASH$/) {
+    } elsif (ref ($ref) eq 'HASH') {
         $self->set($ref->{'KEYNAME'}, $ref->{'KEYVALUE'});
     } else {
         $logger->debug ("reSetAll, invalid parameter");

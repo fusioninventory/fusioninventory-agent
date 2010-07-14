@@ -21,7 +21,11 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Screen;
 use strict;
 use warnings;
 
+use Carp;
 use English qw(-no_match_vars);
+use MIME::Base64;
+
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
 
@@ -38,7 +42,7 @@ sub getScreens {
 
     if ($OSNAME eq 'MSWin32') {
         eval {
-            require FusionInventory::Agent::Task::Inventory::OS::Win32;
+            require FusionInventory::Agent::Tools::Win32;
             require Win32::TieRegistry;
             Win32::TieRegistry->import(
                 Access      => "KEY_READ",
@@ -54,22 +58,21 @@ sub getScreens {
         use constant wbemFlagReturnImmediately => 0x10;
         use constant wbemFlagForwardOnly => 0x20;
 
-        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or die "WMI connection failed.\n";
+        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+            or croak "WMI connection failed";
         my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
                 wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
-        foreach my $objItem
-(FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_DesktopMonitor',
-                    qw/
-                    Caption
-                    PNPDeviceID
-                    /)) {
+        foreach my $objItem (getWmiProperties('Win32_DesktopMonitor', qw/
+            Caption PNPDeviceID
+        /)) {
 
             next unless $objItem->{"PNPDeviceID"};
             my $name = $objItem->{"Caption"};
 
-            my $a= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>"KEY_READ",Delimiter=>"/"} )
-                or  die "Can't open HKEY_LOCAL_MACHINE key: EXTENDED_OS_ERROR\n";
+            my $a = $Win32::TieRegistry::Registry->Open(
+                "LMachine", {Access=>"KEY_READ",Delimiter=>"/"}
+            ) or croak "Can't open HKEY_LOCAL_MACHINE key: EXTENDED_OS_ERROR";
 
             my $edid =
 $a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device
@@ -667,14 +670,10 @@ sub doInventory {
                 $serial = $edid->{serial_number2}[0];
             }
 
-            if (can_load("MIME::Base64")) {
-                $base64 = MIME::Base64::encode_base64($screen->{edid});
-            }
+            $base64 = encode_base64($screen->{edid});
+
             if (can_run("uuencode")) {
                 $uuencode = `echo $screen->{edid}|uuencode -`;
-                if (!$base64) {
-                    $base64 = `echo $screen->{edid}|uuencode -m -`;
-                }
             }
 
         }

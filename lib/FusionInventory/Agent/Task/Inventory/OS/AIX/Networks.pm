@@ -3,13 +3,18 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Networks;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
-    can_load("Net::IP qw(:PROC)");
+    return can_load("Net::IP");
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
 
     my %info;  
 

@@ -13,8 +13,8 @@ sub doInventory {
             my $name = $1;
             my $description = $2;
             $inventory->addModems({
-                'DESCRIPTION'  => $description,
-                'NAME'          => $name,
+                DESCRIPTION => $description,
+                NAME        => $name,
             });
         }
     }

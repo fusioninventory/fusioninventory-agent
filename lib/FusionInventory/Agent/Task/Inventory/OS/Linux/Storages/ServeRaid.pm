@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::ServeRaid;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Tools;
 
 # Tested on 2.6.* kernels
 #
@@ -79,12 +79,12 @@ sub doInventory {
 
                 if (/.*FRU part number.*:\s(.*)/) {
                     my $model = $1;
-                    my $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($serial);
+                    my $manufacturer = getManufacturer($serial);
                     ## my $fullname = "$name $slot/$channel/$scsi $state";
 
                     $logger->debug("ServeRaid: found $model, $manufacturer, $model, SCSI, disk, $capacity, $serial, ");
 
-                    $inventory->addStorages({
+                    $inventory->addStorage({
                         NAME 		=> "$manufacturer $model",
                         MANUFACTURER 	=> $manufacturer,
                         MODEL 		=> $model,

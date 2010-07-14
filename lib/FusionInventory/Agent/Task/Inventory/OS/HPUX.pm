@@ -7,7 +7,9 @@ use English qw(-no_match_vars);
 
 our $runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 
-sub isInventoryEnabled  { return $OSNAME =~ /hpux/ }
+sub isInventoryEnabled  {
+    return $OSNAME eq 'hpux';
+}
 
 sub doInventory {
     my $params = shift;
@@ -27,7 +29,7 @@ sub doInventory {
     # Last login informations
     my $LastLoggedUser;
     my $LastLogDate;
-    my @query = runcmd("last");
+    my @query = `last`;
 
     while ( my $tempLine = shift @query) {
         #if ( /^reboot\s+system boot/ ) { continue }  #It should never be seen above a user login entry (I hope)

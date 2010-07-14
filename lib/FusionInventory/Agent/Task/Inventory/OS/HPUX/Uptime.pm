@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Uptime;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return
         can_run("uptime") &&
@@ -22,11 +24,8 @@ sub doInventory {
         $seconds += $4 * 60;
     }
 
-    # Uptime conversion
-    my ($UYEAR, $UMONTH , $UDAY, $UHOUR, $UMIN, $USEC) = (gmtime ($seconds))[5,4,3,2,1,0];
-
-    # Write in ISO format
-    $uptime=sprintf "%02d-%02d-%02d %02d:%02d:%02d", ($UYEAR-70), $UMONTH, ($UDAY-1), $UHOUR, $UMIN, $USEC;
+    # ISO format string conversion
+    $uptime = getFormatedGmTime($seconds);
 
     chomp(my $DeviceType =`uname -m`);
     $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });

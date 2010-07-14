@@ -1,20 +1,10 @@
 package FusionInventory::Agent::Task::Inventory;
 
-=head1 NAME
-
-FusionInventory::Agent::Task::Inventory - The Inventory module for FusionInventory 
-
-=head1 DESCRIPTION
-
-This module load and run the submodules needed to get the informations
-regarding the Hardware and Software installation.
-
-=cut
-
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::Base';
+use base 'FusionInventory::Agent::Task';
 
+use Carp;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
@@ -27,26 +17,31 @@ use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::AccountInfo;
 
 sub main {
-    my $self = FusionInventory::Agent::Task::Inventory->new();
+    my ($self) = @_;
 
-    if ($self->{target}->{type} eq 'server' &&
-        (
-            !exists($self->{prologresp}->{parsedcontent}->{RESPONSE}) ||
-            $self->{prologresp}->{parsedcontent}->{RESPONSE} !~ /^SEND$/
-        )
-    ) {
-        $self->{logger}->debug(
-            '<RESPONSE>SEND</RESPONSE> no found in PROLOG, do not send an ' .
-            'inventory.'
-        );
-        exit(0);
+    if ($self->{target}->{type} eq 'server') {
+        croak "No prologresp!" unless $self->{prologresp};
+
+        if ($self->{config}->{force}) {
+            $self->{logger}->debug(
+                "Force enable, ignore prolog and run inventory."
+            );
+        } else {
+            my $parsedContent = $self->{prologresp}->getParsedContent();
+            if (
+                !$parsedContent ||
+                ! $parsedContent->{RESPONSE} ||
+                ! $parsedContent->{RESPONSE} eq 'SEND'
+            ) {
+                $self->{logger}->debug(
+                    "No inventory requested in the prolog, exiting"
+                );
+                return;
+            }
+        }
     }
 
     $self->{modules} = {};
-
-    if (!$self->{target}) {
-        $self->{logger}->fault("target is undef");
-    }
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
         # TODO, check if the accoun{info,config} are needed in localmode
@@ -59,21 +54,7 @@ sub main {
     });
     $self->{inventory} = $inventory;
 
-    if (!$self->{config}->{stdout} && !$self->{config}->{local}) {
-        $self->{logger}->fault("No prologresp!") unless $self->{prologresp};
-
-        if ($self->{config}->{force}) {
-            $self->{logger}->debug(
-                "Force enable, ignore prolog and run inventory."
-            );
-        } elsif (!$self->{prologresp}->isInventoryAsked()) {
-            $self->{logger}->debug("No inventory requested in the prolog...");
-            exit(0);
-        }
-    }
-
     $self->feedInventory();
-
 
     if ($self->{target}->{type} eq 'stdout') {
         $self->{inventory}->printXML();
@@ -102,18 +83,16 @@ sub main {
         $inventory->saveLastState();
 
         my $parsedContent = $response->getParsedContent();
-        if ($parsedContent
-            &&
-            exists ($parsedContent->{RESPONSE})
-            &&
-            $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
+        if (
+            $parsedContent &&
+            $parsedContent->{RESPONSE} &&
+            $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
         ) {
             $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
         }
 
     }
 
-    exit(0);
 }
 
 sub initModList {
@@ -127,57 +106,6 @@ sub initModList {
     my @installed_mods;
     my @installed_files;
 
-
-    # Hackish. The function we want to export
-    # in the module
-    my $backendSharedFuncs = {
-
-        # TODO replace that by the standard can_run()
-        can_run => sub {
-            my $binary = shift;
-
-            my $ret;
-            if ($OSNAME eq 'MSWin32') {
-                # We should use that for UNIX too
-                MAIN: foreach (split/$Config::Config{path_sep}/, $ENV{PATH}) {
-                    foreach my $ext (qw/.exe .bat/) {
-                        if (-f $_.'/'.$binary.$ext) {
-                            $ret = 1;
-                            last MAIN;
-                        }
-                    }
-                }
-            } else {
-                chomp(my $binpath=`which $binary 2>/dev/null`);
-                $ret = -x $binpath;
-            }
-
-            return $ret;
-        },
-        can_load => sub {
-            my $module = shift;
-
-            my $calling_namespace = caller(0);
-            eval "package $calling_namespace; use $module;";
-#      print STDERR "$module not loaded in $calling_namespace! $ERRNO: $EVAL_ERROR\n" if $EVAL_ERROR\;
-            return if $EVAL_ERROR;
-#      print STDERR "$module loaded in $calling_namespace!\n";
-            1;
-        },
-        can_read => sub {
-            my $file = shift;
-            return unless -r $file;
-            1;
-        },
-        runcmd => sub {
-            my $cmd = shift;
-            return unless $cmd;
-
-            # $self->{logger}->debug(" - run $cmd");
-
-            return `$cmd`;
-        }
-    };
 
     # This is a workaround for PAR::Packer. Since it resets @INC
     # I can't find the backend modules to load dynamically. So
@@ -273,11 +201,6 @@ sub initModList {
 
         # required to use a string as a HASH reference
         no strict 'refs'; ## no critic
-
-        # Load in the module the backendSharedFuncs
-        foreach my $func (keys %{$backendSharedFuncs}) {
-            $package->{$func} = $backendSharedFuncs->{$func};
-        }
 
         if ($package->{isInventoryEnabled}) {
             $self->{modules}->{$m}->{isInventoryEnabledFunc} =
@@ -409,16 +332,15 @@ sub runMod {
         if (!$_->{name}) {
             # The name is defined during module initialisation so if I
             # can't read it, I can suppose it had not been initialised.
-            $logger->fault(
+            croak
                 "Module `$m' need to be runAfter a module not found.".
-                "Please fix its runAfter entry or add the module."
-            );
+                "Please fix its runAfter entry or add the module.";
         }
 
         if ($_->{inUse}) {
             # In use 'lock' is taken during the mod execution. If a module
             # need a module also in use, we have provable an issue :).
-            $logger->fault("Circular dependency hell with $m and $_->{name}");
+            croak "Circular dependency hell with $m and $_->{name}";
         }
         $self->runMod({
             modname => $_->{name},
@@ -442,7 +364,7 @@ sub feedInventory {
     my $logger = $self->{logger};
 
     if (!$self->{inventory}) {
-        $logger->fault('Missing inventory parameter.');
+        croak 'Missing inventory parameter.';
     }
 
     my $inventory = $self->{inventory};
@@ -453,7 +375,7 @@ sub feedInventory {
 
     my $begin = time();
     foreach my $m (sort keys %{$self->{modules}}) {
-        $logger->fault(">$m Houston!!!") unless $m;
+        croak ">$m Houston!!!" unless $m;
         $self->runMod ({
             modname => $m,
         });
@@ -519,3 +441,13 @@ sub runWithTimeout {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::Inventory - The Inventory module for FusionInventory 
+
+=head1 DESCRIPTION
+
+This module load and run the submodules needed to get the informations
+regarding the Hardware and Software installation.

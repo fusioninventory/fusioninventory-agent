@@ -2,36 +2,36 @@ package FusionInventory::Agent::Target;
 
 use strict;
 use warnings;
+use threads;
+use threads::shared;
 
+use Carp;
 use English qw(-no_match_vars);
-use File::Path;
-use Config;
-
-BEGIN {
-    # threads and threads::shared must be load before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
+use File::Path qw(make_path);
 
 # resetNextRunDate() can also be call from another thread (RPC)
-my $lock : shared;
+my $lock :shared;
 
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    if ($params->{type} !~ /^(server|local|stdout)$/ ) {
+        croak 'bad type';
+    }
+
+    my $self = {
+        config          => $params->{config},
+        logger          => $params->{logger},
+        type            => $params->{type},
+        path            => $params->{path} || '',
+        deviceid        => $params->{deviceid},
+        debugPrintTimer => 0
+    };
+    bless $self, $class;
 
     lock($lock);
 
-    my $nextRunDate : shared;
+    my $nextRunDate :shared;
     $self->{nextRunDate} = \$nextRunDate;
 
     $self->{config} = $params->{config};
@@ -43,42 +43,25 @@ sub new {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
-    my $target = $self->{target};
     my $type   = $self->{type};
 
 
     $self->{format} = ($type eq 'local' && $config->{html})?'HTML':'XML';
 
-    bless $self, $class;
-   
-    $self->{debugPrintTimer} = 0;
-    
     $self->init();
-
-    if ($params->{type} !~ /^(server|local|stdout)$/ ) {
-        $logger->fault('bad type'); 
-    }
-
-    if (!-d $self->{vardir}) {
-        $logger->fault("Bad vardir setting!");
-    }
 
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
 
     my $storage = $self->{storage};
-
-    if ($self->{'type'} eq 'server') {
-
-        $self->{accountinfo} = new FusionInventory::Agent::AccountInfo({
-
-                logger => $logger,
-                config => $config,
-                storage => $storage,
-                target => $self,
-
-            });
+    if ($self->{type} eq 'server') {
+        $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
+            logger => $logger,
+            config => $config,
+            storage => $storage,
+            target => $self,
+        });
     
         my $accountinfo = $self->{accountinfo};
 
@@ -104,18 +87,10 @@ sub new {
             ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
         }
     }
-    $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
 
     return $self;
 }
 
-sub isDirectoryWritable {
-    my ($self, $dir) = @_;
-
-    return -w $dir;
-}
-
-# TODO refactoring needed here.
 sub init {
     my ($self) = @_;
 
@@ -123,54 +98,34 @@ sub init {
     my $logger = $self->{logger};
 
     lock($lock);
-# The agent can contact different servers. Each server has it's own
-# directory to store data
-    if (
-        ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
-            !$self->isDirectoryWritable($config->{basevardir}))
-        && $OSNAME ne 'MSWin32'
-    ) {
 
-        if (! -d $ENV{HOME}."/.ocsinventory/var") {
-            $logger->info(
-                "Failed to create basevardir: $config->{basevardir} " .
-                "directory: $ERRNO. I'm going to use the home directory " .
-                "instead (~/.ocsinventory/var)."
-            );
-        }
+    # The agent can contact different servers. Each server has it's own
+    # directory to store data
 
-        $config->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
-        if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
-            $logger->error(
-                "Failed to create basedir: $config->{basedir} directory: " .
-                "$ERRNO. The HOSTID will not be written on the harddrive. " .
-                "You may have duplicated entry of this computer in your OCS " .
-                "database"
-            );
-        }
-        $logger->debug("var files are stored in ".$config->{basevardir});
-    }
-
+    my $dir;
     if ($self->{type} eq 'server') {
-        my $dir = $self->{path};
+        $dir = $self->{path};
         $dir =~ s/\//_/g;
         # On Windows, we can't have ':' in directory path
         $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
-        $self->{vardir} = $config->{basevardir} . "/" . $dir;
     } else {
-        $self->{vardir} = $config->{basevardir} . "/__LOCAL__";
-    }
-    $logger->debug("vardir: $self->{vardir}");
+        $dir = '__LOCAL__';
 
-    if (!-d $self->{vardir} && !mkpath ($self->{vardir})) {
-        $logger->error(
-            "Failed to create vardir: $self->{vardir} directory: $ERRNO"
-        );
+    }
+    $self->{vardir} = $config->{basevardir} . '/' . $dir;
+
+    if (!-d $self->{vardir}) {
+        make_path($self->{vardir}, {error => \my $err});
+        if (@$err) {
+            $logger->error("Failed to create $self->{vardir}");
+        }
     }
 
-    if (!$self->isDirectoryWritable($self->{vardir})) {
-        $logger->fault("Can't write in $self->{vardir}");
+    if (! -w $self->{vardir}) {
+        croak "Can't write in $self->{vardir}";
     }
+
+    $logger->debug("storage directory: $self->{vardir}");
 
     $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
     $self->{last_statefile} = $self->{vardir} . "/last_state";
@@ -227,7 +182,7 @@ sub getNextRunDate {
     $self->setNextRunDate();
 
     if (!${$self->{nextRunDate}}) {
-        $logger->fault('nextRunDate not set!');
+        croak 'nextRunDate not set!';
     }
 
     return $self->{myData}{nextRunDate} ;
@@ -303,9 +258,6 @@ sub setCurrentDeviceID {
 
     $self->{myData}{currentDeviceid} = $deviceid;
     $storage->save({ data => $self->{myData} });
-
-    $self->{currentDeviceid} = $deviceid;
-
 }
 
 1;

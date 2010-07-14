@@ -3,7 +3,11 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Bios;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { return can_load("Mac::SysProfile") }
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return can_load("Mac::SysProfile");
+}
 
 sub doInventory {
         my $params = shift;

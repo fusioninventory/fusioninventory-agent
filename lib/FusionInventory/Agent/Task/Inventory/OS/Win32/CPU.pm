@@ -1,7 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::CPU;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
+use warnings;
+
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Win32;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
@@ -68,9 +71,9 @@ sub doInventory {
 
 
     my $cpuId = 0;
-    foreach my $Properties
-        (getWmiProperties('Win32_Processor',
-qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
+    foreach my $Properties (getWmiProperties('Win32_Processor', qw/
+        NumberOfCores ProcessorId MaxClockSpeed
+    /)) {
 
         my $info = getCPUInfoFromRegistry($cpuId);
 
@@ -94,23 +97,22 @@ qw/NumberOfCores ProcessorId MaxClockSpeed/)) {
         $vmsystem = "QEMU"if $name =~ /QEMU/i;
 
         $inventory->addCPU({
-#                CACHE => $cache,
-                CORE => $core,
-                DESCRIPTION => $description,
-                NAME => $name,
-                MANUFACTURER => $manufacturer,
-                SERIAL => $serial,
-                SPEED => $speed
-
-                });
+#           CACHE => $cache,
+            CORE => $core,
+            DESCRIPTION => $description,
+            NAME => $name,
+            MANUFACTURER => $manufacturer,
+            SERIAL => $serial,
+            SPEED => $speed
+        });
 
         $cpuId++;
     }
 
     if ($vmsystem) {
         $inventory->setHardware ({
-                VMSYSTEM => $vmsystem 
-                });
+            VMSYSTEM => $vmsystem 
+        });
     }
 
 

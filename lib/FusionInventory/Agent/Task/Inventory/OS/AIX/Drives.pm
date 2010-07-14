@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Drives;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run("df");
 }
@@ -27,7 +29,7 @@ sub doInventory {
 
         if (/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/) {
             $type = $1;
-            @fs=`lsfs -c $6`;
+            @fs = `lsfs -c $6`;
             @fstype = split /:/,$fs[1];     
             $filesystem = $fstype[2];
             $total = sprintf("%i",($2/1024));	

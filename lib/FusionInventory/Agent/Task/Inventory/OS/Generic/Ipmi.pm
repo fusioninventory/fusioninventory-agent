@@ -20,10 +20,11 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Ipmi;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return unless can_run("ipmitool");
-    my @ipmitool = `ipmitool lan print 2> /dev/null`;
-    return unless @ipmitool;
+    return system('ipmitool lan print 2> /dev/null') == 0;
 }
 
 # Initialise the distro entry
@@ -58,7 +59,8 @@ sub doInventory {
     my $binip = &ip_iptobin ($ipaddress, 4);
     my $binmask = &ip_iptobin ($ipmask, 4);
     my $binsubnet = $binip & $binmask;
-    if (can_load("Net::IP qw(:PROC)")) {
+    if (can_load("Net::IP")) {
+        Net::IP->import(':PROC');
         $ipsubnet = ip_bintoip($binsubnet, 4);
     }
     $status = 1 if $ipaddress != '0.0.0.0';

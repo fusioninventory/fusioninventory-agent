@@ -14,9 +14,12 @@ my %sizeMatrice = (
 );
 
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
-    return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
-    return 1;
+    return 
+        -r '/usr/sbin/system_profiler' &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {

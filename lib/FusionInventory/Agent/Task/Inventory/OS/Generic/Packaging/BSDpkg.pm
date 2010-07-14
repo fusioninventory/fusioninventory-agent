@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::BSDpkg;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run("pkg_info");
 }
@@ -18,9 +20,9 @@ sub doInventory {
         my $comments = $3;
 
         $inventory->addSoftware({
-            'COMMENTS' => $comments,
-            'NAME' => $name,
-            'VERSION' => $version
+            COMMENTS => $comments,
+            NAME     => $name,
+            VERSION  => $version
         });
     }
 }

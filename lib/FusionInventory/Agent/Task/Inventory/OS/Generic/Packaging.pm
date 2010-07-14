@@ -7,9 +7,8 @@ sub isInventoryEnabled {
     my $params = shift;
 
     # Do not run an package inventory if there is the --nosoft parameter
-    return if ($params->{config}->{'no-software'});
-
-    1;
+    return 
+        $params->{config}->{'no-software'} ? 0 : 1;
 }
 
 1;

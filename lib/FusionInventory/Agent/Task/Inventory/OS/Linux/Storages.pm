@@ -5,31 +5,20 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
+
 sub isInventoryEnabled {
     return 1;
 }
 
-######## TODO
-# Do not remove, used by other modules
-sub getFromUdev {
-    my @devices;
-
-    foreach my $file (glob ("/dev/.udev/db/*")) {
-        next unless $file =~ /([sh]d[a-z])$/;
-        my $device = $1;
-        push (@devices, parseUdev($file, $device));
-    }
-
-    return @devices;
-}
-
-sub getFromHal {
+sub getDevicesFromHal {
 
     my $devices = parseLshal('/usr/bin/lshal', '-|');
     return @$devices;
 }
 
-sub getFromSysProc {
+sub getDevicesFromSysProc {
 
     # compute list of devices
     my @names;
@@ -39,12 +28,14 @@ sub getFromSysProc {
         push(@names, $1);
     }
 
-    my $command = `fdisk -v` =~ '^GNU' ? 'fdisk -p -l' : 'fdisk -l';
+    my $command = `fdisk -v` =~ '^GNU' ?
+        'fdisk -p -l 2>/dev/null' :
+        'fdisk -l 2>/dev/null';
     if (!open my $handle, '-|', $command) {
         warn "Can't run $command: $ERRNO";
     } else {
-        while (<$handle>) {
-            next unless (/^\/dev\/([sh]d[a-z])/);
+        while (my $line = <$handle>) {
+            next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
             push(@names, $1);
         }
         close $handle;
@@ -97,16 +88,6 @@ sub getValueFromSysProc {
 }
 
 
-sub getCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $cap = `$command /dev/$dev 2>/dev/null`;
-    chomp $cap;
-    $cap = int($cap / 1000) if $cap;
-    return $cap;
-}
-
 sub getDescription {
     my ($name, $manufacturer, $description, $serialnumber) = @_;
 
@@ -125,35 +106,18 @@ sub getDescription {
     }
 }
 
-sub getManufacturer {
-    my ($model) = @_;
-
-    return '' unless $model;
-
-    if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
-        return ucfirst(lc($1));
-    } elsif ($model =~ /^HP/) {
-        return "Hewlett Packard";
-    } elsif ($model =~ /^WDC/) {
-        return "Western Digital";
-    } elsif ($model =~ /^ST/) {
-        return "Seagate";
-    } elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
-        return "Hitachi";
-    }
-}
-
 # some hdparm release generated kernel error if they are
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
 sub correctHdparmAvailable {
     return unless can_run("hdparm");
-    my $hdparmVersion = `hdparm -V`;
-    if ($hdparmVersion =~ /^hdparm v(\d+)\.(\d+)(\.|$)/) {
-        return 1 if $1>9;
-        return 1 if $1==9 && $2>=15;
-    }
-    return;
+
+    my $version = `hdparm -V`;
+    my ($major, $minor) = $version =~ /^hdparm v(\d+)\.(\d+)/;
+
+    # we need at least version 9.15
+    return compareVersion($major, $minor, 9, 15);
+
 }
 
 
@@ -166,14 +130,14 @@ sub doInventory {
 
     # get informations from hal first, if available
     if (can_run ("lshal")) {
-        @devices = getFromHal();
+        @devices = getDevicesFromHal();
     }
 
     # index devices by name for comparaison
     my %devices = map { $_->{NAME} => $_ } @devices;
 
     # complete with udev for missing bits
-    foreach my $device (getFromUdev()) {
+    foreach my $device (getDevicesFromUdev()) {
         my $name = $device->{NAME};
         foreach my $key (keys %$device) {
             $devices{$name}->{$key} = $device->{$key}
@@ -183,7 +147,7 @@ sub doInventory {
 
     # fallback on sysfs if udev didn't worked
     if (!@devices) {
-        @devices = getFromSysProc();
+        @devices = getDevicesFromSysProc();
     }
 
     # get serial & firmware numbers from hdparm, if available
@@ -229,58 +193,11 @@ sub doInventory {
         }
 
         if ($device->{CAPACITY} && $device->{CAPACITY} =~ /^cd/) {
-            $device->{CAPACITY} = getCapacity($device->{NAME});
+            $device->{CAPACITY} = getDeviceCapacity($device->{NAME});
         }
 
         $inventory->addStorage($device);
     }
-}
-
-sub parseUdev {
-    my ($file, $device) = @_;
-
-
-    my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-    my ($result, $serial);
-    while (my $line = <$handle>) {
-        if ($line =~ /^S:.*-scsi-(\d+):(\d+):(\d+):(\d+)/) {
-            $result->{SCSI_COID} = $1;
-            $result->{SCSI_CHID} = $2;
-            $result->{SCSI_UNID} = $3;
-            $result->{SCSI_LUN} = $4;
-        } elsif ($line =~ /^E:ID_VENDOR=(.*)/) {
-            $result->{MANUFACTURER} = $1;
-        } elsif ($line =~ /^E:ID_MODEL=(.*)/) {
-            $result->{MODEL} = $1;
-        } elsif ($line =~ /^E:ID_REVISION=(.*)/) {
-            $result->{FIRMWARE} = $1;
-        } elsif ($line =~ /^E:ID_SERIAL=(.*)/) {
-            $serial = $1;
-        } elsif ($line =~ /^E:ID_SERIAL_SHORT=(.*)/) {
-            $result->{SERIALNUMBER} = $1;
-        } elsif ($line =~ /^E:ID_TYPE=(.*)/) {
-            $result->{TYPE} = $1;
-        } elsif ($line =~ /^E:ID_BUS=(.*)/) {
-            $result->{DESCRIPTION} = $1;
-        }
-    }
-    close $handle;
-
-    if (!$result->{SERIALNUMBER} || $result->{SERIALNUMBER} =~ /^\s+$/) {
-        $result->{SERIALNUMBER} = $serial
-    }
-
-    $result->{DISKSIZE} = getCapacity($device)
-    if $result->{TYPE} ne 'cd';
-
-    $result->{NAME} = $device;
-
-    return $result;
 }
 
 sub parseLshal {

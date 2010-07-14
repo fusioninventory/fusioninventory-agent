@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Bios;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 ###
 # Version 1.1
 # Correction of Bug n 522774
@@ -38,10 +40,12 @@ sub doInventory {
             }
         }
     } else { #Could not run machinfo
-        for ( `echo 'sc product cpu;il' | /usr/sbin/cstm | grep "PDC Firmware"` ) {
+        for ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
+            next unless /PDC Firmware/;
             if ( /Revision:\s+(\S+)/ ) { $BiosVersion = "PDC $1" }
         }
-        for ( `echo 'sc product system;il' | /usr/sbin/cstm | grep "System Serial Number"` ) {
+        for ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
+            next unless /System Serial Number/;
             if ( /:\s+(\w+)/ ) { $SystemSerial = $1 }
         }
     }

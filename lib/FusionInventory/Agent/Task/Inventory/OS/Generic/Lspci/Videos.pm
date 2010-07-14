@@ -12,8 +12,8 @@ sub doInventory {
             next unless /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i;
 
             $inventory->addVideo({
-                'CHIPSET' => $1,
-                'NAME'    => $2,
+                CHIPSET => $1,
+                NAME    => $2,
             });
         }
     }

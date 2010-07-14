@@ -3,25 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Storages;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {return can_load('Mac::SysProfile');}
+use FusionInventory::Agent::Tools;
 
-sub getManufacturer {
-    my $model = shift;
-    if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend|matshita|pioneer)/i) {
-        return ucfirst(lc($1));
-    }
-    elsif ($model =~ /^HP/) {
-        return "Hewlett Packard";
-    }
-    elsif ($model =~ /^WDC/) {
-        return "Western Digital";
-    }
-    elsif ($model =~ /^ST/) {
-        return "Seagate";
-    }
-    elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
-        return "Hitachi";
-    }
+sub isInventoryEnabled {
+    return can_load('Mac::SysProfile');
 }
 
 sub doInventory {
@@ -110,7 +95,7 @@ sub doInventory {
     }
 
     foreach my $device ( keys %$devices ) {
-        $inventory->addStorages($devices->{$device});
+        $inventory->addStorage($devices->{$device});
     }
 
 }

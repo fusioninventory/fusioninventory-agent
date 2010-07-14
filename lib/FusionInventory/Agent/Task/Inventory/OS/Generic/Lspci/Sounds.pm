@@ -10,9 +10,9 @@ sub doInventory {
     foreach(`lspci`){
         if(/audio/i && /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
             $inventory->addSound({
-                'DESCRIPTION'  => $3,
-                'MANUFACTURER' => $2,
-                'NAME'     => $1,
+                NAME         => $1,
+                MANUFACTURER => $2,
+                DESCRIPTION  => $3
             });
         }
     }

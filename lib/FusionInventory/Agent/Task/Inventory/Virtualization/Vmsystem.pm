@@ -48,6 +48,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 1;
 }
@@ -57,19 +59,24 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     # return immediatly if vm type has already been found
-    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
+    return if
+        $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} &&
+        $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
 
     my $dmesg = '/bin/dmesg | head -n 750';
 
     my $status;
     my $found = 0;
+
     # Solaris zones
-    my @solaris_zones;
-    @solaris_zones = `/usr/sbin/zoneadm list`;
-    @solaris_zones = grep (!/global/,@solaris_zones);
-    if(@solaris_zones){
-        $status = "SolarisZone";
-        $found = 1;
+    if (can_run('/usr/sbin/zoneadm')) {
+        my @solaris_zones =
+            grep { !/global/ }
+            `/usr/sbin/zoneadm list`;
+        if (@solaris_zones) {
+            $status = "SolarisZone";
+            $found = 1;
+        }
     }
 
     if (
@@ -209,7 +216,7 @@ sub check_file_content {
     return 0 unless -r $file;
 
     my $handle;
-    if (!open my $handle, '<', $file) {
+    if (!open $handle, '<', $file) {
         warn "Can't open file $file: $ERRNO";
         return;
     }

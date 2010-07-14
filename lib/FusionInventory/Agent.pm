@@ -5,12 +5,26 @@ use warnings;
 
 use Cwd;
 use English qw(-no_match_vars);
-
-use File::Path;
-
+use File::Path qw(make_path);
 use Sys::Hostname;
+use XML::Simple;
+
+use FusionInventory::Agent::AccountInfo;
+use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Network;
+use FusionInventory::Agent::TargetsList;
+use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::RPC;
+use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::XML::Query::Prolog;
+use FusionInventory::Logger;
 
 our $VERSION = '2.1_rc2';
+our $VERSION_STRING =
+"FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
+our $AGENT_STRING =
+"FusionInventory-Agent_v$VERSION";
+
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
@@ -27,24 +41,26 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::Targets;
-use FusionInventory::Agent::JobEngine;
+#use FusionInventory::Agent::JobEngine;
 
 sub new {
     my ($class, $params) = @_;
 
     my $self = {};
-############################
-#### CLI parameters ########
-############################
-    my $config = $self->{config} = FusionInventory::Agent::Config::load();
 
-    if ($params->{winService}) {
-        $config->{winService} = 1;
-    }
+    my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
     # TODO: should be in Config.pm
     if ($config->{logfile}) {
         $config->{logger} .= ',File';
+    }
+    if ($config->{help}) {
+        $config->help();
+        exit 1;
+    }
+    if ($config->{version}) {
+        print $VERSION_STRING . "\n";
+        exit 0;
     }
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
@@ -55,15 +71,20 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (!-d $config->{basevardir} && !mkpath($config->{basevardir}, {error => undef})) {
-        $logger->error(
-            "Failed to create ".$config->{basevardir}.
-            " Please use --basevardir to point to a R/W directory."
-        );
+    if (! -d $config->{basevardir}) {
+        make_path($config->{basevardir}, {error => \my $err});
+        if (@$err) {
+            $logger->error(
+                "Failed to create $config->{basevardir} directory"
+            );
+        }
     }
 
-    if (not $config->{scanhomedirs}) {
-        $logger->debug("--scan-homedirs missing. Don't scan user directories");
+    if (! -w $config->{basevardir}) {
+        $logger->error(
+            "Non-writable $config->{basevardir} directory. Either fix it, or " .
+            "use --basevardir to point to a R/W directory."
+        );
     }
 
     if ($config->{nosoft} || $config->{nosoftware}) {
@@ -80,20 +101,20 @@ sub new {
 
     my $hostname = hostname();
 
-# /!\ $rootStorage save/read data in 'basevardir', not in a target directory!
+    # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
-        config => $config
-    });
+            config => $config
+        });
     my $myRootData = $rootStorage->restore();
 
     if (
         !defined($myRootData->{previousHostname}) ||
         $myRootData->{previousHostname} ne $hostname
     ) {
-        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
-            (time))[5,4,3,2,1,0];
-        $self->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+        my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime(time()))[5,4,3,2,1,0];
+        $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
 
         $myRootData->{previousHostname} = $hostname;
         $myRootData->{deviceid} = $self->{deviceid};
@@ -102,25 +123,17 @@ sub new {
         $self->{deviceid} = $myRootData->{deviceid}
     }
 
-
-############################
-#### Objects initilisation
-############################
-
-
-######
-    $self->{targets} = FusionInventory::Agent::Targets->new({
-
+    $self->{targetsList} = FusionInventory::Agent::TargetsList->new({
             logger => $logger,
             config => $config,
             deviceid => $self->{deviceid}
-            
         });
-    my $targets = $self->{targets};
+    my $targetsList = $self->{targetsList};
 
-    if (!$targets->numberOfTargets()) {
-        $logger->error("No target defined. Please use ".
-            "--server=SERVER or --local=/directory");
+    if (!$targetsList->numberOfTargets()) {
+        $logger->fault(
+            "No target defined. Please use --server or --local option."
+        );
         exit 1;
     }
 
@@ -132,23 +145,24 @@ sub new {
         });
     my $jobFactory = $self->{jobFactory};
 
+    if ($config->{scanhomedirs}) {
+        $logger->debug("User directory scanning enabled");
+    }
 
     if ($config->{daemon}) {
 
-        $logger->debug("Time to call Proc::Daemon");
+        $logger->debug("Daemon mode enabled");
 
         my $cwd = getcwd();
         eval { require Proc::Daemon; };
         if ($EVAL_ERROR) {
-            print "Can't load Proc::Daemon. Is the module installed?";
+            $logger->fault("Can't load Proc::Daemon. Is the module installed?");
             exit 1;
         }
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
-        if (isAgentAlreadyRunning({
-                    logger => $logger,
-                })) {
-            $logger->debug("An agent is already runnnig, exiting...");
+        if ($self->isAgentAlreadyRunning()) {
+            $logger->fault("An agent is already runnnig, exiting...");
             exit 1;
         }
         # If we are in dev mode, we want to stay in the source directory to
@@ -157,11 +171,9 @@ sub new {
 
     }
     $self->{rpc} = FusionInventory::Agent::RPC->new({
-          
-            logger => $logger,
-            config => $config,
-            targets => $targets,
-  
+            logger      => $logger,
+            config      => $config,
+            targetsList => $targetsList,
         });
 
     $logger->debug("FusionInventory Agent initialised");
@@ -172,17 +184,16 @@ sub new {
 }
 
 sub isAgentAlreadyRunning {
-    my $params = shift;
-    my $logger = $params->{logger};
+    my ($self) = @_;
+
     # TODO add a workaround if Proc::PID::File is not installed
-    eval { require Proc::PID::File; };
-    if(!$EVAL_ERROR) {
-        $logger->debug('Proc::PID::File avalaible, checking for pid file');
-        if (Proc::PID::File->running()) {
-            $logger->debug('parent process already exists');
-            return 1;
-        }
-    }
+    eval {
+        require Proc::PID::File;
+        return Proc::PID::File->running();
+    };
+    $self->{logger}->debug(
+        'Proc::PID::File unavalaible, unable to check for running agent'
+    ) if $EVAL_ERROR;
 
     return 0;
 }
@@ -190,15 +201,12 @@ sub isAgentAlreadyRunning {
 sub main {
     my ($self) = @_;
 
-# Load setting from the config file
     my $config = $self->{config};
     my $logger = $self->{logger};
-    my $targets = $self->{targets};
+    my $targetsList = $self->{targetsList};
     my $rpc = $self->{rpc};
     my $jobEngine = $self->{jobEngine};
     $rpc->setCurrentStatus("waiting");
-
-
 
 #####################################
 ################ MAIN ###############
@@ -207,7 +215,9 @@ sub main {
 
 #######################################################
 #######################################################
-    while (my $target = $targets->getNext()) {
+
+
+    while (my $target = $targetsList->getNext()) {
 
         my $exitcode = 0;
         my $wait;
@@ -216,57 +226,46 @@ sub main {
         my $prologresp;
         if ($target->{type} eq 'server') {
 
-            $network = FusionInventory::Agent::Network->new({
 
-                    logger => $logger,
+
+
+
+            my $prologresp;
+            if ($target->{type} eq 'server') {
+
+                my $network = FusionInventory::Agent::Network->new({
+                        logger => $logger,
+                        config => $config,
+                        target => $target,
+                    });
+
+                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+                        accountinfo => $target->{accountinfo}, #? XXX
+                        logger => $logger,
+                        config => $config,
+                        target => $target,
+                        token  => $rpc->getToken()
+                    });
+
+                # TODO Don't mix settings and temp value
+                $prologresp = $network->send({message => $prolog});
+
+                if (!$prologresp) {
+                    $logger->error("No anwser from the server");
+                    $target->setNextRunDate();
+                    next;
+                }
+
+                $target->setCurrentDeviceID ($self->{deviceid});
+            }
+
+            my $storage = FusionInventory::Agent::Storage->new({
                     config => $config,
+                    logger => $logger,
                     target => $target,
-
                 });
 
-            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-
-                    accountinfo => $target->{accountinfo}, #? XXX
-                    logger => $logger,
-                    config => $config,
-                    rpc => $rpc,
-                    target => $target
-
-                });
-
-            # TODO Don't mix settings and temp value
-            $prologresp = $network->send({message => $prolog});
-
-            if (!$prologresp) {
-                $logger->error("No anwser from the server");
-                $target->setNextRunDate();
-                next;
-            }
-
-            $target->setCurrentDeviceID ($self->{deviceid});
-        }
-
-
-        my $storage = FusionInventory::Agent::Storage->new({
-
-                config => $config,
-                logger => $logger,
-                target => $target,
-
-            });
-        $storage->save({
-
-            data => {
-                config => $config,
-                target => $target,
-                #logger => $logger, # XXX Needed?
-                prologresp => $prologresp
-            }
-
-            });
-
-
-        my @modulesToDo = qw/
+            my @tasks = qw/
             Inventory
             OcsDeploy
             WakeOnLan
@@ -275,31 +274,96 @@ sub main {
             Ping
             /;
 
-        while (@modulesToDo && $jobEngine->beat()) {
-            next if $jobEngine->isATaskRunning();
+            foreach my $module (@tasks) {
 
-            my $module = shift @modulesToDo;
-            print "starting: $module\n";
-            $jobEngine->startTask({
-                    module => $module,
-                    network => $network,
-                    target => $target,
-                });
-            print "Ok\n";
-            $rpc->setCurrentStatus("running task $module");
+                next if $config->{'no-'.lc($module)};
 
+#<<<<<<< HEAD
+# TODO jobEngine system (Gonéri's branch)
+#        my @modulesToDo = qw/
+#            Inventory
+#            OcsDeploy
+#            WakeOnLan
+#            SNMPQuery
+#            NetDiscovery
+#            Ping
+#            /;
+                #
+#        while (@modulesToDo && $jobEngine->beat()) {
+#            next if $jobEngine->isATaskRunning();
+                #
+#            my $module = shift @modulesToDo;
+#            print "starting: $module\n";
+#            $jobEngine->startTask({
+#                    module => $module,
+#                    network => $network,
+#                    target => $target,
+#                });
+#            print "Ok\n";
+#            $rpc->setCurrentStatus("running task $module");
+                #
+#        }
+#        $rpc->setCurrentStatus("waiting");
+#=======
+                my $package = "FusionInventory::Agent::Task::$module";
+                if (!$package->require()) {
+                    $logger->info("Module $package is not installed.");
+                    next;
+                }
+
+                $rpc->setCurrentStatus("running task $module");
+
+                my $task = $package->new({
+                        config => $config,
+                        logger => $logger,
+                        target => $target,
+                        storage => $storage,
+                        prologresp => $prologresp
+                    });
+
+                if (
+                    $config->{daemon}           ||
+                    $config->{'daemon-no-fork'} ||
+                    $config->{winService}
+                ) {
+                    # daemon mode: run each task in a childprocess
+                    if (my $pid = fork()) {
+                        # parent
+                        waitpid($pid, 0);
+                    } else {
+                        # child
+                        die "fork failed: $ERRNO" unless defined $pid;
+
+                        $logger->debug(
+                            "[task] executing $module in process $PID"
+                        );
+                        $task->main();
+                        $logger->debug("[task] end of $module");
+                    }
+                } else {
+                    # standalone mode: run each task directly
+                    $logger->debug("[task] executing $module");
+                    $task->main();
+                    $logger->debug("[task] end of $module");
+                }
+            }
+            $rpc->setCurrentStatus("waiting");
+#>>>>>>> guillomovitch/master
+
+            if (!$config->{debug}) {
+                # In debug mode, I do not clean the FusionInventory-Agent.dump
+                # so I can replay the sub task directly
+                $storage->remove();
+            }
+            $target->setNextRunDate();
+
+            sleep(5);
         }
-        $rpc->setCurrentStatus("waiting");
-
-        if (!$config->{debug}) {
-            # In debug mode, I do not clean the FusionInventory-Agent.dump
-            # so I can replay the sub task directly
-            $storage->remove();
-        }
-        $target->setNextRunDate();
-
-        sleep(5);
+    };
+    if ($EVAL_ERROR) {
+        $logger->fault($EVAL_ERROR);
+        exit 1;
     }
 }
-1;
 
+1;

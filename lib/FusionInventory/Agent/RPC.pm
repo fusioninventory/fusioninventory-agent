@@ -2,26 +2,15 @@ package FusionInventory::Agent::RPC;
 
 use strict;
 use warnings;
-
-use HTTP::Daemon;
-use FusionInventory::Agent::Storage;
-use English qw(-no_match_vars);
+use threads;
+use threads::shared;
 
 use Config;
 
-BEGIN {
-    # threads and threads::shared must be load before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
+use English qw(-no_match_vars);
+use HTTP::Daemon;
+
+use FusionInventory::Agent::Storage;
 
 my $lock :shared;
 my $status :shared = "unknown";
@@ -29,11 +18,12 @@ my $status :shared = "unknown";
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        config      => $params->{config},
+        logger      => $params->{logger},
+        targetsList => $params->{targetsList}
+    };
 
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{targets} = $params->{targets};
     my $config = $self->{config};
     my $logger = $self->{logger};
 
@@ -52,17 +42,21 @@ sub new {
 
 
     my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
-            target => {
-                vardir => $config->{basevardir},
-            }
-        });
+        target => {
+            vardir => $config->{basevardir},
+        }
+    });
 
     bless $self, $class;
 
     return $self if $config->{'no-socket'};
 
     $SIG{PIPE} = 'IGNORE';
-    if ($config->{daemon} || $config->{'daemon-no-fork'} || $config->{winService}) {
+    if (
+        $config->{daemon}           ||
+        $config->{'daemon-no-fork'} ||
+        $config->{winService}
+    ) {
         $self->{thr} = threads->create('server', $self);
     }
 
@@ -74,7 +68,7 @@ sub handler {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
-    my $targets = $self->{targets};
+    my $targetsList = $self->{targetsList};
     my $config = $self->{config};
     my $htmlDir = $self->{htmlDir};
 
@@ -84,102 +78,120 @@ sub handler {
         return;
     }
 
+    my $path = $r->uri()->path();
+    $logger->debug("[RPC]$clientIp request $path");
 
-    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
-    if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
-        if ($clientIp !~ /^127\./) {
-            $c->send_error(404);
-            return;
-        }
+    if ($r->method() ne 'GET') {
+        $logger->debug("[RPC]Err, 500");
+        $c->send_error(500);
+        $c->close;
+        undef($c);
+        return;
+    }
 
-        my $nextContact = "";
-        foreach my $target (@{$targets->{targets}}) {
-            my $path = $target->{'path'};
-            $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-            my $timeString;
-            if ($target->getNextRunDate() > 1) {
-                $timeString = localtime($target->getNextRunDate());
-            } else {
-                $timeString = "now";
+    SWITCH: {
+        if ($path eq '/') {
+            if ($clientIp !~ /^127\./) {
+                $c->send_error(404);
+                return;
             }
-            $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".$timeString."</li>\n";
-        }
 
-        my $indexFile = $htmlDir."/index.tpl";
-        my $handle;
-        if (!open $handle, '<', $indexFile) {
-            $logger->error("Can't open share $indexFile: $ERRNO");
-            $c->send_error(404);
-            return;
-        }
-        undef $/;
-        my $output = <$handle>;
-        close $handle;
-
-        $output =~ s/%%STATUS%%/$status/;
-        $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
-        $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
-        if (!$config->{'rpc-trust-localhost'}) {
-            $output =~
-            s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
-        }
-        $output =~ s/%%(END|)IF_.*?%%//g;
-        my $r = HTTP::Response->new(
-            200,
-            'OK',
-            HTTP::Headers->new('Content-Type' => 'text/html'),
-            $output
-        );
-        $c->send_response($r);
-
-
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
-        my $file = $1;
-        foreach my $target (@{$targets->{targets}}) {
-            if (-f $target->{vardir}."/deploy/".$file) {
-                $logger->debug("Send /deploy/".$file);
-                $c->send_file_response($target->{vardir}."/deploy/".$file);
-            } else {
-                $logger->debug("Not found /deploy/".$file);
+            my $nextContact = "";
+            foreach my $target (@{$targetsList->{targets}}) {
+                my $path = $target->{'path'};
+                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+                my $timeString;
+                if ($target->getNextRunDate() > 1) {
+                    $timeString = localtime($target->getNextRunDate());
+                } else {
+                    $timeString = "now";
+                }
+                $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".$timeString."</li>\n";
             }
+
+            my $indexFile = $htmlDir."/index.tpl";
+            my $handle;
+            if (!open $handle, '<', $indexFile) {
+                $logger->error("Can't open share $indexFile: $ERRNO");
+                $c->send_error(404);
+                return;
+            }
+            undef $/;
+            my $output = <$handle>;
+            close $handle;
+
+            $output =~ s/%%STATUS%%/$status/;
+            $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
+            $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
+            if (!$config->{'rpc-trust-localhost'}) {
+                $output =~
+                s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
+            }
+            $output =~ s/%%(END|)IF_.*?%%//g;
+            my $r = HTTP::Response->new(
+                200,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/html'),
+                $output
+            );
+            $c->send_response($r);
+            last SWITCH;
         }
-        $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
-        my $sentToken = $2;
-        my $currentToken = $self->getToken();
-        $logger->debug("[RPC]'now' catched");
-        if (
-            ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
-                or
-            ($sentToken eq $currentToken)
-        ) {
-            $self->getToken('forceNewToken');
-            $targets->resetNextRunDate();
-            $c->send_status_line(200)
 
-        } else {
-
-            $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
-            $c->send_status_line(403)
-
+        if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
+            my $file = $1;
+            foreach my $target (@{$targetsList->{targets}}) {
+                if (-f $target->{vardir}."/deploy/".$file) {
+                    $logger->debug("Send /deploy/".$file);
+                    $c->send_file_response($target->{vardir}."/deploy/".$file);
+                } else {
+                    $logger->debug("Not found /deploy/".$file);
+                }
+            }
+            $c->send_error(404);
+            last SWITCH;
         }
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/status$/) {
-        #$c->send_status_line(200, $status)
-        my $r = HTTP::Response->new(
-            200,
-            'OK',
-            HTTP::Headers->new('Content-Type' => 'text/plain'),
-           "status: ".$status
-        );
-        $c->send_response($r);
 
-    } elsif ($r->method eq 'GET' and $r->uri->path =~
-        /^\/(logo.png|site.css|favicon.ico)$/) {
-        $c->send_file_response($htmlDir."/$1");
-    } else {
+        if ($path =~ m{^/now(?:/(\S+))?$}) {
+            my $sentToken = $1;
+            my $currentToken = $self->getToken();
+            $logger->debug("[RPC]'now' catched");
+            if (
+                ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
+                    or
+                ($sentToken eq $currentToken)
+            ) {
+                $self->getToken('forceNewToken');
+                $targetsList->resetNextRunDate();
+                $c->send_status_line(200)
+            } else {
+                $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
+                $c->send_status_line(403)
+            }
+            last SWITCH;
+        }
+
+        if ($path eq '/status') {
+            #$c->send_status_line(200, $status)
+            my $r = HTTP::Response->new(
+                200,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/plain'),
+               "status: ".$status
+            );
+            $c->send_response($r);
+            last SWITCH;
+        }
+
+        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
+            $c->send_file_response($htmlDir."/$1");
+            last SWITCH;
+        }
+
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500)
     }
+
     $c->close;
     undef($c);
 }
@@ -188,7 +200,7 @@ sub server {
     my ($self) = @_;
 
     my $config = $self->{config};
-    my $targets = $self->{targets};
+    my $targetsList = $self->{targetsList};
     my $logger = $self->{logger};
 
     my $daemon;
@@ -197,19 +209,21 @@ sub server {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalAddr => $config->{'rpc-ip'},
             LocalPort => 62354,
-            Reuse => 1,
-            Timeout => 5);
+            Reuse     => 1,
+            Timeout   => 5
+        );
     } else {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalPort => 62354,
-            Reuse => 1,
-            Timeout => 5);
+            Reuse     => 1,
+            Timeout   => 5
+        );
     }
   
-   if (!$daemon) {
+    if (!$daemon) {
         $logger->error("Failed to start the RPC server");
         return;
-   } 
+    } 
     $logger->info("RPC service started at: ". $daemon->url);
 
     my @stack;
@@ -296,18 +310,14 @@ the jobs it need to do.
 
 In this example, we want to wakeup machine "aMachine":
 
-  use LWP::Simple;
+    use LWP::Simple;
 
-  my $machine = "aMachine";
-  my $token = "aaaaaaaaaaaaaa";
-  if (!get("http://$machine:62354/now/$token")) {
-    print "Failed to wakeup $machine\n";
-    return;
-  }
-  sleep(10);
-  print "Current status\n";
-  print get("http://$machine:62354/status");
-
-
-=cut
-
+    my $machine = "aMachine";
+    my $token = "aaaaaaaaaaaaaa";
+    if (!get("http://$machine:62354/now/$token")) {
+        print "Failed to wakeup $machine\n";
+        return;
+    }
+    sleep(10);
+    print "Current status\n";
+    print get("http://$machine:62354/status");

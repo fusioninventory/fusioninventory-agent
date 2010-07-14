@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use FusionInventory::Agent::Tools::Linux;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 use Test::More;
 use FindBin;
@@ -29,7 +30,6 @@ my %udev_tests = (
         TYPE         => 'disk',
         SCSI_CHID    => '0',
         SCSI_COID    => '0',
-        DISKSIZE     => '',
         SCSI_LUN     => '0',
         DESCRIPTION  => 'ata',
         MODEL        => 'SAMSUNG_SSD_PM800_TM_128GB'
@@ -39,13 +39,13 @@ my %udev_tests = (
 plan tests => (scalar keys %hal_tests) + (scalar keys %udev_tests);
 
 foreach my $test (keys %hal_tests) {
-    my $file = "$FindBin::Bin/../resources/hal/$test";
+    my $file = "$FindBin::Bin/../../resources/hal/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::parseLshal($file, '<');
-    is_deeply($hal_tests{$test}, $results, $test);
+    is_deeply($results, $hal_tests{$test}, $test);
 }
 
 foreach my $test (keys %udev_tests) {
-    my $file = "$FindBin::Bin/../resources/udev/$test";
-    my $result = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::parseUdev($file, 'sda');
+    my $file = "$FindBin::Bin/../../resources/udev/$test";
+    my $result = FusionInventory::Agent::Tools::Linux::parseUdevEntry($file, 'sda');
     is_deeply($result, $udev_tests{$test}, $test);
 }

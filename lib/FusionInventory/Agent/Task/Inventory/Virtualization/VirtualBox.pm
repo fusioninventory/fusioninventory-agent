@@ -7,6 +7,9 @@ use warnings;
 
 use XML::TreePP;
 use File::Glob ':glob';
+
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return
         can_run('VBoxManage');

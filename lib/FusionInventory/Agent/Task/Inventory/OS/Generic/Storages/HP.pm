@@ -5,7 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Tools;
+
 # Tested on 2.6.* kernels
 #
 # Cards tested :
@@ -122,14 +123,14 @@ sub doInventory {
                     $serialnumber =~ s/^\s+//;
                     $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
                     $model =~ s/\s+/ /;
-                    $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
+                    $manufacturer = getManufacturer($model);
                     if ($media eq 'Data Drive') {
                         $media = 'disk';
                     }
 
                     $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
 
-                    $inventory->addStorages({
+                    $inventory->addStorage({
                             NAME => $model,
                             MANUFACTURER => $manufacturer,
                             MODEL => $model,

@@ -10,6 +10,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Drives;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run ("df");
 }

@@ -3,19 +3,14 @@ package FusionInventory::Agent::Network;
 use strict;
 use warnings;
 
+use Carp;
 use English qw(-no_match_vars);
+use HTTP::Status;
+use LWP::UserAgent;
 use UNIVERSAL::require;
+use URI;
 
-=head1 NAME
-
-FusionInventory::Agent::Network - the Network abstraction layer
-
-=head1 DESCRIPTION
-
-This module is the abstraction layer for network interaction. It uses LWP.
-Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.
-
-=cut
+use FusionInventory::Compress;
 
 =over 4
 
@@ -23,23 +18,15 @@ Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.
 
 The constructor. These keys are expected: config, logger, target.
 
-        my $network = FusionInventory::Agent::Network->new ({
-
-                logger => $logger,
-                config => $config,
-                target => $target,
-
-            });
-
-
 =cut
-
-use FusionInventory::Compress;
 
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    croak 'no target' unless $params->{target};
+    croak 'no config' unless $params->{config};
+
+    my $self;
 
     $self->{accountinfo} = $params->{accountinfo}; # Q: Is that needed?
 
@@ -108,7 +95,9 @@ sub createUA {
         }
 
     }
-
+    my $host   = $self->{URI}->host();
+    my $port   = $self->{URI}->port() ||
+                 $protocl eq 'https' ? 443 : 80;
 
     if ($self->{config}->{proxy}) {
 
@@ -189,14 +178,12 @@ server).
 
 =cut
 
-
 sub send {
     my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-    my $config = $self->{config};
-
+    my $logger   = $self->{logger};
+    my $target   = $self->{target};
+    my $config   = $self->{config};
     my $compress = $self->{compress};
     my $message = $args->{message};
 
@@ -214,11 +201,10 @@ sub send {
 
     my $req = HTTP::Request->new(POST => $self->{URI});
 
-    $req->header('Pragma' => 'no-cache', 'Content-type',
-        'application/x-compress');
-
-
-    $logger->debug ("sending XML");
+    $req->header(
+        'Pragma'       => 'no-cache',
+        'Content-type' => 'application/x-compress'
+    );
 
     # Print the XMLs in the debug output
     #$logger->debug ("sending: ".$message->getContent());
@@ -232,25 +218,35 @@ sub send {
 
     $req->content($compressed);
 
+    # send it
+    $logger->debug ("sending XML");
     my $ua = $self->createUA();
     my $res = $ua->request($req);
 
-    # Checking if connected
-    if(!$res->is_success) {
-        $logger->error ('Cannot establish communication with `'.
-            $self->{URI}.': '.
-            $res->status_line.'`');
+    # check result
+    if (!$res->is_success()) {
+        $logger->error(
+            "Cannot establish communication with $self->{URI}: " .
+            $res->status_line()
+        );
         return;
     }
 
-    # stop or send in the http's body
+    # create response
+    my $response_type = ref $message;
+    $response_type =~ s/Query/Response/;
+    $response_type->require();
+    if ($EVAL_ERROR) {
+        $logger->error(
+            "Can't load response module $response_type: $EVAL_ERROR"
+        );
+    }
 
-    my $content = '';
-
-    if ($res->content) {
-        $content = $compress->uncompress($res->content);
-        if (!$content) {
-            $logger->error ("Deflating problem");
+    my $response_content;
+    if ($res->content()) {
+        $response_content = $compress->uncompress($res->content());
+        if (!$response_content) {
+            $logger->error("Deflating problem");
             return;
         }
     }
@@ -265,7 +261,7 @@ sub send {
     my $response = $tmp->new({
 
             accountinfo => $target->{accountinfo},
-            content => $content,
+            content => $response_content,
             logger => $logger,
             origmsg => $message,
             target => $target,
@@ -295,25 +291,25 @@ sub turnSSLCheckOn {
     }
 
     if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
-        $logger->fault("You need to use either --ca-cert-file ".
+        croak
+            "You need to use either --ca-cert-file ".
             "or --ca-cert-dir to give the location of your SSL ".
             "certificat. You can also disable SSL check with ".
-            "--no-ssl-check but this is very unsecure.");
+            "--no-ssl-check but this is very unsecure.";
     }
 
 
     if ($config->{'ca-cert-file'}) {
         if (!-f $config->{'ca-cert-file'} && !-l $config->{'ca-cert-file'}) {
-            $logger->fault("--ca-cert-file doesn't existe ".
-                "`".$config->{'ca-cert-file'}."'");
+            croak 
+                "--ca-cert-file $config->{'ca-cert-file'} doesn't exist";
         }
 
         $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
 
     } elsif ($config->{'ca-cert-dir'}) {
         if (!-d $config->{'ca-cert-dir'}) {
-            $logger->fault("--ca-cert-dir doesn't existe ".
-                "`".$config->{'ca-cert-dir'}."'");
+            croak "--ca-cert-dir $config->{'ca-cert-dir'} doesn't exist";
         }
 
         $ENV{HTTPS_CA_DIR} =$config->{'ca-cert-dir'};
@@ -430,11 +426,15 @@ Wrapper for LWP::is_success;
 
 sub isSuccess {
     my ($self, $args) = @_;
-
-    my $code = $args->{code};
-
-    return is_success($code);
-
 }
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Network - the Network abstraction layer
+
+=head1 DESCRIPTION
+
+This module is the abstraction layer for network interaction. It uses LWP.
+Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.

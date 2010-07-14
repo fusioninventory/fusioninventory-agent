@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Controller;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run('ioscan');
 }
@@ -27,9 +29,9 @@ sub doInventory {
                 $info=$4;
                 $type=$1;
                 $inventory->addController({
-                    'NAME'          => $name,
-                    'MANUFACTURER'  => "$interface $info",
-                    'TYPE'          => $type,
+                    NAME          => $name,
+                    MANUFACTURER  => "$interface $info",
+                    TYPE          => $type,
                 });
             }
         }

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Slackwa
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run("pkgtool");
 }
@@ -31,8 +33,8 @@ sub doInventory {
             my $version = $array[(@array - 3)]."-".$array[(@array - 2)]."-".$array[(@array - 1)];
 
             $inventory->addSoftware({
-                'NAME' => $name,
-                'VERSION' => $version
+                NAME    => $name,
+                VERSION => $version
             });
         }
     }

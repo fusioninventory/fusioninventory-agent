@@ -3,9 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Hostname;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
-    return 1 if can_load ("Mac::SysProfile");
-    0;
+    return can_load ("Mac::SysProfile");
 }
 
 # Initialise the distro entry

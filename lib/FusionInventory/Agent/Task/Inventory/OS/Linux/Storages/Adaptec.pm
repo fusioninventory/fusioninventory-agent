@@ -5,7 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
 # Tested on 2.6.* kernels
 #
@@ -13,7 +14,7 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 #
 # Adaptec AAC-RAID
 
-my @devices = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getFromUdev();
+my @devices = getDevicesFromUdev();
 
 sub isInventoryEnabled {
 
@@ -72,7 +73,7 @@ sub doInventory {
                         $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
                         $host = undef;
 
-                        $inventory->addStorages({
+                        $inventory->addStorage({
                             NAME => $hd->{NAME},
                             MANUFACTURER => $manufacturer,
                             MODEL => $model,

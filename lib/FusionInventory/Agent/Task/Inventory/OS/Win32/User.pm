@@ -2,18 +2,15 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::User;
 
 use strict;
 use warnings;
-
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
-
-use Win32::OLE::Variant;
-
-use Encode qw(encode);
-
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
-
+use Carp;
+use Encode qw(encode);
+use Win32::OLE::Variant;
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+
+use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
     return 1;
@@ -23,7 +20,8 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or die "WMI connection failed.\n";
+    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+        or croak "WMI connection failed";
     my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_Process", "WQL",
             wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
