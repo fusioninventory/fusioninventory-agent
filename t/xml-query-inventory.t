@@ -29,7 +29,8 @@ my $test = {
         'CONTENT' => {
             'NETWORKS' => '',
             'BIOS' => '',
-            'VERSIONCLIENT' => $FusionInventory::Agent::AGENT_STRING,
+            'VERSIONCLIENT' => $FusionInventory::Agent::AGENT_STRING ||
+            'FusionInventory-Agent_v'.$FusionInventory::Agent::VERSION,
             'DRIVES' => [
             {
                 'VOLUMN' => '/dev/sda2',
@@ -84,7 +85,7 @@ my $test = {
 plan tests => 1;
 my $logger = Logger->new ();
 my $backend = Backend->new ();
-my $config = {VERSION => 'blabla'};
+my $config = {VERSION => $FusionInventory::Agent::VERSION};
 my $target = {
     deviceid => 'test-deviceid',
     type => 'server',
