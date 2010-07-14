@@ -79,7 +79,7 @@ sub new {
         );
     }
 
-    if (not $config->{scanhomedirs}) {
+    if (not $config->{'scan-homedirs'}) {
         $logger->debug("--scan-homedirs missing. Don't scan user directories");
     }
 
