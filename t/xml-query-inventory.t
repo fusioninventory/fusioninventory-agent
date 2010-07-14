@@ -19,6 +19,7 @@ use warnings;
 use Test::More;
 use FindBin;
 use XML::TreePP;
+use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 my $test = {
@@ -28,7 +29,7 @@ my $test = {
         'CONTENT' => {
             'NETWORKS' => '',
             'BIOS' => '',
-            'VERSIONCLIENT' => 'FusionInventory-Agent_vblabla',
+            'VERSIONCLIENT' => $FusionInventory::Agent::AGENT_STRING,
             'DRIVES' => [
             {
                 'VOLUMN' => '/dev/sda2',
