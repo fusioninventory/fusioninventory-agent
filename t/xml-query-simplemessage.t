@@ -13,7 +13,12 @@ use warnings;
 use Test::More;
 use FindBin;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
-use XML::TreePP; 
+
+if (!eval "use XML::TreePP;1") {
+    eval "use Test::More skip_all => 'Missing XML::TreePP';";
+    exit 0
+}
+
 plan tests => 2;
 my $test1 =  {
     'REQUEST' => {

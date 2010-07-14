@@ -18,9 +18,13 @@ use warnings;
 
 use Test::More;
 use FindBin;
-use XML::TreePP;
 use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
+
+if (!eval "use XML::TreePP;1") {
+    eval "use Test::More skip_all => 'Missing XML::TreePP';";
+    exit 0
+}
 
 my $test = {
     'REQUEST' => {
@@ -52,15 +56,15 @@ my $test = {
                 'HISTORY' => {
                     'PACKAGE' => [
                     {
-                        'ID' => '1234567891'
+                        '-ID' => '1234567891'
                     },
                     {
-                        'ID' => '1234567892'
+                        '-ID' => '1234567892'
                     }
                     ]
                 }
             },
-            'ACCESSLOG' => undef,
+            'ACCESSLOG' => '',
             'HARDWARE' => {
                 'PROCESSORS' => '1456',
                 'ARCHNAME' => 'i486-linux-gnu-thread-multi',

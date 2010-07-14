@@ -5,6 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
+use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+
 my @status = (
     'Unknown', # 0 is not defined
     'Other',
@@ -65,6 +67,7 @@ sub doInventory {
             $resolution =
 $Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
         }
+
         $inventory->addPrinter({
             NAME => $Properties->{Name},
             COMMENT => $Properties->{Comment},
@@ -79,9 +82,66 @@ $Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
             SERVERNAME => $Properties->{ServerName},
             SHARENAME => $Properties->{ShareName},
             PRINTPROCESSOR => $Properties->{PrintProcessor},
+            SERIAL => getSerialbyUsb($Properties->{PortName})
         });
 
     }    
+}
+
+sub getSerialbyUsb {
+
+    my $portName = shift;
+
+    if (!defined($portName)) {
+        return;
+    }
+    if ($portName =~ /USB/) {
+    } else {
+        return;
+    }
+
+    # Search serial when connected in USB
+    # Search in registry where folder in HKLM\system\currentcontrolset\enum\USBPRINT have USBxxx ($portName)
+    my $KEY_WOW64_64KEY = 0x100;
+
+    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+    my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
+    foreach my $tmpkey (%$data) {
+        if (ref($tmpkey) eq "Win32::TieRegistry") {
+            foreach my $usbid (%$tmpkey) {
+                if ( $usbid =~ /$portName/) {
+                    $usbid = $tmpkey->{$usbid}->{"ContainerID"};
+                    my $serialnumber = "";
+                    # search in HKLM\system\currentcontrolset\enum\USB the key with ContainerID to this value
+                    # so previous folder name is serial number ^^
+                    my $dataUSB = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
+                    foreach my $tmpkeyUSB (%$dataUSB) {
+                        if (ref($tmpkeyUSB) eq "Win32::TieRegistry") {
+                            foreach my $serialtmp (%$tmpkeyUSB) {
+                                if (ref($serialtmp) eq "Win32::TieRegistry") {
+                                    foreach my $regkeys (%$serialtmp) {
+                                        if ((defined($regkeys)) && (ref($regkeys) ne "Win32::TieRegistry")) {
+                                            next unless $regkeys =~ /ContainerID/;
+                                            if ($serialnumber =~ /\&/) {
+                                            } elsif (defined($serialnumber)) {
+                                                if ($serialtmp->{$regkeys} eq $usbid) {
+                                                    return $serialnumber;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+
+                                    $serialnumber = $serialtmp;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return;
 }
 
 1;

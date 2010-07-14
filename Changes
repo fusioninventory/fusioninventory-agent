@@ -1,9 +1,6 @@
 Revision history for FusionInventory::Agent
 
        * XML::Simple → XML::TreePP transition
-       * Add ./t/xml-response.t, xml-query-inventory.t,
-         xml-query-simplemessage.t
-       * Inventory, correctly store user list
 
 2.1_rc3
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
@@ -18,7 +15,7 @@ Revision history for FusionInventory::Agent
          thanks Sébastien Prud'homme
        * Fix: Linux, PC: get the number of core from dmidecode if
          avaible
-       * Linux, PC: get the CPU frequency from the CPU name, if
+       * Win32 and Linux, PC: get the CPU frequency from the CPU name, if
          possible. That's the most reliable way to get the
          information since 'Max Speed' in dmidecode is most of the
          time on crack and /proc/cpuinfo is not reliable because of
@@ -27,8 +24,6 @@ Revision history for FusionInventory::Agent
          here
        * remove --perl-bin-dir-in-path, turns it on only in the Windows
          service
-
-2.1_rc2 Thu, 01 Jul 2010 23:05:10 +0200
        * test scripts: fix is_deeply() argument order
        * RPC: print "now" as next contact date instead of 1/1970
        * Inventory, correctly store user list
@@ -36,6 +31,21 @@ Revision history for FusionInventory::Agent
        * Import the new FusionInventory logo
        * Fix, HP-UX errors when listing drives
          http://forge.fusioninventory.org/issues/188 (Amir PAKDEL)
+       * Win32, network: Filter interfaces with no IP, IPv6 and MAC
+       * Win32, printer: restore the DRIVER field
+       * Win32, drive: restore the SIZE field
+       * Win32, get the memories from WMI only if dmidecode is missing
+       * Dmidecode, drop the unit from the memory speed like the Win32 OCS
+         agent do
+       * Win32, set the BIOS/TYPE field
+       * Win32, storage: clean up. Reduce the number of hdparm call.
+       * Win32, set USBDEVICES/NAME
+       * Add more test scripts: xml-query-inventory.t,
+         xml-query-simplemessage.t, t/xml-response.t
+       * Inventory, correctly store user list
+
+
+2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
        * Linux: set back DRIVES/FREE
        * Linux: CONTROLLERS/NAME drop the trailing whitespace
@@ -130,9 +140,6 @@ Revision history for FusionInventory::Agent
          (Guillaume Rousse)
        * Linux/Storages: factorize redudant code for udev devices detection
          (Guillaume Rousse)
-       * factorize manufacturer sanitisation function
-       * factorize DHCP information retrieval
-       * fix DHCP information retrieval for lease files with random chars
        * HP-UX numerous improvement (Amir PAKDEL)
        * Add NETWORKS/SPEED (in MB/s) (Amir PAKDEL)
        * HP-UX/Drives: Swapped "Type" and "File System" (Amir PAKDEL)

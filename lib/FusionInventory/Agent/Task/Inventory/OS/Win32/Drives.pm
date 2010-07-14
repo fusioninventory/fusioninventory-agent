@@ -49,7 +49,6 @@ sub doInventory {
            TYPE => $type[$Properties->{DriveType}] || 'Unknown',
            VOLUMN => $Properties->{VolumeName},
         });
-
     }
 }
 
