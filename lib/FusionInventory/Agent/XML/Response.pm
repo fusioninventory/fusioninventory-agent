@@ -43,7 +43,8 @@ sub getParsedContent {
 
     if(!$self->{parsedcontent} && $self->{content}) {
         my $tpp =  XML::TreePP->new( force_array => [ 'OPTION','PARAM' ],
-            text_node_key => 'content' );
+            text_node_key => 'content',
+            attr_prefix => '' );
         my $tmp = $tpp->parse( $self->{content} );
         return unless $tmp->{REPLY};
         $self->{parsedcontent} = $tmp->{REPLY};
