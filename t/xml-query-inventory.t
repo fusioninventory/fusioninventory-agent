@@ -35,20 +35,15 @@ my $test = {
                 'VOLUMN' => '/dev/sda2',
                 'TOTAL' => '18777',
                 'SERIAL' => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
-                'LABEL' => '',
                 'FREE' => '9120',
                 'TYPE' => '/',
-                'CREATEDATE' => '',
                 'FILESYSTEM' => 'ext3'
             },
             {
                 'VOLUMN' => '/dev/hda2',
                 'TOTAL' => '177',
-                'SERIAL' => '',
-                'LABEL' => '',
                 'FREE' => '90',
                 'TYPE' => '/toto',
-                'CREATEDATE' => '',
                 'FILESYSTEM' => 'ext4'
             }
             ],
@@ -56,29 +51,30 @@ my $test = {
                 'HISTORY' => {
                     'PACKAGE' => [
                     {
-                        '-ID' => '1234567891'
+                        'ID' => '1234567891'
                     },
                     {
-                        '-ID' => '1234567892'
+                        'ID' => '1234567892'
                     }
                     ]
                 }
             },
-            'ACCESSLOG' => '',
+            'ACCESSLOG' => undef,
             'HARDWARE' => {
                 'PROCESSORS' => '1456',
                 'ARCHNAME' => 'i486-linux-gnu-thread-multi',
                 'CHECKSUM' => '262143',
                 'PROCESSORN' => '1',
-                'PROCESSORT' => ''
+                'PROCESSORT' => 'void CPU',
+                'VMSYSTEM' => 'Physical'
             },
             'CPUS' => {
                 'SERIAL' => 'AEZVRV',
                 'MANUFACTURER' => 'FusionInventory Developers',
-                'TYPE' => '',
                 'SPEED' => '1456',
                 'THREAD' => '3',
-                'CORE' => ''
+                'NAME' => 'void CPU',
+                'CORE' => '1'
             }
         }
     }
