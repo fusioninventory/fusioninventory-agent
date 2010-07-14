@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use XML::Simple;
+use XML::TreePP;
 
 sub isInventoryEnabled {
     return can_run('hpvmstatus');
@@ -26,22 +26,24 @@ sub doInventory {
     );
 
     my $xml = `hpvmstatus -X`;
-    my $data = XMLin($xml);
+    my $tpp = XML::TreePP->new();
+    my $data = $tpp->parse( $xml );
 
-    my $mvs = $data->{pman}->{virtual_machine};
+    my $mvs = $data->{hpvm}->{pman}->{virtual_machine};
 
-    foreach my $name (keys %$mvs) {
-        my $memory = $mvs->{$name}->{memory}->{total}->{content};
-        $memory *= $memory_unit_mult{$mvs->{$name}->{memory}->{total}->{unit}};
+    foreach my $tmpVM (@$mvs) {
 
-        my $uuid = $mvs->{$name}->{uuid};
-        my $status = $status_list{$mvs->{$name}->{vm_state}};
-        my $vcpu = $mvs->{$name}->{vcpu_number};
-        my $vmid = $mvs->{$name}->{local_id};
+        my $memory = $tmpVM->{memory}->{total}->{'#text'};
+        $memory *= $memory_unit_mult{$tmpVM->{memory}->{total}->{-unit}};
+
+        my $uuid = $tmpVM->{-uuid};
+        my $status = $status_list{$tmpVM->{vm_state}};
+        my $vcpu = $tmpVM->{vcpu_number};
+        my $vmid = $tmpVM->{-local_id};
 
         my $machine = {
             MEMORY => $memory,
-            NAME => $name,
+            NAME => $tmpVM->{-name},
             UUID => $uuid,
             STATUS => $status,
             SUBSYSTEM => "HPVM",
