@@ -1,6 +1,7 @@
 Revision history for FusionInventory::Agent
 
        * XML::Simple → XML::TreePP transition
+       * HPVM: XML::TreePP support (Amir PAKDEL)
 
 2.1_rc3
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
