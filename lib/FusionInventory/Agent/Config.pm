@@ -298,7 +298,8 @@ EOF
 Common options:
     --debug             debug mode ($self->{debug})
     --html              save in HTML the inventory requested by --local ($self->{html})
-    -l --local=DIR      do not contact server but write inventory in DIR directory in XML ($self->{local})
+    -l --local=DIR      do not contact server but write inventory in DIR
+                        directory in XML ($self->{local})
     --logfile=FILE      log message in FILE ($self->{logfile})
     --version           print the version
 
@@ -325,24 +326,31 @@ Disable options:
     --no-netdiscovery   do not use snmpquery function ($self->{'no-netdiscovery'})
 
 Extra options:
-    --backend-collect-timeout set a max delay time of one inventory data collect job ($self->{'backend-collect-timeout'})
-    --basevardir=/path  indicate the directory where should the agent store its files ($self->{basevardir})
+    --backend-collect-timeout set a max delay time of one inventory data
+                        collect job ($self->{'backend-collect-timeout'})
+    --basevardir=/path  indicate the directory where should the agent store its
+                        files ($self->{basevardir})
     --color             use color in the console ($self->{color})
     -d --daemon         detach the agent in background ($self->{daemon})
     -D --daemon-no-fork daemon but don't fork in background ($self->{'daemon-no-fork'})
-    --delaytime         set a max delay time (in second) if no PROLOG_FREQ is set ($self->{delaytime})
+    --delaytime         set a max delay time (in second) if no PROLOG_FREQ is
+                        set ($self->{delaytime})
     --devlib            search for Backend mod in ./lib only ($self->{devlib})
     -f --force          always send data to server (Don't ask before) ($self->{force})
     -i --info           verbose mode ($self->{info})
-    --lazy              do not contact the server more than one time during the PROLOG_FREQ ($self->{lazy})
-    --logger            Logger you want to use, can be Stderr,File or Syslog ($self->{logger})
+    --lazy              do not contact the server more than one time during the
+                        PROLOG_FREQ ($self->{lazy})
+    --logger            Logger you want to use (Stderr, File or Syslog) ($self->{logger})
     --rpc-ip=IP         ip of the interface to use for peer to peer exchange
-    --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory
+    --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now
+                        to force an inventory
     --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
-    --share-dir=DIR     path to the directory where are stored the shared files ($self->{'share-dir'})
+    --share-dir=DIR     path to the directory where are stored the shared files
+                        ($self->{'share-dir'})
     --stdout            do not write or post the inventory but print it on STDOUT
-    -t --tag=TAG        use TAG as tag ($self->{tag}) Will be ignored by server if a value already exists.
-    -w --wait=DURATION  wait during a random periode between 0 and DURATION seconds before contacting server ($self->{wait})
+    -t --tag=TAG        use TAG as tag ($self->{tag})
+    -w --wait=DURATION  wait during a random periode between 0 and DURATION
+                        seconds before contacting server ($self->{wait})
 
 Manpage:
     See man fusioninventory-agent
