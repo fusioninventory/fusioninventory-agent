@@ -286,12 +286,15 @@ sub checkContent {
 sub help {
     my ($self) = @_;
 
+    my $help;
+
     if ($self->{'conf-file'}) {
-        print STDERR "Setting initialised with values retrieved from ".
-        "the config found at $self->{'conf-file'}\n";
+        $help .= <<EOF
+Setting initialised with values retrieved from the config found at $self->{'conf-file'}
+EOF
     }
 
-    print STDERR <<EOF;
+    $help .= <<EOF;
 Common options:
     --debug             debug mode ($self->{debug})
     --html              save in HTML the inventory requested by --local ($self->{html})
@@ -324,20 +327,11 @@ Disable options:
 Extra options:
     --backend-collect-timeout set a max delay time of one inventory data collect job ($self->{'backend-collect-timeout'})
     --basevardir=/path  indicate the directory where should the agent store its files ($self->{basevardir})
-EOF
-
-    if ($OSNAME ne 'MSWin32') {
-        print STDERR <<EOF;
     --color             use color in the console ($self->{color})
-EOF
-    }
-
-    print STDERR <<EOF;
     -d --daemon         detach the agent in background ($self->{daemon})
     -D --daemon-no-fork daemon but don't fork in background ($self->{'daemon-no-fork'})
     --delaytime         set a max delay time (in second) if no PROLOG_FREQ is set ($self->{delaytime})
     --devlib            search for Backend mod in ./lib only ($self->{devlib})
-    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($self->{'disable-perllib-envvar'})
     -f --force          always send data to server (Don't ask before) ($self->{force})
     -i --info           verbose mode ($self->{info})
     --lazy              do not contact the server more than one time during the PROLOG_FREQ ($self->{lazy})
@@ -355,6 +349,12 @@ Manpage:
 
 FusionInventory-Agent is released under GNU GPL 2 license
 EOF
+
+    if ($OSNAME eq 'MSWin32') {
+        $help =~ s/.*--color.*\n//;
+    }
+
+    print STDERR $help;
 }
 
 1;
