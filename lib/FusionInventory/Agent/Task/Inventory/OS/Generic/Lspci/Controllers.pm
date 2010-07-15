@@ -2,6 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -14,79 +16,76 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $driver;
-    my $name;
-    my $manufacturer;
-    my $pciclass;
-    my $pciid;
-    my $pcislot;
-    my $pcisubsystemid;
-    my $type;
-    my $version;
+    my $controllers = parseLspci('lspci -vvv -nn', '-|');
 
-    foreach(`lspci -vvv -nn`){
-        if (/^(\S+)\s+(\w+.*?):\s(.*)/) {
-            $pcislot = $1;
-            $name = $2;
-            $manufacturer = $3;
+    return unless $controllers;
 
-            if ($name =~ s/^([a-f\d]+)$//i) {
-                $pciclass = $1;
-            } elsif ($name =~ s/\[([a-f\d]+)\]$//i) {
-                $pciclass = $1;
-            } elsif ($name =~ s/Class ([a-f\d]+)$//i) {
-                $pciclass = $1;
-            }
+    foreach my $controller (@$controllers) {
+        my $info = getInfoFromPciIds ({
+            config         => $config,
+            logger         => $logger,
+            pciclass       => $controller->{PCICLASS},
+            pciid          => $controller->{PCIID},
+            pcisubsystemid => $controller->{PCISUBSYSTEMID},
+        });
+        $controller->{CAPTION}      = $info->{deviceName};
+        $controller->{TYPE}         = $info->{fullClassName},
+        $controller->{NAME}         = $info->{fullName} if $info->{fullName};
+        $controller->{MANUFACTURER} = $info->{vendorName} if $info->{vendorName};
+        $inventory->addController($controller);
+    }
+}
 
-            if ($manufacturer =~ s/\s\(rev\s(\S+)\)//) {
-                $version = $1;
-            }
-            $manufacturer =~ s/\ *$//; # clean up the end of the string
-            $manufacturer =~ s/\s+\(prog-if \d+ \[.*?\]\)$//; # clean up the end of the string
-            $manufacturer =~ s/\s+\(prog-if \d+\)$//;
+sub parseLspci {
+    my ($file, $mode) = @_;
 
-            if ($manufacturer =~ s/([a-f\d]{4}:[a-f\d]{4})//i) {
-                $pciid = $1;
-            }
+     my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
 
-            $name =~ s/\s+$//; # Drop the trailing whitespace
+    my ($controllers, $controller);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /^
+                (\S+) \s                     # slot
+                ([^[]+) \s                   # name
+                \[([a-f\d]+)\]: \s           # class
+                ([^[]+) \s                   # manufacturer
+                \[([a-f\d]+:[a-f\d]+)\]      # id
+                (?:\s \(rev \s (\d+)\))?     # optional version
+                (?:\s \(prog-if \s [^)]+\))? # optional detail
+                /x) {
+
+            $controller = {
+                PCISLOT      => $1,
+                NAME         => $2,
+                PCICLASS     => $3,
+                MANUFACTURER => $4,
+                PCIID        => $5,
+                VERSION      => $6
+            };
+            next;
         }
-        if ($pcislot && /^\s+Kernel driver in use: (\w+)/) {
-            $driver = $1;
-        }
 
-        if (/Subsystem:\s+([a-f\d]{4}:[a-f\d]{4})/i) {
-            $pcisubsystemid = $1;
-        }
+        next unless defined $controller;
 
-        if ($pcislot && /^$/) {
-
-            my $info = getInfoFromPciIds ({
-                config         => $config,
-                logger         => $logger,
-                pciclass       => $pciclass,
-                pciid          => $pciid,
-                pcisubsystemid => $pcisubsystemid,
-            });
-
-            $inventory->addController({
-                CAPTION        => $info->{deviceName},
-                DRIVER         => $driver,
-                NAME           => $info->{fullName} || $name,
-                MANUFACTURER  => $info->{vendorName} || $manufacturer,
-                PCICLASS       => $pciclass,
-                PCIID          => $pciid,
-                PCISUBSYSTEMID => $pcisubsystemid,
-                PCISLOT        => $pcislot,
-                TYPE           => $info->{fullClassName},
-                VERSION           => $version,
-            });
-            $driver = $name = $pciclass = $pciid = undef;
-            $pcislot = $manufacturer = undef;
-            $type = $pcisubsystemid = undef;
+         if ($line =~ /^$/) {
+            push(@$controllers, $controller);
+            undef $controller;
+        } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
+            $controller->{DRIVER} = $1;
+        } elsif ($line =~ /^\tSubsystem: ([a-f\d]{4}:[a-f\d]{4})/) {
+            $controller->{PCISUBSYSTEMID} = $1;
         }
     }
 
+    close $handle;
+
+    return $controllers;
 }
 
 # Retrieve information from the pciid file
