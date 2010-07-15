@@ -11,10 +11,8 @@ sub doInventory {
 
     my ($bios, $hardware) = parseDmidecode("dmidecode", '-|');
 
-    # Writing data
     $inventory->setBios($bios);
     $inventory->setHardware($hardware) if $hardware;
-
 }
 
 sub parseDmidecode {

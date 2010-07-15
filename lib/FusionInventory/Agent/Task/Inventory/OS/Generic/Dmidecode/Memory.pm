@@ -9,7 +9,9 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my ($memories) = parseDmidecode('/usr/sbin/dmidecode', '-|');
+    my $memories = parseDmidecode('/usr/sbin/dmidecode', '-|');
+
+    return unless $memories;
 
     foreach my $memory (@$memories) {
         $inventory->addMemory($memory);

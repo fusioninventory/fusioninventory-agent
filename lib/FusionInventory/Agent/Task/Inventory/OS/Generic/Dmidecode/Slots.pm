@@ -9,7 +9,9 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my ($slots) = parseDmidecode('/usr/sbin/dmidecode', '-|');
+    my $slots = parseDmidecode('/usr/sbin/dmidecode', '-|');
+
+    return unless $slots;
 
     foreach my $slot (@$slots) {
         $inventory->addSlots($slot);
