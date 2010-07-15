@@ -34,19 +34,13 @@ sub new {
     my $nextRunDate :shared;
     $self->{nextRunDate} = \$nextRunDate;
 
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{type} = $params->{type};
-    $self->{path} = $params->{path} || '';
-    $self->{deviceid} = $params->{deviceid};
-
-
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $type   = $self->{type};
 
 
-    $self->{format} = ($type eq 'local' && $config->{html})?'HTML':'XML';
+    $self->{format} = $self->{type} eq 'local' && $config->{html} ?
+        'HTML' : 'XML';
 
     $self->init();
 

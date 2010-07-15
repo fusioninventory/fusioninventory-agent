@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use XML::Simple;
 
 sub new {
     my ($class,$params) = @_;
@@ -95,7 +96,29 @@ sub write {
     my $target = $self->{target};
     my $storage = $self->{storage};
 
+<<<<<<< HEAD
     $storage->save({ data => $self->{myData} });
+=======
+    my $tmp;
+    $tmp->{ACCOUNTINFO} = [];
+
+    foreach (keys %{$self->{accountinfo}}) {
+        push @{$tmp->{ACCOUNTINFO}}, {KEYNAME => [$_], KEYVALUE =>
+            [$self->{accountinfo}{$_}]}; 
+    }
+
+    my $xml = XMLout( $tmp, RootName => 'ADM' );
+
+    if (open my $handle, ">", $target->{accountinfofile}) {
+        print $handle $xml;
+        close $handle;
+        $logger->debug ("Account info updated successfully");
+    } else {
+        warn "Can't open $target->{accountinfofile} for writing: $ERRNO";
+        $logger->error ("Can't save account info in `".
+            $target->{accountinfofile});
+    }
+>>>>>>> guillomovitch/master
 }
 
 1;

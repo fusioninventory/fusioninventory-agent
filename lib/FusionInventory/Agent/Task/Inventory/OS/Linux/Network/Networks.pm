@@ -8,6 +8,9 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
 
+
+use Net::IP qw(:PROC);
+
 sub isInventoryEnabled {
     return 
         can_run("ifconfig") &&
@@ -19,7 +22,6 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
 
     my $routes;
     foreach (`route -n`) {
@@ -51,7 +53,10 @@ sub doInventory {
             $interface->{IPGATEWAY} = $ipgateway;
         }
 
-        my ($driver, $pcislot) = getUevent($interface->{DESCRIPTION});
+        my ($driver, $pcislot) = getUevent(
+            $params->{logger},
+            $interface->{DESCRIPTION}
+        );
         $interface->{DRIVER} = $driver if $driver;
         $interface->{PCISLOT} = $pcislot if $pcislot;
 
@@ -103,23 +108,6 @@ sub parseIfconfig {
             # In a section
             if ($line =~ /^(\S+)/) {
                 $interface->{DESCRIPTION} = $1;
-            }
-
-            if (open my $handle, '<', "/sys/class/net/$interface->{DESCRIPTION}/device/uevent") {
-                while (<$handle>) {
-                    $interface->{DRIVER} = $1 if /^DRIVER=(\S+)/;
-                    $interface->{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
-                }
-                close $handle;
-#            } else {
-#                $logger->debug("Can't open ".
-#                    "/sys/class/net/".
-#                    $interface->{DESCRIPTION}.
-#                    "/device/uevent: ".
-#                    $ERRNO);
-            }
-            if ($line =~ /inet addr:($ip_address_pattern)/i) {
-                $interface->{IPADDRESS} = $1;
             }
             if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
@@ -189,7 +177,7 @@ sub isWifi {
 }
 
 sub getUevent {
-    my ($name) = @_;
+    my ($logger, $name) = @_;
 
     my ($driver, $pcislot);
 
@@ -202,7 +190,7 @@ sub getUevent {
             }
             close $handle;
         } else {
-            warn "Can't open $file: $ERRNO";
+            $logger->warn("Can't open $file: $ERRNO");
         }
     }
 
@@ -213,7 +201,6 @@ sub getNetworkInfo {
     my ($address, $mask, $routes) = @_;
 
     # import Net::IP functional interface
-    Net::IP->import(':PROC');
 
     my ($ipsubnet, $ipgateway);
 

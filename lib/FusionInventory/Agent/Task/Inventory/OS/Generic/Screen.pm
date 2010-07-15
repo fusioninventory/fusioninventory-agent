@@ -671,7 +671,6 @@ sub doInventory {
             }
 
             $base64 = encode_base64($screen->{edid});
-
             if (can_run("uuencode")) {
                 $uuencode = `echo $screen->{edid}|uuencode -`;
             }

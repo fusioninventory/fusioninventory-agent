@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 my %speedMatrice = (
     mhz => 1,
     ghz => 1000,
@@ -13,13 +15,9 @@ my %sizeMatrice = (
     tb => 1000*1000,
 );
 
-
-use FusionInventory::Agent::Tools;
-
 sub isInventoryEnabled {
     return 
-        -r '/usr/sbin/system_profiler' &&
-        can_load("Mac::SysProfile");
+        -r '/usr/sbin/system_profiler';
 }
 
 sub doInventory {

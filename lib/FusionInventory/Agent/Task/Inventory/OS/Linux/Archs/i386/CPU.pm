@@ -9,7 +9,9 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return -r '/proc/cpuinfo';
+    return
+        -r '/proc/cpuinfo' ||
+        can_run('dmidecode');
 }
 
 sub doInventory {

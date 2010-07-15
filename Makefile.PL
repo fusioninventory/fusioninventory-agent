@@ -17,9 +17,6 @@ EOF
     return $re;
 }
 
-use Config;
-
-
 name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux, Windows and MacOSX';
@@ -74,7 +71,7 @@ if (!can_use('Compress::Zlib')) {
 
 if (!can_run('ipdiscover') && !can_run('nmap')) {
     print "Please install nmap ";
-    print "or ipdiscover " if $OSNAME =~ /^linux$/i;
+    print "or ipdiscover " if $OSNAME eq 'linux';
     print "if you want to use the network ".
     "discover feature.\n";
 }
@@ -85,16 +82,11 @@ if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
 }
 
 
-my $archname;
-eval { # config_re is not available on Perl 5.6
-    my @t = Config::config_re('archname');
-    $archname = $t[0];
-};
-if ($OSNAME =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd64)/i)) {
+if ($OSNAME =~ /(linux|bsd)/i) {
     foreach (qw/dmidecode lspci/) {
         if (!can_run($_)) {
             print "\n";
-            print "[WARNING] $_ is needed if you want a complete inventory on x86 and AMD64/x86_64.\n";
+            print "[WARNING] $_ is needed if you want a complete inventory\n";
             print "\n";
         }
     }

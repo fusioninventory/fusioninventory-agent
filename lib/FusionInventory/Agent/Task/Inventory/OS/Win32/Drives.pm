@@ -36,16 +36,26 @@ sub doInventory {
         VolumeSerialNumber DeviceID Size DriveType VolumeName
     /)) {
 
+        my $freespace;
+        my $size;
+
+        if ($Properties->{FreeSpace}) {
+            $freespace = int($Properties->{FreeSpace}/(1024*1024))
+        }
+        if ($Properties->{Size}) {
+            $size = int($Properties->{Size}/(1024*1024))
+        }
+
         $inventory->addDrive({
            CREATEDATE => $Properties->{InstallDate},
            DESCRIPTION => $Properties->{Description},
-           FREE => int($Properties->{FreeSpace}/(1024*1024)),
+           FREE => $freespace,
            FILESYSTEM => $Properties->{FileSystem},
            LABEL => $Properties->{VolumeName},
            LETTER => $Properties->{DeviceID} || $Properties->{Caption},
            SERIAL => $Properties->{VolumeSerialNumber},
            SYSTEMDRIVE => (lc($Properties->{DeviceID}) eq $systemDrive),
-           TOTAL => int($Properties->{Size}/(1024*1024)),
+           TOTAL => $size,
            TYPE => $type[$Properties->{DriveType}] || 'Unknown',
            VOLUMN => $Properties->{VolumeName},
         });

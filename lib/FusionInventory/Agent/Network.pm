@@ -110,6 +110,10 @@ sub createUA {
             # $ENV{HTTPS_PROXY}.
         }
 
+  if ($self->{config}->{proxy}) {
+        $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
+    }  else {
+        $self->{ua}->env_proxy;
     }
 
     # Connect to server
@@ -142,7 +146,6 @@ sub createUA {
 
     return $ua;
 }
-
 
 =item send()
 
@@ -185,6 +188,7 @@ sub send {
     my $target   = $self->{target};
     my $config   = $self->{config};
     my $compress = $self->{compress};
+
     my $message = $args->{message};
 
     my $msgType;
@@ -272,9 +276,8 @@ sub send {
     return $response;
 }
 
-# No POD documentation here, it's an internal fuction
 # http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
-sub turnSSLCheckOn {
+sub _turnSSLCheckOn {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};

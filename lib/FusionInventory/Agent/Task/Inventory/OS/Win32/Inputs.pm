@@ -34,7 +34,6 @@ sub doInventory {
     foreach my $Properties (getWmiProperties('Win32_Keyboard', qw/
             Name Caption Manufacturer Description Layout
     /)) {
-
         $inventory->addInput({
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
@@ -47,7 +46,6 @@ sub doInventory {
     foreach my $Properties (getWmiProperties('Win32_PointingDevice', qw/
         Name Caption Manufacturer Description PointingType
     /)) {
-
         $inventory->addInput({
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},

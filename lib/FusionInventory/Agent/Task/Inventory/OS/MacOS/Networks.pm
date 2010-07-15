@@ -88,12 +88,12 @@ sub doInventory {
             DESCRIPTION => $description,
             MACADDR     => $macaddr,
             IPDHCP      => undef,
-            IPADDRESS   => ($status ? $ipaddress : undef),
-            IPGATEWAY   => ($status ? $ipgateway : undef),
-            IPMASK      => ($status ? $mask      : undef),
-            IPSUBNET    => ($status ? $ipsubnet  : undef),
-            TYPE        => ($status ? $type      : undef),
-            STATUS      => ($status ? "Up"       : "Down"),
+            IPADDRESS   => $ipaddress,
+            IPGATEWAY   => $ipgateway,
+            IPMASK      => $mask,
+            IPSUBNET    => $ipsubnet,
+            TYPE        => $type,
+            STATUS      => ($status ? "Up" : "Down"),
             VIRTUALDEV  => $virtualdev
         });
     }

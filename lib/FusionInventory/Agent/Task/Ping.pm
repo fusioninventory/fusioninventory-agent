@@ -9,7 +9,6 @@ use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Logger;
 
 sub main {
@@ -35,7 +34,6 @@ sub main {
     });
 
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        config => $self->{config},
         logger => $self->{logger},
         target => $self->{target},
         msg    => {
@@ -43,9 +41,6 @@ sub main {
             ID    => $options->{ID},
         },
     });
-
-    # is this really useful ?
-    $self->{network} = $network;
 
     $self->{logger}->debug("Pong!");
     $network->send( { message => $message } );

@@ -107,6 +107,7 @@ sub handler {
                     $timeString = "now";
                 }
                 $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".$timeString."</li>\n";
+
             }
 
             my $indexFile = $htmlDir."/index.tpl";
@@ -267,9 +268,10 @@ sub getToken {
     my $myData = $storage->restore();
     if ($forceNewToken || !$myData->{token}) {
 
-        my $tmp = '';
-        $tmp .= pack("C",65+rand(24)) foreach (0..7);
-        $myData->{token} = $tmp;
+        my @chars = (A..Z);
+        $myData->{token} =
+            map { $chars[rand @chars] }
+            1..8;
 
         $storage->save({ data => $myData });
     }

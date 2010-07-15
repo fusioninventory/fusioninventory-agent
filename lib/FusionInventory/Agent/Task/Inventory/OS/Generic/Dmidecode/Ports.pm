@@ -30,7 +30,7 @@ sub parseDmidecode {
      while (my $line = <$handle>) {
         chomp $line;
 
-        if ($line =~ /DMI type (\d+)/i) {
+        if ($line =~ /DMI type (\d+)/) {
             $type = $1;
             if ($port) {
                 push @$ports, $port;
@@ -42,13 +42,13 @@ sub parseDmidecode {
         next unless defined $type;
 
         if ($type == 8) {
-            if ($line =~ /^\s+External connector type:\s*(.+)/i) {
+            if ($line =~ /^\s+External Connector Type: (.*\S)/) {
                 $port->{CAPTION} = $1;
-            } elsif ($line =~ /^\s+Internal connector type:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Internal Connector Type: (.*\S)/) {
                 $port->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+Internal reference designator:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Internal Reference Designator: (.*\S)/) {
                 $port->{NAME} = $1;
-            } elsif ($line =~ /^\s+Port type:\s*(.+)/i) {
+            } elsif ($line =~ /^\s+Port Type: (.*\S)/) {
                 $port->{TYPE} = $1;
             }
         }

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Carp;
-use XML::Simple;
+use XML::TreePP;
 
 sub new {
     my ($class, $params) = @_;
@@ -12,7 +12,6 @@ sub new {
     croak "No DEVICEID" unless $params->{target}->{deviceid};
 
     my $self = {
-        config      => $params->{config},
         accountinfo => $params->{accountinfo},
         logger      => $params->{logger},
         target      => $params->{target},
@@ -35,6 +34,15 @@ sub new {
     }
 
     return $self;
+}
+
+sub getContent {
+    my ($self, $args) = @_;
+
+    my $tpp = XML::TreePP->new();
+    my $content = $tpp->write( { REQUEST => $self->{h} } );
+
+    return $content;
 }
 
 

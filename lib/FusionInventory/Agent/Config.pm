@@ -95,19 +95,6 @@ sub loadCallerParams {
     foreach my $key (keys %$params) {
         $self->{$key} = $params->{$key};
     }
-    loadUserParams();
-
-    if (!$self->{'share-dir'}) {
-        if ($self->{'devlib'}) {
-                $self->{'share-dir'} = './share/';
-        } else {
-            eval { 
-                require File::ShareDir;
-                $self->{'share-dir'} = File::ShareDir::dist_dir('FusionInventory-Agent');
-            };
-        }
-    }
-
 }
 
 sub loadFromWinRegistry {
@@ -272,7 +259,7 @@ sub checkContent {
 
     # if a logfile is defined, use file logger
     if ($self->{logfile}) {
-        $self->{logger} = 'File';
+        $self->{logger} .= ',File';
     }
 
     if ($self->{remotedir}) {
@@ -286,6 +273,18 @@ sub checkContent {
             "future release, please use --nosoftware instead.";
         $self->{nosoftware} = 1
     }
+
+    if (!$self->{'share-dir'}) {
+        if ($self->{devlib}) {
+            $self->{'share-dir'} = './share/';
+        } else {
+            eval { 
+                require File::ShareDir;
+                $self->{'share-dir'} =
+                    File::ShareDir::dist_dir('FusionInventory-Agent');
+            };
+        }
+    }
 }
 
 sub help {
@@ -297,14 +296,12 @@ sub help {
     }
 
     print STDERR <<EOF;
-
 Common options:
     --debug             debug mode ($self->{debug})
     --html              save in HTML the inventory requested by --local ($self->{html})
     -l --local=DIR      do not contact server but write inventory in DIR directory in XML ($self->{local})
     --logfile=FILE      log message in FILE ($self->{logfile})
     --version           print the version
-
 
 Network options:
     -p --password=PWD   password for server auth
@@ -331,7 +328,15 @@ Disable options:
 Extra options:
     --backend-collect-timeout set a max delay time of one inventory data collect job ($self->{'backend-collect-timeout'})
     --basevardir=/path  indicate the directory where should the agent store its files ($self->{basevardir})
-    --color             use color in the console, not supported on Windows ($self->{color})
+EOF
+
+    if ($OSNAME ne 'MSWin32') {
+        print STDERR <<EOF;
+    --color             use color in the console ($self->{color})
+EOF
+    }
+
+    print STDERR <<EOF;
     -d --daemon         detach the agent in background ($self->{daemon})
     -D --daemon-no-fork daemon but don't fork in background ($self->{'daemon-no-fork'})
     --delaytime         set a max delay time (in second) if no PROLOG_FREQ is set ($self->{delaytime})

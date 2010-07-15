@@ -148,8 +148,7 @@ sub doInventory {
         foreach my $xmlVirtualBox (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
             chomp($xmlVirtualBox);
             # Open config file ...
-            my $configFile = new XML::Simple;
-            my $data = $configFile->XMLin($xmlVirtualBox);
+            my $data = XMLin($xmlVirtualBox);
 
             # ... and read it
             my $defaultMachineFolder = $data->{Global}->{SystemProperties}->{defaultMachineFolder};

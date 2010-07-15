@@ -13,9 +13,6 @@ use XML::TreePP;
 use Digest::MD5 qw(md5_base64);
 use Config;
 
-use FusionInventory::Agent;
-use FusionInventory::Agent::Task::Inventory;
-
 =over 4
 
 =item new()
@@ -29,14 +26,8 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    $self->{backend} = $params->{backend};
     my $logger = $self->{logger};
     my $target = $self->{target};
-    my $config = $self->{config};
-
-    if (!($target->{deviceid})) {
-        croak 'deviceid unitialized!';
-    }
 
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
@@ -66,16 +57,11 @@ sub new {
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
     $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::AGENT_STRING];
 
-    # Is the XML centent initialised?
-    $self->{isInitialised} = undef;
-
     return $self;
 }
 
 sub _addEntry {
     my ($self, $params) = @_;
-
-    my $config = $self->{config};
 
     my $fields = $params->{field};
     my $sectionName = $params->{sectionName};
@@ -146,20 +132,6 @@ sub _encode {
     } else {
         return $string;
     }
-}
-
-=item initialise()
-
-Runs the backend modules to initilise the data.
-
-=cut
-sub initialise {
-    my ($self) = @_;
-
-    return if $self->{isInitialised};
-
-    $self->{backend}->feedInventory ({inventory => $self});
-
 }
 
 =item addController()
@@ -1013,8 +985,6 @@ sub getContent {
 
     my $logger = $self->{logger};
 
-    $self->initialise();
-
     $self->processChecksum();
 
     #  checks for MAC, NAME and SSN presence
@@ -1032,56 +1002,7 @@ sub getContent {
         $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
     }
 
-    my $tpp = XML::TreePP->new();
-    my $content = $tpp->write( { REQUEST => $self->{h} } );
-
-    return $content;
-}
-
-=item printXML()
-
-Only for debugging purpose. Print the inventory on STDOUT.
-
-=cut
-sub printXML {
-    my ($self, $args) = @_;
-
-    $self->initialise();
-    print $self->getContent();
-}
-
-=item writeXML()
-
-Save the generated inventory as an XML file. The 'local' key of the config
-is used to know where the file as to be saved.
-
-=cut
-sub writeXML {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-    my $target = $self->{target};
-
-    if ($target->{path} =~ /^$/) {
-        croak 'local path unititalised!';
-    }
-
-    $self->initialise();
-
-    my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
-    $localfile =~ s!(//){1,}!/!;
-
-    # Convert perl data structure into xml strings
-
-    if (open my $handle, '>', $localfile) {
-        print $handle $self->getContent();
-        close $handle;
-        $logger->info("Inventory saved in $localfile");
-    } else {
-        warn "Can't open $localfile: $ERRNO"
-    }
-
+    return $self->SUPER::getContent();
 }
 
 =item writeHTML()
@@ -1180,9 +1101,6 @@ sub writeHTML {
     }
 }
 
-
-
-
 =item processChecksum()
 
 Compute the <CHECKSUM/> field. This information is used by the server to
@@ -1200,7 +1118,7 @@ sub processChecksum {
     my $logger = $self->{logger};
     my $target = $self->{target};
 
-#To apply to $checksum with an OR
+    # to apply to $checksum with an OR
     my %mask = (
         HARDWARE        => 1,
         BIOS            => 2,
@@ -1242,7 +1160,6 @@ sub processChecksum {
         # be the new last_state
         $self->{current_state}->{$section}[0] = $hash;
     }
-
 
     $self->setHardware({CHECKSUM => $checksum});
 }

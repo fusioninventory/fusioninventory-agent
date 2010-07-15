@@ -18,8 +18,7 @@ use FusionInventory::Agent::Job::Logger;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Regexp;
-use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Agent::XML::Response::Prolog;
+use FusionInventory::Logger;
 
 sub main {
     my ($self) = @_;

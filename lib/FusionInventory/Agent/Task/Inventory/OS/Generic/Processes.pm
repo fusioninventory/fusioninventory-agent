@@ -45,7 +45,6 @@ sub doInventory {
     }
 
     while ($line = <$handle>) {
-
         next if $INPUT_LINE_NUMBER == 1;
         next unless $line =~
             /^

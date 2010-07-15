@@ -16,81 +16,110 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::AccountInfo;
 
-sub main {
-    my ($self) = @_;
+sub new {
+    my ($class, $params) = @_;
 
-    if ($self->{target}->{type} eq 'server') {
-        croak "No prologresp!" unless $self->{prologresp};
+    my $self = $class->SUPER::new($params);
 
-        if ($self->{config}->{force}) {
-            $self->{logger}->debug(
-                "Force enable, ignore prolog and run inventory."
-            );
-        } else {
-            my $parsedContent = $self->{prologresp}->getParsedContent();
-            if (
-                !$parsedContent ||
-                ! $parsedContent->{RESPONSE} ||
-                ! $parsedContent->{RESPONSE} eq 'SEND'
-            ) {
-                $self->{logger}->debug(
-                    "No inventory requested in the prolog, exiting"
-                );
-                return;
-            }
-        }
-    }
-
-    $self->{modules} = {};
-
-    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
+    $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
         target => $self->{target},
-        config => $self->{config},
         logger => $self->{logger},
         storage => $self->{storage},
     });
-    $self->{inventory} = $inventory;
+
+    $self->{modules} = {};
+
+     return $self;
+}
+
+sub main {
+    my ($self) = @_;
 
     $self->feedInventory();
 
-    if ($self->{target}->{type} eq 'stdout') {
-        $self->{inventory}->printXML();
-    } elsif ($self->{target}->{type} eq 'local') {
-        if ($self->{target}->{format} eq 'XML') {
-            $self->{inventory}->writeXML();
-        } else {
-            $self->{inventory}->writeHTML();
+    SWITCH: {
+        if ($self->{target}->{type} eq 'stdout') {
+            print $self->{inventory}->getContent();
+            last SWITCH;
         }
-    } elsif ($self->{target}->{type} eq 'server') {
 
-        my $accountinfo = $self->{target}->{accountinfo};
+        if ($self->{target}->{type} eq 'local') {
+            my $file =
+                $self->config->{local} .
+                "/" .
+                $self->target->{deviceid} .
+                '.ocs';
 
-        # Put ACCOUNTINFO values in the inventory
-        $accountinfo->setAccountInfo($self->{inventory});
+            if (open my $handle, '>', $file) {
+                if ($self->{target}->{format} eq 'XML') {
+                    print $handle $self->{inventory}->getContent();
+                } else {
+                    print $handle $self->{inventory}->getHTMLContent();
+                }
+                close $handle;
+                $self->{logger}->info("Inventory saved in $file");
+            } else {
+                warn "Can't open $file: $ERRNO"
+            }
+            last SWITCH;
+        }
+
+        if ($self->{target}->{type} eq 'server') {
+            croak "No prologresp!" unless $self->{prologresp};
 
         my $network = FusionInventory::Agent::Job::Network->new({
 #            logger => $self->{logger},
 #            config => $self->{config},
 #            target => $self->{target},
         });
+            if ($self->{config}->{force}) {
+                $self->{logger}->debug(
+                    "Force enable, ignore prolog and run inventory."
+                );
+            } else {
+                my $parsedContent = $self->{prologresp}->getParsedContent();
+                if (
+                    !$parsedContent ||
+                    ! $parsedContent->{RESPONSE} ||
+                    ! $parsedContent->{RESPONSE} eq 'SEND'
+                ) {
+                    $self->{logger}->debug(
+                        "No inventory requested in the prolog, exiting"
+                    );
+                    return;
+                }
+            }
 
-        my $response = $network->send({message => $inventory});
+            my $accountinfo = $self->{target}->{accountinfo};
 
-        return unless $response;
-        $inventory->saveLastState();
+            # Put ACCOUNTINFO values in the inventory
+            $accountinfo->setAccountInfo($self->{inventory});
 
-        my $parsedContent = $response->getParsedContent();
-        if (
-            $parsedContent &&
-            $parsedContent->{RESPONSE} &&
-            $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
-        ) {
-            $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
+            my $network = FusionInventory::Agent::Network->new({
+                logger => $self->{logger},
+                config => $self->{config},
+                target => $self->{target},
+            });
+
+            my $response = $network->send({message => $self->{inventory}});
+
+            return unless $response;
+            $self->{inventory}->saveLastState();
+
+            my $parsedContent = $response->getParsedContent();
+            if (
+                $parsedContent &&
+                $parsedContent->{RESPONSE} &&
+                $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
+            ) {
+                $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
+            }
+
+            last SWITCH;
         }
-
     }
 
 }
@@ -105,7 +134,6 @@ sub initModList {
     my @dirToScan;
     my @installed_mods;
     my @installed_files;
-
 
     # This is a workaround for PAR::Packer. Since it resets @INC
     # I can't find the backend modules to load dynamically. So
@@ -362,11 +390,6 @@ sub feedInventory {
     my ($self, $params) = @_;
 
     my $logger = $self->{logger};
-
-    if (!$self->{inventory}) {
-        croak 'Missing inventory parameter.';
-    }
-
     my $inventory = $self->{inventory};
 
     if (!keys %{$self->{modules}}) {

@@ -50,10 +50,6 @@ sub new {
 
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
-    # TODO: should be in Config.pm
-    if ($config->{logfile}) {
-        $config->{logger} .= ',File';
-    }
     if ($config->{help}) {
         $config->help();
         exit 1;
@@ -87,6 +83,7 @@ sub new {
         );
     }
 
+<<<<<<< HEAD
     if ($config->{nosoft} || $config->{nosoftware}) {
         $logger->info("the parameter --nosoft and --nosoftware are ".
             "deprecated and may be removed in a future release, ".
@@ -97,6 +94,12 @@ sub new {
     if (!-d $config->{'share-dir'}) {
         $logger->error("share-dir doesn't existe ".
             "(".$config->{'share-dir'}.")");
+=======
+    $logger->debug("base storage directory: $config->{basevardir}");
+
+    if (!-d $config->{'share-dir'}) {
+        $logger->error("share-dir doesn't existe $config->{'share-dir'}");
+>>>>>>> guillomovitch/master
     }
 
     my $hostname = hostname();
@@ -246,6 +249,9 @@ sub main {
                         target => $target,
                         token  => $rpc->getToken()
                     });
+
+                # ugly circular reference moved from Prolog::getContent() method
+                $target->{accountinfo}->setAccountInfo($prolog);
 
                 # TODO Don't mix settings and temp value
                 $prologresp = $network->send({message => $prolog});

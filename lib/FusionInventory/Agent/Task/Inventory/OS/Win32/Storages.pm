@@ -101,8 +101,6 @@ sub doInventory {
             });
 
 
-
-
     }
 
     foreach my $Properties (getWmiProperties('Win32_TapeDrive', qw/

@@ -5,7 +5,6 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 use Carp;
-use Data::Dumper;
 use XML::Simple;
 use XML::TreePP;
 use FusionInventory::Agent::XML::Query;
@@ -15,39 +14,15 @@ our @ISA = ('FusionInventory::Agent::XML::Query');
 sub new {
     my ($class, $params) = @_;
 
+    croak "No msg" unless $params->{msg};
+
     my $self = $class->SUPER::new($params);
 
     foreach (keys %{$params->{msg}}) {
         $self->{h}{$_} = $params->{msg}{$_};
     }
 
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-
-    croak "No msg" unless $params->{msg};
-
     return $self;
-}
-
-sub dump {
-    my $self = shift;
-    print Dumper($self->{h});
-}
-
-
-sub getContent {
-    my ($self, $args) = @_;
-
-    my $contentTOTO=XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl =>
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        SuppressEmpty => undef, NoAttr => 1, KeyAttr => [] );
-    print "XML::Simple ".$contentTOTO."\n";
-
-    my $tpp = XML::TreePP->new();
-    my $content= $tpp->write({ REQUEST => $self->{h} });
-
-    print "XML::TreePP ".$content."\n";
-    return $content;
 }
 
 1;

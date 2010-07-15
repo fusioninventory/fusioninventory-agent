@@ -3,8 +3,6 @@ package FusionInventory::Agent::XML::Response;
 use strict;
 use warnings;
 
-use Data::Dumper;
-
 use XML::TreePP;
 
 sub new {
@@ -22,16 +20,10 @@ sub new {
     };
     bless $self, $class;
 
-    $self->{logger}->debug(
-        '=BEGIN=SERVER RET======' .
-        Dumper($self->{content}) .
-        '=END=SERVER RET======'
-    );
-
     return $self;
 }
 
-sub getRawXML {
+sub getContent {
     my $self = shift;
 
     return $self->{content};
