@@ -38,12 +38,7 @@ sub doInventory {
             my $domain = Variant (VT_BYREF | VT_BSTR, '');
     
             $objItem->GetOwner($name, $domain);
-    
-    
-           if (Win32::GetOSName() ne 'Win7') {
-               $name = encode("UTF-8", $name);
-               $domain = encode("UTF-8", $domain);
-           }
+   
             $inventory->addUser({ LOGIN => $name, DOMAIN => $domain });
         }
     
