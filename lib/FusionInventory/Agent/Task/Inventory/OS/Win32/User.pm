@@ -33,13 +33,13 @@ sub doInventory {
 
         next unless $cmdLine;
  
-        if ($cmdLine =~ /\\Explorer\.exe/i) {
+        if ($cmdLine =~ /\\Explorer\.exe$/i) {
             my $name = Variant (VT_BYREF | VT_BSTR, '');
             my $domain = Variant (VT_BYREF | VT_BSTR, '');
     
             $objItem->GetOwner($name, $domain);
    
-            $inventory->addUser({ LOGIN => $name, DOMAIN => $domain });
+            $inventory->addUser({ LOGIN => $name->Get(), DOMAIN => $domain->Get() });
         }
     
     }

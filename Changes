@@ -40,6 +40,8 @@ Revision history for FusionInventory::Agent
        * Win32, set USBDEVICES/NAME
        * RPC: rewrite the thread management to reduce the memory consumption
          on Windows
+       * Win32: Users, we need to use Get() to retrieve Win32::OLE::Variant
+         object content
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
