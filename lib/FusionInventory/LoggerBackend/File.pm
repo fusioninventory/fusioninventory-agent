@@ -8,13 +8,8 @@ use English qw(-no_match_vars);
 sub new {
     my ($class, $params) = @_;
 
-    my $logfile = 
-        $params->{config}->{logdir} .
-        '/' .
-        $params->{config}->{logfile};
-
-    open my $handle, '>>', $logfile
-        or warn "Can't open $logfile: $ERRNO";
+    open my $handle, '>>', $params->{config}->{logfile},
+        or warn "Can't open $params->{config}->{logfile}: $ERRNO";
 
     my $self = {
         handle => $handle
