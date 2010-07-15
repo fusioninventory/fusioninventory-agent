@@ -9,7 +9,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $ports = parseDmidecode('/usr/sbin/dmidecode', '-|');
+    my $ports = parseDmidecode('dmidecode', '-|');
 
     return unless $ports;
 

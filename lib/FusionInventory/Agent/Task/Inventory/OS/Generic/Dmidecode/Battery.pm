@@ -28,7 +28,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $battery = parseDmidecode('/usr/sbin/dmidecode', '-|');
+    my $battery = parseDmidecode('dmidecode', '-|');
 
     $inventory->addBattery($battery);
 }
