@@ -63,9 +63,7 @@ sub getBattery {
         $battery->{VOLTAGE} = $1;
     }
 
-    foreach my $key (keys %$battery) {
-       delete $battery->{$key} if !defined $battery->{$key};
-    }
+    cleanUnknownValues($battery);
 
     return $battery;
 }

@@ -36,9 +36,7 @@ sub getPorts {
             TYPE        => $info->{'Port Type'},
         };
 
-        foreach my $key (keys %$port) {
-           delete $port->{$key} if !defined $port->{$key};
-        }
+        cleanUnknownValues($port);
 
         push @$ports, $port;
     }

@@ -44,9 +44,7 @@ sub getMemories {
             $memory->{CAPACITY} = $1;
         }
 
-       foreach my $key (keys %$memory) {
-           delete $memory->{$key} if !defined $memory->{$key};
-       }
+        cleanUnknownValues($memory);
 
         push @$memories, $memory;
     }

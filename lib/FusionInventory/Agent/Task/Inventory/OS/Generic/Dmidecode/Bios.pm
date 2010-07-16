@@ -72,13 +72,8 @@ sub getBiosHardware {
         $hardware->{VMSYSTEM} = 'Physical';
     }
 
-   foreach my $key (keys %$bios) {
-       delete $bios->{$key} if !defined $bios->{$key};
-   }
-
-   foreach my $key (keys %$hardware) {
-       delete $hardware->{$key} if !defined $hardware->{$key};
-   }
+    cleanUnknownValues($bios);
+    cleanUnknownValues($hardware);
 
     return $bios, $hardware;
 }

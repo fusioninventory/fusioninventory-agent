@@ -18,6 +18,7 @@ our @EXPORT = qw(
     getInfosFromDmidecode
     getIpDhcp
     compareVersion
+    cleanUnknownValues
     can_run
     can_load
 );
@@ -301,6 +302,14 @@ sub compareVersion {
             &&
             $minor >= $min_minor
         );
+}
+
+sub cleanUnknownValues {
+    my ($hash) = @_;
+
+    foreach my $key (keys %$hash) {
+       delete $hash->{$key} if !defined $hash->{$key};
+    }
 }
 
 sub can_run {

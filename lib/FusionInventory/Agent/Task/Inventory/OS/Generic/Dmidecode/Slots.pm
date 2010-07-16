@@ -36,9 +36,7 @@ sub getSlots {
             STATUS      => $info->{'Current Usage'},
         };
 
-        foreach my $key (keys %$slot) {
-           delete $slot->{$key} if !defined $slot->{$key};
-        }
+        cleanUnknownValues($slot);
 
         push @$slots, $slot;
     }
