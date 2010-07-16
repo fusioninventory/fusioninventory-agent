@@ -129,6 +129,9 @@ sub startTask {
     push @cmd, "--";
     push @cmd, $target->{vardir};
 
+    print "CMD: ". join(' ', @cmd);
+    print "\n";
+
     $self->{runningTask} = $self->start({
             name => $module,
             isTask => 1,
