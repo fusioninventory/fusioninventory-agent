@@ -61,7 +61,7 @@ sub start {
     $Data::Dumper::Terse = 1;
     $Data::Dumper::Varname='parameter',
 
-    print $stdin Data::Dumper({
+    print $stdin Dumper({
             # TODO
             #config => $config,
             #target => $target,
