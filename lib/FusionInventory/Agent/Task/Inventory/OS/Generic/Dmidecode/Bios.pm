@@ -20,7 +20,7 @@ sub doInventory {
 sub getBiosHardware {
     my ($file) = @_;
 
-    my $infos = getInfoFromDmidecode($file);
+    my $infos = getInfosFromDmidecode($file);
     my $bios_info    = $infos->{0}->[0];
     my $system_info  = $infos->{1}->[0];
     my $base_info    = $infos->{2}->[0];

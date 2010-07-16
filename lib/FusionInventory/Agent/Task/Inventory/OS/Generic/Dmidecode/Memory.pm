@@ -23,7 +23,7 @@ sub doInventory {
 sub getMemories {
     my ($file) = @_;
 
-    my $infos = getInfoFromDmidecode($file);
+    my $infos = getInfosFromDmidecode($file);
 
     return unless $infos->{17};
 

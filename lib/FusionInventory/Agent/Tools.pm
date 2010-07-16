@@ -15,7 +15,7 @@ our @EXPORT = qw(
     getFormatedDate
     getManufacturer
     getControllersFromLspci
-    getInfoFromDmidecode
+    getInfosFromDmidecode
     getIpDhcp
     compareVersion
     can_run
@@ -25,7 +25,7 @@ our @EXPORT = qw(
 memoize('can_run');
 memoize('getManufacturer');
 memoize('getControllersFromLspci');
-memoize('getInfoFromDmidecode');
+memoize('getInfosFromDmidecode');
 
 sub getFormatedLocalTime {
     my ($time) = @_;
@@ -150,7 +150,7 @@ sub _parseLspci {
     return $controllers;
 }
 
-sub getInfoFromDmidecode {
+sub getInfosFromDmidecode {
     my ($file) = @_;
 
     return $file ?
