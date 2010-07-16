@@ -98,11 +98,11 @@ sub main {
             # Put ACCOUNTINFO values in the inventory
             $accountinfo->setAccountInfo($self->{inventory});
 
-            my $network = FusionInventory::Agent::Network->new({
-                logger => $self->{logger},
-                config => $self->{config},
-                target => $self->{target},
-            });
+#            my $network = FusionInventory::Agent::Network->new({
+#                logger => $self->{logger},
+#                config => $self->{config},
+#                target => $self->{target},
+#            });
 
             my $response = $network->send({message => $self->{inventory}});
 
