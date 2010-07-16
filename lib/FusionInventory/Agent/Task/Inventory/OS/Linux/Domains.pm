@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Domains;
 use strict;
 use warnings;
 
+use Config;
 use Sys::Hostname;
 
 use English qw(-no_match_vars);
@@ -15,18 +16,21 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $domain = hostname();
     my %domain;
     my @dns_list;
     my $dns;
 
-    $domain =~ s/\..*//;
+    my $domain = $Config{mydomain};
+    $domain = `hostname -d` unless $domain;
+
+    chomp($domain);
 
     if (open my $handle, '<', '/etc/resolv.conf') {
         while(<$handle>){
             if (/^nameserver\s+(\S+)/i) {
                 push(@dns_list,$1);
             }
+            # Hackish... We should avoid that
             elsif (!$domain) {
                 $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
             }
