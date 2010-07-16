@@ -267,11 +267,12 @@ sub checkContent {
             "the parameter --remotedir is deprecated, and will be ignored\n";
     }
 
-    if ($self->{nosoft}) {
+    if ($self->{nosoft} || $self->{nosoftware}) {
         print STDERR
-            "the parameter --nosoft is deprecated and may be removed in a " .
-            "future release, please use --nosoftware instead.";
-        $self->{nosoftware} = 1
+            "the parameter --nosoft and --nosoftware are ".
+            "deprecated and may be removed in a future release, ".
+            "please use --no-software instead.\n";
+        $self->{'no-software'} = 1
     }
 
     if (!$self->{'share-dir'}) {

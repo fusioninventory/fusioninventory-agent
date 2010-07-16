@@ -82,23 +82,10 @@ sub new {
         );
     }
 
-<<<<<<< HEAD
-    if ($config->{nosoft} || $config->{nosoftware}) {
-        $logger->info("the parameter --nosoft and --nosoftware are ".
-            "deprecated and may be removed in a future release, ".
-            "please use --no-software instead.");
-        $config->{'no-software'} = 1
-    }
-
-    if (!-d $config->{'share-dir'}) {
-        $logger->error("share-dir doesn't existe ".
-            "(".$config->{'share-dir'}.")");
-=======
     $logger->debug("base storage directory: $config->{basevardir}");
 
     if (!-d $config->{'share-dir'}) {
         $logger->error("share-dir doesn't existe $config->{'share-dir'}");
->>>>>>> guillomovitch/master
     }
 
     my $hostname = hostname();
