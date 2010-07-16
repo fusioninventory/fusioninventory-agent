@@ -960,6 +960,16 @@ sub ConstructDataDeviceMultiple {
       }
       delete $HashDataSNMP->{ifPhysAddress};
    }
+   if (exists $HashDataSNMP->{ifaddr}) {
+      while ( ($object,$data) = each (%{$HashDataSNMP->{ifaddr}}) ) {
+         if ($data ne "") {
+            $object =~ s/$walkoid->{ifaddr}->{OID}//;
+            $object =~ s/^.//;
+             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IP} = $object;
+         }
+      }
+      delete $HashDataSNMP->{ifaddr};
+   }
    if (exists $HashDataSNMP->{portDuplex}) {
       while ( ($object,$data) = each (%{$HashDataSNMP->{portDuplex}}) ) {
          $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFPORTDUPLEX} = $data;
