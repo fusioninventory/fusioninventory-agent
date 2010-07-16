@@ -22,6 +22,8 @@ our @EXPORT = qw(
 );
 
 memoize('can_run');
+memoize('getManufacturer');
+memoize('getControllersFromLspci');
 
 sub getFormatedLocalTime {
     my ($time) = @_;
