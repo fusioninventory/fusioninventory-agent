@@ -212,22 +212,25 @@ sub server {
    } 
     $logger->info("RPC service started at: ". $daemon->url);
 
-    my @stack;
+# Since perl 5.10, threads::joinable is avalaible
+    my $joinableAvalaible = eval 'defined(threads::joinable) && 1';
+
     while (1) {
-        # Limit to 10 the max number of running thread
-        LIMIT: while (@stack > 10) {
-            foreach (0..@stack-1) {
-                my $thr = $stack[$_];
-                # is_joinable is not avalaible on perl 5.8
-                if (eval {$thr->is_joinable();1;}) {
-                    $thr->join();
-                    splice(@stack, $_, 1);
-                    last LIMIT;
-                }
-            }
-            # This is the plan B
-            my $thr = shift(@stack);
-            $thr->join();
+
+        print "stack:".int(threads->list())."\n";
+        if ($joinableAvalaible) {
+            my @threads = threads->list(threads::joinable);
+            $_->join() foreach @threads;
+        }
+
+        # Limit the max number of running thread
+        # On Windows, it's about 15MB per thread! We need to keep the
+        # number of threads low.
+        if (!$joinableAvalaible || threads->list() > 3) {
+            foreach my $thread (threads->list()) {
+                next if $thread->tid == 1; # This is me!
+                $thread->join;
+            };
         }
         my ($c, $socket) = $daemon->accept;
         next unless $socket;
@@ -236,8 +239,7 @@ sub server {
 # HTTP::Daemon::get_request is not thread
 # safe and must be called from the master thread
         my $r = $c->get_request;
-        my $thr = threads->create(\&handler, $self, $c, $r, $clientIp);
-        push @stack, $thr;
+        threads->create(\&handler, $self, $c, $r, $clientIp);
     }
 }
 

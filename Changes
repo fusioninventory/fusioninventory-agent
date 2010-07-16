@@ -38,11 +38,14 @@ Revision history for FusionInventory::Agent
        * Win32, set the BIOS/TYPE field
        * Win32, storage: clean up. Reduce the number of hdparm call.
        * Win32, set USBDEVICES/NAME
+       * RPC: rewrite the thread management to reduce the memory consumption
+         on Windows
+       * Win32: Users, we need to use Get() to retrieve Win32::OLE::Variant
+         object content
        * Add more test scripts: xml-query-inventory.t,
          xml-query-simplemessage.t, t/xml-response.t
        * Fix a typo scanhomedirs → scan-homedirs
        * HP-UX: add HP-UX VM support (Sébastien PRUD'HOMME)
-
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
