@@ -109,11 +109,6 @@ sub createUA {
             # Crypt::SSLeay do the proxy connexion itself with
             # $ENV{HTTPS_PROXY}.
         }
-
-  if ($self->{config}->{proxy}) {
-        $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
-    }  else {
-        $self->{ua}->env_proxy;
     }
 
     # Connect to server
