@@ -4,6 +4,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub parseDate {
     my $string = shift;
 
@@ -28,53 +30,42 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $battery = parseDmidecode('dmidecode', '-|');
+    my $battery = getBattery();
 
     $inventory->addBattery($battery);
 }
 
-sub parseDmidecode {
-    my ($file, $mode) = @_;
+sub getBattery {
+    my ($file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
+    my $infos = getInfoFromDmidecode($file);
+
+    return unless $infos->{22};
+
+    my $info    = $infos->{22}->[0];
+
+    my $battery = {
+        NAME         => $info->{'Name'},
+        MANUFACTURER => $info->{'Manufacturer'},
+        SERIAL       => $info->{'Serial Number'},
+        CHEMISTRY    => $info->{'Chemistry'},
+    };
+
+    if ($info->{'Manufacture Date'}) {
+        $battery->{DATE} = parseDate($info->{'Manufacture Date'});
     }
 
-    my ($battery, $type);
-
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /DMI type (\d+)/) {
-            $type = $1;
-            next;
-        }
-
-        next unless defined $type;
-
-        if ($type == 22) {
-            if($line =~ /^\s+Name: (.*\S)/) {
-                $battery->{NAME} = $1;
-            } elsif ($line =~ /^\s+Capacity: (\d+) m(W|A)h$/) {
-                $battery->{CAPACITY} = $1;
-            } elsif ($line =~/^\s+Manufacturer: (.*\S)/) {
-                $battery->{MANUFACTURER} = $1;
-            } elsif ($line =~ /^\s+Serial Number: (.*\S)/) {
-                $battery->{SERIAL} = $1
-            } elsif ($line =~ /^\s+Manufacture Date: (.*\S)/) {
-                $battery->{DATE} = parseDate($1);
-            } elsif ($line =~ /^\s+Voltage: (\d+) mV$/) {
-                $battery->{VOLTAGE} = $1;
-            } elsif ($line =~ /^\s+Chemistry: (.*\S)/) {
-                $battery->{CHEMISTRY} = $1;
-            }
-            next;
-        }
-
+    if ($info->{Capacity} && $info->{Capacity} =~ /(\d+) \s m(W|A)h$/x) {
+        $battery->{CAPACITY} = $1;
     }
-    close $handle;
+
+    if ($info->{Voltage} && $info->{Voltage} =~ /(\d+) \s mV$/x) {
+        $battery->{VOLTAGE} = $1;
+    }
+
+    foreach my $key (keys %$battery) {
+       delete $battery->{$key} if !defined $battery->{$key};
+    }
 
     return $battery;
 }

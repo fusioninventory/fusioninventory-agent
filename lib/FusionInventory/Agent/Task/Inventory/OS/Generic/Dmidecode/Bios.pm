@@ -5,105 +5,80 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my ($bios, $hardware) = parseDmidecode("dmidecode", '-|');
+    my ($bios, $hardware) = getBiosHardware();
 
     $inventory->setBios($bios);
     $inventory->setHardware($hardware) if $hardware;
 }
 
-sub parseDmidecode {
-    my ($file, $mode) = @_;
+sub getBiosHardware {
+    my ($file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
+    my $infos = getInfoFromDmidecode($file);
+    my $bios_info    = $infos->{0}->[0];
+    my $system_info  = $infos->{1}->[0];
+    my $base_info    = $infos->{2}->[0];
+    my $chassis_info = $infos->{3}->[0];
+    my $cpu_info     = $infos->{4}->[0];
+
+    my $bios = {
+        BMANUFACTURER => $bios_info->{'Vendor'},
+        BDATE         => $bios_info->{'Release Date'},
+        BVERSION      => $bios_info->{'Version'},
+        ASSETTAG      => $chassis_info->{'Asset Tag'}
+    };
+
+    $bios->{SMODEL} =
+        $system_info->{'Product'}      ||
+        $system_info->{'Product Name'} ||
+        $base_info->{'Product Name'};
+
+    $bios->{SMANUFACTURER} =
+        $system_info->{'Manufacturer'} ||
+        $system_info->{'Vendor'}       ||
+        $base_info->{'Manufacturer'};
+
+    $bios->{SSN} =
+        $system_info->{'Serial Number'} ||
+        $base_info->{'Serial Number'};
+
+    if (!$bios->{SSN} && $cpu_info->{'ID'}) {
+        $bios->{SSN} = $cpu_info->{'ID'};
+        $bios->{SSN} =~ s/ /-/g;
     }
 
-    my ($bios, $hardware, $type);
+    my $hardware = {
+        UUID => $system_info->{'UUID'}
+    };
 
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /DMI type (\d+)/) {
-            $type = $1;
-            next;
-        }
-
-        next unless defined $type;
-
-        if ($type == 0) {
-            # BIOS values
-
-            if ($line =~ /^\s+Vendor: (.*\S)/) {
-                $bios->{BMANUFACTURER} = $1;
-                if ($bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/) {
-                    $hardware->{VMSYSTEM} = 'QEMU';
-                } elsif ($bios->{BMANUFACTURER} =~ /VirtualBox/) {
-                    $hardware->{VMSYSTEM} = 'VirtualBox';
-                } elsif ($bios->{BMANUFACTURER} =~ /^Xen/) {
-                    $hardware->{VMSYSTEM} = 'Xen';
-                }
-            } elsif ($line =~ /^\s+Release Date: (.*\S)/) {
-                $bios->{BDATE} = $1
-            } elsif ($line =~ /^\s+Version: (.*\S)/) {
-                $bios->{BVERSION} = $1
-            }
-            next;
-        }
-
-        if ($type == 1) {
-            if ($line =~ /^\s+Serial Number: (.*\S)/) {
-                $bios->{SSN} = $1
-            } elsif ($line =~ /^\s+Product(?: Name)?: (.*\S)/) {
-                $bios->{SMODEL} = $1;
-                if ($bios->{SMODEL} =~ /(VMware|Virtual Machine)/) {
-                    $hardware->{VMSYSTEM} = $1;
-                }
-            } elsif ($line =~ /^\s+(?:Manufacturer|Vendor): (.*\S)/) {
-                $bios->{SMANUFACTURER} = $1
-            } elsif ($line =~ /^\s+UUID: (.*\S)/) {
-                $hardware->{UUID} = $1;
-            }
-            next;
-        }
-
-        if ($type == 2) {
-            # Failback on the motherbord
-            if ($line =~ /^\s+Serial Number: (.*\S)/) {
-                $bios->{SSN} = $1 if !$bios->{SSN};
-            } elsif ($line =~ /^\s+Product Name: (.*\S)/) {
-                $bios->{SMODEL} = $1 if !$bios->{SMODEL};
-            } elsif ($line =~ /^\s+Manufacturer: (.*\S)/) {
-                $bios->{SMANUFACTURER} = $1
-                if !$bios->{SMANUFACTURER};
-            }
-        }
-
-        if ($type == 3) {
-            if ($line =~ /^\s+Asset Tag: (.*\S)/) {
-                $bios->{ASSETTAG} = $1 eq 'Not Specified'  ? '' : $1;
-            }
-            next;
-        }
-
-        if ($type == 4) {
-            # Some bioses don't provide a serial number so I check for CPU ID
-            # (e.g: server from dedibox.fr)
-            if ($line =~ /^\s+ID: (.*\S)/) {
-                if (!$bios->{SSN}) {
-                    $bios->{SSN} = $1;
-                    $bios->{SSN} =~ s/\ /-/g;
-                }
-            }
-            next;
-        }
+    if ($bios->{BMANUFACTURER}) {
+        $hardware->{VMSYSTEM} =
+            $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/ ? 'QEMU'       :
+            $bios->{BMANUFACTURER} =~ /VirtualBox/   ? 'VirtualBox' :
+            $bios->{BMANUFACTURER} =~ /^Xen/         ? 'Xen'        :
+                                                       'Physical'   ;
+    } elsif ($bios->{SMODEL}) {
+        $hardware->{VMSYSTEM} =
+            $bios->{SMODEL} =~ /VMware/          ? 'VMWare'          :
+            $bios->{SMODEL} =~ /Virtual Machine/ ? 'Virtual Machine' :
+                                                   'Physical'        ;
+    } else {
+        $hardware->{VMSYSTEM} = 'Physical';
     }
-    close $handle;
+
+   foreach my $key (keys %$bios) {
+       delete $bios->{$key} if !defined $bios->{$key};
+   }
+
+   foreach my $key (keys %$hardware) {
+       delete $hardware->{$key} if !defined $hardware->{$key};
+   }
 
     return $bios, $hardware;
 }

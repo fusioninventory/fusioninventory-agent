@@ -15,6 +15,7 @@ our @EXPORT = qw(
     getFormatedDate
     getManufacturer
     getControllersFromLspci
+    getInfoFromDmidecode
     getIpDhcp
     compareVersion
     can_run
@@ -146,6 +147,59 @@ sub _parseLspci {
     close $handle;
 
     return $controllers;
+}
+
+sub getInfoFromDmidecode {
+    my ($file) = @_;
+
+    return $file ?
+        _parseDmidecode($file, '<')       :
+        _parseDmidecode('dmidecode', '-|');
+}
+
+sub _parseDmidecode {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my ($info, $block, $type);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /DMI type (\d+)/) {
+            # start of block
+
+            # push previous block in list
+            if ($block) {
+                push(@{$info->{$type}}, $block);
+                undef $block;
+            }
+
+            # switch type
+            $type = $1;
+
+            next;
+        }
+
+        next unless defined $type;
+
+        next unless $line =~ /^\s+ ([^:]+) : \s (.*\S)/x;
+
+        next if
+            $2 eq 'N/A'           ||
+            $2 eq 'Not Specified' ||
+            $2 eq 'Not Present'   ;
+
+        $block->{$1} = $2;
+    }
+    close $handle;
+
+    return $info;
 }
 
 sub getIpDhcp {

@@ -143,6 +143,8 @@ my %tests = (
     ],
     'rhel-2.1' => [
         {
+        },
+        {
             DESCRIPTION => '32bit PCI'
         },
         {
@@ -300,6 +302,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::parseDmidecode($file, '<');
+    my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::getSlots($file);
     is_deeply($slots, $tests{$test}, $test);
 }

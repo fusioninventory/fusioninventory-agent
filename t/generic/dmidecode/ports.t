@@ -56,7 +56,6 @@ my %tests = (
             CAPTION     => 'PS/2'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Other'
@@ -182,61 +181,51 @@ my %tests = (
             CAPTION     => 'None'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'Video Port',
             CAPTION     => 'DB-15 female'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'Parallel Port PS/2',
             CAPTION     => 'DB-25 female'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'Network Port',
             CAPTION     => 'RJ-45'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'Serial Port 16550A Compatible',
             CAPTION     => 'DB-9 male'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'Keyboard Port',
             CAPTION     => 'PS/2'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'Mouse Port',
             CAPTION     => 'PS/2'
@@ -381,37 +370,31 @@ my %tests = (
             CAPTION     => 'PS/2'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Other'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Other'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'Audio Port',
             CAPTION     => 'None'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'Network Port',
             CAPTION     => 'RJ-45'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'SCSI Wide',
             CAPTION     => 'None'
         },
         {
-            NAME        => 'Not Specified',
             DESCRIPTION => 'None',
             TYPE        => 'SCSI Wide',
             CAPTION     => 'None'
@@ -523,6 +506,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::parseDmidecode($file, '<');
+    my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::getPorts($file);
     is_deeply($ports, $tests{$test}, $test);
 }

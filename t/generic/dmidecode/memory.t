@@ -225,6 +225,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::parseDmidecode($file, '<');
+    my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::getMemories($file);
     is_deeply($memories, $tests{$test}, $test);
 }

@@ -5,11 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $slots = parseDmidecode('dmidecode', '-|');
+    my $slots = getPorts();
 
     return unless $slots;
 
@@ -18,44 +20,28 @@ sub doInventory {
     }
 }
 
-sub parseDmidecode {
-    my ($file, $mode) = @_;
+sub getSlots {
+    my ($file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $infos = getInfoFromDmidecode($file);
 
-    my ($slots, $slot, $type);
+    return unless $infos->{9};
 
-    while (my $line = <$handle>) {
-        chomp $line;
+    my $slots;
+    foreach my $info (@{$infos->{9}}) {
+        my $slot = {
+            DESCRIPTION => $info->{'Type'},
+            DESIGNATION => $info->{'ID'},
+            NAME        => $info->{'Designation'},
+            STATUS      => $info->{'Current Usage'},
+        };
 
-        if ($line =~ /DMI type (\d+)/) {
-            $type = $1;
-            if ($slot) {
-                push @$slots, $slot;
-                undef $slot;
-            }
-            next;
+        foreach my $key (keys %$slot) {
+           delete $slot->{$key} if !defined $slot->{$key};
         }
 
-        next unless defined $type;
-
-        if ($type == 9) {
-             if ($line =~ /^\s+Type: (.*\S)/) {
-                $slot->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+ID: (.*\S)/) {
-                $slot->{DESIGNATION} = $1;
-            } elsif ($line =~ /^\s+Designation: (.*\S)/) {
-                $slot->{NAME} = $1;
-            } elsif ($line =~ /^\s+Current Usage: (.*\S)/) {
-                $slot->{STATUS} = $1;
-            }
-        }
+        push @$slots, $slot;
     }
-    close $handle;
 
     return $slots;
 }

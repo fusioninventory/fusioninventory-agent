@@ -12,12 +12,11 @@ my %tests = (
             SSN           => 'A9-06-00-00-FF-BB-C9-A7',
         },
         hardware => {
-            UUID => 'Not Present'
+            VMSYSTEM => 'Physical'
         }
     },
     'linux-2.6' => {
         bios => {
-            ASSETTAG      => '',
             SMANUFACTURER => 'Dell Inc.',
             SMODEL        => 'Latitude D610',
             SSN           => 'D8XD62J',
@@ -26,7 +25,8 @@ my %tests = (
             BDATE         => '10/02/2005'
         },
         hardware => {
-            UUID => '44454C4C-3800-1058-8044-C4C04F36324A'
+            UUID     => '44454C4C-3800-1058-8044-C4C04F36324A',
+            VMSYSTEM => 'Physical'
         }
     },
     'openbsd-3.7' => {
@@ -38,10 +38,12 @@ my %tests = (
             BVERSION      => '4.51 PG',
             BDATE         => '02/11/99'
         },
+        hardware => {
+            VMSYSTEM => 'Physical'
+        }
     },
     'openbsd-3.8' => {
         bios => {
-            ASSETTAG      => '',
             SMANUFACTURER => 'Dell Computer Corporation',
             SMODEL        => 'PowerEdge 1800',
             SSN           => '2K1012J',
@@ -50,18 +52,21 @@ my %tests = (
             BDATE         => '09/21/2005'
         },
         hardware => {
-            UUID => '44454C4C-4B00-1031-8030-B2C04F31324A'
+            UUID     => '44454C4C-4B00-1031-8030-B2C04F31324A',
+            VMSYSTEM => 'Physical'
         }
     },
     'rhel-2.1' => {
         bios => {
-            ASSETTAG      => 'N/A',
             SMANUFACTURER => 'IBM',
             SMODEL        => '-[84803AX]-',
             SSN           => 'KBKGW40',
             BMANUFACTURER => 'IBM',
             BVERSION      => '-[JPE130AUS-1.30]-'
         },
+        hardware => {
+            VMSYSTEM => 'Physical'
+        }
     },
     'rhel-3.4' => {
         bios => {
@@ -74,7 +79,8 @@ my %tests = (
             BDATE         => '08/25/2005'
         },
         hardware => {
-            UUID => 'A8346631-8E88-3AE3-898C-F3AC9F61C316'
+            UUID     => 'A8346631-8E88-3AE3-898C-F3AC9F61C316',
+            VMSYSTEM => 'Physical'
         }
     },
     'rhel-4.3' => {
@@ -87,7 +93,8 @@ my %tests = (
             BDATE         => '03/14/2006'
         },
         hardware => {
-            UUID => '0339D4C3-44C0-9D11-A20E-85CDC42DE79C'
+            UUID => '0339D4C3-44C0-9D11-A20E-85CDC42DE79C',
+            VMSYSTEM => 'Physical'
         }
     },
     'rhel-4.6' => {
@@ -100,7 +107,8 @@ my %tests = (
             BDATE         => '01/24/2008'
         },
         hardware => {
-            UUID => '34313236-3435-4742-3838-313448453753'
+            UUID => '34313236-3435-4742-3838-313448453753',
+            VMSYSTEM => 'Physical'
         }
     },
     'windows' => {
@@ -114,7 +122,8 @@ my %tests = (
             ASSETTAG      => '0000000000',
         },
         hardware => {
-            UUID => '7FB4EA00-07CB-18F3-8041-CAD582735244'
+            UUID     => '7FB4EA00-07CB-18F3-8041-CAD582735244',
+            VMSYSTEM => 'Physical'
         }
     }
 );
@@ -123,7 +132,7 @@ plan tests => (scalar keys %tests) * 2;
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::parseDmidecode($file, '<');
+    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::getBiosHardware($file);
     is_deeply($bios, $tests{$test}->{bios}, $test);
     is_deeply($hardware, $tests{$test}->{hardware}, $test);
 }

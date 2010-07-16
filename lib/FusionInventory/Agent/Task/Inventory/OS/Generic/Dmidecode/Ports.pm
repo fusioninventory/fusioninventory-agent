@@ -5,11 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $ports = parseDmidecode('dmidecode', '-|');
+    my $ports = getPorts();
 
     return unless $ports;
 
@@ -18,44 +20,28 @@ sub doInventory {
     }
 }
 
-sub parseDmidecode {
-    my ($file, $mode) = @_;
+sub getPorts {
+    my ($file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $infos = getInfoFromDmidecode($file);
 
-    my ($ports, $port, $type);
+    return unless $infos->{8};
 
-     while (my $line = <$handle>) {
-        chomp $line;
+    my $ports;
+    foreach my $info (@{$infos->{8}}) {
+        my $port = {
+            CAPTION     => $info->{'External Connector Type'},
+            DESCRIPTION => $info->{'Internal Connector Type'},
+            NAME        => $info->{'Internal Reference Designator'},
+            TYPE        => $info->{'Port Type'},
+        };
 
-        if ($line =~ /DMI type (\d+)/) {
-            $type = $1;
-            if ($port) {
-                push @$ports, $port;
-                undef $port;
-            }
-            next;
+        foreach my $key (keys %$port) {
+           delete $port->{$key} if !defined $port->{$key};
         }
 
-        next unless defined $type;
-
-        if ($type == 8) {
-            if ($line =~ /^\s+External Connector Type: (.*\S)/) {
-                $port->{CAPTION} = $1;
-            } elsif ($line =~ /^\s+Internal Connector Type: (.*\S)/) {
-                $port->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+Internal Reference Designator: (.*\S)/) {
-                $port->{NAME} = $1;
-            } elsif ($line =~ /^\s+Port Type: (.*\S)/) {
-                $port->{TYPE} = $1;
-            }
-        }
+        push @$ports, $port;
     }
-    close $handle;
 
     return $ports;
 }

@@ -30,6 +30,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $battery = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery::parseDmidecode($file, '<');
+    my $battery = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery::getBattery($file);
     is_deeply($battery, $tests{$test}, $test);
 }

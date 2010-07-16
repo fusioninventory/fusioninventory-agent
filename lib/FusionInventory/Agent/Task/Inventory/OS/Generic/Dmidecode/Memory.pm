@@ -5,11 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $memories = parseDmidecode('dmidecode', '-|');
+    my $memories = getMemories();
 
     return unless $memories;
 
@@ -18,51 +20,36 @@ sub doInventory {
     }
 }
 
-sub parseDmidecode {
-    my ($file, $mode) = @_;
+sub getMemories {
+    my ($file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $infos = getInfoFromDmidecode($file);
 
-    my ($memories, $memory, $type);
-    my $slot = 0;
+    return unless $infos->{17};
 
-    while (my $line = <$handle>) {
-        chomp $line;
+    my ($memories, $slot);
+    foreach my $info (@{$infos->{17}}) {
+        $slot++;
 
-        if ($line =~ /DMI type (\d+)/) {
-            $type = $1;
-            if ($memory) {
-                $memory->{NUMSLOTS} = ++$slot;
-                push @$memories, $memory;
-                undef $memory;
-            }
-            next;
+        my $memory = {
+            NUMSLOTS     => $slot,
+            DESCRIPTION  => $info->{'Form Factor'},
+            CAPTION      => $info->{'Locator'},
+            SPEED        => $info->{'Speed'},
+            TYPE         => $info->{'Type'},
+            SERIALNUMBER => $info->{'Serial Number'}
+        };
+
+        if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s MB$/x) {
+            $memory->{CAPACITY} = $1;
         }
 
-        next unless defined $type;
+       foreach my $key (keys %$memory) {
+           delete $memory->{$key} if !defined $memory->{$key};
+       }
 
-        if ($type == 17) {
-            if ($line =~ /^\s+Size: (\d+)\s+MB$/) {
-                $memory->{CAPACITY} = $1;
-            } elsif ($line =~ /^\s+Form Factor: (.*\S)/) {
-                $memory->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+Locator: (.*\S)/) {
-                $memory->{CAPTION} = $1;
-            } elsif ($line =~ /^\s+Speed: (.*\S)/) {
-                $memory->{SPEED} = $1;
-            } elsif ($line =~ /^\s+Type: (.*\S)/) {
-                $memory->{TYPE} = $1;
-            } elsif ($line =~ /^\s+Serial Number: (.*\S)/) {
-                $memory->{SERIALNUMBER} = $1;
-            }
-        }
-
+        push @$memories, $memory;
     }
-    close $handle;
 
     return $memories;
 }
