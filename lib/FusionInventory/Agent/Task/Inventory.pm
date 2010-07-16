@@ -16,10 +16,8 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::AccountInfo;
 
-sub new {
-    my ($class, $params) = @_;
-
-    my $self = $class->SUPER::new($params);
+sub main {
+    my $self = __PACKAGE__->SUPER::new();
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         # TODO, check if the accoun{info,config} are needed in localmode
@@ -32,11 +30,6 @@ sub new {
 
     $self->{modules} = {};
 
-     return $self;
-}
-
-sub main {
-    my ($self) = @_;
 
     $self->feedInventory();
 
