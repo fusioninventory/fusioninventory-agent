@@ -16,13 +16,23 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $controllers = parseLspci('lspci -vvv -nn', '-|');
+    my $controllers = getExtentedControllers($logger, $config->{'share-dir'});
 
     return unless $controllers;
 
     foreach my $controller (@$controllers) {
+        $inventory->addController($controller);
+    }
+}
+
+sub getExtentedControllers {
+    my ($logger, $sharedir, $file) = @_;
+
+    my $controllers = getControllersFromLspci($file);
+
+    foreach my $controller (@$controllers) {
         my $info = getInfoFromPciIds ({
-            config         => $config,
+            sharedir       => $sharedir,
             logger         => $logger,
             pciclass       => $controller->{PCICLASS},
             pciid          => $controller->{PCIID},
@@ -32,58 +42,7 @@ sub doInventory {
         $controller->{TYPE}         = $info->{fullClassName},
         $controller->{NAME}         = $info->{fullName} if $info->{fullName};
         $controller->{MANUFACTURER} = $info->{vendorName} if $info->{vendorName};
-        $inventory->addController($controller);
     }
-}
-
-sub parseLspci {
-    my ($file, $mode) = @_;
-
-     my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-    my ($controllers, $controller);
-
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /^
-                (\S+) \s                     # slot
-                ([^[]+) \s                   # name
-                \[([a-f\d]+)\]: \s           # class
-                ([^[]+) \s                   # manufacturer
-                \[([a-f\d]+:[a-f\d]+)\]      # id
-                (?:\s \(rev \s (\d+)\))?     # optional version
-                (?:\s \(prog-if \s [^)]+\))? # optional detail
-                /x) {
-
-            $controller = {
-                PCISLOT      => $1,
-                NAME         => $2,
-                PCICLASS     => $3,
-                MANUFACTURER => $4,
-                PCIID        => $5,
-                VERSION      => $6
-            };
-            next;
-        }
-
-        next unless defined $controller;
-
-         if ($line =~ /^$/) {
-            push(@$controllers, $controller);
-            undef $controller;
-        } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
-            $controller->{DRIVER} = $1;
-        } elsif ($line =~ /^\tSubsystem: ([a-f\d]{4}:[a-f\d]{4})/) {
-            $controller->{PCISUBSYSTEMID} = $1;
-        }
-    }
-
-    close $handle;
 
     return $controllers;
 }
@@ -92,7 +51,7 @@ sub parseLspci {
 sub getInfoFromPciIds {
     my ($params) = @_;
 
-    my $config = $params->{config};
+    my $sharedir = $params->{sharedir};
     my $logger = $params->{logger};
     my $pciclass = $params->{pciclass};
     my $pciid = $params->{pciid};
@@ -116,8 +75,8 @@ sub getInfoFromPciIds {
 
     my %ret;
     my %current;
-    if (!open PCIIDS, "<",$config->{'share-dir'}.'/pci.ids') {
-        $logger->error("Failed to open ".$config->{'share-dir'}.'/pci.ids');
+    if (!open PCIIDS, "<", "$sharedir/pci.ids") {
+        $logger->error("Failed to open $sharedir/pci.ids");
         return;
     }
     foreach (<PCIIDS>) {

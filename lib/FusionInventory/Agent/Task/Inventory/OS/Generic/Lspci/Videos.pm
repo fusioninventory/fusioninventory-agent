@@ -5,12 +5,14 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $videos = parseLspci('/usr/bin/lspci', '-|');
-
+    my $videos = getVideoControllers();
+    
     return unless $videos;
 
     foreach my $video (@$videos) {
@@ -18,26 +20,18 @@ sub doInventory {
     }
 }
 
-sub parseLspci {
-    my ($file, $mode) = @_;
+sub getVideoControllers {
+     my ($file) = @_;
 
-     my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
+    my $controllers = getControllersFromLspci($file);
     my $videos;
 
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        next unless $line =~ /graphics|vga|video/i;
-        next unless $line =~ /^\S+ \s ([^:]+) : \s (.+?) (?:\(([^)]+)\))?$/x;
-        push(@$videos, {
-            CHIPSET => $1,
-            NAME    => $2,
-        });
+    foreach my $controller (@$controllers) {
+        next unless $controller->{NAME} =~ /graphics|vga|video|display/i;
+        push @$videos, {
+            CHIPSET => $controller->{NAME},
+            NAME    => $controller->{MANUFACTURER},
+        };
     }
 
     return $videos;

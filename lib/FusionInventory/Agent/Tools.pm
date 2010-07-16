@@ -14,6 +14,7 @@ our @EXPORT = qw(
     getFormatedGmTime
     getFormatedDate
     getManufacturer
+    getControllersFromLspci
     getIpDhcp
     compareVersion
     can_run
@@ -83,6 +84,66 @@ sub getManufacturer {
     }
 
     return $model;
+}
+
+sub getControllersFromLspci {
+    my ($file) = @_;
+
+    return $file ?
+        _parseLspci($file, '<')            :
+        _parseLspci('lspci -vvv -nn', '-|');
+}
+
+sub _parseLspci {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my ($controllers, $controller);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /^
+                (\S+) \s                     # slot
+                ([^[]+) \s                   # name
+                \[([a-f\d]+)\]: \s           # class
+                ([^[]+) \s                   # manufacturer
+                \[([a-f\d]+:[a-f\d]+)\]      # id
+                (?:\s \(rev \s (\d+)\))?     # optional version
+                (?:\s \(prog-if \s [^)]+\))? # optional detail
+                /x) {
+
+            $controller = {
+                PCISLOT      => $1,
+                NAME         => $2,
+                PCICLASS     => $3,
+                MANUFACTURER => $4,
+                PCIID        => $5,
+                VERSION      => $6
+            };
+            next;
+        }
+
+        next unless defined $controller;
+
+         if ($line =~ /^$/) {
+            push(@$controllers, $controller);
+            undef $controller;
+        } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
+            $controller->{DRIVER} = $1;
+        } elsif ($line =~ /^\tSubsystem: ([a-f\d]{4}:[a-f\d]{4})/) {
+            $controller->{PCISUBSYSTEMID} = $1;
+        }
+    }
+
+    close $handle;
+
+    return $controllers;
 }
 
 sub getIpDhcp {

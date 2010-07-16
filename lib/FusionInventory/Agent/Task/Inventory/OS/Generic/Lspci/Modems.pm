@@ -5,11 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $modems = parseLspci('/usr/bin/lspci', '-|');
+    my $modems = getModemControllers();
 
     return unless $modems;
 
@@ -18,26 +20,18 @@ sub doInventory {
     }
 }
 
-sub parseLspci {
-    my ($file, $mode) = @_;
+sub getModemControllers {
+    my ($file) = @_;
 
-     my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
+    my $controllers = getControllersFromLspci($file);
     my $modems;
 
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        next unless $line =~ /modem/i;
-        next unless $line =~ /^\S+ \s ([^:]+): \s (.+)$/x;
-        push(@$modems, {
-            DESCRIPTION => $1,
-            NAME        => $2
-        });
+    foreach my $controller (@$controllers) {
+        next unless $controller->{NAME} =~ /modem/i;
+        push @$modems, {
+            DESCRIPTION => $controller->{NAME},
+            NAME        => $controller->{MANUFACTURER},
+        };
     }
 
     return $modems;

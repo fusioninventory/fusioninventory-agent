@@ -5,11 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $sounds = parseLspci('/usr/bin/lspci', '-|');
+    my $sounds = getSoundControllers();
 
     return unless $sounds;
 
@@ -18,27 +20,19 @@ sub doInventory {
     }
 }
 
-sub parseLspci {
-    my ($file, $mode) = @_;
+sub getSoundControllers {
+    my ($file) = @_;
 
-     my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
+    my $controllers = getControllersFromLspci($file);
     my $sounds;
 
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        next unless $line =~ /audio/i;
-        next unless $line =~ /^\S+ \s ([^:]+) : \s (.+?) (?:\(([^)]+)\))?$/x;
-        push(@$sounds, {
-            NAME         => $1,
-            MANUFACTURER => $2,
-            DESCRIPTION  => $3
-        });
+    foreach my $controller (@$controllers) {
+        next unless $controller->{NAME} =~ /audio/i;
+        push @$sounds, {
+            NAME         => $controller->{NAME},
+            MANUFACTURER => $controller->{MANUFACTURER},
+            DESCRIPTION  => "rev $controller->{VERSION}",
+        };
     }
 
     return $sounds;
