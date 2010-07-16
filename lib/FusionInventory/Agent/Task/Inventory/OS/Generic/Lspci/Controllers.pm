@@ -6,6 +6,9 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
+my $vendors;
+my $classes;
+
 sub isInventoryEnabled {
     return can_run("lspci");
 }
@@ -16,7 +19,8 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $controllers = getExtentedControllers($logger, $config->{'share-dir'});
+    loadPciIds($logger, $config->{'share-dir'});
+    my $controllers = getExtentedControllers();
 
     return unless $controllers;
 
@@ -26,123 +30,89 @@ sub doInventory {
 }
 
 sub getExtentedControllers {
-    my ($logger, $sharedir, $file) = @_;
+    my ($file) = @_;
 
     my $controllers = getControllersFromLspci($file);
 
     foreach my $controller (@$controllers) {
-        my $info = getInfoFromPciIds ({
-            sharedir       => $sharedir,
-            logger         => $logger,
-            pciclass       => $controller->{PCICLASS},
-            pciid          => $controller->{PCIID},
-            pcisubsystemid => $controller->{PCISUBSYSTEMID},
-        });
-        $controller->{CAPTION}      = $info->{deviceName};
-        $controller->{TYPE}         = $info->{fullClassName},
-        $controller->{NAME}         = $info->{fullName} if $info->{fullName};
-        $controller->{MANUFACTURER} = $info->{vendorName} if $info->{vendorName};
+
+        next unless $controller->{PCIID};
+
+        my ($vendor_id, $device_id) = split (/:/, $controller->{PCIID});
+        my $subdevice_id = $controller->{PCISUBSYSTEMID};
+
+        if ($vendors->{$vendor_id}) {
+            my $vendor = $vendors->{$vendor_id};
+            $controller->{MANUFACTURER} = $vendor->{name};
+
+            if ($vendor->{devices}->{$device_id}) {
+                my $device = $vendor->{devices}->{$device_id};
+                $controller->{CAPTION} =
+                    $device->{name};
+
+                $controller->{NAME} =
+                    $subdevice_id && $device->{subdevices}->{$subdevice_id} ?
+
+                    $device->{subdevices}->{$subdevice_id}->{name} :
+                    $device->{name};
+            }
+        }
+
+        next unless $controller->{PCICLASS};
+
+        $controller->{PCICLASS} =~ /^(\S\S)(\S\S)$/x;
+        my $class_id = $1;
+        my $subclass_id = $2;
+
+        if ($classes->{$class_id}) {
+            my $class = $classes->{$class_id};
+
+            $controller->{TYPE} = 
+                $subclass_id && $class->{subclasses}->{$subclass_id} ?
+                    $class->{subclasses}->{$subclass_id}->{name} :
+                    $class->{name};
+        }
     }
 
     return $controllers;
 }
 
-# Retrieve information from the pciid file
-sub getInfoFromPciIds {
-    my ($params) = @_;
+sub loadPciIds {
+    my ($logger, $sharedir) = @_;
 
-    my $sharedir = $params->{sharedir};
-    my $logger = $params->{logger};
-    my $pciclass = $params->{pciclass};
-    my $pciid = $params->{pciid};
-    my $pcisubsystemid = $params->{pcisubsystemid};
-
-    return unless $pciid;
-
-    my ($vendorId, $deviceId) = split (/:/, $pciid);
-    my ($subVendorId, $subDeviceId) = split (/:/, $pcisubsystemid || '');
-    my $deviceName;
-    my $subDeviceName;
-    my $classId;
-    my $subClassId;
-
-    if ($pciclass && $pciclass =~ /^(\S\S)(\S\S)$/) {
-        $classId = $1;
-        $subClassId = $2;
-    }
-
-    return {} unless $vendorId;
-
-    my %ret;
-    my %current;
-    if (!open PCIIDS, "<", "$sharedir/pci.ids") {
+    my $handle;
+    if (!open $handle, '<', "$sharedir/pci.ids") {
         $logger->error("Failed to open $sharedir/pci.ids");
         return;
     }
-    foreach (<PCIIDS>) {
-        next if /^#/;
 
-        if (/^(\S{4})\s+(.*)/) { # Vendor ID
-            $current{classId} = '';
-            $current{vendorId} = lc($1);
-            $current{vendorName} = $2;
-            $current{deviceName} = '';
-            $current{subVendorId} = '';
-            $current{subDeviceId} = '';
+    my ($vendor_id, $device_id, $class_id);
+    while (my $line = <$handle>) {
+        next if $line =~ /^#/;
 
-# information found in the previous section
-#            return \%ret if keys %ret;
-        } elsif (/^\t(\S{4})\s+(.*)/) { # Device ID
-            $current{deviceId} = lc($1);
-            $current{deviceName} = $2;
-            $current{subVendorId} = '';
-            $current{subDeviceId} = '';
-        } elsif (/^\t\t(\S{4})\s(\S{4})\s(.*)/) { # Subdevice ID
-            $current{subVendorId} = lc($1);
-            $current{subDeviceId} = lc($2);
-            $current{subDeviceName} = $3;
-        } elsif (/^C\s(\S{2})\s\s(.*)/) { # Class ID
-            $current{vendorId} = '';
-            $current{vendorName} = '';
-            $current{deviceName} = '';
-            $current{subVendorId} = '';
-            $current{subDeviceId} = '';
-            $current{classId} = $1;
-            $current{className} = $2;
-        } elsif (/^\t(\S{2})\s\s(.*)/) { # SubClass ID
-            $current{subClassId} = $1;
-            $current{subClassName} = $2;
+        if ($line =~ /^(\S{4}) \s+ (.*)/x) {
+            # Vendor ID
+            $vendor_id = $1;
+            $vendors->{$vendor_id}->{name} = $2;
+        } elsif ($line =~ /^\t (\S{4}) \s+ (.*)/x) {
+            # Device ID
+            $device_id = $1;
+            $vendors->{$vendor_id}->{devices}->{$device_id}->{name} = $2;
+        } elsif ($line =~ /^\t\t (\S{4}) \s+ (\S{4}) \s+ (.*)/x) {
+            # Subdevice ID
+            my $subdevice_id = "$1:$2";
+            $vendors->{$vendor_id}->{devices}->{$device_id}->{subdevices}->{$subdevice_id}->{name} = $3;
+        } elsif ($line =~ /^C \s+ (\S{2}) \s+ (.*)/x) {
+            # Class ID
+            $class_id = $1;
+            $classes->{$class_id}->{name} = $2;
+        } elsif ($line =~ /^\t (\S{2}) \s+ (.*)/x) {
+            # SubClass ID
+            my $subclass_id = $1;
+            $classes->{$class_id}->{subclasses}->{$subclass_id}->{name} = $2;
         } 
-
-        if (!$ret{subDeviceName} && $current{vendorName} && $current{deviceName}) {
-            if ($vendorId eq $current{vendorId}) {
-                $ret{vendorName} = $current{vendorName};
-                if ($deviceId eq $current{deviceId}) {
-                    $ret{deviceName} = $current{deviceName};
-                    $ret{fullName} = $current{deviceName};
-
-                    if ($subVendorId && $subDeviceId) {
-                        if ($subVendorId eq $current{subVendorId}) {
-                            if ($subDeviceId eq $current{subDeviceId}) {
-                                $ret{subDeviceName} = $current{subDeviceName};
-                                $ret{fullName} =$current{subDeviceName};
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (defined($current{classId}) && $classId && ($classId eq $current{classId})) {
-            $ret{className} = $current{className};
-            $ret{fullClassName} = $current{className};
-            if ($subClassId eq $current{subClassId}) {
-                $ret{subClassName} = $current{subClassName};
-                $ret{fullClassName} = $current{subClassName};
-            }
-        }
     }
-
-    return \%ret;
+    close $handle;
 }
 
 1;
