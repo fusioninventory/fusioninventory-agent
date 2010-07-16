@@ -216,55 +216,55 @@ sub main {
 
 
 
-                my $network = FusionInventory::Agent::Network->new({
-                        logger => $logger,
-                        config => $config,
-                        target => $target,
-                    });
-
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                        accountinfo => $target->{accountinfo}, #? XXX
-                        logger => $logger,
-                        config => $config,
-                        target => $target,
-                        token  => $rpc->getToken()
-                    });
-
-                # ugly circular reference moved from Prolog::getContent() method
-                $target->{accountinfo}->setAccountInfo($prolog);
-
-                # TODO Don't mix settings and temp value
-                $prologresp = $network->send({message => $prolog});
-
-                if (!$prologresp) {
-                    $logger->error("No anwser from the server");
-                    $target->setNextRunDate();
-                    next;
-                }
-
-                $target->setCurrentDeviceID ($self->{deviceid});
-            }
-
-            my $storage = FusionInventory::Agent::Storage->new({
-                    config => $config,
+            my $network = FusionInventory::Agent::Network->new({
                     logger => $logger,
+                    config => $config,
                     target => $target,
                 });
 
+            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+                    accountinfo => $target->{accountinfo}, #? XXX
+                    logger => $logger,
+                    config => $config,
+                    target => $target,
+                    token  => $rpc->getToken()
+                });
+
+            # ugly circular reference moved from Prolog::getContent() method
+            $target->{accountinfo}->setAccountInfo($prolog);
+
+            # TODO Don't mix settings and temp value
+            $prologresp = $network->send({message => $prolog});
+
+            if (!$prologresp) {
+                $logger->error("No anwser from the server");
+                $target->setNextRunDate();
+                next;
+            }
+
+            $target->setCurrentDeviceID ($self->{deviceid});
+        }
+
+        my $storage = FusionInventory::Agent::Storage->new({
+                config => $config,
+                logger => $logger,
+                target => $target,
+            });
 
 
-                my @modulesToDo = qw/
-                Inventory
-                OcsDeploy
-                WakeOnLan
-                SNMPQuery
-                NetDiscovery
-                Ping
-                /;
+
+        my @modulesToDo = qw/
+        Inventory
+        OcsDeploy
+        WakeOnLan
+        SNMPQuery
+        NetDiscovery
+        Ping
+        /;
 
         while (@modulesToDo && $jobEngine->beat()) {
             next if $jobEngine->isATaskRunning();
-                #
+            #
             my $module = shift @modulesToDo;
             print "starting: $module\n";
             $jobEngine->startTask({
@@ -274,7 +274,7 @@ sub main {
                 });
             print "Ok\n";
             $rpc->setCurrentStatus("running task $module");
-                #
+            #
         }
         $rpc->setCurrentStatus("waiting");
 #=======
@@ -283,9 +283,9 @@ sub main {
 #                    $logger->info("Module $package is not installed.");
 #                    next;
 #                }
-#
+        #
 #                $rpc->setCurrentStatus("running task $module");
-#
+        #
 #                my $task = $package->new({
 #                        config => $config,
 #                        logger => $logger,
@@ -293,7 +293,7 @@ sub main {
 #                        storage => $storage,
 #                        prologresp => $prologresp
 #                    });
-#
+        #
 #                if (
 #                    $config->{daemon}           ||
 #                    $config->{'daemon-no-fork'} ||
@@ -306,7 +306,7 @@ sub main {
 #                    } else {
 #                        # child
 #                        die "fork failed: $ERRNO" unless defined $pid;
-#
+        #
 #                        $logger->debug(
 #                            "[task] executing $module in process $PID"
 #                        );
@@ -323,15 +323,15 @@ sub main {
 #            $rpc->setCurrentStatus("waiting");
 #>>>>>>> guillomovitch/master
 
-            if (!$config->{debug}) {
-                # In debug mode, I do not clean the FusionInventory-Agent.dump
-                # so I can replay the sub task directly
-                $storage->remove();
-            }
-            $target->setNextRunDate();
-
-            sleep(5);
+        if (!$config->{debug}) {
+            # In debug mode, I do not clean the FusionInventory-Agent.dump
+            # so I can replay the sub task directly
+            $storage->remove();
         }
+        $target->setNextRunDate();
+
+        sleep(5);
+    }
 }
 
 1;
