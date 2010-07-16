@@ -34,13 +34,12 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 use FusionInventory::Agent::Network;
-use FusionInventory::Agent::Task;
 #use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::RPC;
-use FusionInventory::Agent::Targets;
+use FusionInventory::Agent::TargetsList;
 #use FusionInventory::Agent::JobEngine;
 
 sub new {
