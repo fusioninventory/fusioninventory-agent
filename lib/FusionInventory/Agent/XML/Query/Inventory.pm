@@ -122,6 +122,8 @@ sub _addEntry {
 
     push @{$self->{h}{CONTENT}{$sectionName}}, $newEntry;
 
+    return 1;
+
 }
 
 sub _encode {
@@ -683,7 +685,7 @@ sub addUser {
 
     return unless $args->{LOGIN};
 
-    $self->_addEntry({
+    return unless $self->_addEntry({
         'field' => \@fields,
         'sectionName' => 'USERS',
         'values' => $args,

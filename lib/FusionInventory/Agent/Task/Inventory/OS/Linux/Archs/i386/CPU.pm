@@ -86,7 +86,6 @@ sub doInventory {
                 $cpuNbr = $1;
                 $hasPhysicalId = 1;
             } elsif (/^\s*(\S+.*\S+)\s*:\s*(.+)/i) {
-                print "$1 = $2\n";
                 $cpuInfo->{$1} = $2;
             } elsif (/^\s*$/) {
                 $cpuProcs[$cpuNbr]= $cpuInfo;
