@@ -40,7 +40,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::TargetsList;
-#use FusionInventory::Agent::JobEngine;
+use FusionInventory::Agent::JobEngine;
 
 sub new {
     my ($class, $params) = @_;
@@ -205,7 +205,6 @@ sub main {
 #######################################################
 #######################################################
 
-
     while (my $target = $targetsList->getNext()) {
 
         my $exitcode = 0;
@@ -216,11 +215,6 @@ sub main {
         if ($target->{type} eq 'server') {
 
 
-
-
-
-            my $prologresp;
-            if ($target->{type} eq 'server') {
 
                 my $network = FusionInventory::Agent::Network->new({
                         logger => $logger,
@@ -257,89 +251,76 @@ sub main {
                     target => $target,
                 });
 
-            my @tasks = qw/
-            Inventory
-            OcsDeploy
-            WakeOnLan
-            SNMPQuery
-            NetDiscovery
-            Ping
-            /;
 
-            foreach my $module (@tasks) {
 
-                next if $config->{'no-'.lc($module)};
+                my @modulesToDo = qw/
+                Inventory
+                OcsDeploy
+                WakeOnLan
+                SNMPQuery
+                NetDiscovery
+                Ping
+                /;
 
-#<<<<<<< HEAD
-# TODO jobEngine system (Gonéri's branch)
-#        my @modulesToDo = qw/
-#            Inventory
-#            OcsDeploy
-#            WakeOnLan
-#            SNMPQuery
-#            NetDiscovery
-#            Ping
-#            /;
+        while (@modulesToDo && $jobEngine->beat()) {
+            next if $jobEngine->isATaskRunning();
                 #
-#        while (@modulesToDo && $jobEngine->beat()) {
-#            next if $jobEngine->isATaskRunning();
+            my $module = shift @modulesToDo;
+            print "starting: $module\n";
+            $jobEngine->startTask({
+                    module => $module,
+                    network => $network,
+                    target => $target,
+                });
+            print "Ok\n";
+            $rpc->setCurrentStatus("running task $module");
                 #
-#            my $module = shift @modulesToDo;
-#            print "starting: $module\n";
-#            $jobEngine->startTask({
-#                    module => $module,
-#                    network => $network,
-#                    target => $target,
-#                });
-#            print "Ok\n";
-#            $rpc->setCurrentStatus("running task $module");
-                #
-#        }
-#        $rpc->setCurrentStatus("waiting");
+        }
+        $rpc->setCurrentStatus("waiting");
 #=======
-                my $package = "FusionInventory::Agent::Task::$module";
-                if (!$package->require()) {
-                    $logger->info("Module $package is not installed.");
-                    next;
-                }
-
-                $rpc->setCurrentStatus("running task $module");
-
-                my $task = $package->new({
-                        config => $config,
-                        logger => $logger,
-                        target => $target,
-                        storage => $storage,
-                        prologresp => $prologresp
-                    });
-
-                if (
-                    $config->{daemon}           ||
-                    $config->{'daemon-no-fork'} ||
-                    $config->{winService}
-                ) {
-                    # daemon mode: run each task in a childprocess
-                    if (my $pid = fork()) {
-                        # parent
-                        waitpid($pid, 0);
-                    } else {
-                        # child
-                        die "fork failed: $ERRNO" unless defined $pid;
-
-                        $logger->debug(
-                            "[task] executing $module in process $PID"
-                        );
-                        $task->main();
-                        $logger->debug("[task] end of $module");
-                    }
-                } else {
-                    # standalone mode: run each task directly
-                    $logger->debug("[task] executing $module");
-                    $task->main();
-                    $logger->debug("[task] end of $module");
-                }
-            }
-            $rpc->setCurrentStatus("waiting");
+#                my $package = "FusionInventory::Agent::Task::$module";
+#                if (!$package->require()) {
+#                    $logger->info("Module $package is not installed.");
+#                    next;
+#                }
+#
+#                $rpc->setCurrentStatus("running task $module");
+#
+#                my $task = $package->new({
+#                        config => $config,
+#                        logger => $logger,
+#                        target => $target,
+#                        storage => $storage,
+#                        prologresp => $prologresp
+#                    });
+#
+#                if (
+#                    $config->{daemon}           ||
+#                    $config->{'daemon-no-fork'} ||
+#                    $config->{winService}
+#                ) {
+#                    # daemon mode: run each task in a childprocess
+#                    if (my $pid = fork()) {
+#                        # parent
+#                        waitpid($pid, 0);
+#                    } else {
+#                        # child
+#                        die "fork failed: $ERRNO" unless defined $pid;
+#
+#                        $logger->debug(
+#                            "[task] executing $module in process $PID"
+#                        );
+#                        $task->main();
+#                        $logger->debug("[task] end of $module");
+#                    }
+#                } else {
+#                    # standalone mode: run each task directly
+#                    $logger->debug("[task] executing $module");
+#                    $task->main();
+#                    $logger->debug("[task] end of $module");
+#                }
+#            }
+#            $rpc->setCurrentStatus("waiting");
 #>>>>>>> guillomovitch/master
 
             if (!$config->{debug}) {
@@ -351,11 +332,6 @@ sub main {
 
             sleep(5);
         }
-    };
-    if ($EVAL_ERROR) {
-        $logger->fault($EVAL_ERROR);
-        exit 1;
-    }
 }
 
 1;
