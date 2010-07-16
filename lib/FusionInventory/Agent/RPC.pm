@@ -268,7 +268,7 @@ sub getToken {
     my $myData = $storage->restore();
     if ($forceNewToken || !$myData->{token}) {
 
-        my @chars = (A..Z);
+        my @chars = ('A'..'Z');
         $myData->{token} =
             map { $chars[rand @chars] }
             1..8;
