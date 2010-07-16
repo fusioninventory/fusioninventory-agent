@@ -681,8 +681,7 @@ sub addUser {
         DOMAIN
     /;
 
-    my $values = $args;
-    return unless $values->{LOGIN};
+    return unless $args->{LOGIN};
 
     $self->_addEntry({
         'field' => \@fields,
