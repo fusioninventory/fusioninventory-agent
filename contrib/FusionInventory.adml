@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitionResources xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" revision="1.0" schemaVersion="1.0" xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions">
+  <displayName>entrer le nom complet ici</displayName>
+  <description>entrer la description ici</description>
+  <resources>
+    <stringTable>
+      <string id="FusionInventory_ROOT">Agent Fusion Inventory</string>
+      <string id="FusionInventory_CONFIGURE64">Configurer l'agent (64 bits)</string>
+      <string id="FusionInventory_CONFIGURE32">Configurer l'agent (32 bits)</string>
+      <string id="FusionInventory_CONFIGURE_EXPLAIN">Spécifie un jeu de paramètres pour l'agent Fusion Inventory.</string>
+    </stringTable>
+    <presentationTable>
+      <presentation id="FusionInventory_CONFIGURE">
+        <textBox refId="FusionInventory_Server">
+          <label>Server</label>
+        </textBox>
+        <textBox refId="FusionInventory_User">
+          <label>User</label>
+        </textBox>
+        <textBox refId="FusionInventory_Password">
+          <label>Password</label>
+        </textBox>
+        <textBox refId="FusionInventory_Realm">
+          <label>Realm</label>
+        </textBox>
+        <textBox refId="FusionInventory_Tag">
+          <label>Tag</label>
+        </textBox>
+      </presentation>
+    </presentationTable>
+  </resources>
+</policyDefinitionResources>
