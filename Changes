@@ -46,6 +46,7 @@ Revision history for FusionInventory::Agent
          xml-query-simplemessage.t, t/xml-response.t
        * Fix a typo scanhomedirs → scan-homedirs
        * HP-UX: add HP-UX VM support (Sébastien PRUD'HOMME)
+       * Linux, PC: CPU fixes for VMware ESX, thanks Benoit Machiavello
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
