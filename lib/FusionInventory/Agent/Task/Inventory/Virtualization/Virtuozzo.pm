@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::Virtuozzo;
 
 use strict;
+use warnings;
 
 sub isInventoryEnabled {
     return can_run('vzlist');
