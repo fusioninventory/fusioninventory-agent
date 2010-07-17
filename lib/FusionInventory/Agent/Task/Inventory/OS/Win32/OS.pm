@@ -3,8 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::OS;
 use strict;
 use warnings;
 
+use Carp;
 use Encode qw(encode);
-use Win32::TieRegistry;
+use Win32::TieRegistry (Delimiter=>"/", ArrayValues=>0, 'KEY_READ');
 use Win32::OLE::Variant;
 
 use FusionInventory::Agent::Tools::Win32;
@@ -14,8 +15,11 @@ use FusionInventory::Agent::Tools::Win32;
 
 
 sub getXPkey {
-    my $key     = shift;
-    my @encoded = ( unpack 'C*', $Registry->{$key} )[ reverse 52 .. 66 ];
+    my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
+	or croak "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR\n";
+    my $key     =
+	$machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+    my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
 
     # Get indices
     my @indices;
@@ -71,7 +75,7 @@ sub doInventory {
         CSDVersion
         /)) {
 
-        my $key = &getXPkey(qq!HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\\\DigitalProductId!); 
+        my $key = getXPkey(); 
 
         $inventory->setHardware({
             WINLANG => $Properties->{OSLanguage},
