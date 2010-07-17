@@ -80,11 +80,9 @@ sub doInventory {
         '8251 FIFO Compatible',
     );
 
-    foreach my $Properties (
-        FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties(
-            'Win32_PortConnector', qw/ConnectorType InternalReferenceDesignator/
-        )
-    ) {
+    foreach my $Properties (getWmiProperties('Win32_PortConnector', qw/
+        ConnectorType InternalReferenceDesignator
+    /)) {
 
         my $type;
         if ($Properties->{ConnectorType}) {
