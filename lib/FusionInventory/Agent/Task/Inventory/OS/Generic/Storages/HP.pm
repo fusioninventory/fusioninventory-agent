@@ -18,7 +18,7 @@ use FusionInventory::Agent::Tools;
 sub getHpacuacliFromWinRegistry {
     eval {
         require Win32::TieRegistry;
-        Win32::TieRegistry->(
+        Win32::TieRegistry->import(
             Delimiter   => "/",
             ArrayValues => 0
         );
