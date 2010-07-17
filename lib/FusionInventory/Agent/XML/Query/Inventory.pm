@@ -1003,52 +1003,38 @@ sub getContent {
     return $self->SUPER::getContent();
 }
 
-=item writeHTML()
+=item getContentAsHTML()
 
 Save the generated inventory as an XML file. The 'local' key of the config
 is used to know where the file as to be saved.
 
 =cut
-sub writeHTML {
+sub getContentAsHTML {
     my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
-    my $config = $self->{config};
     my $target = $self->{target};
-
-    if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
-    }
-
-    $self->initialise();
-
-    my $localfile = $config->{local}."/".$target->{deviceid}.'.html';
-    $localfile =~ s!(//){1,}!/!;
 
     # Convert perl data structure into xml strings
 
-
-    my $htmlHeader = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml"><head>
-
+    my $htmlHeader = <<EOF;
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent '.$target->{deviceid}.' - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <title>FusionInventory-Agent $target->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+</head>
+<body>
+    <h1>Inventory for $target->{deviceid}</h1>
+    FusionInventory Agent $FusionInventory::Agent::VERSION
+EOF
 
-    </head>
-    <body>
-    <h1>Inventory for '.$target->{deviceid}.'</h1>
-    FusionInventory Agent '.$config->{VERSION}.'
-
-    ';
-
-
-    my $htmlFooter = "
-    </body>
-    </html>";
+    my $htmlFooter = <<EOF;
+</body>
+</html>
+EOF
 
     my $htmlBody;
 
-    use Data::Dumper;
     my $oldSectionName = "";
     foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
         next if $sectionName eq 'VERSIONCLIENT';
@@ -1087,16 +1073,7 @@ sub writeHTML {
         }
     }
 
-
-    if (open my $handle, '>', $localfile) {
-        print $handle $htmlHeader;
-        print $handle $htmlBody;
-        print $handle $htmlFooter;
-        close $handle;
-        $logger->info("Inventory saved in $localfile");
-    } else {
-        warn "Can't open $localfile: $ERRNO"
-    }
+    return $htmlHeader . $htmlBody . $htmlFooter;
 }
 
 =item processChecksum()

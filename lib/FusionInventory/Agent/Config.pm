@@ -23,7 +23,7 @@ my $default = {
     'devlib'                  => 0,
     'force'                   => 0,
     'help'                    => 0,
-    'html'                    => 0,
+    'format'                  => 'xml',
     'info'                    => 1,
     'lazy'                    => 0,
     'local'                   => '',
@@ -205,8 +205,8 @@ sub loadUserParams {
         'delaytime=s',
         'devlib',
         'force|f',
+        'format=s',
         'help|h',
-        'html',
         'info|i',
         'lazy',
         'local|l=s',
@@ -297,7 +297,7 @@ EOF
     $help .= <<EOF;
 Common options:
     --debug             debug mode ($self->{debug})
-    --html              save in HTML the inventory requested by --local ($self->{html})
+    --format            export format (HTML or XML) ($self->{format})
     -l --local=DIR      do not contact server but write inventory in DIR
                         directory in XML ($self->{local})
     --logfile=FILE      log message in FILE ($self->{logfile})

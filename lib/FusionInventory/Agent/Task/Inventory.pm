@@ -40,22 +40,26 @@ sub main {
 
     SWITCH: {
         if ($self->{target}->{type} eq 'stdout') {
-            print $self->{inventory}->getContent();
+            if ($self->{config}->{format} eq 'xml') {
+                print $self->{inventory}->getContent();
+            } else {
+                print $self->{inventory}->getContentAsHTML();
+            }
             last SWITCH;
         }
 
         if ($self->{target}->{type} eq 'local') {
             my $file =
-                $self->config->{local} .
+                $self->{config}->{local} .
                 "/" .
-                $self->target->{deviceid} .
+                $self->{target}->{deviceid} .
                 '.ocs';
 
             if (open my $handle, '>', $file) {
-                if ($self->{target}->{format} eq 'XML') {
+                if ($self->{config}->{format} eq 'xml') {
                     print $handle $self->{inventory}->getContent();
                 } else {
-                    print $handle $self->{inventory}->getHTMLContent();
+                    print $handle $self->{inventory}->getContentAsHTML();
                 }
                 close $handle;
                 $self->{logger}->info("Inventory saved in $file");
