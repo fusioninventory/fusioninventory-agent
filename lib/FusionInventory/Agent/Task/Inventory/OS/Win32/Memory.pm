@@ -141,12 +141,13 @@ sub doInventory {
     foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
         TotalSwapSpaceSize
     /)) {
-        $swapMemory = $Properties->{TotalSwapSpaceSize};
+        $swapMemory = $Properties->{TotalSwapSpaceSize} 
+            if $Properties->{TotalSwapSpaceSize};
     }
 
     $inventory->setHardware({
-        MEMORY =>  int($fullMemory/(1024*1024)),
-        SWAP =>  int($swapMemory/(1024)),
+        MEMORY => int($fullMemory/(1024*1024)),
+        SWAP   => int($swapMemory/(1024)),
     });
 
 }
