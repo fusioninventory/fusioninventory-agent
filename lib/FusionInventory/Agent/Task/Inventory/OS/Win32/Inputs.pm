@@ -44,7 +44,7 @@ sub doInventory {
     }
 
     foreach my $Properties (getWmiProperties('Win32_PointingDevice', qw/
-        Name Caption Manufacturer Description PointingType
+        Name Caption Manufacturer Description PointingType DeviceInterface
     /)) {
         $inventory->addInput({
             NAME => $Properties->{Name},
