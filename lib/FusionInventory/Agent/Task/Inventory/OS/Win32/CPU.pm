@@ -3,20 +3,29 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::CPU;
 use strict;
 use warnings;
 
+use constant KEY_WOW64_64KEY => 0x100;
+
+use Carp;
+use English qw(-no_match_vars);
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
-
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
 # the CPU description in WMI is false, we use the registry instead
 # Hardware\Description\System\CentralProcessor\1
 # thank you Nicolas Richard 
 sub getCPUInfoFromRegistry {
     my ($cpuId) = @_;
-    
-    my $KEY_WOW64_64KEY = 0x100; 
+     
 
-    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+    my $machKey= $Registry->Open('LMachine', {
+        Access=> KEY_READ | KEY_WOW64_64KEY
+    }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $data =
         $machKey->{"Hardware/Description/System/CentralProcessor/".$cpuId};

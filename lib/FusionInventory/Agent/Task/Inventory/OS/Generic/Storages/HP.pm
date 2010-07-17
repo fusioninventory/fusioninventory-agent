@@ -17,17 +17,20 @@ use FusionInventory::Agent::Tools;
 # HP Array Configuration Utility CLI 7.85-18.0
 
 sub getHpacuacliFromWinRegistry {
+    my $Registry;
     eval {
         require Win32::TieRegistry;
         Win32::TieRegistry->import(
-            Delimiter   => "/",
-            ArrayValues => 0
+            Delimiter   => '/',
+            ArrayValues => 0,
+            TiedRef     => \$Registry,
         );
     };
     return if $EVAL_ERROR;
 
-    my $machKey = $Registry->Open('LMachine', { Access => KEY_READ() })
-	or croak "Can't open HKEY_LOCAL_MACHINE key: $^E\n";
+    my $machKey = $Registry->Open('LMachine', {
+        Access=> Win32::TieRegistry::KEY_READ
+    } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $uninstallValues =
         $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};

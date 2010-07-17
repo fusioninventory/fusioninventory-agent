@@ -7,8 +7,13 @@ use constant wbemFlagForwardOnly => 0x20;
 
 use Carp;
 use Encode qw(encode);
+use English qw(-no_match_vars);
 use Win32::OLE::Variant;
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
 
 use FusionInventory::Agent::Tools::Win32;
 
@@ -47,7 +52,10 @@ sub doInventory {
     
     }
 
-    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    my $machKey = $Registry->Open('LMachine', {
+        Access => KEY_READ
+    }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
     foreach (
         "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",
         "SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"
