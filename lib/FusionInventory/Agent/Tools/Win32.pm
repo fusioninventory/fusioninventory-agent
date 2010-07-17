@@ -23,12 +23,16 @@ sub encodeFromWmi {
 
 #  return (Win32::GetOSName() ne 'Win7')?encode("UTF-8", $string):$string; 
     encode("UTF-8", $string); 
+
+    return $string;
 }
 
 sub encodeFromRegistry {
     my ($string) = @_;
 
     encode("UTF-8", $string); 
+
+    return $string;
 }
 
 sub getWmiProperties {
