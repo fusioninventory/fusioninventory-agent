@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Storages::HP;
 use strict;
 use warnings;
 
+use Carp;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
@@ -25,19 +26,21 @@ sub getHpacuacliFromWinRegistry {
     };
     return if $EVAL_ERROR;
 
-    my $machKey= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    my $machKey = $Registry->Open('LMachine', { Access => KEY_READ() })
+	or croak "Can't open HKEY_LOCAL_MACHINE key: $^E\n";
 
     my $uninstallValues =
         $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};
+    return unless $uninstallValues;
+
     my $uninstallString = $uninstallValues->{'/UninstallString'};
+    return unless $uninstallString;
 
-    my $hpacuacliPath;
-    if ($uninstallString =~ /(.*\\)hpuninst\.exe/) {
-        $hpacuacliPath = $1.'bin\\hpacucli.exe';
-        return $hpacuacliPath if -f $hpacuacliPath;
-    }
+    return unless $uninstallString =~ /(.*\\)hpuninst\.exe/;
+    my $hpacuacliPath = $1.'bin\\hpacucli.exe';
+    return unless -f $hpacuacliPath;
 
-    return;
+    return $hpacuacliPath;
 }
 
 sub isInventoryEnabled {
