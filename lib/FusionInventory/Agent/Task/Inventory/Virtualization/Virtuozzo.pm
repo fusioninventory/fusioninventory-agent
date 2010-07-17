@@ -2,7 +2,9 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Virtuozzo;
 
 use strict;
 
-sub isInventoryEnabled { return can_run('vzlist') }
+sub isInventoryEnabled {
+    return can_run('vzlist');
+}
 
 sub doInventory {
     my $params = shift;
