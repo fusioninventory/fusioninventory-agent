@@ -472,7 +472,6 @@ sub SendInformations{
    } elsif ($config->{local}) {
       $self->{inventory}->writeXML();
    } elsif ($config->{server}) {
-
       my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
            {
                config => $self->{config},
@@ -963,9 +962,10 @@ sub ConstructDataDeviceMultiple {
    if (exists $HashDataSNMP->{ifaddr}) {
       while ( ($object,$data) = each (%{$HashDataSNMP->{ifaddr}}) ) {
          if ($data ne "") {
-            $object =~ s/$walkoid->{ifaddr}->{OID}//;
-            $object =~ s/^.//;
-             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IP} = $object;
+             my $shortobject = $object;
+             $shortobject =~ s/$walkoid->{ifaddr}->{OID}//;
+             $shortobject =~ s/^.//;
+             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$data}]->{IP} = $shortobject;
          }
       }
       delete $HashDataSNMP->{ifaddr};
