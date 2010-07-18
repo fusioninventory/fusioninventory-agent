@@ -9,6 +9,7 @@ use XML::TreePP;
 sub new {
     my ($class, $params) = @_;
 
+    # Q: Why should we use croak instead of $logger->fault() ?
     croak "No DEVICEID" unless $params->{target}->{deviceid};
 
     my $self = {
