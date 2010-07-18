@@ -13,7 +13,7 @@ our @EXPORT = qw(
 
 
 sub sendError {
-    my ($self, $level, $msg) = @_;
+    my ($level, $msg) = @_;
 
 
 
