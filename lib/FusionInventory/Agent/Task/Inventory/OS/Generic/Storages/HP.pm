@@ -15,16 +15,20 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # HP Array Configuration Utility CLI 7.85-18.0
 
 sub getHpacuacliFromWinRegistry {
+    my $Registry;
     eval {
         require Win32::TieRegistry;
-        Win32::TieRegistry->(
-            Delimiter   => "/",
-            ArrayValues => 0
+        Win32::TieRegistry->import(
+            Delimiter   => '/',
+            ArrayValues => 0,
+            TiedRef     => \$Registry,
         );
     };
     return if $EVAL_ERROR;
 
-    my $machKey= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    my $machKey = $Registry->Open('LMachine', {
+        Access=> Win32::TieRegistry::KEY_READ
+    } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $uninstallValues =
         $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};

@@ -3,24 +3,31 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::OS;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
-
-use Win32::TieRegistry;
-
-use Win32::OLE::Variant;
-
-use Encode qw(encode);
-
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
+
+use Carp;
+use Encode qw(encode);
+use English qw(-no_match_vars);
+use Win32::OLE::Variant;
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
+
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson
 
 
 sub getXPkey {
-    my $key     = shift;
-    my @encoded = ( unpack 'C*', $Registry->{$key} )[ reverse 52 .. 66 ];
+    my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
+	or croak "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
+    my $key     =
+	$machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+    my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
 
     # Get indices
     my @indices;
@@ -75,7 +82,7 @@ sub doInventory {
             (getWmiProperties('Win32_OperatingSystem',
 qw/OSLanguage Caption Version SerialNumber Organization RegisteredUser CSDVersion/)) {
 
-                my $key = &getXPkey(qq!HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\\\DigitalProductId!); 
+                my $key = getXPkey(); 
 
         $inventory->setHardware({
 
