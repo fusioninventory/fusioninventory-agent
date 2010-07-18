@@ -32,15 +32,16 @@ sub getHpacuacliFromWinRegistry {
 
     my $uninstallValues =
         $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};
+    return unless $uninstallValues;
+
     my $uninstallString = $uninstallValues->{'/UninstallString'};
+    return unless $uninstallString;
 
-    my $hpacuacliPath;
-    if ($uninstallString =~ /(.*\\)hpuninst\.exe/) {
-        $hpacuacliPath = $1.'bin\\hpacucli.exe';
-        return $hpacuacliPath if -f $hpacuacliPath;
-    }
+    return unless $uninstallString =~ /(.*\\)hpuninst\.exe/;
+    my $hpacuacliPath = $1.'bin\\hpacucli.exe';
+    return unless -f $hpacuacliPath;
 
-    return;
+    return $hpacuacliPath;
 }
 
 sub isInventoryEnabled {
