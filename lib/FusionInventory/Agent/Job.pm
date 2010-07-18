@@ -21,6 +21,20 @@ sub sendError {
     print STDERR "$level: $msg\n";
 }
 
+sub sendToMaster {
+    my ($module, @args) = @_;
+
+    print STDOUT "=BEGIN=$module: ".join('--', @args);
+    print STDOUT "=END=";
+
+    my $fromStdin;
+    while (<STDIN> ne 'OK') {
+        sleep 1;
+    }
+    
+    return;
+}
+
 
 
 1;
