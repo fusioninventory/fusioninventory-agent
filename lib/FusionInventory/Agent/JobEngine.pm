@@ -3,7 +3,7 @@ package FusionInventory::Agent::JobEngine;
 use strict;
 use warnings;
 
-use IPC::Open3;
+use IPC::Run3;
 use IO::Select;
 use POSIX ":sys_wait_h";
 
@@ -35,38 +35,39 @@ sub start {
     my $isTask = $params->{isTask};
     my $network = $params->{network};
 
+    my $config = $self->{config};
+
     my $job = {};
 
     $job->{name} = $name;
     $job->{isTask} = $isTask;
     $job->{network} = $network;
 
-    my $stdin;
     my $stdout;
     my $stderr;
 
-    use Symbol 'gensym'; $stderr = gensym;
+    my @stdin = (
 
-    $job->{pid} = open3(
-        $stdin,
-        $stdout,
-        $stderr,
-        @cmd
-    );
-    die unless $stderr;
-    $job->{stdin} = $stdin;
-    $job->{stdout} = $stdout;
-    $job->{stderr} = $stderr;
-
+);
     $Data::Dumper::Terse = 1;
-    $Data::Dumper::Varname='parameter',
-
-    print $stdin Dumper({
+    $Data::Dumper::Varname='parameter';
+    my $paramsToPush = Dumper({
             # TODO
-            #config => $config,
+            config => $config,
             #target => $target,
             #prologresp => $prologresp
         });
+
+
+    $job->{pid} = run3(
+        \@cmd,
+        sub { return shift @stdin; },
+        $stdout,
+        $stderr,
+    );
+    $job->{stdout} = $stdout;
+    $job->{stderr} = $stderr;
+
 
 
     if (!$job->{pid}) {
@@ -172,29 +173,28 @@ sub stderr {
 sub stdout {
     my ($self, $job, $buffer) = @_;
 
+    print ".";
     my $logger = $self->{logger};
     my $network = $job->{network};
 
     return unless defined($buffer);
 
-    my $msgType;
-    my $in;
-    my $tmp;
+    my $module;
+    my $data;
 
     foreach my $line (split /\n/, $buffer) {
-        if ($line =~ /=BEGIN MSG\((.+)\)=/) {
-            $msgType = $1;
-            $in = 1;
-        } elsif ($in && $buffer =~ /=END MSG=/) {
-            $network->send({
-                    msgType => $msgType,
-                    xmlContent => $tmp,
-                });
-            $in = 0;
-            $msgType = undef;
+        if ($line =~ /=BEGIN=(.+):(.*)/) {
+            $module = $1;
+            $args = $2;
+        } elsif ($module && $buffer =~ /=END=/) {
+#            $network->send({
+#                    msgType => $msgType,
+#                    xmlContent => $tmp,
+#                });
+            $module = undef;
             $tmp = undef;
-        } elsif ($in) {
-            $tmp .= $line;
+        } elsif ($module) {
+            $data .= $line;
         }
     }
 
@@ -228,7 +228,7 @@ sub beat {
 
     sleep(3);
     use Data::Dumper;
-
+print "+\n";
     foreach my $id (1..@{$self->{jobs}}) {
         my $job = $self->{jobs}[$id-1];
         $self->fetchBuffer($job);
