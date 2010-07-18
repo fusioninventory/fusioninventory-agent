@@ -155,7 +155,8 @@ qw/TotalPhysicalMemory/)) {
     foreach my $Properties
         (getWmiProperties('Win32_OperatingSystem',
 qw/TotalSwapSpaceSize/)) {
-        $swapMemory = $Properties->{TotalSwapSpaceSize};
+        $swapMemory = $Properties->{TotalSwapSpaceSize}
+            if $Properties->{TotalSwapSpaceSize};
     }
 
 
