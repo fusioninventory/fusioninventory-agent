@@ -181,18 +181,18 @@ sub stdout {
 
     my $module;
     my $data;
+    my $args;
 
     foreach my $line (split /\n/, $buffer) {
         if ($line =~ /=BEGIN=(.+):(.*)/) {
             $module = $1;
             $args = $2;
         } elsif ($module && $buffer =~ /=END=/) {
-#            $network->send({
-#                    msgType => $msgType,
-#                    xmlContent => $tmp,
-#                });
+print "MODULE=$module";
+print "MODULE=$module:$data";
             $module = undef;
-            $tmp = undef;
+            $data = undef;
+            $args = undef;
         } elsif ($module) {
             $data .= $line;
         }
