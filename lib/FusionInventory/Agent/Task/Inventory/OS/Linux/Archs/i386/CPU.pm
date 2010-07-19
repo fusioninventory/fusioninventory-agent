@@ -21,11 +21,6 @@ sub doInventory {
 
     my @cpu;
 
-    my $arch = 'unknow';
-    $arch = 'x86' if $Config{'archname'} =~ /^i\d86/;
-    $arch = 'x86_64' if $Config{'archname'} =~ /^x86_64/;
-
-
     my $in;
     my $frequency;
     my $serial;
