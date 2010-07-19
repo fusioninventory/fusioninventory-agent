@@ -5,7 +5,6 @@ use warnings;
 use FusionInventory::Agent::Tools::Linux;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 use Test::More;
-use FindBin;
 
 my %hal_tests = (
     'dell-xt2' => [
@@ -39,13 +38,13 @@ my %udev_tests = (
 plan tests => (scalar keys %hal_tests) + (scalar keys %udev_tests);
 
 foreach my $test (keys %hal_tests) {
-    my $file = "$FindBin::Bin/../../resources/hal/$test";
+    my $file = "resources/hal/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::parseLshal($file, '<');
     is_deeply($results, $hal_tests{$test}, $test);
 }
 
 foreach my $test (keys %udev_tests) {
-    my $file = "$FindBin::Bin/../../resources/udev/$test";
+    my $file = "resources/udev/$test";
     my $result = FusionInventory::Agent::Tools::Linux::parseUdevEntry($file, 'sda');
     is_deeply($result, $udev_tests{$test}, $test);
 }

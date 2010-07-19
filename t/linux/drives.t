@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Drives;
 use Test::More;
-use FindBin;
 
 my %hal_tests = (
     'dell-xt2' => [
@@ -63,7 +62,7 @@ my %hal_tests = (
 plan tests => scalar keys %hal_tests;
 
 foreach my $test (keys %hal_tests) {
-    my $file = "$FindBin::Bin/../../resources/hal/$test";
+    my $file = "resources/hal/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::Linux::Drives::parseLshal($file, '<');
     is_deeply($results, $hal_tests{$test}, $test);
 }

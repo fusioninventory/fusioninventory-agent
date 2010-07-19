@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks;
 use Test::More;
-use FindBin;
 
 my %tests = (
     'dell-xt2' => [
@@ -48,7 +47,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "$FindBin::Bin/../../resources/ifconfig/$test";
+    my $file = "resources/ifconfig/$test";
     my $result = FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks::parseIfconfig($file, '<');
     is_deeply($result, $tests{$test}, $test);
 }
