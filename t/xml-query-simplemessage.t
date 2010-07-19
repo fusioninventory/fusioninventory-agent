@@ -2,13 +2,15 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use Test::More;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Logger;
 
-if (!eval "use XML::TreePP;1") {
-    eval "use Test::More skip_all => 'Missing XML::TreePP';";
-    exit 0
+eval { require XML::TreePP; };
+if ($EVAL_ERROR) {
+    my $msg = 'Missing XML::TreePP';
+    plan(skip_all => $msg);
 }
 
 plan tests => 2;

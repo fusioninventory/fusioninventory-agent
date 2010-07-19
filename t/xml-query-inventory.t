@@ -9,15 +9,16 @@ sub feedInventory {}
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use Test::More;
-use FindBin;
 use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
 
-if (!eval "use XML::TreePP;1") {
-    eval "use Test::More skip_all => 'Missing XML::TreePP';";
-    exit 0
+eval { require XML::TreePP; };
+if ($EVAL_ERROR) {
+    my $msg = 'Missing XML::TreePP';
+    plan(skip_all => $msg);
 }
 
 my $test = {
