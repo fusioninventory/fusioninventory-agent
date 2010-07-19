@@ -1,18 +1,10 @@
 #!/usr/bin/perl
-package Logger;
-
-sub new {
-    my $self = {};
-    bless $self;
-}
-sub debug {}
-1;
 use strict;
 use warnings;
 
 use Test::More;
-use FindBin;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
+use FusionInventory::Logger;
 
 if (!eval "use XML::TreePP;1") {
     eval "use Test::More skip_all => 'Missing XML::TreePP';";
@@ -54,7 +46,7 @@ my $test2 = {
 
 my $tpp =  XML::TreePP->new();
 #plan tests => scalar keys %tests;
-my $logger = Logger->new ();
+my $logger = FusionInventory::Logger->new ();
 my $target = {deviceid => 'test-deviceid'}; 
 my $query1 = FusionInventory::Agent::XML::Query::SimpleMessage->new({
     target => $target,

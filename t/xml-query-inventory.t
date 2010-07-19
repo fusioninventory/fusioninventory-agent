@@ -1,11 +1,4 @@
 #!/usr/bin/perl
-package Logger;
-sub new {
-    my $self = {};
-    bless $self;
-}
-sub debug {}
-1;
 package Backend;
 sub new {
     my $self = {};
@@ -20,6 +13,7 @@ use Test::More;
 use FindBin;
 use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Logger;
 
 if (!eval "use XML::TreePP;1") {
     eval "use Test::More skip_all => 'Missing XML::TreePP';";
@@ -86,7 +80,7 @@ my $test = {
 
 
 plan tests => 1;
-my $logger = Logger->new ();
+my $logger = FusionInventory::Logger->new ();
 my $backend = Backend->new ();
 my $config = {VERSION => $FusionInventory::Agent::VERSION};
 my $target = {

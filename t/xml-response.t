@@ -1,16 +1,11 @@
 #!/usr/bin/perl
-package Logger;
-sub new {
-    my $self = {};
-    bless $self;
-}
-sub debug {}
-1;
 use strict;
 use warnings;
+
 use Test::More;
-use FindBin;
 use FusionInventory::Agent::XML::Response;
+use FusionInventory::Logger;
+
 my $test = { 
 'OPTION' => [
                       {
@@ -46,7 +41,7 @@ my $test = {
 
 
 plan tests => 1;
-my $logger = Logger->new ();
+my $logger = FusionInventory::Logger->new ();
 my $response = FusionInventory::Agent::XML::Response->new({
     content => '<REPLY>                                                                                                                                                                                                            
   <OPTION>                                                                                                                                                                                                         
