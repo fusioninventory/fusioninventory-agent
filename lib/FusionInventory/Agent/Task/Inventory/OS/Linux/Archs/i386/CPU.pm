@@ -21,52 +21,27 @@ sub doInventory {
 
     my @cpu;
 
-    my $in;
-    my $frequency;
-    my $serial;
-    my $manufacturer;
-    my $thread;
-    my $empty;
-    my $core;
-    foreach (`dmidecode`) {
-        $in = 1 if /^\s*Processor Information/;
+    my $infos = getInfosFromDmidecode();
 
-        if ($in) {
-            $frequency = $1 if /^\s*Max Speed:\s*(\d+)\s*MHz/i;
-            $frequency = $1*1000 if /^\s*Max Speed:\s*(\d+)\s*GHz/i;
-            $serial = $1 if /^\s*ID:\s*(\S.+)/i;
-            $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
-            $thread = int($1) if /Thread Count:\s*(\S.*)/;
-            $core = int($1) if /Core Count:\s*(\S.*)/;
-            $empty = 1 if /Status:\s*Unpopulated/i;
+    if ($infos->{4}) {
+        foreach my $info (@{$infos->{4}}) {
+            my $cpu;
 
-        }
-
-        if ($in && (/^Handle\s0x/i || /^\s*$/)) {
-            if (!$empty) {
-                $serial =~ s/\s//g;
-                $thread = 1 unless $thread;
-
-                push @cpu, {
-                    SPEED => $frequency,
-                    MANUFACTURER => 'unknown',
-                    SERIAL => $serial,
-# Thread per core according to my understanding of
-# http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
-                    THREAD => $thread,
-                    CORE => $core,
-                }
+            if (
+                $info->{'Max Speed'} &&
+                $info->{'Max Speed'} =~ /(\d+)\s+(\S+)$/
+            ) {
+                my $value = $1;
+                my $unit = $2;
+                $cpu->{SPEED} = $unit eq 'GHz' ? $unit * 1000 : $unit;
             }
 
-            $in = undef;
-            $frequency = undef;
-            $serial = undef;
-            $manufacturer = undef;
-            $thread = undef;
-            $empty = undef;
-            $empty = undef;
-            $core = undef;
+            $cpu->{SERIAL}       = $info->{'ID'};
+            $cpu->{MANUFACTURER} = $info->{'Manufacturer'};
+            $cpu->{THREAD}       = $info->{'Thread Count'} || 1;
+            $cpu->{CORE}         = $info->{'Core Count'};
 
+            push @cpu, $cpu;
         }
     }
 
