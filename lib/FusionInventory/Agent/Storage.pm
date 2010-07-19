@@ -29,8 +29,83 @@ sub new {
     };
 
     bless $self, $class;
+}
 
-    return $self;
+sub getFileName {
+    my ($self, $params ) = @_;
+
+    my $module = $params->{module};
+
+
+    my $callerModule;
+    my $i = 0;
+    while ($callerModule = caller($i++)) {
+        last if $callerModule ne 'FusionInventory::Agent::Storage';
+    }
+
+    my $fileName = $module || $callerModule;
+    $fileName =~ s/::/-/g; # Drop the ::
+    # They are forbiden on Windows in file path
+
+
+    return $fileName;
+}
+
+# Internal function, no POD doc
+sub getFilePath {
+    my ($self, $params ) = @_;
+
+    my $target = $self->{target};
+    my $config = $self->{config};
+
+    my $idx = $params->{idx};
+    my $module = $params->{module};
+
+    my $fileName = $self->getFileName({
+        module => $module
+    });
+
+
+    my $dirName = $self->getFileDir();
+
+    my $extension = '';
+    if ($idx) {
+        if ($idx !~ /^\d+$/) {
+            print "[fault] idx must be an integer!\n";
+            die;
+        } 
+        $extension = '.'.$idx;
+    }
+
+
+    return $dirName."/".$fileName.$extension.".dump";
+
+}
+
+
+sub getFileDir {
+    my ($self, $params ) = @_;
+
+    my $target = $self->{target};
+    my $config = $self->{config};
+
+    my $module = $params->{module};
+    my $idx = $params->{idx};
+
+    my $dirName;
+    if ($target) {
+        $dirName = $target->{'vardir'};
+    } elsif ($config) {
+        $dirName = $config->{'basevardir'};
+    } else {
+        die;
+    }
+
+    if (!$dirName) {
+        die "Can't get the basevardir\n";
+    }
+
+    return $dirName;
 }
 
 =item save({ data => $date, idx => $ref })

@@ -16,55 +16,30 @@ sub new {
     };
     bless $self, $class;
 
-    if ($self->{config}->{accountinfofile}) {
-        $self->{logger}->debug(
-            "Accountinfo file: $self->{config}->{accountinfofile}"
-        );
-        if (! -f $self->{config}->{accountinfofile}) {
-            $self->{logger}->info(
-                "Accountinfo file doesn't exist. I create an empty one."
-            );
-            $self->write();
-        } else {
+    $self->{config} = $params->{config};
+    $self->{logger} = $params->{logger};
+    $self->{storage} = $params->{storage};
+    $self->{target} = $params->{target};
 
-            my $xmladm;
+    my $logger = $self->{logger};
+    my $storage = $self->{storage};
+    my $target = $self->{target};
 
-            eval {
-                $xmladm = XMLin(
-                    $self->{config}->{accountinfofile},
-                    ForceArray => [ 'ACCOUNTINFO' ]
-                );
-            };
-
-            if ($xmladm && exists($xmladm->{ACCOUNTINFO})) {
-                # Store the XML content in a local HASH
-                for(@{$xmladm->{ACCOUNTINFO}}){
-                    if (!$_->{KEYNAME}) {
-                        $self->{logger}->debug(
-                            "Incorrect KEYNAME in ACCOUNTINFO"
-                        );
-                    }
-                    $self->{accountinfo}{ $_->{KEYNAME} } = $_->{KEYVALUE};
-                }
-            }
-        }
-    } else {
-        $self->{logger}->debug("No accountinfo file defined")
-    }
-
-    return $self;
+    $self->{myData} = $storage->restore();
+    
+    $self;
 }
 
 sub get {
     my ($self, $keyname) = @_;
 
-    return $self->{accountinfo}{$keyname} if $keyname;
+    return $self->{myData}{$keyname} if $keyname;
 }
 
 sub getAll {
     my ($self, $name) = @_;
 
-    return $self->{accountinfo};
+    return $self->{myData};
 }
 
 sub set {
@@ -73,7 +48,7 @@ sub set {
     return unless defined ($name) && defined ($value);
     return unless $name && $value;
 
-    $self->{accountinfo}->{$name} = $value;
+    $self->{myData}->{$name} = $value;
     $self->write();
 }
 
@@ -82,7 +57,7 @@ sub reSetAll {
 
     my $logger = $self->{logger};
 
-    undef $self->{accountinfo};
+    $self->{myData} = {};
 
     if (ref ($ref) eq 'ARRAY') {
         foreach (@$ref) {
@@ -119,26 +94,9 @@ sub write {
 
     my $logger = $self->{logger};
     my $target = $self->{target};
+    my $storage = $self->{storage};
 
-    my $tmp;
-    $tmp->{ACCOUNTINFO} = [];
-
-    foreach (keys %{$self->{accountinfo}}) {
-        push @{$tmp->{ACCOUNTINFO}}, {KEYNAME => [$_], KEYVALUE =>
-            [$self->{accountinfo}{$_}]}; 
-    }
-
-    my $xml = XMLout( $tmp, RootName => 'ADM' );
-
-    if (open my $handle, ">", $target->{accountinfofile}) {
-        print $handle $xml;
-        close $handle;
-        $logger->debug ("Account info updated successfully");
-    } else {
-        warn "Can't open $target->{accountinfofile} for writing: $ERRNO";
-        $logger->error ("Can't save account info in `".
-            $target->{accountinfofile});
-    }
+    $storage->save({ data => $self->{myData} });
 }
 
 1;

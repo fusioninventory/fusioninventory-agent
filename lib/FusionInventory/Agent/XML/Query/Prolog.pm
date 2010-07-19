@@ -4,8 +4,10 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
+use Digest::MD5 qw(md5_base64);
+
+#use FusionInventory::Agent::XML::Query::Prolog;
 use Carp;
-use XML::Simple;
 
 sub new {
     my ($class, $params) = @_;

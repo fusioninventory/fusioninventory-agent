@@ -6,6 +6,10 @@ use base 'FusionInventory::Agent::XML::Query';
 
 use Carp;
 use XML::Simple;
+use XML::TreePP;
+use FusionInventory::Agent::XML::Query;
+
+our @ISA = ('FusionInventory::Agent::XML::Query');
 
 sub new {
     my ($class, $params) = @_;

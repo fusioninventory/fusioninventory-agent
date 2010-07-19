@@ -21,30 +21,27 @@ use FusionInventory::Logger;
 
 our $VERSION = '2.1_rc2';
 our $VERSION_STRING =
-    "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
+"FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
-    "FusionInventory-Agent_v$VERSION";
+"FusionInventory-Agent_v$VERSION";
 
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
-# THIS IS AN UGLY WORKAROUND FOR
-# http://rt.cpan.org/Ticket/Display.html?id=38067
-eval {XMLout("<a>b</a>");};
-if ($EVAL_ERROR) {
-    no strict 'refs'; ## no critic
-    ${*{"XML::SAX::"}{HASH}{'parsers'}} = sub {
-        return [ {
-            'Features' => {
-                'http://xml.org/sax/features/namespaces' => '1'
-            },
-            'Name' => 'XML::SAX::PurePerl'
-        }
-        ]
-    };
-}
+#use Sys::Hostname;
+use FusionInventory::Logger;
+use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::XML::Query::Prolog;
 
-# END OF THE UGLY FIX!
+use FusionInventory::Agent::Network;
+use FusionInventory::Agent::Task;
+#use FusionInventory::Agent::Task::Inventory;
+use FusionInventory::Agent::AccountInfo;
+use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Config;
+use FusionInventory::Agent::RPC;
+use FusionInventory::Agent::Targets;
+#use FusionInventory::Agent::JobEngine;
 
 sub new {
     my ($class, $params) = @_;
@@ -63,8 +60,8 @@ sub new {
     }
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
-        config => $config
-    });
+            config => $config
+        });
 
     if ( $REAL_USER_ID != 0 ) {
         $logger->info("You should run this program as super-user.");
@@ -86,7 +83,12 @@ sub new {
         );
     }
 
-    $logger->debug("base storage directory: $config->{basevardir}");
+    if ($config->{nosoft} || $config->{nosoftware}) {
+        $logger->info("the parameter --nosoft and --nosoftware are ".
+            "deprecated and may be removed in a future release, ".
+            "please use --no-software instead.");
+        $config->{'no-software'} = 1
+    }
 
     if (!-d $config->{'share-dir'}) {
         $logger->error("share-dir doesn't existe $config->{'share-dir'}");
@@ -96,8 +98,8 @@ sub new {
 
     # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
-        config => $config
-    });
+            config => $config
+        });
     my $myRootData = $rootStorage->restore();
 
     if (
@@ -105,9 +107,9 @@ sub new {
         $myRootData->{previousHostname} ne $hostname
     ) {
         my ($year, $month , $day, $hour, $min, $sec) =
-            (localtime(time()))[5,4,3,2,1,0];
+        (localtime(time()))[5,4,3,2,1,0];
         $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-            $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
+        $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
 
         $myRootData->{previousHostname} = $hostname;
         $myRootData->{deviceid} = $self->{deviceid};
@@ -117,10 +119,10 @@ sub new {
     }
 
     $self->{targetsList} = FusionInventory::Agent::TargetsList->new({
-        logger => $logger,
-        config => $config,
-        deviceid => $self->{deviceid}
-    });
+            logger => $logger,
+            config => $config,
+            deviceid => $self->{deviceid}
+        });
     my $targetsList = $self->{targetsList};
 
     if (!$targetsList->numberOfTargets()) {
@@ -130,7 +132,15 @@ sub new {
         exit 1;
     }
 
-    if ($config->{scanhomedirs}) {
+    $self->{jobEngine} = new FusionInventory::Agent::JobEngine({
+
+            logger => $logger,
+            config => $config,
+
+        });
+    my $jobFactory = $self->{jobFactory};
+
+    if ($config->{'scan-homedirs'}) {
         $logger->debug("User directory scanning enabled");
     }
 
@@ -156,10 +166,10 @@ sub new {
 
     }
     $self->{rpc} = FusionInventory::Agent::RPC->new({
-        logger      => $logger,
-        config      => $config,
-        targetsList => $targetsList,
-    });
+            logger      => $logger,
+            config      => $config,
+            targetsList => $targetsList,
+        });
 
     $logger->debug("FusionInventory Agent initialised");
 
@@ -190,28 +200,47 @@ sub main {
     my $logger = $self->{logger};
     my $targetsList = $self->{targetsList};
     my $rpc = $self->{rpc};
+    my $jobEngine = $self->{jobEngine};
+    $rpc->setCurrentStatus("waiting");
 
-    eval {
-        $rpc->setCurrentStatus("waiting");
+#####################################
+################ MAIN ###############
+#####################################
 
-        while (my $target = $targetsList->getNext()) {
+
+#######################################################
+#######################################################
+
+
+    while (my $target = $targetsList->getNext()) {
+
+        my $exitcode = 0;
+        my $wait;
+
+        my $network;
+        my $prologresp;
+        if ($target->{type} eq 'server') {
+
+
+
+
 
             my $prologresp;
             if ($target->{type} eq 'server') {
 
                 my $network = FusionInventory::Agent::Network->new({
-                    logger => $logger,
-                    config => $config,
-                    target => $target,
-                });
+                        logger => $logger,
+                        config => $config,
+                        target => $target,
+                    });
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                    accountinfo => $target->{accountinfo}, #? XXX
-                    logger => $logger,
-                    config => $config,
-                    target => $target,
-                    token  => $rpc->getToken()
-                });
+                        accountinfo => $target->{accountinfo}, #? XXX
+                        logger => $logger,
+                        config => $config,
+                        target => $target,
+                        token  => $rpc->getToken()
+                    });
 
                 # ugly circular reference moved from Prolog::getContent() method
                 $target->{accountinfo}->setAccountInfo($prolog);
@@ -229,24 +258,49 @@ sub main {
             }
 
             my $storage = FusionInventory::Agent::Storage->new({
-                config => $config,
-                logger => $logger,
-                target => $target,
-            });
+                    config => $config,
+                    logger => $logger,
+                    target => $target,
+                });
 
             my @tasks = qw/
-                Inventory
-                OcsDeploy
-                WakeOnLan
-                SNMPQuery
-                NetDiscovery
-                Ping
-                /;
+            Inventory
+            OcsDeploy
+            WakeOnLan
+            SNMPQuery
+            NetDiscovery
+            Ping
+            /;
 
             foreach my $module (@tasks) {
 
                 next if $config->{'no-'.lc($module)};
 
+# TODO jobEngine system (Gonéri's branch)
+#        my @modulesToDo = qw/
+#            Inventory
+#            OcsDeploy
+#            WakeOnLan
+#            SNMPQuery
+#            NetDiscovery
+#            Ping
+#            /;
+                #
+#        while (@modulesToDo && $jobEngine->beat()) {
+#            next if $jobEngine->isATaskRunning();
+                #
+#            my $module = shift @modulesToDo;
+#            print "starting: $module\n";
+#            $jobEngine->startTask({
+#                    module => $module,
+#                    network => $network,
+#                    target => $target,
+#                });
+#            print "Ok\n";
+#            $rpc->setCurrentStatus("running task $module");
+                #
+#        }
+#        $rpc->setCurrentStatus("waiting");
                 my $package = "FusionInventory::Agent::Task::$module";
                 if (!$package->require()) {
                     $logger->info("Module $package is not installed.");
@@ -256,12 +310,12 @@ sub main {
                 $rpc->setCurrentStatus("running task $module");
 
                 my $task = $package->new({
-                    config => $config,
-                    logger => $logger,
-                    target => $target,
-                    storage => $storage,
-                    prologresp => $prologresp
-                });
+                        config => $config,
+                        logger => $logger,
+                        target => $target,
+                        storage => $storage,
+                        prologresp => $prologresp
+                    });
 
                 if (
                     $config->{daemon}           ||

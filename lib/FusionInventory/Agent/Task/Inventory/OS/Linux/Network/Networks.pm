@@ -8,6 +8,9 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
 
+
+use Net::IP qw(:PROC);
+
 sub isInventoryEnabled {
     return 
         can_run("ifconfig") &&
@@ -201,7 +204,6 @@ sub getNetworkInfo {
     my ($address, $mask, $routes) = @_;
 
     # import Net::IP functional interface
-    Net::IP->import(':PROC');
 
     my ($ipsubnet, $ipgateway);
 

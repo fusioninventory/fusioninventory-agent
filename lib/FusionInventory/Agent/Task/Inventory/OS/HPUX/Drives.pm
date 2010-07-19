@@ -33,10 +33,11 @@ sub doInventory {
         return;
     }
 
-    while (my $line = <$handle>) {
-        next if $line =~ /nfs/;
-        chomp $line;
-        for (`bdf -t $line`) {
+    while (my $filesystem = <$handle>) {
+        next if $filesystem =~ /nfs/;
+        next if /^\s*$/;
+        chomp $filesystem;
+        for (`bdf -t $filesystem`) {
             next if ( /Filesystem/ );
             if ( /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/ ) {
                 $lv=$1;

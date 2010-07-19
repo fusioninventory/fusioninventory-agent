@@ -6,13 +6,13 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Net::IP qw(:PROC);
 
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("ifconfig") && 
-        can_load("Net::IP");
+        can_run("ifconfig")
 }
 
 # Initialise the distro entry

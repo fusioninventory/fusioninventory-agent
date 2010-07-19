@@ -36,6 +36,8 @@ sub new {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
+    my $type   = $self->{type};
+
 
     $self->{format} = $self->{type} eq 'local' && $config->{html} ?
         'HTML' : 'XML';
@@ -46,10 +48,12 @@ sub new {
         target => $self
     });
 
+    my $storage = $self->{storage};
     if ($self->{type} eq 'server') {
         $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
             logger => $logger,
             config => $config,
+            storage => $storage,
             target => $self,
         });
     

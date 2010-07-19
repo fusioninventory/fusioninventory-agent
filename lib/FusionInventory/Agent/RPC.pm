@@ -5,6 +5,8 @@ use warnings;
 use threads;
 use threads::shared;
 
+use Config;
+
 use English qw(-no_match_vars);
 use HTTP::Daemon;
 
@@ -24,6 +26,12 @@ sub new {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
+
+    if (!$Config{usethreads}) {
+      $logger->debug("threads support is need for RPC"); 
+      return;
+    }
+
 
     if ($config->{'share-dir'}) {
         $self->{htmlDir} = $config->{'share-dir'}.'/html';
@@ -90,13 +98,16 @@ sub handler {
 
             my $nextContact = "";
             foreach my $target (@{$targetsList->{targets}}) {
-                my $path = $target->{path};
+                my $path = $target->{'path'};
                 $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-                my $timeString = $target->getNextRunDate() > 1 ?
-                    localtime($target->getNextRunDate()) :
-                    "now";
-                $nextContact .=
-                    "<li>$target->{type}, $path: $timeString</li>\n";
+                my $timeString;
+                if ($target->getNextRunDate() > 1) {
+                    $timeString = localtime($target->getNextRunDate());
+                } else {
+                    $timeString = "now";
+                }
+                $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".$timeString."</li>\n";
+
             }
 
             my $indexFile = $htmlDir."/index.tpl";

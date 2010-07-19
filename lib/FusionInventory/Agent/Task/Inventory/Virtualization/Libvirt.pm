@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use XML::Simple;
+use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
@@ -16,6 +16,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
+    chomp (my $subsystem = `libvirtd --version`);
     my $command = 'virsh list --all 2>/dev/null';
     my $handle;
     if (!open $handle, '-|', $command) {
@@ -30,22 +31,21 @@ sub doInventory {
             $status =~ s/^shut off/off/;
 
             my $xml = `virsh dumpxml $name`;
-            my $data = XMLin($xml);
 
-            my $vcpu = $data->{vcpu};
-            my $uuid = $data->{uuid};
-            my $vmtype = $data->{type};
-            my $memory;
-            if ($data->{currentMemory} =~ /(\d+)\d{3}$/) {
-                $memory = $1;
-            }
+            my $tpp = XML::TreePP->new();
+            my $data = $tpp->parse( $xml );
+
+            my $vcpu = $data->{domain}->{vcpu};
+            my $uuid = $data->{domain}->{uuid};
+            my $vmtype = $data->{domain}->{type};
+            my $memory = $1 if $data->{domain}->{currentMemory} =~ /(\d+)\d{3}$/;
 
             my $machine = {
                 MEMORY => $memory,
                 NAME => $name,
                 UUID => $uuid,
                 STATUS => $status,
-                SUBSYSTEM => $vmtype,
+                SUBSYSTEM => $subsystem,
                 VMTYPE => "libvirt",
                 VCPU   => $vcpu,
             };

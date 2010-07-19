@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 
+use English qw(-no_match_vars);
 use Win32;
 use Win32::Daemon;
 use threads;
@@ -9,7 +10,7 @@ use FusionInventory::Agent;
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
 
-if ($^X =~ /(^.*(\\|\/))/) {
+if ($EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
     $ENV{PATH} .= $Config::Config{path_sep}.$1;
 } else {
     print("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");

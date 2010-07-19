@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent
 
+       * XML::Simple → XML::TreePP transition
+       * HPVM: XML::TreePP support (Amir PAKDEL)
+
 2.1_rc3
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
        * MacOSX: ignore printer if name start with:
@@ -32,6 +35,19 @@ Revision history for FusionInventory::Agent
        * Win32, network: Filter interfaces with no IP, IPv6 and MAC
        * Win32, printer: restore the DRIVER field
        * Win32, drive: restore the SIZE field
+       * Win32, get the memories from WMI only if dmidecode is missing
+       * Dmidecode, drop the unit from the memory speed like the Win32 OCS
+         agent do
+       * Win32, set the BIOS/TYPE field
+       * Win32, storage: clean up. Reduce the number of hdparm call.
+       * Win32, set USBDEVICES/NAME
+       * Add more test scripts: xml-query-inventory.t,
+         xml-query-simplemessage.t, t/xml-response.t
+       * Inventory, correctly store user list
+       * Fix a typo scanhomedirs → scan-homedirs 
+       * Fix a typo scanhomedirs → scan-homedirs
+       * HP-UX: add HP-UX VM support (Sébastien PRUD'HOMME)
+
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
@@ -128,9 +144,6 @@ Revision history for FusionInventory::Agent
          (Guillaume Rousse)
        * Linux/Storages: factorize redudant code for udev devices detection
          (Guillaume Rousse)
-       * factorize manufacturer sanitisation function
-       * factorize DHCP information retrieval
-       * fix DHCP information retrieval for lease files with random chars
        * HP-UX numerous improvement (Amir PAKDEL)
        * Add NETWORKS/SPEED (in MB/s) (Amir PAKDEL)
        * HP-UX/Drives: Swapped "Type" and "File System" (Amir PAKDEL)

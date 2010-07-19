@@ -30,10 +30,19 @@ my $default = {
     'logger'                  => 'Stderr',
     'logfile'                 => '',
     'logfacility'             => 'LOG_USER',
-    'nosoft'                  => 0, # deprecated
-    'nosoftware'              => 0, # deprecated
+    'remotedir'               => '/ocsinventory', # deprecated
+    'server'                  => '',
+    'share-dir'               => 0,
+    'stdout'                  => 0,
+    'user'                    => '',
+    'version'                 => 0,
+    'wait'                    => '',
+#   'xml'                     => 0,
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
+    'nosoft'                  => 0, # deprecated
+    'nosoftware'              => 0, # deprecated
+    'logdir'                  => $basedir . '/var/log/fusioninventory-agent',
     'no-printer'              => 0,
     'no-socket'               => 0,
     'no-software'             => 0,
@@ -45,13 +54,7 @@ my $default = {
     'password'                => '',
     'proxy'                   => '',
     'realm'                   => '',
-    'remotedir'               => '', # deprecated
-    'share-dir'               => 0,
-    'server'                  => '',
-    'stdout'                  => 0,
     'tag'                     => '',
-    'user'                    => '',
-    'version'                 => 0,
     'wait'                    => '',
     'scan-homedirs'           => 0,
 };
@@ -212,6 +215,9 @@ sub loadUserParams {
         'local|l=s',
         'logger=s',
         'logfile=s',
+        'nosoft',
+        'nosoftware',
+        'logger=s',
         'no-ocsdeploy',
         'no-inventory',
         'no-printer',
@@ -237,8 +243,6 @@ sub loadUserParams {
         'version',
         'wait|w=s',
         'delaytime=s',
-        'scan-homedirs',
-        'no-socket'
     );
 
     push(@options, 'color') if $OSNAME ne 'MSWin32';
@@ -255,7 +259,7 @@ sub checkContent {
 
     # if a logfile is defined, use file logger
     if ($self->{logfile}) {
-        $self->{logger} = 'File';
+        $self->{logger} .= ',File';
     }
 
     if ($self->{remotedir}) {

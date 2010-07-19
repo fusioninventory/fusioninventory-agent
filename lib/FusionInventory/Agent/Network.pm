@@ -26,62 +26,159 @@ sub new {
     croak 'no target' unless $params->{target};
     croak 'no config' unless $params->{config};
 
-    my $self = {
-        config => $params->{config},
-        logger => $params->{logger},
-        target => $params->{target}
-    };
-    bless $self, $class;
+    my $self;
 
-    $self->{URI} = URI->new($self->{target}->{path});
-    my $scheme = $self->{URI}->scheme();
-    if ($scheme ne 'http' && $scheme ne 'https') {
-        croak "Invalid protocol for URI: $self->{target}->{path}";
+    $self->{accountinfo} = $params->{accountinfo}; # Q: Is that needed?
+
+    my $config = $self->{config} = $params->{config};
+    my $logger = $self->{logger} = $params->{logger};
+    my $target = $self->{target} = $params->{target};
+
+    $logger->fault('$target not initialised') unless $target;
+    $logger->fault('$config not initialised') unless $config;
+
+    $self->{compress} = FusionInventory::Compress->new({logger => $logger});
+
+    eval {
+        require LWP::UserAgent;
+    };
+    if ($EVAL_ERROR) {
+        $logger->fault("Can't load LWP::UserAgent. Is the package installed?");
+    }
+    eval {
+        require HTTP::Status;
+    };
+    if ($EVAL_ERROR) {
+        $logger->fault("Can't load HTTP::Status. Is the package installed?");
+    }
+
+    $self->{URI} = $target->{path};
+
+    bless $self, $class;
+    return $self;
+}
+
+sub createUA {
+    my ($self, $args) = @_;
+
+    my $URI = $args->{URI} || $self->{target}->{path};
+    my $noProxy = $args->{noProxy};
+    my $timeout = $args->{timeout};
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    my $ua = LWP::UserAgent->new(keep_alive => 1);
+
+    my $protocl;
+    if ($self->{config}->{server} =~ /^(http(|s)):/) {
+        $protocl = lc($1);
+    } else {
+        $logger->fault("Can't read the protocl from this URL: ".$self->{config}->{server});
+    }
+
+    if ($noProxy) {
+
+        # Not thread safe :(
+        foreach (qw/HTTP_PROXY HTTPS_PROXY/) {
+            next unless $ENV{$_};
+            $self->{ProxySaved}{$_} = $ENV{$_};
+            $ENV{$_} = undef;
+        }
+
+    } else {
+
+        foreach (qw/HTTP_PROXY HTTPS_PROXY/) {
+            next unless $self->{ProxySaved}{$_};
+            $ENV{$_} = $self->{ProxySaved}{$_};
+            undef $self->{ProxySaved}{$_};
+        }
+
     }
     my $host   = $self->{URI}->host();
     my $port   = $self->{URI}->port() ||
-                 $scheme eq 'https' ? 443 : 80;
+                 $protocl eq 'https' ? 443 : 80;
 
-    # create user agent
-    $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
+    if ($self->{config}->{proxy}) {
+
+        if ($protocl eq 'http') {
+            $ENV{HTTP_PROXY} = $self->{config}->{proxy};
+            $ua->env_proxy;
+        } elsif ($protocl eq 'https') {
+            $ENV{HTTPS_PROXY} = $self->{config}->{proxy};
+            # Crypt::SSLeay do the proxy connexion itself with
+            # $ENV{HTTPS_PROXY}.
+        }
+    }
 
   if ($self->{config}->{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
     }  else {
         $self->{ua}->env_proxy;
     }
-    $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
-    if (
-        $self->{config}->{realm} ||
-        $self->{config}->{user}  ||
-        $self->{config}->{password}
-    ) {
-        $self->{ua}->credentials(
-            "$host:$port",
+    # Connect to server
+    my $version = 'FusionInventory-Agent_v'.$config->{VERSION};
+    $ua->agent($version);
+    $ua->timeout($timeout);
+
+    $self->setSslRemoteHost({
+            ua => $ua,
+            url => $self->{URI}
+        });
+
+    # Auth
+    if (!$args->{URI}) {
+        # We use HTTP only against the server
+        my $uaserver = $URI;
+        $uaserver =~ s/^http(|s):\/\///;
+        $uaserver =~ s/\/.*//;
+        if ($uaserver !~ /:\d+$/) {
+            $uaserver .= ':443' if $protocl eq 'https';
+            $uaserver .= ':80' if $protocl eq 'http';
+        }
+        $ua->credentials(
+            $uaserver, # server:port, port is needed
             $self->{config}->{realm},
             $self->{config}->{user},
             $self->{config}->{password}
         );
     }
 
-    # turns SSL checks on if needed
-    if ($scheme eq 'https' && !$self->{config}->{'no-ssl-check'}) {
-        $self->_turnSSLCheckOn();
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
-    }
-
-    $self->{compress} = FusionInventory::Compress->new({
-        logger => $self->{logger}
-    });
-
-    return $self;
+    return $ua;
 }
 
 =item send()
 
 Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
 server).
+
+            use FusionInventory::Agent::Network;
+
+            $network = FusionInventory::Agent::Network->new({
+
+                    logger => $logger,
+                    config => $config,
+                    target => $target,
+
+                });
+            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+
+                    accountinfo => $target->{accountinfo}, #? XXX
+                    logger => $logger,
+                    config => $config,
+                    rpc => $rpc,
+                    target => $target
+
+                });
+
+            $prologresp = $network->send({message => $prolog});
+
+            $resp = $network->send({
+                    msgType => $msgType,
+                    xmlContent => $tmp,
+                });
+
 
 =cut
 
@@ -93,13 +190,19 @@ sub send {
     my $config   = $self->{config};
     my $compress = $self->{compress};
 
-    # create message
     my $message = $args->{message};
-    my $message_content = $compress->compress($message->getContent());
-    if (!$message_content) {
-        $logger->error('Inflating problem');
-        return;
+
+    my $msgType;
+    my $xmlContent;
+    if ($message) {
+        ($msgType) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
+        $xmlContent = $message->getContent();
+    } elsif (!$message) {
+        $msgType= $args->{msgType};
+        $xmlContent = $args->{xmlContent};
     }
+    die unless $msgType;
+
 
     my $req = HTTP::Request->new(POST => $self->{URI});
 
@@ -108,12 +211,22 @@ sub send {
         'Content-type' => 'application/x-compress'
     );
 
-    $req->content($message_content);
+    # Print the XMLs in the debug output
+    #$logger->debug ("sending: ".$message->getContent());
+
+    my $compressed = $compress->compress( $xmlContent );
+
+    if (!$compressed) {
+        $logger->error ('failed to compress data');
+        return;
+    }
+
+    $req->content($compressed);
 
     # send it
-    $logger->debug("sending message");
-
-    my $res = $self->{ua}->request($req);
+    $logger->debug ("sending XML");
+    my $ua = $self->createUA();
+    my $res = $ua->request($req);
 
     # check result
     if (!$res->is_success()) {
@@ -143,16 +256,23 @@ sub send {
         }
     }
 
-    $logger->debug("receiving message: $response_content");
+    # AutoLoad the proper response object
+    my $tmp = "FusionInventory::Agent::XML::Response::".$msgType;
+    $tmp->require();
+    if ($EVAL_ERROR) {
+        $logger->error("Can't load response module $tmp: $EVAL_ERROR");
+    }
+    $tmp->import();
+    my $response = $tmp->new({
 
-    my $response = $response_type->new({
-        accountinfo => $target->{accountinfo},
-        content     => $response_content,
-        logger      => $logger,
-        origmsg     => $message,
-        target      => $target,
-        config      => $self->{config}
-    });
+            accountinfo => $target->{accountinfo},
+            content => $response_content,
+            logger => $logger,
+            origmsg => $message,
+            target => $target,
+            config => $self->{config}
+
+        });
 
     return $response;
 }
@@ -164,28 +284,14 @@ sub _turnSSLCheckOn {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my $hasCrypSSLeay;
-    my $hasIOSocketSSL;
 
-    eval {
-        require Crypt::SSLeay;
-    };
-    $hasCrypSSLeay = $EVAL_ERROR ? 0 : 1;
-
-    if (!$hasCrypSSLeay) {
-        eval {
-            require IO::Socket::SSL;
-        };
-        $hasIOSocketSSL = $EVAL_ERROR ? 0 : 1;
-    }
-
-    if (!$hasCrypSSLeay && !$hasIOSocketSSL) {
-        croak 
-            "Failed to load Crypt::SSLeay or IO::Socket::SSL, to ".
-            "validate the server SSL cert. If you want ".
-            "to ignore this message and want to ignore SSL ".
-            "verification, you can use the ".
-            "--no-ssl-check parameter to disable SSL check.";
+    if ($config->{'no-ssl-check'}) {
+        if (!$config->{SslCheckWarningShown}) {
+            $logger->info( "--no-ssl-check parameter "
+                . "found. Don't check server identity!!!" );
+            $config->{SslCheckWarningShown} = 1;
+        }
+        return;
     }
 
     if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
@@ -205,45 +311,126 @@ sub _turnSSLCheckOn {
 
         $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
 
-        if (!$hasCrypSSLeay && $hasIOSocketSSL) {
-            eval {
-                IO::Socket::SSL::set_ctx_defaults(
-                    verify_mode => Net::SSLeay->VERIFY_PEER(),
-                    ca_file => $config->{'ca-cert-file'}
-                );
-            };
-            croak
-                "Failed to set ca-cert-file: $EVAL_ERROR".
-                "Your IO::Socket::SSL distribution is too old. ".
-                "Please install Crypt::SSLeay or disable ".
-                "SSL server check with --no-ssl-check"
-            if $EVAL_ERROR;
-        }
-
     } elsif ($config->{'ca-cert-dir'}) {
         if (!-d $config->{'ca-cert-dir'}) {
             croak "--ca-cert-dir $config->{'ca-cert-dir'} doesn't exist";
         }
 
         $ENV{HTTPS_CA_DIR} =$config->{'ca-cert-dir'};
-        if (!$hasCrypSSLeay && $hasIOSocketSSL) {
-            eval {
-                IO::Socket::SSL::set_ctx_defaults(
-                    verify_mode => Net::SSLeay->VERIFY_PEER(),
-                    ca_path => $config->{'ca-cert-dir'}
-                );
-            };
-            croak
-                "Failed to set ca-cert-file: $EVAL_ERROR".
-                "Your IO::Socket::SSL distribution is too old. ".
-                "Please install Crypt::SSLeay or disable ".
-                "SSL server check with --no-ssl-check"
-            if $EVAL_ERROR;
-        }
+
     }
 
 }
 
+sub setSslRemoteHost {
+    my ($self, $args) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    my $uri = $args->{URI};
+    my $ua = $args->{ua};
+
+    if ($config->{'no-ssl-check'}) {
+        return;
+    }
+
+    if (!$self->{URI}) {
+        $logger->fault("setSslRemoteHost(), no url parameter!");
+    }
+
+    if ($self->{URI} !~ /^https:/i) {
+        return;
+    }
+    $self->turnSSLCheckOn();
+
+    # Check server name against provided SSL certificate
+    if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
+        my $cn = $1;
+        $cn =~ s/([\-\.])/\\$1/g;
+        $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$cn);
+    }
+}
+
+
+=item getStore()
+
+Acts like LWP::Simple::getstore.
+
+        my $rc = $network->getStore({
+                source => 'http://www.FusionInventory.org/',
+                target => '/tmp/fusioinventory.html'
+                noProxy => 0
+            });
+
+$rc, can be read by isSuccess()
+
+=cut
+sub getStore {
+    my ($self, $args) = @_;
+
+    my $source = $args->{source};
+    my $target = $args->{target};
+    my $timeout = $args->{timeout};
+    my $noProxy = $args->{noProxy};
+
+    my $ua = $self->createUA({
+            URI => $source,
+            timeout => $timeout,
+            noProxy => $noProxy,
+        });
+
+    $ua->timeout($timeout) if $timeout;
+
+    my $request = HTTP::Request->new(GET => $source);
+    my $response = $ua->request($request, $target);
+
+    return $response->code;
+
+}
+
+=item get()
+
+        my $content = $network->get({
+                source => 'http://www.FusionInventory.org/',
+                timeout => 15,
+                noProxy => 0
+            });
+
+Act like LWP::Simple::get, return the HTTP content of the URL in 'source'.
+The timeout is optional
+
+=cut
+sub get {
+    my ($self, $args) = @_;
+
+    my $source = $args->{source};
+    my $timeout = $args->{timeout};
+    my $noProxy = $args->{noProxy};
+
+    my $ua = $self->createUA({
+            URI => $source,
+            timeout => $timeout,
+            noProxy => $noProxy,
+        });
+
+    my $response = $ua->get($source);
+
+    return $response->decoded_content if $response->is_success;
+
+    return;
+}
+
+=item isSuccess()
+
+Wrapper for LWP::is_success;
+
+        die unless $network->isSuccess({ code => $rc });
+=cut
+
+sub isSuccess {
+    my ($self, $args) = @_;
+}
 1;
 __END__
 
