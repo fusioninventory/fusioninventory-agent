@@ -106,6 +106,9 @@ sub parseIfconfig {
             if ($line =~ /^(\S+)/) {
                 $interface->{DESCRIPTION} = $1;
             }
+            if ($line =~ /inet addr:($ip_address_pattern)/i) {
+                $interface->{IPADDRESS} = $1;
+            }
             if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
             }
