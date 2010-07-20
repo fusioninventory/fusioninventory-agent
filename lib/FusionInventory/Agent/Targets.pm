@@ -47,27 +47,27 @@ sub init {
 
     if ($config->{'stdout'}) {
         my $target = FusionInventory::Agent::Target->new({
-                'logger' => $logger,
-                config => $config,
-                'type' => 'stdout',
-                'deviceid' => $deviceid,
-            });
+            logger   => $logger,
+            config   => $config,
+            type     => 'stdout',
+            deviceid => $deviceid,
+        });
         $self->addTarget({
-                target => $target
-            });
+            target => $target
+        });
     }
 
     if ($config->{'local'}) {
         my $target = FusionInventory::Agent::Target->new({
-                'config' => $config,
-                'logger' => $logger,
-                'type' => 'local',
-                'path' => $config->{'local'},
-                'deviceid' => $deviceid,
-            });
+            config   => $config,
+            logger   => $logger,
+            type     => 'local',
+            path     => $config->{'local'},
+            deviceid => $deviceid,
+        });
         $self->addTarget({
-                target => $target
-            });
+            target => $target
+        });
     }
 
     foreach my $val (split(/,/, $config->{'server'})) {
@@ -81,15 +81,15 @@ sub init {
             $url = $val;
         }
         my $target = FusionInventory::Agent::Target->new({
-                'config' => $config,
-                'logger' => $logger,
-                'type' => 'server',
-                'path' => $url,
-                'deviceid' => $deviceid,
-            });
+            config   => $config,
+            logger   => $logger,
+            type     => 'server',
+            path     => $url,
+            deviceid => $deviceid,
+        });
         $self->addTarget({
-                target => $target
-            });
+            target => $target
+        });
     }
 
 }

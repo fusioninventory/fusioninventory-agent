@@ -8,35 +8,34 @@ use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
 my @status = (
-        'Unknown', # 0 is not defined
-        'Other',
-        'Unknown',
-        'Idle',
-        'Printing',
-        'Warming Up',
-        'Stopped printing',
-        'Offline',
-        );
+    'Unknown', # 0 is not defined
+    'Other',
+    'Unknown',
+    'Idle',
+    'Printing',
+    'Warming Up',
+    'Stopped printing',
+    'Offline',
+);
 
 my @errStatus = (
-        'Unknown',
-        'Other',
-        'No Error',
-        'Low Paper',
-        'No Paper',
-        'Low Toner',
-        'No Toner',
-        'Door Open',
-        'Jammed',
-        'Service Requested',
-        'Output Bin Full',
-        'Paper Problem',
-        'Cannot Print Page',
-        'User Intervention Required',
-        'Out of Memory',
-        'Server Unknown',
-        );
-
+    'Unknown',
+    'Other',
+    'No Error',
+    'Low Paper',
+    'No Paper',
+    'Low Toner',
+    'No Toner',
+    'Door Open',
+    'Jammed',
+    'Service Requested',
+    'Output Bin Full',
+    'Paper Problem',
+    'Cannot Print Page',
+    'User Intervention Required',
+    'Out of Memory',
+    'Server Unknown',
+);
 
 sub isInventoryEnabled {
     return 1;
@@ -53,11 +52,11 @@ sub doInventory {
 
     my @slots;
 
-    foreach my $Properties
-        (getWmiProperties('Win32_Printer',
-qw/ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name Comment DescriptionDriverName DriverName
- PortName Network Shared PrinterStatus ServerName ShareName PrintProcessor
-/)) {
+    foreach my $Properties (getWmiProperties('Win32_Printer', qw/
+        ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
+        Comment DescriptionDriverName DriverName PortName Network Shared 
+        PrinterStatus ServerName ShareName PrintProcessor
+    /)) {
 
         my $errStatus;
         if ($Properties->{ExtendedDetectedErrorState}) {
@@ -74,21 +73,21 @@ $Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
         $Properties->{Serial} = getSerialbyUsb($Properties->{PortName});
 
         $inventory->addPrinter({
-                NAME => $Properties->{Name},
-                COMMENT => $Properties->{Comment},
-                DESCRIPTION => $Properties->{Description},
-                DRIVER => $Properties->{DriverName},
-                PORT => $Properties->{PortName},
-                RESOLUTION => $resolution,
-                NETWORK => $Properties->{Network},
-                SHARED => $Properties->{Shared},
-                STATUS => $status[$Properties->{PrinterStatus}],
-                ERRSTATUS => $errStatus,
-                SERVERNAME => $Properties->{ServerName},
-                SHARENAME => $Properties->{ShareName},
-                PRINTPROCESSOR => $Properties->{PrintProcessor},
-                SERIAL => $Properties->{Serial}
-                });
+            NAME => $Properties->{Name},
+            COMMENT => $Properties->{Comment},
+            DESCRIPTION => $Properties->{Description},
+            DRIVER => $Properties->{DriverName},
+            PORT => $Properties->{PortName},
+            RESOLUTION => $resolution,
+            NETWORK => $Properties->{Network},
+            SHARED => $Properties->{Shared},
+            STATUS => $status[$Properties->{PrinterStatus}],
+            ERRSTATUS => $errStatus,
+            SERVERNAME => $Properties->{ServerName},
+            SHARENAME => $Properties->{ShareName},
+            PRINTPROCESSOR => $Properties->{PrintProcessor},
+            SERIAL => $Properties->{Serial}
+        });
 
     }    
 }
@@ -148,6 +147,5 @@ sub getSerialbyUsb {
     }
     return;
 }
-
 
 1;

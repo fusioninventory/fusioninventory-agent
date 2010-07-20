@@ -83,30 +83,29 @@ sub processSoftwares {
         my $versionMinor = hexToDec($data->{'/VersionMinor'});
         my $versionMajor = hexToDec($data->{'/VersionMajor'});
 
-
         if ($data->{'/NoRemove'}) {
             $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
         }
 
         $inventory->addSoftware ({
-                COMMENTS => $comments,
+            COMMENTS => $comments,
 #            FILESIZE => $filesize,
 #            FOLDER => $folder,
-                FROM => "registry",
-                HELPLINK => $helpLink,
-                INSTALLDATE => $installDate,
-                NAME => $name,
-                NOREMOVE => $noRemove,
-                RELEASETYPE => $releaseType,
-                PUBLISHER => $publisher,
-                UNINSTALL_STRING => $uninstallString,
-                URL_INFO_ABOUT => $urlInfoAbout,
-                VERSION => $version,
-                VERSION_MINOR => $versionMinor,
-                VERSION_MAJOR => $versionMajor,
-                IS64BIT => $is64bit,
-                GUID => $guid,
-                });
+            FROM => "registry",
+            HELPLINK => $helpLink,
+            INSTALLDATE => $installDate,
+            NAME => $name,
+            NOREMOVE => $noRemove,
+            RELEASETYPE => $releaseType,
+            PUBLISHER => $publisher,
+            UNINSTALL_STRING => $uninstallString,
+            URL_INFO_ABOUT => $urlInfoAbout,
+            VERSION => $version,
+            VERSION_MINOR => $versionMinor,
+            VERSION_MAJOR => $versionMajor,
+            IS64BIT => $is64bit,
+            GUID => $guid,
+        });
     }
 }
 
@@ -122,23 +121,19 @@ sub doInventory {
     my $Config;
 
     my $is64bit;
-    foreach my $Properties
-        (getWmiProperties('Win32_Processor',
-                          qw/AddressWidth/)) {
-            if ($Properties->{AddressWidth} eq 64) {
-                $is64bit = 1;
-            }
-
+    foreach my $Properties (getWmiProperties('Win32_Processor', qw/
+        AddressWidth
+    /)) {
+        if ($Properties->{AddressWidth} eq 64) {
+            $is64bit = 1;
         }
-
-
+    }
 
     if ($is64bit) {
 
-
-# I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read 32bit
-# entries. This is not the case on Win2003 and if I correctly understand
-# MSDN, this sounds very odd
+        # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read
+        # 32bit entries. This is not the case on Win2003 and if I correctly
+        # understand MSDN, this sounds very odd
 
         my $machKey64bit = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_64KEY

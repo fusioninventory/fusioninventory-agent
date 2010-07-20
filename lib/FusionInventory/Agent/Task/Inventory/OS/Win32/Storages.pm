@@ -12,7 +12,6 @@ sub isInventoryEnabled {
 sub getInfo {
     my ($type, $nbr) = @_;
 
-
     my $info = {};
 
     my $device = "/dev/";
@@ -38,10 +37,10 @@ sub doInventory {
 
 
     my @storages;
-    foreach my $Properties
-        (getWmiProperties('Win32_DiskDrive',
-                          qw/Name Manufacturer Model MediaType InterfaceType FirmwareRevision
-                          SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
+    foreach my $Properties (getWmiProperties('Win32_DiskDrive', qw/
+        Name Manufacturer Model MediaType InterfaceType FirmwareRevision
+        SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId
+    /)) {
 
             my $info = {};
 
@@ -51,26 +50,27 @@ sub doInventory {
 
             $inventory->addStorage({
                 MANUFACTURER => $Properties->{Manufacturer},
-                             MODEL => $info->{model} || $Properties->{Model},
-                             DESCRIPTION => $Properties->{Description},
-                             NAME => $Properties->{Name},
-                             TYPE => $Properties->{MediaType},
-                             INTERFACE => $Properties->{InterfaceType},
-                             FIRMWARE => $info->{firmware} || $Properties->{FirmwareRevision},
-                             SERIAL => $info->{serial} || $Properties->{SerialNumber},
-                             DISKSIZE => $info->{size} || int($Properties->{Size}/(1024*1024)),
-                             SCSI_CHID => $Properties->{SCSILogicialUnit},
-                             SCSI_COID => $Properties->{SCSIPort},
-                             SCSI_LUN => $Properties->{SCSILogicalUnit},
-                             SCSI_UNID => $Properties->{SCSITargetId},
+                MODEL => $info->{model} || $Properties->{Model},
+                DESCRIPTION => $Properties->{Description},
+                NAME => $Properties->{Name},
+                TYPE => $Properties->{MediaType},
+                INTERFACE => $Properties->{InterfaceType},
+                FIRMWARE => $info->{firmware} || $Properties->{FirmwareRevision},
+                SERIAL => $info->{serial} || $Properties->{SerialNumber},
+                DISKSIZE => $info->{size} || int($Properties->{Size}/(1024*1024)),
+                SCSI_CHID => $Properties->{SCSILogicialUnit},
+                SCSI_COID => $Properties->{SCSIPort},
+                SCSI_LUN => $Properties->{SCSILogicalUnit},
+                SCSI_UNID => $Properties->{SCSITargetId},
             });
         }
 
 
-    foreach my $Properties
-        (getWmiProperties('Win32_CDROMDrive',
-                          qw/Manufacturer Caption Description Name MediaType InterfaceType FirmwareRevision
-                          SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
+    foreach my $Properties (getWmiProperties('Win32_CDROMDrive', qw/
+        Manufacturer Caption Description Name MediaType InterfaceType
+        FirmwareRevision SerialNumber Size SCSILogicialUnit SCSIPort
+        SCSILogicalUnit SCSITargetId
+    /)) {
             my $info = {};
 
             if ($Properties->{Name} =~ /(\d+)$/) {
@@ -99,10 +99,11 @@ sub doInventory {
             });
         }
 
-    foreach my $Properties
-        (getWmiProperties('Win32_TapeDrive',
-                          qw/Manufacturer Caption Description Name MediaType InterfaceType FirmwareRevision
-                          SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId/)) {
+    foreach my $Properties (getWmiProperties('Win32_TapeDrive', qw/
+        Manufacturer Caption Description Name MediaType InterfaceType
+        FirmwareRevision SerialNumber Size SCSILogicialUnit SCSIPort
+        SCSILogicalUnit SCSITargetId
+    /)) {
 
             $inventory->addStorage({
                 MANUFACTURER => $Properties->{Manufacturer},
