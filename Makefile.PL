@@ -2,22 +2,22 @@
 use inc::Module::Install;
 use English qw(-no_match_vars);
 
-# Hack to be able to run a post install script
-sub MY::postamble
-{
-
-    return if $OSNAME =~ /^MSWin/;
-
-	my $re;
-
-	$re = '
-install :: all pure_install doc_install
-	$(NOECHO) $(NOOP)';
-
-	$re .= "\n\t[ ! -f run-postinst ] || $EXECUTABLE_NAME fusioninventory-agent-config\n";
-
-    return $re;
-}
+## Hack to be able to run a post install script
+#sub MY::postamble
+#{
+#
+#    return if $OSNAME =~ /^MSWin/;
+#
+#	my $re;
+#
+#	$re = '
+#install :: all pure_install doc_install
+#	$(NOECHO) $(NOOP)';
+#
+#	$re .= "\n\t[ ! -f run-postinst ] || $EXECUTABLE_NAME fusioninventory-agent-config\n";
+#
+#    return $re;
+#}
 
 use Config;
 
