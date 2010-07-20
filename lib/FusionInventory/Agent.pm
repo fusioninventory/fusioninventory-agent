@@ -50,9 +50,6 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {};
-############################
-#### CLI parameters ########
-############################
     my $config = $self->{config} = FusionInventory::Agent::Config::load();
 
     if ($params->{winService}) {
@@ -97,7 +94,7 @@ sub new {
 
     my $hostname = hostname();
 
-# /!\ $rootStorage save/read data in 'basevardir', not in a target directory!
+    # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
         config => $config
     });
@@ -119,13 +116,6 @@ sub new {
         $self->{deviceid} = $myRootData->{deviceid}
     }
 
-
-############################
-#### Objects initilisation
-############################
-
-
-######
     $self->{targets} = FusionInventory::Agent::Targets->new({
         logger => $logger,
         config => $config,
@@ -199,15 +189,6 @@ sub main {
     my $rpc = $self->{rpc};
     $rpc->setCurrentStatus("waiting");
 
-
-
-#####################################
-################ MAIN ###############
-#####################################
-
-
-#######################################################
-#######################################################
     while (my $target = $targets->getNext()) {
 
         my $exitcode = 0;
