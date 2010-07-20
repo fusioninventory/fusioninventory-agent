@@ -23,79 +23,76 @@ $PrevState = SERVICE_START_PENDING;
 my $thr;
 
 sub startAgent {
-
     return if $thr;
     $thr = threads->create(sub {
-            my $agent = new FusionInventory::Agent({winService => 1});
-            $agent->main();
-        });
-
+        my $agent = new FusionInventory::Agent({winService => 1});
+        $agent->main();
+    });
 }
 
 sub killAgent {
-
     $thr->kill('KILL');
     $thr = undef;
-
 }
 
-while( SERVICE_STOPPED != ( $State = Win32::Daemon::State() ) ){ 
-    if( SERVICE_START_PENDING == $State ){
-# Initialization code
+while (SERVICE_STOPPED != ($State = Win32::Daemon::State())){ 
+    if (SERVICE_START_PENDING == $State) {
+        # Initialization code
         startAgent();
-        Win32::Daemon::State( SERVICE_RUNNING );
+        Win32::Daemon::State(SERVICE_RUNNING);
         $PrevState = SERVICE_RUNNING;
-    } elsif(SERVICE_STOP_PENDING==$State){
+    } elsif (SERVICE_STOP_PENDING = =$State) {
         killAgent();
         Win32::Daemon::State(SERVICE_STOPPED);
-    } elsif(SERVICE_PAUSE_PENDING==$State){
-# "Pausing...";
+    } elsif (SERVICE_PAUSE_PENDING == $State) {
+        # "Pausing...";
         killAgent();
-        Win32::Daemon::State( SERVICE_PAUSED );
+        Win32::Daemon::State(SERVICE_PAUSED);
         $PrevState = SERVICE_PAUSED;
         killAgent();
         next;
-    } elsif( SERVICE_CONTINUE_PENDING == $State ) {
-# "Resuming...";
+    } elsif (SERVICE_CONTINUE_PENDING == $State) {
+        # "Resuming...";
         startAgent();
-        Win32::Daemon::State( SERVICE_RUNNING );
+        Win32::Daemon::State(SERVICE_RUNNING);
         $PrevState = SERVICE_RUNNING;
         next;
-    } elsif( SERVICE_STOP_PENDING == $State ){
-# "Stopping...";
+    } elsif (SERVICE_STOP_PENDING == $State) {
+        # "Stopping...";
         killAgent();
-        Win32::Daemon::State( SERVICE_STOPPED );
+        Win32::Daemon::State(SERVICE_STOPPED);
         $PrevState = SERVICE_STOPPED;
         next;
-    } elsif( SERVICE_RUNNING == $State ){
-# The service is running as normal...
-# ...add the main code here...
+    } elsif (SERVICE_RUNNING == $State) {
+        # The service is running as normal...
+        # ...add the main code here...
         startAgent();
-    } else{
-# Got an unhandled control message. Set the state to
-# whatever the previous state was.
-        Win32::Daemon::State( $PrevState );
+    } else {
+        # Got an unhandled control message. Set the state to
+        # whatever the previous state was.
+        Win32::Daemon::State($PrevState);
     }
 
-# Check for any outstanding commands. Pass in a non zero value
-# and it resets the Last Message to SERVICE_CONTROL_NONE.
-    if( SERVICE_CONTROL_NONE != ( my $Message = 
-            Win32::Daemon::LastControlMessage( 1 ) ) ) {
-        if( SERVICE_CONTROL_INTERROGATE == $Message ) {
-# Got here if the Service Control Manager is requesting
-# the current state of the service. This can happen for
-# a variety of reasons. Report the last state we set.
+    # Check for any outstanding commands. Pass in a non zero value
+    # and it resets the Last Message to SERVICE_CONTROL_NONE.
+    if (SERVICE_CONTROL_NONE != (my $Message = 
+            Win32::Daemon::LastControlMessage(1))) {
+        if (SERVICE_CONTROL_INTERROGATE == $Message) {
+            # Got here if the Service Control Manager is requesting
+            # the current state of the service. This can happen for
+            # a variety of reasons. Report the last state we set.
             Win32::Daemon::State( $PrevState );
-        } elsif( SERVICE_CONTROL_SHUTDOWN == $Message ) {
-# Yikes! The system is shutting down. We had better clean up
-# and stop.
-# Tell the SCM that we are preparing to shutdown and that we expect
-# it to take 25 seconds (so don't terminate us for at least 25 seconds)...
-            Win32::Daemon::State( SERVICE_STOP_PENDING, 25000 );
+        } elsif (SERVICE_CONTROL_SHUTDOWN == $Message) {
+            # Yikes! The system is shutting down. We had better clean up
+            # and stop.
+            # Tell the SCM that we are preparing to shutdown and that we expect
+            # it to take 25 seconds, so don't terminate us for at least
+            # 25 seconds...
+            Win32::Daemon::State(SERVICE_STOP_PENDING, 25000);
         }
     }
-# Snoose for awhile so we don't suck up cpu time...
-    Win32::Sleep( $SERVICE_SLEEP_TIME );
+    # Snoose for awhile so we don't suck up cpu time...
+    Win32::Sleep($SERVICE_SLEEP_TIME);
 }
 
 __END__

@@ -38,8 +38,8 @@ sub new {
     my $logger = $self->{logger};
 
     if (!$Config{usethreads}) {
-      $logger->debug("threads support is need for RPC"); 
-      return;
+        $logger->debug("threads support is need for RPC"); 
+        return;
     }
 
 
@@ -52,17 +52,21 @@ sub new {
 
 
     my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
-            target => {
-                vardir => $config->{basevardir},
-            }
-        });
+        target => {
+            vardir => $config->{basevardir},
+        }
+    });
 
     bless $self, $class;
 
     return $self if $config->{'no-socket'};
 
     $SIG{PIPE} = 'IGNORE';
-    if ($config->{daemon} || $config->{'daemon-no-fork'} || $config->{winService}) {
+    if (
+        $config->{daemon}           ||
+        $config->{'daemon-no-fork'} ||
+        $config->{winService}
+    ) {
         $self->{thr} = threads->create('server', $self);
     }
 
@@ -197,19 +201,21 @@ sub server {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalAddr => $config->{'rpc-ip'},
             LocalPort => 62354,
-            Reuse => 1,
-            Timeout => 5);
+            Reuse     => 1,
+            Timeout   => 5
+        );
     } else {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalPort => 62354,
-            Reuse => 1,
-            Timeout => 5);
+            Reuse     => 1,
+            Timeout   => 5
+        );
     }
   
-   if (!$daemon) {
+    if (!$daemon) {
         $logger->error("Failed to start the RPC server");
         return;
-   } 
+    } 
     $logger->info("RPC service started at: ". $daemon->url);
 
 # Since perl 5.10, threads::joinable is avalaible

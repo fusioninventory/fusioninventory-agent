@@ -2,22 +2,22 @@
 use inc::Module::Install;
 use English qw(-no_match_vars);
 
-# Hack to be able to run a post install script
-sub MY::postamble
-{
-
-    return if $OSNAME =~ /^MSWin/;
-
-	my $re;
-
-	$re = '
-install :: all pure_install doc_install
-	$(NOECHO) $(NOOP)';
-
-	$re .= "\n\t[ ! -f run-postinst ] || $EXECUTABLE_NAME fusioninventory-agent-config\n";
-
-    return $re;
-}
+## Hack to be able to run a post install script
+#sub MY::postamble
+#{
+#
+#    return if $OSNAME =~ /^MSWin/;
+#
+#	my $re;
+#
+#	$re = '
+#install :: all pure_install doc_install
+#	$(NOECHO) $(NOOP)';
+#
+#	$re .= "\n\t[ ! -f run-postinst ] || $EXECUTABLE_NAME fusioninventory-agent-config\n";
+#
+#    return $re;
+#}
 
 use Config;
 
@@ -57,10 +57,10 @@ install_share; # No parameter, si http://www.glpi-project.org/forum/viewtopic.ph
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 
 if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
-  foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
-    bundle $module;
-    requires $module;
-  }
+    foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
+        bundle $module;
+        requires $module;
+    }
 }
 
 

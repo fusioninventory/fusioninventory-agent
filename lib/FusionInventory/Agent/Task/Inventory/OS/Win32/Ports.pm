@@ -18,35 +18,27 @@ sub doInventory {
 
 
     my @ports;
-    foreach my $Properties
-        (getWmiProperties('Win32_SerialPort',
-qw/Name Caption Description/)) {
-
-
+    foreach my $Properties (getWmiProperties('Win32_SerialPort', qw/
+        Name Caption Description
+    /)) {
         $inventory->addPorts({
-
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
             DESCRIPTION => $Properties->{Description},
             TYPE => 'Serial',
-
         });
-
     }
 
-    foreach my $Properties
-        (getWmiProperties('Win32_ParallelPort',
-qw/Name Caption Description/)) {
+    foreach my $Properties (getWmiProperties('Win32_ParallelPort', qw/
+        Name Caption Description
+    /)) {
 
         $inventory->addPorts({
-
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
             DESCRIPTION => $Properties->{Description},
             TYPE => 'Parallel',
-
         });
-
     }
 
 
@@ -202,12 +194,10 @@ qw/Name Caption Description/)) {
         }
 
         $inventory->addPorts({
-
             NAME => $Properties->{InternalReferenceDesignator},
             CAPTION => $Properties->{InternalReferenceDesignator},
             DESCRIPTION => $Properties->{InternalReferenceDesignator},
             TYPE => $type
-
         });
 
     }
