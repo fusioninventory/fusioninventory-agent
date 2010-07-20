@@ -79,7 +79,8 @@ my $test = {
                 'THREAD' => '3',
                 'NAME' => 'void CPU',
                 'CORE' => '1'
-            }
+            },
+        ACCESSLOG => '',
         }
     }
 };
