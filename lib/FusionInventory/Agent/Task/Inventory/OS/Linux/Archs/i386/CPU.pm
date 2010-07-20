@@ -45,7 +45,9 @@ sub doInventory {
         }
     }
 
-    my ($cpuProcs, $cpuCoreCpts) = getInfosFromProc($logger);
+    my ($cpuProcs, $cpuCoreCpts) = getInfosFromProc(
+        $logger, '/proc/cpuinfo', '<'
+    );
 
     my $maxId = @cpu?@cpu-1:@$cpuProcs-1;
     foreach my $id (0..$maxId) {
