@@ -21,6 +21,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Screen;
 use strict;
 use warnings;
 
+use Carp;
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
