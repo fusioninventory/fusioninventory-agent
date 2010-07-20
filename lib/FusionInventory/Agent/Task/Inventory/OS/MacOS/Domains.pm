@@ -14,7 +14,8 @@ sub isInventoryEnabled {
     shift (@domain);
     return 1 if @domain;
     -f "/etc/resolv.conf"
- }
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
@@ -28,18 +29,18 @@ sub doInventory {
     $domain = join ('.',@domain);
 
     if (!$domain) {
-      my %domain;
+        my %domain;
 
-      if (open my $handle, '<', '/etc/resolv.conf') {
-          while(<$handle>){
-            $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
-          }
-          close $handle;
-      } else {
-          $logger->debug("Can't open /etc/resolv.conf: $ERRNO");
-      }
+        if (open my $handle, '<', '/etc/resolv.conf') {
+            while(<$handle>){
+                $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+            }
+            close $handle;
+        } else {
+            $logger->debug("Can't open /etc/resolv.conf: $ERRNO");
+        }
 
-      $domain = join "/", keys %domain;
+        $domain = join "/", keys %domain;
     }
 
     # If no domain name, we send "WORKGROUP"
