@@ -3,13 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Software;
 use strict;
 use warnings;
 
-<<<<<<< HEAD
-use Config;
-
-use Win32;
-use Win32::OLE('in');
-use Win32::OLE::Variant;
-=======
 use constant KEY_WOW64_64KEY => 0x100; 
 use constant KEY_WOW64_32KEY => 0x200; 
 
@@ -24,11 +17,8 @@ use Win32::TieRegistry (
     ArrayValues => 0,
     qw/KEY_READ/
 );
->>>>>>> 26c7e46... Consistent usage of Win32::TieRegistry
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
-
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
 sub isInventoryEnabled {
     return 1;
