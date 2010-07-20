@@ -3,11 +3,28 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Software;
 use strict;
 use warnings;
 
+<<<<<<< HEAD
 use Config;
 
 use Win32;
 use Win32::OLE('in');
 use Win32::OLE::Variant;
+=======
+use constant KEY_WOW64_64KEY => 0x100; 
+use constant KEY_WOW64_32KEY => 0x200; 
+
+use Carp;
+use Config;
+use English qw(-no_match_vars);
+use Win32;
+use Win32::OLE('in');
+use Win32::OLE::Variant;
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
+>>>>>>> 26c7e46... Consistent usage of Win32::TieRegistry
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
@@ -133,13 +150,17 @@ sub doInventory {
 # entries. This is not the case on Win2003 and if I correctly understand
 # MSDN, this sounds very odd
 
-        my $machKey64bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+        my $machKey64bit = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_64KEY
+        }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares=
             $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
         processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
 
-        my $machKey32bit= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_32KEY,Delimiter=>"/"} );
+        my $machKey32bit = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_32KEY
+        }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         $softwares=
             $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
@@ -147,7 +168,9 @@ sub doInventory {
         processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
 
     } else {
-        my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+        my $machKey = $Registry->Open('LMachine', {
+            Access => KEY_READ()
+        }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares=
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};

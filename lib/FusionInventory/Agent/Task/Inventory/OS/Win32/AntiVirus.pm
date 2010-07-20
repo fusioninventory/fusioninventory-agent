@@ -11,8 +11,6 @@ use Win32::OLE::Variant;
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
-
 sub doInventory {
     my $params = shift;
 
