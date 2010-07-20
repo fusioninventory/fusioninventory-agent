@@ -7,6 +7,7 @@ use Config;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
 sub isInventoryEnabled {
     return
@@ -45,9 +46,7 @@ sub doInventory {
         }
     }
 
-    my ($cpuProcs, $cpuCoreCpts) = getInfosFromProc(
-        $logger, '/proc/cpuinfo', '<'
-    );
+    my ($cpuProcs, $cpuCoreCpts) = getInfosFromProc($logger);
 
     my $maxId = @cpu?@cpu-1:@$cpuProcs-1;
     foreach my $id (0..$maxId) {
@@ -78,40 +77,31 @@ sub doInventory {
 }
 
 sub getInfosFromProc {
-    my ($logger, $file, $mode) = @_;
+    my ($logger, $file) = @_;
+
+    my $cpus = getCPUsFromProc($logger, $file);
+
+    return unless $cpus;
 
     my ($procs, $cores);
 
-    if (!open my $handle, $mode, $file) {
-        $logger->debug("Can't open $file: $ERRNO");
-    } else {
-        my $cpu;
-        my $cpuNbr = 0;
-        while (my $line = <$handle>) {
-            if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
-                $cpu->{$1} = $2;
-            } elsif ($line =~ /^$/) {
-                next unless $cpu;
-
-                my $id = $cpu->{'physical id'};
-                my $hasPhysicalId = 0;
-                if (defined $id) {
-                    if (
-                        !defined($cores->[$id]) ||
-                        $cores->[$id] < $id + 1
-                    ) {
-                        $cores->[$id] = $id + 1;
-                    }
-                    $cpuNbr = $id;
-                    $hasPhysicalId = 1;
-                }
-
-                $procs->[$cpuNbr]= $cpu;
-                $cpuNbr++ unless $hasPhysicalId;
-                undef $cpu;
+    my $cpuNbr = 0;
+    foreach my $cpu (@$cpus) {
+        my $id = $cpu->{'physical id'};
+        my $hasPhysicalId = 0;
+        if (defined $id) {
+            if (
+                !defined($cores->[$id]) ||
+                $cores->[$id] < $id + 1
+            ) {
+                $cores->[$id] = $id + 1;
             }
+            $cpuNbr = $id;
+            $hasPhysicalId = 1;
         }
-        close $handle;
+
+        $procs->[$cpuNbr]= $cpu;
+        $cpuNbr++ unless $hasPhysicalId;
     }
 
     return $procs, $cores;

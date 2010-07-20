@@ -10,6 +10,7 @@ use Memoize;
 our @EXPORT = qw(
     getDevicesFromUdev
     getDeviceCapacity
+    getCPUsFromProc
 );
 
 memoize('getDevicesFromUdev');
@@ -82,6 +83,34 @@ sub getDeviceCapacity {
     chomp $cap;
     $cap = int($cap / 1000) if $cap;
     return $cap;
+}
+
+sub getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    $file ||= '/proc/cpuinfo';
+
+    my $handle;
+    if (!open $handle, '<', $file) {
+        $logger->debug("Can't open $file: $ERRNO");
+        return;
+    }
+
+    my $cpus;
+
+    my $cpu;
+    while (my $line = <$handle>) {
+        if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
+            $cpu->{$1} = $2;
+        } elsif ($line =~ /^$/) {
+            next unless $cpu;
+            push @$cpus, $cpu;
+            undef $cpu;
+        }
+    }
+    close $handle;
+
+    return $cpus;
 }
 
 1;

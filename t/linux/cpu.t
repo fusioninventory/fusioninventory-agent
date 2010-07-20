@@ -74,7 +74,7 @@ plan tests => 2 * scalar keys %tests;
 my $logger = FusionInventory::Logger->new();
 foreach my $test (keys %tests) {
     my $file = "resources/cpuinfo/$test";
-    my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU::getInfosFromProc($logger, $file, '<');
+    my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU::getInfosFromProc($logger, $file);
     is_deeply($procs, $tests{$test}->{procs}, $test);
     is_deeply($cores, $tests{$test}->{cores}, $test);
 }
