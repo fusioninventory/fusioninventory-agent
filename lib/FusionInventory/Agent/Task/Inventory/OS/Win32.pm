@@ -21,6 +21,7 @@ sub encodeFromWmi {
 #  return (Win32::GetOSName() ne 'Win7')?encode("UTF-8", $string):$string; 
     encode("UTF-8", $string); 
 
+    return $string;
 }
 
 sub encodeFromRegistry {
@@ -28,6 +29,7 @@ sub encodeFromRegistry {
 
     encode("UTF-8", $string); 
 
+    return $string;
 }
 
 sub getWmiProperties {
@@ -59,15 +61,14 @@ sub getWmiProperties {
 
 
     my @properties;
-    foreach my $properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+    foreach my $value ( Win32::OLE::in( $WMIServices->InstancesOf(
                     $wmiClass ) ) )
     {
-        my $tmp;
-        foreach (@keys) {
-            my $val = $properties->{$_};
-            $tmp->{$_} = encodeFromWmi($val);
+        my $property;
+        foreach my $key (@keys) {
+            $property->{$_} = encodeFromWmi($value->{$_});
         }
-        push @properties, $tmp;
+        push @properties, $property;
     }
 
     return @properties;
