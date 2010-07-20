@@ -66,7 +66,7 @@ sub getWmiProperties {
     {
         my $property;
         foreach my $key (@keys) {
-            $property->{$_} = encodeFromWmi($value->{$_});
+            $property->{$key} = encodeFromWmi($value->{$key});
         }
         push @properties, $property;
     }
