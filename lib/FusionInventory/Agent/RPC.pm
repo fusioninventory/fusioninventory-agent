@@ -223,7 +223,6 @@ sub server {
 
     while (1) {
 
-        print "stack:".int(threads->list())."\n";
         if ($joinableAvalaible) {
             my @threads = threads->list(threads::joinable);
             $_->join() foreach @threads;
