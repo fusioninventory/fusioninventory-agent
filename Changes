@@ -51,6 +51,10 @@ Revision history for FusionInventory::Agent
          thanks Benoit Machiavello
        * HARDWARE/USERID: don't put more than one time in row the same user
        * Makefile.PL: Turns off the post-installation script. The hack is broken.
+       * Solaris: imporove CPU, Mem, Slots (Lucas MASSE)
+       * Solaris: imporove Bios, Controllers, Domains, Drives, IPv4, Memory,
+         Networks, Packages, Storages and Users (Jérome LEBAS)
+       * Add comment and default settings in agent.cfg (Walid NOUH)
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite
