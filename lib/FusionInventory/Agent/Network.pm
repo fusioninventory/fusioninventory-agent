@@ -187,7 +187,7 @@ sub send {
 
     $req->content($compressed);
 
-    my $ua = $self->createUA({URI => $target->{path}});
+    my $ua = $self->createUA({URI => $self->{URI}});
     my $res = $ua->request($req);
 
     # Checking if connected
