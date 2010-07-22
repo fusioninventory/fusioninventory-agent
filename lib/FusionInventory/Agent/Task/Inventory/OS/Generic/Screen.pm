@@ -67,9 +67,15 @@ sub getScreens {
             next unless $objItem->{"PNPDeviceID"};
             my $name = $objItem->{"Caption"};
 
-            my $machKey = $Registry->Open('LMachine', {
-                Access=> Win32::TieRegistry::KEY_READ
-            } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+            my $machKey;
+            {
+                no strict;
+                # Avoid this error on non-Windows OS
+                # Bareword "Win32::TieRegistry::KEY_READ" not allowed while "strict subs"
+                my $machKey = $Registry->Open('LMachine', {
+                        Access=> Win32::TieRegistry::KEY_READ
+                    } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+            }
 
             my $edid =
                 $machKey->{"SYSTEM/CurrentControlSet/Enum/$objItem->{PNPDeviceID}/Device Parameters/EDID"} || '';
