@@ -1,11 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Users;
 
-use strict;
-use warnings;
-
-sub isInventoryEnabled {
-    return can_run ("who");
-} 
+sub isInventoryEnabled { can_run ("who") }
 
 # Initialise the distro entry
 sub doInventory {
@@ -21,6 +16,7 @@ sub doInventory {
     my $UsersLoggedIn = join "/", keys %user;
 
     $inventory->setHardware ({ USERID => $UsersLoggedIn });
+
 }
 
 1;

@@ -1,11 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Controllers;
-
 use strict;
-use warnings;
 
-sub isInventoryEnabled {
-    return can_run ("cfgadm");
-}
+sub isInventoryEnabled { can_run ("cfgadm") }
 
 sub doInventory {
     my $params = shift;
@@ -28,11 +24,10 @@ sub doInventory {
             $manufacturer = $1;
         }   			
         $inventory->addController({
-            'NAME'          => $name,
-            'MANUFACTURER'  => $manufacturer,
-            'TYPE'          => $type,
-        });
+                'NAME'          => $name,
+                'MANUFACTURER'  => $manufacturer,
+                'TYPE'          => $type,
+            });
     }
 }
-
-1;
+1
