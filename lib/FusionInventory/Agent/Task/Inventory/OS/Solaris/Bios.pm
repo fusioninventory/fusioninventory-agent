@@ -155,5 +155,5 @@ sub doInventory {
             SSN => $SystemSerial
         });
 
-
+}
 1;
