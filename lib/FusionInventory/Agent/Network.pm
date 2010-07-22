@@ -81,14 +81,14 @@ sub createUA {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    my $ua = LWP::UserAgent->new(keep_alive => 1);
-
     my $protocl;
     if ($self->{config}->{server} =~ /^(http(|s)):/) {
         $protocl = lc($1);
     } else {
         $logger->fault("Can't read the protocl from this URL: ".$self->{config}->{server});
     }
+
+    my $ua = LWP::UserAgent->new(keep_alive => 1);
 
     if ($noProxy) {
 
