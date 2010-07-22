@@ -74,7 +74,7 @@ sub new {
 sub createUA {
     my ($self, $args) = @_;
 
-    my $URI = $args->{URI} || $self->{target}->{path};
+    my $URI = $args->{URI};
     my $noProxy = $args->{noProxy};
     my $timeout = $args->{timeout};
 
@@ -196,7 +196,7 @@ sub send {
 
     $req->content($compressed);
 
-    my $ua = $self->createUA();
+    my $ua = $self->createUA({URI => $target->{path}});
     my $res = $ua->request($req);
 
     # Checking if connected
