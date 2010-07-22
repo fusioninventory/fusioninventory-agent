@@ -80,25 +80,14 @@ sub createUA {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
-
     
-    my ($uri, $host, $protocol, $port);
-    eval {
-        # this will fail if uri is actually a bare server name
-        $uri = URI->new($args->{URI});
-        $host = $uri->host();
-        $protocol = $uri->scheme();
-        $port = $uri->port();
+    my $uri      = URI->new($args->{URI});
+    my $host     = $uri->host();
+    my $protocol = $uri->scheme();
+    my $port     = $uri->port() || $protocol eq 'https' ? 443 : 80;
 
-        $logger->fault("Unsupported protocol $protocol")
-            unless $protocol eq 'http' or $protocol eq 'https';
-    };
-    if ($EVAL_ERROR) {
-        $host = $args->{URI};
-        $protocol = 'http';
-        $port = 80;
-        $uri = URI->new($host, $protocol);
-    }
+    $logger->fault("Unsupported protocol $protocol")
+        unless $protocol eq 'http' or $protocol eq 'https';
 
     my $ua = LWP::UserAgent->new(keep_alive => 1);
 
