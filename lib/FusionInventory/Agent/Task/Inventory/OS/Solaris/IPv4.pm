@@ -1,11 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::IPv4;
 
-use strict;
-use warnings;
-
-sub isInventoryEnabled {
-    return can_run ("ifconfig");
-}
+sub isInventoryEnabled { can_run ("ifconfig") }
 
 # Initialise the distro entry
 sub doInventory {
@@ -25,11 +20,11 @@ sub doInventory {
 # Ok. Now, we have the list of IP addresses configured
 # We could have too many addresses to list them in HW
 # (details will be sent in Networks instead)
-# 
+#
 #  How could we choose ?
-# 
+#
 # Let's try to resolve the name of our server
-#  
+#
 
     chomp( $hostn = `uname -n` );
     if ($hostn) {
@@ -43,6 +38,7 @@ sub doInventory {
             }
         }
     }
+
 
     $inventory->setHardware({IPADDR => $ip});
 }

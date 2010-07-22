@@ -20,8 +20,6 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
-
 sub isInventoryEnabled {
     return 1;
 }

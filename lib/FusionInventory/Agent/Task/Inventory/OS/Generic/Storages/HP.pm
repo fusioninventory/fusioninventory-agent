@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Carp;
 
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # Tested on 2.6.* kernels
@@ -26,9 +27,13 @@ sub getHpacuacliFromWinRegistry {
     };
     return if $EVAL_ERROR;
 
-    my $machKey = $Registry->Open('LMachine', {
-        Access=> Win32::TieRegistry::KEY_READ
-    } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+    my $machKey;
+    {
+        no strict;
+        my $machKey = $Registry->Open('LMachine', {
+                Access=> Win32::TieRegistry::KEY_READ
+            } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+    }
 
     my $uninstallValues =
         $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};
