@@ -10,8 +10,9 @@ use FusionInventory::Agent::Tools;
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $ports = getPorts();
+    my $ports = getPorts($logger);
 
     return unless $ports;
 
@@ -21,9 +22,9 @@ sub doInventory {
 }
 
 sub getPorts {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
-    my $infos = getInfosFromDmidecode($file);
+    my $infos = getInfosFromDmidecode($logger, $file);
 
     return unless $infos->{8};
 

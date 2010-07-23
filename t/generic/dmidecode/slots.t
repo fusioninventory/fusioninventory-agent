@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots;
+use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
@@ -300,8 +301,10 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
+my $logger = FusionInventory::Logger->new();
+
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::getSlots($file);
+    my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::getSlots($logger, $file);
     is_deeply($slots, $tests{$test}, $test);
 }

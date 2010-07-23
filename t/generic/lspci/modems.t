@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems;
+use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
@@ -11,8 +12,10 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
+my $logger = FusionInventory::Logger->new();
+
 foreach my $test (keys %tests) {
     my $file = "resources/lspci/$test";
-    my $modems = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems::getModemControllers($file);
+    my $modems = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems::getModemControllers($logger, $file);
     is_deeply($modems, $tests{$test}, $test);
 }

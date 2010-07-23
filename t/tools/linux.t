@@ -264,13 +264,16 @@ my %cpu_tests = (
 
 plan tests => (scalar keys %udev_tests) + (scalar keys %cpu_tests);
 
+my $logger = FusionInventory::Logger->new();
+
 foreach my $test (keys %udev_tests) {
     my $file = "resources/udev/$test";
-    my $result = FusionInventory::Agent::Tools::Linux::parseUdevEntry($file, 'sda');
+    my $result = FusionInventory::Agent::Tools::Linux::parseUdevEntry(
+        $logger, $file, 'sda'
+    );
     is_deeply($result, $udev_tests{$test}, "$test udev parsing");
 }
 
-my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %cpu_tests) {
     my $file = "resources/cpuinfo/$test";

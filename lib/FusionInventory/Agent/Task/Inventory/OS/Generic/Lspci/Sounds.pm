@@ -10,8 +10,9 @@ use FusionInventory::Agent::Tools;
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $sounds = getSoundControllers();
+    my $sounds = getSoundControllers($logger);
 
     return unless $sounds;
 
@@ -21,9 +22,9 @@ sub doInventory {
 }
 
 sub getSoundControllers {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
-    my $controllers = getControllersFromLspci($file);
+    my $controllers = getControllersFromLspci($logger, $file);
     my $sounds;
 
     foreach my $controller (@$controllers) {

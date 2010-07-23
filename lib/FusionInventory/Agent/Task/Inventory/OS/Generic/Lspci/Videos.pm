@@ -10,8 +10,9 @@ use FusionInventory::Agent::Tools;
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $videos = getVideoControllers();
+    my $videos = getVideoControllers($logger);
     
     return unless $videos;
 
@@ -21,9 +22,9 @@ sub doInventory {
 }
 
 sub getVideoControllers {
-     my ($file) = @_;
+     my ($logger, $file) = @_;
 
-    my $controllers = getControllersFromLspci($file);
+    my $controllers = getControllersFromLspci($logger, $file);
     my $videos;
 
     foreach my $controller (@$controllers) {

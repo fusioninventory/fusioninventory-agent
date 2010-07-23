@@ -20,7 +20,7 @@ sub doInventory {
     my $logger = $params->{logger};
 
     loadPciIds($logger, $config->{'share-dir'});
-    my $controllers = getExtentedControllers();
+    my $controllers = getExtentedControllers($logger);
 
     return unless $controllers;
 
@@ -30,9 +30,9 @@ sub doInventory {
 }
 
 sub getExtentedControllers {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
-    my $controllers = getControllersFromLspci($file);
+    my $controllers = getControllersFromLspci($logger, $file);
 
     foreach my $controller (@$controllers) {
 

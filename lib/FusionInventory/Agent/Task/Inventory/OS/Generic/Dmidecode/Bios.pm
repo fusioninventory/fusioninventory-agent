@@ -10,17 +10,18 @@ use FusionInventory::Agent::Tools;
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my ($bios, $hardware) = getBiosHardware();
+    my ($bios, $hardware) = getBiosHardware($logger);
 
     $inventory->setBios($bios);
     $inventory->setHardware($hardware) if $hardware;
 }
 
 sub getBiosHardware {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
-    my $infos = getInfosFromDmidecode($file);
+    my $infos = getInfosFromDmidecode($logger, $file);
     my $bios_info    = $infos->{0}->[0];
     my $system_info  = $infos->{1}->[0];
     my $base_info    = $infos->{2}->[0];

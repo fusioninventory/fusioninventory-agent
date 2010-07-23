@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
+use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
@@ -130,9 +131,11 @@ my %tests = (
 
 plan tests => (scalar keys %tests) * 2;
 
+my $logger = FusionInventory::Logger->new();
+
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::getBiosHardware($file);
+    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::getBiosHardware($logger, $file);
     is_deeply($bios, $tests{$test}->{bios}, $test);
     is_deeply($hardware, $tests{$test}->{hardware}, $test);
 }

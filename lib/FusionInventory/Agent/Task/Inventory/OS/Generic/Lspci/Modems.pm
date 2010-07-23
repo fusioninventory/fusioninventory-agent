@@ -10,8 +10,9 @@ use FusionInventory::Agent::Tools;
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $modems = getModemControllers();
+    my $modems = getModemControllers($logger);
 
     return unless $modems;
 
@@ -21,9 +22,9 @@ sub doInventory {
 }
 
 sub getModemControllers {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
-    my $controllers = getControllersFromLspci($file);
+    my $controllers = getControllersFromLspci($logger, $file);
     my $modems;
 
     foreach my $controller (@$controllers) {

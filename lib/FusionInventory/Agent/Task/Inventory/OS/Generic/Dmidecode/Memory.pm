@@ -10,8 +10,9 @@ use FusionInventory::Agent::Tools;
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $memories = getMemories();
+    my $memories = getMemories($logger);
 
     return unless $memories;
 
@@ -21,9 +22,9 @@ sub doInventory {
 }
 
 sub getMemories {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
-    my $infos = getInfosFromDmidecode($file);
+    my $infos = getInfosFromDmidecode($logger, $file);
 
     return unless $infos->{17};
 

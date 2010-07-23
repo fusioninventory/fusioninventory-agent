@@ -92,19 +92,19 @@ sub getManufacturer {
 }
 
 sub getControllersFromLspci {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
     return $file ?
-        _parseLspci($file, '<')            :
-        _parseLspci('lspci -vvv -nn', '-|');
+        _parseLspci($logger, $file, '<')            :
+        _parseLspci($logger, 'lspci -vvv -nn', '-|');
 }
 
 sub _parseLspci {
-    my ($file, $mode) = @_;
+    my ($logger, $file, $mode) = @_;
 
     my $handle;
     if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
+        $logger->error("Can't open $file: $ERRNO");
         return;
     }
 
@@ -152,19 +152,19 @@ sub _parseLspci {
 }
 
 sub getInfosFromDmidecode {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
     return $file ?
-        _parseDmidecode($file, '<')       :
-        _parseDmidecode('dmidecode', '-|');
+        _parseDmidecode($logger, $file, '<')       :
+        _parseDmidecode($logger, 'dmidecode', '-|');
 }
 
 sub _parseDmidecode {
-    my ($file, $mode) = @_;
+    my ($logger, $file, $mode) = @_;
 
     my $handle;
     if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
+        $logger->error("Can't open $file: $ERRNO");
         return;
     }
 
@@ -205,7 +205,7 @@ sub _parseDmidecode {
 }
 
 sub getIpDhcp {
-    my $if = shift;
+    my ($logger, $if) = @_;
 
     my $lease_file;
     foreach my $dir qw(
@@ -244,7 +244,7 @@ sub getIpDhcp {
 
     my $handle;
     if (!open $handle, '<', $lease_file) {
-        warn "Can't open $lease_file\n";
+        $logger->error("Can't open $lease_file");
         return;
     }
 

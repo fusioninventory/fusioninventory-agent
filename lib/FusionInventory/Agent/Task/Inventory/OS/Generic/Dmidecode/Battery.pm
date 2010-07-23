@@ -29,16 +29,17 @@ sub parseDate {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $battery = getBattery();
+    my $battery = getBattery($logger);
 
     $inventory->addBattery($battery);
 }
 
 sub getBattery {
-    my ($file) = @_;
+    my ($logger, $file) = @_;
 
-    my $infos = getInfosFromDmidecode($file);
+    my $infos = getInfosFromDmidecode($logger, $file);
 
     return unless $infos->{22};
 

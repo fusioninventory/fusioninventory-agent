@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds;
+use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
@@ -17,8 +18,10 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
+my $logger = FusionInventory::Logger->new();
+
 foreach my $test (keys %tests) {
     my $file = "resources/lspci/$test";
-    my $sounds = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds::getSoundControllers($file);
+    my $sounds = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds::getSoundControllers($logger, $file);
     is_deeply($sounds, $tests{$test}, $test);
 }

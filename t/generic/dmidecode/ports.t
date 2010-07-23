@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports;
+use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
@@ -504,8 +505,10 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
+my $logger = FusionInventory::Logger->new();
+
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::getPorts($file);
+    my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::getPorts($logger, $file);
     is_deeply($ports, $tests{$test}, $test);
 }

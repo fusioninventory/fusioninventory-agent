@@ -16,12 +16,14 @@ our @EXPORT = qw(
 memoize('getDevicesFromUdev');
 
 sub getDevicesFromUdev {
+    my ($logger) = @_;
+
     my @devices;
 
     foreach my $file (glob ("/dev/.udev/db/*")) {
         next unless $file =~ /([sh]d[a-z])$/;
         my $device = $1;
-        push (@devices, parseUdevEntry($file, $device));
+        push (@devices, parseUdevEntry($logger, $file, $device));
     }
 
     foreach my $device (@devices) {
@@ -33,12 +35,11 @@ sub getDevicesFromUdev {
 }
 
 sub parseUdevEntry {
-    my ($file, $device) = @_;
-
+    my ($logger, $file, $device) = @_;
 
     my $handle;
     if (!open $handle, '<', $file) {
-        warn "Can't open $file: $ERRNO";
+        $logger->error("Can't open $file: $ERRNO");
         return;
     }
 
@@ -92,7 +93,7 @@ sub getCPUsFromProc {
 
     my $handle;
     if (!open $handle, '<', $file) {
-        $logger->debug("Can't open $file: $ERRNO");
+        $logger->error("Can't open $file: $ERRNO");
         return;
     }
 
