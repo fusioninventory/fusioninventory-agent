@@ -9,13 +9,7 @@ use English qw(-no_match_vars);
 
 # straight up theft from the other modules...
 
-sub isInventoryEnabled {
-    my $hostname = hostname();
-
-    return 
-        (index $hostname, '.' >= 0) || # look for a dot in hostname
-        -f "/etc/resolv.conf"
-}
+sub isInventoryEnabled {1}
 
 sub doInventory {
     my $params = shift;
