@@ -4,6 +4,9 @@ Revision history for FusionInventory::Agent
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
        * MacOSX: ignore printer if name start with:
          The printers list is empty. To add printers (fixes: #169)
+       * MacOSX, BSD, Linux: unify domain name computation to use host name
+         as primary information source, and avoid using windows-specific
+         'workgroup' as default value
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
        * Fix, restore --noinventory support, print a warning saying
          --no-inventory should be used instead
