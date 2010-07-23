@@ -7,9 +7,7 @@ use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
 
-    return
-        -r "/dev/mem" ||
-        can_run("dmidecode");
+    return can_run("dmidecode");
 }
 
 sub doInventory {}
