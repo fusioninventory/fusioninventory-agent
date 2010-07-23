@@ -24,7 +24,12 @@ sub doInventory {
     my $processort  = $h->{'Processor Name'} || $h->{'CPU Type'}; # 10.5 || 10.4
     my $processorn  = $h->{'Number Of Processors'} || $h->{'Number Of CPUs'} || 1;
     my $processors  = $h->{'Processor Speed'} || $h->{'CPU Speed'};
-    my $processorCore  = $h->{'Total Number Of Cores'} / $processorn;
+    my $processorCore;
+    if ($h->{'Total Number Of Cores'}) {
+        $processorCore = $h->{'Total Number Of Cores'} / $processorn;
+    } else {
+        $processorCore = 1;
+    }
     my $manufacturer;
     if ($processort =~ /Intel/i) {
         $manufacturer = "Intel";
@@ -36,11 +41,11 @@ sub doInventory {
     $processors =~ s/,/./;
 
     # lamp spits out an sql error if there is something other than an int (MHZ) here....
-    if($processors =~ /GHz$/){
-            $processors =~ s/GHz//;
+    if($processors =~ /GHz$/i){
+            $processors =~ s/GHz//i;
             $processors = ($processors * 1000);
-    } elsif($processors =~ /MHz$/){
-            $processors =~ s/MHz//;
+    } elsif($processors =~ /MHz$/i){
+            $processors =~ s/MHz//i;
     }
     $processors =~ s/\s//g;
 
