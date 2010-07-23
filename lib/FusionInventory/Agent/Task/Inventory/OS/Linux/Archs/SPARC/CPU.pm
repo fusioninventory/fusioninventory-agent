@@ -25,7 +25,7 @@ sub doInventory {
     if ($cpu->{'ncpus probed'}) {
         foreach (1 .. $cpu->{'ncpus probed'}) {
             $inventory->addCPU({
-                ARCH => 'ARM'
+                ARCH => 'ARM',
                 TYPE => $cpu->{cpu},
             });
         }
