@@ -3,50 +3,52 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Domains;
 use strict;
 use warnings;
 
-use Config;
 use Sys::Hostname;
 
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-    return 1;
+    my $hostname = hostname();
+
+    return 
+        (index $hostname, '.') >= 0 || # look for a dot in hostname
+        -f "/etc/resolv.conf"
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my %domain;
+    # first, parse /etc/resolv.conf for the DNS servers,
+    # and the domain search list
     my @dns_list;
-    my $dns;
-
-    my $domain = $Config{mydomain};
-    $domain = `hostname -d` unless $domain;
-
-    chomp($domain);
-
+    my @search_list;
     if (open my $handle, '<', '/etc/resolv.conf') {
-        while(<$handle>){
-            if (/^nameserver\s+(\S+)/i) {
-                push(@dns_list,$1);
-            }
-            # Hackish... We should avoid that
-            elsif (!$domain) {
-                $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+        while (my $line = <$handle>) {
+            if ($line =~ /^nameserver\s+(\S+)/) {
+                push(@dns_list, $1);
+            } elsif ($line =~ /^(domain|search)\s+(\S+)/) {
+                push(@search_list, $1);
             }
         }
         close $handle;
     } else {
-        warn "Can't open /etc/resolv.conf: $ERRNO";
+        $logger->debug("Can't open /etc/resolv.conf: $ERRNO");
     }
+    my $dns = join('/', @dns_list);
 
-    if (!$domain) {
-        $domain = join "/", keys %domain;
+    # attempt to deduce the actual domain from the host name
+    # and fallback on the domain search list
+    my $domain;
+    my $hostname = hostname();
+    my $pos = index $hostname, '.';
+
+    if ($pos >= 0) {
+        $domain = substr($hostname, $pos + 1);
+    } else {
+        $domain = join('/', @search_list);
     }
-
-    $dns = join("/",@dns_list);
-    # If no domain name, we send "WORKGROUP"
-    $domain = 'WORKGROUP' unless $domain;
 
     $inventory->setHardware({
         WORKGROUP => $domain,

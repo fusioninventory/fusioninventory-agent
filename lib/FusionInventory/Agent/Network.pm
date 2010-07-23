@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
+use URI;
 
 =head1 NAME
 
@@ -74,21 +75,21 @@ sub new {
 sub createUA {
     my ($self, $args) = @_;
 
-    my $URI = $args->{URI} || $self->{target}->{path};
     my $noProxy = $args->{noProxy};
     my $timeout = $args->{timeout};
 
     my $config = $self->{config};
     my $logger = $self->{logger};
+    
+    my $uri      = URI->new($args->{URI});
+    my $host     = $uri->host();
+    my $protocol = $uri->scheme();
+    my $port     = $uri->port() || $protocol eq 'https' ? 443 : 80;
+
+    $logger->fault("Unsupported protocol $protocol")
+        unless $protocol eq 'http' or $protocol eq 'https';
 
     my $ua = LWP::UserAgent->new(keep_alive => 1);
-
-    my $protocl;
-    if ($self->{config}->{server} =~ /^(http(|s)):/) {
-        $protocl = lc($1);
-    } else {
-        $logger->fault("Can't read the protocl from this URL: ".$self->{config}->{server});
-    }
 
     if ($noProxy) {
 
@@ -112,10 +113,10 @@ sub createUA {
 
     if ($self->{config}->{proxy}) {
 
-        if ($protocl eq 'http') {
+        if ($protocol eq 'http') {
             $ENV{HTTP_PROXY} = $self->{config}->{proxy};
             $ua->env_proxy;
-        } elsif ($protocl eq 'https') {
+        } elsif ($protocol eq 'https') {
             $ENV{HTTPS_PROXY} = $self->{config}->{proxy};
             # Crypt::SSLeay do the proxy connexion itself with
             # $ENV{HTTPS_PROXY}.
@@ -130,26 +131,16 @@ sub createUA {
 
     $self->setSslRemoteHost({
             ua => $ua,
-            url => $self->{URI}
+            url => $uri
         });
 
     # Auth
-    if (!$args->{URI}) {
-        # We use HTTP only against the server
-        my $uaserver = $URI;
-        $uaserver =~ s/^http(|s):\/\///;
-        $uaserver =~ s/\/.*//;
-        if ($uaserver !~ /:\d+$/) {
-            $uaserver .= ':443' if $protocl eq 'https';
-            $uaserver .= ':80' if $protocl eq 'http';
-        }
-        $ua->credentials(
-            $uaserver, # server:port, port is needed
-            $self->{config}->{realm},
-            $self->{config}->{user},
-            $self->{config}->{password}
-        );
-    }
+    $ua->credentials(
+        "$host:$port",
+        $self->{config}->{realm},
+        $self->{config}->{user},
+        $self->{config}->{password}
+    );
 
     return $ua;
 }
@@ -196,7 +187,7 @@ sub send {
 
     $req->content($compressed);
 
-    my $ua = $self->createUA();
+    my $ua = $self->createUA({URI => $self->{URI}});
     my $res = $ua->request($req);
 
     # Checking if connected
