@@ -2854,11 +2854,11 @@ my $logger = FusionInventory::Logger->new();
 foreach my $test (keys %lspci_tests) {
     my $file = "resources/lspci/$test";
     my $controllers = getControllersFromLspci($file);
-    is_deeply($controllers, $lspci_tests{$test}, $test);
+    is_deeply($controllers, $lspci_tests{$test}, "$test lspci parsing");
 }
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/dmidecode/$test";
     my $infos = getInfosFromDmidecode($file);
-    is_deeply($infos, $dmidecode_tests{$test}, $test);
+    is_deeply($infos, $dmidecode_tests{$test}, "$test dmidecode parsing");
 }
