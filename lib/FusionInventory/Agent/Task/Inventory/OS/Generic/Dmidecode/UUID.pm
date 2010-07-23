@@ -13,9 +13,23 @@ sub doInventory {
 
     my $uuid;
 
-    $uuid = `dmidecode -s system-uuid`;
-    chomp($uuid);
-    $uuid =~ s/\s+$//g;
+    my $in;
+    foreach (`dmidecode`) {
+        if (/^Handle.*DMI type 1,/i) {
+            $in = 1;
+        } elsif ($in && /^Handle/i) {
+            $in = 0;
+            last;
+        } elsif ($in) {
+            if (/UUID:\s*(\S+)/i) {
+                $uuid = $1;
+                chomp($uuid);
+                $uuid =~ s/\s+$//g;
+
+                last;
+            }
+        }
+    }
 
     $inventory->setHardware({
         UUID => $uuid,
