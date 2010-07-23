@@ -654,7 +654,7 @@ sub addCPU {
         'field' => \@fields,
         'sectionName' => 'CPUS',
         'values' => $args,
-        'noDuplicated' => 1
+        'noDuplicated' => 0
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
