@@ -24,6 +24,7 @@ my %unitMatrice = (
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $free;
     my $filesystem;
@@ -84,7 +85,11 @@ sub doInventory {
         }
 
         if ($device->{'Total Size'} =~ /(\S*)\s(\S+)\s+\(/) {
-            $size = $1*$unitMatrice{$2};
+            if ($unitMatrice{$2}) {
+                $size = $1*$unitMatrice{$2};
+            } else {
+                $logger->error("$2 unit is not defined");
+            }
         }
 
 
