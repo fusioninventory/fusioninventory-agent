@@ -48,7 +48,11 @@ sub new {
     } elsif ($config->{'devlib'}) {
         $self->{htmlDir} = "./share/html";
     }
-    $logger->debug("[RPC] static files are in ".$self->{htmlDir});
+    if ($self->{htmlDir}) {
+        $logger->debug("[RPC] static files are in ".$self->{htmlDir});
+    } else {
+        $logger->debug("[RPC] No static files directory");
+    }
 
 
     my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
