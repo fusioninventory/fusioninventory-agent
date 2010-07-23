@@ -3,17 +3,18 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Domains;
 use strict;
 use warnings;
 
+use Sys::Hostname;
+
 use English qw(-no_match_vars);
 
 # straight up theft from the other modules...
 
 sub isInventoryEnabled {
-    my $hostname;
-    chomp ($hostname = `hostname`);
-    my @domain = split (/\./, $hostname);
-    shift (@domain);
-    return 1 if @domain;
-    -f "/etc/resolv.conf"
+    my $hostname = hostname();
+
+    return 
+        (index $hostname, '.' >= 0) || # look for a dot in hostname
+        -f "/etc/resolv.conf"
 }
 
 sub doInventory {
@@ -21,34 +22,41 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $domain;
-    my $hostname;
-    chomp ($hostname = `hostname`);
-    my @domain = split (/\./, $hostname);
-    shift (@domain);
-    $domain = join ('.',@domain);
-
-    if (!$domain) {
-        my %domain;
-
-        if (open my $handle, '<', '/etc/resolv.conf') {
-            while(<$handle>){
-                $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+    # first, parse /etc/resolv.conf for the DNS servers,
+    # and the domain search list
+    my @dns_list;
+    my @search_list;
+    if (open my $handle, '<', '/etc/resolv.conf') {
+        while (my $line = <$handle>) {
+            if ($line =~ /^nameserver\s+(\S+)/) {
+                push(@dns_list, $1);
+            } elsif ($line =~ /^(domain|search)\s+(\S+)/) {
+                push(@search_list, $1);
             }
-            close $handle;
-        } else {
-            $logger->debug("Can't open /etc/resolv.conf: $ERRNO");
         }
+        close $handle;
+    } else {
+        $logger->debug("Can't open /etc/resolv.conf: $ERRNO");
+    }
+    my $dns = join('/', @dns_list);
 
-        $domain = join "/", keys %domain;
+    # attempt to deduce the actual domain from the host name
+    # and fallback on the domain search list
+    my $domain;
+    my $hostname = hostname();
+    my $pos = index $hostname, '.';
+
+    if ($pos >= 0) {
+        $domain = substr($hostname, $pos + 1);
+    } else {
+        $domain = join('/', @search_list);
     }
 
-    # If no domain name, we send "WORKGROUP"
-    $domain = 'WORKGROUP' unless $domain;
-
     $inventory->setHardware({
-        WORKGROUP => $domain
+        WORKGROUP => $domain,
+        DNS => $dns
     });
+
 }
 
 1;
