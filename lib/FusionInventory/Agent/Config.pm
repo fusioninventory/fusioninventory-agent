@@ -30,6 +30,7 @@ my $default = {
     'local'                   => '',
     'logger'                  => 'Stderr',
     'logfile'                 => '',
+    'logfile-maxsize'         => 0,
     'logfacility'             => 'LOG_USER',
     'password'                => '',
     'proxy'                   => '',
@@ -61,7 +62,7 @@ my $default = {
     # Other values that can't be changed with the
     # CLI parameters
     'basevardir'              =>  $basedir.'/var/lib/fusioninventory-agent',
-    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
+#    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
 #   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
 
@@ -210,6 +211,7 @@ sub loadUserParams {
         'local|l=s',
         'logger=s',
         'logfile=s',
+        'logfile-maxsize=i',
         'nosoft',
         'nosoftware',
         'no-ocsdeploy',
@@ -298,6 +300,7 @@ Extra options:
     -f --force          always send data to server (Don't ask before) ($config->{force})
     -i --info           verbose mode ($config->{info})
     --lazy              do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
+    --logfile-maxsize=X max size of the log file in MB ($config->{'logfile-maxsize'})
     --logger            Logger you want to use, can be Stderr,File or Syslog ($config->{logger})
     --rpc-ip=IP         ip of the interface to use for peer to peer exchange
     --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory
