@@ -35,11 +35,11 @@ sub watchSize {
 
     my $config = $self->{config};
 
-    return unless $self->{logfile};
+    return unless $config->{'logfile-maxsize'};
 
     my $size = (stat($handle))[7];
 
-    if ($size>$self->{logfile}*1024*1024) {
+    if ($size>$config->{'logfile-maxsize'}*1024*1024) {
         close($handle);
         unlink($self->{logfile}) or die "$!!";
         $self->open();
