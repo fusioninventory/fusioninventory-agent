@@ -136,7 +136,7 @@ my %cpu_tests = (
     ],
 
     'linux-armel-1' => [
-          {
+        {
             'D size' => '32768',
             'I line length' => '32',
             'CPU variant' => '0x0',
@@ -157,8 +157,13 @@ my %cpu_tests = (
             'Cache format' => 'Harvard',
             'CPU revision' => '0',
             'CPU part' => '0x2e3'
-          }
-        ],
+        },
+        {
+            'Revision' => '0000',
+            'Hardware' => 'Thecus N2100',
+            'Serial' => '0000000000000000'
+        }
+    ],
     'linux-ia64-1' => [
         {
             'cpu MHz' => '1600.000009',
@@ -209,7 +214,17 @@ my %cpu_tests = (
             'extra interrupt vector' => 'no'
         }
     ],
-    'linux-ppc-1' => undef,
+    'linux-ppc-1' => [
+        {
+            'l2 cache' => '512KiB, parity disabled SRAM:synchronous, pipelined, no parity',
+            'revision' => '49.2 (pvr 0009 3102)',
+            'cpu' => '604r',
+            'clock' => '???',
+            'processor' => '0',
+            'machine' => 'PReP Utah (Powerstack II Pro4000)',
+            'bogomips' => '299.00'
+          }
+    ],
     'linux-ppc-2' => [
         {
             'revision' => '2.1',
@@ -228,7 +243,23 @@ my %cpu_tests = (
             'timebase' => '181495202'
         }
     ],
-    'linux-sparc-1' => undef
+    'linux-sparc-1' => [
+        {
+            'Cpu1ClkTck' => '000000003bb94e80',
+            'cpu' => 'TI UltraSparc IIIi (Jalapeno)',
+            'I$ parity tl1' => '0',
+            'fpu' => 'UltraSparc IIIi integrated FPU',
+            'MMU Type' => 'Cheetah+',
+            'Cpu0ClkTck' => '000000003bb94e80',
+            'D$ parity tl1' => '0',
+            'prom' => 'OBP 4.13.2 2004/03/29 10:11',
+            'CPU1' => '          online',
+            'type' => 'sun4u',
+            'ncpus active' => '2',
+            'ncpus probed' => '2',
+            'CPU0' => '          online'
+          }
+    ]
 );
 
 plan tests => (scalar keys %udev_tests) + (scalar keys %cpu_tests);
