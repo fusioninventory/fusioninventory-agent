@@ -110,6 +110,8 @@ sub getCPUsFromProc {
     }
     close $handle;
 
+    push @$cpus, $cpu if $cpu;
+
     return $cpus;
 }
 
