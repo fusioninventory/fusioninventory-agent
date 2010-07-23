@@ -12,6 +12,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $uuid;
+    my $vmsystem = $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM};
 
     my $in;
     foreach (`dmidecode`) {
@@ -25,13 +26,14 @@ sub doInventory {
                 $uuid = $1;
                 chomp($uuid);
                 $uuid =~ s/\s+$//g;
-
-                last;
+            } elsif (/Product Name:\s*VirtualBox/i) {
+                $vmsystem = 'VirtualBox';
             }
         }
     }
 
     $inventory->setHardware({
+        VMSYSTEM => $vmsystem,
         UUID => $uuid,
     });
 
