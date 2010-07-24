@@ -63,6 +63,7 @@ Revision history for FusionInventory::Agent
        * MacOSX: Set the UUID
        * MacOSX: rewrite storage.pm without Mac::SysProfile
        * MacOSX: collecte IPv6 address
+       * Win32: set the NT Domain for the WORKGROUP if avalaible like OCS agent
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite

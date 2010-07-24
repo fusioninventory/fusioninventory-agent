@@ -98,10 +98,10 @@ sub doInventory {
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
-        Workgroup UserName PrimaryOwnerName
+        Domain Workgroup UserName PrimaryOwnerName
     /)) {
 
-        my $workgroup = $Properties->{Workgroup};
+        my $workgroup = $Properties->{Domain} || $Properties->{Workgroup};
         my $userdomain;
 #        my $userid;
 #        my @tmp = split(/\\/, $Properties->{UserName});
