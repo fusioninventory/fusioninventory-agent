@@ -41,7 +41,7 @@ sub getDiskInfo {
 
         next unless /^(\s*)/;
         if ($1 ne $revIndent) {
-            $name = $1 if (/^\s+(\S+):\s*$/ && $wasEmpty);
+            $name = $1 if (/^\s+(\S+.*\S+):\s*$/ && $wasEmpty);
             $revIndent = $1;
 # We use the Protocol key to know if it a storage section or not
             if ($info->{Protocol}) {
