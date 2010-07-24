@@ -12,7 +12,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $uuid;
-    my $vmsystem = $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM};
+    my $vmsystem = $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}[0];
 
     my $in;
     foreach (`dmidecode`) {
