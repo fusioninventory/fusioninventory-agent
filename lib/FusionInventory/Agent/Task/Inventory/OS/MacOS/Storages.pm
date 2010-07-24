@@ -104,7 +104,7 @@ sub doInventory {
             my $model = $device->{'Model'};
             $model =~ s/\s*$manufacturer\s*//i;
 
-        $inventory->addStorages({
+        $inventory->addStorage({
                 NAME => $device->{'Name'},
                 SERIAL => $device->{'Serial Number'},
                 DISKSIZE => $size,
