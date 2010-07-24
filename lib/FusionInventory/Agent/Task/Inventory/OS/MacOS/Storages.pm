@@ -90,7 +90,7 @@ sub doInventory {
             if ($size) {
                 $size =~ s/ GB//;
                 $size =~ s/,/./;
-                $size *= 1024;
+                $size = int($size * 1024);
             }
 
             my $manufacturer = getManufacturer($device->{'Name'});
