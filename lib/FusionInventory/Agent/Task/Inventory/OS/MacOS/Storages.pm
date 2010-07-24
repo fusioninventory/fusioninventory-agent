@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Storages;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {return can_load('Mac::SysProfile');}
+sub isInventoryEnabled {1}
 
 sub getManufacturer {
     my $model = shift;
@@ -24,6 +24,47 @@ sub getManufacturer {
     }
 }
 
+sub getDiskInfo {
+    my ($section) = @_;
+
+    my $wasEmpty;
+    my $revIndent = '';
+    my @infos;
+    my $info;
+    my $name;
+    foreach (`/usr/sbin/system_profiler SPSerialATADataType`, `/usr/sbin/system_profiler SPParallelATADataType`) {
+        if (/^\s*$/) {
+            $wasEmpty=1;
+            next;
+        }
+
+
+        next unless /^(\s*)/;
+        if ($1 ne $revIndent) {
+            $name = $1 if (/^\s+(\S+):\s*$/ && $wasEmpty);
+            $revIndent = $1;
+# We use the Protocol key to know if it a storage section or not
+            if ($info->{Protocol}) {
+                push @infos, $info;
+                $info = {};
+                $name = '';
+            }
+        }
+        if (/^\s+(\S+.*?):\s+(\S.*)/) {
+            $info->{$1}=$2;
+            $info->{Name} = $name;
+        }
+        $wasEmpty=0;
+    }
+# The last one
+    if ($info->{Protocol}) {
+        push @infos, $info;
+    }
+
+    return \@infos;
+}
+
+
 sub doInventory {
 
     my $params = shift;
@@ -32,86 +73,42 @@ sub doInventory {
 
     my $devices = {};
 
-    my $prof = Mac::SysProfile->new();
-
     # Get SATA Drives
-    my $sata = $prof->gettype('SPSerialATADataType');
+    my $sata = getDiskInfo();
 
-    return unless( ref($sata) eq 'HASH' );
-
-    foreach my $x ( keys %$sata ) {
-        my $controller = $sata->{$x};
-        foreach my $y ( keys %$controller ) {
-            next unless( ref($sata->{$x}->{$y}) eq 'HASH' );
-            my $drive = $sata->{$x}->{$y};
-
+    foreach my $device ( @$sata ) {
             my $description;
-            if ( $y =~ /DVD/i || $y =~ /CD/i ) {
+            if ( ($device->{'Protocol'} eq 'ATAPI')
+                    ||
+                    ($device->{'Drive Type'}) ) {
                 $description = 'CD-ROM Drive';
-            }
-            else {
+            } else {
                 $description = 'Disk drive';
             }
 
-            my $size = $drive->{'Capacity'};
-            $size =~ s/ GB//;
-            $size *= 1024;
+            my $size = $device->{'Capacity'};
+            if ($size) {
+                $size =~ s/ GB//;
+                $size =~ s/,/./;
+                $size *= 1024;
+            }
 
-            my $manufacturer = getManufacturer($y);
+            my $manufacturer = getManufacturer($device->{'Name'});
 
-            my $model = $drive->{'Model'};
+            my $model = $device->{'Model'};
             $model =~ s/\s*$manufacturer\s*//i;
 
-            $devices->{$y} = {
-                NAME => $y,
-                SERIAL => $drive->{'Serial Number'},
+        $inventory->addStorages({
+                NAME => $device->{'Name'},
+                SERIAL => $device->{'Serial Number'},
                 DISKSIZE => $size,
-                FIRMWARE => $drive->{'Revision'},
+                FIRMWARE => $device->{'Revision'},
                 MANUFACTURER => $manufacturer,
                 DESCRIPTION => $description,
                 MODEL => $model
-            };
-        }
+            });
     }
 
-    # Get PATA Drives
-    my $pata = $prof->gettype('SPParallelATADataType');
-
-    foreach my $x ( keys %$pata ) {
-        my $controller = $pata->{$x};
-        foreach my $y ( keys %$controller ) {
-            next unless ( ref($pata->{$x}->{$y}) eq 'HASH' );
-            my $drive = $pata->{$x}->{$y};
-
-            my $description;
-            if ( $y =~ /DVD/i || $y =~ /CD/i ) {
-                $description = 'CD-ROM Drive';
-            }
-            else {
-                $description = 'Disk drive';
-            }
-
-            my $manufacturer = getManufacturer($y);
-
-            my $model = $drive->{'Model'};
-
-            my $size;
-
-            $devices->{$y} = {
-                NAME => $y,
-                SERIAL => $drive->{'Serial Number'},
-                DISKSIZE => $size,
-                FIRMWARE => $drive->{'Revision'},
-                MANUFACTURER => $manufacturer,
-                DESCRIPTION => $description,
-                MODEL => $model
-            };
-        }
-    }
-
-    foreach my $device ( keys %$devices ) {
-        $inventory->addStorages($devices->{$device});
-    }
 
 }
 
