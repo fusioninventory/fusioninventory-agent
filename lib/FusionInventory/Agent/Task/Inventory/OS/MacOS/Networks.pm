@@ -50,6 +50,7 @@ sub doInventory {
     # for each interface get it's parameters
     foreach my $description (@list) {
         my $ipaddress;
+        my $ipaddress6;
         my $ipmask;
         my $macaddr;
         my $status;
@@ -64,13 +65,14 @@ sub doInventory {
         @ifconfig = `ifconfig $description`;
         foreach (@ifconfig){
             $ipaddress = $1 if /inet (\S+)/i;
+            $ipaddress6 = $1 if /inet6 (\S+)/i;
             $ipmask = $1 if /netmask\s+(\S+)/i;
             $macaddr = $2 if /(address:|ether|lladdr)\s+(\S+)/i;
             $status = 1 if /status:\s+active/i;
             $type = $1 if /media:\s+(\S+)/i;
             $virtualdev = undef if /supported\smedia:/;
         }
-        if ($status) {
+        if ($ipaddress) {
             $binip = &ip_iptobin ($ipaddress ,4);
             # In BSD, netmask is given in hex form
             $binmask = sprintf("%b", oct($ipmask));
@@ -78,9 +80,16 @@ sub doInventory {
             $ipsubnet = ip_bintoip($binsubnet,4);
             $mask = ip_bintoip($binmask,4);
         }
+        if ($ipaddress6) {
+            # Drop the interface from the address. e.g:
+            # fe80::1%lo0
+            # fe80::214:51ff:fe1a:c8e2%fw0
+            $ipaddress6 =~ s/%.*//;
+        }
         $inventory->addNetwork({
                 DESCRIPTION => $description,
                 IPADDRESS => $ipaddress,
+                IPADDRESS6 => $ipaddress6,
                 IPDHCP => undef,
                 IPGATEWAY => $ipgateway,
                 IPMASK => $mask,
