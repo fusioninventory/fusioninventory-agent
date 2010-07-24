@@ -82,12 +82,14 @@ sub doInventory {
 
     foreach my $device ( @$sata ) {
             my $description;
+            my $type; # To improve
             if ( ($device->{'Protocol'} eq 'ATAPI')
                     ||
                     ($device->{'Drive Type'}) ) {
                 $description = 'CD-ROM Drive';
             } elsif ($device->{'Protocol'} eq 'USB') {
                 $description = 'USB drive';
+                $type = 'USB';
             } else {
                 $description = 'Disk drive';
             }
@@ -102,7 +104,9 @@ sub doInventory {
             my $manufacturer = getManufacturer($device->{'Name'});
 
             my $model = $device->{'Model'};
-            $model =~ s/\s*$manufacturer\s*//i;
+            if ($model) {
+                $model =~ s/\s*$manufacturer\s*//i;
+            }
 
         $inventory->addStorage({
                 NAME => $device->{'Name'},
