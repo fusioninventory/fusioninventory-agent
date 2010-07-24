@@ -32,7 +32,9 @@ sub getDiskInfo {
     my @infos;
     my $info;
     my $name;
-    foreach (`/usr/sbin/system_profiler SPSerialATADataType`, `/usr/sbin/system_profiler SPParallelATADataType`) {
+    foreach (`/usr/sbin/system_profiler SPSerialATADataType`,
+        `/usr/sbin/system_profiler SPParallelATADataType`,
+        `/usr/sbin/system_profiler SPUSBDataType`) {
         if (/^\s*$/) {
             $wasEmpty=1;
             next;
@@ -43,12 +45,14 @@ sub getDiskInfo {
         if ($1 ne $revIndent) {
             $name = $1 if (/^\s+(\S+.*\S+):\s*$/ && $wasEmpty);
             $revIndent = $1;
+
 # We use the Protocol key to know if it a storage section or not
-            if ($info->{Protocol}) {
+            if ($info->{Protocol} || ($info->{'BSD Name'} && $info->{'Product ID'})) {
+                $info->{Protocol} = 'USB' if $info->{'Product ID'};
                 push @infos, $info;
-                $info = {};
                 $name = '';
             }
+            $info = {};
         }
         if (/^\s+(\S+.*?):\s+(\S.*)/) {
             $info->{$1}=$2;
@@ -82,6 +86,8 @@ sub doInventory {
                     ||
                     ($device->{'Drive Type'}) ) {
                 $description = 'CD-ROM Drive';
+            } elsif ($device->{'Protocol'} eq 'USB') {
+                $description = 'USB drive';
             } else {
                 $description = 'Disk drive';
             }
