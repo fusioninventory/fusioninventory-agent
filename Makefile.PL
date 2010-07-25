@@ -5,7 +5,7 @@ use English qw(-no_match_vars);
 # Hack to be able to run a post install script
 sub MY::postamble {
 
-    return if $OSNAME eq 'MSWin';
+    return if $OSNAME eq 'MSWin32';
 
     my $re = <<'EOF';
 
@@ -48,7 +48,7 @@ recommends 'Net::CUPS'        => 0.60;
 recommends 'MIME::Base64'     => undef;
 recommends 'File::ShareDir'   => undef; # You'll need to use --share-dir
 
-if ($OSNAME ne 'MSWin') {
+if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::Daemon'     => undef;
     recommends 'Proc::PID::File'  => undef;
 }
@@ -58,7 +58,7 @@ test_requires  'Test::More'  => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
-install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin';
+install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_share; # No parameter, si http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
 
 # We want a release bundled with the needed dependency to be able to
