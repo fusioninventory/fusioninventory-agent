@@ -105,5 +105,8 @@ if ($OSNAME eq 'solaris') {
 }
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
 #auto_install;
+makemaker_args(
+    test => { TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t) },
+);
 WriteAll;
 
