@@ -22,8 +22,8 @@ if ($OSNAME eq 'darwin') {
 
 # optional dependencies
 recommends 'Compress::Zlib'   => undef;
-recommends 'File::ShareDir'   => undef; # You'll need to use --share-dir
-recommends 'HTTP::Daemon'     => undef; # RPC
+recommends 'File::ShareDir'   => undef;
+recommends 'HTTP::Daemon'     => undef;
 recommends 'Net::CUPS'        => 0.60;
 
 if ($OSNAME ne 'MSWin32') {
@@ -52,8 +52,7 @@ if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
 if ($OSNAME eq 'solaris') {
     install_script  'memconf';
 }
-#for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
-#auto_install;
+
 makemaker_args(
     test => { TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t) },
 );
