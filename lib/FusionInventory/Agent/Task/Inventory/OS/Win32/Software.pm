@@ -6,7 +6,6 @@ use warnings;
 use constant KEY_WOW64_64KEY => 0x100; 
 use constant KEY_WOW64_32KEY => 0x200; 
 
-use Carp;
 use Config;
 use English qw(-no_match_vars);
 use Win32;
@@ -133,7 +132,7 @@ sub doInventory {
 
         my $machKey64bit = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_64KEY
-        }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares64bit =
             $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
@@ -145,7 +144,7 @@ sub doInventory {
 
         my $machKey32bit = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32KEY
-        }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares32bit =
             $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
@@ -159,7 +158,7 @@ sub doInventory {
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ()
-        }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares=
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};

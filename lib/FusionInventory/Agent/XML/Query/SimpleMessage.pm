@@ -4,13 +4,12 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use Carp;
 use XML::Simple;
 
 sub new {
     my ($class, $params) = @_;
 
-    croak "No msg" unless $params->{msg};
+    die "No msg" unless $params->{msg};
 
     my $self = $class->SUPER::new($params);
 

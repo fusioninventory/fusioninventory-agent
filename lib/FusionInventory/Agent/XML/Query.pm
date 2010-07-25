@@ -3,13 +3,12 @@ package FusionInventory::Agent::XML::Query;
 use strict;
 use warnings;
 
-use Carp;
 use XML::Simple;
 
 sub new {
     my ($class, $params) = @_;
 
-    croak "No DEVICEID" unless $params->{target}->{deviceid};
+    die "No DEVICEID" unless $params->{target}->{deviceid};
 
     my $self = {
         accountinfo => $params->{accountinfo},

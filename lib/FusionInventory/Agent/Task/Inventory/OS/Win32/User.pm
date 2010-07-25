@@ -5,7 +5,6 @@ use warnings;
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
-use Carp;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 use Win32::OLE::Variant;
@@ -26,7 +25,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-        or croak "WMI connection failed";
+        or die "WMI connection failed";
     my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_Process", "WQL",
             wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
@@ -54,7 +53,7 @@ sub doInventory {
 
     my $machKey = $Registry->Open('LMachine', {
         Access => KEY_READ
-    }) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     foreach (
         "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",

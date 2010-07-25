@@ -6,7 +6,6 @@ use warnings;
 use threads;
 use threads::shared;
 
-use Carp;
 use English qw(-no_match_vars);
 use File::Glob ':glob';
 use Storable;
@@ -155,7 +154,7 @@ sub _getFilePath {
 
     my $idx = $params->{idx};
     if ($idx && $idx !~ /^\d+$/) {
-        croak "[fault] idx must be an integer!\n";
+        die "[fault] idx must be an integer!\n";
     } 
     my $module = $params->{module};
 

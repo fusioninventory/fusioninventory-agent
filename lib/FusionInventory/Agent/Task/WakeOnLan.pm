@@ -8,7 +8,6 @@ use constant ETH_P_ALL => 0x0003;
 use constant PF_PACKET => 17;
 use constant SOCK_PACKET => 10;
 
-use Carp;
 use English qw(-no_match_vars);
 use Socket;
 
@@ -58,7 +57,7 @@ sub StartMachine {
     return unless defined $macaddress;
 
     if ($macaddress !~ /^$mac_address_pattern$/) {
-        croak "Invalid MacAddress $macaddress . Exiting...";
+        die "Invalid MacAddress $macaddress . Exiting...";
     }
     $macaddress =~ s/://g;
 
@@ -69,7 +68,7 @@ sub StartMachine {
             or warn "Can't do setsockopt: $ERRNO\n";
 
         open my $handle, '-|', '/sbin/ifconfig -a'
-            or croak "Can't run /sbin/ifconfig: $ERRNO";
+            or die "Can't run /sbin/ifconfig: $ERRNO";
         while (my $line = <$handle>) {
             next unless $line =~ /(\S+) \s+ Link \s \S+ \s+ HWaddr \s (\S+)/x;
             my $netName = $1;

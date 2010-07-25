@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use Carp;
 use Config;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
@@ -1115,7 +1114,7 @@ sub processChecksum {
     # TODO CPUS is not in the list
 
     if (!$self->{target}->{vardir}) {
-        croak "vardir uninitialised!";
+        die "vardir uninitialised!";
     }
 
     my $checksum = 0;

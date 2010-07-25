@@ -3,7 +3,6 @@ package FusionInventory::Agent::SNMP;
 use strict;
 use warnings;
 
-use Carp;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 
@@ -16,7 +15,7 @@ sub new {
         require Net::SNMP;
     };
     if ($EVAL_ERROR) {
-        croak "Can't load Net::SNMP. Exiting...";
+        die "Can't load Net::SNMP. Exiting...";
     }
 
     my $version =

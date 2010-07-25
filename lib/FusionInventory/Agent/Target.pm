@@ -5,7 +5,6 @@ use warnings;
 use threads;
 use threads::shared;
 
-use Carp;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 
@@ -16,7 +15,7 @@ sub new {
     my ($class, $params) = @_;
 
     if ($params->{type} !~ /^(server|local|stdout)$/ ) {
-        croak 'bad type';
+        die 'bad type';
     }
 
     my $self = {
@@ -112,7 +111,7 @@ sub init {
     }
 
     if (! -w $self->{vardir}) {
-        croak "Can't write in $self->{vardir}";
+        die "Can't write in $self->{vardir}";
     }
 
     $logger->debug("storage directory: $self->{vardir}");
@@ -172,7 +171,7 @@ sub getNextRunDate {
     $self->setNextRunDate();
 
     if (!${$self->{nextRunDate}}) {
-        croak 'nextRunDate not set!';
+        die 'nextRunDate not set!';
     }
 
     return $self->{myData}{nextRunDate} ;

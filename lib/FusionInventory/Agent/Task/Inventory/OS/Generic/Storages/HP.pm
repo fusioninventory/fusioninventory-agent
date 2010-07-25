@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Storages::HP;
 use strict;
 use warnings;
 
-use Carp;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
@@ -34,7 +33,7 @@ sub getHpacuacliFromWinRegistry {
         no strict 'subs';
         $machKey = $Registry->Open('LMachine', {
             Access => Win32::TieRegistry::KEY_READ
-        } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+        } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
     }
 
     my $uninstallValues =

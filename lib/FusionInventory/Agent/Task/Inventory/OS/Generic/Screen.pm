@@ -21,7 +21,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Screen;
 use strict;
 use warnings;
 
-use Carp;
 use English qw(-no_match_vars);
 use MIME::Base64;
 
@@ -60,7 +59,7 @@ sub getScreens {
         use constant wbemFlagForwardOnly => 0x20;
 
         my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-            or croak "WMI connection failed";
+            or die "WMI connection failed";
         my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
                 wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
@@ -77,7 +76,7 @@ sub getScreens {
                 no strict 'subs';
                 $machKey = $Registry->Open('LMachine', {
                     Access => Win32::TieRegistry::KEY_READ
-                } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+                } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
             }
 
             my $edid =

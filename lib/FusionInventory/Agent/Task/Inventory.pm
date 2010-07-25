@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use Carp;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
@@ -70,7 +69,7 @@ sub main {
         }
 
         if ($self->{target}->{type} eq 'server') {
-            croak "No prologresp!" unless $self->{prologresp};
+            die "No prologresp!" unless $self->{prologresp};
 
             if ($self->{config}->{force}) {
                 $self->{logger}->debug(
@@ -357,7 +356,7 @@ sub runMod {
         if (!$_->{name}) {
             # The name is defined during module initialisation so if I
             # can't read it, I can suppose it had not been initialised.
-            croak
+            die
                 "Module `$m' need to be runAfter a module not found.".
                 "Please fix its runAfter entry or add the module.";
         }
@@ -365,7 +364,7 @@ sub runMod {
         if ($_->{inUse}) {
             # In use 'lock' is taken during the mod execution. If a module
             # need a module also in use, we have provable an issue :).
-            croak "Circular dependency hell with $m and $_->{name}";
+            die "Circular dependency hell with $m and $_->{name}";
         }
         $self->runMod({
             modname => $_->{name},
@@ -395,7 +394,7 @@ sub feedInventory {
 
     my $begin = time();
     foreach my $m (sort keys %{$self->{modules}}) {
-        croak ">$m Houston!!!" unless $m;
+        die ">$m Houston!!!" unless $m;
         $self->runMod ({
             modname => $m,
         });
