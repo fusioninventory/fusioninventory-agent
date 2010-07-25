@@ -96,6 +96,8 @@ sub doInventory {
 
             my $size = $device->{'Capacity'};
             if ($size) {
+                #e.g: Capacity: 320,07 GB (320 072 933 376 bytes)
+                $size =~ s/\s*\(.*//;
                 $size =~ s/ GB//;
                 $size =~ s/,/./;
                 $size = int($size * 1024);
