@@ -26,13 +26,10 @@ perl_version '5.008';
 
 # mandatory dependencies
 requires 'Digest::MD5'        => undef;
-requires 'XML::Simple'        => undef;
 requires 'LWP'                => undef;
-requires 'File::Temp'         => undef;
 requires 'Net::IP'            => undef;
-requires 'HTTP::Status'       => undef;
-requires 'File::Find'         => undef;
 requires 'UNIVERSAL::require' => undef;
+requires 'XML::Simple'        => undef;
 
 if ($OSNAME eq 'darwin') {
     requires 'Mac::SysProfile' => undef;
@@ -40,12 +37,9 @@ if ($OSNAME eq 'darwin') {
 
 # optional dependencies
 recommends 'Compress::Zlib'   => undef;
-recommends 'File::Glob'       => undef;
-recommends 'File::Path'       => undef;
+recommends 'File::ShareDir'   => undef; # You'll need to use --share-dir
 recommends 'HTTP::Daemon'     => undef; # RPC
 recommends 'Net::CUPS'        => 0.60;
-recommends 'MIME::Base64'     => undef;
-recommends 'File::ShareDir'   => undef; # You'll need to use --share-dir
 
 if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::Daemon'     => undef;
