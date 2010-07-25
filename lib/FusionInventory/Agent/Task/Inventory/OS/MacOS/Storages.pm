@@ -32,14 +32,22 @@ sub getDiskInfo {
     my @infos;
     my $info;
     my $name;
+    my $type;
     foreach (`/usr/sbin/system_profiler SPSerialATADataType`,
         `/usr/sbin/system_profiler SPParallelATADataType`,
-        `/usr/sbin/system_profiler SPUSBDataType`) {
+        `/usr/sbin/system_profiler SPUSBDataType`,
+        `/usr/sbin/system_profiler SPFireWireDataType`) {
         if (/^\s*$/) {
             $wasEmpty=1;
             next;
         }
 
+        if (/^(\S+):$/) {
+            $type=$1;
+            if ($type eq 'FireWire') {
+                $type = '1394';
+            }
+        }
 
         next unless /^(\s*)/;
         if ($1 ne $revIndent) {
@@ -47,8 +55,17 @@ sub getDiskInfo {
             $revIndent = $1;
 
 # We use the Protocol key to know if it a storage section or not
-            if ($info->{Protocol} || ($info->{'BSD Name'} && $info->{'Product ID'})) {
-                $info->{Protocol} = 'USB' if $info->{'Product ID'};
+            if (
+                # disk
+                ($info->{'BSD Name'} && $info->{'BSD Name'} =~ /^disk\d+$/)
+                ||
+                # USB Disk
+#                ($info->{'BSD Name'} && $info->{'Product ID'})
+#                ||
+                # CDROM
+                ($info->{'Protocol'} && $info->{'Socket Type'})
+            ) {
+                $info->{Type} = $type;
                 push @infos, $info;
                 $name = '';
             }
@@ -64,7 +81,6 @@ sub getDiskInfo {
     if ($info->{Protocol}) {
         push @infos, $info;
     }
-
     return \@infos;
 }
 
@@ -83,15 +99,15 @@ sub doInventory {
     foreach my $device ( @$sata ) {
             my $description;
             my $type; # To improve
-            if ( ($device->{'Protocol'} eq 'ATAPI')
+            if (!$device->{'Protocol'}) {
+                $description = 'Disk drive';
+            } elsif ( ($device->{'Protocol'} eq 'ATAPI')
                     ||
                     ($device->{'Drive Type'}) ) {
                 $description = 'CD-ROM Drive';
             } elsif ($device->{'Protocol'} eq 'USB') {
                 $description = 'USB drive';
                 $type = 'USB';
-            } else {
-                $description = 'Disk drive';
             }
 
             my $size = $device->{'Capacity'};
@@ -117,7 +133,8 @@ sub doInventory {
                 FIRMWARE => $device->{'Revision'},
                 MANUFACTURER => $manufacturer,
                 DESCRIPTION => $description,
-                MODEL => $model
+                MODEL => $model,
+                TYPE => $device->{'Type'}
             });
     }
 
