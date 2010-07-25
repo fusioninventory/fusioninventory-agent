@@ -1,0 +1,738 @@
+Hardware:
+
+    Hardware Overview:
+
+      Model Name: Power Mac G5
+      Model Identifier: PowerMac11,2
+      Processor Name: PowerPC G5 (1.1)
+      Processor Speed: 2.3 GHz
+      Number Of CPUs: 2
+      L2 Cache (per CPU): 1 MB
+      Memory: 2 GB
+      Bus Speed: 1.15 GHz
+      Boot ROM Version: 5.2.7f1
+      Serial Number (system): CK54202SR6V
+      Hardware UUID: 00000000-0000-1000-8000-00145161EF08
+
+Network:
+
+    Bluetooth:
+
+      Type: PPP (PPPSerial)
+      Hardware: Modem
+      BSD Device Name: Bluetooth-Modem
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: PPP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          FTP Passive Mode: Yes
+
+    Ethernet:
+
+      Type: Ethernet
+      Hardware: Ethernet
+      BSD Device Name: en0
+      Has IP Assigned: Yes
+      IPv4 Addresses: 10.0.1.110
+      IPv4:
+          Addresses: 10.0.1.110
+          Configuration Method: DHCP
+          Interface Name: en0
+          NetworkSignature: IPv4.Router=10.0.1.1;IPv4.RouterHardwareAddress=00:1d:7e:43:96:57
+          Router: 10.0.1.1
+          Subnet Masks: 255.255.255.0
+      IPv6:
+          Configuration Method: Automatic
+      AppleTalk:
+          Configuration Method: Node
+          Default Zone: *
+          Interface Name: en0
+          Network ID: 65420
+          Node ID: 4
+      DNS:
+          Domain Name: lan
+          Search Domains: lan
+          Server Addresses: 10.0.1.1
+      DHCP Server Responses:
+          Domain Name: lan
+          Domain Name Servers: 10.0.1.1
+          Lease Duration (seconds): 0
+          DHCP Message Type: 0x05
+          Routers: 10.0.1.1
+          Server Identifier: 10.0.1.1
+          Subnet Mask: 255.255.255.0
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+      Ethernet:
+          MAC Address: 00:14:51:61:ef:08
+          Media Options: Full Duplex, flow-control
+          Media Subtype: 100baseTX
+
+    FireWire:
+
+      Type: FireWire
+      Hardware: FireWire
+      BSD Device Name: fw0
+      Has IP Assigned: No
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+      Ethernet:
+          MAC Address: 00:14:51:ff:fe:1a:c8:e2
+          Media Options: Full Duplex
+          Media Subtype: Auto Select
+
+    AirPort:
+
+      Type: AirPort
+      Hardware: AirPort
+      BSD Device Name: en1
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: DHCP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+      Ethernet:
+          MAC Address: 00:14:51:61:ef:09
+          Media Options: 
+          Media Subtype: Auto Select
+
+Software:
+
+    System Software Overview:
+
+      System Version: Mac OS X 10.5.8 (9L31a)
+      Kernel Version: Darwin 9.8.0
+      Boot Volume: osx105
+      Boot Mode: Normal
+      Computer Name: g5
+      User Name: fusioninventory (fusioninventory)
+      Time since boot: 30 minutes
+
+ATA:
+
+    ATA Bus:
+
+        HL-DT-ST DVD-RW GWA-4165B:
+
+          Model: HL-DT-ST DVD-RW GWA-4165B
+          Revision: C006
+          Serial Number: B6FD7234EC63
+          Detachable Drive: No
+          Protocol: ATAPI
+          Unit Number: 0
+          Socket Type: Internal
+          Low Power Polling: No
+          Power Off: No
+
+Audio (Built In):
+
+    Built-in Sound Card:
+
+      Devices:
+        Burr Brown PCM3052:
+          Inputs and Outputs:
+              Line Level Input:
+                  Controls: Mute, Master
+                  Playthrough: No
+                  PluginID: Onyx
+              S/PDIF Digital Output:
+                  Controls: Mute
+                  PluginID: Onyx
+              Headphones:
+                  Controls: Mute, Left, Right
+                  PluginID: Onyx
+              Internal Speakers:
+                  Controls: Mute, Master
+                  PluginID: Onyx
+              Line Level Output:
+                  Controls: Mute, Left, Right
+                  PluginID: Onyx
+      Formats:
+        PCM 16:
+          Bit Depth: 16
+          Bit Width: 16
+          Channels: 2
+          Mixable: Yes
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+        PCM 24:
+          Bit Depth: 24
+          Bit Width: 32
+          Channels: 2
+          Mixable: Yes
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+        AC3 16:
+          Bit Depth: 16
+          Bit Width: 16
+          Channels: 2
+          Mixable: No
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+
+    Built-in Sound Card:
+
+      Devices:
+        Crystal Semiconductor CS84xx:
+          Inputs and Outputs:
+              S/PDIF Digital Input:
+                  Controls: Mute
+                  Playthrough: No
+                  PluginID: Topaz
+      Formats:
+        PCM 16:
+          Bit Depth: 16
+          Bit Width: 16
+          Channels: 2
+          Mixable: Yes
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+        PCM 24:
+          Bit Depth: 24
+          Bit Width: 32
+          Channels: 2
+          Mixable: Yes
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+        AC3 16:
+          Bit Depth: 16
+          Bit Width: 16
+          Channels: 2
+          Mixable: No
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+
+Diagnostics:
+
+    Power On Self-Test:
+
+      Last Run: 25/07/10 13:10
+      Result: Passed
+
+Disc Burning:
+
+    HL-DT-ST DVD-RW GWA-4165B:
+
+      Firmware Revision: C006
+      Interconnect: ATAPI
+      Burn Support: Yes (Apple Shipping Drive)
+      Cache: 2048 KB
+      Reads DVD: Yes
+      CD-Write: -R, -RW
+      DVD-Write: -R, -RW, +R, +R DL, +RW
+      Write Strategies: CD-TAO, CD-SAO, CD-Raw, DVD-DAO
+      Media: Insert media and refresh to show available burn speeds
+
+FireWire:
+
+    FireWire Bus:
+
+      Maximum Speed: Up to 800 Mb/sec
+
+        (1394 ATAPI,Rev 1.00):
+
+          Manufacturer: Prolific PL3507 Combo Device
+          Model: 0x1
+          GUID: 0x50770E0000043E
+          Maximum Speed: Up to 400 Mb/sec
+          Connection Speed: Up to 400 Mb/sec
+          Sub-units:
+            (1394 ATAPI,Rev 1.00) Unit:
+              Unit Software Version: 0x10483
+              Unit Spec ID: 0x609E
+              Firmware Revision: 0x12804
+              Product Revision Level: 
+              Sub-units:
+                (1394 ATAPI,Rev 1.00) SBP-LUN:
+                  Capacity: 186,31 GB
+                  Removable Media: Yes
+                  BSD Name: disk3
+                  Mac OS 9 Drivers: No
+                  Partition Map Type: APM (Apple Partition Map)
+                  S.M.A.R.T. status: Not Supported
+                  Volumes:
+                    Video:
+                      Capacity: 186,19 GB
+                      Available: 36,07 GB
+                      Writable: Yes
+                      File System: Journaled HFS+
+                      BSD Name: disk3s3
+                      Mount Point: /Volumes/Video
+                  Volumes:
+                    disk3s3:
+                      Capacity: 186,19 GB
+                      Available: 36,07 GB
+                      Writable: Yes
+                      File System: Journaled HFS+
+
+        Unknown Device:
+
+          Manufacturer: Unknown
+          Model: Unknown
+          Maximum Speed: Up to 400 Mb/sec
+          Connection Speed: Unknown
+
+Graphics/Displays:
+
+    NVIDIA GeForce 6600:
+
+      Chipset Model: GeForce 6600
+      Type: Display
+      Bus: PCIe
+      Slot: SLOT-1
+      PCIe Lane Width: x16
+      VRAM (Total): 256 MB
+      Vendor: NVIDIA (0x10de)
+      Device ID: 0x0141
+      Revision ID: 0x00a4
+      ROM Revision: 2149
+      Displays:
+        ASUS VH222:
+          Resolution: 1680 x 1050 @ 60 Hz
+          Depth: 32-Bit Color
+          Core Image: Hardware Accelerated
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Quartz Extreme: Supported
+          Rotation: Supported
+        Display Connector:
+          Status: No Display Connected
+
+Memory:
+
+    DIMM0/J6700:
+
+      Size: 1 GB
+      Type: DDR2 SDRAM
+      Speed: PC2-4200U-444
+      Status: OK
+      Manufacturer: Unknown
+      Part Number: Unknown
+      Serial Number: Unknown
+
+    DIMM1/J6800:
+
+      Size: 1 GB
+      Type: DDR2 SDRAM
+      Speed: PC2-4200U-444
+      Status: OK
+      Manufacturer: Unknown
+      Part Number: Unknown
+      Serial Number: Unknown
+
+    DIMM2/J6900:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+      Manufacturer: Empty
+      Part Number: Empty
+      Serial Number: Empty
+
+    DIMM3/J7000:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+      Manufacturer: Empty
+      Part Number: Empty
+      Serial Number: Empty
+
+    DIMM4/J7100:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+      Manufacturer: Empty
+      Part Number: Empty
+      Serial Number: Empty
+
+    DIMM5/J7200:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+      Manufacturer: Empty
+      Part Number: Empty
+      Serial Number: Empty
+
+    DIMM6/J7300:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+      Manufacturer: Empty
+      Part Number: Empty
+      Serial Number: Empty
+
+    DIMM7/J7400:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+      Manufacturer: Empty
+      Part Number: Empty
+      Serial Number: Empty
+
+PCI Cards:
+
+    GeForce 6600:
+
+      Name: NVDA,Display-B
+      Type: display
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: SLOT-1
+      Vendor ID: 0x10de
+      Device ID: 0x0141
+      Subsystem Vendor ID: 0x10de
+      Subsystem ID: 0x0010
+      ROM Revision: 2149
+      Revision ID: 0x00a4
+      Link Width: x16
+      Link Speed: 2.5 GT/s
+
+    Apple 5714:
+
+      Name: bcom5714
+      Type: network
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: GIGE
+      Vendor ID: 0x14e4
+      Device ID: 0x166a
+      Subsystem Vendor ID: 0x106b
+      Subsystem ID: 0x0085
+      Revision ID: 0x0003
+
+    Apple 5714:
+
+      Name: bcom5714
+      Type: network
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: GIGE
+      Vendor ID: 0x14e4
+      Device ID: 0x166a
+      Subsystem Vendor ID: 0x106b
+      Subsystem ID: 0x0085
+      Revision ID: 0x0003
+
+Power:
+
+    System Power Settings:
+
+      AC Power:
+          System Sleep Timer (Minutes): 0
+          Disk Sleep Timer (Minutes): 10
+          Display Sleep Timer (Minutes): 3
+          Dynamic Power Step: Yes
+          Reduce Processor Speed: No
+          Sleep On Power Button: Yes
+          Automatic Restart On Power Loss: No
+          Wake On AC Change: No
+          Wake On Clamshell Open: Yes
+          Wake On LAN: Yes
+          Wake On Modem Ring: Yes
+
+    Hardware Configuration:
+
+      UPS Installed: No
+
+Printers:
+
+    Photosmart C4500 series [38705D]:
+
+      Status: Idle
+      Print Server: Local
+      Driver Version: 3.1
+      Default: Yes
+      URI: mdns://Photosmart%20C4500%20series%20%5B38705D%5D._pdl-datastream._tcp.local./?bidi
+      PPD: HP Photosmart C4500 series
+      PPD File Version: 3.1
+      PostScript Version: (3011.104) 0
+
+Serial-ATA:
+
+    Serial-ATA Bus:
+
+        Maxtor 6B250S0:
+
+          Capacity: 233,76 GB
+          Model: Maxtor 6B250S0
+          Revision: BANC1E50
+          Serial Number: B623KFXH
+          Removable Media: No
+          Detachable Drive: No
+          BSD Name: disk0
+          Protocol: ata
+          Unit Number: 0
+          Socket Type: Serial-ATA
+          Bay Name: "B (lower)"
+          Mac OS 9 Drivers: No
+          Partition Map Type: APM (Apple Partition Map)
+          S.M.A.R.T. status: Verified
+          Volumes:
+            osx105:
+              Capacity: 21,42 GB
+              Available: 6,69 GB
+              Writable: Yes
+              File System: Journaled HFS+
+              BSD Name: disk0s3
+              Mount Point: /
+            data:
+              Capacity: 212,09 GB
+              Available: 211,8 GB
+              Writable: Yes
+              File System: Journaled HFS+
+              BSD Name: disk0s5
+              Mount Point: /Volumes/data
+          Volumes:
+            disk0s3:
+              Capacity: 21,42 GB
+              Available: 6,69 GB
+              Writable: Yes
+              File System: Journaled HFS+
+            disk0s5:
+              Capacity: 212,09 GB
+              Available: 211,8 GB
+              Writable: Yes
+              File System: Journaled HFS+
+
+USB:
+
+    USB High-Speed Bus:
+
+      Host Controller Location: Built In USB
+      Host Controller Driver: AppleUSBEHCI
+      PCI Device ID: 0x00e0
+      PCI Revision ID: 0x0004
+      PCI Vendor ID: 0x1033
+      Bus Number: 0x4b
+
+        Flash Disk:
+
+          Capacity: 1,96 GB
+          Removable Media: Yes
+          Detachable Drive: Yes
+          BSD Name: disk1
+          Product ID: 0x2092
+          Vendor ID: 0x1e3d  (Chipsbrand Technologies (HK) Co., Limited)
+          Version: 1.00
+          Serial Number: 110074973765
+          Speed: Up to 480 Mb/sec
+          Manufacturer: USB 2.0
+          Location ID: 0x4b400000
+          Current Available (mA): 500
+          Current Required (mA): 100
+          Mac OS 9 Drivers: No
+          Partition Map Type: MBR (Master Boot Record)
+          S.M.A.R.T. status: Not Supported
+          Volumes:
+            SANS TITRE:
+              Capacity: 1,96 GB
+              Available: 1,96 GB
+              Writable: Yes
+              File System: MS-DOS FAT32
+              BSD Name: disk1s1
+              Mount Point: /Volumes/SANS TITRE
+          Volumes:
+            disk1s1:
+              Capacity: 1,96 GB
+              Available: 1,96 GB
+              Writable: Yes
+              File System: MS-DOS FAT32
+
+        DataTraveler 2.0:
+
+          Capacity: 3,76 GB
+          Removable Media: Yes
+          Detachable Drive: Yes
+          BSD Name: disk2
+          Product ID: 0x1607
+          Vendor ID: 0x0951  (Kingston Technology Company)
+          Version: 2.00
+          Serial Number: 89980116200801151425097A
+          Speed: Up to 480 Mb/sec
+          Manufacturer: Kingston
+          Location ID: 0x4b100000
+          Current Available (mA): 500
+          Current Required (mA): 100
+          Mac OS 9 Drivers: No
+          Partition Map Type: MBR (Master Boot Record)
+          S.M.A.R.T. status: Not Supported
+          Volumes:
+            NO NAME:
+              Capacity: 3,76 GB
+              Available: 678,8 MB
+              Writable: Yes
+              File System: MS-DOS FAT32
+              BSD Name: disk2s1
+              Mount Point: /Volumes/NO NAME
+          Volumes:
+            disk2s1:
+              Capacity: 3,76 GB
+              Available: 678,8 MB
+              Writable: Yes
+              File System: MS-DOS FAT32
+
+    USB Bus:
+
+      Host Controller Location: Built In USB
+      Host Controller Driver: AppleUSBOHCI
+      PCI Device ID: 0x0035
+      PCI Revision ID: 0x0043
+      PCI Vendor ID: 0x1033
+      Bus Number: 0x0b
+
+        Logitech USB Keyboard:
+
+          Product ID: 0xc31b
+          Vendor ID: 0x046d  (Logitech Inc.)
+          Version: 60.00
+          Speed: Up to 1.5 Mb/sec
+          Manufacturer: Logitech
+          Location ID: 0x0b200000
+          Current Available (mA): 500
+          Current Required (mA): 98
+
+    USB Bus:
+
+      Host Controller Location: Built In USB
+      Host Controller Driver: AppleUSBOHCI
+      PCI Device ID: 0x0035
+      PCI Revision ID: 0x0043
+      PCI Vendor ID: 0x1033
+      Bus Number: 0x2b
+
+        USB Optical Mouse:
+
+          Product ID: 0x4d15
+          Vendor ID: 0x0461  (Primax Electronics)
+          Version: 2.00
+          Speed: Up to 1.5 Mb/sec
+          Location ID: 0x2b100000
+          Current Available (mA): 500
+          Current Required (mA): 100
+
+Firewall:
+
+    Firewall Settings:
+
+      Mode: Allow all incoming connections
+
+Locations:
+
+    Automatic:
+
+      Active Location: Yes
+      Services:
+        Bluetooth:
+          Type: PPP
+          IPv4:
+              Configuration Method: PPP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              FTP Passive Mode: Yes
+          PPP:
+              ACSP Enabled: No
+              Display Terminal Window: No
+              Redial Count: 1
+              Redial Enabled: Yes
+              Redial Interval: 5
+              Use Terminal Script: No
+              Dial On Demand: No
+              Disconnect On Fast User Switch: Yes
+              Disconnect On Idle: Yes
+              Disconnect On Idle Time: 600
+              Disconnect On Logout: Yes
+              Disconnect On Sleep: Yes
+              Idle Reminder: No
+              Idle Reminder Time: 1800
+              IPCP Compression VJ: Yes
+              LCP Echo Enabled: No
+              LCP Echo Failure: 4
+              LCP Echo Interval: 10
+              Log File: /var/log/ppp.log
+              Verbose Logging: No
+        Ethernet:
+          Type: Ethernet
+          BSD Device Name: en0
+          Hardware (MAC) Address: 00:14:51:61:ef:08
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          AppleTalk:
+              Configuration Method: Node
+          DNS:
+              Search Domains: lan
+              Server Addresses: 10.0.1.1
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        FireWire:
+          Type: FireWire
+          BSD Device Name: fw0
+          Hardware (MAC) Address: 00:14:51:ff:fe:1a:c8:e2
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        AirPort:
+          Type: Ethernet
+          BSD Device Name: en1
+          Hardware (MAC) Address: 00:14:51:61:ef:09
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          AppleTalk:
+              Configuration Method: Node
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+
+Volumes:
+
+    net:
+
+      Type: autofs
+      Mount Point: /net
+      Mounted From: map -hosts
+      Automounted: Yes
+
+    home:
+
+      Type: autofs
+      Mount Point: /home
+      Mounted From: map auto_home
+      Automounted: Yes
+
+Universal Access:
+
+    Universal Access Information:
+
+      Cursor Magnification: Off
+      Display: Black on White
+      Flash Screen: Off
+      Mouse Keys: Off
+      Slow Keys: Off
+      Sticky Keys: Off
+      VoiceOver: Off
+      Zoom: Off
+
