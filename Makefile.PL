@@ -28,25 +28,37 @@ abstract 'FusionInventory unified Agent for UNIX, Linux, Windows and MacOSX';
 license 'gpl';
 version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
-requires 'Digest::MD5' => undef;
-requires 'XML::Simple' => undef;
-requires 'LWP' => undef;
-requires 'File::Temp' => undef;
-requires 'Net::IP' => undef;
-requires 'HTTP::Status' => undef;
-requires 'File::Find' => undef;
-requires 'UNIVERSAL::require' => undef;
-recommends 'Compress::Zlib';
-recommends 'Proc::Daemon' => undef unless $OSNAME =~ /^MSWin/;
-recommends 'Proc::PID::File' => undef unless $OSNAME =~ /^MSWin/;
-recommends 'File::Glob' => undef;
-recommends 'File::Path' => undef;
-recommends 'HTTP::Daemon' => undef; # RPC
-recommends 'Archive::Extract' => undef;
-recommends 'Net::CUPS' => 0.60;
-recommends 'MIME::Base64' => undef;
-recommends 'File::ShareDir' => undef; # You'll need to use --share-dir
 
+# mandatory dependencies
+requires 'Digest::MD5'        => undef;
+requires 'XML::Simple'        => undef;
+requires 'LWP'                => undef;
+requires 'File::Temp'         => undef;
+requires 'Net::IP'            => undef;
+requires 'HTTP::Status'       => undef;
+requires 'File::Find'         => undef;
+requires 'UNIVERSAL::require' => undef;
+
+if ($OSNAME eq 'darwin') {
+    requires 'Mac::SysProfile' => undef;
+}
+
+# optional dependencies
+recommends 'Compress::Zlib'   => undef;
+recommends 'File::Glob'       => undef;
+recommends 'File::Path'       => undef;
+recommends 'HTTP::Daemon'     => undef; # RPC
+recommends 'Archive::Extract' => undef;
+recommends 'Net::CUPS'        => 0.60;
+recommends 'MIME::Base64'     => undef;
+recommends 'File::ShareDir'   => undef; # You'll need to use --share-dir
+
+if ($OSNAME ne 'MSWin') {
+    recommends 'Proc::Daemon'     => undef;
+    recommends 'Proc::PID::File'  => undef;
+}
+
+# test dependencies
 test_requires  'Test::More'  => undef;
 
 install_script  'fusioninventory-agent';
@@ -103,13 +115,6 @@ if ($OSNAME =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|
             print "\n";
         }
     }
-}
-
-if ($OSNAME =~ /^darwin$/ && !can_use('Mac::SysProfile')) {
-    print "\n";
-    print "[WARNING] Mac::SysProfile is needed on MacOS to detect most of the device information.\n";
-    print "\n";
-    requires 'Mac::SysProfile' => undef;
 }
 
 # memconf is needed by Solaris backend module
