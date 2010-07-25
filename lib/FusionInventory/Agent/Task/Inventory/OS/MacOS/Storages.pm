@@ -42,13 +42,6 @@ sub getDiskInfo {
             next;
         }
 
-        if (/^(\S+):$/) {
-            $type=$1;
-            if ($type eq 'FireWire') {
-                $type = '1394';
-            }
-        }
-
         next unless /^(\s*)/;
         if ($1 ne $revIndent) {
             $name = $1 if (/^\s+(\S+.*\S+):\s*$/ && $wasEmpty);
@@ -75,6 +68,17 @@ sub getDiskInfo {
             $info->{$1}=$2;
             $info->{Name} = $name;
         }
+
+        $type = '' if /^(\S+)/;
+        if (/^(\S+):$/) {
+            $type=$1;
+            print $type."\n";
+            if ($type eq 'FireWire') {
+                $type = '1394';
+            }
+        }
+
+
         $wasEmpty=0;
     }
 # The last one
@@ -98,16 +102,12 @@ sub doInventory {
 
     foreach my $device ( @$sata ) {
             my $description;
-            my $type; # To improve
             if (!$device->{'Protocol'}) {
                 $description = 'Disk drive';
             } elsif ( ($device->{'Protocol'} eq 'ATAPI')
                     ||
                     ($device->{'Drive Type'}) ) {
                 $description = 'CD-ROM Drive';
-            } elsif ($device->{'Protocol'} eq 'USB') {
-                $description = 'USB drive';
-                $type = 'USB';
             }
 
             my $size = $device->{'Capacity'};
