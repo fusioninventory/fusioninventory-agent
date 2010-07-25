@@ -72,7 +72,6 @@ sub getDiskInfo {
         $type = '' if /^(\S+)/;
         if (/^(\S+):$/) {
             $type=$1;
-            print $type."\n";
             if ($type eq 'FireWire') {
                 $type = '1394';
             }
