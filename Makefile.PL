@@ -47,7 +47,6 @@ recommends 'Compress::Zlib'   => undef;
 recommends 'File::Glob'       => undef;
 recommends 'File::Path'       => undef;
 recommends 'HTTP::Daemon'     => undef; # RPC
-recommends 'Archive::Extract' => undef;
 recommends 'Net::CUPS'        => 0.60;
 recommends 'MIME::Base64'     => undef;
 recommends 'File::ShareDir'   => undef; # You'll need to use --share-dir
@@ -74,46 +73,11 @@ if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
     }
 }
 
-
-
 if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
     unlink 'run-postinst';
 } else {
     open POSTINST, '>run-postinst' or die $!;
     close POSTINST;
-}
-
-
-if (!can_use('Compress::Zlib')) {
-    print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
-}
-
-if (!can_run('ipdiscover') && !can_run('nmap')) {
-    print "Please install nmap ";
-    print "or ipdiscover " if $OSNAME =~ /^linux$/i;
-    print "if you want to use the network ".
-    "discover feature.\n";
-}
-
-if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
-    print "Please install Proc::Daemon and Proc::PID::File if you ".
-    "want to use the daemon mode.\n";
-}
-
-
-my $archname;
-eval { # config_re is not available on Perl 5.6
-    my @t = Config::config_re('archname');
-    $archname = $t[0];
-};
-if ($OSNAME =~ /(linux|bsd)/i && (!$archname ||$archname =~ /(i[3456x]86|x86_64|amd64)/i)) {
-    foreach (qw/dmidecode lspci/) {
-        if (!can_run($_)) {
-            print "\n";
-            print "[WARNING] $_ is needed if you want a complete inventory on x86 and AMD64/x86_64.\n";
-            print "\n";
-        }
-    }
 }
 
 # memconf is needed by Solaris backend module
@@ -123,4 +87,3 @@ if ($OSNAME =~ /^solaris$/i) {
 #for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
 #auto_install;
 WriteAll;
-
