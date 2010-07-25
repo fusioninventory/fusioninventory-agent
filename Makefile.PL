@@ -43,7 +43,6 @@ recommends 'Compress::Zlib'   => undef;
 recommends 'File::Glob'       => undef;
 recommends 'File::Path'       => undef;
 recommends 'HTTP::Daemon'     => undef; # RPC
-recommends 'Archive::Extract' => undef;
 recommends 'Net::CUPS'        => 0.60;
 recommends 'MIME::Base64'     => undef;
 recommends 'File::ShareDir'   => undef; # You'll need to use --share-dir
@@ -77,34 +76,6 @@ if ($ENV{PERL_AUTOINSTALL}) {
     close POSTINST;
 }
 
-if (!can_use('Compress::Zlib')) {
-    print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
-}
-
-if (!can_run('ipdiscover') && !can_run('nmap')) {
-    print "Please install nmap ";
-    print "or ipdiscover " if $OSNAME eq 'linux';
-    print "if you want to use the network ".
-    "discover feature.\n";
-}
-
-if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
-    print "Please install Proc::Daemon and Proc::PID::File if you ".
-    "want to use the daemon mode.\n";
-}
-
-
-if ($OSNAME =~ /(linux|bsd)/i) {
-    foreach (qw/dmidecode lspci/) {
-        if (!can_run($_)) {
-            print "\n";
-            print "[WARNING] $_ is needed if you want a complete inventory\n";
-            print "\n";
-        }
-    }
-}
-
-
 # memconf is needed by Solaris backend module
 if ($OSNAME eq 'solaris') {
     install_script  'memconf';
@@ -115,4 +86,3 @@ makemaker_args(
     test => { TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t) },
 );
 WriteAll;
-
