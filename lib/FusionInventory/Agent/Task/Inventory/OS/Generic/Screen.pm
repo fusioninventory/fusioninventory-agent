@@ -69,12 +69,11 @@ sub getScreens {
 
             my $machKey;
             {
-                no strict;
-                # Avoid this error on non-Windows OS
-                # Bareword "Win32::TieRegistry::KEY_READ" not allowed while "strict subs"
-                my $machKey = $Registry->Open('LMachine', {
-                        Access=> Win32::TieRegistry::KEY_READ
-                    } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+                # Win32-specifics constants can not be loaded on non-Windows OS
+                no strict 'subs';
+                $machKey = $Registry->Open('LMachine', {
+                    Access => Win32::TieRegistry::KEY_READ
+                } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
             }
 
             my $edid =
