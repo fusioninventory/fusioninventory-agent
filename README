@@ -1,6 +1,8 @@
 FusionInventory Agent
 ---------------------
 
+Installation
+------------
 Minimum perl version: 5.8
 
 Additional mandatory perl modules:
@@ -23,3 +25,7 @@ Additional optional programs:
 - nmap or ipdiscover, for network discovery
 - dmidecode (linux or bsd) for hardware inventory
 - lspci (linux or bsd) for hardware inventory
+
+Post-installation
+-----------------
+Run fusioninventory-agent-config for automatic configuration.

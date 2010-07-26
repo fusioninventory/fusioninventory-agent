@@ -2,23 +2,6 @@
 use inc::Module::Install;
 use English qw(-no_match_vars);
 
-## Hack to be able to run a post install script
-#sub MY::postamble
-#{
-#
-#    return if $OSNAME eq 'MSWin32';
-#
-#	my $re;
-#
-#	$re = '
-#install :: all pure_install doc_install
-#	$(NOECHO) $(NOOP)';
-#
-#	$re .= "\n\t[ ! -f run-postinst ] || $EXECUTABLE_NAME fusioninventory-agent-config\n";
-#
-#    return $re;
-#}
-
 use Config;
 
 name 'FusionInventory-Agent';
@@ -65,13 +48,6 @@ if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
         bundle $module;
         requires $module;
     }
-}
-
-if (defined ($ENV{PERL_AUTOINSTALL}) || defined ($ENV{PERL_AUTOINSTALL})) {
-    unlink 'run-postinst';
-} else {
-    open POSTINST, '>run-postinst' or die $!;
-    close POSTINST;
 }
 
 # memconf is needed by Solaris backend module
