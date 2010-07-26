@@ -6,7 +6,6 @@ use warnings;
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
-use Carp;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 use Win32::OLE::Variant;
@@ -24,7 +23,7 @@ use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 sub getXPkey {
     my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
-	or croak "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
+	or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
     my $key     =
 	$machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
