@@ -80,7 +80,7 @@ sub doInventory {
 
     foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
         OSLanguage Caption Version SerialNumber Organization RegisteredUser
-        CSDVersion
+        CSDVersion TotalSwapSpaceSize
         /)) {
 
         my $key = getXPkey(); 
@@ -94,14 +94,15 @@ sub doInventory {
             WINCOMPANY => $Properties->{Organization},
             WINOWNER => $Properties->{RegistredUser},
             OSCOMMENTS => $Properties->{CSDVersion},
+            SWAP => int(($Properties->{TotalSwapSpaceSize}||0)/(1024*1024)),
         });
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
-        Workgroup UserName PrimaryOwnerName
+        Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
     /)) {
 
-        my $workgroup = $Properties->{Workgroup};
+        my $workgroup = $Properties->{Domain} || $Properties->{Workgroup};
         my $userdomain;
 #        my $userid;
 #        my @tmp = split(/\\/, $Properties->{UserName});
@@ -111,6 +112,7 @@ sub doInventory {
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
         $inventory->setHardware({
+            MEMORY => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
             USERDOMAIN => $userdomain,
             WORKGROUP => $workgroup,
             WINOWNER => $winowner,

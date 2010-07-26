@@ -12,13 +12,41 @@ sub new {
 
     my $self = {};
     $self->{config} = $params->{config};
-    $self->{logfile} = $self->{config}->{logdir}."/".$self->{config}->{logfile};
+    $self->{logfile} = $self->{config}->{logfile};
+
+    bless $self, $class;
+
+    $self->open();
+
+    return $self;
+}
+
+sub open {
+    my ($self) = @_;
 
     open $handle, '>>', $self->{config}->{logfile}
         or warn "Can't open $self->{config}->{logfile}: $ERRNO";
 
-    bless $self, $class;
-    return $self;
+}
+
+
+sub watchSize {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+
+    return unless $config->{'logfile-maxsize'};
+
+    my $size = (stat($handle))[7];
+
+    if ($size>$config->{'logfile-maxsize'}*1024*1024) {
+        close($handle);
+        unlink($self->{logfile}) or die "$!!";
+        $self->open();
+        print $handle "max size reached. log file truncated (".localtime(time).")\n";
+    }
+
+
 }
 
 sub addMsg {
@@ -28,6 +56,8 @@ sub addMsg {
     my $message = $args->{message};
 
     return if $message =~ /^$/;
+
+    $self->watchSize();
 
     print $handle "[".localtime()."][$level] $message\n";
 }

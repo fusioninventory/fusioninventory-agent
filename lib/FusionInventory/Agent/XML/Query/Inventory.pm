@@ -654,7 +654,7 @@ sub addCPU {
         'field' => \@fields,
         'sectionName' => 'CPUS',
         'values' => $args,
-        'noDuplicated' => 1
+        'noDuplicated' => 0
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -1736,9 +1736,7 @@ The disk size in MB.
 
 =item TYPE
 
-INTERFACE can be SCSI/HDC/IDE/USB/1394
-(See: Win32_DiskDrive / InterfaceType in MSDN documentation
-
+INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA
 
 =item SERIAL
 

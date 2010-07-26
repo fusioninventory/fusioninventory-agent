@@ -327,6 +327,12 @@ Write an inventory in the I<DIR> directory. A new file will be created if needed
 
 Log message in I<FILE> and turn off STDERR
 
+=item B<--logfile-maxsize>=I<FILE>
+
+Max logfile size in MB, default is unlimited. When the max size is reached, the
+file is truncated. This is only useful if there is no log rotation mechanism on
+the system.
+
 =item B<--logger>=I<LOGGER:>
 
 The logger you want to use. It can be:
