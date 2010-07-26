@@ -1,4 +1,8 @@
 Revision history for FusionInventory::Agent
+2.1
+	* cleanup Makefile.PL
+	* add a README file with list of mandatory and optional perl modules
+	* drop README file lost in the middle of perl modules
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
