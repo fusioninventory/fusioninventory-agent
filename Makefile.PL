@@ -2,8 +2,6 @@
 use inc::Module::Install;
 use English qw(-no_match_vars);
 
-use Config;
-
 name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux, Windows and MacOSX';
