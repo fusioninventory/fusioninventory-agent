@@ -1,4 +1,8 @@
 Revision history for FusionInventory::Agent
+2.1
+	* cleanup Makefile.PL
+	* enhance documentation with optional and mandatory dependencies
+	* drop README file lost in the middle of perl modules
 
 2.1
        * Fix some warnings on Windows
@@ -11,6 +15,8 @@ Revision history for FusionInventory::Agent
          as primary information source, and avoid using windows-specific
          'workgroup' as default value
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
+       * Fix, restore ability to specify server as an host name rather
+         than a full URL
        * Fix, restore --noinventory support, print a warning saying
          --no-inventory should be used instead
        * Fix: Linux, PC: detect CPU configuration of machine with one

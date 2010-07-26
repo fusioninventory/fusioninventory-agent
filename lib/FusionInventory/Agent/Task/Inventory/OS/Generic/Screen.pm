@@ -21,7 +21,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Screen;
 use strict;
 use warnings;
 
-use Carp;
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
@@ -73,7 +72,7 @@ sub getScreens {
                 no strict 'subs';
                 $machKey = $Registry->Open('LMachine', {
                     Access => Win32::TieRegistry::KEY_READ
-                } ) or croak "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+                } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
             }
 
             my $edid =
