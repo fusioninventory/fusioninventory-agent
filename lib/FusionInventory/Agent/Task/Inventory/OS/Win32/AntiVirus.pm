@@ -18,12 +18,14 @@ sub doInventory {
 
 
 
+    # Doesn't works on Win2003 Server
     my $WMIServices = Win32::OLE->GetObject(
         "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/SecurityCenter" );
 
 
     if (!$WMIServices) {
         print STDERR Win32::OLE->LastError();
+        return;
     }
 
 
