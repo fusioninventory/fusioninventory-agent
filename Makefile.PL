@@ -49,7 +49,7 @@ if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
 }
 
 # memconf is needed by Solaris backend module
-if ($OSNAME =~ /^solaris$/i) {
+if ($OSNAME eq 'solaris') {
     install_script  'memconf';
 }
 
