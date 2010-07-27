@@ -46,18 +46,12 @@ sub new {
     }
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
-    if (
-        $params->{realm} ||
-        $params->{user}  ||
+    $self->{ua}->credentials(
+        "$host:$port",
+        $params->{realm},
+        $params->{user},
         $params->{password}
-    ) {
-        $self->{ua}->credentials(
-            "$host:$port",
-            $params->{realm},
-            $params->{user},
-            $params->{password}
-        );
-    }
+    );
 
     # turns SSL checks on if needed
     if ($scheme eq 'https' && !$params->{'no-ssl-check'}) {
