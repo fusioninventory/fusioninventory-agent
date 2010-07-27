@@ -2,7 +2,7 @@
 
 use strict;
 
-use Apache::TestRun;
+use Apache::TestConfig;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Logger;
@@ -11,7 +11,6 @@ use Test::Exception;
 
 plan tests => 10;
 
-$ENV{APACHE_TEST_ULIMIT_SET} = 1;
 $ENV{LC_ALL} = 'C';
 
 my $network;
@@ -66,7 +65,12 @@ my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
     },
 });
 
-my $server = Apache::TestRun->new();
+my $config = Apache::TestConfig->new(httpd => '/usr/sbin/httpd');
+$config->httpd_config();
+$config->prepare_t_conf();
+$config->generate_httpd_conf;
+$config->save;
+my $server = $config->server();
 
 ok(!$network->send({ message => $message }), "sending message without server");
 is(
@@ -81,8 +85,8 @@ is(
 ); 
 
 # start server
-$server->run('-start-httpd');
+$server->start();
 
 ok($network->send({ message => $message }), "sending message with server");
 
-$server->run('-stop-httpd');
+$server->stop();
