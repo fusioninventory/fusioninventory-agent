@@ -52,7 +52,7 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::USER_STRING];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::AGENT_STRING];
 
     return $self;
 }
