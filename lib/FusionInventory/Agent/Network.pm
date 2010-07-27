@@ -25,21 +25,26 @@ sub new {
     die 'no target' unless $params->{target};
     die 'no config' unless $params->{config};
 
+    die 'no URI in target' unless $params->{target}->{path};
+    my $uri = URI->new($params->{target}->{path});
+    my $scheme = $uri->scheme();
+    if (!$scheme) {
+        die "no protocol for URI: $params->{target}->{path}";
+    }
+    if ($scheme ne 'http' && $scheme ne 'https') {
+        die "invalid protocol for URI: $params->{target}->{path}";
+    }
+    my $host   = $uri->host();
+    my $port   = $uri->port() ||
+                 $scheme eq 'https' ? 443 : 80;
+
     my $self = {
         config => $params->{config},
         logger => $params->{logger},
-        target => $params->{target}
+        target => $params->{target},
+        URI    => $uri
     };
     bless $self, $class;
-
-    $self->{URI} = URI->new($self->{target}->{path});
-    my $scheme = $self->{URI}->scheme();
-    if ($scheme ne 'http' && $scheme ne 'https') {
-        die "Invalid protocol for URI: $self->{target}->{path}";
-    }
-    my $host   = $self->{URI}->host();
-    my $port   = $self->{URI}->port() ||
-                 $scheme eq 'https' ? 443 : 80;
 
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
