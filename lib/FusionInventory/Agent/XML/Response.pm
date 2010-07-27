@@ -9,13 +9,9 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        accountconfig => $params->{accountconfig},
-        accountinfo   => $params->{accountinfo},
         content       => $params->{content},
         logger        => $params->{logger},
-        origmsg       => $params->{origmsg},
         target        => $params->{target},
-        parsedcontent => undef
     };
     bless $self, $class;
 
