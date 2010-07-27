@@ -14,7 +14,6 @@ FusionInventory::Agent::Network - the Network abstraction layer
 =head1 DESCRIPTION
 
 This module is the abstraction layer for network interaction. It uses LWP.
-Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.
 
 =cut
 
