@@ -11,14 +11,6 @@ use URI;
 
 use FusionInventory::Compress;
 
-=over 4
-
-=item new()
-
-The constructor. These keys are expected: config, logger, target.
-
-=cut
-
 sub new {
     my ($class, $params) = @_;
 
@@ -81,15 +73,6 @@ sub new {
 
     return $self;
 }
-
-=item send()
-
-Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
-server).
-
-=back
-
-=cut
 
 sub send {
     my ($self, $args) = @_;
@@ -258,5 +241,16 @@ FusionInventory::Agent::Network - the Network abstraction layer
 
 =head1 DESCRIPTION
 
-This module is the abstraction layer for network interaction. It uses LWP.
-Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.
+This module is the abstraction layer for network interaction, based on LWP.
+It can validate SSL certificates.
+
+=head1 METHODS
+
+=head2 new
+
+The constructor. These keys are expected: config, logger, target.
+
+=head2 send
+
+Send an instance of C<FusionInventory::Agent::XML::Query> to the target (the
+server).
