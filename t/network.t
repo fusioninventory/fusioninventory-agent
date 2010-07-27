@@ -9,7 +9,7 @@ use FusionInventory::Logger;
 use Test::More;
 use Test::Exception;
 
-plan tests => 10;
+plan tests => 9;
 
 $ENV{LC_ALL} = 'C';
 
@@ -20,21 +20,13 @@ throws_ok {
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
-        target => {}
-    });
-} qr/^no config/, 'no config';
-
-throws_ok {
-    $network = FusionInventory::Agent::Network->new({
         target => {},
-        config => {},
     });
 } qr/^no URI/, 'no URI';
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
         target => { path => 'foo' },
-        config => {},
     });
 } qr/^no protocol for URI/, 'no protocol';
 

@@ -95,9 +95,15 @@ sub main {
             $accountinfo->setAccountInfo($self->{inventory});
 
             my $network = FusionInventory::Agent::Network->new({
-                logger => $self->{logger},
-                config => $self->{config},
-                target => $self->{target},
+                target   => $self->{target},
+                logger   => $self->{logger},
+                proxy    => $self->{proxy},
+                realm    => $self->{realm},
+                user     => $self->{user},
+                password => $self->{password},
+                'no-ssl-check' => $self->{'no-ssl-check'},
+                'ca-cert-file' => $self->{'ca-cert-file'},
+                'ca-cert-dir'  => $self->{'ca-cert-dir'},
             });
 
             my $response = $network->send({message => $self->{inventory}});

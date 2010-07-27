@@ -15,7 +15,6 @@ sub new {
     my ($class, $params) = @_;
 
     die 'no target' unless $params->{target};
-    die 'no config' unless $params->{config};
 
     die 'no URI in target' unless $params->{target}->{path};
     my $uri = URI->new($params->{target}->{path});
@@ -31,7 +30,6 @@ sub new {
                  $scheme eq 'https' ? 443 : 80;
 
     my $self = {
-        config => $params->{config},
         logger => $params->{logger},
         target => $params->{target},
         URI    => $uri
@@ -41,29 +39,32 @@ sub new {
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
 
-  if ($self->{config}->{proxy}) {
-        $self->{ua}->proxy(['http', 'https'], $self->{config}->{proxy});
+  if ($params->{proxy}) {
+        $self->{ua}->proxy(['http', 'https'], $params->{proxy});
     }  else {
         $self->{ua}->env_proxy;
     }
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
     if (
-        $self->{config}->{realm} ||
-        $self->{config}->{user}  ||
-        $self->{config}->{password}
+        $params->{realm} ||
+        $params->{user}  ||
+        $params->{password}
     ) {
         $self->{ua}->credentials(
             "$host:$port",
-            $self->{config}->{realm},
-            $self->{config}->{user},
-            $self->{config}->{password}
+            $params->{realm},
+            $params->{user},
+            $params->{password}
         );
     }
 
     # turns SSL checks on if needed
-    if ($scheme eq 'https' && !$self->{config}->{'no-ssl-check'}) {
-        $self->_turnSSLCheckOn();
+    if ($scheme eq 'https' && !$params->{'no-ssl-check'}) {
+        $self->_turnSSLCheckOn(
+            $params->{'ca-cert-file'},
+            $params->{'ca-cert-dir'}
+        );
         $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
     }
 
@@ -79,7 +80,6 @@ sub send {
 
     my $logger   = $self->{logger};
     my $target   = $self->{target};
-    my $config   = $self->{config};
     my $compress = $self->{compress};
 
     # create message
@@ -139,7 +139,6 @@ sub send {
         logger      => $logger,
         origmsg     => $message,
         target      => $target,
-        config      => $self->{config}
     });
 
     return $response;
@@ -147,10 +146,9 @@ sub send {
 
 # http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
 sub _turnSSLCheckOn {
-    my ($self, $args) = @_;
+    my ($self, $ca_cert_file, $ca_cert_dir) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
 
     my $hasCrypSSLeay;
     my $hasIOSocketSSL;
@@ -176,7 +174,7 @@ sub _turnSSLCheckOn {
             "--no-ssl-check parameter to disable SSL check.";
     }
 
-    if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
+    if (!$ca_cert_file && !$ca_cert_dir) {
         die
             "You need to use either --ca-cert-file ".
             "or --ca-cert-dir to give the location of your SSL ".
@@ -185,19 +183,18 @@ sub _turnSSLCheckOn {
     }
 
 
-    if ($config->{'ca-cert-file'}) {
-        if (!-f $config->{'ca-cert-file'} && !-l $config->{'ca-cert-file'}) {
-            die 
-                "--ca-cert-file $config->{'ca-cert-file'} doesn't exist";
+    if ($ca_cert_file) {
+        if (!-f $ca_cert_file && !-l $ca_cert_file) {
+            die "--ca-cert-file $ca_cert_file doesn't exist";
         }
 
-        $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
+        $ENV{HTTPS_CA_FILE} = $ca_cert_file;
 
         if (!$hasCrypSSLeay && $hasIOSocketSSL) {
             eval {
                 IO::Socket::SSL::set_ctx_defaults(
                     verify_mode => Net::SSLeay->VERIFY_PEER(),
-                    ca_file => $config->{'ca-cert-file'}
+                    ca_file => $ca_cert_file
                 );
             };
             die
@@ -208,21 +205,21 @@ sub _turnSSLCheckOn {
             if $EVAL_ERROR;
         }
 
-    } elsif ($config->{'ca-cert-dir'}) {
-        if (!-d $config->{'ca-cert-dir'}) {
-            die "--ca-cert-dir $config->{'ca-cert-dir'} doesn't exist";
+    } elsif ($ca_cert_dir) {
+        if (!-d $ca_cert_dir) {
+            die "--ca-cert-dir $ca_cert_dir doesn't exist";
         }
 
-        $ENV{HTTPS_CA_DIR} =$config->{'ca-cert-dir'};
+        $ENV{HTTPS_CA_DIR} = $ca_cert_dir;
         if (!$hasCrypSSLeay && $hasIOSocketSSL) {
             eval {
                 IO::Socket::SSL::set_ctx_defaults(
                     verify_mode => Net::SSLeay->VERIFY_PEER(),
-                    ca_path => $config->{'ca-cert-dir'}
+                    ca_path => $ca_cert_dir
                 );
             };
             die
-                "Failed to set ca-cert-file: $EVAL_ERROR".
+                "Failed to set ca_cert_dir: $EVAL_ERROR".
                 "Your IO::Socket::SSL distribution is too old. ".
                 "Please install Crypt::SSLeay or disable ".
                 "SSL server check with --no-ssl-check"
@@ -248,7 +245,27 @@ It can validate SSL certificates.
 
 =head2 new
 
-The constructor. These keys are expected: config, logger, target.
+The constructor. The following arguments are allowed:
+
+=over
+
+=item target (mandatory)
+
+=item logger (mandatory)
+
+=item proxy (default: none)
+
+=item realm (default: none)
+
+=item user (default: none)
+
+=item password (default: none)
+
+=item no-ssl-check (default: false)
+
+=back ca-cert-file (default: none)
+
+=back ca-cert-dir (default: none)
 
 =head2 send
 
