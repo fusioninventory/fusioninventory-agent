@@ -18,12 +18,11 @@ use FusionInventory::Agent::Task::Inventory::OS::Win32;
 # Hardware\Description\System\CentralProcessor\1
 # thank you Nicolas Richard 
 sub getCPUInfoFromRegistry {
-    my ($cpuId) = @_;
-     
+    my ($logger, $cpuId) = @_;
 
     my $machKey= $Registry->Open('LMachine', {
         Access=> KEY_READ | KEY_WOW64_64KEY
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+    }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
     my $data =
         $machKey->{"Hardware/Description/System/CentralProcessor/".$cpuId};
@@ -47,6 +46,7 @@ sub isInventoryEnabled {1}
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $serial;
     my $speed;
@@ -82,7 +82,7 @@ sub doInventory {
         NumberOfCores ProcessorId MaxClockSpeed
     /)) {
 
-        my $info = getCPUInfoFromRegistry($cpuId);
+        my $info = getCPUInfoFromRegistry($logger, $cpuId);
 
 #        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
         my $core = $Properties->{NumberOfCores};

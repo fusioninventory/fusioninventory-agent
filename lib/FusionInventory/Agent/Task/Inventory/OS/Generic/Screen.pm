@@ -33,6 +33,8 @@ sub isInventoryEnabled {
 }
 
 sub getScreens {
+    my ($logger) = @_;
+
     my @raw_edid;
 
 
@@ -55,7 +57,7 @@ sub getScreens {
         use constant wbemFlagReturnImmediately => 0x10;
         use constant wbemFlagForwardOnly => 0x20;
 
-        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or die "WMI connection failed.\n";
+        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or $logger->fault("WMI connection failed.\n");
         my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
                 wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
@@ -72,7 +74,7 @@ sub getScreens {
                 no strict 'subs';
                 $machKey = $Registry->Open('LMachine', {
                     Access => Win32::TieRegistry::KEY_READ
-                } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+                } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
             }
 
             my $edid =
@@ -644,7 +646,7 @@ sub doInventory {
     my $verbose;
     my $MonitorsDB;
 
-    my @screens = getScreens();
+    my @screens = getScreens($logger);
 
     return unless @screens;
 
