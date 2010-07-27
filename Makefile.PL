@@ -35,6 +35,7 @@ if ($OSNAME ne 'MSWin32') {
 test_requires 'Test::More'      => undef;
 test_requires 'Test::Compile'   => undef;
 test_requires 'Test::Exception' => undef;
+test_requires 'Apache::Test' => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
