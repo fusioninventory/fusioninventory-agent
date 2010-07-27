@@ -9,7 +9,7 @@ use FusionInventory::Logger;
 use Test::More;
 use Test::Exception;
 
-plan tests => 11;
+plan tests => 12;
 
 $ENV{LC_ALL} = 'C';
 
@@ -64,7 +64,9 @@ $config->generate_httpd_conf;
 $config->save;
 my $server = $config->server();
 
-ok(!$network->send({ message => $message }), "sending message without server");
+my $response = $network->send({ message => $message });
+ok(!defined $response,  "sending a message with no server");
+
 is(
     $logger->{backend}->[0]->{level},
     'error',
@@ -79,7 +81,13 @@ is(
 # start server
 $server->start();
 
-ok($network->send({ message => $message }), "sending message with server");
+my $response = $network->send({ message => $message });
+ok(defined $response, "sending a message to server");
+isa_ok(
+    $response,
+    'FusionInventory::Agent::XML::Response::SimpleMessage',
+    'response of expected class'
+);
 
 $server->stop();
 
