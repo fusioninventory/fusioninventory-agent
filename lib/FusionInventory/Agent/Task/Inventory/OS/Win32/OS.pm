@@ -22,8 +22,10 @@ use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 
 sub getXPkey {
+    my ($logger) = @_;
+
     my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
-	or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
+	or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
     my $key     =
 	$machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
@@ -76,13 +78,14 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
         OSLanguage Caption Version SerialNumber Organization RegisteredUser
         CSDVersion TotalSwapSpaceSize
         /)) {
 
-        my $key = getXPkey(); 
+        my $key = getXPkey($logger); 
 
         $inventory->setHardware({
             WINLANG => $Properties->{OSLanguage},

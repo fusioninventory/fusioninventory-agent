@@ -61,6 +61,7 @@ sub new {
 
     my $config = $self->{config} = $params->{config};
     my $target = $self->{target} = $params->{target};
+    $self->{logger} = $params->{logger};
 
     $self->{vardir} = $target->{vardir};
 
@@ -107,8 +108,7 @@ sub getFilePath {
     my $extension = '';
     if ($idx) {
         if ($idx !~ /^\d+$/) {
-            print "[fault] idx must be an integer!\n";
-            die;
+            $self->{logger}->fault("[fault] idx must be an integer!\n");
         } 
         $extension = '.'.$idx;
     }
@@ -134,7 +134,7 @@ sub getFileDir {
     } elsif ($config) {
         $dirName = $config->{'basevardir'};
     } else {
-        die;
+        $self->{logger}->fault('no target nor config');
     }
 
     return $dirName;
