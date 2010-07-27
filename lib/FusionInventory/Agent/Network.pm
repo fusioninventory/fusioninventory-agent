@@ -238,33 +238,19 @@ sub _turnSSLCheckOn {
 sub _compress {
     my ($self, $data) = @_;
 
-    if ($self->{compression} eq 'native') {
-        return $self->_compressNative($data);
-    }
-
-    if ($self->{compression} eq 'gzip') {
-        return $self->_compressGzip($data);
-    }
-
-    if ($self->{compression} eq 'deflated') {
-        return $data;
-    }
+    return 
+        $self->{compression} eq 'native' ? $self->_compressNative($data) :
+        $self->{compression} eq 'gzip'   ? $self->_compressGzip($data)   :
+                                          $data;
 }
 
 sub _uncompress {
     my ($self, $data) = @_;
 
-    if ($self->{compression} eq 'native') {
-        return $self->_uncompressNative($data);
-    }
-
-    if ($self->{compression} eq 'gzip') {
-        return $self->_uncompressGzip($data);
-    }
-
-    if ($self->{compression} eq 'deflated') {
-        return $data;
-    }
+    return 
+        $self->{compression} eq 'native' ? $self->_uncompressNative($data) :
+        $self->{compression} eq 'gzip'   ? $self->_uncompressGzip($data)   :
+                                          $data;
 }
 
 sub _compressNative {
