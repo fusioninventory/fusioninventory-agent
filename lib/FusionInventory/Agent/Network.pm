@@ -4,12 +4,11 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use File::Temp;
 use HTTP::Status;
 use LWP::UserAgent;
 use UNIVERSAL::require;
 use URI;
-
-use FusionInventory::Compress;
 
 sub new {
     my ($class, $params) = @_;
@@ -62,9 +61,23 @@ sub new {
         $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
     }
 
-    $self->{compress} = FusionInventory::Compress->new({
-        logger => $self->{logger}
-    });
+    # check compression mode
+    if (Compress::Zlib->require()) {
+        $self->{compression} = 'native';
+        $self->{logger}->debug(
+            'Using Compress::Zlib for compression'
+        );
+    } elsif (system('which gzip >/dev/null 2>&1') == 0) {
+        $self->{compression} = 'gzip';
+        $self->{logger}->debug(
+            'Using gzip for compression (server minimal version 1.02 needed)'
+        );
+    } else {
+        $self->{compression} = 'deflated';
+        $self->{logger}->debug(
+            'Not using compression (server minimal version 1.02 needed)'
+        );
+    }
 
     return $self;
 }
@@ -74,11 +87,10 @@ sub send {
 
     my $logger   = $self->{logger};
     my $target   = $self->{target};
-    my $compress = $self->{compress};
 
     # create message
     my $message = $args->{message};
-    my $message_content = $compress->compress($message->getContent());
+    my $message_content = $self->_compress($message->getContent());
     if (!$message_content) {
         $logger->error('Inflating problem');
         return;
@@ -118,7 +130,7 @@ sub send {
 
     my $response_content;
     if ($res->content()) {
-        $response_content = $compress->uncompress($res->content());
+        $response_content = $self->_uncompress($res->content());
         if (!$response_content) {
             $logger->error("Deflating problem");
             return;
@@ -221,6 +233,92 @@ sub _turnSSLCheckOn {
         }
     }
 
+}
+
+sub _compress {
+    my ($self, $data) = @_;
+
+    if ($self->{compression} eq 'native') {
+        return $self->_compressNative($data);
+    }
+
+    if ($self->{compression} eq 'gzip') {
+        return $self->_compressGzip($data);
+    }
+
+    if ($self->{compression} eq 'deflated') {
+        return $data;
+    }
+}
+
+sub _uncompress {
+    my ($self, $data) = @_;
+
+    if ($self->{compression} eq 'native') {
+        return $self->_uncompressNative($data);
+    }
+
+    if ($self->{compression} eq 'gzip') {
+        return $self->_uncompressGzip($data);
+    }
+
+    if ($self->{compression} eq 'deflated') {
+        return $data;
+    }
+}
+
+sub _compressNative {
+    my ($self, $data) = @_;
+
+    return Compress::Zlib::compress($data);
+}
+
+sub _compressGzip {
+    my ($self, $data) = @_;
+
+    my $in = File::Temp->new();
+    print $in $data;
+    close $in;
+
+    my $command = 'gzip -c ' . $in->filename();
+    my $out;
+    if (! open $out, '-|', $command) {
+        $self->{logger}->debug("Can't run $command: $ERRNO");
+        return;
+    }
+
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $result = <$out>;
+    close $out;
+
+    return $result;
+}
+
+sub _uncompressNative {
+    my ($self, $data) = @_;
+
+    return Compress::Zlib::uncompress($data);
+}
+
+sub _uncompressGzip {
+    my ($self, $data) = @_;
+
+    my $in = File::Temp->new();
+    print $in $data;
+    close $in;
+
+    my $command = 'gzip -dc ' . $in->filename();
+    my $out;
+    if (! open $out, '-|', $command) {
+        $self->{logger}->debug("Can't run $command: $ERRNO");
+        return;
+    }
+
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $result = <$out>;
+    close $out;
+
+    return $result;
 }
 
 1;

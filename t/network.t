@@ -9,7 +9,7 @@ use FusionInventory::Logger;
 use Test::More;
 use Test::Exception;
 
-plan tests => 9;
+plan tests => 11;
 
 $ENV{LC_ALL} = 'C';
 
@@ -82,3 +82,16 @@ $server->start();
 ok($network->send({ message => $message }), "sending message with server");
 
 $server->stop();
+
+my $data = "this is a test";
+is(
+    $network->_uncompressNative($network->_compressNative($data)),
+    $data,
+    'round-trip compression with Compress::Zlib'
+);
+
+is(
+    $network->_uncompressGzip($network->_compressGzip($data)),
+    $data,
+    'round-trip compression with Gzip'
+);
