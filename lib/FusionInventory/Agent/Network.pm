@@ -73,7 +73,7 @@ sub new {
             'Using gzip for compression (server minimal version 1.02 needed)'
         );
     } else {
-        $self->{compression} = 'deflated';
+        $self->{compression} = 'none';
         $self->{logger}->debug(
             'Not using compression (server minimal version 1.02 needed)'
         );
