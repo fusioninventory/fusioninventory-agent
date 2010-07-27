@@ -87,6 +87,8 @@ sub new {
 Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
 server).
 
+=back
+
 =cut
 
 sub send {

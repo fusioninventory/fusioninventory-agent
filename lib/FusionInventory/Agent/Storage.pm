@@ -132,6 +132,8 @@ sub removeAll {
 
 Deletes the sub files stored on the filesystem for the module $module or for the caller module.
 
+=back
+
 =cut
 sub removeSubDumps {
     my ($self, $params) = @_;
