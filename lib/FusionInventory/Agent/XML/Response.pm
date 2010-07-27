@@ -12,7 +12,6 @@ sub new {
         accountconfig => $params->{accountconfig},
         accountinfo   => $params->{accountinfo},
         content       => $params->{content},
-        config        => $params->{config},
         logger        => $params->{logger},
         origmsg       => $params->{origmsg},
         target        => $params->{target},
