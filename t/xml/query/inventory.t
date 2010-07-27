@@ -30,7 +30,7 @@ lives_ok {
 
 isa_ok($inventory, 'FusionInventory::Agent::XML::Query::Inventory');
 
-my $content_init = <<EOF;
+is($inventory->getContent(), <<EOF, 'creation content');
 <?xml version="1.0" encoding="UTF-8"?>
 <REQUEST>
   <CONTENT>
@@ -50,7 +50,6 @@ my $content_init = <<EOF;
   <QUERY>INVENTORY</QUERY>
 </REQUEST>
 EOF
-is($inventory->getContent(), $content_init, 'creation content');
 
 $inventory->addCPU({
     NAME => 'void CPU',
@@ -61,7 +60,7 @@ $inventory->addCPU({
     CORE => 1
 });
 
-my $content_cpu = <<EOF;
+is($inventory->getContent(), <<EOF, 'CPU added');
 <?xml version="1.0" encoding="UTF-8"?>
 <REQUEST>
   <CONTENT>
@@ -92,17 +91,17 @@ my $content_cpu = <<EOF;
   <QUERY>INVENTORY</QUERY>
 </REQUEST>
 EOF
-is($inventory->getContent(), $content_cpu, 'CPU added');
 
 $inventory->addDrive({
-        FILESYSTEM => 'ext3',
-        FREE => 9120,
-        SERIAL => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
-        TOTAL => 18777,
-        TYPE => '/',
-        VOLUMN => '/dev/sda2',
+    FILESYSTEM => 'ext3',
+    FREE => 9120,
+    SERIAL => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
+    TOTAL => 18777,
+    TYPE => '/',
+    VOLUMN => '/dev/sda2',
 });
-my $content_drive = <<EOF;
+
+is($inventory->getContent(), <<EOF, 'drive added');
 <?xml version="1.0" encoding="UTF-8"?>
 <REQUEST>
   <CONTENT>
@@ -141,10 +140,9 @@ my $content_drive = <<EOF;
   <QUERY>INVENTORY</QUERY>
 </REQUEST>
 EOF
-is($inventory->getContent(), $content_drive, 'drive added');
 
 $inventory->addSoftwareDeploymentPackage({ ORDERID => '1234567891' });
-my $content_software = <<EOF;
+is($inventory->getContent(), <<EOF, 'software added');
 <?xml version="1.0" encoding="UTF-8"?>
 <REQUEST>
   <CONTENT>
@@ -190,4 +188,3 @@ my $content_software = <<EOF;
   <QUERY>INVENTORY</QUERY>
 </REQUEST>
 EOF
-is($inventory->getContent(), $content_software, 'software added');
