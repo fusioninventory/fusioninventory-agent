@@ -11,7 +11,7 @@ use Test::Exception;
 
 plan tests => 12;
 
-$ENV{LC_ALL} = 'C';
+$ENV{LANGUAGE} = 'C';
 
 my $network;
 throws_ok {
