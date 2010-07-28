@@ -85,7 +85,7 @@ my $response = $network->send({ message => $message });
 ok(defined $response, "sending a message to server");
 isa_ok(
     $response,
-    'FusionInventory::Agent::XML::Response::SimpleMessage',
+    'FusionInventory::Agent::XML::Response',
     'response of expected class'
 );
 

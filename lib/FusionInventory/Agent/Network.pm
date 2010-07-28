@@ -10,6 +10,8 @@ use LWP::UserAgent;
 use UNIVERSAL::require;
 use URI;
 
+use FusionInventory::Agent::XML::Response;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -119,15 +121,6 @@ sub send {
     }
 
     # create response
-    my $response_type = ref $message;
-    $response_type =~ s/Query/Response/;
-    $response_type->require();
-    if ($EVAL_ERROR) {
-        $logger->error(
-            "Can't load response module $response_type: $EVAL_ERROR"
-        );
-    }
-
     my $response_content;
     if ($res->content()) {
         $response_content = $self->_uncompress($res->content());
@@ -139,7 +132,7 @@ sub send {
 
     $logger->debug("receiving message: $response_content");
 
-    my $response = $response_type->new({
+    my $response = FusionInventory::Agent::XML::Response->new({
         accountinfo => $target->{accountinfo},
         content     => $response_content,
         logger      => $logger,
