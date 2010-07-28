@@ -16,19 +16,19 @@ $ENV{LANGUAGE} = 'C';
 my $network;
 throws_ok {
     $network = FusionInventory::Agent::Network->new({});
-} qr/^no URI/, 'no URI';
+} qr/^no URL/, 'no URL';
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
-        uri => 'foo',
+        url => 'foo',
     });
-} qr/^no protocol for URI/, 'no protocol';
+} qr/^no protocol for URL/, 'no protocol';
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
-        uri => 'xml://foo',
+        url => 'xml://foo',
     });
-} qr/^invalid protocol for URI/, 'invalid protocol';
+} qr/^invalid protocol for URL/, 'invalid protocol';
 
 my $logger = FusionInventory::Logger->new({
     config => { logger => 'Test' }
@@ -36,7 +36,7 @@ my $logger = FusionInventory::Logger->new({
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        uri    => 'http://localhost:8529/test',
+        url    => 'http://localhost:8529/test',
         logger => $logger
     });
 } 'parameters OK';
@@ -89,14 +89,14 @@ $server->stop();
 my $network_ssl;
 throws_ok {
     $network_ssl = FusionInventory::Agent::Network->new({
-        uri    => 'https://localhost:8529/test',
+        url    => 'https://localhost:8529/test',
         logger => $logger
     });
 } qr/^neither certificate file or certificate directory given/, 'https URI without checking parameters';
 
 lives_ok {
     $network_ssl = FusionInventory::Agent::Network->new({
-        uri    => 'https://localhost:8529/test',
+        url    => 'https://localhost:8529/test',
         logger => $logger,
         'no-ssl-check' => 1,
     });

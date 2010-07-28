@@ -15,23 +15,23 @@ use FusionInventory::Agent::XML::Response;
 sub new {
     my ($class, $params) = @_;
 
-    die 'no URI in target' unless $params->{uri};
-    my $uri = URI->new($params->{uri});
-    my $scheme = $uri->scheme();
+    die 'no URL in target' unless $params->{url};
+    my $url = URI->new($params->{url});
+    my $scheme = $url->scheme();
     if (!$scheme) {
-        die "no protocol for URI: $params->{uri}";
+        die "no protocol for URL: $params->{url}";
     }
     if ($scheme ne 'http' && $scheme ne 'https') {
-        die "invalid protocol for URI: $params->{uri}";
+        die "invalid protocol for URL: $params->{url}";
     }
-    my $host   = $uri->host();
-    my $port   = $uri->port() ||
+    my $host   = $url->host();
+    my $port   = $url->port() ||
                  $scheme eq 'https' ? 443 : 80;
 
     my $self = {
         logger => $params->{logger},
         target => $params->{target},
-        URI    => $uri
+        URI    => $url
     };
     bless $self, $class;
 
@@ -265,7 +265,7 @@ The constructor. The following arguments are allowed:
 
 =over
 
-=item uri (mandatory)
+=item url (mandatory)
 
 =item logger (mandatory)
 
