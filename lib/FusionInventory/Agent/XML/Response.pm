@@ -9,9 +9,8 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        content       => $params->{content},
-        logger        => $params->{logger},
-        target        => $params->{target},
+        content => $params->{content},
+        logger  => $params->{logger},
     };
     bless $self, $class;
 

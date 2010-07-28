@@ -133,10 +133,8 @@ sub send {
     $logger->debug("receiving message: $response_content");
 
     my $response = FusionInventory::Agent::XML::Response->new({
-        accountinfo => $target->{accountinfo},
-        content     => $response_content,
-        logger      => $logger,
-        origmsg     => $message,
+        content => $response_content,
+        logger  => $logger,
     });
 
     return $response;
