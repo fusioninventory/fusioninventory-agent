@@ -144,7 +144,6 @@ sub send {
         content     => $response_content,
         logger      => $logger,
         origmsg     => $message,
-        target      => $target,
     });
 
     return $response;

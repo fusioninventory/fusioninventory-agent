@@ -225,6 +225,9 @@ sub main {
                     next;
                 }
 
+                # update target
+                my $parsedContent = $prologresp->getParsedContent();
+                $target->setPrologFreq($parsedContent->{PROLOG_FREQ});
                 $target->setCurrentDeviceID ($self->{deviceid});
             }
 
