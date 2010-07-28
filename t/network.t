@@ -62,6 +62,9 @@ $config->generate_httpd_conf;
 $config->save;
 my $server = $config->server();
 
+# ensure server is not running
+$server->stop();
+
 my $response = $network->send({ message => $message });
 ok(!defined $response,  "sending a message with no server");
 
