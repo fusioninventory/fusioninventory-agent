@@ -2,6 +2,7 @@
 
 use strict;
 
+use Cwd;
 use Apache::TestConfig;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
@@ -49,7 +50,10 @@ my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
     },
 });
 
-my $config = Apache::TestConfig->new(httpd => '/usr/sbin/httpd');
+my $config = Apache::TestConfig->new(
+    httpd => '/usr/sbin/httpd',
+    t_dir => getcwd() . '/t/httpd'
+);
 $config->httpd_config();
 $config->prepare_t_conf();
 $config->generate_httpd_conf;
