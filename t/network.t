@@ -33,7 +33,6 @@ throws_ok {
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
         target => { path => 'xml://foo' },
-        config => {},
     });
 } qr/^invalid protocol for URI/, 'invalid protocol';
 
@@ -44,7 +43,6 @@ my $logger = FusionInventory::Logger->new({
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         target => { path => 'http://localhost:8529/test' },
-        config => {},
         logger => $logger
     });
 } 'parameters OK';
