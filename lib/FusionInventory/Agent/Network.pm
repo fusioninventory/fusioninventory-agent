@@ -146,81 +146,31 @@ sub _turnSSLCheckOn {
 
     my $logger = $self->{logger};
 
-    my $hasCrypSSLeay;
-    my $hasIOSocketSSL;
-
     eval {
         require Crypt::SSLeay;
     };
-    $hasCrypSSLeay = $EVAL_ERROR ? 0 : 1;
-
-    if (!$hasCrypSSLeay) {
-        eval {
-            require IO::Socket::SSL;
-        };
-        $hasIOSocketSSL = $EVAL_ERROR ? 0 : 1;
-    }
-
-    if (!$hasCrypSSLeay && !$hasIOSocketSSL) {
+    if ($EVAL_ERROR) {
         die 
-            "Failed to load Crypt::SSLeay or IO::Socket::SSL, to ".
-            "validate the server SSL cert. If you want ".
-            "to ignore this message and want to ignore SSL ".
-            "verification, you can use the ".
-            "--no-ssl-check parameter to disable SSL check.";
+            "failed to load Crypt::SSLeay, unable to validate SSL certificates";
     }
 
     if (!$ca_cert_file && !$ca_cert_dir) {
         die
-            "You need to use either --ca-cert-file ".
-            "or --ca-cert-dir to give the location of your SSL ".
-            "certificat. You can also disable SSL check with ".
-            "--no-ssl-check but this is very unsecure.";
+            "neither certificate file or certificate directory given, unable " .
+            "to validate SSL certificates";
     }
-
 
     if ($ca_cert_file) {
         if (!-f $ca_cert_file && !-l $ca_cert_file) {
             die "--ca-cert-file $ca_cert_file doesn't exist";
         }
-
         $ENV{HTTPS_CA_FILE} = $ca_cert_file;
-
-        if (!$hasCrypSSLeay && $hasIOSocketSSL) {
-            eval {
-                IO::Socket::SSL::set_ctx_defaults(
-                    verify_mode => Net::SSLeay->VERIFY_PEER(),
-                    ca_file => $ca_cert_file
-                );
-            };
-            die
-                "Failed to set ca-cert-file: $EVAL_ERROR".
-                "Your IO::Socket::SSL distribution is too old. ".
-                "Please install Crypt::SSLeay or disable ".
-                "SSL server check with --no-ssl-check"
-            if $EVAL_ERROR;
-        }
-
     } elsif ($ca_cert_dir) {
         if (!-d $ca_cert_dir) {
             die "--ca-cert-dir $ca_cert_dir doesn't exist";
         }
 
         $ENV{HTTPS_CA_DIR} = $ca_cert_dir;
-        if (!$hasCrypSSLeay && $hasIOSocketSSL) {
-            eval {
-                IO::Socket::SSL::set_ctx_defaults(
-                    verify_mode => Net::SSLeay->VERIFY_PEER(),
-                    ca_path => $ca_cert_dir
-                );
-            };
-            die
-                "Failed to set ca_cert_dir: $EVAL_ERROR".
-                "Your IO::Socket::SSL distribution is too old. ".
-                "Please install Crypt::SSLeay or disable ".
-                "SSL server check with --no-ssl-check"
-            if $EVAL_ERROR;
-        }
     }
 
 }
