@@ -9,7 +9,7 @@ use FusionInventory::Logger;
 use Test::More;
 use Test::Exception;
 
-plan tests => 12;
+plan tests => 14;
 
 $ENV{LANGUAGE} = 'C';
 
@@ -91,6 +91,22 @@ isa_ok(
 );
 
 $server->stop();
+
+my $network_ssl;
+throws_ok {
+    $network_ssl = FusionInventory::Agent::Network->new({
+        target => { path => 'https://localhost:8529/test' },
+        logger => $logger
+    });
+} qr/^neither certificate file or certificate directory given/, 'https URI without checking parameters';
+
+lives_ok {
+    $network_ssl = FusionInventory::Agent::Network->new({
+        target => { path => 'https://localhost:8529/test' },
+        logger => $logger,
+        'no-ssl-check' => 1,
+    });
+} 'https URI with no-ssl-check parameter';
 
 my $data = "this is a test";
 is(
