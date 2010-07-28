@@ -190,20 +190,33 @@ my %tests = (
     }
 );
 
-plan tests => scalar keys %tests;
+plan tests => 2 * (scalar keys %tests);
 
 foreach my $test (keys %tests) {
-     my $file = "resources/xml/response/$test.xml";
+    my $file = "resources/xml/response/$test.xml";
 
-     my $handler;
-     next unless open $handler, '<', $file;
-     local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-     my $content = <$handler>;
-     close $handler;
+    my $handler;
+    next unless open $handler, '<', $file;
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $content = <$handler>;
+    close $handler;
 
-     my $message = FusionInventory::Agent::XML::Response::SimpleMessage->new({
+    my $message = FusionInventory::Agent::XML::Response::SimpleMessage->new({
         content => $content
     });
 
-     is_deeply($message->getParsedContent(), $tests{$test}, $test);
+    my $parsed_content = $message->getParsedContent();
+    is_deeply($parsed_content, $tests{$test}, $test);
+
+    subtest 'options' => sub {
+        my $options = $parsed_content->{OPTION};
+        plan tests => scalar @$options;
+        foreach my $option (@$options) {
+            is_deeply(
+                $message->getOptionsInfoByName($option->{NAME}),
+                $option->{PARAM}->[0],
+                "$test option $option->{NAME}"
+            );
+        }
+    };
 }
