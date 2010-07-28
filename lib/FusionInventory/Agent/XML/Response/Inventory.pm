@@ -21,12 +21,4 @@ sub isAccountUpdated {
 
 }
 
-sub updateAccountInfo {
-    my $self = shift;
-
-    my $parsedContent = $self->getParsedContent();
-
-    print STDERR "TODO\n";
-    #$self->{accountinfo}->reSetAll($parsedContent->{ACCOUNTINFO});
-}
 1;
