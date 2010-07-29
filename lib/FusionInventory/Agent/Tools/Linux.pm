@@ -205,19 +205,19 @@ sub getDevicesFromProc {
     foreach my $name (@names) {
         my $device;
         $device->{NAME}         = $name;
-        $device->{MANUFACTURER} = getValueFromSysProc(
+        $device->{MANUFACTURER} = _getValueFromSysProc(
             $logger, $device, 'vendor'
         );
-        $device->{MODEL}        = getValueFromSysProc(
+        $device->{MODEL}        = _getValueFromSysProc(
             $logger, $device, 'model'
         );
-        $device->{FIRMWARE}     = getValueFromSysProc(
+        $device->{FIRMWARE}     = _getValueFromSysProc(
             $logger, $device, 'rev'
         );
-        $device->{SERIALNUMBER} = getValueFromSysProc(
+        $device->{SERIALNUMBER} = _getValueFromSysProc(
             $logger, $device, 'serial'
         );
-        $device->{TYPE}         = getValueFromSysProc(
+        $device->{TYPE}         = _getValueFromSysProc(
             $logger, $device, 'removable'
         ) ?
             'removable' : 'disk';
@@ -227,7 +227,7 @@ sub getDevicesFromProc {
     return $devices;
 }
 
-sub getValueFromSysProc {
+sub _getValueFromSysProc {
     my ($logger, $device, $key) = @_;
 
     my $file =
