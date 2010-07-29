@@ -40,9 +40,9 @@ sub doInventory {
 
     my $serialnumber;
 
-    my @devices = getDevicesFromUdev();
+    my $devices = getDevicesFromUdev();
 
-    foreach my $hd (@devices) {
+    foreach my $hd (@$devices) {
         foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
 
 # Example output :

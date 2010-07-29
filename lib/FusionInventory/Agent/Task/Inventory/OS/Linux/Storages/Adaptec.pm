@@ -14,12 +14,12 @@ use FusionInventory::Agent::Tools::Linux;
 #
 # Adaptec AAC-RAID
 
-my @devices = getDevicesFromUdev();
+my $devices = getDevicesFromUdev();
 
 sub isInventoryEnabled {
 
     if (can_run ('smartctl') ) { 
-        foreach my $hd (@devices) {
+        foreach my $hd (@$devices) {
             next unless $hd->{MANUFACTURER};
 
             if ($hd->{MANUFACTURER} eq 'Adaptec') {
@@ -38,7 +38,7 @@ sub doInventory {
     my $logger = $params->{logger};
 
     if (-r '/proc/scsi/scsi') {
-        foreach my $hd (@devices) {
+        foreach my $hd (@$devices) {
             my $handle;
             if (!open $handle, '<', '/proc/scsi/scsi') {
                 warn "Can't open /proc/scsi/scsi: $ERRNO";

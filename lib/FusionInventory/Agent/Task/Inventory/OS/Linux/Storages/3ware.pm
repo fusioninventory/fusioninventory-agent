@@ -48,7 +48,7 @@ sub doInventory {
 
     my ($card, $card_model, $unit, $unit_id, $port, $serialnumber, $serial, $model, $capacity, $firmware, $description, $media, $device, $manufacturer, $sn);
 
-    my @devices = getDevicesFromUdev();
+    my $devices = getDevicesFromUdev();
 
 # First, getting the cards : c0, c1... etc.
     foreach (`tw_cli info`) {
@@ -113,7 +113,7 @@ sub doInventory {
                                 $capacity = 1024*$1 if /^.*Capacity\s=\s(\S+)\sGB.*/;
                                 $firmware = $1 if /^.*Firmware Version\s=\s(.*)/;
                             }
-                            foreach my $hd (@devices) {
+                            foreach my $hd (@$devices) {
 
 # How does this work with multiple older cards where serial for units is not implemented ?
 # Need to be tested on a system with multiple 3ware cards.

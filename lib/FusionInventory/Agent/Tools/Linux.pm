@@ -20,20 +20,20 @@ memoize('getDevicesFromUdev');
 sub getDevicesFromUdev {
     my ($logger) = @_;
 
-    my @devices;
+    my $devices;
 
     foreach my $file (glob ("/dev/.udev/db/*")) {
         next unless $file =~ /([sh]d[a-z])$/;
         my $device = $1;
-        push (@devices, _parseUdevEntry($logger, $file, $device));
+        push (@$devices, _parseUdevEntry($logger, $file, $device));
     }
 
-    foreach my $device (@devices) {
+    foreach my $device (@$devices) {
         next if $device->{TYPE} eq 'cd';
         $device->{DISKSIZE} = getDeviceCapacity($device->{NAME})
     }
 
-    return @devices;
+    return $devices;
 }
 
 sub _parseUdevEntry {
@@ -121,8 +121,7 @@ sub getCPUsFromProc {
 sub getDevicesFromHal {
     my ($logger) = @_;
 
-    my $devices = _parseLshal('/usr/bin/lshal', '-|');
-    return @$devices;
+    return _parseLshal('/usr/bin/lshal', '-|');
 }
 
 sub _parseLshal {
@@ -200,7 +199,7 @@ sub getDevicesFromProc {
     @names = grep { !$seen{$_}++ } @names;
 
     # extract informations
-    my @devices;
+    my $devices;
     foreach my $name (@names) {
         my $device;
         $device->{NAME}         = $name;
@@ -210,10 +209,10 @@ sub getDevicesFromProc {
         $device->{SERIALNUMBER} = getValueFromSysProc($device, 'serial');
         $device->{TYPE}         = getValueFromSysProc($device, 'removable') ?
             'removable' : 'disk';
-        push (@devices, $device);
+        push (@$devices, $device);
     }
 
-    return @devices;
+    return $devices;
 }
 
 sub getValueFromSysProc {
