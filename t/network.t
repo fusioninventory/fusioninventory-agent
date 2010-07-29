@@ -57,7 +57,6 @@ my $config = Apache::TestConfig->new(
 $config->httpd_config();
 $config->prepare_t_conf();
 $config->generate_httpd_conf;
-$config->save;
 my $server = $config->server();
 
 # ensure server is not running
