@@ -48,7 +48,7 @@ sub doInventory {
 
     my ($card, $card_model, $unit, $unit_id, $port, $serialnumber, $serial, $model, $capacity, $firmware, $description, $media, $device, $manufacturer, $sn);
 
-    my $devices = getDevicesFromUdev();
+    my $devices = getDevicesFromUdev($logger);
 
 # First, getting the cards : c0, c1... etc.
     foreach (`tw_cli info`) {

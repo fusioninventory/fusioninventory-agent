@@ -299,6 +299,6 @@ foreach my $test (keys %cpu_tests) {
 
 foreach my $test (keys %hal_tests) {
     my $file = "resources/hal/$test";
-    my $results = FusionInventory::Agent::Tools::Linux::_parseLshal($file, '<');
+    my $results = FusionInventory::Agent::Tools::Linux::_parseLshal($logger, $file, '<');
     is_deeply($results, $hal_tests{$test}, $test);
 }

@@ -14,7 +14,7 @@ use FusionInventory::Agent::Tools::Linux;
 #
 # Adaptec AAC-RAID
 
-my $devices = getDevicesFromUdev();
+my $devices = getDevicesFromUdev($logger);
 
 sub isInventoryEnabled {
 

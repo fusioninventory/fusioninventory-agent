@@ -54,14 +54,14 @@ sub doInventory {
 
     # get informations from hal first, if available
     if (can_run ("lshal")) {
-        $devices = getDevicesFromHal();
+        $devices = getDevicesFromHal($logger);
     }
 
     # index devices by name for comparaison
     my %devices = map { $_->{NAME} => $_ } @$devices;
 
     # complete with udev for missing bits
-    foreach my $device (@{getDevicesFromUdev()}) {
+    foreach my $device (@{getDevicesFromUdev($logger)}) {
         my $name = $device->{NAME};
         foreach my $key (keys %$device) {
             $devices{$name}->{$key} = $device->{$key}
@@ -71,7 +71,7 @@ sub doInventory {
 
     # fallback on sysfs if udev didn't worked
     if (!$devices) {
-        $devices = getDevicesFromProc();
+        $devices = getDevicesFromProc($logger);
     }
 
     # get serial & firmware numbers from hdparm, if available

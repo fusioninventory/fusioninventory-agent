@@ -119,18 +119,19 @@ sub getCPUsFromProc {
 }
 
 sub getDevicesFromHal {
-    my ($logger) = @_;
+    my ($logger, $file) = @_;
 
-    return _parseLshal('/usr/bin/lshal', '-|');
+    return $file ?
+        _parseLshal($logger, $file, '<')            :
+        _parseLshal($logger, '/usr/bin/lshal', '-|');
 }
 
 sub _parseLshal {
-    my ($file, $mode) = @_;
-
+    my ($logger, $file, $mode) = @_;
 
     my $handle;
     if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
+        $logger->error("Can't open $file: $ERRNO");
         return;
     }
 
@@ -172,6 +173,7 @@ sub _parseLshal {
 }
 
 sub getDevicesFromProc {
+    my ($logger) = @_;
 
     # compute list of devices
     my @names;
@@ -185,7 +187,7 @@ sub getDevicesFromProc {
         'fdisk -p -l 2>/dev/null' :
         'fdisk -l 2>/dev/null';
     if (!open my $handle, '-|', $command) {
-        warn "Can't run $command: $ERRNO";
+        $logger->error("Can't run $command: $ERRNO");
     } else {
         while (my $line = <$handle>) {
             next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
@@ -203,11 +205,21 @@ sub getDevicesFromProc {
     foreach my $name (@names) {
         my $device;
         $device->{NAME}         = $name;
-        $device->{MANUFACTURER} = getValueFromSysProc($device, 'vendor');
-        $device->{MODEL}        = getValueFromSysProc($device, 'model');
-        $device->{FIRMWARE}     = getValueFromSysProc($device, 'rev');
-        $device->{SERIALNUMBER} = getValueFromSysProc($device, 'serial');
-        $device->{TYPE}         = getValueFromSysProc($device, 'removable') ?
+        $device->{MANUFACTURER} = getValueFromSysProc(
+            $logger, $device, 'vendor'
+        );
+        $device->{MODEL}        = getValueFromSysProc(
+            $logger, $device, 'model'
+        );
+        $device->{FIRMWARE}     = getValueFromSysProc(
+            $logger, $device, 'rev'
+        );
+        $device->{SERIALNUMBER} = getValueFromSysProc(
+            $logger, $device, 'serial'
+        );
+        $device->{TYPE}         = getValueFromSysProc(
+            $logger, $device, 'removable'
+        ) ?
             'removable' : 'disk';
         push (@$devices, $device);
     }
@@ -216,7 +228,7 @@ sub getDevicesFromProc {
 }
 
 sub getValueFromSysProc {
-    my ($device, $key) = @_;
+    my ($logger, $device, $key) = @_;
 
     my $file =
         -f "/sys/block/$device/device/$key" ? "/sys/block/$device/device/$key" :
@@ -227,7 +239,7 @@ sub getValueFromSysProc {
 
     my $handle;
     if (!open $handle, '<', $file) {
-        warn "Can't open $file: $ERRNO";
+        $logger->error("Can't open $file: $ERRNO");
         return;
     }
 
