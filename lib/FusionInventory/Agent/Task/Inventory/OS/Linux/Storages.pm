@@ -12,76 +12,6 @@ sub isInventoryEnabled {
     return 1;
 }
 
-sub getDevicesFromSysProc {
-
-    # compute list of devices
-    my @names;
-
-    foreach my $file (glob ("/sys/block/*")) {
-        next unless $file =~ /([sh]d[a-z]|fd\d)$/;
-        push(@names, $1);
-    }
-
-    my $command = `fdisk -v` =~ '^GNU' ?
-        'fdisk -p -l 2>/dev/null' :
-        'fdisk -l 2>/dev/null';
-    if (!open my $handle, '-|', $command) {
-        warn "Can't run $command: $ERRNO";
-    } else {
-        while (my $line = <$handle>) {
-            next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
-            push(@names, $1);
-        }
-        close $handle;
-    }
-
-    # filter duplicates
-    my %seen;
-    @names = grep { !$seen{$_}++ } @names;
-
-    # extract informations
-    my @devices;
-    foreach my $name (@names) {
-        my $device;
-        $device->{NAME}         = $name;
-        $device->{MANUFACTURER} = getValueFromSysProc($device, 'vendor');
-        $device->{MODEL}        = getValueFromSysProc($device, 'model');
-        $device->{FIRMWARE}     = getValueFromSysProc($device, 'rev');
-        $device->{SERIALNUMBER} = getValueFromSysProc($device, 'serial');
-        $device->{TYPE}         = getValueFromSysProc($device, 'removable') ?
-            'removable' : 'disk';
-        push (@devices, $device);
-    }
-
-    return @devices;
-}
-
-sub getValueFromSysProc {
-    my ($device, $key) = @_;
-
-    my $file =
-        -f "/sys/block/$device/device/$key" ? "/sys/block/$device/device/$key" :
-        -f "/proc/ide/$device/$key"         ? "/proc/ide/$device/$key" :
-                                              undef;
-
-    return unless $file;
-
-    my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-    my $value = <$handle>;
-    close $handle;
-
-    chomp $value;
-    $value =~ s/^(\w+)\W*/$1/;
-
-    return $value;
-}
-
-
 sub getDescription {
     my ($name, $manufacturer, $description, $serialnumber) = @_;
 
@@ -141,7 +71,7 @@ sub doInventory {
 
     # fallback on sysfs if udev didn't worked
     if (!@devices) {
-        @devices = getDevicesFromSysProc();
+        @devices = getDevicesFromProc();
     }
 
     # get serial & firmware numbers from hdparm, if available
