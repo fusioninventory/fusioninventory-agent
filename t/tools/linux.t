@@ -262,7 +262,24 @@ my %cpu_tests = (
     ]
 );
 
-plan tests => (scalar keys %udev_tests) + (scalar keys %cpu_tests);
+my %hal_tests = (
+    'dell-xt2' => [
+        {
+            NAME         => 'sda',
+            FIRMWARE     => 'VBM24DQ1',
+            DISKSIZE     => 122104,
+            MANUFACTURER => 'ATA',
+            MODEL        => 'SAMSUNG SSD PM80',
+            SERIALNUMBER => 'SAMSUNG_SSD_PM800_TM_128GB_DFW1W11002SE002B3117',
+            TYPE         => 'disk'
+        }
+    ]
+);
+
+plan tests => 
+    (scalar keys %udev_tests) +
+    (scalar keys %cpu_tests)  +
+    (scalar keys %hal_tests);
 
 my $logger = FusionInventory::Logger->new();
 
@@ -279,4 +296,10 @@ foreach my $test (keys %cpu_tests) {
     my $file = "resources/cpuinfo/$test";
     my $cpus = getCPUsFromProc($logger, $file);
     is_deeply($cpus, $cpu_tests{$test}, "$test cpuinfo parsing");
+}
+
+foreach my $test (keys %hal_tests) {
+    my $file = "resources/hal/$test";
+    my $results = FusionInventory::Agent::Tools::Linux::parseLshal($file, '<');
+    is_deeply($results, $hal_tests{$test}, $test);
 }

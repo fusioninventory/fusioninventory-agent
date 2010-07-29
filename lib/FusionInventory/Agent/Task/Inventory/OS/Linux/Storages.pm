@@ -12,12 +12,6 @@ sub isInventoryEnabled {
     return 1;
 }
 
-sub getDevicesFromHal {
-
-    my $devices = parseLshal('/usr/bin/lshal', '-|');
-    return @$devices;
-}
-
 sub getDevicesFromSysProc {
 
     # compute list of devices
@@ -198,53 +192,6 @@ sub doInventory {
 
         $inventory->addStorage($device);
     }
-}
-
-sub parseLshal {
-    my ($file, $mode) = @_;
-
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-    my ($devices, $device);
-
-    while (my $line = <$handle>) {
-        chomp $line;
-        if ($line =~ m{^udi = '/org/freedesktop/Hal/devices/(storage|legacy_floppy|block)}) {
-            $device = {};
-            next;
-        }
-
-        next unless defined $device;
-
-        if ($line =~ /^$/) {
-            push(@$devices, $device);
-            undef $device;
-        } elsif ($line =~ /^\s+ storage.serial \s = \s '([^']+)'/x) {
-            $device->{SERIALNUMBER} = $1;
-        } elsif ($line =~ /^\s+ storage.firmware_version \s = \s '([^']+)'/x) {
-            $device->{FIRMWARE} = $1;
-        } elsif ($line =~ /^\s+ block.device \s = \s '([^']+)'/x) {
-            my $value = $1;
-            ($device->{NAME}) = $value =~ m{/dev/(\S+)};
-        } elsif ($line =~ /^\s+ info.vendor \s = \s '([^']+)'/x) {
-            $device->{MANUFACTURER} = $1;
-        } elsif ($line =~ /^\s+ storage.model \s = \s '([^']+)'/x) {
-            $device->{MODEL} = $1;
-        } elsif ($line =~ /^\s+ storage.drive_type \s = \s '([^']+)'/x) {
-            $device->{TYPE} = $1;
-        } elsif ($line =~ /^\s+ storage.size \s = \s (\S+)/x) {
-            my $value = $1;
-            $device->{DISKSIZE} = int($value/(1024*1024) + 0.5);
-        }
-    }
-    close $handle;
-
-    return $devices;
 }
 
 1;
