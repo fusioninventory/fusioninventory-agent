@@ -14,21 +14,8 @@ use FusionInventory::Agent::Tools::Linux;
 #
 # Adaptec AAC-RAID
 
-my $devices = getDevicesFromUdev($logger);
-
 sub isInventoryEnabled {
-
-    if (-r '/proc/scsi/scsi') {
-        foreach my $hd (@$devices) {
-            next unless $hd->{MANUFACTURER};
-
-            if ($hd->{MANUFACTURER} eq 'Adaptec') {
-                return 1;
-            }
-        }
-    }
-    return 0;
-
+    return -r '/proc/scsi/scsi';
 }
 
 sub doInventory {
@@ -36,6 +23,18 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
+
+    my $devices = getDevicesFromUdev($logger);
+
+    my $found = 0;
+    foreach my $hd (@$devices) {
+        next unless $hd->{MANUFACTURER};
+        if ($hd->{MANUFACTURER} eq 'Adaptec') {
+            $found = 1;
+            last;
+        }
+    }
+    return unless $found;
 
     foreach my $hd (@$devices) {
         my $handle;
