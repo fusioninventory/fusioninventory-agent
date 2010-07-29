@@ -95,7 +95,7 @@ sub main {
             $accountinfo->setAccountInfo($self->{inventory});
 
             my $network = FusionInventory::Agent::Network->new({
-                url      => $self->{target}-{path},
+                url      => $self->{target}->{path},
                 logger   => $self->{logger},
                 proxy    => $self->{proxy},
                 realm    => $self->{realm},
