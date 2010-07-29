@@ -285,12 +285,11 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %udev_tests) {
     my $file = "resources/udev/$test";
-    my $result = FusionInventory::Agent::Tools::Linux::parseUdevEntry(
+    my $result = FusionInventory::Agent::Tools::Linux::_parseUdevEntry(
         $logger, $file, 'sda'
     );
     is_deeply($result, $udev_tests{$test}, "$test udev parsing");
 }
-
 
 foreach my $test (keys %cpu_tests) {
     my $file = "resources/cpuinfo/$test";
@@ -300,6 +299,6 @@ foreach my $test (keys %cpu_tests) {
 
 foreach my $test (keys %hal_tests) {
     my $file = "resources/hal/$test";
-    my $results = FusionInventory::Agent::Tools::Linux::parseLshal($file, '<');
+    my $results = FusionInventory::Agent::Tools::Linux::_parseLshal($file, '<');
     is_deeply($results, $hal_tests{$test}, $test);
 }

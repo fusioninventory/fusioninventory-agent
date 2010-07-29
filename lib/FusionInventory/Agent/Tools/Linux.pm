@@ -24,7 +24,7 @@ sub getDevicesFromUdev {
     foreach my $file (glob ("/dev/.udev/db/*")) {
         next unless $file =~ /([sh]d[a-z])$/;
         my $device = $1;
-        push (@devices, parseUdevEntry($logger, $file, $device));
+        push (@devices, _parseUdevEntry($logger, $file, $device));
     }
 
     foreach my $device (@devices) {
@@ -35,7 +35,7 @@ sub getDevicesFromUdev {
     return @devices;
 }
 
-sub parseUdevEntry {
+sub _parseUdevEntry {
     my ($logger, $file, $device) = @_;
 
     my $handle;
@@ -120,11 +120,11 @@ sub getCPUsFromProc {
 sub getDevicesFromHal {
     my ($logger) = @_;
 
-    my $devices = parseLshal('/usr/bin/lshal', '-|');
+    my $devices = _parseLshal('/usr/bin/lshal', '-|');
     return @$devices;
 }
 
-sub parseLshal {
+sub _parseLshal {
     my ($file, $mode) = @_;
 
 
