@@ -18,7 +18,7 @@ my $devices = getDevicesFromUdev($logger);
 
 sub isInventoryEnabled {
 
-    if (can_run ('smartctl') ) { 
+    if (-r '/proc/scsi/scsi') {
         foreach my $hd (@$devices) {
             next unless $hd->{MANUFACTURER};
 
