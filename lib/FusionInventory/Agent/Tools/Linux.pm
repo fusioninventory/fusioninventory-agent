@@ -253,3 +253,36 @@ sub _getValueFromSysProc {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::Linux - Linux generic functions
+
+=head1 DESCRIPTION
+
+This module provides some generic functions for Linux.
+
+=head1 FUNCTIONS
+
+=head2 getDevicesFromUdev($logger)
+
+Returns a list of devices as an arrayref of hashref, by parsing udev database.
+
+=head2 getDevicesFromHal($logger)
+
+Returns a list of devices as an arrayref of hashref, by parsing lshal output.
+
+=head2 getDevicesFromProc($logger)
+
+Returns a list of devices as an arrayref of hashref, by parsing /proc
+filesystem.
+
+=head2 getDeviceCapacity($device)
+
+Returns storage capacity of given device.
+
+=head2 getCPUsFromProc($logger)
+
+Returns a list of cpus as an arrayref of hashref, by parsing /proc filesystem.
+

@@ -61,3 +61,27 @@ sub getWmiProperties {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::Win32 - Win32 generic functions
+
+=head1 DESCRIPTION
+
+This module provides some generic functions for Win32.
+
+=head1 FUNCTIONS
+
+=head2 getWmiProperties($class, @properties)
+
+Returns the list of given properties from given WMI class, properly encoded.
+
+=head2 encodeFromWmi($string)
+
+Ensure given WMI content is properly encoded to utf-8.
+
+=head2 encodeFromRegistry($string)
+
+Ensure given registry content is properly encoded to utf-8.
+

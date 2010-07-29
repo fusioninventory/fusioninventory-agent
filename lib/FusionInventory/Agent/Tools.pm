@@ -336,3 +336,73 @@ sub can_load {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools - OS-independant generic functions
+
+=head1 DESCRIPTION
+
+This module provides some OS-independant generic functions.
+
+=head1 FUNCTIONS
+
+=head2 getFormatedLocalTime($time)
+
+Returns a formated date from given Unix timestamp.
+
+=head2 getFormatedGmTime($time)
+
+Returns a formated date from given Unix timestamp.
+
+=head2 getFormatedDate($year, $month, $day, $hour, $min, $sec)
+
+Returns a formated date from given date elements.
+
+=head2 getManufacturer($manufacturer)
+
+Returns a normalized manufacturer value for given one.
+
+=head2 getControllersFromLspci
+
+Returns a list of controllers as an arrayref of hashref, by parsing lspci
+output.
+
+=head2 getInfosFromDmidecode
+
+Returns a structured vies of dmidecode output. Each information block is turned
+into an hashref, block with same DMI type are grouped into a list, and each
+list is indexed by its DMI type into the resulting hashref.
+
+$info = {
+    0 => [
+        { block }
+    ],
+    1 => [
+        { block },
+        { block },
+    ],
+    ...
+}
+
+=head2 getIpDhcp
+
+Returns an hashref of information for current DHCP lease.
+
+=head2 compareVersion($major, $minor, $min_major, $min_minor)
+
+Returns true if software with given major and minor version meet minimal
+version requirements.
+
+=head2 cleanUnknownValues($hashref)
+
+Deletes all key with undefined values from given hashref.
+
+=head2 can_run($binary)
+
+Returns true if given binary can be executed.
+
+=head2 can_load($module)
+
+Returns true if given perl module can be loaded (and actually loads it).
