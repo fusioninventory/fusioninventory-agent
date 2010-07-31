@@ -294,8 +294,8 @@ sub addStorage {
     /;
 
     my $values = $args;
-    if (!$values->{serialnumber}) {
-        $values->{serialnumber} = $values->{serial}
+    if (!$values->{SERIALNUMBER}) {
+        $values->{SERIALNUMBER} = $values->{SERIAL}
     }
 
     $self->_addEntry({
