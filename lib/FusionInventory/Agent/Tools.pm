@@ -67,11 +67,9 @@ sub getCanonicalManufacturer {
 
     if ($model =~ /(
         maxtor    |
-        western   |
         sony      |
         compaq    |
         ibm       |
-        seagate   |
         toshiba   |
         fujitsu   |
         lg        |
@@ -82,11 +80,11 @@ sub getCanonicalManufacturer {
         pioneer
     )/xi) {
         $model = ucfirst(lc($1));
-    } elsif ($model =~ /^(HP|hewlett packard)/) {
+    } elsif ($model =~ /^(hp|HP|hewlett packard)/) {
         $model = "Hewlett Packard";
-    } elsif ($model =~ /^WDC/) {
+    } elsif ($model =~ /^(WDC|[Ww]estern)/) {
         $model = "Western Digital";
-    } elsif ($model =~ /^ST/) {
+    } elsif ($model =~ /^(ST|[Ss]eagate)/) {
         $model = "Seagate";
     } elsif ($model =~ /^(HD|IC|HU)/) {
         $model = "Hitachi";
