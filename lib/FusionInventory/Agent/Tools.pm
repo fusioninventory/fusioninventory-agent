@@ -105,9 +105,9 @@ sub getCanonicalSpeed {
     my $unit = lc($2);
 
     return
-        $unit eq 'ghz' ? $value * 10000 :
-        $unit eq 'mhz' ? $value         :
-                         undef          ;
+        $unit eq 'ghz' ? $value * 1000 :
+        $unit eq 'mhz' ? $value        :
+                         undef         ;
 }
 
 sub getCanonicalSize {
