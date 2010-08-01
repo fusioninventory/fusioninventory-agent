@@ -26,13 +26,13 @@ sub doInventory {
 
     if ($infos->{4}) {
         foreach my $info (@{$infos->{4}}) {
-            my $cpu;
-
-            $cpu->{SERIAL}       = $info->{'ID'};
-            $cpu->{MANUFACTURER} = $info->{'Manufacturer'};
-            $cpu->{THREAD}       = $info->{'Thread Count'} || 1;
-            $cpu->{CORE}         = $info->{'Core Count'};
-            $cpu->{SPEED}        = getCanonicalSpeed($info->{'Max Speed'});
+            my $cpu = {
+                SERIAL       => $info->{'ID'},
+                MANUFACTURER => $info->{'Manufacturer'},
+                CORE         => $info->{'Core Count'},
+                THREAD       => ($info->{'Thread Count'} || 1),
+                SPEED        => getCanonicalSpeed($info->{'Max Speed'})
+            };
 
             push @cpu, $cpu;
         }
