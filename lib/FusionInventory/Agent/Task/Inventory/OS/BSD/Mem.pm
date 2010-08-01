@@ -4,11 +4,9 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled { 	
-    `which sysctl 2>&1`;
-    return 0 if($? >> 8);
-    `which swapctl 2>&1`;
-    return 0 if($? >> 8);
-    1;
+    return
+        can_run 'sysctl' &&
+        can_run 'swapctl';
 };
 
 sub doInventory {
