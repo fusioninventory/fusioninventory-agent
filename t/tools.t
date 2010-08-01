@@ -2847,7 +2847,60 @@ my %dmidecode_tests = (
     }
 );
 
-plan tests => (scalar keys %lspci_tests) + (scalar keys %dmidecode_tests);
+my @size_tests = (
+    [ '1 mb', 1 ],
+    [ '1 MB', 1 ],
+    [ '1 gb', 1000 ],
+    [ '1 GB', 1000 ],
+    [ '1 tb', 1000000 ],
+    [ '1 TB', 1000000 ],
+    [ 'foo', undef ],
+    [ undef, undef ],
+);
+
+my @speed_tests = (
+    [ '1 mhz', 1 ],
+    [ '1 MHZ', 1 ],
+    [ '1 ghz', 1000 ],
+    [ '1 GHZ', 1000 ],
+    [ 'foo', undef ],
+    [ undef, undef ],
+);
+
+my @manufacturer_tests = (
+    [ 'maxtor'         , 'Maxtor'          ],
+    [ 'sony'           , 'Sony'            ],
+    [ 'compaq'         , 'Compaq'          ],
+    [ 'ibm'            , 'Ibm'             ],
+    [ 'toshiba'        , 'Toshiba'         ],
+    [ 'fujitsu'        , 'Fujitsu'         ],
+    [ 'lg'             , 'Lg'              ],
+    [ 'samsung'        , 'Samsung'         ],
+    [ 'nec'            , 'Nec'             ],
+    [ 'transcend'      , 'Transcend'       ],
+    [ 'matshita'       , 'Matshita'        ],
+    [ 'pioneer'        , 'Pioneer'         ],
+    [ 'hewlett packard', 'Hewlett Packard' ],
+    [ 'hp'             , 'Hewlett Packard' ],
+    [ 'WDC'            , 'Western Digital' ],
+    [ 'western'        , 'Western Digital' ],
+    [ 'ST'             , 'Seagate'         ],
+    [ 'seagate'        , 'Seagate'         ],
+    [ 'HD'             , 'Hitachi'         ],
+    [ 'IC'             , 'Hitachi'         ],
+    [ 'HU'             , 'Hitachi'         ],
+    [ 'foo'            , 'foo'             ],
+    [ undef            , undef             ],
+
+);
+
+
+plan tests =>
+    (scalar keys %lspci_tests) +
+    (scalar keys %dmidecode_tests) +
+    (scalar @size_tests) +
+    (scalar @speed_tests) +
+    (scalar @manufacturer_tests);
 
 my $logger = FusionInventory::Logger->new();
 
@@ -2861,4 +2914,30 @@ foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/dmidecode/$test";
     my $infos = getInfosFromDmidecode($logger, $file);
     is_deeply($infos, $dmidecode_tests{$test}, "$test dmidecode parsing");
+}
+
+foreach my $test (@size_tests) {
+    cmp_ok(
+        getCanonicalSize($test->[0]),
+        '==',
+        $test->[1],
+        "$test->[0] normalisation"
+    );
+}
+
+foreach my $test (@speed_tests) {
+    cmp_ok(
+        getCanonicalSpeed($test->[0]),
+        '==',
+        $test->[1],
+        "$test->[0] normalisation"
+    );
+}
+
+foreach my $test (@manufacturer_tests) {
+    is(
+        getCanonicalManufacturer($test->[0]),
+        $test->[1],
+        "$test->[0] normalisation"
+    );
 }
