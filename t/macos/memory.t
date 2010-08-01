@@ -7,7 +7,7 @@ use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
-    'system_profiler_full_10.5-powerpc' => [
+    '10.5-powerpc' => [
         {
             NUMSLOTS     => 0,
             SERIALNUMBER => 'Unknown',
@@ -67,7 +67,7 @@ my %tests = (
             CAPTION      => 'Status: Empty'
         }
     ],
-    'system_profiler_full_10.6-intel' => [
+    '10.6-intel' => [
         {
             NUMSLOTS     => 0,
             SERIALNUMBER => '0xD5289015',
@@ -94,7 +94,7 @@ plan tests => scalar keys %tests;
 my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
-    my $file = "resources/osx/$test.txt";
+    my $file = "resources/system_profiler/$test";
     my $memories = FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem::getMemories($logger, $file);
     is_deeply($memories, $tests{$test}, $test);
 }

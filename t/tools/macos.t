@@ -7,7 +7,7 @@ use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
-    'system_profiler_full_10.5-powerpc' => {
+    '10.5-powerpc' => {
         'Locations' => {
             'Automatic' => {
                 'Services' => {
@@ -664,7 +664,7 @@ my %tests = (
             }
         }
     },
-    'system_profiler_full_10.6-intel' => {
+    '10.6-intel' => {
         'Locations' => {
             'Automatic' => {
                 'Services' => {
@@ -1477,7 +1477,7 @@ plan tests => scalar keys %tests;
 my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
-    my $file = "resources/osx/$test.txt";
+    my $file = "resources/system_profiler/$test";
     my $result = FusionInventory::Agent::Tools::MacOS::_parseSystemProfiler(
         $logger, $file, '<'
     );
