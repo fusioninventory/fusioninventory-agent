@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::MacOS;
 
 my %speedMatrice = (
     mhz => 1,
@@ -23,45 +24,60 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
+    my $memories = getMemories($logger);
 
-    my $revIndent = '';
-    my @memories;
-    my $slot;
-    foreach (`/usr/sbin/system_profiler SPMemoryDataType`) {
-        next if /^\s*$/;
-        next unless /^(\s*)/;
+    return unless $memories;
 
-        if ($1 ne $revIndent) {
-            $revIndent = $1;
-            push @memories, $slot if keys %$slot>2;
-            $slot = {};
-        }
-        if (/^\s+(\S+.*?):\s+(\S.*)/) { # we're probably in a memory section
-            $slot->{$1}=$2;
-        }
-    }
-    push @memories, $slot if keys %$slot>2;
-    my $numSlot=0;
-    foreach (@memories) {
-        my $speed;
-        my $size;
-
-        if ($_->{'Speed'} =~ /(\d+)\s+(\S+)/) {
-            $speed = $1*$speedMatrice{lc($2)};
-        }
-        if ($_->{'Size'} =~ /(\d+)\s+(\S+)/) {
-            $speed = $1*$sizeMatrice{lc($2)};
-        }
-        $inventory->addMemory({
-                'CAPACITY'      => $size,
-                'SPEED'         => $speed,
-                'TYPE'          => $_->{'Type'},
-                'SERIALNUMBER'  => $_->{'Serial Number'},
-                'DESCRIPTION'   => $_->{'Part Number'},
-                'NUMSLOTS'      => $numSlot++,
-                'CAPTION'       => 'Status: '.$_->{'Status'},
-            });
+    foreach my $memory (@$memories) {
+        $inventory->addMemory($memory);
     }
 }
+
+sub getMemories {
+    my ($logger, $file) = @_;
+
+    my $infos = getInfosFromSystemProfiler($logger, $file);
+
+    return unless $infos->{Memory};
+
+    # the memory slot informations may appears directly under
+    # 'Memory' top-level node, or under Memory/Memory Slots
+    my $parent_node = $infos->{Memory}->{'Memory Slots'} ?
+        $infos->{Memory}->{'Memory Slots'} :
+        $infos->{Memory};
+
+    my $memories;
+    # memori
+    foreach my $key (sort keys %$parent_node) {
+        next unless $key =~ /DIMM(\d)/; 
+        my $slot = $1;
+
+        my $info = $parent_node->{$key};
+
+        my $memory = {
+            NUMSLOTS     => $slot,
+            DESCRIPTION  => $info->{'Part Number'},
+            CAPTION      => "Status: $info->{'Status'}",
+            TYPE         => $info->{'Type'},
+            SERIALNUMBER => $info->{'Serial Number'}
+        };
+
+        if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s (\S+)$/x) {
+            $memory->{CAPACITY} = $1 * $sizeMatrice{lc($2)};
+        }
+
+        if ($info->{'Speed'} && $info->{'Speed'} =~ /^(\d+) \s (\S+)$/x) {
+            $memory->{SPEED} = $1 * $speedMatrice{lc($2)};
+        }
+
+        cleanUnknownValues($memory);
+
+        push @$memories, $memory;
+    }
+
+    return $memories;
+}
+
 1;
