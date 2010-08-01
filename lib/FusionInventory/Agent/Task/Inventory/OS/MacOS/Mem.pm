@@ -6,12 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
-my %sizeMatrice = (
-    mb => 1,
-    gb => 1000,
-    tb => 1000*1000,
-);
-
 sub isInventoryEnabled {
     return 
         -r '/usr/sbin/system_profiler';
@@ -58,12 +52,9 @@ sub getMemories {
             CAPTION      => "Status: $info->{'Status'}",
             TYPE         => $info->{'Type'},
             SERIALNUMBER => $info->{'Serial Number'},
-            SPEED        => getCanonicalSpeed($info->{'Speed'})
+            SPEED        => getCanonicalSpeed($info->{'Speed'}),
+            CAPACITY     => getCanonicalSize($info->{'Size'})
         };
-
-        if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s (\S+)$/x) {
-            $memory->{CAPACITY} = $1 * $sizeMatrice{lc($2)};
-        }
 
         cleanUnknownValues($memory);
 

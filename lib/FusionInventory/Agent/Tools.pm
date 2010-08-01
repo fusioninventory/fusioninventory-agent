@@ -15,6 +15,7 @@ our @EXPORT = qw(
     getFormatedDate
     getManufacturer
     getCanonicalSpeed
+    getCanonicalSize
     getControllersFromLspci
     getInfosFromDmidecode
     getIpDhcp
@@ -105,6 +106,22 @@ sub getCanonicalSpeed {
         $unit eq 'ghz' ? $value * 10000 :
         $unit eq 'mhz' ? $value         :
                          undef          ;
+}
+
+sub getCanonicalSize {
+    my ($size) = @_;
+
+    return undef unless $size;
+
+    return undef unless $size =~ /^(\d+) \s (\S+)$/x;
+    my $value = $1;
+    my $unit = lc($2);
+
+    return
+        $unit eq 'tb' ? $value * 1000 * 1000 :
+        $unit eq 'gb' ? $value * 1000        :
+        $unit eq 'mb' ? $value               :
+                        undef                ;
 }
 
 sub getControllersFromLspci {
@@ -383,6 +400,11 @@ Returns a normalized manufacturer value for given one.
 =head2 getCanonicalSpeed($speed)
 
 Returns a normalized speed value (in Mhz) for given one.
+
+=head2 getCanonicalSize($size)
+
+Returns a normalized size value (in Mb) for given one.
+
 
 =head2 getControllersFromLspci
 
