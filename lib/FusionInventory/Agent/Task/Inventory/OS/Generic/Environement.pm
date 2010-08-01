@@ -1,10 +1,13 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Environement;
 
+use English qw(-no_match_vars);
+
 use strict;
 use warnings;
 
-sub isInventoryEnabled {
-    return 1;
+sub isInvwentoryEnabled {
+# We use WMI for Windows because of charset issue
+    return $OSNAME ne 'MSWin32';
 }
 
 sub doInventory {

@@ -9,6 +9,8 @@ Revision history for FusionInventory::Agent
        * Linux: storage, hdparm gives more reliable serial number
        * XML, storage, rename STORAGES/SERIAL to STORAGES/SERIALNUMBER, thanks
          azman
+       * Win32: uses WMI to collect Environment vars to get correct UTF-8
+         data
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
