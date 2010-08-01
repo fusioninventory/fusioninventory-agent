@@ -63,6 +63,8 @@ sub getFormatedDate {
 sub getCanonicalManufacturer {
     my ($model) = @_;
 
+    return unless $model;
+
     if ($model =~ /(
         maxtor    |
         western   |
