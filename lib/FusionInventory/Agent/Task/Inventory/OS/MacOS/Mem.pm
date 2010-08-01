@@ -6,10 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
-my %speedMatrice = (
-    mhz => 1,
-    ghz => 1000,
-);
 my %sizeMatrice = (
     mb => 1,
     gb => 1000,
@@ -61,15 +57,12 @@ sub getMemories {
             DESCRIPTION  => $info->{'Part Number'},
             CAPTION      => "Status: $info->{'Status'}",
             TYPE         => $info->{'Type'},
-            SERIALNUMBER => $info->{'Serial Number'}
+            SERIALNUMBER => $info->{'Serial Number'},
+            SPEED        => getCanonicalSpeed($info->{'Speed'})
         };
 
         if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s (\S+)$/x) {
             $memory->{CAPACITY} = $1 * $sizeMatrice{lc($2)};
-        }
-
-        if ($info->{'Speed'} && $info->{'Speed'} =~ /^(\d+) \s (\S+)$/x) {
-            $memory->{SPEED} = $1 * $speedMatrice{lc($2)};
         }
 
         cleanUnknownValues($memory);

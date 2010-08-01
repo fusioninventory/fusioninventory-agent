@@ -14,6 +14,7 @@ our @EXPORT = qw(
     getFormatedGmTime
     getFormatedDate
     getManufacturer
+    getCanonicalSpeed
     getControllersFromLspci
     getInfosFromDmidecode
     getIpDhcp
@@ -89,6 +90,21 @@ sub getManufacturer {
     }
 
     return $model;
+}
+
+sub getCanonicalSpeed {
+    my ($speed) = @_;
+
+    return undef unless $speed;
+
+    return undef unless $speed =~ /^(\d+) \s (\S+)$/x;
+    my $value = $1;
+    my $unit = lc($2);
+
+    return
+        $unit eq 'ghz' ? $value * 10000 :
+        $unit eq 'mhz' ? $value         :
+                         undef          ;
 }
 
 sub getControllersFromLspci {
@@ -363,6 +379,10 @@ Returns a formated date from given date elements.
 =head2 getManufacturer($manufacturer)
 
 Returns a normalized manufacturer value for given one.
+
+=head2 getCanonicalSpeed($speed)
+
+Returns a normalized speed value (in Mhz) for given one.
 
 =head2 getControllersFromLspci
 

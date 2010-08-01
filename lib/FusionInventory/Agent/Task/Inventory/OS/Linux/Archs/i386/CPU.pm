@@ -28,19 +28,11 @@ sub doInventory {
         foreach my $info (@{$infos->{4}}) {
             my $cpu;
 
-            if (
-                $info->{'Max Speed'} &&
-                $info->{'Max Speed'} =~ /(\d+)\s+(\S+)$/
-            ) {
-                my $value = $1;
-                my $unit = $2;
-                $cpu->{SPEED} = $unit eq 'GHz' ? $unit * 1000 : $unit;
-            }
-
             $cpu->{SERIAL}       = $info->{'ID'};
             $cpu->{MANUFACTURER} = $info->{'Manufacturer'};
             $cpu->{THREAD}       = $info->{'Thread Count'} || 1;
             $cpu->{CORE}         = $info->{'Core Count'};
+            $cpu->{SPEED}        = getCanonicalSpeed($info->{'Max Speed'});
 
             push @cpu, $cpu;
         }
