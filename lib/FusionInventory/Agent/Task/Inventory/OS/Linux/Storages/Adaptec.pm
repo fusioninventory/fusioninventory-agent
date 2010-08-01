@@ -64,7 +64,7 @@ sub doInventory {
                 if ((/.*Model:\s(\S+).*Rev:\s(\S+).*/) and ($1 !~ 'raid.*')) {
                     $model = $1;
                     $firmware = $2;
-                    $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
+                    $manufacturer = getCanonicalManufacturer($model);
                     foreach (`smartctl -i /dev/sg$count`) {
                         $serialnumber = $1 if /^Serial Number:\s+(\S*).*/;
                     }

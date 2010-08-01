@@ -131,7 +131,7 @@ sub doInventory {
                                 $description = "SATA" if /^[7-9].*/;
                             }
                             $media = 'disk';
-                            $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
+                            $manufacturer = getCanonicalManufacturer($model);
                             $port = undef;
                             $logger->debug("3ware: $device, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
                             $inventory->addStorage({

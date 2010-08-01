@@ -42,7 +42,7 @@ sub doInventory {
             $size =~ s/ GB//;
             $size *= 1024;
 
-            my $manufacturer = getManufacturer($y);
+            my $manufacturer = getCanonicalManufacturer($y);
 
             my $model = $drive->{'Model'};
             $model =~ s/\s*$manufacturer\s*//i;
@@ -76,7 +76,7 @@ sub doInventory {
                 $description = 'Disk drive';
             }
 
-            my $manufacturer = getManufacturer($y);
+            my $manufacturer = getCanonicalManufacturer($y);
 
             my $model = $drive->{'Model'};
 

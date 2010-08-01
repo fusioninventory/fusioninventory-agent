@@ -61,7 +61,7 @@ sub doInventory {
                 my $model = $2;
                 my $size = 1024*$4; # GB => MB
                 my $firmware = $3;
-                my $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
+                my $manufacturer = getCanonicalManufacturer($model);
                 $logger->debug("Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware");
 
                 $inventory->addStorage({

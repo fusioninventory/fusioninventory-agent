@@ -13,7 +13,7 @@ our @EXPORT = qw(
     getFormatedLocalTime
     getFormatedGmTime
     getFormatedDate
-    getManufacturer
+    getCanonicalManufacturer
     getCanonicalSpeed
     getCanonicalSize
     getControllersFromLspci
@@ -26,7 +26,7 @@ our @EXPORT = qw(
 );
 
 memoize('can_run');
-memoize('getManufacturer');
+memoize('getCanonicalManufacturer');
 memoize('getControllersFromLspci');
 memoize('getInfosFromDmidecode');
 
@@ -60,7 +60,7 @@ sub getFormatedDate {
         $year, $month, $day, $hour, $min, $sec;
 }
 
-sub getManufacturer {
+sub getCanonicalManufacturer {
     my ($model) = @_;
 
     if ($model =~ /(
@@ -393,7 +393,7 @@ Returns a formated date from given Unix timestamp.
 
 Returns a formated date from given date elements.
 
-=head2 getManufacturer($manufacturer)
+=head2 getCanonicalManufacturer($manufacturer)
 
 Returns a normalized manufacturer value for given one.
 

@@ -133,7 +133,7 @@ sub doInventory {
                     $serialnumber =~ s/^\s+//;
                     $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
                     $model =~ s/\s+/ /;
-                    $manufacturer = getManufacturer($model);
+                    $manufacturer = getCanonicalManufacturer($model);
                     if ($media eq 'Data Drive') {
                         $media = 'disk';
                     }

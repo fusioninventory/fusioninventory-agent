@@ -113,7 +113,9 @@ sub doInventory {
         );
 
         if (!$device->{MANUFACTURER} or $device->{MANUFACTURER} eq 'ATA') {
-            $device->{MANUFACTURER} = getManufacturer($device->{MODEL});
+            $device->{MANUFACTURER} = getCanonicalManufacturer(
+                $device->{MODEL}
+            );
         }
 
         if ($device->{CAPACITY} && $device->{CAPACITY} =~ /^cd/) {
