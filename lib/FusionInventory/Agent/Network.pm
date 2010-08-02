@@ -25,9 +25,9 @@ sub new {
     if ($scheme ne 'http' && $scheme ne 'https') {
         die "invalid protocol for URL: $params->{url}";
     }
-    my $host   = $url->host();
-    my $port   = $url->port() ||
-                 $scheme eq 'https' ? 443 : 80;
+    my $host = $url->host();
+    my $port = $url->port() ||
+               ($scheme eq 'https' ? 443 : 80);
 
     my $self = {
         logger => $params->{logger},
