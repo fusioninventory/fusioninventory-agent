@@ -2847,27 +2847,31 @@ my %dmidecode_tests = (
     }
 );
 
-my @size_tests = (
+my @size_tests_nok = (
+    'foo', undef
+);
+
+my @size_tests_ok = (
     [ '1 mb', 1 ],
     [ '1 MB', 1 ],
     [ '1 gb', 1000 ],
     [ '1 GB', 1000 ],
     [ '1 tb', 1000000 ],
     [ '1 TB', 1000000 ],
-    [ 'foo', undef ],
-    [ undef, undef ],
 );
 
-my @speed_tests = (
+my @speed_tests_nok = (
+    'foo', undef
+);
+
+my @speed_tests_ok = (
     [ '1 mhz', 1 ],
     [ '1 MHZ', 1 ],
     [ '1 ghz', 1000 ],
     [ '1 GHZ', 1000 ],
-    [ 'foo', undef ],
-    [ undef, undef ],
 );
 
-my @manufacturer_tests = (
+my @manufacturer_tests_ok = (
     [ 'maxtor'         , 'Maxtor'          ],
     [ 'sony'           , 'Sony'            ],
     [ 'compaq'         , 'Compaq'          ],
@@ -2890,17 +2894,21 @@ my @manufacturer_tests = (
     [ 'IC'             , 'Hitachi'         ],
     [ 'HU'             , 'Hitachi'         ],
     [ 'foo'            , 'foo'             ],
-    [ undef            , undef             ],
-
 );
 
+my @manufacturer_tests_nok = (
+    undef
+);
 
 plan tests =>
     (scalar keys %lspci_tests) +
     (scalar keys %dmidecode_tests) +
-    (scalar @size_tests) +
-    (scalar @speed_tests) +
-    (scalar @manufacturer_tests);
+    (scalar @size_tests_ok) +
+    (scalar @size_tests_nok) +
+    (scalar @speed_tests_ok) +
+    (scalar @speed_tests_nok) +
+    (scalar @manufacturer_tests_ok) +
+    (scalar @manufacturer_tests_nok);
 
 my $logger = FusionInventory::Logger->new();
 
@@ -2916,7 +2924,14 @@ foreach my $test (keys %dmidecode_tests) {
     is_deeply($infos, $dmidecode_tests{$test}, "$test dmidecode parsing");
 }
 
-foreach my $test (@size_tests) {
+foreach my $test (@size_tests_nok) {
+    ok(
+        !defined getCanonicalSize($test),
+        "invalid value size normalisation"
+    );
+}
+
+foreach my $test (@size_tests_ok) {
     cmp_ok(
         getCanonicalSize($test->[0]),
         '==',
@@ -2925,7 +2940,14 @@ foreach my $test (@size_tests) {
     );
 }
 
-foreach my $test (@speed_tests) {
+foreach my $test (@speed_tests_nok) {
+    ok(
+        !defined getCanonicalSpeed($test),
+        "invalid value speed normalisation"
+    );
+}
+
+foreach my $test (@speed_tests_ok) {
     cmp_ok(
         getCanonicalSpeed($test->[0]),
         '==',
@@ -2934,10 +2956,18 @@ foreach my $test (@speed_tests) {
     );
 }
 
-foreach my $test (@manufacturer_tests) {
+foreach my $test (@manufacturer_tests_ok) {
     is(
         getCanonicalManufacturer($test->[0]),
         $test->[1],
         "$test->[0] normalisation"
     );
 }
+
+foreach my $test (@manufacturer_tests_nok) {
+    ok(
+        !defined getCanonicalManufacturer($test),
+        "invalid value manufacturer normalisation"
+    );
+}
+
