@@ -101,7 +101,7 @@ sub doInventory {
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
-        Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
+        Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
     /)) {
 
         my $workgroup = $Properties->{Domain} || $Properties->{Workgroup};
@@ -118,6 +118,7 @@ sub doInventory {
             USERDOMAIN => $userdomain,
             WORKGROUP => $workgroup,
             WINOWNER => $winowner,
+            NAME => $Properties->{Name},
         });
     }
 
