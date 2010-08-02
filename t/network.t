@@ -10,9 +10,19 @@ use FusionInventory::Logger;
 use Test::More;
 use Test::Exception;
 
-plan tests => 13;
+plan tests => 20;
 
 $ENV{LANGUAGE} = 'C';
+
+my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
+    target => { deviceid =>  'foo' },
+    msg => {
+        foo => 'foo',
+        bar => 'bar'
+    },
+});
+
+# instanciations tests
 
 my $network;
 throws_ok {
@@ -40,15 +50,7 @@ lives_ok {
         url    => 'http://localhost:8529/test',
         logger => $logger
     });
-} 'parameters OK';
-
-my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-    target => { deviceid =>  'foo' },
-    msg => {
-        foo => 'foo',
-        bar => 'bar'
-    },
-});
+} 'public area access, with all parameters';
 
 my $config = Apache::TestConfig->new(
     httpd => '/usr/sbin/httpd',
@@ -63,7 +65,7 @@ my $server = $config->server();
 $server->stop();
 
 my $response = $network->send({ message => $message });
-ok(!defined $response,  "sending a message with no server");
+ok(!defined $response,  "no response from server");
 
 is(
     $logger->{backend}->[0]->{level},
@@ -80,7 +82,47 @@ is(
 $server->start();
 
 my $response = $network->send({ message => $message });
-ok(defined $response, "sending a message to server");
+ok(defined $response, "response from server");
+isa_ok(
+    $response,
+    'FusionInventory::Agent::XML::Response',
+    'response of expected class'
+);
+
+# authenticated access
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url    => 'http://localhost:8529/private/test',
+        logger => $logger
+    });
+} 'private area access, without authentication parameters';
+
+my $response = $network->send({ message => $message });
+ok(!defined $response, "no response from server");
+
+is(
+    $logger->{backend}->[0]->{level},
+    'error',
+    "error message level"
+); 
+is(
+    $logger->{backend}->[0]->{message},
+    "Authorization Required",
+    "error message content"
+); 
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url      => 'http://localhost:8529/private/test',
+        realm    => 'test fusion',
+        user     => 'test',
+        password => 'test',
+        logger   => $logger,
+    });
+} 'private area access, with authentication parameters';
+
+my $response = $network->send({ message => $message });
+ok(defined $response, "response from server");
 isa_ok(
     $response,
     'FusionInventory::Agent::XML::Response',
