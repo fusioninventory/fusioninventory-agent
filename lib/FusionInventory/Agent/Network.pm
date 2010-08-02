@@ -10,6 +10,7 @@ use LWP::UserAgent;
 use UNIVERSAL::require;
 use URI;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
 
 sub new {
@@ -67,7 +68,7 @@ sub new {
         $self->{logger}->debug(
             'Using Compress::Zlib for compression'
         );
-    } elsif (system('which gzip >/dev/null 2>&1') == 0) {
+    } elsif (can_run('gzip')) {
         $self->{compression} = 'gzip';
         $self->{logger}->debug(
             'Using gzip for compression (server minimal version 1.02 needed)'
