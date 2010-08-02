@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32;
 use strict;
 use warnings;
 
+use Encode;
 use English qw(-no_match_vars);
 
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
@@ -36,21 +37,6 @@ sub getWmiProperties {
     my $wmiClass = shift;
     my @keys = @_;
 
-    eval {
-        require Win32::OLE;
-        require Win32::OLE::Const;
-
-        Win32::OLE->import(qw(in CP_UTF8));
-        Win32::OLE->Option(CP => 'CP_UTF8');
-
-        require Encode;
-        Encode->import('encode');
-    };
-    if ($EVAL_ERROR) {
-        print "STDERR, Failed to load Win32::OLE: $EVAL_ERROR\n";
-        return;
-    }
-
     my $WMIServices = Win32::OLE->GetObject(
             "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
 
@@ -77,6 +63,9 @@ sub getWmiProperties {
 
 sub isInventoryEnabled {
     return $OSNAME eq 'MSWin32';
+    eval 'use Win32::OLE; Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);';
+    return if $EVAL_ERROR;
+    return 1;
 }
 
 sub doInventory {

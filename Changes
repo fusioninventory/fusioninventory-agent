@@ -12,6 +12,7 @@ Revision history for FusionInventory::Agent
        * Win32: uses WMI to collect Environment vars to get correct UTF-8
          data
        * Win32: ensure the hostname is in UTF-8
+       * Win32: fix: load Win32::OLE in UTF-8
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
