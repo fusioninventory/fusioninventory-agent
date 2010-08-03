@@ -20,9 +20,6 @@ sub doInventory {
 
         next unless $Properties->{SystemVariable};
 
-use Data::Dumper;
-print Dumper($Properties);
-
         $inventory->addEnv({
             KEY => $Properties->{Name},
             VAL => $Properties->{VariableValue}
