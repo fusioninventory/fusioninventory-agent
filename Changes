@@ -16,6 +16,7 @@ Revision history for FusionInventory::Agent
        * Win32: use the standard codepage to access the registry
        * Big thank you to Denis Linvinus who gave RDP access to a Russian
          Windows
+       * Win32: don't put BIOS ROM in STORAGES, thanks EmpereurZorg
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
