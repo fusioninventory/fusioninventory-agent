@@ -932,6 +932,9 @@ sub verifySerial {
    my $serial;
    my $serialreturn = q{}; # Empty string
 
+   $description =~ s/\n//g;
+   $description =~ s/\r//g;
+
    foreach my $num (@{$dico->{DEVICE}}) {
       if ($num->{SYSDESCR} eq $description) {
          
