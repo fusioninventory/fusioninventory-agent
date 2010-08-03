@@ -1,6 +1,6 @@
 Revision history for FusionInventory::Agent
 2.1
-	   * cleanup Makefile.PL
+       * cleanup Makefile.PL
        * enhance documentation with optional and mandatory dependencies
        * drop README file lost in the middle of perl modules
        * Fix some warnings on Windows
