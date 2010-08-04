@@ -1020,6 +1020,7 @@ sub PutSimpleOid {
       if ($element eq "serial") {
          $HashDataSNMP->{$element} =~ s/^\s+//;
          $HashDataSNMP->{$element} =~ s/\s+$//;
+         $HashDataSNMP->{$element} =~ s/(\.{2,})*//eg;
       }
       if ($element eq "firmware1") {
          $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
