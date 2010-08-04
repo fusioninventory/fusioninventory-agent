@@ -33,6 +33,7 @@ sub doInventory {
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
         $netifs[$idx]{description} =  encodeFromWmi($nic->Description);
+        $netifs[$idx]{ipenabled} =  $nic->IPenabled;
         $netifs[$idx]{ipaddress} = [];
         $netifs[$idx]{ipsubnet} = [];
         $netifs[$idx]{ipmask} = [];
@@ -104,6 +105,7 @@ sub doInventory {
         my $ipsubnet;
         my $ipaddress6;
 
+        next unless $netif->{ipenabled};
 
         $ipaddress = join('/', @{$netif->{ipaddress} || []});
         $ipmask = join('/', @{$netif->{ipmask} || []});
