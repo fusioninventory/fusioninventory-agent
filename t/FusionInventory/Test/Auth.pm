@@ -1,4 +1,4 @@
-package Test::Auth;
+package FusionInventory::Test::Auth;
 
 use strict;
 use base 'Authen::Simple::Adapter';

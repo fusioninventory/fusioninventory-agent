@@ -6,17 +6,16 @@ use lib 't';
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Logger;
+use FusionInventory::Test::Server;
 use Test::More;
 use Test::Exception;
-use Test::Server;
 use Compress::Zlib;
 
 plan tests => 20;
 
 $ENV{LANGUAGE} = 'C';
 
-# create a HTTP::Daemon (on an available port)
-my $server = Test::Server->new(
+my $server = FusionInventory::Test::Server->new(
     port => 8080,
     user => 'test',
     realm => 'test',

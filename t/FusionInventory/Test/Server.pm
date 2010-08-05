@@ -1,10 +1,10 @@
-package Test::Server;
+package FusionInventory::Test::Server;
 
 use warnings;
 use strict;
 use base qw(HTTP::Server::Simple::CGI HTTP::Server::Simple::Authen);
 
-use Test::Auth;
+use FusionInventory::Test::Auth;
 
 my $dispatch_table = {};
 
@@ -43,7 +43,7 @@ sub run {
 
 sub authen_handler {
     my ($self) = @_;
-    return Test::Auth->new(
+    return FusionInventory::Test::Auth->new(
         user     => $self->{user},
         password => $self->{password}
     );
