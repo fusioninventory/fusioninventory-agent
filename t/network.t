@@ -39,19 +39,19 @@ my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
 my $network;
 throws_ok {
     $network = FusionInventory::Agent::Network->new({});
-} qr/^no URL/, 'no URL';
+} qr/^no URL/, 'creating a network object with no URL';
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
         url => 'foo',
     });
-} qr/^no protocol for URL/, 'no protocol';
+} qr/^no protocol for URL/, 'creating a network object with without protocol';
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
         url => 'xml://foo',
     });
-} qr/^invalid protocol for URL/, 'invalid protocol';
+} qr/^invalid protocol for URL/, 'creating a network object with an invalid protocol';
 
 my $logger = FusionInventory::Logger->new({
     config => { logger => 'Test' }
