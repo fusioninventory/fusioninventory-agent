@@ -1,7 +1,0 @@
-<Directory @DocumentRoot@/private>
-    Allow from all
-    AuthType Basic
-    AuthName "test fusion"
-    AuthUserFile @ServerRoot@/conf/passwd
-    Require user "test"
-</Directory>

@@ -1,18 +1,31 @@
 #!/usr/bin/perl
 
 use strict;
+use lib 't';
 
-use Cwd;
-use Apache::TestConfig;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Logger;
 use Test::More;
 use Test::Exception;
+use Test::Server;
+use Compress::Zlib;
 
 plan tests => 20;
 
 $ENV{LANGUAGE} = 'C';
+
+# create a HTTP::Daemon (on an available port)
+my $server = Test::Server->new(
+    port => 8080,
+    user => 'test',
+    realm => 'test',
+    password => 'test',
+);
+$server->set_dispatch( {
+    '/public'   => \&public,
+    '/private' => \&private,
+} );
 
 my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
     target => { deviceid =>  'foo' },
@@ -47,22 +60,10 @@ my $logger = FusionInventory::Logger->new({
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url    => 'http://localhost:8529/test',
+        url    => "http://127.0.0.1:8080/public",
         logger => $logger
     });
 } 'public area access, with all parameters';
-
-my $config = Apache::TestConfig->new(
-    httpd => '/usr/sbin/httpd',
-    t_dir => getcwd() . '/t/httpd'
-);
-$config->httpd_config();
-$config->prepare_t_conf();
-$config->generate_httpd_conf;
-my $server = $config->server();
-
-# ensure server is not running
-$server->stop();
 
 my $response = $network->send({ message => $message });
 ok(!defined $response,  "no response from server");
@@ -74,12 +75,29 @@ is(
 ); 
 is(
     $logger->{backend}->[0]->{message},
-    "Can't connect to localhost:8529 (connect: Connection refused)",
+    "Can't connect to 127.0.0.1:8080 (connect: Connection refused)",
     "error message content"
-); 
+);
 
-# start server
-$server->start();
+sub public {
+    my ($server, $cgi) = @_;
+    return response($server, $cgi);
+}
+
+sub private {
+    my ($server, $cgi) = @_;
+    return response($server, $cgi) if $server->authenticate();
+}
+
+sub response {
+    my ($server, $cgi) = @_;
+
+    print "HTTP/1.0 200 OK\r\n";
+    print "\r\n";
+    print compress("hello");
+}
+
+my $pid = $server->background();
 
 my $response = $network->send({ message => $message });
 ok(defined $response, "response from server");
@@ -92,7 +110,7 @@ isa_ok(
 # authenticated access
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url    => 'http://localhost:8529/private/test',
+        url    => "http://127.0.0.1:8080/private",
         logger => $logger
     });
 } 'private area access, without authentication parameters';
@@ -107,14 +125,14 @@ is(
 ); 
 is(
     $logger->{backend}->[0]->{message},
-    "Authorization Required",
+    "Authentication required",
     "error message content"
 ); 
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url      => 'http://localhost:8529/private/test',
-        realm    => 'test fusion',
+        url      => "http://127.0.0.1:8080/private",
+        realm    => 'Authorized area',
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -129,19 +147,17 @@ isa_ok(
     'response of expected class'
 );
 
-$server->stop();
-
 my $network_ssl;
 throws_ok {
     $network_ssl = FusionInventory::Agent::Network->new({
-        url    => 'https://localhost:8529/test',
+        url    => 'https://127.0.0.1:8080/private',
         logger => $logger
     });
 } qr/^neither certificate file or certificate directory given/, 'https URI without checking parameters';
 
 lives_ok {
     $network_ssl = FusionInventory::Agent::Network->new({
-        url    => 'https://localhost:8529/test',
+        url    => 'https://127.0.0.1:8080/private',
         logger => $logger,
         'no-ssl-check' => 1,
     });
@@ -159,3 +175,6 @@ is(
     $data,
     'round-trip compression with Gzip'
 );
+
+my $signal = ($^O eq 'MSWin32') ? 9 : 15;
+my $nprocesses = kill $signal, $pid;
