@@ -95,6 +95,7 @@ sub doInventory {
         $netifs[$idx]{name} = $nic->Name;
         $netifs[$idx]{macaddr} = $nic->MACAddress;
         $netifs[$idx]{speed} = $nic->Speed;
+        $netifs[$idx]{pnpdeviceid} = $nic->PNPDeviceID;
     }
 
     foreach my $netif (@netifs) {
@@ -104,6 +105,8 @@ sub doInventory {
         my $ipsubnet;
         my $ipaddress6;
 
+# http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
+        next unless $netif->{pnpdeviceid};
 
         $ipaddress = join('/', @{$netif->{ipaddress} || []});
         $ipmask = join('/', @{$netif->{ipmask} || []});
