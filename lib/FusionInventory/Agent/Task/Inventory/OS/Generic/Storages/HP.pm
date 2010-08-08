@@ -16,28 +16,39 @@ use FusionInventory::Agent::Tools;
 # HP Array Configuration Utility CLI 7.85-18.0
 
 sub getHpacuacliFromWinRegistry {
+    my ($logger) = @_;
+
+    my $Registry;
     eval {
         require Win32::TieRegistry;
-        Win32::TieRegistry->(
-            Delimiter   => "/",
-            ArrayValues => 0
+        Win32::TieRegistry->import(
+            Delimiter   => '/',
+            ArrayValues => 0,
+            TiedRef     => \$Registry,
         );
     };
     return if $EVAL_ERROR;
 
-    my $machKey= $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    my $machKey;
+    {
+        no strict;
+        my $machKey = $Registry->Open('LMachine', {
+                Access=> Win32::TieRegistry::KEY_READ
+            } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+    }
 
     my $uninstallValues =
         $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};
+    return unless $uninstallValues;
+
     my $uninstallString = $uninstallValues->{'/UninstallString'};
+    return unless $uninstallString;
 
-    my $hpacuacliPath;
-    if ($uninstallString =~ /(.*\\)hpuninst\.exe/) {
-        $hpacuacliPath = $1.'bin\\hpacucli.exe';
-        return $hpacuacliPath if -f $hpacuacliPath;
-    }
+    return unless $uninstallString =~ /(.*\\)hpuninst\.exe/;
+    my $hpacuacliPath = $1.'bin\\hpacucli.exe';
+    return unless -f $hpacuacliPath;
 
-    return;
+    return $hpacuacliPath;
 }
 
 sub isInventoryEnabled {
@@ -67,7 +78,7 @@ sub doInventory {
 
     my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
 
-    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry();
+    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry($logger);
     foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
 
 # Example output :

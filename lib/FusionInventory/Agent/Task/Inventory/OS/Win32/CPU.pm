@@ -6,17 +6,24 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+use English qw(-no_match_vars);
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
+
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 # the CPU description in WMI is false, we use the registry instead
 # Hardware\Description\System\CentralProcessor\1
 # thank you Nicolas Richard 
 sub getCPUInfoFromRegistry {
-    my ($cpuId) = @_;
-    
-    my $KEY_WOW64_64KEY = 0x100; 
+    my ($logger, $cpuId) = @_;
 
-    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+    my $machKey= $Registry->Open('LMachine', {
+        Access=> KEY_READ | KEY_WOW64_64KEY
+    }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
     my $data =
         $machKey->{"Hardware/Description/System/CentralProcessor/".$cpuId};
@@ -40,6 +47,7 @@ sub isInventoryEnabled {1}
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $serial;
     my $speed;
@@ -75,7 +83,7 @@ sub doInventory {
         NumberOfCores ProcessorId MaxClockSpeed
     /)) {
 
-        my $info = getCPUInfoFromRegistry($cpuId);
+        my $info = getCPUInfoFromRegistry($logger, $cpuId);
 
 #        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
         my $core = $Properties->{NumberOfCores};
@@ -85,14 +93,20 @@ sub doInventory {
         my $serial = $dmidecodeCpu[$cpuId]->{serial} || $Properties->{ProcessorId};
         my $speed = $dmidecodeCpu[$cpuId]->{speed} || $Properties->{MaxClockSpeed};
 
-        $manufacturer =~ s/Genuine//;
-        $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-        $manufacturer =~ s/CyrixInstead/Cyrix/;
-        $manufacturer=~ s/CentaurHauls/VIA/;
-        $serial =~ s/\s//g;
+        if ($manufacturer) {
+            $manufacturer =~ s/Genuine//;
+            $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $manufacturer =~ s/CyrixInstead/Cyrix/;
+            $manufacturer=~ s/CentaurHauls/VIA/;
+        }
+        if ($serial) {
+            $serial =~ s/\s//g;
+        }
 
-        $name =~ s/^\s+//;
-        $name =~ s/\s+$//;
+        if ($name) {
+            $name =~ s/^\s+//;
+            $name =~ s/\s+$//;
+        }
 
         $vmsystem = "QEMU"if $name =~ /QEMU/i;
 

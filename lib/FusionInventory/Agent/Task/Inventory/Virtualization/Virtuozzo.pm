@@ -2,7 +2,9 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Virtuozzo;
 
 use strict;
 
-sub isInventoryEnabled { return can_run('vzlist') }
+sub isInventoryEnabled {
+    return can_run('vzlist');
+}
 
 sub doInventory {
     my $params = shift;
@@ -37,7 +39,7 @@ sub doInventory {
         $mem = pop(@params);
         chomp $mem;
           if ($mem =~ m/(\d+)\"$/) {
-          $mem = $1;
+          $mem = $1/1024/1024;
         }
         else {
           # non slm config, different calculation

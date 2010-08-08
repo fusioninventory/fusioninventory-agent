@@ -18,11 +18,13 @@ my %unitMatrice = (
     GB => 1024,
     Mi => 1,
     MB => 1,
+    Ki => 0.001,
 );
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $free;
     my $filesystem;
@@ -36,7 +38,7 @@ sub doInventory {
     my %fs;
     foreach (`mount`) {
         next unless /^\//;
-        if (/on\s\S+\s\((\S+?)(,|\))/) {
+        if (/on\s.+\s\((\S+?)(,|\))/) {
             $fs{$1} = 1;
         }
     }
@@ -44,7 +46,7 @@ sub doInventory {
     for my $t (keys %fs) {
         # OpenBSD has no -m option so use -k to obtain results in kilobytes
         for(`df -P -k -t $t`){ # darwin needs the -t to be last
-            if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
+            if(/^(\/\S*)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S.+)\n/){
                 $type = $6;
                 $filesystem = $t;
                 $total = sprintf("%i",$2/1024);
@@ -83,7 +85,11 @@ sub doInventory {
         }
 
         if ($device->{'Total Size'} =~ /(\S*)\s(\S+)\s+\(/) {
-            $size = $1*$unitMatrice{$2};
+            if ($unitMatrice{$2}) {
+                $size = $1*$unitMatrice{$2};
+            } else {
+                $logger->error("$2 unit is not defined");
+            }
         }
 
 

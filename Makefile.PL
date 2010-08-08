@@ -2,108 +2,55 @@
 use inc::Module::Install;
 use English qw(-no_match_vars);
 
-# Hack to be able to run a post install script
-sub MY::postamble {
-
-    return if $OSNAME eq 'MSWin';
-
-    my $re = <<'EOF';
-
-install :: all pure_install doc_install
-	$(NOECHO) $(NOOP)
-	[ ! -f run-postinst ] || $(EXECUTABLE_NAME) fusioninventory-agent-config
-EOF
-
-    return $re;
-}
-
 name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux, Windows and MacOSX';
 license 'gpl';
 version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
-requires 'Digest::MD5' => undef;
-requires 'XML::TreePP' => undef;
-requires 'LWP' => undef;
-requires 'File::Temp' => undef;
-requires 'Net::IP' => undef;
-requires 'HTTP::Status' => undef;
-requires 'File::Find' => undef;
-requires 'UNIVERSAL::require' => undef;
-recommends 'Compress::Zlib';
-recommends 'Proc::Daemon' => undef unless $OSNAME eq 'MSWin';
-recommends 'Proc::PID::File' => undef unless $OSNAME eq 'MSWin';
-recommends 'File::Glob' => undef;
-recommends 'File::Path' => undef;
-recommends 'HTTP::Daemon' => undef; # RPC
-recommends 'Archive::Extract' => undef;
-recommends 'Net::CUPS' => 0.60;
-recommends 'MIME::Base64' => undef;
-recommends 'File::ShareDir' => undef; # You'll need to use --share-dir
 
+# mandatory dependencies
+requires 'Digest::MD5'        => undef;
+requires 'LWP'                => undef;
+requires 'Net::IP'            => undef;
+requires 'UNIVERSAL::require' => undef;
+requires 'XML::TreePP'        => undef;
+
+if ($OSNAME eq 'darwin') {
+    requires 'Mac::SysProfile' => undef;
+}
+
+# optional dependencies
+recommends 'Compress::Zlib'   => undef;
+recommends 'File::ShareDir'   => undef;
+recommends 'HTTP::Daemon'     => undef;
+recommends 'Net::CUPS'        => 0.60;
+
+if ($OSNAME ne 'MSWin32') {
+    recommends 'Proc::Daemon'     => undef;
+    recommends 'Proc::PID::File'  => undef;
+}
+
+# test dependencies
 test_requires  'Test::More'  => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
-install_script  'fusioninventory-win32-service' if $OSNAME =~ /^MSWin/;
+install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_share; # No parameter, si http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
 
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 
 if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
-    foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::TreePP/) {
+    foreach my $module (qw/Archive::Zip HTML::Parser LWP URI Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::TreePP/) {
         bundle $module;
         requires $module;
     }
-}
-
-if ($ENV{PERL_AUTOINSTALL}) {
-    unlink 'run-postinst';
-} else {
-    open POSTINST, '>run-postinst' or die $!;
-    close POSTINST;
-}
-
-if (!can_use('Compress::Zlib')) {
-    print "Please install Compress::Zlib if you use an OCS server prior 1.02.\n";
-}
-
-if (!can_run('ipdiscover') && !can_run('nmap')) {
-    print "Please install nmap ";
-    print "or ipdiscover " if $OSNAME eq 'linux';
-    print "if you want to use the network ".
-    "discover feature.\n";
-}
-
-if (!can_use('Proc::Daemon') || !can_use('Proc::PID::File')) {
-    print "Please install Proc::Daemon and Proc::PID::File if you ".
-    "want to use the daemon mode.\n";
-}
-
-
-if ($OSNAME =~ /(linux|bsd)/i) {
-    foreach (qw/dmidecode lspci/) {
-        if (!can_run($_)) {
-            print "\n";
-            print "[WARNING] $_ is needed if you want a complete inventory\n";
-            print "\n";
-        }
-    }
-}
-
-if ($OSNAME eq 'darwin' && !can_use('Mac::SysProfile')) {
-    print "\n";
-    print "[WARNING] Mac::SysProfile is needed on MacOS to detect most of the device information.\n";
-    print "\n";
-    requires 'Mac::SysProfile' => undef;
 }
 
 # memconf is needed by Solaris backend module
 if ($OSNAME eq 'solaris') {
     install_script  'memconf';
 }
-#for i in inc/BUNDLES/* ; do rm -rf `basename $i` ;done`
-#auto_install;
-WriteAll;
 
+WriteAll;

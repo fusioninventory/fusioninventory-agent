@@ -26,6 +26,11 @@ sub doInventory {
         Name Description SlotDesignation Status Shared
     /)) {
 
+    my @slots;
+    foreach my $Properties (getWmiProperties('Win32_SystemSlot', qw/
+        Name Description SlotDesignation Status Shared
+    /)) {
+
         $inventory->addSlot({
             NAME => $Properties->{Name},
             DESCRIPTION => $Properties->{Description},
@@ -33,6 +38,8 @@ sub doInventory {
             STATUS => $Properties->{Status},
             SHARED => $Properties->{Shared}
         });
+
+        };
 
     }
 

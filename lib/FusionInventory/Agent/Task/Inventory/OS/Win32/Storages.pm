@@ -13,7 +13,6 @@ sub isInventoryEnabled {
 sub getInfo {
     my ($type, $nbr) = @_;
 
-
     my $info = {};
 
     my $device = "/dev/";
@@ -42,6 +41,11 @@ sub doInventory {
         SCSITargetId
     /)) {
 
+    my @storages;
+    foreach my $Properties (getWmiProperties('Win32_DiskDrive', qw/
+        Name Manufacturer Model MediaType InterfaceType FirmwareRevision
+        SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId
+    /)) {
 
             my $info = {};
 
@@ -73,6 +77,11 @@ sub doInventory {
     /)) {
 
 
+    foreach my $Properties (getWmiProperties('Win32_CDROMDrive', qw/
+        Manufacturer Caption Description Name MediaType InterfaceType
+        FirmwareRevision SerialNumber Size SCSILogicialUnit SCSIPort
+        SCSILogicalUnit SCSITargetId
+    /)) {
             my $info = {};
 
             if ($Properties->{Name} =~ /(\d+)$/) {
@@ -100,15 +109,11 @@ sub doInventory {
                 SCSI_UNID => $Properties->{SCSITargetId},
             });
 
-
-    }
-
     foreach my $Properties (getWmiProperties('Win32_TapeDrive', qw/
         Manufacturer Caption Description Name MediaType InterfaceType
         FirmwareRevision SerialNumber Size SCSILogicialUnit SCSIPort
         SCSILogicalUnit SCSITargetId
     /)) {
-
 
             $inventory->addStorage({
                 MANUFACTURER => $Properties->{Manufacturer},

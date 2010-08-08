@@ -23,6 +23,7 @@ sub doInventory {
     my $UsersLoggedIn = join "/", keys %user;
 
     $inventory->setHardware ({ USERID => $UsersLoggedIn });
+
 }
 
 1;

@@ -100,6 +100,8 @@ sub _addEntry {
 
     push @{$self->{h}{CONTENT}{$sectionName}}, $newEntry;
 
+    return 1;
+
 }
 
 sub _encode {
@@ -127,7 +129,7 @@ sub _encode {
         | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
         |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
         )*\z/x) {
-        $logger->debug("Non-UTF8 string: $string");
+#        $logger->debug("Non-UTF8 string: $string");
         return encode("UTF-8", $string);
     } else {
         return $string;
@@ -255,8 +257,8 @@ sub addStorage {
     /;
 
     my $values = $args;
-    if (!$values->{serialnumber}) {
-        $values->{serialnumber} = $values->{serial}
+    if (!$values->{SERIALNUMBER}) {
+        $values->{SERIALNUMBER} = $values->{SERIAL}
     }
 
     $self->_addEntry({
@@ -612,10 +614,10 @@ sub addCPU {
     /;
 
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'CPUS',
-        values       => $args,
-        noDuplicated => 1
+        'field' => \@fields,
+        'sectionName' => 'CPUS',
+        'values' => $args,
+        'noDuplicated' => 0
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -644,14 +646,13 @@ sub addUser {
         DOMAIN
     /;
 
-    my $values = $args;
-    return unless $values->{LOGIN};
+    return unless $args->{LOGIN};
 
-    $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'USERS',
-        values       => $args,
-        noDuplicated => 1
+    return unless $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'USERS',
+        'values' => $args,
+        'noDuplicated' => 1
     });
 
 
@@ -1628,9 +1629,7 @@ The disk size in MB.
 
 =item TYPE
 
-INTERFACE can be SCSI/HDC/IDE/USB/1394
-(See: Win32_DiskDrive / InterfaceType in MSDN documentation
-
+INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA
 
 =item SERIAL
 

@@ -47,13 +47,18 @@ sub parseDmidecode {
                     $hardware->{VMSYSTEM} = 'QEMU';
                 } elsif ($bios->{BMANUFACTURER} =~ /VirtualBox/) {
                     $hardware->{VMSYSTEM} = 'VirtualBox';
-                } elsif ($bios->{BMANUFACTURER} =~ /^Xen/) {
+                } elsif ($bios->{BMANUFACTURER} =~ /innotek/i) {
+                    $hardware->{VMSYSTEM} = 'VirtualBox';
+                } elsif ($bios->{BMANUFACTURER} =~ /^Xen/i) {
                     $hardware->{VMSYSTEM} = 'Xen';
                 }
             } elsif ($line =~ /^\s+Release Date: (.*\S)/) {
                 $bios->{BDATE} = $1
-            } elsif ($line =~ /^\s+Version: (.*\S)/) {
-                $bios->{BVERSION} = $1
+            } elsif ($line =~ /^\s+version:\s*(.+?)\s*$/i) {
+                $bios->{BVERSION} = $1;
+                if ($bios->{BVERSION} =~ /VirtualBox/i) {
+                    $hardware->{VMSYSTEM} = 'VirtualBox';
+                }
             }
             next;
         }

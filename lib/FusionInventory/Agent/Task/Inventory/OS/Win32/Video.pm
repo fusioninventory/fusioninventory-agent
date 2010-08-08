@@ -33,9 +33,9 @@ sub doInventory {
         }
 
         $inventory->addVideo({
-            CHIPSET => $Properties->{VideoProcessor},
-            MEMORY =>  int($Properties->{AdaptaterRAM} / (1024*1024)),
-            NAME => $Properties->{Name},
+            CHIPSET    => $Properties->{VideoProcessor},
+            MEMORY     => $memory,
+            NAME       => $Properties->{Name},
             RESOLUTION => $resolution
         });
     }

@@ -54,7 +54,7 @@ sub doInventory {
 
                 push @cpu, {
                     SPEED => $frequency,
-                    MANUFACTURER => 'unknown',
+                    MANUFACTURER => $manufacturer,
                     SERIAL => $serial,
 # Thread per core according to my understanding of
 # http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
@@ -100,24 +100,29 @@ sub doInventory {
             }
         }
         close $handle;
+        # The /proc/cpuinfo file doesn't end with an empty line
+        $cpuProcs[$cpuNbr]= $cpuInfo if keys %$cpuInfo;
     }
 
     my $maxId = @cpu?@cpu-1:@cpuProcs-1;
     foreach my $id (0..$maxId) {
-        if ($cpuProcs[$id]->{vendor_id}) {
-            $cpuProcs[$id]->{vendor_id} =~ s/Genuine//;
-            $cpuProcs[$id]->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $cpuProcs[$id]->{vendor_id} =~ s/CyrixInstead/Cyrix/;
-            $cpuProcs[$id]->{vendor_id} =~ s/CentaurHauls/VIA/;
+        my $cpuProc = $cpuProcs[$id] || $cpuProcs[0];
 
-            $cpu[$id]->{MANUFACTURER} = $cpuProcs[$id]->{vendor_id};
+        if ($cpuProc->{vendor_id}) {
+            $cpu[$id]->{MANUFACTURER} = $cpuProc->{vendor_id};
         }
-        $cpu[$id]->{NAME} = $cpuProcs[$id]->{'model name'};
+        if ($cpu[$id]->{MANUFACTURER}) {
+            $cpu[$id]->{MANUFACTURER} =~ s/Genuine//;
+            $cpu[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $cpu[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
+            $cpu[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
+        }
+        $cpu[$id]->{NAME} = $cpuProc->{'model name'};
         if (!$cpu[$id]->{CORE}) {
-            $cpu[$id]->{CORE} = $cpuCoreCpts[$id];
+            $cpu[$id]->{CORE} = $cpuCoreCpts[$id] || 1;
         }
-        if (!$cpu[$id]->{THREAD} && $cpuProcs[$id]->{'siblings'}) {
-            $cpu[$id]->{THREAD} = $cpuProcs[$id]->{'siblings'};
+        if (!$cpu[$id]->{THREAD} && $cpuProc->{'siblings'}) {
+            $cpu[$id]->{THREAD} = $cpuProc->{'siblings'};
         }
         if ($cpu[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu[$id]->{SPEED} = {

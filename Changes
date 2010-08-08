@@ -3,11 +3,39 @@ Revision history for FusionInventory::Agent
        * XML::Simple → XML::TreePP transition
        * HPVM: XML::TreePP support (Amir PAKDEL)
 
-2.1_rc3
+2.1
+       * cleanup Makefile.PL
+       * enhance documentation with optional and mandatory dependencies
+       * drop README file lost in the middle of perl modules
+       * Fix some warnings on Windows
+       * agent.cfg, fix a syntax error
+       * turns most call to carp() and die() into logger usage
+       * Linux: storage, hdparm gives more reliable serial number
+       * XML, storage, rename STORAGES/SERIAL to STORAGES/SERIALNUMBER, thanks
+         azman
+       * Win32: uses WMI to collect Environment vars to get correct UTF-8 data
+       * Win32: ensure the hostname is in UTF-8
+       * Win32: fix: load Win32::OLE in UTF-8
+       * Win32: get the hostname from WMI in unicode
+       * Win32: use the standard codepage to access the registry
+       * Big thank you to Denis Linvinus who gave RDP access to a Russian
+         Windows
+       * Win32: don't put BIOS ROM in STORAGES, thanks EmpereurZorg
+       * Win32: add Modem.pm
+       * Fix: Virtuozzo containers memory unit (Jan JUNGMANN)
+       * Win32: Ignore network it the network interface has no PNPDeviceID
+         http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34 
+
+2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
        * MacOSX: ignore printer if name start with:
          The printers list is empty. To add printers (fixes: #169)
+       * MacOSX, BSD, Linux: unify domain name computation to use host name
+         as primary information source, and avoid using windows-specific
+         'workgroup' as default value
        * Add resources/cpuinfo/linux-686-samsung-nc10-1
+       * Fix, restore ability to specify server as an host name rather
+         than a full URL
        * Fix, restore --noinventory support, print a warning saying
          --no-inventory should be used instead
        * Fix: Linux, PC: detect CPU configuration of machine with one
@@ -41,13 +69,32 @@ Revision history for FusionInventory::Agent
        * Win32, set the BIOS/TYPE field
        * Win32, storage: clean up. Reduce the number of hdparm call.
        * Win32, set USBDEVICES/NAME
+       * RPC: rewrite the thread management to reduce the memory consumption
+         on Windows
+       * Win32: Users, we need to use Get() to retrieve Win32::OLE::Variant
+         object content
        * Add more test scripts: xml-query-inventory.t,
          xml-query-simplemessage.t, t/xml-response.t
        * Inventory, correctly store user list
        * Fix a typo scanhomedirs → scan-homedirs 
        * Fix a typo scanhomedirs → scan-homedirs
        * HP-UX: add HP-UX VM support (Sébastien PRUD'HOMME)
-
+       * Linux, PC: CPU fixes for VMware ESX, thanks Benoit Machiavello
+       * Linux: set correctly HARDWARE/WORKGROUP with the domain name,
+         thanks Benoit Machiavello
+       * HARDWARE/USERID: don't put more than one time in row the same user
+       * Makefile.PL: Turns off the post-installation script. The hack is broken.
+       * Solaris: imporove CPU, Mem, Slots (Lucas MASSE)
+       * Solaris: imporove Bios, Controllers, Domains, Drives, IPv4, Memory,
+         Networks, Packages, Storages and Users (Jérome LEBAS)
+       * Add comment and default settings in agent.cfg (Walid NOUH)
+       * UUID, improve the code to support old dmidecode
+       * VirtualBox, improve Virtualbox detection, closes: #230
+       * MacOSX: Set the UUID
+       * MacOSX: rewrite storage.pm without Mac::SysProfile
+       * MacOSX: collecte IPv6 address
+       * Win32: set the NT Domain for the WORKGROUP if avalaible like OCS agent
+       * MacOSX: Collect Firewire disk
 
 2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
        * MANIFEST.SKIP, we need the resources files for the test suite

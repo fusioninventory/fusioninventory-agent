@@ -1,7 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Storages;
-
 use strict;
-use warnings;
+#use warning;
 
 use FusionInventory::Agent::Tools;
 
@@ -12,16 +11,14 @@ use FusionInventory::Agent::Tools;
 #Illegal Request: 0 Predictive Failure Analysis: 0
 
 # With -En :
-#c8t60060E80141A420000011A420000300Bd0 Soft Errors: 1 Hard Errors: 0 Transport Errors: 0 
-#Vendor: HITACHI  Product: OPEN-V      -SUN Revision: 5009 Serial No:  
+#c8t60060E80141A420000011A420000300Bd0 Soft Errors: 1 Hard Errors: 0 Transport Errors: 0
+#Vendor: HITACHI  Product: OPEN-V      -SUN Revision: 5009 Serial No:
 #Size: 64.42GB <64424509440 bytes>
-#Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
-#Illegal Request: 1 Predictive Failure Analysis: 0 
+#Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0
+#Illegal Request: 1 Predictive Failure Analysis: 0
 
 
-sub isInventoryEnabled {
-    return can_run ("iostat");
-}
+sub isInventoryEnabled { can_run ("iostat") }
 
 sub doInventory {
     my $params = shift;
@@ -55,23 +52,23 @@ sub doInventory {
             $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
             if( $rdisk_path =~ /.*->.*scsi_vhci.*/ ) {
                 $type="MPxIO";
-            } 
+            }
             elsif( $rdisk_path =~ /.*->.*fp@.*/ ) {
                 $type="FC";
             }
             elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
                 $type="SCSI";
             }
-            $inventory->addStorage({
-                NAME => $name,
-                MANUFACTURER => $manufacturer,
-                MODEL => $model,
-                DESCRIPTION => $description,
-                TYPE => $type,
-                FIRMWARE => $rev,
-                SERIALNUMBER => $sn,
-                DISKSIZE => $capacity
-            });
+            $inventory->addStorages({
+                    NAME => $name,
+                    MANUFACTURER => $manufacturer,
+                    MODEL => $model,
+                    DESCRIPTION => $description,
+                    TYPE => $type,
+                    FIRMWARE => $rev,
+                    SERIALNUMBER => $sn,
+                    DISKSIZE => $capacity
+                });
 
             $manufacturer='';
             $model='';
@@ -80,7 +77,7 @@ sub doInventory {
             $rev='';
             $sn='';
             $type='';
-        } 
+        }
         $flag_first_line = 0;	
         if(/^(\S+)\s+Soft/){
             $name = $1;
@@ -102,7 +99,7 @@ sub doInventory {
             $flag_first_line = 1;
         }
 
-    }  
+    }
 }
 
 1;

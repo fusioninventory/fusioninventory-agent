@@ -52,8 +52,8 @@ sub doInventory {
 
     foreach my $Properties (getWmiProperties('Win32_Printer', qw/
         ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
-        Comment DescriptionDriverName PortName Network Shared PrinterStatus
-        ServerName ShareName PrintProcessor
+        Comment DescriptionDriverName DriverName PortName Network Shared 
+        PrinterStatus ServerName ShareName PrintProcessor
     /)) {
 
         my $errStatus;
@@ -70,6 +70,8 @@ sub doInventory {
                 $Properties->{VerticalResolution};
         }
 
+        $Properties->{Serial} = getSerialbyUsb($Properties->{PortName});
+
         $inventory->addPrinter({
             NAME => $Properties->{Name},
             COMMENT => $Properties->{Comment},
@@ -84,7 +86,7 @@ sub doInventory {
             SERVERNAME => $Properties->{ServerName},
             SHARENAME => $Properties->{ShareName},
             PRINTPROCESSOR => $Properties->{PrintProcessor},
-            SERIAL => getSerialbyUsb($Properties->{PortName})
+            SERIAL => $Properties->{Serial}
         });
 
     }    

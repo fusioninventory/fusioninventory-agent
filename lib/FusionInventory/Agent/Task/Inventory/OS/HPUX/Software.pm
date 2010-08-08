@@ -11,41 +11,32 @@ sub isInventoryEnabled  {
     my $params = shift;
 
     # Do not run an package inventory if there is the --nosoft parameter
-    return if $params->{params}->{nosoft};
+    return if ($params->{params}->{nosoft});
 
-    return can_run('swlist');
+    can_run('swlist') and can_run('grep')
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $command = 'swlist';
+    my @softList;
+    my $software;
 
-    my $handle;
-    if (!open $handle, '-|', $command) {
-        warn "Can't run $command: $ERRNO";
-        return;
-    }
 
-    while (my $line = <$handle>) {
-        next if $line =~ /^#/;
-        next if $line =~ /^  PH/;
-        $line =~ tr/\t/ /s;
-        $line =~ tr/ //s;
-        chomp $line;
 
-        if ($line =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
+    @softList = `swlist | grep -v '^  PH' | grep -v '^#' |tr -s "\t" " "|tr -s " "` ;
+    foreach my $software (@softList) {
+        chomp( $software );
+        if ( $software =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
             $inventory->addSoftware({
-                NAME      => $1,
-                VERSION   => $2,
-                COMMENTS  => $3,
-                PUBLISHER => 'HP'
-            });
+                    'NAME'          => $1  ,
+                    'VERSION'       => $2 ,
+                    'COMMENTS'      => $3 ,
+                    'PUBLISHER'     => "HP" ,
+                });
         }
     }
-
-    close $handle;
 
 }
 

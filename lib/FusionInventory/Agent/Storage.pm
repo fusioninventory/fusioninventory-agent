@@ -21,7 +21,23 @@ Create the object
 
 =cut
 sub new {
-    my ($class, $params) = @_;
+    my ( $class, $params ) = @_;
+
+    my $self = {};
+
+    if ($Config{usethreads}) {
+        eval {
+            require threads;
+            require threads::shared;
+        };
+        if ($EVAL_ERROR) {
+            print "[error]Failed to use threads!\n"; 
+        }
+    }
+
+    my $config = $self->{config} = $params->{config};
+    my $target = $self->{target} = $params->{target};
+    $self->{logger} = $params->{logger};
 
     my $self = {
         config => $params->{config},
@@ -71,8 +87,7 @@ sub getFilePath {
     my $extension = '';
     if ($idx) {
         if ($idx !~ /^\d+$/) {
-            print "[fault] idx must be an integer!\n";
-            die;
+            $self->{logger}->fault("[fault] idx must be an integer!\n");
         } 
         $extension = '.'.$idx;
     }
@@ -98,7 +113,7 @@ sub getFileDir {
     } elsif ($config) {
         $dirName = $config->{'basevardir'};
     } else {
-        die;
+        $self->{logger}->fault('no target nor config');
     }
 
     if (!$dirName) {

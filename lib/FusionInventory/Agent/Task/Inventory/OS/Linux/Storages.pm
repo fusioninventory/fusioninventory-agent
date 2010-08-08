@@ -153,29 +153,28 @@ sub doInventory {
     # get serial & firmware numbers from hdparm, if available
     if (correctHdparmAvailable()) {
         foreach my $device (@devices) {
-            if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
-                my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
-                if (!open my $handle, '-|', $command) {
-                    warn "Can't run $command: $ERRNO";
-                } else {
-                    while (my $line = <$handle>) {
-                        if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
-                            my $value = $1;
-                            $value =~ s/\s+$//;
-                            $device->{SERIALNUMBER} = $value
-                                if !$device->{SERIALNUMBER};
-                            next;
-                        }
-                        if ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
-                            my $value = $1;
-                            $value =~ s/\s+$//;
-                            $device->{FIRMWARE} = $value
-                                if !$device->{FIRMWARE};
-                            next;
-                        }
+            my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
+            if (!open my $handle, '-|', $command) {
+                warn "Can't run $command: $ERRNO";
+            } else {
+                while (my $line = <$handle>) {
+                    if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
+                        print $1."\n";
+                        my $value = $1;
+                        $value =~ s/\s+$//;
+                        $device->{SERIALNUMBER} = $value
+                        if !$device->{SERIALNUMBER};
+                        next;
                     }
-                    close $handle;
+                    if ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
+                        my $value = $1;
+                        $value =~ s/\s+$//;
+                        $device->{FIRMWARE} = $value
+                        if !$device->{FIRMWARE};
+                        next;
+                    }
                 }
+                close $handle;
             }
         }
     }

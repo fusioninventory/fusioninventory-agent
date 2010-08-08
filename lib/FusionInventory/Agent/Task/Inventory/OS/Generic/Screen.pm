@@ -37,17 +37,20 @@ sub isInventoryEnabled {
 }
 
 sub getScreens {
+    my ($logger) = @_;
+
     my @raw_edid;
 
 
     if ($OSNAME eq 'MSWin32') {
+        my $Registry;
         eval {
             require FusionInventory::Agent::Tools::Win32;
             require Win32::TieRegistry;
             Win32::TieRegistry->import(
-                Access      => "KEY_READ",
-                Delimiter   => "/",
-                ArrayValues => 0
+                Delimiter   => '/',
+                ArrayValues => 0,
+                TiedRef     => \$Registry
             );
         };
         if ($EVAL_ERROR) {
@@ -58,8 +61,7 @@ sub getScreens {
         use constant wbemFlagReturnImmediately => 0x10;
         use constant wbemFlagForwardOnly => 0x20;
 
-        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-            or croak "WMI connection failed";
+        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or $logger->fault("WMI connection failed.\n");
         my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
                 wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
@@ -70,13 +72,17 @@ sub getScreens {
             next unless $objItem->{"PNPDeviceID"};
             my $name = $objItem->{"Caption"};
 
-            my $a = $Win32::TieRegistry::Registry->Open(
-                "LMachine", {Access=>"KEY_READ",Delimiter=>"/"}
-            ) or croak "Can't open HKEY_LOCAL_MACHINE key: EXTENDED_OS_ERROR";
+            my $machKey;
+            {
+                # Win32-specifics constants can not be loaded on non-Windows OS
+                no strict 'subs';
+                $machKey = $Registry->Open('LMachine', {
+                    Access => Win32::TieRegistry::KEY_READ
+                } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+            }
 
             my $edid =
-$a->{'SYSTEM/CurrentControlSet/Enum/'.$objItem->{"PNPDeviceID"}.'/Device
-Parameters/EDID'} || '';
+                $machKey->{"SYSTEM/CurrentControlSet/Enum/$objItem->{PNPDeviceID}/Device Parameters/EDID"} || '';
             $edid =~ s/^\s+$//;
 
             push @raw_edid, { name => $name, edid => $edid };
@@ -544,7 +550,7 @@ sub print_edid {
     foreach my $h (@{$edid->{detailed_timings}}) {
         print "\n";
         print "\t", $h->{ModeLine_comment}, $h->{bad_ratio} ? ' (bad ratio)' : '', "\n";
-        print "\tModeLine ", $h->{ModeLine}, "\n";	
+        print "\tModeLine ", $h->{ModeLine}, "\n";      
     }
 }
 
@@ -644,7 +650,7 @@ sub doInventory {
     my $verbose;
     my $MonitorsDB;
 
-    my @screens = getScreens();
+    my @screens = getScreens($logger);
 
     return unless @screens;
 

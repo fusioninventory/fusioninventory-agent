@@ -2,13 +2,20 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::User;
 
 use strict;
 use warnings;
+
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
-use Carp;
 use Encode qw(encode);
+use English qw(-no_match_vars);
 use Win32::OLE::Variant;
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
+
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 use FusionInventory::Agent::Tools::Win32;
 
@@ -19,9 +26,9 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-        or croak "WMI connection failed";
+    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or $logger->fault("WMI connection failed.\n");
     my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_Process", "WQL",
             wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
@@ -31,23 +38,21 @@ sub doInventory {
 
         next unless $cmdLine;
  
-        if ($cmdLine =~ /\\Explorer\.exe/i) {
+        if ($cmdLine =~ /\\Explorer\.exe$/i) {
             my $name = Variant (VT_BYREF | VT_BSTR, '');
             my $domain = Variant (VT_BYREF | VT_BSTR, '');
     
             $objItem->GetOwner($name, $domain);
-    
-    
-           if (Win32::GetOSName() ne 'Win7') {
-               $name = encode("UTF-8", $name);
-               $domain = encode("UTF-8", $domain);
-           }
-            $inventory->addUser({ LOGIN => $name, DOMAIN => $domain });
+   
+            $inventory->addUser({ LOGIN => $name->Get(), DOMAIN => $domain->Get() });
         }
     
     }
 
-    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    my $machKey = $Registry->Open('LMachine', {
+        Access => KEY_READ
+    }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+
     foreach (
         "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",
         "SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"

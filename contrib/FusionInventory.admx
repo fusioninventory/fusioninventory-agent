@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" revision="1.0" schemaVersion="1.0" xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions">
+  <policyNamespaces>
+    <target prefix="FusionInventory" namespace="FusionInventory" />
+    <using prefix="windows" namespace="Microsoft.Policies.Windows" />
+  </policyNamespaces>
+  <resources minRequiredRevision="1.0" />
+  <categories>
+    <category name="FusionInventory_ROOT" displayName="$(string.FusionInventory_ROOT)">
+      <parentCategory ref="windows:System" />
+    </category>
+  </categories>
+  <policies>
+    <policy name="FusionInventory_CONFIGURE32" class="Machine" displayName="$(string.FusionInventory_CONFIGURE32)" explainText="$(string.FusionInventory_CONFIGURE_EXPLAIN)" presentation="$(presentation.FusionInventory_CONFIGURE)" key="SOFTWARE\FusionInventory-Agent">
+      <parentCategory ref="FusionInventory_ROOT" />
+      <supportedOn ref="windows:SUPPORTED_WindowsXP" />
+      <elements>
+        <text id="FusionInventory_Server" valueName="server" />
+	<text id="FusionInventory_User" valueName="user" />
+	<text id="FusionInventory_Password" valueName="password" />
+	<text id="FusionInventory_Realm" valueName="realm" />
+	<text id="FusionInventory_Tag" valueName="tag" />
+      </elements>
+    </policy>
+    <policy name="FusionInventory_CONFIGURE64" class="Machine" displayName="$(string.FusionInventory_CONFIGURE64)" explainText="$(string.FusionInventory_CONFIGURE_EXPLAIN)" presentation="$(presentation.FusionInventory_CONFIGURE)" key="SOFTWARE\Wow6432Node\FusionInventory-Agent">
+      <parentCategory ref="FusionInventory_ROOT" />
+      <supportedOn ref="windows:SUPPORTED_WindowsXP" />
+      <elements>
+        <text id="FusionInventory_Server" valueName="server" />
+	<text id="FusionInventory_User" valueName="user" />
+	<text id="FusionInventory_Password" valueName="password" />
+	<text id="FusionInventory_Realm" valueName="realm" />
+	<text id="FusionInventory_Tag" valueName="tag" />
+      </elements>
+    </policy>
+  </policies>
+</policyDefinitions>

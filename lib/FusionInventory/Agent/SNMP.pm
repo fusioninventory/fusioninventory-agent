@@ -16,44 +16,78 @@ sub new {
         require Net::SNMP;
     };
     if ($EVAL_ERROR) {
-        croak "Can't load Net::SNMP. Exiting...";
+        $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
+        exit(0);
     }
 
-    my $version =
-        $params->{version} eq '1'  ? 'snmpv1'  :
-        $params->{version} eq '2c' ? 'snmpv2c' :
-        $params->{version} eq '3'  ? 'snmpv3'  :
-                                     undef     ;
+    my $session = $self->{SNMPSession} = $params->{config};
+    my $SNMPVersion;
+    if ($params->{version} eq '1') {
+        $SNMPVersion = 'snmpv1';
+    } elsif ($params->{version} eq '2c') {
+        $SNMPVersion = 'snmpv2c';
+    } elsif ($params->{version} eq '3') {
+        $SNMPVersion = 'snmpv3';
+    }
+    my $version = $self->{SNMPSession}->{version} = $SNMPVersion;
+    my $hostname = $self->{SNMPSession}->{hostname} = $params->{hostname};
+    my $community = $self->{SNMPSession}->{community} = $params->{community};
+    my $username = $self->{SNMPSession}->{username} = $params->{username};
+    my $authpassword = $self->{SNMPSession}->{authpassword} = $params->{authpassword};
+    my $authprotocol = $self->{SNMPSession}->{authprotocol} = $params->{authprotocol};
+    my $privpassword = $self->{SNMPSession}->{privpassword} = $params->{privpassword};
+    my $privprotocol = $self->{SNMPSession}->{privprotocol} = $params->{privprotocol};
+    if ($params->{translate} eq '0') {
+        my $translate = $self->{SNMPSession}->{translate} = '-all';
+    } elsif ($params->{translate} eq '1') {
+        my $translate = $self->{SNMPSession}->{translate} = '-octetstring';
+    }
 
     if ($version eq 'snmpv3') {
-        $self->{session} = Net::SNMP->session(
-            -timeout      => 1,
-            -retries      => 0,
-            -version      => $version,
-            -hostname     => $params->{hostname},
-            -username     => $params->{username},
-            -authpassword => $params->{authpassword},
-            -authprotocol => $params->{authprotocol},
-            -privpassword => $params->{privpassword},
-            -privprotocol => $params->{privprotocol},
-            -nonblocking  => 0,
-            -port         => 161
-        );
+        if($privprotocol =~ /hash/i){
+            ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+                -timeout   => 1,
+                -retries   => 0,
+                -hostname     => $hostname,
+                -version      => $version,
+                -username     => $username,
+                -authpassword => $authpassword,
+                -authprotocol => $authprotocol,
+                -nonblocking => 0,
+                #-translate   => [$translate => 0],
+                -port      => 161
+            );
+        } else {
+            ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+                -timeout   => 1,
+                -retries   => 0,
+                -hostname     => $hostname,
+                -version      => $version,
+                -username     => $username,
+                -authpassword => $authpassword,
+                -authprotocol => $authprotocol,
+                -privpassword => $privpassword,
+                -privprotocol => $privprotocol,
+                -nonblocking => 0,
+                # -translate   => [$translate => 0],
+                -port      => 161
+            );
+
+        }
     } else { # snmpv2c && snmpv1 #
-        $self->{session} = Net::SNMP->session(
-            -timeout     => 1,
-            -retries     => 0,
-            -version     => $version,
-            -hostname    => $params->{hostname},
-            -community   => $params->{community},
+        ($self->{SNMPSession}->{session}, $self->{SNMPSession}->{error}) = Net::SNMP->session(
+            -version   => $version,
+            -timeout   => 1,
+            -retries   => 0,
+            -hostname  => $hostname,
+            -community => $community,
             -nonblocking => 0,
-            -port        => 161
+            #-translate   => [$translate => 0],
+            -port      => 161
         );
     }
 
     bless $self, $class;
-
-    return $self;
 }
 
 
@@ -63,14 +97,14 @@ sub snmpGet {
     my $oid = $args->{oid};
     my $up = $args->{up};
 
-    my $session = $self->{session};
+    my $session = $self->{SNMPSession}->{session};
 
     my $result = $session->get_request(
         -varbindlist => [$oid]
     );
     my $return;
     if (!defined($result)) {
-        my $err = $self->{session}->error;
+        my $err = $self->{SNMPSession}->{session}->error;
         #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
         if ((defined $up) && ($up == 1)) {
             $return = "No response from remote host";
@@ -119,8 +153,8 @@ sub snmpWalk {
     my $oid_prec = $oid_start;
     if (defined($oid_start)) {
         while($oid_prec =~ m/$oid_start/) {
-            my $response = $self->{session}->get_next_request($oid_prec);
-            my $err = $self->{session}->error;
+            my $response = $self->{SNMPSession}->{session}->get_next_request($oid_prec);
+            my $err = $self->{SNMPSession}->{session}->error;
             if ($err){
                 #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
                 #debug($log,"[".$_[1]."] Oid Error : ".$oid_prec,"",$PID);

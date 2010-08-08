@@ -17,6 +17,8 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $chaine ;
+    my @tab;
 
     my $name;
     my $version;
@@ -25,11 +27,11 @@ sub doInventory {
     foreach (`pkginfo -l`) {
         if (/^\s*$/) {
             $inventory->addSoftware({
-                NAME      => $name,
-                VERSION   => $version,
-                COMMENTS  => $comments,
-                PUBLISHER => $publisher,
-            });
+                    'NAME'          => $name,
+                    'VERSION'       => $version,
+                    'COMMENTS'      => $comments,
+                    'PUBLISHER'      => $publisher,
+                });
 
             $name = '';
             $version = '';
@@ -46,6 +48,10 @@ sub doInventory {
             $comments = $1;
         }
     }
+
+
 }
+
+
 
 1;

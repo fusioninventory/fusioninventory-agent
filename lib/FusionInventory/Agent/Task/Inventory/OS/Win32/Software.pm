@@ -7,10 +7,15 @@ use constant KEY_WOW64_64KEY => 0x100;
 use constant KEY_WOW64_32KEY => 0x200; 
 
 use Config;
+use English qw(-no_match_vars);
 use Win32;
 use Win32::OLE('in');
 use Win32::OLE::Variant;
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
 
 use FusionInventory::Agent::Tools::Win32;
 
@@ -107,6 +112,7 @@ sub doInventory {
     my $params = shift;
 
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
     my $Config;
 
@@ -125,27 +131,17 @@ sub doInventory {
         # 32bit entries. This is not the case on Win2003 and if I correctly
         # understand MSDN, this sounds very odd
 
-        my $machKey64bit = $Registry->Open(
-            "LMachine", {
-                Access    => Win32::TieRegistry::KEY_READ() | KEY_WOW64_64KEY,
-                Delimiter => "/"
-            }
-        );
+        my $machKey64bit = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_64KEY
+        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
         my $softwares64bit =
             $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        processSoftwares({
-            inventory => $inventory,
-            softwares => $softwares64bit,
-            is64bit => 1
-        });
+        processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
 
-        my $machKey32bit = $Registry->Open(
-            "LMachine", {
-                Access    => Win32::TieRegistry::KEY_READ() | KEY_WOW64_32KEY,
-                Delimiter => "/"
-            }
-        );
+        my $machKey32bit = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_32KEY
+        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
         my $softwares32bit =
             $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
@@ -157,12 +153,9 @@ sub doInventory {
         });
 
     } else {
-        my $machKey= $Registry->Open(
-            "LMachine", {
-                Access    => Win32::TieRegistry::KEY_READ(),
-                Delimiter => "/"
-            }
-        );
+        my $machKey = $Registry->Open('LMachine', {
+            Access => KEY_READ()
+        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
         my $softwares=
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};

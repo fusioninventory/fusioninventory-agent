@@ -9,9 +9,7 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
 
-    return
-        -r "/dev/mem" ||
-        can_run("dmidecode");
+    return can_run("dmidecode");
 }
 
 sub doInventory {}

@@ -85,6 +85,13 @@ sub doInventory {
         Capacity Caption Description FormFactor Removable Speed MemoryType
         SerialNumber
     /)) {
+# Ignore ROM storages (BIOS ROM)
+        if (defined($memoryTypeVal[$Properties->{MemoryType}]) &&
+$memoryTypeVal[$Properties->{MemoryType}] eq 'ROM') {
+            next;
+        }
+
+
 
         my $capacity = sprintf("%i",$Properties->{Capacity}/(1024*1024));
         my $caption = $Properties->{Caption};
@@ -131,24 +138,6 @@ sub doInventory {
     foreach my $memory (@memories) {
         $inventory->addMemory($memory);
     }
-
-    my $fullMemory = 0;
-    my $swapMemory = 0;
-    foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
-        TotalPhysicalMemory
-    /)) {
-        $fullMemory = $Properties->{TotalPhysicalMemory};
-    }
-    foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
-        TotalSwapSpaceSize
-    /)) {
-        $swapMemory = $Properties->{TotalSwapSpaceSize};
-    }
-
-    $inventory->setHardware({
-        MEMORY =>  int($fullMemory/(1024*1024)),
-        SWAP =>  int(($swapMemory || 0)/(1024)),
-    });
 
 }
 

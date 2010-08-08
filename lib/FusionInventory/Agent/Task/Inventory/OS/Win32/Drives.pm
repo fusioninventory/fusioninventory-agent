@@ -47,18 +47,19 @@ sub doInventory {
         }
 
         $inventory->addDrive({
-           CREATEDATE => $Properties->{InstallDate},
-           DESCRIPTION => $Properties->{Description},
-           FREE => $freespace,
-           FILESYSTEM => $Properties->{FileSystem},
-           LABEL => $Properties->{VolumeName},
-           LETTER => $Properties->{DeviceID} || $Properties->{Caption},
-           SERIAL => $Properties->{VolumeSerialNumber},
-           SYSTEMDRIVE => (lc($Properties->{DeviceID}) eq $systemDrive),
-           TOTAL => $size,
-           TYPE => $type[$Properties->{DriveType}] || 'Unknown',
-           VOLUMN => $Properties->{VolumeName},
-        });
+            CREATEDATE => $Properties->{InstallDate},
+            DESCRIPTION => $Properties->{Description},
+            FREE => $freespace,
+            FILESYSTEM => $Properties->{FileSystem},
+            LABEL => $Properties->{VolumeName},
+            LETTER => $Properties->{DeviceID} || $Properties->{Caption},
+            SERIAL => $Properties->{VolumeSerialNumber},
+            SYSTEMDRIVE => (lc($Properties->{DeviceID}) eq $systemDrive),
+            TOTAL => $size,
+            TYPE => $type[$Properties->{DriveType}] || 'Unknown',
+            VOLUMN => $Properties->{VolumeName},
+        };
+
     }
 }
 
