@@ -22,6 +22,8 @@ Revision history for FusionInventory::Agent
        * Win32: Ignore network it the network interface has no PNPDeviceID
          http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34 
        * HP-UX: fix --no-software support
+       * Win32: retrieve the Windows key on Windows 64 bit,
+         http://forge.fusioninventory.org/issues/267
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
