@@ -159,7 +159,6 @@ sub doInventory {
             } else {
                 while (my $line = <$handle>) {
                     if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
-                        print $1."\n";
                         my $value = $1;
                         $value =~ s/\s+$//;
                         $device->{SERIALNUMBER} = $value
