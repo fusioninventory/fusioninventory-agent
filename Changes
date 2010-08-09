@@ -24,6 +24,9 @@ Revision history for FusionInventory::Agent
        * HP-UX: fix --no-software support
        * Win32: retrieve the Windows key on Windows 64 bit,
          http://forge.fusioninventory.org/issues/267
+       * Win32: Push the default monitor in <MONITORS />
+         http://forge.fusioninventory.org/issues/252
+         http://forge.fusioninventory.org/issues/269
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
