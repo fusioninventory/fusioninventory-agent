@@ -566,7 +566,7 @@ sub setHardware {
                 $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
             }
             if ($key eq 'USERID' && !$nonDeprecated) {
-                $logger->debug("USERID shouldn't be set directly anymore. Please use addCPU() method instead.");
+                $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
             }
 
             my $string = $self->_encode({ string => $args->{$key} });
