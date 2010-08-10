@@ -13,16 +13,27 @@ use Compress::Zlib;
 
 plan tests => 29;
 
-my $server = FusionInventory::Test::Server->new(
-    port => 8080,
-    user => 'test',
-    realm => 'test',
-    password => 'test',
-);
-$server->set_dispatch( {
-    '/public'   => \&public,
-    '/private' => \&private,
-} );
+sub public {
+    my ($server, $cgi) = @_;
+    return response($server, $cgi);
+}
+
+sub private {
+    my ($server, $cgi) = @_;
+    return response($server, $cgi) if $server->authenticate();
+}
+
+sub response {
+    my ($server, $cgi) = @_;
+
+    print "HTTP/1.0 200 OK\r\n";
+    print "\r\n";
+    print compress("hello");
+}
+
+my $logger = FusionInventory::Logger->new({
+    config => { logger => 'Test' }
+});
 
 my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
     target => { deviceid =>  'foo' },
@@ -32,9 +43,10 @@ my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
     },
 });
 
+my ($network, $server, $response);
+
 # instanciations tests
 
-my $network;
 throws_ok {
     $network = FusionInventory::Agent::Network->new({});
 } qr/^no URL/,
@@ -54,18 +66,24 @@ throws_ok {
 } qr/^invalid protocol for URL/,
 'instanciation with an invalid protocol';
 
-my $logger = FusionInventory::Logger->new({
-    config => { logger => 'Test' }
-});
+throws_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url    => 'https://127.0.0.1:8080/public',
+        logger => $logger
+    });
+} qr/^neither certificate file or certificate directory given/,
+'instanciation with https URL without certificates';
+
+# no connection tests
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url    => "http://127.0.0.1:8080/public",
         logger => $logger
     });
-} 'instanciation';
+} 'http access to public area';
 
-my $response = $network->send({ message => $message });
+$response = $network->send({ message => $message });
 ok(!defined $response,  "no response from non-running server");
 
 is(
@@ -79,27 +97,21 @@ like(
     "error message content"
 );
 
-sub public {
-    my ($server, $cgi) = @_;
-    return response($server, $cgi);
-}
+# http connection tests
 
-sub private {
-    my ($server, $cgi) = @_;
-    return response($server, $cgi) if $server->authenticate();
-}
+$server = FusionInventory::Test::Server->new(
+    port => 8080,
+    user => 'test',
+    realm => 'test',
+    password => 'test',
+);
+$server->set_dispatch( {
+    '/public'   => \&public,
+    '/private' => \&private,
+} );
+$server->background();
 
-sub response {
-    my ($server, $cgi) = @_;
-
-    print "HTTP/1.0 200 OK\r\n";
-    print "\r\n";
-    print compress("hello");
-}
-
-my $pid = $server->background();
-
-my $response = $network->send({ message => $message });
+$response = $network->send({ message => $message });
 ok(defined $response, "correct response from server");
 
 isa_ok(
@@ -108,15 +120,14 @@ isa_ok(
     'response class'
 );
 
-# authenticated access
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url    => "http://127.0.0.1:8080/private",
         logger => $logger
     });
-} 'instanciation for restricted area';
+} 'http access to private area, no credentials';
 
-my $response = $network->send({ message => $message });
+$response = $network->send({ message => $message });
 ok(!defined $response, "denial response from server");
 
 is(
@@ -138,9 +149,9 @@ lives_ok {
         password => 'test',
         logger   => $logger,
     });
-} 'instanciation for restricted area with credentials';
+} 'http access to private area, with credentials';
 
-my $response = $network->send({ message => $message });
+$response = $network->send({ message => $message });
 ok(defined $response, "correct response from server");
 
 isa_ok(
@@ -151,13 +162,23 @@ isa_ok(
 
 $server->stop();
 
-throws_ok {
-    $network = FusionInventory::Agent::Network->new({
-        url    => 'https://127.0.0.1:8080/public',
-        logger => $logger
-    });
-} qr/^neither certificate file or certificate directory given/,
-'instanciation with https URL without certificates';
+# https connection tests
+
+$server = FusionInventory::Test::Server->new(
+    port     => 8080,
+    user     => 'test',
+    realm    => 'test',
+    password => 'test',
+    ssl      => 1,
+    crt      => 't/httpd/conf/ssl/crt/good.pem',
+    key      => 't/httpd/conf/ssl/key/good.pem',
+);
+$server->set_dispatch( {
+    '/public'   => \&public,
+    '/private' => \&private,
+} );
+
+$server->background();
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -165,24 +186,9 @@ lives_ok {
         logger         => $logger,
         'no-ssl-check' => 1,
     });
-} 'instanciation with https URL with check disabled';
+} 'https access to public area, check disabled';
 
-my $server_ssl = FusionInventory::Test::Server->new(
-    port => 8080,
-    user => 'test',
-    realm => 'test',
-    password => 'test',
-    ssl => 1,
-    crt => 't/httpd/conf/ssl/crt/good.pem',
-    key => 't/httpd/conf/ssl/key/good.pem',
-);
-$server_ssl->set_dispatch( {
-    '/public'   => \&public,
-    '/private' => \&private,
-} );
-my $pid_ssl = $server_ssl->background();
-
-my $response = $network->send({ message => $message });
+$response = $network->send({ message => $message });
 ok(defined $response, "correct response from server");
 
 isa_ok(
@@ -191,16 +197,15 @@ isa_ok(
     'response class'
 );
 
-# authenticated access
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url            => "https://127.0.0.1:8080/private",
         logger         => $logger,
         'no-ssl-check' => 1,
     });
-} 'instanciation for restricted area';
+} 'https access to private area, check disabled, no credentials';
 
-my $response = $network->send({ message => $message });
+$response = $network->send({ message => $message });
 ok(!defined $response, "denial response from server");
 
 is(
@@ -223,9 +228,9 @@ lives_ok {
         logger         => $logger,
         'no-ssl-check' => 1,
     });
-} 'instanciation for restricted area with credentials';
+} 'https access to private area, check disabled, with credentials';
 
-my $response = $network->send({ message => $message });
+$response = $network->send({ message => $message });
 ok(defined $response, "correct response from server");
 
 isa_ok(
@@ -234,7 +239,9 @@ isa_ok(
     'response class'
 );
 
-$server_ssl->stop();
+$server->stop();
+
+# compression tests
 
 my $data = "this is a test";
 is(
@@ -248,4 +255,3 @@ is(
     $data,
     'round-trip compression with Gzip'
 );
-
