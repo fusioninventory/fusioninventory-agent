@@ -16,9 +16,9 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $free;
-    my $filesystem;
+    my $mountpoint;
     my $total;
-    my $type;
+    my $filesystem;
     my $volumn;
 
 #Looking for mount points and disk space
@@ -34,22 +34,24 @@ sub doInventory {
         if (!(/^\/.*/) && !(/^swap.*/)){next};
 
         if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
-            $filesystem = $1;
+            $mountpoint = $1;
             $total = sprintf("%i",($2/1024));
             $free = sprintf("%i",($4/1024));
             $volumn = $6;
 
-            if($filesystem =~ /^\/dev\/\S*/){
-                chomp($type=`fstyp $filesystem`);
-                $type = '' if $type =~ /cannot stat/;
+            $filesystem="";
+            if ($mountpoint eq 'swap') {
+                $filesystem="swap";
+            } elsif($mountpoint =~ /^\/dev\/\S*/){
+                chomp($filesystem=`fstyp $mountpoint`);
+                $filesystem = '' if $filesystem =~ /cannot stat/;
             }
-            else {$type="";}
-#print "FILESYS ".$filesystem." FILETYP ".$type." TOTAL ".$total." FREE ".$free." VOLUMN ".$volumn."\n";
+#print "FILESYS ".$mountpoint." FILETYP ".$filesystem." TOTAL ".$total." FREE ".$free." VOLUMN ".$volumn."\n";
             $inventory->addDrive({
                     FREE => $free,
                     FILESYSTEM => $filesystem,
                     TOTAL => $total,
-                    TYPE => $type,
+                    TYPE => $mountpoint,
                     VOLUMN => $volumn
                 })
 
