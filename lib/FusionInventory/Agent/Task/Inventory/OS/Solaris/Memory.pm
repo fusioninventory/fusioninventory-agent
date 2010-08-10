@@ -172,7 +172,7 @@ sub doInventory {
                     $empty_slots++;
                     $inventory->addMemory({
                             CAPACITY => $capacity,
-                            DESCRIPTION => $description,
+#                            DESCRIPTION => $description,
                             CAPTION => $caption,
                             SPEED => $speed,
                             TYPE => $type,
@@ -196,7 +196,7 @@ sub doInventory {
                 $module_count++;
                 $inventory->addMemory({
                         CAPACITY => $capacity,
-                        DESCRIPTION => "DIMM",
+#                        DESCRIPTION => "DIMM",
                         CAPTION => "Ram slot ".$numslots,
                         SPEED => $speed,
                         TYPE => $type,
@@ -204,9 +204,9 @@ sub doInventory {
                     })
             }
             # this is the caption line
-            if(/^ID       ControllerID/) { $flag_mt = 1; $description = $1;}
+#            if(/^ID       ControllerID/) { $description = $1;}
             # if we find "---", we set flag = 1, and in next line, we start to look for information
-            if($flag_mt && /^-+/){ $flag = 1;}
+            if(/^-+/){ $flag = 1;}
         }
         # debug: show number of modules found and number of empty slots
     }
