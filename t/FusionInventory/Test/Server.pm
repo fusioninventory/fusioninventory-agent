@@ -5,6 +5,7 @@ use strict;
 use base qw(HTTP::Server::Simple::CGI HTTP::Server::Simple::Authen);
 
 use FusionInventory::Test::Auth;
+use IO::Socket::SSL;
 
 my $dispatch_table = {};
 
@@ -20,6 +21,9 @@ sub new {
     my $class = shift;
     my %params = (
         port => 8080,
+        ssl  => 0,
+        crt  => undef,
+        key  => undef,
         @_
     );
 
@@ -27,6 +31,9 @@ sub new {
 
     $self->{user}     = $params{user};
     $self->{password} = $params{password};
+    $self->{ssl}      = $params{ssl};
+    $self->{crt}      = $params{crt};
+    $self->{key}      = $params{key};
 
     return $self;
 }
@@ -91,6 +98,24 @@ sub authenticate {
 sub print_banner {
 }
 
+sub accept_hook {
+   my $self = shift;
+   return unless $self->{ssl};
+   my $fh   = $self->stdio_handle;
+
+   $self->SUPER::accept_hook(@_);
+
+   my $newfh =
+   IO::Socket::SSL->start_SSL( $fh,
+       SSL_server    => 1,
+       SSL_use_cert  => 1,
+       SSL_cert_file => $self->{crt},
+       SSL_key_file  => $self->{key}
+   ) or warn "problem setting up SSL socket: " . IO::Socket::SSL::errstr();
+
+   $self->stdio_handle($newfh) if $newfh;
+}
+
 =head1 METHODS UNIQUE TO TestServer
 
 =cut
@@ -129,8 +154,9 @@ sub root {
 }
 
 sub stop {
+    my $signal = ($^O eq 'MSWin32') ? 9 : 15;
     if ( $pid ) {
-        kill( 9, $pid ) unless $^S;
+        kill( $signal, $pid ) unless $^S;
         undef $pid;
     }
 
