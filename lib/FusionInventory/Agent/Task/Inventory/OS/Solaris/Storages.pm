@@ -35,7 +35,7 @@ sub doInventory {
 
     foreach(`iostat -En`){
 #print;
-        $flag_first_line = 0;	
+        $flag_first_line = 0;
         if(/^(\S+)\s+Soft/){
             $name = $1;
         }
@@ -56,7 +56,7 @@ sub doInventory {
         }
 
 
-        if(/^.*<(\d+)\s*bytes/){  			
+        if(/^.*<(\d+)\s*bytes/){
             $capacity = int($1/(1000*1000));
         }
         ## To be removed when FIRMWARE will be supported
