@@ -35,18 +35,37 @@ sub doInventory {
 
     foreach(`iostat -En`){
 #print;
-        if($flag_first_line){  		
-            if(/^.*<(\S+)\s*bytes/){  			
-                $capacity = $1;
-                $capacity = $capacity/(1024*1024);
-#print $capacity."\n";
-            }
-            ## To be removed when FIRMWARE will be supported
-            if ($rev) {
-                $description .= ' ' if $description;
-                $description .= "FW:$rev";
-            }
+        $flag_first_line = 0;
+        if(/^(\S+)\s+Soft/){
+            $name = $1;
+        }
+        if(/^.*Product:\s*(\S+)/){
+            $model = $1;
+        }
+        if(/^.*Serial No:\s*(\S+)/){
+            $sn = $1;
+            ## To be removed when SERIALNUMBER will be supported
+            $description = "S/N:$sn";
+            ##
+        }
+        if(/^.*Revision:\s*(\S+)/){
+            $rev = $1;
+        }
+        if(/^Vendor:\s*(\S+)/){
+            $manufacturer = $1;
+        }
 
+
+        if(/^.*<(\d+)\s*bytes/){
+            $capacity = int($1/(1000*1000));
+        }
+        ## To be removed when FIRMWARE will be supported
+        if ($rev) {
+            $description .= ' ' if $description;
+            $description .= "FW:$rev";
+        }
+
+        if (-l "/dev/rdsk/${name}s2") {
             $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
             if( $rdisk_path =~ /.*->.*scsi_vhci.*/ ) {
                 $type="MPxIO";
@@ -57,7 +76,11 @@ sub doInventory {
             elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
                 $type="SCSI";
             }
-            $inventory->addStorages({
+        }
+        use Data::Dumper;
+
+        if(/^Illegal/) { # Last ligne
+            $inventory->addStorage({
                     NAME => $name,
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,
@@ -76,26 +99,7 @@ sub doInventory {
             $sn='';
             $type='';
         }
-        $flag_first_line = 0;	
-        if(/^(\S+)\s+Soft/){
-            $name = $1;
-        }
-        if(/^.*Product:\s*(\S+)/){
-            $model = $1;
-        }
-        if(/^.*Serial No:\s*(\S+)/){
-            $sn = $1;
-            ## To be removed when SERIALNUMBER will be supported
-            $description = "S/N:$sn";
-            ##
-        }
-        if(/^.*Revision:\s*(\S+)/){
-            $rev = $1;
-        }
-        if(/^Vendor:\s*(\S+)/){
-            $manufacturer = $1;
-            $flag_first_line = 1;
-        }
+
 
     }
 }

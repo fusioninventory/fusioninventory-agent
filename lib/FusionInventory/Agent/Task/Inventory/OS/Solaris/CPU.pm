@@ -91,20 +91,33 @@ sub doInventory {
   if ($model  =~ /SUNW,Sun-Fire-T\d/) { $sun_class_cpu = 3; }
   if ($model  =~ /Solaris Containers/){ $sun_class_cpu = 6; }
 
-
-
   if($sun_class_cpu == 0)
   {
+
+    foreach (`memconf 2>&1`)
+    {
+      if(/^Sun Microsystems, Inc.*\((\d+)\s+X\s+(.+)\s+(\d+)MHz/i)
+      {
+        $cpu_slot = $1;
+        $cpu_type = $2;
+        $cpu_speed = $3;
+		$cpu_thread="0";
+
+      }
+    }
+
   # if our maschine is not in one of the sun classes from upside, we use psrinfo
 	# a generic methode
-    foreach (`psrinfo -v`)
-    {
-      if (/^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/)
-      {
-        $cpu_type = $1;
-        $cpu_speed = $2;
-        $cpu_slot++;
-      }
+    if (!$cpu_slot) {
+        foreach (`psrinfo -v`)
+        {
+            if (/^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/)
+            {
+                $cpu_type = $1;
+                $cpu_speed = $2;
+                $cpu_slot++;
+            }
+        }
     }
   }
 
@@ -119,7 +132,7 @@ sub doInventory {
         $cpu_slot = $1;
         $cpu_type = $2;
         $cpu_speed = $3;
-		$cpu_core=$1;
+		$cpu_core="1";
 		$cpu_thread="0";
       }
 
@@ -182,7 +195,7 @@ sub doInventory {
         $cpu_slot = $1;
         $cpu_type = $3 . " (" . $1 . " " . $2 . ")";
         $cpu_speed = $4;
-		$cpu_core=$1;
+		$cpu_core="1";
 		$cpu_thread=$2;
       }
     }
@@ -201,7 +214,7 @@ sub doInventory {
         $cpu_slot = $1;
         $cpu_type = $1 . " (" . $3 . "" . $4 . ")";
         $cpu_speed = $6;
-		$cpu_core=$1;
+		$cpu_core="1";
 		$cpu_thread=$3;
 
       }
@@ -255,19 +268,22 @@ sub doInventory {
   }
 
   # for debug only
-  print "cpu_slot: " . $cpu_slot . "\n";
-  print "cpu_type: " . $cpu_type . "\n";
-  print "cpu_speed: " . $cpu_speed . "\n";
-  print "cpu_core: " . $cpu_core . "\n";
-  print "cpu_thread: " . $cpu_thread . "\n";
+#  print "cpu_slot: " . $cpu_slot . "\n";
+#  print "cpu_type: " . $cpu_type . "\n";
+#  print "cpu_speed: " . $cpu_speed . "\n";
+#  print "cpu_core: " . $cpu_core . "\n";
+#  print "cpu_thread: " . $cpu_thread . "\n";
 
   $current->{MANUFACTURER} = "SPARC" ;
   $current->{SPEED} = $cpu_speed if $cpu_speed;
-  $current->{TYPE} = $cpu_type if $cpu_type;
-	$current->{NUMBER} = $cpu_slot if $cpu_slot;
+  $current->{NAME} = $cpu_type if $cpu_type;
 	$current->{CORE} = $cpu_core if $cpu_core;
 	$current->{THREAD} = $cpu_thread if $cpu_thread;
-  $inventory->addCPU($current);
+
+
+    while ($cpu_slot--) {
+        $inventory->addCPU($current);
+    }
 
 
 
