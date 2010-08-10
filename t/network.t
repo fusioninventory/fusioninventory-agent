@@ -11,9 +11,7 @@ use Test::More;
 use Test::Exception;
 use Compress::Zlib;
 
-plan tests => 20;
-
-$ENV{LANGUAGE} = 'C';
+plan tests => 29;
 
 my $server = FusionInventory::Test::Server->new(
     port => 8080,
@@ -39,19 +37,22 @@ my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
 my $network;
 throws_ok {
     $network = FusionInventory::Agent::Network->new({});
-} qr/^no URL/, 'creating a network object with no URL';
+} qr/^no URL/,
+'instanciation without URL';
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
         url => 'foo',
     });
-} qr/^no protocol for URL/, 'creating a network object with without protocol';
+} qr/^no protocol for URL/,
+'instanciation without protocol';
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
         url => 'xml://foo',
     });
-} qr/^invalid protocol for URL/, 'creating a network object with an invalid protocol';
+} qr/^invalid protocol for URL/,
+'instanciation with an invalid protocol';
 
 my $logger = FusionInventory::Logger->new({
     config => { logger => 'Test' }
@@ -62,19 +63,19 @@ lives_ok {
         url    => "http://127.0.0.1:8080/public",
         logger => $logger
     });
-} 'public area access, with all parameters';
+} 'instanciation';
 
 my $response = $network->send({ message => $message });
-ok(!defined $response,  "no response from server");
+ok(!defined $response,  "no response from non-running server");
 
 is(
     $logger->{backend}->[0]->{level},
     'error',
     "error message level"
 ); 
-is(
+like(
     $logger->{backend}->[0]->{message},
-    "Can't connect to 127.0.0.1:8080 (connect: Connection refused)",
+    qr/^Can't connect to 127.0.0.1:8080/,
     "error message content"
 );
 
@@ -99,11 +100,12 @@ sub response {
 my $pid = $server->background();
 
 my $response = $network->send({ message => $message });
-ok(defined $response, "response from server");
+ok(defined $response, "correct response from server");
+
 isa_ok(
     $response,
     'FusionInventory::Agent::XML::Response',
-    'response of expected class'
+    'response class'
 );
 
 # authenticated access
@@ -112,10 +114,10 @@ lives_ok {
         url    => "http://127.0.0.1:8080/private",
         logger => $logger
     });
-} 'private area access, without authentication parameters';
+} 'instanciation for restricted area';
 
 my $response = $network->send({ message => $message });
-ok(!defined $response, "no response from server");
+ok(!defined $response, "denial response from server");
 
 is(
     $logger->{backend}->[0]->{level},
@@ -136,31 +138,103 @@ lives_ok {
         password => 'test',
         logger   => $logger,
     });
-} 'private area access, with authentication parameters';
+} 'instanciation for restricted area with credentials';
 
 my $response = $network->send({ message => $message });
-ok(defined $response, "response from server");
+ok(defined $response, "correct response from server");
+
 isa_ok(
     $response,
     'FusionInventory::Agent::XML::Response',
-    'response of expected class'
+    'response class'
 );
 
-my $network_ssl;
+$server->stop();
+
 throws_ok {
-    $network_ssl = FusionInventory::Agent::Network->new({
-        url    => 'https://127.0.0.1:8080/private',
+    $network = FusionInventory::Agent::Network->new({
+        url    => 'https://127.0.0.1:8080/public',
         logger => $logger
     });
-} qr/^neither certificate file or certificate directory given/, 'https URI without checking parameters';
+} qr/^neither certificate file or certificate directory given/,
+'instanciation with https URL without certificates';
 
 lives_ok {
-    $network_ssl = FusionInventory::Agent::Network->new({
-        url    => 'https://127.0.0.1:8080/private',
-        logger => $logger,
+    $network = FusionInventory::Agent::Network->new({
+        url            => 'https://127.0.0.1:8080/public',
+        logger         => $logger,
         'no-ssl-check' => 1,
     });
-} 'https URI with no-ssl-check parameter';
+} 'instanciation with https URL with check disabled';
+
+my $server_ssl = FusionInventory::Test::Server->new(
+    port => 8080,
+    user => 'test',
+    realm => 'test',
+    password => 'test',
+    ssl => 1,
+    crt => 't/httpd/conf/ssl/crt/good.pem',
+    key => 't/httpd/conf/ssl/key/good.pem',
+);
+$server_ssl->set_dispatch( {
+    '/public'   => \&public,
+    '/private' => \&private,
+} );
+my $pid_ssl = $server_ssl->background();
+
+my $response = $network->send({ message => $message });
+ok(defined $response, "correct response from server");
+
+isa_ok(
+    $response,
+    'FusionInventory::Agent::XML::Response',
+    'response class'
+);
+
+# authenticated access
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => "https://127.0.0.1:8080/private",
+        logger         => $logger,
+        'no-ssl-check' => 1,
+    });
+} 'instanciation for restricted area';
+
+my $response = $network->send({ message => $message });
+ok(!defined $response, "denial response from server");
+
+is(
+    $logger->{backend}->[0]->{level},
+    'error',
+    "error message level"
+); 
+is(
+    $logger->{backend}->[0]->{message},
+    "Authentication required",
+    "error message content"
+); 
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => "https://127.0.0.1:8080/private",
+        realm          => 'Authorized area',
+        user           => 'test',
+        password       => 'test',
+        logger         => $logger,
+        'no-ssl-check' => 1,
+    });
+} 'instanciation for restricted area with credentials';
+
+my $response = $network->send({ message => $message });
+ok(defined $response, "correct response from server");
+
+isa_ok(
+    $response,
+    'FusionInventory::Agent::XML::Response',
+    'response class'
+);
+
+$server_ssl->stop();
 
 my $data = "this is a test";
 is(
@@ -175,5 +249,3 @@ is(
     'round-trip compression with Gzip'
 );
 
-my $signal = ($^O eq 'MSWin32') ? 9 : 15;
-my $nprocesses = kill $signal, $pid;
