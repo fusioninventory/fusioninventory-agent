@@ -255,11 +255,11 @@ sub doInventory {
   }
 
   # for debug only
-  print "cpu_slot: " . $cpu_slot . "\n";
-  print "cpu_type: " . $cpu_type . "\n";
-  print "cpu_speed: " . $cpu_speed . "\n";
-  print "cpu_core: " . $cpu_core . "\n";
-  print "cpu_thread: " . $cpu_thread . "\n";
+#  print "cpu_slot: " . $cpu_slot . "\n";
+#  print "cpu_type: " . $cpu_type . "\n";
+#  print "cpu_speed: " . $cpu_speed . "\n";
+#  print "cpu_core: " . $cpu_core . "\n";
+#  print "cpu_thread: " . $cpu_thread . "\n";
 
   $current->{MANUFACTURER} = "SPARC" ;
   $current->{SPEED} = $cpu_speed if $cpu_speed;
