@@ -297,6 +297,10 @@ sub main {
             }
 
             $target->setCurrentDeviceID ($self->{deviceid});
+        } else {
+            # If we do local inventory in daemon mode, we force the frequency to one
+            # inventory per hour
+            $target->setPrologFreq(1);
         }
 
         my $storage = FusionInventory::Agent::Storage->new({
