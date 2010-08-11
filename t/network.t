@@ -11,7 +11,7 @@ use Test::More;
 use Test::Exception;
 use Compress::Zlib;
 
-plan tests => 29;
+plan tests => 39;
 
 sub public {
     my ($server, $cgi) = @_;
@@ -68,7 +68,7 @@ throws_ok {
 
 throws_ok {
     $network = FusionInventory::Agent::Network->new({
-        url    => 'https://127.0.0.1:8080/public',
+        url    => 'https://localhost:8080/public',
         logger => $logger
     });
 } qr/^neither certificate file or certificate directory given/,
@@ -78,7 +78,7 @@ throws_ok {
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url    => "http://127.0.0.1:8080/public",
+        url    => "http://localhost:8080/public",
         logger => $logger
     });
 } 'http access to public area';
@@ -93,7 +93,7 @@ is(
 ); 
 like(
     $logger->{backend}->[0]->{message},
-    qr/^Can't connect to 127.0.0.1:8080/,
+    qr/^Can't connect to localhost:8080/,
     "error message content"
 );
 
@@ -122,7 +122,7 @@ isa_ok(
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url    => "http://127.0.0.1:8080/private",
+        url    => "http://localhost:8080/private",
         logger => $logger
     });
 } 'http access to private area, no credentials';
@@ -143,7 +143,7 @@ is(
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url      => "http://127.0.0.1:8080/private",
+        url      => "http://localhost:8080/private",
         realm    => 'Authorized area',
         user     => 'test',
         password => 'test',
@@ -182,7 +182,7 @@ $server->background();
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url            => 'https://127.0.0.1:8080/public',
+        url            => 'https://localhost:8080/public',
         logger         => $logger,
         'no-ssl-check' => 1,
     });
@@ -199,7 +199,7 @@ isa_ok(
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url            => "https://127.0.0.1:8080/private",
+        url            => "https://localhost:8080/private",
         logger         => $logger,
         'no-ssl-check' => 1,
     });
@@ -221,7 +221,7 @@ is(
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
-        url            => "https://127.0.0.1:8080/private",
+        url            => "https://localhost:8080/private",
         realm          => 'Authorized area',
         user           => 'test',
         password       => 'test',
@@ -229,6 +229,65 @@ lives_ok {
         'no-ssl-check' => 1,
     });
 } 'https access to private area, check disabled, with credentials';
+
+$response = $network->send({ message => $message });
+ok(defined $response, "correct response from server");
+
+isa_ok(
+    $response,
+    'FusionInventory::Agent::XML::Response',
+    'response class'
+);
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => 'https://localhost:8080/public',
+        logger         => $logger,
+        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+    });
+} 'https access to public area';
+
+$response = $network->send({ message => $message });
+ok(defined $response, "correct response from server");
+
+isa_ok(
+    $response,
+    'FusionInventory::Agent::XML::Response',
+    'response class'
+);
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => "https://localhost:8080/private",
+        logger         => $logger,
+        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+    });
+} 'https access to private area, no credentials';
+
+$response = $network->send({ message => $message });
+ok(!defined $response, "denial response from server");
+
+is(
+    $logger->{backend}->[0]->{level},
+    'error',
+    "error message level"
+); 
+is(
+    $logger->{backend}->[0]->{message},
+    "Authentication required",
+    "error message content"
+); 
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => "https://localhost:8080/private",
+        realm          => 'Authorized area',
+        user           => 'test',
+        password       => 'test',
+        logger         => $logger,
+        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+    });
+} 'https access to private area, with credentials';
 
 $response = $network->send({ message => $message });
 ok(defined $response, "correct response from server");
