@@ -83,7 +83,11 @@ sub createUA {
     my $uri      = URI->new($args->{URI});
     my $host     = $uri->host();
     my $protocol = $uri->scheme();
-    my $port     = $uri->port() || $protocol eq 'https' ? 443 : 80;
+    my $port     = $uri->port();
+
+   if (!$port) {
+       $port = $protocol eq 'https' ? 443 : 80;
+   }
 
     $logger->fault("Unsupported protocol $protocol")
         unless $protocol eq 'http' or $protocol eq 'https';
