@@ -30,6 +30,8 @@ Revision history for FusionInventory::Agent
        * Solaris: Various fixes (CPU, memory, storage)
        * Fix HTTP auth on non HTTPS server, _BIG_ thinks to Mario Gzuk and
          Michael Kolowicz
+       * Linux: Avoid a warning if /sys/class/net/%INTERFACE%/device/uevent doesn't
+         exist
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
