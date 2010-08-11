@@ -76,6 +76,7 @@ sub createUA {
 
     my $noProxy = $args->{noProxy};
     my $timeout = $args->{timeout};
+    my $forceRealm = $args->{forceRealm};
 
     my $config = $self->{config};
     my $logger = $self->{logger};
@@ -138,9 +139,10 @@ sub createUA {
         });
 
     # Auth
+    my $realm = $forceRealm || $self->{config}->{realm};
     $ua->credentials(
         "$host:$port",
-        $self->{config}->{realm},
+        $realm,
         $self->{config}->{user},
         $self->{config}->{password}
     );
@@ -192,6 +194,14 @@ sub send {
 
     my $ua = $self->createUA({URI => $self->{URI}});
     my $res = $ua->request($req);
+
+    if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{config}->{realm}) {
+        my $serverRealm = $1;
+        $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retry.");
+
+        $ua = $self->createUA({URI => $self->{URI}, forceRealm => $serverRealm});
+        $res = $ua->request($req);
+    }
 
     # Checking if connected
     if(!$res->is_success) {
