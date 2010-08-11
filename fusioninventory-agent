@@ -399,6 +399,9 @@ Use I<REALM> for an HTTP identification with the server. For example, the
 value can be 'Restricted Area'. You can find it in the login popup of your
 Internet browser.
 
+if no realm is passed and the auth fails, the agent will retry an authentification
+with the realm returned by the server.
+
 =item B<--rpc-ip>=I<IP>
 
 The IP address of the interface to use for the P2P exchange. The default
