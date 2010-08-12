@@ -1020,7 +1020,7 @@ sub PutSimpleOid {
       if ($element eq "serial") {
          $HashDataSNMP->{$element} =~ s/^\s+//;
          $HashDataSNMP->{$element} =~ s/\s+$//;
-         $HashDataSNMP->{$element} =~ s/(\.{2,})*//eg;
+         $HashDataSNMP->{$element} =~ s/(\.{2,})*//g;
       }
       if ($element eq "firmware1") {
          $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
@@ -1095,7 +1095,7 @@ sub HexaToString {
 
    if ($val =~ /0x/) {
       $val =~ s/0x//g;
-      $val =~ s/([a-fA-F0-9][a-fA-F0-9])/chr(hex($1))/eg;
+      $val =~ s/([a-fA-F0-9][a-fA-F0-9])/chr(hex($1))/g;
       $val = encode('UTF-8', $val);
       $val =~ s/\0//g;
       $val =~ s/([\x80-\xFF])//g;
