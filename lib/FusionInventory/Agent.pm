@@ -19,16 +19,12 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
-<<<<<<< HEAD
-our $VERSION = '2.1_rc2';
+our $VERSION = '2.1_rc3';
 our $VERSION_STRING =
 "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
 "FusionInventory-Agent_v$VERSION";
 
-=======
-our $VERSION = '2.1_rc3';
->>>>>>> master
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
@@ -50,10 +46,7 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {};
-<<<<<<< HEAD
-=======
-    my $config = $self->{config} = FusionInventory::Agent::Config::load();
->>>>>>> master
+    #my $config = $self->{config} = FusionInventory::Agent::Config::load();
 
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
@@ -110,8 +103,6 @@ use Win32::API;
 my $lpBuffer = "\x00" x 1024;
 my $N=1024;#pack ("c4", 160,0,0,0);
 
-<<<<<<< HEAD
-=======
 my $return = $GetComputerName->Call(3, $lpBuffer,$N);
 
 # GetComputerNameExW returns the string in UTF16, we have to change it
@@ -121,7 +112,6 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         $hostname = hostname();
     }
 
->>>>>>> master
     # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
             config => $config
@@ -144,7 +134,6 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         $self->{deviceid} = $myRootData->{deviceid}
     }
 
-<<<<<<< HEAD
     $self->{targetsList} = FusionInventory::Agent::TargetsList->new({
             logger => $logger,
             config => $config,
@@ -166,14 +155,6 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
         });
     my $jobFactory = $self->{jobFactory};
-=======
-    $self->{targets} = FusionInventory::Agent::Targets->new({
-        logger => $logger,
-        config => $config,
-        deviceid => $self->{deviceid}
-    });
-    my $targets = $self->{targets};
->>>>>>> master
 
     if ($config->{'scan-homedirs'}) {
         $logger->debug("User directory scanning enabled");
@@ -191,13 +172,8 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         }
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
-<<<<<<< HEAD
         if ($self->isAgentAlreadyRunning()) {
             $logger->fault("An agent is already runnnig, exiting...");
-=======
-        if (isAgentAlreadyRunning({ logger => $logger })) {
-            $logger->debug("An agent is already runnnig, exiting...");
->>>>>>> master
             exit 1;
         }
         # If we are in dev mode, we want to stay in the source directory to
@@ -206,17 +182,10 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
     }
     $self->{rpc} = FusionInventory::Agent::RPC->new({
-<<<<<<< HEAD
             logger      => $logger,
             config      => $config,
             targetsList => $targetsList,
         });
-=======
-        logger => $logger,
-        config => $config,
-        targets => $targets,
-    });
->>>>>>> master
 
     $logger->debug("FusionInventory Agent initialised");
 
@@ -250,7 +219,6 @@ sub main {
     my $jobEngine = $self->{jobEngine};
     $rpc->setCurrentStatus("waiting");
 
-<<<<<<< HEAD
 #####################################
 ################ MAIN ###############
 #####################################

@@ -108,9 +108,6 @@ sub createUA {
         }
 
     }
-    my $host   = $self->{URI}->host();
-    my $port   = $self->{URI}->port() ||
-                 $protocl eq 'https' ? 443 : 80;
 
     if ($self->{config}->{proxy}) {
 
@@ -274,7 +271,7 @@ sub send {
     $tmp->import();
     my $response = $tmp->new({
         accountinfo => $target->{accountinfo},
-        content => $content,
+        content => $response_content,
         logger => $logger,
         origmsg => $message,
         target => $target,

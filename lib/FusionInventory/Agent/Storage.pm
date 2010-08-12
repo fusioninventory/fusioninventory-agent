@@ -11,6 +11,8 @@ use English qw(-no_match_vars);
 use File::Glob ':glob';
 use Storable;
 
+use Config;
+
 my $lock :shared;
 
 =over 4
@@ -23,7 +25,11 @@ Create the object
 sub new {
     my ( $class, $params ) = @_;
 
-    my $self = {};
+    my $self = {
+        config => $params->{config},
+        target => $params->{target},
+        logger => $params->{logger}
+    };
 
     if ($Config{usethreads}) {
         eval {
@@ -34,15 +40,6 @@ sub new {
             print "[error]Failed to use threads!\n"; 
         }
     }
-
-    my $config = $self->{config} = $params->{config};
-    my $target = $self->{target} = $params->{target};
-    $self->{logger} = $params->{logger};
-
-    my $self = {
-        config => $params->{config},
-        target => $params->{target}
-    };
 
     bless $self, $class;
 }
