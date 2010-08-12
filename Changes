@@ -31,6 +31,7 @@ Revision history for FusionInventory::Agent
        * Win32: Push the default monitor in <MONITORS />
          http://forge.fusioninventory.org/issues/252
          http://forge.fusioninventory.org/issues/269
+       * Win32: Use the GUID as software name is NAME is empty
        * Solaris: Various fixes (CPU, memory, storage)
        * Fix HTTP auth on non HTTPS server, _BIG_ thinks to Mario Gzuk and
          Michael Kolowicz
