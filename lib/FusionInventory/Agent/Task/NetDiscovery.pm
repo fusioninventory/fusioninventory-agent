@@ -864,7 +864,7 @@ sub discovery_ip_threaded {
                      }
                      $serial =~ s/^\s+//;
                      $serial =~ s/\s+$//;
-                     $serial =~ s/(\.{2,})*//eg;
+                     $serial =~ s/(\.{2,})*//g;
                      $datadevice->{SERIAL} = $serial;
                      $datadevice->{MODELSNMP} = $model;
                      $datadevice->{AUTHSNMP} = $key;
