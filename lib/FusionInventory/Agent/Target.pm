@@ -94,6 +94,7 @@ sub new {
             start => sub {
                 print "Time up\n";
                 $_[KERNEL]->post( 'jobEngine', 'start', $self );
+                $_[KERNEL]->alarm( start => $self->getNextRunDate(), 'server1' );
             }
         });
 
