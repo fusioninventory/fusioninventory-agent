@@ -9,6 +9,9 @@ use Carp;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 
+
+use POE;
+
 # resetNextRunDate() can also be call from another thread (RPC)
 my $lock :shared;
 
@@ -81,6 +84,22 @@ sub new {
             ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
         }
     }
+
+    print "Target will be contacted: ".localtime($self->getNextRunDate())."\n";
+    POE::Session->create(
+        inline_states => {
+            _start => sub {
+                $_[KERNEL]->alarm( start => 1 || $self->getNextRunDate(), 'server1' );
+            },
+            start => sub {
+                print "Time up\n";
+                $_[KERNEL]->post( 'jobEngine', 'start', $self );
+            }
+        });
+
+
+
+
 
     return $self;
 }

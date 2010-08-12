@@ -19,6 +19,8 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
+use POE;
+
 our $VERSION = '2.1_rc3';
 our $VERSION_STRING =
 "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
@@ -219,6 +221,13 @@ sub main {
     my $jobEngine = $self->{jobEngine};
     $rpc->setCurrentStatus("waiting");
 
+    foreach my $target ($targetsList->{targets}) {
+        print "toto\n";
+    }
+
+
+    POE::Kernel->run();
+    exit;
 #####################################
 ################ MAIN ###############
 #####################################

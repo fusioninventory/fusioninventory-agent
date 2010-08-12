@@ -11,6 +11,8 @@ use Data::Dumper; # to pass mod parameters
 
 use English;
 
+use POE;
+
 sub new {
     my (undef, $params) = @_;
 
@@ -25,6 +27,24 @@ sub new {
     $self->{runningTask} = undef;
 
     bless $self;
+
+print "Creation de JobEngine\n";
+
+    POE::Session->create(
+        inline_states => {
+            _start => sub {
+                $_[KERNEL]->alias_set("jobEngine");
+            },
+#            start => $start,
+            start => sub {
+                my $target = $_[ARG0];
+                print "ok toto!\n";
+
+            }
+        });
+
+
+
 }
 
 sub start {
