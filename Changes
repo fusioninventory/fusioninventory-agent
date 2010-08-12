@@ -33,8 +33,6 @@ Revision history for FusionInventory::Agent
          Michael Kolowicz
        * Linux: Avoid a warning if /sys/class/net/%INTERFACE%/device/uevent doesn't
          exist
-       * If we do local inventory in daemon mode, we force the frequency to one
-         inventory per hour
        * Basic HTTP Auth: if the realm parameter is missing, the agent reuse the one
          from the server
        * Initialize PROLOG_FREQ to 1h for every target
