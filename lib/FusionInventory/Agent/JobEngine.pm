@@ -11,7 +11,7 @@ use Data::Dumper; # to pass mod parameters
 
 use English;
 
-use POE;
+use POE qw( Wheel::Run );
 
 sub new {
     my (undef, $params) = @_;
@@ -127,55 +127,6 @@ sub processTarget {
                 target => $target,
             });
         print "Ok\n";
-        #$rpc->setCurrentStatus("running task $module");
-        #
-    }
-    #$rpc->setCurrentStatus("waiting");
-#=======
-#                my $package = "FusionInventory::Agent::Task::$module";
-#                if (!$package->require()) {
-#                    $logger->info("Module $package is not installed.");
-#                    next;
-#                }
-    #
-#                $rpc->setCurrentStatus("running task $module");
-    #
-#                my $task = $package->new({
-#                        config => $config,
-#                        logger => $logger,
-#                        target => $target,
-#                        storage => $storage,
-#                        prologresp => $prologresp
-#                    });
-    #
-#                if (
-#                    $config->{daemon}           ||
-#                    $config->{'daemon-no-fork'} ||
-#                    $config->{winService}
-#                ) {
-#                    # daemon mode: run each task in a childprocess
-#                    if (my $pid = fork()) {
-#                        # parent
-#                        waitpid($pid, 0);
-#                    } else {
-#                        # child
-#                        die "fork failed: $ERRNO" unless defined $pid;
-    #
-#                        $logger->debug(
-#                            "[task] executing $module in process $PID"
-#                        );
-#                        $task->main();
-#                        $logger->debug("[task] end of $module");
-#                    }
-#                } else {
-#                    # standalone mode: run each task directly
-#                    $logger->debug("[task] executing $module");
-#                    $task->main();
-#                    $logger->debug("[task] end of $module");
-#                }
-#            }
-#            $rpc->setCurrentStatus("waiting");
-#>>>>>>> guillomovitch/master
 
     if (!$config->{debug}) {
         # In debug mode, I do not clean the FusionInventory-Agent.dump
