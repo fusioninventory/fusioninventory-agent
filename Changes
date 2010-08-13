@@ -40,6 +40,8 @@ Revision history for FusionInventory::Agent
        * Basic HTTP Auth: if the realm parameter is missing, the agent reuse the one
          from the server
        * Initialize PROLOG_FREQ to 1h for every target
+       * Don't fail is RPC module can't be loaded. threads and HTTP::Daemon are optional
+         and it may be normal.
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
