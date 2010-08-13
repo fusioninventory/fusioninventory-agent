@@ -946,7 +946,10 @@ sub verifySerial {
                      up  => 1,
                   });
          }
+
          if (defined($serial)) {
+            $serial =~ s/\n//g;
+            $serial =~ s/\r//g;
             $serialreturn = $serial;
          }
          my $typereturn  = $num->{TYPE};

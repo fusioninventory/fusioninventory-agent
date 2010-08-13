@@ -4742,7 +4742,7 @@ sub loadDico {
       <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
    </DEVICE>
    <DEVICE>
-      <SYSDESCR><![CDATA[5150SE]]></SYSDESCR>
+      <SYSDESCR><![CDATA[Wyse 5150SE]]></SYSDESCR>
       <MANUFACTURER>0</MANUFACTURER>
       <TYPE>1</TYPE>
       <MODELSNMP/>
