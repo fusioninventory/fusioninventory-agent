@@ -186,15 +186,15 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
     # threads and HTTP::Daemon are optional and so this module
     # may fail to load.
-    if (eval "use FusionInventory::Agent::RPC;1;") {
-        $self->{rpc} = FusionInventory::Agent::RPC->new({
-                logger => $logger,
-                config => $config,
-                targets => $targets,
-            });
-    } else {
-        $logger->debug("Failed to load RPC module: $EVAL_ERROR");
-    }
+#    if (eval "use FusionInventory::Agent::RPC;1;") {
+#        $self->{rpc} = FusionInventory::Agent::RPC->new({
+#                logger => $logger,
+#                config => $config,
+#                targets => $targets,
+#            });
+#    } else {
+#        $logger->debug("Failed to load RPC module: $EVAL_ERROR");
+#    }
 
     $logger->debug("FusionInventory Agent initialised");
 
