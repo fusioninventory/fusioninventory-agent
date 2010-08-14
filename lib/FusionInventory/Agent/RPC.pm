@@ -160,6 +160,8 @@ sub handler {
         if ($path =~ m{^/now(?:/(\S+))?$}) {
             my $sentToken = $1;
             my $currentToken = $self->getToken();
+            my $code;
+            my $msg;
             $logger->debug("[RPC]'now' catched");
             if (
                 ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
@@ -168,11 +170,30 @@ sub handler {
             ) {
                 $self->getToken('forceNewToken');
                 $targetsList->resetNextRunDate();
-                $c->send_status_line(200)
+                $code = 200;
+                $msg = "Done."
             } else {
                 $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
-                $c->send_status_line(403)
+                $code = 403;
+                $msg = "Access denied. rpc-trust-localhost is off or the token is invalide."
             }
+            my $r = HTTP::Response->new(
+                $code,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/html'),
+                "<html><head><title>FusionInventory-Agent</title></head><body>$msg <br /><a href='/'>Back</a></body><html>"
+            );
+            $c->send_response($r);
+
+        } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/status$/) {
+            #$c->send_status_line(200, $status)
+            my $r = HTTP::Response->new(
+                200,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/plain'),
+                "status: ".$status
+            );
+            $c->send_response($r);
             last SWITCH;
         }
 

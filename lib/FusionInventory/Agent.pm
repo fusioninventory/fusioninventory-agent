@@ -183,11 +183,18 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         chdir $cwd if $config->{devlib};
 
     }
-    $self->{rpc} = FusionInventory::Agent::RPC->new({
-            logger      => $logger,
-            config      => $config,
-            targetsList => $targetsList,
-        });
+
+    # threads and HTTP::Daemon are optional and so this module
+    # may fail to load.
+    if (eval "use FusionInventory::Agent::RPC;1;") {
+        $self->{rpc} = FusionInventory::Agent::RPC->new({
+                logger => $logger,
+                config => $config,
+                targets => $targets,
+            });
+    } else {
+        $logger->debug("Failed to load RPC module: $EVAL_ERROR");
+    }
 
     $logger->debug("FusionInventory Agent initialised");
 
@@ -219,7 +226,7 @@ sub main {
     my $targetsList = $self->{targetsList};
     my $rpc = $self->{rpc};
     my $jobEngine = $self->{jobEngine};
-    $rpc->setCurrentStatus("waiting");
+    $rpc && $rpc->setCurrentStatus("waiting");
 
     foreach my $target ($targetsList->{targets}) {
         print "toto\n";
