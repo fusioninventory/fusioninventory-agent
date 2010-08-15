@@ -9,6 +9,7 @@ use Carp;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 
+use FusionInventory::Agent::JobEngine;
 
 use POE;
 
@@ -93,8 +94,15 @@ sub new {
             },
             start => sub {
                 print "Time up\n";
-                $_[KERNEL]->post( 'jobEngine', 'start', $self );
-                $_[KERNEL]->alarm( start => $self->getNextRunDate(), 'server1' );
+#                $_[KERNEL]->post( 'jobEngine', 'start', $self );
+#                $_[KERNEL]->alarm( start => $self->getNextRunDate(), 'server1' );
+                my $jobEngine = FusionInventory::Agent::JobEngine->new({
+                    config => $config,
+                    logger => $logger,
+                    target => $self,
+                });
+                $jobEngine->run();
+                print "engine Started!\n";
             }
         });
 

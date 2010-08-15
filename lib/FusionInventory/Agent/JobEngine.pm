@@ -20,26 +20,37 @@ sub new {
 
     $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
+    $self->{target} = $params->{target};
 
     $self->{jobs} = [];
 
     # We can't have more than on task at the same time
     $self->{runningTask} = undef;
 
-    bless $self;
+    print "JobEngine Created object!\n";
 
-    print "Creation de JobEngine\n";
+    bless $self;
+}
+
+
+sub run {
+    my ($self) = @_;
 
     POE::Session->create(
         inline_states => {
             _start => sub {
                 $_[KERNEL]->alias_set("jobEngine");
+                $_[KERNEL]->yield('prolog');
             },
-            start           => sub {
+            prolog  => sub {
 
+                print "Prolog!\n";
+                $_[KERNEL]->yield('launch');
+            },
+            launch  => sub {
                 my $logger = $self->{logger};
                 my $config = $self->{config};
-                my $target = $_[ARG0];
+                my $target = $self->{target};
 
                 my $module = "Inventory";
 
@@ -78,6 +89,10 @@ sub new {
             got_child_signal => \&on_child_signal,
         }
     );
+
+
+
+
 }
 
 #
