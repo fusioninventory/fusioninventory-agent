@@ -1,5 +1,5 @@
 Revision history for FusionInventory::Agent
-2.1
+2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL
        * enhance documentation with optional and mandatory dependencies
        * drop README file lost in the middle of perl modules
