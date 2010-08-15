@@ -20,6 +20,7 @@ use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
 use POE;
+use POE::Component::IKC::Server;
 
 our $VERSION = '2.1_rc3';
 our $VERSION_STRING =
@@ -197,6 +198,15 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 #    }
 
     $logger->debug("FusionInventory Agent initialised");
+
+
+
+    POE::Component::IKC::Server->spawn(
+        port=>3030, name=>'Server'
+    ); # more options are available
+    POE::Kernel->call(IKC => publish => 'config', ["get"]);
+
+
 
     bless $self, $class;
 

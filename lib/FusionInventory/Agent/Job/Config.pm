@@ -3,8 +3,20 @@ package FusionInventory::Agent::Job::Config;
 use strict;
 use warnings;
 
+use POE::Component::IKC::ClientLite;
+my $poe;
+
 sub new {
     my $self = {};
+
+
+    my $name   = "Client$$";
+    $poe = create_ikc_client(
+        port    => 3030,
+        name    => $name,
+        timeout => 10,
+    );
+    die $POE::Component::IKC::ClientLite::error unless $poe;
 
     tie %$self, __PACKAGE__;
 
@@ -13,10 +25,11 @@ sub new {
 
 sub FETCH {
     my($self, $key) = @_;
-   
-    warn "Code me\n";
 
-    return "aaa";
+#    warn "key $key requested\n";
+
+    return $poe->post_respond('config/get', $key) or die $poe->error;
+
 }
 sub TIEHASH  {
     my $storage = bless {}, shift;

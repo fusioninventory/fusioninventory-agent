@@ -6,6 +6,8 @@ use warnings;
 use Getopt::Long;
 use English qw(-no_match_vars);
 
+use POE;
+
 my $basedir = $OSNAME eq 'MSWin32' ?
     $ENV{APPDATA}.'/fusioninventory-agent' : '';
 
@@ -78,6 +80,23 @@ sub new {
     $self->loadCallerParams($params) if $params;
 
     $self->checkContent();
+
+    POE::Session->create(
+        inline_states => {
+            _start        => sub {
+                $_[KERNEL]->alias_set('config');
+            },
+            get => sub {
+                my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
+                my $p=$args->[0];
+                my $rsvp = $args->[1];
+#print "p: $p\n";
+#print "v: ".$self->{$p}."\n";
+                $kernel->call(IKC => post => $rsvp, $self->{$p});
+
+            },
+        }
+    );
 
     return $self;
 }
