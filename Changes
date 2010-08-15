@@ -1,4 +1,14 @@
-Revision history for Ocsinventory::Agent::Task::NetDiscovery
+Revision history for FusionInventory::Agent::Task::NetDiscovery
+
+1.2
+       * Convert printer name from hexa to string
+       * Fix bad characters in hexatostring
+       * Fix uninitialized values
+       * Fix division by zero and prevent thread crashing
+       * Add catchin ctrl-c and send finish query to server
+       * Fix get IP of printers
+       * Delete many dot in some serial number
+       * Add LLDP support for Procurve switches
 
 1.1
        * Add a test script: t/use.t
