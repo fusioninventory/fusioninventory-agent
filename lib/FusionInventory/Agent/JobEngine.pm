@@ -28,7 +28,7 @@ sub new {
 
     bless $self;
 
-print "Creation de JobEngine\n";
+    print "Creation de JobEngine\n";
 
     POE::Session->create(
         inline_states => {
@@ -40,8 +40,8 @@ print "Creation de JobEngine\n";
                 $self->processTarget({ target => $_[ARG0] })
             }
 
-            },
-        );
+        },
+    );
 
 
 
@@ -128,18 +128,18 @@ sub processTarget {
             });
         print "Ok\n";
 
-    if (!$config->{debug}) {
-        # In debug mode, I do not clean the FusionInventory-Agent.dump
-        # so I can replay the sub task directly
-        $storage->remove();
-    }
-    $target->setNextRunDate();
+        if (!$config->{debug}) {
+            # In debug mode, I do not clean the FusionInventory-Agent.dump
+            # so I can replay the sub task directly
+            $storage->remove();
+        }
+        $target->setNextRunDate();
 
-}
+    }
 }
 
 sub startTask {
-use Data::Dumper;
+    use Data::Dumper;
 #print Dumper(\@_);
 
 }
