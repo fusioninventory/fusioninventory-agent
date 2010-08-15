@@ -2,6 +2,7 @@ Revision history for FusionInventory::Agent
 
 2.1.1  
        * Turn daemon mode off in the base configuration file
+       * Fix some POD warnings
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL

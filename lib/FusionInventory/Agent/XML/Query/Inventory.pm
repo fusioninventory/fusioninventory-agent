@@ -2078,6 +2078,8 @@ ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
 
 =head2 PROCESSES
 
+=over 4
+
 =item USER
 
 The process owner
@@ -2105,6 +2107,8 @@ When the process'd been started in the YYYY/MM/DD HH:MM format
 =item CMD
 
 The command.
+
+=back
 
 =head2 ANTIVIRUS
 
