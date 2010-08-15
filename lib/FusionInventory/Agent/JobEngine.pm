@@ -136,6 +136,7 @@ sub processTarget {
     $target->setNextRunDate();
 
 }
+}
 
 sub startTask {
 use Data::Dumper;
