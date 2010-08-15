@@ -1,4 +1,15 @@
-Revision history for Ocsinventory::Agent::Task::NetDiscovery
+Revision history for FusionInventory::Agent::Task::NetDiscovery
+
+1.2
+       * Manage dico in storage, so can be get new dico from server
+       * Add each manufacturer specification in a different package
+       * Add Dell switch detection
+       * Fix detection of kyocera
+       * Fix ricoh discovery file
+       * Fix problem detection on Wyse computers (5150 get serial number)
+       * Fix detection of many devices
+       * Add specifications of epson printers
+       * Delete many dots in some serial numbers
 
        * Silently exit if started in local mode
 

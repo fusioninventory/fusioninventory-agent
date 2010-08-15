@@ -1,6 +1,6 @@
 DESCRIPTION 
  This module scans your networks to get informations from devices with SNMP protocol:
-  -networking devices discovery within an IP range
+  - networking devices discovery within an IP range
   - network switche, printer and router analyse
   - relation between computer / printer / switch port
   - identify unknown MAC addresses
