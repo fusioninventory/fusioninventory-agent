@@ -31,7 +31,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Query::SimpleMessage a Generic message container
+FusionInventory::Agent::XML::Query::SimpleMessage - a Generic message container
 
 =head1 DESCRIPTION
 
