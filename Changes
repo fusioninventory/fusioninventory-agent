@@ -4,6 +4,8 @@ Revision history for FusionInventory::Agent
        * Turn daemon mode off in the base configuration file
        * Fix some POD warnings
        * POD: document the common server URL for OCS and FusInv for GLPI
+       * Add resources/hal/rh4-kvm
+       * RH4, avoid false STORAGES (partition instead of disk)
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL
