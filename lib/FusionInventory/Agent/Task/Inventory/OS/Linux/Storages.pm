@@ -220,7 +220,7 @@ sub parseLshal {
         next unless defined $device;
 
         if ($line =~ /^$/) {
-            push(@$devices, $device);
+            push(@$devices, $device) unless $device->{ISVOLUME};
             undef $device;
         } elsif ($line =~ /^\s+ storage.serial \s = \s '([^']+)'/x) {
             $device->{SERIALNUMBER} = $1;
@@ -238,7 +238,9 @@ sub parseLshal {
         } elsif ($line =~ /^\s+ storage.size \s = \s (\S+)/x) {
             my $value = $1;
             $device->{DISKSIZE} = int($value/(1024*1024) + 0.5);
-        }
+        } elsif ($line =~ /block.is_volume\s*=\s*true/i) {
+           $device->{ISVOLUME} = 1;
+       }
     }
     close $handle;
 
