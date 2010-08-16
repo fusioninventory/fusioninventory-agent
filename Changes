@@ -8,6 +8,7 @@ Revision history for FusionInventory::Agent
        * RH4, avoid false STORAGES (partition instead of disk)
        * Proc::Daemon close all the file descriptors including the file logger.
          We reopen it if needed
+       * Print rpc-trust-localhost value in --help
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL
