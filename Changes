@@ -9,6 +9,8 @@ Revision history for FusionInventory::Agent
        * Proc::Daemon close all the file descriptors including the file logger.
          We reopen it if needed
        * Print rpc-trust-localhost value in --help
+       * RPC, cosmetic adjustement in debug message format
+         http://forge.fusioninventory.org/issues/290
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL

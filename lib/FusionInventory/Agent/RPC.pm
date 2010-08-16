@@ -93,7 +93,7 @@ sub handler {
     }
 
 
-    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
+    $logger->debug("[RPC] $clientIp request ".$r->uri->path);
     if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
         if ($clientIp !~ /^127\./) {
             $c->send_error(404);
@@ -157,7 +157,7 @@ sub handler {
         my $currentToken = $self->getToken();
         my $code;
         my $msg;
-        $logger->debug("[RPC]'now' catched");
+        $logger->debug("[RPC] 'now' catched");
         if (
             ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                 or
@@ -198,7 +198,7 @@ sub handler {
         /^\/(logo.png|site.css|favicon.ico)$/) {
         $c->send_file_response($htmlDir."/$1");
     } else {
-        $logger->debug("[RPC]Err, 500");
+        $logger->debug("[RPC] Err, 500");
         $c->send_error(500)
     }
     $c->close;
