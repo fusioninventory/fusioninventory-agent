@@ -430,6 +430,14 @@ You can declare more than one server if you use the ',' delimiter.
 
     % --server=http://servername/ocsinventory,server2
 
+In general, OCS Inventory server URL have this format:
+
+    http://servername/ocsinventory
+
+and FusionInventory for GLPI this one:
+
+    http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
+
 B<--server> is ignored if B<--local> is in use.
 
 =item B<--share-dir>
