@@ -91,8 +91,8 @@ sub run {
 
                 my $child = $_[HEAP]{children_by_wid}{$wheel_id};
 
-                if ($stderr_line =~ s/(\w+):\s(.*?)\n//) {
-                    $logger->$1("task) ".$2);
+                if ($stderr_line =~ s/(\w+):\s(.*)//) {
+                    $logger->$1("t) ".$2);
                 } else {
                     $logger->error($stderr_line);
                 }
