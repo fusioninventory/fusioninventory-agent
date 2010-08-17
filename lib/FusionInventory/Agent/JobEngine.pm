@@ -84,7 +84,19 @@ sub run {
 
             },
             got_child_stdout => \&on_child_stdout,
-            got_child_stderr => \&on_child_stderr,
+            got_child_stderr => sub {
+                my ($stderr_line, $wheel_id) = @_[ARG0, ARG1];
+
+                my $logger = $self->{logger};
+
+                my $child = $_[HEAP]{children_by_wid}{$wheel_id};
+
+                if ($stderr_line =~ s/(\w+):\s(.*?)\n//) {
+                    $logger->$1("task) ".$2);
+                } else {
+                    $logger->error($stderr_line);
+                }
+            },
             got_child_close  => \&on_child_close,
             got_child_signal => \&on_child_signal,
         }
@@ -212,13 +224,6 @@ sub on_child_stdout {
     my ($stdout_line, $wheel_id) = @_[ARG0, ARG1];
     my $child = $_[HEAP]{children_by_wid}{$wheel_id};
     print "pid ", $child->PID, " STDOUT: $stdout_line\n";
-}
-
-# Wheel event, including the wheel's ID.
-sub on_child_stderr {
-    my ($stderr_line, $wheel_id) = @_[ARG0, ARG1];
-    my $child = $_[HEAP]{children_by_wid}{$wheel_id};
-    print "pid ", $child->PID, " STDERR: $stderr_line\n";
 }
 
 # Wheel event, including the wheel's ID.
