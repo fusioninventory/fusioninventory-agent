@@ -11,6 +11,7 @@ Revision history for FusionInventory::Agent
        * Print rpc-trust-localhost value in --help
        * RPC, cosmetic adjustement in debug message format
          http://forge.fusioninventory.org/issues/290
+       * Linux/Storage: avoid breakaging if there is no disk in HAL
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL
