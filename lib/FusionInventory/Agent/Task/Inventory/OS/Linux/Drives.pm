@@ -136,7 +136,8 @@ sub parseLshal {
         return;
     }
 
-   my ($devices, $device);
+   my $devices = [];
+   my $device = {};
 
     while (my $line = <$handle>) {
         chomp $line;

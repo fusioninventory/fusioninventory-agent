@@ -303,7 +303,7 @@ Extra options:
     --logfile-maxsize=X max size of the log file in MB ($config->{'logfile-maxsize'})
     --logger            Logger you want to use, can be Stderr,File or Syslog ($config->{logger})
     --rpc-ip=IP         ip of the interface to use for peer to peer exchange
-    --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory
+    --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory ($config->{'rpc-trust-localhost'})
     --scan-homedirs     permit to scan home user directories ($config->{'scan-homedirs'})
     --share-dir=DIR     path to the directory where are stored the shared files ($config->{'share-dir'})
     --stdout            do not write or post the inventory but print it on STDOUT
