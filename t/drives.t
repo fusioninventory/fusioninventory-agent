@@ -57,7 +57,22 @@ my %hal_tests = (
             LABEL      => 'DellUtility',
             FILESYSTEM => 'vfat'
         }
-    ]
+    ],
+    'rh4-kvm' => [
+          {
+            'VOLUMN' => '/dev/hda1',
+            'TOTAL' => 102,
+            'LABEL' => '/boot',
+            'SERIAL' => 'a946b73c-79a1-4498-a5f4-ae241426954f',
+            'FILESYSTEM' => 'ext3'
+          },
+          {
+            'VOLUMN' => '/dev/hda2',
+            'TOTAL' => 10135,
+            'FILESYSTEM' => 'LVM2_member'
+          },
+        ]
+
 );
 
 plan tests => scalar keys %hal_tests;
