@@ -149,7 +149,7 @@ sub parseLshal {
         next unless defined $device;
 
         if ($line =~ /^$/) {
-            push(@$devices, $device);
+            push(@$devices, $device) if keys %$device;
             undef $device;
         } elsif ($line =~ /^\s+ block.device \s = \s '([^']+)'/x) {
             $device->{VOLUMN} = $1;
