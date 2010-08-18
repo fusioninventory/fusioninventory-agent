@@ -210,7 +210,7 @@ sub check_file_content {
     return 0 unless -r $file;
 
     my $handle;
-    if (!open my $handle, '<', $file) {
+    if (!open $handle, '<', $file) {
         warn "Can't open file $file: $ERRNO";
         return;
     }
