@@ -15,7 +15,8 @@ Revision history for FusionInventory::Agent
        * Linux/Storage: avoid breakaging if there is no disk in HAL
        * FusionInventory::Agent::SNMP clean up to avoid warning at run time
          (Guillaume Rousse)
-       * Linux: parseLshal(): do not return empty hash ref anymore
+       * Linux: parseLshal(): do not return empty hash ref anymore, thanks
+         Guillaume Garson
        * Fix bypassing of virtualised system detection
        * Fix error message for non-present zoneadmin command
 
