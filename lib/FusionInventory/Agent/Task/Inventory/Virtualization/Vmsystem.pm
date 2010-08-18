@@ -57,15 +57,16 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     # return immediatly if vm type has already been found
-    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
+    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
 
     my $dmesg = '/bin/dmesg | head -n 750';
 
     my $status;
     my $found = 0;
+
     # Solaris zones
     my @solaris_zones;
-    @solaris_zones = `/usr/sbin/zoneadm list`;
+    @solaris_zones = `/usr/sbin/zoneadm list 2>/dev/null`;
     @solaris_zones = grep (!/global/,@solaris_zones);
     if(@solaris_zones){
         $status = "SolarisZone";

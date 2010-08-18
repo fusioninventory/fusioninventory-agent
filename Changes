@@ -16,7 +16,8 @@ Revision history for FusionInventory::Agent
        * FusionInventory::Agent::SNMP clean up to avoid warning at run time
          (Guillaume Rousse)
        * Linux: parseLshal(): do not return empty hash ref anymore
-
+       * Fix bypassing of virtualised system detection
+       * Fix error message for non-present zoneadmin command
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL
