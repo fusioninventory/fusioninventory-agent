@@ -29,7 +29,6 @@ my %udev_tests = (
         TYPE         => 'disk',
         SCSI_CHID    => '0',
         SCSI_COID    => '0',
-        DISKSIZE     => '',
         SCSI_LUN     => '0',
         DESCRIPTION  => 'ata',
         MODEL        => 'SAMSUNG_SSD_PM800_TM_128GB'

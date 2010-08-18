@@ -19,6 +19,7 @@ Revision history for FusionInventory::Agent
          Guillaume Garson
        * Fix bypassing of virtualised system detection
        * Fix error message for non-present zoneadmin command
+       * Do not call getCapacity() in parseUdev(), thanks Michał Panasiewicz
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL

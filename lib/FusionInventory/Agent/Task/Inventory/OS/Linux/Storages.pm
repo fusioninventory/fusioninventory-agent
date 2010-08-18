@@ -226,8 +226,8 @@ sub doInventory {
             $device->{MANUFACTURER} = getManufacturer($device->{MODEL});
         }
 
-        if ($device->{CAPACITY} && $device->{CAPACITY} =~ /^cd/) {
-            $device->{CAPACITY} = getCapacity($device->{NAME});
+        if (!$device->{DISKSIZE} && $device->{TYPE} !~ /^cd/) {
+            $device->{DISKSIZE} = getCapacity($device->{NAME});
         }
 
         $inventory->addStorage($device);
@@ -272,9 +272,6 @@ sub parseUdev {
     if (!$result->{SERIALNUMBER} || $result->{SERIALNUMBER} =~ /^\s+$/) {
         $result->{SERIALNUMBER} = $serial
     }
-
-    $result->{DISKSIZE} = getCapacity($device)
-    if $result->{TYPE} ne 'cd';
 
     $result->{NAME} = $device;
 
