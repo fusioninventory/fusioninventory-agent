@@ -15,7 +15,7 @@ Revision history for FusionInventory::Agent
        * Linux/Storage: avoid breakaging if there is no disk in HAL
        * FusionInventory::Agent::SNMP clean up to avoid warning at run time
          (Guillaume Rousse)
-       * Linux/Drive: parseLshal(): do not return empty hash ref anymore
+       * Linux: parseLshal(): do not return empty hash ref anymore
 
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
