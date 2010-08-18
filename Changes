@@ -1,9 +1,61 @@
 Revision history for FusionInventory::Agent
-2.1
-	* cleanup Makefile.PL
-	* enhance documentation with optional and mandatory dependencies
-	* drop README file lost in the middle of perl modules
-	* turns most call to carp() and die() into logger usage
+
+2.1.1  
+       * Turn daemon mode off in the base configuration file
+       * Fix some POD warnings
+       * POD: document the common server URL for OCS and FusInv for GLPI
+       * Add resources/hal/rh4-kvm
+       * RH4, avoid false STORAGES (partition instead of disk)
+       * Proc::Daemon close all the file descriptors including the file logger.
+         We reopen it if needed
+       * Print rpc-trust-localhost value in --help
+       * RPC, cosmetic adjustement in debug message format
+         http://forge.fusioninventory.org/issues/290
+       * Linux/Storage: avoid breakaging if there is no disk in HAL
+       * FusionInventory::Agent::SNMP clean up to avoid warning at run time
+         (Guillaume Rousse)
+
+
+2.1      Sun, 15 Aug 2010 19:32:43 +0200
+       * cleanup Makefile.PL
+       * enhance documentation with optional and mandatory dependencies
+       * drop README file lost in the middle of perl modules
+       * Fix some warnings on Windows
+       * agent.cfg, fix a syntax error
+       * turns most call to carp() and die() into logger usage
+       * Linux: storage, hdparm gives more reliable serial number
+       * XML, storage, rename STORAGES/SERIAL to STORAGES/SERIALNUMBER, thanks
+         azman
+       * Win32: uses WMI to collect Environment vars to get correct UTF-8 data
+       * Win32: ensure the hostname is in UTF-8
+       * Win32: fix: load Win32::OLE in UTF-8
+       * Win32: get the hostname from WMI in unicode
+       * Win32: use the standard codepage to access the registry
+       * Big thank you to Denis Linvinus who gave RDP access to a Russian
+         Windows
+       * Win32: don't put BIOS ROM in STORAGES, thanks EmpereurZorg
+       * Win32: add Modem.pm
+       * Fix: Virtuozzo containers memory unit (Jan JUNGMANN)
+       * Win32: Ignore network it the network interface has no PNPDeviceID
+         http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34 
+       * HP-UX: fix --no-software support
+       * Win32: retrieve the Windows key on Windows 64 bit,
+         http://forge.fusioninventory.org/issues/267
+       * Win32: Push the default monitor in <MONITORS />
+         http://forge.fusioninventory.org/issues/252
+         http://forge.fusioninventory.org/issues/269
+       * Win32: Use the GUID as software name is NAME is empty
+       * Solaris: Various fixes (CPU, memory, storage)
+       * Fix HTTP auth on non HTTPS server, _BIG_ thinks to Mario Gzuk and
+         Michael Kolowicz
+       * Linux: Avoid a warning if /sys/class/net/%INTERFACE%/device/uevent doesn't
+         exist
+       * Basic HTTP Auth: if the realm parameter is missing, the agent reuse the one
+         from the server
+       * Initialize PROLOG_FREQ to 1h for every target
+       * Don't fail is RPC module can't be loaded. threads and HTTP::Daemon are optional
+         and it may be normal.
+       * web interface: do not open a new windows when an inventory is forced
 
 2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB

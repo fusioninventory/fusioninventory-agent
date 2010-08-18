@@ -46,6 +46,8 @@ my @chassisType = (
             my $tmp = $objWMIService->ExecQuery('SELECT * FROM Win32_SystemEnclosure');
             my ($systemEnclosure) = (in $tmp);
 
+            return unless $systemEnclosure;
+
             my $chassisTypeId = $systemEnclosure->ChassisTypes->[0];
             $inventory->setBios({
                 TYPE => $chassisType[$chassisTypeId]

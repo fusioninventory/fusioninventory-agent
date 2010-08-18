@@ -39,7 +39,7 @@ sub doInventory {
         $mem = pop(@params);
         chomp $mem;
           if ($mem =~ m/(\d+)\"$/) {
-          $mem = $1;
+          $mem = $1/1024/1024;
         }
         else {
           # non slm config, different calculation

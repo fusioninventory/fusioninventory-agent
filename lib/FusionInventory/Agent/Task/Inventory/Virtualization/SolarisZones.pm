@@ -21,7 +21,7 @@ sub check_solaris_valid_release{
         warn "Can't open /etc/release: $ERRNO";
         return;
     }
-    @rlines = <handle>;
+    @rlines = <$handle>;
     close $handle;
 
     @rlines = grep(/Solaris/,@rlines);

@@ -14,7 +14,6 @@ FusionInventory::Agent::Network - the Network abstraction layer
 =head1 DESCRIPTION
 
 This module is the abstraction layer for network interaction. It uses LWP.
-Not like LWP, it can vlaide SSL certificat with Net::SSLGlue::LWP.
 
 =cut
 
@@ -77,6 +76,7 @@ sub createUA {
 
     my $noProxy = $args->{noProxy};
     my $timeout = $args->{timeout};
+    my $forceRealm = $args->{forceRealm};
 
     my $config = $self->{config};
     my $logger = $self->{logger};
@@ -84,7 +84,11 @@ sub createUA {
     my $uri      = URI->new($args->{URI});
     my $host     = $uri->host();
     my $protocol = $uri->scheme();
-    my $port     = $uri->port() || $protocol eq 'https' ? 443 : 80;
+    my $port     = $uri->port();
+
+   if (!$port) {
+       $port = $protocol eq 'https' ? 443 : 80;
+   }
 
     $logger->fault("Unsupported protocol $protocol")
         unless $protocol eq 'http' or $protocol eq 'https';
@@ -135,9 +139,10 @@ sub createUA {
         });
 
     # Auth
+    my $realm = $forceRealm || $self->{config}->{realm};
     $ua->credentials(
         "$host:$port",
-        $self->{config}->{realm},
+        $realm,
         $self->{config}->{user},
         $self->{config}->{password}
     );
@@ -189,6 +194,14 @@ sub send {
 
     my $ua = $self->createUA({URI => $self->{URI}});
     my $res = $ua->request($req);
+
+    if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{config}->{realm}) {
+        my $serverRealm = $1;
+        $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retry.");
+
+        $ua = $self->createUA({URI => $self->{URI}, forceRealm => $serverRealm});
+        $res = $ua->request($req);
+    }
 
     # Checking if connected
     if(!$res->is_success) {

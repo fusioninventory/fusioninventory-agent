@@ -11,7 +11,7 @@ use File::Path;
 use XML::Simple;
 use Sys::Hostname;
 
-our $VERSION = '2.1_rc3';
+our $VERSION = '2.1';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
@@ -43,7 +43,6 @@ use FusionInventory::Agent::Task;
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::Targets;
 
 sub new {
@@ -92,7 +91,28 @@ sub new {
             "(".$config->{'share-dir'}.")");
     }
 
-    my $hostname = hostname();
+    #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
+    my $hostname;
+  
+
+    if ($OSNAME =~ /^MSWin/) {
+        eval '
+use Encode;
+use Win32::API;
+
+	my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
+"N");
+my $lpBuffer = "\x00" x 1024;
+my $N=1024;#pack ("c4", 160,0,0,0);
+
+my $return = $GetComputerName->Call(3, $lpBuffer,$N);
+
+# GetComputerNameExW returns the string in UTF16, we have to change it
+# to UTF8
+$hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
+    } else {
+        $hostname = hostname();
+    }
 
     # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
@@ -150,11 +170,18 @@ sub new {
         chdir $cwd if $config->{devlib};
 
     }
-    $self->{rpc} = FusionInventory::Agent::RPC->new({
-        logger => $logger,
-        config => $config,
-        targets => $targets,
-    });
+
+    # threads and HTTP::Daemon are optional and so this module
+    # may fail to load.
+    if (eval "use FusionInventory::Agent::RPC;1;") {
+        $self->{rpc} = FusionInventory::Agent::RPC->new({
+                logger => $logger,
+                config => $config,
+                targets => $targets,
+            });
+    } else {
+        $logger->debug("Failed to load RPC module: $EVAL_ERROR");
+    }
 
     $logger->debug("FusionInventory Agent initialised");
 
@@ -187,7 +214,7 @@ sub main {
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $rpc = $self->{rpc};
-    $rpc->setCurrentStatus("waiting");
+    $rpc && $rpc->setCurrentStatus("waiting");
 
     while (my $target = $targets->getNext()) {
 
@@ -255,11 +282,11 @@ sub main {
                 target => $target,
             });
 
-            $rpc->setCurrentStatus("running task $module");
+            $rpc && $rpc->setCurrentStatus("running task $module");
             next unless $task;
             $task->run();
         }
-        $rpc->setCurrentStatus("waiting");
+        $rpc && $rpc->setCurrentStatus("waiting");
 
         if (!$config->{debug}) {
             # In debug mode, I do not clean the FusionInventory-Agent.dump

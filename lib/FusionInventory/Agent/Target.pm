@@ -185,7 +185,14 @@ sub setNextRunDate {
 
     lock($lock);
 
-    my $max = $serverdelay ? $serverdelay * 3600 : $config->{delaytime};
+    my $max;
+    if ($serverdelay) {
+        $max = $serverdelay * 3600;
+    } else {
+        $max = $config->{delaytime};
+        # If the PROLOG_FREQ has never been initialized, we force it at 1h
+        $self->setPrologFreq(1);
+    }
     $max = 1 unless $max;
 
     my $time = time + ($max/2) + int rand($max/2);

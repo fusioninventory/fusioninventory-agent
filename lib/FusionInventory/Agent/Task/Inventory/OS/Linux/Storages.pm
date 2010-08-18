@@ -189,29 +189,27 @@ sub doInventory {
     # get serial & firmware numbers from hdparm, if available
     if (correctHdparmAvailable()) {
         foreach my $device (@devices) {
-            if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
-                my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
-                if (!open my $handle, '-|', $command) {
-                    warn "Can't run $command: $ERRNO";
-                } else {
-                    while (my $line = <$handle>) {
-                        if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
-                            my $value = $1;
-                            $value =~ s/\s+$//;
-                            $device->{SERIALNUMBER} = $value
-                                if !$device->{SERIALNUMBER};
-                            next;
-                        }
-                        if ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
-                            my $value = $1;
-                            $value =~ s/\s+$//;
-                            $device->{FIRMWARE} = $value
-                                if !$device->{FIRMWARE};
-                            next;
-                        }
+            my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
+            if (!open my $handle, '-|', $command) {
+                warn "Can't run $command: $ERRNO";
+            } else {
+                while (my $line = <$handle>) {
+                    if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
+                        my $value = $1;
+                        $value =~ s/\s+$//;
+                        $device->{SERIALNUMBER} = $value
+                        if !$device->{SERIALNUMBER};
+                        next;
                     }
-                    close $handle;
+                    if ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
+                        my $value = $1;
+                        $value =~ s/\s+$//;
+                        $device->{FIRMWARE} = $value
+                        if !$device->{FIRMWARE};
+                        next;
+                    }
                 }
+                close $handle;
             }
         }
     }
@@ -305,7 +303,7 @@ sub parseLshal {
         next unless defined $device;
 
         if ($line =~ /^$/) {
-            push(@$devices, $device);
+            push(@$devices, $device) unless $device->{ISVOLUME};
             undef $device;
         } elsif ($line =~ /^\s+ storage.serial \s = \s '([^']+)'/x) {
             $device->{SERIALNUMBER} = $1;
@@ -323,7 +321,9 @@ sub parseLshal {
         } elsif ($line =~ /^\s+ storage.size \s = \s (\S+)/x) {
             my $value = $1;
             $device->{DISKSIZE} = int($value/(1024*1024) + 0.5);
-        }
+        } elsif ($line =~ /block.is_volume\s*=\s*true/i) {
+           $device->{ISVOLUME} = 1;
+       }
     }
     close $handle;
 

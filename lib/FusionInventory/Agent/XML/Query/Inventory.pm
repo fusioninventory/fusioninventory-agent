@@ -151,7 +151,7 @@ sub _encode {
         | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
         |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
         )*\z/x) {
-        $logger->debug("Non-UTF8 string: $string");
+#        $logger->debug("Non-UTF8 string: $string");
         return encode("UTF-8", $string);
     } else {
         return $string;
@@ -294,8 +294,8 @@ sub addStorage {
     /;
 
     my $values = $args;
-    if (!$values->{serialnumber}) {
-        $values->{serialnumber} = $values->{serial}
+    if (!$values->{SERIALNUMBER}) {
+        $values->{SERIALNUMBER} = $values->{SERIAL}
     }
 
     $self->_addEntry({
@@ -603,7 +603,7 @@ sub setHardware {
                 $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
             }
             if ($key eq 'USERID' && !$nonDeprecated) {
-                $logger->debug("USERID shouldn't be set directly anymore. Please use addCPU() method instead.");
+                $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
             }
 
             my $string = $self->_encode({ string => $args->{$key} });
@@ -2078,6 +2078,8 @@ ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
 
 =head2 PROCESSES
 
+=over 4
+
 =item USER
 
 The process owner
@@ -2105,6 +2107,8 @@ When the process'd been started in the YYYY/MM/DD HH:MM format
 =item CMD
 
 The command.
+
+=back
 
 =head2 ANTIVIRUS
 

@@ -92,14 +92,20 @@ sub doInventory {
         my $serial = $dmidecodeCpu[$cpuId]->{serial} || $Properties->{ProcessorId};
         my $speed = $dmidecodeCpu[$cpuId]->{speed} || $Properties->{MaxClockSpeed};
 
-        $manufacturer =~ s/Genuine//;
-        $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-        $manufacturer =~ s/CyrixInstead/Cyrix/;
-        $manufacturer=~ s/CentaurHauls/VIA/;
-        $serial =~ s/\s//g;
+        if ($manufacturer) {
+            $manufacturer =~ s/Genuine//;
+            $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $manufacturer =~ s/CyrixInstead/Cyrix/;
+            $manufacturer=~ s/CentaurHauls/VIA/;
+        }
+        if ($serial) {
+            $serial =~ s/\s//g;
+        }
 
-        $name =~ s/^\s+//;
-        $name =~ s/\s+$//;
+        if ($name) {
+            $name =~ s/^\s+//;
+            $name =~ s/\s+$//;
+        }
 
         $vmsystem = "QEMU"if $name =~ /QEMU/i;
 

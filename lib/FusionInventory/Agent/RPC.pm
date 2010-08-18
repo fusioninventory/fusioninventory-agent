@@ -93,7 +93,7 @@ sub handler {
     }
 
 
-    $logger->debug("[RPC ]$clientIp request ".$r->uri->path);
+    $logger->debug("[RPC] $clientIp request ".$r->uri->path);
     if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
         if ($clientIp !~ /^127\./) {
             $c->send_error(404);
@@ -155,7 +155,9 @@ sub handler {
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
         my $sentToken = $2;
         my $currentToken = $self->getToken();
-        $logger->debug("[RPC]'now' catched");
+        my $code;
+        my $msg;
+        $logger->debug("[RPC] 'now' catched");
         if (
             ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                 or
@@ -163,14 +165,25 @@ sub handler {
         ) {
             $self->getToken('forceNewToken');
             $targets->resetNextRunDate();
-            $c->send_status_line(200)
+            $code = 200;
+            $msg = "Done."
 
         } else {
 
             $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
-            $c->send_status_line(403)
+            $code = 403;
+            $msg = "Access denied. rpc-trust-localhost is off or the token is invalide."
 
         }
+
+        my $r = HTTP::Response->new(
+            $code,
+            'OK',
+            HTTP::Headers->new('Content-Type' => 'text/html'),
+            "<html><head><title>FusionInventory-Agent</title></head><body>$msg <br /><a href='/'>Back</a></body><html>"
+        );
+        $c->send_response($r);
+
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/status$/) {
         #$c->send_status_line(200, $status)
         my $r = HTTP::Response->new(
@@ -185,7 +198,7 @@ sub handler {
         /^\/(logo.png|site.css|favicon.ico)$/) {
         $c->send_file_response($htmlDir."/$1");
     } else {
-        $logger->debug("[RPC]Err, 500");
+        $logger->debug("[RPC] Err, 500");
         $c->send_error(500)
     }
     $c->close;

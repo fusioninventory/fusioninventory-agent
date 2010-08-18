@@ -102,18 +102,17 @@ sub doInventory {
                 $ifData{TYPE} = "Wifi";
             }
 
-            if (open my $handle, '<', "/sys/class/net/$ifData{DESCRIPTION}/device/uevent") {
-                while (<$handle>) {
-                    $ifData{DRIVER} = $1 if /^DRIVER=(\S+)/;
-                    $ifData{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
+            my $ueventFile = "/sys/class/net/$ifData{DESCRIPTION}/device/uevent";
+            if (-f $ueventFile) {
+                if (open my $handle, '<', $ueventFile) {
+                    while (<$handle>) {
+                        $ifData{DRIVER} = $1 if /^DRIVER=(\S+)/;
+                        $ifData{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
+                    }
+                    close $handle;
+                } else {
+                    $logger->debug("Can't open $ueventFile: ".$ERRNO);
                 }
-                close $handle;
-            } else {
-                $logger->debug("Can't open ".
-                    "/sys/class/net/".
-                    $ifData{DESCRIPTION}.
-                    "/device/uevent: ".
-                    $ERRNO);
             }
 
             # Handle channel bonding interfaces
