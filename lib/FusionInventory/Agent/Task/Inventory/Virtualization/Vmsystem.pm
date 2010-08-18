@@ -192,8 +192,8 @@ sub doInventory {
                 }
             }
             close $handle;
-        } else {
-            warn "Can't open /proc/scsi/scsi: $ERRNO";
+#        } else {
+#            warn "Can't open /proc/scsi/scsi: $ERRNO";
         }
     }
 
