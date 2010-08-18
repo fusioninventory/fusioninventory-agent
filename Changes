@@ -4,7 +4,8 @@ Revision history for FusionInventory::Agent
        * Turn daemon mode off in the base configuration file
        * Fix some POD warnings
        * POD: document the common server URL for OCS and FusInv for GLPI
-       * Add resources/hal/rh4-kvm
+       * Add resources/hal/rh4-kvm and test it with t/drives.t
+         adjustment needed
        * RH4, avoid false STORAGES (partition instead of disk)
        * Proc::Daemon close all the file descriptors including the file logger.
          We reopen it if needed
@@ -14,6 +15,7 @@ Revision history for FusionInventory::Agent
        * Linux/Storage: avoid breakaging if there is no disk in HAL
        * FusionInventory::Agent::SNMP clean up to avoid warning at run time
          (Guillaume Rousse)
+       * Linux/Drive: parseLshal(): do not return empty hash ref anymore
 
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
