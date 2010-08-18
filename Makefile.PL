@@ -22,6 +22,7 @@ if ($OSNAME eq 'darwin') {
 
 # optional dependencies
 recommends 'Compress::Zlib'   => undef;
+recommends 'Crypt::SSLeay'    => undef;
 recommends 'File::ShareDir'   => undef;
 recommends 'HTTP::Daemon'     => undef;
 recommends 'Net::CUPS'        => 0.60;

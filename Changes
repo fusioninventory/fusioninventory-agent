@@ -2,14 +2,27 @@ Revision history for FusionInventory::Agent
 
        * XML::Simple → XML::TreePP transition
        * HPVM: XML::TreePP support (Amir PAKDEL)
-2.1.1  
+
+2.1.1    Wed, 18 Aug 2010 21:04:30 +0200
        * Turn daemon mode off in the base configuration file
        * Fix some POD warnings
        * POD: document the common server URL for OCS and FusInv for GLPI
-       * Add resources/hal/rh4-kvm
+       * Add resources/hal/rh4-kvm and test it with t/drives.t
+         adjustment needed
        * RH4, avoid false STORAGES (partition instead of disk)
        * Proc::Daemon close all the file descriptors including the file logger.
          We reopen it if needed
+       * Print rpc-trust-localhost value in --help
+       * RPC, cosmetic adjustement in debug message format
+         http://forge.fusioninventory.org/issues/290
+       * Linux/Storage: avoid breakaging if there is no disk in HAL
+       * FusionInventory::Agent::SNMP clean up to avoid warning at run time
+         (Guillaume Rousse)
+       * Linux: parseLshal(): do not return empty hash ref anymore, thanks
+         Guillaume Garson
+       * Fix bypassing of virtualised system detection
+       * Fix error message for non-present zoneadmin command
+       * Do not call getCapacity() in parseUdev(), thanks Michał Panasiewicz
 
 2.1      Sun, 15 Aug 2010 19:32:43 +0200
        * cleanup Makefile.PL

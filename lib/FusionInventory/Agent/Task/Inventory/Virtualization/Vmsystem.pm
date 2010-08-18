@@ -59,9 +59,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     # return immediatly if vm type has already been found
-    return if
-        $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} &&
-        $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
+    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
 
     my $dmesg = '/bin/dmesg | head -n 750';
 
@@ -70,10 +68,10 @@ sub doInventory {
 
     # Solaris zones
     if (can_run('/usr/sbin/zoneadm')) {
-        my @solaris_zones =
-            grep { !/global/ }
-            `/usr/sbin/zoneadm list`;
-        if (@solaris_zones) {
+        my @solaris_zones;
+        @solaris_zones = `/usr/sbin/zoneadm list 2>/dev/null`;
+        @solaris_zones = grep (!/global/,@solaris_zones);
+        if(@solaris_zones){
             $status = "SolarisZone";
             $found = 1;
         }
@@ -198,8 +196,8 @@ sub doInventory {
                 }
             }
             close $handle;
-        } else {
-            warn "Can't open /proc/scsi/scsi: $ERRNO";
+#        } else {
+#            warn "Can't open /proc/scsi/scsi: $ERRNO";
         }
     }
 

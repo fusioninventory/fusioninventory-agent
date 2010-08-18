@@ -85,6 +85,7 @@ sub handler {
     my $path = $r->uri()->path();
     $logger->debug("[RPC]$clientIp request $path");
 
+<<<<<<< HEAD
     if ($r->method() ne 'GET') {
         $logger->debug("[RPC]Err, 500");
         $c->send_error(500);
@@ -92,6 +93,14 @@ sub handler {
         undef($c);
         return;
     }
+=======
+    $logger->debug("[RPC] $clientIp request ".$r->uri->path);
+    if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
+        if ($clientIp !~ /^127\./) {
+            $c->send_error(404);
+            return;
+        }
+>>>>>>> master
 
     SWITCH: {
         if ($path eq '/') {
@@ -196,6 +205,31 @@ sub handler {
             $c->send_response($r);
             last SWITCH;
         }
+<<<<<<< HEAD
+=======
+        $c->send_error(404)
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
+        my $sentToken = $2;
+        my $currentToken = $self->getToken();
+        my $code;
+        my $msg;
+        $logger->debug("[RPC] 'now' catched");
+        if (
+            ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
+                or
+            ($sentToken eq $currentToken)
+        ) {
+            $self->getToken('forceNewToken');
+            $targets->resetNextRunDate();
+            $code = 200;
+            $msg = "Done."
+
+        } else {
+
+            $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
+            $code = 403;
+            $msg = "Access denied. rpc-trust-localhost is off or the token is invalide."
+>>>>>>> master
 
         if ($path eq '/status') {
             #$c->send_status_line(200, $status)
@@ -214,7 +248,15 @@ sub handler {
             last SWITCH;
         }
 
+<<<<<<< HEAD
         $logger->debug("[RPC]Err, 500");
+=======
+    } elsif ($r->method eq 'GET' and $r->uri->path =~
+        /^\/(logo.png|site.css|favicon.ico)$/) {
+        $c->send_file_response($htmlDir."/$1");
+    } else {
+        $logger->debug("[RPC] Err, 500");
+>>>>>>> master
         $c->send_error(500)
     }
 
