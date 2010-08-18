@@ -57,7 +57,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     # return immediatly if vm type has already been found
-    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
+    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
 
     my $dmesg = '/bin/dmesg | head -n 750';
 
