@@ -23,7 +23,7 @@ sub new {
         $params->{version} eq '1'  ? 'snmpv1'  :
         $params->{version} eq '2c' ? 'snmpv2c' :
         $params->{version} eq '3'  ? 'snmpv3'  :
-                                     undef     ;
+                                     'snmpv1'  ;
 
     if ($version eq 'snmpv3') {
         $self->{session} = Net::SNMP->session(
