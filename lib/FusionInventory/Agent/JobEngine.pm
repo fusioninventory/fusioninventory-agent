@@ -239,9 +239,6 @@ sub on_child_close {
 
     print "pid ", $child->PID, " closed all pipes.\n";
     delete $_[HEAP]{children_by_pid}{$child->PID};
-
-
-
 }
 
 sub on_child_signal {

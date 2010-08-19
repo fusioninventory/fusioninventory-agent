@@ -241,7 +241,7 @@ sub main {
         print "toto\n";
     }
 
-#    POE::Kernel->stat_show_profile();
+
     POE::Kernel->run();
     exit;
 #####################################
