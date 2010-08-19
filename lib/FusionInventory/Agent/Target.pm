@@ -86,27 +86,9 @@ sub new {
         }
     }
 
-    print "Target will be contacted: ".localtime($self->getNextRunDate())."\n";
-    POE::Session->create(
-        inline_states => {
-            _start => sub {
-                $_[KERNEL]->alarm( start => 1 || $self->getNextRunDate(), 'server1' );
-            },
-            start => sub {
-                print "Time up\n";
-#                $_[KERNEL]->post( 'jobEngine', 'start', $self );
-#                $_[KERNEL]->alarm( start => $self->getNextRunDate(), 'server1' );
-                $jobEngine->run({
-                    config => $config,
-                    logger => $logger,
-                    target => $self,
-                });
-                print "engine Started!\n";
-            }
-        });
 
 
-
+    $self->createNextAlarm();
 
 
     return $self;
@@ -287,5 +269,36 @@ sub setCurrentDeviceID {
     $self->{myData}{currentDeviceid} = $deviceid;
     $storage->save({ data => $self->{myData} });
 }
+
+sub createNextAlarm {
+    my ($self) = @_;
+
+    my $jobEngine = $self->{jobEngine};
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    print "Target will be contacted: ".localtime($self->getNextRunDate())."\n";
+    POE::Session->create(
+        inline_states => {
+            _start => sub {
+                $_[KERNEL]->alarm( start => 1 || $self->getNextRunDate(), 'server1' );
+            },
+            start => sub {
+                print "Time up\n";
+#                $_[KERNEL]->post( 'jobEngine', 'start', $self );
+#                $_[KERNEL]->alarm( start => $self->getNextRunDate(), 'server1' );
+                $jobEngine->run({
+                    config => $config,
+                    logger => $logger,
+                    target => $self,
+                });
+                print "engine Started!\n";
+            }
+        });
+
+}
+
+
+
 
 1;

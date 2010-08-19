@@ -48,6 +48,7 @@ sub run {
                 $_[KERNEL]->alias_set("jobEngine");
                 $_[KERNEL]->yield('prolog');
                 $_[HEAP]->{modulesToRun} = [ 'Inventory', 'Ping', 'WakeOnLan' ];
+                $_[HEAP]->{target} = $target;
 
 
                 if ($target->{type} eq 'server') {
@@ -82,11 +83,14 @@ sub run {
             launchNextTask  => sub {
                 my $logger = $self->{logger};
                 my $config = $self->{config};
-                my $target = $self->{target};
+                my $target = $_[HEAP]->{target};
 
+                if(!@{$_[HEAP]->{modulesToRun}}) {
+                    $target->createNextAlarm();
+                    return;
+                }
 
                 my $module = shift @{$_[HEAP]->{modulesToRun}};
-                return unless $module;
 
                 print "Launching module $module\n";
 
