@@ -58,6 +58,8 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
+    $self->open() unless stat($handle);
+
     $self->watchSize();
 
     print $handle "[".localtime()."][$level] $message\n";
