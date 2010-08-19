@@ -157,7 +157,6 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
             config => $config,
 
         });
-    my $jobFactory = $self->{jobFactory};
 
     if ($config->{'scan-homedirs'}) {
         $logger->debug("User directory scanning enabled");
