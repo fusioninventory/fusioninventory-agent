@@ -14,7 +14,7 @@ use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::TargetsList;
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::RPC;
+#use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
@@ -41,7 +41,7 @@ use FusionInventory::Agent::Network;
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::RPC;
+#use FusionInventory::Agent::RPC;
 use FusionInventory::Agent::TargetsList;
 use FusionInventory::Agent::JobEngine;
 
