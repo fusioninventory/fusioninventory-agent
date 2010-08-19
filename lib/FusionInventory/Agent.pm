@@ -137,10 +137,18 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         $self->{deviceid} = $myRootData->{deviceid}
     }
 
+    $self->{jobEngine} = new FusionInventory::Agent::JobEngine({
+
+            logger => $logger,
+            config => $config,
+
+        });
+
     $self->{targetsList} = FusionInventory::Agent::TargetsList->new({
             logger => $logger,
             config => $config,
-            deviceid => $self->{deviceid}
+            deviceid => $self->{deviceid},
+            jobEngine => $self->{jobEngine}
         });
     my $targetsList = $self->{targetsList};
 
@@ -150,13 +158,6 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         );
         exit 1;
     }
-
-    $self->{jobEngine} = new FusionInventory::Agent::JobEngine({
-
-            logger => $logger,
-            config => $config,
-
-        });
 
     if ($config->{'scan-homedirs'}) {
         $logger->debug("User directory scanning enabled");

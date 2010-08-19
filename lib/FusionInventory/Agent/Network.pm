@@ -10,6 +10,8 @@ use LWP::UserAgent;
 use UNIVERSAL::require;
 use URI;
 
+use FusionInventory::Compress;
+
 =head1 NAME
 
 FusionInventory::Agent::Network - the Network abstraction layer

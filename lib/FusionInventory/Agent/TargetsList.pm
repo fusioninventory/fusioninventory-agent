@@ -12,6 +12,7 @@ sub new {
         config   => $params->{config},
         logger   => $params->{logger},
         deviceid => $params->{deviceid},
+        jobEngine => $params->{jobEngine},
         targets  => []
     };
 
@@ -28,6 +29,12 @@ sub init {
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $deviceid = $self->{deviceid};
+    my $jobEngine = $self->{jobEngine};
+
+use Data::Dumper;
+#print Dumper($jobEngine);
+    $logger->fault("no jobEngine") unless $jobEngine;
+    $logger->fault("no DeviceID") unless $deviceid;
 
     if ($config->{'stdout'}) {
         push
@@ -37,6 +44,7 @@ sub init {
                 config   => $config,
                 type     => 'stdout',
                 deviceid => $deviceid,
+                jobEngine => $jobEngine,
             });
     }
 
@@ -49,6 +57,7 @@ sub init {
                 type     => 'local',
                 path     => $config->{'local'},
                 deviceid => $deviceid,
+                jobEngine => $jobEngine,
             });
     }
 
@@ -71,6 +80,7 @@ sub init {
                 type     => 'server',
                 path     => $url,
                 deviceid => $deviceid,
+                jobEngine => $jobEngine,
             });
     }
 

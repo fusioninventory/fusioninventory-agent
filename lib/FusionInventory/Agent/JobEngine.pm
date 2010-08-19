@@ -9,6 +9,8 @@ use POSIX ":sys_wait_h";
 
 use Data::Dumper; # to pass mod parameters
 
+use FusionInventory::Agent::Network;
+
 use English;
 
 use POE qw( Wheel::Run );
@@ -34,18 +36,48 @@ sub new {
 
 
 sub run {
-    my ($self) = @_;
+    my ($self, $params) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $target = $params->{target};
 
     POE::Session->create(
         inline_states => {
             _start => sub {
                 $_[KERNEL]->alias_set("jobEngine");
                 $_[KERNEL]->yield('prolog');
-            },
-            prolog  => sub {
+                #$_[HEAP]{moduleToRun} = qw/Inventory Ping WakeOnLan/;
 
-                print "Prolog!\n";
+
+                if ($target->{type} eq 'server') {
+                    $_[HEAP]->{network} = FusionInventory::Agent::Network->new({
+                            logger => $logger,
+                            config => $config,
+                            target => $target,
+                        });
+
+
+                    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+                            accountinfo => $target->{accountinfo}, #? XXX
+                            logger => $logger,
+                            config => $config,
+                            target => $target,
+                            token => 'TODO'
+                        });
+
+                    # TODO Don't mix settings and temp value
+                    $_[HEAP]->{prologresp} = $_[HEAP]->{network}->send({message => $prolog});
+
+                    if (!$_[HEAP]->{prologresp}) {
+                        $logger->error("No anwser from the server");
+                        $target->setNextRunDate();
+                        return;
+                    }
+                }
+
                 $_[KERNEL]->yield('launch');
+
             },
             launch  => sub {
                 my $logger = $self->{logger};

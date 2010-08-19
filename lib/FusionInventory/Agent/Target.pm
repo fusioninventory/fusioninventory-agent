@@ -9,8 +9,6 @@ use Carp;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 
-use FusionInventory::Agent::JobEngine;
-
 use POE;
 
 # resetNextRunDate() can also be call from another thread (RPC)
@@ -22,13 +20,13 @@ sub new {
     if ($params->{type} !~ /^(server|local|stdout)$/ ) {
         croak 'bad type';
     }
-
     my $self = {
         config          => $params->{config},
         logger          => $params->{logger},
         type            => $params->{type},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
+        jobEngine       => $params->{jobEngine},
         debugPrintTimer => 0
     };
     bless $self, $class;
@@ -41,7 +39,9 @@ sub new {
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $type   = $self->{type};
+    my $jobEngine   = $self->{jobEngine};
 
+    $logger->fault("no jobEngine") unless $jobEngine;
 
     $self->{format} = $self->{type} eq 'local' && $config->{html} ?
         'HTML' : 'XML';
@@ -96,12 +96,11 @@ sub new {
                 print "Time up\n";
 #                $_[KERNEL]->post( 'jobEngine', 'start', $self );
 #                $_[KERNEL]->alarm( start => $self->getNextRunDate(), 'server1' );
-                my $jobEngine = FusionInventory::Agent::JobEngine->new({
+                $jobEngine->run({
                     config => $config,
                     logger => $logger,
                     target => $self,
                 });
-                $jobEngine->run();
                 print "engine Started!\n";
             }
         });
