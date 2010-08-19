@@ -47,7 +47,7 @@ sub run {
             _start => sub {
                 $_[KERNEL]->alias_set("jobEngine");
                 $_[KERNEL]->yield('prolog');
-                #$_[HEAP]{moduleToRun} = qw/Inventory Ping WakeOnLan/;
+                $_[HEAP]->{modulesToRun} = [ 'Inventory', 'Ping', 'WakeOnLan' ];
 
 
                 if ($target->{type} eq 'server') {
@@ -76,15 +76,19 @@ sub run {
                     }
                 }
 
-                $_[KERNEL]->yield('launch');
+                $_[KERNEL]->yield('launchNextTask');
 
             },
-            launch  => sub {
+            launchNextTask  => sub {
                 my $logger = $self->{logger};
                 my $config = $self->{config};
                 my $target = $self->{target};
 
-                my $module = "Inventory";
+
+                my $module = shift @{$_[HEAP]->{modulesToRun}};
+                return unless $module;
+
+                print "Launching module $module\n";
 
                 my $cmd;
                 $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
@@ -271,6 +275,7 @@ sub on_child_close {
 
     print "pid ", $child->PID, " closed all pipes.\n";
     delete $_[HEAP]{children_by_pid}{$child->PID};
+    $_[KERNEL]->yield('launchNextTask');
 }
 
 sub on_child_signal {
