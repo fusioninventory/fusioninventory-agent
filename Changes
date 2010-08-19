@@ -2,6 +2,7 @@ Revision history for FusionInventory::Agent
 
 2.1.2    ...
        * set a default SNMP version to really avoid warnings
+       * Add ./t/README.t to check is README{,.html} files are present
 
 2.1.1    Wed, 18 Aug 2010 21:04:30 +0200
        * Turn daemon mode off in the base configuration file
