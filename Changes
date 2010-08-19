@@ -2,6 +2,8 @@ Revision history for FusionInventory::Agent
 
        * XML::Simple → XML::TreePP transition
        * HPVM: XML::TreePP support (Amir PAKDEL)
+       * Migration to POE
+
 2.1.2    ...
        * set a default SNMP version to really avoid warnings
        * Add ./t/README.t to check is README{,.html} files are present
