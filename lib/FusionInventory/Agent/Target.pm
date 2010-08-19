@@ -13,7 +13,7 @@ use FusionInventory::Agent::JobEngine;
 
 use POE;
 
-# resetNextRunDate() can also be call from another thread (RPC)
+# resetNextTaskStartupDate() can also be call from another thread (RPC)
 my $lock :shared;
 
 sub new {
@@ -35,8 +35,7 @@ sub new {
 
     lock($lock);
 
-    my $nextRunDate :shared;
-    $self->{nextRunDate} = \$nextRunDate;
+    $self->{nextTaskStartupDate} = {};
 
     my $config = $self->{config};
     my $logger = $self->{logger};
@@ -51,6 +50,8 @@ sub new {
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
+
+    $self->{enabledTaskList} = [ 'Inventory', 'WakeOnLan', 'Ping' ];
 
     my $storage = $self->{storage};
     if ($self->{type} eq 'server') {
@@ -77,34 +78,16 @@ sub new {
         my $storage = $self->{storage};
         $self->{myData} = $storage->restore();
 
-        if ($self->{myData}{nextRunDate}) {
-            $logger->debug (
-                "[$self->{path}] Next server contact planned for ".
-                localtime($self->{myData}{nextRunDate})
-            );
-            ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+        if (ref($self->{myData}{nextTaskStartupDate}) eq 'HASH') {
+            ${$self->{nextTaskStartupDate}} = $self->{myData}{nextTaskStartupDate};
         }
     }
 
-    print "Target will be contacted: ".localtime($self->getNextRunDate())."\n";
-    POE::Session->create(
-        inline_states => {
-            _start => sub {
-                $_[KERNEL]->alarm( start => 1 || $self->getNextRunDate(), 'server1' );
-            },
-            start => sub {
-                print "Time up\n";
-#                $_[KERNEL]->post( 'jobEngine', 'start', $self );
-#                $_[KERNEL]->alarm( start => $self->getNextRunDate(), 'server1' );
-                my $jobEngine = FusionInventory::Agent::JobEngine->new({
-                    config => $config,
-                    logger => $logger,
-                    target => $self,
-                });
-                $jobEngine->run();
-                print "engine Started!\n";
-            }
-        });
+    foreach my $taskName (@{$self->{enabledTaskList}}) {
+        $self->createAlarm ({
+                taskName => $taskName
+            });
+    }
 
 
 
@@ -153,72 +136,86 @@ sub init {
     $self->{last_statefile} = $self->{vardir} . "/last_state";
 }
 
-sub setNextRunDate {
+sub setNextTaskStartupDate {
 
     my ($self, $args) = @_;
 
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
+    my $taskName = $args->{taskName};
+
+
+    if (!$taskName) {
+        $logger->fault("setNextTaskStartupDate: taskName parameter is missing");
+    }
 
     lock($lock);
 
-    my $serverdelay = $self->{myData}{prologFreq};
+    # taskFreq: is like the PROLOG_FREQ but for every task
+    # it's the number max of minute between two call of the task
+    my $taskFreq = $self->{myData}{taskFreq}{$taskName};
 
     lock($lock);
 
     my $max;
-    if ($serverdelay) {
-        $max = $serverdelay * 3600;
+    if ($taskFreq) {
+        $max = $taskFreq;
     } else {
         $max = $config->{delaytime};
         # If the PROLOG_FREQ has never been initialized, we force it at 1h
-        $self->setPrologFreq(1);
+#        $self->setPrologFreq(1);
     }
-    $max = 1 unless $max;
+    $max = 3600 unless $max;
 
     my $time = time + ($max/2) + int rand($max/2);
 
-    $self->{myData}{nextRunDate} = $time;
+    $self->{myData}{nextTaskStartupDate}{$taskName} = $time;
     
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    $self->{nextTaskStartupDate}{$taskName} = $self->{myData}{nextTaskStartupDate}{$taskName};
 
     $logger->debug (
         "[$self->{path}] Next server contact'd just been planned for ".
-        localtime($self->{myData}{nextRunDate})
+        localtime($self->{myData}{nextTaskStartupDate}{$taskName})
     );
 
     $storage->save({ data => $self->{myData} });
 }
 
-sub getNextRunDate {
-    my ($self) = @_;
+sub getNextTaskStartupDate {
+    my ($self, $args) = @_;
 
     my $config = $self->{config};
     my $logger = $self->{logger};
+    my $taskName = $args->{taskName};
+
+
+    if (!$taskName) {
+        $logger->fault("setNextTaskStartupDate: task parameter is missing");
+    }
 
     lock($lock);
 
-    if (${$self->{nextRunDate}}) {
+    if ($self->{nextTaskStartupDate}{$taskName}) {
       
         if ($self->{debugPrintTimer} < time) {
             $self->{debugPrintTimer} = time + 600;
         }; 
 
-        return ${$self->{nextRunDate}};
+        return ${$self->{nextTaskStartupDate}{$taskName}};
     }
 
-    $self->setNextRunDate();
+    $self->setNextTaskStartupDate({ taskName => $taskName });
 
-    if (!${$self->{nextRunDate}}) {
-        croak 'nextRunDate not set!';
+    if (!$self->{nextTaskStartupDate}{$taskName}) {
+        croak 'nextTaskStartupDate not set!';
     }
 
-    return $self->{myData}{nextRunDate} ;
+    return $self->{myData}{nextTaskStartupDate}{$taskName};
 
 }
 
-sub resetNextRunDate {
+sub resetNextTaskStartupDate {
     my ($self) = @_;
 
     my $logger = $self->{logger};
@@ -227,10 +224,10 @@ sub resetNextRunDate {
     lock($lock);
     $logger->debug("Force run now");
     
-    $self->{myData}{nextRunDate} = 1;
+    $self->{myData}{nextTaskStartupDate} = 1;
     $storage->save({ data => $self->{myData} });
     
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    ${$self->{nextTaskStartupDate}} = $self->{myData}{nextTaskStartupDate};
 }
 
 sub setPrologFreq {
@@ -287,6 +284,41 @@ sub setCurrentDeviceID {
 
     $self->{myData}{currentDeviceid} = $deviceid;
     $storage->save({ data => $self->{myData} });
+}
+
+sub createAlarm {
+    my ($self, $args) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $taskName = $args->{taskName};
+
+    my $nextTaskStartupDate = $self->getNextTaskStartupDate({ taskName => $taskName });
+    $logger->debug("$taskName will be launched @ ".localtime($nextTaskStartupDate));
+    POE::Session->create(
+        inline_states => {
+            _start => sub {
+                $_[KERNEL]->alarm( start => $nextTaskStartupDate, 'server1', $taskName );
+            },
+            start => sub {
+                print "Time up\n";
+#                $_[KERNEL]->post( 'jobEngine', 'start', $self );
+#                $_[KERNEL]->alarm( start => $self->getNextTaskStartupDate(), 'server1' );
+                my $jobEngine = FusionInventory::Agent::JobEngine->new({
+                        config => $config,
+                        logger => $logger,
+                        target => $self,
+                        taskName => $taskName
+                    });
+                $jobEngine->run();
+                print "engine Started!\n";
+            }
+        });
+
+
+
+
+
 }
 
 1;
