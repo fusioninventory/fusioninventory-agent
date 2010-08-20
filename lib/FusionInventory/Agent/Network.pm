@@ -77,8 +77,9 @@ sub createUA {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
-    
-    my $uri      = URI->new($args->{URI});
+
+
+    my $uri      = URI->new($args->{URI} || $self->{URI});
     my $host     = $uri->host();
     my $protocol = $uri->scheme();
     my $port     = $uri->port();
