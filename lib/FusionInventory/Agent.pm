@@ -36,7 +36,6 @@ use FusionInventory::Logger;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-use FusionInventory::Agent::Network;
 #use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Storage;
