@@ -53,6 +53,9 @@ sub new {
         );
     }
 
+    # netdiscovery and snmpquery plugins access internal structure directly
+    $self->{SNMPSession}->{session} = $self->{session};
+
     bless $self, $class;
 
     return $self;
