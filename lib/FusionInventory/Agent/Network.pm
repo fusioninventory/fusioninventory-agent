@@ -348,7 +348,7 @@ sub setSslRemoteHost {
     if ($self->{URI} !~ /^https:/i) {
         return;
     }
-    $self->turnSSLCheckOn();
+    $self->_turnSSLCheckOn();
 
     # Check server name against provided SSL certificate
     if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
