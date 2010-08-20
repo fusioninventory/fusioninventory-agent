@@ -124,7 +124,7 @@ sub createUA {
     }
 
     # Connect to server
-    my $version = 'FusionInventory-Agent_v'.$config->{VERSION};
+    my $version = 'FusionInventory-Agent_v'.$FusionInventory::Agent::VERSION;
     $ua->agent($version);
     $ua->timeout($timeout);
 
