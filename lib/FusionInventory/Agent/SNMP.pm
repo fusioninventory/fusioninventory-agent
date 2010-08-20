@@ -18,10 +18,14 @@ sub new {
     }
 
     my $version =
+        ! $params->{version}       ? 'snmpv1'  :
         $params->{version} eq '1'  ? 'snmpv1'  :
         $params->{version} eq '2c' ? 'snmpv2c' :
         $params->{version} eq '3'  ? 'snmpv3'  :
-                                     'snmpv1'  ;
+                                     undef     ;
+
+    $self->{logger}->fault("invalid SNMP version $params->{version}")
+        unless $version;
 
     if ($version eq 'snmpv3') {
         $self->{session} = Net::SNMP->session(
