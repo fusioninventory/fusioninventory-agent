@@ -17,7 +17,11 @@ find ( sub {
 if ($OSNAME ne 'MSWin32') {
     # exclude windows-specific modules
     @files = grep { ! /Win32/ } @files
+} else {
+    # exclude Unix-specific modules
+    @files = grep { ! /Syslog/ } @files
 }
+
 
 my @modules;
 foreach my $file (@files) {
