@@ -1,6 +1,6 @@
 Revision history for FusionInventory::Agent
 
-2.1.2    ...
+2.1.2    Mon, 23 Aug 2010 17:24:47 +0200
        * set a default SNMP version to really avoid warnings
        * Add ./t/README.t to check is README{,.html} files are present
        * Really set a default SNMP version, and bails out if an invalid version
