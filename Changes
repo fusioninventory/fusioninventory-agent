@@ -6,6 +6,8 @@ Revision history for FusionInventory::Agent
        * Really set a default SNMP version, and bails out if an invalid version
          is used
        * Fix compatibility with snmpquery and netdiscovery plugins
+       * Fix some warnings in Screen.pm
+       * Ensure Xen PVH host identification
 
 2.1.1    Wed, 18 Aug 2010 21:04:30 +0200
        * Turn daemon mode off in the base configuration file
