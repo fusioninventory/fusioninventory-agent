@@ -40,14 +40,17 @@ sub doInventory {
 
     # attempt to deduce the actual domain from the host name
     # and fallback on the domain search list
-    my $domain;
     my $hostname = hostname();
-    my $pos = index $hostname, '.';
 
-    if ($pos >= 0) {
-        $domain = substr($hostname, $pos + 1);
-    } else {
-        $domain = join('/', @search_list);
+    chomp(my $domain = `hostname -d`);
+    if (!$domain) {
+        my $pos = index $hostname, '.';
+
+        if ($pos >= 0) {
+            $domain = substr($hostname, $pos + 1);
+        } else {
+            $domain = join('/', @search_list);
+        }
     }
 
     $inventory->setHardware({

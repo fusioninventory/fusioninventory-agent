@@ -445,7 +445,14 @@ sub parse_edid {
             $edid{ratio_precision} = 'mm';
         }
 
-        $h->{bad_ratio} = 1 if abs($edid{ratio} - $h->{horizontal_active} / $h->{vertical_active}) > ($edid{ratio_precision} eq 'mm' ? 0.02 : 0.2);
+        if ($edid{ratio_precision}) {
+            my $ratio = abs(
+                $edid{ratio} -
+                $h->{horizontal_active} / $h->{vertical_active}
+            );
+            my $factor = $edid{ratio_precision} eq 'mm' ? 0.02 : 0.2;
+            $h->{bad_ratio} = 1 if $ratio > $factor;
+        }
     }
 
     $edid{diagonal_size} = sqrt(sqr($edid{max_size_horizontal}) + 

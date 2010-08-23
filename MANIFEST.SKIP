@@ -29,6 +29,7 @@ tools/build-perl-tree.sh
 ^setup.sh
 
 .*\.tmp
+var/
 
 lib/FusionInventory/Agent/Task/OcsDeploy.pm
 lib/FusionInventory/Agent/Task/SNMPQuery.pm
