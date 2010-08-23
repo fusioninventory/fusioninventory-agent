@@ -3,6 +3,8 @@ package FusionInventory::Agent::TargetsList;
 use strict;
 use warnings;
 
+use POE;
+
 use FusionInventory::Agent::Target;
 
 sub new {
@@ -18,7 +20,44 @@ sub new {
 
     bless $self, $class;
 
+    my $logger = $self->{logger};
+
     $self->init();
+
+    POE::Session->create(
+        inline_states => {
+            _start        => sub {
+                $_[KERNEL]->alias_set('targets');
+            },
+            get => sub {
+                my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
+                my $params = $args->[0];
+                my $rsvp = $args->[1];
+
+
+                my $targetId = $params->{targetId};
+                my $key = $params->{key};
+
+                print "p: $targetId\n";
+                print "v: ".$key."\n";
+
+                if ($targetId !~ /^\d+$/ || !exists($self->{targets}[$targetId])) {
+                    $logger->error("Invalid targetId: `$targetId'");
+                    return;
+                }
+
+                if ($key =~ /^(type|path|deviceid|format)$/) {
+                    $logger->error("Forbidden key: `$key'");
+                    return;
+                }
+
+                $kernel->call(IKC => post => $rsvp, $self->{targets}[$targetId]);
+
+            },
+        }
+    );
+
+
 
     return $self;
 }
