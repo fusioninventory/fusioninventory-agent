@@ -16,7 +16,7 @@ my $dispatch_table = {};
 our $pid;
 
 sub new {
-    die 'An instance of TestServer has already been started.' if $pid;
+    die 'An instance of Test::Server has already been started.' if $pid;
 
     my $class = shift;
     my %params = (
@@ -100,6 +100,10 @@ sub print_banner {
 
 sub accept_hook {
    my $self = shift;
+
+   # clean up forwarded flag before each request
+   $self->{forwarded} = 0;
+
    return unless $self->{ssl};
    my $fh   = $self->stdio_handle;
 
@@ -114,6 +118,15 @@ sub accept_hook {
    ) or warn "problem setting up SSL socket: " . IO::Socket::SSL::errstr();
 
    $self->stdio_handle($newfh) if $newfh;
+}
+
+sub header {
+   my ($self, $name, $value) = @_;
+   $self->SUPER::header($name, $value);
+
+   if ($name eq 'X-Forwarded-For') {
+       $self->{forwarded} = 1;
+   }
 }
 
 =head1 METHODS UNIQUE TO TestServer

@@ -7,20 +7,31 @@ use FusionInventory::Agent::Network;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Logger;
 use FusionInventory::Test::Server;
+use FusionInventory::Test::Proxy;
 use Test::More;
 use Test::Exception;
 use Compress::Zlib;
 
-plan tests => 39;
+plan tests => 49;
 
 sub public {
     my ($server, $cgi) = @_;
     return response($server, $cgi);
 }
 
+sub public_proxied {
+    my ($server, $cgi) = @_;
+    return response($server, $cgi) if $server->{forwarded};
+}
+
 sub private {
     my ($server, $cgi) = @_;
     return response($server, $cgi) if $server->authenticate();
+}
+
+sub private_proxied {
+    my ($server, $cgi) = @_;
+    return response($server, $cgi) if $server->authenticate() && $server->{forwarded};
 }
 
 sub response {
@@ -299,6 +310,85 @@ isa_ok(
 );
 
 $server->stop();
+
+# http connection through proxy tests
+
+$server = FusionInventory::Test::Server->new(
+    port => 8080,
+    user => 'test',
+    realm => 'test',
+    password => 'test',
+);
+$server->set_dispatch( {
+    '/public'  => \&public_proxied,
+    '/private' => \&private_proxied,
+} );
+$server->background();
+
+my $proxy = FusionInventory::Test::Proxy->new();
+$proxy->background();
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url    => "http://localhost:8080/public",
+        logger => $logger,
+        proxy  => $proxy->url()
+    });
+} 'http access to public area through proxy';
+
+$response = $network->send({ message => $message });
+ok(defined $response, "correct response from server");
+
+isa_ok(
+    $response,
+    'FusionInventory::Agent::XML::Response',
+    'response class'
+);
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url    => "http://localhost:8080/private",
+        logger => $logger,
+        proxy  => $proxy->url()
+    });
+} 'http access to private area through proxy, no credentials';
+
+$response = $network->send({ message => $message });
+ok(!defined $response, "denial response from server");
+
+is(
+    $logger->{backend}->[0]->{level},
+    'error',
+    "error message level"
+); 
+is(
+    $logger->{backend}->[0]->{message},
+    "Authentication required",
+    "error message content"
+); 
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url      => "http://localhost:8080/private",
+        realm    => 'Authorized area',
+        user     => 'test',
+        password => 'test',
+        logger   => $logger,
+        proxy    => $proxy->url()
+    });
+} 'http access to private area through proxy, with credentials';
+
+$response = $network->send({ message => $message });
+ok(defined $response, "correct response from server");
+
+isa_ok(
+    $response,
+    'FusionInventory::Agent::XML::Response',
+    'response class'
+);
+
+$server->stop();
+$proxy->stop();
 
 # compression tests
 
