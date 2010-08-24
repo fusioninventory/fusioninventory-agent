@@ -88,11 +88,11 @@ sub new {
             },
             get => sub {
                 my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
-                my $p=$args->[0];
+                my $key = $args->[0];
                 my $rsvp = $args->[1];
 #print "p: $p\n";
 #print "v: ".$self->{$p}."\n";
-                $kernel->call(IKC => post => $rsvp, $self->{$p});
+                $kernel->call(IKC => post => $rsvp, $self->{$key});
 
             },
         }
