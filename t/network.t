@@ -12,7 +12,7 @@ use Test::More;
 use Test::Exception;
 use Compress::Zlib;
 
-plan tests => 49;
+plan tests => 57;
 
 my $ok = sub {
     my ($server, $cgi) = @_;
@@ -74,18 +74,10 @@ lives_ok {
     });
 } 'http access to public area';
 
-$response = $network->send({ message => $message });
-ok(!defined $response,  "no response from non-running server");
-
-is(
-    $logger->{backend}->[0]->{level},
-    'error',
-    "error message level"
-); 
-like(
-    $logger->{backend}->[0]->{message},
-    qr/^Can't connect to localhost:8080/,
-    "error message content"
+check_response_nok(
+    scalar $network->send({ message => $message }),
+    $logger,
+    qr/^Can't connect to localhost:8080/
 );
 
 # http connection tests
@@ -102,14 +94,7 @@ $server->set_dispatch({
 });
 $server->background();
 
-$response = $network->send({ message => $message });
-ok(defined $response, "correct response from server");
-
-isa_ok(
-    $response,
-    'FusionInventory::Agent::XML::Response',
-    'response class'
-);
+check_response_ok($network->send({ message => $message }));
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -118,19 +103,11 @@ lives_ok {
     });
 } 'http access to private area, no credentials';
 
-$response = $network->send({ message => $message });
-ok(!defined $response, "denial response from server");
-
-is(
-    $logger->{backend}->[0]->{level},
-    'error',
-    "error message level"
-); 
-is(
-    $logger->{backend}->[0]->{message},
+check_response_nok(
+    scalar $network->send({ message => $message }),
+    $logger,
     "Authentication required",
-    "error message content"
-); 
+);
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -142,14 +119,7 @@ lives_ok {
     });
 } 'http access to private area, with credentials';
 
-$response = $network->send({ message => $message });
-ok(defined $response, "correct response from server");
-
-isa_ok(
-    $response,
-    'FusionInventory::Agent::XML::Response',
-    'response class'
-);
+check_response_ok($network->send({ message => $message }));
 
 $server->stop();
 
@@ -178,14 +148,7 @@ lives_ok {
     });
 } 'https access to public area, check disabled';
 
-$response = $network->send({ message => $message });
-ok(defined $response, "correct response from server");
-
-isa_ok(
-    $response,
-    'FusionInventory::Agent::XML::Response',
-    'response class'
-);
+check_response_ok($network->send({ message => $message }));
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -195,18 +158,10 @@ lives_ok {
     });
 } 'https access to private area, check disabled, no credentials';
 
-$response = $network->send({ message => $message });
-ok(!defined $response, "denial response from server");
-
-is(
-    $logger->{backend}->[0]->{level},
-    'error',
-    "error message level"
-); 
-is(
-    $logger->{backend}->[0]->{message},
+check_response_nok(
+    scalar $network->send({ message => $message }),
+    $logger,
     "Authentication required",
-    "error message content"
 ); 
 
 lives_ok {
@@ -220,14 +175,7 @@ lives_ok {
     });
 } 'https access to private area, check disabled, with credentials';
 
-$response = $network->send({ message => $message });
-ok(defined $response, "correct response from server");
-
-isa_ok(
-    $response,
-    'FusionInventory::Agent::XML::Response',
-    'response class'
-);
+check_response_ok($network->send({ message => $message }));
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -237,14 +185,9 @@ lives_ok {
     });
 } 'https access to public area';
 
-$response = $network->send({ message => $message });
-ok(defined $response, "correct response from server");
-
-isa_ok(
-    $response,
-    'FusionInventory::Agent::XML::Response',
-    'response class'
-);
+check_response_ok(
+    $response = $network->send({ message => $message }),
+); 
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -254,18 +197,10 @@ lives_ok {
     });
 } 'https access to private area, no credentials';
 
-$response = $network->send({ message => $message });
-ok(!defined $response, "denial response from server");
-
-is(
-    $logger->{backend}->[0]->{level},
-    'error',
-    "error message level"
-); 
-is(
-    $logger->{backend}->[0]->{message},
+check_response_nok(
+    scalar $network->send({ message => $message }),
+    $logger,
     "Authentication required",
-    "error message content"
 ); 
 
 lives_ok {
@@ -279,14 +214,7 @@ lives_ok {
     });
 } 'https access to private area, with credentials';
 
-$response = $network->send({ message => $message });
-ok(defined $response, "correct response from server");
-
-isa_ok(
-    $response,
-    'FusionInventory::Agent::XML::Response',
-    'response class'
-);
+check_response_ok($network->send({ message => $message }));
 
 $server->stop();
 
@@ -315,14 +243,7 @@ lives_ok {
     });
 } 'http access to public area through proxy';
 
-$response = $network->send({ message => $message });
-ok(defined $response, "correct response from server");
-
-isa_ok(
-    $response,
-    'FusionInventory::Agent::XML::Response',
-    'response class'
-);
+check_response_ok($network->send({ message => $message }));
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -332,18 +253,10 @@ lives_ok {
     });
 } 'http access to private area through proxy, no credentials';
 
-$response = $network->send({ message => $message });
-ok(!defined $response, "denial response from server");
-
-is(
-    $logger->{backend}->[0]->{level},
-    'error',
-    "error message level"
-); 
-is(
-    $logger->{backend}->[0]->{message},
+check_response_nok(
+    scalar $network->send({ message => $message }),
+    $logger,
     "Authentication required",
-    "error message content"
 ); 
 
 lives_ok {
@@ -357,14 +270,7 @@ lives_ok {
     });
 } 'http access to private area through proxy, with credentials';
 
-$response = $network->send({ message => $message });
-ok(defined $response, "correct response from server");
-
-isa_ok(
-    $response,
-    'FusionInventory::Agent::XML::Response',
-    'response class'
-);
+check_response_ok($network->send({ message => $message }));
 
 $server->stop();
 $proxy->stop();
@@ -383,3 +289,37 @@ is(
     $data,
     'round-trip compression with Gzip'
 );
+
+sub check_response_ok {
+    my ($response) = @_;
+    ok(defined $response, "correct response from server");
+    isa_ok(
+        $response,
+        'FusionInventory::Agent::XML::Response',
+        'response class'
+    );
+    is($response->getContent(), 'hello', 'response content');
+}
+
+sub check_response_nok {
+    my ($response, $logger, $message) = @_;
+    ok(!defined $response,  "no response");
+    is(
+        $logger->{backend}->[0]->{level},
+        'error',
+        "error message level"
+    );
+    if (ref $message eq 'Regexp') {
+        like(
+            $logger->{backend}->[0]->{message},
+            $message,
+            "error message content"
+        );
+    } else {
+        is(
+            $logger->{backend}->[0]->{message},
+            $message,
+            "error message content"
+        );
+    }
+}
