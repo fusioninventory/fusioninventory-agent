@@ -18,7 +18,7 @@ sub doInventory {
 
     my $command =
         'rpm -qa --queryformat "' .
-        '%{NAME}.%{ARCH}\t' .
+        '%{NAME}\t' .
         '%{VERSION}-%{RELEASE}\t' .
         '%{INSTALLTIME:date}\t' .
         '%{SIZE}\t' .
