@@ -14,33 +14,13 @@ use Compress::Zlib;
 
 plan tests => 49;
 
-sub public {
-    my ($server, $cgi) = @_;
-    return response($server, $cgi);
-}
-
-sub public_proxied {
-    my ($server, $cgi) = @_;
-    return response($server, $cgi) if $server->{forwarded};
-}
-
-sub private {
-    my ($server, $cgi) = @_;
-    return response($server, $cgi) if $server->authenticate();
-}
-
-sub private_proxied {
-    my ($server, $cgi) = @_;
-    return response($server, $cgi) if $server->authenticate() && $server->{forwarded};
-}
-
-sub response {
+my $ok = sub {
     my ($server, $cgi) = @_;
 
     print "HTTP/1.0 200 OK\r\n";
     print "\r\n";
     print compress("hello");
-}
+};
 
 my $logger = FusionInventory::Logger->new({
     config => { logger => 'Test' }
@@ -116,10 +96,10 @@ $server = FusionInventory::Test::Server->new(
     realm => 'test',
     password => 'test',
 );
-$server->set_dispatch( {
-    '/public'   => \&public,
-    '/private' => \&private,
-} );
+$server->set_dispatch({
+    '/public'  => $ok,
+    '/private' => sub { return $ok->(@_) if $server->authenticate(); }
+});
 $server->background();
 
 $response = $network->send({ message => $message });
@@ -184,11 +164,10 @@ $server = FusionInventory::Test::Server->new(
     crt      => 't/httpd/conf/ssl/crt/good.pem',
     key      => 't/httpd/conf/ssl/key/good.pem',
 );
-$server->set_dispatch( {
-    '/public'   => \&public,
-    '/private' => \&private,
-} );
-
+$server->set_dispatch({
+    '/public'  => $ok,
+    '/private' => sub { return $ok->(@_) if $server->authenticate(); }
+});
 $server->background();
 
 lives_ok {
@@ -319,10 +298,10 @@ $server = FusionInventory::Test::Server->new(
     realm => 'test',
     password => 'test',
 );
-$server->set_dispatch( {
-    '/public'  => \&public_proxied,
-    '/private' => \&private_proxied,
-} );
+$server->set_dispatch({
+    '/public'  => sub { return $ok->(@_) if $server->{forwarded}; },
+    '/private' => sub { return $ok->(@_) if $server->{forwarded} && $server->authenticate(); }
+});
 $server->background();
 
 my $proxy = FusionInventory::Test::Proxy->new();
