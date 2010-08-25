@@ -65,6 +65,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/rpm/$test";
-    my $packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM::_parseRpm($logger, $file, '<');
+    my $packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM::_parseRpm($logger, $file);
     is_deeply($packages, $tests{$test}, $test);
 }

@@ -16,9 +16,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $command = 'pkg_info';
-
-    my $packages = _parsePkgInfo($logger, $command, '-|');
+    my $packages = _parsePkgInfo($logger);
 
     foreach my $package (@$packages) {
         $inventory->addSoftware($package);
@@ -26,32 +24,22 @@ sub doInventory {
 }
 
 sub _parsePkgInfo {
-    my ($logger, $file, $mode) = @_;
+    my ($logger, $file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        my $message = $mode eq '-|' ? 
-            "Can't run command $file: $ERRNO" :
-            "Can't open file $file: $ERRNO"   ;
-        $logger->error($message);
-        return;
-    }
-
-    my $packages;
-    
-    while (my $line = <$handle>) {
-        chomp $line;
-        next unless $line =~ /^(\S+)-(\d+\S*)\s+(.*)/;
-        push @$packages, {
+    my $command = 'pkg_info';
+    my $callback = sub {
+        my ($line) = @_;
+        return unless $line =~ /^(\S+)-(\d+\S*)\s+(.*)/;
+        return {
             NAME    => $1,
             VERSION => $2,
             VERSION => $3
         };
-    }
+    };
 
-    close $handle;
-
-    return $packages;
+    return $file ?
+        getPackagesFromCommand($logger, $file, '<', $callback)    :
+        getPackagesFromCommand($logger, $command, '-|', $callback);
 }
 
 1;

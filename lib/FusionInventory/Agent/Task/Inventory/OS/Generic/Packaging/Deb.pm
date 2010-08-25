@@ -16,15 +16,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $command =
-        'dpkg-query --show --showformat="' .
-        '${Package}\t' .
-        '${Version}\t'.
-        '${Installed-Size}\t' .
-        '${Description}\n' .
-        '" 2>/dev/null';
-
-    my $packages = _parseDpkg($logger, $command, '-|');
+    my $packages = _parseDpkg($logger);
 
     foreach my $package (@$packages) {
         $inventory->addSoftware($package);
@@ -32,34 +24,30 @@ sub doInventory {
 }
 
 sub _parseDpkg {
-    my ($logger, $file, $mode) = @_;
+    my ($logger, $file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-                my $message = $mode eq '-|' ? 
-            "Can't run command $file: $ERRNO" :
-            "Can't open file $file: $ERRNO"   ;
-        $logger->error($message);
-        return;
-    }
-
-    my $packages;
-
-    while (my $line = <$handle>) {
-        chomp $line;
+    my $command =
+        'dpkg-query --show --showformat="' .
+        '${Package}\t' .
+        '${Version}\t'.
+        '${Installed-Size}\t' .
+        '${Description}\n' .
+        '" 2>/dev/null';
+    my $callback = sub {
+        my ($line) = @_;
         my @infos = split("\t", $line);
-        push @$packages, {
+        return {
             NAME        => $infos[0],
             VERSION     => $infos[1],
             FILESIZE    => $infos[2],
             COMMENTS    => $infos[3],
             FROM        => 'deb'
         };
-    }
+    };
 
-    close $handle;
-
-    return $packages;
+    return $file ?
+        getPackagesFromCommand($logger, $file, '<', $callback)    :
+        getPackagesFromCommand($logger, $command, '-|', $callback);
 }
 
 1;

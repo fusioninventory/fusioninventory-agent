@@ -19,6 +19,7 @@ our @EXPORT = qw(
     getControllersFromLspci
     getInfosFromDmidecode
     getIpDhcp
+    getPackagesFromCommand
     compareVersion
     cleanUnknownValues
     can_run
@@ -324,6 +325,31 @@ sub getIpDhcp {
     return $current_time <= $expiration_time ? $server_ip : undef;
 }
 
+sub getPackagesFromCommand {
+     my ($logger, $file, $mode, $callback) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        my $message = $mode eq '-|' ? 
+            "Can't run command $file: $ERRNO" :
+            "Can't open file $file: $ERRNO"   ;
+        $logger->error($message);
+        return;
+    }
+
+    my $packages;
+    
+    while (my $line = <$handle>) {
+        chomp $line;
+        my $package = $callback->($line);
+        push @$packages, $package if $package;
+    }
+
+    close $handle;
+
+    return $packages;
+}
+
 sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
@@ -431,6 +457,11 @@ $info = {
 =head2 getIpDhcp
 
 Returns an hashref of information for current DHCP lease.
+
+=head2 getPackagesFromCommand
+
+Returns a list of packages as an arrayref of hashref, by parsing given command
+output with given callback.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 
