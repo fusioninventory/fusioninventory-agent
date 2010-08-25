@@ -12,7 +12,7 @@ use Test::More;
 use Test::Exception;
 use Compress::Zlib;
 
-plan tests => 81;
+plan tests => 43;
 
 my $ok = sub {
     my ($server, $cgi) = @_;
@@ -74,11 +74,13 @@ lives_ok {
     });
 } 'instanciation: http';
 
-check_response_nok(
-    scalar $network->send({ message => $message }),
-    $logger,
-    qr/^Can't connect to localhost:8080/
-);
+subtest "no response" => sub {
+    check_response_nok(
+        scalar $network->send({ message => $message }),
+        $logger,
+        qr/^Can't connect to localhost:8080/
+    );
+};
 
 # http connection tests
 
@@ -94,7 +96,9 @@ $server->set_dispatch({
 });
 $server->background();
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -103,11 +107,13 @@ lives_ok {
     });
 } 'instanciation: http, auth, no credentials';
 
-check_response_nok(
-    scalar $network->send({ message => $message }),
-    $logger,
-    "Authentication required",
-);
+subtest "no response" => sub {
+    check_response_nok(
+        scalar $network->send({ message => $message }),
+        $logger,
+        "Authentication required",
+    );
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -119,7 +125,9 @@ lives_ok {
     });
 } 'instanciation:  http, auth, with credentials';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 $server->stop();
 
@@ -148,7 +156,9 @@ lives_ok {
     });
 } 'instanciation: https, check disabled';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -158,11 +168,13 @@ lives_ok {
     });
 } 'instanciation: https, check disabled, auth, no credentials';
 
-check_response_nok(
-    scalar $network->send({ message => $message }),
-    $logger,
-    "Authentication required",
-); 
+subtest "no response" => sub {
+    check_response_nok(
+        scalar $network->send({ message => $message }),
+        $logger,
+        "Authentication required",
+    );
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -175,7 +187,9 @@ lives_ok {
     });
 } 'instanciation: https, check disabled, auth, credentials';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -185,9 +199,9 @@ lives_ok {
     });
 } 'instanciation: https';
 
-check_response_ok(
-    $response = $network->send({ message => $message }),
-); 
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message })); 
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -197,11 +211,13 @@ lives_ok {
     });
 } 'instanciation: https, auth, no credentials';
 
-check_response_nok(
-    scalar $network->send({ message => $message }),
-    $logger,
-    "Authentication required",
-); 
+subtest "no response" => sub {
+    check_response_nok(
+        scalar $network->send({ message => $message }),
+        $logger,
+        "Authentication required",
+    );
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -214,7 +230,9 @@ lives_ok {
     });
 } 'instanciation: https, auth, credentials';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 $server->stop();
 
@@ -243,7 +261,9 @@ lives_ok {
     });
 } 'instanciation: http, proxy';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -253,11 +273,13 @@ lives_ok {
     });
 } 'instanciation: http, proxy, auth, no credentials';
 
-check_response_nok(
-    scalar $network->send({ message => $message }),
-    $logger,
-    "Authentication required",
-); 
+subtest "no response" => sub {
+    check_response_nok(
+        scalar $network->send({ message => $message }),
+        $logger,
+        "Authentication required",
+    ); 
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -270,7 +292,9 @@ lives_ok {
     });
 } 'instanciation: http, proxy, auth, credentials';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 $server->stop();
 
@@ -300,7 +324,9 @@ lives_ok {
     });
 } 'instanciation: https, proxy, check disabled';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -311,11 +337,13 @@ lives_ok {
     });
 } 'instanciation: https, check disabled, proxy, auth, no credentials';
 
-check_response_nok(
-    scalar $network->send({ message => $message }),
-    $logger,
-    "Authentication required",
-); 
+subtest "no response" => sub {
+    check_response_nok(
+        scalar $network->send({ message => $message }),
+        $logger,
+        "Authentication required",
+    );
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -329,7 +357,9 @@ lives_ok {
     });
 } 'instanciation: https, check disabled, proxy, auth, credentials';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -340,9 +370,9 @@ lives_ok {
     });
 } 'instanciation: https';
 
-check_response_ok(
-    $response = $network->send({ message => $message }),
-); 
+subtest "correct response" => sub {
+    check_response_ok($response = $network->send({ message => $message })); 
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -353,11 +383,13 @@ lives_ok {
     });
 } 'instanciation: https, proxy, auth, no credentials';
 
-check_response_nok(
-    scalar $network->send({ message => $message }),
-    $logger,
-    "Authentication required",
-); 
+subtest "no response" => sub {
+    check_response_nok(
+        scalar $network->send({ message => $message }),
+        $logger,
+        "Authentication required",
+    ); 
+};
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
@@ -371,7 +403,9 @@ lives_ok {
     });
 } 'instanciation: https, proxy, auth, credentials';
 
-check_response_ok($network->send({ message => $message }));
+subtest "correct response" => sub {
+    check_response_ok($network->send({ message => $message }));
+};
 
 $server->stop();
 $proxy->stop();
@@ -393,7 +427,9 @@ is(
 
 sub check_response_ok {
     my ($response) = @_;
-    ok(defined $response, "correct response from server");
+
+    plan tests => 3;
+    ok(defined $response, "response from server");
     isa_ok(
         $response,
         'FusionInventory::Agent::XML::Response',
@@ -404,6 +440,8 @@ sub check_response_ok {
 
 sub check_response_nok {
     my ($response, $logger, $message) = @_;
+
+    plan tests => 3;
     ok(!defined $response,  "no response");
     is(
         $logger->{backend}->[0]->{level},
