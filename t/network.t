@@ -63,7 +63,7 @@ throws_ok {
         logger => $logger
     });
 } qr/^neither certificate file or certificate directory given/,
-'instanciation with https URL without certificates';
+'instanciation: https, no certificates';
 
 # no connection tests
 
@@ -72,7 +72,7 @@ lives_ok {
         url    => "http://localhost:8080/public",
         logger => $logger
     });
-} 'http access to public area';
+} 'instanciation: http';
 
 check_response_nok(
     scalar $network->send({ message => $message }),
@@ -83,9 +83,9 @@ check_response_nok(
 # http connection tests
 
 $server = FusionInventory::Test::Server->new(
-    port => 8080,
-    user => 'test',
-    realm => 'test',
+    port     => 8080,
+    user     => 'test',
+    realm    => 'test',
     password => 'test',
 );
 $server->set_dispatch({
@@ -101,7 +101,7 @@ lives_ok {
         url    => "http://localhost:8080/private",
         logger => $logger
     });
-} 'http access to private area, no credentials';
+} 'instanciation: http, auth, no credentials';
 
 check_response_nok(
     scalar $network->send({ message => $message }),
@@ -117,7 +117,7 @@ lives_ok {
         password => 'test',
         logger   => $logger,
     });
-} 'http access to private area, with credentials';
+} 'instanciation:  http, auth, with credentials';
 
 check_response_ok($network->send({ message => $message }));
 
@@ -146,7 +146,7 @@ lives_ok {
         logger         => $logger,
         'no-ssl-check' => 1,
     });
-} 'https access to public area, check disabled';
+} 'instanciation: https, check disabled';
 
 check_response_ok($network->send({ message => $message }));
 
@@ -156,7 +156,7 @@ lives_ok {
         logger         => $logger,
         'no-ssl-check' => 1,
     });
-} 'https access to private area, check disabled, no credentials';
+} 'instanciation: https, check disabled, auth, no credentials';
 
 check_response_nok(
     scalar $network->send({ message => $message }),
@@ -173,7 +173,7 @@ lives_ok {
         logger         => $logger,
         'no-ssl-check' => 1,
     });
-} 'https access to private area, check disabled, with credentials';
+} 'instanciation: https, check disabled, auth, credentials';
 
 check_response_ok($network->send({ message => $message }));
 
@@ -183,7 +183,7 @@ lives_ok {
         logger         => $logger,
         'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
     });
-} 'https access to public area';
+} 'instanciation: https';
 
 check_response_ok(
     $response = $network->send({ message => $message }),
@@ -195,7 +195,7 @@ lives_ok {
         logger         => $logger,
         'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
     });
-} 'https access to private area, no credentials';
+} 'instanciation: https, auth, no credentials';
 
 check_response_nok(
     scalar $network->send({ message => $message }),
@@ -212,7 +212,7 @@ lives_ok {
         logger         => $logger,
         'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
     });
-} 'https access to private area, with credentials';
+} 'instanciation: https, auth, credentials';
 
 check_response_ok($network->send({ message => $message }));
 
@@ -221,9 +221,9 @@ $server->stop();
 # http connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(
-    port => 8080,
-    user => 'test',
-    realm => 'test',
+    port     => 8080,
+    user     => 'test',
+    realm    => 'test',
     password => 'test',
 );
 $server->set_dispatch({
@@ -241,7 +241,7 @@ lives_ok {
         logger => $logger,
         proxy  => $proxy->url()
     });
-} 'http access to public area through proxy';
+} 'instanciation: http, proxy';
 
 check_response_ok($network->send({ message => $message }));
 
@@ -251,7 +251,7 @@ lives_ok {
         logger => $logger,
         proxy  => $proxy->url()
     });
-} 'http access to private area through proxy, no credentials';
+} 'instanciation: http, proxy, auth, no credentials';
 
 check_response_nok(
     scalar $network->send({ message => $message }),
@@ -268,7 +268,7 @@ lives_ok {
         logger   => $logger,
         proxy    => $proxy->url()
     });
-} 'http access to private area through proxy, with credentials';
+} 'instanciation: http, proxy, auth, credentials';
 
 check_response_ok($network->send({ message => $message }));
 
