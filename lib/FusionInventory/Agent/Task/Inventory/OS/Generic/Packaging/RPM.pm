@@ -37,7 +37,10 @@ sub _parseRpm {
 
     my $handle;
     if (!open $handle, $mode, $file) {
-        $logger->error("Can't open $file: $ERRNO");
+        my $message = $mode eq '-|' ? 
+            "Can't run command $file: $ERRNO" :
+            "Can't open file $file: $ERRNO"   ;
+        $logger->error($message);
         return;
     }
 
