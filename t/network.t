@@ -12,7 +12,7 @@ use Test::More;
 use Test::Exception;
 use Compress::Zlib;
 
-plan tests => 57;
+plan tests => 81;
 
 my $ok = sub {
     my ($server, $cgi) = @_;
@@ -269,6 +269,107 @@ lives_ok {
         proxy    => $proxy->url()
     });
 } 'instanciation: http, proxy, auth, credentials';
+
+check_response_ok($network->send({ message => $message }));
+
+$server->stop();
+
+# https connection through proxy tests
+
+$server = FusionInventory::Test::Server->new(
+    port     => 8080,
+    user     => 'test',
+    realm    => 'test',
+    password => 'test',
+    ssl      => 1,
+    crt      => 't/httpd/conf/ssl/crt/good.pem',
+    key      => 't/httpd/conf/ssl/key/good.pem',
+);
+$server->set_dispatch({
+    '/public'  => sub { return $ok->(@_) if $server->{forwarded}; },
+    '/private' => sub { return $ok->(@_) if $server->{forwarded} && $server->authenticate(); }
+});
+$server->background();
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => 'https://localhost:8080/public',
+        logger         => $logger,
+        'no-ssl-check' => 1,
+        proxy          => $proxy->url()
+    });
+} 'instanciation: https, proxy, check disabled';
+
+check_response_ok($network->send({ message => $message }));
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => "https://localhost:8080/private",
+        logger         => $logger,
+        'no-ssl-check' => 1,
+        proxy          => $proxy->url()
+    });
+} 'instanciation: https, check disabled, proxy, auth, no credentials';
+
+check_response_nok(
+    scalar $network->send({ message => $message }),
+    $logger,
+    "Authentication required",
+); 
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => "https://localhost:8080/private",
+        realm          => 'Authorized area',
+        user           => 'test',
+        password       => 'test',
+        logger         => $logger,
+        'no-ssl-check' => 1,
+        proxy          => $proxy->url()
+    });
+} 'instanciation: https, check disabled, proxy, auth, credentials';
+
+check_response_ok($network->send({ message => $message }));
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => 'https://localhost:8080/public',
+        logger         => $logger,
+        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+        proxy          => $proxy->url()
+    });
+} 'instanciation: https';
+
+check_response_ok(
+    $response = $network->send({ message => $message }),
+); 
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => "https://localhost:8080/private",
+        logger         => $logger,
+        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+        proxy          => $proxy->url()
+    });
+} 'instanciation: https, proxy, auth, no credentials';
+
+check_response_nok(
+    scalar $network->send({ message => $message }),
+    $logger,
+    "Authentication required",
+); 
+
+lives_ok {
+    $network = FusionInventory::Agent::Network->new({
+        url            => "https://localhost:8080/private",
+        realm          => 'Authorized area',
+        user           => 'test',
+        password       => 'test',
+        logger         => $logger,
+        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+        proxy          => $proxy->url()
+    });
+} 'instanciation: https, proxy, auth, credentials';
 
 check_response_ok($network->send({ message => $message }));
 
