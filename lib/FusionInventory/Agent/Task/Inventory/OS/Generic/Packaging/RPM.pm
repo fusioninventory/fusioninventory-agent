@@ -25,7 +25,7 @@ sub doInventory {
         '%{SUMMARY}\n' . 
         '" 2>/dev/null';
 
-    my $packages = parseRpm($command, '-|');
+    my $packages = parseRpm($logger, $command, '-|');
 
     foreach my $package (@$packages) {
         $inventory->addSoftware($package);
@@ -33,11 +33,11 @@ sub doInventory {
 }
 
 sub parseRpm {
-    my ($file, $mode) = @_;
+    my ($logger, $file, $mode) = @_;
 
     my $handle;
     if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
+        $logger->error("Can't open $file: $ERRNO");
         return;
     }
 

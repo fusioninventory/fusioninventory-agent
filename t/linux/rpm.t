@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM;
+use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
@@ -60,8 +61,10 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
+my $logger = FusionInventory::Logger->new();
+
 foreach my $test (keys %tests) {
     my $file = "resources/rpm/$test";
-    my $packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM::parseRpm($file, '<');
+    my $packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM::parseRpm($logger, $file, '<');
     is_deeply($packages, $tests{$test}, $test);
 }

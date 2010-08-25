@@ -14,6 +14,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $command =
         'dpkg-query --show --showformat="' .
@@ -23,7 +24,7 @@ sub doInventory {
         '${Description}\n' .
         '" 2>/dev/null';
 
-    my $packages = parseDpkg($command, '-|');
+    my $packages = parseDpkg($logger, $command, '-|');
 
     foreach my $package (@$packages) {
         $inventory->addSoftware($package);
@@ -31,11 +32,11 @@ sub doInventory {
 }
 
 sub parseDpkg {
-    my ($file, $mode) = @_;
+    my ($logger, $file, $mode) = @_;
 
     my $handle;
     if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
+        $logger->error("Can't open $file: $ERRNO");
         return;
     }
 
