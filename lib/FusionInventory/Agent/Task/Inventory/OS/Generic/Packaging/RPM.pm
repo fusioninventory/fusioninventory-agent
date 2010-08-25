@@ -25,14 +25,14 @@ sub doInventory {
         '%{SUMMARY}\n' . 
         '" 2>/dev/null';
 
-    my $packages = parseRpm($logger, $command, '-|');
+    my $packages = _parseRpm($logger, $command, '-|');
 
     foreach my $package (@$packages) {
         $inventory->addSoftware($package);
     }
 }
 
-sub parseRpm {
+sub _parseRpm {
     my ($logger, $file, $mode) = @_;
 
     my $handle;
