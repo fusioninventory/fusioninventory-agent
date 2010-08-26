@@ -17,6 +17,8 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $chaine ;
+    my @tab;
 
     my $name;
     my $version;
@@ -46,6 +48,10 @@ sub doInventory {
             $comments = $1;
         }
     }
+
+
 }
+
+
 
 1;

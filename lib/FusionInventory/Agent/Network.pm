@@ -39,11 +39,12 @@ sub new {
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
 
-  if ($params->{proxy}) {
+    if ($params->{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $params->{proxy});
     }  else {
         $self->{ua}->env_proxy;
     }
+
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
     $self->{ua}->credentials(

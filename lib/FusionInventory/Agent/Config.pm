@@ -29,6 +29,7 @@ my $default = {
     'local'                   => '',
     'logger'                  => 'Stderr',
     'logfile'                 => '',
+    'logfile-maxsize'         => 0,
     'logfacility'             => 'LOG_USER',
     'nosoft'                  => 0, # deprecated
     'nosoftware'              => 0, # deprecated
@@ -54,6 +55,9 @@ my $default = {
     'version'                 => 0,
     'wait'                    => '',
     'scan-homedirs'           => 0,
+    # Other values that can't be changed with the
+    # CLI parameters
+    'basevardir'              =>  $basedir.'/var/lib/fusioninventory-agent',
 };
 
 sub new {
@@ -212,6 +216,9 @@ sub loadUserParams {
         'local|l=s',
         'logger=s',
         'logfile=s',
+        'logfile-maxsize=i',
+        'nosoft',
+        'nosoftware',
         'no-ocsdeploy',
         'no-inventory',
         'no-printer',
@@ -340,6 +347,7 @@ Extra options:
     -i --info           verbose mode ($self->{info})
     --lazy              do not contact the server more than one time during the
                         PROLOG_FREQ ($self->{lazy})
+    --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
     --logger            Logger you want to use (Stderr, File or Syslog) ($self->{logger})
     --rpc-ip=IP         ip of the interface to use for peer to peer exchange
     --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now

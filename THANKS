@@ -2,7 +2,7 @@ Olivier ANDREOTTI: AIX, Solaris patches
 Thierry LACOSTE: BSD portage
 Didier LIROULET: Installation script
 Remi COLLET: bug fixes and Fedora/RedHat maintainer
-Walid NOUH: gave access to PowerPC hardware to help the portage
+Walid NOUH: gave access to PowerPC hardware to help the portage, patches
 Olivier ROUSSY: minor patches 
 Dennis CABOOTER: FreeBSD maintainer
 Pierre CHIFFLIER: Debian maintainer
@@ -42,6 +42,10 @@ Benoit MACHIAVELLO: Beta tester
 Guillaume ROUSSE: Patch
 Aurelien Bondis: Patch
 Alex Mauer: PNP monitor IDs
-Amir PAKDEL: patches
-Guillaume ROUSSE: Various patches and code improvment
+Amir PAKDEL: HP-UX maintainer
+Guillaume ROUSSE: Agent developper
 Jan JUNGMANN: Virtuozzo support
+Sébastien PRUD'HOMME: bug reports and HPVM support
+Jérome LEBAS: Solaris patches
+Lucas MASSE: Solaris Patches
+Denis Linvinus: Cyrillic Windows

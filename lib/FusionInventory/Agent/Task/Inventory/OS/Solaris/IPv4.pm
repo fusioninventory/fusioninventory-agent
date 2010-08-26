@@ -27,11 +27,11 @@ sub doInventory {
 # Ok. Now, we have the list of IP addresses configured
 # We could have too many addresses to list them in HW
 # (details will be sent in Networks instead)
-# 
+#
 #  How could we choose ?
-# 
+#
 # Let's try to resolve the name of our server
-#  
+#
 
     chomp( $hostn = `uname -n` );
     if ($hostn) {
@@ -45,6 +45,7 @@ sub doInventory {
             }
         }
     }
+
 
     $inventory->setHardware({IPADDR => $ip});
 }

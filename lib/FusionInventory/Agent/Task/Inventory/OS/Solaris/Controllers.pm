@@ -1,7 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Controllers;
-
 use strict;
-use warnings;
 
 use FusionInventory::Agent::Tools;
 
@@ -30,11 +28,10 @@ sub doInventory {
             $manufacturer = $1;
         }   			
         $inventory->addController({
-            'NAME'          => $name,
-            'MANUFACTURER'  => $manufacturer,
-            'TYPE'          => $type,
-        });
+                'NAME'          => $name,
+                'MANUFACTURER'  => $manufacturer,
+                'TYPE'          => $type,
+            });
     }
 }
-
-1;
+1

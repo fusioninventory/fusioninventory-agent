@@ -26,7 +26,6 @@ sub new {
         config => $params->{config},
         target => $params->{target}
     };
-
     bless $self, $class;
 
     return $self;

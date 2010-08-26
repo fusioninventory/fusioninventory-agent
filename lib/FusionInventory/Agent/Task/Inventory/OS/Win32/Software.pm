@@ -69,7 +69,7 @@ sub processSoftwares {
 
         my $name = encodeFromRegistry($data->{'/DisplayName'});
 # Use the folder name if there is no DisplayName
-        $name = encodeFromRegistry($_) unless $name;
+        $name = encodeFromRegistry($guid) unless $name;
         my $comments = encodeFromRegistry($data->{'/Comments'});
         my $version = encodeFromRegistry($data->{'/DisplayVersion'});
         my $publisher = encodeFromRegistry($data->{'/Publisher'});
@@ -112,6 +112,7 @@ sub doInventory {
     my $params = shift;
 
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
     my $Config;
 

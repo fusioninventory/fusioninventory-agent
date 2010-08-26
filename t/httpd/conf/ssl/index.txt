@@ -1,0 +1,1 @@
+V	120728202123Z		01	unknown	/O=fusioninventory.org/OU=trusted test certificate/CN=localhost/emailAddress=test@fusioninventory.org

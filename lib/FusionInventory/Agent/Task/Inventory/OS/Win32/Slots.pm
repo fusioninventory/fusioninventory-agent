@@ -33,8 +33,8 @@ sub doInventory {
             STATUS => $Properties->{Status},
             SHARED => $Properties->{Shared}
         });
-
     }
 
 }
+
 1;

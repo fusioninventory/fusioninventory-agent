@@ -60,6 +60,7 @@ sub doInventory {
            VOLUMN => $Properties->{VolumeName},
         });
     }
+
 }
 
 1;

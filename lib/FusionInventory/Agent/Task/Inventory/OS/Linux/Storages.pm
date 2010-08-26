@@ -79,7 +79,8 @@ sub doInventory {
         foreach my $device (@$devices) {
             if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
                 my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
-                if (!open my $handle, '-|', $command) {
+                my $handle;
+                if (!open $handle, '-|', $command) {
                     warn "Can't run $command: $ERRNO";
                 } else {
                     while (my $line = <$handle>) {
@@ -98,8 +99,8 @@ sub doInventory {
                             next;
                         }
                     }
-                    close $handle;
                 }
+                close $handle;
             }
         }
     }
@@ -118,8 +119,8 @@ sub doInventory {
             );
         }
 
-        if ($device->{CAPACITY} && $device->{CAPACITY} =~ /^cd/) {
-            $device->{CAPACITY} = getDeviceCapacity($device->{NAME});
+        if ($device->{DISKSIZE} && $device->{TYPE} =~ /^cd/) {
+            $device->{DISKSIZE} = getDeviceCapacity($device->{NAME});
         }
 
         $inventory->addStorage($device);

@@ -97,6 +97,8 @@ sub _addEntry {
 
     push @{$self->{h}{CONTENT}{$sectionName}}, $newEntry;
 
+    return 1;
+
 }
 
 sub _encode {
@@ -124,7 +126,7 @@ sub _encode {
         | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
         |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
         )*\z/x) {
-        $logger->debug("Non-UTF8 string: $string");
+#        $logger->debug("Non-UTF8 string: $string");
         return encode("UTF-8", $string);
     } else {
         return $string;
@@ -252,8 +254,8 @@ sub addStorage {
     /;
 
     my $values = $args;
-    if (!$values->{serialnumber}) {
-        $values->{serialnumber} = $values->{serial}
+    if (!$values->{SERIALNUMBER}) {
+        $values->{SERIALNUMBER} = $values->{SERIAL}
     }
 
     $self->_addEntry({
@@ -561,7 +563,7 @@ sub setHardware {
                 $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
             }
             if ($key eq 'USERID' && !$nonDeprecated) {
-                $logger->debug("USERID shouldn't be set directly anymore. Please use addCPU() method instead.");
+                $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
             }
 
             my $string = $self->_encode({ string => $args->{$key} });
@@ -580,7 +582,7 @@ sub setBios {
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
         MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
-        BIOSSERIAL/) {
+        BIOSSERIAL TYPE/) {
 
         if (exists $args->{$key}) {
             my $string = $self->_encode({ string => $args->{$key} });
@@ -612,7 +614,7 @@ sub addCPU {
         field        => \@fields,
         sectionName  => 'CPUS',
         values       => $args,
-        noDuplicated => 1
+        noDuplicated => 0
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -641,14 +643,13 @@ sub addUser {
         DOMAIN
     /;
 
-    my $values = $args;
-    return unless $values->{LOGIN};
+    return unless $args->{LOGIN};
 
-    $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'USERS',
-        values       => $args,
-        noDuplicated => 1
+    return unless $self->_addEntry({
+        'field'        => \@fields,
+        'sectionName'  => 'USERS',
+        'values'       => $args,
+        'noDuplicated' => 1
     });
 
 
@@ -698,6 +699,7 @@ sub addPrinter {
         SERVERNAME
         SHARENAME
         PRINTPROCESSOR
+        SERIAL
     /;
 
     $self->_addEntry({
@@ -1631,9 +1633,7 @@ The disk size in MB.
 
 =item TYPE
 
-INTERFACE can be SCSI/HDC/IDE/USB/1394
-(See: Win32_DiskDrive / InterfaceType in MSDN documentation
-
+INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA
 
 =item SERIAL
 

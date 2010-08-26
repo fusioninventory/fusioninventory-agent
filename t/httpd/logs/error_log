@@ -1,0 +1,595 @@
+[Wed Jul 28 23:04:07 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:04:08 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:04:08 2010] [notice] Digest: done
+[Wed Jul 28 23:04:08 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:04:09 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:04:09 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:04:09 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:04:09 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21333)
+[Wed Jul 28 23:04:09 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:09:15 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:09:16 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:09:16 2010] [notice] Digest: done
+[Wed Jul 28 23:09:16 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:09:17 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:09:17 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:09:17 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:09:17 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21466)
+[Wed Jul 28 23:09:17 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:09:47 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:09:48 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:09:48 2010] [notice] Digest: done
+[Wed Jul 28 23:09:48 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:09:49 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:09:49 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:09:49 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:09:49 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21514)
+[Wed Jul 28 23:09:49 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:10:39 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:10:40 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:10:40 2010] [notice] Digest: done
+[Wed Jul 28 23:10:40 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:10:41 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:10:41 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:10:41 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:10:41 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21554)
+[Wed Jul 28 23:10:41 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:14:44 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:14:45 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:14:45 2010] [notice] Digest: done
+[Wed Jul 28 23:14:45 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:14:46 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:14:46 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:14:46 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:14:46 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21661)
+[Wed Jul 28 23:14:46 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:15:11 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:15:12 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:15:12 2010] [notice] Digest: done
+[Wed Jul 28 23:15:12 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:15:13 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:15:13 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:15:13 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:15:13 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21723)
+[Wed Jul 28 23:15:13 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:16:05 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:16:06 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:16:06 2010] [notice] Digest: done
+[Wed Jul 28 23:16:06 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:16:07 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:16:07 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:16:07 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:16:07 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21745)
+[Wed Jul 28 23:16:07 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:16:56 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:16:57 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:16:57 2010] [notice] Digest: done
+[Wed Jul 28 23:16:57 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:16:58 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:16:58 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:16:58 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:16:58 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21766)
+[Wed Jul 28 23:16:58 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:19:31 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:19:32 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:19:32 2010] [notice] Digest: done
+[Wed Jul 28 23:19:32 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:19:33 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:19:33 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:19:33 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:19:33 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=21884)
+[Wed Jul 28 23:19:33 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:22:53 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:22:54 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:22:54 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:22:54 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:22:54 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Wed Jul 28 23:22:54 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:22:54 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:22:54 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:22:54 2010] [notice] Digest: done
+[Wed Jul 28 23:22:54 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:22:55 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:22:55 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:22:55 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:22:55 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:22:55 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:22:55 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:22:55 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:22:55 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:22:55 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22062)
+[Wed Jul 28 23:22:55 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:23:44 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:23:45 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:23:45 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:23:45 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:23:45 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Wed Jul 28 23:23:45 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:23:45 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:23:45 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:23:45 2010] [notice] Digest: done
+[Wed Jul 28 23:23:45 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:23:46 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:23:46 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:23:46 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:23:46 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:23:46 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:23:46 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:23:46 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:23:46 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:23:46 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22156)
+[Wed Jul 28 23:23:46 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:24:00 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:24:01 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:24:01 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:24:01 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:24:01 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Wed Jul 28 23:24:01 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:24:01 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:24:01 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:24:01 2010] [notice] Digest: done
+[Wed Jul 28 23:24:01 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:24:02 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:24:02 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:24:02 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:24:02 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:24:02 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:24:02 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:24:02 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:24:02 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:24:03 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22248)
+[Wed Jul 28 23:24:03 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:25:34 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:25:35 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:25:35 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:25:35 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:25:35 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Wed Jul 28 23:25:35 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:25:35 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:25:35 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:25:35 2010] [notice] Digest: done
+[Wed Jul 28 23:25:35 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:25:36 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:25:36 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:25:36 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:25:36 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:25:36 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:25:36 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:25:36 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:25:36 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:25:36 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03\x01
+[Wed Jul 28 23:25:37 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03
+[Wed Jul 28 23:25:38 2010] [error] server reached MaxClients setting, consider raising the MaxClients setting
+[Wed Jul 28 23:25:38 2010] [error] [client 127.0.0.1] Invalid method in request \x80+\x01
+[Wed Jul 28 23:25:38 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22347)
+[Wed Jul 28 23:25:38 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:45:55 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:45:56 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:45:56 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:45:56 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:45:56 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Wed Jul 28 23:45:56 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:45:56 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:45:56 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:45:56 2010] [notice] Digest: done
+[Wed Jul 28 23:45:56 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:45:57 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:45:57 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:45:57 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:45:57 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:45:57 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:45:57 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:45:57 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:45:57 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:45:58 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03\x01
+[Wed Jul 28 23:45:59 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03
+[Wed Jul 28 23:46:00 2010] [error] server reached MaxClients setting, consider raising the MaxClients setting
+[Wed Jul 28 23:46:12 2010] [error] [client 127.0.0.1] File does not exist: /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/htdocs/favicon.ico
+[Wed Jul 28 23:46:15 2010] [error] [client 127.0.0.1] File does not exist: /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/htdocs/favicon.ico
+[Wed Jul 28 23:46:22 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03\x01
+[Wed Jul 28 23:46:30 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03\x01
+[Wed Jul 28 23:48:18 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03\x01
+[Wed Jul 28 23:48:45 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03\x01
+[Wed Jul 28 23:53:15 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22439)
+[Wed Jul 28 23:53:15 2010] [notice] caught SIGTERM, shutting down
+[Wed Jul 28 23:53:16 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:53:17 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:53:17 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:53:17 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:53:17 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Wed Jul 28 23:53:17 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:53:17 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:53:17 2010] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 28 23:53:17 2010] [notice] Digest: done
+[Wed Jul 28 23:53:17 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Wed Jul 28 23:53:18 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Wed Jul 28 23:53:18 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Wed Jul 28 23:53:18 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Wed Jul 28 23:53:18 2010] [info] Init: Initializing (virtual) servers for SSL
+[Wed Jul 28 23:53:18 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Wed Jul 28 23:53:18 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Wed Jul 28 23:53:18 2010] [info] Server built: Jul 26 2010 09:50:10
+[Wed Jul 28 23:53:18 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Wed Jul 28 23:53:18 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03\x01
+[Wed Jul 28 23:53:19 2010] [error] [client 127.0.0.1] Invalid method in request \x16\x03
+[Wed Jul 28 23:53:20 2010] [error] server reached MaxClients setting, consider raising the MaxClients setting
+[Thu Jul 29 00:03:42 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22658)
+[Thu Jul 29 00:03:42 2010] [notice] caught SIGTERM, shutting down
+[Thu Jul 29 00:03:43 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:03:44 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:03:44 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:03:44 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:03:44 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Thu Jul 29 00:03:44 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:03:44 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:03:44 2010] [notice] Digest: generating secret for digest authentication ...
+[Thu Jul 29 00:03:44 2010] [notice] Digest: done
+[Thu Jul 29 00:03:44 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:03:45 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:03:45 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:03:45 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:03:45 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:03:45 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:03:45 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Thu Jul 29 00:03:45 2010] [info] Server built: Jul 26 2010 09:50:10
+[Thu Jul 29 00:03:45 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Thu Jul 29 00:03:45 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22718)
+[Thu Jul 29 00:03:45 2010] [notice] caught SIGTERM, shutting down
+[Thu Jul 29 00:05:01 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:05:02 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:05:02 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:05:02 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:05:02 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Thu Jul 29 00:05:02 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:05:02 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:05:02 2010] [notice] Digest: generating secret for digest authentication ...
+[Thu Jul 29 00:05:02 2010] [notice] Digest: done
+[Thu Jul 29 00:05:02 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:05:03 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:05:03 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:05:03 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:05:03 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:05:03 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:05:03 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Thu Jul 29 00:05:03 2010] [info] Server built: Jul 26 2010 09:50:10
+[Thu Jul 29 00:05:03 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Thu Jul 29 00:05:04 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22769)
+[Thu Jul 29 00:05:04 2010] [notice] caught SIGTERM, shutting down
+[Thu Jul 29 00:07:10 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:07:11 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:07:11 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:07:11 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:07:11 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Thu Jul 29 00:07:11 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:07:11 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:07:11 2010] [notice] Digest: generating secret for digest authentication ...
+[Thu Jul 29 00:07:11 2010] [notice] Digest: done
+[Thu Jul 29 00:07:11 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:07:12 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:07:12 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:07:12 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:07:12 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:07:12 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:07:12 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Thu Jul 29 00:07:12 2010] [info] Server built: Jul 26 2010 09:50:10
+[Thu Jul 29 00:07:12 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Thu Jul 29 00:07:12 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22788)
+[Thu Jul 29 00:07:12 2010] [notice] caught SIGTERM, shutting down
+[Thu Jul 29 00:09:54 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:09:55 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:09:55 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:09:55 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:09:55 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Thu Jul 29 00:09:55 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:09:55 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:09:55 2010] [notice] Digest: generating secret for digest authentication ...
+[Thu Jul 29 00:09:55 2010] [notice] Digest: done
+[Thu Jul 29 00:09:55 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:09:56 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:09:56 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:09:56 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:09:56 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:09:56 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:09:56 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Thu Jul 29 00:09:56 2010] [info] Server built: Jul 26 2010 09:50:10
+[Thu Jul 29 00:09:56 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Thu Jul 29 00:09:56 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22815)
+[Thu Jul 29 00:09:56 2010] [notice] caught SIGTERM, shutting down
+[Thu Jul 29 00:11:20 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:11:21 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:11:21 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:11:21 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:11:21 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Thu Jul 29 00:11:21 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:11:21 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:11:21 2010] [notice] Digest: generating secret for digest authentication ...
+[Thu Jul 29 00:11:21 2010] [notice] Digest: done
+[Thu Jul 29 00:11:21 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 00:11:22 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 00:11:22 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 00:11:22 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 00:11:22 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 00:11:22 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 00:11:22 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Thu Jul 29 00:11:22 2010] [info] Server built: Jul 26 2010 09:50:10
+[Thu Jul 29 00:11:22 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Thu Jul 29 00:11:22 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=22834)
+[Thu Jul 29 00:11:22 2010] [notice] caught SIGTERM, shutting down
+[Thu Jul 29 22:23:12 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 22:23:13 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 22:23:13 2010] [info] Loading certificate & private key of SSL-aware server
+[Thu Jul 29 22:23:13 2010] [debug] ssl_engine_pphrase.c(470): unencrypted RSA private key - pass phrase not required
+[Thu Jul 29 22:23:13 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 22:23:13 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 22:23:13 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Thu Jul 29 22:23:13 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 22:23:13 2010] [info] Configuring server for SSL protocol
+[Thu Jul 29 22:23:13 2010] [debug] ssl_engine_init.c(465): Creating new SSL context (protocols: SSLv2, SSLv3, TLSv1)
+[Thu Jul 29 22:23:13 2010] [debug] ssl_engine_init.c(420): Configuring TLS extension handling
+[Thu Jul 29 22:23:13 2010] [debug] ssl_engine_init.c(792): Configuring RSA server certificate
+[Thu Jul 29 22:23:13 2010] [debug] ssl_engine_init.c(831): Configuring RSA server private key
+[Thu Jul 29 22:23:13 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 22:23:13 2010] [notice] Digest: generating secret for digest authentication ...
+[Thu Jul 29 22:23:13 2010] [notice] Digest: done
+[Thu Jul 29 22:23:13 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Thu Jul 29 22:23:14 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Thu Jul 29 22:23:14 2010] [info] Loading certificate & private key of SSL-aware server
+[Thu Jul 29 22:23:14 2010] [debug] ssl_engine_pphrase.c(470): unencrypted RSA private key - pass phrase not required
+[Thu Jul 29 22:23:14 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Thu Jul 29 22:23:14 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Thu Jul 29 22:23:14 2010] [info] Init: Initializing (virtual) servers for SSL
+[Thu Jul 29 22:23:14 2010] [info] Configuring server for SSL protocol
+[Thu Jul 29 22:23:14 2010] [debug] ssl_engine_init.c(465): Creating new SSL context (protocols: SSLv2, SSLv3, TLSv1)
+[Thu Jul 29 22:23:14 2010] [debug] ssl_engine_init.c(420): Configuring TLS extension handling
+[Thu Jul 29 22:23:14 2010] [debug] ssl_engine_init.c(792): Configuring RSA server certificate
+[Thu Jul 29 22:23:14 2010] [debug] ssl_engine_init.c(831): Configuring RSA server private key
+[Thu Jul 29 22:23:14 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Thu Jul 29 22:23:14 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Thu Jul 29 22:23:14 2010] [info] Server built: Jul 26 2010 09:50:10
+[Thu Jul 29 22:23:14 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Thu Jul 29 22:24:16 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=13059)
+[Thu Jul 29 22:24:16 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 22:28:34 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 22:28:35 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 22:28:35 2010] [info] Loading certificate & private key of SSL-aware server
+[Mon Aug 02 22:28:35 2010] [debug] ssl_engine_pphrase.c(470): unencrypted RSA private key - pass phrase not required
+[Mon Aug 02 22:28:35 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 22:28:35 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 22:28:35 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 22:28:35 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 22:28:35 2010] [info] Configuring server for SSL protocol
+[Mon Aug 02 22:28:35 2010] [debug] ssl_engine_init.c(465): Creating new SSL context (protocols: SSLv2, SSLv3, TLSv1)
+[Mon Aug 02 22:28:35 2010] [debug] ssl_engine_init.c(420): Configuring TLS extension handling
+[Mon Aug 02 22:28:35 2010] [debug] ssl_engine_init.c(792): Configuring RSA server certificate
+[Mon Aug 02 22:28:35 2010] [debug] ssl_engine_init.c(831): Configuring RSA server private key
+[Mon Aug 02 22:28:35 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 22:28:35 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 22:28:35 2010] [notice] Digest: done
+[Mon Aug 02 22:28:35 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 22:28:36 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 22:28:36 2010] [info] Loading certificate & private key of SSL-aware server
+[Mon Aug 02 22:28:36 2010] [debug] ssl_engine_pphrase.c(470): unencrypted RSA private key - pass phrase not required
+[Mon Aug 02 22:28:36 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 22:28:36 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 22:28:36 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 22:28:36 2010] [info] Configuring server for SSL protocol
+[Mon Aug 02 22:28:36 2010] [debug] ssl_engine_init.c(465): Creating new SSL context (protocols: SSLv2, SSLv3, TLSv1)
+[Mon Aug 02 22:28:36 2010] [debug] ssl_engine_init.c(420): Configuring TLS extension handling
+[Mon Aug 02 22:28:36 2010] [debug] ssl_engine_init.c(792): Configuring RSA server certificate
+[Mon Aug 02 22:28:36 2010] [debug] ssl_engine_init.c(831): Configuring RSA server private key
+[Mon Aug 02 22:28:36 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 22:28:36 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 22:28:36 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 22:28:36 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 22:29:28 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=2425)
+[Mon Aug 02 22:29:28 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 22:29:29 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 22:29:30 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 22:29:30 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 22:29:30 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 22:29:30 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 22:29:30 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 22:29:30 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 22:29:30 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 22:29:30 2010] [notice] Digest: done
+[Mon Aug 02 22:29:30 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 22:29:31 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 22:29:31 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 22:29:31 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 22:29:31 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 22:29:31 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 22:29:31 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 22:29:31 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 22:29:31 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 22:30:34 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=3067)
+[Mon Aug 02 22:30:34 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 22:56:30 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 22:56:31 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 22:56:31 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 22:56:31 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 22:56:31 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 22:56:31 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 22:56:31 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 22:56:31 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 22:56:31 2010] [notice] Digest: done
+[Mon Aug 02 22:56:31 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 22:56:32 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 22:56:32 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 22:56:32 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 22:56:32 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 22:56:32 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 22:56:32 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 22:56:32 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 22:56:32 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 22:57:35 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=19542)
+[Mon Aug 02 22:57:35 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 23:02:51 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:02:52 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:02:52 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:02:52 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:02:52 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 23:02:52 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:02:52 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:02:52 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 23:02:52 2010] [notice] Digest: done
+[Mon Aug 02 23:02:52 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:02:53 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:02:53 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:02:53 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:02:53 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:02:53 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:02:53 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 23:02:53 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 23:02:53 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 23:03:56 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=23774)
+[Mon Aug 02 23:03:56 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 23:07:36 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:07:37 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:07:37 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:07:37 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:07:37 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 23:07:37 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:07:37 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:07:37 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 23:07:37 2010] [notice] Digest: done
+[Mon Aug 02 23:07:37 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:07:38 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:07:38 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:07:38 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:07:38 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:07:38 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:07:38 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 23:07:38 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 23:07:38 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 23:08:41 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=26627)
+[Mon Aug 02 23:08:41 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 23:10:13 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:10:14 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:10:14 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:10:14 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:10:14 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 23:10:14 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:10:14 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:10:14 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 23:10:14 2010] [notice] Digest: done
+[Mon Aug 02 23:10:14 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:10:15 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:10:15 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:10:15 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:10:15 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:10:15 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:10:15 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 23:10:15 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 23:10:15 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 23:11:44 2010] [error] [client 127.0.0.1] File does not exist: /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/htdocs/favicon.ico
+[Mon Aug 02 23:11:47 2010] [error] [client 127.0.0.1] File does not exist: /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/htdocs/favicon.ico
+[Mon Aug 02 23:11:52 2010] [error] [client 127.0.0.1] user test: authentication failure for "/private": Password Mismatch
+[Mon Aug 02 23:11:56 2010] [error] [client 127.0.0.1] Directory index forbidden by Options directive: /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/htdocs/private/
+[Mon Aug 02 23:11:57 2010] [error] server reached MaxClients setting, consider raising the MaxClients setting
+[Mon Aug 02 23:12:53 2010] [error] [client 127.0.0.1] Directory index forbidden by Options directive: /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/htdocs/private/
+[Mon Aug 02 23:13:14 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=28206)
+[Mon Aug 02 23:13:14 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 23:13:15 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:13:16 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:13:16 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:13:16 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:13:16 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 23:13:16 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:13:16 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:13:16 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 23:13:16 2010] [notice] Digest: done
+[Mon Aug 02 23:13:16 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:13:17 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:13:17 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:13:17 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:13:17 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:13:17 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:13:17 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 23:13:17 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 23:13:17 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 23:15:24 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=29968)
+[Mon Aug 02 23:15:24 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 23:15:25 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:15:26 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:15:26 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:15:26 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:15:26 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 23:15:26 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:15:26 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:15:26 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 23:15:26 2010] [notice] Digest: done
+[Mon Aug 02 23:15:26 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:15:27 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:15:27 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:15:27 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:15:27 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:15:27 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:15:27 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 23:15:27 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 23:15:27 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 23:18:29 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=31191)
+[Mon Aug 02 23:18:29 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 23:18:30 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:19:15 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:19:16 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:19:16 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:19:35 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:19:36 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:19:36 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:19:36 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:19:36 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 23:19:36 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:19:36 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:19:36 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 23:19:36 2010] [notice] Digest: done
+[Mon Aug 02 23:19:36 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:19:37 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:19:37 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:19:37 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:19:37 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:19:37 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:19:37 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 23:19:37 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 23:19:37 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Mon Aug 02 23:23:04 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=1383)
+[Mon Aug 02 23:23:04 2010] [notice] caught SIGTERM, shutting down
+[Mon Aug 02 23:23:05 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:23:06 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:23:06 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:23:06 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:23:06 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Mon Aug 02 23:23:06 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:23:06 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:23:06 2010] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 02 23:23:06 2010] [notice] Digest: done
+[Mon Aug 02 23:23:06 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Mon Aug 02 23:23:07 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Mon Aug 02 23:23:07 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Mon Aug 02 23:23:07 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Mon Aug 02 23:23:07 2010] [info] Init: Initializing (virtual) servers for SSL
+[Mon Aug 02 23:23:07 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Mon Aug 02 23:23:07 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Mon Aug 02 23:23:07 2010] [info] Server built: Jul 26 2010 09:50:10
+[Mon Aug 02 23:23:07 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Tue Aug 03 00:31:33 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=3447)
+[Tue Aug 03 00:31:33 2010] [notice] caught SIGTERM, shutting down
+[Tue Aug 03 01:02:55 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Tue Aug 03 01:02:56 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Tue Aug 03 01:02:56 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Tue Aug 03 01:02:56 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Tue Aug 03 01:02:56 2010] [warn] Init: Session Cache is not configured [hint: SSLSessionCache]
+[Tue Aug 03 01:02:56 2010] [info] Init: Initializing (virtual) servers for SSL
+[Tue Aug 03 01:02:56 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Tue Aug 03 01:02:56 2010] [notice] Digest: generating secret for digest authentication ...
+[Tue Aug 03 01:02:56 2010] [notice] Digest: done
+[Tue Aug 03 01:02:56 2010] [info] mod_unique_id: using ip addr 192.168.0.7
+[Tue Aug 03 01:02:57 2010] [info] Init: Seeding PRNG with 0 bytes of entropy
+[Tue Aug 03 01:02:57 2010] [info] Init: Generating temporary RSA private keys (512/1024 bits)
+[Tue Aug 03 01:02:57 2010] [info] Init: Generating temporary DH parameters (512/1024 bits)
+[Tue Aug 03 01:02:57 2010] [info] Init: Initializing (virtual) servers for SSL
+[Tue Aug 03 01:02:57 2010] [info] mod_ssl/2.2.16 compiled against Server: Apache/2.2.16, Library: OpenSSL/1.0.0a
+[Tue Aug 03 01:02:57 2010] [notice] Apache/2.2.16 (Mandriva Linux/PREFORK-1mdv2011.0) mod_ssl/2.2.16 OpenSSL/1.0.0a PHP/5.3.3RC2 with Suhosin-Patch mod_perl/2.0.4 Perl/v5.12.1 configured -- resuming normal operations
+[Tue Aug 03 01:02:57 2010] [info] Server built: Jul 26 2010 09:50:10
+[Tue Aug 03 01:02:57 2010] [debug] prefork.c(1012): AcceptMutex: fcntl (default: fcntl)
+[Tue Aug 03 01:04:00 2010] [info] removed PID file /home/guillaume/work/fusioninventory/fusioninventory-agent/t/httpd/logs/httpd.pid (pid=29532)
+[Tue Aug 03 01:04:00 2010] [notice] caught SIGTERM, shutting down

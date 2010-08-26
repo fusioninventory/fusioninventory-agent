@@ -1,0 +1,621 @@
+Hardware:
+
+    Hardware Overview:
+
+      Machine Name: Power Mac G5
+      Machine Model: PowerMac11,2
+      CPU Type: PowerPC G5 (1.1)
+      Number Of CPUs: 2
+      CPU Speed: 2.3 GHz
+      L2 Cache (per CPU): 1 MB
+      Memory: 2 GB
+      Bus Speed: 1.15 GHz
+      Boot ROM Version: 5.2.7f1
+      Serial Number: CK54202SR6V
+
+Network:
+
+    Modem interne:
+
+      Type: PPP (PPPSerial)
+      Hardware: Modem
+      BSD Device Name: modem
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: PPP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          Proxy Configuration Method: Manual
+          ExcludeSimpleHostnames: 0
+          FTP Passive Mode: Yes
+          Auto Discovery Enabled: No
+
+    Bluetooth:
+
+      Type: PPP (PPPSerial)
+      Hardware: Modem
+      BSD Device Name: Bluetooth-Modem
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: PPP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          Proxy Configuration Method: Manual
+          ExcludeSimpleHostnames: 0
+          FTP Passive Mode: Yes
+          Auto Discovery Enabled: No
+
+    Ethernet intégré:
+
+      Type: Ethernet
+      Hardware: Ethernet
+      BSD Device Name: en0
+      Has IP Assigned: Yes
+      IPv4 Addresses: 10.0.1.110
+      IPv4:
+          Addresses: 10.0.1.110
+          Configuration Method: DHCP
+          Interface Name: en0
+          Router: 10.0.1.1
+          Subnet Masks: 255.255.255.0
+      IPv6:
+          Configuration Method: Automatic
+      DNS:
+          Domain Name: lan
+          Server Addresses: 10.0.1.1
+      DHCP Server Responses:
+          Domain Name: lan
+          Domain Name Servers: 10.0.1.1
+          Lease Duration (seconds): 0
+          DHCP Message Type: 0x05
+          Routers: 10.0.1.1
+          Server Identifier: 10.0.1.1
+          Subnet Mask: 255.255.255.0
+      Proxies:
+          FTP Proxy Enabled: No
+          FTP Passive Mode: Yes
+          Gopher Proxy Enabled: No
+          HTTP Proxy Enabled: No
+          HTTPS Proxy Enabled: No
+          RTSP Proxy Enabled: No
+          SOCKS Proxy Enabled: No
+      Ethernet:
+          MAC Address: 00:14:51:61:ef:08
+          Media Options: Full Duplex, flow-control
+          Media Subtype: 100baseTX
+
+    FireWire intégré:
+
+      Type: FireWire
+      Hardware: FireWire
+      BSD Device Name: fw0
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: DHCP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          Proxy Configuration Method: Manual
+          ExcludeSimpleHostnames: 0
+          FTP Passive Mode: Yes
+          Auto Discovery Enabled: No
+
+    Ethernet intégré 2:
+
+      Type: Ethernet
+      Hardware: Ethernet
+      BSD Device Name: en1
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: DHCP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          Proxy Configuration Method: Manual
+          ExcludeSimpleHostnames: 0
+          FTP Passive Mode: Yes
+          Auto Discovery Enabled: No
+      Ethernet:
+          MAC Address: 00:14:51:61:ef:09
+          Media Options: 
+          Media Subtype: autoselect
+
+    FireWire intégré:
+
+      Type: FireWire
+      Hardware: FireWire
+      BSD Device Name: fw1
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: DHCP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          Proxy Configuration Method: Manual
+          ExcludeSimpleHostnames: 0
+          FTP Passive Mode: Yes
+          Auto Discovery Enabled: No
+      Ethernet:
+          MAC Address: 00:14:51:ff:fe:1a:c8:e2
+          Media Options: Full Duplex
+          Media Subtype: autoselect
+
+Software:
+
+    System Software Overview:
+
+      System Version: Mac OS X 10.4.11 (8S165)
+      Kernel Version: Darwin 8.11.0
+      Boot Volume: fwosx104
+      Computer Name: g5
+      User Name: wawa (wawa)
+
+ATA:
+
+    ATA Bus:
+
+        HL-DT-ST DVD-RW GWA-4165B:
+
+          Model: HL-DT-ST DVD-RW GWA-4165B
+          Revision: C006
+          Serial Number: B6FD7234EC63
+          Detachable Drive: No
+          Protocol: ATAPI
+          Unit Number: 0
+          Socket Type: Internal
+
+Audio (Built In):
+
+    Built In Sound Card:
+
+      Devices:
+        Burr Brown PCM3052:
+          Inputs and Outputs:
+              Line Level Input:
+                  Controls: Mute, Master
+                  Playthrough: No
+                  PluginID: Onyx
+              S/PDIF Digital Output:
+                  Controls: Mute
+                  PluginID: Onyx
+              Headphones:
+                  Controls: Mute, Left, Right
+                  PluginID: Onyx
+              Internal Speakers:
+                  Controls: Mute, Master
+                  PluginID: Onyx
+              Line Level Output:
+                  Controls: Mute, Left, Right
+                  PluginID: Onyx
+      Formats:
+        PCM 16:
+          Bit Depth: 16
+          Bit Width: 16
+          Channels: 2
+          Mixable: Yes
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+        PCM 24:
+          Bit Depth: 24
+          Bit Width: 32
+          Channels: 2
+          Mixable: Yes
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+        AC3 16:
+          Bit Depth: 16
+          Bit Width: 16
+          Channels: 2
+          Mixable: No
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+
+    Built In Sound Card:
+
+      Devices:
+        Crystal Semiconductor CS84xx:
+          Inputs and Outputs:
+              S/PDIF Digital Input:
+                  Controls: Mute
+                  Playthrough: No
+                  PluginID: Topaz
+      Formats:
+        PCM 16:
+          Bit Depth: 16
+          Bit Width: 16
+          Channels: 2
+          Mixable: Yes
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+        PCM 24:
+          Bit Depth: 24
+          Bit Width: 32
+          Channels: 2
+          Mixable: Yes
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+        AC3 16:
+          Bit Depth: 16
+          Bit Width: 16
+          Channels: 2
+          Mixable: No
+          Sample Rates: 32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz
+
+Diagnostics:
+
+    Power On Self-Test:
+
+      Last Run: 27/07/10 17:27
+      Result: Passed
+
+Disc Burning:
+
+    HL-DT-ST DVD-RW GWA-4165B:
+
+      Firmware Revision: C006
+      Interconnect: ATAPI
+      Burn Support: Yes (Apple Shipped/Supported)
+      Cache: 2048 KB
+      Reads DVD: Yes
+      CD-Write: -R, -RW
+      DVD-Write: -R, -RW, +R, +RW, +R DL
+      Burn Underrun Protection CD: Yes
+      Burn Underrun Protection DVD: Yes
+      Write Strategies: CD-TAO, CD-SAO, CD-Raw, DVD-DAO
+      Media: No
+
+FireWire:
+
+    FireWire Bus:
+
+      Maximum Speed: Up to 800 Mb/sec
+
+        Unknown Device:
+
+          Manufacturer: Unknown
+          Model: Unknown Device
+          Maximum Speed: Up to 400 Mb/sec
+          Connection Speed: Up to 400 Mb/sec
+
+Graphics/Displays:
+
+    NVIDIA GeForce 6600:
+
+      Chipset Model: GeForce 6600
+      Type: Display
+      Bus: PCI
+      Slot: SLOT-1
+      VRAM (Total): 256 MB
+      Vendor: nVIDIA (0x10de)
+      Device ID: 0x0141
+      Revision ID: 0x00a4
+      ROM Revision: 2149
+      Displays:
+        ASUS VH222:
+          Resolution: 1360 x 768 @ 60 Hz
+          Depth: 32-bit Color
+          Display Asleep: Yes
+          Core Image: Supported
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Quartz Extreme: Supported
+        Display:
+          Status: No display connected
+
+Memory:
+
+    DIMM0/J6700:
+
+      Size: 1 GB
+      Type: DDR2 SDRAM
+      Speed: PC2-4200U-444
+      Status: OK
+
+    DIMM1/J6800:
+
+      Size: 1 GB
+      Type: DDR2 SDRAM
+      Speed: PC2-4200U-444
+      Status: OK
+
+    DIMM2/J6900:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+
+    DIMM3/J7000:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+
+    DIMM4/J7100:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+
+    DIMM5/J7200:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+
+    DIMM6/J7300:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+
+    DIMM7/J7400:
+
+      Size: Empty
+      Type: Empty
+      Speed: Empty
+      Status: Empty
+
+PCI Cards:
+
+    GeForce 6600:
+
+      Name: NVDA,Display-B
+      Type: display
+      Bus: PCI
+      Slot: SLOT-1
+      Vendor ID: 0x10de
+      Device ID: 0x0141
+      Subsystem Vendor ID: 0x10de
+      Subsystem ID: 0x0010
+      ROM Revision: 2149
+      Revision ID: 0x00a4
+
+    bcom5714:
+
+      Type: network
+      Bus: PCI
+      Slot: GIGE
+      Vendor ID: 0x14e4
+      Device ID: 0x166a
+      Subsystem Vendor ID: 0x106b
+      Subsystem ID: 0x0085
+      Revision ID: 0x0003
+
+    bcom5714:
+
+      Type: network
+      Bus: PCI
+      Slot: GIGE
+      Vendor ID: 0x14e4
+      Device ID: 0x166a
+      Subsystem Vendor ID: 0x106b
+      Subsystem ID: 0x0085
+      Revision ID: 0x0003
+
+Power:
+
+    System Power Settings:
+
+      AC Power:
+          System Sleep Timer (Minutes): 0
+          Disk Sleep Timer (Minutes): 10
+          Display Sleep Timer (Minutes): 10
+          Dynamic Power Step: Yes
+          Reduce Processor Speed: No
+          Sleep On Power Button: Yes
+          Automatic Restart On Power Loss: No
+          Wake On AC Change: No
+          Wake On LAN: Yes
+          Wake On Modem Ring: Yes
+
+Serial-ATA:
+
+    Serial-ATA Bus:
+
+        Maxtor 6B250S0:
+
+          Capacity: 233.76 GB
+          Model: Maxtor 6B250S0
+          Revision: BANC1E50
+          Serial Number: B623KFXH
+          Removable Media: No
+          Detachable Drive: No
+          BSD Name: disk0
+          Protocol: ata
+          Unit Number: 0
+          Socket Type: Serial-ATA
+          Bay Name: "A (upper)"
+          OS9 Drivers: No
+          S.M.A.R.T. status: Verified
+          Volumes:
+            osx105:
+              Capacity: 21.42 GB
+              Available: 6.87 GB
+              Writable: Yes
+              File System: Journaled HFS+
+              BSD Name: disk0s3
+              Mount Point: /Volumes/osx105
+            fwosx104:
+              Capacity: 212.09 GB
+              Available: 203.48 GB
+              Writable: Yes
+              File System: Journaled HFS+
+              BSD Name: disk0s5
+              Mount Point: /
+          Volumes:
+            disk0s3:
+              Capacity: 21.42 GB
+              Available: 6.87 GB
+              Writable: Yes
+              File System: Journaled HFS+
+            disk0s5:
+              Capacity: 212.09 GB
+              Available: 203.48 GB
+              Writable: Yes
+              File System: Journaled HFS+
+
+USB:
+
+    USB Bus:
+
+      Host Controller Location: Built In USB
+      Host Controller Driver: AppleUSBOHCI
+      PCI Device ID: 0x0035
+      PCI Revision ID: 0x0043
+      PCI Vendor ID: 0x1033
+      Bus Number: 0x0b
+
+    USB High-Speed Bus:
+
+      Host Controller Location: Built In USB
+      Host Controller Driver: AppleUSBEHCI
+      PCI Device ID: 0x00e0
+      PCI Revision ID: 0x0004
+      PCI Vendor ID: 0x1033
+      Bus Number: 0x4b
+
+    USB Bus:
+
+      Host Controller Location: Built In USB
+      Host Controller Driver: AppleUSBOHCI
+      PCI Device ID: 0x0035
+      PCI Revision ID: 0x0043
+      PCI Vendor ID: 0x1033
+      Bus Number: 0x2b
+
+Locations:
+
+    Automatic:
+
+      Active Location: Yes
+      Services:
+        Modem interne:
+          Type: PPP
+          IPv4:
+              Configuration Method: PPP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Proxy Configuration Method: 2
+              ExcludeSimpleHostnames: 0
+              FTP Passive Mode: 1
+              Auto Discovery Enabled: 0
+          PPP:
+              ACSP Enabled: 0
+              Display Terminal Window: 0
+              Redial Count: 1
+              Redial Enabled: 1
+              Redial Interval: 5
+              Use Terminal Script: 0
+              Dial On Demand: 0
+              Disconnect On Fast User Switch: 1
+              Disconnect On Idle: 1
+              Disconnect On Idle Timer: 600
+              Disconnect On Logout: 1
+              Disconnect On Sleep: 1
+              Idle Reminder: 0
+              Idle Reminder Time: 1800
+              IPCP Compression VJ: 1
+              LCP Echo Enabled: 1
+              LCP Echo Failure: 4
+              LCP Echo Interval: 10
+              Log File: /var/log/ppp.log
+              Verbose Logging: 0
+        Bluetooth:
+          Type: PPP
+          IPv4:
+              Configuration Method: PPP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Proxy Configuration Method: 2
+              ExcludeSimpleHostnames: 0
+              FTP Passive Mode: 1
+              Auto Discovery Enabled: 0
+          PPP:
+              ACSP Enabled: 0
+              Display Terminal Window: 0
+              Redial Count: 1
+              Redial Enabled: 1
+              Redial Interval: 5
+              Use Terminal Script: 0
+              Dial On Demand: 0
+              Disconnect On Fast User Switch: 1
+              Disconnect On Idle: 1
+              Disconnect On Idle Timer: 600
+              Disconnect On Logout: 1
+              Disconnect On Sleep: 1
+              Idle Reminder: 0
+              Idle Reminder Time: 1800
+              IPCP Compression VJ: 1
+              LCP Echo Enabled: 0
+              LCP Echo Failure: 4
+              LCP Echo Interval: 10
+              Log File: /var/log/ppp.log
+              Verbose Logging: 0
+        Ethernet intégré:
+          Type: Ethernet
+          BSD Device Name: en0
+          Hardware (MAC) Address: 00:14:51:61:ef:08
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          AppleTalk:
+              Configuration Method: Node
+          Proxies:
+              FTP Proxy Enabled: 0
+              FTP Passive Mode: 1
+              Gopher Proxy Enabled: 0
+              HTTP Proxy Enabled: 0
+              HTTPS Proxy Enabled: 0
+              RTSP Proxy Enabled: 0
+              SOCKS Proxy Enabled: 0
+        FireWire intégré:
+          Type: FireWire
+          BSD Device Name: fw0
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          AppleTalk:
+              Configuration Method: Node
+          Proxies:
+              Proxy Configuration Method: 2
+              ExcludeSimpleHostnames: 0
+              FTP Passive Mode: 1
+              Auto Discovery Enabled: 0
+        Ethernet intégré 2:
+          Type: Ethernet
+          BSD Device Name: en1
+          Hardware (MAC) Address: 00:14:51:61:ef:09
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          AppleTalk:
+              Configuration Method: Node
+          Proxies:
+              Proxy Configuration Method: 2
+              ExcludeSimpleHostnames: 0
+              FTP Passive Mode: 1
+              Auto Discovery Enabled: 0
+        FireWire intégré:
+          Type: FireWire
+          BSD Device Name: fw1
+          Hardware (MAC) Address: 00:14:51:ff:fe:1a:c8:e2
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          AppleTalk:
+              Configuration Method: Node
+          Proxies:
+              Proxy Configuration Method: 2
+              ExcludeSimpleHostnames: 0
+              FTP Passive Mode: 1
+              Auto Discovery Enabled: 0
+

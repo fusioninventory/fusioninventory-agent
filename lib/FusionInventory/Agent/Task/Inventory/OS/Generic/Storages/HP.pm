@@ -16,6 +16,8 @@ use FusionInventory::Agent::Tools;
 # HP Array Configuration Utility CLI 7.85-18.0
 
 sub getHpacuacliFromWinRegistry {
+    my ($logger) = @_;
+
     my $Registry;
     eval {
         require Win32::TieRegistry;
@@ -77,7 +79,7 @@ sub doInventory {
 
     my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
 
-    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry();
+    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry($logger);
     foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
 
 # Example output :

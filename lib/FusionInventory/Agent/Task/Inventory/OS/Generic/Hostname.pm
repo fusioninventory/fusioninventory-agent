@@ -1,12 +1,15 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Hostname;
 
+use English qw(-no_match_vars);
+
 use strict;
 use warnings;
 
 use Sys::Hostname;
 
 sub isInventoryEnabled {
-    return 1;
+# We use WMI for Windows because of charset issue
+    return $OSNAME ne 'MSWin32';
 }
 
 # Initialise the distro entry

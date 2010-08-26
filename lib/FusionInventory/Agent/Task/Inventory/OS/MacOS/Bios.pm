@@ -33,6 +33,11 @@ sub doInventory {
                 SSN             => $h->{'Serial Number'} || $h->{'Serial Number (system)'},
                 BVERSION        => $h->{'Boot ROM Version'},
         });
+
+
+            $inventory->setHardware({
+                    UUID => $h->{'Hardware UUID'}
+                });
 }
 
 1;

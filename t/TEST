@@ -1,0 +1,4 @@
+#!/usr/bin/perl
+
+use Apache::TestRun;
+Apache::TestRun->new->run(@ARGV);

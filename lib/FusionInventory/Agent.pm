@@ -19,7 +19,7 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
-our $VERSION = '2.1_rc2';
+our $VERSION = '2.1.2';
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -92,7 +92,28 @@ sub new {
         $logger->error("share-dir doesn't existe $config->{'share-dir'}");
     }
 
-    my $hostname = hostname();
+    #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
+    my $hostname;
+  
+
+    if ($OSNAME =~ /^MSWin/) {
+        eval '
+use Encode;
+use Win32::API;
+
+	my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
+"N");
+my $lpBuffer = "\x00" x 1024;
+my $N=1024;#pack ("c4", 160,0,0,0);
+
+my $return = $GetComputerName->Call(3, $lpBuffer,$N);
+
+# GetComputerNameExW returns the string in UTF16, we have to change it
+# to UTF8
+$hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
+    } else {
+        $hostname = hostname();
+    }
 
     # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
@@ -121,6 +142,7 @@ sub new {
         config => $config,
         deviceid => $self->{deviceid}
     });
+
     my $targetsList = $self->{targetsList};
 
     if (!$targetsList->numberOfTargets()) {
@@ -155,11 +177,18 @@ sub new {
         chdir $cwd if $config->{devlib};
 
     }
-    $self->{rpc} = FusionInventory::Agent::RPC->new({
-        logger      => $logger,
-        config      => $config,
-        targetsList => $targetsList,
-    });
+
+    # threads and HTTP::Daemon are optional and so this module
+    # may fail to load.
+    if (eval "use FusionInventory::Agent::RPC;1;") {
+        $self->{rpc} = FusionInventory::Agent::RPC->new({
+                logger => $logger,
+                config => $config,
+                targetsList => $targetsList,
+            });
+    } else {
+        $logger->debug("Failed to load RPC module: $EVAL_ERROR");
+    }
 
     $logger->debug("FusionInventory Agent initialised");
 
@@ -192,7 +221,7 @@ sub main {
     my $rpc = $self->{rpc};
 
     eval {
-        $rpc->setCurrentStatus("waiting");
+        $rpc->setCurrentStatus("waiting") if $rpc;
 
         while (my $target = $targetsList->getNext()) {
 
@@ -256,7 +285,7 @@ sub main {
                     next;
                 }
 
-                $rpc->setCurrentStatus("running task $module");
+                $rpc->setCurrentStatus("running task $module") if $rpc;
 
                 my $task = $package->new({
                     config => $config,
@@ -292,7 +321,7 @@ sub main {
                     $logger->debug("[task] end of $module");
                 }
             }
-            $rpc->setCurrentStatus("waiting");
+            $rpc->setCurrentStatus("waiting") if $rpc;
 
             if (!$config->{debug}) {
                 # In debug mode, I do not clean the FusionInventory-Agent.dump

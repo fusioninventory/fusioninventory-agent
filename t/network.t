@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use strict;
+use warnings;
 use lib 't';
 
 use FusionInventory::Agent::Network;
@@ -245,8 +246,13 @@ $server = FusionInventory::Test::Server->new(
     password => 'test',
 );
 $server->set_dispatch({
-    '/public'  => sub { return $ok->(@_) if $server->{forwarded}; },
-    '/private' => sub { return $ok->(@_) if $server->{forwarded} && $server->authenticate(); }
+    '/public'  => sub {
+        return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR};
+    },
+    '/private' => sub {
+        return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR} &&
+                            $server->authenticate();
+    }
 });
 $server->background();
 
@@ -310,8 +316,8 @@ $server = FusionInventory::Test::Server->new(
     key      => 't/httpd/conf/ssl/key/good.pem',
 );
 $server->set_dispatch({
-    '/public'  => sub { return $ok->(@_) if $server->{forwarded}; },
-    '/private' => sub { return $ok->(@_) if $server->{forwarded} && $server->authenticate(); }
+    '/public'  => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR}; },
+    '/private' => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR} && $server->authenticate(); }
 });
 $server->background();
 

@@ -56,9 +56,11 @@ sub getFromDF {
         Apr => 4,
         May => 5,
         Jun => 6,
-        Aug => 7,
-        Sep => 8,
-        Nov => 9,
+        Jul => 7,
+        Aug => 8,
+        Sep => 9,
+        Oct => 10,
+        Nov => 11,
         Dec => 12,
     );
 
@@ -136,11 +138,12 @@ sub parseLshal {
         return;
     }
 
-   my ($devices, $device);
+   my $devices = [];
+   my $device = {};
 
     while (my $line = <$handle>) {
         chomp $line;
-        if ($line =~ m{^udi = '/org/freedesktop/Hal/devices/volume.*}) {
+        if ($line =~ m{^udi = '/org/freedesktop/Hal/devices/(volume|block).*}) {
             $device = {};
             next;
         }
@@ -148,7 +151,10 @@ sub parseLshal {
         next unless defined $device;
 
         if ($line =~ /^$/) {
-            push(@$devices, $device);
+            if ($device->{ISVOLUME}) {
+                delete($device->{ISVOLUME});
+                push(@$devices, $device);
+            }
             undef $device;
         } elsif ($line =~ /^\s+ block.device \s = \s '([^']+)'/x) {
             $device->{VOLUMN} = $1;
@@ -163,6 +169,8 @@ sub parseLshal {
          } elsif ($line =~ /^\s+ volume.size \s = \s (\S+)/x) {
             my $value = $1;
             $device->{TOTAL} = int($value/(1024*1024) + 0.5);
+        } elsif ($line =~ /block.is_volume\s*=\s*true/i) {
+            $device->{ISVOLUME} = 1;
         }
     }
     close $handle;

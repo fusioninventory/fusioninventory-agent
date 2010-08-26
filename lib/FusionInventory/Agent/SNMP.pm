@@ -19,15 +19,18 @@ sub new {
     }
 
     my $version =
+        ! $params->{version}       ? 'snmpv1'  :
         $params->{version} eq '1'  ? 'snmpv1'  :
         $params->{version} eq '2c' ? 'snmpv2c' :
         $params->{version} eq '3'  ? 'snmpv3'  :
                                      undef     ;
 
+    die "invalid SNMP version $params->{version}";
+
     if ($version eq 'snmpv3') {
         $self->{session} = Net::SNMP->session(
-            -timeout      => 1,
-            -retries      => 0,
+            -timeout   => 1,
+            -retries   => 0,
             -version      => $version,
             -hostname     => $params->{hostname},
             -username     => $params->{username},
@@ -49,6 +52,9 @@ sub new {
             -port        => 161
         );
     }
+
+    # netdiscovery and snmpquery plugins access internal structure directly
+    $self->{SNMPSession}->{session} = $self->{session};
 
     bless $self, $class;
 

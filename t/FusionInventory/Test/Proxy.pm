@@ -3,6 +3,7 @@ package FusionInventory::Test::Proxy;
 use strict;
 use warnings;
 use HTTP::Proxy;
+use File::Temp;
 
 our $pid;
 
@@ -14,6 +15,7 @@ sub new {
     my $proxy = HTTP::Proxy->new(port => 0);
     $proxy->init();
     $proxy->agent()->no_proxy('localhost');
+    $proxy->logfh(File::Temp->new());
 
     my $self = {
         proxy => $proxy

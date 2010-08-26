@@ -59,7 +59,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     # return immediatly if vm type has already been found
-    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
+    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
 
     my $dmesg = '/bin/dmesg | head -n 750';
 
@@ -70,7 +70,7 @@ sub doInventory {
     if (can_run('/usr/sbin/zoneadm')) {
         my @solaris_zones =
             grep { !/global/ }
-            `/usr/sbin/zoneadm list`;
+            `/usr/sbin/zoneadm list 2>/dev/null`;
         if (@solaris_zones) {
             $status = "SolarisZone";
             $found = 1;
@@ -90,6 +90,11 @@ sub doInventory {
         } else {
             # domU PV host
             $status = "Xen";
+            # those information can't be extracted from dmidecode
+            $inventory->setBios ({
+                SMANUFACTURER => 'Xen',
+                SMODEL => 'PVM domU'
+            });
         }
     }
 
@@ -196,8 +201,8 @@ sub doInventory {
                 }
             }
             close $handle;
-        } else {
-            warn "Can't open /proc/scsi/scsi: $ERRNO";
+#        } else {
+#            warn "Can't open /proc/scsi/scsi: $ERRNO";
         }
     }
 

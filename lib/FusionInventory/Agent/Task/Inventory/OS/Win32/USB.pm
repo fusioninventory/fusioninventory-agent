@@ -17,7 +17,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     foreach my $wmiClass (qw/CIM_LogicalDevice/) {
-        foreach my $Properties (getWmiProperties($wmiClass, qw/DeviceID/)) {
+        foreach my $Properties (getWmiProperties($wmiClass, qw/DeviceID Name/)) {
             next unless $Properties->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(\\|$)(.*)/;
 
             my $vendorId = $1;
@@ -31,6 +31,7 @@ sub doInventory {
             next if $vendorId =~ /^0+$/;
     
             $inventory->addUSBDevice({
+                NAME => $Properties->{Name},
                 VENDORID => $vendorId,
                 PRODUCTID => $productId,
                 SERIAL => $serial

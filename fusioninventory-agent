@@ -81,57 +81,87 @@ in a local XML file.
 This agent is the successor of the former linux_agent which was released with
 OCS 1.01 and prior. It also replaces the Solaris/AIX/BSD unofficial agents.
 
+Supported systems:
+
 =over 4
 
-=item
+=item F<Windows> (since Windows 2000)
 
-F<Windows> (since Windows 2000)
+=item F<GNU/Linux>
 
-=item
+=item F<MacOSX>
 
-F<GNU/Linux>
+=item F<Solaris>
 
-=item
+=item F<FreeBSD>
 
-F<MacOSX>
+=item F<NetBSD>
 
-=item
+=item F<OpenBSD>
 
-F<Solaris>
+=item F<AIX>
 
-=item
+=item F<HP-UX>
 
-F<FreeBSD>
-
-=item
-
-F<NetBSD>
-
-=item
-
-F<OpenBSD>
-
-=item
-
-F<AIX>
-
-=item
-
-F<HP-UX>
-
-=item
-
-F<GNU/kFreeBSD>
+=item F<GNU/kFreeBSD>
 
 =back
 
-PREREQUISITES
-
-Before the installation, please ensure no error had been reported by
-
- perl Makfile.PL
-
 =head1 INSTALLATION
+
+=head2 PREREQUISITES
+
+Minimum perl version: 5.8
+
+Additional mandatory perl modules:
+
+=over
+
+=item Digest::MD5
+
+=item XML::Simple
+
+=item LWP
+
+=item Net::IP
+
+=item UNIVERSAL::require
+
+=item Mac::SysProfile (MacOs only)
+
+=back
+
+Additional optional perl modules:
+
+=over
+
+=item Compress::Zlib, for message compression
+
+=item HTTP::Daemon, for web interface
+
+=item Net::CUPS (v0.60 minimum), for printers detection 
+
+=item File::ShareDir, for automatic data directory determination
+
+=item Proc::Daemon, for daemon mode (Unix only)
+
+=item Proc::PID::File, for daemon mode (Unix only)
+
+=back
+
+Additional optional programs:
+
+=over
+
+=item nmap or ipdiscover, for network discovery
+
+=item dmidecode (linux or bsd) for hardware inventory
+
+=item lspci (linux or bsd) for hardware inventory
+
+=back
+
+=head2 PROCEDURE
 
 Once the archive is unpacked, use these commands:
 
@@ -139,55 +169,30 @@ Once the archive is unpacked, use these commands:
     make
     make install
 
-If you want to turn off the interactive post install script, just do
-
-     PERL_AUTOINSTALL=1 perl Makefile.PL
-
-instead of the
-
-     perl Makefile.PL
-
 You can also run the agent from the tarball directory. In this case, use
 the --devlib flag to load the library from the local directory.
 
-The agent needs some directories to store internal settings.
+=head2 SYSTEM-SPECIFIC INFORMATIONS
 
-you can choose other directories by changing the default settings
-directly in the fusioninventory-agent config file.
+=head3 Solaris
 
-You need to launch the agent with root privilege. For debugging you can
-try to launch it with the -l flag:
-eg: fusioninventory-agent -l /tmp --debug
-
-It's also possible to run directly from the tarball directory:
-
- sudo ./fusioninventory-agent --devlib --server http://server/ocsinventory
-
-=head2 Solaris
-
-Sun Studio seems to be needed to build the dependency.
-The generated Makefile needs gmake to be executed
-The default installation will install the binary in /usr/perl5/5.XXXXX/bin,
-set you $PATH variable according to that.
+Sun Studio seems to be needed to build the dependency. The generated Makefile
+needs gmake to be executed. The default installation will install the binary in
+/usr/perl5/5.XXXXX/bin, set you $PATH variable according to that.
 
 On Solaris/SPARC, you must install sneep and record the Serial Number with
 it.
 Download it from L<http://www.sun.com/download/products.xml?id=4304155a>
 
-=head2 Crontab
-
-If you use the crontab to launch the agent you'll probably have to redefine
-the PATH. For example, just add something like:
-
- PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-
-At the beginning of the cron file.
-
-=head2 Windows
+=head3 Windows
 
 If you don't want to use the installer for Windows you can follow the
 installation process avalaible there:
 L<http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/RunAgentWin32>
+
+=head2 POST-INSTALLATION
+
+Run ./fusioninventory-agent-config for automatic configuration.
 
 =head1 OCS INVENTORY PROTOCOLE
 
@@ -323,6 +328,12 @@ Write an inventory in the I<DIR> directory. A new file will be created if needed
 
 Log message in I<FILE> and turn off STDERR
 
+=item B<--logfile-maxsize>=I<FILE>
+
+Max logfile size in MB, default is unlimited. When the max size is reached, the
+file is truncated. This is only useful if there is no log rotation mechanism on
+the system.
+
 =item B<--logger>=I<LOGGER:>
 
 The logger you want to use. It can be:
@@ -384,6 +395,9 @@ Use I<REALM> for an HTTP identification with the server. For example, the
 value can be 'Restricted Area'. You can find it in the login popup of your
 Internet browser.
 
+if no realm is passed and the auth fails, the agent will retry an authentification
+with the realm returned by the server.
+
 =item B<--rpc-ip>=I<IP>
 
 The IP address of the interface to use for the P2P exchange. The default
@@ -411,6 +425,14 @@ you need to enter the full path.
 You can declare more than one server if you use the ',' delimiter.
 
     % --server=http://servername/ocsinventory,server2
+
+In general, OCS Inventory server URL have this format:
+
+    http://servername/ocsinventory
+
+and FusionInventory for GLPI this one:
+
+    http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
 
 B<--server> is ignored if B<--local> is in use.
 

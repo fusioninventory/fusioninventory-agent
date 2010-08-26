@@ -11,7 +11,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run('/Library/Application\ Support/VMware\ Fusion/vmrun');
+    return -x '/Library/Application Support/VMware Fusion/vmrun';
 }
 
 sub doInventory {

@@ -23,6 +23,15 @@ sub getXPkey {
 	or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
     my $key     =
 	$machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+
+    if (!$key) { # 64bit OS?
+        $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64KEY() } )
+            or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
+        $key     =
+            $machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+    }
+    return unless $key;
+
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
 
     # Get indices
@@ -73,10 +82,11 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
         OSLanguage Caption Version SerialNumber Organization RegisteredUser
-        CSDVersion
+        CSDVersion TotalSwapSpaceSize
         /)) {
 
         my $key = getXPkey(); 
@@ -90,14 +100,15 @@ sub doInventory {
             WINCOMPANY => $Properties->{Organization},
             WINOWNER => $Properties->{RegistredUser},
             OSCOMMENTS => $Properties->{CSDVersion},
+            SWAP => int(($Properties->{TotalSwapSpaceSize}||0)/(1024*1024)),
         });
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
-        Workgroup UserName PrimaryOwnerName
+        Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
     /)) {
 
-        my $workgroup = $Properties->{Workgroup};
+        my $workgroup = $Properties->{Domain} || $Properties->{Workgroup};
         my $userdomain;
 #        my $userid;
 #        my @tmp = split(/\\/, $Properties->{UserName});
@@ -107,9 +118,11 @@ sub doInventory {
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
         $inventory->setHardware({
+            MEMORY => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
             USERDOMAIN => $userdomain,
             WORKGROUP => $workgroup,
             WINOWNER => $winowner,
+            NAME => $Properties->{Name},
         });
     }
 

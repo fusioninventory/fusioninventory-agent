@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Domains;
 use strict;
 use warnings;
 
+use Sys::Hostname;
+
 use English qw(-no_match_vars);
 use Sys::Hostname;
 

@@ -36,6 +36,8 @@ sub isInventoryEnabled {
 }
 
 sub getScreens {
+    my ($logger) = @_;
+
     my @raw_edid;
 
 
@@ -55,16 +57,14 @@ sub getScreens {
             return;
         }
 
-        use constant wbemFlagReturnImmediately => 0x10;
-        use constant wbemFlagForwardOnly => 0x20;
+#        use constant wbemFlagReturnImmediately => 0x10;
+#        use constant wbemFlagForwardOnly => 0x20;
 
-        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-            or die "WMI connection failed";
-        my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
-                wbemFlagReturnImmediately | wbemFlagForwardOnly);
-
-        foreach my $objItem (getWmiProperties('Win32_DesktopMonitor', qw/
-            Caption PNPDeviceID
+#        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or $logger->fault("WMI connection failed.\n");
+#        my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
+#                wbemFlagReturnImmediately | wbemFlagForwardOnly);
+        foreach my $objItem (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_DesktopMonitor', qw/
+            Caption MonitorManufacturer MonitorType PNPDeviceID
         /)) {
 
             next unless $objItem->{"PNPDeviceID"};
@@ -83,7 +83,7 @@ sub getScreens {
                 $machKey->{"SYSTEM/CurrentControlSet/Enum/$objItem->{PNPDeviceID}/Device Parameters/EDID"} || '';
             $edid =~ s/^\s+$//;
 
-            push @raw_edid, { name => $name, edid => $edid };
+            push @raw_edid, { name => $name, edid => $edid, type => $objItem->{MonitorType}, manufacturer => $objItem->{MonitorManufacturer}, caption => $objItem->{Caption} };
         }
 
     } else {
@@ -448,7 +448,14 @@ sub parse_edid {
             $edid{ratio_precision} = 'mm';
         }
 
-        $h->{bad_ratio} = 1 if abs($edid{ratio} - $h->{horizontal_active} / $h->{vertical_active}) > ($edid{ratio_precision} eq 'mm' ? 0.02 : 0.2);
+        if ($edid{ratio_precision}) {
+            my $ratio = abs(
+                $edid{ratio} -
+                $h->{horizontal_active} / $h->{vertical_active}
+            );
+            my $factor = $edid{ratio_precision} eq 'mm' ? 0.02 : 0.2;
+            $h->{bad_ratio} = 1 if $ratio > $factor;
+        }
     }
 
     $edid{diagonal_size} = sqrt(sqr($edid{max_size_horizontal}) + 
@@ -648,13 +655,12 @@ sub doInventory {
     my $verbose;
     my $MonitorsDB;
 
-    my @screens = getScreens();
+    my @screens = getScreens($logger);
 
     return unless @screens;
 
     foreach my $screen (@screens) {
         my $name = $screen->{name};
-
         my $caption = $name;
         my $description;
         my $manufacturer;
@@ -683,9 +689,9 @@ sub doInventory {
 
         $inventory->addMonitor ({
             BASE64 => $base64,
-            CAPTION => $caption,
-            DESCRIPTION => $description,
-            MANUFACTURER => $manufacturer,
+            CAPTION => $caption || $screen->{caption},
+            DESCRIPTION => $description || $screen->{description},
+            MANUFACTURER => $manufacturer || $screen->{manufacturer},
             SERIAL => $serial,
             UUENCODE => $uuencode,
         });
