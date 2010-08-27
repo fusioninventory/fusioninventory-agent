@@ -4,6 +4,7 @@ Revision history for FusionInventory::Agent
        * Don't use a fixed realm anymore for HTTP authentication, but replays
          automatically any request requiring authentication with given realm
        * Make --realm parameter deprecated
+       * Drop deprecated --remotedir, --nosoft and --nosoftware parameters
 
 2.1.2    Mon, 23 Aug 2010 17:24:47 +0200
        * set a default SNMP version to really avoid warnings

@@ -31,8 +31,6 @@ my $default = {
     'logfile'                 => '',
     'logfile-maxsize'         => 0,
     'logfacility'             => 'LOG_USER',
-    'nosoft'                  => 0, # deprecated
-    'nosoftware'              => 0, # deprecated
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'no-printer'              => 0,
@@ -46,7 +44,6 @@ my $default = {
     'password'                => '',
     'proxy'                   => '',
     'realm'                   => '',
-    'remotedir'               => '', # deprecated
     'share-dir'               => 0,
     'server'                  => '',
     'stdout'                  => 0,
@@ -265,21 +262,9 @@ sub checkContent {
         $self->{logger} = 'File';
     }
 
-    if ($self->{remotedir}) {
-        print STDERR
-            "the parameter --remotedir is deprecated, and will be ignored\n";
-    }
-
     if ($self->{realm}) {
         print STDERR
             "the parameter --realm is deprecated, and will be ignored\n";
-    }
-
-    if ($self->{nosoft}) {
-        print STDERR
-            "the parameter --nosoft is deprecated and may be removed in a " .
-            "future release, please use --nosoftware instead.";
-        $self->{nosoftware} = 1
     }
 
     if (!$self->{'share-dir'}) {
