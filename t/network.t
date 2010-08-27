@@ -112,14 +112,13 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $network->send({ message => $message }),
         $logger,
-        "Authentication required",
+        "Authentication required, no credentials available",
     );
 };
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url      => "http://localhost:8080/private",
-        realm    => 'Authorized area',
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -173,14 +172,13 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $network->send({ message => $message }),
         $logger,
-        "Authentication required",
+        "Authentication required, no credentials available",
     );
 };
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url            => "https://localhost:8080/private",
-        realm          => 'Authorized area',
         user           => 'test',
         password       => 'test',
         logger         => $logger,
@@ -216,14 +214,13 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $network->send({ message => $message }),
         $logger,
-        "Authentication required",
+        "Authentication required, no credentials available",
     );
 };
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url            => "https://localhost:8080/private",
-        realm          => 'Authorized area',
         user           => 'test',
         password       => 'test',
         logger         => $logger,
@@ -283,14 +280,13 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $network->send({ message => $message }),
         $logger,
-        "Authentication required",
+        "Authentication required, no credentials available",
     ); 
 };
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url      => "http://localhost:8080/private",
-        realm    => 'Authorized area',
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -347,14 +343,13 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $network->send({ message => $message }),
         $logger,
-        "Authentication required",
+        "Authentication required, no credentials available",
     );
 };
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url            => "https://localhost:8080/private",
-        realm          => 'Authorized area',
         user           => 'test',
         password       => 'test',
         logger         => $logger,
@@ -393,14 +388,13 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $network->send({ message => $message }),
         $logger,
-        "Authentication required",
+        "Authentication required, no credentials available",
     ); 
 };
 
 lives_ok {
     $network = FusionInventory::Agent::Network->new({
         url            => "https://localhost:8080/private",
-        realm          => 'Authorized area',
         user           => 'test',
         password       => 'test',
         logger         => $logger,

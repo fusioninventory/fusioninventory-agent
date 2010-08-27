@@ -1,5 +1,10 @@
 Revision history for FusionInventory::Agent
 
+2.2.x
+       * Don't use a fixed realm anymore for HTTP authentication, but replays
+         automatically any request requiring authentication with given realm
+       * Make --realm parameter deprecated
+
 2.1.2    Mon, 23 Aug 2010 17:24:47 +0200
        * set a default SNMP version to really avoid warnings
        * Add ./t/README.t to check is README{,.html} files are present

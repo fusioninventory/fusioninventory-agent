@@ -270,6 +270,11 @@ sub checkContent {
             "the parameter --remotedir is deprecated, and will be ignored\n";
     }
 
+    if ($self->{realm}) {
+        print STDERR
+            "the parameter --realm is deprecated, and will be ignored\n";
+    }
+
     if ($self->{nosoft}) {
         print STDERR
             "the parameter --nosoft is deprecated and may be removed in a " .
@@ -313,7 +318,6 @@ Common options:
 Network options:
     -p --password=PWD   password for server auth
     -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
-    -r --realm=REALM    realm for server HTTP auth. e.g: 'Restricted Area' ($self->{realm})
     -s --server=uri     server uri, e.g: http://server/ocsinventory ($self->{server})
     -u --user           user name to use for server auth
 

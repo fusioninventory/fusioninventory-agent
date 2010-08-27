@@ -25,14 +25,13 @@ sub new {
     if ($scheme ne 'http' && $scheme ne 'https') {
         die "invalid protocol for URL: $params->{url}";
     }
-    my $host = $url->host();
-    my $port = $url->port() ||
-               ($scheme eq 'https' ? 443 : 80);
 
     my $self = {
-        logger => $params->{logger},
-        target => $params->{target},
-        URI    => $url
+        logger   => $params->{logger},
+        target   => $params->{target},
+        user     => $params->{user},
+        password => $params->{password},
+        URI      => $url
     };
     bless $self, $class;
 
@@ -47,19 +46,13 @@ sub new {
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
-    $self->{ua}->credentials(
-        "$host:$port",
-        $params->{realm},
-        $params->{user},
-        $params->{password}
-    );
-
     # turns SSL checks on if needed
     if ($scheme eq 'https' && !$params->{'no-ssl-check'}) {
         $self->_turnSSLCheckOn(
             $params->{'ca-cert-file'},
             $params->{'ca-cert-dir'}
         );
+        my $host = $url->host();
         $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
     }
 
@@ -114,11 +107,43 @@ sub send {
 
     # check result
     if (!$res->is_success()) {
-        $logger->error(
-            $res->message()
-        );
-        return;
+        # authentication required
+        if ($res->code() == 401) {
+            if ($self->{user} && $self->{password}) {
+                $logger->debug(
+                    "Authentication required, submitting credentials"
+                );
+                # compute authentication parameters
+                my $header = $res->header('www-authenticate');
+                my ($realm) = $header =~ /^Basic realm="(.*)"/;
+                my $host = $self->{URI}->host();
+                my $port = $self->{URI}->port() ||
+                   ($self->{URI}->scheme() eq 'https' ? 443 : 80);
+                $self->{ua}->credentials(
+                    "$host:$port",
+                    $realm,
+                    $self->{user},
+                    $self->{password}
+                );
+                # replay request
+                $res = $self->{ua}->request($req);
+                if (!$res->is_success()) {
+                    $logger->error($res->message());
+                    return;
+                }
+            } else {
+                # abort
+                $logger->error(
+                    "Authentication required, no credentials available"
+                );
+                return;
+            }
+        } else {
+            $logger->error($res->message());
+            return;
+        }
     }
+
 
     # create response
     my $response_content;
@@ -272,8 +297,6 @@ The constructor. The following arguments are allowed:
 =item logger (mandatory)
 
 =item proxy (default: none)
-
-=item realm (default: none)
 
 =item user (default: none)
 
