@@ -19,6 +19,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $routes;
     foreach (`route -n`) {
@@ -62,7 +63,7 @@ sub doInventory {
             $interface
         );
 
-        $interface->{IPDHCP} = getIpDhcp($interface->{DESCRIPTION});
+        $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
         $interface->{SLAVES} = getSlaves($interface->{DESCRIPTION});
 
         $inventory->addNetwork($interface);

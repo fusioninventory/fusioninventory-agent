@@ -15,6 +15,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     # import Net::IP functional interface
     Net::IP->import(':PROC');
@@ -79,7 +80,7 @@ sub doInventory {
         $inventory->addNetwork({
             DESCRIPTION => $description,
             IPADDRESS => $ipaddress,
-            IPDHCP => getIpDhcp($description),
+            IPDHCP => getIpDhcp($logger, $description),
             IPGATEWAY => ($status?$ipgateway:undef),
             IPMASK => $ipmask,
             IPSUBNET => ($status?$ipsubnet:undef),
