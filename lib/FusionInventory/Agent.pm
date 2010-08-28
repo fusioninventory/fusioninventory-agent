@@ -178,17 +178,21 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
     }
 
-    # threads and HTTP::Daemon are optional and so this module
-    # may fail to load.
-    eval { require FusionInventory::Agent::Receiver; };
-    if ($EVAL_ERROR) {
-        $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
-    } else {
-        $self->{receiver} = FusionInventory::Agent::Receiver->new({
-            logger => $logger,
-            config => $config,
-            scheduler => $scheduler,
-        });
+    if (
+        $config->{daemon}           ||
+        $config->{'daemon-no-fork'} ||
+        $config->{winService}
+    ) {
+        eval { require FusionInventory::Agent::Receiver; };
+        if ($EVAL_ERROR) {
+            $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
+        } else {
+            $self->{receiver} = FusionInventory::Agent::Receiver->new({
+                logger => $logger,
+                config => $config,
+                scheduler => $scheduler,
+            });
+        }
     }
 
     $logger->debug("FusionInventory Agent initialised");
