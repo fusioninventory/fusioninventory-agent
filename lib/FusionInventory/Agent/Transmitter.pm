@@ -277,12 +277,13 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Network - the Network abstraction layer
+FusionInventory::Agent::Transmitter - An HTTP message transmitter
 
 =head1 DESCRIPTION
 
-This module is the abstraction layer for network interaction, based on LWP.
-It can validate SSL certificates.
+This is the object used by the agent to send messages to OCS or GLPI servers.
+by OCS or GLPI servers. It can send messages through HTTP or HTTPS, directly or
+through a proxy, and validate SSL certificates.
 
 =head1 METHODS
 
@@ -304,9 +305,11 @@ The constructor. The following arguments are allowed:
 
 =item no-ssl-check (default: false)
 
-=back ca-cert-file (default: none)
+=item ca-cert-file (default: none)
 
-=back ca-cert-dir (default: none)
+=item ca-cert-dir (default: none)
+
+=back
 
 =head2 send
 
