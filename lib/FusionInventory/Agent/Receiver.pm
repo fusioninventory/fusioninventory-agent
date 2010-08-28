@@ -17,9 +17,9 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config      => $params->{config},
-        logger      => $params->{logger},
-        targetsList => $params->{targetsList}
+        config    => $params->{config},
+        logger    => $params->{logger},
+        scheduler => $params->{scheduler}
     };
 
     my $config = $self->{config};
@@ -64,7 +64,7 @@ sub handler {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
-    my $targetsList = $self->{targetsList};
+    my $scheduler = $self->{scheduler};
     my $config = $self->{config};
     my $htmlDir = $self->{htmlDir};
 
@@ -97,7 +97,7 @@ sub handler {
             }
 
             my $nextContact = "";
-            foreach my $target (@{$targetsList->{targets}}) {
+            foreach my $target (@{$scheduler->{targets}}) {
                 my $path = $target->{path};
                 $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
                 my $timeString = $target->getNextRunDate() > 1 ?
@@ -139,7 +139,7 @@ sub handler {
         # deploy request
         if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
             my $file = $1;
-            foreach my $target (@{$targetsList->{targets}}) {
+            foreach my $target (@{$scheduler->{targets}}) {
                 if (-f $target->{vardir}."/deploy/".$file) {
                     $logger->debug("Send /deploy/".$file);
                     $c->send_file_response($target->{vardir}."/deploy/".$file);
@@ -162,7 +162,7 @@ sub handler {
                 ($sentToken eq $currentToken)
             ) {
                 $self->getToken('forceNewToken');
-                $targetsList->resetNextRunDate();
+                $scheduler->resetNextRunDate();
                 $code = 200;
                 $msg = "Done."
             } else {
@@ -209,7 +209,7 @@ sub server {
     my ($self) = @_;
 
     my $config = $self->{config};
-    my $targetsList = $self->{targetsList};
+    my $scheduler = $self->{scheduler};
     my $logger = $self->{logger};
 
     my $daemon;
@@ -342,4 +342,4 @@ The constructor. The following arguments are allowed:
 
 =item logger (mandatory)
 
-=item targetsList (mandatory)
+=item scheduler (mandatory)

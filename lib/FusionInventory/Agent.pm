@@ -12,7 +12,7 @@ use XML::Simple;
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
-use FusionInventory::Agent::TargetsList;
+use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Inventory;
@@ -137,15 +137,15 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         $self->{deviceid} = $myRootData->{deviceid}
     }
 
-    $self->{targetsList} = FusionInventory::Agent::TargetsList->new({
+    $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
         logger => $logger,
         config => $config,
         deviceid => $self->{deviceid}
     });
 
-    my $targetsList = $self->{targetsList};
+    my $scheduler = $self->{scheduler};
 
-    if (!$targetsList->numberOfTargets()) {
+    if (!$scheduler->numberOfTargets()) {
         $logger->fault(
             "No target defined. Please use --server or --local option."
         );
@@ -184,7 +184,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger => $logger,
                 config => $config,
-                targetsList => $targetsList,
+                scheduler => $scheduler,
             });
     } else {
         $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
@@ -217,13 +217,13 @@ sub main {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
-    my $targetsList = $self->{targetsList};
+    my $scheduler = $self->{scheduler};
     my $receiver = $self->{receiver};
 
     eval {
         $receiver->setCurrentStatus("waiting") if $receiver;
 
-        while (my $target = $targetsList->getNext()) {
+        while (my $target = $scheduler->getNext()) {
 
             my $prologresp;
             if ($target->{type} eq 'server') {
