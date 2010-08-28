@@ -469,9 +469,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Inventory - The Inventory module for FusionInventory 
-
+FusionInventory::Agent::Task::Inventory - The inventory task for FusionInventory 
 =head1 DESCRIPTION
 
-This module load and run the submodules needed to get the informations
-regarding the Hardware and Software installation.
+This task extract various hardware and software informations on the agent host.
