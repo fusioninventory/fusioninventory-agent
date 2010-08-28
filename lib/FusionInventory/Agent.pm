@@ -14,7 +14,7 @@ use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::TargetsList;
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::RPC;
+use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
@@ -180,14 +180,14 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
     # threads and HTTP::Daemon are optional and so this module
     # may fail to load.
-    if (eval "use FusionInventory::Agent::RPC;1;") {
-        $self->{rpc} = FusionInventory::Agent::RPC->new({
+    if (eval "use FusionInventory::Agent::Receiver;1;") {
+        $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger => $logger,
                 config => $config,
                 targetsList => $targetsList,
             });
     } else {
-        $logger->debug("Failed to load RPC module: $EVAL_ERROR");
+        $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
     }
 
     $logger->debug("FusionInventory Agent initialised");
@@ -218,10 +218,10 @@ sub main {
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $targetsList = $self->{targetsList};
-    my $rpc = $self->{rpc};
+    my $receiver = $self->{receiver};
 
     eval {
-        $rpc->setCurrentStatus("waiting") if $rpc;
+        $receiver->setCurrentStatus("waiting") if $receiver;
 
         while (my $target = $targetsList->getNext()) {
 
@@ -239,7 +239,7 @@ sub main {
                     logger => $logger,
                     config => $config,
                     target => $target,
-                    token  => $rpc->getToken()
+                    token  => $receiver->getToken()
                 });
 
                 # ugly circular reference moved from Prolog::getContent() method
@@ -285,7 +285,7 @@ sub main {
                     next;
                 }
 
-                $rpc->setCurrentStatus("running task $module") if $rpc;
+                $receiver->setCurrentStatus("running task $module") if $receiver;
 
                 my $task = $package->new({
                     config => $config,
@@ -321,7 +321,7 @@ sub main {
                     $logger->debug("[task] end of $module");
                 }
             }
-            $rpc->setCurrentStatus("waiting") if $rpc;
+            $receiver->setCurrentStatus("waiting") if $receiver;
 
             if (!$config->{debug}) {
                 # In debug mode, I do not clean the FusionInventory-Agent.dump

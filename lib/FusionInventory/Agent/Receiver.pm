@@ -1,4 +1,4 @@
-package FusionInventory::Agent::RPC;
+package FusionInventory::Agent::Receiver;
 
 use strict;
 use warnings;
