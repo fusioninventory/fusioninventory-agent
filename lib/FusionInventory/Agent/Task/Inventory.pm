@@ -98,7 +98,6 @@ sub main {
                 url      => $self->{target}->{path},
                 logger   => $self->{logger},
                 proxy    => $self->{proxy},
-                realm    => $self->{realm},
                 user     => $self->{user},
                 password => $self->{password},
                 'no-ssl-check' => $self->{'no-ssl-check'},
