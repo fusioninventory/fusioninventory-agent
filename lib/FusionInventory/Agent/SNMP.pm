@@ -5,6 +5,7 @@ use warnings;
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
+use Net::SNMP;
 
 use FusionInventory::Agent::Tools;
 
@@ -12,13 +13,6 @@ sub new {
     my ($class, $params ) = @_;
 
     my $self = {};
-
-    eval {
-        require Net::SNMP;
-    };
-    if ($EVAL_ERROR) {
-        die "Can't load Net::SNMP. Exiting...";
-    }
 
     my $version =
         ! $params->{version}       ? 'snmpv1'  :
