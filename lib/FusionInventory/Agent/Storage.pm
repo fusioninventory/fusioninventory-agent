@@ -12,13 +12,6 @@ use Storable;
 
 my $lock :shared;
 
-=over 4
-
-=item new({ config => $config, target => $target })
-
-Create the object
-
-=cut
 sub new {
     my ($class, $params) = @_;
 
@@ -31,13 +24,6 @@ sub new {
     return $self;
 }
 
-=item save({ data => $date, idx => $ref })
-
-Save the reference.
-$idx is an integer. You can use if if you want to save more than one file for the
-module. This number will be add at the of the file
-
-=cut
 sub save {
     my ($self, $params) = @_;
 
@@ -65,12 +51,6 @@ sub save {
 
 }
 
-=item restore({ module => $module, idx => $idx})
-
-Returns a reference to the stored data. If $idx is defined, it will open this
-substorage.
-
-=cut
 sub restore {
     my ($self, $params ) = @_;
 
@@ -90,12 +70,6 @@ sub restore {
     return {};
 }
 
-=item remove({ module => $module, idx => $idx })
-
-Returns the files stored on the filesystem for the module $module or for the caller module.
-If $idx is defined, only the submodule $idx will be removed.
-
-=cut
 sub remove {
     my ($self, $params) = @_;
 
@@ -109,11 +83,6 @@ sub remove {
     }
 }
 
-=item removeAll({ module => $module, idx => $idx })
-
-Deletes the files stored on the filesystem for the module $module or for the caller module.
-
-=cut
 sub removeAll {
     my ($self, $params) = @_;
     
@@ -127,13 +96,6 @@ sub removeAll {
     }
 }
 
-=item removeSubDumps({ module => $module })
-
-Deletes the sub files stored on the filesystem for the module $module or for the caller module.
-
-=back
-
-=cut
 sub removeSubDumps {
     my ($self, $params) = @_;
    
@@ -207,9 +169,16 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Storage - the light data storage API. Data will be
-stored in a subdirectory in the 'vardir' directory. This subdirectory depends
-on the caller module name.
+FusionInventory::Agent::Storage - A data serializer/deserializer
+
+=head1 Description
+
+This is the object used by the agent to save data in the variable data
+directory, to ensure persistancy between invocations.
+
+Each data structure is saved in a different subdirectory, based on invocant
+module name. An optional index number can be used to differentiate between
+consecutives usages.
 
 =head1 SYNOPSIS
 
@@ -226,7 +195,91 @@ on the caller module name.
 
   $storage->save({ data => $data });
 
-=head1 DESCRIPTION
+=head1 METHODS
 
-This module is a wrapper for restore and save.
-it called $inventory in general.
+=head2 new
+
+The constructor. The following arguments are allowed:
+
+=over
+
+=item config (mandatory)
+
+=item target (mandatory)
+
+=back
+
+=head2 save
+
+Save given data structure. The following arguments are allowed:
+
+=over
+
+=item data
+
+The data structure to save (mandatory).
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 restore
+
+Restore a saved data structure. The following arguments are allowed:
+
+=over
+
+=item module
+
+The name of the module which saved the data structure (mandatory).
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 remove
+
+Delete the file containing a seralized data structure for a given module. The
+following arguments are allowed:
+
+=over
+
+=item module
+
+The name of the module which saved the data structure (mandatory).
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 removeAll
+
+Delete the files containing seralized data structure for all modules. The
+following arguments are allowed:
+
+=over
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 removeSubDumps
+
+Delete all files containing seralized data structure for a given module. The
+following arguments are allowed:
+
+=over
+
+=item module
+
+The name of the module which saved the data structure (mandatory).
+
+=back
