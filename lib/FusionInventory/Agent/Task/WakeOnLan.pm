@@ -13,7 +13,7 @@ use Socket;
 
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Network;
+use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Regexp;
 use FusionInventory::Logger;
@@ -37,7 +37,7 @@ sub main {
     $self->{macaddress} = $options->{MAC};
     $self->{ip}         = $options->{IP};
 
-    $self->{network} = FusionInventory::Agent::Network->new({
+    $self->{transmitter} = FusionInventory::Agent::Transmitter->new({
         logger => $self->{logger},
         config => $self->{config},
         target => $self->{target},

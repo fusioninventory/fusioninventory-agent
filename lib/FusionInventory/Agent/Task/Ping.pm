@@ -6,7 +6,7 @@ use base 'FusionInventory::Agent::Task';
 
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Network;
+use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Logger;
@@ -27,7 +27,7 @@ sub main {
 
     $self->{logger}->debug("Ping ID:". $options->{ID});
 
-    my $network = FusionInventory::Agent::Network->new({
+    my $transmitter = FusionInventory::Agent::Transmitter->new({
         logger => $self->{logger},
         config => $self->{config},
         target => $self->{target},
@@ -43,7 +43,7 @@ sub main {
     });
 
     $self->{logger}->debug("Pong!");
-    $network->send( { message => $message } );
+    $transmitter->send( { message => $message } );
 
 }
 

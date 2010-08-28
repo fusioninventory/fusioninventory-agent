@@ -94,7 +94,7 @@ sub main {
             # Put ACCOUNTINFO values in the inventory
             $accountinfo->setAccountInfo($self->{inventory});
 
-            my $network = FusionInventory::Agent::Network->new({
+            my $transmitter = FusionInventory::Agent::Transmitter->new({
                 url      => $self->{target}->{path},
                 logger   => $self->{logger},
                 proxy    => $self->{proxy},
@@ -106,7 +106,7 @@ sub main {
                 'ca-cert-dir'  => $self->{'ca-cert-dir'},
             });
 
-            my $response = $network->send({message => $self->{inventory}});
+            my $response = $transmitter->send({message => $self->{inventory}});
 
             return unless $response;
             $self->{inventory}->saveLastState();

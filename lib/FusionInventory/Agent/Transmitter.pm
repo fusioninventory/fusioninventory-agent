@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Network;
+package FusionInventory::Agent::Transmitter;
 
 use strict;
 use warnings;
