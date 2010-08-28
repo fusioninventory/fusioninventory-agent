@@ -96,7 +96,7 @@ sub new {
     my $hostname;
   
 
-    if ($OSNAME =~ /^MSWin/) {
+    if ($OSNAME eq 'MSWin32') {
         eval '
 use Encode;
 use Win32::API;
