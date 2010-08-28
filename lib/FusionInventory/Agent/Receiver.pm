@@ -31,9 +31,9 @@ sub new {
         $self->{htmlDir} = "./share/html";
     }
     if ($self->{htmlDir}) {
-        $logger->debug("[RPC] static files are in ".$self->{htmlDir});
+        $logger->debug("[Receiver] Static files are in ".$self->{htmlDir});
     } else {
-        $logger->debug("[RPC] No static files directory");
+        $logger->debug("[Receiver] No static files directory");
     }
 
 
@@ -75,11 +75,12 @@ sub handler {
     }
 
     my $path = $r->uri()->path();
-    $logger->debug("[RPC]$clientIp request $path");
+    $logger->debug("[Receiver] request $path from client $clientIp");
 
     # non-GET requests
-    if ($r->method() ne 'GET') {
-        $logger->debug("[RPC]Err, 500");
+    my $method = $r->method();
+    if ($method ne 'GET') {
+        $logger->debug("[Receiver] invalid request type: $method");
         $c->send_error(500);
         $c->close;
         undef($c);
@@ -155,7 +156,6 @@ sub handler {
             my $sentToken = $1;
             my $currentToken = $self->getToken();
             my ($code, $msg);
-            $logger->debug("[RPC]'now' catched");
             if (
                 ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                     or
@@ -166,7 +166,7 @@ sub handler {
                 $code = 200;
                 $msg = "Done."
             } else {
-                $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
+                $logger->debug("[Receiver] bad token $sentToken != ".$currentToken);
                 $code = 403;
                 $msg = "Access denied. rpc-trust-localhost is off or the token is invalide."
             }
@@ -230,10 +230,10 @@ sub server {
     }
   
     if (!$daemon) {
-        $logger->error("Failed to start the RPC server");
+        $logger->error("[Receiver] Failed to start the service");
         return;
     } 
-    $logger->info("RPC service started at: ". $daemon->url);
+    $logger->info("[Receiver] Service started at: ". $daemon->url);
 
 # Since perl 5.10, threads::joinable is avalaible
     my $joinableAvalaible = eval 'defined(threads::joinable) && 1';
