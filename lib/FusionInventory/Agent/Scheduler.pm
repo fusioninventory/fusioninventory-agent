@@ -149,3 +149,26 @@ sub resetNextRunDate {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Scheduler - A target scheduler
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to schedule various targets.
+
+=head1 METHODS
+
+=head2 new
+
+The constructor. The following arguments are allowed:
+
+=over
+
+=item config (mandatory)
+
+=item logger (mandatory)
+
+=item deviceid (mandatory)
