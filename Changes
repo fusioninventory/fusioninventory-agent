@@ -3,6 +3,7 @@ Revision history for FusionInventory::Agent
 2.1.3    Mon, 30 Aug 2010 14:59:23 +0200
        * Linux: Avoid error on system with no /proc/bus/input/devices
        * agent.cfg, add more server= parameter example
+       * --server remove spaces at the begin and end of the server parameter
 
 2.1.2    Mon, 23 Aug 2010 17:24:47 +0200
        * set a default SNMP version to really avoid warnings
