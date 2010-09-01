@@ -5,6 +5,8 @@ Revision history for FusionInventory::Agent
        * agent.cfg, add more server= parameter example
        * --server remove spaces at the begin and end of the server parameter
        * Networks.pm: fix is_success, load use HTTP::Status;
+       * fix t/xml-query-inventory.t to not fail on non i486-linux-gnu-thread-multi
+         arch
 
 2.1.2    Mon, 23 Aug 2010 17:24:47 +0200
        * set a default SNMP version to really avoid warnings
