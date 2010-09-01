@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use URI;
+use HTTP::Status;
 
 =head1 NAME
 
