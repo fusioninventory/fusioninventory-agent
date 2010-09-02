@@ -24,7 +24,7 @@ sub new {
     $self->{logger} = $params->{logger};
     $self->{target} = $params->{target};
 
-    $self->{jobs} = [];
+    $self->{target_by_module} = {};
 
     # We can't have more than on task at the same time
     $self->{runningTask} = undef;
@@ -90,15 +90,15 @@ sub run {
                     return;
                 }
 
-                my $module = shift @{$_[HEAP]->{modulesToRun}};
+                $_[HEAP]->{runningModule} = shift @{$_[HEAP]->{modulesToRun}};
 
-                print "Launching module $module\n";
+                print "Launching module ".$_[HEAP]->{runningModule}."\n";
 
                 my $cmd;
                 $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
                 $cmd .= "  -Ilib" if $config->{devlib};
-                $cmd .= " -MFusionInventory::Agent::Task::".$module;
-                $cmd .= " -e \"FusionInventory::Agent::Task::".$module."::main();\" --";
+                $cmd .= " -MFusionInventory::Agent::Task::".$_[HEAP]->{runningModule};
+                $cmd .= " -e \"FusionInventory::Agent::Task::".$_[HEAP]->{runningModule}."::main();\" --";
                 $cmd .= " \"".$target->{vardir}."\"";
 
                 my $child = POE::Wheel::Run->new(
@@ -112,6 +112,8 @@ sub run {
 
                 # Wheel events include the wheel's ID.
                 $_[HEAP]{children_by_wid}{$child->ID} = $child;
+
+                $self->{target_by_module}{$_[HEAP]->{runningModule}} = $target;
 
                 # Signal events include the process ID.
                 $_[HEAP]{children_by_pid}{$child->PID} = $child;
@@ -152,8 +154,11 @@ sub run {
                     return;
                 }
 
+                print "module: ".$_[HEAP]->{runningModule}." terminé\n";
                 print "pid ", $child->PID, " closed all pipes.\n";
                 delete $_[HEAP]{children_by_pid}{$child->PID};
+                print Dumper($self->{target_by_module});
+                delete $self->{target_by_module}{$_[HEAP]->{runningModule}};
                 $_[KERNEL]->yield('launchNextTask');
             },
             got_child_signal => sub {
