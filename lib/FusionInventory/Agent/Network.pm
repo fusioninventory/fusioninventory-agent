@@ -9,6 +9,7 @@ use HTTP::Status;
 use LWP::UserAgent;
 use UNIVERSAL::require;
 use URI;
+use HTTP::Status;
 
 =head1 NAME
 

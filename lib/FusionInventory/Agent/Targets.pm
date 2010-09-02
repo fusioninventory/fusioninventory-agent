@@ -72,6 +72,8 @@ sub init {
 
     foreach my $val (split(/,/, $config->{'server'})) {
         my $url;
+        $val =~ s/^\s+//;
+        $val =~ s/\s+$//;
         if ($val !~ /^http(|s):\/\//) {
             $logger->debug("the --server passed doesn't ".
                 "have a protocole, ".
