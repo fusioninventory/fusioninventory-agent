@@ -102,6 +102,8 @@ use Data::Dumper;
 
     foreach my $val (split(/,/, $config->{'server'})) {
         my $url;
+        $val =~ s/^\s+//;
+        $val =~ s/\s+$//;
         if ($val !~ /^https?:\/\//) {
             $logger->debug(
                 "the --server passed doesn't have a protocole, assume http " .
