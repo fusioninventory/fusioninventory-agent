@@ -27,6 +27,8 @@ sub main {
 
     $self->{modules} = {};
 
+    my $network = $self->{network};
+
 
     $self->feedInventory();
 
@@ -60,11 +62,11 @@ sub main {
         if ($self->{target}->{type} eq 'server') {
             croak "No prolog!" unless $self->{prolog};
 
-        my $network = FusionInventory::Agent::Job::Network->new({
+#        my $network = FusionInventory::Agent::Job::Network->new({
 #            logger => $self->{logger},
 #            config => $self->{config},
 #            target => $self->{target},
-        });
+#        });
             if ($self->{config}->{force}) {
                 $self->{logger}->debug(
                     "Force enable, ignore prolog and run inventory."

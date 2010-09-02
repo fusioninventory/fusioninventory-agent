@@ -9,7 +9,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 
 sub main {
-    my ($self) = @_;
+    my $self = __PACKAGE__->SUPER::new();
 
     if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");
@@ -24,12 +24,6 @@ sub main {
 
     $self->{logger}->debug("Ping ID:". $options->{ID});
 
-    my $network = FusionInventory::Agent::Network->new({
-        logger => $self->{logger},
-        config => $self->{config},
-        target => $self->{target},
-    });
-
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
         logger => $self->{logger},
         target => $self->{target},
@@ -40,7 +34,7 @@ sub main {
     });
 
     $self->{logger}->debug("Pong!");
-    $network->send( { message => $message } );
+    $self->{network}->send( { message => $message } );
 
 }
 

@@ -17,7 +17,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Regexp;
 
 sub main {
-    my ($self) = @_;
+    my $self = __PACKAGE__->SUPER::new();
 
     if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");
@@ -34,12 +34,6 @@ sub main {
 
     $self->{macaddress} = $options->{MAC};
     $self->{ip}         = $options->{IP};
-
-    $self->{network} = FusionInventory::Agent::Network->new({
-        logger => $self->{logger},
-        config => $self->{config},
-        target => $self->{target},
-    });
 
     $self->StartMachine();
 }
