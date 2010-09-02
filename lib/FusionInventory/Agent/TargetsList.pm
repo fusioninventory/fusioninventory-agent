@@ -38,7 +38,7 @@ sub new {
                 my $key = $params->{key};
 
 #                print "p: $targetId\n";
-                print "v: ".$key."\n";
+#                print "v: ".$key."\n";
 
 #                if ($ !~ /^\d+$/ || !exists($self->{targets}[$targetId])) {
 #                    $logger->error("Invalid targetId: `$targetId'");

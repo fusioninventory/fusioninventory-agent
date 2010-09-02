@@ -92,7 +92,7 @@ sub run {
 
                 $_[HEAP]->{runningModuleName} = shift @{$_[HEAP]->{modulesToRun}};
 
-                print "Launching module ".$_[HEAP]->{runningModuleName}."\n";
+                #print "Launching module ".$_[HEAP]->{runningModuleName}."\n";
 
                 my $cmd;
                 $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
