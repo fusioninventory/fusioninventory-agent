@@ -22,8 +22,11 @@ sub new {
     $self->{target} = FusionInventory::Agent::Job::Target->new();
     $self->{storage} = FusionInventory::Agent::Storage->new();
 
+    # Transition, please use prolog instead of prologresp
+    $self->{prologresp} = $self->{prolog};
+
     bless $self, $class;
-    
+
     return $self;
 }
 
