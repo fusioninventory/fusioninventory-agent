@@ -8,9 +8,6 @@ use Carp;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use FusionInventory::Agent::Job::Logger;
-use FusionInventory::Agent::Job::Network;
-use FusionInventory::Agent::Config;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Response::Prolog;

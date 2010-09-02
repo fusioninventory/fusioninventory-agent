@@ -5,11 +5,8 @@ use warnings;
 use base 'FusionInventory::Agent::Task';
 
 use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Logger;
 
 sub main {
     my ($self) = @_;

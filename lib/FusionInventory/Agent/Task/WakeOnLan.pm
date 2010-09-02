@@ -13,12 +13,8 @@ use English qw(-no_match_vars);
 use Socket;
 
 use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Job::Logger;
-use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Regexp;
-use FusionInventory::Logger;
 
 sub main {
     my ($self) = @_;
