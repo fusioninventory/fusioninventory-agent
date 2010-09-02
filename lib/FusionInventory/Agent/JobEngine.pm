@@ -137,6 +137,11 @@ sub run {
                     $logger->error($stderr_line);
                 }
             },
+            got_child_stdout => sub {
+                my ($line, $wheel_id) = @_[ARG0, ARG1];
+
+                print "→ ".$line."\n";
+            },
             got_child_close  => sub {
                 my $wheel_id = $_[ARG0];
                 my $child = delete $_[HEAP]{children_by_wid}{$wheel_id};

@@ -28,7 +28,8 @@ sub FETCH {
 
 #    warn "key $key requested\n";
 
-    return $poe->post_respond('config/get', $key) or die $poe->error;
+    $poe->post_respond('config/get', $key);
+#    return $poe->post_respond('config/get', $key) or die $poe->error;
 
 }
 sub TIEHASH  {

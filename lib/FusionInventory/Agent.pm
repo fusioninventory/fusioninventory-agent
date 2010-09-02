@@ -204,6 +204,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         port=>3030, name=>'Server'
     ); # more options are available
     POE::Kernel->call(IKC => publish => 'config', ["get"]);
+    POE::Kernel->call(IKC => publish => 'targetsList', ["get"]);
 
 
 

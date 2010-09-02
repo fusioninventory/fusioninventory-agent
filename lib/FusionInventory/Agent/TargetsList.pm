@@ -27,13 +27,12 @@ sub new {
     POE::Session->create(
         inline_states => {
             _start        => sub {
-                $_[KERNEL]->alias_set('targets');
+                $_[KERNEL]->alias_set('targetsList');
             },
             get => sub {
                 my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
                 my $params = $args->[0];
                 my $rsvp = $args->[1];
-
 
                 my $targetId = $params->{targetId};
                 my $key = $params->{key};
@@ -46,12 +45,12 @@ sub new {
                     return;
                 }
 
-                if ($key =~ /^(type|path|deviceid|format)$/) {
+                if ($key !~ /^(type|path|deviceid|format|currentDeviceid)$/) {
                     $logger->error("Forbidden key: `$key'");
                     return;
                 }
 
-                $kernel->call(IKC => post => $rsvp, $self->{targets}[$targetId]);
+                $kernel->call(IKC => post => $rsvp, $self->{targets}[$targetId]{$key});
 
             },
         }
