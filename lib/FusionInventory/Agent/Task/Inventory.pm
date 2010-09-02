@@ -58,7 +58,7 @@ sub main {
         }
 
         if ($self->{target}->{type} eq 'server') {
-            croak "No prologresp!" unless $self->{prologresp};
+            croak "No prolog!" unless $self->{prolog};
 
         my $network = FusionInventory::Agent::Job::Network->new({
 #            logger => $self->{logger},
@@ -70,7 +70,7 @@ sub main {
                     "Force enable, ignore prolog and run inventory."
                 );
             } else {
-                my $parsedContent = $self->{prologresp}->getParsedContent();
+                my $parsedContent = $self->{prolog}->getParsedContent();
                 if (
                     !$parsedContent ||
                     ! $parsedContent->{RESPONSE} ||
@@ -434,7 +434,7 @@ sub runWithTimeout {
             # Compatibiliy with agent 0.0.10 <=
             # We continue to pass params->{params}
             params => $self->{params},
-            prologresp => $self->{prologresp},
+            prologresp => $self->{prolog},
             storage => $storage
         });
     };
