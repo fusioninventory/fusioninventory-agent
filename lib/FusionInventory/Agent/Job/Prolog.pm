@@ -9,4 +9,18 @@ sub new {
     bless $self;
 }
 
+sub getParsedContent {
+    my ($self, $args) = @_;
+
+
+    return {}
+}
+
+sub getOptionsInfoByName {
+    my ($self, $args) = @_;
+
+
+    return {}
+}
+
 1;
