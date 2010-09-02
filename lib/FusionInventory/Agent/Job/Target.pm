@@ -9,6 +9,8 @@ my $poe;
 sub new {
     my $self = {};
 
+    my $logger = $self->{logger};
+
     my $name   = "Target$$";
     $poe = create_ikc_client(
         port    => 3030,
@@ -28,7 +30,7 @@ sub FETCH {
 #    warn "Code me\n";
     my $tmp = {
         key => $key,
-        targetId => 0
+        moduleName => $ARGV[0]
     };
     $poe->post_respond('targetsList/get', $tmp);
 }

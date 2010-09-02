@@ -34,23 +34,23 @@ sub new {
                 my $params = $args->[0];
                 my $rsvp = $args->[1];
 
-                my $targetId = $params->{targetId};
+                my $moduleName = $params->{moduleName};
                 my $key = $params->{key};
 
-                print "p: $targetId\n";
+#                print "p: $targetId\n";
                 print "v: ".$key."\n";
 
-                if ($targetId !~ /^\d+$/ || !exists($self->{targets}[$targetId])) {
-                    $logger->error("Invalid targetId: `$targetId'");
-                    return;
-                }
+#                if ($ !~ /^\d+$/ || !exists($self->{targets}[$targetId])) {
+#                    $logger->error("Invalid targetId: `$targetId'");
+#                    return;
+#                }
 
                 if ($key !~ /^(type|path|deviceid|format|currentDeviceid)$/) {
                     $logger->error("Forbidden key: `$key'");
                     return;
                 }
 
-                $kernel->call(IKC => post => $rsvp, $self->{targets}[$targetId]{$key});
+                $kernel->call(IKC => post => $rsvp, $self->{jobEngine}{target_by_moduleName}{$moduleName}{$key});
 
             },
         }

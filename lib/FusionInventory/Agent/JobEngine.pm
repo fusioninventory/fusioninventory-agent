@@ -24,7 +24,7 @@ sub new {
     $self->{logger} = $params->{logger};
     $self->{target} = $params->{target};
 
-    $self->{target_by_module} = {};
+    $self->{target_by_moduleName} = {};
 
     # We can't have more than on task at the same time
     $self->{runningTask} = undef;
@@ -90,16 +90,16 @@ sub run {
                     return;
                 }
 
-                $_[HEAP]->{runningModule} = shift @{$_[HEAP]->{modulesToRun}};
+                $_[HEAP]->{runningModuleName} = shift @{$_[HEAP]->{modulesToRun}};
 
-                print "Launching module ".$_[HEAP]->{runningModule}."\n";
+                print "Launching module ".$_[HEAP]->{runningModuleName}."\n";
 
                 my $cmd;
                 $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
                 $cmd .= "  -Ilib" if $config->{devlib};
-                $cmd .= " -MFusionInventory::Agent::Task::".$_[HEAP]->{runningModule};
-                $cmd .= " -e \"FusionInventory::Agent::Task::".$_[HEAP]->{runningModule}."::main();\" --";
-                $cmd .= " \"".$target->{vardir}."\"";
+                $cmd .= " -MFusionInventory::Agent::Task::".$_[HEAP]->{runningModuleName};
+                $cmd .= " -e \"FusionInventory::Agent::Task::".$_[HEAP]->{runningModuleName}."::main();\" --";
+                $cmd .= " \"".$_[HEAP]->{runningModuleName}."\"";
 
                 my $child = POE::Wheel::Run->new(
                     Program => $cmd,
@@ -113,7 +113,7 @@ sub run {
                 # Wheel events include the wheel's ID.
                 $_[HEAP]{children_by_wid}{$child->ID} = $child;
 
-                $self->{target_by_module}{$_[HEAP]->{runningModule}} = $target;
+                $self->{target_by_moduleName}{$_[HEAP]->{runningModuleName}} = $target;
 
                 # Signal events include the process ID.
                 $_[HEAP]{children_by_pid}{$child->PID} = $child;
@@ -154,11 +154,11 @@ sub run {
                     return;
                 }
 
-                print "module: ".$_[HEAP]->{runningModule}." terminé\n";
+                print "module: ".$_[HEAP]->{runningModuleName}." terminé\n";
                 print "pid ", $child->PID, " closed all pipes.\n";
                 delete $_[HEAP]{children_by_pid}{$child->PID};
-                print Dumper($self->{target_by_module});
-                delete $self->{target_by_module}{$_[HEAP]->{runningModule}};
+#                print Dumper($self->{target_by_moduleName});
+                delete $self->{target_by_moduleName}{$_[HEAP]->{runningModuleName}};
                 $_[KERNEL]->yield('launchNextTask');
             },
             got_child_signal => sub {
