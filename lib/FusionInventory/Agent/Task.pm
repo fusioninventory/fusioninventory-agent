@@ -15,7 +15,7 @@ sub new {
 
     my $self = {};
 
-    $self->{config} = FusionInventory::Agent::Job::Prolog->new();
+    $self->{prolog} = FusionInventory::Agent::Job::Prolog->new();
     $self->{config} = FusionInventory::Agent::Job::Config->new();
     $self->{logger} = FusionInventory::Agent::Job::Logger->new();
     $self->{network} = FusionInventory::Agent::Job::Network->new();
