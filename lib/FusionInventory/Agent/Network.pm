@@ -13,6 +13,8 @@ use HTTP::Status;
 
 use FusionInventory::Compress;
 
+use POE;
+
 =head1 NAME
 
 FusionInventory::Agent::Network - the Network abstraction layer
@@ -66,6 +68,29 @@ sub new {
     $self->{URI} = $target->{path};
 
     bless $self, $class;
+
+
+    POE::Session->create(
+        inline_states => {
+            _start        => sub {
+                $_[KERNEL]->alias_set('network');
+            },
+            send => sub {
+                my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
+                my $key = $args->[0];
+                my $rsvp = $args->[1];
+
+                print "Network: AAA→".ref($key)."\n";
+#                my $rsvp = $args->[1];
+#print "p: $p\n";
+#print "v: ".$self->{$p}."\n";
+                my $ret; # = $self->send("todo");
+                $kernel->call(IKC => post => $rsvp, $ret);
+
+            },
+        }
+    );
+
     return $self;
 }
 
