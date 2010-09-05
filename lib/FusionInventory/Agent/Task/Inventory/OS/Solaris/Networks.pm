@@ -307,92 +307,45 @@ sub doInventory {
 sub check_nic {
     my ($mynic, $mynum) = @_;
 
-    my $link_info;
+    my ($speed, $duplex, $auto);
+
     foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
         next unless /^(\d+)/;
-        my $link_speed = $1;
-        if ($link_speed =~ /^0$/ ) {
-            $link_info = $link_info."10 Mb/s";
-        } elsif ($link_speed =~ /^1$/) {
-            $link_info = $link_info."100 Mb/s";
-        } elsif ($link_speed =~ /^1000$/) {
-            $link_info = $link_info."1 Gb/s";
-        } else {
-            $link_info = $link_info."ERROR";
-        }
+        $speed = $1;
+        last;
     }
-
     foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
         next unless /^(\d+)/;
-        my $link_duplex = $1;
-        if ($link_duplex =~ /1/ ) {
-            $link_info = $link_info." FDX";
-        } elsif ($link_duplex =~ /0/) {
-            $link_info = $link_info." HDX";
-        } else {
-            $link_info = $link_info." ERROR";
-        }
+        $duplex = $1;
+        last;
+    }
+    my $arg = $mynic =~ /ge/ ? 'adv_1000autoneg_cap' : 'adv_autoneg_cap';
+    foreach (`/usr/sbin/ndd -get /dev/$mynic $arg`) {
+        next unless /^(\d+)/;
+        $auto = $1;
+        last;
     }
 
-    if ($mynic =~ /ge/){
-        foreach (`/usr/sbin/ndd -get /dev/$mynic adv_1000autoneg_cap`) {
-            next unless /^(\d+)/;
-            my $link_auto = $1;
-            if ($link_auto =~ /1/ ) {
-                $link_info = $link_info." AUTOSPEED ON";
-            } elsif ($link_auto =~ /0/) {
-                $link_info = $link_info." AUTOSPEED OFF ";
-            } else {
-                $link_info = $link_info." AUTOSPEED ERROR";
-            }
-        }
-    } else {
-        foreach (`/usr/sbin/ndd -get /dev/$mynic adv_autoneg_cap`) {
-            next unless /^(\d+)/;
-            my $link_auto = $1;
-            if ($link_auto =~ /1/ ) {
-                $link_info = $link_info." AUTOSPEED ON";
-            } elsif ($link_auto =~ /0/) {
-                $link_info = $link_info." AUTOSPEED OFF ";
-            } else {
-                $link_info = $link_info." AUTOSPEED ERROR";
-            }
-        }
-    }
-
-    return $link_info;
+    return _get_link_info($speed, $duplex, $auto);
 }
 
 # Function to test eri Fast-Ethernet (eri_).
 sub check_eri {
     my ($mynic, $mynum) = @_;
 
-    my $link_info;
+    my ($speed, $duplex, $auto);
     foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
         next unless /^(\d+)/;
-        my $link_speed = $1;
-        if ($link_speed =~ /^0$/ ) {
-            $link_info = $link_info."10 Mb/s";
-        } elsif ($link_speed =~ /^1$/) {
-            $link_info = $link_info."100 Mb/s";
-        } elsif ($link_speed =~ /^1000$/) {
-            $link_info = $link_info."1 Gb/s";
-        } else {
-            $link_info = $link_info."ERROR";
-        }
+        $speed = $1;
+        last;
     }
     foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
         next unless /^(\d+)/;
-        my $link_duplex = $1;
-        if ($link_duplex =~ /1/ ) {
-            $link_info = $link_info." FDX";
-        } elsif ($link_duplex =~ /0/) {
-            $link_info = $link_info." HDX";
-        } else {
-            $link_info = $link_info." ERROR";
-        }
+        $duplex = $1;
+        last;
     }
-    return $link_info;
+
+    return _get_link_info($speed, $duplex, $auto);
 }
 
 # Function to test a Gigabit-Ethernet (i.e. ce_).
@@ -411,53 +364,26 @@ sub check_ce {
         $localperl = "/".$1."/".$2."/bin/perl" if /^\/(\S+)\/(\S+)\/(\S+)$/;
     }
 
-    my $link_info;
-    #print "LIBPERL :".$libperl."\n";
-    #print "PERL :".$localperl."\n";
-    #print "CE = ".$mynic.$mynum."\n";
+    my ($speed, $duplex, $auto);
+
     foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed`) {
         next unless /^\s*link_speed+\s*(\d+).*$/;
-        my $link_speed = $1;
-        #print "SPEED = ".$link_speed."\n";
-        if ($link_speed =~ /^0$/ ) {
-            $link_info = $link_info."10 Mb/s";
-        } elsif ($link_speed =~ /^10$/) {
-            $link_info = $link_info."10 Mb/s";
-        } elsif ($link_speed =~ /^100$/) {
-            $link_info = $link_info."100 Mb/s";
-        } elsif ($link_speed =~ /^1000$/) {
-            $link_info = $link_info."1 Gb/s";
-        } else {
-            $link_info = $link_info."ERROR";
-        }
+        $speed = $1;
+        last;
     }
     foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_duplex | grep link_duplex`) {
         next unless /^\s*link_duplex+\s*(\d+).*$/;
-        my $link_duplex = $1;
-        if ($link_duplex =~ /2/ ) {
-            $link_info = $link_info." FDX";
-        } elsif ($link_duplex =~ /1/) {
-            $link_info = $link_info." HDX";
-        } elsif ($link_duplex =~ /0/) {
-            $link_info = $link_info." UNKNOWN";
-        } else {
-            $link_info = $link_info." ERROR";
-        }
+        $duplex = $1;
+        last;
     }
-
     foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg | grep cap_autoneg`) {
         next unless /^\s*cap_autoneg+\s*(\d+).*$/;
-        my $link_auto = $1;
-        if ($link_auto =~ /1/ ) {
-            $link_info = $link_info." AUTOSPEED ON";
-        } elsif ($link_auto =~ /0/) {
-            $link_info = $link_info." AUTOSPEED OFF ";
-        } else {
-            $link_info = $link_info." AUTOSPEED ERROR";
-        }
+        $auto = $1;
+        last;
     }
 
-    return $link_info;
+    return _get_link_info($speed, $duplex, $auto);
+
 }
 
 # Function to test Sun BGE interface on Sun Fire V210 and V240.
@@ -466,49 +392,25 @@ sub check_ce {
 sub check_bge_nic {
     my ($mynic, $mynum) = @_;
 
-    my $link_info;
+    my ($speed, $duplex, $auto);
+
     foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_speed`) {
         next unless /^(\d+)/;
-        my $link_speed = $1;
-        if ($link_speed =~ /^0$/ ) {
-            $link_info = $link_info."10 Mb/s";
-        } elsif ($link_speed =~ /^10$/) {
-            $link_info = $link_info."10 Mb/s";
-        } elsif ($link_speed =~ /^100$/) {
-            $link_info = $link_info."100 Mb/s";
-        } elsif ($link_speed =~ /^1000$/) {
-            $link_info = $link_info."1 Gb/s";
-        } else {
-            $link_info = $link_info."ERROR";
-        }
+        $speed = $1;
+        last;
     }
     foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_duplex`) {
         next unless /^(\d+)/;
-        my $link_duplex = $1;
-        if ($link_duplex =~ /2/ ) {
-            $link_info = $link_info." FDX";
-        } elsif ($link_duplex =~ /1/) {
-            $link_info = $link_info." HDX";
-        } elsif ($link_duplex =~ /0/) {
-            $link_info = $link_info." UNKNOWN";
-        } else {
-            $link_info = $link_info." ERROR";
-        }
+        $duplex = $1;
+        last;
     }
-
-    foreach (`/usr/sbin/ndd -get /dev/${1}${2} adv_autoneg_cap`) {
+    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum adv_autoneg_cap`) {
         next unless /^(\d+)/;
-        my $link_auto = $1;
-        if ($link_auto =~ /^0$/ ) {
-            $link_info = $link_info."AUTOSPEED ON";
-        } elsif ($link_auto =~ /1/) {
-            $link_info = $link_info."AUTOSPEED OFF";
-        } else {
-            $link_info = $link_info."AUTOSPEED ERROR";
-        }
-
+        $auto = $1;
+        last;
     }
-    return $link_info;
+
+    return _get_link_info($speed, $duplex, $auto);
 }
 
 
@@ -528,6 +430,34 @@ sub check_nxge_nic {
 }
 
 sub check_dmf_nic {
+}
+
+sub _get_link_info {
+    my ($speed, $duplex, $auto) = @_;
+
+    my $info;
+
+    $info =
+        $speed == 0    ? "10 Mb/s"  :
+        $speed == 10   ? "10 Mb/s"  :
+        $speed == 100  ? "100 Mb/s" :
+        $speed == 1000 ? "1 Gb/s"   :
+                         "ERROR"    ;
+
+    $info .=
+        $duplex == 2 ? " FDX"     :
+        $duplex == 1 ? " HDX"     :
+        $duplex == 0 ? " UNKNOWN" :
+                       " ERROR"   ;
+
+    if ($auto) {
+        $info .=
+            $auto == 0 ? " AUTOSPEED ON"    :
+            $auto == 1 ? " AUTOSPEED OFF"   :
+                         " ERROR"           ;
+    }
+
+    return $info;
 }
 
 1;
