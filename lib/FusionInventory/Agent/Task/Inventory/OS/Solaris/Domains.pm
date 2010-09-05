@@ -1,5 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Domains;
+
 use strict;
+use warnings;
+
+use English qw(-no_match_vars);
+use Sys::Hostname;
 
 use FusionInventory::Agent::Tools;
 
@@ -10,27 +15,49 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my $domain;
-
-    chomp($domain = `domainname`);
-
-    if (!$domain) {
-        my %domain;
-
-        if (open RESOLV, "/etc/resolv.conf") {
-            while(<RESOLV>) {
-                $domain{$2} = 1 if (/^(domain|search)\s+(.+)/);
+    # first, parse /etc/resolv.conf for the DNS servers,
+    # and the domain search list
+    my @dns_list;
+    my @search_list;
+    if (open my $handle, '<', '/etc/resolv.conf') {
+        while (my $line = <$handle>) {
+            if ($line =~ /^nameserver\s+(\S+)/) {
+                push(@dns_list, $1);
+            } elsif ($line =~ /^(domain|search)\s+(\S+)/) {
+                push(@search_list, $1);
             }
-            close RESOLV;
         }
-        $domain = join "/", keys %domain;
+        close $handle;
+    } else {
+        $logger->debug("Can't open /etc/resolv.conf: $ERRNO");
     }
-# If no domain name, we send "WORKGROUP"
-    $domain = 'WORKGROUP' unless $domain;
+    my $dns = join('/', @dns_list);
+
+    # attempt to deduce the domain from the domainname command
+    my $domain = `domainname`;
+    chomp $domain;
+
+    # fallback on the host name
+    if (!$domain) {
+        my $hostname = hostname();
+        my $pos = index $hostname, '.';
+
+        if ($pos >= 0) {
+            $domain = substr($hostname, $pos + 1);
+        }
+    }
+
+    # fallback on the domain search list
+    if (!$domain) {
+        $domain = join('/', @search_list);
+    }
+
     $inventory->setHardware({
-            WORKGROUP => $domain
-        });
+        WORKGROUP => $domain,
+        DNS => $dns
+    });
 }
 
 1;
