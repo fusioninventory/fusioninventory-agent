@@ -97,6 +97,8 @@ sub getCanonicalManufacturer {
 sub getCanonicalSpeed {
     my ($speed) = @_;
 
+    ## no critic (ExplicitReturnUndef)
+
     return undef unless $speed;
 
     return undef unless $speed =~ /^(\d+) \s (\S+)$/x;
@@ -111,6 +113,8 @@ sub getCanonicalSpeed {
 
 sub getCanonicalSize {
     my ($size) = @_;
+
+    ## no critic (ExplicitReturnUndef)
 
     return undef unless $size;
 
