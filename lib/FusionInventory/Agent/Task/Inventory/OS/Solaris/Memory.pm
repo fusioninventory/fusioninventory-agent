@@ -165,7 +165,7 @@ sub doInventory {
                 substr ($_,0,15) = "";
                 $capacity = "empty";
                 $numslots = 0;
-                foreach $caption (split)
+                foreach my $caption (split)
                 {
                     if ($caption eq "None")
                     {
@@ -228,7 +228,7 @@ sub doInventory {
                 substr ($_,0,15) = "";
                 $capacity = "empty";
                 $numslots = 0;
-                foreach $caption (split)
+                foreach my $caption (split)
                 {
                     if ($caption eq "None")
                     {
@@ -289,7 +289,7 @@ sub doInventory {
                 substr ($_,0,15) = "";
                 $capacity = "empty";
                 $numslots = 0;
-                foreach $caption (split)
+                foreach my $caption (split)
                 {
                     if ($caption eq "None")
                     {
@@ -389,7 +389,7 @@ sub doInventory {
                 substr ($_,0,22) = "";
                 $capacity = "0";
                 $numslots = 0;
-                foreach $caption (split(/, /,$_))
+                foreach my $caption (split(/, /,$_))
                 {
                     if ($caption eq "None")
                     {
