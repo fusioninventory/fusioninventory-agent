@@ -22,7 +22,7 @@ use FusionInventory::Logger;
 use POE;
 use POE::Component::IKC::Server;
 
-our $VERSION = '2.1.2';
+our $VERSION = '2.1.3';
 our $VERSION_STRING =
 "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
