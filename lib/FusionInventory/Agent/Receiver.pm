@@ -241,7 +241,7 @@ sub server {
     while (1) {
 
         if ($joinableAvalaible) {
-            no strict 'subs';
+            no strict 'subs'; ## no critic
             # threads::joinable symbol is not defined in perl 5.8
             my @threads = threads->list(threads::joinable);
             $_->join() foreach @threads;
