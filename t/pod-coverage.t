@@ -19,9 +19,19 @@ if ($EVAL_ERROR) {
 }
 
 Test::Pod::Coverage->import();
-all_pod_coverage_ok(
-    {
-        coverage_class => 'Pod::Coverage::CountParents',
-        also_private => [ qw/doInventory isInventoryEnabled/ ],
-    }
-);
+
+my @modules = $OSNAME eq 'MSWin32' ?
+    grep { ! /Syslog/ } all_modules('lib') :
+    grep { ! /Win32/  } all_modules('lib') ;
+
+plan tests => scalar @modules;
+
+foreach my $module (@modules) {
+    pod_coverage_ok(
+        $module,
+        {
+            coverage_class => 'Pod::Coverage::CountParents',
+            also_private => [ qw/doInventory isInventoryEnabled/ ],
+        }
+    );
+}
