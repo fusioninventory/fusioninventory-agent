@@ -60,18 +60,43 @@ sub doInventory {
         $model = "Solaris Containers";
     }
 
-    if ($model =~ /SUNW,SPARC-Enterprise/)     { $sun_class = 5; } # for M5000 && M4000
-    if ($model =~ /SUNW,SPARC-Enterprise-T\d/) { $sun_class = 4; }
-    if ($model =~ /SUNW,Netra-T/)              { $sun_class = 2; }
-    if ($model =~ /SUNW,Sun-Fire-\d/)          { $sun_class = 1; }
-    if ($model =~ /SUNW,Sun-Fire-V/)           { $sun_class = 2; }
-    if ($model =~ /SUNW,Sun-Fire-T\d/)         { $sun_class = 3; }
-    if ($model =~ /SUNW,T\d/)                  { $sun_class = 3; }
-    if ($model =~ /Solaris Containers/)        { $sun_class = 7; }
-    if ($model =~ /SUNW,Ultra-250/)            { $sun_class = 2; }
-
-    if ($model eq "i86pc") { $sun_class = 6; }
-
+    SWITCH: {
+        if ($model =~ /SUNW,Sun-Fire-\d/) {
+            $sun_class = 1;
+            last SWITCH;
+        }
+        if (
+            $model =~ /SUNW,Sun-Fire-V/ or
+            $model =~ /SUNW,Netra-T/    or
+            $model =~ /SUNW,Ultra-250/
+        ) {
+            $sun_class = 2;
+            last SWITCH;
+        }
+        if (
+            $model =~ /SUNW,Sun-Fire-T\d/ or
+            $model =~ /SUNW,T\d/
+        ) {
+            $sun_class = 3;
+            last SWITCH;
+        }
+        if ($model =~ /SUNW,SPARC-Enterprise-T\d/) {
+            $sun_class = 4;
+            last SWITCH;
+        }
+        if ($model =~ /SUNW,SPARC-Enterprise/) {
+            $sun_class = 5;
+            last SWITCH;
+        }
+        if ($model eq "i86pc") {
+            $sun_class = 6;
+            last SWITCH;
+        }
+        if ($model =~ /Solaris Containers/) {
+            $sun_class = 7;
+            last SWITCH;
+        }
+    }
 
     # now we can look at memory information, depending from our class
     if ($sun_class == 0) {
