@@ -12,7 +12,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $slots = _getPorts($logger);
+    my $slots = _getSlots($logger);
 
     return unless $slots;
 
