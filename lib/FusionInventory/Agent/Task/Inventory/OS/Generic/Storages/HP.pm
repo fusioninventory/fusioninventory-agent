@@ -53,33 +53,22 @@ sub _getHpacuacliFromWinRegistry {
 }
 
 sub isInventoryEnabled {
-
-    my $ret;
-
-    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":_getHpacuacliFromWinRegistry();
-# Do we have hpacucli ?
-    if ($hpacuacliPath) {
-        foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
-            if (/.*Slot\s(\d*).*/) {
-                $ret = 1;
-                last;
-            }
-        }
-    }
-    return $ret;
-
+    return
+        can_run("hpacucli") ||
+        _getHpacuacliFromWinRegistry();
 }
 
 sub doInventory {
-
-
     my $params = shift;
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
     my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
 
-    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":_getHpacuacliFromWinRegistry($logger);
+    my $hpacuacliPath = can_run("hpacucli") ?
+        "hpacucli":
+        _getHpacuacliFromWinRegistry($logger);
+
     foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
 
 # Example output :
