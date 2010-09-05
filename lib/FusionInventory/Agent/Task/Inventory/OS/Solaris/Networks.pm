@@ -82,25 +82,25 @@ sub doInventory {
                 $nic = $1 if ( $description =~ /^(\S+)(\d+)/);
                 $num = $2 if ( $description =~/^(\S+)(\d+)/);
                 if ($nic =~ /bge/ ) {
-                    $speed = check_bge_nic($nic,$num);
+                    $speed = _check_bge_nic($nic,$num);
                 } elsif ($nic =~ /ce/) {
-                    $speed = check_ce($nic,$num);
+                    $speed = _check_ce($nic,$num);
                 } elsif ($nic =~ /hme/) {
-                    $speed = check_nic($nic,$num);
+                    $speed = _check_nic($nic,$num);
                 } elsif ($nic =~ /dmfe/) {
-                    $speed = check_dmf_nic($nic,$num);
+                    $speed = _check_dmf_nic($nic,$num);
                 } elsif ($nic =~ /ipge/) {
-                    $speed = check_ce($nic,$num);
+                    $speed = _check_ce($nic,$num);
                 } elsif ($nic =~ /e1000g/) {
-                    $speed = check_ce($nic,$num);
+                    $speed = _check_ce($nic,$num);
                 } elsif ($nic =~ /nxge/) {
-                    $speed = check_nxge_nic($nic,$num);
+                    $speed = _check_nxge_nic($nic,$num);
                 } elsif ($nic =~ /eri/) {
-                    $speed = check_nic($nic,$num);
+                    $speed = _check_nic($nic,$num);
                 } elsif ($nic =~ /aggr/) {
                     $speed = "";
                 } else {
-                    $speed = check_nic($nic,$num);
+                    $speed = _check_nic($nic,$num);
                 }
                 #HEX TO DEC TO BIN TO IP
                 $ipmask = hex($ipmask);
@@ -239,23 +239,23 @@ sub doInventory {
                 $nic = $1 if $description =~ /^(\S+)(\d+):.*$/;
                 $num = $2 if $description =~/^(\S+)(\d+):.*$/;
                 if ($nic =~ /bge/) {
-                    $speed = check_bge_nic($nic,$num);
+                    $speed = _check_bge_nic($nic,$num);
                 } elsif ($nic =~ /ce/) {
-                    $speed = check_ce($nic,$num);
+                    $speed = _check_ce($nic,$num);
                 } elsif ($nic =~ /hme/) {
-                    $speed = check_nic($nic,$num);
+                    $speed = _check_nic($nic,$num);
                 } elsif ($nic =~ /dmfe/) {
-                    $speed = check_dmf_nic($nic,$num);
+                    $speed = _check_dmf_nic($nic,$num);
                 } elsif ($nic =~ /ipge/) {
-                    $speed = check_ce($nic,$num);
+                    $speed = _check_ce($nic,$num);
                 } elsif ($nic =~ /e1000g/) {
-                    $speed = check_ce($nic,$num);
+                    $speed = _check_ce($nic,$num);
                 } elsif ($nic =~ /nxge/) {
-                    $speed = check_nxge_nic($nic,$num);
+                    $speed = _check_nxge_nic($nic,$num);
                 } elsif ($nic =~ /eri/) {
-                    $speed = check_nic($nic,$num);
+                    $speed = _check_nic($nic,$num);
                 } else {
-                    $speed = check_nic($nic,$num);
+                    $speed = _check_nic($nic,$num);
                 }
                 #HEX TO DEC TO BIN TO IP
                 $ipmask = hex($ipmask);
@@ -288,7 +288,7 @@ sub doInventory {
 
 # Function to test Quad Fast-Ethernet, Fast-Ethernet, and
 # Gigabit-Ethernet (i.e. qfe_, hme_, ge_, fjgi_)
-sub check_nic {
+sub _check_nic {
     my ($mynic, $mynum) = @_;
 
     my ($speed, $duplex, $auto);
@@ -314,7 +314,7 @@ sub check_nic {
 }
 
 # Function to test eri Fast-Ethernet (eri_).
-sub check_eri {
+sub _check_eri {
     my ($mynic, $mynum) = @_;
 
     my ($speed, $duplex, $auto);
@@ -334,7 +334,7 @@ sub check_eri {
 
 # Function to test a Gigabit-Ethernet (i.e. ce_).
 # Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
-sub check_ce {
+sub _check_ce {
     my ($mynic, $mynum) = @_;
 
     #/usr/perl5/5.00503/bin/perl
@@ -373,7 +373,7 @@ sub check_ce {
 # Function to test Sun BGE interface on Sun Fire V210 and V240.
 # The BGE is a Broadcom BCM5704 chipset. There are four interfaces
 # on the V210 and V240. (i.e. bge_)
-sub check_bge_nic {
+sub _check_bge_nic {
     my ($mynic, $mynum) = @_;
 
     my ($speed, $duplex, $auto);
@@ -398,11 +398,8 @@ sub check_bge_nic {
 }
 
 
-sub check_e1kg {
-}
-
 # Function to test Sun NXGE interface on Sun Fire Tx000.
-sub check_nxge_nic {
+sub _check_nxge_nic {
     my ($mynic, $mynum) = @_;
 
     my $link_info;
@@ -413,7 +410,7 @@ sub check_nxge_nic {
     return $link_info;
 }
 
-sub check_dmf_nic {
+sub _check_dmf_nic {
 }
 
 sub _get_link_info {
