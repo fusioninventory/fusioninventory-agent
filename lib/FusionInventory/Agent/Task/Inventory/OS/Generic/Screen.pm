@@ -73,7 +73,7 @@ sub getScreens {
             my $machKey;
             {
                 # Win32-specifics constants can not be loaded on non-Windows OS
-                no strict 'subs';
+                no strict 'subs'; ## no critics
                 $machKey = $Registry->Open('LMachine', {
                     Access => Win32::TieRegistry::KEY_READ
                 } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
