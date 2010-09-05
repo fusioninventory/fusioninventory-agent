@@ -98,8 +98,9 @@ sub new {
 
     if ($OSNAME eq 'MSWin32') {
         eval {
-            use Encode;
-            use Win32::API;
+            require Encode;
+            require Win32::API;
+            Encode->import();
 
             my $GetComputerName = Win32::API->new(
                 "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
