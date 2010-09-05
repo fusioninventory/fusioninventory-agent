@@ -308,7 +308,7 @@ sub check_nic {
     my ($mynic, $mynum) = @_;
 
     my $link_info;
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed `){
+    foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
         my $link_speed = $1 if /^(\d+)/;
         if ($link_speed =~ /^0$/ ) {
             $link_info = $link_info."10 Mb/s";
@@ -321,7 +321,7 @@ sub check_nic {
         }
     }
 
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode `){
+    foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
         my $link_duplex = $1 if /^(\d+)/;
         if ($link_duplex =~ /1/ ) {
             $link_info = $link_info." FDX";
@@ -333,7 +333,7 @@ sub check_nic {
     }
 
     if ($mynic =~ /ge/){
-        foreach (`/usr/sbin/ndd -get /dev/$mynic adv_1000autoneg_cap `){
+        foreach (`/usr/sbin/ndd -get /dev/$mynic adv_1000autoneg_cap`) {
             my $link_auto = $1 if /^(\d+)/;
             if ($link_auto =~ /1/ ) {
                 $link_info = $link_info." AUTOSPEED ON";
@@ -344,7 +344,7 @@ sub check_nic {
             }
         }
     } else {
-        foreach (`/usr/sbin/ndd -get /dev/$mynic adv_autoneg_cap `){
+        foreach (`/usr/sbin/ndd -get /dev/$mynic adv_autoneg_cap`) {
             my $link_auto = $1 if /^(\d+)/;
             if ($link_auto =~ /1/ ) {
                 $link_info = $link_info." AUTOSPEED ON";
@@ -409,7 +409,7 @@ sub check_ce {
     #print "LIBPERL :".$libperl."\n";
     #print "PERL :".$localperl."\n";
     #print "CE = ".$mynic.$mynum."\n";
-    foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed `){
+    foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed`) {
         my $link_speed = $1 if /^\s*link_speed+\s*(\d+).*$/;
         #print "SPEED = ".$link_speed."\n";
         if ($link_speed =~ /^0$/ ) {
@@ -472,7 +472,7 @@ sub check_bge_nic {
             $link_info = $link_info."ERROR";
         }
     }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_duplex `){
+    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_duplex`) {
         my $link_duplex = $1 if /^(\d+)/;
         if ($link_duplex =~ /2/ ) {
             $link_info = $link_info." FDX";
@@ -485,7 +485,7 @@ sub check_bge_nic {
         }
     }
 
-    foreach (`/usr/sbin/ndd -get /dev/${1}${2} adv_autoneg_cap`){
+    foreach (`/usr/sbin/ndd -get /dev/${1}${2} adv_autoneg_cap`) {
         my $link_auto = $1 if /^(\d+)/;
         if ($link_auto =~ /^0$/ ) {
             $link_info = $link_info."AUTOSPEED ON";
@@ -508,7 +508,7 @@ sub check_nxge_nic {
     my ($mynic, $mynum) = @_;
 
     my $link_info;
-    foreach (`/usr/sbin/dladm show-dev $mynic$mynum ` ){
+    foreach (`/usr/sbin/dladm show-dev $mynic$mynum`) {
         #nxge0           link: up        speed: 1000  Mbps       duplex: full
         $link_info = $5." ".$6." ".$8 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
     }
