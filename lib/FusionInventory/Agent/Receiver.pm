@@ -241,9 +241,8 @@ sub server {
     while (1) {
 
         if ($joinableAvalaible) {
-            no strict;
-            # no strict to avoid with Perl 5.8
-            # "threads::joinable" not allowed while "strict subs"
+            no strict 'subs';
+            # threads::joinable symbol is not defined in perl 5.8
             my @threads = threads->list(threads::joinable);
             $_->join() foreach @threads;
         }
