@@ -45,8 +45,8 @@ sub new {
 #                    return;
 #                }
 
-                if ($key !~ /^(type|path|deviceid|format|currentDeviceid)$/) {
-                    $logger->error("Forbidden key: `$key'");
+                if ($key !~ /^(type|path|deviceid|format|currentDeviceid|vardir)$/) {
+                    $logger->error("[Target] Forbidden key: `$key'");
                     return;
                 }
 
