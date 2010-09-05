@@ -25,6 +25,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/lspci/$test";
-    my $videos = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos::getVideoControllers($logger, $file);
+    my $videos = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos::_getVideoControllers($logger, $file);
     is_deeply($videos, $tests{$test}, $test);
 }

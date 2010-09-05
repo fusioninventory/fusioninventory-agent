@@ -276,10 +276,10 @@ plan tests => scalar keys %tests;
 
 my $logger = FusionInventory::Logger->new();
 
-FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::loadPciIds($logger, 'share');
+FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_loadPciIds($logger, 'share');
 
 foreach my $test (keys %tests) {
     my $file = "resources/lspci/$test";
-    my $controllers = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::getExtentedControllers($logger, $file);
+    my $controllers = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_getExtentedControllers($logger, $file);
     is_deeply($controllers, $tests{$test}, $test);
 }

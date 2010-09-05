@@ -509,6 +509,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::getPorts($logger, $file);
+    my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::_getPorts($logger, $file);
     is_deeply($ports, $tests{$test}, $test);
 }

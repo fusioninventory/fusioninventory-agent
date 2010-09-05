@@ -12,7 +12,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $ports = getPorts($logger);
+    my $ports = _getPorts($logger);
 
     return unless $ports;
 
@@ -21,7 +21,7 @@ sub doInventory {
     }
 }
 
-sub getPorts {
+sub _getPorts {
     my ($logger, $file) = @_;
 
     my $infos = getInfosFromDmidecode($logger, $file);

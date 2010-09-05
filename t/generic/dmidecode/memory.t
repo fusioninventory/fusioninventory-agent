@@ -228,6 +228,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::getMemories($logger, $file);
+    my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::_getMemories($logger, $file);
     is_deeply($memories, $tests{$test}, $test);
 }

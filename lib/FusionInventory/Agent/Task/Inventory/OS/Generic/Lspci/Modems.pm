@@ -12,7 +12,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $modems = getModemControllers($logger);
+    my $modems = _getModemControllers($logger);
 
     return unless $modems;
 
@@ -21,7 +21,7 @@ sub doInventory {
     }
 }
 
-sub getModemControllers {
+sub _getModemControllers {
     my ($logger, $file) = @_;
 
     my $controllers = getControllersFromLspci($logger, $file);

@@ -305,6 +305,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::getSlots($logger, $file);
+    my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::_getSlots($logger, $file);
     is_deeply($slots, $tests{$test}, $test);
 }

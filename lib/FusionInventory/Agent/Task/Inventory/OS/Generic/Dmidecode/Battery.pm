@@ -6,7 +6,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-sub parseDate {
+sub _parseDate {
     my $string = shift;
 
     if ($string =~ /(\d{1,2})([\/-])(\d{1,2})([\/-])(\d{2})/) {
@@ -31,12 +31,12 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $battery = getBattery($logger);
+    my $battery = _getBattery($logger);
 
     $inventory->addBattery($battery);
 }
 
-sub getBattery {
+sub _getBattery {
     my ($logger, $file) = @_;
 
     my $infos = getInfosFromDmidecode($logger, $file);
@@ -53,7 +53,7 @@ sub getBattery {
     };
 
     if ($info->{'Manufacture Date'}) {
-        $battery->{DATE} = parseDate($info->{'Manufacture Date'});
+        $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
     }
 
     if ($info->{Capacity} && $info->{Capacity} =~ /(\d+) \s m(W|A)h$/x) {

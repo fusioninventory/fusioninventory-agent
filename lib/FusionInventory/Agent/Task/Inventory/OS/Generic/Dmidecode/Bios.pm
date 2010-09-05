@@ -12,13 +12,13 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my ($bios, $hardware) = getBiosHardware($logger);
+    my ($bios, $hardware) = _getBiosHardware($logger);
 
     $inventory->setBios($bios);
     $inventory->setHardware($hardware) if $hardware;
 }
 
-sub getBiosHardware {
+sub _getBiosHardware {
     my ($logger, $file) = @_;
 
     my $infos = getInfosFromDmidecode($logger, $file);

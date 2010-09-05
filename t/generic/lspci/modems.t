@@ -16,6 +16,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/lspci/$test";
-    my $modems = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems::getModemControllers($logger, $file);
+    my $modems = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems::_getModemControllers($logger, $file);
     is_deeply($modems, $tests{$test}, $test);
 }

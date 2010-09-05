@@ -12,7 +12,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $sounds = getSoundControllers($logger);
+    my $sounds = _getSoundControllers($logger);
 
     return unless $sounds;
 
@@ -21,7 +21,7 @@ sub doInventory {
     }
 }
 
-sub getSoundControllers {
+sub _getSoundControllers {
     my ($logger, $file) = @_;
 
     my $controllers = getControllersFromLspci($logger, $file);

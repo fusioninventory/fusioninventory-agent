@@ -12,7 +12,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $videos = getVideoControllers($logger);
+    my $videos = _getVideoControllers($logger);
     
     return unless $videos;
 
@@ -21,7 +21,7 @@ sub doInventory {
     }
 }
 
-sub getVideoControllers {
+sub _getVideoControllers {
      my ($logger, $file) = @_;
 
     my $controllers = getControllersFromLspci($logger, $file);

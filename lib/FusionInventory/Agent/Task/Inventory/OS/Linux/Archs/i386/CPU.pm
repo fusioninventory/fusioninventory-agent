@@ -38,7 +38,7 @@ sub doInventory {
         }
     }
 
-    my ($cpuProcs, $cpuCoreCpts) = getInfosFromProc($logger);
+    my ($cpuProcs, $cpuCoreCpts) = _getInfosFromProc($logger);
 
     my $maxId = @cpu?@cpu-1:@$cpuProcs-1;
     foreach my $id (0..$maxId) {
@@ -68,7 +68,7 @@ sub doInventory {
     }
 }
 
-sub getInfosFromProc {
+sub _getInfosFromProc {
     my ($logger, $file) = @_;
 
     my $cpus = getCPUsFromProc($logger, $file);

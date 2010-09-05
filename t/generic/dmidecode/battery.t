@@ -33,6 +33,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my $battery = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery::getBattery($logger, $file);
+    my $battery = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery::_getBattery($logger, $file);
     is_deeply($battery, $tests{$test}, $test);
 }

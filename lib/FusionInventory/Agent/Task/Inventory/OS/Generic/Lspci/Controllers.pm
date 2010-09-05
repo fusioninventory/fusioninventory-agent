@@ -19,8 +19,8 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    loadPciIds($logger, $config->{'share-dir'});
-    my $controllers = getExtentedControllers($logger);
+    _loadPciIds($logger, $config->{'share-dir'});
+    my $controllers = _getExtentedControllers($logger);
 
     return unless $controllers;
 
@@ -29,7 +29,7 @@ sub doInventory {
     }
 }
 
-sub getExtentedControllers {
+sub _getExtentedControllers {
     my ($logger, $file) = @_;
 
     my $controllers = getControllersFromLspci($logger, $file);
@@ -77,7 +77,7 @@ sub getExtentedControllers {
     return $controllers;
 }
 
-sub loadPciIds {
+sub _loadPciIds {
     my ($logger, $sharedir) = @_;
 
     my $handle;

@@ -135,7 +135,7 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
-    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::getBiosHardware($logger, $file);
+    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware($logger, $file);
     is_deeply($bios, $tests{$test}->{bios}, $test);
     is_deeply($hardware, $tests{$test}->{hardware}, $test);
 }
