@@ -5,7 +5,7 @@ use English qw(-no_match_vars);
 use strict;
 use warnings;
 
-sub isInvwentoryEnabled {
+sub isInventoryEnabled {
 # We use WMI for Windows because of charset issue
     return $OSNAME ne 'MSWin32';
 }
