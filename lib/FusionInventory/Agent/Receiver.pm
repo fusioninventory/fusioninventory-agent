@@ -235,8 +235,8 @@ sub server {
     } 
     $logger->info("[Receiver] Service started at: ". $daemon->url);
 
-# Since perl 5.10, threads::joinable is avalaible
-    my $joinableAvalaible = eval 'defined(threads::joinable) && 1';
+    # threads::joinable is available since perl 5.10 only
+    my $joinableAvalaible = defined &threads::joinable;
 
     while (1) {
 
