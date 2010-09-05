@@ -72,11 +72,13 @@ sub main {
                     "Force enable, ignore prolog and run inventory."
                 );
             } else {
-                my $parsedContent = $self->{prolog}->getParsedContent();
+                my $options = $self->{prolog}->getOptionsInfoByName('INVENTORY');
+                use Data::Dumper;
+                print Dumper($options);
                 if (
-                    !$parsedContent ||
-                    ! $parsedContent->{RESPONSE} ||
-                    ! $parsedContent->{RESPONSE} eq 'SEND'
+                    !$options ||
+                    ! $options->{RESPONSE} ||
+                    ! $options->{RESPONSE} eq 'SEND'
                 ) {
                     $self->{logger}->debug(
                         "No inventory requested in the prolog, exiting"

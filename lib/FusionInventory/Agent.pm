@@ -206,6 +206,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
     POE::Kernel->call(IKC => publish => 'config', ["get"]);
     POE::Kernel->call(IKC => publish => 'targetsList', ["get"]);
     POE::Kernel->call(IKC => publish => 'network', ["send"]);
+    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
 
 
 
