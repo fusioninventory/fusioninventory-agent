@@ -30,15 +30,16 @@ sub encodeFromRegistry {
     return unless $string;
 
     if (!$localCodepage) {
-	    no strict; # KEY!READ is nunknown
+        no strict; # KEY!READ is nunknown
         my $lmachine = $Win32::TieRegistry::Registry->Open('LMachine', {
                 Access => Win32::TieRegistry::KEY_READ
                 }) or print "Failed to open LMachine";
 
         my $codepage =
-            $lmachine->{"SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage"} or warn;
+            $lmachine->{"SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage"}
+            or warn;
 
-	    $localCodepage = "cp".$codepage->{ACP};
+            $localCodepage = "cp".$codepage->{ACP};
     }
 
     return encode("UTF-8", decode($localCodepage, $string));
