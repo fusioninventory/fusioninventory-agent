@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Virtuozzo;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -12,44 +14,41 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my $uuid   = "";
-    my $mem    = "";
-    my $status = "";
-    my $name   = "";
-    my $subsys = "";
-    my $cpus   = 1;
+    my $command =
+        'vzlist --all --no-header -o hostname,ctid,cpulimit,status,ostemplate';
 
-    my @command = `vzlist --all --no-header -o hostname,ctid,cpulimit,status,ostemplate`;
-    # no service containers in glpi
-    shift (@command);
+    my $handle;
+    if (!open $handle, '-|', $command) {
+        $logger->error("Can't run command $command");
+        return;
+    }
 
-    foreach my $line ( @command ) {
+    while (my $line = <$handle>) {
+        # no service containers in glpi
+        next if $INPUT_LINE_NUMBER eq 1;
+
         chomp $line; 
         my @params = split(/[ \t]+/, $line);
-        $name   = $params[0];
-        $uuid   = $params[1];
-        $cpus   = $params[2];
-        $status = $params[3];
-        $subsys = $params[4];
+        my $name   = $params[0];
+        my $uuid   = $params[1];
+        my $cpus   = $params[2];
+        my $status = $params[3];
+        my $subsys = $params[4];
+        my $mem    = 0;
 
-        if(!open(CONFIG, "</etc/vz/conf/$uuid.conf")) {
-          return;
-        }
-        @params = <CONFIG>;
-        close(CONFIG);
-        @params = grep(/SLMMEMORYLIMIT/,@params);
-        $mem = pop(@params);
-        chomp $mem;
-          if ($mem =~ m/(\d+)\"$/) {
-          $mem = $1/1024/1024;
-        }
-        else {
-          # non slm config, different calculation
-          $mem = 0;
+        my $subhandle;
+        if (open $subhandle, '<', "/etc/vz/conf/$uuid.conf") {
+            while (my $subline = <$subhandle>) {
+                next unless $subline =~ /^SLMMEMORYLIMIT="\d+:(\d+)"$/;
+                $mem = $1 / 1024 / 1024;
+                last;
+            }
+            close $subhandle;
         }
  
-        my $machine = {
+        $inventory->addVirtualMachine({
             NAME      => $name,
             VCPU      => $cpus,
             UUID      => $uuid,
@@ -57,10 +56,11 @@ sub doInventory {
             STATUS    => $status,
             SUBSYSTEM => $subsys,
             VMTYPE    => "Virtuozzo",
-        };
+        });
 
-        $inventory->addVirtualMachine($machine);
     }
+
+    close $handle;
 }
 
 1;
