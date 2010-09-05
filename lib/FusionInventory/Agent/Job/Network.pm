@@ -25,12 +25,12 @@ sub send {
 
     my $message = $args->{message};
     
-    my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
+    my ($msgType) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
    
-   print "=BEGIN MSG($msgtype)=\n";
-   my $content = $message->getContent();
-   print $content."\n";
-    $poe->post_respond('network/send', $content);
+   print "=BEGIN MSG($msgType)=\n";
+   my $xmlContent = $message->getContent();
+#   print $content."\n";
+    $poe->post_respond('network/send', { xmlContent => $xmlContent, msgType => $msgType });
    print "=END MSG=\n";
 }
 

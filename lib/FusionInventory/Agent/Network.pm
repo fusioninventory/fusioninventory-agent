@@ -76,16 +76,17 @@ sub new {
                 $_[KERNEL]->alias_set('network');
             },
             send => sub {
-                my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
-                my $key = $args->[0];
+                my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1, ARG2];
+                my $xml = $args->[0]{xml};
+                my $msgType = $args->[0]{msgType};
                 my $rsvp = $args->[1];
-
-                print "Network: AAA→".ref($key)."\n";
+use Data::Dumper;
+                print "Network: msgType→".Dumper($msgType)."\n";
 #                my $rsvp = $args->[1];
 #print "p: $p\n";
 #print "v: ".$self->{$p}."\n";
                 my $ret; # = $self->send("todo");
-                $kernel->call(IKC => post => $rsvp, $ret);
+                $kernel->call(IKC => post => $rsvp, $self->send({ xmlContent => $xml, msgType => $msgType}));
 
             },
         }
@@ -218,7 +219,8 @@ sub send {
 
     my $msgType;
     my $xmlContent;
-    if ($message) {
+
+    if (ref($message)) {
         ($msgType) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
         $xmlContent = $message->getContent();
     } elsif (!$message) {
@@ -226,6 +228,8 @@ sub send {
         $xmlContent = $args->{xmlContent};
     }
     die unless $msgType;
+
+print "msgType: $msgType\n";
 
     my $req = HTTP::Request->new(POST => $self->{URI});
     $req->header(
@@ -276,8 +280,10 @@ sub send {
     # Ok we found the correct realm. We store it.
     $self->{config}->{realm} = $serverRealm if $serverRealm;
 
+    print "msgType: ".$msgType."\n";
     # create response
-    my $response_type = ref $message;
+    my $response_type = $msgType || ref $message;
+    print "response_type: ".$response_type."\n";
     $response_type =~ s/Query/Response/;
     $response_type->require();
     if ($EVAL_ERROR) {
@@ -295,6 +301,7 @@ sub send {
         }
     }
 
+    print "msgType: $msgType\n";
     # AutoLoad the proper response object
     my $tmp = "FusionInventory::Agent::XML::Response::".$msgType;
     $tmp->require();

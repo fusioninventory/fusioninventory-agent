@@ -90,7 +90,7 @@ sub main {
             my $accountinfo = $self->{target}->{accountinfo};
 
             # Put ACCOUNTINFO values in the inventory
-            $accountinfo->setAccountInfo($self->{inventory});
+#TODO Disabled for now           $accountinfo->setAccountInfo($self->{inventory});
 
 #            my $network = FusionInventory::Agent::Network->new({
 #                logger => $self->{logger},
