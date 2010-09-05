@@ -227,8 +227,10 @@ sub send {
     my $ua = $self->createUA();
     my $res = $ua->request($req);
 
+
+    my $serverRealm;
     if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{config}->{realm}) {
-        my $serverRealm = $1;
+        $serverRealm = $1;
         $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retry.");
 
         $ua = $self->createUA({URI => $self->{URI}, forceRealm => $serverRealm});
@@ -243,6 +245,8 @@ sub send {
         );
         return;
     }
+    # Ok we found the correct realm. We store it.
+    $self->{config}->{realm} = $serverRealm if $serverRealm;
 
     # create response
     my $response_type = ref $message;

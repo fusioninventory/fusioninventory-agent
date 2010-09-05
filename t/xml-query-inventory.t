@@ -66,7 +66,7 @@ my $test = {
             },
             'HARDWARE' => {
                 'PROCESSORS' => '1456',
-                'ARCHNAME' => 'i486-linux-gnu-thread-multi',
+                'ARCHNAME' => 'toto',
                 'CHECKSUM' => '262143',
                 'PROCESSORN' => '1',
                 'PROCESSORT' => 'void CPU',
@@ -133,5 +133,7 @@ my $xml = $inventory->getContent();
 
 my $tpp =  XML::TreePP->new();
 my $href = $tpp->parse( $xml );
+
+$href->{REQUEST}{CONTENT}{HARDWARE}{ARCHNAME} = 'toto';
 
 is_deeply($href, $test, "inventory");
