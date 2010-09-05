@@ -8,6 +8,11 @@ use Encode;
 use English qw(-no_match_vars);
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
 
 Win32::OLE->Option(CP => 'CP_UTF8');
 
@@ -30,10 +35,9 @@ sub encodeFromRegistry {
     return unless $string;
 
     if (!$localCodepage) {
-        no strict; # KEY!READ is nunknown
-        my $lmachine = $Win32::TieRegistry::Registry->Open('LMachine', {
-                Access => Win32::TieRegistry::KEY_READ
-                }) or print "Failed to open LMachine";
+        my $lmachine = $Registry->Open('LMachine', {
+            Access => KEY_READ
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $codepage =
             $lmachine->{"SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage"}
