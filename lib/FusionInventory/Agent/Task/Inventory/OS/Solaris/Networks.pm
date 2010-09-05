@@ -309,7 +309,8 @@ sub check_nic {
 
     my $link_info;
     foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
-        my $link_speed = $1 if /^(\d+)/;
+        next unless /^(\d+)/;
+        my $link_speed = $1;
         if ($link_speed =~ /^0$/ ) {
             $link_info = $link_info."10 Mb/s";
         } elsif ($link_speed =~ /^1$/) {
@@ -322,7 +323,8 @@ sub check_nic {
     }
 
     foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
-        my $link_duplex = $1 if /^(\d+)/;
+        next unless /^(\d+)/;
+        my $link_duplex = $1;
         if ($link_duplex =~ /1/ ) {
             $link_info = $link_info." FDX";
         } elsif ($link_duplex =~ /0/) {
@@ -334,7 +336,8 @@ sub check_nic {
 
     if ($mynic =~ /ge/){
         foreach (`/usr/sbin/ndd -get /dev/$mynic adv_1000autoneg_cap`) {
-            my $link_auto = $1 if /^(\d+)/;
+            next unless /^(\d+)/;
+            my $link_auto = $1;
             if ($link_auto =~ /1/ ) {
                 $link_info = $link_info." AUTOSPEED ON";
             } elsif ($link_auto =~ /0/) {
@@ -345,7 +348,8 @@ sub check_nic {
         }
     } else {
         foreach (`/usr/sbin/ndd -get /dev/$mynic adv_autoneg_cap`) {
-            my $link_auto = $1 if /^(\d+)/;
+            next unless /^(\d+)/;
+            my $link_auto = $1;
             if ($link_auto =~ /1/ ) {
                 $link_info = $link_info." AUTOSPEED ON";
             } elsif ($link_auto =~ /0/) {
@@ -365,7 +369,8 @@ sub check_eri {
 
     my $link_info;
     foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
-        my $link_speed = $1 if /^(\d+)/;
+        next unless /^(\d+)/;
+        my $link_speed = $1;
         if ($link_speed =~ /^0$/ ) {
             $link_info = $link_info."10 Mb/s";
         } elsif ($link_speed =~ /^1$/) {
@@ -377,7 +382,8 @@ sub check_eri {
         }
     }
     foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
-        my $link_duplex = $1 if /^(\d+)/;
+        next unless /^(\d+)/;
+        my $link_duplex = $1;
         if ($link_duplex =~ /1/ ) {
             $link_info = $link_info." FDX";
         } elsif ($link_duplex =~ /0/) {
@@ -410,7 +416,8 @@ sub check_ce {
     #print "PERL :".$localperl."\n";
     #print "CE = ".$mynic.$mynum."\n";
     foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed`) {
-        my $link_speed = $1 if /^\s*link_speed+\s*(\d+).*$/;
+        next unless /^\s*link_speed+\s*(\d+).*$/;
+        my $link_speed = $1;
         #print "SPEED = ".$link_speed."\n";
         if ($link_speed =~ /^0$/ ) {
             $link_info = $link_info."10 Mb/s";
@@ -425,7 +432,8 @@ sub check_ce {
         }
     }
     foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_duplex | grep link_duplex`) {
-        my $link_duplex = $1 if /^\s*link_duplex+\s*(\d+).*$/;
+        next unless /^\s*link_duplex+\s*(\d+).*$/;
+        my $link_duplex = $1;
         if ($link_duplex =~ /2/ ) {
             $link_info = $link_info." FDX";
         } elsif ($link_duplex =~ /1/) {
@@ -438,7 +446,8 @@ sub check_ce {
     }
 
     foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg | grep cap_autoneg`) {
-        my $link_auto = $1 if /^\s*cap_autoneg+\s*(\d+).*$/;
+        next unless /^\s*cap_autoneg+\s*(\d+).*$/;
+        my $link_auto = $1;
         if ($link_auto =~ /1/ ) {
             $link_info = $link_info." AUTOSPEED ON";
         } elsif ($link_auto =~ /0/) {
@@ -459,7 +468,8 @@ sub check_bge_nic {
 
     my $link_info;
     foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_speed`) {
-        my $link_speed = $1 if /^(\d+)/;
+        next unless /^(\d+)/;
+        my $link_speed = $1;
         if ($link_speed =~ /^0$/ ) {
             $link_info = $link_info."10 Mb/s";
         } elsif ($link_speed =~ /^10$/) {
@@ -473,7 +483,8 @@ sub check_bge_nic {
         }
     }
     foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_duplex`) {
-        my $link_duplex = $1 if /^(\d+)/;
+        next unless /^(\d+)/;
+        my $link_duplex = $1;
         if ($link_duplex =~ /2/ ) {
             $link_info = $link_info." FDX";
         } elsif ($link_duplex =~ /1/) {
@@ -486,7 +497,8 @@ sub check_bge_nic {
     }
 
     foreach (`/usr/sbin/ndd -get /dev/${1}${2} adv_autoneg_cap`) {
-        my $link_auto = $1 if /^(\d+)/;
+        next unless /^(\d+)/;
+        my $link_auto = $1;
         if ($link_auto =~ /^0$/ ) {
             $link_info = $link_info."AUTOSPEED ON";
         } elsif ($link_auto =~ /1/) {
