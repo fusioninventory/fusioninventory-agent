@@ -28,7 +28,6 @@ sub new {
 
     my $self = {
         logger   => $params->{logger},
-        target   => $params->{target},
         user     => $params->{user},
         password => $params->{password},
         URI      => $url
@@ -81,7 +80,6 @@ sub send {
     my ($self, $args) = @_;
 
     my $logger   = $self->{logger};
-    my $target   = $self->{target};
 
     # create message
     my $message = $args->{message};
