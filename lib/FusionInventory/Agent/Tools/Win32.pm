@@ -22,6 +22,8 @@ our @EXPORT = qw(
     encodeFromRegistry
 );
 
+my $localCodepage;
+
 # We don't need to encode to UTF-8 on Win7
 sub encodeFromWmi {
     my ($string) = @_;
