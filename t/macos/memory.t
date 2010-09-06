@@ -95,6 +95,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/system_profiler/$test";
-    my $memories = FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem::getMemories($logger, $file);
+    my $memories = FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem::_getMemories($logger, $file);
     is_deeply($memories, $tests{$test}, $test);
 }
