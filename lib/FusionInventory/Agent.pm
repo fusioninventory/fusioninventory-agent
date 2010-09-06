@@ -11,9 +11,9 @@ use XML::Simple;
 
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -193,9 +193,10 @@ sub new {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
         } else {
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
-                logger => $logger,
-                config => $config,
+                logger    => $logger,
+                config    => $config,
                 scheduler => $scheduler,
+                agent     => $self
             });
         }
     }
@@ -238,10 +239,15 @@ sub main {
             my $prologresp;
             if ($target->{type} eq 'server') {
 
-                my $network = FusionInventory::Agent::Network->new({
-                    logger => $logger,
-                    config => $config,
-                    target => $target,
+                my $transmitter = FusionInventory::Agent::Transmitter->new({
+                    logger         => $logger,
+                    url            => $target->{path},
+                    user           => $config->{user},
+                    password       => $config->{password},
+                    proxy          => $config->{proxy},
+                    'no-ssl-check' => $config->{'no-proxy-check'},
+                    'ca-cert-file' => $config->{'ca-cert-file'},
+                    'ca-cert-dir'  => $config->{'ca-cert-dir'},
                 });
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
@@ -256,7 +262,7 @@ sub main {
                 $target->{accountinfo}->setAccountInfo($prolog);
 
                 # TODO Don't mix settings and temp value
-                $prologresp = $network->send({message => $prolog});
+                $prologresp = $transmitter->send({message => $prolog});
 
                 if (!$prologresp) {
                     $logger->error("No anwser from the server");
