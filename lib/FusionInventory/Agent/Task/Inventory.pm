@@ -31,7 +31,7 @@ sub new {
 sub main {
     my ($self) = @_;
 
-    $self->feedInventory();
+    $self->_feedInventory();
 
     SWITCH: {
         if ($self->{target}->{type} eq 'stdout') {
@@ -121,7 +121,7 @@ sub main {
 
 }
 
-sub initModList {
+sub _initModList {
     my $self = shift;
 
     my $logger = $self->{logger};
@@ -230,7 +230,7 @@ sub initModList {
         if ($package->{isInventoryEnabled}) {
             $self->{modules}->{$m}->{isInventoryEnabledFunc} =
                 $package->{isInventoryEnabled};
-            $enable = $self->runWithTimeout($m, "isInventoryEnabled");
+            $enable = $self->_runWithTimeout($m, "isInventoryEnabled");
         }
         if (!$enable) {
             $logger->debug ($m." ignored");
@@ -298,7 +298,7 @@ sub initModList {
 
         next unless $self->{modules}->{$m}->{inventoryFuncEnable};
 
-        my $enable = $self->runWithTimeout($m, "isInventoryEnabled");
+        my $enable = $self->_runWithTimeout($m, "isInventoryEnabled");
 
         if (!$enable) {
             $logger->debug ($m." ignored");
@@ -340,7 +340,7 @@ sub initModList {
     }
 }
 
-sub runMod {
+sub _runMod {
     my ($self, $params) = @_;
 
     my $logger = $self->{logger};
@@ -367,7 +367,7 @@ sub runMod {
             # need a module also in use, we have provable an issue :).
             die "Circular dependency hell with $m and $_->{name}";
         }
-        $self->runMod({
+        $self->_runMod({
             modname => $_->{name},
         });
     }
@@ -375,7 +375,7 @@ sub runMod {
     $logger->debug ("Running $m");
 
     if ($self->{modules}->{$m}->{doInventoryFunc}) {
-        $self->runWithTimeout($m, "doInventory");
+        $self->_runWithTimeout($m, "doInventory");
 #  } else {
 #      $logger->debug("$m has no doInventory() function -> ignored");
     }
@@ -383,20 +383,20 @@ sub runMod {
     $self->{modules}->{$m}->{inUse} = 0; # unlock the module
 }
 
-sub feedInventory {
+sub _feedInventory {
     my ($self, $params) = @_;
 
     my $logger = $self->{logger};
     my $inventory = $self->{inventory};
 
     if (!keys %{$self->{modules}}) {
-        $self->initModList();
+        $self->_initModList();
     }
 
     my $begin = time();
     foreach my $m (sort keys %{$self->{modules}}) {
         die ">$m Houston!!!" unless $m;
-        $self->runMod ({
+        $self->_runMod ({
             modname => $m,
         });
     }
@@ -408,12 +408,7 @@ sub feedInventory {
 
 }
 
-#=item runWithTimeout()
-#
-#Run a function with a timeout.
-#
-#=cut
-sub runWithTimeout {
+sub _runWithTimeout {
     my ($self, $m, $funcName, $timeout) = @_;
 
     my $logger = $self->{logger};
