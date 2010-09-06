@@ -496,7 +496,7 @@ sub _ratio_name {
     }
 }
 
-sub _getManifacturerFromCode {
+sub _getManufacturerFromCode {
     my $code = shift;
     my $h = {
         "ACT" => "Targa",
@@ -613,7 +613,7 @@ sub doInventory {
 
                 $caption = $edid->{monitor_name};
                 $description = $edid->{week}."/".$edid->{year};
-                $manufacturer = _getManifacturerFromCode($edid->{manufacturer_name});
+                $manufacturer = _getManufacturerFromCode($edid->{manufacturer_name});
                 $serial = $edid->{serial_number2}[0];
             }
 
