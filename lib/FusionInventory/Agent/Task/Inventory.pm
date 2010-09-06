@@ -7,11 +7,8 @@ use base 'FusionInventory::Agent::Task';
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Logger;
 
 sub new {
     my ($class, $params) = @_;
