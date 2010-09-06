@@ -49,3 +49,7 @@ The constructor. The following named parameters are allowed:
 =item prologresp (mandatory)
 
 =back
+
+=head2 main()
+
+This is the method expected to be implemented by each subclass.
