@@ -173,14 +173,6 @@ sub addModem {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addModems {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addModems to addModem()");
-    $self->addModem(@_);
-}
 
 =item addDrive()
 
@@ -209,14 +201,6 @@ sub addDrive {
         sectionName => 'DRIVES',
         values      => $args,
     });
-}
-# For compatibiliy
-sub addDrives {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addDrives to addDrive()");
-    $self->addDrive(@_);
 }
 
 =item addStorage()
@@ -257,15 +241,6 @@ sub addStorage {
         values      => $values,
     });
 }
-# For compatibiliy
-sub addStorages {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addStorages to addStorage()");
-    $self->addStorage(@_);
-}
-
 
 =item addMemory()
 
@@ -294,21 +269,13 @@ sub addMemory {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addMemories {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addMemories to addMemory()");
-    $self->addMemory(@_);
-}
 
 =item addPort()
 
 Add a port module in the inventory.
 
 =cut
-sub addPorts{
+sub addPort {
     my ($self, $args) = @_;
 
     my @fields = qw/
@@ -323,14 +290,6 @@ sub addPorts{
         sectionName => 'PORTS',
         values      => $args,
     });
-}
-# For compatibiliy
-sub addPort {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addPorts to addPort()");
-    $self->addPort(@_);
 }
 
 =item addSlot()
@@ -354,14 +313,6 @@ sub addSlot {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addSlots {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSlots to addSlot()");
-    $self->addSlot(@_);
-}
 
 =item addSoftware()
 
@@ -381,14 +332,6 @@ sub addSoftware {
         values       => $args,
         noDuplicated => 1
     });
-}
-# For compatibiliy
-sub addSoftwares {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSoftwares to addSoftware()");
-    $self->addSoftware(@_);
 }
 
 =item addMonitor()
@@ -414,14 +357,6 @@ sub addMonitor {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addMonitors {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addMonitors to addMonitor()");
-    $self->addMonitor(@_);
-}
 
 =item addVideo()
 
@@ -446,14 +381,6 @@ sub addVideo {
     });
 
 }
-# For compatibiliy
-sub addVideos {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addVideos to addVideo()");
-    $self->addVideo(@_);
-}
 
 =item addSound()
 
@@ -475,15 +402,6 @@ sub addSound {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addSounds {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSounds to addSound()");
-    $self->addSound(@_);
-}
-
 
 =item addNetwork()
 
@@ -521,16 +439,6 @@ sub addNetwork {
         noDuplicated => 1
     });
 }
-
-# For compatibiliy
-sub addNetworks {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addNetworks to addNetwork()");
-    $self->addNetwork(@_);
-}
-
 
 =item setHardware()
 
@@ -700,14 +608,6 @@ sub addPrinter {
         sectionName => 'PRINTERS',
         values      => $args,
     });
-}
-# For compatibiliy
-sub addPrinters {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addPrinters to addPrinter()");
-    $self->addPrinter(@_);
 }
 
 =item addVirtualMachine()

@@ -17,7 +17,7 @@ sub doInventory {
     return unless $modems;
 
     foreach my $modem (@$modems) {
-        $inventory->addModems($modem);
+        $inventory->addModem($modem);
     }
 }
 

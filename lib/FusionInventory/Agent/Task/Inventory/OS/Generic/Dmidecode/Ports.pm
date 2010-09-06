@@ -17,7 +17,7 @@ sub doInventory {
     return unless $ports;
 
     foreach my $port (@$ports) {
-        $inventory->addPorts($port);
+        $inventory->addPort($port);
     }
 }
 

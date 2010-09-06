@@ -17,7 +17,7 @@ sub doInventory {
     return unless $slots;
 
     foreach my $slot (@$slots) {
-        $inventory->addSlots($slot);
+        $inventory->addSlot($slot);
     }
 }
 

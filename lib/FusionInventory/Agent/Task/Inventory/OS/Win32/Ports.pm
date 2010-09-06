@@ -21,7 +21,7 @@ sub doInventory {
     foreach my $Properties (getWmiProperties('Win32_SerialPort', qw/
         Name Caption Description
     /)) {
-        $inventory->addPorts({
+        $inventory->addPort({
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
             DESCRIPTION => $Properties->{Description},
@@ -33,7 +33,7 @@ sub doInventory {
         Name Caption Description
     /)) {
 
-        $inventory->addPorts({
+        $inventory->addPort({
             NAME => $Properties->{Name},
             CAPTION => $Properties->{Caption},
             DESCRIPTION => $Properties->{Description},
@@ -193,7 +193,7 @@ sub doInventory {
             next; # Already done
         }
 
-        $inventory->addPorts({
+        $inventory->addPort({
             NAME => $Properties->{InternalReferenceDesignator},
             CAPTION => $Properties->{InternalReferenceDesignator},
             DESCRIPTION => $Properties->{InternalReferenceDesignator},
