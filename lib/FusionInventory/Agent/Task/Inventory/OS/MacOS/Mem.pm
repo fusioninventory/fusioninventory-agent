@@ -50,7 +50,7 @@ sub doInventory {
             $speed = $1*$speedMatrice{lc($2)};
         }
         if ($_->{'Size'} =~ /(\d+)\s+(\S+)/) {
-            $speed = $1*$sizeMatrice{lc($2)};
+            $size = $1*$sizeMatrice{lc($2)};
         }
         $inventory->addMemory({
                 'CAPACITY'      => $size,
