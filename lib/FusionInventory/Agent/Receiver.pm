@@ -8,8 +8,6 @@ use threads::shared;
 use English qw(-no_match_vars);
 use HTTP::Daemon;
 
-use FusionInventory::Agent::Storage;
-
 my $lock :shared;
 my $status :shared = "unknown";
 
@@ -19,7 +17,8 @@ sub new {
     my $self = {
         config    => $params->{config},
         logger    => $params->{logger},
-        scheduler => $params->{scheduler}
+        scheduler => $params->{scheduler},
+        agent     => $params->{agent}
     };
 
     my $config = $self->{config};
@@ -35,13 +34,6 @@ sub new {
     } else {
         $logger->debug("[Receiver] No static files directory");
     }
-
-
-    my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
-        target => {
-            vardir => $config->{basevardir},
-        }
-    });
 
     bless $self, $class;
 
@@ -154,21 +146,21 @@ sub handler {
         # now request
         if ($path =~ m{^/now(?:/(\S+))?$}) {
             my $sentToken = $1;
-            my $currentToken = $self->getToken();
+            my $token = $self->{agent}->getToken();
             my ($code, $msg);
             if (
                 ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                     or
-                ($sentToken eq $currentToken)
+                ($sentToken eq $token)
             ) {
-                $self->getToken('forceNewToken');
+                $self->{agent}->resetToken();
                 $scheduler->resetNextRunDate();
                 $code = 200;
                 $msg = "Done."
             } else {
-                $logger->debug("[Receiver] bad token $sentToken != ".$currentToken);
+                $logger->debug("[Receiver] bad token $sentToken != $token");
                 $code = 403;
-                $msg = "Access denied. rpc-trust-localhost is off or the token is invalide."
+                $msg = "Access denied: untrusted address and invalid token.";
             }
             my $r = HTTP::Response->new(
                 $code,
@@ -267,32 +259,6 @@ sub server {
     }
 }
 
-sub getToken {
-    my ($self, $forceNewToken) = @_; 
-
- 
-    my $storage = $self->{storage};
-    my $logger = $self->{logger};
-
-    lock($lock);
-
-    my $myData = $storage->restore();
-    if ($forceNewToken || !$myData->{token}) {
-
-        my @chars = ('A'..'Z');
-        $myData->{token} =
-            map { $chars[rand @chars] }
-            1..8;
-
-        $storage->save({ data => $myData });
-    }
-    
-    $logger->debug("token is: ".$myData->{token});
-
-    return $myData->{token};
-
-}
-
 sub setCurrentStatus {
     my ($self, $newStatus) = @_;
 
@@ -342,3 +308,7 @@ The constructor. The following arguments are allowed:
 =item logger (mandatory)
 
 =item scheduler (mandatory)
+
+=item agent (mandatory)
+
+=back

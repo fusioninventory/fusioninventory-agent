@@ -49,7 +49,9 @@ if ($EVAL_ERROR) {
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        token => _computeNewToken()
+    };
 
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
@@ -255,7 +257,7 @@ sub main {
                     logger => $logger,
                     config => $config,
                     target => $target,
-                    token  => $receiver->getToken()
+                    token  => $self->{token}
                 });
 
                 # ugly circular reference moved from Prolog::getContent() method
@@ -353,6 +355,21 @@ sub main {
         $logger->fault($EVAL_ERROR);
         exit 1;
     }
+}
+
+sub getToken {
+    my ($self) = @_;
+    return $self->{token};
+}
+
+sub resetToken {
+    my ($self) = @_;
+    $self->{token} = _computeNewToken();
+}
+
+sub _computeNewToken {
+    my @chars = ('A'..'Z');
+    return join('', map { $chars[rand @chars] } 1..8);
 }
 
 1;
