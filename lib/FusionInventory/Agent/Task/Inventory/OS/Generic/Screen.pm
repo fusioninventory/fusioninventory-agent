@@ -35,7 +35,7 @@ sub isInventoryEnabled {
         can_run("get-edid");
 }
 
-sub getScreens {
+sub _getScreens {
     my ($logger) = @_;
 
     my @raw_edid;
@@ -114,7 +114,7 @@ sub getScreens {
 my @CVT_ratios = qw(5/4 4/3 3/2 16/10 15/9 16/9);
 my @known_ratios = @CVT_ratios;
 
-my @edid_info = group_by2(
+my @edid_info = _group_by2(
     a8 => '_header',
     a2  => 'manufacturer_name',
 
@@ -140,14 +140,14 @@ my @edid_info = group_by2(
 );
 
 my %subfields = (
-    manufacturer_name => [ group_by2(
+    manufacturer_name => [ _group_by2(
         1 => '',
         5 => '1',
         5 => '2',
         5 => '3',
     ) ],
 
-    video_input_definition => [ group_by2(
+    video_input_definition => [ _group_by2(
         1 => 'digital',
         1 => 'separate_sync',
         1 => 'composite_sync',
@@ -156,7 +156,7 @@ my %subfields = (
         2 => 'voltage_level',
     ) ],
 
-    feature_support => [ group_by2(
+    feature_support => [ _group_by2(
         1 => 'DPMS_standby',
         1 => 'DPMS_suspend',
         1 => 'DPMS_active_off',        
@@ -168,7 +168,7 @@ my %subfields = (
         1 => 'GTF_compliance',
     ) ],
 
-    established_timings => [ group_by2(
+    established_timings => [ _group_by2(
         1 => '720x400_70',
         1 => '720x400_88',
         1 => '640x480_60',
@@ -187,7 +187,7 @@ my %subfields = (
         1 => '1280x1024_75',
     ) ],
 
-    detailed_timing => [ group_by2(
+    detailed_timing => [ _group_by2(
         8 => 'horizontal_active',
         8 => 'horizontal_blanking',
         4 => 'horizontal_active_hi',
@@ -219,13 +219,13 @@ my %subfields = (
         1 => '',
     ) ],
 
-    standard_timing => [ group_by2(
+    standard_timing => [ _group_by2(
         8 => 'X',
         2 => 'aspect',
         6 => 'vfreq',
     ) ],
 
-    monitor_range => [ group_by2(
+    monitor_range => [ _group_by2(
         8 => 'vertical_min',
         8 => 'vertical_max',
         8 => 'horizontal_min',
@@ -235,7 +235,7 @@ my %subfields = (
 
     # http://www.spwg.org/salisbury_march_19_2002.pdf
     # for the glossary: http://www.vesa.org/Public/PSWG/PSWG15v1.pdf
-    manufacturer_specified_range_timing => [ group_by2(
+    manufacturer_specified_range_timing => [ _group_by2(
         8 => 'horizontal_sync_pulse_width_min', # HSPW (Horizontal Sync Pulse Width)
         8 => 'horizontal_sync_pulse_width_max',
         8 => 'horizontal_back_porch_min', # t_hbp
@@ -252,7 +252,7 @@ my %subfields = (
     ) ],
 );
 
-sub get_many_bits {
+sub _get_many_bits {
     my ($s, $field_name) = @_;
     my @bits = split('', unpack('B*', $s));
     my %h;
@@ -264,7 +264,7 @@ sub get_many_bits {
     \%h;
 }
 
-sub check_parsed_edid {
+sub _check_parsed_edid {
     my ($edid) = @_;
 
     $edid->{manufacturer_name} ne '@@@' or return 'bad manufacturer_name';
@@ -282,7 +282,7 @@ sub check_parsed_edid {
     '';
 }
 
-sub parse_edid {
+sub _parse_edid {
     my ($raw_edid) = @_;
 
     my %edid;
@@ -294,14 +294,14 @@ sub parse_edid {
         if ($field eq 'year') {
             $v += 1990;
         } elsif ($field eq 'manufacturer_name') {
-            my $h = get_many_bits($v, 'manufacturer_name');
+            my $h = _get_many_bits($v, 'manufacturer_name');
             $v = join('', map { chr(ord('A') + $h->{$_} - 1) } 1 .. 3);
         } elsif ($field eq 'video_input_definition') {
-            $v = get_many_bits($v, 'video_input_definition');
+            $v = _get_many_bits($v, 'video_input_definition');
         } elsif ($field eq 'feature_support') {
-            $v = get_many_bits($v, 'feature_support');
+            $v = _get_many_bits($v, 'feature_support');
         } elsif ($field eq 'established_timings') {
-            my $h = get_many_bits($v, 'established_timings');
+            my $h = _get_many_bits($v, 'established_timings');
             $v = [
                 sort { $a->{X} <=> $b->{X} || $a->{vfreq} <=> $b->{vfreq} }
             map { /(\d+)x(\d+)_(\d+)(i?)/ ? { X => $1, Y => $2, vfreq => $3, $4 ? (interlace => 1) : () } : () }
@@ -312,7 +312,7 @@ sub parse_edid {
                     '4/3', '5/4', '16/9',
                     );
             $v = [ map {
-                my $h = get_many_bits($_, 'standard_timing');
+                my $h = _get_many_bits($_, 'standard_timing');
                 $h->{X} = ($h->{X} + 31) * 8;
                 if ($_ ne "\x20\x20" && $h->{X} > 256) { # cf VALID_TIMING in Xorg edid.h
                     $h->{vfreq} += 60;
@@ -329,7 +329,7 @@ sub parse_edid {
 
                 if ($pixel_clock) {
 # detailed timing
-                    my $h = get_many_bits($vv, 'detailed_timing');
+                    my $h = _get_many_bits($vv, 'detailed_timing');
                     $h->{pixel_clock} = $pixel_clock / 100; # to have it in MHz
 
                         my %detailed_timing_field_size = map { $_->[1], $_->[0] } @{$subfields{detailed_timing}};
@@ -345,14 +345,14 @@ sub parse_edid {
 
                     if ($flag == 0xfd) {
 # range
-                        $edid{monitor_range} = get_many_bits($vv, 'monitor_range');
+                        $edid{monitor_range} = _get_many_bits($vv, 'monitor_range');
                         if ($edid{monitor_range}{pixel_clock_max} == 0xff) {
                             delete $edid{monitor_range}{pixel_clock_max};
                         } else {
                             $edid{monitor_range}{pixel_clock_max} *= 10; #- to have it in MHz
                         }
                     } elsif ($flag == 0xf) {
-                        my $range = get_many_bits($vv, 'manufacturer_specified_range_timing');
+                        my $range = _get_many_bits($vv, 'manufacturer_specified_range_timing');
 
                         my $e = $edid{detailed_timings}[0];
                         my $valid = 1;
@@ -369,8 +369,8 @@ sub parse_edid {
                             if ($total{horizontal} && $total{vertical}) {
                                 my $hfreq = $e->{pixel_clock} * 1000 / $total{horizontal};
                                 my $vfreq = $hfreq * 1000 / $total{vertical};
-                                $range->{'horizontal_' . ($m eq 'min' ? 'max' : 'min')} = round($hfreq);
-                                $range->{'vertical_' . ($m eq 'min' ? 'max' : 'min')} = round($vfreq);
+                                $range->{'horizontal_' . ($m eq 'min' ? 'max' : 'min')} = _round($hfreq);
+                                $range->{'vertical_' . ($m eq 'min' ? 'max' : 'min')} = _round($vfreq);
                             } else {
                                 $valid = 0;
                             }
@@ -404,7 +404,7 @@ sub parse_edid {
 
     if ($edid{max_size_vertical}) {
         $edid{ratio} = $edid{max_size_horizontal} / $edid{max_size_vertical};
-        $edid{ratio_name} = ratio_name($edid{max_size_horizontal}, $edid{max_size_vertical}, 'cm');
+        $edid{ratio_name} = _ratio_name($edid{max_size_horizontal}, $edid{max_size_vertical}, 'cm');
         $edid{ratio_precision} = 'cm';
     }
 
@@ -415,7 +415,7 @@ sub parse_edid {
         $h->{ModeLine_comment} = sprintf qq(# Monitor preferred modeline (%.1f Hz vsync, %.1f kHz hsync, ratio %s)),
             $h->{pixel_clock} / $horizontal_total / $vertical_total * 1000 * 1000,
             $h->{pixel_clock} / $horizontal_total * 1000,
-            nearest_ratio($h->{horizontal_active} / $h->{vertical_active}, 0.01) || sprintf("%.2f", $h->{horizontal_active} / $h->{vertical_active});
+            _nearest_ratio($h->{horizontal_active} / $h->{vertical_active}, 0.01) || sprintf("%.2f", $h->{horizontal_active} / $h->{vertical_active});
 
         $h->{ModeLine} = sprintf qq("%dx%d" $h->{pixel_clock} %d %d %d %d %d %d %d %d %shsync %svsync),
             $h->{horizontal_active}, $h->{vertical_active},
@@ -444,7 +444,7 @@ sub parse_edid {
         if ($error < 1 && $in_cm{vertical}) {
 # using it for the ratio
             $edid{ratio} = $in_cm{horizontal} / $in_cm{vertical};
-            $edid{ratio_name} = ratio_name($in_cm{horizontal}, $in_cm{vertical}, 'mm');
+            $edid{ratio_name} = _ratio_name($in_cm{horizontal}, $in_cm{vertical}, 'mm');
             $edid{ratio_precision} = 'mm';
         }
 
@@ -458,13 +458,13 @@ sub parse_edid {
         }
     }
 
-    $edid{diagonal_size} = sqrt(sqr($edid{max_size_horizontal}) + 
-            sqr($edid{max_size_vertical})) / 2.54;
+    $edid{diagonal_size} = sqrt(_sqr($edid{max_size_horizontal}) + 
+            _sqr($edid{max_size_vertical})) / 2.54;
 
     \%edid;
 }
 
-sub nearest_ratio {
+sub _nearest_ratio {
     my ($ratio, $max_error) = @_;
     my @sorted = 
         sort { $a->[1] <=> $b->[1] }
@@ -475,26 +475,26 @@ sub nearest_ratio {
     $sorted[0][0];
 }
 
-sub ratio_name {
+sub _ratio_name {
     my ($horizontal, $vertical, $precision) = @_;
 
     if ($precision eq 'mm') {
-        nearest_ratio($horizontal / $vertical, 0.1);
+        _nearest_ratio($horizontal / $vertical, 0.1);
     } else {
         my $error = 0.5;
-        my $ratio1 = nearest_ratio(($horizontal + $error) / ($vertical - $error), 0.2);
-        my $ratio2 = nearest_ratio(($horizontal - $error) / ($vertical + $error), 0.2);
+        my $ratio1 = _nearest_ratio(($horizontal + $error) / ($vertical - $error), 0.2);
+        my $ratio2 = _nearest_ratio(($horizontal - $error) / ($vertical + $error), 0.2);
         $ratio1 && $ratio2 or return;
         if ($ratio1 eq $ratio2) {
             $ratio1;
         } else {
-            my $ratio = nearest_ratio($horizontal / $vertical, 0.2);
+            my $ratio = _nearest_ratio($horizontal / $vertical, 0.2);
             join(' or ', $ratio, $ratio eq $ratio1 ? $ratio2 : $ratio1);
         }
     }
 }
 
-sub to_MonitorsDB {
+sub _to_MonitorsDB {
     my ($edid) = @_;
 
     $edid->{monitor_range} && $edid->{EISA_ID} or return;
@@ -519,7 +519,7 @@ sub to_MonitorsDB {
         );
 }
 
-sub print_edid {
+sub _print_edid {
     my ($edid, $verbose) = @_;
 
     print "Name: $edid->{monitor_name}\n" if $edid->{monitor_name};
@@ -635,9 +635,9 @@ sub _getManifacturerFromCode {
     return "Unknown manufacturer code ".$code;
 }
 
-sub sqr { $_[0] * $_[0] }
-sub round { int($_[0] + 0.5) }
-sub group_by2 {
+sub _sqr { $_[0] * $_[0] }
+sub _round { int($_[0] + 0.5) }
+sub _group_by2 {
     my @l;
     for (my $i = 0; $i < @_; $i += 2) {
         push @l, [ $_[$i], $_[$i+1] ];
@@ -655,7 +655,7 @@ sub doInventory {
     my $verbose;
     my $MonitorsDB;
 
-    my @screens = getScreens($logger);
+    my @screens = _getScreens($logger);
 
     return unless @screens;
 
@@ -669,8 +669,8 @@ sub doInventory {
         my $uuencode;
 
         if ($screen->{edid}) {
-            my $edid = parse_edid($screen->{edid});
-            if (my $err = check_parsed_edid($edid)) {
+            my $edid = _parse_edid($screen->{edid});
+            if (my $err = _check_parsed_edid($edid)) {
                 $logger->debug("check failed: bad edid: $err");
             } else {
 

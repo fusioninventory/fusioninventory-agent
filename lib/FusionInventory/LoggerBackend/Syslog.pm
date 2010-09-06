@@ -36,5 +36,51 @@ sub DESTROY {
     closelog();
 }
 
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::LoggerBackend::Syslog - A syslog backend for the logger
+
+=head1 DESCRIPTION
+
+This is a syslog-based backend for the logger.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item config (mandatory)
+
+=back
+
+=head2 addMsg($params)
+
+Add a log message, with a specific level. The following arguments are allowed:
+
+=over
+
+=item level (mandatory)
+
+Can be one of:
+
+=over
+
+=item debug
+
+=item info
+
+=item error
+
+=item fault
+
+=back
+
+=item message (mandatory)
+
+=back

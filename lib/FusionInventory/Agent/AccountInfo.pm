@@ -142,3 +142,52 @@ sub write {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::AccountInfo - TODO
+
+=head1 DESCRIPTION
+
+TODO
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item config (mandatory)
+
+=item logger (mandatory)
+
+=item target (mandatory)
+
+=back
+
+=head2 get
+
+TODO
+
+=head2 getAll
+
+TODO
+
+=head2 set
+
+TODO
+
+=head2 reSetAll
+
+TODO
+
+=head2 setAccountInfo
+
+TODO
+
+=head2 write
+
+TODO

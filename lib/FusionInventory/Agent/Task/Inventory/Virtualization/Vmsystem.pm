@@ -79,13 +79,13 @@ sub doInventory {
 
     if (
         -d '/proc/xen' ||
-        check_file_content(
+        _check_file_content(
             '/sys/devices/system/clocksource/clocksource0/available_clocksource',
             'xen'
         )
     ) {
         $found = 1 ;
-        if (check_file_content('/proc/xen/capabilities', 'control_d')) {
+        if (_check_file_content('/proc/xen/capabilities', 'control_d')) {
             # dom0 host
         } else {
             # domU PV host
@@ -213,7 +213,7 @@ sub doInventory {
     }
 }
 
-sub check_file_content {
+sub _check_file_content {
     my ($file, $pattern) = @_;
 
     return 0 unless -r $file;

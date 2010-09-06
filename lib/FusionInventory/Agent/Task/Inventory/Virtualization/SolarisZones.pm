@@ -9,9 +9,9 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { 
     return unless can_run('zoneadm'); 
-    return unless check_solaris_valid_release();
+    return unless _check_solaris_valid_release();
 }
-sub check_solaris_valid_release{
+sub _check_solaris_valid_release{
     #check if Solaris 10 release is higher than 08/07
     my @rlines;
     my $release_file;

@@ -443,7 +443,7 @@ output.
 
 =head2 getInfosFromDmidecode
 
-Returns a structured vies of dmidecode output. Each information block is turned
+Returns a structured view of dmidecode output. Each information block is turned
 into an hashref, block with same DMI type are grouped into a list, and each
 list is indexed by its DMI type into the resulting hashref.
 

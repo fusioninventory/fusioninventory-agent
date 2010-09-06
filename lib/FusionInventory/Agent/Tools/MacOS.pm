@@ -70,8 +70,6 @@ sub _parseSystemProfiler {
     close $handle;
 
     return $info;
-
-
 }
 
 1;
@@ -79,32 +77,25 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Tools::Linux - Linux generic functions
+FusionInventory::Agent::Tools::MacOS - MacOS generic functions
 
 =head1 DESCRIPTION
 
-This module provides some generic functions for Linux.
+This module provides some generic functions for MacOS.
 
 =head1 FUNCTIONS
 
-=head2 getDevicesFromUdev($logger)
+=head2 getInfosFromSystemProfiler($logger)
 
-Returns a list of devices as an arrayref of hashref, by parsing udev database.
+Returns a structured view of system_profiler output. Each information block is
+turned into a hashref, hierarchically organised.
 
-=head2 getDevicesFromHal($logger)
-
-Returns a list of devices as an arrayref of hashref, by parsing lshal output.
-
-=head2 getDevicesFromProc($logger)
-
-Returns a list of devices as an arrayref of hashref, by parsing /proc
-filesystem.
-
-=head2 getDeviceCapacity($device)
-
-Returns storage capacity of given device.
-
-=head2 getCPUsFromProc($logger)
-
-Returns a list of cpus as an arrayref of hashref, by parsing /proc filesystem.
-
+$info = {
+    'Hardware' => {
+        'Hardware Overview' => {
+            'SMC Version (system)' => '1.21f4',
+            'Model Identifier' => 'iMac7,1',
+            ...
+        }
+    }
+}

@@ -9,7 +9,7 @@ sub isInventoryEnabled {
     return 1;
 }
 
-sub getDiskInfo {
+sub _getDiskInfo {
     my ($section) = @_;
 
     my $wasEmpty;
@@ -82,7 +82,7 @@ sub doInventory {
     my $devices = {};
 
     # Get SATA Drives
-    my $sata = getDiskInfo();
+    my $sata = _getDiskInfo();
 
     foreach my $device ( @$sata ) {
         my $description;

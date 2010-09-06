@@ -36,11 +36,11 @@ sub main {
     $self->{macaddress} = $options->{MAC};
     $self->{ip}         = $options->{IP};
 
-    $self->StartMachine();
+    $self->_startMachine();
 }
 
 
-sub StartMachine {
+sub _startMachine {
     my ($self, $params) = @_;
 
     my $macaddress = $self->{macaddress};

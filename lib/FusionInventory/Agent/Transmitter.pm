@@ -285,9 +285,9 @@ through a proxy, and validate SSL certificates.
 
 =head1 METHODS
 
-=head2 new
+=head2 new($params)
 
-The constructor. The following arguments are allowed:
+The constructor. The following named parametersare allowed:
 
 =over
 

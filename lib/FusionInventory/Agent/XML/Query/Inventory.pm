@@ -10,13 +10,6 @@ use English qw(-no_match_vars);
 use Encode qw/encode/;
 use XML::Simple;
 
-=over 4
-
-=item new()
-
-The usual constructor.
-
-=cut
 
 sub new {
     my ($class, $params) = @_;
@@ -1264,7 +1257,12 @@ FusionInventory uses OCS Inventory XML format for the data transmition. This
 module is the abstraction layer. It's mostly used in the backend module where
 it called $inventory in general.
 
-=cut
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. See base class C<FusionInventory::Agent::XML::Query> for
+allowed parameters.
 
 =head1 XML STRUCTURE
 

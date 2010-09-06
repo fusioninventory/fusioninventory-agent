@@ -45,14 +45,14 @@ sub new {
         $config->{'daemon-no-fork'} ||
         $config->{winService}
     ) {
-        $self->{thr} = threads->create('server', $self);
+        $self->{thr} = threads->create('_server', $self);
     }
 
 
     return $self;
 }
 
-sub handler {
+sub _handler {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
@@ -197,7 +197,7 @@ sub handler {
     undef($c);
 }
 
-sub server {
+sub _server {
     my ($self) = @_;
 
     my $config = $self->{config};
@@ -255,7 +255,7 @@ sub server {
 # HTTP::Daemon::get_request is not thread
 # safe and must be called from the master thread
         my $r = $c->get_request;
-        threads->create(\&handler, $self, $c, $r, $clientIp);
+        threads->create(\&_handler, $self, $c, $r, $clientIp);
     }
 }
 
@@ -297,9 +297,9 @@ token if configuration option rpc-trust-localhost is true.
 
 =head1 METHODS
 
-=head2 new
+=head2 new($params)
 
-The constructor. The following arguments are allowed:
+The constructor. The following named parameters are allowed:
 
 =over
 
@@ -312,3 +312,7 @@ The constructor. The following arguments are allowed:
 =item agent (mandatory)
 
 =back
+
+=head2 setCurrentStatus
+
+Set the status displayed on the web page.

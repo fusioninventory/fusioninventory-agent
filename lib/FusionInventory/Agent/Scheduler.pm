@@ -161,9 +161,9 @@ This is the object used by the agent to schedule various targets.
 
 =head1 METHODS
 
-=head2 new
+=head2 new($params)
 
-The constructor. The following arguments are allowed:
+The constructor. The following named parameters are allowed:
 
 =over
 

@@ -12,7 +12,7 @@ sub isInventoryEnabled {
     return 1;
 }
 
-sub getDescription {
+sub _getDescription {
     my ($name, $manufacturer, $description, $serialnumber) = @_;
 
     # detected as USB by udev
@@ -33,7 +33,7 @@ sub getDescription {
 # some hdparm release generated kernel error if they are
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
-sub correctHdparmAvailable {
+sub _correctHdparmAvailable {
     return unless can_run("hdparm");
 
     my $version = `hdparm -V`;
@@ -75,7 +75,7 @@ sub doInventory {
     }
 
     # get serial & firmware numbers from hdparm, if available
-    if (correctHdparmAvailable()) {
+    if (_correctHdparmAvailable()) {
         foreach my $device (@$devices) {
             if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
                 my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
@@ -106,7 +106,7 @@ sub doInventory {
     }
 
     foreach my $device (@$devices) {
-        $device->{DESCRIPTION} = getDescription(
+        $device->{DESCRIPTION} = _getDescription(
             $device->{NAME},
             $device->{MANUFACTURER},
             $device->{DESCRIPTION},

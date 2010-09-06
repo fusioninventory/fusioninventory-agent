@@ -18,15 +18,14 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-
-    my @drives = getFromDF();
+    my @drives = _getFromDF();
 
     if (can_run ("lshal")) {
        # index devices by name for comparaison
         my %drives = map { $_->{VOLUMN} => $_ } @drives;
 
         # complete with hal for missing bits
-        foreach my $drive (getFromHal()) {
+        foreach my $drive (_getFromHal()) {
             my $name = $drive->{VOLUMN};
             foreach my $key (keys %$drive) {
                 $drives{$name}->{$key} = $drive->{$key}
@@ -40,12 +39,12 @@ sub doInventory {
     }
 }
 
-sub getFromHal {
-    my $devices = parseLshal('/usr/bin/lshal', '-|');
+sub _getFromHal {
+    my $devices = _parseLshal('/usr/bin/lshal', '-|');
     return @$devices;
 }
 
-sub getFromDF {
+sub _getFromDF {
 
     my @drives;
 
@@ -129,7 +128,7 @@ sub getFromDF {
     return @drives;
 }
 
-sub parseLshal {
+sub _parseLshal {
     my ($file, $mode) = @_;
 
     my $handle;

@@ -97,7 +97,6 @@ sub new {
     #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
     my $hostname;
   
-
     if ($OSNAME eq 'MSWin32') {
         eval {
             require Encode;
@@ -175,7 +174,7 @@ sub new {
         }
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
-        if ($self->isAgentAlreadyRunning()) {
+        if ($self->_isAgentAlreadyRunning()) {
             $logger->fault("An agent is already runnnig, exiting...");
             exit 1;
         }
@@ -210,7 +209,7 @@ sub new {
     return $self;
 }
 
-sub isAgentAlreadyRunning {
+sub _isAgentAlreadyRunning {
     my ($self) = @_;
 
     # TODO add a workaround if Proc::PID::File is not installed
@@ -373,3 +372,27 @@ sub _computeNewToken {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent - Fusion Inventory agent
+
+=head1 DESCRIPTION
+
+This is the agent object.
+
+=head1 METHODS
+
+=head2 new()
+
+The constructor. No arguments allowed.
+
+=head2 getToken()
+
+Get the current authentication token.
+
+=head2 resetToken()
+
+Reset the current authentication token to a new random value.

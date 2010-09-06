@@ -16,7 +16,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $memories = getMemories($logger);
+    my $memories = _getMemories($logger);
 
     return unless $memories;
 
@@ -25,7 +25,7 @@ sub doInventory {
     }
 }
 
-sub getMemories {
+sub _getMemories {
     my ($logger, $file) = @_;
 
     my $infos = getInfosFromSystemProfiler($logger, $file);

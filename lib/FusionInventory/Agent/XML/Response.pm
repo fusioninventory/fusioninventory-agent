@@ -53,3 +53,38 @@ sub getOptionsInfoByName {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::XML::Response - XML response message
+
+=head1 DESCRIPTION
+
+This is the response message sent by the server to the agent.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item content (mandatory)
+
+=item logger (mandatory)
+
+=back
+
+=head2 getContent
+
+Get raw XML content.
+
+=head2 getParsedContent
+
+Get XML content, parsed as a perl data structure.
+
+=head2 getOptionsInfoByName($name)
+
+Get parameters of a specific option

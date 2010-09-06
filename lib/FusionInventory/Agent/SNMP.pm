@@ -159,8 +159,6 @@ sub snmpWalk {
     return $ArraySNMP;
 }
 
-
-
 sub specialChar {
     if (defined($_[0])) {
         if ($_[0] =~ /0x$/) {
@@ -192,3 +190,58 @@ sub getBadMACAddress {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::SNMP - An SNMP query extension
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to perform SNMP queries.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item version (mandatory)
+
+Can be one of:
+
+=over
+
+=item 1
+
+=item 2c
+
+=item 3
+
+=back
+
+=item hostname (mandatory)
+
+=item community
+
+=item username
+
+=item authpassword
+
+=item authprotocol
+
+=item privpassword
+
+=item privprotocol
+
+=back
+
+=head2 snmpGet()
+
+=head2 snmpWalk()
+
+=head2 specialChar()
+
+=head2 getBadMACAddress()
