@@ -7,7 +7,7 @@ use base 'FusionInventory::Agent::Task';
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 
-sub main {
+sub run {
     my ($self) = @_;
 
     if ($self->{target}->{type} ne 'server') {

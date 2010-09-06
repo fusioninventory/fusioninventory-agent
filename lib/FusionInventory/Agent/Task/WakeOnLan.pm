@@ -13,7 +13,7 @@ use Socket;
 
 use FusionInventory::Agent::Regexp;
 
-sub main {
+sub run {
     my ($self) = @_;
 
     if ($self->{target}->{type} ne 'server') {

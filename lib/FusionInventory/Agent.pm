@@ -138,7 +138,7 @@ sub new {
         $data->{previousHostname} = $hostname;
         $storage->save({ data => $data });
     }
-    $self->{deviceid} = $data->{deviceid}
+    $self->{deviceid} = $data->{deviceid};
 
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
         logger => $logger,
@@ -325,13 +325,28 @@ sub main {
                         $logger->debug(
                             "[task] executing $module in process $PID"
                         );
-                        $task->main();
+                        if ($task->can('run')) {
+                            $task->run();
+                        } else {
+                            $logger->info(
+                                "[task] $module use deprecated interface"
+                            );
+                            $task->main();
+                        }
                         $logger->debug("[task] end of $module");
                     }
                 } else {
                     # standalone mode: run each task directly
                     $logger->debug("[task] executing $module");
-                    $task->main();
+                    if ($task->can('run')) {
+                        $task->run();
+                    } else {
+                        # old interface
+                        $logger->info(
+                            "[task] $module use deprecated interface"
+                        );
+                        $task->main();
+                    }
                     $logger->debug("[task] end of $module");
                 }
             }

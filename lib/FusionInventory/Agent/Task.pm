@@ -50,6 +50,6 @@ The constructor. The following named parameters are allowed:
 
 =back
 
-=head2 main()
+=head2 run()
 
 This is the method expected to be implemented by each subclass.
