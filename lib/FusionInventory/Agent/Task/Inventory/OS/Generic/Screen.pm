@@ -261,7 +261,8 @@ sub _get_many_bits {
         my @l = ('0' x (8 - $size), splice(@bits, 0, $size));
         $h{$field} = unpack("C", pack('B*', join('', @l))) if $field && $field !~ /^_/;
     }
-    \%h;
+
+    return \%h;
 }
 
 sub _check_parsed_edid {
@@ -279,7 +280,7 @@ sub _check_parsed_edid {
         or return 'bad VertRefresh';
     }
 
-    '';
+    return '';
 }
 
 sub _parse_edid {
@@ -461,7 +462,7 @@ sub _parse_edid {
     $edid{diagonal_size} = sqrt(_sqr($edid{max_size_horizontal}) + 
             _sqr($edid{max_size_vertical})) / 2.54;
 
-    \%edid;
+    return \%edid;
 }
 
 sub _nearest_ratio {
@@ -472,7 +473,8 @@ sub _nearest_ratio {
         my $error = abs($ratio - eval($_)); ## no critic
         $error > $max_error ? () : [ $_, $error ];
     } @known_ratios;
-    $sorted[0][0];
+
+    return $sorted[0][0];
 }
 
 sub _ratio_name {
@@ -486,10 +488,10 @@ sub _ratio_name {
         my $ratio2 = _nearest_ratio(($horizontal - $error) / ($vertical + $error), 0.2);
         $ratio1 && $ratio2 or return;
         if ($ratio1 eq $ratio2) {
-            $ratio1;
+            return $ratio1;
         } else {
             my $ratio = _nearest_ratio($horizontal / $vertical, 0.2);
-            join(' or ', $ratio, $ratio eq $ratio1 ? $ratio2 : $ratio1);
+            return join(' or ', $ratio, $ratio eq $ratio1 ? $ratio2 : $ratio1);
         }
     }
 }
@@ -577,7 +579,7 @@ sub _group_by2 {
     for (my $i = 0; $i < @_; $i += 2) {
         push @l, [ $_[$i], $_[$i+1] ];
     }
-    @l;
+    return @l;
 }
 
 
