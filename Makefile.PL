@@ -38,6 +38,7 @@ test_requires 'Test::Compile'   => undef;
 test_requires 'Test::Exception' => undef;
 test_requires 'HTTP::Server::Simple'         => undef;
 test_requires 'HTTP::Server::Simple::Authen' => undef;
+test_requires 'HTTP::Proxy'                  => undef;
 test_requires 'Authen::Simple'               => undef;
 test_requires 'Compress::Zlib'               => undef;
 test_requires 'Crypt::SSLeay'                => undef;
