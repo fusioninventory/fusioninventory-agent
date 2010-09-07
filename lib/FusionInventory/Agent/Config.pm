@@ -338,9 +338,8 @@ Extra options:
                         PROLOG_FREQ ($self->{lazy})
     --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
     --logger            Logger you want to use (Stderr, File or Syslog) ($self->{logger})
-    --rpc-ip=IP         ip of the interface to use for peer to peer exchange
-    --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now
-                        to force an inventory
+    --rpc-ip=IP         interface to use for listening to HTTP requests
+    --rpc-trust-localhost      trust local HTTP requests without token
     --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
     --share-dir=DIR     path to the directory where are stored the shared files
                         ($self->{'share-dir'})
