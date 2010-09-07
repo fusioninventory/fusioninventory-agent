@@ -75,7 +75,6 @@ sub _handler {
                 return;
             }
 
-            # get template
             my $indexFile = $htmlDir."/index.tpl";
             my $handle;
             if (!open $handle, '<', $indexFile) {
@@ -87,7 +86,6 @@ sub _handler {
             my $output = <$handle>;
             close $handle;
 
-            # get variables
             my $nextContact = "";
             foreach my $target (@{$scheduler->{targets}}) {
                 my $path = $target->{path};
@@ -99,7 +97,6 @@ sub _handler {
             }
             my $status = $self->{agent}->getStatus();
 
-            # substitute values
             $output =~ s/%%STATUS%%/$status/;
             $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
             $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
@@ -109,7 +106,6 @@ sub _handler {
             }
             $output =~ s/%%(END|)IF_.*?%%//g;
 
-            # send response
             my $r = HTTP::Response->new(
                 200,
                 'OK',
@@ -195,23 +191,13 @@ sub _server {
     my $scheduler = $self->{scheduler};
     my $logger = $self->{logger};
 
-    my $daemon;
-   
-    if ($self->{'rpc-ip'}) {
-        $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalAddr => $self->{'rpc-ip'},
-            LocalPort => 62354,
-            Reuse     => 1,
-            Timeout   => 5
-        );
-    } else {
-        $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalPort => 62354,
-            Reuse     => 1,
-            Timeout   => 5
-        );
-    }
-  
+    my $daemon = HTTP::Daemon->new(
+        LocalAddr => $self->{'rpc-ip'},
+        LocalPort => 62354,
+        Reuse     => 1,
+        Timeout   => 5
+    );
+
     if (!$daemon) {
         $logger->error("[Receiver] Failed to start the service");
         return;
@@ -297,8 +283,8 @@ The constructor. The following named parameters are allowed:
 
 =item share-dir (mandatory)
 
-=item rpc-ip (mandatory)
+=item rpc-ip (default: undef)
 
-=item rpc-trust_localhost (mandatory)
+=item rpc-trust_localhost (default: false)
 
 =back
