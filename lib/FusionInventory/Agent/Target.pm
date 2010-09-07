@@ -62,11 +62,7 @@ sub setNextRunDate {
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
-    lock($lock);
-
     my $serverdelay = $self->{myData}{prologFreq};
-
-    lock($lock);
 
     my $max;
     if ($serverdelay) {
