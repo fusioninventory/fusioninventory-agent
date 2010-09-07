@@ -34,7 +34,7 @@ sub run {
     $self->_feedInventory();
 
     SWITCH: {
-        if ($self->{target}->{type} eq 'stdout') {
+        if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
             if ($self->{config}->{format} eq 'xml') {
                 print $self->{inventory}->getContent();
             } else {
@@ -43,7 +43,7 @@ sub run {
             last SWITCH;
         }
 
-        if ($self->{target}->{type} eq 'local') {
+        if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
             my $file =
                 $self->{config}->{local} .
                 "/" .
@@ -64,7 +64,7 @@ sub run {
             last SWITCH;
         }
 
-        if ($self->{target}->{type} eq 'server') {
+        if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
             die "No prologresp!" unless $self->{prologresp};
 
             if ($self->{config}->{force}) {

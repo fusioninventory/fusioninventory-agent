@@ -10,7 +10,7 @@ use FusionInventory::Agent::XML::Query::SimpleMessage;
 sub run {
     my ($self) = @_;
 
-    if ($self->{target}->{type} ne 'server') {
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $self->{logger}->debug("No server. Exiting...");
         return;
     }

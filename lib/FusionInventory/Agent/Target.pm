@@ -14,14 +14,9 @@ my $lock :shared;
 sub new {
     my ($class, $params) = @_;
 
-    if ($params->{type} !~ /^(server|local|stdout)$/ ) {
-        die 'bad type';
-    }
-
     my $self = {
         config          => $params->{config},
         logger          => $params->{logger},
-        type            => $params->{type},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
         debugPrintTimer => 0
@@ -36,72 +31,11 @@ sub new {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    $self->{format} = $self->{type} eq 'local' && $config->{html} ?
-        'HTML' : 'XML';
-
-    $self->init();
-
-    $self->{storage} = FusionInventory::Agent::Storage->new({
-        target => $self
-    });
-
-    if ($self->{type} eq 'server') {
-        $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-            logger => $logger,
-            config => $config,
-            target => $self,
-        });
-    
-        my $accountinfo = $self->{accountinfo};
-
-        if ($config->{tag}) {
-            if ($accountinfo->get("TAG")) {
-                $logger->debug(
-                    "A TAG seems to already exist in the server for this ".
-                    "machine. The -t paramter may be ignored by the server " .
-                    "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
-                );
-            }
-            $accountinfo->set("TAG", $config->{tag});
-        }
-
-        my $storage = $self->{storage};
-        $self->{myData} = $storage->restore();
-
-        if ($self->{myData}{nextRunDate}) {
-            $logger->debug (
-                "[$self->{path}] Next server contact planned for ".
-                localtime($self->{myData}{nextRunDate})
-            );
-            ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
-        }
-    }
-
-    return $self;
-}
-
-sub init {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-
     lock($lock);
 
     # The agent can contact different servers. Each server has it's own
     # directory to store data
-
-    my $dir;
-    if ($self->{type} eq 'server') {
-        $dir = $self->{path};
-        $dir =~ s/\//_/g;
-        # On Windows, we can't have ':' in directory path
-        $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
-    } else {
-        $dir = '__LOCAL__';
-
-    }
-    $self->{vardir} = $config->{basevardir} . '/' . $dir;
+    $self->{vardir} = $config->{basevardir} . '/' . $params->{dir};
 
     if (!-d $self->{vardir}) {
         make_path($self->{vardir}, {error => \my $err});
@@ -118,6 +52,12 @@ sub init {
 
     $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
     $self->{last_statefile} = $self->{vardir} . "/last_state";
+
+    $self->{storage} = FusionInventory::Agent::Storage->new({
+        target => $self
+    });
+
+    return $self;
 }
 
 sub setNextRunDate {

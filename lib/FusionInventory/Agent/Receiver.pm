@@ -92,8 +92,9 @@ sub _handler {
                 $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
                 my $timeString = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now";
+                my $type = ref $target;
                 $nextContact .=
-                    "<li>$target->{type}, $path: $timeString</li>\n";
+                    "<li>$type, $path: $timeString</li>\n";
             }
             my $status = $self->{agent}->getStatus();
 

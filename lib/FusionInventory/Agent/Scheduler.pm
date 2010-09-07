@@ -3,7 +3,9 @@ package FusionInventory::Agent::Scheduler;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Target;
+use FusionInventory::Agent::Target::Local;
+use FusionInventory::Agent::Target::Stdout;
+use FusionInventory::Agent::Target::Server;
 
 sub new {
     my ($class, $params) = @_;
@@ -32,10 +34,9 @@ sub init {
     if ($config->{'stdout'}) {
         push
             @{$self->{targets}},
-            FusionInventory::Agent::Target->new({
+            FusionInventory::Agent::Target::Stdout->new({
                 logger   => $logger,
                 config   => $config,
-                type     => 'stdout',
                 deviceid => $deviceid,
             });
     }
@@ -43,10 +44,9 @@ sub init {
     if ($config->{'local'}) {
         push
             @{$self->{targets}},
-            FusionInventory::Agent::Target->new({
+            FusionInventory::Agent::Target::Local->new({
                 config   => $config,
                 logger   => $logger,
-                type     => 'local',
                 path     => $config->{'local'},
                 deviceid => $deviceid,
             });
@@ -65,10 +65,9 @@ sub init {
         }
         push
             @{$self->{targets}},
-            FusionInventory::Agent::Target->new({
+            FusionInventory::Agent::Target::Server->new({
                 config   => $config,
                 logger   => $logger,
-                type     => 'server',
                 path     => $url,
                 deviceid => $deviceid,
             });
