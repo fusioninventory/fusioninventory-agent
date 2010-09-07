@@ -12,18 +12,18 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config    => $params->{config},
-        logger    => $params->{logger},
-        scheduler => $params->{scheduler},
-        agent     => $params->{agent}
+        logger                => $params->{logger},
+        scheduler             => $params->{scheduler},
+        agent                 => $params->{agent},
+        'rpc-ip'              => $params->{'rpc-ip'},
+        'rpc-trust-localhost' => $params->{'rpc-trust-localhost'},
     };
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
 
-    if ($config->{'share-dir'}) {
-        $self->{htmlDir} = $config->{'share-dir'}.'/html';
-    } elsif ($config->{'devlib'}) {
+    if ($params->{'share-dir'}) {
+        $self->{htmlDir} = $params->{'share-dir'}.'/html';
+    } elsif ($params->{'devlib'}) {
         $self->{htmlDir} = "./share/html";
     }
     if ($self->{htmlDir}) {
@@ -45,7 +45,6 @@ sub _handler {
     
     my $logger = $self->{logger};
     my $scheduler = $self->{scheduler};
-    my $config = $self->{config};
     my $htmlDir = $self->{htmlDir};
 
     if (!$r) {
@@ -102,7 +101,7 @@ sub _handler {
             $output =~ s/%%STATUS%%/$status/;
             $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
             $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-            if (!$config->{'rpc-trust-localhost'}) {
+            if (!$self->{'rpc-trust-localhost'}) {
                 $output =~
                 s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
             }
@@ -138,7 +137,7 @@ sub _handler {
             my $token = $self->{agent}->getToken();
             my ($code, $msg);
             if (
-                ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
+                ($self->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                     or
                 ($sentToken eq $token)
             ) {
@@ -189,15 +188,14 @@ sub _handler {
 sub _server {
     my ($self) = @_;
 
-    my $config = $self->{config};
     my $scheduler = $self->{scheduler};
     my $logger = $self->{logger};
 
     my $daemon;
    
-    if ($config->{'rpc-ip'}) {
+    if ($self->{'rpc-ip'}) {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalAddr => $config->{'rpc-ip'},
+            LocalAddr => $self->{'rpc-ip'},
             LocalPort => 62354,
             Reuse     => 1,
             Timeout   => 5
@@ -285,12 +283,18 @@ The constructor. The following named parameters are allowed:
 
 =over
 
-=item config (mandatory)
-
 =item logger (mandatory)
 
 =item scheduler (mandatory)
 
 =item agent (mandatory)
+
+=item devlib (mandatory)
+
+=item share-dir (mandatory)
+
+=item rpc-ip (mandatory)
+
+=item rpc-trust_localhost (mandatory)
 
 =back

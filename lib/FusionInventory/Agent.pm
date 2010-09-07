@@ -195,9 +195,12 @@ sub new {
         } else {
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
-                config    => $config,
                 scheduler => $scheduler,
-                agent     => $self
+                agent     => $self,
+                devlib      => $config->{devlib},
+                'share-dir' => $config->{'share-dir'},
+                'rpc-ip'    => $config->{'rpc-ip'},
+                'rpc-trust_localhost' => $config->{'rpc-trust_localhost'},
             });
         }
     }
