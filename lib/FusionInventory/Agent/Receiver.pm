@@ -75,18 +75,7 @@ sub _handler {
                 return;
             }
 
-            my $nextContact = "";
-            foreach my $target (@{$scheduler->{targets}}) {
-                my $path = $target->{path};
-                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-                my $timeString = $target->getNextRunDate() > 1 ?
-                    localtime($target->getNextRunDate()) :
-                    "now";
-                $nextContact .=
-                    "<li>$target->{type}, $path: $timeString</li>\n";
-            }
-            my $status = $self->{agent}->getStatus();
-
+            # get template
             my $indexFile = $htmlDir."/index.tpl";
             my $handle;
             if (!open $handle, '<', $indexFile) {
@@ -98,6 +87,19 @@ sub _handler {
             my $output = <$handle>;
             close $handle;
 
+            # get variables
+            my $nextContact = "";
+            foreach my $target (@{$scheduler->{targets}}) {
+                my $path = $target->{path};
+                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+                my $timeString = $target->getNextRunDate() > 1 ?
+                    localtime($target->getNextRunDate()) : "now";
+                $nextContact .=
+                    "<li>$target->{type}, $path: $timeString</li>\n";
+            }
+            my $status = $self->{agent}->getStatus();
+
+            # substitute values
             $output =~ s/%%STATUS%%/$status/;
             $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
             $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
@@ -106,6 +108,8 @@ sub _handler {
                 s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
             }
             $output =~ s/%%(END|)IF_.*?%%//g;
+
+            # send response
             my $r = HTTP::Response->new(
                 200,
                 'OK',
