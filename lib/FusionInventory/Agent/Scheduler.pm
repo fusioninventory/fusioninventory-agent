@@ -35,9 +35,10 @@ sub init {
         push
             @{$self->{targets}},
             FusionInventory::Agent::Target::Stdout->new({
-                logger   => $logger,
-                config   => $config,
-                deviceid => $deviceid,
+                logger     => $logger,
+                deviceid   => $deviceid,
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
             });
     }
 
@@ -45,10 +46,11 @@ sub init {
         push
             @{$self->{targets}},
             FusionInventory::Agent::Target::Local->new({
-                config   => $config,
-                logger   => $logger,
-                path     => $config->{'local'},
-                deviceid => $deviceid,
+                logger     => $logger,
+                deviceid   => $deviceid,
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+                path       => $config->{local},
             });
     }
 
@@ -66,10 +68,11 @@ sub init {
         push
             @{$self->{targets}},
             FusionInventory::Agent::Target::Server->new({
-                config   => $config,
-                logger   => $logger,
-                path     => $url,
-                deviceid => $deviceid,
+                logger     => $logger,
+                deviceid   => $deviceid,
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+                path       => $url,
             });
     }
 

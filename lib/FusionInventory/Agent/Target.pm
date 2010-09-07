@@ -15,7 +15,7 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config          => $params->{config},
+        delaytime       => $params->{delaytime},
         logger          => $params->{logger},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
@@ -28,14 +28,13 @@ sub new {
     my $nextRunDate :shared;
     $self->{nextRunDate} = \$nextRunDate;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
 
     lock($lock);
 
     # The agent can contact different servers. Each server has it's own
     # directory to store data
-    $self->{vardir} = $config->{basevardir} . '/' . $params->{dir};
+    $self->{vardir} = $params->{basevardir} . '/' . $params->{dir};
 
     if (!-d $self->{vardir}) {
         make_path($self->{vardir}, {error => \my $err});
@@ -64,7 +63,6 @@ sub setNextRunDate {
 
     my ($self, $args) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
@@ -78,7 +76,7 @@ sub setNextRunDate {
     if ($serverdelay) {
         $max = $serverdelay * 3600;
     } else {
-        $max = $config->{delaytime};
+        $max = $self->{delaytime};
         # If the PROLOG_FREQ has never been initialized, we force it at 1h
         $self->setPrologFreq(1);
     }
@@ -101,7 +99,6 @@ sub setNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
 
     lock($lock);
@@ -144,7 +141,6 @@ sub setPrologFreq {
 
     my ($self, $prologFreq) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
@@ -172,7 +168,6 @@ sub setCurrentDeviceID {
 
     my ($self, $deviceid) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
