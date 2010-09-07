@@ -240,10 +240,10 @@ sub main {
                 my $transmitter = FusionInventory::Agent::Transmitter->new({
                     logger         => $logger,
                     url            => $target->{path},
+                    proxy          => $config->{proxy},
                     user           => $config->{user},
                     password       => $config->{password},
-                    proxy          => $config->{proxy},
-                    'no-ssl-check' => $config->{'no-proxy-check'},
+                    'no-ssl-check' => $config->{'no-ssl-check'},
                     'ca-cert-file' => $config->{'ca-cert-file'},
                     'ca-cert-dir'  => $config->{'ca-cert-dir'},
                 });

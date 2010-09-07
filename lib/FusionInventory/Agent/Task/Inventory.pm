@@ -93,12 +93,12 @@ sub run {
             my $transmitter = FusionInventory::Agent::Transmitter->new({
                 url      => $self->{target}->{path},
                 logger   => $self->{logger},
-                proxy    => $self->{proxy},
-                user     => $self->{user},
-                password => $self->{password},
-                'no-ssl-check' => $self->{'no-ssl-check'},
-                'ca-cert-file' => $self->{'ca-cert-file'},
-                'ca-cert-dir'  => $self->{'ca-cert-dir'},
+                proxy    => $self->{config}->{proxy},
+                user     => $self->{config}->{user},
+                password => $self->{config}->{password},
+                'no-ssl-check' => $self->{config}->{'no-ssl-check'},
+                'ca-cert-file' => $self->{config}->{'ca-cert-file'},
+                'ca-cert-dir'  => $self->{config}->{'ca-cert-dir'},
             });
 
             my $response = $transmitter->send({message => $self->{inventory}});
