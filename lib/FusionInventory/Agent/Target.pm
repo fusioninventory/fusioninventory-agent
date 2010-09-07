@@ -23,14 +23,10 @@ sub new {
     };
     bless $self, $class;
 
-    lock($lock);
-
     my $nextRunDate :shared;
     $self->{nextRunDate} = \$nextRunDate;
 
     my $logger = $self->{logger};
-
-    lock($lock);
 
     # The agent can contact different servers. Each server has it's own
     # directory to store data
