@@ -79,12 +79,12 @@ sub main {
       }
     }
     if ($continue eq "0") {
-        $logger->debug("No SNMPQuery. Exiting...");
+        $logger->debug("No SNMPQuery Asked by the server. Exiting...");
         exit(0);
     }
 
     if ($target->{'type'} ne 'server') {
-        $logger->debug("No server. Exiting...");
+        $logger->debug("No server to get order from. Exiting...");
         exit(0);
     }
 
