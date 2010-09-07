@@ -8,9 +8,6 @@ use threads::shared;
 use English qw(-no_match_vars);
 use HTTP::Daemon;
 
-my $lock :shared;
-my $status :shared = "unknown";
-
 sub new {
     my ($class, $params) = @_;
 
@@ -98,6 +95,7 @@ sub _handler {
                 $nextContact .=
                     "<li>$target->{type}, $path: $timeString</li>\n";
             }
+            my $status = $self->{agent}->getStatus();
 
             my $indexFile = $htmlDir."/index.tpl";
             my $handle;
@@ -175,12 +173,12 @@ sub _handler {
 
         # status request
         if ($path eq '/status') {
-            #$c->send_status_line(200, $status)
+            my $status = $self->{agent}->getStatus();
             my $r = HTTP::Response->new(
                 200,
                 'OK',
                 HTTP::Headers->new('Content-Type' => 'text/plain'),
-               "status: ".$status
+               "status: $status"
             );
             $c->send_response($r);
             last SWITCH;
@@ -259,13 +257,6 @@ sub _server {
     }
 }
 
-sub setCurrentStatus {
-    my ($self, $newStatus) = @_;
-
-    $status = $newStatus;
-
-}
-
 1;
 __END__
 
@@ -312,7 +303,3 @@ The constructor. The following named parameters are allowed:
 =item agent (mandatory)
 
 =back
-
-=head2 setCurrentStatus
-
-Set the status displayed on the web page.

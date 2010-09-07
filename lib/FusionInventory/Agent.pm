@@ -50,7 +50,8 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        token => _computeNewToken()
+        status => 'unknown',
+        token  => _computeNewToken()
     };
 
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
@@ -230,7 +231,7 @@ sub main {
     my $receiver = $self->{receiver};
 
     eval {
-        $receiver->setCurrentStatus("waiting") if $receiver;
+        $self->{status} = 'waiting';
 
         while (my $target = $scheduler->getNext()) {
 
@@ -299,7 +300,7 @@ sub main {
                     next;
                 }
 
-                $receiver->setCurrentStatus("running task $module") if $receiver;
+                $self->{status} = "running task $module";
 
                 my $task = $package->new({
                     config => $config,
@@ -350,7 +351,7 @@ sub main {
                     $logger->debug("[task] end of $module");
                 }
             }
-            $receiver->setCurrentStatus("waiting") if $receiver;
+            $self->{status} = 'waiting';
 
             if (!$config->{debug}) {
                 # In debug mode, I do not clean the FusionInventory-Agent.dump
@@ -408,3 +409,7 @@ Get the current authentication token.
 =head2 resetToken()
 
 Reset the current authentication token to a new random value.
+
+=head2 getStatus()
+
+Get the current agent status.
