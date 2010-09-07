@@ -183,9 +183,11 @@ sub new {
     }
 
     if (
-        $config->{daemon}           ||
-        $config->{'daemon-no-fork'} ||
-        $config->{winService}
+        (
+            $config->{daemon}           ||
+            $config->{'daemon-no-fork'} ||
+            $config->{winService}
+        ) && ! $config->{'no-socket'}
     ) {
         eval { require FusionInventory::Agent::Receiver; };
         if ($EVAL_ERROR) {

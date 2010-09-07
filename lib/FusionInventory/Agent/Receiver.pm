@@ -34,8 +34,6 @@ sub new {
 
     bless $self, $class;
 
-    return $self if $config->{'no-socket'};
-
     $SIG{PIPE} = 'IGNORE';
     $self->{thr} = threads->create('_server', $self);
 
