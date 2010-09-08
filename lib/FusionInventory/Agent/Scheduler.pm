@@ -86,11 +86,7 @@ sub getNext {
 
     return unless @{$self->{targets}};
 
-    if (
-        $config->{'daemon'} or
-        $config->{'daemon-no-fork'} or
-        $config->{'winService'}
-    ) {
+    if ($config->{'daemon'} || $config->{'winService'}) {
         # block until a target is eligible to run, then return it
         while (1) {
             foreach my $target (@{$self->{targets}}) {

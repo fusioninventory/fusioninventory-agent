@@ -160,7 +160,7 @@ sub new {
         $logger->debug("User directory scanning enabled");
     }
 
-    if ($config->{daemon}) {
+    if ($config->{daemon} && !$config->{'no-fork'}) {
 
         $logger->debug("Daemon mode enabled");
 
@@ -183,11 +183,8 @@ sub new {
     }
 
     if (
-        (
-            $config->{daemon}           ||
-            $config->{'daemon-no-fork'} ||
-            $config->{winService}
-        ) && ! $config->{'no-socket'}
+        ($config->{daemon} || $config->{winService}) &&
+        ! $config->{'no-socket'}
     ) {
         eval { require FusionInventory::Agent::Receiver; };
         if ($EVAL_ERROR) {
@@ -315,11 +312,7 @@ sub main {
                     prologresp => $prologresp
                 });
 
-                if (
-                    $config->{daemon}           ||
-                    $config->{'daemon-no-fork'} ||
-                    $config->{winService}
-                ) {
+                if ($config->{daemon} || $config->{winService}) {
                     # daemon mode: run each task in a childprocess
                     if (my $pid = fork()) {
                         # parent

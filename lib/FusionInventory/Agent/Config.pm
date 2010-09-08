@@ -17,7 +17,7 @@ my $default = {
     'conf-file'               => '',
     'color'                   => 0,
     'daemon'                  => 0,
-    'daemon-no-fork'          => 0,
+    'no-fork'                 => 0,
     'delaytime'               => 3600, # max delay time (seconds)
     'debug'                   => 0,
     'devlib'                  => 0,
@@ -202,6 +202,7 @@ sub loadUserParams {
         'conf-file=s',
         'daemon|d',
         'daemon-no-fork|D',
+        'no-fork',
         'debug',
         'delaytime=s',
         'devlib',
@@ -267,6 +268,13 @@ sub checkContent {
             "the parameter --realm is deprecated, and will be ignored\n";
     }
 
+    if ($self->{'daemon-no-fork'}) {
+        print STDERR
+            "the parameter --daemon-no-fork is deprecated, use --daemon --no-fork instead\n";
+        $self->{daemon} = 1;
+        $self->{'no-fork'} = 1;
+    }
+
     if (!$self->{'share-dir'}) {
         if ($self->{devlib}) {
             $self->{'share-dir'} = './share/';
@@ -328,7 +336,7 @@ Extra options:
                         files ($self->{basevardir})
     --color             use color in the console ($self->{color})
     -d --daemon         detach the agent in background ($self->{daemon})
-    -D --daemon-no-fork daemon but don't fork in background ($self->{'daemon-no-fork'})
+    --no-fork           don't fork in background ($self->{'no-fork'})
     --delaytime         set a max delay time (in second) if no PROLOG_FREQ is
                         set ($self->{delaytime})
     --devlib            search for Backend mod in ./lib only ($self->{devlib})
