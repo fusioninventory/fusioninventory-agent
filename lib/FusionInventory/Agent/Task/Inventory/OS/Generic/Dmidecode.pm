@@ -7,7 +7,13 @@ use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
 
-    return can_run("dmidecode");
+    if (can_run("dmidecode")) {
+        my @output = `dmidecode`;
+
+        return 1 if @output > 10;
+    }
+
+    return 0;
 }
 
 sub doInventory {}

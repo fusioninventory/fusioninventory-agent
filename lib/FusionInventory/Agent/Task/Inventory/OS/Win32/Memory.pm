@@ -3,12 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Memory;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
 
-sub isInventoryEnabled {
-# Only if dmidecode is not avalaible
-    return !can_run('dmidecode');
-}
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 my @formFactorVal = qw/
     Unknown 
