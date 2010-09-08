@@ -328,12 +328,16 @@ Disable options:
     --no-ocsdeploy      Do not deploy packages or run command ($self->{'no-ocsdeploy'})
     --no-inventory      Do not generate inventory ($self->{'no-inventory'})
     --no-printer        do not return printer list in inventory $self->{'no-printer'})
-    --no-rpc            don't allow remote connexion ($self->{'no-rpc'})
     --no-software       do not return installed software list ($self->{'no-software'})
     --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
     --no-wakeonlan      do not use wakeonlan function ($self->{'no-wakeonlan'})
     --no-snmpquery      do not use snmpquery function ($self->{'no-snmpquery'})
     --no-netdiscovery   do not use snmpquery function ($self->{'no-netdiscovery'})
+
+Web interface options:
+    --no-rpc            do not use web interface ($self->{'no-rpc'})
+    --rpc-ip=IP         network interface to listen to
+    --rpc-trust-localhost      trust local requests without token
 
 Extra options:
     --backend-collect-timeout set a max delay time of one inventory data
@@ -352,8 +356,6 @@ Extra options:
                         PROLOG_FREQ ($self->{lazy})
     --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
     --logger            Logger you want to use (Stderr, File or Syslog) ($self->{logger})
-    --rpc-ip=IP         interface to use for listening to HTTP requests
-    --rpc-trust-localhost      trust local HTTP requests without token
     --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
     --share-dir=DIR     path to the directory where are stored the shared files
                         ($self->{'share-dir'})
