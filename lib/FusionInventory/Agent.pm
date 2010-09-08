@@ -183,7 +183,7 @@ sub new {
     }
 
     if (
-        ($config->{daemon} || $config->{winService}) &&
+        ($config->{daemon} || $config->{service}) &&
         ! $config->{'no-socket'}
     ) {
         eval { require FusionInventory::Agent::Receiver; };
@@ -312,7 +312,7 @@ sub main {
                     prologresp => $prologresp
                 });
 
-                if ($config->{daemon} || $config->{winService}) {
+                if ($config->{daemon} || $config->{service}) {
                     # daemon mode: run each task in a childprocess
                     if (my $pid = fork()) {
                         # parent
