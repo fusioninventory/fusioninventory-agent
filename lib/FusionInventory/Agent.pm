@@ -182,10 +182,7 @@ sub new {
 
     }
 
-    if (
-        ($config->{daemon} || $config->{service}) &&
-        ! $config->{'no-socket'}
-    ) {
+    if (($config->{daemon} || $config->{service}) && ! $config->{'no-rpc'}) {
         eval { require FusionInventory::Agent::Receiver; };
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");

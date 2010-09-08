@@ -34,7 +34,7 @@ my $default = {
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'no-printer'              => 0,
-    'no-socket'               => 0,
+    'no-rpc'                  => 0,
     'no-software'             => 0,
     'no-software'             => 0,
     'no-wakeonlan'            => 0,
@@ -221,6 +221,7 @@ sub loadUserParams {
         'no-inventory',
         'no-printer',
         'no-socket',
+        'no-rpc',
         'no-soft',
         'no-software',
         'no-ssl-check',
@@ -243,7 +244,6 @@ sub loadUserParams {
         'wait|w=s',
         'delaytime=s',
         'scan-homedirs',
-        'no-socket'
     );
 
     push(@options, 'color') if $OSNAME ne 'MSWin32';
@@ -266,6 +266,12 @@ sub checkContent {
     if ($self->{realm}) {
         print STDERR
             "the parameter --realm is deprecated, and will be ignored\n";
+    }
+
+    if ($self->{'no-socket'}) {
+        print STDERR
+            "the parameter --no-socket is deprecated, use --no-rpc instead\n";
+        $self->{'no-rpc'} = 1;
     }
 
     if ($self->{'daemon-no-fork'}) {
@@ -322,7 +328,7 @@ Disable options:
     --no-ocsdeploy      Do not deploy packages or run command ($self->{'no-ocsdeploy'})
     --no-inventory      Do not generate inventory ($self->{'no-inventory'})
     --no-printer        do not return printer list in inventory $self->{'no-printer'})
-    --no-socket         don't allow remote connexion ($self->{'no-socket'})
+    --no-rpc            don't allow remote connexion ($self->{'no-rpc'})
     --no-software       do not return installed software list ($self->{'no-software'})
     --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
     --no-wakeonlan      do not use wakeonlan function ($self->{'no-wakeonlan'})
