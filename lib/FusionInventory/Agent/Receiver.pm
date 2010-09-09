@@ -135,22 +135,34 @@ sub handle {
         # now request
         if ($path =~ m{^/now(?:/(\S+))?$}) {
             my $sentToken = $1;
-            my $token = $self->{agent}->getToken();
             my ($code, $msg);
-            if (
-                ($self->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
-                    or
-                ($sentToken && $sentToken eq $token)
-            ) {
-                $self->{agent}->resetToken();
+
+            if ($clientIp =~ /^127\./ && $self->{'rpc-trust-localhost'}) {
+                # trusted request
                 $scheduler->resetNextRunDate();
                 $code = 200;
                 $msg = "Done."
             } else {
-                $logger->debug("[Receiver] bad token $sentToken != $token");
-                $code = 403;
-                $msg = "Access denied: untrusted address and invalid token.";
+                # authenticated request
+                if ($sentToken) {
+                    my $token = $self->{agent}->resetToken();
+                    if ($sentToken eq $token) {
+                        $self->{agent}->resetToken();
+                        $scheduler->resetNextRunDate();
+                        $code = 200;
+                        $msg = "Done."
+                    } else {
+                        $logger->debug("[Receiver] untrusted address, invalid token $sentToken != $token");
+                        $code = 403;
+                        $msg = "Access denied: untrusted address, invalid token.";
+                    }
+                } else {
+                    $logger->debug("[Receiver] untrusted address, no token received");
+                    $code = 403;
+                    $msg = "Access denied: untrusted address, no token received.";
+                }
             }
+
             my $r = HTTP::Response->new(
                 $code,
                 'OK',
