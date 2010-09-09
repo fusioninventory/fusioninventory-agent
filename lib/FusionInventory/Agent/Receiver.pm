@@ -40,7 +40,7 @@ sub new {
     return $self;
 }
 
-sub _handler {
+sub handle {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
@@ -140,7 +140,7 @@ sub _handler {
             if (
                 ($self->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
                     or
-                ($sentToken eq $token)
+                ($sentToken && $sentToken eq $token)
             ) {
                 $self->{agent}->resetToken();
                 $scheduler->resetNextRunDate();
@@ -205,35 +205,13 @@ sub _server {
     } 
     $logger->info("[Receiver] Service started at: ". $daemon->url);
 
-    # threads::joinable is available since perl 5.10 only
-    my $joinableAvalaible = defined &threads::joinable;
-
     while (1) {
-
-        if ($joinableAvalaible) {
-            no strict 'subs'; ## no critic
-            # threads::joinable symbol is not defined in perl 5.8
-            my @threads = threads->list(threads::joinable);
-            $_->join() foreach @threads;
-        }
-
-        # Limit the max number of running thread
-        # On Windows, it's about 15MB per thread! We need to keep the
-        # number of threads low.
-        if (!$joinableAvalaible || threads->list() > 3) {
-            foreach my $thread (threads->list()) {
-                next if $thread->tid == 1; # This is me!
-                $thread->join;
-            };
-        }
         my ($c, $socket) = $daemon->accept;
         next unless $socket;
         my(undef,$iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
-# HTTP::Daemon::get_request is not thread
-# safe and must be called from the master thread
         my $r = $c->get_request;
-        threads->create(\&_handler, $self, $c, $r, $clientIp);
+        $self->handle($c, $r, $clientIp);
     }
 }
 
