@@ -5,6 +5,7 @@ use warnings;
 use base 'FusionInventory::Agent::Task';
 
 use English qw(-no_match_vars);
+use File::Find;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Transmitter;
@@ -160,26 +161,20 @@ sub _initModList {
         }
     }
     if (@dirToScan) {
-        eval {
-            require File::Find;
-        };
-        if ($EVAL_ERROR) {
-            $logger->debug("Failed to load File::Find");
-        } else {
-            # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
-            # changes the @INC content if i use $_ directly
-            # thanks to @rgs on irc.perl.org
-            File::Find::find(
-                {
-                    wanted => sub {
-                        push @installed_files, $File::Find::name if $File::Find::name =~
-                        /FusionInventory\/Agent\/Task\/Inventory\/.*\.pm$/;
-                    },
-                    follow => 1,
-                    follow_skip => 2
-                }
-                , @dirToScan);
-        }
+        # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
+        # changes the @INC content if i use $_ directly
+        # thanks to @rgs on irc.perl.org
+        File::Find::find(
+            {
+                wanted => sub {
+                    push @installed_files, $File::Find::name if $File::Find::name =~
+                    /FusionInventory\/Agent\/Task\/Inventory\/.*\.pm$/;
+                },
+                follow => 1,
+                follow_skip => 2
+            }
+            , @dirToScan
+        );
     }
 
     foreach my $file (@installed_files) {
