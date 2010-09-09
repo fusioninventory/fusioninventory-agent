@@ -195,7 +195,7 @@ sub new {
                 devlib      => $config->{devlib},
                 'share-dir' => $config->{'share-dir'},
                 'rpc-ip'    => $config->{'rpc-ip'},
-                'rpc-trust_localhost' => $config->{'rpc-trust_localhost'},
+                'rpc-trust-localhost' => $config->{'rpc-trust-localhost'},
             });
         }
     }
