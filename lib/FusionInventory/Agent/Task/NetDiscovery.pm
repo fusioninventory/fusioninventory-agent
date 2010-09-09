@@ -368,7 +368,7 @@ sub _getDictionnary {
 
     # fallback on builtin dictionnary
     if (!$dictionnary || ref $dictionnary ne "HASH") {
-        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
+        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico->new();
         $hash        = md5_hex($dictionnary);
     }
 

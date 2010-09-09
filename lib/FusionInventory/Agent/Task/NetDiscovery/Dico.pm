@@ -6,7 +6,7 @@ use warnings;
 use English qw/-no_match_vars/;
 use XML::Simple;
 
-sub loadDico {
+sub new {
     undef $INPUT_RECORD_SEPARATOR; # enable slurp mode
     my $dico = <DATA>;
 
