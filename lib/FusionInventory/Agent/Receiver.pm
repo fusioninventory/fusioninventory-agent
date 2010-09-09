@@ -35,7 +35,7 @@ sub new {
     bless $self, $class;
 
     $SIG{PIPE} = 'IGNORE';
-    $self->{thr} = threads->create('_server', $self);
+    threads->create('_server', $self);
 
     return $self;
 }
