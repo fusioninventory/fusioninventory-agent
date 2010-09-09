@@ -53,6 +53,7 @@ sub new {
         status => 'unknown',
         token  => _computeNewToken()
     };
+    bless $self, $class;
 
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
@@ -200,8 +201,6 @@ sub new {
     }
 
     $logger->debug("FusionInventory Agent initialised");
-
-    bless $self, $class;
 
     return $self;
 }
@@ -377,6 +376,11 @@ sub resetToken {
 sub _computeNewToken {
     my @chars = ('A'..'Z');
     return join('', map { $chars[rand @chars] } 1..8);
+}
+
+sub getStatus {
+    my ($self) = @_;
+    return $self->{status};
 }
 
 1;
