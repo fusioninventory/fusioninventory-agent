@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Getopt::Long;
+use Cwd qw(abs_path);
 use English qw(-no_match_vars);
 
 my $basedir = '';
@@ -37,7 +38,7 @@ my $default = {
     'realm'                   => '',
     'remotedir'               => '/ocsinventory', # deprecated
     'server'                  => '',
-    'share-dir'               => 0,
+    'share-dir'               => '',
     'stdout'                  => 0,
     'tag'                     => '',
     'user'                    => '',
@@ -61,7 +62,7 @@ my $default = {
     'scan-homedirs'           => 0,
     # Other values that can't be changed with the
     # CLI parameters
-    'basevardir'              =>  $basedir.'/var/lib/fusioninventory-agent',
+    'basevardir'              => abs_path($basedir.'/var/lib/fusioninventory-agent'),
 #    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
 #   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
@@ -81,7 +82,7 @@ sub load {
 
     if (!$config->{'share-dir'}) {
         if ($config->{'devlib'}) {
-                $config->{'share-dir'} = './share/';
+                $config->{'share-dir'} = abs_path('./share/');
         } else {
             eval { 
                 require File::ShareDir;
@@ -239,6 +240,9 @@ sub loadUserParams {
         'version',
         'wait|w=s',
     ) or help($config);
+
+    $config->{basevardir} = abs_path($config->{basevardir});
+
 
     help($config) if $config->{help};
     version() if $config->{version};
