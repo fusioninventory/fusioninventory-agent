@@ -515,6 +515,8 @@ file from a specific location.
 On Windows the settings are loaded from the Registry. The configuration file
 is ignored.
 
+The command line parameters overwrite the configuration file.
+
 =head1 SECURITY
 
 Some modules like SNMPQuery needs to sent credential from the agent to the
