@@ -10,6 +10,7 @@ Revision history for FusionInventory::Agent
        * ensure basevardir and share-dir are canonical pathname
        * POD doc, add this sentence:
          "The command line parameters overwrite the configuration file."
+       Fix several issues in agent.cfg file (Walid NOUH)
 
 2.1.3    Wed, 01 Sep 2010 21:31:25 +0200
        * Linux: Avoid error on system with no /proc/bus/input/devices
