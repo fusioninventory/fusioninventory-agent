@@ -166,7 +166,7 @@ sub new {
         $logger->debug("Daemon mode enabled");
 
         my $cwd = getcwd();
-        eval { require Proc::Daemon; };
+        Proc::Daemon->require();
         if ($EVAL_ERROR) {
             $logger->fault("Can't load Proc::Daemon. Is the module installed?");
             exit 1;
@@ -184,7 +184,7 @@ sub new {
     }
 
     if (($config->{daemon} || $config->{service}) && ! $config->{'no-rpc'}) {
-        eval { require FusionInventory::Agent::Receiver; };
+        FusionInventory::Agent::Receiver->require();
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
         } else {

@@ -136,9 +136,7 @@ sub _initModList {
     # This is a workaround for PAR::Packer. Since it resets @INC
     # I can't find the backend modules to load dynamically. So
     # I prepare a list and include it.
-    eval {
-        require FusionInventory::Agent::Task::Inventory::ModuleToLoad;
-    };
+    FusionInventory::Agent::Task::Inventory::ModuleToLoad->require();
     if (!$EVAL_ERROR) {
         $logger->debug(
             "use FusionInventory::Agent::Task::Inventory::ModuleToLoad to " . 
