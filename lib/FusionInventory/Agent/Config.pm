@@ -243,6 +243,7 @@ sub loadUserParams {
 
     # We want only canonical path
     $config->{basevardir} = abs_path($config->{basevardir}) if $config->{basevardir};
+    $config->{'share-dir'} = abs_path($config->{'share-dir'}) if $config->{'share-dir'};
     $config->{'conf-file'} = abs_path($config->{'conf-file'}) if $config->{'conf-file'};
     $config->{'ca-cert-file'} = abs_path($config->{'ca-cert-file'}) if $config->{'ca-cert-file'};
     $config->{'ca-cert-dir'} = abs_path($config->{'ca-cert-dir'}) if $config->{'ca-cert-dir'};
