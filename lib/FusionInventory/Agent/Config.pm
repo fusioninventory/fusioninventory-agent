@@ -241,7 +241,7 @@ sub loadUserParams {
         'wait|w=s',
     ) or help($config);
 
-    $config->{basevardir} = abs_path($config->{basevardir});
+    $config->{basevardir} = abs_path($config->{basevardir}) if $config->{basevardir};
 
 
     help($config) if $config->{help};
