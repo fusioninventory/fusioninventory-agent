@@ -46,10 +46,10 @@ sub new {
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
     # turns SSL checks on if needed
-    if ($scheme eq 'https' && !$params->{'no-ssl-check'}) {
+    if ($scheme eq 'https' && !$params->{'no_ssl_check'}) {
         $self->_turnSSLCheckOn(
-            $params->{'ca-cert-file'},
-            $params->{'ca-cert-dir'}
+            $params->{ca_cert_file},
+            $params->{ca_cert_dir}
         );
         my $host = $url->host();
         $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
@@ -301,11 +301,11 @@ The constructor. The following named parametersare allowed:
 
 =item password (default: none)
 
-=item no-ssl-check (default: false)
+=item no_ssl_check (default: false)
 
-=item ca-cert-file (default: none)
+=item ca_cert_file (default: none)
 
-=item ca-cert-dir (default: none)
+=item ca_cert_dir (default: none)
 
 =back
 

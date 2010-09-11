@@ -92,14 +92,14 @@ sub run {
             $accountinfo->setAccountInfo($self->{inventory});
 
             my $transmitter = FusionInventory::Agent::Transmitter->new({
-                url      => $self->{target}->{path},
-                logger   => $self->{logger},
-                proxy    => $self->{config}->{proxy},
-                user     => $self->{config}->{user},
-                password => $self->{config}->{password},
-                'no-ssl-check' => $self->{config}->{'no-ssl-check'},
-                'ca-cert-file' => $self->{config}->{'ca-cert-file'},
-                'ca-cert-dir'  => $self->{config}->{'ca-cert-dir'},
+                logger       => $self->{logger},
+                url          => $self->{target}->{path},
+                proxy        => $self->{config}->{proxy},
+                user         => $self->{config}->{user},
+                password     => $self->{config}->{password},
+                no_ssl_check => $self->{config}->{'no-ssl-check'},
+                ca_cert_file => $self->{config}->{'ca-cert-file'},
+                ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
             });
 
             my $response = $transmitter->send({message => $self->{inventory}});

@@ -70,7 +70,7 @@ throws_ok {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => "http://localhost:8080/public",
+        url    => 'http://localhost:8080/public',
         logger => $logger
     });
 } 'instanciation: http';
@@ -103,7 +103,7 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => "http://localhost:8080/private",
+        url    => 'http://localhost:8080/private',
         logger => $logger
     });
 } 'instanciation: http, auth, no credentials';
@@ -118,7 +118,7 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url      => "http://localhost:8080/private",
+        url      => 'http://localhost:8080/private',
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -150,9 +150,9 @@ $server->background();
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => 'https://localhost:8080/public',
-        logger         => $logger,
-        'no-ssl-check' => 1,
+        url          => 'https://localhost:8080/public',
+        logger       => $logger,
+        no_ssl_check => 1,
     });
 } 'instanciation: https, check disabled';
 
@@ -162,9 +162,9 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => "https://localhost:8080/private",
-        logger         => $logger,
-        'no-ssl-check' => 1,
+        url          => 'https://localhost:8080/private',
+        logger       => $logger,
+        no_ssl_check => 1,
     });
 } 'instanciation: https, check disabled, auth, no credentials';
 
@@ -178,11 +178,11 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => "https://localhost:8080/private",
-        user           => 'test',
-        password       => 'test',
-        logger         => $logger,
-        'no-ssl-check' => 1,
+        url          => 'https://localhost:8080/private',
+        user         => 'test',
+        password     => 'test',
+        logger       => $logger,
+        no_ssl_check => 1,
     });
 } 'instanciation: https, check disabled, auth, credentials';
 
@@ -192,9 +192,9 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => 'https://localhost:8080/public',
-        logger         => $logger,
-        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+        url          => 'https://localhost:8080/public',
+        logger       => $logger,
+        ca_cert_file => 't/httpd/conf/ssl/crt/ca.pem',
     });
 } 'instanciation: https';
 
@@ -204,9 +204,9 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => "https://localhost:8080/private",
-        logger         => $logger,
-        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+        url          => 'https://localhost:8080/private',
+        logger       => $logger,
+        ca_cert_file => 't/httpd/conf/ssl/crt/ca.pem',
     });
 } 'instanciation: https, auth, no credentials';
 
@@ -220,11 +220,11 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => "https://localhost:8080/private",
-        user           => 'test',
-        password       => 'test',
-        logger         => $logger,
-        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
+        url          => 'https://localhost:8080/private',
+        user         => 'test',
+        password     => 'test',
+        logger       => $logger,
+        ca_cert_file => 't/httpd/conf/ssl/crt/ca.pem',
     });
 } 'instanciation: https, auth, credentials';
 
@@ -258,7 +258,7 @@ $proxy->background();
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => "http://localhost:8080/public",
+        url    => 'http://localhost:8080/public',
         logger => $logger,
         proxy  => $proxy->url()
     });
@@ -270,7 +270,7 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => "http://localhost:8080/private",
+        url    => 'http://localhost:8080/private',
         logger => $logger,
         proxy  => $proxy->url()
     });
@@ -286,7 +286,7 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url      => "http://localhost:8080/private",
+        url      => 'http://localhost:8080/private',
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -319,10 +319,10 @@ $server->background();
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => 'https://localhost:8080/public',
-        logger         => $logger,
-        'no-ssl-check' => 1,
-        proxy          => $proxy->url()
+        url          => 'https://localhost:8080/public',
+        logger       => $logger,
+        no_ssl_check => 1,
+        proxy        => $proxy->url()
     });
 } 'instanciation: https, proxy, check disabled';
 
@@ -332,10 +332,10 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => "https://localhost:8080/private",
-        logger         => $logger,
-        'no-ssl-check' => 1,
-        proxy          => $proxy->url()
+        url          => 'https://localhost:8080/private',
+        logger       => $logger,
+        no_ssl_check => 1,
+        proxy        => $proxy->url()
     });
 } 'instanciation: https, check disabled, proxy, auth, no credentials';
 
@@ -349,12 +349,12 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => "https://localhost:8080/private",
-        user           => 'test',
-        password       => 'test',
-        logger         => $logger,
-        'no-ssl-check' => 1,
-        proxy          => $proxy->url()
+        url          => 'https://localhost:8080/private',
+        user         => 'test',
+        password     => 'test',
+        logger       => $logger,
+        no_ssl_check => 1,
+        proxy        => $proxy->url()
     });
 } 'instanciation: https, check disabled, proxy, auth, credentials';
 
@@ -377,7 +377,7 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => "https://localhost:8080/private",
+        url            => 'https://localhost:8080/private',
         logger         => $logger,
         'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
         proxy          => $proxy->url()
@@ -394,7 +394,7 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => "https://localhost:8080/private",
+        url            => 'https://localhost:8080/private',
         user           => 'test',
         password       => 'test',
         logger         => $logger,
