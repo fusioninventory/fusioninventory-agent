@@ -8,7 +8,7 @@ use File::Path;
 use Config;
 
 BEGIN {
-    # threads and threads::shared must be load before
+    # threads and threads::shared must be loaded before
     # $lock is initialized
     if ($Config{usethreads}) {
         eval {
@@ -21,7 +21,7 @@ BEGIN {
     }
 }
 
-# resetNextRunDate() can also be call from another thread (RPC)
+# resetNextRunDate() can also be called from another thread (RPC)
 my $lock : shared;
 
 sub new {
@@ -139,7 +139,7 @@ sub init {
             $logger->error(
                 "Failed to create basedir: $config->{basedir} directory: " .
                 "$ERRNO. The HOSTID will not be written on the harddrive. " .
-                "You may have duplicated entry of this computer in your OCS " .
+                "You may have a duplicated entry of this computer in your OCS " .
                 "database"
             );
         }
@@ -202,7 +202,7 @@ sub setNextRunDate {
     ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
 
     $logger->debug (
-        "[$self->{path}] Next server contact'd just been planned for ".
+        "[$self->{path}] Next server contact has just been planned for ".
         localtime($self->{myData}{nextRunDate})
     );
 
