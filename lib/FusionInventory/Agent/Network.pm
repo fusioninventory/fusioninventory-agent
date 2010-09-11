@@ -198,7 +198,7 @@ sub send {
 
     if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{config}->{realm}) {
         my $serverRealm = $1;
-        $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retry.");
+        $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retrying.");
 
         $ua = $self->createUA({URI => $self->{URI}, forceRealm => $serverRealm});
         $res = $ua->request($req);
