@@ -146,8 +146,8 @@ sub getFileDir {
 =item save({ data => $date, idx => $ref })
 
 Save the reference.
-$idx is an integer. You can use if if you want to save more than one file for the
-module. This number will be add at the of the file
+$idx is an integer. You can use it if you want to save more than one file for the
+module. This number will be added at the of the file.
 
 =cut
 sub save {
