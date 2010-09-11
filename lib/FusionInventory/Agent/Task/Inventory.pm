@@ -116,10 +116,7 @@ sub _initModList {
     my $config = $self->{config};
     my $storage = $self->{storage};
 
-    my @dirToScan;
-    my @installed_mods;
-    my @installed_files;
-
+    my @modules;
     # This is a workaround for PAR::Packer. Since it resets @INC
     # I can't find the backend modules to load dynamically. So
     # I prepare a list and include it.
@@ -130,56 +127,53 @@ sub _initModList {
             "get the modules to load. This should not append unless you use " .
             "the standalone agent built with PAR::Packer (pp)"
         );
-        push
-            @installed_mods,
+        @modules = 
             @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
     }
 
+    # compute a list of directories to scan
+    my @dirToScan;
     if ($config->{devlib}) {
         # devlib enable, I only search for backend module in ./lib
         push (@dirToScan, './lib');
     } else {
-        foreach (@INC) {
-            next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
-            next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
-            push @dirToScan, $_;
+        foreach my $dir (@INC) {
+            my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
+            next unless -d $subdir;
+            push @dirToScan, $subdir;
         }
     }
-    if (@dirToScan) {
-        File::Find::find(
-            {
-                wanted => sub {
-                    push @installed_files, $File::Find::name if $File::Find::name =~
-                    /FusionInventory\/Agent\/Task\/Inventory\/.*\.pm$/;
-                },
-                follow => 1,
-                follow_skip => 2
-            }
-            , @dirToScan
-        );
-    }
+    
+    die "No directory to scan for inventory modules" if !@dirToScan;
 
-    foreach my $file (@installed_files) {
-        my $t = $file;
-        next unless $t =~ s!.*?(FusionInventory/Agent/Task/Inventory/)(.*?)\.pm$!$1$2!;
-        my $m = join ('::', split /\//, $t);
-        push @installed_mods, $m unless grep (/^$m$/, @installed_mods);
-    }
+    # find a list of modules from files in those directories
+    my %modules;
+    my $wanted = sub {
+        return unless -f $_;
+        return unless $File::Find::name =~
+            m{(FusionInventory/Agent/Task/Inventory/\S+)\.pm$};
+        my $module = $1;
+        $module =~ s{/}{::}g;
+        $modules{$module}++;
+    };
+    File::Find::find(
+        {
+            wanted      => $wanted,
+            follow      => 1,
+            follow_skip => 2
+        },
+        @dirToScan
+    );
 
-    if (!@installed_mods) {
-        $logger->info(
-            "ZERO backend module found! Is FusionInventory-Agent correctly " .
-            "installed? Use the --devlib flag if you want to run the agent " .
-            "directly from the source directory."
-        )
-    }
+    @modules = keys %modules;
+    die "No inventory module found" if !@modules;
 
     # First all the module are flagged as 'OK'
-    foreach my $m (@installed_mods) {
-        $self->{modules}->{$m}->{inventoryFuncEnable} = 1;
+    foreach my $module (@modules) {
+        $self->{modules}->{$module}->{inventoryFuncEnable} = 1;
     }
 
-    foreach my $m (@installed_mods) {
+    foreach my $m (%modules) {
         my @runAfter;
         my @runMeIfTheseChecksFailed;
         my $enable = 1;
@@ -188,7 +182,7 @@ sub _initModList {
             next;
         }
         if (exists ($self->{modules}->{$m}->{name})) {
-            $logger->debug($m." already loaded.");
+            $logger->debug("$m already loaded.");
             next;
         }
 
