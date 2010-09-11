@@ -16,9 +16,6 @@ sub new {
     my $self = $class->SUPER::new($params);
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
-        # TODO, check if the accoun{info,config} are needed in localmode
-#          accountinfo => $accountinfo,
-#          accountconfig => $accountinfo,
         target => $self->{target},
         logger => $self->{logger},
     });
@@ -149,9 +146,6 @@ sub _initModList {
         }
     }
     if (@dirToScan) {
-        # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
-        # changes the @INC content if i use $_ directly
-        # thanks to @rgs on irc.perl.org
         File::Find::find(
             {
                 wanted => sub {
