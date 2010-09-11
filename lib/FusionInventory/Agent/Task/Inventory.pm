@@ -198,11 +198,7 @@ sub _initModList {
         # required to use a string as a HASH reference
         no strict 'refs'; ## no critic
 
-        if ($package->{isInventoryEnabled}) {
-            $self->{modules}->{$m}->{isInventoryEnabledFunc} =
-                $package->{isInventoryEnabled};
-            $enable = $self->_runWithTimeout($m, "isInventoryEnabled");
-        }
+        $enable = $self->_runWithTimeout($m, "isInventoryEnabled");
         if (!$enable) {
             $logger->debug ($m." ignored");
             foreach (keys %{$self->{modules}}) {
@@ -235,9 +231,6 @@ sub _initModList {
 
     # the sort is just for the presentation
     foreach my $m (sort keys %{$self->{modules}}) {
-        next unless $self->{modules}->{$m}->{isInventoryEnabledFunc};
-        # find modules to disable and their submodules
-
         next unless $self->{modules}->{$m}->{inventoryFuncEnable};
 
         my $enable = $self->_runWithTimeout($m, "isInventoryEnabled");
@@ -316,11 +309,7 @@ sub _runMod {
 
     $logger->debug ("Running $m");
 
-    if ($self->{modules}->{$m}->{doInventoryFunc}) {
-        $self->_runWithTimeout($m, "doInventory");
-#  } else {
-#      $logger->debug("$m has no doInventory() function -> ignored");
-    }
+    $self->_runWithTimeout($m, "doInventory");
     $self->{modules}->{$m}->{done} = 1;
     $self->{modules}->{$m}->{inUse} = 0; # unlock the module
 }
