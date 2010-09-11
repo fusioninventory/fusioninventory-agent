@@ -55,7 +55,7 @@ sub main {
     $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
     if ($target->{type} ne 'server') {
-        $logger->debug("No server. Exiting...");
+        $logger->debug("No server to get order from. Exiting...");
         exit(0);
     }
 
@@ -75,12 +75,12 @@ sub main {
       }
     }
     if ($continue eq "0") {
-        $logger->debug("No NETDISCOVERY. Exiting...");
+        $logger->debug("No NETDISCOVERY Asked by the server. Exiting...");
         exit(0);
     }
 
     if ($target->{'type'} ne 'server') {
-        $logger->debug("No server. Exiting...");
+        $logger->debug("No server to get order from. Exiting...");
         exit(0);
     }
 
@@ -177,7 +177,7 @@ sub StartThreads {
             data => $xml_thread
             });
          undef($xml_thread);
-         $self->{logger}->debug("Dico is old. Exiting...");
+         $self->{logger}->debug("Dico is to old. Exiting...");
          exit(0);
       }
    }
@@ -481,17 +481,17 @@ sub StartThreads {
 
                      while (1) {
                         if (($loop_action eq "0") && ($exit eq "2")) {
-                           ## Kill threads who do nothing partiel ##
+                           ## Kill threads who do nothing partial ##
 #                              for($i = ($loop_nbthreads - 1) ; $i < $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY} ; $i++) {
 #                                 $ThreadAction{$i} = "3";
 #                              }
 
-                           ## Start + end working threads (faire fonction) ##
+                           ## Start + end working threads (do a function) ##
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                  $ThreadAction{$i} = "2";
                                  #$ThreadState{$i} = "1";
                               }
-                           ## Fonction etat des working threads (s'ils sont arretes) ##
+                           ## Function state of working threads (if they are stopped) ##
                               $count = 0;
                               $loopthread = 0;
 
@@ -512,14 +512,14 @@ sub StartThreads {
                               return;
                               
                         } elsif (($loop_action eq "1") && ($exit eq "2")) {
-                           ## Start + pause working Threads (faire fonction) ##
+                           ## Start + pause working Threads (do a function) ##
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                  $ThreadAction{$i} = "1";
                                  #$ThreadState{$i} = "1";
                               }
                            sleep 1;
 
-                           ## Fonction etat des working threads (s'il sont tous en pause) ##
+                           ## Function state of working threads (if they are paused) ##
                            $count = 0;
                            $loopthread = 0;
 
@@ -1146,7 +1146,7 @@ FusionInventory::Agent::Task::NetDiscovery - SNMP support for FusionInventory Ag
 
 =head1 DESCRIPTION
 
-This module scans your networks to get informations from devices with SNMP protocol
+This module scans your networks to get informations from devices with the SNMP protocol
 
 =over 4
 
@@ -1154,23 +1154,23 @@ This module scans your networks to get informations from devices with SNMP proto
 networking devices discovery within an IP range
 
 =item *
-network switche, printer and router analyse
+network switches, printers and routers analysis
 
 =item *
-relation between computer / printer / switch port
+relation between computers / printers / switchs ports
 
 =item *
 identify unknown MAC addresses
 
 =item *
-report printer cartridge and ounter status
+report printer cartridge and counter status
 
 =item *
 support management of SNMP versions v1, v2, v3
 
 =back
 
-The plugin depends on FusionInventory for GLPI.
+This plugin depends on FusionInventory for GLPI.
 
 =head1 AUTHORS
 
@@ -1183,35 +1183,60 @@ FusionInventory.
 
 =over 4
 
-=item *
+=item
 FusionInventory website: L<http://www.FusionInventory.org/>
 
-=item *
-LaunchPad project page: L<http://launchpad.net/fusioninventory-agent-task-netdiscovery>
+=item
 
-=item *
-the Mailing lists and IRC
+project Forge: L<http://Forge.FusionInventory.org>
+
+=item
+
+The source code of the agent is available on:
+
+=over
+
+=item
+
+Gitorious: L<http://gitorious.org/fusioninventory>
+
+=item
+
+Github: L<http://github.com/fusinv/fusioninventory-agent>
+
+=back
+
+=item
+
+The mailing lists:
+
+=over
+
+=item
+
+L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-devel>
+
+=item
+
+L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-user>
+
+=back
+
+=item
+
+IRC: #FusionInventory on FreeNode IRC Network
 
 =back
 
 =head1 BUGS
 
 Please, use the mailing lists as much as possible. You can open your own bug
-tickets. Patches are welcome. You can also use LaunchPad bugtracker or
-push your Bazaar branch on LaunchPad and do a merge request.
+tickets. Patches are welcome. You can also use the bugtracker on
+http://forge.fusionInventory.org
 
 =head1 COPYRIGHT
 
-=over 4
-
-=item *
-
 Copyright (C) 2009 David Durieux
-
-=item *
-
-=back
-
 Copyright (C) 2010 FusionInventory Team
 
  This program is free software; you can redistribute it and/or modify
