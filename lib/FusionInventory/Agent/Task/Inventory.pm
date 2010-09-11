@@ -173,7 +173,7 @@ sub _initModList {
         $self->{modules}->{$module}->{inventoryFuncEnable} = 1;
     }
 
-    foreach my $m (%modules) {
+    foreach my $m (@modules) {
         my @runAfter;
         my @runMeIfTheseChecksFailed;
         my $enable = 1;
@@ -225,19 +225,9 @@ sub _initModList {
             next;
         }
 
-        # TODO add a isPostInventoryEnabled() function to know if we need to run
-        # the postInventory() function.
-        # Is that really needed?
-        $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
-
         $self->{modules}->{$m}->{runAfter} = $package->{runAfter};
-        $self->{modules}->{$m}->{runMeIfTheseChecksFailed} =
-            $package->{runMeIfTheseChecksFailed};
+        $self->{modules}->{$m}->{runMeIfTheseChecksFailed} = $package->{runMeIfTheseChecksFailed};
         $self->{modules}->{$m}->{doInventoryFunc} = $package->{doInventory};
-        $self->{modules}->{$m}->{doPostInventoryFunc} =
-            $package->{doPostInventory};
-        $self->{modules}->{$m}->{mem} = {}; # Deprecated
-        $self->{modules}->{$m}->{rpcCfg} = $package->{rpcCfg};
         # Load the Storable object is existing or return undef
         $self->{modules}->{$m}->{storage} = $storage;
 
