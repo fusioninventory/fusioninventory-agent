@@ -8,7 +8,6 @@ use English qw(-no_match_vars);
 use File::Find;
 use UNIVERSAL::require;
 
-use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 sub new {
@@ -91,18 +90,9 @@ sub run {
             # Put ACCOUNTINFO values in the inventory
             $accountinfo->setAccountInfo($self->{inventory});
 
-            my $transmitter = FusionInventory::Agent::Transmitter->new({
-                logger       => $self->{logger},
-                url          => $self->{target}->{path},
-                proxy        => $self->{config}->{proxy},
-                user         => $self->{config}->{user},
-                password     => $self->{config}->{password},
-                no_ssl_check => $self->{config}->{'no-ssl-check'},
-                ca_cert_file => $self->{config}->{'ca-cert-file'},
-                ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-            });
-
-            my $response = $transmitter->send({message => $self->{inventory}});
+            my $response = $self->{transmitter}->send(
+                {message => $self->{inventory}}
+            );
 
             return unless $response;
             $self->{inventory}->saveLastState();

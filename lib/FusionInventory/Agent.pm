@@ -305,7 +305,8 @@ sub main {
                     logger => $logger,
                     target => $target,
                     storage => $storage,
-                    prologresp => $prologresp
+                    prologresp => $prologresp,
+                    transmitter =>  $transmitter
                 });
 
                 if ($config->{daemon} || $config->{service}) {

@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 
 sub run {
@@ -23,12 +22,6 @@ sub run {
 
     $self->{logger}->debug("Ping ID:". $options->{ID});
 
-    my $transmitter = FusionInventory::Agent::Transmitter->new({
-        logger => $self->{logger},
-        config => $self->{config},
-        target => $self->{target},
-    });
-
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
         logger => $self->{logger},
         target => $self->{target},
@@ -39,7 +32,7 @@ sub run {
     });
 
     $self->{logger}->debug("Pong!");
-    $transmitter->send( { message => $message } );
+    $self->{transmitter}->send( { message => $message } );
 
 }
 
