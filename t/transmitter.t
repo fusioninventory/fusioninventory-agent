@@ -194,7 +194,7 @@ lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
         url          => 'https://localhost:8080/public',
         logger       => $logger,
-        ca_cert_file => 't/httpd/conf/ssl/crt/ca.pem',
+        ca_cert_file => 't/ssl/crt/ca.pem',
     });
 } 'instanciation: https';
 
@@ -206,7 +206,7 @@ lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
         url          => 'https://localhost:8080/private',
         logger       => $logger,
-        ca_cert_file => 't/httpd/conf/ssl/crt/ca.pem',
+        ca_cert_file => 't/ssl/crt/ca.pem',
     });
 } 'instanciation: https, auth, no credentials';
 
@@ -224,7 +224,7 @@ lives_ok {
         user         => 'test',
         password     => 'test',
         logger       => $logger,
-        ca_cert_file => 't/httpd/conf/ssl/crt/ca.pem',
+        ca_cert_file => 't/ssl/crt/ca.pem',
     });
 } 'instanciation: https, auth, credentials';
 
