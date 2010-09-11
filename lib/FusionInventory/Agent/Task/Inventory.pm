@@ -351,7 +351,7 @@ sub _feedInventory {
 }
 
 sub _runWithTimeout {
-    my ($self, $m, $funcName, $timeout) = @_;
+    my ($self, $module, $function, $timeout) = @_;
 
     my $logger = $self->{logger};
     my $storage = $self->{storage};
@@ -366,9 +366,9 @@ sub _runWithTimeout {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm $timeout;
 
-        my $func = $self->{modules}->{$m}->{$funcName."Func"};
+        no strict 'refs';
 
-        $ret = &{$func}({
+        $ret = &{$module . '::' . $function}({
             accountconfig => $self->{accountconfig},
             accountinfo => $self->{accountinfo},
             config => $self->{config},
@@ -389,7 +389,7 @@ sub _runWithTimeout {
         if ($EVAL_ERROR ne "alarm\n") {
             $logger->debug("runWithTimeout(): unexpected error: $EVAL_ERROR");
         } else {
-            $logger->debug("$m killed by a timeout.");
+            $logger->debug("$module killed by a timeout.");
             return;
         }
     } else {
