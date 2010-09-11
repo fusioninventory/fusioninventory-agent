@@ -234,9 +234,10 @@ sub main {
         while (my $target = $scheduler->getNext()) {
 
             my $prologresp;
+            my $transmitter;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                my $transmitter = FusionInventory::Agent::Transmitter->new({
+                $transmitter = FusionInventory::Agent::Transmitter->new({
                     logger       => $logger,
                     url          => $target->{path},
                     proxy        => $config->{proxy},
