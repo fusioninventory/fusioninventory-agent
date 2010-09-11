@@ -26,6 +26,10 @@ sub _parseDate {
 
 }
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};

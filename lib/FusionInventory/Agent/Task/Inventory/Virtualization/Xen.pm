@@ -5,4 +5,8 @@ use warnings;
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt"];
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 1;
