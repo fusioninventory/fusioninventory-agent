@@ -8,9 +8,6 @@ use threads::shared;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 
-# resetNextRunDate() can also be call from another thread (RPC)
-my $lock :shared;
-
 sub new {
     my ($class, $params) = @_;
 
@@ -93,8 +90,6 @@ sub getNextRunDate {
 
     my $logger = $self->{logger};
 
-    lock($lock);
-
     if (${$self->{nextRunDate}}) {
       
         if ($self->{debugPrintTimer} < time) {
@@ -120,7 +115,6 @@ sub resetNextRunDate {
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
-    lock($lock);
     $logger->debug("Force run now");
     
     $self->{myData}{nextRunDate} = 1;
