@@ -174,8 +174,6 @@ sub _initModList {
     }
 
     foreach my $module (@modules) {
-        my @runAfter;
-        my @runMeIfTheseChecksFailed;
         my $enable = 1;
 
         if (!$self->{modules}->{$module}->{inventoryFuncEnable}) {
