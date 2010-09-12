@@ -189,7 +189,6 @@ sub _initModList {
         $module->require();
         if ($EVAL_ERROR) {
             $logger->debug ("Failed to load $module: $EVAL_ERROR");
-            $enable = 0;
             next;
         }
 
