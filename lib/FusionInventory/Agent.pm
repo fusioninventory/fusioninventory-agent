@@ -9,13 +9,11 @@ use File::Path qw(make_path);
 use Sys::Hostname;
 use XML::Simple;
 
-use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::Receiver;
-use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
