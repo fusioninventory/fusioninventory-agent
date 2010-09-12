@@ -12,18 +12,18 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger                => $params->{logger},
-        scheduler             => $params->{scheduler},
-        agent                 => $params->{agent},
-        'rpc-ip'              => $params->{'rpc-ip'},
-        'rpc-trust-localhost' => $params->{'rpc-trust-localhost'},
+        logger              => $params->{logger},
+        scheduler           => $params->{scheduler},
+        agent               => $params->{agent},
+        rpc_ip              => $params->{rpc_ip},
+        rpc_trust_localhost => $params->{rpc_trust_localhost},
     };
 
     my $logger = $self->{logger};
 
-    if ($params->{'share-dir'}) {
-        $self->{htmlDir} = $params->{'share-dir'}.'/html';
-    } elsif ($params->{'devlib'}) {
+    if ($params->{share_dir}) {
+        $self->{htmlDir} = $params->{share_dir}.'/html';
+    } elsif ($params->{devlib}) {
         $self->{htmlDir} = "./share/html";
     }
     if ($self->{htmlDir}) {
@@ -101,7 +101,7 @@ sub handle {
             $output =~ s/%%STATUS%%/$status/;
             $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
             $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-            if (!$self->{'rpc-trust-localhost'}) {
+            if (!$self->{rpc_trust_localhost}) {
                 $output =~
                 s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
             }
@@ -137,7 +137,7 @@ sub handle {
             my $sentToken = $1;
             my ($code, $msg);
 
-            if ($clientIp =~ /^127\./ && $self->{'rpc-trust-localhost'}) {
+            if ($clientIp =~ /^127\./ && $self->{rpc_trust_localhost}) {
                 # trusted request
                 $scheduler->resetNextRunDate();
                 $code = 200;
@@ -205,7 +205,7 @@ sub _server {
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{'rpc-ip'},
+        LocalAddr => $self->{rpc_ip},
         LocalPort => 62354,
         Reuse     => 1,
         Timeout   => 5
@@ -272,10 +272,10 @@ The constructor. The following named parameters are allowed:
 
 =item devlib (mandatory)
 
-=item share-dir (mandatory)
+=item share_dir (mandatory)
 
-=item rpc-ip (default: undef)
+=item rpc_ip (default: undef)
 
-=item rpc-trust_localhost (default: false)
+=item rpc_trust_localhost (default: false)
 
 =back

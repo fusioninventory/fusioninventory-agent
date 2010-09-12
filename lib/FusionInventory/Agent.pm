@@ -192,10 +192,10 @@ sub new {
                 logger    => $logger,
                 scheduler => $scheduler,
                 agent     => $self,
-                devlib      => $config->{devlib},
-                'share-dir' => $config->{'share-dir'},
-                'rpc-ip'    => $config->{'rpc-ip'},
-                'rpc-trust-localhost' => $config->{'rpc-trust-localhost'},
+                devlib    => $config->{devlib},
+                share_dir => $config->{'share-dir'},
+                rpc_ip    => $config->{'rpc-ip'},
+                rpc_trust_localhost => $config->{'rpc-trust-localhost'},
             });
         }
     }
