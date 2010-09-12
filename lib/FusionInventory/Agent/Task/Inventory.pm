@@ -173,7 +173,7 @@ sub _initModList {
         $self->{modules}->{$module}->{inventoryFuncEnable} = 1;
     }
 
-    foreach my $module (@modules) {
+    foreach my $module (sort @modules) {
         my $enable = 1;
 
         if (!$self->{modules}->{$module}->{inventoryFuncEnable}) {
