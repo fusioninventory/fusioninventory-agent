@@ -8,9 +8,13 @@ use Cwd qw(abs_path);
 use English qw(-no_match_vars);
 
 my $basedir = '';
+my $basevardir = '';
 
 if ($OSNAME eq 'MSWin32') {
     $basedir = $ENV{APPDATA}.'/fusioninventory-agent';
+    $basevardir = $basedir.'/var/lib/fusioninventory-agent';
+} else {
+    abs_path($basedir.'/var/lib/fusioninventory-agent'),
 }
 
 my $default = {
@@ -62,7 +66,7 @@ my $default = {
     'scan-homedirs'           => 0,
     # Other values that can't be changed with the
     # CLI parameters
-    'basevardir'              => abs_path($basedir.'/var/lib/fusioninventory-agent'),
+    'basevardir'              => $basevardir,
 #    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
 #   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
