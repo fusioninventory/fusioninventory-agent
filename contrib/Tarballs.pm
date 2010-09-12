@@ -1,6 +1,6 @@
 # Write by Simon CLARA 2010-01-25
 #
-# The complet name of the package
+# The complete name of the package
 # the path MUST be valid or the package won't be loaded
 package FusionInventory::Agent::Backend::OS::Generic::Tarballs;
 use strict;
