@@ -12,9 +12,9 @@ FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
 
 =head1 DESCRIPTION
 
-FusionInventory uses OCS Inventory XML format for the data transmition. This
+FusionInventory uses OCS Inventory XML format for the data transmission. This
 module is the abstraction layer. It's mostly used in the backend module where
-it called $inventory in general.
+$inventory is in general called.
 
 =cut
 
@@ -160,7 +160,7 @@ sub _encode {
 
 =item initialise()
 
-Runs the backend modules to initilise the data.
+Runs the backend modules to initialise the data.
 
 =cut
 sub initialise {
@@ -304,7 +304,7 @@ sub addStorage {
         'values' => $values,
     });
 }
-# For compatibiliy
+# For compatibility
 sub addStorages {
     my $self = shift;
     my $logger = $self->{logger};
@@ -341,7 +341,7 @@ sub addMemory {
         'values' => $args,
     });
 }
-# For compatibiliy
+# For compatibility
 sub addMemories {
     my $self = shift;
     my $logger = $self->{logger};
@@ -371,7 +371,7 @@ sub addPorts{
         'values' => $args,
     });
 }
-# For compatibiliy
+# For compatibility
 sub addPort {
     my $self = shift;
     my $logger = $self->{logger};
@@ -401,7 +401,7 @@ sub addSlot {
         'values' => $args,
     });
 }
-# For compatibiliy
+# For compatibility
 sub addSlots {
     my $self = shift;
     my $logger = $self->{logger};
@@ -429,7 +429,7 @@ sub addSoftware {
         'noDuplicated' => 1
     });
 }
-# For compatibiliy
+# For compatibility
 sub addSoftwares {
     my $self = shift;
     my $logger = $self->{logger};
@@ -461,7 +461,7 @@ sub addMonitor {
         'values' => $args,
     });
 }
-# For compatibiliy
+# For compatibility
 sub addMonitors {
     my $self = shift;
     my $logger = $self->{logger};
@@ -493,7 +493,7 @@ sub addVideo {
     });
 
 }
-# For compatibiliy
+# For compatibility
 sub addVideos {
     my $self = shift;
     my $logger = $self->{logger};
@@ -522,7 +522,7 @@ sub addSound {
         'values' => $args,
     });
 }
-# For compatibiliy
+# For compatibility
 sub addSounds {
     my $self = shift;
     my $logger = $self->{logger};
@@ -569,7 +569,7 @@ sub addNetwork {
     });
 }
 
-# For compatibiliy
+# For compatibility
 sub addNetworks {
     my $self = shift;
     my $logger = $self->{logger};
@@ -702,7 +702,7 @@ sub addUser {
 
     my $login = $args->{LOGIN}; 
     my $domain = $args->{DOMAIN} || '';
-# TODO: I don't think we should change the parmater this way. 
+# TODO: I don't think we should change the parameter this way. 
     if ($login =~ /(.*\\|)(\S+)/) {
         $domainString .= $domain;
         $userString .= $2;
@@ -749,7 +749,7 @@ sub addPrinter {
         'values' => $args,
     });
 }
-# For compatibiliy
+# For compatibility
 sub addPrinters {
     my $self = shift;
     my $logger = $self->{logger};
@@ -822,7 +822,7 @@ sub addProcess {
 
 =item addInput()
 
-Add an input device (mouce/keyboard) in the inventory.
+Add an input device (mouse/keyboard) in the inventory.
 
 =cut
 sub addInput {
@@ -846,7 +846,7 @@ sub addInput {
 
 =item addEnv()
 
-Register an environement variable.
+Register an environment variable.
 
 =cut
 sub addEnv {
@@ -933,7 +933,7 @@ sub addRegistry {
 
 =item addAntiVirus()
 
-Registred Anti-Virus on Windows
+Registered Anti-Virus on Windows
 
 =cut
 sub addAntiVirus {
@@ -1097,7 +1097,7 @@ sub writeXML {
 
 =item writeHTML()
 
-Save the generated inventory as an XML file. The 'local' key of the config
+Save the generated inventory as an HTML file. The 'local' key of the config
 is used to know where the file as to be saved.
 
 =cut
@@ -1199,7 +1199,7 @@ sub writeHTML {
 Compute the <CHECKSUM/> field. This information is used by the server to
 know which parts of the XML have changed since the last inventory.
 
-The is done thank to the last_file file. It has MD5 prints of the previous
+The is done thanks to the last_file file. It has MD5 prints of the previous
 inventory. 
 
 =cut
@@ -1337,7 +1337,7 @@ sub addSection {
 
 =item feedSection()
 
-Add information in inventory.
+Add informations in inventory.
 
 =back
 =cut
@@ -1463,7 +1463,7 @@ E.g: Physical Memory
 
 =item FORMFACTOR
 
-Only avalaible on Windows, See Win32_PhysicalMemory documentation on MSDN.
+Only available on Windows, See Win32_PhysicalMemory documentation on MSDN.
 
 =item REMOVABLE
 
@@ -1527,7 +1527,7 @@ Drive is actually a filesystem.
 
 =item CREATEDATE
 
-Date of the create of the filesystem in in DD/MM/YYYY format.
+Date of creation of the filesystem in DD/MM/YYYY format.
 
 =item DESCRIPTION
 
@@ -1553,11 +1553,11 @@ Partition serial number
 
 =item SYSTEMDRIVE
 
-Boolean. Is the system partition?
+Boolean. Is this the system partition?
 
 =item TOTAL
 
-Total space avalaible.
+Total space available.
 
 =item TYPE
 
@@ -1575,7 +1575,7 @@ System name of the partition (e.g: /dev/sda1)
 
 =item USERID
 
-The current user list, '/' is the delemiter. This field is deprecated, you
+The current user list, '/' is the delimiter. This field is deprecated, you
 should use the USERS section instead.
 
 =item OSVERSION
@@ -1770,7 +1770,7 @@ Deprecated. The harddrive serial number, same as SERIAL.
 
 =item FROM
 
-Where the information about the software come from, can be:
+Where the information about the software came from, can be:
 registry, rpm, deb, etc
 
 =item HELPLINK
@@ -1823,7 +1823,7 @@ Windows software GUID
 
 =item DOMAIN
 
-The Windows domain of the user, if avalaible.
+The Windows domain of the user, if available.
 
 =back
 
@@ -1902,7 +1902,7 @@ The ID of virtual machine in the virtual managment system.
 
 =head2 ENVS
 
-Environement variables
+Environment variables
 
 =over 4
 
@@ -1996,7 +1996,7 @@ If the interface exist or not (1 or empty)
 
 =item MANAGEMENT
 
-Whether or not it is a HP iLO, Sun SC, HP MP or other kink of Remote Management Interface
+Whether or not it is a HP iLO, Sun SC, HP MP or other kind of Remote Management Interface
 
 =item SPEED
 
@@ -2014,7 +2014,7 @@ Battery capacity in mWh
 
 =item DATE
 
-Manufacture date in the DD/MM/YYYY format
+Manufacture date in DD/MM/YYYY format
 
 =item NAME
 
@@ -2102,7 +2102,7 @@ The memory.
 
 =item STARTED
 
-When the process'd been started in the YYYY/MM/DD HH:MM format
+When the process has been started in YYYY/MM/DD HH:MM format
 
 =item CMD
 

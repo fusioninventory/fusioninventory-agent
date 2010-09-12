@@ -172,7 +172,7 @@ sub handler {
 
             $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
             $code = 403;
-            $msg = "Access denied. rpc-trust-localhost is off or the token is invalide."
+            $msg = "Access denied. rpc-trust-localhost is off or the token is invalid."
 
         }
 
@@ -310,13 +310,13 @@ FusionInventory::Agent::RPC - the RPC interface
 =head1 DESCRIPTION
 
 FusionInventory Agent can listen on the network through an embedded HTTP
-server. This server can only be used to wakeup the agent of download
+server. This server can only be used to wakeup the agent or download
 OcsDeploy cached files. The server uses port 62354.
 
-Every time the agent contact the server, it pushs a token, this token will
+Every time the agent contact the server, it send a token, this token will
 be needed to identify the server who want to awake an agent.
 
-Once an agent is awake, its agent will contact the server as usual to know
+Once an agent is awake, it will contact the server as usual to know
 the jobs it need to do.
 
 =head1 SYNOPSIS
