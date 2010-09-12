@@ -168,74 +168,56 @@ sub _initModList {
     @modules = keys %modules;
     die "No inventory module found" if !@modules;
 
-    # First all the module are flagged as 'OK'
-    foreach my $module (@modules) {
-        $self->{modules}->{$module}->{inventoryFuncEnable} = 1;
-    }
-
     foreach my $module (sort @modules) {
-        my $enable = 1;
+        # compute parent module:
+        my @components = split('::', $module);
+        my $parent = @components > 5 ?
+            join('::', @components[0 .. $#components -1]) : '';
 
-        if (!$self->{modules}->{$module}->{inventoryFuncEnable}) {
+        # skip if parent is not allowed
+        if ($parent && !$self->{modules}->{$parent}->{enabled}) {
+            $logger->debug("module $module disabled: implicit dependency $parent not enabled");
+            $self->{modules}->{$module}->{enabled} = 0;
             next;
         }
-
-        my $package = $module."::";
 
         $module->require();
         if ($EVAL_ERROR) {
-            $logger->debug ("Failed to load $module: $EVAL_ERROR");
+            $logger->debug("module $module disabled: failure to load ($EVAL_ERROR)");
+            $self->{modules}->{$module}->{enabled} = 0;
             next;
         }
+
+        my $enabled = $self->_runWithTimeout($module, "isInventoryEnabled");
+        if (!$enabled) {
+            $logger->debug("module $module disabled");
+            $self->{modules}->{$module}->{enabled} = 0;
+            next;
+        }
+
+        $self->{modules}->{$module}->{enabled} = 1;
+        $self->{modules}->{$module}->{name}    = $module;
+        $self->{modules}->{$module}->{done}    = 0;
+        $self->{modules}->{$module}->{inUse}   = 0;
+        $self->{modules}->{$module}->{storage} = $storage;
+
 
         # required to use a string as a HASH reference
         no strict 'refs'; ## no critic
 
-        $enable = $self->_runWithTimeout($module, "isInventoryEnabled");
-        if (!$enable) {
-            $logger->debug ($module." ignored");
-            foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
-                    if /^$module($|::)/;
-            }
-        }
+        my $package = $module."::";
 
-        $self->{modules}->{$module}->{name} = $module;
-        $self->{modules}->{$module}->{done} = 0;
-        $self->{modules}->{$module}->{inUse} = 0;
-        $self->{modules}->{$module}->{inventoryFuncEnable} = $enable;
-
-        if (!$enable) {
-            $logger->debug ($module." ignored");
-            foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
-                    if /^$module($|::)/;
-            }
-            next;
-        }
-
-        $self->{modules}->{$module}->{runAfter} = $package->{runAfter};
-        $self->{modules}->{$module}->{runMeIfTheseChecksFailed} = $package->{runMeIfTheseChecksFailed};
-        $self->{modules}->{$module}->{doInventoryFunc} = $package->{doInventory};
-        # Load the Storable object is existing or return undef
-        $self->{modules}->{$module}->{storage} = $storage;
-
+        $self->{modules}->{$module}->{runAfter} =
+            $package->{runAfter};
+        $self->{modules}->{$module}->{runMeIfTheseChecksFailed} =
+            $package->{runMeIfTheseChecksFailed};
+        $self->{modules}->{$module}->{doInventoryFunc} =
+            $package->{doInventory};
     }
 
     # the sort is just for the presentation
     foreach my $module (sort keys %{$self->{modules}}) {
-        next unless $self->{modules}->{$module}->{inventoryFuncEnable};
-
-        my $enable = $self->_runWithTimeout($module, "isInventoryEnabled");
-
-        if (!$enable) {
-            $logger->debug ($module." ignored");
-            foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
-                    if /^$module($|::)/;
-            }
-        }
-
+        next unless $self->{modules}->{$module}->{enabled};
         # add submodule in the runAfter array
         my $t;
         foreach (split /::/,$module) {
@@ -251,13 +233,13 @@ sub _initModList {
 
     # Remove the runMeIfTheseChecksFailed if needed
     foreach my $module (sort keys %{$self->{modules}}) {
-        next unless $self->{modules}->{$module}->{inventoryFuncEnable};
+        next unless $self->{modules}->{$module}->{enabled};
         next unless $self->{modules}->{$module}->{runMeIfTheseChecksFailed};
         foreach my $condmod (@{${$self->{modules}->{$module}->{runMeIfTheseChecksFailed}}}) {
-            if ($self->{modules}->{$condmod}->{inventoryFuncEnable}) {
+            if ($self->{modules}->{$condmod}->{enabled}) {
                 foreach (keys %{$self->{modules}}) {
                     next unless /^$module($|::)/ && $self->{modules}->{$_}->{inventoryFuncEnable};
-                    $self->{modules}->{$_}->{inventoryFuncEnable} = 0;
+                    $self->{modules}->{$_}->{enabled} = 0;
                     $logger->debug(
                         "$_ disabled because of a 'runMeIfTheseChecksFailed' " .
                         "in '$module'"
@@ -275,7 +257,7 @@ sub _runMod {
 
     my $module = $params->{modname};
 
-    return if (!$self->{modules}->{$module}->{inventoryFuncEnable});
+    return if (!$self->{modules}->{$module}->{enabled});
     return if ($self->{modules}->{$module}->{done});
 
     $self->{modules}->{$module}->{inUse} = 1; # lock the module
