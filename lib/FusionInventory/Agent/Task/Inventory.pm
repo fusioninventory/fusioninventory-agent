@@ -179,10 +179,6 @@ sub _initModList {
         if (!$self->{modules}->{$module}->{inventoryFuncEnable}) {
             next;
         }
-        if (exists ($self->{modules}->{$module}->{name})) {
-            $logger->debug("$module already loaded.");
-            next;
-        }
 
         my $package = $module."::";
 
