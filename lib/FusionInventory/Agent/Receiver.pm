@@ -218,12 +218,12 @@ sub _server {
     $logger->info("[Receiver] Service started at: ". $daemon->url);
 
     while (1) {
-        my ($c, $socket) = $daemon->accept;
+        my ($client, $socket) = $daemon->accept();
         next unless $socket;
-        my(undef,$iaddr) = sockaddr_in($socket);
+        my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
-        my $r = $c->get_request;
-        $self->handle($c, $r, $clientIp);
+        my $request = $client->get_request();
+        $self->handle($client, $request, $clientIp);
     }
 }
 
