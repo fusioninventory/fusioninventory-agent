@@ -251,6 +251,7 @@ sub loadUserParams {
     $config->{'conf-file'} = abs_path($config->{'conf-file'}) if $config->{'conf-file'};
     $config->{'ca-cert-file'} = abs_path($config->{'ca-cert-file'}) if $config->{'ca-cert-file'};
     $config->{'ca-cert-dir'} = abs_path($config->{'ca-cert-dir'}) if $config->{'ca-cert-dir'};
+    $config->{'logfile'} = abs_path($config->{'logfile'}) if $config->{'logfile'};
 
 
     help($config) if $config->{help};
