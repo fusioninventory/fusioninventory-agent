@@ -330,16 +330,12 @@ sub _runWithTimeout {
 
         $ret = &{$module . '::' . $function}({
             accountconfig => $self->{accountconfig},
-            accountinfo => $self->{accountinfo},
-            config => $self->{config},
-            inventory => $self->{inventory},
-            logger => $self->{logger},
-            network => $self->{network},
-            # Compatibiliy with agent 0.0.10 <=
-            # We continue to pass params->{params}
-            params => $self->{params},
-            prologresp => $self->{prologresp},
-            storage => $storage
+            accountinfo   => $self->{accountinfo},
+            config        => $self->{config},
+            inventory     => $self->{inventory},
+            logger        => $self->{logger},
+            prologresp    => $self->{prologresp},
+            storage       => $storage
         });
     };
     alarm 0;
