@@ -239,7 +239,6 @@ sub _runMod {
 
     my $module = $params->{modname};
 
-    return if (!$self->{modules}->{$module}->{enabled});
     return if ($self->{modules}->{$module}->{done});
 
     $self->{modules}->{$module}->{used} = 1; # lock the module
@@ -248,6 +247,10 @@ sub _runMod {
     foreach my $other_module (@{$self->{modules}->{$module}->{runAfter}}) {
         if (!$self->{modules}->{$other_module}) {
             die "Module $other_module, needed before $module, not found";
+        }
+
+        if (!$self->{modules}->{$other_module}->{enabled}) {
+            die "Module $other_module, needed before $module, not enabled";
         }
 
         if ($self->{modules}->{$other_module}->{used}) {
@@ -278,7 +281,10 @@ sub _feedInventory {
     }
 
     my $begin = time();
-    foreach my $module (sort keys %{$self->{modules}}) {
+    my @modules =
+        grep { $self->{modules}->{$_}->{enabled} }
+        keys %{$self->{modules}};
+    foreach my $module (sort @modules) {
         $self->_runMod ({
             modname => $module,
         });
