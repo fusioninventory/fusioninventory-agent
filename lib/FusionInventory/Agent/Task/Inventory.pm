@@ -313,7 +313,7 @@ sub _runWithTimeout {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm $timeout;
 
-        no strict 'refs';
+        no strict 'refs'; ## no critic
 
         $ret = &{$module . '::' . $function}({
             accountconfig => $self->{accountconfig},
