@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent
 
+2.2.0
+       * Add fusioninventory-injector
+
 2.1.4
        * Save the realm if we found it by ourself. With this changes
          we avoid useless request with the wrong realm from sub module
