@@ -8,10 +8,9 @@ sub isInventoryEnabled {
 
     my $prologresp = $params->{prologresp};
 
-    return unless ($prologresp && $prologresp->getOptionsInfoByName("IPDISCOVER"));
-
-    1;
+    return
+        $prologresp &&
+        $prologresp->getOptionsInfoByName("IPDISCOVER");
 }
-
 
 1;
