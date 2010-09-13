@@ -48,6 +48,15 @@ sub getContent {
     return $content;
 }
 
+sub addAccountInfo {
+    my ($self, $key, $value) = @_;
+
+    push @{$self->{h}->{CONTENT}->{ACCOUNTINFO}}, {
+        KEYNAME  => $key,
+        KEYVALUE => $value
+    }
+}
+
 1;
 __END__
 
