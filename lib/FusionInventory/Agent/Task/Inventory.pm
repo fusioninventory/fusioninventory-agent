@@ -168,6 +168,7 @@ sub _initModList {
     @modules = keys %modules;
     die "No inventory module found" if !@modules;
 
+    # first pass: compute all relevant modules
     foreach my $module (sort @modules) {
         # compute parent module:
         my @components = split('::', $module);
@@ -199,34 +200,34 @@ sub _initModList {
         $self->{modules}->{$module}->{done}    = 0;
         $self->{modules}->{$module}->{used}    = 0;
 
-        # required to use a string as a HASH reference
         no strict 'refs'; ## no critic
-
-        my $package = $module."::";
-
         $self->{modules}->{$module}->{runAfter} = [ 
             $parent ? $parent : (),
             ${$module . '::runAfter'} ? @${$module . '::runAfter'} : ()
         ];
-        $self->{modules}->{$module}->{runMeIfTheseChecksFailed} =
-            $package->{runMeIfTheseChecksFailed};
     }
 
-    # Remove the runMeIfTheseChecksFailed if needed
-    foreach my $module (sort keys %{$self->{modules}}) {
-        next unless $self->{modules}->{$module}->{enabled};
-        next unless $self->{modules}->{$module}->{runMeIfTheseChecksFailed};
-        foreach my $condmod (@{${$self->{modules}->{$module}->{runMeIfTheseChecksFailed}}}) {
-            if ($self->{modules}->{$condmod}->{enabled}) {
-                foreach (keys %{$self->{modules}}) {
-                    next unless /^$module($|::)/ && $self->{modules}->{$_}->{inventoryFuncEnable};
-                    $self->{modules}->{$_}->{enabled} = 0;
-                    $logger->debug(
-                        "$_ disabled because of a 'runMeIfTheseChecksFailed' " .
-                        "in '$module'"
-                    );
-                }
+    # second pass: disable fallback modules
+    foreach my $module (@modules) {
+        no strict 'refs'; ## no critic
+
+        next unless ${$module . '::runMeIfTheseChecksFailed'};
+
+        my $failed;
+
+        foreach my $other_module (@${$module . '::runMeIfTheseChecksFailed'}) {
+            if ($self->{modules}->{$other_module}->{enabled}) {
+                $failed = $other_module;
+                last;
             }
+        }
+
+        if ($failed) {
+            $self->{modules}->{$module}->{enabled} = 1;
+            $logger->debug("module $module enabled: $failed failed");
+        } else {
+            $self->{modules}->{$module}->{enabled} = 0;
+            $logger->debug("module $module disabled: no depended module failed");
         }
     }
 }
