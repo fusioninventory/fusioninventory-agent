@@ -196,9 +196,8 @@ sub _initModList {
         }
 
         $self->{modules}->{$module}->{enabled} = 1;
-        $self->{modules}->{$module}->{name}    = $module;
         $self->{modules}->{$module}->{done}    = 0;
-        $self->{modules}->{$module}->{inUse}   = 0;
+        $self->{modules}->{$module}->{used}    = 0;
 
         # required to use a string as a HASH reference
         no strict 'refs'; ## no critic
@@ -220,9 +219,7 @@ sub _initModList {
             $t .= "::" if $t;
             $t .= $_;
             if (exists $self->{modules}->{$t} && $module ne $t) {
-                push
-                    @{$self->{modules}->{$module}->{runAfter}},
-                    \%{$self->{modules}->{$t}}
+                push @{$self->{modules}->{$module}->{runAfter}}, $t
             }
         }
     }
@@ -256,25 +253,21 @@ sub _runMod {
     return if (!$self->{modules}->{$module}->{enabled});
     return if ($self->{modules}->{$module}->{done});
 
-    $self->{modules}->{$module}->{inUse} = 1; # lock the module
+    $self->{modules}->{$module}->{used} = 1; # lock the module
     # first I run its "runAfter"
 
-    foreach (@{$self->{modules}->{$module}->{runAfter}}) {
-        if (!$_->{name}) {
-            # The name is defined during module initialisation so if I
-            # can't read it, I can suppose it had not been initialised.
-            die
-                "Module `$module' need to be runAfter a module not found.".
-                "Please fix its runAfter entry or add the module.";
+    foreach my $other_module (@{$self->{modules}->{$module}->{runAfter}}) {
+        if (!$self->{modules}->{$other_module}) {
+            die "Module $other_module, needed before $module, not found";
         }
 
-        if ($_->{inUse}) {
+        if ($self->{modules}->{$other_module}->{used}) {
             # In use 'lock' is taken during the mod execution. If a module
             # need a module also in use, we have provable an issue :).
-            die "Circular dependency hell with $module and $_->{name}";
+            die "Circular dependency between $module and  $other_module";
         }
         $self->_runMod({
-            modname => $_->{name},
+            modname => $other_module
         });
     }
 
@@ -282,7 +275,7 @@ sub _runMod {
 
     $self->_runWithTimeout($module, "doInventory");
     $self->{modules}->{$module}->{done} = 1;
-    $self->{modules}->{$module}->{inUse} = 0; # unlock the module
+    $self->{modules}->{$module}->{used} = 0; # unlock the module
 }
 
 sub _feedInventory {
