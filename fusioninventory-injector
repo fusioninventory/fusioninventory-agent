@@ -84,7 +84,6 @@ sub sendContent {
     if (uncompress($content)) {
         $content = uncompress($content);
     }
-    print $content."\n";
     $request->content(compress($content));
     my $res = $ua->request($request);
 
