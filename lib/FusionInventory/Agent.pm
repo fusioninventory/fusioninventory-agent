@@ -255,8 +255,9 @@ sub main {
                     token  => $self->{token}
                 });
 
-                # ugly circular reference moved from Prolog::getContent() method
-                $target->{accountinfo}->setAccountInfo($prolog);
+                if ($config->{tag}) {
+                    $prolog->addAccountInfo('TAG', $config->{tag});
+                }
 
                 # TODO Don't mix settings and temp value
                 $prologresp = $transmitter->send({message => $prolog});
