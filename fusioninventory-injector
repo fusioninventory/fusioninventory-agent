@@ -120,7 +120,7 @@ sub usage {
 	-v --verbose	: verbose mode
 	--stdin		: read data from STDIN
 
-You can specify a --file or a --directory or STDIN. Current directory is the default
+You must specify a --file or a --directory or STDIN.
 
 EOF
     exit 1;
@@ -140,25 +140,17 @@ GetOptions(
 # Default values
 $url		= 'http://localhost/ocsinventory' unless $url;
 $useragent	= 'OCS-NG_INJECTOR_PL_v'.VERSION unless $useragent;
-$directory	= '.' unless $directory;
 ###
 
 $|=1;
 
 if ($file && -f $file) {
     loadfile($file);
-}
-elsif ($stdin) {
+} elsif ($stdin) {
     loadstdin();
-} 
-elsif($help){
+} elsif ($directory) {
+   die("Directory does not exist. Abort.") unless -d $directory;
+   loaddirectory($directory);
+} else {
     usage();
-}
-else{
-   if ($directory && -d $directory) {
-     loaddirectory($directory);
-   }
-   else{
-     die("Directory does not exist. Abort.");
-   }
 }
