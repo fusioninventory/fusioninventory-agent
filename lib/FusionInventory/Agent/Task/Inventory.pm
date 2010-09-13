@@ -204,24 +204,12 @@ sub _initModList {
 
         my $package = $module."::";
 
-        $self->{modules}->{$module}->{runAfter} =
-            $package->{runAfter};
+        $self->{modules}->{$module}->{runAfter} = [ 
+            $parent ? $parent : (),
+            ${$module . '::runAfter'} ? @${$module . '::runAfter'} : ()
+        ];
         $self->{modules}->{$module}->{runMeIfTheseChecksFailed} =
             $package->{runMeIfTheseChecksFailed};
-    }
-
-    # the sort is just for the presentation
-    foreach my $module (sort keys %{$self->{modules}}) {
-        next unless $self->{modules}->{$module}->{enabled};
-        # add submodule in the runAfter array
-        my $t;
-        foreach (split /::/,$module) {
-            $t .= "::" if $t;
-            $t .= $_;
-            if (exists $self->{modules}->{$t} && $module ne $t) {
-                push @{$self->{modules}->{$module}->{runAfter}}, $t
-            }
-        }
     }
 
     # Remove the runMeIfTheseChecksFailed if needed
