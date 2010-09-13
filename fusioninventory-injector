@@ -16,7 +16,6 @@ use LWP::UserAgent;
 use XML::Simple;
 use Compress::Zlib;
 use Getopt::Long;
-use constant VERSION => 3;
 use strict;
 my $help;
 my $directory;
@@ -26,7 +25,6 @@ my $useragent;
 my $remove;
 my $verbose;
 my $stdin;
-
 
 sub loadfile {
     $file = shift;
@@ -114,7 +112,6 @@ sub usage {
 	-d --directory	: load every .ocs files from a directory
 	-f --file\	: load a speficic file
 	-u --url	: ocsinventory backend URL, default is http://ocsinventory-ng/ocsinventory
-	--useragent	: HTTP user agent, default is OCS-NG_LOCAL_PL_v".VERSION."
 	-r --remove	: remove succesfuly injected files
 	-m --msg	: show message returned my ocsinventory
 	-v --verbose	: verbose mode
@@ -139,7 +136,7 @@ GetOptions(
 
 # Default values
 $url		= 'http://localhost/ocsinventory' unless $url;
-$useragent	= 'OCS-NG_INJECTOR_PL_v'.VERSION unless $useragent;
+$useragent	= 'FusionInventory-Injector' unless $useragent;
 ###
 
 $|=1;
