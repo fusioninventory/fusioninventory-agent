@@ -297,7 +297,6 @@ sub _feedInventory {
 
     my $begin = time();
     foreach my $module (sort keys %{$self->{modules}}) {
-        die ">$module Houston!!!" unless $module;
         $self->_runMod ({
             modname => $module,
         });
