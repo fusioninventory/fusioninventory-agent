@@ -105,15 +105,16 @@ sub doInventory {
         if ($name) {
             $name =~ s/^\s+//;
             $name =~ s/\s+$//;
-        }
 
-        $vmsystem = "QEMU"if $name =~ /QEMU/i;
+            $vmsystem = "QEMU"if $name =~ /QEMU/i;
 
-        if ($name =~ /([\d\.]+)s*(GHZ)/i) {
-            $speed = {
-               ghz => 1000,
-               mhz => 1,
-            }->{lc($2)}*$1;
+            if ($name =~ /([\d\.]+)s*(GHZ)/i) {
+                $speed = {
+                    ghz => 1000,
+                    mhz => 1,
+                }->{lc($2)}*$1;
+            }
+
         }
 
 
