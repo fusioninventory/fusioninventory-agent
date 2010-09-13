@@ -199,8 +199,6 @@ sub _initModList {
         $self->{modules}->{$module}->{name}    = $module;
         $self->{modules}->{$module}->{done}    = 0;
         $self->{modules}->{$module}->{inUse}   = 0;
-        $self->{modules}->{$module}->{storage} = $storage;
-
 
         # required to use a string as a HASH reference
         no strict 'refs'; ## no critic
@@ -211,8 +209,6 @@ sub _initModList {
             $package->{runAfter};
         $self->{modules}->{$module}->{runMeIfTheseChecksFailed} =
             $package->{runMeIfTheseChecksFailed};
-        $self->{modules}->{$module}->{doInventoryFunc} =
-            $package->{doInventory};
     }
 
     # the sort is just for the presentation
