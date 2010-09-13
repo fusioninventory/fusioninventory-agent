@@ -11,7 +11,6 @@ sub new {
     die "No DEVICEID" unless $params->{target}->{deviceid};
 
     my $self = {
-        accountinfo => $params->{accountinfo},
         logger      => $params->{logger},
         target      => $params->{target}
     };
@@ -68,8 +67,6 @@ server.
 The constructor. The following named parameters are allowed:
 
 =over
-
-=item accountinfo (mandatory)
 
 =item logger (mandatory)
 
