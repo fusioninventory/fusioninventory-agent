@@ -26,17 +26,17 @@ sub new {
 
 
     my $storage = $self->{storage};
-    $self->{myData} = $storage->restore();
+    my $data = $storage->restore();
 
-    if ($self->{myData}{nextRunDate}) {
+    if ($data->{nextRunDate}) {
         $logger->debug (
             "[$self->{path}] Next server contact planned for ".
-            localtime($self->{myData}{nextRunDate})
+            localtime($data->{nextRunDate})
         );
-        ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+        ${$self->{nextRunDate}} = $data->{nextRunDate};
     }
 
-    $self->{accountinfo} = $self->{myData}->{accountinfo};
+    $self->{accountinfo} = $data->{accountinfo};
 
     return $self;
 
