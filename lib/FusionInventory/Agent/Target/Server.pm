@@ -24,24 +24,6 @@ sub new {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-        logger => $logger,
-        config => $config,
-        target => $self,
-    });
-
-    my $accountinfo = $self->{accountinfo};
-
-    if ($config->{tag}) {
-        if ($accountinfo->get("TAG")) {
-            $logger->debug(
-                "A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server " .
-                "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
-            );
-        }
-        $accountinfo->set("TAG", $config->{tag});
-    }
 
     my $storage = $self->{storage};
     $self->{myData} = $storage->restore();
@@ -54,8 +36,22 @@ sub new {
         ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
     }
 
+    $self->{accountinfo} = $self->{myData}->{accountinfo};
+
     return $self;
 
+}
+
+sub getAccountInfo {
+    my ($self) = @_;
+
+    return $self->{accountinfo};
+}
+
+sub setAccountInfo {
+    my ($self, $accountinfo) = @_;
+
+    return $self->{accountinfo} = $accountinfo;
 }
 
 1;
