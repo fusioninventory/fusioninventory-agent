@@ -7,9 +7,10 @@ use English qw(-no_match_vars);
 
 sub isInventoryEnabled { 
     return unless can_run('zoneadm'); 
-    return unless check_solaris_valid_release();
+    return unless check_solaris_valid_release('/etc/release');
 }
 sub check_solaris_valid_release{
+    my ($releaseFile) = @_;
     #check if Solaris 10 release is higher than 08/07
     my @rlines;
     my $release_file;
@@ -17,8 +18,8 @@ sub check_solaris_valid_release{
     my $year;
 
     my $handle;
-    if (!open $handle, '<', '/etc/release') {
-        warn "Can't open /etc/release: $ERRNO";
+    if (!open $handle, '<', $releaseFile) {
+        warn "Can't open $releaseFile: $ERRNO";
         return;
     }
     @rlines = <$handle>;
@@ -26,11 +27,16 @@ sub check_solaris_valid_release{
 
     @rlines = grep(/Solaris/,@rlines);
     $release = $rlines[0];
-    $release =~ m/(\d)\/(\d+)/;
-    $release = $1;
-    $year = $2;
-    $release =~ s/^0*//g;
-    $year =~ s/^0*//g;
+    if ($release =~ m/Solaris 10 (\d)\/(\d+)/) {
+        $release = $1;
+        $year = $2;
+    } elsif ($release =~ /OpenSolaris 20(\d+)\.(\d+)\s/) {
+        $release = $1;
+        $year = $2;
+    } else {
+        return 0;
+    }
+
     if ($year <= 7 and $release < 8 ){
         return 0;
     }
