@@ -16,6 +16,10 @@ foreach (@ARGV) {
     }
 }
 
+if ($ENV{REALLIB}) {
+    @INC = split(/:/,$ENV{REALLIB});
+}
+
 eval {
     require FusionInventory::Agent;
 };

@@ -59,9 +59,12 @@ sub run {
 
     my $cmd;
     $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
-    $cmd .= "  -Ilib" if $config->{devlib};
-    $cmd .= " -MFusionInventory::Agent::Task::".$module;
-    $cmd .= " -e \"FusionInventory::Agent::Task::".$module."::main();\" --";
+    $cmd .= " -e \"";
+    $cmd .= "\@INC=qw(";
+    $cmd .= $_." " foreach (@INC);
+    $cmd .= "); ";
+    $cmd .= "eval 'use FusionInventory::Agent::Task::$module;'; ";
+    $cmd .= "FusionInventory::Agent::Task::".$module."::main();\" --";
     $cmd .= " \"".$target->{vardir}."\"";
 
     $logger->debug("cmd is: '$cmd'");
