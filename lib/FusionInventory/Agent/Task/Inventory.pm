@@ -315,8 +315,6 @@ sub _runWithTimeout {
         no strict 'refs'; ## no critic
 
         $ret = &{$module . '::' . $function}({
-            accountconfig => $self->{accountconfig},
-            accountinfo   => $self->{accountinfo},
             config        => $self->{config},
             inventory     => $self->{inventory},
             logger        => $self->{logger},
