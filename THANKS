@@ -39,7 +39,6 @@ Emengao: Patch
 Girish NAVUDA: Patches
 Nicolas CHARLES: Beta tester
 Benoit MACHIAVELLO: Beta tester
-Guillaume ROUSSE: Patch
 Aurelien Bondis: Patch
 Alex Mauer: PNP monitor IDs
 Amir PAKDEL: HP-UX maintainer
@@ -50,3 +49,5 @@ Jérome LEBAS: Solaris patches
 Lucas MASSE: Solaris Patches
 Denis Linvinus: Cyrillic Windows
 Benoit MORTIER: English wording
+Guillaume GARSON: debuging
+Eric FREYENS: debuging
