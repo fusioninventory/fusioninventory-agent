@@ -48,12 +48,17 @@ sub getContent {
     return $content;
 }
 
-sub addAccountInfo {
-    my ($self, $key, $value) = @_;
+sub setAccountInfo {
+    my ($self, $info) = @_;
 
-    push @{$self->{h}->{CONTENT}->{ACCOUNTINFO}}, {
-        KEYNAME  => $key,
-        KEYVALUE => $value
+    return unless defined $info;
+    die "invalid argument $info" unless ref $info eq 'HASHREF';
+
+    while (my ($key, $value) = each %$info) {
+        push @{$self->{h}->{CONTENT}->{ACCOUNTINFO}}, {
+            KEYNAME  => $key,
+            KEYVALUE => $value
+        }
     }
 }
 

@@ -256,7 +256,7 @@ sub main {
                 });
 
                 if ($config->{tag}) {
-                    $prolog->addAccountInfo('TAG', $config->{tag});
+                    $prolog->setAccountInfo({'TAG', $config->{tag}});
                 }
 
                 # TODO Don't mix settings and temp value
