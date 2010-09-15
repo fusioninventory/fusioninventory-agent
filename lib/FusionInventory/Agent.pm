@@ -60,7 +60,7 @@ sub new {
 
     if ($config->{help}) {
         $config->help();
-        exit 1;
+        exit 0;
     }
     if ($config->{version}) {
         print $VERSION_STRING . "\n";
