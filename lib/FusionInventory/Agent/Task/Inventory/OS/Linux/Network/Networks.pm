@@ -135,9 +135,9 @@ sub doInventory {
                     $bridge{$1} = 1 if /^(\w+)\s/;
                 }
                 if ($ifData{PCISLOT}) {
-                    $ifData{VIRTUALDEV} = "no";
+                    $ifData{VIRTUALDEV} = "0";
                 } elsif ($bridge{$ifData{DESCRIPTION}}) {
-                    $ifData{VIRTUALDEV} = "yes";
+                    $ifData{VIRTUALDEV} = "1";
                 }
             }
 
