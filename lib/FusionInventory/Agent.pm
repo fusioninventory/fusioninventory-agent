@@ -72,7 +72,7 @@ sub new {
     });
 
 
-    if ( $REAL_USER_ID != 0 ) {
+    if ($REAL_USER_ID != 0) {
         $logger->info("You should run this program as super-user.");
     }
 
@@ -151,7 +151,7 @@ sub new {
         background => $config->{daemon} || $config->{service}
     });
 
-    if ($config->{'stdout'}) {
+    if ($config->{stdout}) {
         $self->{scheduler}->addTarget(
             FusionInventory::Agent::Target::Stdout->new({
                 logger     => $logger,
@@ -162,7 +162,7 @@ sub new {
         );
     }
 
-    if ($config->{'local'}) {
+    if ($config->{local}) {
         $self->{scheduler}->addTarget(
             FusionInventory::Agent::Target::Local->new({
                 logger     => $logger,
@@ -174,8 +174,8 @@ sub new {
         );
     }
 
-    if ($config->{'server'}) {
-        foreach my $val (split(/,/, $config->{'server'})) {
+    if ($config->{server}) {
+        foreach my $val (split(/,/, $config->{server})) {
             my $url;
             if ($val !~ /^https?:\/\//) {
                 $logger->debug(
