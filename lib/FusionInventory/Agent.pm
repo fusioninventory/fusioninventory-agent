@@ -71,6 +71,13 @@ sub new {
         config => $config
     });
 
+    if (!$config->{server} && !$config->{local} && !$config->{stdout}) {
+        $logger->fault(
+            "No target defined. Use at least one of --server, --local or " .
+            "--stdout option"
+        );
+        exit 1;
+    }
 
     if ($REAL_USER_ID != 0) {
         $logger->info("You should run this program as super-user.");
@@ -195,14 +202,6 @@ sub new {
                 })
             );
         }
-    }
-
-    if (!$self->{scheduler}->getTargets()) {
-        $logger->fault(
-            "No target defined. Use at least one of --server, --local or " .
-            "--stdout option";
-        );
-        exit 1;
     }
 
     if ($config->{scanhomedirs}) {
