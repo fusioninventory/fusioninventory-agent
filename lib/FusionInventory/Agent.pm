@@ -86,24 +86,26 @@ sub new {
     if (! -d $config->{basevardir}) {
         make_path($config->{basevardir}, {error => \my $err});
         if (@$err) {
-            $logger->error(
-                "Failed to create $config->{basevardir} directory"
+            $logger->fault(
+                "Failed to create storage directory $config->{basevardir}."
             );
+            exit 1;
         }
     }
 
     if (! -w $config->{basevardir}) {
-        $logger->error(
-            "Non-writable $config->{basevardir} directory. Either fix it, or " .
-            "use --basevardir to point to a R/W directory."
-        );
+        $logger->fault("Non-writable storage directory $config->{basevardir}.");
+        exit 1;
     }
 
-    $logger->debug("base storage directory: $config->{basevardir}");
+    $logger->debug("Storage directory: $config->{basevardir}");
 
-    if (!-d $config->{'share-dir'}) {
-        $logger->error("share-dir doesn't existe $config->{'share-dir'}");
+    if (! -d $config->{'share-dir'}) {
+        $logger->fault("Non-existing data directory $config->{'share-dir'}.");
+        exit 1;
     }
+
+    $logger->debug("Data directory: $config->{'share-dir'}");
 
     #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
     my $hostname;
