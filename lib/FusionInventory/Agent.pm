@@ -326,7 +326,6 @@ sub main {
                 # update target
                 my $parsedContent = $prologresp->getParsedContent();
                 $target->setPrologFreq($parsedContent->{PROLOG_FREQ});
-                $target->setCurrentDeviceID ($self->{deviceid});
             }
 
             my $storage = FusionInventory::Agent::Storage->new({
