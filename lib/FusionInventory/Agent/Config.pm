@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Getopt::Long;
-use Cwd qw(abs_path);
+use Cwd qw(fast_abs_path abs_path);
 use English qw(-no_match_vars);
 
 my $basedir = '';
@@ -251,7 +251,10 @@ sub loadUserParams {
     $config->{'conf-file'} = abs_path($config->{'conf-file'}) if $config->{'conf-file'};
     $config->{'ca-cert-file'} = abs_path($config->{'ca-cert-file'}) if $config->{'ca-cert-file'};
     $config->{'ca-cert-dir'} = abs_path($config->{'ca-cert-dir'}) if $config->{'ca-cert-dir'};
-    $config->{'logfile'} = abs_path($config->{'logfile'}) if $config->{'logfile'};
+# On Windows abs_path fails if the file doesn't exist yet. Win32::GetFullPathName is ok.
+    if ($config->{'logfile'}) {
+        $config->{'logfile'} = ($^O eq 'MSWin32')?Win32::GetFullPathName($config->{'logfile'}):abs_path($config->{'logfile'});
+    }
 
 
     help($config) if $config->{help};

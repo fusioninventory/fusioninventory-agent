@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent
 
+2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
+       * Win32: Do not fail if the log file doesn't exist yet
+
 2.1.4    Wed, 15 Sep 2010 00:26:03 +0200
        * Save the realm if we found it by ourself. With this changes
          we avoid useless request with the wrong realm from sub module
