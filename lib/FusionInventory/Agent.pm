@@ -198,7 +198,7 @@ sub new {
         }
     }
 
-    if (!$self->{scheduler}->numberOfTargets()) {
+    if (!$self->{scheduler}->getTargets()) {
         $logger->fault(
             "No target defined. Please use --server or --local option."
         );
