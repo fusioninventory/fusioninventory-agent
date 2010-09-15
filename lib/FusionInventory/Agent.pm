@@ -282,7 +282,7 @@ sub main {
     eval {
         $self->{status} = 'waiting';
 
-        while (my $target = $scheduler->getNext()) {
+        while (my $target = $scheduler->getNextTarget()) {
 
             my $prologresp;
             my $transmitter;
