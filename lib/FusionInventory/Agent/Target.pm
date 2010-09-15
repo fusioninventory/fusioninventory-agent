@@ -2,8 +2,6 @@ package FusionInventory::Agent::Target;
 
 use strict;
 use warnings;
-use threads;
-use threads::shared;
 
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
@@ -16,12 +14,10 @@ sub new {
         logger          => $params->{logger},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
+        nextRunDate     => undef,
         debugPrintTimer => 0
     };
     bless $self, $class;
-
-    my $nextRunDate :shared;
-    $self->{nextRunDate} = \$nextRunDate;
 
     my $logger = $self->{logger};
 
@@ -75,7 +71,7 @@ sub setNextRunDate {
 
     $self->{myData}{nextRunDate} = $time;
     
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    $self->{nextRunDate} = $self->{myData}{nextRunDate};
 
     $logger->debug (
         "[$self->{path}] Next server contact'd just been planned for ".
@@ -90,18 +86,18 @@ sub getNextRunDate {
 
     my $logger = $self->{logger};
 
-    if (${$self->{nextRunDate}}) {
+    if ($self->{nextRunDate}) {
       
         if ($self->{debugPrintTimer} < time) {
             $self->{debugPrintTimer} = time + 600;
         }; 
 
-        return ${$self->{nextRunDate}};
+        return $self->{nextRunDate};
     }
 
     $self->setNextRunDate();
 
-    if (!${$self->{nextRunDate}}) {
+    if (!$self->{nextRunDate}) {
         die 'nextRunDate not set!';
     }
 
@@ -120,7 +116,7 @@ sub resetNextRunDate {
     $self->{myData}{nextRunDate} = 1;
     $storage->save({ data => $self->{myData} });
     
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    $self->{nextRunDate} = $self->{myData}{nextRunDate};
 }
 
 sub setPrologFreq {

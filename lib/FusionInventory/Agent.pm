@@ -236,8 +236,12 @@ sub new {
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
         } else {
+            # make sure relevant variables are shared between threads
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
+            foreach my $target ($self->{scheduler}->getTargets()) {
+                threads::shared::share($target->{nextRunUpdate});
+            }
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
                 scheduler => $self->{scheduler},
