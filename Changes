@@ -3,6 +3,8 @@ Revision history for FusionInventory::Agent
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
        * Win32: Correclty launch the sub Perl process, thanks Igor
+       * Fix: Some NETWORKS/VIRTUALDEV were set to yes instead of 1
+         http://forge.fusioninventory.org/issues/352
 
 2.1.4    Wed, 15 Sep 2010 00:26:03 +0200
        * Save the realm if we found it by ourself. With this changes
