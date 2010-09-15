@@ -115,21 +115,6 @@ sub _initModList {
     my $config = $self->{config};
     my $storage = $self->{storage};
 
-    my @modules;
-    # This is a workaround for PAR::Packer. Since it resets @INC
-    # I can't find the backend modules to load dynamically. So
-    # I prepare a list and include it.
-    FusionInventory::Agent::Task::Inventory::ModuleToLoad->require();
-    if (!$EVAL_ERROR) {
-        $logger->debug(
-            "use FusionInventory::Agent::Task::Inventory::ModuleToLoad to " . 
-            "get the modules to load. This should not append unless you use " .
-            "the standalone agent built with PAR::Packer (pp)"
-        );
-        @modules = 
-            @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
-    }
-
     # compute a list of directories to scan
     my @dirToScan;
     if ($config->{devlib}) {
@@ -164,7 +149,7 @@ sub _initModList {
         @dirToScan
     );
 
-    @modules = keys %modules;
+    my @modules = keys %modules;
     die "No inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
