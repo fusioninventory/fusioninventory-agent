@@ -200,7 +200,8 @@ sub new {
 
     if (!$self->{scheduler}->getTargets()) {
         $logger->fault(
-            "No target defined. Please use --server or --local option."
+            "No target defined. Use at least one of --server, --local or " .
+            "--stdout option";
         );
         exit 1;
     }
