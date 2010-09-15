@@ -145,11 +145,10 @@ sub new {
     $self->{deviceid} = $data->{deviceid};
 
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
-        logger  => $logger,
-        lazy    => $config->{lazy},
-        wait    => $config->{wait},
-        service => $config->{service},
-        daemon  => $config->{daemon},
+        logger     => $logger,
+        lazy       => $config->{lazy},
+        wait       => $config->{wait},
+        background => $config->{daemon} || $config->{service}
     });
 
     if ($config->{'stdout'}) {

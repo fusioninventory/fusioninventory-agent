@@ -7,12 +7,11 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger  => $params->{logger},
-        lazy    => $params->{lazy},
-        wait    => $params->{wait},
-        service => $params->{service},
-        daemon  => $params->{daemon},
-        targets => []
+        logger     => $params->{logger},
+        lazy       => $params->{lazy},
+        wait       => $params->{wait},
+        background => $params->{background},
+        targets    => []
     };
 
     bless $self, $class;
@@ -33,7 +32,7 @@ sub getNextTarget {
 
     return unless @{$self->{targets}};
 
-    if ($self->{daemon} || $self->{service}) {
+    if ($self->{background}) {
         # block until a target is eligible to run, then return it
         while (1) {
             foreach my $target (@{$self->{targets}}) {
@@ -118,8 +117,6 @@ The constructor. The following named parameters are allowed:
 
 =item wait
 
-=item service
-
-=item daemon
+=item background
 
 =back
