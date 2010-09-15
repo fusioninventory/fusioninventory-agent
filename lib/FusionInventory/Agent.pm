@@ -12,6 +12,9 @@ use XML::Simple;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Target::Local;
+use FusionInventory::Agent::Target::Stdout;
+use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -67,6 +70,7 @@ sub new {
     my $logger = $self->{logger} = FusionInventory::Logger->new({
         config => $config
     });
+
 
     if ( $REAL_USER_ID != 0 ) {
         $logger->info("You should run this program as super-user.");
@@ -141,14 +145,60 @@ sub new {
     $self->{deviceid} = $data->{deviceid};
 
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
-        logger => $logger,
-        config => $config,
-        deviceid => $self->{deviceid}
+        logger  => $logger,
+        lazy    => $config->{lazy},
+        wait    => $config->{wait},
+        service => $config->{service},
+        daemon  => $config->{daemon},
     });
 
-    my $scheduler = $self->{scheduler};
+    if ($config->{'stdout'}) {
+        $self->{scheduler}->addTarget(
+            FusionInventory::Agent::Target::Stdout->new({
+                logger     => $logger,
+                deviceid   => $deviceid,
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+            })
+        );
+    }
 
-    if (!$scheduler->numberOfTargets()) {
+    if ($config->{'local'}) {
+        $self->{scheduler}->addTarget(
+            FusionInventory::Agent::Target::Local->new({
+                logger     => $logger,
+                deviceid   => $deviceid,
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+                path       => $config->{local},
+            })
+        );
+    }
+
+    if ($config->{'server'}) {
+        foreach my $val (split(/,/, $config->{'server'})) {
+            my $url;
+            if ($val !~ /^https?:\/\//) {
+                $logger->debug(
+                    "no explicit protocol for url $url, assume http as default"
+                );
+                $url = "http://$val/ocsinventory";
+            } else {
+                $url = $val;
+            }
+            $self->{scheduler}->addTarget(
+                FusionInventory::Agent::Target::Server->new({
+                    logger     => $logger,
+                    deviceid   => $deviceid,
+                    delaytime  => $config->{delaytime},
+                    basevardir => $config->{basevardir},
+                    path       => $url,
+                })
+            );
+        }
+    }
+
+    if (!$self->{scheduler}->numberOfTargets()) {
         $logger->fault(
             "No target defined. Please use --server or --local option."
         );
@@ -190,7 +240,7 @@ sub new {
             threads::shared::share($self->{token});
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
-                scheduler => $scheduler,
+                scheduler => $self->{scheduler},
                 agent     => $self,
                 devlib    => $config->{devlib},
                 share_dir => $config->{'share-dir'},
