@@ -38,9 +38,6 @@ sub new {
 
     $logger->debug("storage directory: $self->{vardir}");
 
-    $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
-    $self->{last_statefile} = $self->{vardir} . "/last_state";
-
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
