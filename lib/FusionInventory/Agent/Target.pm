@@ -120,19 +120,14 @@ sub resetNextRunDate {
 }
 
 sub setPrologFreq {
-
     my ($self, $prologFreq) = @_;
 
     my $logger = $self->{logger};
-    my $storage = $self->{storage};
 
     return unless $prologFreq;
 
-    if ($self->{myData}{prologFreq} && ($self->{myData}{prologFreq}
-            eq $prologFreq)) {
-        return;
-    }
-    if (defined($self->{myData}{prologFreq})) {
+    if ($self->{prologFreq}) {
+        return if $self->{prologFreq} eq $prologFreq;
         $logger->info(
             "PROLOG_FREQ has changed since last process ". 
             "(old=$self->{myData}{prologFreq},new=$prologFreq)"
@@ -141,9 +136,13 @@ sub setPrologFreq {
         $logger->info("PROLOG_FREQ has been set: $prologFreq");
     }
 
-    $self->{myData}{prologFreq} = $prologFreq;
-    $storage->save({ data => $self->{myData} });
+    $self->{prologFreq} = $prologFreq;
 
+    $self->{storage}->save({ data => {
+        prologFreq => $self->{prologFreq},
+        accountInfo => $self->{accountInfo},
+        nextRunDate => $self->{nextRunDate}
+    }});
 }
 
 1;
