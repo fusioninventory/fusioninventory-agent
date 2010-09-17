@@ -84,11 +84,11 @@ sub getTargets {
     return @{$self->{targets}}
 }
 
-sub resetNextRunDate {
-    my ($self) = @_;
+sub scheduleTargets {
+    my ($self, $offset) = @_;
 
     foreach my $target (@{$self->{targets}}) {
-        $target->resetNextRunDate();
+        $target->scheduleNextRun($offset);
     }
 }
 
