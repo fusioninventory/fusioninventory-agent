@@ -319,7 +319,7 @@ sub main {
 
                 if (!$prologresp) {
                     $logger->error("No anwser from the server");
-                    $target->setNextRunDate();
+                    $target->scheduleNextRun();
                     next;
                 }
 
@@ -408,7 +408,7 @@ sub main {
                 # so I can replay the sub task directly
                 $storage->remove();
             }
-            $target->setNextRunDate();
+            $target->scheduleNextRun();
 
             sleep(5);
         }

@@ -139,7 +139,7 @@ sub handle {
 
             if ($clientIp =~ /^127\./ && $self->{rpc_trust_localhost}) {
                 # trusted request
-                $scheduler->resetNextRunDate();
+                $scheduler->scheduleTargets(0);
                 $code = 200;
                 $msg = "Done."
             } else {
@@ -148,7 +148,7 @@ sub handle {
                     my $token = $self->{agent}->resetToken();
                     if ($sentToken eq $token) {
                         $self->{agent}->resetToken();
-                        $scheduler->resetNextRunDate();
+                        $scheduler->scheduleTargets(0);
                         $code = 200;
                         $msg = "Done."
                     } else {
