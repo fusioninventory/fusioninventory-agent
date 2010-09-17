@@ -17,7 +17,6 @@ sub new {
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
         nextRunDate     => undef,
-        debugPrintTimer => 0
     };
     bless $self, $class;
 
@@ -45,62 +44,49 @@ sub new {
     });
     $self->_load();
 
+    $self->scheduleNextRun();
+
     return $self;
-}
-
-sub setNextRunDate {
-
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    my $serverdelay = $self->{myData}{prologFreq};
-
-    my $max;
-    if ($serverdelay) {
-        $max = $serverdelay * 3600;
-    } else {
-        $max = $self->{delaytime};
-        # If the PROLOG_FREQ has never been initialized, we force it at 1h
-        $self->setPrologFreq(1);
-    }
-    $max = 1 unless $max;
-
-    my $time = time + ($max/2) + int rand($max/2);
-
-    $self->{myData}{nextRunDate} = $time;
-    
-    $self->{nextRunDate} = $self->{myData}{nextRunDate};
-
-    $logger->debug (
-        "[$self->{path}] Next server contact'd just been planned for ".
-        localtime($self->{myData}{nextRunDate})
-    );
-
-    $storage->save({ data => $self->{myData} });
 }
 
 sub getNextRunDate {
     my ($self) = @_;
 
-    if ($self->{debugPrintTimer} < time) {
-        $self->{debugPrintTimer} = time + 600;
-    }; 
-
     return $self->{nextRunDate};
 }
 
-sub resetNextRunDate {
-    my ($self) = @_;
+sub setNextRunDate {
+    my ($self, $nextRunDate) = @_;
 
-    my $logger = $self->{logger};
-
-    $logger->debug("Force run now");
-    
-    $self->{nextRunDate} = 1;
+    $self->{nextRunDate} = $nextRunDate;
     $self->_save();
 }
+
+sub scheduleNextRun {
+    my ($self, $offset) = @_;
+
+    if (! defined $offset) {
+        my $max = $self->_getMaxOffset();
+        $offset = ($max / 2) + int rand($max / 2);
+    }
+    my $time = time() + $offset;
+    $self->setNextRunDate($time);
+
+    $self->{logger}->debug(defined $offset ?
+        "Next run scheduled for " . localtime($time + $offset) :
+        "Next run forced now"
+    );
+
+}
+
+sub _getMaxOffset {
+    my ($self) = @_;
+
+   return 
+        $self->{delayTime}  ? $self->{delayTime} : 
+                              1                  ;
+}
+
 
 sub _load {
     my ($self) = @_;
@@ -124,5 +110,6 @@ sub _save {
     $data->{nextRunDate} = $self->{nextRunDate};
     $self->{storage}->save({ data => $data });
 }
+
 
 1;

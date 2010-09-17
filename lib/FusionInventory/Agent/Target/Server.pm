@@ -24,6 +24,15 @@ sub new {
     return $self;
 }
 
+sub _getMaxOffset {
+    my ($self) = @_;
+
+    return 
+        $self->{prologFreq} ? $self->{prologFreq} * 3600 : 
+        $self->{delayTime}  ? $self->{delayTime}         : 
+                              1                          ;
+}
+
 sub getAccountInfo {
     my ($self) = @_;
 
