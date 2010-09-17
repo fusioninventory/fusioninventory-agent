@@ -109,14 +109,19 @@ sub resetNextRunDate {
     my ($self) = @_;
 
     my $logger = $self->{logger};
-    my $storage = $self->{storage};
 
     $logger->debug("Force run now");
     
-    $self->{myData}{nextRunDate} = 1;
-    $storage->save({ data => $self->{myData} });
-    
-    $self->{nextRunDate} = $self->{myData}{nextRunDate};
+    $self->{nextRunDate} = 1;
+    $self->_save();
+}
+
+sub _save {
+    my ($self) = @_;
+
+    $self->{storage}->save({ data => {
+        nextRunDate => $self->{nextRunDate}
+    });
 }
 
 1;
