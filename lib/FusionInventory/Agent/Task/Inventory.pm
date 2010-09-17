@@ -83,7 +83,9 @@ sub run {
             }
 
             # Add current ACCOUNTINFO values to the inventory
-            $self->{inventory}->setAccountInfo($task->getAccountInfo());
+            $self->{inventory}->setAccountInfo(
+                $self->{target}->getAccountInfo()
+            );
 
             my $response = $self->{transmitter}->send(
                 {message => $self->{inventory}}
@@ -99,7 +101,7 @@ sub run {
                 $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
             ) {
                 # Update current ACCOUNTINFO values
-                $task->setAccountInfo($parsedContent->{ACCOUNTINFO});
+                $self->{target}->setAccountInfo($parsedContent->{ACCOUNTINFO});
             }
 
             last SWITCH;
