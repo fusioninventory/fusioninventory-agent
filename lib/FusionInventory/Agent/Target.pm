@@ -81,25 +81,11 @@ sub setNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $logger = $self->{logger};
+    if ($self->{debugPrintTimer} < time) {
+        $self->{debugPrintTimer} = time + 600;
+    }; 
 
-    if ($self->{nextRunDate}) {
-      
-        if ($self->{debugPrintTimer} < time) {
-            $self->{debugPrintTimer} = time + 600;
-        }; 
-
-        return $self->{nextRunDate};
-    }
-
-    $self->setNextRunDate();
-
-    if (!$self->{nextRunDate}) {
-        die 'nextRunDate not set!';
-    }
-
-    return $self->{myData}{nextRunDate} ;
-
+    return $self->{nextRunDate};
 }
 
 sub resetNextRunDate {
