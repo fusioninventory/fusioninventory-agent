@@ -52,6 +52,7 @@ sub setAccountInfo {
     my ($self, $accountinfo) = @_;
 
     return $self->{accountinfo} = $accountinfo;
+    $self->_save();
 }
 
 sub setPrologFreq {
@@ -72,6 +73,12 @@ sub setPrologFreq {
     }
 
     $self->{prologFreq} = $prologFreq;
+
+    $self->_save();
+}
+
+sub _save {
+    my ($self, $prologFreq) = @_;
 
     $self->{storage}->save({ data => {
         prologFreq => $self->{prologFreq},
