@@ -51,7 +51,7 @@ sub getAccountInfo {
 sub setAccountInfo {
     my ($self, $accountinfo) = @_;
 
-    return $self->{accountinfo} = $accountinfo;
+    $self->{accountinfo} = $accountinfo;
     $self->_save();
 }
 
