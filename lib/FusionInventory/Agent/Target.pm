@@ -6,6 +6,8 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 
+use FusionInventory::Agent::Storage;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -41,6 +43,7 @@ sub new {
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
+    $self->_load();
 
     return $self;
 }
@@ -99,12 +102,27 @@ sub resetNextRunDate {
     $self->_save();
 }
 
-sub _save {
+sub _load {
     my ($self) = @_;
 
-    $self->{storage}->save({ data => {
-        nextRunDate => $self->{nextRunDate}
-    });
+    my $data = $self->{storage}->restore();
+    $self->{nextRunDate} = $data->{nextRunDate};
+
+    if ($self->{nextRunDate}) {
+        $self->{logger}->debug (
+            "[$self->{path}] Next server contact planned for ".
+            localtime($data->{nextRunDate})
+        );
+    }
+
+    return $data;
+}
+
+sub _save {
+    my ($self, $data) = @_;
+
+    $data->{nextRunDate} = $self->{nextRunDate};
+    $self->{storage}->save({ data => $data });
 }
 
 1;

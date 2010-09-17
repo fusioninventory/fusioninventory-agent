@@ -21,25 +21,7 @@ sub new {
         }
     );
 
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-
-
-    my $storage = $self->{storage};
-    my $data = $storage->restore();
-
-    if ($data->{nextRunDate}) {
-        $logger->debug (
-            "[$self->{path}] Next server contact planned for ".
-            localtime($data->{nextRunDate})
-        );
-        ${$self->{nextRunDate}} = $data->{nextRunDate};
-    }
-
-    $self->{accountinfo} = $data->{accountinfo};
-
     return $self;
-
 }
 
 sub getAccountInfo {
@@ -77,14 +59,20 @@ sub setPrologFreq {
     $self->_save();
 }
 
-sub _save {
-    my ($self, $prologFreq) = @_;
+sub _load {
+    my ($self) = @_;
 
-    $self->{storage}->save({ data => {
-        prologFreq => $self->{prologFreq},
-        accountInfo => $self->{accountInfo},
-        nextRunDate => $self->{nextRunDate}
-    }});
+    my $data = $self->SUPER::_load();
+    $self->{accountInfo} = $data->{accountInfo};
+    $self->{prologFreq}  = $data->{prologFreq};
+}
+
+sub _save {
+    my ($self, $data) = @_;
+
+    $data->{prologFreq}  = $self->{prologFreq};
+    $data->{accountInfo} = $self->{accountInfo};
+    $self->SUPER::_save($data);
 }
 
 1;
