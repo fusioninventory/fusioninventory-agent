@@ -64,6 +64,7 @@ my $default = {
     'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
     'no-ssl-check'            => 0,
     'scan-homedirs'           => 0,
+    'rpc-ip'                  => '127.0.0.1',
     # Other values that can't be changed with the
     # CLI parameters
     'basevardir'              => $basevardir,
@@ -319,7 +320,7 @@ Extra options:
     --lazy                      do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
     --logfile-maxsize=X         maximum size of the log file in MB ($config->{'logfile-maxsize'})
     --logger                    Logger you want to use, can be Stderr,File or Syslog ($config->{logger})
-    --rpc-ip=IP                 ip of the interface to use for peer to peer exchange
+    --rpc-ip=IP                 ip of the interface to use for peer to peer exchange ($config->{'rpc-ip'})
     --rpc-trust-localhost       allow local users to force an inventory from http://127.0.0.1:62354/now  ($config->{'rpc-trust-localhost'})
     --scan-homedirs             permit to scan home user directories ($config->{'scan-homedirs'})
     --share-dir=DIR             path to the directory where the shared files are stored ($config->{'share-dir'})

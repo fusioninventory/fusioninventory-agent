@@ -1,5 +1,9 @@
 Revision history for FusionInventory::Agent
 
+2.1.6
+       * Ensure the RPC serivce URL printed in the log message targets
+         http://127.0.0.1::62354 with the default settings
+
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
        * Win32: Correclty launch the sub Perl process, thanks Igor
