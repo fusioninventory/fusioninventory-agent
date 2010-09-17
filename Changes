@@ -5,6 +5,7 @@ Revision history for FusionInventory::Agent
          http://127.0.0.1::62354 with the default settings
        * Restore the Storage even if the target is not a server.
          Enable --tag and keep the DeviceID
+       * fix 2.1.5 regression, correctly initialise $basevardir default value
 
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
