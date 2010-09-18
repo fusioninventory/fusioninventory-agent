@@ -22,6 +22,8 @@ Revision history for FusionInventory::Agent
        * Change RPM inventory to not add architecture to package name, as for
          the Deb inventory
        * Add fusioninventory-injector
+       * Split Tools::getIpDhcp() in findDhcpLeaseFile() and parseDhcpLeaseFile()
+         and add a test-suite
 
 2.1.6
        * Ensure the RPC serivce URL printed in the log message targets

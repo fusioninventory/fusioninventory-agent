@@ -2900,6 +2900,20 @@ my @manufacturer_tests_nok = (
     undef
 );
 
+my @dhcp_leases_test = (
+    {
+        file => 'dhclient-wlan0-1.lease',
+        result => '192.168.0.254',
+        if => 'wlan0'
+    },
+    {
+        file => 'dhclient-wlan0-2.lease',
+        result => '192.168.10.1',
+        if => 'wlan0'
+    },
+);
+
+
 plan tests =>
     (scalar keys %lspci_tests) +
     (scalar keys %dmidecode_tests) +
@@ -2908,7 +2922,8 @@ plan tests =>
     (scalar @speed_tests_ok) +
     (scalar @speed_tests_nok) +
     (scalar @manufacturer_tests_ok) +
-    (scalar @manufacturer_tests_nok);
+    (scalar @manufacturer_tests_nok) +
+    (scalar @dhcp_leases_test);
 
 my $logger = FusionInventory::Logger->new();
 
@@ -2968,6 +2983,14 @@ foreach my $test (@manufacturer_tests_nok) {
     ok(
         !defined getCanonicalManufacturer($test),
         "invalid value manufacturer normalisation"
+    );
+}
+
+foreach my $test (@dhcp_leases_test) {
+    my $server = FusionInventory::Agent::Tools::parseDhcpLeaseFile(undef, $test->{if}, "resources/dhcp/".$test->{file});
+    ok(
+        $server && ($server eq $test->{result}),
+        "Parse DHCP lease"
     );
 }
 
