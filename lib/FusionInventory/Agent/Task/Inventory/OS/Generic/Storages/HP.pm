@@ -5,7 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Tools;
+
 # Tested on 2.6.* kernels
 #
 # Cards tested :
@@ -14,7 +15,7 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 #
 # HP Array Configuration Utility CLI 7.85-18.0
 
-sub getHpacuacliFromWinRegistry {
+sub _getHpacuacliFromWinRegistry {
     my ($logger) = @_;
 
     my $Registry;
@@ -30,10 +31,11 @@ sub getHpacuacliFromWinRegistry {
 
     my $machKey;
     {
-        no strict;
-        my $machKey = $Registry->Open('LMachine', {
-                Access=> Win32::TieRegistry::KEY_READ
-            } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        # Win32-specifics constants can not be loaded on non-Windows OS
+        no strict 'subs'; ## no critics
+        $machKey = $Registry->Open('LMachine', {
+            Access => Win32::TieRegistry::KEY_READ
+        } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
     }
 
     my $uninstallValues =
@@ -51,33 +53,22 @@ sub getHpacuacliFromWinRegistry {
 }
 
 sub isInventoryEnabled {
-
-    my $ret;
-
-    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry();
-# Do we have hpacucli ?
-    if ($hpacuacliPath) {
-        foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
-            if (/.*Slot\s(\d*).*/) {
-                $ret = 1;
-                last;
-            }
-        }
-    }
-    return $ret;
-
+    return
+        can_run("hpacucli") ||
+        _getHpacuacliFromWinRegistry();
 }
 
 sub doInventory {
-
-
     my $params = shift;
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
     my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
 
-    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry($logger);
+    my $hpacuacliPath = can_run("hpacucli") ?
+        "hpacucli":
+        _getHpacuacliFromWinRegistry($logger);
+
     foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
 
 # Example output :
@@ -133,14 +124,14 @@ sub doInventory {
                     $serialnumber =~ s/^\s+//;
                     $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
                     $model =~ s/\s+/ /;
-                    $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
+                    $manufacturer = getCanonicalManufacturer($model);
                     if ($media eq 'Data Drive') {
                         $media = 'disk';
                     }
 
                     $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
 
-                    $inventory->addStorages({
+                    $inventory->addStorage({
                             NAME => $model,
                             MANUFACTURER => $manufacturer,
                             MODEL => $model,

@@ -1,17 +1,18 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::i386;
-# for i386 in case dmidecode is not available
 
 use strict;
 use warnings;
 
+use Config;
+
+# Only run this module if dmidecode has not been found
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
+
 sub isInventoryEnabled{
-    my $arch;
-    chomp($arch=`sysctl -n hw.machine`);
-    return if (($arch ne "i386") && ($arch ne "amd64"));
-    # dmidecode must not be present
-    `dmidecode 2>&1`;
-    return if ($? >> 8)==0;
-    1;
+    return 
+        $Config{'archname'} eq 'i386' || 
+        $Config{'archname'} eq 'x86_64';
 }
 
 sub doInventory {

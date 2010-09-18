@@ -3,153 +3,27 @@ package FusionInventory::Agent::Storage;
 use strict;
 use warnings;
 
-use Config;
+use threads;
+use threads::shared;
+
+use English qw(-no_match_vars);
 use File::Glob ':glob';
 use Storable;
 
 my $lock :shared;
 
-use English qw(-no_match_vars);
-
-=head1 NAME
-
-FusionInventory::Agent::Storage - the light data storage API. Data will be
-stored in a subdirectory in the 'vardir' directory. This subdirectory depends
-on the caller module name.
-
-=head1 SYNOPSIS
-
-  my $storage = FusionInventory::Agent::Storage->new({
-      target => {
-          vardir => $ARGV[0],
-      }
-  });
-  my $data = $storage->restore({
-          module => "FusionInventory::Agent"
-      });
-
-  $data->{foo} = 'bar';
-
-  $storage->save({ data => $data });
-
-=head1 DESCRIPTION
-
-This module is a wrapper for restore and save.
-it called $inventory in general.
-
-=over 4
-
-=item new({ config => $config, target => $target })
-
-Create the object
-
-=cut
 sub new {
-    my ( $class, $params ) = @_;
+    my ($class, $params) = @_;
 
-    my $self = {};
-
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-
-    my $config = $self->{config} = $params->{config};
-    my $target = $self->{target} = $params->{target};
-    $self->{logger} = $params->{logger};
-
-    $self->{vardir} = $target->{vardir};
-
+    my $self = {
+        config => $params->{config},
+        target => $params->{target}
+    };
     bless $self, $class;
+
+    return $self;
 }
 
-sub getFileName {
-    my ($self, $params ) = @_;
-
-    my $module = $params->{module};
-
-
-    my $callerModule;
-    my $i = 0;
-    while ($callerModule = caller($i++)) {
-        last if $callerModule ne 'FusionInventory::Agent::Storage';
-    }
-
-    my $fileName = $module || $callerModule;
-    $fileName =~ s/::/-/g; # Drop the ::
-    # They are forbiden on Windows in file path
-
-
-    return $fileName;
-}
-
-# Internal function, no POD doc
-sub getFilePath {
-    my ($self, $params ) = @_;
-
-    my $target = $self->{target};
-    my $config = $self->{config};
-
-    my $idx = $params->{idx};
-    my $module = $params->{module};
-
-    my $fileName = $self->getFileName({
-        module => $module
-    });
-
-
-    my $dirName = $self->getFileDir();
-
-    my $extension = '';
-    if ($idx) {
-        if ($idx !~ /^\d+$/) {
-            $self->{logger}->fault("[fault] idx must be an integer!\n");
-        } 
-        $extension = '.'.$idx;
-    }
-
-
-    return $dirName."/".$fileName.$extension.".dump";
-
-}
-
-
-sub getFileDir {
-    my ($self, $params ) = @_;
-
-    my $target = $self->{target};
-    my $config = $self->{config};
-
-    my $module = $params->{module};
-    my $idx = $params->{idx};
-
-    my $dirName;
-    if ($target) {
-        $dirName = $target->{'vardir'};
-    } elsif ($config) {
-        $dirName = $config->{'basevardir'};
-    } else {
-        $self->{logger}->fault('no target nor config');
-    }
-
-    return $dirName;
-
-}
-
-
-
-=item save({ data => $date, idx => $ref })
-
-Save the reference.
-$idx is an integer. You can use it if you want to save more than one file for the
-module. This number will be added at the of the file.
-
-=cut
 sub save {
     my ($self, $params) = @_;
 
@@ -158,7 +32,7 @@ sub save {
 
     lock($lock);
 
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
     my $oldMask;
@@ -177,24 +51,13 @@ sub save {
 
 }
 
-=item restore({ module => $module, idx => $idx})
-
-Returns a reference to the stored data. If $idx is defined, it will open this
-substorage.
-
-=cut
 sub restore {
     my ($self, $params ) = @_;
 
-    if ($params && ref($params) ne 'HASH') {
-        my ($package, $filename, $line) = caller;
-        print "[error]$package use a deprecated API for Storage. Please\n";
-        print "[error]Please upgrade it or remove $filename\n";
-    }
     my $module = $params->{module};
     my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({
+    my $filePath = $self->_getFilePath({
         module => $module,
         idx => $idx
     });
@@ -207,18 +70,12 @@ sub restore {
     return {};
 }
 
-=item remove({ module => $module, idx => $idx })
-
-Returns the files stored on the filesystem for the module $module or for the caller module.
-If $idx is defined, only the submodule $idx will be removed.
-
-=cut
 sub remove {
     my ($self, $params) = @_;
 
     my $idx = $params->{idx};
     
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
@@ -226,17 +83,12 @@ sub remove {
     }
 }
 
-=item removeAll({ module => $module, idx => $idx })
-
-Deletes the files stored on the filesystem for the module $module or for the caller module.
-
-=cut
 sub removeAll {
     my ($self, $params) = @_;
     
     my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
@@ -244,23 +96,190 @@ sub removeAll {
     }
 }
 
-=item removeSubDumps({ module => $module })
-
-Deletes the sub files stored on the filesystem for the module $module or for the caller module.
-
-=cut
 sub removeSubDumps {
     my ($self, $params) = @_;
    
     my $module = $params->{module};
 
-    my $fileDir = $self->getFileDir();
-    my $fileName = $self->getFileName({ module => $module });
+    my $fileDir = $self->_getFileDir();
+    my $fileName = $self->_getFileName({ module => $module });
 
     foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
         unlink($file) or warn "[error] Can't unlink $file\n";
     }
 }
 
+sub _getFilePath {
+    my ($self, $params) = @_;
+
+    my $target = $self->{target};
+    my $config = $self->{config};
+
+    my $idx = $params->{idx};
+    if ($idx && $idx !~ /^\d+$/) {
+        die "[fault] idx must be an integer!\n";
+    } 
+    my $module = $params->{module};
+
+    my $path = 
+        $self->_getFileDir() . 
+        '/' . 
+        $self->_getFileName({ module => $module }) .
+        ($idx ? ".$idx" : "" ) .
+        '.dump';
+
+    return $path;
+}
+
+sub _getFileName {
+    my ($self, $params) = @_;
+
+    my $name;
+
+    if ($params->{module}) {
+        $name = $params->{module};
+    } else {
+        my $module;
+        my $i = 0;
+        while ($module = caller($i++)) {
+            last if $module ne 'FusionInventory::Agent::Storage';
+        }
+        $name = $module;
+    }
+
+    # Drop colons, they are forbiden in Windows file path
+    $name =~ s/::/-/g;
+
+    return $name;
+}
+
+sub _getFileDir {
+    my ($self, $params) = @_;
+
+    my $dir = 
+        $self->{target} ? $self->{target}->{vardir}     : 
+        $self->{config} ? $self->{config}->{basevardir} : 
+                          undef;
+
+    return $dir;
+}
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Storage - A data serializer/deserializer
+
+=head1 Description
+
+This is the object used by the agent to save data in the variable data
+directory, to ensure persistancy between invocations.
+
+Each data structure is saved in a different subdirectory, based on invocant
+module name. An optional index number can be used to differentiate between
+consecutives usages.
+
+=head1 SYNOPSIS
+
+  my $storage = FusionInventory::Agent::Storage->new({
+      target => {
+          vardir => $ARGV[0],
+      }
+  });
+  my $data = $storage->restore({
+          module => "FusionInventory::Agent"
+      });
+
+  $data->{foo} = 'bar';
+
+  $storage->save({ data => $data });
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item config (mandatory)
+
+=item target (mandatory)
+
+=back
+
+=head2 save
+
+Save given data structure. The following arguments are allowed:
+
+=over
+
+=item data
+
+The data structure to save (mandatory).
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 restore
+
+Restore a saved data structure. The following arguments are allowed:
+
+=over
+
+=item module
+
+The name of the module which saved the data structure (mandatory).
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 remove
+
+Delete the file containing a seralized data structure for a given module. The
+following arguments are allowed:
+
+=over
+
+=item module
+
+The name of the module which saved the data structure (mandatory).
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 removeAll
+
+Delete the files containing seralized data structure for all modules. The
+following arguments are allowed:
+
+=over
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 removeSubDumps
+
+Delete all files containing seralized data structure for a given module. The
+following arguments are allowed:
+
+=over
+
+=item module
+
+The name of the module which saved the data structure (mandatory).
+
+=back

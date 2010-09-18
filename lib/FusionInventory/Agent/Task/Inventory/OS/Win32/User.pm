@@ -15,7 +15,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
     return 1;
@@ -26,7 +26,8 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or $logger->fault("WMI connection failed.\n");
+    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+        or die "WMI connection failed";
     my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_Process", "WQL",
             wbemFlagReturnImmediately | wbemFlagForwardOnly);
 
@@ -49,7 +50,7 @@ sub doInventory {
 
     my $machKey = $Registry->Open('LMachine', {
         Access => KEY_READ
-    }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     foreach (
         "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",

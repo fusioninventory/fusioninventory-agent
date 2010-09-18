@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Modems;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run("lsdev");
 }
@@ -15,7 +17,7 @@ sub doInventory {
         if(/modem/i && /\d+\s(.+):(.+)$/){
             my $name = $1;
             my $description = $2;
-            $inventory->addModems({
+            $inventory->addModem({
                 'DESCRIPTION'  => $description,
                 'NAME'          => $name,
             });

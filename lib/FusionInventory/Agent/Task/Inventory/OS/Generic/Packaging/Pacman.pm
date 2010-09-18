@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Pacman;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run("pacman");
 }
@@ -17,8 +19,8 @@ sub doInventory {
         my $version = $2;
 
         $inventory->addSoftware({
-            'NAME' => $name,
-            'VERSION' => $version
+            NAME    => $name,
+            VERSION => $version
         });
     }
 }

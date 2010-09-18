@@ -5,41 +5,38 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { can_read("/proc/cpuinfo") }
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
+
+sub isInventoryEnabled { 
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $handle;
-    if (!open $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-        return;
-    }
+    my $cpus = getCPUsFromProc($params->{logger});
 
-    my @cpu;
-    my $current;
+    return unless $cpus;
 
-    while (<$handle>) {
-        print;
-        if (/^cpu\s*:/) {
-            if ($current) {
-                $inventory->addCPU($current);
-            }
+    foreach my $cpu (@$cpus) {
 
-            $current = {
-                ARCH => 'Alpha',
-            };
-        } else {
-            $current->{SERIAL} = $1 if /^cpu serial number\s+:\s+(\S.*)/;
-            $current->{SPEED} = $1 if /cycle frequency \[Hz\]\s+:\s+(\d+)000000/;
-            $current->{TYPE} = $1 if /platform string\s+:\s+(\S.*)/;
+        my $speed;
+        if (
+            $cpu->{'cycle frequency [Hz]'} &&
+            $cpu->{'cycle frequency [Hz]'} =~ /(\d+)000000/
+        ) {
+            $speed = $1;
         }
+ 
+        $inventory->addCPU({
+            ARCH   => 'Alpha',
+            TYPE   => $cpu->{Processor},
+            SERIAL => $cpu->{'cpu serial number'},
+            SPEED  => $speed
+        });
     }
-    close $handle;
-
-    # The last one
-    $inventory->addCPU($current);
 }
 
 1;

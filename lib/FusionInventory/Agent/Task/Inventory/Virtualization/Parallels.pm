@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Parallels;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run('prlctl');
 }

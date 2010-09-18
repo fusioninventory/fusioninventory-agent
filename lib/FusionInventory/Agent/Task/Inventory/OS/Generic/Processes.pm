@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run("ps");
 }
@@ -29,8 +31,9 @@ sub doInventory {
         'Nov' => '11',
         'Dec' => '12',
     );
-    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-    my $the_year=$year+1900;
+    my ($sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst) =
+        localtime(time);
+    $year = $year + 1900;
 
     my $command = $OSNAME eq 'solaris' ?
         'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
@@ -42,42 +45,49 @@ sub doInventory {
     }
 
     while ($line = <$handle>) {
-        next if ($. ==1);
-        if ($line =~
-            /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(.*?)\s*$/){
-            my $user = $1;
-            my $pid= $2;
-            my $cpu= $3;
-            my $mem= $4;
-            my $vsz= $5;
-            my $tty= $7;
-            my $started= $9;
-            my $time= $10;
-            my $cmd= $11;
+        next if $INPUT_LINE_NUMBER == 1;
+        next unless $line =~
+            /^
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (\S+) \s+
+            (.+)
+            $/x;
+        my $user = $1;
+        my $pid = $2;
+        my $cpu = $3;
+        my $mem = $4;
+        my $vsz = $5;
+        my $tty = $7;
+        my $started = $9;
+        my $time = $10;
+        my $cmd = $11;
 
-            if ($started =~ /^(\w+)_(\d{1,2})/) { # Solaris
-                $begin=$the_year."-".$month{$1}."-".$2." ".$time;
-            } elsif ($started =~ /^([A-z]{3})(\d{1,2})$/)  {
-                $begin=$the_year."-".$month{$1}."-".$2." ".$time;
-            }  elsif ($started =~ /^(\d{2}):(\d{2})$/) {
-                $begin=$the_year."-".$mon."-".$mday." ".$started;
-            } elsif (my @stat = stat('/proc/'.$pid)) {
-                my (undef,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($stat[10]);
-                my $the_year=$year+1900;
-                $begin=$the_year."-".$mon."-".$mday." ".$hour.':'.$min;
-            }
-
-            $inventory->addProcess({
-                    'USER' => $user,
-                    'PID' => $pid,
-                    'CPUUSAGE' => $cpu,
-                    'MEM' => $mem,
-                    'VIRTUALMEMORY' => $vsz,
-                    'TTY' => $tty,
-                    'STARTED' => $begin,
-                    'CMD' => $cmd
-                });
+        if ($started =~ /(\w{3})(\d{2})/) {
+            my $start_month = $1;
+            my $start_day = $2;
+            $begin = "$year-$month{$start_month}-$start_day $time"; 
+        }  else {
+            $begin = "$year-$mon-$day $started";
         }
+
+        $inventory->addProcess({
+            USER          => $user,
+            PID           => $pid,
+            CPUUSAGE      => $cpu,
+            MEM           => $mem,
+            VIRTUALMEMORY => $vsz,
+            TTY           => $tty,
+            STARTED       => $begin,
+            CMD           => $cmd
+        });
     }
     close $handle; 
 }

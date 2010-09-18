@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::WakeOnLan;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::Base';
+use base 'FusionInventory::Agent::Task';
 
 use constant ETH_P_ALL => 0x0003;
 use constant PF_PACKET => 17;
@@ -11,62 +11,42 @@ use constant SOCK_PACKET => 10;
 use English qw(-no_match_vars);
 use Socket;
 
-use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Network;
-use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Agent::XML::Response::Prolog;
-use FusionInventory::Logger;
+use FusionInventory::Agent::Regexp;
 
-sub main {
-    my $self = FusionInventory::Agent::Task::WakeOnLan->new();
+sub run {
+    my ($self) = @_;
 
-    my $continue = 0;
-    foreach my $num (@{$self->{prologresp}->{parsedcontent}->{OPTION}}) {
-        if (defined($num)) {
-            if ($num->{NAME} eq "WAKEONLAN") {
-                $continue = 1;
-                $self->{WAKEONLAN} = $num;
-            }
-        }
-    }
-    if ($continue == 0) {
-        $self->{logger}->debug("No WAKEONLAN. Exiting...");
-        exit(0);
-    }
-
-    if ($self->{target}->{type} ne 'server') {
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $self->{logger}->debug("No server. Exiting...");
-        exit(0);
+        return;
     }
 
-    $self->{network} = FusionInventory::Agent::Network->new({
-        logger => $self->{logger},
-        config => $self->{config},
-        target => $self->{target},
-    });
+    my $options = $self->{prologresp}->getOptionsInfoByName('WAKEONLAN');
+    if (!$options) {
+        $self->{logger}->debug(
+            "No wake on lan requested in the prolog, exiting"
+        );
+        return;
+    }
 
-    $self->StartMachine();
+    $self->{macaddress} = $options->{MAC};
+    $self->{ip}         = $options->{IP};
 
-    exit(0);
+    $self->_startMachine();
 }
 
 
-sub StartMachine {
+sub _startMachine {
     my ($self, $params) = @_;
 
-    my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
-    my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
-
-    my $logger = $self->{logger};
+    my $macaddress = $self->{macaddress};
+    my $ip         = $self->{ip};
+    my $logger     = $self->{logger};
 
     return unless defined $macaddress;
 
-    my $byte = '[0-9A-F]{2}';
-    if ($macaddress !~ /^$byte:$byte:$byte:$byte:$byte:$byte$/i) {
-        $self->{logger}->debug("Invalid MacAddress $macaddress . Exiting...");
-        exit(0);
+    if ($macaddress !~ /^$mac_address_pattern$/) {
+        die "Invalid MacAddress $macaddress . Exiting...";
     }
     $macaddress =~ s/://g;
 
@@ -118,3 +98,14 @@ sub StartMachine {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::WakeOnLan - The wake-on-lan task for
+FusionInventory 
+
+=head1 DESCRIPTION
+
+This task send a wake-on-lan packet to another host on the same network as the
+agent host.

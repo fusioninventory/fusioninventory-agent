@@ -5,11 +5,13 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::USB;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run("lsusb");
 }
 
-sub addDevice {
+sub _addDevice {
     my ($inventory, $device) = @_;
 
     my $class = $device->{class};
@@ -52,7 +54,7 @@ sub doInventory {
             $in = 1;
         } elsif (/^\s*$/) {
             $in =0;
-            addDevice($inventory, $device);
+            _addDevice($inventory, $device);
             $device = {};
         } elsif ($in) {
             if (/^\s*idVendor\s*0x(\w+)/i) {
@@ -72,7 +74,7 @@ sub doInventory {
             }
         }
     }
-    addDevice($device);
+    _addDevice($device);
 }
 
 1;

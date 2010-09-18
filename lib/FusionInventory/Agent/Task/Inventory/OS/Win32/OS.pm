@@ -3,9 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::OS;
 use strict;
 use warnings;
 
-use constant wbemFlagReturnImmediately => 0x10;
-use constant wbemFlagForwardOnly => 0x20;
-
 use Encode qw(encode);
 use English qw(-no_match_vars);
 use Win32::OLE::Variant;
@@ -15,30 +12,26 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
-
-sub KEY_WOW64_64KEY () { 0x0100}
-sub KEY_WOW64_32KEY () { 0x0200}
+use FusionInventory::Agent::Tools::Win32;
 
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson
 
 
 sub getXPkey {
-    my ($logger) = @_;
-
     my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
-    or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
+	or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
     my $key     =
-    $machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+	$machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
 
     if (!$key) { # 64bit OS?
         $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64KEY() } )
-            or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
+            or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
         $key     =
-        $machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+            $machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
     }
     return unless $key;
+
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
 
     # Get indices
@@ -96,7 +89,7 @@ sub doInventory {
         CSDVersion TotalSwapSpaceSize
         /)) {
 
-        my $key = getXPkey($logger); 
+        my $key = getXPkey(); 
 
         $inventory->setHardware({
             WINLANG => $Properties->{OSLanguage},

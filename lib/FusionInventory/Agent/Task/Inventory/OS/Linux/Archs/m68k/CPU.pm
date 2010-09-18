@@ -5,40 +5,28 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { can_read("/proc/cpuinfo") }
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
+
+sub isInventoryEnabled { 
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $handle;
-    if (!open $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-        return;
+    my $cpus = getCPUsFromProc($params->{logger});
+
+    return unless $cpus;
+
+    foreach my $cpu (@$cpus) {
+        $inventory->addCPU({
+            ARCH  => 'm68k',
+            TYPE  => $cpu->{'CPU'},
+            SPEED => $cpu->{'Clocking'}
+        });
     }
-
-    my @cpu;
-    my $current;
-
-    while (<$handle>) {
-        print;
-        if (/^CPU\s+:\s*:/) {
-            if ($current) {
-                $inventory->addCPU($current);
-            }
-
-            $current = {
-                ARCH => 'm68k',
-            };
-        } else {
-            $current->{TYPE} = $1 if /CPU:\s+(\S.*)/;
-            $current->{SPEED} = $1 if /Clocking:\s+:\s+(\S.*)/;
-        }
-    }
-    close $handle;
-
-    # The last one
-    $inventory->addCPU($current);
 }
 
 1;

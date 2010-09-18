@@ -4,13 +4,12 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Networks;
 use strict;
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
- 
-Win32::OLE-> Option(CP=>CP_UTF8);
-
-
 use Win32::OLE::Enum;
+ 
+use FusionInventory::Agent::Tools::Win32;
+use FusionInventory::Agent::Tools;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+Win32::OLE->Option(CP=>CP_UTF8);
 
 # http://techtasks.com/code/viewbookcode/1417
 sub isInventoryEnabled {1}
@@ -54,7 +53,8 @@ sub doInventory {
                     push @ips, ${$nic->IPAddress}[$_];
                     push @{$netifs[$idx]{ipaddress}}, ${$nic->IPAddress}[$_];
                     push @{$netifs[$idx]{ipmask}}, ${$nic->IPSubnet}[$_];
-                    if (can_load("Net::IP qw(:PROC)")) {
+                    if (can_load("Net::IP")) {
+                        Net::IP->import(':PROC');
                         my $binip = ip_iptobin (${$nic->IPAddress}[$_] , 4);
                         my $binmask = ip_iptobin (${$nic->IPSubnet}[$_] , 4);
                         my $binsubnet = $binip & $binmask;
@@ -64,7 +64,8 @@ sub doInventory {
                     push @ip6s, ${$nic->IPAddress}[$_];
                     push @{$netifs[$idx]{ipaddress6}}, ${$nic->IPAddress}[$_];
                     push @{$netifs[$idx]{ipmask6}}, ${$nic->IPSubnet}[$_];
-                    if (can_load("Net::IP qw(:PROC)")) {
+                    if (can_load("Net::IP")) {
+                        Net::IP->import(':PROC');
                         my $binip = ip_iptobin (${$nic->IPAddress}[$_] , 6);
                         if ($binip) {
                             my $binmask = ip_iptobin (${$nic->IPSubnet}[$_] , 6);

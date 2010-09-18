@@ -2,9 +2,12 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery
 use strict;
 use warnings;
 
-sub parseDate {
-    my $string = shift;
+use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
+sub _parseDate {
+    my $string = shift;
 
     if ($string =~ /(\d{1,2})([\/-])(\d{1,2})([\/-])(\d{2})/) {
         my $d = $1;
@@ -23,61 +26,51 @@ sub parseDate {
 
 }
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $capacity;
-    my $voltage;
-    my $name;
-    my $chemistry;
-    my $serial;
-    my $date;
-    my $manufacturer;
+    my $battery = _getBattery($logger);
 
-    # get the BIOS values
-    my $type;
-    for(`dmidecode`){
-        s/\s+$//;
-        if (/dmi type (\d+),/i) {
-            $type = $1;
-            next;
-        }
+    $inventory->addBattery($battery);
+}
 
-        next unless defined $type;
+sub _getBattery {
+    my ($logger, $file) = @_;
 
+    my $infos = getInfosFromDmidecode($logger, $file);
 
-        if ($type == 22) {
-            if(/Name:\s*(.+?)(\s*)$/i) {
-                $name = $1;
-            } elsif(/Capacity:\s*(\d+)\s*m(W|A)h/i) {
-                $capacity = $1;
-            } elsif(/Manufacturer:\s*(.+?)(\s*)$/i) {
-                $manufacturer = $1;
-            } elsif(/Serial\s*Number:\s*(.+?)(\s*)$/i) {
-                $serial = $1
-            } elsif(/Manufacture\s*date:\s*(\S*)$/i) {
-                $date = parseDate($1);
-            } elsif(/Voltage:\s*(\d+)\s*mV/i) {
-                $voltage = $1;
-            } elsif(/Chemistry:\s*(\S+\s*)/i) {
-                $chemistry = $1;
-            }
-            next;
-        }
+    return unless $infos->{22};
 
-        last if $type > 22;
+    my $info    = $infos->{22}->[0];
 
+    my $battery = {
+        NAME         => $info->{'Name'},
+        MANUFACTURER => $info->{'Manufacturer'},
+        SERIAL       => $info->{'Serial Number'},
+        CHEMISTRY    => $info->{'Chemistry'},
+    };
+
+    if ($info->{'Manufacture Date'}) {
+        $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
     }
 
-    $inventory->addBattery({
-        CAPACITY => $capacity,
-        CHEMISTRY => $chemistry,
-        DATE => $date,
-        NAME => $name,
-        SERIAL => $serial,
-        MANUFACTURER => $manufacturer,
-        VOLTAGE => $voltage
-    });
+    if ($info->{Capacity} && $info->{Capacity} =~ /(\d+) \s m(W|A)h$/x) {
+        $battery->{CAPACITY} = $1;
+    }
+
+    if ($info->{Voltage} && $info->{Voltage} =~ /(\d+) \s mV$/x) {
+        $battery->{VOLTAGE} = $1;
+    }
+
+    cleanUnknownValues($battery);
+
+    return $battery;
 }
+
 1;

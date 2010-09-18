@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Lsilogic;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
+
 # Tested on 2.6.* kernels
 #
 # Cards tested :
@@ -38,9 +40,9 @@ sub doInventory {
 
     my $serialnumber;
 
-    my @devices = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getFromUdev();
+    my $devices = getDevicesFromUdev($logger);
 
-    foreach my $hd (@devices) {
+    foreach my $hd (@$devices) {
         foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
 
 # Example output :
@@ -59,10 +61,10 @@ sub doInventory {
                 my $model = $2;
                 my $size = 1024*$4; # GB => MB
                 my $firmware = $3;
-                my $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
+                my $manufacturer = getCanonicalManufacturer($model);
                 $logger->debug("Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware");
 
-                $inventory->addStorages({
+                $inventory->addStorage({
                     NAME => $hd->{NAME},
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,

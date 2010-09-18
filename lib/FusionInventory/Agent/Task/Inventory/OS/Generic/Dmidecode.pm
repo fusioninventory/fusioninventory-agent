@@ -5,15 +5,14 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
 
-    if (can_run("dmidecode")) {
-        my @output = `dmidecode`;
+    return unless can_run("dmidecode");
 
-        return 1 if @output > 10;
-    }
-
-    return 0;
+    my @output = `dmidecode`;
+    return @output > 10;
 }
 
 sub doInventory {}

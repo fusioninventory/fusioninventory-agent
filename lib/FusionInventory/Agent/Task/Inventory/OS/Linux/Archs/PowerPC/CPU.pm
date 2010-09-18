@@ -5,6 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
+
 #processor       : 0
 #cpu             : POWER4+ (gq)
 #clock           : 1452.000000MHz
@@ -20,51 +23,39 @@ use English qw(-no_match_vars);
 #
 #
 
-sub isInventoryEnabled { can_read ("/proc/cpuinfo") };
-
+sub isInventoryEnabled {
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $handle;
-    if (!open $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-        return
-    }
+    my $cpus = getCPUsFromProc($params->{logger});
 
-    my @cpus;
-    my $current;
-    my $isIBM;
+    return unless $cpus;
 
-    while (<$handle>) {
-        $isIBM = 1 if /^machine\s*:.*IBM/;
-        $current->{TYPE} = $1 if /cpu\s+:\s+(\S.*)/;
-        $current->{SPEED} = $1 if /clock\s+:\s+(\S.*)/;
-        $current->{SPEED} =~ s/\.\d+/MHz/;
-        $current->{SPEED} =~ s/MHz//;
-        $current->{SPEED} =~ s/GHz//;
-
-
-        if (/^\s*$/) {
-            if ($current->{TYPE}) {
-                push @cpus, $current;
-            }
-            $current = {};
+    foreach my $cpu (@$cpus) {
+        my $speed;
+        if (
+            $cpu->{'clock'} &&
+            $cpu->{'clock'} =~ /(\d+)/
+        ) {
+            $speed = $1;
         }
 
-        if (/^\s*$/) {
-            if ($current->{TYPE}) {
-                push @cpus, $current;
-            }
-            $current = {};
+        my $manufacturer;
+        if ($cpu->{'machine'} &&
+            $cpu->{'machine'} =~ /IBM/
+        ) {
+            $manufacturer = 'IBM';
         }
-    }
-    close $handle;
 
-    foreach my $cpu (@cpus) {
-        $cpu->{MANUFACTURER} = 'IBM' if $isIBM;
-        $inventory->addCPU($cpu);
+        $inventory->addCPU({
+            TYPE         => $cpu->{cpu},
+            MANUFACTURER => $manufacturer,
+            SPEED        => $speed
+        });
     }
 }
 

@@ -7,15 +7,21 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled {
-    can_run("ifconfig") && can_load("Net::IP qw(:PROC)")
-}
+use FusionInventory::Agent::Tools;
 
+sub isInventoryEnabled {
+    return
+        can_run("ifconfig") && 
+        can_load("Net::IP");
+}
 
 # Initialise the distro entry
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
 
     my $description;
     my $ipaddress;
@@ -87,18 +93,18 @@ sub doInventory {
             $ipaddress6 =~ s/%.*//;
         }
         $inventory->addNetwork({
-                DESCRIPTION => $description,
-                IPADDRESS => $ipaddress,
-                IPADDRESS6 => $ipaddress6,
-                IPDHCP => undef,
-                IPGATEWAY => $ipgateway,
-                IPMASK => $mask,
-                IPSUBNET => $ipsubnet,
-                MACADDR => $macaddr,
-                STATUS => ($status?"Up":"Down"),
-                TYPE => $type,
-                VIRTUALDEV => $virtualdev
-            });
+            DESCRIPTION => $description,
+            IPADDRESS => $ipaddress,
+            IPADDRESS6 => $ipaddress6,
+            IPDHCP => undef,
+            IPGATEWAY => $ipgateway,
+            IPMASK => $mask,
+            IPSUBNET => $ipsubnet,
+            MACADDR => $macaddr,
+            STATUS => ($status?"Up":"Down"),
+            TYPE => $type,
+            VIRTUALDEV => $virtualdev
+        });
     }
 }
 

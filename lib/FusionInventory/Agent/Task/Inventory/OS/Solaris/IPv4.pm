@@ -1,6 +1,13 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::IPv4;
 
-sub isInventoryEnabled { can_run ("ifconfig") }
+use strict;
+use warnings;
+
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return can_run ("ifconfig");
+}
 
 # Initialise the distro entry
 sub doInventory {

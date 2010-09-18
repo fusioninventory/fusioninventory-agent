@@ -2,8 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Printers;
 
 use strict;
 use warnings;
-use Data::Dumper;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+
+use FusionInventory::Agent::Tools::Win32;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
 
@@ -50,8 +50,6 @@ sub doInventory {
 
     return if $config->{'no-printer'};
 
-    my @slots;
-
     foreach my $Properties (getWmiProperties('Win32_Printer', qw/
         ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
         Comment DescriptionDriverName DriverName PortName Network Shared 
@@ -67,7 +65,9 @@ sub doInventory {
 
         if ($Properties->{HorizontalResolution}) {
             $resolution =
-$Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
+                $Properties->{HorizontalResolution} . 
+                "x" . 
+                $Properties->{VerticalResolution};
         }
 
         $Properties->{Serial} = getSerialbyUsb($Properties->{PortName});
@@ -89,7 +89,7 @@ $Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
             SERIAL => $Properties->{Serial}
         });
 
-    }    
+    }
 }
 
 sub getSerialbyUsb {

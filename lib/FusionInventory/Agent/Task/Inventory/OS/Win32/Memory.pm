@@ -3,9 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Memory;
 use strict;
 use warnings;
 
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
+use FusionInventory::Agent::Tools::Win32;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
 
 my @formFactorVal = qw/
     Unknown 
@@ -82,9 +82,11 @@ sub doInventory {
         Capacity Caption Description FormFactor Removable Speed MemoryType
         SerialNumber
     /)) {
-# Ignore ROM storages (BIOS ROM)
-        if (defined($memoryTypeVal[$Properties->{MemoryType}]) &&
-$memoryTypeVal[$Properties->{MemoryType}] eq 'ROM') {
+        # Ignore ROM storages (BIOS ROM)
+        if (
+            defined($memoryTypeVal[$Properties->{MemoryType}]) &&
+            $memoryTypeVal[$Properties->{MemoryType}] eq 'ROM'
+        ) {
             next;
         }
 

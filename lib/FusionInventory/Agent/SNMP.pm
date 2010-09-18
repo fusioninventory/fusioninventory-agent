@@ -2,20 +2,15 @@ package FusionInventory::Agent::SNMP;
 
 use strict;
 use warnings;
+
 use Encode qw(encode);
 use English qw(-no_match_vars);
+use Net::SNMP;
 
 sub new {
     my ($class, $params ) = @_;
 
     my $self = {};
-
-    eval {
-        require Net::SNMP;
-    };
-    if ($EVAL_ERROR) {
-        $self->{logger}->fault("Can't load Net::SNMP. Exiting...");
-    }
 
     my $version =
         ! $params->{version}       ? 'snmpv1'  :
@@ -24,8 +19,7 @@ sub new {
         $params->{version} eq '3'  ? 'snmpv3'  :
                                      undef     ;
 
-    $self->{logger}->fault("invalid SNMP version $params->{version}")
-        unless $version;
+    die "invalid SNMP version $params->{version}";
 
     if ($version eq 'snmpv3') {
         $self->{session} = Net::SNMP->session(
@@ -38,18 +32,18 @@ sub new {
             -authprotocol => $params->{authprotocol},
             -privpassword => $params->{privpassword},
             -privprotocol => $params->{privprotocol},
-            -nonblocking => 0,
-            -port      => 161
+            -nonblocking  => 0,
+            -port         => 161
         );
     } else { # snmpv2c && snmpv1 #
         $self->{session} = Net::SNMP->session(
-            -timeout   => 1,
-            -retries   => 0,
+            -timeout     => 1,
+            -retries     => 0,
             -version     => $version,
             -hostname    => $params->{hostname},
             -community   => $params->{community},
             -nonblocking => 0,
-            -port      => 161
+            -port        => 161
         );
     }
 
@@ -165,8 +159,6 @@ sub snmpWalk {
     return $ArraySNMP;
 }
 
-
-
 sub specialChar {
     if (defined($_[0])) {
         if ($_[0] =~ /0x$/) {
@@ -197,5 +189,59 @@ sub getBadMACAddress {
     return $oid_value;
 }
 
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::SNMP - An SNMP query extension
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to perform SNMP queries.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item version (mandatory)
+
+Can be one of:
+
+=over
+
+=item 1
+
+=item 2c
+
+=item 3
+
+=back
+
+=item hostname (mandatory)
+
+=item community
+
+=item username
+
+=item authpassword
+
+=item authprotocol
+
+=item privpassword
+
+=item privprotocol
+
+=back
+
+=head2 snmpGet()
+
+=head2 snmpWalk()
+
+=head2 specialChar()
+
+=head2 getBadMACAddress()

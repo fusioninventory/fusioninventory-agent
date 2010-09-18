@@ -3,6 +3,11 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+use Sys::Hostname;
+
+use FusionInventory::Agent::Tools;
+
 #TODO Get driver pcislot virtualdev
 
 sub isInventoryEnabled {
@@ -11,7 +16,6 @@ sub isInventoryEnabled {
         can_run("lanscan") &&
         can_run("netstat") &&
         can_run("ifconfig") &&
-        can_run("hostname") &&
         can_run("uname");
 }
 
@@ -31,18 +35,20 @@ sub doInventory {
     my $description;
     my $ipaddress;
 
-    my $hostname = 'Unknown';
-    if ( `hostname` =~ /(\S+)/ ) {
-        $hostname=$1
-    } elsif ( `uname -n` =~ /(\S+)/ ) { # It should never reach here, as `hostname` should never fail!
-        $hostname=$1
-    }
+    my $hostname = hostname();
 
-    for ( `grep $hostname /etc/hosts ` ) {
-        if ( /(^\d+\.\d+\.\d+\.\d+)\s+/ ) {
-            $inventory->setHardware({IPADDR => $1});
-            last;
+    if (open my $handle, '<', '/etc/hosts') {
+        while (my $line = <$handle>) {
+            next unless $line =~ /$hostname/;
+            if ($line =~ /(^\d+\.\d+\.\d+\.\d+)\s+/ ) {
+                $inventory->setHardware({IPADDR => $1});
+                last;
+            }
         }
+        close $handle;
+    } else {
+        warn "Can't open /etc/hosts: $ERRNO";
+        return;
     }
 
     my %gateway;

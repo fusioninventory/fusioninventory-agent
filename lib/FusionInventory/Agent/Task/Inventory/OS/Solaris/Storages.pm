@@ -1,6 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Storages;
+
 use strict;
-#use warning;
+use warnings;
+
+use FusionInventory::Agent::Tools;
 
 #sd0      Soft Errors: 0 Hard Errors: 0 Transport Errors: 0
 #Vendor: HITACHI  Product: DK32EJ72NSUN72G  Revision: PQ08 Serial No: 43W14Z080040A34E
@@ -16,7 +19,9 @@ use strict;
 #Illegal Request: 1 Predictive Failure Analysis: 0
 
 
-sub isInventoryEnabled { can_run ("iostat") }
+sub isInventoryEnabled {
+    return can_run ("iostat");
+}
 
 sub doInventory {
     my $params = shift;
@@ -77,19 +82,17 @@ sub doInventory {
                 $type="SCSI";
             }
         }
-        use Data::Dumper;
-
         if(/^Illegal/) { # Last ligne
             $inventory->addStorage({
-                    NAME => $name,
-                    MANUFACTURER => $manufacturer,
-                    MODEL => $model,
-                    DESCRIPTION => $description,
-                    TYPE => $type,
-                    FIRMWARE => $rev,
-                    SERIALNUMBER => $sn,
-                    DISKSIZE => $capacity
-                });
+                NAME => $name,
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => $description,
+                TYPE => $type,
+                FIRMWARE => $rev,
+                SERIALNUMBER => $sn,
+                DISKSIZE => $capacity
+            });
 
             $manufacturer='';
             $model='';

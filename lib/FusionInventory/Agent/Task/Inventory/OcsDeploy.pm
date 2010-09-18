@@ -3,6 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OcsDeploy;
 use strict;
 use warnings;
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
 
     my $params = shift;

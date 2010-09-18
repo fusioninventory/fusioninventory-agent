@@ -5,6 +5,10 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};

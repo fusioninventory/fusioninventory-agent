@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Sys;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 #$LunchAfter = "FusionInventory::Agent::Task::Inventory::OS::Linux::VirtualFs::Sys";
 
 sub isInventoryEnabled {

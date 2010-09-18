@@ -5,7 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled {-r '/etc/fstab'}
+sub isInventoryEnabled {
+    return -r '/etc/fstab';
+}
 
 sub doInventory {
     my $params = shift;
@@ -40,7 +42,7 @@ sub doInventory {
         $model =~ s/^(\s|,)*//;
         $model =~ s/(\s|,)*$//;
 
-        $inventory->addStorages({
+        $inventory->addStorage({
             MANUFACTURER => $manufacturer,
             MODEL => $model,
             DESCRIPTION => $dev,

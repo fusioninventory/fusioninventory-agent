@@ -1,50 +1,22 @@
 package FusionInventory::Agent::XML::Query::Inventory;
-# TODO: resort the functions
+
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
+use Config;
+use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
-
-=head1 NAME
-
-FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
-
-=head1 DESCRIPTION
-
-FusionInventory uses OCS Inventory XML format for the data transmission. This
-module is the abstraction layer. It's mostly used in the backend module where
-$inventory is in general called.
-
-=cut
-
 use Encode qw/encode/;
 use XML::Simple;
-use Digest::MD5 qw(md5_base64);
-use Config;
 
-use FusionInventory::Agent::Task::Inventory;
-
-=over 4
-
-=item new()
-
-The usual constructor.
-
-=cut
 sub new {
     my ($class, $params) = @_;
 
     my $self = $class->SUPER::new($params);
 
-    $self->{backend} = $params->{backend};
     my $logger = $self->{logger};
     my $target = $self->{target};
-    my $config = $self->{config};
-
-    if (!($target->{deviceid})) {
-        $logger->fault ('deviceid unititalised!');
-    }
 
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
@@ -72,10 +44,7 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
-
-    # Is the XML centent initialised?
-    $self->{isInitialised} = undef;
+    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::AGENT_STRING];
 
     return $self;
 }
@@ -83,12 +52,10 @@ sub new {
 sub _addEntry {
     my ($self, $params) = @_;
 
-    my $config = $self->{config};
-
-    my $fields = $params->{'field'};
-    my $sectionName = $params->{'sectionName'};
-    my $values = $params->{'values'};
-    my $noDuplicated = $params->{'noDuplicated'};
+    my $fields = $params->{field};
+    my $sectionName = $params->{sectionName};
+    my $values = $params->{values};
+    my $noDuplicated = $params->{noDuplicated};
 
     my $newEntry;
 
@@ -194,9 +161,9 @@ sub addController {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'CONTROLLERS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'CONTROLLERS',
+        values      => $args,
     });
 }
 
@@ -213,20 +180,11 @@ sub addModem {
         NAME
     /;
 
-
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MODEMS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MODEMS',
+        values      => $args,
     });
-}
-# For compatibiliy
-sub addModems {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addModems to addModem()");
-    $self->addModem(@_);
 }
 
 =item addDrive()
@@ -252,18 +210,10 @@ sub addDrive {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'DRIVES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'DRIVES',
+        values      => $args,
     });
-}
-# For compatibiliy
-sub addDrives {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addDrives to addDrive()");
-    $self->addDrive(@_);
 }
 
 =item addStorage()
@@ -299,20 +249,11 @@ sub addStorage {
     }
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'STORAGES',
-        'values' => $values,
+        field       => \@fields,
+        sectionName => 'STORAGES',
+        values      => $values,
     });
 }
-# For compatibility
-sub addStorages {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addStorages to addStorage()");
-    $self->addStorage(@_);
-}
-
 
 =item addMemory()
 
@@ -336,18 +277,10 @@ sub addMemory {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MEMORIES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MEMORIES',
+        values      => $args,
     });
-}
-# For compatibility
-sub addMemories {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addMemories to addMemory()");
-    $self->addMemory(@_);
 }
 
 =item addPort()
@@ -355,7 +288,7 @@ sub addMemories {
 Add a port module in the inventory.
 
 =cut
-sub addPorts{
+sub addPort {
     my ($self, $args) = @_;
 
     my @fields = qw/
@@ -366,18 +299,10 @@ sub addPorts{
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PORTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PORTS',
+        values      => $args,
     });
-}
-# For compatibility
-sub addPort {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addPorts to addPort()");
-    $self->addPort(@_);
 }
 
 =item addSlot()
@@ -396,18 +321,10 @@ sub addSlot {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SLOTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'SLOTS',
+        values      => $args,
     });
-}
-# For compatibility
-sub addSlots {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSlots to addSlot()");
-    $self->addSlot(@_);
 }
 
 =item addSoftware()
@@ -423,19 +340,11 @@ sub addSoftware {
     VERSION_MINOR VERSION_MAJOR IS64BIT GUID/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SOFTWARES',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'SOFTWARES',
+        values       => $args,
+        noDuplicated => 1
     });
-}
-# For compatibility
-sub addSoftwares {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSoftwares to addSoftware()");
-    $self->addSoftware(@_);
 }
 
 =item addMonitor()
@@ -456,18 +365,10 @@ sub addMonitor {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'MONITORS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'MONITORS',
+        values      => $args,
     });
-}
-# For compatibility
-sub addMonitors {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addMonitors to addMonitor()");
-    $self->addMonitor(@_);
 }
 
 =item addVideo()
@@ -486,20 +387,12 @@ sub addVideo {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'VIDEOS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'VIDEOS',
+        values       => $args,
+        noDuplicated => 1
     });
 
-}
-# For compatibility
-sub addVideos {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addVideos to addVideo()");
-    $self->addVideo(@_);
 }
 
 =item addSound()
@@ -517,20 +410,11 @@ sub addSound {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'SOUNDS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'SOUNDS',
+        values      => $args,
     });
 }
-# For compatibility
-sub addSounds {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSounds to addSound()");
-    $self->addSound(@_);
-}
-
 
 =item addNetwork()
 
@@ -562,22 +446,12 @@ sub addNetwork {
 
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'NETWORKS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'NETWORKS',
+        values       => $args,
+        noDuplicated => 1
     });
 }
-
-# For compatibility
-sub addNetworks {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addNetworks to addNetwork()");
-    $self->addNetwork(@_);
-}
-
 
 =item setHardware()
 
@@ -607,7 +481,7 @@ sub setHardware {
             }
 
             my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $string;
+            $self->{h}{CONTENT}{HARDWARE}{$key}[0] = $string;
         }
     }
 }
@@ -626,7 +500,7 @@ sub setBios {
 
         if (exists $args->{$key}) {
             my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $string;
+            $self->{h}{CONTENT}{BIOS}{$key}[0] = $string;
         }
     }
 }
@@ -651,10 +525,10 @@ sub addCPU {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'CPUS',
-        'values' => $args,
-        'noDuplicated' => 0
+        field        => \@fields,
+        sectionName  => 'CPUS',
+        values       => $args,
+        noDuplicated => 0
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -686,9 +560,9 @@ sub addUser {
     return unless $args->{LOGIN};
 
     return unless $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'USERS',
-        'values' => $args,
+        'field'        => \@fields,
+        'sectionName'  => 'USERS',
+        'values'       => $args,
         'noDuplicated' => 1
     });
 
@@ -710,7 +584,6 @@ sub addUser {
         $domainString .= $domain;
         $userString .= $login;
     }
-
 
     $self->setHardware ({
         USERID => $userString,
@@ -744,18 +617,10 @@ sub addPrinter {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PRINTERS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PRINTERS',
+        values      => $args,
     });
-}
-# For compatibility
-sub addPrinters {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addPrinters to addPrinter()");
-    $self->addPrinter(@_);
 }
 
 =item addVirtualMachine()
@@ -786,9 +651,9 @@ sub addVirtualMachine {
     }
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'VIRTUALMACHINES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'VIRTUALMACHINES',
+        values      => $args,
     });
 
 }
@@ -814,9 +679,9 @@ sub addProcess {
 
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'PROCESSES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'PROCESSES',
+        values      => $args,
     });
 }
 
@@ -838,9 +703,9 @@ sub addInput {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'INPUTS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'INPUTS',
+        values      => $args,
     });
 }
 
@@ -858,9 +723,9 @@ sub addEnv {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'ENVS',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'ENVS',
+        values      => $args,
     });
 }
 
@@ -875,10 +740,10 @@ sub addUSBDevice {
     my @fields = qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'USBDEVICES',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'USBDEVICES',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 
@@ -901,9 +766,9 @@ sub addBattery {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'BATTERIES',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'BATTERIES',
+        values      => $args,
     });
 }
 
@@ -924,9 +789,9 @@ sub addRegistry {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'REGISTRY',
-        'values' => $args,
+        field       => \@fields,
+        sectionName => 'REGISTRY',
+        values      => $args,
     });
 }
 
@@ -942,10 +807,10 @@ sub addAntiVirus {
     my @fields = qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'ANTIVIRUS',
-        'values' => $args,
-        'noDuplicated' => 1
+        field        => \@fields,
+        sectionName  => 'ANTIVIRUS',
+        values       => $args,
+        noDuplicated => 1
     });
 }
 
@@ -961,7 +826,7 @@ sub setAccessLog {
     foreach my $key (qw/USERID LOGDATE/) {
 
         if (exists $args->{$key}) {
-            $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
+            $self->{h}{CONTENT}{ACCESSLOG}{$key}[0] = $args->{$key};
         }
     }
 }
@@ -1025,8 +890,6 @@ sub getContent {
 
     my $logger = $self->{logger};
 
-    $self->initialise();
-
     $self->processChecksum();
 
     #  checks for MAC, NAME and SSN presence
@@ -1044,103 +907,41 @@ sub getContent {
         $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
     }
 
-    my $content = XMLout( $self->{h}, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>', SuppressEmpty => undef );
-
-    return $content;
+    return $self->SUPER::getContent();
 }
 
-=item printXML()
-
-Only for debugging purpose. Print the inventory on STDOUT.
-
-=cut
-sub printXML {
-    my ($self, $args) = @_;
-
-    $self->initialise();
-    print $self->getContent();
-}
-
-=item writeXML()
+=item getContentAsHTML()
 
 Save the generated inventory as an XML file. The 'local' key of the config
 is used to know where the file as to be saved.
 
 =cut
-sub writeXML {
+sub getContentAsHTML {
     my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
-    my $config = $self->{config};
     my $target = $self->{target};
-
-    if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
-    }
-
-    $self->initialise();
-
-    my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
-    $localfile =~ s!(//){1,}!/!;
 
     # Convert perl data structure into xml strings
 
-    if (open my $handle, '>', $localfile) {
-        print $handle $self->getContent();
-        close $handle;
-        $logger->info("Inventory saved in $localfile");
-    } else {
-        warn "Can't open $localfile: $ERRNO"
-    }
-
-}
-
-=item writeHTML()
-
-Save the generated inventory as an HTML file. The 'local' key of the config
-is used to know where the file as to be saved.
-
-=cut
-sub writeHTML {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-    my $target = $self->{target};
-
-    if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
-    }
-
-    $self->initialise();
-
-    my $localfile = $config->{local}."/".$target->{deviceid}.'.html';
-    $localfile =~ s!(//){1,}!/!;
-
-    # Convert perl data structure into xml strings
-
-
-    my $htmlHeader = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml"><head>
-
+    my $htmlHeader = <<EOF;
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent '.$target->{deviceid}.' - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <title>FusionInventory-Agent $target->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+</head>
+<body>
+    <h1>Inventory for $target->{deviceid}</h1>
+    FusionInventory Agent $FusionInventory::Agent::VERSION
+EOF
 
-    </head>
-    <body>
-    <h1>Inventory for '.$target->{deviceid}.'</h1>
-    FusionInventory Agent '.$config->{VERSION}.'
-
-    ';
-
-
-    my $htmlFooter = "
-    </body>
-    </html>";
+    my $htmlFooter = <<EOF;
+</body>
+</html>
+EOF
 
     my $htmlBody;
 
-    use Data::Dumper;
     my $oldSectionName = "";
     foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
         next if $sectionName eq 'VERSIONCLIENT';
@@ -1179,20 +980,8 @@ sub writeHTML {
         }
     }
 
-
-    if (open my $handle, '>', $localfile) {
-        print $handle $htmlHeader;
-        print $handle $htmlBody;
-        print $handle $htmlFooter;
-        close $handle;
-        $logger->info("Inventory saved in $localfile");
-    } else {
-        warn "Can't open $localfile: $ERRNO"
-    }
+    return $htmlHeader . $htmlBody . $htmlFooter;
 }
-
-
-
 
 =item processChecksum()
 
@@ -1209,31 +998,31 @@ sub processChecksum {
     my $logger = $self->{logger};
     my $target = $self->{target};
 
-#To apply to $checksum with an OR
+    # to apply to $checksum with an OR
     my %mask = (
-        'HARDWARE'      => 1,
-        'BIOS'          => 2,
-        'MEMORIES'      => 4,
-        'SLOTS'         => 8,
-        'REGISTRY'      => 16,
-        'CONTROLLERS'   => 32,
-        'MONITORS'      => 64,
-        'PORTS'         => 128,
-        'STORAGES'      => 256,
-        'DRIVES'        => 512,
-        'INPUT'         => 1024,
-        'MODEMS'        => 2048,
-        'NETWORKS'      => 4096,
-        'PRINTERS'      => 8192,
-        'SOUNDS'        => 16384,
-        'VIDEOS'        => 32768,
-        'SOFTWARES'     => 65536,
-        'VIRTUALMACHINES' => 131072,
+        HARDWARE        => 1,
+        BIOS            => 2,
+        MEMORIES        => 4,
+        SLOTS           => 8,
+        REGISTRY        => 16,
+        CONTROLLERS     => 32,
+        MONITORS        => 64,
+        PORTS           => 128,
+        STORAGES        => 256,
+        DRIVES          => 512,
+        INPUT           => 1024,
+        MODEMS          => 2048,
+        NETWORKS        => 4096,
+        PRINTERS        => 8192,
+        SOUNDS          => 16384,
+        VIDEOS          => 32768,
+        SOFTWARES       => 65536,
+        VIRTUALMACHINES => 131072,
     );
     # TODO CPUS is not in the list
 
     if (!$self->{target}->{vardir}) {
-        $logger->fault ("vardir uninitialised!");
+        die "vardir uninitialised!";
     }
 
     my $checksum = 0;
@@ -1241,33 +1030,32 @@ sub processChecksum {
     if ($target->{last_statefile}) {
         if (-f $target->{last_statefile}) {
             # TODO: avoid a violant death in case of problem with XML
-            $self->{last_state_content} = XML::Simple::XMLin(
-
+            $self->{last_state_content} = XMLin(
                 $target->{last_statefile},
                 SuppressEmpty => undef,
-                ForceArray => 1
-
+                ForceArray    => 1
             );
         } else {
-            $logger->debug ('last_state file: `'.
-                $target->{last_statefile}.
-                "' doesn't exist (yet).");
+            $logger->debug(
+                "last_state file $target->{last_statefile} doesn't exist (yet)."
+            );
         }
     }
 
     foreach my $section (keys %mask) {
-        #If the checksum has changed...
-        my $hash =
-        md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-        if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
-            $logger->debug ("Section $section has changed since last inventory");
-            #We make OR on $checksum with the mask of the current section
+        # check if the checksum has changed...
+        my $hash = md5_base64(XMLout($self->{h}{CONTENT}{$section}));
+        if (
+            !$self->{last_state_content}->{$section}[0] ||
+            $self->{last_state_content}->{$section}[0] ne $hash
+        ) {
+            $logger->debug("Section $section has changed since last inventory");
+            # We make OR on $checksum with the mask of the current section
             $checksum |= $mask{$section};
         }
         # Finally I store the new value.
         $self->{last_state_content}->{$section}[0] = $hash;
     }
-
 
     $self->setHardware({CHECKSUM => $checksum});
 }
@@ -1294,7 +1082,7 @@ sub saveLastState {
     }
 
     if (open my $handle, '>', $target->{last_statefile}) {
-        print $handle XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
+        print $handle XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
         close $handle;
     } else {
         $logger->debug (
@@ -1369,6 +1157,26 @@ sub feedSection{
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
+
+=head1 DESCRIPTION
+
+FusionInventory uses OCS Inventory XML format for the data transmission. This
+module is the abstraction layer. It's mostly used in the backend module where
+it called $inventory in general.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. See base class C<FusionInventory::Agent::XML::Query> for
+allowed parameters.
+
 =head1 XML STRUCTURE
 
 This section presents the XML structure used by FusionInventory. The schema

@@ -3,15 +3,21 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::iLO;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
-    return unless can_run("hponcfg") && can_load("Net::IP qw(:PROC)");
-    1;
+    return
+        can_run("hponcfg") &&
+        can_load("Net::IP");
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
 
     my $name;
     my $ipmask;

@@ -5,7 +5,11 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { can_read ("/proc/meminfo") }
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled { 
+    return -r '/proc/meminfo';
+}
 
 sub doInventory {
     my $params = shift;

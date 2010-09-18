@@ -3,82 +3,54 @@ package FusionInventory::Agent::Task;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{target} = $params->{target};
-
-    $self->{module} = $params->{module};
-
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $module = $self->{module};
-
-
-    return if $config->{'no-'.lc($self->{module})};
-
+    my $self = {
+        config      => $params->{config},
+        target      => $params->{target},
+        logger      => $params->{logger},
+        storage     => $params->{storage},
+        prologresp  => $params->{prologresp},
+        transmitter => $params->{transmitter}
+    };
 
     bless $self, $class;
-    if (!$self->isModInstalled()) {
-        $logger->info("Module FusionInventory::Agent::Task::$module is not installed.");
-        return;
-    }
-
 
     return $self;
 }
 
-sub isModInstalled {
-    my ($self) = @_;
-
-    my $module = $self->{module};
-
-    foreach my $inc (@INC) {
-        return 1 if -f $inc.'/FusionInventory/Agent/Task/'.$module.'.pm'; 
-    }
-
-    return 0;
-}
-
-sub run {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-    
-    my $module = $self->{module};
-
-
-    my $cmd;
-    $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
-    if ($^O eq "MSWin32") {
-        $cmd .= "  -Ilib" if $config->{devlib};
-        $cmd .= " -MFusionInventory::Agent::Task::".$module;
-        $cmd .= " -e \"FusionInventory::Agent::Task::".$module."::main();\" --";
-    } else {
-        $cmd .= " -e \"";
-        $cmd .= "\@INC=qw(";
-        $cmd .= $_." " foreach (@INC);
-        $cmd .= "); ";
-        $cmd .= "eval 'use FusionInventory::Agent::Task::$module;'; ";
-        $cmd .= "FusionInventory::Agent::Task::".$module."::main();\" --";
-    }
-    $cmd .= " \"".$target->{vardir}."\"";
-
-    $logger->debug("cmd is: '$cmd'");
-    system($cmd);
-
-    $logger->debug("[task] end of ".$module);
-
-}
-
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task - Base class for agent task
+
+=head1 DESCRIPTION
+
+This is an abstract class for all task performed by the agent.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item config (mandatory)
+
+=item target (mandatory)
+
+=item logger (mandatory)
+
+=item storage (mandatory)
+
+=item prologresp (mandatory)
+
+=back
+
+=head2 run()
+
+This is the method expected to be implemented by each subclass.

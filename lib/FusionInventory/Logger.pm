@@ -4,69 +4,39 @@ use strict;
 use warnings;
 
 # TODO use Log::Log4perl instead.
-use Carp;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use Config;
-
-BEGIN {
-    # threads and threads::shared must be load before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
-
-my $lock :shared;
-
 sub new {
-
     my ($class, $params) = @_;
 
-
-    my $self = {};
+    my $self = {
+        config  => $params->{config},
+        backend => [],
+    };
     bless $self, $class;
-    $self->{backend} = [];
-    $self->{config} = $params->{config};
 
-    $self->{debug} = $self->{config}->{debug}?1:0;
-    my @logger;
+    my @backends = $self->{config}->{logger} ?
+        split /,/, $self->{config}->{logger} : 'Stderr';
+    my @backends_ok;
 
-    if (exists ($self->{config}->{logger})) {
-        @logger = split /,/, $self->{config}->{logger};
-    } else {
-        # if no 'logger' parameter exist I use Stderr as default backend
-        push @logger, 'Stderr';
-    }
-
-    my @loadedMbackends;
-    foreach (@logger) {
-        my $backend = "FusionInventory::LoggerBackend::".$_;
-        $backend->require();
+    foreach my $backend (@backends) {
+        my $package = "FusionInventory::LoggerBackend::$backend";
+        $package->require();
         if ($EVAL_ERROR) {
-            print STDERR "Failed to load Logger backend: $backend ($EVAL_ERROR)\n";
+            print STDERR
+                "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
             next;
-        } else {
-            push @loadedMbackends, $_;
         }
 
-        my $obj = $backend->new({
-                config => $self->{config},
-            });
-        push @{$self->{backend}}, $obj if $obj;
+        push
+            @{$self->{backend}},
+            $package->new({config => $self->{config}});
+        push @backends_ok, $backend;
     }
 
-    my $version = "FusionInventory unified agent for UNIX, Linux, Windows and MacOSX ";
-    $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
-    $self->debug($version);
-    $self->debug("Log system initialised (@loadedMbackends)");
+    $self->debug($FusionInventory::Agent::STRING_VERSION);
+    $self->debug("Log system initialised (@backends_ok)");
 
     return $self;
 }
@@ -74,14 +44,12 @@ sub new {
 sub log {
     my ($self, $args) = @_;
 
-    # levels: info, debug, warn, fault
-    my $level = $args->{level};
+    # levels: info, debug, error, fault
+    my $level = $args->{level} || 'info';
     my $message = $args->{message};
 
-    return if ($level =~ /^debug$/ && !($self->{debug}));
-
-    chomp($message);
-    $level = 'info' unless $level;
+    return unless $message;
+    return if $level eq 'debug' && !$self->{config}->{debug};
 
     foreach (@{$self->{backend}}) {
         $_->addMsg ({
@@ -89,42 +57,93 @@ sub log {
             message => $message
         });
     }
-    confess if $level =~ /^fault$/; # Die with a backtace 
 }
 
 sub debug {
     my ($self, $msg) = @_;
 
-    lock($lock);
     $self->log({ level => 'debug', message => $msg});
 }
 
 sub info {
     my ($self, $msg) = @_;
 
-    lock($lock);
     $self->log({ level => 'info', message => $msg});
 }
 
 sub error {
     my ($self, $msg) = @_;
 
-    lock($lock);
     $self->log({ level => 'error', message => $msg});
 }
 
 sub fault {
     my ($self, $msg) = @_;
 
-    lock($lock);
     $self->log({ level => 'fault', message => $msg});
 }
 
-sub user {
-    my ($self, $msg) = @_;
-
-    lock($lock);
-    $self->log({ level => 'user', message => $msg});
-}
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Logger - Fusion Inventory logger
+
+=head1 DESCRIPTION
+
+This is the logger object.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The following arguments are allowed:
+
+=over
+
+=item config (mandatory)
+
+=back
+
+=head2 log($args)
+
+Add a log message, with a specific level. The following arguments are allowed:
+
+=over
+
+=item level (mandatory)
+
+Can be one of:
+
+=over
+
+=item debug
+
+=item info
+
+=item error
+
+=item fault
+
+=back
+
+=item message (mandatory)
+
+=back
+
+=head2 debug($msg)
+
+Add a log message with debug level.
+
+=head2 info($msg)
+
+Add a log message with info level.
+
+=head2 error($msg)
+
+Add a log message with error level.
+
+=head2 fault($msg)
+
+Add a log message with fault level.

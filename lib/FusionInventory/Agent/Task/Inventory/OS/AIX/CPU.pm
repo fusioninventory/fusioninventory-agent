@@ -6,7 +6,7 @@ use warnings;
 sub isInventoryEnabled { 1 }	 
 
 # try to simulate a modern lsattr output on AIX4
-sub lsattrForAIX4 {
+sub _lsattrForAIX4 {
     my $device = shift;
 
     my @lsattr;
@@ -65,7 +65,7 @@ sub doInventory {
         chomp(my $device = $_);
 
         if ( $aixversion < 5 ) {
-            @lsattr=lsattrForAIX4($device);
+            @lsattr=_lsattrForAIX4($device);
         } else {
             @lsattr=`lsattr -EOl $device -a 'state:type:frequency'`;
         }

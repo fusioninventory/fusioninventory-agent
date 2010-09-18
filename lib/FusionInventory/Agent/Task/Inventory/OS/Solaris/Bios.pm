@@ -59,6 +59,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Bios;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run ("showrev");
 }

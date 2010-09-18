@@ -1,6 +1,26 @@
 Revision history for FusionInventory::Agent
 
-2.2.0
+2.2.x
+       * Don't use a fixed realm anymore for HTTP authentication, but replays
+         automatically any request requiring authentication with given realm
+       * Make --realm parameter deprecated
+       * Drop deprecated --remotedir, --nosoft and --nosoftware parameters
+       * Large code cleanup:
+         - factorize many command output or file content parsing
+         - factorize Windows constants
+	 - import shared functions from a dedicated module, instead of 
+	   playing dirty trick with inventory modules namespace
+         - move shared code into dedicated modules outside of inventory modules
+           tree
+       * Cache parsing results to avoid multiple invocations of external
+         commands or multiple files reading
+       * Enhance test suite coverage
+       * Don't spawn a new perl process from scratch for running tasks, but
+         fork current one, avoiding to use a temporary file for parameters
+         communication
+       * Don't even fork for one-shot run
+       * Change RPM inventory to not add architecture to package name, as for
+         the Deb inventory
        * Add fusioninventory-injector
 
 2.1.6
@@ -31,8 +51,8 @@ Revision history for FusionInventory::Agent
        * Corrected a lot of english sentences (Benoit MORTIER)
        * Win32, avoid warning if the CPU has no name
          http://forge.fusioninventory.org/issues/349
-       * if envvar REALLIB is defined, we use it to overright @INC, this in order
-         to relocate the perl tree easily
+       * if envvar REALLIB is defined, we use it to overright @INC, this in
+         order to relocate the perl tree easily
        * Pass @INC content to the subprocess
        * Vmsystem, ignore some normal warning (missing /proc on some OSes)
          http://forge.fusioninventory.org/issues/326
@@ -44,8 +64,8 @@ Revision history for FusionInventory::Agent
        * agent.cfg, add more server= parameter example
        * --server remove spaces at the begin and end of the server parameter
        * Networks.pm: fix is_success, load use HTTP::Status;
-       * fix t/xml-query-inventory.t to not fail on non i486-linux-gnu-thread-multi
-         arch
+       * fix t/xml-query-inventory.t to not fail on
+         non-i486-linux-gnu-thread-multi arch
        * fix t/app.t on Windows
 
 2.1.2    Mon, 23 Aug 2010 17:24:47 +0200
@@ -284,6 +304,9 @@ Revision history for FusionInventory::Agent
          (Guillaume Rousse)
        * Linux/Storages: factorize redudant code for udev devices detection
          (Guillaume Rousse)
+       * factorize manufacturer sanitisation function
+       * factorize DHCP information retrieval
+       * fix DHCP information retrieval for lease files with random chars
        * HP-UX numerous improvement (Amir PAKDEL)
        * Add NETWORKS/SPEED (in MB/s) (Amir PAKDEL)
        * HP-UX/Drives: Swapped "Type" and "File System" (Amir PAKDEL)

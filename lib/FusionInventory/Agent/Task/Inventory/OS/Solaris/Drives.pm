@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Drives;
 
+use strict;
+
 #Filesystem            kbytes    used   avail capacity  Mounted on
 #/dev/vx/dsk/bootdg/rootvol 16525754 5423501 10936996    34%    /
 #/devices                   0       0       0     0%    /devices
@@ -7,9 +9,11 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Drives;
 #proc                       0       0       0     0%    /proc
 #mnttab                     0       0       0     0%    /etc/mnttab
 
+use FusionInventory::Agent::Tools;
 
-use strict;
-sub isInventoryEnabled { can_run ("df") }
+sub isInventoryEnabled {
+    return can_run ("df");
+}
 
 sub doInventory {
     my $params = shift;

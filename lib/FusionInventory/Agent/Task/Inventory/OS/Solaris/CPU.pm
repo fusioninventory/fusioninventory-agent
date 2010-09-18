@@ -2,6 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU;
 
 use strict;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
   my $params = shift;
 

@@ -5,14 +5,10 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-my $devlib;
 foreach (@ARGV) {
     if (/^--devlib$/) {
         print STDERR "[info] --devlib are found, Developer mode enabled\n";
         unshift @INC, 'lib';
-    } elsif (/^--disable-perllib-envvar$/) {
-        $ENV{PERL5LIB}=undef;
-        $ENV{PERLLIB}=undef;
     }
 }
 
@@ -31,7 +27,7 @@ if ($EVAL_ERROR) {
 }
 
 eval {
-    my $agent = new FusionInventory::Agent;
+    my $agent = FusionInventory::Agent->new();
     $agent->main();
 };
 

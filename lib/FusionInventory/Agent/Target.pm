@@ -4,306 +4,142 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Path;
-use Config;
+use File::Path qw(make_path);
 
-BEGIN {
-    # threads and threads::shared must be loaded before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
-
-# resetNextRunDate() can also be called from another thread (RPC)
-my $lock : shared;
+use FusionInventory::Agent::Storage;
 
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    lock($lock);
-
-    my $nextRunDate : shared;
-    $self->{nextRunDate} = \$nextRunDate;
-
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{type} = $params->{type};
-    $self->{path} = $params->{path} || '';
-    $self->{deviceid} = $params->{deviceid};
-
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-    my $type   = $self->{type};
-
-
-    $self->{format} = ($type eq 'local' && $config->{html})?'HTML':'XML';
-
+    my $self = {
+        maxOffset       => $params->{maxOffset} || 3600,
+        logger          => $params->{logger},
+        path            => $params->{path} || '',
+        deviceid        => $params->{deviceid},
+        nextRunDate     => undef,
+    };
     bless $self, $class;
-   
-    $self->{debugPrintTimer} = 0;
-    
-    $self->init();
 
-    if ($params->{type} !~ /^(server|local|stdout)$/ ) {
-        $logger->fault('bad type'); 
-    }
+    my $logger = $self->{logger};
+
+    # The agent can contact different servers. Each server has it's own
+    # directory to store data
+    $self->{vardir} = $params->{basevardir} . '/' . $params->{dir};
 
     if (!-d $self->{vardir}) {
-        $logger->fault("Bad vardir setting!");
+        make_path($self->{vardir}, {error => \my $err});
+        if (@$err) {
+            $logger->error("Failed to create $self->{vardir}");
+        }
     }
+
+    if (! -w $self->{vardir}) {
+        die "Can't write in $self->{vardir}";
+    }
+
+    $logger->debug("storage directory: $self->{vardir}");
 
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
-    my $storage = $self->{storage};
-    $self->{myData} = $storage->restore();
+    $self->_load();
 
-
-    if ($self->{myData}{nextRunDate}) {
-        $logger->debug (
-            "[$self->{path}] Next server contact planned for ".
-            localtime($self->{myData}{nextRunDate})
-        );
-        ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
-    }
-
-    $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-            logger => $logger,
-            config => $config,
-            target => $self,
-        });
-
-    my $accountinfo = $self->{accountinfo};
-
-    if ($config->{tag}) {
-        if ($accountinfo->get("TAG")) {
-            $logger->debug(
-                "A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server " .
-                "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
-            );
-        }
-        $accountinfo->set("TAG", $config->{tag});
-    }
-    $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
+    $self->scheduleNextRun();
 
     return $self;
-}
-
-sub isDirectoryWritable {
-    my ($self, $dir) = @_;
-
-    return -w $dir;
-}
-
-# TODO refactoring needed here.
-sub init {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-
-    lock($lock);
-# The agent can contact different servers. Each server has it's own
-# directory to store data
-    if (
-        ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
-            !$self->isDirectoryWritable($config->{basevardir}))
-        && $OSNAME ne 'MSWin32'
-    ) {
-
-        if (! -d $ENV{HOME}."/.ocsinventory/var") {
-            $logger->info(
-                "Failed to create basevardir: $config->{basevardir} " .
-                "directory: $ERRNO. I'm going to use the home directory " .
-                "instead (~/.ocsinventory/var)."
-            );
-        }
-
-        $config->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
-        if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
-            $logger->error(
-                "Failed to create basedir: $config->{basedir} directory: " .
-                "$ERRNO. The HOSTID will not be written on the harddrive. " .
-                "You may have a duplicated entry of this computer in your OCS " .
-                "database"
-            );
-        }
-        $logger->debug("var files are stored in ".$config->{basevardir});
-    }
-
-    if ($self->{type} eq 'server') {
-        my $dir = $self->{path};
-        $dir =~ s/\//_/g;
-        # On Windows, we can't have ':' in directory path
-        $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
-        $self->{vardir} = $config->{basevardir} . "/" . $dir;
-    } else {
-        $self->{vardir} = $config->{basevardir} . "/__LOCAL__";
-    }
-    $logger->debug("vardir: $self->{vardir}");
-
-    if (!-d $self->{vardir} && !mkpath ($self->{vardir})) {
-        $logger->error(
-            "Failed to create vardir: $self->{vardir} directory: $ERRNO"
-        );
-    }
-
-    if (!$self->isDirectoryWritable($self->{vardir})) {
-        $logger->fault("Can't write in $self->{vardir}");
-    }
-
-    $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
-    $self->{last_statefile} = $self->{vardir} . "/last_state";
-}
-
-sub setNextRunDate {
-
-    my ($self, $args) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    lock($lock);
-
-    my $serverdelay = $self->{myData}{prologFreq};
-
-    lock($lock);
-
-    my $max;
-    if ($serverdelay) {
-        $max = $serverdelay * 3600;
-    } else {
-        $max = $config->{delaytime};
-        # If the PROLOG_FREQ has never been initialized, we force it at 1h
-        $self->setPrologFreq(1);
-    }
-    $max = 1 unless $max;
-
-    my $time = time + ($max/2) + int rand($max/2);
-
-    $self->{myData}{nextRunDate} = $time;
-    
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
-
-    $logger->debug (
-        "[$self->{path}] Next server contact has just been planned for ".
-        localtime($self->{myData}{nextRunDate})
-    );
-
-    $storage->save({ data => $self->{myData} });
 }
 
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $config = $self->{config};
-    my $logger = $self->{logger};
+    return $self->{nextRunDate};
+}
 
-    lock($lock);
+sub setNextRunDate {
+    my ($self, $nextRunDate) = @_;
 
-    if (${$self->{nextRunDate}}) {
-        if ($self->{debugPrintTimer} < time) {
-            $self->{debugPrintTimer} = time + 600;
-        }; 
+    return if $self->_isSameScalar($nextRunDate, $self->{nextRunDate});
 
-        return ${$self->{nextRunDate}};
+    $self->{nextRunDate} = $nextRunDate;
+    $self->_save();
+}
+
+sub scheduleNextRun {
+    my ($self, $offset) = @_;
+
+    if (! defined $offset) {
+        $offset = ($self->{maxOffset} / 2) + int rand($self->{maxOffset} / 2);
     }
+    my $time = time() + $offset;
+    $self->setNextRunDate($time);
 
-    $self->setNextRunDate();
-
-    if (!${$self->{nextRunDate}}) {
-        $logger->fault('nextRunDate not set!');
-    }
-
-    return $self->{myData}{nextRunDate} ;
+    $self->{logger}->debug(defined $offset ?
+        "Next run scheduled for " . localtime($time + $offset) :
+        "Next run forced now"
+    );
 
 }
 
-sub resetNextRunDate {
+sub getMaxOffset {
     my ($self) = @_;
 
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    lock($lock);
-    $logger->debug("Force run now");
-    
-    $self->{myData}{nextRunDate} = 1;
-    $storage->save({ data => $self->{myData} });
-    
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    return $self->{maxOffset};
 }
 
-sub setPrologFreq {
+sub setMaxOffset {
+    my ($self, $maxOffset) = @_;
 
-    my ($self, $prologFreq) = @_;
+    return if $self->_isSameScalar($maxOffset, $self->{maxOffset});
 
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    return unless $prologFreq;
-
-    if ($self->{myData}{prologFreq} && ($self->{myData}{prologFreq}
-            eq $prologFreq)) {
-        return;
-    }
-    if (defined($self->{myData}{prologFreq})) {
-        $logger->info(
-            "PROLOG_FREQ has changed since last process ". 
-            "(old=$self->{myData}{prologFreq},new=$prologFreq)"
-        );
-    } else {
-        $logger->info("PROLOG_FREQ has been set: $prologFreq");
-    }
-
-    $self->{myData}{prologFreq} = $prologFreq;
-    $storage->save({ data => $self->{myData} });
-
+    $self->{maxOffset} = $maxOffset;
+    $self->_save();
 }
 
-sub setCurrentDeviceID {
+sub _load {
+    my ($self) = @_;
 
-    my ($self, $deviceid) = @_;
+    my $data = $self->{storage}->restore();
+    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+    $self->{maxOffset}   = $data->{maxOffset} if $data->{maxOffset};
 
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    return unless $deviceid;
-
-    if ($self->{myData}{currentDeviceid} &&
-        ($self->{myData}{currentDeviceid} eq $deviceid)) {
-        return;
-    }
-
-    if (!$self->{myData}{currentDeviceid}) {
-        $logger->debug("DEVICEID initialized at $deviceid");
-    } else {
-        $logger->info(
-            "DEVICEID has changed since last process ". 
-            "(old=$self->{myData}{currentDeviceid},new=$deviceid"
+    if ($self->{nextRunDate}) {
+        $self->{logger}->debug (
+            "[$self->{path}] Next server contact planned for ".
+            localtime($data->{nextRunDate})
         );
     }
 
-    $self->{myData}{currentDeviceid} = $deviceid;
-    $storage->save({ data => $self->{myData} });
-
-    $self->{currentDeviceid} = $deviceid;
-
+    return $data;
 }
+
+sub _save {
+    my ($self, $data) = @_;
+
+    $data->{nextRunDate} = $self->{nextRunDate};
+    $data->{maxOffset}   = $self->{maxOffset};
+    $self->{storage}->save({ data => $data });
+}
+
+sub _isSameScalar {
+    my ($self, $value1, $value2) = @_;
+
+    return if ! defined $value1; 
+    return if ! defined $value2;
+
+    return $value1 eq $value2;
+}
+
+sub _isSameHash {
+    my ($self, $value1, $value2) = @_;
+
+    return if ! defined $value1; 
+    return if ! defined $value2;
+
+    my $dump1 = join(',', map { "$_=$value1->{$_}" } sort keys %$value1);
+    my $dump2 = join(',', map { "$_=$value2->{$_}" } sort keys %$value2);
+
+    return $dump1 eq $dump2;
+}
+
 
 1;

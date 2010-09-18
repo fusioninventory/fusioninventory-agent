@@ -1,7 +1,13 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Slots;
 
 use strict;
-sub isInventoryEnabled { can_run ("prtdiag") }
+use warnings;
+
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return can_run ("prtdiag");
+}
 
 sub doInventory {
     my $params = shift;

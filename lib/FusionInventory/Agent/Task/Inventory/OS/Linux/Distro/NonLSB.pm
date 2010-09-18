@@ -27,7 +27,7 @@ sub isInventoryEnabled {
     return 1;
 }
 
-sub findRelease {
+sub _findRelease {
     my $release;
 
     foreach my $file (keys %files) {
@@ -55,7 +55,7 @@ sub doInventory {
     chomp $OSComment;
 
     $inventory->setHardware({ 
-        OSNAME     => findRelease(),
+        OSNAME     => _findRelease(),
         OSCOMMENTS => $OSComment
     });
 }

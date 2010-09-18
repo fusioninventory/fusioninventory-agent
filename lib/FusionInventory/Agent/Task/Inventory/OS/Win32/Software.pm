@@ -17,7 +17,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
     return 1;
@@ -114,10 +114,6 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $KEY_WOW64_64KEY = 0x100; 
-    my $KEY_WOW64_32KEY = 0x200; 
-
-
     my $Config;
 
     my $is64bit;
@@ -137,30 +133,42 @@ sub doInventory {
 
         my $machKey64bit = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_64KEY
-        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-        my $softwares=
+        my $softwares64bit =
             $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
+        processSoftwares({
+            inventory => $inventory,
+            softwares => $softwares64bit,
+            is64bit => 1
+        });
 
         my $machKey32bit = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32KEY
-        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-        $softwares=
+        my $softwares32bit =
             $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
+        processSoftwares({
+            inventory => $inventory,
+            softwares => $softwares32bit,
+            is64bit => 0
+        });
 
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ()
-        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares=
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
+        processSoftwares({
+            inventory => $inventory,
+            softwares => $softwares,
+            is64bit => 0
+        });
 
     }
 
