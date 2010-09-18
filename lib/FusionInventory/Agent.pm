@@ -188,7 +188,7 @@ sub new {
             my $url;
             if ($val !~ /^https?:\/\//) {
                 $logger->debug(
-                    "no explicit protocol for url $url, assume http as default"
+                    "no explicit protocol for url $val, assume http as default"
                 );
                 $url = "http://$val/ocsinventory";
             } else {
