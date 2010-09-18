@@ -1,9 +1,14 @@
 Revision history for FusionInventory::Agent
 
 2.2.x
+       * Ensure local targets restore previous state (bug #360)
        * Don't use a fixed realm anymore for HTTP authentication, but replays
          automatically any request requiring authentication with given realm
-       * Make --realm parameter deprecated
+       * Make --no-socket parameter deprecated (use --no-rpc instead)
+       * Make --daemon-no-fork parameter deprecated (use --daemon --no-fork
+         instead)
+       * Make --realm parameter deprecated (not needed anymore, realm is 
+         automatically computed)
        * Drop deprecated --remotedir, --nosoft and --nosoftware parameters
        * Large code cleanup:
          - factorize many command output or file content parsing
