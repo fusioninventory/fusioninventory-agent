@@ -58,8 +58,8 @@ sub doInventory {
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
-            (.+)
-            $/x;
+            (.*\S)
+            /x;
         my $user = $1;
         my $pid = $2;
         my $cpu = $3;
