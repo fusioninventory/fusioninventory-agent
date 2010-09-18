@@ -2,16 +2,17 @@ package FusionInventory::Agent::Target;
 
 use strict;
 use warnings;
-use threads;
-use threads::shared;
 
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
+
+use Carp;
 
 use POE;
 
 # resetNextRunDate() can also be call from another thread (RPC)
 my $lock :shared;
+use FusionInventory::Agent::Storage;
 
 sub new {
     my ($class, $params) = @_;
@@ -21,17 +22,13 @@ sub new {
     }
 
     my $self = {
-        delaytime       => $params->{delaytime},
+        maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
-        jobEngine       => $params->{jobEngine},
-        debugPrintTimer => 0
+        nextRunDate     => undef,
     };
     bless $self, $class;
-
-    my $nextRunDate :shared;
-    $self->{nextRunDate} = \$nextRunDate;
 
     my $logger = $self->{logger};
 
@@ -52,139 +49,106 @@ sub new {
 
     $logger->debug("storage directory: $self->{vardir}");
 
-    $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
-    $self->{last_statefile} = $self->{vardir} . "/last_state";
-
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
+    $self->_load();
+
+    $self->scheduleNextRun();
 
     return $self;
-}
-
-sub setNextRunDate {
-
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    my $serverdelay = $self->{myData}{prologFreq};
-
-    my $max;
-    if ($serverdelay) {
-        $max = $serverdelay * 3600;
-    } else {
-        $max = $self->{delaytime};
-        # If the PROLOG_FREQ has never been initialized, we force it at 1h
-        $self->setPrologFreq(1);
-    }
-    $max = 1 unless $max;
-
-    my $time = time + ($max/2) + int rand($max/2);
-
-    $self->{myData}{nextRunDate} = $time;
-    
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
-
-    $logger->debug (
-        "[$self->{path}] Next server contact'd just been planned for ".
-        localtime($self->{myData}{nextRunDate})
-    );
-
-    $storage->save({ data => $self->{myData} });
 }
 
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $logger = $self->{logger};
+    return $self->{nextRunDate};
+}
 
-    if (${$self->{nextRunDate}}) {
-      
-        if ($self->{debugPrintTimer} < time) {
-            $self->{debugPrintTimer} = time + 600;
-        }; 
+sub setNextRunDate {
+    my ($self, $nextRunDate) = @_;
 
-        return ${$self->{nextRunDate}};
+    return if $self->_isSameScalar($nextRunDate, $self->{nextRunDate});
+
+    $self->{nextRunDate} = $nextRunDate;
+    $self->_save();
+}
+
+sub scheduleNextRun {
+    my ($self, $offset) = @_;
+
+    if (! defined $offset) {
+        $offset = ($self->{maxOffset} / 2) + int rand($self->{maxOffset} / 2);
     }
+    my $time = time() + $offset;
+    $self->setNextRunDate($time);
 
-    $self->setNextRunDate();
-
-    if (!${$self->{nextRunDate}}) {
-        die 'nextRunDate not set!';
-    }
-
-    return $self->{myData}{nextRunDate} ;
+    $self->{logger}->debug(defined $offset ?
+        "Next run scheduled for " . localtime($time + $offset) :
+        "Next run forced now"
+    );
 
 }
 
-sub resetNextRunDate {
+sub getMaxOffset {
     my ($self) = @_;
 
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    $logger->debug("Force run now");
-    
-    $self->{myData}{nextRunDate} = 1;
-    $storage->save({ data => $self->{myData} });
-    
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    return $self->{maxOffset};
 }
 
-sub setPrologFreq {
+sub setMaxOffset {
+    my ($self, $maxOffset) = @_;
 
-    my ($self, $prologFreq) = @_;
+    return if $self->_isSameScalar($maxOffset, $self->{maxOffset});
 
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    return unless $prologFreq;
-
-    if ($self->{myData}{prologFreq} && ($self->{myData}{prologFreq}
-            eq $prologFreq)) {
-        return;
-    }
-    if (defined($self->{myData}{prologFreq})) {
-        $logger->info(
-            "PROLOG_FREQ has changed since last process ". 
-            "(old=$self->{myData}{prologFreq},new=$prologFreq)"
-        );
-    } else {
-        $logger->info("PROLOG_FREQ has been set: $prologFreq");
-    }
-
-    $self->{myData}{prologFreq} = $prologFreq;
-    $storage->save({ data => $self->{myData} });
-
+    $self->{maxOffset} = $maxOffset;
+    $self->_save();
 }
 
-sub setCurrentDeviceID {
+sub _load {
+    my ($self) = @_;
 
-    my ($self, $deviceid) = @_;
+    my $data = $self->{storage}->restore();
+    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+    $self->{maxOffset}   = $data->{maxOffset} if $data->{maxOffset};
 
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    return unless $deviceid;
-
-    if ($self->{myData}{currentDeviceid} &&
-        ($self->{myData}{currentDeviceid} eq $deviceid)) {
-        return;
-    }
-
-    if (!$self->{myData}{currentDeviceid}) {
-        $logger->debug("DEVICEID initialized at $deviceid");
-    } else {
-        $logger->info(
-            "DEVICEID has changed since last process ". 
-            "(old=$self->{myData}{currentDeviceid},new=$deviceid"
+    if ($self->{nextRunDate}) {
+        $self->{logger}->debug (
+            "[$self->{path}] Next server contact planned for ".
+            localtime($data->{nextRunDate})
         );
     }
 
-    $self->{myData}{currentDeviceid} = $deviceid;
-    $storage->save({ data => $self->{myData} });
+    return $data;
+}
+
+sub _save {
+    my ($self, $data) = @_;
+
+    $data->{nextRunDate} = $self->{nextRunDate};
+    $data->{maxOffset}   = $self->{maxOffset};
+    $self->{storage}->save({ data => $data });
+}
+
+sub _isSameScalar {
+    my ($self, $value1, $value2) = @_;
+
+    return if ! defined $value1; 
+    return if ! defined $value2;
+
+    return $value1 eq $value2;
+}
+
+sub _isSameHash {
+    my ($self, $value1, $value2) = @_;
+
+    return if ! defined $value1; 
+    return if ! defined $value2;
+
+    my $dump1 = join(',', map { "$_=$value1->{$_}" } sort keys %$value1);
+    my $dump2 = join(',', map { "$_=$value2->{$_}" } sort keys %$value2);
+
+    return $dump1 eq $dump2;
 }
 
 sub createNextAlarm {
@@ -214,8 +178,5 @@ sub createNextAlarm {
         });
 
 }
-
-
-
 
 1;

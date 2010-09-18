@@ -22,8 +22,6 @@ sub new {
         target => $params->{target}
     };
     bless $self, $class;
-
-    return $dirName;
 }
 
 sub save {

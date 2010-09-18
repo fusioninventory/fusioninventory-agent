@@ -90,10 +90,10 @@ sub run {
                 }
             }
 
-            my $accountinfo = $self->{target}->{accountinfo};
-
-            # Put ACCOUNTINFO values in the inventory
-#TODO Disabled for now           $accountinfo->setAccountInfo($self->{inventory});
+            # Add current ACCOUNTINFO values to the inventory
+            $self->{inventory}->setAccountInfo(
+                $self->{target}->getAccountInfo()
+            );
 
             my $response = $self->{transmitter}->send(
                 {message => $self->{inventory}}
@@ -108,7 +108,8 @@ sub run {
                 $parsedContent->{RESPONSE} &&
                 $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
             ) {
-                $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
+                # Update current ACCOUNTINFO values
+                $self->{target}->setAccountInfo($parsedContent->{ACCOUNTINFO});
             }
 
             last SWITCH;
@@ -123,21 +124,6 @@ sub _initModList {
     my $logger = $self->{logger};
     my $config = $self->{config};
     my $storage = $self->{storage};
-
-    my @modules;
-    # This is a workaround for PAR::Packer. Since it resets @INC
-    # I can't find the backend modules to load dynamically. So
-    # I prepare a list and include it.
-    FusionInventory::Agent::Task::Inventory::ModuleToLoad->require();
-    if (!$EVAL_ERROR) {
-        $logger->debug(
-            "use FusionInventory::Agent::Task::Inventory::ModuleToLoad to " . 
-            "get the modules to load. This should not append unless you use " .
-            "the standalone agent built with PAR::Packer (pp)"
-        );
-        @modules = 
-            @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
-    }
 
     # compute a list of directories to scan
     my @dirToScan;
@@ -173,7 +159,7 @@ sub _initModList {
         @dirToScan
     );
 
-    @modules = keys %modules;
+    my @modules = keys %modules;
     die "No inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
@@ -321,11 +307,9 @@ sub _runWithTimeout {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm $timeout;
 
-        no strict 'refs';
+        no strict 'refs'; ## no critic
 
         $ret = &{$module . '::' . $function}({
-            accountconfig => $self->{accountconfig},
-            accountinfo   => $self->{accountinfo},
             config        => $self->{config},
             inventory     => $self->{inventory},
             logger        => $self->{logger},

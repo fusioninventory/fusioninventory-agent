@@ -13,7 +13,6 @@ sub new {
     die "No DEVICEID" unless $params->{target}->{deviceid};
 
     my $self = {
-        accountinfo => $params->{accountinfo},
         logger      => $params->{logger},
         target      => $params->{target},
         storage     => $params->{storage}
@@ -46,6 +45,20 @@ sub getContent {
     return $content;
 }
 
+sub setAccountInfo {
+    my ($self, $info) = @_;
+
+    return unless defined $info;
+    die "invalid argument $info" unless ref $info eq 'HASHREF';
+
+    while (my ($key, $value) = each %$info) {
+        push @{$self->{h}->{CONTENT}->{ACCOUNTINFO}}, {
+            KEYNAME  => $key,
+            KEYVALUE => $value
+        }
+    }
+}
+
 1;
 __END__
 
@@ -65,8 +78,6 @@ server.
 The constructor. The following named parameters are allowed:
 
 =over
-
-=item accountinfo (mandatory)
 
 =item logger (mandatory)
 

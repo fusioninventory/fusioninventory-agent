@@ -135,39 +135,47 @@ sub handle {
         # now request
         if ($path =~ m{^/now(?:/(\S+))?$}) {
             my $sentToken = $1;
-            my ($code, $msg);
 
+            my $result;
             if ($clientIp =~ /^127\./ && $self->{rpc_trust_localhost}) {
                 # trusted request
-                $scheduler->resetNextRunDate();
-                $code = 200;
-                $msg = "Done."
+                $result = "ok";
             } else {
                 # authenticated request
                 if ($sentToken) {
                     my $token = $self->{agent}->resetToken();
                     if ($sentToken eq $token) {
+                        $result = "ok";
                         $self->{agent}->resetToken();
-                        $scheduler->resetNextRunDate();
-                        $code = 200;
-                        $msg = "Done."
                     } else {
-                        $logger->debug("[Receiver] untrusted address, invalid token $sentToken != $token");
-                        $code = 403;
-                        $msg = "Access denied: untrusted address, invalid token.";
+                        $logger->debug(
+                            "[Receiver] untrusted address, invalid token $sentToken != $token"
+                        );
+                        $result = "untrusted address, invalid token";
                     }
                 } else {
-                    $logger->debug("[Receiver] untrusted address, no token received");
-                    $code = 403;
-                    $msg = "Access denied: untrusted address, no token received.";
+                    $logger->debug(
+                        "[Receiver] untrusted address, no token received"
+                    );
+                    $result = "untrusted address, no token received";
                 }
+            }
+
+            my ($code, $message);
+            if ($result eq "ok") {
+                $scheduler->scheduleTargets(0);
+                $code    = 200;
+                $message = "Done."
+            } else {
+                $code    = 403;
+                $message = "Access denied: $result.";
             }
 
             my $r = HTTP::Response->new(
                 $code,
                 'OK',
                 HTTP::Headers->new('Content-Type' => 'text/html'),
-                "<html><head><title>FusionInventory-Agent</title></head><body>$msg <br /><a href='/'>Back</a></body><html>"
+                "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>"
             );
             $c->send_response($r);
 

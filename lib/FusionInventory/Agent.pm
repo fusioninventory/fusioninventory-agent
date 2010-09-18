@@ -12,6 +12,9 @@ use XML::Simple;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Target::Local;
+use FusionInventory::Agent::Target::Stdout;
+use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -58,7 +61,7 @@ sub new {
 
     if ($config->{help}) {
         $config->help();
-        exit 1;
+        exit 0;
     }
     if ($config->{version}) {
         print $VERSION_STRING . "\n";
@@ -69,31 +72,41 @@ sub new {
         config => $config
     });
 
-    if ( $REAL_USER_ID != 0 ) {
+    if (!$config->{server} && !$config->{local} && !$config->{stdout}) {
+        $logger->fault(
+            "No target defined. Use at least one of --server, --local or " .
+            "--stdout option"
+        );
+        exit 1;
+    }
+
+    if ($REAL_USER_ID != 0) {
         $logger->info("You should run this program as super-user.");
     }
 
     if (! -d $config->{basevardir}) {
         make_path($config->{basevardir}, {error => \my $err});
         if (@$err) {
-            $logger->error(
-                "Failed to create $config->{basevardir} directory"
+            $logger->fault(
+                "Failed to create storage directory $config->{basevardir}."
             );
+            exit 1;
         }
     }
 
     if (! -w $config->{basevardir}) {
-        $logger->error(
-            "Non-writable $config->{basevardir} directory. Either fix it, or " .
-            "use --basevardir to point to a R/W directory."
-        );
+        $logger->fault("Non-writable storage directory $config->{basevardir}.");
+        exit 1;
     }
 
-    $logger->debug("base storage directory: $config->{basevardir}");
+    $logger->debug("Storage directory: $config->{basevardir}");
 
-    if (!-d $config->{'share-dir'}) {
-        $logger->error("share-dir doesn't existe $config->{'share-dir'}");
+    if (! -d $config->{'share-dir'}) {
+        $logger->fault("Non-existing data directory $config->{'share-dir'}.");
+        exit 1;
     }
+
+    $logger->debug("Data directory: $config->{'share-dir'}");
 
     #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
     my $hostname;
@@ -142,18 +155,56 @@ sub new {
     $self->{deviceid} = $data->{deviceid};
 
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
-        logger => $logger,
-        config => $config,
-        deviceid => $self->{deviceid}
+        logger     => $logger,
+        lazy       => $config->{lazy},
+        wait       => $config->{wait},
+        background => $config->{daemon} || $config->{service}
     });
 
-    my $scheduler = $self->{scheduler};
-
-    if (!$scheduler->numberOfTargets()) {
-        $logger->fault(
-            "No target defined. Please use --server or --local option."
+    if ($config->{stdout}) {
+        $self->{scheduler}->addTarget(
+            FusionInventory::Agent::Target::Stdout->new({
+                logger     => $logger,
+                deviceid   => $self->{deviceid},
+                maxOffset  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+            })
         );
-        exit 1;
+    }
+
+    if ($config->{local}) {
+        $self->{scheduler}->addTarget(
+            FusionInventory::Agent::Target::Local->new({
+                logger     => $logger,
+                deviceid   => $self->{deviceid},
+                maxOffset  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+                path       => $config->{local},
+            })
+        );
+    }
+
+    if ($config->{server}) {
+        foreach my $val (split(/,/, $config->{server})) {
+            my $url;
+            if ($val !~ /^https?:\/\//) {
+                $logger->debug(
+                    "no explicit protocol for url $val, assume http as default"
+                );
+                $url = "http://$val/ocsinventory";
+            } else {
+                $url = $val;
+            }
+            $self->{scheduler}->addTarget(
+                FusionInventory::Agent::Target::Server->new({
+                    logger     => $logger,
+                    deviceid   => $self->{deviceid},
+                    maxOffset  => $config->{delaytime},
+                    basevardir => $config->{basevardir},
+                    path       => $url,
+                })
+            );
+        }
     }
 
     if ($config->{'scan-homedirs'}) {
@@ -215,11 +266,15 @@ sub new {
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
         } else {
+            # make sure relevant variables are shared between threads
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
+            foreach my $target ($self->{scheduler}->getTargets()) {
+                threads::shared::share($target->{nextRunUpdate});
+            }
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
-                scheduler => $scheduler,
+                scheduler => $self->{scheduler},
                 agent     => $self,
                 devlib    => $config->{devlib},
                 share_dir => $config->{'share-dir'},
@@ -260,16 +315,11 @@ sub main {
     my $jobEngine = $self->{jobEngine};
     $rpc && $rpc->setCurrentStatus("waiting");
 
-    foreach my $target ($targetsList->{targets}) {
-        print "toto\n";
-    }
-#    my $scheduler = $self->{scheduler};
-#    my $receiver = $self->{receiver};
-
+#=======
 #    eval {
 #        $self->{status} = 'waiting';
 #
-#        while (my $target = $scheduler->getNext()) {
+#        while (my $target = $scheduler->getNextTarget()) {
 #
 #            my $prologresp;
 #            my $transmitter;
@@ -287,29 +337,28 @@ sub main {
 #                });
 #
 #                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-#                    accountinfo => $target->{accountinfo}, #? XXX
 #                    logger => $logger,
 #                    config => $config,
 #                    target => $target,
 #                    token  => $self->{token}
 #                });
 #
-#                # ugly circular reference moved from Prolog::getContent() method
-#                $target->{accountinfo}->setAccountInfo($prolog);
+#                if ($config->{tag}) {
+#                    $prolog->setAccountInfo({'TAG', $config->{tag}});
+#                }
 #
 #                # TODO Don't mix settings and temp value
 #                $prologresp = $transmitter->send({message => $prolog});
 #
 #                if (!$prologresp) {
 #                    $logger->error("No anwser from the server");
-#                    $target->setNextRunDate();
+#                    $target->scheduleNextRun();
 #                    next;
 #                }
 #
 #                # update target
 #                my $parsedContent = $prologresp->getParsedContent();
-#                $target->setPrologFreq($parsedContent->{PROLOG_FREQ});
-#                $target->setCurrentDeviceID ($self->{deviceid});
+#                $target->setMaxOffset($parsedContent->{PROLOG_FREQ});
 #            }
 #
 #            my $storage = FusionInventory::Agent::Storage->new({
@@ -386,6 +435,20 @@ sub main {
 #                }
 #            }
 #            $self->{status} = 'waiting';
+#
+#            if (!$config->{debug}) {
+#                # In debug mode, I do not clean the FusionInventory-Agent.dump
+#                # so I can replay the sub task directly
+#                $storage->remove();
+#            }
+#            $target->scheduleNextRun();
+#
+#            sleep(5);
+#        }
+#    };
+#    if ($EVAL_ERROR) {
+#        $logger->fault($EVAL_ERROR);
+#        exit 1;
 
 
     POE::Kernel->run();

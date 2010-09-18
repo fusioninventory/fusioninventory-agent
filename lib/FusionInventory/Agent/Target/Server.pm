@@ -21,41 +21,36 @@ sub new {
         }
     );
 
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-
-    $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-        logger => $logger,
-        config => $config,
-        target => $self,
-    });
-
-    my $accountinfo = $self->{accountinfo};
-
-    if ($config->{tag}) {
-        if ($accountinfo->get("TAG")) {
-            $logger->debug(
-                "A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server " .
-                "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
-            );
-        }
-        $accountinfo->set("TAG", $config->{tag});
-    }
-
-    my $storage = $self->{storage};
-    $self->{myData} = $storage->restore();
-
-    if ($self->{myData}{nextRunDate}) {
-        $logger->debug (
-            "[$self->{path}] Next server contact planned for ".
-            localtime($self->{myData}{nextRunDate})
-        );
-        ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
-    }
-
     return $self;
+}
 
+sub getAccountInfo {
+    my ($self) = @_;
+
+    return $self->{accountInfo};
+}
+
+sub setAccountInfo {
+    my ($self, $accountInfo) = @_;
+
+    return if $self->_isSameHash($accountInfo, $self->{accountInfo});
+
+    $self->{accountInfo} = $accountInfo;
+    $self->_save();
+}
+
+sub _load {
+    my ($self) = @_;
+
+    my $data = $self->SUPER::_load();
+    $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
+}
+
+sub _save {
+    my ($self, $data) = @_;
+
+    $data->{accountInfo} = $self->{accountInfo};
+    $self->SUPER::_save($data);
 }
 
 1;
