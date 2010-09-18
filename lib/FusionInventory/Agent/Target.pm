@@ -12,7 +12,7 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        delaytime       => $params->{delaytime},
+        maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
@@ -66,8 +66,7 @@ sub scheduleNextRun {
     my ($self, $offset) = @_;
 
     if (! defined $offset) {
-        my $max = $self->_getMaxOffset();
-        $offset = ($max / 2) + int rand($max / 2);
+        $offset = ($self->{maxOffset} / 2) + int rand($self->{maxOffset} / 2);
     }
     my $time = time() + $offset;
     $self->setNextRunDate($time);
@@ -79,20 +78,25 @@ sub scheduleNextRun {
 
 }
 
-sub _getMaxOffset {
+sub getMaxOffset {
     my ($self) = @_;
 
-   return 
-        $self->{delayTime}  ? $self->{delayTime} : 
-                              1                  ;
+    return $self->{maxOffset};
 }
 
+sub setMaxOffset {
+    my ($self) = @_;
+
+    $self->{maxOffset} = $maxOffset;
+    $self->_save();
+}
 
 sub _load {
     my ($self) = @_;
 
     my $data = $self->{storage}->restore();
     $self->{nextRunDate} = $data->{nextRunDate};
+    $self->{maxOffset}   = $data->{maxOffset};
 
     if ($self->{nextRunDate}) {
         $self->{logger}->debug (
@@ -108,6 +112,7 @@ sub _save {
     my ($self, $data) = @_;
 
     $data->{nextRunDate} = $self->{nextRunDate};
+    $data->{maxOffset}   = $self->{maxOffset};
     $self->{storage}->save({ data => $data });
 }
 

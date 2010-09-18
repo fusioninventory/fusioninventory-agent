@@ -165,7 +165,7 @@ sub new {
             FusionInventory::Agent::Target::Stdout->new({
                 logger     => $logger,
                 deviceid   => $self->{deviceid},
-                delaytime  => $config->{delaytime},
+                maxOffset  => $config->{delaytime},
                 basevardir => $config->{basevardir},
             })
         );
@@ -176,7 +176,7 @@ sub new {
             FusionInventory::Agent::Target::Local->new({
                 logger     => $logger,
                 deviceid   => $self->{deviceid},
-                delaytime  => $config->{delaytime},
+                maxOffset  => $config->{delaytime},
                 basevardir => $config->{basevardir},
                 path       => $config->{local},
             })
@@ -198,7 +198,7 @@ sub new {
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
                     deviceid   => $self->{deviceid},
-                    delaytime  => $config->{delaytime},
+                    maxOffset  => $config->{delaytime},
                     basevardir => $config->{basevardir},
                     path       => $url,
                 })
@@ -325,7 +325,7 @@ sub main {
 
                 # update target
                 my $parsedContent = $prologresp->getParsedContent();
-                $target->setPrologFreq($parsedContent->{PROLOG_FREQ});
+                $target->setMaxOffset($parsedContent->{PROLOG_FREQ});
             }
 
             my $storage = FusionInventory::Agent::Storage->new({
