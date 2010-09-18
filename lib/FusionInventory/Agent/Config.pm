@@ -326,30 +326,33 @@ EOF
 Common options:
     --debug             debug mode ($self->{debug})
     --format            export format (HTML or XML) ($self->{format})
-    -l --local=DIR      do not contact server but write inventory in DIR
-                        directory in XML ($self->{local})
     --logfile=FILE      log message in FILE ($self->{logfile})
     --version           print the version
 
-Network options:
+Network connection options:
     -p --password=PWD   password for server auth
     -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
-    -s --server=uri     server uri, e.g: http://server/ocsinventory ($self->{server})
     -u --user           user name to use for server auth
-
-SSL options:
     --ca-cert-dir=D     SSL certificat directory ($self->{'ca-cert-dir'})
     --ca-cert-file=F    SSL certificat file ($self->{'ca-cert-file'})
+    --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
 
-Disable options:
-    --no-ocsdeploy      Do not deploy packages or run command ($self->{'no-ocsdeploy'})
-    --no-inventory      Do not generate inventory ($self->{'no-inventory'})
+Target selection options:
+    -s --server=URI     server uri, e.g: http://server/ocsinventory ($self->{server})
+    -l --local=DIR      write inventory in DIR
+    --stdout            print inventory on STDOUT
+
+Task disabling options:
+    --no-inventory      do not use inventory task ($self->{'no-inventory'})
+    --no-wakeonlan      do not use wakeonlan task ($self->{'no-wakeonlan'})
+    --no-snmpquery      do not use snmpquery task ($self->{'no-snmpquery'})
+    --no-netdiscovery   do not use snmpquery task ($self->{'no-netdiscovery'})
+    --no-ocsdeploy      do not use deployment task ($self->{'no-ocsdeploy'})
+
+Inventory task specific options:
     --no-printer        do not return printer list in inventory $self->{'no-printer'})
     --no-software       do not return installed software list ($self->{'no-software'})
-    --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
-    --no-wakeonlan      do not use wakeonlan function ($self->{'no-wakeonlan'})
-    --no-snmpquery      do not use snmpquery function ($self->{'no-snmpquery'})
-    --no-netdiscovery   do not use snmpquery function ($self->{'no-netdiscovery'})
+    --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
 
 Web interface options:
     --no-rpc            do not use web interface ($self->{'no-rpc'})
@@ -359,7 +362,7 @@ Web interface options:
 Extra options:
     --backend-collect-timeout set a max delay time of one inventory data
                         collect job ($self->{'backend-collect-timeout'})
-    --basevardir=/path  indicate the directory where should the agent store its
+    --basevardir=DIR    indicate the directory where should the agent store its
                         files ($self->{basevardir})
     --color             use color in the console ($self->{color})
     -d --daemon         detach the agent in background ($self->{daemon})
@@ -373,10 +376,8 @@ Extra options:
                         PROLOG_FREQ ($self->{lazy})
     --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
     --logger            Logger you want to use (Stderr, File or Syslog) ($self->{logger})
-    --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
     --share-dir=DIR     path to the directory where are stored the shared files
                         ($self->{'share-dir'})
-    --stdout            do not write or post the inventory but print it on STDOUT
     -t --tag=TAG        use TAG as tag ($self->{tag})
     -w --wait=DURATION  wait during a random periode between 0 and DURATION
                         seconds before contacting server ($self->{wait})
