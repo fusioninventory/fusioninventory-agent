@@ -41,7 +41,7 @@ sub _load {
     my ($self) = @_;
 
     my $data = $self->SUPER::_load();
-    $self->{accountInfo} = $data->{accountInfo};
+    $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
 }
 
 sub _save {

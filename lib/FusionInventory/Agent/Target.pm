@@ -85,7 +85,7 @@ sub getMaxOffset {
 }
 
 sub setMaxOffset {
-    my ($self) = @_;
+    my ($self, $maxOffset) = @_;
 
     $self->{maxOffset} = $maxOffset;
     $self->_save();
@@ -95,8 +95,8 @@ sub _load {
     my ($self) = @_;
 
     my $data = $self->{storage}->restore();
-    $self->{nextRunDate} = $data->{nextRunDate};
-    $self->{maxOffset}   = $data->{maxOffset};
+    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+    $self->{maxOffset}   = $data->{maxOffset} if $data->{maxOffset};
 
     if ($self->{nextRunDate}) {
         $self->{logger}->debug (
