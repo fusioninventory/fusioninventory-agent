@@ -20,7 +20,7 @@ use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
-our $VERSION = '2.1.2';
+our $VERSION = '2.2.0';
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -185,6 +185,8 @@ sub new {
 
     if ($config->{server}) {
         foreach my $val (split(/,/, $config->{server})) {
+            $val =~ s/^\s+//;
+            $val =~ s/\s+$//;
             my $url;
             if ($val !~ /^https?:\/\//) {
                 $logger->debug(

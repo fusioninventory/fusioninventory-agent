@@ -12,12 +12,16 @@ foreach (@ARGV) {
     }
 }
 
+if ($ENV{REALLIB}) {
+    @INC = split(/:/,$ENV{REALLIB});
+}
+
 eval {
     require FusionInventory::Agent;
 };
 if ($EVAL_ERROR) {
     print STDERR "Failed to load FusionInventory::Agent, $EVAL_ERROR\n";
-    print STDERR "you can run the agent directly for its source directory ";
+    print STDERR "you can run the agent directly from its source directory ";
     print STDERR "with --devlib\n";
     exit 1;
 }
@@ -28,7 +32,7 @@ eval {
 };
 
 if ($EVAL_ERROR) {
-    print STDERR "Execution failed. Are you sur the software is fully ";
+    print STDERR "Execution failed. Are you sure the software is fully ";
     print STDERR "installed\n";
     print STDERR "and an old version of the agent not already present on the ";
     print STDERR "system?\n";
@@ -67,7 +71,7 @@ B<fusioninventory-agent> S<[ ... ]> S<[ I<--server server> | I<--local /tmp> ]>.
     % fusioninventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
     # send a report to a server protected by a basic authentication
     % fusioninventory-agent --lazy
-    # send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over.
+    # send an inventory only if a random delay between 0 and PROLOG_FREQ had been run over.
 
     % fusioninventory-agent --delaytime 60 -d
     # If NO PROLOG_FREQ has been preset, pick a time between execution and --delaytime for the agent to contact the server [default is 3600 seconds]
@@ -194,18 +198,18 @@ L<http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/RunAgentW
 
 Run ./fusioninventory-agent-config for automatic configuration.
 
-=head1 OCS INVENTORY PROTOCOLE
+=head1 OCS INVENTORY PROTOCOL
 
-FusionInventory Agent uses OCS Inventory protocle and is compatible with OCS
-Inventory server. The agent uses the same protocle with the FusionInventory
+FusionInventory Agent uses OCS Inventory protocol and is compatible with OCS
+Inventory server. The agent uses the same protocol with the FusionInventory
 For GLPI plugin.
 
-The OCS protocole is basicly an exchange of XML file done over HTTP(S).
+The OCS protocol is basicly an exchange of XML file done over HTTP(S).
 
 =head2 First, The PROLOG
 
 The agent send a first message to give it's ID (DEVICEID). The
-server send by a the agent a XML file with a list of parameter. It's the
+server send back to the agent an XML file with a list of parameter. It's the
 PROLOG RESP. You can see it if you're in Debug mode.
 In this PROLOG, the server send the PROLOG_FREQ. The agent will use it to
 know when it need to contact the server for the next time.
@@ -255,12 +259,12 @@ Launch fusioninventory-agent in daemon but do fork in background.
 
 =item B<--ca-cert-dir=PATH>
 
-The directory where public SSL certificat are stored. In general it
-/etc/ssl/certs;
+The directory where public SSL certificates are stored. In general it's
+/etc/ssl/certs.
 
 =item B<--ca-cert-file=FILE>
 
-The path to the public certificat (e.g: /etc/ssl/certs/cacert.pem). If
+The path to the public certificate (e.g: /etc/ssl/certs/cacert.pem). If
 --ca-cert-file is used, --ca-cert-dir is ignored.
 
 =item B<--conf-file=FILE>
@@ -382,7 +386,7 @@ Do not inventory the software installed on the machine.
 
 =item B<-p>, B<--password>=I<PASSWORD>
 
-Use I<PASSWORD> for an HTTP identification with the server.
+Use I<PASSWORD> for an HTTP authentification with the server.
 
 =item B<-P>, B<--proxy>=I<PROXY>
 
@@ -391,7 +395,7 @@ HTTP_PROXY environment variable.
 
 =item B<-r>, B<--realm>=I<REALM>
 
-Use I<REALM> for an HTTP identification with the server. For example, the
+Use I<REALM> for an HTTP authentification with the server. For example, the
 value can be 'Restricted Area'. You can find it in the login popup of your
 Internet browser.
 
@@ -410,12 +414,12 @@ inventory immediately.
 
 =item B<--scan-homedirs>
 
-Should the agent scan the user directories to inventory their virtual machine?
+Should the agent scan the user directories to inventory their virtual machines ?.
 
 =item B<-s>, B<--server>=I<URI>
 
 The uri of the server. If I<URI> doesn't start with http:// or https://, the
-assume the parameter is a hostname and rewrite it like that:
+agent assume the parameter is a hostname and rewrite it like that:
 
     % --server=http://servername/ocsinventory
 
@@ -438,7 +442,7 @@ B<--server> is ignored if B<--local> is in use.
 
 =item B<--share-dir>
 
-The directory where a stored the shared files. You probably don't
+The directory where are stored the shared files. You probably don't
 need this option unless you don't want to use the Makefile.PL installation
 procedure or if File::ShareDir is not avalaible.
 
@@ -452,7 +456,7 @@ Print the inventory on stdout.
 
 =item B<--scan-homedirs>
 
-Authorized the agent to scan home directories to increase the Virtual Machine
+Authorize the agent to scan home directories to help with the Virtual Machines
 inventory.
 
 =item B<--tag>=I<TAG>
@@ -511,6 +515,8 @@ file from a specific location.
 On Windows the settings are loaded from the Registry. The configuration file
 is ignored.
 
+The command line parameters overwrite the configuration file.
+
 =head1 SECURITY
 
 Some modules like SNMPQuery needs to sent credential from the agent to the
@@ -540,7 +546,7 @@ project Forge: L<http://Forge.FusionInventory.org>
 
 =item
 
-The source code of the agent is avalaible on:
+The source code of the agent is available on:
 
 =over
 
@@ -580,7 +586,7 @@ IRC: #FusionInventory on FreeNode IRC Network
 
 Please, use the mailing lists as much as possible. You can open your own bug
 tickets. Patches are welcome. You can also use the bugtracker on
-http://Forge.FusionInventory.org
+http://forge.fusionInventory.org
 
 
 =head1 COPYRIGHT

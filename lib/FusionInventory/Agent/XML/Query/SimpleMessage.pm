@@ -26,7 +26,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Query::SimpleMessage - a Generic message container
+FusionInventory::Agent::XML::Query::SimpleMessage - A generic message container
 
 =head1 DESCRIPTION
 
@@ -47,4 +47,4 @@ This class provides a mechanism to send generic messages to the server.
     $network->send( { message => $xmlMsg }
 
 The msg parameter only requires the QUERY key to identify the type of message.
-You can the key you want in the msg structure.
+You can use the key you want in the msg structure.

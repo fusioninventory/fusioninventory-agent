@@ -54,7 +54,7 @@ sub doInventory {
     # for each interface get it's parameters
     foreach my $description (@list) {
         $ipaddress = $ipmask = $macaddr = $status =  $type = $mtu = "";
-        $virtualdev = "no";
+        $virtualdev = undef;
         # search interface infos
         @ifconfig = `ifconfig $description`;
         foreach (@ifconfig){
@@ -74,7 +74,7 @@ sub doInventory {
 
         $_ = $description;
         if (/^(lo|vboxnet|vmnet|tun)\d+/) {
-            $virtualdev = "yes";
+            $virtualdev = 1;
         }
 
         $inventory->addNetwork({

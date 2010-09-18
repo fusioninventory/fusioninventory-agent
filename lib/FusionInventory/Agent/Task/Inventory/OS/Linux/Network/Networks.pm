@@ -160,9 +160,9 @@ sub _getVirtualDev {
                 $bridge{$1} = 1 if /^(\w+)\s/;
             }
             if ($pcislot) {
-                $virtualdev = "no";
+                $virtualdev = "0";
             } elsif ($bridge{$name}) {
-                $virtualdev = "yes";
+                $virtualdev = "1";
             }
         }
     }

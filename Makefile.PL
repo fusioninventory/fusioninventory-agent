@@ -30,6 +30,9 @@ recommends 'Net::CUPS'        => 0.60;
 if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::Daemon'     => undef;
     recommends 'Proc::PID::File'  => undef;
+} else {
+    requires 'Win32::OLE' => undef;
+    requires 'Win32::TieRegistry' => undef;
 }
 
 # test dependencies

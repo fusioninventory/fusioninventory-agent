@@ -8,7 +8,11 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("dmidecode");
+
+    return unless can_run("dmidecode");
+
+    my @output = `dmidecode`;
+    return @output > 10;
 }
 
 sub doInventory {}

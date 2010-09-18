@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Getopt::Long;
+use Cwd qw(fast_abs_path abs_path);
 use English qw(-no_match_vars);
 
 my $basedir = $OSNAME eq 'MSWin32' ?
@@ -52,9 +53,7 @@ my $default = {
     'version'                 => 0,
     'wait'                    => '',
     'scan-homedirs'           => 0,
-    # Other values that can't be changed with the
-    # CLI parameters
-    'basevardir'              =>  $basedir.'/var/lib/fusioninventory-agent',
+    'rpc-ip'                  => '127.0.0.1',
 };
 
 sub new {
@@ -253,6 +252,24 @@ sub loadUserParams {
         @options
     ) or $self->help();
 
+    # We want only canonical path
+    $self->{basevardir} =
+        abs_path($self->{basevardir}) if $self->{basevardir};
+    $self->{'share-dir'} =
+        abs_path($self->{'share-dir'}) if $self->{'share-dir'};
+    $self->{'conf-file'} =
+        abs_path($self->{'conf-file'}) if $self->{'conf-file'};
+    $self->{'ca-cert-file'} =
+        abs_path($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
+    $self->{'ca-cert-dir'} =
+        abs_path($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
+    # On Windows abs_path fails if the file doesn't exist yet.
+    # Win32::GetFullPathName is ok.
+    if ($self->{'logfile'}) {
+        $self->{'logfile'} = $OSNAME eq 'MSWin32' ?
+            Win32::GetFullPathName($self->{'logfile'}) :
+            abs_path($self->{'logfile'});
+    }
 }
 
 sub checkContent {
@@ -283,7 +300,7 @@ sub checkContent {
 
     if (!$self->{'share-dir'}) {
         if ($self->{devlib}) {
-            $self->{'share-dir'} = './share/';
+            $self->{'share-dir'} = abs_path('./share/');
         } else {
             eval { 
                 require File::ShareDir;
@@ -363,7 +380,6 @@ Extra options:
     -t --tag=TAG        use TAG as tag ($self->{tag})
     -w --wait=DURATION  wait during a random periode between 0 and DURATION
                         seconds before contacting server ($self->{wait})
-
 Manpage:
     See man fusioninventory-agent
 

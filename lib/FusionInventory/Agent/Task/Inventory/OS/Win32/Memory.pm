@@ -5,10 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
-sub isInventoryEnabled {
-# Only if dmidecode is not avalaible
-    return !can_run('dmidecode');
-}
+our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
 
 my @formFactorVal = qw/
     Unknown 

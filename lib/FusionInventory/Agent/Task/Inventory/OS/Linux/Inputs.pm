@@ -20,7 +20,7 @@ sub doInventory {
 
     my $handle;
     if (!open $handle, '<', '/proc/bus/input/devices') {
-         warn "Can't open /proc/bus/input/devices: $ERRNO";
+         $logger->debug("Can't open /proc/bus/input/devices: $ERRNO");
          return;
     }
 

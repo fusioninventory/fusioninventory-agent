@@ -57,6 +57,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     # return immediatly if vm type has already been found
     return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
@@ -116,8 +117,8 @@ sub doInventory {
                 }
             }
             close $handle;
-        } else {
-            warn "Can't open /proc/modules: $ERRNO";
+#        } else {
+#            $logger->debug("Can't open /proc/modules: $ERRNO");
         }
     }
 
@@ -166,8 +167,8 @@ sub doInventory {
                 }
             }
             close($handle);
-        } else {
-            warn "Can't open /var/log/dmesg: $ERRNO";
+#        } else {
+#            $logger->debug("Can't open /var/log/dmesg: $ERRNO");
         }
     }
 
@@ -184,8 +185,8 @@ sub doInventory {
                 }
             }
             close $handle;
-        } else {
-            warn "Can't run $dmesg: $ERRNO";
+#        } else {
+#            $logger->debug("Can't run $dmesg: $ERRNO");
         }
     }
 
@@ -202,7 +203,7 @@ sub doInventory {
             }
             close $handle;
 #        } else {
-#            warn "Can't open /proc/scsi/scsi: $ERRNO";
+#            $logger->debug("Can't open /proc/scsi/scsi: $ERRNO");
         }
     }
 

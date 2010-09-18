@@ -52,7 +52,7 @@ sub setAccountInfo {
     my ($self, $info) = @_;
 
     return unless defined $info;
-    die "invalid argument $info" unless ref $info eq 'HASHREF';
+    die "invalid argument $info" unless ref $info eq 'HASH';
 
     while (my ($key, $value) = each %$info) {
         push @{$self->{h}->{CONTENT}->{ACCOUNTINFO}}, {
