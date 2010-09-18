@@ -66,38 +66,35 @@ sub new {
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
+    my $storage = $self->{storage};
+    $self->{myData} = $storage->restore();
 
-    if ($self->{type} eq 'server') {
 
-        $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
+    if ($self->{myData}{nextRunDate}) {
+        $logger->debug (
+            "[$self->{path}] Next server contact planned for ".
+            localtime($self->{myData}{nextRunDate})
+        );
+        ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    }
+
+    $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
             logger => $logger,
             config => $config,
             target => $self,
         });
-    
-        my $accountinfo = $self->{accountinfo};
 
-        if ($config->{tag}) {
-            if ($accountinfo->get("TAG")) {
-                $logger->debug(
-                    "A TAG seems to already exist in the server for this ".
-                    "machine. The -t paramter may be ignored by the server " .
-                    "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
-                );
-            }
-            $accountinfo->set("TAG", $config->{tag});
-        }
+    my $accountinfo = $self->{accountinfo};
 
-        my $storage = $self->{storage};
-        $self->{myData} = $storage->restore();
-
-        if ($self->{myData}{nextRunDate}) {
-            $logger->debug (
-                "[$self->{path}] Next server contact planned for ".
-                localtime($self->{myData}{nextRunDate})
+    if ($config->{tag}) {
+        if ($accountinfo->get("TAG")) {
+            $logger->debug(
+                "A TAG seems to already exist in the server for this ".
+                "machine. The -t paramter may be ignored by the server " .
+                "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
             );
-            ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
         }
+        $accountinfo->set("TAG", $config->{tag});
     }
     $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
 
@@ -218,7 +215,6 @@ sub getNextRunDate {
     lock($lock);
 
     if (${$self->{nextRunDate}}) {
-      
         if ($self->{debugPrintTimer} < time) {
             $self->{debugPrintTimer} = time + 600;
         }; 

@@ -14,7 +14,7 @@ if ($OSNAME eq 'MSWin32') {
     $basedir = $ENV{APPDATA}.'/fusioninventory-agent';
     $basevardir = $basedir.'/var/lib/fusioninventory-agent';
 } else {
-    abs_path($basedir.'/var/lib/fusioninventory-agent'),
+    $basevardir = abs_path($basedir.'/var/lib/fusioninventory-agent'),
 }
 
 my $default = {
