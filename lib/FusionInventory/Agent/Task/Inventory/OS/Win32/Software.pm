@@ -133,15 +133,19 @@ sub doInventory {
 
         my $machKey64bit = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_64KEY
-        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares64bit =
             $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
+        processSoftwares({
+            inventory => $inventory,
+            softwares => $softwares64bit,
+            is64bit => 1
+        });
 
         my $machKey32bit = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32KEY
-        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares32bit =
             $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
@@ -155,7 +159,7 @@ sub doInventory {
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ()
-        }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares=
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};

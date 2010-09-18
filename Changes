@@ -4,6 +4,28 @@ Revision history for FusionInventory::Agent
        * HPVM: XML::TreePP support (Amir PAKDEL)
        * Migration to POE
 
+2.2.x
+       * Don't use a fixed realm anymore for HTTP authentication, but replays
+         automatically any request requiring authentication with given realm
+       * Make --realm parameter deprecated
+       * Drop deprecated --remotedir, --nosoft and --nosoftware parameters
+       * Large code cleanup:
+         - factorize many command output or file content parsing
+         - factorize Windows constants
+	 - import shared functions from a dedicated module, instead of 
+	   playing dirty trick with inventory modules namespace
+         - move shared code into dedicated modules outside of inventory modules
+           tree
+       * Cache parsing results to avoid multiple invocations of external
+         commands or multiple files reading
+       * Enhance test suite coverage
+       * Don't spawn a new perl process from scratch for running tasks, but
+         fork current one, avoiding to use a temporary file for parameters
+         communication
+       * Don't even fork for one-shot run
+       * Change RPM inventory to not add architecture to package name, as for
+         the Deb inventory
+
 2.1.4
        * Save the realm if we found it by ourself
        * Add Win32::OLE and Win32::TieRegistry dependency on Win32 

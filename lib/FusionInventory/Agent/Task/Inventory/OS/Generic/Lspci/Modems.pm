@@ -3,21 +3,43 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    foreach(`lspci`){
+    my $modems = _getModemControllers($logger);
 
-        if(/modem/i && /\d+\s(.+):\s*(.+)$/){
-            my $name = $1;
-            my $description = $2;
-            $inventory->addModems({
-                DESCRIPTION => $description,
-                NAME        => $name,
-            });
-        }
+    return unless $modems;
+
+    foreach my $modem (@$modems) {
+        $inventory->addModem($modem);
     }
+}
+
+sub _getModemControllers {
+    my ($logger, $file) = @_;
+
+    my $controllers = getControllersFromLspci($logger, $file);
+    my $modems;
+
+    foreach my $controller (@$controllers) {
+        next unless $controller->{NAME} =~ /modem/i;
+        push @$modems, {
+            DESCRIPTION => $controller->{NAME},
+            NAME        => $controller->{MANUFACTURER},
+        };
+    }
+
+    return $modems;
 }
 
 1;

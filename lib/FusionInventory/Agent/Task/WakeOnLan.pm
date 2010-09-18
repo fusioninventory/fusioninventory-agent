@@ -8,18 +8,18 @@ use constant ETH_P_ALL => 0x0003;
 use constant PF_PACKET => 17;
 use constant SOCK_PACKET => 10;
 
-use Carp;
 use English qw(-no_match_vars);
 use Socket;
 
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Regexp;
 
-sub main {
-    my $self = __PACKAGE__->SUPER::new();
+sub run {
+    my ($self) = @_;
 
-    if ($self->{target}->{type} ne 'server') {
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $self->{logger}->debug("No server. Exiting...");
         return;
     }
@@ -35,11 +35,11 @@ sub main {
     $self->{macaddress} = $options->{MAC};
     $self->{ip}         = $options->{IP};
 
-    $self->StartMachine();
+    $self->_startMachine();
 }
 
 
-sub StartMachine {
+sub _startMachine {
     my ($self, $params) = @_;
 
     my $macaddress = $self->{macaddress};
@@ -49,7 +49,7 @@ sub StartMachine {
     return unless defined $macaddress;
 
     if ($macaddress !~ /^$mac_address_pattern$/) {
-        croak "Invalid MacAddress $macaddress . Exiting...";
+        die "Invalid MacAddress $macaddress . Exiting...";
     }
     $macaddress =~ s/://g;
 
@@ -101,3 +101,14 @@ sub StartMachine {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::WakeOnLan - The wake-on-lan task for
+FusionInventory 
+
+=head1 DESCRIPTION
+
+This task send a wake-on-lan packet to another host on the same network as the
+agent host.

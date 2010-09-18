@@ -19,13 +19,13 @@ my $default = {
     'conf-file'               => '',
     'color'                   => 0,
     'daemon'                  => 0,
-    'daemon-no-fork'          => 0,
+    'no-fork'                 => 0,
     'delaytime'               => 3600, # max delay time (seconds)
     'debug'                   => 0,
     'devlib'                  => 0,
     'force'                   => 0,
     'help'                    => 0,
-    'html'                    => 0,
+    'format'                  => 'xml',
     'info'                    => 1,
     'lazy'                    => 0,
     'local'                   => '',
@@ -33,21 +33,13 @@ my $default = {
     'logfile'                 => '',
     'logfile-maxsize'         => 0,
     'logfacility'             => 'LOG_USER',
-    'remotedir'               => '/ocsinventory', # deprecated
-    'server'                  => '',
-    'share-dir'               => 0,
-    'stdout'                  => 0,
-    'user'                    => '',
-    'version'                 => 0,
-    'wait'                    => '',
-#   'xml'                     => 0,
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'nosoft'                  => 0, # deprecated
     'nosoftware'              => 0, # deprecated
     'logdir'                  => $basedir . '/var/log/fusioninventory-agent',
     'no-printer'              => 0,
-    'no-socket'               => 0,
+    'no-rpc'                  => 0,
     'no-software'             => 0,
     'no-software'             => 0,
     'no-wakeonlan'            => 0,
@@ -57,9 +49,15 @@ my $default = {
     'password'                => '',
     'proxy'                   => '',
     'realm'                   => '',
+    'share-dir'               => 0,
+    'server'                  => '',
+    'stdout'                  => 0,
     'tag'                     => '',
     'wait'                    => '',
     'scan-homedirs'           => 0,
+    # Other values that can't be changed with the
+    # CLI parameters
+    'basevardir'              =>  $basedir.'/var/lib/fusioninventory-agent',
 };
 
 sub new {
@@ -224,12 +222,13 @@ sub loadUserParams {
         'conf-file=s',
         'daemon|d',
         'daemon-no-fork|D',
+        'no-fork',
         'debug',
         'delaytime=s',
         'devlib',
         'force|f',
+        'format=s',
         'help|h',
-        'html',
         'info|i',
         'lazy',
         'local|l=s',
@@ -238,11 +237,11 @@ sub loadUserParams {
         'logfile-maxsize=i',
         'nosoft',
         'nosoftware',
-        'logger=s',
         'no-ocsdeploy',
         'no-inventory',
         'no-printer',
         'no-socket',
+        'no-rpc',
         'no-soft',
         'no-software',
         'no-ssl-check',
@@ -264,6 +263,7 @@ sub loadUserParams {
         'version',
         'wait|w=s',
         'delaytime=s',
+        'scan-homedirs',
     );
 
     push(@options, 'color') if $OSNAME ne 'MSWin32';
@@ -280,15 +280,25 @@ sub checkContent {
 
     # if a logfile is defined, use file logger
     if ($self->{logfile}) {
-        $self->{logger} .= ',File';
+        $self->{logger} = 'File';
     }
 
-    if ($self->{nosoft} || $self->{nosoftware}) {
+    if ($self->{realm}) {
         print STDERR
-            "the parameter --nosoft and --nosoftware are ".
-            "deprecated and may be removed in a future release, ".
-            "please use --no-software instead.\n";
-        $self->{'no-software'} = 1
+            "the parameter --realm is deprecated, and will be ignored\n";
+    }
+
+    if ($self->{'no-socket'}) {
+        print STDERR
+            "the parameter --no-socket is deprecated, use --no-rpc instead\n";
+        $self->{'no-rpc'} = 1;
+    }
+
+    if ($self->{'daemon-no-fork'}) {
+        print STDERR
+            "the parameter --daemon-no-fork is deprecated, use --daemon --no-fork instead\n";
+        $self->{daemon} = 1;
+        $self->{'no-fork'} = 1;
     }
 
     if (!$self->{'share-dir'}) {
@@ -307,23 +317,26 @@ sub checkContent {
 sub help {
     my ($self) = @_;
 
+    my $help;
+
     if ($self->{'conf-file'}) {
-        print STDERR "Setting initialised with values retrieved from ".
-        "the config found at $self->{'conf-file'}\n";
+        $help .= <<EOF
+Setting initialised with values retrieved from the config found at $self->{'conf-file'}
+EOF
     }
 
-    print STDERR <<EOF;
+    $help .= <<EOF;
 Common options:
     --debug             debug mode ($self->{debug})
-    --html              save in HTML the inventory requested by --local ($self->{html})
-    -l --local=DIR      do not contact server but write inventory in DIR directory in XML ($self->{local})
+    --format            export format (HTML or XML) ($self->{format})
+    -l --local=DIR      do not contact server but write inventory in DIR
+                        directory in XML ($self->{local})
     --logfile=FILE      log message in FILE ($self->{logfile})
     --version           print the version
 
 Network options:
     -p --password=PWD   password for server auth
     -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
-    -r --realm=REALM    realm for server HTTP auth. e.g: 'Restricted Area' ($self->{realm})
     -s --server=uri     server uri, e.g: http://server/ocsinventory ($self->{server})
     -u --user           user name to use for server auth
 
@@ -335,40 +348,53 @@ Disable options:
     --no-ocsdeploy      Do not deploy packages or run command ($self->{'no-ocsdeploy'})
     --no-inventory      Do not generate inventory ($self->{'no-inventory'})
     --no-printer        do not return printer list in inventory $self->{'no-printer'})
-    --no-socket         don't allow remote connexion ($self->{'no-socket'})
     --no-software       do not return installed software list ($self->{'no-software'})
     --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
     --no-wakeonlan      do not use wakeonlan function ($self->{'no-wakeonlan'})
     --no-snmpquery      do not use snmpquery function ($self->{'no-snmpquery'})
     --no-netdiscovery   do not use snmpquery function ($self->{'no-netdiscovery'})
 
+Web interface options:
+    --no-rpc            do not use web interface ($self->{'no-rpc'})
+    --rpc-ip=IP         network interface to listen to
+    --rpc-trust-localhost      trust local requests without token
+
 Extra options:
-    --backend-collect-timeout set a max delay time of one inventory data collect job ($self->{'backend-collect-timeout'})
-    --basevardir=/path  indicate the directory where should the agent store its files ($self->{basevardir})
+    --backend-collect-timeout set a max delay time of one inventory data
+                        collect job ($self->{'backend-collect-timeout'})
+    --basevardir=/path  indicate the directory where should the agent store its
+                        files ($self->{basevardir})
     --color             use color in the console ($self->{color})
     -d --daemon         detach the agent in background ($self->{daemon})
-    -D --daemon-no-fork daemon but don't fork in background ($self->{'daemon-no-fork'})
-    --delaytime         set a max delay time (in second) if no PROLOG_FREQ is set ($self->{delaytime})
+    --no-fork           don't fork in background ($self->{'no-fork'})
+    --delaytime         set a max delay time (in second) if no PROLOG_FREQ is
+                        set ($self->{delaytime})
     --devlib            search for Backend mod in ./lib only ($self->{devlib})
-    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($self->{'disable-perllib-envvar'})
     -f --force          always send data to server (Don't ask before) ($self->{force})
     -i --info           verbose mode ($self->{info})
-    --lazy              do not contact the server more than one time during the PROLOG_FREQ ($self->{lazy})
+    --lazy              do not contact the server more than one time during the
+                        PROLOG_FREQ ($self->{lazy})
     --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
-    --logger            Logger you want to use, can be Stderr,File or Syslog ($self->{logger})
-    --rpc-ip=IP         ip of the interface to use for peer to peer exchange
-    --rpc-trust-localhost      allow local users to http://127.0.0.1:62354/now to force an inventory ($self->{'rpc-trust-localhost'})
+    --logger            Logger you want to use (Stderr, File or Syslog) ($self->{logger})
     --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
-    --share-dir=DIR     path to the directory where are stored the shared files ($self->{'share-dir'})
+    --share-dir=DIR     path to the directory where are stored the shared files
+                        ($self->{'share-dir'})
     --stdout            do not write or post the inventory but print it on STDOUT
-    -t --tag=TAG        use TAG as tag ($self->{tag}) Will be ignored by server if a value already exists.
-    -w --wait=DURATION  wait during a random periode between 0 and DURATION seconds before contacting server ($self->{wait})
+    -t --tag=TAG        use TAG as tag ($self->{tag})
+    -w --wait=DURATION  wait during a random periode between 0 and DURATION
+                        seconds before contacting server ($self->{wait})
 
 Manpage:
     See man fusioninventory-agent
 
 FusionInventory-Agent is released under GNU GPL 2 license
 EOF
+
+    if ($OSNAME eq 'MSWin32') {
+        $help =~ s/.*--color.*\n//;
+    }
+
+    print STDERR $help;
 }
 
 1;

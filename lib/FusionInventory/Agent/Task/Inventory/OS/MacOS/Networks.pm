@@ -93,18 +93,18 @@ sub doInventory {
             $ipaddress6 =~ s/%.*//;
         }
         $inventory->addNetwork({
-                DESCRIPTION => $description,
-                IPADDRESS => $ipaddress,
-                IPADDRESS6 => $ipaddress6,
-                IPDHCP => undef,
-                IPGATEWAY => $ipgateway,
-                IPMASK => $mask,
-                IPSUBNET => $ipsubnet,
-                MACADDR => $macaddr,
-                STATUS => ($status?"Up":"Down"),
-                TYPE => $type,
-                VIRTUALDEV => $virtualdev
-            });
+            DESCRIPTION => $description,
+            IPADDRESS => $ipaddress,
+            IPADDRESS6 => $ipaddress6,
+            IPDHCP => undef,
+            IPGATEWAY => $ipgateway,
+            IPMASK => $mask,
+            IPSUBNET => $ipsubnet,
+            MACADDR => $macaddr,
+            STATUS => ($status?"Up":"Down"),
+            TYPE => $type,
+            VIRTUALDEV => $virtualdev
+        });
     }
 }
 

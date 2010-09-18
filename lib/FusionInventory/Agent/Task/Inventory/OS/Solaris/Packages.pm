@@ -27,11 +27,11 @@ sub doInventory {
     foreach (`pkginfo -l`) {
         if (/^\s*$/) {
             $inventory->addSoftware({
-                    'NAME'          => $name,
-                    'VERSION'       => $version,
-                    'COMMENTS'      => $comments,
-                    'PUBLISHER'      => $publisher,
-                });
+                NAME      => $name,
+                VERSION   => $version,
+                COMMENTS  => $comments,
+                PUBLISHER => $publisher,
+            });
 
             $name = '';
             $version = '';

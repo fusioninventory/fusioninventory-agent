@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Storages;
+
 use strict;
-#use warning;
+use warnings;
 
 use FusionInventory::Agent::Tools;
 
@@ -18,7 +19,9 @@ use FusionInventory::Agent::Tools;
 #Illegal Request: 1 Predictive Failure Analysis: 0
 
 
-sub isInventoryEnabled { can_run ("iostat") }
+sub isInventoryEnabled {
+    return can_run ("iostat");
+}
 
 sub doInventory {
     my $params = shift;
@@ -79,19 +82,17 @@ sub doInventory {
                 $type="SCSI";
             }
         }
-        use Data::Dumper;
-
         if(/^Illegal/) { # Last ligne
             $inventory->addStorage({
-                    NAME => $name,
-                    MANUFACTURER => $manufacturer,
-                    MODEL => $model,
-                    DESCRIPTION => $description,
-                    TYPE => $type,
-                    FIRMWARE => $rev,
-                    SERIALNUMBER => $sn,
-                    DISKSIZE => $capacity
-                });
+                NAME => $name,
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => $description,
+                TYPE => $type,
+                FIRMWARE => $rev,
+                SERIALNUMBER => $sn,
+                DISKSIZE => $capacity
+            });
 
             $manufacturer='';
             $model='';

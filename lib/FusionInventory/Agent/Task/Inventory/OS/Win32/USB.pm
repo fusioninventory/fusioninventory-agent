@@ -18,7 +18,6 @@ sub doInventory {
 
     foreach my $wmiClass (qw/CIM_LogicalDevice/) {
         foreach my $Properties (getWmiProperties($wmiClass, qw/DeviceID Name/)) {
-
             next unless $Properties->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(\\|$)(.*)/;
 
             my $vendorId = $1;

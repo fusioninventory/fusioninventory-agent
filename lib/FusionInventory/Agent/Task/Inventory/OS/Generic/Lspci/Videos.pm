@@ -3,20 +3,43 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    foreach(`lspci`) {
-        if (/graphics|vga|video/i) {
-            next unless /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i;
+    my $videos = _getVideoControllers($logger);
+    
+    return unless $videos;
 
-            $inventory->addVideo({
-                CHIPSET => $1,
-                NAME    => $2,
-            });
-        }
+    foreach my $video (@$videos) {
+        $inventory->addVideo($video);
     }
+}
+
+sub _getVideoControllers {
+     my ($logger, $file) = @_;
+
+    my $controllers = getControllersFromLspci($logger, $file);
+    my $videos;
+
+    foreach my $controller (@$controllers) {
+        next unless $controller->{NAME} =~ /graphics|vga|video|display/i;
+        push @$videos, {
+            CHIPSET => $controller->{NAME},
+            NAME    => $controller->{MANUFACTURER},
+        };
+    }
+
+    return $videos;
 }
 
 1;

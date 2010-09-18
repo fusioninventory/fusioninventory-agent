@@ -5,7 +5,6 @@ use warnings;
 use threads;
 use threads::shared;
 
-use Carp;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 
@@ -20,10 +19,10 @@ sub new {
     if ($params->{type} !~ /^(server|local|stdout)$/ ) {
         croak 'bad type';
     }
+
     my $self = {
-        config          => $params->{config},
+        delaytime       => $params->{delaytime},
         logger          => $params->{logger},
-        type            => $params->{type},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
         jobEngine       => $params->{jobEngine},
@@ -31,91 +30,14 @@ sub new {
     };
     bless $self, $class;
 
-    lock($lock);
-
     my $nextRunDate :shared;
     $self->{nextRunDate} = \$nextRunDate;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
-    my $type   = $self->{type};
-    my $jobEngine   = $self->{jobEngine};
-
-    $logger->fault("no jobEngine") unless $jobEngine;
-
-    $self->{format} = $self->{type} eq 'local' && $config->{html} ?
-        'HTML' : 'XML';
-
-    $self->init();
-
-    $self->{storage} = FusionInventory::Agent::Storage->new({
-        target => $self
-    });
-
-    my $storage = $self->{storage};
-    if ($self->{type} eq 'server') {
-        $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-            logger => $logger,
-            config => $config,
-            storage => $storage,
-            target => $self,
-        });
-    
-        my $accountinfo = $self->{accountinfo};
-
-        if ($config->{tag}) {
-            if ($accountinfo->get("TAG")) {
-                $logger->debug(
-                    "A TAG seems to already exist in the server for this ".
-                    "machine. The -t paramter may be ignored by the server " .
-                    "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
-                );
-            }
-            $accountinfo->set("TAG", $config->{tag});
-        }
-
-        my $storage = $self->{storage};
-        $self->{myData} = $storage->restore();
-
-        if ($self->{myData}{nextRunDate}) {
-            $logger->debug (
-                "[$self->{path}] Next server contact planned for ".
-                localtime($self->{myData}{nextRunDate})
-            );
-            ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
-        }
-    }
-
-
-
-    $self->createNextAlarm();
-
-
-    return $self;
-}
-
-sub init {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-
-    lock($lock);
 
     # The agent can contact different servers. Each server has it's own
     # directory to store data
-
-    my $dir;
-    if ($self->{type} eq 'server') {
-        $dir = $self->{path};
-        $dir =~ s/\//_/g;
-        # On Windows, we can't have ':' in directory path
-        $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
-    } else {
-        $dir = '__LOCAL__';
-
-    }
-    $self->{vardir} = $config->{basevardir} . '/' . $dir;
+    $self->{vardir} = $params->{basevardir} . '/' . $params->{dir};
 
     if (!-d $self->{vardir}) {
         make_path($self->{vardir}, {error => \my $err});
@@ -125,34 +47,35 @@ sub init {
     }
 
     if (! -w $self->{vardir}) {
-        croak "Can't write in $self->{vardir}";
+        die "Can't write in $self->{vardir}";
     }
 
     $logger->debug("storage directory: $self->{vardir}");
 
     $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
     $self->{last_statefile} = $self->{vardir} . "/last_state";
+
+    $self->{storage} = FusionInventory::Agent::Storage->new({
+        target => $self
+    });
+
+    return $self;
 }
 
 sub setNextRunDate {
 
     my ($self, $args) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
-    lock($lock);
-
     my $serverdelay = $self->{myData}{prologFreq};
-
-    lock($lock);
 
     my $max;
     if ($serverdelay) {
         $max = $serverdelay * 3600;
     } else {
-        $max = $config->{delaytime};
+        $max = $self->{delaytime};
         # If the PROLOG_FREQ has never been initialized, we force it at 1h
         $self->setPrologFreq(1);
     }
@@ -175,10 +98,7 @@ sub setNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
-
-    lock($lock);
 
     if (${$self->{nextRunDate}}) {
       
@@ -192,7 +112,7 @@ sub getNextRunDate {
     $self->setNextRunDate();
 
     if (!${$self->{nextRunDate}}) {
-        croak 'nextRunDate not set!';
+        die 'nextRunDate not set!';
     }
 
     return $self->{myData}{nextRunDate} ;
@@ -205,7 +125,6 @@ sub resetNextRunDate {
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
-    lock($lock);
     $logger->debug("Force run now");
     
     $self->{myData}{nextRunDate} = 1;
@@ -218,7 +137,6 @@ sub setPrologFreq {
 
     my ($self, $prologFreq) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
@@ -246,7 +164,6 @@ sub setCurrentDeviceID {
 
     my ($self, $deviceid) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 

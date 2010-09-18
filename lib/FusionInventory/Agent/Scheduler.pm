@@ -1,0 +1,219 @@
+package FusionInventory::Agent::Scheduler;
+
+use strict;
+use warnings;
+
+
+use POE;
+use FusionInventory::Agent::Target::Local;
+use FusionInventory::Agent::Target::Stdout;
+use FusionInventory::Agent::Target::Server;
+
+sub new {
+    my ($class, $params) = @_;
+
+    my $self = {
+        config   => $params->{config},
+        logger   => $params->{logger},
+        deviceid => $params->{deviceid},
+        jobEngine => $params->{jobEngine},
+        targets  => []
+    };
+
+    bless $self, $class;
+
+    my $logger = $self->{logger};
+
+    $self->init();
+
+    POE::Session->create(
+        inline_states => {
+            _start        => sub {
+                $_[KERNEL]->alias_set('targetsList');
+            },
+            get => sub {
+                my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
+                my $params = $args->[0];
+                my $rsvp = $args->[1];
+
+                my $moduleName = $params->{moduleName};
+                my $key = $params->{key};
+
+#                print "p: $targetId\n";
+#                print "v: ".$key."\n";
+
+#                if ($ !~ /^\d+$/ || !exists($self->{targets}[$targetId])) {
+#                    $logger->error("Invalid targetId: `$targetId'");
+#                    return;
+#                }
+
+                if ($key !~ /^(type|path|deviceid|format|currentDeviceid|vardir)$/) {
+                    $logger->error("[Target] Forbidden key: `$key'");
+                    return;
+                }
+
+                $kernel->call(IKC => post => $rsvp, $self->{jobEngine}{target_by_moduleName}{$moduleName}{$key});
+
+            },
+        }
+    );
+
+
+
+    return $self;
+}
+
+sub init {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $deviceid = $self->{deviceid};
+    my $jobEngine = $self->{jobEngine};
+
+use Data::Dumper;
+#print Dumper($jobEngine);
+    $logger->fault("no jobEngine") unless $jobEngine;
+    $logger->fault("no DeviceID") unless $deviceid;
+
+    if ($config->{'stdout'}) {
+        push
+            @{$self->{targets}},
+            FusionInventory::Agent::Target::Stdout->new({
+                logger     => $logger,
+                deviceid   => $deviceid,
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+            });
+    }
+
+    if ($config->{'local'}) {
+        push
+            @{$self->{targets}},
+            FusionInventory::Agent::Target::Local->new({
+                logger     => $logger,
+                deviceid   => $deviceid,
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+                path       => $config->{local},
+            });
+    }
+
+    foreach my $val (split(/,/, $config->{'server'})) {
+        my $url;
+        $val =~ s/^\s+//;
+        $val =~ s/\s+$//;
+        if ($val !~ /^https?:\/\//) {
+            $logger->debug(
+                "the --server passed doesn't have a protocole, assume http " .
+                "as default"
+            );
+            $url = "http://$val/ocsinventory";
+        } else {
+            $url = $val;
+        }
+        push
+            @{$self->{targets}},
+            FusionInventory::Agent::Target::Server->new({
+                logger     => $logger,
+                deviceid   => $deviceid,
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+                path       => $url,
+            });
+    }
+
+}
+
+sub getNext {
+    my ($self) = @_;
+
+    my $config = $self->{'config'};
+    my $logger = $self->{'logger'};
+
+    return unless @{$self->{targets}};
+
+    if ($config->{'daemon'} || $config->{'service'}) {
+        # block until a target is eligible to run, then return it
+        while (1) {
+            foreach my $target (@{$self->{targets}}) {
+                if (time > $target->getNextRunDate()) {
+                    return $target;
+                }
+            }
+            sleep(10);
+        }
+    } else {
+        my $target = shift @{$self->{targets}};
+
+        # return next target if eligible, nothing otherwise
+        if ($config->{'lazy'}) {
+            if (time > $target->getNextRunDate()) {
+                $logger->debug("Processing $target->{path}");
+                return $target;
+            } else {
+                $logger->info(
+                    "Nothing to do for $target->{path}. Next server contact " .
+                    "planned for " . localtime($target->getNextRunDate())
+                );
+                return;
+            }
+        }
+
+        # return next target after waiting for a random delay
+        if ($config->{'wait'}) {
+            my $wait = int rand($config->{'wait'});
+            $logger->info(
+                "Going to sleep for $wait second(s) because of the wait " .
+                "parameter"
+            );
+            sleep($wait);
+            return $target;
+        }
+
+        # return next target immediatly
+        return $target;
+    }
+
+    # should never get reached
+    return;
+}
+
+sub numberOfTargets {
+    my ($self) = @_;
+
+    return @{$self->{targets}}
+}
+
+sub resetNextRunDate {
+    my ($self) = @_;
+
+    foreach my $target (@{$self->{targets}}) {
+        $target->resetNextRunDate();
+    }
+}
+
+1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Scheduler - A target scheduler
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to schedule various targets.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item config (mandatory)
+
+=item logger (mandatory)
+
+=item deviceid (mandatory)

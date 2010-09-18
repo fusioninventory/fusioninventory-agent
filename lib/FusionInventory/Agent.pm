@@ -9,20 +9,16 @@ use File::Path qw(make_path);
 use Sys::Hostname;
 use XML::Simple;
 
-use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Network;
-use FusionInventory::Agent::TargetsList;
+use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
-#use FusionInventory::Agent::RPC;
-use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Transmitter;
+use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
-
 use POE;
 use POE::Component::IKC::Server;
-
-our $VERSION = '2.1.3';
+our $VERSION = '2.1.2';
 our $VERSION_STRING =
 "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -31,24 +27,32 @@ our $AGENT_STRING =
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
-#use Sys::Hostname;
-use FusionInventory::Logger;
-use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Agent::XML::Query::Prolog;
+# THIS IS AN UGLY WORKAROUND FOR
+# http://rt.cpan.org/Ticket/Display.html?id=38067
+eval {XMLout("<a>b</a>");};
+if ($EVAL_ERROR) {
+    no strict 'refs'; ## no critic
+    ${*{"XML::SAX::"}{HASH}{'parsers'}} = sub {
+        return [ {
+            'Features' => {
+                'http://xml.org/sax/features/namespaces' => '1'
+            },
+            'Name' => 'XML::SAX::PurePerl'
+        }
+        ]
+    };
+}
 
-#use FusionInventory::Agent::Task::Inventory;
-use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::Config;
-#use FusionInventory::Agent::RPC;
-use FusionInventory::Agent::TargetsList;
-use FusionInventory::Agent::JobEngine;
+# END OF THE UGLY FIX!
 
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-    #my $config = $self->{config} = FusionInventory::Agent::Config::load();
+    my $self = {
+        status => 'unknown',
+        token  => _computeNewToken()
+    };
+    bless $self, $class;
 
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
@@ -94,64 +98,58 @@ sub new {
     #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
     my $hostname;
   
+    if ($OSNAME eq 'MSWin32') {
+        eval {
+            require Encode;
+            require Win32::API;
+            Encode->import();
 
-    if ($OSNAME =~ /^MSWin/) {
-        eval '
-use Encode;
-use Win32::API;
+            my $GetComputerName = Win32::API->new(
+                "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
+            );
+            my $lpBuffer = "\x00" x 1024;
+            my $N = 1024; #pack ("c4", 160,0,0,0);
 
-	my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
-"N");
-my $lpBuffer = "\x00" x 1024;
-my $N=1024;#pack ("c4", 160,0,0,0);
+            my $return = $GetComputerName->Call(3, $lpBuffer,$N);
 
-my $return = $GetComputerName->Call(3, $lpBuffer,$N);
-
-# GetComputerNameExW returns the string in UTF16, we have to change it
-# to UTF8
-$hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
+            # GetComputerNameExW returns the string in UTF16, we have to change
+            # it # to UTF8
+            $hostname = encode(
+                "UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N)
+            );
+        };
     } else {
         $hostname = hostname();
     }
 
-    # $rootStorage save/read data in 'basevardir', not in a target directory!
-    my $rootStorage = FusionInventory::Agent::Storage->new({
-            config => $config
-        });
-    my $myRootData = $rootStorage->restore();
+    # $storage save/read data in 'basevardir', not in a target directory!
+    my $storage = FusionInventory::Agent::Storage->new({
+        config => $config
+    });
+    my $data = $storage->restore();
 
     if (
-        !defined($myRootData->{previousHostname}) ||
-        $myRootData->{previousHostname} ne $hostname
+        !defined($data->{previousHostname}) ||
+        $data->{previousHostname} ne $hostname
     ) {
         my ($year, $month , $day, $hour, $min, $sec) =
-        (localtime(time()))[5,4,3,2,1,0];
-        $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
-
-        $myRootData->{previousHostname} = $hostname;
-        $myRootData->{deviceid} = $self->{deviceid};
-        $rootStorage->save({ data => $myRootData });
-    } else {
-        $self->{deviceid} = $myRootData->{deviceid}
+            (localtime(time()))[5,4,3,2,1,0];
+        $data->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+            $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
+        $data->{previousHostname} = $hostname;
+        $storage->save({ data => $data });
     }
+    $self->{deviceid} = $data->{deviceid};
 
-    $self->{jobEngine} = new FusionInventory::Agent::JobEngine({
+    $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
+        logger => $logger,
+        config => $config,
+        deviceid => $self->{deviceid}
+    });
 
-            logger => $logger,
-            config => $config,
+    my $scheduler = $self->{scheduler};
 
-        });
-
-    $self->{targetsList} = FusionInventory::Agent::TargetsList->new({
-            logger => $logger,
-            config => $config,
-            deviceid => $self->{deviceid},
-            jobEngine => $self->{jobEngine}
-        });
-    my $targetsList = $self->{targetsList};
-
-    if (!$targetsList->numberOfTargets()) {
+    if (!$scheduler->numberOfTargets()) {
         $logger->fault(
             "No target defined. Please use --server or --local option."
         );
@@ -162,19 +160,19 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         $logger->debug("User directory scanning enabled");
     }
 
-    if ($config->{daemon}) {
+    if ($config->{daemon} && !$config->{'no-fork'}) {
 
         $logger->debug("Daemon mode enabled");
 
         my $cwd = getcwd();
-        eval { require Proc::Daemon; };
+        Proc::Daemon->require();
         if ($EVAL_ERROR) {
             $logger->fault("Can't load Proc::Daemon. Is the module installed?");
             exit 1;
         }
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
-        if ($self->isAgentAlreadyRunning()) {
+        if ($self->_isAgentAlreadyRunning()) {
             $logger->fault("An agent is already runnnig, exiting...");
             exit 1;
         }
@@ -212,10 +210,31 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
     bless $self, $class;
 
+    if (($config->{daemon} || $config->{service}) && ! $config->{'no-rpc'}) {
+        FusionInventory::Agent::Receiver->require();
+        if ($EVAL_ERROR) {
+            $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
+        } else {
+            threads::shared::share($self->{status});
+            threads::shared::share($self->{token});
+            $self->{receiver} = FusionInventory::Agent::Receiver->new({
+                logger    => $logger,
+                scheduler => $scheduler,
+                agent     => $self,
+                devlib    => $config->{devlib},
+                share_dir => $config->{'share-dir'},
+                rpc_ip    => $config->{'rpc-ip'},
+                rpc_trust_localhost => $config->{'rpc-trust-localhost'},
+            });
+        }
+    }
+
+    $logger->debug("FusionInventory Agent initialised");
+
     return $self;
 }
 
-sub isAgentAlreadyRunning {
+sub _isAgentAlreadyRunning {
     my ($self) = @_;
 
     # TODO add a workaround if Proc::PID::File is not installed
@@ -235,6 +254,7 @@ sub main {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
+
     my $targetsList = $self->{targetsList};
     my $rpc = $self->{rpc};
     my $jobEngine = $self->{jobEngine};
@@ -243,6 +263,129 @@ sub main {
     foreach my $target ($targetsList->{targets}) {
         print "toto\n";
     }
+#    my $scheduler = $self->{scheduler};
+#    my $receiver = $self->{receiver};
+
+#    eval {
+#        $self->{status} = 'waiting';
+#
+#        while (my $target = $scheduler->getNext()) {
+#
+#            my $prologresp;
+#            my $transmitter;
+#            if ($target->isa('FusionInventory::Agent::Target::Server')) {
+#
+#                $transmitter = FusionInventory::Agent::Transmitter->new({
+#                    logger       => $logger,
+#                    url          => $target->{path},
+#                    proxy        => $config->{proxy},
+#                    user         => $config->{user},
+#                    password     => $config->{password},
+#                    no_ssl_check => $config->{'no-ssl-check'},
+#                    ca_cert_file => $config->{'ca-cert-file'},
+#                    ca_cert_dir  => $config->{'ca-cert-dir'},
+#                });
+#
+#                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+#                    accountinfo => $target->{accountinfo}, #? XXX
+#                    logger => $logger,
+#                    config => $config,
+#                    target => $target,
+#                    token  => $self->{token}
+#                });
+#
+#                # ugly circular reference moved from Prolog::getContent() method
+#                $target->{accountinfo}->setAccountInfo($prolog);
+#
+#                # TODO Don't mix settings and temp value
+#                $prologresp = $transmitter->send({message => $prolog});
+#
+#                if (!$prologresp) {
+#                    $logger->error("No anwser from the server");
+#                    $target->setNextRunDate();
+#                    next;
+#                }
+#
+#                # update target
+#                my $parsedContent = $prologresp->getParsedContent();
+#                $target->setPrologFreq($parsedContent->{PROLOG_FREQ});
+#                $target->setCurrentDeviceID ($self->{deviceid});
+#            }
+#
+#            my $storage = FusionInventory::Agent::Storage->new({
+#                config => $config,
+#                logger => $logger,
+#                target => $target,
+#            });
+#
+#            my @tasks = qw/
+#                Inventory
+#                OcsDeploy
+#                WakeOnLan
+#                SNMPQuery
+#                NetDiscovery
+#                Ping
+#                /;
+#
+#            foreach my $module (@tasks) {
+#
+#                next if $config->{'no-'.lc($module)};
+#
+#                my $package = "FusionInventory::Agent::Task::$module";
+#                if (!$package->require()) {
+#                    $logger->info("Module $package is not installed.");
+#                    next;
+#                }
+#
+#                $self->{status} = "running task $module";
+#
+#                my $task = $package->new({
+#                    config => $config,
+#                    logger => $logger,
+#                    target => $target,
+#                    storage => $storage,
+#                    prologresp => $prologresp,
+#                    transmitter =>  $transmitter
+#                });
+#
+#                if ($config->{daemon} || $config->{service}) {
+#                    # daemon mode: run each task in a childprocess
+#                    if (my $pid = fork()) {
+#                        # parent
+#                        waitpid($pid, 0);
+#                    } else {
+#                        # child
+#                        die "fork failed: $ERRNO" unless defined $pid;
+#
+#                        $logger->debug(
+#                            "[task] executing $module in process $PID"
+#                        );
+#                        if ($task->can('run')) {
+#                            $task->run();
+#                        } else {
+#                            $logger->info(
+#                                "[task] $module use deprecated interface"
+#                            );
+#                            $task->main();
+#                        }
+#                        $logger->debug("[task] end of $module");
+#                    }
+#                } else {
+#                    # standalone mode: run each task directly
+#                    $logger->debug("[task] executing $module");
+#                    if ($task->can('run')) {
+#                        $task->run();
+#                    } else {
+#                        # old interface
+#                        $logger->info(
+#                            "[task] $module use deprecated interface"
+#                        );
+#                        $task->main();
+#                    }
+#                    $logger->debug("[task] end of $module");
+#                }
+#            }
+#            $self->{status} = 'waiting';
 
 
     POE::Kernel->run();
@@ -256,4 +399,52 @@ sub main {
 #######################################################
 }
 
+sub getToken {
+    my ($self) = @_;
+    return $self->{token};
+}
+
+sub resetToken {
+    my ($self) = @_;
+    $self->{token} = _computeNewToken();
+}
+
+sub _computeNewToken {
+    my @chars = ('A'..'Z');
+    return join('', map { $chars[rand @chars] } 1..8);
+}
+
+sub getStatus {
+    my ($self) = @_;
+    return $self->{status};
+}
+
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent - Fusion Inventory agent
+
+=head1 DESCRIPTION
+
+This is the agent object.
+
+=head1 METHODS
+
+=head2 new()
+
+The constructor. No arguments allowed.
+
+=head2 getToken()
+
+Get the current authentication token.
+
+=head2 resetToken()
+
+Reset the current authentication token to a new random value.
+
+=head2 getStatus()
+
+Get the current agent status.

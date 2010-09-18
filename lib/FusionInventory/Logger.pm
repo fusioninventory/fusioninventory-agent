@@ -84,3 +84,66 @@ sub fault {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Logger - Fusion Inventory logger
+
+=head1 DESCRIPTION
+
+This is the logger object.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The following arguments are allowed:
+
+=over
+
+=item config (mandatory)
+
+=back
+
+=head2 log($args)
+
+Add a log message, with a specific level. The following arguments are allowed:
+
+=over
+
+=item level (mandatory)
+
+Can be one of:
+
+=over
+
+=item debug
+
+=item info
+
+=item error
+
+=item fault
+
+=back
+
+=item message (mandatory)
+
+=back
+
+=head2 debug($msg)
+
+Add a log message with debug level.
+
+=head2 info($msg)
+
+Add a log message with info level.
+
+=head2 error($msg)
+
+Add a log message with error level.
+
+=head2 fault($msg)
+
+Add a log message with fault level.

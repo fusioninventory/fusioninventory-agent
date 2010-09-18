@@ -8,7 +8,14 @@ use Sys::Hostname;
 use English qw(-no_match_vars);
 use Sys::Hostname;
 
-sub isInventoryEnabled {1}
+# straight up theft from the other modules...
+
+sub isInventoryEnabled {
+    my $hostname = hostname();
+    return 
+        (index $hostname, '.' >= 0) || # look for a dot in hostname
+        -f "/etc/resolv.conf"
+}
 
 sub doInventory {
     my $params = shift;

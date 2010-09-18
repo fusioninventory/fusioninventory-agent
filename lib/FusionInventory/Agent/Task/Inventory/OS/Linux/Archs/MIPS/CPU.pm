@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
 sub isInventoryEnabled {
     return -r '/proc/cpuinfo';
@@ -15,33 +16,16 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my @cpu;
-    my $current;
-    if (open my $handle, '<', '/proc/cpuinfo') {
-        while(<$handle>) {
-            print;
-            if (/^system type\s+:\s*:/) {
+    my $cpus = getCPUsFromProc($params->{logger});
 
-                if ($current) {
-                    $inventory->addCPU($current);
-                }
+    return unless $cpus;
 
-                $current = {
-                    ARCH => 'MIPS',
-                };
-
-            }
-
-            $current->{TYPE} = $1 if /cpu model\s+:\s+(\S.*)/;
-
-        }
-        close $handle;
-    } else {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
+    foreach my $cpu (@$cpus) {
+        $inventory->addCPU({
+            ARCH => 'MIPS',
+            TYPE => $cpu->{'cpu model'},
+        });
     }
-
-    # The last one
-    $inventory->addCPU($current);
 }
 
 1;

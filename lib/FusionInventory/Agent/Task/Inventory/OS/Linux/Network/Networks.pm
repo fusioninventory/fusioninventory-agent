@@ -22,6 +22,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     my $routes;
     foreach (`route -n`) {
@@ -36,15 +37,15 @@ sub doInventory {
         });
     }
 
-    my $interfaces = parseIfconfig('/sbin/ifconfig -a', '-|');
+    my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
 
     foreach my $interface (@$interfaces) {
-        if (isWifi($interface->{DESCRIPTION})) {
+        if (_isWifi($interface->{DESCRIPTION})) {
             $interface->{TYPE} = "Wifi";
         }
 
         if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
-            my ($ipsubnet, $ipgateway) = getNetworkInfo(
+            my ($ipsubnet, $ipgateway) = _getNetworkInfo(
                 $interface->{IPADDRESS},
                 $interface->{IPMASK},
                 $routes
@@ -53,20 +54,20 @@ sub doInventory {
             $interface->{IPGATEWAY} = $ipgateway;
         }
 
-        my ($driver, $pcislot) = getUevent(
+        my ($driver, $pcislot) = _getUevent(
             $params->{logger},
             $interface->{DESCRIPTION}
         );
         $interface->{DRIVER} = $driver if $driver;
         $interface->{PCISLOT} = $pcislot if $pcislot;
 
-        $interface->{VIRTUALDEV} = getVirtualDev(
+        $interface->{VIRTUALDEV} = _getVirtualDev(
             $interface->{DESCRIPTION},
             $interface
         );
 
-        $interface->{IPDHCP} = getIpDhcp($interface->{DESCRIPTION});
-        $interface->{SLAVES} = getSlaves($interface->{DESCRIPTION});
+        $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
+        $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
 
         $inventory->addNetwork($interface);
 
@@ -82,7 +83,7 @@ sub doInventory {
     $inventory->setHardware({IPADDR => join('/', @ip_addresses)});
 }
 
-sub parseIfconfig {
+sub _parseIfconfig {
     my ($file, $mode) = @_;
 
     my $handle;
@@ -109,6 +110,9 @@ sub parseIfconfig {
             if ($line =~ /^(\S+)/) {
                 $interface->{DESCRIPTION} = $1;
             }
+            if ($line =~ /inet addr:($ip_address_pattern)/i) {
+                $interface->{IPADDRESS} = $1;
+            }
             if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
             }
@@ -129,7 +133,7 @@ sub parseIfconfig {
 }
 
 # Handle slave devices (bonding)
-sub getSlaves {
+sub _getSlaves {
     my ($name) = @_;
 
     my @slaves = ();
@@ -143,7 +147,7 @@ sub getSlaves {
 }
 
 # Handle virtual devices (bridge)
-sub getVirtualDev {
+sub _getVirtualDev {
     my ($name, $pcislot) = @_;
 
     my $virtualdev;
@@ -169,14 +173,14 @@ sub getVirtualDev {
     return $virtualdev;
 }
 
-sub isWifi {
+sub _isWifi {
     my ($name) = @_;
 
     my @wifistatus = `/sbin/iwconfig $name 2>/dev/null`;
     return @wifistatus > 2;
 }
 
-sub getUevent {
+sub _getUevent {
     my ($logger, $name) = @_;
 
     my ($driver, $pcislot);
@@ -197,7 +201,7 @@ sub getUevent {
     return ($driver, $pcislot);
 }
 
-sub getNetworkInfo {
+sub _getNetworkInfo {
     my ($address, $mask, $routes) = @_;
 
     # import Net::IP functional interface

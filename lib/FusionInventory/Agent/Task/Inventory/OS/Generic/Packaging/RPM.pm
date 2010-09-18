@@ -16,37 +16,28 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $command =
-        'rpm -qa --queryformat "' .
-        '%{NAME}.%{ARCH}\t' .
-        '%{VERSION}-%{RELEASE}\t' .
-        '%{INSTALLTIME:date}\t' .
-        '%{SIZE}\t' .
-        '%{SUMMARY}\n' . 
-        '" 2>/dev/null';
-
-    my $packages = parseRpm($command, '-|');
+    my $packages = _parseRpm($logger);
 
     foreach my $package (@$packages) {
         $inventory->addSoftware($package);
     }
 }
 
-sub parseRpm {
-    my ($file, $mode) = @_;
+sub _parseRpm {
+    my ($logger, $file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-    my $packages;
-
-    while (my $line = <$handle>) {
-        chomp $line;
+    my $command =
+        'rpm -qa --queryformat "' .
+        '%{NAME}\t' .
+        '%{VERSION}-%{RELEASE}\t' .
+        '%{INSTALLTIME:date}\t' .
+        '%{SIZE}\t' .
+        '%{SUMMARY}\n' . 
+        '" 2>/dev/null';
+    my $callback = sub {
+        my ($line) = @_;
         my @infos = split("\t", $line);
-        push @$packages, {
+        return {
             NAME        => $infos[0],
             VERSION     => $infos[1],
             INSTALLDATE => $infos[2],
@@ -54,11 +45,12 @@ sub parseRpm {
             COMMENTS    => $infos[4],
             FROM        => 'rpm'
         };
-    }
+    };
 
-    close $handle;
+    return $file ?
+        getPackagesFromCommand($logger, $file, '<', $callback)    :
+        getPackagesFromCommand($logger, $command, '-|', $callback);
 
-    return $packages;
 }
 
 

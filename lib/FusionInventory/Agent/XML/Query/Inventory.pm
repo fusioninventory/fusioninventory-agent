@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use Carp;
 use Config;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
@@ -13,13 +12,6 @@ use XML::TreePP;
 use Digest::MD5 qw(md5_base64);
 use Config;
 
-=over 4
-
-=item new()
-
-The usual constructor.
-
-=cut
 
 sub new {
     my ($class, $params) = @_;
@@ -183,14 +175,6 @@ sub addModem {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addModems {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addModems to addModem()");
-    $self->addModem(@_);
-}
 
 =item addDrive()
 
@@ -219,14 +203,6 @@ sub addDrive {
         sectionName => 'DRIVES',
         values      => $args,
     });
-}
-# For compatibiliy
-sub addDrives {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addDrives to addDrive()");
-    $self->addDrive(@_);
 }
 
 =item addStorage()
@@ -267,15 +243,6 @@ sub addStorage {
         values      => $values,
     });
 }
-# For compatibiliy
-sub addStorages {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addStorages to addStorage()");
-    $self->addStorage(@_);
-}
-
 
 =item addMemory()
 
@@ -304,21 +271,13 @@ sub addMemory {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addMemories {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addMemories to addMemory()");
-    $self->addMemory(@_);
-}
 
 =item addPort()
 
 Add a port module in the inventory.
 
 =cut
-sub addPorts{
+sub addPort {
     my ($self, $args) = @_;
 
     my @fields = qw/
@@ -333,14 +292,6 @@ sub addPorts{
         sectionName => 'PORTS',
         values      => $args,
     });
-}
-# For compatibiliy
-sub addPort {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addPorts to addPort()");
-    $self->addPort(@_);
 }
 
 =item addSlot()
@@ -364,14 +315,6 @@ sub addSlot {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addSlots {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSlots to addSlot()");
-    $self->addSlot(@_);
-}
 
 =item addSoftware()
 
@@ -391,14 +334,6 @@ sub addSoftware {
         values       => $args,
         noDuplicated => 1
     });
-}
-# For compatibiliy
-sub addSoftwares {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSoftwares to addSoftware()");
-    $self->addSoftware(@_);
 }
 
 =item addMonitor()
@@ -424,14 +359,6 @@ sub addMonitor {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addMonitors {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addMonitors to addMonitor()");
-    $self->addMonitor(@_);
-}
 
 =item addVideo()
 
@@ -456,14 +383,6 @@ sub addVideo {
     });
 
 }
-# For compatibiliy
-sub addVideos {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addVideos to addVideo()");
-    $self->addVideo(@_);
-}
 
 =item addSound()
 
@@ -485,15 +404,6 @@ sub addSound {
         values      => $args,
     });
 }
-# For compatibiliy
-sub addSounds {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSounds to addSound()");
-    $self->addSound(@_);
-}
-
 
 =item addNetwork()
 
@@ -531,16 +441,6 @@ sub addNetwork {
         noDuplicated => 1
     });
 }
-
-# For compatibiliy
-sub addNetworks {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addNetworks to addNetwork()");
-    $self->addNetwork(@_);
-}
-
 
 =item setHardware()
 
@@ -614,10 +514,10 @@ sub addCPU {
     /;
 
     $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'CPUS',
-        'values' => $args,
-        'noDuplicated' => 0
+        field        => \@fields,
+        sectionName  => 'CPUS',
+        values       => $args,
+        noDuplicated => 0
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -649,9 +549,9 @@ sub addUser {
     return unless $args->{LOGIN};
 
     return unless $self->_addEntry({
-        'field' => \@fields,
-        'sectionName' => 'USERS',
-        'values' => $args,
+        'field'        => \@fields,
+        'sectionName'  => 'USERS',
+        'values'       => $args,
         'noDuplicated' => 1
     });
 
@@ -710,14 +610,6 @@ sub addPrinter {
         sectionName => 'PRINTERS',
         values      => $args,
     });
-}
-# For compatibiliy
-sub addPrinters {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addPrinters to addPrinter()");
-    $self->addPrinter(@_);
 }
 
 =item addVirtualMachine()
@@ -1006,52 +898,38 @@ sub getContent {
     return $self->SUPER::getContent();
 }
 
-=item writeHTML()
+=item getContentAsHTML()
 
 Save the generated inventory as an XML file. The 'local' key of the config
 is used to know where the file as to be saved.
 
 =cut
-sub writeHTML {
+sub getContentAsHTML {
     my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
-    my $config = $self->{config};
     my $target = $self->{target};
-
-    if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
-    }
-
-    $self->initialise();
-
-    my $localfile = $config->{local}."/".$target->{deviceid}.'.html';
-    $localfile =~ s!(//){1,}!/!;
 
     # Convert perl data structure into xml strings
 
-
-    my $htmlHeader = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml"><head>
-
+    my $htmlHeader = <<EOF;
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent '.$target->{deviceid}.' - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <title>FusionInventory-Agent $target->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+</head>
+<body>
+    <h1>Inventory for $target->{deviceid}</h1>
+    FusionInventory Agent $FusionInventory::Agent::VERSION
+EOF
 
-    </head>
-    <body>
-    <h1>Inventory for '.$target->{deviceid}.'</h1>
-    FusionInventory Agent '.$config->{VERSION}.'
-
-    ';
-
-
-    my $htmlFooter = "
-    </body>
-    </html>";
+    my $htmlFooter = <<EOF;
+</body>
+</html>
+EOF
 
     my $htmlBody;
 
-    use Data::Dumper;
     my $oldSectionName = "";
     foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
         next if $sectionName eq 'VERSIONCLIENT';
@@ -1090,16 +968,7 @@ sub writeHTML {
         }
     }
 
-
-    if (open my $handle, '>', $localfile) {
-        print $handle $htmlHeader;
-        print $handle $htmlBody;
-        print $handle $htmlFooter;
-        close $handle;
-        $logger->info("Inventory saved in $localfile");
-    } else {
-        warn "Can't open $localfile: $ERRNO"
-    }
+    return $htmlHeader . $htmlBody . $htmlFooter;
 }
 
 =item processChecksum()
@@ -1143,7 +1012,7 @@ sub processChecksum {
     # TODO CPUS is not in the list
 
     if (!$self->{target}->{vardir}) {
-        croak "vardir uninitialised!";
+        die "vardir uninitialised!";
     }
 
     my $checksum = 0;
@@ -1260,7 +1129,12 @@ FusionInventory uses OCS Inventory XML format for the data transmition. This
 module is the abstraction layer. It's mostly used in the backend module where
 it called $inventory in general.
 
-=cut
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. See base class C<FusionInventory::Agent::XML::Query> for
+allowed parameters.
 
 =head1 XML STRUCTURE
 

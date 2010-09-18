@@ -1,0 +1,853 @@
+Hardware:
+
+    Hardware Overview:
+
+      Model Name: iMac
+      Model Identifier: iMac7,1
+      Processor Name: Intel Core 2 Duo
+      Processor Speed: 2,4 GHz
+      Number Of Processors: 1
+      Total Number Of Cores: 2
+      L2 Cache: 4 MB
+      Memory: 2 GB
+      Bus Speed: 800 MHz
+      Boot ROM Version: IM71.007A.B03
+      SMC Version (system): 1.21f4
+      Serial Number (system): W8805BRDX89
+      Hardware UUID: 00000000-0000-1000-8000-001EC20C3627
+
+Network:
+
+    Bluetooth:
+
+      Type: PPP (PPPSerial)
+      Hardware: Modem
+      BSD Device Name: Bluetooth-Modem
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: PPP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          FTP Passive Mode: Yes
+      Service Order: 0
+
+    Ethernet:
+
+      Type: Ethernet
+      Hardware: Ethernet
+      BSD Device Name: en0
+      Has IP Assigned: Yes
+      IPv4 Addresses: 10.0.1.101
+      IPv4:
+          Addresses: 10.0.1.101
+          Configuration Method: DHCP
+          Interface Name: en0
+          Network Signature: IPv4.Router=10.0.1.1;IPv4.RouterHardwareAddress=00:1d:7e:43:96:57
+          Router: 10.0.1.1
+          Subnet Masks: 255.255.255.0
+      IPv6:
+          Configuration Method: Automatic
+      DNS:
+          Domain Name: lan
+          Server Addresses: 10.0.1.1
+      DHCP Server Responses:
+          Domain Name: lan
+          Domain Name Servers: 10.0.1.1
+          Lease Duration (seconds): 0
+          DHCP Message Type: 0x05
+          Routers: 10.0.1.1
+          Server Identifier: 10.0.1.1
+          Subnet Mask: 255.255.255.0
+      Ethernet:
+          MAC Address: 00:1e:c2:0c:36:27
+          Media Options: Full Duplex, Flow Control
+          Media Subtype: 100baseTX
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+      Service Order: 1
+
+    FireWire:
+
+      Type: FireWire
+      Hardware: FireWire
+      BSD Device Name: fw0
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: DHCP
+      IPv6:
+          Configuration Method: Automatic
+      Ethernet:
+          MAC Address: 00:1e:52:ff:fe:67:eb:68
+          Media Options: Full Duplex
+          Media Subtype: Auto Select
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+      Service Order: 2
+
+    AirPort:
+
+      Type: AirPort
+      Hardware: AirPort
+      BSD Device Name: en1
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: DHCP
+      IPv6:
+          Configuration Method: Automatic
+      Ethernet:
+          MAC Address: 00:1e:c2:a7:26:6f
+          Media Options: 
+          Media Subtype: Auto Select
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+          HTTP Proxy Enabled: No
+          HTTP Proxy Port: 80
+          HTTP Proxy Server: 195.221.21.146
+      Service Order: 3
+
+    Parallels Shared Networking Adapter:
+
+      Type: Ethernet
+      Hardware: Ethernet
+      BSD Device Name: en2
+      Has IP Assigned: Yes
+      IPv4 Addresses: 192.168.0.11
+      IPv4:
+          Addresses: 192.168.0.11
+          Configuration Method: Manual
+          Interface Name: en2
+          Subnet Masks: 255.255.255.0
+      IPv6:
+          Configuration Method: Automatic
+      Ethernet:
+          MAC Address: 00:1c:42:00:00:08
+          Media Options: 
+          Media Subtype: Auto Select
+      Proxies:
+          Proxy Configuration Method: Manual
+          Exclude Simple Hostnames: 0
+          FTP Passive Mode: Yes
+          Auto Discovery Enabled: No
+      Service Order: 8
+
+    Parallels Host-Only Networking Adapter:
+
+      Type: Ethernet
+      Hardware: Ethernet
+      BSD Device Name: en3
+      Has IP Assigned: Yes
+      IPv4 Addresses: 192.168.1.16
+      IPv4:
+          Addresses: 192.168.1.16
+          Configuration Method: Manual
+          Interface Name: en3
+          Subnet Masks: 255.255.255.0
+      IPv6:
+          Configuration Method: Automatic
+      Ethernet:
+          MAC Address: 00:1c:42:00:00:09
+          Media Options: 
+          Media Subtype: Auto Select
+      Proxies:
+          Proxy Configuration Method: Manual
+          Exclude Simple Hostnames: 0
+          FTP Passive Mode: Yes
+          Auto Discovery Enabled: No
+      Service Order: 9
+
+Software:
+
+    System Software Overview:
+
+      System Version: Mac OS X 10.6.4 (10F569)
+      Kernel Version: Darwin 10.4.0
+      Boot Volume: osx
+      Boot Mode: Normal
+      Computer Name: lazer
+      User Name: wawa (wawa)
+      Secure Virtual Memory: Enabled
+      64-bit Kernel and Extensions: No
+      Time since boot: 1 day1:09
+
+ATA:
+
+    ATA Bus:
+
+        MATSHITADVD-R   UJ-875:
+
+          Model: MATSHITADVD-R   UJ-875                  
+          Revision: DB09    
+          Serial Number:             fG424F9E
+          Detachable Drive: No
+          Protocol: ATAPI
+          Unit Number: 0
+          Socket Type: Internal
+          Low Power Polling: Yes
+          Power Off: No
+
+Audio (Built In):
+
+    Intel High Definition Audio:
+
+      Audio ID: 50
+
+        Speaker:
+
+          Connection: Internal
+
+        Headphone:
+
+          Connection: Combination Output
+
+        Internal Microphone:
+
+          Connection: Internal
+
+        Line Input:
+
+          Connection: Combination Input
+
+        S/PDIF Optical Digital Audio Output:
+
+          Connection: Combination Output
+
+        S/PDIF Optical Digital Audio Input:
+
+          Connection: Combination Input
+
+Bluetooth:
+
+      Apple Bluetooth Software Version: 2.3.3f8
+      Hardware Settings:
+          Address: 00-1e-52-ed-37-e4
+          Manufacturer: Cambridge Silicon Radio
+          Name: lazer
+          Firmware Version: 1965
+          Bluetooth Power: On
+          Discoverable: Yes
+          Vendor ID: 0x5ac
+          Product ID: 0x8206
+          Requires Authentication: No
+      Services:
+          Bluetooth File Transfer:
+              Folder other devices can browse: ~/Public
+              Requires Authentication: Yes
+              State: Enabled
+          Bluetooth File Exchange:
+              Folder for accepted items: ~/Documents
+              Requires Authentication: No
+              When other items are accepted: Ask
+              When PIM items are accepted: Ask
+              When receiving items: Prompt for each file
+              State: Enabled
+      Devices (Paired, Favorites, etc):
+          Device:
+              Name: 00-0a-28-f4-f3-23
+              Address: 00-0a-28-f4-f3-23
+              Type: Unknown
+              Services: 
+              Paired: No
+              Favorite: Yes
+              Connected: No
+          Device:
+              Name: 00-0f-de-d0-2d-f6
+              Address: 00-0f-de-d0-2d-f6
+              Type: Unknown
+              Services: 
+              Paired: No
+              Favorite: Yes
+              Connected: No
+          Device:
+              Name: 00-12-d1-bf-a3-dc
+              Address: 00-12-d1-bf-a3-dc
+              Type: Unknown
+              Services: 
+              Paired: No
+              Favorite: Yes
+              Connected: No
+          Device:
+              Name: SGH-D880
+              Address: 00-1e-e2-27-e9-02
+              Type: Mobile Phone
+              Services: Dial-up Networking, OBEX File Transfer, Voice GW, Object Push, Voice GW, WBTEXT, Advanced audio source, Serial Port
+              Paired: Yes
+              Favorite: Yes
+              Connected: No
+              Manufacturer: Broadcom (0x3, 0x2222)
+      Incoming Serial Ports:
+          Serial Port 1:
+              Name: Bluetooth-PDA-Sync
+              RFCOMM Channel: 3
+              Requires Authentication: No
+      Outgoing Serial Ports:
+          Serial Port 1:
+              Address: 
+              Name: Bluetooth-Modem
+              RFCOMM Channel: 0
+              Requires Authentication: No
+
+Diagnostics:
+
+    Power On Self-Test:
+
+      Last Run: 24/07/10 11:20
+      Result: Passed
+
+Disc Burning:
+
+    MATSHITA DVD-R   UJ-875:
+
+      Firmware Revision: DB09
+      Interconnect: ATAPI
+      Burn Support: Yes (Apple Shipping Drive)
+      Cache: 2048 KB
+      Reads DVD: Yes
+      CD-Write: -R, -RW
+      DVD-Write: -R, -R DL, -RW, +R, +R DL, +RW
+      Write Strategies: CD-TAO, CD-SAO, DVD-DAO
+      Media: To show the available burn speeds, insert a disc and choose View > Refresh
+
+Ethernet Cards:
+
+    pci14e4,4328:
+
+      Type: Other Network Controller
+      Bus: PCI
+      Slot: AirPort
+      Vendor ID: 0x14e4
+      Device ID: 0x4328
+      Subsystem Vendor ID: 0x106b
+      Subsystem ID: 0x0088
+      Revision ID: 0x0003
+      Link Width: x1
+      BSD name: en1
+      Kext name: AppleAirPortBrcm4311.kext
+      Location: /System/Library/Extensions/IO80211Family.kext/Contents/PlugIns/AppleAirPortBrcm4311.kext
+      Version: 423.91.27
+
+    Marvell Yukon Gigabit Adapter 88E8055 Singleport Copper SA:
+
+      Name: ethernet
+      Type: Ethernet Controller
+      Bus: PCI
+      Vendor ID: 0x11ab
+      Device ID: 0x436a
+      Subsystem Vendor ID: 0x11ab
+      Subsystem ID: 0x00ba
+      Revision ID: 0x0013
+      Link Width: x1
+      BSD name: en0
+      Kext name: AppleYukon2.kext
+      Location: /System/Library/Extensions/IONetworkingFamily.kext/Contents/PlugIns/AppleYukon2.kext
+      Version: 3.1.14b1
+
+FireWire:
+
+    FireWire Bus:
+
+      Maximum Speed: Up to 800 Mb/sec
+
+        (1394 ATAPI,Rev 1.00):
+
+          Manufacturer: Prolific PL3507 Combo Device
+          Model: 0x1
+          GUID: 0x50770E0000043E
+          Maximum Speed: Up to 400 Mb/sec
+          Connection Speed: Up to 400 Mb/sec
+          Sub-units:
+            (1394 ATAPI,Rev 1.00) Unit:
+              Unit Software Version: 0x10483
+              Unit Spec ID: 0x609E
+              Firmware Revision: 0x12804
+              Product Revision Level: 
+              Sub-units:
+                (1394 ATAPI,Rev 1.00) SBP-LUN:
+                  Capacity: 200,05 GB (200 049 647 616 bytes)
+                  Removable Media: Yes
+                  BSD Name: disk2
+                  Partition Map Type: APM (Apple Partition Map)
+                  S.M.A.R.T. status: Not Supported
+                  Volumes:
+                    Video:
+                      Capacity: 199,92 GB (199 915 397 120 bytes)
+                      Available: 38,73 GB (38 726 303 744 bytes)
+                      Writable: Yes
+                      File System: Journaled HFS+
+                      BSD Name: disk2s3
+                      Mount Point: /Volumes/Video
+
+Graphics/Displays:
+
+    ATI Radeon HD 2600 Pro:
+
+      Chipset Model: ATI,RadeonHD2600
+      Type: GPU
+      Bus: PCIe
+      PCIe Lane Width: x16
+      VRAM (Total): 256 MB
+      Vendor: ATI (0x1002)
+      Device ID: 0x9583
+      Revision ID: 0x0000
+      ROM Revision: 113-B2250F-219
+      EFI Driver Version: 01.00.219
+      Displays:
+        iMac:
+          Resolution: 1920 x 1200
+          Pixel Depth: 32-Bit Color (ARGB8888)
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Built-In: Yes
+        Display Connector:
+          Status: No Display Connected
+
+Memory:
+
+    Memory Slots:
+
+      ECC: Disabled
+
+        BANK 0/DIMM0:
+
+          Size: 1 GB
+          Type: DDR2 SDRAM
+          Speed: 667 MHz
+          Status: OK
+          Manufacturer: 0x2C00000000000000
+          Part Number: 0x3848544631323836344844592D3636374531
+          Serial Number: 0xD5289015
+
+        BANK 1/DIMM1:
+
+          Size: 1 GB
+          Type: DDR2 SDRAM
+          Speed: 667 MHz
+          Status: OK
+          Manufacturer: 0x0000000000000000
+          Part Number: 0x313032343633363735305320202020202020
+          Serial Number: 0x00000000
+
+Power:
+
+    System Power Settings:
+
+      AC Power:
+          System Sleep Timer (Minutes): 10
+          Disk Sleep Timer (Minutes): 10
+          Display Sleep Timer (Minutes): 1
+          Sleep On Power Button: Yes
+          Automatic Restart On Power Loss: No
+          Wake On LAN: No
+          Current Power Source: Yes
+          Display Sleep Uses Dim: Yes
+
+    Hardware Configuration:
+
+      UPS Installed: No
+
+Printers:
+
+    Photosmart C4500 series [38705D]:
+
+      Status: Idle
+      Print Server: Local
+      Driver Version: 4.1
+      Default: Yes
+      URI: dnssd://Photosmart%20C4500%20series%20%5B38705D%5D._pdl-datastream._tcp.local./?bidi
+      PPD: HP Photosmart C4500 series
+      PPD File Version: 4.1
+      PostScript Version: (3011.104) 0
+      CUPS Version: 1.4.4 (cups-218.12)
+      Fax support: No
+      Scanning support: Yes
+      Scanning app: -
+      Scanning app (bundleID path): -
+      Scanner UUID: -
+
+Serial-ATA:
+
+    Intel ICH8-M AHCI:
+
+      Vendor: Intel
+      Product: ICH8-M AHCI
+      Link Speed: 3 Gigabit
+      Negotiated Link Speed: 3 Gigabit
+      Description: AHCI Version 1.10 Supported
+
+        WDC WD3200AAJS-40VWA0:
+
+          Capacity: 320,07 GB (320 072 933 376 bytes)
+          Model: WDC WD3200AAJS-40VWA0                   
+          Revision: 58.01D02
+          Serial Number:      WD-WMARW0629615
+          Native Command Queuing: Yes
+          Queue Depth: 32
+          Removable Media: No
+          Detachable Drive: No
+          BSD Name: disk0
+          Medium Type: Rotational
+          Partition Map Type: GPT (GUID Partition Table)
+          S.M.A.R.T. status: Verified
+          Volumes:
+            osx:
+              Capacity: 216,53 GB (216 532 934 656 bytes)
+              Available: 2,39 GB (2 389 823 488 bytes)
+              Writable: Yes
+              File System: Journaled HFS+
+              BSD Name: disk0s2
+              Mount Point: /
+            Sauvegardes:
+              Capacity: 103,06 GB (103 061 807 104 bytes)
+              Available: 1,76 GB (1 759 088 640 bytes)
+              Writable: Yes
+              File System: Journaled HFS+
+              BSD Name: disk0s3
+              Mount Point: /Volumes/Sauvegardes
+
+USB:
+
+    USB High-Speed Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBEHCI
+      PCI Device ID: 0x2836 
+      PCI Revision ID: 0x0003 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0xfd 
+
+        Built-in iSight:
+
+          Product ID: 0x8502
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version:  1.55
+          Serial Number: 6067E773DA9722F4 (03.01)
+          Speed: Up to 480 Mb/sec
+          Manufacturer: Apple Inc.
+          Location ID: 0xfd400000
+          Current Available (mA): 500
+          Current Required (mA): 500
+
+    USB High-Speed Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBEHCI
+      PCI Device ID: 0x283a 
+      PCI Revision ID: 0x0003 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0xfa 
+
+        Keyboard Hub:
+
+          Product ID: 0x1006
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version: 94.15
+          Serial Number: 000000000000
+          Speed: Up to 480 Mb/sec
+          Manufacturer: Apple, Inc.
+          Location ID: 0xfa200000
+          Current Available (mA): 500
+          Current Required (mA): 300
+
+            Flash Disk      :
+
+              Capacity: 2,11 GB (2 109 734 912 bytes)
+              Removable Media: Yes
+              Detachable Drive: Yes
+              BSD Name: disk1
+              Product ID: 0x2092
+              Vendor ID: 0x1e3d  (Chipsbrand Technologies (HK) Co., Limited)
+              Version:  1.00
+              Serial Number: 110074973765
+              Speed: Up to 480 Mb/sec
+              Manufacturer: USB 2.0 
+              Location ID: 0xfa210000
+              Current Available (mA): 100
+              Current Required (mA): 100
+              Partition Map Type: MBR (Master Boot Record)
+              S.M.A.R.T. status: Not Supported
+              Volumes:
+                SANS TITRE:
+                  Capacity: 2,11 GB (2 109 671 424 bytes)
+                  Available: 2,11 GB (2 105 061 376 bytes)
+                  Writable: Yes
+                  File System: MS-DOS FAT32
+                  BSD Name: disk1s1
+                  Mount Point: /Volumes/SANS TITRE
+
+            Optical USB Mouse:
+
+              Product ID: 0xc016
+              Vendor ID: 0x046d  (Logitech Inc.)
+              Version:  3.40
+              Speed: Up to 1.5 Mb/sec
+              Manufacturer: Logitech
+              Location ID: 0xfa230000
+              Current Available (mA): 100
+              Current Required (mA): 100
+
+            Apple Keyboard:
+
+              Product ID: 0x0221
+              Vendor ID: 0x05ac  (Apple Inc.)
+              Version:  0.69
+              Speed: Up to 1.5 Mb/sec
+              Manufacturer: Apple, Inc
+              Location ID: 0xfa220000
+              Current Available (mA): 100
+              Current Required (mA): 20
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x2835 
+      PCI Revision ID: 0x0003 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x3a 
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x2830 
+      PCI Revision ID: 0x0003 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x1d 
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x2831 
+      PCI Revision ID: 0x0003 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x3d 
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x2832 
+      PCI Revision ID: 0x0003 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x5d 
+
+        IR Receiver:
+
+          Product ID: 0x8242
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version:  0.16
+          Speed: Up to 1.5 Mb/sec
+          Manufacturer: Apple Computer, Inc.
+          Location ID: 0x5d100000
+          Current Available (mA): 500
+          Current Required (mA): 100
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x2834 
+      PCI Revision ID: 0x0003 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x1a 
+
+        Bluetooth USB Host Controller:
+
+          Product ID: 0x8206
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version: 19.65
+          Speed: Up to 12 Mb/sec
+          Manufacturer: Apple Inc.
+          Location ID: 0x1a100000
+          Current Available (mA): 500
+          Current Required (mA): 0
+
+AirPort:
+
+      Software Versions:
+          Menu Extra: 6.2.1 (621.1)
+          configd plug-in: 6.2.3 (623.1)
+          System Profiler: 6.0 (600.9)
+          Network Preference: 6.2.1 (621.1)
+          AirPort Utility: 5.5.1 (551.19)
+          IO80211 Family: 3.1.1 (311.1)
+      Interfaces:
+        en1:
+          Card Type: AirPort Extreme  (0x14E4, 0x88)
+          Firmware Version: Broadcom BCM43xx 1.0 (5.10.91.27)
+          Locale: ETSI
+          Country Code: X3
+          Supported PHY Modes: 802.11 a/b/g/n
+          Supported Channels: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140
+          Wake On Wireless: Supported
+          Status: Off
+
+Firewall:
+
+    Firewall Settings:
+
+      Mode: Limit incoming connections to specific services and applications
+      Services:
+          Remote Login (SSH): Allow all connections
+      Applications:
+          com.getdropbox.dropbox: Allow all connections
+          com.Growl.GrowlHelperApp: Allow all connections
+          com.hp.scan.app: Allow all connections
+          com.parallels.desktop.dispatcher: Allow all connections
+          com.skype.skype: Allow all connections
+          net.sourceforge.xmeeting.XMeeting: Allow all connections
+          org.sip-communicator: Allow all connections
+      Firewall Logging: No
+      Stealth Mode: No
+
+Locations:
+
+    Automatic:
+
+      Active Location: Yes
+      Services:
+        Bluetooth DUN:
+          Type: PPP
+          IPv4:
+              Configuration Method: PPP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              FTP Passive Mode: Yes
+          PPP:
+              ACSP Enabled: No
+              Display Terminal Window: No
+              Redial Count: 1
+              Redial Enabled: Yes
+              Redial Interval: 5
+              Use Terminal Script: No
+              Dial on Demand: No
+              Disconnect on Fast User Switch: Yes
+              Disconnect on Idle: Yes
+              Disconnect on Idle Timer: 600
+              Disconnect on Logout: Yes
+              Disconnect on Sleep: Yes
+              Idle Reminder: No
+              Idle Reminder Time: 1800
+              IPCP Compression VJ: Yes
+              LCP Echo Enabled: No
+              LCP Echo Failure: 4
+              LCP Echo Interval: 10
+              Log File: /var/log/ppp.log
+              Verbose Logging: No
+        Ethernet:
+          Type: Ethernet
+          BSD Device Name: en0
+          Hardware (MAC) Address: 00:1e:c2:0c:36:27
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        FireWire:
+          Type: FireWire
+          BSD Device Name: fw0
+          Hardware (MAC) Address: 00:1e:52:ff:fe:67:eb:68
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        AirPort:
+          Type: IEEE80211
+          BSD Device Name: en1
+          Hardware (MAC) Address: 00:1e:c2:a7:26:6f
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+              HTTP Proxy Enabled: No
+              HTTP Proxy Port: 80
+              HTTP Proxy Server: 195.221.21.146
+          IEEE80211:
+              Disconnect on Logout: No
+              Join Mode: Automatic
+              JoinModeFallback: Prompt
+              PowerEnabled: 0
+              PreferredNetworks:
+                  SecurityType: WPA2 Personal
+                  SSID_STR: expresswa
+                  Unique Network ID: 33B3185C-40DD-49CD-AE3E-75AC20E43F95
+                  Unique Password ID: 8C01FD23-1FF4-4F83-9EE4-CD92EC62CC71
+                  SecurityType: WPA2 Personal
+                  SSID_STR: freewa
+                  Unique Network ID: 905AE8BA-BD26-48F3-9486-AE5BC72FE642
+                  Unique Password ID: 907EDC44-8C27-44A0-B5F5-2D04E1A5942A
+              RememberRecentNetworks: 1
+        Parallels Shared Networking Adapter:
+          Type: Ethernet
+          BSD Device Name: en2
+          Hardware (MAC) Address: 00:1c:42:00:00:08
+          IPv4:
+              Addresses: 192.168.0.11
+              Configuration Method: Manual
+              Subnet Masks: 255.255.255.0
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Proxy Configuration Method: 2
+              Exclude Simple Hostnames: No
+              FTP Passive Mode: Yes
+              Auto Discovery Enabled: No
+        Parallels Host-Only Networking Adapter:
+          Type: Ethernet
+          BSD Device Name: en3
+          Hardware (MAC) Address: 00:1c:42:00:00:09
+          IPv4:
+              Addresses: 192.168.1.16
+              Configuration Method: Manual
+              Subnet Masks: 255.255.255.0
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Proxy Configuration Method: 2
+              Exclude Simple Hostnames: No
+              FTP Passive Mode: Yes
+              Auto Discovery Enabled: No
+
+Volumes:
+
+    net:
+
+      Type: autofs
+      Mount Point: /net
+      Mounted From: map -hosts
+      Automounted: Yes
+
+    home:
+
+      Type: autofs
+      Mount Point: /home
+      Mounted From: map auto_home
+      Automounted: Yes
+
+Universal Access:
+
+    Universal Access Information:
+
+      Cursor Magnification: Off
+      Display: Black on White
+      Flash Screen: Off
+      Mouse Keys: Off
+      Slow Keys: Off
+      Sticky Keys: Off
+      VoiceOver: Off
+      Zoom: On
+

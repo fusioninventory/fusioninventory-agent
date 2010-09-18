@@ -10,41 +10,40 @@ my $handle;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-    $self->{config} = $params->{config};
-    $self->{logfile} = $self->{config}->{logfile};
+    my $self = {
+        logfile         => $params->{config}->{'logfile'},
+        logfile_maxsize => $params->{config}->{'logfile-maxsize'}
+    };
 
     bless $self, $class;
 
-    $self->open();
+    $self->_open();
 
     return $self;
 }
 
-sub open {
+sub _open {
     my ($self) = @_;
 
     open $self->{handle}, '>>', $self->{logfile}
-        or warn "Can't open ".$self->{logfile}.": $ERRNO";
-
+        or warn "Can't open $self->{logfile}: $ERRNO";
 }
 
 
-sub watchSize {
+sub _watchSize {
     my ($self) = @_;
 
-    my $config = $self->{config};
-    my $handle = $self->{handle};
+    return unless $self->{logfile_maxsize};
 
-    return unless $config->{'logfile-maxsize'};
+    my $size = (stat($self->{handle}))[7];
 
-    my $size = (stat($handle))[7];
-
-    if ($size>$config->{'logfile-maxsize'}*1024*1024) {
-        close($self->{handle});
+    if ($size > $self->{logfile_maxsize} * 1024 * 1024) {
+        close $self->{handle};
         unlink($self->{logfile}) or die "$!!";
-        $self->open();
-        print $handle "max size reached. log file truncated (".localtime(time).")\n";
+        $self->_open();
+        print {$self->{handle}}
+            "[".localtime()."]" .
+            " max size reached, log file truncated\n";
     }
 
 }
@@ -58,11 +57,12 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
-    $self->open() unless stat($handle);
+    $self->_watchSize();
 
-    $self->watchSize();
-
-    print $handle "[".localtime()."][$level] $message\n";
+    print {$self->{handle}}
+        "[". localtime() ."]" .
+        "[$level]" .
+        " $message\n";
 }
 
 sub DESTROY {
@@ -72,3 +72,51 @@ sub DESTROY {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::LoggerBackend::File - A file backend for the logger
+
+=head1 DESCRIPTION
+
+This is a file-based backend for the logger. It supports automatic filesize
+limitation.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item config (mandatory)
+
+=back
+
+=head2 addMsg($params)
+
+Add a log message, with a specific level. The following arguments are allowed:
+
+=over
+
+=item level (mandatory)
+
+Can be one of:
+
+=over
+
+=item debug
+
+=item info
+
+=item error
+
+=item fault
+
+=back
+
+=item message (mandatory)
+
+=back

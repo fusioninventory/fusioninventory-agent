@@ -37,7 +37,15 @@ if ($OSNAME ne 'MSWin32') {
 }
 
 # test dependencies
-test_requires  'Test::More'  => undef;
+test_requires 'Test::More'      => undef;
+test_requires 'Test::Compile'   => undef;
+test_requires 'Test::Exception' => undef;
+test_requires 'HTTP::Server::Simple'         => undef;
+test_requires 'HTTP::Server::Simple::Authen' => undef;
+test_requires 'HTTP::Proxy'                  => undef;
+test_requires 'Authen::Simple'               => undef;
+test_requires 'Compress::Zlib'               => undef;
+test_requires 'Crypt::SSLeay'                => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
@@ -58,4 +66,7 @@ if ($OSNAME eq 'solaris') {
     install_script  'memconf';
 }
 
+makemaker_args(
+    test => { TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t) },
+);
 WriteAll;

@@ -21,3 +21,23 @@ our $ip_address_pattern = qr/
 /x;
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Regexp - Generic regular expressions
+
+=head1 DESCRIPTION
+
+This module provides some generic regular expressions.
+
+=head1 PATTERNS
+
+=head2 mac_address_pattern
+
+This pattern matches a MAC address.
+
+=head2 ip_address_pattern
+
+This pattern matches an IP address.

@@ -79,7 +79,7 @@ sub doInventory {
 
                 if (/.*FRU part number.*:\s(.*)/) {
                     my $model = $1;
-                    my $manufacturer = getManufacturer($serial);
+                    my $manufacturer = getCanonicalManufacturer($serial);
                     ## my $fullname = "$name $slot/$channel/$scsi $state";
 
                     $logger->debug("ServeRaid: found $model, $manufacturer, $model, SCSI, disk, $capacity, $serial, ");

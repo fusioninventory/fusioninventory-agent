@@ -3,9 +3,13 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Storages;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {1}
+use FusionInventory::Agent::Tools;
 
-sub getDiskInfo {
+sub isInventoryEnabled {
+    return 1;
+}
+
+sub _getDiskInfo {
     my ($section) = @_;
 
     my $wasEmpty;
@@ -78,53 +82,45 @@ sub doInventory {
     my $devices = {};
 
     # Get SATA Drives
-    my $sata = getDiskInfo();
+    my $sata = _getDiskInfo();
 
     foreach my $device ( @$sata ) {
-            my $description;
-            if (!$device->{'Protocol'}) {
-                $description = 'Disk drive';
-            } elsif ( ($device->{'Protocol'} eq 'ATAPI')
-                    ||
-                    ($device->{'Drive Type'}) ) {
-                $description = 'CD-ROM Drive';
-            }
+        my $description;
+        if (!$device->{'Protocol'}) {
+            $description = 'Disk drive';
+        } elsif ( ($device->{'Protocol'} eq 'ATAPI')
+                ||
+                ($device->{'Drive Type'}) ) {
+            $description = 'CD-ROM Drive';
+        }
 
-            my $size = $device->{'Capacity'};
-            if ($size) {
-                #e.g: Capacity: 320,07 GB (320 072 933 376 bytes)
-                $size =~ s/\s*\(.*//;
-                $size =~ s/ GB//;
-                $size =~ s/,/./;
-                $size = int($size * 1024);
-            }
+        my $size = $device->{'Capacity'};
+        if ($size) {
+            #e.g: Capacity: 320,07 GB (320 072 933 376 bytes)
+            $size =~ s/\s*\(.*//;
+            $size =~ s/ GB//;
+            $size =~ s/,/./;
+            $size = int($size * 1024);
+        }
 
-            my $manufacturer = getManufacturer($device->{'Name'});
+        my $manufacturer = getCanonicalManufacturer($device->{'Name'});
 
-            my $model = $device->{'Model'};
-            if ($model) {
-                $model =~ s/\s*$manufacturer\s*//i;
-            }
+        my $model = $device->{'Model'};
+        if ($model) {
+            $model =~ s/\s*$manufacturer\s*//i;
+        }
 
         $inventory->addStorage({
-                NAME => $device->{'Name'},
-                SERIAL => $device->{'Serial Number'},
-                DISKSIZE => $size,
-                FIRMWARE => $device->{'Revision'},
-                MANUFACTURER => $manufacturer,
-                DESCRIPTION => $description,
-                MODEL => $model,
-                TYPE => $device->{'Type'}
-            });
+            NAME => $device->{'Name'},
+            SERIAL => $device->{'Serial Number'},
+            DISKSIZE => $size,
+            FIRMWARE => $device->{'Revision'},
+            MANUFACTURER => $manufacturer,
+            DESCRIPTION => $description,
+            MODEL => $model,
+            TYPE => $device->{'Type'}
+        });
     }
-
-<<<<<<< HEAD
-    foreach my $device ( keys %$devices ) {
-        $inventory->addStorage($devices->{$device});
-    }
-=======
->>>>>>> master
-
 }
 
 1;

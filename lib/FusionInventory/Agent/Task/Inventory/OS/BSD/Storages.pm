@@ -5,7 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled {-r '/etc/fstab'}
+sub isInventoryEnabled {
+    return -r '/etc/fstab';
+}
 
 sub doInventory {
     my $params = shift;

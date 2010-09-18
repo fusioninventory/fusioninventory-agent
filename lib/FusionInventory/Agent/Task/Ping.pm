@@ -8,10 +8,10 @@ use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 
-sub main {
-    my $self = __PACKAGE__->SUPER::new();
+sub run {
+    my ($self) = @_;
 
-    if ($self->{target}->{type} ne 'server') {
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $self->{logger}->debug("No server. Exiting...");
         return;
     }
@@ -34,8 +34,17 @@ sub main {
     });
 
     $self->{logger}->debug("Pong!");
-    $self->{network}->send( { message => $message } );
+    $self->{transmitter}->send( { message => $message } );
 
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::Ping - The ping task for FusionInventory 
+
+=head1 DESCRIPTION
+
+This task just send a simple message to the server.

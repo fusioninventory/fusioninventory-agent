@@ -27,19 +27,12 @@ sub getInfo {
     }
 
     return $info;
-} 
-
+}
 
 sub doInventory {
     my $params = shift;
     my $logger = $params->{logger};
     my $inventory = $params->{inventory};
-
-    foreach my $Properties (getWmiProperties('Win32_DiskDrive', qw/
-        Name Manufacturer Model MediaType InterfaceType FirmwareRevision
-        SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit
-        SCSITargetId
-    /)) {
 
     my @storages;
     foreach my $Properties (getWmiProperties('Win32_DiskDrive', qw/
@@ -47,67 +40,62 @@ sub doInventory {
         SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId
     /)) {
 
-            my $info = {};
+        my $info = {};
 
-            if ($Properties->{Name} =~ /(\d+)$/) {
-                $info = getInfo("hd", $1);
-            }
+        if ($Properties->{Name} =~ /(\d+)$/) {
+            $info = getInfo("hd", $1);
+        }
 
-            $inventory->addStorage({
-                MANUFACTURER => $Properties->{Manufacturer},
-                MODEL => $info->{model} || $Properties->{Model},
-                DESCRIPTION => $Properties->{Description},
-                NAME => $Properties->{Name},
-                TYPE => $Properties->{MediaType},
-                INTERFACE => $Properties->{InterfaceType},
-                FIRMWARE => $info->{firmware} || $Properties->{FirmwareRevision},
-                SERIAL => $info->{serial} || $Properties->{SerialNumber},
-                DISKSIZE => $info->{size} || int($Properties->{Size}/(1024*1024)),
-                SCSI_CHID => $Properties->{SCSILogicialUnit},
-                SCSI_COID => $Properties->{SCSIPort},
-                SCSI_LUN => $Properties->{SCSILogicalUnit},
-                SCSI_UNID => $Properties->{SCSITargetId},
-            });
+        $inventory->addStorage({
+            MANUFACTURER => $Properties->{Manufacturer},
+            MODEL => $info->{model} || $Properties->{Model},
+            DESCRIPTION => $Properties->{Description},
+            NAME => $Properties->{Name},
+            TYPE => $Properties->{MediaType},
+            INTERFACE => $Properties->{InterfaceType},
+            FIRMWARE => $info->{firmware} || $Properties->{FirmwareRevision},
+            SERIAL => $info->{serial} || $Properties->{SerialNumber},
+            DISKSIZE => $info->{size} || int($Properties->{Size}/(1024*1024)),
+            SCSI_CHID => $Properties->{SCSILogicialUnit},
+            SCSI_COID => $Properties->{SCSIPort},
+            SCSI_LUN => $Properties->{SCSILogicalUnit},
+            SCSI_UNID => $Properties->{SCSITargetId},
+        });
     }
 
-    foreach my $Properties (getWmiProperties('Win32_CDROMDrive', qw/
-        Manufacturer Caption Description Name MediaType InterfaceType
-        FirmwareRevision SerialNumber Size SCSILogicialUnit SCSIPort
-        SCSILogicalUnit SCSITargetId
-    /)) {
-
 
     foreach my $Properties (getWmiProperties('Win32_CDROMDrive', qw/
         Manufacturer Caption Description Name MediaType InterfaceType
         FirmwareRevision SerialNumber Size SCSILogicialUnit SCSIPort
         SCSILogicalUnit SCSITargetId
     /)) {
-            my $info = {};
+        my $info = {};
 
-            if ($Properties->{Name} =~ /(\d+)$/) {
-                $info = getInfo("cdrom", $1);
-            }
+        if ($Properties->{Name} =~ /(\d+)$/) {
+            $info = getInfo("cdrom", $1);
+        }
 
-            my $size;
-            if ($Properties->{Size}) {
-                $size = int($Properties->{Size}/(1024*1024))
-            }
+        my $size;
+        if ($Properties->{Size}) {
+            $size = int($Properties->{Size}/(1024*1024))
+        }
 
-            $inventory->addStorage({
-                MANUFACTURER => $Properties->{Manufacturer},
-                MODEL => $info->{model} || $Properties->{Caption},
-                DESCRIPTION => $Properties->{Description},
-                NAME => $Properties->{Name},
-                TYPE => $Properties->{MediaType},
-                INTERFACE => $Properties->{InterfaceType},
-                FIRMWARE => $info->{firmware} || $Properties->{FirmwareRevision},
-                SERIAL => $info->{serial} || $Properties->{SerialNumber},
-                DISKSIZE => $info->{size} || $size,
-                SCSI_CHID => $Properties->{SCSILogicialUnit},
-                SCSI_COID => $Properties->{SCSIPort},
-                SCSI_LUN => $Properties->{SCSILogicalUnit},
-                SCSI_UNID => $Properties->{SCSITargetId},
-            });
+        $inventory->addStorage({
+            MANUFACTURER => $Properties->{Manufacturer},
+            MODEL => $info->{model} || $Properties->{Caption},
+            DESCRIPTION => $Properties->{Description},
+            NAME => $Properties->{Name},
+            TYPE => $Properties->{MediaType},
+            INTERFACE => $Properties->{InterfaceType},
+            FIRMWARE => $info->{firmware} || $Properties->{FirmwareRevision},
+            SERIAL => $info->{serial} || $Properties->{SerialNumber},
+            DISKSIZE => $info->{size} || $size,
+            SCSI_CHID => $Properties->{SCSILogicialUnit},
+            SCSI_COID => $Properties->{SCSIPort},
+            SCSI_LUN => $Properties->{SCSILogicalUnit},
+            SCSI_UNID => $Properties->{SCSITargetId},
+        });
+    }
 
     foreach my $Properties (getWmiProperties('Win32_TapeDrive', qw/
         Manufacturer Caption Description Name MediaType InterfaceType
@@ -115,21 +103,21 @@ sub doInventory {
         SCSILogicalUnit SCSITargetId
     /)) {
 
-            $inventory->addStorage({
-                MANUFACTURER => $Properties->{Manufacturer},
-                MODEL => $Properties->{Caption},
-                DESCRIPTION => $Properties->{Description},
-                NAME => $Properties->{Name},
-                TYPE => $Properties->{MediaType},
-                INTERFACE => $Properties->{InterfaceType},
-                FIRMWARE => $Properties->{FirmwareRevision},
-                SERIAL => $Properties->{SerialNumber},
-                DISKSIZE => int($Properties->{Size}/(1024*1024)),
-                SCSI_CHID => $Properties->{SCSILogicialUnit},
-                SCSI_COID => $Properties->{SCSIPort},
-                SCSI_LUN => $Properties->{SCSILogicalUnit},
-                SCSI_UNID => $Properties->{SCSITargetId},
-            });
+        $inventory->addStorage({
+            MANUFACTURER => $Properties->{Manufacturer},
+            MODEL => $Properties->{Caption},
+            DESCRIPTION => $Properties->{Description},
+            NAME => $Properties->{Name},
+            TYPE => $Properties->{MediaType},
+            INTERFACE => $Properties->{InterfaceType},
+            FIRMWARE => $Properties->{FirmwareRevision},
+            SERIAL => $Properties->{SerialNumber},
+            DISKSIZE => int($Properties->{Size}/(1024*1024)),
+            SCSI_CHID => $Properties->{SCSILogicialUnit},
+            SCSI_COID => $Properties->{SCSIPort},
+            SCSI_LUN => $Properties->{SCSILogicalUnit},
+            SCSI_UNID => $Properties->{SCSITargetId},
+        });
 
     }
 

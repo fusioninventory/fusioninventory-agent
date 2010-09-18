@@ -14,16 +14,19 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools::Win32;
 
+# Only run this module if dmidecode has not been found
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
+
 sub isInventoryEnabled {
     return 1;
 }
 
 sub getBiosInfoFromRegistry {
-    my ($logger) = @_;
 
     my $machKey= $Registry->Open('LMachine', {
         Access=> KEY_READ | KEY_WOW64_64KEY
-    }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $data =
         $machKey->{"Hardware/Description/System/BIOS"};

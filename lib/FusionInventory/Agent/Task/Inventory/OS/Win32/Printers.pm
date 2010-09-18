@@ -89,7 +89,7 @@ sub doInventory {
             SERIAL => $Properties->{Serial}
         });
 
-    }    
+    }
 }
 
 sub getSerialbyUsb {

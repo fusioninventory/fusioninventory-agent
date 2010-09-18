@@ -85,9 +85,11 @@ sub doInventory {
         Capacity Caption Description FormFactor Removable Speed MemoryType
         SerialNumber
     /)) {
-# Ignore ROM storages (BIOS ROM)
-        if (defined($memoryTypeVal[$Properties->{MemoryType}]) &&
-$memoryTypeVal[$Properties->{MemoryType}] eq 'ROM') {
+        # Ignore ROM storages (BIOS ROM)
+        if (
+            defined($memoryTypeVal[$Properties->{MemoryType}]) &&
+            $memoryTypeVal[$Properties->{MemoryType}] eq 'ROM'
+        ) {
             next;
         }
 

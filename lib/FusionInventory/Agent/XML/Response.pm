@@ -9,14 +9,8 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        accountconfig => $params->{accountconfig},
-        accountinfo   => $params->{accountinfo},
-        content       => $params->{content},
-        config        => $params->{config},
-        logger        => $params->{logger},
-        origmsg       => $params->{origmsg},
-        target        => $params->{target},
-        parsedcontent => undef
+        content => $params->{content},
+        logger  => $params->{logger},
     };
     bless $self, $class;
 
@@ -45,4 +39,54 @@ sub getParsedContent {
     return $self->{parsedcontent};
 }
 
+sub getOptionsInfoByName {
+    my ($self, $name) = @_;
+
+    my $parsedContent = $self->getParsedContent();
+
+    return unless $parsedContent && $parsedContent->{OPTION};
+
+    foreach my $option (@{$parsedContent->{OPTION}}) {
+        next unless $option->{NAME} eq $name;
+        return $option->{PARAM}->[0];
+    }
+
+    return;
+}
+
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::XML::Response - XML response message
+
+=head1 DESCRIPTION
+
+This is the response message sent by the server to the agent.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item content (mandatory)
+
+=item logger (mandatory)
+
+=back
+
+=head2 getContent
+
+Get raw XML content.
+
+=head2 getParsedContent
+
+Get XML content, parsed as a perl data structure.
+
+=head2 getOptionsInfoByName($name)
+
+Get parameters of a specific option

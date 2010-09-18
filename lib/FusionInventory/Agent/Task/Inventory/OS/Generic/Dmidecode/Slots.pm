@@ -5,55 +5,46 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my ($slots) = parseDmidecode('/usr/sbin/dmidecode', '-|');
+    my $slots = _getSlots($logger);
+
+    return unless $slots;
 
     foreach my $slot (@$slots) {
-        $inventory->addSlots($slot);
+        $inventory->addSlot($slot);
     }
 }
 
-sub parseDmidecode {
-    my ($file, $mode) = @_;
+sub _getSlots {
+    my ($logger, $file) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
+    my $infos = getInfosFromDmidecode($logger, $file);
+
+    return unless $infos->{9};
+
+    my $slots;
+    foreach my $info (@{$infos->{9}}) {
+        my $slot = {
+            DESCRIPTION => $info->{'Type'},
+            DESIGNATION => $info->{'ID'},
+            NAME        => $info->{'Designation'},
+            STATUS      => $info->{'Current Usage'},
+        };
+
+        cleanUnknownValues($slot);
+
+        push @$slots, $slot;
     }
-
-    my ($slots, $slot, $type);
-
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /DMI type (\d+)/) {
-            $type = $1;
-            if ($slot) {
-                push @$slots, $slot;
-                undef $slot;
-            }
-            next;
-        }
-
-        next unless defined $type;
-
-        if ($type == 9) {
-             if ($line =~ /^\s+Type: (.*\S)/) {
-                $slot->{DESCRIPTION} = $1;
-            } elsif ($line =~ /^\s+ID: (.*\S)/) {
-                $slot->{DESIGNATION} = $1;
-            } elsif ($line =~ /^\s+Designation: (.*\S)/) {
-                $slot->{NAME} = $1;
-            } elsif ($line =~ /^\s+Current Usage: (.*\S)/) {
-                $slot->{STATUS} = $1;
-            }
-        }
-    }
-    close $handle;
 
     return $slots;
 }

@@ -64,7 +64,7 @@ sub doInventory {
                 CAPTION => $Properties->{Caption},
                 DESCRIPTION => $Properties->{Description},
                 PCIID => $pciid,
-                PCISUBSYSTEMID => $pcisubsystemid,
+                PCISUBSYSTEMID=> $pcisubsystemid,
                 VERSION => $Properties->{HardwareVersion},
                 TYPE => $Properties->{Caption},
             });
