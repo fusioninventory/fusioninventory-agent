@@ -27,13 +27,15 @@ sub new {
 sub getAccountInfo {
     my ($self) = @_;
 
-    return $self->{accountinfo};
+    return $self->{accountInfo};
 }
 
 sub setAccountInfo {
-    my ($self, $accountinfo) = @_;
+    my ($self, $accountInfo) = @_;
 
-    $self->{accountinfo} = $accountinfo;
+    return if $self->_isSameHash($accountInfo, $self->{accountInfo});
+
+    $self->{accountInfo} = $accountInfo;
     $self->_save();
 }
 
