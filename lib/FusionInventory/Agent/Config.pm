@@ -252,24 +252,6 @@ sub loadUserParams {
         @options
     ) or $self->help();
 
-    # We want only canonical path
-    $self->{basevardir} =
-        abs_path($self->{basevardir}) if $self->{basevardir};
-    $self->{'share-dir'} =
-        abs_path($self->{'share-dir'}) if $self->{'share-dir'};
-    $self->{'conf-file'} =
-        abs_path($self->{'conf-file'}) if $self->{'conf-file'};
-    $self->{'ca-cert-file'} =
-        abs_path($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
-    $self->{'ca-cert-dir'} =
-        abs_path($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
-    # On Windows abs_path fails if the file doesn't exist yet.
-    # Win32::GetFullPathName is ok.
-    if ($self->{'logfile'}) {
-        $self->{'logfile'} = $OSNAME eq 'MSWin32' ?
-            Win32::GetFullPathName($self->{'logfile'}) :
-            abs_path($self->{'logfile'});
-    }
 }
 
 sub checkContent {
@@ -298,7 +280,9 @@ sub checkContent {
         $self->{'no-fork'} = 1;
     }
 
-    if (!$self->{'share-dir'}) {
+    if ($self->{'share-dir'}) {
+        $self->{'share-dir'} = abs_path($self->{'share-dir'});
+    } else {
         if ($self->{devlib}) {
             $self->{'share-dir'} = abs_path('./share/');
         } else {
@@ -308,6 +292,23 @@ sub checkContent {
                     File::ShareDir::dist_dir('FusionInventory-Agent');
             };
         }
+    }
+
+    # We want only canonical path
+    $self->{basevardir} =
+        abs_path($self->{basevardir}) if $self->{basevardir};
+    $self->{'conf-file'} =
+        abs_path($self->{'conf-file'}) if $self->{'conf-file'};
+    $self->{'ca-cert-file'} =
+        abs_path($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
+    $self->{'ca-cert-dir'} =
+        abs_path($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
+    # On Windows abs_path fails if the file doesn't exist yet.
+    # Win32::GetFullPathName is ok.
+    if ($self->{'logfile'}) {
+        $self->{'logfile'} = $OSNAME eq 'MSWin32' ?
+            Win32::GetFullPathName($self->{'logfile'}) :
+            abs_path($self->{'logfile'});
     }
 }
 
