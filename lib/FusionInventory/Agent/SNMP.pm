@@ -214,11 +214,11 @@ Can be one of:
 
 =over
 
-=item 1
+=item '1'
 
-=item 2c
+=item '2c'
 
-=item 3
+=item '3'
 
 =back
 
