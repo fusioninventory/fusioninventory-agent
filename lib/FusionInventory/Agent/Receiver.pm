@@ -27,9 +27,9 @@ sub new {
         $self->{htmlDir} = "./share/html";
     }
     if ($self->{htmlDir}) {
-        $logger->debug("[Receiver] Static files are in ".$self->{htmlDir});
+        $logger->debug("[WWW] Static files are in ".$self->{htmlDir});
     } else {
-        $logger->debug("[Receiver] No static files directory");
+        $logger->debug("[WWW] No static files directory");
     }
 
     bless $self, $class;
@@ -54,12 +54,12 @@ sub handle {
     }
 
     my $path = $r->uri()->path();
-    $logger->debug("[Receiver] request $path from client $clientIp");
+    $logger->debug("[WWW] request $path from client $clientIp");
 
     # non-GET requests
     my $method = $r->method();
     if ($method ne 'GET') {
-        $logger->debug("[Receiver] invalid request type: $method");
+        $logger->debug("[WWW] invalid request type: $method");
         $c->send_error(500);
         $c->close;
         undef($c);
@@ -149,13 +149,13 @@ sub handle {
                         $self->{agent}->resetToken();
                     } else {
                         $logger->debug(
-                            "[Receiver] untrusted address, invalid token $sentToken != $token"
+                            "[WWW] untrusted address, invalid token $sentToken != $token"
                         );
                         $result = "untrusted address, invalid token";
                     }
                 } else {
                     $logger->debug(
-                        "[Receiver] untrusted address, no token received"
+                        "[WWW] untrusted address, no token received"
                     );
                     $result = "untrusted address, no token received";
                 }
@@ -220,11 +220,11 @@ sub _server {
     );
 
     if (!$daemon) {
-        $logger->error("[Receiver] Failed to start the service");
+        $logger->error("[WWW] Failed to start the service");
         return;
     } 
     $logger->info(
-        "[Receiver] Service started at: http://$self->{rpc_ip}:62354"
+        "[WWW] Service started at: http://$self->{rpc_ip}:62354"
     );
 
     while (1) {
