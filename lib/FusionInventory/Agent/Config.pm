@@ -323,20 +323,6 @@ EOF
     }
 
     $help .= <<EOF;
-Common options:
-    --debug             debug mode ($self->{debug})
-    --format            export format (HTML or XML) ($self->{format})
-    --logfile=FILE      log message in FILE ($self->{logfile})
-    --version           print the version
-
-Network connection options:
-    -p --password=PWD   password for server auth
-    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
-    -u --user           user name to use for server auth
-    --ca-cert-dir=D     SSL certificat directory ($self->{'ca-cert-dir'})
-    --ca-cert-file=F    SSL certificat file ($self->{'ca-cert-file'})
-    --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
-
 Target selection options:
     -s --server=URI     server uri, e.g: http://server/ocsinventory ($self->{server})
     -l --local=DIR      write inventory in DIR
@@ -353,34 +339,53 @@ Inventory task specific options:
     --no-printer        do not return printer list in inventory $self->{'no-printer'})
     --no-software       do not return installed software list ($self->{'no-software'})
     --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
+    --backend-collect-timeout set a max delay time of one inventory data
+                        collect job ($self->{'backend-collect-timeout'})
+
+Network connection options:
+    -p --password=PWD   password for server auth
+    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
+    -u --user           user name to use for server auth
+    --ca-cert-dir=D     SSL certificat directory ($self->{'ca-cert-dir'})
+    --ca-cert-file=F    SSL certificat file ($self->{'ca-cert-file'})
+    --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
+
 
 Web interface options:
     --no-rpc            do not use web interface ($self->{'no-rpc'})
     --rpc-ip=IP         network interface to listen to
     --rpc-trust-localhost      trust local requests without token
 
-Extra options:
-    --backend-collect-timeout set a max delay time of one inventory data
-                        collect job ($self->{'backend-collect-timeout'})
+Logging options:
+    --logfile=FILE      log message in FILE ($self->{logfile})
+    --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
+    --logger            logger you want to use (Stderr, File or Syslog) ($self->{logger})
+    --color             use color in the console ($self->{color})
+    --logfacility       syslog facility to use
+
+Setup options:
     --basevardir=DIR    indicate the directory where should the agent store its
                         files ($self->{basevardir})
-    --color             use color in the console ($self->{color})
+    --share-dir=DIR     path to the directory where are stored the shared files
+                        ($self->{'share-dir'})
+    --devlib            search for Backend mod in ./lib only ($self->{devlib})
+
+Extra options:
     -d --daemon         detach the agent in background ($self->{daemon})
     --no-fork           don't fork in background ($self->{'no-fork'})
     --delaytime         set a max delay time (in second) if no PROLOG_FREQ is
                         set ($self->{delaytime})
-    --devlib            search for Backend mod in ./lib only ($self->{devlib})
     -f --force          always send data to server (Don't ask before) ($self->{force})
     -i --info           verbose mode ($self->{info})
+    --debug             debug mode ($self->{debug})
     --lazy              do not contact the server more than one time during the
                         PROLOG_FREQ ($self->{lazy})
-    --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
-    --logger            Logger you want to use (Stderr, File or Syslog) ($self->{logger})
-    --share-dir=DIR     path to the directory where are stored the shared files
-                        ($self->{'share-dir'})
     -t --tag=TAG        use TAG as tag ($self->{tag})
     -w --wait=DURATION  wait during a random periode between 0 and DURATION
                         seconds before contacting server ($self->{wait})
+    --format            export format (HTML or XML) ($self->{format})
+    --version           print the version
+
 Manpage:
     See man fusioninventory-agent
 
