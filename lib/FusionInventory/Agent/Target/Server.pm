@@ -6,6 +6,8 @@ use base 'FusionInventory::Agent::Target';
 
 use English qw(-no_match_vars);
 
+my $count = 0;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -17,7 +19,8 @@ sub new {
     my $self = $class->SUPER::new(
         {
             %$params,
-            dir => $dir
+            dir => $dir,
+            id  => 'server' . $count++
         }
     );
 

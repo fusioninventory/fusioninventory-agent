@@ -12,6 +12,7 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
+        id              => $params->{id} || 'target',
         maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
         path            => $params->{path} || '',
@@ -37,7 +38,7 @@ sub new {
         die "Can't write in $self->{vardir}";
     }
 
-    $logger->debug("storage directory: $self->{vardir}");
+    $logger->debug("[target $self->{id}] Storage directory: $self->{vardir}");
 
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
@@ -73,9 +74,11 @@ sub scheduleNextRun {
     my $time = time() + $offset;
     $self->setNextRunDate($time);
 
-    $self->{logger}->debug(defined $offset ?
-        "Next run scheduled for " . localtime($time + $offset) :
-        "Next run forced now"
+    $self->{logger}->debug(
+        "[target $self->{id}]" . 
+        defined $offset ?
+            "Next run scheduled for " . localtime($time + $offset) :
+            "Next run forced now"
     );
 
 }
@@ -104,7 +107,7 @@ sub _load {
 
     if ($self->{nextRunDate}) {
         $self->{logger}->debug (
-            "[$self->{path}] Next server contact planned for ".
+            "[target $self->{id}] Next server contact planned for ".
             localtime($data->{nextRunDate})
         );
     }
