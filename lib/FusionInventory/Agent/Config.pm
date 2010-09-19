@@ -35,8 +35,7 @@ my $default = {
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'no-printer'              => 0,
-    'no-rpc'                  => 0,
-    'no-software'             => 0,
+    'no-www'                  => 0,
     'no-software'             => 0,
     'no-wakeonlan'            => 0,
     'no-snmpquery'            => 0,
@@ -53,7 +52,8 @@ my $default = {
     'version'                 => 0,
     'wait'                    => '',
     'scan-homedirs'           => 0,
-    'rpc-ip'                  => '127.0.0.1',
+    'www-ip'                  => '127.0.0.1',
+    'www-trust-localhost'     => 1
 };
 
 sub new {
@@ -220,7 +220,7 @@ sub loadUserParams {
         'no-inventory',
         'no-printer',
         'no-socket',
-        'no-rpc',
+        'no-www',
         'no-soft',
         'no-software',
         'no-ssl-check',
@@ -241,8 +241,8 @@ sub loadUserParams {
         'user|u=s',
         'version',
         'wait|w=s',
-        'delaytime=s',
-        'scan-homedirs',
+        'www-ip=s',
+        'www-trust-localhost',
     );
 
     push(@options, 'color') if $OSNAME ne 'MSWin32';
@@ -267,10 +267,22 @@ sub checkContent {
             "the parameter --realm is deprecated, and will be ignored\n";
     }
 
-    if ($self->{'no-socket'}) {
+    if (defined $self->{'no-socket'}) {
         print STDERR
-            "the parameter --no-socket is deprecated, use --no-rpc instead\n";
-        $self->{'no-rpc'} = 1;
+            "the parameter --no-socket is deprecated, use --no-www instead\n";
+        $self->{'no-www'} = $self->{'no-socket'};
+    }
+
+    if (defined $self->{'rpc-ip'}) {
+        print STDERR
+            "the parameter --rpc-ip is deprecated, use --www-ip instead\n";
+        $self->{'www-ip'} = $self->{'rpc-ip'};
+    }
+
+    if (defined $self->{'rpc-trust-localhost'}) {
+        print STDERR
+            "the parameter --rpc-trust-localhost is deprecated, use --www-trust-localhost instead\n";
+        $self->{'www-trust-localhost'} = $self->{'rpc-trust-localhost'};
     }
 
     if ($self->{'daemon-no-fork'}) {
@@ -353,9 +365,9 @@ Network connection options:
 
 
 Web interface options:
-    --no-rpc            do not use web interface ($self->{'no-rpc'})
-    --rpc-ip=IP         network interface to listen to
-    --rpc-trust-localhost      trust local requests without token
+    --no-www            do not use web interface ($self->{'no-www'})
+    --www-ip=IP         network interface to listen to
+    --www-trust-localhost      trust local requests without token
 
 Logging options:
     --logfile=FILE      log message in FILE ($self->{logfile})

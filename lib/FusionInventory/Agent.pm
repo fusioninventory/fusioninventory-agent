@@ -234,7 +234,7 @@ sub new {
 
     }
 
-    if (($config->{daemon} || $config->{service}) && ! $config->{'no-rpc'}) {
+    if (($config->{daemon} || $config->{service}) && ! $config->{'no-www'}) {
         FusionInventory::Agent::Receiver->require();
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
@@ -251,8 +251,8 @@ sub new {
                 agent     => $self,
                 devlib    => $config->{devlib},
                 share_dir => $config->{'share-dir'},
-                rpc_ip    => $config->{'rpc-ip'},
-                rpc_trust_localhost => $config->{'rpc-trust-localhost'},
+                ip        => $config->{'www-ip'},
+                trust_localhost => $config->{'www-trust-localhost'},
             });
         }
     }

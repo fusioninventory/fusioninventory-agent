@@ -12,11 +12,11 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger              => $params->{logger},
-        scheduler           => $params->{scheduler},
-        agent               => $params->{agent},
-        rpc_ip              => $params->{rpc_ip},
-        rpc_trust_localhost => $params->{rpc_trust_localhost},
+        logger          => $params->{logger},
+        scheduler       => $params->{scheduler},
+        agent           => $params->{agent},
+        ip              => $params->{ip},
+        trust_localhost => $params->{trust_localhost},
     };
 
     my $logger = $self->{logger};
@@ -284,8 +284,8 @@ The constructor. The following named parameters are allowed:
 
 =item share_dir (mandatory)
 
-=item rpc_ip (default: undef)
+=item ip (default: undef)
 
-=item rpc_trust_localhost (default: false)
+=item trust_localhost (default: false)
 
 =back
