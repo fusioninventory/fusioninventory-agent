@@ -116,7 +116,7 @@ sub mkFullServerUrl {
 ################### main ###########################
 ####################################################
 
-loadModules (qw/XML::Simple ExtUtils::MakeMaker/);
+loadModules (qw/XML::TreePP ExtUtils::MakeMaker/);
 
 if (!ask_yn("Do you want to configure the agent", 'y')) {
     exit 0;
