@@ -12,11 +12,13 @@ sub new {
 
     my $self = {
         logger      => $params->{logger},
-        target      => $params->{target}
+        target      => $params->{target},
+        storage     => $params->{storage}
     };
     bless $self, $class;
 
     my $target = $self->{target};
+    my $storage = $self->{storage};
 
     $self->{h} = {
         QUERY    => ['UNSET!'],
@@ -29,6 +31,8 @@ sub new {
     ) {
       $self->{h}->{OLD_DEVICEID} = [$target->{currentDeviceid}];
     }
+
+    $self->{myData} = $storage->restore() if $storage;
 
     return $self;
 }
