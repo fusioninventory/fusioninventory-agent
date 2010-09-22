@@ -242,10 +242,11 @@ sub _parseDmidecode {
     return $info;
 }
 
-sub getIpDhcp {
-    my ($logger, $if) = @_;
+sub findDhcpLeaseFile {
+    my ($logger) = @_;
 
-    my $lease_file;
+    my @files;
+
     foreach my $dir qw(
         /var/db
         /var/lib/dhcp3
@@ -253,30 +254,27 @@ sub getIpDhcp {
     ) {
         next unless -d $dir;
 
-        my @files =
+        push @files,
             grep { -s $_ }
-            glob("$dir/*$if.lease");
+            glob("$dir/*.lease");
 
-        if (@files) {
-            # sort by creation time 
-            @files =
-                map { $_->[0] } 
-                sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
-                map { [ $_, stat($_) ] }
-                @files;
-
-            # take the last one
-            $lease_file = $files[-1];
-            last;
-        }
-
-        if (-f "$dir/dhclient.leases") {
-            $lease_file = "$dir/dhclient.leases";
-            last;
-        }
     }
 
-    return unless $lease_file;
+    return unless @files;
+
+    # sort by creation time
+    @files =
+    map { $_->[0] }
+    sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
+    map { [ $_, stat($_) ] }
+    @files;
+
+    # take the last one
+    return $files[-1];
+}
+
+sub parseDhcpLeaseFile {
+    my ($logger, $if, $lease_file) = @_;
 
     my ($server_ip, $expiration_time);
 
@@ -324,9 +322,21 @@ sub getIpDhcp {
     }
     close $handle;
 
+    return unless $expiration_time;
+
     my $current_time = time();
 
     return $current_time <= $expiration_time ? $server_ip : undef;
+}
+
+sub getIpDhcp {
+    my ($logger, $if) = @_;
+
+    my $dhcpLeaseFile = findDhcpLeaseFile($logger);
+
+    return unless $dhcpLeaseFile;
+
+    parseDhcpLeaseFile($logger, $if, $dhcpLeaseFile);
 }
 
 sub getPackagesFromCommand {
