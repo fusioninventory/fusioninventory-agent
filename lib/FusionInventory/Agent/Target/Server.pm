@@ -57,3 +57,23 @@ sub _save {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Target::Server - Server target
+
+=head1 DESCRIPTION
+
+This is a target for sending execution result to a server.
+
+=head1 METHODS
+
+=head2 getAccountInfo()
+
+Get account informations for this target.
+
+=head2 setAccountInfo($info)
+
+Set account informations for this target.

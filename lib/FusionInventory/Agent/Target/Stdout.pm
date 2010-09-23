@@ -21,3 +21,13 @@ sub new {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Target::Stdout - Stdout target
+
+=head1 DESCRIPTION
+
+This is a target for displaying execution result on standard output.

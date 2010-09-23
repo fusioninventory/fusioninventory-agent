@@ -146,3 +146,54 @@ sub _isSameHash {
 
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Target - Abstract target
+
+=head1 DESCRIPTION
+
+This is an abstract class for execution targets.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item maxOffset: maximum delay in seconds (default: 3600)
+
+=item logger: logger object to use (mandatory)
+
+=item path: filesystem path or server url
+
+=item deviceid: 
+
+=item nextRunDate: 
+
+=back
+
+=head2 getMaxOffset()
+
+Get maxOffset attribute.
+
+=head2 setMaxOffset($maxOffset)
+
+Set maxOffset attribute.
+
+=head2 getNextRunDate()
+
+Get nextRunDate attribute.
+
+=head2 setNextRunDate($nextRunDate)
+
+Set nextRunDate attribute.
+
+=head2 scheduleNextRun($offset)
+
+Re-schedule the target to current time + given offset. If offset is not given,
+it's computed randomly as: (maxOffset / 2) + rand(maxOffset / 2)

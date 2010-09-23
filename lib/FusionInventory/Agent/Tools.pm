@@ -242,7 +242,7 @@ sub _parseDmidecode {
     return $info;
 }
 
-sub findDhcpLeaseFile {
+sub _findDhcpLeaseFile {
     my ($logger) = @_;
 
     my @files;
@@ -273,7 +273,7 @@ sub findDhcpLeaseFile {
     return $files[-1];
 }
 
-sub parseDhcpLeaseFile {
+sub _parseDhcpLeaseFile {
     my ($logger, $if, $lease_file) = @_;
 
     my ($server_ip, $expiration_time);
@@ -332,11 +332,11 @@ sub parseDhcpLeaseFile {
 sub getIpDhcp {
     my ($logger, $if) = @_;
 
-    my $dhcpLeaseFile = findDhcpLeaseFile($logger);
+    my $dhcpLeaseFile = _findDhcpLeaseFile($logger);
 
     return unless $dhcpLeaseFile;
 
-    parseDhcpLeaseFile($logger, $if, $dhcpLeaseFile);
+    _parseDhcpLeaseFile($logger, $if, $dhcpLeaseFile);
 }
 
 sub getPackagesFromCommand {

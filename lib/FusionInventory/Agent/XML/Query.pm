@@ -91,3 +91,7 @@ The constructor. The following named parameters are allowed:
 =head2 getContent
 
 Get XML content.
+
+=head2 setAccountInfo($info)
+
+Set account informations for this message.

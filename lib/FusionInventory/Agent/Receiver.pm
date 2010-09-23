@@ -40,7 +40,7 @@ sub new {
     return $self;
 }
 
-sub handle {
+sub _handle {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
@@ -233,7 +233,7 @@ sub _server {
         my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
         my $request = $client->get_request();
-        $self->handle($client, $request, $clientIp);
+        $self->_handle($client, $request, $clientIp);
     }
 }
 

@@ -20,5 +20,14 @@ sub new {
     return $self;
 }
 
-
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Target::Local - Local target
+
+=head1 DESCRIPTION
+
+This is a target for storing execution result in a local folder.

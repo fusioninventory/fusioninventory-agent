@@ -62,23 +62,23 @@ sub new {
     my $self = $default;
     bless $self, $class;
 
-    $self->loadDefaults();
+    $self->_loadDefaults();
 
     if ($OSNAME eq 'MSWin32') {
-        $self->loadFromWinRegistry();
+        $self->_loadFromWinRegistry();
     } else {
-        $self->loadFromCfgFile();
+        $self->_loadFromCfgFile();
     }
 
-    $self->loadUserParams();
-    $self->loadCallerParams($params) if $params;
+    $self->_loadUserParams();
+    $self->_loadCallerParams($params) if $params;
 
-    $self->checkContent();
+    $self->_checkContent();
 
     return $self;
 }
 
-sub loadDefaults {
+sub _loadDefaults {
     my ($self) = @_;
 
     foreach my $key (keys %$default) {
@@ -86,7 +86,7 @@ sub loadDefaults {
     }
 }
 
-sub loadCallerParams {
+sub _loadCallerParams {
     my ($self, $params) = @_;
 
     foreach my $key (keys %$params) {
@@ -94,7 +94,7 @@ sub loadCallerParams {
     }
 }
 
-sub loadFromWinRegistry {
+sub _loadFromWinRegistry {
     my ($self) = @_;
 
     eval {
@@ -131,7 +131,7 @@ sub loadFromWinRegistry {
     }
 }
 
-sub loadFromCfgFile {
+sub _loadFromCfgFile {
     my ($self) = @_;
 
     $self->{etcdir} = [];
@@ -188,7 +188,7 @@ sub loadFromCfgFile {
     close $handle;
 }
 
-sub loadUserParams {
+sub _loadUserParams {
     my ($self) = @_;
 
     Getopt::Long::Configure( "no_ignorecase" );
@@ -254,7 +254,7 @@ sub loadUserParams {
 
 }
 
-sub checkContent {
+sub _checkContent {
     my ($self) = @_;
 
     # if a logfile is defined, use file logger
@@ -413,3 +413,23 @@ EOF
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Config - Agent configuration
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to store its configuration.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. All configuration parameters can be passed.
+
+=head2 help()
+
+Display usage instructions on stderr.
