@@ -277,7 +277,7 @@ sub _isAgentAlreadyRunning {
     return 0;
 }
 
-sub main {
+sub run {
     my ($self) = @_;
 
     my $config = $self->{config};
