@@ -53,7 +53,7 @@ sub _ipdhcp {
         }
         close $handle or warn;
         chomp (my $currenttime = `date +"%Y%m%d%H%M%S"`);
-        undef $ipdhcp unless $currenttime <= $expire;
+        undef $ipdhcp unless $expire && ($currenttime <= $expire);
     } else {
         warn "Can't open $leasepath\n";
     }
