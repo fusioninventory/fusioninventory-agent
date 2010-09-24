@@ -28,12 +28,20 @@ sub doInventory {
     my ($date, $origin, $kernconf);
     for (`sysctl -n kern.version`) {
         $date = $1 if /^\S.*\#\d+:\s*(.*)/;
-        ($origin,$kernconf) = ($1,$2) if /^\s+(.+):(.+)$/;
+	if (/^\s+(.+):(.+)$/) {
+            ($origin,$kernconf) = ($1,$2);
+	    $kernconf =~ s/\/.*\///; # remove the path
+            $OSComment = $kernconf." (".$date.")\n".$origin;
+            # if there is a problem use uname -v
+            chomp($OSComment=`uname -v`) unless $OSComment;
+        }
     }
-    $kernconf =~ s/\/.*\///; # remove the path
-    $OSComment = $kernconf." (".$date.")\n".$origin;
-    # if there is a problem use uname -v
-    chomp($OSComment=`uname -v`) unless $OSComment; 
+
+    if (can_run("lsb_release")) {
+        foreach (`lsb_release -d`) {
+            $OSNAME = $1 if /Description:\s+(.+)/;
+        }
+    }
 
     $inventory->setHardware({
         OSNAME => $OSNAME,
