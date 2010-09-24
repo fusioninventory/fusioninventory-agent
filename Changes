@@ -7,6 +7,7 @@ Revision history for FusionInventory::Agent
          Enable --tag and keep the DeviceID
        * fix 2.1.5 regression, correctly initialise $basevardir default value
        * POD, explain the registry is used on Windows, thanks Stéphane URBANOVSKI
+       * BSD: Fix a syntax error in Domain
 
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
