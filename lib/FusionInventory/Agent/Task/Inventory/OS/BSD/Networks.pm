@@ -118,6 +118,10 @@ sub doInventory {
         my $binsubnet = $binip & $binmask;
         $ipsubnet = ip_bintoip($binsubnet,4);
 
+        if ($ipmask =~ /^0x(\w{2})(\w{2})(\w{2})(\w{2})$/) {
+             $ipmask = hex($1).'.'.hex($2).'.'.hex($3).'.'.hex($4);
+        }
+
         $_ = $description;
         if (/^(lo|vboxnet|vmnet|tun)\d+/) {
             $virtualdev = 1;
