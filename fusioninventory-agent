@@ -275,6 +275,13 @@ The path to the public certificate (e.g: /etc/ssl/certs/cacert.pem). If
 
 Load the configuration file from the given location. Ignored on Windows.
 
+On Windows the settings are loaded from the registry. The information are
+stored there:
+HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent
+
+Or on Windows 64bit machine:
+HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent
+
 =item B<--debug>
 
 Turn the debug mode on.
