@@ -16,7 +16,7 @@ sub doInventory {
 
     for my $t ("ffs","ufs") {
 # OpenBSD has no -m option so use -k to obtain results in kilobytes
-        for(`df -P -t $t -k`){
+        for(`df -P -t $t -k 2>&1`){
             if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
                 $volumn = $1;
                 $filesystem = $t;
