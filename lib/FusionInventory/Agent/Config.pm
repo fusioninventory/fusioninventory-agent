@@ -388,6 +388,7 @@ Extra options:
     -t --tag=TAG        use TAG as tag ($self->{tag})
     -w --wait=DURATION  wait during a random periode between 0 and DURATION
                         seconds before contacting server ($self->{wait})
+
 Manpage:
     See man fusioninventory-agent
 
