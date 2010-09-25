@@ -54,6 +54,7 @@ my $default = {
     'wait'                    => '',
     'scan-homedirs'           => 0,
     'rpc-ip'                  => '127.0.0.1',
+    'rpc-port'                => '62354',
 };
 
 sub new {
@@ -231,6 +232,7 @@ sub loadUserParams {
         'proxy|P=s',
         'realm|r=s',
         'rpc-ip=s',
+        'rpc-port=s',
         'rpc-trust-localhost',
         'remotedir|R=s',
         'scan-homedirs',
@@ -357,6 +359,7 @@ Inventory task specific options:
 Web interface options:
     --no-rpc            do not use web interface ($self->{'no-rpc'})
     --rpc-ip=IP         network interface to listen to
+    --rpc-port=PORT     port use for RPC
     --rpc-trust-localhost      trust local requests without token
 
 Extra options:
