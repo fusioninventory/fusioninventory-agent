@@ -7,7 +7,6 @@ use Cwd;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
 use Sys::Hostname;
-use XML::Simple;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Scheduler;
@@ -28,24 +27,6 @@ our $AGENT_STRING =
 
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
-
-# THIS IS AN UGLY WORKAROUND FOR
-# http://rt.cpan.org/Ticket/Display.html?id=38067
-eval {XMLout("<a>b</a>");};
-if ($EVAL_ERROR) {
-    no strict 'refs'; ## no critic
-    ${*{"XML::SAX::"}{HASH}{'parsers'}} = sub {
-        return [ {
-            'Features' => {
-                'http://xml.org/sax/features/namespaces' => '1'
-            },
-            'Name' => 'XML::SAX::PurePerl'
-        }
-        ]
-    };
-}
-
-# END OF THE UGLY FIX!
 
 sub new {
     my ($class, $params) = @_;

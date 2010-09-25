@@ -1,6 +1,7 @@
 Revision history for FusionInventory::Agent
 
 2.2.x
+       * XML::Simple → XML::TreePP transition
        * Ensure local targets restore previous state (bug #360)
        * Don't use a fixed realm anymore for HTTP authentication, but replays
          automatically any request requiring authentication with given realm
@@ -263,7 +264,7 @@ Revision history for FusionInventory::Agent
        * Linux + Lsilogic, avoid a warning if smartctl is installed
        * Linux Storage, parseUdev() use SERIALNUMBER _SHORT if avalaible
 
-2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
+2.1
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
        * Windows: Add new values for SOFTWARES key
        * Add Windows service
@@ -401,9 +402,8 @@ Revision history for FusionInventory::Agent
          (Guillaume Rousse)
        * Mismatch between xen dom0 and xen PV host
          https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586337
-         (Guillaume Rousse)
 
-2.0.5    Wed, 12 May 2010 10:50:51 +0200
+2.0.5   Wed, 12 May 2010 10:50:51 +0200
        * Don't use dmidecode with -t and -s parameter since it's not
          supported on RHEL4
        * Remove wrong code to detect problem with umask. umask(077) will

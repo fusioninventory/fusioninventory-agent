@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use XML::Simple;
+use XML::TreePP;
 
 sub isInventoryEnabled {
     return can_run('hpvmstatus');
@@ -26,7 +26,8 @@ sub doInventory {
     );
 
     my $xml = `hpvmstatus -X`;
-    my $data = XMLin($xml);
+    my $tpp = XML::TreePP->new();
+    my $data = $tpp->parse($xml);
 
     my $mvs = $data->{pman}->{virtual_machine};
 

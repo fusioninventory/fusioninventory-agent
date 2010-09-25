@@ -5,6 +5,7 @@ use warnings;
 use Test::More;
 use Test::Exception;
 use FusionInventory::Agent::XML::Query::Prolog;
+use XML::TreePP;
 
 plan tests => 5;
 
@@ -29,12 +30,16 @@ lives_ok {
 
 isa_ok($message, 'FusionInventory::Agent::XML::Query::Prolog');
 
-my $content = <<'EOF';
-<?xml version="1.0" encoding="UTF-8"?>
-<REQUEST>
-  <DEVICEID>foo</DEVICEID>
-  <QUERY>PROLOG</QUERY>
-  <TOKEN>foo</TOKEN>
-</REQUEST>
-EOF
-is($message->getContent(), $content, 'expected content');
+my $tpp = XML::TreePP->new();
+my $content = {
+    REQUEST => {
+        DEVICEID => 'foo',
+        QUERY => 'PROLOG',
+        TOKEN => 'foo',
+    }
+};
+is_deeply(
+    scalar $tpp->parse($message->getContent()),
+    $content,
+    'expected content'
+);

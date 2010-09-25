@@ -7,8 +7,10 @@ use base 'FusionInventory::Agent::XML::Query';
 use Config;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
-use Encode qw/encode/;
-use XML::Simple;
+use Encode qw(encode);
+use XML::TreePP;
+
+use FusionInventory::Agent::XML::Query;
 
 sub new {
     my ($class, $params) = @_;
@@ -44,7 +46,9 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::AGENT_STRING];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = [
+        $FusionInventory::Agent::AGENT_STRING
+    ];
 
     return $self;
 }
@@ -65,11 +69,11 @@ sub _addEntry {
         if (!$showAll && !defined($values->{$_})) {
             next;
         }
-        my $string = $self->_encode({ string => $values->{$_} });
+        my $string = $self->_encode($values->{$_});
         $newEntry->{$_}[0] = $string;
     }
 
-# Don't create two time the same device
+    # Don't create two time the same device
     if ($noDuplicated) {
         ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
             foreach my $field (@$fields) {
@@ -90,50 +94,32 @@ sub _addEntry {
     push @{$self->{h}{CONTENT}{$sectionName}}, $newEntry;
 
     return 1;
-
 }
 
 sub _encode {
-    my ($self, $params) = @_;
+    my ($self, $string) = @_;
 
-    my $string = $params->{string};
+    return unless defined $string;
 
-    return unless defined($string);
+    # clean control caracters
+    $string =~ s/[[:cntrl:]]//g;
 
-    my $logger = $self->{logger};
-
-    my $ret;
-
-    $string =~ s/\0//g;
-
-    $string =~  s/\r|\n//g;
-
+    # encode to utf-8 if needed
     if ($string !~ m/\A(
-        [\x09\x0A\x0D\x20-\x7E]            # ASCII
-        | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-        |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-        |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-        |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-        | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-        |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+          [\x09\x0A\x0D\x20-\x7E]           # ASCII
+        | [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte
+        | \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} # straight 3-byte
+        | \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+        | \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+        | [\xF1-\xF3][\x80-\xBF]{3}         # planes 4-15
+        | \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
         )*\z/x) {
-#        $logger->debug("Non-UTF8 string: $string");
-        return encode("UTF-8", $string);
-    } else {
-        return $string;
-    }
+        $string = encode("UTF-8", $string);
+    };
+
+    return $string;
 }
-
-sub initialise {
-    my ($self) = @_;
-
-    return if $self->{isInitialised};
-
-    $self->{backend}->feedInventory ({inventory => $self});
-
-}
-
 
 sub addController {
     my ($self, $args) = @_;
@@ -408,7 +394,7 @@ sub setHardware {
                 $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
             }
 
-            my $string = $self->_encode({ string => $args->{$key} });
+            my $string = $self->_encode($args->{$key});
             $self->{h}{CONTENT}{HARDWARE}{$key}[0] = $string;
         }
     }
@@ -422,7 +408,7 @@ sub setBios {
         BIOSSERIAL TYPE/) {
 
         if (exists $args->{$key}) {
-            my $string = $self->_encode({ string => $args->{$key} });
+            my $string = $self->_encode($args->{$key});
             $self->{h}{CONTENT}{BIOS}{$key}[0] = $string;
         }
     }
@@ -832,63 +818,26 @@ sub processChecksum {
 
     my $checksum = 0;
 
-    if ($target->{last_statefile}) {
-        if (-f $target->{last_statefile}) {
-            # TODO: avoid a violant death in case of problem with XML
-            $self->{last_state_content} = XMLin(
-                $target->{last_statefile},
-                SuppressEmpty => undef,
-                ForceArray    => 1
-            );
-        } else {
-            $logger->debug(
-                "last_state file $target->{last_statefile} doesn't exist (yet)."
-            );
-        }
-    }
-
+    my $tpp = XML::TreePP->new();
     foreach my $section (keys %mask) {
-        # check if the checksum has changed...
-        my $hash = md5_base64(XMLout($self->{h}{CONTENT}{$section}));
+        #If the checksum has changed...
+        my $hash =
+            md5_base64($tpp->write({ XML => $self->{h}{'CONTENT'}{$section} }));
         if (
-            !$self->{last_state_content}->{$section}[0] ||
-            $self->{last_state_content}->{$section}[0] ne $hash
+            !$self->{state}->{$section}[0] ||
+            $self->{state}->{$section}[0] ne $hash
         ) {
-            $logger->debug("Section $section has changed since last inventory");
+            $logger->debug ("Section $section has changed since last inventory");
             # We make OR on $checksum with the mask of the current section
             $checksum |= $mask{$section};
         }
-        # Finally I store the new value.
-        $self->{last_state_content}->{$section}[0] = $hash;
+        # Finally I store the new value. If the transmition is ok, this will
+        # be the new last_state
+        $self->{state}->{$section}[0] = $hash;
     }
 
-    $self->setHardware({CHECKSUM => $checksum});
-}
+  $self->setHardware({CHECKSUM => $checksum});
 
-sub saveLastState {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-
-    if (!defined($self->{last_state_content})) {
-        $self->processChecksum();
-    }
-
-    if (!defined ($target->{last_statefile})) {
-        $logger->debug ("Can't save the last_state file. File path is not initialised.");
-        return;
-    }
-
-    if (open my $handle, '>', $target->{last_statefile}) {
-        print $handle XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
-        close $handle;
-    } else {
-        $logger->debug (
-            "Cannot save the checksum values in $target->{last_statefile} " .
-            "(will be synchronized by GLPI!!): $ERRNO"
-        );
-    }
 }
 
 sub addSection {
@@ -962,10 +911,6 @@ it called $inventory in general.
 
 The constructor. See base class C<FusionInventory::Agent::XML::Query> for
 allowed parameters.
-
-=head2 initialise()
-
-Runs the backend modules to initialise the data.
 
 =head2 addController()
 
@@ -1087,21 +1032,15 @@ Return the inventory as a XML string.
 
 =head2 getContentAsHTML()
 
+=item writeXML()
+
 Save the generated inventory as an XML file. The 'local' key of the config
 is used to know where the file as to be saved.
 
 =head2 processChecksum()
 
-Compute the <CHECKSUM/> field. This information is used by the server to
-know which parts of the XML have changed since the last inventory.
-
-The is done thanks to the last_file file. It has MD5 prints of the previous
-inventory. 
-
-=head2 saveLastState()
-
-At the end of the process IF the inventory was saved
-correctly, the last_state is saved.
+Compute the checksum of the inventory. This information is used by the server
+to know which information changed since the last inventory.
 
 =head2 addSection()
 

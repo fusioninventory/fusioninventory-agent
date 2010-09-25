@@ -3,7 +3,7 @@ package FusionInventory::Agent::XML::Query;
 use strict;
 use warnings;
 
-use XML::Simple;
+use XML::TreePP;
 
 sub new {
     my ($class, $params) = @_;
@@ -11,8 +11,8 @@ sub new {
     die "No DEVICEID" unless $params->{target}->{deviceid};
 
     my $self = {
-        logger      => $params->{logger},
-        target      => $params->{target}
+        logger => $params->{logger},
+        target => $params->{target}
     };
     bless $self, $class;
 
@@ -36,16 +36,8 @@ sub new {
 sub getContent {
     my ($self, $args) = @_;
 
-    my $content = XMLout(
-        $self->{h},
-        RootName      => 'REQUEST',
-        XMLDecl       => '<?xml version="1.0" encoding="UTF-8"?>',
-        SuppressEmpty => undef,
-        NoAttr        => 1,
-        KeyAttr       => []
-    );
-
-    return $content;
+    my $tpp = XML::TreePP->new(indent => 2);
+    return $tpp->write( { REQUEST => $self->{h} } );
 }
 
 sub setAccountInfo {

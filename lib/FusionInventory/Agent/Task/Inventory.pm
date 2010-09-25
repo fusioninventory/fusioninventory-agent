@@ -22,7 +22,7 @@ sub new {
 
     $self->{modules} = {};
 
-     return $self;
+    return $self;
 }
 
 sub run {
@@ -92,7 +92,6 @@ sub run {
             );
 
             return unless $response;
-            $self->{inventory}->saveLastState();
 
             my $parsedContent = $response->getParsedContent();
             if (

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use XML::Simple;
+use XML::TreePP;
 
 sub new {
     my ($class, $params) = @_;
