@@ -53,7 +53,13 @@ my $default = {
     'version'                 => 0,
     'wait'                    => '',
     'scan-homedirs'           => 0,
-    'rpc-ip'                  => '127.0.0.1',
+    'rpc-ip'                  => '',
+    # Other values that can't be changed with the
+    # CLI parameters
+    'basevardir'              => $basevardir,
+#    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
+#   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
+>>>>>>> 2.1.x
 };
 
 sub new {

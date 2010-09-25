@@ -223,9 +223,10 @@ sub _server {
         $logger->error("[Receiver] Failed to start the service");
         return;
     } 
-    $logger->info(
-        "[Receiver] Service started at: http://$self->{rpc_ip}:62354"
-    );
+    $logger->info("RPC service started at: http://".
+        ( $self->{'rpc_ip'} || "127.0.0.1" ).
+        ":62354");
+
 
     while (1) {
         my ($client, $socket) = $daemon->accept();
