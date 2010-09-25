@@ -64,7 +64,7 @@ my $default = {
     'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
     'no-ssl-check'            => 0,
     'scan-homedirs'           => 0,
-    'rpc-ip'                  => '127.0.0.1',
+    'rpc-ip'                  => '',
     # Other values that can't be changed with the
     # CLI parameters
     'basevardir'              => $basevardir,
