@@ -16,6 +16,7 @@ sub new {
         scheduler           => $params->{scheduler},
         agent               => $params->{agent},
         rpc_ip              => $params->{rpc_ip},
+        rpc_port            => $params->{rpc_port},
         rpc_trust_localhost => $params->{rpc_trust_localhost},
     };
 
@@ -214,7 +215,7 @@ sub _server {
 
     my $daemon = HTTP::Daemon->new(
         LocalAddr => $self->{rpc_ip},
-        LocalPort => 62354,
+        LocalPort => $self->{rpc_port} || 62354,
         Reuse     => 1,
         Timeout   => 5
     );
@@ -225,8 +226,8 @@ sub _server {
     } 
     $logger->info("RPC service started at: http://".
         ( $self->{'rpc_ip'} || "127.0.0.1" ).
-        ":62354");
-
+        ":".
+        $self->{rpc_port} || 62354);
 
     while (1) {
         my ($client, $socket) = $daemon->accept();
@@ -250,7 +251,7 @@ FusionInventory::Agent::Receiver - An HTTP message receiver
 This is the object used by the agent to listen on the network for messages sent
 by OCS or GLPI servers.
 
-It is an HTTP server listening on port 62354. The following requests are
+It is an HTTP server listening on port 62354 (by default). The following requests are
 accepted:
 
 =over

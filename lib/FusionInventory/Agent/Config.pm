@@ -54,12 +54,11 @@ my $default = {
     'wait'                    => '',
     'scan-homedirs'           => 0,
     'rpc-ip'                  => '',
+    'rpc-port'                => '62354',
     # Other values that can't be changed with the
     # CLI parameters
-    'basevardir'              => $basevardir,
 #    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
 #   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
->>>>>>> 2.1.x
 };
 
 sub new {
@@ -237,6 +236,7 @@ sub loadUserParams {
         'proxy|P=s',
         'realm|r=s',
         'rpc-ip=s',
+        'rpc-port=s',
         'rpc-trust-localhost',
         'remotedir|R=s',
         'scan-homedirs',
@@ -363,6 +363,7 @@ Inventory task specific options:
 Web interface options:
     --no-rpc            do not use web interface ($self->{'no-rpc'})
     --rpc-ip=IP         network interface to listen to
+    --rpc-port=PORT     port use for RPC
     --rpc-trust-localhost      trust local requests without token
 
 Extra options:
