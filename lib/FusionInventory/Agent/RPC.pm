@@ -217,13 +217,13 @@ sub server {
     if ($config->{'rpc-ip'}) {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
             LocalAddr => $config->{'rpc-ip'},
-            LocalPort => 62354,
+            LocalPort => $config->{'rpc-port'} || 62354,
             Reuse     => 1,
             Timeout   => 5
         );
     } else {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalPort => 62354,
+            LocalPort => $config->{'rpc-port'} || 62354,
             Reuse     => 1,
             Timeout   => 5
         );
@@ -235,7 +235,8 @@ sub server {
     } 
     $logger->info("RPC service started at: http://".
         ( $config->{'rpc-ip'} || "127.0.0.1" ).
-        ":62354");
+        ":".
+        $config->{'rpc-port'} || 62354);
 
 # Since perl 5.10, threads::joinable is avalaible
     my $joinableAvalaible = eval 'defined(threads::joinable) && 1';
