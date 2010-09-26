@@ -324,94 +324,6 @@ sub _checkContent {
     }
 }
 
-sub help {
-    my ($self) = @_;
-
-    my $help;
-
-    if ($self->{'conf-file'}) {
-        $help .= <<EOF
-Setting initialised with values retrieved from the config found at $self->{'conf-file'}
-EOF
-    }
-
-    $help .= <<EOF;
-Target selection options:
-    -s --server=URI     server uri, e.g: http://server/ocsinventory ($self->{server})
-    -l --local=DIR      write inventory in DIR
-    --stdout            print inventory on STDOUT
-
-Task disabling options:
-    --no-inventory      do not use inventory task ($self->{'no-inventory'})
-    --no-wakeonlan      do not use wakeonlan task ($self->{'no-wakeonlan'})
-    --no-snmpquery      do not use snmpquery task ($self->{'no-snmpquery'})
-    --no-netdiscovery   do not use snmpquery task ($self->{'no-netdiscovery'})
-    --no-ocsdeploy      do not use deployment task ($self->{'no-ocsdeploy'})
-
-Inventory task specific options:
-    --no-printer        do not return printer list in inventory $self->{'no-printer'})
-    --no-software       do not return installed software list ($self->{'no-software'})
-    --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
-    --backend-collect-timeout set a max delay time of one inventory data
-                        collect job ($self->{'backend-collect-timeout'})
-
-Network connection options:
-    -p --password=PWD   password for server auth
-    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
-    -u --user           user name to use for server auth
-    --ca-cert-dir=D     SSL certificat directory ($self->{'ca-cert-dir'})
-    --ca-cert-file=F    SSL certificat file ($self->{'ca-cert-file'})
-    --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
-
-
-Web interface options:
-    --no-www            do not use web interface ($self->{'no-www'})
-    --www-ip=IP         network interface to listen to
-    --www-trust-localhost      trust local requests without token
-
-Logging options:
-    --logfile=FILE      log message in FILE ($self->{logfile})
-    --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
-    --logger            logger you want to use (Stderr, File or Syslog) ($self->{logger})
-    --color             use color in the console ($self->{color})
-    --logfacility       syslog facility to use
-
-Setup options:
-    --basevardir=DIR    indicate the directory where should the agent store its
-                        files ($self->{basevardir})
-    --share-dir=DIR     path to the directory where are stored the shared files
-                        ($self->{'share-dir'})
-    --devlib            search for Backend mod in ./lib only ($self->{devlib})
-
-Extra options:
-    -d --daemon         detach the agent in background ($self->{daemon})
-    --no-fork           don't fork in background ($self->{'no-fork'})
-    --delaytime         set a max delay time (in second) if no PROLOG_FREQ is
-                        set ($self->{delaytime})
-    -f --force          always send data to server (Don't ask before) ($self->{force})
-    -i --info           verbose mode ($self->{info})
-    --debug             debug mode ($self->{debug})
-    --lazy              do not contact the server more than one time during the
-                        PROLOG_FREQ ($self->{lazy})
-    -t --tag=TAG        use TAG as tag ($self->{tag})
-    -w --wait=DURATION  wait during a random periode between 0 and DURATION
-                        seconds before contacting server ($self->{wait})
-    --format            export format (HTML or XML) ($self->{format})
-    --version           print the version
-
-Manpage:
-    See man fusioninventory-agent
-
-FusionInventory-Agent is released under GNU GPL 2 license
-EOF
-
-    if ($OSNAME eq 'MSWin32') {
-        $help =~ s/.*--color.*\n//;
-    }
-
-    print STDERR $help;
-}
-
 1;
 
 __END__
@@ -429,7 +341,3 @@ This is the object used by the agent to store its configuration.
 =head2 new($params)
 
 The constructor. All configuration parameters can be passed.
-
-=head2 help()
-
-Display usage instructions on stderr.

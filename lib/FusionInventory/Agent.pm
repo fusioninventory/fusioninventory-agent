@@ -6,6 +6,7 @@ use warnings;
 use Cwd;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
+use Pod::Usage;
 use Sys::Hostname;
 
 use FusionInventory::Agent::Config;
@@ -40,7 +41,7 @@ sub new {
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
     if ($config->{help}) {
-        $config->help();
+        pod2usage(-verbose => 0);
         exit 0;
     }
     if ($config->{version}) {
