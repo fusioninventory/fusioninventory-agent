@@ -402,12 +402,12 @@ Internet browser.
 if no realm is passed and the auth fails, the agent will retry an authentification
 with the realm returned by the server.
 
-=item B<--rpc-ip>=I<IP>
+=item B<--www-ip>=I<IP>
 
 The IP address of the interface to use for the P2P exchange. The default
 is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
 
-=item B<--rpc-trust-localhost>
+=item B<--www-trust-localhost>
 
 Allow local users to access to http://127.0.0.1:62354/now to force an
 inventory immediately.
