@@ -101,7 +101,7 @@ sub _handle {
             $output =~ s/%%STATUS%%/$status/;
             $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
             $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-            if (!$self->{rpc_trust_localhost}) {
+            if (!$self->{trust_localhost}) {
                 $output =~
                 s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
             }
@@ -137,7 +137,7 @@ sub _handle {
             my $sentToken = $1;
 
             my $result;
-            if ($clientIp =~ /^127\./ && $self->{rpc_trust_localhost}) {
+            if ($clientIp =~ /^127\./ && $self->{trust_localhost}) {
                 # trusted request
                 $result = "ok";
             } else {
@@ -213,7 +213,7 @@ sub _server {
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{rpc_ip},
+        LocalAddr => $self->{ip},
         LocalPort => 62354,
         Reuse     => 1,
         Timeout   => 5
@@ -224,7 +224,7 @@ sub _server {
         return;
     } 
     $logger->info(
-        "[WWW] Service started at: http://$self->{rpc_ip}:62354"
+        "[WWW] Service started at: http://$self->{ip}:62354"
     );
 
     while (1) {
