@@ -52,7 +52,7 @@ my $default = {
     'version'                 => 0,
     'wait'                    => '',
     'scan-homedirs'           => 0,
-    'www-ip'                  => '127.0.0.1',
+    'www-ip'                  => undef,
     'www-trust-localhost'     => 1
 };
 
