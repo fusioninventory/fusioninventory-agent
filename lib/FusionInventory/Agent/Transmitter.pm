@@ -145,12 +145,15 @@ sub send {
 
     # create response
     my $response_content;
-    if ($res->content()) {
-        $response_content = $self->_uncompress($res->content());
-        if (!$response_content) {
-            $logger->error("Deflating problem");
-            return;
-        }
+    if (!$res->content()) {
+        $logger->error("Response is empty");
+        return;
+    }
+
+    $response_content = $self->_uncompress($res->content());
+    if (!$response_content) {
+        $logger->error("Deflating problem");
+        return;
     }
 
     $logger->debug("receiving message: $response_content");
