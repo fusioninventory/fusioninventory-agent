@@ -253,9 +253,9 @@ Display color on the terminal. This feature is disabled on Windows.
 
 Launch fusioninventory-agent as daemon in background. Proc::Daemon is needed.
 
-=item B<-D>, B<--daemon-no-fork>
+=item B<--no-fork>
 
-Launch fusioninventory-agent in daemon but do fork in background.
+Do not fork in background.
 
 =item B<--ca-cert-dir=PATH>
 
