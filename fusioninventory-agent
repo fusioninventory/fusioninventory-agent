@@ -404,13 +404,12 @@ with the realm returned by the server.
 
 =item B<--www-ip>=I<IP>
 
-The IP address of the interface to use for the P2P exchange. The default
-is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
+The network interface used by the web interface. The default is to use
+all available network interfaces.
 
 =item B<--www-trust-localhost>
 
-Allow local users to access to http://127.0.0.1:62354/now to force an
-inventory immediately.
+Allow to trust local requests without authentication token.
 
 =item B<--scan-homedirs>
 
