@@ -60,6 +60,12 @@ sub restore {
     return {};
 }
 
+sub getDirectory {
+    my ($self) = @_;
+
+    return $self->{directory};
+}
+
 sub _getFilePath {
     my ($self, $params) = @_;
 
