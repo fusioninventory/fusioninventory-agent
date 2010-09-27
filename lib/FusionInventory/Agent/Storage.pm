@@ -3,15 +3,10 @@ package FusionInventory::Agent::Storage;
 use strict;
 use warnings;
 
-use threads;
-use threads::shared;
-
 use English qw(-no_match_vars);
 use File::Glob ':glob';
 use File::Path qw(make_path);
 use Storable;
-
-my $lock :shared;
 
 sub new {
     my ($class, $params) = @_;
@@ -41,8 +36,6 @@ sub save {
 
     my $data = $params->{data};
     my $idx = $params->{idx};
-
-    lock($lock);
 
     my $filePath = $self->_getFilePath({ idx => $idx });
 
