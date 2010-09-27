@@ -108,22 +108,20 @@ FusionInventory::Agent::Storage - A data serializer/deserializer
 
 =head1 Description
 
-This is the object used by the agent to save data in the variable data
-directory, to ensure persistancy between invocations.
+This is the object used by the agent to save data to ensure persistancy between
+invocations.
 
-Each data structure is saved in a different subdirectory, based on invocant
+Each data structure is saved in a different file name, based on invocant
 module name.
 
 =head1 SYNOPSIS
 
   my $storage = FusionInventory::Agent::Storage->new({
-      target => {
-          vardir => $ARGV[0],
-      }
+      directory => '/tmp'
   });
   my $data = $storage->restore({
-          module => "FusionInventory::Agent"
-      });
+      module => "FusionInventory::Agent"
+  });
 
   $data->{foo} = 'bar';
 
@@ -137,11 +135,14 @@ The constructor. The following named parameters are allowed:
 
 =over
 
-=item config (mandatory)
+=item directory (mandatory)
 
-=item target (mandatory)
+=item logger (mandatory)
 
 =back
+
+The directory will be automatically created if it doesn't already exist. The
+constructor will die if the directory can't be created, or if it isn't writable.
 
 =head2 save
 
@@ -158,19 +159,6 @@ The data structure to save (mandatory).
 =head2 restore
 
 Restore a saved data structure. The following arguments are allowed:
-
-=over
-
-=item module
-
-The name of the module which saved the data structure (mandatory).
-
-=back
-
-=head2 remove
-
-Delete the file containing a seralized data structure for a given module. The
-following arguments are allowed:
 
 =over
 
