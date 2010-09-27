@@ -11,18 +11,17 @@ my $count = 0;
 sub new {
     my ($class, $params) = @_;
 
+    my $self = $class->SUPER::new($params);
+
     my $dir = $params->{path};
     $dir =~ s/\//_/g;
     # On Windows, we can't have ':' in directory path
     $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
-    my $self = $class->SUPER::new(
-        {
-            %$params,
-            dir => $dir,
-            id  => 'server' . $count++
-        }
-    );
+    $self->_init({
+        id     => 'server' . $count++,
+        vardir => $params->{basevardir} . '/' . $dir
+    });
 
     return $self;
 }

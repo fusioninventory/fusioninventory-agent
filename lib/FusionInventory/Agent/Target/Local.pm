@@ -9,13 +9,12 @@ my $count = 0;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = $class->SUPER::new(
-        {
-            %$params,
-            dir => '__LOCAL__',
-            id  => 'local' . $count++
-        }
-    );
+    my $self = $class->SUPER::new($params);
+
+    $self->_init({
+        id     => 'local' . $count++,
+        vardir => $params->{basevardir} . '/__LOCAL__',
+    });
 
     return $self;
 }

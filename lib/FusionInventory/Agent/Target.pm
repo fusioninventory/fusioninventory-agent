@@ -12,7 +12,6 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        id              => $params->{id} || 'target',
         maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
         path            => $params->{path} || '',
@@ -21,11 +20,18 @@ sub new {
     };
     bless $self, $class;
 
+    return $self;
+}
+
+sub _init {
+    my ($self, $params) = @_;
     my $logger = $self->{logger};
 
-    # The agent can contact different servers. Each server has it's own
-    # directory to store data
-    $self->{vardir} = $params->{basevardir} . '/' . $params->{dir};
+    # target identity
+    $self->{id} = $params->{id};
+
+    # target storage directory
+    $self->{vardir} = $params->{vardir};
 
     if (!-d $self->{vardir}) {
         make_path($self->{vardir}, {error => \my $err});
@@ -40,14 +46,14 @@ sub new {
 
     $logger->debug("[target $self->{id}] Storage directory: $self->{vardir}");
 
+    # restore previous state
     $self->{storage} = FusionInventory::Agent::Storage->new({
         target => $self
     });
     $self->_load();
 
+    # initialize next run date
     $self->scheduleNextRun();
-
-    return $self;
 }
 
 sub getNextRunDate {
