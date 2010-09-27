@@ -16,8 +16,7 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config => $params->{config},
-        target => $params->{target}
+        directory => $params->{directory}
     };
     bless $self, $class;
 
@@ -122,7 +121,7 @@ sub _getFilePath {
     my $module = $params->{module};
 
     my $path = 
-        $self->_getFileDir() . 
+        $self->{directory} .
         '/' . 
         $self->_getFileName({ module => $module }) .
         ($idx ? ".$idx" : "" ) .
@@ -151,17 +150,6 @@ sub _getFileName {
     $name =~ s/::/-/g;
 
     return $name;
-}
-
-sub _getFileDir {
-    my ($self, $params) = @_;
-
-    my $dir = 
-        $self->{target} ? $self->{target}->{vardir}     : 
-        $self->{config} ? $self->{config}->{basevardir} : 
-                          undef;
-
-    return $dir;
 }
 
 1;

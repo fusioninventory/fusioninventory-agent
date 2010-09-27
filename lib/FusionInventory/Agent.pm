@@ -118,7 +118,7 @@ sub new {
 
     # $storage save/read data in 'basevardir', not in a target directory!
     my $storage = FusionInventory::Agent::Storage->new({
-        config => $config
+        directory => $config->{basevardir}
     });
     my $data = $storage->restore();
 

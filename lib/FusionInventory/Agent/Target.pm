@@ -47,7 +47,7 @@ sub _init {
 
     # restore previous state
     $self->{storage} = FusionInventory::Agent::Storage->new({
-        target => $self
+        directory => $self->{vardir}
     });
     $self->_load();
 
