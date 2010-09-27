@@ -14,7 +14,13 @@ sub new {
     die "no url parameter!" unless $params->{url};
 
     my $self = $class->SUPER::new($params);
-    $self->{url} = $params->{url};
+
+    # assume an url without protocol part is actually a server name
+    if ($params->{url} =~ m{^https?://}) {
+        $self->{url} = $params->{url};
+    } else {
+        $self->{url} = "http://$params->{url}/ocsinventory";
+    }
 
     # compute storage subdirectory from url
     my $subdir = $self->{url};

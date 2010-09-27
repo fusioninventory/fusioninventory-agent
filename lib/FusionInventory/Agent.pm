@@ -166,18 +166,9 @@ sub new {
     }
 
     if ($config->{server}) {
-        foreach my $val (split(/,/, $config->{server})) {
-            $val =~ s/^\s+//;
-            $val =~ s/\s+$//;
-            my $url;
-            if ($val !~ /^https?:\/\//) {
-                $logger->debug(
-                    "no explicit protocol for url $val, assume http as default"
-                );
-                $url = "http://$val/ocsinventory";
-            } else {
-                $url = $val;
-            }
+        foreach my $url (split(/,/, $config->{server})) {
+            $url =~ s/^\s+//;
+            $url =~ s/\s+$//;
             $self->{scheduler}->addTarget(
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
