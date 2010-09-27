@@ -121,11 +121,13 @@ sub _handle {
         if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
             my $file = $1;
             foreach my $target (@{$scheduler->getTargets()}) {
-                if (-f $target->{vardir}."/deploy/".$file) {
-                    $logger->debug("Send /deploy/".$file);
-                    $c->send_file_response($target->{vardir}."/deploy/".$file);
+                my $directory = $target->getStorage()->getDirectory();
+                my $file = $directory . $path;
+                if (-f $file) {
+                    $logger->debug("Send $path");
+                    $c->send_file_response($file);
                 } else {
-                    $logger->debug("Not found /deploy/".$file);
+                    $logger->debug("Not found $path");
                 }
             }
             $c->send_error(404);
