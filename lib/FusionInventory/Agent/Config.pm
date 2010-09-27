@@ -64,7 +64,8 @@ my $default = {
     'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
     'no-ssl-check'            => 0,
     'scan-homedirs'           => 0,
-    'rpc-ip'                  => '127.0.0.1',
+    'rpc-ip'                  => '',
+    'rpc-port'                => '62354',
     # Other values that can't be changed with the
     # CLI parameters
     'basevardir'              => $basevardir,
@@ -234,6 +235,7 @@ sub loadUserParams {
         'proxy|P=s',
         'realm|r=s',
         'rpc-ip=s',
+        'rpc-port=s',
         'rpc-trust-localhost',
         'remotedir|R=s',
         'scan-homedirs',
@@ -321,6 +323,7 @@ Extra options:
     --logfile-maxsize=X         maximum size of the log file in MB ($config->{'logfile-maxsize'})
     --logger                    Logger you want to use, can be Stderr,File or Syslog ($config->{logger})
     --rpc-ip=IP                 ip of the interface to use for peer to peer exchange ($config->{'rpc-ip'})
+    --rpc-port=PORT     port use for RPC
     --rpc-trust-localhost       allow local users to force an inventory from http://127.0.0.1:62354/now  ($config->{'rpc-trust-localhost'})
     --scan-homedirs             permit to scan home user directories ($config->{'scan-homedirs'})
     --share-dir=DIR             path to the directory where the shared files are stored ($config->{'share-dir'})

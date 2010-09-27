@@ -53,7 +53,7 @@ sub _ipdhcp {
         }
         close $handle or warn;
         chomp (my $currenttime = `date +"%Y%m%d%H%M%S"`);
-        undef $ipdhcp unless $currenttime <= $expire;
+        undef $ipdhcp unless $expire && ($currenttime <= $expire);
     } else {
         warn "Can't open $leasepath\n";
     }
@@ -117,6 +117,10 @@ sub doInventory {
         my $binmask = sprintf("%b", oct($ipmask));
         my $binsubnet = $binip & $binmask;
         $ipsubnet = ip_bintoip($binsubnet,4);
+
+        if ($ipmask =~ /^0x(\w{2})(\w{2})(\w{2})(\w{2})$/) {
+             $ipmask = hex($1).'.'.hex($2).'.'.hex($3).'.'.hex($4);
+        }
 
         $_ = $description;
         if (/^(lo|vboxnet|vmnet|tun)\d+/) {
