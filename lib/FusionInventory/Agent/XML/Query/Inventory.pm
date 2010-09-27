@@ -812,10 +812,6 @@ sub processChecksum {
     );
     # TODO CPUS is not in the list
 
-    if (!$self->{target}->{vardir}) {
-        die "vardir uninitialised!";
-    }
-
     my $checksum = 0;
 
     my $tpp = XML::TreePP->new();
