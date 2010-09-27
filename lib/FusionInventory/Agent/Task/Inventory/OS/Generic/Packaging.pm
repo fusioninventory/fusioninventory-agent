@@ -10,4 +10,6 @@ sub isInventoryEnabled {
         $params->{config}->{'no-software'} ? 0 : 1;
 }
 
+sub doInventory { }
+
 1;
