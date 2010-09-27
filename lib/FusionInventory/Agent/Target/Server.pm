@@ -60,11 +60,17 @@ sub _load {
     $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
 }
 
-sub _save {
-    my ($self, $data) = @_;
+sub checkpoint {
+    my ($self) = @_;
 
-    $data->{accountInfo} = $self->{accountInfo};
-    $self->SUPER::_save($data);
+    $self->{storage}->save({
+        data => {
+            nextRunDate => $self->{nextRunDate},
+            maxOffset   => $self->{maxOffset},
+            accountInfo => $self->{accountInfo}
+        }
+    });
+
 }
 
 1;

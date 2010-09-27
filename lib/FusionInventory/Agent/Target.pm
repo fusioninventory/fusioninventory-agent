@@ -105,12 +105,15 @@ sub _load {
     return $data;
 }
 
-sub _save {
-    my ($self, $data) = @_;
+sub checkpoint {
+    my ($self) = @_;
 
-    $data->{nextRunDate} = $self->{nextRunDate};
-    $data->{maxOffset}   = $self->{maxOffset};
-    $self->{storage}->save({ data => $data });
+    $self->{storage}->save({
+        data => {
+            nextRunDate => $self->{nextRunDate},
+            maxOffset   => $self->{maxOffset},
+        }
+    });
 }
 
 1;
@@ -163,3 +166,7 @@ Set nextRunDate attribute.
 
 Re-schedule the target to current time + given offset. If offset is not given,
 it's computed randomly as: (maxOffset / 2) + rand(maxOffset / 2)
+
+=head2 checkpoint()
+
+Save persistant part of current state.

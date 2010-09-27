@@ -887,6 +887,16 @@ sub feedSection{
     return 1;
 }
 
+sub checkpoint {
+    my ($self) = @_;
+
+    $self->{storage}->save({
+        data => {
+            state => $self->{nextRunDate}
+        }
+    });
+}
+
 1;
 
 __END__
@@ -1048,6 +1058,10 @@ solution.
 Add informations in inventory.
 
 # Q: is that really useful()? Can't we merge with addSection()?
+
+=head2 checkpoint()
+
+Save persistant part of current state.
 
 =head1 XML STRUCTURE
 
