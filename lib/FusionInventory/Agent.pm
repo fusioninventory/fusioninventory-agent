@@ -3,6 +3,8 @@ package FusionInventory::Agent;
 use strict;
 use warnings;
 
+use POE;
+
 use Cwd;
 use English qw(-no_match_vars);
 use File::Path qw(make_path);
@@ -286,10 +288,45 @@ sub main {
     my $scheduler = $self->{scheduler};
     my $receiver = $self->{receiver};
 
+
+
+    foreach my $target (@{$scheduler->{targets}}) {
+
+        print $target->getNextRunDate()."\n";
+        my $nextRunDate = $target->getNextRunDate();
+        
+        POE::Session->create(
+            inline_states => {
+                _start => sub {
+                    print "_start... toto\n";
+                    $_[KERNEL]->alarm(nextRun => $target->getNextRunDate());
+                },
+                nextRun => sub {
+                    print "nextRun... toto\n";
+                    $self->runTarget({ target => $target });
+                    $_[KERNEL]->alarm(nextRun => $target->getNextRunDate());
+                } 
+            },
+        );
+
+    }
+
+    POE::Kernel->run();
+    exit;
+
+}
+
+sub runTarget {
+    my ($self, $params) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $scheduler = $self->{scheduler};
+    my $receiver = $self->{receiver};
+    my $target = $params->{target};
+
     eval {
         $self->{status} = 'waiting';
-
-        while (my $target = $scheduler->getNextTarget()) {
 
             my $prologresp;
             my $transmitter;
@@ -413,8 +450,6 @@ sub main {
             }
             $target->scheduleNextRun();
 
-            sleep(5);
-        }
     };
     if ($EVAL_ERROR) {
         $logger->fault($EVAL_ERROR);
