@@ -13,7 +13,7 @@ sub new {
 
     $self->_init({
         id     => 'stdout' . $count++,
-        vardir => $params->{basevardir} . '/__LOCAL__'
+        vardir => $params->{basevardir} . '/__STDOUT__'
     });
 
     return $self;
