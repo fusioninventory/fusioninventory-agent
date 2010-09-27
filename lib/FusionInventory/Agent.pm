@@ -98,7 +98,6 @@ sub new {
         $hostname = hostname();
     }
 
-    # $storage save/read data in 'basevardir', not in a target directory!
     my $storage = FusionInventory::Agent::Storage->new({
         logger    => $logger,
         directory => $config->{basevardir}
@@ -286,12 +285,6 @@ sub run {
                 $target->setMaxOffset($parsedContent->{PROLOG_FREQ});
             }
 
-            my $storage = FusionInventory::Agent::Storage->new({
-                config => $config,
-                logger => $logger,
-                target => $target,
-            });
-
             my @tasks = qw/
                 Inventory
                 OcsDeploy
@@ -317,7 +310,6 @@ sub run {
                     config => $config,
                     logger => $logger,
                     target => $target,
-                    storage => $storage,
                     prologresp => $prologresp,
                     transmitter =>  $transmitter
                 });
@@ -361,11 +353,6 @@ sub run {
             }
             $self->{status} = 'waiting';
 
-            if (!$config->{debug}) {
-                # In debug mode, I do not clean the FusionInventory-Agent.dump
-                # so I can replay the sub task directly
-                $storage->remove();
-            }
             $target->scheduleNextRun();
 
             sleep(5);
