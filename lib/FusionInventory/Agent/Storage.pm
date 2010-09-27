@@ -45,7 +45,6 @@ sub save {
     lock($lock);
 
     my $filePath = $self->_getFilePath({ idx => $idx });
-#    print "[storage]save data in:". $filePath."\n";
 
     my $oldMask;
 
@@ -73,7 +72,6 @@ sub restore {
         module => $module,
         idx => $idx
     });
-    #print "[storage]restore data from: $filePath\n";
 
     if (-f $filePath) {
         return retrieve($filePath);
