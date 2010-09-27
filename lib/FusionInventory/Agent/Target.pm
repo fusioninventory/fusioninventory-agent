@@ -94,15 +94,6 @@ sub _load {
     my $data = $self->{storage}->restore();
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
     $self->{maxOffset}   = $data->{maxOffset} if $data->{maxOffset};
-
-    if ($self->{nextRunDate}) {
-        $self->{logger}->debug (
-            "[target $self->{id}] Next server contact planned for ".
-            localtime($data->{nextRunDate})
-        );
-    }
-
-    return $data;
 }
 
 sub checkpoint {

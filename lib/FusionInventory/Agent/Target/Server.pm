@@ -56,7 +56,9 @@ sub setAccountInfo {
 sub _load {
     my ($self) = @_;
 
-    my $data = $self->SUPER::_load();
+    my $data = $self->{storage}->restore();
+    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+    $self->{maxOffset}   = $data->{maxOffset} if $data->{maxOffset};
     $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
 }
 

@@ -887,6 +887,13 @@ sub feedSection{
     return 1;
 }
 
+sub _load {
+    my ($self) = @_;
+
+    my $data = $self->{storage}->restore();
+    $self->{state} = $data->{state} if $data->{state};
+}
+
 sub checkpoint {
     my ($self) = @_;
 
