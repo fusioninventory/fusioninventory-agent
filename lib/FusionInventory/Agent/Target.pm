@@ -14,7 +14,6 @@ sub new {
     my $self = {
         maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
-        path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
         nextRunDate     => undef,
     };
@@ -174,8 +173,6 @@ The constructor. The following named parameters are allowed:
 =item maxOffset: maximum delay in seconds (default: 3600)
 
 =item logger: logger object to use (mandatory)
-
-=item path: filesystem path or server url
 
 =item deviceid: 
 

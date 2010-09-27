@@ -11,19 +11,28 @@ my $count = 0;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = $class->SUPER::new($params);
+    die "no url parameter!" unless $params->{url};
 
-    my $dir = $params->{path};
-    $dir =~ s/\//_/g;
-    # On Windows, we can't have ':' in directory path
-    $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
+    my $self = $class->SUPER::new($params);
+    $self->{url} = $params->{url};
+
+    # compute storage subdirectory from url
+    my $subdir = $self->{url};
+    $subdir =~ s/\//_/g;
+    $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
     $self->_init({
         id     => 'server' . $count++,
-        vardir => $params->{basevardir} . '/' . $dir
+        vardir => $params->{basevardir} . '/' . $subdir
     });
 
     return $self;
+}
+
+sub getUrl {
+    my ($self) = @_;
+
+    return $self->{url};
 }
 
 sub getAccountInfo {
@@ -68,6 +77,17 @@ FusionInventory::Agent::Target::Server - Server target
 This is a target for sending execution result to a server.
 
 =head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following parameters are allowed, in addition to those
+from the base class C<FusionInventory::Agent::Target>:
+
+=over
+
+=item url: server URL
+
+=back
 
 =head2 getAccountInfo()
 

@@ -184,7 +184,7 @@ sub new {
                     deviceid   => $self->{deviceid},
                     maxOffset  => $config->{delaytime},
                     basevardir => $config->{basevardir},
-                    path       => $url,
+                    url        => $url,
                 })
             );
         }
@@ -278,7 +278,7 @@ sub run {
 
                 $transmitter = FusionInventory::Agent::Transmitter->new({
                     logger       => $logger,
-                    url          => $target->{path},
+                    url          => $target->{url},
                     proxy        => $config->{proxy},
                     user         => $config->{user},
                     password     => $config->{password},
