@@ -37,6 +37,7 @@ Revision history for FusionInventory::Agent
          Enable --tag and keep the DeviceID
        * fix 2.1.5 regression, correctly initialise $basevardir default value
        * POD, explain the registry is used on Windows, thanks Stéphane URBANOVSKI
+       * Add support for MontaVista Linux, thanks Luka KODRIC
        * BSD: Fix a syntax error in Domain
        * BSD: Some adjustement for Debian GNU/kFreeBSD
        * BSD: avoid warning if the lease file can't be parsed
