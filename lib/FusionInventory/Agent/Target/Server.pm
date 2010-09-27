@@ -50,10 +50,7 @@ sub getAccountInfo {
 sub setAccountInfo {
     my ($self, $accountInfo) = @_;
 
-    return if $self->_isSameHash($accountInfo, $self->{accountInfo});
-
     $self->{accountInfo} = $accountInfo;
-    $self->_save();
 }
 
 sub _load {

@@ -50,10 +50,7 @@ sub getNextRunDate {
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
-    return if $self->_isSameScalar($nextRunDate, $self->{nextRunDate});
-
     $self->{nextRunDate} = $nextRunDate;
-    $self->_save();
 }
 
 sub scheduleNextRun {
@@ -83,10 +80,7 @@ sub getMaxOffset {
 sub setMaxOffset {
     my ($self, $maxOffset) = @_;
 
-    return if $self->_isSameScalar($maxOffset, $self->{maxOffset});
-
     $self->{maxOffset} = $maxOffset;
-    $self->_save();
 }
 
 sub _load {
@@ -113,28 +107,6 @@ sub _save {
     $data->{maxOffset}   = $self->{maxOffset};
     $self->{storage}->save({ data => $data });
 }
-
-sub _isSameScalar {
-    my ($self, $value1, $value2) = @_;
-
-    return if ! defined $value1; 
-    return if ! defined $value2;
-
-    return $value1 eq $value2;
-}
-
-sub _isSameHash {
-    my ($self, $value1, $value2) = @_;
-
-    return if ! defined $value1; 
-    return if ! defined $value2;
-
-    my $dump1 = join(',', map { "$_=$value1->{$_}" } sort keys %$value1);
-    my $dump2 = join(',', map { "$_=$value2->{$_}" } sort keys %$value2);
-
-    return $dump1 eq $dump2;
-}
-
 
 1;
 
