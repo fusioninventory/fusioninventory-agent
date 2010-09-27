@@ -316,6 +316,8 @@ sub main {
 
 }
 
+# TODO this should be moved in Target.pm
+# TODO after the merge of the POE branche
 sub runTarget {
     my ($self, $params) = @_;
 
@@ -328,11 +330,11 @@ sub runTarget {
     eval {
         $self->{status} = 'waiting';
 
-            my $prologresp;
-            my $transmitter;
-            if ($target->isa('FusionInventory::Agent::Target::Server')) {
+        my $prologresp;
+        my $transmitter;
+        if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                $transmitter = FusionInventory::Agent::Transmitter->new({
+            $transmitter = FusionInventory::Agent::Transmitter->new({
                     logger       => $logger,
                     url          => $target->{path},
                     proxy        => $config->{proxy},
@@ -343,59 +345,59 @@ sub runTarget {
                     ca_cert_dir  => $config->{'ca-cert-dir'},
                 });
 
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
                     logger => $logger,
                     config => $config,
                     target => $target,
                     token  => $self->{token}
                 });
 
-                if ($config->{tag}) {
-                    $prolog->setAccountInfo({'TAG', $config->{tag}});
-                }
-
-                # TODO Don't mix settings and temp value
-                $prologresp = $transmitter->send({message => $prolog});
-
-                if (!$prologresp) {
-                    $logger->error("No anwser from the server");
-                    $target->scheduleNextRun();
-                    next;
-                }
-
-                # update target
-                my $parsedContent = $prologresp->getParsedContent();
-                $target->setMaxOffset($parsedContent->{PROLOG_FREQ});
+            if ($config->{tag}) {
+                $prolog->setAccountInfo({'TAG', $config->{tag}});
             }
 
-            my $storage = FusionInventory::Agent::Storage->new({
+            # TODO Don't mix settings and temp value
+            $prologresp = $transmitter->send({message => $prolog});
+
+            if (!$prologresp) {
+                $logger->error("No anwser from the server");
+                $target->scheduleNextRun();
+                next;
+            }
+
+            # update target
+            my $parsedContent = $prologresp->getParsedContent();
+            $target->setMaxOffset($parsedContent->{PROLOG_FREQ});
+        }
+
+        my $storage = FusionInventory::Agent::Storage->new({
                 config => $config,
                 logger => $logger,
                 target => $target,
             });
 
-            my @tasks = qw/
-                Inventory
-                OcsDeploy
-                WakeOnLan
-                SNMPQuery
-                NetDiscovery
-                Ping
-                /;
+        my @tasks = qw/
+        Inventory
+        OcsDeploy
+        WakeOnLan
+        SNMPQuery
+        NetDiscovery
+        Ping
+        /;
 
-            foreach my $module (@tasks) {
+        foreach my $module (@tasks) {
 
-                next if $config->{'no-'.lc($module)};
+            next if $config->{'no-'.lc($module)};
 
-                my $package = "FusionInventory::Agent::Task::$module";
-                if (!$package->require()) {
-                    $logger->info("Module $package is not installed.");
-                    next;
-                }
+            my $package = "FusionInventory::Agent::Task::$module";
+            if (!$package->require()) {
+                $logger->info("Module $package is not installed.");
+                next;
+            }
 
-                $self->{status} = "running task $module";
+            $self->{status} = "running task $module";
 
-                my $task = $package->new({
+            my $task = $package->new({
                     config => $config,
                     logger => $logger,
                     target => $target,
@@ -404,35 +406,21 @@ sub runTarget {
                     transmitter =>  $transmitter
                 });
 
-                if ($config->{daemon} || $config->{service}) {
-                    # daemon mode: run each task in a childprocess
-                    if (my $pid = fork()) {
-                        # parent
-                        waitpid($pid, 0);
-                    } else {
-                        # child
-                        die "fork failed: $ERRNO" unless defined $pid;
-
-                        $logger->debug(
-                            "[task] executing $module in process $PID"
-                        );
-                        if ($task->can('run')) {
-                            $task->run();
-                        } else {
-                            $logger->info(
-                                "[task] $module use deprecated interface"
-                            );
-                            $task->main();
-                        }
-                        $logger->debug("[task] end of $module");
-                    }
+            if ($config->{daemon} || $config->{service}) {
+                # daemon mode: run each task in a childprocess
+                if (my $pid = fork()) {
+                    # parent
+                    waitpid($pid, 0);
                 } else {
-                    # standalone mode: run each task directly
-                    $logger->debug("[task] executing $module");
+                    # child
+                    die "fork failed: $ERRNO" unless defined $pid;
+
+                    $logger->debug(
+                        "[task] executing $module in process $PID"
+                    );
                     if ($task->can('run')) {
                         $task->run();
                     } else {
-                        # old interface
                         $logger->info(
                             "[task] $module use deprecated interface"
                         );
@@ -440,15 +428,29 @@ sub runTarget {
                     }
                     $logger->debug("[task] end of $module");
                 }
+            } else {
+                # standalone mode: run each task directly
+                $logger->debug("[task] executing $module");
+                if ($task->can('run')) {
+                    $task->run();
+                } else {
+                    # old interface
+                    $logger->info(
+                        "[task] $module use deprecated interface"
+                    );
+                    $task->main();
+                }
+                $logger->debug("[task] end of $module");
             }
-            $self->{status} = 'waiting';
+        }
+        $self->{status} = 'waiting';
 
-            if (!$config->{debug}) {
-                # In debug mode, I do not clean the FusionInventory-Agent.dump
-                # so I can replay the sub task directly
-                $storage->remove();
-            }
-            $target->scheduleNextRun();
+        if (!$config->{debug}) {
+            # In debug mode, I do not clean the FusionInventory-Agent.dump
+            # so I can replay the sub task directly
+            $storage->remove();
+        }
+        $target->scheduleNextRun();
 
     };
     if ($EVAL_ERROR) {
