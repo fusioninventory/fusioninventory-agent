@@ -41,6 +41,12 @@ sub _init {
     $self->scheduleNextRun();
 }
 
+sub getStorage {
+    my ($self) = @_;
+
+    return $self->{storage};
+}
+
 sub getNextRunDate {
     my ($self) = @_;
 
