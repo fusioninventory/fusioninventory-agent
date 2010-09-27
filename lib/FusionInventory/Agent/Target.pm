@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Path qw(make_path);
 
 use FusionInventory::Agent::Storage;
 
@@ -24,7 +23,6 @@ sub new {
 
 sub _init {
     my ($self, $params) = @_;
-    my $logger = $self->{logger};
 
     # target identity
     $self->{id} = $params->{id};
@@ -32,21 +30,9 @@ sub _init {
     # target storage directory
     $self->{vardir} = $params->{vardir};
 
-    if (!-d $self->{vardir}) {
-        make_path($self->{vardir}, {error => \my $err});
-        if (@$err) {
-            $logger->error("Failed to create $self->{vardir}");
-        }
-    }
-
-    if (! -w $self->{vardir}) {
-        die "Can't write in $self->{vardir}";
-    }
-
-    $logger->debug("[target $self->{id}] Storage directory: $self->{vardir}");
-
     # restore previous state
     $self->{storage} = FusionInventory::Agent::Storage->new({
+        logger    => $self->{logger},
         directory => $self->{vardir}
     });
     $self->_load();

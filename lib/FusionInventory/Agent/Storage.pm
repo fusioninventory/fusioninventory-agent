@@ -8,6 +8,7 @@ use threads::shared;
 
 use English qw(-no_match_vars);
 use File::Glob ':glob';
+use File::Path qw(make_path);
 use Storable;
 
 my $lock :shared;
@@ -15,7 +16,19 @@ my $lock :shared;
 sub new {
     my ($class, $params) = @_;
 
+    if (!-d $params->{directory}) {
+        make_path($params->{directory}, {error => \my $err});
+        if (@$err) {
+            die "Can't create $params->{directory}";
+        }
+    }
+
+    if (! -w $params->{directory}) {
+        die "Can't write in $params->{directory}";
+    }
+
     my $self = {
+        logger    => $params->{logger},
         directory => $params->{directory}
     };
     bless $self, $class;

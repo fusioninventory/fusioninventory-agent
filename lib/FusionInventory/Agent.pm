@@ -5,7 +5,6 @@ use warnings;
 
 use Cwd;
 use English qw(-no_match_vars);
-use File::Path qw(make_path);
 use Pod::Usage;
 use Sys::Hostname;
 
@@ -65,23 +64,6 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (! -d $config->{basevardir}) {
-        make_path($config->{basevardir}, {error => \my $err});
-        if (@$err) {
-            $logger->fault(
-                "Failed to create storage directory $config->{basevardir}."
-            );
-            exit 1;
-        }
-    }
-
-    if (! -w $config->{basevardir}) {
-        $logger->fault("Non-writable storage directory $config->{basevardir}.");
-        exit 1;
-    }
-
-    $logger->debug("Storage directory: $config->{basevardir}");
-
     if (! -d $config->{'share-dir'}) {
         $logger->fault("Non-existing data directory $config->{'share-dir'}.");
         exit 1;
@@ -118,6 +100,7 @@ sub new {
 
     # $storage save/read data in 'basevardir', not in a target directory!
     my $storage = FusionInventory::Agent::Storage->new({
+        logger    => $logger,
         directory => $config->{basevardir}
     });
     my $data = $storage->restore();
