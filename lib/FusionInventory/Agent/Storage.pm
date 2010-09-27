@@ -82,45 +82,6 @@ sub restore {
     return {};
 }
 
-sub remove {
-    my ($self, $params) = @_;
-
-    my $idx = $params->{idx};
-    
-    my $filePath = $self->_getFilePath({ idx => $idx });
-    #print "[storage] delete $filePath\n";
-
-    if (!unlink($filePath)) {
-        #print "[storage] failed to delete $filePath\n";
-    }
-}
-
-sub removeAll {
-    my ($self, $params) = @_;
-    
-    my $idx = $params->{idx};
-
-    my $filePath = $self->_getFilePath({ idx => $idx });
-    #print "[storage] delete $filePath\n";
-
-    if (!unlink($filePath)) {
-        #print "[storage] failed to delete $filePath\n";
-    }
-}
-
-sub removeSubDumps {
-    my ($self, $params) = @_;
-   
-    my $module = $params->{module};
-
-    my $fileDir = $self->_getFileDir();
-    my $fileName = $self->_getFileName({ module => $module });
-
-    foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
-        unlink($file) or warn "[error] Can't unlink $file\n";
-    }
-}
-
 sub _getFilePath {
     my ($self, $params) = @_;
 
@@ -256,31 +217,5 @@ The name of the module which saved the data structure (mandatory).
 =item idx
 
 The index number (optional).
-
-=back
-
-=head2 removeAll
-
-Delete the files containing seralized data structure for all modules. The
-following arguments are allowed:
-
-=over
-
-=item idx
-
-The index number (optional).
-
-=back
-
-=head2 removeSubDumps
-
-Delete all files containing seralized data structure for a given module. The
-following arguments are allowed:
-
-=over
-
-=item module
-
-The name of the module which saved the data structure (mandatory).
 
 =back
