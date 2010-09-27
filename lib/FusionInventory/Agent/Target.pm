@@ -27,14 +27,13 @@ sub _init {
     # target identity
     $self->{id} = $params->{id};
 
-    # target storage directory
-    $self->{vardir} = $params->{vardir};
-
-    # restore previous state
+    # target storage
     $self->{storage} = FusionInventory::Agent::Storage->new({
         logger    => $self->{logger},
-        directory => $self->{vardir}
+        directory => $params->{vardir}
     });
+
+    # restore previous state
     $self->_load();
 
     # initialize next run date
