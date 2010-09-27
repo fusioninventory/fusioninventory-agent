@@ -120,7 +120,7 @@ sub _handle {
         # deploy request
         if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
             my $file = $1;
-            foreach my $target (@{$scheduler->{targets}}) {
+            foreach my $target (@{$scheduler->getTargets()}) {
                 if (-f $target->{vardir}."/deploy/".$file) {
                     $logger->debug("Send /deploy/".$file);
                     $c->send_file_response($target->{vardir}."/deploy/".$file);
