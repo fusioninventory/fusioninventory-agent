@@ -11,7 +11,8 @@ sub new {
         target      => $params->{target},
         logger      => $params->{logger},
         prologresp  => $params->{prologresp},
-        transmitter => $params->{transmitter}
+        transmitter => $params->{transmitter},
+        deviceid    => $params->{deviceid}
     };
 
     bless $self, $class;

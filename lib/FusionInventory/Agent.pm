@@ -259,7 +259,7 @@ sub run {
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
                     logger   => $logger,
-                    deviceid => $target->{deviceid},
+                    deviceid => $self->{deviceid},
                     token    => $self->{token}
                 });
 
@@ -303,11 +303,12 @@ sub run {
                 $self->{status} = "running task $module";
 
                 my $task = $package->new({
-                    config => $config,
-                    logger => $logger,
-                    target => $target,
-                    prologresp => $prologresp,
-                    transmitter =>  $transmitter
+                    config      => $config,
+                    logger      => $logger,
+                    target      => $target,
+                    prologresp  => $prologresp,
+                    transmitter => $transmitter,
+                    deviceid    => $self->{deviceid}
                 });
 
                 if ($config->{daemon} || $config->{service}) {
