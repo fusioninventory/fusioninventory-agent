@@ -116,7 +116,6 @@ sub _initModList {
 
     my $logger = $self->{logger};
     my $config = $self->{config};
-    my $storage = $self->{storage};
 
     # compute a list of directories to scan
     my @dirToScan;
@@ -286,7 +285,6 @@ sub _runWithTimeout {
     my ($self, $module, $function, $timeout) = @_;
 
     my $logger = $self->{logger};
-    my $storage = $self->{storage};
 
     my $ret;
     
@@ -305,7 +303,7 @@ sub _runWithTimeout {
             inventory     => $self->{inventory},
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},
-            storage       => $storage
+            storage       => $self->{storage}
         });
     };
     alarm 0;
