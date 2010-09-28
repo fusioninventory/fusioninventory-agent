@@ -88,6 +88,10 @@ sub main {
         exit(0);
     }
 
+    if ($config->{local}) {
+        $self->writeXML("", ">");
+    }
+
       $self->{inventory} = new FusionInventory::Agent::XML::Query::SimpleMessage ({
 
           # TODO, check if the accoun{info,config} are needed in localmode
@@ -470,7 +474,7 @@ sub SendInformations{
    if ($config->{stdout}) {
       $self->{inventory}->printXML();
    } elsif ($config->{local}) {
-      $self->{inventory}->writeXML();
+      $self->writeXML($message, ">>");
    } elsif ($config->{server}) {
       my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
            {
@@ -484,6 +488,37 @@ sub SendInformations{
            });
     $self->{network}->send({message => $xmlMsg});
    }
+}
+
+
+
+sub writeXML {
+    my ($self, $message, $append) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+    my $target = $self->{target};
+
+    if ($target->{path} =~ /^$/) {
+        $logger->fault ('local path unititalised!');
+    }
+
+    my $localfile = $config->{local}."/".$target->{deviceid}.'-SNMPQuery.xml';
+    $localfile =~ s!(//){1,}!/!;
+
+    # Convert perl data structure into xml strings
+
+    if (open my $handle, $append, $localfile) {
+        my $outputxml = XMLout( $message, RootName => 'REQUEST', XMLDecl => '<?xml version="1.0" encoding="UTF-8"?>',
+        SuppressEmpty => undef, NoAttr => 1, KeyAttr => [] );
+
+        print $handle $outputxml;
+        close $handle;
+        $logger->info("Inventory saved in $localfile");
+    } else {
+        warn "Can't open $localfile ";
+        return;
+    }
 }
 
 
