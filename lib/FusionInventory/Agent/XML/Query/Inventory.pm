@@ -48,7 +48,7 @@ sub new {
     ];
 
     $self->{storage} = $params->{storage};
-    $self->_load() if $self->{storage};
+    $self->_loadState() if $self->{storage};
 
     return $self;
 }
@@ -851,14 +851,14 @@ sub feedSection{
     return 1;
 }
 
-sub _load {
+sub _loadState {
     my ($self) = @_;
 
     my $data = $self->{storage}->restore();
     $self->{state} = $data->{state} if $data->{state};
 }
 
-sub checkpoint {
+sub saveState {
     my ($self) = @_;
 
     $self->{storage}->save({
@@ -1025,7 +1025,7 @@ Add informations in inventory.
 
 # Q: is that really useful()? Can't we merge with addSection()?
 
-=head2 checkpoint()
+=head2 saveState()
 
 Save persistant part of current state.
 

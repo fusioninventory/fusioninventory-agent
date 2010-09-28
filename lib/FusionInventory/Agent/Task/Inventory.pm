@@ -93,7 +93,7 @@ sub run {
 
             return unless $response;
 
-            $self->{inventory}->checkPoint();
+            $self->{inventory}->saveState();
 
             my $parsedContent = $response->getParsedContent();
             if (

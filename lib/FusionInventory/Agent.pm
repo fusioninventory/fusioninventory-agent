@@ -352,7 +352,7 @@ sub run {
 
             $target->scheduleNextRun();
 
-            $target->checkPoint();
+            $target->saveState();
 
             sleep(5);
         }
