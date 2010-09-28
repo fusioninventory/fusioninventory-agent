@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 
 foreach (@ARGV) {
     if (/^--devlib$/) {
-        print STDERR "[info] --devlib are found, Developer mode enabled\n";
+        print STDERR "[info] --devlib option found, developer mode enabled\n";
         unshift @INC, 'lib';
     }
 }
