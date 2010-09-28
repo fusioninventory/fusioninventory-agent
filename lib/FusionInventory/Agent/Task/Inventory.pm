@@ -18,6 +18,7 @@ sub new {
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         deviceid => $self->{deviceid},
         logger   => $self->{logger},
+        storage  => $self->{target}->getStorage()
     });
 
     $self->{modules} = {};
