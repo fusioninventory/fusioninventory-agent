@@ -17,8 +17,6 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    my $logger = $self->{logger};
-
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
     $self->{h}{CONTENT}{BIOS} = {};
@@ -184,8 +182,6 @@ sub addDrive {
 
 sub addStorage {
     my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
 
     my @fields = qw/
         DESCRIPTION
