@@ -728,44 +728,49 @@ EOF
 </body>
 </html>
 EOF
+    my %itemNames = (
+        BATTERIES   => 'battery',
+        CONTROLLERS => 'controller',
+        DRIVES      => 'drive',
+        CPUS        => 'cpu',
+        SOFTWARES   => 'software',
+        ENVS        => 'environment variable',
+        PROCESSES   => 'process',
+        USERS       => 'user',
+        VIDEOS      => 'video card',
+        SOUNDS      => 'sound card',
+        STORAGES    => 'storage',
+        USBDEVICES  => 'USB device',
+        VIRTUALMACHINES  => 'virtual machine'
+    );
 
     my $htmlBody;
 
-    my $oldSectionName = "";
     foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
         next if $sectionName eq 'VERSIONCLIENT';
 
-        my $dataRef = $self->{h}{CONTENT}->{$sectionName};
+        $htmlBody .= "<h2>$sectionName</h2>\n";
 
-        if (ref($dataRef) eq 'ARRAY') {
-            foreach my $section (@{$dataRef}) {
+        my $section = $self->{h}{CONTENT}->{$sectionName};
 
-                next unless keys %{$section};
-
-                if ($oldSectionName ne $sectionName) {
-                    $htmlBody .= "<h2>$sectionName</h2>\n";
-                    $oldSectionName = $sectionName;
+        if (ref($section) eq 'ARRAY') {
+            my $itemName = $itemNames{$sectionName} || 'item';
+            $htmlBody .= "<ul>\n";
+            foreach my $item (@{$section}) {
+                $htmlBody .= "<li>$itemName:<ul>\n";
+                foreach my $key (sort keys %{$item}) {
+                    $htmlBody .= "<li>$key: $item->{$key}</li>\n";
                 }
-
-                $htmlBody .= "<ul>";
-                foreach my $key (sort keys %{$section}) {
-                    $htmlBody .= "<li>".$key.": ".
-                    ($section->{$key} || "(empty)").
-                    "</li>\n";
-                }
-                $htmlBody .= "</ul>\n<br />\n<br />\n";
+                $htmlBody .= "</ul>\n</li>\n";
 
             }
+            $htmlBody .= "</ul>\n";
         } else {
-            $htmlBody .= "<h2>$sectionName</h2>\n";
-
-            $htmlBody .= "<ul>";
-            foreach my $key (sort keys %{$dataRef}) {
-                $htmlBody .="<li>".$key.": ".
-                ($dataRef->{$key}||"(empty)").
-                "</li>\n";
+            $htmlBody .= "<ul>\n";
+            foreach my $key (sort keys %{$section}) {
+                $htmlBody .= "<li>$key: $section->{$key}</li>\n";
             }
-            $htmlBody .= "</ul>\n<br />\n";
+            $htmlBody .= "</ul>\n";
         }
     }
 
