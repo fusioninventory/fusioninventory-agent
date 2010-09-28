@@ -351,6 +351,8 @@ sub run {
 
             $target->scheduleNextRun();
 
+            $target->checkPoint();
+
             sleep(5);
         }
     };
