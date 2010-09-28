@@ -18,7 +18,6 @@ sub new {
     my $self = $class->SUPER::new($params);
 
     my $logger = $self->{logger};
-    my $target = $self->{target};
 
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
@@ -728,10 +727,10 @@ sub getContentAsHTML {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent $target->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <title>FusionInventory-Agent $self->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
 </head>
 <body>
-    <h1>Inventory for $target->{deviceid}</h1>
+    <h1>Inventory for $self->{deviceid}</h1>
     FusionInventory Agent $FusionInventory::Agent::VERSION
 EOF
 

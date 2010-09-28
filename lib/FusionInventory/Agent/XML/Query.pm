@@ -8,27 +8,18 @@ use XML::TreePP;
 sub new {
     my ($class, $params) = @_;
 
-    die "No DEVICEID" unless $params->{target}->{deviceid};
+    die "No DEVICEID" unless $params->{deviceid};
 
     my $self = {
-        logger => $params->{logger},
-        target => $params->{target}
+        logger   => $params->{logger},
+        deviceid => $params->{deviceid}
     };
     bless $self, $class;
 
-    my $target = $self->{target};
-
     $self->{h} = {
         QUERY    => ['UNSET!'],
-        DEVICEID => [$target->{deviceid}]
+        DEVICEID => [$params->{deviceid}]
     };
-
-    if (
-        $target->{currentDeviceid} &&
-        $target->{deviceid} ne $target->{currentDeviceid}
-    ) {
-      $self->{h}->{OLD_DEVICEID} = [$target->{currentDeviceid}];
-    }
 
     return $self;
 }
@@ -76,7 +67,7 @@ The constructor. The following named parameters are allowed:
 
 =item logger (mandatory)
 
-=item target (mandatory)
+=item deviceid (mandatory)
 
 =back
 

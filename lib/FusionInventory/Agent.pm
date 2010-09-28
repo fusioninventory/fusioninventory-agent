@@ -261,10 +261,9 @@ sub run {
                 });
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                    logger => $logger,
-                    config => $config,
-                    target => $target,
-                    token  => $self->{token}
+                    logger   => $logger,
+                    deviceid => $target->{deviceid},
+                    token    => $self->{token}
                 });
 
                 if ($config->{tag}) {

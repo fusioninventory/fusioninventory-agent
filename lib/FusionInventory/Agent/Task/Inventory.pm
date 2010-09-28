@@ -16,8 +16,8 @@ sub new {
     my $self = $class->SUPER::new($params);
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
-        target => $self->{target},
-        logger => $self->{logger},
+        deviceid => $self->{deviceid},
+        logger   => $self->{logger},
     });
 
     $self->{modules} = {};
