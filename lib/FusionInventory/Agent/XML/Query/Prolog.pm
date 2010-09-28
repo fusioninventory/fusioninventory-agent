@@ -12,7 +12,7 @@ use FusionInventory::Agent::XML::Query;
 sub new {
     my ($class, $params) = @_;
 
-    die "No token" unless $params->{token};
+    die "no token parameter" unless $params->{token};
 
     my $self = $class->SUPER::new($params);
 

@@ -8,7 +8,7 @@ use XML::TreePP;
 sub new {
     my ($class, $params) = @_;
 
-    die "No DEVICEID" unless $params->{deviceid};
+    die "no deviceid parameter" unless $params->{deviceid};
 
     my $self = {
         logger   => $params->{logger},

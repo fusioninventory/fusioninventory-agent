@@ -11,7 +11,7 @@ my $count = 0;
 sub new {
     my ($class, $params) = @_;
 
-    die "no url parameter!" unless $params->{url};
+    die "no url parameter" unless $params->{url};
 
     my $self = $class->SUPER::new($params);
 

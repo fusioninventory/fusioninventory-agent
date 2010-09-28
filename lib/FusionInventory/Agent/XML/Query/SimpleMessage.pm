@@ -9,7 +9,7 @@ use XML::TreePP;
 sub new {
     my ($class, $params) = @_;
 
-    die "No msg" unless $params->{msg};
+    die "no msg parameter" unless $params->{msg};
 
     my $self = $class->SUPER::new($params);
 
