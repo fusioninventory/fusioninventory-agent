@@ -47,6 +47,9 @@ sub new {
         $FusionInventory::Agent::AGENT_STRING
     ];
 
+    $self->{storage} = $params->{storage};
+    $self->_load() if $self->{storage};
+
     return $self;
 }
 
