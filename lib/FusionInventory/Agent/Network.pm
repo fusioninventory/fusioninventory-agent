@@ -40,7 +40,9 @@ use FusionInventory::Compress;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        defaultTimeout => 180
+    };
 
     $self->{accountinfo} = $params->{accountinfo}; # Q: Is that needed?
 
@@ -194,7 +196,14 @@ sub send {
     $req->content($compressed);
 
     my $ua = $self->createUA({URI => $self->{URI}});
-    my $res = $ua->request($req);
+    my $res;
+    eval {
+        if ($^O =~ /^MSWin/ && $self->{URI} =~ /^https:/g) {
+            alarm $self->{defaultTimeout};
+        }
+        $res = $ua->request($req);
+        alarm 0;
+    };
 
 
     my $serverRealm;
@@ -203,7 +212,13 @@ sub send {
         $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retrying.");
 
         $ua = $self->createUA({URI => $self->{URI}, forceRealm => $serverRealm});
-        $res = $ua->request($req);
+        eval {
+            if ($^O =~ /^MSWin/ && $self->{URI} =~ /^https:/g) {
+                alarm $self->{defaultTimeout};
+            }
+            $res = $ua->request($req);
+            alarm 0;
+        }
     }
 
     # Checking if connected
@@ -355,8 +370,16 @@ sub getStore {
 
     $ua->timeout($timeout) if $timeout;
 
-    my $request = HTTP::Request->new(GET => $source);
-    my $response = $ua->request($request, $target);
+    my $response;
+    eval {
+        if ($^O =~ /^MSWin/ && $source =~ /^https:/g) {
+            alarm $self->{defaultTimeout};
+        }
+
+        my $request = HTTP::Request->new(GET => $source);
+        $response = $ua->request($request, $target);
+        alarm 0;
+    };
 
     return $response->code;
 

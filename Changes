@@ -13,6 +13,7 @@ Revision history for FusionInventory::Agent
        * BSD: avoid warning if the lease file can't be parsed
        * BSD: Drives.pm hide, df messages on STDERR
        * BSD: convert the IP mask from hex to dec
+       * Win32: workaround to add timeout for HTTPS on Windows
 
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
