@@ -863,7 +863,7 @@ sub saveState {
 
     $self->{storage}->save({
         data => {
-            state => $self->{nextRunDate}
+            state => $self->{state}
         }
     });
 }
