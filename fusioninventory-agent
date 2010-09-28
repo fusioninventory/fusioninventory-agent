@@ -96,13 +96,13 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
   Extra options:
     -d --daemon         run the agent as a daemon
     --no-fork           do not fork in background
-    -f --force          always send data to server (Don't ask before)
     -i --info           verbose mode
     --debug             debug mode
     -t --tag=TAG        use TAG as tag
     --version           print the version
 
   Inventory task specific options:
+    -f --force          send an inventory without asking the server
     --no-printer        do not return printer list in inventory
     --no-software       do not return installed software list
     --scan-homedirs     permit to scan home user directories
@@ -419,7 +419,14 @@ Do not inventory softwares.
 =item B<--format>=I<FORMAT>
 
 Save the local inventory in given format (default: HTML). This option is only
-used for a local inventory.
+used for a local target.
+
+=item B<-f>, B<--force>
+
+The agent ask first the server if it should send an inventory of the machine.
+If the server doesn't know the machine or has outdated informations, it will
+request it.  With this option, the agent ignore the server anwser and send an
+inventory. This options is only used with a server target.
 
 =back
 
@@ -570,12 +577,6 @@ Turn the verbose mode on.
 
 Turn the debug mode on (more verbose).
 
-=item B<-f>, B<--force>
-
-The agent ask first the server if it should send an inventory of the machine.
-If the server doesn't know the machine or has outdated informations, it will
-request it.  With this option, the agent ignore the server anwser and send an
-inventory.
 
 =item B<--tag>=I<TAG>
 
