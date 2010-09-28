@@ -820,31 +820,6 @@ sub processChecksum {
 
 }
 
-sub addSection {
-    my ($self, $args) = @_;
-    my $logger = $self->{logger};
-    my $multi = $args->{multi};
-    my $tagname = $args->{tagname};
-
-    $logger->debug("Please, don't use addSection(). This function may be ".
-        "dropped in the future.");
-
-    for( keys %{$self->{h}{CONTENT}} ){
-        if( $tagname eq $_ ){
-            $logger->debug("Tag name `$tagname` already exists - Don't add it");
-            return 0;
-        }
-    }
-
-    if($multi){
-        $self->{h}{CONTENT}{$tagname} = [];
-    }
-    else{
-        $self->{h}{CONTENT}{$tagname} = {};
-    }
-    return 1;
-}
-
 sub feedSection{
     my ($self, $args) = @_;
     my $tagname = $args->{tagname};
@@ -1038,11 +1013,6 @@ is used to know where the file as to be saved.
 
 Compute the checksum of the inventory. This information is used by the server
 to know which information changed since the last inventory.
-
-=head2 addSection()
-
-A generic way to save a section in the inventory. Please avoid this
-solution.
 
 =head2 feedSection()
 
