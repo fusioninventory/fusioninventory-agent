@@ -66,7 +66,7 @@ sub _addEntry {
     foreach my $field (@$fields) {
         next unless defined $values->{$field};
         my $string = $self->_encode($values->{$field});
-        $newEntry->{$field}->[0] = $string;
+        $newEntry->{$field} = $string;
     }
 
     # Don't create two time the same device
@@ -75,7 +75,7 @@ sub _addEntry {
             foreach my $field (@$fields) {
                 # only test existing keys, to avoid auto-vivification
                 next unless exists $newEntry->{$field};
-                if ($entry->{$field}[0] ne $newEntry->{$field}[0]) {
+                if ($entry->{$field} ne $newEntry->{$field}) {
                     next ENTRY;
                 }
             }
@@ -427,8 +427,8 @@ sub addCPU {
 
     # For the compatibility with HARDWARE/PROCESSOR*
     my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
-    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
-    my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME}[0];
+    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED};
+    my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME};
 
     $self->setHardware ({
         PROCESSORN => $processorn,
@@ -455,10 +455,9 @@ sub addUser {
         'noDuplicated' => 1
     });
 
-
-# Compare with old system 
-    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
-    my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN}[0] || "";
+    # Compare with old system 
+    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID} || "";
+    my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN} || "";
 
     $userString .= '/' if $userString;
     $domainString .= '/' if $domainString;
@@ -662,7 +661,7 @@ sub setAccessLog {
     foreach my $key (qw/USERID LOGDATE/) {
 
         if (exists $args->{$key}) {
-            $self->{h}{CONTENT}{ACCESSLOG}{$key}[0] = $args->{$key};
+            $self->{h}{CONTENT}{ACCESSLOG}{$key} = $args->{$key};
         }
     }
 }
@@ -689,9 +688,9 @@ sub getContent {
     $self->processChecksum();
 
     #  checks for MAC, NAME and SSN presence
-    my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
-    my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN}->[0];
-    my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME}->[0];
+    my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR};
+    my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN};
+    my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME};
 
     my $missing;
 
