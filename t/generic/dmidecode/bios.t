@@ -11,8 +11,14 @@ my %tests = (
         bios => {
             SMODEL        => 'CN700-8237R',
             SSN           => 'A9-06-00-00-FF-BB-C9-A7',
+            SMANUFACTURER => undef,
+            BDATE         => undef,
+            BVERSION      => undef,
+            BMANUFACTURER => undef,
+            ASSETTAG      => undef
         },
         hardware => {
+            UUID     => undef,
             VMSYSTEM => 'Physical'
         }
     },
@@ -23,7 +29,8 @@ my %tests = (
             SSN           => 'D8XD62J',
             BMANUFACTURER => 'Dell Inc.',
             BVERSION      => 'A06',
-            BDATE         => '10/02/2005'
+            BDATE         => '10/02/2005',
+            ASSETTAG      => undef
         },
         hardware => {
             UUID     => '44454C4C-3800-1058-8044-C4C04F36324A',
@@ -37,9 +44,11 @@ my %tests = (
             SSN           => '52-06-00-00-FF-F9-83-01',
             BMANUFACTURER => 'Award Software International, Inc.',
             BVERSION      => '4.51 PG',
-            BDATE         => '02/11/99'
+            BDATE         => '02/11/99',
+            ASSETTAG      => undef
         },
         hardware => {
+            UUID     => undef,
             VMSYSTEM => 'Physical'
         }
     },
@@ -50,7 +59,8 @@ my %tests = (
             SSN           => '2K1012J',
             BMANUFACTURER => 'Dell Computer Corporation',
             BVERSION      => 'A05',
-            BDATE         => '09/21/2005'
+            BDATE         => '09/21/2005',
+            ASSETTAG      => undef
         },
         hardware => {
             UUID     => '44454C4C-4B00-1031-8030-B2C04F31324A',
@@ -63,9 +73,12 @@ my %tests = (
             SMODEL        => '-[84803AX]-',
             SSN           => 'KBKGW40',
             BMANUFACTURER => 'IBM',
-            BVERSION      => '-[JPE130AUS-1.30]-'
+            BVERSION      => '-[JPE130AUS-1.30]-',
+            BDATE         => undef,
+            ASSETTAG      => undef
         },
         hardware => {
+            UUID     => undef,
             VMSYSTEM => 'Physical'
         }
     },
@@ -91,7 +104,8 @@ my %tests = (
             SSN           => 'KDMAH1Y',
             BMANUFACTURER => 'IBM',
             BVERSION      => '-[OQE115A]-',
-            BDATE         => '03/14/2006'
+            BDATE         => '03/14/2006',
+            ASSETTAG      => undef
         },
         hardware => {
             UUID => '0339D4C3-44C0-9D11-A20E-85CDC42DE79C',
@@ -105,7 +119,8 @@ my %tests = (
             SSN           => 'GB8814HE7S',
             BMANUFACTURER => 'HP',
             BVERSION      => 'D21',
-            BDATE         => '01/24/2008'
+            BDATE         => '01/24/2008',
+            ASSETTAG      => undef
         },
         hardware => {
             UUID => '34313236-3435-4742-3838-313448453753',

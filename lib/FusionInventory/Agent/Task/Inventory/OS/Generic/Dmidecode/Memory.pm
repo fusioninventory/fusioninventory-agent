@@ -49,8 +49,6 @@ sub _getMemories {
             $memory->{CAPACITY} = $1;
         }
 
-        cleanUnknownValues($memory);
-
         push @$memories, $memory;
     }
 

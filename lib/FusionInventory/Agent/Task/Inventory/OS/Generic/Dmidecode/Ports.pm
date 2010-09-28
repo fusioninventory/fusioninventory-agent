@@ -41,8 +41,6 @@ sub _getPorts {
             TYPE        => $info->{'Port Type'},
         };
 
-        cleanUnknownValues($port);
-
         push @$ports, $port;
     }
 

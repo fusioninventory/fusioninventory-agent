@@ -377,14 +377,6 @@ sub compareVersion {
         );
 }
 
-sub cleanUnknownValues {
-    my ($hash) = @_;
-
-    foreach my $key (keys %$hash) {
-       delete $hash->{$key} if !defined $hash->{$key};
-    }
-}
-
 sub can_run {
     my ($binary) = @_;
 
@@ -481,10 +473,6 @@ output with given callback.
 
 Returns true if software with given major and minor version meet minimal
 version requirements.
-
-=head2 cleanUnknownValues($hashref)
-
-Deletes all key with undefined values from given hashref.
 
 =head2 can_run($binary)
 
