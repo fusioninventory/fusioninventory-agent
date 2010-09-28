@@ -42,9 +42,9 @@ sub run {
 
         if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
             my $file =
-                $self->{config}->{local} .
+                $self->{target}->getPath() .
                 "/" .
-                $self->{target}->{deviceid} .
+                $self->{target}->getDeviceId() .
                 '.ocs';
 
             if (open my $handle, '>', $file) {
