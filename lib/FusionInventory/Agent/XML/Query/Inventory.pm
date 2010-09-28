@@ -60,12 +60,8 @@ sub _addEntry {
 
     my $newEntry;
 
-    my $showAll = 0;
-
     foreach (@$fields) {
-        if (!$showAll && !defined($values->{$_})) {
-            next;
-        }
+        next unless defined $values->{$_};
         my $string = $self->_encode($values->{$_});
         $newEntry->{$_}[0] = $string;
     }
