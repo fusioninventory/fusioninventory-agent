@@ -93,6 +93,8 @@ sub run {
 
             return unless $response;
 
+            $self->{inventory}->checkPoint();
+
             my $parsedContent = $response->getParsedContent();
             if (
                 $parsedContent &&
