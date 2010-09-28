@@ -385,7 +385,7 @@ sub setHardware {
             }
 
             my $string = $self->_encode($args->{$key});
-            $self->{h}{CONTENT}{HARDWARE}{$key}[0] = $string;
+            $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
         }
     }
 }
@@ -399,7 +399,7 @@ sub setBios {
 
         if (exists $args->{$key}) {
             my $string = $self->_encode($args->{$key});
-            $self->{h}{CONTENT}{BIOS}{$key}[0] = $string;
+            $self->{h}{CONTENT}{BIOS}{$key} = $string;
         }
     }
 }
