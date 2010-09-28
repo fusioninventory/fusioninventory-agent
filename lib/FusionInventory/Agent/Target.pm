@@ -46,6 +46,12 @@ sub getStorage {
     return $self->{storage};
 }
 
+sub getDeviceId {
+    my ($self) = @_;
+
+    return $self->{deviceid};
+}
+
 sub getNextRunDate {
     my ($self) = @_;
 
