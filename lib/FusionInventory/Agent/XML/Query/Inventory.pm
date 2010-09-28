@@ -787,7 +787,6 @@ sub processChecksum {
     my $self = shift;
 
     my $logger = $self->{logger};
-    my $target = $self->{target};
 
     # to apply to $checksum with an OR
     my %mask = (
