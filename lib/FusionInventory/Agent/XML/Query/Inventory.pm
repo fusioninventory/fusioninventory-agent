@@ -74,7 +74,7 @@ sub _addEntry {
         ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
             foreach my $field (@$fields) {
                 # only test existing keys, to avoid auto-vivification
-                next unless exists $newEntry->{$fields}[0];
+                next unless exists $newEntry->{$field};
                 if ($entry->{$field}[0] ne $newEntry->{$field}[0]) {
                     next ENTRY;
                 }
