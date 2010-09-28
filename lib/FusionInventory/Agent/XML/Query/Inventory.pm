@@ -809,8 +809,8 @@ sub processChecksum {
         my $hash =
             md5_base64($tpp->write({ XML => $self->{h}{'CONTENT'}{$section} }));
         if (
-            !$self->{state}->{$section}[0] ||
-            $self->{state}->{$section}[0] ne $hash
+            !$self->{state}->{$section} ||
+            $self->{state}->{$section} ne $hash
         ) {
             $logger->debug ("Section $section has changed since last inventory");
             # We make OR on $checksum with the mask of the current section
@@ -818,7 +818,7 @@ sub processChecksum {
         }
         # Finally I store the new value. If the transmition is ok, this will
         # be the new last_state
-        $self->{state}->{$section}[0] = $hash;
+        $self->{state}->{$section} = $hash;
     }
 
   $self->setHardware({CHECKSUM => $checksum});
