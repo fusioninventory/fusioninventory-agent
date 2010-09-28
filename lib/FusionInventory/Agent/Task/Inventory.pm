@@ -278,8 +278,6 @@ sub _feedInventory {
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
 
-    $inventory->{isInitialised} = 1;
-
 }
 
 sub _runWithTimeout {
