@@ -749,8 +749,8 @@ EOF
 
                 $htmlBody .= "<ul>";
                 foreach my $key (sort keys %{$section}) {
-                    $htmlBody .="<li>".$key.": ".
-                    ($section->{$key}[0]||"(empty)").
+                    $htmlBody .= "<li>".$key.": ".
+                    ($section->{$key} || "(empty)").
                     "</li>\n";
                 }
                 $htmlBody .= "</ul>\n<br />\n<br />\n";
@@ -762,7 +762,7 @@ EOF
             $htmlBody .= "<ul>";
             foreach my $key (sort keys %{$dataRef}) {
                 $htmlBody .="<li>".$key.": ".
-                ($dataRef->{$key}[0]||"(empty)").
+                ($dataRef->{$key}||"(empty)").
                 "</li>\n";
             }
             $htmlBody .= "</ul>\n<br />\n";
