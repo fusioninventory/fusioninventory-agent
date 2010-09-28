@@ -5,24 +5,31 @@ use warnings;
 use Test::More;
 use Test::Exception;
 use XML::TreePP;
+
 use FusionInventory::Agent::XML::Query::SimpleMessage;
+use FusionInventory::Logger;
 
 plan tests => 8;
 
 my $message;
 throws_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new();
-} qr/^No msg/, 'no message';
+} qr/^no msg/, 'no message';
 
 throws_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        msg => 'foo'
+        msg => {
+            QUERY => 'TEST',
+            FOO   => 'foo',
+            BAR   => 'bar'
+        },
     });
-} qr/^No DEVICEID/, 'no device id';
+} qr/^no deviceid/, 'no device id';
 
 lives_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        target => { deviceid => 'test' },
+        deviceid => 'foo',
+        logger   => FusionInventory::Logger->new(),
         msg => {
             QUERY => 'TEST',
             FOO   => 'foo',
@@ -39,7 +46,7 @@ my $content;
 $content = {
     REQUEST => {
         BAR      => 'bar',
-        DEVICEID => 'test',
+        DEVICEID => 'foo',
         FOO      => 'foo',
         QUERY    => 'TEST'
     }
@@ -52,7 +59,7 @@ is_deeply(
 
 lives_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        target => { deviceid => 'test' },
+        deviceid => 'foo',
         msg => {
             QUERY => 'TEST',
             FOO => 'foo',
@@ -86,7 +93,7 @@ $content = {
                 FddF => { GG => 'O' }
             }
         ],
-        DEVICEID => 'test',
+        DEVICEID => 'foo',
         FOO => 'foo',
         QUERY => 'TEST'
     }

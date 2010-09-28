@@ -6,6 +6,7 @@ use Test::More;
 use Test::Exception;
 use Config;
 use XML::TreePP;
+
 use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
@@ -15,17 +16,13 @@ plan tests => 7;
 my $inventory;
 throws_ok {
     $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
-        token => 'foo'
     });
-} qr/^No DEVICEID/, 'no device id';
+} qr/^no deviceid/, 'no device id';
 
 lives_ok {
     $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
-        target => {
-            deviceid => 'foo',
-            vardir   => 'bar',
-        },
-        logger => FusionInventory::Logger->new(),
+        deviceid => 'foo',
+        logger   => FusionInventory::Logger->new(),
     });
 } 'everything OK';
 
