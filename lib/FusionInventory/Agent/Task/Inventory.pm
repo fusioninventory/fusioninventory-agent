@@ -117,20 +117,23 @@ sub _initModList {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    # compute a list of directories to scan
-    my @dirToScan;
+    # identify which directory to scan for inventory modules
+    my $dirToScan;
     if ($config->{devlib}) {
-        # devlib enable, I only search for backend module in ./lib
-        push (@dirToScan, './lib');
+        # working directory
+        $dirToScan = './lib';
     } else {
+        # first directory of @INC containing an installation tree
         foreach my $dir (@INC) {
             my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
-            next unless -d $subdir;
-            push @dirToScan, $subdir;
+            if (-d $subdir) {
+                $dirToScan = $subdir;
+                last;
+            }
         }
     }
     
-    die "No directory to scan for inventory modules" if !@dirToScan;
+    die "No directory to scan for inventory modules" if !$dirToScan;
 
     # find a list of modules from files in those directories
     my %modules;
@@ -148,7 +151,7 @@ sub _initModList {
             follow      => 1,
             follow_skip => 2
         },
-        @dirToScan
+        $dirToScan
     );
 
     my @modules = keys %modules;
