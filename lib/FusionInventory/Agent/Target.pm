@@ -13,7 +13,6 @@ sub new {
     my $self = {
         maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
-        deviceid        => $params->{deviceid},
         nextRunDate     => undef,
     };
     bless $self, $class;
@@ -44,12 +43,6 @@ sub getStorage {
     my ($self) = @_;
 
     return $self->{storage};
-}
-
-sub getDeviceId {
-    my ($self) = @_;
-
-    return $self->{deviceid};
 }
 
 sub getNextRunDate {

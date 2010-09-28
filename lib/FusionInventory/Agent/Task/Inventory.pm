@@ -44,7 +44,7 @@ sub run {
             my $file =
                 $self->{target}->getPath() .
                 "/" .
-                $self->{target}->getDeviceId() .
+                $self->{deviceid} .
                 '.ocs';
 
             if (open my $handle, '>', $file) {
