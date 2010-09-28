@@ -2,11 +2,194 @@ package FusionInventory::Agent::Receiver;
 
 use strict;
 use warnings;
-use threads;
-use threads::shared;
+#use threads;
+#use threads::shared;
 
+use Sys::Hostname;
 use English qw(-no_match_vars);
-use HTTP::Daemon;
+use POE;
+use POE::Component::Server::HTTP;
+use HTTP::Status;
+use File::stat;
+
+use Data::Dumper; # XXX DEBUG
+
+sub main {
+    my ($self, $request, $response) = @_;
+
+    my $logger = $self->{logger};
+    my $scheduler = $self->{scheduler};
+
+    my $host = $request->uri->host;
+    
+    $response->code(RC_OK);
+
+    if ($host ne hostname()) {
+        $response->content("Forbidden");
+        $response->code(403);
+        return;
+    }
+
+    my $indexFile = $self->{htmlDir}."/index.tpl";
+    my $handle;
+    if (!open $handle, '<', $indexFile) {
+        $logger->error("Can't open share $indexFile: $ERRNO");
+        $response->code(500);
+        return;
+    }
+    undef $/;
+    my $output = <$handle>;
+    close $handle;
+
+
+    my $nextContact = "";
+    foreach my $target (@{$scheduler->{targets}}) {
+        my $path = $target->{path};
+        $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+        my $timeString = $target->getNextRunDate() > 1 ?
+        localtime($target->getNextRunDate()) : "now";
+        my $type = ref $target;
+        $nextContact .=
+        "<li>$type, $path: $timeString</li>\n";
+    }
+    my $status = $self->{agent}->getStatus();
+
+    $output =~ s/%%STATUS%%/$status/;
+    $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
+    $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
+    if (!$self->{rpc_trust_localhost}) {
+        $output =~
+        s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
+    }
+    $output =~ s/%%(END|)IF_.*?%%//g;
+    $response->content($output);
+
+    return RC_OK;
+}
+
+sub deploy {
+    my ($self, $request, $response) = @_;
+
+    my $logger = $self->{logger};
+    my $scheduler = $self->{scheduler};
+    
+    my $path = $request->uri->path;
+
+print $path."\n";
+
+    if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
+        my $file = $1;
+        foreach my $target (@{$scheduler->{targets}}) {
+            print $target->{vardir}."\n";
+            if (-f $target->{vardir}."/deploy/".$file) {
+                $logger->debug("Send /deploy/".$file);
+# XXX TODO
+                $self->sendFile($response, $target->{vardir}."/deploy/".$file);
+                return;
+            } else {
+                $logger->debug("Not found /deploy/".$file);
+                $response->code(404);
+            }
+        }
+    }
+}
+
+sub now {
+    my ($self, $request, $response) = @_;
+
+    my $logger = $self->{logger};
+    my $scheduler = $self->{scheduler};
+    
+    my $path = $request->uri->path;
+    my $host = $request->uri->host;
+
+    # now request
+    if ($path =~ m{^/now(?:/(\S+))?$}) {
+        my $sentToken = $1;
+
+        my $result;
+        if ($host ne hostname() && $self->{rpc_trust_localhost}) {
+            # trusted request
+            $result = "ok";
+        } else {
+            # authenticated request
+            if ($sentToken) {
+                my $token = $self->{agent}->resetToken();
+                if ($sentToken eq $token) {
+                    $result = "ok";
+                    $self->{agent}->resetToken();
+                } else {
+                    $logger->debug(
+                        "[Receiver] untrusted address, invalid token $sentToken != $token"
+                    );
+                    $result = "untrusted address, invalid token";
+                }
+            } else {
+                $logger->debug(
+                    "[Receiver] untrusted address, no token received"
+                );
+                $result = "untrusted address, no token received";
+            }
+        }
+
+        my ($code, $message);
+        if ($result eq "ok") {
+            $scheduler->scheduleTargets(0);
+            $code    = 200;
+            $message = "Done."
+        } else {
+            $code    = 403;
+            $message = "Access denied: $result.";
+        }
+
+        my $output = "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>";
+        $response->content($output);
+
+    }
+}
+
+sub sendFile {
+    my ($self, $response, $file) = @_;
+
+    my $logger = $self->{logger};
+
+    my $st = stat($file);
+    my $fh;
+    if (!open $fh, "<$file") {
+        $logger->error("Failed to open $file");
+        return;
+    }
+    binmode($fh);
+print \$response."\n";
+    $self->{todo}{$response->{connection}{my_id}} = $fh;
+
+
+    $response->streaming(1);
+    $response->code(RC_OK);         # you must set up your response header
+    $response->content_type('application/binary');
+    $response->content_length($st->size);
+
+}
+
+sub stream {
+    my($self, $resquest, $response)=@_;
+
+    my $fh = $self->{todo}{$response->{connection}{my_id}};
+
+    my $buffer;
+    my $dataRemain = read ($fh, $buffer, 1024); 
+    $response->send($buffer);
+   
+    if (!$dataRemain) {
+print "finish\n";
+        close($fh);
+        $response->streaming(0);
+        $response->close;
+        $resquest->header(Connection => 'close');
+        delete($self->{todo}{$response->{connection}{my_id}});
+    }
+}
+
 
 sub new {
     my ($class, $params) = @_;
@@ -36,10 +219,32 @@ sub new {
     bless $self, $class;
 
     $SIG{PIPE} = 'IGNORE';
-    threads->create('_server', $self);
+
+    $self->{httpd} = POE::Component::Server::HTTP->new(
+        Port => $self->{rpc_port} || 62354,
+        ContentHandler => {
+            '/' => sub { $self->main(@_) },
+            '/deploy/' => sub { $self->deploy(@_) },
+            '/file' => sub { print "/file" }
+        },
+        StreamHandler  => sub { $self->stream(@_) },
+        Headers => { Server => 'FusionInventory Agent' },
+    );
+    if (0) { # XXX TODO
+        $logger->error("[Receiver] Failed to start the service");
+        return;
+    } 
+
+    $logger->info("RPC service started at: http://".
+        ( $self->{'rpc_ip'} || "127.0.0.1" ).
+        ":".
+        $self->{rpc_port} || 62354);
+
+#    threads->create('_server', $self);
 
     return $self;
 }
+
 
 sub handle {
     my ($self, $c, $r, $clientIp) = @_;
@@ -69,119 +274,8 @@ sub handle {
 
     # GET requests
     SWITCH: {
-        # root request
-        if ($path eq '/') {
-            if ($clientIp !~ /^127\./) {
-                $c->send_error(404);
-                return;
-            }
-
-            my $indexFile = $htmlDir."/index.tpl";
-            my $handle;
-            if (!open $handle, '<', $indexFile) {
-                $logger->error("Can't open share $indexFile: $ERRNO");
-                $c->send_error(404);
-                return;
-            }
-            undef $/;
-            my $output = <$handle>;
-            close $handle;
-
-            my $nextContact = "";
-            foreach my $target (@{$scheduler->{targets}}) {
-                my $path = $target->{path};
-                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-                my $timeString = $target->getNextRunDate() > 1 ?
-                    localtime($target->getNextRunDate()) : "now";
-                my $type = ref $target;
-                $nextContact .=
-                    "<li>$type, $path: $timeString</li>\n";
-            }
-            my $status = $self->{agent}->getStatus();
-
-            $output =~ s/%%STATUS%%/$status/;
-            $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
-            $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-            if (!$self->{rpc_trust_localhost}) {
-                $output =~
-                s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
-            }
-            $output =~ s/%%(END|)IF_.*?%%//g;
-
-            my $r = HTTP::Response->new(
-                200,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/html'),
-                $output
-            );
-            $c->send_response($r);
-            last SWITCH;
-        }
-
         # deploy request
-        if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
-            my $file = $1;
-            foreach my $target (@{$scheduler->{targets}}) {
-                if (-f $target->{vardir}."/deploy/".$file) {
-                    $logger->debug("Send /deploy/".$file);
-                    $c->send_file_response($target->{vardir}."/deploy/".$file);
-                } else {
-                    $logger->debug("Not found /deploy/".$file);
-                }
-            }
-            $c->send_error(404);
-            last SWITCH;
-        }
-
-        # now request
-        if ($path =~ m{^/now(?:/(\S+))?$}) {
-            my $sentToken = $1;
-
-            my $result;
-            if ($clientIp =~ /^127\./ && $self->{rpc_trust_localhost}) {
-                # trusted request
-                $result = "ok";
-            } else {
-                # authenticated request
-                if ($sentToken) {
-                    my $token = $self->{agent}->resetToken();
-                    if ($sentToken eq $token) {
-                        $result = "ok";
-                        $self->{agent}->resetToken();
-                    } else {
-                        $logger->debug(
-                            "[Receiver] untrusted address, invalid token $sentToken != $token"
-                        );
-                        $result = "untrusted address, invalid token";
-                    }
-                } else {
-                    $logger->debug(
-                        "[Receiver] untrusted address, no token received"
-                    );
-                    $result = "untrusted address, no token received";
-                }
-            }
-
-            my ($code, $message);
-            if ($result eq "ok") {
-                $scheduler->scheduleTargets(0);
-                $code    = 200;
-                $message = "Done."
-            } else {
-                $code    = 403;
-                $message = "Access denied: $result.";
-            }
-
-            my $r = HTTP::Response->new(
-                $code,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/html'),
-                "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>"
-            );
-            $c->send_response($r);
-
-            last SWITCH;
-        }
+ 
 
         # status request
         if ($path eq '/status') {
@@ -219,15 +313,6 @@ sub _server {
         Reuse     => 1,
         Timeout   => 5
     );
-
-    if (!$daemon) {
-        $logger->error("[Receiver] Failed to start the service");
-        return;
-    } 
-    $logger->info("RPC service started at: http://".
-        ( $self->{'rpc_ip'} || "127.0.0.1" ).
-        ":".
-        $self->{rpc_port} || 62354);
 
     while (1) {
         my ($client, $socket) = $daemon->accept();
