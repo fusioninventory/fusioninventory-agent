@@ -60,10 +60,10 @@ sub _addEntry {
 
     my $newEntry;
 
-    foreach (@$fields) {
-        next unless defined $values->{$_};
-        my $string = $self->_encode($values->{$_});
-        $newEntry->{$_}[0] = $string;
+    foreach my $field (@$fields) {
+        next unless defined $values->{$field};
+        my $string = $self->_encode($values->{$field});
+        $newEntry->{$field}->[0] = $string;
     }
 
     # Don't create two time the same device
