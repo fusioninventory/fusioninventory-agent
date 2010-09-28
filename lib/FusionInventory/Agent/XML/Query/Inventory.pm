@@ -70,17 +70,7 @@ sub _addEntry {
     if ($noDuplicated) {
         ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
             foreach my $field (@$fields) {
-                # compare value definition status first
-                if (defined($entry->{$field}[0]) !=
-                    defined($newEntry->{$field}[0])) {
-                    next ENTRY;
-                }
-
-                # compare value second
-                if (
-                    defined($entry->{$field}[0]) &&
-                    ($entry->{$field}[0] ne $newEntry->{$field}[0])
-                ) {
+                if ($entry->{$field}[0] ne $newEntry->{$field}[0]) {
                     next ENTRY;
                 }
             }
