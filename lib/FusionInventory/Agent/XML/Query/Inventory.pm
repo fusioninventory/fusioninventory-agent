@@ -12,6 +12,48 @@ use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query;
 
+my %fields = (
+    ANTIVIRUS   => [ qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/ ],
+    BATTERIES   => [ qw/CAPACITY CHEMISTRY DATE NAME SERIAL MANUFACTURER
+                        VOLTAGE/ ],
+    CONTROLLERS => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS PCIID
+                        PCISUBSYSTEMID PCISLOT TYPE REV/ ],
+    CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
+                        SPEED/ ],
+    DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER 
+                        SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
+    ENVS        => [ qw/KEY VAL/ ],
+    INPUTS      => [ qw/CAPTION DESCRIPTION INTERFACE LAYOUT POINTTYPE TYPE/ ],
+    MEMORIES    => [qw/CAPACITY CAPTION FORMFACTOR REMOVABLE PURPOSE SPEED
+                       SERIALNUMBER TYPE DESCRIPTION NUMSLOTS/ ],
+    MODEMS      => [ qw/DESCRIPTION NAME/ ],
+    MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
+                        UUENCODE/ ],
+    NETWORKS    => [ qw/DESCRIPTION DRIVER IPADDRESS IPADDRESS6 IPDHCP IPGATEWAY
+                        IPMASK IPSUBNET MACADDR MTU PCISLOT STATUS TYPE 
+                        VIRTUALDEV SLAVES SPEED MANAGEMENT/ ],
+    PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
+    PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
+    REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
+    SLOTS       => [ qw/DESCRIPTION DESIGNATION NAME STATUS/ ],
+    SOFTWARES   => [ qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
+                        NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING 
+                        URL_INFO_ABOUT VERSION VERSION_MINOR VERSION_MAJOR 
+                        IS64BIT GUID/ ],
+    SOUNDS      => [ qw/DESCRIPTION MANUFACTURER NAME/ ],
+    STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
+                        TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
+                        SCSI_UNID SCSI_LUN / ],
+    VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION/ ],
+    USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
+    USERS       => [ qw/LOGIN DOMAIN/ ],
+    PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
+                        SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
+                        PRINTPROCESSOR SERIAL/ ],
+    VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
+                            VMID/ ],
+);
+
 sub new {
     my ($class, $params) = @_;
 
@@ -56,12 +98,13 @@ sub new {
 sub _addEntry {
     my ($self, $params) = @_;
 
-    my $fields = $params->{field};
-    my $sectionName = $params->{sectionName};
+    my $section = $params->{section};
     my $values = $params->{values};
     my $noDuplicated = $params->{noDuplicated};
 
     my $newEntry;
+    my $fields = $fields{$section};
+    die "Unknown section $section" unless $fields;
 
     foreach my $field (@$fields) {
         next unless defined $values->{$field};
@@ -71,7 +114,7 @@ sub _addEntry {
 
     # Don't create two time the same device
     if ($noDuplicated) {
-        ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
+        ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$section}}) {
             foreach my $field (@$fields) {
                 # only test existing keys, to avoid auto-vivification
                 next unless exists $newEntry->{$field};
@@ -83,7 +126,7 @@ sub _addEntry {
         }
     }
 
-    push @{$self->{h}{CONTENT}{$sectionName}}, $newEntry;
+    push @{$self->{h}{CONTENT}{$section}}, $newEntry;
 
     return 1;
 }
@@ -116,84 +159,32 @@ sub _encode {
 sub addController {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPTION
-        DRIVER
-        NAME
-        MANUFACTURER
-        PCICLASS
-        PCIID
-        PCISUBSYSTEMID
-        PCISLOT
-        TYPE
-        REV
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'CONTROLLERS',
-        values      => $args,
+        section => 'CONTROLLERS',
+        values  => $args,
     });
 }
 
 sub addModem {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        DESCRIPTION
-        NAME
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'MODEMS',
-        values      => $args,
+        section => 'MODEMS',
+        values  => $args,
     });
 }
 
 sub addDrive {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CREATEDATE
-        DESCRIPTION
-        FREE
-        FILESYSTEM
-        LABEL
-        LETTER
-        SERIAL
-        SYSTEMDRIVE
-        TOTAL
-        TYPE
-        VOLUMN
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'DRIVES',
-        values      => $args,
+        section => 'DRIVES',
+        values  => $args,
     });
 }
 
 sub addStorage {
     my ($self, $args) = @_;
-
-    my @fields = qw/
-        DESCRIPTION
-        DISKSIZE
-        INTERFACE
-        MANUFACTURER
-        MODEL
-        NAME
-        TYPE
-        SERIAL
-        SERIALNUMBER
-        FIRMWARE
-        SCSI_COID
-        SCSI_CHID
-        SCSI_UNID
-        SCSI_LUN
-    /;
 
     my $values = $args;
     if (!$values->{SERIALNUMBER}) {
@@ -201,79 +192,44 @@ sub addStorage {
     }
 
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'STORAGES',
-        values      => $values,
+        section => 'STORAGES',
+        values  => $values,
     });
 }
 
 sub addMemory {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPACITY
-        CAPTION
-        FORMFACTOR
-        REMOVABLE
-        PURPOSE
-        SPEED
-        SERIALNUMBER
-        TYPE
-        DESCRIPTION
-        NUMSLOTS
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'MEMORIES',
-        values      => $args,
+        section => 'MEMORIES',
+        values  => $args,
     });
 }
 
 sub addPort {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPTION
-        DESCRIPTION
-        NAME
-        TYPE
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'PORTS',
-        values      => $args,
+        section => 'PORTS',
+        values  => $args,
     });
 }
 
 sub addSlot {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        DESCRIPTION
-        DESIGNATION
-        NAME
-        STATUS
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'SLOTS',
-        values      => $args,
+        section => 'SLOTS',
+        values  => $args,
     });
 }
 
 sub addSoftware {
     my ($self, $args) = @_;
 
-    my @fields = qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
-    NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING URL_INFO_ABOUT VERSION
-    VERSION_MINOR VERSION_MAJOR IS64BIT GUID/;
 
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'SOFTWARES',
+        section      => 'SOFTWARES',
         values       => $args,
         noDuplicated => 1
     });
@@ -282,35 +238,17 @@ sub addSoftware {
 sub addMonitor {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        BASE64
-        CAPTION
-        DESCRIPTION
-        MANUFACTURER
-        SERIAL
-        UUENCODE
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'MONITORS',
-        values      => $args,
+        section => 'MONITORS',
+        values  => $args,
     });
 }
 
 sub addVideo {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CHIPSET
-        MEMORY
-        NAME
-        RESOLUTION
-    /;
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'VIDEOS',
+        section      => 'VIDEOS',
         values       => $args,
         noDuplicated => 1
     });
@@ -320,46 +258,17 @@ sub addVideo {
 sub addSound {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        DESCRIPTION
-        MANUFACTURER
-        NAME
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'SOUNDS',
-        values      => $args,
+        section => 'SOUNDS',
+        values  => $args,
     });
 }
 
 sub addNetwork {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        DESCRIPTION
-        DRIVER
-        IPADDRESS
-        IPADDRESS6
-        IPDHCP
-        IPGATEWAY
-        IPMASK
-        IPSUBNET
-        MACADDR
-        MTU
-        PCISLOT
-        STATUS
-        TYPE
-        VIRTUALDEV
-        SLAVES
-        SPEED
-        MANAGEMENT
-    /;
-
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'NETWORKS',
+        section      => 'NETWORKS',
         values       => $args,
         noDuplicated => 1
     });
@@ -407,22 +316,9 @@ sub setBios {
 sub addCPU {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CACHE
-        CORE
-        DESCRIPTION
-        MANUFACTURER
-        NAME
-        THREAD
-        SERIAL
-        SPEED
-    /;
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'CPUS',
-        values       => $args,
-        noDuplicated => 0
+        section => 'CPUS',
+        values  => $args,
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -441,16 +337,10 @@ sub addCPU {
 sub addUser {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        LOGIN
-        DOMAIN
-    /;
-
     return unless $args->{LOGIN};
 
     return unless $self->_addEntry({
-        'field'        => \@fields,
-        'sectionName'  => 'USERS',
+        'section'      => 'USERS',
         'values'       => $args,
         'noDuplicated' => 1
     });
@@ -482,27 +372,9 @@ sub addUser {
 sub addPrinter {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        COMMENT
-        DESCRIPTION
-        DRIVER
-        NAME
-        NETWORK
-        PORT
-        RESOLUTION
-        SHARED
-        STATUS
-        ERRSTATUS
-        SERVERNAME
-        SHARENAME
-        PRINTPROCESSOR
-        SERIAL
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'PRINTERS',
-        values      => $args,
+        section => 'PRINTERS',
+        values  => $args,
     });
 }
 
@@ -511,17 +383,6 @@ sub addVirtualMachine {
 
     my $logger = $self->{logger};
 
-    my @fields = qw/
-        MEMORY
-        NAME
-        UUID
-        STATUS
-        SUBSYSTEM
-        VMTYPE
-        VCPU
-        VMID
-    /;
-
     if (!$args->{STATUS}) {
         $logger->error("status not set by ".caller(0));
     } elsif (!$args->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
@@ -529,9 +390,8 @@ sub addVirtualMachine {
     }
 
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'VIRTUALMACHINES',
-        values      => $args,
+        section => 'VIRTUALMACHINES',
+        values  => $args,
     });
 
 }
@@ -539,67 +399,36 @@ sub addVirtualMachine {
 sub addProcess {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        USER
-        PID
-        CPUUSAGE
-        MEM
-        VIRTUALMEMORY
-        TTY
-        STARTED
-        CMD
-    /;
-
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'PROCESSES',
-        values      => $args,
+        section => 'PROCESSES',
+        values  => $args,
     });
 }
 
 sub addInput {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPTION
-        DESCRIPTION
-        INTERFACE
-        LAYOUT
-        POINTTYPE
-        TYPE
-    /;
 
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'INPUTS',
-        values      => $args,
+        section => 'INPUTS',
+        values  => $args,
     });
 }
 
 sub addEnv {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        KEY
-        VAL
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'ENVS',
-        values      => $args,
+        section => 'ENVS',
+        values  => $args,
     });
 }
 
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    my @fields = qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/;
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'USBDEVICES',
+        section      => 'USBDEVICES',
         values       => $args,
         noDuplicated => 1
     });
@@ -608,47 +437,26 @@ sub addUSBDevice {
 sub addBattery {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPACITY
-        CHEMISTRY
-        DATE
-        NAME
-        SERIAL
-        MANUFACTURER
-        VOLTAGE
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'BATTERIES',
-        values      => $args,
+        section => 'BATTERIES',
+        values  => $args,
     });
 }
 
 sub addRegistry {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        NAME
-        REGVALUE
-        HIVE
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'REGISTRY',
-        values      => $args,
+        section => 'REGISTRY',
+        values  => $args,
     });
 }
 
 sub addAntiVirus {
     my ($self, $args) = @_;
 
-    my @fields = qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/;
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'ANTIVIRUS',
+        section      => 'ANTIVIRUS',
         values       => $args,
         noDuplicated => 1
     });
