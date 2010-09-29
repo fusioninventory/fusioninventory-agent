@@ -24,6 +24,7 @@ my $default = {
     'devlib'                  => 0,
     'force'                   => 0,
     'help'                    => 0,
+    'html'                    => 0,
     'format'                  => 'xml',
     'info'                    => 1,
     'lazy'                    => 0,
@@ -292,6 +293,12 @@ sub _checkContent {
             "the parameter --daemon-no-fork is deprecated, use --daemon --no-fork instead\n";
         $self->{daemon} = 1;
         $self->{'no-fork'} = 1;
+    }
+
+    if (defined $self->{html}) {
+        print STDERR
+            "the parameter --html is deprecated, use --format html instead\n";
+        $self->{format} = 'html';
     }
 
     if ($self->{'share-dir'}) {
