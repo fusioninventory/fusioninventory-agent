@@ -53,3 +53,8 @@ from the base class C<FusionInventory::Agent::Target>:
 =item path: output directory path
 
 =back
+
+=head2 getPath()
+
+Return the local output directory for this target.
+

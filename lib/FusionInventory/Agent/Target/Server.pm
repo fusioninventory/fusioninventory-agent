@@ -62,7 +62,7 @@ sub _load {
     $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
 }
 
-sub checkpoint {
+sub saveState {
     my ($self) = @_;
 
     $self->{storage}->save({
@@ -107,3 +107,7 @@ Get account informations for this target.
 =head2 setAccountInfo($info)
 
 Set account informations for this target.
+
+=head2 getUrl()
+
+Return the server URL for this target.

@@ -21,7 +21,6 @@ our @EXPORT = qw(
     getIpDhcp
     getPackagesFromCommand
     compareVersion
-    cleanUnknownValues
     can_run
     can_load
 );

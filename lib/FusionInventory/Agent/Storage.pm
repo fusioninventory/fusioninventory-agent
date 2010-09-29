@@ -108,11 +108,9 @@ FusionInventory::Agent::Storage - A data serializer/deserializer
 
 =head1 Description
 
-This is the object used by the agent to save data to ensure persistancy between
-invocations.
-
-Each data structure is saved in a different file name, based on invocant
-module name.
+This is the object used by the agent to ensure data persistancy between
+invocations. Each data structure is saved in a file, whose name is automatically
+determined according to object class name.
 
 =head1 SYNOPSIS
 
@@ -167,3 +165,7 @@ Restore a saved data structure. The following arguments are allowed:
 The name of the module which saved the data structure (mandatory).
 
 =back
+
+=head2 getDirectory
+
+Returns the underlying directory for this storage.

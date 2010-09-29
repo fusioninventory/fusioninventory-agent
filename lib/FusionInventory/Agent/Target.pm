@@ -157,6 +157,10 @@ Set nextRunDate attribute.
 Re-schedule the target to current time + given offset. If offset is not given,
 it's computed randomly as: (maxOffset / 2) + rand(maxOffset / 2)
 
+=head2 getStorage()
+
+Return the storage object for this target.
+
 =head2 saveState()
 
 Save persistant part of current state.
