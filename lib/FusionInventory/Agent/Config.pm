@@ -210,6 +210,7 @@ sub _loadUserParams {
         'force|f',
         'format=s',
         'help|h',
+        'html',
         'info|i',
         'lazy',
         'local|l=s',
