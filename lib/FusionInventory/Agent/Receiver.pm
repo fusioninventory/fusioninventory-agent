@@ -16,6 +16,7 @@ sub new {
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
         ip              => $params->{ip},
+        port            => $params->{port},
         trust_localhost => $params->{trust_localhost},
     };
 
@@ -216,7 +217,7 @@ sub _server {
 
     my $daemon = HTTP::Daemon->new(
         LocalAddr => $self->{ip},
-        LocalPort => 62354,
+        LocalPort => $self->{port},
         Reuse     => 1,
         Timeout   => 5
     );
@@ -226,7 +227,7 @@ sub _server {
         return;
     } 
     $logger->info(
-        "[WWW] Service started at: http://$self->{ip}:62354"
+        "[WWW] Service started at: http://$self->{ip}:$self->{port}"
     );
 
     while (1) {
@@ -251,8 +252,8 @@ FusionInventory::Agent::Receiver - An HTTP message receiver
 This is the object used by the agent to listen on the network for messages sent
 by OCS or GLPI servers.
 
-It is an HTTP server listening on port 62354. The following requests are
-accepted:
+It is an HTTP server listening on port 62354 (by default). The following
+requests are accepted:
 
 =over
 

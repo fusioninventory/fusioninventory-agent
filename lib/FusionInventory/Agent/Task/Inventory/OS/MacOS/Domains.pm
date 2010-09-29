@@ -13,7 +13,7 @@ use Sys::Hostname;
 sub isInventoryEnabled {
     my $hostname = hostname();
     return 
-        (index $hostname, '.' >= 0) || # look for a dot in hostname
+        (index $hostname, '.') >= 0 || # look for a dot in hostname
         -f "/etc/resolv.conf"
 }
 

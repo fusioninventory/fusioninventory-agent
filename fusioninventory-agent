@@ -335,7 +335,6 @@ needed.
 
 Print the inventory on stdout.
 
-=back
 
 =head2 Task selection options
 
@@ -469,8 +468,11 @@ Do not use the web interface.
 
 =item B<--www-ip>=I<IP>
 
-The network interface used by the web interface. By default, the web interface
-listen to all available network interfaces.
+The network interface used by the web interface (default: all interfaces).
+
+=item B<--www-port>=I<PORT>
+
+The network port used by the web interface (default: 62354).
 
 =item B<--www-trust-localhost>
 
@@ -591,10 +593,10 @@ Print the version and exit.
 
 =back
 
-=head1 CONFIG FILE
+=head1 CONFIGURATION
 
 The agent try to initialize the settings from the B<agent.cfg>
-config file.
+configuration file.
 
 It looks for the file in these location:
 
@@ -612,8 +614,11 @@ It looks for the file in these location:
 
 You can use the B<--conf-file=XXX> parameter to load you own configuration
 file from a specific location.
-On Windows the settings are loaded from the Registry. The configuration file
-is ignored.
+
+On Windows the settings are loaded from the registry, and the configuration
+file is ignored. The information is stored in
+HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent for 32bits hosts, and in 
+HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent for 64bits hosts.
 
 The command line parameters overwrite the configuration file.
 

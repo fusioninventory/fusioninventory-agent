@@ -204,6 +204,7 @@ sub new {
                 devlib    => $config->{devlib},
                 share_dir => $config->{'share-dir'},
                 ip        => $config->{'www-ip'},
+                port      => $config->{'www-port'},
                 trust_localhost => $config->{'www-trust-localhost'},
             });
         }

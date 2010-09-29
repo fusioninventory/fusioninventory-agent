@@ -53,6 +53,7 @@ my $default = {
     'wait'                    => '',
     'scan-homedirs'           => 0,
     'www-ip'                  => undef,
+    'www-port'                => '62354',
     'www-trust-localhost'     => 1
 };
 
@@ -242,6 +243,7 @@ sub _loadUserParams {
         'version',
         'wait|w=s',
         'www-ip=s',
+        'www-port=s',
         'www-trust-localhost',
     );
 

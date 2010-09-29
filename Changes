@@ -5,11 +5,12 @@ Revision history for FusionInventory::Agent
        * Ensure local targets restore previous state (bug #360)
        * Don't use a fixed realm anymore for HTTP authentication, but replays
          automatically any request requiring authentication with given realm
-       * Make --no-socket parameter deprecated (use --no-rpc instead)
+       * Make --no-socket parameter deprecated (use --no-www instead)
        * Make --daemon-no-fork parameter deprecated (use --daemon --no-fork
          instead)
        * Make --realm parameter deprecated (not needed anymore, realm is 
          automatically computed)
+       * Add --www-port parameter
        * Drop deprecated --remotedir, --nosoft and --nosoftware parameters
        * Large code cleanup:
          - factorize many command output or file content parsing
@@ -28,8 +29,8 @@ Revision history for FusionInventory::Agent
        * Change RPM inventory to not add architecture to package name, as for
          the Deb inventory
        * Add fusioninventory-injector
-       * Split Tools::getIpDhcp() in findDhcpLeaseFile() and parseDhcpLeaseFile()
-         and add a test-suite
+       * Split Tools::getIpDhcp() in findDhcpLeaseFile() and
+         parseDhcpLeaseFile() and add a test
 
 2.1.6
        * Ensure the RPC serivce URL printed in the log message targets
@@ -37,6 +38,13 @@ Revision history for FusionInventory::Agent
        * Restore the Storage even if the target is not a server.
          Enable --tag and keep the DeviceID
        * fix 2.1.5 regression, correctly initialise $basevardir default value
+       * POD, explain the registry is used on Windows, thanks Stéphane URBANOVSKI
+       * Add support for MontaVista Linux, thanks Luka KODRIC
+       * BSD: Fix a syntax error in Domain
+       * BSD: Some adjustement for Debian GNU/kFreeBSD
+       * BSD: avoid warning if the lease file can't be parsed
+       * BSD: Drives.pm hide, df messages on STDERR
+       * BSD: convert the IP mask from hex to dec
 
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
