@@ -100,10 +100,10 @@ sub mkFullServerUrl {
 
     my $server = shift;
 
-    my $ret = 'http://' unless $server =~ /^http(s|):\/\//;
+    my $ret = 'http://' unless $server =~ m{^https?://};
     $ret .= $server;
 
-    if ($server !~ /http(|s):\/\/\S+\/\S+/) {
+    if ($server !~ m{^https?://\S+/\S+}) {
         $ret .= '/ocsinventory';
     }
 
