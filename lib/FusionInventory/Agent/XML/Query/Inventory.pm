@@ -549,39 +549,42 @@ EOF
 
     my $htmlBody;
 
-    foreach my $section (sort keys %{$self->{h}{CONTENT}}) {
-        next if $section eq 'VERSIONCLIENT';
+    foreach my $section (qw/ACCESSLOG HARDWARE BIOS /) {
+        my $content = $self->{h}{CONTENT}->{$section};
 
         $htmlBody .= "<h2>$section</h2>\n";
 
-        my $content = $self->{h}{CONTENT}->{$section};
+        $htmlBody .= "<ul>\n";
+        foreach my $key (sort keys %{$content}) {
+            $htmlBody .= "<li>$key: $content->{$key}</li>\n";
+        }
+        $htmlBody .= "</ul>\n";
+    }
 
-        if (ref($content) eq 'ARRAY') {
-            my $fields = $fields{$section};
-            $htmlBody .= "<table width=\"100\%\">\n";
-            $htmlBody .= "<tr>\n";
+    foreach my $section (sort keys %fields) {
+        my $content = $self->{h}{CONTENT}->{$section};
+        next unless $content && @$content;
+
+        $htmlBody .= "<h2>$section</h2>\n";
+
+        my $fields = $fields{$section};
+        $htmlBody .= "<table width=\"100\%\">\n";
+        $htmlBody .= "<tr>\n";
+        foreach my $field (@$fields) {
+            $htmlBody .= "<th>" . lc($field). "</th>\n";
+        }
+        $htmlBody .= "</tr>\n";
+
+        my $count = 0;
+        foreach my $item (@$content) {
+            my $class = $count++ % 2 ? 'odd' : 'even';      
+            $htmlBody .= "<tr class=\"$class\">\n";
             foreach my $field (@$fields) {
-                $htmlBody .= "<th>" . lc($field). "</th>\n";
+                $htmlBody .= "<td>" . ($item->{$field} || "" ). "</td>\n";
             }
             $htmlBody .= "</tr>\n";
-            my $count = 0;
-            foreach my $item (@$content) {
-                my $class = $count++ % 2 ? 'odd' : 'even';      
-                $htmlBody .= "<tr class=\"$class\">\n";
-                foreach my $field (@$fields) {
-                    $htmlBody .= "<td>" . ($item->{$field} || "" ). "</td>\n";
-                }
-                $htmlBody .= "</tr>\n";
-
-            }
-            $htmlBody .= "</table>\n";
-        } else {
-            $htmlBody .= "<ul>\n";
-            foreach my $key (sort keys %{$content}) {
-                $htmlBody .= "<li>$key: $content->{$key}</li>\n";
-            }
-            $htmlBody .= "</ul>\n";
         }
+        $htmlBody .= "</table>\n";
     }
 
     return $htmlHeader . $htmlBody . $htmlFooter;
