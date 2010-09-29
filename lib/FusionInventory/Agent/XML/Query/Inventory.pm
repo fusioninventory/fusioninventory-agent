@@ -526,6 +526,16 @@ sub getContentAsHTML {
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
     <title>FusionInventory-Agent $self->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <style type="text/css">
+<!--/* <![CDATA[ */
+ tr.odd { 
+    background-color:white;
+}
+tr.even { 
+    background-color:silver;
+}
+/* ]]> */-->
+    </style>
 </head>
 <body>
     <h1>Inventory for $self->{deviceid}</h1>
@@ -536,47 +546,39 @@ EOF
 </body>
 </html>
 EOF
-    my %itemNames = (
-        BATTERIES   => 'battery',
-        CONTROLLERS => 'controller',
-        DRIVES      => 'drive',
-        CPUS        => 'cpu',
-        SOFTWARES   => 'software',
-        ENVS        => 'environment variable',
-        PROCESSES   => 'process',
-        USERS       => 'user',
-        VIDEOS      => 'video card',
-        SOUNDS      => 'sound card',
-        STORAGES    => 'storage',
-        USBDEVICES  => 'USB device',
-        VIRTUALMACHINES  => 'virtual machine'
-    );
 
     my $htmlBody;
 
-    foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
-        next if $sectionName eq 'VERSIONCLIENT';
+    foreach my $section (sort keys %{$self->{h}{CONTENT}}) {
+        next if $section eq 'VERSIONCLIENT';
 
-        $htmlBody .= "<h2>$sectionName</h2>\n";
+        $htmlBody .= "<h2>$section</h2>\n";
 
-        my $section = $self->{h}{CONTENT}->{$sectionName};
+        my $content = $self->{h}{CONTENT}->{$section};
 
-        if (ref($section) eq 'ARRAY') {
-            my $itemName = $itemNames{$sectionName} || 'item';
-            $htmlBody .= "<ul>\n";
-            foreach my $item (@{$section}) {
-                $htmlBody .= "<li>$itemName:<ul>\n";
-                foreach my $key (sort keys %{$item}) {
-                    $htmlBody .= "<li>$key: $item->{$key}</li>\n";
+        if (ref($content) eq 'ARRAY') {
+            my $fields = $fields{$section};
+            $htmlBody .= "<table width=\"100\%\">\n";
+            $htmlBody .= "<tr>\n";
+            foreach my $field (@$fields) {
+                $htmlBody .= "<th>" . lc($field). "</th>\n";
+            }
+            $htmlBody .= "</tr>\n";
+            my $count = 0;
+            foreach my $item (@$content) {
+                my $class = $count++ % 2 ? 'odd' : 'even';      
+                $htmlBody .= "<tr class=\"$class\">\n";
+                foreach my $field (@$fields) {
+                    $htmlBody .= "<td>" . ($item->{$field} || "" ). "</td>\n";
                 }
-                $htmlBody .= "</ul>\n</li>\n";
+                $htmlBody .= "</tr>\n";
 
             }
-            $htmlBody .= "</ul>\n";
+            $htmlBody .= "</table>\n";
         } else {
             $htmlBody .= "<ul>\n";
-            foreach my $key (sort keys %{$section}) {
-                $htmlBody .= "<li>$key: $section->{$key}</li>\n";
+            foreach my $key (sort keys %{$content}) {
+                $htmlBody .= "<li>$key: $content->{$key}</li>\n";
             }
             $htmlBody .= "</ul>\n";
         }
