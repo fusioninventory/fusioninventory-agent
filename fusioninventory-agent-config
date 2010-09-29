@@ -1,18 +1,20 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use strict;
-
+use warnings;
 use lib 'lib';
 
+use English qw(-no_match_vars);
 use File::Path;
 use UNIVERSAL::require;
+
 use FusionInventory::Agent::Config;
 
 # DEB/RPM/... maintainers, turn this to '1'
 my $packaged = 0;
 
 my $config;
-my @cacert;
+my $certContent;
 my $randomtime;
 my $cron_line;
 
@@ -155,45 +157,46 @@ if (-f $oldOcsConfigdir.'/ocsinv.conf' &&
     my $ocsinv = XMLin($oldOcsConfigdir.'/ocsinv.conf');
     $config->{server} = mkFullServerUrl($ocsinv->{'OCSFSERVER'});
 
-    if (-f $oldOcsConfigdir.'/cacert.pem') {
-        open CACERT, $oldOcsConfigdir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
-        @cacert = <CACERT>;
-        close CACERT;
+    my $certFile = $oldOcsConfigdir . '/cacert.pem';
+    if (-f $certFile) {
+        local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+        open my $fh, '<', $certFile
+            or die "Can't open the certificate file $certFile: $!";
+        $certContent = <$fh>;
+        close $fh;
     }
 
-    my $admcontent = '';
+    my $admFile = $oldOcsConfigdir . '/ocsinv.adm';
+    if (-f $admFile) {
+        local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+        open my $fh, '<:encoding(iso-8859-1)', $admFile
+            or die "Can't open the inventory file $admFile: $!";
+        my $admContent = <$fh>;
+        close $fh;
 
-
-    if (-f "$oldOcsConfigdir/ocsinv.adm") {
-        if (!open(ADM, "<:encoding(iso-8859-1)", "$oldOcsConfigdir/ocsinv.adm")) {
-            warn "Can't open $oldOcsConfigdir/ocsinv.adm";
-        } else {
-            $admcontent .= $_ foreach (<ADM>);
-            close ADM;
-            my $admdata = XMLin($admcontent) or die;
-            if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
-                foreach (@{$admdata->{ACCOUNTINFO}}) {
-                    $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
-                }
-            } elsif (
-                exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
-                exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
-                $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
-            ) {
-                print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
-                $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
+        my $admdata = XMLin($admContent) or die;
+        if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
+            foreach (@{$admdata->{ACCOUNTINFO}}) {
+                $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
             }
+        } elsif (
+            exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
+            exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
+            $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
+        ) {
+            print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
+            $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
         }
     }
 }
 
 foreach ($newConfigFile, $ocsConfigFile) {
     if (-f $_) {
-        open (CONFIG, "<".$_) or
-        die "Can't open ".$_.": ".$!;
+        open my $fh, '<', $_
+            or die "Can't open $_: $!";
         print "Load settings from $_\n";
 
-        foreach (<CONFIG>) {
+        foreach (<$fh>) {
             s/#.+//;
             if (/(\w+)\s*=\s*(.+)/) {
                 my $key = $1;
@@ -205,7 +208,7 @@ foreach ($newConfigFile, $ocsConfigFile) {
                 $config->{$key} = $val;
             }
         }
-        close CONFIG;
+        close $fh;
         last;
     }
 }
@@ -266,19 +269,22 @@ if (!$packaged) {
             $cron_line =~ s/ root /  /;
             $crontab .= $cron_line;
 
-            open CRONP, "| crontab" || die "Can't run crontab: $!";
-            print CRONP $crontab;
-            close(CRONP);
+            open my $fh, '|-', 'crontab'
+                or die "Can't run crontab: $!";
+            print $fh $crontab;
+            close $fh;
 
         }
     } elsif (-d "/etc/cron.d") {
         if (ask_yn("Do yo want to install the cron task in /etc/cron.d", 'y')) {
 
-            open DEST, '>/etc/cron.d/fusioninventory-agent' or die $!;
+            my $file = '/etc/cron.d/fusioninventory-agent';
+            open my $fh, '>', $file
+                or die "Can't open $file: $!";
             # Save the root PATH
-            print DEST "PATH=".$ENV{PATH}."\n";
-            print DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
-            close DEST;
+            print $fh "PATH=$ENV{PATH}\n";
+            print $fh $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
+            close $fh;
         }
     }
 
@@ -359,18 +365,23 @@ if (!$packaged) {
         die "Can't create $vardir!";
     }
 
-    if (@cacert) { # we need to migrate the certificat
-        open CACERT, ">".$vardir."/cacert.pem" or die "Can't open ".$vardir.'/cacert.pem: '.$!;
-        print CACERT foreach (@cacert);
-        close CACERT;
-        print "Certificat copied in ".$vardir."/cacert.pem\n";
+    if ($certContent) {
+        # we need to migrate the certificat
+        my $certFile = $vardir . '/cacert.pem';
+        open my $fh, '>', $certFile
+            or die "Can't open $certFile: $!";
+        print $fh $certContent;
+        close $fh;
+        print "Certificat copied in $certFile\n";
     }
 }
 
-open CONFIG, ">$defaultConfigDir/$defaultCfgFile" or die "Can't write the config file in $defaultConfigDir/$defaultCfgFile: ".$!;
-print CONFIG $_."=".$config->{$_}."\n" foreach (keys %$config);
-close CONFIG;
-chmod 0600, "$defaultConfigDir/$defaultCfgFile";
+my $file = $defaultConfigDir/$defaultCfgFile;
+open my $fh, '>', $file
+    or die "Can't write the config file in $file: $!";
+print $fh "$_ = $config->{$_}\n" foreach (keys %$config);
+close $fh;
+chmod 0600, $file;
 
 if (ask_yn("Do you want to send an inventory of this machine?", 'y')) {
     system("$binpath --force");
