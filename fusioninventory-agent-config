@@ -97,15 +97,12 @@ sub pickConfigdir {
 }
 
 sub mkFullServerUrl {
-
     my $server = shift;
 
-    my $ret = 'http://' unless $server =~ m{^https?://};
-    $ret .= $server;
-
-    if ($server !~ m{^https?://\S+/\S+}) {
-        $ret .= '/ocsinventory';
-    }
+    my $ret = 
+        ($server !~ m{^https?://}        ? 'http://'       : '')  .
+        $server                                                   .
+        ($server !~ m{^https?://\S+/\S+} ? '/ocsinventory' : '')
 
     return $ret;
 
