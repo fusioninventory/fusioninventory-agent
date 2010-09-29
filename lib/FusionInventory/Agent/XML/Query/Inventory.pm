@@ -826,7 +826,9 @@ Return the inventory as a XML string.
 
 =head2 getContentAsHTML()
 
-=item writeXML()
+Return the inventory as an HTML string.
+
+=head2 writeXML()
 
 Save the generated inventory as an XML file. The 'local' key of the config
 is used to know where the file as to be saved.
