@@ -20,11 +20,11 @@ sub main {
     my $logger = $self->{logger};
     my $scheduler = $self->{scheduler};
 
-    my $host = $request->uri->host;
+    my $remote_ip = $request->connection->remote_ip;
     
     $response->code(RC_OK);
 
-    if ($host ne hostname()) {
+    if ($remote_ip ne '127.0.0.1') {
         $response->content("Forbidden");
         $response->code(403);
         return;
@@ -101,14 +101,13 @@ sub now {
     my $scheduler = $self->{scheduler};
     
     my $path = $request->uri->path;
-    my $host = $request->uri->host;
+    my $remote_ip = $request->connection->remote_ip;
 
     # now request
-    if ($path =~ m{^/now(?:/(\S+))?$}) {
-        my $sentToken = $1;
-
+    if ($path =~ m{^/now(/|)(\S+)?$}) {
+        my $sentToken = $2;
         my $result;
-        if ($host ne hostname() && $self->{rpc_trust_localhost}) {
+        if ($remote_ip eq '127.0.0.1' && $self->{rpc_trust_localhost}) {
             # trusted request
             $result = "ok";
         } else {
@@ -135,15 +134,30 @@ sub now {
         my ($code, $message);
         if ($result eq "ok") {
             $scheduler->scheduleTargets(0);
-            $code    = 200;
+            $response->code(200);
             $message = "Done."
         } else {
-            $code    = 403;
+            $response->code(403);
             $message = "Access denied: $result.";
         }
 
         my $output = "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>";
         $response->content($output);
+
+    }
+}
+
+sub files {
+    my ($self, $request, $response) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    my $path = $request->uri->path;
+
+    if ($path =~ /^\/files(.*)/) {
+        $self->sendFile($response, $self->{htmlDir}.$1);
+        return;
 
     }
 }
@@ -225,7 +239,8 @@ sub new {
         ContentHandler => {
             '/' => sub { $self->main(@_) },
             '/deploy/' => sub { $self->deploy(@_) },
-            '/file' => sub { print "/file" }
+            '/now' => sub { $self->now(@_) },
+            '/files/' => sub { $self->files(@_) },
         },
         StreamHandler  => sub { $self->stream(@_) },
         Headers => { Server => 'FusionInventory Agent' },

@@ -3,12 +3,12 @@
 
 <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 <title>FusionInventory-Agent</title>
-<link rel="stylesheet" href="site.css" type="text/css" />
+<link rel="stylesheet" href="/files/site.css" type="text/css" />
 
 </head>
 <body>
 
-<img src="/logo.png" alt="FusionInventory" />
+<img src="/files/logo.png" alt="FusionInventory" />
 <br />
 This is FusionInventory Agent %%AGENT_VERSION%%<br />
 The current status is "%%STATUS%%"<br />
