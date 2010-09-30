@@ -75,12 +75,9 @@ sub deploy {
     
     my $path = $request->uri->path;
 
-print $path."\n";
-
     if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
         my $file = $1;
         foreach my $target (@{$scheduler->{targets}}) {
-            print $target->{vardir}."\n";
             if (-f $target->{vardir}."/deploy/".$file) {
                 $logger->debug("Send /deploy/".$file);
 # XXX TODO
@@ -174,7 +171,6 @@ sub sendFile {
         return;
     }
     binmode($fh);
-print \$response."\n";
     $self->{todo}{$response->{connection}{my_id}} = $fh;
 
 
@@ -195,7 +191,6 @@ sub stream {
     $response->send($buffer);
    
     if (!$dataRemain) {
-print "finish\n";
         close($fh);
         $response->streaming(0);
         $response->close;
