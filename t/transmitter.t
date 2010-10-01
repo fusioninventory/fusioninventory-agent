@@ -28,7 +28,7 @@ my $logger = FusionInventory::Logger->new({
 });
 
 my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-    target => { deviceid =>  'foo' },
+    deviceid => 'foo',
     msg => {
         foo => 'foo',
         bar => 'bar'
@@ -139,8 +139,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/httpd/conf/ssl/crt/good.pem',
-    key      => 't/httpd/conf/ssl/key/good.pem',
+    crt      => 't/ssl/crt/good.pem',
+    key      => 't/ssl/key/good.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -308,8 +308,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/httpd/conf/ssl/crt/good.pem',
-    key      => 't/httpd/conf/ssl/key/good.pem',
+    crt      => 't/ssl/crt/good.pem',
+    key      => 't/ssl/key/good.pem',
 );
 $server->set_dispatch({
     '/public'  => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR}; },
@@ -364,10 +364,10 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => 'https://localhost:8080/public',
-        logger         => $logger,
-        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
-        proxy          => $proxy->url()
+        url          => 'https://localhost:8080/public',
+        logger       => $logger,
+        ca_cert_file => 't/ssl/crt/ca.pem',
+        proxy        => $proxy->url()
     });
 } 'instanciation: https';
 
@@ -377,10 +377,10 @@ subtest "correct response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => 'https://localhost:8080/private',
-        logger         => $logger,
-        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
-        proxy          => $proxy->url()
+        url          => 'https://localhost:8080/private',
+        logger       => $logger,
+        ca_cert_file => 't/ssl/crt/ca.pem',
+        proxy        => $proxy->url()
     });
 } 'instanciation: https, proxy, auth, no credentials';
 
@@ -394,12 +394,12 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url            => 'https://localhost:8080/private',
-        user           => 'test',
-        password       => 'test',
-        logger         => $logger,
-        'ca-cert-file' => 't/httpd/conf/ssl/crt/ca.pem',
-        proxy          => $proxy->url()
+        url          => 'https://localhost:8080/private',
+        user         => 'test',
+        password     => 'test',
+        logger       => $logger,
+        ca_cert_file => 't/ssl/crt/ca.pem',
+        proxy        => $proxy->url()
     });
 } 'instanciation: https, proxy, auth, credentials';
 

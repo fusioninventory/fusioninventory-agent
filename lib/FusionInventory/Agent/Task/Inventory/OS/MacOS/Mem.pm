@@ -56,8 +56,6 @@ sub _getMemories {
             CAPACITY     => getCanonicalSize($info->{'Size'})
         };
 
-        cleanUnknownValues($memory);
-
         push @$memories, $memory;
     }
 

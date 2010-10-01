@@ -3,21 +3,28 @@ package FusionInventory::Agent::Storage;
 use strict;
 use warnings;
 
-use threads;
-use threads::shared;
-
 use English qw(-no_match_vars);
 use File::Glob ':glob';
+use File::Path qw(make_path);
 use Storable;
-
-my $lock :shared;
 
 sub new {
     my ($class, $params) = @_;
 
+    if (!-d $params->{directory}) {
+        make_path($params->{directory}, {error => \my $err});
+        if (@$err) {
+            die "Can't create $params->{directory}";
+        }
+    }
+
+    if (! -w $params->{directory}) {
+        die "Can't write in $params->{directory}";
+    }
+
     my $self = {
-        config => $params->{config},
-        target => $params->{target}
+        logger    => $params->{logger},
+        directory => $params->{directory}
     };
     bless $self, $class;
 
@@ -28,40 +35,20 @@ sub save {
     my ($self, $params) = @_;
 
     my $data = $params->{data};
-    my $idx = $params->{idx};
 
-    lock($lock);
-
-    my $filePath = $self->_getFilePath({ idx => $idx });
-#    print "[storage]save data in:". $filePath."\n";
-
-    my $oldMask;
-
-    if ($OSNAME ne 'MSWin32') {
-        $oldMask = umask();
-        umask(oct(77));
-    }
-    # TODO: restrict access to temp file under windows
+    my $filePath = $self->_getFilePath();
 
     store ($data, $filePath) or warn;
-    
-    if ($OSNAME ne 'MSWin32') {
-        umask $oldMask;
-    }
-
 }
 
 sub restore {
     my ($self, $params ) = @_;
 
     my $module = $params->{module};
-    my $idx = $params->{idx};
 
     my $filePath = $self->_getFilePath({
         module => $module,
-        idx => $idx
     });
-    #print "[storage]restore data from: $filePath\n";
 
     if (-f $filePath) {
         return retrieve($filePath);
@@ -70,62 +57,21 @@ sub restore {
     return {};
 }
 
-sub remove {
-    my ($self, $params) = @_;
+sub getDirectory {
+    my ($self) = @_;
 
-    my $idx = $params->{idx};
-    
-    my $filePath = $self->_getFilePath({ idx => $idx });
-    #print "[storage] delete $filePath\n";
-
-    if (!unlink($filePath)) {
-        #print "[storage] failed to delete $filePath\n";
-    }
-}
-
-sub removeAll {
-    my ($self, $params) = @_;
-    
-    my $idx = $params->{idx};
-
-    my $filePath = $self->_getFilePath({ idx => $idx });
-    #print "[storage] delete $filePath\n";
-
-    if (!unlink($filePath)) {
-        #print "[storage] failed to delete $filePath\n";
-    }
-}
-
-sub removeSubDumps {
-    my ($self, $params) = @_;
-   
-    my $module = $params->{module};
-
-    my $fileDir = $self->_getFileDir();
-    my $fileName = $self->_getFileName({ module => $module });
-
-    foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
-        unlink($file) or warn "[error] Can't unlink $file\n";
-    }
+    return $self->{directory};
 }
 
 sub _getFilePath {
     my ($self, $params) = @_;
 
-    my $target = $self->{target};
-    my $config = $self->{config};
-
-    my $idx = $params->{idx};
-    if ($idx && $idx !~ /^\d+$/) {
-        die "[fault] idx must be an integer!\n";
-    } 
     my $module = $params->{module};
 
     my $path = 
-        $self->_getFileDir() . 
+        $self->{directory} .
         '/' . 
         $self->_getFileName({ module => $module }) .
-        ($idx ? ".$idx" : "" ) .
         '.dump';
 
     return $path;
@@ -153,17 +99,6 @@ sub _getFileName {
     return $name;
 }
 
-sub _getFileDir {
-    my ($self, $params) = @_;
-
-    my $dir = 
-        $self->{target} ? $self->{target}->{vardir}     : 
-        $self->{config} ? $self->{config}->{basevardir} : 
-                          undef;
-
-    return $dir;
-}
-
 1;
 __END__
 
@@ -173,23 +108,18 @@ FusionInventory::Agent::Storage - A data serializer/deserializer
 
 =head1 Description
 
-This is the object used by the agent to save data in the variable data
-directory, to ensure persistancy between invocations.
-
-Each data structure is saved in a different subdirectory, based on invocant
-module name. An optional index number can be used to differentiate between
-consecutives usages.
+This is the object used by the agent to ensure data persistancy between
+invocations. Each data structure is saved in a file, whose name is automatically
+determined according to object class name.
 
 =head1 SYNOPSIS
 
   my $storage = FusionInventory::Agent::Storage->new({
-      target => {
-          vardir => $ARGV[0],
-      }
+      directory => '/tmp'
   });
   my $data = $storage->restore({
-          module => "FusionInventory::Agent"
-      });
+      module => "FusionInventory::Agent"
+  });
 
   $data->{foo} = 'bar';
 
@@ -203,11 +133,14 @@ The constructor. The following named parameters are allowed:
 
 =over
 
-=item config (mandatory)
+=item directory (mandatory)
 
-=item target (mandatory)
+=item logger (mandatory)
 
 =back
+
+The directory will be automatically created if it doesn't already exist. The
+constructor will die if the directory can't be created, or if it isn't writable.
 
 =head2 save
 
@@ -218,10 +151,6 @@ Save given data structure. The following arguments are allowed:
 =item data
 
 The data structure to save (mandatory).
-
-=item idx
-
-The index number (optional).
 
 =back
 
@@ -235,51 +164,8 @@ Restore a saved data structure. The following arguments are allowed:
 
 The name of the module which saved the data structure (mandatory).
 
-=item idx
-
-The index number (optional).
-
 =back
 
-=head2 remove
+=head2 getDirectory
 
-Delete the file containing a seralized data structure for a given module. The
-following arguments are allowed:
-
-=over
-
-=item module
-
-The name of the module which saved the data structure (mandatory).
-
-=item idx
-
-The index number (optional).
-
-=back
-
-=head2 removeAll
-
-Delete the files containing seralized data structure for all modules. The
-following arguments are allowed:
-
-=over
-
-=item idx
-
-The index number (optional).
-
-=back
-
-=head2 removeSubDumps
-
-Delete all files containing seralized data structure for a given module. The
-following arguments are allowed:
-
-=over
-
-=item module
-
-The name of the module which saved the data structure (mandatory).
-
-=back
+Returns the underlying directory for this storage.

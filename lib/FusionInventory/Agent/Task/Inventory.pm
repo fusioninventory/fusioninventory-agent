@@ -16,13 +16,14 @@ sub new {
     my $self = $class->SUPER::new($params);
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
-        target => $self->{target},
-        logger => $self->{logger},
+        deviceid => $self->{deviceid},
+        logger   => $self->{logger},
+        storage  => $self->{target}->getStorage()
     });
 
     $self->{modules} = {};
 
-     return $self;
+    return $self;
 }
 
 sub run {
@@ -42,9 +43,9 @@ sub run {
 
         if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
             my $file =
-                $self->{config}->{local} .
+                $self->{target}->getPath() .
                 "/" .
-                $self->{target}->{deviceid} .
+                $self->{deviceid} .
                 '.ocs';
 
             if (open my $handle, '>', $file) {
@@ -92,7 +93,8 @@ sub run {
             );
 
             return unless $response;
-            $self->{inventory}->saveLastState();
+
+            $self->{inventory}->saveState();
 
             my $parsedContent = $response->getParsedContent();
             if (
@@ -115,22 +117,24 @@ sub _initModList {
 
     my $logger = $self->{logger};
     my $config = $self->{config};
-    my $storage = $self->{storage};
 
-    # compute a list of directories to scan
-    my @dirToScan;
+    # identify which directory to scan for inventory modules
+    my $dirToScan;
     if ($config->{devlib}) {
-        # devlib enable, I only search for backend module in ./lib
-        push (@dirToScan, './lib');
+        # working directory
+        $dirToScan = './lib';
     } else {
+        # first directory of @INC containing an installation tree
         foreach my $dir (@INC) {
             my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
-            next unless -d $subdir;
-            push @dirToScan, $subdir;
+            if (-d $subdir) {
+                $dirToScan = $subdir;
+                last;
+            }
         }
     }
     
-    die "No directory to scan for inventory modules" if !@dirToScan;
+    die "No directory to scan for inventory modules" if !$dirToScan;
 
     # find a list of modules from files in those directories
     my %modules;
@@ -148,7 +152,7 @@ sub _initModList {
             follow      => 1,
             follow_skip => 2
         },
-        @dirToScan
+        $dirToScan
     );
 
     my @modules = keys %modules;
@@ -279,15 +283,12 @@ sub _feedInventory {
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
 
-    $inventory->{isInitialised} = 1;
-
 }
 
 sub _runWithTimeout {
     my ($self, $module, $function, $timeout) = @_;
 
     my $logger = $self->{logger};
-    my $storage = $self->{storage};
 
     my $ret;
     
@@ -306,7 +307,7 @@ sub _runWithTimeout {
             inventory     => $self->{inventory},
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},
-            storage       => $storage
+            storage       => $self->{storage}
         });
     };
     alarm 0;

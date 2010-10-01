@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Path qw(make_path);
 
 use FusionInventory::Agent::Storage;
 
@@ -14,39 +13,36 @@ sub new {
     my $self = {
         maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
-        path            => $params->{path} || '',
-        deviceid        => $params->{deviceid},
         nextRunDate     => undef,
     };
     bless $self, $class;
 
-    my $logger = $self->{logger};
-
-    # The agent can contact different servers. Each server has it's own
-    # directory to store data
-    $self->{vardir} = $params->{basevardir} . '/' . $params->{dir};
-
-    if (!-d $self->{vardir}) {
-        make_path($self->{vardir}, {error => \my $err});
-        if (@$err) {
-            $logger->error("Failed to create $self->{vardir}");
-        }
-    }
-
-    if (! -w $self->{vardir}) {
-        die "Can't write in $self->{vardir}";
-    }
-
-    $logger->debug("storage directory: $self->{vardir}");
-
-    $self->{storage} = FusionInventory::Agent::Storage->new({
-        target => $self
-    });
-    $self->_load();
-
-    $self->scheduleNextRun();
-
     return $self;
+}
+
+sub _init {
+    my ($self, $params) = @_;
+
+    # target identity
+    $self->{id} = $params->{id};
+
+    # target storage
+    $self->{storage} = FusionInventory::Agent::Storage->new({
+        logger    => $self->{logger},
+        directory => $params->{vardir}
+    });
+
+    # restore previous state
+    $self->_loadState();
+
+    # initialize next run date
+    $self->scheduleNextRun();
+}
+
+sub getStorage {
+    my ($self) = @_;
+
+    return $self->{storage};
 }
 
 sub getNextRunDate {
@@ -58,10 +54,7 @@ sub getNextRunDate {
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
-    return if $self->_isSameScalar($nextRunDate, $self->{nextRunDate});
-
     $self->{nextRunDate} = $nextRunDate;
-    $self->_save();
 }
 
 sub scheduleNextRun {
@@ -73,9 +66,11 @@ sub scheduleNextRun {
     my $time = time() + $offset;
     $self->setNextRunDate($time);
 
-    $self->{logger}->debug(defined $offset ?
-        "Next run scheduled for " . localtime($time + $offset) :
-        "Next run forced now"
+    $self->{logger}->debug(
+        "[target $self->{id}]" . 
+        defined $offset ?
+            "Next run scheduled for " . localtime($time + $offset) :
+            "Next run forced now"
     );
 
 }
@@ -89,57 +84,83 @@ sub getMaxOffset {
 sub setMaxOffset {
     my ($self, $maxOffset) = @_;
 
-    return if $self->_isSameScalar($maxOffset, $self->{maxOffset});
-
     $self->{maxOffset} = $maxOffset;
-    $self->_save();
 }
 
-sub _load {
+sub _loadState {
     my ($self) = @_;
 
     my $data = $self->{storage}->restore();
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
     $self->{maxOffset}   = $data->{maxOffset} if $data->{maxOffset};
-
-    if ($self->{nextRunDate}) {
-        $self->{logger}->debug (
-            "[$self->{path}] Next server contact planned for ".
-            localtime($data->{nextRunDate})
-        );
-    }
-
-    return $data;
 }
 
-sub _save {
-    my ($self, $data) = @_;
+sub saveState {
+    my ($self) = @_;
 
-    $data->{nextRunDate} = $self->{nextRunDate};
-    $data->{maxOffset}   = $self->{maxOffset};
-    $self->{storage}->save({ data => $data });
+    $self->{storage}->save({
+        data => {
+            nextRunDate => $self->{nextRunDate},
+            maxOffset   => $self->{maxOffset},
+        }
+    });
 }
-
-sub _isSameScalar {
-    my ($self, $value1, $value2) = @_;
-
-    return if ! defined $value1; 
-    return if ! defined $value2;
-
-    return $value1 eq $value2;
-}
-
-sub _isSameHash {
-    my ($self, $value1, $value2) = @_;
-
-    return if ! defined $value1; 
-    return if ! defined $value2;
-
-    my $dump1 = join(',', map { "$_=$value1->{$_}" } sort keys %$value1);
-    my $dump2 = join(',', map { "$_=$value2->{$_}" } sort keys %$value2);
-
-    return $dump1 eq $dump2;
-}
-
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Target - Abstract target
+
+=head1 DESCRIPTION
+
+This is an abstract class for execution targets.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following named parameters are allowed:
+
+=over
+
+=item maxOffset: maximum delay in seconds (default: 3600)
+
+=item logger: logger object to use (mandatory)
+
+=item deviceid: 
+
+=item nextRunDate: 
+
+=back
+
+=head2 getMaxOffset()
+
+Get maxOffset attribute.
+
+=head2 setMaxOffset($maxOffset)
+
+Set maxOffset attribute.
+
+=head2 getNextRunDate()
+
+Get nextRunDate attribute.
+
+=head2 setNextRunDate($nextRunDate)
+
+Set nextRunDate attribute.
+
+=head2 scheduleNextRun($offset)
+
+Re-schedule the target to current time + given offset. If offset is not given,
+it's computed randomly as: (maxOffset / 2) + rand(maxOffset / 2)
+
+=head2 getStorage()
+
+Return the storage object for this target.
+
+=head2 saveState()
+
+Save persistant part of current state.

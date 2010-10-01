@@ -57,6 +57,7 @@ my %tests = (
             CAPTION     => 'PS/2'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Other'
@@ -182,51 +183,61 @@ my %tests = (
             CAPTION     => 'None'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Video Port',
             CAPTION     => 'DB-15 female'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Parallel Port PS/2',
             CAPTION     => 'DB-25 female'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Network Port',
             CAPTION     => 'RJ-45'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Serial Port 16550A Compatible',
             CAPTION     => 'DB-9 male'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Keyboard Port',
             CAPTION     => 'PS/2'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Mouse Port',
             CAPTION     => 'PS/2'
@@ -234,56 +245,67 @@ my %tests = (
     ],
     'rhel-2.1' => [
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Serial Port 16650A Compatible',
             CAPTION     => 'DB-9 pin male'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Serial Port 16650A Compatible',
             CAPTION     => 'DB-9 pin male'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Parallel Port ECP/EPP',
             CAPTION     => 'DB-25 pin female'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Keyboard Port',
             CAPTION     => 'PS/2'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Mouse Port',
             CAPTION     => 'PS/2'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'On Board IDE',
             TYPE        => 'Other',
             CAPTION     => 'None'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'On Board IDE',
             TYPE        => 'Other',
             CAPTION     => 'None'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'On Board Floppy',
             TYPE        => 'Other',
             CAPTION     => 'None'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'SSA SCSI',
             TYPE        => 'SCSI II',
             CAPTION     => 'None'
@@ -371,31 +393,37 @@ my %tests = (
             CAPTION     => 'PS/2'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Other'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Other'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Audio Port',
             CAPTION     => 'None'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Network Port',
             CAPTION     => 'RJ-45'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'SCSI Wide',
             CAPTION     => 'None'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'SCSI Wide',
             CAPTION     => 'None'
@@ -441,61 +469,73 @@ my %tests = (
     ],
     'windows' => [
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Parallel Port ECP',
             CAPTION     => 'DB-25 female'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'DB-15 female'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Modem Port',
             CAPTION     => 'RJ-11'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Network Port',
             CAPTION     => 'RJ-45'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'Infrared'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'USB',
             CAPTION     => 'Access Bus (USB)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'Mini Jack (headphones)'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Firewire (IEEE P1394)',
             CAPTION     => 'IEEE 1394'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'Other'
         },
         {
+            NAME        => undef,
             DESCRIPTION => 'None',
             TYPE        => 'Other',
             CAPTION     => 'Other'

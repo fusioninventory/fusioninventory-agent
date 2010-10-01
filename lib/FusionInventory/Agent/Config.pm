@@ -35,8 +35,7 @@ my $default = {
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'no-printer'              => 0,
-    'no-rpc'                  => 0,
-    'no-software'             => 0,
+    'no-www'                  => 0,
     'no-software'             => 0,
     'no-wakeonlan'            => 0,
     'no-snmpquery'            => 0,
@@ -53,12 +52,9 @@ my $default = {
     'version'                 => 0,
     'wait'                    => '',
     'scan-homedirs'           => 0,
-    'rpc-ip'                  => '',
-    'rpc-port'                => '62354',
-    # Other values that can't be changed with the
-    # CLI parameters
-#    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
-#   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
+    'www-ip'                  => undef,
+    'www-port'                => '62354',
+    'www-trust-localhost'     => 1
 };
 
 sub new {
@@ -67,23 +63,23 @@ sub new {
     my $self = $default;
     bless $self, $class;
 
-    $self->loadDefaults();
+    $self->_loadDefaults();
 
     if ($OSNAME eq 'MSWin32') {
-        $self->loadFromWinRegistry();
+        $self->_loadFromWinRegistry();
     } else {
-        $self->loadFromCfgFile();
+        $self->_loadFromCfgFile();
     }
 
-    $self->loadUserParams();
-    $self->loadCallerParams($params) if $params;
+    $self->_loadUserParams();
+    $self->_loadCallerParams($params) if $params;
 
-    $self->checkContent();
+    $self->_checkContent();
 
     return $self;
 }
 
-sub loadDefaults {
+sub _loadDefaults {
     my ($self) = @_;
 
     foreach my $key (keys %$default) {
@@ -91,7 +87,7 @@ sub loadDefaults {
     }
 }
 
-sub loadCallerParams {
+sub _loadCallerParams {
     my ($self, $params) = @_;
 
     foreach my $key (keys %$params) {
@@ -99,7 +95,7 @@ sub loadCallerParams {
     }
 }
 
-sub loadFromWinRegistry {
+sub _loadFromWinRegistry {
     my ($self) = @_;
 
     eval {
@@ -136,7 +132,7 @@ sub loadFromWinRegistry {
     }
 }
 
-sub loadFromCfgFile {
+sub _loadFromCfgFile {
     my ($self) = @_;
 
     $self->{etcdir} = [];
@@ -193,7 +189,7 @@ sub loadFromCfgFile {
     close $handle;
 }
 
-sub loadUserParams {
+sub _loadUserParams {
     my ($self) = @_;
 
     Getopt::Long::Configure( "no_ignorecase" );
@@ -225,7 +221,7 @@ sub loadUserParams {
         'no-inventory',
         'no-printer',
         'no-socket',
-        'no-rpc',
+        'no-www',
         'no-soft',
         'no-software',
         'no-ssl-check',
@@ -236,7 +232,6 @@ sub loadUserParams {
         'proxy|P=s',
         'realm|r=s',
         'rpc-ip=s',
-        'rpc-port=s',
         'rpc-trust-localhost',
         'remotedir|R=s',
         'scan-homedirs',
@@ -247,8 +242,9 @@ sub loadUserParams {
         'user|u=s',
         'version',
         'wait|w=s',
-        'delaytime=s',
-        'scan-homedirs',
+        'www-ip=s',
+        'www-port=s',
+        'www-trust-localhost',
     );
 
     push(@options, 'color') if $OSNAME ne 'MSWin32';
@@ -258,11 +254,63 @@ sub loadUserParams {
         @options
     ) or $self->help();
 
+}
+
+sub _checkContent {
+    my ($self) = @_;
+
+    # if a logfile is defined, use file logger
+    if ($self->{logfile}) {
+        $self->{logger} = 'File';
+    }
+
+    if ($self->{realm}) {
+        print STDERR
+            "the parameter --realm is deprecated, and will be ignored\n";
+    }
+
+    if (defined $self->{'no-socket'}) {
+        print STDERR
+            "the parameter --no-socket is deprecated, use --no-www instead\n";
+        $self->{'no-www'} = $self->{'no-socket'};
+    }
+
+    if (defined $self->{'rpc-ip'}) {
+        print STDERR
+            "the parameter --rpc-ip is deprecated, use --www-ip instead\n";
+        $self->{'www-ip'} = $self->{'rpc-ip'};
+    }
+
+    if (defined $self->{'rpc-trust-localhost'}) {
+        print STDERR
+            "the parameter --rpc-trust-localhost is deprecated, use --www-trust-localhost instead\n";
+        $self->{'www-trust-localhost'} = $self->{'rpc-trust-localhost'};
+    }
+
+    if ($self->{'daemon-no-fork'}) {
+        print STDERR
+            "the parameter --daemon-no-fork is deprecated, use --daemon --no-fork instead\n";
+        $self->{daemon} = 1;
+        $self->{'no-fork'} = 1;
+    }
+
+    if ($self->{'share-dir'}) {
+        $self->{'share-dir'} = abs_path($self->{'share-dir'});
+    } else {
+        if ($self->{devlib}) {
+            $self->{'share-dir'} = abs_path('./share/');
+        } else {
+            eval { 
+                require File::ShareDir;
+                $self->{'share-dir'} =
+                    File::ShareDir::dist_dir('FusionInventory-Agent');
+            };
+        }
+    }
+
     # We want only canonical path
     $self->{basevardir} =
         abs_path($self->{basevardir}) if $self->{basevardir};
-    $self->{'share-dir'} =
-        abs_path($self->{'share-dir'}) if $self->{'share-dir'};
     $self->{'conf-file'} =
         abs_path($self->{'conf-file'}) if $self->{'conf-file'};
     $self->{'ca-cert-file'} =
@@ -278,128 +326,20 @@ sub loadUserParams {
     }
 }
 
-sub checkContent {
-    my ($self) = @_;
-
-    # if a logfile is defined, use file logger
-    if ($self->{logfile}) {
-        $self->{logger} = 'File';
-    }
-
-    if ($self->{realm}) {
-        print STDERR
-            "the parameter --realm is deprecated, and will be ignored\n";
-    }
-
-    if ($self->{'no-socket'}) {
-        print STDERR
-            "the parameter --no-socket is deprecated, use --no-rpc instead\n";
-        $self->{'no-rpc'} = 1;
-    }
-
-    if ($self->{'daemon-no-fork'}) {
-        print STDERR
-            "the parameter --daemon-no-fork is deprecated, use --daemon --no-fork instead\n";
-        $self->{daemon} = 1;
-        $self->{'no-fork'} = 1;
-    }
-
-    if (!$self->{'share-dir'}) {
-        if ($self->{devlib}) {
-            $self->{'share-dir'} = abs_path('./share/');
-        } else {
-            eval { 
-                require File::ShareDir;
-                $self->{'share-dir'} =
-                    File::ShareDir::dist_dir('FusionInventory-Agent');
-            };
-        }
-    }
-}
-
-sub help {
-    my ($self) = @_;
-
-    my $help;
-
-    if ($self->{'conf-file'}) {
-        $help .= <<EOF
-Setting initialised with values retrieved from the config found at $self->{'conf-file'}
-EOF
-    }
-
-    $help .= <<EOF;
-Common options:
-    --debug             debug mode ($self->{debug})
-    --format            export format (HTML or XML) ($self->{format})
-    --logfile=FILE      log message in FILE ($self->{logfile})
-    --version           print the version
-
-Network connection options:
-    -p --password=PWD   password for server auth
-    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($self->{proxy})
-    -u --user           user name to use for server auth
-    --ca-cert-dir=D     SSL certificat directory ($self->{'ca-cert-dir'})
-    --ca-cert-file=F    SSL certificat file ($self->{'ca-cert-file'})
-    --no-ssl-check      do not check the SSL connexion with the server ($self->{'no-ssl-check'})
-
-Target selection options:
-    -s --server=URI     server uri, e.g: http://server/ocsinventory ($self->{server})
-    -l --local=DIR      write inventory in DIR
-    --stdout            print inventory on STDOUT
-
-Task disabling options:
-    --no-inventory      do not use inventory task ($self->{'no-inventory'})
-    --no-wakeonlan      do not use wakeonlan task ($self->{'no-wakeonlan'})
-    --no-snmpquery      do not use snmpquery task ($self->{'no-snmpquery'})
-    --no-netdiscovery   do not use snmpquery task ($self->{'no-netdiscovery'})
-    --no-ocsdeploy      do not use deployment task ($self->{'no-ocsdeploy'})
-
-Inventory task specific options:
-    --no-printer        do not return printer list in inventory $self->{'no-printer'})
-    --no-software       do not return installed software list ($self->{'no-software'})
-    --scan-homedirs     permit to scan home user directories ($self->{'scan-homedirs'})
-
-Web interface options:
-    --no-rpc            do not use web interface ($self->{'no-rpc'})
-    --rpc-ip=IP         network interface to listen to
-    --rpc-port=PORT     port use for RPC
-    --rpc-trust-localhost      trust local requests without token
-
-Extra options:
-    --backend-collect-timeout set a max delay time of one inventory data
-                        collect job ($self->{'backend-collect-timeout'})
-    --basevardir=DIR    indicate the directory where should the agent store its
-                        files ($self->{basevardir})
-    --color             use color in the console ($self->{color})
-    -d --daemon         detach the agent in background ($self->{daemon})
-    --no-fork           don't fork in background ($self->{'no-fork'})
-    --delaytime         set a max delay time (in second) if no PROLOG_FREQ is
-                        set ($self->{delaytime})
-    --devlib            search for Backend mod in ./lib only ($self->{devlib})
-    -f --force          always send data to server (Don't ask before) ($self->{force})
-    -i --info           verbose mode ($self->{info})
-    --lazy              do not contact the server more than one time during the
-                        PROLOG_FREQ ($self->{lazy})
-    --logfile-maxsize=X max size of the log file in MB ($self->{'logfile-maxsize'})
-    --logger            Logger you want to use (Stderr, File or Syslog) ($self->{logger})
-    --share-dir=DIR     path to the directory where are stored the shared files
-                        ($self->{'share-dir'})
-    -t --tag=TAG        use TAG as tag ($self->{tag})
-    -w --wait=DURATION  wait during a random periode between 0 and DURATION
-                        seconds before contacting server ($self->{wait})
-
-Manpage:
-    See man fusioninventory-agent
-
-FusionInventory-Agent is released under GNU GPL 2 license
-EOF
-
-    if ($OSNAME eq 'MSWin32') {
-        $help =~ s/.*--color.*\n//;
-    }
-
-    print STDERR $help;
-}
-
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Config - Agent configuration
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to store its configuration.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. All configuration parameters can be passed.

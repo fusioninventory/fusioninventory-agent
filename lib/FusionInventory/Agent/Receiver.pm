@@ -12,12 +12,12 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger              => $params->{logger},
-        scheduler           => $params->{scheduler},
-        agent               => $params->{agent},
-        rpc_ip              => $params->{rpc_ip},
-        rpc_port            => $params->{rpc_port},
-        rpc_trust_localhost => $params->{rpc_trust_localhost},
+        logger          => $params->{logger},
+        scheduler       => $params->{scheduler},
+        agent           => $params->{agent},
+        ip              => $params->{ip},
+        port            => $params->{port},
+        trust_localhost => $params->{trust_localhost},
     };
 
     my $logger = $self->{logger};
@@ -28,9 +28,9 @@ sub new {
         $self->{htmlDir} = "./share/html";
     }
     if ($self->{htmlDir}) {
-        $logger->debug("[Receiver] Static files are in ".$self->{htmlDir});
+        $logger->debug("[WWW] Static files are in ".$self->{htmlDir});
     } else {
-        $logger->debug("[Receiver] No static files directory");
+        $logger->debug("[WWW] No static files directory");
     }
 
     bless $self, $class;
@@ -41,7 +41,7 @@ sub new {
     return $self;
 }
 
-sub handle {
+sub _handle {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
@@ -55,12 +55,12 @@ sub handle {
     }
 
     my $path = $r->uri()->path();
-    $logger->debug("[Receiver] request $path from client $clientIp");
+    $logger->debug("[WWW] request $path from client $clientIp");
 
     # non-GET requests
     my $method = $r->method();
     if ($method ne 'GET') {
-        $logger->debug("[Receiver] invalid request type: $method");
+        $logger->debug("[WWW] invalid request type: $method");
         $c->send_error(500);
         $c->close;
         undef($c);
@@ -102,7 +102,7 @@ sub handle {
             $output =~ s/%%STATUS%%/$status/;
             $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
             $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-            if (!$self->{rpc_trust_localhost}) {
+            if (!$self->{trust_localhost}) {
                 $output =~
                 s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
             }
@@ -121,12 +121,14 @@ sub handle {
         # deploy request
         if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
             my $file = $1;
-            foreach my $target (@{$scheduler->{targets}}) {
-                if (-f $target->{vardir}."/deploy/".$file) {
-                    $logger->debug("Send /deploy/".$file);
-                    $c->send_file_response($target->{vardir}."/deploy/".$file);
+            foreach my $target (@{$scheduler->getTargets()}) {
+                my $directory = $target->getStorage()->getDirectory();
+                my $file = $directory . $path;
+                if (-f $file) {
+                    $logger->debug("Send $path");
+                    $c->send_file_response($file);
                 } else {
-                    $logger->debug("Not found /deploy/".$file);
+                    $logger->debug("Not found $path");
                 }
             }
             $c->send_error(404);
@@ -138,7 +140,7 @@ sub handle {
             my $sentToken = $1;
 
             my $result;
-            if ($clientIp =~ /^127\./ && $self->{rpc_trust_localhost}) {
+            if ($clientIp =~ /^127\./ && $self->{trust_localhost}) {
                 # trusted request
                 $result = "ok";
             } else {
@@ -150,13 +152,13 @@ sub handle {
                         $self->{agent}->resetToken();
                     } else {
                         $logger->debug(
-                            "[Receiver] untrusted address, invalid token $sentToken != $token"
+                            "[WWW] untrusted address, invalid token $sentToken != $token"
                         );
                         $result = "untrusted address, invalid token";
                     }
                 } else {
                     $logger->debug(
-                        "[Receiver] untrusted address, no token received"
+                        "[WWW] untrusted address, no token received"
                     );
                     $result = "untrusted address, no token received";
                 }
@@ -214,20 +216,19 @@ sub _server {
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{rpc_ip},
-        LocalPort => $self->{rpc_port} || 62354,
+        LocalAddr => $self->{ip},
+        LocalPort => $self->{port},
         Reuse     => 1,
         Timeout   => 5
     );
 
     if (!$daemon) {
-        $logger->error("[Receiver] Failed to start the service");
+        $logger->error("[WWW] Failed to start the service");
         return;
     } 
-    $logger->info("RPC service started at: http://".
-        ( $self->{'rpc_ip'} || "127.0.0.1" ).
-        ":".
-        $self->{rpc_port} || 62354);
+    $logger->info(
+        "[WWW] Service started at: http://$self->{ip}:$self->{port}"
+    );
 
     while (1) {
         my ($client, $socket) = $daemon->accept();
@@ -235,7 +236,7 @@ sub _server {
         my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
         my $request = $client->get_request();
-        $self->handle($client, $request, $clientIp);
+        $self->_handle($client, $request, $clientIp);
     }
 }
 
@@ -251,8 +252,8 @@ FusionInventory::Agent::Receiver - An HTTP message receiver
 This is the object used by the agent to listen on the network for messages sent
 by OCS or GLPI servers.
 
-It is an HTTP server listening on port 62354 (by default). The following requests are
-accepted:
+It is an HTTP server listening on port 62354 (by default). The following
+requests are accepted:
 
 =over
 
@@ -286,8 +287,8 @@ The constructor. The following named parameters are allowed:
 
 =item share_dir (mandatory)
 
-=item rpc_ip (default: undef)
+=item ip (default: undef)
 
-=item rpc_trust_localhost (default: false)
+=item trust_localhost (default: false)
 
 =back

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use XML::Simple;
+use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
@@ -28,13 +28,14 @@ sub doInventory {
             my $name = $2;
             my $status = $3;
             $status =~ s/^shut off/off/;
-
             my $xml = `virsh dumpxml $name`;
-            my $data = XMLin($xml);
 
-            my $vcpu = $data->{vcpu};
-            my $uuid = $data->{uuid};
-            my $vmtype = $data->{type};
+            my $tpp = XML::TreePP->new();
+            my $data = $tpp->parse( $xml );
+
+            my $vcpu = $data->{domain}->{vcpu};
+            my $uuid = $data->{domain}->{uuid};
+            my $vmtype = $data->{domain}->{type};
             my $memory;
             if ($data->{currentMemory} =~ /(\d+)\d{3}$/) {
                 $memory = $1;
