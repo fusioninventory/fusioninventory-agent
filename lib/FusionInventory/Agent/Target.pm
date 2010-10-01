@@ -61,6 +61,9 @@ sub setNextRunDate {
 sub scheduleNextRun {
     my ($self, $offset) = @_;
 
+    # Already scheduled?
+    return if $self->{nextRunDate};
+
     if (! defined $offset) {
         $offset = ($self->{maxOffset} / 2) + int rand($self->{maxOffset} / 2);
     }
