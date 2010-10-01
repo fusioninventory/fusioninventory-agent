@@ -207,7 +207,7 @@ sub new {
         logger          => $params->{logger},
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
-        ip              => $params->{ip},
+        ip              => $params->{ip} || '127.0.0.1',
         port            => $params->{port},
         trust_localhost => $params->{trust_localhost},
     };
