@@ -247,15 +247,17 @@ sub run {
             my $transmitter;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                $transmitter = FusionInventory::Agent::Transmitter->new({
-                    logger       => $logger,
-                    proxy        => $config->{proxy},
-                    user         => $config->{user},
-                    password     => $config->{password},
-                    no_ssl_check => $config->{'no-ssl-check'},
-                    ca_cert_file => $config->{'ca-cert-file'},
-                    ca_cert_dir  => $config->{'ca-cert-dir'},
-                });
+                if (!$transmitter) {
+                    $transmitter = FusionInventory::Agent::Transmitter->new({
+                        logger       => $logger,
+                        proxy        => $config->{proxy},
+                        user         => $config->{user},
+                        password     => $config->{password},
+                        no_ssl_check => $config->{'no-ssl-check'},
+                        ca_cert_file => $config->{'ca-cert-file'},
+                        ca_cert_dir  => $config->{'ca-cert-dir'},
+                    });
+                }
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
                     logger   => $logger,
