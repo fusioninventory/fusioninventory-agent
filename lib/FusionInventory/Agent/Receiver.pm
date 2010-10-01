@@ -207,8 +207,8 @@ sub new {
         logger          => $params->{logger},
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
-        ip              => $params->{ip} || '127.0.0.1',
-        port            => $params->{port},
+        ip              => $params->{'www-ip'} || '127.0.0.1',
+        port            => $params->{'www-port'},
         trust_localhost => $params->{trust_localhost},
     };
 
@@ -246,11 +246,9 @@ sub new {
     } 
 
     $logger->info("RPC service started at: http://".
-        ( $self->{'rpc_ip'} || "127.0.0.1" ).
+        ( $self->{'www-ip'} || "127.0.0.1" ).
         ":".
-        $self->{rpc_port} || 62354);
-
-#    threads->create('_server', $self);
+        ($self->{'www-port'} || 62354));
 
     return $self;
 }
@@ -315,8 +313,8 @@ sub _server {
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{ip},
-        LocalPort => $self->{port},
+        LocalAddr => $self->{'www-ip'},
+        LocalPort => $self->{'www-port'},
         Reuse     => 1,
         Timeout   => 5
     );
@@ -326,7 +324,7 @@ sub _server {
         return;
     } 
     $logger->info(
-        "[WWW] Service started at: http://$self->{ip}:$self->{port}"
+        "[WWW] Service started at: http://$self->{'www-ip'}:$self->{'www-port'}"
     );
 
     while (1) {
