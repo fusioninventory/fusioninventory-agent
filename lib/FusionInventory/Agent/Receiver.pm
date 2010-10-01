@@ -57,7 +57,7 @@ sub main {
     $output =~ s/%%STATUS%%/$status/;
     $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
     $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-    if (!$self->{rpc_trust_localhost}) {
+    if (!$self->{trust_localhost}) {
         $output =~
         s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
     }
@@ -104,9 +104,12 @@ sub now {
     if ($path =~ m{^/now(/|)(\S+)?$}) {
         my $sentToken = $2;
         my $result;
-        if ($remote_ip eq '127.0.0.1' && $self->{rpc_trust_localhost}) {
+
+        print $remote_ip."\n";
+        if ($remote_ip eq '127.0.0.1' && $self->{trust_localhost}) {
             # trusted request
             $result = "ok";
+        print "ok\n";
         } else {
             # authenticated request
             if ($sentToken) {
@@ -207,8 +210,8 @@ sub new {
         logger          => $params->{logger},
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
-        ip              => $params->{'www-ip'} || '127.0.0.1',
-        port            => $params->{'www-port'},
+        ip              => $params->{ip} || '127.0.0.1',
+        port            => $params->{port},
         trust_localhost => $params->{trust_localhost},
     };
 
@@ -246,7 +249,7 @@ sub new {
     } 
 
     $logger->info("RPC service started at: http://".
-        ( $self->{'www-ip'} || "127.0.0.1" ).
+        ( $self->{'ip'} || "127.0.0.1" ).
         ":".
         ($self->{'www-port'} || 62354));
 
@@ -313,7 +316,7 @@ sub _server {
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{'www-ip'},
+        LocalAddr => $self->{'ip'},
         LocalPort => $self->{'www-port'},
         Reuse     => 1,
         Timeout   => 5
@@ -324,7 +327,7 @@ sub _server {
         return;
     } 
     $logger->info(
-        "[WWW] Service started at: http://$self->{'www-ip'}:$self->{'www-port'}"
+        "[WWW] Service started at: http://$self->{'ip'}:$self->{'www-port'}"
     );
 
     while (1) {
@@ -364,7 +367,7 @@ requests are accepted:
 
 Authentication is based on a token created by the agent, and sent to the
 server at initial connection. Connection from local host is allowed without
-token if configuration option rpc-trust-localhost is true.
+token if configuration option www-trust-localhost is true.
 
 =head1 METHODS
 
