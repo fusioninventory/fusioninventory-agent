@@ -16,21 +16,19 @@ use FusionInventory::Agent::XML::Response;
 sub new {
     my ($class, $params) = @_;
 
-    die 'no URL in target' unless $params->{url};
-    my $url = URI->new($params->{url});
-    my $scheme = $url->scheme();
-    if (!$scheme) {
-        die "no protocol for URL: $params->{url}";
-    }
-    if ($scheme ne 'http' && $scheme ne 'https') {
-        die "invalid protocol for URL: $params->{url}";
-    }
+    die "non-existing certificate file $params->{ca_cert_file}"
+        if $params->{ca_cert_file} && ! -f $params->{ca_cert_file};
+
+    die "non-existing certificate directory $params->{ca_cert_dir}"
+        if $params->{ca_cert_dir} && ! -d $params->{ca_cert_dir};
 
     my $self = {
-        logger   => $params->{logger},
-        user     => $params->{user},
-        password => $params->{password},
-        URI      => $url
+        logger       => $params->{logger},
+        user         => $params->{user},
+        password     => $params->{password},
+        ca_cert_file => $params->{ca_cert_file},
+        ca_cert_dir  => $params->{ca_cert_dir},
+        no_ssl_check => $params->{no_ssl_check}
     };
     bless $self, $class;
 
@@ -45,15 +43,6 @@ sub new {
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
-    # turns SSL checks on if needed
-    if ($scheme eq 'https' && !$params->{'no_ssl_check'}) {
-        $self->_turnSSLCheckOn(
-            $params->{ca_cert_file},
-            $params->{ca_cert_dir}
-        );
-        my $host = $url->host();
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
-    }
 
     # check compression mode
     if (Compress::Zlib->require()) {
@@ -81,15 +70,24 @@ sub send {
 
     my $logger   = $self->{logger};
 
-    # create message
     my $message = $args->{message};
+    my $url     = $args->{url};
+
+    # turns SSL checks on if needed
+    my $scheme = $url->scheme();
+    if ($scheme eq 'https' && !$self->{no_ssl_check}) {
+        $self->_turnSSLCheckOn();
+        my $host = $url->host();
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$host");
+    }
+
     my $message_content = $self->_compress($message->getContent());
     if (!$message_content) {
         $logger->error('Inflating problem');
         return;
     }
 
-    my $req = HTTP::Request->new(POST => $self->{URI});
+    my $req = HTTP::Request->new(POST => $url);
 
     $req->header(
         'Pragma'       => 'no-cache',
@@ -114,9 +112,9 @@ sub send {
                 # compute authentication parameters
                 my $header = $res->header('www-authenticate');
                 my ($realm) = $header =~ /^Basic realm="(.*)"/;
-                my $host = $self->{URI}->host();
-                my $port = $self->{URI}->port() ||
-                   ($self->{URI}->scheme() eq 'https' ? 443 : 80);
+                my $host = $url->host();
+                my $port = $url->port() ||
+                   ($scheme eq 'https' ? 443 : 80);
                 $self->{ua}->credentials(
                     "$host:$port",
                     $realm,
@@ -165,7 +163,7 @@ sub send {
 
 # http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
 sub _turnSSLCheckOn {
-    my ($self, $ca_cert_file, $ca_cert_dir) = @_;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
 
@@ -177,23 +175,18 @@ sub _turnSSLCheckOn {
             "failed to load Crypt::SSLeay, unable to validate SSL certificates";
     }
 
-    if (!$ca_cert_file && !$ca_cert_dir) {
+    SWITCH: {
+        if ($self->{ca_cert_file}) {
+            $ENV{HTTPS_CA_FILE} = $self->{ca_cert_file};
+            last SWITCH;
+        }
+        if ($self->{ca_cert_dir}) {
+            $ENV{HTTPS_CA_DIR} = $self->{ca_cert_dir};
+            last SWITCH;
+        }
         die
             "neither certificate file or certificate directory given, unable " .
             "to validate SSL certificates";
-    }
-
-    if ($ca_cert_file) {
-        if (!-f $ca_cert_file && !-l $ca_cert_file) {
-            die "--ca-cert-file $ca_cert_file doesn't exist";
-        }
-        $ENV{HTTPS_CA_FILE} = $ca_cert_file;
-    } elsif ($ca_cert_dir) {
-        if (!-d $ca_cert_dir) {
-            die "--ca-cert-dir $ca_cert_dir doesn't exist";
-        }
-
-        $ENV{HTTPS_CA_DIR} = $ca_cert_dir;
     }
 
 }

@@ -5,6 +5,7 @@ use warnings;
 use base 'FusionInventory::Agent::Target';
 
 use English qw(-no_match_vars);
+use URI;
 
 my $count = 0;
 
@@ -15,15 +16,22 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    # assume an url without protocol part is actually a server name
-    if ($params->{url} =~ m{^https?://}) {
-        $self->{url} = $params->{url};
-    } else {
-        $self->{url} = "http://$params->{url}/ocsinventory";
+    my $self->{url} = URI->new($params->{url});
+
+    my $scheme = $self->{url}->scheme();
+    if (!$scheme) {
+        $self->{url}->scheme('http://');
+    } elsif ($scheme ne 'http' && $scheme ne 'https') {
+        die "invalid protocol for URL: $params->{url}";
+    }
+
+    my $path = $self->{url}->path();
+    if (!$path) {
+        $self->{url}->path('ocsinventory');
     }
 
     # compute storage subdirectory from url
-    my $subdir = $self->{url};
+    my $subdir = $params->{url};
     $subdir =~ s/\//_/g;
     $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 

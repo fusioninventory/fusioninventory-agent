@@ -249,7 +249,6 @@ sub run {
 
                 $transmitter = FusionInventory::Agent::Transmitter->new({
                     logger       => $logger,
-                    url          => $target->{url},
                     proxy        => $config->{proxy},
                     user         => $config->{user},
                     password     => $config->{password},
@@ -268,8 +267,10 @@ sub run {
                     $prolog->setAccountInfo({'TAG', $config->{tag}});
                 }
 
-                # TODO Don't mix settings and temp value
-                $prologresp = $transmitter->send({message => $prolog});
+                $prologresp = $transmitter->send({
+                    message => $prolog,
+                    url     => $target->getUrl(),
+                });
 
                 if (!$prologresp) {
                     $logger->error("No anwser from the server");

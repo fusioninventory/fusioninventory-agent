@@ -12,8 +12,9 @@ use FusionInventory::Test::Proxy;
 use Test::More;
 use Test::Exception;
 use Compress::Zlib;
+use URI;
 
-plan tests => 43;
+plan tests => 41;
 
 my $ok = sub {
     my ($server, $cgi) = @_;
@@ -40,44 +41,35 @@ my ($transmitter, $server, $response);
 # instanciations tests
 
 throws_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({});
-} qr/^no URL/,
-'instanciation without URL';
+    $transmitter = FusionInventory::Agent::Transmitter->new({
+        ca_cert_file => '/no/such/file',
+        logger       => $logger
+    });
+} qr/^non-existing certificate file/,
+'instanciation: invalid ca cert file';
 
 throws_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url => 'foo',
+        ca_cert_dir => '/no/such/directory',
+        logger       => $logger
     });
-} qr/^no protocol for URL/,
-'instanciation without protocol';
-
-throws_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
-        url => 'xml://foo',
-    });
-} qr/^invalid protocol for URL/,
-'instanciation with an invalid protocol';
-
-throws_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => 'https://localhost:8080/public',
-        logger => $logger
-    });
-} qr/^neither certificate file or certificate directory given/,
-'instanciation: https, no certificates';
+} qr/^non-existing certificate directory/,
+'instanciation: invalid ca cert directory';
 
 # no connection tests
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => 'http://localhost:8080/public',
         logger => $logger
     });
 } 'instanciation: http';
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({ message => $message }),
+        scalar $transmitter->send({
+            message => $message,
+            url     => URI->new('http://localhost:8080/public'),
+        }),
         $logger,
         qr/^Can't connect to localhost:8080/
     );
@@ -98,19 +90,24 @@ $server->set_dispatch({
 $server->background();
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('http://localhost:8080/public'),
+    }));
 };
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => 'http://localhost:8080/private',
         logger => $logger
     });
 } 'instanciation: http, auth, no credentials';
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({ message => $message }),
+        scalar $transmitter->send({
+                message => $message,
+                url     => URI->new('http://localhost:8080/private'),
+        }),
         $logger,
         "Authentication required, no credentials available",
     );
@@ -118,7 +115,6 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url      => 'http://localhost:8080/private',
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -126,7 +122,10 @@ lives_ok {
 } 'instanciation:  http, auth, with credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('http://localhost:8080/private'),
+    }));
 };
 
 $server->stop();
@@ -150,19 +149,20 @@ $server->background();
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/public',
         logger       => $logger,
         no_ssl_check => 1,
     });
 } 'instanciation: https, check disabled';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('https://localhost:8080/public'),
+    }));
 };
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/private',
         logger       => $logger,
         no_ssl_check => 1,
     });
@@ -170,7 +170,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({ message => $message }),
+        scalar $transmitter->send({
+            message => $message,
+            url     => URI->new('https://localhost:8080/private'),
+        }),
         $logger,
         "Authentication required, no credentials available",
     );
@@ -178,7 +181,6 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/private',
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -187,24 +189,28 @@ lives_ok {
 } 'instanciation: https, check disabled, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('https://localhost:8080/private'),
+    }));
 };
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/public',
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
     });
 } 'instanciation: https';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message })); 
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('https://localhost:8080/public'),
+    })); 
 };
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/private',
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
     });
@@ -212,7 +218,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({ message => $message }),
+        scalar $transmitter->send({
+            message => $message,
+            url     => URI->new('https://localhost:8080/private'),
+        }),
         $logger,
         "Authentication required, no credentials available",
     );
@@ -220,7 +229,6 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/private',
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -229,7 +237,10 @@ lives_ok {
 } 'instanciation: https, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('https://localhost:8080/private'),
+    }));
 };
 
 $server->stop();
@@ -258,19 +269,20 @@ $proxy->background();
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => 'http://localhost:8080/public',
         logger => $logger,
         proxy  => $proxy->url()
     });
 } 'instanciation: http, proxy';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('http://localhost:8080/public'),
+    }));
 };
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url    => 'http://localhost:8080/private',
         logger => $logger,
         proxy  => $proxy->url()
     });
@@ -278,7 +290,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({ message => $message }),
+        scalar $transmitter->send({
+            message => $message,
+            url     => URI->new('http://localhost:8080/private'),
+        }),
         $logger,
         "Authentication required, no credentials available",
     ); 
@@ -286,7 +301,6 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url      => 'http://localhost:8080/private',
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -295,7 +309,10 @@ lives_ok {
 } 'instanciation: http, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('http://localhost:8080/private'),
+    }));
 };
 
 $server->stop();
@@ -319,7 +336,6 @@ $server->background();
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/public',
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
@@ -327,12 +343,14 @@ lives_ok {
 } 'instanciation: https, proxy, check disabled';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('https://localhost:8080/public'),
+    }));
 };
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/private',
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
@@ -341,7 +359,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({ message => $message }),
+        scalar $transmitter->send({
+            message => $message,
+            url     => URI->new('https://localhost:8080/private'),
+        }),
         $logger,
         "Authentication required, no credentials available",
     );
@@ -349,7 +370,6 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/private',
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -359,12 +379,14 @@ lives_ok {
 } 'instanciation: https, check disabled, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('https://localhost:8080/private'),
+    }));
 };
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/public',
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url()
@@ -372,12 +394,14 @@ lives_ok {
 } 'instanciation: https';
 
 subtest "correct response" => sub {
-    check_response_ok($response = $transmitter->send({ message => $message })); 
+    check_response_ok($response = $transmitter->send({
+        message => $message,
+        url     => URI->new('https://localhost:8080/public'),
+    })); 
 };
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/private',
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url()
@@ -386,7 +410,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({ message => $message }),
+        scalar $transmitter->send({
+            message => $message,
+            url     => URI->new('https://localhost:8080/private'),
+        }),
         $logger,
         "Authentication required, no credentials available",
     ); 
@@ -394,7 +421,6 @@ subtest "no response" => sub {
 
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
-        url          => 'https://localhost:8080/private',
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -404,7 +430,10 @@ lives_ok {
 } 'instanciation: https, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({ message => $message }));
+    check_response_ok($transmitter->send({
+        message => $message,
+        url     => URI->new('https://localhost:8080/private'),
+    }));
 };
 
 $server->stop();
