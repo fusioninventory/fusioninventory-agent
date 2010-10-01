@@ -25,7 +25,8 @@ my %tests = (
         {
             NAME        => 'MiniPCI',
             STATUS      => 'Available',
-            DESCRIPTION => '32-bit Other'
+            DESCRIPTION => '32-bit Other',
+            DESIGNATION => undef
         }
     ],
     'openbsd-3.7' => [
@@ -68,12 +69,14 @@ my %tests = (
         {
             NAME       => 'ISA',
             STATUS      => 'Unknown',
-            DESCRIPTION => '16-bit ISA'
+            DESCRIPTION => '16-bit ISA',
+            DESIGNATION => undef
         },
         {
             NAME        => 'ISA',
             STATUS      => 'Unknown',
-            DESCRIPTION => '16-bit ISA'
+            DESCRIPTION => '16-bit ISA',
+            DESIGNATION => undef
         },
         {
             NAME        => 'PCIx',
@@ -116,12 +119,14 @@ my %tests = (
         {
             NAME        => 'SLOT2',
             STATUS      => 'Available',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>'
+            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESIGNATION => undef
         },
         {
             NAME        => 'SLOT3',
             STATUS      => 'Available',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>'
+            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESIGNATION => undef
         },
         {
             NAME        => 'SLOT4',
@@ -144,20 +149,39 @@ my %tests = (
     ],
     'rhel-2.1' => [
         {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => undef
         },
         {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
             DESCRIPTION => '32bit PCI'
         },
         {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
             DESCRIPTION => '32bit PCI'
         },
         {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
             DESCRIPTION => '32bit PCI'
         },
         {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
             DESCRIPTION => '32bit PCI'
         },
         {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
             DESCRIPTION => '32bit PCI'
         },
     ],
@@ -265,17 +289,20 @@ my %tests = (
         {
             NAME        => 'PCI-E Slot 4',
             STATUS      => 'Available',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>'
+            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESIGNATION => undef,
         },
         {
             NAME        => 'PCI-E Slot 5',
             STATUS      => 'Available',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>'
+            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESIGNATION => undef,
         },
         {
             NAME        => 'PCI-E Slot 6',
             STATUS      => 'Available',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>'
+            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESIGNATION => undef,
         }
     ],
     'windows' => [
@@ -294,7 +321,8 @@ my %tests = (
         {
             NAME        => 'SD CARD',
             STATUS      => 'In Use',
-            DESCRIPTION => 'Other'
+            DESCRIPTION => 'Other',
+            DESIGNATION => undef
         }
     ]
 );

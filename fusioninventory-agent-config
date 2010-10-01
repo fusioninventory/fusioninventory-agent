@@ -1,19 +1,20 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use strict;
-
+use warnings;
 use lib 'lib';
 
+use English qw(-no_match_vars);
 use File::Path;
 use UNIVERSAL::require;
-use FusionInventory::Agent::Config;
 
+use FusionInventory::Agent::Config;
 
 # DEB/RPM/... maintainers, turn this to '1'
 my $packaged = 0;
 
 my $config;
-my @cacert;
+my $certContent;
 my $randomtime;
 my $cron_line;
 
@@ -30,7 +31,6 @@ sub loadModules {
 
         }
     }
-
 }
 
 sub ask_yn {
@@ -97,15 +97,12 @@ sub pickConfigdir {
 }
 
 sub mkFullServerUrl {
-
     my $server = shift;
 
-    my $ret = 'http://' unless $server =~ /^http(s|):\/\//;
-    $ret .= $server;
-
-    if ($server !~ /http(|s):\/\/\S+\/\S+/) {
-        $ret .= '/ocsinventory';
-    }
+    my $ret = 
+        ($server !~ m{^https?://}        ? 'http://'       : '')  .
+        $server                                                   .
+        ($server !~ m{^https?://\S+/\S+} ? '/ocsinventory' : '');
 
     return $ret;
 
@@ -154,52 +151,52 @@ if (!-d $defaultConfigDir) {
     }
 }
 
-
-
-
-if (-f $oldOcsConfigdir.'/ocsinv.conf' && ask_yn("Should the old linux_agent settings be imported?", 'y')) {
+if (-f $oldOcsConfigdir.'/ocsinv.conf' &&
+    ask_yn("Should the old linux_agent settings be imported?", 'y')
+) {
     my $ocsinv = XMLin($oldOcsConfigdir.'/ocsinv.conf');
     $config->{server} = mkFullServerUrl($ocsinv->{'OCSFSERVER'});
 
-    if (-f $oldOcsConfigdir.'/cacert.pem') {
-        open CACERT, $oldOcsConfigdir.'/cacert.pem' or die "Can'i import the CA certificat: ".$!;
-        @cacert = <CACERT>;
-        close CACERT;
+    my $certFile = $oldOcsConfigdir . '/cacert.pem';
+    if (-f $certFile) {
+        local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+        open my $fh, '<', $certFile
+            or die "Can't open the certificate file $certFile: $ERRNO";
+        $certContent = <$fh>;
+        close $fh;
     }
 
-    my $admcontent = '';
+    my $admFile = $oldOcsConfigdir . '/ocsinv.adm';
+    if (-f $admFile) {
+        local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+        open my $fh, '<:encoding(iso-8859-1)', $admFile
+            or die "Can't open the inventory file $admFile: $ERRNO";
+        my $admContent = <$fh>;
+        close $fh;
 
-
-    if (-f "$oldOcsConfigdir/ocsinv.adm") {
-        if (!open(ADM, "<:encoding(iso-8859-1)", "$oldOcsConfigdir/ocsinv.adm")) {
-            warn "Can't open $oldOcsConfigdir/ocsinv.adm";
-        } else {
-            $admcontent .= $_ foreach (<ADM>);
-            close ADM;
-            my $admdata = XMLin($admcontent) or die;
-            if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
-                foreach (@{$admdata->{ACCOUNTINFO}}) {
-                    $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
-                }
-            } elsif (
-                exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
-                exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
-                $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
-            ) {
-                print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
-                $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
+        my $admdata = XMLin($admContent) or die;
+        if (ref ($admdata->{ACCOUNTINFO}) eq 'ARRAY') {
+            foreach (@{$admdata->{ACCOUNTINFO}}) {
+                $config->{tag} = $_->{KEYVALUE} if $_->{KEYNAME} =~ /^TAG$/;
             }
+        } elsif (
+            exists($admdata->{ACCOUNTINFO}->{KEYNAME}) &&
+            exists($admdata->{ACCOUNTINFO}->{KEYVALUE}) &&
+            $admdata->{ACCOUNTINFO}->{KEYNAME} eq 'TAG'
+        ) {
+            print $admdata->{ACCOUNTINFO}->{KEYVALUE}."\n";
+            $config->{tag} = $admdata->{ACCOUNTINFO}->{KEYVALUE};
         }
     }
 }
 
 foreach ($newConfigFile, $ocsConfigFile) {
     if (-f $_) {
-        open (CONFIG, "<".$_) or
-        die "Can't open ".$_.": ".$!;
+        open my $fh, '<', $_
+            or die "Can't open $_: $ERRNO";
         print "Load settings from $_\n";
 
-        foreach (<CONFIG>) {
+        foreach (<$fh>) {
             s/#.+//;
             if (/(\w+)\s*=\s*(.+)/) {
                 my $key = $1;
@@ -211,7 +208,7 @@ foreach ($newConfigFile, $ocsConfigFile) {
                 $config->{$key} = $val;
             }
         }
-        close CONFIG;
+        close $fh;
         last;
     }
 }
@@ -249,7 +246,7 @@ chomp(my $binpath = `which fusioninventory-agent 2>/dev/null`);
 print $binpath."\n";
 if (! -x $binpath) {
     # Packaged version with perl and agent ?
-    $binpath = $^X;
+    $binpath = $EXECUTABLE_NAME;
     $binpath =~ s/perl/fusioninventory-agent/;
 }
 if (! -x $binpath) {
@@ -264,7 +261,7 @@ if (!$packaged) {
     $randomtime = int(rand(60)).' '.int(rand(24));
     $cron_line = $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
 
-    if ($^O =~ /solaris/) {
+    if ($OSNAME =~ /solaris/) {
         if (ask_yn("Do yo want to install the cron task in current user crontab ?", 'y')) {
             my $crontab = `crontab -l`;
 
@@ -272,26 +269,28 @@ if (!$packaged) {
             $cron_line =~ s/ root /  /;
             $crontab .= $cron_line;
 
-            open CRONP, "| crontab" || die "Can't run crontab: $!";
-            print CRONP $crontab;
-            close(CRONP);
+            open my $fh, '|-', 'crontab'
+                or die "Can't run crontab: $ERRNO";
+            print $fh $crontab;
+            close $fh;
 
         }
-    }
-    elsif (-d "/etc/cron.d") {
+    } elsif (-d "/etc/cron.d") {
         if (ask_yn("Do yo want to install the cron task in /etc/cron.d", 'y')) {
 
-            open DEST, '>/etc/cron.d/fusioninventory-agent' or die $!;
+            my $file = '/etc/cron.d/fusioninventory-agent';
+            open my $fh, '>', $file
+                or die "Can't open $file: $ERRNO";
             # Save the root PATH
-            print DEST "PATH=".$ENV{PATH}."\n";
-            print DEST $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
-            close DEST;
+            print $fh "PATH=$ENV{PATH}\n";
+            print $fh $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
+            close $fh;
         }
     }
 
     my $old_vardir;
     my $default_vardir = $config->{basevardir};
-    if ($^O =~ /solaris/) {
+    if ($OSNAME =~ /solaris/) {
         $default_vardir = '/var/opt/fusioninventory-agent';
         $old_vardir = '/var/opt/ocsinventory-agent';
 
@@ -300,34 +299,42 @@ if (!$packaged) {
         $old_vardir = '/var/lib/ocsinventory-agent';
     }
 
-
-
-
-    $config->{basevardir} = promptUser('Where do you want the agent to store its files? (You probably don\'t need to change it)', exists ($config->{basevardir})?$config->{basevardir}:$default_vardir, '^\/\w+', 'The location must begin with /');
+    $config->{basevardir} = promptUser(
+        'Where do you want the agent to store its files? (You probably don\'t need to change it)',
+        $config->{basevardir} ?  $config->{basevardir} : $default_vardir,
+        '^\/\w+',
+        'The location must begin with /'
+    );
 
     if (!-d $config->{basevardir}) {
         if (ask_yn ("Do you want to create the ".$config->{basevardir}." directory?\n", 'y')) {
-            mkdir $config->{basevardir} or die $!;
+            mkdir $config->{basevardir} or die $ERRNO;
         } else {
             print "Please create the ".$config->{basevardir}." directory\n";
             exit 1;
         }
     }
 
-    if (-d  $config->{basevardir} && !-d $default_vardir && ask_yn("Do yo want to ".
-            "migration  $old_vardir for FusionInventory Agent", 'y')) {
+    if (
+        -d $config->{basevardir} &&
+        !-d $default_vardir &&
+        ask_yn(
+            "Do yo want to migrate $old_vardir for FusionInventory Agent", 'y'
+        )
+    ) {
         system('mv', $old_vardir, $default_vardir);
     }
 
     my @oldFiles = qw(
-    /etc/ocsinventory-client
-    /etc/logrotate.d/ocsinventory-agent
-    /etc/logrotate.d/ocsinventory-client
-    /usr/sbin/ocsinventory-agent
-    /usr/bin/ocsinventory-agent
-    /usr/sbin/ocsinventory-client.pl
-    /etc/cron.d/ocsinventory-client
-    /bin/ocsinv);
+        /etc/ocsinventory-client
+        /etc/logrotate.d/ocsinventory-agent
+        /etc/logrotate.d/ocsinventory-client
+        /usr/sbin/ocsinventory-agent
+        /usr/bin/ocsinventory-agent
+        /usr/sbin/ocsinventory-client.pl
+        /etc/cron.d/ocsinventory-client
+        /bin/ocsinv
+    );
 
     my $doCleanUp;
     foreach (@oldFiles) {
@@ -336,7 +343,10 @@ if (!$packaged) {
             last;
         }
     }
-    if ($doCleanUp && ask_yn ("Should I remove the Ocsinventory Agent files", 'n')) {
+    if (
+        $doCleanUp &&
+        ask_yn("Should I remove the Ocsinventory Agent files", 'n')
+    ) {
         foreach (@oldFiles) {
             next unless -f;
             print $_."\n";
@@ -346,30 +356,32 @@ if (!$packaged) {
         print "done\n"
     }
 
-# Create the vardirectory for this server
+    # Create the vardirectory for this server
     my $dir = $config->{server};
     $dir =~ s/\//_/g;
-    $dir =~ s/:/../g if $^O =~ /^MSWin/; # Conditional because there is
+    $dir =~ s/:/../g if $OSNAME =~ /^MSWin/; # Conditional because there is
     my $vardir = $config->{basevardir}."/".$dir;
     if (!-d $vardir && !mkpath($vardir)) {
         die "Can't create $vardir!";
     }
 
-    if (@cacert) { # we need to migrate the certificat
-        open CACERT, ">".$vardir."/cacert.pem" or die "Can't open ".$vardir.'/cacert.pem: '.$!;
-        print CACERT foreach (@cacert);
-        close CACERT;
-        print "Certificat copied in ".$vardir."/cacert.pem\n";
+    if ($certContent) {
+        # we need to migrate the certificat
+        my $certFile = $vardir . '/cacert.pem';
+        open my $fh, '>', $certFile
+            or die "Can't open $certFile: $ERRNO";
+        print $fh $certContent;
+        close $fh;
+        print "Certificat copied in $certFile\n";
     }
-
-
-
 }
 
-open CONFIG, ">$defaultConfigDir/$defaultCfgFile" or die "Can't write the config file in $defaultConfigDir/$defaultCfgFile: ".$!;
-print CONFIG $_."=".$config->{$_}."\n" foreach (keys %$config);
-close CONFIG;
-chmod 0600, "$defaultConfigDir/$defaultCfgFile";
+my $file = $defaultConfigDir/$defaultCfgFile;
+open my $fh, '>', $file
+    or die "Can't write the config file in $file: $ERRNO";
+print $fh "$_ = $config->{$_}\n" foreach (keys %$config);
+close $fh;
+chmod 0600, $file;
 
 if (ask_yn("Do you want to send an inventory of this machine?", 'y')) {
     system("$binpath --force");

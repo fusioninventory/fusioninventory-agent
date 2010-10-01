@@ -5,7 +5,7 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
 use strict;
 use warnings;
 
-use XML::Simple;
+use XML::TreePP;
 use File::Glob ':glob';
 
 use FusionInventory::Agent::Tools;
@@ -113,75 +113,76 @@ sub doInventory {
         }
     }
 
-    # If home directories scan is authorized
-    if ($scanhomedirs == 1 ) {
-        # Read every Machines Xml File of every user
-        foreach my $xmlMachine (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
-            chomp($xmlMachine);
-            # Open config file ...
-            my $data = XMLin($xmlMachine);
+    return unless $scanhomedirs == 1;
 
-            # ... and read it
-            if ($data->{Machine}->{uuid}) {
-                my $uuid = $data->{Machine}->{uuid};
-                $uuid =~ s/^{?(.{36})}?$/$1/;
-                my $status = "off";
-                foreach my $vmRun (@vmRunnings) {
-                    if ($uuid eq $vmRun) {
-                        $status = "running";
-                    }
+    # Read every Machines Xml File of every user
+    foreach my $xmlMachine (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
+        chomp($xmlMachine);
+        # Open config file ...
+        my $tpp = XML::TreePP->new();
+        my $data = $tpp->parse($xmlMachine);
+          
+        # ... and read it
+        if ($data->{Machine}->{uuid}) {
+            my $uuid = $data->{Machine}->{uuid};
+            $uuid =~ s/^{?(.{36})}?$/$1/;
+            my $status = "off";
+            foreach my $vmRun (@vmRunnings) {
+                if ($uuid eq $vmRun) {
+                    $status = "running";
                 }
-
-                $inventory->addVirtualMachine ({
-                    NAME      => $data->{Machine}->{name},
-                    VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
-                    UUID      => $uuid,
-                    MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
-                    STATUS    => $status,
-                    SUBSYSTEM => "Sun xVM VirtualBox",
-                    VMTYPE    => "VirtualBox",
-                });
             }
+
+            $inventory->addVirtualMachine ({
+                NAME      => $data->{Machine}->{name},
+                VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
+                UUID      => $uuid,
+                MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
+                STATUS    => $status,
+                SUBSYSTEM => "Sun xVM VirtualBox",
+                VMTYPE    => "VirtualBox",
+            });
         }
+    }
 
-        foreach my $xmlVirtualBox (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
-            chomp($xmlVirtualBox);
-            # Open config file ...
-            my $data = XMLin($xmlVirtualBox);
-
-            # ... and read it
-            my $defaultMachineFolder = $data->{Global}->{SystemProperties}->{defaultMachineFolder};
-
-            if ($defaultMachineFolder eq "Machines") {
-                $defaultMachineFolder =~ s/VirtualBox.xml/Machines/;
-            }
-
-            if ( $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/ ) {
-
-                foreach my $xmlMachine (bsd_glob($defaultMachineFolder."/*/*.xml")) {
-                    my $data = XMLin($xmlVirtualBox);
-
-                    if ( $data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
-                        my $uuid = $data->{Machine}->{uuid};
-
-                        $uuid =~ s/^{?(.{36})}?$/$1/;
-                        my $status = "off";
-                        foreach my $vmRun (@vmRunnings) {
-                            if ($uuid eq $vmRun) {
-                                $status = "running";
-                            }
+    foreach my $xmlVirtualBox (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
+        chomp($xmlVirtualBox);
+        # Open config file ...
+        my $tpp = XML::TreePP->new();
+        my $data = $tpp->parse($xmlVirtualBox);
+        
+        # ... and read it
+        my $defaultMachineFolder =
+            $data->{Global}->{SystemProperties}->{defaultMachineFolder};
+        if (
+            $defaultMachineFolder != 0 and
+            $defaultMachineFolder != "Machines" and
+            $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/
+        ) {
+          
+            foreach my $xmlMachine (bsd_glob($defaultMachineFolder."/*/*.xml")) {
+                my $tpp = XML::TreePP->new();
+                my $data = $tpp->parse($xmlVirtualBox);
+            
+                if ($data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
+                    my $uuid = $data->{Machine}->{uuid};
+                    $uuid =~ s/^{?(.{36})}?$/$1/;
+                    my $status = "off";
+                    foreach my $vmRun (@vmRunnings) {
+                        if ($uuid eq $vmRun) {
+                            $status = "running";
                         }
-
-                        $inventory->addVirtualMachine ({
-                            NAME      => $data->{Machine}->{name},
-                            VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
-                            UUID      => $uuid,
-                            MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
-                            STATUS    => $status,
-                            SUBSYSTEM => "Sun xVM VirtualBox",
-                            VMTYPE    => "VirtualBox",
-                        });
                     }
+
+                    $inventory->addVirtualMachine ({
+                        NAME      => $data->{Machine}->{name},
+                        VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
+                        UUID      => $uuid,
+                        MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
+                        STATUS    => $status,
+                        SUBSYSTEM => "Sun xVM VirtualBox",
+                        VMTYPE    => "VirtualBox",
+                    });
                 }
             }
         }

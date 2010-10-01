@@ -19,6 +19,7 @@ my %files = (
     '/etc/trustix-release'   => '%s',
     '/etc/ubuntu_version'    => 'Ubuntu %s',
     '/etc/vmware-release'    => '%s',
+    '/etc/issue'             => '%s',
 );
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::LSB"];

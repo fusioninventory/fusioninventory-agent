@@ -4,24 +4,32 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Exception;
+use XML::TreePP;
+
 use FusionInventory::Agent::XML::Query::SimpleMessage;
+use FusionInventory::Logger;
 
 plan tests => 8;
 
 my $message;
 throws_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new();
-} qr/^No msg/, 'no message';
+} qr/^no msg/, 'no message';
 
 throws_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        msg => 'foo'
+        msg => {
+            QUERY => 'TEST',
+            FOO   => 'foo',
+            BAR   => 'bar'
+        },
     });
-} qr/^No DEVICEID/, 'no device id';
+} qr/^no deviceid/, 'no device id';
 
 lives_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        target => { deviceid => 'test' },
+        deviceid => 'foo',
+        logger   => FusionInventory::Logger->new(),
         msg => {
             QUERY => 'TEST',
             FOO   => 'foo',
@@ -32,19 +40,26 @@ lives_ok {
 
 isa_ok($message, 'FusionInventory::Agent::XML::Query::SimpleMessage');
 
-is($message->getContent(), <<EOF, 'expected content');
-<?xml version="1.0" encoding="UTF-8"?>
-<REQUEST>
-  <BAR>bar</BAR>
-  <DEVICEID>test</DEVICEID>
-  <FOO>foo</FOO>
-  <QUERY>TEST</QUERY>
-</REQUEST>
-EOF
+my $tpp = XML::TreePP->new();
+my $content;
+
+$content = {
+    REQUEST => {
+        BAR      => 'bar',
+        DEVICEID => 'foo',
+        FOO      => 'foo',
+        QUERY    => 'TEST'
+    }
+};
+is_deeply(
+    scalar $tpp->parse($message->getContent()),
+    $content,
+    'expected content'
+);
 
 lives_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        target => { deviceid => 'test' },
+        deviceid => 'foo',
         msg => {
             QUERY => 'TEST',
             FOO => 'foo',
@@ -65,24 +80,26 @@ lives_ok {
 
 isa_ok($message, 'FusionInventory::Agent::XML::Query::SimpleMessage');
 
-is($message->getContent(), <<EOF, 'expected content');
-<?xml version="1.0" encoding="UTF-8"?>
-<REQUEST>
-  <BAR>bar</BAR>
-  <CASTOR>
-    <FFF>GG</FFF>
-    <FOO>fu</FOO>
-    <GF>
-      <FFFF>GG</FFFF>
-    </GF>
-  </CASTOR>
-  <CASTOR>
-    <FddF>
-      <GG>O</GG>
-    </FddF>
-  </CASTOR>
-  <DEVICEID>test</DEVICEID>
-  <FOO>foo</FOO>
-  <QUERY>TEST</QUERY>
-</REQUEST>
-EOF
+$content = {
+    REQUEST => {
+        BAR => 'bar',
+        CASTOR => [
+            {
+                FFF => 'GG',
+                FOO => 'fu',
+                GF => { FFFF => 'GG' }
+            },
+            {
+                FddF => { GG => 'O' }
+            }
+        ],
+        DEVICEID => 'foo',
+        FOO => 'foo',
+        QUERY => 'TEST'
+    }
+};
+is_deeply(
+    scalar $tpp->parse($message->getContent()),
+    $content,
+    'expected content'
+);

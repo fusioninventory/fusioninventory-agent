@@ -10,9 +10,9 @@ sub new {
         config      => $params->{config},
         target      => $params->{target},
         logger      => $params->{logger},
-        storage     => $params->{storage},
         prologresp  => $params->{prologresp},
-        transmitter => $params->{transmitter}
+        transmitter => $params->{transmitter},
+        deviceid    => $params->{deviceid}
     };
 
     bless $self, $class;

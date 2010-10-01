@@ -2987,7 +2987,7 @@ foreach my $test (@manufacturer_tests_nok) {
 }
 
 foreach my $test (@dhcp_leases_test) {
-    my $server = FusionInventory::Agent::Tools::parseDhcpLeaseFile(undef, $test->{if}, "resources/dhcp/".$test->{file});
+    my $server = FusionInventory::Agent::Tools::_parseDhcpLeaseFile(undef, $test->{if}, "resources/dhcp/".$test->{file});
     ok(
         $server && ($server eq $test->{result}),
         "Parse DHCP lease"

@@ -7,16 +7,57 @@ use base 'FusionInventory::Agent::XML::Query';
 use Config;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
-use Encode qw/encode/;
-use XML::Simple;
+use Encode qw(encode);
+use XML::TreePP;
+
+use FusionInventory::Agent::XML::Query;
+
+my %fields = (
+    ANTIVIRUS   => [ qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/ ],
+    BATTERIES   => [ qw/CAPACITY CHEMISTRY DATE NAME SERIAL MANUFACTURER
+                        VOLTAGE/ ],
+    CONTROLLERS => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS PCIID
+                        PCISUBSYSTEMID PCISLOT TYPE REV/ ],
+    CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
+                        SPEED/ ],
+    DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER 
+                        SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
+    ENVS        => [ qw/KEY VAL/ ],
+    INPUTS      => [ qw/CAPTION DESCRIPTION INTERFACE LAYOUT POINTTYPE TYPE/ ],
+    MEMORIES    => [qw/CAPACITY CAPTION FORMFACTOR REMOVABLE PURPOSE SPEED
+                       SERIALNUMBER TYPE DESCRIPTION NUMSLOTS/ ],
+    MODEMS      => [ qw/DESCRIPTION NAME/ ],
+    MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
+                        UUENCODE/ ],
+    NETWORKS    => [ qw/DESCRIPTION DRIVER IPADDRESS IPADDRESS6 IPDHCP IPGATEWAY
+                        IPMASK IPSUBNET MACADDR MTU PCISLOT STATUS TYPE 
+                        VIRTUALDEV SLAVES SPEED MANAGEMENT/ ],
+    PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
+    PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
+    REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
+    SLOTS       => [ qw/DESCRIPTION DESIGNATION NAME STATUS/ ],
+    SOFTWARES   => [ qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
+                        NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING 
+                        URL_INFO_ABOUT VERSION VERSION_MINOR VERSION_MAJOR 
+                        IS64BIT GUID/ ],
+    SOUNDS      => [ qw/DESCRIPTION MANUFACTURER NAME/ ],
+    STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
+                        TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
+                        SCSI_UNID SCSI_LUN / ],
+    VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION/ ],
+    USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
+    USERS       => [ qw/LOGIN DOMAIN/ ],
+    PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
+                        SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
+                        PRINTPROCESSOR SERIAL/ ],
+    VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
+                            VMID/ ],
+);
 
 sub new {
     my ($class, $params) = @_;
 
     my $self = $class->SUPER::new($params);
-
-    my $logger = $self->{logger};
-    my $target = $self->{target};
 
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
@@ -44,7 +85,12 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::AGENT_STRING];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = [
+        $FusionInventory::Agent::AGENT_STRING
+    ];
+
+    $self->{storage} = $params->{storage};
+    $self->_loadState() if $self->{storage};
 
     return $self;
 }
@@ -52,34 +98,27 @@ sub new {
 sub _addEntry {
     my ($self, $params) = @_;
 
-    my $fields = $params->{field};
-    my $sectionName = $params->{sectionName};
+    my $section = $params->{section};
     my $values = $params->{values};
     my $noDuplicated = $params->{noDuplicated};
 
     my $newEntry;
+    my $fields = $fields{$section};
+    die "Unknown section $section" unless $fields;
 
-    my $showAll = 0;
-
-    foreach (@$fields) {
-        if (!$showAll && !defined($values->{$_})) {
-            next;
-        }
-        my $string = $self->_encode({ string => $values->{$_} });
-        $newEntry->{$_}[0] = $string;
+    foreach my $field (@$fields) {
+        next unless defined $values->{$field};
+        my $string = $self->_encode($values->{$field});
+        $newEntry->{$field} = $string;
     }
 
-# Don't create two time the same device
+    # Don't create two time the same device
     if ($noDuplicated) {
-        ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$sectionName}}) {
+        ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$section}}) {
             foreach my $field (@$fields) {
-                if (defined($entry->{$field}[0]) !=
-                    defined($newEntry->{$field}[0])) {
-                    next ENTRY;
-
-                }
-
-                if (defined($entry->{$field}[0]) && ($entry->{$field}[0] ne $newEntry->{$field}[0])) {
+                # only test existing keys, to avoid auto-vivification
+                next unless exists $newEntry->{$field};
+                if ($entry->{$field} ne $newEntry->{$field}) {
                     next ENTRY;
                 }
             }
@@ -87,161 +126,65 @@ sub _addEntry {
         }
     }
 
-    push @{$self->{h}{CONTENT}{$sectionName}}, $newEntry;
+    push @{$self->{h}{CONTENT}{$section}}, $newEntry;
 
     return 1;
-
 }
 
 sub _encode {
-    my ($self, $params) = @_;
+    my ($self, $string) = @_;
 
-    my $string = $params->{string};
+    return unless defined $string;
 
-    return unless defined($string);
+    # clean control caracters
+    $string =~ s/[[:cntrl:]]//g;
 
-    my $logger = $self->{logger};
-
-    my $ret;
-
-    $string =~ s/\0//g;
-
-    $string =~  s/\r|\n//g;
-
+    # encode to utf-8 if needed
     if ($string !~ m/\A(
-        [\x09\x0A\x0D\x20-\x7E]            # ASCII
-        | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-        |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-        |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-        |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-        | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-        |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+          [\x09\x0A\x0D\x20-\x7E]           # ASCII
+        | [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte
+        | \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} # straight 3-byte
+        | \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+        | \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+        | [\xF1-\xF3][\x80-\xBF]{3}         # planes 4-15
+        | \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
         )*\z/x) {
-#        $logger->debug("Non-UTF8 string: $string");
-        return encode("UTF-8", $string);
-    } else {
-        return $string;
-    }
+        $string = encode("UTF-8", $string);
+    };
+
+    return $string;
 }
 
-=item initialise()
-
-Runs the backend modules to initialise the data.
-
-=cut
-sub initialise {
-    my ($self) = @_;
-
-    return if $self->{isInitialised};
-
-    $self->{backend}->feedInventory ({inventory => $self});
-
-}
-
-=item addController()
-
-Add a controller in the inventory.
-
-=cut
 sub addController {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPTION
-        DRIVER
-        NAME
-        MANUFACTURER
-        PCICLASS
-        PCIID
-        PCISUBSYSTEMID
-        PCISLOT
-        TYPE
-        REV
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'CONTROLLERS',
-        values      => $args,
+        section => 'CONTROLLERS',
+        values  => $args,
     });
 }
 
-=item addModem()
-
-Add a modem in the inventory.
-
-=cut
 sub addModem {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        DESCRIPTION
-        NAME
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'MODEMS',
-        values      => $args,
+        section => 'MODEMS',
+        values  => $args,
     });
 }
 
-=item addDrive()
-
-Add a partition in the inventory.
-
-=cut
 sub addDrive {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CREATEDATE
-        DESCRIPTION
-        FREE
-        FILESYSTEM
-        LABEL
-        LETTER
-        SERIAL
-        SYSTEMDRIVE
-        TOTAL
-        TYPE
-        VOLUMN
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'DRIVES',
-        values      => $args,
+        section => 'DRIVES',
+        values  => $args,
     });
 }
 
-=item addStorage()
-
-Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
-
-=cut
 sub addStorage {
     my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-
-    my @fields = qw/
-        DESCRIPTION
-        DISKSIZE
-        INTERFACE
-        MANUFACTURER
-        MODEL
-        NAME
-        TYPE
-        SERIAL
-        SERIALNUMBER
-        FIRMWARE
-        SCSI_COID
-        SCSI_CHID
-        SCSI_UNID
-        SCSI_LUN
-    /;
 
     my $values = $args;
     if (!$values->{SERIALNUMBER}) {
@@ -249,218 +192,88 @@ sub addStorage {
     }
 
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'STORAGES',
-        values      => $values,
+        section => 'STORAGES',
+        values  => $values,
     });
 }
 
-=item addMemory()
-
-Add a memory module in the inventory.
-
-=cut
 sub addMemory {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPACITY
-        CAPTION
-        FORMFACTOR
-        REMOVABLE
-        PURPOSE
-        SPEED
-        SERIALNUMBER
-        TYPE
-        DESCRIPTION
-        NUMSLOTS
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'MEMORIES',
-        values      => $args,
+        section => 'MEMORIES',
+        values  => $args,
     });
 }
 
-=item addPort()
-
-Add a port module in the inventory.
-
-=cut
 sub addPort {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPTION
-        DESCRIPTION
-        NAME
-        TYPE
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'PORTS',
-        values      => $args,
+        section => 'PORTS',
+        values  => $args,
     });
 }
 
-=item addSlot()
-
-Add a slot in the inventory. 
-
-=cut
 sub addSlot {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        DESCRIPTION
-        DESIGNATION
-        NAME
-        STATUS
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'SLOTS',
-        values      => $args,
+        section => 'SLOTS',
+        values  => $args,
     });
 }
 
-=item addSoftware()
-
-Register a software in the inventory.
-
-=cut
 sub addSoftware {
     my ($self, $args) = @_;
 
-    my @fields = qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
-    NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING URL_INFO_ABOUT VERSION
-    VERSION_MINOR VERSION_MAJOR IS64BIT GUID/;
 
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'SOFTWARES',
+        section      => 'SOFTWARES',
         values       => $args,
         noDuplicated => 1
     });
 }
 
-=item addMonitor()
-
-Add a monitor (screen) in the inventory.
-
-=cut
 sub addMonitor {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        BASE64
-        CAPTION
-        DESCRIPTION
-        MANUFACTURER
-        SERIAL
-        UUENCODE
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'MONITORS',
-        values      => $args,
+        section => 'MONITORS',
+        values  => $args,
     });
 }
 
-=item addVideo()
-
-Add a video card in the inventory.
-
-=cut
 sub addVideo {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CHIPSET
-        MEMORY
-        NAME
-        RESOLUTION
-    /;
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'VIDEOS',
+        section      => 'VIDEOS',
         values       => $args,
         noDuplicated => 1
     });
 
 }
 
-=item addSound()
-
-Add a sound card in the inventory.
-
-=cut
 sub addSound {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        DESCRIPTION
-        MANUFACTURER
-        NAME
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'SOUNDS',
-        values      => $args,
+        section => 'SOUNDS',
+        values  => $args,
     });
 }
 
-=item addNetwork()
-
-Register a network interface in the inventory.
-
-=cut
 sub addNetwork {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        DESCRIPTION
-        DRIVER
-        IPADDRESS
-        IPADDRESS6
-        IPDHCP
-        IPGATEWAY
-        IPMASK
-        IPSUBNET
-        MACADDR
-        MTU
-        PCISLOT
-        STATUS
-        TYPE
-        VIRTUALDEV
-        SLAVES
-        SPEED
-        MANAGEMENT
-    /;
-
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'NETWORKS',
+        section      => 'NETWORKS',
         values       => $args,
         noDuplicated => 1
     });
 }
 
-=item setHardware()
-
-Save global information regarding the machine.
-
-The use of setHardware() to update USERID and PROCESSOR* informations is
-deprecated, please, use addUser() and addCPU() instead.
-
-=cut
 sub setHardware {
     my ($self, $args, $nonDeprecated) = @_;
 
@@ -480,17 +293,12 @@ sub setHardware {
                 $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
             }
 
-            my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{CONTENT}{HARDWARE}{$key}[0] = $string;
+            my $string = $self->_encode($args->{$key});
+            $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
         }
     }
 }
 
-=item setBios()
-
-Set BIOS informations.
-
-=cut
 sub setBios {
     my ($self, $args) = @_;
 
@@ -499,42 +307,24 @@ sub setBios {
         BIOSSERIAL TYPE/) {
 
         if (exists $args->{$key}) {
-            my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{CONTENT}{BIOS}{$key}[0] = $string;
+            my $string = $self->_encode($args->{$key});
+            $self->{h}{CONTENT}{BIOS}{$key} = $string;
         }
     }
 }
 
-=item addCPU()
-
-Add a CPU in the inventory.
-
-=cut
 sub addCPU {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CACHE
-        CORE
-        DESCRIPTION
-        MANUFACTURER
-        NAME
-        THREAD
-        SERIAL
-        SPEED
-    /;
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'CPUS',
-        values       => $args,
-        noDuplicated => 0
+        section => 'CPUS',
+        values  => $args,
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
     my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
-    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
-    my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME}[0];
+    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED};
+    my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME};
 
     $self->setHardware ({
         PROCESSORN => $processorn,
@@ -544,32 +334,20 @@ sub addCPU {
 
 }
 
-=item addUser()
-
-Add an user in the list of logged user.
-
-=cut
 sub addUser {
     my ($self, $args) = @_;
-
-    my @fields = qw/
-        LOGIN
-        DOMAIN
-    /;
 
     return unless $args->{LOGIN};
 
     return unless $self->_addEntry({
-        'field'        => \@fields,
-        'sectionName'  => 'USERS',
+        'section'      => 'USERS',
         'values'       => $args,
         'noDuplicated' => 1
     });
 
-
-# Compare with old system 
-    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
-    my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN}[0] || "";
+    # Compare with old system 
+    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID} || "";
+    my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN} || "";
 
     $userString .= '/' if $userString;
     $domainString .= '/' if $domainString;
@@ -591,58 +369,19 @@ sub addUser {
     }, 1);
 }
 
-=item addPrinter()
-
-Add a printer in the inventory.
-
-=cut
 sub addPrinter {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        COMMENT
-        DESCRIPTION
-        DRIVER
-        NAME
-        NETWORK
-        PORT
-        RESOLUTION
-        SHARED
-        STATUS
-        ERRSTATUS
-        SERVERNAME
-        SHARENAME
-        PRINTPROCESSOR
-        SERIAL
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'PRINTERS',
-        values      => $args,
+        section => 'PRINTERS',
+        values  => $args,
     });
 }
 
-=item addVirtualMachine()
-
-Add a Virtual Machine in the inventory.
-
-=cut
 sub addVirtualMachine {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-
-    my @fields = qw/
-        MEMORY
-        NAME
-        UUID
-        STATUS
-        SUBSYSTEM
-        VMTYPE
-        VCPU
-        VMID
-    /;
 
     if (!$args->{STATUS}) {
         $logger->error("status not set by ".caller(0));
@@ -651,221 +390,90 @@ sub addVirtualMachine {
     }
 
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'VIRTUALMACHINES',
-        values      => $args,
+        section => 'VIRTUALMACHINES',
+        values  => $args,
     });
 
 }
 
-=item addProcess()
-
-Record a running process in the inventory.
-
-=cut
 sub addProcess {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        USER
-        PID
-        CPUUSAGE
-        MEM
-        VIRTUALMEMORY
-        TTY
-        STARTED
-        CMD
-    /;
-
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'PROCESSES',
-        values      => $args,
+        section => 'PROCESSES',
+        values  => $args,
     });
 }
 
-=item addInput()
-
-Add an input device (mouse/keyboard) in the inventory.
-
-=cut
 sub addInput {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPTION
-        DESCRIPTION
-        INTERFACE
-        LAYOUT
-        POINTTYPE
-        TYPE
-    /;
 
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'INPUTS',
-        values      => $args,
+        section => 'INPUTS',
+        values  => $args,
     });
 }
 
-=item addEnv()
-
-Register an environment variable.
-
-=cut
 sub addEnv {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        KEY
-        VAL
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'ENVS',
-        values      => $args,
+        section => 'ENVS',
+        values  => $args,
     });
 }
 
-=item addUSBDevice()
-
-USB device
-
-=cut
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    my @fields = qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/;
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'USBDEVICES',
+        section      => 'USBDEVICES',
         values       => $args,
         noDuplicated => 1
     });
 }
 
-=item addBattery()
-
-Battery
-
-=cut
 sub addBattery {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        CAPACITY
-        CHEMISTRY
-        DATE
-        NAME
-        SERIAL
-        MANUFACTURER
-        VOLTAGE
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'BATTERIES',
-        values      => $args,
+        section => 'BATTERIES',
+        values  => $args,
     });
 }
 
-
-
-=item addRegistry()
-
-Windows Registry key
-
-=cut
 sub addRegistry {
     my ($self, $args) = @_;
 
-    my @fields = qw/
-        NAME
-        REGVALUE
-        HIVE
-    /;
-
     $self->_addEntry({
-        field       => \@fields,
-        sectionName => 'REGISTRY',
-        values      => $args,
+        section => 'REGISTRY',
+        values  => $args,
     });
 }
 
-
-=item addAntiVirus()
-
-Registered Anti-Virus on Windows
-
-=cut
 sub addAntiVirus {
     my ($self, $args) = @_;
 
-    my @fields = qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/;
-
     $self->_addEntry({
-        field        => \@fields,
-        sectionName  => 'ANTIVIRUS',
+        section      => 'ANTIVIRUS',
         values       => $args,
         noDuplicated => 1
     });
 }
 
 
-=item setAccessLog()
-
-What is that for? :)
-
-=cut
 sub setAccessLog {
     my ($self, $args) = @_;
 
     foreach my $key (qw/USERID LOGDATE/) {
 
         if (exists $args->{$key}) {
-            $self->{h}{CONTENT}{ACCESSLOG}{$key}[0] = $args->{$key};
+            $self->{h}{CONTENT}{ACCESSLOG}{$key} = $args->{$key};
         }
     }
 }
 
-=item addIpDiscoverEntry()
-
-IpDiscover is used to identify network interface on the local network. This
-is done on the ARP level.
-
-This function adds a network interface in the inventory.
-
-=cut
-sub addIpDiscoverEntry {
-    my ($self, $args) = @_;
-
-    my $ipaddress = $args->{IPADDRESS};
-    my $macaddr = $args->{MACADDR};
-    my $name = $args->{NAME};
-
-    if (!$self->{h}{CONTENT}{IPDISCOVER}{H}) {
-        $self->{h}{CONTENT}{IPDISCOVER}{H} = [];
-    }
-
-    push @{$self->{h}{CONTENT}{IPDISCOVER}{H}}, {
-        # If I or M is undef, the server will ingore the host
-        I => [$ipaddress?$ipaddress:""],
-        M => [$macaddr?$macaddr:""],
-        N => [$name?$name:"-"], # '-' is the default value reteurned by ipdiscover
-    };
-}
-
-=item addSoftwareDeploymentPackage()
-
-This function is for software deployment.
-
-Order sent to the agent are recorded on the client side and then send back
-to the server in the inventory.
-
-=cut
 sub addSoftwareDeploymentPackage {
     my ($self, $args) = @_;
 
@@ -880,11 +488,6 @@ sub addSoftwareDeploymentPackage {
             $orderId });
 }
 
-=item getContent()
-
-Return the inventory as a XML string.
-
-=cut
 sub getContent {
     my ($self, $args) = @_;
 
@@ -893,9 +496,9 @@ sub getContent {
     $self->processChecksum();
 
     #  checks for MAC, NAME and SSN presence
-    my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR}->[0];
-    my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN}->[0];
-    my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME}->[0];
+    my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR};
+    my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN};
+    my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME};
 
     my $missing;
 
@@ -910,12 +513,6 @@ sub getContent {
     return $self->SUPER::getContent();
 }
 
-=item getContentAsHTML()
-
-Save the generated inventory as an XML file. The 'local' key of the config
-is used to know where the file as to be saved.
-
-=cut
 sub getContentAsHTML {
     my ($self, $args) = @_;
 
@@ -928,10 +525,20 @@ sub getContentAsHTML {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent $target->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <title>FusionInventory-Agent $self->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <style type="text/css">
+<!--/* <![CDATA[ */
+ tr.odd { 
+    background-color:white;
+}
+tr.even { 
+    background-color:silver;
+}
+/* ]]> */-->
+    </style>
 </head>
 <body>
-    <h1>Inventory for $target->{deviceid}</h1>
+    <h1>Inventory for $self->{deviceid}</h1>
     FusionInventory Agent $FusionInventory::Agent::VERSION
 EOF
 
@@ -942,61 +549,51 @@ EOF
 
     my $htmlBody;
 
-    my $oldSectionName = "";
-    foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
-        next if $sectionName eq 'VERSIONCLIENT';
+    foreach my $section (qw/ACCESSLOG HARDWARE BIOS /) {
+        my $content = $self->{h}{CONTENT}->{$section};
 
-        my $dataRef = $self->{h}{CONTENT}->{$sectionName};
+        $htmlBody .= "<h2>$section</h2>\n";
 
-        if (ref($dataRef) eq 'ARRAY') {
-            foreach my $section (@{$dataRef}) {
-
-                next unless keys %{$section};
-
-                if ($oldSectionName ne $sectionName) {
-                    $htmlBody .= "<h2>$sectionName</h2>\n";
-                    $oldSectionName = $sectionName;
-                }
-
-                $htmlBody .= "<ul>";
-                foreach my $key (sort keys %{$section}) {
-                    $htmlBody .="<li>".$key.": ".
-                    ($section->{$key}[0]||"(empty)").
-                    "</li>\n";
-                }
-                $htmlBody .= "</ul>\n<br />\n<br />\n";
-
-            }
-        } else {
-            $htmlBody .= "<h2>$sectionName</h2>\n";
-
-            $htmlBody .= "<ul>";
-            foreach my $key (sort keys %{$dataRef}) {
-                $htmlBody .="<li>".$key.": ".
-                ($dataRef->{$key}[0]||"(empty)").
-                "</li>\n";
-            }
-            $htmlBody .= "</ul>\n<br />\n";
+        $htmlBody .= "<ul>\n";
+        foreach my $key (sort keys %{$content}) {
+            $htmlBody .= "<li>$key: $content->{$key}</li>\n";
         }
+        $htmlBody .= "</ul>\n";
+    }
+
+    foreach my $section (sort keys %fields) {
+        my $content = $self->{h}{CONTENT}->{$section};
+        next unless $content && @$content;
+
+        $htmlBody .= "<h2>$section</h2>\n";
+
+        my $fields = $fields{$section};
+        $htmlBody .= "<table width=\"100\%\">\n";
+        $htmlBody .= "<tr>\n";
+        foreach my $field (@$fields) {
+            $htmlBody .= "<th>" . lc($field). "</th>\n";
+        }
+        $htmlBody .= "</tr>\n";
+
+        my $count = 0;
+        foreach my $item (@$content) {
+            my $class = $count++ % 2 ? 'odd' : 'even';      
+            $htmlBody .= "<tr class=\"$class\">\n";
+            foreach my $field (@$fields) {
+                $htmlBody .= "<td>" . ($item->{$field} || "" ). "</td>\n";
+            }
+            $htmlBody .= "</tr>\n";
+        }
+        $htmlBody .= "</table>\n";
     }
 
     return $htmlHeader . $htmlBody . $htmlFooter;
 }
 
-=item processChecksum()
-
-Compute the <CHECKSUM/> field. This information is used by the server to
-know which parts of the XML have changed since the last inventory.
-
-The is done thanks to the last_file file. It has MD5 prints of the previous
-inventory. 
-
-=cut
 sub processChecksum {
     my $self = shift;
 
     my $logger = $self->{logger};
-    my $target = $self->{target};
 
     # to apply to $checksum with an OR
     my %mask = (
@@ -1021,115 +618,30 @@ sub processChecksum {
     );
     # TODO CPUS is not in the list
 
-    if (!$self->{target}->{vardir}) {
-        die "vardir uninitialised!";
-    }
-
     my $checksum = 0;
 
-    if ($target->{last_statefile}) {
-        if (-f $target->{last_statefile}) {
-            # TODO: avoid a violant death in case of problem with XML
-            $self->{last_state_content} = XMLin(
-                $target->{last_statefile},
-                SuppressEmpty => undef,
-                ForceArray    => 1
-            );
-        } else {
-            $logger->debug(
-                "last_state file $target->{last_statefile} doesn't exist (yet)."
-            );
-        }
-    }
-
+    my $tpp = XML::TreePP->new();
     foreach my $section (keys %mask) {
-        # check if the checksum has changed...
-        my $hash = md5_base64(XMLout($self->{h}{CONTENT}{$section}));
+        #If the checksum has changed...
+        my $hash =
+            md5_base64($tpp->write({ XML => $self->{h}{'CONTENT'}{$section} }));
         if (
-            !$self->{last_state_content}->{$section}[0] ||
-            $self->{last_state_content}->{$section}[0] ne $hash
+            !$self->{state}->{$section} ||
+            $self->{state}->{$section} ne $hash
         ) {
-            $logger->debug("Section $section has changed since last inventory");
+            $logger->debug ("Section $section has changed since last inventory");
             # We make OR on $checksum with the mask of the current section
             $checksum |= $mask{$section};
         }
-        # Finally I store the new value.
-        $self->{last_state_content}->{$section}[0] = $hash;
+        # Finally I store the new value. If the transmition is ok, this will
+        # be the new last_state
+        $self->{state}->{$section} = $hash;
     }
 
-    $self->setHardware({CHECKSUM => $checksum});
+  $self->setHardware({CHECKSUM => $checksum});
+
 }
 
-=item saveLastState()
-
-At the end of the process IF the inventory was saved
-correctly, the last_state is saved.
-
-=cut
-sub saveLastState {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-
-    if (!defined($self->{last_state_content})) {
-        $self->processChecksum();
-    }
-
-    if (!defined ($target->{last_statefile})) {
-        $logger->debug ("Can't save the last_state file. File path is not initialised.");
-        return;
-    }
-
-    if (open my $handle, '>', $target->{last_statefile}) {
-        print $handle XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
-        close $handle;
-    } else {
-        $logger->debug (
-            "Cannot save the checksum values in $target->{last_statefile} " .
-            "(will be synchronized by GLPI!!): $ERRNO"
-        );
-    }
-}
-
-=item addSection()
-
-A generic way to save a section in the inventory. Please avoid this
-solution.
-
-=cut
-sub addSection {
-    my ($self, $args) = @_;
-    my $logger = $self->{logger};
-    my $multi = $args->{multi};
-    my $tagname = $args->{tagname};
-
-    $logger->debug("Please, don't use addSection(). This function may be ".
-        "dropped in the future.");
-
-    for( keys %{$self->{h}{CONTENT}} ){
-        if( $tagname eq $_ ){
-            $logger->debug("Tag name `$tagname` already exists - Don't add it");
-            return 0;
-        }
-    }
-
-    if($multi){
-        $self->{h}{CONTENT}{$tagname} = [];
-    }
-    else{
-        $self->{h}{CONTENT}{$tagname} = {};
-    }
-    return 1;
-}
-
-=item feedSection()
-
-Add informations in inventory.
-
-=back
-=cut
-# Q: is that really useful()? Can't we merge with addSection()?
 sub feedSection{
     my ($self, $args) = @_;
     my $tagname = $args->{tagname};
@@ -1156,6 +668,23 @@ sub feedSection{
     return 1;
 }
 
+sub _loadState {
+    my ($self) = @_;
+
+    my $data = $self->{storage}->restore();
+    $self->{state} = $data->{state} if $data->{state};
+}
+
+sub saveState {
+    my ($self) = @_;
+
+    $self->{storage}->save({
+        data => {
+            state => $self->{state}
+        }
+    });
+}
+
 1;
 
 __END__
@@ -1176,6 +705,148 @@ it called $inventory in general.
 
 The constructor. See base class C<FusionInventory::Agent::XML::Query> for
 allowed parameters.
+
+=head2 addController()
+
+Add a controller in the inventory.
+
+=head2 addModem()
+
+Add a modem in the inventory.
+
+=head2 addDrive()
+
+Add a partition in the inventory.
+
+=head2 addStorage()
+
+Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
+
+=head2 addMemory()
+
+Add a memory module in the inventory.
+
+=head2 addPort()
+
+Add a port module in the inventory.
+
+=head2 addSlot()
+
+Add a slot in the inventory. 
+
+=head2 addSoftware()
+
+Register a software in the inventory.
+
+=head2 addMonitor()
+
+Add a monitor (screen) in the inventory.
+
+=head2 addVideo()
+
+Add a video card in the inventory.
+
+=head2 addSound()
+
+Add a sound card in the inventory.
+
+=head2 addNetwork()
+
+Register a network interface in the inventory.
+
+=head2 addCPU()
+
+Add a CPU in the inventory.
+
+=head2 addUser()
+
+Add an user in the list of logged user.
+
+=head2 addPrinter()
+
+Add a printer in the inventory.
+
+=head2 addVirtualMachine()
+
+Add a Virtual Machine in the inventory.
+
+=head2 addProcess()
+
+Add a running process in the inventory.
+
+=head2 addInput()
+
+Add an input device (mouse/keyboard) in the inventory.
+
+=head2 addEnv()
+
+Add an environment variable in the inventory.
+
+=head2 addUSBDevice()
+
+Add an USB device in the inventory.
+
+=head2 addBattery()
+
+Add a Battery in the inventory.
+
+=head2 addRegistry()
+
+Add a Windows Registry key in the inventory.
+
+=head2 addAntiVirus()
+
+Add a registered Anti-Virus in the inventory.
+
+=head2 setHardware()
+
+Save global information regarding the machine.
+
+The use of setHardware() to update USERID and PROCESSOR* informations is
+deprecated, please, use addUser() and addCPU() instead.
+
+=head2 setBios()
+
+Set BIOS informations.
+
+=head2 setAccessLog()
+
+What is that for? :)
+
+=head2 addSoftwareDeploymentPackage()
+
+This function is for software deployment.
+
+Order sent to the agent are recorded on the client side and then send back
+to the server in the inventory.
+
+=head2 getContent()
+
+Return the inventory as a XML string.
+
+=head2 getContentAsHTML()
+
+Return the inventory as an HTML string.
+
+=head2 writeXML()
+
+Save the generated inventory as an XML file. The 'local' key of the config
+is used to know where the file as to be saved.
+
+=head2 processChecksum()
+
+Compute the checksum of the inventory. This information is used by the server
+to know which information changed since the last inventory.
+
+=head2 feedSection()
+
+Add informations in inventory.
+
+# Q: is that really useful()? Can't we merge with addSection()?
+
+=head2 saveState()
+
+Save persistant part of current state.
 
 =head1 XML STRUCTURE
 

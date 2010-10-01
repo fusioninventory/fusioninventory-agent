@@ -77,9 +77,6 @@ sub _getBiosHardware {
         $hardware->{VMSYSTEM} = 'Physical';
     }
 
-    cleanUnknownValues($bios);
-    cleanUnknownValues($hardware);
-
     return $bios, $hardware;
 }
 

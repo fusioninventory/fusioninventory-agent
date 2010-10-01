@@ -3,7 +3,7 @@ package FusionInventory::Agent::XML::Response;
 use strict;
 use warnings;
 
-use XML::Simple;
+use XML::TreePP;
 
 sub new {
     my ($class, $params) = @_;
@@ -28,10 +28,14 @@ sub getParsedContent {
     my $self = shift;
 
     if(!$self->{parsedcontent} && $self->{content}) {
-        $self->{parsedcontent} = XMLin(
-            $self->{content},
-            ForceArray => ['OPTION','PARAM']
+        my $tpp = XML::TreePP->new(
+            force_array   => [ qw/OPTION PARAM/ ],
+            attr_prefix   => '',
+            text_node_key => 'content'
         );
+        my $tmp = $tpp->parse( $self->{content} );
+        return unless $tmp->{REPLY};
+        $self->{parsedcontent} = $tmp->{REPLY};
     }
 
     return $self->{parsedcontent};

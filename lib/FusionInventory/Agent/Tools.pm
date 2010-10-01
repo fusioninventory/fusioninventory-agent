@@ -21,7 +21,6 @@ our @EXPORT = qw(
     getIpDhcp
     getPackagesFromCommand
     compareVersion
-    cleanUnknownValues
     can_run
     can_load
 );
@@ -242,7 +241,7 @@ sub _parseDmidecode {
     return $info;
 }
 
-sub findDhcpLeaseFile {
+sub _findDhcpLeaseFile {
     my ($logger) = @_;
 
     my @files;
@@ -273,7 +272,7 @@ sub findDhcpLeaseFile {
     return $files[-1];
 }
 
-sub parseDhcpLeaseFile {
+sub _parseDhcpLeaseFile {
     my ($logger, $if, $lease_file) = @_;
 
     my ($server_ip, $expiration_time);
@@ -332,11 +331,11 @@ sub parseDhcpLeaseFile {
 sub getIpDhcp {
     my ($logger, $if) = @_;
 
-    my $dhcpLeaseFile = findDhcpLeaseFile($logger);
+    my $dhcpLeaseFile = _findDhcpLeaseFile($logger);
 
     return unless $dhcpLeaseFile;
 
-    parseDhcpLeaseFile($logger, $if, $dhcpLeaseFile);
+    _parseDhcpLeaseFile($logger, $if, $dhcpLeaseFile);
 }
 
 sub getPackagesFromCommand {
@@ -375,14 +374,6 @@ sub compareVersion {
             &&
             $minor >= $min_minor
         );
-}
-
-sub cleanUnknownValues {
-    my ($hash) = @_;
-
-    foreach my $key (keys %$hash) {
-       delete $hash->{$key} if !defined $hash->{$key};
-    }
 }
 
 sub can_run {
@@ -481,10 +472,6 @@ output with given callback.
 
 Returns true if software with given major and minor version meet minimal
 version requirements.
-
-=head2 cleanUnknownValues($hashref)
-
-Deletes all key with undefined values from given hashref.
 
 =head2 can_run($binary)
 

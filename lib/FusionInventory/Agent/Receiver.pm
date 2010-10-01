@@ -204,12 +204,12 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger              => $params->{logger},
-        scheduler           => $params->{scheduler},
-        agent               => $params->{agent},
-        rpc_ip              => $params->{rpc_ip},
-        rpc_port            => $params->{rpc_port},
-        rpc_trust_localhost => $params->{rpc_trust_localhost},
+        logger          => $params->{logger},
+        scheduler       => $params->{scheduler},
+        agent           => $params->{agent},
+        ip              => $params->{ip},
+        port            => $params->{port},
+        trust_localhost => $params->{trust_localhost},
     };
 
     my $logger = $self->{logger};
@@ -220,9 +220,9 @@ sub new {
         $self->{htmlDir} = "./share/html";
     }
     if ($self->{htmlDir}) {
-        $logger->debug("[Receiver] Static files are in ".$self->{htmlDir});
+        $logger->debug("[WWW] Static files are in ".$self->{htmlDir});
     } else {
-        $logger->debug("[Receiver] No static files directory");
+        $logger->debug("[WWW] No static files directory");
     }
 
     bless $self, $class;
@@ -255,8 +255,7 @@ sub new {
     return $self;
 }
 
-
-sub handle {
+sub _handle {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
@@ -270,12 +269,12 @@ sub handle {
     }
 
     my $path = $r->uri()->path();
-    $logger->debug("[Receiver] request $path from client $clientIp");
+    $logger->debug("[WWW] request $path from client $clientIp");
 
     # non-GET requests
     my $method = $r->method();
     if ($method ne 'GET') {
-        $logger->debug("[Receiver] invalid request type: $method");
+        $logger->debug("[WWW] invalid request type: $method");
         $c->send_error(500);
         $c->close;
         undef($c);
@@ -284,8 +283,6 @@ sub handle {
 
     # GET requests
     SWITCH: {
-        # deploy request
- 
 
         # status request
         if ($path eq '/status') {
@@ -318,10 +315,18 @@ sub _server {
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{rpc_ip},
-        LocalPort => $self->{rpc_port} || 62354,
+        LocalAddr => $self->{ip},
+        LocalPort => $self->{port},
         Reuse     => 1,
         Timeout   => 5
+    );
+
+    if (!$daemon) {
+        $logger->error("[WWW] Failed to start the service");
+        return;
+    } 
+    $logger->info(
+        "[WWW] Service started at: http://$self->{ip}:$self->{port}"
     );
 
     while (1) {
@@ -330,7 +335,7 @@ sub _server {
         my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
         my $request = $client->get_request();
-        $self->handle($client, $request, $clientIp);
+        $self->_handle($client, $request, $clientIp);
     }
 }
 
@@ -346,8 +351,8 @@ FusionInventory::Agent::Receiver - An HTTP message receiver
 This is the object used by the agent to listen on the network for messages sent
 by OCS or GLPI servers.
 
-It is an HTTP server listening on port 62354 (by default). The following requests are
-accepted:
+It is an HTTP server listening on port 62354 (by default). The following
+requests are accepted:
 
 =over
 
@@ -381,8 +386,8 @@ The constructor. The following named parameters are allowed:
 
 =item share_dir (mandatory)
 
-=item rpc_ip (default: undef)
+=item ip (default: undef)
 
-=item rpc_trust_localhost (default: false)
+=item trust_localhost (default: false)
 
 =back

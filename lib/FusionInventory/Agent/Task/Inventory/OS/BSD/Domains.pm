@@ -11,7 +11,7 @@ sub isInventoryEnabled {
     my $hostname = hostname();
 
     return 
-        ($hostname =~ /\./) || # look for a dot in hostname
+        (index $hostname, '.') >= 0 || # look for a dot in hostname
         -f "/etc/resolv.conf"
 }
 
@@ -44,7 +44,7 @@ sub doInventory {
     my $hostname = hostname();
     my $pos = index $hostname, '.';
 
-    if ($pos && $pos >= 0) {
+    if ($pos >= 0) {
         $domain = substr($hostname, $pos + 1);
     } else {
         $domain = join('/', @search_list);

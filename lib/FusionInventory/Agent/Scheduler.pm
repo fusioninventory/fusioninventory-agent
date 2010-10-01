@@ -93,6 +93,7 @@ sub scheduleTargets {
 }
 
 1;
+
 __END__
 
 =head1 NAME
@@ -120,3 +121,19 @@ The constructor. The following named parameters are allowed:
 =item background
 
 =back
+
+=head2 addTarget()
+
+Add a new target to schedule.
+
+=head2 getNextTarget()
+
+Get the next scheduled target.
+
+=head2 getTargets()
+
+Get all targets.
+
+=head2 scheduleTargets()
+
+Call scheduleNextRun() on all targets.
