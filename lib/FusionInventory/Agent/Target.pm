@@ -35,8 +35,8 @@ sub _init {
     # restore previous state
     $self->_loadState();
 
-    # initialize next run date
-    $self->scheduleNextRun();
+    # initialize next run date if needed
+    $self->scheduleNextRun() unless $self->getNextRunDate();
 }
 
 sub getStorage {
