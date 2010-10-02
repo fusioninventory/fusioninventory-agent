@@ -256,90 +256,90 @@ sub new {
     return $self;
 }
 
-sub _handle {
-    my ($self, $c, $r, $clientIp) = @_;
-    
-    my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
-    my $htmlDir = $self->{htmlDir};
+#sub _handle {
+#    my ($self, $c, $r, $clientIp) = @_;
+#    
+#    my $logger = $self->{logger};
+#    my $scheduler = $self->{scheduler};
+#    my $htmlDir = $self->{htmlDir};
+#
+#    if (!$r) {
+#        $c->close;
+#        undef($c);
+#        return;
+#    }
+#
+#    my $path = $r->uri()->path();
+#    $logger->debug("[WWW] request $path from client $clientIp");
+#
+#    # non-GET requests
+#    my $method = $r->method();
+#    if ($method ne 'GET') {
+#        $logger->debug("[WWW] invalid request type: $method");
+#        $c->send_error(500);
+#        $c->close;
+#        undef($c);
+#        return;
+#    }
+#
+#    # GET requests
+#    SWITCH: {
+#
+#        # status request
+#        if ($path eq '/status') {
+#            my $status = $self->{agent}->getStatus();
+#            my $r = HTTP::Response->new(
+#                200,
+#                'OK',
+#                HTTP::Headers->new('Content-Type' => 'text/plain'),
+#               "status: $status"
+#            );
+#            $c->send_response($r);
+#            last SWITCH;
+#        }
+#
+#        # static content request
+#        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
+#            $c->send_file_response($htmlDir."/$1");
+#            last SWITCH;
+#        }
+#    }
 
-    if (!$r) {
-        $c->close;
-        undef($c);
-        return;
-    }
+#    $c->close;
+#    undef($c);
+#}
 
-    my $path = $r->uri()->path();
-    $logger->debug("[WWW] request $path from client $clientIp");
-
-    # non-GET requests
-    my $method = $r->method();
-    if ($method ne 'GET') {
-        $logger->debug("[WWW] invalid request type: $method");
-        $c->send_error(500);
-        $c->close;
-        undef($c);
-        return;
-    }
-
-    # GET requests
-    SWITCH: {
-
-        # status request
-        if ($path eq '/status') {
-            my $status = $self->{agent}->getStatus();
-            my $r = HTTP::Response->new(
-                200,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/plain'),
-               "status: $status"
-            );
-            $c->send_response($r);
-            last SWITCH;
-        }
-
-        # static content request
-        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-            $c->send_file_response($htmlDir."/$1");
-            last SWITCH;
-        }
-    }
-
-    $c->close;
-    undef($c);
-}
-
-sub _server {
-    my ($self) = @_;
-
-    my $scheduler = $self->{scheduler};
-    my $logger = $self->{logger};
-
-    my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{'ip'},
-        LocalPort => $self->{'www-port'},
-        Reuse     => 1,
-        Timeout   => 5
-    );
-
-    if (!$daemon) {
-        $logger->error("[WWW] Failed to start the service");
-        return;
-    } 
-    $logger->info(
-        "[WWW] Service started at: http://$self->{'ip'}:$self->{'www-port'}"
-    );
-
-    while (1) {
-        my ($client, $socket) = $daemon->accept();
-        next unless $socket;
-        my (undef, $iaddr) = sockaddr_in($socket);
-        my $clientIp = inet_ntoa($iaddr);
-        my $request = $client->get_request();
-        $self->_handle($client, $request, $clientIp);
-    }
-}
-
+#sub _server {
+#    my ($self) = @_;
+#
+#    my $scheduler = $self->{scheduler};
+#    my $logger = $self->{logger};
+#
+#    my $daemon = HTTP::Daemon->new(
+#        LocalAddr => $self->{'ip'},
+#        LocalPort => $self->{'www-port'},
+#        Reuse     => 1,
+#        Timeout   => 5
+#    );
+#
+#    if (!$daemon) {
+#        $logger->error("[WWW] Failed to start the service");
+#        return;
+#    } 
+#    $logger->info(
+#        "[WWW] Service started at: http://$self->{'ip'}:$self->{'www-port'}"
+#    );
+#
+#    while (1) {
+#        my ($client, $socket) = $daemon->accept();
+#        next unless $socket;
+#        my (undef, $iaddr) = sockaddr_in($socket);
+#        my $clientIp = inet_ntoa($iaddr);
+#        my $request = $client->get_request();
+#        $self->_handle($client, $request, $clientIp);
+#    }
+#}
+#
 1;
 __END__
 

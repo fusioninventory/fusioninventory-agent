@@ -15,6 +15,7 @@ sub new {
     my $self = {
         maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
+        deviceid        => $params->{deviceid},
         nextRunDate     => undef,
     };
     bless $self, $class;
@@ -137,8 +138,6 @@ sub runTarget {
 
     my $config = $self->{config};
     my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
-    my $receiver = $self->{receiver};
     my $target = $params->{target};
 
     eval {
@@ -146,11 +145,11 @@ sub runTarget {
 
         my $prologresp;
         my $transmitter;
-        if ($target->isa('FusionInventory::Agent::Target::Server')) {
+        if ($self->isa('FusionInventory::Agent::Target::Server')) {
 
             $transmitter = FusionInventory::Agent::Transmitter->new({
                     logger       => $logger,
-                    url          => $target->{url},
+                    url          => $self->{url},
                     proxy        => $config->{proxy},
                     user         => $config->{user},
                     password     => $config->{password},
@@ -174,7 +173,7 @@ sub runTarget {
 
             if (!$prologresp) {
                 $logger->error("No anwser from the server");
-                $target->scheduleNextRun();
+                $self->scheduleNextRun();
                 next;
             }
         }
@@ -203,7 +202,7 @@ sub runTarget {
                 my $task = $package->new({
                     config      => $config,
                     logger      => $logger,
-                    target      => $target,
+                    target      => $self,
                     prologresp  => $prologresp,
                     transmitter => $transmitter,
                     deviceid    => $self->{deviceid}

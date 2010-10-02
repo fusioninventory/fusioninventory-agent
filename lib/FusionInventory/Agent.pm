@@ -130,8 +130,11 @@ sub new {
         $self->{scheduler}->addTarget(
             FusionInventory::Agent::Target::Stdout->new({
                 logger     => $logger,
+                config     => $config,
+
                 maxOffset  => $config->{delaytime},
                 basevardir => $config->{basevardir},
+                deviceid =>   $self->{deviceid},
             })
         );
     }
@@ -143,6 +146,7 @@ sub new {
                 maxOffset  => $config->{delaytime},
                 basevardir => $config->{basevardir},
                 path       => $config->{local},
+                deviceid =>   $self->{deviceid},
             })
         );
     }
@@ -157,6 +161,7 @@ sub new {
                     maxOffset  => $config->{delaytime},
                     basevardir => $config->{basevardir},
                     url        => $url,
+                    deviceid =>   $self->{deviceid},
                 })
             );
         }
