@@ -60,7 +60,13 @@ sub doInventory {
     # return immediatly if vm type has already been found
     return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
 
-    my $dmesg = '/bin/dmesg | head -n 750';
+    my $dmesg;
+    # On OpenBSD, dmesg is in sbin
+    # http://forge.fusioninventory.org/issues/402
+    # TODO: we should remove the head call here
+    my $dmesgPath = '/bin/dmesg';
+    $dmesgPath = '/sbin/dmesg' unless -x $dmesgPath;
+    $dmesg = $dmesgPath.' | head -n 750' if -x $dmesgPath;
 
     my $status;
     my $found = 0;
@@ -169,7 +175,7 @@ sub doInventory {
     }
 
     # Read kernel ringbuffer directly
-    if ($found == 0) {
+    if ($found == 0 && $dmesg) {
         if (open my $handle, '-|', $dmesg) {
             while (<$handle>) {
                 foreach my $str (keys %msgmap) {
