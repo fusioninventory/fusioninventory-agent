@@ -37,7 +37,8 @@ sub new {
     };
     bless $self, $class;
 
-    my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new($params);
+    $self->{config} = $config;
 
     if ($config->{help}) {
         pod2usage(-verbose => 0);
@@ -47,11 +48,12 @@ sub new {
         exit 0;
     }
 
-    my $logger = $self->{logger} = FusionInventory::Logger->new({
+    my $logger = FusionInventory::Logger->new({
         config   => $config,
         backends => $config->{logger},
         debug    => $config->{debug}
     });
+    $self->{logger} = $logger;
 
     if (!$config->{server} && !$config->{local} && !$config->{stdout}) {
         $logger->fault(
