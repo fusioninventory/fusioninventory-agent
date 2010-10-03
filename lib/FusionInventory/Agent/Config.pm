@@ -6,6 +6,7 @@ use warnings;
 use Getopt::Long;
 use Cwd qw(fast_abs_path abs_path);
 use English qw(-no_match_vars);
+use Pod::Usage;
 
 my $basedir = $OSNAME eq 'MSWin32' ?
     $ENV{APPDATA}.'/fusioninventory-agent' : '';
@@ -254,7 +255,7 @@ sub _loadUserParams {
     GetOptions(
         $self,
         @options
-    ) or $self->help();
+    ) or pod2usage(-verbose => 0);
 
 }
 
