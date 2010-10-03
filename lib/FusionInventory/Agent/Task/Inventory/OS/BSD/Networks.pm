@@ -3,7 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Networks;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return
@@ -20,81 +23,94 @@ sub doInventory {
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
-    my $description;
-    my $ipaddress;
     my $ipgateway;
-    my $ipmask;
-    my $ipsubnet;
-    my $macaddr;
-    my $status;
-    my $type;
-    my $mtu;
-    my $virtualdev;
-
 
     # Looking for the gateway
     # 'route show' doesn't work on FreeBSD so we use netstat
     # XXX IPV4 only
-    for(`netstat -nr -f inet`){
-        $ipgateway=$1 if /^default\s+(\S+)/i;
+    foreach my $line (`netstat -nr -f inet`) {
+        $ipgateway = $1 if $line =~ /^default\s+(\S+)/i;
     }
 
-    my @ifconfig = `ifconfig -a`; # -a option required on *BSD
+    my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
 
-
-    # first make the list available interfaces
-    # too bad there's no -l option on OpenBSD
-    my @list;
-    foreach (@ifconfig){
+    foreach my $interface (@$interfaces) {
         # skip loopback, pseudo-devices and point-to-point interfaces
-        next if /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+/;
-        if (/^(\S+):/) { push @list , $1; } # new interface name	  
+        next if $interface->{DESCRIPTION} =~
+            /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+$/;
+
+        if ($interface->{STATUS} eq 'Up') {
+            $interface->{IPGATEWAY} = $ipgateway;
+
+            my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
+            my $binmask = ip_iptobin($interface->{IPMASK}, 4);
+            my $binsubnet = $binip & $binmask;
+            $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
+        }
+
+        $interface->{VIRTUALDEV} =
+            $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|tun)\d+$/;
+
+        $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
+
+        $inventory->addNetwork($interface);
+    }
+}
+
+sub _parseIfconfig {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
     }
 
-    # for each interface get it's parameters
-    foreach my $description (@list) {
-        $ipaddress = $ipmask = $macaddr = $status =  $type = $mtu = "";
-        $virtualdev = undef;
-        # search interface infos
-        @ifconfig = `ifconfig $description`;
-        foreach (@ifconfig){
-            $ipaddress = $1 if /inet (\S+)/i;
-            $ipmask = $1 if /netmask\s+(\S+)/i;
-            $macaddr = $2 if /(address:|ether|lladdr)\s+(\S+)/i;
-            $status = 1 if /<UP/i;
-            $type = $1 if /media:\s+(\S+)/i;
-            $mtu = $1 if /mtu\s+(\S+)/i;
+    my $interfaces;
+
+    my $interface;
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^(\S+):/) {
+            # new interface
+            push @$interfaces, $interface if $interface;
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1
+            };
         }
 
-        my $binip = &ip_iptobin ($ipaddress ,4);
-        # In BSD, netmask is given in hex form
-        my $binmask = sprintf("%b", oct($ipmask));
-        my $binsubnet = $binip & $binmask;
-        $ipsubnet = ip_bintoip($binsubnet,4);
-
-        if ($ipmask =~ /^0x(\w{2})(\w{2})(\w{2})(\w{2})$/) {
-             $ipmask = hex($1).'.'.hex($2).'.'.hex($3).'.'.hex($4);
+        if ($line =~ /inet ($ip_address_pattern)/) {
+            $interface->{IPADDRESS} = $1;
         }
-
-        $_ = $description;
-        if (/^(lo|vboxnet|vmnet|tun)\d+/) {
-            $virtualdev = 1;
+        if ($line =~ /netmask (\S+)/) {
+            # In BSD, netmask is given in hex form
+            my $ipmask = $1;
+            if ($ipmask =~ /^0x(\w{2})(\w{2})(\w{2})(\w{2})$/) {
+                $interface->{IPMASK} =
+                    hex($1) . '.' .
+                    hex($2) . '.' .
+                    hex($3) . '.' .
+                    hex($4);
+            }
         }
-
-        $inventory->addNetwork({
-            DESCRIPTION => $description,
-            IPADDRESS => $ipaddress,
-            IPDHCP => getIpDhcp($logger, $description),
-            IPGATEWAY => ($status?$ipgateway:undef),
-            IPMASK => $ipmask,
-            IPSUBNET => ($status?$ipsubnet:undef),
-            MACADDR => $macaddr,
-            STATUS => $status?"Up":"Down",
-            TYPE => $type,
-            MTU => $mtu,
-            VIRTUALDEV => $virtualdev
-        });
+        if ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
+            $interface->{MACADDR} = $1;
+        }
+        if ($line =~ /mtu (\S+)/) {
+            $interface->{MTU} = $1;
+        }
+        if ($line =~ /media (\S+)/) {
+            $interface->{TYPE} = $1;
+        }
+        if ($line =~ /<UP/) {
+            $interface->{STATUS} = 'Up';
+        }
     }
+    push @$interfaces, $interface if $interface;
+    close $handle;
+
+    return $interfaces;
 }
 
 1;
