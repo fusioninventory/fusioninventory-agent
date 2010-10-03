@@ -10,6 +10,8 @@ use FusionInventory::Agent::Storage;
 sub new {
     my ($class, $params) = @_;
 
+    die 'no basevardir parameter' unless $params->{basevardir};
+
     my $self = {
         maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
