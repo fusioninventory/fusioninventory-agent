@@ -16,7 +16,7 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    my $self->{url} = URI->new($params->{url});
+    $self->{url} = URI->new($params->{url});
 
     my $scheme = $self->{url}->scheme();
     if (!$scheme) {
