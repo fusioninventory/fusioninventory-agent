@@ -41,7 +41,6 @@ sub new {
 
     if ($config->{help}) {
         pod2usage(-verbose => 0);
-        exit 0;
     }
     if ($config->{version}) {
         print $VERSION_STRING . "\n";
