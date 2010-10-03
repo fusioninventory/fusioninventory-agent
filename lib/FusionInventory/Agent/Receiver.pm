@@ -17,25 +17,18 @@ sub new {
         logger          => $params->{logger} || FusionInventory::Logger->new(),
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
+        htmldir         => $params->{htmldir},
         ip              => $params->{ip} || '127.0.0.1',
         port            => $params->{port},
         trust_localhost => $params->{trust_localhost},
     };
+    bless $self, $class;
 
     my $logger = $self->{logger};
-
-    if ($params->{share_dir}) {
-        $self->{htmlDir} = $params->{share_dir}.'/html';
-    } elsif ($params->{devlib}) {
-        $self->{htmlDir} = "./share/html";
-    }
-    if ($self->{htmlDir}) {
-        $logger->debug("[WWW] Static files are in ".$self->{htmlDir});
-    } else {
-        $logger->debug("[WWW] No static files directory");
-    }
-
-    bless $self, $class;
+    $logger->debug($self->{htmldir} ?
+        "[WWW] Static files are in $self->{htmldir}" :
+        "[WWW] No static files directory"
+    );
 
     $SIG{PIPE} = 'IGNORE';
     threads->create('_server', $self);
@@ -48,7 +41,7 @@ sub _handle {
     
     my $logger = $self->{logger};
     my $scheduler = $self->{scheduler};
-    my $htmlDir = $self->{htmlDir};
+    my $htmldir = $self->{htmldir};
 
     if (!$r) {
         $c->close;
@@ -78,7 +71,7 @@ sub _handle {
                 return;
             }
 
-            my $indexFile = $htmlDir."/index.tpl";
+            my $indexFile = $htmldir."/index.tpl";
             my $handle;
             if (!open $handle, '<', $indexFile) {
                 $logger->error("Can't open share $indexFile: $ERRNO");
@@ -202,7 +195,7 @@ sub _handle {
 
         # static content request
         if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-            $c->send_file_response($htmlDir."/$1");
+            $c->send_file_response($htmldir."/$1");
             last SWITCH;
         }
     }
@@ -292,13 +285,9 @@ the scheduler object to use
 
 the agent object
 
-=item I<devlib>
+=item I<htmldir>
 
-a flag forcing the use of local tree for data files (default: false)
-
-=item I<share_dir>
-
-the directory where data files are stored
+the directory where HTML templates and static files are stored
 
 =item I<ip>
 

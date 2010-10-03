@@ -198,12 +198,17 @@ sub new {
             foreach my $target ($self->{scheduler}->getTargets()) {
                 threads::shared::share($target->{nextRunUpdate});
             }
+
+            my $htmldir =
+                $config->{devlib}      ? './share/html'                  :
+                $config->{'share-dir'} ? $config->{'share-dir'}. '/html' :
+                                         undef                           ;
+
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
                 scheduler => $self->{scheduler},
                 agent     => $self,
-                devlib    => $config->{devlib},
-                share_dir => $config->{'share-dir'},
+                htmldir   => $htmldir,
                 ip        => $config->{'www-ip'},
                 port      => $config->{'www-port'},
                 trust_localhost => $config->{'www-trust-localhost'},
