@@ -72,7 +72,8 @@ sub send {
     my $logger   = $self->{logger};
 
     my $message = $args->{message};
-    my $url     = $args->{url};
+    my $url     = ref $args->{url} eq 'URI' ?
+        $args->{url} : URI->new($args->{url});
 
     # turns SSL checks on if needed
     my $scheme = $url->scheme();
