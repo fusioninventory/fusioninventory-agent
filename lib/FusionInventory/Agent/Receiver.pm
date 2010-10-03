@@ -54,7 +54,7 @@ sub _handle {
     # non-GET requests
     my $method = $r->method();
     if ($method ne 'GET') {
-        $logger->debug("[WWW] invalid request type: $method");
+        $logger->debug("[WWW] error, invalid request type: $method");
         $c->send_error(400);
         $c->close;
         undef($c);
@@ -197,6 +197,9 @@ sub _handle {
             $c->send_file_response($htmldir."/$1");
             last SWITCH;
         }
+
+        $logger->debug("[WWW] error, unknown path: $path");
+        $c->send_error(400);
     }
 
     $c->close;
