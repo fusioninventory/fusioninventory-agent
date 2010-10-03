@@ -17,8 +17,7 @@ sub new {
         logger          => $params->{logger} || FusionInventory::Logger->new(),
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
-        htmldir         => $params->{htmldir},
-        ip              => $params->{ip} || '127.0.0.1',
+        ip              => $params->{ip},
         port            => $params->{port},
         trust_localhost => $params->{trust_localhost},
     };
@@ -291,11 +290,11 @@ the directory where HTML templates and static files are stored
 
 =item I<ip>
 
-the ip adress to listen to (default: localhost)
+the network adress to listen to (default: all)
 
 =item I<port>
 
-the ip port to listen to
+the network port to listen to
 
 =item I<trust_localhost>
 
