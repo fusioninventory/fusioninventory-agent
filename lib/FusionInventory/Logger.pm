@@ -95,21 +95,33 @@ This is the logger object.
 
 =head2 new($params)
 
-The following arguments are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item config (mandatory)
+=item I<config>
+
+the agent configuration object, to be passed to backends
+
+=item I<backends>
+
+a list of backends to use (default: Stderr)
+
+=item I<debug>
+
+a flag allowing debug messages (default: false)
 
 =back
 
-=head2 log($args)
+=head2 log($params)
 
-Add a log message, with a specific level. The following arguments are allowed:
+Add a log message, with a specific level. $params is an hashref, with the
+following keys:
 
 =over
 
-=item level (mandatory)
+=item I<level>
 
 Can be one of:
 
@@ -125,22 +137,22 @@ Can be one of:
 
 =back
 
-=item message (mandatory)
+=item I<message>
 
 =back
 
-=head2 debug($msg)
+=head2 debug($message)
 
 Add a log message with debug level.
 
-=head2 info($msg)
+=head2 info($message)
 
 Add a log message with info level.
 
-=head2 error($msg)
+=head2 error($message)
 
 Add a log message with error level.
 
-=head2 fault($msg)
+=head2 fault($message)
 
 Add a log message with fault level.

@@ -275,22 +275,42 @@ token if configuration option rpc-trust-localhost is true.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item logger: the logger object to use
+=item I<logger>
 
-=item scheduler (mandatory)
+the logger object to use (default: a new stderr logger)
 
-=item agent (mandatory)
+=item I<scheduler>
 
-=item devlib (mandatory)
+the scheduler object to use
 
-=item share_dir (mandatory)
+=item I<agent>
 
-=item ip (default: undef)
+the agent object
 
-=item trust_localhost (default: false)
+=item I<devlib>
+
+a flag forcing the use of local tree for data files (default: false)
+
+=item I<share_dir>
+
+the directory where data files are stored
+
+=item I<ip>
+
+the ip adress to listen to (default: localhost)
+
+=item I<port>
+
+the ip port to listen to
+
+=item I<trust_localhost>
+
+a flag allowing to trust local request without authentication tokens (default:
+false)
 
 =back

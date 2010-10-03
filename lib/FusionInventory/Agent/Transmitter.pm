@@ -285,25 +285,38 @@ through a proxy, and validate SSL certificates.
 
 =head2 new($params)
 
-The constructor. The following named parametersare allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item url (mandatory)
+=item I<logger>
 
-=item logger: the logger object to use
+the logger object to use (default: a new stderr logger)
 
-=item proxy (default: none)
+=item I<proxy>
 
-=item user (default: none)
+the URL of an HTTP proxy
 
-=item password (default: none)
+=item I<user>
 
-=item no_ssl_check (default: false)
+the user for HTTP authentication
 
-=item ca_cert_file (default: none)
+=item I<password>
 
-=item ca_cert_dir (default: none)
+the password for HTTP authentication
+
+=item I<no_ssl_check>
+
+a flag allowing to ignore untrusted server certificates (default: false)
+
+=item I<ca_cert_file>
+
+the file containing trusted certificates
+
+=item I<ca_cert_dir>
+
+the directory containing trusted certificates
 
 =back
 

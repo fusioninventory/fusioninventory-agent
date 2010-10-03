@@ -102,11 +102,14 @@ This is a target for sending execution result to a server.
 =head2 new($params)
 
 The constructor. The following parameters are allowed, in addition to those
-from the base class C<FusionInventory::Agent::Target>:
+from the base class C<FusionInventory::Agent::Target>, as keys of the $params
+hashref:
 
 =over
 
-=item url: server URL
+=item I<url>
+
+the server URL (mandatory)
 
 =back
 

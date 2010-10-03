@@ -125,17 +125,27 @@ This is an abstract class for execution targets.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item maxOffset: maximum delay in seconds (default: 3600)
+=item I<logger>
 
-=item logger: the logger object to use
+the logger object to use (default: a new stderr logger)
 
-=item deviceid: 
+=item I<maxOffset>
 
-=item nextRunDate: 
+the maximum delay in seconds when rescheduling the target randomly
+(default: 3600)
+
+=item I<nextRunDate>
+
+the next execution date, as a unix timestamp
+
+=item I<basevardir>
+
+the base directory of the storage area (mandatory)
 
 =back
 
