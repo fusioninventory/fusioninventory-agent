@@ -11,16 +11,14 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config  => $params->{config},
-        backend => [],
+        config   => $params->{config},
+        backends => []
     };
     bless $self, $class;
 
-    my @backends = $self->{config}->{logger} ?
-        split /,/, $self->{config}->{logger} : 'Stderr';
-    my @backends_ok;
-
-    foreach my $backend (@backends) {
+    foreach my $backend (
+        $params->{backends} ? @{$params->{backends}} : 'Stderr'
+    ) {
         my $package = "FusionInventory::LoggerBackend::$backend";
         $package->require();
         if ($EVAL_ERROR) {
@@ -29,14 +27,13 @@ sub new {
             next;
         }
 
+        $self->debug("Logger backend $backend initialised");
         push
-            @{$self->{backend}},
+            @{$self->{backends}},
             $package->new({config => $self->{config}});
-        push @backends_ok, $backend;
     }
 
     $self->debug($FusionInventory::Agent::STRING_VERSION);
-    $self->debug("Log system initialised (@backends_ok)");
 
     return $self;
 }
@@ -51,8 +48,8 @@ sub log {
     return unless $message;
     return if $level eq 'debug' && !$self->{config}->{debug};
 
-    foreach (@{$self->{backend}}) {
-        $_->addMsg ({
+    foreach my $backend (@{$self->{backends}}) {
+        $backend->addMsg ({
             level => $level,
             message => $message
         });

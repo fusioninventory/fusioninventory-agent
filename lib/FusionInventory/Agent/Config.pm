@@ -29,7 +29,7 @@ my $default = {
     'info'                    => 1,
     'lazy'                    => 0,
     'local'                   => '',
-    'logger'                  => 'Stderr',
+    'logger'                  => undef,
     'logfile'                 => '',
     'logfile-maxsize'         => 0,
     'logfacility'             => 'LOG_USER',
@@ -46,7 +46,7 @@ my $default = {
     'proxy'                   => '',
     'realm'                   => '',
     'share-dir'               => 0,
-    'server'                  => '',
+    'server'                  => undef,
     'stdout'                  => 0,
     'tag'                     => '',
     'user'                    => '',
@@ -300,6 +300,19 @@ sub _checkContent {
         print STDERR
             "the parameter --html is deprecated, use --format html instead\n";
         $self->{format} = 'html';
+    }
+
+    # multi-valued attributes
+    if ($self->{server}) {
+        $self->{server} = [
+            split(/\s*,\s*/, $self->{server})
+        ];
+    }
+
+    if ($self->{logger}) {
+        $self->{logger} = [
+            split(/\s*,\s*/, $self->{logger})
+        ];
     }
 
     if ($self->{'share-dir'}) {

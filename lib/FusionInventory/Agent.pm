@@ -49,7 +49,8 @@ sub new {
     }
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
-        config => $config
+        config   => $config,
+        backends => $config->{logger}
     });
 
     if (!$config->{server} && !$config->{local} && !$config->{stdout}) {
@@ -146,9 +147,7 @@ sub new {
     }
 
     if ($config->{server}) {
-        foreach my $url (split(/,/, $config->{server})) {
-            $url =~ s/^\s+//;
-            $url =~ s/\s+$//;
+        foreach my $url (@{$config->{server}}) {
             $self->{scheduler}->addTarget(
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
