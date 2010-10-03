@@ -55,7 +55,7 @@ sub _handle {
     my $method = $r->method();
     if ($method ne 'GET') {
         $logger->debug("[WWW] invalid request type: $method");
-        $c->send_error(500);
+        $c->send_error(400);
         $c->close;
         undef($c);
         return;
