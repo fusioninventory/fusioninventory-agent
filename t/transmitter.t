@@ -12,7 +12,6 @@ use FusionInventory::Test::Proxy;
 use Test::More;
 use Test::Exception;
 use Compress::Zlib;
-use URI;
 
 plan tests => 41;
 
@@ -25,7 +24,7 @@ my $ok = sub {
 };
 
 my $logger = FusionInventory::Logger->new({
-    config => { logger => 'Test' }
+    backends => [ 'Test' ]
 });
 
 my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
@@ -68,7 +67,7 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $transmitter->send({
             message => $message,
-            url     => URI->new('http://localhost:8080/public'),
+            url     => 'http://localhost:8080/public',
         }),
         $logger,
         qr/^Can't connect to localhost:8080/
@@ -92,7 +91,7 @@ $server->background();
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('http://localhost:8080/public'),
+        url     => 'http://localhost:8080/public',
     }));
 };
 
@@ -106,7 +105,7 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $transmitter->send({
                 message => $message,
-                url     => URI->new('http://localhost:8080/private'),
+                url     => 'http://localhost:8080/private',
         }),
         $logger,
         "Authentication required, no credentials available",
@@ -124,7 +123,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('http://localhost:8080/private'),
+        url     => 'http://localhost:8080/private',
     }));
 };
 
@@ -157,7 +156,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('https://localhost:8080/public'),
+        url     => 'https://localhost:8080/public',
     }));
 };
 
@@ -172,7 +171,7 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $transmitter->send({
             message => $message,
-            url     => URI->new('https://localhost:8080/private'),
+            url     => 'https://localhost:8080/private',
         }),
         $logger,
         "Authentication required, no credentials available",
@@ -191,7 +190,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('https://localhost:8080/private'),
+        url     => 'https://localhost:8080/private',
     }));
 };
 
@@ -205,7 +204,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('https://localhost:8080/public'),
+        url     => 'https://localhost:8080/public',
     })); 
 };
 
@@ -220,7 +219,7 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $transmitter->send({
             message => $message,
-            url     => URI->new('https://localhost:8080/private'),
+            url     => 'https://localhost:8080/private',
         }),
         $logger,
         "Authentication required, no credentials available",
@@ -239,7 +238,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('https://localhost:8080/private'),
+        url     => 'https://localhost:8080/private',
     }));
 };
 
@@ -277,7 +276,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('http://localhost:8080/public'),
+        url     => 'http://localhost:8080/public',
     }));
 };
 
@@ -292,7 +291,7 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $transmitter->send({
             message => $message,
-            url     => URI->new('http://localhost:8080/private'),
+            url     => 'http://localhost:8080/private',
         }),
         $logger,
         "Authentication required, no credentials available",
@@ -311,7 +310,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('http://localhost:8080/private'),
+        url     => 'http://localhost:8080/private',
     }));
 };
 
@@ -345,7 +344,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('https://localhost:8080/public'),
+        url     => 'https://localhost:8080/public',
     }));
 };
 
@@ -361,7 +360,7 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $transmitter->send({
             message => $message,
-            url     => URI->new('https://localhost:8080/private'),
+            url     => 'https://localhost:8080/private',
         }),
         $logger,
         "Authentication required, no credentials available",
@@ -381,7 +380,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('https://localhost:8080/private'),
+        url     => 'https://localhost:8080/private',
     }));
 };
 
@@ -396,7 +395,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($response = $transmitter->send({
         message => $message,
-        url     => URI->new('https://localhost:8080/public'),
+        url     => 'https://localhost:8080/public',
     })); 
 };
 
@@ -412,7 +411,7 @@ subtest "no response" => sub {
     check_response_nok(
         scalar $transmitter->send({
             message => $message,
-            url     => URI->new('https://localhost:8080/private'),
+            url     => 'https://localhost:8080/private',
         }),
         $logger,
         "Authentication required, no credentials available",
@@ -432,7 +431,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
         message => $message,
-        url     => URI->new('https://localhost:8080/private'),
+        url     => 'https://localhost:8080/private',
     }));
 };
 
@@ -473,19 +472,19 @@ sub check_response_nok {
     plan tests => 3;
     ok(!defined $response,  "no response");
     is(
-        $logger->{backend}->[0]->{level},
+        $logger->{backends}->[0]->{level},
         'error',
         "error message level"
     );
     if (ref $message eq 'Regexp') {
         like(
-            $logger->{backend}->[0]->{message},
+            $logger->{backends}->[0]->{message},
             $message,
             "error message content"
         );
     } else {
         is(
-            $logger->{backend}->[0]->{message},
+            $logger->{backends}->[0]->{message},
             $message,
             "error message content"
         );
