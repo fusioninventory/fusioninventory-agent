@@ -296,7 +296,7 @@ sub _checkContent {
         $self->{'no-fork'} = 1;
     }
 
-    if (defined $self->{html}) {
+    if ($self->{html}) {
         print STDERR
             "the parameter --html is deprecated, use --format html instead\n";
         $self->{format} = 'html';
