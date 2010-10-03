@@ -26,6 +26,7 @@ sub doInventory {
         next if /^Filesystem\s*1024-blocks.*/;
 
         if (/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/) {
+            next if $1 eq '/proc'; # ignore proc fs like on Linux
             $type = $1;
             @fs=`lsfs -c $6`;
             @fstype = split /:/,$fs[1];     
