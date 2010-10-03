@@ -11,8 +11,8 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config   => $params->{config},
-        backends => []
+        debug    => $params->{debug},
+        backends => [],
     };
     bless $self, $class;
 
@@ -30,7 +30,7 @@ sub new {
         $self->debug("Logger backend $backend initialised");
         push
             @{$self->{backends}},
-            $package->new({config => $self->{config}});
+            $package->new({config => $params->{config}});
     }
 
     $self->debug($FusionInventory::Agent::STRING_VERSION);
@@ -46,7 +46,7 @@ sub log {
     my $message = $args->{message};
 
     return unless $message;
-    return if $level eq 'debug' && !$self->{config}->{debug};
+    return if $level eq 'debug' && !$self->{debug};
 
     foreach my $backend (@{$self->{backends}}) {
         $backend->addMsg ({

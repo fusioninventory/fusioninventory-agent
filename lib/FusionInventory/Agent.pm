@@ -49,7 +49,8 @@ sub new {
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
         config   => $config,
-        backends => $config->{logger}
+        backends => $config->{logger},
+        debug    => $config->{debug}
     });
 
     if (!$config->{server} && !$config->{local} && !$config->{stdout}) {
