@@ -20,14 +20,16 @@ sub new {
 
     my $scheme = $self->{url}->scheme();
     if (!$scheme) {
+        # this is likely a bare hostname
+        # as parsing relies on scheme, host and path have to be set explicitely
         $self->{url}->scheme('http');
-    } elsif ($scheme ne 'http' && $scheme ne 'https') {
-        die "invalid protocol for URL: $params->{url}";
-    }
-
-    my $path = $self->{url}->path();
-    if (!$path) {
+        $self->{url}->host($params->{url});
         $self->{url}->path('ocsinventory');
+    } else {
+        die "invalid protocol for URL: $params->{url}"
+            if $scheme ne 'http' && $scheme ne 'https';
+        # complete path if needed
+        $self->{url}->path('ocsinventory') if !$self->{url}->path();
     }
 
     # compute storage subdirectory from url
