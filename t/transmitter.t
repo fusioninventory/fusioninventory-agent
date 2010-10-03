@@ -12,6 +12,7 @@ use FusionInventory::Test::Proxy;
 use Test::More;
 use Test::Exception;
 use Compress::Zlib;
+use Socket;
 
 plan tests => 41;
 
@@ -55,13 +56,29 @@ throws_ok {
 } qr/^non-existing certificate directory/,
 'instanciation: invalid ca cert directory';
 
-# no connection tests
-
 lives_ok {
     $transmitter = FusionInventory::Agent::Transmitter->new({
         logger => $logger
     });
 } 'instanciation: http';
+
+# compression tests
+
+my $data = "this is a test";
+is(
+    $transmitter->_uncompressNative($transmitter->_compressNative($data)),
+    $data,
+    'round-trip compression with Compress::Zlib'
+);
+
+is(
+    $transmitter->_uncompressGzip($transmitter->_compressGzip($data)),
+    $data,
+    'round-trip compression with Gzip'
+);
+
+# no connection tests
+BAIL_OUT("port aleady used") if test_port(8080);
 
 subtest "no response" => sub {
     check_response_nok(
@@ -86,7 +103,7 @@ $server->set_dispatch({
     '/public'  => $ok,
     '/private' => sub { return $ok->(@_) if $server->authenticate(); }
 });
-$server->background();
+$server->background() or BAIL_OUT("can't launche the server");
 
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
@@ -438,20 +455,6 @@ subtest "correct response" => sub {
 $server->stop();
 $proxy->stop();
 
-# compression tests
-
-my $data = "this is a test";
-is(
-    $transmitter->_uncompressNative($transmitter->_compressNative($data)),
-    $data,
-    'round-trip compression with Compress::Zlib'
-);
-
-is(
-    $transmitter->_uncompressGzip($transmitter->_compressGzip($data)),
-    $data,
-    'round-trip compression with Gzip'
-);
 
 sub check_response_ok {
     my ($response) = @_;
@@ -489,4 +492,20 @@ sub check_response_nok {
             "error message content"
         );
     }
+}
+
+sub test_port {
+    my $port   = $_[0];
+
+    my $iaddr = inet_aton('localhost');
+    my $paddr = sockaddr_in($port, $iaddr);
+    my $proto = getprotobyname('tcp');
+    if (socket(my $socket, PF_INET, SOCK_STREAM, $proto)) {
+        if (connect($socket, $paddr)) {
+            close $socket;
+            return 1;
+        } 
+    }
+
+    return 0;
 }
