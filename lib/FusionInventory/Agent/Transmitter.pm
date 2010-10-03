@@ -12,6 +12,7 @@ use URI;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
+use FusionInventory::Logger;
 
 sub new {
     my ($class, $params) = @_;
@@ -23,7 +24,7 @@ sub new {
         if $params->{ca_cert_dir} && ! -d $params->{ca_cert_dir};
 
     my $self = {
-        logger       => $params->{logger},
+        logger       => $params->{logger} || FusionInventory::Logger->new(),
         user         => $params->{user},
         password     => $params->{password},
         ca_cert_file => $params->{ca_cert_file},
@@ -289,7 +290,7 @@ The constructor. The following named parametersare allowed:
 
 =item url (mandatory)
 
-=item logger (mandatory)
+=item logger: the logger object to use
 
 =item proxy (default: none)
 

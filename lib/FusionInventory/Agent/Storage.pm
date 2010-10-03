@@ -8,6 +8,8 @@ use File::Glob ':glob';
 use File::Path qw(make_path);
 use Storable;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -23,7 +25,7 @@ sub new {
     }
 
     my $self = {
-        logger    => $params->{logger},
+        logger    => $params->{logger} || FusionInventory::Logger->new(),
         directory => $params->{directory}
     };
     bless $self, $class;
@@ -135,7 +137,7 @@ The constructor. The following named parameters are allowed:
 
 =item directory (mandatory)
 
-=item logger (mandatory)
+=item logger: the logger object to use
 
 =back
 

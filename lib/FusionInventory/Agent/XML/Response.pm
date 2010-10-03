@@ -5,12 +5,14 @@ use warnings;
 
 use XML::TreePP;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
         content => $params->{content},
-        logger  => $params->{logger},
+        logger  => $params->{logger} || FusionInventory::Logger->new(),
     };
     bless $self, $class;
 
@@ -77,7 +79,7 @@ The constructor. The following named parameters are allowed:
 
 =item content (mandatory)
 
-=item logger (mandatory)
+=item logger: the logger object to use
 
 =back
 

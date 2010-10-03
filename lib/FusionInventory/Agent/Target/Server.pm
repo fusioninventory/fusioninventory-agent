@@ -20,7 +20,7 @@ sub new {
 
     my $scheme = $self->{url}->scheme();
     if (!$scheme) {
-        $self->{url}->scheme('http://');
+        $self->{url}->scheme('http');
     } elsif ($scheme ne 'http' && $scheme ne 'https') {
         die "invalid protocol for URL: $params->{url}";
     }

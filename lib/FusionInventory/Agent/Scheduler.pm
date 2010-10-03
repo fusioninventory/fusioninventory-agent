@@ -3,11 +3,13 @@ package FusionInventory::Agent::Scheduler;
 use strict;
 use warnings;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger     => $params->{logger},
+        logger     => $params->{logger} || FusionInventory::Logger->new(),
         lazy       => $params->{lazy},
         wait       => $params->{wait},
         background => $params->{background},
@@ -112,7 +114,7 @@ The constructor. The following named parameters are allowed:
 
 =over
 
-=item logger (mandatory)
+=item logger: the logger object to use
 
 =item lazy
 

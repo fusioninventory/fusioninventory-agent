@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Storage;
+use FusionInventory::Logger;
 
 sub new {
     my ($class, $params) = @_;
@@ -13,9 +14,9 @@ sub new {
     die 'no basevardir parameter' unless $params->{basevardir};
 
     my $self = {
-        maxOffset       => $params->{maxOffset} || 3600,
-        logger          => $params->{logger},
-        nextRunDate     => undef,
+        maxOffset   => $params->{maxOffset} || 3600,
+        logger      => $params->{logger} || FusionInventory::Logger->new(),
+        nextRunDate => undef,
     };
     bless $self, $class;
 
@@ -130,7 +131,7 @@ The constructor. The following named parameters are allowed:
 
 =item maxOffset: maximum delay in seconds (default: 3600)
 
-=item logger: logger object to use (mandatory)
+=item logger: the logger object to use
 
 =item deviceid: 
 

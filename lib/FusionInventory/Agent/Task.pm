@@ -3,13 +3,15 @@ package FusionInventory::Agent::Task;
 use strict;
 use warnings;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
         config      => $params->{config},
         target      => $params->{target},
-        logger      => $params->{logger},
+        logger      => $params->{logger} || FusionInventory::Logger->new(),
         prologresp  => $params->{prologresp},
         transmitter => $params->{transmitter},
         deviceid    => $params->{deviceid}
@@ -43,7 +45,7 @@ The constructor. The following named parameters are allowed:
 
 =item target (mandatory)
 
-=item logger (mandatory)
+=item logger: the logger object to use
 
 =item storage (mandatory)
 
