@@ -263,9 +263,9 @@ sub _findDhcpLeaseFile {
 
     # sort by creation time
     @files =
-    map { $_->[0] }
-    sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
-    map { [ $_, stat($_) ] }
+        map { $_->[0] }
+        sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
+        map { [ $_, stat($_) ] }
     @files;
 
     # take the last one
