@@ -8,10 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return unless can_run ("df");
-    my $df = `df -TP`;
-    return 1 if $df =~ /\w+/;
-    return 0;
+    return can_run ("df");
 }
 
 sub doInventory {
