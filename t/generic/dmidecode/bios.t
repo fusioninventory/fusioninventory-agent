@@ -22,6 +22,21 @@ my %tests = (
             VMSYSTEM => 'Physical'
         }
     },
+    'freebsd-8.1' => {
+        bios => {
+            SMANUFACTURER => 'Hewlett-Packard',
+            SMODEL        => 'HP Pavilion dv6 Notebook PC',
+            SSN           => 'CNF01207X6',
+            BDATE         => '05/17/2010',
+            ASSETTAG      => undef,
+            BVERSION      => 'F.1C',
+            BMANUFACTURER => 'Hewlett-Packard'
+        },
+        hardware => {
+            VMSYSTEM => 'Physical',
+            UUID => '30464E43-3231-3730-5836-C80AA93F35FA'
+        },
+    },
     'linux-2.6' => {
         bios => {
             SMANUFACTURER => 'Dell Inc.',
@@ -153,4 +168,5 @@ foreach my $test (keys %tests) {
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware($logger, $file);
     is_deeply($bios, $tests{$test}->{bios}, $test);
     is_deeply($hardware, $tests{$test}->{hardware}, $test);
+
 }

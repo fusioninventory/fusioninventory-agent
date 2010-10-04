@@ -5,13 +5,15 @@ use warnings;
 
 use XML::TreePP;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     die "no deviceid parameter" unless $params->{deviceid};
 
     my $self = {
-        logger   => $params->{logger},
+        logger   => $params->{logger} || FusionInventory::Logger->new(),
         deviceid => $params->{deviceid}
     };
     bless $self, $class;
@@ -61,13 +63,18 @@ server.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item logger (mandatory)
+=item I<logger>
 
-=item deviceid (mandatory)
+the logger object to use (default: a new stderr logger)
+
+=item I<deviceid>
+
+the agent identifier (mandatory)
 
 =back
 

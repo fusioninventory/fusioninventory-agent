@@ -335,6 +335,7 @@ needed.
 
 Print the inventory on stdout.
 
+=back
 
 =head2 Task selection options
 
@@ -462,6 +463,8 @@ Do not check server SSL certificates.
 
 =head2 Web interface options
 
+=over
+
 =item B<--no-www>
 
 Do not use the web interface.
@@ -478,6 +481,8 @@ The network port used by the web interface (default: 62354).
 
 Trust local requests. This allow to force command execution without requiring
 an authentication token.
+
+=back
 
 =head2 Logging options
 
@@ -559,8 +564,9 @@ ignored if you set it in a config file or in Windows registry.
 
 =back
 
-
 =head2 Other options
+
+=over
 
 =item B<-d>, B<--daemon>
 

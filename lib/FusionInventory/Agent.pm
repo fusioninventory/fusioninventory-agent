@@ -37,20 +37,23 @@ sub new {
     };
     bless $self, $class;
 
-    my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new($params);
+    $self->{config} = $config;
 
     if ($config->{help}) {
         pod2usage(-verbose => 0);
-        exit 0;
     }
     if ($config->{version}) {
         print $VERSION_STRING . "\n";
         exit 0;
     }
 
-    my $logger = $self->{logger} = FusionInventory::Logger->new({
-        config => $config
+    my $logger = FusionInventory::Logger->new({
+        config   => $config,
+        backends => $config->{logger},
+        debug    => $config->{debug}
     });
+    $self->{logger} = $logger;
 
     if (!$config->{server} && !$config->{local} && !$config->{stdout}) {
         $logger->fault(
@@ -146,9 +149,7 @@ sub new {
     }
 
     if ($config->{server}) {
-        foreach my $url (split(/,/, $config->{server})) {
-            $url =~ s/^\s+//;
-            $url =~ s/\s+$//;
+        foreach my $url (@{$config->{server}}) {
             $self->{scheduler}->addTarget(
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
@@ -197,12 +198,17 @@ sub new {
             foreach my $target ($self->{scheduler}->getTargets()) {
                 threads::shared::share($target->{nextRunUpdate});
             }
+
+            my $htmldir =
+                $config->{devlib}      ? './share/html'                  :
+                $config->{'share-dir'} ? $config->{'share-dir'}. '/html' :
+                                         undef                           ;
+
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
                 scheduler => $self->{scheduler},
                 agent     => $self,
-                devlib    => $config->{devlib},
-                share_dir => $config->{'share-dir'},
+                htmldir   => $htmldir,
                 ip        => $config->{'www-ip'},
                 port      => $config->{'www-port'},
                 trust_localhost => $config->{'www-trust-localhost'},
@@ -247,16 +253,17 @@ sub run {
             my $transmitter;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                $transmitter = FusionInventory::Agent::Transmitter->new({
-                    logger       => $logger,
-                    url          => $target->{url},
-                    proxy        => $config->{proxy},
-                    user         => $config->{user},
-                    password     => $config->{password},
-                    no_ssl_check => $config->{'no-ssl-check'},
-                    ca_cert_file => $config->{'ca-cert-file'},
-                    ca_cert_dir  => $config->{'ca-cert-dir'},
-                });
+                if (!$transmitter) {
+                    $transmitter = FusionInventory::Agent::Transmitter->new({
+                        logger       => $logger,
+                        proxy        => $config->{proxy},
+                        user         => $config->{user},
+                        password     => $config->{password},
+                        no_ssl_check => $config->{'no-ssl-check'},
+                        ca_cert_file => $config->{'ca-cert-file'},
+                        ca_cert_dir  => $config->{'ca-cert-dir'},
+                    });
+                }
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
                     logger   => $logger,
@@ -268,8 +275,10 @@ sub run {
                     $prolog->setAccountInfo({'TAG', $config->{tag}});
                 }
 
-                # TODO Don't mix settings and temp value
-                $prologresp = $transmitter->send({message => $prolog});
+                $prologresp = $transmitter->send({
+                    message => $prolog,
+                    url     => $target->getUrl(),
+                });
 
                 if (!$prologresp) {
                     $logger->error("No anwser from the server");

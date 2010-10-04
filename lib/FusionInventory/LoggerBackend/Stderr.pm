@@ -59,11 +59,14 @@ message level on Unix platforms.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item config (mandatory)
+=item I<config>
+
+the agent configuration object
 
 =back
 
@@ -73,7 +76,7 @@ Add a log message, with a specific level. The following arguments are allowed:
 
 =over
 
-=item level (mandatory)
+=item I<level>
 
 Can be one of:
 
@@ -89,6 +92,6 @@ Can be one of:
 
 =back
 
-=item message (mandatory)
+=item I<message>
 
 =back
