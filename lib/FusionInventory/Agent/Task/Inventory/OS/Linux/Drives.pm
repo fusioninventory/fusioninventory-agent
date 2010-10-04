@@ -45,8 +45,6 @@ sub _getFromHal {
 
 sub _getFromDF {
 
-    my @drives;
-
     my %months = (
         Jan => 1,
         Fev => 2,
@@ -62,69 +60,99 @@ sub _getFromDF {
         Dec => 12,
     );
 
-    foreach(`df -TP`) { # TODO retrive error
-        my $createdate;
-        my $free;
-        my $filesystem;
-        my $label;
-        my $total;
-        my $type;
-        my $volumn;
-        my $serial;
+    my $devices = _parseDf('df -P -T -k', '-|');
 
-        if(/^(\S+)\s+(\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\s+(?:\S+)\s+(\S+)\n/) {
-            $free = sprintf("%i",($4/1024));
-            $filesystem = $2;
-            $total = sprintf("%i",($3/1024));
-            $type = $5;
-            $volumn = $1;
+    my $has_blkid      = can_run('blkid');
+    my $has_dumpe2fs   = can_run('dumpe2fs');
+    my $has_xfs_db     = can_run('xfs_db');
+    my $has_dosfslabel = can_run('dosfslabel');
 
-            # no virtual FS
-            next if ($filesystem =~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/);
-            next if ($type =~ /^(tmpfs)$/);
+    foreach my $device (@$devices) {
 
-            if (can_run('blkid')) {
-                my $tmp = `blkid $volumn 2> /dev/null`;
-                $serial = $1 if ($tmp =~ /\sUUID="(\S*)"\s/);
-            } elsif ($filesystem =~ /^ext(2|3|4|4dev)/ && can_run('dumpe2fs')) {
-                # tune2fs -l /dev/hda1 give the same output and should be call as
-                # alternative solution
-                foreach (`dumpe2fs -h $volumn 2> /dev/null`) {
-                    if (/Filesystem UUID:\s+(\S+)/) {
-                        $serial = $1;
-                    } elsif (/Filesystem created:\s+\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+(\d{4})$/) {
-                        $createdate = $4.'/'.$months{$1}.'/'.$2.' '.$3;
-                    } elsif (/Filesystem volume name:\s*(\S.*)/) {
-                        $label = $1 unless $1 eq '<none>';
-                    }
-                }
-            } elsif ($filesystem =~ /^xfs$/ && can_run('xfs_db')) {
-                foreach (`xfs_db -r -c uuid $volumn`) {
-                    $serial = $1 if /^UUID =\s+(\S+)/;
-                }
-                foreach (`xfs_db -r -c label $volumn`) {
-                    $label = $1 if /^label =\s+"(\S+)"/;
-                }
-            } elsif ($filesystem =~ /^vfat$/ && can_run('dosfslabel')) {
-                chomp ($label = `dosfslabel $volumn`);
-            }
-
-            $label =~ s/\s+$// if $label;
-            $serial =~ s/\s+$// if $serial;
-
-            push @drives, {
-                VOLUMN     => $volumn,
-                FILESYSTEM => $filesystem,
-                LABEL      => $label,
-                SERIAL     => $serial,
-                TYPE       => $type,
-                TOTAL      => $total,
-                FREE       => $free,
-            };
+        if ($has_blkid) {
+            my $line = `blkid $device->{VOLUMN} 2> /dev/null`;
+            $device->{SERIAL} = $1 if $line =~ /\sUUID="(\S*)"\s/;
+            next;
         }
+
+        if ($device->{FILESYSTEM} =~ /^ext(2|3|4|4dev)/ && $has_dumpe2fs) {
+            foreach my $line (`dumpe2fs -h $device->{VOLUMN} 2> /dev/null`) {
+                if ($line =~ /Filesystem UUID:\s+(\S+)/) {
+                    $device->{SERIAL} = $1;
+                } elsif ($line =~ /Filesystem created:\s+\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+(\d{4})$/) {
+                    $device->{CREATEDATE} = "$4/$months{$1}/$2 $3";
+                } elsif ($line =~ /Filesystem volume name:\s*(\S.*)/) {
+                    $device->{LABEL} = $1 unless $1 eq '<none>';
+                }
+            }
+            next;
+        }
+
+        if ($device->{FILESYSTEM} eq 'xfs' && $has_xfs_db) {
+            foreach my $line (`xfs_db -r -c uuid $device->{VOLUMN}`) {
+                $device->{SERIAL} = $1 if $line =~ /^UUID =\s+(\S+)/;
+            }
+            foreach my $line (`xfs_db -r -c label $device->{VOLUMN}`) {
+                $device->{LABEL} = $1 if $line =~ /^label =\s+"(\S+)"/;
+            }
+            next;
+        }
+
+        if ($device->{FILESYSTEM} eq 'vfat' && $has_dosfslabel) {
+            $device->{LABEL} = `dosfslabel $device->{VOLUMN}`;
+            chomp $device->{LABEL};
+            next;
+        }
+
+    }
+    return @$devices;
+}
+
+sub _parseDf {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
     }
 
-    return @drives;
+
+    my $devices;
+
+    # drop headers line
+    my $line = <$handle>;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^
+        (\S+) \s+ # name
+        (\S+) \s+ # type
+        (\S+) \s+ # size
+         \S+  \s+ # used
+        (\S+) \s+ # available
+         \S+  \s+ # capacity
+        (\S+)     # mount point
+        $/x;
+
+        my $volumn     = $1;
+        my $filesystem = $2;
+        my $total      = sprintf("%i", $3 / 1024);
+        my $free       = sprintf("%i", $4 / 1024);
+        my $type       = $5;
+
+        # no virtual FS
+        next if $filesystem =~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/;
+
+        push @$devices, {
+            VOLUMN     => $volumn,
+            FILESYSTEM => $filesystem,
+            TYPE       => $type,
+            TOTAL      => $total,
+            FREE       => $free,
+        };
+    }
+    close $handle;
+
+    return $devices;
 }
 
 sub _parseLshal {
