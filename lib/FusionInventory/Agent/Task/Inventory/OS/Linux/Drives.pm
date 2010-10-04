@@ -8,7 +8,9 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run ("df");
+    return 
+        can_run ('df') ||
+        can_run ('lshal');
 }
 
 sub doInventory {
