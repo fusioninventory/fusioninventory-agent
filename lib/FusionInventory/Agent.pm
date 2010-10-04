@@ -39,20 +39,23 @@ sub new {
     };
     bless $self, $class;
 
-    my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new($params);
+    $self->{config} = $config;
 
     if ($config->{help}) {
         pod2usage(-verbose => 0);
-        exit 0;
     }
     if ($config->{version}) {
         print $VERSION_STRING . "\n";
         exit 0;
     }
 
-    my $logger = $self->{logger} = FusionInventory::Logger->new({
-        config => $config
+    my $logger = FusionInventory::Logger->new({
+        config   => $config,
+        backends => $config->{logger},
+        debug    => $config->{debug}
     });
+    $self->{logger} = $logger;
 
     if (!$config->{server} && !$config->{local} && !$config->{stdout}) {
         $logger->fault(
@@ -152,9 +155,7 @@ sub new {
     }
 
     if ($config->{server}) {
-        foreach my $url (split(/,/, $config->{server})) {
-            $url =~ s/^\s+//;
-            $url =~ s/\s+$//;
+        foreach my $url (@{$config->{server}}) {
             $self->{scheduler}->addTarget(
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
@@ -199,12 +200,17 @@ sub new {
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
         } else {
+
+            my $htmldir =
+                $config->{devlib}      ? './share/html'                  :
+                $config->{'share-dir'} ? $config->{'share-dir'}. '/html' :
+                                         undef                           ;
+
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
                 scheduler => $self->{scheduler},
                 agent     => $self,
-                devlib    => $config->{devlib},
-                share_dir => $config->{'share-dir'},
+                htmldir   => $htmldir,
                 ip        => $config->{'www-ip'},
                 port      => $config->{'www-port'},
                 trust_localhost => $config->{'www-trust-localhost'},

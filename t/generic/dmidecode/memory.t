@@ -18,6 +18,26 @@ my %tests = (
             CAPACITY    => '512'
         }
     ],
+    'freebsd-8.1' => [
+        {
+            NUMSLOTS     => 1,
+            SERIALNUMBER => '1A1541FC',
+            DESCRIPTION  => 'SODIMM',
+            TYPE         => '<OUT OF SPEC>',
+            SPEED        => '1067 MHz',
+            CAPACITY     => '2048',
+            CAPTION      => 'Bottom - Slot 1'
+        },
+        {
+            NUMSLOTS     => 2,
+            SERIALNUMBER => '1A554239',
+            DESCRIPTION  => 'SODIMM',
+            TYPE         => '<OUT OF SPEC>',
+            SPEED        => '1067 MHz',
+            CAPACITY     => '2048',
+            CAPTION      => 'Bottom - Slot 2'
+        }
+    ],
     'linux-2.6' => [
         {
             NUMSLOTS    => 1,

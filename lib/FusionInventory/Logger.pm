@@ -11,16 +11,14 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config  => $params->{config},
-        backend => [],
+        debug    => $params->{debug},
+        backends => [],
     };
     bless $self, $class;
 
-    my @backends = $self->{config}->{logger} ?
-        split /,/, $self->{config}->{logger} : 'Stderr';
-    my @backends_ok;
-
-    foreach my $backend (@backends) {
+    foreach my $backend (
+        $params->{backends} ? @{$params->{backends}} : 'Stderr'
+    ) {
         my $package = "FusionInventory::LoggerBackend::$backend";
         $package->require();
         if ($EVAL_ERROR) {
@@ -29,14 +27,13 @@ sub new {
             next;
         }
 
+        $self->debug("Logger backend $backend initialised");
         push
-            @{$self->{backend}},
-            $package->new({config => $self->{config}});
-        push @backends_ok, $backend;
+            @{$self->{backends}},
+            $package->new({config => $params->{config}});
     }
 
     $self->debug($FusionInventory::Agent::STRING_VERSION);
-    $self->debug("Log system initialised (@backends_ok)");
 
     return $self;
 }
@@ -49,10 +46,10 @@ sub log {
     my $message = $args->{message};
 
     return unless $message;
-    return if $level eq 'debug' && !$self->{config}->{debug};
+    return if $level eq 'debug' && !$self->{debug};
 
-    foreach (@{$self->{backend}}) {
-        $_->addMsg ({
+    foreach my $backend (@{$self->{backends}}) {
+        $backend->addMsg ({
             level => $level,
             message => $message
         });
@@ -98,21 +95,33 @@ This is the logger object.
 
 =head2 new($params)
 
-The following arguments are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item config (mandatory)
+=item I<config>
+
+the agent configuration object, to be passed to backends
+
+=item I<backends>
+
+a list of backends to use (default: Stderr)
+
+=item I<debug>
+
+a flag allowing debug messages (default: false)
 
 =back
 
-=head2 log($args)
+=head2 log($params)
 
-Add a log message, with a specific level. The following arguments are allowed:
+Add a log message, with a specific level. $params is an hashref, with the
+following keys:
 
 =over
 
-=item level (mandatory)
+=item I<level>
 
 Can be one of:
 
@@ -128,22 +137,22 @@ Can be one of:
 
 =back
 
-=item message (mandatory)
+=item I<message>
 
 =back
 
-=head2 debug($msg)
+=head2 debug($message)
 
 Add a log message with debug level.
 
-=head2 info($msg)
+=head2 info($message)
 
 Add a log message with info level.
 
-=head2 error($msg)
+=head2 error($message)
 
 Add a log message with error level.
 
-=head2 fault($msg)
+=head2 fault($message)
 
 Add a log message with fault level.

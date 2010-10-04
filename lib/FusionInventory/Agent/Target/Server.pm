@@ -5,6 +5,7 @@ use warnings;
 use base 'FusionInventory::Agent::Target';
 
 use English qw(-no_match_vars);
+use URI;
 
 my $count = 0;
 
@@ -15,15 +16,24 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    # assume an url without protocol part is actually a server name
-    if ($params->{url} =~ m{^https?://}) {
-        $self->{url} = $params->{url};
+    $self->{url} = URI->new($params->{url});
+
+    my $scheme = $self->{url}->scheme();
+    if (!$scheme) {
+        # this is likely a bare hostname
+        # as parsing relies on scheme, host and path have to be set explicitely
+        $self->{url}->scheme('http');
+        $self->{url}->host($params->{url});
+        $self->{url}->path('ocsinventory');
     } else {
-        $self->{url} = "http://$params->{url}/ocsinventory";
+        die "invalid protocol for URL: $params->{url}"
+            if $scheme ne 'http' && $scheme ne 'https';
+        # complete path if needed
+        $self->{url}->path('ocsinventory') if !$self->{url}->path();
     }
 
     # compute storage subdirectory from url
-    my $subdir = $self->{url};
+    my $subdir = $params->{url};
     $subdir =~ s/\//_/g;
     $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
@@ -92,11 +102,14 @@ This is a target for sending execution result to a server.
 =head2 new($params)
 
 The constructor. The following parameters are allowed, in addition to those
-from the base class C<FusionInventory::Agent::Target>:
+from the base class C<FusionInventory::Agent::Target>, as keys of the $params
+hashref:
 
 =over
 
-=item url: server URL
+=item I<url>
+
+the server URL (mandatory)
 
 =back
 

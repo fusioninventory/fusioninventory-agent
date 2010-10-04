@@ -6,15 +6,18 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Storage;
+use FusionInventory::Logger;
 
 use POE;
 
 sub new {
     my ($class, $params) = @_;
 
+    die 'no basevardir parameter' unless $params->{basevardir};
+
     my $self = {
         maxOffset       => $params->{maxOffset} || 3600,
-        logger          => $params->{logger},
+        logger          => $params->{logger} || FusionInventory::Logger->new(),
         deviceid        => $params->{deviceid},
         config          => $params->{config},
         nextRunDate     => undef,
@@ -280,17 +283,27 @@ This is an abstract class for execution targets.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item maxOffset: maximum delay in seconds (default: 3600)
+=item I<logger>
 
-=item logger: logger object to use (mandatory)
+the logger object to use (default: a new stderr logger)
 
-=item deviceid: 
+=item I<maxOffset>
 
-=item nextRunDate: 
+the maximum delay in seconds when rescheduling the target randomly
+(default: 3600)
+
+=item I<nextRunDate>
+
+the next execution date, as a unix timestamp
+
+=item I<basevardir>
+
+the base directory of the storage area (mandatory)
 
 =back
 

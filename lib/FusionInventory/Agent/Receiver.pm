@@ -12,7 +12,68 @@ use POE::Component::Server::HTTP;
 use HTTP::Status;
 use File::stat;
 
-use Data::Dumper; # XXX DEBUG
+use FusionInventory::Logger;
+
+sub new {
+    my ($class, $params) = @_;
+
+    my $self = {
+        logger          => $params->{logger} || FusionInventory::Logger->new(),
+        scheduler       => $params->{scheduler},
+        agent           => $params->{agent},
+        ip              => $params->{ip} || '127.0.0.1',
+        port            => $params->{port},
+        trust_localhost => $params->{trust_localhost},
+    };
+
+    my $logger = $self->{logger};
+
+    if ($params->{share_dir}) {
+        $self->{htmldir} = $params->{share_dir}.'/html';
+    } elsif ($params->{devlib}) {
+        $self->{htmldir} = "./share/html";
+    }
+    $logger->debug($self->{htmldir} ?
+        "[WWW] static files are in $self->{htmldir}" :
+        "[WWW] no static files directory"
+    );
+
+
+    if ($self->{htmldir}) {
+        $logger->debug("[WWW] Static files are in ".$self->{htmldir});
+    } else {
+        $logger->debug("[WWW] No static files directory");
+    }
+
+    bless $self, $class;
+
+    $SIG{PIPE} = 'IGNORE';
+
+    $self->{httpd} = POE::Component::Server::HTTP->new(
+        Port => $self->{rpc_port} || 62354,
+        ContentHandler => {
+            '/' => sub { $self->main(@_) },
+            '/deploy/' => sub { $self->deploy(@_) },
+            '/now' => sub { $self->now(@_) },
+            '/files/' => sub { $self->files(@_) },
+        },
+        StreamHandler  => sub { $self->stream(@_) },
+        Headers => { Server => 'FusionInventory Agent' },
+    );
+    if ($self->{httpd}) { # XXX TODO
+        $logger->error("[WWW] failed to start the service");
+        return;
+    } 
+
+    $logger->info("RPC service started at: http://".
+        ( $self->{'ip'} || "127.0.0.1" ).
+        ":".
+        ($self->{'www-port'} || 62354));
+
+    return $self;
+}
+
+
 
 sub main {
     my ($self, $request, $response) = @_;
@@ -21,8 +82,7 @@ sub main {
     my $scheduler = $self->{scheduler};
 
     my $remote_ip = $request->connection->remote_ip;
-    
-    $response->code(RC_OK);
+   
 
     if ($remote_ip ne '127.0.0.1') {
         $response->content("Forbidden");
@@ -30,7 +90,11 @@ sub main {
         return;
     }
 
-    my $indexFile = $self->{htmlDir}."/index.tpl";
+
+    $response->code(RC_OK);
+
+
+    my $indexFile = $self->{htmldir}."/index.tpl";
     my $handle;
     if (!open $handle, '<', $indexFile) {
         $logger->error("Can't open share $indexFile: $ERRNO");
@@ -144,6 +208,15 @@ sub now {
         my $output = "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>";
         $response->content($output);
 
+#        # static content request
+#        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
+#            $c->send_file_response($htmldir."/$1");
+#            last SWITCH;
+#        }
+#
+#        $logger->debug("[WWW] error, unknown path: $path");
+#        $c->send_error(400);
+#>>>>>>> master
     }
 }
 
@@ -156,7 +229,7 @@ sub files {
     my $path = $request->uri->path;
 
     if ($path =~ /^\/files(.*)/) {
-        $self->sendFile($response, $self->{htmlDir}.$1);
+        $self->sendFile($response, $self->{htmldir}.$1);
         return;
 
     }
@@ -203,65 +276,12 @@ sub stream {
 }
 
 
-sub new {
-    my ($class, $params) = @_;
-
-    my $self = {
-        logger          => $params->{logger},
-        scheduler       => $params->{scheduler},
-        agent           => $params->{agent},
-        ip              => $params->{ip} || '127.0.0.1',
-        port            => $params->{port},
-        trust_localhost => $params->{trust_localhost},
-    };
-
-    my $logger = $self->{logger};
-
-    if ($params->{share_dir}) {
-        $self->{htmlDir} = $params->{share_dir}.'/html';
-    } elsif ($params->{devlib}) {
-        $self->{htmlDir} = "./share/html";
-    }
-    if ($self->{htmlDir}) {
-        $logger->debug("[WWW] Static files are in ".$self->{htmlDir});
-    } else {
-        $logger->debug("[WWW] No static files directory");
-    }
-
-    bless $self, $class;
-
-    $SIG{PIPE} = 'IGNORE';
-
-    $self->{httpd} = POE::Component::Server::HTTP->new(
-        Port => $self->{rpc_port} || 62354,
-        ContentHandler => {
-            '/' => sub { $self->main(@_) },
-            '/deploy/' => sub { $self->deploy(@_) },
-            '/now' => sub { $self->now(@_) },
-            '/files/' => sub { $self->files(@_) },
-        },
-        StreamHandler  => sub { $self->stream(@_) },
-        Headers => { Server => 'FusionInventory Agent' },
-    );
-    if (0) { # XXX TODO
-        $logger->error("[Receiver] Failed to start the service");
-        return;
-    } 
-
-    $logger->info("RPC service started at: http://".
-        ( $self->{'ip'} || "127.0.0.1" ).
-        ":".
-        ($self->{'www-port'} || 62354));
-
-    return $self;
-}
-
 #sub _handle {
 #    my ($self, $c, $r, $clientIp) = @_;
 #    
 #    my $logger = $self->{logger};
 #    my $scheduler = $self->{scheduler};
-#    my $htmlDir = $self->{htmlDir};
+#    my $htmldir = $self->{htmldir};
 #
 #    if (!$r) {
 #        $c->close;
@@ -300,7 +320,7 @@ sub new {
 #
 #        # static content request
 #        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-#            $c->send_file_response($htmlDir."/$1");
+#            $c->send_file_response($htmldir."/$1");
 #            last SWITCH;
 #        }
 #    }
@@ -373,22 +393,38 @@ token if configuration option www-trust-localhost is true.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item logger (mandatory)
+=item I<logger>
 
-=item scheduler (mandatory)
+the logger object to use (default: a new stderr logger)
 
-=item agent (mandatory)
+=item I<scheduler>
 
-=item devlib (mandatory)
+the scheduler object to use
 
-=item share_dir (mandatory)
+=item I<agent>
 
-=item ip (default: undef)
+the agent object
 
-=item trust_localhost (default: false)
+=item I<htmldir>
+
+the directory where HTML templates and static files are stored
+
+=item I<ip>
+
+the network adress to listen to (default: all)
+
+=item I<port>
+
+the network port to listen to
+
+=item I<trust_localhost>
+
+a flag allowing to trust local request without authentication tokens (default:
+false)
 
 =back
