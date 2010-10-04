@@ -8,32 +8,26 @@ use threads::shared;
 use English qw(-no_match_vars);
 use HTTP::Daemon;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger          => $params->{logger},
+        logger          => $params->{logger} || FusionInventory::Logger->new(),
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
         ip              => $params->{ip} || '127.0.0.1',
         port            => $params->{port},
         trust_localhost => $params->{trust_localhost},
     };
+    bless $self, $class;
 
     my $logger = $self->{logger};
-
-    if ($params->{share_dir}) {
-        $self->{htmlDir} = $params->{share_dir}.'/html';
-    } elsif ($params->{devlib}) {
-        $self->{htmlDir} = "./share/html";
-    }
-    if ($self->{htmlDir}) {
-        $logger->debug("[WWW] Static files are in ".$self->{htmlDir});
-    } else {
-        $logger->debug("[WWW] No static files directory");
-    }
-
-    bless $self, $class;
+    $logger->debug($self->{htmldir} ?
+        "[WWW] Static files are in $self->{htmldir}" :
+        "[WWW] No static files directory"
+    );
 
     $SIG{PIPE} = 'IGNORE';
     threads->create('_server', $self);
@@ -46,7 +40,7 @@ sub _handle {
     
     my $logger = $self->{logger};
     my $scheduler = $self->{scheduler};
-    my $htmlDir = $self->{htmlDir};
+    my $htmldir = $self->{htmldir};
 
     if (!$r) {
         $c->close;
@@ -76,7 +70,7 @@ sub _handle {
                 return;
             }
 
-            my $indexFile = $htmlDir."/index.tpl";
+            my $indexFile = $htmldir."/index.tpl";
             my $handle;
             if (!open $handle, '<', $indexFile) {
                 $logger->error("Can't open share $indexFile: $ERRNO");
@@ -200,7 +194,7 @@ sub _handle {
 
         # static content request
         if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-            $c->send_file_response($htmlDir."/$1");
+            $c->send_file_response($htmldir."/$1");
             last SWITCH;
         }
     }
@@ -273,22 +267,38 @@ token if configuration option rpc-trust-localhost is true.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item logger (mandatory)
+=item I<logger>
 
-=item scheduler (mandatory)
+the logger object to use (default: a new stderr logger)
 
-=item agent (mandatory)
+=item I<scheduler>
 
-=item devlib (mandatory)
+the scheduler object to use
 
-=item share_dir (mandatory)
+=item I<agent>
 
-=item ip (default: undef)
+the agent object
 
-=item trust_localhost (default: false)
+=item I<htmldir>
+
+the directory where HTML templates and static files are stored
+
+=item I<ip>
+
+the network adress to listen to (default: all)
+
+=item I<port>
+
+the network port to listen to
+
+=item I<trust_localhost>
+
+a flag allowing to trust local request without authentication tokens (default:
+false)
 
 =back

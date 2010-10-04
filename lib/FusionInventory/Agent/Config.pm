@@ -6,6 +6,7 @@ use warnings;
 use Getopt::Long;
 use Cwd qw(fast_abs_path abs_path);
 use English qw(-no_match_vars);
+use Pod::Usage;
 
 my $basedir = $OSNAME eq 'MSWin32' ?
     $ENV{APPDATA}.'/fusioninventory-agent' : '';
@@ -24,11 +25,12 @@ my $default = {
     'devlib'                  => 0,
     'force'                   => 0,
     'help'                    => 0,
+    'html'                    => 0,
     'format'                  => 'xml',
     'info'                    => 1,
     'lazy'                    => 0,
     'local'                   => '',
-    'logger'                  => 'Stderr',
+    'logger'                  => undef,
     'logfile'                 => '',
     'logfile-maxsize'         => 0,
     'logfacility'             => 'LOG_USER',
@@ -45,7 +47,7 @@ my $default = {
     'proxy'                   => '',
     'realm'                   => '',
     'share-dir'               => 0,
-    'server'                  => '',
+    'server'                  => undef,
     'stdout'                  => 0,
     'tag'                     => '',
     'user'                    => '',
@@ -209,6 +211,7 @@ sub _loadUserParams {
         'force|f',
         'format=s',
         'help|h',
+        'html',
         'info|i',
         'lazy',
         'local|l=s',
@@ -252,7 +255,7 @@ sub _loadUserParams {
     GetOptions(
         $self,
         @options
-    ) or $self->help();
+    ) or pod2usage(-verbose => 0);
 
 }
 
@@ -292,6 +295,25 @@ sub _checkContent {
             "the parameter --daemon-no-fork is deprecated, use --daemon --no-fork instead\n";
         $self->{daemon} = 1;
         $self->{'no-fork'} = 1;
+    }
+
+    if ($self->{html}) {
+        print STDERR
+            "the parameter --html is deprecated, use --format html instead\n";
+        $self->{format} = 'html';
+    }
+
+    # multi-valued attributes
+    if ($self->{server}) {
+        $self->{server} = [
+            split(/\s*,\s*/, $self->{server})
+        ];
+    }
+
+    if ($self->{logger}) {
+        $self->{logger} = [
+            split(/\s*,\s*/, $self->{logger})
+        ];
     }
 
     if ($self->{'share-dir'}) {

@@ -3,13 +3,15 @@ package FusionInventory::Agent::Task;
 use strict;
 use warnings;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
+        logger      => $params->{logger} || FusionInventory::Logger->new(),
         config      => $params->{config},
         target      => $params->{target},
-        logger      => $params->{logger},
         prologresp  => $params->{prologresp},
         transmitter => $params->{transmitter},
         deviceid    => $params->{deviceid}
@@ -35,19 +37,22 @@ This is an abstract class for all task performed by the agent.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item config (mandatory)
+=item I<logger>
 
-=item target (mandatory)
+the logger object to use (default: a new stderr logger)
 
-=item logger (mandatory)
+=item I<config>
 
-=item storage (mandatory)
+=item I<target>
 
-=item prologresp (mandatory)
+=item I<storage>
+
+=item I<prologresp>
 
 =back
 

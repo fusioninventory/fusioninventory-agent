@@ -45,6 +45,7 @@ test_requires 'HTTP::Proxy'                  => undef;
 test_requires 'Authen::Simple'               => undef;
 test_requires 'Compress::Zlib'               => undef;
 test_requires 'Crypt::SSLeay'                => undef;
+test_requires 'IPC::Run'                     => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';

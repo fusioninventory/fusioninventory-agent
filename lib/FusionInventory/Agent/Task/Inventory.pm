@@ -9,6 +9,7 @@ use File::Find;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Logger;
 
 sub new {
     my ($class, $params) = @_;
@@ -17,7 +18,7 @@ sub new {
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         deviceid => $self->{deviceid},
-        logger   => $self->{logger},
+        logger   => $self->{logger} || FusionInventory::Logger->new(),
         storage  => $self->{target}->getStorage()
     });
 
@@ -88,9 +89,10 @@ sub run {
                 $self->{target}->getAccountInfo()
             );
 
-            my $response = $self->{transmitter}->send(
-                {message => $self->{inventory}}
-            );
+            my $response = $self->{transmitter}->send({
+                message => $self->{inventory},
+                url     => $self->{target}->getUrl(),
+            });
 
             return unless $response;
 

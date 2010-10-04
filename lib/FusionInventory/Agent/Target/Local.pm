@@ -46,11 +46,14 @@ This is a target for storing execution result in a local folder.
 =head2 new($params)
 
 The constructor. The following parameters are allowed, in addition to those
-from the base class C<FusionInventory::Agent::Target>:
+from the base class C<FusionInventory::Agent::Target>, as keys of the $params
+hashref:
 
 =over
 
-=item path: output directory path
+=item I<path>
+
+the output directory path (mandatory)
 
 =back
 

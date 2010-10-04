@@ -5,12 +5,14 @@ use warnings;
 
 use XML::TreePP;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
         content => $params->{content},
-        logger  => $params->{logger},
+        logger  => $params->{logger} || FusionInventory::Logger->new(),
     };
     bless $self, $class;
 
@@ -71,13 +73,18 @@ This is the response message sent by the server to the agent.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item content (mandatory)
+=item I<logger>
 
-=item logger (mandatory)
+the logger object to use (default: a new stderr logger)
+
+=item I<content>
+
+the raw XML content
 
 =back
 
