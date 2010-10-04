@@ -66,9 +66,10 @@ sub doInventory {
     # On OpenBSD, dmesg is in sbin
     # http://forge.fusioninventory.org/issues/402
     # TODO: we should remove the head call here
-    my $dmesgPath = '/bin/dmesg';
-    $dmesgPath = '/sbin/dmesg' unless -x $dmesgPath;
-    $dmesg = $dmesgPath.' | head -n 750' if -x $dmesgPath;
+    foreach (qw(/bin/dmesg /sbin/dmesg)) {
+        next unless -f;
+        $dmesg = $_.' | head -n 750';
+    }
 
     my $status;
     my $found = 0;
