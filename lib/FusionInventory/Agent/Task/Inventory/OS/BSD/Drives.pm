@@ -3,36 +3,59 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Drives;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return can_run("df");
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $free;
-    my $filesystem;
-    my $total;
-    my $type;
-    my $volumn;
-
-
-    for my $t ("ffs","ufs") {
-# OpenBSD has no -m option so use -k to obtain results in kilobytes
-        for(`df -P -t $t -k 2>&1`){
-            if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
-                $volumn = $1;
-                $filesystem = $t;
-                $total = sprintf("%i",$2/1024);
-                $free = sprintf("%i",$4/1024);
-                $type = $6;
-
-                $inventory->addDrive({
-                    FREE => $free,
-                    FILESYSTEM => $filesystem,
-                    TOTAL => $total,
-                    TYPE => $type,
-                    VOLUMN => $volumn
-                })
-            }
-        }
+    my $drives = _parseDf("df -P -T -t ffs,ufs -k 2>&1", '-|');
+    foreach my $drive (@$drives) {
+        $inventory->addDrive($drive);
     }
 }
+
+sub _parseDf {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my $drives;
+
+    # drop headers line
+    my $line = <$handle>;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^
+            (\S+) \s+ # nme
+            (\S+) \s+ # type
+            (\S+) \s+ # size
+             \S+  \s+ # used
+            (\S+) \s+ # available
+             \S+  \s+ # capacity
+            (\S+)     # mount point
+            $/x;
+
+        push @$drives, {
+            FREE       => sprintf("%i", $4 / 1024),
+            FILESYSTEM => $2,
+            TOTAL      => sprintf("%i", $3 / 1024),
+            TYPE       => $5,
+            VOLUMN     => $1
+        };
+    }
+    close $handle;
+
+    return $drives;
+}
+
 1;
