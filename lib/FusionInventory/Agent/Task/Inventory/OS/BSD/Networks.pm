@@ -55,6 +55,15 @@ sub doInventory {
 
         $inventory->addNetwork($interface);
     }
+
+    # add all ip addresses found, excepted loopback, to hardware
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @$interfaces;
+
+    $inventory->setHardware({IPADDR => join('/', @ip_addresses)});
 }
 
 sub _parseIfconfig {
