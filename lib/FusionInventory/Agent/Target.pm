@@ -16,6 +16,7 @@ sub new {
         maxOffset       => $params->{maxOffset} || 3600,
         logger          => $params->{logger},
         deviceid        => $params->{deviceid},
+        config          => $params->{config},
         nextRunDate     => undef,
     };
     bless $self, $class;
@@ -198,7 +199,6 @@ sub runTarget {
             }
 
             $self->{status} = "running task $module";
-
                 my $task = $package->new({
                     config      => $config,
                     logger      => $logger,
