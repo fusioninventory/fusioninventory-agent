@@ -25,7 +25,7 @@ sub logFileIsFull {
     return unless @stat;
 
     my $size = $stat[7];
-    if ($size>$self->{config}{'logfile-maxsize'}*1024*1024) {
+    if ($size>$self->{logfile_maxsize}*1024*1024) {
         return 1;
     }
 
@@ -44,7 +44,7 @@ sub addMsg {
 
     my $handle;
     if (open $handle, '>>', $self->{config}->{logfile}) {
-        print {$self->{handle}}
+        print {$handle}
             "[". localtime() ."]" .
             "[$level]" .
             " $message\n";
