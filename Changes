@@ -47,6 +47,8 @@ Revision history for FusionInventory::Agent
        * OpenBSD: Do not fails if dmesg is in /sbin/dmesg instead of /bin/dmesg
        * AIX: ignore /proc filesystem like on Linux
          http://forge.fusioninventory.org/issues/397
+       * Logger: avoid breakage if log file is > 5MB, thanks Benoit Machiavello
+         http://forge.fusioninventory.org/issues/406
 
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
