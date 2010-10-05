@@ -58,7 +58,6 @@ sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
     $self->{nextRunDate} = $nextRunDate;
-    $self->saveState();
 }
 
 sub scheduleNextRun {
