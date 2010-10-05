@@ -63,6 +63,7 @@ my %tests = (
             CAPTION     => 'Other'
         }
     ],
+    'freebsd-8.1' => undef,
     'linux-2.6' => [
          {
             NAME        => 'PARALLEL',
@@ -550,5 +551,6 @@ my $logger = FusionInventory::Logger->new();
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
     my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::_getPorts($logger, $file);
-    is_deeply($ports, $tests{$test}, $test);
+    use Data::Dumper;
+    is_deeply($ports, $tests{$test}, $test) or print Dumper($ports);
 }

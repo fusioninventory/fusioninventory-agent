@@ -442,6 +442,394 @@ my %dmidecode_tests = (
             }
         ]
     },
+    'freebsd-8.1' => {
+        32 => [
+            {
+                'Status' => 'No errors detected'
+            }
+        ],
+        11 => [
+            {
+                'String 1' => '$HP$',
+                'String 3' => 'ABS 70/71 79 7A 7B 7C',
+                'String 2' => 'LOC#ABF',
+                'String 4' => 'CNB1 039C130000241310000020000'
+            }
+        ],
+        21 => [
+            {
+                'Type' => 'Touch Pad',
+                'Buttons' => '4',
+                'Interface' => 'PS/2'
+            }
+        ],
+        7 => [
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed Size' => '3072 kB',
+                'Operational Mode' => 'Write Through',
+                'Socket Designation' => 'L3 Cache',
+                'Configuration' => 'Enabled, Not Socketed, Level 3',
+                'Installed SRAM Type' => 'Synchronous',
+                'System Type' => 'Unified',
+                'Speed' => 'Unknown',
+                'Associativity' => 'Other',
+                'Location' => 'Internal',
+                'Maximum Size' => '3072 kB'
+            },
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed Size' => '32 kB',
+                'Operational Mode' => 'Write Through',
+                'Socket Designation' => 'L1 Cache',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Installed SRAM Type' => 'Synchronous',
+                'System Type' => 'Data',
+                'Speed' => 'Unknown',
+                'Associativity' => '8-way Set-associative',
+                'Location' => 'Internal',
+                'Maximum Size' => '32 kB'
+            },
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed Size' => '256 kB',
+                'Operational Mode' => 'Write Through',
+                'Socket Designation' => 'L2 Cache',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Installed SRAM Type' => 'Synchronous',
+                'System Type' => 'Unified',
+                'Speed' => 'Unknown',
+                'Associativity' => '8-way Set-associative',
+                'Location' => 'Internal',
+                'Maximum Size' => '256 kB'
+            },
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed Size' => '32 kB',
+                'Operational Mode' => 'Write Through',
+                'Socket Designation' => 'L1 Cache',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Installed SRAM Type' => 'Synchronous',
+                'System Type' => 'Instruction',
+                'Speed' => 'Unknown',
+                'Associativity' => '4-way Set-associative',
+                'Location' => 'Internal',
+                'Maximum Size' => '32 kB'
+            }
+        ],
+        17 => [
+            {
+                'Part Number' => 'HMT125S6BFR8C-H9',
+                'Serial Number' => '1A1541FC',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Type' => '<OUT OF SPEC>',
+                'Speed' => '1067 MHz',
+                'Size' => '2048 MB',
+                'Manufacturer' => 'Hynix',
+                'Bank Locator' => 'BANK 0',
+                'Array Handle' => '0x001B',
+                'Data Width' => '64 bits',
+                'Total Width' => '64 bits',
+                'Asset Tag' => 'Unknown',
+                'Rank' => 'Unknown',
+                'Locator' => 'Bottom - Slot 1',
+                'Error Information Handle' => '0x001D',
+                'Form Factor' => 'SODIMM'
+            },
+            {
+                'Part Number' => 'HMT125S6BFR8C-H9',
+                'Serial Number' => '1A554239',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Type' => '<OUT OF SPEC>',
+                'Speed' => '1067 MHz',
+                'Size' => '2048 MB',
+                'Manufacturer' => 'Hynix',
+                'Bank Locator' => 'BANK 1',
+                'Array Handle' => '0x001B',
+                'Data Width' => '64 bits',
+                'Total Width' => '64 bits',
+                'Asset Tag' => 'Unknown',
+                'Rank' => 'Unknown',
+                'Locator' => 'Bottom - Slot 2',
+                'Error Information Handle' => '0x0020',
+                'Form Factor' => 'SODIMM'
+            }
+        ],
+        2 => [
+            {
+                'Product Name' => '3659',
+                'Chassis Handle' => '0x0003',
+                'Serial Number' => 'CNF01207X6',
+                'Asset Tag' => 'Base Board Asset Tag',
+                'Version' => '32.25',
+                'Type' => 'Motherboard',
+                'Manufacturer' => 'Hewlett-Packard',
+                'Location In Chassis' => 'Base Board Chassis Location',
+                'Contained Object Handles' => '0'
+            }
+        ],
+        22 => [
+            {
+                'Design Capacity' => '4400 mWh',
+                'Maximum Error' => '1%',
+                'OEM-specific Information' => '0xFFFFFFFF',
+                'Chemistry' => 'Lithium Ion',
+                'SBDS Manufacture Date' => '2010-01-15',
+                'Design Voltage' => '10800 mV',
+                'Location' => 'In the back',
+                'Manufacturer' => 'LGC-LGC',
+                'Name' => 'EV06047',
+                'SBDS Version' => '3.1',
+                'SBDS Serial Number' => '61E6'
+            }
+        ],
+        1 => [
+            {
+                'Product Name' => 'HP Pavilion dv6 Notebook PC',
+                'Family' => '103C_5335KV',
+                'Serial Number' => 'CNF01207X6',
+                'Version' => '039C130000241310000020000',
+                'Wake-up Type' => 'Power Switch',
+                'SKU Number' => 'WA017EA#ABF',
+                'Manufacturer' => 'Hewlett-Packard',
+                'UUID' => '30464E43-3231-3730-5836-C80AA93F35FA'
+            }
+        ],
+        18 => [
+            {
+                'Memory Array Address' => 'Unknown',
+                'Vendor Syndrome' => 'Unknown',
+                'Granularity' => 'Unknown',
+                'Type' => 'OK',
+                'Resolution' => 'Unknown',
+                'Device Address' => 'Unknown',
+                'Operation' => 'Unknown'
+            },
+            {
+                'Memory Array Address' => 'Unknown',
+                'Vendor Syndrome' => 'Unknown',
+                'Granularity' => 'Unknown',
+                'Type' => 'OK',
+                'Resolution' => 'Unknown',
+                'Device Address' => 'Unknown',
+                'Operation' => 'Unknown'
+            },
+            {
+                'Memory Array Address' => 'Unknown',
+                'Vendor Syndrome' => 'Unknown',
+                'Granularity' => 'Unknown',
+                'Type' => 'OK',
+                'Resolution' => 'Unknown',
+                'Device Address' => 'Unknown',
+                'Operation' => 'Unknown'
+            }
+        ],
+        0 => [
+            {
+                'Version' => 'F.1C',
+                'BIOS Revision' => '15.28',
+                'Firmware Revision' => '50.37',
+                'ROM Size' => '1536 kB',
+                'Release Date' => '05/17/2010',
+                'Vendor' => 'Hewlett-Packard'
+            }
+        ],
+        16 => [
+            {
+                'Number Of Devices' => '2',
+                'Error Correction Type' => 'None',
+                'Error Information Handle' => 'No Error',
+                'Location' => 'System Board Or Motherboard',
+                'Maximum Capacity' => '8 GB',
+                'Use' => 'System Memory'
+            }
+        ],
+        3 => [
+            {
+                'Height' => 'Unspecified',
+                'Power Supply State' => 'Safe',
+                'Serial Number' => 'None',
+                'Thermal State' => 'Safe',
+                'Contained Elements' => '0',
+                'Type' => 'Notebook',
+                'Number Of Power Cords' => '1',
+                'Security Status' => 'None',
+                'Manufacturer' => 'Hewlett-Packard',
+                'Boot-up State' => 'Safe',
+                'OEM Information' => '0x00000113'
+            }
+        ],
+        9 => [
+            {
+                'Bus Address' => '0000:00:1f.7',
+                'Length' => 'Other',
+                'Designation' => 'J5C1',
+                'Type' => 'x16 PCI Express x16',
+                'Current Usage' => 'Available'
+            },
+            {
+                'Bus Address' => '0000:00:1f.7',
+                'Length' => 'Other',
+                'Designation' => 'J6C1',
+                'Type' => 'x1 PCI Express x1',
+                'Current Usage' => 'Available'
+            },
+            {
+                'Bus Address' => '0000:00:1f.7',
+                'Length' => 'Other',
+                'Designation' => 'J6C2',
+                'Type' => 'x1 PCI Express x1',
+                'Current Usage' => 'Available'
+            },
+            {
+                'Bus Address' => '0000:00:1f.7',
+                'Length' => 'Other',
+                'Designation' => 'J6D2',
+                'Type' => 'x1 PCI Express x1',
+                'Current Usage' => 'Available'
+            },
+            {
+                'Bus Address' => '0000:00:1f.7',
+                'Length' => 'Other',
+                'Designation' => 'J7C1',
+                'Type' => 'x1 PCI Express x1',
+                'Current Usage' => 'Available'
+            },
+            {
+                'Bus Address' => '0000:00:1f.7',
+                'Length' => 'Other',
+                'Designation' => 'J7D2',
+                'Type' => 'x1 PCI Express x1',
+                'Current Usage' => 'Available'
+            },
+            {
+                'Bus Address' => '0000:00:1f.7',
+                'Length' => 'Other',
+                'Designation' => 'J8C2',
+                'Type' => 'x16 PCI Express x16',
+                'Current Usage' => 'Available'
+            },
+            {
+                'Bus Address' => '0000:00:1f.7',
+                'Length' => 'Other',
+                'Designation' => 'J8C1',
+                'Type' => 'x1 PCI Express x1',
+                'Current Usage' => 'Available'
+            }
+        ],
+        12 => [
+            {
+                'Option 2' => 'String2 for Type12 Equipment Manufacturer',
+                'Option 3' => 'String3 for Type12 Equipment Manufacturer',
+                'Option 1' => 'String1 for Type12 Equipment Manufacturer',
+                'Option 4' => 'String4 for Type12 Equipment Manufacturer'
+            }
+        ],
+        41 => [
+            {
+                'Bus Address' => '0000:01:00.0',
+                'Type' => 'Video',
+                'Reference Designation' => 'nVidia Video Graphics Controller',
+                'Type Instance' => '1',
+                'Status' => 'Enabled'
+            },
+            {
+                'Bus Address' => '0000:02:00.0',
+                'Type' => 'Other',
+                'Reference Designation' => 'Puma Peak 2x2 abgn (MA) IntelR Wi-Fi Link 6200',
+                'Type Instance' => '1',
+                'Status' => 'Enabled'
+            }
+        ],
+        20 => [
+            {
+                'Range Size' => '2 GB',
+                'Partition Row Position' => '2',
+                'Starting Address' => '0x00000000000',
+                'Memory Array Mapped Address Handle' => '0x0023',
+                'Physical Device Handle' => '0x001C',
+                'Interleaved Data Depth' => '1',
+                'Interleave Position' => '1',
+                'Ending Address' => '0x0007FFFFFFF'
+            },
+            {
+                'Range Size' => '2 GB',
+                'Partition Row Position' => '2',
+                'Starting Address' => '0x00000000000',
+                'Memory Array Mapped Address Handle' => '0x0023',
+                'Physical Device Handle' => '0x001F',
+                'Interleaved Data Depth' => '1',
+                'Interleave Position' => '2',
+                'Ending Address' => '0x0007FFFFFFF'
+            }
+        ],
+        15 => [
+            {
+                'Access Address' => '0x0000',
+                'Access Method' => 'General-purpose non-volatile data functions',
+                'Data Start Offset' => '0x0000',
+                'Status' => 'Valid, Not Full',
+                'Supported Log Type Descriptors' => '3',
+                'Descriptor 1' => 'POST memory resize',
+                'Descriptor 3' => 'Log area reset/cleared',
+                'Data Format 1' => 'None',
+                'Area Length' => '0 bytes',
+                'Header Start Offset' => '0x0000',
+                'Header Format' => 'OEM-specific',
+                'Change Token' => '0x12345678',
+                'Data Format 2' => 'POST results bitmap',
+                'Data Format 3' => 'None',
+                'Descriptor 2' => 'POST error'
+            }
+        ],
+        4 => [
+            {
+                'ID' => '52 06 02 00 FF FB EB BF',
+                'Socket Designation' => 'CPU',
+                'Status' => 'Populated, Enabled',
+                'Max Speed' => '2266 MHz',
+                'Family' => 'Core 2 Duo',
+                'Thread Count' => '4',
+                'Current Speed' => '2266 MHz',
+                'L2 Cache Handle' => '0x0019',
+                'Type' => 'Central Processor',
+                'Signature' => 'Type 0, Family 6, Model 37, Stepping 2',
+                'L1 Cache Handle' => '0x001A',
+                'Manufacturer' => 'Intel(R) Corporation',
+                'Core Enabled' => '2',
+                'External Clock' => '1066 MHz',
+                'Asset Tag' => 'FFFF',
+                'Version' => 'Intel(R) Core(TM) i5 CPU       M 430  @ 2.27GHz',
+                'Upgrade' => 'ZIF Socket',
+                'Core Count' => '2',
+                'Voltage' => '0.0 V',
+                'L3 Cache Handle' => '0x0017'
+            }
+        ],
+        19 => [
+            {
+                'Range Size' => '4 GB',
+                'Partition Width' => '0',
+                'Starting Address' => '0x00000000000',
+                'Physical Array Handle' => '0x001B',
+                'Ending Address' => '0x000FFFFFFFF'
+            }
+        ],
+        10 => [
+            {
+                'Type' => 'Video',
+                'Status' => 'Enabled',
+                'Description' => 'Video Graphics Controller'
+            },
+            {
+                'Type' => 'Ethernet',
+                'Status' => 'Enabled',
+                'Description' => 'Realtek Lan Controller'
+            }
+        ]
+    },
     'linux-2.6' => {
      32 => [
             {

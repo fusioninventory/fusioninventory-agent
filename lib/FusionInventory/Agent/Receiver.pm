@@ -25,8 +25,8 @@ sub new {
 
     my $logger = $self->{logger};
     $logger->debug($self->{htmldir} ?
-        "[WWW] Static files are in $self->{htmldir}" :
-        "[WWW] No static files directory"
+        "[WWW] static files are in $self->{htmldir}" :
+        "[WWW] no static files directory"
     );
 
     $SIG{PIPE} = 'IGNORE';
@@ -54,8 +54,8 @@ sub _handle {
     # non-GET requests
     my $method = $r->method();
     if ($method ne 'GET') {
-        $logger->debug("[WWW] invalid request type: $method");
-        $c->send_error(500);
+        $logger->debug("[WWW] error, invalid request type: $method");
+        $c->send_error(400);
         $c->close;
         undef($c);
         return;
@@ -73,7 +73,7 @@ sub _handle {
             my $indexFile = $htmldir."/index.tpl";
             my $handle;
             if (!open $handle, '<', $indexFile) {
-                $logger->error("Can't open share $indexFile: $ERRNO");
+                $logger->error("[WWW] can't open share $indexFile: $ERRNO");
                 $c->send_error(404);
                 return;
             }
@@ -119,10 +119,10 @@ sub _handle {
                 my $directory = $target->getStorage()->getDirectory();
                 my $file = $directory . $path;
                 if (-f $file) {
-                    $logger->debug("Send $path");
+                    $logger->debug("[WWW] send $path");
                     $c->send_file_response($file);
                 } else {
-                    $logger->debug("Not found $path");
+                    $logger->debug("[WWW] not found $path");
                 }
             }
             $c->send_error(404);
@@ -197,6 +197,9 @@ sub _handle {
             $c->send_file_response($htmldir."/$1");
             last SWITCH;
         }
+
+        $logger->debug("[WWW] error, unknown path: $path");
+        $c->send_error(400);
     }
 
     $c->close;
@@ -217,7 +220,7 @@ sub _server {
     );
 
     if (!$daemon) {
-        $logger->error("[WWW] Failed to start the service");
+        $logger->error("[WWW] failed to start the service");
         return;
     } 
     $logger->info(

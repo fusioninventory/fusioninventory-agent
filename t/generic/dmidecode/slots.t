@@ -15,6 +15,56 @@ my %tests = (
             DESCRIPTION => '32-bit PCI'
         }
     ],
+    'freebsd-8.1' => [
+        {
+            NAME        => 'J5C1',
+            DESIGNATION => undef,
+            STATUS      => 'Available',
+            DESCRIPTION => 'x16 PCI Express x16'
+        },
+        {
+            NAME        => 'J6C1',
+            DESIGNATION => undef,
+            STATUS      => 'Available',
+            DESCRIPTION => 'x1 PCI Express x1'
+        },
+        {
+            NAME        => 'J6C2',
+            DESIGNATION => undef,
+            STATUS      => 'Available',
+            DESCRIPTION => 'x1 PCI Express x1'
+        },
+        {
+            NAME        => 'J6D2',
+            DESIGNATION => undef,
+            STATUS      => 'Available',
+            DESCRIPTION => 'x1 PCI Express x1'
+        },
+        {
+            NAME        => 'J7C1',
+            DESIGNATION => undef,
+            STATUS      => 'Available',
+            DESCRIPTION => 'x1 PCI Express x1'
+        },
+        {
+            NAME        => 'J7D2',
+            DESIGNATION => undef,
+            STATUS      => 'Available',
+            DESCRIPTION => 'x1 PCI Express x1'
+        },
+        {
+            NAME        => 'J8C2',
+            DESIGNATION => undef,
+            STATUS      => 'Available',
+            DESCRIPTION => 'x16 PCI Express x16'
+        },
+        {
+            NAME        => 'J8C1',
+            DESIGNATION => undef,
+            STATUS      => 'Available',
+            DESCRIPTION => 'x1 PCI Express x1'
+        }
+    ],
     'linux-2.6' => [
         {
             NAME        => 'PCMCIA 0',

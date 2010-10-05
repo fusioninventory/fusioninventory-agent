@@ -24,7 +24,7 @@ sub doInventory {
 
     #Search Firmware Hard 
     my $flag=0;
-    my $fw;
+    my $fw = '';
     for (@lsvpd){
         if (/^DS Platform Firmware/) { $flag=1 };
         if ( ($flag) && /^RM (.+)/) {$fw=$1;chomp($fw);$fw =~ s/(\s+)$//g;last};

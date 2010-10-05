@@ -84,8 +84,11 @@ sub getDeviceCapacity {
     my ($dev) = @_;
     my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
     # requires permissions on /dev/$dev
-    my $cap = `$command /dev/$dev 2>/dev/null`;
-    chomp $cap;
+    my $cap;
+    foreach (`$command /dev/$dev 2>/dev/null`) {
+        next unless /^(\d+)/;
+        $cap = $1;
+    }
     $cap = int($cap / 1000) if $cap;
     return $cap;
 }

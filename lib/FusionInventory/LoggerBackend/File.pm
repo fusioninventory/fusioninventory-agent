@@ -15,35 +15,21 @@ sub new {
 
     bless $self, $class;
 
-    $self->_open();
-
     return $self;
 }
 
-sub _open {
+sub logFileIsFull {
     my ($self) = @_;
 
-    open $self->{handle}, '>>', $self->{logfile}
-        or warn "Can't open $self->{logfile}: $ERRNO";
-}
+    my @stat = stat($self->{logfile});
+    return unless @stat;
 
-
-sub _watchSize {
-    my ($self) = @_;
-
-    return unless $self->{logfile_maxsize};
-
-    my $size = (stat($self->{handle}))[7];
-
-    if ($size > $self->{logfile_maxsize} * 1024 * 1024) {
-        close $self->{handle};
-        unlink($self->{logfile}) or die "$!!";
-        $self->_open();
-        print {$self->{handle}}
-            "[".localtime()."]" .
-            " max size reached, log file truncated\n";
+    my $size = $stat[7];
+    if ($size>$self->{logfile_maxsize}*1024*1024) {
+        return 1;
     }
 
+    return;
 }
 
 sub addMsg {
@@ -54,18 +40,19 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
-    $self->_watchSize();
+    unlink($self->{logfile}) if $self->logFileIsFull();
 
-    print {$self->{handle}}
-        "[". localtime() ."]" .
-        "[$level]" .
-        " $message\n";
-}
+    my $handle;
+    if (open $handle, '>>', $self->{config}->{logfile}) {
+        print {$handle}
+            "[". localtime() ."]" .
+            "[$level]" .
+            " $message\n";
+        close $handle;
+    } else {
+        warn "Can't open $self->{config}->{logfile}: $ERRNO";
+    }
 
-sub DESTROY {
-    my ($self) = @_;
-
-    close $self->{handle};
 }
 
 1;

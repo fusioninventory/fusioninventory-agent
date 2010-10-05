@@ -22,8 +22,8 @@ sub doInventory {
     my $logger = $params->{logger};
 
     my $routes;
-    foreach (`route -n`) {
-        if (/^($ip_address_pattern) \s+ ($ip_address_pattern)/x) {
+    foreach my $line (`route -n`) {
+        if ($line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x) {
             $routes->{$1} = $2;
         }
     }
@@ -125,6 +125,7 @@ sub _parseIfconfig {
         }
 
     }
+    close $handle;
 
     return $interfaces;
 }
