@@ -23,16 +23,12 @@ sub new {
         agent           => $params->{agent},
         ip              => $params->{ip} || '127.0.0.1',
         port            => $params->{port},
+        htmldir         => $params->{htmldir},
         trust_localhost => $params->{trust_localhost},
     };
 
     my $logger = $self->{logger};
 
-    if ($params->{share_dir}) {
-        $self->{htmldir} = $params->{share_dir}.'/html';
-    } elsif ($params->{devlib}) {
-        $self->{htmldir} = "./share/html";
-    }
     $logger->debug($self->{htmldir} ?
         "[WWW] static files are in $self->{htmldir}" :
         "[WWW] no static files directory"
