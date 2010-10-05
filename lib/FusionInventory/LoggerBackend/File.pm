@@ -5,8 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-my $handle;
-
 sub new {
     my ($class, $params) = @_;
 
@@ -16,37 +14,21 @@ sub new {
 
     bless $self, $class;
 
-    $self->open();
-
     return $self;
 }
 
-sub open {
+sub logFileIsFull {
     my ($self) = @_;
 
-    open $handle, '>>', $self->{config}->{logfile}
-        or warn "Can't open $self->{config}->{logfile}: $ERRNO";
+    my @stat = stat($self->{logfile});
+    return unless @stat;
 
-}
-
-
-sub watchSize {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-
-    return unless $config->{'logfile-maxsize'};
-
-    my $size = (stat($handle))[7];
-
-    if ($size>$config->{'logfile-maxsize'}*1024*1024) {
-        close($handle);
-        unlink($self->{logfile}) or die "$!!";
-        $self->open();
-        print $handle "max size reached. log file truncated (".localtime(time).")\n";
+    my $size = $stat[7];
+    if ($size>$self->{config}{'logfile-maxsize'}*1024*1024) {
+        return 1;
     }
 
-
+    return;
 }
 
 sub addMsg {
@@ -57,15 +39,17 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
-    $self->open() unless stat($handle);
+    unlink($self->{logfile}) if $self->logFileIsFull();
 
-    $self->watchSize();
+    my $handle;
+    if (open $handle, '>>', $self->{config}->{logfile}) {
+        print $handle "[".localtime()."][$level] $message\n";
+        close $handle;
+    } else {
+        warn "Can't open $self->{config}->{logfile}: $ERRNO";
+    }
 
-    print $handle "[".localtime()."][$level] $message\n";
-}
 
-sub DESTROY {
-    close $handle;
 }
 
 1;
