@@ -27,7 +27,9 @@ sub doInventory {
         @lsattr=`lsattr -EOl$_`;
         for (@lsattr){
             if (! /^#/){
-                /^(.+):(.+)/;
+                # See: http://forge.fusioninventory.org/issues/399
+                # TODO: the regex should be improved here
+                /^(.+):(\d+)/;
                 $memory += $2;
             }
         }
