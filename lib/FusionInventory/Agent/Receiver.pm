@@ -19,6 +19,7 @@ sub new {
         agent           => $params->{agent},
         ip              => $params->{ip} || '127.0.0.1',
         port            => $params->{port},
+        htmldir         => $params->{htmldir},
         trust_localhost => $params->{trust_localhost},
     };
     bless $self, $class;
