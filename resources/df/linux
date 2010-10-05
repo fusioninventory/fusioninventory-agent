@@ -1,4 +1,4 @@
-Sys. fich.    Type  Taille  Uti. Disp. Uti% Monté sur
-/dev/sda5     ext4     12G  3,2G  8,2G  28% /
-/dev/sda3  fuseblk     59G   18G   42G  30% /media/windows
-/dev/sda7    crypt     44G  6,6G   35G  17% /home
+Filesystem    Type 1024-blocks      Used Available Capacity Mounted on
+/dev/sda5     ext4    12396968   5081936   6685288      44% /
+/dev/sda3  fuseblk    61442860  19929380  41513480      33% /media/windows
+/dev/sda7    crypt    45168664  20417104  22457104      48% /home

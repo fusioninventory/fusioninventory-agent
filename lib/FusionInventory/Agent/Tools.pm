@@ -20,6 +20,7 @@ our @EXPORT = qw(
     getInfosFromDmidecode
     getIpDhcp
     getPackagesFromCommand
+    getFilesystemsFromDf
     compareVersion
     can_run
     can_load
@@ -363,6 +364,60 @@ sub getPackagesFromCommand {
     return $packages;
 }
 
+sub getFilesystemsFromDf {
+     my ($logger, $file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        my $message = $mode eq '-|' ? 
+            "Can't run command $file: $ERRNO" :
+            "Can't open file $file: $ERRNO"   ;
+        $logger->error($message);
+        return;
+    }
+
+    my $filesystems;
+    
+    # get headers line first
+    my $line = <$handle>;
+    chomp $line;
+    my @headers = split(/\s+/, $line);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        my @infos = split(/\s+/, $line);
+
+        # depending of the number of colums, information index change
+        my ($filesystem, $total, $free, $type);
+        if ($headers[1] eq 'Type') {
+            $filesystem = $infos[1];
+            $total      = $infos[2];
+            $free       = $infos[4];
+            $type       = $infos[6];
+        } else {
+            $total = $infos[1];
+            $free  = $infos[3];
+            $type  = $infos[5];
+        }
+
+        # skip some virtual filesystems
+        next if $total !~ /^\d+$/ || $total == 0;
+        next if $free  !~ /^\d+$/ || $free  == 0;
+
+        push @$filesystems, {
+            VOLUMN     => $infos[0],
+            FILESYSTEM => $filesystem,
+            TOTAL      => sprintf("%i", $total / 1024),
+            FREE       => sprintf("%i", $free / 1024),
+            TYPE       => $type
+        };
+    }
+
+    close $handle;
+
+    return $filesystems;
+}
+
 sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
@@ -467,6 +522,11 @@ Returns an hashref of information for current DHCP lease.
 
 Returns a list of packages as an arrayref of hashref, by parsing given command
 output with given callback.
+
+=head2 getPackagesFromDf
+
+Returns a list of filesystems as an arrayref of hashref, by parsing given df
+command output.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 
