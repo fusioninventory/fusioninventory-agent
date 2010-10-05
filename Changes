@@ -32,7 +32,7 @@ Revision history for FusionInventory::Agent
        * Split Tools::getIpDhcp() in findDhcpLeaseFile() and
          parseDhcpLeaseFile() and add a test
 
-2.1.6
+2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
          http://127.0.0.1::62354 with the default settings
        * Restore the Storage even if the target is not a server.
@@ -49,6 +49,12 @@ Revision history for FusionInventory::Agent
        * OpenBSD: Do not fails if dmesg is in /sbin/dmesg instead of /bin/dmesg
        * AIX: ignore /proc filesystem like on Linux
          http://forge.fusioninventory.org/issues/397
+       * Logger: avoid breakage if log file is > 5MB, thanks Benoit Machiavello
+         http://forge.fusioninventory.org/issues/406
+       * AIX: Error running AIX::Mem module on AIX 6.1, thanks Luka KODRIC
+         http://forge.fusioninventory.org/issues/399
+       * AIX: Erroor in harddrive module on AIX 6.1, thanks Luka KODRIC
+         http://forge.fusioninventory.org/issues/398
 
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
