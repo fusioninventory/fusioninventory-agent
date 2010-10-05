@@ -87,6 +87,7 @@ sub _handle {
                 my $timeString = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now";
                 my $type = ref $target;
+                $type =~ s/.*:://;
                 $nextContact .=
                     "<li>".
                     $type.", ".$target->getDescriptionString().
