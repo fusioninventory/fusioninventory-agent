@@ -54,6 +54,8 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/406
        * AIX: Error running AIX::Mem module on AIX 6.1, thanks Luka KODRIC
          http://forge.fusioninventory.org/issues/399
+       * AIX: Erroor in harddrive module on AIX 6.1, thanks Luka KODRIC
+         http://forge.fusioninventory.org/issues/398
 
 2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
