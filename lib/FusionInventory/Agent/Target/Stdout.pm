@@ -19,6 +19,12 @@ sub new {
     return $self;
 }
 
+sub getDescriptionString {
+    my ($self) = @_;
+
+    return "Stdout";
+}
+
 1;
 
 __END__
@@ -30,3 +36,8 @@ FusionInventory::Agent::Target::Stdout - Stdout target
 =head1 DESCRIPTION
 
 This is a target for displaying execution result on standard output.
+
+=head2 getDescriptionString)
+
+Return a string to display to user in a 'target' field.
+

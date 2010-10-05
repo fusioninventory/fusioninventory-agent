@@ -84,13 +84,13 @@ sub _handle {
 
             my $nextContact = "";
             foreach my $target (@{$scheduler->{targets}}) {
-                my $path = $target->{path};
-                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
                 my $timeString = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now";
                 my $type = ref $target;
                 $nextContact .=
-                    "<li>$type, $path: $timeString</li>\n";
+                    "<li>".
+                    $type.", ".$target->getDescriptionString().
+                    ": $timeString</li>\n";
             }
             my $status = $self->{agent}->getStatus();
 

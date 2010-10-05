@@ -85,6 +85,17 @@ sub saveState {
 
 }
 
+sub getDescriptionString {
+    my ($self) = @_;
+
+    my $tmp = $self->{url};
+
+    # Remove the login:password if needed
+    $tmp =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+
+    return $tmp;
+}
+
 1;
 
 __END__
@@ -124,3 +135,8 @@ Set account informations for this target.
 =head2 getUrl()
 
 Return the server URL for this target.
+
+=head2 getDescriptionString)
+
+Return a string to display to user in a 'target' field.
+
