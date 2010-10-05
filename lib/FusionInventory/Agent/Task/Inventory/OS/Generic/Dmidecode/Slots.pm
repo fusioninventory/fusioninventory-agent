@@ -41,8 +41,6 @@ sub _getSlots {
             STATUS      => $info->{'Current Usage'},
         };
 
-        cleanUnknownValues($slot);
-
         push @$slots, $slot;
     }
 

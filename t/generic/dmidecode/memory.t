@@ -18,6 +18,26 @@ my %tests = (
             CAPACITY    => '512'
         }
     ],
+    'freebsd-8.1' => [
+        {
+            NUMSLOTS     => 1,
+            SERIALNUMBER => '1A1541FC',
+            DESCRIPTION  => 'SODIMM',
+            TYPE         => '<OUT OF SPEC>',
+            SPEED        => '1067 MHz',
+            CAPACITY     => '2048',
+            CAPTION      => 'Bottom - Slot 1'
+        },
+        {
+            NUMSLOTS     => 2,
+            SERIALNUMBER => '1A554239',
+            DESCRIPTION  => 'SODIMM',
+            TYPE         => '<OUT OF SPEC>',
+            SPEED        => '1067 MHz',
+            CAPACITY     => '2048',
+            CAPTION      => 'Bottom - Slot 2'
+        }
+    ],
     'linux-2.6' => [
         {
             NUMSLOTS    => 1,
@@ -60,6 +80,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 3,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'DIMM',
             SPEED       => '400 MHz (2.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -67,6 +88,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 4,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'DIMM',
             SPEED       => '400 MHz (2.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -74,6 +96,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 5,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'DIMM',
             SPEED       => '400 MHz (2.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -81,6 +104,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 6,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'DIMM',
             SPEED       => '400 MHz (2.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -111,28 +135,36 @@ my %tests = (
     'rhel-4.3' => [
         {
             NUMSLOTS    => 1,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'DIMM',
+            SPEED       => undef,
             TYPE        => 'DDR',
             CAPTION     => 'DIMM1',
             CAPACITY    => '512'
         },
         {
             NUMSLOTS    => 2,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'DIMM',
+            SPEED       => undef,
             TYPE        => 'DDR',
             CAPTION     => 'DIMM2',
             CAPACITY    => '512'
         },
         {
             NUMSLOTS    => 3,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'DIMM',
+            SPEED       => undef,
             TYPE        => 'DDR',
             CAPTION     => 'DIMM3',
             CAPACITY    => '512'
         },
         {
             NUMSLOTS    => 4,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'DIMM',
+            SPEED       => undef,
             TYPE        => 'DDR',
             CAPTION     => 'DIMM4',
             CAPACITY    => '512'
@@ -141,6 +173,7 @@ my %tests = (
     'rhel-4.6' => [
         {
             NUMSLOTS    => 1,
+            SERIALNUMBER => undef,
             DESCRIPTION => '<OUT OF SPEC>',
             SPEED       => '667 MHz (1.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -149,6 +182,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 2,
+            SERIALNUMBER => undef,
             DESCRIPTION => '<OUT OF SPEC>',
             SPEED       => '667 MHz (1.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -157,6 +191,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 3,
+            SERIALNUMBER => undef,
             DESCRIPTION => '<OUT OF SPEC>',
             SPEED       => '667 MHz (1.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -165,6 +200,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 4,
+            SERIALNUMBER => undef,
             DESCRIPTION => '<OUT OF SPEC>',
             SPEED       => 'Unknown',
             TYPE        => '<OUT OF SPEC>',
@@ -172,6 +208,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 5,
+            SERIALNUMBER => undef,
             DESCRIPTION => '<OUT OF SPEC>',
             SPEED       => '667 MHz (1.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -180,6 +217,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 6,
+            SERIALNUMBER => undef,
             DESCRIPTION => '<OUT OF SPEC>',
             SPEED       => '667 MHz (1.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -188,6 +226,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 7,
+            SERIALNUMBER => undef,
             DESCRIPTION => '<OUT OF SPEC>',
             SPEED       => '667 MHz (1.5 ns)',
             TYPE        => '<OUT OF SPEC>',
@@ -196,6 +235,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 8,
+            SERIALNUMBER => undef,
             DESCRIPTION => '<OUT OF SPEC>',
             SPEED       => 'Unknown',
             TYPE        => '<OUT OF SPEC>',
@@ -205,6 +245,7 @@ my %tests = (
     'windows' => [
         {
             NUMSLOTS    => 1,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'SODIMM',
             SPEED       => 'Unknown',
             TYPE        => 'SDRAM',
@@ -213,6 +254,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 2,
+            SERIALNUMBER => undef,
             DESCRIPTION => 'SODIMM',
             SPEED       => 'Unknown',
             TYPE        => 'SDRAM',

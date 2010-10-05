@@ -8,32 +8,26 @@ use threads::shared;
 use English qw(-no_match_vars);
 use HTTP::Daemon;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger              => $params->{logger},
-        scheduler           => $params->{scheduler},
-        agent               => $params->{agent},
-        rpc_ip              => $params->{rpc_ip},
-        rpc_port            => $params->{rpc_port},
-        rpc_trust_localhost => $params->{rpc_trust_localhost},
+        logger          => $params->{logger} || FusionInventory::Logger->new(),
+        scheduler       => $params->{scheduler},
+        agent           => $params->{agent},
+        ip              => $params->{ip},
+        port            => $params->{port},
+        trust_localhost => $params->{trust_localhost},
     };
+    bless $self, $class;
 
     my $logger = $self->{logger};
-
-    if ($params->{share_dir}) {
-        $self->{htmlDir} = $params->{share_dir}.'/html';
-    } elsif ($params->{devlib}) {
-        $self->{htmlDir} = "./share/html";
-    }
-    if ($self->{htmlDir}) {
-        $logger->debug("[Receiver] Static files are in ".$self->{htmlDir});
-    } else {
-        $logger->debug("[Receiver] No static files directory");
-    }
-
-    bless $self, $class;
+    $logger->debug($self->{htmldir} ?
+        "[WWW] static files are in $self->{htmldir}" :
+        "[WWW] no static files directory"
+    );
 
     $SIG{PIPE} = 'IGNORE';
     threads->create('_server', $self);
@@ -41,12 +35,12 @@ sub new {
     return $self;
 }
 
-sub handle {
+sub _handle {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
     my $scheduler = $self->{scheduler};
-    my $htmlDir = $self->{htmlDir};
+    my $htmldir = $self->{htmldir};
 
     if (!$r) {
         $c->close;
@@ -55,13 +49,13 @@ sub handle {
     }
 
     my $path = $r->uri()->path();
-    $logger->debug("[Receiver] request $path from client $clientIp");
+    $logger->debug("[WWW] request $path from client $clientIp");
 
     # non-GET requests
     my $method = $r->method();
     if ($method ne 'GET') {
-        $logger->debug("[Receiver] invalid request type: $method");
-        $c->send_error(500);
+        $logger->debug("[WWW] error, invalid request type: $method");
+        $c->send_error(400);
         $c->close;
         undef($c);
         return;
@@ -76,10 +70,10 @@ sub handle {
                 return;
             }
 
-            my $indexFile = $htmlDir."/index.tpl";
+            my $indexFile = $htmldir."/index.tpl";
             my $handle;
             if (!open $handle, '<', $indexFile) {
-                $logger->error("Can't open share $indexFile: $ERRNO");
+                $logger->error("[WWW] can't open share $indexFile: $ERRNO");
                 $c->send_error(404);
                 return;
             }
@@ -102,7 +96,7 @@ sub handle {
             $output =~ s/%%STATUS%%/$status/;
             $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
             $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-            if (!$self->{rpc_trust_localhost}) {
+            if (!$self->{trust_localhost}) {
                 $output =~
                 s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
             }
@@ -121,12 +115,14 @@ sub handle {
         # deploy request
         if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
             my $file = $1;
-            foreach my $target (@{$scheduler->{targets}}) {
-                if (-f $target->{vardir}."/deploy/".$file) {
-                    $logger->debug("Send /deploy/".$file);
-                    $c->send_file_response($target->{vardir}."/deploy/".$file);
+            foreach my $target (@{$scheduler->getTargets()}) {
+                my $directory = $target->getStorage()->getDirectory();
+                my $file = $directory . $path;
+                if (-f $file) {
+                    $logger->debug("[WWW] send $path");
+                    $c->send_file_response($file);
                 } else {
-                    $logger->debug("Not found /deploy/".$file);
+                    $logger->debug("[WWW] not found $path");
                 }
             }
             $c->send_error(404);
@@ -138,7 +134,7 @@ sub handle {
             my $sentToken = $1;
 
             my $result;
-            if ($clientIp =~ /^127\./ && $self->{rpc_trust_localhost}) {
+            if ($clientIp =~ /^127\./ && $self->{trust_localhost}) {
                 # trusted request
                 $result = "ok";
             } else {
@@ -150,13 +146,13 @@ sub handle {
                         $self->{agent}->resetToken();
                     } else {
                         $logger->debug(
-                            "[Receiver] untrusted address, invalid token $sentToken != $token"
+                            "[WWW] untrusted address, invalid token $sentToken != $token"
                         );
                         $result = "untrusted address, invalid token";
                     }
                 } else {
                     $logger->debug(
-                        "[Receiver] untrusted address, no token received"
+                        "[WWW] untrusted address, no token received"
                     );
                     $result = "untrusted address, no token received";
                 }
@@ -198,9 +194,12 @@ sub handle {
 
         # static content request
         if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-            $c->send_file_response($htmlDir."/$1");
+            $c->send_file_response($htmldir."/$1");
             last SWITCH;
         }
+
+        $logger->debug("[WWW] error, unknown path: $path");
+        $c->send_error(400);
     }
 
     $c->close;
@@ -214,20 +213,19 @@ sub _server {
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{rpc_ip},
-        LocalPort => $self->{rpc_port} || 62354,
+        LocalAddr => $self->{ip},
+        LocalPort => $self->{port},
         Reuse     => 1,
         Timeout   => 5
     );
 
     if (!$daemon) {
-        $logger->error("[Receiver] Failed to start the service");
+        $logger->error("[WWW] failed to start the service");
         return;
     } 
-    $logger->info("RPC service started at: http://".
-        ( $self->{'rpc_ip'} || "127.0.0.1" ).
-        ":".
-        $self->{rpc_port} || 62354);
+    $logger->info(
+        "[WWW] Service started at: http://$self->{ip}:$self->{port}"
+    );
 
     while (1) {
         my ($client, $socket) = $daemon->accept();
@@ -235,7 +233,7 @@ sub _server {
         my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
         my $request = $client->get_request();
-        $self->handle($client, $request, $clientIp);
+        $self->_handle($client, $request, $clientIp);
     }
 }
 
@@ -251,8 +249,8 @@ FusionInventory::Agent::Receiver - An HTTP message receiver
 This is the object used by the agent to listen on the network for messages sent
 by OCS or GLPI servers.
 
-It is an HTTP server listening on port 62354 (by default). The following requests are
-accepted:
+It is an HTTP server listening on port 62354 (by default). The following
+requests are accepted:
 
 =over
 
@@ -272,22 +270,38 @@ token if configuration option rpc-trust-localhost is true.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item logger (mandatory)
+=item I<logger>
 
-=item scheduler (mandatory)
+the logger object to use (default: a new stderr logger)
 
-=item agent (mandatory)
+=item I<scheduler>
 
-=item devlib (mandatory)
+the scheduler object to use
 
-=item share_dir (mandatory)
+=item I<agent>
 
-=item rpc_ip (default: undef)
+the agent object
 
-=item rpc_trust_localhost (default: false)
+=item I<htmldir>
+
+the directory where HTML templates and static files are stored
+
+=item I<ip>
+
+the network adress to listen to (default: all)
+
+=item I<port>
+
+the network port to listen to
+
+=item I<trust_localhost>
+
+a flag allowing to trust local request without authentication tokens (default:
+false)
 
 =back

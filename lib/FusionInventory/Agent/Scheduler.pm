@@ -3,11 +3,13 @@ package FusionInventory::Agent::Scheduler;
 use strict;
 use warnings;
 
+use FusionInventory::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger     => $params->{logger},
+        logger     => $params->{logger} || FusionInventory::Logger->new(),
         lazy       => $params->{lazy},
         wait       => $params->{wait},
         background => $params->{background},
@@ -93,6 +95,7 @@ sub scheduleTargets {
 }
 
 1;
+
 __END__
 
 =head1 NAME
@@ -107,16 +110,44 @@ This is the object used by the agent to schedule various targets.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item logger (mandatory)
+=item I<logger>
 
-=item lazy
+the logger object to use (default: a new stderr logger)
 
-=item wait
+=item I<lazy>
 
-=item background
+a flag to ensure targets whose next scheduled execution date has not been
+reached yet will get ignored. Only useful when I<background> flag is not set.
+
+=item I<wait>
+
+a number of second to wait before returning each target. Only useful when
+I<background> flag is not set.
+
+=item I<background>
+
+a flag to set if the agent is running as a resident program, aka a daemon in
+Unix world, and a service in Windows world (default: false)
 
 =back
+
+=head2 addTarget()
+
+Add a new target to schedule.
+
+=head2 getNextTarget()
+
+Get the next scheduled target.
+
+=head2 getTargets()
+
+Get all targets.
+
+=head2 scheduleTargets()
+
+Call scheduleNextRun() on all targets.

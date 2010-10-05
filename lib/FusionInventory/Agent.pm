@@ -5,9 +5,8 @@ use warnings;
 
 use Cwd;
 use English qw(-no_match_vars);
-use File::Path qw(make_path);
+use Pod::Usage;
 use Sys::Hostname;
-use XML::Simple;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Scheduler;
@@ -29,24 +28,6 @@ our $AGENT_STRING =
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
-# THIS IS AN UGLY WORKAROUND FOR
-# http://rt.cpan.org/Ticket/Display.html?id=38067
-eval {XMLout("<a>b</a>");};
-if ($EVAL_ERROR) {
-    no strict 'refs'; ## no critic
-    ${*{"XML::SAX::"}{HASH}{'parsers'}} = sub {
-        return [ {
-            'Features' => {
-                'http://xml.org/sax/features/namespaces' => '1'
-            },
-            'Name' => 'XML::SAX::PurePerl'
-        }
-        ]
-    };
-}
-
-# END OF THE UGLY FIX!
-
 sub new {
     my ($class, $params) = @_;
 
@@ -56,20 +37,23 @@ sub new {
     };
     bless $self, $class;
 
-    my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new($params);
+    $self->{config} = $config;
 
     if ($config->{help}) {
-        $config->help();
-        exit 0;
+        pod2usage(-verbose => 0);
     }
     if ($config->{version}) {
         print $VERSION_STRING . "\n";
         exit 0;
     }
 
-    my $logger = $self->{logger} = FusionInventory::Logger->new({
-        config => $config
+    my $logger = FusionInventory::Logger->new({
+        config   => $config,
+        backends => $config->{logger},
+        debug    => $config->{debug}
     });
+    $self->{logger} = $logger;
 
     if (!$config->{server} && !$config->{local} && !$config->{stdout}) {
         $logger->fault(
@@ -82,23 +66,6 @@ sub new {
     if ($REAL_USER_ID != 0) {
         $logger->info("You should run this program as super-user.");
     }
-
-    if (! -d $config->{basevardir}) {
-        make_path($config->{basevardir}, {error => \my $err});
-        if (@$err) {
-            $logger->fault(
-                "Failed to create storage directory $config->{basevardir}."
-            );
-            exit 1;
-        }
-    }
-
-    if (! -w $config->{basevardir}) {
-        $logger->fault("Non-writable storage directory $config->{basevardir}.");
-        exit 1;
-    }
-
-    $logger->debug("Storage directory: $config->{basevardir}");
 
     if (! -d $config->{'share-dir'}) {
         $logger->fault("Non-existing data directory $config->{'share-dir'}.");
@@ -134,9 +101,9 @@ sub new {
         $hostname = hostname();
     }
 
-    # $storage save/read data in 'basevardir', not in a target directory!
     my $storage = FusionInventory::Agent::Storage->new({
-        config => $config
+        logger    => $logger,
+        directory => $config->{basevardir}
     });
     my $data = $storage->restore();
 
@@ -164,7 +131,6 @@ sub new {
         $self->{scheduler}->addTarget(
             FusionInventory::Agent::Target::Stdout->new({
                 logger     => $logger,
-                deviceid   => $self->{deviceid},
                 maxOffset  => $config->{delaytime},
                 basevardir => $config->{basevardir},
             })
@@ -175,7 +141,6 @@ sub new {
         $self->{scheduler}->addTarget(
             FusionInventory::Agent::Target::Local->new({
                 logger     => $logger,
-                deviceid   => $self->{deviceid},
                 maxOffset  => $config->{delaytime},
                 basevardir => $config->{basevardir},
                 path       => $config->{local},
@@ -184,25 +149,13 @@ sub new {
     }
 
     if ($config->{server}) {
-        foreach my $val (split(/,/, $config->{server})) {
-            $val =~ s/^\s+//;
-            $val =~ s/\s+$//;
-            my $url;
-            if ($val !~ /^https?:\/\//) {
-                $logger->debug(
-                    "no explicit protocol for url $val, assume http as default"
-                );
-                $url = "http://$val/ocsinventory";
-            } else {
-                $url = $val;
-            }
+        foreach my $url (@{$config->{server}}) {
             $self->{scheduler}->addTarget(
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
-                    deviceid   => $self->{deviceid},
                     maxOffset  => $config->{delaytime},
                     basevardir => $config->{basevardir},
-                    path       => $url,
+                    url        => $url,
                 })
             );
         }
@@ -234,7 +187,7 @@ sub new {
 
     }
 
-    if (($config->{daemon} || $config->{service}) && ! $config->{'no-rpc'}) {
+    if (($config->{daemon} || $config->{service}) && ! $config->{'no-www'}) {
         FusionInventory::Agent::Receiver->require();
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
@@ -245,15 +198,20 @@ sub new {
             foreach my $target ($self->{scheduler}->getTargets()) {
                 threads::shared::share($target->{nextRunUpdate});
             }
+
+            my $htmldir =
+                $config->{devlib}      ? './share/html'                  :
+                $config->{'share-dir'} ? $config->{'share-dir'}. '/html' :
+                                         undef                           ;
+
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
                 scheduler => $self->{scheduler},
                 agent     => $self,
-                devlib    => $config->{devlib},
-                share_dir => $config->{'share-dir'},
-                rpc_ip    => $config->{'rpc-ip'},
-                rpc_port  => $config->{'rpc-port'},
-                rpc_trust_localhost => $config->{'rpc-trust-localhost'},
+                htmldir   => $htmldir,
+                ip        => $config->{'www-ip'},
+                port      => $config->{'www-port'},
+                trust_localhost => $config->{'www-trust-localhost'},
             });
         }
     }
@@ -278,7 +236,7 @@ sub _isAgentAlreadyRunning {
     return 0;
 }
 
-sub main {
+sub run {
     my ($self) = @_;
 
     my $config = $self->{config};
@@ -295,30 +253,32 @@ sub main {
             my $transmitter;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                $transmitter = FusionInventory::Agent::Transmitter->new({
-                    logger       => $logger,
-                    url          => $target->{path},
-                    proxy        => $config->{proxy},
-                    user         => $config->{user},
-                    password     => $config->{password},
-                    no_ssl_check => $config->{'no-ssl-check'},
-                    ca_cert_file => $config->{'ca-cert-file'},
-                    ca_cert_dir  => $config->{'ca-cert-dir'},
-                });
+                if (!$transmitter) {
+                    $transmitter = FusionInventory::Agent::Transmitter->new({
+                        logger       => $logger,
+                        proxy        => $config->{proxy},
+                        user         => $config->{user},
+                        password     => $config->{password},
+                        no_ssl_check => $config->{'no-ssl-check'},
+                        ca_cert_file => $config->{'ca-cert-file'},
+                        ca_cert_dir  => $config->{'ca-cert-dir'},
+                    });
+                }
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                    logger => $logger,
-                    config => $config,
-                    target => $target,
-                    token  => $self->{token}
+                    logger   => $logger,
+                    deviceid => $self->{deviceid},
+                    token    => $self->{token}
                 });
 
                 if ($config->{tag}) {
                     $prolog->setAccountInfo({'TAG', $config->{tag}});
                 }
 
-                # TODO Don't mix settings and temp value
-                $prologresp = $transmitter->send({message => $prolog});
+                $prologresp = $transmitter->send({
+                    message => $prolog,
+                    url     => $target->getUrl(),
+                });
 
                 if (!$prologresp) {
                     $logger->error("No anwser from the server");
@@ -330,12 +290,6 @@ sub main {
                 my $parsedContent = $prologresp->getParsedContent();
                 $target->setMaxOffset($parsedContent->{PROLOG_FREQ});
             }
-
-            my $storage = FusionInventory::Agent::Storage->new({
-                config => $config,
-                logger => $logger,
-                target => $target,
-            });
 
             my @tasks = qw/
                 Inventory
@@ -359,12 +313,12 @@ sub main {
                 $self->{status} = "running task $module";
 
                 my $task = $package->new({
-                    config => $config,
-                    logger => $logger,
-                    target => $target,
-                    storage => $storage,
-                    prologresp => $prologresp,
-                    transmitter =>  $transmitter
+                    config      => $config,
+                    logger      => $logger,
+                    target      => $target,
+                    prologresp  => $prologresp,
+                    transmitter => $transmitter,
+                    deviceid    => $self->{deviceid}
                 });
 
                 if ($config->{daemon} || $config->{service}) {
@@ -406,12 +360,9 @@ sub main {
             }
             $self->{status} = 'waiting';
 
-            if (!$config->{debug}) {
-                # In debug mode, I do not clean the FusionInventory-Agent.dump
-                # so I can replay the sub task directly
-                $storage->remove();
-            }
             $target->scheduleNextRun();
+
+            $target->saveState();
 
             sleep(5);
         }
@@ -459,6 +410,10 @@ This is the agent object.
 =head2 new()
 
 The constructor. No arguments allowed.
+
+=head2 run()
+
+Run the agent.
 
 =head2 getToken()
 

@@ -3,36 +3,25 @@ package FusionInventory::Agent::XML::Query;
 use strict;
 use warnings;
 
-use XML::Simple;
+use XML::TreePP;
+
+use FusionInventory::Logger;
 
 sub new {
     my ($class, $params) = @_;
 
-    die "No DEVICEID" unless $params->{target}->{deviceid};
+    die "no deviceid parameter" unless $params->{deviceid};
 
     my $self = {
-        logger      => $params->{logger},
-        target      => $params->{target},
-        storage     => $params->{storage}
+        logger   => $params->{logger} || FusionInventory::Logger->new(),
+        deviceid => $params->{deviceid}
     };
     bless $self, $class;
 
-    my $target = $self->{target};
-    my $storage = $self->{storage};
-
     $self->{h} = {
         QUERY    => ['UNSET!'],
-        DEVICEID => [$target->{deviceid}]
+        DEVICEID => [$params->{deviceid}]
     };
-
-    if (
-        $target->{currentDeviceid} &&
-        $target->{deviceid} ne $target->{currentDeviceid}
-    ) {
-      $self->{h}->{OLD_DEVICEID} = [$target->{currentDeviceid}];
-    }
-
-    $self->{myData} = $storage->restore() if $storage;
 
     return $self;
 }
@@ -40,16 +29,8 @@ sub new {
 sub getContent {
     my ($self, $args) = @_;
 
-    my $content = XMLout(
-        $self->{h},
-        RootName      => 'REQUEST',
-        XMLDecl       => '<?xml version="1.0" encoding="UTF-8"?>',
-        SuppressEmpty => undef,
-        NoAttr        => 1,
-        KeyAttr       => []
-    );
-
-    return $content;
+    my $tpp = XML::TreePP->new(indent => 2);
+    return $tpp->write( { REQUEST => $self->{h} } );
 }
 
 sub setAccountInfo {
@@ -82,16 +63,25 @@ server.
 
 =head2 new($params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
 =over
 
-=item logger (mandatory)
+=item I<logger>
 
-=item target (mandatory)
+the logger object to use (default: a new stderr logger)
+
+=item I<deviceid>
+
+the agent identifier (mandatory)
 
 =back
 
 =head2 getContent
 
 Get XML content.
+
+=head2 setAccountInfo($info)
+
+Set account informations for this message.

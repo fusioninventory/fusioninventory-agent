@@ -68,8 +68,6 @@ sub _getBattery {
         $battery->{VOLTAGE} = $1;
     }
 
-    cleanUnknownValues($battery);
-
     return $battery;
 }
 
