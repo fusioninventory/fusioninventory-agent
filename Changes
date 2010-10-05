@@ -32,7 +32,7 @@ Revision history for FusionInventory::Agent
        * Split Tools::getIpDhcp() in findDhcpLeaseFile() and
          parseDhcpLeaseFile() and add a test
 
-2.1.6
+2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
          http://127.0.0.1::62354 with the default settings
        * Restore the Storage even if the target is not a server.
