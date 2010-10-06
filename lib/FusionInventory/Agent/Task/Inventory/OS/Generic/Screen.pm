@@ -50,6 +50,13 @@ sub _getScreens {
             Caption MonitorManufacturer MonitorType PNPDeviceID
         /)) {
 
+            my $caption;
+            my $description;
+            my $manufacturer;
+            my $serial;
+            my $uuencode;
+
+            my $base64;
             next unless $objItem->{"PNPDeviceID"};
             my $name = $objItem->{"Caption"};
 
@@ -66,7 +73,27 @@ sub _getScreens {
                 $machKey->{"SYSTEM/CurrentControlSet/Enum/$objItem->{PNPDeviceID}/Device Parameters/EDID"} || '';
             $edid =~ s/^\s+$//;
 
-            push @raw_edid, { name => $name, edid => $edid, type => $objItem->{MonitorType}, manufacturer => $objItem->{MonitorManufacturer}, caption => $objItem->{Caption} };
+            if ($edid) {
+                my $edidInfo = parse_edid($edid);
+                if (my $err = check_parsed_edid($edidInfo)) {
+                    $logger->debug("check failed: bad edid: $err");
+                } else {
+
+                    $caption = $edidInfo->{monitor_name};
+                    $description = $edidInfo->{week}."/".$edidInfo->{year};
+                    $manufacturer = getManufacturerFromCode($edidInfo->{manufacturer_name});
+                    $serial = $edidInfo->{serial_number2}[0];
+                }
+
+                $base64 = encode_base64($edid);
+                if (can_run("uuencode")) {
+                    $uuencode = `echo $edid|uuencode -`;
+                }
+
+            }
+
+
+            push @raw_edid, { edid => $edid, type => $objItem->{MonitorType}, manufacturer => $objItem->{MonitorManufacturer}, caption => $objItem->{Caption}, base64 => $base64, serial => $serial };
         }
 
     } else {
@@ -109,40 +136,14 @@ sub doInventory {
     return unless @screens;
 
     foreach my $screen (@screens) {
-        my $name = $screen->{name};
-        my $caption = $name;
-        my $description;
-        my $manufacturer;
-        my $serial;
-        my $base64;
-        my $uuencode;
-
-        if ($screen->{edid}) {
-            my $edid = parse_edid($screen->{edid});
-            if (my $err = check_parsed_edid($edid)) {
-                $logger->debug("check failed: bad edid: $err");
-            } else {
-
-                $caption = $edid->{monitor_name};
-                $description = $edid->{week}."/".$edid->{year};
-                $manufacturer = getManufacturerFromCode($edid->{manufacturer_name});
-                $serial = $edid->{serial_number2}[0];
-            }
-
-            $base64 = encode_base64($screen->{edid});
-            if (can_run("uuencode")) {
-                $uuencode = `echo $screen->{edid}|uuencode -`;
-            }
-
-        }
 
         $inventory->addMonitor ({
-            BASE64 => $base64,
-            CAPTION => $caption || $screen->{caption},
-            DESCRIPTION => $description || $screen->{description},
-            MANUFACTURER => $manufacturer || $screen->{manufacturer},
-            SERIAL => $serial,
-            UUENCODE => $uuencode,
+            BASE64 => $screen->{base64},
+            CAPTION => $screen->{caption},
+            DESCRIPTION => $screen->{description},
+            MANUFACTURER => $screen->{manufacturer},
+            SERIAL => $screen->{serial},
+            UUENCODE => $screen->{uuencode},
         });
     }
 }
