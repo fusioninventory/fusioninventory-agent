@@ -1,5 +1,14 @@
 Revision history for FusionInventory::Agent
 
+2.1.7
+       * replace Cwd::abs_path with File::Spec->rel2abs
+         abs_path fails if the directory doesn't exist yet. This was breaking
+         --basevardir on UNIX system.
+         The problem was fixed on Win32 with the 2.1.5 release. See commit
+          6f376013c8584145a8f824632f1292b3212bd3ca
+          a1f32c62145c46fa176165bba1695420505290b7
+
+
 2.1.6
        * Ensure the RPC serivce URL printed in the log message targets
          http://127.0.0.1::62354 with the default settings
