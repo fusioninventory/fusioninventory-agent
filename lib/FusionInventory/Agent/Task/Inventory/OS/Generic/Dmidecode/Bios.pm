@@ -18,7 +18,7 @@ sub doInventory {
 
     my ($bios, $hardware) = _getBiosHardware($logger);
 
-    $inventory->setBios($bios);
+    $inventory->setBios($bios) if $bios;
     $inventory->setHardware($hardware) if $hardware;
 }
 
@@ -62,19 +62,20 @@ sub _getBiosHardware {
         UUID => $system_info->{'UUID'}
     };
 
+    my $vmsystem;
     if ($bios->{BMANUFACTURER}) {
-        $hardware->{VMSYSTEM} =
+        $vmsystem =
             $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/ ? 'QEMU'       :
             $bios->{BMANUFACTURER} =~ /VirtualBox/   ? 'VirtualBox' :
             $bios->{BMANUFACTURER} =~ /^Xen/         ? 'Xen'        :
-                                                       'Physical'   ;
+                                                       undef   ;
     } elsif ($bios->{SMODEL}) {
-        $hardware->{VMSYSTEM} =
+        $vmsystem =
             $bios->{SMODEL} =~ /VMware/          ? 'VMWare'          :
             $bios->{SMODEL} =~ /Virtual Machine/ ? 'Virtual Machine' :
-                                                   'Physical'        ;
+                                                    undef        ;
     }
-
+    $hardware->{VMSYSTEM} = $vmsystem;
     return $bios, $hardware;
 }
 
