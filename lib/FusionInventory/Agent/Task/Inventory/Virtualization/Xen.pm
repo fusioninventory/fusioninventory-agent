@@ -9,4 +9,6 @@ sub isInventoryEnabled {
     return 1;
 }
 
+sub doInventory {}
+
 1;
