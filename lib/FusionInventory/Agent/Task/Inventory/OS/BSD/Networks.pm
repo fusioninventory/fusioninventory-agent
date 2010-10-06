@@ -32,6 +32,12 @@ sub doInventory {
         $ipgateway = $1 if $line =~ /^default\s+(\S+)/i;
     }
 
+    if ($ipgateway) {
+        $inventory->setHardware({
+            DEFAULTGATEWAY => $ipgateway
+        });
+    }
+
     my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
 
     foreach my $interface (@$interfaces) {
