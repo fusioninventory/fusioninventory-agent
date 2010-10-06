@@ -27,8 +27,7 @@ my %fields = (
     MEMORIES    => [qw/CAPACITY CAPTION FORMFACTOR REMOVABLE PURPOSE SPEED
                        SERIALNUMBER TYPE DESCRIPTION NUMSLOTS/ ],
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
-    MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
-                        UUENCODE/ ],
+    MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL/ ],
     NETWORKS    => [ qw/DESCRIPTION DRIVER IPADDRESS IPADDRESS6 IPDHCP IPGATEWAY
                         IPMASK IPSUBNET MACADDR MTU PCISLOT STATUS TYPE 
                         VIRTUALDEV SLAVES SPEED MANAGEMENT/ ],
@@ -1152,10 +1151,6 @@ The manufacturer retrieved from the EDID trame.
 =item SERIAL
 
 The serial number retrieved from the EDID trame.
-
-=item UUENCODE
-
-The uuencoded EDID trame. Optional.
 
 =back
 

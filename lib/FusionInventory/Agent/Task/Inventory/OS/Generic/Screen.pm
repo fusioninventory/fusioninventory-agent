@@ -54,8 +54,6 @@ sub _getScreens {
             my $description;
             my $manufacturer;
             my $serial;
-            my $uuencode;
-
             my $base64;
             next unless $objItem->{"PNPDeviceID"};
             my $name = $objItem->{"Caption"};
@@ -86,9 +84,6 @@ sub _getScreens {
                 }
 
                 $base64 = encode_base64($edid);
-                if (can_run("uuencode")) {
-                    $uuencode = `echo $edid|uuencode -`;
-                }
 
             }
 
@@ -143,7 +138,6 @@ sub doInventory {
             DESCRIPTION => $screen->{description},
             MANUFACTURER => $screen->{manufacturer},
             SERIAL => $screen->{serial},
-            UUENCODE => $screen->{uuencode},
         });
     }
 }
