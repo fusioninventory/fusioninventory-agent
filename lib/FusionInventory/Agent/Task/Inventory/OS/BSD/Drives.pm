@@ -14,48 +14,38 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my $drives = _parseDf("df -P -T -t ffs,ufs -k 2>&1", '-|');
+    my $drives;
+
+    if ($OSNAME eq 'freebsd') {
+        # FreeBSD df command support the -T flag, allowing to fetch all
+        # filesystems at once
+        $drives = getFilesystemsFromDf($logger, 'df -P -T -k -t ffs,ufs', '-|');
+    } else {
+        # other BSD flavours don't support this flag, forcing to use 
+        # successives calls
+        my $ffs_drives = getFilesystemsFromDf($logger, 'df -P -k -t ffs', '-|');
+        if ($ffs_drives) {
+            foreach my $drive (@$ffs_drives) {
+                $drive->{FILESYSTEM} = 'ffs';
+            }
+            push @$drives, @$ffs_drives;
+        }
+
+        my $ufs_drives = getFilesystemsFromDf($logger, 'df -P -k -t ufs', '-|');
+        if ($ufs_drives) {
+            foreach my $drive (@$ufs_drives) {
+                $drive->{FILESYSTEM} = 'ufs';
+            }
+            push @$drives, @$ufs_drives;
+        }
+    }
+
     foreach my $drive (@$drives) {
         $inventory->addDrive($drive);
     }
 }
 
-sub _parseDf {
-    my ($file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-    my $drives;
-
-    # drop headers line
-    my $line = <$handle>;
-    while (my $line = <$handle>) {
-        next unless $line =~ /^
-            (\S+) \s+ # nme
-            (\S+) \s+ # type
-            (\S+) \s+ # size
-             \S+  \s+ # used
-            (\S+) \s+ # available
-             \S+  \s+ # capacity
-            (\S+)     # mount point
-            $/x;
-
-        push @$drives, {
-            FREE       => sprintf("%i", $4 / 1024),
-            FILESYSTEM => $2,
-            TOTAL      => sprintf("%i", $3 / 1024),
-            TYPE       => $5,
-            VOLUMN     => $1
-        };
-    }
-    close $handle;
-
-    return $drives;
-}
 
 1;
