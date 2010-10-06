@@ -72,8 +72,8 @@ sub _getScreens {
             $edid =~ s/^\s+$//;
 
             if ($edid) {
-                my $edidInfo = parse_edid($edid);
-                if (my $err = check_parsed_edid($edidInfo)) {
+                my $edidInfo = parseEdid($edid);
+                if (my $err = checkParsedEdid($edidInfo)) {
                     $logger->debug("check failed: bad edid: $err");
                 } else {
 
