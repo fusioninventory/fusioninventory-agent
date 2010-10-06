@@ -534,7 +534,7 @@ Returns an hashref of information for current DHCP lease.
 Returns a list of packages as an arrayref of hashref, by parsing given command
 output with given callback.
 
-=head2 getPackagesFromDf
+=head2 getFilesystemsFromDf
 
 Returns a list of filesystems as a list of hashref, by parsing given df
 command output.
