@@ -75,7 +75,7 @@ sub _getBiosHardware {
             $bios->{SMODEL} =~ /Virtual Machine/ ? 'Virtual Machine' :
                                                     undef        ;
     }
-    $hardware->{VMSYSTEM} = $vmsystem;
+    $hardware->{VMSYSTEM} = $vmsystem if $vmsystem;
     return $bios, $hardware;
 }
 
