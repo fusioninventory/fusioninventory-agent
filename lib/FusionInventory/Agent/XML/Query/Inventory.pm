@@ -498,12 +498,14 @@ sub getContent {
     my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR};
     my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN};
     my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME};
+    my $uuid = $self->{h}->{CONTENT}->{HARDWARE}->{UUID};
 
     my $missing;
 
     $missing .= "MAC-address " unless $macaddr;
     $missing .= "SSN " unless $ssn;
     $missing .= "HOSTNAME " unless $name;
+    $uuid .= "UUID " unless $uuid;
 
     if ($missing) {
         $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
