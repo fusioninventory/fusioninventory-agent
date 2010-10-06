@@ -31,6 +31,8 @@ Revision history for FusionInventory::Agent
        * Add fusioninventory-injector
        * Split Tools::getIpDhcp() in findDhcpLeaseFile() and
          parseDhcpLeaseFile() and add a test
+       * Move screen EDID parsing functions in
+         FusionInventory::Agent::Tools::Generic::Screen
 
 2.1.6
        * Ensure the RPC serivce URL printed in the log message targets
