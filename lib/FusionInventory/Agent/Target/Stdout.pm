@@ -19,6 +19,12 @@ sub new {
     return $self;
 }
 
+sub getDescriptionString {
+    my ($self) = @_;
+
+    return "Stdout";
+}
+
 1;
 
 __END__

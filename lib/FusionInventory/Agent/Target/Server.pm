@@ -85,6 +85,17 @@ sub saveState {
 
 }
 
+sub getDescriptionString {
+    my ($self) = @_;
+
+    my $tmp = $self->{url};
+
+    # Remove the login:password if needed
+    $tmp =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+
+    return $tmp;
+}
+
 1;
 
 __END__

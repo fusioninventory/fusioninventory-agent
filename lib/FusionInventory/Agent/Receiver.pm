@@ -84,24 +84,11 @@ sub _handle {
 
             my $nextContact = "";
             foreach my $target (@{$scheduler->{targets}}) {
-                my ($type, $path);
-                if ($target->isa('FusionInventory::Agent::Target::Server')) {
-                    $type = 'server';
-                    $path = $target->getUrl();
-                    $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-                }
-                if ($target->isa('FusionInventory::Agent::Target::Local')) {
-                    $type = 'local';
-                    $path = $target->getPath();
-                }
-                if ($target->isa('FusionInventory::Agent::Target::Stdout')) {
-                    $type = 'stdout';
-                    $path = 'stdout';
-                }
+                my $type = ref $target;
+                my $description = $target->getDescriptionString();
                 my $timeString = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now";
-                $nextContact .=
-                    "<li>$type, $path: $timeString</li>\n";
+                $nextContact .= "<li>$type, $description: $timeString</li>\n";
             }
             my $status = $self->{agent}->getStatus();
 
