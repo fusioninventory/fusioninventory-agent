@@ -85,15 +85,18 @@ sub doInventory {
 
     # complete with hal if available
     if (can_run ("lshal")) {
-       # index devices by name for comparaison
-        my %drives = map { $_->{VOLUMN} => $_ } @drives;
+        my @hal_drives = _getDrivesFromHal();
+        my %hal_drives = map { $_->{VOLUMN} => $_ } @hal_drives;
 
-        # complete with hal for missing bits
-        foreach my $drive (_getFromHal()) {
-            my $name = $drive->{VOLUMN};
-            foreach my $key (keys %$drive) {
-                $drives{$name}->{$key} = $drive->{$key}
-                    if !$drives{$name}->{$key};
+        foreach my $drive (@drives) {
+            # retrieve hal informations for this drive
+            my $hal_drive = $hal_drives{$drive->{VOLUMN}};
+            next unless $hal_drive;
+
+            # take hal information if it doesn't exist already
+            foreach my $key (keys %$hal_drive) {
+                $drive->{$key} = $hal_drive->{$key}
+                    if !$drive->{$key};
             }
         }
     }
@@ -103,7 +106,7 @@ sub doInventory {
     }
 }
 
-sub _getFromHal {
+sub _getDrivesFromHal {
     my $devices = _parseLshal('/usr/bin/lshal', '-|');
     return @$devices;
 }
