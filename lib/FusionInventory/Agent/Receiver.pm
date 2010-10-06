@@ -223,8 +223,12 @@ sub _server {
         $logger->error("[WWW] failed to start the service");
         return;
     } 
+    my $url = $self->{ip} ?
+        "http://$self->{ip}:$self->{port}" :
+        "http://localhost:$self->{port}" ;
+
     $logger->info(
-        "[WWW] Service started at: http://$self->{ip}:$self->{port}"
+        "[WWW] Service started at: $url"
     );
 
     while (1) {
