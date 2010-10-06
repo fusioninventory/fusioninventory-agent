@@ -84,11 +84,22 @@ sub _handle {
 
             my $nextContact = "";
             foreach my $target (@{$scheduler->{targets}}) {
-                my $path = $target->{path};
-                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+                my ($type, $path);
+                if ($target->isa('FusionInventory::Agent::Target::Server')) {
+                    $type = 'server';
+                    $path = $target->getUrl();
+                    $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+                }
+                if ($target->isa('FusionInventory::Agent::Target::Local')) {
+                    $type = 'local';
+                    $path = $target->getPath();
+                }
+                if ($target->isa('FusionInventory::Agent::Target::Stdout')) {
+                    $type = 'stdout';
+                    $path = 'stdout';
+                }
                 my $timeString = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now";
-                my $type = ref $target;
                 $nextContact .=
                     "<li>$type, $path: $timeString</li>\n";
             }
