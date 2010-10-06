@@ -84,11 +84,10 @@ sub _handle {
 
             my $nextContact = "";
             foreach my $target (@{$scheduler->{targets}}) {
-                my $type = ref $target;
                 my $description = $target->getDescriptionString();
                 my $timeString = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now";
-                $nextContact .= "<li>$type, $description: $timeString</li>\n";
+                $nextContact .= "<li>$description: $timeString</li>\n";
             }
             my $status = $self->{agent}->getStatus();
 

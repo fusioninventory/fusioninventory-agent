@@ -22,7 +22,7 @@ sub new {
 sub getDescriptionString {
     my ($self) = @_;
 
-    return "Stdout";
+    return "local, Stdout";
 }
 
 1;
