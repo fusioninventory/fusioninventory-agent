@@ -27,8 +27,8 @@ use base 'Exporter';
 use English qw(-no_match_vars);
 
 our @EXPORT = qw(
-     parse_edid
-     check_parsed_edid
+     parseEdid
+     checkParsedEdid
      getManufacturerFromCode
 );
 
@@ -186,7 +186,7 @@ sub _get_many_bits {
     return \%h;
 }
 
-sub check_parsed_edid {
+sub checkParsedEdid {
     my ($edid) = @_;
 
     $edid->{manufacturer_name} ne '@@@' or return 'bad manufacturer_name';
@@ -204,7 +204,7 @@ sub check_parsed_edid {
     return '';
 }
 
-sub parse_edid {
+sub parseEdid {
     my ($raw_edid) = @_;
 
     my %edid;
