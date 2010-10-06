@@ -14,14 +14,14 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $drives = getFilesystemsFromDf($logger, 'df -P -k', '-|');
-    foreach my $drive (@$drives) {
+    my @drives = getFilesystemsFromDf($logger, 'df -P -k', '-|');
+    foreach my $drive (@drives) {
         my @fs = `lsfs -c $drive->{TYPE}`;
         my @fstype = split /:/, $fs[1];     
         $drive->{FILESYSTEM} = $fstype[2];
     }
 
-    foreach my $drive (@$drives) {
+    foreach my $drive (@drives) {
         $inventory->addDrive($drive);
     }
 }

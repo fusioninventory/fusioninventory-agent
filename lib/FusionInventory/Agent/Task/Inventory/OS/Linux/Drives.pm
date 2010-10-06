@@ -19,17 +19,15 @@ sub doInventory {
     my $logger = $params->{logger};
 
     # start with df command
-    my $drives = getFilesystemsFromDf($logger, 'df -P -T -k', '-|');
-
-    # filter undesirable FS
-    $drives = [ grep {
+    my @drives = grep {
         $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/;
-    } @$drives ];
+    } getFilesystemsFromDf($logger, 'df -P -T -k', '-|');
 
-# get additional informations
+
+    # get additional informations
     if (can_run('blkid')) {
         # use blkid if available, as it is filesystem-independant
-        foreach my $drive (@$drives) {
+        foreach my $drive (@drives) {
             my $line = `blkid $drive->{VOLUMN} 2> /dev/null`;
             $drive->{SERIAL} = $1 if $line =~ /\sUUID="(\S*)"\s/;
         }
@@ -53,7 +51,7 @@ sub doInventory {
             Dec => 12,
         );
 
-        foreach my $drive (@$drives) {
+        foreach my $drive (@drives) {
             if ($drive->{FILESYSTEM} =~ /^ext(2|3|4|4dev)/ && $has_dumpe2fs) {
                 foreach my $line (`dumpe2fs -h $drive->{VOLUMN} 2> /dev/null`) {
                     if ($line =~ /Filesystem UUID:\s+(\S+)/) {
@@ -88,7 +86,7 @@ sub doInventory {
     # complete with hal if available
     if (can_run ("lshal")) {
        # index devices by name for comparaison
-        my %drives = map { $_->{VOLUMN} => $_ } @$drives;
+        my %drives = map { $_->{VOLUMN} => $_ } @drives;
 
         # complete with hal for missing bits
         foreach my $drive (_getFromHal()) {
@@ -100,7 +98,7 @@ sub doInventory {
         }
     }
 
-    foreach my $drive (@$drives) {
+    foreach my $drive (@drives) {
         $inventory->addDrive($drive);
     }
 }

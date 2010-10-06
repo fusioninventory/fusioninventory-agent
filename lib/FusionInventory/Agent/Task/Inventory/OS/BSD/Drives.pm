@@ -16,33 +16,29 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $drives;
+    my @drives;
 
     if ($OSNAME eq 'freebsd') {
         # FreeBSD df command support the -T flag, allowing to fetch all
         # filesystems at once
-        $drives = getFilesystemsFromDf($logger, 'df -P -T -k -t ffs,ufs', '-|');
+        @drives = getFilesystemsFromDf($logger, 'df -P -T -k -t ffs,ufs', '-|');
     } else {
         # other BSD flavours don't support this flag, forcing to use 
         # successives calls
-        my $ffs_drives = getFilesystemsFromDf($logger, 'df -P -k -t ffs', '-|');
-        if ($ffs_drives) {
-            foreach my $drive (@$ffs_drives) {
-                $drive->{FILESYSTEM} = 'ffs';
-            }
-            push @$drives, @$ffs_drives;
+        my @ffs_drives = getFilesystemsFromDf($logger, 'df -P -k -t ffs', '-|');
+        foreach my $drive (@ffs_drives) {
+            $drive->{FILESYSTEM} = 'ffs';
         }
 
-        my $ufs_drives = getFilesystemsFromDf($logger, 'df -P -k -t ufs', '-|');
-        if ($ufs_drives) {
-            foreach my $drive (@$ufs_drives) {
-                $drive->{FILESYSTEM} = 'ufs';
-            }
-            push @$drives, @$ufs_drives;
+        my @ufs_drives = getFilesystemsFromDf($logger, 'df -P -k -t ufs', '-|');
+        foreach my $drive (@ufs_drives) {
+            $drive->{FILESYSTEM} = 'ufs';
         }
+
+        @drives = (@ffs_drives, @ufs_drives);
     }
 
-    foreach my $drive (@$drives) {
+    foreach my $drive (@drives) {
         $inventory->addDrive($drive);
     }
 }

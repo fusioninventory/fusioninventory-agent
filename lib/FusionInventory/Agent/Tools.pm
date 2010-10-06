@@ -376,7 +376,7 @@ sub getFilesystemsFromDf {
         return;
     }
 
-    my $filesystems;
+    my @filesystems;
     
     # get headers line first
     my $line = <$handle>;
@@ -404,7 +404,7 @@ sub getFilesystemsFromDf {
         next if $total !~ /^\d+$/ || $total == 0;
         next if $free  !~ /^\d+$/ || $free  == 0;
 
-        push @$filesystems, {
+        push @filesystems, {
             VOLUMN     => $infos[0],
             FILESYSTEM => $filesystem,
             TOTAL      => sprintf("%i", $total / 1024),
@@ -415,7 +415,7 @@ sub getFilesystemsFromDf {
 
     close $handle;
 
-    return $filesystems;
+    return @filesystems;
 }
 
 sub compareVersion {
@@ -525,7 +525,7 @@ output with given callback.
 
 =head2 getPackagesFromDf
 
-Returns a list of filesystems as an arrayref of hashref, by parsing given df
+Returns a list of filesystems as a list of hashref, by parsing given df
 command output.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
