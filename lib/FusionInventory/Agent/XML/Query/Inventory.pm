@@ -508,7 +508,7 @@ sub getContent {
     $uuid .= "UUID " unless $uuid;
 
     if ($missing) {
-        $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
+        $logger->debug('Missing value(s): '.$missing.'.  Important value(s) to identify the computer are missing. Depending on how the server identify duplicated machine, this may create zombie computer in your data base.');
     }
 
     return $self->SUPER::getContent();
