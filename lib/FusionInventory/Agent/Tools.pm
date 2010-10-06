@@ -21,6 +21,7 @@ our @EXPORT = qw(
     getIpDhcp
     getPackagesFromCommand
     getFilesystemsFromDf
+    getDeviceCapacity
     compareVersion
     can_run
     can_load
@@ -418,6 +419,16 @@ sub getFilesystemsFromDf {
     return @filesystems;
 }
 
+sub getDeviceCapacity {
+    my ($dev) = @_;
+    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
+    # requires permissions on /dev/$dev
+    my $cap = `$command /dev/$dev 2>/dev/null`;
+    chomp $cap;
+    $cap = int($cap / 1000) if $cap;
+    return $cap;
+}
+
 sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
@@ -527,6 +538,10 @@ output with given callback.
 
 Returns a list of filesystems as a list of hashref, by parsing given df
 command output.
+
+=head2 getDeviceCapacity($device)
+
+Returns storage capacity of given device.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 
