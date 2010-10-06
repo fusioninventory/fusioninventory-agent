@@ -21,13 +21,22 @@ sub new {
     if (!-d $params->{directory}) {
         make_path($params->{directory}, {error => \my $err});
         if (@$err) {
-            $self->{logger}->error("Can't create $params->{directory}");
+            my (undef, $message) = %{$err->[0]};
+            $self->{logger}->error(
+                "Can't create $params->{directory}: ".$message.". ".
+                "You may want to use the basevardir parameter to specify ".
+                "a place where the agent can write."
+            );
             die;
         }
     }
 
     if (! -w $params->{directory}) {
-        $self->{logger}->error("Can't write in $params->{directory}");
+        $self->{logger}->error(
+            "Can't write in $params->{directory}. ".
+            "You may want to use the basevardir parameter to specify ".
+            "a place where the agent can write."
+        );
         die;
     }
 
