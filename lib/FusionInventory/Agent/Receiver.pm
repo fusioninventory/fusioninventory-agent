@@ -17,6 +17,7 @@ sub new {
         logger          => $params->{logger} || FusionInventory::Logger->new(),
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
+        htmldir         => $params->{htmldir},
         ip              => $params->{ip},
         port            => $params->{port},
         trust_localhost => $params->{trust_localhost},
