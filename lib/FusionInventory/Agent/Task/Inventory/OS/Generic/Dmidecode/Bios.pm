@@ -73,8 +73,6 @@ sub _getBiosHardware {
             $bios->{SMODEL} =~ /VMware/          ? 'VMWare'          :
             $bios->{SMODEL} =~ /Virtual Machine/ ? 'Virtual Machine' :
                                                    'Physical'        ;
-    } else {
-        $hardware->{VMSYSTEM} = 'Physical';
     }
 
     return $bios, $hardware;
