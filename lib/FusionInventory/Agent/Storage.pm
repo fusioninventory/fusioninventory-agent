@@ -13,21 +13,24 @@ use FusionInventory::Logger;
 sub new {
     my ($class, $params) = @_;
 
-    if (!-d $params->{directory}) {
-        make_path($params->{directory}, {error => \my $err});
-        if (@$err) {
-            die "Can't create $params->{directory}";
-        }
-    }
-
-    if (! -w $params->{directory}) {
-        die "Can't write in $params->{directory}";
-    }
-
     my $self = {
         logger    => $params->{logger} || FusionInventory::Logger->new(),
         directory => $params->{directory}
     };
+
+    if (!-d $params->{directory}) {
+        make_path($params->{directory}, {error => \my $err});
+        if (@$err) {
+            $self->{logger}->error("Can't create $params->{directory}");
+            die;
+        }
+    }
+
+    if (! -w $params->{directory}) {
+        $self->{logger}->error("Can't write in $params->{directory}");
+        die;
+    }
+
     bless $self, $class;
 
     return $self;
