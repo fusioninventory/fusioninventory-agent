@@ -17,8 +17,9 @@ sub new {
         logger          => $params->{logger} || FusionInventory::Logger->new(),
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
-        ip              => $params->{ip},
+        ip              => $params->{ip} || '127.0.0.1',
         port            => $params->{port},
+        htmldir         => $params->{htmldir},
         trust_localhost => $params->{trust_localhost},
     };
     bless $self, $class;
@@ -83,13 +84,14 @@ sub _handle {
 
             my $nextContact = "";
             foreach my $target (@{$scheduler->{targets}}) {
-                my $path = $target->{path};
-                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
                 my $timeString = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now";
                 my $type = ref $target;
+                $type =~ s/.*:://;
                 $nextContact .=
-                    "<li>$type, $path: $timeString</li>\n";
+                    "<li>".
+                    $type.", ".$target->getDescriptionString().
+                    ": $timeString</li>\n";
             }
             my $status = $self->{agent}->getStatus();
 
