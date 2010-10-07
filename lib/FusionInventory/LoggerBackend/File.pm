@@ -39,7 +39,10 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
-    unlink($self->{logfile}) if $self->logFileIsFull();
+    if ($self->{config}{'logfile-maxsize'} && $self->logFileIsFull()) {
+        unlink $self->{logfile} or warn "Can't ".
+        "unlink ".$self->{logfile}." $!\n";
+    }
 
     my $handle;
     if (open $handle, '>>', $self->{config}->{logfile}) {

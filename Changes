@@ -7,7 +7,9 @@ Revision history for FusionInventory::Agent
          The problem was fixed on Win32 with the 2.1.5 release. See commit
           6f376013c8584145a8f824632f1292b3212bd3ca
           a1f32c62145c46fa176165bba1695420505290b7
-
+       * Fix regression: Do not empty log file if logfile-maxsize is undef
+         or 0, thanks Remi Collet
+         http://forge.fusioninventory.org/issues/414
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
