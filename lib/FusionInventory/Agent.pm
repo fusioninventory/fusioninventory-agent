@@ -69,12 +69,17 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (! -d $config->{'share-dir'}) {
+    my $datadir =
+        $config->{devlib}      ? './share/html'                  :
+        $config->{'share-dir'} ? $config->{'share-dir'}. '/html' :
+                                 undef                           ;
+    if (! -d $datadir) {
         $logger->fault("Non-existing data directory $config->{'share-dir'}.");
         exit 1;
     }
 
-    $logger->debug("Data directory: $config->{'share-dir'}");
+    $logger->debug("Data directory: $datadir");
+    $logger->debug("Storage directory: $config->{basevardir}");
 
     #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
     my $hostname;
@@ -201,16 +206,11 @@ sub new {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
         } else {
 
-            my $htmldir =
-                $config->{devlib}      ? './share/html'                  :
-                $config->{'share-dir'} ? $config->{'share-dir'}. '/html' :
-                                         undef                           ;
-
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
                 scheduler => $self->{scheduler},
                 agent     => $self,
-                htmldir   => $htmldir,
+                htmldir   => $datadir,
                 ip        => $config->{'www-ip'},
                 port      => $config->{'www-port'},
                 trust_localhost => $config->{'www-trust-localhost'},

@@ -31,6 +31,19 @@ Revision history for FusionInventory::Agent
        * Add fusioninventory-injector
        * Split Tools::getIpDhcp() in findDhcpLeaseFile() and
          parseDhcpLeaseFile() and add a test
+       * Move screen EDID parsing functions in
+         FusionInventory::Agent::Tools::Generic::Screen
+
+2.1.7
+       * replace Cwd::abs_path with File::Spec->rel2abs
+         abs_path fails if the directory doesn't exist yet. This was breaking
+         --basevardir on UNIX system.
+         The problem was fixed on Win32 with the 2.1.5 release. See commit
+          6f376013c8584145a8f824632f1292b3212bd3ca
+          a1f32c62145c46fa176165bba1695420505290b7
+       * Fix regression: Do not empty log file if logfile-maxsize is undef
+         or 0, thanks Remi Collet
+         http://forge.fusioninventory.org/issues/414
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
@@ -38,7 +51,8 @@ Revision history for FusionInventory::Agent
        * Restore the Storage even if the target is not a server.
          Enable --tag and keep the DeviceID
        * fix 2.1.5 regression, correctly initialise $basevardir default value
-       * POD, explain the registry is used on Windows, thanks Stéphane URBANOVSKI
+       * POD, explain how the registry is used on Windows, thanks Stéphane
+         URBANOVSKI
        * Add support for MontaVista Linux, thanks Luka KODRIC
        * BSD: Fix a syntax error in Domain
        * BSD: Some adjustement for Debian GNU/kFreeBSD

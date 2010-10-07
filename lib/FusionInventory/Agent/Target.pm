@@ -62,7 +62,6 @@ sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
     $self->{nextRunDate} = $nextRunDate;
-    $self->saveState();
 }
 
 sub scheduleNextRun {
@@ -339,3 +338,8 @@ Save persistant part of current state.
 =head2 runTarget()
 
 Run the tasks (inventory, snmp scan, etc) on the target
+
+=head2 getDescriptionString()
+
+Return a string to display to user in a 'target' field.
+

@@ -1,0 +1,6 @@
+Filesystem   Type 1024-blocks      Used    Avail Capacity  Mounted on
+/dev/ad4s1a  ufs      1482638    374896   989132    27%    /
+/dev/ad4s1g  ufs    142303794 117759358 13160134    90%    /Donnees
+/dev/ad4s1e  ufs       507630     59836   407184    13%    /tmp
+/dev/ad4s1f  ufs     20308398  13442022  5241706    72%    /usr
+/dev/ad4s1d  ufs      3973870   1023098  2632864    28%    /var

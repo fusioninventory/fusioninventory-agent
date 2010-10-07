@@ -27,8 +27,7 @@ my %fields = (
     MEMORIES    => [qw/CAPACITY CAPTION FORMFACTOR REMOVABLE PURPOSE SPEED
                        SERIALNUMBER TYPE DESCRIPTION NUMSLOTS/ ],
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
-    MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
-                        UUENCODE/ ],
+    MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL/ ],
     NETWORKS    => [ qw/DESCRIPTION DRIVER IPADDRESS IPADDRESS6 IPDHCP IPGATEWAY
                         IPMASK IPSUBNET MACADDR MTU PCISLOT STATUS TYPE 
                         VIRTUALDEV SLAVES SPEED MANAGEMENT/ ],
@@ -499,15 +498,17 @@ sub getContent {
     my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR};
     my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN};
     my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME};
+    my $uuid = $self->{h}->{CONTENT}->{HARDWARE}->{UUID};
 
     my $missing;
 
     $missing .= "MAC-address " unless $macaddr;
     $missing .= "SSN " unless $ssn;
     $missing .= "HOSTNAME " unless $name;
+    $uuid .= "UUID " unless $uuid;
 
     if ($missing) {
-        $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
+        $logger->debug('Missing value(s): '.$missing.'.  Important value(s) to identify the computer are missing. Depending on how the server identify duplicated machine, this may create zombie computer in your data base.');
     }
 
     return $self->SUPER::getContent();
@@ -1152,10 +1153,6 @@ The manufacturer retrieved from the EDID trame.
 =item SERIAL
 
 The serial number retrieved from the EDID trame.
-
-=item UUENCODE
-
-The uuencoded EDID trame. Optional.
 
 =back
 

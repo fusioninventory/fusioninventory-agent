@@ -21,7 +21,8 @@ sub new {
         logger          => $params->{logger} || FusionInventory::Logger->new(),
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
-        ip              => $params->{ip} || '127.0.0.1',
+        htmldir         => $params->{htmldir},
+        ip              => $params->{ip},
         port            => $params->{port},
         htmldir         => $params->{htmldir},
         trust_localhost => $params->{trust_localhost},
@@ -227,7 +228,6 @@ sub files {
     if ($path =~ /^\/files(.*)/) {
         $self->sendFile($response, $self->{htmldir}.$1);
         return;
-
     }
 }
 
