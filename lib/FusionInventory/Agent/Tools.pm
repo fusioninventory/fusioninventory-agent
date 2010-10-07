@@ -384,6 +384,10 @@ sub getFilesystemsFromDf {
     chomp $line;
     my @headers = split(/\s+/, $line);
 
+    # TODO: Q: should the virtual filesystem like /proc or /sys
+    # TODO: be ignored here? Today, there is no concensus yet
+    # TODO: I'm ok with the two option, we have just
+    # TODO: to document that in XML::Query::Inventory
     while (my $line = <$handle>) {
         chomp $line;
         my @infos = split(/\s+/, $line);
