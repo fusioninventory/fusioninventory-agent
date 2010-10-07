@@ -154,6 +154,7 @@ sub createSession {
 sub runTarget {
     my ($self, $params) = @_;
 
+    print "runTarget\n";
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $target = $params->{target};

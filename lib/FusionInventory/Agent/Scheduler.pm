@@ -3,6 +3,8 @@ package FusionInventory::Agent::Scheduler;
 use strict;
 use warnings;
 
+use POE;
+
 use FusionInventory::Logger;
 
 sub new {
@@ -17,6 +19,17 @@ sub new {
     };
 
     bless $self, $class;
+
+
+    POE::Session->create(
+        inline_states => {
+            _start => sub {
+                print "Scheduler Start\n";
+                $_[KERNEL]->alias_set("Scheduler");
+            },
+            runAllNow => sub { $self->runAllNow() },
+        }
+    );
 
     return $self;
 }
@@ -93,6 +106,19 @@ sub scheduleTargets {
         $target->scheduleNextRun($offset);
     }
 }
+
+sub runAllNow {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+print "aa\n";
+    foreach my $target (@{$self->{targets}}) {
+        $logger->debug("Calling ".$target->getDescriptionString());
+        POE::Kernel->call( $target->{session}, 'runNow' );
+    }
+
+}
+
 
 1;
 

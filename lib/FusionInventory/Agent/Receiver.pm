@@ -171,11 +171,8 @@ sub now {
         if ($remote_ip eq '127.0.0.1' && $self->{trust_localhost}) {
             # trusted request
             $result = "ok";
-
-            foreach my $target (@{$scheduler->{targets}}) {
-                POE::Kernel->post( $target->{session}, 'runNow' );
-            }
-        print "ok\n";
+            POE::Kernel->post( Scheduler => 'runAllNow' );
+            print "ok\n";
         } else {
             # authenticated request
             if ($sentToken) {
