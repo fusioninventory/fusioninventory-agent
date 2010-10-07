@@ -13,21 +13,33 @@ use FusionInventory::Logger;
 sub new {
     my ($class, $params) = @_;
 
-    if (!-d $params->{directory}) {
-        make_path($params->{directory}, {error => \my $err});
-        if (@$err) {
-            die "Can't create $params->{directory}";
-        }
-    }
-
-    if (! -w $params->{directory}) {
-        die "Can't write in $params->{directory}";
-    }
-
     my $self = {
         logger    => $params->{logger} || FusionInventory::Logger->new(),
         directory => $params->{directory}
     };
+
+    if (!-d $params->{directory}) {
+        make_path($params->{directory}, {error => \my $err});
+        if (@$err) {
+            my (undef, $message) = %{$err->[0]};
+            $self->{logger}->error(
+                "Can't create $params->{directory}: ".$message.". ".
+                "You may want to use the basevardir parameter to specify ".
+                "a place where the agent can write."
+            );
+            die;
+        }
+    }
+
+    if (! -w $params->{directory}) {
+        $self->{logger}->error(
+            "Can't write in $params->{directory}. ".
+            "You may want to use the basevardir parameter to specify ".
+            "a place where the agent can write."
+        );
+        die;
+    }
+
     bless $self, $class;
 
     return $self;

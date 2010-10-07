@@ -32,7 +32,7 @@ sub getPath {
 sub getDescriptionString {
     my ($self) = @_;
 
-    return $self->{path};
+    return "local, $self->{path}";
 }
 
 1;

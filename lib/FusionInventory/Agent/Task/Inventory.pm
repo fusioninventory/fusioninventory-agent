@@ -309,7 +309,7 @@ sub _runWithTimeout {
             inventory     => $self->{inventory},
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},
-            storage       => $self->{storage}
+            storage       => $self->{target}->getStorage()
         });
     };
     alarm 0;

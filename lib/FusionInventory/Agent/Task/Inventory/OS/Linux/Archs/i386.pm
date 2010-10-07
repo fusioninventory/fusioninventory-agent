@@ -9,4 +9,6 @@ sub isInventoryEnabled {
     return $Config{'archname'} =~ /^(i\d86|x86_64)/;
 };
 
+sub doInventory {}
+
 1;

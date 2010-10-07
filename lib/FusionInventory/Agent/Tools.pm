@@ -20,6 +20,8 @@ our @EXPORT = qw(
     getInfosFromDmidecode
     getIpDhcp
     getPackagesFromCommand
+    getFilesystemsFromDf
+    getDeviceCapacity
     compareVersion
     can_run
     can_load
@@ -263,9 +265,9 @@ sub _findDhcpLeaseFile {
 
     # sort by creation time
     @files =
-    map { $_->[0] }
-    sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
-    map { [ $_, stat($_) ] }
+        map { $_->[0] }
+        sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
+        map { [ $_, stat($_) ] }
     @files;
 
     # take the last one
@@ -361,6 +363,73 @@ sub getPackagesFromCommand {
     close $handle;
 
     return $packages;
+}
+
+sub getFilesystemsFromDf {
+     my ($logger, $file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        my $message = $mode eq '-|' ? 
+            "Can't run command $file: $ERRNO" :
+            "Can't open file $file: $ERRNO"   ;
+        $logger->error($message);
+        return;
+    }
+
+    my @filesystems;
+    
+    # get headers line first
+    my $line = <$handle>;
+    chomp $line;
+    my @headers = split(/\s+/, $line);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        my @infos = split(/\s+/, $line);
+
+        # depending of the number of colums, information index change
+        my ($filesystem, $total, $free, $type);
+        if ($headers[1] eq 'Type') {
+            $filesystem = $infos[1];
+            $total      = $infos[2];
+            $free       = $infos[4];
+            $type       = $infos[6];
+        } else {
+            $total = $infos[1];
+            $free  = $infos[3];
+            $type  = $infos[5];
+        }
+
+        # skip some virtual filesystems
+        next if $total !~ /^\d+$/ || $total == 0;
+        next if $free  !~ /^\d+$/ || $free  == 0;
+
+        push @filesystems, {
+            VOLUMN     => $infos[0],
+            FILESYSTEM => $filesystem,
+            TOTAL      => sprintf("%i", $total / 1024),
+            FREE       => sprintf("%i", $free / 1024),
+            TYPE       => $type
+        };
+    }
+
+    close $handle;
+
+    return @filesystems;
+}
+
+sub getDeviceCapacity {
+    my ($dev) = @_;
+    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
+    # requires permissions on /dev/$dev
+    my $capacity;
+    foreach my $line (`$command /dev/$dev 2>/dev/null`) {
+        next unless $line =~ /^(\d+)/;
+        $capacity = $1;
+    }
+    $capacity = int($capacity / 1000) if $capacity;
+    return $capacity;
 }
 
 sub compareVersion {
@@ -467,6 +536,15 @@ Returns an hashref of information for current DHCP lease.
 
 Returns a list of packages as an arrayref of hashref, by parsing given command
 output with given callback.
+
+=head2 getFilesystemsFromDf
+
+Returns a list of filesystems as a list of hashref, by parsing given df
+command output.
+
+=head2 getDeviceCapacity($device)
+
+Returns storage capacity of given device.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 

@@ -11,7 +11,6 @@ our @EXPORT = qw(
     getDevicesFromUdev
     getDevicesFromHal
     getDevicesFromProc
-    getDeviceCapacity
     getCPUsFromProc
 );
 
@@ -76,21 +75,6 @@ sub _parseUdevEntry {
     $result->{NAME} = $device;
 
     return $result;
-}
-
-# TODO: GNU fdisk is not Linux specific and can be used on other system
-# TODO: this function should be in a more generic module
-sub getDeviceCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $cap;
-    foreach (`$command /dev/$dev 2>/dev/null`) {
-        next unless /^(\d+)/;
-        $cap = $1;
-    }
-    $cap = int($cap / 1000) if $cap;
-    return $cap;
 }
 
 sub getCPUsFromProc {
@@ -282,10 +266,6 @@ Returns a list of devices as an arrayref of hashref, by parsing lshal output.
 
 Returns a list of devices as an arrayref of hashref, by parsing /proc
 filesystem.
-
-=head2 getDeviceCapacity($device)
-
-Returns storage capacity of given device.
 
 =head2 getCPUsFromProc($logger)
 

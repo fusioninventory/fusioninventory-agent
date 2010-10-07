@@ -31,6 +31,8 @@ Revision history for FusionInventory::Agent
        * Add fusioninventory-injector
        * Split Tools::getIpDhcp() in findDhcpLeaseFile() and
          parseDhcpLeaseFile() and add a test
+       * Move screen EDID parsing functions in
+         FusionInventory::Agent::Tools::Generic::Screen
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
@@ -38,7 +40,8 @@ Revision history for FusionInventory::Agent
        * Restore the Storage even if the target is not a server.
          Enable --tag and keep the DeviceID
        * fix 2.1.5 regression, correctly initialise $basevardir default value
-       * POD, explain the registry is used on Windows, thanks Stéphane URBANOVSKI
+       * POD, explain how the registry is used on Windows, thanks Stéphane
+         URBANOVSKI
        * Add support for MontaVista Linux, thanks Luka KODRIC
        * BSD: Fix a syntax error in Domain
        * BSD: Some adjustement for Debian GNU/kFreeBSD
