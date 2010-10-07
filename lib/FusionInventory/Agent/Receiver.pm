@@ -153,6 +153,7 @@ sub deploy {
 }
 
 sub now {
+    use Data::Dumper;
     my ($self, $request, $response) = @_;
 
     my $logger = $self->{logger};
@@ -170,6 +171,10 @@ sub now {
         if ($remote_ip eq '127.0.0.1' && $self->{trust_localhost}) {
             # trusted request
             $result = "ok";
+
+            foreach my $target (@{$scheduler->{targets}}) {
+                POE::Kernel->post( $target->{session}, 'runNow' );
+            }
         print "ok\n";
         } else {
             # authenticated request

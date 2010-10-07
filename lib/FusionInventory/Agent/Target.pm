@@ -116,19 +116,34 @@ sub saveState {
 sub createSession {
     my ($self) = @_;
 
-    print $self->getNextRunDate()."\n";
-
-    POE::Session->create(
+    $self->{session} = POE::Session->create(
         inline_states => {
             _start => sub {
-                print "_start... toto\n";
-                $_[KERNEL]->alarm(nextRun => $self->getNextRunDate());
+                print "_start...\n";
+                $_[KERNEL]->yield("setAlarm");
             },
-            nextRun => sub {
-                print "nextRun... toto\n";
+            setAlarm => sub {
+                print "setAlarm\n";
+                if ($_[HEAP]{alarm_id}) {
+                    $_[KERNEL]->alarm_remove($_[HEAP]{alarm_id});
+                }
+                my $nextRunDate = $self->getNextRunDate();
+                $_[HEAP]{alarm_id} = $_[KERNEL]->alarm_set(callRun => $nextRunDate);
+                print "Next launch planned for ".localtime($nextRunDate)."\n";
+            },
+            callRun => sub {
                 $self->runTarget({ target => $self });
                 $self->scheduleNextRun();
-                $_[KERNEL]->alarm(nextRun => $self->getNextRunDate());
+                $_[KERNEL]->yield("setAlarm");
+            },
+            runNow => sub {
+                print "runNow\n";
+                if ($_[HEAP]{alarm_id}) {
+                    $_[KERNEL]->alarm_remove($_[HEAP]{alarm_id});
+                }
+                $self->runTarget({ target => $self });
+                $self->scheduleNextRun();
+                $_[KERNEL]->yield("setAlarm");
             } 
         },
     );
