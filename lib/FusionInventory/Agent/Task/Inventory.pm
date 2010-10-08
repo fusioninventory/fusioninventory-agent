@@ -11,10 +11,8 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
 
-sub new {
-    my ($class, $params) = @_;
-
-    my $self = $class->SUPER::new($params);
+sub run {
+    my ($self) = @_;
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         deviceid => $self->{deviceid},
@@ -23,12 +21,6 @@ sub new {
     });
 
     $self->{modules} = {};
-
-    return $self;
-}
-
-sub run {
-    my ($self) = @_;
 
     $self->_feedInventory();
 
