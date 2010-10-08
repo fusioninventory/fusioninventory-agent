@@ -43,7 +43,8 @@ sub run {
         }
 
         if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-            my $suffix = $self->{config}->{format} eq 'html' ? '.html' : '.ocs';
+            my $format = $self->{config}->{format};
+            my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
                 $self->{target}->getPath() .
                 "/" .
@@ -51,7 +52,7 @@ sub run {
                 $suffix;
 
             if (open my $handle, '>', $file) {
-                if ($self->{config}->{format} eq 'xml') {
+                if ($format eq 'xml') {
                     print $handle $self->{inventory}->getContent();
                 } else {
                     print $handle $self->{inventory}->getContentAsHTML();
