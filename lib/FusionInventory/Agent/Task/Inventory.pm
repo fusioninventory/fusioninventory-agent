@@ -43,11 +43,12 @@ sub run {
         }
 
         if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
+            my $suffix = $self->{config}->{format} eq 'html' ? '.html' : '.ocs';
             my $file =
                 $self->{target}->getPath() .
                 "/" .
                 $self->{deviceid} .
-                '.ocs';
+                $suffix;
 
             if (open my $handle, '>', $file) {
                 if ($self->{config}->{format} eq 'xml') {
