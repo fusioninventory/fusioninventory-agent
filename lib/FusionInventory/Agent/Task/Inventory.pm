@@ -14,13 +14,14 @@ use FusionInventory::Logger;
 sub run {
     my ($self) = @_;
 
+    # initialize modules list
+    $self->_initModList();
+
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         deviceid => $self->{deviceid},
         logger   => $self->{logger} || FusionInventory::Logger->new(),
         storage  => $self->{target}->getStorage()
     });
-
-    $self->{modules} = {};
 
     $self->_feedInventory();
 
@@ -261,10 +262,6 @@ sub _feedInventory {
 
     my $logger = $self->{logger};
     my $inventory = $self->{inventory};
-
-    if (!keys %{$self->{modules}}) {
-        $self->_initModList();
-    }
 
     my $begin = time();
     my @modules =
