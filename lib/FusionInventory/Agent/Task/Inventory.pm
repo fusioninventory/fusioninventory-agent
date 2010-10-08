@@ -220,11 +220,9 @@ sub _initModList {
 }
 
 sub _runMod {
-    my ($self, $params) = @_;
+    my ($self, $module) = @_;
 
     my $logger = $self->{logger};
-
-    my $module = $params->{modname};
 
     return if ($self->{modules}->{$module}->{done});
 
@@ -245,9 +243,7 @@ sub _runMod {
             # need a module also in use, we have provable an issue :).
             die "Circular dependency between $module and  $other_module";
         }
-        $self->_runMod({
-            modname => $other_module
-        });
+        $self->_runMod($other_module);
     }
 
     $logger->debug ("Running $module");
@@ -268,9 +264,7 @@ sub _feedInventory {
         grep { $self->{modules}->{$_}->{enabled} }
         keys %{$self->{modules}};
     foreach my $module (sort @modules) {
-        $self->_runMod ({
-            modname => $module,
-        });
+        $self->_runMod ($module);
     }
 
     # Execution time
