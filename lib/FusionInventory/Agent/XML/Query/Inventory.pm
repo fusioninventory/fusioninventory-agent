@@ -302,7 +302,7 @@ sub setBios {
     my ($self, $args) = @_;
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
-        MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
+        MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
         BIOSSERIAL TYPE/) {
 
         if (exists $args->{$key}) {
@@ -862,6 +862,8 @@ is based on OCS Inventory XML with various additions.
 
 =item SMANUFACTURER
 
+System manufacturer
+
 =item SSN
 
 =item BDATE
@@ -872,9 +874,7 @@ The BIOS revision
 
 =item BMANUFACTURER
 
-=item MMANUFACTURER
-
-=item MSN
+Board manufacturer
 
 =item MMODEL
 
