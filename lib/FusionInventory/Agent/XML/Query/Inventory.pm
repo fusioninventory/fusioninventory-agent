@@ -862,6 +862,8 @@ is based on OCS Inventory XML with various additions.
 
 =item SMANUFACTURER
 
+System manufacturer
+
 =item SSN
 
 =item BDATE
@@ -871,6 +873,8 @@ is based on OCS Inventory XML with various additions.
 The BIOS revision
 
 =item BMANUFACTURER
+
+Board manufacturer
 
 =item MMANUFACTURER
 
