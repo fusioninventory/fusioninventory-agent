@@ -38,20 +38,23 @@ sub doInventory {
     my $isIBM;
 
     while (<$handle>) {
-        $isIBM = 1 if /^machine\s*:.*IBM/;
-        $current->{TYPE} = $1 if /cpu\s+:\s+(\S.*)/;
-        $current->{SPEED} = $1 if /clock\s+:\s+(\S.*)/;
-        $current->{SPEED} =~ s/\.\d+/MHz/;
-        $current->{SPEED} =~ s/MHz//;
-        $current->{SPEED} =~ s/GHz//;
-
-
         if (/^\s*$/) {
             if ($current->{TYPE}) {
                 push @cpus, $current;
             }
             $current = {};
+            next;
         }
+
+        $isIBM = 1 if /^machine\s*:.*IBM/;
+        $current->{TYPE} = $1 if /cpu\s+:\s+(\S.*)/;
+        if (/clock\s+:\s+(\S.*)/) {
+            $current->{SPEED} = $1;
+            $current->{SPEED} =~ s/\.\d+/MHz/;
+            $current->{SPEED} =~ s/MHz//;
+            $current->{SPEED} =~ s/GHz//;
+        }
+
 
         if (/^\s*$/) {
             if ($current->{TYPE}) {
