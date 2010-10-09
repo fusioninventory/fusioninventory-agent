@@ -26,6 +26,80 @@ use FusionInventory::Agent::Task::SNMPQuery::Nortel;
 our $VERSION = '2.0';
 my $maxIdx : shared = 0;
 
+my @infos = (
+    [ qw/cpu INFO CPU/ ],
+    [ qw/location INFO LOCATION/ ],
+    [ qw/firmware INFO FIRMWARE/ ],
+    [ qw/firmware1 INFO FIRMWARE/ ],
+    [ qw/contant INFO CONTACT/ ],
+    [ qw/comments INFO COMMENTS/ ],
+    [ qw/uptime INFO UPTIME/ ],
+    [ qw/serial INFO SERIAL/ ],
+    [ qw/name INFO NAME/ ],
+    [ qw/model INFO MODEL/ ],
+    [ qw/entPhysicalModelName INFO MODEL/ ],
+    [ qw/enterprise INFO MANUFACTURER/ ],
+    [ qw/otherserial INFO OTHERSERIAL/ ],
+    [ qw/memory INFO MEMORY/ ],
+    [ qw/ram INFO RAM/ ],
+);
+
+my @printer_simple_infos = (
+    [ qw/tonerblack CARTRIDGES TONERBLACK/ ],
+    [ qw/tonerblack2 CARTRIDGES TONERBLACK2/ ],
+    [ qw/tonercyan CARTRIDGES TONERCYAN/ ],
+    [ qw/tonermagenta CARTRIDGES TONERMAGENTA/ ],
+    [ qw/toneryellow CARTRIDGES TONERYELLOW/ ],
+    [ qw/wastetoner CARTRIDGES WASTETONER/ ],
+    [ qw/cartridgeblack CARTRIDGES CARTRIDGEBLACK/ ],
+    [ qw/cartridgeblackphoto CARTRIDGES CARTRIDGEBLACKPHOTO/ ],
+    [ qw/cartridgecyan CARTRIDGES CARTRIDGECYAN/ ],
+    [ qw/cartridgecyanlight CARTRIDGES CARTRIDGECYANLIGHT/ ],
+    [ qw/cartridgemagenta CARTRIDGES CARTRIDGEMAGENTA/ ],
+    [ qw/cartridgemagentalight CARTRIDGES CARTRIDGEMAGENTALIGHT/ ],
+    [ qw/cartridgeyellow CARTRIDGES CARTRIDGEYELLOW/ ],
+    [ qw/maintenancekit CARTRIDGES MAINTENANCEKIT/ ],
+    [ qw/drumblack CARTRIDGES DRUMBLACK/ ],
+    [ qw/drumcyan CARTRIDGES DRUMCYAN/ ],
+    [ qw/drummagenta CARTRIDGES DRUMMAGENTA/ ],
+    [ qw/drumyellow CARTRIDGES DRUMYELLOW/ ],
+    [ qw/pagecountertotalpages PAGECOUNTERS TOTAL/ ],
+    [ qw/pagecounterblackpages PAGECOUNTERS BLACK/ ],
+    [ qw/pagecountercolorpages PAGECOUNTERS COLOR/ ],
+    [ qw/pagecounterrectoversopages PAGECOUNTERS RECTOVERSO/ ],
+    [ qw/pagecounterscannedpages PAGECOUNTERS SCANNED/ ],
+    [ qw/pagecountertotalpages_print PAGECOUNTERS PRINTTOTAL/ ],
+    [ qw/pagecounterblackpages_print PAGECOUNTERS PRINTBLACK/ ],
+    [ qw/pagecountercolorpages_print PAGECOUNTERS PRINTCOLOR/ ],
+    [ qw/pagecountertotalpages_copy PAGECOUNTERS COPYTOTAL/ ],
+    [ qw/pagecounterblackpages_copy PAGECOUNTERS COPYBLACK/ ],
+    [ qw/pagecountercolorpages_copy PAGECOUNTERS COPYCOLOR/ ],
+    [ qw/pagecountertotalpages_fax PAGECOUNTERS FAXTOTAL/ ],
+);
+
+my @printer_percent_infos = (
+    [ qw/cartridgesblackMAX cartridgesblackREMAIN CARTRIDGE BLACK/ ],
+    [ qw/cartridgescyanMAX cartridgescyanREMAIN CARTRIDGE CYAN/ ],
+    [ qw/cartridgesyellowMAX cartridgesyellowREMAIN CARTRIDGE YELLOW/ ],
+    [ qw/cartridgesmagentaMAX cartridgesmagentaREMAIN CARTRIDGE MAGENTA/ ],
+    [ qw/cartridgescyanlightMAX cartridgescyanlightREMAIN CARTRIDGE CYANLIGHT/ ],
+    [ qw/cartridgesmagentalightMAX cartridgesmagentalightREMAIN CARTRIDGE MAGENTALIGHT/ ],
+    [ qw/cartridgesphotoconductorMAX cartridgesphotoconductorREMAIN CARTRIDGE PHOTOCONDUCTOR/ ],
+    [ qw/cartridgesphotoconductorblackMAX cartridgesphotoconductorblackREMAIN CARTRIDGE PHOTOCONDUCTORBLACK/ ],
+    [ qw/cartridgesphotoconductorcolorMAX cartridgesphotoconductorcolorREMAIN CARTRIDGE PHOTOCONDUCTORCOLOR/ ],
+    [ qw/cartridgesphotoconductorcyanMAX cartridgesphotoconductorcyanREMAIN CARTRIDGE PHOTOCONDUCTORCYAN/ ],
+    [ qw/cartridgesphotoconductoryellowMAX cartridgesphotoconductoryellowREMAIN CARTRIDGE PHOTOCONDUCTORYELLOW/ ],
+    [ qw/cartridgesphotoconductormagentaMAX cartridgesphotoconductormagentaREMAIN CARTRIDGE PHOTOCONDUCTORMAGENTA/ ],
+    [ qw/cartridgesunittransfertblackMAX cartridgesunittransfertblackREMAIN CARTRIDGE UNITTRANSFERBLACK/ ],
+    [ qw/cartridgesunittransfertcyanMAX cartridgesunittransfertcyanREMAIN CARTRIDGE UNITTRANSFERCYAN/ ],
+    [ qw/cartridgesunittransfertyellowMAX cartridgesunittransfertyellowREMAIN CARTRIDGE UNITTRANSFERYELLOW/ ],
+    [ qw/cartridgesunittransfertmagentaMAX cartridgesunittransfertmagentaREMAIN CARTRIDGE UNITTRANSFERMAGENTA/ ],
+    [ qw/cartridgeswasteMAX cartridgeswasteREMAIN CARTRIDGE WASTE/ ],
+    [ qw/cartridgesfuserMAX cartridgesfuserREMAIN CARTRIDGE FUSER/ ],
+    [ qw/cartridgesbeltcleanerMAX cartridgesbeltcleanerREMAIN CARTRIDGE BELTCLEANER/ ],
+    [ qw/cartridgesmaintenancekitMAX cartridgesmaintenancekitREMAIN CARTRIDGE MAINTENANCEKIT/ ],
+);
+
 sub run {
     my ($self) = @_;
 
@@ -368,96 +442,20 @@ sub _constructDataDeviceSimple {
       delete $HashDataSNMP->{'cpuuser'};
       delete $HashDataSNMP->{'cpusystem'};
    }
-   _putSimpleOid($HashDataSNMP,$datadevice,'cpu','INFO','CPU');
-   _putSimpleOid($HashDataSNMP,$datadevice,'location','INFO','LOCATION');
-   _putSimpleOid($HashDataSNMP,$datadevice,'firmware','INFO','FIRMWARE');
-   _putSimpleOid($HashDataSNMP,$datadevice,'firmware1','INFO','FIRMWARE');
-   _putSimpleOid($HashDataSNMP,$datadevice,'contact','INFO','CONTACT');
-   _putSimpleOid($HashDataSNMP,$datadevice,'comments','INFO','COMMENTS');
-   _putSimpleOid($HashDataSNMP,$datadevice,'uptime','INFO','UPTIME');
-   _putSimpleOid($HashDataSNMP,$datadevice,'serial','INFO','SERIAL');
-   _putSimpleOid($HashDataSNMP,$datadevice,'name','INFO','NAME');
-   _putSimpleOid($HashDataSNMP,$datadevice,'model','INFO','MODEL');
-   _putSimpleOid($HashDataSNMP,$datadevice,'entPhysicalModelName','INFO','MODEL');
-   _putSimpleOid($HashDataSNMP,$datadevice,'enterprise','INFO','MANUFACTURER');
-   _putSimpleOid($HashDataSNMP,$datadevice,'otherserial','INFO','OTHERSERIAL');
-   _putSimpleOid($HashDataSNMP,$datadevice,'memory','INFO','MEMORY');
-   _putSimpleOid($HashDataSNMP,$datadevice,'ram','INFO','RAM');
+
+   foreach my $info (@infos) {
+      _putSimpleOid($HashDataSNMP, $datadevice, @$info)
+   }
 
    if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
-      _putSimpleOid($HashDataSNMP,$datadevice,'tonerblack','CARTRIDGES','TONERBLACK');
-      _putSimpleOid($HashDataSNMP,$datadevice,'tonerblack2','CARTRIDGES','TONERBLACK2');
-      _putSimpleOid($HashDataSNMP,$datadevice,'tonercyan','CARTRIDGES','TONERCYAN');
-      _putSimpleOid($HashDataSNMP,$datadevice,'tonermagenta','CARTRIDGES','TONERMAGENTA');
-      _putSimpleOid($HashDataSNMP,$datadevice,'toneryellow','CARTRIDGES','TONERYELLOW');
-      _putSimpleOid($HashDataSNMP,$datadevice,'wastetoner','CARTRIDGES','WASTETONER');
-      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeblack','CARTRIDGES','CARTRIDGEBLACK');
-      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeblackphoto','CARTRIDGES','CARTRIDGEBLACKPHOTO');
-      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgecyan','CARTRIDGES','CARTRIDGECYAN');
-      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgecyanlight','CARTRIDGES','CARTRIDGECYANLIGHT');
-      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgemagenta','CARTRIDGES','CARTRIDGEMAGENTA');
-      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgemagentalight','CARTRIDGES','CARTRIDGEMAGENTALIGHT');
-      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeyellow','CARTRIDGES','CARTRIDGEYELLOW');
-      _putSimpleOid($HashDataSNMP,$datadevice,'maintenancekit','CARTRIDGES','MAINTENANCEKIT');
-      _putSimpleOid($HashDataSNMP,$datadevice,'drumblack','CARTRIDGES','DRUMBLACK');
-      _putSimpleOid($HashDataSNMP,$datadevice,'drumcyan','CARTRIDGES','DRUMCYAN');
-      _putSimpleOid($HashDataSNMP,$datadevice,'drummagenta','CARTRIDGES','DRUMMAGENTA');
-      _putSimpleOid($HashDataSNMP,$datadevice,'drumyellow','CARTRIDGES','DRUMYELLOW');
-
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages','PAGECOUNTERS','TOTAL');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages','PAGECOUNTERS','BLACK');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages','PAGECOUNTERS','COLOR');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterrectoversopages','PAGECOUNTERS','RECTOVERSO');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterscannedpages','PAGECOUNTERS','SCANNED');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_print','PAGECOUNTERS','PRINTTOTAL');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages_print','PAGECOUNTERS','PRINTBLACK');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages_print','PAGECOUNTERS','PRINTCOLOR');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_copy','PAGECOUNTERS','COPYTOTAL');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages_copy','PAGECOUNTERS','COPYBLACK');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages_copy','PAGECOUNTERS','COPYCOLOR');
-      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_fax','PAGECOUNTERS','FAXTOTAL');
-
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesblackMAX','cartridgesblackREMAIN',
-                                                         'CARTRIDGE','BLACK');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgescyanMAX','cartridgescyanREMAIN',
-                                                         'CARTRIDGE','CYAN');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesyellowMAX','cartridgesyellowREMAIN',
-                                                         'CARTRIDGE','YELLOW');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmagentaMAX','cartridgesmagentaREMAIN',
-                                                         'CARTRIDGE','MAGENTA');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgescyanlightMAX','cartridgescyanlightREMAIN',
-                                                         'CARTRIDGE','CYANLIGHT');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmagentalightMAX','cartridgesmagentalightREMAIN',
-                                                         'CARTRIDGE','MAGENTALIGHT');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorMAX','cartridgesphotoconductorREMAIN',
-                                                         'CARTRIDGE','PHOTOCONDUCTOR');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorblackMAX','cartridgesphotoconductorblackREMAIN',
-                                                         'CARTRIDGE','PHOTOCONDUCTORBLACK');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcolorMAX','cartridgesphotoconductorcolorREMAIN',
-                                                         'CARTRIDGE','PHOTOCONDUCTORCOLOR');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcyanMAX','cartridgesphotoconductorcyanREMAIN',
-                                                         'CARTRIDGE','PHOTOCONDUCTORCYAN');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductoryellowMAX','cartridgesphotoconductoryellowREMAIN',
-                                                         'CARTRIDGE','PHOTOCONDUCTORYELLOW');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductormagentaMAX','cartridgesphotoconductormagentaREMAIN',
-                                                         'CARTRIDGE','PHOTOCONDUCTORMAGENTA');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertblackMAX','cartridgesunittransfertblackREMAIN',
-                                                         'CARTRIDGE','UNITTRANSFERBLACK');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertcyanMAX','cartridgesunittransfertcyanREMAIN',
-                                                         'CARTRIDGE','UNITTRANSFERCYAN');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertyellowMAX','cartridgesunittransfertyellowREMAIN',
-                                                         'CARTRIDGE','UNITTRANSFERYELLOW');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertmagentaMAX','cartridgesunittransfertmagentaREMAIN',
-                                                         'CARTRIDGE','UNITTRANSFERMAGENTA');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgeswasteMAX','cartridgeswasteREMAIN',
-                                                         'CARTRIDGE','WASTE');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesfuserMAX','cartridgesfuserREMAIN',
-                                                         'CARTRIDGE','FUSER');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesbeltcleanerMAX','cartridgesbeltcleanerREMAIN',
-                                                         'CARTRIDGE','BELTCLEANER');
-      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmaintenancekitMAX','cartridgesmaintenancekitREMAIN',
-                                                         'CARTRIDGE','MAINTENANCEKIT');
+      foreach my $info (@printer_simple_infos) {
+          _putSimpleOid($HashDataSNMP, $datadevice, @$info);
+      }
+      foreach my $info (@printer_percent_infos) {
+          _putPercentOid($HashDataSNMP, $datadevice, @$info);
+      }
    }
+
    return $datadevice, $HashDataSNMP;
 }
 
