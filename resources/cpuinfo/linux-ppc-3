@@ -1,0 +1,19 @@
+processor       : 0
+cpu             : PPC970FX, altivec supported
+clock           : 2700.000000MHz
+revision        : 3.1 (pvr 003c 0301)
+
+processor       : 1
+cpu             : PPC970FX, altivec supported
+clock           : 2700.000000MHz
+revision        : 3.1 (pvr 003c 0301)
+
+timebase        : 33333333
+platform        : PowerMac
+model           : PowerMac7,3
+machine         : PowerMac7,3
+motherboard     : PowerMac7,3 MacRISC4 Power Macintosh 
+detected as     : 336 (PowerMac G5)
+pmac flags      : 00000000
+L2 cache        : 512K unified
+pmac-generation : NewWorld
