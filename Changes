@@ -12,6 +12,7 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/414
        * Linux/PPC: Fix various warnings in CPU.pm
        * Linux/PPC: ignore some wrong warning
+       * Linux/PPC: CPUS/TYPE renamed to CPUS/NAME
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
