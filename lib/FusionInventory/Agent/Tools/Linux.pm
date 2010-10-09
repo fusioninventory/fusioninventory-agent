@@ -96,13 +96,15 @@ sub getCPUsFromProc {
             $cpu->{$1} = $2;
         } elsif ($line =~ /^$/) {
             next unless $cpu;
-            push @$cpus, $cpu;
+            # On PPC, a "fake" CPU section is used to describe the
+            # machine
+            push @$cpus, $cpu unless $cpu->{'pmac-generation'};
             undef $cpu;
         }
     }
     close $handle;
 
-    push @$cpus, $cpu if $cpu;
+    push @$cpus, $cpu unless $cpu->{'pmac-generation'};
 
     return $cpus;
 }
