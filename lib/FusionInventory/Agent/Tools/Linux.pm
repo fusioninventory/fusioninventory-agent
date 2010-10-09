@@ -69,8 +69,9 @@ sub _parseUdevEntry {
     }
     close $handle;
 
-    $result->{SERIALNUMBER} = $serial
-        unless $result->{SERIALNUMBER} =~ /\S/;
+    if (!$result->{SERIALNUMBER}) {
+        $result->{SERIALNUMBER} = $serial;
+    }
 
     $result->{NAME} = $device;
 
