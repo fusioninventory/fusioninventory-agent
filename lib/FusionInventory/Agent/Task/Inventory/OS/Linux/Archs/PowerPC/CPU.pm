@@ -52,7 +52,7 @@ sub doInventory {
         }
 
         $inventory->addCPU({
-            TYPE         => $cpu->{cpu},
+            NAME         => $cpu->{cpu},
             MANUFACTURER => $manufacturer,
             SPEED        => $speed
         });
