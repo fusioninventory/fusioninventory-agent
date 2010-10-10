@@ -49,8 +49,9 @@ sub save {
     my ($self, $params) = @_;
 
     my $data = $params->{data};
+    my $idx = $params->{idx};
 
-    my $filePath = $self->_getFilePath();
+    my $filePath = $self->_getFilePath({ idx => $idx });
 
     store ($data, $filePath) or warn;
 }
@@ -59,9 +60,11 @@ sub restore {
     my ($self, $params ) = @_;
 
     my $module = $params->{module};
+    my $idx = $params->{idx};
 
     my $filePath = $self->_getFilePath({
         module => $module,
+        idx => $idx
     });
 
     if (-f $filePath) {
@@ -80,12 +83,20 @@ sub getDirectory {
 sub _getFilePath {
     my ($self, $params) = @_;
 
+    my $target = $self->{target};
+    my $config = $self->{config};
+
+    my $idx = $params->{idx};
+    if ($idx && $idx !~ /^\d+$/) {
+        die "[fault] idx must be an integer!\n";
+    } 
     my $module = $params->{module};
 
     my $path = 
         $self->{directory} .
         '/' . 
         $self->_getFileName({ module => $module }) .
+        ($idx ? ".$idx" : "" ) .
         '.dump';
 
     return $path;
@@ -124,7 +135,8 @@ FusionInventory::Agent::Storage - A data serializer/deserializer
 
 This is the object used by the agent to ensure data persistancy between
 invocations. Each data structure is saved in a file, whose name is automatically
-determined according to object class name.
+determined according to object class name. An optional index number can be used
+to differentiate between usages.
 
 =head1 SYNOPSIS
 
@@ -171,6 +183,10 @@ Save given data structure. The following arguments are allowed:
 
 The data structure to save (mandatory).
 
+=item idx
+
+The index number (optional).
+
 =back
 
 =head2 restore
@@ -182,6 +198,10 @@ Restore a saved data structure. The following arguments are allowed:
 =item module
 
 The name of the module which saved the data structure (mandatory).
+
+=item idx
+
+The index number (optional).
 
 =back
 
