@@ -8,9 +8,7 @@ use English qw(-no_match_vars);
 use Net::SNMP;
 
 sub new {
-    my ($class, $params ) = @_;
-
-    my $self = {};
+    my ($class, $params) = @_;
 
     my $version =
         ! $params->{version}       ? 'snmpv1'  :
@@ -21,7 +19,7 @@ sub new {
 
     die "invalid SNMP version $params->{version}";
 
-    my $error;
+    my ($self, $error);
     if ($version eq 'snmpv3') {
         ($self->{session}, $error) = Net::SNMP->session(
             -timeout   => 1,
@@ -93,9 +91,9 @@ sub snmpGet {
 
 
 sub snmpWalk {
-    my ($self, $args) = @_;
+    my ($self, $params) = @_;
 
-    my $oid_start = $args->{oid_start};
+    my $oid_start = $params->{oid_start};
 
     my $ArraySNMP = {};
 
