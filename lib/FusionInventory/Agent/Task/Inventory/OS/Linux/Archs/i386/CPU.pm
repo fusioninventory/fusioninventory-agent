@@ -92,7 +92,7 @@ sub _getInfosFromProc {
             $hasPhysicalId = 1;
         }
 
-        $procs->[$cpuNbr]= $cpu;
+        $procs->[$cpuNbr]= $cpu if keys %$cpu;
         $cpuNbr++ unless $hasPhysicalId;
     }
 
