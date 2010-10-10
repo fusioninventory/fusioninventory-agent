@@ -311,7 +311,9 @@ sub _checkContent {
     }
 
     if ($self->{logger}) {
+        my %seen;
         $self->{logger} = [
+            grep { !$seen{$_}++ }
             split(/\s*,\s*/, $self->{logger})
         ];
     }
