@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Getopt::Long;
-use Cwd qw(fast_abs_path abs_path);
 use English qw(-no_match_vars);
+use File::Spec;
 use Pod::Usage;
 
 my $basedir = $OSNAME eq 'MSWin32' ?
@@ -317,10 +317,10 @@ sub _checkContent {
     }
 
     if ($self->{'share-dir'}) {
-        $self->{'share-dir'} = abs_path($self->{'share-dir'});
+        $self->{'share-dir'} = File::Spec->rel2abs($self->{'share-dir'});
     } else {
         if ($self->{devlib}) {
-            $self->{'share-dir'} = abs_path('./share/');
+            $self->{'share-dir'} = File::Spec->rel2abs('./share/');
         } else {
             eval { 
                 require File::ShareDir;
@@ -332,20 +332,15 @@ sub _checkContent {
 
     # We want only canonical path
     $self->{basevardir} =
-        abs_path($self->{basevardir}) if $self->{basevardir};
+        File::Spec->rel2abs($self->{basevardir}) if $self->{basevardir};
     $self->{'conf-file'} =
-        abs_path($self->{'conf-file'}) if $self->{'conf-file'};
+        File::Spec->rel2abs($self->{'conf-file'}) if $self->{'conf-file'};
     $self->{'ca-cert-file'} =
-        abs_path($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
+        File::Spec->rel2abs($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
     $self->{'ca-cert-dir'} =
-        abs_path($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
-    # On Windows abs_path fails if the file doesn't exist yet.
-    # Win32::GetFullPathName is ok.
-    if ($self->{'logfile'}) {
-        $self->{'logfile'} = $OSNAME eq 'MSWin32' ?
-            Win32::GetFullPathName($self->{'logfile'}) :
-            abs_path($self->{'logfile'});
-    }
+        File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
+    $self->{'logfile'} =
+        File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
 }
 
 1;
