@@ -21,7 +21,7 @@ use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
-our $VERSION = '2.2.0';
+our $VERSION = '2.2.x+POE';
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
