@@ -129,7 +129,10 @@ sub createSession {
                 }
                 my $nextRunDate = $self->getNextRunDate();
                 $_[HEAP]{alarm_id} = $_[KERNEL]->alarm_set(callRun => $nextRunDate);
-                print "Next launch planned for ".localtime($nextRunDate)."\n";
+                $self->{logger}->info("Next launch planned for ".
+                $self->getDescriptionString().
+                " at ".
+                localtime($nextRunDate));
             },
             callRun => sub {
                 $self->runTarget({ target => $self });
