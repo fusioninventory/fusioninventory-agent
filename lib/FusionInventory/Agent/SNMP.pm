@@ -17,7 +17,7 @@ sub new {
         $params->{version} eq '3'  ? 'snmpv3'  :
                                      undef     ;
 
-    die "invalid SNMP version $params->{version}";
+    die "invalid SNMP version $params->{version}" unless $version;
 
     my ($self, $error);
     if ($version eq 'snmpv3') {
