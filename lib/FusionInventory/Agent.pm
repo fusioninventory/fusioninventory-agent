@@ -248,14 +248,20 @@ sub run {
 
 
 
-    foreach my $target (@{$scheduler->{targets}}) {
-        # Create the POE session
-        $target->createSession(); 
+    if ($config->{daemon} || $config->{service}) {
+        foreach my $target (@{$scheduler->{targets}}) {
+            # Create the POE session
+            $target->createSession();
+        }
+    } else {
+        foreach my $target (@{$scheduler->{targets}}) {
+            $target->runTarget();
+        }
     }
 
     POE::Kernel->run();
-    exit;
 
+    exit;
 }
 
 sub getToken {
