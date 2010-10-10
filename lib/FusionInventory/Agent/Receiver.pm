@@ -57,10 +57,6 @@ sub new {
         StreamHandler  => sub { $self->stream(@_) },
         Headers => { Server => 'FusionInventory Agent' },
     );
-    if ($self->{httpd}) { # XXX TODO
-        $logger->error("[WWW] failed to start the service");
-        return;
-    } 
 
     $logger->info("RPC service started at: http://".
         ( $self->{'ip'} || "127.0.0.1" ).
