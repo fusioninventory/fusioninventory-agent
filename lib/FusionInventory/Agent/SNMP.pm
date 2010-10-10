@@ -189,6 +189,24 @@ sub getBadMACAddress {
     return $oid_value;
 }
 
+sub getAuthList {
+    my ($class, $options) = @_;
+
+    my $list;
+
+    if (ref($options->{AUTHENTICATION}) eq "HASH") {
+        # a single auth object
+        $list->{$options->{AUTHENTICATION}->{ID}} = $options->{AUTHENTICATION};
+    } else {
+        # a list of auth objects
+        foreach my $auth (@{$options->{AUTHENTICATION}}) {
+            $list->{$auth->{ID}} = $auth;
+        }
+    }
+
+    return $list;
+}
+
 1;
 __END__
 
