@@ -262,9 +262,9 @@ sub _loadUserParams {
 sub _checkContent {
     my ($self) = @_;
 
-    # if a logfile is defined, use file logger
+    # if a logfile is defined, add file logger
     if ($self->{logfile}) {
-        $self->{logger} = 'File';
+        $self->{logger} .= ',File'
     }
 
     if ($self->{realm}) {
