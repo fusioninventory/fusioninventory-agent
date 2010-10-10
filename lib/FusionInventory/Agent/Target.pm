@@ -135,7 +135,7 @@ sub createSession {
                 localtime($nextRunDate));
             },
             callRun => sub {
-                $self->runTarget({ target => $self });
+                $self->run();
                 $self->scheduleNextRun();
                 $_[KERNEL]->yield("setAlarm");
             },
@@ -144,7 +144,7 @@ sub createSession {
                 if ($_[HEAP]{alarm_id}) {
                     $_[KERNEL]->alarm_remove($_[HEAP]{alarm_id});
                 }
-                $self->runTarget({ target => $self });
+                $self->run();
                 $self->scheduleNextRun();
                 $_[KERNEL]->yield("setAlarm");
             } 
@@ -154,13 +154,13 @@ sub createSession {
 }
 
 
-sub runTarget {
+sub run {
     my ($self, $params) = @_;
 
-    print "runTarget\n";
+    print "run\n";
     my $config = $self->{config};
     my $logger = $self->{logger};
-    my $target = $params->{target};
+    my $target = $self;
 
     eval {
         $self->{status} = 'waiting';
@@ -354,7 +354,7 @@ Return the storage object for this target.
 
 Save persistant part of current state.
 
-=head2 runTarget()
+=head2 run()
 
 Run the tasks (inventory, snmp scan, etc) on the target
 

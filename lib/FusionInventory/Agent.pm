@@ -255,7 +255,7 @@ sub run {
         }
     } else {
         foreach my $target (@{$scheduler->{targets}}) {
-            $target->runTarget();
+            $target->run();
         }
     }
 
