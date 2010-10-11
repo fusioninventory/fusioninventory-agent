@@ -272,19 +272,19 @@ sub _checkContent {
             "the parameter --realm is deprecated, and will be ignored\n";
     }
 
-    if (defined $self->{'no-socket'}) {
+    if ($self->{'no-socket'}) {
         print STDERR
             "the parameter --no-socket is deprecated, use --no-www instead\n";
         $self->{'no-www'} = $self->{'no-socket'};
     }
 
-    if (defined $self->{'rpc-ip'}) {
+    if ($self->{'rpc-ip'}) {
         print STDERR
             "the parameter --rpc-ip is deprecated, use --www-ip instead\n";
         $self->{'www-ip'} = $self->{'rpc-ip'};
     }
 
-    if (defined $self->{'rpc-trust-localhost'}) {
+    if ($self->{'rpc-trust-localhost'}) {
         print STDERR
             "the parameter --rpc-trust-localhost is deprecated, use --www-trust-localhost instead\n";
         $self->{'www-trust-localhost'} = $self->{'rpc-trust-localhost'};
