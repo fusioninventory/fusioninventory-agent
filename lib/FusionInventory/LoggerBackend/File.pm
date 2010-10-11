@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Fcntl qw(:flock);
 
 sub new {
     my ($class, $params) = @_;
@@ -52,12 +53,20 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
+    # get an exclusive lock on log file
+    flock($self->{handle}, LOCK_EX)
+        or die "can't get an exclusive lock on $self->{logfile}: $ERRNO";
+
     $self->_watchSize() if $self->{logfile_maxsize};
 
     print {$self->{handle}}
         "[". localtime() ."]" .
         "[$level]" .
         " $message\n";
+
+    # release the lock
+    flock($self->{handle}, LOCK_UN)
+        or die "can't release the lock on $self->{logfile}: $ERRNO";
 }
 
 sub DESTROY {
