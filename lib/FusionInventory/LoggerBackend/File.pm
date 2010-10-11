@@ -31,8 +31,6 @@ sub _open {
 sub _watchSize {
     my ($self) = @_;
 
-    return unless $self->{logfile_maxsize};
-
     my $size = (stat($self->{handle}))[7];
 
     if ($size > $self->{logfile_maxsize} * 1024 * 1024) {
@@ -54,7 +52,7 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
-    $self->_watchSize();
+    $self->_watchSize() if $self->{logfile_maxsize};
 
     print {$self->{handle}}
         "[". localtime() ."]" .
