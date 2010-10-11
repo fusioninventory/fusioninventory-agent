@@ -14,7 +14,7 @@ use FusionInventory::Logger;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = $class->SUPER::new($params);
+    my $self = FusionInventory::Agent::Task->new($params);
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         deviceid => $self->{deviceid},
@@ -25,10 +25,6 @@ sub new {
     $self->{modules} = {};
 
     return $self;
-}
-
-sub run {
-    my ($self) = @_;
 
     $self->_feedInventory();
 

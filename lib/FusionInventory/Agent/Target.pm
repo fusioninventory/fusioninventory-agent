@@ -9,6 +9,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Logger;
 
 use POE;
+use POE::Wheel::Run;
 
 sub new {
     my ($class, $params) = @_;
@@ -155,6 +156,167 @@ sub createSession {
 
 
 sub run {
+    my ($self, $params) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $target = $params->{target};
+
+    POE::Session->create(
+        inline_states => {
+            _start => sub {
+                $_[KERNEL]->alias_set("jobEngine");
+                $_[KERNEL]->yield('prolog');
+                $_[HEAP]->{modulesToRun} = [ 'Inventory', 'Ping', 'WakeOnLan' ];
+                $_[HEAP]->{target} = $target;
+
+                my $prologresp;
+                my $transmitter;
+                if ($self->isa('FusionInventory::Agent::Target::Server')) {
+
+                    $transmitter = FusionInventory::Agent::Transmitter->new({
+                            logger       => $logger,
+                            url          => $self->{url},
+                            proxy        => $config->{proxy},
+                            user         => $config->{user},
+                            password     => $config->{password},
+                            no_ssl_check => $config->{'no-ssl-check'},
+                            ca_cert_file => $config->{'ca-cert-file'},
+                            ca_cert_dir  => $config->{'ca-cert-dir'},
+                        });
+
+                    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+                            logger   => $logger,
+                            deviceid => $self->{deviceid},
+                            token    => $self->{token}
+                        });
+
+                    if ($config->{tag}) {
+                        $prolog->setAccountInfo({'TAG', $config->{tag}});
+                    }
+
+                    # TODO Don't mix settings and temp value
+                    $_[HEAP]->{prologresp} = $transmitter->send({message => $prolog});
+
+                    if (!$_[HEAP]->{prologresp}) {
+                        $logger->error("No anwser from the server");
+                        $target->setNextRunDate();
+                        return;
+                    }
+                }
+
+                $_[KERNEL]->yield('launchNextTask');
+
+            },
+            launchNextTask  => sub {
+                my $logger = $self->{logger};
+                my $config = $self->{config};
+                my $target = $_[HEAP]->{target};
+
+                if(!@{$_[HEAP]->{modulesToRun}}) {
+                    $self->scheduleNextRun();
+                    return;
+                }
+
+                $_[HEAP]->{runningModuleName} = shift @{$_[HEAP]->{modulesToRun}};
+
+                #print "Launching module ".$_[HEAP]->{runningModuleName}."\n";
+
+                my $cmd;
+                $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
+                $cmd .= "  -Ilib" if $config->{devlib};
+                $cmd .= " -MFusionInventory::Agent::Task::".$_[HEAP]->{runningModuleName};
+                $cmd .= " -e ".
+                "\"FusionInventory::Agent::Task::".
+                $_[HEAP]->{runningModuleName}.
+                "::new();\" --";
+                $cmd .= " \"".
+                $_[HEAP]->{runningModuleName}."\"";
+
+                my $child = POE::Wheel::Run->new(
+                    Program => $cmd,
+                    StdoutEvent  => "got_child_stdout",
+                    StderrEvent  => "got_child_stderr",
+                    CloseEvent   => "got_child_close",
+                );
+
+                $_[KERNEL]->sig_child($child->PID, "got_child_signal");
+
+                # Wheel events include the wheel's ID.
+                $_[HEAP]{children_by_wid}{$child->ID} = $child;
+
+                $self->{target_by_moduleName}{$_[HEAP]->{runningModuleName}} = $target;
+
+                # Signal events include the process ID.
+                $_[HEAP]{children_by_pid}{$child->PID} = $child;
+
+                print(
+                    "Child pid ", $child->PID,
+                    " started as wheel ", $child->ID, ".\n"
+                );
+
+
+            },
+#            got_child_stdout => \&on_child_stdout,
+            got_child_stderr => sub {
+                my ($stderr_line, $wheel_id) = @_[ARG0, ARG1];
+
+                my $logger = $self->{logger};
+
+                my $child = $_[HEAP]{children_by_wid}{$wheel_id};
+
+                if ($stderr_line =~ s/(\w+):\s(.*)//) {
+                    $logger->$1("t) ".$2);
+                } else {
+                    $logger->error($stderr_line);
+                }
+            },
+            got_child_stdout => sub {
+                my ($line, $wheel_id) = @_[ARG0, ARG1];
+
+                print "→ ".$line."\n";
+            },
+            got_child_close  => sub {
+                my $wheel_id = $_[ARG0];
+                my $child = delete $_[HEAP]{children_by_wid}{$wheel_id};
+
+                # May have been reaped by on_child_signal().
+                unless (defined $child) {
+                    print "wid $wheel_id closed all pipes.\n";
+                    return;
+                }
+
+                print "module: ".$_[HEAP]->{runningModuleName}." terminé\n";
+                print "pid ", $child->PID, " closed all pipes.\n";
+                delete $_[HEAP]{children_by_pid}{$child->PID};
+#                print Dumper($self->{target_by_moduleName});
+                delete $self->{target_by_moduleName}{$_[HEAP]->{runningModuleName}};
+                $_[KERNEL]->yield('launchNextTask');
+            },
+            got_child_signal => sub {
+                    print "pid $_[ARG1] exited with status $_[ARG2].\n";
+                    my $child = delete $_[HEAP]{children_by_pid}{$_[ARG1]};
+
+                    # May have been reaped by on_child_close().
+                    return unless defined $child;
+
+                    delete $_[HEAP]{children_by_wid}{$child->ID};
+                }
+
+
+        }
+    );
+
+
+
+}
+
+
+
+
+
+
+sub runFork {
     my ($self, $params) = @_;
 
     print "run\n";

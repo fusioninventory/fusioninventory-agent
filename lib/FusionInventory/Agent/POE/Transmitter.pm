@@ -1,4 +1,4 @@
-package FusionInventory::Agent::POE::Network;
+package FusionInventory::Agent::POE::Transmitter;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ my $poe;
 sub new {
     my $self = {};
 
-    my $name   = "Network$$";
+    my $name   = "Transmitter$$";
     $poe = create_ikc_client(
         port    => 3030,
         name    => $name,
