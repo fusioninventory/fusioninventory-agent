@@ -1,7 +1,5 @@
 package FusionInventory::Agent::POE::Logger;
 
-use FusionInventory::Agent::Job;
-
 sub new {
     my $self = {};
     
