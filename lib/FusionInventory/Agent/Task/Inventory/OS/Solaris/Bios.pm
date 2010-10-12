@@ -12,7 +12,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $zone;
     my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate, $aarch);
+        $BiosVersion, $BiosDate, $aarch, $uuid);
 
     my $OSLevel=`uname -r`;
 
@@ -34,15 +34,14 @@ sub doInventory {
             #
             # For a Intel/AMD arch, we're using smbio
             #
-            foreach(`/usr/sbin/smbios -t SMB_TYPE_SYSTEM`) {
+            foreach(`/usr/sbin/smbios`) {
                 if(/^\s*Manufacturer:\s*(.+)$/){$SystemManufacturer = $1};
                 if(/^\s*Serial Number:\s*(.+)$/){$SystemSerial = $1;}
                 if(/^\s*Product:\s*(.+)$/){$SystemModel = $1;}
-            }
-            foreach(`/usr/sbin/smbios -t SMB_TYPE_BIOS`) {
                 if(/^\s*Vendor:\s*(.+)$/){$BiosManufacturer = $1};
                 if(/^\s*Version String:\s*(.+)$/){$BiosVersion = $1};
                 if(/^\s*Release Date:\s*(.+)$/){$BiosDate = $1};
+                if(/^\s*UUID:\s*(.+)$/){$uuid = $1};
             }
         } elsif( $aarch eq "sparc" ) {
             #
@@ -98,6 +97,7 @@ sub doInventory {
             SMODEL => $SystemModel,
             SSN => $SystemSerial
         });
+    $inventory->setHardware ({ UUID => $uuid }) if $uuid;
 
 }
 1;
