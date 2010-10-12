@@ -45,7 +45,10 @@ Revision history for FusionInventory::Agent
        * Linux/PPC: Fix various warnings in CPU.pm
        * Linux/PPC: ignore some wrong warning
        * Linux/PPC: CPUS/TYPE renamed to CPUS/NAME
+       * POD: add doc for BIOS/{S,B}MANUFACTURER
+       * Clean up: remove BIOS/{MMANUFACTURER,MSN}
        * POD: fix a syntax error in fusioninventory-agent
+       * POD: clarify, we ignore virtual filesystem like /proc in <DRIVES />
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
