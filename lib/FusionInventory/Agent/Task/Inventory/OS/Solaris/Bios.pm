@@ -16,7 +16,7 @@ sub doInventory {
 
     my $OSLevel=`uname -r`;
 
-    if ( $OSLevel =~ /5.8/ ){
+    if ( $OSLevel !~ /5.1\d/ ){
         $zone = "global";
     }else{
         foreach (`zoneadm list -p`){

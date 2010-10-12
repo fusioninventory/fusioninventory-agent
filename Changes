@@ -18,6 +18,7 @@ Revision history for FusionInventory::Agent
        * POD: fix a syntax error in fusioninventory-agent
        * POD: clarify, we ignore virtual filesystem like /proc in <DRIVES />
        * Solaris: move showrev output example in ressources/solaris
+       * Solaris: ignore Zone on Solaris < 5.10
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
