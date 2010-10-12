@@ -1521,7 +1521,7 @@ Frequency in MHz
 
 =head2 DRIVES
 
-Drive is actually a filesystem.
+Drive is actually a filesystem. Virtual filesystem like /proc or /sys are ignored.
 
 =over 4
 
