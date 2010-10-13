@@ -1549,7 +1549,7 @@ Windows driver letter. Windows only
 
 =item SERIAL
 
-Partition serial number
+Partition serial number or UUID
 
 =item SYSTEMDRIVE
 
