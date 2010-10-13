@@ -22,6 +22,9 @@ Revision history for FusionInventory::Agent
        * Solaris: collect the UUID on x86
          http://forge.fusioninventory.org/issues/428
        * OpenSolaris: collect firmware information even if showrev is not installed
+       * OpenSolaris: support GNU df to collect partition
+       * Solaris: identify zfs filesystem and collect serial number (UUID)
+       * Solaris/Drives.pm code clean up
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
