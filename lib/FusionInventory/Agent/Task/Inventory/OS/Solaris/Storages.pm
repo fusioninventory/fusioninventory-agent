@@ -54,7 +54,7 @@ sub doInventory {
             ##
         }
         if(/^.*Revision:\s*(\S+)/){
-            $rev = $1;
+            $rev = $1 unless $1 eq 'Serial';
         }
         if(/^Vendor:\s*(\S+)/){
             $manufacturer = $1;
