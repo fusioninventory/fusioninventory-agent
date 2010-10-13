@@ -25,6 +25,7 @@ Revision history for FusionInventory::Agent
        * OpenSolaris: support GNU df to collect partition
        * Solaris: identify zfs filesystem and collect serial number (UUID)
        * Solaris/Drives.pm code clean up
+       * Solaris/Storages.pm Don't set revision to 'Serial' if revision is empty
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
