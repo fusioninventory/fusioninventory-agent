@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    return can_run ("showrev");
+    return (can_run ("showrev") or can_run("/usr/sbin/smbios"));
 }
 
 sub doInventory {
@@ -12,7 +12,8 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $zone;
     my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate, $aarch, $uuid);
+        $BiosVersion, $BiosDate, $uuid);
+    my $aarch = "unknown";
 
     my $OSLevel=`uname -r`;
 
@@ -24,11 +25,14 @@ sub doInventory {
         }
     }
 
+    $aarch = "i386" if (`arch` =~ /^i86pc$/);
     if ($zone){
-        foreach(`showrev`){
-            if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
-            if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
-            if(/^Application architecture:\s+(\S+)/){$aarch = $1};
+        if (can_run("showrev")) {
+            foreach(`showrev`){
+                if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
+                if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
+                if(/^Application architecture:\s+(\S+)/){$aarch = $1};
+            }
         }
         if( $aarch eq "i386" ){
             #
@@ -43,7 +47,7 @@ sub doInventory {
                 if(/^\s*Release Date:\s*(.+)$/){$BiosDate = $1};
                 if(/^\s*UUID:\s*(.+)$/){$uuid = $1};
             }
-        } elsif( $aarch eq "sparc" ) {
+        } elsif( $aarch =~ /sparc/i ) {
             #
             # For a Sparc arch, we're using prtconf
             #
