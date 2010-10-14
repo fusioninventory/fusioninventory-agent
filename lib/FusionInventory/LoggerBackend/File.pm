@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use Fcntl qw(:flock);
+use File::stat;
 
 sub new {
     my ($class, $params) = @_;
@@ -16,33 +17,7 @@ sub new {
 
     bless $self, $class;
 
-    $self->_open();
-
     return $self;
-}
-
-sub _open {
-    my ($self) = @_;
-
-    open $self->{handle}, '>>', $self->{logfile}
-        or warn "Can't open $self->{logfile}: $ERRNO";
-}
-
-
-sub _watchSize {
-    my ($self) = @_;
-
-    my $size = (stat($self->{handle}))[7];
-
-    if ($size > $self->{logfile_maxsize} * 1024 * 1024) {
-        close $self->{handle};
-        unlink($self->{logfile}) or die "$!!";
-        $self->_open();
-        print {$self->{handle}}
-            "[".localtime()."]" .
-            " max size reached, log file truncated\n";
-    }
-
 }
 
 sub addMsg {
@@ -53,26 +28,28 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
+    if ($self->{logfile_maxsize}) {
+        my $stat = stat($self->{logfile});
+        if ($stat->size() > $self->{logfile_maxsize} * 1024 * 1024) {
+            unlink $self->{logfile}
+                or warn "Can't unlink $self->{logfile}: $ERRNO";
+        }
+    }
+
+    open my $handle, '>>', $self->{logfile}
+        or warn "Can't open $self->{logfile}: $ERRNO";
+
     # get an exclusive lock on log file
-    flock($self->{handle}, LOCK_EX)
+    flock($handle, LOCK_EX)
         or die "can't get an exclusive lock on $self->{logfile}: $ERRNO";
 
-    $self->_watchSize() if $self->{logfile_maxsize};
-
-    print {$self->{handle}}
+    print {$handle}
         "[". localtime() ."]" .
         "[$level]" .
         " $message\n";
 
-    # release the lock
-    flock($self->{handle}, LOCK_UN)
-        or die "can't release the lock on $self->{logfile}: $ERRNO";
-}
-
-sub DESTROY {
-    my ($self) = @_;
-
-    close $self->{handle};
+    # closing handle release the lock automatically
+    close $handle;
 }
 
 1;
