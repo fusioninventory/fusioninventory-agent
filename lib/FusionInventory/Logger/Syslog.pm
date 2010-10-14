@@ -2,6 +2,7 @@ package FusionInventory::Logger::Syslog;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Logger::Backend';
 
 use Sys::Syslog qw(:standard :macros);
 
@@ -46,44 +47,3 @@ FusionInventory::Logger::Syslog - A syslog backend for the logger
 =head1 DESCRIPTION
 
 This is a syslog-based backend for the logger.
-
-=head1 METHODS
-
-=head2 new($params)
-
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
-
-=over
-
-=item I<config>
-
-the agent configuration object
-
-=back
-
-=head2 addMsg($params)
-
-Add a log message, with a specific level. The following arguments are allowed:
-
-=over
-
-=item I<level>
-
-Can be one of:
-
-=over
-
-=item debug
-
-=item info
-
-=item error
-
-=item fault
-
-=back
-
-=item I<message>
-
-=back

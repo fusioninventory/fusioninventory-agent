@@ -2,6 +2,7 @@ package FusionInventory::Logger::File;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Logger::Backend';
 
 use English qw(-no_match_vars);
 use Fcntl qw(:flock);
@@ -63,44 +64,3 @@ FusionInventory::Logger::File - A file backend for the logger
 
 This is a file-based backend for the logger. It supports automatic filesize
 limitation.
-
-=head1 METHODS
-
-=head2 new($params)
-
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
-
-=over
-
-=item I<config>
-
-the agent configuration object
-
-=back
-
-=head2 addMsg($params)
-
-Add a log message, with a specific level. The following arguments are allowed:
-
-=over
-
-=item I<level>
-
-Can be one of:
-
-=over
-
-=item debug
-
-=item info
-
-=item error
-
-=item fault
-
-=back
-
-=item I<message>
-
-=back
