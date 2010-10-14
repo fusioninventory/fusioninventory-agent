@@ -19,7 +19,7 @@ sub new {
     foreach my $backend (
         $params->{backends} ? @{$params->{backends}} : 'Stderr'
     ) {
-        my $package = "FusionInventory::LoggerBackend::$backend";
+        my $package = "FusionInventory::Logger::$backend";
         $package->require();
         if ($EVAL_ERROR) {
             print STDERR

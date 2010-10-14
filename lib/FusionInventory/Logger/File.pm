@@ -1,4 +1,4 @@
-package FusionInventory::LoggerBackend::File;
+package FusionInventory::Logger::File;
 
 use strict;
 use warnings;
@@ -57,7 +57,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::LoggerBackend::File - A file backend for the logger
+FusionInventory::Logger::File - A file backend for the logger
 
 =head1 DESCRIPTION
 

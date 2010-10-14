@@ -1,4 +1,4 @@
-package FusionInventory::LoggerBackend::Stderr;
+package FusionInventory::Logger::Stderr;
 
 use strict;
 use warnings;
@@ -48,7 +48,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::LoggerBackend::Stderr - A stderr backend for the logger
+FusionInventory::Logger::Stderr - A stderr backend for the logger
 
 =head1 DESCRIPTION
 

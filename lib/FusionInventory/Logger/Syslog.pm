@@ -1,4 +1,4 @@
-package FusionInventory::LoggerBackend::Syslog;
+package FusionInventory::Logger::Syslog;
 
 use strict;
 use warnings;
@@ -41,7 +41,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::LoggerBackend::Syslog - A syslog backend for the logger
+FusionInventory::Logger::Syslog - A syslog backend for the logger
 
 =head1 DESCRIPTION
 
