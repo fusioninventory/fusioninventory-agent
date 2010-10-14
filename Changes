@@ -26,6 +26,9 @@ Revision history for FusionInventory::Agent
        * Solaris: identify zfs filesystem and collect serial number (UUID)
        * Solaris/Drives.pm code clean up
        * Solaris/Storages.pm Don't set revision to 'Serial' if revision is empty
+       * MacOSX: No serial & uudi gathered on Mac OS X 10.5 running VirtualBox
+         fail back on ioreg when system_profiler do not give the wanted information
+         http://forge.fusioninventory.org/issues/431
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
