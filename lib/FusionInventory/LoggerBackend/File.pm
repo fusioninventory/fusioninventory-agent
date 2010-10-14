@@ -12,7 +12,7 @@ sub new {
 
     my $self = {
         logfile         => $params->{config}->{'logfile'},
-        logfile_maxsize => $params->{config}->{'logfile-maxsize'}
+        logfile_maxsize => $params->{config}->{'logfile-maxsize'} * 1024 * 1024
     };
 
     bless $self, $class;
@@ -30,7 +30,7 @@ sub addMsg {
 
     if ($self->{logfile_maxsize}) {
         my $stat = stat($self->{logfile});
-        if ($stat->size() > $self->{logfile_maxsize} * 1024 * 1024) {
+        if ($stat->size() > $self->{logfile_maxsize}) {
             unlink $self->{logfile}
                 or warn "Can't unlink $self->{logfile}: $ERRNO";
         }
