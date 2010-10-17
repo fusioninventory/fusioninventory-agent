@@ -23,8 +23,6 @@ use FusionInventory::Agent::XML::Query;
 
 our $VERSION = '1.5';
 
-$ENV{XML_SIMPLE_PREFERRED_PARSER} = 'XML::SAX::PurePerl';
-
 sub run {
     my ($self) = @_;
 
