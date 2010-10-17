@@ -4,13 +4,14 @@ use strict;
 use warnings;
 
 use English qw/-no_match_vars/;
-use XML::Simple;
+use XML::TreePP;
 
 sub new {
     undef $INPUT_RECORD_SEPARATOR; # enable slurp mode
     my $dico = <DATA>;
 
-    return XMLin($dico);
+    my $tpp = XML::TreePP->new();
+    return scalar $tpp->parse($dico);
 }
 
 1;
