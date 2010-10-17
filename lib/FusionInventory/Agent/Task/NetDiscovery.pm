@@ -32,6 +32,102 @@ use FusionInventory::Agent::XML::Query;
 
 our $VERSION = '2.0';
 
+my @dispatch_table = (
+    {
+        # alcatel
+        match => qr/^\S+ Service Release/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Alcatel',
+        function => 'getDescription'
+    },
+    {
+        match => qr/AXIS OfficeBasic Network Print Server/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Axis',
+        function => 'getDescription'
+
+    },
+    {
+        # dd-wrt
+        match => qr/Linux/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Ddwrt',
+        function => 'getDescription'
+    },
+    {
+        # dell switch
+        match => 'Ethernet Switch',
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Dell',
+        function => 'getDescription'
+    },
+    {
+        # Epson
+        match => qr/EPSON Built-in/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Epson',
+        function => 'getDescriptionBuiltin'
+    },
+    {
+        # Epson
+        match => qr/EPSON Internal 10Base-T/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Epson',
+        function => 'getDescriptionInternal'
+    },
+    {
+        match => qr/HP ETHERNET MULTI-ENVIRONMENT/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard',
+        function => 'getDescription'
+    },
+    {
+        match => qr/A SNMP proxy agent, EEPROM/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard',
+        function => 'getDescription'
+    },
+    {
+        # kyocera
+        match => qr/,HP,JETDIRECT,J/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera',
+        function => 'getDescriptionHP'
+    },
+    {
+        match => 'KYOCERA MITA Printing System',
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera',
+        function => 'getDescriptionOther'
+    },
+    {
+        match => 'KYOCERA Printer I/F',
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera',
+        function => 'getDescriptionOther'
+
+    },
+    {
+        match => 'SB-110',
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera',
+        function => 'getDescriptionOther'
+
+    },
+        {
+        match => qr/RICOH NETWORK PRINTER/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Ricoh',
+        function => 'getDescription'
+
+    },
+    {
+        # samsung
+        match => qr/SAMSUNG NETWORK PRINTER,ROM/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Samsung',
+        function => 'getDescription'
+    },
+    {
+        # Wyse
+        match => qr/Linux/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Wyse',
+        function => 'getDescription'
+    },
+    {
+        # Zebra
+        match => qr/ZebraNet PrintServer/,
+        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Zebranet',
+        function => 'getDescription'
+    },
+);
+
 sub run {
     my ($self) = @_;
 
@@ -55,8 +151,6 @@ sub run {
     }
 
     $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
-
-    $self->_initModList();
 
     my $params = $options->{PARAM}->[0];
 
@@ -469,15 +563,27 @@ sub _scanAddressBySNMP {
         my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
         return unless $description;
 
-        foreach my $module (@{$self->{modules}}) {
-            no strict 'refs'; ## no critic
-            my $better_description = &{$module . '::getBetterDescription'}(
-                $description, $snmp
-            );
-            if ($better_description) {
-                $description = $better_description;
+        foreach my $entry (@dispatch_table) {
+            if (ref $entry->{match} eq 'Regexp') {
+                next unless $description =~ $entry->{match};
+            } else {
+                next unless $description eq $entry->{match};
+            }
+
+            $entry->{module}->require();
+            if ($EVAL_ERROR) {
+                $self->{logger}->debug(
+                    "Failed to load $entry->{module}: $EVAL_ERROR"
+                );
                 last;
             }
+
+            no strict 'refs'; ## no critic
+            $description = &{$entry->{module} . '::' . $entry->{function}}(
+                $snmp
+            );
+
+            last;
         }
 
         $device->{DESCRIPTION} = $description;
@@ -556,21 +662,6 @@ sub _getMacAddress {
     }
 
     return $macAddress;
-}
-
-sub _initModList {
-    my ($self) = @_;
-
-    my @modules = __PACKAGE__->getModules(prefix => 'Manufacturer');
-    die "no inventory module found" if !@modules;
-
-    foreach my $module (@modules) {
-        if ($module->require()) {
-            push @{$self->{modules}}, $module;
-        } else {
-            $self->{logger}->info("failed to load $module");
-        }
-    }
 }
 
 sub _parseNmap {

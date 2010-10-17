@@ -3,12 +3,8 @@ package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard
 use strict;
 use warnings;
 
-sub getBetterDescription {
-    my ($description, $snmp) = @_;
-
-    return unless 
-        $description =~ m/HP ETHERNET MULTI-ENVIRONMENT/ or
-        $description =~ m/A SNMP proxy agent, EEPROM/;
+sub getDescription {
+    my ($snmp) = @_;
 
     my $result = $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1');
     return $result if $result;
@@ -26,8 +22,6 @@ sub getBetterDescription {
             return $_;
         }
     }
-
-    return;
 }
 
 1;
