@@ -18,7 +18,7 @@ sub new {
 
     my $self = {
         maxOffset       => $params->{maxOffset} || 3600,
-        logger          => $params->{logger} || FusionInventory::Logger->new(),
+        logger          => $params->{logger},
         deviceid        => $params->{deviceid},
         config          => $params->{config},
         nextRunDate     => undef,
