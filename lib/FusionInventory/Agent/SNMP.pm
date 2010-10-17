@@ -71,6 +71,7 @@ sub snmpGet {
     return unless $result;
 
     return if $result->{$oid} =~ /noSuchInstance/;
+    return if $result->{$oid} =~ /noSuchObject/;
 
     my $value;
     if (
