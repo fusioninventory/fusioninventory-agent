@@ -264,9 +264,13 @@ sub run {
                 my $logger = $self->{logger};
 
                 my $child = $_[HEAP]{children_by_wid}{$wheel_id};
-
-                if ($stderr_line =~ s/(\w+):\s(.*)//) {
-                    $logger->$1("t) ".$2);
+                if ($stderr_line =~ s/^(\S+):\s(.*)//) {
+                    my $error = $1;
+                    if (!exists(&{"FusionInventory::Logger::".$stderr_line})) {
+                        $logger->fault("t) unknown error: ".$error);
+                    } else {
+                        $logger->$error("t) ".$2);
+                    }
                 } else {
                     $logger->error($stderr_line);
                 }
