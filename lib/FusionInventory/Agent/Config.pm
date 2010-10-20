@@ -48,6 +48,7 @@ my $default = {
     'realm'                   => '',
     'share-dir'               => 0,
     'server'                  => undef,
+    'service'                 => 0,
     'stdout'                  => 0,
     'tag'                     => '',
     'user'                    => '',
@@ -74,7 +75,6 @@ sub new {
     }
 
     $self->_loadUserParams();
-    $self->_loadCallerParams($params) if $params;
 
     $self->_checkContent();
 
@@ -86,14 +86,6 @@ sub _loadDefaults {
 
     foreach my $key (keys %$default) {
         $self->{$key} = $default->{$key};
-    }
-}
-
-sub _loadCallerParams {
-    my ($self, $params) = @_;
-
-    foreach my $key (keys %$params) {
-        $self->{$key} = $params->{$key};
     }
 }
 
@@ -232,6 +224,7 @@ sub _loadUserParams {
         'scan-homedirs',
         'share-dir=s',
         'server|s=s',
+        'service',
         'stdout',
         'tag|t=s',
         'user|u=s',

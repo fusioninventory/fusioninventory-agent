@@ -29,7 +29,7 @@ $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class) = @_;
 
     my $self = {
         status => 'unknown',
@@ -37,7 +37,7 @@ sub new {
     };
     bless $self, $class;
 
-    my $config = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new();
     $self->{config} = $config;
 
     if ($config->{help}) {
