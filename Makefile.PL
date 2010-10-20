@@ -121,3 +121,15 @@ FINALIZE = $(ABSPERLRUN) -pi \
 EOF
     return $installbin;
 }
+
+sub manifypods {
+    my ($self) = @_;
+    my $manifypods = $self->SUPER::manifypods(@_);
+    $manifypods =~ s/manifypods : pure_all/manifypods : pure_all fusioninventory-agent.1.html/;
+    $manifypods .= <<'EOF';
+fusioninventory-agent.1.html: fusioninventory-agent
+	pod2html --infile=$< --outfile=$@
+
+EOF
+    return $manifypods;
+}
