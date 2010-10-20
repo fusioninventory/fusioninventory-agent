@@ -20,12 +20,9 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $scanhomedirs = $params->{config}{'scan-homedirs'};
 
-    my $cmd_list_vms = "VBoxManage -nologo list vms";
-
-    my ( $version ) = ( `VBoxManage --version` =~ m/^(\d\.\d).*$/ ) ;
-    if ( $version > 2.1 ) {         # detect VirtualBox version 2.2 or higher
-        $cmd_list_vms = "VBoxManage -nologo list --long vms";
-    }
+    my ($version) = (`VBoxManage --version` =~ m/^(\d\.\d).*$/);
+    my $cmd_list_vms = $version > 2.1 ?
+        "VBoxManage -nologo list --long vms" : "VBoxManage -nologo list vms";
 
     my $in = 0;
     my $uuid;
