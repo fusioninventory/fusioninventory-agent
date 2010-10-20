@@ -141,19 +141,11 @@ sub _loadFromCfgFile {
 
     my $file;
 
-    my $in;
-    foreach (@ARGV) {
-        if (!$in && /^--conf-file=(.*)/) {
+    foreach my $arg (@ARGV) {
+        if ($arg =~ /^--conf-file=(.+)$/) {
             $file = $1;
-            $file =~ s/'(.*)'/$1/;
-            $file =~ s/"(.*)"/$1/;
-        } elsif (/^--conf-file$/) {
-            $in = 1;
-        } elsif ($in) {
-            $file = $_;
-            $in = 0;
-        } else {
-            $in = 0;
+        } elsif ($arg =~ /^--conf-file$/) {
+            $file = shift @ARGV;
         }
     }
 
