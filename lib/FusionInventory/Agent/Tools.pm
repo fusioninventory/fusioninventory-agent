@@ -446,7 +446,7 @@ sub compareVersion {
         );
 }
 
-sub getSanitizeString {
+sub getSanitizedString {
     my ($string) = @_;
 
     return unless defined $string;
