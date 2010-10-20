@@ -26,7 +26,7 @@ sub startAgent {
     return if $thr;
     $thr = threads->create(sub {
         my $agent = FusionInventory::Agent->new({service => 1});
-        $agent->main();
+        $agent->run();
     });
 }
 
