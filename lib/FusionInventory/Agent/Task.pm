@@ -11,6 +11,7 @@ sub new {
     my $self = {
         logger      => $params->{logger} || FusionInventory::Logger->new(),
         config      => $params->{config},
+        setup       => $params->{setup},
         target      => $params->{target},
         prologresp  => $params->{prologresp},
         transmitter => $params->{transmitter},

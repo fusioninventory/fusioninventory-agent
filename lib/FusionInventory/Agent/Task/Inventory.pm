@@ -291,6 +291,7 @@ sub _runWithTimeout {
 
         $ret = &{$module . '::' . $function}({
             config        => $self->{config},
+            setup         => $self->{setup},
             inventory     => $self->{inventory},
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},

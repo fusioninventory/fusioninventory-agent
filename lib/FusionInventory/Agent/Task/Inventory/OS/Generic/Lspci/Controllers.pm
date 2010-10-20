@@ -16,10 +16,11 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $config = $params->{config};
+    my $setup = $params->{setup};
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    _loadPciIds($logger, $config->{'share-dir'});
+    _loadPciIds($logger, $setup->{datadir});
     my $controllers = _getExtentedControllers($logger);
 
     return unless $controllers;

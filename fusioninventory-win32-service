@@ -26,7 +26,12 @@ sub startAgent {
     return if $thr;
     $thr = threads->create(sub {
         push @ARGV, '--service';
-        my $agent = FusionInventory::Agent->new();
+        my $basedir = $ENV{APPDATA} . '/fusioninventory-agent';
+        my $agent = FusionInventory::Agent->new({
+            confdir => "$basedir/etc/fusioninventory",
+            datadir => "$basedir/share",
+            vardir  => "$basedir/var/lib/fusioninventory"
+        });
         $agent->run();
     });
 }
