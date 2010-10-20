@@ -42,10 +42,6 @@ sub doInventory {
         next if /\ /; # Ignore directory with space in the name
         next if /'/; # Ignore directory with space in the name
 
-        push(@users,$lsuser);
-    }
-
-    foreach my $user (@users) {
         my @command = `su '$user' -c "prlctl list -a"`;
         shift (@command);
 
