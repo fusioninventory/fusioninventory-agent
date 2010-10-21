@@ -18,50 +18,30 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my $free;
-    my $mountpoint;
-    my $total;
-    my $filesystem;
-    my $volumn;
+    my @drives =
+        # exclude solaris 10 specific devices
+        grep { $_->{VOLUMN} !~ /^\/(devices|platform)/; } 
+        # keep physical devices or swap
+        grep { $_->{VOLUMN} =~ /^(\/|swap)/; } 
+        # exclude cdrom mount
+        grep { $_->{TYPE} !~ /cdrom/; } 
+        # get all file systems
+        getFilesystemsFromDf( logger => $logger, command => 'df -P -k');
 
-#Looking for mount points and disk space
-    for(`df -k`){
-        if (/^Filesystem\s*/){next};
-        # on Solaris 10 /devices is an extra mount which we like to exclude
-        if (/^\/devices/){next};
-        # on Solaris 10 /platform/.../libc_psr_hwcap1.so.1 is an extra mount which we like to exclude
-        if (/^\/platform/){next};
-        # exclude cdrom mount point
-        if (/^\/.*\/cdrom/){next};
+    foreach my $drive (@drives) {
 
-        if (!(/^\/.*/) && !(/^swap.*/)){next};
-
-        if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
-            $mountpoint = $1;
-            $total = sprintf("%i",($2/1024));
-            $free = sprintf("%i",($4/1024));
-            $volumn = $6;
-
-            $filesystem="";
-            if ($mountpoint eq 'swap') {
-                $filesystem="swap";
-            } elsif($mountpoint =~ /^\/dev\/\S*/){
-                chomp($filesystem=`fstyp $mountpoint`);
-                $filesystem = '' if $filesystem =~ /cannot stat/;
-            }
-#print "FILESYS ".$mountpoint." FILETYP ".$filesystem." TOTAL ".$total." FREE ".$free." VOLUMN ".$volumn."\n";
-            $inventory->addDrive({
-                    FREE => $free,
-                    FILESYSTEM => $filesystem,
-                    TOTAL => $total,
-                    TYPE => $mountpoint,
-                    VOLUMN => $volumn
-                })
-
+        # compute filesystem type
+        if ($drive->{VOLUMN} eq 'swap') {
+            $drive->{FILESYSTEM} = 'swap';
+        } else {
+            my $fs = `fstyp $drive->{VOLUMN} 2>/dev/null`;
+            chomp $fs;
+            $drive->{FILESYSTEM} = $fs;
         }
 
-
+        $inventory->addDrive($drive);
     }
 }
 
