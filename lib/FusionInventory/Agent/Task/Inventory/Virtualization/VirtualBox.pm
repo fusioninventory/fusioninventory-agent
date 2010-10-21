@@ -1,12 +1,14 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
 
-# This module detects only all VMs create by the user who launch this module (root VMs).
+# This module detects only VMs created by the user running the agent,
+# usually root user
 
 use strict;
 use warnings;
 
-use XML::TreePP;
+use English qw(-no_match_vars);
 use File::Glob ':glob';
+use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
@@ -18,61 +20,15 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
     my $scanhomedirs = $params->{config}{'scan-homedirs'};
 
     my ($version) = (`VBoxManage --version` =~ m/^(\d\.\d).*$/);
-    my $cmd_list_vms = $version > 2.1 ?
+    my $command = $version > 2.1 ?
         "VBoxManage -nologo list --long vms" : "VBoxManage -nologo list vms";
 
-    my $in = 0;
-    my $uuid;
-    my $mem;
-    my $status;
-    my $name;
-
-    foreach my $line (`$cmd_list_vms`) {
-        chomp $line;
-        # read only the information on the first paragraph of each vm
-        if ($in == 0 and $line =~ m/^Name:\s+(.*)$/) {      # begin
-            $name = $1;
-            $in = 1; 
-        } elsif ($in == 1 ) {
-            if ($line =~ m/^\s*$/) {                        # finish
-                $in = 0 ;
-
-                $inventory->addVirtualMachine ({
-                        NAME      => $name,
-                        VCPU      => 1,
-                        UUID      => $uuid,
-                        MEMORY    => $mem,
-                        STATUS    => $status,
-                        SUBSYSTEM => "Sun xVM VirtualBox",
-                        VMTYPE    => "VirtualBox",
-                    });
-                # useless but need it for security (new version, ...)
-                $name = $status = $mem = $uuid = 'N\A';
-
-            } elsif ($line =~ m/^UUID:\s+(.*)/) {
-                $uuid = $1;
-            } elsif ($line =~ m/^Memory size:\s+(.*)/ ) {
-                $mem = $1;
-            } elsif ($line =~ m/^State:\s+(.*)\(.*/) {
-                $status = ( $1 =~ m/off/ ? "off" : $1 );
-            }
-        }
-    }
-
-    if ($in == 1) {
-        # Anormal situation ! save the current vm information ...
-        $inventory->addVirtualMachine ({
-            NAME      => $name,
-            VCPU      => 1,
-            UUID      => $uuid,
-            MEMORY    => $mem,
-            STATUS    => $status,
-            SUBSYSTEM => "Sun xVM VirtualBox",
-            VMTYPE    => "VirtualBox",
-        });
+    foreach my $machine (_parseVBoxManage($logger, $command, '-|')) {
+        $inventory->addVirtualMachine ($machine);
     }
 
     # try to found another VMs, not exectute by root
@@ -184,6 +140,59 @@ sub doInventory {
             }
         }
     }
+}
+
+sub _parseVBoxManage {
+    my ($logger, $file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        $logger->error("Can't open $file: $ERRNO");
+        return;
+    }
+
+    my (@machines, $machine, $index);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ m/^Name:\s+(.*)$/) {
+            # this is a little tricky, because USB devices also have a 'name'
+            # field, so let's use the 'index' field to disambiguate
+            if (defined $index) {
+                $index = undef;
+                next;
+            }
+            if ($machine) {
+                $machine->{VCPU}      = 1;
+                $machine->{SUBSYSTEM} = 'Sun xVM VirtualBox';
+                $machine->{VMTYPE}    = 'VirtualBox';
+                push @machines, $machine;
+            }
+            $machine = {
+                NAME => $1
+            }
+        } elsif ($line =~ m/^UUID:\s+(.+)/) {
+            $machine->{UUID} = $1;
+        } elsif ($line =~ m/^Memory size:\s+(.+)/ ) {
+            $machine->{MEMORY} = $1;
+        } elsif ($line =~ m/^State:\s+(.+) \(/) {
+            $machine->{STATUS} = $1 eq 'powered off' ? 'off' : $1;
+        } elsif ($line =~ m/^Index:\s+(\d+)$/) {
+            $index = $1;
+        }
+    }
+    close $handle;
+
+    # push last remaining machine
+    if ($machine) {
+        $machine->{VCPU}      = 1;
+        $machine->{SUBSYSTEM} = 'Sun xVM VirtualBox';
+        $machine->{VMTYPE}    = 'VirtualBox';
+        push @machines, $machine;
+    }
+
+    return @machines;
 }
 
 1;
