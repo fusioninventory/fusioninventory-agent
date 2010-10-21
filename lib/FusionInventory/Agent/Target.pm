@@ -22,6 +22,9 @@ sub new {
         deviceid        => $params->{deviceid},
         config          => $params->{config},
         nextRunDate     => undef,
+	# the list of module the target has to run now.
+	modulenamesToRun    => [],
+	modulenameRunning  => undef,
     };
     bless $self, $class;
 
@@ -167,7 +170,7 @@ sub run {
             _start => sub {
                 $_[KERNEL]->alias_set("jobEngine");
                 $_[KERNEL]->yield('prolog');
-                $_[HEAP]->{modulesToRun} = [ 'Inventory', 'Ping', 'WakeOnLan' ];
+                $self->{modulesToRun} = [ 'Inventory', 'Ping', 'WakeOnLan' ];
                 $_[HEAP]->{target} = $target;
 
                 my $prologresp;
@@ -213,25 +216,25 @@ sub run {
                 my $config = $self->{config};
                 my $target = $_[HEAP]->{target};
 
-                if(!@{$_[HEAP]->{modulesToRun}}) {
+                if(!@{$self->{modulesToRun}}) {
                     $self->scheduleNextRun();
                     return;
                 }
 
-                $_[HEAP]->{runningModuleName} = shift @{$_[HEAP]->{modulesToRun}};
+                $self->{modulenameRunning} = shift @{$self->{modulesToRun}};
 
                 #print "Launching module ".$_[HEAP]->{runningModuleName}."\n";
 
                 my $cmd;
-                $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
+                $cmd = "\"$EXECUTABLE_NAME\""; # The Perl binary path
                 $cmd .= "  -Ilib" if $config->{devlib};
-                $cmd .= " -MFusionInventory::Agent::Task::".$_[HEAP]->{runningModuleName};
+                $cmd .= " -MFusionInventory::Agent::Task::".$self->{modulenameRunning};
                 $cmd .= " -e ".
                 "\"FusionInventory::Agent::Task::".
-                $_[HEAP]->{runningModuleName}.
+                $self->{modulenameRunning}.
                 "::new();\" --";
                 $cmd .= " \"".
-                $_[HEAP]->{runningModuleName}."\"";
+                $self->{modulenameRunning}."\"";
 
                 my $child = POE::Wheel::Run->new(
                     Program => $cmd,
@@ -245,7 +248,7 @@ sub run {
                 # Wheel events include the wheel's ID.
                 $_[HEAP]{children_by_wid}{$child->ID} = $child;
 
-                $self->{target_by_moduleName}{$_[HEAP]->{runningModuleName}} = $target;
+                $self->{target_by_moduleName}{$self->{modulenameRunning}} = $target;
 
                 # Signal events include the process ID.
                 $_[HEAP]{children_by_pid}{$child->PID} = $child;
@@ -290,11 +293,12 @@ sub run {
                     return;
                 }
 
-                print "module: ".$_[HEAP]->{runningModuleName}." terminé\n";
+                print "module: ".$self->{modulenameRunning}." terminé\n";
                 print "pid ", $child->PID, " closed all pipes.\n";
                 delete $_[HEAP]{children_by_pid}{$child->PID};
 #                print Dumper($self->{target_by_moduleName});
-                delete $self->{target_by_moduleName}{$_[HEAP]->{runningModuleName}};
+		$self->{modulenameRunning} = undef;
+                delete $self->{target_by_moduleName}{$self->{modulenameRunning}};
                 $_[KERNEL]->yield('launchNextTask');
             },
             got_child_signal => sub {
@@ -448,6 +452,28 @@ sub runFork {
     }
 }
 
+
+sub getStatusString {
+    my ($self, $params) = @_;
+
+    my $string = '';
+    if ($self->{modulenameRunning}) {
+	$string .= "running module ".$self->{modulenameRunning};
+    } else {
+	$string .= "waiting";
+    }
+
+    my $cpt = @{$self->{modulenamesToRun}};
+    if ($cpt) {
+	$string .= " module run queue: ";
+	foreach(0..$cpt) {
+	    $string .= " ".$self->{modulenamesToRun}[$cpt];
+	    $string .= "," if $cpt;
+	}
+    }
+
+    return $string;
+}
 
 
 

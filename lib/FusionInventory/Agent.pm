@@ -34,7 +34,6 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        status => 'unknown',
         token  => _computeNewToken()
     };
     bless $self, $class;
@@ -279,11 +278,6 @@ sub _computeNewToken {
     return join('', map { $chars[rand @chars] } 1..8);
 }
 
-sub getStatus {
-    my ($self) = @_;
-    return $self->{status};
-}
-
 1;
 
 __END__
@@ -314,6 +308,3 @@ Get the current authentication token.
 
 Reset the current authentication token to a new random value.
 
-=head2 getStatus()
-
-Get the current agent status.

@@ -106,12 +106,21 @@ sub main {
         my $timeString = $target->getNextRunDate() > 1 ?
         localtime($target->getNextRunDate()) : "now";
         my $type = ref $target;
+	$type =~ s/.*:://;
+	my $statusString = $target->getStatusString();
         $nextContact .=
-        "<li>$type, $path: $timeString</li>\n";
+        "<li>\n
+	  <strong>Name</strong>
+	  <ul>
+      	    <li>type: $type</li>\n
+      	    <li>path: $path</li>\n
+      	    <li>planed for: $timeString</li>\n
+      	    <li>status: $statusString</li>\n
+	  </ul>
+	</li>\n";
     }
-    my $status = $self->{agent}->getStatus();
 
-    $output =~ s/%%STATUS%%/$status/;
+    #$output =~ s/%%STATUS%%/$status/;
     $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
     $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
     if (!$self->{trust_localhost}) {

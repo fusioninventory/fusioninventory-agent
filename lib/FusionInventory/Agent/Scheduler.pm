@@ -99,6 +99,7 @@ sub getTargets {
     return @{$self->{targets}}
 }
 
+
 sub scheduleTargets {
     my ($self, $offset) = @_;
 
@@ -113,9 +114,11 @@ sub runAllNow {
     my $logger = $self->{logger};
 print "aa\n";
     foreach my $target (@{$self->{targets}}) {
-        $logger->debug("Calling ".$target->getDescriptionString());
+        $logger->info("Calling ".$target->getDescriptionString());
         POE::Kernel->call( $target->{session}, 'runNow' );
+        $logger->info("End of call ".$target->getDescriptionString());
     }
+    $logger->info("End of runAllNowl()");
 
 }
 

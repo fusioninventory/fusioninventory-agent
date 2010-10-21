@@ -11,7 +11,6 @@
 <img src="/files/logo.png" alt="FusionInventory" />
 <br />
 This is FusionInventory Agent %%AGENT_VERSION%%<br />
-The current status is "%%STATUS%%"<br />
 
 %%IF_ALLOW_LOCALHOST%%<a href="/now">Force an Inventory</a>%%ENDIF_ALLOW_LOCALHOST%%
 
