@@ -30,7 +30,7 @@ sub doInventory {
     }
 
     # try to identify machines running under other uid
-    my @machines;
+    my %runningMachines;
     my $pscommand = $OSNAME eq 'solaris' ?
         'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
 
@@ -50,8 +50,9 @@ sub doInventory {
         }
 
         if ($scanhomedirs == 1) {
-            # save the running machine
-            push @machines, $uuid;
+            # the machine will get inventoried later, just
+            # register its running state
+            $runningMachines{$uuid} = 1;
         } else {
             # add it to the inventory immediatly
             $inventory->addVirtualMachine({
@@ -65,7 +66,7 @@ sub doInventory {
         }
     }
 
-    return unless @machines;
+    return unless $scanhomedirs;
 
     # Read every Machines Xml File of every user
     foreach my $file (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
@@ -77,12 +78,7 @@ sub doInventory {
         if ($data->{Machine}->{uuid}) {
             my $uuid = $data->{Machine}->{uuid};
             $uuid =~ s/^{?(.{36})}?$/$1/;
-            my $status = "off";
-            foreach my $machine (@machines) {
-                if ($uuid eq $machine) {
-                    $status = "running";
-                }
-            }
+            my $status = $runningMachines{$uuid} ? 'running' : 'off';
 
             $inventory->addVirtualMachine ({
                 NAME      => $data->{Machine}->{name},
@@ -117,12 +113,7 @@ sub doInventory {
                 if ($data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
                     my $uuid = $data->{Machine}->{uuid};
                     $uuid =~ s/^{?(.{36})}?$/$1/;
-                    my $status = "off";
-                    foreach my $machine (@machines) {
-                        if ($uuid eq $machine) {
-                            $status = "running";
-                        }
-                    }
+                    my $status = $runningMachines{$uuid} ? 'running' : 'off';
 
                     $inventory->addVirtualMachine ({
                         NAME      => $data->{Machine}->{name},
