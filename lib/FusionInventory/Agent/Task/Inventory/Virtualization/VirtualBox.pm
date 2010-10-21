@@ -30,8 +30,9 @@ sub doInventory {
     my $status;
     my $name;
 
-    foreach my $line (`$cmd_list_vms`){                 # read only the information on the first paragraph of each vm
-        chomp ($line);
+    foreach my $line (`$cmd_list_vms`) {
+        chomp $line;
+        # read only the information on the first paragraph of each vm
         if ($in == 0 and $line =~ m/^Name:\s+(.*)$/) {      # begin
             $name = $1;
             $in = 1; 
@@ -61,51 +62,52 @@ sub doInventory {
         }
     }
 
-    if ($in == 1) {     # Anormal situation ! save the current vm information ...
+    if ($in == 1) {
+        # Anormal situation ! save the current vm information ...
         $inventory->addVirtualMachine ({
-                NAME      => $name,
-                VCPU      => 1,
-                UUID      => $uuid,
-                MEMORY    => $mem,
-                STATUS    => $status,
-                SUBSYSTEM => "Sun xVM VirtualBox",
-                VMTYPE    => "VirtualBox",
-            });
+            NAME      => $name,
+            VCPU      => 1,
+            UUID      => $uuid,
+            MEMORY    => $mem,
+            STATUS    => $status,
+            SUBSYSTEM => "Sun xVM VirtualBox",
+            VMTYPE    => "VirtualBox",
+        });
     }
 
     # try to found another VMs, not exectute by root
     my @vmRunnings = ();
     my $index = 0 ;
     foreach my $line ( `ps -efax` ) {
-        chomp($line);
-        if ( $line !~ m/^root/) {
-            if ($line =~ m/^.*VirtualBox (.*)$/) {
-                my @process = split (/\s*\-\-/, $1);     #separate options
+        chomp $line;
+        next if $line =~ m/^root/;
+        if ($line =~ m/^.*VirtualBox (.*)$/) {
+            my @process = split (/\s*\-\-/, $1);     #separate options
 
-                $name = $uuid = 'N/A';
-
-                foreach my $option ( @process ) {
-                    print $option."\n";
-                    if ($option =~ m/^comment (.*)/) {
-                        $name = $1;
-                    } elsif ($option =~ m/^startvm (\S+)/) {
-                        $uuid = $1;
-                    }
+            my ($name, $uuid);
+            foreach my $option ( @process ) {
+                print $option."\n";
+                if ($option =~ m/^comment (.*)/) {
+                    $name = $1;
+                } elsif ($option =~ m/^startvm (\S+)/) {
+                    $uuid = $1;
                 }
+            }
 
-                if ($scanhomedirs == 1 ) {    # If I will scan Home directories,
-                    $vmRunnings [$index] = $uuid;   # save the no-root running machine
-                    $index += 1;
-                } else {
-                    $inventory->addVirtualMachine ({  # add in inventory
-                        NAME      => $name,
-                        VCPU      => 1,
-                        UUID      => $uuid,
-                        STATUS    => "running",
-                        SUBSYSTEM => "Sun xVM VirtualBox",
-                        VMTYPE    => "VirtualBox",
-                    });
-                }
+            if ($scanhomedirs == 1) {
+                # If I will scan Home directories,
+                $vmRunnings [$index] = $uuid;
+                # save the no-root running machine
+                $index += 1;
+            } else {
+                $inventory->addVirtualMachine ({  # add in inventory
+                    NAME      => $name,
+                    VCPU      => 1,
+                    UUID      => $uuid,
+                    STATUS    => "running",
+                    SUBSYSTEM => "Sun xVM VirtualBox",
+                    VMTYPE    => "VirtualBox",
+                });
             }
         }
     }
@@ -113,11 +115,10 @@ sub doInventory {
     return unless $scanhomedirs == 1;
 
     # Read every Machines Xml File of every user
-    foreach my $xmlMachine (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
-        chomp($xmlMachine);
+    foreach my $file (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
         # Open config file ...
         my $tpp = XML::TreePP->new();
-        my $data = $tpp->parse($xmlMachine);
+        my $data = $tpp->parse($file);
           
         # ... and read it
         if ($data->{Machine}->{uuid}) {
@@ -142,11 +143,10 @@ sub doInventory {
         }
     }
 
-    foreach my $xmlVirtualBox (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
-        chomp($xmlVirtualBox);
+    foreach my $file (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
         # Open config file ...
         my $tpp = XML::TreePP->new();
-        my $data = $tpp->parse($xmlVirtualBox);
+        my $data = $tpp->parse($file);
         
         # ... and read it
         my $defaultMachineFolder =
@@ -157,9 +157,9 @@ sub doInventory {
             $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/
         ) {
           
-            foreach my $xmlMachine (bsd_glob($defaultMachineFolder."/*/*.xml")) {
+            foreach my $file (bsd_glob($defaultMachineFolder."/*/*.xml")) {
                 my $tpp = XML::TreePP->new();
-                my $data = $tpp->parse($xmlVirtualBox);
+                my $data = $tpp->parse($file);
             
                 if ($data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
                     my $uuid = $data->{Machine}->{uuid};
