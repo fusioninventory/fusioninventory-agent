@@ -17,6 +17,19 @@ Revision history for FusionInventory::Agent
        * Clean up: remove BIOS/{MMANUFACTURER,MSN}
        * POD: fix a syntax error in fusioninventory-agent
        * use the default basevardir.
+       * POD: clarify, we ignore virtual filesystem like /proc in <DRIVES />
+       * Solaris: move showrev output example in ressources/solaris
+       * Solaris: ignore Zone on Solaris < 5.10
+       * Solaris: collect the UUID on x86
+         http://forge.fusioninventory.org/issues/428
+       * OpenSolaris: collect firmware information even if showrev is not installed
+       * OpenSolaris: support GNU df to collect partition
+       * Solaris: identify zfs filesystem and collect serial number (UUID)
+       * Solaris/Drives.pm code clean up
+       * Solaris/Storages.pm Don't set revision to 'Serial' if revision is empty
+       * MacOSX: No serial & uudi gathered on Mac OS X 10.5 running VirtualBox
+         fail back on ioreg when system_profiler do not give the wanted information
+         http://forge.fusioninventory.org/issues/431
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets

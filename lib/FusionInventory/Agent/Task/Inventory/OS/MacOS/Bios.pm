@@ -14,25 +14,54 @@ sub doInventory {
         my $nfo = $prof->gettype('SPHardwareDataType');
 
         # unless we get a real hash value, return with nothing
-        return(undef) unless($nfo && ref($nfo) eq 'HASH');
-		
-		my $h = $nfo->{'Hardware Overview'};
+        my $h = {};
+        if (($nfo && ref($nfo) eq 'HASH')) {
+                $h = $nfo->{'Hardware Overview'};
+        }
+
+        my $ioregInfo;
+#+-o iMac7,1  <class IOPlatformExpertDevice, registered, matched, active, busy 0, retain 24>
+#    {
+#      "IOBusyInterest" = "IOCommand is not serializable"
+#      "IOInterruptControllers" = ("io-apic-0")
+#      "IOPlatformSerialNumber" = "0"
+#      "clock-frequency" = <00e1f505>
+#      "version" = <"1.0">
+#      "product-name" = <"iMac7,1">
+#      "serial-number" = <30003000000000000000000000300000000000000000000000000000000000000000000000000000000000>
+#      "IOInterruptSpecifiers" = (<0900000007000000>)
+#      "model" = <"iMac7,1">
+#      "IOPlatformUUID" = "00000000-0000-1000-8000-0800276E729D"
+#      "manufacturer" = <"innotek GmbH">
+#      "IOPlatformArgs" = <00b0ac0000a0680010cfb80000000000>
+#      "name" = <"/">
+#      "compatible" = <"iMac7,1">
+#      "IOPolledInterface" = "SMCPolledInterface is not serializable"
+#    }
+        foreach (`ioreg -rd1 -c IOPlatformExpertDevice`) {
+                if (/"(\S+)"\s*=\s*(.*)/) {
+                        my $k = $1;
+                        my $t = $2;
+                        $t =~ s/<(.*)>/$1/;
+                        $t =~ s/"(.*)"/$1/;
+                        $ioregInfo->{$k} = $t;
+                }
+        }
 
         # set the bios informaiton from the apple system profiler
         $inventory->setBios({
-                SMANUFACTURER   => 'Apple Inc', # duh
+                SMANUFACTURER   => $ioregInfo->{'manufacturer'} || 'Apple Inc', # duh
                 SMODEL          => $h->{'Model Identifier'} || $h->{'Machine Model'},
         #       SSN             => $h->{'Serial Number'}
         # New method to get the SSN, because of MacOS 10.5.7 update
         # system_profiler gives 'Serial Number (system): XXXXX' where 10.5.6
         # and lower give 'Serial Number: XXXXX'
-                SSN             => $h->{'Serial Number'} || $h->{'Serial Number (system)'},
+                SSN             => $h->{'Serial Number'} || $h->{'Serial Number (system)'} || $ioregInfo->{'serial-number'},
                 BVERSION        => $h->{'Boot ROM Version'},
         });
 
-
             $inventory->setHardware({
-                    UUID => $h->{'Hardware UUID'}
+                    UUID => $h->{'Hardware UUID'} || $ioregInfo->{'IOPlatformUUID'}
                 });
 }
 
