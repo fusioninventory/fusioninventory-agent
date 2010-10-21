@@ -10,6 +10,7 @@ use strict;
 #mnttab                     0       0       0     0%    /etc/mnttab
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return can_run ("df");
