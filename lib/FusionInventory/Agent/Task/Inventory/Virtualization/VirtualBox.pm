@@ -1,8 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
 
-# This module detects only VMs created by the user running the agent,
-# usually root user
-
 use strict;
 use warnings;
 
@@ -11,6 +8,7 @@ use File::Glob ':glob';
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return
@@ -31,44 +29,43 @@ sub doInventory {
         $inventory->addVirtualMachine ($machine);
     }
 
-    # try to found another VMs, not exectute by root
-    my @vmRunnings = ();
-    my $index = 0 ;
-    foreach my $line ( `ps -efax` ) {
-        chomp $line;
-        next if $line =~ m/^root/;
-        if ($line =~ m/^.*VirtualBox (.*)$/) {
-            my @process = split (/\s*\-\-/, $1);     #separate options
+    # try to identify machines running under other uid
+    my @machines;
+    my $pscommand = $OSNAME eq 'solaris' ?
+        'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
 
-            my ($name, $uuid);
-            foreach my $option ( @process ) {
-                print $option."\n";
-                if ($option =~ m/^comment (.*)/) {
-                    $name = $1;
-                } elsif ($option =~ m/^startvm (\S+)/) {
-                    $uuid = $1;
-                }
+    foreach my $process (getProcessesFromPs(
+        logger => $logger, command => $command
+    )) {
+        next if $process->{USER} eq 'root'|| $process->{USER} == 0;
+        next unless $process->{CMD} =~ /VirtualBox (.*)/;
+        my @options = split(/\s+/, $1);
+        my ($name, $uuid);
+        foreach my $option (@options) {
+            if ($option eq '--comment') {
+                $name = shift @options;
+            } elsif ($option eq '--startvm') {
+                $uuid = shift @options;
             }
+        }
 
-            if ($scanhomedirs == 1) {
-                # If I will scan Home directories,
-                $vmRunnings [$index] = $uuid;
-                # save the no-root running machine
-                $index += 1;
-            } else {
-                $inventory->addVirtualMachine ({  # add in inventory
-                    NAME      => $name,
-                    VCPU      => 1,
-                    UUID      => $uuid,
-                    STATUS    => "running",
-                    SUBSYSTEM => "Sun xVM VirtualBox",
-                    VMTYPE    => "VirtualBox",
-                });
-            }
+        if ($scanhomedirs == 1) {
+            # save the running machine
+            push @machines, $uuid;
+        } else {
+            # add it to the inventory immediatly
+            $inventory->addVirtualMachine({
+                NAME      => $name,
+                VCPU      => 1,
+                UUID      => $uuid,
+                STATUS    => "running",
+                SUBSYSTEM => "Sun xVM VirtualBox",
+                VMTYPE    => "VirtualBox",
+            });
         }
     }
 
-    return unless $scanhomedirs == 1;
+    return unless @machines;
 
     # Read every Machines Xml File of every user
     foreach my $file (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
@@ -81,8 +78,8 @@ sub doInventory {
             my $uuid = $data->{Machine}->{uuid};
             $uuid =~ s/^{?(.{36})}?$/$1/;
             my $status = "off";
-            foreach my $vmRun (@vmRunnings) {
-                if ($uuid eq $vmRun) {
+            foreach my $machine (@machines) {
+                if ($uuid eq $machine) {
                     $status = "running";
                 }
             }
@@ -121,8 +118,8 @@ sub doInventory {
                     my $uuid = $data->{Machine}->{uuid};
                     $uuid =~ s/^{?(.{36})}?$/$1/;
                     my $status = "off";
-                    foreach my $vmRun (@vmRunnings) {
-                        if ($uuid eq $vmRun) {
+                    foreach my $machine (@machines) {
+                        if ($uuid eq $machine) {
                             $status = "running";
                         }
                     }
