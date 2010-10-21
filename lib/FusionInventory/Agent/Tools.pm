@@ -367,15 +367,30 @@ sub getPackagesFromCommand {
 }
 
 sub getFilesystemsFromDf {
-     my ($logger, $file, $mode) = @_;
+    my %params = @_;
 
     my $handle;
-    if (!open $handle, $mode, $file) {
-        my $message = $mode eq '-|' ? 
-            "Can't run command $file: $ERRNO" :
-            "Can't open file $file: $ERRNO"   ;
-        $logger->error($message);
-        return;
+
+    SWITCH: {
+        if ($params{command}) {
+            if (!open $handle, '-|', $params{command}) {
+                $params{logger}->error(
+                    "Can't run command $params{command}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        if ($params{file}) {
+            if (!open $handle, '<', $params{file}) {
+                $params{logger}->error(
+                    "Can't open file $params{file}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        die "neither command nor file parameter given";
     }
 
     my @filesystems;
@@ -563,10 +578,20 @@ Returns an hashref of information for current DHCP lease.
 Returns a list of packages as an arrayref of hashref, by parsing given command
 output with given callback.
 
-=head2 getFilesystemsFromDf
+=head2 getFilesystemsFromDf(%params)
 
 Returns a list of filesystems as a list of hashref, by parsing given df
 command output.
+
+=over
+
+=item logger
+
+=item command
+
+=item file
+
+=back
 
 =head2 getDeviceCapacity($device)
 

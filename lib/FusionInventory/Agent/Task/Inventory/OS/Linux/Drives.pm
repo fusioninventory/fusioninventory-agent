@@ -21,7 +21,7 @@ sub doInventory {
     # start with df command
     my @drives = grep {
         $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/;
-    } getFilesystemsFromDf($logger, 'df -P -T -k', '-|');
+    } getFilesystemsFromDf(logger => $logger, command => 'df -P -T -k');
 
 
     # get additional informations
