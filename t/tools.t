@@ -3483,7 +3483,7 @@ foreach my $test (keys %dmidecode_tests) {
 
 foreach my $test (keys %df_tests) {
     my $file = "resources/df/$test";
-    my @infos = getFilesystemsFromDf($logger, $file, '<');
+    my @infos = getFilesystemsFromDf(file => $file);
     is_deeply(\@infos, $df_tests{$test}, "$test df parsing");
 }
 
