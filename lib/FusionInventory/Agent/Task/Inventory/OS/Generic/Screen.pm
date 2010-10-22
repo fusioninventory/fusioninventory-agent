@@ -49,13 +49,13 @@ sub _getScreens {
         foreach my $objItem (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_DesktopMonitor', qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID
         /)) {
+            next unless $objItem->{"PNPDeviceID"};
 
             my $caption;
             my $description;
             my $manufacturer;
             my $serial;
             my $base64;
-            next unless $objItem->{"PNPDeviceID"};
             my $name = $objItem->{"Caption"};
 
             my $machKey;
@@ -76,7 +76,6 @@ sub _getScreens {
                 if (my $err = checkParsedEdid($edidInfo)) {
                     $logger->debug("check failed: bad edid: $err");
                 } else {
-
                     $caption = $edidInfo->{monitor_name};
                     $description = $edidInfo->{week}."/".$edidInfo->{year};
                     $manufacturer = getManufacturerFromCode($edidInfo->{manufacturer_name});
@@ -87,8 +86,14 @@ sub _getScreens {
 
             }
 
-
-            push @raw_edid, { edid => $edid, type => $objItem->{MonitorType}, manufacturer => $objItem->{MonitorManufacturer}, caption => $objItem->{Caption}, base64 => $base64, serial => $serial };
+            push @raw_edid, {
+                edid => $edid,
+                type => $objItem->{MonitorType},
+                manufacturer => $objItem->{MonitorManufacturer},
+                caption => $objItem->{Caption},
+                base64 => $base64,
+                serial => $serial
+            };
         }
 
     } else {
