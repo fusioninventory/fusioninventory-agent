@@ -14,6 +14,13 @@ use FusionInventory::Logger;
 sub run {
     my ($self) = @_;
 
+    # Turn off localised output for commands, after saving original values
+    my %ENV_ORIG;
+    foreach my $key (qw/LC_ALL LANG/) {
+        $ENV_ORIG{$key} = $ENV{$key};
+        $ENV{$key} = 'C';
+    }
+
     # initialize modules list
     $self->_initModList();
 
@@ -24,6 +31,13 @@ sub run {
     });
 
     $self->_feedInventory();
+
+    # restore original environnement, and complete inventory
+    foreach my $key (qw/LC_ALL LANG/) {
+        $ENV{$key} = $ENV_ORIG{$key};
+        next unless $ENV{$key};
+        $self->{inventory}->addEnv({ KEY => $key, VAL => $ENV{$key} });
+    }
 
     SWITCH: {
         if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
