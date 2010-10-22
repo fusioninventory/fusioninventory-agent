@@ -122,16 +122,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $raw_perl = 1;
-    my $verbose;
-    my $MonitorsDB;
-
-    my @screens = _getScreens($logger);
-
-    return unless @screens;
-
-    foreach my $screen (@screens) {
-
+    foreach my $screen (_getScreens($logger)) {
         $inventory->addMonitor ({
             BASE64 => $screen->{base64},
             CAPTION => $screen->{caption},
@@ -141,5 +132,5 @@ sub doInventory {
         });
     }
 }
-1;
 
+1;
