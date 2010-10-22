@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Tools::Generic::Screen;
+package FusionInventory::Agent::Tools::Screen;
 
 #     Copyright (C) 2005 Mandriva
 #     This program is free software; you can redistribute it and/or modify

@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 use MIME::Base64;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Generic::Screen;
+use FusionInventory::Agent::Tools::Screen;
 
 sub isInventoryEnabled {
 
