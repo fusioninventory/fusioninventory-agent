@@ -25,9 +25,6 @@ our $VERSION_STRING =
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
-$ENV{LC_ALL} = 'C'; # Turn off localised output for commands
-$ENV{LANG} = 'C'; # Turn off localised output for commands
-
 sub new {
     my ($class, $setup) = @_;
 
