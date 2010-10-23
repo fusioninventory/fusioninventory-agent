@@ -23,7 +23,7 @@ sub doInventory {
     foreach my $cpu (@$cpus) {
         $inventory->addCPU({
             ARCH => 'MIPS',
-            TYPE => $cpu->{'cpu model'},
+            NAME => $cpu->{'cpu model'},
         });
     }
 }
