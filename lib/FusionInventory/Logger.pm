@@ -21,7 +21,7 @@ sub new {
         $params->{backends} ? @{$params->{backends}} : 'Stderr'
     ) {
         next if $loaded{$backendName};
-        my $package = "FusionInventory::LoggerBackend::$backendName";
+        my $package = "FusionInventory::Logger::$backend";
         $package->require();
         if ($EVAL_ERROR) {
             print STDERR

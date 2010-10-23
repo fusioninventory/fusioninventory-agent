@@ -7,10 +7,10 @@ use Encode qw(encode);
 use English qw(-no_match_vars);
 use Net::SNMP;
 
-sub new {
-    my ($class, $params ) = @_;
+use FusionInventory::Agent::Tools;
 
-    my $self = {};
+sub new {
+    my ($class, $params) = @_;
 
     my $version =
         ! $params->{version}       ? 'snmpv1'  :
@@ -19,10 +19,11 @@ sub new {
         $params->{version} eq '3'  ? 'snmpv3'  :
                                      undef     ;
 
-    die "invalid SNMP version $params->{version}";
+    die "invalid SNMP version $params->{version}" unless $version;
 
+    my ($self, $error);
     if ($version eq 'snmpv3') {
-        $self->{session} = Net::SNMP->session(
+        ($self->{session}, $error) = Net::SNMP->session(
             -timeout   => 1,
             -retries   => 0,
             -version      => $version,
@@ -36,7 +37,7 @@ sub new {
             -port         => 161
         );
     } else { # snmpv2c && snmpv1 #
-        $self->{session} = Net::SNMP->session(
+        ($self->{session}, $error) = Net::SNMP->session(
             -timeout     => 1,
             -retries     => 0,
             -version     => $version,
@@ -47,8 +48,7 @@ sub new {
         );
     }
 
-    # netdiscovery and snmpquery plugins access internal structure directly
-    $self->{SNMPSession}->{session} = $self->{session};
+    die $error unless $self->{session};
 
     bless $self, $class;
 
@@ -57,61 +57,46 @@ sub new {
 
 
 sub snmpGet {
-    my ($self, $args) = @_;
+    my ($self, $params) = @_;
 
-    my $oid = $args->{oid};
-    my $up = $args->{up};
+    my $oid = $params->{oid};
+    my $up = $params->{up};
+
+    return unless $oid;
 
     my $session = $self->{session};
 
     my $result = $session->get_request(
         -varbindlist => [$oid]
     );
-    my $return;
-    if (!defined($result)) {
-        my $err = $self->{session}->error;
-        #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
-        if ((defined $up) && ($up == 1)) {
-            $return = "No response from remote host";
-        } else {
-            $return = "null";
-        }
-    } else {
-        if ($result->{$oid} =~ /noSuchInstance/) {
-            $return = "null";
-        } else {
-            if ($oid =~ /No response from remote host/) {
-                $return = "null";
-            } else {
-                if ($oid =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                if ($oid =~ /.1.3.6.1.2.1.17.1.1.0/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                if ($oid =~ /.1.3.6.1.2.1.2.2.1.6/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                if ($oid =~ /.1.3.6.1.2.1.4.22.1.2/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                if ($oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                $result->{$oid} = specialChar($result->{$oid});
-                $result->{$oid} =~ s/\n$//;
-                $return = $result->{$oid};
-            }
-        }
+
+    return unless $result;
+
+    return if $result->{$oid} =~ /noSuchInstance/;
+    return if $result->{$oid} =~ /noSuchObject/;
+
+    my $value;
+    if (
+        $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
+        $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
+        $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
+        $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
+        $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/
+    ) {
+        $value = getBadMACAddress($oid, $result->{$oid});
     }
-    return $return;
+
+    $value = getSanitizedString($value);
+    $value =~ s/\n$//;
+
+    return $value;
 }
 
 
 sub snmpWalk {
-    my ($self, $args) = @_;
+    my ($self, $params) = @_;
 
-    my $oid_start = $args->{oid_start};
+    my $oid_start = $params->{oid_start};
 
     my $ArraySNMP = {};
 
@@ -147,7 +132,7 @@ sub snmpWalk {
                         }
                         my $object2 = $object;
                         $object2 =~ s/$_[0].//;
-                        $oid = specialChar($oid);
+                        $oid = getSanitizedString($oid);
                         $oid =~ s/\n$//;
                         $ArraySNMP->{$object2} = $oid;
                     }
@@ -158,21 +143,6 @@ sub snmpWalk {
     }
     return $ArraySNMP;
 }
-
-sub specialChar {
-    if (defined($_[0])) {
-        if ($_[0] =~ /0x$/) {
-            return "";
-        }
-        $_[0] = encode('UTF-8', $_[0]);
-        $_[0] =~ s/\0//g;
-        $_[0] =~ s/([\x80-\xFF])//g;
-        return $_[0];
-    } else {
-        return "";
-    }
-}
-
 
 sub getBadMACAddress {
     my $OID_ifTable = shift;
@@ -187,6 +157,24 @@ sub getBadMACAddress {
         $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
     }
     return $oid_value;
+}
+
+sub getAuthList {
+    my ($class, $options) = @_;
+
+    my $list;
+
+    if (ref($options->{AUTHENTICATION}) eq "HASH") {
+        # a single auth object
+        $list->{$options->{AUTHENTICATION}->{ID}} = $options->{AUTHENTICATION};
+    } else {
+        # a list of auth objects
+        foreach my $auth (@{$options->{AUTHENTICATION}}) {
+            $list->{$auth->{ID}} = $auth;
+        }
+    }
+
+    return $list;
 }
 
 1;
@@ -241,7 +229,5 @@ Can be one of:
 =head2 snmpGet()
 
 =head2 snmpWalk()
-
-=head2 specialChar()
 
 =head2 getBadMACAddress()

@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Getopt::Long;
-use File::Spec;
 use English qw(-no_match_vars);
+use File::Spec;
 use Pod::Usage;
 
 my $basedir = $OSNAME eq 'MSWin32' ?
@@ -311,7 +311,9 @@ sub _checkContent {
     }
 
     if ($self->{logger}) {
+        my %seen;
         $self->{logger} = [
+            grep { !$seen{$_}++ }
             split(/\s*,\s*/, $self->{logger})
         ];
     }

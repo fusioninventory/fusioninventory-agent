@@ -22,6 +22,7 @@ our @EXPORT = qw(
     getPackagesFromCommand
     getFilesystemsFromDf
     getDeviceCapacity
+    getSanitizedString
     compareVersion
     can_run
     can_load
@@ -449,6 +450,31 @@ sub compareVersion {
         );
 }
 
+sub getSanitizeString {
+    my ($string) = @_;
+
+    return unless defined $string;
+
+    # clean control caracters
+    $string =~ s/[[:cntrl:]]//g;
+
+    # encode to utf-8 if needed
+    if ($string !~ m/\A(
+          [\x09\x0A\x0D\x20-\x7E]           # ASCII
+        | [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte
+        | \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} # straight 3-byte
+        | \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+        | \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+        | [\xF1-\xF3][\x80-\xBF]{3}         # planes 4-15
+        | \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+        )*\z/x) {
+        $string = encode("UTF-8", $string);
+    };
+
+    return $string;
+}
+
 sub can_run {
     my ($binary) = @_;
 
@@ -549,6 +575,11 @@ command output.
 =head2 getDeviceCapacity($device)
 
 Returns storage capacity of given device.
+
+=head2 getSanitizedString($string)
+
+Returns the input stripped from any control character, properly encoded in
+UTF-8.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 
