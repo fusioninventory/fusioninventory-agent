@@ -33,6 +33,7 @@ Revision history for FusionInventory::Agent
          missing. This way /etc/debian_version is used on Debian 
        * Linux: correctly parse /etc/resolv.conf to identify the domain
        * Linux: don't save 2 time the same domain
+       * Linux/ARM: collect the Hardware information from /proc/cpuinfo 
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
