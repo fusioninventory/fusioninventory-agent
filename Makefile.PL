@@ -45,6 +45,8 @@ test_requires 'Authen::Simple'               => undef;
 test_requires 'Compress::Zlib'               => undef;
 test_requires 'Crypt::SSLeay'                => undef;
 test_requires 'IPC::Run'                     => undef;
+test_requires 'IO::Capture::Stderr'          => undef;
+test_requires 'Test::Simple'                 => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
