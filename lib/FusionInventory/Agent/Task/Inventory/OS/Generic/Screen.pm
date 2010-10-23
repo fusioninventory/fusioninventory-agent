@@ -51,7 +51,6 @@ sub _getScreens {
             next unless $objItem->{"PNPDeviceID"};
 
             my $screen = {
-                type         => $objItem->{MonitorType},
                 manufacturer => $objItem->{MonitorManufacturer},
                 caption      => $objItem->{Caption},
             };
