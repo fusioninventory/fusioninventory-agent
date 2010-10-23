@@ -12,7 +12,7 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/414
        * Linux/PPC: Fix various warnings in CPU.pm
        * Linux/PPC: ignore some wrong warning
-       * Linux/PPC: CPUS/TYPE renamed to CPUS/NAME
+       * Linux: CPUS/TYPE renamed to CPUS/NAME
        * POD: add doc for BIOS/{S,B}MANUFACTURER
        * Clean up: remove BIOS/{MMANUFACTURER,MSN}
        * POD: fix a syntax error in fusioninventory-agent

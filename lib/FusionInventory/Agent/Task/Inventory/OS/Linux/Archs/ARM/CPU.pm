@@ -37,7 +37,7 @@ sub doInventory {
             };
 
         }
-        $current->{TYPE} = $1 if /Processor\s+:\s+(\S.*)/;
+        $current->{NAME} = $1 if /Processor\s+:\s+(\S.*)/;
     }
     close $handle;
 

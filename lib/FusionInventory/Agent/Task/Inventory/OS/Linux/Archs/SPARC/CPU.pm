@@ -19,7 +19,7 @@ sub doInventory {
         warn "Can't open /proc/cpuinfo: $ERRNO";
     } else {
         while (<$handle>) {
-            $current->{TYPE} = $1 if /cpu\s+:\s+(\S.*)/;
+            $current->{NAME} = $1 if /cpu\s+:\s+(\S.*)/;
             $ncpus = $1 if /ncpus probed\s+:\s+(\d+)/
         }
         close $handle;

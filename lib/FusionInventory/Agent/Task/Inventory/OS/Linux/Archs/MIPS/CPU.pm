@@ -28,7 +28,7 @@ sub doInventory {
 
             }
 
-            $current->{TYPE} = $1 if /cpu model\s+:\s+(\S.*)/;
+            $current->{NAME} = $1 if /cpu model\s+:\s+(\S.*)/;
 
         }
         close $handle;
