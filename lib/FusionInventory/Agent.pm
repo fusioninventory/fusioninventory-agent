@@ -27,18 +27,16 @@ our $VERSION_STRING =
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
-$ENV{LC_ALL} = 'C'; # Turn off localised output for commands
-$ENV{LANG} = 'C'; # Turn off localised output for commands
-
 sub new {
-    my ($class, $params) = @_;
+    my ($class, $setup) = @_;
 
     my $self = {
+        setup  => $setup,
         token  => _computeNewToken()
     };
     bless $self, $class;
 
-    my $config = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new($setup->{confdir});
     $self->{config} = $config;
 
     if ($config->{help}) {
@@ -68,17 +66,9 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    my $datadir =
-        $config->{devlib}      ? './share/html'                  :
-        $config->{'share-dir'} ? $config->{'share-dir'}. '/html' :
-                                 undef                           ;
-    if (! -d $datadir) {
-        $logger->fault("Non-existing data directory $config->{'share-dir'}.");
-        exit 1;
-    }
-
-    $logger->debug("Data directory: $datadir");
-    $logger->debug("Storage directory: $config->{basevardir}");
+    $logger->debug("Configuration directory: $setup->{confdir}");
+    $logger->debug("Data directory: $setup->{datadir}");
+    $logger->debug("Storage directory: $setup->{vardir}");
 
     #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
     my $hostname;
@@ -109,7 +99,7 @@ sub new {
 
     my $storage = FusionInventory::Agent::Storage->new({
         logger    => $logger,
-        directory => $config->{basevardir}
+        directory => $setup->{vardir}
     });
     my $data = $storage->restore();
 
@@ -140,7 +130,6 @@ sub new {
                 config     => $config,
                 maxOffset  => $config->{delaytime},
                 basevardir => $config->{basevardir},
-                deviceid =>   $self->{deviceid},
             })
         );
     }
@@ -151,7 +140,7 @@ sub new {
                 logger     => $logger,
                 config     => $config,
                 maxOffset  => $config->{delaytime},
-                basevardir => $config->{basevardir},
+                basevardir => $setup->{vardir},
                 path       => $config->{local},
                 deviceid =>   $self->{deviceid},
             })
@@ -165,7 +154,7 @@ sub new {
                     logger     => $logger,
                     config     => $config,
                     maxOffset  => $config->{delaytime},
-                    basevardir => $config->{basevardir},
+                    basevardir => $setup->{vardir},
                     url        => $url,
                     deviceid =>   $self->{deviceid},
                 })
@@ -209,7 +198,7 @@ sub new {
                 logger    => $logger,
                 scheduler => $self->{scheduler},
                 agent     => $self,
-                htmldir   => $datadir,
+                htmldir   => $setup->{datadir} . '/html',
                 ip        => $config->{'www-ip'},
                 port      => $config->{'www-port'},
                 trust_localhost => $config->{'www-trust-localhost'},

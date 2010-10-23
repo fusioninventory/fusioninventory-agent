@@ -7,7 +7,7 @@ Minimum perl version: 5.8
 
 Additional mandatory perl modules:
 - Digest::MD5
-- XML::Simple
+- XML::TreePP
 - LWP
 - Net::IP
 - UNIVERSAL::require
@@ -15,9 +15,9 @@ Additional mandatory perl modules:
 
 Additional optional perl modules:
 - Compress::Zlib, for message compression
+- Crypt::SSLeay, for SSL support
 - HTTP::Daemon, for web interface
 - Net::CUPS (v0.60 minimum), for printers detection 
-- File::ShareDir, for automatic data directory determination
 - Proc::Daemon, for daemon mode (Unix only)
 - Proc::PID::File, for daemon mode (Unix only)
 

@@ -19,6 +19,7 @@ sub new {
         target      => FusionInventory::Agent::POE::Target->new(),
         prologresp  => FusionInventory::Agent::POE::Prolog->new(),
         transmitter => FusionInventory::Agent::POE::Transmitter->new(),
+        setup       => $params->{setup},
         deviceid    => $params->{deviceid}
     };
 

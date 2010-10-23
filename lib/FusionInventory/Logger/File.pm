@@ -32,7 +32,7 @@ sub addMsg {
 
     if ($self->{logfile_maxsize}) {
         my $stat = stat($self->{logfile});
-        if ($stat->size() > $self->{logfile_maxsize}) {
+        if ($stat && $stat->size() > $self->{logfile_maxsize}) {
             unlink $self->{logfile}
                 or warn "Can't unlink $self->{logfile}: $ERRNO";
         }

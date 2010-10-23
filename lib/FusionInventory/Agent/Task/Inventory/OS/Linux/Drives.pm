@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return 
@@ -21,7 +22,7 @@ sub doInventory {
     # start with df command
     my @drives = grep {
         $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/;
-    } getFilesystemsFromDf($logger, 'df -P -T -k', '-|');
+    } getFilesystemsFromDf(logger => $logger, command => 'df -P -T -k');
 
 
     # get additional informations

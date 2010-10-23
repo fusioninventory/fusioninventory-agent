@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 use MIME::Base64;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Generic::Screen;
+use FusionInventory::Agent::Tools::Screen;
 
 sub isInventoryEnabled {
 
@@ -21,8 +21,7 @@ sub isInventoryEnabled {
 sub _getScreens {
     my ($logger) = @_;
 
-    my @raw_edid;
-
+    my @screens;
 
     if ($OSNAME eq 'MSWin32') {
         my $Registry;
@@ -49,14 +48,12 @@ sub _getScreens {
         foreach my $objItem (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_DesktopMonitor', qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID
         /)) {
-
-            my $caption;
-            my $description;
-            my $manufacturer;
-            my $serial;
-            my $base64;
             next unless $objItem->{"PNPDeviceID"};
-            my $name = $objItem->{"Caption"};
+
+            my $screen = {
+                MANUFACTURER => $objItem->{MonitorManufacturer},
+                CAPTION      => $objItem->{Caption},
+            };
 
             my $machKey;
             {
@@ -67,40 +64,18 @@ sub _getScreens {
                 } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
             }
 
-            my $edid =
+            $screen->{edid} =
                 $machKey->{"SYSTEM/CurrentControlSet/Enum/$objItem->{PNPDeviceID}/Device Parameters/EDID"} || '';
-            $edid =~ s/^\s+$//;
+            $screen->{edid} =~ s/^\s+$//;
 
-            if ($edid) {
-                my $edidInfo = parseEdid($edid);
-                if (my $err = checkParsedEdid($edidInfo)) {
-                    $logger->debug("check failed: bad edid: $err");
-                } else {
-
-                    $caption = $edidInfo->{monitor_name};
-                    $description = $edidInfo->{week}."/".$edidInfo->{year};
-                    $manufacturer = getManufacturerFromCode($edidInfo->{manufacturer_name});
-                    $serial = $edidInfo->{serial_number2}[0];
-                }
-
-                $base64 = encode_base64($edid);
-
-            }
-
-
-            push @raw_edid, { edid => $edid, type => $objItem->{MonitorType}, manufacturer => $objItem->{MonitorManufacturer}, caption => $objItem->{Caption}, base64 => $base64, serial => $serial };
+            push @screens, $screen;
         }
-
     } else {
 
 # Mandriva
-        my $raw_edid = `monitor-get-edid-using-vbe 2>/dev/null`;
-
-# Since monitor-edid 1.15, it's possible to retrieve EDID information
-# through DVI link but we need to use monitor-get-edid
-        if (!$raw_edid) {
-            $raw_edid = `monitor-get-edid 2>/dev/null`;
-        }
+        my $raw_edid =
+            `monitor-get-edid-using-vbe 2>/dev/null` ||
+            `monitor-get-edid 2>/dev/null`;
 
         if (!$raw_edid) {
             foreach (1..5) { # Sometime get-edid return an empty string...
@@ -110,10 +85,10 @@ sub _getScreens {
         }
         return unless (length($raw_edid) == 128 || length($raw_edid) == 256);
 
-        push @raw_edid, { edid => $raw_edid };
+        push @screens, { edid => $raw_edid };
     }
 
-    return @raw_edid;
+    return @screens;
 }
 
 
@@ -122,24 +97,26 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $raw_perl = 1;
-    my $verbose;
-    my $MonitorsDB;
+    foreach my $screen (_getScreens($logger)) {
 
-    my @screens = _getScreens($logger);
+        if ($screen->{edid}) {
+            my $edidInfo = parseEdid($screen->{edid});
+            if (my $err = checkParsedEdid($edidInfo)) {
+                $logger->debug("check failed: bad edid: $err");
+            } else {
+                $screen->{CAPTION} =
+                    $edidInfo->{monitor_name};
+                $screen->{DESCRIPTION} =
+                    $edidInfo->{week} . "/" . $edidInfo->{year};
+                $screen->{MANUFACTURER} =
+                    getManufacturerFromCode($edidInfo->{manufacturer_name});
+                $screen->{SERIAL} = $edidInfo->{serial_number2}[0];
+            }
+            $screen->{BASE64} = encode_base64($screen->{edid});
+        }
 
-    return unless @screens;
-
-    foreach my $screen (@screens) {
-
-        $inventory->addMonitor ({
-            BASE64 => $screen->{base64},
-            CAPTION => $screen->{caption},
-            DESCRIPTION => $screen->{description},
-            MANUFACTURER => $screen->{manufacturer},
-            SERIAL => $screen->{serial},
-        });
+        $inventory->addMonitor($screen);
     }
 }
-1;
 
+1;

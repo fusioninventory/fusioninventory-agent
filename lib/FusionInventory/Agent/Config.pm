@@ -3,17 +3,13 @@ package FusionInventory::Agent::Config;
 use strict;
 use warnings;
 
-use Getopt::Long;
 use English qw(-no_match_vars);
 use File::Spec;
+use Getopt::Long;
 use Pod::Usage;
-
-my $basedir = $OSNAME eq 'MSWin32' ?
-    $ENV{APPDATA}.'/fusioninventory-agent' : '';
 
 my $default = {
     'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
-    'basevardir'              => $basedir . '/var/lib/fusioninventory-agent',
     'ca-cert-dir'             => '',
     'ca-cert-file'            => '',
     'conf-file'               => '',
@@ -46,8 +42,8 @@ my $default = {
     'password'                => '',
     'proxy'                   => '',
     'realm'                   => '',
-    'share-dir'               => 0,
     'server'                  => undef,
+    'service'                 => 0,
     'stdout'                  => 0,
     'tag'                     => '',
     'user'                    => '',
@@ -60,7 +56,7 @@ my $default = {
 };
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, $confdir) = @_;
 
     my $self = $default;
     bless $self, $class;
@@ -70,11 +66,10 @@ sub new {
     if ($OSNAME eq 'MSWin32') {
         $self->_loadFromWinRegistry();
     } else {
-        $self->_loadFromCfgFile();
+        $self->_loadFromCfgFile($confdir);
     }
 
     $self->_loadUserParams();
-    $self->_loadCallerParams($params) if $params;
 
     $self->_checkContent();
 
@@ -86,14 +81,6 @@ sub _loadDefaults {
 
     foreach my $key (keys %$default) {
         $self->{$key} = $default->{$key};
-    }
-}
-
-sub _loadCallerParams {
-    my ($self, $params) = @_;
-
-    foreach my $key (keys %$params) {
-        $self->{$key} = $params->{$key};
     }
 }
 
@@ -135,37 +122,24 @@ sub _loadFromWinRegistry {
 }
 
 sub _loadFromCfgFile {
-    my ($self) = @_;
-
-    $self->{etcdir} = [];
+    my ($self, $confdir) = @_;
 
     my $file;
 
-    my $in;
-    foreach (@ARGV) {
-        if (!$in && /^--conf-file=(.*)/) {
+    foreach my $arg (@ARGV) {
+        if ($arg =~ /^--conf-file=(.+)$/) {
             $file = $1;
-            $file =~ s/'(.*)'/$1/;
-            $file =~ s/"(.*)"/$1/;
-        } elsif (/^--conf-file$/) {
-            $in = 1;
-        } elsif ($in) {
-            $file = $_;
-            $in = 0;
-        } else {
-            $in = 0;
+        } elsif ($arg =~ /^--conf-file$/) {
+            $file = shift @ARGV;
         }
     }
 
-    push (@{$self->{etcdir}}, '/etc/fusioninventory');
-    push (@{$self->{etcdir}}, '/usr/local/etc/fusioninventory');
-
-    if (!$file || !-f $file) {
-        foreach (@{$self->{etcdir}}) {
-            $file = $_.'/agent.cfg';
-            last if -f $file;
-        }
-        return unless -f $file;
+    if ($file) {
+        die "non-existing file $file" unless -f $file;
+        die "non-readable file $file" unless -r $file;
+    } else {
+        # default configuration file
+        $file = $confdir . '/agent.cfg';
     }
 
     my $handle;
@@ -238,8 +212,8 @@ sub _loadUserParams {
         'rpc-trust-localhost',
         'remotedir|R=s',
         'scan-homedirs',
-        'share-dir=s',
         'server|s=s',
+        'service',
         'stdout',
         'tag|t=s',
         'user|u=s',
@@ -316,20 +290,6 @@ sub _checkContent {
             grep { !$seen{$_}++ }
             split(/\s*,\s*/, $self->{logger})
         ];
-    }
-
-    if ($self->{'share-dir'}) {
-        $self->{'share-dir'} = File::Spec->rel2abs($self->{'share-dir'});
-    } else {
-        if ($self->{devlib}) {
-            $self->{'share-dir'} = File::Spec->rel2abs('./share/');
-        } else {
-            eval { 
-                require File::ShareDir;
-                $self->{'share-dir'} =
-                    File::ShareDir::dist_dir('FusionInventory-Agent');
-            };
-        }
     }
 
     # We want only canonical path

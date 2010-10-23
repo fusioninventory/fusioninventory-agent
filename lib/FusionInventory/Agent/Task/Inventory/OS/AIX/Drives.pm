@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return can_run("df");
@@ -14,14 +15,14 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my @drives = getFilesystemsFromDf($logger, 'df -P -k', '-|');
+    my @drives = getFilesystemsFromDf(
+        logger => $logger,
+        command => 'df -P -k'
+    );
     foreach my $drive (@drives) {
         my @fs = `lsfs -c $drive->{TYPE}`;
         my @fstype = split /:/, $fs[1];     
         $drive->{FILESYSTEM} = $fstype[2];
-    }
-
-    foreach my $drive (@drives) {
         $inventory->addDrive($drive);
     }
 }

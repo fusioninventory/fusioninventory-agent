@@ -11,6 +11,7 @@ use Encode qw(encode);
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Tools;
 
 my %fields = (
     ANTIVIRUS   => [ qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/ ],
