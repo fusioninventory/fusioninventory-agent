@@ -32,7 +32,7 @@ sub doInventory {
  
         $inventory->addCPU({
             ARCH   => 'Alpha',
-            TYPE   => $cpu->{Processor},
+            NAME   => $cpu->{Processor},
             SERIAL => $cpu->{'cpu serial number'},
             SPEED  => $speed
         });
