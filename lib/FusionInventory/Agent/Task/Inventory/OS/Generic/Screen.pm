@@ -51,8 +51,8 @@ sub _getScreens {
             next unless $objItem->{"PNPDeviceID"};
 
             my $screen = {
-                manufacturer => $objItem->{MonitorManufacturer},
-                caption      => $objItem->{Caption},
+                MANUFACTURER => $objItem->{MonitorManufacturer},
+                CAPTION      => $objItem->{Caption},
             };
 
             my $machKey;
@@ -104,24 +104,18 @@ sub doInventory {
             if (my $err = checkParsedEdid($edidInfo)) {
                 $logger->debug("check failed: bad edid: $err");
             } else {
-                $screen->{caption} =
+                $screen->{CAPTION} =
                     $edidInfo->{monitor_name};
-                $screen->{description} =
+                $screen->{DESCRIPTION} =
                     $edidInfo->{week} . "/" . $edidInfo->{year};
-                $screen->{manufacturer} =
+                $screen->{MANUFACTURER} =
                     getManufacturerFromCode($edidInfo->{manufacturer_name});
-                $screen->{serial} = $edidInfo->{serial_number2}[0];
+                $screen->{SERIAL} = $edidInfo->{serial_number2}[0];
             }
-            $screen->{base64} = encode_base64($screen->{edid});
+            $screen->{BASE64} = encode_base64($screen->{edid});
         }
 
-        $inventory->addMonitor ({
-            BASE64 => $screen->{base64},
-            CAPTION => $screen->{caption},
-            DESCRIPTION => $screen->{description},
-            MANUFACTURER => $screen->{manufacturer},
-            SERIAL => $screen->{serial},
-        });
+        $inventory->addMonitor($screen);
     }
 }
 
