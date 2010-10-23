@@ -31,7 +31,7 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/431
        * Linux, distro detection: ensure /etc/issue is parsed last if lsb_release is
          missing. This way /etc/debian_version is used on Debian 
-       * Linux: correclty parse /etc/resolv.conf to identify the domain
+       * Linux: correctly parse /etc/resolv.conf to identify the domain
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
