@@ -69,22 +69,8 @@ sub _getScreens {
                 $machKey->{"SYSTEM/CurrentControlSet/Enum/$objItem->{PNPDeviceID}/Device Parameters/EDID"} || '';
             $screen->{edid} =~ s/^\s+$//;
 
-            if ($screen->{edid}) {
-                my $edidInfo = parseEdid($screen->{edid});
-                if (my $err = checkParsedEdid($edidInfo)) {
-                    $logger->debug("check failed: bad edid: $err");
-                } else {
-                    my $caption = $edidInfo->{monitor_name};
-                    my $description = $edidInfo->{week}."/".$edidInfo->{year};
-                    my $manufacturer = getManufacturerFromCode($edidInfo->{manufacturer_name});
-                    $screen->{serial} = $edidInfo->{serial_number2}[0];
-                }
-                $screen->{base64} = encode_base64($screen->{edid});
-            }
-
             push @screens, $screen;
         }
-
     } else {
 
 # Mandriva
@@ -113,6 +99,23 @@ sub doInventory {
     my $logger = $params->{logger};
 
     foreach my $screen (_getScreens($logger)) {
+
+        if ($screen->{edid}) {
+            my $edidInfo = parseEdid($screen->{edid});
+            if (my $err = checkParsedEdid($edidInfo)) {
+                $logger->debug("check failed: bad edid: $err");
+            } else {
+                $screen->{caption} =
+                    $edidInfo->{monitor_name};
+                $screen->{description} =
+                    $edidInfo->{week} . "/" . $edidInfo->{year};
+                $screen->{manufacturer} =
+                    getManufacturerFromCode($edidInfo->{manufacturer_name});
+                $screen->{serial} = $edidInfo->{serial_number2}[0];
+            }
+            $screen->{base64} = encode_base64($screen->{edid});
+        }
+
         $inventory->addMonitor ({
             BASE64 => $screen->{base64},
             CAPTION => $screen->{caption},
