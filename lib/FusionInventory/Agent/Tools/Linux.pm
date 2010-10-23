@@ -112,9 +112,7 @@ sub getCPUsFromProc {
             # an empty line marks the end of a cpu section
             # push to the list, but only if it is a valid cpu
             push @$cpus, $cpu if $cpu &&
-                    exists $cpu->{processor} ||
-                    exists $cpu->{Processor} ||
-                    exists $cpu->{cpu};
+                    (exists $cpu->{processor} || exists $cpu->{cpu});
             undef $cpu;
         }
     }
@@ -122,9 +120,7 @@ sub getCPUsFromProc {
 
     # push remaining cpu to the list, if it is valid cpu
     push @$cpus, $cpu if $cpu &&
-                    exists $cpu->{processor} ||
-                    exists $cpu->{Processor} ||
-                    exists $cpu->{cpu};
+        (exists $cpu->{processor} || exists $cpu->{cpu});
 
     return $cpus;
 }
