@@ -19,10 +19,11 @@ sub new {
     );
 
     my $content = $tpp->parse($params->{content});
-    die "invalid content parameters" unless $content->{REPLY};
+    die "content is not an XML message" unless ref $content eq 'HASH';
+    die "content is an invalid XML message" unless $content->{REPLY};
 
     my $self = {
-        parsedcontent => $content,
+        parsedcontent => $content->{REPLY},
         logger  => $params->{logger} || FusionInventory::Logger->new(),
     };
     bless $self, $class;

@@ -21,7 +21,7 @@ my $ok = sub {
 
     print "HTTP/1.0 200 OK\r\n";
     print "\r\n";
-    print compress("hello");
+    print compress("<REPLY><word>hello</word></REPLY>");
 };
 
 my $logger = FusionInventory::Logger->new({
@@ -103,7 +103,7 @@ $server->set_dispatch({
     '/public'  => $ok,
     '/private' => sub { return $ok->(@_) if $server->authenticate(); }
 });
-$server->background() or BAIL_OUT("can't launche the server");
+$server->background() or BAIL_OUT("can't launch the server");
 
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
@@ -466,7 +466,11 @@ sub check_response_ok {
         'FusionInventory::Agent::XML::Response',
         'response class'
     );
-    is($response->getContent(), 'hello', 'response content');
+    is_deeply(
+        $response->getParsedContent(),
+        { word => 'hello' },
+        'response content'
+    );
 }
 
 sub check_response_nok {

@@ -29,7 +29,8 @@ sub new {
         password     => $params->{password},
         ca_cert_file => $params->{ca_cert_file},
         ca_cert_dir  => $params->{ca_cert_dir},
-        no_ssl_check => $params->{no_ssl_check}
+        no_ssl_check => $params->{no_ssl_check},
+        defaultTimeout => 180,
     };
     bless $self, $class;
 
@@ -101,7 +102,14 @@ sub send {
     # send it
     $logger->debug("sending message");
 
-    my $res = $self->{ua}->request($req);
+    my $res;
+    eval {
+        if ($^O =~ /^MSWin/ && $self->{URI} =~ /^https:/g) {
+            alarm $self->{defaultTimeout};
+        }
+        $res = $self->{ua}->request($req);
+        alarm 0;
+    };
 
     # check result
     if (!$res->is_success()) {
@@ -124,7 +132,13 @@ sub send {
                     $self->{password}
                 );
                 # replay request
-                $res = $self->{ua}->request($req);
+                eval {
+                    if ($^O =~ /^MSWin/ && $self->{URI} =~ /^https:/g) {
+                        alarm $self->{defaultTimeout};
+                    }
+                    $res = $self->{ua}->request($req);
+                    alarm 0;
+                };
                 if (!$res->is_success()) {
                     $logger->error($res->message());
                     return;

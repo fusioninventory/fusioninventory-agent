@@ -78,6 +78,19 @@ sub _parseUdevEntry {
     return $result;
 }
 
+sub getDeviceCapacity {
+    my ($dev) = @_;
+    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
+    # requires permissions on /dev/$dev
+    my $cap;
+    foreach (`$command /dev/$dev 2>/dev/null`) {
+        next unless /^(\d+)/;
+        $cap = $1;
+    }
+    $cap = int($cap / 1000) if $cap;
+    return $cap;
+}
+
 sub getCPUsFromProc {
     my ($logger, $file) = @_;
 
@@ -94,18 +107,20 @@ sub getCPUsFromProc {
     my $cpu;
     while (my $line = <$handle>) {
         if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
-            $cpu->{$1} = $2;
+            $cpu->{lc($1)} = $2;
         } elsif ($line =~ /^$/) {
-            next unless $cpu;
-            # On PPC, a "fake" CPU section is used to describe the
-            # machine
-            push @$cpus, $cpu unless $cpu->{'pmac-generation'};
+            # an empty line marks the end of a cpu section
+            # push to the list, but only if it is a valid cpu
+            push @$cpus, $cpu if $cpu &&
+                    (exists $cpu->{processor} || exists $cpu->{cpu});
             undef $cpu;
         }
     }
     close $handle;
 
-    push @$cpus, $cpu unless $cpu->{'pmac-generation'};
+    # push remaining cpu to the list, if it is valid cpu
+    push @$cpus, $cpu if $cpu &&
+        (exists $cpu->{processor} || exists $cpu->{cpu});
 
     return $cpus;
 }

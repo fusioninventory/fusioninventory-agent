@@ -36,6 +36,12 @@ sub doInventory {
         # compute filesystem type
         if ($drive->{VOLUMN} eq 'swap') {
             $drive->{FILESYSTEM} = 'swap';
+        } elsif (
+            `zfs get org.opensolaris.libbe:uuid $drive->{VOLUMN} 2>&1`
+                =~ /org.opensolaris.libbe:uuid\s+(\S{5}\S+)/
+        ) {
+            $drive->{UUID} = $1;
+            $drive->{FILESYSTEM} = 'zfs';
         } else {
             my $fs = `fstyp $drive->{VOLUMN} 2>/dev/null`;
             chomp $fs;
