@@ -21,8 +21,7 @@ sub isInventoryEnabled {
 sub _getScreens {
     my ($logger) = @_;
 
-    my @raw_edid;
-
+    my @screens;
 
     if ($OSNAME eq 'MSWin32') {
         my $Registry;
@@ -51,12 +50,11 @@ sub _getScreens {
         /)) {
             next unless $objItem->{"PNPDeviceID"};
 
-            my $caption;
-            my $description;
-            my $manufacturer;
-            my $serial;
-            my $base64;
-            my $name = $objItem->{"Caption"};
+            my $screen = {
+                type         => $objItem->{MonitorType},
+                manufacturer => $objItem->{MonitorManufacturer},
+                caption      => $objItem->{Caption},
+            };
 
             my $machKey;
             {
@@ -67,33 +65,24 @@ sub _getScreens {
                 } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
             }
 
-            my $edid =
+            $screen->{edid} =
                 $machKey->{"SYSTEM/CurrentControlSet/Enum/$objItem->{PNPDeviceID}/Device Parameters/EDID"} || '';
-            $edid =~ s/^\s+$//;
+            $screen->{edid} =~ s/^\s+$//;
 
-            if ($edid) {
-                my $edidInfo = parseEdid($edid);
+            if ($screen->{edid}) {
+                my $edidInfo = parseEdid($screen->{edid});
                 if (my $err = checkParsedEdid($edidInfo)) {
                     $logger->debug("check failed: bad edid: $err");
                 } else {
-                    $caption = $edidInfo->{monitor_name};
-                    $description = $edidInfo->{week}."/".$edidInfo->{year};
-                    $manufacturer = getManufacturerFromCode($edidInfo->{manufacturer_name});
-                    $serial = $edidInfo->{serial_number2}[0];
+                    my $caption = $edidInfo->{monitor_name};
+                    my $description = $edidInfo->{week}."/".$edidInfo->{year};
+                    my $manufacturer = getManufacturerFromCode($edidInfo->{manufacturer_name});
+                    $screen->{serial} = $edidInfo->{serial_number2}[0];
                 }
-
-                $base64 = encode_base64($edid);
-
+                $screen->{base64} = encode_base64($screen->{edid});
             }
 
-            push @raw_edid, {
-                edid => $edid,
-                type => $objItem->{MonitorType},
-                manufacturer => $objItem->{MonitorManufacturer},
-                caption => $objItem->{Caption},
-                base64 => $base64,
-                serial => $serial
-            };
+            push @screens, $screen;
         }
 
     } else {
@@ -115,10 +104,10 @@ sub _getScreens {
         }
         return unless (length($raw_edid) == 128 || length($raw_edid) == 256);
 
-        push @raw_edid, { edid => $raw_edid };
+        push @screens, { edid => $raw_edid };
     }
 
-    return @raw_edid;
+    return @screens;
 }
 
 
