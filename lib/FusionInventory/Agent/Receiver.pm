@@ -17,6 +17,7 @@ sub new {
         logger          => $params->{logger} || FusionInventory::Logger->new(),
         scheduler       => $params->{scheduler},
         agent           => $params->{agent},
+        htmldir         => $params->{htmldir},
         ip              => $params->{ip},
         port            => $params->{port},
         trust_localhost => $params->{trust_localhost},
@@ -83,13 +84,10 @@ sub _handle {
 
             my $nextContact = "";
             foreach my $target (@{$scheduler->{targets}}) {
-                my $path = $target->{path};
-                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+                my $description = $target->getDescriptionString();
                 my $timeString = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now";
-                my $type = ref $target;
-                $nextContact .=
-                    "<li>$type, $path: $timeString</li>\n";
+                $nextContact .= "<li>$description: $timeString</li>\n";
             }
             my $status = $self->{agent}->getStatus();
 
@@ -223,8 +221,12 @@ sub _server {
         $logger->error("[WWW] failed to start the service");
         return;
     } 
+    my $url = $self->{ip} ?
+        "http://$self->{ip}:$self->{port}" :
+        "http://localhost:$self->{port}" ;
+
     $logger->info(
-        "[WWW] Service started at: http://$self->{ip}:$self->{port}"
+        "[WWW] Service started at: $url"
     );
 
     while (1) {

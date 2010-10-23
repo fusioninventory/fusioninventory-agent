@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {

@@ -15,6 +15,10 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     foreach my $key (keys %ENV) {
+        # they are modified during task execution
+        next if $key eq 'LC_ALL';
+        next if $key eq 'LANG';
+
         $inventory->addEnv({
             KEY => $key,
             VAL => $ENV{$key}

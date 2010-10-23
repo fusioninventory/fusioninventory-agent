@@ -11,7 +11,6 @@ our @EXPORT = qw(
     getDevicesFromUdev
     getDevicesFromHal
     getDevicesFromProc
-    getDeviceCapacity
     getCPUsFromProc
 );
 
@@ -70,8 +69,9 @@ sub _parseUdevEntry {
     }
     close $handle;
 
-    $result->{SERIALNUMBER} = $serial
-        unless $result->{SERIALNUMBER} =~ /\S/;
+    if (!$result->{SERIALNUMBER}) {
+        $result->{SERIALNUMBER} = $serial;
+    }
 
     $result->{NAME} = $device;
 
@@ -110,13 +110,15 @@ sub getCPUsFromProc {
             $cpu->{$1} = $2;
         } elsif ($line =~ /^$/) {
             next unless $cpu;
-            push @$cpus, $cpu;
+            # On PPC, a "fake" CPU section is used to describe the
+            # machine
+            push @$cpus, $cpu unless $cpu->{'pmac-generation'};
             undef $cpu;
         }
     }
     close $handle;
 
-    push @$cpus, $cpu if $cpu;
+    push @$cpus, $cpu unless $cpu->{'pmac-generation'};
 
     return $cpus;
 }
@@ -280,10 +282,6 @@ Returns a list of devices as an arrayref of hashref, by parsing lshal output.
 
 Returns a list of devices as an arrayref of hashref, by parsing /proc
 filesystem.
-
-=head2 getDeviceCapacity($device)
-
-Returns storage capacity of given device.
 
 =head2 getCPUsFromProc($logger)
 

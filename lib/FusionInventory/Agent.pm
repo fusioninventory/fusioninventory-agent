@@ -25,19 +25,17 @@ our $VERSION_STRING =
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
-$ENV{LC_ALL} = 'C'; # Turn off localised output for commands
-$ENV{LANG} = 'C'; # Turn off localised output for commands
-
 sub new {
-    my ($class, $params) = @_;
+    my ($class, $setup) = @_;
 
     my $self = {
         status => 'unknown',
+        setup  => $setup,
         token  => _computeNewToken()
     };
     bless $self, $class;
 
-    my $config = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new($setup->{confdir});
     $self->{config} = $config;
 
     if ($config->{help}) {
@@ -67,12 +65,9 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (! -d $config->{'share-dir'}) {
-        $logger->fault("Non-existing data directory $config->{'share-dir'}.");
-        exit 1;
-    }
-
-    $logger->debug("Data directory: $config->{'share-dir'}");
+    $logger->debug("Configuration directory: $setup->{confdir}");
+    $logger->debug("Data directory: $setup->{datadir}");
+    $logger->debug("Storage directory: $setup->{vardir}");
 
     #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
     my $hostname;
@@ -103,7 +98,7 @@ sub new {
 
     my $storage = FusionInventory::Agent::Storage->new({
         logger    => $logger,
-        directory => $config->{basevardir}
+        directory => $setup->{vardir}
     });
     my $data = $storage->restore();
 
@@ -132,7 +127,7 @@ sub new {
             FusionInventory::Agent::Target::Stdout->new({
                 logger     => $logger,
                 maxOffset  => $config->{delaytime},
-                basevardir => $config->{basevardir},
+                basevardir => $setup->{vardir},
             })
         );
     }
@@ -142,7 +137,7 @@ sub new {
             FusionInventory::Agent::Target::Local->new({
                 logger     => $logger,
                 maxOffset  => $config->{delaytime},
-                basevardir => $config->{basevardir},
+                basevardir => $setup->{vardir},
                 path       => $config->{local},
             })
         );
@@ -154,7 +149,7 @@ sub new {
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
                     maxOffset  => $config->{delaytime},
-                    basevardir => $config->{basevardir},
+                    basevardir => $setup->{vardir},
                     url        => $url,
                 })
             );
@@ -199,16 +194,11 @@ sub new {
                 threads::shared::share($target->{nextRunUpdate});
             }
 
-            my $htmldir =
-                $config->{devlib}      ? './share/html'                  :
-                $config->{'share-dir'} ? $config->{'share-dir'}. '/html' :
-                                         undef                           ;
-
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
                 scheduler => $self->{scheduler},
                 agent     => $self,
-                htmldir   => $htmldir,
+                htmldir   => $setup->{datadir} . '/html',
                 ip        => $config->{'www-ip'},
                 port      => $config->{'www-port'},
                 trust_localhost => $config->{'www-trust-localhost'},
@@ -314,6 +304,7 @@ sub run {
 
                 my $task = $package->new({
                     config      => $config,
+                    setup       => $self->{setup},
                     logger      => $logger,
                     target      => $target,
                     prologresp  => $prologresp,

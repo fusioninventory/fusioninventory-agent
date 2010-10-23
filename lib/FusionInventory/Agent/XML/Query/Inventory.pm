@@ -11,6 +11,7 @@ use Encode qw(encode);
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Tools;
 
 my %fields = (
     ANTIVIRUS   => [ qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/ ],
@@ -27,8 +28,7 @@ my %fields = (
     MEMORIES    => [qw/CAPACITY CAPTION FORMFACTOR REMOVABLE PURPOSE SPEED
                        SERIALNUMBER TYPE DESCRIPTION NUMSLOTS/ ],
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
-    MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
-                        UUENCODE/ ],
+    MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL/ ],
     NETWORKS    => [ qw/DESCRIPTION DRIVER IPADDRESS IPADDRESS6 IPDHCP IPGATEWAY
                         IPMASK IPSUBNET MACADDR MTU PCISLOT STATUS TYPE 
                         VIRTUALDEV SLAVES SPEED MANAGEMENT/ ],
@@ -108,7 +108,7 @@ sub _addEntry {
 
     foreach my $field (@$fields) {
         next unless defined $values->{$field};
-        my $string = $self->_encode($values->{$field});
+        my $string = getSanitizedString($values->{$field});
         $newEntry->{$field} = $string;
     }
 
@@ -129,31 +129,6 @@ sub _addEntry {
     push @{$self->{h}{CONTENT}{$section}}, $newEntry;
 
     return 1;
-}
-
-sub _encode {
-    my ($self, $string) = @_;
-
-    return unless defined $string;
-
-    # clean control caracters
-    $string =~ s/[[:cntrl:]]//g;
-
-    # encode to utf-8 if needed
-    if ($string !~ m/\A(
-          [\x09\x0A\x0D\x20-\x7E]           # ASCII
-        | [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte
-        | \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} # straight 3-byte
-        | \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-        | \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-        | [\xF1-\xF3][\x80-\xBF]{3}         # planes 4-15
-        | \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-        )*\z/x) {
-        $string = encode("UTF-8", $string);
-    };
-
-    return $string;
 }
 
 sub addController {
@@ -293,7 +268,7 @@ sub setHardware {
                 $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
             }
 
-            my $string = $self->_encode($args->{$key});
+            my $string = getSanitizedString($args->{$key});
             $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
         }
     }
@@ -307,7 +282,7 @@ sub setBios {
         BIOSSERIAL TYPE/) {
 
         if (exists $args->{$key}) {
-            my $string = $self->_encode($args->{$key});
+            my $string = getSanitizedString($args->{$key});
             $self->{h}{CONTENT}{BIOS}{$key} = $string;
         }
     }
@@ -499,15 +474,17 @@ sub getContent {
     my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR};
     my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN};
     my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME};
+    my $uuid = $self->{h}->{CONTENT}->{HARDWARE}->{UUID};
 
     my $missing;
 
     $missing .= "MAC-address " unless $macaddr;
     $missing .= "SSN " unless $ssn;
     $missing .= "HOSTNAME " unless $name;
+    $uuid .= "UUID " unless $uuid;
 
     if ($missing) {
-        $logger->debug('Missing value(s): '.$missing.'. I will send this inventory to the server BUT important value(s) to identify the computer are missing');
+        $logger->debug('Missing value(s): '.$missing.'.  Important value(s) to identify the computer are missing. Depending on how the server identify duplicated machine, this may create zombie computer in your data base.');
     }
 
     return $self->SUPER::getContent();
@@ -1152,10 +1129,6 @@ The manufacturer retrieved from the EDID trame.
 =item SERIAL
 
 The serial number retrieved from the EDID trame.
-
-=item UUENCODE
-
-The uuencoded EDID trame. Optional.
 
 =back
 

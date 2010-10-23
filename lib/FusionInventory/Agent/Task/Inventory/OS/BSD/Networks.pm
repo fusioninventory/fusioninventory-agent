@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
@@ -32,6 +33,12 @@ sub doInventory {
         $ipgateway = $1 if $line =~ /^default\s+(\S+)/i;
     }
 
+    if ($ipgateway) {
+        $inventory->setHardware({
+            DEFAULTGATEWAY => $ipgateway
+        });
+    }
+
     my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
 
     foreach my $interface (@$interfaces) {
@@ -55,6 +62,15 @@ sub doInventory {
 
         $inventory->addNetwork($interface);
     }
+
+    # add all ip addresses found, excepted loopback, to hardware
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @$interfaces;
+
+    $inventory->setHardware({IPADDR => join('/', @ip_addresses)});
 }
 
 sub _parseIfconfig {

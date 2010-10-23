@@ -10,8 +10,19 @@ use FusionInventory::Logger;
 sub new {
     my ($class, $params) = @_;
 
+    die "no content parameters" unless $params->{content};
+
+    my $tpp = XML::TreePP->new(
+        force_array   => [ qw/OPTION PARAM/ ],
+        attr_prefix   => '',
+        text_node_key => 'content'
+    );
+
+    my $content = $tpp->parse($params->{content});
+    die "invalid content parameters" unless $content->{REPLY};
+
     my $self = {
-        content => $params->{content},
+        parsedcontent => $content,
         logger  => $params->{logger} || FusionInventory::Logger->new(),
     };
     bless $self, $class;
@@ -19,26 +30,9 @@ sub new {
     return $self;
 }
 
-sub getContent {
-    my $self = shift;
-
-    return $self->{content};
-
-}
-
 sub getParsedContent {
     my $self = shift;
 
-    if(!$self->{parsedcontent} && $self->{content}) {
-        my $tpp = XML::TreePP->new(
-            force_array   => [ qw/OPTION PARAM/ ],
-            attr_prefix   => '',
-            text_node_key => 'content'
-        );
-        my $tmp = $tpp->parse( $self->{content} );
-        return unless $tmp->{REPLY};
-        $self->{parsedcontent} = $tmp->{REPLY};
-    }
 
     return $self->{parsedcontent};
 }
@@ -87,10 +81,6 @@ the logger object to use (default: a new stderr logger)
 the raw XML content
 
 =back
-
-=head2 getContent
-
-Get raw XML content.
 
 =head2 getParsedContent
 

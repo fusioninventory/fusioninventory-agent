@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return can_run("df");
@@ -12,41 +13,18 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my $free;
-    my $filesystem;
-    my $total;
-    my $type;
-    my $volumn;  
+    my @drives = getFilesystemsFromDf(
+        logger => $logger,
+        command => 'df -P -k'
+    );
+    foreach my $drive (@drives) {
+        my @fs = `lsfs -c $drive->{TYPE}`;
+        my @fstype = split /:/, $fs[1];     
+        $drive->{FILESYSTEM} = $fstype[2];
 
-    my @fs;
-    my @fstype;
-#Looking for mount points and disk space
-# Aix option -kP 
-    for(`df -kP`) {
-
-        next if /^Filesystem\s*1024-blocks.*/;
-
-        if (/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/) {
-            next if $1 eq '/proc'; # ignore proc fs like on Linux
-            $type = $1;
-            @fs = `lsfs -c $6`;
-            @fstype = split /:/,$fs[1];     
-            $filesystem = $fstype[2];
-            $total = sprintf("%i",($2/1024));	
-            $free = sprintf("%i",($4/1024));
-            $volumn = $6;	  
-        }
-
-        next if $filesystem =~ /procfs/;
-
-        $inventory->addDrive({
-            FREE => $free,
-            FILESYSTEM => $filesystem,
-            TOTAL => $total,
-            TYPE => $type,
-            VOLUMN => $volumn
-        });
+        $inventory->addDrive($drive);
     }
 }
 

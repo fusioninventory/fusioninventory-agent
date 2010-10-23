@@ -1,0 +1,707 @@
+Name:            Fusion-UsineRefav
+Guest OS:        Ubuntu (64 bit)
+UUID:            03a37b40-31f0-4c10-8a92-472d02b02221
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/Fusion-UsineRefav/Fusion-UsineRefav.xml
+Hardware UUID:   03a37b40-31f0-4c10-8a92-472d02b02221
+Memory size:     855MB
+Page Fusion:     off
+VRAM size:       32MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): HardDisk
+Boot Device (2): Not Assigned
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T11:53:05.000000000)
+Monitor count:   1
+3D Acceleration: on
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            Contrôleur disquettes
+Storage Controller Type (1):            I82078
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  1
+Storage Controller Port Count (1):      1
+Contrôleur IDE (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/HardDisks/Lucid.vdi (UUID: 7673543d-0a2c-43f0-8ded-0c38e3a0cf42)
+Contrôleur IDE (1, 0): /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso (UUID: 0b653a57-06cd-4bc3-9163-b41a9439abeb)
+Contrôleur disquettes (0, 0): Empty
+NIC 1:           MAC: 08002750DAF7, Attachment: Bridged Interface 'en0: Ethernet', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: CoreAudio, Controller: AC97)
+Clipboard Mode:  Bidirectional
+VRDP:            enabled (Address 0.0.0.0, Ports 3389, MultiConn: off, ReuseSingleConn: off, Authentication type: null)
+Video redirection: disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Description:
+Usine de refab FusionInventory
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Client-Leopard2
+Guest OS:        Mac OS X Server
+UUID:            d2ba1d3d-f682-4e25-b5a7-47eea52253bc
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/Client-Leopard2/Client-Leopard2.xml
+Hardware UUID:   d2ba1d3d-f682-4e25-b5a7-47eea52253bc
+Memory size:     1024MB
+Page Fusion:     off
+VRAM size:       32MB
+HPET:            on
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): HardDisk
+Boot Device (2): Not Assigned
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             on
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T14:50:26.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Storage Controller
+Storage Controller Type (0):            ICH6
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/Machines/Client-Leopard2/Snapshots/{757d9ec7-f014-4e08-a239-c112b7c4b596}.vdi (UUID: 757d9ec7-f014-4e08-a239-c112b7c4b596)
+Storage Controller (1, 0): Empty
+NIC 1:           MAC: 0800276E729D, Attachment: Bridged Interface 'en0: Ethernet', Cable connected: on, Trace: off (file: none), Type: 82543GC, Reported speed: 0 Mbps, Boot priority: 1294956655
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: USB Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: CoreAudio, Controller: AC97)
+Clipboard Mode:  Bidirectional
+VRDP:            enabled (Address 0.0.0.0, Ports 3389, MultiConn: off, ReuseSingleConn: off, Authentication type: null)
+Video redirection: disabled
+USB:             enabled
+
+USB Device Filters:
+
+Index:            0
+Active:           yes
+Name:             Apple, Inc Apple Keyboard [0069]
+VendorId:         05ac
+ProductId:        0221
+Revision:         0069
+Manufacturer:     Apple, Inc
+Product:          Apple Keyboard
+Remote:           no
+Serial Number:    
+
+Index:            1
+Active:           yes
+Name:             Logitech Optical USB Mouse [0340]
+VendorId:         046d
+ProductId:        c016
+Revision:         0340
+Manufacturer:     Logitech
+Product:          Optical USB Mouse
+Remote:           no
+Serial Number:    
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+Snapshots:
+
+   Name: Vierge (UUID: d699a4ca-8184-431d-8f2a-e88b58ba97d0)
+      Name: Avant install 10.5.3 (UUID: 5d1ab0a2-a2ad-47f4-8499-3db3631a403b)
+         Name: avant upgrade (UUID: 01705f65-75c9-446e-84d8-9a67185328ff) *
+
+Name:            Client-Snow64
+Guest OS:        Mac OS X Server (64 bit)
+UUID:            509c9563-05c7-4654-b8a4-ce7d639148bc
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/Client-Snow64/Client-Snow64.xml
+Hardware UUID:   509c9563-05c7-4654-b8a4-ce7d639148bc
+Memory size:     512MB
+Page Fusion:     off
+VRAM size:       10MB
+HPET:            on
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): HardDisk
+Boot Device (2): Not Assigned
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T10:11:54.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            ICH6
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Contrôleur IDE (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/HardDisks/snow64.vdi (UUID: 2d844b87-f319-4b9e-9f17-538cab745851)
+Contrôleur IDE (1, 0): MATSHITA DVD-R   UJ-875 (UUID: 00445644-2d44-2052-2020-554a2d383735) (passthrough enabled)
+NIC 1:           MAC: 080027360F4D, Attachment: Bridged Interface 'en0: Ethernet', Cable connected: on, Trace: off (file: none), Type: 82543GC, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: USB Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: CoreAudio, Controller: AC97)
+Clipboard Mode:  Bidirectional
+VRDP:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Client-Win2k
+Guest OS:        Windows 2000
+UUID:            dba8762a-ed1e-4984-ba06-dad9ed981a5a
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/Client-Win2k/Client-Win2k.xml
+Hardware UUID:   dba8762a-ed1e-4984-ba06-dad9ed981a5a
+Memory size:     256MB
+Page Fusion:     off
+VRAM size:       20MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T10:00:17.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Contrôleur IDE (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/HardDisks/win2k.vdi (UUID: 3bc9d3db-20c6-45e0-ad29-60d72282fe8a)
+Contrôleur IDE (1, 0): /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso (UUID: 0b653a57-06cd-4bc3-9163-b41a9439abeb)
+NIC 1:           MAC: 080027ACB128, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: Am79C973, Reported speed: 0 Mbps, Boot priority: 0
+NIC 1 Settings:  MTU: 0, Socket( send: 64, receive: 64), TCP Window( send:64, receive: 64)
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: CoreAudio, Controller: AC97)
+Clipboard Mode:  Bidirectional
+VRDP:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+Index:            0
+Active:           no
+Name:             Nouveau filtre 1
+VendorId:         
+ProductId:        
+Revision:         
+Manufacturer:     
+Product:          
+Remote:           
+Serial Number:    
+
+Index:            1
+Active:           no
+Name:             Western Digital My Book [0165]
+VendorId:         1058
+ProductId:        1100
+Revision:         0165
+Manufacturer:     Western Digital
+Product:          My Book
+Remote:           no
+Serial Number:    57442D574341554632323337303032
+
+Index:            2
+Active:           yes
+Name:             USB 2.0 Flash Disk [0100]
+VendorId:         1e3d
+ProductId:        2092
+Revision:         0100
+Manufacturer:     USB 2.0
+Product:          Flash Disk
+Remote:           no
+Serial Number:    110074973765
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            OpenSuse
+Guest OS:        openSUSE
+UUID:            6047a446-06fd-45ad-8829-cb2b7d81c8a2
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/OpenSuse/OpenSuse.xml
+Hardware UUID:   6047a446-06fd-45ad-8829-cb2b7d81c8a2
+Memory size:     512MB
+Page Fusion:     off
+VRAM size:       12MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T08:53:28.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            Contrôleur SATA
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+Contrôleur IDE (1, 0): MATSHITA DVD-R   UJ-875 (UUID: 00445644-2d44-2052-2020-554a2d383735)
+Contrôleur SATA (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/HardDisks/OpenSuse.vdi (UUID: 548e3b96-1a1c-4d60-8e17-dff2db49eeb5)
+NIC 1:           MAC: 0800279C86BB, Attachment: Bridged Interface 'en0: Ethernet', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           disabled
+Clipboard Mode:  Bidirectional
+VRDP:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            OpenSolaris
+Guest OS:        OpenSolaris
+UUID:            201ca94e-66fb-4d3f-b2af-6d1b4746e77b
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/OpenSolaris/OpenSolaris.xml
+Hardware UUID:   201ca94e-66fb-4d3f-b2af-6d1b4746e77b
+Memory size:     768MB
+Page Fusion:     off
+VRAM size:       24MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T09:05:27.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Contrôleur IDE (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/HardDisks/OpenSolaris.vdi (UUID: 7d9bad74-dc9a-4c12-8c90-68fdf738ed0d)
+Contrôleur IDE (1, 0): Empty
+NIC 1:           MAC: 0800270D10A2, Attachment: Bridged Interface 'en0: Ethernet', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           disabled
+Clipboard Mode:  Bidirectional
+VRDP:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Mandriva
+Guest OS:        Mandriva
+UUID:            46f9d625-923a-41fb-8518-53c58a041142
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/Mandriva/Mandriva.xml
+Hardware UUID:   46f9d625-923a-41fb-8518-53c58a041142
+Memory size:     512MB
+Page Fusion:     off
+VRAM size:       12MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T09:43:54.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            Contrôleur SATA
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+Contrôleur IDE (1, 0): Empty
+Contrôleur SATA (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/HardDisks/Mandriva.vdi (UUID: 101029c3-3e6a-4f16-86e6-47fbf82ba37c)
+NIC 1:           MAC: 08002794BD2F, Attachment: Bridged Interface 'en0: Ethernet', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: CoreAudio, Controller: AC97)
+Clipboard Mode:  Bidirectional
+VRDP:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            openbsd47
+Guest OS:        OpenBSD
+UUID:            347850fa-1279-4678-89eb-19f53f1f021c
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/openbsd47/openbsd47.xml
+Hardware UUID:   347850fa-1279-4678-89eb-19f53f1f021c
+Memory size:     671MB
+Page Fusion:     off
+VRAM size:       10MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T09:37:35.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Contrôleur IDE (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/HardDisks/openbsd47.vdi (UUID: a1d2fbef-9794-450f-a427-d9055f5e856c)
+Contrôleur IDE (1, 0): Empty
+NIC 1:           MAC: 080027944259, Attachment: Bridged Interface 'en0: Ethernet', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: CoreAudio, Controller: AC97)
+Clipboard Mode:  Bidirectional
+VRDP:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            netbsd
+Guest OS:        NetBSD
+UUID:            4ddac902-a4f6-4ccb-a1a4-73dd6c90c1b2
+Config file:     /Volumes/Sauvegardes/vM/VirtualBox/Machines/netbsd/netbsd.xml
+Hardware UUID:   4ddac902-a4f6-4ccb-a1a4-73dd6c90c1b2
+Memory size:     64MB
+Page Fusion:     off
+VRAM size:       10MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: off
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-14T09:37:29.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Contrôleur IDE (0, 0): /Volumes/Sauvegardes/vM/VirtualBox/HardDisks/netbsd.vdi (UUID: 1152bea6-bbb5-4172-a6e9-19781784e974)
+Contrôleur IDE (1, 0): Empty
+NIC 1:           MAC: 080027947637, Attachment: Bridged Interface 'en0: Ethernet', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: CoreAudio, Controller: AC97)
+Clipboard Mode:  Bidirectional
+VRDP:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+

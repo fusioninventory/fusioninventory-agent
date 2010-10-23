@@ -2,41 +2,21 @@
 
 use strict;
 use warnings;
+use lib './lib';
 
 use English qw(-no_match_vars);
-
-foreach (@ARGV) {
-    if (/^--devlib$/) {
-        print STDERR "[info] --devlib option found, developer mode enabled\n";
-        unshift @INC, 'lib';
-    }
-}
-
-if ($ENV{REALLIB}) {
-    @INC = split(/:/,$ENV{REALLIB});
-}
+use FusionInventory::Agent;
 
 eval {
-    require FusionInventory::Agent;
-};
-if ($EVAL_ERROR) {
-    print STDERR "Failed to load FusionInventory::Agent, $EVAL_ERROR\n";
-    print STDERR "you can run the agent directly from its source directory ";
-    print STDERR "with --devlib\n";
-    exit 1;
-}
-
-eval {
-    my $agent = FusionInventory::Agent->new();
+    my $agent = FusionInventory::Agent->new({
+        confdir => './etc/fusioninventory',
+        datadir => './share',
+        vardir  => './var'
+    });
     $agent->run();
 };
 
 if ($EVAL_ERROR) {
-    print STDERR "Execution failed. Are you sure the software is fully ";
-    print STDERR "installed\n";
-    print STDERR "and an old version of the agent not already present on the ";
-    print STDERR "system?\n";
-    print STDERR "___\n";
     print STDERR $EVAL_ERROR;
     exit 1;
 }
@@ -88,10 +68,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --logfacility=FACILITY syslog facility to use for logging
 
   Setup options:
-    --basevardir=DIR    writable data directory
-    --share-dir=DIR     read-only data directory
     --conf-file=FILE    configuration file
-    --devlib            load modules from ./lib directory only
 
   Extra options:
     -d --daemon         run the agent as a daemon

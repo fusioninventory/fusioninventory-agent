@@ -1,7 +1,8 @@
-package FusionInventory::LoggerBackend::Stderr;
+package FusionInventory::Logger::Stderr;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Logger::Backend';
 
 use English qw(-no_match_vars);
 
@@ -48,50 +49,9 @@ __END__
 
 =head1 NAME
 
-FusionInventory::LoggerBackend::Stderr - A stderr backend for the logger
+FusionInventory::Logger::Stderr - A stderr backend for the logger
 
 =head1 DESCRIPTION
 
 This is a stderr-based backend for the logger. It supports coloring based on
 message level on Unix platforms.
-
-=head1 METHODS
-
-=head2 new($params)
-
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
-
-=over
-
-=item I<config>
-
-the agent configuration object
-
-=back
-
-=head2 addMsg($params)
-
-Add a log message, with a specific level. The following arguments are allowed:
-
-=over
-
-=item I<level>
-
-Can be one of:
-
-=over
-
-=item debug
-
-=item info
-
-=item error
-
-=item fault
-
-=back
-
-=item I<message>
-
-=back

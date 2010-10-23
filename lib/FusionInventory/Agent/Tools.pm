@@ -7,7 +7,6 @@ use base 'Exporter';
 use English qw(-no_match_vars);
 use File::stat;
 use Memoize;
-use Time::Local;
 
 our @EXPORT = qw(
     getFormatedLocalTime
@@ -18,8 +17,8 @@ our @EXPORT = qw(
     getCanonicalSize
     getControllersFromLspci
     getInfosFromDmidecode
-    getIpDhcp
-    getPackagesFromCommand
+    getDeviceCapacity
+    getSanitizedString
     compareVersion
     can_run
     can_load
@@ -241,126 +240,17 @@ sub _parseDmidecode {
     return $info;
 }
 
-sub _findDhcpLeaseFile {
-    my ($logger) = @_;
-
-    my @files;
-
-    foreach my $dir qw(
-        /var/db
-        /var/lib/dhcp3
-        /var/lib/dhcp
-    ) {
-        next unless -d $dir;
-
-        push @files,
-            grep { -s $_ }
-            glob("$dir/*.lease");
-
+sub getDeviceCapacity {
+    my ($dev) = @_;
+    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
+    # requires permissions on /dev/$dev
+    my $capacity;
+    foreach my $line (`$command /dev/$dev 2>/dev/null`) {
+        next unless $line =~ /^(\d+)/;
+        $capacity = $1;
     }
-
-    return unless @files;
-
-    # sort by creation time
-    @files =
-    map { $_->[0] }
-    sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
-    map { [ $_, stat($_) ] }
-    @files;
-
-    # take the last one
-    return $files[-1];
-}
-
-sub _parseDhcpLeaseFile {
-    my ($logger, $if, $lease_file) = @_;
-
-    my ($server_ip, $expiration_time);
-
-    my $handle;
-    if (!open $handle, '<', $lease_file) {
-        $logger->error("Can't open $lease_file");
-        return;
-    }
-
-    my ($lease, $dhcp);
-
-    # find the last lease for the interface with its expire date
-    while (my $line = <$handle>) {
-        if ($line=~ /^lease/i) {
-            $lease = 1;
-            next;
-        }
-        if ($line=~ /^}/) {
-            $lease = 0;
-            next;
-        }
-
-        next unless $lease;
-
-        # inside a lease section
-        if ($line =~ /interface\s+"([^"]+)"/){
-            $dhcp = ($1 eq $if);
-            next;
-        }
-
-        next unless $dhcp;
-
-        if (
-            $line =~ 
-            /option \s+ dhcp-server-identifier \s+ (\d{1,3}(?:\.\d{1,3}){3})/x
-        ) {
-            # server IP
-            $server_ip = $1;
-        } elsif (
-            $line =~
-            /expire \s+ \d \s+ (\d+)\/(\d+)\/(\d+) \s+ (\d+):(\d+):(\d+)/x
-        ) {
-            $expiration_time = timelocal($6, $5, $4, $3, $2, $1);
-        }
-    }
-    close $handle;
-
-    return unless $expiration_time;
-
-    my $current_time = time();
-
-    return $current_time <= $expiration_time ? $server_ip : undef;
-}
-
-sub getIpDhcp {
-    my ($logger, $if) = @_;
-
-    my $dhcpLeaseFile = _findDhcpLeaseFile($logger);
-
-    return unless $dhcpLeaseFile;
-
-    _parseDhcpLeaseFile($logger, $if, $dhcpLeaseFile);
-}
-
-sub getPackagesFromCommand {
-     my ($logger, $file, $mode, $callback) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        my $message = $mode eq '-|' ? 
-            "Can't run command $file: $ERRNO" :
-            "Can't open file $file: $ERRNO"   ;
-        $logger->error($message);
-        return;
-    }
-
-    my $packages;
-    
-    while (my $line = <$handle>) {
-        chomp $line;
-        my $package = $callback->($line);
-        push @$packages, $package if $package;
-    }
-
-    close $handle;
-
-    return $packages;
+    $capacity = int($capacity / 1000) if $capacity;
+    return $capacity;
 }
 
 sub compareVersion {
@@ -374,6 +264,31 @@ sub compareVersion {
             &&
             $minor >= $min_minor
         );
+}
+
+sub getSanitizedString {
+    my ($string) = @_;
+
+    return unless defined $string;
+
+    # clean control caracters
+    $string =~ s/[[:cntrl:]]//g;
+
+    # encode to utf-8 if needed
+    if ($string !~ m/\A(
+          [\x09\x0A\x0D\x20-\x7E]           # ASCII
+        | [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte
+        | \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} # straight 3-byte
+        | \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+        | \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+        | [\xF1-\xF3][\x80-\xBF]{3}         # planes 4-15
+        | \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+        )*\z/x) {
+        $string = encode("UTF-8", $string);
+    };
+
+    return $string;
 }
 
 sub can_run {
@@ -459,14 +374,14 @@ $info = {
     ...
 }
 
-=head2 getIpDhcp
+=head2 getDeviceCapacity($device)
 
-Returns an hashref of information for current DHCP lease.
+Returns storage capacity of given device.
 
-=head2 getPackagesFromCommand
+=head2 getSanitizedString($string)
 
-Returns a list of packages as an arrayref of hashref, by parsing given command
-output with given callback.
+Returns the input stripped from any control character, properly encoded in
+UTF-8.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 

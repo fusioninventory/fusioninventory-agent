@@ -1,0 +1,10 @@
+Filesystem    1024-blocks      Used Available Capacity Mounted on
+/dev/hd4          2097152   1005632   1091520      48% /
+/dev/hd2          4980736   2211052   2769684      45% /usr
+/dev/hd9var        262144     80816    181328      31% /var
+/dev/hd3          4194304   3336604    857700      80% /tmp
+/dev/fwdump        131072       348    130724       1% /var/adm/ras/platform
+/dev/hd1          2097152   1045032   1052120      50% /home
+/dev/hd11admin      131072       380    130692       1% /admin
+/proc                   -         -         -       -  /proc
+/dev/hd10opt       131072    117688     13384      90% /opt

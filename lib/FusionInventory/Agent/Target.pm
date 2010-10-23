@@ -177,3 +177,7 @@ Return the storage object for this target.
 =head2 saveState()
 
 Save persistant part of current state.
+
+=head2 getDescriptionString()
+
+Return a string to display to user in a 'target' field.

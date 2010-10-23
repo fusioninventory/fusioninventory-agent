@@ -11,10 +11,18 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Logger;
 
-sub new {
-    my ($class, $params) = @_;
+sub run {
+    my ($self) = @_;
 
-    my $self = $class->SUPER::new($params);
+    # Turn off localised output for commands, after saving original values
+    my %ENV_ORIG;
+    foreach my $key (qw/LC_ALL LANG/) {
+        $ENV_ORIG{$key} = $ENV{$key};
+        $ENV{$key} = 'C';
+    }
+
+    # initialize modules list
+    $self->_initModList();
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         deviceid => $self->{deviceid},
@@ -22,15 +30,14 @@ sub new {
         storage  => $self->{target}->getStorage()
     });
 
-    $self->{modules} = {};
-
-    return $self;
-}
-
-sub run {
-    my ($self) = @_;
-
     $self->_feedInventory();
+
+    # restore original environnement, and complete inventory
+    foreach my $key (qw/LC_ALL LANG/) {
+        $ENV{$key} = $ENV_ORIG{$key};
+        next unless $ENV{$key};
+        $self->{inventory}->addEnv({ KEY => $key, VAL => $ENV{$key} });
+    }
 
     SWITCH: {
         if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
@@ -43,14 +50,16 @@ sub run {
         }
 
         if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
+            my $format = $self->{config}->{format};
+            my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
                 $self->{target}->getPath() .
                 "/" .
                 $self->{deviceid} .
-                '.ocs';
+                $suffix;
 
             if (open my $handle, '>', $file) {
-                if ($self->{config}->{format} eq 'xml') {
+                if ($format eq 'xml') {
                     print $handle $self->{inventory}->getContent();
                 } else {
                     print $handle $self->{inventory}->getContentAsHTML();
@@ -225,11 +234,9 @@ sub _initModList {
 }
 
 sub _runMod {
-    my ($self, $params) = @_;
+    my ($self, $module) = @_;
 
     my $logger = $self->{logger};
-
-    my $module = $params->{modname};
 
     return if ($self->{modules}->{$module}->{done});
 
@@ -250,9 +257,7 @@ sub _runMod {
             # need a module also in use, we have provable an issue :).
             die "Circular dependency between $module and  $other_module";
         }
-        $self->_runMod({
-            modname => $other_module
-        });
+        $self->_runMod($other_module);
     }
 
     $logger->debug ("Running $module");
@@ -268,18 +273,12 @@ sub _feedInventory {
     my $logger = $self->{logger};
     my $inventory = $self->{inventory};
 
-    if (!keys %{$self->{modules}}) {
-        $self->_initModList();
-    }
-
     my $begin = time();
     my @modules =
         grep { $self->{modules}->{$_}->{enabled} }
         keys %{$self->{modules}};
     foreach my $module (sort @modules) {
-        $self->_runMod ({
-            modname => $module,
-        });
+        $self->_runMod ($module);
     }
 
     # Execution time
@@ -306,10 +305,11 @@ sub _runWithTimeout {
 
         $ret = &{$module . '::' . $function}({
             config        => $self->{config},
+            setup         => $self->{setup},
             inventory     => $self->{inventory},
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},
-            storage       => $self->{storage}
+            storage       => $self->{target}->getStorage()
         });
     };
     alarm 0;
