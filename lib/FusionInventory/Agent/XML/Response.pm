@@ -23,7 +23,7 @@ sub new {
     die "content is an invalid XML message" unless $content->{REPLY};
 
     my $self = {
-        parsedcontent => $content,
+        parsedcontent => $content->{REPLY},
         logger  => $params->{logger} || FusionInventory::Logger->new(),
     };
     bless $self, $class;
