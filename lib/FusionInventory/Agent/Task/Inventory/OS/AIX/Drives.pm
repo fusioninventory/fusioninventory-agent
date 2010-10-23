@@ -23,9 +23,7 @@ sub doInventory {
         my @fs = `lsfs -c $drive->{TYPE}`;
         my @fstype = split /:/, $fs[1];     
         $drive->{FILESYSTEM} = $fstype[2];
-    }
 
-    foreach my $drive (@drives) {
         $inventory->addDrive($drive);
     }
 }

@@ -977,7 +977,7 @@ Frequency in MHz
 
 =head2 DRIVES
 
-Drive is actually a filesystem.
+Drive is actually a filesystem. Virtual filesystem like /proc or /sys are ignored.
 
 =over 4
 
@@ -1005,7 +1005,7 @@ Windows driver letter. Windows only
 
 =item SERIAL
 
-Partition serial number
+Partition serial number or UUID
 
 =item SYSTEMDRIVE
 
