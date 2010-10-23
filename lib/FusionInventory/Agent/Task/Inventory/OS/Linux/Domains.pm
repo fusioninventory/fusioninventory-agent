@@ -29,7 +29,7 @@ sub doInventory {
             if ($line =~ /^nameserver\s+(\S+)/) {
                 push(@dns_list, $1);
             } elsif ($line =~ /^(domain|search)\s+(\S+)/) {
-                push(@search_list, $1);
+                push(@search_list, $2);
             }
         }
         close $handle;
