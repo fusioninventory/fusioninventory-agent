@@ -109,16 +109,22 @@ sub getCPUsFromProc {
         if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
             $cpu->{$1} = $2;
         } elsif ($line =~ /^$/) {
-            next unless $cpu;
-            # On PPC, a "fake" CPU section is used to describe the
-            # machine
-            push @$cpus, $cpu unless $cpu->{'pmac-generation'};
+            # an empty line marks the end of a cpu section
+            # push to the list, but only if it is a valid cpu
+            push @$cpus, $cpu if $cpu &&
+                    exists $cpu->{processor} ||
+                    exists $cpu->{Processor} ||
+                    exists $cpu->{cpu};
             undef $cpu;
         }
     }
     close $handle;
 
-    push @$cpus, $cpu unless $cpu->{'pmac-generation'};
+    # push remaining cpu to the list, if it is valid cpu
+    push @$cpus, $cpu if $cpu &&
+                    exists $cpu->{processor} ||
+                    exists $cpu->{Processor} ||
+                    exists $cpu->{cpu};
 
     return $cpus;
 }

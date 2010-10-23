@@ -158,11 +158,6 @@ my %cpu_tests = (
             'CPU revision' => '0',
             'CPU part' => '0x2e3'
         },
-        {
-            'Revision' => '0000',
-            'Hardware' => 'Thecus N2100',
-            'Serial' => '0000000000000000'
-        }
     ],
     'linux-ia64-1' => [
         {
@@ -238,9 +233,19 @@ my %cpu_tests = (
             'clock' => '1452.000000MHz',
             'processor' => '1'
         },
+    ],
+    'linux-ppc-3' => [
         {
-            'machine' => 'CHRP IBM,7029-6C3',
-            'timebase' => '181495202'
+            'revision' => '3.1 (pvr 003c 0301)',
+            'cpu' => 'PPC970FX, altivec supported',
+            'clock' => '2700.000000MHz',
+            'processor' => '0'
+        },
+        {
+            'revision' => '3.1 (pvr 003c 0301)',
+            'cpu' => 'PPC970FX, altivec supported',
+            'clock' => '2700.000000MHz',
+            'processor' => '1'
         }
     ],
     'linux-sparc-1' => [
