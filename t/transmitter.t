@@ -21,7 +21,7 @@ my $ok = sub {
 
     print "HTTP/1.0 200 OK\r\n";
     print "\r\n";
-    print compress("<REPLY>hello</REPLY>");
+    print compress("<REPLY><word>hello</word></REPLY>");
 };
 
 my $logger = FusionInventory::Logger->new({
@@ -468,7 +468,7 @@ sub check_response_ok {
     );
     is_deeply(
         $response->getParsedContent(),
-        { REPLY => 'hello' },
+        { word => 'hello' },
         'response content'
     );
 }
