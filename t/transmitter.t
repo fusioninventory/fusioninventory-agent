@@ -103,7 +103,7 @@ $server->set_dispatch({
     '/public'  => $ok,
     '/private' => sub { return $ok->(@_) if $server->authenticate(); }
 });
-$server->background() or BAIL_OUT("can't launche the server");
+$server->background() or BAIL_OUT("can't launch the server");
 
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
