@@ -6,7 +6,7 @@ sub new {
     bless $self;
 }
 
-sub sendError {
+sub _sendError {
     my ($level, $msg) = @_;
 
     print STDERR "$level: $msg\n";
@@ -15,31 +15,31 @@ sub sendError {
 sub debug {
   my ($self, $msg) = @_;
 
-  sendError('debug', $msg);
+  _sendError('debug', $msg);
 }
 
 sub info {
   my ($self, $msg) = @_;
 
-  sendError('info', $msg);
+  _sendError('info', $msg);
 }
 
 sub error {
   my ($self, $msg) = @_;
 
-  sendError('error', $msg);
+  _sendError('error', $msg);
 }
 
 sub fault {
   my ($self, $msg) = @_;
 
-  sendError('fault', $msg);
+  _sendError('fault', $msg);
 }
 
 sub user {
   my ($self, $msg) = @_;
 
-  sendError('user', $msg);
+  _sendError('user', $msg);
 }
 
 
