@@ -14,6 +14,15 @@ use FusionInventory::Logger;
 sub run {
     my ($self) = @_;
 
+    # This is a workaround to be able to continue
+    # to call run() directly to launch a Task.
+    # This is only used in the master+poe branch
+    # and will be removed/improved after the merge.
+    if (!$self) {
+        $self = FusionInventory::Agent::Task->new();
+	bless $self;
+    }
+
     # Turn off localised output for commands, after saving original values
     my %ENV_ORIG;
     foreach my $key (qw/LC_ALL LANG/) {
