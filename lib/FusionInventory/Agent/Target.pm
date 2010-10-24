@@ -171,6 +171,10 @@ sub run {
     POE::Session->create(
         inline_states => {
             _start => sub {
+	    # We use the target alias to identify the target who is running
+	    # task. So if from the task I request throught the IKC interface
+	    # target/get/something, I will get the information from the running
+	    # target.
                 $_[KERNEL]->alias_set("target");
                 $_[KERNEL]->yield('prolog');
                 $self->{modulesToRun} = [ 'Inventory', 'Ping', 'WakeOnLan' ];
@@ -227,6 +231,8 @@ sub run {
                 my $target = $_[HEAP]->{target};
 
                 if(!@{$self->{modulesToRun}}) {
+		    $_[KERNEL]->alias_remove("target");
+		    print "remove target alias\n";
                     $self->scheduleNextRun();
                     return;
                 }
