@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use POE;
+use POE::Component::IKC::Server;
 
 use Cwd;
 use English qw(-no_match_vars);
@@ -205,6 +206,15 @@ sub new {
             });
         }
     }
+
+    POE::Component::IKC::Server->spawn(
+	    port=>3030, name=>'Server'
+	    ); # more options are available
+	POE::Kernel->call(IKC => publish => 'config', ["get"]);
+    POE::Kernel->call(IKC => publish => 'targetsList', ["get"]);
+    POE::Kernel->call(IKC => publish => 'network', ["send"]);
+    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
+
 
     $logger->debug("FusionInventory Agent initialised");
 
