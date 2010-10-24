@@ -187,7 +187,7 @@ sub _initModList {
 
         # skip if parent is not allowed
         if ($parent && !$self->{modules}->{$parent}->{enabled}) {
-            $logger->debug("module $module disabled: implicit dependency $parent not enabled");
+            $logger->debug("  $module disabled: implicit dependency $parent not enabled");
             $self->{modules}->{$module}->{enabled} = 0;
             next;
         }
