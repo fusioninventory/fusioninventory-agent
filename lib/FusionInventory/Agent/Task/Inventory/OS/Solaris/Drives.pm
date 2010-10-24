@@ -39,8 +39,8 @@ sub doInventory {
                 =~ /org.opensolaris.libbe:uuid\s+(\S{5}\S+)/
         ) {
             $drive->{UUID} = $1;
-            $filesystem="zfs";
             $drive->{FILESYSTEM} = 'zfs';
+	}
         if ($drive->{VOLUMN} eq 'swap') {
             $drive->{FILESYSTEM} = 'swap';
         } else {

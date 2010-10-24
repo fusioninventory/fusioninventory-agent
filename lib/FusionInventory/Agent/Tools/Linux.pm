@@ -109,19 +109,38 @@ sub getCPUsFromProc {
         if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
             $cpu->{$1} = $2;
         } elsif ($line =~ /^$/) {
-            next unless $cpu;
-            # On PPC, a "fake" CPU section is used to describe the
-            # machine
-            push @$cpus, $cpu unless $cpu->{'pmac-generation'};
+
+            push @$cpus, $cpu if _isValideCPU($cpu);
+
             undef $cpu;
         }
     }
     close $handle;
 
-    push @$cpus, $cpu unless $cpu->{'pmac-generation'};
+    push @$cpus, $cpu if _isValideCPU($cpu);
 
     return $cpus;
 }
+
+sub _isValideCPU {
+    my ($cpu) = @_;
+
+    return unless $cpu;
+    return unless keys %$cpu;
+
+# On some arch, a "fake" CPU section is used to describe the
+# machine
+
+    # PPC 
+    return if $cpu->{'pmac-generation'};
+    # IA64 
+    return if $cpu->{'machine'} && $cpu->{'timebase'};
+    # ARM
+    return if $cpu->{'Hardware'} && $cpu->{'Revision'} && $cpu->{Serial};
+
+    return 1;
+}
+
 
 sub getDevicesFromHal {
     my ($logger, $file) = @_;

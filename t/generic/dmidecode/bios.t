@@ -19,7 +19,6 @@ my %tests = (
         },
         hardware => {
             UUID     => undef,
-            VMSYSTEM => 'Physical'
         }
     },
     'freebsd-8.1' => {
@@ -33,7 +32,6 @@ my %tests = (
             BMANUFACTURER => 'Hewlett-Packard'
         },
         hardware => {
-            VMSYSTEM => 'Physical',
             UUID => '30464E43-3231-3730-5836-C80AA93F35FA'
         },
     },
@@ -49,7 +47,6 @@ my %tests = (
         },
         hardware => {
             UUID     => '44454C4C-3800-1058-8044-C4C04F36324A',
-            VMSYSTEM => 'Physical'
         }
     },
     'openbsd-3.7' => {
@@ -64,7 +61,6 @@ my %tests = (
         },
         hardware => {
             UUID     => undef,
-            VMSYSTEM => 'Physical'
         }
     },
     'openbsd-3.8' => {
@@ -79,7 +75,6 @@ my %tests = (
         },
         hardware => {
             UUID     => '44454C4C-4B00-1031-8030-B2C04F31324A',
-            VMSYSTEM => 'Physical'
         }
     },
     'rhel-2.1' => {
@@ -94,7 +89,6 @@ my %tests = (
         },
         hardware => {
             UUID     => undef,
-            VMSYSTEM => 'Physical'
         }
     },
     'rhel-3.4' => {
@@ -109,7 +103,6 @@ my %tests = (
         },
         hardware => {
             UUID     => 'A8346631-8E88-3AE3-898C-F3AC9F61C316',
-            VMSYSTEM => 'Physical'
         }
     },
     'rhel-4.3' => {
@@ -124,7 +117,6 @@ my %tests = (
         },
         hardware => {
             UUID => '0339D4C3-44C0-9D11-A20E-85CDC42DE79C',
-            VMSYSTEM => 'Physical'
         }
     },
     'rhel-4.6' => {
@@ -139,7 +131,6 @@ my %tests = (
         },
         hardware => {
             UUID => '34313236-3435-4742-3838-313448453753',
-            VMSYSTEM => 'Physical'
         }
     },
     'windows' => {
@@ -154,7 +145,6 @@ my %tests = (
         },
         hardware => {
             UUID     => '7FB4EA00-07CB-18F3-8041-CAD582735244',
-            VMSYSTEM => 'Physical'
         }
     }
 );

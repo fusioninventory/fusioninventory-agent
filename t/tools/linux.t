@@ -158,11 +158,6 @@ my %cpu_tests = (
             'CPU revision' => '0',
             'CPU part' => '0x2e3'
         },
-        {
-            'Revision' => '0000',
-            'Hardware' => 'Thecus N2100',
-            'Serial' => '0000000000000000'
-        }
     ],
     'linux-ia64-1' => [
         {
@@ -238,10 +233,6 @@ my %cpu_tests = (
             'clock' => '1452.000000MHz',
             'processor' => '1'
         },
-        {
-            'machine' => 'CHRP IBM,7029-6C3',
-            'timebase' => '181495202'
-        }
     ],
     'linux-sparc-1' => [
         {

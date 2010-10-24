@@ -5,7 +5,7 @@ use strict;
 use English qw(-no_match_vars);
 use IPC::Run qw(run);
 
-use Test::More tests => 6;
+use Test::More tests => 8;
 
 my ($out, $err, $rc);
 
@@ -26,6 +26,16 @@ like(
     'stderr'
 );
 is($out, '', 'stdin');
+
+($out, $err, $rc) = run_agent('--stdout');
+ok($rc == 0, 'exit status');
+like(
+    $out,
+    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
+    'stderr'
+);
+
+
 
 sub run_agent {
     run(
