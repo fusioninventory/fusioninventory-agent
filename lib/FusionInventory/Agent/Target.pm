@@ -48,8 +48,6 @@ sub _init {
     # restore previous state
     $self->_loadState();
 
-    # initialize next run date if needed
-    $self->scheduleNextRun() unless $self->getNextRunDate();
 }
 
 sub getStorage {
@@ -121,6 +119,9 @@ sub saveState {
 
 sub createSession {
     my ($self) = @_;
+
+    # initialize next run date if needed
+    $self->scheduleNextRun() unless $self->getNextRunDate();
 
     $self->{session} = POE::Session->create(
         inline_states => {
