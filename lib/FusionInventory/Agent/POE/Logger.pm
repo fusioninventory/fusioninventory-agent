@@ -6,6 +6,12 @@ sub new {
     bless $self;
 }
 
+sub sendError {
+    my ($level, $msg) = @_;
+
+    print STDERR "$level: $msg\n";
+}
+
 sub debug {
   my ($self, $msg) = @_;
 
