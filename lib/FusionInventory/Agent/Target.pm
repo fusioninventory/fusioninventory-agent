@@ -255,8 +255,6 @@ sub run {
                 # Wheel events include the wheel's ID.
                 $_[HEAP]{children_by_wid}{$child->ID} = $child;
 
-                $self->{target_by_moduleName}{$self->{modulenameRunning}} = $target;
-
                 # Signal events include the process ID.
                 $_[HEAP]{children_by_pid}{$child->PID} = $child;
 
@@ -298,9 +296,7 @@ sub run {
                 print "module: ".$self->{modulenameRunning}." finished\n";
                 print "pid ", $child->PID, " closed all pipes.\n";
                 delete $_[HEAP]{children_by_pid}{$child->PID};
-#                print Dumper($self->{target_by_moduleName});
 		$self->{modulenameRunning} = undef;
-                delete $self->{target_by_moduleName}{$self->{modulenameRunning}};
                 $_[KERNEL]->yield('launchNextTask');
             },
             got_child_signal => sub {
