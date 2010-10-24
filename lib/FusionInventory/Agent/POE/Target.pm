@@ -14,9 +14,7 @@ sub new {
 
     my $self = {};
 
-    $logger => $params->{logger},
-
-    print "  Target::new()\n";
+    $logger = $params->{logger};
 
     my $name   = "Target$$";
     $poe = create_ikc_client(
