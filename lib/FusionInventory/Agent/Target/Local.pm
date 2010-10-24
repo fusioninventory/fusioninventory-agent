@@ -23,12 +23,6 @@ sub new {
     return $self;
 }
 
-sub getPath {
-    my ($self) = @_;
-
-    return $self->{path};
-}
-
 sub getDescriptionString {
     my ($self) = @_;
 
@@ -62,10 +56,6 @@ hashref:
 the output directory path (mandatory)
 
 =back
-
-=head2 getPath()
-
-Return the local output directory for this target.
 
 =head2 getDescriptionString)
 

@@ -40,11 +40,11 @@ sub run {
         storage  => $self->{target}->getStorage()
     });
 
-    $self->{modules} = {};
-
-    return $self;
+#    $self->{modules} = {};
 
     $self->_feedInventory();
+
+	print "ZIBZIB\n";
 
     # restore original environnement, and complete inventory
     foreach my $key (qw/LC_ALL LANG/) {
@@ -54,7 +54,8 @@ sub run {
     }
 
     SWITCH: {
-        if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
+	print "ZIBZIB\n";
+        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Stdout') {
             if ($self->{config}->{format} eq 'xml') {
                 print $self->{inventory}->getContent();
             } else {
@@ -62,14 +63,16 @@ sub run {
             }
             last SWITCH;
         }
+	print "ZIBZIB ".ref($self->{target})."\n";
 
-        if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
+        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Local') {
+	print "ZOBZOB\n";
             my $format = $self->{config}->{format};
             my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
-                $self->{target}->getPath() .
+                $self->{target}{path} .
                 "/" .
-                $self->{deviceid} .
+                $self->{target}{deviceid} .
                 $suffix;
 
             if (open my $handle, '>', $file) {
@@ -86,7 +89,7 @@ sub run {
             last SWITCH;
         }
 
-        if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Server') {
             die "No prologresp!" unless $self->{prologresp};
 
             if ($self->{config}->{force}) {

@@ -24,9 +24,11 @@ sub new {
 	# the list of module the target has to run now.
 	modulenamesToRun    => [],
 	modulenameRunning  => undef,
+	class  => $class,
     };
-    bless $self, $class;
 
+    bless $self, $class;
+    
     return $self;
 }
 
