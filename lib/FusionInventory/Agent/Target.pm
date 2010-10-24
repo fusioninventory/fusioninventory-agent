@@ -295,7 +295,7 @@ sub run {
                     return;
                 }
 
-                print "module: ".$self->{modulenameRunning}." terminé\n";
+                print "module: ".$self->{modulenameRunning}." finished\n";
                 print "pid ", $child->PID, " closed all pipes.\n";
                 delete $_[HEAP]{children_by_pid}{$child->PID};
 #                print Dumper($self->{target_by_moduleName});
