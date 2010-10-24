@@ -211,7 +211,7 @@ sub new {
 	    port=>3030, name=>'Server'
 	    ); # more options are available
 	POE::Kernel->call(IKC => publish => 'config', ["get"]);
-    POE::Kernel->call(IKC => publish => 'targetsList', ["get"]);
+    POE::Kernel->call(IKC => publish => 'target', ["get"]);
     POE::Kernel->call(IKC => publish => 'network', ["send"]);
     POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
 

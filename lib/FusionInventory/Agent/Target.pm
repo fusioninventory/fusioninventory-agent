@@ -35,11 +35,12 @@ sub _init {
 
     # target identity
     $self->{id} = $params->{id};
+    $self->{vardir} = $params->{vardir};
 
     # target storage
     $self->{storage} = FusionInventory::Agent::Storage->new({
         logger    => $self->{logger},
-        directory => $params->{vardir}
+        directory => $self->{vardir}
     });
 
     # restore previous state
@@ -167,7 +168,7 @@ sub run {
     POE::Session->create(
         inline_states => {
             _start => sub {
-                $_[KERNEL]->alias_set("jobEngine");
+                $_[KERNEL]->alias_set("target");
                 $_[KERNEL]->yield('prolog');
                 $self->{modulesToRun} = [ 'Inventory', 'Ping', 'WakeOnLan' ];
                 $_[HEAP]->{target} = $target;
@@ -210,6 +211,13 @@ sub run {
                 $_[KERNEL]->yield('launchNextTask');
 
             },
+	    get => sub {
+		my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
+		my $req = $args->[0];
+		my $rsvp = $args->[1];
+#print "value: ".$self->{$req->{key}}."\n";
+		$kernel->call(IKC => post => $rsvp, $self->{$req->{key}});
+	    },
             launchNextTask  => sub {
                 my $logger = $self->{logger};
                 my $config = $self->{config};
@@ -266,13 +274,8 @@ sub run {
                 my $logger = $self->{logger};
 
                 my $child = $_[HEAP]{children_by_wid}{$wheel_id};
-                if ($stderr_line =~ /^(\S+):\s(.*)/) {
-                    my $error = $1;
-#                    if (!exists(&{"FusionInventory::Agent::POE::Logger::".$stderr_line})) {
-#                        $logger->fault("t) unknown error: ".$error);
-#                    } else {
-                        $logger->$error("t) ".$2);
-#                    }
+                if ($stderr_line =~ /^(debug|info|error|fault):\s(.*)/) {
+		    $logger->$1("t) ".$2);
                 } else {
                     $logger->error($stderr_line);
                 }

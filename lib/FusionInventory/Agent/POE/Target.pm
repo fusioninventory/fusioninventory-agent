@@ -3,13 +3,20 @@ package FusionInventory::Agent::POE::Target;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Storage;
 use POE::Component::IKC::ClientLite;
 my $poe;
+my $logger;
+my $storage;
 
 sub new {
+    my (undef, $params) = @_;
+
     my $self = {};
 
-    my $logger = $self->{logger};
+    $logger => $params->{logger},
+
+    print "  Target::new()\n";
 
     my $name   = "Target$$";
     $poe = create_ikc_client(
@@ -24,6 +31,17 @@ sub new {
     bless $self;
 }
 
+sub getStorage {
+    my($self) = @_;
+
+    return $storage if $storage;
+    $storage = FusionInventory::Agent::Storage->new({
+        logger    => $logger,
+        directory => $self->{vardir}
+    });
+    return $storage;
+}
+
 sub FETCH {
     my($self, $key) = @_;
    
@@ -32,7 +50,7 @@ sub FETCH {
         key => $key,
         moduleName => $ARGV[0]
     };
-    $poe->post_respond('targetsList/get', $tmp);
+    $poe->post_respond('target/get', $tmp);
 }
 sub TIEHASH  {
     my $storage = bless {}, shift;

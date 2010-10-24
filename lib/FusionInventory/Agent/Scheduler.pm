@@ -25,7 +25,7 @@ sub new {
         inline_states => {
             _start => sub {
                 print "Scheduler Start\n";
-                $_[KERNEL]->alias_set("Scheduler");
+                $_[KERNEL]->alias_set("scheduler");
             },
             runAllNow => sub { $self->runAllNow() },
         }

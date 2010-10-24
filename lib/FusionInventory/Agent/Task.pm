@@ -13,10 +13,12 @@ use FusionInventory::Agent::POE::Transmitter;
 sub new {
     my ($class, $params) = @_;
 
+    my $logger = FusionInventory::Agent::POE::Logger->new();
+
     my $self = {
-        logger      => FusionInventory::Agent::POE::Logger->new(),
+        logger      => $logger,
         config      => FusionInventory::Agent::POE::Config->new(),
-        target      => FusionInventory::Agent::POE::Target->new(),
+        target      => FusionInventory::Agent::POE::Target->new({ logger => $logger }),
         prologresp  => FusionInventory::Agent::POE::Prolog->new(),
         transmitter => FusionInventory::Agent::POE::Transmitter->new(),
         setup       => $params->{setup},
