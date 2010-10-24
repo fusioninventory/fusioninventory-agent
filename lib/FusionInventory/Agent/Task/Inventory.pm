@@ -40,11 +40,7 @@ sub run {
         storage  => $self->{target}->getStorage()
     });
 
-#    $self->{modules} = {};
-
     $self->_feedInventory();
-
-	print "ZIBZIB\n";
 
     # restore original environnement, and complete inventory
     foreach my $key (qw/LC_ALL LANG/) {
@@ -54,7 +50,6 @@ sub run {
     }
 
     SWITCH: {
-	print "ZIBZIB\n";
         if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Stdout') {
             if ($self->{config}->{format} eq 'xml') {
                 print $self->{inventory}->getContent();
@@ -63,10 +58,8 @@ sub run {
             }
             last SWITCH;
         }
-	print "ZIBZIB ".ref($self->{target})."\n";
 
         if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Local') {
-	print "ZOBZOB\n";
             my $format = $self->{config}->{format};
             my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
