@@ -11,6 +11,7 @@ use Time::Local;
 use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
+    getDeviceCapacity
     getIpDhcp
     getFilesystemsFromDf
     getProcessesFromPs
@@ -18,6 +19,19 @@ our @EXPORT = qw(
 );
 
 memoize('getControllersFromLspci');
+
+sub getDeviceCapacity {
+    my ($dev) = @_;
+    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
+    # requires permissions on /dev/$dev
+    my $capacity;
+    foreach my $line (`$command /dev/$dev 2>/dev/null`) {
+        next unless $line =~ /^(\d+)/;
+        $capacity = $1;
+    }
+    $capacity = int($capacity / 1000) if $capacity;
+    return $capacity;
+}
 
 sub getIpDhcp {
     my ($logger, $if) = @_;
@@ -299,6 +313,10 @@ FusionInventory::Agent::Tools::Unix - Unix-specific generic functions
 This module provides some Unix-specific generic functions.
 
 =head1 FUNCTIONS
+
+=head2 getDeviceCapacity($device)
+
+Returns storage capacity of given device.
 
 =head2 getIpDhcp
 

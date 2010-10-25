@@ -17,7 +17,6 @@ our @EXPORT = qw(
     getCanonicalSpeed
     getCanonicalSize
     getInfosFromDmidecode
-    getDeviceCapacity
     getSanitizedString
     compareVersion
     can_run
@@ -169,19 +168,6 @@ sub getInfosFromDmidecode {
     return $info;
 }
 
-sub getDeviceCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $capacity;
-    foreach my $line (`$command /dev/$dev 2>/dev/null`) {
-        next unless $line =~ /^(\d+)/;
-        $capacity = $1;
-    }
-    $capacity = int($capacity / 1000) if $capacity;
-    return $capacity;
-}
-
 sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
@@ -326,10 +312,6 @@ $info = {
     ],
     ...
 }
-
-=head2 getDeviceCapacity($device)
-
-Returns storage capacity of given device.
 
 =head2 getSanitizedString($string)
 

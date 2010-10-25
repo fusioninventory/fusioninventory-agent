@@ -7,6 +7,8 @@ use base 'Exporter';
 use English qw(-no_match_vars);
 use Memoize;
 
+use FusionInventory::Agent::Tools::Unix;
+
 our @EXPORT = qw(
     getDevicesFromUdev
     getDevicesFromHal
@@ -76,19 +78,6 @@ sub _parseUdevEntry {
     $result->{NAME} = $device;
 
     return $result;
-}
-
-sub getDeviceCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $cap;
-    foreach (`$command /dev/$dev 2>/dev/null`) {
-        next unless /^(\d+)/;
-        $cap = $1;
-    }
-    $cap = int($cap / 1000) if $cap;
-    return $cap;
 }
 
 sub getCPUsFromProc {
