@@ -32,13 +32,15 @@ sub doInventory {
             if(/^$dev.*\s+(\d+)\s*MB/) { $capacity = $1;}
         }
 
-        if ($model =~ s/^(SGI|SONY|WDC|ASUS|LG|TEAC|SAMSUNG|PHILIPS|PIONEER|MAXTOR|PLEXTOR|SEAGATE|IBM|SUN|SGI|DEC|FUJITSU|TOSHIBA|YAMAHA|HITACHI|VERITAS)\s*//i) {
-            $manufacturer = $1;
-        }
+        if ($model) {
+            if ($model =~ s/^(SGI|SONY|WDC|ASUS|LG|TEAC|SAMSUNG|PHILIPS|PIONEER|MAXTOR|PLEXTOR|SEAGATE|IBM|SUN|SGI|DEC|FUJITSU|TOSHIBA|YAMAHA|HITACHI|VERITAS)\s*//i) {
+                $manufacturer = $1;
+            }
 
-        # clean up the model
-        $model =~ s/^(\s|,)*//;
-        $model =~ s/(\s|,)*$//;
+            # clean up the model
+            $model =~ s/^(\s|,)*//;
+            $model =~ s/(\s|,)*$//;
+        }
 
         $inventory->addStorages({
             MANUFACTURER => $manufacturer,

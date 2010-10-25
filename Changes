@@ -30,6 +30,7 @@ Revision history for FusionInventory::Agent
          fail back on ioreg when system_profiler do not give the wanted information
          http://forge.fusioninventory.org/issues/431
        * import a dmidecode output on OpenBSD 4.5
+       * BSD/Storage: Avoid warning if model is unknown
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
