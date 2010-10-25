@@ -12,6 +12,7 @@ our @EXPORT = qw(
     getIpDhcp
     getFileHandle
     getFilesystemsFromDf
+    getProcessesFromPs
 );
 
 sub getIpDhcp {
