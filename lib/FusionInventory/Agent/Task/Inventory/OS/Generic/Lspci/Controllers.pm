@@ -5,6 +5,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 my $vendors;
 my $classes;
@@ -33,7 +34,7 @@ sub doInventory {
 sub _getExtentedControllers {
     my ($logger, $file) = @_;
 
-    my $controllers = getControllersFromLspci($logger, $file);
+    my $controllers = getControllersFromLspci(logger => $logger, file => $file);
 
     foreach my $controller (@$controllers) {
 

@@ -237,21 +237,11 @@ sub getProcessesFromPs {
 }
 
 sub getControllersFromLspci {
-    my ($logger, $file) = @_;
-
-    return $file ?
-        _parseLspci($logger, $file, '<')            :
-        _parseLspci($logger, 'lspci -vvv -nn', '-|');
-}
-
-sub _parseLspci {
-    my ($logger, $file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
+    my %params = (
+        command => 'lspci -vvv -nn',
+        @_
+    );
+    my $handle = getFileHandle(%params);
 
     my ($controllers, $controller);
 

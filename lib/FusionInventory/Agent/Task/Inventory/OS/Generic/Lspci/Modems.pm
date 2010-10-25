@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return 1;
@@ -28,7 +29,7 @@ sub doInventory {
 sub _getModemControllers {
     my ($logger, $file) = @_;
 
-    my $controllers = getControllersFromLspci($logger, $file);
+    my $controllers = getControllersFromLspci(logger => $logger, file => $file);
     my $modems;
 
     foreach my $controller (@$controllers) {
