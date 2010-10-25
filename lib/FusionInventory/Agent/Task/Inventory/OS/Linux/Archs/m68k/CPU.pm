@@ -31,7 +31,7 @@ sub doInventory {
                 ARCH => 'm68k',
             };
         } else {
-            $current->{TYPE} = $1 if /CPU:\s+(\S.*)/;
+            $current->{NAME} = $1 if /CPU:\s+(\S.*)/;
             $current->{SPEED} = $1 if /Clocking:\s+:\s+(\S.*)/;
         }
     }

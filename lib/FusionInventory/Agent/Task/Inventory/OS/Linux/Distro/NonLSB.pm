@@ -5,21 +5,21 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-my %files = (
-    '/etc/arch-release'      => 'ArchLinux %s',
-    '/etc/debian_version'    => 'Debian GNU/Linux %s',
-    '/etc/fedora-release'    => '%s',
-    '/etc/gentoo-release'    => 'Gentoo Linux %s',
-    '/etc/knoppix_version'   => 'Knoppix GNU/Linux $s',
-    '/etc/mandriva-release'  => '%s',
-    '/etc/mandrake-release'  => '%s',
-    '/etc/redhat-release'    => '%s',
-    '/etc/slackware-version' => '%s',
-    '/etc/SuSE-release'      => '%s',
-    '/etc/trustix-release'   => '%s',
-    '/etc/ubuntu_version'    => 'Ubuntu %s',
-    '/etc/vmware-release'    => '%s',
-    '/etc/issue'             => '%s',
+my @files = (
+    [ '/etc/arch-release'      => 'ArchLinux %s' ],
+    [ '/etc/debian_version'    => 'Debian GNU/Linux %s' ],
+    [ '/etc/fedora-release'    => '%s' ],
+    [ '/etc/gentoo-release'    => 'Gentoo Linux %s'],
+    [ '/etc/knoppix_version'   => 'Knoppix GNU/Linux $s' ],
+    [ '/etc/mandriva-release'  => '%s' ],
+    [ '/etc/mandrake-release'  => '%s' ],
+    [ '/etc/redhat-release'    => '%s' ],
+    [ '/etc/slackware-version' => '%s' ],
+    [ '/etc/SuSE-release'      => '%s' ],
+    [ '/etc/trustix-release'   => '%s' ],
+    [ '/etc/ubuntu_version'    => 'Ubuntu %s' ],
+    [ '/etc/vmware-release'    => '%s' ],
+    [ '/etc/issue'             => '%s' ],
 );
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::LSB"];
@@ -31,7 +31,10 @@ sub isInventoryEnabled {
 sub findRelease {
     my $release;
 
-    foreach my $file (keys %files) {
+    foreach (@files) {
+        my $file = $_->[0];
+        my $distro = $_->[1];
+
         next unless -f $file;
         my $handle;
         if (!open $handle, '<', $file) {
@@ -41,7 +44,7 @@ sub findRelease {
         my $version = <$handle>;
         chomp $version;
         close $handle;
-        $release = sprintf $files{$file}, $version;
+        $release = sprintf $distro, $version;
         last;
     }
 

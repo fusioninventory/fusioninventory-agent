@@ -33,7 +33,7 @@ sub doInventory {
         } else {
             $current->{SERIAL} = $1 if /^cpu serial number\s+:\s+(\S.*)/;
             $current->{SPEED} = $1 if /cycle frequency \[Hz\]\s+:\s+(\d+)000000/;
-            $current->{TYPE} = $1 if /platform string\s+:\s+(\S.*)/;
+            $current->{NAME} = $1 if /platform string\s+:\s+(\S.*)/;
         }
     }
     close $handle;

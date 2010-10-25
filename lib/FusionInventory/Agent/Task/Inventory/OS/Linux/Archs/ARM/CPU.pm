@@ -19,9 +19,14 @@ sub doInventory {
 
     my @cpu;
     my $current;
-
+    my $inSystem;
     while (<$handle>) {
-        if (/^Processor\s+:\s*:/) {
+        if ($inSystem && /^Serial\s+:\s*(.*)/) {
+	    $inventory->setBios({ SSN => $1 });
+	} elsif (/^Hardware\s+:\s*(.*)/) {
+	    $inventory->setBios({ SMODEL => $1 });
+	    $inSystem = 1;
+        } if (/^Processor\s+:\s*:/) {
 
             if ($current) {
                 $inventory->addCPU($current);
@@ -32,7 +37,7 @@ sub doInventory {
             };
 
         }
-        $current->{TYPE} = $1 if /Processor\s+:\s+(\S.*)/;
+        $current->{NAME} = $1 if /Processor\s+:\s+(\S.*)/;
     }
     close $handle;
 
