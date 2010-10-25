@@ -244,6 +244,7 @@ sub run {
     my $scheduler = $self->{scheduler};
     my $receiver = $self->{receiver};
 
+    $config->createSession();
 
 
     if ($config->{daemon} || $config->{service}) {
