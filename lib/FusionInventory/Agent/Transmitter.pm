@@ -104,7 +104,7 @@ sub send {
 
     my $res;
     eval {
-        if ($^O =~ /^MSWin/ && $self->{URI} =~ /^https:/g) {
+	if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
             alarm $self->{defaultTimeout};
         }
         $res = $self->{ua}->request($req);
@@ -133,7 +133,7 @@ sub send {
                 );
                 # replay request
                 eval {
-                    if ($^O =~ /^MSWin/ && $self->{URI} =~ /^https:/g) {
+                    if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
                         alarm $self->{defaultTimeout};
                     }
                     $res = $self->{ua}->request($req);
