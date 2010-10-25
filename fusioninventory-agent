@@ -255,6 +255,11 @@ PROLOG RESP. You can see it if you're in Debug mode.
 In this PROLOG, the server send the PROLOG_FREQ. The agent will use it to
 know when it need to contact the server for the next time.
 
+The agent compute the next query date this way:
+
+     PROLOG_FREQ/2+RANDOM(PROLOG_FREQ/2)
+
+
 =head2 Module execution
 
 The agent will launch each modules and pass the list of options found in the
