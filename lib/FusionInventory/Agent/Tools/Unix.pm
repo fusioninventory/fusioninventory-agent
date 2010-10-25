@@ -280,15 +280,39 @@ This module provides some Unix-specific generic functions.
 
 Returns an hashref of information for current DHCP lease.
 
-=head2 getPackagesFromCommand
-
-Returns a list of packages as an arrayref of hashref, by parsing given command
-output with given callback.
-
 =head2 getFilesystemsFromDf(%params)
 
 Returns a list of filesystems as a list of hashref, by parsing given df
 command output.
+
+=over
+
+=item logger
+
+=item command
+
+=item file
+
+=back
+
+=head2 getProcessesFromPs(%params)
+
+Returns a list of processes as a list of hashref, by parsing given ps
+command output.
+
+=over
+
+=item logger
+
+=item command
+
+=item file
+
+=back
+
+=head2 getFileHandle(%params)
+
+Returns an open file handle on either a command output, or a file.
 
 =over
 
