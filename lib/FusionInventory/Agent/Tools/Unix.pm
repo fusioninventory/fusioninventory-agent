@@ -13,7 +13,10 @@ our @EXPORT = qw(
     getFileHandle
     getFilesystemsFromDf
     getProcessesFromPs
+    getControllersFromLspci
 );
+
+memoize('getControllersFromLspci');
 
 sub getIpDhcp {
     my ($logger, $if) = @_;
@@ -233,6 +236,66 @@ sub getProcessesFromPs {
     return @processes;
 }
 
+sub getControllersFromLspci {
+    my ($logger, $file) = @_;
+
+    return $file ?
+        _parseLspci($logger, $file, '<')            :
+        _parseLspci($logger, 'lspci -vvv -nn', '-|');
+}
+
+sub _parseLspci {
+    my ($logger, $file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        $logger->error("Can't open $file: $ERRNO");
+        return;
+    }
+
+    my ($controllers, $controller);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /^
+                (\S+) \s                     # slot
+                ([^[]+) \s                   # name
+                \[([a-f\d]+)\]: \s           # class
+                ([^[]+) \s                   # manufacturer
+                \[([a-f\d]+:[a-f\d]+)\]      # id
+                (?:\s \(rev \s (\d+)\))?     # optional version
+                (?:\s \(prog-if \s [^)]+\))? # optional detail
+                /x) {
+
+            $controller = {
+                PCISLOT      => $1,
+                NAME         => $2,
+                PCICLASS     => $3,
+                MANUFACTURER => $4,
+                PCIID        => $5,
+                VERSION      => $6
+            };
+            next;
+        }
+
+        next unless defined $controller;
+
+         if ($line =~ /^$/) {
+            push(@$controllers, $controller);
+            undef $controller;
+        } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
+            $controller->{DRIVER} = $1;
+        } elsif ($line =~ /^\tSubsystem: ([a-f\d]{4}:[a-f\d]{4})/) {
+            $controller->{PCISUBSYSTEMID} = $1;
+        }
+    }
+
+    close $handle;
+
+    return $controllers;
+}
+
 sub getFileHandle {
     my %params = @_;
 
@@ -309,6 +372,11 @@ command output.
 =item file
 
 =back
+
+=head2 getControllersFromLspci
+
+Returns a list of controllers as an arrayref of hashref, by parsing lspci
+output.
 
 =head2 getFileHandle(%params)
 
