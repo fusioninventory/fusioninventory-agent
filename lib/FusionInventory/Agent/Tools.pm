@@ -9,6 +9,7 @@ use File::stat;
 use Memoize;
 
 our @EXPORT = qw(
+    getFileHandle
     getFormatedLocalTime
     getFormatedGmTime
     getFormatedDate
@@ -229,6 +230,36 @@ sub getSanitizedString {
     return $string;
 }
 
+sub getFileHandle {
+    my %params = @_;
+
+    my $handle;
+
+    SWITCH: {
+        if ($params{file}) {
+            if (!open $handle, '<', $params{file}) {
+                $params{logger}->error(
+                    "Can't open file $params{file}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        if ($params{command}) {
+            if (!open $handle, '-|', $params{command}) {
+                $params{logger}->error(
+                    "Can't run command $params{command}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        die "neither command nor file parameter given";
+    }
+
+    return $handle;
+}
+
 sub can_run {
     my ($binary) = @_;
 
@@ -319,6 +350,20 @@ UTF-8.
 
 Returns true if software with given major and minor version meet minimal
 version requirements.
+
+=head2 getFileHandle(%params)
+
+Returns an open file handle on either a command output, or a file.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
 
 =head2 can_run($binary)
 

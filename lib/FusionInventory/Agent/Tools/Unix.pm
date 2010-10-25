@@ -8,9 +8,10 @@ use English qw(-no_match_vars);
 use Memoize;
 use Time::Local;
 
+use FusionInventory::Agent::Tools;
+
 our @EXPORT = qw(
     getIpDhcp
-    getFileHandle
     getFilesystemsFromDf
     getProcessesFromPs
     getControllersFromLspci
@@ -286,36 +287,6 @@ sub getControllersFromLspci {
     return @controllers;
 }
 
-sub getFileHandle {
-    my %params = @_;
-
-    my $handle;
-
-    SWITCH: {
-        if ($params{file}) {
-            if (!open $handle, '<', $params{file}) {
-                $params{logger}->error(
-                    "Can't open file $params{file}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        if ($params{command}) {
-            if (!open $handle, '-|', $params{command}) {
-                $params{logger}->error(
-                    "Can't run command $params{command}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        die "neither command nor file parameter given";
-    }
-
-    return $handle;
-}
-
 1;
 __END__
 
@@ -373,20 +344,6 @@ output.
 =item logger a logger object
 
 =item command the exact command to use (default: lspci -vvv -nn)
-
-=item file the file to use, as an alternative to the command
-
-=back
-
-=head2 getFileHandle(%params)
-
-Returns an open file handle on either a command output, or a file.
-
-=over
-
-=item logger a logger object
-
-=item command the exact command to use
 
 =item file the file to use, as an alternative to the command
 
