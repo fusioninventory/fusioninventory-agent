@@ -302,19 +302,19 @@ sub getFileHandle {
     my $handle;
 
     SWITCH: {
-        if ($params{command}) {
-            if (!open $handle, '-|', $params{command}) {
+        if ($params{file}) {
+            if (!open $handle, '<', $params{file}) {
                 $params{logger}->error(
-                    "Can't run command $params{command}: $ERRNO"
+                    "Can't open file $params{file}: $ERRNO"
                 ) if $params{logger};
                 return;
             }
             last SWITCH;
         }
-        if ($params{file}) {
-            if (!open $handle, '<', $params{file}) {
+        if ($params{command}) {
+            if (!open $handle, '-|', $params{command}) {
                 $params{logger}->error(
-                    "Can't open file $params{file}: $ERRNO"
+                    "Can't run command $params{command}: $ERRNO"
                 ) if $params{logger};
                 return;
             }
