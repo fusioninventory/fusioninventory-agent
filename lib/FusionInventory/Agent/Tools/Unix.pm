@@ -335,38 +335,48 @@ Returns an hashref of information for current DHCP lease.
 
 =head2 getFilesystemsFromDf(%params)
 
-Returns a list of filesystems as a list of hashref, by parsing given df
-command output.
+Returns a list of filesystems as a list of hashref, by parsing given df command
+output.
 
 =over
 
-=item logger
+=item logger a logger object
 
-=item command
+=item command the exact command to use
 
-=item file
+=item file the file to use, as an alternative to the command
 
 =back
 
 =head2 getProcessesFromPs(%params)
 
-Returns a list of processes as a list of hashref, by parsing given ps
-command output.
+Returns a list of processes as a list of hashref, by parsing given ps command
+output.
 
 =over
 
-=item logger
+=item logger a logger object
 
-=item command
+=item command the exact command to use
 
-=item file
+=item file the file to use, as an alternative to the command
 
 =back
 
-=head2 getControllersFromLspci
+=head2 getControllersFromLspci(%params)
 
-Returns a list of controllers as an arrayref of hashref, by parsing lspci
+Returns a list of controllers as a list of hashref, by parsing lspci command
 output.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use (default: lspci -vvv -nn)
+
+=item file the file to use, as an alternative to the command
+
+=back
 
 =head2 getFileHandle(%params)
 
@@ -374,10 +384,10 @@ Returns an open file handle on either a command output, or a file.
 
 =over
 
-=item logger
+=item logger a logger object
 
-=item command
+=item command the exact command to use
 
-=item file
+=item file the file to use, as an alternative to the command
 
 =back
