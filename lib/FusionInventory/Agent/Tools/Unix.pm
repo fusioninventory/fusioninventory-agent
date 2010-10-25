@@ -10,7 +10,7 @@ use Time::Local;
 
 our @EXPORT = qw(
     getIpDhcp
-    getPackagesFromCommand
+    getFileHandle
     getFilesystemsFromDf
 );
 
@@ -111,33 +111,8 @@ sub _parseDhcpLeaseFile {
     return $current_time <= $expiration_time ? $server_ip : undef;
 }
 
-sub getPackagesFromCommand {
-     my ($logger, $file, $mode, $callback) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        my $message = $mode eq '-|' ? 
-            "Can't run command $file: $ERRNO" :
-            "Can't open file $file: $ERRNO"   ;
-        $logger->error($message);
-        return;
-    }
-
-    my $packages;
-    
-    while (my $line = <$handle>) {
-        chomp $line;
-        my $package = $callback->($line);
-        push @$packages, $package if $package;
-    }
-
-    close $handle;
-
-    return $packages;
-}
-
 sub getFilesystemsFromDf {
-    my $handle = _getFileHandle(@_);
+    my $handle = getFileHandle(@_);
 
     my @filesystems;
     
@@ -182,7 +157,7 @@ sub getFilesystemsFromDf {
 }
 
 sub getProcessesFromPs {
-    my $handle = _getFileHandle(@_);
+    my $handle = getFileHandle(@_);
 
     # skip headers
     my $line = <$handle>;
@@ -257,7 +232,7 @@ sub getProcessesFromPs {
     return @processes;
 }
 
-sub _getFileHandle {
+sub getFileHandle {
     my %params = @_;
 
     my $handle;
