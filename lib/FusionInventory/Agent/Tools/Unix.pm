@@ -137,31 +137,7 @@ sub getPackagesFromCommand {
 }
 
 sub getFilesystemsFromDf {
-    my %params = @_;
-
-    my $handle;
-
-    SWITCH: {
-        if ($params{command}) {
-            if (!open $handle, '-|', $params{command}) {
-                $params{logger}->error(
-                    "Can't run command $params{command}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        if ($params{file}) {
-            if (!open $handle, '<', $params{file}) {
-                $params{logger}->error(
-                    "Can't open file $params{file}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        die "neither command nor file parameter given";
-    }
+    my $handle = _getFileHandle(@_);
 
     my @filesystems;
     
@@ -206,31 +182,7 @@ sub getFilesystemsFromDf {
 }
 
 sub getProcessesFromPs {
-    my %params = @_;
-
-    my $handle;
-
-    SWITCH: {
-        if ($params{command}) {
-            if (!open $handle, '-|', $params{command}) {
-                $params{logger}->error(
-                    "Can't run command $params{command}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        if ($params{file}) {
-            if (!open $handle, '<', $params{file}) {
-                $params{logger}->error(
-                    "Can't open file $params{file}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        die "neither command nor file parameter given";
-    }
+    my $handle = _getFileHandle(@_);
 
     # skip headers
     my $line = <$handle>;
@@ -303,6 +255,36 @@ sub getProcessesFromPs {
     close $handle;
 
     return @processes;
+}
+
+sub _getFileHandle {
+    my %params = @_;
+
+    my $handle;
+
+    SWITCH: {
+        if ($params{command}) {
+            if (!open $handle, '-|', $params{command}) {
+                $params{logger}->error(
+                    "Can't run command $params{command}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        if ($params{file}) {
+            if (!open $handle, '<', $params{file}) {
+                $params{logger}->error(
+                    "Can't open file $params{file}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        die "neither command nor file parameter given";
+    }
+
+    return $handle;
 }
 
 1;
