@@ -127,21 +127,11 @@ sub getCanonicalSize {
 }
 
 sub getInfosFromDmidecode {
-    my ($logger, $file) = @_;
-
-    return $file ?
-        _parseDmidecode($logger, $file, '<')       :
-        _parseDmidecode($logger, 'dmidecode', '-|');
-}
-
-sub _parseDmidecode {
-    my ($logger, $file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
+    my %params = (
+        command => 'dmidecode',
+        @_
+    );
+    my $handle = getFileHandle(%params);
 
     my ($info, $block, $type);
 
