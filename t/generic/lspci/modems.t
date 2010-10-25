@@ -7,7 +7,7 @@ use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
-    'latitude-xt2' => undef,
+    'latitude-xt2' => []
 );
 
 plan tests => scalar keys %tests;
@@ -16,6 +16,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/lspci/$test";
-    my $modems = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems::_getModemControllers($logger, $file);
-    is_deeply($modems, $tests{$test}, $test);
+    my @modems = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems::_getModemControllers($logger, $file);
+    is_deeply(\@modems, $tests{$test}, $test);
 }

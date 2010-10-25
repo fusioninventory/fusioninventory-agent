@@ -400,8 +400,8 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %lspci_tests) {
     my $file = "resources/lspci/$test";
-    my $controllers = getControllersFromLspci(file => $file);
-    is_deeply($controllers, $lspci_tests{$test}, "$test lspci parsing");
+    my @controllers = getControllersFromLspci(file => $file);
+    is_deeply(\@controllers, $lspci_tests{$test}, "$test lspci parsing");
 }
 
 foreach my $test (keys %df_tests) {

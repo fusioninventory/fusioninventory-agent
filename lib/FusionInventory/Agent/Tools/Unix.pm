@@ -243,7 +243,7 @@ sub getControllersFromLspci {
     );
     my $handle = getFileHandle(%params);
 
-    my ($controllers, $controller);
+    my (@controllers, $controller);
 
     while (my $line = <$handle>) {
         chomp $line;
@@ -272,7 +272,7 @@ sub getControllersFromLspci {
         next unless defined $controller;
 
          if ($line =~ /^$/) {
-            push(@$controllers, $controller);
+            push(@controllers, $controller);
             undef $controller;
         } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
             $controller->{DRIVER} = $1;
@@ -283,7 +283,7 @@ sub getControllersFromLspci {
 
     close $handle;
 
-    return $controllers;
+    return @controllers;
 }
 
 sub getFileHandle {

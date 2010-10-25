@@ -17,11 +17,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $videos = _getVideoControllers($logger);
-    
-    return unless $videos;
-
-    foreach my $video (@$videos) {
+    foreach my $video (_getVideoControllers($logger)) {
         $inventory->addVideo($video);
     }
 }
@@ -29,18 +25,19 @@ sub doInventory {
 sub _getVideoControllers {
      my ($logger, $file) = @_;
 
-    my $controllers = getControllersFromLspci(logger => $logger, file => $file);
-    my $videos;
+    my @videos;
 
-    foreach my $controller (@$controllers) {
+    foreach my $controller (getControllersFromLspci(
+        logger => $logger, file => $file
+    )) {
         next unless $controller->{NAME} =~ /graphics|vga|video|display/i;
-        push @$videos, {
+        push @videos, {
             CHIPSET => $controller->{NAME},
             NAME    => $controller->{MANUFACTURER},
         };
     }
 
-    return $videos;
+    return @videos;
 }
 
 1;
