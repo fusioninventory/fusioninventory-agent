@@ -64,6 +64,10 @@ Revision history for FusionInventory::Agent
        * MacOSX: No serial & uudi gathered on Mac OS X 10.5 running VirtualBox
          fail back on ioreg when system_profiler do not give the wanted information
          http://forge.fusioninventory.org/issues/431
+       * import a dmidecode output on OpenBSD 4.5
+       * BSD/Storage: Avoid warning if model is unknown
+       * BSD/CPU: failback on CPU Family if Version is empty in dmidecode, closes: #439
+         http://forge.fusioninventory.org/issues/439
        * Linux, distro detection: ensure /etc/issue is parsed last if lsb_release is
          missing. This way /etc/debian_version is used on Debian 
        * Linux: correctly parse /etc/resolv.conf to identify the domain

@@ -31,6 +31,7 @@ sub doInventory {
     my $manufacturer;
     my $thread;
     my $name;
+    my $family;
     foreach (`dmidecode`) {
         $in = 1 if /^\s*Processor Information/;
 
@@ -41,12 +42,15 @@ sub doInventory {
             $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
             $thread = int($1) if /Thread Count:\s*(\S.*)/;
             $name = $1 if /Version:\s*(\S.*)/;
+            $family = $1 if /Family:\s*(\S.*)/;
         }
 
         if ($in && /^\s*$/) {
             $in = 0;
             $serial =~ s/\s//g;
             $thread = 1 unless $thread;
+
+            $name =~ s/^Not Specified$//;
             push @cpu, {
                 SPEED => $frequency,
                 MANUFACTURER => $manufacturer,
@@ -54,7 +58,7 @@ sub doInventory {
 # Thread per core according to my understanding of
 # http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
                 THREAD => $thread,
-                NAME => $name
+                NAME => $name || $family
             }
         }
     }
