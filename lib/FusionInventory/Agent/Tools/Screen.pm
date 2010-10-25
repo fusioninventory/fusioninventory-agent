@@ -503,5 +503,21 @@ sub _group_by2 {
     return @l;
 }
 
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::Screen - OS-independant screen functions
+
+=head1 DESCRIPTION
+
+This module provides some OS-independant screen functions.
+
+=head1 FUNCTIONS
+
+=head2 parseEdid($edid)
+
+=head2 checkParsedEdid($edid)
+
+=head2 getManufacturerFromCode($code)
