@@ -17,16 +17,6 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $packages = _parseDpkg($logger);
-
-    foreach my $package (@$packages) {
-        $inventory->addSoftware($package);
-    }
-}
-
-sub _parseDpkg {
-    my ($logger, $file) = @_;
-
     my $command =
         'dpkg-query --show --showformat="' .
         '${Package}\t' .
@@ -34,21 +24,32 @@ sub _parseDpkg {
         '${Installed-Size}\t' .
         '${Description}\n' .
         '" 2>/dev/null';
-    my $callback = sub {
-        my ($line) = @_;
+
+    foreach my $package (_getPackagesFromDpkg(
+        logger => $logger, command => $command
+    )) {
+        $inventory->addSoftware($package);
+    }
+}
+
+sub _getPackagesFromDpkg {
+    my $handle = getFileHandle(@_);
+
+    my @packages;
+    while (my $line = <$handle>) {
+        chomp $line;
         my @infos = split("\t", $line);
-        return {
+        push @packages, {
             NAME        => $infos[0],
             VERSION     => $infos[1],
             FILESIZE    => $infos[2],
             COMMENTS    => $infos[3],
             FROM        => 'deb'
         };
-    };
+    }
+    close $handle;
 
-    return $file ?
-        getPackagesFromCommand($logger, $file, '<', $callback)    :
-        getPackagesFromCommand($logger, $command, '-|', $callback);
+    return @packages;;
 }
 
 1;
