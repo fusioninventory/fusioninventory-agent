@@ -135,16 +135,11 @@ sub createSession {
                     $_[KERNEL]->alarm_remove($_[HEAP]{alarm_id});
                 }
                 my $nextRunDate = $self->getNextRunDate();
-                $_[HEAP]{alarm_id} = $_[KERNEL]->alarm_set(callRun => $nextRunDate);
+                $_[HEAP]{alarm_id} = $_[KERNEL]->alarm_set(runNow => $nextRunDate);
                 $self->{logger}->info("Next launch planned for ".
                 $self->getDescriptionString().
                 " at ".
                 localtime($nextRunDate));
-            },
-            callRun => sub {
-                $self->run();
-                $self->scheduleNextRun();
-                $_[KERNEL]->yield("setAlarm");
             },
             runNow => sub {
                 print "runNow\n";

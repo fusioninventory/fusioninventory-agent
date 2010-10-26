@@ -76,6 +76,13 @@ sub new {
     $self->_checkContent();
 
 
+    return $self;
+}
+
+sub createSession {
+    my ($self) = @_;
+
+
     POE::Session->create(
         inline_states => {
             _start        => sub {
@@ -93,7 +100,6 @@ sub new {
         }
     );
 
-    return $self;
 }
 
 sub _loadDefaults {
