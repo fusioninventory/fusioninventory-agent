@@ -52,12 +52,19 @@ sub doInventory {
         if ($_->{'Size'} =~ /(\d+)\s+(\S+)/) {
             $size = $1*$sizeMatrice{lc($2)};
         }
+
+        my $description = $_->{'Part Number'};
+
+        $description = pack 'H*', $description if $description =~ s/^0x//;
+
+        $description =~ s/\s*$//;
+
         $inventory->addMemory({
                 'CAPACITY'      => $size,
                 'SPEED'         => $speed,
                 'TYPE'          => $_->{'Type'},
                 'SERIALNUMBER'  => $_->{'Serial Number'},
-                'DESCRIPTION'   => $_->{'Part Number'},
+                'DESCRIPTION'   => $description,
                 'NUMSLOTS'      => $numSlot++,
                 'CAPTION'       => 'Status: '.$_->{'Status'},
             });
