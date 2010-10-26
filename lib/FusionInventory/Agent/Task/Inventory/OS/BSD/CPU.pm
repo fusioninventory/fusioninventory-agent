@@ -21,8 +21,6 @@ sub doInventory {
     my $processorn;
     my $processors;
 
-    my $family;
-
     my @cpu;
 
     my $in;
@@ -59,7 +57,15 @@ sub doInventory {
 # http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
                 THREAD => $thread,
                 NAME => $name || $family
-            }
+            };
+
+	    $frequency = undef;
+	    $serial = undef;
+	    $manufacturer = undef;
+	    $thread = undef;
+	    $name = undef;
+	    $family = undef;
+
         }
     }
 
