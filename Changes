@@ -90,7 +90,9 @@ Revision history for FusionInventory::Agent
        * Linux: don't save 2 time the same domain
        * Linux/ARM: collect the Hardware information from /proc/cpuinfo 
        * BSD: use sysctl -n hw.model to get the CPU name and frequency
-       * MacOSX: Mem.pm, convert hex string to ASCII when needed
+       * MacOSX: Mem.pm, convert hex string to ASCII when needed, thanks Sylvain la Gravière
+         for the bug report
+         http://forge.fusioninventory.org/issues/440
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
