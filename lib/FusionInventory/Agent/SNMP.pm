@@ -12,6 +12,8 @@ use FusionInventory::Agent::Tools;
 sub new {
     my ($class, $params) = @_;
 
+    die "no hostname parameters" unless $params->{hostname};
+
     my $version =
         ! $params->{version}       ? 'snmpv1'  :
         $params->{version} eq '1'  ? 'snmpv1'  :
