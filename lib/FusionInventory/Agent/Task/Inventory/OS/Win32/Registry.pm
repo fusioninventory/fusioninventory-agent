@@ -48,7 +48,7 @@ sub doInventory {
         next unless $content;
 
         my $machKey = $Registry->Open(
-            $hives[$regtree], { Access => KEY_READ() }
+            $hives[$regtree], { Access => KEY_READ }
         ) or die "Can't open $hives[$regtree]: $EXTENDED_OS_ERROR";
 
         my $values = $machKey->{$regkey};

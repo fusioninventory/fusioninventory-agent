@@ -155,7 +155,7 @@ sub doInventory {
 
     } else {
         my $machKey = $Registry->Open('LMachine', {
-            Access => KEY_READ()
+            Access => KEY_READ
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares=

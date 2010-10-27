@@ -103,7 +103,7 @@ sub _loadFromWinRegistry {
 
     my $machKey = $Win32::TieRegistry::Registry->Open(
         "LMachine", {
-            Access    => Win32::TieRegistry::KEY_READ(),
+            Access    => Win32::TieRegistry::KEY_READ,
             Delimiter => "/"
         }
     );

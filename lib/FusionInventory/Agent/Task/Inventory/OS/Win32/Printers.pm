@@ -109,7 +109,7 @@ sub getSerialbyUsb {
     }
 
     my $machKey = $Registry->Open('LMachine', { 
-        Access => KEY_READ() | KEY_WOW64_64
+        Access => KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
     my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
     foreach my $tmpkey (%$data) {
