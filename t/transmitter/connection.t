@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use lib 't';
 
+use Compress::Zlib;
 use English qw(-no_match_vars);
 use Socket;
 use Test::More;
@@ -18,7 +19,7 @@ use FusionInventory::Test::Proxy;
 if ($OSNAME eq 'MSWin32') {
     plan skip_all => 'non working test on Windows';
 } else {
-    plan tests => 41;
+    plan tests => 36;
 }
 
 my $ok = sub {
@@ -116,6 +117,8 @@ subtest "correct response" => sub {
 
 $server->stop();
 
+SKIP: {
+skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 # https connection tests
 
 $server = FusionInventory::Test::Server->new(
@@ -230,6 +233,7 @@ subtest "correct response" => sub {
 };
 
 $server->stop();
+}
 
 # http connection through proxy tests
 
@@ -303,6 +307,8 @@ subtest "correct response" => sub {
 
 $server->stop();
 
+SKIP: {
+skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 # https connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(
@@ -423,6 +429,8 @@ subtest "correct response" => sub {
 };
 
 $server->stop();
+}
+
 $proxy->stop();
 
 
