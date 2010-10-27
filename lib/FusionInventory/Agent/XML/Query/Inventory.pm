@@ -115,13 +115,20 @@ sub _addEntry {
     # Don't create two time the same device
     if ($noDuplicated) {
         ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$section}}) {
-            foreach my $field (@$fields) {
-                # only test existing keys, to avoid auto-vivification
-                next unless exists $newEntry->{$field};
-                if ($entry->{$field} ne $newEntry->{$field}) {
-                    next ENTRY;
-                }
+            FIELD: foreach my $field (@$fields) {
+                # the field doesn't exist in any entry, no conclusion
+                next FIELD
+                    if !exists $entry->{$field} && !exists $newEntry->{$field};
+                # the field exists in only one entry, they differ
+                next ENTRY
+                    if  exists $entry->{$field} && !exists $newEntry->{$field};
+                next ENTRY
+                    if !exists $entry->{$field} && exists $newEntry->{$field};
+                # the field exists in both entries, they differ
+                next ENTRY
+                    if $entry->{$field} ne $newEntry->{$field};
             }
+            # the entries are identical
             return;
         }
     }
