@@ -668,13 +668,12 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
+FusionInventory::Agent::XML::Query::Inventory - Inventory agent message
 
 =head1 DESCRIPTION
 
-FusionInventory uses OCS Inventory XML format for the data transmission. This
-module is the abstraction layer. It's mostly used in the backend module where
-it called $inventory in general.
+This is an inventory message sent by the agent to the server, using OCS
+Inventory XML format.
 
 =head1 METHODS
 

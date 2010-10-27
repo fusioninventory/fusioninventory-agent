@@ -58,11 +58,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Response - XML response message
+FusionInventory::Agent::XML::Response - Generic server message
 
 =head1 DESCRIPTION
 
-This is the response message sent by the server to the agent.
+This is a generic message sent by the server to the agent.
 
 =head1 METHODS
 

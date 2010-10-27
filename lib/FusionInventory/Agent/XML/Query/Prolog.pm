@@ -31,12 +31,12 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Query::Prolog - Prolog query message
+FusionInventory::Agent::XML::Query::Prolog - Prolog agent message
 
 =head1 DESCRIPTION
 
-This is the prolog query message sent by the agent to the server before any
-task is executed.
+This is an initial message sent by the agent to the server before any task is
+processed, requiring execution parameters.
 
 =head1 METHODS
 
