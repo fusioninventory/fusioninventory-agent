@@ -5,6 +5,7 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
+use File::stat;
 use Memoize;
 use Time::Local;
 
@@ -195,7 +196,16 @@ sub getProcessesFromPs {
         Nov => '11',
         Dec => '12',
     );
-    my ($sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst) =
+    my %day = (
+        Mon => '01',
+        Tue => '02',
+        Wed => '03',
+        Thu => '04',
+        Fry => '05',
+        Sat => '06',
+        Sun => '07',
+    );
+    my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst) =
         localtime(time);
     $year = $year + 1900;
     my @processes;
@@ -225,14 +235,29 @@ sub getProcessesFromPs {
         my $time = $10;
         my $cmd = $11;
 
+	# try to get a consistant time format
         my $begin;
-        if ($started =~ /(\w{3})(\d{2})/) {
-            my $start_month = $1;
-            my $start_day = $2;
+        if ($started =~ /^(\d{2}):(\d{2})/) {
+            # 10:00PM
+            $begin = "$year-$month-$day $started";
+        } elsif ($started =~ /^([A-Z][a-z]{2})(\d{2})/) {
+            # Sat03PM
+            my $start_day = $1;
+            my $start_hour = $2;
+            $begin = "$year-$month-$day{$start_day} $time"; 
+        } elsif ($started =~ /^(\d{2})([A-Z][a-z]{2})/) {
+            # 5Oct10
+            my $start_day = $1;
+            my $start_month = $2;
             $begin = "$year-$month{$start_month}-$start_day $time"; 
-        }  else {
-            $begin = "$year-$mon-$day $started";
-        }
+        } elsif (-f "/proc/$pid") {
+	    # this will work only under Linux
+	    my $stat = stat("/proc/$pid");
+	    my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst)
+		= localtime($stat->ctime());
+	    $year = $year + 1900;
+            $begin = "$year-$month-$day $hour:$min"; 
+	}
 
         push @processes, {
             USER          => $user,
