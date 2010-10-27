@@ -1,0 +1,67 @@
+acpi-support-base	0.109-11	88	scripts for handling base ACPI events such as the power button
+ This package contains scripts to react to various base ACPI events
+ such as the power button. For more extensive ACPI support, including support
+ for suspend-to-RAM and for various laptop features, install the package
+ "acpi-support".
+acpid	1.0.8-1lenny2	196	Utilities for using ACPI power management
+ Modern computers support the Advanced Configuration and Power Interface (ACPI)
+ to allow intelligent power management on your system and to query battery and
+ configuration status.
+ .
+ ACPID is a completely flexible, totally extensible daemon for delivering
+ ACPI events. It listens on a file (/proc/acpi/event) and when an event
+ occurs, executes programs to handle the event. The programs it executes
+ are configured through a set of configuration files, which can be
+ dropped into place by packages or by the admin.
+adduser	3.110	944	add and remove users and groups
+ This package includes the 'adduser' and 'deluser' commands for creating
+ and removing users.
+ .
+  - 'adduser' creates new users and groups and adds existing users to
+    existing groups;
+  - 'deluser' removes users and groups and removes users from a given
+    group.
+ .
+ Adding users with 'adduser' is much easier than adding them manually.
+ Adduser will choose appropriate UID and GID values, create a home
+ directory, copy skeletal user configuration, and automate setting
+ initial values for the user's password, real name and so on.
+ .
+ Deluser can back up and remove users' home directories
+ and mail spool or all the files they own on the system.
+ .
+ A custom script can be executed after each of the commands.
+ .
+  Development mailing list:
+    http://lists.alioth.debian.org/mailman/listinfo/adduser-devel/
+apt	0.7.20.2+lenny2	4652	Advanced front-end for dpkg
+ This is Debian's next generation front-end for the dpkg package manager.
+ It provides the apt-get utility and APT dselect method that provides a
+ simpler, safer way to install and upgrade packages.
+ .
+ APT features complete installation ordering, multiple source capability
+ and several other unique features, see the Users Guide in apt-doc.
+apt-utils	0.7.20.2+lenny2	396	APT utility programs
+ This package contains some APT utility programs such as apt-ftparchive,
+ apt-sortpkgs and apt-extracttemplates.
+ .
+ apt-extracttemplates is used by debconf to prompt for configuration
+ questions before installation. apt-ftparchive is used to create Package
+ and other index files. apt-sortpkgs is a Package/Source file normalizer.
+aptitude	0.4.11.11-1~lenny1	9808	terminal-based package manager
+ aptitude is a terminal-based package manager with a number of useful
+ features, including: a mutt-like syntax for matching packages in a
+ flexible manner, dselect-like persistence of user actions, the
+ ability to retrieve and display the Debian changelog of most
+ packages, and a command-line mode similar to that of apt-get.
+ .
+ aptitude is also Y2K-compliant, non-fattening, naturally cleansing,
+ and housebroken.
+at	3.1.10.2	220	Delayed job execution and batch processing
+ At and batch read shell commands from standard input
+ storing them as a job to be scheduled for execution in the
+ future.
+ .
+ Use
+  at    to run the job at a specified time
+  batch to run the job when system load levels permit
