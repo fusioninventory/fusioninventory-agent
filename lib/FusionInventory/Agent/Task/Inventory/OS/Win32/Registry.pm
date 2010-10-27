@@ -4,6 +4,11 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Win32::TieRegistry (
+    Delimiter   => "/",
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
 
 my @hives = qw/
     HKEY_CLASSES_ROOT
@@ -16,15 +21,6 @@ my @hives = qw/
 
 sub isInventoryEnabled {
     return unless $OSNAME eq 'MSWin32';
-
-    eval {
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-            Delimiter   => "/",
-            ArrayValues => 0
-        );
-    };
-    return if $EVAL_ERROR;
 
     my $params = shift;
 
