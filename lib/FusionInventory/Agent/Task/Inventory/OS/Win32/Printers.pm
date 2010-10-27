@@ -3,9 +3,13 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Printers;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools::Win32;
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
 
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+use FusionInventory::Agent::Tools::Win32;
 
 my @status = (
     'Unknown', # 0 is not defined
@@ -104,7 +108,9 @@ sub getSerialbyUsb {
         return;
     }
 
-    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|KEY_WOW64_64,Delimiter=>"/"} );
+    my $machKey = $Registry->Open('LMachine', { 
+        Access => KEY_READ() | KEY_WOW64_64
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
     my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
     foreach my $tmpkey (%$data) {
         if (ref($tmpkey) eq "Win32::TieRegistry") {
