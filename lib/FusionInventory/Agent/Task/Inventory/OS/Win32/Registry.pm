@@ -24,10 +24,9 @@ sub isInventoryEnabled {
 
     my $prologresp = $params->{prologresp};
 
-    return unless ($prologresp &&
-            $prologresp->getOptionsInfoByName("REGISTRY"));
-
-    1;
+    return
+        $prologresp &&
+        $prologresp->getOptionsInfoByName("REGISTRY");
 }
 
 sub doInventory {
