@@ -18,12 +18,12 @@ sub doInventory {
     my $logger = $params->{logger};
 
     my $command =
-        'dpkg-query --show --showformat="' .
+        'dpkg-query --show --showformat=\'' .
         '${Package}\t' .
         '${Version}\t'.
         '${Installed-Size}\t' .
         '${Description}\n' .
-        '" 2>/dev/null';
+        '\' 2>/dev/null';
 
     foreach my $package (_getPackagesFromDpkg(
         logger => $logger, command => $command
@@ -37,6 +37,8 @@ sub _getPackagesFromDpkg {
 
     my @packages;
     while (my $line = <$handle>) {
+        # skip descriptions
+        next if $line =~ /^ /;
         chomp $line;
         my @infos = split("\t", $line);
         push @packages, {
