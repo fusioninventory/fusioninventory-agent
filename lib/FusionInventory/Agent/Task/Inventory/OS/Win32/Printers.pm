@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Printers;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
