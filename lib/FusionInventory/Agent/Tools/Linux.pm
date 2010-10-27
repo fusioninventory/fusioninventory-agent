@@ -100,19 +100,24 @@ sub getCPUsFromProc {
         } elsif ($line =~ /^$/) {
             # an empty line marks the end of a cpu section
             # push to the list, but only if it is a valid cpu
-            push @$cpus, $cpu if $cpu &&
-                    (exists $cpu->{processor} || exists $cpu->{cpu});
+            push @$cpus, $cpu if $cpu && _isValidCPU($cpu);
             undef $cpu;
         }
     }
     close $handle;
 
     # push remaining cpu to the list, if it is valid cpu
-    push @$cpus, $cpu if $cpu &&
-        (exists $cpu->{processor} || exists $cpu->{cpu});
+    push @$cpus, $cpu if $cpu && _isValidCPU($cpu);
 
     return $cpus;
 }
+
+sub _isValidCPU {
+    my ($cpu) = @_;
+
+    return exists $cpu->{processor} || exists $cpu->{cpu};
+}
+
 
 sub getDevicesFromHal {
     my ($logger, $file) = @_;

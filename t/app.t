@@ -4,8 +4,9 @@ use strict;
 
 use English qw(-no_match_vars);
 use IPC::Run qw(run);
+use XML::TreePP;
 
-use Test::More tests => 6;
+use Test::More tests => 9;
 
 my ($out, $err, $rc);
 
@@ -26,6 +27,27 @@ like(
     'stderr'
 );
 is($out, '', 'stdin');
+
+$ENV{LC_ALL}='AAA';
+($out, $err, $rc) = run_agent('--stdout');
+ok($rc == 0, 'exit status');
+like(
+    $out,
+    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
+    'XML encoding'
+);
+my $tpp = XML::TreePP->new();
+my $h = $tpp->parse($out);
+my $found = 0;
+foreach (@{$h->{REQUEST}{CONTENT}{ENVS}}) {
+    next unless $_->{KEY} eq 'LC_ALL';
+    ok($_->{VAL} eq 'AAA', 'XML content');
+    $found = 1;
+    last;
+}
+if (!$found) {
+    ko($found == 0, 'XML content');
+}
 
 sub run_agent {
     run(

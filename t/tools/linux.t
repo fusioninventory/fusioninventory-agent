@@ -233,7 +233,6 @@ my %cpu_tests = (
             'clock' => '1452.000000MHz',
             'processor' => '1'
         },
-    ],
     'linux-ppc-3' => [
         {
             'revision' => '3.1 (pvr 003c 0301)',

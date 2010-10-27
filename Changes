@@ -62,10 +62,11 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/414
        * Linux/PPC: Fix various warnings in CPU.pm
        * Linux/PPC: ignore some wrong warning
-       * Linux/PPC: CPUS/TYPE renamed to CPUS/NAME
+       * Linux: CPUS/TYPE renamed to CPUS/NAME
        * POD: add doc for BIOS/{S,B}MANUFACTURER
        * Clean up: remove BIOS/{MMANUFACTURER,MSN}
        * POD: fix a syntax error in fusioninventory-agent
+       * use the default basevardir.
        * POD: clarify, we ignore virtual filesystem like /proc in <DRIVES />
        * Solaris: move showrev output example in ressources/solaris
        * Solaris: ignore Zone on Solaris < 5.10
@@ -76,6 +77,22 @@ Revision history for FusionInventory::Agent
        * Solaris: identify zfs filesystem and collect serial number (UUID)
        * Solaris/Drives.pm code clean up
        * Solaris/Storages.pm Don't set revision to 'Serial' if revision is empty
+       * MacOSX: No serial & uudi gathered on Mac OS X 10.5 running VirtualBox
+         fail back on ioreg when system_profiler do not give the wanted information
+         http://forge.fusioninventory.org/issues/431
+       * import a dmidecode output on OpenBSD 4.5
+       * BSD/Storage: Avoid warning if model is unknown
+       * BSD/CPU: failback on CPU Family if Version is empty in dmidecode, closes: #439
+         http://forge.fusioninventory.org/issues/439
+       * Linux, distro detection: ensure /etc/issue is parsed last if lsb_release is
+         missing. This way /etc/debian_version is used on Debian 
+       * Linux: correctly parse /etc/resolv.conf to identify the domain
+       * Linux: don't save 2 time the same domain
+       * Linux/ARM: collect the Hardware information from /proc/cpuinfo 
+       * BSD: use sysctl -n hw.model to get the CPU name and frequency
+       * MacOSX: Mem.pm, convert hex string to ASCII when needed, thanks Sylvain la Gravière
+         for the bug report
+         http://forge.fusioninventory.org/issues/440
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
