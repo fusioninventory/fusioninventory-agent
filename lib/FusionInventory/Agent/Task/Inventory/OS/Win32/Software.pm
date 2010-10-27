@@ -3,9 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Software;
 use strict;
 use warnings;
 
-use constant KEY_WOW64_64KEY => 0x100; 
-use constant KEY_WOW64_32KEY => 0x200; 
-
 use Config;
 use English qw(-no_match_vars);
 use Win32;

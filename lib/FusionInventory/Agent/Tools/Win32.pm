@@ -4,6 +4,9 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use constant KEY_WOW64_64KEY => 0x100;
+use constant KEY_WOW64_32KEY => 0x200;
+
 use Encode;
 use English qw(-no_match_vars);
 use Win32::OLE qw(in CP_UTF8);
@@ -20,6 +23,8 @@ our @EXPORT = qw(
     getWmiProperties
     encodeFromWmi
     encodeFromRegistry
+    KEY_WOW64_64KEY
+    KEY_WOW64_32KEY
 );
 
 my $localCodepage;

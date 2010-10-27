@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::CPU;
 use strict;
 use warnings;
 
-use constant KEY_WOW64_64KEY => 0x100;
-
 use English qw(-no_match_vars);
 use Win32::TieRegistry (
     Delimiter   => '/',
