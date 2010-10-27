@@ -44,7 +44,9 @@ sub doInventory {
         my $regtree = $option->{REGTREE};
         my $content = $option->{content};
 
-        my $machKey = $Win32::TieRegistry::Registry->Open( $hives[$regtree], {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+        my $machKey = $Registry->Open(
+            $hives[$regtree], { Access => KEY_READ() }
+        ) or die "Can't open $hives[$regtree]: $EXTENDED_OS_ERROR";
 
         my $values = $machKey->{$regkey};
 
