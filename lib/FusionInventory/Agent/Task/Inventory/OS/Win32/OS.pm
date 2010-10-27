@@ -25,7 +25,7 @@ sub getXPkey {
 	$machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
 
     if (!$key) { # 64bit OS?
-        $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64KEY() } )
+        $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64 } )
             or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
         $key     =
             $machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};

@@ -23,7 +23,7 @@ sub isInventoryEnabled {
 sub getBiosInfoFromRegistry {
 
     my $machKey= $Registry->Open('LMachine', {
-        Access=> KEY_READ | KEY_WOW64_64KEY
+        Access=> KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $data =

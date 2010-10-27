@@ -124,12 +124,12 @@ sub doInventory {
 
     if ($is64bit) {
 
-        # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read
+        # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
         # 32bit entries. This is not the case on Win2003 and if I correctly
         # understand MSDN, this sounds very odd
 
         my $machKey64bit = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_64KEY
+            Access => KEY_READ | KEY_WOW64_64
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares64bit =
@@ -141,7 +141,7 @@ sub doInventory {
         });
 
         my $machKey32bit = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_32KEY
+            Access => KEY_READ | KEY_WOW64_32
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares32bit =

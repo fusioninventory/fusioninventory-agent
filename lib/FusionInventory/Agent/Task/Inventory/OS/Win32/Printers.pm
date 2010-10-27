@@ -104,11 +104,7 @@ sub getSerialbyUsb {
         return;
     }
 
-    # Search serial when connected in USB
-    # Search in registry where folder in HKLM\system\currentcontrolset\enum\USBPRINT have USBxxx ($portName)
-    my $KEY_WOW64_64KEY = 0x100;
-
-    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|KEY_WOW64_64,Delimiter=>"/"} );
     my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
     foreach my $tmpkey (%$data) {
         if (ref($tmpkey) eq "Win32::TieRegistry") {
