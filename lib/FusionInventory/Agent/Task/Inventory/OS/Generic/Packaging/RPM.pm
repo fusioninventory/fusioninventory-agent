@@ -18,13 +18,13 @@ sub doInventory {
     my $logger = $params->{logger};
 
     my $command =
-        'rpm -qa --queryformat "' .
+        'rpm -qa --queryformat \'' .
         '%{NAME}\t' .
         '%{VERSION}-%{RELEASE}\t' .
         '%{INSTALLTIME:date}\t' .
         '%{SIZE}\t' .
         '%{SUMMARY}\n' . 
-        '" 2>/dev/null';
+        '\' 2>/dev/null';
 
     foreach my $package (_getPackagesFromRpm(
         logger => $logger, command => $command
