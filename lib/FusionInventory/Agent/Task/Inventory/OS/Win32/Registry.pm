@@ -44,20 +44,16 @@ sub doInventory {
         my $regtree = $option->{REGTREE};
         my $content = $option->{content};
 
+        # This should never append, err wait... 
+        next unless $content;
+
         my $machKey = $Registry->Open(
             $hives[$regtree], { Access => KEY_READ() }
         ) or die "Can't open $hives[$regtree]: $EXTENDED_OS_ERROR";
 
         my $values = $machKey->{$regkey};
 
-        if (!$content) {
-            return; # This should never append, err wait... 
-        } elsif ($content ne '*') {
-            $inventory->addRegistry({
-                NAME => $name, 
-                REGVALUE => $values->{$content}
-            });
-        } else {
+        if ($content eq '*') {
             foreach my $keyWithDelimiter ( keys %$values ) {
                 next unless $keyWithDelimiter =~ /^\/(.*)/;
                 $inventory->addRegistry({
@@ -65,8 +61,12 @@ sub doInventory {
                     REGVALUE => $1."=".$values->{$keyWithDelimiter}."\n"
                 });
             }
+        } else {
+            $inventory->addRegistry({
+                NAME => $name, 
+                REGVALUE => $values->{$content}
+            });
         }
-
     }
 
 }
