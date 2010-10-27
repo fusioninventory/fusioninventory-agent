@@ -20,8 +20,6 @@ my @hives = qw/
 /; 
 
 sub isInventoryEnabled {
-    return unless $OSNAME eq 'MSWin32';
-
     my $params = shift;
 
     my $prologresp = $params->{prologresp};
