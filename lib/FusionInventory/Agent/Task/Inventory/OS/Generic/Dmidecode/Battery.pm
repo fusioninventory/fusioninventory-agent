@@ -43,7 +43,7 @@ sub doInventory {
 sub _getBattery {
     my ($logger, $file) = @_;
 
-    my $infos = getInfosFromDmidecode($logger, $file);
+    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
 
     return unless $infos->{22};
 

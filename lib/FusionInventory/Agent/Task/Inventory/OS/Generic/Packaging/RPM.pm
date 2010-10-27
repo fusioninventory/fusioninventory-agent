@@ -17,28 +17,30 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $packages = _parseRpm($logger);
-
-    foreach my $package (@$packages) {
-        $inventory->addSoftware($package);
-    }
-}
-
-sub _parseRpm {
-    my ($logger, $file) = @_;
-
     my $command =
-        'rpm -qa --queryformat "' .
+        'rpm -qa --queryformat \'' .
         '%{NAME}\t' .
         '%{VERSION}-%{RELEASE}\t' .
         '%{INSTALLTIME:date}\t' .
         '%{SIZE}\t' .
         '%{SUMMARY}\n' . 
-        '" 2>/dev/null';
-    my $callback = sub {
-        my ($line) = @_;
+        '\' 2>/dev/null';
+
+    foreach my $package (_getPackagesFromRpm(
+        logger => $logger, command => $command
+    )) {
+        $inventory->addSoftware($package);
+    }
+}
+
+sub _getPackagesFromRpm {
+    my $handle = getFileHandle(@_);
+
+    my @packages;
+    while (my $line = <$handle>) {
+        chomp $line;
         my @infos = split("\t", $line);
-        return {
+        push @packages, {
             NAME        => $infos[0],
             VERSION     => $infos[1],
             INSTALLDATE => $infos[2],
@@ -46,13 +48,11 @@ sub _parseRpm {
             COMMENTS    => $infos[4],
             FROM        => 'rpm'
         };
-    };
+    }
 
-    return $file ?
-        getPackagesFromCommand($logger, $file, '<', $callback)    :
-        getPackagesFromCommand($logger, $command, '-|', $callback);
+    close $handle;
 
+    return @packages;
 }
-
 
 1;

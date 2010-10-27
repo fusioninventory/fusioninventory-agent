@@ -19,32 +19,33 @@ plan tests => 7;
 my $snmp;
 throws_ok {
     $snmp = FusionInventory::Agent::SNMP->new({
-        version => 'foo'
+    });
+} qr/^no hostname parameter/,
+'instanciation: no hostname parameter';
+
+throws_ok {
+    $snmp = FusionInventory::Agent::SNMP->new({
+        hostname => 'localhost',
+        version  => 'foo'
     });
 } qr/^invalid SNMP version/,
 'instanciation: invalid version parameter';
 
 throws_ok {
     $snmp = FusionInventory::Agent::SNMP->new({
-        version => 5
+        hostname => 'localhost',
+        version  => 5
     });
 } qr/^invalid SNMP version/,
 'instanciation: invalid version parameter';
 
 throws_ok {
     $snmp = FusionInventory::Agent::SNMP->new({
+        hostname => 'localhost',
         version => 1
     });
 } qr/^The community is not defined/,
 'instanciation: undefined community';
-
-throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new({
-        version   => 1,
-        community => 'public'
-    });
-} qr/^Unable to resolve the UDP\/IPv4 address/,
-'instanciation: undefined hostname';
 
 lives_ok {
     $snmp = FusionInventory::Agent::SNMP->new({

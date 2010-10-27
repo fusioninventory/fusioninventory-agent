@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Bios;
 use strict;
 use warnings;
 
-use constant KEY_WOW64_64KEY => 0x100;
-
 use English qw(-no_match_vars);
 use Win32::TieRegistry (
     Delimiter   => '/',
@@ -25,7 +23,7 @@ sub isInventoryEnabled {
 sub getBiosInfoFromRegistry {
 
     my $machKey= $Registry->Open('LMachine', {
-        Access=> KEY_READ | KEY_WOW64_64KEY
+        Access=> KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $data =

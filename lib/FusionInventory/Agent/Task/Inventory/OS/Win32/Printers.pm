@@ -3,9 +3,14 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Printers;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools::Win32;
+use English qw(-no_match_vars);
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
 
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+use FusionInventory::Agent::Tools::Win32;
 
 my @status = (
     'Unknown', # 0 is not defined
@@ -104,11 +109,9 @@ sub getSerialbyUsb {
         return;
     }
 
-    # Search serial when connected in USB
-    # Search in registry where folder in HKLM\system\currentcontrolset\enum\USBPRINT have USBxxx ($portName)
-    my $KEY_WOW64_64KEY = 0x100;
-
-    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+    my $machKey = $Registry->Open('LMachine', { 
+        Access => KEY_READ | KEY_WOW64_64
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
     my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
     foreach my $tmpkey (%$data) {
         if (ref($tmpkey) eq "Win32::TieRegistry") {

@@ -87,13 +87,15 @@ sub _loadDefaults {
 sub _loadFromWinRegistry {
     my ($self) = @_;
 
+    my $Registry;
     eval {
         require Encode;
         Encode->import('encode');
         require Win32::TieRegistry;
         Win32::TieRegistry->import(
             Delimiter   => "/",
-            ArrayValues => 0
+            ArrayValues => 0,
+            TiedRef     => \$Registry
         );
     };
     if ($EVAL_ERROR) {
@@ -101,12 +103,15 @@ sub _loadFromWinRegistry {
         return;
     }
 
-    my $machKey = $Win32::TieRegistry::Registry->Open(
-        "LMachine", {
-            Access    => Win32::TieRegistry::KEY_READ(),
-            Delimiter => "/"
-        }
-    );
+    my $machKey;
+    {
+        # Win32-specifics constants can not be loaded on non-Windows OS
+        no strict 'subs'; ## no critics
+        $machKey = $Registry->Open('LMachine', {
+            Access => Win32::TieRegistry::KEY_READ
+        } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+    }
+
     my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
 
     foreach my $rawKey (keys %$settings) {

@@ -9,15 +9,14 @@ use File::stat;
 use Memoize;
 
 our @EXPORT = qw(
+    getFileHandle
     getFormatedLocalTime
     getFormatedGmTime
     getFormatedDate
     getCanonicalManufacturer
     getCanonicalSpeed
     getCanonicalSize
-    getControllersFromLspci
     getInfosFromDmidecode
-    getDeviceCapacity
     getSanitizedString
     compareVersion
     can_run
@@ -26,7 +25,6 @@ our @EXPORT = qw(
 
 memoize('can_run');
 memoize('getCanonicalManufacturer');
-memoize('getControllersFromLspci');
 memoize('getInfosFromDmidecode');
 
 sub getFormatedLocalTime {
@@ -127,82 +125,12 @@ sub getCanonicalSize {
                         undef                ;
 }
 
-sub getControllersFromLspci {
-    my ($logger, $file) = @_;
-
-    return $file ?
-        _parseLspci($logger, $file, '<')            :
-        _parseLspci($logger, 'lspci -vvv -nn', '-|');
-}
-
-sub _parseLspci {
-    my ($logger, $file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
-
-    my ($controllers, $controller);
-
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /^
-                (\S+) \s                     # slot
-                ([^[]+) \s                   # name
-                \[([a-f\d]+)\]: \s           # class
-                ([^[]+) \s                   # manufacturer
-                \[([a-f\d]+:[a-f\d]+)\]      # id
-                (?:\s \(rev \s (\d+)\))?     # optional version
-                (?:\s \(prog-if \s [^)]+\))? # optional detail
-                /x) {
-
-            $controller = {
-                PCISLOT      => $1,
-                NAME         => $2,
-                PCICLASS     => $3,
-                MANUFACTURER => $4,
-                PCIID        => $5,
-                VERSION      => $6
-            };
-            next;
-        }
-
-        next unless defined $controller;
-
-         if ($line =~ /^$/) {
-            push(@$controllers, $controller);
-            undef $controller;
-        } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
-            $controller->{DRIVER} = $1;
-        } elsif ($line =~ /^\tSubsystem: ([a-f\d]{4}:[a-f\d]{4})/) {
-            $controller->{PCISUBSYSTEMID} = $1;
-        }
-    }
-
-    close $handle;
-
-    return $controllers;
-}
-
 sub getInfosFromDmidecode {
-    my ($logger, $file) = @_;
-
-    return $file ?
-        _parseDmidecode($logger, $file, '<')       :
-        _parseDmidecode($logger, 'dmidecode', '-|');
-}
-
-sub _parseDmidecode {
-    my ($logger, $file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
+    my %params = (
+        command => 'dmidecode',
+        @_
+    );
+    my $handle = getFileHandle(%params);
 
     my ($info, $block, $type);
 
@@ -238,19 +166,6 @@ sub _parseDmidecode {
     close $handle;
 
     return $info;
-}
-
-sub getDeviceCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $capacity;
-    foreach my $line (`$command /dev/$dev 2>/dev/null`) {
-        next unless $line =~ /^(\d+)/;
-        $capacity = $1;
-    }
-    $capacity = int($capacity / 1000) if $capacity;
-    return $capacity;
 }
 
 sub compareVersion {
@@ -289,6 +204,36 @@ sub getSanitizedString {
     };
 
     return $string;
+}
+
+sub getFileHandle {
+    my %params = @_;
+
+    my $handle;
+
+    SWITCH: {
+        if ($params{file}) {
+            if (!open $handle, '<', $params{file}) {
+                $params{logger}->error(
+                    "Can't open file $params{file}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        if ($params{command}) {
+            if (!open $handle, '-|', $params{command}) {
+                $params{logger}->error(
+                    "Can't run command $params{command}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        die "neither command nor file parameter given";
+    }
+
+    return $handle;
 }
 
 sub can_run {
@@ -351,12 +296,6 @@ Returns a normalized speed value (in Mhz) for given one.
 
 Returns a normalized size value (in Mb) for given one.
 
-
-=head2 getControllersFromLspci
-
-Returns a list of controllers as an arrayref of hashref, by parsing lspci
-output.
-
 =head2 getInfosFromDmidecode
 
 Returns a structured view of dmidecode output. Each information block is turned
@@ -374,10 +313,6 @@ $info = {
     ...
 }
 
-=head2 getDeviceCapacity($device)
-
-Returns storage capacity of given device.
-
 =head2 getSanitizedString($string)
 
 Returns the input stripped from any control character, properly encoded in
@@ -387,6 +322,20 @@ UTF-8.
 
 Returns true if software with given major and minor version meet minimal
 version requirements.
+
+=head2 getFileHandle(%params)
+
+Returns an open file handle on either a command output, or a file.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
 
 =head2 can_run($binary)
 

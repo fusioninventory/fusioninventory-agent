@@ -104,7 +104,7 @@ sub send {
 
     my $res;
     eval {
-	if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
+        if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
             alarm $self->{defaultTimeout};
         }
         $res = $self->{ua}->request($req);

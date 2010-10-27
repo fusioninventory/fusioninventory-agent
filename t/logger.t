@@ -34,36 +34,64 @@ isa_ok(
     'default backend class'
 );
 
-$logger = FusionInventory::Logger->new({
-    backends => [ qw/Stderr Syslog File/ ]
-});
+if ($OSNAME eq 'MSWin32') {
 
-is(
-    @{$logger->{backends}},
-    3,
-    'three backends'
-);
+    $logger = FusionInventory::Logger->new({
+        backends => [ qw/Stderr File/ ]
+    });
 
-subtest 'backends classes' => sub {
-    plan tests => 3;
-    isa_ok(
-        $logger->{backends}->[0],
-        'FusionInventory::Logger::Stderr',
-        'first backend class'
+    is(
+        @{$logger->{backends}},
+        2,
+        'three backends'
     );
 
-    isa_ok(
-        $logger->{backends}->[1],
-        'FusionInventory::Logger::Syslog',
-        'second backend class'
+    subtest 'backends classes' => sub {
+        plan tests => 2;
+        isa_ok(
+            $logger->{backends}->[0],
+            'FusionInventory::Logger::Stderr',
+            'first backend class'
+        );
+
+        isa_ok(
+            $logger->{backends}->[1],
+            'FusionInventory::Logger::File',
+            'third backend class'
+        );
+    };
+} else {
+    $logger = FusionInventory::Logger->new({
+        backends => [ qw/Stderr Syslog File/ ]
+    });
+
+    is(
+        @{$logger->{backends}},
+        3,
+        'three backends'
     );
 
-    isa_ok(
-        $logger->{backends}->[2],
-        'FusionInventory::Logger::File',
-        'third backend class'
-    );
-};
+    subtest 'backends classes' => sub {
+        plan tests => 3;
+        isa_ok(
+            $logger->{backends}->[0],
+            'FusionInventory::Logger::Stderr',
+            'first backend class'
+        );
+
+        isa_ok(
+            $logger->{backends}->[1],
+            'FusionInventory::Logger::Syslog',
+            'second backend class'
+        );
+
+        isa_ok(
+            $logger->{backends}->[2],
+            'FusionInventory::Logger::File',
+            'third backend class'
+        );
+    };
+}
 
 # stderr backend tests
 
