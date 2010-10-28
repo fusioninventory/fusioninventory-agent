@@ -218,7 +218,6 @@ sub run {
 		my $req = $args->[0];
 		my $rsvp = $args->[1];
 #print "value: ".$self->{$req->{key}}."\n";
-		$kernel->call(IKC => post => $rsvp, $self->{$req->{key}});
 	    },
             launchNextTask  => sub {
                 my $logger = $self->{logger};
@@ -229,6 +228,7 @@ sub run {
 		    $_[KERNEL]->alias_remove("target");
 		    print "remove target alias\n";
                     $self->scheduleNextRun();
+		    $_[KERNEL]->post(scheduler => 'targetIsDone');
                     return;
                 }
 

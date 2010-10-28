@@ -28,6 +28,19 @@ sub new {
                 $_[KERNEL]->alias_set("scheduler");
             },
             runAllNow => sub { $self->runAllNow() },
+	    targetIsDone => sub {
+                return if $self->{background};
+		foreach my $target (@{$self->{targets}}) {
+		    return if @{$target->{modulenamesToRun}};
+		}
+
+		# No more module to run and we are not in daemon mode,
+		# let's terminate POE wheel and kill the agent
+		print "Let's kill the agent\n";
+		$_[KERNEL]->post(config => 'shutdown');
+		$_[KERNEL]->post(IKC => 'shutdown');
+	    
+	    } 
         }
     );
 
@@ -112,7 +125,6 @@ sub runAllNow {
     my ($self) = @_;
 
     my $logger = $self->{logger};
-print "aa\n";
     foreach my $target (@{$self->{targets}}) {
         $logger->info("Calling ".$target->getDescriptionString());
         POE::Kernel->call( $target->{session}, 'runNow' );
