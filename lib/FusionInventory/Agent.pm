@@ -215,7 +215,7 @@ sub new {
     POE::Kernel->call(IKC => publish => 'config', ["get"]);
     POE::Kernel->call(IKC => publish => 'target', ["get"]);
     POE::Kernel->call(IKC => publish => 'network', ["send"]);
-    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
+#    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
 
 
     $logger->debug("FusionInventory Agent initialised");
