@@ -1,0 +1,12 @@
+mb-tobias:~ Tech$ lsvfs
+Filesystem                        Refs Flags
+-------------------------------- ----- ---------------
+ufs                                  0 local
+nfs                                  1
+fdesc                                1
+cd9660                               0 local
+unionfs                              0
+hfs                                  2 local, dovolfs
+devfs                                1
+autofs                               3
+afpfs                                2 
