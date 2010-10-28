@@ -38,14 +38,12 @@ Revision history for FusionInventory::Agent
          missing. This way /etc/debian_version is used on Debian 
        * Linux: correctly parse /etc/resolv.conf to identify the domain
        * Linux: don't save 2 time the same domain
-       * MacOSX/Drives: use lsvfs to know the FS avalaible, thanks François Legastelois
-         for the bugreport
-         http://forge.fusioninventory.org/issues/446
        * Linux/ARM: collect the Hardware information from /proc/cpuinfo 
        * BSD: use sysctl -n hw.model to get the CPU name and frequency
        * MacOSX: Mem.pm, convert hex string to ASCII when needed, thanks Sylvain la Gravière
          for the bug report
          http://forge.fusioninventory.org/issues/440
+       * Linux/ARM: collect the Hardware information from /proc/cpuinfo 
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
