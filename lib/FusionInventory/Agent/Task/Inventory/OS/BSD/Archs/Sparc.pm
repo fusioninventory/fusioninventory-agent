@@ -14,16 +14,12 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate);
-    my ( $processort , $processorn , $processors );
-
     ### Get system serial with "sysctl kern.hostid"
     #
     # sysctl -n kern.hostid gives e.g. 0x807b65c on NetBSD
     # and 2155570635 on OpenBSD; we keep the hex form
 
-    $SystemSerial = getSingleLine(command => 'sysctl -n kern.hostid');
+    my $SystemSerial = getSingleLine(command => 'sysctl -n kern.hostid');
     if ( $SystemSerial =~ /^\d*$/ ) { # convert to NetBSD format
         $SystemSerial = sprintf ("0x%x",$SystemSerial);
     }
@@ -54,36 +50,39 @@ sub doInventory {
     # c) FreeBSD
     # cpu0: Sun Microsystems UltraSparc-I Processor (167.00 MHz CPU)
 
+    my $SystemModel;
+    my $processort;
     for (`dmesg`) {
         if (/^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
         if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1 unless $processort; }
     }
-    $SystemModel = getSingleLine(command => 'sysctl -n hw.model'); # for FreeBSD
-    $SystemManufacturer = "SUN";
-    # some cleanup
+
+    # for FreeBSD
+    $SystemModel = getSingleLine(command => 'sysctl -n hw.model')
+        if !$SystemModel;
     $SystemModel =~ s/SUNW,//;
     $SystemModel =~ s/[:\(].*$//;
     $SystemModel =~ s/^\s*//;
     $SystemModel =~ s/\s*$//;
+
+    my $SystemManufacturer = "SUN";
     $processort =~ s/SUNW,//;
     $processort =~ s/^\s*//;
     $processort =~ s/\s*$//;
 
     # number of procs with "sysctl hw.ncpu"
-    $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
+    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
+    my $processors;
     # XXX quick and dirty _attempt_ to get proc speed
     if ( $processort =~ /(\d+)(\.\d+|)\s*mhz/i ) { # possible decimal point
         $processors = sprintf("%.0f", "$1$2"); # round number
     }
 
-# Writing data
+    # Writing data
     $inventory->setBios ({
         SMANUFACTURER => $SystemManufacturer,
         SMODEL => $SystemModel,
         SSN => $SystemSerial,
-        BMANUFACTURER => $BiosManufacturer,
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
     });
 
     $inventory->setHardware({
