@@ -12,12 +12,21 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
+
+    foreach my $cpu (_getCPUsFromDmidecode($logger)) {
+        $inventory->addCPU($cpu);
+    }
+}
+
+sub _getCPUsFromDmidecode {
+    my ($logger, $file) = @_;
 
     my $processort;
     my $processorn;
     my $processors;
 
-    my @cpu;
+    my @cpus;
 
     my $in;
     my $frequency;
@@ -51,7 +60,7 @@ sub doInventory {
                 $speed = $1 * 1000;
             }
             $name =~ s/^Not Specified$//;
-            push @cpu, {
+            push @cpus, {
                 SPEED => $frequency,
                 MANUFACTURER => $manufacturer,
                 SERIAL => $serial,
@@ -71,12 +80,8 @@ sub doInventory {
         }
     }
 
-
-
-
-    foreach (@cpu) {
-        $inventory->addCPU($_);
-    }
-
+    return @cpus;
 }
+
+
 1;
