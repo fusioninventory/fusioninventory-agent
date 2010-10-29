@@ -4,13 +4,9 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    return unless -r "/dev/mem";
-
-    `which dmidecode 2>&1`;
-    return if ($? >> 8)!=0;
-    `dmidecode 2>&1`;
-    return if ($? >> 8)!=0;
-    1;
+    return 
+        -r "/dev/mem" && # why is this needed ?
+        can_run('dmidecode');
 }
 
 sub doInventory {
