@@ -16,7 +16,14 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
+    my $hwModel = `sysctl -n hw.model`;
+    chomp $hwModel;
+
     foreach my $cpu (_getCPUsFromDmidecode($logger)) {
+        $cpu->{NAME} = $hwModel if !$cpu->{NAME};
+        if ($hwModel =~ /([\.\d]+)GHz/) {
+            $cpu->{SPEED} = $1 * 1000;
+        }
         $inventory->addCPU($cpu);
     }
 }
@@ -59,11 +66,6 @@ sub _getCPUsFromDmidecode {
             $serial =~ s/\s//g;
             $thread = 1 unless $thread;
 
-            chomp(my $hwModel = `sysctl -n hw.model`);
-
-            if ($hwModel =~ /([\.\d]+)GHz/) {
-                $speed = $1 * 1000;
-            }
             $name =~ s/^Not Specified$//;
             push @cpus, {
                 SPEED => $frequency,
@@ -72,7 +74,7 @@ sub _getCPUsFromDmidecode {
 # Thread per core according to my understanding of
 # http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
                 THREAD => $thread,
-                NAME => $hwModel || $name || $family
+                NAME => $name || $family
             };
 
 	    $frequency = undef;
