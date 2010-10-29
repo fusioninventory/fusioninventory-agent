@@ -15,7 +15,6 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $PhysicalMemory;
     my $SwapFileSize;
 
 # Swap
@@ -24,7 +23,7 @@ sub doInventory {
         $SwapFileSize=$1 if /total:\s*(\d+)/i;
     }
 # RAM
-    chomp($PhysicalMemory=`sysctl -n hw.physmem`);
+    my $PhysicalMemory = getSingleLine(command => 'sysctl -n hw.physmem');
     $PhysicalMemory=$PhysicalMemory/1024;
 
 # Send it to inventory object
