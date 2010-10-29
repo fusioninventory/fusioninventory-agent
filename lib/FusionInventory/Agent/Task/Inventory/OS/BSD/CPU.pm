@@ -26,6 +26,7 @@ sub doInventory {
     my $thread;
     my $name;
     my $family;
+    my $speed;
     foreach (`dmidecode`) {
         $in = 1 if /^\s*Processor Information/;
 
@@ -46,7 +47,7 @@ sub doInventory {
 
             chomp(my $hwModel = `sysctl -n hw.model`);
 
-            if ($hModel =~ /([\.\d]+)GHz/) {
+            if ($hwModel =~ /([\.\d]+)GHz/) {
                 $speed = $1 * 1000;
             }
             $name =~ s/^Not Specified$//;
