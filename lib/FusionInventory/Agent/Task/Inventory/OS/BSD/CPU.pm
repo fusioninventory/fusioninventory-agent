@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::CPU;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 
         -r "/dev/mem" && # why is this needed ?
@@ -36,7 +38,10 @@ sub _getCPUsFromDmidecode {
     my $name;
     my $family;
     my $speed;
-    foreach (`dmidecode`) {
+
+    my $handle = getFileHandle(file => $file, command => 'dmidecode');
+
+    foreach (<$handle>) {
         $in = 1 if /^\s*Processor Information/;
 
         if ($in) {
@@ -79,6 +84,7 @@ sub _getCPUsFromDmidecode {
 
         }
     }
+    close $handle;
 
     return @cpus;
 }
