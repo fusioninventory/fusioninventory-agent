@@ -31,7 +31,9 @@ sub doInventory {
 
     my @fs;
     foreach my $line (`mount`) {
-        next unless $line =~ /^\/\S+ on \S+ \((\S+),/;
+        next unless $line =~ /\S+ on \S+ \((\S+),/;
+	next if $1 eq 'fdesc';
+	next if $1 eq 'devfs';
         push @fs, $1;
     }
 
