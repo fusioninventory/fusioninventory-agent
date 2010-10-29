@@ -18,6 +18,7 @@ our @EXPORT = qw(
     getCanonicalSize
     getInfosFromDmidecode
     getSanitizedString
+    getSingleLine
     compareVersion
     can_run
     can_load
@@ -236,6 +237,17 @@ sub getFileHandle {
     return $handle;
 }
 
+sub getSingleLine {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    my $result = <$handle>;
+    close $handle;
+
+    chomp $result;
+    return $result;
+}
+
 sub can_run {
     my ($binary) = @_;
 
@@ -326,6 +338,21 @@ version requirements.
 =head2 getFileHandle(%params)
 
 Returns an open file handle on either a command output, or a file.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getSingleLine(%params)
+
+Returns the first line of given command output or given file content, with end
+of line removed.
 
 =over
 
