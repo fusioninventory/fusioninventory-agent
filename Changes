@@ -77,6 +77,11 @@ Revision history for FusionInventory::Agent
        * MacOSX: Mem.pm, convert hex string to ASCII when needed, thanks Sylvain la Gravière
          for the bug report
          http://forge.fusioninventory.org/issues/440
+       * Screen.pm: Add support for 3 new manufacturer. Backport Adam Buchbinder changes on
+         1.1.x branch
+       * Linux/ARM: collect the Hardware information from /proc/cpuinfo
+       * Windows: Disable dmidecode.exe on Win2003
+         http://forge.fusioninventory.org/issues/379
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets

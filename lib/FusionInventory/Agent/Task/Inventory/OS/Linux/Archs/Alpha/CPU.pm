@@ -24,15 +24,15 @@ sub doInventory {
 
         my $speed;
         if (
-            $cpu->{'cycle frequency [Hz]'} &&
-            $cpu->{'cycle frequency [Hz]'} =~ /(\d+)000000/
+            $cpu->{'cycle frequency [hz]'} &&
+            $cpu->{'cycle frequency [hz]'} =~ /(\d+)000000/
         ) {
             $speed = $1;
         }
  
         $inventory->addCPU({
             ARCH   => 'Alpha',
-            NAME   => $cpu->{Processor},
+            TYPE   => $cpu->{processor},
             SERIAL => $cpu->{'cpu serial number'},
             SPEED  => $speed
         });

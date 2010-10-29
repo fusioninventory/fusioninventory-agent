@@ -25,7 +25,7 @@ sub doInventory {
 sub _getBiosHardware {
     my ($logger, $file) = @_;
 
-    my $infos = getInfosFromDmidecode($logger, $file);
+    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
     my $bios_info    = $infos->{0}->[0];
     my $system_info  = $infos->{1}->[0];
     my $base_info    = $infos->{2}->[0];

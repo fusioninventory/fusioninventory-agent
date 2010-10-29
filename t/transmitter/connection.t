@@ -4,24 +4,30 @@ use strict;
 use warnings;
 use lib 't';
 
+use Compress::Zlib;
+use English qw(-no_match_vars);
+use Socket;
+use Test::More;
+use Test::Exception;
+
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Logger;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Proxy;
-use Test::More;
-use Test::Exception;
-use Compress::Zlib;
-use Socket;
 
-plan tests => 41;
+if ($OSNAME eq 'MSWin32') {
+    plan skip_all => 'non working test on Windows';
+} else {
+    plan tests => 36;
+}
 
 my $ok = sub {
     my ($server, $cgi) = @_;
 
     print "HTTP/1.0 200 OK\r\n";
     print "\r\n";
-    print compress("hello");
+    print compress("<REPLY><word>hello</word></REPLY>");
 };
 
 my $logger = FusionInventory::Logger->new({
@@ -36,46 +42,10 @@ my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
     },
 });
 
-my ($transmitter, $server, $response);
 
-# instanciations tests
-
-throws_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
-        ca_cert_file => '/no/such/file',
-        logger       => $logger
-    });
-} qr/^non-existing certificate file/,
-'instanciation: invalid ca cert file';
-
-throws_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
-        ca_cert_dir => '/no/such/directory',
-        logger       => $logger
-    });
-} qr/^non-existing certificate directory/,
-'instanciation: invalid ca cert directory';
-
-lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
-        logger => $logger
-    });
-} 'instanciation: http';
-
-# compression tests
-
-my $data = "this is a test";
-is(
-    $transmitter->_uncompressNative($transmitter->_compressNative($data)),
-    $data,
-    'round-trip compression with Compress::Zlib'
-);
-
-is(
-    $transmitter->_uncompressGzip($transmitter->_compressGzip($data)),
-    $data,
-    'round-trip compression with Gzip'
-);
+my $transmitter = FusionInventory::Agent::Transmitter->new({
+    logger => $logger
+});
 
 # no connection tests
 BAIL_OUT("port aleady used") if test_port(8080);
@@ -92,6 +62,7 @@ subtest "no response" => sub {
 };
 
 # http connection tests
+my ($server, $response);
 
 $server = FusionInventory::Test::Server->new(
     port     => 8080,
@@ -103,7 +74,7 @@ $server->set_dispatch({
     '/public'  => $ok,
     '/private' => sub { return $ok->(@_) if $server->authenticate(); }
 });
-$server->background() or BAIL_OUT("can't launche the server");
+$server->background() or BAIL_OUT("can't launch the server");
 
 subtest "correct response" => sub {
     check_response_ok($transmitter->send({
@@ -146,6 +117,8 @@ subtest "correct response" => sub {
 
 $server->stop();
 
+SKIP: {
+skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 # https connection tests
 
 $server = FusionInventory::Test::Server->new(
@@ -260,6 +233,7 @@ subtest "correct response" => sub {
 };
 
 $server->stop();
+}
 
 # http connection through proxy tests
 
@@ -333,6 +307,8 @@ subtest "correct response" => sub {
 
 $server->stop();
 
+SKIP: {
+skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 # https connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(
@@ -453,6 +429,8 @@ subtest "correct response" => sub {
 };
 
 $server->stop();
+}
+
 $proxy->stop();
 
 
@@ -466,7 +444,11 @@ sub check_response_ok {
         'FusionInventory::Agent::XML::Response',
         'response class'
     );
-    is($response->getContent(), 'hello', 'response content');
+    is_deeply(
+        $response->getParsedContent(),
+        { word => 'hello' },
+        'response content'
+    );
 }
 
 sub check_response_nok {

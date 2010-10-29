@@ -19,10 +19,11 @@ sub new {
     );
 
     my $content = $tpp->parse($params->{content});
-    die "invalid content parameters" unless $content->{REPLY};
+    die "content is not an XML message" unless ref $content eq 'HASH';
+    die "content is an invalid XML message" unless $content->{REPLY};
 
     my $self = {
-        parsedcontent => $content,
+        parsedcontent => $content->{REPLY},
         logger  => $params->{logger} || FusionInventory::Logger->new(),
     };
     bless $self, $class;
@@ -57,11 +58,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Response - XML response message
+FusionInventory::Agent::XML::Response - Generic server message
 
 =head1 DESCRIPTION
 
-This is the response message sent by the server to the agent.
+This is a generic message sent by the server to the agent.
 
 =head1 METHODS
 

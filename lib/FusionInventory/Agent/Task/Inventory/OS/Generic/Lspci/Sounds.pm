@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return 1;
@@ -16,11 +17,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $sounds = _getSoundControllers($logger);
-
-    return unless $sounds;
-
-    foreach my $sound (@$sounds) {
+    foreach my $sound (_getSoundControllers($logger)) {
         $inventory->addSound($sound);
     }
 }
@@ -28,19 +25,20 @@ sub doInventory {
 sub _getSoundControllers {
     my ($logger, $file) = @_;
 
-    my $controllers = getControllersFromLspci($logger, $file);
-    my $sounds;
+    my @sounds;
 
-    foreach my $controller (@$controllers) {
+    foreach my $controller (getControllersFromLspci(
+        logger => $logger, file => $file
+    )) {
         next unless $controller->{NAME} =~ /audio/i;
-        push @$sounds, {
+        push @sounds, {
             NAME         => $controller->{NAME},
             MANUFACTURER => $controller->{MANUFACTURER},
             DESCRIPTION  => "rev $controller->{VERSION}",
         };
     }
 
-    return $sounds;
+    return @sounds;
 }
 
 1;

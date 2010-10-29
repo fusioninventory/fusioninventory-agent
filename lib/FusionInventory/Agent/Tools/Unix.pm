@@ -5,15 +5,34 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
+use File::stat;
 use Memoize;
 use Time::Local;
 
+use FusionInventory::Agent::Tools;
+
 our @EXPORT = qw(
+    getDeviceCapacity
     getIpDhcp
-    getPackagesFromCommand
     getFilesystemsFromDf
     getProcessesFromPs
+    getControllersFromLspci
 );
+
+memoize('getControllersFromLspci');
+
+sub getDeviceCapacity {
+    my ($dev) = @_;
+    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
+    # requires permissions on /dev/$dev
+    my $capacity;
+    foreach my $line (`$command /dev/$dev 2>/dev/null`) {
+        next unless $line =~ /^(\d+)/;
+        $capacity = $1;
+    }
+    $capacity = int($capacity / 1000) if $capacity;
+    return $capacity;
+}
 
 sub getIpDhcp {
     my ($logger, $if) = @_;
@@ -112,57 +131,8 @@ sub _parseDhcpLeaseFile {
     return $current_time <= $expiration_time ? $server_ip : undef;
 }
 
-sub getPackagesFromCommand {
-     my ($logger, $file, $mode, $callback) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        my $message = $mode eq '-|' ? 
-            "Can't run command $file: $ERRNO" :
-            "Can't open file $file: $ERRNO"   ;
-        $logger->error($message);
-        return;
-    }
-
-    my $packages;
-    
-    while (my $line = <$handle>) {
-        chomp $line;
-        my $package = $callback->($line);
-        push @$packages, $package if $package;
-    }
-
-    close $handle;
-
-    return $packages;
-}
-
 sub getFilesystemsFromDf {
-    my %params = @_;
-
-    my $handle;
-
-    SWITCH: {
-        if ($params{command}) {
-            if (!open $handle, '-|', $params{command}) {
-                $params{logger}->error(
-                    "Can't run command $params{command}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        if ($params{file}) {
-            if (!open $handle, '<', $params{file}) {
-                $params{logger}->error(
-                    "Can't open file $params{file}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        die "neither command nor file parameter given";
-    }
+    my $handle = getFileHandle(@_);
 
     my @filesystems;
     
@@ -207,31 +177,7 @@ sub getFilesystemsFromDf {
 }
 
 sub getProcessesFromPs {
-    my %params = @_;
-
-    my $handle;
-
-    SWITCH: {
-        if ($params{command}) {
-            if (!open $handle, '-|', $params{command}) {
-                $params{logger}->error(
-                    "Can't run command $params{command}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        if ($params{file}) {
-            if (!open $handle, '<', $params{file}) {
-                $params{logger}->error(
-                    "Can't open file $params{file}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        die "neither command nor file parameter given";
-    }
+    my $handle = getFileHandle(@_);
 
     # skip headers
     my $line = <$handle>;
@@ -250,7 +196,16 @@ sub getProcessesFromPs {
         Nov => '11',
         Dec => '12',
     );
-    my ($sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst) =
+    my %day = (
+        Mon => '01',
+        Tue => '02',
+        Wed => '03',
+        Thu => '04',
+        Fry => '05',
+        Sat => '06',
+        Sun => '07',
+    );
+    my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst) =
         localtime(time);
     $year = $year + 1900;
     my @processes;
@@ -280,14 +235,29 @@ sub getProcessesFromPs {
         my $time = $10;
         my $cmd = $11;
 
+	# try to get a consistant time format
         my $begin;
-        if ($started =~ /(\w{3})(\d{2})/) {
-            my $start_month = $1;
-            my $start_day = $2;
+        if ($started =~ /^(\d{2}):(\d{2})/) {
+            # 10:00PM
+            $begin = "$year-$month-$day $started";
+        } elsif ($started =~ /^([A-Z][a-z]{2})(\d{2})/) {
+            # Sat03PM
+            my $start_day = $1;
+            my $start_hour = $2;
+            $begin = "$year-$month-$day{$start_day} $time"; 
+        } elsif ($started =~ /^(\d{2})([A-Z][a-z]{2})/) {
+            # 5Oct10
+            my $start_day = $1;
+            my $start_month = $2;
             $begin = "$year-$month{$start_month}-$start_day $time"; 
-        }  else {
-            $begin = "$year-$mon-$day $started";
-        }
+        } elsif (-f "/proc/$pid") {
+	    # this will work only under Linux
+	    my $stat = stat("/proc/$pid");
+	    my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst)
+		= localtime($stat->ctime());
+	    $year = $year + 1900;
+            $begin = "$year-$month-$day $hour:$min"; 
+	}
 
         push @processes, {
             USER          => $user,
@@ -306,6 +276,56 @@ sub getProcessesFromPs {
     return @processes;
 }
 
+sub getControllersFromLspci {
+    my %params = (
+        command => 'lspci -vvv -nn',
+        @_
+    );
+    my $handle = getFileHandle(%params);
+
+    my (@controllers, $controller);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /^
+                (\S+) \s                     # slot
+                ([^[]+) \s                   # name
+                \[([a-f\d]+)\]: \s           # class
+                ([^[]+) \s                   # manufacturer
+                \[([a-f\d]+:[a-f\d]+)\]      # id
+                (?:\s \(rev \s (\d+)\))?     # optional version
+                (?:\s \(prog-if \s [^)]+\))? # optional detail
+                /x) {
+
+            $controller = {
+                PCISLOT      => $1,
+                NAME         => $2,
+                PCICLASS     => $3,
+                MANUFACTURER => $4,
+                PCIID        => $5,
+                VERSION      => $6
+            };
+            next;
+        }
+
+        next unless defined $controller;
+
+         if ($line =~ /^$/) {
+            push(@controllers, $controller);
+            undef $controller;
+        } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
+            $controller->{DRIVER} = $1;
+        } elsif ($line =~ /^\tSubsystem: ([a-f\d]{4}:[a-f\d]{4})/) {
+            $controller->{PCISUBSYSTEMID} = $1;
+        }
+    }
+
+    close $handle;
+
+    return @controllers;
+}
+
 1;
 __END__
 
@@ -319,26 +339,55 @@ This module provides some Unix-specific generic functions.
 
 =head1 FUNCTIONS
 
+=head2 getDeviceCapacity($device)
+
+Returns storage capacity of given device.
+
 =head2 getIpDhcp
 
 Returns an hashref of information for current DHCP lease.
 
-=head2 getPackagesFromCommand
-
-Returns a list of packages as an arrayref of hashref, by parsing given command
-output with given callback.
-
 =head2 getFilesystemsFromDf(%params)
 
-Returns a list of filesystems as a list of hashref, by parsing given df
-command output.
+Returns a list of filesystems as a list of hashref, by parsing given df command
+output.
 
 =over
 
-=item logger
+=item logger a logger object
 
-=item command
+=item command the exact command to use
 
-=item file
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getProcessesFromPs(%params)
+
+Returns a list of processes as a list of hashref, by parsing given ps command
+output.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getControllersFromLspci(%params)
+
+Returns a list of controllers as a list of hashref, by parsing lspci command
+output.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use (default: lspci -vvv -nn)
+
+=item file the file to use, as an alternative to the command
 
 =back

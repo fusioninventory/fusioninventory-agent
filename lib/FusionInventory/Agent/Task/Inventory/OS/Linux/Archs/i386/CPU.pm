@@ -22,7 +22,8 @@ sub doInventory {
 
     my @cpu;
 
-    my $infos = getInfosFromDmidecode();
+    my $infos = getInfosFromDmidecode(logger => $logger)
+        if can_run('dmidecode');
 
     if ($infos->{4}) {
         foreach my $info (@{$infos->{4}}) {

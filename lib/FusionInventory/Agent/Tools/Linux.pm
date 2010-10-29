@@ -7,6 +7,8 @@ use base 'Exporter';
 use English qw(-no_match_vars);
 use Memoize;
 
+use FusionInventory::Agent::Tools::Unix;
+
 our @EXPORT = qw(
     getDevicesFromUdev
     getDevicesFromHal
@@ -78,19 +80,6 @@ sub _parseUdevEntry {
     return $result;
 }
 
-sub getDeviceCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $cap;
-    foreach (`$command /dev/$dev 2>/dev/null`) {
-        next unless /^(\d+)/;
-        $cap = $1;
-    }
-    $cap = int($cap / 1000) if $cap;
-    return $cap;
-}
-
 sub getCPUsFromProc {
     my ($logger, $file) = @_;
 
@@ -107,38 +96,26 @@ sub getCPUsFromProc {
     my $cpu;
     while (my $line = <$handle>) {
         if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
-            $cpu->{$1} = $2;
+            $cpu->{lc($1)} = $2;
         } elsif ($line =~ /^$/) {
-
-            push @$cpus, $cpu if _isValideCPU($cpu);
-
+            # an empty line marks the end of a cpu section
+            # push to the list, but only if it is a valid cpu
+            push @$cpus, $cpu if $cpu && _isValidCPU($cpu);
             undef $cpu;
         }
     }
     close $handle;
 
-    push @$cpus, $cpu if _isValideCPU($cpu);
+    # push remaining cpu to the list, if it is valid cpu
+    push @$cpus, $cpu if $cpu && _isValidCPU($cpu);
 
     return $cpus;
 }
 
-sub _isValideCPU {
+sub _isValidCPU {
     my ($cpu) = @_;
 
-    return unless $cpu;
-    return unless keys %$cpu;
-
-# On some arch, a "fake" CPU section is used to describe the
-# machine
-
-    # PPC 
-    return if $cpu->{'pmac-generation'};
-    # IA64 
-    return if $cpu->{'machine'} && $cpu->{'timebase'};
-    # ARM
-    return if $cpu->{'Hardware'} && $cpu->{'Revision'} && $cpu->{Serial};
-
-    return 1;
+    return exists $cpu->{processor} || exists $cpu->{cpu};
 }
 
 
