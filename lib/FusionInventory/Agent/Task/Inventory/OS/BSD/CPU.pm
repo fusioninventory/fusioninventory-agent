@@ -16,8 +16,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $hwModel = `sysctl -n hw.model`;
-    chomp $hwModel;
+    my $hwModel = getSingleLine(command => 'sysctl -n hw.model');
 
     foreach my $cpu (_getCPUsFromDmidecode($logger)) {
         $cpu->{NAME} = $hwModel if !$cpu->{NAME};
