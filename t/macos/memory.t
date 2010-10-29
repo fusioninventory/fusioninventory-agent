@@ -87,7 +87,7 @@ my %tests = (
         {
             NUMSLOTS     => 0,
             SERIALNUMBER => '0xD5289015',
-            DESCRIPTION  => '0x3848544631323836344844592D3636374531',
+            DESCRIPTION  => '8HTF12864HDY-667E1',
             SPEED        => '667',
             TYPE         => 'DDR2 SDRAM',
             CAPACITY     => '1000',
@@ -96,7 +96,7 @@ my %tests = (
         {
             NUMSLOTS     => 1,
             SERIALNUMBER => '0x00000000',
-            DESCRIPTION  => '0x313032343633363735305320202020202020',
+            DESCRIPTION  => '1024636750S',
             SPEED        => '667',
             TYPE         => 'DDR2 SDRAM',
             CAPACITY     => '1000',
