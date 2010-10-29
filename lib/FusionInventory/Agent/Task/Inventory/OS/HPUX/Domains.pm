@@ -15,9 +15,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $domain;
-
-    chomp($domain = `domainname`);
+    my $domain = getSingleLine(command => 'domainname');
 
     if (!$domain) {
         my %domain;
