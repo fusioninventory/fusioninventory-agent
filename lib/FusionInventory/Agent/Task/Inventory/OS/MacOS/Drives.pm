@@ -37,7 +37,8 @@ sub doInventory {
 
     my %fs;
     foreach (`mount`) {
-        next unless /^\//;
+	next if /^devfs/;
+	next if /^fdesc/;
         if (/on\s.+\s\((\S+?)(,|\))/) {
             $fs{$1} = 1;
         }
