@@ -30,8 +30,6 @@ sub doInventory {
         }
         $domain = join "/", keys %domain;
     }
-# If no domain name, we send "WORKGROUP"
-    $domain = 'WORKGROUP' unless $domain;
 
     $inventory->setHardware({
         WORKGROUP => $domain
