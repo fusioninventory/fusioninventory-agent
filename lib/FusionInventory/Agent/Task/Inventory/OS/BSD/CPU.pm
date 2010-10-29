@@ -50,8 +50,8 @@ sub doInventory {
 
             chomp(my $hwModel = `sysctl -n hw.model`);
 
-            if ($hModel =~ /([\.\d]+)GHz/) {
-                $speed = $1 * 1000;
+            if ($hwModel =~ /([\.\d]+)GHz/) {
+                $frequency = $1 * 1000;
             }
             $name =~ s/^Not Specified$//;
             push @cpu, {
