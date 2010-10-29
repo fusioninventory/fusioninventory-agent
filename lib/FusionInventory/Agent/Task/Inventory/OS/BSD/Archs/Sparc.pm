@@ -3,9 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Sparc;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled{
-    my $arch;
-    chomp($arch=`sysctl -n hw.machine`);
+    my $arch = getSingleLine(command => 'sysctl -n hw.machine');
     $arch =~ /^sparc/;
 }
 
@@ -22,7 +23,7 @@ sub doInventory {
     # sysctl -n kern.hostid gives e.g. 0x807b65c on NetBSD
     # and 2155570635 on OpenBSD; we keep the hex form
 
-    chomp ($SystemSerial = `sysctl -n kern.hostid`);
+    $SystemSerial = getSingleLine(command => 'sysctl -n kern.hostid');
     if ( $SystemSerial =~ /^\d*$/ ) { # convert to NetBSD format
         $SystemSerial = sprintf ("0x%x",$SystemSerial);
     }
@@ -57,7 +58,7 @@ sub doInventory {
         if (/^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
         if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1 unless $processort; }
     }
-    $SystemModel || chomp ($SystemModel = `sysctl -n hw.model`); # for FreeBSD
+    $SystemModel = getSingleLine(command => 'sysctl -n hw.model'); # for FreeBSD
     $SystemManufacturer = "SUN";
     # some cleanup
     $SystemModel =~ s/SUNW,//;
@@ -69,7 +70,7 @@ sub doInventory {
     $processort =~ s/\s*$//;
 
     # number of procs with "sysctl hw.ncpu"
-    chomp($processorn=`sysctl -n hw.ncpu`);
+    $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
     # XXX quick and dirty _attempt_ to get proc speed
     if ( $processort =~ /(\d+)(\.\d+|)\s*mhz/i ) { # possible decimal point
         $processors = sprintf("%.0f", "$1$2"); # round number
