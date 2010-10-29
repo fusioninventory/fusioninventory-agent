@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Win32;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
@@ -52,8 +53,15 @@ sub doInventory {
 
     my $vmsystem;
 
+# http://forge.fusioninventory.org/issues/379
+    my(@osver) = Win32::GetOSVersion();
+    my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
+
+    return;
+
+
     my @dmidecodeCpu;
-    if (can_run("dmidecode")) {
+    if (!$isWin2003 && can_run("dmidecode")) {
         my $in;
         foreach (`dmidecode`) {
             if ($in && /^Handle/)  {

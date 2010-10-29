@@ -420,6 +420,7 @@ sub _ratio_name {
 sub getManufacturerFromCode {
     my $code = shift;
     my $h = {
+        "ACR" => "Acer America Corp.",
         "ACT" => "Targa",
         "ADI" => "ADI Corporation http://www.adi.com.tw",
         "AOC" => "AOC International (USA) Ltd.",
@@ -437,6 +438,7 @@ sub getManufacturerFromCode {
         "DWE" => "Daewoo Telecom Ltd",
         "ECS" => "ELITEGROUP Computer Systems",
         "EIZ" => "EIZO",
+        "EPI" => "Envision Peripherals, Inc.",
         "FCM" => "Funai Electric Company of Taiwan",
         "FUS" => "Fujitsu Siemens",
         "GSM" => "LG Electronics Inc. (GoldStar Technology, Inc.)",
@@ -451,6 +453,7 @@ sub getManufacturerFromCode {
         "IVM" => "Idek Iiyama North America, Inc.",
         "KDS" => "KDS USA",
         "KFC" => "KFC Computek",
+        "LEN" => "Lenovo",
         "LGD" => "LG Display",
         "LKM" => "ADLAS / AZALEA",
         "LNK" => "LINK Technologies, Inc.",
