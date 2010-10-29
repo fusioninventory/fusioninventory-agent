@@ -3,10 +3,11 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Alpha;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled{
-    my $arch;
-    chomp($arch=`sysctl -n hw.machine`);
-    $arch eq "alpha";
+    my $arch = getSingleLine(command => 'sysctl -n hw.machine');
+    return $arch eq "alpha";
 }
 
 sub doInventory {
@@ -22,7 +23,7 @@ sub doInventory {
     # example on *BSD
     # hw.model = AlphaStation 255 4/232
 
-    chomp($SystemModel=`sysctl -n hw.model`);
+    $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
     $SystemManufacturer = "DEC";
 
     ### Get processor type and speed in dmesg
@@ -41,7 +42,7 @@ sub doInventory {
 
 
     # number of procs with sysctl (hw.ncpu)
-    chomp($processorn=`sysctl -n hw.ncpu`);
+    $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
 
 # Writing data
     $inventory->setBios ({
