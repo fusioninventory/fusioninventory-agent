@@ -31,7 +31,7 @@ sub doInventory {
 
     my @fs;
     foreach my $line (`mount`) {
-        next unless $line =~ /^\/\S+ on \S+ \((\S+),/;
+        next unless $line =~ /^\/\S* on \S+ \((\S+),/;
         push @fs, $1;
     }
 
