@@ -22,6 +22,6 @@ my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/lspci/$test";
-    my $sounds = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds::_getSoundControllers($logger, $file);
-    is_deeply($sounds, $tests{$test}, $test);
+    my @sounds = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds::_getSoundControllers($logger, $file);
+    is_deeply(\@sounds, $tests{$test}, $test);
 }

@@ -12,6 +12,8 @@ use FusionInventory::Agent::Tools;
 sub new {
     my ($class, $params) = @_;
 
+    die "no hostname parameters" unless $params->{hostname};
+
     my $version =
         ! $params->{version}       ? 'snmpv1'  :
         $params->{version} eq '1'  ? 'snmpv1'  :
@@ -54,7 +56,6 @@ sub new {
 
     return $self;
 }
-
 
 sub snmpGet {
     my ($self, $params) = @_;
@@ -231,3 +232,7 @@ Can be one of:
 =head2 snmpWalk()
 
 =head2 getBadMACAddress()
+
+=head2 getAuthList()
+
+Parse options returned by the server, and returns a list of auth items.

@@ -23,8 +23,8 @@ sub doInventory {
     foreach my $cpu (@$cpus) {
         $inventory->addCPU({
             ARCH  => 'm68k',
-            NAME  => $cpu->{'CPU'},
-            SPEED => $cpu->{'Clocking'}
+            TYPE  => $cpu->{'cpu'},
+            SPEED => $cpu->{'clocking'}
         });
     }
 }

@@ -3,9 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::CPU;
 use strict;
 use warnings;
 
-use constant KEY_WOW64_64KEY => 0x100;
-
 use English qw(-no_match_vars);
+use Win32;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
@@ -22,7 +21,7 @@ sub getCPUInfoFromRegistry {
     my ($logger, $cpuId) = @_;
 
     my $machKey= $Registry->Open('LMachine', {
-        Access=> KEY_READ | KEY_WOW64_64KEY
+        Access=> KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $data =
@@ -54,8 +53,15 @@ sub doInventory {
 
     my $vmsystem;
 
+# http://forge.fusioninventory.org/issues/379
+    my(@osver) = Win32::GetOSVersion();
+    my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
+
+    return;
+
+
     my @dmidecodeCpu;
-    if (can_run("dmidecode")) {
+    if (!$isWin2003 && can_run("dmidecode")) {
         my $in;
         foreach (`dmidecode`) {
             if ($in && /^Handle/)  {

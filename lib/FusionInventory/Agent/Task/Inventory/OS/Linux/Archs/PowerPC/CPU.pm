@@ -38,15 +38,15 @@ sub doInventory {
     foreach my $cpu (@$cpus) {
         my $speed;
         if (
-            $cpu->{'clock'} &&
-            $cpu->{'clock'} =~ /(\d+)/
+            $cpu->{clock} &&
+            $cpu->{clock} =~ /(\d+)/
         ) {
             $speed = $1;
         }
 
         my $manufacturer;
-        if ($cpu->{'machine'} &&
-            $cpu->{'machine'} =~ /IBM/
+        if ($cpu->{machine} &&
+            $cpu->{machine} =~ /IBM/
         ) {
             $manufacturer = 'IBM';
         }

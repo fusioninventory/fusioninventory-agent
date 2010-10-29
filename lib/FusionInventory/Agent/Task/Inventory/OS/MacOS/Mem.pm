@@ -45,10 +45,14 @@ sub _getMemories {
         my $slot = $1;
 
         my $info = $parent_node->{$key};
+        my $description = $info->{'Part Number'};
+        $description = pack 'H*', $description if $description =~ s/^0x//;
+
+        $description =~ s/\s*$//;
 
         my $memory = {
             NUMSLOTS     => $slot,
-            DESCRIPTION  => $info->{'Part Number'},
+            DESCRIPTION  => $description,
             CAPTION      => "Status: $info->{'Status'}",
             TYPE         => $info->{'Type'},
             SERIALNUMBER => $info->{'Serial Number'},

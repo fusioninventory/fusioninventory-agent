@@ -420,6 +420,7 @@ sub _ratio_name {
 sub getManufacturerFromCode {
     my $code = shift;
     my $h = {
+        "ACR" => "Acer America Corp.",
         "ACT" => "Targa",
         "ADI" => "ADI Corporation http://www.adi.com.tw",
         "AOC" => "AOC International (USA) Ltd.",
@@ -437,6 +438,7 @@ sub getManufacturerFromCode {
         "DWE" => "Daewoo Telecom Ltd",
         "ECS" => "ELITEGROUP Computer Systems",
         "EIZ" => "EIZO",
+        "EPI" => "Envision Peripherals, Inc.",
         "FCM" => "Funai Electric Company of Taiwan",
         "FUS" => "Fujitsu Siemens",
         "GSM" => "LG Electronics Inc. (GoldStar Technology, Inc.)",
@@ -451,6 +453,7 @@ sub getManufacturerFromCode {
         "IVM" => "Idek Iiyama North America, Inc.",
         "KDS" => "KDS USA",
         "KFC" => "KFC Computek",
+        "LEN" => "Lenovo",
         "LGD" => "LG Display",
         "LKM" => "ADLAS / AZALEA",
         "LNK" => "LINK Technologies, Inc.",
@@ -503,5 +506,21 @@ sub _group_by2 {
     return @l;
 }
 
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::Screen - OS-independant screen functions
+
+=head1 DESCRIPTION
+
+This module provides some OS-independant screen functions.
+
+=head1 FUNCTIONS
+
+=head2 parseEdid($edid)
+
+=head2 checkParsedEdid($edid)
+
+=head2 getManufacturerFromCode($code)

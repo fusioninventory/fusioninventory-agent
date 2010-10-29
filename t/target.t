@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use File::Temp qw/tempdir/;
 use Test::More;
 use Test::Exception;
@@ -25,7 +26,7 @@ throws_ok {
 } qr/^no basevardir parameter/,
 'instanciation: no base directory';
 
-my $basevardir = tempdir(CLEANUP => 1);
+my $basevardir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 
 lives_ok {
     $target = FusionInventory::Agent::Target::Server->new({
@@ -34,7 +35,10 @@ lives_ok {
     });
 } 'instanciation: ok';
 
-ok(-d "$basevardir/http:__my.domain.tld_ocsinventory", "storage directory creation");
+my $storage_dir = $OSNAME eq 'MSWin32' ?
+    "$basevardir/http..__my.domain.tld_ocsinventory" :
+    "$basevardir/http:__my.domain.tld_ocsinventory" ;
+ok(-d $storage_dir, "storage directory creation");
 is($target->{id}, 'server0', "identifier");
 
 $target = FusionInventory::Agent::Target::Server->new({

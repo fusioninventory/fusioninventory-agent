@@ -52,7 +52,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Query - Base class for query message
+FusionInventory::Agent::XML::Query - Base class for agent messages
 
 =head1 DESCRIPTION
 

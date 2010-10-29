@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Drives;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools::Unix;
+
 # yea BSD theft!!!!
 # would have used Mac::SysProfile, but the xml isn't quite fully supported
 # the drives come back in apple xml tree's, and the module can't handle it yet (soon as I find the time to fix the patch)
@@ -26,45 +28,24 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $free;
-    my $filesystem;
-    my $total;
-    my $type;
-    my $volumn;
-    my %drives;
-    my %storages;
+
+    my @fs;
+    foreach my $line (`mount`) {
+        next unless $line =~ /^\/\S+ on \S+ \((\S+),/;
+        push @fs, $1;
+    }
+
+    my @drives;
+    foreach my $fs (@fs) {
+        foreach my $drive (getFilesystemsFromDf(
+            logger => $logger, command => "df -P -k -t $fs"
+        )) {
+            $drive->{FILESYSTEM} = $fs;
+            push @drives, $drive;
+        }
+    }
+
     my %diskUtilDevices;
-
-    my %fs;
-    foreach (`mount`) {
-        next unless /^\//;
-        if (/on\s.+\s\((\S+?)(,|\))/) {
-            $fs{$1} = 1;
-        }
-    }
-
-    for my $t (keys %fs) {
-        # OpenBSD has no -m option so use -k to obtain results in kilobytes
-        for(`df -P -k -t $t`){ # darwin needs the -t to be last
-            if(/^(\/\S*)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S.+)\n/){
-                $type = $6;
-                $filesystem = $t;
-                $total = sprintf("%i",$2/1024);
-                $free = sprintf("%i",$4/1024);
-                $volumn = $1;
-
-                $drives{$volumn} = {
-                    FREE => $free,
-                    FILESYSTEM => $filesystem,
-                    TOTAL => $total,
-                    TYPE => $type,
-                    VOLUMN => $volumn
-                }
-
-            }
-        }
-    }
-
     foreach (`diskutil list`) {
         if (/\d+:\s+.*\s+(\S+)/) {
             my $deviceName = "/dev/$1";
@@ -73,6 +54,8 @@ sub doInventory {
             }
         }
     }
+
+    my %drives;
 
     foreach my $deviceName (keys %diskUtilDevices) {
         my $device = $diskUtilDevices{$deviceName};
