@@ -15,21 +15,21 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
+    # Swap
     my $SwapFileSize;
-
-# Swap
-    my @bsd_swapctl= `swapctl -sk`;
-    for(@bsd_swapctl){
-        $SwapFileSize=$1 if /total:\s*(\d+)/i;
+    my @bsd_swapctl = `swapctl -sk`;
+    for (@bsd_swapctl) {
+        $SwapFileSize = $1 if /total:\s*(\d+)/i;
     }
-# RAM
-    my $PhysicalMemory = getSingleLine(command => 'sysctl -n hw.physmem');
-    $PhysicalMemory=$PhysicalMemory/1024;
 
-# Send it to inventory object
+    # RAM
+    my $PhysicalMemory = getSingleLine(command => 'sysctl -n hw.physmem');
+    $PhysicalMemory = $PhysicalMemory / 1024;
+
+    # Send it to inventory object
     $inventory->setHardware({
-        MEMORY =>  sprintf("%i",$PhysicalMemory/1024),
-        SWAP =>    sprintf("%i", $SwapFileSize/1024),
+        MEMORY => sprintf("%i", $PhysicalMemory / 1024),
+        SWAP   => sprintf("%i", $SwapFileSize / 1024),
     });
 }
 1;
