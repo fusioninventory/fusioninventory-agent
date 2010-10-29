@@ -26,8 +26,29 @@ my %tests = (
         }
     ],
     'openbsd-3.7' => [
+        {
+            NAME         => 'Pentium II',
+            SERIAL       => '52060000FFF98301',
+            MANUFACTURER => 'Intel',
+            SPEED        => '500',
+            THREAD       => 1,
+        }
     ],
     'openbsd-3.8' => [
+        {
+            NAME         => 'Xeon',
+            SERIAL       => '430F0000FFFBEBBF',
+            MANUFACTURER => 'Intel',
+            SPEED        => '3600',
+            THREAD       => 1,
+        },
+        {
+            NAME         => 'Xeon',
+            SERIAL       => '0000000000000000',
+            MANUFACTURER => 'Intel',
+            SPEED        => '3600',
+            THREAD       => 1,
+        }
     ],
     'openbsd-4.5' => [
         {
@@ -53,6 +74,5 @@ my $logger = FusionInventory::Logger->new();
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::OS::BSD::CPU::_getCPUsFromDmidecode($logger, $file);
-    is_deeply(\@cpus, $tests{$test}, $test) or print Dumper(\@cpus);
-use Data::Dumper;
+    is_deeply(\@cpus, $tests{$test}, $test);
 }
