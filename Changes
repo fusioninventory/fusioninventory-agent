@@ -82,6 +82,9 @@ Revision history for FusionInventory::Agent
        * Linux/ARM: collect the Hardware information from /proc/cpuinfo
        * Windows: Disable dmidecode.exe on Win2003
          http://forge.fusioninventory.org/issues/379
+       * MacOSX/Drives: don't ignore autofs filesystem, thanks François Legastelois
+         for the bug report
+         http://forge.fusioninventory.org/issues/446
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets

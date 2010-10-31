@@ -29,14 +29,17 @@ sub doInventory {
     my $logger = $params->{logger};
 
 
-    my @fs;
-    foreach my $line (`mount`) {
-        next unless $line =~ /^\/\S+ on \S+ \((\S+),/;
-        push @fs, $1;
+    my %fs;
+    foreach (`mount`) {
+	next if /^devfs/;
+	next if /^fdesc/;
+        if (/on\s.+\s\((\S+?)(,|\))/) {
+            $fs{$1} = 1;
+        }
     }
 
     my @drives;
-    foreach my $fs (@fs) {
+    foreach my $fs (keys %fs) {
         foreach my $drive (getFilesystemsFromDf(
             logger => $logger, command => "df -P -k -t $fs"
         )) {
