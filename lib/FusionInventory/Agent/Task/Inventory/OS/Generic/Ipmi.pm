@@ -41,7 +41,7 @@ sub doInventory {
     my $status;
     my $type;
 
-    foreach (`LANG=C ipmitool lan print 2> /dev/null`) {
+    foreach (`ipmitool lan print 2> /dev/null`) {
         if (/^IP Address\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
             $ipaddress = $1;
         }
