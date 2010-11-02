@@ -17,7 +17,7 @@ sub doInventory {
         $BiosVersion, $BiosDate, $uuid);
     my $aarch = "unknown";
 
-    my $OSLevel=`uname -r`;
+    my $OSLevel = getSingleLine(command => 'uname -r');
 
     if ( $OSLevel !~ /5.1\d/ ){
         $zone = "global";
@@ -76,10 +76,13 @@ sub doInventory {
             $SystemModel .= " ($name)" if( $name );
 
             if( -x "/opt/SUNWsneep/bin/sneep" ) {
-                chomp($SystemSerial = `/opt/SUNWsneep/bin/sneep`);
+                $SystemSerial = getSingleLine(
+                    command => '/opt/SUNWsneep/bin/sneep'
+                );
             }else {
                 foreach(`/bin/find /opt -name sneep`) {
-                    chomp($SystemSerial = `$1`) if /^(\S+)/;
+                    next unless /^(\S+)/;
+                    $SystemSerial = getSingleLine(command => $1);
                 }
                 if (!$SystemSerial){
                     $SystemSerial = "Please install package SUNWsneep";
