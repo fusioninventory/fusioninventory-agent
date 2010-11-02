@@ -3,11 +3,12 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Sparc;
 use strict;
 use warnings;
 
+use Config;
+
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled{
-    my $arch = getSingleLine(command => 'sysctl -n hw.machine');
-    $arch =~ /^sparc/;
+sub isInventoryEnabled {
+    return $Config{'archname'} =~ /^sun4/;
 }
 
 sub doInventory {

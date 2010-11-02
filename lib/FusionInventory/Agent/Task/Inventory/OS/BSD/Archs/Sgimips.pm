@@ -3,10 +3,12 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Sgimips;
 use strict;
 use warnings;
 
-sub isInventoryEnabled{
-    my $arch;
-    chomp($arch=`sysctl -n hw.machine`);
-    $arch =~ m/^sgi/; 
+use Config;
+
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return $Config{'archname'} =~ /^IP\d+/;
 }
 
 sub doInventory {

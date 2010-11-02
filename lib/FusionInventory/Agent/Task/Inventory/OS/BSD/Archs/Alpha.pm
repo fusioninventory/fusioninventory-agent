@@ -7,8 +7,8 @@ use Config;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled{
-    return $Config{'archname'} eq 'alpha';
+sub isInventoryEnabled {
+    return $Config{'archname'} =~ /^alpha/;
 }
 
 sub doInventory {
