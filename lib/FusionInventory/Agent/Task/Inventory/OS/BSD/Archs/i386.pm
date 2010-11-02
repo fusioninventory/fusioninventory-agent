@@ -21,16 +21,11 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    # system model
+    # sysctl infos
+
     my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
-
-    # number of procs
     my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
-
-    # proc type
     my $processort = getSingleLine(command => 'sysctl -n hw.machine');
-
-    # proc speed
     my $processors = getCanonicalSpeed(
         (split(/\s+/, $SystemModel))[-1]
     );

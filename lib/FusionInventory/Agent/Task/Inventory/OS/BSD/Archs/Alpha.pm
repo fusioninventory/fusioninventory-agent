@@ -15,37 +15,33 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    ### Get system model with "sysctl hw.model"
-    #
-    # example on *BSD
-    # hw.model = AlphaStation 255 4/232
+    # sysctl infos
 
+    # example on *BSD: AlphaStation 255 4/232
     my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
-    my $SystemManufacturer = "DEC";
 
-    ### Get processor type and speed in dmesg
-    #
-    # NetBSD:    AlphaStation 255 4/232, 232MHz, s/n
-    #            cpu0 at mainbus0: ID 0 (primary), 21064A-2
-    # OpenBSD:   AlphaStation 255 4/232, 232MHz
-    #            cpu0 at mainbus0: ID 0 (primary), 21064A-2 (pass 1.1)
-    # FreeBSD:   AlphaStation 255 4/232, 232MHz
-    #            CPU: EV45 (21064A) major=6 minor=2
+    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
 
-    my $processort;
-    my $processors;
+    # dmesg infos
+
+    # NetBSD:
+    # AlphaStation 255 4/232, 232MHz, s/n
+    # cpu0 at mainbus0: ID 0 (primary), 21064A-2
+    # OpenBSD:
+    # AlphaStation 255 4/232, 232MHz
+    # cpu0 at mainbus0: ID 0 (primary), 21064A-2 (pass 1.1)
+    # FreeBSD:
+    # AlphaStation 255 4/232, 232MHz
+    # CPU: EV45 (21064A) major=6 minor=2
+
+    my ($processort, $processors);
     for (`dmesg`) {
         if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
         if (/$SystemModel,\s*(\S+)\s*MHz.*$/) { $processors = $1; }
     }
 
-
-    # number of procs with sysctl (hw.ncpu)
-    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
-
-    # Writing data
     $inventory->setBios ({
-        SMANUFACTURER => $SystemManufacturer,
+        SMANUFACTURER => 'DEC',
         SMODEL => $SystemModel,
     });
 

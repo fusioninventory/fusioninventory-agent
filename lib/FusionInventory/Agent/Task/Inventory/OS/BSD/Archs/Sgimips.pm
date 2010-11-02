@@ -15,31 +15,27 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    ### Get system model with "sysctl hw.model"
-    #
-    # example on NetBSD
-    # hw.model = SGI-IP22
-    # example on OpenBSD
-    # hw.model=SGI-O2 (IP32)
+    # sysctl infos
 
+    # example on NetBSD: SGI-IP22
+    # example on OpenBSD: SGI-O2 (IP32)
     my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
-    my $SystemManufacturer = "SGI";
 
-    ### Get processor type and speed in dmesg
-    #
-    # Examples of dmesg output :
-    #
+    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
+
+    # dmesg infos
+    
     # I) Indy
-    # a) NetBSD
+    # NetBSD:
     # mainbus0 (root): SGI-IP22 [SGI, 6906e152], 1 processor
     # cpu0 at mainbus0: MIPS R4400 CPU (0x450) Rev. 5.0 with MIPS R4010 FPC Rev. 0.0
     # int0 at mainbus0 addr 0x1fbd9880: bus 75MHz, CPU 150MHz
     #
     # II) O2
-    # a) NetBSD
+    # NetBSD:
     # mainbus0 (root): SGI-IP32 [SGI, 8], 1 processor
     # cpu0 at mainbus0: MIPS R5000 CPU (0x2321) Rev. 2.1 with built-in FPU Rev. 1.0
-    # b) OpenBSD
+    # OpenBSD:
     # mainbus0 (root)
     # cpu0 at mainbus0: MIPS R5000 CPU rev 2.1 180 MHz with R5000 based FPC rev 1.0
     # cpu0: cache L1-I 32KB D 32KB 2 way, L2 512KB direct
@@ -51,11 +47,8 @@ sub doInventory {
         if (/CPU\s*.*\D(\d+)\s*MHz/) { $processors = $1; }
     }
 
-    # number of procs with sysctl (hw.ncpu)
-    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
-
     $inventory->setBios ({
-        SMANUFACTURER => $SystemManufacturer,
+        SMANUFACTURER => 'SGI',
         SMODEL => $SystemModel,
         SSN => $SystemSerial,
     });
