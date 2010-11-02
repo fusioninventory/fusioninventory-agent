@@ -21,37 +21,27 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate);
-    my ( $processort , $processorn , $processors );
+    # system model
+    my $SystemModel = getSingleLine(command => 'sysctl -n hw.machine');
 
-    # use hw.machine for the system model
-    # TODO see if we can do better
-    chomp($SystemModel=`sysctl -n hw.machine`);
+    # number of procs
+    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
 
-    # number of procs with sysctl (hw.ncpu)
-    chomp($processorn=`sysctl -n hw.ncpu`);
-    # proc type with sysctl (hw.model)
-    chomp($processort=`sysctl -n hw.model`);
+    # proc type
+    my $processort = getSingleLine(command => 'sysctl -n hw.model');
+
     # XXX quick and dirty _attempt_ to get proc speed through dmesg
-    for(`dmesg`){
-        my $tmp;
-        if (/^cpu\S*\s.*\D[\s|\(]([\d|\.]+)[\s|-]mhz/i) { # XXX unsure
-            $tmp = $1;
-            $tmp =~ s/\..*//;
-            $processors=$tmp;
-            last
-        }
+    # FreeBSD
+    # CPU: Intel(R) Core(TM) i5 CPU       M 430  @ 2.27GHz (2261.27-MHz K8-class CPU)
+    my $processors;
+    for (`dmesg`){
+        next unless /^CPU:.* ([\d.]+)GHz/;
+        $processors = $1;
+        last
     }
 
-# Writing data
     $inventory->setBios ({
-        SMANUFACTURER => $SystemManufacturer,
         SMODEL => $SystemModel,
-        SSN => $SystemSerial,
-        BMANUFACTURER => $BiosManufacturer,
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
     });
 
     $inventory->setHardware({
