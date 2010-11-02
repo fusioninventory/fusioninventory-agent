@@ -3,11 +3,12 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Alpha;
 use strict;
 use warnings;
 
+use Config;
+
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled{
-    my $arch = getSingleLine(command => 'sysctl -n hw.machine');
-    return $arch eq "alpha";
+    return $Config{'archname'} eq 'alpha';
 }
 
 sub doInventory {
