@@ -82,11 +82,12 @@ sub doInventory {
     my $infos = getInfosFromDmidecode(logger => $logger);
     return if $infos->{4};
 
-    $inventory->setHardware({
-        PROCESSORT => $processort,
-        PROCESSORN => $processorn,
-        PROCESSORS => $processors
-    });
+    for my $i (1 .. $processorn) {
+         $inventory->addCPU({
+             NAME  => $processort,
+             SPEED => $processors,
+         });
+    }
 
 }
 
