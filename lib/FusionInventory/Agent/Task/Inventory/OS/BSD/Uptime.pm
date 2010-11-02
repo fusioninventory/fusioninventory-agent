@@ -6,16 +6,15 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my $boottime = `sysctl -n kern.boottime 2>/dev/null`;
-    return 1 if $boottime;
-    return;
+    my $boottime = getSingleLine(command => 'sysctl -n kern.boottime');
+    return $boottime;
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    chomp (my $boottime = `sysctl -n kern.boottime`);
+    my $boottime = getSingleLine(command => 'sysctl -n kern.boottime');
     $boottime = $1 if $boottime =~ /sec\s*=\s*(\d+)/;
     my $currenttime = time();
     my $uptime = $currenttime - $boottime;
@@ -23,7 +22,7 @@ sub doInventory {
     # ISO format string conversion
     $uptime = getFormatedGmTime($uptime);
 
-    chomp(my $DeviceType =`uname -m`);
+    my $DeviceType = getSingleLine(command => 'uname -m');
     $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
 }
 
