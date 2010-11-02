@@ -15,10 +15,6 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate);
-    my ( $processort , $processorn , $processors );
-
     ### Get system model with "sysctl hw.model"
     #
     # example on NetBSD
@@ -26,8 +22,8 @@ sub doInventory {
     # example on OpenBSD
     # hw.model=SGI-O2 (IP32)
 
-    chomp($SystemModel=`sysctl -n hw.model`);
-    $SystemManufacturer = "SGI";
+    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
+    my $SystemManufacturer = "SGI";
 
     ### Get processor type and speed in dmesg
     #
@@ -48,6 +44,7 @@ sub doInventory {
     # cpu0 at mainbus0: MIPS R5000 CPU rev 2.1 180 MHz with R5000 based FPC rev 1.0
     # cpu0: cache L1-I 32KB D 32KB 2 way, L2 512KB direct
 
+    my ($SystemSerial, $processort, $processors);
     for (`dmesg`) {
         if (/$SystemModel\s*\[\S*\s*(\S*)\]/) { $SystemSerial = $1; }
         if (/cpu0 at mainbus0:\s*(.*)$/) { $processort = $1; }
@@ -55,16 +52,12 @@ sub doInventory {
     }
 
     # number of procs with sysctl (hw.ncpu)
-    chomp($processorn=`sysctl -n hw.ncpu`);
+    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
 
-# Writing data
     $inventory->setBios ({
         SMANUFACTURER => $SystemManufacturer,
         SMODEL => $SystemModel,
         SSN => $SystemSerial,
-        BMANUFACTURER => $BiosManufacturer,
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
     });
 
     $inventory->setHardware({
