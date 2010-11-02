@@ -98,7 +98,7 @@ sub getCanonicalSpeed {
 
     return undef unless $speed;
 
-    return undef unless $speed =~ /^(\d+) \s (\S+)$/x;
+    return undef unless $speed =~ /^(\d+) \s? (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
 

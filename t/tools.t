@@ -3041,6 +3041,10 @@ my @speed_tests_ok = (
     [ '1 MHZ', 1 ],
     [ '1 ghz', 1000 ],
     [ '1 GHZ', 1000 ],
+    [ '1mhz', 1 ],
+    [ '1MHZ', 1 ],
+    [ '1ghz', 1000 ],
+    [ '1GHZ', 1000 ],
 );
 
 my @manufacturer_tests_ok = (
