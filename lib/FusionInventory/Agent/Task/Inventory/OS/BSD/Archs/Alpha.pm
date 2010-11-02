@@ -14,6 +14,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     # sysctl infos
 
@@ -44,6 +45,10 @@ sub doInventory {
         SMANUFACTURER => 'DEC',
         SMODEL => $SystemModel,
     });
+
+    # don't deal with CPUs if information can be computed from dmidecode
+    my $infos = getInfosFromDmidecode(logger => $logger);
+    return if $infos->{4};
 
     $inventory->setHardware({
         PROCESSORT => $processort,
