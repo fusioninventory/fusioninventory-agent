@@ -22,23 +22,18 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     # system model
-    my $SystemModel = getSingleLine(command => 'sysctl -n hw.machine');
+    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
 
     # number of procs
     my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
 
     # proc type
-    my $processort = getSingleLine(command => 'sysctl -n hw.model');
+    my $processort = getSingleLine(command => 'sysctl -n hw.machine');
 
-    # XXX quick and dirty _attempt_ to get proc speed through dmesg
-    # FreeBSD
-    # CPU: Intel(R) Core(TM) i5 CPU       M 430  @ 2.27GHz (2261.27-MHz K8-class CPU)
-    my $processors;
-    for (`dmesg`){
-        next unless /^CPU:.* ([\d.]+)GHz/;
-        $processors = $1;
-        last
-    }
+    # proc speed
+    my $processors = getCanonicalSpeed(
+        (split(/\s+/, $SystemModel))[-1]
+    );
 
     $inventory->setBios ({
         SMODEL => $SystemModel,
