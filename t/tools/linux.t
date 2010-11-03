@@ -134,7 +134,6 @@ my %cpu_tests = (
             'max. addr. space #' => '255'
         }
     ],
-
     'linux-armel-1' => [
         {
             'd size' => '32768',
@@ -233,6 +232,7 @@ my %cpu_tests = (
             'clock' => '1452.000000MHz',
             'processor' => '1'
         },
+    ],
     'linux-ppc-3' => [
         {
             'revision' => '3.1 (pvr 003c 0301)',
