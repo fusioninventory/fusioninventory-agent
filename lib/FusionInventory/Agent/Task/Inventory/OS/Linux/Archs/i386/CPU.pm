@@ -22,20 +22,21 @@ sub doInventory {
 
     my @cpu;
 
-    my $infos = getInfosFromDmidecode(logger => $logger)
-        if can_run('dmidecode');
+    if can_run('dmidecode') {
+        my $infos = getInfosFromDmidecode(logger => $logger)
 
-    if ($infos->{4}) {
-        foreach my $info (@{$infos->{4}}) {
-            my $cpu = {
-                SERIAL       => $info->{'ID'},
-                MANUFACTURER => $info->{'Manufacturer'},
-                CORE         => $info->{'Core Count'},
-                THREAD       => ($info->{'Thread Count'} || 1),
-                SPEED        => getCanonicalSpeed($info->{'Max Speed'})
-            };
+        if ($infos->{4}) {
+            foreach my $info (@{$infos->{4}}) {
+                my $cpu = {
+                    SERIAL       => $info->{'ID'},
+                    MANUFACTURER => $info->{'Manufacturer'},
+                    CORE         => $info->{'Core Count'},
+                    THREAD       => ($info->{'Thread Count'} || 1),
+                    SPEED        => getCanonicalSpeed($info->{'Max Speed'})
+                };
 
-            push @cpu, $cpu;
+                push @cpu, $cpu;
+            }
         }
     }
 
