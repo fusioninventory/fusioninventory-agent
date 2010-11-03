@@ -11,7 +11,7 @@ my %tests = (
         {
             NUMSLOTS     => '0',
             SERIALNUMBER => undef,
-            DESCRIPTION  => '',
+            DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'DDR2 SDRAM',
             CAPACITY     => 1000,
@@ -20,7 +20,7 @@ my %tests = (
         {
             NUMSLOTS     => '1',
             SERIALNUMBER => undef,
-            DESCRIPTION  => '',
+            DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'DDR2 SDRAM',
             CAPACITY     => 1000,
@@ -29,7 +29,7 @@ my %tests = (
         {
             NUMSLOTS     => '2',
             SERIALNUMBER => undef,
-            DESCRIPTION  => '',
+            DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'Empty',
             CAPACITY     => undef,
@@ -38,7 +38,7 @@ my %tests = (
         {
             NUMSLOTS     => '3',
             SERIALNUMBER => undef,
-            DESCRIPTION  => '',
+            DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'Empty',
             CAPACITY     => undef,
@@ -47,7 +47,7 @@ my %tests = (
         {
             NUMSLOTS     => '4',
             SERIALNUMBER => undef,
-            DESCRIPTION  => '',
+            DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'Empty',
             CAPACITY     => undef,
@@ -56,7 +56,7 @@ my %tests = (
         {
             NUMSLOTS     => '5',
             SERIALNUMBER => undef,
-            DESCRIPTION  => '',
+            DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'Empty',
             CAPACITY     => undef,
@@ -65,7 +65,7 @@ my %tests = (
         {
             NUMSLOTS     => '6',
             SERIALNUMBER => undef,
-            DESCRIPTION  => '',
+            DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'Empty',
             CAPACITY     => undef,
@@ -74,7 +74,7 @@ my %tests = (
         {
             NUMSLOTS     => '7',
             SERIALNUMBER => undef,
-            DESCRIPTION  => '',
+            DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'Empty',
             CAPACITY     => undef,
