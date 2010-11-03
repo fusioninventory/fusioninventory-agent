@@ -20,14 +20,14 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my @cpu;
+    my @cpus;
 
     if can_run('dmidecode') {
         my $infos = getInfosFromDmidecode(logger => $logger)
 
         if ($infos->{4}) {
             foreach my $info (@{$infos->{4}}) {
-                push @cpu, {
+                push @cpus, {
                     SERIAL       => $info->{'ID'},
                     MANUFACTURER => $info->{'Manufacturer'},
                     CORE         => $info->{'Core Count'},
@@ -40,7 +40,7 @@ sub doInventory {
 
     my ($cpuProcs, $cpuCoreCpts) = _getInfosFromProc($logger);
 
-    my $maxId = @cpu?@cpu-1:@$cpuProcs-1;
+    my $maxId = @cpus ? @cpus - 1 : @$cpuProcs - 1;
     foreach my $id (0..$maxId) {
         if ($cpuProcs->[$id]->{vendor_id}) {
             $cpuProcs->[$id]->{vendor_id} =~ s/Genuine//;
@@ -50,21 +50,21 @@ sub doInventory {
 
             $cpu[$id]->{MANUFACTURER} = $cpuProcs->[$id]->{vendor_id};
         }
-        $cpu[$id]->{NAME} = $cpuProcs->[$id]->{'model name'};
-        if (!$cpu[$id]->{CORE}) {
-            $cpu[$id]->{CORE} = $cpuCoreCpts->[$id];
+        $cpus[$id]->{NAME} = $cpuProcs->[$id]->{'model name'};
+        if (!$cpus[$id]->{CORE}) {
+            $cpus[$id]->{CORE} = $cpuCoreCpts->[$id];
         }
-        if (!$cpu[$id]->{THREAD} && $cpuProcs->[$id]->{'siblings'}) {
-            $cpu[$id]->{THREAD} = $cpuProcs->[$id]->{'siblings'};
+        if (!$cpus[$id]->{THREAD} && $cpuProcs->[$id]->{'siblings'}) {
+            $cpus[$id]->{THREAD} = $cpuProcs->[$id]->{'siblings'};
         }
-        if ($cpu[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
-            $cpu[$id]->{SPEED} = {
+        if ($cpus[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+            $cpus[$id]->{SPEED} = {
                ghz => 1000,
                mhz => 1,
             }->{lc($2)}*$1;
         }
 
-        $inventory->addCPU($cpu[$id]);
+        $inventory->addCPU($cpus[$id]);
     }
 }
 
