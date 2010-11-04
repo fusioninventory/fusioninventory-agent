@@ -6,27 +6,19 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 our @EXPORT = qw(
     getInfosFromSystemProfiler
 );
 
 
 sub getInfosFromSystemProfiler {
-    my ($logger, $file) = @_;
-
-    return $file ?
-        _parseSystemProfiler($logger, $file, '<')       :
-        _parseSystemProfiler($logger, '/usr/sbin/system_profiler', '-|');
-}
-
-sub _parseSystemProfiler {
-    my ($logger, $file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
+    my %params = (
+        command => '/usr/sbin/system_profiler',
+        @_
+    );
+    my $handle = getFileHandle(%params);
 
     my $info = {};
 
@@ -40,7 +32,6 @@ sub _parseSystemProfiler {
         my $level = defined $1 ? length($1) : 0;
         my $key = $2;
         my $value = $3;
-
 
         if ($value) {
             # just add the value to the current parent
@@ -85,7 +76,7 @@ This module provides some generic functions for MacOS.
 
 =head1 FUNCTIONS
 
-=head2 getInfosFromSystemProfiler($logger)
+=head2 getInfosFromSystemProfiler(%params)
 
 Returns a structured view of system_profiler output. Each information block is
 turned into a hashref, hierarchically organised.
@@ -99,3 +90,12 @@ $info = {
         }
     }
 }
+=over
+
+=item logger a logger object
+
+=item command the exact command to use (default: /usr/sbin/system_profiler)
+
+=item file the file to use, as an alternative to the command
+
+=back

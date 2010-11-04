@@ -1474,12 +1474,8 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Logger->new();
-
 foreach my $test (keys %tests) {
     my $file = "resources/system_profiler/$test";
-    my $result = FusionInventory::Agent::Tools::MacOS::_parseSystemProfiler(
-        $logger, $file, '<'
-    );
+    my $result = getInfosFromSystemProfiler(file => $file);
     is_deeply($result, $tests{$test}, "$test system profiler parsing");
 }
