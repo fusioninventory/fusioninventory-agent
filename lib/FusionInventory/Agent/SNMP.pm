@@ -224,9 +224,33 @@ Can be one of:
 
 =back
 
-=head2 snmpGet()
+=head2 snmpGet(%params)
 
-=head2 snmpWalk()
+This method returns a single value, corresponding to a single OID. The value is
+normalised to remove any control character, and hexadecimal mac addresses are
+translated into plain ascii.
+
+Available params:
+
+=over
+
+=item oid the unique OID to query
+
+=back
+
+=head2 snmpWalk(%params)
+
+This method returns an hashref of values, indexed by their OIDs, starting from
+the given one. The values are normalised to remove any control character, and
+hexadecimal mac addresses are translated into plain ascii.
+
+Available params:
+
+=over
+
+=item oid_start the first OID to start walking
+
+=back
 
 =head2 getBadMACAddress()
 
