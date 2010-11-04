@@ -61,7 +61,6 @@ sub snmpGet {
     my ($self, $params) = @_;
 
     my $oid = $params->{oid};
-    my $up = $params->{up};
 
     return unless $oid;
 
