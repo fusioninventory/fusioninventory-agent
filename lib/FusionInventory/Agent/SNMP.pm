@@ -85,6 +85,8 @@ sub snmpGet {
         $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/
     ) {
         $value = getBadMACAddress($oid, $result->{$oid});
+    } else {
+        $value = $result->{$oid};
     }
 
     $value = getSanitizedString($value);
