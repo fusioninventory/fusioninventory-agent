@@ -101,46 +101,48 @@ sub snmpWalk {
 
     my $oid_start = $params->{oid_start};
 
+    return unless $oid_start;
+
     my $ArraySNMP = {};
 
     my $oid_prec = $oid_start;
-    if (defined($oid_start)) {
-        while($oid_prec =~ m/$oid_start/) {
-            my $response = $self->{session}->get_next_request($oid_prec);
-            my $err = $self->{session}->error;
-            if ($err){
-                return $ArraySNMP;
-            }
-            my %pdesc = %{$response};
-            while (my ($oid, $value) = each (%pdesc)) {
-                if ($oid =~ /$oid_start/) {
-                    if ($value !~ /No response from remote host/) {
-                        if ($oid =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-                            $value = getBadMACAddress($oid, $value);
-                        }
-                        if ($oid =~ /.1.3.6.1.2.1.17.1.1.0/) {
-                            $value = getBadMACAddress($oid, $value);
-                        }
-                        if ($oid =~ /.1.3.6.1.2.1.2.2.1.6/) {
-                            $value = getBadMACAddress($oid, $value);
-                        }
-                        if ($oid =~ /.1.3.6.1.2.1.4.22.1.2/) {
-                            $value = getBadMACAddress($oid, $value);
-                        }
-                        if ($oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-                            $value = getBadMACAddress($oid, $value);
-                        }
-                        my $value2 = $value;
-                        $value2 =~ s/$_[0].//;
-                        $value = getSanitizedString($value);
-                        $value =~ s/\n$//;
-                        $ArraySNMP->{$value2} = $value;
+
+    while($oid_prec =~ m/$oid_start/) {
+        my $response = $self->{session}->get_next_request($oid_prec);
+        my $err = $self->{session}->error;
+        if ($err){
+            return $ArraySNMP;
+        }
+        my %pdesc = %{$response};
+        while (my ($oid, $value) = each (%pdesc)) {
+            if ($oid =~ /$oid_start/) {
+                if ($value !~ /No response from remote host/) {
+                    if ($oid =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
+                        $value = getBadMACAddress($oid, $value);
                     }
+                    if ($oid =~ /.1.3.6.1.2.1.17.1.1.0/) {
+                        $value = getBadMACAddress($oid, $value);
+                    }
+                    if ($oid =~ /.1.3.6.1.2.1.2.2.1.6/) {
+                        $value = getBadMACAddress($oid, $value);
+                    }
+                    if ($oid =~ /.1.3.6.1.2.1.4.22.1.2/) {
+                        $value = getBadMACAddress($oid, $value);
+                    }
+                    if ($oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
+                        $value = getBadMACAddress($oid, $value);
+                    }
+                    my $value2 = $value;
+                    $value2 =~ s/$_[0].//;
+                    $value = getSanitizedString($value);
+                    $value =~ s/\n$//;
+                    $ArraySNMP->{$value2} = $value;
                 }
-                $oid_prec = $value;
             }
+            $oid_prec = $value;
         }
     }
+
     return $ArraySNMP;
 }
 
