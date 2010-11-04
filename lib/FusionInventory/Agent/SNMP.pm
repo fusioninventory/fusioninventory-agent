@@ -115,32 +115,32 @@ sub snmpWalk {
             }
             my %pdesc = %{$response};
             #print %pdesc;
-            while ((my $object,my $oid) = each (%pdesc)) {
-                if ($object =~ /$oid_start/) {
-                    if ($oid !~ /No response from remote host/) {
-                        if ($object =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-                            $oid = getBadMACAddress($object,$oid)
+            while (my ($oid, $value) = each (%pdesc)) {
+                if ($oid =~ /$oid_start/) {
+                    if ($value !~ /No response from remote host/) {
+                        if ($oid =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
+                            $value = getBadMACAddress($oid, $value);
                         }
-                        if ($object =~ /.1.3.6.1.2.1.17.1.1.0/) {
-                            $oid = getBadMACAddress($object,$oid)
+                        if ($oid =~ /.1.3.6.1.2.1.17.1.1.0/) {
+                            $value = getBadMACAddress($oid, $value);
                         }
-                        if ($object =~ /.1.3.6.1.2.1.2.2.1.6/) {
-                            $oid = getBadMACAddress($object,$oid)
+                        if ($oid =~ /.1.3.6.1.2.1.2.2.1.6/) {
+                            $value = getBadMACAddress($oid, $value);
                         }
-                        if ($object =~ /.1.3.6.1.2.1.4.22.1.2/) {
-                            $oid = getBadMACAddress($object,$oid)
+                        if ($oid =~ /.1.3.6.1.2.1.4.22.1.2/) {
+                            $value = getBadMACAddress($oid, $value);
                         }
-                        if ($object =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-                            $oid = getBadMACAddress($object,$oid)
+                        if ($oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
+                            $value = getBadMACAddress($oid, $value);
                         }
-                        my $object2 = $object;
-                        $object2 =~ s/$_[0].//;
-                        $oid = getSanitizedString($oid);
-                        $oid =~ s/\n$//;
-                        $ArraySNMP->{$object2} = $oid;
+                        my $value2 = $value;
+                        $value2 =~ s/$_[0].//;
+                        $value = getSanitizedString($value);
+                        $value =~ s/\n$//;
+                        $ArraySNMP->{$value2} = $value;
                     }
                 }
-                $oid_prec = $object;
+                $oid_prec = $value;
             }
         }
     }
