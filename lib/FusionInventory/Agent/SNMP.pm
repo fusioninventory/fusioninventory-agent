@@ -76,7 +76,7 @@ sub snmpGet {
     return if $response->{$oid} =~ /noSuchInstance/;
     return if $response->{$oid} =~ /noSuchObject/;
 
-    my $value;
+    my $result;
     if (
         $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
         $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
@@ -84,15 +84,15 @@ sub snmpGet {
         $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
         $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/
     ) {
-        $value = getBadMACAddress($oid, $response->{$oid});
+        $result = getBadMACAddress($oid, $response->{$oid});
     } else {
-        $value = $response->{$oid};
+        $result = $response->{$oid};
     }
 
-    $value = getSanitizedString($value);
-    $value =~ s/\n$//;
+    $result = getSanitizedString($result);
+    $result =~ s/\n$//;
 
-    return $value;
+    return $result;
 }
 
 
@@ -103,7 +103,7 @@ sub snmpWalk {
 
     return unless $oid_start;
 
-    my $ArraySNMP = {};
+    my $result;
 
     my $oid_prec = $oid_start;
 
@@ -111,7 +111,7 @@ sub snmpWalk {
         my $response = $self->{session}->get_next_request($oid_prec);
         my $err = $self->{session}->error;
         if ($err){
-            return $ArraySNMP;
+            return $result;
         }
         my %pdesc = %{$response};
         while (my ($oid, $value) = each (%pdesc)) {
@@ -136,14 +136,14 @@ sub snmpWalk {
                     $value2 =~ s/$_[0].//;
                     $value = getSanitizedString($value);
                     $value =~ s/\n$//;
-                    $ArraySNMP->{$value2} = $value;
+                    $result->{$value2} = $value;
                 }
             }
             $oid_prec = $value;
         }
     }
 
-    return $ArraySNMP;
+    return $result;
 }
 
 sub getBadMACAddress {
