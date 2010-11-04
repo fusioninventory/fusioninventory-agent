@@ -111,8 +111,7 @@ sub snmpWalk {
         my $response = $self->{session}->get_next_request($oid_prec);
         last unless $response;
 
-        my %pdesc = %{$response};
-        while (my ($oid, $value) = each (%pdesc)) {
+        while (my ($oid, $value) = each (%{$response})) {
             if ($oid =~ /$oid_start/) {
                 if ($value !~ /No response from remote host/) {
                     if ($oid =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
