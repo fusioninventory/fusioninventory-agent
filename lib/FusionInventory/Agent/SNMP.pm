@@ -67,14 +67,14 @@ sub snmpGet {
 
     my $session = $self->{session};
 
-    my $result = $session->get_request(
+    my $response = $session->get_request(
         -varbindlist => [$oid]
     );
 
-    return unless $result;
+    return unless $response;
 
-    return if $result->{$oid} =~ /noSuchInstance/;
-    return if $result->{$oid} =~ /noSuchObject/;
+    return if $response->{$oid} =~ /noSuchInstance/;
+    return if $response->{$oid} =~ /noSuchObject/;
 
     my $value;
     if (
@@ -84,9 +84,9 @@ sub snmpGet {
         $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
         $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/
     ) {
-        $value = getBadMACAddress($oid, $result->{$oid});
+        $value = getBadMACAddress($oid, $response->{$oid});
     } else {
-        $value = $result->{$oid};
+        $value = $response->{$oid};
     }
 
     $value = getSanitizedString($value);
