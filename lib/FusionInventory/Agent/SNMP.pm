@@ -101,10 +101,8 @@ sub snmpWalk {
 
     while($oid_prec =~ m/$oid_start/) {
         my $response = $self->{session}->get_next_request($oid_prec);
-        my $err = $self->{session}->error;
-        if ($err){
-            return $result;
-        }
+        last unless $response;
+
         my %pdesc = %{$response};
         while (my ($oid, $value) = each (%pdesc)) {
             if ($oid =~ /$oid_start/) {
