@@ -22,8 +22,8 @@ sub doInventory {
 
     my @cpus;
 
-    if can_run('dmidecode') {
-        my $infos = getInfosFromDmidecode(logger => $logger)
+    if (can_run('dmidecode')) {
+        my $infos = getInfosFromDmidecode(logger => $logger);
 
         if ($infos->{4}) {
             foreach my $info (@{$infos->{4}}) {
@@ -38,33 +38,37 @@ sub doInventory {
         }
     }
 
-    my ($cpuProcs, $cpuCoreCpts) = _getInfosFromProc($logger);
+    my ($proc_cpus, $proc_cores) = _getInfosFromProc($logger);
 
-    my $maxId = @cpus ? @cpus - 1 : @$cpuProcs - 1;
-    foreach my $id (0..$maxId) {
-        if ($cpuProcs->[$id]->{vendor_id}) {
-            $cpuProcs->[$id]->{vendor_id} =~ s/Genuine//;
-            $cpuProcs->[$id]->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $cpuProcs->[$id]->{vendor_id} =~ s/CyrixInstead/Cyrix/;
-            $cpuProcs->[$id]->{vendor_id} =~ s/CentaurHauls/VIA/;
+    foreach my $cpu (@cpus) {
+        my $proc_cpu  = shift @$proc_cpus;
+        my $proc_core = shift @$proc_cores;
 
-            $cpu[$id]->{MANUFACTURER} = $cpuProcs->[$id]->{vendor_id};
+        if ($proc_cpu->{vendor_id}) {
+            $proc_cpu->{vendor_id} =~ s/Genuine//;
+            $proc_cpu->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $proc_cpu->{vendor_id} =~ s/CyrixInstead/Cyrix/;
+            $proc_cpu->{vendor_id} =~ s/CentaurHauls/VIA/;
+
+            $cpu->{MANUFACTURER} = $proc_cpu->{vendor_id};
         }
-        $cpus[$id]->{NAME} = $cpuProcs->[$id]->{'model name'};
-        if (!$cpus[$id]->{CORE}) {
-            $cpus[$id]->{CORE} = $cpuCoreCpts->[$id];
+
+        $cpu->{NAME} = $proc_cpu->{'model name'};
+
+        if (!$cpu->{CORE}) {
+            $cpu->{CORE} = $proc_core;
         }
-        if (!$cpus[$id]->{THREAD} && $cpuProcs->[$id]->{'siblings'}) {
-            $cpus[$id]->{THREAD} = $cpuProcs->[$id]->{'siblings'};
+        if (!$cpu->{THREAD} && $proc_cpu->{siblings}) {
+            $cpu->{THREAD} = $proc_cpu->{siblings};
         }
-        if ($cpus[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
-            $cpus[$id]->{SPEED} = {
+        if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+            $cpu->{SPEED} = {
                ghz => 1000,
                mhz => 1,
-            }->{lc($2)}*$1;
+            }->{lc($2)} * $1;
         }
 
-        $inventory->addCPU($cpus[$id]);
+        $inventory->addCPU($cpu);
     }
 }
 
