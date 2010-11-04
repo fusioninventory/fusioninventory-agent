@@ -101,12 +101,9 @@ sub snmpWalk {
             my $response = $self->{session}->get_next_request($oid_prec);
             my $err = $self->{session}->error;
             if ($err){
-                #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
-                #debug($log,"[".$_[1]."] Oid Error : ".$oid_prec,"",$PID);
                 return $ArraySNMP;
             }
             my %pdesc = %{$response};
-            #print %pdesc;
             while (my ($oid, $value) = each (%pdesc)) {
                 if ($oid =~ /$oid_start/) {
                     if ($value !~ /No response from remote host/) {
