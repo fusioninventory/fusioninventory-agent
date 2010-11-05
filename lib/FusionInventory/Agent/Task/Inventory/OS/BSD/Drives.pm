@@ -13,8 +13,15 @@ sub doInventory {
     my $type;
     my $volumn;
 
+    my %fs = ( ffs => 1, ufs => 1);
 
-    for my $t ("ffs","ufs") {
+    foreach (`mount`) {
+	if (/\ \((\S+?)[,\s\)]/) {
+	    $fs{$1} = 1;
+	}
+    }
+
+    for my $t (keys %fs) {
 # OpenBSD has no -m option so use -k to obtain results in kilobytes
         for(`df -P -t $t -k 2>&1`){
             if(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
