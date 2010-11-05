@@ -33,7 +33,7 @@ sub doInventory {
 	}
     }
 
-    foreach my $fs (keys %fs) {
+    foreach my $fs (keys %fsList) {
         # other BSD flavours don't support this flag, forcing to use 
         # successives calls
         my @ffs_drives = getFilesystemsFromDf(
