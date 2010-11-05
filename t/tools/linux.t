@@ -134,7 +134,6 @@ my %cpu_tests = (
             'max. addr. space #' => '255'
         }
     ],
-
     'linux-armel-1' => [
         {
             'd size' => '32768',

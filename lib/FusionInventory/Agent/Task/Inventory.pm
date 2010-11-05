@@ -20,7 +20,7 @@ sub run {
     # and will be removed/improved after the merge.
     if (!$self) {
         $self = FusionInventory::Agent::Task->new();
-	bless $self;
+	bless $self, __PACKAGE__;
     }
 
     # Turn off localised output for commands, after saving original values

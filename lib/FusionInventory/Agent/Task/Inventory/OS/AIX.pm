@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled {
@@ -15,18 +17,14 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my @tabOS;
-    my $OSName;
-    my $OSComment;
-    my $OSVersion;
-    my $OSLevel;
-    #Operating system informations
-    chomp($OSName=`uname -s`);
+    # Operating system informations
+    my $OSName = getSingleLine(command => 'uname -s');
+
     # AIX OSVersion = oslevel, OSComment=oslevel -r affiche niveau de maintenance
-    chomp($OSVersion=`oslevel`);
-    chomp($OSLevel=`oslevel -r`);
-    @tabOS=split(/-/,$OSLevel);
-    $OSComment="Maintenance Level :".$tabOS[1];
+    my $OSVersion = getSingleLine(command => 'oslevel');
+    my $OSLevel = getSingleLine(command => 'oslevel -r');
+    my @tabOS = split(/-/,$OSLevel);
+    my $OSComment = "Maintenance Level : $tabOS[1]";
 
     $OSVersion =~ s/(.0)*$//;
     $inventory->setHardware({

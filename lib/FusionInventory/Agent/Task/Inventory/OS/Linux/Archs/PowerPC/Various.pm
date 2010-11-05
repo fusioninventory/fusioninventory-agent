@@ -5,63 +5,41 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { 1 };
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    ############ Motherboard
-    my $SystemManufacturer;
-    my $SystemModel;
-    my $SystemSerial;
-    my $BiosManufacturer;
-    my $BiosVersion;
-    my $BiosDate;
+    my $SystemSerial = getSingleLine(file => '/proc/device-tree/serial-number');
+    $SystemSerial =~ s/[^\,^\.^\w^\ ]//g; # I remove some unprintable char
 
-    if (open my $handle, '<', '/proc/device-tree/serial-number') {
-        $SystemSerial = <$handle>;
-        $SystemSerial =~ s/[^\,^\.^\w^\ ]//g; # I remove some unprintable char
-        close $handle;
-    }
+    my $SystemModel = getSingleLine(file => '/proc/device-tree/model');
+    $SystemModel =~ s/[^\,^\.^\w^\ ]//g;
 
-    if (open my $handle, '<', '/proc/device-tree/model') {
-        $SystemModel = <$handle>;
-        $SystemModel =~ s/[^\,^\.^\w^\ ]//g;
-        close $handle;
-    }
+    my $colorCode = getSingleLine(file => '/proc/device-tree/color-code');
+    my ($color) = unpack "h7" , $colorCode;
+    $SystemModel .= " color: $color" if $color;
 
-    if (open my $handle, '<', '/proc/device-tree/color-code') {
-        my $tmp = <$handle>;
-        close $handle;
-        my ($color) = unpack "h7" , $tmp;
-        $SystemModel = $SystemModel." color: $color" if $color;
-    }
+    my $BiosVersion = getSingleLine(file => '/proc/device-tree/openprom/model');
+    $BiosVersion =~ s/[^\,^\.^\w^\ ]//g;
 
-    if (open my $handle, '<', '/proc/device-tree/openprom/model') {
-        $BiosVersion = <$handle>;
-        $BiosVersion =~ s/[^\,^\.^\w^\ ]//g;
-        close $handle;
-    }
-
-    if (open my $handle, '<', '/proc/device-tree/copyright') {
-        my $tmp = <$handle>;
-        close $handle;
-
-        if ($tmp =~ /Apple/) {
-            # What about the Apple clone?
-            $BiosManufacturer = "Apple Computer, Inc.";
-            $SystemManufacturer = "Apple Computer, Inc." 
-        }
+    my ($BiosManufacturer, $SystemManufacturer);
+    my $copyright = getSingleLine(file => '/proc/device-tree/copyright');
+    if ($copyright && $copyright =~ /Apple/) {
+        # What about the Apple clone?
+        $BiosManufacturer = "Apple Computer, Inc.";
+        $SystemManufacturer = "Apple Computer, Inc." 
     }
 
     $inventory->setBios ({
         SMANUFACTURER => $SystemManufacturer,
-        SMODEL => $SystemModel,
-        SSN => $SystemSerial,
+        SMODEL        => $SystemModel,
+        SSN           => $SystemSerial,
         BMANUFACTURER => $BiosManufacturer,
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
+        BVERSION      => $BiosVersion,
     });
 
 }

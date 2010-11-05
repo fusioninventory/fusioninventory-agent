@@ -15,9 +15,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $OSName;
-    my $OSComment;
-    my $OSVersion;
+    my ($OSName, $OSVersion);
 
     # if we can load the system profiler, gather the information from that
     if (can_load("Mac::SysProfile")) {
@@ -40,12 +38,13 @@ sub doInventory {
     } else {
         # we can't load the system profiler, use the basic BSD stype information
         # Operating system informations
-        chomp($OSName=`uname -s`);
-        chomp($OSVersion=`uname -r`);			
+        $OSName = getSingleLine(command => 'uname -s');
+        $OSVersion = getSingleLine(command => 'uname -r');			
     }
 
-    # add the uname -v as the comment, not really needed, but extra info never hurt
-    chomp($OSComment=`uname -v`);
+    # add the uname -v as the comment, not really needed, but extra info
+    # never hurt
+    my $OSComment = getSingleLine(command => 'uname -v');
     $inventory->setHardware({
         OSNAME	   => $OSName,
         OSCOMMENTS => $OSComment,
