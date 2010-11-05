@@ -14,7 +14,7 @@ if ($EVAL_ERROR) {
     plan(skip_all => $msg);
 }
 
-plan tests => 8;
+plan tests => 9;
 
 my $snmp;
 throws_ok {
@@ -58,6 +58,11 @@ lives_ok {
 ok(
     !defined $snmp->snmpGet(),
     'no OID'
+);
+
+ok(
+    !defined $snmp->snmpWalk(),
+    'no first OID'
 );
 
 SKIP: {
