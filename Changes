@@ -54,6 +54,7 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/446
        * BSD: use mount to identify the filesystem type, this shoud fix bug #450
          http://forge.fusioninventory.org/issues/450
+       * Win32: try to identify dual core CPU even if Windows thinks it two physical CPU
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
