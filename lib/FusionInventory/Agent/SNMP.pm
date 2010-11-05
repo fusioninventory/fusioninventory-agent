@@ -83,7 +83,7 @@ sub snmpGet {
 
     my $result = _getNormalizedValue($oid, $response->{$oid});
     $result = getSanitizedString($result);
-    $result =~ s/\n$//;
+    chomp $result;
 
     return $result;
 }
@@ -108,7 +108,7 @@ sub snmpWalk {
     foreach my $oid (keys %{$response}) {
         my $value = _getNormalizedValue($oid, $response->{$oid});
         $value = getSanitizedString($value);
-        $value =~ s/\n$//;
+        chomp $value;
         $result->{$oid} = $value;
     }
 
