@@ -30,12 +30,11 @@ sub doInventory {
 
 
     my %fs;
-    foreach (`mount`) {
-	next if /^devfs/;
-	next if /^fdesc/;
-        if (/on\s.+\s\((\S+?)(,|\))/) {
-            $fs{$1} = 1;
-        }
+    foreach my $line (`mount`) {
+        next unless $line =~ /\S+ on \S+ \((\S+),/;
+	next if $1 eq 'fdesc';
+	next if $1 eq 'devfs';
+        $fs{$1}=1;
     }
 
     my @drives;
