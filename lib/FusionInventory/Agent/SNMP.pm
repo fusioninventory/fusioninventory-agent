@@ -64,9 +64,7 @@ sub snmpGet {
 
     return unless $oid;
 
-    my $session = $self->{session};
-
-    my $response = $session->get_request(
+    my $response = $self->{session}->get_request(
         -varbindlist => [$oid]
     );
 
@@ -90,9 +88,7 @@ sub snmpWalk {
 
     return unless $oid_start;
 
-    my $session = $self->{session};
-
-    my $response = $session->get_table(
+    my $response = $self->{session}->get_table(
         -baseoid => $oid_start
     );
 
