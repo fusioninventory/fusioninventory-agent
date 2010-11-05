@@ -75,19 +75,7 @@ sub snmpGet {
     return if $response->{$oid} =~ /noSuchInstance/;
     return if $response->{$oid} =~ /noSuchObject/;
 
-    my $result;
-    if (
-        $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
-        $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
-        $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
-        $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
-        $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/
-    ) {
-        $result = getBadMACAddress($oid, $response->{$oid});
-    } else {
-        $result = $response->{$oid};
-    }
-
+    my $result = _getNormalizedValue($oid, $response->{$oid});
     $result = getSanitizedString($result);
     $result =~ s/\n$//;
 
@@ -110,51 +98,46 @@ sub snmpWalk {
         my $response = $self->{session}->get_next_request($oid_prec);
         last unless $response;
 
-        while (my ($oid, $value) = each (%{$response})) {
+        foreach my $oid (keys %{$response}) {
             if ($oid =~ /$oid_start/) {
-                if ($value !~ /No response from remote host/) {
-                    if ($oid =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-                        $value = getBadMACAddress($oid, $value);
-                    }
-                    if ($oid =~ /.1.3.6.1.2.1.17.1.1.0/) {
-                        $value = getBadMACAddress($oid, $value);
-                    }
-                    if ($oid =~ /.1.3.6.1.2.1.2.2.1.6/) {
-                        $value = getBadMACAddress($oid, $value);
-                    }
-                    if ($oid =~ /.1.3.6.1.2.1.4.22.1.2/) {
-                        $value = getBadMACAddress($oid, $value);
-                    }
-                    if ($oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-                        $value = getBadMACAddress($oid, $value);
-                    }
-                    my $value2 = $value;
-                    $value2 =~ s/$_[0].//;
-                    $value = getSanitizedString($value);
-                    $value =~ s/\n$//;
-                    $result->{$value2} = $value;
-                }
+                next if $response->{$oid} =~ /No response from remote host/;
+
+                my $value = _getNormalizedValue($oid, $response->{$oid});
+                $value = getSanitizedString($value);
+                $value =~ s/\n$//;
+
+                my $oid2 = $oid;
+                $oid2 =~ s/$_[0].//;
+                $result->{$oid2} = $value;
             }
-            $oid_prec = $value;
+            $oid_prec = $oid;
         }
     }
 
     return $result;
 }
 
-sub getBadMACAddress {
-    my $OID_ifTable = shift;
-    my $oid_value = shift;
+sub _getNormalizedValue {
+    my ($oid, $value) = @_;
 
-    if ($oid_value !~ /0x/) {
-        $oid_value = "0x".unpack 'H*', $oid_value;
+    # return value directly, unless for specific oids
+    # corresponding to bad mac addresses
+    return $value unless 
+        $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
+        $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
+        $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
+        $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
+        $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/;
+
+    if ($value !~ /0x/) {
+        $value = "0x" . unpack 'H*', $value;
     }
 
-    my @array = split(/(\S{2})/, $oid_value);
-    if (@array eq "14") {
-        $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
+    my @array = split(/(\S{2})/, $value);
+    if (@array == "14") {
+        $value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
     }
-    return $oid_value;
+    return $value;
 }
 
 sub getAuthList {
@@ -251,8 +234,6 @@ Available params:
 =item oid_start the first OID to start walking
 
 =back
-
-=head2 getBadMACAddress()
 
 =head2 getAuthList()
 
