@@ -1,0 +1,831 @@
+# dmidecode 2.10
+SMBIOS 2.5 present.
+70 structures occupying 2535 bytes.
+Table at 0x000F0740.
+
+Handle 0x0000, DMI type 0, 24 bytes
+BIOS Information
+	Vendor: American Megatrends Inc.
+	Version: 2102   
+	Release Date: 04/07/2009
+	Address: 0xF0000
+	Runtime Size: 64 kB
+	ROM Size: 1024 kB
+	Characteristics:
+		ISA is supported
+		PCI is supported
+		PNP is supported
+		APM is supported
+		BIOS is upgradeable
+		BIOS shadowing is allowed
+		ESCD support is available
+		Boot from CD is supported
+		Selectable boot is supported
+		BIOS ROM is socketed
+		EDD is supported
+		5.25"/1.2 MB floppy services are supported (int 13h)
+		3.5"/720 kB floppy services are supported (int 13h)
+		3.5"/2.88 MB floppy services are supported (int 13h)
+		Print screen service is supported (int 5h)
+		8042 keyboard services are supported (int 9h)
+		Serial services are supported (int 14h)
+		Printer services are supported (int 17h)
+		CGA/mono video services are supported (int 10h)
+		ACPI is supported
+		USB legacy is supported
+		LS-120 boot is supported
+		ATAPI Zip drive boot is supported
+		BIOS boot specification is supported
+		Targeted content distribution is supported
+	BIOS Revision: 21.2
+
+Handle 0x0001, DMI type 1, 27 bytes
+System Information
+	Manufacturer: System manufacturer
+	Product Name: System Product Name
+	Version: System Version
+	Serial Number: System Serial Number
+	UUID: 40EB001E-8C00-01CE-8E2C-00248C590A84
+	Wake-up Type: Power Switch
+	SKU Number: To Be Filled By O.E.M.
+	Family: To Be Filled By O.E.M.
+
+Handle 0x0002, DMI type 2, 15 bytes
+Base Board Information
+	Manufacturer: ASUSTeK Computer INC.
+	Product Name: P5Q
+	Version: Rev 1.xx
+	Serial Number: MS1C93BB0H00980
+	Asset Tag: To Be Filled By O.E.M.
+	Features:
+		Board is a hosting board
+		Board is replaceable
+	Location In Chassis: To Be Filled By O.E.M.
+	Chassis Handle: 0x0003
+	Type: Motherboard
+	Contained Object Handles: 0
+
+Handle 0x0003, DMI type 3, 21 bytes
+Chassis Information
+	Manufacturer: Chassis Manufacture
+	Type: Desktop
+	Lock: Not Present
+	Version: Chassis Version
+	Serial Number: Chassis Serial Number
+	Asset Tag: Asset-1234567890
+	Boot-up State: Safe
+	Power Supply State: Safe
+	Thermal State: Safe
+	Security Status: None
+	OEM Information: 0x00000011
+	Height: Unspecified
+	Number Of Power Cords: 1
+	Contained Elements: 0
+
+Handle 0x0004, DMI type 4, 40 bytes
+Processor Information
+	Socket Designation: LGA 775
+	Type: Central Processor
+	Family: Core 2 Duo
+	Manufacturer: Intel            
+	ID: 7A 06 01 00 FF FB EB BF
+	Signature: Type 0, Family 6, Model 23, Stepping 10
+	Flags:
+		FPU (Floating-point unit on-chip)
+		VME (Virtual mode extension)
+		DE (Debugging extension)
+		PSE (Page size extension)
+		TSC (Time stamp counter)
+		MSR (Model specific registers)
+		PAE (Physical address extension)
+		MCE (Machine check exception)
+		CX8 (CMPXCHG8 instruction supported)
+		APIC (On-chip APIC hardware supported)
+		SEP (Fast system call)
+		MTRR (Memory type range registers)
+		PGE (Page global enable)
+		MCA (Machine check architecture)
+		CMOV (Conditional move instruction supported)
+		PAT (Page attribute table)
+		PSE-36 (36-bit page size extension)
+		CLFSH (CLFLUSH instruction supported)
+		DS (Debug store)
+		ACPI (ACPI supported)
+		MMX (MMX technology supported)
+		FXSR (Fast floating-point save and restore)
+		SSE (Streaming SIMD extensions)
+		SSE2 (Streaming SIMD extensions 2)
+		SS (Self-snoop)
+		HTT (Hyper-threading technology)
+		TM (Thermal monitor supported)
+		PBE (Pending break enabled)
+	Version: Intel(R) Core(TM)2 Duo CPU E8400 @ 3.00GHz          
+	Voltage: 1.2 V
+	External Clock: 333 MHz
+	Max Speed: 3800 MHz
+	Current Speed: 3000 MHz
+	Status: Populated, Enabled
+	Upgrade: Other
+	L1 Cache Handle: 0x0005
+	L2 Cache Handle: 0x0006
+	L3 Cache Handle: 0x0007
+	Serial Number: To Be Filled By O.E.M.
+	Asset Tag: To Be Filled By O.E.M.
+	Part Number: To Be Filled By O.E.M.
+	Core Count: 2
+	Core Enabled: 2
+	Thread Count: 2
+	Characteristics:
+		64-bit capable
+
+Handle 0x0005, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L1-Cache
+	Configuration: Enabled, Not Socketed, Level 1
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 64 kB
+	Maximum Size: 64 kB
+	Supported SRAM Types:
+		Other
+	Installed SRAM Type: Other
+	Speed: Unknown
+	Error Correction Type: Parity
+	System Type: Data
+	Associativity: 8-way Set-associative
+
+Handle 0x0006, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L2-Cache
+	Configuration: Enabled, Not Socketed, Level 2
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 6144 kB
+	Maximum Size: 6144 kB
+	Supported SRAM Types:
+		Other
+	Installed SRAM Type: Other
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Unified
+	Associativity: Other
+
+Handle 0x0007, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L3-Cache
+	Configuration: Disabled, Not Socketed, Level 3
+	Operational Mode: Unknown
+	Location: Internal
+	Installed Size: 0 kB
+	Maximum Size: 0 kB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Unknown
+	System Type: Unknown
+	Associativity: Unknown
+
+Handle 0x0008, DMI type 5, 24 bytes
+Memory Controller Information
+	Error Detecting Method: 64-bit ECC
+	Error Correcting Capabilities:
+		None
+	Supported Interleave: One-way Interleave
+	Current Interleave: One-way Interleave
+	Maximum Memory Module Size: 2048 MB
+	Maximum Total Memory Size: 8192 MB
+	Supported Speeds:
+		Other
+	Supported Memory Types:
+		DIMM
+	Memory Module Voltage: 3.3 V
+	Associated Memory Slots: 4
+		0x0009
+		0x000A
+		0x000B
+		0x000C
+	Enabled Error Correcting Capabilities:
+		None
+
+Handle 0x0009, DMI type 6, 12 bytes
+Memory Module Information
+	Socket Designation: DIMM0
+	Bank Connections: 0 1
+	Current Speed: 19 ns
+	Type: DIMM
+	Installed Size: 1024 MB (Single-bank Connection)
+	Enabled Size: 1024 MB (Single-bank Connection)
+	Error Status: OK
+
+Handle 0x000A, DMI type 6, 12 bytes
+Memory Module Information
+	Socket Designation: DIMM1
+	Bank Connections: 2 3
+	Current Speed: 19 ns
+	Type: DIMM
+	Installed Size: 1024 MB (Single-bank Connection)
+	Enabled Size: 1024 MB (Single-bank Connection)
+	Error Status: OK
+
+Handle 0x000B, DMI type 6, 12 bytes
+Memory Module Information
+	Socket Designation: DIMM2
+	Bank Connections: 4 5
+	Current Speed: 19 ns
+	Type: DIMM
+	Installed Size: 1024 MB (Single-bank Connection)
+	Enabled Size: 1024 MB (Single-bank Connection)
+	Error Status: OK
+
+Handle 0x000C, DMI type 6, 12 bytes
+Memory Module Information
+	Socket Designation: DIMM3
+	Bank Connections: 6 7
+	Current Speed: 19 ns
+	Type: DIMM
+	Installed Size: 1024 MB (Single-bank Connection)
+	Enabled Size: 1024 MB (Single-bank Connection)
+	Error Status: OK
+
+Handle 0x000D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: PS/2 Keyboard
+	Internal Connector Type: None
+	External Reference Designator: PS/2 Keyboard
+	External Connector Type: PS/2
+	Port Type: Keyboard Port
+
+Handle 0x000E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: USB12
+	Internal Connector Type: None
+	External Reference Designator: USB12
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x000F, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: USB34
+	Internal Connector Type: None
+	External Reference Designator: USB34
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0010, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: USB56
+	Internal Connector Type: None
+	External Reference Designator: USB56
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0011, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: USB78
+	Internal Connector Type: None
+	External Reference Designator: USB78
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0012, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: USB910
+	Internal Connector Type: None
+	External Reference Designator: USB910
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0013, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: USB1112
+	Internal Connector Type: None
+	External Reference Designator: USB1112
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0014, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: GbE LAN
+	Internal Connector Type: None
+	External Reference Designator: GbE LAN
+	External Connector Type: RJ-45
+	Port Type: Network Port
+
+Handle 0x0015, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: COM 1
+	Internal Connector Type: None
+	External Reference Designator: COM 1
+	External Connector Type: DB-9 male
+	Port Type: Serial Port 16550A Compatible
+
+Handle 0x0016, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Audio Line Out1
+	Internal Connector Type: None
+	External Reference Designator: Audio Line Out1
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Audio Port
+
+Handle 0x0017, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Audio Line Out2
+	Internal Connector Type: None
+	External Reference Designator: Audio Line Out2
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Audio Port
+
+Handle 0x0018, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Audio Line Out3
+	Internal Connector Type: None
+	External Reference Designator: Audio Line Out3
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Audio Port
+
+Handle 0x0019, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Audio Line Out4
+	Internal Connector Type: None
+	External Reference Designator: Audio Line Out4
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Audio Port
+
+Handle 0x001A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Audio Line Out5
+	Internal Connector Type: None
+	External Reference Designator: Audio Line Out5
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Audio Port
+
+Handle 0x001B, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Audio Line Out6
+	Internal Connector Type: None
+	External Reference Designator: Audio Line Out6
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Audio Port
+
+Handle 0x001C, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SPDIF_OUT
+	Internal Connector Type: None
+	External Reference Designator: SPDIF_OUT
+	External Connector Type: On Board Sound Input From CD-ROM
+	Port Type: Audio Port
+
+Handle 0x001D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: IE1394_1
+	Internal Connector Type: None
+	External Reference Designator: IE1394_1
+	External Connector Type: IEEE 1394
+	Port Type: Firewire (IEEE P1394)
+
+Handle 0x001E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: IE1394_2
+	Internal Connector Type: None
+	External Reference Designator: IE1394_2
+	External Connector Type: IEEE 1394
+	Port Type: Firewire (IEEE P1394)
+
+Handle 0x001F, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA1
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0020, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA2
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0021, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA3
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0022, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA4
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0023, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA5
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0024, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA6
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0025, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: PRI_EIDE
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0026, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATAE1
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0027, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATAE2
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0028, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: FLOPPY
+	Internal Connector Type: On Board Floppy
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0029, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: CD
+	Internal Connector Type: On Board Sound Input From CD-ROM
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Audio Port
+
+Handle 0x002A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: AAFP
+	Internal Connector Type: Mini Jack (headphones)
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Audio Port
+
+Handle 0x002B, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: CPU_FAN
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x002C, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: PWR_FAN
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x002D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: CHA_FAN1
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x002E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: CHA_FAN2
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x002F, DMI type 9, 13 bytes
+System Slot Information
+	Designation: PCIEX16_1
+	Type: 32-bit PCI Express
+	Current Usage: In Use
+	Length: Short
+	ID: 1
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x0030, DMI type 9, 13 bytes
+System Slot Information
+	Designation: PCIEX1_1
+	Type: 32-bit PCI Express
+	Current Usage: Available
+	Length: Short
+	ID: 5
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x0031, DMI type 9, 13 bytes
+System Slot Information
+	Designation: PCIEX1_2
+	Type: 32-bit PCI Express
+	Current Usage: Available
+	Length: Short
+	ID: 6
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x0032, DMI type 9, 13 bytes
+System Slot Information
+	Designation: PCI_1
+	Type: 64-bit PCI Express
+	Current Usage: In Use
+	Length: Short
+	ID: 2
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x0033, DMI type 9, 13 bytes
+System Slot Information
+	Designation: PCI_2
+	Type: 32-bit PCI
+	Current Usage: Available
+	Length: Short
+	ID: 3
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x0034, DMI type 9, 13 bytes
+System Slot Information
+	Designation: PCI_3
+	Type: 32-bit PCI
+	Current Usage: In Use
+	Length: Short
+	ID: 4
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x0035, DMI type 10, 6 bytes
+On Board Device Information
+	Type: Ethernet
+	Status: Enabled
+	Description:  Onboard Ethernet
+
+Handle 0x0036, DMI type 11, 5 bytes
+OEM Strings
+	String 1: 00248C590A84
+	String 2: To Be Filled By O.E.M.
+	String 3: To Be Filled By O.E.M.
+	String 4: To Be Filled By O.E.M.
+
+Handle 0x0037, DMI type 12, 5 bytes
+System Configuration Options
+	Option 1: To Be Filled By O.E.M.
+
+Handle 0x0038, DMI type 13, 22 bytes
+BIOS Language Information
+	Installable Languages: 1
+		en|US|iso8859-1
+	Currently Installed Language: en|US|iso8859-1
+
+Handle 0x0039, DMI type 15, 55 bytes
+System Event Log
+	Area Length: 1008 bytes
+	Header Start Offset: 0x2010
+	Data Start Offset: 0x2010
+	Access Method: OEM-specific
+	Access Address: Unknown
+	Status: Valid, Not Full
+	Change Token: 0x00000000
+	Header Format: No Header
+	Supported Log Type Descriptors: 9
+	Descriptor 1: Single-bit ECC memory error
+	Data Format 1: Multiple-event handle
+	Descriptor 2: Multi-bit ECC memory error
+	Data Format 2: Multiple-event handle
+	Descriptor 3: Parity memory error
+	Data Format 3: Multiple-event
+	Descriptor 4: I/O channel block
+	Data Format 4: Multiple-event
+	Descriptor 5: POST error
+	Data Format 5: POST results bitmap
+	Descriptor 6: PCI parity error
+	Data Format 6: Multiple-event handle
+	Descriptor 7: PCI system error
+	Data Format 7: Multiple-event handle
+	Descriptor 8: System limit exceeded
+	Data Format 8: Multiple-event system management
+	Descriptor 9: OEM-specific
+	Data Format 9: POST results bitmap
+
+Handle 0x003A, DMI type 16, 15 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: None
+	Maximum Capacity: 4 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 4
+
+Handle 0x003B, DMI type 19, 15 bytes
+Memory Array Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000FFFFFFFF
+	Range Size: 4 GB
+	Physical Array Handle: 0x003A
+	Partition Width: 0
+
+Handle 0x003C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x003A
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 1024 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: DIMM0
+	Bank Locator: BANK0
+	Type: DDR2
+	Type Detail: Synchronous
+	Speed: 1066 MHz
+	Manufacturer: Manufacturer00
+	Serial Number: SerNum00
+	Asset Tag: AssetTagNum0
+	Part Number: ModulePartNumber00
+
+Handle 0x003D, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x0003FFFFFFF
+	Range Size: 1 GB
+	Physical Device Handle: 0x003C
+	Memory Array Mapped Address Handle: 0x003B
+	Partition Row Position: 1
+	Interleaved Data Depth: 1
+
+Handle 0x003E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x003A
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 1024 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: DIMM1
+	Bank Locator: BANK1
+	Type: DDR2
+	Type Detail: Synchronous
+	Speed: 1066 MHz
+	Manufacturer: Manufacturer01
+	Serial Number: SerNum01
+	Asset Tag: AssetTagNum1
+	Part Number: ModulePartNumber01
+
+Handle 0x003F, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00044000000
+	Ending Address: 0x00083FFFFFF
+	Range Size: 1 GB
+	Physical Device Handle: 0x003E
+	Memory Array Mapped Address Handle: 0x003B
+	Partition Row Position: 1
+	Interleaved Data Depth: 1
+
+Handle 0x0040, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x003A
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 1024 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: DIMM2
+	Bank Locator: BANK2
+	Type: DDR2
+	Type Detail: Synchronous
+	Speed: 1066 MHz
+	Manufacturer: Manufacturer02
+	Serial Number: SerNum02
+	Asset Tag: AssetTagNum2
+	Part Number: ModulePartNumber02
+
+Handle 0x0041, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00044000000
+	Ending Address: 0x00083FFFFFF
+	Range Size: 1 GB
+	Physical Device Handle: 0x0040
+	Memory Array Mapped Address Handle: 0x003B
+	Partition Row Position: 1
+	Interleaved Data Depth: 1
+
+Handle 0x0042, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x003A
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 1024 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: DIMM3
+	Bank Locator: BANK3
+	Type: DDR2
+	Type Detail: Synchronous
+	Speed: 1066 MHz
+	Manufacturer: Manufacturer03
+	Serial Number: SerNum03
+	Asset Tag: AssetTagNum3
+	Part Number: ModulePartNumber03
+
+Handle 0x0043, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00044000000
+	Ending Address: 0x00083FFFFFF
+	Range Size: 1 GB
+	Physical Device Handle: 0x0042
+	Memory Array Mapped Address Handle: 0x003B
+	Partition Row Position: 1
+	Interleaved Data Depth: 1
+
+Handle 0x0044, DMI type 32, 20 bytes
+System Boot Information
+	Status: No errors detected
+
+Handle 0x0045, DMI type 127, 4 bytes
+End Of Table
+
+dmidecode -s bios-vendor:
+American Megatrends Inc.
+dmidecode -s bios-version:
+2102   
+dmidecode -s bios-release-date:
+04/07/2009
+dmidecode -s system-manufacturer:
+System manufacturer
+dmidecode -s system-product-name:
+System Product Name
+dmidecode -s system-version:
+System Version
+dmidecode -s system-serial-number:
+System Serial Number
+dmidecode -s system-uuid:
+40EB001E-8C00-01CE-8E2C-00248C590A84
+dmidecode -s baseboard-manufacturer:
+ASUSTeK Computer INC.
+dmidecode -s baseboard-product-name:
+P5Q
+dmidecode -s baseboard-version:
+Rev 1.xx
+dmidecode -s baseboard-serial-number:
+MS1C93BB0H00980
+dmidecode -s baseboard-asset-tag:
+To Be Filled By O.E.M.
+dmidecode -s chassis-manufacturer:
+Chassis Manufacture
+dmidecode -s chassis-type:
+Desktop
+dmidecode -s chassis-version:
+Chassis Version
+dmidecode -s chassis-serial-number:
+Chassis Serial Number
+dmidecode -s chassis-asset-tag:
+Asset-1234567890
+dmidecode -s processor-family:
+Core 2 Duo
+dmidecode -s processor-manufacturer:
+Intel            
+dmidecode -s processor-version:
+Intel(R) Core(TM)2 Duo CPU E8400 @ 3.00GHz          
+dmidecode -s processor-frequency:
+3000 MHz
