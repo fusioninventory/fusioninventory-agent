@@ -141,7 +141,7 @@ sub _getNormalizedValue {
         $value = "0x" . unpack 'H*', $value;
     }
 
-    my @array = split(/(\S{2})/, $value);
+    my @array = split(/\S{2}/, $value);
     if (@array == "14") {
         $value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
     }
