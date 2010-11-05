@@ -142,7 +142,7 @@ sub _getNormalizedValue {
     }
 
     my @array = split(/\S{2}/, $value);
-    if (@array == "14") {
+    if (@array == 14) {
         $value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
     }
     return $value;
