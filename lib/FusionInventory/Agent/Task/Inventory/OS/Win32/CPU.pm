@@ -58,8 +58,6 @@ sub doInventory {
     my(@osver) = Win32::GetOSVersion();
     my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
 
-    return;
-
 
     my @dmidecodeCpu;
     if (!$isWin2003 && can_run("dmidecode")) {
