@@ -42,9 +42,9 @@ sub doInventory {
         );
         foreach my $drive (@ffs_drives) {
             $drive->{FILESYSTEM} = $fs;
-        }
 
-        $inventory->addDrive($drive);
+	    $inventory->addDrive($drive);
+        }
     }
 }
 
