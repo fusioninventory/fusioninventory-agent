@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled {
@@ -16,12 +18,9 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     # Basic operating system informations
-    my $OSVersion = `uname -r`;
-    chomp $OSVersion;
-    my $OSArchi = `uname -p`;
-    chomp $OSArchi;
-    my $OSComment = `uname -v`;
-    chomp $OSComment;
+    my $OSVersion = getSingleLine(command => 'uname -r');
+    my $OSArchi = getSingleLine(command => 'uname -p');
+    my $OSComment = getSingleLine(command => 'uname -v');
 
     # Get more information from the kernel configuration file
     my $date;

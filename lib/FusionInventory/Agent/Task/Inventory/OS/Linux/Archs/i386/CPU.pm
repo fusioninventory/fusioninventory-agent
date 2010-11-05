@@ -20,52 +20,55 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my @cpu;
+    my @cpus;
 
-    my $infos = getInfosFromDmidecode(logger => $logger)
-        if can_run('dmidecode');
+    if (can_run('dmidecode')) {
+        my $infos = getInfosFromDmidecode(logger => $logger);
 
-    if ($infos->{4}) {
-        foreach my $info (@{$infos->{4}}) {
-            my $cpu = {
-                SERIAL       => $info->{'ID'},
-                MANUFACTURER => $info->{'Manufacturer'},
-                CORE         => $info->{'Core Count'},
-                THREAD       => ($info->{'Thread Count'} || 1),
-                SPEED        => getCanonicalSpeed($info->{'Max Speed'})
-            };
-
-            push @cpu, $cpu;
+        if ($infos->{4}) {
+            foreach my $info (@{$infos->{4}}) {
+                push @cpus, {
+                    SERIAL       => $info->{'ID'},
+                    MANUFACTURER => $info->{'Manufacturer'},
+                    CORE         => $info->{'Core Count'},
+                    THREAD       => ($info->{'Thread Count'} || 1),
+                    SPEED        => getCanonicalSpeed($info->{'Max Speed'})
+                };
+            }
         }
     }
 
-    my ($cpuProcs, $cpuCoreCpts) = _getInfosFromProc($logger);
+    my ($proc_cpus, $proc_cores) = _getInfosFromProc($logger);
 
-    my $maxId = @cpu?@cpu-1:@$cpuProcs-1;
-    foreach my $id (0..$maxId) {
-        if ($cpuProcs->[$id]->{vendor_id}) {
-            $cpuProcs->[$id]->{vendor_id} =~ s/Genuine//;
-            $cpuProcs->[$id]->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $cpuProcs->[$id]->{vendor_id} =~ s/CyrixInstead/Cyrix/;
-            $cpuProcs->[$id]->{vendor_id} =~ s/CentaurHauls/VIA/;
+    foreach my $cpu (@cpus) {
+        my $proc_cpu  = shift @$proc_cpus;
+        my $proc_core = shift @$proc_cores;
 
-            $cpu[$id]->{MANUFACTURER} = $cpuProcs->[$id]->{vendor_id};
+        if ($proc_cpu->{vendor_id}) {
+            $proc_cpu->{vendor_id} =~ s/Genuine//;
+            $proc_cpu->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $proc_cpu->{vendor_id} =~ s/CyrixInstead/Cyrix/;
+            $proc_cpu->{vendor_id} =~ s/CentaurHauls/VIA/;
+
+            $cpu->{MANUFACTURER} = $proc_cpu->{vendor_id};
         }
-        $cpu[$id]->{NAME} = $cpuProcs->[$id]->{'model name'};
-        if (!$cpu[$id]->{CORE}) {
-            $cpu[$id]->{CORE} = $cpuCoreCpts->[$id];
+
+        $cpu->{NAME} = $proc_cpu->{'model name'};
+
+        if (!$cpu->{CORE}) {
+            $cpu->{CORE} = $proc_core;
         }
-        if (!$cpu[$id]->{THREAD} && $cpuProcs->[$id]->{'siblings'}) {
-            $cpu[$id]->{THREAD} = $cpuProcs->[$id]->{'siblings'};
+        if (!$cpu->{THREAD} && $proc_cpu->{siblings}) {
+            $cpu->{THREAD} = $proc_cpu->{siblings};
         }
-        if ($cpu[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
-            $cpu[$id]->{SPEED} = {
+        if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+            $cpu->{SPEED} = {
                ghz => 1000,
                mhz => 1,
-            }->{lc($2)}*$1;
+            }->{lc($2)} * $1;
         }
 
-        $inventory->addCPU($cpu[$id]);
+        $inventory->addCPU($cpu);
     }
 }
 

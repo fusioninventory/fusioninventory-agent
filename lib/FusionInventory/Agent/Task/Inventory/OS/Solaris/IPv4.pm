@@ -15,7 +15,6 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my %ip;
     my $ip;
-    my $hostn;
 
 #Looking for ip addresses with ifconfig, except loopback
 # Solaris need -a option
@@ -33,7 +32,7 @@ sub doInventory {
 # Let's try to resolve the name of our server
 #
 
-    chomp( $hostn = `uname -n` );
+    my $hostn = getSingleLine(command => 'uname -n');
     if ($hostn) {
         my $aip;
         foreach (`ping -s $hostn 10 1`) {

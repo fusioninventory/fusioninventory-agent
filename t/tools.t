@@ -2,6 +2,8 @@
 
 use strict;
 use warnings;
+use Config;
+use File::Temp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Logger;
 use Test::More;
@@ -3039,6 +3041,10 @@ my @speed_tests_ok = (
     [ '1 MHZ', 1 ],
     [ '1 ghz', 1000 ],
     [ '1 GHZ', 1000 ],
+    [ '1mhz', 1 ],
+    [ '1MHZ', 1 ],
+    [ '1ghz', 1000 ],
+    [ '1GHZ', 1000 ],
 );
 
 my @manufacturer_tests_ok = (
@@ -3077,7 +3083,8 @@ plan tests =>
     (scalar @speed_tests_ok) +
     (scalar @speed_tests_nok) +
     (scalar @manufacturer_tests_ok) +
-    (scalar @manufacturer_tests_nok);
+    (scalar @manufacturer_tests_nok) +
+    2;
 
 my $logger = FusionInventory::Logger->new();
 
@@ -3133,3 +3140,19 @@ foreach my $test (@manufacturer_tests_nok) {
         "invalid value manufacturer normalisation"
     );
 }
+
+my $tmp = File::Temp->new(UNLINK => $ENV{TEST_DEBUG} ? 0 : 1);
+print $tmp "first line\n";
+print $tmp "second line\n";
+close $tmp;
+
+is(
+    getSingleLine(file => $tmp),
+    'first line',
+    "simple file reading"
+);
+is(
+    getSingleLine(command => 'perl -MConfig -e \'print "$Config{osname}\n"\''),
+    $Config{osname},
+    "simple command reading"
+);

@@ -3,83 +3,52 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::CPU;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {
-    return unless -r "/dev/mem";
+use FusionInventory::Agent::Tools;
 
-    `which dmidecode 2>&1`;
-    return if ($? >> 8)!=0;
-    `dmidecode 2>&1`;
-    return if ($? >> 8)!=0;
-    1;
+sub isInventoryEnabled {
+    return 
+        -r "/dev/mem" && # why is this needed ?
+        can_run('dmidecode');
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my $processort;
-    my $processorn;
-    my $processors;
+    my $hwModel = getSingleLine(command => 'sysctl -n hw.model');
 
-    my @cpu;
-
-    my $in;
-    my $frequency;
-    my $serial;
-    my $manufacturer;
-    my $thread;
-    my $name;
-    my $family;
-    foreach (`dmidecode`) {
-        $in = 1 if /^\s*Processor Information/;
-
-        if ($in) {
-            $frequency = $1 if /^\s*Max Speed:\s*(\d+)\s*MHz/i;
-            $frequency = $1*1000 if /^\s*Max Speed:\s*(\d+)\s*GHz/i;
-            $serial = $1 if /^\s*ID:\s*(\S.+)/i;
-            $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
-            $thread = int($1) if /Thread Count:\s*(\S.*)/;
-            $name = $1 if /Version:\s*(\S.*)/;
-            $family = $1 if /Family:\s*(\S.*)/;
+    foreach my $cpu (_getCPUsFromDmidecode($logger)) {
+        $cpu->{NAME} = $hwModel if !$cpu->{NAME};
+        if ($hwModel =~ /([\.\d]+)GHz/) {
+            $cpu->{SPEED} = $1 * 1000;
         }
-
-        if ($in && /^\s*$/) {
-            $in = 0;
-            $serial =~ s/\s//g;
-            $thread = 1 unless $thread;
-
-            chomp(my $hwModel = `sysctl -n hw.model`);
-
-            if ($hwModel =~ /([\.\d]+)GHz/) {
-                $frequency = $1 * 1000;
-            }
-            $name =~ s/^Not Specified$//;
-            push @cpu, {
-                SPEED => $frequency,
-                MANUFACTURER => $manufacturer,
-                SERIAL => $serial,
-# Thread per core according to my understanding of
-# http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
-                THREAD => $thread,
-                NAME => $hwModel || $name || $family
-            };
-
-	    $frequency = undef;
-	    $serial = undef;
-	    $manufacturer = undef;
-	    $thread = undef;
-	    $name = undef;
-	    $family = undef;
-
-        }
+        $inventory->addCPU($cpu);
     }
-
-
-
-
-    foreach (@cpu) {
-        $inventory->addCPU($_);
-    }
-
 }
+
+sub _getCPUsFromDmidecode {
+    my ($logger, $file) = @_;
+
+    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+
+    my @cpus;
+    if ($infos->{4}) {
+        foreach my $info (@{$infos->{4}}) {
+            my $serial = $info->{ID};
+            $serial =~ s/\s//g;
+
+            push @cpus, {
+                SERIAL       => $serial,
+                MANUFACTURER => $info->{'Manufacturer'},
+                THREAD       => ($info->{'Thread Count'} || 1),
+                SPEED        => getCanonicalSpeed($info->{'Max Speed'}),
+                NAME         => $info->{Version} || $info->{Family}
+            }
+        }
+    }
+
+    return @cpus;
+}
+
 1;

@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled {
@@ -14,11 +16,10 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    chomp (my $osversion = `uname -r`);
+    my $osversion = getSingleLine(command => 'uname -r');
 
     my ($last_user, $last_date);
-    my @query = `last -R`;
-    my $last = $query[0]; 
+    my $last = getSingleLine(command => 'last -R');
     if ($last =~ /^(\S+) \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x ) {
         $last_user = $1;
         $last_date = $2;
