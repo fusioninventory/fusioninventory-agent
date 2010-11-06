@@ -29,11 +29,14 @@ sub doInventory {
 	    next if $fs eq 'procfs';
 	    next if $fs eq 'linprocfs';
 	    next if $fs eq 'linsysfs';
+	    next if $fs eq 'tmpfs';
+	    next if $fs eq 'fdescfs';
+
 	    $fsList{$fs} = 1;
 	}
     }
 
-    foreach my $fs (keys %fs) {
+    foreach my $fs (keys %fsList) {
         # other BSD flavours don't support this flag, forcing to use 
         # successives calls
         my @ffs_drives = getFilesystemsFromDf(
@@ -42,9 +45,9 @@ sub doInventory {
         );
         foreach my $drive (@ffs_drives) {
             $drive->{FILESYSTEM} = $fs;
-        }
 
-        $inventory->addDrive($drive);
+	    $inventory->addDrive($drive);
+        }
     }
 }
 
