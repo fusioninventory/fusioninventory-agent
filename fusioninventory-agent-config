@@ -218,7 +218,7 @@ foreach ($newConfigFile, $ocsConfigFile) {
 
 print "[info] The config file will be written in $defaultConfigDir/$defaultCfgFile,\n";
 
-my $tmp = promptUser('What is the address of your ocs server', exists
+my $tmp = promptUser('What are the address of your inventory servers? You can enter a list of multiple servers separated by a comma (,).', exists
     ($config->{server})?$config->{server}:'http://ocsinventory-ng/ocsinventory');
 $config->{server} = mkFullServerUrl($tmp);
 if (!$config->{server}) {
