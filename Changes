@@ -64,7 +64,6 @@ Revision history for FusionInventory::Agent
        * Linux/PPC: ignore some wrong warning
        * Linux: CPUS/TYPE renamed to CPUS/NAME
        * POD: add doc for BIOS/{S,B}MANUFACTURER
-       * Clean up: remove BIOS/{MMANUFACTURER,MSN}
        * POD: fix a syntax error in fusioninventory-agent
        * use the default basevardir.
        * POD: clarify, we ignore virtual filesystem like /proc in <DRIVES />
@@ -108,6 +107,10 @@ Revision history for FusionInventory::Agent
        * Win32: no need to change %PATH% anymore
          http://forge.fusioninventory.org/issues/151
        * fusioninventory-agent-config, better question for server address 
+       * BIOS: clean up
+          - do not mix motherboard and system information anymore
+          - do not use CPU information do create fake serial anymore
+          - retrieve the SKU number
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets

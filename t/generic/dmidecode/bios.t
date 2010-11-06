@@ -9,13 +9,17 @@ use Test::More;
 my %tests = (
     'freebsd-6.2' => {
         bios => {
-            SMODEL        => 'CN700-8237R',
-            SSN           => 'A9-06-00-00-FF-BB-C9-A7',
-            SMANUFACTURER => undef,
-            BDATE         => undef,
-            BVERSION      => undef,
-            BMANUFACTURER => undef,
-            ASSETTAG      => undef
+          'MMANUFACTURER' => undef,
+          'SSN' => undef,
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => undef,
+          'MSN' => undef,
+          'SMODEL' => undef,
+          'SMANUFACTURER' => undef,
+          'BDATE' => undef,
+          'MMODEL' => 'CN700-8237R',
+          'BVERSION' => undef
         },
         hardware => {
             UUID     => undef,
@@ -23,13 +27,17 @@ my %tests = (
     },
     'freebsd-8.1' => {
         bios => {
-            SMANUFACTURER => 'Hewlett-Packard',
-            SMODEL        => 'HP Pavilion dv6 Notebook PC',
-            SSN           => 'CNF01207X6',
-            BDATE         => '05/17/2010',
-            ASSETTAG      => undef,
-            BVERSION      => 'F.1C',
-            BMANUFACTURER => 'Hewlett-Packard'
+          'MMANUFACTURER' => 'Hewlett-Packard',
+          'SSN' => 'CNF01207X6',
+          'SKUNUMBER' => 'WA017EA#ABF',
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'Hewlett-Packard',
+          'MSN' => 'CNF01207X6',
+          'SMODEL' => 'HP Pavilion dv6 Notebook PC',
+          'SMANUFACTURER' => 'Hewlett-Packard',
+          'BDATE' => '05/17/2010',
+          'MMODEL' => '3659',
+          'BVERSION' => 'F.1C'
         },
         hardware => {
             UUID => '30464E43-3231-3730-5836-C80AA93F35FA'
@@ -37,13 +45,17 @@ my %tests = (
     },
     'linux-2.6' => {
         bios => {
-            SMANUFACTURER => 'Dell Inc.',
-            SMODEL        => 'Latitude D610',
-            SSN           => 'D8XD62J',
-            BMANUFACTURER => 'Dell Inc.',
-            BVERSION      => 'A06',
-            BDATE         => '10/02/2005',
-            ASSETTAG      => undef
+          'MMANUFACTURER' => 'Dell Inc.',
+          'SSN' => 'D8XD62J',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'Dell Inc.',
+          'MSN' => '.D8XD62J.CN4864363E7491.',
+          'SMODEL' => 'Latitude D610',
+          'SMANUFACTURER' => 'Dell Inc.',
+          'BDATE' => '10/02/2005',
+          'MMODEL' => '0XD762',
+          'BVERSION' => 'A06'
         },
         hardware => {
             UUID     => '44454C4C-3800-1058-8044-C4C04F36324A',
@@ -51,13 +63,17 @@ my %tests = (
     },
     'openbsd-3.7' => {
         bios => {
-            SMANUFACTURER => 'VIA Technologies, Inc.',
-            SMODEL        => 'VT82C691',
-            SSN           => '52-06-00-00-FF-F9-83-01',
-            BMANUFACTURER => 'Award Software International, Inc.',
-            BVERSION      => '4.51 PG',
-            BDATE         => '02/11/99',
-            ASSETTAG      => undef
+          'MMANUFACTURER' => 'Tekram Technology Co., Ltd.',
+          'SSN' => undef,
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'Award Software International, Inc.',
+          'MSN' => undef,
+          'SMODEL' => 'VT82C691',
+          'SMANUFACTURER' => 'VIA Technologies, Inc.',
+          'BDATE' => '02/11/99',
+          'MMODEL' => 'P6PROA5',
+          'BVERSION' => '4.51 PG'
         },
         hardware => {
             UUID     => undef,
@@ -65,13 +81,17 @@ my %tests = (
     },
     'openbsd-3.8' => {
         bios => {
-            SMANUFACTURER => 'Dell Computer Corporation',
-            SMODEL        => 'PowerEdge 1800',
-            SSN           => '2K1012J',
-            BMANUFACTURER => 'Dell Computer Corporation',
-            BVERSION      => 'A05',
-            BDATE         => '09/21/2005',
-            ASSETTAG      => undef
+          'MMANUFACTURER' => 'Dell Computer Corporation',
+          'SSN' => '2K1012J',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'Dell Computer Corporation',
+          'MSN' => '..CN717035A80217.',
+          'SMODEL' => 'PowerEdge 1800',
+          'SMANUFACTURER' => 'Dell Computer Corporation',
+          'BDATE' => '09/21/2005',
+          'MMODEL' => '0P8611',
+          'BVERSION' => 'A05'
         },
         hardware => {
             UUID     => '44454C4C-4B00-1031-8030-B2C04F31324A',
@@ -79,13 +99,17 @@ my %tests = (
     },
     'rhel-2.1' => {
         bios => {
-            SMANUFACTURER => 'IBM',
-            SMODEL        => '-[84803AX]-',
-            SSN           => 'KBKGW40',
-            BMANUFACTURER => 'IBM',
-            BVERSION      => '-[JPE130AUS-1.30]-',
-            BDATE         => undef,
-            ASSETTAG      => undef
+          'MMANUFACTURER' => undef,
+          'SSN' => 'KBKGW40',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'IBM',
+          'MSN' => 'NA60B7Y0S3Q',
+          'SMODEL' => '-[84803AX]-',
+          'SMANUFACTURER' => 'IBM',
+          'BDATE' => undef,
+          'MMODEL' => undef,
+          'BVERSION' => '-[JPE130AUS-1.30]-'
         },
         hardware => {
             UUID     => undef,
@@ -93,13 +117,17 @@ my %tests = (
     },
     'rhel-3.4' => {
         bios => {
-            ASSETTAG      => '12345678901234567890123456789012',
-            SMANUFACTURER => 'IBM',
-            SMODEL        => 'IBM eServer x226-[8488PCR]-',
-            SSN           => 'KDXPC16',
-            BMANUFACTURER => 'IBM',
-            BVERSION      => 'IBM BIOS Version 1.57-[PME157AUS-1.57]-',
-            BDATE         => '08/25/2005'
+          'MMANUFACTURER' => 'IBM',
+          'SSN' => 'KDXPC16',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => '12345678901234567890123456789012',
+          'BMANUFACTURER' => 'IBM',
+          'MSN' => '#A123456789',
+          'SMODEL' => 'IBM eServer x226-[8488PCR]-',
+          'SMANUFACTURER' => 'IBM',
+          'BDATE' => '08/25/2005',
+          'MMODEL' => 'MSI-9151 Boards',
+          'BVERSION' => 'IBM BIOS Version 1.57-[PME157AUS-1.57]-'
         },
         hardware => {
             UUID     => 'A8346631-8E88-3AE3-898C-F3AC9F61C316',
@@ -107,13 +135,17 @@ my %tests = (
     },
     'rhel-4.3' => {
         bios => {
-            SMANUFACTURER => 'IBM',
-            SMODEL        => '-[86494jg]-',
-            SSN           => 'KDMAH1Y',
-            BMANUFACTURER => 'IBM',
-            BVERSION      => '-[OQE115A]-',
-            BDATE         => '03/14/2006',
-            ASSETTAG      => undef
+          'MMANUFACTURER' => 'IBM',
+          'SSN' => 'KDMAH1Y',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'IBM',
+          'MSN' => '48Z1LX',
+          'SMODEL' => '-[86494jg]-',
+          'SMANUFACTURER' => 'IBM',
+          'BDATE' => '03/14/2006',
+          'MMODEL' => 'MS-9121',
+          'BVERSION' => '-[OQE115A]-'
         },
         hardware => {
             UUID => '0339D4C3-44C0-9D11-A20E-85CDC42DE79C',
@@ -121,13 +153,17 @@ my %tests = (
     },
     'rhel-4.6' => {
         bios => {
-            SMANUFACTURER => 'HP',
-            SMODEL        => 'ProLiant ML350 G5',
-            SSN           => 'GB8814HE7S',
-            BMANUFACTURER => 'HP',
-            BVERSION      => 'D21',
-            BDATE         => '01/24/2008',
-            ASSETTAG      => undef
+          'MMANUFACTURER' => undef,
+          'SSN' => 'GB8814HE7S',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'HP',
+          'MSN' => undef,
+          'SMODEL' => 'ProLiant ML350 G5',
+          'SMANUFACTURER' => 'HP',
+          'BDATE' => '01/24/2008',
+          'MMODEL' => undef,
+          'BVERSION' => 'D21'
         },
         hardware => {
             UUID => '34313236-3435-4742-3838-313448453753',
@@ -135,17 +171,40 @@ my %tests = (
     },
     'windows' => {
         bios => {
-            SMANUFACTURER => 'TOSHIBA',
-            SMODEL        => 'Satellite 2410',
-            SSN           => 'X2735244G',
-            BMANUFACTURER => 'TOSHIBA',
-            BVERSION      => 'Version 1.10',
-            BDATE         => '08/13/2002',
-            ASSETTAG      => '0000000000',
+          'MMANUFACTURER' => 'TOSHIBA',
+          'SSN' => 'X2735244G',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => '0000000000',
+          'BMANUFACTURER' => 'TOSHIBA',
+          'MSN' => '$$T02XB1K9',
+          'SMODEL' => 'Satellite 2410',
+          'SMANUFACTURER' => 'TOSHIBA',
+          'BDATE' => '08/13/2002',
+          'MMODEL' => 'Portable PC',
+          'BVERSION' => 'Version 1.10'
         },
         hardware => {
             UUID     => '7FB4EA00-07CB-18F3-8041-CAD582735244',
         }
+    },
+    'dmidecode-linux-1' => {
+        bios => {
+          'MMANUFACTURER' => 'ASUSTeK Computer INC.',
+          'SSN' => 'System Serial Number',
+          'SKUNUMBER' => 'To Be Filled By O.E.M.',
+          'ASSETTAG' => 'Asset-1234567890',
+          'BMANUFACTURER' => 'American Megatrends Inc.',
+          'MSN' => 'MS1C93BB0H00980',
+          'SMODEL' => 'System Product Name',
+          'SMANUFACTURER' => 'System manufacturer',
+          'BDATE' => '04/07/2009',
+          'MMODEL' => 'P5Q',
+          'BVERSION' => '2102'
+        },
+        hardware => {
+            UUID => '40EB001E-8C00-01CE-8E2C-00248C590A84',
+        }
+
     }
 );
 
