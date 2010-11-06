@@ -29,6 +29,9 @@ sub doInventory {
 	    next if $fs eq 'procfs';
 	    next if $fs eq 'linprocfs';
 	    next if $fs eq 'linsysfs';
+	    next if $fs eq 'tmpfs';
+	    next if $fs eq 'fdescfs';
+
 	    $fsList{$fs} = 1;
 	}
     }
