@@ -79,6 +79,8 @@ my %tests = (
         BVERSION      => 'Version 1.10',
         BDATE         => '08/13/2002',
         ASSETTAG      => '0000000000',
+    },
+    'dmidecode-linux-1' => {
     }
 );
 
