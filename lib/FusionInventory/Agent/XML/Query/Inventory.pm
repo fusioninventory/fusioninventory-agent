@@ -622,7 +622,7 @@ sub setBios {
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
         MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
-        BIOSSERIAL TYPE/) {
+        BIOSSERIAL TYPE SKUNUMBER/) {
 
         if (exists $args->{$key}) {
             my $string = $self->_encode({ string => $args->{$key} });
@@ -1394,13 +1394,19 @@ The BIOS revision
 
 =item BMANUFACTURER
 
-Board manufacturer
+BIOS manufacturer
 
 =item MMANUFACTURER
 
+Motherboard Manufacturer
+
 =item MSN
 
+Motherboard Serial
+
 =item MMODEL
+
+Motherboard model
 
 =item ASSETTAG
 

@@ -64,28 +64,36 @@ sub parseDmidecode {
         }
 
         if ($type == 1) {
-            if ($line =~ /^\s+serial number:\s*(.+?)\s*$/i) {
-                $bios->{SSN} = $1
-            } elsif ($line =~ /^\s+(?:product name|product):\s*(.+?)\s*$/i) {
+            if ($line =~ /^\s+serial number:\s*(.+)/i) {
+                $bios->{SSN} = $1;
+		$bios->{SSN} =~ s/\s$//;
+            } elsif ($line =~ /^\s+(?:product name|product):\s*(.+)/i) {
                 $bios->{SMODEL} = $1;
+		$bios->{SMODEL} =~ s/\s$//;
                 if ($bios->{SMODEL} =~ /(VMware|Virtual Machine)/i) {
                     $hardware->{VMSYSTEM} = $1;
                 }
-            } elsif ($line =~ /^\s+(?:manufacturer|vendor):\s*(.+?)\s*$/i) {
-                $bios->{SMANUFACTURER} = $1
-            }
+            } elsif ($line =~ /^\s+(?:manufacturer|vendor):\s*(.+)/i) {
+                $bios->{SMANUFACTURER} = $1;
+		$bios->{SMANUFACTURER} =~ s/\s$//;
+            } elsif ($line =~ /SKU Number:\s+(.*)/i) {
+		$bios->{SKUNUMBER} = $1;
+		$bios->{SKUNUMBER} =~ s/\s$//;
+	    }
             next;
         }
 
         if ($type == 2) {
             # Failback on the motherbord
-            if ($line =~ /^\s+serial number:\s*(.+?)\s*/i) {
-                $bios->{SSN} = $1 if !$bios->{SSN};
-            } elsif ($line =~ /^\s+product name:\s*(.+?)\s*/i) {
-                $bios->{SMODEL} = $1 if !$bios->{SMODEL};
-            } elsif ($line =~ /^\s+manufacturer:\s*(.+?)\s*/i) {
-                $bios->{SMANUFACTURER} = $1
-                if !$bios->{SMANUFACTURER};
+            if ($line =~ /^\s+serial number:\s*(.+)/i) {
+                $bios->{MSN} = $1;
+		$bios->{MSN} =~ s/\s+$//
+            } elsif ($line =~ /^\s+product name:\s*(.+)/i) {
+                $bios->{MMODEL} = $1;
+		$bios->{MMODEL} =~ s/\s+$//
+            } elsif ($line =~ /^\s+manufacturer:\s*(.+)/i) {
+                $bios->{MMANUFACTURER} = $1;
+		$bios->{MMANUFACTURER} =~ s/\s+$//
             }
         }
 
@@ -96,20 +104,19 @@ sub parseDmidecode {
             next;
         }
 
-        if ($type == 4) {
-            # Some bioses don't provide a serial number so I check for CPU ID
-            # (e.g: server from dedibox.fr)
-            if ($line =~ /^\s+ID:\s*(.*)/i) {
-                if (!$bios->{SSN}) {
-                    $bios->{SSN} = $1;
-                    $bios->{SSN} =~ s/\ /-/g;
-                }
-            }
-            next;
-        }
+#        if ($type == 4) {
+#            # Some bioses don't provide a serial number so I check for CPU ID
+#            # (e.g: server from dedibox.fr)
+#            if ($line =~ /^\s+ID:\s*(.*)/i) {
+#                if (!$bios->{SSN}) {
+#                    $bios->{SSN} = $1;
+#                    $bios->{SSN} =~ s/\ /-/g;
+#                }
+#            }
+#            next;
+#        }
     }
     close $handle;
-
     return $bios, $hardware;
 }
 
