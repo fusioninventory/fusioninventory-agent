@@ -57,6 +57,8 @@ sub doInventory {
     my $bdate;
     my $bversion;
     my $bmanufacturer;
+    my $mmanufacturer;
+    my $msn;
     my $model;
     my $assettag;
 
@@ -108,6 +110,8 @@ sub doInventory {
         BDATE => $bdate,
         BVERSION => $bversion,
         BMANUFACTURER => $bmanufacturer,
+        MMANUFACTURER => $mmanufacturer,
+        MSN => $msn,
         MMODEL => $model,
         ASSETTAG => $assettag,
         ENCLOSURESERIAL => $enclosureSerial,
