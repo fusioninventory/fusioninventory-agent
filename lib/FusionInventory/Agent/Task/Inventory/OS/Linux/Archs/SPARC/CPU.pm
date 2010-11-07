@@ -16,20 +16,28 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my @cpus = getCPUsFromProc(logger => $params->{logger});
-
-    my $cpu = $cpus[0];
-
-    return unless $cpu;
-
-    if ($cpu->{'ncpus probed'}) {
-        foreach (1 .. $cpu->{'ncpus probed'}) {
-            $inventory->addCPU({
-                ARCH => 'ARM',
-                TYPE => $cpu->{cpu},
-            });
-        }
+    foreach my $cpu (_getCPUsFromProc($params->{logger})) {
+        $inventory->addCPU($cpu);
     }
+
+}
+
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    my $cpu = (getCPUsFromProc(logger => $logger, file => $file))[0];
+
+    return unless $cpu && $cpu->{'ncpus probed'};
+
+    my @cpus;
+    foreach (1 .. $cpu->{'ncpus probed'}) {
+        push @cpus, {
+            ARCH => 'ARM',
+            TYPE => $cpu->{cpu},
+        };
+    }
+
+    return @cpus;
 }
 
 1;

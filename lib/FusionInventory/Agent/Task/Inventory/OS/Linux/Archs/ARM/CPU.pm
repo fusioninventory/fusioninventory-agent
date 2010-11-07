@@ -16,15 +16,24 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my @cpus = getCPUsFromProc(logger => $params->{logger});
+    foreach my $cpu (_getCPUsFromProc($params->{logger})) {
+        $inventory->addCPU($cpu);
+    }
+}
 
-    foreach my $cpu (@cpus) {
-        $inventory->addCPU({
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    my @cpus;
+    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
+
+        push @cpus, {
             ARCH => 'ARM',
-            TYPE =>  $cpu->{processor}
-        });
+            TYPE => $cpu->{processor}
+        };
     }
 
+    return @cpus;
 }
 
 1;
