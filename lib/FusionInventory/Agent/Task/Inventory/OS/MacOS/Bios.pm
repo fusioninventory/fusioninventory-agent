@@ -38,14 +38,21 @@ sub doInventory {
 #      "compatible" = <"iMac7,1">
 #      "IOPolledInterface" = "SMCPolledInterface is not serializable"
 #    }
-        foreach (`ioreg -rd1 -c IOPlatformExpertDevice`) {
-                if (/"(\S+)"\s*=\s*(.*)/) {
-                        my $k = $1;
-                        my $t = $2;
-                        $t =~ s/<(.*)>/$1/;
-                        $t =~ s/"(.*)"/$1/;
-                        $ioregInfo->{$k} = $t;
-                }
+       my $in;
+        foreach (`ioreg -l`) {
+               $in =1 if /<class IOPlatformExpertDevice/;
+               if ($in) {
+                   if (/"(\S+)"\s*=\s*(.*)/) {
+                       my $k = $1;
+                       my $t = $2;
+                       $t =~ s/<(.*)>/$1/;
+                       $t =~ s/"(.*)"/$1/;
+                       $ioregInfo->{$k} = $t;
+                   } elsif (/^[\|\s]*}\s*$/) {
+			   $in=0;                
+			   last; 
+                   }
+		}
         }
 
         # set the bios informaiton from the apple system profiler

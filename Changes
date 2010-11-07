@@ -61,6 +61,8 @@ Revision history for FusionInventory::Agent
           - do not mix motherboard and system information anymore
           - do not use CPU information do create fake serial anymore
           - retrieve the SKU number
+       * MacOSX: use ioreg to get the machine serial number
+         http://forge.fusioninventory.org/issues/442
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
