@@ -16,11 +16,11 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $cpus = getCPUsFromProc(logger => $params->{logger});
+    my @cpus = getCPUsFromProc(logger => $params->{logger});
 
-    return unless $cpus;
+    my $cpu = $cpus[0];
 
-    my $cpu = $cpus->[0];
+    return unless $cpu;
 
     if ($cpu->{'ncpus probed'}) {
         foreach (1 .. $cpu->{'ncpus probed'}) {

@@ -91,7 +91,7 @@ sub getCPUsFromProc {
     );
     my $handle = getFileHandle(%params);
 
-    my ($cpus, $cpu);
+    my (@cpus, $cpu);
 
     while (my $line = <$handle>) {
         if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
@@ -99,16 +99,16 @@ sub getCPUsFromProc {
         } elsif ($line =~ /^$/) {
             # an empty line marks the end of a cpu section
             # push to the list, but only if it is a valid cpu
-            push @$cpus, $cpu if $cpu && _isValidCPU($cpu);
+            push @cpus, $cpu if $cpu && _isValidCPU($cpu);
             undef $cpu;
         }
     }
     close $handle;
 
     # push remaining cpu to the list, if it is valid cpu
-    push @$cpus, $cpu if $cpu && _isValidCPU($cpu);
+    push @cpus, $cpu if $cpu && _isValidCPU($cpu);
 
-    return $cpus;
+    return @cpus;
 }
 
 sub _isValidCPU {
@@ -298,7 +298,7 @@ Availables parameters:
 
 =head2 getCPUsFromProc(%params)
 
-Returns a list of cpus as an arrayref of hashref, by parsing /proc/cpuinfo file
+Returns a list of cpus as an array of hashref, by parsing /proc/cpuinfo file
 
 Availables parameters:
 

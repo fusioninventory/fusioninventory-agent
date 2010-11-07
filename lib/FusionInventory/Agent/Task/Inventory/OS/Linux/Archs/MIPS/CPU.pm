@@ -16,11 +16,9 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $cpus = getCPUsFromProc(logger => $params->{logger});
+    my @cpus = getCPUsFromProc(logger => $params->{logger});
 
-    return unless $cpus;
-
-    foreach my $cpu (@$cpus) {
+    foreach my $cpu (@cpus) {
         $inventory->addCPU({
             ARCH => 'MIPS',
             NAME => $cpu->{'cpu model'},
