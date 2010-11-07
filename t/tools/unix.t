@@ -1940,7 +1940,7 @@ my %ps_tests = (
             'PID' => '15',
             'CMD' => '/usr/sbin/DirectoryService',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:24.75',
             'USER' => 'root',
             'MEM' => '0.2'
         },
@@ -1970,7 +1970,7 @@ my %ps_tests = (
             'PID' => '28611',
             'CMD' => '/Applications/MacVim.app/Contents/MacOS/Vim -f -g lib/FusionInventory/Agent/Tools/Unix.pm',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-8 9:57PM',
             'USER' => 'rousse',
             'MEM' => '0.5'
         },
@@ -1980,7 +1980,7 @@ my %ps_tests = (
             'PID' => '28437',
             'CMD' => 't/transmitter/connection.t (proxy)',
             'TTY' => 's001',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-8 9:48PM',
             'USER' => 'rousse',
             'MEM' => '0.1'
         },
@@ -2190,7 +2190,7 @@ my %ps_tests = (
             'PID' => '590',
             'CMD' => '/usr/sbin/cupsd -l',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:02.39',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2200,7 +2200,7 @@ my %ps_tests = (
             'PID' => '100',
             'CMD' => '/sbin/launchd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:03.83',
             'USER' => 'rousse',
             'MEM' => '0.0'
         },
@@ -2210,7 +2210,7 @@ my %ps_tests = (
             'PID' => '76',
             'CMD' => '/usr/sbin/coreaudiod',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:04.00',
             'USER' => '_coreaudiod',
             'MEM' => '0.3'
         },
@@ -2220,7 +2220,7 @@ my %ps_tests = (
             'PID' => '67',
             'CMD' => '/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/cvmsServ',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:00.04',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2230,7 +2230,7 @@ my %ps_tests = (
             'PID' => '50',
             'CMD' => '/System/Library/CoreServices/coreservicesd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:09.12',
             'USER' => 'root',
             'MEM' => '1.1'
         },
@@ -2240,7 +2240,7 @@ my %ps_tests = (
             'PID' => '41',
             'CMD' => 'autofsd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:00.28',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2250,7 +2250,7 @@ my %ps_tests = (
             'PID' => '35',
             'CMD' => '/sbin/dynamic_pager -F /private/var/vm/swapfile',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:00.01',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2260,7 +2260,7 @@ my %ps_tests = (
             'PID' => '33',
             'CMD' => '/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/Support/fseventsd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:11.29',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2270,7 +2270,7 @@ my %ps_tests = (
             'PID' => '32',
             'CMD' => '/usr/libexec/hidd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:00.22',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2280,7 +2280,7 @@ my %ps_tests = (
             'PID' => '30',
             'CMD' => '/usr/sbin/KernelEventAgent',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:00.51',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2290,7 +2290,7 @@ my %ps_tests = (
             'PID' => '28',
             'CMD' => '/usr/sbin/mDNSResponder -launchd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:03.57',
             'USER' => '_mdnsresponder',
             'MEM' => '0.1'
         },
@@ -2300,7 +2300,7 @@ my %ps_tests = (
             'PID' => '27',
             'CMD' => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 4:18.74',
             'USER' => 'root',
             'MEM' => '1.5'
         },
@@ -2310,7 +2310,7 @@ my %ps_tests = (
             'PID' => '24',
             'CMD' => '/usr/sbin/securityd -i',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:00.72',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2320,7 +2320,7 @@ my %ps_tests = (
             'PID' => '21',
             'CMD' => '/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd -launchd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:00.37',
             'USER' => '_usbmuxd',
             'MEM' => '0.0'
         },
@@ -2330,7 +2330,7 @@ my %ps_tests = (
             'PID' => '19',
             'CMD' => '/usr/sbin/ntpd -c /private/etc/ntp-restrict.conf -n -g -p /var/run/ntpd.pid -f /var/db/ntp.drift',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:03.03',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2340,7 +2340,7 @@ my %ps_tests = (
             'PID' => '17',
             'CMD' => '/usr/sbin/blued',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:01.63',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2350,7 +2350,7 @@ my %ps_tests = (
             'PID' => '16',
             'CMD' => '/usr/sbin/distnoted',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:01.86',
             'USER' => 'daemon',
             'MEM' => '0.0'
         },
@@ -2360,7 +2360,7 @@ my %ps_tests = (
             'PID' => '14',
             'CMD' => '/usr/sbin/syslogd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:01.45',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2370,7 +2370,7 @@ my %ps_tests = (
             'PID' => '13',
             'CMD' => '/usr/libexec/configd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:09.21',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2380,7 +2380,7 @@ my %ps_tests = (
             'PID' => '12',
             'CMD' => '/usr/sbin/diskarbitrationd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:01.35',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2390,7 +2390,7 @@ my %ps_tests = (
             'PID' => '11',
             'CMD' => '/usr/sbin/notifyd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:03.22',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2410,7 +2410,7 @@ my %ps_tests = (
             'PID' => '1',
             'CMD' => '/sbin/launchd',
             'TTY' => '??',
-            'STARTED' => undef,
+            'STARTED' => '2010-10-5 0:51.06',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2470,8 +2470,7 @@ foreach my $test (keys %df_tests) {
 foreach my $test (keys %ps_tests) {
     my $file = "resources/ps/$test";
     my @infos = getProcessesFromPs(file => $file);
-    is_deeply(\@infos, $ps_tests{$test}, "$test ps parsing") or print Dumper(\@infos);
-    use Data::Dumper;
+    is_deeply(\@infos, $ps_tests{$test}, "$test ps parsing");
 }
 
 foreach my $test (@dhcp_leases_test) {
