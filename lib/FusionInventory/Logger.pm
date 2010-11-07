@@ -46,15 +46,16 @@ sub new {
         push @logger, 'Stderr';
     }
 
-    my @loadedMbackends;
+    my %loadedMbackends;
     foreach (@logger) {
+	next if $loadedMbackends{$_};
         my $backend = "FusionInventory::LoggerBackend::".$_;
         $backend->require();
         if ($EVAL_ERROR) {
             print STDERR "Failed to load Logger backend: $backend ($EVAL_ERROR)\n";
             next;
         } else {
-            push @loadedMbackends, $_;
+            $loadedMbackends{$_}=1;
         }
 
         my $obj = $backend->new({
@@ -66,7 +67,7 @@ sub new {
     my $version = "FusionInventory unified agent for UNIX, Linux, Windows and MacOSX ";
     $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
     $self->debug($version);
-    $self->debug("Log system initialised (@loadedMbackends)");
+    $self->debug("Log system initialised (".(keys %loadedMbackends).")");
 
     return $self;
 }
