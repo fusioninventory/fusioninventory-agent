@@ -313,7 +313,7 @@ sub _runWithTimeout {
     
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $timeout;
+        alarm $timeout if $timeout;
 
         no strict 'refs'; ## no critic
 
