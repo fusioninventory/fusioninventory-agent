@@ -24,7 +24,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $devices = getDevicesFromUdev($logger);
+    my $devices = getDevicesFromUdev(logger => $logger);
 
     my $found = 0;
     foreach my $hd (@$devices) {

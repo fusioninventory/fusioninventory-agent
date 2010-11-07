@@ -75,7 +75,7 @@ sub doInventory {
 sub _getInfosFromProc {
     my ($logger, $file) = @_;
 
-    my $cpus = getCPUsFromProc($logger, $file);
+    my $cpus = getCPUsFromProc(logger => $logger, file => $file);
 
     return unless $cpus;
 

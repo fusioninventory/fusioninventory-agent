@@ -31,7 +31,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $cpus = getCPUsFromProc($params->{logger});
+    my $cpus = getCPUsFromProc(logger => $params->{logger});
 
     return unless $cpus;
 

@@ -7,6 +7,7 @@ use base 'Exporter';
 use English qw(-no_match_vars);
 use Memoize;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 our @EXPORT = qw(
@@ -19,14 +20,16 @@ our @EXPORT = qw(
 memoize('getDevicesFromUdev');
 
 sub getDevicesFromUdev {
-    my ($logger) = @_;
+    my %params = @_;
 
     my $devices;
 
     foreach my $file (glob ("/dev/.udev/db/*")) {
         next unless $file =~ /([sh]d[a-z])$/;
         my $device = $1;
-        push (@$devices, _parseUdevEntry($logger, $file, $device));
+        push (@$devices, _parseUdevEntry(
+                logger => $params{logger}, file => $file, device => $device
+            ));
     }
 
     foreach my $device (@$devices) {
@@ -38,11 +41,12 @@ sub getDevicesFromUdev {
 }
 
 sub _parseUdevEntry {
-    my ($logger, $file, $device) = @_;
+    my %params = @_;
 
     my $handle;
-    if (!open $handle, '<', $file) {
-        $logger->error("Can't open $file: $ERRNO");
+    if (!open $handle, '<', $params{file}) {
+        $params{logger}->error("Can't open $params{file}: $ERRNO")
+            if $params{logger};
         return;
     }
 
@@ -75,25 +79,20 @@ sub _parseUdevEntry {
         $result->{SERIALNUMBER} = $serial;
     }
 
-    $result->{NAME} = $device;
+    $result->{NAME} = $params{device};
 
     return $result;
 }
 
 sub getCPUsFromProc {
-    my ($logger, $file) = @_;
+    my %params = (
+        file => '/proc/cpuinfo',
+        @_
+    );
+    my $handle = getFileHandle(%params);
 
-    $file ||= '/proc/cpuinfo';
+    my ($cpus, $cpu);
 
-    my $handle;
-    if (!open $handle, '<', $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
-
-    my $cpus;
-
-    my $cpu;
     while (my $line = <$handle>) {
         if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
             $cpu->{lc($1)} = $2;
@@ -120,21 +119,11 @@ sub _isValidCPU {
 
 
 sub getDevicesFromHal {
-    my ($logger, $file) = @_;
-
-    return $file ?
-        _parseLshal($logger, $file, '<')            :
-        _parseLshal($logger, '/usr/bin/lshal', '-|');
-}
-
-sub _parseLshal {
-    my ($logger, $file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
+    my %params = (
+        command => '/usr/bin/lshal',
+        @_
+    );
+    my $handle = getFileHandle(%params);
 
     my ($devices, $device);
 
@@ -174,7 +163,7 @@ sub _parseLshal {
 }
 
 sub getDevicesFromProc {
-    my ($logger) = @_;
+    my %params = @_;
 
     # compute list of devices
     my @names;
@@ -188,7 +177,7 @@ sub getDevicesFromProc {
         'fdisk -p -l 2>/dev/null' :
         'fdisk -l 2>/dev/null';
     if (!open my $handle, '-|', $command) {
-        $logger->error("Can't run $command: $ERRNO");
+        $params{logger}->error("Can't run $command: $ERRNO") if $params{logger};
     } else {
         while (my $line = <$handle>) {
             next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
@@ -207,19 +196,19 @@ sub getDevicesFromProc {
         my $device;
         $device->{NAME}         = $name;
         $device->{MANUFACTURER} = _getValueFromSysProc(
-            $logger, $device, 'vendor'
+            $params{logger}, $device, 'vendor'
         );
         $device->{MODEL}        = _getValueFromSysProc(
-            $logger, $device, 'model'
+            $params{logger}, $device, 'model'
         );
         $device->{FIRMWARE}     = _getValueFromSysProc(
-            $logger, $device, 'rev'
+            $params{logger}, $device, 'rev'
         );
         $device->{SERIALNUMBER} = _getValueFromSysProc(
-            $logger, $device, 'serial'
+            $params{logger}, $device, 'serial'
         );
         $device->{TYPE}         = _getValueFromSysProc(
-            $logger, $device, 'removable'
+            $params{logger}, $device, 'removable'
         ) ?
             'removable' : 'disk';
         push (@$devices, $device);
@@ -266,20 +255,58 @@ This module provides some generic functions for Linux.
 
 =head1 FUNCTIONS
 
-=head2 getDevicesFromUdev($logger)
+=head2 getDevicesFromUdev(%params)
 
 Returns a list of devices as an arrayref of hashref, by parsing udev database.
 
-=head2 getDevicesFromHal($logger)
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=back
+
+=head2 getDevicesFromHal(%params)
 
 Returns a list of devices as an arrayref of hashref, by parsing lshal output.
 
-=head2 getDevicesFromProc($logger)
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use (default: /usr/sbin/lshal)
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getDevicesFromProc(%params)
 
 Returns a list of devices as an arrayref of hashref, by parsing /proc
 filesystem.
 
-=head2 getCPUsFromProc($logger)
+Availables parameters:
 
-Returns a list of cpus as an arrayref of hashref, by parsing /proc filesystem.
+=over
+
+=item logger a logger object
+
+=back
+
+=head2 getCPUsFromProc(%params)
+
+Returns a list of cpus as an arrayref of hashref, by parsing /proc/cpuinfo file
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item file the file to use (default: /proc/cpuinfo)
+
+=back
 
