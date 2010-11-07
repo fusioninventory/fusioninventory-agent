@@ -199,7 +199,11 @@ sub _initModList {
             next;
         }
 
-        my $enabled = $self->_runWithTimeout($module, "isInventoryEnabled");
+        my $enabled = $self->_runWithTimeout(
+            $module,
+            "isInventoryEnabled",
+            $config->{'backend-collect-timeout'}
+        );
         if (!$enabled) {
             $logger->debug("module $module disabled");
             $self->{modules}->{$module}->{enabled} = 0;
@@ -246,6 +250,7 @@ sub _runMod {
     my ($self, $module) = @_;
 
     my $logger = $self->{logger};
+    my $config = $self->{config};
 
     return if ($self->{modules}->{$module}->{done});
 
@@ -271,7 +276,11 @@ sub _runMod {
 
     $logger->debug ("Running $module");
 
-    $self->_runWithTimeout($module, "doInventory");
+    $self->_runWithTimeout(
+        $module,
+        "doInventory",
+        $config->{'backend-collect-timeout'}
+    );
     $self->{modules}->{$module}->{done} = 1;
     $self->{modules}->{$module}->{used} = 0; # unlock the module
 }
@@ -302,10 +311,6 @@ sub _runWithTimeout {
 
     my $ret;
     
-    if (!$timeout) {
-        $timeout = $self->{config}{'backend-collect-timeout'};
-    }
-
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm $timeout;
