@@ -309,15 +309,15 @@ sub _runWithTimeout {
 
     my $logger = $self->{logger};
 
-    my $ret;
-    
+    my $result;
+
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
         alarm $timeout if $timeout;
 
         no strict 'refs'; ## no critic
 
-        $ret = &{$module . '::' . $function}({
+        $result = &{$module . '::' . $function}({
             config        => $self->{config},
             setup         => $self->{setup},
             inventory     => $self->{inventory},
@@ -327,18 +327,16 @@ sub _runWithTimeout {
         });
     };
     alarm 0;
-    my $evalRet = $EVAL_ERROR;
 
-    if ($evalRet) {
+    if ($EVAL_ERROR) {
         if ($EVAL_ERROR ne "alarm\n") {
             $logger->debug("runWithTimeout(): unexpected error: $EVAL_ERROR");
         } else {
             $logger->debug("$module killed by a timeout.");
-            return;
         }
-    } else {
-        return $ret;
     }
+
+    return $result;
 }
 
 1;
