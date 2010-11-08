@@ -7,6 +7,8 @@ use English qw(-no_match_vars);
 use Test::More;
 use Test::Exception;
 
+use FusionInventory::Agent::XML::Response;
+
 eval { require FusionInventory::Agent::SNMP; };
 
 if ($EVAL_ERROR) {
@@ -14,7 +16,60 @@ if ($EVAL_ERROR) {
     plan(skip_all => $msg);
 }
 
-plan tests => 9;
+my %messages = (
+    message2 => {
+        type => 'SNMPQUERY',
+        auths => {
+            1 => {
+                'PRIVPROTOCOL' => '',
+                'AUTHPROTOCOL' => '',
+                'ID' => '1',
+                'USERNAME' => '',
+                'AUTHPASSPHRASE' => '',
+                'VERSION' => '1',
+                'COMMUNITY' => 'public',
+                'PRIVPASSPHRASE' => ''
+            },
+            2 => {
+                'PRIVPROTOCOL' => '',
+                'AUTHPROTOCOL' => '',
+                'ID' => '2',
+                'USERNAME' => '',
+                'AUTHPASSPHRASE' => '',
+                'VERSION' => '2c',
+                'COMMUNITY' => 'public',
+                'PRIVPASSPHRASE' => ''
+            }
+        },
+    },
+    message3 => {
+        type => 'NETDISCOVERY',
+        auths => {
+            1 => {
+                'PRIVPROTOCOL' => '',
+                'AUTHPROTOCOL' => '',
+                'ID' => '1',
+                'USERNAME' => '',
+                'AUTHPASSPHRASE' => '',
+                'VERSION' => '1',
+                'COMMUNITY' => 'public',
+                'PRIVPASSPHRASE' => ''
+            },
+            2 => {
+                'PRIVPROTOCOL' => '',
+                'AUTHPROTOCOL' => '',
+                'ID' => '2',
+                'USERNAME' => '',
+                'AUTHPASSPHRASE' => '',
+                'VERSION' => '2c',
+                'COMMUNITY' => 'public',
+                'PRIVPASSPHRASE' => ''
+            }
+        },
+    },
+);
+
+plan tests => 9 + (scalar keys %messages);
 
 my $snmp;
 throws_ok {
@@ -65,6 +120,19 @@ ok(
     'no first OID'
 );
 
+foreach my $test (keys %messages) {
+    my $file = "resources/xml/response/$test.xml";
+    my $message = FusionInventory::Agent::XML::Response->new({
+        content => slurp($file)
+    });
+    my $options = $message->getOptionsInfoByName($messages{$test}->{type});
+    is_deeply(
+        FusionInventory::Agent::SNMP->getAuthList($options),
+        $messages{$test}->{auths},
+        $test
+    );
+}
+
 SKIP: {
 skip 'live SNMP test disabled', 2 unless $ENV{TEST_LIVE_SNMP};
 
@@ -88,4 +156,15 @@ is_deeply(
     },
     'multiple value query'
 );
+}
+
+sub slurp {
+    my($file) = @_;
+
+    my $handler;
+    return unless open $handler, '<', $file;
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $content = <$handler>;
+    close $handler;
+    return $content;
 }
