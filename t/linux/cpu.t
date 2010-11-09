@@ -3,10 +3,15 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha::CPU;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC::CPU;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::MIPS::CPU;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::CPU;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU;
 use FusionInventory::Logger;
 use Test::More;
 
-my %tests = (
+my %i386 = (
     'linux-686-1' => {
         procs => [
             {
@@ -101,15 +106,126 @@ my %tests = (
         ],
         cores => [ 1 ]
     }
-
 );
 
-plan tests => 2 * scalar keys %tests;
+my %alpha = (
+    'linux-alpha-1' => [
+        {
+            SERIAL => 'JA30502089',
+            ARCH => 'Alpha',
+            SPEED => '1250',
+            TYPE => undef
+        }
+    ]
+);
+
+my %sparc = (
+    'linux-sparc-1' => [
+        {
+            ARCH => 'ARM',
+            TYPE => 'TI UltraSparc IIIi (Jalapeno)'
+        },
+        {
+            ARCH => 'ARM',
+            TYPE => 'TI UltraSparc IIIi (Jalapeno)'
+        }
+    ]
+);
+
+my %arm = (
+    'linux-armel-1' => [
+        {
+            ARCH => 'ARM',
+            TYPE => 'XScale-80219 rev 0 (v5l)'
+        }
+    ]
+);
+
+my %mips = (
+    'linux-mips-1' => [
+        {
+            NAME => 'R4400SC V5.0  FPU V0.0',
+            ARCH => 'MIPS'
+        }
+    ]
+);
+
+my %ppc = (
+    'linux-ppc-1' => [
+        {
+            'NAME' => '604r',
+            'MANUFACTURER' => undef,
+            'SPEED' => undef
+        }
+    ],
+    'linux-ppc-2' => [
+        {
+            NAME => 'POWER4+ (gq)',
+            MANUFACTURER => undef,
+            SPEED => '1452'
+        },
+        {
+            NAME => 'POWER4+ (gq)',
+            MANUFACTURER => undef,
+            SPEED => '1452'
+        }
+    ],
+    'linux-ppc-3' => [
+        {
+            NAME => 'PPC970FX, altivec supported',
+            MANUFACTURER => undef,
+            SPEED => '2700'
+        },
+        {
+            NAME => 'PPC970FX, altivec supported',
+            MANUFACTURER => undef,
+            SPEED => '2700'
+        }
+    ]
+);
+
+plan tests =>
+    (scalar keys %alpha) +
+    (scalar keys %sparc) +
+    (scalar keys %arm)   +
+    (scalar keys %mips)  +
+    (scalar keys %ppc)   +
+    (2 * scalar keys %i386);
 
 my $logger = FusionInventory::Logger->new();
-foreach my $test (keys %tests) {
+foreach my $test (keys %i386) {
     my $file = "resources/cpuinfo/$test";
-    my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU::_getInfosFromProc($logger, $file);
-    is_deeply($procs, $tests{$test}->{procs}, $test);
-    is_deeply($cores, $tests{$test}->{cores}, $test);
+    my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU::_getCPUsFromProc($logger, $file);
+    is_deeply($procs, $i386{$test}->{procs}, $test);
+    is_deeply($cores, $i386{$test}->{cores}, $test);
+}
+
+foreach my $test (keys %alpha) {
+    my $file = "resources/cpuinfo/$test";
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha::CPU::_getCPUsFromProc($logger, $file);
+    is_deeply(\@cpus, $alpha{$test}, $test);
+}
+
+foreach my $test (keys %sparc) {
+    my $file = "resources/cpuinfo/$test";
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC::CPU::_getCPUsFromProc($logger, $file);
+    is_deeply(\@cpus, $sparc{$test}, $test);
+}
+
+foreach my $test (keys %mips) {
+    my $file = "resources/cpuinfo/$test";
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::MIPS::CPU::_getCPUsFromProc($logger, $file);
+    is_deeply(\@cpus, $mips{$test}, $test);
+}
+
+foreach my $test (keys %arm) {
+    my $file = "resources/cpuinfo/$test";
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::CPU::_getCPUsFromProc($logger, $file);
+    is_deeply(\@cpus, $arm{$test}, $test);
+}
+
+foreach my $test (keys %ppc) {
+    my $file = "resources/cpuinfo/$test";
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU::_getCPUsFromProc($logger, $file);
+    is_deeply(\@cpus, $ppc{$test}, $test);
 }

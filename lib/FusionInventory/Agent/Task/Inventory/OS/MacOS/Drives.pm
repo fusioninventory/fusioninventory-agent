@@ -34,7 +34,7 @@ sub doInventory {
         next unless $line =~ /\S+ on \S+ \((\S+),/;
 	next if $1 eq 'fdesc';
 	next if $1 eq 'devfs';
-        $fs{$1}=1;
+        $fs{$1}++;
     }
 
     my @drives;

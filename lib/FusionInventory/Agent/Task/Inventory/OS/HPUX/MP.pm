@@ -8,8 +8,9 @@ use FusionInventory::Agent::Tools;
 #TODO driver pcislot virtualdev
 
 sub isInventoryEnabled {
-    can_run("/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi") 
-        or can_run("/opt/sfm/bin/CIMUtil")
+    return
+        can_run("/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi") ||
+        can_run("/opt/sfm/bin/CIMUtil");
 }
 
 sub doInventory {

@@ -237,15 +237,20 @@ sub getProcessesFromPs {
 
 	# try to get a consistant time format
         my $begin;
-        if ($started =~ /^(\d{2}):(\d{2})/) {
+        if ($started =~ /^(\d{1,2}):(\d{2})/) {
             # 10:00PM
             $begin = "$year-$month-$day $started";
-        } elsif ($started =~ /^([A-Z][a-z]{2})(\d{2})/) {
+        } elsif ($started =~ /^([A-Z][a-z]{2})(\d{2})[AP]M/) {
             # Sat03PM
             my $start_day = $1;
             my $start_hour = $2;
             $begin = "$year-$month-$day{$start_day} $time"; 
-        } elsif ($started =~ /^(\d{2})([A-Z][a-z]{2})/) {
+        } elsif ($started =~ /^([A-Z][a-z]{2})(\d{2})/) {
+            # Nov07
+            my $start_month = $1;
+            my $start_day = $2;
+            $begin = "$year-$month{$start_month}-$start_day $time";
+        } elsif ($started =~ /^(\d{1,2})([A-Z][a-z]{2})/) {
             # 5Oct10
             my $start_day = $1;
             my $start_month = $2;

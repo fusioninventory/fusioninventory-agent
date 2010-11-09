@@ -20,7 +20,7 @@ sub run {
     # and will be removed/improved after the merge.
     if (!$self) {
         $self = FusionInventory::Agent::Task->new();
-	bless $self;
+	bless $self, __PACKAGE__;
     }
 
     # Turn off localised output for commands, after saving original values
@@ -199,7 +199,11 @@ sub _initModList {
             next;
         }
 
-        my $enabled = $self->_runWithTimeout($module, "isInventoryEnabled");
+        my $enabled = $self->_runWithTimeout(
+            $module,
+            "isInventoryEnabled",
+            $config->{'backend-collect-timeout'}
+        );
         if (!$enabled) {
             $logger->debug("module $module disabled");
             $self->{modules}->{$module}->{enabled} = 0;
@@ -246,6 +250,7 @@ sub _runMod {
     my ($self, $module) = @_;
 
     my $logger = $self->{logger};
+    my $config = $self->{config};
 
     return if ($self->{modules}->{$module}->{done});
 
@@ -271,7 +276,11 @@ sub _runMod {
 
     $logger->debug ("Running $module");
 
-    $self->_runWithTimeout($module, "doInventory");
+    $self->_runWithTimeout(
+        $module,
+        "doInventory",
+        $config->{'backend-collect-timeout'}
+    );
     $self->{modules}->{$module}->{done} = 1;
     $self->{modules}->{$module}->{used} = 0; # unlock the module
 }
@@ -300,19 +309,15 @@ sub _runWithTimeout {
 
     my $logger = $self->{logger};
 
-    my $ret;
-    
-    if (!$timeout) {
-        $timeout = $self->{config}{'backend-collect-timeout'};
-    }
+    my $result;
 
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $timeout;
+        alarm $timeout if $timeout;
 
         no strict 'refs'; ## no critic
 
-        $ret = &{$module . '::' . $function}({
+        $result = &{$module . '::' . $function}({
             config        => $self->{config},
             setup         => $self->{setup},
             inventory     => $self->{inventory},
@@ -322,18 +327,16 @@ sub _runWithTimeout {
         });
     };
     alarm 0;
-    my $evalRet = $EVAL_ERROR;
 
-    if ($evalRet) {
+    if ($EVAL_ERROR) {
         if ($EVAL_ERROR ne "alarm\n") {
             $logger->debug("runWithTimeout(): unexpected error: $EVAL_ERROR");
         } else {
             $logger->debug("$module killed by a timeout.");
-            return;
         }
-    } else {
-        return $ret;
     }
+
+    return $result;
 }
 
 1;

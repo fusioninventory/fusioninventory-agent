@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled {
@@ -17,36 +19,22 @@ sub doInventory {
     my $logger = $params->{logger};
 
     # Operating system informations
-    my $OSName = `uname -s`;
-    chomp $OSName;
-    my $OSLevel = `uname -r`;
-    chomp $OSLevel;
-    my $OSComment = `uname -v`;
-    chomp $OSComment;
+    my $OSName = getSingleLine(command => 'uname -s');
+    my $OSLevel = getSingleLine(command => 'uname -r');
+    my $OSComment = getSingleLine(command => 'uname -v');
 
-    my $OSVersion;
-    if (open my $handle, '<', '/etc/release') {
-        $OSVersion = <$handle>;
-        close $handle;
-        chomp $OSVersion;
-        $OSVersion =~ s/^\s+//;
-    } else {
-        $logger->error("Can't open /etc/release: $ERRNO");
-    }
+    my $OSVersion = getSingleLine(file => '/etc/release', logger => $logger);
+    $OSVersion =~ s/^\s+//;
 
     if (!$OSVersion) {
         $OSVersion = $OSComment;
     }
 
     # Hardware informations
-    my $karch = `arch -k`;
-    chomp $karch;
-    my $hostid = `hostid`;
-    chomp $hostid;
-    my $proct = `uname -p`;
-    chomp $proct;
-    my $platform = `uname -i`;
-    chomp $platform;
+    my $karch = getSingleLine(command => 'arch -k');
+    my $hostid = getSingleLine(command => 'hostid');
+    my $proct = getSingleLine(command => 'uname -p');
+    my $platform = getSingleLine(command => 'uname -i');
     my $HWDescription = "$platform($karch)/$proct HostID=$hostid";
 
     $inventory->setHardware({

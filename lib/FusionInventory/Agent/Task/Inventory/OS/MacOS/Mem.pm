@@ -28,7 +28,7 @@ sub doInventory {
 sub _getMemories {
     my ($logger, $file) = @_;
 
-    my $infos = getInfosFromSystemProfiler($logger, $file);
+    my $infos = getInfosFromSystemProfiler(logger => $logger, file => $file);
 
     return unless $infos->{Memory};
 
@@ -46,9 +46,12 @@ sub _getMemories {
 
         my $info = $parent_node->{$key};
         my $description = $info->{'Part Number'};
-        $description = pack 'H*', $description if $description =~ s/^0x//;
 
-        $description =~ s/\s*$//;
+        # convert hexa to ascii
+        if ($description && $description =~ /^0x/) {
+            $description = pack 'H*', substr($description, 2);
+            $description =~ s/\s*$//;
+        }
 
         my $memory = {
             NUMSLOTS     => $slot,

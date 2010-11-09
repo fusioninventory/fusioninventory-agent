@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 our $runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 
 sub isInventoryEnabled  {
@@ -14,17 +16,12 @@ sub isInventoryEnabled  {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
-    my $OSName;
-    my $OSVersion;
-    my $OSRelease;
-    my $OSLicense;
 
-    #my $uname_path          = &_get_path('uname');
     # Operating system informations
-    chomp($OSName = `uname -s`);  #It should allways be "HP-UX"
-    chomp($OSVersion = `uname -v`);
-    chomp($OSRelease = `uname -r`);
-    chomp($OSLicense = `uname -l`);
+    my $OSName    = getSingleLine(command => 'uname -s');  # It should always be "HP-UX"
+    my $OSVersion = getSingleLine(command => 'uname -v');
+    my $OSRelease = getSingleLine(command => 'uname -r');
+    my $OSLicense = getSingleLine(command => 'uname -l');
 
     # Last login informations
     my $LastLoggedUser;

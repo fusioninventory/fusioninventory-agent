@@ -14,23 +14,16 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
     # Uptime
-    my $handle;
-    if (!open $handle, '<', '/proc/uptime') {
-        warn "Can't open /proc/uptime: $ERRNO";
-        return;
-    }
-
-    my $uptime = <$handle>;
+    my $uptime = getSingleLine(file => '/proc/uptime', logger => $logger);
     $uptime =~ s/^(.+)\s+.+/$1/;
-    close $handle;
 
     # ISO format string conversion
     $uptime = getFormatedGmTime($uptime);
 
-    chomp(my $DeviceType =`uname -m`);
-#  TODO$h->{'CONTENT'}{'HARDWARE'}{'DESCRIPTION'} = [ "$DeviceType/$uptime" ];
+    my $DeviceType = getSingleLine(command => 'uname -m');
     $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
 }
 

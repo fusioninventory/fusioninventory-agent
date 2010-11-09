@@ -91,7 +91,7 @@ sub doInventory {
             # end HPUX 11.31
         }
     } else {
-        chomp(my $DeviceType =`model |cut -f 3- -d/`);
+        my $DeviceType = getSingleLine(command => 'model |cut -f 3- -d/');
         my $tempCpuInfo = $cpuInfos{"$DeviceType"};
         if ( $tempCpuInfo =~ /^(\S+)\s(\S+)/ ) {
             $CPUinfo->{TYPE} = $1;
@@ -110,11 +110,10 @@ sub doInventory {
             }
         }
         # NBR CPU
-        chomp($CPUcount=`ioscan -Fk -C processor | wc -l`);
+        $CPUcount = getSingleLine(command => 'ioscan -Fk -C processor | wc -l');
     }
 
-    my $serie;
-    chomp($serie = `uname -m`);
+    my $serie = getSingleLine(command => 'uname -m');
     if ( $CPUinfo->{TYPE} eq 'unknow' and $serie =~ /ia64/) {
         $CPUinfo->{TYPE} = "Itanium"
     }
