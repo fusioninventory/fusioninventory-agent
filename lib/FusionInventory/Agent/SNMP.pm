@@ -134,14 +134,8 @@ sub getAuthList {
 
     my $list;
 
-    if (ref($options->{AUTHENTICATION}) eq "HASH") {
-        # a single auth object
-        $list->{$options->{AUTHENTICATION}->{ID}} = $options->{AUTHENTICATION};
-    } else {
-        # a list of auth objects
-        foreach my $auth (@{$options->{AUTHENTICATION}}) {
-            $list->{$auth->{ID}} = $auth;
-        }
+    foreach my $auth (@{$options->{AUTHENTICATION}}) {
+        $list->{$auth->{ID}} = $auth;
     }
 
     return $list;
