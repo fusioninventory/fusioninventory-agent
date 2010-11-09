@@ -19,8 +19,8 @@ if ($EVAL_ERROR) {
 my %messages = (
     message2 => {
         type => 'SNMPQUERY',
-        auths => {
-            1 => {
+        auths => [
+            {
                 'PRIVPROTOCOL' => '',
                 'AUTHPROTOCOL' => '',
                 'ID' => '1',
@@ -30,12 +30,12 @@ my %messages = (
                 'COMMUNITY' => 'public',
                 'PRIVPASSPHRASE' => ''
             },
-        },
+        ],
     },
     message3 => {
         type => 'NETDISCOVERY',
-        auths => {
-            1 => {
+        auths => [
+            {
                 'PRIVPROTOCOL' => '',
                 'AUTHPROTOCOL' => '',
                 'ID' => '1',
@@ -45,7 +45,7 @@ my %messages = (
                 'COMMUNITY' => 'public',
                 'PRIVPASSPHRASE' => ''
             },
-            2 => {
+            {
                 'PRIVPROTOCOL' => '',
                 'AUTHPROTOCOL' => '',
                 'ID' => '2',
@@ -55,7 +55,7 @@ my %messages = (
                 'COMMUNITY' => 'public',
                 'PRIVPASSPHRASE' => ''
             }
-        },
+        ],
     },
 );
 

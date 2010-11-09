@@ -135,7 +135,7 @@ sub getAuthList {
     my $list;
 
     foreach my $auth (@{$options->{AUTHENTICATION}}) {
-        $list->{$auth->{ID}} = $auth;
+        push @$list, $auth;
     }
 
     return $list;
@@ -220,4 +220,5 @@ Available params:
 
 =head2 getAuthList()
 
-Parse options returned by the server, and returns a list of auth items.
+Parse options returned by the server, and returns a list of auth items as an
+arrayref.
