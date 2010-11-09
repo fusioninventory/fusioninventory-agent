@@ -15,9 +15,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $domain;
-
-    chomp($domain = `domainname`);
+    my $domain = getSingleLine(command => 'domainname');
 
     if (!$domain) {
         my %domain;
@@ -32,8 +30,6 @@ sub doInventory {
         }
         $domain = join "/", keys %domain;
     }
-# If no domain name, we send "WORKGROUP"
-    $domain = 'WORKGROUP' unless $domain;
 
     $inventory->setHardware({
         WORKGROUP => $domain

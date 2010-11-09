@@ -46,9 +46,8 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/414
        * Linux/PPC: Fix various warnings in CPU.pm
        * Linux/PPC: ignore some wrong warning
-       * Linux/PPC: CPUS/TYPE renamed to CPUS/NAME
+       * Linux: CPUS/TYPE renamed to CPUS/NAME
        * POD: add doc for BIOS/{S,B}MANUFACTURER
-       * Clean up: remove BIOS/{MMANUFACTURER,MSN}
        * POD: fix a syntax error in fusioninventory-agent
        * use the default basevardir.
        * POD: clarify, we ignore virtual filesystem like /proc in <DRIVES />
@@ -86,6 +85,19 @@ Revision history for FusionInventory::Agent
        * MacOSX/Drives: don't ignore autofs filesystem, thanks François Legastelois
          for the bug report
          http://forge.fusioninventory.org/issues/446
+       * BSD: use mount to identify the filesystem type, this shoud fix bug #450
+         http://forge.fusioninventory.org/issues/450
+       * Win32: try to identify dual core CPU even if Windows thinks it two physical CPU
+       * Win32: no need to change %PATH% anymore
+         http://forge.fusioninventory.org/issues/151
+       * fusioninventory-agent-config, better question for server address 
+       * BIOS: clean up
+          - do not mix motherboard and system information anymore
+          - do not use CPU information do create fake serial anymore
+          - retrieve the SKU number
+       * MacOSX: use ioreg to get the machine serial number
+         http://forge.fusioninventory.org/issues/442
+       * Logger: ensure the logger is load just one time
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets

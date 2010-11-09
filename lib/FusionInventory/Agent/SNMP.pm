@@ -61,36 +61,23 @@ sub snmpGet {
     my ($self, $params) = @_;
 
     my $oid = $params->{oid};
-    my $up = $params->{up};
 
     return unless $oid;
 
-    my $session = $self->{session};
-
-    my $result = $session->get_request(
+    my $response = $self->{session}->get_request(
         -varbindlist => [$oid]
     );
 
-    return unless $result;
+    return unless $response;
 
-    return if $result->{$oid} =~ /noSuchInstance/;
-    return if $result->{$oid} =~ /noSuchObject/;
+    return if $response->{$oid} =~ /noSuchInstance/;
+    return if $response->{$oid} =~ /noSuchObject/;
 
-    my $value;
-    if (
-        $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
-        $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
-        $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
-        $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
-        $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/
-    ) {
-        $value = getBadMACAddress($oid, $result->{$oid});
-    }
+    my $result = _getNormalizedValue($oid, $response->{$oid});
+    $result = getSanitizedString($result);
+    chomp $result;
 
-    $value = getSanitizedString($value);
-    $value =~ s/\n$//;
-
-    return $value;
+    return $result;
 }
 
 
@@ -99,65 +86,47 @@ sub snmpWalk {
 
     my $oid_start = $params->{oid_start};
 
-    my $ArraySNMP = {};
+    return unless $oid_start;
 
-    my $oid_prec = $oid_start;
-    if (defined($oid_start)) {
-        while($oid_prec =~ m/$oid_start/) {
-            my $response = $self->{session}->get_next_request($oid_prec);
-            my $err = $self->{session}->error;
-            if ($err){
-                #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
-                #debug($log,"[".$_[1]."] Oid Error : ".$oid_prec,"",$PID);
-                return $ArraySNMP;
-            }
-            my %pdesc = %{$response};
-            #print %pdesc;
-            while ((my $object,my $oid) = each (%pdesc)) {
-                if ($object =~ /$oid_start/) {
-                    if ($oid !~ /No response from remote host/) {
-                        if ($object =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-                            $oid = getBadMACAddress($object,$oid)
-                        }
-                        if ($object =~ /.1.3.6.1.2.1.17.1.1.0/) {
-                            $oid = getBadMACAddress($object,$oid)
-                        }
-                        if ($object =~ /.1.3.6.1.2.1.2.2.1.6/) {
-                            $oid = getBadMACAddress($object,$oid)
-                        }
-                        if ($object =~ /.1.3.6.1.2.1.4.22.1.2/) {
-                            $oid = getBadMACAddress($object,$oid)
-                        }
-                        if ($object =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-                            $oid = getBadMACAddress($object,$oid)
-                        }
-                        my $object2 = $object;
-                        $object2 =~ s/$_[0].//;
-                        $oid = getSanitizedString($oid);
-                        $oid =~ s/\n$//;
-                        $ArraySNMP->{$object2} = $oid;
-                    }
-                }
-                $oid_prec = $object;
-            }
-        }
+    my $response = $self->{session}->get_table(
+        -baseoid => $oid_start
+    );
+
+    return unless $response;
+
+    my $result;
+
+    foreach my $oid (keys %{$response}) {
+        my $value = _getNormalizedValue($oid, $response->{$oid});
+        $value = getSanitizedString($value);
+        chomp $value;
+        $result->{$oid} = $value;
     }
-    return $ArraySNMP;
+
+    return $result;
 }
 
-sub getBadMACAddress {
-    my $OID_ifTable = shift;
-    my $oid_value = shift;
+sub _getNormalizedValue {
+    my ($oid, $value) = @_;
 
-    if ($oid_value !~ /0x/) {
-        $oid_value = "0x".unpack 'H*', $oid_value;
+    # return value directly, unless for specific oids
+    # corresponding to bad mac addresses
+    return $value unless 
+        $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
+        $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
+        $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
+        $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
+        $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/;
+
+    if ($value !~ /0x/) {
+        $value = "0x" . unpack 'H*', $value;
     }
 
-    my @array = split(/(\S{2})/, $oid_value);
-    if (@array eq "14") {
-        $oid_value = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
+    my @array = split(/\S{2}/, $value);
+    if (@array == 14) {
+        $value = join(':', map { $array[$_] } qw/3 5 7 9 11 13/);
     }
-    return $oid_value;
+    return $value;
 }
 
 sub getAuthList {
@@ -227,11 +196,33 @@ Can be one of:
 
 =back
 
-=head2 snmpGet()
+=head2 snmpGet(%params)
 
-=head2 snmpWalk()
+This method returns a single value, corresponding to a single OID. The value is
+normalised to remove any control character, and hexadecimal mac addresses are
+translated into plain ascii.
 
-=head2 getBadMACAddress()
+Available params:
+
+=over
+
+=item oid the unique OID to query
+
+=back
+
+=head2 snmpWalk(%params)
+
+This method returns an hashref of values, indexed by their OIDs, starting from
+the given one. The values are normalised to remove any control character, and
+hexadecimal mac addresses are translated into plain ascii.
+
+Available params:
+
+=over
+
+=item oid_start the first OID to start walking
+
+=back
 
 =head2 getAuthList()
 

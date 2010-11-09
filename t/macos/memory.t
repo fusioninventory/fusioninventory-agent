@@ -7,6 +7,80 @@ use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
+    '10.4-powerpc' => [
+        {
+            NUMSLOTS     => '0',
+            SERIALNUMBER => undef,
+            DESCRIPTION  => undef,
+            SPEED        => undef,
+            TYPE         => 'DDR2 SDRAM',
+            CAPACITY     => 1000,
+            CAPTION      => 'Status: OK'
+        },
+        {
+            NUMSLOTS     => '1',
+            SERIALNUMBER => undef,
+            DESCRIPTION  => undef,
+            SPEED        => undef,
+            TYPE         => 'DDR2 SDRAM',
+            CAPACITY     => 1000,
+            CAPTION      => 'Status: OK'
+        },
+        {
+            NUMSLOTS     => '2',
+            SERIALNUMBER => undef,
+            DESCRIPTION  => undef,
+            SPEED        => undef,
+            TYPE         => 'Empty',
+            CAPACITY     => undef,
+            CAPTION      => 'Status: Empty'
+        },
+        {
+            NUMSLOTS     => '3',
+            SERIALNUMBER => undef,
+            DESCRIPTION  => undef,
+            SPEED        => undef,
+            TYPE         => 'Empty',
+            CAPACITY     => undef,
+            CAPTION      => 'Status: Empty'
+        },
+        {
+            NUMSLOTS     => '4',
+            SERIALNUMBER => undef,
+            DESCRIPTION  => undef,
+            SPEED        => undef,
+            TYPE         => 'Empty',
+            CAPACITY     => undef,
+            CAPTION      => 'Status: Empty'
+        },
+        {
+            NUMSLOTS     => '5',
+            SERIALNUMBER => undef,
+            DESCRIPTION  => undef,
+            SPEED        => undef,
+            TYPE         => 'Empty',
+            CAPACITY     => undef,
+            CAPTION      => 'Status: Empty'
+        },
+        {
+            NUMSLOTS     => '6',
+            SERIALNUMBER => undef,
+            DESCRIPTION  => undef,
+            SPEED        => undef,
+            TYPE         => 'Empty',
+            CAPACITY     => undef,
+            CAPTION      => 'Status: Empty'
+        },
+        {
+            NUMSLOTS     => '7',
+            SERIALNUMBER => undef,
+            DESCRIPTION  => undef,
+            SPEED        => undef,
+            TYPE         => 'Empty',
+            CAPACITY     => undef,
+            CAPTION      => 'Status: Empty'
+        }
+    ],
     '10.5-powerpc' => [
         {
             NUMSLOTS     => 0,

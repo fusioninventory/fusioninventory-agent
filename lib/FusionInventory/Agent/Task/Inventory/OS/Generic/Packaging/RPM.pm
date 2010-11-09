@@ -26,14 +26,15 @@ sub doInventory {
         '%{SUMMARY}\n' . 
         '\' 2>/dev/null';
 
-    foreach my $package (_getPackagesFromRpm(
+    my $packages = _getPackagesListFromRpm(
         logger => $logger, command => $command
-    )) {
+    );
+    foreach my $package (@$packages) {
         $inventory->addSoftware($package);
     }
 }
 
-sub _getPackagesFromRpm {
+sub _getPackagesListFromRpm {
     my $handle = getFileHandle(@_);
 
     my @packages;
@@ -52,7 +53,7 @@ sub _getPackagesFromRpm {
 
     close $handle;
 
-    return @packages;
+    return \@packages;
 }
 
 1;

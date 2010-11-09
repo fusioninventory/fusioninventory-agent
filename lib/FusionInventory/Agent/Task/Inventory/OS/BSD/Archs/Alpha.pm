@@ -3,61 +3,59 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Alpha;
 use strict;
 use warnings;
 
-sub isInventoryEnabled{
-    my $arch;
-    chomp($arch=`sysctl -n hw.machine`);
-    $arch eq "alpha";
+use Config;
+
+use FusionInventory::Agent::Tools;
+
+sub isInventoryEnabled {
+    return $Config{'archname'} =~ /^alpha/;
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
 
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate);
-    my ( $processort , $processorn , $processors );
+    # sysctl infos
 
-    ### Get system model with "sysctl hw.model"
-    #
-    # example on *BSD
-    # hw.model = AlphaStation 255 4/232
+    # example on *BSD: AlphaStation 255 4/232
+    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
 
-    chomp($SystemModel=`sysctl -n hw.model`);
-    $SystemManufacturer = "DEC";
+    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
 
-    ### Get processor type and speed in dmesg
-    #
-    # NetBSD:    AlphaStation 255 4/232, 232MHz, s/n
-    #            cpu0 at mainbus0: ID 0 (primary), 21064A-2
-    # OpenBSD:   AlphaStation 255 4/232, 232MHz
-    #            cpu0 at mainbus0: ID 0 (primary), 21064A-2 (pass 1.1)
-    # FreeBSD:   AlphaStation 255 4/232, 232MHz
-    #            CPU: EV45 (21064A) major=6 minor=2
+    # dmesg infos
 
+    # NetBSD:
+    # AlphaStation 255 4/232, 232MHz, s/n
+    # cpu0 at mainbus0: ID 0 (primary), 21064A-2
+    # OpenBSD:
+    # AlphaStation 255 4/232, 232MHz
+    # cpu0 at mainbus0: ID 0 (primary), 21064A-2 (pass 1.1)
+    # FreeBSD:
+    # AlphaStation 255 4/232, 232MHz
+    # CPU: EV45 (21064A) major=6 minor=2
+
+    my ($processort, $processors);
     for (`dmesg`) {
         if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
         if (/$SystemModel,\s*(\S+)\s*MHz.*$/) { $processors = $1; }
     }
 
-
-    # number of procs with sysctl (hw.ncpu)
-    chomp($processorn=`sysctl -n hw.ncpu`);
-
-# Writing data
     $inventory->setBios ({
-        SMANUFACTURER => $SystemManufacturer,
+        SMANUFACTURER => 'DEC',
         SMODEL => $SystemModel,
-        SSN => $SystemSerial,
-        BMANUFACTURER => $BiosManufacturer,
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
     });
 
-    $inventory->setHardware({
-        PROCESSORT => $processort,
-        PROCESSORN => $processorn,
-        PROCESSORS => $processors
-    });
+    # don't deal with CPUs if information can be computed from dmidecode
+    my $infos = getInfosFromDmidecode(logger => $logger);
+    return if $infos->{4};
+
+    for my $i (1 .. $processorn) {
+         $inventory->addCPU({
+             NAME  => $processort,
+             SPEED => $processors,
+         });
+    }
 
 }
 

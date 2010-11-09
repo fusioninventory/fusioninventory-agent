@@ -32,16 +32,13 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $description;
     my $ipaddress;
     my $ipgateway;
     my $ipmask;
     my $ipsubnet;
     my $macaddr;
-    my $status;
-    my $type;
 
-    foreach (`LANG=C ipmitool lan print 2> /dev/null`) {
+    foreach (`ipmitool lan print 2> /dev/null`) {
         if (/^IP Address\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
             $ipaddress = $1;
         }
@@ -55,7 +52,6 @@ sub doInventory {
             $macaddr = $1;
         }
     }
-    $description = 'bmc';
     my $binip = &ip_iptobin ($ipaddress, 4);
     my $binmask = &ip_iptobin ($ipmask, 4);
     my $binsubnet = $binip & $binmask;
@@ -63,19 +59,16 @@ sub doInventory {
         Net::IP->import(':PROC');
         $ipsubnet = ip_bintoip($binsubnet, 4);
     }
-    $status = 1 if $ipaddress != '0.0.0.0';
-    $type = 'Ethernet';
 
     $inventory->addNetwork({
-        DESCRIPTION => $description,
-        IPADDRESS => $ipaddress,
-        IPDHCP => "",
-        IPGATEWAY => $ipgateway,
-        IPMASK => $ipmask,
-        IPSUBNET => $ipsubnet,
-        MACADDR => $macaddr,
-        STATUS => $status?"Up":"Down",
-        TYPE => $type,
+        DESCRIPTION => 'bmc',
+        IPADDRESS   => $ipaddress,
+        IPGATEWAY   => $ipgateway,
+        IPMASK      => $ipmask,
+        IPSUBNET    => $ipsubnet,
+        MACADDR     => $macaddr,
+        STATUS      => $ipaddress != '0.0.0.0' ? "Up" : "Down",
+        TYPE        => 'Ethernet'
     });
 }
 

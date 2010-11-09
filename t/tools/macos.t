@@ -7,6 +7,576 @@ use FusionInventory::Logger;
 use Test::More;
 
 my %tests = (
+    '10.4-powerpc' => {
+        'Network' => {
+            'Ethernet intégré 2' => {
+                'Has IP Assigned' => 'No',
+                'IPv6' => {
+                    'Configuration Method' => 'Automatic'
+                },
+                'BSD Device Name' => 'en1',
+                'Ethernet' => {
+                    'MAC Address' => '00:14:51:61:ef:09',
+                    'Media Options' => {
+                        'Media Subtype' => 'autoselect'
+                    }
+                },
+                'Hardware' => 'Ethernet',
+                'Type' => 'Ethernet',
+                'IPv4' => {
+                    'Configuration Method' => 'DHCP'
+                },
+                'Proxies' => {
+                    'Proxy Configuration Method' => 'Manual',
+                    'ExcludeSimpleHostnames' => {
+                        'Auto Discovery Enabled' => 'No',
+                        'FTP Passive Mode' => 'Yes'
+                    }
+                }
+            },
+            'Modem interne' => {
+                'Has IP Assigned' => 'No',
+                'Type' => 'PPP (PPPSerial)',
+                'IPv6' => {
+                    'Configuration Method' => 'Automatic'
+                },
+                'BSD Device Name' => 'modem',
+                'IPv4' => {
+                    'Configuration Method' => 'PPP'
+                },
+                'Hardware' => 'Modem',
+                'Proxies' => {
+                    'Proxy Configuration Method' => 'Manual',
+                    'ExcludeSimpleHostnames' => {
+                        'Auto Discovery Enabled' => 'No',
+                        'FTP Passive Mode' => 'Yes'
+                    }
+                }
+            },
+            'Ethernet intégré' => {
+                'Has IP Assigned' => 'Yes',
+                'IPv6' => {
+                    'Configuration Method' => 'Automatic'
+                },
+                'BSD Device Name' => 'en0',
+                'Ethernet' => {
+                'Media Subtype' => '100baseTX',
+                'MAC Address' => '00:14:51:61:ef:08',
+                'Media Options' => 'Full Duplex, flow-control'
+                },
+                'Hardware' => 'Ethernet',
+                'DNS' => {
+                    'Server Addresses' => '10.0.1.1',
+                    'Domain Name' => 'lan'
+                },
+                'Type' => 'Ethernet',
+                'IPv4 Addresses' => '10.0.1.110',
+                'DHCP Server Responses' => {
+                    'Domain Name' => 'lan',
+                    'Lease Duration (seconds)' => {
+                        'Routers' => '10.0.1.1',
+                        'Subnet Mask' => '255.255.255.0',
+                        'Server Identifier' => '10.0.1.1',
+                        'DHCP Message Type' => '0x05'
+                    },
+                    'Domain Name Servers' => '10.0.1.1'
+                },
+                'IPv4' => {
+                    'Router' => '10.0.1.1',
+                    'Interface Name' => 'en0',
+                    'Configuration Method' => 'DHCP',
+                    'Subnet Masks' => '255.255.255.0',
+                    'Addresses' => '10.0.1.110'
+                },
+                'Proxies' => {
+                    'SOCKS Proxy Enabled' => 'No',
+                    'HTTPS Proxy Enabled' => 'No',
+                    'FTP Proxy Enabled' => 'No',
+                    'Gopher Proxy Enabled' => 'No',
+                    'FTP Passive Mode' => 'Yes',
+                    'HTTP Proxy Enabled' => 'No',
+                    'RTSP Proxy Enabled' => 'No'
+                }
+            },
+            'Bluetooth' => {
+                'Has IP Assigned' => 'No',
+                'Type' => 'PPP (PPPSerial)',
+                'IPv6' => {
+                'Configuration Method' => 'Automatic'
+                },
+                'BSD Device Name' => 'Bluetooth-Modem',
+                'IPv4' => {
+                'Configuration Method' => 'PPP'
+                },
+                'Hardware' => 'Modem',
+                'Proxies' => {
+                    'Proxy Configuration Method' => 'Manual',
+                    'ExcludeSimpleHostnames' => {
+                        'Auto Discovery Enabled' => 'No',
+                        'FTP Passive Mode' => 'Yes'
+                    }
+                }
+            },
+            'FireWire intégré' => {
+                'Has IP Assigned' => 'No',
+                'IPv6' => {
+                    'Configuration Method' => 'Automatic'
+                },
+                'BSD Device Name' => 'fw1',
+                'Ethernet' => {
+                    'Media Subtype' => 'autoselect',
+                    'MAC Address' => '00:14:51:ff:fe:1a:c8:e2',
+                    'Media Options' => 'Full Duplex'
+                },
+                'Hardware' => 'FireWire',
+                'Type' => 'FireWire',
+                'IPv4' => {
+                    'Configuration Method' => 'DHCP'
+                },
+                'Proxies' => {
+                    'Proxy Configuration Method' => 'Manual',
+                    'ExcludeSimpleHostnames' => {
+                        'Auto Discovery Enabled' => 'No',
+                        'FTP Passive Mode' => 'Yes'
+                    }
+                }
+            }
+        },
+        'Locations' => {
+            'Automatic' => {
+                'Services' => {
+                    'Ethernet intégré 2' => {
+                        'Type' => 'Ethernet',
+                        'IPv6' => {
+                            'Configuration Method' => 'Automatic'
+                        },
+                        'BSD Device Name' => 'en1',
+                        'AppleTalk' => {
+                            'Configuration Method' => 'Node'
+                        },
+                        'IPv4' => {
+                            'Configuration Method' => 'DHCP'
+                        },
+                        'Proxies' => {
+                            'Auto Discovery Enabled' => {},
+                            'Proxy Configuration Method' => '2',
+                            'ExcludeSimpleHostnames' => {
+                                'FTP Passive Mode' => '1'
+                            }
+                        },
+                        'Hardware (MAC) Address' => '00:14:51:61:ef:09'
+                    },
+                    'Modem interne' => {
+                        'Type' => 'PPP',
+                        'IPv6' => {
+                            'Configuration Method' => 'Automatic'
+                        },
+                        'IPv4' => {
+                            'Configuration Method' => 'PPP'
+                        },
+                        'Proxies' => {
+                            'Auto Discovery Enabled' => {},
+                            'Proxy Configuration Method' => '2',
+                            'ExcludeSimpleHostnames' => {
+                                'FTP Passive Mode' => '1'
+                            }
+                        },
+                        'PPP' => {
+                            'ACSP Enabled' => {},
+                            'Idle Reminder' => {
+                                'IPCP Compression VJ' => '1',
+                                'LCP Echo Interval' => '10',
+                                'LCP Echo Enabled' => '1',
+                                'Log File' => '/var/log/ppp.log',
+                                'Idle Reminder Time' => '1800',
+                                'LCP Echo Failure' => '4'
+                            },
+                            'Verbose Logging' => {},
+                            'Dial On Demand' => {
+                                'Disconnect On Logout' => '1',
+                                'Disconnect On Idle Timer' => '600',
+                                'Disconnect On Idle' => '1',
+                                'Disconnect On Fast User Switch' => '1',
+                                'Disconnect On Sleep' => '1'
+                            },
+                            'Display Terminal Window' => {
+                               'Redial Enabled' => '1',
+                               'Redial Count' => '1',
+                               'Redial Interval' => '5'
+                             },
+                            'Use Terminal Script' => {}
+                        }
+                    },
+                    'Ethernet intégré' => {
+                        'Type' => 'Ethernet',
+                        'IPv6' => {
+                            'Configuration Method' => 'Automatic'
+                        },
+                        'BSD Device Name' => 'en0',
+                        'AppleTalk' => {
+                            'Configuration Method' => 'Node'
+                        },
+                        'IPv4' => {
+                            'Configuration Method' => 'DHCP'
+                        },
+                        'Proxies' => {
+                            'SOCKS Proxy Enabled' => {},
+                            'HTTPS Proxy Enabled' => {},
+                            'FTP Proxy Enabled' => {
+                                'FTP Passive Mode' => '1'
+                            },
+                            'Gopher Proxy Enabled' => {},
+                            'HTTP Proxy Enabled' => {},
+                            'RTSP Proxy Enabled' => {}
+                        },
+                        'Hardware (MAC) Address' => '00:14:51:61:ef:08'
+                    },
+                    'Bluetooth' => {
+                        'Type' => 'PPP',
+                        'IPv6' => {
+                            'Configuration Method' => 'Automatic'
+                        },
+                        'IPv4' => {
+                            'Configuration Method' => 'PPP'
+                        },
+                        'Proxies' => {
+                            'Auto Discovery Enabled' => {},
+                            'Proxy Configuration Method' => '2',
+                            'ExcludeSimpleHostnames' => {
+                                'FTP Passive Mode' => '1'
+                            }
+                        },
+                        'PPP' => {
+                            'ACSP Enabled' => {},
+                            'Idle Reminder' => {
+                                'IPCP Compression VJ' => '1',
+                                'Idle Reminder Time' => '1800'
+                            },
+                            'Verbose Logging' => {},
+                            'LCP Echo Enabled' => {
+                            'LCP Echo Interval' => '10',
+                            'Log File' => '/var/log/ppp.log',
+                            'LCP Echo Failure' => '4'
+                            },
+                            'Dial On Demand' => {
+                            'Disconnect On Logout' => '1',
+                            'Disconnect On Idle Timer' => '600',
+                            'Disconnect On Idle' => '1',
+                            'Disconnect On Fast User Switch' => '1',
+                            'Disconnect On Sleep' => '1'
+                        },
+                        'Display Terminal Window' => {
+                           'Redial Enabled' => '1',
+                           'Redial Count' => '1',
+                           'Redial Interval' => '5'
+                         },
+                        'Use Terminal Script' => {}
+                        }
+                    },
+                    'FireWire intégré' => {
+                        'Type' => 'FireWire',
+                        'IPv6' => {
+                            'Configuration Method' => 'Automatic'
+                        },
+                        'BSD Device Name' => 'fw1',
+                        'AppleTalk' => {
+                            'Configuration Method' => 'Node'
+                        },
+                        'IPv4' => {
+                            'Configuration Method' => 'DHCP'
+                        },
+                        'Proxies' => {
+                            'Auto Discovery Enabled' => {},
+                            'Proxy Configuration Method' => '2',
+                            'ExcludeSimpleHostnames' => {
+                                'FTP Passive Mode' => '1'
+                            }
+                        },
+                        'Hardware (MAC) Address' => '00:14:51:ff:fe:1a:c8:e2'
+                    }
+                },
+                'Active Location' => 'Yes'
+            }
+        },
+        'Hardware' => {
+            'Hardware Overview' => {
+                'Boot ROM Version' => '5.2.7f1',
+                'Machine Name' => 'Power Mac G5',
+                'Serial Number' => 'CK54202SR6V',
+                'Bus Speed' => '1.15 GHz',
+                'Machine Model' => 'PowerMac11,2',
+                'Number Of CPUs' => '2',
+                'Memory' => '2 GB',
+                'CPU Type' => 'PowerPC G5 (1.1)',
+                'L2 Cache (per CPU)' => '1 MB',
+                'CPU Speed' => '2.3 GHz'
+            }
+        },
+        'Diagnostics' => {
+            'Power On Self-Test' => {
+                'Result' => 'Passed',
+                'Last Run' => '27/07/10 17:27'
+            }
+        },
+        'Serial-ATA' => {
+            'Serial-ATA Bus' => {
+                'Maxtor 6B250S0' => {
+                    'Volumes' => {
+                        'disk0s5' => {
+                            'File System' => 'Journaled HFS+',
+                            'Writable' => 'Yes',
+                            'Capacity' => '212.09 GB',
+                            'Available' => '203.48 GB'
+                        },
+                        'disk0s3' => {
+                            'File System' => 'Journaled HFS+',
+                            'Writable' => 'Yes',
+                            'Capacity' => '21.42 GB',
+                            'Available' => '6.87 GB'
+                        }
+                    },
+                    'Revision' => 'BANC1E50',
+                    'Detachable Drive' => 'No',
+                    'Serial Number' => 'B623KFXH',
+                    'Capacity' => '233.76 GB',
+                    'Model' => 'Maxtor 6B250S0',
+                    'Removable Media' => 'No',
+                    'BSD Name' => 'disk0',
+                    'Protocol' => 'ata',
+                    'Unit Number' => {
+                        'OS9 Drivers' => 'No',
+                        'Socket Type' => 'Serial-ATA',
+                        'S.M.A.R.T. status' => 'Verified',
+                        'Bay Name' => '"A (upper)"'
+                    }
+                }
+            }
+        },
+        'PCI Cards' => {
+            'bcom5714' => {
+                'Slot' => 'GIGE',
+                'Subsystem Vendor ID' => '0x106b',
+                'Revision ID' => '0x0003',
+                'Device ID' => '0x166a',
+                'Type' => 'network',
+                'Subsystem ID' => '0x0085',
+                'Bus' => 'PCI',
+                'Vendor ID' => '0x14e4'
+            },
+            'GeForce 6600' => {
+                'Slot' => 'SLOT-1',
+                'Subsystem Vendor ID' => '0x10de',
+                'Revision ID' => '0x00a4',
+                'Device ID' => '0x0141',
+                'Type' => 'display',
+                'Subsystem ID' => '0x0010',
+                'ROM Revision' => '2149',
+                'Bus' => 'PCI',
+                'Name' => 'NVDA,Display-B',
+                'Vendor ID' => '0x10de'
+            }
+        },
+        'USB' => {
+            'USB Bus' => {
+                'Host Controller Driver' => 'AppleUSBOHCI',
+                'PCI Device ID' => '0x0035',
+                'Host Controller Location' => 'Built In USB',
+                'Bus Number' => '0x2b',
+                'PCI Vendor ID' => '0x1033',
+                'PCI Revision ID' => '0x0043'
+            },
+            'USB High-Speed Bus' => {
+                'Host Controller Driver' => 'AppleUSBEHCI',
+                'PCI Device ID' => '0x00e0',
+                'Host Controller Location' => 'Built In USB',
+                'Bus Number' => '0x4b',
+                'PCI Vendor ID' => '0x1033',
+                'PCI Revision ID' => '0x0004'
+            }
+        },
+        'ATA' => {
+            'ATA Bus' => {
+                'HL-DT-ST DVD-RW GWA-4165B' => {
+                    'Revision' => 'C006',
+                    'Detachable Drive' => 'No',
+                    'Serial Number' => 'B6FD7234EC63',
+                    'Protocol' => 'ATAPI',
+                    'Unit Number' => {
+                    'Socket Type' => 'Internal'
+                },
+                    'Model' => 'HL-DT-ST DVD-RW GWA-4165B'
+                }
+            }
+        },
+        'Audio (Built In)' => {
+            'Built In Sound Card' => {
+                'Formats' => {
+                    'PCM 24' => {
+                        'Sample Rates' => '32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz',
+                        'Mixable' => 'Yes',
+                        'Channels' => '2',
+                        'Bit Width' => '32',
+                        'Bit Depth' => '24'
+                    },
+                    'PCM 16' => {
+                        'Sample Rates' => '32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz',
+                        'Mixable' => 'Yes',
+                        'Channels' => '2',
+                        'Bit Width' => '16',
+                        'Bit Depth' => '16'
+                    },
+                    'AC3 16' => {
+                        'Sample Rates' => '32 KHz, 44.1 KHz, 48 KHz, 64 KHz, 88.2 KHz, 96 KHz',
+                        'Mixable' => 'No',
+                        'Channels' => '2',
+                        'Bit Width' => '16',
+                        'Bit Depth' => '16'
+                    }
+                },
+                'Devices' => {
+                    'Crystal Semiconductor CS84xx' => {
+                        'Inputs and Outputs' => {
+                            'S/PDIF Digital Input' => {
+                                'Playthrough' => 'No',
+                                'PluginID' => 'Topaz',
+                                'Controls' => 'Mute'
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        'Memory' => {
+            'DIMM5/J7200' => {
+                'Type' => 'Empty',
+                'Speed' => 'Empty',
+                'Size' => 'Empty',
+                'Status' => 'Empty'
+            },
+            'DIMM3/J7000' => {
+                'Type' => 'Empty',
+                'Speed' => 'Empty',
+                'Size' => 'Empty',
+                'Status' => 'Empty'
+            },
+            'DIMM2/J6900' => {
+                'Type' => 'Empty',
+                'Speed' => 'Empty',
+                'Size' => 'Empty',
+                'Status' => 'Empty'
+            },
+            'DIMM0/J6700' => {
+                'Type' => 'DDR2 SDRAM',
+                'Speed' => 'PC2-4200U-444',
+                'Size' => '1 GB',
+                'Status' => 'OK'
+            },
+            'DIMM6/J7300' => {
+                'Type' => 'Empty',
+                'Speed' => 'Empty',
+                'Size' => 'Empty',
+                'Status' => 'Empty'
+            },
+            'DIMM1/J6800' => {
+                'Type' => 'DDR2 SDRAM',
+                'Speed' => 'PC2-4200U-444',
+                'Size' => '1 GB',
+                'Status' => 'OK'
+            },
+            'DIMM4/J7100' => {
+                'Type' => 'Empty',
+                'Speed' => 'Empty',
+                'Size' => 'Empty',
+                'Status' => 'Empty'
+            },
+            'DIMM7/J7400' => {
+                'Type' => 'Empty',
+                'Speed' => 'Empty',
+                'Size' => 'Empty',
+                'Status' => 'Empty'
+            }
+        },
+        'Software' => {
+            'System Software Overview' => {
+                'Boot Volume' => 'fwosx104',
+                'System Version' => 'Mac OS X 10.4.11 (8S165)',
+                'Kernel Version' => 'Darwin 8.11.0',
+                'User Name' => 'wawa (wawa)',
+                'Computer Name' => 'g5'
+            }
+        },
+        'Disc Burning' => {
+            'HL-DT-ST DVD-RW GWA-4165B' => {
+                'Burn Underrun Protection DVD' => 'Yes',
+                'Reads DVD' => 'Yes',
+                'Cache' => '2048 KB',
+                'Write Strategies' => 'CD-TAO, CD-SAO, CD-Raw, DVD-DAO',
+                'Media' => 'No',
+                'Burn Underrun Protection CD' => 'Yes',
+                'Interconnect' => 'ATAPI',
+                'DVD-Write' => '-R, -RW, +R, +RW, +R DL',
+                'Burn Support' => 'Yes (Apple Shipped/Supported)',
+                'CD-Write' => '-R, -RW',
+                'Firmware Revision' => 'C006'
+            }
+        },
+        'FireWire' => {
+            'FireWire Bus' => {
+                'Maximum Speed' => 'Up to 800 Mb/sec',
+                'Unknown Device' => {
+                    'Maximum Speed' => 'Up to 400 Mb/sec',
+                    'Manufacturer' => 'Unknown',
+                    'Model' => 'Unknown Device',
+                    'Connection Speed' => 'Up to 400 Mb/sec'
+                }
+            }
+        },
+        'Graphics/Displays' => {
+            'NVIDIA GeForce 6600' => {
+                'Displays' => {
+                    'Display' => {
+                        'Status' => 'No display connected'
+                    },
+                    'ASUS VH222' => {
+                        'Quartz Extreme' => 'Supported',
+                        'Core Image' => 'Supported',
+                        'Display Asleep' => 'Yes',
+                        'Main Display' => 'Yes',
+                        'Resolution' => '1360 x 768 @ 60 Hz',
+                        'Depth' => '32-bit Color',
+                        'Mirror' => 'Off',
+                        'Online' => 'Yes'
+                    }
+                },
+                'Slot' => 'SLOT-1',
+                'Chipset Model' => 'GeForce 6600',
+                'Revision ID' => '0x00a4',
+                'Device ID' => '0x0141',
+                'Vendor' => 'nVIDIA (0x10de)',
+                'Type' => 'Display',
+                'ROM Revision' => '2149',
+                'Bus' => 'PCI',
+                'VRAM (Total)' => '256 MB'
+            }
+        },
+        'Power' => {
+            'System Power Settings' => {
+                'AC Power' => {
+                    'System Sleep Timer (Minutes)' => {
+                        'Reduce Processor Speed' => 'No',
+                        'Dynamic Power Step' => 'Yes',
+                        'Display Sleep Timer (Minutes)' => '10',
+                        'Disk Sleep Timer (Minutes)' => '10',
+                        'Automatic Restart On Power Loss' => 'No',
+                        'Sleep On Power Button' => 'Yes',
+                        'Wake On AC Change' => 'No',
+                        'Wake On Modem Ring' => 'Yes',
+                        'Wake On LAN' => 'Yes'
+                    }
+                }
+            }
+        }
+    },
     '10.5-powerpc' => {
         'Locations' => {
             'Automatic' => {
@@ -1474,12 +2044,8 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Logger->new();
-
 foreach my $test (keys %tests) {
     my $file = "resources/system_profiler/$test";
-    my $result = FusionInventory::Agent::Tools::MacOS::_parseSystemProfiler(
-        $logger, $file, '<'
-    );
+    my $result = getInfosFromSystemProfiler(file => $file);
     is_deeply($result, $tests{$test}, "$test system profiler parsing");
 }
