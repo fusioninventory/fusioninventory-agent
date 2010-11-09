@@ -41,22 +41,22 @@ sub _getBiosHardware {
 
     $bios->{SMODEL} =
         $system_info->{'Product'}      ||
-        $system_info->{'Product Name'} ||
-        $base_info->{'Product Name'};
+        $system_info->{'Product Name'};
+    $bios->{MMODEL} = $base_info->{'Product Name'};
+    $bios->{SKUNUMBER} = $system_info->{'SKU Number'};
 
     $bios->{SMANUFACTURER} =
         $system_info->{'Manufacturer'} ||
-        $system_info->{'Vendor'}       ||
-        $base_info->{'Manufacturer'};
+        $system_info->{'Vendor'};
+    $bios->{MMANUFACTURER} = $base_info->{'Manufacturer'};
 
-    $bios->{SSN} =
-        $system_info->{'Serial Number'} ||
-        $base_info->{'Serial Number'};
+    $bios->{SSN} = $system_info->{'Serial Number'};
+    $bios->{MSN} = $base_info->{'Serial Number'};
 
-    if (!$bios->{SSN} && $cpu_info->{'ID'}) {
-        $bios->{SSN} = $cpu_info->{'ID'};
-        $bios->{SSN} =~ s/ /-/g;
-    }
+#    if (!$bios->{SSN} && $cpu_info->{'ID'}) {
+#        $bios->{SSN} = $cpu_info->{'ID'};
+#        $bios->{SSN} =~ s/ /-/g;
+#    }
 
     my $hardware = {
         UUID => $system_info->{'UUID'}

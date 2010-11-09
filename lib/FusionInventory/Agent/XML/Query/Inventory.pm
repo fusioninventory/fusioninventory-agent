@@ -285,8 +285,8 @@ sub setBios {
     my ($self, $args) = @_;
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
-        MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
-        BIOSSERIAL TYPE/) {
+        MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
+        BIOSSERIAL TYPE SKUNUMBER/) {
 
         if (exists $args->{$key}) {
             my $string = getSanitizedString($args->{$key});
@@ -856,9 +856,19 @@ The BIOS revision
 
 =item BMANUFACTURER
 
-Board manufacturer
+BIOS manufacturer
+
+=item MMANUFACTURER
+
+Motherboard Manufacturer
+
+=item MSN
+
+Motherboard Serial
 
 =item MMODEL
+
+Motherboard model
 
 =item ASSETTAG
 

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use lib './lib';
 
+use Config;
 use English qw(-no_match_vars);
 use FusionInventory::Agent;
 

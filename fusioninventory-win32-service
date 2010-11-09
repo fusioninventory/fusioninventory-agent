@@ -6,10 +6,12 @@ use threads;
 use threads::shared;
 use FusionInventory::Agent;
 
+use English qw(-no_match_vars);
+
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
 
-if ($^X =~ /(^.*(\\|\/))/) {
+if ($EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
     $ENV{PATH} .= $Config::Config{path_sep}.$1;
 } else {
     print("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");
