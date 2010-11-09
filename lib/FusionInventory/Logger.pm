@@ -25,16 +25,15 @@ sub new {
         $package->require();
         if ($EVAL_ERROR) {
             print STDERR
-                "Failed to load Logger backend $backendName: ($EVAL_ERROR)\n";
+                "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
             next;
         }
 	$loadedMbackends{$backend}=1;
 
-        $self->debug("Logger backend $backendName initialised");
+        $self->debug("Logger backend $backend initialised");
         push
             @{$self->{backends}},
             $package->new({config => $params->{config}});
-        $loaded{$backendName} = 1;
     }
 
     $self->debug($FusionInventory::Agent::STRING_VERSION);
