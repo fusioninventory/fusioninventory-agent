@@ -30,16 +30,6 @@ my %messages = (
                 'COMMUNITY' => 'public',
                 'PRIVPASSPHRASE' => ''
             },
-            2 => {
-                'PRIVPROTOCOL' => '',
-                'AUTHPROTOCOL' => '',
-                'ID' => '2',
-                'USERNAME' => '',
-                'AUTHPASSPHRASE' => '',
-                'VERSION' => '2c',
-                'COMMUNITY' => 'public',
-                'PRIVPASSPHRASE' => ''
-            }
         },
     },
     message3 => {
