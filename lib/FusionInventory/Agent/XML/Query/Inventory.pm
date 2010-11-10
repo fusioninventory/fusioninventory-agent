@@ -152,10 +152,13 @@ sub _encode {
         |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
         )*\z/x) {
 #        $logger->debug("Non-UTF8 string: $string");
-        return encode("UTF-8", $string);
-    } else {
-        return $string;
+        $string = encode("UTF-8", $string);
     }
+
+    # remove ctrl char
+    $string =~ s/[[:cntrl:]]//g;
+
+    return $string;
 }
 
 =item initialise()
