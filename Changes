@@ -117,6 +117,9 @@ Revision history for FusionInventory::Agent
          to deal with some very strange case, thanks Mario GZUK for the bug report
          and RDP access
          http://forge.fusioninventory.org/issues/415
+       * MacOSX: ignore a warning in Drives.pm
+         http://forge.fusioninventory.org/issues/441
+       * MacOSX: retrieve partition UUID on MacOSX 10.4
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
