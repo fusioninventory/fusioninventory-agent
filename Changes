@@ -64,6 +64,7 @@ Revision history for FusionInventory::Agent
        * MacOSX: use ioreg to get the machine serial number
          http://forge.fusioninventory.org/issues/442
        * Logger: ensure the logger is load just one time
+       * add fusioninventory-injector in the distribution
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
