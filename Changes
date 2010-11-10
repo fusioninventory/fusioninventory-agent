@@ -33,6 +33,7 @@ Revision history for FusionInventory::Agent
          parseDhcpLeaseFile() and add a test
        * Move screen EDID parsing functions in
          FusionInventory::Agent::Tools::Generic::Screen
+       * FreeBSD: do not ignore virtual interface but use the VIRTUALDEV flag on them
 
 2.1.7
        * replace Cwd::abs_path with File::Spec->rel2abs
