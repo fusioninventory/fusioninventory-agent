@@ -154,3 +154,20 @@ if ($file && -f $file) {
 } else {
     usage();
 }
+
+__END__
+
+=head1 NAME
+
+fusioninventory-injector - A tool to push inventory in an OCS Inventory or compatible server.
+
+=head1 DESCRIPTION
+
+This tool can be used to test your server, do benchmark or push inventory from off-line machine.
+
+=head1 SYNOPSIS
+
+Please see: 
+
+B<fusioninventory-agent> S<--help>
+
