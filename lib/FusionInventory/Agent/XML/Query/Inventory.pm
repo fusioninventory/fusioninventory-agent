@@ -1845,6 +1845,8 @@ The Windows domain of the user, if available.
 
 =item MEMORY
 
+Video card memory in MB
+
 =item NAME
 
 =item RESOLUTION
