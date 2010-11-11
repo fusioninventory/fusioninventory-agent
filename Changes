@@ -47,20 +47,6 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/414
        * Linux/PPC: Fix various warnings in CPU.pm
        * Linux/PPC: ignore some wrong warning
-       * Linux/PPC: CPUS/TYPE renamed to CPUS/NAME
-       * POD: add doc for BIOS/{S,B}MANUFACTURER
-       * Clean up: remove BIOS/{MMANUFACTURER,MSN}
-       * replace Cwd::abs_path with File::Spec->rel2abs
-         abs_path fails if the directory doesn't exist yet. This was breaking
-         --basevardir on UNIX system.
-         The problem was fixed on Win32 with the 2.1.5 release. See commit
-          6f376013c8584145a8f824632f1292b3212bd3ca
-          a1f32c62145c46fa176165bba1695420505290b7
-       * Fix regression: Do not empty log file if logfile-maxsize is undef
-         or 0, thanks Remi Collet
-         http://forge.fusioninventory.org/issues/414
-       * Linux/PPC: Fix various warnings in CPU.pm
-       * Linux/PPC: ignore some wrong warning
        * Linux: CPUS/TYPE renamed to CPUS/NAME
        * POD: add doc for BIOS/{S,B}MANUFACTURER
        * POD: fix a syntax error in fusioninventory-agent
