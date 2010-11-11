@@ -1,0 +1,20 @@
+   Device Node:        /dev/disk0s2
+   Device Identifier:  disk0s2
+   Mount Point:        /
+   Volume Name:        osx
+
+   File System:        Journaled HFS+
+                       Journal size 8192 k at offset 0x88000
+   Owners:             Enabled
+   Partition Type:     Apple_HFS
+   Bootable:           Is bootable
+   Media Type:         Generic
+   Protocol:           ATA
+   SMART Status:       Not Supported
+   UUID:               395B5711-C4F4-31FA-8B6E-AF69963CB0FC
+
+   Total Size:         16.6 GB
+   Free Space:         9.9 GB
+
+   Read Only:          No
+   Ejectable:          No

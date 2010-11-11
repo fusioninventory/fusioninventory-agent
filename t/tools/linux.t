@@ -285,24 +285,22 @@ plan tests =>
     (scalar keys %cpu_tests)  +
     (scalar keys %hal_tests);
 
-my $logger = FusionInventory::Logger->new();
-
 foreach my $test (keys %udev_tests) {
     my $file = "resources/udev/$test";
     my $result = FusionInventory::Agent::Tools::Linux::_parseUdevEntry(
-        $logger, $file, 'sda'
+        file => $file, device => 'sda'
     );
     is_deeply($result, $udev_tests{$test}, "$test udev parsing");
 }
 
 foreach my $test (keys %cpu_tests) {
     my $file = "resources/cpuinfo/$test";
-    my $cpus = getCPUsFromProc($logger, $file);
-    is_deeply($cpus, $cpu_tests{$test}, "$test cpuinfo parsing");
+    my @cpus = getCPUsFromProc(file => $file);
+    is_deeply(\@cpus, $cpu_tests{$test}, "$test cpuinfo parsing");
 }
 
 foreach my $test (keys %hal_tests) {
     my $file = "resources/hal/$test";
-    my $results = FusionInventory::Agent::Tools::Linux::_parseLshal($logger, $file, '<');
+    my $results = getDevicesFromHal(file => $file);
     is_deeply($results, $hal_tests{$test}, $test);
 }

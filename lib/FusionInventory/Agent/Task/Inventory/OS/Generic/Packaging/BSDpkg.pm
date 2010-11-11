@@ -16,30 +16,32 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    my $packages = _parsePkgInfo($logger);
+    my $command = 'pkg_info';
+    my $packages = _getPackagesFromPkgInfo(
+        logger => $logger, command => $command
+    );
 
     foreach my $package (@$packages) {
         $inventory->addSoftware($package);
     }
 }
 
-sub _parsePkgInfo {
-    my ($logger, $file) = @_;
+sub _getPackagesListFromPkgInfo {
+    my $handle = getFileHandle(@_);
 
-    my $command = 'pkg_info';
-    my $callback = sub {
-        my ($line) = @_;
-        return unless $line =~ /^(\S+)-(\d+\S*)\s+(.*)/;
-        return {
+    my @packages;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)-(\d+\S*)\s+(.*)/;
+        push @packages, {
             NAME    => $1,
             VERSION => $2,
             VERSION => $3
         };
-    };
+    }
 
-    return $file ?
-        getPackagesFromCommand($logger, $file, '<', $callback)    :
-        getPackagesFromCommand($logger, $command, '-|', $callback);
+    close $handle;
+
+    return \@packages;
 }
 
 1;

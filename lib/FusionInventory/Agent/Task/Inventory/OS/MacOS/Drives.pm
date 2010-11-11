@@ -5,10 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Unix;
 
-# yea BSD theft!!!!
-# would have used Mac::SysProfile, but the xml isn't quite fully supported
-# the drives come back in apple xml tree's, and the module can't handle it yet (soon as I find the time to fix the patch)
-
 sub isInventoryEnabled {
     return 1;
 }
@@ -34,7 +30,7 @@ sub doInventory {
         next unless $line =~ /\S+ on \S+ \((\S+),/;
 	next if $1 eq 'fdesc';
 	next if $1 eq 'devfs';
-        $fs{$1}=1;
+        $fs{$1}++;
     }
 
     my @drives;
@@ -65,7 +61,8 @@ sub doInventory {
 
         my $isHardDrive;
 
-        if ($device->{'Part Of Whole'} eq $device->{'Device Identifier'}) {
+        if ((defined($device->{'Part Of Whole'}) && ($device->{'Part Of Whole'} eq $device->{'Device Identifier'}))) {
+            # Is it possible to have a drive without partition?
             $isHardDrive = 1;
         }
 
@@ -80,7 +77,7 @@ sub doInventory {
 
         if (!$isHardDrive) {
             $drives{$deviceName}->{TOTAL} = $size;
-            $drives{$deviceName}->{SERIAL} = $device->{'Volume UUID'};
+            $drives{$deviceName}->{SERIAL} = $device->{'Volume UUID'} || $device->{'UUID'};
             $drives{$deviceName}->{FILESYSTEM} = $device->{'File System'} || $device->{'Partition Type'};
             $drives{$deviceName}->{VOLUMN} = $deviceName;
             $drives{$deviceName}->{LABEL} = $device->{'Volume Name'};

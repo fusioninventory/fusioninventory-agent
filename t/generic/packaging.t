@@ -111,12 +111,13 @@ my $deb_packages = [
 
 plan tests => 2;
 
-my @rpm_packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM::_getPackagesFromRpm(
+my $packages;
+$packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM::_getPackagesListFromRpm(
     file => "resources/packaging/rpm"
 );
-is_deeply(\@rpm_packages, $rpm_packages, 'rpm parsing');
+is_deeply($packages, $rpm_packages, 'rpm parsing');
 
-my @deb_packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb::_getPackagesFromDpkg(
+$packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb::_getPackagesListFromDpkg(
     file => "resources/packaging/dpkg"
 );
-is_deeply(\@deb_packages, $deb_packages, 'dpkg parsing');
+is_deeply($packages, $deb_packages, 'dpkg parsing');

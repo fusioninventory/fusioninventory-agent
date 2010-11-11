@@ -16,11 +16,17 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $cpus = getCPUsFromProc($params->{logger});
+    foreach my $cpu (_getCPUsFromProc($params->{logger})) {
+        $inventory->addCPU($cpu);
+    }
 
-    return unless $cpus;
+}
 
-    foreach my $cpu (@$cpus) {
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    my @cpus;
+    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
 
         my $speed;
         if (
@@ -29,14 +35,16 @@ sub doInventory {
         ) {
             $speed = $1;
         }
- 
-        $inventory->addCPU({
+
+        push @cpus, {
             ARCH   => 'Alpha',
             TYPE   => $cpu->{processor},
             SERIAL => $cpu->{'cpu serial number'},
             SPEED  => $speed
-        });
+        };
     }
+
+    return @cpus;
 }
 
 1;
