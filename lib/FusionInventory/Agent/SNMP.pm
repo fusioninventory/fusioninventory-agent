@@ -129,18 +129,6 @@ sub _getNormalizedValue {
     return $value;
 }
 
-sub getAuthList {
-    my ($class, $options) = @_;
-
-    my $list;
-
-    foreach my $auth (@{$options->{AUTHENTICATION}}) {
-        push @$list, $auth;
-    }
-
-    return $list;
-}
-
 1;
 __END__
 
@@ -217,8 +205,3 @@ Available params:
 =item oid_start the first OID to start walking
 
 =back
-
-=head2 getAuthList()
-
-Parse options returned by the server, and returns a list of auth items as an
-arrayref.
