@@ -1303,11 +1303,15 @@ The Windows domain of the user, if available.
 
 =item MEMORY
 
+Video card memory in MB
+
 =item NAME
 
 =item RESOLUTION
 
 Resolution in pixel. 1024x768.
+
+The frequency is optional: 1024x768@74
 
 =back
 

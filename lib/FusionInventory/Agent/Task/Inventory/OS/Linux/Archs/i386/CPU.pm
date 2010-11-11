@@ -38,7 +38,7 @@ sub doInventory {
         }
     }
 
-    my ($proc_cpus, $proc_cores) = _getInfosFromProc($logger);
+    my ($proc_cpus, $proc_cores) = _getCPUsFromProc($logger);
 
     foreach my $cpu (@cpus) {
         my $proc_cpu  = shift @$proc_cpus;
@@ -72,17 +72,15 @@ sub doInventory {
     }
 }
 
-sub _getInfosFromProc {
+sub _getCPUsFromProc {
     my ($logger, $file) = @_;
 
-    my $cpus = getCPUsFromProc($logger, $file);
-
-    return unless $cpus;
+    my @cpus = getCPUsFromProc(logger => $logger, file => $file);
 
     my ($procs, $cores);
 
     my $cpuNbr = 0;
-    foreach my $cpu (@$cpus) {
+    foreach my $cpu (@cpus) {
         my $id = $cpu->{'physical id'};
         my $hasPhysicalId = 0;
         if (defined $id) {

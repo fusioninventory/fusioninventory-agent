@@ -31,11 +31,17 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $cpus = getCPUsFromProc($params->{logger});
+    foreach my $cpu (_getCPUsFromProc($params->{logger})) {
+        $inventory->addCPU($cpu);
+    }
+}
 
-    return unless $cpus;
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
 
-    foreach my $cpu (@$cpus) {
+    my @cpus;
+    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
+
         my $speed;
         if (
             $cpu->{clock} &&
@@ -51,12 +57,14 @@ sub doInventory {
             $manufacturer = 'IBM';
         }
 
-        $inventory->addCPU({
+        push @cpus, {
             NAME         => $cpu->{cpu},
             MANUFACTURER => $manufacturer,
             SPEED        => $speed
-        });
+        };
     }
+
+    return @cpus;
 }
 
 1;

@@ -25,14 +25,15 @@ sub doInventory {
         '${Description}\n' .
         '\' 2>/dev/null';
 
-    foreach my $package (_getPackagesFromDpkg(
+    my $packages = _getPackagesListFromDpkg(
         logger => $logger, command => $command
-    )) {
+    );
+    foreach my $package (@$packages) {
         $inventory->addSoftware($package);
     }
 }
 
-sub _getPackagesFromDpkg {
+sub _getPackagesListFromDpkg {
     my $handle = getFileHandle(@_);
 
     my @packages;
@@ -51,7 +52,7 @@ sub _getPackagesFromDpkg {
     }
     close $handle;
 
-    return @packages;;
+    return \@packages;
 }
 
 1;
