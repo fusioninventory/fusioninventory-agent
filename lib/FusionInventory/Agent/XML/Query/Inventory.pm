@@ -1851,6 +1851,8 @@ The Windows domain of the user, if available.
 
 Resolution in pixel. 1024x768.
 
+The frequency is optional: 1024x768@74
+
 =back
 
 =head2 VIRTUALMACHINES
