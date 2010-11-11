@@ -25,7 +25,6 @@ sub _parseXorgFd {
     my ($file) = @_;
 
     my $xorgData;
-    print $file."\n";
     if (open XORG, $file) {
 	foreach (<XORG>) {
 	    $xorgData->{resolution}=$1 if /Modeline\s"(\S+?)"/;
