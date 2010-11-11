@@ -53,16 +53,6 @@ sub _getMemories {
             $description =~ s/\s*$//;
         }
 
-	if ($_->{'Speed'} eq 'PC3200U-30330') {
-	    $speed = 400;
-        } elsif ($_->{'Speed'} =~ /(\d+)\s+(\S+)/) {
-            $speed = $1*$speedMatrice{lc($2)};
-        }
-        if ($_->{'Size'} =~ /(\d+)\s+(\S+)/) {
-            $size = $1*$sizeMatrice{lc($2)};
-        }
-
-
         my $memory = {
             NUMSLOTS     => $slot,
             DESCRIPTION  => $description,
