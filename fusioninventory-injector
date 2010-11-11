@@ -101,7 +101,7 @@ sub sendContent {
 
 sub usage {
 
-    print <<EOF;
+    print STDERR <<EOF;
 DESCRIPTION:
   A command line tools to import .ocs file in an OCS Inventry server.
 
