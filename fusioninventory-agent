@@ -434,9 +434,15 @@ HTTP_PROXY environment variable.
 
 Path to the SSL root certificates directory.
 
+You don't need to copy a public certificate on very agent if your private
+key is valide and was been signed by a valide certificate authority.
+
 =item B<--ca-cert-file>=I<FILE>
 
 Path to the SSL root certificates bundle file.
+
+You don't need to copy a public certificate on very agent if your private
+key is valide and was been signed by a valide certificate authority.
 
 =item B<--no-ssl-check>
 

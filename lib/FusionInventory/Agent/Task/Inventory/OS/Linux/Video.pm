@@ -28,6 +28,7 @@ sub _parseXorgFd {
     if (open XORG, $file) {
 	foreach (<XORG>) {
 	    $xorgData->{resolution}=$1 if /Modeline\s"(\S+?)"/;
+	    $xorgData->{name}=$1 if /Integrated Graphics Chipset:\s+(.*)/;
 	}
     }
     return $xorgData;
@@ -62,7 +63,7 @@ sub doInventory {
     $inventory->addVideo({
 	CHIPSET    => $ddcprobeData->{product},
 	MEMORY     => $memory,
-	NAME       => $ddcprobeData->{oem},
+	NAME       => $ddcprobeData->{oem} || $xorgData->{name},
 	RESOLUTION => $ddcprobeData->{dtiming} || $xorgData->{resolution}
 	});
 

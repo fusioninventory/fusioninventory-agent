@@ -96,6 +96,8 @@ sub getCanonicalSpeed {
 
     ## no critic (ExplicitReturnUndef)
 
+    return 400 if $speed =~ /^PC3200U/;
+
     return undef unless $speed;
 
     return undef unless $speed =~ /^(\d+) \s? (\S+)$/x;
