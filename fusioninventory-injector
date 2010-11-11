@@ -102,27 +102,26 @@ sub sendContent {
 sub usage {
 
     print <<EOF;
+DESCRIPTION:
+  A command line tools to import .ocs file in an OCS Inventry server.
 
-	DESCRIPTION:
-    	A command line tools to import .ocs files.
-
-	USAGE:
-	-h --help	: this menu
-	-d --directory	: load every .ocs files from a directory
-	-f --file\	: load a speficic file
-	-u --url	: ocsinventory backend URL, default is http://ocsinventory-ng/ocsinventory
-	-r --remove	: remove succesfuly injected files
-	-m --msg	: show message returned my ocsinventory
-	-v --verbose	: verbose mode
-	--stdin		: read data from STDIN
+  USAGE:
+  -h --help	: this menu
+  -d --directory	: load every .ocs files from a directory
+  -f --file\	: load a speficic file
+  -u --url	: ocsinventory backend URL, default is http://ocsinventory-ng/ocsinventory
+  -r --remove	: remove succesfuly injected files
+  -m --msg	: show message returned my ocsinventory
+  -v --verbose	: verbose mode
+  --stdin		: read data from STDIN
 
 You must specify a --file or a --directory or STDIN.
 
 Example :
  \$export https_proxy=http://www-proxy:8080
- \$perl fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw\@nana.rulezlan.org/ocsinventory
+ \$fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw\@yourserver/ocsinventory
 
-
+This tool is part of the FusionInventory distribution.
 EOF
     exit 1;
 }
@@ -155,3 +154,20 @@ if ($file && -f $file) {
 } else {
     usage();
 }
+
+__END__
+
+=head1 NAME
+
+fusioninventory-injector - A tool to push inventory in an OCS Inventory or compatible server.
+
+=head1 DESCRIPTION
+
+This tool can be used to test your server, do benchmark or push inventory from off-line machine.
+
+=head1 SYNOPSIS
+
+Please see: 
+
+B<fusioninventory-agent> S<--help>
+

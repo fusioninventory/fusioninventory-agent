@@ -114,6 +114,12 @@ Revision history for FusionInventory::Agent
        * MacOSX: use ioreg to get the machine serial number
          http://forge.fusioninventory.org/issues/442
        * Logger: ensure the logger is load just one time
+       * add fusioninventory-injector in the distribution
+       * Linux: fix: Agent don't give video ram size and video resolution,
+         Eric FREYENS for the fix suggestion.
+	 We now use ddcprobe or Xorg to get the resolution of the main screen.
+	 This fix will be improved in the futur and should be seen as experimental
+	 http://forge.fusioninventory.org/issues/316
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
