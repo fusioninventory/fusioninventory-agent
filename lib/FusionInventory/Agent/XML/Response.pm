@@ -13,7 +13,7 @@ sub new {
     die "no content parameters" unless $params->{content};
 
     my $tpp = XML::TreePP->new(
-        force_array   => [ qw/OPTION PARAM MODEL AUTHENTICATION/ ],
+        force_array   => [ qw/OPTION PARAM MODEL AUTHENTICATION RANGEIP/ ],
         attr_prefix   => '',
         text_node_key => 'content'
     );
