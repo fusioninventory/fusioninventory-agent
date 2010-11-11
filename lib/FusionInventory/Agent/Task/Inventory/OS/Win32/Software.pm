@@ -86,6 +86,9 @@ sub processSoftwares {
             $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
         }
 
+        # Workaround for #415
+        $version =~ s/[\000-\037].*//;
+
         $inventory->addSoftware ({
             COMMENTS => $comments,
 #            FILESIZE => $filesize,
