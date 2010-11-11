@@ -276,10 +276,16 @@ Launch fusioninventory-agent in daemon but do fork in background.
 The directory where public SSL certificates are stored. In general it's
 /etc/ssl/certs.
 
+You don't need to copy a public certificate on very agent if your private
+key is valide and was been signed by a valide certificate authority.
+
 =item B<--ca-cert-file=FILE>
 
 The path to the public certificate (e.g: /etc/ssl/certs/cacert.pem). If
 --ca-cert-file is used, --ca-cert-dir is ignored.
+
+You don't need to copy a public certificate on very agent if your private
+key is valide and was been signed by a valide certificate authority.
 
 =item B<--conf-file=FILE>
 
