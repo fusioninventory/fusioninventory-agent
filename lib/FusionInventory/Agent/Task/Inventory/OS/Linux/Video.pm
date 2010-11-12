@@ -27,8 +27,17 @@ sub _parseXorgFd {
     my $xorgData;
     if (open XORG, $file) {
 	foreach (<XORG>) {
+# Intel
 	    $xorgData->{resolution}=$1 if /Modeline\s"(\S+?)"/;
 	    $xorgData->{name}=$1 if /Integrated Graphics Chipset:\s+(.*)/;
+
+# Nvidia
+	    if (/Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
+		$xorgData->{resolution}="$1x$2";
+	    }
+	    if (/NVIDIA GPU\s*(.*?)\s*at/) {
+		$xorgData->{name}=$1;
+	    }
 	}
     }
     return $xorgData;
