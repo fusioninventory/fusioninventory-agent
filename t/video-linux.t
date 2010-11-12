@@ -107,6 +107,25 @@ my %ddcprobe = (
 	    'mode' => '1280x1024x16m',
 	    'oem' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
 	    'vbe' => 'VESA 2.0 detected.'
+	},
+	'B154EW02' => {
+          'eisa' => 'AUO2074',
+          'input' => 'analog signal.',
+          'mode' => '640x480x64k',
+          'edid' => '1 3',
+          'id' => '2074',
+          'dtiming' => '1280x800@60',
+          'serial' => '00000000',
+          'oem' => 'Intel(r)GM965/PM965/GL960 Graphics Chip Accelerated VGA BIOS',
+          'gamma' => '2.200000',
+          'memory' => '7616kb',
+          'monitorid' => 'B154EW02 V0',
+          'screensize' => '33 21',
+          'manufacture' => '1 2006',
+          'dpms' => 'RGB, no active off, no suspend, no standby',
+          'product' => 'Intel(r)GM965/PM965/GL960 Graphics Controller Hardware Version 0.0',
+          'vendor' => 'Intel Corporation',
+          'vbe' => 'VESA 3.0 detected.'	
 	}
 
 );
@@ -124,6 +143,12 @@ my %xorg = (
 	'intel-3' => {
           'resolution' => '1152x864',
 	  'name' => 'Intel(R) G41'
+	},
+	'intel-4' => {
+	'memory' => '7616kB',
+	'resolution' => '1280x800',
+	'name' => 'Intel(r)GM965/PM965/GL960 Graphics Chip Accelerated VGA BIOS',
+	'product' => 'Intel(r)GM965/PM965/GL960 Graphics Controller'
 	},
 	'nvidia-1' => {
           'resolution' => '1680x1050',
