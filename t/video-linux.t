@@ -123,6 +123,10 @@ my %xorg = (
 	'memory' => '12288kB',
 	'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
 	'product' => 'Oracle VM VirtualBox VBE Adapter'
+	},
+	'nvidia-2' => {
+          'resolution' => '2960x1050',
+	  'name' => 'GeForce 7300 SE/7200 GS (G72)'
 	}
 
 	);

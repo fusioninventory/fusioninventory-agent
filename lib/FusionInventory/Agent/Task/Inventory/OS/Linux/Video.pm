@@ -63,7 +63,7 @@ sub doInventory {
 
     my $xOrgPid;
     foreach (`ps aux`) {
-	if ((/\/usr\/bin\/X/ || /Xorg/) && /^\S+\s+(\d+)/) {
+	if ((/\/usr(\/bin|\/X11R6\/bin)\/X/ || /Xorg/) && /^\S+\s+(\d+)/) {
 	    $xOrgPid = $1;
 	    last;
 	}
@@ -80,10 +80,10 @@ sub doInventory {
     }
 
     $inventory->addVideo({
-	CHIPSET    => $ddcprobeData->{product},
+	CHIPSET    => $xorgData->{product} || $ddcprobeData->{product},
 	MEMORY     => $memory,
-	NAME       => $ddcprobeData->{oem} || $xorgData->{name},
-	RESOLUTION => $ddcprobeData->{dtiming} || $xorgData->{resolution}
+	NAME       => $xorgData->{name} || $ddcprobeData->{oem},
+	RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming}
 	});
 
 }
