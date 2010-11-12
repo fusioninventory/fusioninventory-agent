@@ -486,6 +486,7 @@ sub addVideo {
         MEMORY
         NAME
         RESOLUTION
+	PCISLOT
     /;
 
     $self->_addEntry({
@@ -1855,6 +1856,10 @@ Video card memory in MB
 =item RESOLUTION
 
 Resolution in pixel. 1024x768.
+
+=item PCISLOT
+
+The local PCI slot ID if the video card use PCI.
 
 =back
 
