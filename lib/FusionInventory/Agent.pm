@@ -130,7 +130,7 @@ sub new {
                 logger     => $logger,
                 config     => $config,
                 maxOffset  => $config->{delaytime},
-                basevardir => $config->{basevardir},
+                basevardir => $setup->{vardir},
             })
         );
     }
