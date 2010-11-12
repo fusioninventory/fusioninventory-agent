@@ -5,6 +5,7 @@ use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Video;
 use Test::More;
 use FindBin;
+use Data::Dumper;
 
 
 my %ddcprobe = (
@@ -94,6 +95,12 @@ my %ddcprobe = (
           'product' => 'RV620 01.00',
           'vendor' => '(C) 1988-2005, ATI Technologies Inc.',
           'vbe' => 'VESA 3.0 detected.'
+	},
+	'virutalbox-1' => {
+	    'memory' => '12288kb',
+	    'mode' => '1280x1024x16m',
+	    'oem' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
+	    'vbe' => 'VESA 2.0 detected.'
 	}
 
 );
@@ -111,6 +118,11 @@ my %xorg = (
 	'nvidia-1' => {
           'resolution' => '1680x1050',
 	  'name' => 'GeForce 8400 GS (G98)'
+	},
+        'vesa-1' => {
+	'memory' => '12288kB',
+	'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
+	'product' => 'Oracle VM VirtualBox VBE Adapter'
 	}
 
 	);
@@ -119,11 +131,11 @@ plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
 foreach my $test (keys %ddcprobe) {
     my $file = "$FindBin::Bin/../resources/ddcprobe/$test";
     my $ret = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_getDdcprobeData($file, '<');
-    is_deeply($ret, $ddcprobe{$test}, $test);
+    is_deeply($ret, $ddcprobe{$test}, $test) or print Dumper($ret);
 }
 
 foreach my $test (keys %xorg) {
     my $file = "$FindBin::Bin/../resources/xorg-fd0/$test";
     my $ret = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_parseXorgFd($file);
-    is_deeply($ret, $xorg{$test}, $test);
+    is_deeply($ret, $xorg{$test}, $test) or print Dumper($ret);
 }

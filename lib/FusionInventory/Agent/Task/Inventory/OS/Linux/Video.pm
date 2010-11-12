@@ -28,15 +28,26 @@ sub _parseXorgFd {
     if (open XORG, $file) {
 	foreach (<XORG>) {
 # Intel
-	    $xorgData->{resolution}=$1 if /Modeline\s"(\S+?)"/;
-	    $xorgData->{name}=$1 if /Integrated Graphics Chipset:\s+(.*)/;
-
+	    if (/Modeline\s"(\S+?)"/) {
+		$xorgData->{resolution}=$1 
+	    } elsif (/Integrated Graphics Chipset:\s+(.*)/) {
+		$xorgData->{name}=$1;
+	    }
 # Nvidia
-	    if (/Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
+	    elsif (/Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
 		$xorgData->{resolution}="$1x$2";
 	    }
-	    if (/NVIDIA GPU\s*(.*?)\s*at/) {
+	    elsif (/NVIDIA GPU\s*(.*?)\s*at/) {
 		$xorgData->{name}=$1;
+	    }
+	    elsif (/VESA VBE OEM:\s*(.*)/) {
+		$xorgData->{name}=$1;
+	    }
+	    elsif (/VESA VBE OEM Product:\s*(.*)/) {
+		$xorgData->{product}=$1;
+	    }
+	    elsif (/VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
+		$xorgData->{memory}=$1.$2;
 	    }
 	}
     }
