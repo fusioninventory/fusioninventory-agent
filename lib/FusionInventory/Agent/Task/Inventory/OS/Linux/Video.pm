@@ -27,9 +27,30 @@ sub _parseXorgFd {
     my $xorgData;
     if (open XORG, $file) {
 	foreach (<XORG>) {
-	    $xorgData->{resolution}=$1 if /Modeline\s"(\S+?)"/;
-	    $xorgData->{name}=$1 if /Integrated Graphics Chipset:\s+(.*)/;
+# Intel
+	    if (/Modeline\s"(\S+?)"/) {
+		$xorgData->{resolution}=$1 
+	    } elsif (/Integrated Graphics Chipset:\s+(.*)/) {
+		$xorgData->{name}=$1;
+	    }
+# Nvidia
+	    elsif (/Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
+		$xorgData->{resolution}="$1x$2";
+	    }
+	    elsif (/NVIDIA GPU\s*(.*?)\s*at/) {
+		$xorgData->{name}=$1;
+	    }
+	    elsif (/VESA VBE OEM:\s*(.*)/) {
+		$xorgData->{name}=$1;
+	    }
+	    elsif (/VESA VBE OEM Product:\s*(.*)/) {
+		$xorgData->{product}=$1;
+	    }
+	    elsif (/VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
+		$xorgData->{memory}=$1.$2;
+	    }
 	}
+	close(XORG);
     }
     return $xorgData;
 }
@@ -38,7 +59,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $ddcprobeData = _getDdcprobeData("ddcprobe", "|-");
+    my $ddcprobeData = _getDdcprobeData("ddcprobe", "2> &1 |-");
 
     my $xOrgPid;
     foreach (`ps aux`) {
@@ -53,11 +74,9 @@ sub doInventory {
 	$xorgData = _parseXorgFd("</proc/$xOrgPid/fd/0");
     }
 
-    my $memory;
-    if ($ddcprobeData->{memory} =~ s/kb$//i) {
-	$memory = int($ddcprobeData->{memory} / 1024);
-    } elsif ($ddcprobeData->{memory} =~ s/mb$//i) {
-	$memory = $ddcprobeData->{memory};
+    my $memory = $xorgData->{memory} || $ddcprobeData->{memory};
+    if ($memory && $memory =~ s/kb$//i) {
+	$memory = int($memory / 1024);
     }
 
     $inventory->addVideo({
