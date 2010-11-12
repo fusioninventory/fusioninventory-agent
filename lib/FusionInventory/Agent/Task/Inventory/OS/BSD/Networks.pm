@@ -43,8 +43,8 @@ sub doInventory {
 
     foreach my $interface (@$interfaces) {
         # skip loopback, pseudo-devices and point-to-point interfaces
-        next if $interface->{DESCRIPTION} =~
-            /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+$/;
+        #    next if $interface->{DESCRIPTION} =~
+        #    /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+$/;
 
         if ($interface->{STATUS} eq 'Up') {
             $interface->{IPGATEWAY} = $ipgateway;
@@ -56,7 +56,7 @@ sub doInventory {
         }
 
         $interface->{VIRTUALDEV} =
-            $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|tun)\d+$/;
+            $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)\d+$/;
 
         $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
 

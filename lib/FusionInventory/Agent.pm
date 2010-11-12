@@ -3,6 +3,9 @@ package FusionInventory::Agent;
 use strict;
 use warnings;
 
+use POE;
+use POE::Component::IKC::Server;
+
 use Cwd;
 use English qw(-no_match_vars);
 use Pod::Usage;
@@ -19,7 +22,7 @@ use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
-our $VERSION = '2.2.0';
+our $VERSION = '2.2.x+POE';
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -29,7 +32,6 @@ sub new {
     my ($class, $setup) = @_;
 
     my $self = {
-        status => 'unknown',
         setup  => $setup,
         token  => _computeNewToken()
     };
@@ -126,8 +128,9 @@ sub new {
         $self->{scheduler}->addTarget(
             FusionInventory::Agent::Target::Stdout->new({
                 logger     => $logger,
+                config     => $config,
                 maxOffset  => $config->{delaytime},
-                basevardir => $setup->{vardir},
+                basevardir => $config->{basevardir},
             })
         );
     }
@@ -136,9 +139,11 @@ sub new {
         $self->{scheduler}->addTarget(
             FusionInventory::Agent::Target::Local->new({
                 logger     => $logger,
+                config     => $config,
                 maxOffset  => $config->{delaytime},
                 basevardir => $setup->{vardir},
                 path       => $config->{local},
+                deviceid =>   $self->{deviceid},
             })
         );
     }
@@ -148,9 +153,11 @@ sub new {
             $self->{scheduler}->addTarget(
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
+                    config     => $config,
                     maxOffset  => $config->{delaytime},
                     basevardir => $setup->{vardir},
                     url        => $url,
+                    deviceid =>   $self->{deviceid},
                 })
             );
         }
@@ -187,12 +194,6 @@ sub new {
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
         } else {
-            # make sure relevant variables are shared between threads
-            threads::shared::share($self->{status});
-            threads::shared::share($self->{token});
-            foreach my $target ($self->{scheduler}->getTargets()) {
-                threads::shared::share($target->{nextRunUpdate});
-            }
 
             $self->{receiver} = FusionInventory::Agent::Receiver->new({
                 logger    => $logger,
@@ -205,6 +206,17 @@ sub new {
             });
         }
     }
+
+    POE::Component::IKC::Server->spawn(
+        ip => 127.0.0.1,
+        port=>3030,
+        name=>'Server'
+	); # more options are available
+    POE::Kernel->call(IKC => publish => 'config', ["get"]);
+    POE::Kernel->call(IKC => publish => 'target', ["get"]);
+    POE::Kernel->call(IKC => publish => 'network', ["send"]);
+#    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
+
 
     $logger->debug("FusionInventory Agent initialised");
 
@@ -234,134 +246,23 @@ sub run {
     my $scheduler = $self->{scheduler};
     my $receiver = $self->{receiver};
 
-    eval {
-        $self->{status} = 'waiting';
+    $config->createSession();
 
-        while (my $target = $scheduler->getNextTarget()) {
 
-            my $prologresp;
-            my $transmitter;
-            if ($target->isa('FusionInventory::Agent::Target::Server')) {
-
-                if (!$transmitter) {
-                    $transmitter = FusionInventory::Agent::Transmitter->new({
-                        logger       => $logger,
-                        proxy        => $config->{proxy},
-                        user         => $config->{user},
-                        password     => $config->{password},
-                        no_ssl_check => $config->{'no-ssl-check'},
-                        ca_cert_file => $config->{'ca-cert-file'},
-                        ca_cert_dir  => $config->{'ca-cert-dir'},
-                    });
-                }
-
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                    logger   => $logger,
-                    deviceid => $self->{deviceid},
-                    token    => $self->{token}
-                });
-
-                if ($config->{tag}) {
-                    $prolog->setAccountInfo({'TAG', $config->{tag}});
-                }
-
-                $prologresp = $transmitter->send({
-                    message => $prolog,
-                    url     => $target->getUrl(),
-                });
-
-                if (!$prologresp) {
-                    $logger->error("No anwser from the server");
-                    $target->scheduleNextRun();
-                    next;
-                }
-
-                # update target
-                my $parsedContent = $prologresp->getParsedContent();
-                $target->setMaxOffset($parsedContent->{PROLOG_FREQ});
-            }
-
-            my @tasks = qw/
-                Inventory
-                OcsDeploy
-                WakeOnLan
-                SNMPQuery
-                NetDiscovery
-                Ping
-                /;
-
-            foreach my $module (@tasks) {
-
-                next if $config->{'no-'.lc($module)};
-
-                my $package = "FusionInventory::Agent::Task::$module";
-                if (!$package->require()) {
-                    $logger->info("Module $package is not installed.");
-                    next;
-                }
-
-                $self->{status} = "running task $module";
-
-                my $task = $package->new({
-                    config      => $config,
-                    setup       => $self->{setup},
-                    logger      => $logger,
-                    target      => $target,
-                    prologresp  => $prologresp,
-                    transmitter => $transmitter,
-                    deviceid    => $self->{deviceid}
-                });
-
-                if ($config->{daemon} || $config->{service}) {
-                    # daemon mode: run each task in a childprocess
-                    if (my $pid = fork()) {
-                        # parent
-                        waitpid($pid, 0);
-                    } else {
-                        # child
-                        die "fork failed: $ERRNO" unless defined $pid;
-
-                        $logger->debug(
-                            "[task] executing $module in process $PID"
-                        );
-                        if ($task->can('run')) {
-                            $task->run();
-                        } else {
-                            $logger->info(
-                                "[task] $module use deprecated interface"
-                            );
-                            $task->main();
-                        }
-                        $logger->debug("[task] end of $module");
-                    }
-                } else {
-                    # standalone mode: run each task directly
-                    $logger->debug("[task] executing $module");
-                    if ($task->can('run')) {
-                        $task->run();
-                    } else {
-                        # old interface
-                        $logger->info(
-                            "[task] $module use deprecated interface"
-                        );
-                        $task->main();
-                    }
-                    $logger->debug("[task] end of $module");
-                }
-            }
-            $self->{status} = 'waiting';
-
-            $target->scheduleNextRun();
-
-            $target->saveState();
-
-            sleep(5);
+    if ($config->{daemon} || $config->{service}) {
+        foreach my $target (@{$scheduler->{targets}}) {
+            # Create the POE session
+            $target->createSession();
         }
-    };
-    if ($EVAL_ERROR) {
-        $logger->fault($EVAL_ERROR);
-        exit 1;
+    } else {
+        foreach my $target (@{$scheduler->{targets}}) {
+            $target->run();
+        }
     }
+
+    POE::Kernel->run();
+
+    exit;
 }
 
 sub getToken {
@@ -377,11 +278,6 @@ sub resetToken {
 sub _computeNewToken {
     my @chars = ('A'..'Z');
     return join('', map { $chars[rand @chars] } 1..8);
-}
-
-sub getStatus {
-    my ($self) = @_;
-    return $self->{status};
 }
 
 1;
@@ -414,6 +310,3 @@ Get the current authentication token.
 
 Reset the current authentication token to a new random value.
 
-=head2 getStatus()
-
-Get the current agent status.

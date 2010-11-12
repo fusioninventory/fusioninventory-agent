@@ -3,6 +3,8 @@ package FusionInventory::Agent::Scheduler;
 use strict;
 use warnings;
 
+use POE;
+
 use FusionInventory::Logger;
 
 sub new {
@@ -17,6 +19,30 @@ sub new {
     };
 
     bless $self, $class;
+
+
+    POE::Session->create(
+        inline_states => {
+            _start => sub {
+                print "Scheduler Start\n";
+                $_[KERNEL]->alias_set("scheduler");
+            },
+            runAllNow => sub { $self->runAllNow() },
+	    targetIsDone => sub {
+                return if $self->{background};
+		foreach my $target (@{$self->{targets}}) {
+		    return if @{$target->{modulenamesToRun}};
+		}
+
+		# No more module to run and we are not in daemon mode,
+		# let's terminate POE wheel and kill the agent
+		print "Let's kill the agent\n";
+		$_[KERNEL]->post(config => 'shutdown');
+		$_[KERNEL]->post(IKC => 'shutdown');
+	    
+	    } 
+        }
+    );
 
     return $self;
 }
@@ -86,6 +112,7 @@ sub getTargets {
     return @{$self->{targets}}
 }
 
+
 sub scheduleTargets {
     my ($self, $offset) = @_;
 
@@ -93,6 +120,20 @@ sub scheduleTargets {
         $target->scheduleNextRun($offset);
     }
 }
+
+sub runAllNow {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+    foreach my $target (@{$self->{targets}}) {
+        $logger->info("Calling ".$target->getDescriptionString());
+        POE::Kernel->call( $target->{session}, 'runNow' );
+        $logger->info("End of call ".$target->getDescriptionString());
+    }
+    $logger->info("End of runAllNowl()");
+
+}
+
 
 1;
 

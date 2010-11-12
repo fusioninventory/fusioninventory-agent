@@ -135,3 +135,8 @@ Set account informations for this target.
 =head2 getUrl()
 
 Return the server URL for this target.
+
+=head2 getDescriptionString)
+
+Return a string to display to user in a 'target' field.
+

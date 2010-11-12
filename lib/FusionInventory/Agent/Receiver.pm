@@ -2,11 +2,15 @@ package FusionInventory::Agent::Receiver;
 
 use strict;
 use warnings;
-use threads;
-use threads::shared;
+#use threads;
+#use threads::shared;
 
+use Sys::Hostname;
 use English qw(-no_match_vars);
-use HTTP::Daemon;
+use POE;
+use POE::Component::Server::HTTP;
+use HTTP::Status;
+use File::stat;
 
 use FusionInventory::Logger;
 
@@ -20,225 +24,345 @@ sub new {
         htmldir         => $params->{htmldir},
         ip              => $params->{ip},
         port            => $params->{port},
+        htmldir         => $params->{htmldir},
         trust_localhost => $params->{trust_localhost},
     };
-    bless $self, $class;
 
     my $logger = $self->{logger};
+
     $logger->debug($self->{htmldir} ?
         "[WWW] static files are in $self->{htmldir}" :
         "[WWW] no static files directory"
     );
 
+
+    if ($self->{htmldir}) {
+        $logger->debug("[WWW] Static files are in ".$self->{htmldir});
+    } else {
+        $logger->debug("[WWW] No static files directory");
+    }
+
+    bless $self, $class;
+
     $SIG{PIPE} = 'IGNORE';
-    threads->create('_server', $self);
+
+    $self->{httpd} = POE::Component::Server::HTTP->new(
+        Port => $self->{rpc_port} || 62354,
+        ContentHandler => {
+            '/' => sub { $self->main(@_) },
+            '/deploy/' => sub { $self->deploy(@_) },
+            '/now' => sub { $self->now(@_) },
+            '/files/' => sub { $self->files(@_) },
+        },
+        StreamHandler  => sub { $self->stream(@_) },
+        Headers => { Server => 'FusionInventory Agent' },
+    );
+
+    $logger->info("RPC service started at: http://".
+        ( $self->{'ip'} || "127.0.0.1" ).
+        ":".
+        ($self->{'www-port'} || 62354));
 
     return $self;
 }
 
-sub _handle {
-    my ($self, $c, $r, $clientIp) = @_;
-    
+
+
+sub main {
+    my ($self, $request, $response) = @_;
+
     my $logger = $self->{logger};
     my $scheduler = $self->{scheduler};
-    my $htmldir = $self->{htmldir};
 
-    if (!$r) {
-        $c->close;
-        undef($c);
+    my $remote_ip = $request->connection->remote_ip;
+   
+
+    if ($remote_ip ne '127.0.0.1') {
+        $response->content("Forbidden");
+        $response->code(403);
         return;
     }
 
-    my $path = $r->uri()->path();
-    $logger->debug("[WWW] request $path from client $clientIp");
 
-    # non-GET requests
-    my $method = $r->method();
-    if ($method ne 'GET') {
-        $logger->debug("[WWW] error, invalid request type: $method");
-        $c->send_error(400);
-        $c->close;
-        undef($c);
+    $response->code(RC_OK);
+
+
+    my $indexFile = $self->{htmldir}."/index.tpl";
+    my $handle;
+    if (!open $handle, '<', $indexFile) {
+        $logger->error("Can't open share $indexFile: $ERRNO");
+        $response->code(500);
         return;
     }
+    undef $/;
+    my $output = <$handle>;
+    close $handle;
 
-    # GET requests
-    SWITCH: {
-        # root request
-        if ($path eq '/') {
-            if ($clientIp !~ /^127\./) {
-                $c->send_error(404);
+
+    my $nextContact = "";
+    foreach my $target (@{$scheduler->{targets}}) {
+        my $path = $target->{path};
+        $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+        my $timeString = $target->getNextRunDate() > 1 ?
+        localtime($target->getNextRunDate()) : "now";
+        my $type = ref $target;
+	$type =~ s/.*:://;
+	my $statusString = $target->getStatusString();
+        $nextContact .=
+        "<li>\n
+	  <strong>Name</strong>
+	  <ul>
+      	    <li>type: $type</li>\n
+      	    <li>path: $path</li>\n
+      	    <li>planed for: $timeString</li>\n
+      	    <li>status: $statusString</li>\n
+	  </ul>
+	</li>\n";
+    }
+
+    #$output =~ s/%%STATUS%%/$status/;
+    $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
+    $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
+    if (!$self->{trust_localhost}) {
+        $output =~
+        s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
+    }
+    $output =~ s/%%(END|)IF_.*?%%//g;
+    $response->content($output);
+
+    return RC_OK;
+}
+
+sub deploy {
+    my ($self, $request, $response) = @_;
+
+    my $logger = $self->{logger};
+    my $scheduler = $self->{scheduler};
+    
+    my $path = $request->uri->path;
+
+    if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
+        my $file = $1;
+        foreach my $target (@{$scheduler->{targets}}) {
+            if (-f $target->{vardir}."/deploy/".$file) {
+                $logger->debug("Send /deploy/".$file);
+# XXX TODO
+                $self->sendFile($response, $target->{vardir}."/deploy/".$file);
                 return;
-            }
-
-            my $indexFile = $htmldir."/index.tpl";
-            my $handle;
-            if (!open $handle, '<', $indexFile) {
-                $logger->error("[WWW] can't open share $indexFile: $ERRNO");
-                $c->send_error(404);
-                return;
-            }
-            undef $/;
-            my $output = <$handle>;
-            close $handle;
-
-            my $nextContact = "";
-            foreach my $target (@{$scheduler->{targets}}) {
-                my $description = $target->getDescriptionString();
-                my $timeString = $target->getNextRunDate() > 1 ?
-                    localtime($target->getNextRunDate()) : "now";
-                $nextContact .= "<li>$description: $timeString</li>\n";
-            }
-            my $status = $self->{agent}->getStatus();
-
-            $output =~ s/%%STATUS%%/$status/;
-            $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
-            $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-            if (!$self->{trust_localhost}) {
-                $output =~
-                s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
-            }
-            $output =~ s/%%(END|)IF_.*?%%//g;
-
-            my $r = HTTP::Response->new(
-                200,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/html'),
-                $output
-            );
-            $c->send_response($r);
-            last SWITCH;
-        }
-
-        # deploy request
-        if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
-            my $file = $1;
-            foreach my $target (@{$scheduler->getTargets()}) {
-                my $directory = $target->getStorage()->getDirectory();
-                my $file = $directory . $path;
-                if (-f $file) {
-                    $logger->debug("[WWW] send $path");
-                    $c->send_file_response($file);
-                } else {
-                    $logger->debug("[WWW] not found $path");
-                }
-            }
-            $c->send_error(404);
-            last SWITCH;
-        }
-
-        # now request
-        if ($path =~ m{^/now(?:/(\S+))?$}) {
-            my $sentToken = $1;
-
-            my $result;
-            if ($clientIp =~ /^127\./ && $self->{trust_localhost}) {
-                # trusted request
-                $result = "ok";
             } else {
-                # authenticated request
-                if ($sentToken) {
-                    my $token = $self->{agent}->resetToken();
-                    if ($sentToken eq $token) {
-                        $result = "ok";
-                        $self->{agent}->resetToken();
-                    } else {
-                        $logger->debug(
-                            "[WWW] untrusted address, invalid token $sentToken != $token"
-                        );
-                        $result = "untrusted address, invalid token";
-                    }
+                $logger->debug("Not found /deploy/".$file);
+                $response->code(404);
+            }
+        }
+    }
+}
+
+sub now {
+    use Data::Dumper;
+    my ($self, $request, $response) = @_;
+
+    my $logger = $self->{logger};
+    my $scheduler = $self->{scheduler};
+    
+    my $path = $request->uri->path;
+    my $remote_ip = $request->connection->remote_ip;
+
+    # now request
+    if ($path =~ m{^/now(/|)(\S+)?$}) {
+        my $sentToken = $2;
+        my $result;
+
+        print $remote_ip."\n";
+        if ($remote_ip eq '127.0.0.1' && $self->{trust_localhost}) {
+            # trusted request
+            $result = "ok";
+            POE::Kernel->post( Scheduler => 'runAllNow' );
+            print "ok\n";
+        } else {
+            # authenticated request
+            if ($sentToken) {
+                my $token = $self->{agent}->resetToken();
+                if ($sentToken eq $token) {
+                    $result = "ok";
+                    $self->{agent}->resetToken();
                 } else {
                     $logger->debug(
-                        "[WWW] untrusted address, no token received"
+                        "[Receiver] untrusted address, invalid token $sentToken != $token"
                     );
-                    $result = "untrusted address, no token received";
+                    $result = "untrusted address, invalid token";
                 }
-            }
-
-            my ($code, $message);
-            if ($result eq "ok") {
-                $scheduler->scheduleTargets(0);
-                $code    = 200;
-                $message = "Done."
             } else {
-                $code    = 403;
-                $message = "Access denied: $result.";
+                $logger->debug(
+                    "[Receiver] untrusted address, no token received"
+                );
+                $result = "untrusted address, no token received";
             }
-
-            my $r = HTTP::Response->new(
-                $code,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/html'),
-                "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>"
-            );
-            $c->send_response($r);
-
-            last SWITCH;
         }
 
-        # status request
-        if ($path eq '/status') {
-            my $status = $self->{agent}->getStatus();
-            my $r = HTTP::Response->new(
-                200,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/plain'),
-               "status: $status"
-            );
-            $c->send_response($r);
-            last SWITCH;
+        my ($code, $message);
+        if ($result eq "ok") {
+            $scheduler->scheduleTargets(0);
+            $response->code(200);
+            $message = "Done."
+        } else {
+            $response->code(403);
+            $message = "Access denied: $result.";
         }
 
-        # static content request
-        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-            $c->send_file_response($htmldir."/$1");
-            last SWITCH;
-        }
+        my $output = "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>";
+        $response->content($output);
 
-        $logger->debug("[WWW] error, unknown path: $path");
-        $c->send_error(400);
+#        # static content request
+#        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
+#            $c->send_file_response($htmldir."/$1");
+#            last SWITCH;
+#        }
+#
+#        $logger->debug("[WWW] error, unknown path: $path");
+#        $c->send_error(400);
+#>>>>>>> master
     }
-
-    $c->close;
-    undef($c);
 }
 
-sub _server {
-    my ($self) = @_;
+sub files {
+    my ($self, $request, $response) = @_;
 
-    my $scheduler = $self->{scheduler};
+    my $config = $self->{config};
     my $logger = $self->{logger};
 
-    my $daemon = HTTP::Daemon->new(
-        LocalAddr => $self->{ip},
-        LocalPort => $self->{port},
-        Reuse     => 1,
-        Timeout   => 5
-    );
+    my $path = $request->uri->path;
 
-    if (!$daemon) {
-        $logger->error("[WWW] failed to start the service");
+    if ($path =~ /^\/files(.*)/) {
+        $self->sendFile($response, $self->{htmldir}.$1);
         return;
-    } 
-    my $url = $self->{ip} ?
-        "http://$self->{ip}:$self->{port}" :
-        "http://localhost:$self->{port}" ;
-
-    $logger->info(
-        "[WWW] Service started at: $url"
-    );
-
-    while (1) {
-        my ($client, $socket) = $daemon->accept();
-        next unless $socket;
-        my (undef, $iaddr) = sockaddr_in($socket);
-        my $clientIp = inet_ntoa($iaddr);
-        my $request = $client->get_request();
-        $self->_handle($client, $request, $clientIp);
     }
 }
 
+sub sendFile {
+    my ($self, $response, $file) = @_;
+
+    my $logger = $self->{logger};
+
+    my $st = stat($file);
+    my $fh;
+    if (!open $fh, "<$file") {
+        $logger->error("Failed to open $file");
+        return;
+    }
+    binmode($fh);
+    $self->{todo}{$response->{connection}{my_id}} = $fh;
+
+
+    $response->streaming(1);
+    $response->code(RC_OK);         # you must set up your response header
+    $response->content_type('application/binary');
+    $response->content_length($st->size);
+
+}
+
+sub stream {
+    my($self, $resquest, $response)=@_;
+
+    my $fh = $self->{todo}{$response->{connection}{my_id}};
+
+    my $buffer;
+    my $dataRemain = read ($fh, $buffer, 1024); 
+    $response->send($buffer);
+   
+    if (!$dataRemain) {
+        close($fh);
+        $response->streaming(0);
+        $response->close;
+        $resquest->header(Connection => 'close');
+        delete($self->{todo}{$response->{connection}{my_id}});
+    }
+}
+
+
+#sub _handle {
+#    my ($self, $c, $r, $clientIp) = @_;
+#    
+#    my $logger = $self->{logger};
+#    my $scheduler = $self->{scheduler};
+#    my $htmldir = $self->{htmldir};
+#
+#    if (!$r) {
+#        $c->close;
+#        undef($c);
+#        return;
+#    }
+#
+#    my $path = $r->uri()->path();
+#    $logger->debug("[WWW] request $path from client $clientIp");
+#
+#    # non-GET requests
+#    my $method = $r->method();
+#    if ($method ne 'GET') {
+#        $logger->debug("[WWW] invalid request type: $method");
+#        $c->send_error(500);
+#        $c->close;
+#        undef($c);
+#        return;
+#    }
+#
+#    # GET requests
+#    SWITCH: {
+#
+#        # status request
+#        if ($path eq '/status') {
+#            my $status = $self->{agent}->getStatus();
+#            my $r = HTTP::Response->new(
+#                200,
+#                'OK',
+#                HTTP::Headers->new('Content-Type' => 'text/plain'),
+#               "status: $status"
+#            );
+#            $c->send_response($r);
+#            last SWITCH;
+#        }
+#
+#        # static content request
+#        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
+#            $c->send_file_response($htmldir."/$1");
+#            last SWITCH;
+#        }
+#    }
+
+#    $c->close;
+#    undef($c);
+#}
+
+#sub _server {
+#    my ($self) = @_;
+#
+#    my $scheduler = $self->{scheduler};
+#    my $logger = $self->{logger};
+#
+#    my $daemon = HTTP::Daemon->new(
+#        LocalAddr => $self->{'ip'},
+#        LocalPort => $self->{'www-port'},
+#        Reuse     => 1,
+#        Timeout   => 5
+#    );
+#
+#    if (!$daemon) {
+#        $logger->error("[WWW] Failed to start the service");
+#        return;
+#    } 
+#    $logger->info(
+#        "[WWW] Service started at: http://$self->{'ip'}:$self->{'www-port'}"
+#    );
+#
+#    while (1) {
+#        my ($client, $socket) = $daemon->accept();
+#        next unless $socket;
+#        my (undef, $iaddr) = sockaddr_in($socket);
+#        my $clientIp = inet_ntoa($iaddr);
+#        my $request = $client->get_request();
+#        $self->_handle($client, $request, $clientIp);
+#    }
+#}
+#
 1;
 __END__
 
@@ -266,7 +390,7 @@ requests are accepted:
 
 Authentication is based on a token created by the agent, and sent to the
 server at initial connection. Connection from local host is allowed without
-token if configuration option rpc-trust-localhost is true.
+token if configuration option www-trust-localhost is true.
 
 =head1 METHODS
 

@@ -33,7 +33,6 @@ sub _getCPUsFromDmidecode {
     my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
 
     my @cpus;
-
     if ($infos->{4}) {
         foreach my $info (@{$infos->{4}}) {
             my $serial = $info->{ID};

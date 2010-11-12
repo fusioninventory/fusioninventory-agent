@@ -33,22 +33,7 @@ Revision history for FusionInventory::Agent
          parseDhcpLeaseFile() and add a test
        * Move screen EDID parsing functions in
          FusionInventory::Agent::Tools::Generic::Screen
-
-2.1.7
-       * replace Cwd::abs_path with File::Spec->rel2abs
-         abs_path fails if the directory doesn't exist yet. This was breaking
-         --basevardir on UNIX system.
-         The problem was fixed on Win32 with the 2.1.5 release. See commit
-          6f376013c8584145a8f824632f1292b3212bd3ca
-          a1f32c62145c46fa176165bba1695420505290b7
-       * Fix regression: Do not empty log file if logfile-maxsize is undef
-         or 0, thanks Remi Collet
-         http://forge.fusioninventory.org/issues/414
-       * Linux/PPC: Fix various warnings in CPU.pm
-       * Linux/PPC: ignore some wrong warning
-       * Linux/PPC: CPUS/TYPE renamed to CPUS/NAME
-       * POD: add doc for BIOS/{S,B}MANUFACTURER
-       * Clean up: remove BIOS/{MMANUFACTURER,MSN}
+       * FreeBSD: do not ignore virtual interface but use the VIRTUALDEV flag on them
 
 2.1.7
        * replace Cwd::abs_path with File::Spec->rel2abs
@@ -64,7 +49,6 @@ Revision history for FusionInventory::Agent
        * Linux/PPC: ignore some wrong warning
        * Linux: CPUS/TYPE renamed to CPUS/NAME
        * POD: add doc for BIOS/{S,B}MANUFACTURER
-       * Clean up: remove BIOS/{MMANUFACTURER,MSN}
        * POD: fix a syntax error in fusioninventory-agent
        * use the default basevardir.
        * POD: clarify, we ignore virtual filesystem like /proc in <DRIVES />
@@ -93,6 +77,40 @@ Revision history for FusionInventory::Agent
        * MacOSX: Mem.pm, convert hex string to ASCII when needed, thanks Sylvain la Gravière
          for the bug report
          http://forge.fusioninventory.org/issues/440
+       * Screen.pm: Add support for 3 new manufacturer. Backport Adam Buchbinder changes on
+         1.1.x branch
+       * Linux/ARM: collect the Hardware information from /proc/cpuinfo
+       * Windows: Disable dmidecode.exe on Win2003
+         http://forge.fusioninventory.org/issues/379
+       * MacOSX/Drives: don't ignore autofs filesystem, thanks François Legastelois
+         for the bug report
+         http://forge.fusioninventory.org/issues/446
+       * BSD: use mount to identify the filesystem type, this shoud fix bug #450
+         http://forge.fusioninventory.org/issues/450
+       * Win32: try to identify dual core CPU even if Windows thinks it two physical CPU
+       * Win32: no need to change %PATH% anymore
+         http://forge.fusioninventory.org/issues/151
+       * fusioninventory-agent-config, better question for server address 
+       * BIOS: clean up
+          - do not mix motherboard and system information anymore
+          - do not use CPU information do create fake serial anymore
+          - retrieve the SKU number
+       * MacOSX: use ioreg to get the machine serial number
+         http://forge.fusioninventory.org/issues/442
+       * Logger: ensure the logger is load just one time
+       * add fusioninventory-injector in the distribution
+       * Linux: fix: Agent don't give video ram size and video resolution,
+         Eric FREYENS for the fix suggestion.
+	 We now use ddcprobe or Xorg to get the resolution of the main screen.
+	 This fix will be improved in the futur and should be seen as experimental
+	 http://forge.fusioninventory.org/issues/316
+       * Win32: ignore garbage character in the XML, and filter SOFTWARES/VERSION
+         to deal with some very strange case, thanks Mario GZUK for the bug report
+         and RDP access
+         http://forge.fusioninventory.org/issues/415
+       * MacOSX: ignore a warning in Drives.pm
+         http://forge.fusioninventory.org/issues/441
+       * MacOSX: retrieve partition UUID on MacOSX 10.4
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets

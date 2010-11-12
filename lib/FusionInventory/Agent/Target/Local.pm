@@ -23,12 +23,6 @@ sub new {
     return $self;
 }
 
-sub getPath {
-    my ($self) = @_;
-
-    return $self->{path};
-}
-
 sub getDescriptionString {
     my ($self) = @_;
 
@@ -63,6 +57,7 @@ the output directory path (mandatory)
 
 =back
 
-=head2 getPath()
+=head2 getDescriptionString)
 
-Return the local output directory for this target.
+Return a string to display to user in a 'target' field.
+

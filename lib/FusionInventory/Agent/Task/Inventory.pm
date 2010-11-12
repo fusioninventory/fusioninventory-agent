@@ -32,10 +32,11 @@ sub run {
 
     # initialize modules list
     $self->_initModList();
+    print $self->{target}->{maxOffset}."\n"; # XXX Debug only
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
-        deviceid => $self->{deviceid},
-        logger   => $self->{logger} || FusionInventory::Logger->new(),
+        deviceid => $self->{target}->{deviceid},
+        logger   => $self->{logger},
         storage  => $self->{target}->getStorage()
     });
 
@@ -49,7 +50,7 @@ sub run {
     }
 
     SWITCH: {
-        if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
+        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Stdout') {
             if ($self->{config}->{format} eq 'xml') {
                 print $self->{inventory}->getContent();
             } else {
@@ -58,13 +59,13 @@ sub run {
             last SWITCH;
         }
 
-        if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
+        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Local') {
             my $format = $self->{config}->{format};
             my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
-                $self->{target}->getPath() .
+                $self->{target}{path} .
                 "/" .
-                $self->{deviceid} .
+                $self->{target}{deviceid} .
                 $suffix;
 
             if (open my $handle, '>', $file) {
@@ -81,7 +82,7 @@ sub run {
             last SWITCH;
         }
 
-        if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Server') {
             die "No prologresp!" unless $self->{prologresp};
 
             if ($self->{config}->{force}) {

@@ -3,18 +3,25 @@ package FusionInventory::Agent::Task;
 use strict;
 use warnings;
 
-use FusionInventory::Logger;
+use FusionInventory::Agent::POE::Logger;
+use FusionInventory::Agent::POE::Config;
+use FusionInventory::Agent::POE::Target;
+use FusionInventory::Agent::POE::Prolog;
+use FusionInventory::Agent::POE::Transmitter;
+
 
 sub new {
     my ($class, $params) = @_;
 
+    my $logger = FusionInventory::Agent::POE::Logger->new();
+
     my $self = {
-        logger      => $params->{logger} || FusionInventory::Logger->new(),
-        config      => $params->{config},
+        logger      => $logger,
+        config      => FusionInventory::Agent::POE::Config->new(),
+        target      => FusionInventory::Agent::POE::Target->new({ logger => $logger }),
+        prologresp  => FusionInventory::Agent::POE::Prolog->new(),
+        transmitter => FusionInventory::Agent::POE::Transmitter->new(),
         setup       => $params->{setup},
-        target      => $params->{target},
-        prologresp  => $params->{prologresp},
-        transmitter => $params->{transmitter},
         deviceid    => $params->{deviceid}
     };
 

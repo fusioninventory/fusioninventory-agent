@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Win32;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
@@ -52,8 +53,13 @@ sub doInventory {
 
     my $vmsystem;
 
+# http://forge.fusioninventory.org/issues/379
+    my(@osver) = Win32::GetOSVersion();
+    my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
+
+
     my @dmidecodeCpu;
-    if (can_run("dmidecode")) {
+    if (!$isWin2003 && can_run("dmidecode")) {
         my $in;
         foreach (`dmidecode`) {
             if ($in && /^Handle/)  {
@@ -76,6 +82,7 @@ sub doInventory {
 
 
 
+    my @cpuList;
     my $cpuId = 0;
     foreach my $Properties (getWmiProperties('Win32_Processor', qw/
         NumberOfCores ProcessorId MaxClockSpeed
@@ -84,18 +91,32 @@ sub doInventory {
         my $info = getCPUInfoFromRegistry($logger, $cpuId);
 
 #        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
-        my $core = $Properties->{NumberOfCores};
+        my $core = $Properties->{NumberOfCores} || 1;
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
         my $serial = $dmidecodeCpu[$cpuId]->{serial} || $Properties->{ProcessorId};
         my $speed = $dmidecodeCpu[$cpuId]->{speed} || $Properties->{MaxClockSpeed};
 
+# Workaround for the case a dual core CPU is seen as 2 different CPUs
+	if ($Properties->{ProcessorId}) {
+	    if (defined ($cpuList[$cpuId-1])) {
+		if ($cpuList[$cpuId-1]{SERIAL} eq $serial) {
+		    if ($core < 2) {
+			$cpuList[$cpuId-1]{CORE}++;
+			next;
+		    }
+		}    
+	    }
+	}
+
+
         if ($manufacturer) {
             $manufacturer =~ s/Genuine//;
             $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
             $manufacturer =~ s/CyrixInstead/Cyrix/;
             $manufacturer=~ s/CentaurHauls/VIA/;
+            $manufacturer=~ s/^Authentic//;
         }
         if ($serial) {
             $serial =~ s/\s//g;
@@ -116,19 +137,21 @@ sub doInventory {
 
         }
 
-
-
-        $inventory->addCPU({
+	push @cpuList, ({
 #           CACHE => $cache,
-            CORE => $core,
-            DESCRIPTION => $description,
-            NAME => $name,
-            MANUFACTURER => $manufacturer,
-            SERIAL => $serial,
-            SPEED => $speed
-        });
+		CORE => $core,
+		DESCRIPTION => $description,
+		NAME => $name,
+		MANUFACTURER => $manufacturer,
+		SERIAL => $serial,
+		SPEED => $speed
+		});
+
 
         $cpuId++;
+    }
+    foreach my $cpu (@cpuList) {
+	$inventory->addCPU($cpu);
     }
 
     if ($vmsystem) {

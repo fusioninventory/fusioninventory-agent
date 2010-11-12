@@ -240,21 +240,15 @@ sub getProcessesFromPs {
         if ($started =~ /^(\d{1,2}):(\d{2})/) {
             # 10:00PM
             $begin = "$year-$month-$day $started";
-        } elsif ($started =~ /^([A-Z][a-z]{2})(\d{2})[AP]M/) {
+        } elsif ($started =~ /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(\d{2})[AP]M/) {
             # Sat03PM
-            my $start_day = $1;
-            my $start_hour = $2;
-            $begin = "$year-$month-$day{$start_day} $time"; 
-        } elsif ($started =~ /^([A-Z][a-z]{2})(\d{2})/) {
-            # Nov07
-            my $start_month = $1;
             my $start_day = $2;
-            $begin = "$year-$month{$start_month}-$start_day $time";
-        } elsif ($started =~ /^(\d{1,2})([A-Z][a-z]{2})/) {
+            $begin = "$year-$month-$start_day $time";
+        } elsif ($started =~ /^(\d{1,2})(\w{3})\d{1,2}/) {
             # 5Oct10
             my $start_day = $1;
             my $start_month = $2;
-            $begin = "$year-$month{$start_month}-$start_day $time"; 
+            $begin = "$year-$month{$start_month}-$start_day $time";
         } elsif (-f "/proc/$pid") {
 	    # this will work only under Linux
 	    my $stat = stat("/proc/$pid");
@@ -263,7 +257,6 @@ sub getProcessesFromPs {
 	    $year = $year + 1900;
             $begin = "$year-$month-$day $hour:$min"; 
 	}
-
         push @processes, {
             USER          => $user,
             PID           => $pid,
