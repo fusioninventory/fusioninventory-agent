@@ -50,6 +50,7 @@ sub _parseXorgFd {
 		$xorgData->{memory}=$1.$2;
 	    }
 	}
+	close(XORG);
     }
     return $xorgData;
 }
@@ -58,7 +59,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $ddcprobeData = _getDdcprobeData("ddcprobe", "|-");
+    my $ddcprobeData = _getDdcprobeData("ddcprobe", "2> &1 |-");
 
     my $xOrgPid;
     foreach (`ps aux`) {
@@ -73,11 +74,9 @@ sub doInventory {
 	$xorgData = _parseXorgFd("</proc/$xOrgPid/fd/0");
     }
 
-    my $memory;
-    if ($ddcprobeData->{memory} =~ s/kb$//i) {
-	$memory = int($ddcprobeData->{memory} / 1024);
-    } elsif ($ddcprobeData->{memory} =~ s/mb$//i) {
-	$memory = $ddcprobeData->{memory};
+    my $memory = $xorgData->{memory} || $ddcprobeData->{memory};
+    if ($memory && $memory =~ s/kb$//i) {
+	$memory = int($memory / 1024);
     }
 
     $inventory->addVideo({
