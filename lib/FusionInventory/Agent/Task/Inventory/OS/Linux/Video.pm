@@ -62,11 +62,6 @@ sub _parseXorgFd {
             elsif (/Virtual size is (\S+)/i) {
 		$xorgData->{resolution}=$1;
 	    }
-	    elsif (/Primary Device is: PCI (.+)/i) {
-		$xorgData->{pcislot}=$1;
-		$xorgData->{pcislot} =~ s/^(\d{2})@(\d{2}):(\d{2}).*/$1:$2:$3/;
-	    }
-# Nvidia
 	}
 	close(XORG);
     }
@@ -105,7 +100,6 @@ sub doInventory {
 	CHIPSET    => $xorgData->{product} || $ddcprobeData->{product},
 	MEMORY     => $memory,
 	NAME       => $xorgData->{name} || $ddcprobeData->{oem},
-	PCISLOT    => $xorgData->{pcislot},
 	RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming}
 	});
 
