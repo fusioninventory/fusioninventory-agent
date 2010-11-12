@@ -53,6 +53,10 @@ sub _parseXorgFd {
             elsif (/RADEON\(0\): Chipset: "(.*?)"/i) {
 		$xorgData->{name}=$1;
 	    }
+# VESA / XFree86
+            elsif (/Virtual size is (\S+)/i) {
+		$xorgData->{resolution}=$1;
+	    }
 	}
 	close(XORG);
     }

@@ -129,6 +129,7 @@ my %xorg = (
 	},
         'vesa-1' => {
 	'memory' => '12288kB',
+	'resolution' => '1280x1024',
 	'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
 	'product' => 'Oracle VM VirtualBox VBE Adapter'
 	},
@@ -137,6 +138,12 @@ my %xorg = (
 	    'resolution' => '320x240',
 	    'name' => 'ATI MACH64',
 	    'product' => 'MACH64GM'
+	},
+	'vesa-3' => {
+          'memory' => '12288kB',
+	  'resolution' => '1024x768',
+          'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
+          'product' => 'Oracle VM VirtualBox VBE Adapter'
 	},
 	'ati-1' => {
           'resolution' => '1920x1080',
