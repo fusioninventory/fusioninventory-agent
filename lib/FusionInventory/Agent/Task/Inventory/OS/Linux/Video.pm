@@ -49,6 +49,10 @@ sub _parseXorgFd {
 	    elsif (/VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
 		$xorgData->{memory}=$1.$2;
 	    }
+# ATI /Radeon
+            elsif (/RADEON\(0\): Chipset: "(.*?)"/i) {
+		$xorgData->{name}=$1;
+	    }
 	}
 	close(XORG);
     }

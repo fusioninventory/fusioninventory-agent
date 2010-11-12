@@ -137,6 +137,10 @@ my %xorg = (
 	    'resolution' => '320x240',
 	    'name' => 'ATI MACH64',
 	    'product' => 'MACH64GM'
+	},
+	'ati-1' => {
+          'resolution' => '1920x1080',
+	  'name' => 'ATI Radeon HD 4290'
 	}
 	);
 plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
