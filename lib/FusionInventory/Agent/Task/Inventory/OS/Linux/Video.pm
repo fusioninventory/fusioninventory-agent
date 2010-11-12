@@ -8,14 +8,19 @@ sub isInventoryEnabled {
 }
 
 sub _getDdcprobeData {
-    my ($cmd, $param) = @_;
+    my ($file) = @_;
     my $ddcprobeData;
-    if (open my $handle, $param, $cmd) {
-	foreach (<$handle>) {
-	    s/[[:cntrl:]]//g;
-	    s/[^[:ascii:]]//g;
-	    $ddcprobeData->{$1} = $2 if /^(\S+):\s+(.*)/;
-	}
+
+    my $handle;
+    if ($file) {
+	open $handle, '<', $file or die;
+    } else {
+	open ($handle, "ddcprobe 2>&1 |")	
+    }
+    foreach (<$handle>) {
+	s/[[:cntrl:]]//g;
+	s/[^[:ascii:]]//g;
+	$ddcprobeData->{$1} = $2 if /^(\S+):\s+(.*)/;
     }
 
     return $ddcprobeData;
@@ -67,7 +72,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $ddcprobeData = _getDdcprobeData('ddcprobe 2>&1', "|-");
+    my $ddcprobeData = _getDdcprobeData();
 
     my $xOrgPid;
     foreach (`ps aux`) {

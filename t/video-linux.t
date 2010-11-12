@@ -161,7 +161,7 @@ plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
 
 foreach my $test (keys %ddcprobe) {
     my $file = "$FindBin::Bin/../resources/ddcprobe/$test";
-    my $ret = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_getDdcprobeData($file, '<');
+    my $ret = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_getDdcprobeData($file);
     is_deeply($ret, $ddcprobe{$test}, $test) or print Dumper($ret);
 }
 
