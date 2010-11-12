@@ -59,7 +59,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $ddcprobeData = _getDdcprobeData("ddcprobe", "2> &1 |-");
+    my $ddcprobeData = _getDdcprobeData('ddcprobe 2>&1', "|-");
 
     my $xOrgPid;
     foreach (`ps aux`) {
