@@ -63,7 +63,7 @@ sub doInventory {
 
     my $xOrgPid;
     foreach (`ps aux`) {
-	if ((/\/usr\/bin\/X/ || /Xorg/) && /^\S+\s+(\d+)/) {
+	if ((/\/usr(\/bin|\/X11R6\/bin)\/X/ || /Xorg/) && /^\S+\s+(\d+)/) {
 	    $xOrgPid = $1;
 	    last;
 	}
