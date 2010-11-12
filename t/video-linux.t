@@ -119,16 +119,21 @@ my %xorg = (
           'resolution' => '1680x1050',
 	  'name' => 'GeForce 8400 GS (G98)'
 	},
+	'nvidia-2' => {
+          'resolution' => '2960x1050',
+	  'name' => 'GeForce 7300 SE/7200 GS (G72)'
+	},
         'vesa-1' => {
 	'memory' => '12288kB',
 	'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
 	'product' => 'Oracle VM VirtualBox VBE Adapter'
 	},
-	'nvidia-2' => {
-          'resolution' => '2960x1050',
-	  'name' => 'GeForce 7300 SE/7200 GS (G72)'
+        'vesa-2' => {
+	    'memory' => '8128kB',
+	    'resolution' => '320x240',
+	    'name' => 'ATI MACH64',
+	    'product' => 'MACH64GM'
 	}
-
 	);
 plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
 
