@@ -88,7 +88,7 @@ sub doInventory {
     }
     my $resolution = $xorgData->{resolution} || $ddcprobeData->{dtiming};
     if ($resolution) {
-	$resolution =~ s/@.*//;
+	$resolution =~ s/@.*//;
     }
 
     $inventory->addVideo({
