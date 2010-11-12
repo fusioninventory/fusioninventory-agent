@@ -133,12 +133,6 @@ my %xorg = (
 	'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
 	'product' => 'Oracle VM VirtualBox VBE Adapter'
 	},
-        'vesa-2' => {
-	    'memory' => '8128kB',
-	    'resolution' => '320x240',
-	    'name' => 'ATI MACH64',
-	    'product' => 'MACH64GM'
-	},
 	'vesa-3' => {
           'memory' => '12288kB',
 	  'resolution' => '1024x768',
@@ -148,7 +142,14 @@ my %xorg = (
 	'ati-1' => {
           'resolution' => '1920x1080',
 	  'name' => 'ATI Radeon HD 4290'
-	}
+	},
+        'ati-2' => {
+	    'memory' => '8128kB',
+	    'resolution' => '320x240',
+	    'name' => 'ATI MACH64',
+	    'product' => 'MACH64GM'
+	},
+
 	);
 plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
 
