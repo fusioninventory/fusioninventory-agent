@@ -53,80 +53,72 @@ my %tests = (
                         COMMUNITY      => 'public',
                         PRIVPASSPHRASE => ''
                     },
-                    {
-                        ID             => '2',
-                        AUTHPROTOCOL   => '',
-                        PRIVPROTOCOL   => '',
-                        USERNAME       => '',
-                        AUTHPASSPHRASE => '',
-                        VERSION        => '2c',
-                        COMMUNITY      => 'public',
-                        PRIVPASSPHRASE => ''
-                    }
                 ],
                 NAME => 'SNMPQUERY',
-                MODEL => {
-                    ID   => '196',
-                    NAME => '4675719',
-                    WALK => [
-                        {
-                            VLAN   => '0',
-                            LINK   => 'ifIndex',
-                            OBJECT => 'ifIndex',
-                            OID    => '.1.3.6.1.2.1.2.2.1.1'
-                        },
-                        {
-                            VLAN   => '0',
-                            LINK   => 'ifName',
-                            OBJECT => 'ifName',
-                            OID    => '.1.3.6.1.2.1.2.2.1.2'
-                        },
-                        {
-                            VLAN   => '0',
-                            LINK   => 'ifType',
-                            OBJECT => 'ifType',
-                            OID    => '.1.3.6.1.2.1.2.2.1.3'
-                        },
-                        {
-                            VLAN   => '0',
-                            LINK   => 'ifPhysAddress',
-                            OBJECT => 'ifPhysAddress',
-                            OID    => '.1.3.6.1.2.1.2.2.1.6'
-                        },
-                        {
-                            VLAN   => '0',
-                            LINK   => 'ifaddr',
-                            OBJECT => 'ifaddr',
+                MODEL => [
+                    {
+                        ID   => '196',
+                        NAME => '4675719',
+                        WALK => [
+                            {
+                                VLAN   => '0',
+                                LINK   => 'ifIndex',
+                                OBJECT => 'ifIndex',
+                                OID    => '.1.3.6.1.2.1.2.2.1.1'
+                            },
+                            {
+                                VLAN   => '0',
+                                LINK   => 'ifName',
+                                OBJECT => 'ifName',
+                                OID    => '.1.3.6.1.2.1.2.2.1.2'
+                            },
+                            {
+                                VLAN   => '0',
+                                LINK   => 'ifType',
+                                OBJECT => 'ifType',
+                                OID    => '.1.3.6.1.2.1.2.2.1.3'
+                            },
+                            {
+                                VLAN   => '0',
+                                LINK   => 'ifPhysAddress',
+                                OBJECT => 'ifPhysAddress',
+                                OID    => '.1.3.6.1.2.1.2.2.1.6'
+                            },
+                            {
+                                VLAN   => '0',
+                                LINK   => 'ifaddr',
+                                OBJECT => 'ifaddr',
                             OID    => '.1.3.6.1.2.1.4.20.1.2'
-                        }
-                    ],
-                    GET => [
-                        {
-                            VLAN   => '0',
-                            LINK   => 'comments',
-                            OBJECT => 'comments',
-                            OID    => '.1.3.6.1.2.1.1.1.0'
-                        },
-                        {
-                            VLAN   => '0',
-                            LINK   => 'name',
-                            OBJECT => 'name',
-                            OID    => '.1.3.6.1.2.1.1.5.0'
-                        },
-                        {
-                            VLAN   => '0',
-                            LINK   => 'location',
-                            OBJECT => 'location',
-                            OID    => '.1.3.6.1.2.1.1.6.0'
-                        },
-                        {
-                            VLAN   => '0',
-                            LINK   => 'informations',
-                            OBJECT => 'informations',
-                            OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
-                        }
-                    ]
-                },
+                            }
+                        ],
+                        GET => [
+                            {
+                                VLAN   => '0',
+                                LINK   => 'comments',
+                                OBJECT => 'comments',
+                                OID    => '.1.3.6.1.2.1.1.1.0'
+                            },
+                            {
+                                VLAN   => '0',
+                                LINK   => 'name',
+                                OBJECT => 'name',
+                                OID    => '.1.3.6.1.2.1.1.5.0'
+                            },
+                            {
+                                VLAN   => '0',
+                                LINK   => 'location',
+                                OBJECT => 'location',
+                                OID    => '.1.3.6.1.2.1.1.6.0'
+                            },
+                            {
+                                VLAN   => '0',
+                                LINK   => 'informations',
+                                OBJECT => 'informations',
+                                OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
+                            }
+                        ]
+                    }
+                ],
                 DEVICE => {
                     ID           => '72',
                     IP           => '192.168.0.151',
@@ -170,12 +162,14 @@ my %tests = (
                         PRIVPASSPHRASE => ''
                     }
                 ],
-                RANGEIP => {
-                    ID      => '1',
-                    ENTITY  => '15',
-                    IPSTART => '192.168.0.1',
-                    IPEND   => '192.168.0.254'
-                },
+                RANGEIP => [
+                    {
+                        ID      => '1',
+                        ENTITY  => '15',
+                        IPSTART => '192.168.0.1',
+                        IPEND   => '192.168.0.254'
+                    }
+                ],
                 NAME => 'NETDISCOVERY',
                 PARAM => [
                     {
