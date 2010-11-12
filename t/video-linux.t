@@ -115,19 +115,40 @@ my %xorg = (
 	'resolution' => '1024x600',
 	'name' => 'Intel(R) 945GME'
 	},
+	'intel-3' => {
+          'resolution' => '1152x864',
+	  'name' => 'Intel(R) G41'
+	},
 	'nvidia-1' => {
           'resolution' => '1680x1050',
 	  'name' => 'GeForce 8400 GS (G98)'
 	},
-        'vesa-1' => {
-	'memory' => '12288kB',
-	'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
-	'product' => 'Oracle VM VirtualBox VBE Adapter'
-	},
 	'nvidia-2' => {
           'resolution' => '2960x1050',
 	  'name' => 'GeForce 7300 SE/7200 GS (G72)'
-	}
+	},
+        'vesa-1' => {
+	'memory' => '12288kB',
+	'resolution' => '1280x1024',
+	'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
+	'product' => 'Oracle VM VirtualBox VBE Adapter'
+	},
+	'vesa-3' => {
+          'memory' => '12288kB',
+	  'resolution' => '1024x768',
+          'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
+          'product' => 'Oracle VM VirtualBox VBE Adapter'
+	},
+	'ati-1' => {
+          'resolution' => '1920x1080',
+	  'name' => 'ATI Radeon HD 4290'
+	},
+        'ati-2' => {
+	    'memory' => '8128kB',
+	    'resolution' => '320x240',
+	    'name' => 'ATI MACH64',
+	    'product' => 'MACH64GM'
+	},
 
 	);
 plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);

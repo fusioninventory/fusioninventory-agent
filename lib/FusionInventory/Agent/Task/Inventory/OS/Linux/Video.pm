@@ -49,6 +49,14 @@ sub _parseXorgFd {
 	    elsif (/VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
 		$xorgData->{memory}=$1.$2;
 	    }
+# ATI /Radeon
+            elsif (/RADEON\(0\): Chipset: "(.*?)"/i) {
+		$xorgData->{name}=$1;
+	    }
+# VESA / XFree86
+            elsif (/Virtual size is (\S+)/i) {
+		$xorgData->{resolution}=$1;
+	    }
 	}
 	close(XORG);
     }
@@ -59,7 +67,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $ddcprobeData = _getDdcprobeData("ddcprobe", "2> &1 |-");
+    my $ddcprobeData = _getDdcprobeData('ddcprobe 2>&1', "|-");
 
     my $xOrgPid;
     foreach (`ps aux`) {
