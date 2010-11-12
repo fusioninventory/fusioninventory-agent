@@ -80,10 +80,10 @@ sub doInventory {
     }
 
     $inventory->addVideo({
-	CHIPSET    => $ddcprobeData->{product},
+	CHIPSET    => $xorgData->{product} || $ddcprobeData->{product},
 	MEMORY     => $memory,
-	NAME       => $ddcprobeData->{oem} || $xorgData->{name},
-	RESOLUTION => $ddcprobeData->{dtiming} || $xorgData->{resolution}
+	NAME       => $xorgData->{name} || $ddcprobeData->{oem},
+	RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming}
 	});
 
 }
