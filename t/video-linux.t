@@ -80,6 +80,10 @@ my %xorg = (
 	'intel-1' => {
 	'resolution' => '1024x600',
 	'name' => 'Intel(R) 945GME'
+	},
+	'intel-2' => {
+	'resolution' => '1024x600',
+	'name' => 'Intel(R) 945GME'
 	}
 
 	);
