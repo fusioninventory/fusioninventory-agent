@@ -115,6 +115,10 @@ my %xorg = (
 	'resolution' => '1024x600',
 	'name' => 'Intel(R) 945GME'
 	},
+	'intel-3' => {
+          'resolution' => '1152x864',
+	  'name' => 'Intel(R) G41'
+	},
 	'nvidia-1' => {
           'resolution' => '1680x1050',
 	  'name' => 'GeForce 8400 GS (G98)'
