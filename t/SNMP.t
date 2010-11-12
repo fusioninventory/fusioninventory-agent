@@ -46,7 +46,7 @@ throws_ok {
         hostname => 'localhost',
         version => 1
     });
-} qr/^Community not defined/,
+} qr/[Cc]ommunity (is )?not defined/,
 'instanciation: undefined community';
 
 lives_ok {
