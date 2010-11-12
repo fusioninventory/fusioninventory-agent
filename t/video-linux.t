@@ -71,6 +71,29 @@ my %ddcprobe = (
 	    'product' => 'Intel(r)Cantiga Graphics Controller Hardware Version 0.0',
 	    'vendor' => 'Intel Corporation',
 	    'vbe' => 'VESA 3.0 detected.'
+	},
+	S2202W => {
+          'eisa' => 'ENC1975',
+          'input' => 'analog signal.',
+          'mode' => '1600x1200x64k',
+          'monitorserial' => '53471089',
+          'edid' => '1 3',
+          'monitorrange' => '31-65, 59-61',
+          'id' => '1975',
+          'dtiming' => '1680x1050@59',
+          'serial' => '01010101',
+          'oem' => 'ATI ATOMBIOS',
+          'ctiming' => '1280x960@60',
+          'gamma' => '2.200000',
+          'memory' => '16384kb',
+          'timing' => '1024x768@87 Hz Interlaced (8514A)',
+          'monitorname' => 'S2202W',
+          'screensize' => '48 30',
+          'manufacture' => '33 2009',
+          'dpms' => 'RGB, active off, suspend, standby',
+          'product' => 'RV620 01.00',
+          'vendor' => '(C) 1988-2005, ATI Technologies Inc.',
+          'vbe' => 'VESA 3.0 detected.'
 	}
 
 );
