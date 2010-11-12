@@ -3,6 +3,12 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos;
 use strict;
 use warnings;
 
+sub isInventoryEnabled {
+    return 0 if $OSNAME =~ /^mswin/i;
+    return 0 if $OSNAME =~ /^linux/i;
+    return 1;
+}
+
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
