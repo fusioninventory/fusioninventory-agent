@@ -10,6 +10,9 @@ version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
 
 # mandatory dependencies
+requires 'POE'                          => undef;
+requires 'POE::Component::IKC'          => undef;
+requires 'POE::Component::Server::HTTP' => undef;
 requires 'Digest::MD5'        => undef;
 requires 'LWP'                => undef;
 requires 'Net::IP'            => undef;
