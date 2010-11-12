@@ -101,6 +101,12 @@ my %ddcprobe = (
 	    'mode' => '1280x1024x16m',
 	    'oem' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
 	    'vbe' => 'VESA 2.0 detected.'
+	},
+	'no-edid' => {
+	    'memory' => '12288kb',
+	    'mode' => '1280x1024x16m',
+	    'oem' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
+	    'vbe' => 'VESA 2.0 detected.'
 	}
 
 );

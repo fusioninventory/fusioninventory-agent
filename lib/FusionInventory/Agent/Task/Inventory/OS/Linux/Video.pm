@@ -86,6 +86,10 @@ sub doInventory {
     if ($memory && $memory =~ s/kb$//i) {
 	$memory = int($memory / 1024);
     }
+    my $resolution = $xorgData->{resolution} || $ddcprobeData->{dtiming};
+    if ($resolution) {
+	$resolution =~ s/@.*//;
+    }
 
     $inventory->addVideo({
 	CHIPSET    => $xorgData->{product} || $ddcprobeData->{product},
