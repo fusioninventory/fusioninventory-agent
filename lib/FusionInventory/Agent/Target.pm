@@ -243,7 +243,7 @@ sub run {
                 $cmd .= " -e ".
                 "\"FusionInventory::Agent::Task::".
                 $self->{modulenameRunning}.
-                "::run();\" --";
+                "->main();\" --";
                 $cmd .= " \"".
                 $self->{modulenameRunning}."\"";
 
