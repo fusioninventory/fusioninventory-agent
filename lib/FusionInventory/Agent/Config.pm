@@ -22,7 +22,6 @@ my $default = {
     'debug'                   => 0,
     'force'                   => 0,
     'help'                    => 0,
-    'html'                    => 0,
     'format'                  => 'xml',
     'info'                    => 1,
     'lazy'                    => 0,
@@ -42,7 +41,6 @@ my $default = {
     'no-ssl-check'            => 0,
     'password'                => '',
     'proxy'                   => '',
-    'realm'                   => '',
     'server'                  => undef,
     'service'                 => 0,
     'stdout'                  => 0,
@@ -207,14 +205,12 @@ sub _loadUserParams {
         'ca-cert-file=s',
         'conf-file=s',
         'daemon|d',
-        'daemon-no-fork|D',
         'no-fork',
         'debug',
         'delaytime=s',
         'force|f',
         'format=s',
         'help|h',
-        'html',
         'info|i',
         'lazy',
         'local|l=s',
@@ -226,9 +222,7 @@ sub _loadUserParams {
         'no-ocsdeploy',
         'no-inventory',
         'no-printer',
-        'no-socket',
         'no-www',
-        'no-soft',
         'no-software',
         'no-ssl-check',
         'no-wakeonlan',
@@ -236,10 +230,6 @@ sub _loadUserParams {
         'no-netdiscovery',
         'password|p=s',
         'proxy|P=s',
-        'realm|r=s',
-        'rpc-ip=s',
-        'rpc-trust-localhost',
-        'remotedir|R=s',
         'scan-homedirs',
         'server|s=s',
         'service',
@@ -268,42 +258,6 @@ sub _checkContent {
     # if a logfile is defined, add file logger
     if ($self->{logfile}) {
         $self->{logger} .= ',File'
-    }
-
-    if ($self->{realm}) {
-        print STDERR
-            "the parameter --realm is deprecated, and will be ignored\n";
-    }
-
-    if ($self->{'no-socket'}) {
-        print STDERR
-            "the parameter --no-socket is deprecated, use --no-www instead\n";
-        $self->{'no-www'} = $self->{'no-socket'};
-    }
-
-    if ($self->{'rpc-ip'}) {
-        print STDERR
-            "the parameter --rpc-ip is deprecated, use --www-ip instead\n";
-        $self->{'www-ip'} = $self->{'rpc-ip'};
-    }
-
-    if ($self->{'rpc-trust-localhost'}) {
-        print STDERR
-            "the parameter --rpc-trust-localhost is deprecated, use --www-trust-localhost instead\n";
-        $self->{'www-trust-localhost'} = $self->{'rpc-trust-localhost'};
-    }
-
-    if ($self->{'daemon-no-fork'}) {
-        print STDERR
-            "the parameter --daemon-no-fork is deprecated, use --daemon --no-fork instead\n";
-        $self->{daemon} = 1;
-        $self->{'no-fork'} = 1;
-    }
-
-    if ($self->{html}) {
-        print STDERR
-            "the parameter --html is deprecated, use --format html instead\n";
-        $self->{format} = 'html';
     }
 
     # multi-valued attributes
