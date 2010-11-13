@@ -20,7 +20,6 @@ my $default = {
     'no-fork'                 => 0,
     'delaytime'               => 3600, # max delay time (seconds)
     'debug'                   => 0,
-    'devlib'                  => 0,
     'force'                   => 0,
     'help'                    => 0,
     'html'                    => 0,
@@ -212,7 +211,6 @@ sub _loadUserParams {
         'no-fork',
         'debug',
         'delaytime=s',
-        'devlib',
         'force|f',
         'format=s',
         'help|h',

@@ -238,7 +238,7 @@ sub run {
 
                 my $cmd;
                 $cmd = "\"$EXECUTABLE_NAME\""; # The Perl binary path
-                $cmd .= "  -Ilib" if $config->{devlib};
+                $cmd .= "  -Ilib" if $INC[0] eq './lib';
                 $cmd .= " -MFusionInventory::Agent::Task::".$self->{modulenameRunning};
                 $cmd .= " -e ".
                 "\"FusionInventory::Agent::Task::".
