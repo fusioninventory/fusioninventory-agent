@@ -1,0 +1,397 @@
+
+X.Org X Server 1.7.7
+Release Date: 2010-05-04
+X Protocol Version 11, Revision 0
+Build Operating System: Linux 2.6.32-5-amd64 x86_64 Debian
+Current Operating System: Linux rosebud 2.6.32-5-amd64 #1 SMP Sat Oct 30 14:18:21 UTC 2010 x86_64
+Kernel command line: BOOT_IMAGE=/vmlinuz-2.6.32-5-amd64 root=UUID=35600e48-12d6-413a-baf2-5ec3486e0965 ro quiet
+Build Date: 10 October 2010  11:06:53AM
+xorg-server 2:1.7.7-8 (Cyril Brulebois <kibi@debian.org>) 
+Current version of pixman: 0.16.4
+	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+(==) Log file: "/var/log/Xorg.0.log", Time: Fri Nov 12 09:32:00 2010
+(==) Using system config directory "/usr/share/X11/xorg.conf.d"
+(==) No Layout section.  Using the first Screen section.
+(==) No screen section available. Using defaults.
+(**) |-->Screen "Default Screen Section" (0)
+(**) |   |-->Monitor "<default monitor>"
+(==) No monitor specified for screen "Default Screen Section".
+	Using a default monitor configuration.
+(==) Automatically adding devices
+(==) Automatically enabling devices
+(WW) The directory "/usr/share/fonts/X11/cyrillic" does not exist.
+	Entry deleted from font path.
+(WW) The directory "/usr/share/fonts/X11/100dpi/" does not exist.
+	Entry deleted from font path.
+(WW) The directory "/usr/share/fonts/X11/75dpi/" does not exist.
+	Entry deleted from font path.
+(WW) The directory "/usr/share/fonts/X11/100dpi" does not exist.
+	Entry deleted from font path.
+(WW) The directory "/usr/share/fonts/X11/75dpi" does not exist.
+	Entry deleted from font path.
+(==) FontPath set to:
+	/usr/share/fonts/X11/misc,
+	/usr/share/fonts/X11/Type1,
+	/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType,
+	built-ins
+(==) ModulePath set to "/usr/lib/xorg/modules"
+(II) The server relies on udev to provide the list of input devices.
+	If no devices become available, reconfigure udev or disable AutoAddDevices.
+(II) Loader magic: 0x7c8a20
+(II) Module ABI versions:
+	X.Org ANSI C Emulation: 0.4
+	X.Org Video Driver: 6.0
+	X.Org XInput driver : 7.0
+	X.Org Server Extension : 2.0
+(++) using VT number 7
+
+(--) PCI:*(0:0:2:0) 8086:2e32:1028:0400 Intel Corporation 4 Series Chipset Integrated Graphics Controller rev 3, Mem @ 0xfe800000/4194304, 0xd0000000/268435456, I/O @ 0x0000ecd8/8
+(--) PCI: (0:0:2:1) 8086:2e33:1028:0400 Intel Corporation 4 Series Chipset Integrated Graphics Controller rev 3, Mem @ 0xfe700000/1048576
+(II) Open ACPI successful (/var/run/acpid.socket)
+(II) LoadModule: "extmod"
+(II) Loading /usr/lib/xorg/modules/extensions/libextmod.so
+(II) Module extmod: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 1.0.0
+	Module class: X.Org Server Extension
+	ABI class: X.Org Server Extension, version 2.0
+(II) Loading extension SELinux
+(II) Loading extension MIT-SCREEN-SAVER
+(II) Loading extension XFree86-VidModeExtension
+(II) Loading extension XFree86-DGA
+(II) Loading extension DPMS
+(II) Loading extension XVideo
+(II) Loading extension XVideo-MotionCompensation
+(II) Loading extension X-Resource
+(II) LoadModule: "dbe"
+(II) Loading /usr/lib/xorg/modules/extensions/libdbe.so
+(II) Module dbe: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 1.0.0
+	Module class: X.Org Server Extension
+	ABI class: X.Org Server Extension, version 2.0
+(II) Loading extension DOUBLE-BUFFER
+(II) LoadModule: "glx"
+(II) Loading /usr/lib/xorg/modules/extensions/libglx.so
+(II) Module glx: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 1.0.0
+	ABI class: X.Org Server Extension, version 2.0
+(==) AIGLX enabled
+(II) Loading extension GLX
+(II) LoadModule: "record"
+(II) Loading /usr/lib/xorg/modules/extensions/librecord.so
+(II) Module record: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 1.13.0
+	Module class: X.Org Server Extension
+	ABI class: X.Org Server Extension, version 2.0
+(II) Loading extension RECORD
+(II) LoadModule: "dri"
+(II) Loading /usr/lib/xorg/modules/extensions/libdri.so
+(II) Module dri: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 1.0.0
+	ABI class: X.Org Server Extension, version 2.0
+(II) Loading extension XFree86-DRI
+(II) LoadModule: "dri2"
+(II) Loading /usr/lib/xorg/modules/extensions/libdri2.so
+(II) Module dri2: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 1.1.0
+	ABI class: X.Org Server Extension, version 2.0
+(II) Loading extension DRI2
+(==) Matched intel as autoconfigured driver 0
+(==) Matched vesa as autoconfigured driver 1
+(==) Matched fbdev as autoconfigured driver 2
+(==) Assigned the driver to the xf86ConfigLayout
+(II) LoadModule: "intel"
+(II) Loading /usr/lib/xorg/modules/drivers/intel_drv.so
+(II) Module intel: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 2.12.0
+	Module class: X.Org Video Driver
+	ABI class: X.Org Video Driver, version 6.0
+(II) LoadModule: "vesa"
+(II) Loading /usr/lib/xorg/modules/drivers/vesa_drv.so
+(II) Module vesa: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 2.3.0
+	Module class: X.Org Video Driver
+	ABI class: X.Org Video Driver, version 6.0
+(II) LoadModule: "fbdev"
+(II) Loading /usr/lib/xorg/modules/drivers/fbdev_drv.so
+(II) Module fbdev: vendor="X.Org Foundation"
+	compiled for 1.7.6.901, module version = 0.4.2
+	ABI class: X.Org Video Driver, version 6.0
+(II) intel: Driver for Intel Integrated Graphics Chipsets: i810,
+	i810-dc100, i810e, i815, i830M, 845G, 854, 852GM/855GM, 865G, 915G,
+	E7221 (i915), 915GM, 945G, 945GM, 945GME, Pineview GM, Pineview G,
+	965G, G35, 965Q, 946GZ, 965GM, 965GME/GLE, G33, Q35, Q33, GM45,
+	4 Series, G45/G43, Q45/Q43, G41, B43, B43, Clarkdale, Arrandale,
+	Sandybridge, Sandybridge, Sandybridge, Sandybridge, Sandybridge,
+	Sandybridge, Sandybridge
+(II) VESA: driver for VESA chipsets: vesa
+(II) FBDEV: driver for framebuffer: fbdev
+(II) Primary Device is: PCI 00@00:02:0
+(WW) Falling back to old probe method for vesa
+(WW) Falling back to old probe method for fbdev
+(II) Loading sub module "fbdevhw"
+(II) LoadModule: "fbdevhw"
+(II) Loading /usr/lib/xorg/modules/linux/libfbdevhw.so
+(II) Module fbdevhw: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 0.0.2
+	ABI class: X.Org Video Driver, version 6.0
+drmOpenDevice: node name is /dev/dri/card0
+drmOpenDevice: open result is 9, (OK)
+drmOpenByBusid: Searching for BusID pci:0000:00:02.0
+drmOpenDevice: node name is /dev/dri/card0
+drmOpenDevice: open result is 9, (OK)
+drmOpenByBusid: drmOpenMinor returns 9
+drmOpenByBusid: drmGetBusid reports pci:0000:00:02.0
+(II) intel(0): Creating default Display subsection in Screen section
+	"Default Screen Section" for depth/fbbpp 24/32
+(==) intel(0): Depth 24, (--) framebuffer bpp 32
+(==) intel(0): RGB weight 888
+(==) intel(0): Default visual is TrueColor
+(II) intel(0): Integrated Graphics Chipset: Intel(R) G41
+(--) intel(0): Chipset: "G41"
+(==) intel(0): video overlay key set to 0x101fe
+(II) intel(0): Output VGA1 has no monitor section
+(II) intel(0): EDID for output VGA1
+(II) intel(0): Manufacturer: GSM  Model: 57a3  Serial#: 12453
+(II) intel(0): Year: 2010  Week: 4
+(II) intel(0): EDID Version: 1.3
+(II) intel(0): Analog Display Input,  Input Voltage Level: 0.700/0.700 V
+(II) intel(0): Sync:  Separate  Composite
+(II) intel(0): Max Image Size [cm]: horiz.: 48  vert.: 27
+(II) intel(0): Gamma: 2.20
+(II) intel(0): DPMS capabilities: StandBy Suspend Off; RGB/Color Display
+(II) intel(0): First detailed timing is preferred mode
+(II) intel(0): redX: 0.631 redY: 0.349   greenX: 0.341 greenY: 0.622
+(II) intel(0): blueX: 0.152 blueY: 0.058   whiteX: 0.313 whiteY: 0.329
+(II) intel(0): Supported established timings:
+(II) intel(0): 720x400@70Hz
+(II) intel(0): 640x480@60Hz
+(II) intel(0): 640x480@75Hz
+(II) intel(0): 800x600@60Hz
+(II) intel(0): 800x600@75Hz
+(II) intel(0): 1024x768@60Hz
+(II) intel(0): 1024x768@75Hz
+(II) intel(0): 1280x1024@75Hz
+(II) intel(0): Manufacturer's mask: 0
+(II) intel(0): Supported standard timings:
+(II) intel(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+(II) intel(0): #1: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+(II) intel(0): #2: hsize: 1280  vsize 1024  refresh: 75  vid: 36737
+(II) intel(0): #3: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+(II) intel(0): Supported detailed timing:
+(II) intel(0): clock: 148.5 MHz   Image Size:  477 x 268 mm
+(II) intel(0): h_active: 1920  h_sync: 2008  h_sync_end 2052 h_blank_end 2200 h_border: 0
+(II) intel(0): v_active: 1080  v_sync: 1084  v_sync_end 1089 v_blanking: 1125 v_border: 0
+(II) intel(0): Ranges: V min: 56 V max: 75 Hz, H min: 30 H max: 83 kHz, PixClock max 155 MHz
+(II) intel(0): Monitor name: E2240
+(II) intel(0): Serial No: 004TPBF0C453
+(II) intel(0): EDID (in hex):
+(II) intel(0): 	00ffffffffffff001e6da357a5300000
+(II) intel(0): 	041401036c301b78ea9535a159579f27
+(II) intel(0): 	0e5054a54b00b3008180818f714f0101
+(II) intel(0): 	010101010101023a801871382d40582c
+(II) intel(0): 	4500dd0c1100001a000000fd00384b1e
+(II) intel(0): 	530f000a202020202020000000fc0045
+(II) intel(0): 	323234300a20202020202020000000ff
+(II) intel(0): 	003030345450424630433435330a000c
+(II) intel(0): EDID vendor "GSM", prod id 22435
+(II) intel(0): Using EDID range info for horizontal sync
+(II) intel(0): Using EDID range info for vertical refresh
+(II) intel(0): Printing DDC gathered Modelines:
+(II) intel(0): Modeline "1920x1080"x0.0  148.50  1920 2008 2052 2200  1080 1084 1089 1125 +hsync -vsync (67.5 kHz)
+(II) intel(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+(II) intel(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+(II) intel(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+(II) intel(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+(II) intel(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+(II) intel(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+(II) intel(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+(II) intel(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+(II) intel(0): Modeline "1680x1050"x0.0  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz)
+(II) intel(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+(II) intel(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+(II) intel(0): Printing probed modes for output VGA1
+(II) intel(0): Modeline "1920x1080"x60.0  148.50  1920 2008 2052 2200  1080 1084 1089 1125 +hsync -vsync (67.5 kHz)
+(II) intel(0): Modeline "1680x1050"x60.0  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz)
+(II) intel(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+(II) intel(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+(II) intel(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+(II) intel(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+(II) intel(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+(II) intel(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+(II) intel(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+(II) intel(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+(II) intel(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+(II) intel(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+(II) intel(0): Output VGA1 connected
+(II) intel(0): Using exact sizes for initial modes
+(II) intel(0): Output VGA1 using initial mode 1920x1080
+(II) intel(0): Using default gamma of (1.0, 1.0, 1.0) unless otherwise stated.
+(II) intel(0): Kernel page flipping support detected, enabling
+(**) intel(0): Display dimensions: (480, 270) mm
+(**) intel(0): DPI set to (101, 101)
+(II) Loading sub module "fb"
+(II) LoadModule: "fb"
+(II) Loading /usr/lib/xorg/modules/libfb.so
+(II) Module fb: vendor="X.Org Foundation"
+	compiled for 1.7.7, module version = 1.0.0
+	ABI class: X.Org ANSI C Emulation, version 0.4
+(II) UnloadModule: "vesa"
+(II) Unloading /usr/lib/xorg/modules/drivers/vesa_drv.so
+(II) UnloadModule: "fbdev"
+(II) Unloading /usr/lib/xorg/modules/drivers/fbdev_drv.so
+(II) UnloadModule: "fbdevhw"
+(II) Unloading /usr/lib/xorg/modules/linux/libfbdevhw.so
+(==) Depth 24 pixmap format is 32 bpp
+(II) intel(0): [DRI2] Setup complete
+(**) intel(0): Tiling enabled
+(**) intel(0): SwapBuffers wait enabled
+(==) intel(0): VideoRam: 262144 KB
+(II) intel(0): Allocated new frame buffer 1920x1080 stride 7680, tiled
+(II) UXA(0): Driver registered support for the following operations:
+(II)         solid
+(II)         copy
+(II)         composite (RENDER acceleration)
+(II)         put_image
+(II)         get_image
+(==) intel(0): Backing store disabled
+(==) intel(0): Silken mouse enabled
+(II) intel(0): Initializing HW Cursor
+(II) intel(0): RandR 1.2 enabled, ignore the following RandR disabled message.
+(==) intel(0): DPMS enabled
+(==) intel(0): Intel XvMC decoder enabled
+(II) intel(0): Set up textured video
+(II) intel(0): [XvMC] xvmc_vld driver initialized.
+(II) intel(0): direct rendering: DRI2 Enabled
+(--) RandR disabled
+(II) Initializing built-in extension Generic Event Extension
+(II) Initializing built-in extension SHAPE
+(II) Initializing built-in extension MIT-SHM
+(II) Initializing built-in extension XInputExtension
+(II) Initializing built-in extension XTEST
+(II) Initializing built-in extension BIG-REQUESTS
+(II) Initializing built-in extension SYNC
+(II) Initializing built-in extension XKEYBOARD
+(II) Initializing built-in extension XC-MISC
+(II) Initializing built-in extension SECURITY
+(II) Initializing built-in extension XINERAMA
+(II) Initializing built-in extension XFIXES
+(II) Initializing built-in extension RENDER
+(II) Initializing built-in extension RANDR
+(II) Initializing built-in extension COMPOSITE
+(II) Initializing built-in extension DAMAGE
+SELinux: Disabled on system, not enabling in X server
+(II) AIGLX: enabled GLX_MESA_copy_sub_buffer
+(II) AIGLX: enabled GLX_SGI_make_current_read
+(II) AIGLX: enabled GLX_SGI_swap_control and GLX_MESA_swap_control
+(II) AIGLX: GLX_EXT_texture_from_pixmap backed by buffer objects
+(II) AIGLX: Loaded and initialized /usr/lib/dri/i965_dri.so
+(II) GLX: Initialized DRI2 GL provider for screen 0
+(II) intel(0): Setting screen physical size to 508 x 285
+(II) config/udev: Adding input device Power Button (/dev/input/event4)
+(**) Power Button: Applying InputClass "evdev keyboard catchall"
+(II) LoadModule: "evdev"
+(II) Loading /usr/lib/xorg/modules/input/evdev_drv.so
+(II) Module evdev: vendor="X.Org Foundation"
+	compiled for 1.7.6.901, module version = 2.3.2
+	Module class: X.Org XInput Driver
+	ABI class: X.Org XInput driver, version 7.0
+(**) Power Button: always reports core events
+(**) Power Button: Device: "/dev/input/event4"
+(II) Power Button: Found keys
+(II) Power Button: Configuring as keyboard
+(II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD)
+(**) Option "xkb_rules" "evdev"
+(**) Option "xkb_model" "pc105"
+(**) Option "xkb_layout" "fr"
+(**) Option "xkb_variant" "latin9"
+(II) config/udev: Adding input device Power Button (/dev/input/event3)
+(**) Power Button: Applying InputClass "evdev keyboard catchall"
+(**) Power Button: always reports core events
+(**) Power Button: Device: "/dev/input/event3"
+(II) Power Button: Found keys
+(II) Power Button: Configuring as keyboard
+(II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD)
+(**) Option "xkb_rules" "evdev"
+(**) Option "xkb_model" "pc105"
+(**) Option "xkb_layout" "fr"
+(**) Option "xkb_variant" "latin9"
+(II) config/udev: Adding input device HDA Digital PCBeep (/dev/input/event6)
+(II) No input driver/identifier specified (ignoring)
+(II) config/udev: Adding input device USB Optical Mouse (/dev/input/event1)
+(**) USB Optical Mouse: Applying InputClass "evdev pointer catchall"
+(**) USB Optical Mouse: always reports core events
+(**) USB Optical Mouse: Device: "/dev/input/event1"
+(II) USB Optical Mouse: Found 3 mouse buttons
+(II) USB Optical Mouse: Found scroll wheel(s)
+(II) USB Optical Mouse: Found relative axes
+(II) USB Optical Mouse: Found x and y relative axes
+(II) USB Optical Mouse: Configuring as mouse
+(**) USB Optical Mouse: YAxisMapping: buttons 4 and 5
+(**) USB Optical Mouse: EmulateWheelButton: 4, EmulateWheelInertia: 10, EmulateWheelTimeout: 200
+(II) XINPUT: Adding extended input device "USB Optical Mouse" (type: MOUSE)
+(II) USB Optical Mouse: initialized for relative axes.
+(II) config/udev: Adding input device USB Optical Mouse (/dev/input/mouse1)
+(II) No input driver/identifier specified (ignoring)
+(II) config/udev: Adding input device DELL Dell QuietKey Keyboard (/dev/input/event2)
+(**) DELL Dell QuietKey Keyboard: Applying InputClass "evdev keyboard catchall"
+(**) DELL Dell QuietKey Keyboard: always reports core events
+(**) DELL Dell QuietKey Keyboard: Device: "/dev/input/event2"
+(II) DELL Dell QuietKey Keyboard: Found keys
+(II) DELL Dell QuietKey Keyboard: Configuring as keyboard
+(II) XINPUT: Adding extended input device "DELL Dell QuietKey Keyboard" (type: KEYBOARD)
+(**) Option "xkb_rules" "evdev"
+(**) Option "xkb_model" "pc105"
+(**) Option "xkb_layout" "fr"
+(**) Option "xkb_variant" "latin9"
+(II) config/udev: Adding input device PC Speaker (/dev/input/event5)
+(II) No input driver/identifier specified (ignoring)
+(II) config/udev: Adding input device Macintosh mouse button emulation (/dev/input/event0)
+(**) Macintosh mouse button emulation: Applying InputClass "evdev pointer catchall"
+(**) Macintosh mouse button emulation: always reports core events
+(**) Macintosh mouse button emulation: Device: "/dev/input/event0"
+(II) Macintosh mouse button emulation: Found 3 mouse buttons
+(II) Macintosh mouse button emulation: Found relative axes
+(II) Macintosh mouse button emulation: Found x and y relative axes
+(II) Macintosh mouse button emulation: Configuring as mouse
+(**) Macintosh mouse button emulation: YAxisMapping: buttons 4 and 5
+(**) Macintosh mouse button emulation: EmulateWheelButton: 4, EmulateWheelInertia: 10, EmulateWheelTimeout: 200
+(II) XINPUT: Adding extended input device "Macintosh mouse button emulation" (type: MOUSE)
+(II) Macintosh mouse button emulation: initialized for relative axes.
+(II) config/udev: Adding input device Macintosh mouse button emulation (/dev/input/mouse0)
+(II) No input driver/identifier specified (ignoring)
+(II) intel(0): EDID vendor "GSM", prod id 22435
+(II) intel(0): Using hsync ranges from config file
+(II) intel(0): Using vrefresh ranges from config file
+(II) intel(0): Printing DDC gathered Modelines:
+(II) intel(0): Modeline "1920x1080"x0.0  148.50  1920 2008 2052 2200  1080 1084 1089 1125 +hsync -vsync (67.5 kHz)
+(II) intel(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+(II) intel(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+(II) intel(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+(II) intel(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+(II) intel(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+(II) intel(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+(II) intel(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+(II) intel(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+(II) intel(0): Modeline "1680x1050"x0.0  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz)
+(II) intel(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+(II) intel(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+(II) intel(0): EDID vendor "GSM", prod id 22435
+(II) intel(0): Using hsync ranges from config file
+(II) intel(0): Using vrefresh ranges from config file
+(II) intel(0): Printing DDC gathered Modelines:
+(II) intel(0): Modeline "1920x1080"x0.0  148.50  1920 2008 2052 2200  1080 1084 1089 1125 +hsync -vsync (67.5 kHz)
+(II) intel(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+(II) intel(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+(II) intel(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+(II) intel(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+(II) intel(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+(II) intel(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+(II) intel(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+(II) intel(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+(II) intel(0): Modeline "1680x1050"x0.0  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz)
+(II) intel(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+(II) intel(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)

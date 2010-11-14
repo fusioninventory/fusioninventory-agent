@@ -98,6 +98,8 @@ sub getCanonicalSpeed {
 
     return undef unless $speed;
 
+    return 400 if $speed =~ /^PC3200U/;
+
     return undef unless $speed =~ /^(\d+) \s? (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);

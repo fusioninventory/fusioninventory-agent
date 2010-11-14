@@ -1,0 +1,268 @@
+[172190.744] 
+X.Org X Server 1.9.0
+Release Date: 2010-08-20
+[172190.744] X Protocol Version 11, Revision 0
+[172190.744] Build Operating System: Linux 2.6.24-27-server i686 Ubuntu
+[172190.745] Current Operating System: Linux alida 2.6.35-22-generic #35-Ubuntu SMP Sat Oct 16 20:36:48 UTC 2010 i686
+[172190.745] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-2.6.35-22-generic root=UUID=5cc4567d-46c6-4a09-b563-6e4884c8b170 ro quiet splash
+[172190.745] Build Date: 16 September 2010  05:39:22PM
+[172190.745] xorg-server 2:1.9.0-0ubuntu7 (For technical support please see http://www.ubuntu.com/support) 
+[172190.745] Current version of pixman: 0.18.4
+[172190.745] 	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+[172190.745] Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+[172190.745] (==) Log file: "/var/log/Xorg.0.log", Time: Wed Nov 10 14:29:06 2010
+[172190.749] (==) Using config file: "/etc/X11/xorg.conf"
+[172190.749] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+[172190.790] (==) ServerLayout "Layout0"
+[172190.790] (**) |-->Screen "Screen0" (0)
+[172190.790] (**) |   |-->Monitor "Monitor0"
+[172190.791] (**) |   |-->Device "Device0"
+[172190.791] (**) Option "Xinerama" "0"
+[172190.791] (==) Automatically adding devices
+[172190.791] (==) Automatically enabling devices
+[172190.791] (WW) The directory "/usr/share/fonts/X11/cyrillic" does not exist.
+[172190.791] 	Entry deleted from font path.
+[172190.791] (==) FontPath set to:
+	/usr/share/fonts/X11/misc,
+	/usr/share/fonts/X11/100dpi/:unscaled,
+	/usr/share/fonts/X11/75dpi/:unscaled,
+	/usr/share/fonts/X11/Type1,
+	/usr/share/fonts/X11/100dpi,
+	/usr/share/fonts/X11/75dpi,
+	/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType,
+	built-ins
+[172190.791] (==) ModulePath set to "/usr/lib/xorg/extra-modules,/usr/lib/xorg/modules"
+[172190.791] (**) Extension "Composite" is enabled
+[172190.791] (II) The server relies on udev to provide the list of input devices.
+	If no devices become available, reconfigure udev or disable AutoAddDevices.
+[172190.791] (II) Loader magic: 0x81f8e00
+[172190.791] (II) Module ABI versions:
+[172190.791] 	X.Org ANSI C Emulation: 0.4
+[172190.791] 	X.Org Video Driver: 8.0
+[172190.791] 	X.Org XInput driver : 11.0
+[172190.791] 	X.Org Server Extension : 4.0
+[172190.793] (--) PCI:*(0:1:0:0) 10de:01d3:10b0:0401 rev 161, Mem @ 0xf0000000/16777216, 0xe0000000/268435456, 0xf1000000/16777216
+[172190.793] (II) Open ACPI successful (/var/run/acpid.socket)
+[172190.793] (II) "extmod" will be loaded by default.
+[172190.793] (II) "dbe" will be loaded by default.
+[172190.793] (II) "glx" will be loaded. This was enabled by default and also specified in the config file.
+[172190.793] (II) "record" will be loaded by default.
+[172190.793] (II) "dri" will be loaded by default.
+[172190.793] (II) "dri2" will be loaded by default.
+[172190.793] (II) LoadModule: "glx"
+[172190.793] (II) Loading /usr/lib/xorg/extra-modules/libglx.so
+[172190.843] (II) Module glx: vendor="NVIDIA Corporation"
+[172190.843] 	compiled for 4.0.2, module version = 1.0.0
+[172190.843] 	Module class: X.Org Server Extension
+[172190.843] (II) NVIDIA GLX Module  260.19.06  Mon Sep 13 07:01:31 PDT 2010
+[172190.843] (II) Loading extension GLX
+[172190.843] (II) LoadModule: "v4l"
+[172190.843] (II) Loading /usr/lib/xorg/modules/drivers/v4l_drv.so
+[172190.852] (II) Module v4l: vendor="X.Org Foundation"
+[172190.852] 	compiled for 1.8.99.905, module version = 0.1.1
+[172190.852] 	ABI class: X.Org Video Driver, version 8.0
+[172190.852] (II) LoadModule: "extmod"
+[172190.852] (II) Loading /usr/lib/xorg/modules/extensions/libextmod.so
+[172190.852] (II) Module extmod: vendor="X.Org Foundation"
+[172190.852] 	compiled for 1.9.0, module version = 1.0.0
+[172190.852] 	Module class: X.Org Server Extension
+[172190.852] 	ABI class: X.Org Server Extension, version 4.0
+[172190.852] (II) Loading extension MIT-SCREEN-SAVER
+[172190.852] (II) Loading extension XFree86-VidModeExtension
+[172190.852] (II) Loading extension XFree86-DGA
+[172190.852] (II) Loading extension DPMS
+[172190.852] (II) Loading extension XVideo
+[172190.852] (II) Loading extension XVideo-MotionCompensation
+[172190.852] (II) Loading extension X-Resource
+[172190.852] (II) LoadModule: "dbe"
+[172190.852] (II) Loading /usr/lib/xorg/modules/extensions/libdbe.so
+[172190.861] (II) Module dbe: vendor="X.Org Foundation"
+[172190.861] 	compiled for 1.9.0, module version = 1.0.0
+[172190.861] 	Module class: X.Org Server Extension
+[172190.861] 	ABI class: X.Org Server Extension, version 4.0
+[172190.861] (II) Loading extension DOUBLE-BUFFER
+[172190.861] (II) LoadModule: "record"
+[172190.862] (II) Loading /usr/lib/xorg/modules/extensions/librecord.so
+[172190.862] (II) Module record: vendor="X.Org Foundation"
+[172190.862] 	compiled for 1.9.0, module version = 1.13.0
+[172190.862] 	Module class: X.Org Server Extension
+[172190.862] 	ABI class: X.Org Server Extension, version 4.0
+[172190.862] (II) Loading extension RECORD
+[172190.862] (II) LoadModule: "dri"
+[172190.862] (II) Loading /usr/lib/xorg/modules/extensions/libdri.so
+[172190.884] (II) Module dri: vendor="X.Org Foundation"
+[172190.884] 	compiled for 1.9.0, module version = 1.0.0
+[172190.884] 	ABI class: X.Org Server Extension, version 4.0
+[172190.884] (II) Loading extension XFree86-DRI
+[172190.884] (II) LoadModule: "dri2"
+[172190.885] (II) Loading /usr/lib/xorg/modules/extensions/libdri2.so
+[172190.885] (II) Module dri2: vendor="X.Org Foundation"
+[172190.885] 	compiled for 1.9.0, module version = 1.2.0
+[172190.885] 	ABI class: X.Org Server Extension, version 4.0
+[172190.885] (II) Loading extension DRI2
+[172190.885] (II) LoadModule: "nvidia"
+[172190.885] (II) Loading /usr/lib/xorg/extra-modules/nvidia_drv.so
+[172190.900] (II) Module nvidia: vendor="NVIDIA Corporation"
+[172190.900] 	compiled for 4.0.2, module version = 1.0.0
+[172190.900] 	Module class: X.Org Video Driver
+[172190.900] (II) v4l driver for Video4Linux
+[172190.900] (II) NVIDIA dlloader X Driver  260.19.06  Mon Sep 13 06:37:13 PDT 2010
+[172190.900] (II) NVIDIA Unified Driver for all Supported NVIDIA GPUs
+[172190.900] (++) using VT number 7
+
+[172190.901] (WW) Falling back to old probe method for v4l
+[172190.901] (II) Loading sub module "fb"
+[172190.901] (II) LoadModule: "fb"
+[172190.901] (II) Loading /usr/lib/xorg/modules/libfb.so
+[172190.915] (II) Module fb: vendor="X.Org Foundation"
+[172190.915] 	compiled for 1.9.0, module version = 1.0.0
+[172190.915] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[172190.915] (II) Loading sub module "wfb"
+[172190.915] (II) LoadModule: "wfb"
+[172190.915] (II) Loading /usr/lib/xorg/modules/libwfb.so
+[172190.918] (II) Module wfb: vendor="X.Org Foundation"
+[172190.918] 	compiled for 1.9.0, module version = 1.0.0
+[172190.918] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[172190.918] (II) Loading sub module "ramdac"
+[172190.918] (II) LoadModule: "ramdac"
+[172190.918] (II) Module "ramdac" already built-in
+[172190.918] (**) NVIDIA(0): Depth 24, (--) framebuffer bpp 32
+[172190.918] (==) NVIDIA(0): RGB weight 888
+[172190.918] (==) NVIDIA(0): Default visual is TrueColor
+[172190.918] (==) NVIDIA(0): Using gamma correction (1.0, 1.0, 1.0)
+[172190.918] (**) NVIDIA(0): Option "TwinView" "1"
+[172190.918] (**) NVIDIA(0): Option "MetaModes" "CRT-0: nvidia-auto-select +0+0, CRT-1: nvidia-auto-select +1280+0"
+[172190.918] (**) NVIDIA(0): Option "TwinViewXineramaInfoOrder" "CRT-1"
+[172190.918] (**) NVIDIA(0): Option "AddARGBGLXVisuals" "True"
+[172190.919] (**) NVIDIA(0): Enabling RENDER acceleration
+[172190.919] (II) NVIDIA(0): Support for GLX with the Damage and Composite X extensions is
+[172190.919] (II) NVIDIA(0):     enabled.
+[172191.477] (II) NVIDIA(0): NVIDIA GPU GeForce 7300 SE/7200 GS (G72) at PCI:1:0:0 (GPU-0)
+[172191.477] (--) NVIDIA(0): Memory: 524288 kBytes
+[172191.477] (--) NVIDIA(0): VideoBIOS: 05.72.22.76.00
+[172191.477] (II) NVIDIA(0): Detected PCI Express Link width: 16X
+[172191.477] (--) NVIDIA(0): Interlaced video modes are supported on this GPU
+[172191.477] (--) NVIDIA(0): Connected display device(s) on GeForce 7300 SE/7200 GS at
+[172191.477] (--) NVIDIA(0):     PCI:1:0:0
+[172191.477] (--) NVIDIA(0):     HP L1910 (CRT-0)
+[172191.477] (--) NVIDIA(0):     HP L2208w (CRT-1)
+[172191.477] (--) NVIDIA(0): HP L1910 (CRT-0): 400.0 MHz maximum pixel clock
+[172191.477] (--) NVIDIA(0): HP L2208w (CRT-1): 400.0 MHz maximum pixel clock
+[172191.477] (**) NVIDIA(0): TwinView enabled
+[172191.477] (II) NVIDIA(0): Display Devices found referenced in MetaMode: CRT-0, CRT-1
+[172191.478] (II) NVIDIA(0): Assigned Display Devices: CRT-0, CRT-1
+[172191.478] (II) NVIDIA(0): Validated modes:
+[172191.478] (II) NVIDIA(0):    
+[172191.478] (II) NVIDIA(0):     "CRT-0:nvidia-auto-select+0+0,CRT-1:nvidia-auto-select+1280+0"
+[172191.478] (II) NVIDIA(0): Virtual screen size determined to be 2960 x 1050
+[172191.478] (--) NVIDIA(0): DPI set to (85, 86); computed from "UseEdidDpi" X config
+[172191.478] (--) NVIDIA(0):     option
+[172191.478] (**) NVIDIA(0): Enabling 32-bit ARGB GLX visuals.
+[172191.478] (--) Depth 24 pixmap format is 32 bpp
+[172191.479] (II) NVIDIA(0): Initialized GPU GART.
+[172191.483] (II) NVIDIA(0): Setting mode
+[172191.483] (II) NVIDIA(0):     "CRT-0:nvidia-auto-select+0+0,CRT-1:nvidia-auto-select+1280+0"
+[172191.627] (II) Loading extension NV-GLX
+[172191.663] (II) NVIDIA(0): Initialized OpenGL Acceleration
+[172191.663] (==) NVIDIA(0): Disabling shared memory pixmaps
+[172191.663] (II) NVIDIA(0): Initialized X Rendering Acceleration
+[172191.663] (==) NVIDIA(0): Backing store disabled
+[172191.663] (==) NVIDIA(0): Silken mouse enabled
+[172191.664] (**) NVIDIA(0): DPMS enabled
+[172191.664] (II) Loading extension NV-CONTROL
+[172191.664] (II) Loading extension XINERAMA
+[172191.664] (WW) NVIDIA(0): Option "DualHead" is not used
+[172191.664] (II) Loading sub module "dri2"
+[172191.664] (II) LoadModule: "dri2"
+[172191.664] (II) Reloading /usr/lib/xorg/modules/extensions/libdri2.so
+[172191.664] (II) NVIDIA(0): [DRI2] Setup complete
+[172191.664] (==) RandR enabled
+[172191.664] (II) Initializing built-in extension Generic Event Extension
+[172191.664] (II) Initializing built-in extension SHAPE
+[172191.664] (II) Initializing built-in extension MIT-SHM
+[172191.664] (II) Initializing built-in extension XInputExtension
+[172191.664] (II) Initializing built-in extension XTEST
+[172191.664] (II) Initializing built-in extension BIG-REQUESTS
+[172191.664] (II) Initializing built-in extension SYNC
+[172191.664] (II) Initializing built-in extension XKEYBOARD
+[172191.664] (II) Initializing built-in extension XC-MISC
+[172191.664] (II) Initializing built-in extension SECURITY
+[172191.664] (II) Initializing built-in extension XINERAMA
+[172191.664] (II) Initializing built-in extension XFIXES
+[172191.664] (II) Initializing built-in extension RENDER
+[172191.664] (II) Initializing built-in extension RANDR
+[172191.664] (II) Initializing built-in extension COMPOSITE
+[172191.664] (II) Initializing built-in extension DAMAGE
+[172191.664] (II) Initializing built-in extension GESTURE
+[172191.664] (II) Initializing extension GLX
+[172191.695] (II) XKB: reuse xkmfile /var/lib/xkb/server-B20D7FC79C7F597315E3E501AEF10E0D866E8E92.xkm
+[172191.721] (II) config/udev: Adding input device Power Button (/dev/input/event1)
+[172191.721] (**) Power Button: Applying InputClass "evdev keyboard catchall"
+[172191.721] (II) LoadModule: "evdev"
+[172191.721] (II) Loading /usr/lib/xorg/modules/input/evdev_drv.so
+[172191.739] (II) Module evdev: vendor="X.Org Foundation"
+[172191.739] 	compiled for 1.9.0, module version = 2.3.2
+[172191.739] 	Module class: X.Org XInput Driver
+[172191.739] 	ABI class: X.Org XInput driver, version 11.0
+[172191.740] (**) Power Button: always reports core events
+[172191.740] (**) Power Button: Device: "/dev/input/event1"
+[172191.752] (II) Power Button: Found keys
+[172191.752] (II) Power Button: Configuring as keyboard
+[172191.752] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD)
+[172191.752] (**) Option "xkb_rules" "evdev"
+[172191.752] (**) Option "xkb_model" "pc105"
+[172191.752] (**) Option "xkb_layout" "fr"
+[172191.752] (**) Option "xkb_options" "lv3:ralt_switch"
+[172191.756] (II) XKB: reuse xkmfile /var/lib/xkb/server-024B27377A00C087BE90D9AAC040ECC4DA83644C.xkm
+[172191.759] (II) config/udev: Adding input device Power Button (/dev/input/event0)
+[172191.759] (**) Power Button: Applying InputClass "evdev keyboard catchall"
+[172191.759] (**) Power Button: always reports core events
+[172191.759] (**) Power Button: Device: "/dev/input/event0"
+[172191.776] (II) Power Button: Found keys
+[172191.776] (II) Power Button: Configuring as keyboard
+[172191.776] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD)
+[172191.776] (**) Option "xkb_rules" "evdev"
+[172191.776] (**) Option "xkb_model" "pc105"
+[172191.776] (**) Option "xkb_layout" "fr"
+[172191.776] (**) Option "xkb_options" "lv3:ralt_switch"
+[172191.779] (II) config/udev: Adding input device Logitech USB Optical Mouse (/dev/input/event3)
+[172191.779] (**) Logitech USB Optical Mouse: Applying InputClass "evdev pointer catchall"
+[172191.779] (**) Logitech USB Optical Mouse: always reports core events
+[172191.779] (**) Logitech USB Optical Mouse: Device: "/dev/input/event3"
+[172191.792] (II) Logitech USB Optical Mouse: Found 3 mouse buttons
+[172191.792] (II) Logitech USB Optical Mouse: Found scroll wheel(s)
+[172191.792] (II) Logitech USB Optical Mouse: Found relative axes
+[172191.792] (II) Logitech USB Optical Mouse: Found x and y relative axes
+[172191.792] (II) Logitech USB Optical Mouse: Configuring as mouse
+[172191.792] (**) Logitech USB Optical Mouse: YAxisMapping: buttons 4 and 5
+[172191.792] (**) Logitech USB Optical Mouse: EmulateWheelButton: 4, EmulateWheelInertia: 10, EmulateWheelTimeout: 200
+[172191.792] (II) XINPUT: Adding extended input device "Logitech USB Optical Mouse" (type: MOUSE)
+[172191.792] (II) Logitech USB Optical Mouse: initialized for relative axes.
+[172191.792] (II) config/udev: Adding input device Logitech USB Optical Mouse (/dev/input/mouse0)
+[172191.792] (II) No input driver/identifier specified (ignoring)
+[172191.803] (II) config/udev: Adding input device AT Translated Set 2 keyboard (/dev/input/event2)
+[172191.803] (**) AT Translated Set 2 keyboard: Applying InputClass "evdev keyboard catchall"
+[172191.803] (**) AT Translated Set 2 keyboard: always reports core events
+[172191.803] (**) AT Translated Set 2 keyboard: Device: "/dev/input/event2"
+[172191.820] (II) AT Translated Set 2 keyboard: Found keys
+[172191.820] (II) AT Translated Set 2 keyboard: Configuring as keyboard
+[172191.820] (II) XINPUT: Adding extended input device "AT Translated Set 2 keyboard" (type: KEYBOARD)
+[172191.820] (**) Option "xkb_rules" "evdev"
+[172191.820] (**) Option "xkb_model" "pc105"
+[172191.820] (**) Option "xkb_layout" "fr"
+[172191.820] (**) Option "xkb_options" "lv3:ralt_switch"
+[172191.826] (II) config/udev: Adding input device HP WMI hotkeys (/dev/input/event4)
+[172191.826] (**) HP WMI hotkeys: Applying InputClass "evdev keyboard catchall"
+[172191.826] (**) HP WMI hotkeys: always reports core events
+[172191.826] (**) HP WMI hotkeys: Device: "/dev/input/event4"
+[172191.840] (II) HP WMI hotkeys: Found keys
+[172191.840] (II) HP WMI hotkeys: Configuring as keyboard
+[172191.840] (II) XINPUT: Adding extended input device "HP WMI hotkeys" (type: KEYBOARD)
+[172191.840] (**) Option "xkb_rules" "evdev"
+[172191.840] (**) Option "xkb_model" "pc105"
+[172191.840] (**) Option "xkb_layout" "fr"
+[172191.840] (**) Option "xkb_options" "lv3:ralt_switch"
+[318603.570] (II) XKB: reuse xkmfile /var/lib/xkb/server-00D367E14A8D70D813E0B8F1AB0D6D95334D71EB.xkm

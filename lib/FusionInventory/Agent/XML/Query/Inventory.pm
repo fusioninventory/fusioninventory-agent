@@ -44,7 +44,7 @@ my %fields = (
     STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
                         TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
                         SCSI_UNID SCSI_LUN / ],
-    VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION/ ],
+    VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION PCISLOT/ ],
     USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
     USERS       => [ qw/LOGIN DOMAIN/ ],
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
@@ -1311,7 +1311,9 @@ Video card memory in MB
 
 Resolution in pixel. 1024x768.
 
-The frequency is optional: 1024x768@74
+=item PCISLOT
+
+The local PCI slot ID if the video card use PCI.
 
 =back
 
