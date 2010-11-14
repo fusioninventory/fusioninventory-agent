@@ -133,24 +133,29 @@ my %ddcprobe = (
 
 my %xorg = (
 	'intel-1' => {
+	'pcislot' => '00:02.0',
 	'resolution' => '1024x600',
 	'name' => 'Intel(R) 945GME'
 	},
 	'intel-2' => {
+	'pcislot' => '00:02.0',
 	'resolution' => '1024x600',
 	'name' => 'Intel(R) 945GME'
 	},
 	'intel-3' => {
+	   'pcislot' => '00:02.0',
           'resolution' => '1152x864',
 	  'name' => 'Intel(R) G41'
 	},
 	'intel-4' => {
 	'memory' => '7616kB',
 	'resolution' => '1280x800',
+	'pcislot' => '00:02.0',
 	'name' => 'Intel(r)GM965/PM965/GL960 Graphics Chip Accelerated VGA BIOS',
 	'product' => 'Intel(r)GM965/PM965/GL960 Graphics Controller'
 	},
 	'nvidia-1' => {
+	'pcislot' => '05@00:00.0',
           'resolution' => '1680x1050',
 	  'name' => 'GeForce 8400 GS (G98)'
 	},
@@ -161,12 +166,14 @@ my %xorg = (
         'vesa-1' => {
 	'memory' => '12288kB',
 	'resolution' => '1280x1024',
+	'pcislot' => '00:02.0',
 	'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
 	'product' => 'Oracle VM VirtualBox VBE Adapter'
 	},
 	'vesa-3' => {
           'memory' => '12288kB',
 	  'resolution' => '1024x768',
+	  'pcislot' => '00:02.0',
           'name' => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
           'product' => 'Oracle VM VirtualBox VBE Adapter'
 	},
@@ -175,6 +182,7 @@ my %xorg = (
 	  'name' => 'ATI Radeon HD 4290'
 	},
         'ati-2' => {
+	    'pcislot' => '00:01.0',
 	    'memory' => '8128kB',
 	    'resolution' => '320x240',
 	    'name' => 'ATI MACH64',
