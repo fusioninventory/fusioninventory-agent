@@ -9,7 +9,6 @@ use POE::Component::IKC::Server;
 use Cwd;
 use English qw(-no_match_vars);
 use Pod::Usage;
-use Sys::Hostname;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Scheduler;
@@ -17,6 +16,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Target::Server;
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::Receiver;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -71,32 +71,7 @@ sub new {
     $logger->debug("Data directory: $setup->{datadir}");
     $logger->debug("Storage directory: $setup->{vardir}");
 
-    #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
-    my $hostname;
-  
-    if ($OSNAME eq 'MSWin32') {
-        eval {
-            require Encode;
-            require Win32::API;
-            Encode->import();
-
-            my $GetComputerName = Win32::API->new(
-                "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
-            );
-            my $lpBuffer = "\x00" x 1024;
-            my $N = 1024; #pack ("c4", 160,0,0,0);
-
-            my $return = $GetComputerName->Call(3, $lpBuffer,$N);
-
-            # GetComputerNameExW returns the string in UTF16, we have to change
-            # it # to UTF8
-            $hostname = encode(
-                "UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N)
-            );
-        };
-    } else {
-        $hostname = hostname();
-    }
+    my $hostname = getHostname();
 
     my $storage = FusionInventory::Agent::Storage->new({
         logger    => $logger,
