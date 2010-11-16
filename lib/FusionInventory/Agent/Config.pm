@@ -5,8 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 use File::Spec;
-use Getopt::Long;
-use Pod::Usage;
 
 use POE;
 
@@ -55,7 +53,7 @@ my $default = {
 };
 
 sub new {
-    my ($class, $confdir) = @_;
+    my ($class, %params) = @_;
 
     my $self = $default;
     bless $self, $class;
@@ -65,13 +63,10 @@ sub new {
     if ($OSNAME eq 'MSWin32') {
         $self->_loadFromWinRegistry();
     } else {
-        $self->_loadFromCfgFile($confdir);
+        $self->_loadFromCfgFile(%params);
     }
 
-    $self->_loadUserParams();
-
     $self->_checkContent();
-
 
     return $self;
 }
@@ -150,25 +145,12 @@ sub _loadFromWinRegistry {
 }
 
 sub _loadFromCfgFile {
-    my ($self, $confdir) = @_;
+    my ($self, %params) = @_;
 
-    my $file;
+    my $file = $params{file} || $params{directory} . '/agent.cfg';
 
-    foreach my $arg (@ARGV) {
-        if ($arg =~ /^--conf-file=(.+)$/) {
-            $file = $1;
-        } elsif ($arg =~ /^--conf-file$/) {
-            $file = shift @ARGV;
-        }
-    }
-
-    if ($file) {
-        die "non-existing file $file" unless -f $file;
-        die "non-readable file $file" unless -r $file;
-    } else {
-        # default configuration file
-        $file = $confdir . '/agent.cfg';
-    }
+    die "non-existing file $file" unless -f $file;
+    die "non-readable file $file" unless -r $file;
 
     my $handle;
     if (!open $handle, '<', $file) {
@@ -191,65 +173,6 @@ sub _loadFromCfgFile {
         }
     }
     close $handle;
-}
-
-sub _loadUserParams {
-    my ($self) = @_;
-
-    Getopt::Long::Configure( "no_ignorecase" );
-
-    my @options = (
-        'backend-collect-timeout=s',
-        'basevardir=s',
-        'ca-cert-dir=s',
-        'ca-cert-file=s',
-        'conf-file=s',
-        'daemon|d',
-        'no-fork',
-        'debug',
-        'delaytime=s',
-        'force|f',
-        'format=s',
-        'help|h',
-        'info|i',
-        'lazy',
-        'local|l=s',
-        'logger=s',
-        'logfile=s',
-        'logfile-maxsize=i',
-        'nosoft',
-        'nosoftware',
-        'no-ocsdeploy',
-        'no-inventory',
-        'no-printer',
-        'no-www',
-        'no-software',
-        'no-ssl-check',
-        'no-wakeonlan',
-        'no-snmpquery',
-        'no-netdiscovery',
-        'password|p=s',
-        'proxy|P=s',
-        'scan-homedirs',
-        'server|s=s',
-        'service',
-        'stdout',
-        'tag|t=s',
-        'user|u=s',
-        'version',
-        'wait|w=s',
-        'www-ip=s',
-        'www-port=s',
-        'www-trust-localhost',
-    );
-
-    push(@options, 'color') if $OSNAME ne 'MSWin32';
-
-    GetOptions(
-        $self,
-        @options
-    ) or pod2usage(-verbose => 0);
-
 }
 
 sub _checkContent {

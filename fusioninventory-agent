@@ -5,13 +5,33 @@ use warnings;
 use lib './lib';
 
 use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
 use FusionInventory::Agent;
+
+my %options;
+GetOptions(
+    \%options,
+    'help',
+    'version',
+    'conf-file=s'
+) or pod2usage(-verbose => 0);
+
+if ($options{help}) {
+    pod2usage(-verbose => 0);
+}
+if ($options{version}) {
+    print $FusionInventory::Agent::VERSION_STRING . "\n";
+    exit 0;
+}
 
 eval {
     my $agent = FusionInventory::Agent->new({
         confdir => './etc/fusioninventory',
         datadir => './share',
-        vardir  => './var'
+        vardir  => './var',
+        debug     => $options{debug},
+        conffile  => $options{'conf-file'},
     });
     $agent->run();
 };

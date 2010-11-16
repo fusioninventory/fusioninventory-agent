@@ -8,7 +8,6 @@ use POE::Component::IKC::Server;
 
 use Cwd;
 use English qw(-no_match_vars);
-use Pod::Usage;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Scheduler;
@@ -37,21 +36,16 @@ sub new {
     };
     bless $self, $class;
 
-    my $config = FusionInventory::Agent::Config->new($setup->{confdir});
+    my $config = FusionInventory::Agent::Config->new(
+        directory => $setup->{confdir},
+        file      => $setup->{conffile}
+    );
     $self->{config} = $config;
-
-    if ($config->{help}) {
-        pod2usage(-verbose => 0);
-    }
-    if ($config->{version}) {
-        print $VERSION_STRING . "\n";
-        exit 0;
-    }
 
     my $logger = FusionInventory::Logger->new({
         config   => $config,
         backends => $config->{logger},
-        debug    => $config->{debug}
+        debug    => $setup->{debug}
     });
     $self->{logger} = $logger;
 
