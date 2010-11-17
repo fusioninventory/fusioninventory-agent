@@ -199,7 +199,7 @@ foreach my $test (keys %ddcprobe) {
 }
 
 foreach my $test (keys %xorg) {
-    my $file = "$FindBin::Bin/../resources/xorg-fd0/$test";
+    my $file = "$FindBin::Bin/../resources/xorg-fd0/linux/$test";
     my $ret = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_parseXorgFd($file);
     is_deeply($ret, $xorg{$test}, $test) or print Dumper($ret);
 }
