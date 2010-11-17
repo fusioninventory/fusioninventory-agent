@@ -12,7 +12,9 @@ sub new {
         target      => $params{target},
         prologresp  => $params{prologresp},
         transmitter => $params{transmitter},
-        setup       => $params{setup},
+        confdir     => $params{confdir},
+        datadir     => $params{datadir},
+        debug       => $params{debug},
         deviceid    => $params{deviceid}
     };
 

@@ -17,11 +17,11 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $config = $params->{config};
-    my $setup = $params->{setup};
+    my $datadir = $params->{datadir};
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    _loadPciIds($logger, $setup->{datadir});
+    _loadPciIds($logger, $datadir);
 
     foreach my $controller (_getExtentedControllers($logger)) {
         $inventory->addController($controller);

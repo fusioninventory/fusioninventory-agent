@@ -311,7 +311,9 @@ sub _runWithTimeout {
 
         $result = &{$module . '::' . $function}({
             config        => $self->{config},
-            setup         => $self->{setup},
+            confdir       => $self->{confdir},
+            datadir       => $self->{datadir},
+            debug         => $self->{debug},
             inventory     => $self->{inventory},
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},
