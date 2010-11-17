@@ -131,6 +131,7 @@ Revision history for FusionInventory::Agent
          off the generic Screen.pm module
        * Solaris/Networks: no ugly hack to detect the Perl bin path to launch kstat
        * Solaris/Networks: no useless grep call
+       * HTML: add the deviceid in the HTML file
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
