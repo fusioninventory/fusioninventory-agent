@@ -76,39 +76,39 @@ sub doInventory {
     # try to found another VMs, not exectute by root
     my @vmRunnings = ();
     my $index = 0 ;
-    foreach my $line ( `ps -efax` ) {
-        chomp($line);
-        if ( $line !~ m/^root/) {
-            if ($line =~ m/^.*VirtualBox (.*)$/) {
-                my @process = split (/\s*\-\-/, $1);     #separate options
-
-                $name = $uuid = 'N/A';
-
-                foreach my $option ( @process ) {
-                    print $option."\n";
-                    if ($option =~ m/^comment (.*)/) {
-                        $name = $1;
-                    } elsif ($option =~ m/^startvm (\S+)/) {
-                        $uuid = $1;
-                    }
-                }
-
-                if ($scanhomedirs == 1 ) {    # If I will scan Home directories,
-                    $vmRunnings [$index] = $uuid;   # save the no-root running machine
-                    $index += 1;
-                } else {
-                    $inventory->addVirtualMachine ({  # add in inventory
-                        NAME      => $name,
-                        VCPU      => 1,
-                        UUID      => $uuid,
-                        STATUS    => "running",
-                        SUBSYSTEM => "Sun xVM VirtualBox",
-                        VMTYPE    => "VirtualBox",
-                    });
-                }
-            }
-        }
-    }
+#    foreach my $line ( `ps -efax` ) {
+#        chomp($line);
+#        if ( $line !~ m/^root/) {
+#            if ($line =~ m/^.*VirtualBox (.*)$/) {
+#                my @process = split (/\s*\-\-/, $1);     #separate options
+#
+#                $name = $uuid = 'N/A';
+#
+#                foreach my $option ( @process ) {
+#                    print $option."\n";
+#                    if ($option =~ m/^comment (.*)/) {
+#                        $name = $1;
+#                    } elsif ($option =~ m/^startvm (\S+)/) {
+#                        $uuid = $1;
+#                    }
+#                }
+#
+#                if ($scanhomedirs == 1 ) {    # If I will scan Home directories,
+#                    $vmRunnings [$index] = $uuid;   # save the no-root running machine
+#                    $index += 1;
+#                } else {
+#                    $inventory->addVirtualMachine ({  # add in inventory
+#                        NAME      => $name,
+#                        VCPU      => 1,
+#                        UUID      => $uuid,
+#                        STATUS    => "running",
+#                        SUBSYSTEM => "Sun xVM VirtualBox",
+#                        VMTYPE    => "VirtualBox",
+#                    });
+#                }
+#            }
+#        }
+#    }
 
     # If home directories scan is authorized
     if ($scanhomedirs == 1 ) {
