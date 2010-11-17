@@ -129,6 +129,7 @@ Revision history for FusionInventory::Agent
        * MacOSX: retrieve partition UUID on MacOSX 10.4
        * Linux, use ddcprobe and Xorg log file to detect the X resolution, turn
          off the generic Screen.pm module
+       * Solaris: no ugly hack to detect the Perl bin path to launch kstat
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
