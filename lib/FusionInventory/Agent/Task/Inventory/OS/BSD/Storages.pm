@@ -16,7 +16,7 @@ sub doInventory {
 
     if (open my $handle, '<', '/etc/fstab') {
         while(<$handle>){
-            if(/^\/dev\/(\D+\d)/) {
+            if(/^\/dev\/(\S+)/) {
                 push @devices, $1 unless grep(/^$1$/, @devices);
             }
         }
