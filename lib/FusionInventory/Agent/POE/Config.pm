@@ -3,42 +3,39 @@ package FusionInventory::Agent::POE::Config;
 use strict;
 use warnings;
 
-use POE::Component::IKC::ClientLite;
-my $poe;
+use POE;
+
+use FusionInventory::Agent::Config;
 
 sub new {
-    my $self = {};
+    my ($class, %params) = @_;
 
+    my $self = {
+        config => FusionInventory::Agent::Config->new(%params)
+    };
+    bless $self, $class;
 
-    my $name   = "Client$$";
-    $poe = create_ikc_client(
-        port    => 3030,
-        name    => $name,
-        timeout => 10,
+    return $self;
+}
+
+sub createSession {
+    my ($self) = @_;
+
+    POE::Session->create(
+        inline_states => {
+            _start        => sub {
+                $_[KERNEL]->alias_set('config');
+            },
+            get => sub {
+                my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
+                my $key = $args->[0];
+                my $rsvp = $args->[1];
+                $kernel->call(IKC => post => $rsvp, $self->{config}->{$key});
+            },
+        }
     );
-    die $POE::Component::IKC::ClientLite::error unless $poe;
-
-    tie %$self, __PACKAGE__;
-
-    bless $self;
-}
-
-sub FETCH {
-    my($self, $key) = @_;
-
-#    warn "key $key requested\n";
-
-    $poe->post_respond('config/get', $key);
-#    return $poe->post_respond('config/get', $key) or die $poe->error;
 
 }
-sub TIEHASH  {
-    my $storage = bless {}, shift;
-    warn "New ReportHash created, stored in $storage.\n";
-    $storage
-}
-
-sub DESTROY { }
 
 1;
 

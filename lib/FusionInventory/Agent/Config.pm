@@ -6,8 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Spec;
 
-use POE;
-
 my $default = {
     'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
     'ca-cert-dir'             => '',
@@ -71,28 +69,6 @@ sub new {
     return $self;
 }
 
-sub createSession {
-    my ($self) = @_;
-
-
-    POE::Session->create(
-        inline_states => {
-            _start        => sub {
-                $_[KERNEL]->alias_set('config');
-            },
-            get => sub {
-                my ($kernel, $heap, $args) = @_[KERNEL, HEAP, ARG0, ARG1];
-                my $key = $args->[0];
-                my $rsvp = $args->[1];
-#print "p: $p\n";
-#print "v: ".$self->{$p}."\n";
-                $kernel->call(IKC => post => $rsvp, $self->{$key});
-
-            },
-        }
-    );
-
-}
 
 sub _loadDefaults {
     my ($self) = @_;
