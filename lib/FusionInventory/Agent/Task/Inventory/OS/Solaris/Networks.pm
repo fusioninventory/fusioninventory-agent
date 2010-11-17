@@ -136,8 +136,9 @@ sub doInventory {
     sub check_ce {
         my ($mynic,$mynum) = @_;
         $link_info = undef;
-        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed `){
-            $link_speed = $1 if /^\s*link_speed+\s*(\d+).*$/;
+        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_speed`){
+            next unless /^\s*link_speed+\s*(\d+).*$/;
+            $link_speed = $1;
             #print "SPEED = ".$link_speed."\n";
             if ($link_speed =~ /^0$/ ) {
                 $link_info = $link_info."10 Mb/s";
@@ -151,8 +152,9 @@ sub doInventory {
                 $link_info = $link_info."ERROR";
             }
         }
-        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_duplex | grep link_duplex `){
-            $link_duplex = $1 if /^\s*link_duplex+\s*(\d+).*$/;
+        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_duplex`){
+            next unless /^\s*link_duplex+\s*(\d+).*$/;
+            $link_duplex = $1;
             if ($link_duplex =~ /2/ ) {
                 $link_info = $link_info." FDX";
             }elsif ($link_duplex =~ /1/) {
@@ -164,8 +166,9 @@ sub doInventory {
             }
         }
 
-        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg | grep cap_autoneg `){
-            $link_auto = $1 if /^\s*cap_autoneg+\s*(\d+).*$/;
+        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg`){
+            next unless /^\s*cap_autoneg+\s*(\d+).*$/;
+            $link_auto = $1;
             if ($link_auto =~ /1/ ) {
                 $link_info = $link_info." AUTOSPEED ON";
             }elsif ($link_auto =~ /0/) {
