@@ -26,13 +26,13 @@ if ($options{version}) {
 }
 
 eval {
-    my $agent = FusionInventory::Agent->new({
+    my $agent = FusionInventory::Agent->new(
         confdir => './etc/fusioninventory',
         datadir => './share',
         vardir  => './var',
         debug     => $options{debug},
         conffile  => $options{'conf-file'},
-    });
+    );
     $agent->run();
 };
 
