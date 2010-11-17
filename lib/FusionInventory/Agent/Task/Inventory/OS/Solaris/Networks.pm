@@ -22,8 +22,6 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
-    my $localperl;
-    my $libperl;
     my $description;
     my $ipaddress;
     my $ipgateway;
@@ -137,20 +135,8 @@ sub doInventory {
 # Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
     sub check_ce {
         my ($mynic,$mynum) = @_;
-        #/usr/perl5/5.00503/bin/perl
-        #foreach (`which perl`){
-        #$localperl = $1 if /^(\S+)/;
-        #	$libperl = "/".$1."/".$2."/".$3."/bin/perl" if /^\/(\S+)\/(\S+)\/(\S+)$/;
-        #}
-        foreach (`find /usr/perl5 -name 5.*| grep -v site_perl`){
-            $libperl = "/".$1."/".$2."/".$3 if /^\/(\S+)\/(\S+)\/(\S+)$/;
-            $localperl = "/".$1."/".$2."/bin/perl" if /^\/(\S+)\/(\S+)\/(\S+)$/;
-        }
         $link_info = undef;
-        #print "LIBPERL :".$libperl."\n";
-        #print "PERL :".$localperl."\n";
-        #print "CE = ".$mynic.$mynum."\n";
-        foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed `){
+        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed `){
             $link_speed = $1 if /^\s*link_speed+\s*(\d+).*$/;
             #print "SPEED = ".$link_speed."\n";
             if ($link_speed =~ /^0$/ ) {
@@ -165,7 +151,7 @@ sub doInventory {
                 $link_info = $link_info."ERROR";
             }
         }
-        foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_duplex | grep link_duplex `){
+        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_duplex | grep link_duplex `){
             $link_duplex = $1 if /^\s*link_duplex+\s*(\d+).*$/;
             if ($link_duplex =~ /2/ ) {
                 $link_info = $link_info." FDX";
@@ -178,7 +164,7 @@ sub doInventory {
             }
         }
 
-        foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg | grep cap_autoneg `){
+        foreach (`/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg | grep cap_autoneg `){
             $link_auto = $1 if /^\s*cap_autoneg+\s*(\d+).*$/;
             if ($link_auto =~ /1/ ) {
                 $link_info = $link_info." AUTOSPEED ON";
