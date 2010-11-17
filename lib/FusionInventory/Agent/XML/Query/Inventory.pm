@@ -1133,7 +1133,8 @@ sub writeHTML {
     </head>
     <body>
     <h1>Inventory for '.$target->{deviceid}.'</h1>
-    FusionInventory Agent '.$config->{VERSION}.'
+    FusionInventory Agent '.$config->{VERSION}.'<br />
+    <small>DEVICEID '.$target->{deviceid}.'</small>
 
     ';
 
