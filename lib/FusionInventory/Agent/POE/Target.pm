@@ -219,9 +219,6 @@ sub run {
 
         }
     );
-
-
-
 }
 
 sub runFork {
@@ -290,14 +287,14 @@ sub runFork {
             }
 
             $self->{status} = "running task $module";
-                my $task = $package->new({
+                my $task = $package->new(
                     config      => $config,
                     logger      => $logger,
                     target      => $self,
                     prologresp  => $prologresp,
                     transmitter => $transmitter,
                     deviceid    => $self->{deviceid}
-                });
+                );
 
             if ($config->{daemon} || $config->{service}) {
                 # daemon mode: run each task in a childprocess
