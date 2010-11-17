@@ -2,36 +2,18 @@
 
 use strict;
 use warnings;
-use Test::More;
-use File::Find;
+
 use English qw(-no_match_vars);
+use Test::More;
+use Test::Compile;
 
-use lib 'lib';
+my @files = $OSNAME eq 'MSWin32' ?
+    grep { ! /Syslog/ } all_pm_files('lib') :
+    grep { ! /Win32/  } all_pm_files('lib') ;
 
-my @files;
-
-find ( sub {
-        push @files, $File::Find::name if /\.pm$/;
-    }, 'lib');
-
-if ($OSNAME ne 'MSWin32') {
-    # exclude windows-specific modules
-    @files = grep { ! /Win32/ } @files
-} else {
-    # exclude Unix-specific modules
-    @files = grep { ! /Syslog/ } @files
+eval { require FusionInventory::Agent::SNMP; };
+if ($EVAL_ERROR) {
+    @files = grep  { ! /SNMP/ } @files;
 }
 
-
-my @modules;
-foreach my $file (@files) {
-    my (undef, $dir, $file) = File::Spec->splitpath($file);
-    my @dirs = File::Spec->splitdir($dir);
-    push @modules, join '::', @dirs, File::Basename::basename($file, '.pm');
-}
-
-plan tests => scalar @modules;
-
-foreach my $module (@modules) {
-    use_ok($module);
-}
+all_pm_files_ok(@files);
