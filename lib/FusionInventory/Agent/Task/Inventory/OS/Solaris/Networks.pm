@@ -339,17 +339,17 @@ sub _check_ce {
 
     my ($speed, $duplex, $auto);
 
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed`) {
+    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_speed`) {
         next unless /^\s*link_speed+\s*(\d+).*$/;
         $speed = $1;
         last;
     }
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_duplex | grep link_duplex`) {
+    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_duplex`) {
         next unless /^\s*link_duplex+\s*(\d+).*$/;
         $duplex = $1;
         last;
     }
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg | grep cap_autoneg`) {
+    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg`) {
         next unless /^\s*cap_autoneg+\s*(\d+).*$/;
         $auto = $1;
         last;
