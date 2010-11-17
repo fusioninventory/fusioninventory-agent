@@ -132,10 +132,6 @@ sub new {
         }
     }
 
-    if ($config->{scanhomedirs}) {
-        $logger->debug("User directory scanning enabled");
-    }
-
     if ($config->{daemon} && !$config->{'no-fork'}) {
 
         $logger->debug("Daemon mode enabled");
