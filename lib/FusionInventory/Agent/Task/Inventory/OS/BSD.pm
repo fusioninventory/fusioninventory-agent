@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools;
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 sub isInventoryEnabled {
-    return $OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd/;
+    return $OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/;
 }
 
 sub doInventory {
