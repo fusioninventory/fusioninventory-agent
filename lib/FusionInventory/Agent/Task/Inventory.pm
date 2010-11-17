@@ -23,7 +23,6 @@ sub run {
 
     # initialize modules list
     $self->_initModList();
-    print $self->{target}->{maxOffset}."\n"; # XXX Debug only
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
         deviceid => $self->{target}->{deviceid},
