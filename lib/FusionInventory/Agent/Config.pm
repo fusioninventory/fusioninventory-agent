@@ -3,10 +3,12 @@ package FusionInventory::Agent::Config;
 use strict;
 use warnings;
 
+use Clone qw(clone);
 use English qw(-no_match_vars);
 use File::Spec;
+use UNIVERSAL::require;
 
-my $default = {
+my $defaults = {
     'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
     'ca-cert-dir'             => '',
     'ca-cert-file'            => '',
@@ -53,138 +55,76 @@ my $default = {
 sub new {
     my ($class, %params) = @_;
 
-    my $self = $default;
+    my $backend_class = $OSNAME eq 'MSWin32' ?
+        'FusionInventory::Agent::Config::Registry' :
+        'FusionInventory::Agent::Config::File' ;
+
+    $backend_class->require();
+    my $backend = $backend_class->new(%params);
+
+    my $values = clone($defaults);
+    $backend->load($values);
+    _check($values);
+
+    my $self = {
+        values => $values
+    };
     bless $self, $class;
-
-    $self->_loadDefaults();
-
-    if ($OSNAME eq 'MSWin32') {
-        $self->_loadFromWinRegistry();
-    } else {
-        $self->_loadFromCfgFile(%params);
-    }
-
-    $self->_checkContent();
 
     return $self;
 }
 
+sub getValue {
+    my ($self, $name) = @_;
 
-sub _loadDefaults {
-    my ($self) = @_;
-
-    foreach my $key (keys %$default) {
-        $self->{$key} = $default->{$key};
-    }
+    return $self->{values}->{$name};
 }
 
-sub _loadFromWinRegistry {
-    my ($self) = @_;
+sub getBlock {
+    my ($self, $name) = @_;
 
-    my $Registry;
-    eval {
-        require Encode;
-        Encode->import('encode');
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-            Delimiter   => "/",
-            ArrayValues => 0,
-            TiedRef     => \$Registry
-        );
-    };
-    if ($EVAL_ERROR) {
-        print "[error] $EVAL_ERROR";
-        return;
+    my $block;
+    foreach my $key (keys %{$self->{values}}) {
+        next unless $key =~ /^$name\.(\S+)/;
+        $block->{$1} = $self->{values}->{$key};
     }
-
-    my $machKey;
-    {
-        # Win32-specifics constants can not be loaded on non-Windows OS
-        no strict 'subs'; ## no critics
-        $machKey = $Registry->Open('LMachine', {
-            Access => Win32::TieRegistry::KEY_READ
-        } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-    }
-
-    my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
-
-    foreach my $rawKey (keys %$settings) {
-        next unless $rawKey =~ /^\/(\S+)/;
-        my $key = $1;
-        my $val = $settings->{$rawKey};
-        # Remove the quotes
-        $val =~ s/\s+$//;
-        $val =~ s/^'(.*)'$/$1/;
-        $val =~ s/^"(.*)"$/$1/;
-        $self->{lc($key)} = $val;
-    }
+    return $block;
 }
 
-sub _loadFromCfgFile {
-    my ($self, %params) = @_;
-
-    my $file = $params{file} || $params{directory} . '/agent.cfg';
-
-    die "non-existing file $file" unless -f $file;
-    die "non-readable file $file" unless -r $file;
-
-    my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Config: Failed to open $file: $ERRNO";
-        return;
-    }
-
-    $self->{'conf-file'} = $file;
-
-    while (<$handle>) {
-        s/#.+//;
-        if (/([\w-]+)\s*=\s*(.+)/) {
-            my $key = $1;
-            my $val = $2;
-            # Remove the quotes
-            $val =~ s/\s+$//;
-            $val =~ s/^'(.*)'$/$1/;
-            $val =~ s/^"(.*)"$/$1/;
-            $self->{$key} = $val;
-        }
-    }
-    close $handle;
-}
-
-sub _checkContent {
-    my ($self) = @_;
+sub _check {
+    my ($values) = @_;
 
     # if a logfile is defined, add file logger
-    if ($self->{logfile}) {
-        $self->{logger} .= ',File'
+    if ($values->{logfile}) {
+        $values->{logger} .= ',File'
     }
 
     # multi-valued attributes
-    if ($self->{server}) {
-        $self->{server} = [
-            split(/\s*,\s*/, $self->{server})
+    if ($values->{server}) {
+        $values->{server} = [
+            split(/\s*,\s*/, $values->{server})
         ];
     }
 
-    if ($self->{logger}) {
+    if ($values->{logger}) {
         my %seen;
-        $self->{logger} = [
+        $values->{logger} = [
             grep { !$seen{$_}++ }
-            split(/\s*,\s*/, $self->{logger})
+            split(/\s*,\s*/, $values->{logger})
         ];
     }
 
     # We want only canonical path
-    $self->{basevardir} =
-        File::Spec->rel2abs($self->{basevardir}) if $self->{basevardir};
-    $self->{'conf-file'} =
-        File::Spec->rel2abs($self->{'conf-file'}) if $self->{'conf-file'};
-    $self->{'ca-cert-file'} =
-        File::Spec->rel2abs($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
-    $self->{'ca-cert-dir'} =
-        File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
-    $self->{'logfile'} =
-        File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
+    $values->{basevardir} =
+        File::Spec->rel2abs($values->{basevardir}) if $values->{basevardir};
+    $values->{'conf-file'} =
+        File::Spec->rel2abs($values->{'conf-file'}) if $values->{'conf-file'};
+    $values->{'ca-cert-file'} =
+        File::Spec->rel2abs($values->{'ca-cert-file'}) if $values->{'ca-cert-file'};
+    $values->{'ca-cert-dir'} =
+        File::Spec->rel2abs($values->{'ca-cert-dir'}) if $values->{'ca-cert-dir'};
+    $values->{'logfile'} =
+        File::Spec->rel2abs($values->{'logfile'}) if $values->{'logfile'};
 }
 
 1;
