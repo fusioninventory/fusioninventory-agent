@@ -105,8 +105,6 @@ sub _check {
     }
 
     # We want only canonical path
-    $values->{basevardir} =
-        File::Spec->rel2abs($values->{basevardir}) if $values->{basevardir};
     $values->{'conf-file'} =
         File::Spec->rel2abs($values->{'conf-file'}) if $values->{'conf-file'};
     $values->{'ca-cert-file'} =
