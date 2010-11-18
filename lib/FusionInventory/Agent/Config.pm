@@ -105,14 +105,10 @@ sub _check {
     }
 
     # We want only canonical path
-    $values->{'conf-file'} =
-        File::Spec->rel2abs($values->{'conf-file'}) if $values->{'conf-file'};
-    $values->{'ca-cert-file'} =
-        File::Spec->rel2abs($values->{'ca-cert-file'}) if $values->{'ca-cert-file'};
-    $values->{'ca-cert-dir'} =
-        File::Spec->rel2abs($values->{'ca-cert-dir'}) if $values->{'ca-cert-dir'};
-    $values->{'logfile'} =
-        File::Spec->rel2abs($values->{'logfile'}) if $values->{'logfile'};
+    foreach my $value (qw/ca-cert-file ca-cert-dir logfile/) {
+        next unless $values->{$value};
+        $values->{$value} = File::Spec->rel2abs($values->{$value});
+    }
 }
 
 1;
