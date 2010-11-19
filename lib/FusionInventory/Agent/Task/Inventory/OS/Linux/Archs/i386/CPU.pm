@@ -32,7 +32,8 @@ sub doInventory {
                     MANUFACTURER => $info->{'Manufacturer'},
                     CORE         => $info->{'Core Count'},
                     THREAD       => ($info->{'Thread Count'} || 1),
-                    SPEED        => getCanonicalSpeed($info->{'Max Speed'})
+                    SPEED        => getCanonicalSpeed($info->{'Max Speed'}),
+                    NAME         => $info->{'Version'},
                 };
             }
         }
@@ -53,7 +54,9 @@ sub doInventory {
             $cpu->{MANUFACTURER} = $proc_cpu->{vendor_id};
         }
 
-        $cpu->{NAME} = $proc_cpu->{'model name'};
+        if ($proc_cpu->{'model name'}) {
+            $cpu->{NAME} = $proc_cpu->{'model name'};
+        }
 
         if (!$cpu->{CORE}) {
             $cpu->{CORE} = $proc_core;

@@ -1,0 +1,769 @@
+# dmidecode 2.9
+SMBIOS 2.6 present.
+68 structures occupying 3074 bytes.
+Table at 0x0009EC00.
+
+Handle 0x0000, DMI type 0, 24 bytes
+BIOS Information
+	Vendor: HP
+	Version: O20
+	Release Date: 05/19/2010
+	Address: 0xF0000
+	Runtime Size: 64 kB
+	ROM Size: 2048 kB
+	Characteristics:
+		ISA is supported
+		PCI is supported
+		PNP is supported
+		BIOS is upgradeable
+		BIOS shadowing is allowed
+		ESCD support is available
+		Boot from CD is supported
+		Selectable boot is supported
+		EDD is supported
+		Print screen service is supported (int 5h)
+		Serial services are supported (int 14h)
+		CGA/mono video services are supported (int 10h)
+		ACPI is supported
+		USB legacy is supported
+		BIOS boot specification is supported
+		Targeted content distribution is supported
+	BIOS Revision: 8.15
+
+Handle 0x0001, DMI type 1, 27 bytes
+System Information
+	Manufacturer: HP
+	Product Name: ProLiant DL180 G6  
+	Version:  
+	Serial Number: CZJ02901TG
+	UUID: 00D3F681-FE8E-11D5-B656-1CC1DE0905AE
+	Wake-up Type: Power Switch
+	SKU Number: 470065-124
+	Family:  
+
+Handle 0x0002, DMI type 126, 15 bytes
+Inactive
+
+Handle 0x0003, DMI type 3, 30 bytes
+Chassis Information
+	Manufacturer: HP
+	Type: Rack Mount Chassis
+	Lock: Not Present
+	Version:  
+	Serial Number: CZJ02901TG
+	Asset Tag:  
+	Boot-up State: Safe
+	Power Supply State: Safe
+	Thermal State: Safe
+	Security Status: None
+	OEM Information: 0x00000000
+	Height: 2 U
+	Number Of Power Cords: 1
+	Contained Elements: 0
+
+Handle 0x0004, DMI type 4, 42 bytes
+Processor Information
+	Socket Designation: Proc 1
+	Type: Central Processor
+	Family: Xeon
+	Manufacturer: Intel            
+	ID: A5 06 01 00 FF FB EB BF
+	Signature: Type 0, Family 6, Model 26, Stepping 5
+	Flags:
+		FPU (Floating-point unit on-chip)
+		VME (Virtual mode extension)
+		DE (Debugging extension)
+		PSE (Page size extension)
+		TSC (Time stamp counter)
+		MSR (Model specific registers)
+		PAE (Physical address extension)
+		MCE (Machine check exception)
+		CX8 (CMPXCHG8 instruction supported)
+		APIC (On-chip APIC hardware supported)
+		SEP (Fast system call)
+		MTRR (Memory type range registers)
+		PGE (Page global enable)
+		MCA (Machine check architecture)
+		CMOV (Conditional move instruction supported)
+		PAT (Page attribute table)
+		PSE-36 (36-bit page size extension)
+		CLFSH (CLFLUSH instruction supported)
+		DS (Debug store)
+		ACPI (ACPI supported)
+		MMX (MMX technology supported)
+		FXSR (Fast floating-point save and restore)
+		SSE (Streaming SIMD extensions)
+		SSE2 (Streaming SIMD extensions 2)
+		SS (Self-snoop)
+		HTT (Hyper-threading technology)
+		TM (Thermal monitor supported)
+		PBE (Pending break enabled)
+	Version: Intel(R) Xeon(R) CPU           E5504  @ 2.00GHz     
+	Voltage: 1.0 V
+	External Clock: 532 MHz
+	Max Speed: 2000 MHz
+	Current Speed: 2000 MHz
+	Status: Populated, Enabled
+	Upgrade: <OUT OF SPEC>
+	L1 Cache Handle: 0x0005
+	L2 Cache Handle: 0x0006
+	L3 Cache Handle: 0x0007
+	Serial Number:  
+	Asset Tag:  
+	Part Number:  
+	Core Count: 4
+	Core Enabled: 4
+	Thread Count: 4
+	Characteristics:
+		64-bit capable
+
+Handle 0x0005, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L1-Cache
+	Configuration: Enabled, Not Socketed, Level 1
+	Operational Mode: Write Through
+	Location: Internal
+	Installed Size: 256 KB
+	Maximum Size: 256 KB
+	Supported SRAM Types:
+		Other
+	Installed SRAM Type: Other
+	Speed: Unknown
+	Error Correction Type: Parity
+	System Type: Instruction
+	Associativity: 4-way Set-associative
+
+Handle 0x0006, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L2-Cache
+	Configuration: Enabled, Not Socketed, Level 2
+	Operational Mode: Write Through
+	Location: Internal
+	Installed Size: 1024 KB
+	Maximum Size: 1024 KB
+	Supported SRAM Types:
+		Other
+	Installed SRAM Type: Other
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Unified
+	Associativity: 8-way Set-associative
+
+Handle 0x0007, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L3-Cache
+	Configuration: Enabled, Not Socketed, Level 3
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 4096 KB
+	Maximum Size: 4096 KB
+	Supported SRAM Types:
+		Other
+	Installed SRAM Type: Other
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Unified
+	Associativity: 16-way Set-associative
+
+Handle 0x0008, DMI type 4, 42 bytes
+Processor Information
+	Socket Designation: Proc 2
+	Type: Central Processor
+	Family: Other
+	Manufacturer:                  
+	ID: 00 00 00 00 00 00 00 00
+	Version:                                                     
+	Voltage: 3.3 V 2.9 V
+	External Clock: Unknown
+	Max Speed: 2000 MHz
+	Current Speed: Unknown
+	Status: Unpopulated
+	Upgrade: ZIF Socket
+	L1 Cache Handle: 0x0009
+	L2 Cache Handle: 0x000A
+	L3 Cache Handle: 0x000B
+	Serial Number:  
+	Asset Tag:  
+	Part Number:  
+	Characteristics: None
+
+Handle 0x0009, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L1-Cache
+	Configuration: Disabled, Not Socketed, Level 1
+	Operational Mode: Unknown
+	Location: Internal
+	Installed Size: 0 KB
+	Maximum Size: 0 KB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Unknown
+	System Type: Unknown
+	Associativity: Unknown
+
+Handle 0x000A, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L2-Cache
+	Configuration: Disabled, Not Socketed, Level 2
+	Operational Mode: Unknown
+	Location: Internal
+	Installed Size: 0 KB
+	Maximum Size: 0 KB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Unknown
+	System Type: Unknown
+	Associativity: Unknown
+
+Handle 0x000B, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L3-Cache
+	Configuration: Disabled, Not Socketed, Level 3
+	Operational Mode: Unknown
+	Location: Internal
+	Installed Size: 0 KB
+	Maximum Size: 0 KB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Unknown
+	System Type: Unknown
+	Associativity: Unknown
+
+Handle 0x000C, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1
+	Internal Connector Type: None
+	External Reference Designator: VGA Port
+	External Connector Type: DB-15 female
+	Port Type: Video Port
+
+Handle 0x000D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2
+	Internal Connector Type: None
+	External Reference Designator: COM Port
+	External Connector Type: DB-9 male
+	Port Type: Serial Port 16550A Compatible
+
+Handle 0x000E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3
+	Internal Connector Type: None
+	External Reference Designator: NIC Port 1
+	External Connector Type: RJ-45
+	Port Type: Network Port
+
+Handle 0x000F, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3
+	Internal Connector Type: None
+	External Reference Designator: NIC Port 2
+	External Connector Type: RJ-45
+	Port Type: Network Port
+
+Handle 0x0010, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J53
+	Internal Connector Type: Access Bus (USB)
+	External Reference Designator: USB Port 0
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0011, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J53
+	Internal Connector Type: Access Bus (USB)
+	External Reference Designator: USB Port 1
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0012, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J12
+	Internal Connector Type: None
+	External Reference Designator: USB Port 2
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0013, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J12
+	Internal Connector Type: None
+	External Reference Designator: USB Port 3
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0014, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J41 - SATA Port 1
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0015, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J49 - SATA Port 2
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0016, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J52 - SATA Port 3
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0017, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J55 - SATA Port 4
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0018, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J57 - SATA Port 5
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0019, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J58 - SATA Port 6
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x001A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J69 - USB Port 4
+	Internal Connector Type: Access Bus (USB)
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: USB
+
+Handle 0x001B, DMI type 9, 17 bytes
+System Slot Information
+	Designation: SLOT1
+	Type: x16 PCI Express
+	Current Usage: In Use
+	Length: Long
+	ID: 1
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x001C, DMI type 9, 17 bytes
+System Slot Information
+	Designation: SLOT2
+	Type: x16 PCI Express
+	Current Usage: Available
+	Length: Long
+	ID: 2
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x001D, DMI type 9, 17 bytes
+System Slot Information
+	Designation: SLOT3
+	Type: x4 PCI Express
+	Current Usage: Available
+	Length: Short
+	ID: 3
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+
+Handle 0x001E, DMI type 126, 17 bytes
+Inactive
+
+Handle 0x001F, DMI type 126, 17 bytes
+Inactive
+
+Handle 0x0020, DMI type 126, 5 bytes
+Inactive
+
+Handle 0x0021, DMI type 16, 15 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: Single-bit ECC
+	Maximum Capacity: 192 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 12
+
+Handle 0x0022, DMI type 19, 15 bytes
+Memory Array Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000FFFFFFFF
+	Range Size: 4 GB
+	Physical Array Handle: 0x0021
+	Partition Width: 0
+
+Handle 0x0023, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 2048 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 1 DIMM 2A
+	Bank Locator: BANK0
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: 1333 MHz (0.8 ns)
+	Manufacturer: Micron        
+	Serial Number: 94D657D7
+	Asset Tag: AssetTagNum0
+	Part Number: 18JSF25672AZ-1G4F1
+
+Handle 0x0024, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x0007FFFFFFF
+	Range Size: 2 GB
+	Physical Device Handle: 0x0023
+	Memory Array Mapped Address Handle: 0x0022
+	Partition Row Position: 1
+	Interleave Position: Unknown
+	Interleaved Data Depth: Unknown
+
+Handle 0x0025, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 1 DIMM 1D
+	Bank Locator: BANK1
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer01
+	Serial Number: SerNum01
+	Asset Tag: AssetTagNum1
+	Part Number: ModulePartNumber01
+
+Handle 0x0026, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0027, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 2048 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 1 DIMM 4B
+	Bank Locator: BANK2
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: 1333 MHz (0.8 ns)
+	Manufacturer: Micron        
+	Serial Number: 93D657D7
+	Asset Tag: AssetTagNum2
+	Part Number: 18JSF25672AZ-1G4F1
+
+Handle 0x0028, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00080000000
+	Ending Address: 0x000FFFFFFFF
+	Range Size: 2 GB
+	Physical Device Handle: 0x0027
+	Memory Array Mapped Address Handle: 0x0022
+	Partition Row Position: 1
+	Interleave Position: Unknown
+	Interleaved Data Depth: Unknown
+
+Handle 0x0029, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 1 DIMM 3E
+	Bank Locator: BANK3
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer03
+	Serial Number: SerNum03
+	Asset Tag: AssetTagNum3
+	Part Number: ModulePartNumber03
+
+Handle 0x002A, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x002B, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 1 DIMM 6C
+	Bank Locator: BANK4
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer04
+	Serial Number: SerNum04
+	Asset Tag: AssetTagNum4
+	Part Number: ModulePartNumber04
+
+Handle 0x002C, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x002D, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 1 DIMM 5F
+	Bank Locator: BANK5
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer05
+	Serial Number: SerNum05
+	Asset Tag: AssetTagNum5
+	Part Number: ModulePartNumber05
+
+Handle 0x002E, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x002F, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 2 DIMM 2A
+	Bank Locator: BANK6
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer06
+	Serial Number: SerNum06
+	Asset Tag: AssetTagNum6
+	Part Number: ModulePartNumber06
+
+Handle 0x0030, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0031, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 2 DIMM 1D
+	Bank Locator: BANK7
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer07
+	Serial Number: SerNum07
+	Asset Tag: AssetTagNum7
+	Part Number: ModulePartNumber07
+
+Handle 0x0032, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0033, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 2 DIMM 4B
+	Bank Locator: BANK8
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer08
+	Serial Number: SerNum08
+	Asset Tag: AssetTagNum8
+	Part Number: ModulePartNumber08
+
+Handle 0x0034, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0035, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 2 DIMM 3E
+	Bank Locator: BANK9
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer09
+	Serial Number: SerNum09
+	Asset Tag: AssetTagNum9
+	Part Number: ModulePartNumber09
+
+Handle 0x0036, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0037, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 2 DIMM 6C
+	Bank Locator: BANK10
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer10
+	Serial Number: SerNum10
+	Asset Tag: AssetTagNum10
+	Part Number: ModulePartNumber10
+
+Handle 0x0038, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0039, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0021
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: PROC 2 DIMM 5F
+	Bank Locator: BANK11
+	Type: <OUT OF SPEC>
+	Type Detail: Synchronous
+	Speed: Unknown
+	Manufacturer: Manufacturer11
+	Serial Number: SerNum11
+	Asset Tag: AssetTagNum11
+	Part Number: ModulePartNumber11
+
+Handle 0x003A, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x003B, DMI type 32, 20 bytes
+System Boot Information
+	Status: No errors detected
+
+Handle 0x003C, DMI type 38, 18 bytes
+IPMI Device Information
+	Interface Type: KCS (Keyboard Control Style)
+	Specification Version: 2.0
+	I2C Slave Address: 0x10
+	NV Storage Device Address: 1
+	Base Address: 0x0000000000000CA2 (I/O)
+	Register Spacing: Successive Byte Boundaries
+
+Handle 0x003D, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: Bottom PS Bay
+	Name: Power Supply 1
+	Manufacturer: HP
+	Serial Number: 5ANLE0BLLZ225W
+	Asset Tag: 00h
+	Model Part Number: 511777-001
+	Revision: 00h
+	Max Power Capacity: 0.460 W
+	Status: Present, <OUT OF SPEC>
+	Type: <OUT OF SPEC>
+	Input Voltage Range Switching: <OUT OF SPEC>
+	Plugged: Yes
+	Hot Replaceable: No
+
+Handle 0x003E, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 2
+	Location:              
+	Name:               
+	Manufacturer: HP
+	Serial Number:               
+	Asset Tag: 00h
+	Model Part Number:           
+	Revision: 00h
+	Max Power Capacity: Unknown
+	Status: Not Present
+	Type: <OUT OF SPEC>
+	Input Voltage Range Switching: <OUT OF SPEC>
+	Plugged: Yes
+	Hot Replaceable: No
+
+Handle 0x003F, DMI type 208, 5 bytes
+OEM-specific Type
+	Header and Data:
+		D0 05 3F 00 02
+
+Handle 0x0040, DMI type 209, 20 bytes
+HP BIOS NIC PCI and MAC Information
+	NIC 1: PCI device 07:00.0, MAC address 1C:C1:DE:08:A3:F8
+	NIC 2: PCI device 07:00.1, MAC address 1C:C1:DE:08:A3:F9
+
+Handle 0x0041, DMI type 224, 5 bytes
+OEM-specific Type
+	Header and Data:
+		E0 05 41 00 00
+
+Handle 0x0042, DMI type 225, 12 bytes
+OEM-specific Type
+	Header and Data:
+		E1 0C 42 00 A0 FE E3 FF 90 FE E3 FF
+
+Handle 0x0043, DMI type 127, 4 bytes
+End Of Table
+
