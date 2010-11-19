@@ -95,11 +95,6 @@ sub handler {
 
     $logger->debug("[RPC] $clientIp request ".$r->uri->path);
     if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
-        if ($clientIp !~ /^127\./) {
-            $c->send_error(404);
-            return;
-        }
-
         my $nextContact = "";
         foreach my $target (@{$targets->{targets}}) {
             my $path = $target->{'path'};
@@ -127,7 +122,7 @@ sub handler {
         $output =~ s/%%STATUS%%/$status/;
         $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
         $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
-        if (!$config->{'rpc-trust-localhost'}) {
+        if ($clientIp !~ /^127\./ || !$config->{'rpc-trust-localhost'}) {
             $output =~
             s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
         }

@@ -90,6 +90,7 @@ Revision history for FusionInventory::Agent
        * Linux/Storage: ignore fdisk -l error message
          http://forge.fusioninventory.org/issues/503
        * Linux/Storage: avoid error message with fdisk -s on invalid devices
+       * RPC: Allow access to / from everywhere
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
