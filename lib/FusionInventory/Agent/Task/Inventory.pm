@@ -41,7 +41,7 @@ sub run {
 
     SWITCH: {
         if (ref $self->{target} eq 'FusionInventory::Agent::Target::Stdout') {
-            if ($self->{config}->{format} eq 'xml') {
+            if ($self->{target}->{format} eq 'xml') {
                 print $self->{inventory}->getContent();
             } else {
                 print $self->{inventory}->getContentAsHTML();
@@ -50,7 +50,7 @@ sub run {
         }
 
         if (ref $self->{target} eq 'FusionInventory::Agent::Target::Local') {
-            my $format = $self->{config}->{format};
+            my $format = $self->{target}->{format};
             my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
                 $self->{target}{path} .

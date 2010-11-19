@@ -17,6 +17,7 @@ sub new {
         logger          => $params->{logger},
         deviceid        => $params->{deviceid},
         config          => $params->{config},
+        format          => $params->{format},
         nextRunDate     => undef,
     };
 
