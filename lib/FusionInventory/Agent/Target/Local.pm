@@ -7,18 +7,18 @@ use base 'FusionInventory::Agent::Target';
 my $count = 0;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "no path parameter" unless $params->{path};
+    die "no path parameter" unless $params{path};
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
-    $self->{path} = $params->{path};
+    $self->{path} = $params{path};
 
-    $self->_init({
+    $self->_init(
         id     => 'local' . $count++,
-        vardir => $params->{basevardir} . '/__LOCAL__',
-    });
+        vardir => $params{basevardir} . '/__LOCAL__',
+    );
 
     return $self;
 }
