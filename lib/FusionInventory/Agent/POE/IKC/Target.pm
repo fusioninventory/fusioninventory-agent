@@ -33,10 +33,10 @@ sub getStorage {
     my($self) = @_;
 
     return $storage if $storage;
-    $storage = FusionInventory::Agent::Storage->new({
+    $storage = FusionInventory::Agent::Storage->new(
         logger    => $logger,
         directory => $self->{vardir}
-    });
+    );
     return $storage;
 }
 

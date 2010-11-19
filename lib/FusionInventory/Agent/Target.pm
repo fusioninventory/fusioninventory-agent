@@ -33,10 +33,10 @@ sub _init {
     $self->{vardir} = $params{vardir};
 
     # target storage
-    $self->{storage} = FusionInventory::Agent::Storage->new({
+    $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
         directory => $self->{vardir}
-    });
+    );
 
     # restore previous state
     $self->_loadState();

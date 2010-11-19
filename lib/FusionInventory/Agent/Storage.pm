@@ -11,19 +11,19 @@ use Storable;
 use FusionInventory::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        logger    => $params->{logger} || FusionInventory::Logger->new(),
-        directory => $params->{directory}
+        logger    => $params{logger} || FusionInventory::Logger->new(),
+        directory => $params{directory}
     };
 
-    if (!-d $params->{directory}) {
-        make_path($params->{directory}, {error => \my $err});
+    if (!-d $params{directory}) {
+        make_path($params{directory}, {error => \my $err});
         if (@$err) {
             my (undef, $message) = %{$err->[0]};
             $self->{logger}->error(
-                "Can't create $params->{directory}: ".$message.". ".
+                "Can't create $params{directory}: $message. ".
                 "You may want to use the basevardir parameter to specify ".
                 "a place where the agent can write."
             );
@@ -31,9 +31,9 @@ sub new {
         }
     }
 
-    if (! -w $params->{directory}) {
+    if (! -w $params{directory}) {
         $self->{logger}->error(
-            "Can't write in $params->{directory}. ".
+            "Can't write in $params{directory}. ".
             "You may want to use the basevardir parameter to specify ".
             "a place where the agent can write."
         );
@@ -140,9 +140,9 @@ to differentiate between usages.
 
 =head1 SYNOPSIS
 
-  my $storage = FusionInventory::Agent::Storage->new({
+  my $storage = FusionInventory::Agent::Storage->new(
       directory => '/tmp'
-  });
+  );
   my $data = $storage->restore({
       module => "FusionInventory::Agent"
   });
@@ -153,10 +153,10 @@ to differentiate between usages.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
 The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+hash:
 
 =over
 
