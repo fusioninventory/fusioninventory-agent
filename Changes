@@ -137,6 +137,7 @@ Revision history for FusionInventory::Agent
          http://forge.fusioninventory.org/issues/505
        * BSD: add support for DragonFlyBSD! :D
        * VirtualBox: Don't use process list (ps) to find running process
+       * MacOSX/VirtualBox: looks for user dir in /Users on MacOSX
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets
