@@ -1,6 +1,6 @@
 Revision history for FusionInventory::Agent
 
-2.1.7
+2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs
          abs_path fails if the directory doesn't exist yet. This was breaking
          --basevardir on UNIX system.
