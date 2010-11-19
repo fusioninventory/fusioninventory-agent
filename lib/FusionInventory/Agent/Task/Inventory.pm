@@ -40,7 +40,7 @@ sub run {
     }
 
     SWITCH: {
-        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Stdout') {
+        if (ref $self->{target} eq 'FusionInventory::Agent::Target::Stdout') {
             if ($self->{config}->{format} eq 'xml') {
                 print $self->{inventory}->getContent();
             } else {
@@ -49,7 +49,7 @@ sub run {
             last SWITCH;
         }
 
-        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Local') {
+        if (ref $self->{target} eq 'FusionInventory::Agent::Target::Local') {
             my $format = $self->{config}->{format};
             my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
@@ -72,7 +72,7 @@ sub run {
             last SWITCH;
         }
 
-        if ($self->{target}{class} eq 'FusionInventory::Agent::Target::Server') {
+        if (ref $self->{target} eq 'FusionInventory::Agent::Target::Server') {
             die "No prologresp!" unless $self->{prologresp};
 
             if ($self->{config}->{force}) {
