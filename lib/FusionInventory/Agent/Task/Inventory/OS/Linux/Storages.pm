@@ -39,7 +39,7 @@ sub getFromSysProc {
         push(@names, $1);
     }
 
-    my $command = `fdisk -v` =~ '^GNU' ? 'fdisk -p -l' : 'fdisk -l';
+    my $command = `fdisk -v` =~ '^GNU' ? 'fdisk -p -l 2>&1' : 'fdisk -l 2>&1';
     if (!open my $handle, '-|', $command) {
         warn "Can't run $command: $ERRNO";
     } else {
