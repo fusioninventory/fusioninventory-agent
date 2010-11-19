@@ -25,7 +25,7 @@ sub run {
     $self->_initModList();
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
-        deviceid => $self->{target}->{deviceid},
+        deviceid => $self->{deviceid},
         logger   => $self->{logger},
         storage  => $self->{target}->getStorage()
     });
