@@ -167,7 +167,7 @@ sub handler {
 
             $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
             $code = 403;
-            $msg = "Access denied. rpc-trust-localhost is off or the token is invalid."
+            $msg = "Access denied. You are not using the 127.0.0.1 IP address to access the server or rpc-trust-localhost is off or the token is invalid."
 
         }
 
