@@ -7,6 +7,9 @@ use warnings;
 
 use XML::Simple;
 use File::Glob ':glob';
+
+use English qw(-no_match_vars);
+
 sub isInventoryEnabled {
     return
         can_run('VBoxManage');
@@ -112,8 +115,14 @@ sub doInventory {
 
     # If home directories scan is authorized
     if ($scanhomedirs == 1 ) {
+        my $homeDir = "/home";
+
+        if ($OSNAME =~ /^DARWIN$/i) {
+            $homeDir = "/Users";
+        }
+
         # Read every Machines Xml File of every user
-        foreach my $xmlMachine (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
+        foreach my $xmlMachine (bsd_glob("$homeDir/*/.VirtualBox/Machines/*/*.xml")) {
             chomp($xmlMachine);
             # Open config file ...
             my $configFile = new XML::Simple;
@@ -142,7 +151,7 @@ sub doInventory {
             }
         }
 
-        foreach my $xmlVirtualBox (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
+        foreach my $xmlVirtualBox (bsd_glob("$homeDir/*/.VirtualBox/VirtualBox.xml")) {
             chomp($xmlVirtualBox);
             # Open config file ...
             my $configFile = new XML::Simple;
