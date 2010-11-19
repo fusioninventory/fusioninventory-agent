@@ -23,9 +23,7 @@ sub new {
         if (@$err) {
             my (undef, $message) = %{$err->[0]};
             $self->{logger}->error(
-                "Can't create $params{directory}: $message. ".
-                "You may want to use the basevardir parameter to specify ".
-                "a place where the agent can write."
+                "Can't create $params{directory}: $message"
             );
             die;
         }
@@ -33,9 +31,7 @@ sub new {
 
     if (! -w $params{directory}) {
         $self->{logger}->error(
-            "Can't write in $params{directory}. ".
-            "You may want to use the basevardir parameter to specify ".
-            "a place where the agent can write."
+            "Can't write in $params{directory}"
         );
         die;
     }
