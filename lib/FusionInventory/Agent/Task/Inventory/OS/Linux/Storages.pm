@@ -101,8 +101,10 @@ sub getCapacity {
     my ($dev) = @_;
     my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
     # requires permissions on /dev/$dev
-    my $cap = `$command /dev/$dev 2>/dev/null`;
-    chomp $cap;
+    my $cap;
+    foreach (`$command /dev/$dev 2>/dev/null`) {
+        $cap = $1 if /^\d+$/;
+    }
     $cap = int($cap / 1000) if $cap;
     return $cap;
 }
