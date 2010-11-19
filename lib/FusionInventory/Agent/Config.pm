@@ -60,6 +60,7 @@ my $default = {
     'no-wakeonlan'            => 0,
     'no-snmpquery'            => 0,
     'no-netdiscovery'         => 0,
+    'no-p2p'                  => 0,
     'delaytime'               => 3600, # max delay time (seconds)
     'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
     'no-ssl-check'            => 0,
@@ -231,6 +232,7 @@ sub loadUserParams {
         'no-wakeonlan',
         'no-snmpquery',
         'no-netdiscovery',
+        'no-p2p',
         'password|p=s',
         'proxy|P=s',
         'realm|r=s',
@@ -304,6 +306,7 @@ Disable options:
     --no-wakeonlan      do not use wakeonlan function ($config->{'no-wakeonlan'})
     --no-snmpquery      do not use snmpquery function ($config->{'no-snmpquery'})
     --no-netdiscovery   do not use netdiscovery function ($config->{'no-netdiscovery'})
+    --no-p2p            do not use P2P feature for OCS software deployment ($config->{'no-p2p'})
 
 Extra options:
     --backend-collect-timeout   set a maximum delay time of one inventory data collect job ($config->{'backend-collect-timeout'})

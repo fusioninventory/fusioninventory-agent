@@ -411,6 +411,10 @@ Do not inventory the printer.
 
 Do not inventory the software installed on the machine.
 
+=item B<--no-p2p>
+
+For OCS Inventory software deployment. Do not use peer 2 peer to download files.
+
 =item B<-p>, B<--password>=I<PASSWORD>
 
 Use I<PASSWORD> for an HTTP authentification with the server.
