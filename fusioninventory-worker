@@ -1,0 +1,91 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use lib './lib';
+
+use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
+
+use FusionInventory::Agent;
+use FusionInventory::Worker;
+
+Getopt::Long::Configure('no_ignorecase');
+
+my %options;
+GetOptions(
+    \%options,
+    'help',
+    'version',
+    'debug',
+    'task=s',
+    'target=s',
+    'conf-file=s'
+) or pod2usage(-verbose => 0);
+
+if ($options{help}) {
+    pod2usage(-verbose => 0);
+}
+if ($options{version}) {
+    print $FusionInventory::Agent::VERSION_STRING . "\n";
+    exit 0;
+}
+if (!$options{task}) {
+    pod2usage(
+        -message => 'No task given, aborting',
+        -verbose => 0,
+        -exitval => 2,
+    );
+}
+if (!$options{target}) {
+    pod2usage(
+        -message => 'No target given, aborting',
+        -verbose => 0,
+        -exitval => 2,
+    );
+}
+
+my $worker = FusionInventory::Worker->new(
+    confdir   => './etc/fusioninventory',
+    datadir   => './share',
+    vardir    => './var',
+    debug     => $options{debug},
+    conffile  => $options{'conf-file'},
+);
+
+eval {
+    $worker->run(
+        task   => $options{task},
+        target => $options{target}
+    );
+};
+
+if ($EVAL_ERROR) {
+    print STDERR $EVAL_ERROR;
+    exit 2;
+}
+__END__
+
+=head1 NAME
+
+fusioninventory-worker - FusionInventory worker
+
+=head1 SYNOPSIS
+
+B<fusioninventory-worker> [options] --target <target> --task <task>
+
+  Options:
+    --conf-file FILE    configuration file
+    --debug             debug mode
+    --version           display the agent version
+    --help              display usage instructions
+
+=head1 EXAMPLES
+
+    % fusioninventory-worker --target localhost --task inventory
+    # execute task 'inventory' for target 'localhost'
+
+=head1 DESCRIPTION
+
+F<fusioninventory-worker> executes a single task for a single target.
