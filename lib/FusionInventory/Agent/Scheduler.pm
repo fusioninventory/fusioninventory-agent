@@ -11,15 +11,11 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger     => $params->{logger} || FusionInventory::Logger->new(),
-        lazy       => $params->{lazy},
-        wait       => $params->{wait},
-        background => $params->{background},
-        targets    => []
+        logger  => $params->{logger} || FusionInventory::Logger->new(),
+        targets => []
     };
 
     bless $self, $class;
-
 
     POE::Session->create(
         inline_states => {
@@ -29,17 +25,7 @@ sub new {
             },
             runAllNow => sub { $self->runAllNow() },
 	    targetIsDone => sub {
-                return if $self->{background};
-		foreach my $target (@{$self->{targets}}) {
-		    return if @{$target->{modulenamesToRun}};
-		}
-
-		# No more module to run and we are not in daemon mode,
-		# let's terminate POE wheel and kill the agent
-		print "Let's kill the agent\n";
-		$_[KERNEL]->post(config => 'shutdown');
-		$_[KERNEL]->post(IKC => 'shutdown');
-	    
+                return;
 	    } 
         }
     );
@@ -60,46 +46,14 @@ sub getNextTarget {
 
     return unless @{$self->{targets}};
 
-    if ($self->{background}) {
-        # block until a target is eligible to run, then return it
-        while (1) {
-            foreach my $target (@{$self->{targets}}) {
-                if (time > $target->getNextRunDate()) {
-                    return $target;
-                }
-            }
-            sleep(10);
-        }
-    } else {
-        my $target = shift @{$self->{targets}};
-
-        # return next target if eligible, nothing otherwise
-        if ($self->{lazy}) {
+    # block until a target is eligible to run, then return it
+    while (1) {
+        foreach my $target (@{$self->{targets}}) {
             if (time > $target->getNextRunDate()) {
-                $logger->debug("Processing $target->{path}");
                 return $target;
-            } else {
-                $logger->info(
-                    "Nothing to do for $target->{path}. Next server contact " .
-                    "planned for " . localtime($target->getNextRunDate())
-                );
-                return;
             }
         }
-
-        # return next target after waiting for a random delay
-        if ($self->{wait}) {
-            my $wait = int rand($self->{wait});
-            $logger->info(
-                "Going to sleep for $wait second(s) because of the wait " .
-                "parameter"
-            );
-            sleep($wait);
-            return $target;
-        }
-
-        # return next target immediatly
-        return $target;
+        sleep(10);
     }
 
     # should never get reached
@@ -159,21 +113,6 @@ hashref:
 =item I<logger>
 
 the logger object to use (default: a new stderr logger)
-
-=item I<lazy>
-
-a flag to ensure targets whose next scheduled execution date has not been
-reached yet will get ignored. Only useful when I<background> flag is not set.
-
-=item I<wait>
-
-a number of second to wait before returning each target. Only useful when
-I<background> flag is not set.
-
-=item I<background>
-
-a flag to set if the agent is running as a resident program, aka a daemon in
-Unix world, and a service in Windows world (default: false)
 
 =back
 
