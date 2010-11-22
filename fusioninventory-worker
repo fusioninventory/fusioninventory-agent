@@ -19,6 +19,8 @@ GetOptions(
     'help',
     'version',
     'debug',
+    'lazy',
+    'wait=i',
     'task=s',
     'target=s',
     'conf-file=s'
@@ -46,11 +48,17 @@ if (!$options{target}) {
     );
 }
 
+if ($options{wait}) {
+    my $delay = int rand($options{wait});
+    sleep($delay);
+}
+
 my $worker = FusionInventory::Worker->new(
     confdir   => './etc/fusioninventory',
     datadir   => './share',
     vardir    => './var',
     debug     => $options{debug},
+    lazy      => $options{lazy},
     conffile  => $options{'conf-file'},
 );
 
@@ -78,6 +86,8 @@ B<fusioninventory-worker> [options] --target <target> --task <task>
   Options:
     --conf-file FILE    configuration file
     --debug             debug mode
+    --lazy              do not run out of schedule for this target
+    --wait TIME         wait a random delay before running
     --version           display the agent version
     --help              display usage instructions
 
