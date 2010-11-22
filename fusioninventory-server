@@ -1,0 +1,74 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use lib './lib';
+
+use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
+
+use FusionInventory::Agent;
+use FusionInventory::Server;
+
+my %options;
+GetOptions(
+    \%options,
+    'help',
+    'version',
+    'debug',
+    'fork!',
+    'conf-file=s'
+) or pod2usage(-verbose => 0);
+
+if ($options{help}) {
+    pod2usage(-verbose => 0);
+}
+if ($options{version}) {
+    print $FusionInventory::Agent::VERSION_STRING . "\n";
+    exit 0;
+}
+
+my $server = FusionInventory::Server->new(
+    confdir   => './etc/fusioninventory',
+    datadir   => './share',
+    vardir    => './var',
+    debug     => $options{debug},
+    fork      => $options{fork},
+    conffile  => $options{'conf-file'},
+);
+
+eval {
+    $server->run();
+};
+
+if ($EVAL_ERROR) {
+    print STDERR $EVAL_ERROR;
+    exit 1;
+}
+__END__
+
+=head1 NAME
+
+fusioninventory-server - FusionInventory server
+
+=head1 SYNOPSIS
+
+B<fusioninventory-server> [options]
+
+  Options:
+    --conf-file FILE    configuration file
+    --debug             debug mode
+    --fork              fork the server in background
+    --version           display the agent version
+    --help              display usage instructions
+
+=head1 EXAMPLES
+
+    % fusioninventory-server
+    # launch the server
+
+=head1 DESCRIPTION
+
+F<fusioninventory-server> is the server scheduling tasks according to its
+configuration.
