@@ -9,8 +9,6 @@ use File::Spec;
 use UNIVERSAL::require;
 
 my $defaults = {
-    'global.daemon'        => 0,
-    'global.no-fork'       => 0,
     'global.tag'           => '',
     'target.local'         => '',
     'target.server'        => undef,
@@ -63,6 +61,16 @@ sub getValue {
     return $self->{values}->{$name};
 }
 
+sub getValues {
+    my ($self, $name) = @_;
+
+    my $value = $self->getValue($name);
+
+    return $value ?
+        split(/\s*,\s*/, $value) :
+        ();
+}
+
 sub getBlock {
     my ($self, $name) = @_;
 
@@ -82,20 +90,6 @@ sub _check {
         $values->{logger} .= ',File'
     }
 
-    # multi-valued attributes
-    if ($values->{server}) {
-        $values->{server} = [
-            split(/\s*,\s*/, $values->{server})
-        ];
-    }
-
-    if ($values->{logger}) {
-        my %seen;
-        $values->{logger} = [
-            grep { !$seen{$_}++ }
-            split(/\s*,\s*/, $values->{logger})
-        ];
-    }
 
     # We want only canonical path
     foreach my $value (qw/ca-cert-file ca-cert-dir logfile/) {
