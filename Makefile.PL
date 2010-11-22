@@ -51,7 +51,8 @@ test_requires 'IPC::Run'                     => undef;
 test_requires 'IO::Capture::Stderr'          => undef;
 test_requires 'Test::Simple'                 => undef;
 
-install_script  'fusioninventory-agent';
+install_script  'fusioninventory-server';
+install_script  'fusioninventory-worker';
 install_script  'fusioninventory-agent-config';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
