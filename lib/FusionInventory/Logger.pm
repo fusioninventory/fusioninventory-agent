@@ -8,17 +8,17 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        debug    => $params->{debug},
+        debug    => $params{debug},
         backends => [],
     };
     bless $self, $class;
 
     my %loadedMbackends;
     foreach my $backend (
-        $params->{backends} ? @{$params->{backends}} : 'Stderr'
+        $params{backends} ? @{$params{backends}} : 'Stderr'
     ) {
 	next if $loadedMbackends{$backend};
         my $package = "FusionInventory::Logger::$backend";
@@ -33,7 +33,7 @@ sub new {
         $self->debug("Logger backend $backend initialised");
         push
             @{$self->{backends}},
-            $package->new({config => $params->{config}});
+            $package->new({config => $params{config}});
     }
 
     $self->debug($FusionInventory::Agent::STRING_VERSION);
@@ -96,10 +96,10 @@ This is the logger object.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 
