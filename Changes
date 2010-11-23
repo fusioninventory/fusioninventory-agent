@@ -7,6 +7,7 @@ Revision history for FusionInventory::Agent
          this is needed for AIX 6.1 prebuilt.
        * AIX/CPU: use addCPU() and collect the CORE/THREAD
        * AIX/hardware: fix a typo sysplanar0 instead of sysplana00
+       * AIX/storage: reinitialise temp var correctly
 
 2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs

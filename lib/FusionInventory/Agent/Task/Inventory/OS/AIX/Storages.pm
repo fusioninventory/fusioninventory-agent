@@ -13,7 +13,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my(@disques, $device, $model, $capacity, $description, $manufacturer, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
+    my(@disques, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
 
     #lsvpd
     my @lsvpd = `lsvpd`;  
@@ -23,6 +23,14 @@ sub doInventory {
     $n=0;
     @scsi=`lsdev -Cc disk -s scsi -F 'name:description'`;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
+        my $serial;
+
         chomp $scsi[$n];
         /^(.+):(.+)/;
         $device=$1;
@@ -57,6 +65,13 @@ sub doInventory {
     $n=0;
     @scsi=`lsdev -Cc disk -s vscsi -F 'name:description'`;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
+
         chomp $scsi[$n];
         /^(.+):(.+)/;
         $device=$1;
@@ -95,6 +110,12 @@ sub doInventory {
     @scsi=`lsdev -Cc cdrom -s scsi -F 'name:description:status'`;
     $i=0;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device=$1;
@@ -136,6 +157,12 @@ sub doInventory {
     @scsi=`lsdev -Cc tape -s scsi -F 'name:description:status'`;
     $i=0;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device=$1;
@@ -176,6 +203,12 @@ sub doInventory {
     @scsi=`lsdev -Cc diskette -F 'name:description:status'`;
     $i=0;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device=$1;
