@@ -9,12 +9,12 @@ use Fcntl qw(:flock);
 use File::stat;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        logfile         => $params->{config}->{'logfile'},
-        logfile_maxsize => $params->{config}->{'logfile-maxsize'} ?
-            $params->{config}->{'logfile-maxsize'} * 1024 * 1024 : undef
+        file    => $params{file},
+        maxsize => $params{maxsize} ?
+            $params{maxsize} * 1024 * 1024 : undef
     };
 
     bless $self, $class;
@@ -30,20 +30,20 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
-    if ($self->{logfile_maxsize}) {
-        my $stat = stat($self->{logfile});
-        if ($stat && $stat->size() > $self->{logfile_maxsize}) {
-            unlink $self->{logfile}
-                or warn "Can't unlink $self->{logfile}: $ERRNO";
+    if ($self->{maxsize}) {
+        my $stat = stat($self->{file});
+        if ($stat && $stat->size() > $self->{maxsize}) {
+            unlink $self->{file}
+                or warn "Can't unlink $self->{file}: $ERRNO";
         }
     }
 
-    open my $handle, '>>', $self->{logfile}
-        or warn "Can't open $self->{logfile}: $ERRNO";
+    open my $handle, '>>', $self->{file}
+        or warn "Can't open $self->{file}: $ERRNO";
 
     # get an exclusive lock on log file
     flock($handle, LOCK_EX)
-        or die "can't get an exclusive lock on $self->{logfile}: $ERRNO";
+        or die "can't get an exclusive lock on $self->{file}: $ERRNO";
 
     print {$handle}
         "[". localtime() ."]" .

@@ -7,10 +7,10 @@ use base 'FusionInventory::Logger::Backend';
 use English qw(-no_match_vars);
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        config => $params->{config}
+        color => $params{color}
     };
     bless $self, $class;
 
@@ -20,13 +20,11 @@ sub new {
 sub addMsg {
     my ($self, $args) = @_;
 
-    my $config = $self->{config};
-
     my $level = $args->{level};
     my $message = $args->{message};
 
     my $format;
-    if ($config->{color}) {
+    if ($self->{color}) {
         if ($level eq 'error') {
             $format = "\033[1;35m[%s] %s\033[0m\n";
         } elsif ($level eq 'fault') {

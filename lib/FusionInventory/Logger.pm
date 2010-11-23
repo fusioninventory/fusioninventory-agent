@@ -11,8 +11,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        debug    => $params{debug},
-        backends => [],
+        debug => $params{debug},
     };
     bless $self, $class;
 
@@ -33,7 +32,7 @@ sub new {
         $self->debug("Logger backend $backend initialised");
         push
             @{$self->{backends}},
-            $package->new({config => $params{config}});
+            $package->new(%params);
     }
 
     $self->debug($FusionInventory::Agent::STRING_VERSION);
