@@ -16,11 +16,11 @@ sub new {
     };
     bless $self, $class;
 
-    my %loadedMbackends;
+    my %backends;
     foreach my $backend (
         $params{backends} ? @{$params{backends}} : 'Stderr'
     ) {
-	next if $loadedMbackends{$backend};
+	next if $backends{$backend};
         my $package = "FusionInventory::Logger::$backend";
         $package->require();
         if ($EVAL_ERROR) {
@@ -28,7 +28,7 @@ sub new {
                 "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
             next;
         }
-	$loadedMbackends{$backend}=1;
+	$backends{$backend} = 1;
 
         $self->debug("Logger backend $backend initialised");
         push
