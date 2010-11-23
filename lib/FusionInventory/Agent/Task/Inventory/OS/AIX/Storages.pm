@@ -49,12 +49,18 @@ sub doInventory {
             if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
             if ((/^FC .+/) && $flag) {$flag=0;last}
         }
-        $inventory->addStorages({
+
+        foreach (`lscfg -p -v -s -l $device` =~ /Serial Number\.*(.*)/) {
+            $serial = $1;
+        }
+
+        $inventory->addStorage({
                 NAME => $device,
                 MANUFACTURER => $manufacturer,
                 MODEL => $model,
                 DESCRIPTION => $description,
                 TYPE => 'disk',
+                SERIAL=> $serial,
                 DISKSIZE => $capacity
             });
         $n++;
@@ -91,7 +97,7 @@ sub doInventory {
                 $capacity=0;
             }
         }
-        $inventory->addStorages({
+        $inventory->addStorage({
                 MANUFACTURER => "VIO Disk",
                 MODEL => "Virtual Disk",
                 DESCRIPTION => $description,
@@ -138,7 +144,7 @@ sub doInventory {
                 if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
                 if ((/^FC .+/) && $flag) {$flag=0;last}
             }
-            $inventory->addStorages({
+            $inventory->addStorage({
                     NAME => $device,
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,
@@ -184,7 +190,7 @@ sub doInventory {
                 if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
                 if ((/^FC .+/) && $flag) {$flag=0;last}
             }
-            $inventory->addStorages({
+            $inventory->addStorage({
                     NAME => $device,
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,
@@ -225,14 +231,14 @@ sub doInventory {
             }
             #On le force en retour taille disquette non affichable
             $capacity ="";
-            $inventory->addStorages({
-                NAME => $device,
-                MANUFACTURER => 'N/A',
-                MODEL => 'N/A',
-                DESCRIPTION => $description,
-                TYPE => 'floppy',
-                DISKSIZE => ''
-            });
+            $inventory->addStorage({
+                    NAME => $device,
+                    MANUFACTURER => 'N/A',
+                    MODEL => 'N/A',
+                    DESCRIPTION => $description,
+                    TYPE => 'floppy',
+                    DISKSIZE => ''
+                });
             $n++;
         }
         $i++;

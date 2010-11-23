@@ -8,6 +8,8 @@ Revision history for FusionInventory::Agent
        * AIX/CPU: use addCPU() and collect the CORE/THREAD
        * AIX/hardware: fix a typo sysplanar0 instead of sysplana00
        * AIX/storage: reinitialise temp var correctly
+       * AIX/storage: store the harddrive serial number
+       * AIX/storage: use addStroage
 
 2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs
