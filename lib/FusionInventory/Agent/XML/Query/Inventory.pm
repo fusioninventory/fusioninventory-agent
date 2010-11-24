@@ -2015,6 +2015,8 @@ If the interface exist or not (1 or empty)
 
 =item SLAVES
 
+Bonded interfaces list in the eth0/eth1/eth2 format (/ is the separator).
+
 =item MANAGEMENT
 
 Whether or not it is a HP iLO, Sun SC, HP MP or other kind of Remote Management Interface
