@@ -2,8 +2,6 @@ package FusionInventory::Agent::Receiver;
 
 use strict;
 use warnings;
-#use threads;
-#use threads::shared;
 
 use Sys::Hostname;
 use English qw(-no_match_vars);
