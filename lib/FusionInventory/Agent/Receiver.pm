@@ -146,7 +146,6 @@ sub deploy {
 }
 
 sub now {
-    use Data::Dumper;
     my ($self, $request, $response) = @_;
 
     my $logger = $self->{logger};
