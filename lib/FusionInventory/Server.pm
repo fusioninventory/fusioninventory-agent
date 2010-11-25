@@ -207,6 +207,8 @@ sub run {
 
     $self->{scheduler}->addTarget($_) foreach @targets;
 
+    $self->{scheduler}->createSession();
+
     POE::Kernel->run();
 
     exit;
