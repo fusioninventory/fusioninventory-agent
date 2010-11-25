@@ -13,7 +13,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my(@disques, $device, $model, $capacity, $description, $manufacturer, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
+    my(@disques, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
 
     #lsvpd
     my @lsvpd = `lsvpd`;  
@@ -23,6 +23,14 @@ sub doInventory {
     $n=0;
     @scsi=`lsdev -Cc disk -s scsi -F 'name:description'`;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
+        my $serial;
+
         chomp $scsi[$n];
         /^(.+):(.+)/;
         $device=$1;
@@ -41,12 +49,18 @@ sub doInventory {
             if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
             if ((/^FC .+/) && $flag) {$flag=0;last}
         }
-        $inventory->addStorages({
+
+        foreach (`lscfg -p -v -s -l $device` =~ /Serial Number\.*(.*)/) {
+            $serial = $1;
+        }
+
+        $inventory->addStorage({
                 NAME => $device,
                 MANUFACTURER => $manufacturer,
                 MODEL => $model,
                 DESCRIPTION => $description,
                 TYPE => 'disk',
+                SERIAL=> $serial,
                 DISKSIZE => $capacity
             });
         $n++;
@@ -57,6 +71,13 @@ sub doInventory {
     $n=0;
     @scsi=`lsdev -Cc disk -s vscsi -F 'name:description'`;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
+
         chomp $scsi[$n];
         /^(.+):(.+)/;
         $device=$1;
@@ -76,7 +97,7 @@ sub doInventory {
                 $capacity=0;
             }
         }
-        $inventory->addStorages({
+        $inventory->addStorage({
                 MANUFACTURER => "VIO Disk",
                 MODEL => "Virtual Disk",
                 DESCRIPTION => $description,
@@ -95,6 +116,12 @@ sub doInventory {
     @scsi=`lsdev -Cc cdrom -s scsi -F 'name:description:status'`;
     $i=0;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device=$1;
@@ -117,7 +144,7 @@ sub doInventory {
                 if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
                 if ((/^FC .+/) && $flag) {$flag=0;last}
             }
-            $inventory->addStorages({
+            $inventory->addStorage({
                     NAME => $device,
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,
@@ -136,6 +163,12 @@ sub doInventory {
     @scsi=`lsdev -Cc tape -s scsi -F 'name:description:status'`;
     $i=0;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device=$1;
@@ -157,7 +190,7 @@ sub doInventory {
                 if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
                 if ((/^FC .+/) && $flag) {$flag=0;last}
             }
-            $inventory->addStorages({
+            $inventory->addStorage({
                     NAME => $device,
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,
@@ -176,6 +209,12 @@ sub doInventory {
     @scsi=`lsdev -Cc diskette -F 'name:description:status'`;
     $i=0;
     for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device=$1;
@@ -192,14 +231,14 @@ sub doInventory {
             }
             #On le force en retour taille disquette non affichable
             $capacity ="";
-            $inventory->addStorages({
-                NAME => $device,
-                MANUFACTURER => 'N/A',
-                MODEL => 'N/A',
-                DESCRIPTION => $description,
-                TYPE => 'floppy',
-                DISKSIZE => ''
-            });
+            $inventory->addStorage({
+                    NAME => $device,
+                    MANUFACTURER => 'N/A',
+                    MODEL => 'N/A',
+                    DESCRIPTION => $description,
+                    TYPE => 'floppy',
+                    DISKSIZE => ''
+                });
             $n++;
         }
         $i++;

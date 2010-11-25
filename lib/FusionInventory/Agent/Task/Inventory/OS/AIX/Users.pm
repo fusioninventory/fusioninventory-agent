@@ -18,12 +18,8 @@ sub doInventory {
     my %user;
     # Logged on users
     for(`who`){
-        $user{$1} = 1 if /^(\S+)./;
+        $inventory->addUser($1) if /^(\S+)./;
     }
-
-    my $UsersLoggedIn = join "/", keys %user;
-
-    $inventory->setHardware ({ USERID => $UsersLoggedIn });
 
 }
 

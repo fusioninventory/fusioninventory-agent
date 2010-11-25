@@ -51,44 +51,52 @@ sub doInventory {
 
     # TODO Need to be able to register different CPU speed!
 
-    my $processort;
-    my $processorn;
-    my $processors; 
-    my $frequency;
-    my @lsdev; 
-    my @lsattr;
 
     #lsdev -Cc processor -F name
     #lsattr -EOl proc16
     my $aixversion=`uname -v`;
     for (`lsdev -Cc processor -F name`){
+        my $name;
+        my $frequency;
+        my $core = 0;
+        my $thread = 1;
+
         chomp(my $device = $_);
 
+        my @lsattr;
         if ( $aixversion < 5 ) {
             @lsattr=lsattrForAIX4($device);
         } else {
             @lsattr=`lsattr -EOl $device -a 'state:type:frequency'`;
+            if (`lsattr -EOl $device -a 'state:type:smt_threads'` =~ /:(\d+)$/) {
+                $thread = $1;
+            }
         }
 
         for (@lsattr) {
+
             if ( ! /^#/ && /(.+):(.+):(.+)/ ) {
-                $processorn++;
-                $processort=$2;
+                $core++;
                 if ( ($3 % 1000000) >= 50000){
-                    $processors=int (($3/1000000) +1); 
+                    $frequency=int (($3/1000000) +1);
                 } else {
-                    $processors=int (($3/1000000)); 
+                    $frequency=int (($3/1000000));
                 }
+                $name=$2;
+                $name =~ s/_/ /;
             }
         }
-    }
-    $processort =~ s/_/ /;
 
-    $inventory->setHardware({
-        PROCESSORT => $processort,
-        PROCESSORN => $processorn,
-        PROCESSORS => $processors
-    });
+
+        $inventory->addCPU({
+                NAME => $name,
+                SPEED => $frequency,
+                CORE => $core,
+                THREAD => $thread
+
+            })
+    }
+
 
 }
 

@@ -109,7 +109,7 @@ DESCRIPTION:
   -h --help	: this menu
   -d --directory	: load every .ocs files from a directory
   -f --file\	: load a speficic file
-  -u --url	: ocsinventory backend URL, default is http://ocsinventory-ng/ocsinventory
+  -u --url	: ocsinventory backend URL
   -r --remove	: remove succesfuly injected files
   -m --msg	: show message returned my ocsinventory
   -v --verbose	: verbose mode
