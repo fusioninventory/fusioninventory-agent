@@ -3,7 +3,6 @@ package FusionInventory::Agent::Receiver;
 use strict;
 use warnings;
 
-use Sys::Hostname;
 use English qw(-no_match_vars);
 use POE;
 use POE::Component::Server::HTTP;
