@@ -34,8 +34,6 @@ sub new {
 
     bless $self, $class;
 
-    $SIG{PIPE} = 'IGNORE';
-
     $self->{httpd} = POE::Component::Server::HTTP->new(
         Port => $self->{rpc_port} || 62354,
         ContentHandler => {
