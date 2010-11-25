@@ -37,7 +37,7 @@ sub new {
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
 
-    if ($params->{proxy}) {
+    if ($params{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $params{proxy});
     }  else {
         $self->{ua}->env_proxy;
@@ -172,10 +172,10 @@ sub send {
 
     $logger->debug("receiving message: $response_content");
 
-    my $response = FusionInventory::Agent::XML::Response->new({
+    my $response = FusionInventory::Agent::XML::Response->new(
         content => $response_content,
         logger  => $logger,
-    });
+    );
 
     return $response;
 }
