@@ -160,21 +160,15 @@ sub new {
     }
 
     if (!$config->{'no-www'}) {
-        FusionInventory::Agent::Receiver->require();
-        if ($EVAL_ERROR) {
-            $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
-        } else {
-
-            $self->{receiver} = FusionInventory::Agent::Receiver->new(
-                logger    => $logger,
-                scheduler => $self->{scheduler},
-                agent     => $self,
-                htmldir   => $self->{datadir} . '/html',
-                ip        => $config->{'www-ip'},
-                port      => $config->{'www-port'},
-                trust_localhost => $config->{'www-trust-localhost'},
-            );
-        }
+        $self->{receiver} = FusionInventory::Agent::Receiver->new(
+            logger    => $logger,
+            scheduler => $self->{scheduler},
+            agent     => $self,
+            htmldir   => $self->{datadir} . '/html',
+            ip        => $config->{'www-ip'},
+            port      => $config->{'www-port'},
+            trust_localhost => $config->{'www-trust-localhost'},
+        );
     }
 
     POE::Component::IKC::Server->spawn(
