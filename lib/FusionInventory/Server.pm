@@ -213,22 +213,13 @@ sub run {
     my ($self) = @_;
 
     my $config = $self->{config};
-    my $logger = $self->{logger};
     my $scheduler = $self->{scheduler};
-    my $receiver = $self->{receiver};
 
     $config->createSession();
 
-
-    if ($config->{daemon} || $config->{service}) {
-        foreach my $target (@{$scheduler->{targets}}) {
-            # Create the POE session
-            $target->createSession();
-        }
-    } else {
-        foreach my $target (@{$scheduler->{targets}}) {
-            $target->run();
-        }
+    foreach my $target (@{$scheduler->{targets}}) {
+        # Create the POE session
+        $target->createSession();
     }
 
     POE::Kernel->run();
