@@ -7,14 +7,14 @@ use base 'FusionInventory::Agent::XML::Query';
 use XML::TreePP;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "no msg parameter" unless $params->{msg};
+    die "no msg parameter" unless $params{msg};
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
-    foreach (keys %{$params->{msg}}) {
-        $self->{h}{$_} = $params->{msg}{$_};
+    foreach (keys %{$params{msg}}) {
+        $self->{h}->{$_} = $params{msg}->{$_};
     }
 
     return $self;

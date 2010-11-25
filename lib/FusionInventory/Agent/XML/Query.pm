@@ -8,19 +8,19 @@ use XML::TreePP;
 use FusionInventory::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "no deviceid parameter" unless $params->{deviceid};
+    die "no deviceid parameter" unless $params{deviceid};
 
     my $self = {
-        logger   => $params->{logger} || FusionInventory::Logger->new(),
-        deviceid => $params->{deviceid}
+        logger   => $params{logger} || FusionInventory::Logger->new(),
+        deviceid => $params{deviceid}
     };
     bless $self, $class;
 
     $self->{h} = {
         QUERY    => ['UNSET!'],
-        DEVICEID => [$params->{deviceid}]
+        DEVICEID => [$params{deviceid}]
     };
 
     return $self;
@@ -61,10 +61,10 @@ server.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 

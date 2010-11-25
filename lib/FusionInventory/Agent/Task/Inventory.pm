@@ -24,11 +24,11 @@ sub run {
     # initialize modules list
     $self->_initModList();
 
-    $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new({
+    $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => $self->{deviceid},
         logger   => $self->{logger},
         storage  => $self->{target}->getStorage()
-    });
+    );
 
     $self->_feedInventory();
 

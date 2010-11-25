@@ -55,9 +55,9 @@ my %fields = (
 );
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
@@ -89,7 +89,7 @@ sub new {
         $FusionInventory::Agent::AGENT_STRING
     ];
 
-    $self->{storage} = $params->{storage};
+    $self->{storage} = $params{storage};
     $self->_loadState() if $self->{storage};
 
     return $self;

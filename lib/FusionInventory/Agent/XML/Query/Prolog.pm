@@ -10,14 +10,14 @@ use XML::TreePP;
 use FusionInventory::Agent::XML::Query;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "no token parameter" unless $params->{token};
+    die "no token parameter" unless $params{token};
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
     $self->{h}->{QUERY} = ['PROLOG'];
-    $self->{h}->{TOKEN} = [$params->{token}];
+    $self->{h}->{TOKEN} = [$params{token}];
 
     my $tpp = XML::TreePP->new();
     my $content= $tpp->write( { REQUEST => $self->{h} } );

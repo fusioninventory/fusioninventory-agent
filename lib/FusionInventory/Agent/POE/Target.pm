@@ -93,11 +93,11 @@ sub run {
                         ca_cert_dir  => $config->{'ca-cert-dir'},
                     );
 
-                    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                            logger   => $logger,
-                            deviceid => $self->{deviceid},
-                            token    => $self->{token}
-                        });
+                    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+                        logger   => $logger,
+                        deviceid => $self->{deviceid},
+                        token    => $self->{token}
+                    );
 
                     if ($config->{tag}) {
                         $prolog->setAccountInfo({'TAG', $config->{tag}});
@@ -247,11 +247,11 @@ sub runFork {
                 ca_cert_dir  => $config->{'ca-cert-dir'},
             );
 
-            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
                 logger   => $logger,
                 deviceid => $self->{deviceid},
                 token    => $self->{token}
-            });
+            );
 
             if ($config->{tag}) {
                 $prolog->setAccountInfo({'TAG', $config->{tag}});

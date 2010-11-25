@@ -22,14 +22,14 @@ sub run {
 
     $self->{logger}->debug("Ping ID:". $options->{ID});
 
-    my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
+    my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
         logger   => $self->{logger},
         deviceid => $self->{target}->{deviceid},
         msg      => {
             QUERY => 'PING',
             ID    => $options->{ID},
         },
-    });
+    );
 
     $self->{logger}->debug("Pong!");
     $self->{transmitter}->send( { message => $message } );
