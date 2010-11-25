@@ -20,12 +20,11 @@ sub new {
     POE::Session->create(
         inline_states => {
             _start => sub {
-                $_[KERNEL]->alias_set("scheduler");
+                $_[KERNEL]->alias_set('scheduler');
+                $_[KERNEL]->delay_set('tick', 1);
             },
-            runAllNow => sub { $self->runAllNow() },
-	    targetIsDone => sub {
-                return;
-	    } 
+            tick => sub { $self->checkAllTargets() },
+            run  => sub { $self->runAllTargets() },
         }
     );
 
@@ -42,26 +41,6 @@ sub addTarget {
     push @{$self->{targets}}, $target;
 }
 
-sub getNextTarget {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-
-    return unless @{$self->{targets}};
-
-    # block until a target is eligible to run, then return it
-    while (1) {
-        foreach my $target (@{$self->{targets}}) {
-            if (time > $target->getNextRunDate()) {
-                return $target;
-            }
-        }
-        sleep(10);
-    }
-
-    # should never get reached
-    return;
-}
 
 sub getTargets {
     my ($self) = @_;
@@ -78,17 +57,26 @@ sub scheduleTargets {
     }
 }
 
-sub runAllNow {
+
+sub checkAllTargets {
     my ($self) = @_;
 
-    my $logger = $self->{logger};
+    my $time = time();
     foreach my $target (@{$self->{targets}}) {
-        $logger->info("Calling ".$target->getDescriptionString());
-        POE::Kernel->call( $target->{session}, 'runNow' );
-        $logger->info("End of call ".$target->getDescriptionString());
+        $self->runTarget($target) if $time > $target->getNextRunDate();
     }
-    $logger->info("End of runAllNowl()");
+}
 
+sub runAllTargets {
+    my ($self) = @_;
+
+    foreach my $target (@{$self->{targets}}) {
+        $self->runTarget($target);
+    }
+}
+
+sub runTarget {
+    my ($self, $target) = @_;
 }
 
 
