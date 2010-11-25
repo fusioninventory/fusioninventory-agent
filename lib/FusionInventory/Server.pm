@@ -76,67 +76,6 @@ sub new {
     $self->{deviceid} = $data->{deviceid};
 
 
-    my @targets;
-    foreach my $target_name ($config->getValues('global.targets')) {
-        my $target_config = $config->getBlock($target_name);
-        die "No configuration section for target $target_name, aborting"
-            unless keys %$target_config;
-
-        my $target_type = $target_config->{type}
-            or die "No type for target $target_name, aborting";
-
-        SWITCH: {
-            if ($target_type eq 'stdout') {
-                push
-                    @targets,
-                    FusionInventory::Agent::Target::Stdout->new(
-                        logger     => $logger,
-                        maxOffset  => $config->{delaytime},
-                        basevardir => $self->{vardir},
-                        format     => $target_config->{format}
-                    );
-                last SWITCH;
-            }
-
-            if ($target_type eq 'local') {
-                push
-                    @targets,
-                    FusionInventory::Agent::Target::Local->new(
-                        logger     => $logger,
-                        maxOffset  => $config->{delaytime},
-                        basevardir => $self->{vardir},
-                        path       => $target_config->{path},
-                        deviceid   => $self->{deviceid},
-                        format     => $target_config->{format}
-                    );
-                last SWITCH;
-            }
-
-            if ($target_type eq 'server') {
-                push
-                    @targets,
-                    FusionInventory::Agent::Target::Server->new(
-                        logger     => $logger,
-                        maxOffset  => $config->{delaytime},
-                        basevardir => $self->{vardir},
-                        url        => $target_config->{url},
-                        deviceid   => $self->{deviceid},
-                        format     => $target_config->{format}
-                    );
-                last SWITCH;
-            }
-
-            die "Invalid type $target_type for target $target_name, aborting";
-        }
-    }
-
-    die "no targets defined, aborting" unless @targets;
-
-    $self->{scheduler} = FusionInventory::Agent::Server::Scheduler->new(
-        logger => $logger,
-    );
-    $self->{scheduler}->addTarget($_) foreach @targets;
-
     if ($params{fork}) {
 
         $logger->debug("Daemon mode enabled");
@@ -159,6 +98,10 @@ sub new {
 
     }
 
+    $self->{scheduler} = FusionInventory::Agent::Server::Scheduler->new(
+        logger => $logger,
+    );
+
     if (!$config->{'no-www'}) {
         $self->{receiver} = FusionInventory::Agent::Server::Receiver->new(
             logger    => $logger,
@@ -180,7 +123,6 @@ sub new {
     POE::Kernel->call(IKC => publish => 'target', ["get"]);
     POE::Kernel->call(IKC => publish => 'network', ["send"]);
 #    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
-
 
     $logger->debug("FusionInventory Agent initialised");
 
@@ -206,11 +148,68 @@ sub run {
     my ($self) = @_;
 
     my $config = $self->{config};
-    my $scheduler = $self->{scheduler};
+
+    my @targets;
+    foreach my $target_name ($config->getValues('global.targets')) {
+        my $target_config = $config->getBlock($target_name);
+        die "No configuration section for target $target_name, aborting"
+            unless keys %$target_config;
+
+        my $target_type = $target_config->{type}
+            or die "No type for target $target_name, aborting";
+
+        SWITCH: {
+            if ($target_type eq 'stdout') {
+                push
+                    @targets,
+                    FusionInventory::Agent::Target::Stdout->new(
+                        logger     => $self->{logger},
+                        maxOffset  => $config->{delaytime},
+                        basevardir => $self->{vardir},
+                        format     => $target_config->{format}
+                    );
+                last SWITCH;
+            }
+
+            if ($target_type eq 'local') {
+                push
+                    @targets,
+                    FusionInventory::Agent::Target::Local->new(
+                        logger     => $self->{logger},
+                        maxOffset  => $config->{delaytime},
+                        basevardir => $self->{vardir},
+                        path       => $target_config->{path},
+                        deviceid   => $self->{deviceid},
+                        format     => $target_config->{format}
+                    );
+                last SWITCH;
+            }
+
+            if ($target_type eq 'server') {
+                push
+                    @targets,
+                    FusionInventory::Agent::Target::Server->new(
+                        logger     => $self->{logger},
+                        maxOffset  => $config->{delaytime},
+                        basevardir => $self->{vardir},
+                        url        => $target_config->{url},
+                        deviceid   => $self->{deviceid},
+                        format     => $target_config->{format}
+                    );
+                last SWITCH;
+            }
+
+            die "Invalid type $target_type for target $target_name, aborting";
+        }
+    }
+
+    die "no targets defined, aborting" unless @targets;
+
+    $self->{scheduler}->addTarget($_) foreach @targets;
 
     $config->createSession();
 
-    foreach my $target (@{$scheduler->{targets}}) {
+    foreach my $target (@{$self->{scheduler}->{targets}}) {
         # Create the POE session
         $target->createSession();
     }
