@@ -37,12 +37,12 @@ sub new {
     $self->{httpd} = POE::Component::Server::HTTP->new(
         Port => $self->{port},
         ContentHandler => {
-            '/' => sub { $self->main(@_) },
-            '/deploy/' => sub { $self->deploy(@_) },
-            '/now' => sub { $self->now(@_) },
-            '/files/' => sub { $self->files(@_) },
+            '/'       => sub { $self->main(@_) },
+            '/deploy' => sub { $self->deploy(@_) },
+            '/now'    => sub { $self->now(@_) },
+            '/files'  => sub { $self->files(@_) },
         },
-        StreamHandler  => sub { $self->stream(@_) },
+        StreamHandler => sub { $self->stream(@_) },
         Headers => { Server => 'FusionInventory Agent' },
     );
 
