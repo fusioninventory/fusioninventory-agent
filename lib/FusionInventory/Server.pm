@@ -18,7 +18,6 @@ use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Prolog;
 use FusionInventory::Logger;
 
