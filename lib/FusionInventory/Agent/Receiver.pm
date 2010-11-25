@@ -46,10 +46,11 @@ sub new {
         Headers => { Server => 'FusionInventory Agent' },
     );
 
-    $logger->info("RPC service started at: http://".
-        ( $self->{'ip'} || "127.0.0.1" ).
-        ":".
-        ($self->{'port'});
+    $logger->info(
+        "RPC service started at: http://" .
+        ($self->{ip} || "127.0.0.1")      .
+        ":$self->{port}"
+    );
 
     return $self;
 }
