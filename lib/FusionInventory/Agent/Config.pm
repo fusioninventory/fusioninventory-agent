@@ -67,6 +67,7 @@ my $default = {
     'scan-homedirs'           => 0,
     'rpc-ip'                  => '',
     'rpc-port'                => '62354',
+    'rpc-trust-localhost'     => 0,
     # Other values that can't be changed with the
     # CLI parameters
     'basevardir'              => $basevardir,
