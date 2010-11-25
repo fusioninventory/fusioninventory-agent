@@ -32,13 +32,6 @@ sub new {
         "[WWW] no static files directory"
     );
 
-
-    if ($self->{htmldir}) {
-        $logger->debug("[WWW] Static files are in ".$self->{htmldir});
-    } else {
-        $logger->debug("[WWW] No static files directory");
-    }
-
     bless $self, $class;
 
     $SIG{PIPE} = 'IGNORE';
