@@ -20,7 +20,6 @@ sub new {
     POE::Session->create(
         inline_states => {
             _start => sub {
-                print "Scheduler Start\n";
                 $_[KERNEL]->alias_set("scheduler");
             },
             runAllNow => sub { $self->runAllNow() },
