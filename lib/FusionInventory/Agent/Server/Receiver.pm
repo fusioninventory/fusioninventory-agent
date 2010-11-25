@@ -25,13 +25,6 @@ sub new {
         trust_localhost => $params{trust_localhost},
     };
 
-    my $logger = $self->{logger};
-
-    $logger->debug($self->{htmldir} ?
-        "[WWW] static files are in $self->{htmldir}" :
-        "[WWW] no static files directory"
-    );
-
     bless $self, $class;
 
     $self->{httpd} = POE::Component::Server::HTTP->new(
@@ -46,8 +39,8 @@ sub new {
         Headers => { Server => 'FusionInventory Agent' },
     );
 
-    $logger->info(
-        "RPC service started at: http://" .
+    $self->{logger}->info(
+        "Web interface started at http://" .
         ($self->{ip} || "127.0.0.1")      .
         ":$self->{port}"
     );
