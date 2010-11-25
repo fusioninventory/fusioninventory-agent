@@ -207,13 +207,6 @@ sub run {
 
     $self->{scheduler}->addTarget($_) foreach @targets;
 
-    $config->createSession();
-
-    foreach my $target (@{$self->{scheduler}->{targets}}) {
-        # Create the POE session
-        $target->createSession();
-    }
-
     POE::Kernel->run();
 
     exit;
