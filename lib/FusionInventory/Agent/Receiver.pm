@@ -20,7 +20,7 @@ sub new {
         agent           => $params{agent},
         htmldir         => $params{htmldir},
         ip              => $params{ip},
-        port            => $params{port},
+        port            => $params{port} || 62354,
         htmldir         => $params{htmldir},
         trust_localhost => $params{trust_localhost},
     };
@@ -35,7 +35,7 @@ sub new {
     bless $self, $class;
 
     $self->{httpd} = POE::Component::Server::HTTP->new(
-        Port => $self->{rpc_port} || 62354,
+        Port => $self->{port},
         ContentHandler => {
             '/' => sub { $self->main(@_) },
             '/deploy/' => sub { $self->deploy(@_) },
@@ -49,7 +49,7 @@ sub new {
     $logger->info("RPC service started at: http://".
         ( $self->{'ip'} || "127.0.0.1" ).
         ":".
-        ($self->{'www-port'} || 62354));
+        ($self->{'port'});
 
     return $self;
 }
