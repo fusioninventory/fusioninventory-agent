@@ -166,7 +166,7 @@ sub new {
             $logger->debug("Failed to load Receiver module: $EVAL_ERROR");
         } else {
 
-            $self->{receiver} = FusionInventory::Agent::Receiver->new({
+            $self->{receiver} = FusionInventory::Agent::Receiver->new(
                 logger    => $logger,
                 scheduler => $self->{scheduler},
                 agent     => $self,
@@ -174,7 +174,7 @@ sub new {
                 ip        => $config->{'www-ip'},
                 port      => $config->{'www-port'},
                 trust_localhost => $config->{'www-trust-localhost'},
-            });
+            );
         }
     }
 

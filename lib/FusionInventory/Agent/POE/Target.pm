@@ -82,16 +82,16 @@ sub run {
                 my $transmitter;
                 if ($self->isa('FusionInventory::Agent::Target::Server')) {
 
-                    $transmitter = FusionInventory::Agent::Transmitter->new({
-                            logger       => $logger,
-                            url          => $self->{url},
-                            proxy        => $config->{proxy},
-                            user         => $config->{user},
-                            password     => $config->{password},
-                            no_ssl_check => $config->{'no-ssl-check'},
-                            ca_cert_file => $config->{'ca-cert-file'},
-                            ca_cert_dir  => $config->{'ca-cert-dir'},
-                        });
+                    $transmitter = FusionInventory::Agent::Transmitter->new(
+                        logger       => $logger,
+                        url          => $self->{url},
+                        proxy        => $config->{proxy},
+                        user         => $config->{user},
+                        password     => $config->{password},
+                        no_ssl_check => $config->{'no-ssl-check'},
+                        ca_cert_file => $config->{'ca-cert-file'},
+                        ca_cert_dir  => $config->{'ca-cert-dir'},
+                    );
 
                     my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
                             logger   => $logger,
@@ -236,22 +236,22 @@ sub runFork {
         my $transmitter;
         if ($self->isa('FusionInventory::Agent::Target::Server')) {
 
-            $transmitter = FusionInventory::Agent::Transmitter->new({
-                    logger       => $logger,
-                    url          => $self->{url},
-                    proxy        => $config->{proxy},
-                    user         => $config->{user},
-                    password     => $config->{password},
-                    no_ssl_check => $config->{'no-ssl-check'},
-                    ca_cert_file => $config->{'ca-cert-file'},
-                    ca_cert_dir  => $config->{'ca-cert-dir'},
-                });
+            $transmitter = FusionInventory::Agent::Transmitter->new(
+                logger       => $logger,
+                url          => $self->{url},
+                proxy        => $config->{proxy},
+                user         => $config->{user},
+                password     => $config->{password},
+                no_ssl_check => $config->{'no-ssl-check'},
+                ca_cert_file => $config->{'ca-cert-file'},
+                ca_cert_dir  => $config->{'ca-cert-dir'},
+            );
 
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                    logger   => $logger,
-                    deviceid => $self->{deviceid},
-                    token    => $self->{token}
-                });
+            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+                logger   => $logger,
+                deviceid => $self->{deviceid},
+                token    => $self->{token}
+            });
 
             if ($config->{tag}) {
                 $prolog->setAccountInfo({'TAG', $config->{tag}});

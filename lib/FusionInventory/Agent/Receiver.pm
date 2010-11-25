@@ -15,17 +15,17 @@ use File::stat;
 use FusionInventory::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        logger          => $params->{logger} || FusionInventory::Logger->new(),
-        scheduler       => $params->{scheduler},
-        agent           => $params->{agent},
-        htmldir         => $params->{htmldir},
-        ip              => $params->{ip},
-        port            => $params->{port},
-        htmldir         => $params->{htmldir},
-        trust_localhost => $params->{trust_localhost},
+        logger          => $params{logger} || FusionInventory::Logger->new(),
+        scheduler       => $params{scheduler},
+        agent           => $params{agent},
+        htmldir         => $params{htmldir},
+        ip              => $params{ip},
+        port            => $params{port},
+        htmldir         => $params{htmldir},
+        trust_localhost => $params{trust_localhost},
     };
 
     my $logger = $self->{logger};
@@ -394,10 +394,10 @@ token if configuration option www-trust-localhost is true.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 

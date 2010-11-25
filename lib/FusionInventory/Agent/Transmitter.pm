@@ -15,21 +15,21 @@ use FusionInventory::Agent::XML::Response;
 use FusionInventory::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "non-existing certificate file $params->{ca_cert_file}"
-        if $params->{ca_cert_file} && ! -f $params->{ca_cert_file};
+    die "non-existing certificate file $params{ca_cert_file}"
+        if $params{ca_cert_file} && ! -f $params{ca_cert_file};
 
-    die "non-existing certificate directory $params->{ca_cert_dir}"
-        if $params->{ca_cert_dir} && ! -d $params->{ca_cert_dir};
+    die "non-existing certificate directory $params{ca_cert_dir}"
+        if $params{ca_cert_dir} && ! -d $params{ca_cert_dir};
 
     my $self = {
-        logger       => $params->{logger} || FusionInventory::Logger->new(),
-        user         => $params->{user},
-        password     => $params->{password},
-        ca_cert_file => $params->{ca_cert_file},
-        ca_cert_dir  => $params->{ca_cert_dir},
-        no_ssl_check => $params->{no_ssl_check},
+        logger       => $params{logger} || FusionInventory::Logger->new(),
+        user         => $params{user},
+        password     => $params{password},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
         defaultTimeout => 180,
     };
     bless $self, $class;
@@ -38,7 +38,7 @@ sub new {
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
 
     if ($params->{proxy}) {
-        $self->{ua}->proxy(['http', 'https'], $params->{proxy});
+        $self->{ua}->proxy(['http', 'https'], $params{proxy});
     }  else {
         $self->{ua}->env_proxy;
     }
@@ -297,10 +297,10 @@ through a proxy, and validate SSL certificates.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 

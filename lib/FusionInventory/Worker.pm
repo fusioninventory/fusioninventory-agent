@@ -150,7 +150,7 @@ sub run {
     # server-specific initialisation
     my ($transmitter, $prologresp);
     if ($target_type eq 'server') {
-        $transmitter = FusionInventory::Agent::Transmitter->new({
+        $transmitter = FusionInventory::Agent::Transmitter->new(
             logger       => $logger,
             proxy        => $config->{proxy},
             user         => $config->{user},
@@ -158,7 +158,7 @@ sub run {
             no_ssl_check => $config->{'no-ssl-check'},
             ca_cert_file => $config->{'ca-cert-file'},
             ca_cert_dir  => $config->{'ca-cert-dir'},
-        });
+        );
 
         my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
             logger   => $logger,
