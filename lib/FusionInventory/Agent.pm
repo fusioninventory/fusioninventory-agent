@@ -3,24 +3,6 @@ package FusionInventory::Agent;
 use strict;
 use warnings;
 
-use POE;
-use POE::Component::IKC::Server;
-
-use Cwd;
-use English qw(-no_match_vars);
-
-use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Scheduler;
-use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::Target::Local;
-use FusionInventory::Agent::Target::Stdout;
-use FusionInventory::Agent::Target::Server;
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Transmitter;
-use FusionInventory::Agent::Receiver;
-use FusionInventory::Agent::XML::Query::Prolog;
-use FusionInventory::Logger;
-
 our $VERSION = '2.2.x+POE';
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
