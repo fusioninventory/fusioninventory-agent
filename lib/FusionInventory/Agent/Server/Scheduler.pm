@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Scheduler;
+package FusionInventory::Agent::Server::Scheduler;
 
 use strict;
 use warnings;

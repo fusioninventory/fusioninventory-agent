@@ -11,9 +11,9 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Receiver;
-use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Server::Receiver;
+use FusionInventory::Agent::Server::Scheduler;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Target::Server;
@@ -132,7 +132,7 @@ sub new {
 
     die "no targets defined, aborting" unless @targets;
 
-    $self->{scheduler} = FusionInventory::Agent::Scheduler->new(
+    $self->{scheduler} = FusionInventory::Agent::Server::Scheduler->new(
         logger => $logger,
     );
     $self->{scheduler}->addTarget($_) foreach @targets;
@@ -160,7 +160,7 @@ sub new {
     }
 
     if (!$config->{'no-www'}) {
-        $self->{receiver} = FusionInventory::Agent::Receiver->new(
+        $self->{receiver} = FusionInventory::Agent::Server::Receiver->new(
             logger    => $logger,
             scheduler => $self->{scheduler},
             agent     => $self,
