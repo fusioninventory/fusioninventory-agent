@@ -50,6 +50,7 @@ sub doInventory {
     my $logger = $params->{logger};
 
     my $serial;
+    my $id;
     my $speed;
 
     my $vmsystem;
@@ -64,7 +65,8 @@ sub doInventory {
         my $in;
         foreach (`dmidecode`) {
             if ($in && /^Handle/)  {
-                push @dmidecodeCpu, {serial => $serial, speed => $speed};
+                push @dmidecodeCpu, {serial => $serial, speed => $speed, id => $id};
+		$serial = $speed = $id = undef;
                 $in = 0;
             }
 
@@ -73,7 +75,8 @@ sub doInventory {
             } elsif ($in) {
                 $speed = $1 if /Max Speed:\s+(\d+)\s+MHz/i;
                 $speed = $1*1000 if /Max Speed:\s+(\w+)\s+GHz/i;
-                $serial = $1 if /ID:\s+(.*)/i;
+                $id = $1 if /ID:\s+(.*)/i;
+                $serial = $1 if /Serial\s*Number:\s+(.*)/i;
 #                Core Count: 2
 #                Core Enabled: 2
 #                Thread Count: 2
@@ -96,7 +99,8 @@ sub doInventory {
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
-        my $serial = $dmidecodeCpu[$cpuId]->{serial} || $Properties->{ProcessorId};
+        my $id = $dmidecodeCpu[$cpuId]->{id} || $Properties->{ProcessorId};
+        my $serial = $dmidecodeCpu[$cpuId]->{serial};
         my $speed = $dmidecodeCpu[$cpuId]->{speed} || $Properties->{MaxClockSpeed};
 
 # Workaround for the case a dual core CPU is seen as 2 different CPUs
@@ -145,7 +149,8 @@ sub doInventory {
 		NAME => $name,
 		MANUFACTURER => $manufacturer,
 		SERIAL => $serial,
-		SPEED => $speed
+		SPEED => $speed,
+		ID => $id,
 		});
 
 

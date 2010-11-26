@@ -652,6 +652,7 @@ sub addCPU {
         THREAD
         SERIAL
         SPEED
+        ID
     /;
 
     $self->_addEntry({
@@ -1526,11 +1527,15 @@ Number of thread per core.
 
 =item SERIAL
 
-CPU Id/Serial
+Serial number
 
 =item SPEED
 
 Frequency in MHz
+
+=item ID
+
+The CPU ID: http://en.wikipedia.org/wiki/CPUID
 
 =back
 

@@ -28,13 +28,15 @@ sub doInventory {
     my $empty;
     my $core;
     my $name;
+    my $id;
     foreach (`dmidecode`) {
         $in = 1 if /^\s*Processor Information/;
 
         if ($in) {
             $frequency = $1 if /^\s*Max Speed:\s*(\d+)\s*MHz/i;
             $frequency = $1*1000 if /^\s*Max Speed:\s*(\d+)\s*GHz/i;
-            $serial = $1 if /^\s*ID:\s*(\S.+)/i;
+            $serial = $1 if /^\s*Serial\s*Number:\s*(\S.+)/i;
+            $id = $1 if /^\s*ID:\s*(\S.+)/i;
             $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
             $thread = int($1) if /Thread Count:\s*(\S.*)/;
             $core = int($1) if /Core Count:\s*(\S.*)/;
@@ -57,6 +59,7 @@ sub doInventory {
                     THREAD => $thread,
                     CORE => $core,
                     NAME => $name,
+                    ID => $id,
                 }
             }
 

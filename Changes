@@ -15,6 +15,8 @@ Revision history for FusionInventory::Agent
        * AIX/storage: store the harddrive serial number
        * AIX/storage: use addStroage
        * AIX/user: use addUser()
+       * Big Oops, CPUID != CPU serial number, see:
+         http://en.wikipedia.org/wiki/CPUID
 
 2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs

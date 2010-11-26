@@ -26,6 +26,7 @@ sub doInventory {
     my $in;
     my $frequency;
     my $serial;
+    my $id;
     my $manufacturer;
     my $thread;
     my $name;
@@ -36,7 +37,8 @@ sub doInventory {
         if ($in) {
             $frequency = $1 if /^\s*Max Speed:\s*(\d+)\s*MHz/i;
             $frequency = $1*1000 if /^\s*Max Speed:\s*(\d+)\s*GHz/i;
-            $serial = $1 if /^\s*ID:\s*(\S.+)/i;
+            $id = $1 if /^\s*ID:\s*(\S.+)/i;
+            $serial = $1 if /^\s*Serial\s*Number:\s*(\S.+)/i;
             $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
             $thread = int($1) if /Thread Count:\s*(\S.*)/;
             $name = $1 if /Version:\s*(\S.*)/;
@@ -45,7 +47,6 @@ sub doInventory {
 
         if ($in && /^\s*$/) {
             $in = 0;
-            $serial =~ s/\s//g;
             $thread = 1 unless $thread;
 
             chomp(my $hwModel = `sysctl -n hw.model`);
@@ -57,6 +58,7 @@ sub doInventory {
             push @cpu, {
                 SPEED => $frequency,
                 MANUFACTURER => $manufacturer,
+                ID => $id,
                 SERIAL => $serial,
 # Thread per core according to my understanding of
 # http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
@@ -70,6 +72,7 @@ sub doInventory {
 	    $thread = undef;
 	    $name = undef;
 	    $family = undef;
+	    $id = undef;
 
         }
     }
