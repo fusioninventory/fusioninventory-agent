@@ -86,7 +86,6 @@ sub doInventory {
 
 
 
-    my @cpuList;
     my $cpuId = 0;
     foreach my $Properties (getWmiProperties('Win32_Processor', qw/
         NumberOfCores ProcessorId MaxClockSpeed
@@ -95,7 +94,7 @@ sub doInventory {
         my $info = getCPUInfoFromRegistry($logger, $cpuId);
 
 #        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
-        my $core = $Properties->{NumberOfCores} || 1;
+        my $core = $Properties->{NumberOfCores};
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
@@ -103,25 +102,11 @@ sub doInventory {
         my $serial = $dmidecodeCpu[$cpuId]->{serial};
         my $speed = $dmidecodeCpu[$cpuId]->{speed} || $Properties->{MaxClockSpeed};
 
-# Workaround for the case a dual core CPU is seen as 2 different CPUs
-	if ($Properties->{ProcessorId}) {
-	    if (defined ($cpuList[$cpuId-1])) {
-		if ($cpuList[$cpuId-1]{SERIAL} eq $serial) {
-		    if ($core < 2) {
-			$cpuList[$cpuId-1]{CORE}++;
-			next;
-		    }
-		}    
-	    }
-	}
-
-
         if ($manufacturer) {
             $manufacturer =~ s/Genuine//;
             $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
             $manufacturer =~ s/CyrixInstead/Cyrix/;
             $manufacturer=~ s/CentaurHauls/VIA/;
-            $manufacturer=~ s/^Authentic//;
         }
         if ($serial) {
             $serial =~ s/\s//g;
@@ -142,22 +127,18 @@ sub doInventory {
 
         }
 
-	push @cpuList, ({
+        $inventory->addCPU({
 #           CACHE => $cache,
-		CORE => $core,
-		DESCRIPTION => $description,
-		NAME => $name,
-		MANUFACTURER => $manufacturer,
-		SERIAL => $serial,
-		SPEED => $speed,
-		ID => $id,
-		});
-
+            CORE => $core,
+            DESCRIPTION => $description,
+            NAME => $name,
+            MANUFACTURER => $manufacturer,
+            SERIAL => $serial,
+            SPEED => $speed,
+	    ID => $id
+        });
 
         $cpuId++;
-    }
-    foreach my $cpu (@cpuList) {
-	$inventory->addCPU($cpu);
     }
 
     if ($vmsystem) {

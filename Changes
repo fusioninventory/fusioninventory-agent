@@ -17,6 +17,8 @@ Revision history for FusionInventory::Agent
        * AIX/user: use addUser()
        * Big Oops, CPUID != CPU serial number, see:
          http://en.wikipedia.org/wiki/CPUID
+         Revert commit a1c4c665, which is broken because of that:
+         Win32: try to identify dual core CPU even if Windows thinks it two physical CPU
 
 2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs
