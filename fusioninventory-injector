@@ -136,7 +136,6 @@ GetOptions(
 );
 
 # Default values
-$url		= 'http://localhost/ocsinventory' unless $url;
 $useragent	= 'FusionInventory-Injector' unless $useragent;
 ###
 
