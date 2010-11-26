@@ -271,7 +271,7 @@ Launch fusioninventory-agent as daemon in background. Proc::Daemon is needed.
 
 Launch fusioninventory-agent in daemon but do fork in background.
 
-=item B<--ca-cert-dir=PATH>
+=item B<--ca-cert-dir>=I<PATH>
 
 The directory where public SSL certificates are stored. In general it's
 /etc/ssl/certs.
@@ -279,7 +279,7 @@ The directory where public SSL certificates are stored. In general it's
 You don't need to copy a public certificate on very agent if your private
 key is valide and was been signed by a valide certificate authority.
 
-=item B<--ca-cert-file=FILE>
+=item B<--ca-cert-file>=I<FILE>
 
 The path to the public certificate (e.g: /etc/ssl/certs/cacert.pem). If
 --ca-cert-file is used, --ca-cert-dir is ignored.
@@ -287,7 +287,7 @@ The path to the public certificate (e.g: /etc/ssl/certs/cacert.pem). If
 You don't need to copy a public certificate on very agent if your private
 key is valide and was been signed by a valide certificate authority.
 
-=item B<--conf-file=FILE>
+=item B<--conf-file>=I<FILE>
 
 Load the configuration file from the given location. Ignored on Windows.
 
