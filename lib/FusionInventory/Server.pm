@@ -210,8 +210,6 @@ sub run {
     $self->{scheduler}->createSession();
 
     POE::Kernel->run();
-
-    exit;
 }
 
 sub getToken {
