@@ -305,20 +305,32 @@ In general, OCS Inventory server URL have this format:
 
     http://servername/ocsinventory
 
+<<<<<<< HEAD
 and FusionInventory for GLPI this one:
+=======
+=item B<--ca-cert-dir>=I<PATH>
+>>>>>>> 2.1.x
 
     http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
 
 =item B<-l>, B<--local>=I<DIR>
 
+<<<<<<< HEAD
 Write an inventory in the I<DIR> directory. A new file will be created if
 needed.
+=======
+=item B<--ca-cert-file>=I<FILE>
+>>>>>>> 2.1.x
 
 =item B<--stdout>
 
 Print the inventory on stdout.
 
+<<<<<<< HEAD
 =back
+=======
+=item B<--conf-file>=I<FILE>
+>>>>>>> 2.1.x
 
 =head2 Task selection options
 
@@ -475,7 +487,15 @@ an authentication token.
 
 =head2 Logging options
 
+<<<<<<< HEAD
 =over
+=======
+=item B<--no-p2p>
+
+For OCS Inventory software deployment. Do not use peer 2 peer to download files.
+
+=item B<-p>, B<--password>=I<PASSWORD>
+>>>>>>> 2.1.x
 
 =item B<--logger>=I<LOGGER>
 

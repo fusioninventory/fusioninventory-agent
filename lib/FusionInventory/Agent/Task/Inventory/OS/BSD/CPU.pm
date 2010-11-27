@@ -35,11 +35,9 @@ sub _getCPUsFromDmidecode {
     my @cpus;
     if ($infos->{4}) {
         foreach my $info (@{$infos->{4}}) {
-            my $serial = $info->{ID};
-            $serial =~ s/\s//g;
-
             push @cpus, {
-                SERIAL       => $serial,
+                ID           => $info->{ID},
+                SERIAL       => $info->{'Serial Number'},
                 MANUFACTURER => $info->{'Manufacturer'},
                 THREAD       => ($info->{'Thread Count'} || 1),
                 SPEED        => getCanonicalSpeed($info->{'Max Speed'}),

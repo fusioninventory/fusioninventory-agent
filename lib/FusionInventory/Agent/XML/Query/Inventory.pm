@@ -20,7 +20,7 @@ my %fields = (
     CONTROLLERS => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS PCIID
                         PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
-                        SPEED/ ],
+                        SPEED ID/ ],
     DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER 
                         SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS        => [ qw/KEY VAL/ ],
@@ -983,11 +983,15 @@ Number of thread per core.
 
 =item SERIAL
 
-CPU Id/Serial
+Serial number
 
 =item SPEED
 
 Frequency in MHz
+
+=item ID
+
+The CPU ID: http://en.wikipedia.org/wiki/CPUID
 
 =back
 
@@ -1467,6 +1471,8 @@ The name of the device (optional)
 If the interface exist or not (1 or empty)
 
 =item SLAVES
+
+Bonded interfaces list in the eth0/eth1/eth2 format (/ is the separator).
 
 =item MANAGEMENT
 

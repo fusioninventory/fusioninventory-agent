@@ -17,6 +17,8 @@ sub _getDdcprobeData {
     } else {
 	open ($handle, "ddcprobe 2>&1 |")	
     }
+    return unless $handle;
+
     foreach (<$handle>) {
 	s/[[:cntrl:]]//g;
 	s/[^[:ascii:]]//g;

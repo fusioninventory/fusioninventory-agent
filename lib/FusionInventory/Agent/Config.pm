@@ -38,6 +38,7 @@ my $default = {
     'no-wakeonlan'            => 0,
     'no-snmpquery'            => 0,
     'no-netdiscovery'         => 0,
+    'no-p2p'                  => 0,
     'no-ssl-check'            => 0,
     'password'                => '',
     'proxy'                   => '',
@@ -52,7 +53,7 @@ my $default = {
     'scan-homedirs'           => 0,
     'www-ip'                  => undef,
     'www-port'                => '62354',
-    'www-trust-localhost'     => 1
+    'www-trust-localhost'     => 0, 
 };
 
 sub new {
@@ -210,6 +211,7 @@ sub _loadUserParams {
         'no-wakeonlan',
         'no-snmpquery',
         'no-netdiscovery',
+        'no-p2p',
         'password|p=s',
         'proxy|P=s',
         'realm|r=s',
