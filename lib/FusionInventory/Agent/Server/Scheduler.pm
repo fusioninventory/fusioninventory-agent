@@ -17,7 +17,6 @@ sub new {
 
     bless $self, $class;
 
-
     $self->{logger}->info(
         "Scheduler started"
     );
@@ -25,7 +24,7 @@ sub new {
     return $self;
 }
 
-sub createSession {
+sub init {
     my ($self) = @_;
 
     POE::Session->create(
