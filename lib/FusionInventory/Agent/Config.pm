@@ -49,6 +49,7 @@ my $default = {
     'version'                 => 0,
     'wait'                    => '',
 #   'xml'                     => 0,
+    'no-runcommand'           => 0,
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'nosoft'                  => 0, # deprecated
@@ -308,6 +309,7 @@ Disable options:
     --no-snmpquery      do not use snmpquery function ($config->{'no-snmpquery'})
     --no-netdiscovery   do not use netdiscovery function ($config->{'no-netdiscovery'})
     --no-p2p            do not use P2P feature for OCS software deployment ($config->{'no-p2p'})
+    --no-runcommand     do not the runcommand module ($config->{'no-runcommand'})
 
 Extra options:
     --backend-collect-timeout   set a maximum delay time of one inventory data collect job ($config->{'backend-collect-timeout'})
