@@ -75,29 +75,6 @@ sub new {
     }
     $self->{deviceid} = $data->{deviceid};
 
-
-    if ($params{fork}) {
-
-        $logger->debug("Daemon mode enabled");
-
-        my $cwd = getcwd();
-        Proc::Daemon->require();
-        if ($EVAL_ERROR) {
-            $logger->fault("Can't load Proc::Daemon. Is the module installed?");
-            exit 1;
-        }
-        Proc::Daemon::Init();
-        $logger->debug("Daemon started");
-        if ($self->_isAgentAlreadyRunning()) {
-            $logger->fault("An agent is already runnnig, exiting...");
-            exit 1;
-        }
-        # If we are in dev mode, we want to stay in the source directory to
-        # be able to access the 'lib' directory
-        chdir $cwd if $config->{devlib};
-
-    }
-
     $self->{scheduler} = FusionInventory::Agent::Server::Scheduler->new(
         logger => $logger,
     );
@@ -114,38 +91,14 @@ sub new {
         );
     }
 
-    POE::Component::IKC::Server->spawn(
-        ip => 127.0.0.1,
-        port=>3030,
-        name=>'Server'
-	); # more options are available
-    POE::Kernel->call(IKC => publish => 'config', ["get"]);
-    POE::Kernel->call(IKC => publish => 'target', ["get"]);
-    POE::Kernel->call(IKC => publish => 'network', ["send"]);
-#    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
 
     $logger->debug("FusionInventory Agent initialised");
 
     return $self;
 }
 
-sub _isAgentAlreadyRunning {
-    my ($self) = @_;
-
-    # TODO add a workaround if Proc::PID::File is not installed
-    eval {
-        require Proc::PID::File;
-        return Proc::PID::File->running();
-    };
-    $self->{logger}->debug(
-        'Proc::PID::File unavalaible, unable to check for running agent'
-    ) if $EVAL_ERROR;
-
-    return 0;
-}
-
 sub run {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     my $config = $self->{config};
 
@@ -207,9 +160,50 @@ sub run {
 
     $self->{scheduler}->addTarget($_) foreach @targets;
 
-    $self->{scheduler}->createSession();
+    if ($params{fork}) {
+        Proc::Daemon->require();
+        die "Unable to load Proc::Daemon, exiting..." if $EVAL_ERROR;
 
-    POE::Kernel->run();
+        my $daemon = Proc::Daemon->new(
+            work_dir => $self->{vardir},
+            pid_file => 'server.pid',
+        );
+
+        # check if the daemon is already running
+        die "A server is already running, exiting..." if $daemon->Status(
+            $self->{vardir} . '/server.pid'
+        );
+
+        # fork
+        my $pid = $daemon->Init();
+
+        # call main POE loop in child only
+        if (!$pid) {
+            POE::Kernel->has_forked();
+            $self->init();
+            POE::Kernel->run();
+        }
+    } else {
+        # call main POE loop
+        $self->init();
+        POE::Kernel->run();
+    }
+}
+
+sub init {
+    my ($self) = @_;
+
+    POE::Component::IKC::Server->spawn(
+        ip   => '127.0.0.1',
+        port => 3030,
+        name  => 'Server'
+    ); # more options are available
+    POE::Kernel->call(IKC => publish => 'config', ["get"]);
+    POE::Kernel->call(IKC => publish => 'target', ["get"]);
+    POE::Kernel->call(IKC => publish => 'network', ["send"]);
+    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
+    $self->{scheduler}->init();
+    $self->{receiver}->init();
 }
 
 sub getToken {
