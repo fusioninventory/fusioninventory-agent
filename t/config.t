@@ -10,7 +10,7 @@ use Test::More;
 
 use FusionInventory::Agent::Config;
 
-plan tests => 12;
+plan tests => 16;
 
 my $config;
 
@@ -31,11 +31,15 @@ my $file = "$dir/agent.cfg";
 open (my $fh, '>', $file);
 print $fh <<'EOF';
 foo1 = foo1
-foo2 = foo2
+foo2 =
 
 [bar1]
 foo10 = foo10
 foo11 = foo11
+
+[bar2]
+foo20 = foo20
+foo21 =
 
 EOF
 close $fh;
@@ -90,4 +94,24 @@ is(
     $config->getValue('scheduler.delaytime'),
     '3600',
     'default value'
+);
+
+ok(
+    !defined $config->getValue('default.foo2'),
+    'undefined value, default block'
+);
+
+ok(
+    !defined $config->getValue('bar2.foo21'),
+    'undefined value, named block'
+);
+
+ok(
+    !defined $config->getValue('default.foo3'),
+    'non-existing value, default block'
+);
+
+ok(
+    !defined $config->getValue('bar2.foo22'),
+    'non-existing value, named block'
 );
