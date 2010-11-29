@@ -75,23 +75,6 @@ sub new {
     }
     $self->{deviceid} = $data->{deviceid};
 
-    $self->{scheduler} = FusionInventory::Agent::Server::Scheduler->new(
-        logger => $logger,
-    );
-
-    if (!$config->{'no-www'}) {
-        $self->{receiver} = FusionInventory::Agent::Server::Receiver->new(
-            logger    => $logger,
-            scheduler => $self->{scheduler},
-            agent     => $self,
-            htmldir   => $self->{datadir} . '/html',
-            ip        => $config->{'www-ip'},
-            port      => $config->{'www-port'},
-            trust_localhost => $config->{'www-trust-localhost'},
-        );
-    }
-
-
     $logger->debug("FusionInventory Agent initialised");
 
     return $self;
@@ -193,6 +176,22 @@ sub run {
 sub init {
     my ($self) = @_;
 
+    $self->{scheduler} = FusionInventory::Agent::Server::Scheduler->new(
+        logger => $logger,
+    );
+
+    if (!$config->{'no-www'}) {
+        $self->{receiver} = FusionInventory::Agent::Server::Receiver->new(
+            logger    => $logger,
+            scheduler => $self->{scheduler},
+            agent     => $self,
+            htmldir   => $self->{datadir} . '/html',
+            ip        => $config->{'www-ip'},
+            port      => $config->{'www-port'},
+            trust_localhost => $config->{'www-trust-localhost'},
+        );
+    }
+
     POE::Component::IKC::Server->spawn(
         ip   => '127.0.0.1',
         port => 3030,
@@ -202,8 +201,6 @@ sub init {
     POE::Kernel->call(IKC => publish => 'target', ["get"]);
     POE::Kernel->call(IKC => publish => 'network', ["send"]);
     POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
-    $self->{scheduler}->init();
-    $self->{receiver}->init();
 }
 
 sub getToken {

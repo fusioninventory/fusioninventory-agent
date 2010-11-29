@@ -27,18 +27,6 @@ sub new {
 
     bless $self, $class;
 
-    $self->{logger}->info(
-        "Web interface started at http://" .
-        ($self->{ip} || "127.0.0.1")      .
-        ":$self->{port}"
-    );
-
-    return $self;
-}
-
-sub init {
-    my ($self) = @_;
-
     $self->{httpd} = POE::Component::Server::HTTP->new(
         Port => $self->{port},
         ContentHandler => {
@@ -50,6 +38,14 @@ sub init {
         StreamHandler => sub { $self->stream(@_) },
         Headers => { Server => 'FusionInventory Agent' },
     );
+
+    $self->{logger}->info(
+        "Web interface started at http://" .
+        ($self->{ip} || "127.0.0.1")      .
+        ":$self->{port}"
+    );
+
+    return $self;
 }
 
 sub main {

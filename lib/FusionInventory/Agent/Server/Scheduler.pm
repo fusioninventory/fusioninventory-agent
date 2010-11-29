@@ -17,16 +17,6 @@ sub new {
 
     bless $self, $class;
 
-    $self->{logger}->info(
-        "Scheduler started"
-    );
-
-    return $self;
-}
-
-sub init {
-    my ($self) = @_;
-
     POE::Session->create(
         inline_states => {
             _start => sub {
@@ -37,6 +27,12 @@ sub init {
             run  => sub { $self->runAllTargets() },
         }
     );
+
+    $self->{logger}->info(
+        "Scheduler started"
+    );
+
+    return $self;
 }
 
 sub addTarget {
