@@ -12,7 +12,7 @@ sub new {
 
     my $self = {
         logger  => $params{logger} || FusionInventory::Logger->new(),
-        targets => []
+        state   => $params{state},
     };
 
     bless $self, $class;
@@ -35,24 +35,10 @@ sub new {
     return $self;
 }
 
-sub addTarget {
-    my ($self, $target) = @_;
-
-    push @{$self->{targets}}, $target;
-}
-
-
-sub getTargets {
-    my ($self) = @_;
-
-    return @{$self->{targets}}
-}
-
-
 sub scheduleTargets {
     my ($self, $offset) = @_;
 
-    foreach my $target (@{$self->{targets}}) {
+    foreach my $target ($self->{state}->getTargets()) {
         $target->scheduleNextRun($offset);
     }
 }
@@ -62,7 +48,7 @@ sub checkAllTargets {
     my ($self) = @_;
 
     my $time = time();
-    foreach my $target (@{$self->{targets}}) {
+    foreach my $target ($self->{state}->getTargets()) {
         $self->runTarget($target) if $time > $target->getNextRunDate();
     }
 }
@@ -70,7 +56,7 @@ sub checkAllTargets {
 sub runAllTargets {
     my ($self) = @_;
 
-    foreach my $target (@{$self->{targets}}) {
+    foreach my $target ($self->{state}->getTargets()) {
         $self->runTarget($target);
     }
 }

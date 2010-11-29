@@ -85,7 +85,6 @@ sub run {
 
     my $config = $self->{config};
 
-    my @targets;
     foreach my $target_name ($config->getValues('global.targets')) {
         my $target_config = $config->getBlock($target_name);
         die "No configuration section for target $target_name, aborting"
@@ -97,7 +96,7 @@ sub run {
         SWITCH: {
             if ($target_type eq 'stdout') {
                 push
-                    @targets,
+                    @{$self->{targets}},
                     FusionInventory::Agent::Target::Stdout->new(
                         logger     => $self->{logger},
                         maxOffset  => $config->{delaytime},
@@ -109,7 +108,7 @@ sub run {
 
             if ($target_type eq 'local') {
                 push
-                    @targets,
+                    @{$self->{targets}},
                     FusionInventory::Agent::Target::Local->new(
                         logger     => $self->{logger},
                         maxOffset  => $config->{delaytime},
@@ -123,7 +122,7 @@ sub run {
 
             if ($target_type eq 'server') {
                 push
-                    @targets,
+                    @{$self->{targets}},
                     FusionInventory::Agent::Target::Server->new(
                         logger     => $self->{logger},
                         maxOffset  => $config->{delaytime},
@@ -139,9 +138,7 @@ sub run {
         }
     }
 
-    die "no targets defined, aborting" unless @targets;
-
-    $self->{scheduler}->addTarget($_) foreach @targets;
+    die "no targets defined, aborting" unless @{$self->{targets}};
 
     if ($params{fork}) {
         Proc::Daemon->require();
@@ -176,14 +173,17 @@ sub run {
 sub init {
     my ($self) = @_;
 
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+
     FusionInventory::Agent::Server::Scheduler->new(
         logger => $logger,
+        state  => $self,
     );
 
     FusionInventory::Agent::Server::Receiver->new(
         logger    => $logger,
-        scheduler => $self->{scheduler},
-        agent     => $self,
+        state     => $self,
         htmldir   => $self->{datadir} . '/html',
         ip        => $config->{'www-ip'},
         port      => $config->{'www-port'},
@@ -204,6 +204,12 @@ sub init {
 sub getToken {
     my ($self) = @_;
     return $self->{token};
+}
+
+sub getTargets {
+    my ($self) = @_;
+
+    return @{$self->{targets}}
 }
 
 sub resetToken {

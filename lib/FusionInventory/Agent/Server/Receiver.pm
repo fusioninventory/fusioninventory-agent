@@ -16,8 +16,7 @@ sub new {
 
     my $self = {
         logger          => $params{logger} || FusionInventory::Logger->new(),
-        scheduler       => $params{scheduler},
-        agent           => $params{agent},
+        state           => $params{state},
         htmldir         => $params{htmldir},
         ip              => $params{ip},
         port            => $params{port} || 62354,
@@ -52,7 +51,6 @@ sub main {
     my ($self, $request, $response) = @_;
 
     my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
 
     my $remote_ip = $request->connection->remote_ip;
    
@@ -80,7 +78,7 @@ sub main {
 
 
     my $nextContact = "";
-    foreach my $target (@{$scheduler->{targets}}) {
+    foreach my $target ($self->{state}->getTargets()) {
         my $path = $target->{path};
         $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
         my $timeString = $target->getNextRunDate() > 1 ?
@@ -117,13 +115,12 @@ sub deploy {
     my ($self, $request, $response) = @_;
 
     my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
     
     my $path = $request->uri->path;
 
     if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
         my $file = $1;
-        foreach my $target (@{$scheduler->{targets}}) {
+        foreach my $target ($self->{state}->getTargets()) {
             if (-f $target->{vardir}."/deploy/".$file) {
                 $logger->debug("Send /deploy/".$file);
 # XXX TODO
@@ -141,7 +138,6 @@ sub now {
     my ($self, $request, $response) = @_;
 
     my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
     
     my $path = $request->uri->path;
     my $remote_ip = $request->connection->remote_ip;
@@ -160,10 +156,10 @@ sub now {
         } else {
             # authenticated request
             if ($sentToken) {
-                my $token = $self->{agent}->resetToken();
+                my $token = $self->{state}->resetToken();
                 if ($sentToken eq $token) {
                     $result = "ok";
-                    $self->{agent}->resetToken();
+                    $self->{state}->resetToken();
                 } else {
                     $logger->debug(
                         "[Receiver] untrusted address, invalid token $sentToken != $token"
@@ -180,7 +176,7 @@ sub now {
 
         my ($code, $message);
         if ($result eq "ok") {
-            $scheduler->scheduleTargets(0);
+            #$scheduler->scheduleTargets(0);
             $response->code(200);
             $message = "Done."
         } else {
@@ -299,13 +295,9 @@ hash:
 
 the logger object to use (default: a new stderr logger)
 
-=item I<scheduler>
+=item I<state>
 
-the scheduler object to use
-
-=item I<agent>
-
-the agent object
+the server state object
 
 =item I<htmldir>
 
