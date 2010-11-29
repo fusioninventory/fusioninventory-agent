@@ -32,7 +32,9 @@ sub load {
 
     # replace empty arrayrefs with undef
     foreach my $key (keys %$values) {
-        $values->{$key} = undef if ref $values->{$key};
+        next if !ref $values->{$key}; # not a list
+        next if @{$values->{$key}};   # not empty
+        $values->{$key} = undef;
     }
 
 }
