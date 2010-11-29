@@ -26,7 +26,7 @@ throws_ok {
 'instanciation: invalid ca cert file';
 
 throws_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new{
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         ca_cert_dir => '/no/such/directory',
         logger       => $logger
     );
