@@ -181,14 +181,19 @@ sub init {
         state  => $self,
     );
 
-    FusionInventory::Agent::Server::Receiver->new(
-        logger    => $logger,
-        state     => $self,
-        htmldir   => $self->{datadir} . '/html',
-        ip        => $config->{'www-ip'},
-        port      => $config->{'www-port'},
-        trust_localhost => $config->{'www-trust-localhost'},
-    ) if !$config->{'no-www'};
+    my $www_config = $config->getBlock('www');
+    if ($www_config) {
+        FusionInventory::Agent::Server::Receiver->new(
+            logger    => $logger,
+            state     => $self,
+            htmldir   => $self->{datadir} . '/html',
+            ip        => $www_config->{ip},
+            port      => $www_config->{port},
+            trust_localhost => $www_config->{'trust-localhost'},
+        );
+    } else {
+        $logger->info("Web interface disabled");
+    }
 
     POE::Component::IKC::Server->spawn(
         ip   => '127.0.0.1',
