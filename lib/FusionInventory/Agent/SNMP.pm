@@ -142,9 +142,10 @@ This is the object used by the agent to perform SNMP queries.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following named parameters are allowed:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 

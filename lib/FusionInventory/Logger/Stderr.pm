@@ -53,3 +53,18 @@ FusionInventory::Logger::Stderr - A stderr backend for the logger
 
 This is a stderr-based backend for the logger. It supports coloring based on
 message level on Unix platforms.
+
+=head1 METHODS
+
+=head2 new(%params)
+
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<color>
+
+use color for messages
+
+=back

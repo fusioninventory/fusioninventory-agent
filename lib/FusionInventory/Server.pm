@@ -241,13 +241,13 @@ This is the agent object.
 
 =head1 METHODS
 
-=head2 new()
+=head2 new(%params)
 
-The constructor. No arguments allowed.
+The constructor.
 
-=head2 run()
+=head2 run(%params)
 
-Run the agent.
+Run the server.
 
 =head2 getToken()
 

@@ -91,20 +91,24 @@ hash:
 
 the logger object to use (default: a new stderr logger)
 
+=item I<state>
+
+the server state object
+
 =back
-
-=head2 addTarget()
-
-Add a new target to schedule.
-
-=head2 getNextTarget()
-
-Get the next scheduled target.
-
-=head2 getTargets()
-
-Get all targets.
 
 =head2 scheduleTargets()
 
 Call scheduleNextRun() on all targets.
+
+=head2 checkAllTargets()
+
+Run all targets whose next execution date has been reached.
+
+=head2 runAllTargets()
+
+Run all targets.
+
+=head2 runTarget($target)
+
+Run a single target.

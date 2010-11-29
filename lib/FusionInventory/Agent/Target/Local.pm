@@ -48,11 +48,11 @@ This is a target for storing execution result in a local folder.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
 The constructor. The following parameters are allowed, in addition to those
-from the base class C<FusionInventory::Agent::Target>, as keys of the $params
-hashref:
+from the base class C<FusionInventory::Agent::Target>, as keys of the %params
+hash:
 
 =over
 

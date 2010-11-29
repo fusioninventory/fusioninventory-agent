@@ -65,3 +65,22 @@ FusionInventory::Logger::File - A file backend for the logger
 
 This is a file-based backend for the logger. It supports automatic filesize
 limitation.
+
+=head1 METHODS
+
+=head2 new(%params)
+
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<file>
+
+the file to use
+
+=item I<maxsize>
+
+the maximum size before rotating the file
+
+=back

@@ -47,3 +47,18 @@ FusionInventory::Logger::Syslog - A syslog backend for the logger
 =head1 DESCRIPTION
 
 This is a syslog-based backend for the logger.
+
+=head1 METHODS
+
+=head2 new(%params)
+
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<facility>
+
+the syslog facility to use (default: LOG_USER)
+
+=back

@@ -216,4 +216,4 @@ The constructor.
 
 =head2 run(%params)
 
-Run the agent.
+Run the worker.

@@ -684,7 +684,7 @@ Inventory XML format.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
 The constructor. See base class C<FusionInventory::Agent::XML::Query> for
 allowed parameters.

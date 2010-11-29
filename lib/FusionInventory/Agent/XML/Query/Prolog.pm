@@ -40,11 +40,11 @@ processed, requiring execution parameters.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
 The constructor. The following parameters are allowed, in addition to those
 from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
-$params hashref:
+%params hash:
 
 =over
 

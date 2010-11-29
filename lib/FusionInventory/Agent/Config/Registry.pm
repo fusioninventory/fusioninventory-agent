@@ -79,10 +79,10 @@ FusionInventory::Agent::Config::Registry - Registry-based backend for configurat
 
 =head1 DESCRIPTION
 
-This is the object used by the agent to store its configuration.
+This is a registry backend for agent configuration.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. All configuration parameters can be passed.
+The constructor. No configuration parameters allowed.

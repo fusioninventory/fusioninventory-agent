@@ -16,18 +16,9 @@ This is an abstract base classe for logger backends.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
-
-=over
-
-=item I<config>
-
-the agent configuration object
-
-=back
+The constructor. See backends documentation for specific parameters.
 
 =head2 addMsg($params)
 
