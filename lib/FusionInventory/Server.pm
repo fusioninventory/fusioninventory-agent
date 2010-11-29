@@ -209,7 +209,7 @@ sub getToken {
 sub getTargets {
     my ($self) = @_;
 
-    return @{$self->{targets}}
+    return @{$self->{targets}};
 }
 
 sub resetToken {
