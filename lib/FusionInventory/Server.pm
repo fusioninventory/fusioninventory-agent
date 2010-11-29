@@ -138,7 +138,7 @@ sub run {
         }
     }
 
-    die "no targets defined, aborting" unless @{$self->{targets}};
+    die "No targets defined, aborting" unless $self->{targets};
 
     if ($params{fork}) {
         Proc::Daemon->require();
