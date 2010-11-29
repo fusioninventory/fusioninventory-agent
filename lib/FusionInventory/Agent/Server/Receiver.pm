@@ -27,7 +27,8 @@ sub new {
     bless $self, $class;
 
     POE::Component::Server::HTTP->new(
-        Port => $self->{port},
+        Port    => $self->{port},
+        Address => $semf->{ip},
         ContentHandler => {
             '/'       => sub { $self->main(@_) },
             '/deploy' => sub { $self->deploy(@_) },
