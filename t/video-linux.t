@@ -4,9 +4,7 @@ use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Video;
 use Test::More;
-use FindBin;
 use Data::Dumper;
-
 
 my %ddcprobe = (
 	'98LMTF053166' => {
@@ -193,13 +191,13 @@ my %xorg = (
 plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
 
 foreach my $test (keys %ddcprobe) {
-    my $file = "$FindBin::Bin/../resources/ddcprobe/$test";
+    my $file = "resources/ddcprobe/$test";
     my $ret = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_getDdcprobeData($file);
     is_deeply($ret, $ddcprobe{$test}, $test) or print Dumper($ret);
 }
 
 foreach my $test (keys %xorg) {
-    my $file = "$FindBin::Bin/../resources/xorg-fd0/linux/$test";
+    my $file = "resources/xorg-fd0/linux/$test";
     my $ret = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_parseXorgFd($file);
     is_deeply($ret, $xorg{$test}, $test) or print Dumper($ret);
 }
