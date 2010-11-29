@@ -72,7 +72,9 @@ if ($OSNAME eq 'solaris') {
 }
 
 makemaker_args(
-    test => { TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t) },
+    test => {
+        TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)
+    },
 );
 WriteAll;
 
