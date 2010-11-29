@@ -110,29 +110,18 @@ sub saveState {
     });
 }
 
-sub getStatusString {
-    my ($self, $params) = @_;
+sub getDescription {
+    my ($self) = @_;
 
-    my $string = '';
-    if ($self->{modulenameRunning}) {
-	$string .= "running module ".$self->{modulenameRunning};
-    } else {
-	$string .= "waiting";
-    }
+    my $description = {
+        time =>
+            $self->{nextRunDate} ? localtime($self->{nextRunDate}) : 'now',
+        status =>
+            $self->{nextRunDate} ? 'waiting' : 'running'
+    };
 
-    my $cpt = @{$self->{modulenamesToRun}};
-    if ($cpt) {
-	$string .= " module run queue: ";
-	foreach(0..$cpt) {
-	    $string .= " ".$self->{modulenamesToRun}[$cpt];
-	    $string .= "," if $cpt;
-	}
-    }
-
-    return $string;
+    return $description;
 }
-
-
 
 1;
 

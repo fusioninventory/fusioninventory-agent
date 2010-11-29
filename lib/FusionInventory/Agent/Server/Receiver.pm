@@ -79,21 +79,15 @@ sub main {
 
     my $nextContact = "";
     foreach my $target ($self->{state}->getTargets()) {
-        my $path = $target->{path};
-        $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-        my $timeString = $target->getNextRunDate() > 1 ?
-        localtime($target->getNextRunDate()) : "now";
-        my $type = ref $target;
-	$type =~ s/.*:://;
-	my $statusString = $target->getStatusString();
+        my $description = $target->getDescription();
         $nextContact .=
         "<li>\n
 	  <strong>Name</strong>
 	  <ul>
-      	    <li>type: $type</li>\n
-      	    <li>path: $path</li>\n
-      	    <li>planed for: $timeString</li>\n
-      	    <li>status: $statusString</li>\n
+      	    <li>type: $description->{type}</li>\n
+      	    <li>destination: $description->{destination}</li>\n
+      	    <li>planed for: $description->{time}</li>\n
+      	    <li>status: $description->{status}</li>\n
 	  </ul>
 	</li>\n";
     }

@@ -85,15 +85,20 @@ sub saveState {
 
 }
 
-sub getDescriptionString {
+sub getDescription {
     my ($self) = @_;
+
+    my $description = $self->SUPER::getDescription();
 
     my $url = $self->{url};
 
     # Remove the login:password if needed
     $url =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
 
-    return "server, $url";
+    $description->{type}        = 'server';
+    $description->{destination} = $url;
+
+    return $description;
 }
 
 1;

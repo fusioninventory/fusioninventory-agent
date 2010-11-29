@@ -19,10 +19,15 @@ sub new {
     return $self;
 }
 
-sub getDescriptionString {
+sub getDescription {
     my ($self) = @_;
 
-    return "local, Stdout";
+    my $description = $self->SUPER::getDescription();
+
+    $description->{type}        = 'stdout';
+    $description->{destination} = 'STDOUT';
+
+    return $description;
 }
 
 1;

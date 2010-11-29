@@ -23,10 +23,15 @@ sub new {
     return $self;
 }
 
-sub getDescriptionString {
+sub getDescription {
     my ($self) = @_;
 
-    return "local, $self->{path}";
+    my $description = $self->SUPER::getDescription();
+
+    $description->{type}        = 'local';
+    $description->{destination} = $self->{path};
+
+    return $description;
 }
 
 1;
