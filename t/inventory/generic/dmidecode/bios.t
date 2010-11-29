@@ -187,7 +187,7 @@ my %tests = (
             UUID     => '7FB4EA00-07CB-18F3-8041-CAD582735244',
         }
     },
-    'dmidecode-linux-1' => {
+    'linux-1' => {
         bios => {
           'MMANUFACTURER' => 'ASUSTeK Computer INC.',
           'SSN' => 'System Serial Number',
