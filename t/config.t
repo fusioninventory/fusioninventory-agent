@@ -10,7 +10,7 @@ use Test::More;
 
 use FusionInventory::Agent::Config;
 
-plan tests => 16;
+plan tests => 20;
 
 my $config;
 
@@ -30,17 +30,14 @@ my $dir = tempdir(CLEANUP => 1);
 my $file = "$dir/agent.cfg";
 open (my $fh, '>', $file);
 print $fh <<'EOF';
-foo1 = foo1
-foo2 =
+key1 = value1
+key2 = value1,value2, value3 , value4
+key3 =
 
-[bar1]
-foo10 = foo10
-foo11 = foo11
-
-[bar2]
-foo20 = foo20
-foo21 =
-
+[section]
+key1 = value1
+key2 = value1,value2, value3 , value4
+key3 =
 EOF
 close $fh;
 chmod 0000, $file;
@@ -70,22 +67,67 @@ isa_ok(
 );
 
 is(
-    $config->getValue('default.foo1'),
-    'foo1',
-    'single value, default block'
+    $config->getValue('default.key1'),
+    'value1',
+    'single value'
+);
+
+is_deeply(
+    [ $config->getValues('default.key1') ],
+    [ qw/value1/ ],
+    'single value, list context'
+);
+
+is_deeply(
+    $config->getValue('default.key2'),
+    [ qw/value1 value2 value3 value4/ ],
+    'multiple values'
+);
+
+ok(
+    !defined $config->getValue('default.key3'),
+    'undefined value, default block'
+);
+
+ok(
+    !defined $config->getValue('default.key4'),
+    'non-existing value, default block'
 );
 
 is(
-    $config->getValue('bar1.foo10'),
-    'foo10',
+    $config->getValue('section.key1'),
+    'value1',
     'single value, named block'
 );
 
 is_deeply(
-    $config->getBlock('bar1'),
+    [ $config->getValues('section.key1') ],
+    [ qw/value1/ ],
+    'single value, list context, named block'
+);
+
+is_deeply(
+    $config->getValue('section.key2'),
+    [ qw/value1 value2 value3 value4/ ],
+    'multiple values, named block'
+);
+
+ok(
+    !defined $config->getValue('section.key3'),
+    'undefined value, named block'
+);
+
+ok(
+    !defined $config->getValue('section.key4'),
+    'non-existing value, named block'
+);
+
+is_deeply(
+    $config->getBlock('section'),
     {
-        foo10 => 'foo10',
-        foo11 => 'foo11',
+        key1 => 'value1',
+        key2 => [ qw/value1 value2 value3 value4/ ],
+        key3 => undef,
     },
     'value block'
 );
@@ -94,24 +136,4 @@ is(
     $config->getValue('scheduler.delaytime'),
     '3600',
     'default value'
-);
-
-ok(
-    !defined $config->getValue('default.foo2'),
-    'undefined value, default block'
-);
-
-ok(
-    !defined $config->getValue('bar2.foo21'),
-    'undefined value, named block'
-);
-
-ok(
-    !defined $config->getValue('default.foo3'),
-    'non-existing value, default block'
-);
-
-ok(
-    !defined $config->getValue('bar2.foo22'),
-    'non-existing value, named block'
 );
