@@ -14,12 +14,11 @@ use FusionInventory::Logger;
 sub new {
     my ($class, %params) = @_;
 
+    $params{port} = 62354 unless defined $params{port};
+
     my $self = {
         logger          => $params{logger} || FusionInventory::Logger->new(),
         state           => $params{state},
-        htmldir         => $params{htmldir},
-        ip              => $params{ip},
-        port            => $params{port} || 62354,
         htmldir         => $params{htmldir},
         trust_localhost => $params{trust_localhost},
     };
@@ -27,8 +26,8 @@ sub new {
     bless $self, $class;
 
     POE::Component::Server::HTTP->new(
-        Port    => $self->{port},
-        Address => $semf->{ip},
+        Port    => $params{port},
+        Address => $params{ip},
         ContentHandler => {
             '/'       => sub { $self->main(@_) },
             '/deploy' => sub { $self->deploy(@_) },
@@ -41,8 +40,8 @@ sub new {
 
     $self->{logger}->info(
         "Web interface started at http://" .
-        ($self->{ip} || "127.0.0.1")      .
-        ":$self->{port}"
+        ($params{ip} || "127.0.0.1")      .
+        ":$params{port}"
     );
 
     return $self;
