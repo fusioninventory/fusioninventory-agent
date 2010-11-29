@@ -67,12 +67,10 @@ sub getValues {
     my $value = $self->getValue($name);
 
     # undefined
-    return unless $value;
-
-    # defined but empty
-    return if ref $value;
-
-    return split(/\s*,\s*/, $value);
+    return
+        ! defined $value ? ()       :
+        ! ref $value     ? ($value) :
+                           @$value  ;
 }
 
 sub getBlock {
