@@ -3,7 +3,7 @@ package FusionInventory::Agent;
 use strict;
 use warnings;
 
-our $VERSION = '2.2.x+POE';
+our $VERSION = '3.0';
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
