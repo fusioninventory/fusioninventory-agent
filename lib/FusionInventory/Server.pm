@@ -176,21 +176,19 @@ sub run {
 sub init {
     my ($self) = @_;
 
-    $self->{scheduler} = FusionInventory::Agent::Server::Scheduler->new(
+    FusionInventory::Agent::Server::Scheduler->new(
         logger => $logger,
     );
 
-    if (!$config->{'no-www'}) {
-        $self->{receiver} = FusionInventory::Agent::Server::Receiver->new(
-            logger    => $logger,
-            scheduler => $self->{scheduler},
-            agent     => $self,
-            htmldir   => $self->{datadir} . '/html',
-            ip        => $config->{'www-ip'},
-            port      => $config->{'www-port'},
-            trust_localhost => $config->{'www-trust-localhost'},
-        );
-    }
+    FusionInventory::Agent::Server::Receiver->new(
+        logger    => $logger,
+        scheduler => $self->{scheduler},
+        agent     => $self,
+        htmldir   => $self->{datadir} . '/html',
+        ip        => $config->{'www-ip'},
+        port      => $config->{'www-port'},
+        trust_localhost => $config->{'www-trust-localhost'},
+    ) if !$config->{'no-www'};
 
     POE::Component::IKC::Server->spawn(
         ip   => '127.0.0.1',

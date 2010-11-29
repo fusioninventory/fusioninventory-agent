@@ -27,7 +27,7 @@ sub new {
 
     bless $self, $class;
 
-    $self->{httpd} = POE::Component::Server::HTTP->new(
+    POE::Component::Server::HTTP->new(
         Port => $self->{port},
         ContentHandler => {
             '/'       => sub { $self->main(@_) },
