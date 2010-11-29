@@ -1,0 +1,38 @@
+vbe: VESA 3.0 detected.
+oem: ATI ATOMBIOS
+vendor: (C) 1988-2005, ATI Technologies Inc.
+product: RV620 01.00
+memory: 16384kb
+mode: 640x400x256
+mode: 640x480x256
+mode: 800x600x256
+mode: 1024x768x256
+mode: 1280x1024x256
+mode: 640x480x64k
+mode: 800x600x64k
+mode: 1024x768x64k
+mode: 1280x1024x64k
+mode: 320x200x64k
+mode: 1600x1200x256
+mode: 1600x1200x32k
+mode: 1600x1200x64k
+edid: 
+edid: 1 3
+id: 1975
+eisa: ENC1975
+serial: 01010101
+manufacture: 33 2009
+input: analog signal.
+screensize: 48 30
+gamma: 2.200000
+dpms: RGB, active off, suspend, standby
+timing: 720x400@70 Hz (VGA 640x400, IBM)
+timing: 640x480@75 Hz (VESA)
+timing: 800x600@60 Hz (VESA)
+timing: 1024x768@87 Hz Interlaced (8514A)
+ctiming: 1280x1024@60
+ctiming: 1280x960@60
+dtiming: 1680x1050@59
+monitorserial: 53471089
+monitorrange: 31-65, 59-61
+monitorname: S2202W

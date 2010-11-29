@@ -337,30 +337,19 @@ sub _check_eri {
 sub _check_ce {
     my ($mynic, $mynum) = @_;
 
-    #/usr/perl5/5.00503/bin/perl
-    #foreach (`which perl`){
-    #$localperl = $1 if /^(\S+)/;
-    #	$libperl = "/".$1."/".$2."/".$3."/bin/perl" if /^\/(\S+)\/(\S+)\/(\S+)$/;
-    #}
-    my ($libperl, $localperl);
-    foreach (`find /usr/perl5 -name 5.*| grep -v site_perl`) {
-        $libperl = "/".$1."/".$2."/".$3 if /^\/(\S+)\/(\S+)\/(\S+)$/;
-        $localperl = "/".$1."/".$2."/bin/perl" if /^\/(\S+)\/(\S+)\/(\S+)$/;
-    }
-
     my ($speed, $duplex, $auto);
 
-    foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_speed | grep link_speed`) {
+    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_speed`) {
         next unless /^\s*link_speed+\s*(\d+).*$/;
         $speed = $1;
         last;
     }
-    foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s link_duplex | grep link_duplex`) {
+    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_duplex`) {
         next unless /^\s*link_duplex+\s*(\d+).*$/;
         $duplex = $1;
         last;
     }
-    foreach (`$localperl -I $libperl /usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg | grep cap_autoneg`) {
+    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg`) {
         next unless /^\s*cap_autoneg+\s*(\d+).*$/;
         $auto = $1;
         last;

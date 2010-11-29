@@ -15,16 +15,24 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my (@disques, $device, $model, $capacity, $description, $manufacturer, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
+    my(@disques, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
 
     #lsvpd
     my @lsvpd = `lsvpd`;  
     s/^\*// for (@lsvpd);
 
     #SCSI disks 
-    $n = 0;
-    @scsi = `lsdev -Cc disk -s scsi -F 'name:description'`;
-    for (@scsi) {
+    $n=0;
+    @scsi=`lsdev -Cc disk -s scsi -F 'name:description'`;
+    for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
+        my $serial;
+
         chomp $scsi[$n];
         /^(.+):(.+)/;
         $device = $1;
@@ -62,22 +70,35 @@ sub doInventory {
                 last;
             }
         }
+
+        foreach (`lscfg -p -v -s -l $device` =~ /Serial Number\.*(.*)/) {
+            $serial = $1;
+        }
+
         $inventory->addStorage({
-            NAME => $device,
-            MANUFACTURER => $manufacturer,
-            MODEL => $model,
-            DESCRIPTION => $description,
-            TYPE => 'disk',
-            DISKSIZE => $capacity
-        });
+                NAME => $device,
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => $description,
+                TYPE => 'disk',
+                SERIAL=> $serial,
+                DISKSIZE => $capacity
+            });
         $n++;
     }
 #Virtual disks
     @scsi= ();
     @lsattr= ();
-    $n = 0;
-    @scsi = `lsdev -Cc disk -s vscsi -F 'name:description'`;
-    for (@scsi) {
+    $n=0;
+    @scsi=`lsdev -Cc disk -s vscsi -F 'name:description'`;
+    for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
+
         chomp $scsi[$n];
         /^(.+):(.+)/;
         $device = $1;
@@ -94,13 +115,13 @@ sub doInventory {
             }
         }
         $inventory->addStorage({
-            MANUFACTURER => "VIO Disk",
-            MODEL => "Virtual Disk",
-            DESCRIPTION => $description,
-            TYPE => 'disk',
-            NAME => $device,
-            DISKSIZE => $capacity
-        });
+                MANUFACTURER => "VIO Disk",
+                MODEL => "Virtual Disk",
+                DESCRIPTION => $description,
+                TYPE => 'disk',
+                NAME => $device,
+                DISKSIZE => $capacity
+            });
         $n++;
     }
 
@@ -109,9 +130,15 @@ sub doInventory {
     #CDROM
     @scsi= ();
     @lsattr= ();
-    @scsi = `lsdev -Cc cdrom -s scsi -F 'name:description:status'`;
-    $i = 0;
-    for (@scsi) {
+    @scsi=`lsdev -Cc cdrom -s scsi -F 'name:description:status'`;
+    $i=0;
+    for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device = $1;
@@ -154,13 +181,13 @@ sub doInventory {
                 }
             }
             $inventory->addStorage({
-                NAME => $device,
-                MANUFACTURER => $manufacturer,
-                MODEL => $model,
-                DESCRIPTION => $description,
-                TYPE => 'cd',
-                DISKSIZE => $capacity
-            });
+                    NAME => $device,
+                    MANUFACTURER => $manufacturer,
+                    MODEL => $model,
+                    DESCRIPTION => $description,
+                    TYPE => 'cd',
+                    DISKSIZE => $capacity
+                });
             $n++;
         }
         $i++;
@@ -169,9 +196,15 @@ sub doInventory {
     #TAPE
     @scsi= ();
     @lsattr= ();
-    @scsi = `lsdev -Cc tape -s scsi -F 'name:description:status'`;
-    $i = 0;
-    for (@scsi) {
+    @scsi=`lsdev -Cc tape -s scsi -F 'name:description:status'`;
+    $i=0;
+    for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device = $1;
@@ -213,13 +246,13 @@ sub doInventory {
                 }
             }
             $inventory->addStorage({
-                NAME => $device,
-                MANUFACTURER => $manufacturer,
-                MODEL => $model,
-                DESCRIPTION => $description,
-                TYPE => 'tape',
-                DISKSIZE => $capacity
-            });
+                    NAME => $device,
+                    MANUFACTURER => $manufacturer,
+                    MODEL => $model,
+                    DESCRIPTION => $description,
+                    TYPE => 'tape',
+                    DISKSIZE => $capacity
+                });
             $n++;
         }
         $i++;
@@ -228,9 +261,15 @@ sub doInventory {
     #Disquette
     @scsi= ();
     @lsattr= ();
-    @scsi = `lsdev -Cc diskette -F 'name:description:status'`;
-    $i = 0;
-    for (@scsi) {
+    @scsi=`lsdev -Cc diskette -F 'name:description:status'`;
+    $i=0;
+    for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
         $device = $1;
@@ -249,13 +288,13 @@ sub doInventory {
             #On le force en retour taille disquette non affichable
             $capacity ="";
             $inventory->addStorage({
-                NAME => $device,
-                MANUFACTURER => 'N/A',
-                MODEL => 'N/A',
-                DESCRIPTION => $description,
-                TYPE => 'floppy',
-                DISKSIZE => ''
-            });
+                    NAME => $device,
+                    MANUFACTURER => 'N/A',
+                    MODEL => 'N/A',
+                    DESCRIPTION => $description,
+                    TYPE => 'floppy',
+                    DISKSIZE => ''
+                });
             $n++;
         }
         $i++;

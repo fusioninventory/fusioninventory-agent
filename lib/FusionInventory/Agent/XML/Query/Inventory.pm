@@ -20,7 +20,7 @@ my %fields = (
     CONTROLLERS => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS PCIID
                         PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
-                        SPEED/ ],
+                        SPEED ID/ ],
     DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER 
                         SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS        => [ qw/KEY VAL/ ],
@@ -44,7 +44,7 @@ my %fields = (
     STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
                         TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
                         SCSI_UNID SCSI_LUN / ],
-    VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION/ ],
+    VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION PCISLOT/ ],
     USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
     USERS       => [ qw/LOGIN DOMAIN/ ],
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
@@ -983,11 +983,15 @@ Number of thread per core.
 
 =item SERIAL
 
-CPU Id/Serial
+Serial number
 
 =item SPEED
 
 Frequency in MHz
+
+=item ID
+
+The CPU ID: http://en.wikipedia.org/wiki/CPUID
 
 =back
 
@@ -1311,7 +1315,9 @@ Video card memory in MB
 
 Resolution in pixel. 1024x768.
 
-The frequency is optional: 1024x768@74
+=item PCISLOT
+
+The local PCI slot ID if the video card use PCI.
 
 =back
 
@@ -1465,6 +1471,8 @@ The name of the device (optional)
 If the interface exist or not (1 or empty)
 
 =item SLAVES
+
+Bonded interfaces list in the eth0/eth1/eth2 format (/ is the separator).
 
 =item MANAGEMENT
 

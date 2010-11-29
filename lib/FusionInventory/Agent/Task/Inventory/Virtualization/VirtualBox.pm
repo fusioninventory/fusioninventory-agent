@@ -68,8 +68,15 @@ sub doInventory {
 
     return unless $scanhomedirs;
 
+    my $homeDir = "/home";
+
+    if ($OSNAME =~ /^DARWIN$/i) {
+        $homeDir = "/Users";
+    }
+
+
     # Read every Machines Xml File of every user
-    foreach my $file (bsd_glob("/home/*/.VirtualBox/Machines/*/*.xml")) {
+    foreach my $file (bsd_glob("$homeDir/*/.VirtualBox/Machines/*/*.xml")) {
         # Open config file ...
         my $tpp = XML::TreePP->new();
         my $data = $tpp->parse($file);
@@ -92,7 +99,9 @@ sub doInventory {
         }
     }
 
-    foreach my $file (bsd_glob("/home/*/.VirtualBox/VirtualBox.xml")) {
+
+
+    foreach my $file (bsd_glob("$homeDir/*/.VirtualBox/VirtualBox.xml")) {
         # Open config file ...
         my $tpp = XML::TreePP->new();
         my $data = $tpp->parse($file);
@@ -103,7 +112,7 @@ sub doInventory {
         if (
             $defaultMachineFolder != 0 and
             $defaultMachineFolder != "Machines" and
-            $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/
+            $defaultMachineFolder =~ /^\$homeDir\/S+\/.VirtualBox\/Machines$/
         ) {
           
             foreach my $file (bsd_glob($defaultMachineFolder."/*/*.xml")) {

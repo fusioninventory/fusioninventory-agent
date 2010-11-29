@@ -9,6 +9,8 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
+    return 0 if $OSNAME =~ /^mswin/i;
+    return 0 if $OSNAME =~ /^linux/i;
     return 1;
 }
 

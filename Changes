@@ -36,6 +36,26 @@ Revision history for FusionInventory::Agent
        * FreeBSD: do not ignore virtual interface but use the VIRTUALDEV flag on them
 
 2.1.7
+       * RPC: Better message if access is denied
+       * add --no-p2p parameter
+         http://forge.fusioninventory.org/issues/507
+       * initialize $config->{'rpc-trust-localhost'} to avoid a warning
+         with --help
+       * injector: fix the --help, there is no default server
+       * fusioninventory-agent, do not load lib with use to be able to change the @INC first.
+         this is needed for AIX 6.1 prebuilt.
+       * AIX/CPU: use addCPU() and collect the CORE/THREAD
+       * AIX/hardware: fix a typo sysplanar0 instead of sysplana00
+       * AIX/storage: reinitialise temp var correctly
+       * AIX/storage: store the harddrive serial number
+       * AIX/storage: use addStroage
+       * AIX/user: use addUser()
+       * Big Oops, CPUID != CPU serial number, see:
+         http://en.wikipedia.org/wiki/CPUID
+         Revert commit a1c4c665, which is broken because of that:
+         Win32: try to identify dual core CPU even if Windows thinks it two physical CPU
+
+2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs
          abs_path fails if the directory doesn't exist yet. This was breaking
          --basevardir on UNIX system.
@@ -111,6 +131,21 @@ Revision history for FusionInventory::Agent
        * MacOSX: ignore a warning in Drives.pm
          http://forge.fusioninventory.org/issues/441
        * MacOSX: retrieve partition UUID on MacOSX 10.4
+       * Linux, use ddcprobe and Xorg log file to detect the X resolution, turn
+         off the generic Screen.pm module
+       * Solaris/Networks: no ugly hack to detect the Perl bin path to launch kstat
+         http://forge.fusioninventory.org/issues/497
+       * Solaris/Networks: no useless grep call
+       * HTML: add the deviceid in the HTML file
+       * Linux/CPU: workaround if cpuinfo has broken "physical id"
+         http://forge.fusioninventory.org/issues/505
+       * BSD: add support for DragonFlyBSD! :D
+       * VirtualBox: Don't use process list (ps) to find running process
+       * MacOSX/VirtualBox: looks for user dir in /Users on MacOSX
+       * Linux/Storage: ignore fdisk -l error message
+         http://forge.fusioninventory.org/issues/503
+       * Linux/Storage: avoid error message with fdisk -s on invalid devices
+       * RPC: Allow access to / from everywhere
 
 2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
        * Ensure the RPC serivce URL printed in the log message targets

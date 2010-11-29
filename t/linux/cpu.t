@@ -10,6 +10,7 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::CPU;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU;
 use FusionInventory::Logger;
 use Test::More;
+use Data::Dumper;
 
 my %i386 = (
     'linux-686-1' => {
@@ -105,6 +106,47 @@ my %i386 = (
             }
         ],
         cores => [ 1 ]
+    },
+
+# IMPORTANT : this /proc/cpuinfo is _B0RKEN_, physical_id are not correct
+# please see bug: #505
+    'linux-hp-dl180' => {
+        procs => [
+          undef,
+          {
+            'cache size' => '4096 KB',
+            'address sizes' => '40 bits physical, 48 bits virtual',
+            'clflush size' => '64',
+            'physical id' => '1',
+            'model' => '26',
+            'cpu family' => '6',
+            'bogomips' => '4000.00',
+            'hlt_bug' => 'no',
+            'cpu mhz' => '2000.090',
+            'cache_alignment' => '64',
+            'stepping' => '5',
+            'cpuid level' => '11',
+            'core id' => '2',
+            'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe nx rdtscp lm con$',
+            'processor' => '2',
+            'vendor_id' => 'GenuineIntel',
+            'cpu cores' => '4',
+            'initial apicid' => '20',
+            'model name' => 'Intel(R) Xeon(R) CPU           E5504  @ 2.00GHz',
+            'fpu' => 'yes',
+            'siblings' => '4',
+            'apicid' => '20',
+            'fpu_exception' => 'yes',
+            'f00f_bug' => 'no',
+            'fdiv_bug' => 'no',
+            'wp' => 'yes',
+            'coma_bug' => 'no'
+          }
+],
+cores => [
+          undef,
+          2
+        ]
     }
 );
 
@@ -196,8 +238,8 @@ my $logger = FusionInventory::Logger->new();
 foreach my $test (keys %i386) {
     my $file = "resources/cpuinfo/$test";
     my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU::_getCPUsFromProc($logger, $file);
-    is_deeply($procs, $i386{$test}->{procs}, $test);
-    is_deeply($cores, $i386{$test}->{cores}, $test);
+    is_deeply($procs, $i386{$test}->{procs}, $test) or print Dumper($procs);
+    is_deeply($cores, $i386{$test}->{cores}, $test) or print Dumper($cores);
 }
 
 foreach my $test (keys %alpha) {

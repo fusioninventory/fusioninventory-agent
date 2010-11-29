@@ -8,14 +8,21 @@ sub isInventoryEnabled {
 }
 
 sub _getDdcprobeData {
-    my ($cmd, $param) = @_;
+    my ($file) = @_;
     my $ddcprobeData;
-    if (open my $handle, $param, $cmd) {
-	foreach (<$handle>) {
-	    s/[[:cntrl:]]//g;
-	    s/[^[:ascii:]]//g;
-	    $ddcprobeData->{$1} = $2 if /^(\S+):\s+(.*)/;
-	}
+
+    my $handle;
+    if ($file) {
+	open $handle, '<', $file or die;
+    } else {
+	open ($handle, "ddcprobe 2>&1 |")	
+    }
+    return unless $handle;
+
+    foreach (<$handle>) {
+	s/[[:cntrl:]]//g;
+	s/[^[:ascii:]]//g;
+	$ddcprobeData->{$1} = $2 if /^(\S+):\s+(.*)/;
     }
 
     return $ddcprobeData;
@@ -27,8 +34,44 @@ sub _parseXorgFd {
     my $xorgData;
     if (open XORG, $file) {
 	foreach (<XORG>) {
-	    $xorgData->{resolution}=$1 if /Modeline\s"(\S+?)"/;
+# Intel
+	    if (/Modeline\s"(\S+?)"/) {
+		$xorgData->{resolution}=$1 
+	    } elsif (/Integrated Graphics Chipset:\s+(.*)/) {
+		$xorgData->{name}=$1;
+	    }
+# Nvidia
+	    elsif (/Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
+		$xorgData->{resolution}="$1x$2";
+	    }
+	    elsif (/NVIDIA GPU\s*(.*?)\s*at/) {
+		$xorgData->{name}=$1;
+	    }
+	    elsif (/VESA VBE OEM:\s*(.*)/) {
+		$xorgData->{name}=$1;
+	    }
+	    elsif (/VESA VBE OEM Product:\s*(.*)/) {
+		$xorgData->{product}=$1;
+	    }
+	    elsif (/VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
+		$xorgData->{memory}=$1.$2;
+	    }
+# ATI /Radeon
+            elsif (/RADEON\(0\): Chipset: "(.*?)"/i) {
+		$xorgData->{name}=$1;
+	    }
+# VESA / XFree86
+            elsif (/Virtual size is (\S+)/i) {
+		$xorgData->{resolution}=$1;
+	    }
+	    elsif (/Primary Device is: PCI (.+)/i) {
+		$xorgData->{pcislot}=$1;
+		# mimic lspci pci slot format
+		$xorgData->{pcislot} =~ s/^00@//;
+		$xorgData->{pcislot} =~ s/(\d{2}):(\d{2}):(\d)$/$1:$2.$3/;
+	    }
 	}
+	close(XORG);
     }
     return $xorgData;
 }
@@ -37,11 +80,11 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    my $ddcprobeData = _getDdcprobeData("ddcprobe", "|-");
+    my $ddcprobeData = _getDdcprobeData();
 
     my $xOrgPid;
     foreach (`ps aux`) {
-	if ((/\/usr\/bin\/X/ || /Xorg/) && /^\S+\s+(\d+)/) {
+	if ((/\/usr(\/bin|\/X11R6\/bin)\/X/ || /Xorg/) && /^\S+\s+(\d+)/) {
 	    $xOrgPid = $1;
 	    last;
 	}
@@ -52,18 +95,21 @@ sub doInventory {
 	$xorgData = _parseXorgFd("</proc/$xOrgPid/fd/0");
     }
 
-    my $memory;
-    if ($ddcprobeData->{memory} =~ s/kb$//i) {
-	$memory = int($ddcprobeData->{memory} / 1024);
-    } elsif ($ddcprobeData->{memory} =~ s/mb$//i) {
-	$memory = $ddcprobeData->{memory};
+    my $memory = $xorgData->{memory} || $ddcprobeData->{memory};
+    if ($memory && $memory =~ s/kb$//i) {
+	$memory = int($memory / 1024);
+    }
+    my $resolution = $xorgData->{resolution} || $ddcprobeData->{dtiming};
+    if ($resolution) {
+	$resolution =~ s/@.*//;
     }
 
     $inventory->addVideo({
-	CHIPSET    => $ddcprobeData->{product},
+	CHIPSET    => $xorgData->{product} || $ddcprobeData->{product},
 	MEMORY     => $memory,
-	NAME       => $ddcprobeData->{oem},
-	RESOLUTION => $ddcprobeData->{dtiming} || $xorgData->{resolution}
+	NAME       => $xorgData->{name} || $ddcprobeData->{oem},
+	PCISLOT    => $xorgData->{pcislot},
+	RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming}
 	});
 
 }
