@@ -47,7 +47,7 @@ eval {
 
 if ($EVAL_ERROR) {
     print STDERR $EVAL_ERROR;
-    exit 1;
+    exit 2;
 }
 __END__
 
