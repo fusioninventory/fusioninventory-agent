@@ -29,6 +29,12 @@ sub load {
     my ($self, $values) = @_;
 
     Config::Simple->import_from($self->{file}, $values);
+
+    # replace empty arrayrefs with undef
+    foreach my $key (keys %$values) {
+        $values->{$key} = undef if ref $values->{$key};
+    }
+
 }
 
 1;
