@@ -113,6 +113,7 @@ sub getDescription {
     my ($self) = @_;
 
     my $description = {
+        id   => $self->{id},
         time =>
             $self->{nextRunDate} ? localtime($self->{nextRunDate}) : 'now',
         status =>
