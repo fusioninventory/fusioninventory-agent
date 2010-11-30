@@ -5,21 +5,25 @@ Installation
 ------------
 Minimum perl version: 5.8
 
-Additional mandatory perl modules:
+Additional mandatory perl modules (worker):
 - Digest::MD5
-- XML::TreePP
 - LWP
+- Mac::SysProfile (MacOs only)
 - Net::IP
 - UNIVERSAL::require
-- Mac::SysProfile (MacOs only)
+- XML::TreePP
+
+Additional mandatory perl modules (server):
+- POE
+- POE::Component::IKC
+- POE::Component::Server::HTTP
+- Proc::Daemon (Unix only)
+- Text::Template
 
 Additional optional perl modules:
 - Compress::Zlib, for message compression
 - Crypt::SSLeay, for SSL support
-- HTTP::Daemon, for web interface
 - Net::CUPS (v0.60 minimum), for printers detection 
-- Proc::Daemon, for daemon mode (Unix only)
-- Proc::PID::File, for daemon mode (Unix only)
 
 Additional optional programs:
 - nmap or ipdiscover, for network discovery
