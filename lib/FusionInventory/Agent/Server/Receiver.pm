@@ -8,6 +8,7 @@ use POE;
 use POE::Component::Server::HTTP;
 use HTTP::Status;
 use File::stat;
+use Text::Template;
 
 use FusionInventory::Logger;
 
@@ -61,46 +62,22 @@ sub main {
         return;
     }
 
+    my $template = Text::Template->new(
+        TYPE => 'FILE', SOURCE => "$self->{htmldir}/index.tpl"
+    );
+
+    my $hash = {
+        version => $FusionInventory::Agent::VERSION,
+        trust   => $self->{trust_localhost},
+        targets => [
+            map { $_->getDescription() } $self->{state}->getTargets()
+        ]
+    };
 
     $response->code(RC_OK);
-
-
-    my $indexFile = $self->{htmldir}."/index.tpl";
-    my $handle;
-    if (!open $handle, '<', $indexFile) {
-        $logger->error("Can't open share $indexFile: $ERRNO");
-        $response->code(500);
-        return;
-    }
-    undef $/;
-    my $output = <$handle>;
-    close $handle;
-
-
-    my $nextContact = "";
-    foreach my $target ($self->{state}->getTargets()) {
-        my $description = $target->getDescription();
-        $nextContact .=
-        "<li>\n
-	  <strong>Name</strong>
-	  <ul>
-      	    <li>type: $description->{type}</li>\n
-      	    <li>destination: $description->{destination}</li>\n
-      	    <li>planed for: $description->{time}</li>\n
-      	    <li>status: $description->{status}</li>\n
-	  </ul>
-	</li>\n";
-    }
-
-    #$output =~ s/%%STATUS%%/$status/;
-    $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
-    $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-    if (!$self->{trust_localhost}) {
-        $output =~
-        s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
-    }
-    $output =~ s/%%(END|)IF_.*?%%//g;
-    $response->content($output);
+    $response->content(
+        $template->fill_in(HASH => $hash)
+    );
 
     return RC_OK;
 }
