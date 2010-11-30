@@ -10,14 +10,15 @@ version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
 
 # mandatory dependencies
+requires 'Digest::MD5'                  => undef;
+requires 'LWP'                          => undef;
+requires 'Net::IP'                      => undef;
 requires 'POE'                          => undef;
 requires 'POE::Component::IKC'          => undef;
 requires 'POE::Component::Server::HTTP' => undef;
-requires 'Digest::MD5'        => undef;
-requires 'LWP'                => undef;
-requires 'Net::IP'            => undef;
-requires 'UNIVERSAL::require' => undef;
-requires 'XML::TreePP'        => undef;
+requires 'Text::Template'               => undef;
+requires 'UNIVERSAL::require'           => undef;
+requires 'XML::TreePP'                  => undef;
 
 if ($OSNAME eq 'darwin') {
     requires 'Mac::SysProfile' => undef;
