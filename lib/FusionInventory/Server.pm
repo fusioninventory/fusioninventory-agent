@@ -116,7 +116,6 @@ sub run {
                         maxOffset  => $config->{delaytime},
                         basevardir => $self->{vardir},
                         path       => $target_config->{path},
-                        deviceid   => $self->{deviceid},
                         format     => $target_config->{format}
                     );
                 last SWITCH;
@@ -131,7 +130,6 @@ sub run {
                         maxOffset  => $config->{delaytime},
                         basevardir => $self->{vardir},
                         url        => $target_config->{url},
-                        deviceid   => $self->{deviceid},
                         format     => $target_config->{format}
                     );
                 last SWITCH;

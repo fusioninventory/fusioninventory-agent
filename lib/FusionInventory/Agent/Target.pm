@@ -16,7 +16,6 @@ sub new {
         id          => $params{id},
         maxOffset   => $params{maxOffset} || 3600,
         logger      => $params{logger},
-        deviceid    => $params{deviceid},
         format      => $params{format},
         nextRunDate => undef,
     };
