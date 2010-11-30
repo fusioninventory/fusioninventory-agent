@@ -32,7 +32,7 @@ sub run {
     );
 
     $self->{logger}->debug("Pong!");
-    $self->{transmitter}->send( { message => $message } );
+    $self->{transmitter}->send(message => $message);
 
 }
 

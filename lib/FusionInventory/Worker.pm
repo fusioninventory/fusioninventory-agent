@@ -171,7 +171,7 @@ sub run {
             $prolog->setAccountInfo({'TAG', $config->{tag}});
         }
 
-        $prologresp = $transmitter->send({message => $prolog});
+        $prologresp = $transmitter->send(message => $prolog);
 
         if (!$prologresp) {
             $logger->error("No anwser from the server");

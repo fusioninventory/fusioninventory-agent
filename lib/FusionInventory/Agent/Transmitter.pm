@@ -68,13 +68,13 @@ sub new {
 }
 
 sub send {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
-    my $logger   = $self->{logger};
+    my $logger = $self->{logger};
 
-    my $message = $args->{message};
-    my $url     = ref $args->{url} eq 'URI' ?
-        $args->{url} : URI->new($args->{url});
+    my $message = $params{message};
+    my $url     = ref $params{url} eq 'URI' ?
+        $params{url} : URI->new($params{url});
 
     # turns SSL checks on if needed
     my $scheme = $url->scheme();

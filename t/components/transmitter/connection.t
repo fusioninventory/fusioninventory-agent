@@ -52,10 +52,10 @@ BAIL_OUT("port aleady used") if test_port(8080);
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({
+        scalar $transmitter->send(
             message => $message,
             url     => 'http://localhost:8080/public',
-        }),
+        ),
         $logger,
         qr/^Can't connect to localhost:8080/
     );
@@ -77,10 +77,10 @@ $server->set_dispatch({
 $server->background() or BAIL_OUT("can't launch the server");
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'http://localhost:8080/public',
-    }));
+    ));
 };
 
 lives_ok {
@@ -91,10 +91,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({
+        scalar $transmitter->send(
                 message => $message,
                 url     => 'http://localhost:8080/private',
-        }),
+        ),
         $logger,
         "Authentication required, no credentials available",
     );
@@ -109,10 +109,10 @@ lives_ok {
 } 'instanciation:  http, auth, with credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'http://localhost:8080/private',
-    }));
+    ));
 };
 
 $server->stop();
@@ -144,10 +144,10 @@ lives_ok {
 } 'instanciation: https, check disabled';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'https://localhost:8080/public',
-    }));
+    ));
 };
 
 lives_ok {
@@ -159,10 +159,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({
+        scalar $transmitter->send(
             message => $message,
             url     => 'https://localhost:8080/private',
-        }),
+        ),
         $logger,
         "Authentication required, no credentials available",
     );
@@ -178,10 +178,10 @@ lives_ok {
 } 'instanciation: https, check disabled, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'https://localhost:8080/private',
-    }));
+    ));
 };
 
 lives_ok {
@@ -192,10 +192,10 @@ lives_ok {
 } 'instanciation: https';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'https://localhost:8080/public',
-    })); 
+    )); 
 };
 
 lives_ok {
@@ -207,10 +207,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({
+        scalar $transmitter->send(
             message => $message,
             url     => 'https://localhost:8080/private',
-        }),
+        ),
         $logger,
         "Authentication required, no credentials available",
     );
@@ -226,10 +226,10 @@ lives_ok {
 } 'instanciation: https, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'https://localhost:8080/private',
-    }));
+    ));
 };
 
 $server->stop();
@@ -265,10 +265,10 @@ lives_ok {
 } 'instanciation: http, proxy';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'http://localhost:8080/public',
-    }));
+    ));
 };
 
 lives_ok {
@@ -280,10 +280,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({
+        scalar $transmitter->send(
             message => $message,
             url     => 'http://localhost:8080/private',
-        }),
+        ),
         $logger,
         "Authentication required, no credentials available",
     ); 
@@ -299,10 +299,10 @@ lives_ok {
 } 'instanciation: http, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'http://localhost:8080/private',
-    }));
+    ));
 };
 
 $server->stop();
@@ -335,10 +335,10 @@ lives_ok {
 } 'instanciation: https, proxy, check disabled';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'https://localhost:8080/public',
-    }));
+    ));
 };
 
 lives_ok {
@@ -351,10 +351,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({
+        scalar $transmitter->send(
             message => $message,
             url     => 'https://localhost:8080/private',
-        }),
+        ),
         $logger,
         "Authentication required, no credentials available",
     );
@@ -371,10 +371,10 @@ lives_ok {
 } 'instanciation: https, check disabled, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'https://localhost:8080/private',
-    }));
+    ));
 };
 
 lives_ok {
@@ -386,10 +386,10 @@ lives_ok {
 } 'instanciation: https';
 
 subtest "correct response" => sub {
-    check_response_ok($response = $transmitter->send({
+    check_response_ok($response = $transmitter->send(
         message => $message,
         url     => 'https://localhost:8080/public',
-    })); 
+    )); 
 };
 
 lives_ok {
@@ -402,10 +402,10 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $transmitter->send({
+        scalar $transmitter->send(
             message => $message,
             url     => 'https://localhost:8080/private',
-        }),
+        ),
         $logger,
         "Authentication required, no credentials available",
     ); 
@@ -422,10 +422,10 @@ lives_ok {
 } 'instanciation: https, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($transmitter->send({
+    check_response_ok($transmitter->send(
         message => $message,
         url     => 'https://localhost:8080/private',
-    }));
+    ));
 };
 
 $server->stop();

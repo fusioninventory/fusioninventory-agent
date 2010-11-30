@@ -98,10 +98,10 @@ sub run {
                 $self->{target}->getAccountInfo()
             );
 
-            my $response = $self->{transmitter}->send({
+            my $response = $self->{transmitter}->send(
                 message => $self->{inventory},
                 url     => $self->{target}->getUrl(),
-            });
+            );
 
             return unless $response;
 

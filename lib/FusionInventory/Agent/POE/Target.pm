@@ -104,7 +104,9 @@ sub run {
                     }
 
                     # TODO Don't mix settings and temp value
-                    $_[HEAP]->{prologresp} = $transmitter->send({message => $prolog});
+                    $_[HEAP]->{prologresp} = $transmitter->send(
+                        message => $prolog
+                    );
 
                     if (!$_[HEAP]->{prologresp}) {
                         $logger->error("No anwser from the server");
@@ -258,7 +260,7 @@ sub runFork {
             }
 
             # TODO Don't mix settings and temp value
-            $prologresp = $transmitter->send({message => $prolog});
+            $prologresp = $transmitter->send(message => $prolog);
 
             if (!$prologresp) {
                 $logger->error("No anwser from the server");
