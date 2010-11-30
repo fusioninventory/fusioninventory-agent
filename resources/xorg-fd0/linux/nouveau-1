@@ -1,0 +1,1518 @@
+[    32.493] 
+X.Org X Server 1.9.1
+Release Date: 2010-10-22
+[    32.493] X Protocol Version 11, Revision 0
+[    32.493] Build Operating System: x86-02 2.6.32-72.el6.bz634452.x86_64 
+[    32.493] Current Operating System: Linux laughlin 2.6.35.6-48.fc14.x86_64 #1 SMP Fri Oct 22 15:36:08 UTC 2010 x86_64
+[    32.493] Kernel command line: ro root=/dev/mapper/vg00-rootf14 rd_LVM_LV=vg00/rootf14 rd_LVM_LV=vg00/swap rd_NO_LUKS rd_NO_MD rd_NO_DM LANG=fr_FR.UTF-8 SYSFONT=latarcyrheb-sun16 KEYTABLE=fr-latin9
+[    32.493] Build Date: 09 November 2010  08:15:25PM
+[    32.493] Build ID: xorg-x11-server 1.9.1-3.fc14 
+[    32.493] Current version of pixman: 0.18.4
+[    32.493] 	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+[    32.493] Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+[    32.493] (==) Log file: "/var/log/Xorg.0.log", Time: Mon Nov 29 18:45:46 2010
+[    32.500] (==) Using config directory: "/etc/X11/xorg.conf.d"
+[    32.500] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+[    32.500] (==) No Layout section.  Using the first Screen section.
+[    32.500] (==) No screen section available. Using defaults.
+[    32.500] (**) |-->Screen "Default Screen Section" (0)
+[    32.500] (**) |   |-->Monitor "<default monitor>"
+[    32.500] (==) No monitor specified for screen "Default Screen Section".
+	Using a default monitor configuration.
+[    32.500] (==) Automatically adding devices
+[    32.500] (==) Automatically enabling devices
+[    32.500] (==) FontPath set to:
+	catalogue:/etc/X11/fontpath.d,
+	built-ins
+[    32.500] (==) ModulePath set to "/usr/lib64/xorg/modules"
+[    32.500] (II) The server relies on udev to provide the list of input devices.
+	If no devices become available, reconfigure udev or disable AutoAddDevices.
+[    32.500] (II) 
+***************************************************************
+***************************************************************
+** Fedora switched to udev-based device detection with       **
+** xorg-x11-server-1.7.99.901-1. Custom HAL configuration    **
+** stored in /etc/hal/fdi/policy will not be seen by this    **
+** server version. If you have such configuration you will   **
+** need to update it to the new format.                      **
+** For more information, see the Fedora wiki page            **
+** https://fedoraproject.org/wiki/Input_device_configuration **
+***************************************************************
+***************************************************************
+[    32.500] (II) Loader magic: 0x787130
+[    32.500] (II) Module ABI versions:
+[    32.500] 	X.Org ANSI C Emulation: 0.4
+[    32.500] 	X.Org Video Driver: 8.0
+[    32.500] 	X.Org XInput driver : 11.0
+[    32.500] 	X.Org Server Extension : 4.0
+[    32.502] (--) PCI:*(0:1:0:0) 10de:0421:1043:8264 rev 161, Mem @ 0xfd000000/16777216, 0xd0000000/268435456, 0xfa000000/33554432, I/O @ 0x0000cc00/128, BIOS @ 0x????????/131072
+[    32.502] (II) LoadModule: "extmod"
+[    32.502] (II) Loading /usr/lib64/xorg/modules/extensions/libextmod.so
+[    32.503] (II) Module extmod: vendor="X.Org Foundation"
+[    32.503] 	compiled for 1.9.1, module version = 1.0.0
+[    32.503] 	Module class: X.Org Server Extension
+[    32.503] 	ABI class: X.Org Server Extension, version 4.0
+[    32.503] (II) Loading extension SELinux
+[    32.503] (II) Loading extension MIT-SCREEN-SAVER
+[    32.503] (II) Loading extension XFree86-VidModeExtension
+[    32.503] (II) Loading extension XFree86-DGA
+[    32.503] (II) Loading extension DPMS
+[    32.503] (II) Loading extension XVideo
+[    32.503] (II) Loading extension XVideo-MotionCompensation
+[    32.503] (II) Loading extension X-Resource
+[    32.503] (II) LoadModule: "dbe"
+[    32.503] (II) Loading /usr/lib64/xorg/modules/extensions/libdbe.so
+[    32.503] (II) Module dbe: vendor="X.Org Foundation"
+[    32.503] 	compiled for 1.9.1, module version = 1.0.0
+[    32.503] 	Module class: X.Org Server Extension
+[    32.503] 	ABI class: X.Org Server Extension, version 4.0
+[    32.503] (II) Loading extension DOUBLE-BUFFER
+[    32.503] (II) LoadModule: "glx"
+[    32.503] (II) Loading /usr/lib64/xorg/modules/extensions/libglx.so
+[    32.504] (II) Module glx: vendor="X.Org Foundation"
+[    32.504] 	compiled for 1.9.1, module version = 1.0.0
+[    32.504] 	ABI class: X.Org Server Extension, version 4.0
+[    32.504] (==) AIGLX enabled
+[    32.504] (II) Loading extension GLX
+[    32.504] (II) LoadModule: "record"
+[    32.504] (II) Loading /usr/lib64/xorg/modules/extensions/librecord.so
+[    32.504] (II) Module record: vendor="X.Org Foundation"
+[    32.504] 	compiled for 1.9.1, module version = 1.13.0
+[    32.504] 	Module class: X.Org Server Extension
+[    32.504] 	ABI class: X.Org Server Extension, version 4.0
+[    32.504] (II) Loading extension RECORD
+[    32.504] (II) LoadModule: "dri"
+[    32.504] (II) Loading /usr/lib64/xorg/modules/extensions/libdri.so
+[    32.505] (II) Module dri: vendor="X.Org Foundation"
+[    32.505] 	compiled for 1.9.1, module version = 1.0.0
+[    32.505] 	ABI class: X.Org Server Extension, version 4.0
+[    32.505] (II) Loading extension XFree86-DRI
+[    32.505] (II) LoadModule: "dri2"
+[    32.505] (II) Loading /usr/lib64/xorg/modules/extensions/libdri2.so
+[    32.505] (II) Module dri2: vendor="X.Org Foundation"
+[    32.505] 	compiled for 1.9.1, module version = 1.2.0
+[    32.505] 	ABI class: X.Org Server Extension, version 4.0
+[    32.505] (II) Loading extension DRI2
+[    32.505] (==) Matched nouveau as autoconfigured driver 0
+[    32.505] (==) Matched vesa as autoconfigured driver 1
+[    32.505] (==) Matched fbdev as autoconfigured driver 2
+[    32.505] (==) Assigned the driver to the xf86ConfigLayout
+[    32.505] (II) LoadModule: "nouveau"
+[    32.516] (II) Loading /usr/lib64/xorg/modules/drivers/nouveau_drv.so
+[    32.516] (II) Module nouveau: vendor="X.Org Foundation"
+[    32.516] 	compiled for 1.9.0, module version = 0.0.16
+[    32.516] 	Module class: X.Org Video Driver
+[    32.516] 	ABI class: X.Org Video Driver, version 8.0
+[    32.516] (II) LoadModule: "vesa"
+[    32.517] (II) Loading /usr/lib64/xorg/modules/drivers/vesa_drv.so
+[    32.517] (II) Module vesa: vendor="X.Org Foundation"
+[    32.517] 	compiled for 1.9.0, module version = 2.3.0
+[    32.517] 	Module class: X.Org Video Driver
+[    32.517] 	ABI class: X.Org Video Driver, version 8.0
+[    32.517] (II) LoadModule: "fbdev"
+[    32.517] (II) Loading /usr/lib64/xorg/modules/drivers/fbdev_drv.so
+[    32.517] (II) Module fbdev: vendor="X.Org Foundation"
+[    32.517] 	compiled for 1.8.99.904, module version = 0.4.1
+[    32.517] 	ABI class: X.Org Video Driver, version 8.0
+[    32.517] (II) NOUVEAU driver 
+[    32.518] (II) NOUVEAU driver for NVIDIA chipset families :
+[    32.518] 	RIVA TNT    (NV04)
+[    32.518] 	RIVA TNT2   (NV05)
+[    32.518] 	GeForce 256 (NV10)
+[    32.518] 	GeForce 2   (NV11, NV15)
+[    32.518] 	GeForce 4MX (NV17, NV18)
+[    32.518] 	GeForce 3   (NV20)
+[    32.518] 	GeForce 4Ti (NV25, NV28)
+[    32.518] 	GeForce FX  (NV3x)
+[    32.518] 	GeForce 6   (NV4x)
+[    32.518] 	GeForce 7   (G7x)
+[    32.518] 	GeForce 8   (G8x)
+[    32.518] (II) VESA: driver for VESA chipsets: vesa
+[    32.518] (II) FBDEV: driver for framebuffer: fbdev
+[    32.518] (++) using VT number 1
+
+[    32.519] drmOpenDevice: node name is /dev/dri/card0
+[    32.519] drmOpenDevice: open result is 7, (OK)
+[    32.538] drmOpenByBusid: Searching for BusID pci:0000:01:00.0
+[    32.538] drmOpenDevice: node name is /dev/dri/card0
+[    32.538] drmOpenDevice: open result is 7, (OK)
+[    32.538] drmOpenByBusid: drmOpenMinor returns 7
+[    32.538] drmOpenByBusid: Interface 1.4 failed, trying 1.1
+[    32.538] drmOpenByBusid: drmGetBusid reports pci:0000:01:00.0
+[    32.538] (II) [drm] nouveau interface version: 0.0.16
+[    32.539] (WW) Falling back to old probe method for vesa
+[    32.539] (WW) Falling back to old probe method for fbdev
+[    32.539] (II) Loading sub module "fbdevhw"
+[    32.539] (II) LoadModule: "fbdevhw"
+[    32.539] (II) Loading /usr/lib64/xorg/modules/libfbdevhw.so
+[    32.539] (II) Module fbdevhw: vendor="X.Org Foundation"
+[    32.539] 	compiled for 1.9.1, module version = 0.0.2
+[    32.539] 	ABI class: X.Org Video Driver, version 8.0
+[    32.539] (II) Loading sub module "dri"
+[    32.539] (II) LoadModule: "dri"
+[    32.539] (II) Reloading /usr/lib64/xorg/modules/extensions/libdri.so
+[    32.539] (II) NOUVEAU(0): Loaded DRI module
+[    32.540] drmOpenDevice: node name is /dev/dri/card0
+[    32.540] drmOpenDevice: open result is 8, (OK)
+[    32.540] drmOpenDevice: node name is /dev/dri/card0
+[    32.540] drmOpenDevice: open result is 8, (OK)
+[    32.540] drmOpenByBusid: Searching for BusID pci:0000:01:00.0
+[    32.540] drmOpenDevice: node name is /dev/dri/card0
+[    32.540] drmOpenDevice: open result is 8, (OK)
+[    32.540] drmOpenByBusid: drmOpenMinor returns 8
+[    32.540] drmOpenByBusid: Interface 1.4 failed, trying 1.1
+[    32.540] drmOpenByBusid: drmGetBusid reports pci:0000:01:00.0
+[    32.540] (II) [drm] DRM interface version 1.3
+[    32.540] (II) [drm] DRM open master succeeded.
+[    32.540] (--) NOUVEAU(0): Chipset: "NVIDIA NV86"
+[    32.540] (II) NOUVEAU(0): Creating default Display subsection in Screen section
+	"Default Screen Section" for depth/fbbpp 24/32
+[    32.540] (==) NOUVEAU(0): Depth 24, (--) framebuffer bpp 32
+[    32.540] (==) NOUVEAU(0): RGB weight 888
+[    32.540] (==) NOUVEAU(0): Default visual is TrueColor
+[    32.540] (==) NOUVEAU(0): Using HW cursor
+[    32.647] (II) NOUVEAU(0): Output DVI-I-1 has no monitor section
+[    32.745] (II) NOUVEAU(0): Output VGA-1 has no monitor section
+[    32.850] (II) NOUVEAU(0): EDID for output DVI-I-1
+[    32.851] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[    32.851] (II) NOUVEAU(0): Year: 2007  Week: 19
+[    32.851] (II) NOUVEAU(0): EDID Version: 1.3
+[    32.851] (II) NOUVEAU(0): Digital Display Input
+[    32.851] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[    32.851] (II) NOUVEAU(0): Gamma: 2.20
+[    32.851] (II) NOUVEAU(0): DPMS capabilities: Off
+[    32.851] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[    32.851] (II) NOUVEAU(0): Default color space is primary color space
+[    32.851] (II) NOUVEAU(0): First detailed timing is preferred mode
+[    32.851] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[    32.851] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[    32.851] (II) NOUVEAU(0): Supported established timings:
+[    32.851] (II) NOUVEAU(0): 720x400@70Hz
+[    32.851] (II) NOUVEAU(0): 640x480@60Hz
+[    32.851] (II) NOUVEAU(0): 640x480@67Hz
+[    32.851] (II) NOUVEAU(0): 640x480@72Hz
+[    32.851] (II) NOUVEAU(0): 640x480@75Hz
+[    32.851] (II) NOUVEAU(0): 800x600@56Hz
+[    32.851] (II) NOUVEAU(0): 800x600@60Hz
+[    32.851] (II) NOUVEAU(0): 800x600@72Hz
+[    32.851] (II) NOUVEAU(0): 800x600@75Hz
+[    32.851] (II) NOUVEAU(0): 832x624@75Hz
+[    32.851] (II) NOUVEAU(0): 1024x768@60Hz
+[    32.851] (II) NOUVEAU(0): 1024x768@70Hz
+[    32.851] (II) NOUVEAU(0): 1024x768@75Hz
+[    32.851] (II) NOUVEAU(0): 1280x1024@75Hz
+[    32.851] (II) NOUVEAU(0): Manufacturer's mask: 0
+[    32.851] (II) NOUVEAU(0): Supported standard timings:
+[    32.851] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[    32.851] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[    32.851] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[    32.851] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[    32.851] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[    32.851] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[    32.851] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[    32.851] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[    32.851] (II) NOUVEAU(0): Supported detailed timing:
+[    32.851] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[    32.851] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[    32.851] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[    32.851] (II) NOUVEAU(0): Serial No: CU10719006429
+[    32.851] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[    32.851] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[    32.851] (II) NOUVEAU(0): EDID (in hex):
+[    32.851] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[    32.851] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[    32.851] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[    32.851] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[    32.851] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[    32.851] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[    32.851] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[    32.851] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[    32.851] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[    32.851] (II) NOUVEAU(0): Using EDID range info for horizontal sync
+[    32.851] (II) NOUVEAU(0): Using EDID range info for vertical refresh
+[    32.851] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[    32.851] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    32.851] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    32.852] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[    32.852] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    32.852] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    32.950] (II) NOUVEAU(0): EDID for output VGA-1
+[    32.950] (II) NOUVEAU(0): Output DVI-I-1 connected
+[    32.950] (II) NOUVEAU(0): Output VGA-1 disconnected
+[    32.950] (II) NOUVEAU(0): Using exact sizes for initial modes
+[    32.950] (II) NOUVEAU(0): Output DVI-I-1 using initial mode 1680x1050 +0+0
+[    32.950] (II) NOUVEAU(0): Using default gamma of (1.0, 1.0, 1.0) unless otherwise stated.
+[    32.950] (--) NOUVEAU(0): Virtual size is 1680x1050 (pitch 1680)
+[    32.950] (**) NOUVEAU(0):  Driver mode "1680x1050": 119.0 MHz (scaled from 0.0 MHz), 64.7 kHz, 59.9 Hz
+[    32.950] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    32.950] (**) NOUVEAU(0):  Driver mode "1600x1200": 162.0 MHz (scaled from 0.0 MHz), 75.0 kHz, 60.0 Hz
+[    32.950] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    32.950] (**) NOUVEAU(0):  Driver mode "1280x1024": 135.0 MHz (scaled from 0.0 MHz), 80.0 kHz, 75.0 Hz
+[    32.950] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    32.950] (**) NOUVEAU(0):  Driver mode "1280x1024": 108.0 MHz (scaled from 0.0 MHz), 64.0 kHz, 60.0 Hz
+[    32.950] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    32.950] (**) NOUVEAU(0):  Driver mode "1440x900": 136.8 MHz (scaled from 0.0 MHz), 70.6 kHz, 75.0 Hz
+[    32.950] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    32.950] (**) NOUVEAU(0):  Driver mode "1440x900": 106.5 MHz (scaled from 0.0 MHz), 55.9 kHz, 59.9 Hz
+[    32.950] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[    32.950] (**) NOUVEAU(0):  Driver mode "1280x960": 108.0 MHz (scaled from 0.0 MHz), 60.0 kHz, 60.0 Hz
+[    32.950] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    32.950] (**) NOUVEAU(0):  Driver mode "1152x864": 108.0 MHz (scaled from 0.0 MHz), 67.5 kHz, 75.0 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    32.951] (**) NOUVEAU(0):  Mode "1280x720": 74.4 MHz (scaled from 0.0 MHz), 44.7 kHz, 60.0 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "1024x768": 78.8 MHz (scaled from 0.0 MHz), 60.1 kHz, 75.1 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "1024x768": 75.0 MHz (scaled from 0.0 MHz), 56.5 kHz, 70.1 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "1024x768": 65.0 MHz (scaled from 0.0 MHz), 48.4 kHz, 60.0 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "832x624": 57.3 MHz (scaled from 0.0 MHz), 49.7 kHz, 74.6 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "800x600": 50.0 MHz (scaled from 0.0 MHz), 48.1 kHz, 72.2 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "800x600": 49.5 MHz (scaled from 0.0 MHz), 46.9 kHz, 75.0 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "800x600": 40.0 MHz (scaled from 0.0 MHz), 37.9 kHz, 60.3 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "800x600": 36.0 MHz (scaled from 0.0 MHz), 35.2 kHz, 56.2 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "640x480": 31.5 MHz (scaled from 0.0 MHz), 37.9 kHz, 72.8 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "640x480": 31.5 MHz (scaled from 0.0 MHz), 37.5 kHz, 75.0 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "640x480": 30.2 MHz (scaled from 0.0 MHz), 35.0 kHz, 66.7 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "640x480": 25.2 MHz (scaled from 0.0 MHz), 31.5 kHz, 60.0 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    32.951] (**) NOUVEAU(0):  Driver mode "720x400": 28.3 MHz (scaled from 0.0 MHz), 31.5 kHz, 70.1 Hz
+[    32.951] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    32.951] (**) NOUVEAU(0): Display dimensions: (470, 300) mm
+[    32.951] (**) NOUVEAU(0): DPI set to (90, 88)
+[    32.951] (II) Loading sub module "fb"
+[    32.951] (II) LoadModule: "fb"
+[    32.952] (II) Loading /usr/lib64/xorg/modules/libfb.so
+[    32.952] (II) Module fb: vendor="X.Org Foundation"
+[    32.952] 	compiled for 1.9.1, module version = 1.0.0
+[    32.952] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    32.952] (II) Loading sub module "exa"
+[    32.952] (II) LoadModule: "exa"
+[    32.952] (II) Loading /usr/lib64/xorg/modules/libexa.so
+[    32.952] (II) Module exa: vendor="X.Org Foundation"
+[    32.952] 	compiled for 1.9.1, module version = 2.5.0
+[    32.952] 	ABI class: X.Org Video Driver, version 8.0
+[    32.952] (II) Loading sub module "shadowfb"
+[    32.952] (II) LoadModule: "shadowfb"
+[    32.953] (II) Loading /usr/lib64/xorg/modules/libshadowfb.so
+[    32.953] (II) Module shadowfb: vendor="X.Org Foundation"
+[    32.953] 	compiled for 1.9.1, module version = 1.0.0
+[    32.953] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    32.953] (II) UnloadModule: "vesa"
+[    32.953] (II) Unloading /usr/lib64/xorg/modules/drivers/vesa_drv.so
+[    32.953] (II) UnloadModule: "fbdev"
+[    32.953] (II) Unloading /usr/lib64/xorg/modules/drivers/fbdev_drv.so
+[    32.953] (II) UnloadModule: "fbdevhw"
+[    32.953] (II) Unloading /usr/lib64/xorg/modules/libfbdevhw.so
+[    32.953] (--) Depth 24 pixmap format is 32 bpp
+[    32.958] (II) NOUVEAU(0): Opened GPU channel 2
+[    32.958] (II) NOUVEAU(0): [DRI2] Setup complete
+[    32.958] (II) NOUVEAU(0): [DRI2]   DRI driver: nouveau
+[    32.958] (II) NOUVEAU(0): GART: 512MiB available
+[    32.960] (II) NOUVEAU(0): GART: Allocated 16MiB as a scratch buffer
+[    32.960] (II) EXA(0): Driver allocated offscreen pixmaps
+[    32.960] (II) EXA(0): Driver registered support for the following operations:
+[    32.960] (II)         Solid
+[    32.960] (II)         Copy
+[    32.960] (II)         Composite (RENDER acceleration)
+[    32.960] (II)         UploadToScreen
+[    32.960] (II)         DownloadFromScreen
+[    32.960] (==) NOUVEAU(0): Backing store disabled
+[    32.960] (==) NOUVEAU(0): Silken mouse enabled
+[    32.961] (II) NOUVEAU(0): [XvMC] Associated with Nouveau GeForce 8/9 Textured Video.
+[    32.961] (II) NOUVEAU(0): [XvMC] Extension initialized.
+[    32.961] (==) NOUVEAU(0): DPMS enabled
+[    32.961] (II) NOUVEAU(0): RandR 1.2 enabled, ignore the following RandR disabled message.
+[    32.963] (--) RandR disabled
+[    32.963] (II) Initializing built-in extension Generic Event Extension
+[    32.963] (II) Initializing built-in extension SHAPE
+[    32.963] (II) Initializing built-in extension MIT-SHM
+[    32.963] (II) Initializing built-in extension XInputExtension
+[    32.963] (II) Initializing built-in extension XTEST
+[    32.963] (II) Initializing built-in extension BIG-REQUESTS
+[    32.963] (II) Initializing built-in extension SYNC
+[    32.963] (II) Initializing built-in extension XKEYBOARD
+[    32.963] (II) Initializing built-in extension XC-MISC
+[    32.963] (II) Initializing built-in extension XINERAMA
+[    32.963] (II) Initializing built-in extension XFIXES
+[    32.963] (II) Initializing built-in extension RENDER
+[    32.963] (II) Initializing built-in extension RANDR
+[    32.963] (II) Initializing built-in extension COMPOSITE
+[    32.963] (II) Initializing built-in extension DAMAGE
+[    32.967] (II) SELinux: Disabled by boolean
+[    32.979] (II) AIGLX: enabled GLX_MESA_copy_sub_buffer
+[    32.979] (II) AIGLX: enabled GLX_INTEL_swap_event
+[    32.979] (II) AIGLX: enabled GLX_SGI_make_current_read
+[    32.979] (II) AIGLX: GLX_EXT_texture_from_pixmap backed by buffer objects
+[    32.980] (II) AIGLX: Loaded and initialized /usr/lib64/dri/nouveau_dri.so
+[    32.980] (II) GLX: Initialized DRI2 GL provider for screen 0
+[    32.982] (II) NOUVEAU(0): NVEnterVT is called.
+[    32.982] (II) NOUVEAU(0): Setting screen physical size to 444 x 277
+[    32.982] resize called 1680 1050
+[    33.444] (II) config/udev: Adding input device Power Button (/dev/input/event1)
+[    33.444] (**) Power Button: Applying InputClass "evdev keyboard catchall"
+[    33.444] (**) Power Button: Applying InputClass "system-setup-keyboard"
+[    33.444] (II) LoadModule: "evdev"
+[    33.444] (II) Loading /usr/lib64/xorg/modules/input/evdev_drv.so
+[    33.445] (II) Module evdev: vendor="X.Org Foundation"
+[    33.445] 	compiled for 1.8.99.905, module version = 2.5.0
+[    33.445] 	Module class: X.Org XInput Driver
+[    33.445] 	ABI class: X.Org XInput driver, version 11.0
+[    33.445] (**) Power Button: always reports core events
+[    33.445] (**) Power Button: Device: "/dev/input/event1"
+[    33.453] (--) Power Button: Found keys
+[    33.453] (II) Power Button: Configuring as keyboard
+[    33.453] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD)
+[    33.453] (**) Option "xkb_rules" "evdev"
+[    33.453] (**) Option "xkb_model" "pc105"
+[    33.453] (**) Option "xkb_layout" "fr"
+[    33.453] (**) Option "xkb_variant" "latin9"
+[    33.453] (**) Option "xkb_options" "terminate:ctrl_alt_bksp,"
+[    33.486] (II) config/udev: Adding input device Power Button (/dev/input/event0)
+[    33.486] (**) Power Button: Applying InputClass "evdev keyboard catchall"
+[    33.486] (**) Power Button: Applying InputClass "system-setup-keyboard"
+[    33.486] (**) Power Button: always reports core events
+[    33.486] (**) Power Button: Device: "/dev/input/event0"
+[    33.490] (--) Power Button: Found keys
+[    33.490] (II) Power Button: Configuring as keyboard
+[    33.490] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD)
+[    33.490] (**) Option "xkb_rules" "evdev"
+[    33.490] (**) Option "xkb_model" "pc105"
+[    33.490] (**) Option "xkb_layout" "fr"
+[    33.490] (**) Option "xkb_variant" "latin9"
+[    33.490] (**) Option "xkb_options" "terminate:ctrl_alt_bksp,"
+[    33.492] (II) config/udev: Adding input device Logitech USB-PS/2 Optical Mouse (/dev/input/event3)
+[    33.492] (**) Logitech USB-PS/2 Optical Mouse: Applying InputClass "evdev pointer catchall"
+[    33.492] (**) Logitech USB-PS/2 Optical Mouse: always reports core events
+[    33.492] (**) Logitech USB-PS/2 Optical Mouse: Device: "/dev/input/event3"
+[    33.503] (--) Logitech USB-PS/2 Optical Mouse: Found 12 mouse buttons
+[    33.503] (--) Logitech USB-PS/2 Optical Mouse: Found scroll wheel(s)
+[    33.503] (--) Logitech USB-PS/2 Optical Mouse: Found relative axes
+[    33.503] (--) Logitech USB-PS/2 Optical Mouse: Found x and y relative axes
+[    33.503] (II) Logitech USB-PS/2 Optical Mouse: Configuring as mouse
+[    33.503] (**) Logitech USB-PS/2 Optical Mouse: YAxisMapping: buttons 4 and 5
+[    33.503] (**) Logitech USB-PS/2 Optical Mouse: EmulateWheelButton: 4, EmulateWheelInertia: 10, EmulateWheelTimeout: 200
+[    33.503] (II) XINPUT: Adding extended input device "Logitech USB-PS/2 Optical Mouse" (type: MOUSE)
+[    33.503] (**) Logitech USB-PS/2 Optical Mouse: (accel) keeping acceleration scheme 1
+[    33.503] (**) Logitech USB-PS/2 Optical Mouse: (accel) acceleration profile 0
+[    33.503] (**) Logitech USB-PS/2 Optical Mouse: (accel) acceleration factor: 2.000
+[    33.503] (**) Logitech USB-PS/2 Optical Mouse: (accel) acceleration threshold: 4
+[    33.503] (II) Logitech USB-PS/2 Optical Mouse: initialized for relative axes.
+[    33.504] (II) config/udev: Adding input device Logitech USB-PS/2 Optical Mouse (/dev/input/mouse0)
+[    33.504] (II) No input driver/identifier specified (ignoring)
+[    33.511] (II) config/udev: Adding input device AT Translated Set 2 keyboard (/dev/input/event2)
+[    33.511] (**) AT Translated Set 2 keyboard: Applying InputClass "evdev keyboard catchall"
+[    33.512] (**) AT Translated Set 2 keyboard: Applying InputClass "system-setup-keyboard"
+[    33.512] (**) AT Translated Set 2 keyboard: always reports core events
+[    33.512] (**) AT Translated Set 2 keyboard: Device: "/dev/input/event2"
+[    33.514] (--) AT Translated Set 2 keyboard: Found keys
+[    33.514] (II) AT Translated Set 2 keyboard: Configuring as keyboard
+[    33.514] (II) XINPUT: Adding extended input device "AT Translated Set 2 keyboard" (type: KEYBOARD)
+[    33.514] (**) Option "xkb_rules" "evdev"
+[    33.514] (**) Option "xkb_model" "pc105"
+[    33.514] (**) Option "xkb_layout" "fr"
+[    33.514] (**) Option "xkb_variant" "latin9"
+[    33.514] (**) Option "xkb_options" "terminate:ctrl_alt_bksp,"
+[    34.458] (II) NOUVEAU(0): EDID for output DVI-I-1
+[    34.459] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[    34.459] (II) NOUVEAU(0): Year: 2007  Week: 19
+[    34.459] (II) NOUVEAU(0): EDID Version: 1.3
+[    34.459] (II) NOUVEAU(0): Digital Display Input
+[    34.459] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[    34.459] (II) NOUVEAU(0): Gamma: 2.20
+[    34.459] (II) NOUVEAU(0): DPMS capabilities: Off
+[    34.459] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[    34.459] (II) NOUVEAU(0): Default color space is primary color space
+[    34.459] (II) NOUVEAU(0): First detailed timing is preferred mode
+[    34.459] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[    34.459] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[    34.459] (II) NOUVEAU(0): Supported established timings:
+[    34.459] (II) NOUVEAU(0): 720x400@70Hz
+[    34.459] (II) NOUVEAU(0): 640x480@60Hz
+[    34.459] (II) NOUVEAU(0): 640x480@67Hz
+[    34.459] (II) NOUVEAU(0): 640x480@72Hz
+[    34.459] (II) NOUVEAU(0): 640x480@75Hz
+[    34.459] (II) NOUVEAU(0): 800x600@56Hz
+[    34.459] (II) NOUVEAU(0): 800x600@60Hz
+[    34.459] (II) NOUVEAU(0): 800x600@72Hz
+[    34.459] (II) NOUVEAU(0): 800x600@75Hz
+[    34.459] (II) NOUVEAU(0): 832x624@75Hz
+[    34.459] (II) NOUVEAU(0): 1024x768@60Hz
+[    34.459] (II) NOUVEAU(0): 1024x768@70Hz
+[    34.459] (II) NOUVEAU(0): 1024x768@75Hz
+[    34.459] (II) NOUVEAU(0): 1280x1024@75Hz
+[    34.460] (II) NOUVEAU(0): Manufacturer's mask: 0
+[    34.460] (II) NOUVEAU(0): Supported standard timings:
+[    34.460] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[    34.460] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[    34.460] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[    34.460] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[    34.460] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[    34.460] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[    34.460] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[    34.460] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[    34.460] (II) NOUVEAU(0): Supported detailed timing:
+[    34.460] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[    34.460] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[    34.460] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[    34.460] (II) NOUVEAU(0): Serial No: CU10719006429
+[    34.460] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[    34.460] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[    34.460] (II) NOUVEAU(0): EDID (in hex):
+[    34.460] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[    34.460] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[    34.460] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[    34.460] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[    34.460] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[    34.460] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[    34.460] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[    34.460] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[    34.460] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[    34.460] (II) NOUVEAU(0): Using hsync ranges from config file
+[    34.460] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[    34.460] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[    34.460] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    34.460] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[    34.460] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    34.460] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    34.461] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    34.559] (II) NOUVEAU(0): EDID for output VGA-1
+[    34.782] (II) NOUVEAU(0): EDID for output DVI-I-1
+[    34.782] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[    34.782] (II) NOUVEAU(0): Year: 2007  Week: 19
+[    34.782] (II) NOUVEAU(0): EDID Version: 1.3
+[    34.782] (II) NOUVEAU(0): Digital Display Input
+[    34.782] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[    34.783] (II) NOUVEAU(0): Gamma: 2.20
+[    34.783] (II) NOUVEAU(0): DPMS capabilities: Off
+[    34.783] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[    34.783] (II) NOUVEAU(0): Default color space is primary color space
+[    34.783] (II) NOUVEAU(0): First detailed timing is preferred mode
+[    34.783] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[    34.783] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[    34.783] (II) NOUVEAU(0): Supported established timings:
+[    34.783] (II) NOUVEAU(0): 720x400@70Hz
+[    34.783] (II) NOUVEAU(0): 640x480@60Hz
+[    34.783] (II) NOUVEAU(0): 640x480@67Hz
+[    34.783] (II) NOUVEAU(0): 640x480@72Hz
+[    34.783] (II) NOUVEAU(0): 640x480@75Hz
+[    34.783] (II) NOUVEAU(0): 800x600@56Hz
+[    34.783] (II) NOUVEAU(0): 800x600@60Hz
+[    34.783] (II) NOUVEAU(0): 800x600@72Hz
+[    34.783] (II) NOUVEAU(0): 800x600@75Hz
+[    34.783] (II) NOUVEAU(0): 832x624@75Hz
+[    34.783] (II) NOUVEAU(0): 1024x768@60Hz
+[    34.783] (II) NOUVEAU(0): 1024x768@70Hz
+[    34.783] (II) NOUVEAU(0): 1024x768@75Hz
+[    34.783] (II) NOUVEAU(0): 1280x1024@75Hz
+[    34.783] (II) NOUVEAU(0): Manufacturer's mask: 0
+[    34.783] (II) NOUVEAU(0): Supported standard timings:
+[    34.783] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[    34.783] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[    34.783] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[    34.783] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[    34.783] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[    34.783] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[    34.783] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[    34.783] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[    34.783] (II) NOUVEAU(0): Supported detailed timing:
+[    34.783] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[    34.783] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[    34.783] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[    34.783] (II) NOUVEAU(0): Serial No: CU10719006429
+[    34.783] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[    34.783] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[    34.783] (II) NOUVEAU(0): EDID (in hex):
+[    34.783] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[    34.783] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[    34.784] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[    34.784] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[    34.784] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[    34.784] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[    34.784] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[    34.784] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[    34.784] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[    34.784] (II) NOUVEAU(0): Using hsync ranges from config file
+[    34.784] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[    34.784] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[    34.784] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    34.784] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    34.786] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[    34.786] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    34.786] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    34.787] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    34.787] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[    34.787] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    34.787] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    34.787] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    34.787] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    34.884] (II) NOUVEAU(0): EDID for output VGA-1
+[    35.119] (II) NOUVEAU(0): EDID for output DVI-I-1
+[    35.119] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[    35.119] (II) NOUVEAU(0): Year: 2007  Week: 19
+[    35.119] (II) NOUVEAU(0): EDID Version: 1.3
+[    35.119] (II) NOUVEAU(0): Digital Display Input
+[    35.119] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[    35.119] (II) NOUVEAU(0): Gamma: 2.20
+[    35.119] (II) NOUVEAU(0): DPMS capabilities: Off
+[    35.119] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[    35.119] (II) NOUVEAU(0): Default color space is primary color space
+[    35.119] (II) NOUVEAU(0): First detailed timing is preferred mode
+[    35.119] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[    35.119] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[    35.119] (II) NOUVEAU(0): Supported established timings:
+[    35.119] (II) NOUVEAU(0): 720x400@70Hz
+[    35.119] (II) NOUVEAU(0): 640x480@60Hz
+[    35.119] (II) NOUVEAU(0): 640x480@67Hz
+[    35.119] (II) NOUVEAU(0): 640x480@72Hz
+[    35.119] (II) NOUVEAU(0): 640x480@75Hz
+[    35.119] (II) NOUVEAU(0): 800x600@56Hz
+[    35.119] (II) NOUVEAU(0): 800x600@60Hz
+[    35.119] (II) NOUVEAU(0): 800x600@72Hz
+[    35.120] (II) NOUVEAU(0): 800x600@75Hz
+[    35.120] (II) NOUVEAU(0): 832x624@75Hz
+[    35.120] (II) NOUVEAU(0): 1024x768@60Hz
+[    35.120] (II) NOUVEAU(0): 1024x768@70Hz
+[    35.120] (II) NOUVEAU(0): 1024x768@75Hz
+[    35.120] (II) NOUVEAU(0): 1280x1024@75Hz
+[    35.120] (II) NOUVEAU(0): Manufacturer's mask: 0
+[    35.120] (II) NOUVEAU(0): Supported standard timings:
+[    35.120] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[    35.120] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[    35.120] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[    35.120] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[    35.120] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[    35.120] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[    35.120] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[    35.120] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[    35.120] (II) NOUVEAU(0): Supported detailed timing:
+[    35.120] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[    35.120] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[    35.120] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[    35.120] (II) NOUVEAU(0): Serial No: CU10719006429
+[    35.120] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[    35.120] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[    35.120] (II) NOUVEAU(0): EDID (in hex):
+[    35.120] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[    35.120] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[    35.120] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[    35.120] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[    35.120] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[    35.120] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[    35.120] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[    35.120] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[    35.120] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[    35.120] (II) NOUVEAU(0): Using hsync ranges from config file
+[    35.120] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[    35.120] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[    35.120] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    35.120] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    35.121] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[    35.121] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    35.121] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    35.219] (II) NOUVEAU(0): EDID for output VGA-1
+[    35.445] (II) NOUVEAU(0): EDID for output DVI-I-1
+[    35.445] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[    35.445] (II) NOUVEAU(0): Year: 2007  Week: 19
+[    35.445] (II) NOUVEAU(0): EDID Version: 1.3
+[    35.445] (II) NOUVEAU(0): Digital Display Input
+[    35.445] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[    35.445] (II) NOUVEAU(0): Gamma: 2.20
+[    35.445] (II) NOUVEAU(0): DPMS capabilities: Off
+[    35.445] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[    35.445] (II) NOUVEAU(0): Default color space is primary color space
+[    35.445] (II) NOUVEAU(0): First detailed timing is preferred mode
+[    35.445] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[    35.445] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[    35.445] (II) NOUVEAU(0): Supported established timings:
+[    35.445] (II) NOUVEAU(0): 720x400@70Hz
+[    35.445] (II) NOUVEAU(0): 640x480@60Hz
+[    35.445] (II) NOUVEAU(0): 640x480@67Hz
+[    35.446] (II) NOUVEAU(0): 640x480@72Hz
+[    35.446] (II) NOUVEAU(0): 640x480@75Hz
+[    35.446] (II) NOUVEAU(0): 800x600@56Hz
+[    35.446] (II) NOUVEAU(0): 800x600@60Hz
+[    35.446] (II) NOUVEAU(0): 800x600@72Hz
+[    35.446] (II) NOUVEAU(0): 800x600@75Hz
+[    35.446] (II) NOUVEAU(0): 832x624@75Hz
+[    35.446] (II) NOUVEAU(0): 1024x768@60Hz
+[    35.446] (II) NOUVEAU(0): 1024x768@70Hz
+[    35.446] (II) NOUVEAU(0): 1024x768@75Hz
+[    35.446] (II) NOUVEAU(0): 1280x1024@75Hz
+[    35.446] (II) NOUVEAU(0): Manufacturer's mask: 0
+[    35.446] (II) NOUVEAU(0): Supported standard timings:
+[    35.446] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[    35.446] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[    35.446] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[    35.446] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[    35.446] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[    35.446] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[    35.446] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[    35.446] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[    35.446] (II) NOUVEAU(0): Supported detailed timing:
+[    35.446] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[    35.446] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[    35.446] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[    35.446] (II) NOUVEAU(0): Serial No: CU10719006429
+[    35.446] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[    35.446] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[    35.446] (II) NOUVEAU(0): EDID (in hex):
+[    35.446] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[    35.446] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[    35.446] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[    35.446] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[    35.446] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[    35.446] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[    35.446] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[    35.446] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[    35.446] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[    35.446] (II) NOUVEAU(0): Using hsync ranges from config file
+[    35.446] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[    35.446] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[    35.446] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    35.446] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    35.447] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[    35.447] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[    35.447] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[    35.448] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[    35.546] (II) NOUVEAU(0): EDID for output VGA-1
+[   207.392] (II) NOUVEAU(0): EDID for output DVI-I-1
+[   207.394] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[   207.394] (II) NOUVEAU(0): Year: 2007  Week: 19
+[   207.394] (II) NOUVEAU(0): EDID Version: 1.3
+[   207.394] (II) NOUVEAU(0): Digital Display Input
+[   207.394] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[   207.394] (II) NOUVEAU(0): Gamma: 2.20
+[   207.394] (II) NOUVEAU(0): DPMS capabilities: Off
+[   207.394] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[   207.394] (II) NOUVEAU(0): Default color space is primary color space
+[   207.394] (II) NOUVEAU(0): First detailed timing is preferred mode
+[   207.394] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[   207.394] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[   207.394] (II) NOUVEAU(0): Supported established timings:
+[   207.394] (II) NOUVEAU(0): 720x400@70Hz
+[   207.394] (II) NOUVEAU(0): 640x480@60Hz
+[   207.394] (II) NOUVEAU(0): 640x480@67Hz
+[   207.394] (II) NOUVEAU(0): 640x480@72Hz
+[   207.394] (II) NOUVEAU(0): 640x480@75Hz
+[   207.394] (II) NOUVEAU(0): 800x600@56Hz
+[   207.394] (II) NOUVEAU(0): 800x600@60Hz
+[   207.394] (II) NOUVEAU(0): 800x600@72Hz
+[   207.394] (II) NOUVEAU(0): 800x600@75Hz
+[   207.394] (II) NOUVEAU(0): 832x624@75Hz
+[   207.394] (II) NOUVEAU(0): 1024x768@60Hz
+[   207.394] (II) NOUVEAU(0): 1024x768@70Hz
+[   207.394] (II) NOUVEAU(0): 1024x768@75Hz
+[   207.394] (II) NOUVEAU(0): 1280x1024@75Hz
+[   207.394] (II) NOUVEAU(0): Manufacturer's mask: 0
+[   207.394] (II) NOUVEAU(0): Supported standard timings:
+[   207.394] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[   207.394] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[   207.394] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[   207.394] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[   207.395] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[   207.395] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[   207.395] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[   207.395] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[   207.395] (II) NOUVEAU(0): Supported detailed timing:
+[   207.395] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[   207.395] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[   207.395] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[   207.395] (II) NOUVEAU(0): Serial No: CU10719006429
+[   207.395] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[   207.395] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[   207.395] (II) NOUVEAU(0): EDID (in hex):
+[   207.395] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[   207.395] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[   207.395] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[   207.395] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[   207.395] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[   207.395] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[   207.395] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[   207.395] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[   207.395] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[   207.395] (II) NOUVEAU(0): Using hsync ranges from config file
+[   207.395] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[   207.395] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[   207.395] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   207.395] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   207.395] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   207.395] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   207.395] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[   207.395] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   207.395] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   207.395] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   207.395] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   207.396] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[   207.396] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[   207.396] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   207.397] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   207.397] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   207.397] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   207.494] (II) NOUVEAU(0): EDID for output VGA-1
+[   207.707] (II) NOUVEAU(0): EDID for output DVI-I-1
+[   207.707] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[   207.707] (II) NOUVEAU(0): Year: 2007  Week: 19
+[   207.707] (II) NOUVEAU(0): EDID Version: 1.3
+[   207.707] (II) NOUVEAU(0): Digital Display Input
+[   207.707] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[   207.707] (II) NOUVEAU(0): Gamma: 2.20
+[   207.707] (II) NOUVEAU(0): DPMS capabilities: Off
+[   207.707] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[   207.707] (II) NOUVEAU(0): Default color space is primary color space
+[   207.707] (II) NOUVEAU(0): First detailed timing is preferred mode
+[   207.707] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[   207.707] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[   207.707] (II) NOUVEAU(0): Supported established timings:
+[   207.707] (II) NOUVEAU(0): 720x400@70Hz
+[   207.707] (II) NOUVEAU(0): 640x480@60Hz
+[   207.707] (II) NOUVEAU(0): 640x480@67Hz
+[   207.708] (II) NOUVEAU(0): 640x480@72Hz
+[   207.708] (II) NOUVEAU(0): 640x480@75Hz
+[   207.708] (II) NOUVEAU(0): 800x600@56Hz
+[   207.708] (II) NOUVEAU(0): 800x600@60Hz
+[   207.708] (II) NOUVEAU(0): 800x600@72Hz
+[   207.708] (II) NOUVEAU(0): 800x600@75Hz
+[   207.708] (II) NOUVEAU(0): 832x624@75Hz
+[   207.708] (II) NOUVEAU(0): 1024x768@60Hz
+[   207.708] (II) NOUVEAU(0): 1024x768@70Hz
+[   207.708] (II) NOUVEAU(0): 1024x768@75Hz
+[   207.708] (II) NOUVEAU(0): 1280x1024@75Hz
+[   207.708] (II) NOUVEAU(0): Manufacturer's mask: 0
+[   207.708] (II) NOUVEAU(0): Supported standard timings:
+[   207.708] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[   207.708] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[   207.708] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[   207.708] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[   207.708] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[   207.708] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[   207.708] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[   207.708] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[   207.708] (II) NOUVEAU(0): Supported detailed timing:
+[   207.708] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[   207.708] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[   207.708] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[   207.708] (II) NOUVEAU(0): Serial No: CU10719006429
+[   207.708] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[   207.708] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[   207.708] (II) NOUVEAU(0): EDID (in hex):
+[   207.708] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[   207.708] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[   207.708] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[   207.708] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[   207.708] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[   207.708] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[   207.708] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[   207.708] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[   207.708] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[   207.708] (II) NOUVEAU(0): Using hsync ranges from config file
+[   207.708] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[   207.708] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[   207.708] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   207.708] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   207.709] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[   207.709] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   207.709] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   207.807] (II) NOUVEAU(0): EDID for output VGA-1
+[   208.021] (II) NOUVEAU(0): EDID for output DVI-I-1
+[   208.021] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[   208.021] (II) NOUVEAU(0): Year: 2007  Week: 19
+[   208.021] (II) NOUVEAU(0): EDID Version: 1.3
+[   208.021] (II) NOUVEAU(0): Digital Display Input
+[   208.021] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[   208.021] (II) NOUVEAU(0): Gamma: 2.20
+[   208.021] (II) NOUVEAU(0): DPMS capabilities: Off
+[   208.021] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[   208.021] (II) NOUVEAU(0): Default color space is primary color space
+[   208.021] (II) NOUVEAU(0): First detailed timing is preferred mode
+[   208.021] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[   208.021] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[   208.021] (II) NOUVEAU(0): Supported established timings:
+[   208.021] (II) NOUVEAU(0): 720x400@70Hz
+[   208.021] (II) NOUVEAU(0): 640x480@60Hz
+[   208.021] (II) NOUVEAU(0): 640x480@67Hz
+[   208.021] (II) NOUVEAU(0): 640x480@72Hz
+[   208.021] (II) NOUVEAU(0): 640x480@75Hz
+[   208.021] (II) NOUVEAU(0): 800x600@56Hz
+[   208.021] (II) NOUVEAU(0): 800x600@60Hz
+[   208.021] (II) NOUVEAU(0): 800x600@72Hz
+[   208.021] (II) NOUVEAU(0): 800x600@75Hz
+[   208.021] (II) NOUVEAU(0): 832x624@75Hz
+[   208.021] (II) NOUVEAU(0): 1024x768@60Hz
+[   208.021] (II) NOUVEAU(0): 1024x768@70Hz
+[   208.021] (II) NOUVEAU(0): 1024x768@75Hz
+[   208.021] (II) NOUVEAU(0): 1280x1024@75Hz
+[   208.021] (II) NOUVEAU(0): Manufacturer's mask: 0
+[   208.021] (II) NOUVEAU(0): Supported standard timings:
+[   208.021] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[   208.021] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[   208.021] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[   208.021] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[   208.021] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[   208.021] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[   208.021] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[   208.021] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[   208.021] (II) NOUVEAU(0): Supported detailed timing:
+[   208.021] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[   208.021] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[   208.021] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[   208.021] (II) NOUVEAU(0): Serial No: CU10719006429
+[   208.022] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[   208.022] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[   208.022] (II) NOUVEAU(0): EDID (in hex):
+[   208.022] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[   208.022] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[   208.022] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[   208.022] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[   208.022] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[   208.022] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[   208.022] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[   208.022] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[   208.022] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[   208.022] (II) NOUVEAU(0): Using hsync ranges from config file
+[   208.022] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[   208.022] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[   208.022] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   208.022] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[   208.022] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   208.022] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   208.023] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   208.023] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[   208.023] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   208.023] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   208.023] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   208.023] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   208.120] (II) NOUVEAU(0): EDID for output VGA-1
+[   208.332] (II) NOUVEAU(0): EDID for output DVI-I-1
+[   208.332] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[   208.332] (II) NOUVEAU(0): Year: 2007  Week: 19
+[   208.332] (II) NOUVEAU(0): EDID Version: 1.3
+[   208.332] (II) NOUVEAU(0): Digital Display Input
+[   208.333] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[   208.333] (II) NOUVEAU(0): Gamma: 2.20
+[   208.333] (II) NOUVEAU(0): DPMS capabilities: Off
+[   208.333] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[   208.333] (II) NOUVEAU(0): Default color space is primary color space
+[   208.333] (II) NOUVEAU(0): First detailed timing is preferred mode
+[   208.333] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[   208.333] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[   208.333] (II) NOUVEAU(0): Supported established timings:
+[   208.333] (II) NOUVEAU(0): 720x400@70Hz
+[   208.333] (II) NOUVEAU(0): 640x480@60Hz
+[   208.333] (II) NOUVEAU(0): 640x480@67Hz
+[   208.333] (II) NOUVEAU(0): 640x480@72Hz
+[   208.333] (II) NOUVEAU(0): 640x480@75Hz
+[   208.333] (II) NOUVEAU(0): 800x600@56Hz
+[   208.333] (II) NOUVEAU(0): 800x600@60Hz
+[   208.333] (II) NOUVEAU(0): 800x600@72Hz
+[   208.333] (II) NOUVEAU(0): 800x600@75Hz
+[   208.333] (II) NOUVEAU(0): 832x624@75Hz
+[   208.333] (II) NOUVEAU(0): 1024x768@60Hz
+[   208.333] (II) NOUVEAU(0): 1024x768@70Hz
+[   208.333] (II) NOUVEAU(0): 1024x768@75Hz
+[   208.333] (II) NOUVEAU(0): 1280x1024@75Hz
+[   208.333] (II) NOUVEAU(0): Manufacturer's mask: 0
+[   208.333] (II) NOUVEAU(0): Supported standard timings:
+[   208.333] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[   208.333] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[   208.333] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[   208.333] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[   208.333] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[   208.333] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[   208.333] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[   208.333] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[   208.333] (II) NOUVEAU(0): Supported detailed timing:
+[   208.333] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[   208.333] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[   208.333] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[   208.333] (II) NOUVEAU(0): Serial No: CU10719006429
+[   208.333] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[   208.333] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[   208.333] (II) NOUVEAU(0): EDID (in hex):
+[   208.333] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[   208.333] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[   208.333] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[   208.333] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[   208.333] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[   208.333] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[   208.333] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[   208.333] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[   208.333] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[   208.333] (II) NOUVEAU(0): Using hsync ranges from config file
+[   208.333] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[   208.333] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[   208.333] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   208.333] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   208.333] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   208.333] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   208.333] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[   208.333] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   208.333] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   208.334] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[   208.334] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   208.334] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   208.432] (II) NOUVEAU(0): EDID for output VGA-1
+[   213.661] (II) NOUVEAU(0): EDID for output DVI-I-1
+[   213.662] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[   213.662] (II) NOUVEAU(0): Year: 2007  Week: 19
+[   213.662] (II) NOUVEAU(0): EDID Version: 1.3
+[   213.662] (II) NOUVEAU(0): Digital Display Input
+[   213.662] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[   213.662] (II) NOUVEAU(0): Gamma: 2.20
+[   213.662] (II) NOUVEAU(0): DPMS capabilities: Off
+[   213.662] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[   213.662] (II) NOUVEAU(0): Default color space is primary color space
+[   213.662] (II) NOUVEAU(0): First detailed timing is preferred mode
+[   213.662] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[   213.662] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[   213.662] (II) NOUVEAU(0): Supported established timings:
+[   213.662] (II) NOUVEAU(0): 720x400@70Hz
+[   213.662] (II) NOUVEAU(0): 640x480@60Hz
+[   213.662] (II) NOUVEAU(0): 640x480@67Hz
+[   213.662] (II) NOUVEAU(0): 640x480@72Hz
+[   213.662] (II) NOUVEAU(0): 640x480@75Hz
+[   213.662] (II) NOUVEAU(0): 800x600@56Hz
+[   213.662] (II) NOUVEAU(0): 800x600@60Hz
+[   213.662] (II) NOUVEAU(0): 800x600@72Hz
+[   213.662] (II) NOUVEAU(0): 800x600@75Hz
+[   213.662] (II) NOUVEAU(0): 832x624@75Hz
+[   213.662] (II) NOUVEAU(0): 1024x768@60Hz
+[   213.662] (II) NOUVEAU(0): 1024x768@70Hz
+[   213.663] (II) NOUVEAU(0): 1024x768@75Hz
+[   213.663] (II) NOUVEAU(0): 1280x1024@75Hz
+[   213.663] (II) NOUVEAU(0): Manufacturer's mask: 0
+[   213.663] (II) NOUVEAU(0): Supported standard timings:
+[   213.663] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[   213.663] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[   213.663] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[   213.663] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[   213.663] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[   213.663] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[   213.663] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[   213.663] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[   213.663] (II) NOUVEAU(0): Supported detailed timing:
+[   213.663] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[   213.663] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[   213.663] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[   213.663] (II) NOUVEAU(0): Serial No: CU10719006429
+[   213.663] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[   213.663] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[   213.663] (II) NOUVEAU(0): EDID (in hex):
+[   213.663] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[   213.663] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[   213.663] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[   213.663] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[   213.663] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[   213.663] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[   213.663] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[   213.663] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[   213.663] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[   213.663] (II) NOUVEAU(0): Using hsync ranges from config file
+[   213.663] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[   213.663] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[   213.663] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   213.663] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   213.664] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[   213.664] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   213.664] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   213.762] (II) NOUVEAU(0): EDID for output VGA-1
+[   213.868] (II) NOUVEAU(0): EDID for output DVI-I-1
+[   213.868] (II) NOUVEAU(0): Manufacturer: PHL  Model: 851  Serial#: 16843009
+[   213.868] (II) NOUVEAU(0): Year: 2007  Week: 19
+[   213.868] (II) NOUVEAU(0): EDID Version: 1.3
+[   213.868] (II) NOUVEAU(0): Digital Display Input
+[   213.868] (II) NOUVEAU(0): Max Image Size [cm]: horiz.: 47  vert.: 30
+[   213.868] (II) NOUVEAU(0): Gamma: 2.20
+[   213.868] (II) NOUVEAU(0): DPMS capabilities: Off
+[   213.868] (II) NOUVEAU(0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[   213.868] (II) NOUVEAU(0): Default color space is primary color space
+[   213.868] (II) NOUVEAU(0): First detailed timing is preferred mode
+[   213.868] (II) NOUVEAU(0): redX: 0.639 redY: 0.333   greenX: 0.289 greenY: 0.597
+[   213.868] (II) NOUVEAU(0): blueX: 0.153 blueY: 0.082   whiteX: 0.313 whiteY: 0.329
+[   213.868] (II) NOUVEAU(0): Supported established timings:
+[   213.868] (II) NOUVEAU(0): 720x400@70Hz
+[   213.868] (II) NOUVEAU(0): 640x480@60Hz
+[   213.868] (II) NOUVEAU(0): 640x480@67Hz
+[   213.868] (II) NOUVEAU(0): 640x480@72Hz
+[   213.868] (II) NOUVEAU(0): 640x480@75Hz
+[   213.868] (II) NOUVEAU(0): 800x600@56Hz
+[   213.868] (II) NOUVEAU(0): 800x600@60Hz
+[   213.868] (II) NOUVEAU(0): 800x600@72Hz
+[   213.868] (II) NOUVEAU(0): 800x600@75Hz
+[   213.868] (II) NOUVEAU(0): 832x624@75Hz
+[   213.868] (II) NOUVEAU(0): 1024x768@60Hz
+[   213.868] (II) NOUVEAU(0): 1024x768@70Hz
+[   213.868] (II) NOUVEAU(0): 1024x768@75Hz
+[   213.868] (II) NOUVEAU(0): 1280x1024@75Hz
+[   213.868] (II) NOUVEAU(0): Manufacturer's mask: 0
+[   213.868] (II) NOUVEAU(0): Supported standard timings:
+[   213.868] (II) NOUVEAU(0): #0: hsize: 1680  vsize 1050  refresh: 60  vid: 179
+[   213.868] (II) NOUVEAU(0): #1: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[   213.868] (II) NOUVEAU(0): #2: hsize: 1440  vsize 900  refresh: 75  vid: 3989
+[   213.868] (II) NOUVEAU(0): #3: hsize: 1440  vsize 900  refresh: 60  vid: 149
+[   213.868] (II) NOUVEAU(0): #4: hsize: 1280  vsize 720  refresh: 60  vid: 49281
+[   213.868] (II) NOUVEAU(0): #5: hsize: 1280  vsize 960  refresh: 60  vid: 16513
+[   213.868] (II) NOUVEAU(0): #6: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[   213.868] (II) NOUVEAU(0): #7: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[   213.868] (II) NOUVEAU(0): Supported detailed timing:
+[   213.868] (II) NOUVEAU(0): clock: 119.0 MHz   Image Size:  434 x 270 mm
+[   213.868] (II) NOUVEAU(0): h_active: 1680  h_sync: 1728  h_sync_end 1760 h_blank_end 1840 h_border: 0
+[   213.868] (II) NOUVEAU(0): v_active: 1050  v_sync: 1053  v_sync_end 1059 v_blanking: 1080 v_border: 0
+[   213.869] (II) NOUVEAU(0): Serial No: CU10719006429
+[   213.869] (II) NOUVEAU(0): Monitor name: Philips 220WS
+[   213.869] (II) NOUVEAU(0): Ranges: V min: 56 V max: 76 Hz, H min: 30 H max: 93 kHz, PixClock max 175 MHz
+[   213.869] (II) NOUVEAU(0): EDID (in hex):
+[   213.869] (II) NOUVEAU(0): 	00ffffffffffff00410c510801010101
+[   213.869] (II) NOUVEAU(0): 	13110103802f1e782e9345a3554a9827
+[   213.869] (II) NOUVEAU(0): 	155054bfef00b300a940950f950081c0
+[   213.869] (II) NOUVEAU(0): 	8140714f81807c2e90a0601a1e403020
+[   213.869] (II) NOUVEAU(0): 	3600b20e1100001c000000ff00435531
+[   213.869] (II) NOUVEAU(0): 	30373139303036343239000000fc0050
+[   213.869] (II) NOUVEAU(0): 	68696c697073203232305753000000fd
+[   213.869] (II) NOUVEAU(0): 	00384c1e5d11700a20323230575300de
+[   213.869] (II) NOUVEAU(0): EDID vendor "PHL", prod id 2129
+[   213.869] (II) NOUVEAU(0): Using hsync ranges from config file
+[   213.869] (II) NOUVEAU(0): Using vrefresh ranges from config file
+[   213.869] (II) NOUVEAU(0): Printing DDC gathered Modelines:
+[   213.869] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "640x480"x0.0   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "640x480"x0.0   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "640x480"x0.0   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "720x400"x0.0   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1600x1200"x0.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1440x900"x0.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1440x900"x0.0   88.75  1440 1488 1520 1600  900 903 909 926 +hsync -vsync (55.5 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.8 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1280x960"x0.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   213.869] (II) NOUVEAU(0): Printing probed modes for output DVI-I-1
+[   213.869] (II) NOUVEAU(0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 -hsync +vsync (64.7 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1440x900"x75.0  136.75  1440 1536 1688 1936  900 903 909 942 -hsync +vsync (70.6 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1440x900"x59.9  106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync (55.9 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1280x720"x60.0   74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync (44.7 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz)
+[   213.869] (II) NOUVEAU(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 491 520 -hsync -vsync (37.9 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "640x480"x66.7   30.24  640 704 768 864  480 483 486 525 -hsync -vsync (35.0 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz)
+[   213.870] (II) NOUVEAU(0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz)
+[   213.967] (II) NOUVEAU(0): EDID for output VGA-1
