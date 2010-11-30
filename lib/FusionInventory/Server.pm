@@ -100,8 +100,8 @@ sub run {
                     FusionInventory::Agent::Target::Stdout->new(
                         id         => $target_name,
                         logger     => $self->{logger},
-                        maxOffset  => $config->{delaytime},
                         basevardir => $self->{vardir},
+                        maxOffset  => $target_config->{delaytime},
                         format     => $target_config->{format}
                     );
                 last SWITCH;
@@ -113,8 +113,8 @@ sub run {
                     FusionInventory::Agent::Target::Local->new(
                         id         => $target_name,
                         logger     => $self->{logger},
-                        maxOffset  => $config->{delaytime},
                         basevardir => $self->{vardir},
+                        maxOffset  => $target_config->{delaytime},
                         path       => $target_config->{path},
                         format     => $target_config->{format}
                     );
@@ -127,8 +127,8 @@ sub run {
                     FusionInventory::Agent::Target::Server->new(
                         id         => $target_name,
                         logger     => $self->{logger},
-                        maxOffset  => $config->{delaytime},
                         basevardir => $self->{vardir},
+                        maxOffset  => $target_config->{delaytime},
                         url        => $target_config->{url},
                         format     => $target_config->{format}
                     );
