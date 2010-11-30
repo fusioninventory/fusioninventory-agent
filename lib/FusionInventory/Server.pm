@@ -98,6 +98,7 @@ sub run {
                 push
                     @{$self->{targets}},
                     FusionInventory::Agent::Target::Stdout->new(
+                        id         => $target_name,
                         logger     => $self->{logger},
                         maxOffset  => $config->{delaytime},
                         basevardir => $self->{vardir},
@@ -110,6 +111,7 @@ sub run {
                 push
                     @{$self->{targets}},
                     FusionInventory::Agent::Target::Local->new(
+                        id         => $target_name,
                         logger     => $self->{logger},
                         maxOffset  => $config->{delaytime},
                         basevardir => $self->{vardir},
@@ -124,6 +126,7 @@ sub run {
                 push
                     @{$self->{targets}},
                     FusionInventory::Agent::Target::Server->new(
+                        id         => $target_name,
                         logger     => $self->{logger},
                         maxOffset  => $config->{delaytime},
                         basevardir => $self->{vardir},

@@ -7,8 +7,6 @@ use base 'FusionInventory::Agent::Target';
 use English qw(-no_match_vars);
 use URI;
 
-my $count = 0;
-
 sub new {
     my ($class, %params) = @_;
 
@@ -38,7 +36,6 @@ sub new {
     $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
     $self->_init(
-        id     => 'server' . $count++,
         vardir => $params{basevardir} . '/' . $subdir
     );
 

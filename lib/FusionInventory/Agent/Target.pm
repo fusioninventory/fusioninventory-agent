@@ -13,6 +13,7 @@ sub new {
     die 'no basevardir parameter' unless $params{basevardir};
 
     my $self = {
+        id          => $params{id},
         maxOffset   => $params{maxOffset} || 3600,
         logger      => $params{logger},
         deviceid    => $params{deviceid},
@@ -29,7 +30,6 @@ sub _init {
     my ($self, %params) = @_;
 
     # target identity
-    $self->{id} = $params{id};
     $self->{vardir} = $params{vardir};
 
     # target storage

@@ -95,6 +95,7 @@ sub run {
     SWITCH: {
         if ($target_type eq 'stdout') {
             $target = FusionInventory::Agent::Target::Stdout->new(
+                id         => $params{target},
                 logger     => $logger,
                 maxOffset  => $config->{delaytime},
                 basevardir => $self->{vardir},
@@ -105,6 +106,7 @@ sub run {
 
         if ($target_type eq 'local') {
             $target = FusionInventory::Agent::Target::Local->new(
+                id         => $params{target},
                 logger     => $logger,
                 maxOffset  => $config->{delaytime},
                 basevardir => $self->{vardir},
@@ -117,6 +119,7 @@ sub run {
 
         if ($target_type eq 'server') {
             $target = FusionInventory::Agent::Target::Server->new(
+                id         => $params{target},
                 logger     => $logger,
                 maxOffset  => $config->{delaytime},
                 basevardir => $self->{vardir},
