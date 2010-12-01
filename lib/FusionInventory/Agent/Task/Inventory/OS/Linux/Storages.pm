@@ -209,17 +209,17 @@ sub doInventory {
                         if !$device->{SERIALNUMBER};
                         next;
                     }
-                    if ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
+                    elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
                         my $value = $1;
                         $value =~ s/\s+$//;
                         $device->{FIRMWARE} = $value
                         if !$device->{FIRMWARE};
                         next;
                     }
-		    if ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
+		    elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
 			$device->{DESCRIPTION} = $1;
 		    }
-		    if ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
+		    elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
 			$device->{MODEL} = $1;
 		    }
                 }
