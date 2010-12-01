@@ -1,5 +1,7 @@
 Revision history for FusionInventory::Agent
 
+2.1.8  * Linux/Storage: collect WWN from SAS / SATA disk using hdparm
+
 2.1.7
        * RPC: Better message if access is denied
        * add --no-p2p parameter

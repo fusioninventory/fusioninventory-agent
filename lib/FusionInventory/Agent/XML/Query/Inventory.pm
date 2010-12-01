@@ -294,6 +294,7 @@ sub addStorage {
         SCSI_CHID
         SCSI_UNID
         SCSI_LUN
+	WWN
     /;
 
     my $values = $args;
@@ -1775,6 +1776,10 @@ Deprecated. The harddrive serial number, same as SERIAL.
 =item SCSI_UNID
 
 =item SCSI_LUN
+
+=item WWN
+
+World Wide Name http://fr.wikipedia.org/wiki/World_Wide_Name
 
 =back
 
