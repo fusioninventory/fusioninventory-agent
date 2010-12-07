@@ -34,12 +34,9 @@ sub getContent {
 }
 
 sub setAccountInfo {
-    my ($self, $info) = @_;
+    my ($self, %params) = @_;
 
-    return unless defined $info;
-    die "invalid argument $info" unless ref $info eq 'HASH';
-
-    while (my ($key, $value) = each %$info) {
+    while (my ($key, $value) = each %params) {
         push @{$self->{h}->{CONTENT}->{ACCOUNTINFO}}, {
             KEYNAME  => $key,
             KEYVALUE => $value
@@ -82,6 +79,6 @@ the agent identifier (mandatory)
 
 Get XML content.
 
-=head2 setAccountInfo($info)
+=head2 setAccountInfo(%params)
 
 Set account informations for this message.

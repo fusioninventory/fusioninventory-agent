@@ -61,7 +61,7 @@ sub init {
     );
 
     if ($self->{tag}) {
-        $prolog->setAccountInfo({'TAG', $self->{tag}});
+        $prolog->setAccountInfo(TAG => $self->{tag});
     }
 
     $self->{prologresp} = $self->{transmitter}->send(message => $prolog);
