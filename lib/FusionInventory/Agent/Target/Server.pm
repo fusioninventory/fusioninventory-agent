@@ -34,6 +34,11 @@ sub new {
         $self->{url}->path('ocsinventory') if !$self->{url}->path();
     }
 
+    $self->{transmitter} = FusionInventory::Agent::Transmitter->new(
+        logger => $self->{logger},
+        %{$params{network}},
+    );
+
     # compute storage subdirectory from url
     my $subdir = $params{url};
     $subdir =~ s/\//_/g;
@@ -48,11 +53,6 @@ sub new {
 
 sub init {
     my ($self, %params) = @_;
-
-    $self->{transmitter} = FusionInventory::Agent::Transmitter->new(
-        logger       => $self->{logger},
-        %{$params{network}},
-    );
 
     my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
         logger   => $self->{logger},
@@ -179,6 +179,10 @@ hash:
 =item I<url>
 
 the server URL (mandatory)
+
+=item I<network>
+
+the parameters for the C<FusionInventory::Agent::Transmitter> object
 
 =back
 
