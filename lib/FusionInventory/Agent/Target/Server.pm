@@ -101,7 +101,7 @@ sub getPrologresp {
     return $self->{prologresp};
 }
 
-sub _load {
+sub _loadState {
     my ($self) = @_;
 
     my $data = $self->{storage}->restore();
