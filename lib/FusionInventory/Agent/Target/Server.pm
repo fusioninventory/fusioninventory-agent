@@ -7,6 +7,9 @@ use base 'FusionInventory::Agent::Target';
 use English qw(-no_match_vars);
 use URI;
 
+use FusionInventory::Agent::Transmitter;
+use FusionInventory::Agent::XML::Query::Prolog;
+
 sub new {
     my ($class, %params) = @_;
 
@@ -42,6 +45,31 @@ sub new {
     return $self;
 }
 
+sub init {
+    my ($self, %params) = @_;
+
+    $self->{transmitter} = FusionInventory::Agent::Transmitter->new(
+        logger       => $self->{logger},
+        %{$params{network}},
+    );
+
+    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+        logger   => $self->{logger},
+        deviceid => $params{deviceid},
+        token    => $params{token}
+    );
+
+    if ($params{tag}) {
+        $prolog->setAccountInfo({'TAG', $params{tag}});
+    }
+
+    $self->{prologresp} = $self->{transmitter}->send(message => $prolog);
+
+    if (!$self->{prologresp}) {
+        $self->{logger}->error("No anwser from the server");
+    }
+}
+
 sub getUrl {
     my ($self) = @_;
 
@@ -58,6 +86,18 @@ sub setAccountInfo {
     my ($self, $accountInfo) = @_;
 
     $self->{accountInfo} = $accountInfo;
+}
+
+sub getTransmitter {
+    my ($self) = @_;
+
+    return $self->{transmitter};
+}
+
+sub getPrologresp {
+    my ($self) = @_;
+
+    return $self->{prologresp};
 }
 
 sub _load {

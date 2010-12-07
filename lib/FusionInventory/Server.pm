@@ -132,6 +132,12 @@ sub run {
                         url        => $target_config->{url},
                         format     => $target_config->{format}
                     );
+                $self->{targets}->[-1]->init(
+                    deviceid   => $self->{deviceid},
+                    token      => $self->{token},
+                    tag        => $config->getValue('tag'),
+                    network    => $config->getBlock('network'),
+                );
                 last SWITCH;
             }
 

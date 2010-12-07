@@ -125,6 +125,12 @@ sub run {
                 url        => $target_config->{url},
                 format     => $target_config->{format}
             );
+            $target->init(
+                deviceid   => $self->{deviceid},
+                token      => $self->{token},
+                tag        => $config->getValue('tag'),
+                network    => $config->getBlock('network'),
+            );
             last SWITCH;
         }
 
@@ -148,45 +154,12 @@ sub run {
         $logger->fatal("Class $class is not a FusionInventory task.");
     }
 
-    # server-specific initialisation
-    my ($transmitter, $prologresp);
-    if ($target_type eq 'server') {
-        $transmitter = FusionInventory::Agent::Transmitter->new(
-            logger       => $logger,
-            proxy        => $config->{proxy},
-            user         => $config->{user},
-            password     => $config->{password},
-            no_ssl_check => $config->{'no-ssl-check'},
-            ca_cert_file => $config->{'ca-cert-file'},
-            ca_cert_dir  => $config->{'ca-cert-dir'},
-        );
-
-        my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-            logger   => $logger,
-            deviceid => $self->{deviceid},
-            token    => $self->{token}
-        );
-
-        if ($config->{tag}) {
-            $prolog->setAccountInfo({'TAG', $config->{tag}});
-        }
-
-        $prologresp = $transmitter->send(message => $prolog);
-
-        if (!$prologresp) {
-            $logger->error("No anwser from the server");
-            return;
-        }
-    }
-
     $logger->info("Running task $params{task} for target $params{target}");
 
     my $task = $class->new(
         config      => $config,
         logger      => $logger,
         target      => $target,
-        prologresp  => $prologresp,
-        transmitter => $transmitter,
         confdir     => $self->{confdir},
         datadir     => $self->{datadir},
         debug       => $self->{debug},
