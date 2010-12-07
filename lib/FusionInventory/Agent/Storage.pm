@@ -42,26 +42,26 @@ sub new {
 }
 
 sub save {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
-    my $data = $params->{data};
-    my $idx = $params->{idx};
+    my $data = $params{data};
+    my $idx = $params{idx};
 
-    my $filePath = $self->_getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath(idx => $idx);
 
     store ($data, $filePath) or warn;
 }
 
 sub restore {
-    my ($self, $params ) = @_;
+    my ($self, %params) = @_;
 
-    my $module = $params->{module};
-    my $idx = $params->{idx};
+    my $module = $params{module};
+    my $idx = $params{idx};
 
-    my $filePath = $self->_getFilePath({
+    my $filePath = $self->_getFilePath(
         module => $module,
         idx => $idx
-    });
+    );
 
     if (-f $filePath) {
         return retrieve($filePath);
@@ -77,21 +77,18 @@ sub getDirectory {
 }
 
 sub _getFilePath {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
-    my $target = $self->{target};
-    my $config = $self->{config};
-
-    my $idx = $params->{idx};
+    my $idx = $params{idx};
     if ($idx && $idx !~ /^\d+$/) {
         die "[fault] idx must be an integer!\n";
     } 
-    my $module = $params->{module};
+    my $module = $params{module};
 
     my $path = 
         $self->{directory} .
         '/' . 
-        $self->_getFileName({ module => $module }) .
+        $self->_getFileName(module => $module) .
         ($idx ? ".$idx" : "" ) .
         '.dump';
 
@@ -99,12 +96,12 @@ sub _getFilePath {
 }
 
 sub _getFileName {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
     my $name;
 
-    if ($params->{module}) {
-        $name = $params->{module};
+    if ($params{module}) {
+        $name = $params{module};
     } else {
         my $module;
         my $i = 0;
@@ -169,7 +166,7 @@ The directory to use for storing data (mandatory)
 The directory will be automatically created if it doesn't already exist. The
 constructor will die if the directory can't be created, or if it isn't writable.
 
-=head2 save
+=head2 save(%params)
 
 Save given data structure. The following arguments are allowed:
 
@@ -185,7 +182,7 @@ The index number (optional).
 
 =back
 
-=head2 restore
+=head2 restore(%params)
 
 Restore a saved data structure. The following arguments are allowed:
 

@@ -113,13 +113,13 @@ sub _loadState {
 sub saveState {
     my ($self) = @_;
 
-    $self->{storage}->save({
+    $self->{storage}->save(
         data => {
             nextRunDate => $self->{nextRunDate},
             period      => $self->{period},
             accountInfo => $self->{accountInfo}
         }
-    });
+    );
 
 }
 
