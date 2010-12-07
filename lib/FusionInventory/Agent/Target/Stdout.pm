@@ -9,9 +9,11 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->_init(
-        vardir => $params{basevardir} . '/__STDOUT__'
-    );
+    # target-specific storage object
+    $self->_initStorage($params{basevardir} . '/__STDOUT__');
+
+    # restore previous state
+    $self->_loadState();
 
     return $self;
 }

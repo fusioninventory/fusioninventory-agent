@@ -25,18 +25,13 @@ sub new {
     return $self;
 }
 
-sub _init {
-    my ($self, %params) = @_;
+sub _initStorage {
+    my ($self, $dir) = @_;
 
-    # target storage
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
-        directory => $params{vardir}
+        directory => $dir
     );
-
-    # restore previous state
-    $self->_loadState();
-
 }
 
 sub getStorage {

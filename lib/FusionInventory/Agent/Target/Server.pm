@@ -34,19 +34,20 @@ sub new {
         $self->{url}->path('ocsinventory') if !$self->{url}->path();
     }
 
+    # target transmitter
     $self->{transmitter} = FusionInventory::Agent::Transmitter->new(
         logger => $self->{logger},
         %{$params{network}},
     );
 
-    # compute storage subdirectory from url
+    # target-specific storage object
     my $subdir = $params{url};
     $subdir =~ s/\//_/g;
     $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
+    $self->_initStorage($params{basevardir} . '/' . $subdir);
 
-    $self->_init(
-        vardir => $params{basevardir} . '/' . $subdir
-    );
+    # restore previous state
+    $self->_loadState();
 
     return $self;
 }
