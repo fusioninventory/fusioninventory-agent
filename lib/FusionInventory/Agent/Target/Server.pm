@@ -17,6 +17,7 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
+    $self->{tag} = $params{tag};
     $self->{url} = URI->new($params{url});
 
     my $scheme = $self->{url}->scheme();
@@ -59,8 +60,8 @@ sub init {
         token    => $params{token}
     );
 
-    if ($params{tag}) {
-        $prolog->setAccountInfo({'TAG', $params{tag}});
+    if ($self->{tag}) {
+        $prolog->setAccountInfo({'TAG', $self->{tag}});
     }
 
     $self->{prologresp} = $self->{transmitter}->send(message => $prolog);

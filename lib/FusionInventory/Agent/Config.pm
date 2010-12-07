@@ -9,7 +9,6 @@ use File::Spec;
 use UNIVERSAL::require;
 
 my $defaults = {
-    'global.tag'           => '',
     'target.local'         => '',
     'target.server'        => undef,
     'target.stdout'        => 0,
