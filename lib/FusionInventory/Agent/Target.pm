@@ -28,13 +28,10 @@ sub new {
 sub _init {
     my ($self, %params) = @_;
 
-    # target identity
-    $self->{vardir} = $params{vardir};
-
     # target storage
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
-        directory => $self->{vardir}
+        directory => $params{vardir}
     );
 
     # restore previous state
