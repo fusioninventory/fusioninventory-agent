@@ -14,7 +14,7 @@ sub new {
 
     my $self = {
         id          => $params{id},
-        maxOffset   => $params{maxOffset} || 3600,
+        period      => $params{period} || 3600,
         logger      => $params{logger},
         format      => $params{format},
         nextRunDate => undef,
@@ -64,7 +64,7 @@ sub scheduleNextRun {
     my ($self, $offset) = @_;
 
     if (! defined $offset) {
-        $offset = ($self->{maxOffset} / 2) + int rand($self->{maxOffset} / 2);
+        $offset = ($self->{period} / 2) + int rand($self->{period} / 2);
     }
     my $time = time() + $offset;
     $self->setNextRunDate($time);
@@ -78,16 +78,16 @@ sub scheduleNextRun {
 
 }
 
-sub getMaxOffset {
+sub getPeriod {
     my ($self) = @_;
 
-    return $self->{maxOffset};
+    return $self->{period};
 }
 
-sub setMaxOffset {
-    my ($self, $maxOffset) = @_;
+sub setPeriod {
+    my ($self, $period) = @_;
 
-    $self->{maxOffset} = $maxOffset;
+    $self->{period} = $period;
 }
 
 sub _loadState {
@@ -95,7 +95,7 @@ sub _loadState {
 
     my $data = $self->{storage}->restore();
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
-    $self->{maxOffset}   = $data->{maxOffset} if $data->{maxOffset};
+    $self->{period}      = $data->{period} if $data->{period};
 }
 
 sub saveState {
@@ -104,7 +104,7 @@ sub saveState {
     $self->{storage}->save({
         data => {
             nextRunDate => $self->{nextRunDate},
-            maxOffset   => $self->{maxOffset},
+            period      => $self->{period},
         }
     });
 }
@@ -133,14 +133,43 @@ FusionInventory::Agent::Target - Abstract target
 
 =head1 DESCRIPTION
 
-This is an abstract class for execution targets.
+A target is the recipient of a task execution.
+
+All target objects have the following attributes:
+
+=over
+
+=item I<id>
+
+The target identifier.
+
+=item I<period>
+
+The approximative amount of time between two executions.
+
+=item I<nextRunDate>
+
+The exact time for next execution.
+
+=item I<storage>
+
+The C<FusionInventory::Agent::Storage> object used store content specific to
+this target.
+
+=item I<format>
+
+The output format.
+
+=back
+
+See subclass-specific documention for additional attributes.
 
 =head1 METHODS
 
 =head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 
@@ -148,10 +177,9 @@ hashref:
 
 the logger object to use (default: a new stderr logger)
 
-=item I<maxOffset>
+=item I<period>
 
-the maximum delay in seconds when rescheduling the target randomly
-(default: 3600)
+the target periodicity, in seconds (default: 3600)
 
 =item I<nextRunDate>
 
@@ -163,13 +191,13 @@ the base directory of the storage area (mandatory)
 
 =back
 
-=head2 getMaxOffset()
+=head2 getPeriod()
 
-Get maxOffset attribute.
+Get period attribute.
 
-=head2 setMaxOffset($maxOffset)
+=head2 setPeriod($period)
 
-Set maxOffset attribute.
+Set period attribute.
 
 =head2 getNextRunDate()
 
@@ -182,7 +210,7 @@ Set nextRunDate attribute.
 =head2 scheduleNextRun($offset)
 
 Re-schedule the target to current time + given offset. If offset is not given,
-it's computed randomly as: (maxOffset / 2) + rand(maxOffset / 2)
+it's computed randomly as: (period / 2) + rand(period / 2)
 
 =head2 getStorage()
 

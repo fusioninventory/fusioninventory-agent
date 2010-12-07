@@ -106,7 +106,7 @@ sub _load {
 
     my $data = $self->{storage}->restore();
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
-    $self->{maxOffset}   = $data->{maxOffset} if $data->{maxOffset};
+    $self->{period}      = $data->{period} if $data->{period};
     $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
 }
 
@@ -116,7 +116,7 @@ sub saveState {
     $self->{storage}->save({
         data => {
             nextRunDate => $self->{nextRunDate},
-            maxOffset   => $self->{maxOffset},
+            period      => $self->{period},
             accountInfo => $self->{accountInfo}
         }
     });
@@ -151,6 +151,21 @@ FusionInventory::Agent::Target::Server - Server target
 
 This is a target for sending execution result to a server.
 
+A server target has the additional following attributes:
+
+=over
+
+=item I<url>
+
+The server URL.
+
+=item I<transmitter>
+
+The C<FusionInventory::Agent::Transmitter> object used to communicate with the
+server.
+
+=back
+
 =head1 METHODS
 
 =head2 new(%params)
@@ -178,8 +193,3 @@ Set account informations for this target.
 =head2 getUrl()
 
 Return the server URL for this target.
-
-=head2 getDescriptionString)
-
-Return a string to display to user in a 'target' field.
-

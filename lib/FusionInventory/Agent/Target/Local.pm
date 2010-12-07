@@ -43,6 +43,16 @@ FusionInventory::Agent::Target::Local - Local target
 
 This is a target for storing execution result in a local folder.
 
+A local target has the additional following attributes:
+
+=over
+
+=item I<path>
+
+The local folder path.
+
+=back
+
 =head1 METHODS
 
 =head2 new(%params)
@@ -58,8 +68,3 @@ hash:
 the output directory path (mandatory)
 
 =back
-
-=head2 getDescriptionString)
-
-Return a string to display to user in a 'target' field.
-
