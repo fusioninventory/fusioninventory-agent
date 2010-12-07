@@ -11,7 +11,7 @@ use URI;
 
 use FusionInventory::Agent::Target::Server;
 
-plan tests => 7;
+plan tests => 6;
 
 my $target;
 throws_ok {
@@ -39,7 +39,6 @@ my $storage_dir = $OSNAME eq 'MSWin32' ?
     "$basevardir/http..__my.domain.tld_ocsinventory" :
     "$basevardir/http:__my.domain.tld_ocsinventory" ;
 ok(-d $storage_dir, "storage directory creation");
-is($target->{id}, 'server0', "identifier");
 
 $target = FusionInventory::Agent::Target::Server->new(
     url        => 'http://my.domain.tld',
