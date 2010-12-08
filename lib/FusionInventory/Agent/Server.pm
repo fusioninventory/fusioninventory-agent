@@ -139,10 +139,6 @@ sub run {
                         ca_cert_file => $target_config->{'ca-cert-file'},
                         ssl_check    => $target_config->{'ssl-check'},
                     );
-                $self->{targets}->[-1]->init(
-                    deviceid   => $self->{deviceid},
-                    token      => $self->{token},
-                );
                 last SWITCH;
             }
 

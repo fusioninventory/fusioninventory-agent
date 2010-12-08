@@ -132,10 +132,6 @@ sub run {
                 cacertfile => $target_config->{'ca-cert-file'},
                 sslcheck   => $target_config->{'ssl-check'},
             );
-            $target->init(
-                deviceid   => $self->{deviceid},
-                token      => $self->{token},
-            );
             last SWITCH;
         }
 
@@ -171,6 +167,13 @@ sub run {
         deviceid    => $self->{deviceid}
     );
 
+    # init target
+    $target->init(
+        deviceid => $self->{deviceid},
+        token    => $self->{token}
+    );
+
+    # run task
     $task->run();
 
 }
