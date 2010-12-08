@@ -11,9 +11,7 @@ use Pod::Usage;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Server;
 
-my %options = (
-    fork => 1
-);
+my %options;
 GetOptions(
     \%options,
     'help',

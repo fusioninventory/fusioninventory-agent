@@ -30,7 +30,7 @@ like(
 );
 is($out, '', '--help stdin');
 
-($out, $err, $rc) = run_server('--no-fork');
+($out, $err, $rc) = run_server();
 ok($rc == 2, 'no targets exit status');
 like(
     $err,
