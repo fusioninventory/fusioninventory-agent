@@ -10,15 +10,15 @@ use File::Temp qw(tempdir);
 use Fcntl qw(:seek);
 use Test::More;
 
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
 
 plan tests => 25;
 
-my $logger = FusionInventory::Logger->new();
+my $logger = FusionInventory::Agent::Logger->new();
 
 isa_ok(
     $logger,
-    'FusionInventory::Logger',
+    'FusionInventory::Agent::Logger',
     'logger class'
 );
 
@@ -30,13 +30,13 @@ is(
 
 isa_ok(
     $logger->{backends}->[0],
-    'FusionInventory::Logger::Stderr',
+    'FusionInventory::Agent::Logger::Stderr',
     'default backend class'
 );
 
 if ($OSNAME eq 'MSWin32') {
 
-    $logger = FusionInventory::Logger->new(
+    $logger = FusionInventory::Agent::Logger->new(
         backends => [ qw/Stderr File/ ]
     );
 
@@ -50,18 +50,18 @@ if ($OSNAME eq 'MSWin32') {
         plan tests => 2;
         isa_ok(
             $logger->{backends}->[0],
-            'FusionInventory::Logger::Stderr',
+            'FusionInventory::Agent::Logger::Stderr',
             'first backend class'
         );
 
         isa_ok(
             $logger->{backends}->[1],
-            'FusionInventory::Logger::File',
+            'FusionInventory::Agent::Logger::File',
             'third backend class'
         );
     };
 } else {
-    $logger = FusionInventory::Logger->new(
+    $logger = FusionInventory::Agent::Logger->new(
         backends => [ qw/Stderr Syslog File/ ]
     );
 
@@ -75,19 +75,19 @@ if ($OSNAME eq 'MSWin32') {
         plan tests => 3;
         isa_ok(
             $logger->{backends}->[0],
-            'FusionInventory::Logger::Stderr',
+            'FusionInventory::Agent::Logger::Stderr',
             'first backend class'
         );
 
         isa_ok(
             $logger->{backends}->[1],
-            'FusionInventory::Logger::Syslog',
+            'FusionInventory::Agent::Logger::Syslog',
             'second backend class'
         );
 
         isa_ok(
             $logger->{backends}->[2],
-            'FusionInventory::Logger::File',
+            'FusionInventory::Agent::Logger::File',
             'third backend class'
         );
     };
@@ -95,7 +95,7 @@ if ($OSNAME eq 'MSWin32') {
 
 # stderr backend tests
 
-$logger = FusionInventory::Logger->new(
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/Stderr/ ]
 );
 
@@ -104,7 +104,7 @@ ok(
     'debug message absence'
 );
 
-$logger = FusionInventory::Logger->new(
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/Stderr/ ],
     debug    => 1
 );
@@ -144,7 +144,7 @@ is(
     'default logging level'
 );
 
-$logger = FusionInventory::Logger->new(
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/Stderr/ ],
     color    => 1,
     debug    => 1
@@ -179,7 +179,7 @@ my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 my $logfile;
 
 $logfile = "$tmpdir/test1";
-$logger = FusionInventory::Logger->new(
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
     file     => $logfile,
 );
@@ -192,7 +192,7 @@ ok(
 );
 
 $logfile = "$tmpdir/test2";
-$logger = FusionInventory::Logger->new(
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
     file     => $logfile,
     debug    => 1
@@ -235,7 +235,7 @@ is(
 );
 
 $logfile = "$tmpdir/test3";
-$logger = FusionInventory::Logger->new(
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
     file     => $logfile,
 );
@@ -246,7 +246,7 @@ ok(
 );
 
 $logfile = "$tmpdir/test4";
-$logger = FusionInventory::Logger->new(
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
     file     => $logfile,
     maxsize  => 1

@@ -1,8 +1,8 @@
-package FusionInventory::Logger::Syslog;
+package FusionInventory::Agent::Logger::Syslog;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Logger::Backend';
+use base 'FusionInventory::Agent::Logger::Backend';
 
 use Sys::Syslog qw(:standard :macros);
 
@@ -42,7 +42,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Logger::Syslog - A syslog backend for the logger
+FusionInventory::Agent::Logger::Syslog - A syslog backend for the logger
 
 =head1 DESCRIPTION
 

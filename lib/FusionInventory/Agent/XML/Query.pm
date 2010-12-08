@@ -5,7 +5,7 @@ use warnings;
 
 use XML::TreePP;
 
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
 
 sub new {
     my ($class, %params) = @_;
@@ -13,7 +13,7 @@ sub new {
     die "no deviceid parameter" unless $params{deviceid};
 
     my $self = {
-        logger   => $params{logger} || FusionInventory::Logger->new(),
+        logger   => $params{logger} || FusionInventory::Agent::Logger->new(),
         deviceid => $params{deviceid}
     };
     bless $self, $class;

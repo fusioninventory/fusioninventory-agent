@@ -1,4 +1,4 @@
-package FusionInventory::Logger;
+package FusionInventory::Agent::Logger;
 
 use strict;
 use warnings;
@@ -20,7 +20,7 @@ sub new {
         $params{backends} ? @{$params{backends}} : 'Stderr'
     ) {
 	next if $backends{$backend};
-        my $package = "FusionInventory::Logger::$backend";
+        my $package = "FusionInventory::Agent::Logger::$backend";
         $package->require();
         if ($EVAL_ERROR) {
             print STDERR
@@ -87,7 +87,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Logger - Fusion Inventory logger
+FusionInventory::Agent::Logger - Fusion Inventory logger
 
 =head1 DESCRIPTION
 

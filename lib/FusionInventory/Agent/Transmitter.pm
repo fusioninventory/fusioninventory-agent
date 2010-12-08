@@ -12,7 +12,7 @@ use URI;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
 
 sub new {
     my ($class, %params) = @_;
@@ -24,7 +24,7 @@ sub new {
         if $params{ca_cert_dir} && ! -d $params{ca_cert_dir};
 
     my $self = {
-        logger       => $params{logger} || FusionInventory::Logger->new(),
+        logger       => $params{logger} || FusionInventory::Agent::Logger->new(),
         user         => $params{user},
         password     => $params{password},
         ca_cert_file => $params{ca_cert_file},

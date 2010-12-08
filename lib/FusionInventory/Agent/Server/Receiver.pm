@@ -10,7 +10,7 @@ use HTTP::Status;
 use File::stat;
 use Text::Template;
 
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
 
 sub new {
     my ($class, %params) = @_;
@@ -18,7 +18,7 @@ sub new {
     $params{port} = 62354 unless defined $params{port};
 
     my $self = {
-        logger          => $params{logger} || FusionInventory::Logger->new(),
+        logger          => $params{logger} || FusionInventory::Agent::Logger->new(),
         state           => $params{state},
         htmldir         => $params{htmldir},
         trust_localhost => $params{trust_localhost},

@@ -5,7 +5,7 @@ use warnings;
 
 use XML::TreePP;
 
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
 
 sub new {
     my ($class, %params) = @_;
@@ -23,7 +23,7 @@ sub new {
     die "content is an invalid XML message" unless $content->{REPLY};
 
     my $self = {
-        logger        => $params{logger} || FusionInventory::Logger->new(),
+        logger        => $params{logger} || FusionInventory::Agent::Logger->new(),
         parsedcontent => $content->{REPLY},
     };
     bless $self, $class;

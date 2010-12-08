@@ -1,8 +1,8 @@
-package FusionInventory::Logger::File;
+package FusionInventory::Agent::Logger::File;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Logger::Backend';
+use base 'FusionInventory::Agent::Logger::Backend';
 
 use English qw(-no_match_vars);
 use Fcntl qw(:flock);
@@ -59,7 +59,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Logger::File - A file backend for the logger
+FusionInventory::Agent::Logger::File - A file backend for the logger
 
 =head1 DESCRIPTION
 

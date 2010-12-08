@@ -1,8 +1,8 @@
-package FusionInventory::Logger::Stderr;
+package FusionInventory::Agent::Logger::Stderr;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Logger::Backend';
+use base 'FusionInventory::Agent::Logger::Backend';
 
 use English qw(-no_match_vars);
 
@@ -47,7 +47,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Logger::Stderr - A stderr backend for the logger
+FusionInventory::Agent::Logger::Stderr - A stderr backend for the logger
 
 =head1 DESCRIPTION
 

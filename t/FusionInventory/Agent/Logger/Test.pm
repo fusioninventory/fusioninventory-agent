@@ -1,8 +1,8 @@
-package FusionInventory::Logger::Test;
+package FusionInventory::Agent::Logger::Test;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Logger::Backend';
+use base 'FusionInventory::Agent::Logger::Backend';
 
 use English qw(-no_match_vars);
 

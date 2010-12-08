@@ -1,4 +1,4 @@
-package FusionInventory::Logger::Backend;
+package FusionInventory::Agent::Logger::Backend;
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Logger::Backend - An abstract logger backend
+FusionInventory::Agent::Logger::Backend - An abstract logger backend
 
 =head1 DESCRIPTION
 

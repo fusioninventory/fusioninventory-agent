@@ -9,7 +9,6 @@ use File::Find;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Logger;
 
 sub run {
     my ($self) = @_;

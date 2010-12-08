@@ -5,13 +5,13 @@ use warnings;
 
 use POE;
 
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
 
 sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger  => $params{logger} || FusionInventory::Logger->new(),
+        logger  => $params{logger} || FusionInventory::Agent::Logger->new(),
         state   => $params{state},
     };
 

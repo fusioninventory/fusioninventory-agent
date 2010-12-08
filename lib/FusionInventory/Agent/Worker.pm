@@ -7,6 +7,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Stdout;
@@ -14,7 +15,6 @@ use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Prolog;
-use FusionInventory::Logger;
 
 sub new {
     my ($class, %params) = @_;
@@ -33,7 +33,7 @@ sub new {
     );
     $self->{config} = $config;
 
-    my $logger = FusionInventory::Logger->new(
+    my $logger = FusionInventory::Agent::Logger->new(
         %{$config->getBlock('logger')},
         backends => [ $config->getValues('logger.backends') ],
         debug    => $self->{debug}
