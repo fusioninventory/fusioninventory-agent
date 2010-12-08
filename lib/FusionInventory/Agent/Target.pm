@@ -11,6 +11,7 @@ sub new {
     my ($class, %params) = @_;
 
     die 'no basevardir parameter' unless $params{basevardir};
+    die 'no id parameter' unless $params{id};
 
     my $self = {
         id          => $params{id},
