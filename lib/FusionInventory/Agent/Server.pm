@@ -71,7 +71,7 @@ sub new {
         $data->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
             $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
         $data->{previousHostname} = $hostname;
-        $storage->save({ data => $data });
+        $storage->save(data => $data);
     }
     $self->{deviceid} = $data->{deviceid};
 
