@@ -34,11 +34,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task - Base class for agent task
+FusionInventory::Agent::Task - Abstract task
 
 =head1 DESCRIPTION
 
-This is an abstract class for all task performed by the agent.
+A task is a specific work to execute.
 
 =head1 METHODS
 
