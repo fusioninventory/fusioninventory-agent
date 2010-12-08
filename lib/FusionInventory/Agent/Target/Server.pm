@@ -36,8 +36,13 @@ sub new {
 
     # target transmitter
     $self->{transmitter} = FusionInventory::Agent::Transmitter->new(
-        logger => $self->{logger},
-        %{$params{network}},
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_dir  => $params{ca_cert_dir},
+        ca_cert_file => $params{ca_cert_file},
+        ssl_check    => $params{ssl_check},
     );
 
     return $self;

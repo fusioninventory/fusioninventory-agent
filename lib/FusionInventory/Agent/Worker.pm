@@ -125,11 +125,16 @@ sub run {
                 url        => $target_config->{url},
                 format     => $target_config->{format},
                 tag        => $target_config->{tag},
+                user       => $target_config->{user},
+                password   => $target_config->{password},
+                proxy      => $target_config->{proxy},
+                cacertdir  => $target_config->{'ca-cert-dir'},
+                cacertfile => $target_config->{'ca-cert-file'},
+                sslcheck   => $target_config->{'ssl-check'},
             );
             $target->init(
                 deviceid   => $self->{deviceid},
                 token      => $self->{token},
-                network    => $config->getBlock('network'),
             );
             last SWITCH;
         }
