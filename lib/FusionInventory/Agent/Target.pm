@@ -67,10 +67,7 @@ sub scheduleNextRun {
     $self->setNextRunDate($time);
 
     $self->{logger}->debug(
-        "[target $self->{id}]" . 
-        defined $offset ?
-            "Next run scheduled for " . localtime($time + $offset) :
-            "Next run forced now"
+        "[target $self->{id}] Next run scheduled for " . localtime($time)
     );
 
 }
