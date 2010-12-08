@@ -40,15 +40,6 @@ sub new {
         %{$params{network}},
     );
 
-    # target-specific storage object
-    my $subdir = $params{url};
-    $subdir =~ s/\//_/g;
-    $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
-    $self->_initStorage($params{basevardir} . '/' . $subdir);
-
-    # restore previous state
-    $self->_loadState();
-
     return $self;
 }
 

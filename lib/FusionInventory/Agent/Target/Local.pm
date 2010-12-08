@@ -13,12 +13,6 @@ sub new {
 
     $self->{path} = $params{path};
 
-    # target-specific storage object
-    $self->_initStorage($params{basevardir} . '/__LOCAL__');
-
-    # restore previous state
-    $self->_loadState();
-
     return $self;
 }
 

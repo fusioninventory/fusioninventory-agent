@@ -11,7 +11,7 @@ use URI;
 
 use FusionInventory::Agent::Target::Server;
 
-plan tests => 6;
+plan tests => 7;
 
 my $target;
 throws_ok {
@@ -28,26 +28,35 @@ throws_ok {
 
 my $basevardir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 
-lives_ok {
+throws_ok {
     $target = FusionInventory::Agent::Target::Server->new(
         url        => 'http://my.domain.tld/ocsinventory',
         basevardir => $basevardir
     );
+} qr/^no id parameter/,
+'instanciation: no id';
+
+lives_ok {
+    $target = FusionInventory::Agent::Target::Server->new(
+        url        => 'http://my.domain.tld/ocsinventory',
+        basevardir => $basevardir,
+        id         => 'target1'
+    );
 } 'instanciation: ok';
 
-my $storage_dir = $OSNAME eq 'MSWin32' ?
-    "$basevardir/http..__my.domain.tld_ocsinventory" :
-    "$basevardir/http:__my.domain.tld_ocsinventory" ;
+my $storage_dir = "$basevardir/target1" ;
 ok(-d $storage_dir, "storage directory creation");
 
 $target = FusionInventory::Agent::Target::Server->new(
     url        => 'http://my.domain.tld',
-    basevardir => $basevardir
+    basevardir => $basevardir,
+    id         => 'target2'
 );
 is($target->getUrl(), 'http://my.domain.tld/ocsinventory', 'missing path');
 
 $target = FusionInventory::Agent::Target::Server->new(
     url        => 'my.domain.tld',
-    basevardir => $basevardir
+    basevardir => $basevardir,
+    id         => 'target3'
 );
 is($target->getUrl(), 'http://my.domain.tld/ocsinventory', 'bare hostname');

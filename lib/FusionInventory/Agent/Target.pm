@@ -22,18 +22,19 @@ sub new {
     };
 
     bless $self, $class;
+
+    # target-specific storage object
+    $self->{storage} = FusionInventory::Agent::Storage->new(
+        logger    => $self->{logger},
+        directory => $params{basevardir} . '/' . $params{id}
+    );
+
+    # restore previous state
+    $self->_loadState();
     
     return $self;
 }
 
-sub _initStorage {
-    my ($self, $dir) = @_;
-
-    $self->{storage} = FusionInventory::Agent::Storage->new(
-        logger    => $self->{logger},
-        directory => $dir
-    );
-}
 
 sub getStorage {
     my ($self) = @_;
