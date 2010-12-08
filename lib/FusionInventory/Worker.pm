@@ -98,7 +98,7 @@ sub run {
                 id         => $params{target},
                 logger     => $logger,
                 basevardir => $self->{vardir},
-                maxOffset  => $target_config->{delaytime},
+                period     => $target_config->{delaytime},
                 format     => $target_config->{format}
             );
             last SWITCH;
@@ -109,7 +109,7 @@ sub run {
                 id         => $params{target},
                 logger     => $logger,
                 basevardir => $self->{vardir},
-                maxOffset  => $target_config->{delaytime},
+                period     => $target_config->{delaytime},
                 path       => $target_config->{path},
                 format     => $target_config->{format}
             );
@@ -121,9 +121,9 @@ sub run {
                 id         => $params{target},
                 logger     => $logger,
                 basevardir => $self->{vardir},
-                maxOffset  => $target_config->{delaytime},
+                period     => $target_config->{delaytime},
                 url        => $target_config->{url},
-                format     => $target_config->{format}
+                format     => $target_config->{format},
                 tag        => $target_config->{tag},
             );
             $target->init(
