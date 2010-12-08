@@ -9,14 +9,10 @@ use Test::More;
 use Test::Exception;
 
 use FusionInventory::Agent::Transmitter;
-use FusionInventory::Logger;
 
 plan tests => 2;
 
-my $logger = FusionInventory::Logger->new();
-
 my $transmitter = FusionInventory::Agent::Transmitter->new(
-    logger => $logger
 );
 
 my $data = "this is a test";

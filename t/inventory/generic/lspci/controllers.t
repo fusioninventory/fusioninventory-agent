@@ -2,9 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers;
-use FusionInventory::Logger;
+
 use Test::More;
+
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers;
 
 my %tests = (
     'latitude-xt2' => [
@@ -274,7 +276,7 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Logger->new();
+my $logger = FusionInventory::Agent::Logger->new();
 
 FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_loadPciIds($logger, 'share');
 

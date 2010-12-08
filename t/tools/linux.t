@@ -2,9 +2,10 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Tools::Linux;
-use FusionInventory::Logger;
+
 use Test::More;
+
+use FusionInventory::Agent::Tools::Linux;
 
 my %udev_tests = (
     'ssd' => {

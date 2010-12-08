@@ -10,9 +10,9 @@ use Socket;
 use Test::More;
 use Test::Exception;
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Logger;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Proxy;
 
@@ -30,7 +30,7 @@ my $ok = sub {
     print compress("<REPLY><word>hello</word></REPLY>");
 };
 
-my $logger = FusionInventory::Logger->new(
+my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 

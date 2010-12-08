@@ -2,10 +2,12 @@
 
 use strict;
 use warnings;
+
+use English qw(-no_match_vars);
 use Test::More;
 use Test::Exception;
+
 use FusionInventory::Agent::XML::Response;
-use English qw(-no_match_vars);
 
 my %tests = (
     message1 => {

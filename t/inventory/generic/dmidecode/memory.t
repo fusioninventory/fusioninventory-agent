@@ -2,9 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory;
-use FusionInventory::Logger;
+
 use Test::More;
+
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory;
 
 my %tests = (
     'freebsd-6.2' => [
@@ -266,7 +268,7 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Logger->new();
+my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/dmidecode/$test";

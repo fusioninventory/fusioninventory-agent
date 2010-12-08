@@ -2,9 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Video;
-use Test::More;
+
 use Data::Dumper;
+use Test::More;
+
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Video;
 
 my %ddcprobe = (
     '98LMTF053166' => {

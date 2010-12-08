@@ -2,10 +2,11 @@
 
 use strict;
 use warnings;
+
+use Test::More;
+
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb;
-use FusionInventory::Logger;
-use Test::More;
 
 my $rpm_packages = [
     {

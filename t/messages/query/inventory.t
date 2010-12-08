@@ -9,7 +9,6 @@ use XML::TreePP;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Logger;
 
 plan tests => 7;
 
@@ -21,7 +20,6 @@ throws_ok {
 lives_ok {
     $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => 'foo',
-        logger   => FusionInventory::Logger->new(),
     );
 } 'everything OK';
 

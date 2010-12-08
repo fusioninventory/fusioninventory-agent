@@ -5,7 +5,6 @@ use warnings;
 use Config;
 use File::Temp;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Logger;
 use Test::More;
 
 my %dmidecode_tests = (
@@ -3085,8 +3084,6 @@ plan tests =>
     (scalar @manufacturer_tests_ok) +
     (scalar @manufacturer_tests_nok) +
     2;
-
-my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/dmidecode/$test";

@@ -2,9 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem;
-use FusionInventory::Logger;
+
 use Test::More;
+
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem;
 
 my %tests = (
     '10.4-powerpc' => [
@@ -181,7 +183,7 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Logger->new();
+my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/system_profiler/$test";

@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Tools::Unix;
-use FusionInventory::Logger;
 use Test::More;
 
 my %lspci_tests = (
@@ -2454,8 +2453,6 @@ plan tests =>
     (scalar keys %df_tests)    +
     (scalar keys %ps_tests)    +
     (scalar @dhcp_leases_test);
-
-my $logger = FusionInventory::Logger->new();
 
 foreach my $test (keys %lspci_tests) {
     my $file = "resources/lspci/$test";

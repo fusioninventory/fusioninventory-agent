@@ -2,15 +2,17 @@
 
 use strict;
 use warnings;
+
+use Data::Dumper;
+use Test::More;
+
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha::CPU;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC::CPU;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::MIPS::CPU;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::CPU;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU;
-use FusionInventory::Logger;
-use Test::More;
-use Data::Dumper;
 
 my %i386 = (
     'linux-686-1' => {
@@ -234,7 +236,8 @@ plan tests =>
     (scalar keys %ppc)   +
     (2 * scalar keys %i386);
 
-my $logger = FusionInventory::Logger->new();
+my $logger = FusionInventory::Agent::Logger->new();
+
 foreach my $test (keys %i386) {
     my $file = "resources/cpuinfo/$test";
     my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU::_getCPUsFromProc($logger, $file);

@@ -2,9 +2,10 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Tools::MacOS;
-use FusionInventory::Logger;
+
 use Test::More;
+
+use FusionInventory::Agent::Tools::MacOS;
 
 my %tests = (
     '10.4-powerpc' => {

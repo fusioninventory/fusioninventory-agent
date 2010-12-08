@@ -7,7 +7,6 @@ use Test::Exception;
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Logger;
 
 plan tests => 8;
 
@@ -29,7 +28,6 @@ throws_ok {
 lives_ok {
     $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
         deviceid => 'foo',
-        logger   => FusionInventory::Logger->new(),
         msg => {
             QUERY => 'TEST',
             FOO   => 'foo',

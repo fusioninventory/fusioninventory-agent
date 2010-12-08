@@ -2,8 +2,10 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Drives;
+
 use Test::More;
+
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Drives;
 
 my %hal_tests = (
     'dell-xt2' => [

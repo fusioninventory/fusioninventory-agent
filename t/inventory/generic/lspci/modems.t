@@ -2,9 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems;
-use FusionInventory::Logger;
+
 use Test::More;
+
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems;
 
 my %tests = (
     'latitude-xt2' => []
@@ -12,7 +14,7 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Logger->new();
+my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/lspci/$test";
