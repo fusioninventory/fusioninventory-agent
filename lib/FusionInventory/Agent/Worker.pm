@@ -1,4 +1,4 @@
-package FusionInventory::Worker;
+package FusionInventory::Agent::Worker;
 
 use strict;
 use warnings;

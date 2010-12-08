@@ -9,7 +9,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 use FusionInventory::Agent;
-use FusionInventory::Server;
+use FusionInventory::Agent::Server;
 
 my %options = (
     fork => 1
@@ -31,7 +31,7 @@ if ($options{version}) {
     exit 0;
 }
 
-my $server = FusionInventory::Server->new(
+my $server = FusionInventory::Agent::Server->new(
     confdir   => './etc/fusioninventory',
     datadir   => './share',
     vardir    => './var',
