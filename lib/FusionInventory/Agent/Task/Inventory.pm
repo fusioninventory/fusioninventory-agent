@@ -115,11 +115,11 @@ sub run {
 
             $inventory->saveState();
 
-            my $parsedContent = $response->getParsedContent();
+            my $content = $response->getParsedContent();
             if (
-                $parsedContent &&
-                $parsedContent->{RESPONSE} &&
-                $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
+                $content &&
+                $content->{RESPONSE} &&
+                $content->{RESPONSE} eq 'ACCOUNT_UPDATE'
             ) {
                 # Update current ACCOUNTINFO values
                 $target->setAccountInfo($parsedContent->{ACCOUNTINFO});
