@@ -67,7 +67,8 @@ sub run {
 
     SWITCH: {
         if (ref $target eq 'FusionInventory::Agent::Target::Stdout') {
-            if ($target->{format} eq 'xml') {
+            my $format = $target->getFormat();
+            if ($format eq 'xml') {
                 print $self->{inventory}->getContent();
             } else {
                 print $self->{inventory}->getContentAsHTML();
@@ -76,12 +77,12 @@ sub run {
         }
 
         if (ref $target eq 'FusionInventory::Agent::Target::Local') {
-            my $format = $target->{format};
+            my $format = $target->getFormat();
             my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
-                $self->{target}{path} .
+                $target->getPath() .
                 "/" .
-                $self->{target}{deviceid} .
+                $params{deviceid} .
                 $suffix;
 
             if (open my $handle, '>', $file) {
