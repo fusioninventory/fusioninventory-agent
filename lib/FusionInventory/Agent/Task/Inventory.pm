@@ -48,30 +48,30 @@ sub run {
     }
 
     # initialize modules list
-    $self->_initModList(storage => $target->getStorage());
+    $self->_initModulesList(storage => $target->getStorage());
 
-    $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new(
+    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => $params{deviceid},
         logger   => $self->{logger},
         storage  => $target->getStorage()
     );
 
-    $self->_feedInventory();
+    $self->_feedInventory($inventory);
 
     # restore original environnement, and complete inventory
     foreach my $key (qw/LC_ALL LANG/) {
         $ENV{$key} = $ENV_ORIG{$key};
         next unless $ENV{$key};
-        $self->{inventory}->addEnv({ KEY => $key, VAL => $ENV{$key} });
+        $inventory->addEnv({ KEY => $key, VAL => $ENV{$key} });
     }
 
     SWITCH: {
         if (ref $target eq 'FusionInventory::Agent::Target::Stdout') {
             my $format = $target->getFormat();
             if ($format eq 'xml') {
-                print $self->{inventory}->getContent();
+                print $inventory->getContent();
             } else {
-                print $self->{inventory}->getContentAsHTML();
+                print $inventory->getContentAsHTML();
             }
             last SWITCH;
         }
@@ -87,9 +87,9 @@ sub run {
 
             if (open my $handle, '>', $file) {
                 if ($format eq 'xml') {
-                    print $handle $self->{inventory}->getContent();
+                    print $handle $inventory->getContent();
                 } else {
-                    print $handle $self->{inventory}->getContentAsHTML();
+                    print $handle $inventory->getContentAsHTML();
                 }
                 close $handle;
                 $self->{logger}->info("Inventory saved in $file");
@@ -102,18 +102,18 @@ sub run {
         if (ref $target eq 'FusionInventory::Agent::Target::Server') {
 
             # Add current ACCOUNTINFO values to the inventory
-            $self->{inventory}->setAccountInfo(
+            $inventory->setAccountInfo(
                 $self->{target}->getAccountInfo()
             );
 
             my $response = $target->getTransmitter()->send(
-                message => $self->{inventory},
+                message => $inventory,
                 url     => $target->getUrl(),
             );
 
             return unless $response;
 
-            $self->{inventory}->saveState();
+            $inventory->saveState();
 
             my $parsedContent = $response->getParsedContent();
             if (
@@ -131,7 +131,7 @@ sub run {
 
 }
 
-sub _initModList {
+sub _initModulesList {
     my ($self, %params) = @_;
 
     my $logger = $self->{logger};
@@ -198,11 +198,9 @@ sub _initModList {
             next;
         }
 
-        my $enabled = $self->_runWithTimeout(
-            $module,
-            "isInventoryEnabled",
-            $config->{'backend-collect-timeout'},
-            $params{storage}
+        my $enabled = $self->_runFunction(
+            module   => $module,
+            function => 'isInventoryEnabled',
         );
         if (!$enabled) {
             $logger->debug("module $module disabled");
@@ -246,11 +244,33 @@ sub _initModList {
     }
 }
 
-sub _runMod {
-    my ($self, $module) = @_;
+# fill the inventory
+sub _feedInventory {
+    my ($self, $inventory) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
+
+    my $begin = time();
+    my @modules =
+        grep { $self->{modules}->{$_}->{enabled} }
+        keys %{$self->{modules}};
+    foreach my $module (sort @modules) {
+        $self->_runModule(
+            module    => $module,
+            inventory => $inventory
+        );
+    }
+
+    # Execution time
+    $inventory->setHardware({ETIME => time() - $begin});
+}
+
+# run an inventory module
+sub _runModule {
+    my ($self, %params) = @_;
+
+    my $module = $params{module} or die "no module given";
+    my $logger = $self->{logger};
 
     return if ($self->{modules}->{$module}->{done});
 
@@ -271,61 +291,47 @@ sub _runMod {
             # need a module also in use, we have provable an issue :).
             die "Circular dependency between $module and  $other_module";
         }
-        $self->_runMod($other_module);
+        $self->_runModule(
+            module    => $other_module,
+            inventory => $params{inventory}
+        );
     }
 
     $logger->debug ("Running $module");
 
-    $self->_runWithTimeout(
-        $module,
-        "doInventory",
-        $config->{'backend-collect-timeout'}
+    $self->_runFunction(
+        module    => $module,
+        function  => "doInventory",
+        inventory => $params{inventory}
     );
     $self->{modules}->{$module}->{done} = 1;
     $self->{modules}->{$module}->{used} = 0; # unlock the module
 }
 
-sub _feedInventory {
-    my ($self, $params) = @_;
+# run a single module function
+sub _runFunction {
+    my ($self, %params) = @_;
 
-    my $logger = $self->{logger};
-    my $inventory = $self->{inventory};
+    my $module   = $params{module} or die "no module given";
+    my $function = $params{function} or die "no function given";
+    my $logger   = $self->{logger};
 
-    my $begin = time();
-    my @modules =
-        grep { $self->{modules}->{$_}->{enabled} }
-        keys %{$self->{modules}};
-    foreach my $module (sort @modules) {
-        $self->_runMod ($module);
-    }
-
-    # Execution time
-    $inventory->setHardware({ETIME => time() - $begin});
-
-}
-
-sub _runWithTimeout {
-    my ($self, $module, $function, $timeout, $storage) = @_;
-
-    my $logger = $self->{logger};
+    $params{timeout} = 180 if !defined $params{timeout};
 
     my $result;
 
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $timeout if $timeout;
+        alarm $params{timeout} if $params{timeout};
 
         no strict 'refs'; ## no critic
 
         $result = &{$module . '::' . $function}({
-            config        => $self->{config},
-            confdir       => $self->{confdir},
-            datadir       => $self->{datadir},
-            debug         => $self->{debug},
-            inventory     => $self->{inventory},
-            logger        => $self->{logger},
-            prologresp    => $self->{prologresp},
-            storage       => $storage
+            logger    => $self->{logger},
+            confdir   => $self->{confdir},
+            datadir   => $self->{datadir},
+            inventory => $params{inventory},
+            storage   => $params{storage}
         });
     };
     alarm 0;
