@@ -14,14 +14,27 @@ use Socket;
 use FusionInventory::Agent::Regexp;
 
 sub run {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+    my $target = $params{target};
+
+    if (!$target->isa('FusionInventory::Agent::Target::Server')) {
         $self->{logger}->debug("No server. Exiting...");
         return;
     }
 
-    my $options = $self->{prologresp}->getOptionsInfoByName('WAKEONLAN');
+    my $response = $self->getPrologResponse(
+        transmitter => $target->getTransmitter(),
+        deviceid    => $params{deviceid},
+        token       => $params{token},
+    );
+
+    if (!$response) {
+        $self->{logger}->debug("No server response. Exiting...");
+        return;
+    }
+
+    my $options = $response->getOptionsInfoByName('WAKEONLAN');
     if (!$options) {
         $self->{logger}->debug(
             "No wake on lan requested in the prolog, exiting"

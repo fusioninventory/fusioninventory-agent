@@ -11,7 +11,34 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 sub run {
-    my ($self) = @_;
+    my ($self, %params) = @_;
+
+    my $target = $params{target};
+
+    if ($target->isa('FusionInventory::Agent::Target::Server')) {
+        my $response = $self->getPrologResponse(
+            transmitter => $target->getTransmitter(),
+            deviceid    => $params{deviceid},
+            token       => $params{token},
+        );
+
+        if (!$response) {
+            $self->{logger}->debug("No server response. Exiting...");
+            return;
+        }
+
+        my $content = $response->getParsedContent();
+        if (
+            ! $content             ||
+            ! $content->{RESPONSE} ||
+            ! $content->{RESPONSE} eq 'SEND'
+        ) {
+            $self->{logger}->debug(
+                "No inventory requested in the prolog, exiting"
+            );
+            return;
+        }
+    }
 
     # Turn off localised output for commands, after saving original values
     my %ENV_ORIG;
@@ -21,12 +48,12 @@ sub run {
     }
 
     # initialize modules list
-    $self->_initModList();
+    $self->_initModList(storage => $target->getStorage());
 
     $self->{inventory} = FusionInventory::Agent::XML::Query::Inventory->new(
-        deviceid => $self->{deviceid},
+        deviceid => $params{deviceid},
         logger   => $self->{logger},
-        storage  => $self->{target}->getStorage()
+        storage  => $target->getStorage()
     );
 
     $self->_feedInventory();
@@ -39,8 +66,8 @@ sub run {
     }
 
     SWITCH: {
-        if (ref $self->{target} eq 'FusionInventory::Agent::Target::Stdout') {
-            if ($self->{target}->{format} eq 'xml') {
+        if (ref $target eq 'FusionInventory::Agent::Target::Stdout') {
+            if ($target->{format} eq 'xml') {
                 print $self->{inventory}->getContent();
             } else {
                 print $self->{inventory}->getContentAsHTML();
@@ -48,8 +75,8 @@ sub run {
             last SWITCH;
         }
 
-        if (ref $self->{target} eq 'FusionInventory::Agent::Target::Local') {
-            my $format = $self->{target}->{format};
+        if (ref $target eq 'FusionInventory::Agent::Target::Local') {
+            my $format = $target->{format};
             my $suffix = $format eq 'html' ? '.html' : '.ocs';
             my $file =
                 $self->{target}{path} .
@@ -71,35 +98,16 @@ sub run {
             last SWITCH;
         }
 
-        if (ref $self->{target} eq 'FusionInventory::Agent::Target::Server') {
-            die "No prologresp!" unless $self->{prologresp};
-
-            if ($self->{config}->{force}) {
-                $self->{logger}->debug(
-                    "Force enable, ignore prolog and run inventory."
-                );
-            } else {
-                my $parsedContent = $self->{prologresp}->getParsedContent();
-                if (
-                    !$parsedContent ||
-                    ! $parsedContent->{RESPONSE} ||
-                    ! $parsedContent->{RESPONSE} eq 'SEND'
-                ) {
-                    $self->{logger}->debug(
-                        "No inventory requested in the prolog, exiting"
-                    );
-                    return;
-                }
-            }
+        if (ref $target eq 'FusionInventory::Agent::Target::Server') {
 
             # Add current ACCOUNTINFO values to the inventory
             $self->{inventory}->setAccountInfo(
                 $self->{target}->getAccountInfo()
             );
 
-            my $response = $self->{transmitter}->send(
+            my $response = $target->getTransmitter()->send(
                 message => $self->{inventory},
-                url     => $self->{target}->getUrl(),
+                url     => $target->getUrl(),
             );
 
             return unless $response;
@@ -123,7 +131,7 @@ sub run {
 }
 
 sub _initModList {
-    my $self = shift;
+    my ($self, %params) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
@@ -192,7 +200,8 @@ sub _initModList {
         my $enabled = $self->_runWithTimeout(
             $module,
             "isInventoryEnabled",
-            $config->{'backend-collect-timeout'}
+            $config->{'backend-collect-timeout'},
+            $params{storage}
         );
         if (!$enabled) {
             $logger->debug("module $module disabled");
@@ -295,7 +304,7 @@ sub _feedInventory {
 }
 
 sub _runWithTimeout {
-    my ($self, $module, $function, $timeout) = @_;
+    my ($self, $module, $function, $timeout, $storage) = @_;
 
     my $logger = $self->{logger};
 
@@ -315,7 +324,7 @@ sub _runWithTimeout {
             inventory     => $self->{inventory},
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},
-            storage       => $self->{target}->getStorage()
+            storage       => $storage
         });
     };
     alarm 0;

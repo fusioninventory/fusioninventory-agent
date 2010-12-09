@@ -7,14 +7,26 @@ use base 'FusionInventory::Agent::Task';
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 
 sub run {
-    my ($self) = @_;
+    my ($self, %params) = @_;
+     my $target = $params{target};
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+    if (!$target->isa('FusionInventory::Agent::Target::Server')) {
         $self->{logger}->debug("No server. Exiting...");
         return;
     }
 
-    my $options = $self->{prologresp}->getOptionsInfoByName('PING');
+    my $response = $self->getPrologResponse(
+        transmitter => $target->getTransmitter(),
+        deviceid    => $params{deviceid},
+        token       => $params{token},
+    );
+
+    if (!$response) {
+        $self->{logger}->debug("No server response. Exiting...");
+        return;
+    }
+
+    my $options = $response->getOptionsInfoByName('PING');
     if (!$options) {
         $self->{logger}->debug("No ping requested in the prolog, exiting");
         return;
