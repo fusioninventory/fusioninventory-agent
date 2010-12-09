@@ -35,10 +35,6 @@ sub new {
     return $self;
 }
 
-sub init {
-    # do nothing here
-}
-
 sub getStorage {
     my ($self) = @_;
 

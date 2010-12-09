@@ -48,26 +48,6 @@ sub new {
     return $self;
 }
 
-sub init {
-    my ($self, %params) = @_;
-
-    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-        logger   => $self->{logger},
-        deviceid => $params{deviceid},
-        token    => $params{token}
-    );
-
-    if ($self->{tag}) {
-        $prolog->setAccountInfo(TAG => $self->{tag});
-    }
-
-    $self->{prologresp} = $self->{transmitter}->send(message => $prolog);
-
-    if (!$self->{prologresp}) {
-        $self->{logger}->error("No anwser from the server");
-    }
-}
-
 sub getUrl {
     my ($self) = @_;
 

@@ -9,18 +9,29 @@ sub new {
     my $self = {
         logger      => $params{logger},
         config      => $params{config},
-        target      => $params{target},
-        prologresp  => $params{prologresp},
-        transmitter => $params{transmitter},
         confdir     => $params{confdir},
         datadir     => $params{datadir},
-        debug       => $params{debug},
-        deviceid    => $params{deviceid}
     };
 
     bless $self, $class;
 
     return $self;
+}
+
+sub getPrologResponse {
+    my ($self, %params) = @_;
+
+    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+        logger   => $self->{logger},
+        deviceid => $params{deviceid},
+        token    => $params{token}
+    );
+
+    if ($params{tag}) {
+        $prolog->setAccountInfo(TAG => $params{tag});
+    }
+
+    return $params{transmitter}->send(message => $prolog);
 }
 
 sub main {
