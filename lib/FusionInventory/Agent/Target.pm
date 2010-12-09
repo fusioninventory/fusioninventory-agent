@@ -68,6 +68,12 @@ sub scheduleNextRun {
 
 }
 
+sub getFormat {
+    my ($self) = @_;
+
+    return $self->{format};
+}
+
 sub getPeriod {
     my ($self) = @_;
 
