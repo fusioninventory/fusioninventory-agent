@@ -122,7 +122,7 @@ sub run {
                 $parsedContent->{RESPONSE} eq 'ACCOUNT_UPDATE'
             ) {
                 # Update current ACCOUNTINFO values
-                $self->{target}->setAccountInfo($parsedContent->{ACCOUNTINFO});
+                $target->setAccountInfo($parsedContent->{ACCOUNTINFO});
             }
 
             last SWITCH;
