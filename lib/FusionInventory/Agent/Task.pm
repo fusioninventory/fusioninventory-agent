@@ -8,7 +8,6 @@ sub new {
 
     my $self = {
         logger      => $params{logger},
-        config      => $params{config},
         confdir     => $params{confdir},
         datadir     => $params{datadir},
     };
@@ -63,8 +62,6 @@ hash:
 =item I<logger>
 
 the logger object to use (default: a new stderr logger)
-
-=item I<config>
 
 =item I<target>
 

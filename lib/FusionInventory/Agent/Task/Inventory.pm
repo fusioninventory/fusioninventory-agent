@@ -135,21 +135,14 @@ sub _initModulesList {
     my ($self, %params) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
 
-    # identify which directory to scan for inventory modules
+    # use first directory of @INC containing an installation tree
     my $dirToScan;
-    if ($config->{devlib}) {
-        # working directory
-        $dirToScan = './lib';
-    } else {
-        # first directory of @INC containing an installation tree
-        foreach my $dir (@INC) {
-            my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
-            if (-d $subdir) {
-                $dirToScan = $subdir;
-                last;
-            }
+    foreach my $dir (@INC) {
+        my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
+        if (-d $subdir) {
+            $dirToScan = $subdir;
+            last;
         }
     }
     
