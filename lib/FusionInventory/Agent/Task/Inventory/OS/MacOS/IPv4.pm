@@ -6,9 +6,7 @@ use warnings;
 # straight up theft from the other modules
 
 sub isInventoryEnabled {
-    my @ifconfig = `ifconfig -a 2>/dev/null`;
-    return 1 if @ifconfig;
-    return;
+    return can_run("ifconfig");
 }
 
 # Initialise the distro entry
