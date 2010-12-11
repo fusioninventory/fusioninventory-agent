@@ -76,7 +76,9 @@ sub run {
 
     $self->_feedInventory(
         logger    => $logger,
-        inventory => $inventory
+        inventory => $inventory,
+        datadir   => $params{datadir},
+        confdir   => $params{confdir}
     );
 
     # restore original environnement, and complete inventory
@@ -273,6 +275,8 @@ sub _feedInventory {
             module    => $module,
             inventory => $params{inventory},
             logger    => $params{logger},
+            datadir   => $params{datadir},
+            confdir   => $params{confdir},
         );
     }
 
@@ -310,6 +314,8 @@ sub _runModule {
             module    => $other_module,
             inventory => $params{inventory},
             logger    => $params{logger},
+            datadir   => $params{datadir},
+            confdir   => $params{confdir},
         );
     }
 
@@ -320,6 +326,8 @@ sub _runModule {
         function  => "doInventory",
         inventory => $params{inventory},
         logger    => $params{logger},
+        datadir   => $params{datadir},
+        confdir   => $params{confdir},
     );
     $self->{modules}->{$module}->{done} = 1;
     $self->{modules}->{$module}->{used} = 0; # unlock the module
