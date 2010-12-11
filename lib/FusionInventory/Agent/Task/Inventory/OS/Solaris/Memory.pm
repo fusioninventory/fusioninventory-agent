@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run ("memconf");
+    return can_run('memconf');
 }
 
 sub doInventory {

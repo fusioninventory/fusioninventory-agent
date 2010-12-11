@@ -9,8 +9,8 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi") ||
-        can_run("/opt/sfm/bin/CIMUtil");
+        can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ||
+        can_run('/opt/sfm/bin/CIMUtil');
 }
 
 sub doInventory {
@@ -27,7 +27,7 @@ sub doInventory {
 #  my $status;
 #  my $macaddr;
 
-    if ( can_run("/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi") ) {    
+    if ( can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ) {    
         foreach (`/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi`) {
             if ( /parent.frames.CHPAppletFrame.chpMiscData.RIBLink = "http.*\/([0-9.]+)";/ ) {
                 $ipaddress = $1;

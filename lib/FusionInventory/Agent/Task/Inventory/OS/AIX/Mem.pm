@@ -7,9 +7,9 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("lsdev") ||
-        can_run("which") ||
-        can_run("lsattr");
+        can_run('lsdev') ||
+        can_run('which') ||
+        can_run('lsattr');
 }
 
 sub doInventory {

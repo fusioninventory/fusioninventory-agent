@@ -14,7 +14,7 @@ use FusionInventory::Agent::Tools;
 ###
 
 sub isInventoryEnabled {
-    return can_run ("model");
+    return can_run('model');
 }
 
 sub doInventory { 
@@ -30,7 +30,7 @@ sub doInventory {
 
 
     $SystemModel=`model`;
-    if ( can_run ("/usr/contrib/bin/machinfo") ) {
+    if ( can_run('/usr/contrib/bin/machinfo') ) {
         foreach ( `/usr/contrib/bin/machinfo` ) {
             if ( /Firmware\s+revision\s+[:=]\s+(\S+)/ ) {
                 $BiosVersion = $1;

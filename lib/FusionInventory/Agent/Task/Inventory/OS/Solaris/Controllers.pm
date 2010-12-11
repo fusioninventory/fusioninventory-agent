@@ -4,7 +4,7 @@ use strict;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run ("cfgadm");
+    return can_run('cfgadm');
 }
 
 sub doInventory {

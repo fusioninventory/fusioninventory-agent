@@ -11,7 +11,7 @@ sub isInventoryEnabled {
     # Do not run an package inventory if there is the --nosoft parameter
     return if ($params->{config}->{nosoft});
 
-    return unless can_run("lslpp");
+    return unless can_run('lslpp');
     1;
 }
 

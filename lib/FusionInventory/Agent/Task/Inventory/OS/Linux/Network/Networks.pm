@@ -11,8 +11,8 @@ use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return 
-        can_run("ifconfig") &&
-        can_run("route") &&
+        can_run('ifconfig') &&
+        can_run('route') &&
         can_load("Net::IP");
 }
 
@@ -155,7 +155,7 @@ sub _getVirtualDev {
     if (-d "/sys/devices/virtual/net/") {
         $virtualdev = -d "/sys/devices/virtual/net/$name" ? 1 : 0;
     } else {
-        if (can_run("brctl")) {
+        if (can_run('brctl')) {
             # Let's guess
             my %bridge;
             foreach (`brctl show`) {

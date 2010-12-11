@@ -9,7 +9,7 @@ sub isInventoryEnabled {
 
     my $logger = $params{logger};
 
-    if (!can_run ("memconf")) {
+    if (!can_run('memconf')) {
         $logger->debug('memconf not found in $PATH');
         return;
     }

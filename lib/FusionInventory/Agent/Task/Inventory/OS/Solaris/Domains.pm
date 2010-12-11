@@ -9,7 +9,7 @@ use Sys::Hostname;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run ("domainname");
+    return can_run('domainname');
 }
 
 sub doInventory {

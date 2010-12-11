@@ -20,7 +20,7 @@ sub isInventoryEnabled {
 # http://forge.fusioninventory.org/issues/379
     return if $isWin2003;
 
-    return unless can_run("dmidecode");
+    return unless can_run('dmidecode');
 
     my @output = `dmidecode`;
     return @output > 10;

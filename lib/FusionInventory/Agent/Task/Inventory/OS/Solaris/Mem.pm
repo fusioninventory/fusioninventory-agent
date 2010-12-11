@@ -7,8 +7,8 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return 
-        can_run("swap") &&
-        can_run("prtconf");
+        can_run('swap') &&
+        can_run('prtconf');
 }
 
 sub doInventory {

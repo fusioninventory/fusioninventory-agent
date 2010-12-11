@@ -63,7 +63,7 @@ sub doInventory {
 
 
     my @dmidecodeCpu;
-    if (!$isWin2003 && can_run("dmidecode")) {
+    if (!$isWin2003 && can_run('dmidecode')) {
         my $in;
         foreach (`dmidecode`) {
             if ($in && /^Handle/)  {

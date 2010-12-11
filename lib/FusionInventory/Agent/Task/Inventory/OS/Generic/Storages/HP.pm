@@ -54,7 +54,7 @@ sub _getHpacuacliFromWinRegistry {
 
 sub isInventoryEnabled {
     return
-        can_run("hpacucli") ||
+        can_run('hpacucli') ||
         _getHpacuacliFromWinRegistry();
 }
 
@@ -66,7 +66,7 @@ sub doInventory {
 
     my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
 
-    my $hpacuacliPath = can_run("hpacucli") ?
+    my $hpacuacliPath = can_run('hpacucli') ?
         "hpacucli":
         _getHpacuacliFromWinRegistry($logger);
 

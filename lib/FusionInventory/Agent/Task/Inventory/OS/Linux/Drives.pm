@@ -10,8 +10,8 @@ use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return 
-        can_run ('df') ||
-        can_run ('lshal');
+        can_run('df') ||
+        can_run('lshal');
 }
 
 sub doInventory {
@@ -86,7 +86,7 @@ sub doInventory {
     }
 
     # complete with hal if available
-    if (can_run ("lshal")) {
+    if (can_run('lshal')) {
         my @hal_drives = _getDrivesFromHal();
         my %hal_drives = map { $_->{VOLUMN} => $_ } @hal_drives;
 

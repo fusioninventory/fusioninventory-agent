@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("hponcfg") &&
+        can_run('hponcfg') &&
         can_load("Net::IP");
 }
 

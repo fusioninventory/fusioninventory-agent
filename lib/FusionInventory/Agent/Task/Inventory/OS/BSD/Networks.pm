@@ -11,7 +11,7 @@ use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return
-        can_run("ifconfig") && 
+        can_run('ifconfig') && 
         can_load("Net::IP");
 }
 

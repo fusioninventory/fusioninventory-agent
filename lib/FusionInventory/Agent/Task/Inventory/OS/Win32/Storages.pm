@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("hdparm");
+    return can_run('hdparm');
 }
 
 sub getInfo {

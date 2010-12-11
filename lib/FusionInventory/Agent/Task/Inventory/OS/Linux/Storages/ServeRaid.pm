@@ -17,7 +17,7 @@ sub isInventoryEnabled {
     my $ret = 0;
 
     # Do we have ipssend installed ?
-    if (can_run("ipssend")) {
+    if (can_run('ipssend')) {
         foreach (`ipssend GETVERSION 2>/dev/null`) {
             if (/.*ServeRAID Controller Number\s(\d*).*/) {
                 $ret = $1;

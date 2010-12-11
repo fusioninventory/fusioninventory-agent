@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("lspci");
+    return can_run('lspci');
 }
 
 sub doInventory {}

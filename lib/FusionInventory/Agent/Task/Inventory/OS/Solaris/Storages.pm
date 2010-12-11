@@ -20,7 +20,7 @@ use FusionInventory::Agent::Tools;
 
 
 sub isInventoryEnabled {
-    return can_run ("iostat");
+    return can_run('iostat');
 }
 
 sub doInventory {

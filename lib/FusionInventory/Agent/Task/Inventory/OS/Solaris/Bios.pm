@@ -7,8 +7,8 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("showrev") ||
-        can_run("/usr/sbin/smbios");
+        can_run('showrev') ||
+        can_run('/usr/sbin/smbios');
 }
 
 sub doInventory {
@@ -33,7 +33,7 @@ sub doInventory {
 
     $aarch = "i386" if (`arch` =~ /^i86pc$/);
     if ($zone){
-        if (can_run("showrev")) {
+        if (can_run('showrev')) {
             foreach(`showrev`){
                 if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
                 if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};

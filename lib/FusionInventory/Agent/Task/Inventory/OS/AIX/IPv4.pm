@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("ifconfig");
+    return can_run('ifconfig');
 }
 
 # Initialise the distro entry

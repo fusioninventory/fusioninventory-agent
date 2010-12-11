@@ -67,7 +67,7 @@ sub doInventory {
         "ia64 hp server rx1620" => "itanium 1600"
     );
 
-    if ( can_run ("/usr/contrib/bin/machinfo") ) {
+    if ( can_run('/usr/contrib/bin/machinfo') ) {
         my @machinfo = `/usr/contrib/bin/machinfo`;
         s/\s+/ /g for (@machinfo);
         foreach (@machinfo) {

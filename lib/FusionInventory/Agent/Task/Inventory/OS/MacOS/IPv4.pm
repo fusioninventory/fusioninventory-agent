@@ -6,7 +6,7 @@ use warnings;
 # straight up theft from the other modules
 
 sub isInventoryEnabled {
-    return can_run("ifconfig");
+    return can_run('ifconfig');
 }
 
 # Initialise the distro entry

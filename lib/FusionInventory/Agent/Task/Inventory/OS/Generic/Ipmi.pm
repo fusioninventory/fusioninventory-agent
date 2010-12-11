@@ -23,7 +23,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return unless can_run("ipmitool");
+    return unless can_run('ipmitool');
     return system('ipmitool lan print 2> /dev/null') == 0;
 }
 

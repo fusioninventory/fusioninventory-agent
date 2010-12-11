@@ -39,7 +39,7 @@ sub doInventory {
         }
     }
 
-    if (can_run("lsb_release")) {
+    if (can_run('lsb_release')) {
         foreach (`lsb_release -d`) {
             $OSNAME = $1 if /Description:\s+(.+)/;
         }
