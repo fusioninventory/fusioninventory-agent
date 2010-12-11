@@ -12,7 +12,9 @@ use FusionInventory::Agent::Tools;
 Win32::OLE->Option(CP=>CP_UTF8);
 
 # http://techtasks.com/code/viewbookcode/1417
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my (%params) = @_;

@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Hardware;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { 1 }
+sub isInventoryEnabled {
+    return 1;
+}
 
 # NOTE:
 # Q: SSN can also use `uname -n`? What is the best?

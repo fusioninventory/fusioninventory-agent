@@ -60,7 +60,9 @@ use warnings;
 #          }
 
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my (%params) = @_;

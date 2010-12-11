@@ -7,7 +7,9 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled { 1 };
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my (%params) = @_;

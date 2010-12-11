@@ -3,7 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Memory;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { 1 } # TODO create a better check here
+sub isInventoryEnabled {
+    # TODO create a better check here
+    return 1;
+}
 
 sub doInventory {
     my (%params) = @_;
