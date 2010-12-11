@@ -158,10 +158,9 @@ sub run {
     $logger->info("Running task $params{task} for target $params{target}");
 
     my $task = $class->new(
-        logger      => $logger,
-        config      => $config,
-        confdir     => $self->{confdir},
-        datadir     => $self->{datadir},
+        logger  => $logger,
+        confdir => $self->{confdir},
+        datadir => $self->{datadir},
     );
 
     # run task
