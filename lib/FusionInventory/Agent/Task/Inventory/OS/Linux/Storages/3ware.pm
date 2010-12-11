@@ -21,22 +21,7 @@ use FusionInventory::Agent::Tools::Linux;
 # AMCC/3ware CLI (version 2.00.0X.XXX)
 
 sub isInventoryEnabled {
-
-    my ($card, $res);
-# Do we have tw_cli ?
-    if (can_run('tw_cli')) {
-        foreach (`tw_cli info`) {
-            $card = $1 if /^(c\d+).*/;
-            if ($card) {
-                $res = `tw_cli info $card numdrives`;
-                $card = undef;
-                $res =~ s/^.*=\s(\d+)/$1/;
-# Do we have drives on the card ?   
-                ($res == 0)?return 0:return 1;
-            }
-        }
-    }
-
+    return can_run('tw_cli');
 }
 
 sub doInventory {

@@ -13,19 +13,7 @@ use FusionInventory::Agent::Tools;
 # IBM ServeRAID-6i
 
 sub isInventoryEnabled {
-
-    my $ret = 0;
-
-    # Do we have ipssend installed ?
-    if (can_run('ipssend')) {
-        foreach (`ipssend GETVERSION 2>/dev/null`) {
-            if (/.*ServeRAID Controller Number\s(\d*).*/) {
-                $ret = $1;
-                last;
-            } 
-        }
-    }
-    return $ret;
+    return can_run('ipssend');
 }
 
 sub doInventory {
