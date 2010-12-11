@@ -10,6 +10,19 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query::Inventory;
 
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $class->SUPER::new(%params);
+
+    $self->{scan_homedirs} = $params{scan_homedirs};
+    $self->{no_software}   = $params{no_software};
+    $self->{no_printer}    = $params{no_printer};
+    $self->{force}         = $params{force};
+
+    return $self;
+}
+
 sub run {
     my ($self, %params) = @_;
 

@@ -7,9 +7,9 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger      => $params{logger},
-        confdir     => $params{confdir},
-        datadir     => $params{datadir},
+        logger  => $params{logger},
+        confdir => $params{confdir},
+        datadir => $params{datadir},
     };
 
     bless $self, $class;
