@@ -22,9 +22,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
         or die "WMI connection failed";

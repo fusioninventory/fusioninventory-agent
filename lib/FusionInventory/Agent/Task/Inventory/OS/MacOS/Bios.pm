@@ -10,8 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-        my $params = shift;
-        my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
         # use Mac::SysProfile to get the respected datatype
         my $prof = Mac::SysProfile->new();

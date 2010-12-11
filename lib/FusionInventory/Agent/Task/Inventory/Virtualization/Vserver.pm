@@ -12,9 +12,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $config = $params->{config};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $config    = $params{config};
 
     my $utilVserver;
     my $cfgDir;

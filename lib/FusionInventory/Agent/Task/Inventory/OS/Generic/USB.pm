@@ -44,11 +44,12 @@ sub _addDevice {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
     my $in;
     my $device;
+
     foreach (`lsusb -v`) {
         if (/^Device/) {
             $in = 1;

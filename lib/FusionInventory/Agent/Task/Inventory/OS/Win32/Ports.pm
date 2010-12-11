@@ -11,11 +11,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
+    my (%params) = @_;
 
-    my $params = shift;
-    my $logger = $params->{logger};
-    my $inventory = $params->{inventory};
-
+    my $inventory = $params{inventory};
 
     my @ports;
     foreach my $Properties (getWmiProperties('Win32_SerialPort', qw/

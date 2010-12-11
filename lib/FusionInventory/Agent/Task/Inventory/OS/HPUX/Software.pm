@@ -8,17 +8,17 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled  {
-    my $params = shift;
+    my (%params) = @_;
 
-    # Do not run an package inventory if there is the --nosoft parameter
-    return if ($params->{config}->{'no-software'});
-
-    can_run('swlist');
+    return
+        !$params{no_software} &&
+        can_run('swlist');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $command = 'swlist';
 

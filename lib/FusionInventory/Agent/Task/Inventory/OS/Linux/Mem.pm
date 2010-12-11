@@ -12,10 +12,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $unit = 1024;
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
+    my $unit = 1024;
     my $PhysicalMemory;
     my $SwapFileSize;
 

@@ -12,9 +12,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
 
     foreach my $vmx (`vmware-cmd -l`) {
         chomp $vmx;

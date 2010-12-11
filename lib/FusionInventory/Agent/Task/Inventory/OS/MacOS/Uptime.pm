@@ -12,8 +12,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # stolen code from bsd.
     my $boottime = getSingleLine(command => 'sysctl -n kern.boottime');

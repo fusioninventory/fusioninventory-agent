@@ -44,9 +44,10 @@ sub getCPUInfoFromRegistry {
 sub isInventoryEnabled {1}
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $serial;
     my $id;

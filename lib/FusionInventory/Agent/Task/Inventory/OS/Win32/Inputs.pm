@@ -26,10 +26,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
+    my (%params) = @_;
 
-    my $params = shift;
-    my $logger = $params->{logger};
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $Properties (getWmiProperties('Win32_Keyboard', qw/
             Name Caption Manufacturer Description Layout

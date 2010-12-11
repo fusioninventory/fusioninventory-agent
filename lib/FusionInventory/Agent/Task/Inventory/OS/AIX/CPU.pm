@@ -46,8 +46,9 @@ sub _lsattrForAIX4 {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # TODO Need to be able to register different CPU speed!
 

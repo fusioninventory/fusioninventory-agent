@@ -12,9 +12,9 @@ sub isInventoryEnabled {
 my %devices;
 
 sub doInventory {
-    my $params = shift;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $wmiClass (qw/CIM_LogicalDevice/) {
         foreach my $Properties (getWmiProperties($wmiClass, qw/DeviceID Name/)) {

@@ -5,9 +5,9 @@ use strict;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-  my $params = shift;
+    my (%params) = @_;
 
-  my $logger = $params->{logger};
+  my $logger = $params{logger};
 
   if (!can_run ("memconf")) {
     $logger->debug('memconf not found in $PATH');
@@ -18,8 +18,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-  my $params = shift;
-  my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
   #modif 20100329
   my @cpu;

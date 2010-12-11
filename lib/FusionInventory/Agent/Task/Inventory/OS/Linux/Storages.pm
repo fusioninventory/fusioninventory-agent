@@ -52,9 +52,10 @@ sub _correctHdparmAvailable {
 
 
 sub doInventory {
-    my ($params) = @_;
-    my $logger = $params->{logger};
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $devices;
 

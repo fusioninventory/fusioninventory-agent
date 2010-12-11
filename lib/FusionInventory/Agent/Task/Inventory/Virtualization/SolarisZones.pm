@@ -48,6 +48,11 @@ sub _check_solaris_valid_release{
 }
 
 sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
     my @zones;
     my @lines;
     my $zone;
@@ -60,9 +65,6 @@ sub doInventory {
     my $memory;
     my $memcap;
     my $vcpu;
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
 
     @zones = `/usr/sbin/zoneadm list -p`;
     @zones = grep (!/global/,@zones);

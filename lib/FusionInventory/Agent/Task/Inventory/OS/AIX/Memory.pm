@@ -6,8 +6,9 @@ use warnings;
 sub isInventoryEnabled { 1 } # TODO create a better check here
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $capacity;
     my $description;

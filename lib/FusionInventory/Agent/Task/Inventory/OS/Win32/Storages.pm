@@ -30,9 +30,9 @@ sub getInfo {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $logger = $params->{logger};
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my @storages;
     foreach my $Properties (getWmiProperties('Win32_DiskDrive', qw/

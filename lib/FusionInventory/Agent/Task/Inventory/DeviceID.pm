@@ -10,9 +10,10 @@ sub isInventoryEnabled {
 # Initialise the DeviceID. In fact this value is a bit specific since
 # it generates in the main script.
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $config = $params->{config};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $config    = $params{config};
 
     if ($config->{old_deviceid}) {
         $inventory->setHardware({ OLD_DEVICEID => $config->{old_deviceid} });

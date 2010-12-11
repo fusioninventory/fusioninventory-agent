@@ -12,8 +12,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # create sysprofile obj. Return undef unless we get a return value
     my $pro = Mac::SysProfile->new();

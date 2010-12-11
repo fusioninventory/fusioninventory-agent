@@ -29,11 +29,10 @@ sub getPciIDFromDeviceID {
 my %seen;
 
 sub doInventory {
-    my $params = shift;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
-    my $config = $params->{config};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $wmiClass (qw/
         Win32_FloppyController Win32_IDEController Win32_SCSIController

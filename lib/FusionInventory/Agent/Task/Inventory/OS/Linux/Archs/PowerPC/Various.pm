@@ -10,8 +10,9 @@ use FusionInventory::Agent::Tools;
 sub isInventoryEnabled { 1 };
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $SystemSerial = getSingleLine(file => '/proc/device-tree/serial-number');
     $SystemSerial =~ s/[^\,^\.^\w^\ ]//g; # I remove some unprintable char

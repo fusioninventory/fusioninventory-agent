@@ -343,13 +343,13 @@ sub _runFunction {
 
         no strict 'refs'; ## no critic
 
-        $result = &{$module . '::' . $function}({
+        $result = &{$module . '::' . $function}(
             logger    => $logger,
             confdir   => $params{confdir},
             datadir   => $params{datadir},
             inventory => $params{inventory},
             storage   => $params{storage}
-        });
+        );
     };
     alarm 0;
 
