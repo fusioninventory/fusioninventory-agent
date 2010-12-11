@@ -54,7 +54,7 @@ sub doInventory {
         }
 
         my ($driver, $pcislot) = _getUevent(
-            $params->{logger},
+            $logger,
             $interface->{DESCRIPTION}
         );
         $interface->{DRIVER} = $driver if $driver;
