@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Solaris::Packages;
+package FusionInventory::Agent::Task::Inventory::OS::Solaris::Software;
 
 use strict;
 use warnings;
