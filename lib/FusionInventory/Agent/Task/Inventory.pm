@@ -13,12 +13,13 @@ use FusionInventory::Agent::XML::Query::Inventory;
 sub new {
     my ($class, %params) = @_;
 
-    my $self = $class->SUPER::new(%params);
-
-    $self->{scan_homedirs} = $params{scan_homedirs};
-    $self->{no_software}   = $params{no_software};
-    $self->{no_printer}    = $params{no_printer};
-    $self->{force}         = $params{force};
+    my $self = {
+        scan_homedirs => $params{scan_homedirs},
+        no_software   => $params{no_software},
+        no_printer    => $params{no_printer},
+        force         => $params{force},
+    };
+    bless $self, $class;
 
     return $self;
 }
@@ -26,6 +27,7 @@ sub new {
 sub run {
     my ($self, %params) = @_;
 
+    my $logger = $params{logger};
     my $target = $params{target};
 
     if ($target->isa('FusionInventory::Agent::Target::Server')) {
@@ -36,7 +38,7 @@ sub run {
         );
 
         if (!$response) {
-            $self->{logger}->debug("No server response. Exiting...");
+            $logger->debug("No server response. Exiting...");
             return;
         }
 
@@ -46,7 +48,7 @@ sub run {
             ! $content->{RESPONSE} ||
             ! $content->{RESPONSE} eq 'SEND'
         ) {
-            $self->{logger}->debug(
+            $logger->debug(
                 "No inventory requested in the prolog, exiting"
             );
             return;
@@ -61,15 +63,21 @@ sub run {
     }
 
     # initialize modules list
-    $self->_initModulesList(storage => $target->getStorage());
+    $self->_initModulesList(
+        logger  => $logger,
+        storage => $target->getStorage(),
+    );
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+        logger   => $logger,
         deviceid => $params{deviceid},
-        logger   => $self->{logger},
         storage  => $target->getStorage()
     );
 
-    $self->_feedInventory($inventory);
+    $self->_feedInventory(
+        logger    => $logger,
+        inventory => $inventory
+    );
 
     # restore original environnement, and complete inventory
     foreach my $key (qw/LC_ALL LANG/) {
@@ -105,7 +113,7 @@ sub run {
                     print $handle $inventory->getContentAsHTML();
                 }
                 close $handle;
-                $self->{logger}->info("Inventory saved in $file");
+                $logger->info("Inventory saved in $file");
             } else {
                 warn "Can't open $file: $ERRNO"
             }
@@ -116,7 +124,7 @@ sub run {
 
             # Add current ACCOUNTINFO values to the inventory
             $inventory->setAccountInfo(
-                $self->{target}->getAccountInfo()
+                $target->getAccountInfo()
             );
 
             my $response = $target->getTransmitter()->send(
@@ -135,7 +143,7 @@ sub run {
                 $content->{RESPONSE} eq 'ACCOUNT_UPDATE'
             ) {
                 # Update current ACCOUNTINFO values
-                $target->setAccountInfo($parsedContent->{ACCOUNTINFO});
+                $target->setAccountInfo($content->{ACCOUNTINFO});
             }
 
             last SWITCH;
@@ -147,7 +155,7 @@ sub run {
 sub _initModulesList {
     my ($self, %params) = @_;
 
-    my $logger = $self->{logger};
+    my $logger = $params{logger};
 
     # use first directory of @INC containing an installation tree
     my $dirToScan;
@@ -252,23 +260,24 @@ sub _initModulesList {
 
 # fill the inventory
 sub _feedInventory {
-    my ($self, $inventory) = @_;
-
-    my $logger = $self->{logger};
+    my ($self, %params) = @_;
 
     my $begin = time();
+
     my @modules =
         grep { $self->{modules}->{$_}->{enabled} }
         keys %{$self->{modules}};
+
     foreach my $module (sort @modules) {
         $self->_runModule(
             module    => $module,
-            inventory => $inventory
+            inventory => $params{inventory},
+            logger    => $params{logger},
         );
     }
 
     # Execution time
-    $inventory->setHardware({ETIME => time() - $begin});
+    $params{inventory}->setHardware({ETIME => time() - $begin});
 }
 
 # run an inventory module
@@ -276,7 +285,7 @@ sub _runModule {
     my ($self, %params) = @_;
 
     my $module = $params{module} or die "no module given";
-    my $logger = $self->{logger};
+    my $logger = $params{logger};
 
     return if ($self->{modules}->{$module}->{done});
 
@@ -299,16 +308,18 @@ sub _runModule {
         }
         $self->_runModule(
             module    => $other_module,
-            inventory => $params{inventory}
+            inventory => $params{inventory},
+            logger    => $params{logger},
         );
     }
 
-    $logger->debug ("Running $module");
+    $logger->debug("Running $module");
 
     $self->_runFunction(
         module    => $module,
         function  => "doInventory",
-        inventory => $params{inventory}
+        inventory => $params{inventory},
+        logger    => $params{logger},
     );
     $self->{modules}->{$module}->{done} = 1;
     $self->{modules}->{$module}->{used} = 0; # unlock the module
@@ -320,7 +331,7 @@ sub _runFunction {
 
     my $module   = $params{module} or die "no module given";
     my $function = $params{function} or die "no function given";
-    my $logger   = $self->{logger};
+    my $logger   = $params{logger};
 
     $params{timeout} = 180 if !defined $params{timeout};
 
@@ -333,9 +344,9 @@ sub _runFunction {
         no strict 'refs'; ## no critic
 
         $result = &{$module . '::' . $function}({
-            logger    => $self->{logger},
-            confdir   => $self->{confdir},
-            datadir   => $self->{datadir},
+            logger    => $logger,
+            confdir   => $params{confdir},
+            datadir   => $params{datadir},
             inventory => $params{inventory},
             storage   => $params{storage}
         });

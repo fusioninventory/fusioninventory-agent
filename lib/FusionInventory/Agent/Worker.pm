@@ -157,15 +157,14 @@ sub run {
 
     $logger->info("Running task $params{task} for target $params{target}");
 
-    my $task = $class->new(
-        logger  => $logger,
-        confdir => $self->{confdir},
-        datadir => $self->{datadir},
-    );
+    my $task = $class->new(%$task_config);
 
     # run task
     $task->run(
         target   => $target,
+        logger   => $logger,
+        confdir  => $self->{confdir},
+        datadir  => $self->{datadir},
         deviceid => $self->{deviceid},
         token    => $self->{token},
     );
