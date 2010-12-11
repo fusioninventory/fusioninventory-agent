@@ -168,7 +168,6 @@ sub run {
         target   => $target,
         deviceid => $self->{deviceid},
         token    => $self->{token},
-        debug    => $self->{debug},
     );
 
 }
