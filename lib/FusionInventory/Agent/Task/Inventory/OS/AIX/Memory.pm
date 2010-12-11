@@ -45,16 +45,15 @@ sub doInventory {
             $flag=0;
             $numslots = $numslots +1;
             $inventory->addMemory({
-                    CAPACITY => $capacity,	
-                    DESCRIPTION => $description,
-                    CAPTION => $caption,
-                    NUMSLOTS => $numslots,
-                    VERSION => $mversion,
-                    TYPE => $type,
-                    SERIALNUMBER=> $serial,	
-
-                })
-        }; 
+                CAPACITY => $capacity,
+                DESCRIPTION => $description,
+                CAPTION => $caption,
+                NUMSLOTS => $numslots,
+                VERSION => $mversion,
+                TYPE => $type,
+                SERIALNUMBER=> $serial,
+            })
+        };
     }
 
     $numslots = $numslots +1;

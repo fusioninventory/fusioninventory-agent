@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled { 	
+sub isInventoryEnabled {
     return
         can_run('sysctl') &&
         can_run('swapctl');
@@ -34,4 +34,5 @@ sub doInventory {
         SWAP   => sprintf("%i", $SwapFileSize / 1024),
     });
 }
+
 1;

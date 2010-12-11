@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::CPU;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { 1 }	 
+sub isInventoryEnabled { 1 }
 
 # try to simulate a modern lsattr output on AIX4
 sub _lsattrForAIX4 {
@@ -75,7 +75,6 @@ sub doInventory {
         }
 
         for (@lsattr) {
-
             if ( ! /^#/ && /(.+):(.+):(.+)/ ) {
                 $core++;
                 if ( ($3 % 1000000) >= 50000){
@@ -88,16 +87,13 @@ sub doInventory {
             }
         }
 
-
         $inventory->addCPU({
-                NAME => $name,
-                SPEED => $frequency,
-                CORE => $core,
-                THREAD => $thread
-
-            })
+            NAME => $name,
+            SPEED => $frequency,
+            CORE => $core,
+            THREAD => $thread
+        })
     }
-
 
 }
 

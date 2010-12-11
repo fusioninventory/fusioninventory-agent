@@ -66,7 +66,7 @@ sub doInventory {
         foreach (`dmidecode`) {
             if ($in && /^Handle/)  {
                 push @dmidecodeCpu, {serial => $serial, speed => $speed, id => $id};
-		$serial = $speed = $id = undef;
+                $serial = $speed = $id = undef;
                 $in = 0;
             }
 
@@ -135,7 +135,7 @@ sub doInventory {
             MANUFACTURER => $manufacturer,
             SERIAL => $serial,
             SPEED => $speed,
-	    ID => $id
+            ID => $id
         });
 
         $cpuId++;

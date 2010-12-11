@@ -50,7 +50,7 @@ sub doInventory {
                 $device->{name}=$1;
             }
             if ($line =~ /^H: Handlers=(\w+)/i) {
-		if ($1 =~ ".*kbd.*") {
+                if ($1 =~ ".*kbd.*") {
                     $device->{type}="Keyboard";
                 } elsif ($1 =~ ".*mouse.*") {
                     $device->{type}="Pointing";
@@ -70,8 +70,7 @@ sub doInventory {
     foreach (@inputs) {
         $inventory->addInput($_);
     }
- 
-}
 
+}
 
 1;

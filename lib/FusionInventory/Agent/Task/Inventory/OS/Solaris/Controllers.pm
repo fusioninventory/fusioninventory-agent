@@ -17,7 +17,7 @@ sub doInventory {
     my $manufacturer;
 
     foreach(`cfgadm -s cols=ap_id:type:info`){
-        next if (/^Ap_Id/); 	
+        next if (/^Ap_Id/);
         if(/^(\S+)\s+/){
             $name = $1;
         }
@@ -27,12 +27,12 @@ sub doInventory {
 #No manufacturer, but informations about controller
         if(/^\S+\s+\S+\s+(\S+)/){
             $manufacturer = $1;
-        }   			
+        }
         $inventory->addController({
-                'NAME'          => $name,
-                'MANUFACTURER'  => $manufacturer,
-                'TYPE'          => $type,
-            });
+            'NAME'          => $name,
+            'MANUFACTURER'  => $manufacturer,
+            'TYPE'          => $type,
+        });
     }
 }
 1

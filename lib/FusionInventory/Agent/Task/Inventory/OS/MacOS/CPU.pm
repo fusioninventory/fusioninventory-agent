@@ -54,17 +54,13 @@ sub doInventory {
 
 
     foreach(1..$processorn) {
-	$inventory->addCPU ({
-
+        $inventory->addCPU ({
             CORE => $processorCore,
             MANUFACTURER => $manufacturer,
             NAME => $processort,
             THREAD => 1,
             SPEED => $processors
-
-	});
-
-
+        });
     }
 
     ### mem convert it to meg's if it comes back in gig's
@@ -74,12 +70,12 @@ sub doInventory {
         $mem = ($mem * 1024);
     }
     if($mem =~ /MB$/){
-	$mem =~ s/\sMB$//;
+        $mem =~ s/\sMB$//;
     }
 
 
     $inventory->setHardware({
-        MEMORY      => $mem,
+        MEMORY => $mem,
     });
 }
 

@@ -28,8 +28,8 @@ sub doInventory {
     my %fs;
     foreach my $line (`mount`) {
         next unless $line =~ /\S+ on \S+ \((\S+),/;
-	next if $1 eq 'fdesc';
-	next if $1 eq 'devfs';
+        next if $1 eq 'fdesc';
+        next if $1 eq 'devfs';
         $fs{$1}++;
     }
 

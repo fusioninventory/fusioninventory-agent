@@ -24,9 +24,9 @@ sub isInventoryEnabled {
                 $device = $1 if /.*Device:\s(\w*).*/;
             }
         }
-	if (($device) && ($device eq 'LSILOGIC')) {
-		return 1;
-	}
+        if (($device) && ($device eq 'LSILOGIC')) {
+            return 1;
+        }
     }
     return 0;
 }

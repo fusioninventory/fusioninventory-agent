@@ -48,7 +48,7 @@ sub doInventory {
     if ($pos >= 0) {
         $domain = substr($hostname, $pos + 1);
     } else {
-	$domain = join('/', keys %search_list);
+        $domain = join('/', keys %search_list);
     }
 
     $inventory->setHardware({

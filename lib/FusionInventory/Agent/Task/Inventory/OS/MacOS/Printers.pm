@@ -28,13 +28,13 @@ sub doInventory {
     foreach my $printer (keys %$h){
         if ($printer && $printer =~ /^The printers list is empty. To add printers/) {
 #http://forge.fusioninventory.org/issues/169
-                next;
+            next;
         }
 
         $inventory->addPrinter({
-                NAME    => $printer,
-                DRIVER  => $h->{$printer}->{'PPD'},
-		PORT	=> $h->{$printer}->{'URI'},
+            NAME    => $printer,
+            DRIVER  => $h->{$printer}->{'PPD'},
+            PORT    => $h->{$printer}->{'URI'},
         });
     }
 

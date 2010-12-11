@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { 
-    return unless can_run('zoneadm'); 
+    return unless can_run('zoneadm');
     return unless _check_solaris_valid_release('/etc/release');
 }
 
@@ -69,7 +69,7 @@ sub doInventory {
     @zones = `/usr/sbin/zoneadm list -p`;
     @zones = grep (!/global/,@zones);
 
-    foreach my $zone (@zones) {	
+    foreach my $zone (@zones) {
         ($zoneid,$zonename,$zonestatus,$pathroot,$uuid)=split(/:/,$zone);
         # 
         # Memory considerations depends on rcapd or project definitions

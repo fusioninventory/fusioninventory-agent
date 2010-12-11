@@ -29,8 +29,8 @@ sub doInventory {
         } elsif (/^Hardware\s+:\s*(.*)/) {
             $inventory->setBios({ SMODEL => $1 });
             $inSystem = 1;
-	}
-	close $handle;
+        }
+        close $handle;
     }
 }
 1;
