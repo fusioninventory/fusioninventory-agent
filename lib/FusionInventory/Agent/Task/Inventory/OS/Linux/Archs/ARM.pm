@@ -25,9 +25,9 @@ sub doInventory {
     my $inSystem;
     while (<$handle>) {
         if ($inSystem && /^Serial\s+:\s*(.*)/) {
-            $inventory->setBios({ SSN => $1 });
+            $inventory->setBios(SSN => $1);
         } elsif (/^Hardware\s+:\s*(.*)/) {
-            $inventory->setBios({ SMODEL => $1 });
+            $inventory->setBios(SMODEL => $1);
             $inSystem = 1;
         }
         close $handle;

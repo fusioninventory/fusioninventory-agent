@@ -51,14 +51,14 @@ sub doInventory {
         }
     }
 
-    $inventory->setBios ({
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
+    $inventory->setBios(
+        BVERSION      => $BiosVersion,
+        BDATE         => $BiosDate,
         BMANUFACTURER => "HP",
         SMANUFACTURER => "HP",
-        SMODEL => $SystemModel,
-        SSN => $SystemSerial,
-    });
+        SMODEL        => $SystemModel,
+        SSN           => $SystemSerial,
+    );
     $inventory->setHardware(
         UUID => $SystemUUID
     );

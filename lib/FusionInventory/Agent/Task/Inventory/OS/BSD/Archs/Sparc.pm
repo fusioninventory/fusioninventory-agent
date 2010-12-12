@@ -73,11 +73,11 @@ sub doInventory {
         $processors = sprintf("%.0f", "$1$2"); # round number
     }
 
-    $inventory->setBios ({
+    $inventory->setBios(
         SMANUFACTURER => 'SUN',
-        SMODEL => $SystemModel,
-        SSN => $SystemSerial,
-    });
+        SMODEL        => $SystemModel,
+        SSN           => $SystemSerial,
+    );
 
     # don't deal with CPUs if information can be computed from dmidecode
     my $infos = getInfosFromDmidecode(logger => $logger);

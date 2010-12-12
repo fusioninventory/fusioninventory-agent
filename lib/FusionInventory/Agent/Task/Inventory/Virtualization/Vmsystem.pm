@@ -100,10 +100,10 @@ sub doInventory {
             # domU PV host
             $status = "Xen";
             # those information can't be extracted from dmidecode
-            $inventory->setBios ({
+            $inventory->setBios(
                 SMANUFACTURER => 'Xen',
                 SMODEL => 'PVM domU'
-            });
+            );
         }
     }
 

@@ -271,14 +271,14 @@ sub setHardware {
 }
 
 sub setBios {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
         MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
         BIOSSERIAL TYPE SKUNUMBER/) {
 
-        if (exists $args->{$key}) {
-            my $string = getSanitizedString($args->{$key});
+        if (exists $params{$key}) {
+            my $string = getSanitizedString($params{$key});
             $self->{h}{CONTENT}{BIOS}{$key} = $string;
         }
     }

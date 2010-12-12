@@ -65,14 +65,14 @@ sub doInventory {
     $BiosVersion .= "(Firmware :".$fw.")";
 
     # Writing data
-    $inventory->setBios ({
+    $inventory->setBios(
         SMANUFACTURER => $SystemManufacturer,
         SMODEL => $SystemModel,
         SSN => $SystemSerial,
         BMANUFACTURER => $BiosManufacturer,
         BVERSION => $BiosVersion,
         BDATE => $BiosDate,
-    });
+    );
 }
 
 1;

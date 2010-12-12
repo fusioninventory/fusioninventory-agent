@@ -42,10 +42,10 @@ sub doInventory {
         if (/$SystemModel,\s*(\S+)\s*MHz.*$/) { $processors = $1; }
     }
 
-    $inventory->setBios ({
+    $inventory->setBios(
         SMANUFACTURER => 'DEC',
-        SMODEL => $SystemModel,
-    });
+        SMODEL        => $SystemModel,
+    );
 
     # don't deal with CPUs if information can be computed from dmidecode
     my $infos = getInfosFromDmidecode(logger => $logger);
