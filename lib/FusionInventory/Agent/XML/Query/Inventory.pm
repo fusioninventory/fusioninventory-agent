@@ -575,32 +575,6 @@ sub processChecksum {
 
 }
 
-sub feedSection{
-    my ($self, $args) = @_;
-    my $tagname = $args->{tagname};
-    my $values = $args->{data};
-    my $logger = $self->{logger};
-
-    my $found=0;
-    for( keys %{$self->{h}{CONTENT}} ){
-        $found = 1 if $tagname eq $_;
-    }
-
-    if(!$found){
-        $logger->debug("Tag name `$tagname` doesn't exist - Cannot feed it");
-        return 0;
-    }
-
-    if( $self->{h}{CONTENT}{$tagname} =~ /ARRAY/ ){
-        push @{$self->{h}{CONTENT}{$tagname}}, $args->{data};
-    }
-    else{
-        $self->{h}{CONTENT}{$tagname} = $values;
-    }
-
-    return 1;
-}
-
 sub _loadState {
     my ($self) = @_;
 
@@ -766,12 +740,6 @@ is used to know where the file as to be saved.
 
 Compute the checksum of the inventory. This information is used by the server
 to know which information changed since the last inventory.
-
-=head2 feedSection()
-
-Add informations in inventory.
-
-# Q: is that really useful()? Can't we merge with addSection()?
 
 =head2 saveState()
 
