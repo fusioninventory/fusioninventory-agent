@@ -13,9 +13,9 @@ sub _getDdcprobeData {
 
     my $handle;
     if ($file) {
-	open $handle, '<', $file or die;
+	open $handle, '<', $file or return;
     } else {
-	open ($handle, "ddcprobe 2>&1 |")	
+	open ($handle, "ddcprobe 2>&1 |") or return;	
     }
     return unless $handle;
 

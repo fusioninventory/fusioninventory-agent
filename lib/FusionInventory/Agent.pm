@@ -10,7 +10,6 @@ our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
 1;
-
 __END__
 
 =head1 NAME
