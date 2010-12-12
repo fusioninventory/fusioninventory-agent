@@ -9,7 +9,6 @@ use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
 use Encode qw(encode);
-use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
@@ -555,11 +554,10 @@ sub processChecksum {
 
     my $checksum = 0;
 
-    my $tpp = XML::TreePP->new();
     foreach my $section (keys %mask) {
         #If the checksum has changed...
         my $hash =
-            md5_base64($tpp->write({ XML => $self->{h}{'CONTENT'}{$section} }));
+            md5_base64(Dumper($self->{h}{'CONTENT'}{$section}));
         if (
             !$self->{state}->{$section} ||
             $self->{state}->{$section} ne $hash
