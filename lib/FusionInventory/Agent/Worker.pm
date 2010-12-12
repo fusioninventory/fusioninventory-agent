@@ -23,7 +23,6 @@ sub new {
         confdir => $params{confdir},
         datadir => $params{datadir},
         vardir  => $params{vardir},
-        debug   => $params{debug}
     };
     bless $self, $class;
 
@@ -36,7 +35,7 @@ sub new {
     my $logger = FusionInventory::Agent::Logger->new(
         %{$config->getBlock('logger')},
         backends => [ $config->getValues('logger.backends') ],
-        debug    => $self->{debug}
+        debug    => $params{debug}
     );
     $self->{logger} = $logger;
 
