@@ -321,9 +321,9 @@ sub addUser {
     return unless $args->{LOGIN};
 
     return unless $self->_addEntry(
-        'section'      => 'USERS',
-        'values'       => $args,
-        'noDuplicated' => 1
+        section      => 'USERS',
+        values       => $args,
+        noDuplicated => 1
     );
 
     # Compare with old system 
