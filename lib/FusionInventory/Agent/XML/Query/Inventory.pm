@@ -427,21 +427,32 @@ sub getContent {
 
     $self->processChecksum();
 
-    #  checks for MAC, NAME and SSN presence
-    my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR};
-    my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN};
-    my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME};
-    my $uuid = $self->{h}->{CONTENT}->{HARDWARE}->{UUID};
+    my $missing = 0;
+    my $content = $self->{h}->{CONTENT};
 
-    my $missing;
-
-    $missing .= "MAC-address " unless $macaddr;
-    $missing .= "SSN " unless $ssn;
-    $missing .= "HOSTNAME " unless $name;
-    $uuid .= "UUID " unless $uuid;
+    if (!$content->{NETWORKS}->[0]->{MACADDR}) {
+        $logger->debug('Missing value: MAC address of first network card');
+        $missing++;
+    }
+    if (!$content->{BIOS}->{SSN}) {
+        $logger->debug('Missing value: serial number');
+        $missing++;
+    }
+    if (!$content->{HARDWARE}->{NAME}) {
+        $logger->debug('Missing value: hostname');
+        $missing++;
+    }
+    if (!$content->{HARDWARE}->{UUID}) {
+        $logger->debug('Missing value: UUID');
+        $missing++;
+    }
 
     if ($missing) {
-        $logger->debug('Missing value(s): '.$missing.'.  Important value(s) to identify the computer are missing. Depending on how the server identify duplicated machine, this may create zombie computer in your data base.');
+        $logger->debug(
+            'Important value(s) to identify the computer are missing. ' .
+            'Depending on how the server identify duplicated machine, ' .
+            'this may create zombie computer in your data base.'
+        );
     }
 
     return $self->SUPER::getContent();
