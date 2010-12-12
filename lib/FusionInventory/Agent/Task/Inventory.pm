@@ -18,6 +18,7 @@ sub new {
         no_software   => $params{no_software},
         no_printer    => $params{no_printer},
         force         => $params{force},
+        timeout       => $params{timeout} || 180
     };
     bless $self, $class;
 
@@ -345,13 +346,11 @@ sub _runFunction {
     my $function = $params{function} or die "no function given";
     my $logger   = $params{logger};
 
-    $params{timeout} = 180 if !defined $params{timeout};
-
     my $result;
 
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $params{timeout} if $params{timeout};
+        alarm $self->{timeout} if $self->{timeout};
 
         no strict 'refs'; ## no critic
 
