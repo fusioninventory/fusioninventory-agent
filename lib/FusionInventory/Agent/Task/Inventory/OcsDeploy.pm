@@ -15,9 +15,9 @@ sub doInventory {
 
     # Retrieve FusionInventory::Agent::Task::OcsDeploy informations
     my $ocsDeployData =
-    $storage->restore({
-            module => 'FusionInventory::Agent::Task::OcsDeploy'
-        });
+    $storage->restore(
+        module => 'FusionInventory::Agent::Task::OcsDeploy'
+    );
 
     # Record in the Inventory the commands already recieved by the agent
     foreach my $orderId ( keys %{ $ocsDeployData->{byId} } ) {
