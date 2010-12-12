@@ -33,7 +33,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $cpu (_getCPUsFromProc($logger)) {
+    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
         $inventory->addCPU($cpu);
     }
 }

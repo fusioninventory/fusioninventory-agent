@@ -41,7 +41,7 @@ sub doInventory {
         }
     }
 
-    my ($proc_cpus, $proc_cores) = _getCPUsFromProc($logger);
+    my ($proc_cpus, $proc_cores) = _getCPUsFromProc($logger, '/proc/cpuinfo');
 
     foreach my $cpu (@cpus) {
         my $proc_cpu  = shift @$proc_cpus;
