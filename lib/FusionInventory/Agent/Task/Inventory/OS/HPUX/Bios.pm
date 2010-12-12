@@ -59,9 +59,9 @@ sub doInventory {
         SMODEL => $SystemModel,
         SSN => $SystemSerial,
     });
-    $inventory->setHardware({
+    $inventory->setHardware(
         UUID => $SystemUUID
-    });
+    );
 }
 
 1;

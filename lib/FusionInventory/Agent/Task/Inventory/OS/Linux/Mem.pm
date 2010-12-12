@@ -31,10 +31,10 @@ sub doInventory {
     }
 
     # TODO
-    $inventory->setHardware({
-        MEMORY =>  sprintf("%i",$PhysicalMemory/$unit),
-        SWAP =>    sprintf("%i", $SwapFileSize/$unit),
-    });
+    $inventory->setHardware(
+        MEMORY => sprintf("%i", $PhysicalMemory/$unit),
+        SWAP   => sprintf("%i", $SwapFileSize/$unit),
+    );
 }
 
 1;

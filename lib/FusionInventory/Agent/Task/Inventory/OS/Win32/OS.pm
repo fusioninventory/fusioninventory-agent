@@ -91,7 +91,7 @@ sub doInventory {
 
         my $key = getXPkey();
 
-        $inventory->setHardware({
+        $inventory->setHardware(
             WINLANG => $Properties->{OSLanguage},
             OSNAME => $Properties->{Caption},
             OSVERSION =>  $Properties->{Version},
@@ -101,7 +101,7 @@ sub doInventory {
             WINOWNER => $Properties->{RegistredUser},
             OSCOMMENTS => $Properties->{CSDVersion},
             SWAP => int(($Properties->{TotalSwapSpaceSize}||0)/(1024*1024)),
-        });
+        );
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
@@ -117,13 +117,13 @@ sub doInventory {
         my $winowner = $Properties->{PrimaryOwnerName};
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
-        $inventory->setHardware({
-            MEMORY => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
+        $inventory->setHardware(
+            MEMORY     => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
             USERDOMAIN => $userdomain,
-            WORKGROUP => $workgroup,
-            WINOWNER => $winowner,
-            NAME => $Properties->{Name},
-        });
+            WORKGROUP  => $workgroup,
+            WINOWNER   => $winowner,
+            NAME       => $Properties->{Name},
+        );
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystemProduct', qw/
@@ -133,9 +133,9 @@ sub doInventory {
         my $uuid = $Properties->{UUID};
         $uuid = '' if $uuid =~ /^[0-]+$/;
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
-        $inventory->setHardware({
+        $inventory->setHardware(
             UUID => $uuid,
-        });
+        );
 
     }
 }

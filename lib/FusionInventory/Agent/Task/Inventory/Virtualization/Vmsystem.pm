@@ -216,9 +216,9 @@ sub doInventory {
     }
 
     if ($status) {
-        $inventory->setHardware ({
-                VMSYSTEM => $status,
-            });
+        $inventory->setHardware(
+            VMSYSTEM => $status,
+        );
     }
 }
 

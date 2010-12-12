@@ -59,10 +59,10 @@ sub doInventory {
     my $OSComment = `uname -v`;
     chomp $OSComment;
 
-    $inventory->setHardware({ 
+    $inventory->setHardware(
         OSNAME     => _findRelease(),
         OSCOMMENTS => $OSComment
-    });
+    );
 }
 
 1;

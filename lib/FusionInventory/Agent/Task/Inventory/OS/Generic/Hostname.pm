@@ -22,7 +22,7 @@ sub doInventory {
 
     $hostname =~ s/\..*//; # keep just the hostname
 
-    $inventory->setHardware ({NAME => $hostname});
+    $inventory->setHardware(NAME => $hostname);
 }
 
 1;

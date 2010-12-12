@@ -144,13 +144,10 @@ sub doInventory {
     }
 
     if ($vmsystem) {
-        $inventory->setHardware ({
+        $inventory->setHardware(
             VMSYSTEM => $vmsystem 
-        });
+        );
     }
-
-
-
 
 }
 1;

@@ -42,7 +42,7 @@ sub doInventory {
         while (my $line = <$handle>) {
             next unless $line =~ /$hostname/;
             if ($line =~ /(^\d+\.\d+\.\d+\.\d+)\s+/ ) {
-                $inventory->setHardware({IPADDR => $1});
+                $inventory->setHardware(IPADDR => $1);
                 last;
             }
         }
@@ -59,9 +59,9 @@ sub doInventory {
         }
     }
     if (defined ($gateway{'default/0.0.0.0'})) {
-        $inventory->setHardware({
-                DEFAULTGATEWAY => $gateway{'default/0.0.0.0'}
-            })
+        $inventory->setHardware(
+            DEFAULTGATEWAY => $gateway{'default/0.0.0.0'}
+        );
     }
 
     for ( `lanscan -iap`) {

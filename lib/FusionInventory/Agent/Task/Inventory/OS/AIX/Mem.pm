@@ -46,10 +46,10 @@ sub doInventory {
         }
     }
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         MEMORY => $memory,
         SWAP => $swap 
-    });
+    );
 
 }
 

@@ -51,10 +51,10 @@ sub doInventory {
         $domain = join('/', keys %search_list);
     }
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         WORKGROUP => $domain,
-        DNS => $dns
-    });
+        DNS       => $dns
+    );
 
 }
 

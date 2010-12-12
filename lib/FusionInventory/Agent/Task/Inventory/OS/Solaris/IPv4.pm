@@ -47,7 +47,7 @@ sub doInventory {
     }
 
 
-    $inventory->setHardware({IPADDR => $ip});
+    $inventory->setHardware(IPADDR => $ip);
 }
 
 1;

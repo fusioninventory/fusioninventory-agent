@@ -25,7 +25,7 @@ sub doInventory {
 
     $hostname = $nfo->{'System Software Overview'}->{'Computer Name'};
 
-    $inventory->setHardware ({NAME => $hostname}) if $hostname;
+    $inventory->setHardware(NAME => $hostname) if $hostname;
 }
 
 1;

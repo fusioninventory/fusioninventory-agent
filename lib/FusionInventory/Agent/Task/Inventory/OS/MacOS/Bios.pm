@@ -72,9 +72,9 @@ sub doInventory {
         BVERSION        => $h->{'Boot ROM Version'},
     });
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         UUID => $h->{'Hardware UUID'} || $ioregInfo->{'IOPlatformUUID'}
-    });
+    );
 }
 
 1;

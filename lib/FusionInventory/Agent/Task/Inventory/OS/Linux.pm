@@ -27,13 +27,13 @@ sub doInventory {
     }
 
     # This will probably be overwritten by a Linux::Distro module.
-    $inventory->setHardware({
+    $inventory->setHardware(
         OSNAME             => "Linux",
         OSCOMMENTS         => "Unknown Linux distribution",
         OSVERSION          => $osversion,
         LASTLOGGEDUSER     => $last_user,
         DATELASTLOGGEDUSER => $last_date
-    });
+    );
 }
 
 1;

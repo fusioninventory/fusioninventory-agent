@@ -110,7 +110,8 @@ sub doInventory {
             SMODEL => $SystemModel,
             SSN => $SystemSerial
         });
-    $inventory->setHardware ({ UUID => $uuid }) if $uuid;
+    $inventory->setHardware(UUID => $uuid) if $uuid;
 
 }
+
 1;

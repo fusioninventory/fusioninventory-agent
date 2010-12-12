@@ -23,7 +23,7 @@ sub doInventory {
         if(/^\s*inet\s+(\S+).*/){($1=~/127.+/)?next:push @ip, $1};
     }
     my $ip=join "/", @ip;
-    $inventory->setHardware({IPADDR => $ip});
+    $inventory->setHardware(IPADDR => $ip);
 }
 
 1;

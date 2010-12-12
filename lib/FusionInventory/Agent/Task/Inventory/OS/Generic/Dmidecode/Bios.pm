@@ -20,7 +20,7 @@ sub doInventory {
     my ($bios, $hardware) = _getBiosHardware($logger);
 
     $inventory->setBios($bios) if $bios;
-    $inventory->setHardware($hardware) if $hardware;
+    $inventory->setHardware(%$hardware) if $hardware;
 }
 
 sub _getBiosHardware {

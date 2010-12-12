@@ -59,9 +59,9 @@ sub doInventory {
         my $lastloggeduser=encodeFromRegistry($machKey->{$_});
         if ($lastloggeduser) {
             $lastloggeduser =~ s,.*\\,,;
-            $inventory->setHardware({
+            $inventory->setHardware(
                LASTLOGGEDUSER => $lastloggeduser
-            });
+            );
         }
     }
 

@@ -16,9 +16,9 @@ sub doInventory {
     my $config    = $params{config};
 
     if ($config->{old_deviceid}) {
-        $inventory->setHardware({ OLD_DEVICEID => $config->{old_deviceid} });
+        $inventory->setHardware(OLD_DEVICEID => $config->{old_deviceid});
     }
-    $inventory->setHardware({ DEVICEID => $config->{deviceid} });
+    $inventory->setHardware(DEVICEID => $config->{deviceid});
 
 }
 

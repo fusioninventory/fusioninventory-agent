@@ -31,9 +31,9 @@ sub doInventory {
     }
 
     if ($routes->{'0.0.0.0'}) {
-        $inventory->setHardware({
+        $inventory->setHardware(
             DEFAULTGATEWAY => $routes->{'0.0.0.0'}
-        });
+        );
     }
 
     my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
@@ -79,7 +79,9 @@ sub doInventory {
         map { $_->{IPADDRESS} }
         @$interfaces;
 
-    $inventory->setHardware({IPADDR => join('/', @ip_addresses)});
+    $inventory->setHardware(
+        IPADDR => join('/', @ip_addresses)
+    );
 }
 
 sub _parseIfconfig {

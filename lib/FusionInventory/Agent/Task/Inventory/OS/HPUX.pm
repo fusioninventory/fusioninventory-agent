@@ -42,13 +42,13 @@ sub doInventory {
 #TODO add grep `hostname` /etc/hosts
 
 
-    $inventory->setHardware({
-        OSNAME => $OSName,
-        OSVERSION => $OSVersion . ' ' . $OSLicense,
-        OSCOMMENTS => $OSRelease,
-        LASTLOGGEDUSER => $LastLoggedUser,
+    $inventory->setHardware(
+        OSNAME             => $OSName,
+        OSVERSION          => $OSVersion . ' ' . $OSLicense,
+        OSCOMMENTS         => $OSRelease,
+        LASTLOGGEDUSER     => $LastLoggedUser,
         DATELASTLOGGEDUSER => $LastLogDate
-    });
+    );
 
 }
 

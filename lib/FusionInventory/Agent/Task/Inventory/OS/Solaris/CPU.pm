@@ -244,11 +244,11 @@ sub doInventory {
     }
 
     # insert to values we have found
-    # $inventory->setHardware({
+    # $inventory->setHardware(
     #   PROCESSORT => $cpu_type,
     #PROCESSORN => $cpu_slot,
     # PROCESSORS => $cpu_speed
-    # });
+    # );
 
 }
 #run();

@@ -32,9 +32,9 @@ sub doInventory {
         $domain = join "/", keys %domain;
     }
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         WORKGROUP => $domain
-    });
+    );
 }
 
 1;

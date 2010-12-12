@@ -139,14 +139,12 @@ sub doInventory {
     }
 
 
-  $inventory->setHardware({
-
-          DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
-          DNS =>  join('/', keys %dns),
-          IPADDR =>  join('/',@ips),
-
-    });
-
+    $inventory->setHardware(
+        DEFAULTGATEWAY => join('/', keys %defaultgateways),
+        DNS            => join('/', keys %dns),
+        IPADDR         => join('/', @ips),
+    );
 
 }
+
 1;

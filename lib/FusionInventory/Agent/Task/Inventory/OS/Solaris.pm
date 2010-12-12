@@ -38,12 +38,12 @@ sub doInventory {
     my $platform = getSingleLine(command => 'uname -i');
     my $HWDescription = "$platform($karch)/$proct HostID=$hostid";
 
-    $inventory->setHardware({
-        OSNAME => "$OSName $OSLevel",
-        OSCOMMENTS => $OSComment,
-        OSVERSION => $OSVersion,
+    $inventory->setHardware(
+        OSNAME      => "$OSName $OSLevel",
+        OSCOMMENTS  => $OSComment,
+        OSVERSION   => $OSVersion,
         DESCRIPTION => $HWDescription
-    });
+    );
 }
 
 1;

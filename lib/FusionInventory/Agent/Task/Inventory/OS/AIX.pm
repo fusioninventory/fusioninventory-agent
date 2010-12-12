@@ -28,11 +28,11 @@ sub doInventory {
     my $OSComment = "Maintenance Level : $tabOS[1]";
 
     $OSVersion =~ s/(.0)*$//;
-    $inventory->setHardware({
-        OSNAME => "$OSName $OSVersion",
+    $inventory->setHardware(
+        OSNAME     => "$OSName $OSVersion",
         OSCOMMENTS => $OSComment,
-        OSVERSION => $OSLevel,
-    });
+        OSVERSION  => $OSLevel,
+    );
 }
 
 1;

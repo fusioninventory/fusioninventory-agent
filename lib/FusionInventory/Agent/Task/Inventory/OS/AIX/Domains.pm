@@ -31,9 +31,9 @@ sub doInventory {
     unless (defined($domain)){chomp($domain="WORKGROUP");}
     $domain=~s/^.\.(.)/$1/;
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         WORKGROUP => $domain
-    });
+    );
 
 }
 

@@ -283,7 +283,7 @@ sub _feedInventory {
     }
 
     # Execution time
-    $params{inventory}->setHardware({ETIME => time() - $begin});
+    $params{inventory}->setHardware(ETIME => time() - $begin);
 }
 
 # run an inventory module

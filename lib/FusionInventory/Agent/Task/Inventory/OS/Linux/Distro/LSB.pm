@@ -20,12 +20,10 @@ sub doInventory {
     }
     my $OSComment = getSingleLine(command => 'uname -v');
 
-    $inventory->setHardware({ 
-        OSNAME => $release,
-        OSCOMMENTS => "$OSComment"
-    });
+    $inventory->setHardware(
+        OSNAME     => $release,
+        OSCOMMENTS => $OSComment
+    );
 }
-
-
 
 1;

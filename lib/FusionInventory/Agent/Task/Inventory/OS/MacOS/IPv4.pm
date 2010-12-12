@@ -26,7 +26,7 @@ sub doInventory {
 
     my $ip=join "/", @ip;
 
-    $inventory->setHardware({IPADDR => $ip});
+    $inventory->setHardware(IPADDR => $ip);
 }
 
 1;

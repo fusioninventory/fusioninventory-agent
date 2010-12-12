@@ -256,7 +256,7 @@ sub addNetwork {
 }
 
 sub setHardware {
-    my ($self, $args, $nonDeprecated) = @_;
+    my ($self, %params) = @_;
 
     my $logger = $self->{logger};
 
@@ -266,15 +266,15 @@ sub setHardware {
         DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
         WINPRODKEY WINCOMPANY WINLANG/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
-        if (exists $args->{$key}) {
-            if ($key eq 'PROCESSORS' && !$nonDeprecated) {
+        if (exists $params{$key}) {
+            if ($key eq 'PROCESSORS' && !$params{nonDeprecated}) {
                 $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
             }
-            if ($key eq 'USERID' && !$nonDeprecated) {
+            if ($key eq 'USERID' && !$params{nonDeprecated}) {
                 $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
             }
 
-            my $string = getSanitizedString($args->{$key});
+            my $string = getSanitizedString($params{$key});
             $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
         }
     }
@@ -307,12 +307,12 @@ sub addCPU {
     my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED};
     my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME};
 
-    $self->setHardware ({
+    $self->setHardware(
         PROCESSORN => $processorn,
         PROCESSORS => $processors,
         PROCESSORT => $processort,
-    }, 1);
-
+        nonDeprecated => 1
+    );
 }
 
 sub addUser {
@@ -344,10 +344,11 @@ sub addUser {
         $userString .= $login;
     }
 
-    $self->setHardware ({
-        USERID => $userString,
-        USERDOMAIN => $domainString,
-    }, 1);
+    $self->setHardware(
+        USERID        => $userString,
+        USERDOMAIN    => $domainString,
+        nonDeprecated => 1
+    );
 }
 
 sub addPrinter {
@@ -620,7 +621,7 @@ sub processChecksum {
         $self->{state}->{$section} = $hash;
     }
 
-  $self->setHardware({CHECKSUM => $checksum});
+  $self->setHardware(CHECKSUM => $checksum);
 
 }
 

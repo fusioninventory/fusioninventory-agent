@@ -47,11 +47,11 @@ sub doInventory {
     # add the uname -v as the comment, not really needed, but extra info
     # never hurt
     my $OSComment = getSingleLine(command => 'uname -v');
-    $inventory->setHardware({
+    $inventory->setHardware(
         OSNAME     => $OSName,
         OSCOMMENTS => $OSComment,
         OSVERSION  => $OSVersion,
-    });
+    );
 }
 
 

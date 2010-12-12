@@ -31,10 +31,10 @@ sub doInventory {
         if(/\s+(\S+)$/){$SwapFileSize = $1};
     }
 
-    $inventory->setHardware({
-            MEMORY =>  $PhysicalMemory,
-            SWAP =>    $SwapFileSize
-        });
+    $inventory->setHardware(
+        MEMORY =>  $PhysicalMemory,
+        SWAP =>    $SwapFileSize
+    );
 }
 
 1

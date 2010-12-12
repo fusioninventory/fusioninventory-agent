@@ -74,9 +74,9 @@ sub doInventory {
     }
 
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         MEMORY => $mem,
-    });
+    );
 }
 
 1;
