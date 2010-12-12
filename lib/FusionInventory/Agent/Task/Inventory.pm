@@ -34,6 +34,7 @@ sub run {
     if ($target->isa('FusionInventory::Agent::Target::Server')) {
         my $response = $self->getPrologResponse(
             transmitter => $target->getTransmitter(),
+            url         => $target->getUrl(),
             deviceid    => $params{deviceid},
             token       => $params{token},
         );

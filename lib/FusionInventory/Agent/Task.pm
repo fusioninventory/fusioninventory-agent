@@ -16,7 +16,10 @@ sub getPrologResponse {
         $prolog->setAccountInfo(TAG => $params{tag});
     }
 
-    return $params{transmitter}->send(message => $prolog);
+    return $params{transmitter}->send(
+        message => $prolog,
+        url     => $params{url}
+    );
 }
 
 sub main {
