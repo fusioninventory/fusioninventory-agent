@@ -276,11 +276,9 @@ sub setBios {
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
         MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
         BIOSSERIAL TYPE SKUNUMBER/) {
-
-        if (exists $params{$key}) {
-            my $string = getSanitizedString($params{$key});
-            $self->{h}{CONTENT}{BIOS}{$key} = $string;
-        }
+        next unless $params{$key};
+        my $value = getSanitizedString($params{$key});
+        $self->{h}{CONTENT}{BIOS}{$key} = $value;
     }
 }
 
