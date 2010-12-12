@@ -21,6 +21,8 @@ our @EXPORT = qw(
     getSanitizedString
     getSingleLine
     getHostname
+    getDeviceId
+    getRandomToken
     compareVersion
     can_run
     can_load
@@ -300,6 +302,19 @@ sub getHostname {
             "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
         );
     };
+}
+
+sub getDeviceId {
+    my $hostname = getHostname();
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime(time()))[5,4,3,2,1,0];
+    return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
+}
+
+sub getRandomToken {
+    my @chars = ('A'..'Z');
+    return join('', map { $chars[rand @chars] } 1..8);
 }
 
 1;
