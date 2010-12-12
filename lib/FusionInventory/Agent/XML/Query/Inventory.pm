@@ -102,14 +102,13 @@ sub _addEntry {
     my $entry   = $params{entry};
     my $noDuplicated = $params{noDuplicated};
 
-    my $newEntry;
     my $fields = $fields{$section};
     die "Unknown section $section" unless $fields;
 
+    my $newEntry;
     foreach my $field (@$fields) {
         next unless defined $entry->{$field};
-        my $string = getSanitizedString($entry->{$field});
-        $newEntry->{$field} = $string;
+        $newEntry->{$field} = getSanitizedString($entry->{$field});
     }
 
     # Don't create two time the same device
