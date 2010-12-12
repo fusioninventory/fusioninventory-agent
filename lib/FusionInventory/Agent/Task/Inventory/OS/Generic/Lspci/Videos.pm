@@ -9,15 +9,17 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
-    return 0 if $OSNAME =~ /^mswin/i;
-    return 0 if $OSNAME =~ /^linux/i;
-    return 1;
+    # both windows and linux have dedicated modules
+    return 
+        $OSNAME ne 'MSWin32' &&
+        $OSNAME ne 'linux';
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $video (_getVideoControllers($logger)) {
         $inventory->addVideo($video);

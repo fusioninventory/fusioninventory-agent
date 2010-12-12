@@ -18,9 +18,10 @@ sub isInventoryEnabled{
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # sysctl infos
 
@@ -31,9 +32,9 @@ sub doInventory {
         (split(/\s+/, $SystemModel))[-1]
     );
 
-    $inventory->setBios ({
+    $inventory->setBios (
         SMODEL => $SystemModel,
-    });
+    );
 
     # don't deal with CPUs if information can be computed from dmidecode
     my $infos = getInfosFromDmidecode(logger => $logger);

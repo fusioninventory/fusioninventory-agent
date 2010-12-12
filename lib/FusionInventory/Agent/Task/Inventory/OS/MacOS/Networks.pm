@@ -11,14 +11,15 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("ifconfig") && 
+        can_run('ifconfig') && 
         can_load("Net::IP");
 }
 
 # Initialise the distro entry
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # import Net::IP functional interface
     Net::IP->import(':PROC');

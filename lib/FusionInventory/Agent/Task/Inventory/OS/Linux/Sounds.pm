@@ -6,12 +6,13 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("lspci");
+    return can_run('lspci');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     foreach(`lspci`){
 

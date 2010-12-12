@@ -43,17 +43,15 @@ my @errStatus = (
 );
 
 sub isInventoryEnabled {
-    return 1;
+    my (%params) = @_;
+
+    return !$params{no_printer};
 }
 
 sub doInventory {
+    my (%params) = @_;
 
-    my $params = shift;
-    my $logger = $params->{logger};
-    my $config = $params->{config};
-    my $inventory = $params->{inventory};
-
-    return if $config->{'no-printer'};
+    my $inventory = $params{inventory};
 
     foreach my $Properties (getWmiProperties('Win32_Printer', qw/
         ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name

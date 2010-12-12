@@ -21,12 +21,12 @@ sub _getDescription {
 
     if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
         if (
-	($manufacturer && ($manufacturer =~ /ATA/))
-	||
-	($serialnumber && ($serialnumber =~ /ATA/))
-	||
-	($description && ($description =~ /ATA/))
-	) {
+        ($manufacturer && ($manufacturer =~ /ATA/))
+        ||
+        ($serialnumber && ($serialnumber =~ /ATA/))
+        ||
+        ($description && ($description =~ /ATA/))
+        ) {
             return  "SATA";
         } else {
             return "SCSI";
@@ -40,7 +40,7 @@ sub _getDescription {
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
 sub _correctHdparmAvailable {
-    return unless can_run("hdparm");
+    return unless can_run('hdparm');
 
     my $version = `hdparm -V`;
     my ($major, $minor) = $version =~ /^hdparm v(\d+)\.(\d+)/;
@@ -52,14 +52,15 @@ sub _correctHdparmAvailable {
 
 
 sub doInventory {
-    my ($params) = @_;
-    my $logger = $params->{logger};
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $devices;
 
     # get informations from hal first, if available
-    if (can_run ("lshal")) {
+    if (can_run('lshal')) {
         $devices = getDevicesFromHal(logger => $logger);
     }
 
@@ -96,20 +97,17 @@ sub doInventory {
                             $device->{SERIALNUMBER} = $value
                                 if !$device->{SERIALNUMBER};
                             next;
-                        }
-                        elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
+                        } elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
                             my $value = $1;
                             $value =~ s/\s+$//;
                             $device->{FIRMWARE} = $value
                                 if !$device->{FIRMWARE};
                             next;
+                        } elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
+                            $device->{DESCRIPTION} = $1;
+                        } elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
+                            $device->{MODEL} = $1;
                         }
-			elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
-			    $device->{DESCRIPTION} = $1;
-			}
-			elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
-			    $device->{MODEL} = $1;
-			}
                     }
                 }
                 close $handle;
@@ -118,14 +116,14 @@ sub doInventory {
     }
 
     foreach my $device (@$devices) {
-	if (!$device->{DESCRIPTION}) {
-	    $device->{DESCRIPTION} = getDescription(
-            $device->{NAME},
-            $device->{MANUFACTURER},
-            $device->{DESCRIPTION},
-            $device->{SERIALNUMBER}
+        if (!$device->{DESCRIPTION}) {
+            $device->{DESCRIPTION} = getDescription(
+                $device->{NAME},
+                $device->{MANUFACTURER},
+                $device->{DESCRIPTION},
+                $device->{SERIALNUMBER}
             );
-	}
+        }
 
         if (!$device->{MANUFACTURER} or $device->{MANUFACTURER} eq 'ATA') {
             $device->{MANUFACTURER} = getCanonicalManufacturer(

@@ -7,13 +7,14 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("uptime") &&
-        can_run ("uname");
+        can_run('uptime') &&
+        can_run('uname');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # Uptime
     my $uptime = getSingleLine(command => 'uptime');
@@ -28,7 +29,7 @@ sub doInventory {
     $uptime = getFormatedGmTime($seconds);
 
     my $DeviceType = getSingleLine(command => 'uname -m');
-    $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
+    $inventory->setHardware(DESCRIPTION => "$DeviceType/$uptime");
 }
 
 1;

@@ -8,7 +8,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("lsusb");
+    return can_run('lsusb');
 }
 
 sub _addDevice {
@@ -44,11 +44,12 @@ sub _addDevice {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
     my $in;
     my $device;
+
     foreach (`lsusb -v`) {
         if (/^Device/) {
             $in = 1;

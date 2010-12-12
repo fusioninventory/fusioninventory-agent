@@ -16,9 +16,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my @cpus;
 
@@ -40,7 +41,7 @@ sub doInventory {
         }
     }
 
-    my ($proc_cpus, $proc_cores) = _getCPUsFromProc($logger);
+    my ($proc_cpus, $proc_cores) = _getCPUsFromProc($logger, '/proc/cpuinfo');
 
     foreach my $cpu (@cpus) {
         my $proc_cpu  = shift @$proc_cpus;

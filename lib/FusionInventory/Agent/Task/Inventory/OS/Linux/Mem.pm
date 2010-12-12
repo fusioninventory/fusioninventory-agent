@@ -12,10 +12,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $unit = 1024;
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
+    my $unit = 1024;
     my $PhysicalMemory;
     my $SwapFileSize;
 
@@ -31,10 +31,10 @@ sub doInventory {
     }
 
     # TODO
-    $inventory->setHardware({
-        MEMORY =>  sprintf("%i",$PhysicalMemory/$unit),
-        SWAP =>    sprintf("%i", $SwapFileSize/$unit),
-    });
+    $inventory->setHardware(
+        MEMORY => sprintf("%i", $PhysicalMemory/$unit),
+        SWAP   => sprintf("%i", $SwapFileSize/$unit),
+    );
 }
 
 1;

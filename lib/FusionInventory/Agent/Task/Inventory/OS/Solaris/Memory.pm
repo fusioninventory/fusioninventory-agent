@@ -6,16 +6,16 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run ("memconf");
+    return can_run('memconf');
 }
 
 sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $model;
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
-
     my $capacity;
     my $description;
     my $numslots;

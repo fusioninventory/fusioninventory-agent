@@ -4,10 +4,9 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    my $params = shift;
+    my (%params) = @_;
 
-    return 
-        $params->{config}->{'no-software'} ? 0 : 1;
+    return !$params{no_software};
 }
 
 sub doInventory { }

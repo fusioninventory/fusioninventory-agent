@@ -10,7 +10,7 @@ use XML::TreePP;
 use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
 
-plan tests => 7;
+plan tests => 9;
 
 my $inventory;
 throws_ok {
@@ -25,13 +25,12 @@ lives_ok {
 
 isa_ok($inventory, 'FusionInventory::Agent::XML::Query::Inventory');
 
-my $tpp = XML::TreePP->new();
+my $tpp = XML::TreePP->new(force_array => [ qw/SOFTWARES CPUS DRIVES/ ]);
 my $content;
 
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
@@ -51,6 +50,10 @@ is_deeply(
     'creation content'
 );
 
+$inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+    deviceid => 'foo',
+);
+
 $inventory->addCPU({
     NAME => 'void CPU',
     SPEED => 1456,
@@ -63,11 +66,10 @@ $inventory->addCPU({
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
-                CHECKSUM => 4097,
+                CHECKSUM => 262143,
                 PROCESSORN => 1,
                 PROCESSORS => 1456,
                 PROCESSORT => 'void CPU',
@@ -75,14 +77,16 @@ $content = {
             },
             NETWORKS => undef,
             VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
-            CPUS => {
-                CORE => 1,
-                MANUFACTURER => 'FusionInventory Developers',
-                NAME => 'void CPU',
-                SERIAL => 'AEZVRV',
-                SPEED => 1456,
-                THREAD => 3,
-            }
+            CPUS => [
+                {
+                    CORE => 1,
+                    MANUFACTURER => 'FusionInventory Developers',
+                    NAME => 'void CPU',
+                    SERIAL => 'AEZVRV',
+                    SPEED => 1456,
+                    THREAD => 3,
+                }
+            ]
         },
         DEVICEID => 'foo',
         QUERY => 'INVENTORY'
@@ -92,6 +96,10 @@ is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
     'CPU added'
+);
+
+$inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+    deviceid => 'foo',
 );
 
 $inventory->addDrive({
@@ -106,34 +114,24 @@ $inventory->addDrive({
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
-                CHECKSUM => 513,
-                PROCESSORN => 1,
-                PROCESSORS => 1456,
-                PROCESSORT => 'void CPU',
+                CHECKSUM => 262143,
                 VMSYSTEM => 'Physical'
             },
             NETWORKS => undef,
             VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
-            CPUS => {
-                CORE => 1,
-                MANUFACTURER => 'FusionInventory Developers',
-                NAME => 'void CPU',
-                SERIAL => 'AEZVRV',
-                SPEED => 1456,
-                THREAD => 3,
-            },
-            DRIVES => {
-                FILESYSTEM => 'ext3',
-                FREE => 9120,
-                SERIAL => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
-                TOTAL => 18777,
-                TYPE => '/',
-                VOLUMN => '/dev/sda2'
-            }
+            DRIVES => [
+                {
+                    FILESYSTEM => 'ext3',
+                    FREE => 9120,
+                    SERIAL => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
+                    TOTAL => 18777,
+                    TYPE => '/',
+                    VOLUMN => '/dev/sda2'
+                }
+            ]
         },
         DEVICEID => 'foo',
         QUERY => 'INVENTORY'
@@ -145,39 +143,23 @@ is_deeply(
     'drive added'
 );
 
+$inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+    deviceid => 'foo',
+);
+
 $inventory->addSoftwareDeploymentPackage({ ORDERID => '1234567891' });
 
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
-                CHECKSUM => 1,
-                PROCESSORN => 1,
-                PROCESSORS => 1456,
-                PROCESSORT => 'void CPU',
+                CHECKSUM => 262143,
                 VMSYSTEM => 'Physical'
             },
             NETWORKS => undef,
             VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
-            CPUS => {
-                CORE => 1,
-                MANUFACTURER => 'FusionInventory Developers',
-                NAME => 'void CPU',
-                SERIAL => 'AEZVRV',
-                SPEED => 1456,
-                THREAD => 3,
-            },
-            DRIVES => {
-                FILESYSTEM => 'ext3',
-                FREE => 9120,
-                SERIAL => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
-                TOTAL => 18777,
-                TYPE => '/',
-                VOLUMN => '/dev/sda2'
-            },
             DOWNLOAD => {
                 HISTORY => {
                     PACKAGE => {
@@ -193,5 +175,78 @@ $content = {
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
+    'software deployment added'
+);
+
+$inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+    deviceid => 'foo',
+);
+
+$inventory->addSoftware({
+    NAME        => 'glibc',
+    VERSION     => '2.12.1',
+    INSTALLDATE => 'Wed Nov 24 22:48:21 2010',
+    FILESIZE    => '25020674',
+    COMMENTS    => 'The GNU libc libraries',
+    FROM        => 'rpm'
+});
+
+$content = {
+    REQUEST => {
+        CONTENT => {
+            BIOS => undef,
+            HARDWARE => {
+                ARCHNAME => $Config{archname},
+                CHECKSUM => 262143,
+                VMSYSTEM => 'Physical'
+            },
+            NETWORKS => undef,
+            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
+            SOFTWARES => [
+                {
+                    NAME        => 'glibc',
+                    VERSION     => '2.12.1',
+                    INSTALLDATE => 'Wed Nov 24 22:48:21 2010',
+                    FILESIZE    => '25020674',
+                    COMMENTS    => 'The GNU libc libraries',
+                    FROM        => 'rpm'
+                }
+            ]
+        },
+        DEVICEID => 'foo',
+        QUERY => 'INVENTORY'
+    }
+};
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
     'software added'
+);
+
+$inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+    deviceid => 'foo',
+);
+
+$inventory->addSoftware({
+    NAME        => 'glibc',
+    VERSION     => '2.12.1',
+    INSTALLDATE => 'Wed Nov 24 22:48:21 2010',
+    FILESIZE    => '25020674',
+    COMMENTS    => 'The GNU libc libraries',
+    FROM        => 'rpm'
+});
+
+$inventory->addSoftware({
+    NAME        => 'glibc',
+    VERSION     => '2.12.1',
+    INSTALLDATE => 'Wed Nov 24 22:48:21 2010',
+    FILESIZE    => '25020674',
+    COMMENTS    => 'The GNU libc libraries',
+    FROM        => 'rpm'
+});
+
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'duplicated software added'
 );

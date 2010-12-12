@@ -71,9 +71,9 @@ my @memoryErrorProtection = (
 );
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
 
     my $cpt = 0;
     my @memories;

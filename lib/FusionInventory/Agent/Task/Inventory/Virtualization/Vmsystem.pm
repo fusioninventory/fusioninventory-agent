@@ -55,9 +55,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # return immediatly if vm type has already been found
     return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
@@ -99,10 +100,10 @@ sub doInventory {
             # domU PV host
             $status = "Xen";
             # those information can't be extracted from dmidecode
-            $inventory->setBios ({
+            $inventory->setBios(
                 SMANUFACTURER => 'Xen',
                 SMODEL => 'PVM domU'
-            });
+            );
         }
     }
 
@@ -215,9 +216,9 @@ sub doInventory {
     }
 
     if ($status) {
-        $inventory->setHardware ({
-                VMSYSTEM => $status,
-            });
+        $inventory->setHardware(
+            VMSYSTEM => $status,
+        );
     }
 }
 

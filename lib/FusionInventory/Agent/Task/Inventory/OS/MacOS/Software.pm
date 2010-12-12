@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::MacOS::Packages;
+package FusionInventory::Agent::Task::Inventory::OS::MacOS::Software;
 
 use strict;
 use warnings;
@@ -6,18 +6,17 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my $params = shift;
+    my (%params) = @_;
 
-    return unless can_load("Mac::SysProfile");
-    # Do not run an package inventory if there is the --nosoft parameter
-    return if ($params->{config}->{nosoft});
-
-    1;
+    return
+        !$params{no_software} &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $prof = Mac::SysProfile->new();
     my $apps = $prof->gettype('SPApplicationsDataType'); # might need to check version of darwin

@@ -20,16 +20,16 @@ my %unitMatrice = (
 );
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my %fs;
     foreach my $line (`mount`) {
         next unless $line =~ /\S+ on \S+ \((\S+),/;
-	next if $1 eq 'fdesc';
-	next if $1 eq 'devfs';
+        next if $1 eq 'fdesc';
+        next if $1 eq 'devfs';
         $fs{$1}++;
     }
 

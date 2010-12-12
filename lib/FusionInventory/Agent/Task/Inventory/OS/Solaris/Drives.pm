@@ -13,13 +13,14 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
-    return can_run ("df");
+    return can_run('df');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my @drives =
         # exclude solaris 10 specific devices

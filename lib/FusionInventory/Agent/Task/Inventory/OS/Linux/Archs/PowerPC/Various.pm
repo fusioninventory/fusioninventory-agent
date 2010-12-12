@@ -7,11 +7,14 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled { 1 };
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $SystemSerial = getSingleLine(file => '/proc/device-tree/serial-number');
     $SystemSerial =~ s/[^\,^\.^\w^\ ]//g; # I remove some unprintable char
@@ -34,13 +37,13 @@ sub doInventory {
         $SystemManufacturer = "Apple Computer, Inc." 
     }
 
-    $inventory->setBios ({
+    $inventory->setBios(
         SMANUFACTURER => $SystemManufacturer,
         SMODEL        => $SystemModel,
         SSN           => $SystemSerial,
         BMANUFACTURER => $BiosManufacturer,
         BVERSION      => $BiosVersion,
-    });
+    );
 
 }
 

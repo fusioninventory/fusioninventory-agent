@@ -6,13 +6,14 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("ifconfig");
+    return can_run('ifconfig');
 }
 
 # Initialise the distro entry
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
     my @ip;
 
     #Looking for ip addresses with ifconfig, except loopback
@@ -22,7 +23,7 @@ sub doInventory {
         if(/^\s*inet\s+(\S+).*/){($1=~/127.+/)?next:push @ip, $1};
     }
     my $ip=join "/", @ip;
-    $inventory->setHardware({IPADDR => $ip});
+    $inventory->setHardware(IPADDR => $ip);
 }
 
 1;

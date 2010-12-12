@@ -14,8 +14,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # Operating system informations
     my $OSName = getSingleLine(command => 'uname -s');
@@ -27,11 +28,11 @@ sub doInventory {
     my $OSComment = "Maintenance Level : $tabOS[1]";
 
     $OSVersion =~ s/(.0)*$//;
-    $inventory->setHardware({
-        OSNAME => "$OSName $OSVersion",
+    $inventory->setHardware(
+        OSNAME     => "$OSName $OSVersion",
         OSCOMMENTS => $OSComment,
-        OSVERSION => $OSLevel,
-    });
+        OSVERSION  => $OSLevel,
+    );
 }
 
 1;

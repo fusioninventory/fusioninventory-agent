@@ -8,13 +8,14 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("pkg_info");
+    return can_run('pkg_info');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $command = 'pkg_info';
     my $packages = _getPackagesFromPkgInfo(

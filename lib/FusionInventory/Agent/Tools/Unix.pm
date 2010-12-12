@@ -119,7 +119,11 @@ sub _parseDhcpLeaseFile {
             $line =~
             /expire \s+ \d \s+ (\d+)\/(\d+)\/(\d+) \s+ (\d+):(\d+):(\d+)/x
         ) {
-            $expiration_time = timelocal($6, $5, $4, $3, $2, $1);
+            my ($year, $mon, $day, $hour, $min, $sec)
+                = ($1, $2, $3, $4, $5, $6);
+            # warning, expected ranges is 0-11, not 1-12
+            $mon = $mon - 1;
+            $expiration_time = timelocal($sec, $min, $hour, $day, $mon, $year);
         }
     }
     close $handle;

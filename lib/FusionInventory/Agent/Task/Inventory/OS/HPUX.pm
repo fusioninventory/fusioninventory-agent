@@ -14,8 +14,10 @@ sub isInventoryEnabled  {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # Operating system informations
     my $OSName    = getSingleLine(command => 'uname -s');  # It should always be "HP-UX"
@@ -40,13 +42,13 @@ sub doInventory {
 #TODO add grep `hostname` /etc/hosts
 
 
-    $inventory->setHardware({
-        OSNAME => $OSName,
-        OSVERSION => $OSVersion . ' ' . $OSLicense,
-        OSCOMMENTS => $OSRelease,
-        LASTLOGGEDUSER => $LastLoggedUser,
+    $inventory->setHardware(
+        OSNAME             => $OSName,
+        OSVERSION          => $OSVersion . ' ' . $OSLicense,
+        OSCOMMENTS         => $OSRelease,
+        LASTLOGGEDUSER     => $LastLoggedUser,
         DATELASTLOGGEDUSER => $LastLogDate
-    });
+    );
 
 }
 

@@ -8,17 +8,18 @@ use FusionInventory::Agent::Tools;
 use constant DATATYPE => 'SPPrintersDataType';
 
 sub isInventoryEnabled {
+    my (%params) = @_;
+
     return 
+        !$params{no_printer} &&
         -r '/usr/sbin/system_profiler' &&
         can_load("Mac::SysProfile");
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $config = $params->{config};
+    my (%params) = @_;
 
-    return if $config->{'no-printer'};
+    my $inventory = $params{inventory};
 
     my $pro = Mac::SysProfile->new();
     my $h = $pro->gettype(DATATYPE());
@@ -27,13 +28,13 @@ sub doInventory {
     foreach my $printer (keys %$h){
         if ($printer && $printer =~ /^The printers list is empty. To add printers/) {
 #http://forge.fusioninventory.org/issues/169
-                next;
+            next;
         }
 
         $inventory->addPrinter({
-                NAME    => $printer,
-                DRIVER  => $h->{$printer}->{'PPD'},
-		PORT	=> $h->{$printer}->{'URI'},
+            NAME    => $printer,
+            DRIVER  => $h->{$printer}->{'PPD'},
+            PORT    => $h->{$printer}->{'URI'},
         });
     }
 

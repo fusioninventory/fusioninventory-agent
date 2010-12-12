@@ -11,16 +11,17 @@ use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return 
-        can_run("ifconfig") &&
-        can_run("route") &&
+        can_run('ifconfig') &&
+        can_run('route') &&
         can_load("Net::IP");
 }
 
 # Initialise the distro entry
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $routes;
     foreach my $line (`route -n`) {
@@ -30,9 +31,9 @@ sub doInventory {
     }
 
     if ($routes->{'0.0.0.0'}) {
-        $inventory->setHardware({
+        $inventory->setHardware(
             DEFAULTGATEWAY => $routes->{'0.0.0.0'}
-        });
+        );
     }
 
     my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
@@ -53,7 +54,7 @@ sub doInventory {
         }
 
         my ($driver, $pcislot) = _getUevent(
-            $params->{logger},
+            $logger,
             $interface->{DESCRIPTION}
         );
         $interface->{DRIVER} = $driver if $driver;
@@ -78,7 +79,9 @@ sub doInventory {
         map { $_->{IPADDRESS} }
         @$interfaces;
 
-    $inventory->setHardware({IPADDR => join('/', @ip_addresses)});
+    $inventory->setHardware(
+        IPADDR => join('/', @ip_addresses)
+    );
 }
 
 sub _parseIfconfig {
@@ -154,7 +157,7 @@ sub _getVirtualDev {
     if (-d "/sys/devices/virtual/net/") {
         $virtualdev = -d "/sys/devices/virtual/net/$name" ? 1 : 0;
     } else {
-        if (can_run("brctl")) {
+        if (can_run('brctl')) {
             # Let's guess
             my %bridge;
             foreach (`brctl show`) {

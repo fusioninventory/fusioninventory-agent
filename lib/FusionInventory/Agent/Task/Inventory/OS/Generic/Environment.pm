@@ -11,8 +11,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     foreach my $key (keys %ENV) {
         # they are modified during task execution

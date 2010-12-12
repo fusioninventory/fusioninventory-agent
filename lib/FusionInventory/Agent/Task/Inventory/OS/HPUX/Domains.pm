@@ -8,12 +8,13 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run ("domainname");
+    return can_run('domainname');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $domain = getSingleLine(command => 'domainname');
 
@@ -31,9 +32,9 @@ sub doInventory {
         $domain = join "/", keys %domain;
     }
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         WORKGROUP => $domain
-    });
+    );
 }
 
 1;

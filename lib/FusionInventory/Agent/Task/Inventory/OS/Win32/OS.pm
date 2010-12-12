@@ -20,9 +20,9 @@ use FusionInventory::Agent::Tools::Win32;
 
 sub getXPkey {
     my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ } )
-	or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
+        or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
     my $key     =
-	$machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+        $machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
 
     if (!$key) { # 64bit OS?
         $machKey = $Registry->Open('LMachine', { Access=> KEY_READ |KEY_WOW64_64 } )
@@ -80,18 +80,18 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
         OSLanguage Caption Version SerialNumber Organization RegisteredUser
         CSDVersion TotalSwapSpaceSize
         /)) {
 
-        my $key = getXPkey(); 
+        my $key = getXPkey();
 
-        $inventory->setHardware({
+        $inventory->setHardware(
             WINLANG => $Properties->{OSLanguage},
             OSNAME => $Properties->{Caption},
             OSVERSION =>  $Properties->{Version},
@@ -101,7 +101,7 @@ sub doInventory {
             WINOWNER => $Properties->{RegistredUser},
             OSCOMMENTS => $Properties->{CSDVersion},
             SWAP => int(($Properties->{TotalSwapSpaceSize}||0)/(1024*1024)),
-        });
+        );
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
@@ -117,13 +117,13 @@ sub doInventory {
         my $winowner = $Properties->{PrimaryOwnerName};
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
-        $inventory->setHardware({
-            MEMORY => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
+        $inventory->setHardware(
+            MEMORY     => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
             USERDOMAIN => $userdomain,
-            WORKGROUP => $workgroup,
-            WINOWNER => $winowner,
-            NAME => $Properties->{Name},
-        });
+            WORKGROUP  => $workgroup,
+            WINOWNER   => $winowner,
+            NAME       => $Properties->{Name},
+        );
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystemProduct', qw/
@@ -133,9 +133,9 @@ sub doInventory {
         my $uuid = $Properties->{UUID};
         $uuid = '' if $uuid =~ /^[0-]+$/;
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
-        $inventory->setHardware({
+        $inventory->setHardware(
             UUID => $uuid,
-        });
+        );
 
     }
 }

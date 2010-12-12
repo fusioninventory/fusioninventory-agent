@@ -9,18 +9,18 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
 
-    my $isWin2003;
+    eval {
+        # don't run dmidecode on Win2003
+        # http://forge.fusioninventory.org/issues/379
+        require Win32;
+        my @osver = Win32::GetOSVersion();
+        return if
+            $osver[4] == 2 &&
+            $osver[1] == 5 &&
+            $osver[2] == 2;
+    };
 
-    eval '
-	use Win32;
-    my(@osver) = Win32::GetOSVersion();
-    $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
-    ';
-
-# http://forge.fusioninventory.org/issues/379
-    return if $isWin2003;
-
-    return unless can_run("dmidecode");
+    return unless can_run('dmidecode');
 
     my @output = `dmidecode`;
     return @output > 10;

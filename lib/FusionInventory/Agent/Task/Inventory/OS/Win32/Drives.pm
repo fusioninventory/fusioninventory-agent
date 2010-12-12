@@ -20,9 +20,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $logger = $params->{logger};
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $systemDrive = '';
     foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/

@@ -12,9 +12,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory { 
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
 
     if ( `uname -m` =~ /ia64/ ) {
         for ( `echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm` ) {
@@ -24,7 +24,10 @@ sub doInventory {
                 my $TotalMemSize = $1;
                 my $TotalSwapSize = `swapinfo -dt | tail -n1`;
                 $TotalSwapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
-                $inventory->setHardware({ MEMORY =>  $TotalMemSize, SWAP =>    sprintf("%i", $TotalSwapSize/1024), });
+                $inventory->setHardware(
+                    MEMORY => $TotalMemSize,
+                    SWAP   => sprintf("%i", $TotalSwapSize/1024)
+                );
             } elsif ( /(\w+IMM)\s+(\w+)\s+(\d+|\-+)\s+(\w+IMM)\s+(\w+)\s+(\d+|\-+)/ ) {
                 $inventory->addMemory({
                         CAPACITY => $3,

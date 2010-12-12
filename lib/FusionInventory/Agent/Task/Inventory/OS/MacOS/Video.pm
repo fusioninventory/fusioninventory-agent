@@ -14,8 +14,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # run the profiler to get our datatype
     my $pro = Mac::SysProfile->new();

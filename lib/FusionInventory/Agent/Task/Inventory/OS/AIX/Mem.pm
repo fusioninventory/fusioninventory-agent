@@ -7,15 +7,15 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("lsdev") ||
-        can_run("which") ||
-        can_run("lsattr");
+        can_run('lsdev') ||
+        can_run('which') ||
+        can_run('lsattr');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
     my $memory;
     my $swap;
 
@@ -46,10 +46,10 @@ sub doInventory {
         }
     }
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         MEMORY => $memory,
         SWAP => $swap 
-    });
+    );
 
 }
 

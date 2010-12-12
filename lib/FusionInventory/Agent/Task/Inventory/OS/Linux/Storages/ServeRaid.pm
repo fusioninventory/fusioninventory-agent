@@ -13,26 +13,14 @@ use FusionInventory::Agent::Tools;
 # IBM ServeRAID-6i
 
 sub isInventoryEnabled {
-
-    my $ret = 0;
-
-    # Do we have ipssend installed ?
-    if (can_run("ipssend")) {
-        foreach (`ipssend GETVERSION 2>/dev/null`) {
-            if (/.*ServeRAID Controller Number\s(\d*).*/) {
-                $ret = $1;
-                last;
-            } 
-        }
-    }
-    return $ret;
+    return can_run('ipssend');
 }
 
 sub doInventory {
+    my (%params) = @_;
 
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
     my $slot;
 
     $logger->debug("ServeRaid: ipssend GETVERSION");
@@ -71,11 +59,11 @@ sub doInventory {
 #         Device ID                : IBM-ESXSCBR036C3DFQDB2Q6CDKM
 #         FRU part number          : 32P0729
 
-                $channel 	= $1 if /.*Channel #(.*):/;
-                $scsi		= $1 if /.*SCSI ID.*:\s(.*)/;
-                $state		= $1 if /.*State.*\((.*)\)/;		
-                $capacity	= $1 if /.*Size.*:\s(\d*)\/(\d*)/;
-                $serial 	= $1 if /.*Device ID.*:\s(.*)/;
+                $channel        = $1 if /.*Channel #(.*):/;
+                $scsi           = $1 if /.*SCSI ID.*:\s(.*)/;
+                $state          = $1 if /.*State.*\((.*)\)/;            
+                $capacity       = $1 if /.*Size.*:\s(\d*)\/(\d*)/;
+                $serial         = $1 if /.*Device ID.*:\s(.*)/;
 
                 if (/.*FRU part number.*:\s(.*)/) {
                     my $model = $1;
@@ -85,20 +73,20 @@ sub doInventory {
                     $logger->debug("ServeRaid: found $model, $manufacturer, $model, SCSI, disk, $capacity, $serial, ");
 
                     $inventory->addStorage({
-                        NAME 		=> "$manufacturer $model",
-                        MANUFACTURER 	=> $manufacturer,
-                        MODEL 		=> $model,
-                        DESCRIPTION 	=> "SCSI",
-                        TYPE 		=> "disk",
-                        DISKSIZE 	=> $capacity,
-                        SERIALNUMBER 	=> $serial,
-                        FIRMWARE 	=> ""}
+                        NAME            => "$manufacturer $model",
+                        MANUFACTURER    => $manufacturer,
+                        MODEL           => $model,
+                        DESCRIPTION     => "SCSI",
+                        TYPE            => "disk",
+                        DISKSIZE        => $capacity,
+                        SERIALNUMBER    => $serial,
+                        FIRMWARE        => ""}
                     ); 
 
                     # don't undef $channel, appear only once for several drive.
                     $scsi = $state = $capacity = $serial = undef;
                 }
-            }			
+            }
         }
     }
 }

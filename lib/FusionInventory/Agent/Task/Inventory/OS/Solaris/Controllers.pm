@@ -4,19 +4,20 @@ use strict;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run ("cfgadm");
+    return can_run('cfgadm');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $name;
     my $type;
     my $manufacturer;
 
     foreach(`cfgadm -s cols=ap_id:type:info`){
-        next if (/^Ap_Id/); 	
+        next if (/^Ap_Id/);
         if(/^(\S+)\s+/){
             $name = $1;
         }
@@ -26,12 +27,12 @@ sub doInventory {
 #No manufacturer, but informations about controller
         if(/^\S+\s+\S+\s+(\S+)/){
             $manufacturer = $1;
-        }   			
+        }
         $inventory->addController({
-                'NAME'          => $name,
-                'MANUFACTURER'  => $manufacturer,
-                'TYPE'          => $type,
-            });
+            'NAME'          => $name,
+            'MANUFACTURER'  => $manufacturer,
+            'TYPE'          => $type,
+        });
     }
 }
 1

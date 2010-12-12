@@ -3,21 +3,6 @@ package FusionInventory::Agent::Task;
 use strict;
 use warnings;
 
-sub new {
-    my ($class, %params) = @_;
-
-    my $self = {
-        logger      => $params{logger},
-        config      => $params{config},
-        confdir     => $params{confdir},
-        datadir     => $params{datadir},
-    };
-
-    bless $self, $class;
-
-    return $self;
-}
-
 sub getPrologResponse {
     my ($self, %params) = @_;
 
@@ -31,7 +16,10 @@ sub getPrologResponse {
         $prolog->setAccountInfo(TAG => $params{tag});
     }
 
-    return $params{transmitter}->send(message => $prolog);
+    return $params{transmitter}->send(
+        message => $prolog,
+        url     => $params{url}
+    );
 }
 
 sub main {
@@ -63,8 +51,6 @@ hash:
 =item I<logger>
 
 the logger object to use (default: a new stderr logger)
-
-=item I<config>
 
 =item I<target>
 

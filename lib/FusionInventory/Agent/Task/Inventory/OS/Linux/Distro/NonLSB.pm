@@ -52,16 +52,17 @@ sub _findRelease {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $OSComment = `uname -v`;
     chomp $OSComment;
 
-    $inventory->setHardware({ 
+    $inventory->setHardware(
         OSNAME     => _findRelease(),
         OSCOMMENTS => $OSComment
-    });
+    );
 }
 
 1;

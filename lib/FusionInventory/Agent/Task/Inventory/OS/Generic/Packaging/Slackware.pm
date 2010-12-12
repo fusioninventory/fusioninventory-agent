@@ -6,13 +6,13 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("pkgtool");
+    return can_run('pkgtool');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
 
     opendir my $handle, '/var/log/packages/';
     while (my $file = readdir($handle)) {

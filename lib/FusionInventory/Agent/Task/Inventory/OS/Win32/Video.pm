@@ -10,9 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
 
     foreach my $Properties (getWmiProperties('Win32_VideoController', qw/
         CurrentHorizontalResolution CurrentVerticalResolution VideoProcessor

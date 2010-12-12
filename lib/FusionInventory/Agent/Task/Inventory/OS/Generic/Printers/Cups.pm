@@ -6,18 +6,19 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
+    my (%params) = @_;
+
     return 
+        !$params{no_printer} &&
         can_load("Net::CUPS") &&
         $Net::CUPS::VERSION >= 0.60;
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger}; 
-    my $config = $params->{config};
+    my (%params) = @_;
 
-    return if $config->{'no-printer'};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $cups = Net::CUPS->new();
     my @printers = $cups->getDestinations();

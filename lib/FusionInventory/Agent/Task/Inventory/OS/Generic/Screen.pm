@@ -13,9 +13,9 @@ sub isInventoryEnabled {
 
     return
         $OSNAME eq 'MSWin32'                  ||
-        can_run("monitor-get-edid-using-vbe") ||
-        can_run("monitor-get-edid")           ||
-        can_run("get-edid");
+        can_run('monitor-get-edid-using-vbe') ||
+        can_run('monitor-get-edid')           ||
+        can_run('get-edid');
 }
 
 sub _getScreens {
@@ -93,9 +93,10 @@ sub _getScreens {
 
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $screen (_getScreens($logger)) {
 

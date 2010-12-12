@@ -12,11 +12,14 @@ use FusionInventory::Agent::Tools;
 Win32::OLE->Option(CP=>CP_UTF8);
 
 # http://techtasks.com/code/viewbookcode/1417
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $strComputer = '.';
     my $objWMIService = Win32::OLE->GetObject('winmgmts:' . '{impersonationLevel=impersonate}!\\\\' . $strComputer . '\\root\\cimv2');
@@ -136,14 +139,12 @@ sub doInventory {
     }
 
 
-  $inventory->setHardware({
-
-          DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
-          DNS =>  join('/', keys %dns),
-          IPADDR =>  join('/',@ips),
-
-    });
-
+    $inventory->setHardware(
+        DEFAULTGATEWAY => join('/', keys %defaultgateways),
+        DNS            => join('/', keys %dns),
+        IPADDR         => join('/', @ips),
+    );
 
 }
+
 1;

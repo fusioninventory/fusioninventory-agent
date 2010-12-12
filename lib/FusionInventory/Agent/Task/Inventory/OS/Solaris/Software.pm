@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Solaris::Packages;
+package FusionInventory::Agent::Task::Inventory::OS::Solaris::Software;
 
 use strict;
 use warnings;
@@ -6,17 +6,17 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my $params = shift;
+    my (%params) = @_;
 
-    # Do not run an package inventory if there is the --nosoft parameter
-    return if ($params->{config}->{nosoft});
-
-    can_run("pkginfo");
+    return 
+        !$params{no_software} &&
+        can_run('pkginfo');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
     my $chaine ;
     my @tab;
 

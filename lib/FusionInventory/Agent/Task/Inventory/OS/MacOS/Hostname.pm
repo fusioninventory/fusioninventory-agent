@@ -11,8 +11,10 @@ sub isInventoryEnabled {
 
 # Initialise the distro entry
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $hostname;
 
@@ -23,7 +25,7 @@ sub doInventory {
 
     $hostname = $nfo->{'System Software Overview'}->{'Computer Name'};
 
-    $inventory->setHardware ({NAME => $hostname}) if $hostname;
+    $inventory->setHardware(NAME => $hostname) if $hostname;
 }
 
 1;

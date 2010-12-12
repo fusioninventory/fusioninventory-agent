@@ -6,12 +6,13 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("lsb_release");
+    return can_run('lsb_release');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $release;
     foreach (`lsb_release -d`) {
@@ -19,12 +20,10 @@ sub doInventory {
     }
     my $OSComment = getSingleLine(command => 'uname -v');
 
-    $inventory->setHardware({ 
-        OSNAME => $release,
-        OSCOMMENTS => "$OSComment"
-    });
+    $inventory->setHardware(
+        OSNAME     => $release,
+        OSCOMMENTS => $OSComment
+    );
 }
-
-
 
 1;

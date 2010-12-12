@@ -10,13 +10,14 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
-    my %info;  
+    my %info;
 
     my $ifname;
     foreach (`lscfg -v -l en*`) {
@@ -42,7 +43,7 @@ sub doInventory {
 #    #@lsattr=`lsattr -EOl $1 -a 'adapter_names mode netaddr'`;
 #    foreach (`lsattr -EOl $tmpifname`) {
 #      if (/(.+):(.+):(.*)/) {
-#	$info{$ifname}{type}="EtherChannel with : ".$1." (mode :".$2.", ping :".$3.")";
+#       $info{$ifname}{type}="EtherChannel with : ".$1." (mode :".$2.", ping :".$3.")";
 #      }
 #    }
 #    $info{$ifname}{status} = 'Down'; # The same
@@ -65,7 +66,7 @@ sub doInventory {
     foreach (`netstat -rn`) {
         if (/\S+\s+(\S+)\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
             my $ifname = $2;
-            my $gateway = $1;	
+            my $gateway = $1;   
 
             if (exists ($info{$ifname})) { 
                 $info{$ifname}{gateway} = $gateway;
@@ -104,7 +105,7 @@ sub doInventory {
             MACADDR => $macaddr,
             STATUS => $status,
             TYPE => $type,
-        });		
+        });
     }
 }
 

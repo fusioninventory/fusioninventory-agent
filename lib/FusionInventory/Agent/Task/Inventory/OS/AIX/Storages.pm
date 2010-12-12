@@ -7,13 +7,14 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("lsdev") &&
-        can_run("lsattr");
+        can_run('lsdev') &&
+        can_run('lsattr');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my(@disques, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
 

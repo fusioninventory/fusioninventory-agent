@@ -20,12 +20,13 @@ use FusionInventory::Agent::Tools;
 
 
 sub isInventoryEnabled {
-    return can_run ("iostat");
+    return can_run('iostat');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $manufacturer;
     my $model;

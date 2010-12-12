@@ -10,8 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
     my $domain;
 
     #Domain name
@@ -30,9 +31,9 @@ sub doInventory {
     unless (defined($domain)){chomp($domain="WORKGROUP");}
     $domain=~s/^.\.(.)/$1/;
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         WORKGROUP => $domain
-    });
+    );
 
 }
 

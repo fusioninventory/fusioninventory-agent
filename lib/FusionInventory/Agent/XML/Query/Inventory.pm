@@ -5,10 +5,10 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 use Config;
+use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
 use Encode qw(encode);
-use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
@@ -60,31 +60,11 @@ sub new {
     my $self = $class->SUPER::new(%params);
 
     $self->{h}{QUERY} = ['INVENTORY'];
-    $self->{h}{CONTENT}{ACCESSLOG} = {};
-    $self->{h}{CONTENT}{BIOS} = {};
-    $self->{h}{CONTENT}{CONTROLLERS} = [];
-    $self->{h}{CONTENT}{CPUS} = [];
-    $self->{h}{CONTENT}{DRIVES} = [];
     $self->{h}{CONTENT}{HARDWARE} = {
         # TODO move that in a backend module
         ARCHNAME => [$Config{archname}],
         VMSYSTEM => ["Physical"] # Default value
     };
-    $self->{h}{CONTENT}{MONITORS} = [];
-    $self->{h}{CONTENT}{PORTS} = [];
-    $self->{h}{CONTENT}{SLOTS} = [];
-    $self->{h}{CONTENT}{STORAGES} = [];
-    $self->{h}{CONTENT}{SOFTWARES} = [];
-    $self->{h}{CONTENT}{USERS} = [];
-    $self->{h}{CONTENT}{VIDEOS} = [];
-    $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
-    $self->{h}{CONTENT}{SOUNDS} = [];
-    $self->{h}{CONTENT}{MODEMS} = [];
-    $self->{h}{CONTENT}{ENVS} = [];
-    $self->{h}{CONTENT}{UPDATES} = [];
-    $self->{h}{CONTENT}{USBDEVICES} = [];
-    $self->{h}{CONTENT}{BATTERIES} = [];
-    $self->{h}{CONTENT}{ANTIVIRUS} = [];
     $self->{h}{CONTENT}{VERSIONCLIENT} = [
         $FusionInventory::Agent::AGENT_STRING
     ];
@@ -96,41 +76,26 @@ sub new {
 }
 
 sub _addEntry {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
-    my $section = $params->{section};
-    my $values = $params->{values};
-    my $noDuplicated = $params->{noDuplicated};
+    my $section = $params{section};
+    my $entry   = $params{entry};
+    my $noDuplicated = $params{noDuplicated};
 
-    my $newEntry;
     my $fields = $fields{$section};
     die "Unknown section $section" unless $fields;
 
+    my $newEntry;
     foreach my $field (@$fields) {
-        next unless defined $values->{$field};
-        my $string = getSanitizedString($values->{$field});
-        $newEntry->{$field} = $string;
+        next unless defined $entry->{$field};
+        $newEntry->{$field} = getSanitizedString($entry->{$field});
     }
 
     # Don't create two time the same device
     if ($noDuplicated) {
-        ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$section}}) {
-            FIELD: foreach my $field (@$fields) {
-                # the field doesn't exist in any entry, no conclusion
-                next FIELD
-                    if !exists $entry->{$field} && !exists $newEntry->{$field};
-                # the field exists in only one entry, they differ
-                next ENTRY
-                    if  exists $entry->{$field} && !exists $newEntry->{$field};
-                next ENTRY
-                    if !exists $entry->{$field} && exists $newEntry->{$field};
-                # the field exists in both entries, they differ
-                next ENTRY
-                    if $entry->{$field} ne $newEntry->{$field};
-            }
-            # the entries are identical
-            return;
-        }
+        my $md5 = md5_base64(Dumper($newEntry));
+        return if $self->{seen}->{$section}->{$md5};
+        $self->{seen}->{$section}->{$md5} = 1;
     }
 
     push @{$self->{h}{CONTENT}{$section}}, $newEntry;
@@ -141,28 +106,28 @@ sub _addEntry {
 sub addController {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'CONTROLLERS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addModem {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'MODEMS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addDrive {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'DRIVES',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addStorage {
@@ -173,93 +138,90 @@ sub addStorage {
         $values->{SERIALNUMBER} = $values->{SERIAL}
     }
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'STORAGES',
-        values  => $values,
-    });
+        entry   => $values,
+    );
 }
 
 sub addMemory {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'MEMORIES',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addPort {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'PORTS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addSlot {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'SLOTS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addSoftware {
     my ($self, $args) = @_;
 
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'SOFTWARES',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
-    });
+    );
 }
 
 sub addMonitor {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'MONITORS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addVideo {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'VIDEOS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
-    });
-
+    );
 }
 
 sub addSound {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'SOUNDS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addNetwork {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'NETWORKS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
-    });
+    );
 }
 
 sub setHardware {
-    my ($self, $args, $nonDeprecated) = @_;
-
-    my $logger = $self->{logger};
+    my ($self, %params) = @_;
 
     foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
         PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
@@ -267,53 +229,42 @@ sub setHardware {
         DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
         WINPRODKEY WINCOMPANY WINLANG/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
-        if (exists $args->{$key}) {
-            if ($key eq 'PROCESSORS' && !$nonDeprecated) {
-                $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
-            }
-            if ($key eq 'USERID' && !$nonDeprecated) {
-                $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
-            }
-
-            my $string = getSanitizedString($args->{$key});
-            $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
-        }
+        next unless $params{$key};
+        my $value = getSanitizedString($params{$key});
+        $self->{h}{CONTENT}{HARDWARE}{$key} = $value;
     }
 }
 
 sub setBios {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
     foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
         MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
         BIOSSERIAL TYPE SKUNUMBER/) {
-
-        if (exists $args->{$key}) {
-            my $string = getSanitizedString($args->{$key});
-            $self->{h}{CONTENT}{BIOS}{$key} = $string;
-        }
+        next unless $params{$key};
+        my $value = getSanitizedString($params{$key});
+        $self->{h}{CONTENT}{BIOS}{$key} = $value;
     }
 }
 
 sub addCPU {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'CPUS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 
     # For the compatibility with HARDWARE/PROCESSOR*
     my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
     my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED};
     my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME};
 
-    $self->setHardware ({
+    $self->setHardware(
         PROCESSORN => $processorn,
         PROCESSORS => $processors,
         PROCESSORT => $processort,
-    }, 1);
-
+    );
 }
 
 sub addUser {
@@ -321,11 +272,11 @@ sub addUser {
 
     return unless $args->{LOGIN};
 
-    return unless $self->_addEntry({
-        'section'      => 'USERS',
-        'values'       => $args,
-        'noDuplicated' => 1
-    });
+    return unless $self->_addEntry(
+        section      => 'USERS',
+        entry        => $args,
+        noDuplicated => 1
+    );
 
     # Compare with old system 
     my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID} || "";
@@ -345,19 +296,19 @@ sub addUser {
         $userString .= $login;
     }
 
-    $self->setHardware ({
-        USERID => $userString,
+    $self->setHardware(
+        USERID     => $userString,
         USERDOMAIN => $domainString,
-    }, 1);
+    );
 }
 
 sub addPrinter {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'PRINTERS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addVirtualMachine {
@@ -371,77 +322,76 @@ sub addVirtualMachine {
         $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
     }
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'VIRTUALMACHINES',
-        values  => $args,
-    });
-
+        entry   => $args,
+    );
 }
 
 sub addProcess {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'PROCESSES',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addInput {
     my ($self, $args) = @_;
 
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'INPUTS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addEnv {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'ENVS',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'USBDEVICES',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
-    });
+    );
 }
 
 sub addBattery {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'BATTERIES',
         values  => $args,
-    });
+    );
 }
 
 sub addRegistry {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'REGISTRY',
-        values  => $args,
-    });
+        entry   => $args,
+    );
 }
 
 sub addAntiVirus {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'ANTIVIRUS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
-    });
+    );
 }
 
 
@@ -477,21 +427,32 @@ sub getContent {
 
     $self->processChecksum();
 
-    #  checks for MAC, NAME and SSN presence
-    my $macaddr = $self->{h}->{CONTENT}->{NETWORKS}->[0]->{MACADDR};
-    my $ssn = $self->{h}->{CONTENT}->{BIOS}->{SSN};
-    my $name = $self->{h}->{CONTENT}->{HARDWARE}->{NAME};
-    my $uuid = $self->{h}->{CONTENT}->{HARDWARE}->{UUID};
+    my $missing = 0;
+    my $content = $self->{h}->{CONTENT};
 
-    my $missing;
-
-    $missing .= "MAC-address " unless $macaddr;
-    $missing .= "SSN " unless $ssn;
-    $missing .= "HOSTNAME " unless $name;
-    $uuid .= "UUID " unless $uuid;
+    if (!$content->{NETWORKS}->[0]->{MACADDR}) {
+        $logger->debug('Missing value: MAC address of first network card');
+        $missing++;
+    }
+    if (!$content->{BIOS}->{SSN}) {
+        $logger->debug('Missing value: serial number');
+        $missing++;
+    }
+    if (!$content->{HARDWARE}->{NAME}) {
+        $logger->debug('Missing value: hostname');
+        $missing++;
+    }
+    if (!$content->{HARDWARE}->{UUID}) {
+        $logger->debug('Missing value: UUID');
+        $missing++;
+    }
 
     if ($missing) {
-        $logger->debug('Missing value(s): '.$missing.'.  Important value(s) to identify the computer are missing. Depending on how the server identify duplicated machine, this may create zombie computer in your data base.');
+        $logger->debug(
+            'Important value(s) to identify the computer are missing. ' .
+            'Depending on how the server identify duplicated machine, ' .
+            'this may create zombie computer in your data base.'
+        );
     }
 
     return $self->SUPER::getContent();
@@ -604,11 +565,10 @@ sub processChecksum {
 
     my $checksum = 0;
 
-    my $tpp = XML::TreePP->new();
     foreach my $section (keys %mask) {
         #If the checksum has changed...
         my $hash =
-            md5_base64($tpp->write({ XML => $self->{h}{'CONTENT'}{$section} }));
+            md5_base64(Dumper($self->{h}{'CONTENT'}{$section}));
         if (
             !$self->{state}->{$section} ||
             $self->{state}->{$section} ne $hash
@@ -622,34 +582,8 @@ sub processChecksum {
         $self->{state}->{$section} = $hash;
     }
 
-  $self->setHardware({CHECKSUM => $checksum});
+  $self->setHardware(CHECKSUM => $checksum);
 
-}
-
-sub feedSection{
-    my ($self, $args) = @_;
-    my $tagname = $args->{tagname};
-    my $values = $args->{data};
-    my $logger = $self->{logger};
-
-    my $found=0;
-    for( keys %{$self->{h}{CONTENT}} ){
-        $found = 1 if $tagname eq $_;
-    }
-
-    if(!$found){
-        $logger->debug("Tag name `$tagname` doesn't exist - Cannot feed it");
-        return 0;
-    }
-
-    if( $self->{h}{CONTENT}{$tagname} =~ /ARRAY/ ){
-        push @{$self->{h}{CONTENT}{$tagname}}, $args->{data};
-    }
-    else{
-        $self->{h}{CONTENT}{$tagname} = $values;
-    }
-
-    return 1;
 }
 
 sub _loadState {
@@ -662,11 +596,11 @@ sub _loadState {
 sub saveState {
     my ($self) = @_;
 
-    $self->{storage}->save({
+    $self->{storage}->save(
         data => {
             state => $self->{state}
         }
-    });
+    );
 }
 
 1;
@@ -785,9 +719,6 @@ Add a registered Anti-Virus in the inventory.
 
 Save global information regarding the machine.
 
-The use of setHardware() to update USERID and PROCESSOR* informations is
-deprecated, please, use addUser() and addCPU() instead.
-
 =head2 setBios()
 
 Set BIOS informations.
@@ -820,12 +751,6 @@ is used to know where the file as to be saved.
 
 Compute the checksum of the inventory. This information is used by the server
 to know which information changed since the last inventory.
-
-=head2 feedSection()
-
-Add informations in inventory.
-
-# Q: is that really useful()? Can't we merge with addSection()?
 
 =head2 saveState()
 

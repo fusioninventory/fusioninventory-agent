@@ -15,28 +15,14 @@ use FusionInventory::Agent::Tools::Linux;
 # mpt-status version : 1.2.0
 
 sub isInventoryEnabled {
-
-    my $device;
-# Do we have smartctl ?
-    if (can_run('smartctl')) {
-        foreach my $node (glob("/dev/sd?")) {
-            foreach (`smartctl -i $node`) {
-                $device = $1 if /.*Device:\s(\w*).*/;
-            }
-        }
-	if (($device) && ($device eq 'LSILOGIC')) {
-		return 1;
-	}
-    }
-    return 0;
+    return can_run('smartctl');
 }
 
 sub doInventory {
+    my (%params) = @_;
 
-
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $serialnumber;
 

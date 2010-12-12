@@ -3,7 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::CPU;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { 1 }	 
+sub isInventoryEnabled {
+    return 1;
+}
 
 # try to simulate a modern lsattr output on AIX4
 sub _lsattrForAIX4 {
@@ -46,8 +48,9 @@ sub _lsattrForAIX4 {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # TODO Need to be able to register different CPU speed!
 
@@ -74,7 +77,6 @@ sub doInventory {
         }
 
         for (@lsattr) {
-
             if ( ! /^#/ && /(.+):(.+):(.+)/ ) {
                 $core++;
                 if ( ($3 % 1000000) >= 50000){
@@ -87,16 +89,13 @@ sub doInventory {
             }
         }
 
-
         $inventory->addCPU({
-                NAME => $name,
-                SPEED => $frequency,
-                CORE => $core,
-                THREAD => $thread
-
-            })
+            NAME => $name,
+            SPEED => $frequency,
+            CORE => $core,
+            THREAD => $thread
+        })
     }
-
 
 }
 

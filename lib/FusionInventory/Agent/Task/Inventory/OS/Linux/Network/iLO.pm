@@ -7,14 +7,15 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("hponcfg") &&
+        can_run('hponcfg') &&
         can_load("Net::IP");
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # import Net::IP functional interface
     Net::IP->import(':PROC');

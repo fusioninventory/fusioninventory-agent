@@ -13,10 +13,12 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
-    foreach my $cpu (_getCPUsFromProc($params->{logger})) {
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
         $inventory->addCPU($cpu);
     }
 

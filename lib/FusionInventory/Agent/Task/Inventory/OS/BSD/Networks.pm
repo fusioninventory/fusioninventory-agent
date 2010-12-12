@@ -11,15 +11,16 @@ use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return
-        can_run("ifconfig") && 
+        can_run('ifconfig') && 
         can_load("Net::IP");
 }
 
 # Initialise the distro entry
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # import Net::IP functional interface
     Net::IP->import(':PROC');
@@ -34,9 +35,9 @@ sub doInventory {
     }
 
     if ($ipgateway) {
-        $inventory->setHardware({
+        $inventory->setHardware(
             DEFAULTGATEWAY => $ipgateway
-        });
+        );
     }
 
     my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
@@ -70,7 +71,9 @@ sub doInventory {
         map { $_->{IPADDRESS} }
         @$interfaces;
 
-    $inventory->setHardware({IPADDR => join('/', @ip_addresses)});
+    $inventory->setHardware(
+        IPADDR => join('/', @ip_addresses)
+    );
 }
 
 sub _parseIfconfig {

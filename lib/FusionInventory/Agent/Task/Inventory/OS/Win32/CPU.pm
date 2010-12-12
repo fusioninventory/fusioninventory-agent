@@ -41,12 +41,15 @@ sub getCPUInfoFromRegistry {
 
 
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $serial;
     my $id;
@@ -60,12 +63,12 @@ sub doInventory {
 
 
     my @dmidecodeCpu;
-    if (!$isWin2003 && can_run("dmidecode")) {
+    if (!$isWin2003 && can_run('dmidecode')) {
         my $in;
         foreach (`dmidecode`) {
             if ($in && /^Handle/)  {
                 push @dmidecodeCpu, {serial => $serial, speed => $speed, id => $id};
-		$serial = $speed = $id = undef;
+                $serial = $speed = $id = undef;
                 $in = 0;
             }
 
@@ -134,20 +137,17 @@ sub doInventory {
             MANUFACTURER => $manufacturer,
             SERIAL => $serial,
             SPEED => $speed,
-	    ID => $id
+            ID => $id
         });
 
         $cpuId++;
     }
 
     if ($vmsystem) {
-        $inventory->setHardware ({
+        $inventory->setHardware(
             VMSYSTEM => $vmsystem 
-        });
+        );
     }
-
-
-
 
 }
 1;

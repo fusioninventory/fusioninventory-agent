@@ -14,8 +14,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # Basic operating system informations
     my $OSVersion = getSingleLine(command => 'uname -r');
@@ -38,17 +39,17 @@ sub doInventory {
         }
     }
 
-    if (can_run("lsb_release")) {
+    if (can_run('lsb_release')) {
         foreach (`lsb_release -d`) {
             $OSNAME = $1 if /Description:\s+(.+)/;
         }
     }
 
-    $inventory->setHardware({
-        OSNAME => $OSNAME,
+    $inventory->setHardware(
+        OSNAME     => $OSNAME,
         OSCOMMENTS => $OSComment,
-        OSVERSION => $OSVersion,
-    });
+        OSVERSION  => $OSVersion,
+    );
 }
 
 1;

@@ -3,11 +3,15 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Memory;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { 1 } # TODO create a better check here
+sub isInventoryEnabled {
+    # TODO create a better check here
+    return 1;
+}
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $capacity;
     my $description;
@@ -44,16 +48,15 @@ sub doInventory {
             $flag=0;
             $numslots = $numslots +1;
             $inventory->addMemory({
-                    CAPACITY => $capacity,	
-                    DESCRIPTION => $description,
-                    CAPTION => $caption,
-                    NUMSLOTS => $numslots,
-                    VERSION => $mversion,
-                    TYPE => $type,
-                    SERIALNUMBER=> $serial,	
-
-                })
-        }; 
+                CAPACITY => $capacity,
+                DESCRIPTION => $description,
+                CAPTION => $caption,
+                NUMSLOTS => $numslots,
+                VERSION => $mversion,
+                TYPE => $type,
+                SERIALNUMBER=> $serial,
+            })
+        };
     }
 
     $numslots = $numslots +1;

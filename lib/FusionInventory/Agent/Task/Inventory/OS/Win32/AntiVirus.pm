@@ -11,11 +11,9 @@ use Win32::OLE::Variant;
 use FusionInventory::Agent::Tools::Win32;
 
 sub doInventory {
-    my $params = shift;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-
-
+    my $inventory = $params{inventory};
 
     # Doesn't works on Win2003 Server
     my $WMIServices = Win32::OLE->GetObject(

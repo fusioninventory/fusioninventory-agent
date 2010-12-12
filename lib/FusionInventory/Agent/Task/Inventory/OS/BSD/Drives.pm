@@ -9,31 +9,31 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
-    return can_run("df");
+    return can_run('df');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my @drives;
-
 
     my %fsList = ( ffs => 1, ufs => 1);
 
     foreach (`mount`) {
-	if (/\ \((\S+?)[,\s\)]/) {
-	    my $fs = $1;
-	    next if $fs eq 'devfs';
-	    next if $fs eq 'procfs';
-	    next if $fs eq 'linprocfs';
-	    next if $fs eq 'linsysfs';
-	    next if $fs eq 'tmpfs';
-	    next if $fs eq 'fdescfs';
+        if (/\ \((\S+?)[,\s\)]/) {
+            my $fs = $1;
+            next if $fs eq 'devfs';
+            next if $fs eq 'procfs';
+            next if $fs eq 'linprocfs';
+            next if $fs eq 'linsysfs';
+            next if $fs eq 'tmpfs';
+            next if $fs eq 'fdescfs';
 
-	    $fsList{$fs} = 1;
-	}
+            $fsList{$fs} = 1;
+        }
     }
 
     foreach my $fs (keys %fsList) {
@@ -46,7 +46,7 @@ sub doInventory {
         foreach my $drive (@ffs_drives) {
             $drive->{FILESYSTEM} = $fs;
 
-	    $inventory->addDrive($drive);
+            $inventory->addDrive($drive);
         }
     }
 }

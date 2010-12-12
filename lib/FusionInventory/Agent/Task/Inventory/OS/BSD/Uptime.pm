@@ -11,8 +11,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $boottime = getSingleLine(command => 'sysctl -n kern.boottime');
     $boottime = $1 if $boottime =~ /sec\s*=\s*(\d+)/;
@@ -23,7 +25,9 @@ sub doInventory {
     $uptime = getFormatedGmTime($uptime);
 
     my $DeviceType = getSingleLine(command => 'uname -m');
-    $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
+    $inventory->setHardware(
+        DESCRIPTION => "$DeviceType/$uptime"
+    );
 }
 
 1;

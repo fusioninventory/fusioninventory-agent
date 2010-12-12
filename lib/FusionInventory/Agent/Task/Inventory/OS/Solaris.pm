@@ -14,9 +14,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # Operating system informations
     my $OSName = getSingleLine(command => 'uname -s');
@@ -37,12 +38,12 @@ sub doInventory {
     my $platform = getSingleLine(command => 'uname -i');
     my $HWDescription = "$platform($karch)/$proct HostID=$hostid";
 
-    $inventory->setHardware({
-        OSNAME => "$OSName $OSLevel",
-        OSCOMMENTS => $OSComment,
-        OSVERSION => $OSVersion,
+    $inventory->setHardware(
+        OSNAME      => "$OSName $OSLevel",
+        OSCOMMENTS  => $OSComment,
+        OSVERSION   => $OSVersion,
         DESCRIPTION => $HWDescription
-    });
+    );
 }
 
 1;

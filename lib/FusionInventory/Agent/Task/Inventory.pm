@@ -10,20 +10,37 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query::Inventory;
 
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = {
+        scan_homedirs => $params{scan_homedirs},
+        no_software   => $params{no_software},
+        no_printer    => $params{no_printer},
+        force         => $params{force},
+        timeout       => $params{timeout} || 180
+    };
+    bless $self, $class;
+
+    return $self;
+}
+
 sub run {
     my ($self, %params) = @_;
 
+    my $logger = $params{logger};
     my $target = $params{target};
 
     if ($target->isa('FusionInventory::Agent::Target::Server')) {
         my $response = $self->getPrologResponse(
             transmitter => $target->getTransmitter(),
+            url         => $target->getUrl(),
             deviceid    => $params{deviceid},
             token       => $params{token},
         );
 
         if (!$response) {
-            $self->{logger}->debug("No server response. Exiting...");
+            $logger->debug("No server response, aborting");
             return;
         }
 
@@ -33,10 +50,16 @@ sub run {
             ! $content->{RESPONSE} ||
             ! $content->{RESPONSE} eq 'SEND'
         ) {
-            $self->{logger}->debug(
-                "No inventory requested in the prolog, exiting"
-            );
-            return;
+            if (!$self->{force}) {
+                $logger->debug(
+                    "No inventory requested in the prolog, aborting"
+                );
+                return;
+            } else {
+                $logger->debug(
+                    "No inventory requested in the prolog, but forced by configuration"
+                );
+            }
         }
     }
 
@@ -48,15 +71,24 @@ sub run {
     }
 
     # initialize modules list
-    $self->_initModulesList(storage => $target->getStorage());
+    $self->_initModulesList(
+        logger  => $logger,
+        storage => $target->getStorage(),
+    );
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+        logger   => $logger,
         deviceid => $params{deviceid},
-        logger   => $self->{logger},
         storage  => $target->getStorage()
     );
 
-    $self->_feedInventory($inventory);
+    $self->_feedInventory(
+        logger    => $logger,
+        inventory => $inventory,
+        datadir   => $params{datadir},
+        confdir   => $params{confdir},
+        storage   => $target->getStorage()
+    );
 
     # restore original environnement, and complete inventory
     foreach my $key (qw/LC_ALL LANG/) {
@@ -92,7 +124,7 @@ sub run {
                     print $handle $inventory->getContentAsHTML();
                 }
                 close $handle;
-                $self->{logger}->info("Inventory saved in $file");
+                $logger->info("Inventory saved in $file");
             } else {
                 warn "Can't open $file: $ERRNO"
             }
@@ -103,7 +135,7 @@ sub run {
 
             # Add current ACCOUNTINFO values to the inventory
             $inventory->setAccountInfo(
-                $self->{target}->getAccountInfo()
+                $target->getAccountInfo()
             );
 
             my $response = $target->getTransmitter()->send(
@@ -122,7 +154,7 @@ sub run {
                 $content->{RESPONSE} eq 'ACCOUNT_UPDATE'
             ) {
                 # Update current ACCOUNTINFO values
-                $target->setAccountInfo($parsedContent->{ACCOUNTINFO});
+                $target->setAccountInfo($content->{ACCOUNTINFO});
             }
 
             last SWITCH;
@@ -134,22 +166,15 @@ sub run {
 sub _initModulesList {
     my ($self, %params) = @_;
 
-    my $logger = $self->{logger};
-    my $config = $self->{config};
+    my $logger = $params{logger};
 
-    # identify which directory to scan for inventory modules
+    # use first directory of @INC containing an installation tree
     my $dirToScan;
-    if ($config->{devlib}) {
-        # working directory
-        $dirToScan = './lib';
-    } else {
-        # first directory of @INC containing an installation tree
-        foreach my $dir (@INC) {
-            my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
-            if (-d $subdir) {
-                $dirToScan = $subdir;
-                last;
-            }
+    foreach my $dir (@INC) {
+        my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
+        if (-d $subdir) {
+            $dirToScan = $subdir;
+            last;
         }
     }
     
@@ -186,7 +211,7 @@ sub _initModulesList {
 
         # skip if parent is not allowed
         if ($parent && !$self->{modules}->{$parent}->{enabled}) {
-            $logger->debug("  $module disabled: implicit dependency $parent not enabled");
+            $logger->debug("module $module disabled: implicit dependency $parent not enabled");
             $self->{modules}->{$module}->{enabled} = 0;
             next;
         }
@@ -246,23 +271,27 @@ sub _initModulesList {
 
 # fill the inventory
 sub _feedInventory {
-    my ($self, $inventory) = @_;
-
-    my $logger = $self->{logger};
+    my ($self, %params) = @_;
 
     my $begin = time();
+
     my @modules =
         grep { $self->{modules}->{$_}->{enabled} }
         keys %{$self->{modules}};
+
     foreach my $module (sort @modules) {
         $self->_runModule(
             module    => $module,
-            inventory => $inventory
+            inventory => $params{inventory},
+            logger    => $params{logger},
+            datadir   => $params{datadir},
+            confdir   => $params{confdir},
+            storage   => $params{storage}
         );
     }
 
     # Execution time
-    $inventory->setHardware({ETIME => time() - $begin});
+    $params{inventory}->setHardware(ETIME => time() - $begin);
 }
 
 # run an inventory module
@@ -270,7 +299,7 @@ sub _runModule {
     my ($self, %params) = @_;
 
     my $module = $params{module} or die "no module given";
-    my $logger = $self->{logger};
+    my $logger = $params{logger};
 
     return if ($self->{modules}->{$module}->{done});
 
@@ -293,16 +322,24 @@ sub _runModule {
         }
         $self->_runModule(
             module    => $other_module,
-            inventory => $params{inventory}
+            inventory => $params{inventory},
+            logger    => $params{logger},
+            datadir   => $params{datadir},
+            confdir   => $params{confdir},
+            storage   => $params{storage}
         );
     }
 
-    $logger->debug ("Running $module");
+    $logger->debug("running module $module");
 
     $self->_runFunction(
         module    => $module,
         function  => "doInventory",
-        inventory => $params{inventory}
+        inventory => $params{inventory},
+        logger    => $params{logger},
+        datadir   => $params{datadir},
+        confdir   => $params{confdir},
+        storage   => $params{storage}
     );
     $self->{modules}->{$module}->{done} = 1;
     $self->{modules}->{$module}->{used} = 0; # unlock the module
@@ -314,25 +351,23 @@ sub _runFunction {
 
     my $module   = $params{module} or die "no module given";
     my $function = $params{function} or die "no function given";
-    my $logger   = $self->{logger};
-
-    $params{timeout} = 180 if !defined $params{timeout};
+    my $logger   = $params{logger};
 
     my $result;
 
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $params{timeout} if $params{timeout};
+        alarm $self->{timeout} if $self->{timeout};
 
         no strict 'refs'; ## no critic
 
-        $result = &{$module . '::' . $function}({
-            logger    => $self->{logger},
-            confdir   => $self->{confdir},
-            datadir   => $self->{datadir},
+        $result = &{$module . '::' . $function}(
+            logger    => $logger,
+            confdir   => $params{confdir},
+            datadir   => $params{datadir},
             inventory => $params{inventory},
             storage   => $params{storage}
-        });
+        );
     };
     alarm 0;
 
@@ -353,6 +388,52 @@ __END__
 =head1 NAME
 
 FusionInventory::Agent::Task::Inventory - The inventory task for FusionInventory 
+
 =head1 DESCRIPTION
 
 This task extract various hardware and software informations on the agent host.
+
+An inventory task has the following attributes:
+
+=over
+
+=item I<scan_homedirs>
+
+allow to scan user home directories for additional informations, such as
+virtual machines for instance (default: false)
+
+=item I<no_software>
+
+don't list software in the inventory (default: false)
+
+=item I<no_printer>
+
+don't list printers in the inventory (default: false)
+
+=item I<force>
+
+send an inventory to a server target, whatever the server initial response
+(default: false)
+
+=item I<timeout>
+
+maximum executiom time for an inventory module, in seconds (default: 180)
+
+=back
+
+=head1 EXAMPLE CONFIGURATION
+
+The following example correspond to a full inventory:
+
+    [full]
+    type = inventory
+    scan_homedirs = 1
+
+The following section correspond to a restricted inventory, without softwares
+and printers:
+
+    [restricted]
+    type = inventory
+    scan_homedirs = 0
+    no_software = 1
+    no_printer = 1

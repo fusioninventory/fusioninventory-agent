@@ -25,12 +25,12 @@ sub doInventory {
 
     # xm status
     my %status_list = (
-	    'r' => 'running',
-	    'b' => 'blocked',
-	    'p' => 'paused',
-	    's' => 'shutdown',
-	    'c' => 'crashed',
-	    'd' => 'dying',
+        'r' => 'running',
+        'b' => 'blocked',
+        'p' => 'paused',
+        's' => 'shutdown',
+        'c' => 'crashed',
+        'd' => 'dying',
     );
 
     my $vmtype    = 'xen';
@@ -42,22 +42,22 @@ sub doInventory {
     shift @xm_list;
 
     foreach my $vm (@xm_list) {
-	    chomp $vm;
+            chomp $vm;
             my ($name, $vmid, $memory, $vcpu, $status, $time) = split(' ',$vm);
 
-	    $status =~ s/-//g;
-	    $status = ( $status ? $status_list{$status} : 'off');
+            $status =~ s/-//g;
+            $status = ( $status ? $status_list{$status} : 'off');
 
-	    my @vm_info =  `xm list -l $name`;
-	    my $uuid;
+            my @vm_info =  `xm list -l $name`;
+            my $uuid;
             foreach my $value (@vm_info) {
-		    chomp $value;
-                    if ($value =~ /uuid/) {
-                          $value =~ s/\(|\)//g;
-                          $value =~ s/\s+.*uuid\s+(.*)/$1/;
-                          $uuid = $value;
-                          last;
-                    }
+                chomp $value;
+                if ($value =~ /uuid/) {
+                    $value =~ s/\(|\)//g;
+                    $value =~ s/\s+.*uuid\s+(.*)/$1/;
+                    $uuid = $value;
+                    last;
+                }
             }
 
             my $machine = {

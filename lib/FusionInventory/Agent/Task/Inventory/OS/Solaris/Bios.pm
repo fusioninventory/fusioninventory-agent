@@ -7,13 +7,15 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("showrev") ||
-        can_run("/usr/sbin/smbios");
+        can_run('showrev') ||
+        can_run('/usr/sbin/smbios');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+
     my $zone;
     my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate, $uuid);
@@ -31,7 +33,7 @@ sub doInventory {
 
     $aarch = "i386" if (`arch` =~ /^i86pc$/);
     if ($zone){
-        if (can_run("showrev")) {
+        if (can_run('showrev')) {
             foreach(`showrev`){
                 if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
                 if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
@@ -101,14 +103,15 @@ sub doInventory {
     }
 
     # Writing data
-    $inventory->setBios ({
-            BVERSION => $BiosVersion,
-            BDATE => $BiosDate,
-            SMANUFACTURER => $SystemManufacturer,
-            SMODEL => $SystemModel,
-            SSN => $SystemSerial
-        });
-    $inventory->setHardware ({ UUID => $uuid }) if $uuid;
+    $inventory->setBios(
+        BVERSION      => $BiosVersion,
+        BDATE         => $BiosDate,
+        SMANUFACTURER => $SystemManufacturer,
+        SMODEL        => $SystemModel,
+        SSN           => $SystemSerial
+    );
+    $inventory->setHardware(UUID => $uuid) if $uuid;
 
 }
+
 1;

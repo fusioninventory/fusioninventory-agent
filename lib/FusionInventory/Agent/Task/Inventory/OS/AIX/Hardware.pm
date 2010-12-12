@@ -3,15 +3,18 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Hardware;
 use strict;
 use warnings;
 
-sub isInventoryEnabled { 1 }
+sub isInventoryEnabled {
+    return 1;
+}
 
 # NOTE:
 # Q: SSN can also use `uname -n`? What is the best?
 # A: uname -n since it doesn't need root priv
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     # Using "type 0" section
     my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
@@ -62,14 +65,14 @@ sub doInventory {
     $BiosVersion .= "(Firmware :".$fw.")";
 
     # Writing data
-    $inventory->setBios ({
+    $inventory->setBios(
         SMANUFACTURER => $SystemManufacturer,
         SMODEL => $SystemModel,
         SSN => $SystemSerial,
         BMANUFACTURER => $BiosManufacturer,
         BVERSION => $BiosVersion,
         BDATE => $BiosDate,
-    });
+    );
 }
 
 1;

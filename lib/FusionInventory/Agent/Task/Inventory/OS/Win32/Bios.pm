@@ -45,8 +45,9 @@ sub getBiosInfoFromRegistry {
 
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $smodel;
     my $smanufacturer;
@@ -103,21 +104,21 @@ sub doInventory {
 
     }
 
-    $inventory->setBios({
-        SMODEL => $smodel,
-        SMANUFACTURER =>  $smanufacturer,
-        SSN => $ssn,
-        BDATE => $bdate,
-        BVERSION => $bversion,
-        BMANUFACTURER => $bmanufacturer,
-        MMANUFACTURER => $mmanufacturer,
-        MSN => $msn,
-        MMODEL => $model,
-        ASSETTAG => $assettag,
+    $inventory->setBios(
+        SMODEL          => $smodel,
+        SMANUFACTURER   => $smanufacturer,
+        SSN             => $ssn,
+        BDATE           => $bdate,
+        BVERSION        => $bversion,
+        BMANUFACTURER   => $bmanufacturer,
+        MMANUFACTURER   => $mmanufacturer,
+        MSN             => $msn,
+        MMODEL          => $model,
+        ASSETTAG        => $assettag,
         ENCLOSURESERIAL => $enclosureSerial,
         BASEBOARDSERIAL => $baseBoardSerial,
-        BIOSSERIAL => $biosSerial,
-    });
+        BIOSSERIAL      => $biosSerial,
+    );
 
     my $vmsystem;
 # it's more reliable to do a regex on the CPU NAME
@@ -131,9 +132,9 @@ sub doInventory {
     }
 
     if ($vmsystem) {
-        $inventory->setHardware ({
+        $inventory->setHardware(
             VMSYSTEM => $vmsystem 
-        });
+        );
     }
 
 }

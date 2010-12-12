@@ -7,13 +7,14 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return 
-        can_run("swap") &&
-        can_run("prtconf");
+        can_run('swap') &&
+        can_run('prtconf');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 #my $unit = 1024;
 
     my $PhysicalMemory;
@@ -30,10 +31,10 @@ sub doInventory {
         if(/\s+(\S+)$/){$SwapFileSize = $1};
     }
 
-    $inventory->setHardware({
-            MEMORY =>  $PhysicalMemory,
-            SWAP =>    $SwapFileSize
-        });
+    $inventory->setHardware(
+        MEMORY =>  $PhysicalMemory,
+        SWAP =>    $SwapFileSize
+    );
 }
 
 1

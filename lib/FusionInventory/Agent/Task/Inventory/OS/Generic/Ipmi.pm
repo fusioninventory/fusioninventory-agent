@@ -23,14 +23,15 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return unless can_run("ipmitool");
+    return unless can_run('ipmitool');
     return system('ipmitool lan print 2> /dev/null') == 0;
 }
 
 # Initialise the distro entry
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $ipaddress;
     my $ipgateway;

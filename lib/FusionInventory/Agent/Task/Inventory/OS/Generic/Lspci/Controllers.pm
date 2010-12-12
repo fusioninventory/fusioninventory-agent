@@ -11,15 +11,15 @@ my $vendors;
 my $classes;
 
 sub isInventoryEnabled {
-    return can_run("lspci");
+    return can_run('lspci');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $config = $params->{config};
-    my $datadir = $params->{datadir};
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+    my $datadir   = $params{datadir};
 
     _loadPciIds($logger, $datadir);
 

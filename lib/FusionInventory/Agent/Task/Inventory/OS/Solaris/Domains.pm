@@ -9,13 +9,14 @@ use Sys::Hostname;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run ("domainname");
+    return can_run('domainname');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # first, parse /etc/resolv.conf for the DNS servers,
     # and the domain search list
@@ -54,10 +55,10 @@ sub doInventory {
         $domain = join('/', @search_list);
     }
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         WORKGROUP => $domain,
-        DNS => $dns
-    });
+        DNS       => $dns
+    );
 }
 
 1;

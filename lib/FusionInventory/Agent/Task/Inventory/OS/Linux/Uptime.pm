@@ -12,9 +12,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # Uptime
     my $uptime = getSingleLine(file => '/proc/uptime', logger => $logger);
@@ -24,7 +25,9 @@ sub doInventory {
     $uptime = getFormatedGmTime($uptime);
 
     my $DeviceType = getSingleLine(command => 'uname -m');
-    $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
+    $inventory->setHardware(
+        DESCRIPTION => "$DeviceType/$uptime"
+    );
 }
 
 1;

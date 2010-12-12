@@ -12,8 +12,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $handle;
     if (!open $handle, '<', '/proc/cpuinfo') {
@@ -24,12 +25,12 @@ sub doInventory {
     my $inSystem;
     while (<$handle>) {
         if ($inSystem && /^Serial\s+:\s*(.*)/) {
-            $inventory->setBios({ SSN => $1 });
+            $inventory->setBios(SSN => $1);
         } elsif (/^Hardware\s+:\s*(.*)/) {
-            $inventory->setBios({ SMODEL => $1 });
+            $inventory->setBios(SMODEL => $1);
             $inSystem = 1;
-	}
-	close $handle;
+        }
+        close $handle;
     }
 }
 1;

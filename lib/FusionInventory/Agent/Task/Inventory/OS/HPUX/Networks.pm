@@ -12,16 +12,17 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return 
-        can_run("lanadmin") &&
-        can_run("lanscan") &&
-        can_run("netstat") &&
-        can_run("ifconfig") &&
-        can_run("uname");
+        can_run('lanadmin') &&
+        can_run('lanscan') &&
+        can_run('netstat') &&
+        can_run('ifconfig') &&
+        can_run('uname');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $name;
     my $lanid;
@@ -41,7 +42,7 @@ sub doInventory {
         while (my $line = <$handle>) {
             next unless $line =~ /$hostname/;
             if ($line =~ /(^\d+\.\d+\.\d+\.\d+)\s+/ ) {
-                $inventory->setHardware({IPADDR => $1});
+                $inventory->setHardware(IPADDR => $1);
                 last;
             }
         }
@@ -58,9 +59,9 @@ sub doInventory {
         }
     }
     if (defined ($gateway{'default/0.0.0.0'})) {
-        $inventory->setHardware({
-                DEFAULTGATEWAY => $gateway{'default/0.0.0.0'}
-            })
+        $inventory->setHardware(
+            DEFAULTGATEWAY => $gateway{'default/0.0.0.0'}
+        );
     }
 
     for ( `lanscan -iap`) {
