@@ -99,7 +99,7 @@ sub _addEntry {
     my ($self, %params) = @_;
 
     my $section = $params{section};
-    my $values = $params{values};
+    my $entry   = $params{entry};
     my $noDuplicated = $params{noDuplicated};
 
     my $newEntry;
@@ -107,8 +107,8 @@ sub _addEntry {
     die "Unknown section $section" unless $fields;
 
     foreach my $field (@$fields) {
-        next unless defined $values->{$field};
-        my $string = getSanitizedString($values->{$field});
+        next unless defined $entry->{$field};
+        my $string = getSanitizedString($entry->{$field});
         $newEntry->{$field} = $string;
     }
 
@@ -143,7 +143,7 @@ sub addController {
 
     $self->_addEntry(
         section => 'CONTROLLERS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -152,7 +152,7 @@ sub addModem {
 
     $self->_addEntry(
         section => 'MODEMS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -161,7 +161,7 @@ sub addDrive {
 
     $self->_addEntry(
         section => 'DRIVES',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -175,7 +175,7 @@ sub addStorage {
 
     $self->_addEntry(
         section => 'STORAGES',
-        values  => $values,
+        entry   => $values,
     );
 }
 
@@ -184,7 +184,7 @@ sub addMemory {
 
     $self->_addEntry(
         section => 'MEMORIES',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -193,7 +193,7 @@ sub addPort {
 
     $self->_addEntry(
         section => 'PORTS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -202,7 +202,7 @@ sub addSlot {
 
     $self->_addEntry(
         section => 'SLOTS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -212,7 +212,7 @@ sub addSoftware {
 
     $self->_addEntry(
         section      => 'SOFTWARES',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     );
 }
@@ -222,7 +222,7 @@ sub addMonitor {
 
     $self->_addEntry(
         section => 'MONITORS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -231,7 +231,7 @@ sub addVideo {
 
     $self->_addEntry(
         section      => 'VIDEOS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     );
 }
@@ -241,7 +241,7 @@ sub addSound {
 
     $self->_addEntry(
         section => 'SOUNDS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -250,7 +250,7 @@ sub addNetwork {
 
     $self->_addEntry(
         section      => 'NETWORKS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     );
 }
@@ -287,7 +287,7 @@ sub addCPU {
 
     $self->_addEntry(
         section => 'CPUS',
-        values  => $args,
+        entry   => $args,
     );
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -309,7 +309,7 @@ sub addUser {
 
     return unless $self->_addEntry(
         section      => 'USERS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     );
 
@@ -342,7 +342,7 @@ sub addPrinter {
 
     $self->_addEntry(
         section => 'PRINTERS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -359,7 +359,7 @@ sub addVirtualMachine {
 
     $self->_addEntry(
         section => 'VIRTUALMACHINES',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -368,7 +368,7 @@ sub addProcess {
 
     $self->_addEntry(
         section => 'PROCESSES',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -378,7 +378,7 @@ sub addInput {
 
     $self->_addEntry(
         section => 'INPUTS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -387,7 +387,7 @@ sub addEnv {
 
     $self->_addEntry(
         section => 'ENVS',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -396,7 +396,7 @@ sub addUSBDevice {
 
     $self->_addEntry(
         section      => 'USBDEVICES',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     );
 }
@@ -415,7 +415,7 @@ sub addRegistry {
 
     $self->_addEntry(
         section => 'REGISTRY',
-        values  => $args,
+        entry   => $args,
     );
 }
 
@@ -424,7 +424,7 @@ sub addAntiVirus {
 
     $self->_addEntry(
         section      => 'ANTIVIRUS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     );
 }
