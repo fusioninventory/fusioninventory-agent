@@ -16,6 +16,12 @@ sub new {
     return $self;
 }
 
+sub getPath {
+    my ($self) = @_;
+
+    return $self->{path};
+}
+
 sub getDescription {
     my ($self) = @_;
 
