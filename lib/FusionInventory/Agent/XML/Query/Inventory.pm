@@ -96,11 +96,11 @@ sub new {
 }
 
 sub _addEntry {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
-    my $section = $params->{section};
-    my $values = $params->{values};
-    my $noDuplicated = $params->{noDuplicated};
+    my $section = $params{section};
+    my $values = $params{values};
+    my $noDuplicated = $params{noDuplicated};
 
     my $newEntry;
     my $fields = $fields{$section};
@@ -141,28 +141,28 @@ sub _addEntry {
 sub addController {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'CONTROLLERS',
         values  => $args,
-    });
+    );
 }
 
 sub addModem {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'MODEMS',
         values  => $args,
-    });
+    );
 }
 
 sub addDrive {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'DRIVES',
         values  => $args,
-    });
+    );
 }
 
 sub addStorage {
@@ -173,87 +173,86 @@ sub addStorage {
         $values->{SERIALNUMBER} = $values->{SERIAL}
     }
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'STORAGES',
         values  => $values,
-    });
+    );
 }
 
 sub addMemory {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'MEMORIES',
         values  => $args,
-    });
+    );
 }
 
 sub addPort {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'PORTS',
         values  => $args,
-    });
+    );
 }
 
 sub addSlot {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'SLOTS',
         values  => $args,
-    });
+    );
 }
 
 sub addSoftware {
     my ($self, $args) = @_;
 
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'SOFTWARES',
         values       => $args,
         noDuplicated => 1
-    });
+    );
 }
 
 sub addMonitor {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'MONITORS',
         values  => $args,
-    });
+    );
 }
 
 sub addVideo {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'VIDEOS',
         values       => $args,
         noDuplicated => 1
-    });
-
+    );
 }
 
 sub addSound {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'SOUNDS',
         values  => $args,
-    });
+    );
 }
 
 sub addNetwork {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'NETWORKS',
         values       => $args,
         noDuplicated => 1
-    });
+    );
 }
 
 sub setHardware {
@@ -298,10 +297,10 @@ sub setBios {
 sub addCPU {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'CPUS',
         values  => $args,
-    });
+    );
 
     # For the compatibility with HARDWARE/PROCESSOR*
     my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
@@ -321,11 +320,11 @@ sub addUser {
 
     return unless $args->{LOGIN};
 
-    return unless $self->_addEntry({
+    return unless $self->_addEntry(
         'section'      => 'USERS',
         'values'       => $args,
         'noDuplicated' => 1
-    });
+    );
 
     # Compare with old system 
     my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID} || "";
@@ -354,10 +353,10 @@ sub addUser {
 sub addPrinter {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'PRINTERS',
         values  => $args,
-    });
+    );
 }
 
 sub addVirtualMachine {
@@ -371,77 +370,76 @@ sub addVirtualMachine {
         $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
     }
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'VIRTUALMACHINES',
         values  => $args,
-    });
-
+    );
 }
 
 sub addProcess {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'PROCESSES',
         values  => $args,
-    });
+    );
 }
 
 sub addInput {
     my ($self, $args) = @_;
 
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'INPUTS',
         values  => $args,
-    });
+    );
 }
 
 sub addEnv {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'ENVS',
         values  => $args,
-    });
+    );
 }
 
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'USBDEVICES',
         values       => $args,
         noDuplicated => 1
-    });
+    );
 }
 
 sub addBattery {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'BATTERIES',
         values  => $args,
-    });
+    );
 }
 
 sub addRegistry {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section => 'REGISTRY',
         values  => $args,
-    });
+    );
 }
 
 sub addAntiVirus {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->_addEntry(
         section      => 'ANTIVIRUS',
         values       => $args,
         noDuplicated => 1
-    });
+    );
 }
 
 
