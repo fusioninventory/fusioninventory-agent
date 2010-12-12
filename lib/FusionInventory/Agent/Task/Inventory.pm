@@ -78,7 +78,8 @@ sub run {
         logger    => $logger,
         inventory => $inventory,
         datadir   => $params{datadir},
-        confdir   => $params{confdir}
+        confdir   => $params{confdir},
+        storage   => $target->getStorage()
     );
 
     # restore original environnement, and complete inventory
@@ -277,6 +278,7 @@ sub _feedInventory {
             logger    => $params{logger},
             datadir   => $params{datadir},
             confdir   => $params{confdir},
+            storage   => $params{storage}
         );
     }
 
@@ -316,6 +318,7 @@ sub _runModule {
             logger    => $params{logger},
             datadir   => $params{datadir},
             confdir   => $params{confdir},
+            storage   => $params{storage}
         );
     }
 
@@ -328,6 +331,7 @@ sub _runModule {
         logger    => $params{logger},
         datadir   => $params{datadir},
         confdir   => $params{confdir},
+        storage   => $params{storage}
     );
     $self->{modules}->{$module}->{done} = 1;
     $self->{modules}->{$module}->{used} = 0; # unlock the module
