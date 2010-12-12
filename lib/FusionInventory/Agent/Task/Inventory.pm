@@ -39,7 +39,7 @@ sub run {
         );
 
         if (!$response) {
-            $logger->debug("No server response. Exiting...");
+            $logger->debug("No server response, aborting");
             return;
         }
 
@@ -49,10 +49,16 @@ sub run {
             ! $content->{RESPONSE} ||
             ! $content->{RESPONSE} eq 'SEND'
         ) {
-            $logger->debug(
-                "No inventory requested in the prolog, exiting"
-            );
-            return;
+            if (!$self->{force}) {
+                $logger->debug(
+                    "No inventory requested in the prolog, aborting"
+                );
+                return;
+            } else {
+                $logger->debug(
+                    "No inventory requested in the prolog, but forced by configuration"
+                );
+            }
         }
     }
 
