@@ -611,11 +611,11 @@ sub _loadState {
 sub saveState {
     my ($self) = @_;
 
-    $self->{storage}->save({
+    $self->{storage}->save(
         data => {
             state => $self->{state}
         }
-    });
+    );
 }
 
 1;
