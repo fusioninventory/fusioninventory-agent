@@ -60,31 +60,11 @@ sub new {
     my $self = $class->SUPER::new(%params);
 
     $self->{h}{QUERY} = ['INVENTORY'];
-    $self->{h}{CONTENT}{ACCESSLOG} = {};
-    $self->{h}{CONTENT}{BIOS} = {};
-    $self->{h}{CONTENT}{CONTROLLERS} = [];
-    $self->{h}{CONTENT}{CPUS} = [];
-    $self->{h}{CONTENT}{DRIVES} = [];
     $self->{h}{CONTENT}{HARDWARE} = {
         # TODO move that in a backend module
         ARCHNAME => [$Config{archname}],
         VMSYSTEM => ["Physical"] # Default value
     };
-    $self->{h}{CONTENT}{MONITORS} = [];
-    $self->{h}{CONTENT}{PORTS} = [];
-    $self->{h}{CONTENT}{SLOTS} = [];
-    $self->{h}{CONTENT}{STORAGES} = [];
-    $self->{h}{CONTENT}{SOFTWARES} = [];
-    $self->{h}{CONTENT}{USERS} = [];
-    $self->{h}{CONTENT}{VIDEOS} = [];
-    $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
-    $self->{h}{CONTENT}{SOUNDS} = [];
-    $self->{h}{CONTENT}{MODEMS} = [];
-    $self->{h}{CONTENT}{ENVS} = [];
-    $self->{h}{CONTENT}{UPDATES} = [];
-    $self->{h}{CONTENT}{USBDEVICES} = [];
-    $self->{h}{CONTENT}{BATTERIES} = [];
-    $self->{h}{CONTENT}{ANTIVIRUS} = [];
     $self->{h}{CONTENT}{VERSIONCLIENT} = [
         $FusionInventory::Agent::AGENT_STRING
     ];

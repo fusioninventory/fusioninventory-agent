@@ -31,7 +31,6 @@ my $content;
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
@@ -67,7 +66,6 @@ $inventory->addCPU({
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
@@ -116,7 +114,6 @@ $inventory->addDrive({
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
@@ -155,7 +152,6 @@ $inventory->addSoftwareDeploymentPackage({ ORDERID => '1234567891' });
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
@@ -198,7 +194,6 @@ $inventory->addSoftware({
 $content = {
     REQUEST => {
         CONTENT => {
-            ACCESSLOG => undef,
             BIOS => undef,
             HARDWARE => {
                 ARCHNAME => $Config{archname},
