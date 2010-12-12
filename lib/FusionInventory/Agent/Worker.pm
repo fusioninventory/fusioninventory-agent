@@ -48,26 +48,36 @@ sub new {
     $logger->debug("Data directory: $self->{datadir}");
     $logger->debug("Storage directory: $self->{vardir}");
 
-    my $hostname = getHostname();
-
+    # restore state
     my $storage = FusionInventory::Agent::Storage->new(
         logger    => $logger,
         directory => $self->{vardir}
     );
+    my $dirty;
     my $data = $storage->restore();
 
-    if (
-        !defined($data->{previousHostname}) ||
-        $data->{previousHostname} ne $hostname
-    ) {
-        my ($year, $month , $day, $hour, $min, $sec) =
-            (localtime(time()))[5,4,3,2,1,0];
-        $data->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-            $hostname, ($year + 1900), ($month + 1), $day, $hour, $min, $sec;
-        $data->{previousHostname} = $hostname;
-        $storage->save(data => $data);
+    if ($data->{deviceid}) {
+        $self->{deviceid} = $data->{deviceid};
+    } else {
+        $self->{deviceid} = getDeviceId();
+        $dirty = 1;
     }
-    $self->{deviceid} = $data->{deviceid};
+
+    if ($data->{token}) {
+        $self->{token} = $data->{token};
+    } else {
+        $self->{token} = getRandomToken();
+        $dirty = 1;
+    }
+
+    if ($dirty) {
+        $storage->save(
+            data => {
+                deviceid => $self->{deviceid},
+                token    => $self->{token}
+            }
+        );
+    }
 
     $logger->debug("FusionInventory Agent initialised");
 
