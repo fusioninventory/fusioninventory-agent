@@ -3,22 +3,23 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Video;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 1;
 }
 
 sub _getDdcprobeData {
     my ($file) = @_;
-    my $ddcprobeData;
 
-    my $handle;
-    if ($file) {
-        open $handle, '<', $file or die;
-    } else {
-        open ($handle, "ddcprobe 2>&1 |")       
-    }
+    my $handle = getFileHandle(
+        command => 'ddcprobe 2>&1',
+        file => $file
+    );
+
     return unless $handle;
 
+    my $ddcprobeData;
     foreach (<$handle>) {
         s/[[:cntrl:]]//g;
         s/[^[:ascii:]]//g;
