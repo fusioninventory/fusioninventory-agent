@@ -264,10 +264,9 @@ sub setHardware {
         DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
         WINPRODKEY WINCOMPANY WINLANG/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
-        if (exists $params{$key}) {
-            my $string = getSanitizedString($params{$key});
-            $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
-        }
+        next unless $params{$key};
+        my $value = getSanitizedString($params{$key});
+        $self->{h}{CONTENT}{HARDWARE}{$key} = $value;
     }
 }
 
