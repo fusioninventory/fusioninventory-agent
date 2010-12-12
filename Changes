@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent
 
+2.1.8
+       * Linux, correctly read the number of core from /proc/cpuinfo
+
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
        * add --no-p2p parameter
