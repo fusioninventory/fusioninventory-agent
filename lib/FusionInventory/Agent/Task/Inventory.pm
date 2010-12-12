@@ -381,6 +381,52 @@ __END__
 =head1 NAME
 
 FusionInventory::Agent::Task::Inventory - The inventory task for FusionInventory 
+
 =head1 DESCRIPTION
 
 This task extract various hardware and software informations on the agent host.
+
+An inventory task has the following attributes:
+
+=over
+
+=item I<scan_homedirs>
+
+allow to scan user home directories for additional informations, such as
+virtual machines for instance (default: false)
+
+=item I<no_software>
+
+don't list software in the inventory (default: false)
+
+=item I<no_printer>
+
+don't list printers in the inventory (default: false)
+
+=item I<force>
+
+send an inventory to a server target, whatever the server initial response
+(default: false)
+
+=item I<timeout>
+
+maximum executiom time for an inventory module, in seconds (default: 180)
+
+=back
+
+=head1 EXAMPLE CONFIGURATION
+
+The following example correspond to a full inventory:
+
+    [full]
+    type = inventory
+    scan_homedirs = 1
+
+The following section correspond to a restricted inventory, without softwares
+and printers:
+
+    [restricted]
+    type = inventory
+    scan_homedirs = 0
+    no_software = 1
+    no_printer = 1
