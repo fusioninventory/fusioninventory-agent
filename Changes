@@ -35,7 +35,12 @@ Revision history for FusionInventory::Agent
          FusionInventory::Agent::Tools::Generic::Screen
        * FreeBSD: do not ignore virtual interface but use the VIRTUALDEV flag on them
 
-2.1.7
+2.1.8
+       * Linux, correctly read the number of core from /proc/cpuinfo
+       * MacOSX: KB unit in missing in Mac OS X Drive.pm
+         http://forge.fusioninventory.org/issues/521
+
+2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
        * add --no-p2p parameter
          http://forge.fusioninventory.org/issues/507
@@ -58,6 +63,7 @@ Revision history for FusionInventory::Agent
        * Linux: improve the Harddrive detection if lshal is not avalaible,
          thanks Bernhard DENNER for the initial patch
          https://bugs.launchpad.net/bugs/682689
+       * No warning if ddcprobe is not avalaible
 
 2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs
