@@ -17,6 +17,7 @@ my %unitMatrice = (
     Mi => 1,
     MB => 1,
     Ki => 0.001,
+    KB => 0.001,
 );
 
 sub doInventory {
