@@ -2,86 +2,16 @@ package FusionInventory::Agent::Worker;
 
 use strict;
 use warnings;
+use base qw/FusionInventory::Agent/;
 
-use English qw(-no_match_vars);
-
-use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Target::Server;
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Prolog;
-
-sub new {
-    my ($class, %params) = @_;
-
-    my $self = {
-        confdir => $params{confdir},
-        datadir => $params{datadir},
-        vardir  => $params{vardir},
-    };
-    bless $self, $class;
-
-    my $config = FusionInventory::Agent::Config->new(
-        directory => $params{confdir},
-        file      => $params{conffile},
-    );
-    $self->{config} = $config;
-
-    my $logger = FusionInventory::Agent::Logger->new(
-        %{$config->getBlock('logger')},
-        backends => [ $config->getValues('logger.backends') ],
-        debug    => $params{debug}
-    );
-    $self->{logger} = $logger;
-
-    if ($REAL_USER_ID != 0) {
-        $logger->info("You should run this program as super-user.");
-    }
-
-    $logger->debug("Configuration directory: $self->{confdir}");
-    $logger->debug("Data directory: $self->{datadir}");
-    $logger->debug("Storage directory: $self->{vardir}");
-
-    # restore state
-    my $storage = FusionInventory::Agent::Storage->new(
-        logger    => $logger,
-        directory => $self->{vardir}
-    );
-    my $dirty;
-    my $data = $storage->restore();
-
-    if ($data->{deviceid}) {
-        $self->{deviceid} = $data->{deviceid};
-    } else {
-        $self->{deviceid} = getDeviceId();
-        $dirty = 1;
-    }
-
-    if ($data->{token}) {
-        $self->{token} = $data->{token};
-    } else {
-        $self->{token} = getRandomToken();
-        $dirty = 1;
-    }
-
-    if ($dirty) {
-        $storage->save(
-            data => {
-                deviceid => $self->{deviceid},
-                token    => $self->{token}
-            }
-        );
-    }
-
-    $logger->debug("FusionInventory Agent initialised");
-
-    return $self;
-}
 
 sub run {
     my ($self, %params) = @_;
