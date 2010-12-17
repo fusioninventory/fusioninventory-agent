@@ -13,7 +13,6 @@
 use strict;
 use warnings;
 
-use Fcntl qw/:flock/;
 use LWP::UserAgent;
 use XML::Simple;
 use Compress::Zlib;
@@ -36,11 +35,7 @@ sub loadfile {
     }
     print "Loading $file..." if $verbose;
 
-    unless ( open( FILE, "$file" ) && flock( FILE, LOCK_EX | LOCK_NB ) ) {
-        print STDERR "Failed to access $file : $!";
-        return;
-    }
-
+    open( FILE, "$file" ) or die "can't open $file: $!";
     local $/;
     my $content = <FILE>;
     close FILE or die "Can't close file $file: $!";
