@@ -57,7 +57,7 @@ sub loaddirectory {
         return;
     }
 
-    opendir( DIR, $directory ) || die "can't opendir $directory: $!";
+    opendir( DIR, $directory ) or die "can't opendir $directory: $!";
     foreach ( readdir(DIR) ) {
         loadfile("$directory/$_") if (/\.ocs$/);
     }
