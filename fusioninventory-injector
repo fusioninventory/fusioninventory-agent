@@ -44,7 +44,7 @@ sub loadfile {
     local $/;
     my $content = <FILE>;
     close FILE or die "Can't close file $file: $!";
-    
+
     sendContent($content);
 
 }
@@ -60,9 +60,8 @@ sub loaddirectory {
     opendir( DIR, $directory ) || die "can't opendir $directory: $!";
     foreach ( readdir(DIR) ) {
         loadfile("$directory/$_") if (/\.ocs$/);
-	}
-	closedir DIR;
-
+    }
+    closedir DIR;
 }
 
 sub loadstdin {
@@ -88,15 +87,15 @@ sub sendContent {
     $request->content(compress($content));
     my $res = $ua->request($request);
 
-    if($res->is_success){
-      print "OK\n" if $verbose;
-      print STDERR "Can't remove $file: $!\n"
-	      if ($remove && (!unlink $file));
-    }else{
-    	if($verbose){
-	 		 print "ERROR: ";
-	 		 print $res->status_line(), "\n";
-			}
+    if ($res->is_success){
+        print "OK\n" if $verbose;
+        print STDERR "Can't remove $file: $!\n"
+        if ($remove && (!unlink $file));
+    } else {
+        if ($verbose){
+            print "ERROR: ";
+            print $res->status_line(), "\n";
+        }
     }
 }
 
@@ -129,13 +128,13 @@ EOF
 
 GetOptions(
     'h|help'		=> \$help,
-    'd|directory=s'	=> \$directory,
+'d|directory=s'	=> \$directory,
     'f|file=s'		=> \$file,
-    'u|url=s'		=> \$url,
+'u|url=s'		=> \$url,
     'useragent=s'	=> \$useragent,
-    'r|remove'		=> \$remove,
+'r|remove'		=> \$remove,
     'v|verbose'		=> \$verbose,
-    'stdin'		=> \$stdin,
+'stdin'		=> \$stdin,
 );
 
 # Default values
@@ -149,8 +148,8 @@ if ($file && -f $file) {
 } elsif ($stdin) {
     loadstdin();
 } elsif ($directory) {
-   die("Directory does not exist. Abort.") unless -d $directory;
-   loaddirectory($directory);
+    die("Directory does not exist. Abort.") unless -d $directory;
+    loaddirectory($directory);
 } else {
     usage();
 }
