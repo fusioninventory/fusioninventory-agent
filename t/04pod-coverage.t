@@ -22,7 +22,7 @@ Test::Pod::Coverage->import();
 
 my @modules = $OSNAME eq 'MSWin32' ?
     grep { ! /Syslog/ } all_modules('lib') :
-    grep { ! /Win32/  } all_modules('lib') ;
+    grep { ! /(Win32|Registry)/  } all_modules('lib') ;
 
 plan tests => scalar @modules;
 
