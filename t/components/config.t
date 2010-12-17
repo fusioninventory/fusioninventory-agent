@@ -133,7 +133,7 @@ is_deeply(
 );
 
 is(
-    $config->getValue('scheduler.delaytime'),
-    '3600',
+    $config->getValue('www.port'),
+    '62354',
     'default value'
 );
