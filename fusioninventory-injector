@@ -97,14 +97,14 @@ sub sendContent {
 }
 
 GetOptions(
-    'h|help'            => \$help,
-'d|directory=s' => \$directory,
-    'f|file=s'          => \$file,
-'u|url=s'               => \$url,
-    'useragent=s'       => \$useragent,
-'r|remove'              => \$remove,
-    'v|verbose'         => \$verbose,
-'stdin'         => \$stdin,
+  'h|help'        => \$help,
+  'd|directory=s' => \$directory,
+  'f|file=s'      => \$file,
+  'u|url=s'       => \$url,
+  'useragent=s'   => \$useragent,
+  'r|remove'      => \$remove,
+  'v|verbose'     => \$verbose,
+  'stdin'         => \$stdin,
 );
 
 # Default values
