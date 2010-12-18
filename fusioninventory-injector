@@ -13,6 +13,7 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use LWP::UserAgent;
 use XML::Simple;
 use Compress::Zlib;
@@ -35,10 +36,10 @@ sub loadfile {
     }
     print "Loading $file..." if $verbose;
 
-    open (my $fh, '<', $file) or die "can't open $file: $!";
-    local $/;
+    open (my $fh, '<', $file) or die "can't open $file: $ERRNO";
+    local $RS;
     my $content = <$fh>;
-    close $fh or die "Can't close file $file: $!";
+    close $fh or die "Can't close file $file: $ERRNO";
 
     sendContent($content);
 
@@ -52,7 +53,7 @@ sub loaddirectory {
         return;
     }
 
-    opendir (my $dh, $directory) or die "can't opendir $directory: $!";
+    opendir (my $dh, $directory) or die "can't opendir $directory: $ERRNO";
     foreach ( readdir($dh) ) {
         loadfile("$directory/$_") if (/\.ocs$/);
     }
@@ -61,7 +62,7 @@ sub loaddirectory {
 
 sub loadstdin {
     my $content;
-    undef $/;
+    undef $RS;
     $content = <STDIN>;
     sendContent($content);
 }
@@ -84,7 +85,7 @@ sub sendContent {
 
     if ($res->is_success){
         print "OK\n" if $verbose;
-        print STDERR "Can't remove $file: $!\n"
+        print STDERR "Can't remove $file: $ERRNO\n"
         if ($remove && (!unlink $file));
     } else {
         if ($verbose){
@@ -136,7 +137,7 @@ GetOptions(
 $useragent	= 'FusionInventory-Injector' unless $useragent;
 ###
 
-$|=1;
+$OUTPUT_AUTOFLUSH = 1;
 
 if ($file && -f $file) {
     loadfile($file);
