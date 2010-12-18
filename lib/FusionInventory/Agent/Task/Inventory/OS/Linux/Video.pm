@@ -19,14 +19,14 @@ sub _getDdcprobeData {
 
     return unless $handle;
 
-    my $ddcprobeData;
-    foreach (<$handle>) {
-        s/[[:cntrl:]]//g;
-        s/[^[:ascii:]]//g;
-        $ddcprobeData->{$1} = $2 if /^(\S+):\s+(.*)/;
+    my $data;
+    foreach my $line (<$handle>) {
+        $line =~ s/[[:cntrl:]]//g;
+        $line =~ s/[^[:ascii:]]//g;
+        $data->{$1} = $2 if $line =~ /^(\S+):\s+(.*)/;
     }
 
-    return $ddcprobeData;
+    return $data;
 }
 
 sub _parseXorgFd {
