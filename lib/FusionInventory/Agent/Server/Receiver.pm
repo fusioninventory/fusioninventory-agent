@@ -191,7 +191,7 @@ sub sendFile {
 
     my $st = stat($file);
     my $fh;
-    if (!open $fh, "<$file") {
+    if (!open $fh, '<', $file) {
         $logger->error("Failed to open $file");
         return;
     }
