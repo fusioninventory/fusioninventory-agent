@@ -273,6 +273,7 @@ sub main {
             SNMPQuery
             NetDiscovery
             Ping
+	    Runcommand
             /;
 
         foreach my $module (@tasks) {
