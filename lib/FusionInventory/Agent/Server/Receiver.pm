@@ -87,7 +87,7 @@ sub deploy {
 
     my $logger = $self->{logger};
     
-    my $path = $request->uri->path;
+    my $path = $request->uri()->path();
 
     if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
         my $file = $1;
@@ -110,8 +110,8 @@ sub now {
 
     my $logger = $self->{logger};
     
-    my $path = $request->uri->path;
-    my $remote_ip = $request->connection->remote_ip;
+    my $path = $request->uri()->path();
+    my $remote_ip = $request->connection()->remote_ip();
 
     # now request
     if ($path =~ m{^/now(/|)(\S+)?$}) {
@@ -176,7 +176,7 @@ sub files {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    my $path = $request->uri->path;
+    my $path = $request->uri()->path();
 
     if ($path =~ /^\/files(.*)/) {
         $self->sendFile($response, $self->{htmldir}.$1);
@@ -196,20 +196,20 @@ sub sendFile {
         return;
     }
     binmode($fh);
-    $self->{todo}{$response->{connection}{id}} = $fh;
+    $self->{todo}->{$response->{connection}->{id}} = $fh;
 
 
     $response->streaming(1);
     $response->code(RC_OK);         # you must set up your response header
     $response->content_type('application/binary');
-    $response->content_length($st->size);
+    $response->content_length($st->size());
 
 }
 
 sub stream {
-    my($self, $resquest, $response)=@_;
+    my ($self, $resquest, $response) = @_;
 
-    my $fh = $self->{todo}{$response->{connection}{id}};
+    my $fh = $self->{todo}->{$response->{connection}->{id}};
 
     my $buffer;
     my $dataRemain = read ($fh, $buffer, 1024); 
@@ -218,9 +218,9 @@ sub stream {
     if (!$dataRemain) {
         close($fh);
         $response->streaming(0);
-        $response->close;
+        $response->close();
         $resquest->header(Connection => 'close');
-        delete($self->{todo}{$response->{connection}{id}});
+        delete($self->{todo}->{$response->{connection}->{id}});
     }
 }
 
