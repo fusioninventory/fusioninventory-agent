@@ -96,7 +96,11 @@ sub doInventory {
 
     my $xorgData;
     if ($xOrgPid) {
-        $xorgData = _parseXorgFd("/proc/$xOrgPid/fd/0");
+        # check than fd0 is actually a link to Xorg log file, and not to
+        # something else, such as /dev/input/event6
+        my $link = "/proc/$xOrgPid/fd/0";
+        my $file = readlink($link);
+        $xorgData = _parseXorgFd($file) if $file =~ /\.log$/;
     }
 
     my $memory = $xorgData->{memory} || $ddcprobeData->{memory};
