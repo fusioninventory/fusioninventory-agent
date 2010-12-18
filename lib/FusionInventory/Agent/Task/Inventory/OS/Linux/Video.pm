@@ -37,42 +37,33 @@ sub _parseXorgFd {
         foreach (<XORG>) {
             if (!$xorgData->{resolution} && /Modeline\s"(\S+?)"/) {
                 $xorgData->{resolution}=$1 
-# Intel
             } elsif (/Integrated Graphics Chipset:\s+(.*)/) {
+                # Intel
                 $xorgData->{name}=$1;
-            }
-# Nvidia
-            elsif (/Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
+            } elsif (/Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
+                # Nvidia
                 $xorgData->{resolution}="$1x$2";
-            }
-            elsif (/NVIDIA GPU\s*(.*?)\s*at/) {
+            } elsif (/NVIDIA GPU\s*(.*?)\s*at/) {
                 $xorgData->{name}=$1;
-            }
-            elsif (/VESA VBE OEM:\s*(.*)/) {
+            } elsif (/VESA VBE OEM:\s*(.*)/) {
                 $xorgData->{name}=$1;
-            }
-            elsif (/VESA VBE OEM Product:\s*(.*)/) {
+            } elsif (/VESA VBE OEM Product:\s*(.*)/) {
                 $xorgData->{product}=$1;
-            }
-            elsif (/VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
+            } elsif (/VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
                 $xorgData->{memory}=$1.$2;
-            }
-# ATI /Radeon
-            elsif (/RADEON\(0\): Chipset: "(.*?)"/i) {
+            } elsif (/RADEON\(0\): Chipset: "(.*?)"/i) {
+                # ATI /Radeon
                 $xorgData->{name}=$1;
-            }
-# VESA / XFree86
-            elsif (/Virtual size is (\S+)/i) {
+            } elsif (/Virtual size is (\S+)/i) {
+                # VESA / XFree86
                 $xorgData->{resolution}=$1;
-            }
-            elsif (/Primary Device is: PCI (.+)/i) {
+            } elsif (/Primary Device is: PCI (.+)/i) {
                 $xorgData->{pcislot}=$1;
                 # mimic lspci pci slot format
                 $xorgData->{pcislot} =~ s/^00@//;
                 $xorgData->{pcislot} =~ s/(\d{2}):(\d{2}):(\d)$/$1:$2.$3/;
-            }
-# Nouveau
-            elsif (/NOUVEAU\(0\): Chipset: "(.*)"/) {
+            } elsif (/NOUVEAU\(0\): Chipset: "(.*)"/) {
+                # Nouveau
                 $xorgData->{product}=$1;
             }
         }
