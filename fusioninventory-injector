@@ -19,14 +19,10 @@ use XML::Simple;
 use Compress::Zlib;
 use Getopt::Long;
 use Pod::Usage;
-my $help;
-my $directory;
-my $file;
-my $url;
-my $useragent;
-my $remove;
-my $verbose;
-my $stdin;
+
+my %options = (
+  useragent => 'FusionInventory-Injector'
+);
 
 sub loadfile {
     my $file = shift;
@@ -35,7 +31,7 @@ sub loadfile {
         print STDERR "Can't read $file\n";
         return;
     }
-    print "Loading $file..." if $verbose;
+    print "Loading $file..." if $options{verbose};
 
     open (my $fh, '<', $file) or die "can't open $file: $ERRNO";
     local $RS;
@@ -72,8 +68,8 @@ sub sendContent {
     my $content = shift;
 
     my $ua = LWP::UserAgent->new;
-    $ua->agent($useragent);
-    my $request = HTTP::Request->new( POST => $url );
+    $ua->agent($options{useragent});
+    my $request = HTTP::Request->new( POST => $options{url} );
     $request->header(
         'Pragma' => 'no-cache',
         'Content-type', 'Application/x-compress'
@@ -85,11 +81,11 @@ sub sendContent {
     my $res = $ua->request($request);
 
     if ($res->is_success){
-        print "OK\n" if $verbose;
-        print STDERR "Can't remove $file: $ERRNO\n"
-        if ($remove && (!unlink $file));
+        print "OK\n" if $options{verbose};
+        print STDERR "Can't remove $options{file}: $ERRNO\n"
+        if ($options{remove} && (!unlink $options{file}));
     } else {
-        if ($verbose){
+        if ($options{verbose}){
             print "ERROR: ";
             print $res->status_line(), "\n";
         }
@@ -97,29 +93,26 @@ sub sendContent {
 }
 
 GetOptions(
-  'h|help'        => \$help,
-  'd|directory=s' => \$directory,
-  'f|file=s'      => \$file,
-  'u|url=s'       => \$url,
-  'useragent=s'   => \$useragent,
-  'r|remove'      => \$remove,
-  'v|verbose'     => \$verbose,
-  'stdin'         => \$stdin,
+  \%options,
+  'help|h',
+  'directory|d=s',
+  'file|f=s',
+  'url|u=s',
+  'useragent=s',
+  'remove|r',
+  'verbose|v',
+  'stdin',
 );
-
-# Default values
-$useragent      = 'FusionInventory-Injector' unless $useragent;
-###
 
 $OUTPUT_AUTOFLUSH = 1;
 
-if ($file && -f $file) {
-    loadfile($file);
-} elsif ($stdin) {
+if ($options{file} && -f $options{file}) {
+    loadfile($options{file});
+} elsif ($options{stdin}) {
     loadstdin();
-} elsif ($directory) {
-    die("Directory does not exist. Abort.") unless -d $directory;
-    loaddirectory($directory);
+} elsif ($options{directory}) {
+    die("Directory does not exist. Abort.") unless -d $options{directory};
+    loaddirectory($options{directory});
 } else {
     pod2usage();
 }
