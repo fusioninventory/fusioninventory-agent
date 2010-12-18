@@ -41,35 +41,35 @@ sub _parseXorgFd {
     my $data;
     foreach my $line (<$handle>) {
         if ($line =~ /Modeline\s"(\S+?)"/) {
-            $data->{resolution}=$1 if !$data->{resolution};
+            $data->{resolution} = $1 if !$data->{resolution};
         } elsif ($line =~ /Integrated Graphics Chipset:\s+(.*)/) {
             # Intel
-            $data->{name}=$1;
+            $data->{name} = $1;
         } elsif ($line =~ /Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
             # Nvidia
-            $data->{resolution}="$1x$2";
+            $data->{resolution} = "$1x$2";
         } elsif ($line =~ /NVIDIA GPU\s*(.*?)\s*at/) {
-            $data->{name}=$1;
+            $data->{name} = $1;
         } elsif ($line =~ /VESA VBE OEM:\s*(.*)/) {
-            $data->{name}=$1;
+            $data->{name} = $1;
         } elsif ($line =~ /VESA VBE OEM Product:\s*(.*)/) {
-            $data->{product}=$1;
+            $data->{product} = $1;
         } elsif ($line =~ /VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
-            $data->{memory}=$1.$2;
+            $data->{memory} = $1 . $2;
         } elsif ($line =~ /RADEON\(0\): Chipset: "(.*?)"/i) {
             # ATI /Radeon
-            $data->{name}=$1;
+            $data->{name} = $1;
         } elsif ($line =~ /Virtual size is (\S+)/i) {
             # VESA / XFree86
-            $data->{resolution}=$1;
+            $data->{resolution} = $1;
         } elsif ($line =~ /Primary Device is: PCI (.+)/i) {
-            $data->{pcislot}=$1;
+            $data->{pcislot} = $1;
             # mimic lspci pci slot format
             $data->{pcislot} =~ s/^00@//;
             $data->{pcislot} =~ s/(\d{2}):(\d{2}):(\d)$/$1:$2.$3/;
         } elsif ($line =~ /NOUVEAU\(0\): Chipset: "(.*)"/) {
             # Nouveau
-            $data->{product}=$1;
+            $data->{product} = $1;
         }
     }
 
