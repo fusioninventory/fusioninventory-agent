@@ -21,7 +21,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 my %options = (
-  useragent => 'FusionInventory-Injector'
+    useragent => 'FusionInventory-Injector'
 );
 
 sub loadfile {
@@ -83,7 +83,7 @@ sub sendContent {
     if ($res->is_success){
         print "OK\n" if $options{verbose};
         print STDERR "Can't remove $options{file}: $ERRNO\n"
-        if ($options{remove} && (!unlink $options{file}));
+            if ($options{remove} && (!unlink $options{file}));
     } else {
         if ($options{verbose}){
             print "ERROR: ";
@@ -93,15 +93,15 @@ sub sendContent {
 }
 
 GetOptions(
-  \%options,
-  'help|h',
-  'directory|d=s',
-  'file|f=s',
-  'url|u=s',
-  'useragent=s',
-  'remove|r',
-  'verbose|v',
-  'stdin',
+    \%options,
+    'help|h',
+    'directory|d=s',
+    'file|f=s',
+    'url|u=s',
+    'useragent=s',
+    'remove|r',
+    'verbose|v',
+    'stdin',
 );
 
 $OUTPUT_AUTOFLUSH = 1;
