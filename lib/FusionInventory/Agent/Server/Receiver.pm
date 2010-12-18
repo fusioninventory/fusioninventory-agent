@@ -196,7 +196,7 @@ sub sendFile {
         return;
     }
     binmode($fh);
-    $self->{todo}{$response->{connection}{my_id}} = $fh;
+    $self->{todo}{$response->{connection}{id}} = $fh;
 
 
     $response->streaming(1);
@@ -209,7 +209,7 @@ sub sendFile {
 sub stream {
     my($self, $resquest, $response)=@_;
 
-    my $fh = $self->{todo}{$response->{connection}{my_id}};
+    my $fh = $self->{todo}{$response->{connection}{id}};
 
     my $buffer;
     my $dataRemain = read ($fh, $buffer, 1024); 
@@ -220,7 +220,7 @@ sub stream {
         $response->streaming(0);
         $response->close;
         $resquest->header(Connection => 'close');
-        delete($self->{todo}{$response->{connection}{my_id}});
+        delete($self->{todo}{$response->{connection}{id}});
     }
 }
 
