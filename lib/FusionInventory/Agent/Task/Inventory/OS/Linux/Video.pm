@@ -96,7 +96,7 @@ sub doInventory {
 
     my $xorgData;
     if ($xOrgPid) {
-        $xorgData = _parseXorgFd("</proc/$xOrgPid/fd/0");
+        $xorgData = _parseXorgFd("/proc/$xOrgPid/fd/0");
     }
 
     my $memory = $xorgData->{memory} || $ddcprobeData->{memory};
