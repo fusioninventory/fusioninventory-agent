@@ -18,6 +18,7 @@ use LWP::UserAgent;
 use XML::Simple;
 use Compress::Zlib;
 use Getopt::Long;
+use Pod::Usage;
 my $help;
 my $directory;
 my $file;
@@ -95,46 +96,19 @@ sub sendContent {
     }
 }
 
-sub usage {
-
-    print STDERR <<EOF;
-DESCRIPTION:
-  A command line tools to import .ocs file in an OCS Inventry server.
-
-  USAGE:
-  -h --help	: this menu
-  -d --directory: load every .ocs files from a directory
-  -f --file\	: load a speficic file
-  -u --url	: ocsinventory backend URL
-  -r --remove	: remove succesfuly injected files
-  -m --msg	: show message returned my ocsinventory
-  -v --verbose	: verbose mode
-  --stdin       : read data from STDIN
-
-You must specify a --file or a --directory or STDIN.
-
-Example :
- \$export https_proxy=http://www-proxy:8080
- \$fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw\@yourserver/ocsinventory
-
-This tool is part of the FusionInventory distribution.
-EOF
-    exit 1;
-}
-
 GetOptions(
-    'h|help'		=> \$help,
-'d|directory=s'	=> \$directory,
-    'f|file=s'		=> \$file,
-'u|url=s'		=> \$url,
-    'useragent=s'	=> \$useragent,
-'r|remove'		=> \$remove,
-    'v|verbose'		=> \$verbose,
-'stdin'		=> \$stdin,
+    'h|help'            => \$help,
+'d|directory=s' => \$directory,
+    'f|file=s'          => \$file,
+'u|url=s'               => \$url,
+    'useragent=s'       => \$useragent,
+'r|remove'              => \$remove,
+    'v|verbose'         => \$verbose,
+'stdin'         => \$stdin,
 );
 
 # Default values
-$useragent	= 'FusionInventory-Injector' unless $useragent;
+$useragent      = 'FusionInventory-Injector' unless $useragent;
 ###
 
 $OUTPUT_AUTOFLUSH = 1;
@@ -147,7 +121,7 @@ if ($file && -f $file) {
     die("Directory does not exist. Abort.") unless -d $directory;
     loaddirectory($directory);
 } else {
-    usage();
+    pod2usage();
 }
 
 __END__
@@ -156,13 +130,24 @@ __END__
 
 fusioninventory-injector - A tool to push inventory in an OCS Inventory or compatible server.
 
-=head1 DESCRIPTION
-
-This tool can be used to test your server, do benchmark or push inventory from off-line machine.
-
 =head1 SYNOPSIS
 
-Please see: 
+fusioninventory-injector [options] [--file <file>|--directory <directory|--stdin]
 
-B<fusioninventory-injector> S<--help>
+  Options:
+    -h --help      this menu
+    -d --directory load every .ocs files from a directory
+    -f --file      load a speficic file
+    -u --url       server URL
+    -r --remove    remove succesfuly injected files
+    -m --msg       show message returned by server
+    -v --verbose   verbose mode
+    --stdin        read data from STDIN
 
+  Examples:
+    fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
+
+=head1 DESCRIPTION
+
+This tool can be used to test your server, do benchmark or push inventory from
+off-line machine.
