@@ -29,13 +29,7 @@ sub new {
     POE::Component::Server::HTTP->new(
         Port    => $params{port},
         Address => $params{ip},
-        ContentHandler => {
-            '/'       => sub { $self->main(@_) },
-            '/deploy' => sub { $self->deploy(@_) },
-            '/now'    => sub { $self->now(@_) },
-            '/files'  => sub { $self->files(@_) },
-        },
-        StreamHandler => sub { $self->stream(@_) },
+        ContentHandler => { '/' => sub { $self->content(@_) } },
         Headers => { Server => 'FusionInventory Agent' },
     );
 
@@ -48,16 +42,44 @@ sub new {
     return $self;
 }
 
-sub main {
+sub content {
+    my ($self, $request, $response) = @_;
+
+    my $logger    = $self->{logger};
+    my $path      = $request->uri()->path();
+    my $remote_ip = $request->connection()->remote_ip();
+
+    $logger->debug("[Receiver] request $path received from $remote_ip");
+
+    # first match wins
+    my @methods = (
+        [ deploy  => qr{^/deploy/(\S+)$} ],
+        [ files   => qr{^/files/(\S+)$}   ],
+        [ now     => qr{^/now(?:/(\S+))?$} ],
+        [ default => qr{^/} ]
+    );
+
+    foreach my $item (@methods) {
+        my ($method, $pattern) = @$item;
+        if (my @matched = ($path =~ $pattern)) {
+            $self->$method($request, $response, @matched);
+            return $response->code();
+        }
+    }
+
+    $logger->debug("[Receiver] no handler found for request");
+    $response->code(500);
+    return RC_OK;
+}
+
+sub default {
     my ($self, $request, $response) = @_;
 
     my $logger = $self->{logger};
+    $logger->debug("[Receiver] 'default' handler called");
 
-    my $remote_ip = $request->connection->remote_ip;
-   
-
-    if ($remote_ip ne '127.0.0.1') {
-        $response->content("Forbidden");
+    if ($request->connection()->remote_ip() ne '127.0.0.1') {
+        $response->content("Access denied");
         $response->code(403);
         return;
     }
@@ -82,145 +104,94 @@ sub main {
     return RC_OK;
 }
 
-sub deploy {
-    my ($self, $request, $response) = @_;
+sub files {
+    my ($self, $request, $response, $file) = @_;
 
     my $logger = $self->{logger};
-    
-    my $path = $request->uri()->path();
+    $logger->debug("[Receiver] 'file' handler called, with file $file");
 
-    if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
-        my $file = $1;
-        foreach my $target ($self->{state}->getTargets()) {
-            if (-f $target->{vardir}."/deploy/".$file) {
-                $logger->debug("Send /deploy/".$file);
-# XXX TODO
-                $self->sendFile($response, $target->{vardir}."/deploy/".$file);
-                return;
-            } else {
-                $logger->debug("Not found /deploy/".$file);
-                $response->code(404);
-            }
-        }
+    $self->sendFile(
+        $response, $self->{htmldir} . '/' . $file
+    );
+}
+
+sub deploy {
+    my ($self, $request, $response, $file) = @_;
+
+    my $logger = $self->{logger};
+    $logger->debug("[Receiver] 'deploy' handler called, with file $file");
+
+    foreach my $target ($self->{state}->getTargets()) {
+        $self->sendFile(
+            $response,
+            $target->getStorage()->getDirectory() . '/' . $file
+        );
     }
 }
 
 sub now {
-    my ($self, $request, $response) = @_;
+    my ($self, $request, $response, $token) = @_;
 
     my $logger = $self->{logger};
-    
-    my $path = $request->uri()->path();
-    my $remote_ip = $request->connection()->remote_ip();
+    $logger->debug(
+        "[Receiver] 'now' handler called" .
+        ($token ? ", with token $token" : "")
+    );
 
-    # now request
-    if ($path =~ m{^/now(/|)(\S+)?$}) {
-        my $sentToken = $2;
-        my $result;
+    my $result;
 
-        print $remote_ip."\n";
-        if ($remote_ip eq '127.0.0.1' && $self->{trust_localhost}) {
+    if (
+        $request->connection()->remote_ip() eq '127.0.0.1' &&
+        $self->{trust_localhost}
+    ) {
             # trusted request
             $result = "ok";
-            POE::Kernel->post( Scheduler => 'runAllNow' );
-            print "ok\n";
-        } else {
+    } else {
+        if ($token) {
             # authenticated request
-            if ($sentToken) {
-                my $token = $self->{state}->resetToken();
-                if ($sentToken eq $token) {
-                    $result = "ok";
-                    $self->{state}->resetToken();
-                } else {
-                    $logger->debug(
-                        "[Receiver] untrusted address, invalid token $sentToken != $token"
-                    );
-                    $result = "untrusted address, invalid token";
-                }
+            if ($token eq $self->{state}->getToken()) {
+                $result = "ok";
+                $self->{state}->resetToken();
             } else {
-                $logger->debug(
-                    "[Receiver] untrusted address, no token received"
-                );
-                $result = "untrusted address, no token received";
+                $result = "untrusted address, invalid token";
             }
-        }
-
-        my ($code, $message);
-        if ($result eq "ok") {
-            #$scheduler->scheduleTargets(0);
-            $response->code(200);
-            $message = "Done."
         } else {
-            $response->code(403);
-            $message = "Access denied: $result.";
+            $result = "untrusted address, no token received";
         }
-
-        my $output = "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>";
-        $response->content($output);
-
-#        # static content request
-#        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-#            $c->send_file_response($htmldir."/$1");
-#            last SWITCH;
-#        }
-#
-#        $logger->debug("[WWW] error, unknown path: $path");
-#        $c->send_error(400);
-#>>>>>>> master
     }
+
+    my ($code, $message);
+    if ($result eq "ok") {
+        $message = "Done";
+        $code = 200;
+    } else {
+        $message = "Access denied";
+        $code = 403;
+    }
+
+    my $content = "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>";
+
+    $response->code($code);
+    $response->content($content);
 }
 
-sub files {
-    my ($self, $request, $response) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-
-    my $path = $request->uri()->path();
-
-    if ($path =~ /^\/files(.*)/) {
-        $self->sendFile($response, $self->{htmldir}.$1);
-        return;
-    }
-}
 
 sub sendFile {
     my ($self, $response, $file) = @_;
 
-    my $logger = $self->{logger};
-
-    my $st = stat($file);
-    my $fh;
-    if (!open $fh, '<', $file) {
-        $logger->error("Failed to open $file");
-        return;
-    }
-    binmode($fh);
-    $self->{todo}->{$response->{connection}->{id}} = $fh;
-
-
-    $response->streaming(1);
-    $response->code(RC_OK);         # you must set up your response header
-    $response->content_type('application/binary');
-    $response->content_length($st->size());
-
-}
-
-sub stream {
-    my ($self, $resquest, $response) = @_;
-
-    my $fh = $self->{todo}->{$response->{connection}->{id}};
-
-    my $buffer;
-    my $dataRemain = read ($fh, $buffer, 1024); 
-    $response->send($buffer);
-   
-    if (!$dataRemain) {
-        close($fh);
-        $response->streaming(0);
-        $response->close();
-        $resquest->header(Connection => 'close');
-        delete($self->{todo}->{$response->{connection}->{id}});
+    if (-f $file) {
+        if (!open my $fh, '<', $file) {
+            $response->code(RC_FORBIDDEN);
+            $response->content('Access denied');
+        } else {
+            local $RS;
+            $response->code(RC_OK);
+            $response->content(<$fh>);
+            close $fh;
+        }
+    } else {
+        $response->code(RC_NOT_FOUND);
+        $response->content('not found');
     }
 }
 
