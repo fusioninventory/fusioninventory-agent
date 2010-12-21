@@ -15,15 +15,26 @@ sub isInventoryEnabled {
         can_load("Net::IP");
 }
 
-# Initialise the distro entry
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
 
-    foreach my $interface (_getInterfaces()) {
+    my @interfaces = _getInterfaces();
+    foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
     }
+
+    # set global IP addresses list
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
+
+    $inventory->setHardware(
+        IPADDR => join('/', @ip_addresses)
+    );
 }
 
 sub _getInterfaces {
