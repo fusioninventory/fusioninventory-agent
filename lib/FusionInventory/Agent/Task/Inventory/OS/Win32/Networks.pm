@@ -69,7 +69,6 @@ sub doInventory {
         }
 
         $interface->{status}  = $nic->IPEnabled ? "Up" : "Down";
-        $interface->{name}    = $nic->Name;
         $interface->{ipdhcp}  = $nic->DHCPServer;
         $interface->{macaddr} = $nic->MACAddress;
         $interface->{mtu}     = $nic->MTU;
@@ -81,9 +80,7 @@ sub doInventory {
         my $interface = $interfaces[$nic->Index];
 
         $interface->{virtualdev}  = $nic->PhysicalAdapter?0:1;
-        $interface->{name}        = $nic->Name;
         $interface->{macaddr}     = $nic->MACAddress;
-        $interface->{speed}       = $nic->Speed;
         $interface->{pnpdeviceid} = $nic->PNPDeviceID;
     }
 
