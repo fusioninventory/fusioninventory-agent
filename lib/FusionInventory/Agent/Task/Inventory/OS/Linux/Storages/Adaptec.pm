@@ -49,30 +49,30 @@ sub doInventory {
         my ($host, $model, $firmware, $manufacturer, $size, $serialnumber);
         my $count = -1;
         while (<$handle>) {
-            ($host, $count) = (1, $count+1) if /^Host:\sscsi$hd->{SCSI_COID}.*/;
-            if ($host) {
-                if ((/.*Model:\s(\S+).*Rev:\s(\S+).*/) and ($1 !~ 'raid.*')) {
-                    $model = $1;
-                    $firmware = $2;
-                    $manufacturer = getCanonicalManufacturer($model);
-                    foreach (`smartctl -i /dev/sg$count`) {
-                        $serialnumber = $1 if /^Serial Number:\s+(\S*).*/;
-                    }
-                    $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
-                    $host = undef;
+            next unless /^Host:\sscsi$hd->{SCSI_COID}.*/;
+            $count++;
+            next unless /.*Model:\s(\S+).*Rev:\s(\S+).*/;
+            $model = $1;
+            $firmware = $2;
+            next unless $model !~ 'raid.*';
 
-                    $inventory->addStorage({
-                        NAME => $hd->{NAME},
-                        MANUFACTURER => $manufacturer,
-                        MODEL => $model,
-                        DESCRIPTION => 'SATA',
-                        TYPE => 'disk',
-                        DISKSIZE => $size,
-                        SERIALNUMBER => $serialnumber,
-                        FIRMWARE => $firmware,
-                    });
-                }
+            $manufacturer = getCanonicalManufacturer($model);
+            foreach (`smartctl -i /dev/sg$count`) {
+                $serialnumber = $1 if /^Serial Number:\s+(\S*).*/;
             }
+            $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
+            $host = undef;
+
+            $inventory->addStorage({
+                NAME => $hd->{NAME},
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => 'SATA',
+                TYPE => 'disk',
+                DISKSIZE => $size,
+                SERIALNUMBER => $serialnumber,
+                FIRMWARE => $firmware,
+            });
         }
         close $handle;
     }
