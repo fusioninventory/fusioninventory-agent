@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
-use Win32::OLE qw(in);
+use Win32::OLE qw(in CP_UTF8);
 
 my @chassisType = (
     'Unknown',
