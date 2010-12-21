@@ -36,15 +36,8 @@ sub doInventory {
 
     my $devices = getDevicesFromUdev(logger => $logger);
 
-# First, getting the cards : c0, c1... etc.
+    # First, getting the cards : c0, c1... etc.
     foreach (`tw_cli info`) {
-
-# Should output something like this :
-        #
-# Ctl   Model        Ports   Drives   Units   NotOpt   RRate   VRate   BBU
-# ------------------------------------------------------------------------
-# c0    9650SE-2LP   2       2        1       0        1       1       -        
-
         if (/^(c\d)+\s+([\w|-]+)/) {
             $card = $1;
             $card_model = $2;
@@ -53,19 +46,8 @@ sub doInventory {
         }
         if ($card) {
 
-# Second, getting the units : u0, u1... etc.
+            # Second, getting the units : u0, u1... etc.
             foreach (`tw_cli info $card`) {
-
-# Example output :
-                #
-# Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
-# ------------------------------------------------------------------------------
-# u0    RAID-1    OK             -       -       -       65.1826   ON     OFF    
-                #
-# Port   Status           Unit   Size        Blocks        Serial
-# ---------------------------------------------------------------
-# p0     OK               u0     69.25 GB    145226112     WD-WMANS1648590     
-# p1     OK               u0     69.25 GB    145226112     WD-WMANS1344790     
 
                 if (/^(u)(\d+).*/) {
                     $unit = $1 . $2;
@@ -73,26 +55,21 @@ sub doInventory {
                 }
                 if ($unit) {
 
-# Try do get unit's serial in order to compare it to what was found in udev db.
-# Works only on newer cards.
-# Allow us to associate a node to a drive : sda -> WD-WMANS1648590
+                    # Try do get unit's serial in order to compare it to what
+                    # was found in udev db.
+                    # Works only on newer cards.
+                    # Allow us to associate a node to a drive : sda ->
+                    # WD-WMANS1648590
                     $sn = `tw_cli info $card $unit serial 2> /dev/null`;
                     $sn =~ s/^.*serial number\s=\s(\w*)\s*/$1/;
 
-# Third, getting the ports : p0, p1... etc.
+                    # Third, getting the ports : p0, p1... etc.
                     foreach(`tw_cli info $card $unit`) {
                         $port =  $1 if /^.*(p\d+).*/;
                         if ($port) {
 
-# Finally, getting drives' values.
+                            # Finally, getting drives' values.
                             foreach (`tw_cli info $card $port model serial capacity firmware`) {
-
-# Example output :      
-                                #
-# /c0/p0 Model = WDC WD740ADFD-00NLR4
-# /c0/p0 Serial = WD-WMANS1648590
-# /c0/p0 Capacity = 69.25 GB (145226112 Blocks)
-# /c0/p0 Firmware Version = 21.07QR4
 
                                 $model = $1 if /^.*Model\s=\s(.*)/;
                                 $serialnumber = $1 if /^.*Serial\s=\s(.*)/;
@@ -101,16 +78,20 @@ sub doInventory {
                             }
                             foreach my $hd (@$devices) {
 
-# How does this work with multiple older cards where serial for units is not implemented ?
-# Need to be tested on a system with multiple 3ware cards.
+                                # How does this work with multiple older cards
+                                # where serial for units is not implemented ?
+                                # Need to be tested on a system with multiple
+                                # 3ware cards.
                                 if (($hd->{SERIALNUMBER} eq 'AMCC_' . $sn) or ($hd->{MODEL} eq 'Logical_Disk_' . $unit_id)) {
                                     $device = $hd->{NAME};
                                 }
                             }
 
-# Getting description from card model, very basic and unreliable
-# Assuming only IDE drives can be plugged in 5xxx/6xxx cards and
-# SATA drives only to 7xxx/8xxx/9xxxx cards
+                            # Getting description from card model, very basic
+                            # and unreliable
+                            # Assuming only IDE drives can be plugged in
+                            # 5xxx/6xxx cards and
+                            # SATA drives only to 7xxx/8xxx/9xxxx cards
                             $description = undef;
                             foreach ($card_model) {
                                 $description = "IDE" if /^[5-6].*/;
