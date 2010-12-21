@@ -51,24 +51,6 @@ sub _getInterfaces {
         }
     } 
 
-    # uncomment if you prefere verbose information about the link
-    # e.g: 0xe8120000:0xe80c0000:741:3:512:1024:8192:Auto_Negotiation:2048:no:0x000000000000:10000:10:1000:yes:yes:no:no:yes:2048
-
-    # etherchannel interfaces
-    #my @lsdev=`lsdev -Cc adapter -s pseudo -t ibm_ech`;
-#  foreach (`lsdev -Cc adapter`) {
-#    next unless /^ent(\d*)\s*(\w*)\s*.*/;
-#    my $ifname = "en".$1;
-#    my $tmpifname = "ent".$1;
-#    #@lsattr=`lsattr -EOl $1 -a 'adapter_names mode netaddr'`;
-#    foreach (`lsattr -EOl $tmpifname`) {
-#      if (/(.+):(.+):(.*)/) {
-#       $info{$ifname}{type}="EtherChannel with : ".$1." (mode :".$2.", ping :".$3.")";
-#      }
-#    }
-#    $info{$ifname}{status} = 'Down'; # The same
-#  }
-
     foreach (split / /,`ifconfig -l`) {
         # AIX: network interface naming is enX
         if(/^(en\d+)/) {
