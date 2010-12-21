@@ -53,9 +53,9 @@ sub _getInterfaces {
         next unless /^(en\d+)/;
         my $name = $1;
         foreach (`lsattr -E -l $name`) {
-            $interfaces{$name}->{IPADDRESS} = $1 if /^netaddr \s*([\d*\.?]*).*/i;
-            $interfaces{$name}->{IPMASK} = $1 if /^netmask\s*([\d*\.?]*).*/i;
-            $interfaces{$name}->{STATUS} = $1 if /^state\s*(\w*).*/i; 
+            $interfaces{$name}->{IPADDRESS} = $1 if /^netaddr \s*([\d*\.?]*)/i;
+            $interfaces{$name}->{IPMASK} = $1 if /^netmask\s*([\d*\.?]*)/i;
+            $interfaces{$name}->{STATUS} = $1 if /^state\s*(\w*)/i; 
         } 
     }
 
