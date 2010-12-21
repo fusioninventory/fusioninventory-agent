@@ -32,36 +32,35 @@ sub doInventory {
 
     my ($tw_cli, $hd);
 
-    my ($card, $card_model, $unit, $unit_id, $port, $serialnumber, $serial, $model, $capacity, $firmware, $description, $media, $device, $manufacturer, $sn);
-
     my $devices = getDevicesFromUdev(logger => $logger);
 
     # First, getting the cards : c0, c1... etc.
     foreach (`tw_cli info`) {
         next unless /^(c\d)+\s+([\w|-]+)/;
-        $card = $1;
-        $card_model = $2;
+        my $card = $1;
+        my $card_model = $2;
         $logger->debug("Card : $card - Model : $card_model");
 
         # Second, getting the units : u0, u1... etc.
         foreach (`tw_cli info $card`) {
             next unless /^(u)(\d+).*/;
-            $unit = $1 . $2;
-            $unit_id = $2;
+            my $unit = $1 . $2;
+            my $unit_id = $2;
 
             # Try do get unit's serial in order to compare it to what was found
             # in udev db.
             # Works only on newer cards.
             # Allow us to associate a node to a drive : sda -> WD-WMANS1648590
-            $sn = `tw_cli info $card $unit serial 2> /dev/null`;
+            my $sn = `tw_cli info $card $unit serial 2> /dev/null`;
             $sn =~ s/^.*serial number\s=\s(\w*)\s*/$1/;
 
             # Third, getting the ports : p0, p1... etc.
             foreach(`tw_cli info $card $unit`) {
                 next unless /^.*(p\d+).*/;
-                $port =  $1;
+                my $port =  $1;
 
                 # Finally, getting drives' values.
+                my ($name, $model, $serialnumber, $capacity, $firmware);
                 foreach (`tw_cli info $card $port model serial capacity firmware`) {
                     $model = $1 if /^.*Model\s=\s(.*)/;
                     $serialnumber = $1 if /^.*Serial\s=\s(.*)/;
@@ -69,13 +68,16 @@ sub doInventory {
                     $firmware = $1 if /^.*Firmware Version\s=\s(.*)/;
                 }
 
-                foreach my $hd (@$devices) {
+                foreach my $device (@$devices) {
                     # How does this work with multiple older cards
                     # where serial for units is not implemented ?
                     # Need to be tested on a system with multiple
                     # 3ware cards.
-                    if (($hd->{SERIALNUMBER} eq 'AMCC_' . $sn) or ($hd->{MODEL} eq 'Logical_Disk_' . $unit_id)) {
-                        $device = $hd->{NAME};
+                    if (
+                        $device->{SERIALNUMBER} eq 'AMCC_' . $sn ||
+                        $device->{MODEL} eq 'Logical_Disk_' . $unit_id
+                    ) {
+                        $name = $device->{NAME};
                     }
                 }
 
@@ -84,32 +86,26 @@ sub doInventory {
                 # Assuming only IDE drives can be plugged in
                 # 5xxx/6xxx cards and
                 # SATA drives only to 7xxx/8xxx/9xxxx cards
-                $description = undef;
+                my $description;
                 foreach ($card_model) {
                     $description = "IDE" if /^[5-6].*/;
                     $description = "SATA" if /^[7-9].*/;
                 }
-                $media = 'disk';
-                $manufacturer = getCanonicalManufacturer($model);
-                $port = undef;
-                $logger->debug("3ware: $device, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
+                my $manufacturer = getCanonicalManufacturer($model);
+                $logger->debug("3ware: $name, $manufacturer, $model, $description, $capacity, $serialnumber, $firmware");
                 $inventory->addStorage({
-                    NAME => $device,
+                    NAME => $name,
                     MANUFACTURER => $manufacturer,
                     MODEL => $model,
                     DESCRIPTION => $description,
-                    TYPE => $media,
+                    TYPE => 'disk',
                     DISKSIZE => $capacity,
                     SERIALNUMBER => $serialnumber,
                     FIRMWARE => $firmware,
                 });
             }
-            $port = undef;
         }
-        $unit = undef;
     }
-    $card = undef;
-    $card_model = undef;
 }
 
 1;
