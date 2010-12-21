@@ -15,7 +15,7 @@ use FusionInventory::Agent::Tools::Linux;
 # mpt-status version : 1.2.0
 
 sub isInventoryEnabled {
-    return can_run('smartctl');
+    return can_run('mpt-status');
 }
 
 sub doInventory {
