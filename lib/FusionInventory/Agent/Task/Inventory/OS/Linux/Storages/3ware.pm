@@ -87,10 +87,10 @@ sub doInventory {
                 # Assuming only IDE drives can be plugged in
                 # 5xxx/6xxx cards and
                 # SATA drives only to 7xxx/8xxx/9xxxx cards
-                foreach ($card_model) {
-                    $storage->{DESCRIPTION} = "IDE" if /^[5-6].*/;
-                    $storage->{DESCRIPTION} = "SATA" if /^[7-9].*/;
-                }
+                $storage->{DESCRIPTION} = 
+                    $card_model =~ /^[56]/  ? 'IDE'  :
+                    $card_model =~ /^[789]/ ? 'SATA' :
+                    undef;
                 $storage->{MANUFACTURER} = getCanonicalManufacturer(
                     $storage->{MODEL}
                 );
