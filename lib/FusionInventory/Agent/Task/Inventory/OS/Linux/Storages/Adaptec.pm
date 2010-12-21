@@ -63,9 +63,7 @@ sub doInventory {
             $storage->{MANUFACTURER} = getCanonicalManufacturer(
                 $storage->{MODEL}
             );
-            foreach (`smartctl -i /dev/sg$count`) {
-                $storage->{SERIALNUMBER} = $1 if /^Serial Number:\s+(\S*)/;
-            }
+            $storage->{SERIALNUMBER} = getSerialnumberFromSmartctl($count);
 
             $inventory->addStorage($storage);
         }

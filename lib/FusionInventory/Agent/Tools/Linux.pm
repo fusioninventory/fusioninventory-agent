@@ -14,6 +14,7 @@ our @EXPORT = qw(
     getDevicesFromUdev
     getDevicesFromHal
     getDevicesFromProc
+    getSerialnumberFromSmartctl
     getCPUsFromProc
 );
 
@@ -252,6 +253,18 @@ sub getCapacity {
     }
     $cap = int($cap / 1000) if $cap;
     return $cap;
+}
+
+sub getSerialnumberFromSmartctl {
+    my ($id) = @_;
+
+    return unless can_run('smartctl');
+
+    foreach (`smartctl -i /dev/sg$id`) {
+        next unless /^Serial Number:\s+(\S*)/;
+        return $1;
+    }
+    return;
 }
 
 
