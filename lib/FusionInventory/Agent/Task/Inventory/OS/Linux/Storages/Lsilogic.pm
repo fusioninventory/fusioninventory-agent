@@ -30,26 +30,24 @@ sub doInventory {
         foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
             next unless /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
             my $id = $1;
-            my $model = $2;
-            my $firmware = $3;
 
-            my $serialnumber;
-            foreach (`smartctl -i /dev/sg$id`) {
-                $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
-            }
-            my $size = 1024*$4; # GB => MB
-            my $manufacturer = getCanonicalManufacturer($model);
-
-            $inventory->addStorage({
+            my $storage = {
                 NAME => $hd->{NAME},
-                MANUFACTURER => $manufacturer,
-                MODEL => $model,
                 DESCRIPTION => 'SATA',
-                TYPE => 'disk',
-                DISKSIZE => $size,
-                SERIALNUMBER => $serialnumber,
-                FIRMWARE => $firmware,
-            });
+                TYPE        => 'disk',
+                MODEL       => $2,
+                FIRMWARE    => $3,
+                SIZE        => $4 * 1024
+            };
+
+            foreach (`smartctl -i /dev/sg$id`) {
+                $storage->{SERIALNUMBER} = $1 if /^Serial Number:\s+(\S*)/;
+            }
+            $storage->{MANUFACTURER} = getCanonicalManufacturer(
+                $storage->{MODEL}
+            );
+
+            $inventory->addStorage($storage);
         }
     }
 
