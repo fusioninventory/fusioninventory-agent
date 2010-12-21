@@ -23,15 +23,34 @@ sub isInventoryEnabled {
         can_load("Net::IP");
 }
 
-# Initialise the distro entry
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
 
+    my @interfaces = _getInterfaces();
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
+    }
+
+    # set global IP addresses list
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
+
+    $inventory->setHardware(
+        IPADDR => join('/', @ip_addresses)
+    );
+}
+
+sub _getInterfaces {
+
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
+    my @interfaces;
     my $description;
     my $ipaddress;
     my $ipgateway;
@@ -113,7 +132,7 @@ sub doInventory {
                 my $binmask = &ip_iptobin ($ipmask ,4);
                 my $binsubnet = $binip & $binmask;
                 $ipsubnet = ip_bintoip($binsubnet,4);
-                $inventory->addNetwork({
+                push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
                     IPGATEWAY => $ipgateway,
@@ -123,7 +142,7 @@ sub doInventory {
                     MACADDR => $macaddr,
                     STATUS => $status?"Up":"Down",
                     TYPE => $type,
-                });
+                };
 
                 $ipaddress = $speed = $description = $macaddr = $status =  $type = $ipmask = undef;
             }
@@ -149,7 +168,7 @@ sub doInventory {
                 my $binmask = &ip_iptobin ($ipmask ,4);
                 my $binsubnet = $binip & $binmask;
                 $ipsubnet = ip_bintoip($binsubnet,4);
-                $inventory->addNetwork({
+                push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
                     IPGATEWAY => $ipgateway,
@@ -158,7 +177,7 @@ sub doInventory {
                     MACADDR => $macaddr,
                     STATUS => $status?"Up":"Down",
                     TYPE => $type,
-                });
+                };
 
                 $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
             }
@@ -175,7 +194,7 @@ sub doInventory {
                 $speed = $3." ".$4." ".$5 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
                 $status = 1 if /up/;
                 $ipaddress = "0.0.0.0";
-                $inventory->addNetwork({
+                push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
                     IPGATEWAY => $ipgateway,
@@ -185,7 +204,7 @@ sub doInventory {
                     STATUS => $status?"Up":"Down",
                     SPEED => $speed,
                     TYPE => $type,
-                });
+                };
             }
 
             $ipgateway = $ipsubnet = $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
@@ -204,7 +223,7 @@ sub doInventory {
                 $status = 1 if /online/;
 
                 if ($description &&  $macaddr) {
-                    $inventory->addNetwork({
+                    push @interfaces, {
                         DESCRIPTION => $description,
                         IPADDRESS => $ipaddress,
                         IPGATEWAY => $ipgateway,
@@ -214,7 +233,7 @@ sub doInventory {
                         STATUS => $status?"Up":"Down",
                         SPEED => $speed,
                         TYPE => $type,
-                    });
+                    };
                     $inc ++ ;
 
                     $ipgateway = $ipsubnet = $ipaddress = $description = $macaddr = $status =  $speed = $type = $ipmask = undef;
@@ -269,7 +288,7 @@ sub doInventory {
                 my $binsubnet = $binip & $binmask;
                 $ipsubnet = ip_bintoip($binsubnet,4);
 
-                $inventory->addNetwork({
+                push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
                     IPGATEWAY => $ipgateway,
@@ -279,12 +298,14 @@ sub doInventory {
                     MACADDR => $macaddr,
                     STATUS => $status?"Up":"Down",
                     TYPE => $type,
-                });
+                };
 
                 $ipaddress = $speed = $description = $macaddr = $status =  $type = undef;
             }
         }
     }
+
+    return @interfaces;
 }
 
 # Function to test Quad Fast-Ethernet, Fast-Ethernet, and
