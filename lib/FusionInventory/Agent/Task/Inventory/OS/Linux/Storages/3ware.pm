@@ -49,20 +49,20 @@ sub doInventory {
             # Works only on newer cards.
             # Allow us to associate a node to a drive : sda -> WD-WMANS1648590
             my $sn = `tw_cli info $card $unit serial 2> /dev/null`;
-            $sn =~ s/^.*serial number\s=\s(\w*)\s*/$1/;
+            $sn =~ s/serial number\s=\s(\w*)\s*/$1/;
 
             # Third, getting the ports : p0, p1... etc.
             foreach(`tw_cli info $card $unit`) {
-                next unless /^.*(p\d+).*/;
+                next unless /(p\d+).*/;
                 my $port =  $1;
 
                 # Finally, getting drives' values.
                 my ($name, $model, $serialnumber, $capacity, $firmware);
                 foreach (`tw_cli info $card $port model serial capacity firmware`) {
-                    $model = $1 if /^.*Model\s=\s(.*)/;
-                    $serialnumber = $1 if /^.*Serial\s=\s(.*)/;
-                    $capacity = 1024*$1 if /^.*Capacity\s=\s(\S+)\sGB.*/;
-                    $firmware = $1 if /^.*Firmware Version\s=\s(.*)/;
+                    $model = $1 if /Model\s=\s(.*)/;
+                    $serialnumber = $1 if /Serial\s=\s(.*)/;
+                    $capacity = 1024*$1 if /Capacity\s=\s(\S+)\sGB.*/;
+                    $firmware = $1 if /Firmware Version\s=\s(.*)/;
                 }
 
                 foreach my $device (@$devices) {
