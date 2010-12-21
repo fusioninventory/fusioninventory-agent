@@ -36,22 +36,6 @@ sub doInventory {
     my $description;
     my $ipaddress;
 
-    my $hostname = hostname();
-
-    if (open my $handle, '<', '/etc/hosts') {
-        while (my $line = <$handle>) {
-            next unless $line =~ /$hostname/;
-            if ($line =~ /(^\d+\.\d+\.\d+\.\d+)\s+/ ) {
-                $inventory->setHardware(IPADDR => $1);
-                last;
-            }
-        }
-        close $handle;
-    } else {
-        warn "Can't open /etc/hosts: $ERRNO";
-        return;
-    }
-
     my %gateway;
     foreach (`netstat -nrv`) {
         if (/^(\S+\/\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
