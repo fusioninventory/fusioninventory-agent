@@ -87,7 +87,8 @@ sub _parseIfconfig {
             push @interfaces, $interface if $interface;
             $interface = {
                 STATUS      => 'Down',
-                DESCRIPTION => $1
+                DESCRIPTION => $1,
+                VIRTUALDEV  => 1
             };
         }
 
@@ -123,6 +124,9 @@ sub _parseIfconfig {
         }
         if ($line =~ /status:\s+active/i) {
             $interface->{STATUS} = 'Up';
+        }
+        if ($line =~ /supported\smedia:/) {
+            $interface->{VIRTUALDEV} = 0;
         }
     }
     push @interfaces, $interface if $interface;
