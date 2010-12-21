@@ -54,10 +54,11 @@ sub doInventory {
 #         Device ID                : IBM-ESXSCBR036C3DFQDB2Q6CDKM
 #         FRU part number          : 32P0729
 
-            $storage->{DISKSIZE}     = $1 if /Size.*:\s(\d*)\/(\d*)/;
-            $storage->{SERIALNUMBER} = $1 if /Device ID.*:\s(.*)/;
-
-            if (/FRU part number.*:\s(.*)/) {
+            if (/Size.*:\s(\d*)\/(\d*)/) {
+                $storage->{DISKSIZE} = $1;
+            } elsif (/Device ID.*:\s(.*)/) {
+                $storage->{SERIALNUMBER} = $1;
+            } elsif (/FRU part number.*:\s(.*)/) {
                 $storage->{MODEL} = $1;
                 $storage->{MANUFACTURER} = getCanonicalManufacturer(
                     $storage->{SERIALNUMBER}
@@ -67,7 +68,7 @@ sub doInventory {
                 $storage->{TYPE} = 'disk';
 
                 $inventory->addStorage($storage);
-                $storage = undef;
+                undef $storage;
             }
         }
     }

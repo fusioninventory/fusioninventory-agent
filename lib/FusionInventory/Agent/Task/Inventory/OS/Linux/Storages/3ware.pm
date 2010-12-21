@@ -59,14 +59,15 @@ sub doInventory {
                 # Finally, getting drives' values.
                 my $storage;
                 foreach (`tw_cli info $card $port model serial capacity firmware`) {
-                    $storage->{MODEL} = $1
-                        if /Model\s=\s(.*)/;
-                    $storage->{SERIALNUMBER} = $1
-                        if /Serial\s=\s(.*)/;
-                    $storage->{DISKSIZE} = 1024 * $1
-                        if /Capacity\s=\s(\S+)\sGB.*/;
-                    $storage->{FIRMWARE} = $1
-                        if /Firmware Version\s=\s(.*)/;
+                    if (/Model\s=\s(.*)/) {
+                        $storage->{MODEL} = $1;
+                    } elsif (/Serial\s=\s(.*)/) {
+                        $storage->{SERIALNUMBER} = $1;
+                    } elsif (/Capacity\s=\s(\S+)\sGB.*/) {
+                        $storage->{DISKSIZE} = 1024 * $1;
+                    } elsif (/Firmware Version\s=\s(.*)/) {
+                        $storage->{FIRMWARE} = $1
+                    }
                 }
 
                 foreach my $device (@$devices) {
