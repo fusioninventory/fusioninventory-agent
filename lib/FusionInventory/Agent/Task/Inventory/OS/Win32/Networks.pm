@@ -121,20 +121,19 @@ sub doInventory {
             next;
         }
         $inventory->addNetwork({
-                DESCRIPTION => $netif->{description},
-                IPADDRESS => $ipaddress,
-                IPDHCP => $netif->{ipdhcp},
-                IPGATEWAY => $netif->{ipgateway},
-                IPMASK => $ipmask,
-                IPSUBNET => $ipsubnet,
-                IPADDRESS6 => $ipaddress6,
-                MACADDR => $netif->{macaddr},
-                MTU => $netif->{mtu},
-                STATUS => $netif->{status},
-                TYPE => $netif->{type},
-                VIRTUALDEV => $netif->{virtualdev}
-            });
-
+            DESCRIPTION => $netif->{description},
+            IPADDRESS => $ipaddress,
+            IPDHCP => $netif->{ipdhcp},
+            IPGATEWAY => $netif->{ipgateway},
+            IPMASK => $ipmask,
+            IPSUBNET => $ipsubnet,
+            IPADDRESS6 => $ipaddress6,
+            MACADDR => $netif->{macaddr},
+            MTU => $netif->{mtu},
+            STATUS => $netif->{status},
+            TYPE => $netif->{type},
+            VIRTUALDEV => $netif->{virtualdev}
+        });
 
     }
 
