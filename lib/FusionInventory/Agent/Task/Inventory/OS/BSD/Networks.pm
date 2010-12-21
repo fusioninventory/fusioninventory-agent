@@ -48,8 +48,6 @@ sub doInventory {
         #    /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+$/;
 
         if ($interface->{STATUS} eq 'Up') {
-            $interface->{IPGATEWAY} = $ipgateway;
-
             my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
             my $binmask = ip_iptobin($interface->{IPMASK}, 4);
             my $binsubnet = $binip & $binmask;
