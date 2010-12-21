@@ -11,103 +11,103 @@ use FusionInventory::Agent::Logger;
 my %tests = (
     'latitude-xt2' => [
         {
-            'vendorId' => '1d6b',
-            'serial' => '0000',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '0001'
+            VENDORID  => '1d6b',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '0001'
         },
         {
-            'vendorId' => '0a5c',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '4500'
+            VENDORID  => '0a5c',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '4500'
         },
         {
-            'vendorId' => '413c',
-            'subClass' => '1',
-            'class' => '3',
-            'productId' => '8161'
+            VENDORID  => '413c',
+            SUBCLASS  => '1',
+            CLASS     => '3',
+            PRODUCTID => '8161'
         },
         {
-            'vendorId' => '413c',
-            'subClass' => '1',
-            'class' => '3',
-            'productId' => '8162'
+            VENDORID  => '413c',
+            SUBCLASS  => '1',
+            CLASS     => '3',
+            PRODUCTID => '8162'
         },
         {
-            'vendorId' => '413c',
-            'subClass' => '1',
-            'class' => '254',
-            'productId' => '8160'
+            VENDORID  => '413c',
+            SUBCLASS  => '1',
+            CLASS     => '254',
+            PRODUCTID => '8160'
         },
         {
-            'vendorId' => '1d6b',
-            'serial' => '0000',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '0001'
+            VENDORID  => '1d6b',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '0001'
         },
         {
-            'vendorId' => '1d6b',
-            'serial' => '0000',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '0001'
+            VENDORID  => '1d6b',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '0001'
         },
         {
-            'vendorId' => '0a5c',
-            'serial' => '0123456789ABCD',
-            'subClass' => '0',
-            'class' => '254',
-            'productId' => '5801'
+            VENDORID  => '0a5c',
+            SERIAL    => '0123456789ABCD',
+            SUBCLASS  => '0',
+            CLASS     => '254',
+            PRODUCTID => '5801'
         },
         {
-            'vendorId' => '1d6b',
-            'serial' => '0000',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '0001'
+            VENDORID  => '1d6b',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '0001'
         },
         {
-            'vendorId' => '1d6b',
-            'serial' => '0000',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '0001'
+            VENDORID  => '1d6b',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '0001'
         },
         {
-            'vendorId' => '1b96',
-            'subClass' => '0',
-            'class' => '0',
-            'productId' => '0001'
+            VENDORID  => '1b96',
+            SUBCLASS  => '0',
+            CLASS     => '0',
+            PRODUCTID => '0001'
         },
         {
-            'vendorId' => '1d6b',
-            'serial' => '0000',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '0001'
+            VENDORID  => '1d6b',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '0001'
         },
         {
-            'vendorId' => '047d',
-            'subClass' => '1',
-            'class' => '3',
-            'productId' => '101f'
+            VENDORID  => '047d',
+            SUBCLASS  => '1',
+            CLASS     => '3',
+            PRODUCTID => '101f'
         },
         {
-            'vendorId' => '1d6b',
-            'serial' => '0000',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '0002'
+            VENDORID  => '1d6b',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '0002'
         },
         {
-            'vendorId' => '1d6b',
-            'serial' => '0000',
-            'subClass' => '0',
-            'class' => '9',
-            'productId' => '0002'
+            VENDORID  => '1d6b',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            CLASS     => '9',
+            PRODUCTID => '0002'
         }
     ]
 );

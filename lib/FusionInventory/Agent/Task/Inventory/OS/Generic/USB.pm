@@ -53,15 +53,15 @@ sub _getDevices {
             push @devices, $device if $device;
             undef $device;
         } elsif ($line =~ /^\s*idVendor\s*0x(\w+)/i) {
-            $device->{vendorId} = $1;
+            $device->{VENDORID} = $1;
         } elsif ($line =~ /^\s*idProduct\s*0x(\w+)/i) {
-            $device->{productId} = $1;
+            $device->{PRODUCTID} = $1;
         } elsif ($line =~ /^\s*iSerial\s*\d+\s(\w+)/i) {
-            $device->{serial} = $1;
+            $device->{SERIAL} = $1;
         } elsif ($line =~ /^\s*bInterfaceClass\s*(\d+)/i) {
-            $device->{class} = $1;
+            $device->{CLASS} = $1;
         } elsif ($line =~ /^\s*bInterfaceSubClass\s*(\d+)/i) {
-            $device->{subClass} = $1;
+            $device->{SUBCLASS} = $1;
         }
     }
     close $handle;
