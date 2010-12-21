@@ -22,23 +22,14 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
-
+    # set list of network interfaces
     my $routes = _getRoutes();
-
-    if ($routes->{default}) {
-        $inventory->setHardware(
-            DEFAULTGATEWAY => $routes->{default}
-        );
-    }
-
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
     }
 
-    # add all ip addresses found, excepted loopback, to hardware
+    # set global parameters
     my @ip_addresses =
         grep { ! /^127/ }
         grep { $_ }
@@ -46,13 +37,13 @@ sub doInventory {
         @interfaces;
 
     $inventory->setHardware(
-        IPADDR => join('/', @ip_addresses)
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{default}
     );
 }
 
 sub _getRoutes {
 
-    # XXX IPV4 only
     my $routes;
     foreach my $line (`netstat -nr -f inet`) {
         next unless $line =~ /^default\s+(\S+)/i;
@@ -64,6 +55,9 @@ sub _getRoutes {
 
 sub _getInterfaces {
     my ($logger) = @_;
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
 
     my @interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
 

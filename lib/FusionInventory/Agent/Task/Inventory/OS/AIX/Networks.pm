@@ -19,7 +19,7 @@ sub doInventory {
         $inventory->addNetwork($interface);
     }
 
-    # set global IP addresses list
+    # set global parameters
     my @ip_addresses =
         grep { ! /^127/ }
         grep { $_ }

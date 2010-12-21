@@ -20,12 +20,14 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    # set list of network interfaces
+    my $routes = _getRoutes();
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
     }
 
-    # set global IP addresses list
+    # set global parameters
     my @ip_addresses =
         grep { ! /^127/ }
         grep { $_ }
@@ -33,8 +35,20 @@ sub doInventory {
         @interfaces;
 
     $inventory->setHardware(
-        IPADDR => join('/', @ip_addresses)
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{default}
     );
+}
+
+sub _getRoutes {
+
+    my $routes;
+    foreach my $line (`netstat -nr -f inet`) {
+        next unless $line =~ /^default\s+(\S+)/i;
+        $routes->{default} = $1;
+    }
+
+    return $routes;
 }
 
 sub _getInterfaces {
@@ -52,18 +66,9 @@ sub _getInterfaces {
     my $status;
     my $type;
 
-    # Looking for the gateway
-    # 'route show' doesn't work on FreeBSD so we use netstat
-    # XXX IPV4 only
-    for(`netstat -nr -f inet`){
-        $ipgateway=$1 if /^default\s+(\S+)/i;
-    }
-
-    my @ifconfig = `ifconfig -a`; # -a option required on *BSD
-
+    my @ifconfig = `ifconfig -a`;
 
     # first make the list available interfaces
-    # too bad there's no -l option on OpenBSD
     my @list;
     foreach (@ifconfig){
         # skip loopback, pseudo-devices and point-to-point interfaces

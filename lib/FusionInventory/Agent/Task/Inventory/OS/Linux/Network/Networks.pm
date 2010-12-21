@@ -23,20 +23,14 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    # set list of network interfaces
     my $routes = _getRoutes();
-
-    if ($routes->{'0.0.0.0'}) {
-    $inventory->setHardware(
-            DEFAULTGATEWAY => $routes->{'0.0.0.0'}
-        );
-    }
-
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
     }
 
-    # add all ip addresses found, excepted loopback, to hardware
+    # set global parameters
     my @ip_addresses =
         grep { ! /^127/ }
         grep { $_ }
@@ -44,7 +38,8 @@ sub doInventory {
         @interfaces;
 
     $inventory->setHardware(
-        IPADDR => join('/', @ip_addresses)
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{'0.0.0.0'}
     );
 }
 
