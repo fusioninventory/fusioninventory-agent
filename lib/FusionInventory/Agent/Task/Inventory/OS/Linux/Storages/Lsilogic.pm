@@ -28,7 +28,7 @@ sub doInventory {
 
     foreach my $hd (@$devices) {
         foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
-            next unless /.*phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+).*/;
+            next unless /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
             my $serialnumber;
             foreach (`smartctl -i /dev/sg$1`) {
                 $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
