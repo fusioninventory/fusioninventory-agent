@@ -61,16 +61,7 @@ sub doInventory {
                     push @ip6s, ${$nic->IPAddress}[$_];
                     push @{$netifs[$idx]{ipaddress6}}, ${$nic->IPAddress}[$_];
                     push @{$netifs[$idx]{ipmask6}}, ${$nic->IPSubnet}[$_];
-                    if (can_load("Net::IP")) {
-                        Net::IP->import(':PROC');
-                        my $binip = ip_iptobin (${$nic->IPAddress}[$_] , 6);
-                        if ($binip) {
-                            my $binmask = ip_iptobin (${$nic->IPSubnet}[$_] , 6);
-                            my $binsubnet = $binip & $binmask;
-                            push @{$netifs[$idx]{ipsubnet6}}, 
-                                 ip_bintoip($binsubnet, 6);
-                        }
-                    }
+                    push @{$netifs[$idx]{ipsubnet6}}, getSubnetAddressIPv6(${$nic->IPAddress}[$_], ${$nic->IPSubnet}[$_]);
                 }
             }
         }

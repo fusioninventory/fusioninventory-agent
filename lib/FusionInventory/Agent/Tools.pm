@@ -11,6 +11,7 @@ use Sys::Hostname;
 
 our @EXPORT = qw(
     getSubnetAddress
+    getSubnetAddressIPv6
     getFileHandle
     getFormatedLocalTime
     getFormatedGmTime
@@ -216,6 +217,22 @@ sub getSanitizedString {
 }
 
 sub getSubnetAddress {
+    my ($address, $mask) = @_;
+
+    return unless $address && $mask;
+
+    # load Net::IP conditionnaly
+    return unless can_load("Net::IP");
+    Net::IP->import(':PROC');
+
+    my $binaddress = ip_iptobin($address, 6);
+    my $binmask    = ip_iptobin($mask, 6);
+    my $binsubnet  = $binaddress & $binmask;
+
+    return ip_bintoip($binsubnet, 6);
+}
+
+sub getSubnetAddressIPv6 {
     my ($address, $mask) = @_;
 
     return unless $address && $mask;
@@ -442,7 +459,11 @@ of line removed.
 
 =head2 getSubnetAddress($address, $mask)
 
-Returns the subnet address.
+Returns the subnet address for IPv4.
+
+=head2 getSubnetAddressIPv6($address, $mask)
+
+Returns the subnet address for IPv6.
 
 =head2 getHostname()
 
