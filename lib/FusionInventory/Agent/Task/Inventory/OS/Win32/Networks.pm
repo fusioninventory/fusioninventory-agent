@@ -8,6 +8,7 @@ use Win32::OLE::Enum;
  
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 Win32::OLE->Option(CP=>CP_UTF8);
 
@@ -50,7 +51,7 @@ sub doInventory {
             while (@{$nic->IPAddress}) {
                 my $address = shift @{$nic->IPAddress};
                 my $mask = shift @{$nic->IPSubnet};
-                if ($address =~ /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
+                if ($address =~ /$ip_address_pattern/) {
                     push @ips, $address;
                     push @{$interface->{IPADDRESS}}, $address;
                     push @{$interface->{IPMASK}}, $mask;
