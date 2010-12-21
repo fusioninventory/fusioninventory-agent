@@ -14,10 +14,30 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    my @interfaces = _getInterfaces();
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
+    }
+
+    # set global IP addresses list
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
+
+    $inventory->setHardware(
+        IPADDR => join('/', @ip_addresses)
+    );
+}
+
+sub _getInterfaces {
+
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
     my %info;
+    my @interfaces;
 
     my $ifname;
     foreach (`lscfg -v -l en*`) {
@@ -95,7 +115,7 @@ sub doInventory {
             my $subnet = $binip & $binmask;
             $ipsubnet = ip_bintoip($subnet,4);
         }
-        $inventory->addNetwork({
+        push @interfaces, {
             DESCRIPTION => $description,
             IPADDRESS => $ipaddress,
             IPDHCP => $ipdhcp,
@@ -105,8 +125,10 @@ sub doInventory {
             MACADDR => $macaddr,
             STATUS => $status,
             TYPE => $type,
-        });
+        };
     }
+
+    return @interfaces;
 }
 
 1;
