@@ -49,16 +49,16 @@ sub doInventory {
         my ($host, $model, $firmware, $manufacturer, $size, $serialnumber);
         my $count = -1;
         while (<$handle>) {
-            next unless /^Host:\sscsi$hd->{SCSI_COID}.*/;
+            next unless /^Host:\sscsi$hd->{SCSI_COID}/;
             $count++;
-            next unless /.*Model:\s(\S+).*Rev:\s(\S+).*/;
+            next unless /Model:\s(\S+).*Rev:\s(\S+)/;
             $model = $1;
             $firmware = $2;
-            next unless $model !~ 'raid.*';
+            next unless $model !~ 'raid';
 
             $manufacturer = getCanonicalManufacturer($model);
             foreach (`smartctl -i /dev/sg$count`) {
-                $serialnumber = $1 if /^Serial Number:\s+(\S*).*/;
+                $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
             }
             $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
             $host = undef;
