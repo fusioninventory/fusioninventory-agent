@@ -62,10 +62,6 @@ sub _getInterfaces {
     my @interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
 
     foreach my $interface (@interfaces) {
-        # skip loopback, pseudo-devices and point-to-point interfaces
-        #    next if $interface->{DESCRIPTION} =~
-        #    /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+$/;
-
         if ($interface->{STATUS} eq 'Up') {
             my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
             my $binmask = ip_iptobin($interface->{IPMASK}, 4);
