@@ -46,18 +46,18 @@ sub doInventory {
 #   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
 #   Type:   Direct-Access                    ANSI  SCSI revision: 03
 
-        my $storage = {
-            NAME        => $hd->{NAME},
-            DESCRIPTION => 'SATA',
-            TYPE        => 'disk',
-        };
         my $count = -1;
         while (<$handle>) {
             next unless /^Host:\sscsi$hd->{SCSI_COID}/;
             $count++;
             next unless /Model:\s(\S+).*Rev:\s(\S+)/;
-            $storage->{MODEL} = $1;
-            $storage->{FIRMWARE} = $2;
+            my $storage = {
+                NAME        => $hd->{NAME},
+                DESCRIPTION => 'SATA',
+                TYPE        => 'disk',
+                MODEL       => $1,
+                FIRMWARE    => $2
+            };
             next if $storage->{MODEL} =~ 'raid';
 
             $storage->{MANUFACTURER} = getCanonicalManufacturer(
