@@ -54,7 +54,7 @@ sub doInventory {
             next unless /Model:\s(\S+).*Rev:\s(\S+)/;
             $model = $1;
             $firmware = $2;
-            next unless $model !~ 'raid';
+            next if $model =~ 'raid';
 
             $manufacturer = getCanonicalManufacturer($model);
             foreach (`smartctl -i /dev/sg$count`) {
