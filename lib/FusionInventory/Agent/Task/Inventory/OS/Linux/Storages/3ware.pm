@@ -54,15 +54,19 @@ sub doInventory {
             # Third, getting the ports : p0, p1... etc.
             foreach(`tw_cli info $card $unit`) {
                 next unless /(p\d+)/;
-                my $port =  $1;
+                my $port = $1;
 
                 # Finally, getting drives' values.
-                my ($name, $model, $serialnumber, $capacity, $firmware);
+                my $storage;
                 foreach (`tw_cli info $card $port model serial capacity firmware`) {
-                    $model = $1 if /Model\s=\s(.*)/;
-                    $serialnumber = $1 if /Serial\s=\s(.*)/;
-                    $capacity = 1024*$1 if /Capacity\s=\s(\S+)\sGB.*/;
-                    $firmware = $1 if /Firmware Version\s=\s(.*)/;
+                    $storage->{MODEL} = $1
+                        if /Model\s=\s(.*)/;
+                    $storage->{SERIALNUMBER} = $1
+                        if /Serial\s=\s(.*)/;
+                    $storage->{DISKSIZE} = 1024 * $1
+                        if /Capacity\s=\s(\S+)\sGB.*/;
+                    $storage->{FIRMWARE} = $1
+                        if /Firmware Version\s=\s(.*)/;
                 }
 
                 foreach my $device (@$devices) {
@@ -74,7 +78,7 @@ sub doInventory {
                         $device->{SERIALNUMBER} eq 'AMCC_' . $sn ||
                         $device->{MODEL} eq 'Logical_Disk_' . $unit_id
                     ) {
-                        $name = $device->{NAME};
+                        $storage->{NAME} = $device->{NAME};
                     }
                 }
 
@@ -83,22 +87,16 @@ sub doInventory {
                 # Assuming only IDE drives can be plugged in
                 # 5xxx/6xxx cards and
                 # SATA drives only to 7xxx/8xxx/9xxxx cards
-                my $description;
                 foreach ($card_model) {
-                    $description = "IDE" if /^[5-6].*/;
-                    $description = "SATA" if /^[7-9].*/;
+                    $storage->{DESCRIPTION} = "IDE" if /^[5-6].*/;
+                    $storage->{DESCRIPTION} = "SATA" if /^[7-9].*/;
                 }
-                my $manufacturer = getCanonicalManufacturer($model);
-                $inventory->addStorage({
-                    NAME => $name,
-                    MANUFACTURER => $manufacturer,
-                    MODEL => $model,
-                    DESCRIPTION => $description,
-                    TYPE => 'disk',
-                    DISKSIZE => $capacity,
-                    SERIALNUMBER => $serialnumber,
-                    FIRMWARE => $firmware,
-                });
+                $storage->{MANUFACTURER} = getCanonicalManufacturer(
+                    $storage->{MODEL}
+                );
+                $storage->{TYPE} = 'disk';
+
+                $inventory->addStorage($storage);
             }
         }
     }
