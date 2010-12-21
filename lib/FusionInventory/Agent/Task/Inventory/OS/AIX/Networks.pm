@@ -39,42 +39,27 @@ sub _getInterfaces {
     my %info;
     my @interfaces;
 
-    my $ifname;
     foreach (`lscfg -v -l en*`) {
-        $ifname = "en".$1 if /^\s+ent(\d+)\s+\S+\s+(.+)/;
-        if ($ifname) {
-            $info{$ifname}{type} = $2;
-            $info{$ifname}{status} = "Down"; # default is down
-            if (/Network Address\.+(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})/) {
-                $info{$ifname}{macaddr} = "$1:$2:$3:$4:$5:$6"
-            }
+        next unless /^\s+ent(\d+)\s+\S+\s+(.+)/;
+        my $ifname = "en".$1;
+        $info{$ifname}{type} = $2;
+        $info{$ifname}{status} = "Down"; # default is down
+        if (/Network Address\.+(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})/) {
+            $info{$ifname}{macaddr} = "$1:$2:$3:$4:$5:$6"
         }
     } 
 
     foreach (split / /,`ifconfig -l`) {
-        # AIX: network interface naming is enX
-        if(/^(en\d+)/) {
-            my $ifname = $1;
-            foreach (`lsattr -E -l $ifname`) {
-                $info{$ifname}{ip} = $1 if /^netaddr \s*([\d*\.?]*).*/i;
-                $info{$ifname}{netmask} = $1 if /^netmask\s*([\d*\.?]*).*/i;
-                $info{$ifname}{status} = $1 if /^state\s*(\w*).*/i; 
-            } 
-        }
+        # network interface naming is enX
+        next unless /^(en\d+)/;
+        my $ifname = $1;
+        foreach (`lsattr -E -l $ifname`) {
+            $info{$ifname}{ip} = $1 if /^netaddr \s*([\d*\.?]*).*/i;
+            $info{$ifname}{netmask} = $1 if /^netmask\s*([\d*\.?]*).*/i;
+            $info{$ifname}{status} = $1 if /^state\s*(\w*).*/i; 
+        } 
     }
 
-    #Looking for the gateways
-    # AIX: the route command doesn't exist. We use netstat -rn instead
-    foreach (`netstat -rn`) {
-        if (/\S+\s+(\S+)\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
-            my $ifname = $2;
-            my $gateway = $1;   
-
-            if (exists ($info{$ifname})) { 
-                $info{$ifname}{gateway} = $gateway;
-            }
-        }
-    }
 
     foreach my $ifname (sort keys %info) { 
         my $description = $ifname;
