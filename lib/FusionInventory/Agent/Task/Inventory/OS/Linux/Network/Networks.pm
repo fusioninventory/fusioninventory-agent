@@ -31,9 +31,39 @@ sub doInventory {
         );
     }
 
-    my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
+    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
+    }
 
-    foreach my $interface (@$interfaces) {
+    # add all ip addresses found, excepted loopback, to hardware
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
+
+    $inventory->setHardware(
+        IPADDR => join('/', @ip_addresses)
+    );
+}
+
+sub _getRoutes {
+
+    my $routes;
+    foreach my $line (`route -n`) {
+        next unless $line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x;
+        $routes->{$1} = $2;
+    }
+    return $routes;
+}
+
+sub _getInterfaces {
+    my ($logger, $routes) = @_;
+
+    my @interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
+
+    foreach my $interface (@interfaces) {
         if (_isWifi($interface->{DESCRIPTION})) {
             $interface->{TYPE} = "Wifi";
         }
@@ -62,31 +92,9 @@ sub doInventory {
 
         $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
         $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
-
-        $inventory->addNetwork($interface);
-
     }
 
-    # add all ip addresses found, excepted loopback, to hardware
-    my @ip_addresses =
-        grep { ! /^127/ }
-        grep { $_ }
-        map { $_->{IPADDRESS} }
-        @$interfaces;
-
-    $inventory->setHardware(
-        IPADDR => join('/', @ip_addresses)
-    );
-}
-
-sub _getRoutes {
-
-    my $routes;
-    foreach my $line (`route -n`) {
-        next unless $line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x;
-        $routes->{$1} = $2;
-    }
-    return $routes;
+    return @interfaces;
 }
 
 sub _parseIfconfig {
@@ -98,7 +106,7 @@ sub _parseIfconfig {
         return;
     }
 
-    my $interfaces;
+    my @interfaces;
 
     my $interface = { STATUS => 'Down' };
 
@@ -107,7 +115,7 @@ sub _parseIfconfig {
             # end of interface section
             next unless $interface->{DESCRIPTION};
 
-            push @$interfaces, $interface;
+            push @interfaces, $interface;
 
             $interface = { STATUS => 'Down' };
 
@@ -136,7 +144,7 @@ sub _parseIfconfig {
     }
     close $handle;
 
-    return $interfaces;
+    return @interfaces;
 }
 
 # Handle slave devices (bonding)

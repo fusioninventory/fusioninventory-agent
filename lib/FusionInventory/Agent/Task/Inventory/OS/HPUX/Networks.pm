@@ -23,7 +23,48 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
+    my $routes = _getRoutes();
+    if (defined ($routes->{'default/0.0.0.0'})) {
+        $inventory->setHardware(
+            DEFAULTGATEWAY => $routes->{'default/0.0.0.0'}
+        );
+    }
+
+    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
+    }
+
+    # add all ip addresses found, excepted loopback, to hardware
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
+
+    $inventory->setHardware(
+        IPADDR => join('/', @ip_addresses)
+    );
+}
+
+
+sub _getRoutes {
+
+    my $routes;
+    foreach (`netstat -nrv`) {
+        if (/^(\S+\/\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
+            $routes->{$1} = $2 if not defined $routes->{$1}; #Just keep the first one
+        }
+    }
+    return $routes;
+}
+
+sub _getInterfaces {
+    my ($logger, $routes) = @_;
+
+    my @interfaces;
     my $name;
     my $lanid;
     my $ipmask;
@@ -35,13 +76,6 @@ sub doInventory {
     my $ipsubnet;
     my $description;
     my $ipaddress;
-
-    my $routes = _getRoutes();
-    if (defined ($routes->{'default/0.0.0.0'})) {
-        $inventory->setHardware(
-            DEFAULTGATEWAY => $routes->{'default/0.0.0.0'}
-        );
-    }
 
     for ( `lanscan -iap`) {
         # Reinit variables
@@ -100,7 +134,7 @@ sub doInventory {
             if ( not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0' ) { $ipsubnet = "" }
             if ( not $status ) { $status = 'Down' }
 
-            $inventory->addNetwork({
+            push @interfaces, {
                 DESCRIPTION => $description,
                 IPADDRESS => $ipaddress,
                 IPMASK => $ipmask,
@@ -113,20 +147,11 @@ sub doInventory {
 #        PCISLOT => $pcislot,
 #        DRIVER => $driver,
 #        VIRTUALDEV => $virtualdev,
-            });
+            };
         } # If
     } # For lanscan
-}
 
-sub _getRoutes {
-
-    my $routes;
-    foreach (`netstat -nrv`) {
-        if (/^(\S+\/\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
-            $routes->{$1} = $2 if not defined $routes->{$1}; #Just keep the first one
-        }
-    }
-    return $routes;
+    return @interfaces;
 }
 
 1;

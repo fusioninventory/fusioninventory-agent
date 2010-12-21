@@ -33,25 +33,8 @@ sub doInventory {
         );
     }
 
-    my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
-
-    foreach my $interface (@$interfaces) {
-        # skip loopback, pseudo-devices and point-to-point interfaces
-        #    next if $interface->{DESCRIPTION} =~
-        #    /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+$/;
-
-        if ($interface->{STATUS} eq 'Up') {
-            my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
-            my $binmask = ip_iptobin($interface->{IPMASK}, 4);
-            my $binsubnet = $binip & $binmask;
-            $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
-        }
-
-        $interface->{VIRTUALDEV} =
-            $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)\d+$/;
-
-        $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
-
+    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
     }
 
@@ -60,7 +43,7 @@ sub doInventory {
         grep { ! /^127/ }
         grep { $_ }
         map { $_->{IPADDRESS} }
-        @$interfaces;
+        @interfaces;
 
     $inventory->setHardware(
         IPADDR => join('/', @ip_addresses)
@@ -79,6 +62,32 @@ sub _getRoutes {
     return $routes;
 }
 
+sub _getInterfaces {
+    my ($logger) = @_;
+
+    my @interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
+
+    foreach my $interface (@interfaces) {
+        # skip loopback, pseudo-devices and point-to-point interfaces
+        #    next if $interface->{DESCRIPTION} =~
+        #    /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+$/;
+
+        if ($interface->{STATUS} eq 'Up') {
+            my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
+            my $binmask = ip_iptobin($interface->{IPMASK}, 4);
+            my $binsubnet = $binip & $binmask;
+            $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
+        }
+
+        $interface->{VIRTUALDEV} =
+            $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)\d+$/;
+
+        $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
+    }
+
+    return @interfaces;
+}
+
 sub _parseIfconfig {
     my ($file, $mode) = @_;
 
@@ -88,14 +97,14 @@ sub _parseIfconfig {
         return;
     }
 
-    my $interfaces;
+    my @interfaces;
 
     my $interface;
 
     while (my $line = <$handle>) {
         if ($line =~ /^(\S+):/) {
             # new interface
-            push @$interfaces, $interface if $interface;
+            push @interfaces, $interface if $interface;
             $interface = {
                 STATUS      => 'Down',
                 DESCRIPTION => $1
@@ -129,10 +138,10 @@ sub _parseIfconfig {
             $interface->{STATUS} = 'Up';
         }
     }
-    push @$interfaces, $interface if $interface;
+    push @interfaces, $interface if $interface;
     close $handle;
 
-    return $interfaces;
+    return @interfaces;
 }
 
 1;
