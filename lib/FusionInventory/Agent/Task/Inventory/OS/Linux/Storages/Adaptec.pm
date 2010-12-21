@@ -30,11 +30,8 @@ sub doInventory {
         next unless $hd->{MANUFACTURER};
         next unless $hd->{MANUFACTURER} eq 'Adaptec';
 
-        my $handle;
-        if (!open $handle, '<', '/proc/scsi/scsi') {
-            warn "Can't open /proc/scsi/scsi: $ERRNO";
-            next;
-        }
+        my $handle = getFilehandle(file => '/proc/scsi/scsi');
+        next unless $handle;
 
 # Example output:
         #
