@@ -37,7 +37,6 @@ sub doInventory {
         next unless /^(c\d)+\s+([\w|-]+)/;
         my $card = $1;
         my $card_model = $2;
-        $logger->debug("Card : $card - Model : $card_model");
 
         # Second, getting the units : u0, u1... etc.
         foreach (`tw_cli info $card`) {
@@ -90,7 +89,6 @@ sub doInventory {
                     $description = "SATA" if /^[7-9].*/;
                 }
                 my $manufacturer = getCanonicalManufacturer($model);
-                $logger->debug("3ware: $name, $manufacturer, $model, $description, $capacity, $serialnumber, $firmware");
                 $inventory->addStorage({
                     NAME => $name,
                     MANUFACTURER => $manufacturer,
