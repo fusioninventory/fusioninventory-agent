@@ -21,9 +21,17 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    foreach my $interface (_getInterfaces()) {
+        $inventory->addNetwork($interface);
+    }
+}
+
+sub _getInterfaces {
+
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
+    my @interfaces;
     my $description;
     my $ipaddress;
     my $ipgateway;
@@ -32,7 +40,6 @@ sub doInventory {
     my $macaddr;
     my $status;
     my $type;
-
 
     # Looking for the gateway
     # 'route show' doesn't work on FreeBSD so we use netstat
@@ -93,7 +100,7 @@ sub doInventory {
             # fe80::214:51ff:fe1a:c8e2%fw0
             $ipaddress6 =~ s/%.*//;
         }
-        $inventory->addNetwork({
+        push @interfaces, {
             DESCRIPTION => $description,
             IPADDRESS => $ipaddress,
             IPADDRESS6 => $ipaddress6,
@@ -105,8 +112,10 @@ sub doInventory {
             STATUS => ($status?"Up":"Down"),
             TYPE => $type,
             VIRTUALDEV => $virtualdev
-        });
+        };
     }
+
+    return @interfaces;
 }
 
 1;
