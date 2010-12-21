@@ -43,7 +43,7 @@ sub doInventory {
 
         next unless /Controller type.*:\s(.*)/;
         my $name = $1;
-        my ($serial, $capacity, $scsi, $channel, $state);
+        my ($serial, $capacity);
 
         foreach (`ipssend GETCONFIG $slot PD 2>/dev/null`) {
 # Example Output :
@@ -57,16 +57,12 @@ sub doInventory {
 #         Device ID                : IBM-ESXSCBR036C3DFQDB2Q6CDKM
 #         FRU part number          : 32P0729
 
-            $channel        = $1 if /Channel #(.*):/;
-            $scsi           = $1 if /SCSI ID.*:\s(.*)/;
-            $state          = $1 if /State.*\((.*)\)/;            
             $capacity       = $1 if /Size.*:\s(\d*)\/(\d*)/;
             $serial         = $1 if /Device ID.*:\s(.*)/;
 
             if (/FRU part number.*:\s(.*)/) {
                 my $model = $1;
                 my $manufacturer = getCanonicalManufacturer($serial);
-                ## my $fullname = "$name $slot/$channel/$scsi $state";
 
                 $inventory->addStorage({
                     NAME            => "$manufacturer $model",
@@ -79,8 +75,7 @@ sub doInventory {
                     FIRMWARE        => ""}
                 ); 
 
-                # don't undef $channel, appear only once for several drive.
-                $scsi = $state = $capacity = $serial = undef;
+                $capacity = $serial = undef;
             }
         }
     }
