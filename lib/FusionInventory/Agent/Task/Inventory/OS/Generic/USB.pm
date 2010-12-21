@@ -55,7 +55,7 @@ sub _getDevices {
             $in = 1;
         } elsif ($line =~ /^\s*$/) {
             $in =0;
-            push @devices, $device;
+            push @devices, $device if $device;
             undef $device;
         } elsif ($in) {
             if ($line =~ /^\s*idVendor\s*0x(\w+)/i) {
