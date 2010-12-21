@@ -73,7 +73,7 @@ sub _getInterfaces {
     my $description;
     my $ipaddress;
 
-    for ( `lanscan -iap`) {
+    for (`lanscan -iap`) {
         # Reinit variables
         $name="";
         $lanid="";
@@ -87,13 +87,16 @@ sub _getInterfaces {
         $description="";
         $ipaddress="";
         next unless /^(\S+)\s(\S+)\s(\S+)\s+(\S+)/;
+        $macaddr = $1;
+        $name = $2;
+        $lanid = $4;
 
-        $macaddr=$1;
-        $name=$2;
-        $lanid=$4;
-        if ( $macaddr =~ /^0x(..)(..)(..)(..)(..)(..)$/ ) { $macaddr = "$1:$2:$3:$4:$5:$6" }
+        if ($macaddr =~ /^0x(..)(..)(..)(..)(..)(..)$/) {
+            $macaddr = "$1:$2:$3:$4:$5:$6"
+        }
+
         #print "name $name macaddr $macaddr lanid $lanid\n";
-        for ( `lanadmin -g $lanid` ) {
+        for (`lanadmin -g $lanid`) {
             if (/Type.+=\s(.+)/) { $type = $1; }
             if (/Description\s+=\s(.+)/) { $description = $1; }
             if (/Speed.+=\s(\d+)/) {
@@ -102,11 +105,11 @@ sub _getInterfaces {
             if (/Operation Status.+=\sdown\W/i) { $status = "Down"; } #It is not the only criteria
         } # for lanadmin
         #print "name $name macaddr $macaddr lanid $lanid speed $speed status $status \n";
-        for ( `ifconfig $name 2> /dev/null` ) {
+        for (`ifconfig $name 2> /dev/null`) {
             if ( not $status and /$name:\s+flags=.*\WUP\W/ ) { #Its status is not reported as down in lanadmin -g
                 $status = 'Up';
             }
-            if ( /inet\s(\S+)\snetmask\s(\S+)\s/ ) {
+            if (/inet\s(\S+)\snetmask\s(\S+)\s/) {
                 $ipaddress=$1;
                 $ipmask=$2;
                 if ($ipmask =~ /(..)(..)(..)(..)/) {
@@ -126,9 +129,9 @@ sub _getInterfaces {
         }
 
         #Some cleanups
-        if ( $ipaddress eq '0.0.0.0' ) { $ipaddress = "" }
-        if ( not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0' ) { $ipsubnet = "" }
-        if ( not $status ) { $status = 'Down' }
+        if ($ipaddress eq '0.0.0.0') { $ipaddress = "" }
+        if (not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0') { $ipsubnet = "" }
+        if (not $status) { $status = 'Down' }
 
         push @interfaces, {
             DESCRIPTION => $description,
