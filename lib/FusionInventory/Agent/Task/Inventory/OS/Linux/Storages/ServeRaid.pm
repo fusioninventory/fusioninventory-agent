@@ -39,9 +39,9 @@ sub doInventory {
 #   Firmware version               : 7.00.14
 #   Device driver version          : 7.10.18
 
-        $slot = $1 if /.*ServeRAID Controller Number\s(\d*).*/;
+        $slot = $1 if /ServeRAID Controller Number\s(\d*)/;
 
-        next unless /.*Controller type.*:\s(.*)/;
+        next unless /Controller type.*:\s(.*)/;
         my $name = $1;
         my ($serial, $capacity, $scsi, $channel, $state);
 
@@ -57,13 +57,13 @@ sub doInventory {
 #         Device ID                : IBM-ESXSCBR036C3DFQDB2Q6CDKM
 #         FRU part number          : 32P0729
 
-            $channel        = $1 if /.*Channel #(.*):/;
-            $scsi           = $1 if /.*SCSI ID.*:\s(.*)/;
-            $state          = $1 if /.*State.*\((.*)\)/;            
-            $capacity       = $1 if /.*Size.*:\s(\d*)\/(\d*)/;
-            $serial         = $1 if /.*Device ID.*:\s(.*)/;
+            $channel        = $1 if /Channel #(.*):/;
+            $scsi           = $1 if /SCSI ID.*:\s(.*)/;
+            $state          = $1 if /State.*\((.*)\)/;            
+            $capacity       = $1 if /Size.*:\s(\d*)\/(\d*)/;
+            $serial         = $1 if /Device ID.*:\s(.*)/;
 
-            if (/.*FRU part number.*:\s(.*)/) {
+            if (/FRU part number.*:\s(.*)/) {
                 my $model = $1;
                 my $manufacturer = getCanonicalManufacturer($serial);
                 ## my $fullname = "$name $slot/$channel/$scsi $state";
