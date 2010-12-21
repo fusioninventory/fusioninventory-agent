@@ -36,15 +36,10 @@ sub doInventory {
     my $description;
     my $ipaddress;
 
-    my %gateway;
-    foreach (`netstat -nrv`) {
-        if (/^(\S+\/\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
-            $gateway{$1} = $2 if not defined $gateway{$1}; #Just keep the first one
-        }
-    }
-    if (defined ($gateway{'default/0.0.0.0'})) {
+    my $routes = _getRoutes();
+    if (defined ($routes->{'default/0.0.0.0'})) {
         $inventory->setHardware(
-            DEFAULTGATEWAY => $gateway{'default/0.0.0.0'}
+            DEFAULTGATEWAY => $routes->{'default/0.0.0.0'}
         );
     }
 
@@ -94,10 +89,10 @@ sub doInventory {
                     & unpack('B32', pack('C4C4C4C4', split(/\./, $ipmask))) 
                 ));
 
-            $ipgateway = $gateway{$ipsubnet.'/'.$ipmask};
+            $ipgateway = $routes->{$ipsubnet.'/'.$ipmask};
             # replace the $ipaddress (ie IP Address of the interface itself) by the default gateway IP adress if it exists
-            if (defined($ipgateway) and $ipgateway eq $ipaddress and defined($gateway{'default/0.0.0.0'})) {
-                $ipgateway = $gateway{'default/0.0.0.0'}
+            if (defined($ipgateway) and $ipgateway eq $ipaddress and defined($routes->{'default/0.0.0.0'})) {
+                $ipgateway = $routes->{'default/0.0.0.0'}
             }
 
             #Some cleanups
@@ -121,6 +116,17 @@ sub doInventory {
             });
         } # If
     } # For lanscan
+}
+
+sub _getRoutes {
+
+    my $routes;
+    foreach (`netstat -nrv`) {
+        if (/^(\S+\/\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
+            $routes->{$1} = $2 if not defined $routes->{$1}; #Just keep the first one
+        }
+    }
+    return $routes;
 }
 
 1;

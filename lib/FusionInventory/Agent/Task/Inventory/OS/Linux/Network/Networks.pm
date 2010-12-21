@@ -23,15 +23,10 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $routes;
-    foreach my $line (`route -n`) {
-        if ($line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x) {
-            $routes->{$1} = $2;
-        }
-    }
+    my $routes = _getRoutes();
 
     if ($routes->{'0.0.0.0'}) {
-        $inventory->setHardware(
+    $inventory->setHardware(
             DEFAULTGATEWAY => $routes->{'0.0.0.0'}
         );
     }
@@ -82,6 +77,16 @@ sub doInventory {
     $inventory->setHardware(
         IPADDR => join('/', @ip_addresses)
     );
+}
+
+sub _getRoutes {
+
+    my $routes;
+    foreach my $line (`route -n`) {
+        next unless $line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x;
+        $routes->{$1} = $2;
+    }
+    return $routes;
 }
 
 sub _parseIfconfig {

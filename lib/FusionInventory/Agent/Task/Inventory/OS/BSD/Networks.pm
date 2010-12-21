@@ -25,18 +25,11 @@ sub doInventory {
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
-    my $ipgateway;
+    my $routes = _getRoutes();
 
-    # Looking for the gateway
-    # 'route show' doesn't work on FreeBSD so we use netstat
-    # XXX IPV4 only
-    foreach my $line (`netstat -nr -f inet`) {
-        $ipgateway = $1 if $line =~ /^default\s+(\S+)/i;
-    }
-
-    if ($ipgateway) {
+    if ($routes->{default}) {
         $inventory->setHardware(
-            DEFAULTGATEWAY => $ipgateway
+            DEFAULTGATEWAY => $routes->{default}
         );
     }
 
@@ -72,6 +65,18 @@ sub doInventory {
     $inventory->setHardware(
         IPADDR => join('/', @ip_addresses)
     );
+}
+
+sub _getRoutes {
+
+    # XXX IPV4 only
+    my $routes;
+    foreach my $line (`netstat -nr -f inet`) {
+        next unless $line =~ /^default\s+(\S+)/i;
+        $routes->{default} = $1;
+    }
+
+    return $routes;
 }
 
 sub _parseIfconfig {
