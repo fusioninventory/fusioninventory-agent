@@ -24,6 +24,9 @@ our @EXPORT = qw(
     compareVersion
     can_run
     can_load
+    any
+    all
+    none
 );
 
 memoize('can_run');
@@ -302,6 +305,31 @@ sub getHostname {
     };
 }
 
+# shamelessly imported from List::MoreUtils to avoid a dependency
+sub any (&@) {
+    my $f = shift;
+    foreach ( @_ ) {
+        return 1 if $f->();
+    }
+    return 0;
+}
+
+sub all (&@) {
+    my $f = shift;
+    foreach ( @_ ) {
+        return 0 unless $f->();
+    }
+    return 1;
+}
+
+sub none (&@) {
+    my $f = shift;
+    foreach ( @_ ) {
+        return 0 if $f->();
+    }
+    return 1;
+}
+
 1;
 __END__
 
@@ -407,3 +435,16 @@ Returns true if given binary can be executed.
 
 Returns true if given perl module can be loaded (and actually loads it).
 
+=head2 any BLOCK LIST
+
+Returns a true value if any item in LIST meets the criterion given through
+BLOCK.
+
+=item all BLOCK LIST
+
+Returns a true value if all items in LIST meet the criterion given through
+BLOCK.
+
+=item none BLOCK LIST
+
+Returns a true value if no item in LIST meets the criterion given through BLOCK.
