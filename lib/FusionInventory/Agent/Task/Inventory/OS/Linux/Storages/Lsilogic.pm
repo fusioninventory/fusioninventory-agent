@@ -30,29 +30,27 @@ sub doInventory {
 
     foreach my $hd (@$devices) {
         foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
-
-            if (/.*phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+).*/) {
-                $serialnumber = undef;
-                foreach (`smartctl -i /dev/sg$1`) {
-                    $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
-                }
-                my $model = $2;
-                my $size = 1024*$4; # GB => MB
-                my $firmware = $3;
-                my $manufacturer = getCanonicalManufacturer($model);
-                $logger->debug("Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware");
-
-                $inventory->addStorage({
-                    NAME => $hd->{NAME},
-                    MANUFACTURER => $manufacturer,
-                    MODEL => $model,
-                    DESCRIPTION => 'SATA',
-                    TYPE => 'disk',
-                    DISKSIZE => $size,
-                    SERIALNUMBER => $serialnumber,
-                    FIRMWARE => $firmware,
-                });
+            next unless /.*phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+).*/;
+            $serialnumber = undef;
+            foreach (`smartctl -i /dev/sg$1`) {
+                $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
             }
+            my $model = $2;
+            my $size = 1024*$4; # GB => MB
+            my $firmware = $3;
+            my $manufacturer = getCanonicalManufacturer($model);
+            $logger->debug("Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware");
+
+            $inventory->addStorage({
+                NAME => $hd->{NAME},
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => 'SATA',
+                TYPE => 'disk',
+                DISKSIZE => $size,
+                SERIALNUMBER => $serialnumber,
+                FIRMWARE => $firmware,
+            });
         }
     }
 
