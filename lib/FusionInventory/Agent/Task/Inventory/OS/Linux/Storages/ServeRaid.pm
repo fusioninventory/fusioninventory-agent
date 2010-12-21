@@ -41,8 +41,7 @@ sub doInventory {
 
         $slot = $1 if /ServeRAID Controller Number\s(\d*)/;
 
-        next unless /Controller type.*:\s(.*)/;
-        my $name = $1;
+        next unless /Controller type.*:\s/;
         my $storage;
 
         foreach (`ipssend GETCONFIG $slot PD 2>/dev/null`) {
