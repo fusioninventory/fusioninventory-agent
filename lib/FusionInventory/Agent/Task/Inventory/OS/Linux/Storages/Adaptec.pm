@@ -26,17 +26,10 @@ sub doInventory {
 
     my $devices = getDevicesFromUdev(logger => $logger);
 
-    my $found = 0;
     foreach my $hd (@$devices) {
         next unless $hd->{MANUFACTURER};
-        if ($hd->{MANUFACTURER} eq 'Adaptec') {
-            $found = 1;
-            last;
-        }
-    }
-    return unless $found;
+        next unless $hd->{MANUFACTURER} eq 'Adaptec';
 
-    foreach my $hd (@$devices) {
         my $handle;
         if (!open $handle, '<', '/proc/scsi/scsi') {
             warn "Can't open /proc/scsi/scsi: $ERRNO";
@@ -86,7 +79,6 @@ sub doInventory {
         }
         close $handle;
     }
-
 }
 
 1;
