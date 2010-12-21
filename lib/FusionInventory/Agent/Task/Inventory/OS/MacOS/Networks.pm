@@ -56,80 +56,77 @@ sub _getInterfaces {
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
-    my @interfaces;
-    my $description;
-    my $ipaddress;
-    my $ipgateway;
-    my $ipmask;
-    my $ipsubnet;
-    my $macaddr;
-    my $status;
-    my $type;
+    my @interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
 
-    my @ifconfig = `ifconfig -a`;
-
-    # first make the list available interfaces
-    my @list;
-    foreach (@ifconfig){
-        # skip loopback, pseudo-devices and point-to-point interfaces
-        #next if /^(lo|fwe|vmnet|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+/;
-#        next unless(/^en(0|1)/); # darwin has a lot of interfaces, for this purpose we only want to deal with eth0 and eth1
-        if (/^(\S+):/) { push @list , $1; } # new interface name
+    foreach my $interface (@interfaces) {
+        next unless $interface->{IPADDRESS};
+        my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
+        my $binmask = ip_iptobin($interface->{IPMASK}, 4);
+        my $binsubnet = $binip & $binmask;
+        $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
     }
 
-    # for each interface get it's parameters
-    foreach my $description (@list) {
-        my $ipaddress;
-        my $ipaddress6;
-        my $ipmask;
-        my $macaddr;
-        my $status;
-        my $type;
-        my $binmask;
-        my $binsubnet;
-        my $mask;
-        my $binip;
-        my $virtualdev = 1;
+    return @interfaces;
+}
+sub _parseIfconfig {
+    my ($file, $mode) = @_;
 
-        # search interface infos
-        @ifconfig = `ifconfig $description`;
-        foreach (@ifconfig){
-            $ipaddress = $1 if /inet (\S+)/i;
-            $ipaddress6 = $1 if /inet6 (\S+)/i;
-            $ipmask = $1 if /netmask\s+(\S+)/i;
-            $macaddr = $2 if /(address:|ether|lladdr)\s+(\S+)/i;
-            $status = 1 if /status:\s+active/i;
-            $type = $1 if /media:\s+(\S+)/i;
-            $virtualdev = undef if /supported\smedia:/;
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my @interfaces;
+
+    my $interface;
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^(\S+):/) {
+            # new interface
+            push @interfaces, $interface if $interface;
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1
+            };
         }
-        if ($ipaddress) {
-            $binip = &ip_iptobin ($ipaddress ,4);
-            # In BSD, netmask is given in hex form
-            $binmask = sprintf("%b", oct($ipmask));
-            $binsubnet = $binip & $binmask;
-            $ipsubnet = ip_bintoip($binsubnet,4);
-            $mask = ip_bintoip($binmask,4);
+
+        if ($line =~ /inet ($ip_address_pattern)/) {
+            $interface->{IPADDRESS} = $1;
         }
-        if ($ipaddress6) {
+        if ($line =~ /inet6 (\S+)/) {
+            $interface->{IPADDRESS6} = $1;
             # Drop the interface from the address. e.g:
             # fe80::1%lo0
             # fe80::214:51ff:fe1a:c8e2%fw0
-            $ipaddress6 =~ s/%.*//;
+            $interface->{IPADDRESS6} =~ s/%.*$//;
         }
-        push @interfaces, {
-            DESCRIPTION => $description,
-            IPADDRESS => $ipaddress,
-            IPADDRESS6 => $ipaddress6,
-            IPDHCP => undef,
-            IPGATEWAY => $ipgateway,
-            IPMASK => $mask,
-            IPSUBNET => $ipsubnet,
-            MACADDR => $macaddr,
-            STATUS => ($status?"Up":"Down"),
-            TYPE => $type,
-            VIRTUALDEV => $virtualdev
-        };
+        if ($line =~ /netmask (\S+)/) {
+            # In BSD, netmask is given in hex form
+            my $ipmask = $1;
+            if ($ipmask =~ /^0x(\w{2})(\w{2})(\w{2})(\w{2})$/) {
+                $interface->{IPMASK} =
+                    hex($1) . '.' .
+                    hex($2) . '.' .
+                    hex($3) . '.' .
+                    hex($4);
+            }
+        }
+        if ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
+            $interface->{MACADDR} = $1;
+        }
+        if ($line =~ /mtu (\S+)/) {
+            $interface->{MTU} = $1;
+        }
+        if ($line =~ /media (\S+)/) {
+            $interface->{TYPE} = $1;
+        }
+        if ($line =~ /status:\s+active/i) {
+            $interface->{STATUS} = 'Up';
+        }
     }
+    push @interfaces, $interface if $interface;
+    close $handle;
 
     return @interfaces;
 }
