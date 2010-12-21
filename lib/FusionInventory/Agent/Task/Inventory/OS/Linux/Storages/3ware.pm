@@ -34,14 +34,14 @@ sub doInventory {
 
     # First, getting the cards : c0, c1... etc.
     foreach (`tw_cli info`) {
-        next unless /^(c\d)+\s+([\w|-]+)/;
+        next unless /^(c\d+)\s+([\w-]+)/;
         my $card = $1;
         my $card_model = $2;
 
         # Second, getting the units : u0, u1... etc.
         foreach (`tw_cli info $card`) {
-            next unless /^(u)(\d+).*/;
-            my $unit = $1 . $2;
+            next unless /^(u(\d+))/;
+            my $unit = $1;
             my $unit_id = $2;
 
             # Try do get unit's serial in order to compare it to what was found
@@ -53,7 +53,7 @@ sub doInventory {
 
             # Third, getting the ports : p0, p1... etc.
             foreach(`tw_cli info $card $unit`) {
-                next unless /(p\d+).*/;
+                next unless /(p\d+)/;
                 my $port =  $1;
 
                 # Finally, getting drives' values.
