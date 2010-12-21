@@ -104,36 +104,33 @@ sub getSerialbyUsb {
         Access => KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
     my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
-    foreach my $tmpkey (%$data) {
-        if (ref($tmpkey) eq "Win32::TieRegistry") {
-            foreach my $usbid (%$tmpkey) {
-                if ( $usbid =~ /$portName/) {
-                    $usbid = $tmpkey->{$usbid}->{"ContainerID"};
-                    my $serialnumber = "";
-                    # search in HKLM\system\currentcontrolset\enum\USB the key with ContainerID to this value
-                    # so previous folder name is serial number ^^
-                    my $dataUSB = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
-                    foreach my $tmpkeyUSB (%$dataUSB) {
-                        if (ref($tmpkeyUSB) eq "Win32::TieRegistry") {
-                            foreach my $serialtmp (%$tmpkeyUSB) {
-                                if (ref($serialtmp) eq "Win32::TieRegistry") {
-                                    foreach my $regkeys (%$serialtmp) {
-                                        if ((defined($regkeys)) && (ref($regkeys) ne "Win32::TieRegistry")) {
-                                            next unless $regkeys =~ /ContainerID/;
-                                            if ($serialnumber =~ /\&/) {
-                                            } elsif (defined($serialnumber)) {
-                                                if ($serialtmp->{$regkeys} eq $usbid) {
-                                                    return $serialnumber;
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else {
 
-                                    $serialnumber = $serialtmp;
-                                }
-                            }
+    foreach my $tmpkey (%$data) {
+        next unless ref($tmpkey) eq "Win32::TieRegistry";
+
+        foreach my $usbid (%$tmpkey) {
+            next unless $usbid =~ /$portName/;
+
+            $usbid = $tmpkey->{$usbid}->{"ContainerID"};
+            my $serialnumber = "";
+            # search in HKLM\system\currentcontrolset\enum\USB the key with ContainerID to this value
+            # so previous folder name is serial number ^^
+            my $dataUSB = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
+            foreach my $tmpkeyUSB (%$dataUSB) {
+                next unless ref($tmpkeyUSB) eq "Win32::TieRegistry";
+
+                foreach my $serialtmp (%$tmpkeyUSB) {
+                    if (ref($serialtmp) eq "Win32::TieRegistry") {
+                        foreach my $regkeys (%$serialtmp) {
+                            next unless defined($regkeys) && ref($regkeys) ne "Win32::TieRegistry";
+                            next unless $regkeys =~ /ContainerID/;
+                            next if $serialnumber =~ /\&/;
+                            next unless defined($serialnumber);
+                            next unless $serialtmp->{$regkeys} eq $usbid;
+                            return $serialnumber;
                         }
+                    } else {
+                        $serialnumber = $serialtmp;
                     }
                 }
             }
