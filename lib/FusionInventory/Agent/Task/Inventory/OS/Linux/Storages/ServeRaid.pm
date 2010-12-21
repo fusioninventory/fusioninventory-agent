@@ -21,7 +21,6 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
-    my $slot;
 
     foreach (`ipssend GETVERSION 2>/dev/null`) {
 
@@ -38,10 +37,9 @@ sub doInventory {
 #   Actual BIOS version            : 7.00.14
 #   Firmware version               : 7.00.14
 #   Device driver version          : 7.10.18
+        next unless /ServeRAID Controller Number\s(\d*)/;
+        my $slot = $1;
 
-        $slot = $1 if /ServeRAID Controller Number\s(\d*)/;
-
-        next unless /Controller type.*:\s/;
         my $storage;
 
         foreach (`ipssend GETCONFIG $slot PD 2>/dev/null`) {
