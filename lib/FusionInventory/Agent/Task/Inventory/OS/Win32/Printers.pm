@@ -96,16 +96,9 @@ sub doInventory {
 }
 
 sub getSerialbyUsb {
+    my ($portName) = @_;
 
-    my $portName = shift;
-
-    if (!defined($portName)) {
-        return;
-    }
-    if ($portName =~ /USB/) {
-    } else {
-        return;
-    }
+    return unless $portName && $portName =~ /USB/;
 
     my $machKey = $Registry->Open('LMachine', { 
         Access => KEY_READ | KEY_WOW64_64
