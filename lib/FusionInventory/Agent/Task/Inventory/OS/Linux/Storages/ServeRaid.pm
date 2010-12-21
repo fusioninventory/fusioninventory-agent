@@ -43,7 +43,7 @@ sub doInventory {
 
         next unless /Controller type.*:\s(.*)/;
         my $name = $1;
-        my ($serial, $capacity);
+        my $storage;
 
         foreach (`ipssend GETCONFIG $slot PD 2>/dev/null`) {
 # Example Output :
@@ -57,25 +57,20 @@ sub doInventory {
 #         Device ID                : IBM-ESXSCBR036C3DFQDB2Q6CDKM
 #         FRU part number          : 32P0729
 
-            $capacity       = $1 if /Size.*:\s(\d*)\/(\d*)/;
-            $serial         = $1 if /Device ID.*:\s(.*)/;
+            $storage->{DISKSIZE}     = $1 if /Size.*:\s(\d*)\/(\d*)/;
+            $storage->{SERIALNUMBER} = $1 if /Device ID.*:\s(.*)/;
 
             if (/FRU part number.*:\s(.*)/) {
-                my $model = $1;
-                my $manufacturer = getCanonicalManufacturer($serial);
+                $storage->{MODEL} = $1;
+                $storage->{MANUFACTURER} = getCanonicalManufacturer(
+                    $storage->{SERIALNUMBER}
+                );
+                $storage->{NAME} = $storage->{MANUFACTURER} . ' ' . $storage->{MODEL};
+                $storage->{DESCRIPTION} = 'SCSI';
+                $storage->{TYPE} = 'disk';
 
-                $inventory->addStorage({
-                    NAME            => "$manufacturer $model",
-                    MANUFACTURER    => $manufacturer,
-                    MODEL           => $model,
-                    DESCRIPTION     => "SCSI",
-                    TYPE            => "disk",
-                    DISKSIZE        => $capacity,
-                    SERIALNUMBER    => $serial,
-                    FIRMWARE        => ""}
-                ); 
-
-                $capacity = $serial = undef;
+                $inventory->addStorage($storage);
+                $storage = undef;
             }
         }
     }
