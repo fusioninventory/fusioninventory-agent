@@ -39,7 +39,6 @@ sub doInventory {
             my $size = 1024*$4; # GB => MB
             my $firmware = $3;
             my $manufacturer = getCanonicalManufacturer($model);
-            $logger->debug("Lsilogic: $hd->{NAME}, $manufacturer, $model, SATA, disk, $size, $serialnumber, $firmware");
 
             $inventory->addStorage({
                 NAME => $hd->{NAME},
