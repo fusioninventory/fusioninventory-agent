@@ -12,8 +12,7 @@ use FusionInventory::Agent::Regexp;
 sub isInventoryEnabled {
     return 
         can_run('ifconfig') &&
-        can_run('route') &&
-        can_load("Net::IP");
+        can_run('route');
 }
 
 # Initialise the distro entry
@@ -214,17 +213,8 @@ sub _getUevent {
 sub _getNetworkInfo {
     my ($address, $mask, $routes) = @_;
 
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
-
-    my ($ipsubnet, $ipgateway);
-
-    my $binip = ip_iptobin($address, 4);
-    my $binmask = ip_iptobin($mask, 4);
-    my $binsubnet = $binip & $binmask;
-
-    $ipsubnet = ip_bintoip($binsubnet, 4);
-    $ipgateway = $routes->{$ipsubnet};
+    my $ipsubnet = getSubnetAddress($address, $mask);
+    my $ipgateway = $routes->{$ipsubnet};
 
     # replace '0.0.0.0' (ie 'default gateway') by the
     # default gateway IP adress if it exists

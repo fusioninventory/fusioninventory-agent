@@ -6,7 +6,9 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_load("Net::IP");
+    return
+        can_run('lscfg') ||
+        can_run('ifconfig');
 }
 
 sub doInventory {
@@ -32,9 +34,6 @@ sub doInventory {
 }
 
 sub _getInterfaces {
-
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
 
     my %interfaces;
 
@@ -63,11 +62,10 @@ sub _getInterfaces {
         $interface->{STATUS} = "Down" unless $interface->{IPADDRESS};
         $interface->{IPDHCP} = "No";
 
-        next unless $interface->{IPMASK} and $interface->{IPADDRESS};
-        my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
-        my $binmask = ip_iptobin($interface->{IPMASK}, 4);
-        my $binsubnet = $binip & $binmask;
-        $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK},
+        );
     }
 
     return values %interfaces;

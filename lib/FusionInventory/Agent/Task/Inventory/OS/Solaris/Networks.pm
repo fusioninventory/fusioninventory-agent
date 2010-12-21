@@ -19,8 +19,7 @@ use FusionInventory::Agent::Tools;
 sub isInventoryEnabled {
     return 
         can_run('ifconfig') &&
-        can_run('netstat') &&
-        can_load("Net::IP");
+        can_run('netstat');
 }
 
 sub doInventory {
@@ -137,11 +136,7 @@ sub _getInterfaces {
                 $ipmask = sprintf("%d", $ipmask);
                 $ipmask = unpack("B*", pack("N", $ipmask));
                 $ipmask = ip_bintoip($ipmask,4);
-
-                my $binip = &ip_iptobin ($ipaddress ,4);
-                my $binmask = &ip_iptobin ($ipmask ,4);
-                my $binsubnet = $binip & $binmask;
-                $ipsubnet = ip_bintoip($binsubnet,4);
+                $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
                 push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
@@ -173,10 +168,7 @@ sub _getInterfaces {
                 $ipmask = sprintf("%d", $ipmask);
                 $ipmask = unpack("B*", pack("N", $ipmask));
                 $ipmask = ip_bintoip($ipmask,4);
-                my $binip = &ip_iptobin ($ipaddress ,4);
-                my $binmask = &ip_iptobin ($ipmask ,4);
-                my $binsubnet = $binip & $binmask;
-                $ipsubnet = ip_bintoip($binsubnet,4);
+                $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
                 push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
@@ -288,11 +280,7 @@ sub _getInterfaces {
                 $ipmask = sprintf("%d", $ipmask);
                 $ipmask = unpack("B*", pack("N", $ipmask));
                 $ipmask = ip_bintoip($ipmask,4);
-
-                my $binip = &ip_iptobin ($ipaddress ,4);
-                my $binmask = &ip_iptobin ($ipmask ,4);
-                my $binsubnet = $binip & $binmask;
-                $ipsubnet = ip_bintoip($binsubnet,4);
+                $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
                 push @interfaces, {
                     DESCRIPTION => $description,

@@ -10,6 +10,7 @@ use Memoize;
 use Sys::Hostname;
 
 our @EXPORT = qw(
+    getSubnetAddress
     getFileHandle
     getFormatedLocalTime
     getFormatedGmTime
@@ -212,6 +213,22 @@ sub getSanitizedString {
     };
 
     return $string;
+}
+
+sub getSubnetAddress {
+    my ($address, $mask) = @_;
+
+    return unless $address && $mask;
+
+    # load Net::IP conditionnaly
+    return unless can_load("Net::IP");
+    Net::IP->import(':PROC');
+
+    my $binaddress = ip_iptobin($address, 4);
+    my $binmask    = ip_iptobin($mask, 4);
+    my $binsubnet  = $binaddress & $binmask;
+
+    return ip_bintoip($binsubnet, 4);
 }
 
 sub getFileHandle {
@@ -422,6 +439,10 @@ of line removed.
 =item file the file to use, as an alternative to the command
 
 =back
+
+=head2 getSubnetAddress($address, $mask)
+
+Returns the subnet address.
 
 =head2 getHostname()
 

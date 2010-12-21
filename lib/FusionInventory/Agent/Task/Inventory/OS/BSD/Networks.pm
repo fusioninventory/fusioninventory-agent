@@ -11,8 +11,7 @@ use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return
-        can_run('ifconfig') && 
-        can_load("Net::IP");
+        can_run('ifconfig');
 }
 
 # Initialise the distro entry
@@ -56,17 +55,15 @@ sub _getRoutes {
 sub _getInterfaces {
     my ($logger) = @_;
 
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
 
     my @interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
 
     foreach my $interface (@interfaces) {
         if ($interface->{STATUS} eq 'Up') {
-            my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
-            my $binmask = ip_iptobin($interface->{IPMASK}, 4);
-            my $binsubnet = $binip & $binmask;
-            $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
+            $interface->{IPSUBNET} = getSubnetAddress(
+                $interface->{IPADDRESS},
+                $interface->{IPMASK}
+            );
         }
 
         $interface->{VIRTUALDEV} =
