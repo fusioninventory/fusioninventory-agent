@@ -36,7 +36,7 @@ sub doInventory {
     foreach my $nic (in $nics) {
         my $interface = $interfaces[$nic->Index];
 
-        $interface->{description} = encodeFromWmi($nic->Description);
+        $interface->{DESCRIPTION} = encodeFromWmi($nic->Description);
 
         foreach (@{$nic->DefaultIPGateway || []}) {
             $defaultgateways{$_} = 1;
@@ -52,26 +52,26 @@ sub doInventory {
                 my $mask = shift @{$nic->IPSubnet};
                 if ($address =~ /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
                     push @ips, $address;
-                    push @{$interface->{ipaddress}}, $address;
-                    push @{$interface->{ipmask}}, $mask;
-                    push @{$interface->{ipsubnet}}, getSubnetAddress($address, $mask);
+                    push @{$interface->{IPADDRESS}}, $address;
+                    push @{$interface->{IPMASK}}, $mask;
+                    push @{$interface->{IPSUBNET}}, getSubnetAddress($address, $mask);
                 } elsif ($address =~ /\S+/) {
                     push @ip6s, $address;
-                    push @{$interface->{ipaddress6}}, $address;
-                    push @{$interface->{ipmask6}}, $mask;
-                    push @{$interface->{ipsubnet6}}, getSubnetAddressIPv6($address, $mask);
+                    push @{$interface->{IPADDRESS6}}, $address;
+                    push @{$interface->{IPMASK6}}, $mask;
+                    push @{$interface->{IPSUBNET6}}, getSubnetAddressIPv6($address, $mask);
                 }
             }
         }
 
         if ($nic->DefaultIPGateway) {
-            $interface->{ipgateway} = $nic->DefaultIPGateway()->[0];
+            $interface->{IPGATEWAY} = $nic->DefaultIPGateway()->[0];
         }
 
-        $interface->{status}  = $nic->IPEnabled ? "Up" : "Down";
-        $interface->{ipdhcp}  = $nic->DHCPServer;
-        $interface->{macaddr} = $nic->MACAddress;
-        $interface->{mtu}     = $nic->MTU;
+        $interface->{STATUS}  = $nic->IPEnabled ? "Up" : "Down";
+        $interface->{IPDHCP}  = $nic->DHCPServer;
+        $interface->{MACADDR} = $nic->MACAddress;
+        $interface->{MTU}     = $nic->MTU;
 
     }
 
@@ -79,42 +79,28 @@ sub doInventory {
     foreach my $nic (in $nics) {
         my $interface = $interfaces[$nic->Index];
 
-        $interface->{virtualdev}  = $nic->PhysicalAdapter?0:1;
-        $interface->{macaddr}     = $nic->MACAddress;
-        $interface->{pnpdeviceid} = $nic->PNPDeviceID;
+        $interface->{VIRTUALDEV}  = $nic->PhysicalAdapter?0:1;
+        $interface->{MACADDR}     = $nic->MACAddress;
+        $interface->{PNPDEVICEID} = $nic->PNPDeviceID;
     }
 
     foreach my $interface (@interfaces) {
 
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
-        next unless $netif->{pnpdeviceid};
+        next unless $interface->{PNPDEVICEID};
 
         next if
-            !$interface->{ipaddress} &&
-            !$interface->{ipaddress6} &&
-            !$interface->{macaddr}
+            !$interface->{IPADDRESS} &&
+            !$interface->{IPADDRESS6} &&
+            !$interface->{MACADDR}
 
         # flatten multivalued keys
-        foreach my $key (qw/ipaddress ipmask ipsubnet ipaddress6/) {
+        foreach my $key (qw/IPADDRESS IPMASK IPSUBNET IPADDRESS6/) {
             next unless $interface->{$key};
             $interface->{$key} = join('/', @{$interface->{$key}});
         }
 
-        $inventory->addNetwork({
-            DESCRIPTION => $interface->{description},
-            IPADDRESS => $interface->{ipaddress},
-            IPDHCP => $interface->{ipdhcp},
-            IPGATEWAY => $interface->{ipgateway},
-            IPMASK => $interface->{ipmask},
-            IPSUBNET => $interface->{ipsubnet},
-            IPADDRESS6 => $interface->{ipaddress6},
-            MACADDR => $interface->{macaddr},
-            MTU => $interface->{mtu},
-            STATUS => $interface->{status},
-            TYPE => $interface->{type},
-            VIRTUALDEV => $interface->{virtualdev}
-        });
-
+        $inventory->addNetwork($interface);
     }
 
 
