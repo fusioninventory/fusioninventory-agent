@@ -24,14 +24,12 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $serialnumber;
-
     my $devices = getDevicesFromUdev(logger => $logger);
 
     foreach my $hd (@$devices) {
         foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
             next unless /.*phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+).*/;
-            $serialnumber = undef;
+            my $serialnumber;
             foreach (`smartctl -i /dev/sg$1`) {
                 $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
             }
