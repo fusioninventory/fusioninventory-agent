@@ -68,13 +68,17 @@ sub doInventory {
 
 
 sub _getCards {
+    my ($file) = @_;
 
-    my $handle = getFileHandle(command => "tw_cli info");
+    my $handle = getFileHandle(
+        file => $file,
+        command => "tw_cli info"
+    );
     return unless $handle;
 
     my @cards;
     while (my $line = <$handle>) {
-        next unless /^(c\d+)\s+([\w-]+)/;
+        next unless $line =~ /^(c\d+)\s+([\w-]+)/;
         push @cards, { id => $1, model => $2 };
     }
     close $handle;
@@ -83,14 +87,17 @@ sub _getCards {
 }
 
 sub _getUnits {
-    my ($card) = @_;
+    my ($card, $file) = @_;
 
-    my $handle = getFileHandle(command => "tw_cli info $card->{id}");
+    my $handle = getFileHandle(
+        file => $file,
+        command => "tw_cli info $card->{id}"
+    );
     return unless $handle;
 
     my @units;
     while (my $line = <$handle>) {
-        next unless /^(u(\d+))/;
+        next unless $line =~ /^(u(\d+))/;
         push @units, { id => $1, index => $2 };
     }
     close $handle;
@@ -99,16 +106,17 @@ sub _getUnits {
 }
 
 sub _getPorts {
-    my ($card, $unit) = @_;
+    my ($card, $unit, $file) = @_;
 
     my $handle = getFileHandle(
+        file => $file,
         command => "tw_cli info $card->{id} $unit->{id}"
     );
     return unless $handle;
 
     my @ports;
     while (my $line = <$handle>) {
-        next unless /(p\d+)/;
+        next unless $line =~ /(p\d+)/;
         push @ports, { id => $1 };
     }
     close $handle;
@@ -117,9 +125,10 @@ sub _getPorts {
 }
 
 sub _getStorage {
-    my ($card, $port) = @_;
+    my ($card, $port, $file) = @_;
 
     my $handle = getFileHandle(
+        file => $file,
         command =>
             "tw_cli info $card->{id} $port->{id} model serial capacity firmware"
     );
@@ -127,13 +136,13 @@ sub _getStorage {
 
     my $storage;
     while (my $line = <$handle>) {
-        if (/Model\s=\s(.*)/) {
+        if ($line =~ /Model\s=\s(.*)/) {
             $storage->{MODEL} = $1;
-        } elsif (/Serial\s=\s(.*)/) {
+        } elsif ($line =~ /Serial\s=\s(.*)/) {
             $storage->{SERIALNUMBER} = $1;
-        } elsif (/Capacity\s=\s(\S+)\sGB.*/) {
+        } elsif ($line =~ /Capacity\s=\s(\S+)\sGB.*/) {
             $storage->{DISKSIZE} = 1024 * $1;
-        } elsif (/Firmware Version\s=\s(.*)/) {
+        } elsif ($line =~ /Firmware Version\s=\s(.*)/) {
             $storage->{FIRMWARE} = $1
         }
     }
