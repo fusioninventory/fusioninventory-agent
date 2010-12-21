@@ -69,11 +69,15 @@ sub doInventory {
 
 sub _getCards {
 
+    my $handle = getFileHandle(command => "tw_cli info");
+    return unless $handle;
+
     my @cards;
-    foreach (`tw_cli info`) {
+    while (my $line = <$handle>) {
         next unless /^(c\d+)\s+([\w-]+)/;
         push @cards, { id => $1, model => $2 };
     }
+    close $handle;
 
     return @cards;
 }
@@ -81,11 +85,15 @@ sub _getCards {
 sub _getUnits {
     my ($card) = @_;
 
+    my $handle = getFileHandle(command => "tw_cli info $card->{id}");
+    return unless $handle;
+
     my @units;
-    foreach (`tw_cli info $card->{id}`) {
+    while (my $line = <$handle>) {
         next unless /^(u(\d+))/;
         push @units, { id => $1, index => $2 };
     }
+    close $handle;
 
     return @units;
 }
@@ -93,11 +101,17 @@ sub _getUnits {
 sub _getPorts {
     my ($card, $unit) = @_;
 
+    my $handle = getFileHandle(
+        command => "tw_cli info $card->{id} $unit->{id}"
+    );
+    return unless $handle;
+
     my @ports;
-    foreach(`tw_cli info $card->{id} $unit->{id}`) {
+    while (my $line = <$handle>) {
         next unless /(p\d+)/;
-        push @ports, { id => $1 }
+        push @ports, { id => $1 };
     }
+    close $handle;
 
     return @ports;
 }
@@ -105,8 +119,14 @@ sub _getPorts {
 sub _getStorage {
     my ($card, $port) = @_;
 
+    my $handle = getFileHandle(
+        command =>
+            "tw_cli info $card->{id} $port->{id} model serial capacity firmware"
+    );
+    return unless $handle;
+
     my $storage;
-    foreach (`tw_cli info $card->{id} $port->{id} model serial capacity firmware`) {
+    while (my $line = <$handle>) {
         if (/Model\s=\s(.*)/) {
             $storage->{MODEL} = $1;
         } elsif (/Serial\s=\s(.*)/) {
@@ -117,6 +137,7 @@ sub _getStorage {
             $storage->{FIRMWARE} = $1
         }
     }
+    close $handle;
 
     $storage->{MANUFACTURER} = getCanonicalManufacturer(
         $storage->{MODEL}
