@@ -94,19 +94,20 @@ sub doInventory {
             !$interface->{ipaddress6} &&
             !$interface->{macaddr}
 
-        my $ipaddress  = $interface->{ipaddress}  ? join('/', @{$interface->{ipaddress})  : undef;
-        my $ipmask     = $interface->{ipmask}     ? join('/', @{$interface->{ipmask})     : undef;
-        my $ipsubnet   = $interface->{ipsubnet}   ? join('/', @{$interface->{ipsubnet})   : undef;
-        my $ipaddress6 = $interface->{ipaddress6} ? join('/', @{$interface->{ipaddress6}) : undef;
+        # flatten multivalued keys
+        foreach my $key (qw/ipaddress ipmask ipsubnet ipaddress6/) {
+            next unless $interface->{$key};
+            $interface->{$key} = join('/', @{$interface->{$key}});
+        }
 
         $inventory->addNetwork({
             DESCRIPTION => $interface->{description},
-            IPADDRESS => $ipaddress,
+            IPADDRESS => $interface->{ipaddress},
             IPDHCP => $interface->{ipdhcp},
             IPGATEWAY => $interface->{ipgateway},
-            IPMASK => $ipmask,
-            IPSUBNET => $ipsubnet,
-            IPADDRESS6 => $ipaddress6,
+            IPMASK => $interface->{ipmask},
+            IPSUBNET => $interface->{ipsubnet},
+            IPADDRESS6 => $interface->{ipaddress6},
             MACADDR => $interface->{macaddr},
             MTU => $interface->{mtu},
             STATUS => $interface->{status},
