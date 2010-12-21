@@ -73,7 +73,6 @@ sub _getInterfaces {
             $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6"
         }
 
-        #print "name $name macaddr $macaddr lanid $lanid\n";
         for (`lanadmin -g $lanid`) {
             if (/Type.+=\s(.+)/) { $interface->{TYPE} = $1; }
             if (/Description\s+=\s(.+)/) { $interface->{DESCRIPTION} = $1; }
@@ -81,8 +80,8 @@ sub _getInterfaces {
                 $interface->{SPEED} = ($1 > 1000000)? $1/1000000 : $1; # in old version speed was given in Mbps and we want speed in Mbps
             }
             if (/Operation Status.+=\sdown\W/i) { $interface->{STATUS} = "Down"; } #It is not the only criteria
-        } # for lanadmin
-        #print "name $name macaddr $macaddr lanid $lanid speed $speed status $status \n";
+        }
+
         for (`ifconfig $name 2> /dev/null`) {
             if ( not $interface->{STATUS} and /$name:\s+flags=.*\WUP\W/ ) { #Its status is not reported as down in lanadmin -g
                 $interface->{STATUS} = 'Up';
@@ -94,7 +93,8 @@ sub _getInterfaces {
                     $interface->{IPMASK} = sprintf ("%i.%i.%i.%i",hex($1),hex($2),hex($3),hex($4));
                 }
             }
-        } # For ifconfig
+        }
+
         $interface->{IPSUBNET} = join '.', unpack('C4C4C4C4', pack('B32', 
                 unpack('B32', pack('C4C4C4C4', split(/\./, $interface->{IPADDRESS}))) 
                 & unpack('B32', pack('C4C4C4C4', split(/\./, $interface->{IPMASK}))) 
@@ -110,7 +110,7 @@ sub _getInterfaces {
             $interface->{IPGATEWAY} = $routes->{'default/0.0.0.0'}
         }
 
-        #Some cleanups
+        # Some cleanups
         if ($interface->{IPADDRESS} eq '0.0.0.0') { $interface->{IPADDRESS} = "" }
         if (not $interface->{IPADDRESS} and not $interface->{IPMASK} and $interface->{IPSUBNET} eq '0.0.0.0') { $interface->{IPSUBNET} = "" }
         if (not $interface->{STATUS}) { $interface->{STATUS} = 'Down' }
