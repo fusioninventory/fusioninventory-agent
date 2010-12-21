@@ -35,12 +35,6 @@ sub doInventory {
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
         $netifs[$idx]{description} =  encodeFromWmi($nic->Description);
-        $netifs[$idx]{ipaddress} = [];
-        $netifs[$idx]{ipsubnet} = [];
-        $netifs[$idx]{ipmask} = [];
-        $netifs[$idx]{ipaddress6} = [];
-        $netifs[$idx]{ipsubnet6} = [];
-        $netifs[$idx]{ipmask6} = [];
 
         foreach (@{$nic->DefaultIPGateway || []}) {
             $defaultgateways{$_} = 1;
@@ -91,22 +85,19 @@ sub doInventory {
 
     foreach my $netif (@netifs) {
 
-        my $ipaddress;
-        my $ipmask;
-        my $ipsubnet;
-        my $ipaddress6;
-
-# http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
+        # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $netif->{pnpdeviceid};
 
-        $ipaddress = join('/', @{$netif->{ipaddress} || []});
-        $ipmask = join('/', @{$netif->{ipmask} || []});
-        $ipsubnet = join('/', @{$netif->{ipsubnet} || []});
-        $ipaddress6 = join('/', @{$netif->{ipaddress6} || []});
+        next if
+            !$netif->{ipaddress} &&
+            !$netif->{ipaddress6} &&
+            !$netif->{macaddr}
 
-        if (!$ipaddress && !$ipaddress6 && !$netif->{macaddr}) {
-            next;
-        }
+        my $ipaddress  = $netif->{ipaddress}  ? join('/', @{$netif->{ipaddress})  : undef;
+        my $ipmask     = $netif->{ipmask}     ? join('/', @{$netif->{ipmask})     : undef;
+        my $ipsubnet   = $netif->{ipsubnet}   ? join('/', @{$netif->{ipsubnet})   : undef;
+        my $ipaddress6 = $netif->{ipaddress6} ? join('/', @{$netif->{ipaddress6}) : undef;
+
         $inventory->addNetwork({
             DESCRIPTION => $netif->{description},
             IPADDRESS => $ipaddress,
