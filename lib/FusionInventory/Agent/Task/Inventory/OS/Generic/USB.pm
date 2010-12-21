@@ -47,32 +47,21 @@ sub _getDevices {
 
     my @devices;
     my $device;
-    my $in;
-
 
     while (my $line = <$handle>) {
-        if ($line =~ /^Device/) {
-            $in = 1;
-        } elsif ($line =~ /^\s*$/) {
-            $in =0;
+        if ($line =~ /^$/) {
             push @devices, $device if $device;
             undef $device;
-        } elsif ($in) {
-            if ($line =~ /^\s*idVendor\s*0x(\w+)/i) {
-                $device->{vendorId}=$1;
-            }
-            if ($line =~ /^\s*idProduct\s*0x(\w+)/i) {
-                $device->{productId}=$1;
-            }
-            if ($line =~ /^\s*iSerial\s*\d+\s(\w+)/i) {
-                $device->{serial}=$1;
-            }
-            if ($line =~ /^\s*bInterfaceClass\s*(\d+)/i) {
-                $device->{class}=$1;
-            }
-            if ($line =~ /^\s*bInterfaceSubClass\s*(\d+)/i) {
-                $device->{subClass}=$1;
-            }
+        } elsif ($line =~ /^\s*idVendor\s*0x(\w+)/i) {
+            $device->{vendorId} = $1;
+        } elsif ($line =~ /^\s*idProduct\s*0x(\w+)/i) {
+            $device->{productId} = $1;
+        } elsif ($line =~ /^\s*iSerial\s*\d+\s(\w+)/i) {
+            $device->{serial} = $1;
+        } elsif ($line =~ /^\s*bInterfaceClass\s*(\d+)/i) {
+            $device->{class} = $1;
+        } elsif ($line =~ /^\s*bInterfaceSubClass\s*(\d+)/i) {
+            $device->{subClass} = $1;
         }
     }
     close $handle;
