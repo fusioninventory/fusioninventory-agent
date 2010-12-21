@@ -51,17 +51,19 @@ sub doInventory {
         }
 
         if ($nic->IPAddress) {
-            foreach (0..@{$nic->IPAddress}) {
-                if (${$nic->IPAddress}[$_] =~ /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
-                    push @ips, ${$nic->IPAddress}[$_];
-                    push @{$netifs[$idx]{ipaddress}}, ${$nic->IPAddress}[$_];
-                    push @{$netifs[$idx]{ipmask}}, ${$nic->IPSubnet}[$_];
-                    push @{$netifs[$idx]{ipsubnet}}, getSubnetAddress(${$nic->IPAddress}[$_], ${$nic->IPSubnet}[$_]);
-                } elsif (${$nic->IPAddress}[$_] =~ /\S+/) {
-                    push @ip6s, ${$nic->IPAddress}[$_];
-                    push @{$netifs[$idx]{ipaddress6}}, ${$nic->IPAddress}[$_];
-                    push @{$netifs[$idx]{ipmask6}}, ${$nic->IPSubnet}[$_];
-                    push @{$netifs[$idx]{ipsubnet6}}, getSubnetAddressIPv6(${$nic->IPAddress}[$_], ${$nic->IPSubnet}[$_]);
+            while (@{$nic->IPAddress}) {
+                my $address = shift @{$nic->IPAddress};
+                my $mask = shift @{$nic->IPSubnet};
+                if ($address =~ /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
+                    push @ips, $address;
+                    push @{$netifs[$idx]{ipaddress}}, $address;
+                    push @{$netifs[$idx]{ipmask}}, $mask;
+                    push @{$netifs[$idx]{ipsubnet}}, getSubnetAddress($address, $mask);
+                } elsif ($address =~ /\S+/) {
+                    push @ip6s, $address;
+                    push @{$netifs[$idx]{ipaddress6}}, $address;
+                    push @{$netifs[$idx]{ipmask6}}, $mask;
+                    push @{$netifs[$idx]{ipsubnet6}}, getSubnetAddressIPv6($address, $mask);
                 }
             }
         }
