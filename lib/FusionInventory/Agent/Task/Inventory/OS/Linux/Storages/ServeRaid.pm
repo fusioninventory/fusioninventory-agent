@@ -23,7 +23,6 @@ sub doInventory {
     my $logger    = $params{logger};
     my $slot;
 
-    $logger->debug("ServeRaid: ipssend GETVERSION");
     foreach (`ipssend GETVERSION 2>/dev/null`) {
 
 # Example Output :
@@ -46,7 +45,6 @@ sub doInventory {
             my $name = $1;
             my ($serial, $capacity, $scsi, $channel, $state);
 
-            $logger->debug("ServeRaid: ipssend GETCONFIG $slot PD");
             foreach (`ipssend GETCONFIG $slot PD 2>/dev/null`) {
 # Example Output :
 #   Channel #1:
@@ -69,8 +67,6 @@ sub doInventory {
                     my $model = $1;
                     my $manufacturer = getCanonicalManufacturer($serial);
                     ## my $fullname = "$name $slot/$channel/$scsi $state";
-
-                    $logger->debug("ServeRaid: found $model, $manufacturer, $model, SCSI, disk, $capacity, $serial, ");
 
                     $inventory->addStorage({
                         NAME            => "$manufacturer $model",
