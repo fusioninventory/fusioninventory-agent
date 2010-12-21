@@ -36,66 +36,41 @@ sub _getInterfaces {
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
-    my %info;
-    my @interfaces;
+    my %interfaces;
 
     foreach (`lscfg -v -l en*`) {
         next unless /^\s+ent(\d+)\s+\S+\s+(.+)/;
-        my $ifname = "en".$1;
-        $info{$ifname}{type} = $2;
-        $info{$ifname}{status} = "Down"; # default is down
+        my $name = "en".$1;
+        $interfaces{$name}->{TYPE} = $2;
+        $interfaces{$name}->{DESCRIPTION} = $name;
         if (/Network Address\.+(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})/) {
-            $info{$ifname}{macaddr} = "$1:$2:$3:$4:$5:$6"
+            $interfaces{$name}->{MACADDR} = "$1:$2:$3:$4:$5:$6"
         }
     } 
 
     foreach (split / /,`ifconfig -l`) {
         # network interface naming is enX
         next unless /^(en\d+)/;
-        my $ifname = $1;
-        foreach (`lsattr -E -l $ifname`) {
-            $info{$ifname}{ip} = $1 if /^netaddr \s*([\d*\.?]*).*/i;
-            $info{$ifname}{netmask} = $1 if /^netmask\s*([\d*\.?]*).*/i;
-            $info{$ifname}{status} = $1 if /^state\s*(\w*).*/i; 
+        my $name = $1;
+        foreach (`lsattr -E -l $name`) {
+            $interfaces{$name}->{IPADDRESS} = $1 if /^netaddr \s*([\d*\.?]*).*/i;
+            $interfaces{$name}->{IPMASK} = $1 if /^netmask\s*([\d*\.?]*).*/i;
+            $interfaces{$name}->{STATUS} = $1 if /^state\s*(\w*).*/i; 
         } 
     }
 
+    foreach my $interface (values %interfaces) { 
+        $interface->{STATUS} = "Down" unless $interface->{IPADDRESS};
+        $interface->{IPDHCP} = "No";
 
-    foreach my $ifname (sort keys %info) { 
-        my $description = $ifname;
-        my $type = $info{$ifname}{type};
-        my $macaddr = $info{$ifname}{macaddr};
-        my $status = $info{$ifname}{status};
-        my $ipaddress = $info{$ifname}{ip};
-        my $ipmask = $info{$ifname}{netmask};
-        my $gateway = $info{$ifname}{gateway};
-        my $ipdhcp = "No";
-        my $ipsubnet;
-
-        $status = "Down" unless $ipaddress;
-
-        # Retrieving ip of the subnet for each interface
-        if($ipmask and $ipaddress) {
-            # To retrieve the subnet for this iface
-            my $binip = &ip_iptobin ($ipaddress ,4);
-            my $binmask = &ip_iptobin ($ipmask ,4);
-            my $subnet = $binip & $binmask;
-            $ipsubnet = ip_bintoip($subnet,4);
-        }
-        push @interfaces, {
-            DESCRIPTION => $description,
-            IPADDRESS => $ipaddress,
-            IPDHCP => $ipdhcp,
-            IPGATEWAY => $gateway,
-            IPMASK => $ipmask,
-            IPSUBNET => $ipsubnet,
-            MACADDR => $macaddr,
-            STATUS => $status,
-            TYPE => $type,
-        };
+        next unless $interface->{IPMASK} and $interface->{IPADDRESS};
+        my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
+        my $binmask = ip_iptobin($interface->{IPMASK}, 4);
+        my $binsubnet = $binip & $binmask;
+        $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
     }
 
-    return @interfaces;
+    return values %interfaces;
 }
 
 1;
