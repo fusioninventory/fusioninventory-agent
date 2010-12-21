@@ -30,8 +30,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my ($tw_cli, $hd);
-
     my $devices = getDevicesFromUdev(logger => $logger);
 
     # First, getting the cards : c0, c1... etc.
