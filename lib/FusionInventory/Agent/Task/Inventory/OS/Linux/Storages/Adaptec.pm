@@ -46,32 +46,28 @@ sub doInventory {
 #   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
 #   Type:   Direct-Access                    ANSI  SCSI revision: 03
 
-        my ($host, $model, $firmware, $manufacturer, $size, $serialnumber);
+        my $storage = {
+            NAME        => $hd->{NAME},
+            DESCRIPTION => 'SATA',
+            TYPE        => 'disk',
+        };
         my $count = -1;
         while (<$handle>) {
             next unless /^Host:\sscsi$hd->{SCSI_COID}/;
             $count++;
             next unless /Model:\s(\S+).*Rev:\s(\S+)/;
-            $model = $1;
-            $firmware = $2;
-            next if $model =~ 'raid';
+            $storage->{MODEL} = $1;
+            $storage->{FIRMWARE} = $2;
+            next if $storage->{MODEL} =~ 'raid';
 
-            $manufacturer = getCanonicalManufacturer($model);
+            $storage->{MANUFACTURER} = getCanonicalManufacturer(
+                $storage->{MODEL}
+            );
             foreach (`smartctl -i /dev/sg$count`) {
-                $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
+                $storage->{SERIALNUMBER} = $1 if /^Serial Number:\s+(\S*)/;
             }
-            $host = undef;
 
-            $inventory->addStorage({
-                NAME => $hd->{NAME},
-                MANUFACTURER => $manufacturer,
-                MODEL => $model,
-                DESCRIPTION => 'SATA',
-                TYPE => 'disk',
-                DISKSIZE => $size,
-                SERIALNUMBER => $serialnumber,
-                FIRMWARE => $firmware,
-            });
+            $inventory->addStorage($storage);
         }
         close $handle;
     }
