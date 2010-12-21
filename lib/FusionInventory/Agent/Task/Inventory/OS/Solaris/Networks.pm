@@ -28,6 +28,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    # set list of network interfaces
+    my $routes = _getRoutes();
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
@@ -41,8 +43,20 @@ sub doInventory {
         @interfaces;
 
     $inventory->setHardware(
-        IPADDR => join('/', @ip_addresses)
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{default}
     );
+}
+
+sub _getRoutes {
+
+    my $routes;
+    foreach my $line (`netstat -nr -f inet`) {
+        next unless $line =~ /^default\s+(\S+)/i;
+        $routes->{default} = $1;
+    }
+
+    return $routes;
 }
 
 sub _getInterfaces {
@@ -53,7 +67,6 @@ sub _getInterfaces {
     my @interfaces;
     my $description;
     my $ipaddress;
-    my $ipgateway;
     my $ipmask;
     my $ipsubnet;
     my $macaddr;
@@ -80,9 +93,6 @@ sub _getInterfaces {
         }
     }
 
-    foreach (`netstat -rn`) {
-        $ipgateway=$1 if /^default\s+(\S+)/i;
-    }
     if ($zone) {
         foreach (`ifconfig -a`) {
             $description = $1 if /^(\S+):/; # Interface name
@@ -135,7 +145,6 @@ sub _getInterfaces {
                 push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
-                    IPGATEWAY => $ipgateway,
                     IPMASK => $ipmask,
                     SPEED => $speed,
                     IPSUBNET => $ipsubnet,
@@ -171,7 +180,6 @@ sub _getInterfaces {
                 push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
-                    IPGATEWAY => $ipgateway,
                     IPMASK => $ipmask,
                     IPSUBNET => $ipsubnet,
                     MACADDR => $macaddr,
@@ -197,7 +205,6 @@ sub _getInterfaces {
                 push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
-                    IPGATEWAY => $ipgateway,
                     IPMASK => $ipmask,
                     IPSUBNET => $ipsubnet,
                     MACADDR => $macaddr,
@@ -207,7 +214,7 @@ sub _getInterfaces {
                 };
             }
 
-            $ipgateway = $ipsubnet = $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
+            $ipsubnet = $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
 
             my $inc = 1;
             foreach (`/usr/sbin/fcinfo hba-port`) {
@@ -226,7 +233,6 @@ sub _getInterfaces {
                     push @interfaces, {
                         DESCRIPTION => $description,
                         IPADDRESS => $ipaddress,
-                        IPGATEWAY => $ipgateway,
                         IPMASK => $ipmask,
                         IPSUBNET => $ipsubnet,
                         MACADDR => $macaddr,
@@ -236,7 +242,7 @@ sub _getInterfaces {
                     };
                     $inc ++ ;
 
-                    $ipgateway = $ipsubnet = $ipaddress = $description = $macaddr = $status =  $speed = $type = $ipmask = undef;
+                    $ipsubnet = $ipaddress = $description = $macaddr = $status =  $speed = $type = $ipmask = undef;
                 }
             }
         }
@@ -291,7 +297,6 @@ sub _getInterfaces {
                 push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
-                    IPGATEWAY => $ipgateway,
                     IPMASK => $ipmask,
                     SPEED => $speed,
                     IPSUBNET => $ipsubnet,
