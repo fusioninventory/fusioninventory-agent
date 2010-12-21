@@ -60,7 +60,6 @@ sub doInventory {
             foreach (`smartctl -i /dev/sg$count`) {
                 $serialnumber = $1 if /^Serial Number:\s+(\S*)/;
             }
-            $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
             $host = undef;
 
             $inventory->addStorage({
