@@ -63,11 +63,9 @@ sub restore {
         idx => $idx
     );
 
-    if (-f $filePath) {
-        return retrieve($filePath);
-    }
+    return unless -f $filePath;
 
-    return {};
+    return retrieve($filePath);
 }
 
 sub getDirectory {
