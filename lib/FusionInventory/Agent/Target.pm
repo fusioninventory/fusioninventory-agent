@@ -113,10 +113,8 @@ sub getDescription {
     my $description = {
         id     => $self->{id},
         period => $self->{period},
-        time   =>
-            $self->{nextRunDate} ? localtime($self->{nextRunDate}) : 'now',
-        status =>
-            $self->{nextRunDate} ? 'waiting' : 'running'
+        time   => localtime($self->{nextRunDate}),
+        status => 'waiting'
     };
 
     return $description;
