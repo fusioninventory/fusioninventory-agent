@@ -16,7 +16,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $model;
     my $capacity;
     my $description;
     my $numslots;
@@ -36,19 +35,7 @@ sub doInventory {
     # because prtdiags output (and with that memconfs output) is differend
     # from server model to server model
     # we try to classified our box in one of the known classes
-    my $zone = getZone();
-
-    if ($zone) {
-        # first, we need determinate on which model of Sun Server we run,
-        # because prtdiags output (and with that memconfs output) is differend
-        # from server model to server model
-        # we try to classified our box in one of the known classes
-        $model = `uname -i`;
-        # cut the CR from string model
-        $model = substr($model, 0, length($model)-1);
-    } else {
-        $model = "Solaris Containers";
-    }
+    my $model = getModel();
 
     SWITCH: {
         if ($model =~ /SUNW,Sun-Fire-\d/) {

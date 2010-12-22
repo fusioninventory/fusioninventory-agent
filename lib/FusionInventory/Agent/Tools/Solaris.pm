@@ -11,9 +11,11 @@ use Memoize;
 
 our @EXPORT = qw(
     getZone
+    getModel
 );
 
 memoize('getZone');
+memoize('getModel');
 
 sub getZone {
 
@@ -26,6 +28,27 @@ sub getZone {
     );
 
     return $zone;
+}
+
+sub getModel {
+
+    my $zone = getZone();
+
+    my $model;
+    if ($zone) {
+        # first, we need determinate on which model of Sun Server we run,
+        # because prtdiags output (and with that memconfs output) is differend
+        # from server model to server model
+        # we try to classified our box in one of the known classes
+        $model = getSingleLine(command => 'uname -i');
+        # debug print model
+        # cut the CR from string model
+        $model = substr($model, 0, length($model) -1);
+    } else {
+        $model = "Solaris Containers";
+    }
+
+    return $model;
 }
 
 1;
@@ -44,3 +67,7 @@ This module provides some generic functions for Solaris.
 =head2 getZone()
 
 Returns system zone.
+
+=head2 getModel()
+
+Returns system model.

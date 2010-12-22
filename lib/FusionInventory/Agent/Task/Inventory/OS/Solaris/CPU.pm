@@ -22,23 +22,9 @@ sub doInventory {
     my $cpu_slot;
     my $cpu_speed;
     my $cpu_type;
-    my $model;
     my $sun_class_cpu=0;
 
-    my $zone = getZone();
-
-    if ($zone) {
-        # first, we need determinate on which model of Sun Server we run,
-        # because prtdiags output (and with that memconfs output) is differend
-        # from server model to server model
-        # we try to classified our box in one of the known classes
-        $model=`uname -i`;
-        # debug print model
-        # cut the CR from string model
-        $model = substr($model, 0, length($model)-1);
-    } else {
-        $model="Solaris Containers";
-    }
+    my $model = getModel();
 
     if ($model  =~ /SUNW,SPARC-Enterprise/) { $sun_class_cpu = 5; } # M5000
     if ($model  =~ /SUNW,SPARC-Enterprise-T\d/){ $sun_class_cpu = 4; } #T5220 - T5210
