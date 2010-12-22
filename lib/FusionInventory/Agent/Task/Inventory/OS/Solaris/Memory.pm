@@ -27,60 +27,17 @@ sub doInventory {
     my $flag=0;
     my $flag_mt=0;
     my $caption;
-    my $sun_class=0;
+    my $class=0;
     # for debug only
     my $j=0;
 
-    # first, we need determinate on which model of sun server we run,
-    # because prtdiags output (and with that memconfs output) is differend
-    # from server model to server model
-    # we try to classified our box in one of the known classes
-    my $model = getModel();
+    my $class = getClass();
 
-    SWITCH: {
-        if ($model =~ /SUNW,Sun-Fire-\d/) {
-            $sun_class = 1;
-            last SWITCH;
-        }
-        if (
-            $model =~ /SUNW,Sun-Fire-V/ or
-            $model =~ /SUNW,Netra-T/    or
-            $model =~ /SUNW,Ultra-250/
-        ) {
-            $sun_class = 2;
-            last SWITCH;
-        }
-        if (
-            $model =~ /SUNW,Sun-Fire-T\d/ or
-            $model =~ /SUNW,T\d/
-        ) {
-            $sun_class = 3;
-            last SWITCH;
-        }
-        if ($model =~ /SUNW,SPARC-Enterprise-T\d/) {
-            $sun_class = 4;
-            last SWITCH;
-        }
-        if ($model =~ /SUNW,SPARC-Enterprise/) {
-            $sun_class = 5;
-            last SWITCH;
-        }
-        if ($model eq "i86pc") {
-            $sun_class = 6;
-            last SWITCH;
-        }
-        if ($model =~ /Solaris Containers/) {
-            $sun_class = 7;
-            last SWITCH;
-        }
-    }
-
-    # now we can look at memory information, depending from our class
-    if ($sun_class == 0) {
+    if ($class == 0) {
         $logger->debug("sorry, unknown model, could not detect memory configuration");
     }
 
-    if ($sun_class == 1) {
+    if ($class == 1) {
         foreach(`memconf 2>&1`) {
             # if we find "empty groups:", we have reached the end and indicate that by setting flag = 0
             if (/^empty \w+:\s(\S+)/) {
@@ -115,7 +72,7 @@ sub doInventory {
         }
     }
 
-    if ($sun_class == 2) {
+    if ($class == 2) {
         foreach(`memconf 2>&1`) {
             # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
             # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
@@ -170,7 +127,7 @@ sub doInventory {
         }
     }
 
-    if ($sun_class == 3) {
+    if ($class == 3) {
         foreach(`memconf 2>&1`) {
             if (/^empty sockets:\s*(\S+)/) {
                 # cut of first 15 char containing the string empty sockets:
@@ -213,7 +170,7 @@ sub doInventory {
         }
     }
 
-    if ($sun_class == 4) {
+    if ($class == 4) {
         foreach(`memconf 2>&1`) {
             # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
             # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
@@ -262,7 +219,7 @@ sub doInventory {
         }
     }
 
-    if ($sun_class ==  5) {
+    if ($class ==  5) {
         foreach(`memconf 2>&1`) {
             # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
             # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
@@ -294,7 +251,7 @@ sub doInventory {
             }
         }
     }
-    if ($sun_class == 6) {
+    if ($class == 6) {
         foreach(`memconf 2>&1`) {
             if (/^empty memory sockets:\s*(\S+)/) {
                 # cut of first 22 char containing the string empty sockets:
@@ -337,7 +294,7 @@ sub doInventory {
         }
     }
 
-    if ($sun_class == 7) {
+    if ($class == 7) {
         foreach (`prctl -n project.max-shm-memory $$ 2>&1`) {
             $description = $1 if /^project.(\S+)$/;
             $capacity = $1 if /^\s*system+\s*(\d+).*$/;

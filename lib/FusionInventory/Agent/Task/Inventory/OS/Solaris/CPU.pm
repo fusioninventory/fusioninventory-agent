@@ -22,19 +22,10 @@ sub doInventory {
     my $cpu_slot;
     my $cpu_speed;
     my $cpu_type;
-    my $sun_class_cpu=0;
 
-    my $model = getModel();
+    my $class = getClass();
 
-    if ($model  =~ /SUNW,SPARC-Enterprise/) { $sun_class_cpu = 5; } # M5000
-    if ($model  =~ /SUNW,SPARC-Enterprise-T\d/){ $sun_class_cpu = 4; } #T5220 - T5210
-    if ($model  =~ /SUNW,Netra-T/){ $sun_class_cpu = 2; }
-    if ($model  =~ /SUNW,Sun-Fire-\d/){ $sun_class_cpu = 1; }
-    if ($model  =~ /SUNW,Sun-Fire-V/){ $sun_class_cpu = 2; }
-    if ($model  =~ /SUNW,Sun-Fire-T\d/) { $sun_class_cpu = 3; }
-    if ($model  =~ /Solaris Containers/){ $sun_class_cpu = 6; }
-
-    if ($sun_class_cpu == 0) {
+    if ($class == 0) {
         foreach (`memconf 2>&1`) {
             if(/^Sun Microsystems, Inc.*\((\d+)\s+X\s+(.+)\s+(\d+)MHz/i) {
                 $cpu_slot = $1;
@@ -57,7 +48,7 @@ sub doInventory {
         }
     }
 
-    if($sun_class_cpu == 1) {
+    if ($class == 1) {
 
         # Sun Microsystems, Inc. Sun Fire 880 (4 X UltraSPARC-III 750MHz)
         foreach (`memconf 2>&1`) {
@@ -78,7 +69,7 @@ sub doInventory {
         }
     }
 
-    if($sun_class_cpu == 2) {
+    if ($class == 2) {
 
         #Sun Microsystems, Inc. Sun Fire V490 (2 X dual-thread UltraSPARC-IV 1350MHz)
         foreach (`memconf 2>&1`) {
@@ -106,7 +97,7 @@ sub doInventory {
         }
     }
 
-    if($sun_class_cpu == 3) {
+    if ($class == 3) {
         foreach (`memconf 2>&1`) {
             #Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (8-core quad-thread UltraSPARC-T1 1000MHz)
             #Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (4-core quad-thread UltraSPARC-T1 1000MHz)
@@ -121,7 +112,7 @@ sub doInventory {
         }
     }
 
-    if($sun_class_cpu == 4) {
+    if ($class == 4) {
         foreach (`memconf 2>&1`) {
 
             #Sun Microsystems, Inc. SPARC Enterprise T5120 (8-core 8-thread UltraSPARC-T2 1165MHz)
@@ -137,7 +128,7 @@ sub doInventory {
         }
     }
 
-    if($sun_class_cpu == 5) {
+    if ($class == 5) {
         foreach (`memconf 2>&1`) {
             #Sun Microsystems, Inc. Sun SPARC Enterprise M5000 Server (6 X dual-core dual-thread SPARC64-VI 2150MHz)
 
@@ -161,7 +152,7 @@ sub doInventory {
     }
 
 
-    if($sun_class_cpu == 6) {
+    if ($class == 7) {
         foreach (`prctl -n zone.cpu-shares $$`) {
             $cpu_type = $1 if /^zone.(\S+)$/;
             $cpu_type = $cpu_type." ".$1 if /^\s*privileged+\s*(\d+).*$/;

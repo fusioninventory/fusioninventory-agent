@@ -12,10 +12,12 @@ use Memoize;
 our @EXPORT = qw(
     getZone
     getModel
+    getClass
 );
 
 memoize('getZone');
 memoize('getModel');
+memoize('getClass');
 
 sub getZone {
 
@@ -51,6 +53,46 @@ sub getModel {
     return $model;
 }
 
+sub getClass {
+    my $model = getModel();
+
+    if ($model =~ /SUNW,Sun-Fire-\d/) {
+        return 1;
+    }
+
+    if (
+        $model =~ /SUNW,Sun-Fire-V/ or
+        $model =~ /SUNW,Netra-T/    or
+        $model =~ /SUNW,Ultra-250/
+    ) {
+        return 2;
+    }
+
+    if (
+        $model =~ /SUNW,Sun-Fire-T\d/ or
+        $model =~ /SUNW,T\d/
+    ) {
+        return 3;
+    }
+
+    if ($model =~ /SUNW,SPARC-Enterprise-T\d/) {
+        return 4;
+    }
+    if ($model =~ /SUNW,SPARC-Enterprise/) {
+        return 5;
+    }
+    if ($model eq "i86pc") {
+        return 6;
+    }
+    if ($model =~ /Solaris Containers/) {
+        return 7;
+    }
+
+    # unknown class
+    return 0;
+}
+
+
 1;
 __END__
 
@@ -71,3 +113,7 @@ Returns system zone.
 =head2 getModel()
 
 Returns system model.
+
+=head2 getclass()
+
+Returns system class.
