@@ -24,6 +24,7 @@ This is FusionInventory Agent {$version}<br />
 <th>id</th>
 <th>type</th>
 <th>destination</th>
+<th>period (seconds)</th>
 <th>next execution date</th>
 <th>status</th>
 </tr>
@@ -33,6 +34,7 @@ This is FusionInventory Agent {$version}<br />
 	$OUT .= "<td>$target->{id}</td>";
 	$OUT .= "<td>$target->{type}</td>";
 	$OUT .= "<td>$target->{destination}</td>";
+	$OUT .= "<td>$target->{period}</td>";
 	$OUT .= "<td>$target->{time}</td>";
 	$OUT .= "<td>$target->{status}</td>";
 	$OUT .= "</tr>";
