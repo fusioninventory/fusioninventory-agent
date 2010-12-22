@@ -19,7 +19,8 @@ use FusionInventory::Agent::Tools;
 sub isInventoryEnabled {
     return 
         can_run('ifconfig') &&
-        can_run('netstat');
+        can_run('netstat') &&
+        can_load('Net::IP');
 }
 
 sub doInventory {
@@ -60,9 +61,6 @@ sub _getRoutes {
 
 sub _getInterfaces {
 
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
-
     my ($OSLevel, $zone);
 
     $OSLevel = `uname -r`;
@@ -80,7 +78,7 @@ sub _getInterfaces {
     return @interfaces unless $zone;
 
     if ($OSLevel =~ /5.10/) {
-        foreach (`/usr/sbin/dladm show-aggr`){
+        foreach (`/usr/sbin/dladm show-aggr`) {
             next if /device/;
             next if /key/;
             my $interface = {
@@ -264,6 +262,9 @@ sub _get_link_info {
 }
 
 sub _parseIfconfig {
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
 
     my @interfaces;
     my $interface;
