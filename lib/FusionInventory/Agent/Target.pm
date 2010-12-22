@@ -18,7 +18,6 @@ sub new {
         period      => $params{period} || 3600,
         logger      => $params{logger},
         format      => $params{format},
-        nextRunDate => undef,
     };
 
     bless $self, $class;
@@ -31,6 +30,9 @@ sub new {
 
     # restore previous state
     $self->_loadState();
+
+    # initialize next execution date if needed
+    $self->scheduleNextRun() if !$self->{nextRunDate};
     
     return $self;
 }
