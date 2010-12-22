@@ -63,7 +63,6 @@ sub _getInterfaces {
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
-    my @interfaces;
     my $description;
     my $ipaddress;
     my $ipmask;
@@ -92,108 +91,47 @@ sub _getInterfaces {
         }
     }
 
-    if ($zone) {
-        foreach (`ifconfig -a`) {
-            $description = $1 if /^(\S+):/; # Interface name
-            $ipaddress = $1 if /inet\s+(\S+)/i;
-            $ipmask = $1 if /\S*netmask\s+(\S+)/i;
-            $type = $1 if /groupname\s+(\S+)/i;
-            #$type = $1 if /zone\s+(\S+)/i;
-            #Debug
-            if (/ether\s+(\S+)/i) {
-                # See
-                # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
-                $macaddr = sprintf "%02x:%02x:%02x:%02x:%02x:%02x" ,
-                map hex, split /\:/, $1;
-            }
-            $status = 1 if /<UP,/;
-            if(($description && $macaddr)) {
-                $nic = $1 if ( $description =~ /^(\S+)(\d+)/);
-                $num = $2 if ( $description =~/^(\S+)(\d+)/);
-                if ($nic =~ /bge/ ) {
-                    $speed = _check_bge_nic($nic,$num);
-                } elsif ($nic =~ /ce/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /hme/) {
-                    $speed = _check_nic($nic,$num);
-                } elsif ($nic =~ /dmfe/) {
-                    $speed = _check_dmf_nic($nic,$num);
-                } elsif ($nic =~ /ipge/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /e1000g/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /nxge/) {
-                    $speed = _check_nxge_nic($nic,$num);
-                } elsif ($nic =~ /eri/) {
-                    $speed = _check_nic($nic,$num);
-                } elsif ($nic =~ /aggr/) {
-                    $speed = "";
-                } else {
-                    $speed = _check_nic($nic,$num);
-                }
-                #HEX TO DEC TO BIN TO IP
-                $ipmask = hex($ipmask);
-                $ipmask = sprintf("%d", $ipmask);
-                $ipmask = unpack("B*", pack("N", $ipmask));
-                $ipmask = ip_bintoip($ipmask,4);
-                $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
-                push @interfaces, {
-                    DESCRIPTION => $description,
-                    IPADDRESS => $ipaddress,
-                    IPMASK => $ipmask,
-                    SPEED => $speed,
-                    IPSUBNET => $ipsubnet,
-                    MACADDR => $macaddr,
-                    STATUS => $status?"Up":"Down",
-                    TYPE => $type,
-                };
+    my @interfaces = _parseIfconfig($zone);
 
-                $ipaddress = $speed = $description = $macaddr = $status =  $type = $ipmask = undef;
-            }
+    return @interfaces unless $zone;
+
+    if ($OSLevel =~ /5.10/) {
+        foreach (`/usr/sbin/dladm show-aggr`){
+            next if /device/;
+            next if /key/;
+            $description = $1 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/; # aggrega
+            $macaddr = $2 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+            $speed = $3." ".$4." ".$5 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+            $status = 1 if /up/;
+            $ipaddress = "0.0.0.0";
+            push @interfaces, {
+                DESCRIPTION => $description,
+                IPADDRESS => $ipaddress,
+                IPMASK => $ipmask,
+                IPSUBNET => $ipsubnet,
+                MACADDR => $macaddr,
+                STATUS => $status?"Up":"Down",
+                SPEED => $speed,
+                TYPE => $type,
+            };
         }
 
-        $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
+        $ipsubnet = $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
 
-        foreach (`ifconfig -a`) {
-            $description = $1.":".$2 if /^(\S+):(\S+):/; # Interface name zone or virtual
-            if ($description) {
-                $ipaddress = $1 if /inet\s+(\S+)/i;
-                $ipmask = $1 if /\S*netmask\s+(\S+)/i;
-                $status = 1 if /<UP,/;
-                $type = $1 if /zone\s+(\S+)/i;
-            }
-            if ($description && $ipmask) {
-                #HEX TO DEC TO BIN TO IP
-                $ipmask = hex($ipmask);
-                $ipmask = sprintf("%d", $ipmask);
-                $ipmask = unpack("B*", pack("N", $ipmask));
-                $ipmask = ip_bintoip($ipmask,4);
-                $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
-                push @interfaces, {
-                    DESCRIPTION => $description,
-                    IPADDRESS => $ipaddress,
-                    IPMASK => $ipmask,
-                    IPSUBNET => $ipsubnet,
-                    MACADDR => $macaddr,
-                    STATUS => $status?"Up":"Down",
-                    TYPE => $type,
-                };
+        my $inc = 1;
+        foreach (`/usr/sbin/fcinfo hba-port`) {
+            $description = "HBA_Port_WWN_".$inc if /HBA Port WWN:\s+(\S+)/;
+            $description = $description." ".$1 if /OS Device Name:\s+(\S+)/;
+            $speed = $1 if /Current Speed:\s+(\S+)/;
+            $macaddr = $1 if /Node WWN:\s+(\S+)/;
+            $type = $1 if /Manufacturer:\s+(.*)$/;
+            $type = $type." ".$1 if /Model:\s+(.*)$/;
+            $type = $type." ".$1 if /Firmware Version:\s+(.*)$/;
+            $ipaddress = "0.0.0.0";
+            #$ipaddress = "SN:".$1 if /Serial Number:\s+(\S+)/;
+            $status = 1 if /online/;
 
-                $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
-            }
-        }
-
-        $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
-
-        if ($OSLevel =~ /5.10/) {
-            foreach (`/usr/sbin/dladm show-aggr`){
-                next if /device/;
-                next if /key/;
-                $description = $1 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/; # aggrega
-                $macaddr = $2 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-                $speed = $3." ".$4." ".$5 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-                $status = 1 if /up/;
-                $ipaddress = "0.0.0.0";
+            if ($description &&  $macaddr) {
                 push @interfaces, {
                     DESCRIPTION => $description,
                     IPADDRESS => $ipaddress,
@@ -204,96 +142,9 @@ sub _getInterfaces {
                     SPEED => $speed,
                     TYPE => $type,
                 };
-            }
+                $inc ++ ;
 
-            $ipsubnet = $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
-
-            my $inc = 1;
-            foreach (`/usr/sbin/fcinfo hba-port`) {
-                $description = "HBA_Port_WWN_".$inc if /HBA Port WWN:\s+(\S+)/;
-                $description = $description." ".$1 if /OS Device Name:\s+(\S+)/;
-                $speed = $1 if /Current Speed:\s+(\S+)/;
-                $macaddr = $1 if /Node WWN:\s+(\S+)/;
-                $type = $1 if /Manufacturer:\s+(.*)$/;
-                $type = $type." ".$1 if /Model:\s+(.*)$/;
-                $type = $type." ".$1 if /Firmware Version:\s+(.*)$/;
-                $ipaddress = "0.0.0.0";
-                #$ipaddress = "SN:".$1 if /Serial Number:\s+(\S+)/;
-                $status = 1 if /online/;
-
-                if ($description &&  $macaddr) {
-                    push @interfaces, {
-                        DESCRIPTION => $description,
-                        IPADDRESS => $ipaddress,
-                        IPMASK => $ipmask,
-                        IPSUBNET => $ipsubnet,
-                        MACADDR => $macaddr,
-                        STATUS => $status?"Up":"Down",
-                        SPEED => $speed,
-                        TYPE => $type,
-                    };
-                    $inc ++ ;
-
-                    $ipsubnet = $ipaddress = $description = $macaddr = $status =  $speed = $type = $ipmask = undef;
-                }
-            }
-        }
-
-    } else {
-        foreach (`ifconfig -a`) {
-            $description = $1.":".$2 if /^(\S+):(\S+):.*$/; # Interface name zone
-            $ipaddress = $1 if /inet\s+(\S+)/i;
-            $ipmask = $1 if /\S*netmask\s+(\S+)/i;
-            $type = $1 if /zone\s+(\S+)/i;
-            #Debug
-            if (/ether\s+(\S+)/i) {
-                # See
-                # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
-                $macaddr = sprintf "%02x:%02x:%02x:%02x:%02x:%02x" ,
-                map hex, split /\:/, $1;
-            }
-            $status = 1 if /<UP,/;
-            if ($description &&  $ipaddress) {
-                $nic = $1 if $description =~ /^(\S+)(\d+):.*$/;
-                $num = $2 if $description =~/^(\S+)(\d+):.*$/;
-                if ($nic =~ /bge/) {
-                    $speed = _check_bge_nic($nic,$num);
-                } elsif ($nic =~ /ce/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /hme/) {
-                    $speed = _check_nic($nic,$num);
-                } elsif ($nic =~ /dmfe/) {
-                    $speed = _check_dmf_nic($nic,$num);
-                } elsif ($nic =~ /ipge/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /e1000g/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /nxge/) {
-                    $speed = _check_nxge_nic($nic,$num);
-                } elsif ($nic =~ /eri/) {
-                    $speed = _check_nic($nic,$num);
-                } else {
-                    $speed = _check_nic($nic,$num);
-                }
-                #HEX TO DEC TO BIN TO IP
-                $ipmask = hex($ipmask);
-                $ipmask = sprintf("%d", $ipmask);
-                $ipmask = unpack("B*", pack("N", $ipmask));
-                $ipmask = ip_bintoip($ipmask,4);
-                $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
-
-                push @interfaces, {
-                    DESCRIPTION => $description,
-                    IPADDRESS => $ipaddress,
-                    IPMASK => $ipmask,
-                    SPEED => $speed,
-                    IPSUBNET => $ipsubnet,
-                    MACADDR => $macaddr,
-                    STATUS => $status?"Up":"Down",
-                    TYPE => $type,
-                };
-
-                $ipaddress = $speed = $description = $macaddr = $status =  $type = undef;
+                $ipsubnet = $ipaddress = $description = $macaddr = $status =  $speed = $type = $ipmask = undef;
             }
         }
     }
@@ -443,6 +294,91 @@ sub _get_link_info {
     }
 
     return $info;
+}
+
+sub _parseIfconfig {
+
+    my @interfaces;
+    my $interface;
+
+    foreach (`ifconfig -a`) {
+
+        if (/^(\S+):(\S+):/) {
+            $interface->{DESCRIPTION} = $1 . ":" . $2;
+        } elsif (/^(\S+):/) {
+            $interface->{DESCRIPTION} = $1;
+        }
+
+        if (/inet\s+(\S+)/i) {
+            $interface->{IPADDRESS} = $1;
+        }
+
+        if (/\S*netmask\s+(\S+)/i) {
+            # hex to dec to bin to ip
+            $interface->{IPMASK} = ip_bintoip(
+                unpack("B*", pack("N", sprintf("%d", hex($1)))),
+                4
+            );
+        }
+
+        if (/groupname\s+(\S+)/i) {
+            $interface->{TYPE} = $1;
+        }
+
+        if (/zone\s+(\S+)/) {
+            $interface->{TYPE} = $1;
+        }
+
+        if (/ether\s+(\S+)/i) {
+            # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
+            $interface->{MACADDR} =
+                sprintf "%02x:%02x:%02x:%02x:%02x:%02x" , map hex, split /\:/, $1;
+        }
+
+        if (/<UP,/) {
+            $interface->{STATUS} = "Up";
+        }
+
+        if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
+            my ($nic, $num);
+            if ($interface->{DESCRIPTION} =~ /^(\S+)(\d+)/) {
+                $nic = $1;
+                $num = $2;
+            }
+
+            if ($nic =~ /bge/ ) {
+                $interface->{SPEED} = _check_bge_nic($nic, $num);
+            } elsif ($nic =~ /ce/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /hme/) {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            } elsif ($nic =~ /dmfe/) {
+                $interface->{SPEED} = _check_dmf_nic($nic, $num);
+            } elsif ($nic =~ /ipge/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /e1000g/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /nxge/) {
+                $interface->{SPEED} = _check_nxge_nic($nic, $num);
+            } elsif ($nic =~ /eri/) {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            } elsif ($nic =~ /aggr/) {
+                $interface->{SPEED} = "";
+            } else {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            }
+
+            $interface->{IPSUBNET} = getSubnetAddress(
+                $interface->{IPADDRESS}, $interface->{IPMASK}
+            );
+
+            $interface->{STATUS} = 'Down' if !$interface->{STATUS};
+
+            push @interfaces, $interface;
+        }
+    }
+
+    return @interfaces;
 }
 
 1;
