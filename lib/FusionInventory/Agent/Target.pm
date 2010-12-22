@@ -16,7 +16,7 @@ sub new {
     my $self = {
         id     => $params{id},
         period => $params{period} || 3600,
-        logger => $params{logger},
+        logger => $params{logger} || FusionInventory::Agent::Logger->new(),
         format => $params{format},
     };
 
