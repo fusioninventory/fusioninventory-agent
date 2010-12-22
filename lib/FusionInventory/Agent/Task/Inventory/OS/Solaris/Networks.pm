@@ -69,7 +69,7 @@ sub _getInterfaces {
         $zone = "global";
     } else {
         foreach (`zoneadm list -p`){
-            $zone = $1 if /^0:([a-z]+):.*$/;
+            $zone = $1 if /^0:([a-z]+):/;
         }
     }
 
@@ -165,17 +165,17 @@ sub _check_ce {
 
     my ($speed) = getFirstMatch(
         command => "/usr/bin/kstat -m $nic -i $num -s link_speed",
-        pattern => qr/^\s*link_speed+\s*(\d+).*$/
+        pattern => qr/^\s*link_speed+\s*(\d+)/
     );
 
     my ($duplex) = getFirstMatch(
         command => "/usr/bin/kstat -m $nic -i $num -s link_duplex",
-        pattern => qr/^\s*link_duplex+\s*(\d+).*$/
+        pattern => qr/^\s*link_duplex+\s*(\d+)/
     );
 
     my ($auto) = getFirstMatch(
         command => "/usr/bin/kstat -m $nic -i $num -s cap_autoneg",
-        pattern => qr/^\s*cap_autoneg+\s*(\d+).*$/
+        pattern => qr/^\s*cap_autoneg+\s*(\d+)/
     );
 
     return _get_link_info($speed, $duplex, $auto);
