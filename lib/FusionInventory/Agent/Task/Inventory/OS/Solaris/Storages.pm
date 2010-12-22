@@ -73,11 +73,11 @@ sub doInventory {
 
         if (-l "/dev/rdsk/${name}s2") {
             $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
-            if ($rdisk_path =~ /.*->.*scsi_vhci.*/) {
+            if ($rdisk_path =~ /->.*scsi_vhci/) {
                 $type="MPxIO";
-            } elsif ($rdisk_path =~ /.*->.*fp@.*/) {
+            } elsif ($rdisk_path =~ /->.*fp@/) {
                 $type="FC";
-            } elsif ($rdisk_path =~ /.*->.*scsi@.*/) {
+            } elsif ($rdisk_path =~ /->.*scsi@/) {
                 $type="SCSI";
             }
         }
