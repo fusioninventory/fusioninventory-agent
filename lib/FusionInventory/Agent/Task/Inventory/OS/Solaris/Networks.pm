@@ -120,21 +120,21 @@ sub _getInterfaces {
 # Function to test Quad Fast-Ethernet, Fast-Ethernet, and
 # Gigabit-Ethernet (i.e. qfe_, hme_, ge_, fjgi_)
 sub _check_nic {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
     my ($speed) = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$mynic link_speed",
+        command => "/usr/sbin/ndd -get /dev/$nic link_speed",
         pattern => qr/^(\d+)/
     );
 
     my ($duplex) = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$mynic link_mode",
+        command => "/usr/sbin/ndd -get /dev/$nic link_mode",
         pattern => qr/^(\d+)/
     );
 
-    my $arg = $mynic =~ /ge/ ? 'adv_1000autoneg_cap' : 'adv_autoneg_cap';
+    my $arg = $nic =~ /ge/ ? 'adv_1000autoneg_cap' : 'adv_autoneg_cap';
     my ($auto) = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$mynic $arg",
+        command => "/usr/sbin/ndd -get /dev/$nic $arg",
         pattern => qr/^(\d+)/
     );
 
@@ -143,15 +143,15 @@ sub _check_nic {
 
 # Function to test eri Fast-Ethernet (eri_).
 sub _check_eri {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
     my ($speed) = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$mynic link_speed",
+        command => "/usr/sbin/ndd -get /dev/$nic link_speed",
         pattern => qr/^(\d+)/
     );
 
     my ($duplex) = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$mynic link_mode",
+        command => "/usr/sbin/ndd -get /dev/$nic link_mode",
         pattern => qr/^(\d+)/
     );
 
@@ -161,20 +161,20 @@ sub _check_eri {
 # Function to test a Gigabit-Ethernet (i.e. ce_).
 # Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
 sub _check_ce {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
     my ($speed) = getFirstMatch(
-        command => "/usr/bin/kstat -m $mynic -i $mynum -s link_speed",
+        command => "/usr/bin/kstat -m $nic -i $num -s link_speed",
         pattern => qr/^\s*link_speed+\s*(\d+).*$/
     );
 
     my ($duplex) = getFirstMatch(
-        command => "/usr/bin/kstat -m $mynic -i $mynum -s link_duplex",
+        command => "/usr/bin/kstat -m $nic -i $num -s link_duplex",
         pattern => qr/^\s*link_duplex+\s*(\d+).*$/
     );
 
     my ($auto) = getFirstMatch(
-        command => "/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg",
+        command => "/usr/bin/kstat -m $nic -i $num -s cap_autoneg",
         pattern => qr/^\s*cap_autoneg+\s*(\d+).*$/
     );
 
@@ -186,20 +186,20 @@ sub _check_ce {
 # The BGE is a Broadcom BCM5704 chipset. There are four interfaces
 # on the V210 and V240. (i.e. bge_)
 sub _check_bge_nic {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
     my ($speed) = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$mynic$mynum link_speed",
+        command => "/usr/sbin/ndd -get /dev/$nic$num link_speed",
         pattern => qr/^(\d+)/
     );
 
     my ($duplex) = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$mynic$mynum link_duplex",
+        command => "/usr/sbin/ndd -get /dev/$nic$num link_duplex",
         pattern => qr/^(\d+)/
     );
 
     my ($auto) = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$mynic$mynum adv_autoneg_cap",
+        command => "/usr/sbin/ndd -get /dev/$nic$num adv_autoneg_cap",
         pattern => qr/^(\d+)/
     );
 
@@ -209,10 +209,10 @@ sub _check_bge_nic {
 
 # Function to test Sun NXGE interface on Sun Fire Tx000.
 sub _check_nxge_nic {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
     my $link_info;
-    foreach (`/usr/sbin/dladm show-dev $mynic$mynum`) {
+    foreach (`/usr/sbin/dladm show-dev $nic$num`) {
         #nxge0           link: up        speed: 1000  Mbps       duplex: full
         $link_info = $5." ".$6." ".$8 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
     }
