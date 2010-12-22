@@ -217,7 +217,7 @@ sub doInventory {
             $cpu_type = $cpu_type." ".$1 if /^\s*privileged+\s*(\d+).*$/;
             #$cpu_slot = 1 if /^\s*privileged+\s*(\d+).*$/;
             foreach (`memconf 2>&1`) {
-                if(/^.*\s+\((\d+).*\s+(\d+)MHz.*$/) {
+                if(/\s+\((\d+).*\s+(\d+)MHz/) {
                     $cpu_slot = $1;
                     $cpu_speed = $2;
                 }

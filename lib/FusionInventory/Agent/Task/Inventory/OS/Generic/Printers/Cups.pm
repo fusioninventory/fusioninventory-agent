@@ -27,7 +27,7 @@ sub doInventory {
     foreach my $printer  (@printers) {
 
         my $printername = $printer->getUri();
-        $printername =~ s/^.*\/\/([^\.]*).*$/$1/eg ;
+        $printername =~ s/\/\/([^\.]*)/$1/eg ;
         $printername =~ s/%([0-9A-Fa-f]{2})/chr(hex($1))/eg;
         $inventory->addPrinter({
             NAME    => $printername,
