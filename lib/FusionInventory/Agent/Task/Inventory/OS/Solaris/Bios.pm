@@ -19,8 +19,8 @@ sub doInventory {
 
     my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate, $uuid);
-    my $aarch = "unknown";
-    $aarch = "i386" if (`arch` =~ /^i86pc$/);
+    my $aarch =
+        getSingleLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
 
     my $zone = getZone();
     if ($zone){
