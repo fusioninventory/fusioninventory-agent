@@ -19,7 +19,7 @@ This is FusionInventory Agent {$version}<br />
 }
 
 <h2>Current targets list</h2>
-<table>
+<table width="100%">
 <tr>
 <th>id</th>
 <th>type</th>
