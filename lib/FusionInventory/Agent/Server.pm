@@ -12,7 +12,7 @@ use POE::Component::IKC::Server;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::Server::Receiver;
+use FusionInventory::Agent::Server::HTTPD;
 use FusionInventory::Agent::Server::Scheduler;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Stdout;
@@ -130,7 +130,7 @@ sub init {
 
     my $www_config = $config->getBlock('www');
     if ($www_config) {
-        FusionInventory::Agent::Server::Receiver->new(
+        FusionInventory::Agent::Server::HTTPD->new(
             logger    => $logger,
             state     => $self,
             htmldir   => $self->{datadir} . '/html',

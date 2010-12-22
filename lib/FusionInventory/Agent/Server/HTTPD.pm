@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Server::Receiver;
+package FusionInventory::Agent::Server::HTTPD;
 
 use strict;
 use warnings;
@@ -200,15 +200,12 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Receiver - An HTTP message receiver
+FusionInventory::Agent::HTTPD - Agent web server
 
 =head1 DESCRIPTION
 
-This is the object used by the agent to listen on the network for messages sent
-by OCS or GLPI servers.
-
-It is an HTTP server listening on port 62354 (by default). The following
-requests are accepted:
+This is the agent HTTP server, listening on port 62354 (by default). The
+following requests are accepted:
 
 =over
 
