@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 sub isInventoryEnabled {
     return can_run('memconf');
@@ -28,8 +29,6 @@ sub doInventory {
     my $flag_mt=0;
     my $caption;
     my $sun_class=0;
-    my $OSLevel;
-    my $zone;
     # for debug only
     my $j=0;
 
@@ -37,16 +36,7 @@ sub doInventory {
     # because prtdiags output (and with that memconfs output) is differend
     # from server model to server model
     # we try to classified our box in one of the known classes
-
-    $OSLevel=`uname -r`;
-
-    if ($OSLevel =~ /5.8/) {
-        $zone = "global";
-    } else {
-        foreach (`zoneadm list -p`) {
-            $zone = $1 if /^0:([a-z]+):.*$/;
-        }
-    }
+    my $zone = getZone();
 
     if ($zone) {
         # first, we need determinate on which model of Sun Server we run,

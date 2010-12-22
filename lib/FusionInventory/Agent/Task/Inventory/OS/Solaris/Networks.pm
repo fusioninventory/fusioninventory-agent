@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 #ce5: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 3
 #        inet 55.37.101.171 netmask fffffc00 broadcast 55.37.103.255
@@ -61,22 +62,13 @@ sub _getRoutes {
 
 sub _getInterfaces {
 
-    my ($OSLevel, $zone);
-
-    $OSLevel = `uname -r`;
-
-    if ($OSLevel =~ /5.8/ ){
-        $zone = "global";
-    } else {
-        foreach (`zoneadm list -p`){
-            $zone = $1 if /^0:([a-z]+):/;
-        }
-    }
+    my $zone = getZone();
 
     my @interfaces = _parseIfconfig($zone);
 
     return @interfaces unless $zone;
 
+    my $OSLevel = `uname -r`;
     if ($OSLevel =~ /5.10/) {
         foreach (`/usr/sbin/dladm show-aggr`) {
             next if /device/;

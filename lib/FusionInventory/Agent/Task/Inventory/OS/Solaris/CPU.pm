@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU;
 use strict;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 sub isInventoryEnabled {
     return can_run('memconf');
@@ -21,21 +22,10 @@ sub doInventory {
     my $cpu_slot;
     my $cpu_speed;
     my $cpu_type;
-    my $OSLevel;
     my $model;
-    my $zone;
     my $sun_class_cpu=0;
 
-    $OSLevel=`uname -r`;
-
-
-    if ( $OSLevel =~ /5.8/ ) {
-        $zone = "global";
-    } else {
-        foreach (`zoneadm list -p`) {
-            $zone=$1 if /^0:([a-z]+):.*$/;
-        }
-    }
+    my $zone = getZone();
 
     if ($zone) {
         # first, we need determinate on which model of Sun Server we run,
