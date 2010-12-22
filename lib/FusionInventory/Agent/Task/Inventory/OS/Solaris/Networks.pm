@@ -63,25 +63,9 @@ sub _getInterfaces {
     # import Net::IP functional interface
     Net::IP->import(':PROC');
 
-    my $description;
-    my $ipaddress;
-    my $ipmask;
-    my $ipsubnet;
-    my $macaddr;
-    my $status;
-    my $speed;
-    my $type;
-    my $nic;
-    my $num;
-    my $link_speed;
-    my $link_duplex;
-    my $link_info;
-    my $link_auto;
-    my $zone;
-    my $OSLevel;
-    my $i = 0;
+    my ($OSLevel, $zone);
 
-    $OSLevel=`uname -r`;
+    $OSLevel = `uname -r`;
 
     if ($OSLevel =~ /5.8/ ){
         $zone = "global";
@@ -99,52 +83,35 @@ sub _getInterfaces {
         foreach (`/usr/sbin/dladm show-aggr`){
             next if /device/;
             next if /key/;
-            $description = $1 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/; # aggrega
-            $macaddr = $2 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-            $speed = $3." ".$4." ".$5 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-            $status = 1 if /up/;
-            $ipaddress = "0.0.0.0";
-            push @interfaces, {
-                DESCRIPTION => $description,
-                IPADDRESS => $ipaddress,
-                IPMASK => $ipmask,
-                IPSUBNET => $ipsubnet,
-                MACADDR => $macaddr,
-                STATUS => $status?"Up":"Down",
-                SPEED => $speed,
-                TYPE => $type,
+            my $interface = {
+                STATUS    => 'Down',
+                IPADDRESS => "0.0.0.0",
             };
+            $interface->{DESCRIPTION} = $1 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/; # aggrega
+            $interface->{MACADDR} = $2 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+            $interface->{SPEED} = $3." ".$4." ".$5 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+            $interface->{STATUS} = 1 if /up/;
+            push @interfaces, $interface;
         }
 
-        $ipsubnet = $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
-
         my $inc = 1;
+        my $interface;
         foreach (`/usr/sbin/fcinfo hba-port`) {
-            $description = "HBA_Port_WWN_".$inc if /HBA Port WWN:\s+(\S+)/;
-            $description = $description." ".$1 if /OS Device Name:\s+(\S+)/;
-            $speed = $1 if /Current Speed:\s+(\S+)/;
-            $macaddr = $1 if /Node WWN:\s+(\S+)/;
-            $type = $1 if /Manufacturer:\s+(.*)$/;
-            $type = $type." ".$1 if /Model:\s+(.*)$/;
-            $type = $type." ".$1 if /Firmware Version:\s+(.*)$/;
-            $ipaddress = "0.0.0.0";
-            #$ipaddress = "SN:".$1 if /Serial Number:\s+(\S+)/;
-            $status = 1 if /online/;
+            $interface->{DESCRIPTION} = "HBA_Port_WWN_" . $inc if /HBA Port WWN:\s+(\S+)/;
+            $interface->{DESCRIPTION} .= " " . $1 if /OS Device Name:\s+(\S+)/;
+            $interface->{SPEED} = $1 if /Current Speed:\s+(\S+)/;
+            $interface->{MACADDR} = $1 if /Node WWN:\s+(\S+)/;
+            $interface->{TYPE} = $1 if /Manufacturer:\s+(.*)$/;
+            $interface->{TYPE} .= " " . $1 if /Model:\s+(.*)$/;
+            $interface->{TYPE} .= " " . $1 if /Firmware Version:\s+(.*)$/;
+            $interface->{STATUS} = 1 if /online/;
 
-            if ($description &&  $macaddr) {
-                push @interfaces, {
-                    DESCRIPTION => $description,
-                    IPADDRESS => $ipaddress,
-                    IPMASK => $ipmask,
-                    IPSUBNET => $ipsubnet,
-                    MACADDR => $macaddr,
-                    STATUS => $status?"Up":"Down",
-                    SPEED => $speed,
-                    TYPE => $type,
-                };
-                $inc ++ ;
+            if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
+                $interface->{IPADDRESS} = "0.0.0.0";
+                $interface->{STATUS} = 'Down' if !$interface->{STATUS};
 
-                $ipsubnet = $ipaddress = $description = $macaddr = $status =  $speed = $type = $ipmask = undef;
+                push @interfaces, $interface;
+                $inc++;
             }
         }
     }
