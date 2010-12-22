@@ -45,16 +45,16 @@ sub doInventory {
         if(/^(\S+)\s+Soft/){
             $name = $1;
         }
-        if(/^.*Product:\s*(\S+)/){
+        if(/Product:\s*(\S+)/){
             $model = $1;
         }
-        if(/^.*Serial No:\s*(\S+)/){
+        if(/Serial No:\s*(\S+)/){
             $sn = $1;
             ## To be removed when SERIALNUMBER will be supported
             $description = "S/N:$sn";
             ##
         }
-        if(/^.*Revision:\s*(\S+)/){
+        if(/Revision:\s*(\S+)/){
             $rev = $1 unless $1 eq 'Serial';
         }
         if(/^Vendor:\s*(\S+)/){
@@ -62,7 +62,7 @@ sub doInventory {
         }
 
 
-        if(/^.*<(\d+)\s*bytes/){
+        if(/<(\d+)\s*bytes/){
             $capacity = int($1/(1000*1000));
         }
         ## To be removed when FIRMWARE will be supported
