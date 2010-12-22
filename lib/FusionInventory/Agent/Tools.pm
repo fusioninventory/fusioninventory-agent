@@ -22,6 +22,7 @@ our @EXPORT = qw(
     getInfosFromDmidecode
     getSanitizedString
     getSingleLine
+    getFirstMatch
     getHostname
     compareVersion
     can_run
@@ -289,6 +290,24 @@ sub getSingleLine {
     return $result;
 }
 
+sub getFirstMatch {
+    my %params = @_;
+
+    return unless $params{pattern};
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @results;
+    while (my $line = <$handle>) {
+        @results = $line =~ $params{pattern};
+        last if @results;
+    }
+    close $handle;
+
+    return @results;
+}
+
 sub can_run {
     my ($binary) = @_;
 
@@ -448,6 +467,23 @@ Returns the first line of given command output or given file content, with end
 of line removed.
 
 =over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getFirstMatch(%params)
+
+Returns the result of applying given pattern on the first matching line of
+given command output or given file content.
+
+=over
+
+=item pattern a regexp
 
 =item logger a logger object
 
