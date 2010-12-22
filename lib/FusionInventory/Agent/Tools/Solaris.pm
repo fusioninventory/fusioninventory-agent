@@ -17,7 +17,7 @@ memoize('getZone');
 
 sub getZone {
 
-    my $OSLevel = `uname -r`;
+    my $OSLevel = getSingleLine(command => 'uname -r');
     return 'global' if $OSLevel =~ /5.8/;
 
     my ($zone) = getFirstMatch(
