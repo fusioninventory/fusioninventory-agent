@@ -29,7 +29,7 @@ sub new {
     );
 
     $self->{logger}->info(
-        "Scheduler started"
+        "[scheduler] Scheduler started"
     );
 
     return $self;

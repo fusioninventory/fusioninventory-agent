@@ -34,7 +34,7 @@ sub new {
     );
 
     $self->{logger}->info(
-        "Web interface started at http://" .
+        "[httpd] Web interface started at http://" .
         ($params{ip} || "127.0.0.1")      .
         ":$params{port}"
     );
@@ -49,7 +49,7 @@ sub content {
     my $path      = $request->uri()->path();
     my $remote_ip = $request->connection()->remote_ip();
 
-    $logger->debug("[Receiver] request $path received from $remote_ip");
+    $logger->debug("[httpd] request $path received from $remote_ip");
 
     # first match wins
     my @methods = (
