@@ -17,8 +17,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $chaine ;
-    my @tab;
 
     my $name;
     my $version;
