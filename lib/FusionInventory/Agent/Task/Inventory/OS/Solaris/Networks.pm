@@ -122,24 +122,21 @@ sub _getInterfaces {
 sub _check_nic {
     my ($mynic, $mynum) = @_;
 
-    my ($speed, $duplex, $auto);
+    my ($speed) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$mynic link_speed",
+        pattern => qr/^(\d+)/
+    );
 
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
-        next unless /^(\d+)/;
-        $speed = $1;
-        last;
-    }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
-        next unless /^(\d+)/;
-        $duplex = $1;
-        last;
-    }
+    my ($duplex) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$mynic link_mode",
+        pattern => qr/^(\d+)/
+    );
+
     my $arg = $mynic =~ /ge/ ? 'adv_1000autoneg_cap' : 'adv_autoneg_cap';
-    foreach (`/usr/sbin/ndd -get /dev/$mynic $arg`) {
-        next unless /^(\d+)/;
-        $auto = $1;
-        last;
-    }
+    my ($auto) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$mynic $arg",
+        pattern => qr/^(\d+)/
+    );
 
     return _get_link_info($speed, $duplex, $auto);
 }
@@ -148,19 +145,17 @@ sub _check_nic {
 sub _check_eri {
     my ($mynic, $mynum) = @_;
 
-    my ($speed, $duplex, $auto);
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
-        next unless /^(\d+)/;
-        $speed = $1;
-        last;
-    }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
-        next unless /^(\d+)/;
-        $duplex = $1;
-        last;
-    }
+    my ($speed) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$mynic link_speed",
+        pattern => qr/^(\d+)/
+    );
 
-    return _get_link_info($speed, $duplex, $auto);
+    my ($duplex) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$mynic link_mode",
+        pattern => qr/^(\d+)/
+    );
+
+    return _get_link_info($speed, $duplex, undef);
 }
 
 # Function to test a Gigabit-Ethernet (i.e. ce_).
@@ -168,23 +163,20 @@ sub _check_eri {
 sub _check_ce {
     my ($mynic, $mynum) = @_;
 
-    my ($speed, $duplex, $auto);
+    my ($speed) = getFirstMatch(
+        command => "/usr/bin/kstat -m $mynic -i $mynum -s link_speed",
+        pattern => qr/^\s*link_speed+\s*(\d+).*$/
+    );
 
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_speed`) {
-        next unless /^\s*link_speed+\s*(\d+).*$/;
-        $speed = $1;
-        last;
-    }
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_duplex`) {
-        next unless /^\s*link_duplex+\s*(\d+).*$/;
-        $duplex = $1;
-        last;
-    }
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg`) {
-        next unless /^\s*cap_autoneg+\s*(\d+).*$/;
-        $auto = $1;
-        last;
-    }
+    my ($duplex) = getFirstMatch(
+        command => "/usr/bin/kstat -m $mynic -i $mynum -s link_duplex",
+        pattern => qr/^\s*link_duplex+\s*(\d+).*$/
+    );
+
+    my ($auto) = getFirstMatch(
+        command => "/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg",
+        pattern => qr/^\s*cap_autoneg+\s*(\d+).*$/
+    );
 
     return _get_link_info($speed, $duplex, $auto);
 
@@ -196,23 +188,20 @@ sub _check_ce {
 sub _check_bge_nic {
     my ($mynic, $mynum) = @_;
 
-    my ($speed, $duplex, $auto);
+    my ($speed) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$mynic$mynum link_speed",
+        pattern => qr/^(\d+)/
+    );
 
-    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_speed`) {
-        next unless /^(\d+)/;
-        $speed = $1;
-        last;
-    }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_duplex`) {
-        next unless /^(\d+)/;
-        $duplex = $1;
-        last;
-    }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum adv_autoneg_cap`) {
-        next unless /^(\d+)/;
-        $auto = $1;
-        last;
-    }
+    my ($duplex) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$mynic$mynum link_duplex",
+        pattern => qr/^(\d+)/
+    );
+
+    my ($auto) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$mynic$mynum adv_autoneg_cap",
+        pattern => qr/^(\d+)/
+    );
 
     return _get_link_info($speed, $duplex, $auto);
 }
