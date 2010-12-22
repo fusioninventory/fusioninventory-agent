@@ -42,27 +42,27 @@ sub doInventory {
     foreach(`iostat -En`){
 #print;
         $flag_first_line = 0;
-        if(/^(\S+)\s+Soft/){
+        if (/^(\S+)\s+Soft/) {
             $name = $1;
         }
-        if(/Product:\s*(\S+)/){
+        if (/Product:\s*(\S+)/) {
             $model = $1;
         }
-        if(/Serial No:\s*(\S+)/){
+        if (/Serial No:\s*(\S+)/) {
             $sn = $1;
             ## To be removed when SERIALNUMBER will be supported
             $description = "S/N:$sn";
             ##
         }
-        if(/Revision:\s*(\S+)/){
+        if (/Revision:\s*(\S+)/) {
             $rev = $1 unless $1 eq 'Serial';
         }
-        if(/^Vendor:\s*(\S+)/){
+        if (/^Vendor:\s*(\S+)/) {
             $manufacturer = $1;
         }
 
 
-        if(/<(\d+)\s*bytes/){
+        if (/<(\d+)\s*bytes/) {
             $capacity = int($1/(1000*1000));
         }
         ## To be removed when FIRMWARE will be supported
@@ -73,13 +73,11 @@ sub doInventory {
 
         if (-l "/dev/rdsk/${name}s2") {
             $rdisk_path=`ls -l /dev/rdsk/${name}s2`;
-            if( $rdisk_path =~ /.*->.*scsi_vhci.*/ ) {
+            if ($rdisk_path =~ /.*->.*scsi_vhci.*/) {
                 $type="MPxIO";
-            }
-            elsif( $rdisk_path =~ /.*->.*fp@.*/ ) {
+            } elsif ($rdisk_path =~ /.*->.*fp@.*/) {
                 $type="FC";
-            }
-            elsif( $rdisk_path =~ /.*->.*scsi@.*/ ) {
+            } elsif ($rdisk_path =~ /.*->.*scsi@.*/) {
                 $type="SCSI";
             }
         }
