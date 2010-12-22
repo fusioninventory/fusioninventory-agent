@@ -14,13 +14,17 @@ sub new {
     die 'no id parameter' unless $params{id};
 
     my $self = {
-        id          => $params{id},
-        period      => $params{period} || 3600,
-        logger      => $params{logger},
-        format      => $params{format},
+        id     => $params{id},
+        period => $params{period} || 3600,
+        logger => $params{logger},
+        format => $params{format},
     };
 
     bless $self, $class;
+
+    # initialize next execution date
+    $self->{nextRunDate} =
+        time() + ($self->{period} / 2) + int rand($self->{period} / 2);
 
     # target-specific storage object
     $self->{storage} = FusionInventory::Agent::Storage->new(
@@ -28,11 +32,17 @@ sub new {
         directory => $params{basevardir} . '/' . $params{id}
     );
 
-    # restore previous state
-    $self->_loadState();
+    # restore previous state if it exists, otherwise save it
+    if ($self->{storage}->exists()) {
+        $self->_loadState();
+    } else {
+        $self->saveState();
+    }
 
-    # initialize next execution date if needed
-    $self->scheduleNextRun() if !$self->{nextRunDate};
+    $self->{logger}->debug(
+        "[target $self->{id}] target created, next run scheduled for " .
+        localtime($self->{nextRunDate})
+    );
     
     return $self;
 }
@@ -67,7 +77,6 @@ sub scheduleNextRun {
     $self->{logger}->debug(
         "[target $self->{id}] Next run scheduled for " . localtime($time)
     );
-
 }
 
 sub getFormat {
