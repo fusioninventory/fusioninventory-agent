@@ -33,19 +33,6 @@ sub doInventory {
         my $handle = getFilehandle(file => '/proc/scsi/scsi');
         next unless $handle;
 
-# Example output:
-        #
-# Attached devices:
-# Host: scsi0 Channel: 00 Id: 00 Lun: 00
-#   Vendor: Adaptec  Model: raid10           Rev: V1.0
-#   Type:   Direct-Access                    ANSI  SCSI revision: 02
-# Host: scsi0 Channel: 01 Id: 00 Lun: 00
-#   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
-#   Type:   Direct-Access                    ANSI  SCSI revision: 03
-# Host: scsi0 Channel: 01 Id: 01 Lun: 00
-#   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
-#   Type:   Direct-Access                    ANSI  SCSI revision: 03
-
         my $count = -1;
         while (<$handle>) {
             next unless /^Host:\sscsi$hd->{SCSI_COID}/;
