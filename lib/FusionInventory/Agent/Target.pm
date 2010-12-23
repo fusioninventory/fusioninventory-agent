@@ -230,7 +230,7 @@ Save persistant part of current state.
 
 Run the tasks (inventory, snmp scan, etc) on the target
 
-=head2 getDescriptionString()
+=head2 getDescription()
 
-Return a string to display to user in a 'target' field.
+Return a description of the target, as an hash of target attributes.
 
