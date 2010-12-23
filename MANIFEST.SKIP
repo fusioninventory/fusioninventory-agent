@@ -17,6 +17,7 @@
 \.sw[a-z]$
 \.#
 \.swp
+\.1\.html$
 
 
 ^FusionInventory-Agent.*
