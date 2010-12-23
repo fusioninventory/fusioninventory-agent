@@ -40,7 +40,7 @@ sub doInventory {
                 SIZE        => $4 * 1024
             };
 
-            $storage->{SERIALNUMBER} = getSerialnumberFromSmartctl(
+            $storage->{SERIALNUMBER} = getSerialnumber(
                 device => "/dev/sg$id"
             );
             $storage->{MANUFACTURER} = getCanonicalManufacturer(

@@ -63,7 +63,7 @@ sub doInventory {
             $storage->{MANUFACTURER} = getCanonicalManufacturer(
                 $storage->{MODEL}
             );
-            $storage->{SERIALNUMBER} = getSerialnumberFromSmartctl(device => "/dev/sg$count");
+            $storage->{SERIALNUMBER} = getSerialnumber(device => "/dev/sg$count");
 
             $inventory->addStorage($storage);
         }

@@ -256,7 +256,7 @@ sub getCapacity {
     return $cap;
 }
 
-sub getSerialnumberFromSmartctl {
+sub getSerialnumber {
     my %params = @_;
 
     my ($serial) = getFirstMatch(
@@ -349,7 +349,7 @@ Availables parameters:
 
 =back
 
-=head2 getSerialnumberFromSmartctl(%params)
+=head2 getSerialnumber(%params)
 
 Returns the serial number of a drive, using smartctl.
 
