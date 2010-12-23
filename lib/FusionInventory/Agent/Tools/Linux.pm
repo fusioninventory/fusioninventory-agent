@@ -14,8 +14,9 @@ our @EXPORT = qw(
     getDevicesFromUdev
     getDevicesFromHal
     getDevicesFromProc
-    getSerialnumberFromSmartctl
     getCPUsFromProc
+    getCapacity
+    getSerialnumber
 );
 
 memoize('getDevicesFromUdev');
