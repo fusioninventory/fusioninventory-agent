@@ -27,7 +27,6 @@ sub doInventory {
     my $flag=0;
     my $flag_mt=0;
     my $caption;
-    my $class=0;
     # for debug only
     my $j=0;
 
