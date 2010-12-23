@@ -27,10 +27,11 @@ sub _check_solaris_valid_release{
         warn "Can't open $releaseFile: $ERRNO";
         return;
     }
-    @rlines = <$handle>;
+    @rlines = 
+        grep { /Solaris/ }
+        <$handle>;
     close $handle;
 
-    @rlines = grep(/Solaris/,@rlines);
     $release = $rlines[0];
     if ($release =~ m/Solaris 10 (\d)\/(\d+)/) {
         $release = $1;
@@ -54,8 +55,9 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @zones = `/usr/sbin/zoneadm list -p`;
-    @zones = grep (!/global/,@zones);
+    my @zones = 
+        grep { !/global/ }
+        `/usr/sbin/zoneadm list -p`;
 
     foreach my $zone (@zones) {
         my ($zoneid,$zonename,$zonestatus,$pathroot,$uuid)=split(/:/,$zone);
@@ -70,10 +72,11 @@ sub doInventory {
             $logger->debug("Failed to open $zonefile");
             next;
         }
-        my @lines = <$handle>;
+        my @lines =
+            grep { /mcap/ }
+            <$handle>;
         close $handle;
 
-        @lines = grep(/mcap/,@lines);
         my $memcap = $lines[0];
         $memcap=~ s/[^\d]+//g;
         my $memory=$memcap/1024/1024;
