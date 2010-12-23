@@ -518,11 +518,11 @@ Returns true if given perl module can be loaded (and actually loads it).
 Returns a true value if any item in LIST meets the criterion given through
 BLOCK.
 
-=item all BLOCK LIST
+=head2 all BLOCK LIST
 
 Returns a true value if all items in LIST meet the criterion given through
 BLOCK.
 
-=item none BLOCK LIST
+=head2 none BLOCK LIST
 
 Returns a true value if no item in LIST meets the criterion given through BLOCK.
