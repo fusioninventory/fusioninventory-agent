@@ -93,8 +93,7 @@ sub doInventory {
             $memory="";
         }
 
-        $vcpu = `/usr/sbin/psrinfo -p`; 
-        chomp $vcpu;
+        $vcpu = getFirstLine(command => '/usr/sbin/psrinfo -p');
         if (!$vcpu){
             $vcpu="";
         }

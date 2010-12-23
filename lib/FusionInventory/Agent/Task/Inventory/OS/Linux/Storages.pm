@@ -42,7 +42,7 @@ sub _getDescription {
 sub _correctHdparmAvailable {
     return unless can_run('hdparm');
 
-    my $version = `hdparm -V`;
+    my $version = getFirstLine(command => 'hdparm -V');
     my ($major, $minor) = $version =~ /^hdparm v(\d+)\.(\d+)/;
 
     # we need at least version 9.15

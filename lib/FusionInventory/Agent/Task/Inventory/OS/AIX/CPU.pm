@@ -25,7 +25,7 @@ sub _lsattrForAIX4 {
         if ( $type eq "PowerPC"
                 or $type eq "PowerPC_601"
                 or $type eq "PowerPC_604") {
-            my $uname=`uname -m`;
+            my $uname = getFirstLine(command => 'uname -m');
             $frequency=112000000 if ($uname=~/E1D|EAD|C1D|R04|C4D|R4D/);
             $frequency=133000000 if ($uname=~/34M/);
             $frequency=150000000 if ($uname=~/N4D/);
@@ -57,7 +57,7 @@ sub doInventory {
 
     #lsdev -Cc processor -F name
     #lsattr -EOl proc16
-    my $aixversion=`uname -v`;
+    my $aixversion = getFirstLine(command => 'uname -v');
     for (`lsdev -Cc processor -F name`){
         my $name;
         my $frequency;

@@ -68,7 +68,7 @@ sub _getInterfaces {
 
     return @interfaces unless $zone;
 
-    my $OSLevel = `uname -r`;
+    my $OSLevel = getFirstLine(command => 'uname -r');
     if ($OSLevel =~ /5.10/) {
         foreach (`/usr/sbin/dladm show-aggr`) {
             next if /device/;

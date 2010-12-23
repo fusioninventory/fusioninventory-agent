@@ -28,8 +28,8 @@ sub doInventory {
     my $SystemSerial;
     my $SystemUUID;
 
+    $SystemModel = getFirstLine(command => 'model');
 
-    $SystemModel=`model`;
     if ( can_run('/usr/contrib/bin/machinfo') ) {
         foreach ( `/usr/contrib/bin/machinfo` ) {
             if ( /Firmware\s+revision\s+[:=]\s+(\S+)/ ) {
