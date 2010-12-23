@@ -30,49 +30,67 @@ sub doInventory {
         next unless $device->{MANUFACTURER};
         next unless $device->{MANUFACTURER} eq 'Adaptec';
 
-        foreach my $storage (_getStoragesFromProc(device => $device, logger => $logger)) {
-            $inventory->addStorage($storage);
+        foreach my $disk (_getDisksFromProc(
+                controller => 'scsi' . $device->{SCSI_COID},
+                name       => $device->{NAME},
+                logger     => $logger
+            )) {
+            $disk->{SERIALNUMBER} = getSerialnumber($disk->{device});
+            $inventory->addStorage($disk);
         }
     }
 }
 
-sub _getStoragesFromProc {
+sub _getDisksFromProc {
     my %params = (
         file => '/proc/scsi/scsi',
         @_
     );
 
-    return unless $params{device};
+    return unless $params{controller};
 
-    my $handle = getFilehandle(file => $params{file}, logger => $params{logger});
-    next unless $handle;
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
-    my @storages;
+    my @disks;
+    my $disk;
 
     my $count = -1;
     while (<$handle>) {
-        next unless /^Host:\sscsi$params{device}->{SCSI_COID}/;
-        $count++;
-        next unless /Model:\s(\S+).*Rev:\s(\S+)/;
-        my $storage = {
-            NAME        => $params{device}->{NAME},
-            DESCRIPTION => 'SATA',
-            TYPE        => 'disk',
-            MODEL       => $1,
-            FIRMWARE    => $2
-        };
-        next if $storage->{MODEL} =~ 'raid';
+        if (/^Host: (\w+)/) {
+            $count++;
+            if ($1 eq $params{controller}) {
+                # that's the controller we're looking for
+                $disk = {
+                    NAME        => $params{name},
+                    DESCRIPTION => 'SATA',
+                    TYPE        => 'disk',
+                };
+            } else {
+                # that's another controller
+                undef $disk;
+            }
+        }
 
-        $storage->{MANUFACTURER} = getCanonicalManufacturer(
-            $storage->{MODEL}
-        );
-        $storage->{SERIALNUMBER} = getSerialnumber(device => "/dev/sg$count");
+        if (/Model:\s(\S+).*Rev:\s(\S+)/) {
+            next unless $disk;
+            $disk->{MODEL}    = $1;
+            $disk->{FIRMWARE} = $2;
 
-        push @storages, $storage;
+            # that's the controller itself, not a disk
+            next if $disk->{MODEL} =~ 'raid';
+
+            $disk->{MANUFACTURER} = getCanonicalManufacturer(
+                $disk->{MODEL}
+            );
+            $disk->{DEVICE} = "/dev/sg$count";
+
+            push @disks, $disk;
+        }
     }
     close $handle;
 
-    return @storages;
+    return @disks;
 }
 
 1;
