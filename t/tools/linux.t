@@ -313,6 +313,6 @@ foreach my $test (keys %hal_tests) {
 
 foreach my $test (keys %smartctl_tests) {
     my $file = "resources/smartctl/$test";
-    my $result = getSerialnumberFromSmartctl(file => $file);
+    my $result = getSerialnumber(file => $file);
     is($result, $smartctl_tests{$test}, $test);
 }
