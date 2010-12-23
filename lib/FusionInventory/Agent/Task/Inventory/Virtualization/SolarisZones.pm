@@ -53,28 +53,15 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @zones;
-    my @lines;
-    my $zone;
-    my $zoneid;
-    my $zonename;
-    my $zonestatus;
-    my $zonefile;
-    my $pathroot;
-    my $uuid;
-    my $memory;
-    my $memcap;
-    my $vcpu;
-
-    @zones = `/usr/sbin/zoneadm list -p`;
+    my @zones = `/usr/sbin/zoneadm list -p`;
     @zones = grep (!/global/,@zones);
 
     foreach my $zone (@zones) {
-        ($zoneid,$zonename,$zonestatus,$pathroot,$uuid)=split(/:/,$zone);
+        my ($zoneid,$zonename,$zonestatus,$pathroot,$uuid)=split(/:/,$zone);
         # 
         # Memory considerations depends on rcapd or project definitions
         # Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
-        $zonefile = "/etc/zones/$zonename.xml";
+        my $zonefile = "/etc/zones/$zonename.xml";
 
         my $handle;
         if (!open $handle, '<', $zonefile) {
@@ -82,18 +69,18 @@ sub doInventory {
             $logger->debug("Failed to open $zonefile");
             next;
         }
-        @lines = <$handle>;
+        my @lines = <$handle>;
         close $handle;
 
         @lines = grep(/mcap/,@lines);
-        $memcap = $lines[0];
+        my $memcap = $lines[0];
         $memcap=~ s/[^\d]+//g;
-        $memory=$memcap/1024/1024;
+        my $memory=$memcap/1024/1024;
         if (!$memcap){
             $memory="";
         }
 
-        $vcpu = getFirstLine(command => '/usr/sbin/psrinfo -p');
+        my $vcpu = getFirstLine(command => '/usr/sbin/psrinfo -p');
         if (!$vcpu){
             $vcpu="";
         }
