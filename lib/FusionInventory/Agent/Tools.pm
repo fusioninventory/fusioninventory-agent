@@ -359,7 +359,7 @@ sub getHostname {
 }
 
 # shamelessly imported from List::MoreUtils to avoid a dependency
-sub any (&@) {
+sub any (&@) { ## no critic (SubroutinePrototypes)
     my $f = shift;
     foreach ( @_ ) {
         return 1 if $f->();
@@ -367,7 +367,7 @@ sub any (&@) {
     return 0;
 }
 
-sub all (&@) {
+sub all (&@) { ## no critic (SubroutinePrototypes)
     my $f = shift;
     foreach ( @_ ) {
         return 0 unless $f->();
@@ -375,7 +375,7 @@ sub all (&@) {
     return 1;
 }
 
-sub none (&@) {
+sub none (&@) { ## no critic (SubroutinePrototypes)
     my $f = shift;
     foreach ( @_ ) {
         return 0 if $f->();
