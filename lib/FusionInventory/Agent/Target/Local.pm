@@ -70,3 +70,7 @@ hash:
 the output directory path (mandatory)
 
 =back
+
+=head2 getPath()
+
+Returns the path attribute.
