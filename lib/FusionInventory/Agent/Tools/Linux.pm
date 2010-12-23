@@ -246,14 +246,20 @@ sub _getValueFromSysProc {
 sub getCapacity {
     my %params = @_;
 
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $cap;
-    foreach (`$command $params{device} 2>/dev/null`) {
-        $cap = $1 if /^\d+$/;
-    }
-    $cap = int($cap / 1000) if $cap;
-    return $cap;
+    return unless $params{device};
+
+    # GNU version requires -p flag
+    my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
+        "/sbin/fdisk -p -s $params{device}" : "/sbin/fdisk -s $params{device}";
+
+    my $capacity = getFirstline(
+        command => $command,
+        logger  => $params{logger},
+    );
+
+    $capacity = int($capacity / 1000) if $capacity;
+
+    return $capacity;
 }
 
 sub getSerialnumber {
@@ -344,6 +350,8 @@ Returns the capacity number of a drive, using fdisk.
 Availables parameters:
 
 =over
+
+=item logger a logger object
 
 =item device the device to use
 
