@@ -20,10 +20,10 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # Operating system informations
-    my $OSName    = getSingleLine(command => 'uname -s');  # It should always be "HP-UX"
-    my $OSVersion = getSingleLine(command => 'uname -v');
-    my $OSRelease = getSingleLine(command => 'uname -r');
-    my $OSLicense = getSingleLine(command => 'uname -l');
+    my $OSName    = getFirstLine(command => 'uname -s');  # It should always be "HP-UX"
+    my $OSVersion = getFirstLine(command => 'uname -v');
+    my $OSRelease = getFirstLine(command => 'uname -r');
+    my $OSLicense = getFirstLine(command => 'uname -l');
 
     # Last login informations
     my $LastLoggedUser;

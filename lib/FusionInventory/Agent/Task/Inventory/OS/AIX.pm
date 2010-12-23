@@ -19,11 +19,11 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Operating system informations
-    my $OSName = getSingleLine(command => 'uname -s');
+    my $OSName = getFirstLine(command => 'uname -s');
 
     # AIX OSVersion = oslevel, OSComment=oslevel -r affiche niveau de maintenance
-    my $OSVersion = getSingleLine(command => 'oslevel');
-    my $OSLevel = getSingleLine(command => 'oslevel -r');
+    my $OSVersion = getFirstLine(command => 'oslevel');
+    my $OSLevel = getFirstLine(command => 'oslevel -r');
     my @tabOS = split(/-/,$OSLevel);
     my $OSComment = "Maintenance Level : $tabOS[1]";
 

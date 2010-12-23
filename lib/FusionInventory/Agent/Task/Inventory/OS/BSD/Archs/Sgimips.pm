@@ -21,9 +21,9 @@ sub doInventory {
 
     # example on NetBSD: SGI-IP22
     # example on OpenBSD: SGI-O2 (IP32)
-    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
+    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
 
-    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
+    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
     

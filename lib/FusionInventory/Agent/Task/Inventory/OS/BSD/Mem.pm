@@ -25,7 +25,7 @@ sub doInventory {
     }
 
     # RAM
-    my $PhysicalMemory = getSingleLine(command => 'sysctl -n hw.physmem');
+    my $PhysicalMemory = getFirstLine(command => 'sysctl -n hw.physmem');
     $PhysicalMemory = $PhysicalMemory / 1024;
 
     # Send it to inventory object

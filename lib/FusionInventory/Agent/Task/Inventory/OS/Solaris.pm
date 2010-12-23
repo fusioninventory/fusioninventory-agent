@@ -20,11 +20,11 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # Operating system informations
-    my $OSName = getSingleLine(command => 'uname -s');
-    my $OSLevel = getSingleLine(command => 'uname -r');
-    my $OSComment = getSingleLine(command => 'uname -v');
+    my $OSName = getFirstLine(command => 'uname -s');
+    my $OSLevel = getFirstLine(command => 'uname -r');
+    my $OSComment = getFirstLine(command => 'uname -v');
 
-    my $OSVersion = getSingleLine(file => '/etc/release', logger => $logger);
+    my $OSVersion = getFirstLine(file => '/etc/release', logger => $logger);
     $OSVersion =~ s/^\s+//;
 
     if (!$OSVersion) {
@@ -32,10 +32,10 @@ sub doInventory {
     }
 
     # Hardware informations
-    my $karch = getSingleLine(command => 'arch -k');
-    my $hostid = getSingleLine(command => 'hostid');
-    my $proct = getSingleLine(command => 'uname -p');
-    my $platform = getSingleLine(command => 'uname -i');
+    my $karch = getFirstLine(command => 'arch -k');
+    my $hostid = getFirstLine(command => 'hostid');
+    my $proct = getFirstLine(command => 'uname -p');
+    my $platform = getFirstLine(command => 'uname -i');
     my $HWDescription = "$platform($karch)/$proct HostID=$hostid";
 
     $inventory->setHardware(

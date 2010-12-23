@@ -25,9 +25,9 @@ sub doInventory {
 
     # sysctl infos
 
-    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
-    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
-    my $processort = getSingleLine(command => 'sysctl -n hw.machine');
+    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
+    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
+    my $processort = getFirstLine(command => 'sysctl -n hw.machine');
     my $processors = getCanonicalSpeed(
         (split(/\s+/, $SystemModel))[-1]
     );

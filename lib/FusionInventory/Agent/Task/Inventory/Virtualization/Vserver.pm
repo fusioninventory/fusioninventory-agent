@@ -37,7 +37,7 @@ sub doInventory {
     while ($name = readdir($handle)) {
         next if $name =~ /^\./;
         next unless $name =~ /\S/;
-        my $statusString = getSingleLine(command => "vserver $name status");
+        my $statusString = getFirstLine(command => "vserver $name status");
         if ($statusString =~ /is stopped/) {
             $status = 'off';
         } elsif ($statusString =~ /is running/) {

@@ -19,9 +19,9 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Basic operating system informations
-    my $OSVersion = getSingleLine(command => 'uname -r');
-    my $OSArchi = getSingleLine(command => 'uname -p');
-    my $OSComment = getSingleLine(command => 'uname -v');
+    my $OSVersion = getFirstLine(command => 'uname -r');
+    my $OSArchi = getFirstLine(command => 'uname -p');
+    my $OSComment = getFirstLine(command => 'uname -v');
 
     # Get more information from the kernel configuration file
     my $date;

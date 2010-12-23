@@ -40,13 +40,13 @@ sub doInventory {
     } else {
         # we can't load the system profiler, use the basic BSD stype information
         # Operating system informations
-        $OSName = getSingleLine(command => 'uname -s');
-        $OSVersion = getSingleLine(command => 'uname -r');
+        $OSName = getFirstLine(command => 'uname -s');
+        $OSVersion = getFirstLine(command => 'uname -r');
     }
 
     # add the uname -v as the comment, not really needed, but extra info
     # never hurt
-    my $OSComment = getSingleLine(command => 'uname -v');
+    my $OSComment = getFirstLine(command => 'uname -v');
     $inventory->setHardware(
         OSNAME     => $OSName,
         OSCOMMENTS => $OSComment,

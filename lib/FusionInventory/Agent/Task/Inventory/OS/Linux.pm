@@ -17,10 +17,10 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $osversion = getSingleLine(command => 'uname -r');
+    my $osversion = getFirstLine(command => 'uname -r');
 
     my ($last_user, $last_date);
-    my $last = getSingleLine(command => 'last -R');
+    my $last = getFirstLine(command => 'last -R');
     if ($last =~ /^(\S+) \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x ) {
         $last_user = $1;
         $last_date = $2;

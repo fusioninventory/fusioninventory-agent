@@ -21,7 +21,7 @@ our @EXPORT = qw(
     getCanonicalSize
     getInfosFromDmidecode
     getSanitizedString
-    getSingleLine
+    getFirstLine
     getFirstMatch
     getHostname
     compareVersion
@@ -279,7 +279,7 @@ sub getFileHandle {
     return $handle;
 }
 
-sub getSingleLine {
+sub getFirstLine {
     my %params = @_;
 
     my $handle = getFileHandle(%params);
@@ -461,7 +461,7 @@ Returns an open file handle on either a command output, or a file.
 
 =back
 
-=head2 getSingleLine(%params)
+=head2 getFirstLine(%params)
 
 Returns the first line of given command output or given file content, with end
 of line removed.

@@ -20,17 +20,17 @@ sub doInventory {
     # sysctl infos
 
     # it gives only the CPU on OpenBSD/sparc64
-    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
+    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
 
     # example on NetBSD: 0x807b65c
     # example on OpenBSD: 2155570635
-    my $SystemSerial = getSingleLine(command => 'sysctl -n kern.hostid');
+    my $SystemSerial = getFirstLine(command => 'sysctl -n kern.hostid');
     if ( $SystemSerial =~ /^\d*$/ ) { # convert to NetBSD format
         $SystemSerial = sprintf ("0x%x",$SystemSerial);
     }
     $SystemSerial =~ s/^0x//; # remove 0x to make it appear as in the firmware
 
-    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
+    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
 

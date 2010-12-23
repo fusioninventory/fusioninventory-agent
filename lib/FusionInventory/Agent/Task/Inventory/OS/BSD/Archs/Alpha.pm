@@ -20,9 +20,9 @@ sub doInventory {
     # sysctl infos
 
     # example on *BSD: AlphaStation 255 4/232
-    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
+    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
 
-    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
+    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
 

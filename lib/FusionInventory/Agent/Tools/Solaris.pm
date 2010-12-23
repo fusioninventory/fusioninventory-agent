@@ -21,7 +21,7 @@ memoize('getClass');
 
 sub getZone {
 
-    my $OSLevel = getSingleLine(command => 'uname -r');
+    my $OSLevel = getFirstLine(command => 'uname -r');
     return 'global' if $OSLevel =~ /5.8/;
 
     my ($zone) = getFirstMatch(
@@ -42,7 +42,7 @@ sub getModel {
         # because prtdiags output (and with that memconfs output) is differend
         # from server model to server model
         # we try to classified our box in one of the known classes
-        $model = getSingleLine(command => 'uname -i');
+        $model = getFirstLine(command => 'uname -i');
         # debug print model
         # cut the CR from string model
         $model = substr($model, 0, length($model) -1);
