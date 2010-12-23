@@ -13,26 +13,23 @@ sub isInventoryEnabled {
         _check_solaris_valid_release('/etc/release');
 }
 
+# check if Solaris 10 release is higher than 08/07
 sub _check_solaris_valid_release{
     my ($releaseFile) = @_;
-
-    #check if Solaris 10 release is higher than 08/07
-    my @rlines;
-    my $release_file;
-    my $release;
-    my $year;
 
     my $handle;
     if (!open $handle, '<', $releaseFile) {
         warn "Can't open $releaseFile: $ERRNO";
         return;
     }
-    @rlines = 
+
+    my @lines = 
         grep { /Solaris/ }
         <$handle>;
     close $handle;
 
-    $release = $rlines[0];
+    my $release = $lines[0];
+    my $year;
     if ($release =~ m/Solaris 10 (\d)\/(\d+)/) {
         $release = $1;
         $year = $2;
@@ -43,7 +40,7 @@ sub _check_solaris_valid_release{
         return 0;
     }
 
-    if ($year <= 7 and $release < 8 ){
+    if ($year <= 7 and $release < 8) {
         return 0;
     }
     1 
