@@ -226,10 +226,6 @@ Return the storage object for this target.
 
 Save persistant part of current state.
 
-=head2 run()
-
-Run the tasks (inventory, snmp scan, etc) on the target
-
 =head2 getDescription()
 
 Return a description of the target, as an hash of target attributes.
