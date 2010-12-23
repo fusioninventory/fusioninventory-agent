@@ -336,3 +336,23 @@ Availables parameters:
 
 =back
 
+=head2 getCapacity($device)
+
+Returns the capacity number of a drive, using fdisk.
+
+=head2 getSerialnumberFromSmartctl(%params)
+
+Returns the serial number of a drive, using smartctl.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item device the device to use
+
+=item file the file to use
+
+=back
+
