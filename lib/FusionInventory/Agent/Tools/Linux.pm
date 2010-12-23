@@ -256,18 +256,17 @@ sub getCapacity {
 }
 
 sub getSerialnumberFromSmartctl {
-    my ($id) = @_;
+    my %params = @_;
 
-    return unless can_run('smartctl');
+    my ($serial) = getFirstMatch(
+        command => $params{device} ? "smartctl -i $params{device}" : undef,
+        file    => $params{file},
+        logger  => $params{logger},
+        pattern => qr/^Serial Number:\s+(\S*)/
+    );
 
-    foreach (`smartctl -i /dev/sg$id`) {
-        next unless /^Serial Number:\s+(\S*)/;
-        return $1;
-    }
-    return;
+    return $serial;
 }
-
-
 
 1;
 __END__
