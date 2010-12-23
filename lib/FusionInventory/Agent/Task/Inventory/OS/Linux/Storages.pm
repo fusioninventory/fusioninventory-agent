@@ -132,7 +132,7 @@ sub doInventory {
         }
 
         if ($device->{DISKSIZE} && $device->{TYPE} =~ /^cd/) {
-            $device->{DISKSIZE} = getDeviceCapacity($device->{NAME});
+            $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME});
         }
 
         $inventory->addStorage($device);

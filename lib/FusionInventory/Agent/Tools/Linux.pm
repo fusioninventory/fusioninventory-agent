@@ -15,7 +15,6 @@ our @EXPORT = qw(
     getDevicesFromHal
     getDevicesFromProc
     getCPUsFromProc
-    getCapacity
     getSerialnumber
 );
 
@@ -36,7 +35,7 @@ sub getDevicesFromUdev {
 
     foreach my $device (@$devices) {
         next if $device->{TYPE} eq 'cd';
-        $device->{DISKSIZE} = getDeviceCapacity($device->{NAME})
+        $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME})
     }
 
     return $devices;
@@ -244,25 +243,6 @@ sub _getValueFromSysProc {
     return $value;
 }
 
-sub getCapacity {
-    my %params = @_;
-
-    return unless $params{device};
-
-    # GNU version requires -p flag
-    my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
-        "/sbin/fdisk -p -s $params{device}" : "/sbin/fdisk -s $params{device}";
-
-    my $capacity = getFirstline(
-        command => $command,
-        logger  => $params{logger},
-    );
-
-    $capacity = int($capacity / 1000) if $capacity;
-
-    return $capacity;
-}
-
 sub getSerialnumber {
     my %params = @_;
 
@@ -341,20 +321,6 @@ Availables parameters:
 =item logger a logger object
 
 =item file the file to use (default: /proc/cpuinfo)
-
-=back
-
-=head2 getCapacity(%params)
-
-Returns the capacity number of a drive, using fdisk.
-
-Availables parameters:
-
-=over
-
-=item logger a logger object
-
-=item device the device to use
 
 =back
 

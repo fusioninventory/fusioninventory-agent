@@ -22,15 +22,21 @@ our @EXPORT = qw(
 memoize('getControllersFromLspci');
 
 sub getDeviceCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $capacity;
-    foreach my $line (`$command /dev/$dev 2>/dev/null`) {
-        next unless $line =~ /^(\d+)/;
-        $capacity = $1;
-    }
+    my %params = @_;
+
+    return unless $params{device};
+
+    # GNU version requires -p flag
+    my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
+        "/sbin/fdisk -p -s $params{device}" : "/sbin/fdisk -s $params{device}";
+
+    my $capacity = getFirstline(
+        command => $command,
+        logger  => $params{logger},
+    );
+
     $capacity = int($capacity / 1000) if $capacity;
+
     return $capacity;
 }
 
@@ -341,9 +347,19 @@ This module provides some Unix-specific generic functions.
 
 =head1 FUNCTIONS
 
-=head2 getDeviceCapacity($device)
+=head2 getDeviceCapacity(%params)
 
-Returns storage capacity of given device.
+Returns storage capacity of given device, using fdisk.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item device the device to use
+
+=back
 
 =head2 getIpDhcp
 
