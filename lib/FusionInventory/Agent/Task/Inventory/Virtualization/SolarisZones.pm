@@ -8,8 +8,9 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { 
-    return unless can_run('zoneadm');
-    return unless _check_solaris_valid_release('/etc/release');
+    return 
+        can_run('zoneadm') &&
+        _check_solaris_valid_release('/etc/release');
 }
 
 sub _check_solaris_valid_release{
