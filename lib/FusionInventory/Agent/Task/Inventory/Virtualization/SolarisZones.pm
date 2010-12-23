@@ -43,7 +43,8 @@ sub _check_solaris_valid_release{
     if ($year <= 7 and $release < 8) {
         return 0;
     }
-    1 
+
+    return 1;
 }
 
 sub doInventory {
