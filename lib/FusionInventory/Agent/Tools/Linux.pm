@@ -244,11 +244,12 @@ sub _getValueFromSysProc {
 }
 
 sub getCapacity {
-    my ($dev) = @_;
+    my %params = @_;
+
     my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
     # requires permissions on /dev/$dev
     my $cap;
-    foreach (`$command /dev/$dev 2>/dev/null`) {
+    foreach (`$command $params{device} 2>/dev/null`) {
         $cap = $1 if /^\d+$/;
     }
     $cap = int($cap / 1000) if $cap;
@@ -336,9 +337,17 @@ Availables parameters:
 
 =back
 
-=head2 getCapacity($device)
+=head2 getCapacity(%params)
 
 Returns the capacity number of a drive, using fdisk.
+
+Availables parameters:
+
+=over
+
+=item device the device to use
+
+=back
 
 =head2 getSerialnumberFromSmartctl(%params)
 
@@ -355,4 +364,3 @@ Availables parameters:
 =item file the file to use
 
 =back
-
