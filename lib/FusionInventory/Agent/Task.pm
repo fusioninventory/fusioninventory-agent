@@ -37,23 +37,50 @@ A task is a specific work to execute.
 
 =head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the %params
+The constructor. See subclass documentation for parameters.
+
+=head2 run(%params)
+
+Run the task. The following parameters are allowed, as keys of the %params
 hash:
 
 =over
 
 =item I<logger>
 
-the logger object to use (default: a new stderr logger)
+the logger object to use
 
 =item I<target>
 
-=item I<storage>
+=item I<confdir>
 
-=item I<prologresp>
+=item I<datadir>
+
+=item I<deviceid>
+
+=item I<token>
 
 =back
 
-=head2 run()
+=head2 getPrologResponse(%params)
 
-This is the method expected to be implemented by each subclass.
+Establish preliminary dialog with a server target, and returns server response.
+
+The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<logger>
+
+the logger object to use
+
+=item I<deviceid>
+
+=item I<token>
+
+=item I<url>
+
+=item I<tag>
+
+=back
