@@ -79,15 +79,10 @@ sub doInventory {
 
         my $memcap = $lines[0];
         $memcap=~ s/[^\d]+//g;
-        my $memory=$memcap/1024/1024;
-        if (!$memcap){
-            $memory="";
-        }
+        my $memory = $memcap ?
+            $memcap / 1024 / 1024 : undef;
 
         my $vcpu = getFirstLine(command => '/usr/sbin/psrinfo -p');
-        if (!$vcpu){
-            $vcpu="";
-        }
 
         my $machine = {
             MEMORY => $memory,
