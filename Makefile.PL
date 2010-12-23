@@ -144,12 +144,15 @@ EOF
 sub manifypods {
     my ($self) = @_;
     my $manifypods = $self->SUPER::manifypods(@_);
-    $manifypods =~ s/manifypods : pure_all/manifypods : pure_all fusioninventory-worker.1.html fusioninventory-server.1.html/;
+    $manifypods =~ s/manifypods : pure_all/manifypods : pure_all fusioninventory-worker.1.html fusioninventory-server.1.html fusioninventory-injector.1.html/;
     $manifypods .= <<'EOF';
 fusioninventory-worker.1.html: fusioninventory-worker
 	pod2html --infile=$< --outfile=$@
 
 fusioninventory-server.1.html: fusioninventory-server
+	pod2html --infile=$< --outfile=$@
+
+fusioninventory-injector.1.html: fusioninventory-injector
 	pod2html --infile=$< --outfile=$@
 
 EOF
