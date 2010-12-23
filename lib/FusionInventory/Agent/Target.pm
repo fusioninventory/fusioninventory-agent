@@ -213,6 +213,10 @@ Get nextRunDate attribute.
 
 Set nextRunDate attribute.
 
+=head2 getFormat()
+
+Get format attribute.
+
 =head2 scheduleNextRun($offset)
 
 Re-schedule the target to current time + given offset. If offset is not given,
