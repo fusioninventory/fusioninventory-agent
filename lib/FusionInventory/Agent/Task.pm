@@ -22,12 +22,6 @@ sub getPrologResponse {
     );
 }
 
-sub main {
-    my ($class) = @_;
-    my $self = $class->new();
-    $self->run();
-}
-
 1;
 __END__
 
