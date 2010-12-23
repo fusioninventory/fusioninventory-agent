@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 sub isInventoryEnabled {
     return can_run('prtdiag');
@@ -21,27 +22,64 @@ sub doInventory {
     my @pci;
     my $flag;
     my $flag_pci;
-    my $model;
-    my $sun_class;
 
-    $model=`uname -i`;
-    # debug print model
-    #print "Model: '$model'";
-    # cut the CR from string model
-    $model = substr($model, 0, length($model)-1);
-    # we map (hopfully) our server model to a known class
-    if ($model eq "SUNW,SPARC-Enterprise") { $sun_class = 1; }
-    if ($model eq "SUNW,SPARC-Enterprise-T5120") { $sun_class = 2 ; }
-    else { $sun_class = 0; }
-    #Debug
-    #print "sun_class : $sun_class\n";
+    my $class = getClass();
 
+    SWITCH: {
+        if ($class == 4) {
+            foreach (`prtdiag`) {
+                if (/pci/) {
+                    @pci = split(/ +/);
+                    $name=$pci[4]." ".$pci[5];
+                    $description=$pci[0]." (".$pci[1].")";
+                    $designation=$pci[3];
+                    $status="";
+                    $inventory->addSlot({
+                        DESCRIPTION =>  $description,
+                        DESIGNATION =>  $designation,
+                        NAME            =>  $name,
+                        STATUS          =>  $status,
+                    });
+                }
+            }
+            last SWITCH;
+        }
 
-    foreach (`prtdiag `) {
-        #print $_."\n";
+        if ($class == 5) {
+            foreach (`prtdiag`) {
+                last if(/^\=+/ && $flag_pci && $flag);
 
-        if ( $sun_class == 0 )
-        {
+                if($flag && $flag_pci && /^\s+(\d+)/){
+                    $name = "LSB " . $1;
+                }
+                if($flag && $flag_pci && /^\s+\S+\s+(\S+)/){
+                    $description = $1;
+                }
+                if($flag && $flag_pci && /^\s+\S+\s+\S+\s+(\S+)/){
+                    $designation = $1;
+                }
+                $status = " ";
+
+                #Debug
+                #if ($flag && $flag_pci){print "$name" . "||||" . "$designation" . "||" . "$description\n";}
+                #print $_."\n";
+
+                if($flag && $flag_pci){
+                    $inventory->addSlot({
+                            DESCRIPTION =>  $description,
+                            DESIGNATION =>  $designation,
+                            NAME            =>  $name,
+                            STATUS          =>  $status,
+                        });
+                }
+                if(/^=+\S+\s+IO Cards/){$flag_pci = 1;  }
+                if($flag_pci && /^-+/){$flag = 1;}
+            }
+            last SWITCH;
+        }
+
+        # default case
+        foreach (`prtdiag`) {
             last if(/^\=+/ && $flag_pci);
             next if(/^\s+/ && $flag_pci);
             if($flag && $flag_pci && /^(\S+)\s+/){
@@ -66,58 +104,8 @@ sub doInventory {
             }
             if(/^=+\s+IO Cards/){$flag_pci = 1;}
             if($flag_pci && /^-+/){$flag = 1;}
-
-        }
-
-        if ( $sun_class == 1 )
-        {
-            last if(/^\=+/ && $flag_pci && $flag);
-
-            if($flag && $flag_pci && /^\s+(\d+)/){
-                $name = "LSB " . $1;
-            }
-            if($flag && $flag_pci && /^\s+\S+\s+(\S+)/){
-                $description = $1;
-            }
-            if($flag && $flag_pci && /^\s+\S+\s+\S+\s+(\S+)/){
-                $designation = $1;
-            }
-            $status = " ";
-
-            #Debug
-            #if ($flag && $flag_pci){print "$name" . "||||" . "$designation" . "||" . "$description\n";}
-            #print $_."\n";
-
-            if($flag && $flag_pci){
-                $inventory->addSlot({
-                        DESCRIPTION =>  $description,
-                        DESIGNATION =>  $designation,
-                        NAME            =>  $name,
-                        STATUS          =>  $status,
-                    });
-            }
-            if(/^=+\S+\s+IO Cards/){$flag_pci = 1;  }
-            if($flag_pci && /^-+/){$flag = 1;}
-        }
-        if ( $sun_class == 2 )
-        {
-            if (/pci/)
-            {
-                @pci = split(/ +/);
-                $name=$pci[4]." ".$pci[5];
-                $description=$pci[0]." (".$pci[1].")";
-                $designation=$pci[3];
-                $status="";
-                $inventory->addSlot({
-                        DESCRIPTION =>  $description,
-                        DESIGNATION =>  $designation,
-                        NAME            =>  $name,
-                        STATUS          =>  $status,
-                    });
-
-            }
-
         }
     }
 }
+
 1;
