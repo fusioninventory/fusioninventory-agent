@@ -17,14 +17,12 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $command =
-        'vzlist --all --no-header -o hostname,ctid,cpulimit,status,ostemplate';
+    my $handle = getFileHandle(
+        command => 'vzlist --all --no-header -o hostname,ctid,cpulimit,status,ostemplate',
+        logger  => $logger
+    );
 
-    my $handle;
-    if (!open $handle, '-|', $command) {
-        $logger->error("Can't run command $command");
-        return;
-    }
+    return unless $handle;
 
     while (my $line = <$handle>) {
         # no service containers in glpi
