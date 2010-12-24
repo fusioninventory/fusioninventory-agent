@@ -313,50 +313,38 @@ sub _getMemories5 {
 }
 
 sub _getMemories6 {
-    my @memories;
 
-    my $capacity;
-    my $description;
-    my $caption;
-    my $speed;
-    my $type;
-    my $numslots;
+    my @memories;
 
     foreach(`memconf 2>&1`) {
         if (/^empty memory sockets:\s*(\S+)/) {
             # cut of first 22 char containing the string empty sockets:
             substr ($_,0,22) = "";
-            $capacity = "0";
-            $numslots = 0;
             foreach my $caption (split(/, /,$_)) {
                 if ($caption eq "None") {
                     # no empty slots -> exit loop
                     last;
                 }
-                push @memories, {
-                    CAPACITY => $capacity,
+                my $memory = {
                     DESCRIPTION => "empty",
-                    CAPTION => $caption,
-                    SPEED => 'n/a',
-                    TYPE => 'n/a',
-                    NUMSLOTS => $numslots
+                    SPEED       => 'n/a',
+                    TYPE        => 'n/a',
+                    CAPACITY    => 0,
+                    NUMSLOTS    => 0,
+                    caption     => $caption
                 };
+                push @memories, $memory;
             }
         }
         if (/^socket DIMM(\d+):\s+(\d+)MB\s(\S+)/) {
-            $caption = "DIMM$1";
-            $description = "DIMM$1";
-            $numslots = $1;
-            $capacity = $2;
-            $type = $3;
-            push @memories, {
-                CAPACITY => $capacity,
-                DESCRIPTION => $description,
-                CAPTION => $caption,
-                SPEED => $speed,
-                TYPE => $type,
-                NUMSLOTS => $numslots
+            my $memory = {
+                CAPTION     => "DIMM$1",
+                DESCRIPTION => "DIMM$1",
+                NUMSLOTS    => $1,
+                CAPACITY    => $2,
+                TYPE        => $3
             };
+            push @memories, $memory;
         }
     }
 
