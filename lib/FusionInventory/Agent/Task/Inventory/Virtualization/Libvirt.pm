@@ -18,12 +18,12 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $command = 'virsh list --all 2>/dev/null';
-    my $handle;
-    if (!open $handle, '-|', $command) {
-         warn "Can't run $command: $ERRNO";
-         return;
-    }
+    my $handle = getFileHandle(
+        command => 'virsh list --all',
+        logger => $logger
+    );
+
+    return unless $handle;
 
     while (my $line = <$handle>) {
         if ($line =~ /^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
