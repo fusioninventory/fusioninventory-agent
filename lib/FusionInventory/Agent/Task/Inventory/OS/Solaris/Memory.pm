@@ -27,8 +27,6 @@ sub doInventory {
     my $flag=0;
     my $flag_mt=0;
     my $caption;
-    # for debug only
-    my $j=0;
 
     my $class = getClass();
 
