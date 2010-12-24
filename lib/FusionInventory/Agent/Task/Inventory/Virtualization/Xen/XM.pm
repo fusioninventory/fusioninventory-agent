@@ -25,9 +25,6 @@ sub doInventory {
         'd' => 'dying',
     );
 
-    my $vmtype    = 'xen';
-    my $subsystem = 'xm';
-
     my $handle = getFileHandle(
         command => 'xm list',
         logger => $logger,
@@ -62,8 +59,8 @@ sub doInventory {
             NAME      => $name,
             UUID      => $uuid,
             STATUS    => $status,
-            SUBSYSTEM => $subsystem,
-            VMTYPE    => $vmtype,
+            SUBSYSTEM => 'xm',
+            VMTYPE    => 'xen',
             VCPU      => $vcpu,
             VMID      => $vmid,
         };
