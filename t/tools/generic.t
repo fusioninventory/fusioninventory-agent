@@ -3145,17 +3145,17 @@ print $tmp "baz\n";
 close $tmp;
 
 is(
-    getSingleLine(file => $tmp),
+    getFirstLine(file => $tmp),
     'foo',
     "simple file reading"
 );
 is(
-    getSingleLine(command => 'perl -MConfig -e \'print "foo\nbar\n\baz\n"\''),
+    getFirstLine(command => 'perl -MConfig -e \'print "foo\nbar\n\baz\n"\''),
     'foo',
     "simple command reading"
 );
 is_deeply(
-    [ getFirstMatch(file => $tmp, pattern => qr/^(^b\w+)$/) ],
+    [ getFirstMatch(file => $tmp, pattern => qr/^(b\w+)$/) ],
     [ qw/bar/ ],
     "first match in file reading"
 );
