@@ -22,7 +22,10 @@ sub doInventory {
     my $logger       = $params{logger};
     my $scanhomedirs = $params{scan_homedirs};
 
-    my ($version) = (`VBoxManage --version` =~ m/^(\d\.\d).*$/);
+    my ($version) = getFirstMatch(
+        command => 'VBoxManage --version',
+        pattern =>  qr/^(\d\.\d).*$/
+    );
     my $command = $version > 2.1 ?
         "VBoxManage -nologo list --long vms" : "VBoxManage -nologo list vms";
 
