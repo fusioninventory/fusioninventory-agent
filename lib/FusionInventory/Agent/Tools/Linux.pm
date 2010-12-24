@@ -174,18 +174,22 @@ sub getDevicesFromProc {
         push(@names, $1);
     }
 
-    my $command = `fdisk -v` =~ '^GNU' ?
-        'fdisk -p -l 2>/dev/null' :
-        'fdisk -l 2>/dev/null';
-    if (!open my $handle, '-|', $command) {
-        $params{logger}->error("Can't run $command: $ERRNO") if $params{logger};
-    } else {
-        while (my $line = <$handle>) {
-            next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
-            push(@names, $1);
-        }
-        close $handle;
+    my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
+        "/sbin/fdisk -p -l" :
+        "/sbin/fdisk -l"    ;
+
+    my $handle = getFileHandle(
+        command => $command,
+        logger => $logger
+    )
+
+    return unless  $handle;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
+        push(@names, $1);
     }
+    close $handle;
 
     # filter duplicates
     my %seen;

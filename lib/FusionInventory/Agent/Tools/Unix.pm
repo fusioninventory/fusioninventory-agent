@@ -28,7 +28,8 @@ sub getDeviceCapacity {
 
     # GNU version requires -p flag
     my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
-        "/sbin/fdisk -p -s $params{device}" : "/sbin/fdisk -s $params{device}";
+        "/sbin/fdisk -p -s $params{device}" :
+        "/sbin/fdisk -s $params{device}"    ;
 
     my $capacity = getFirstline(
         command => $command,
