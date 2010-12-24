@@ -58,7 +58,7 @@ sub doInventory {
         `/usr/sbin/zoneadm list -p`;
 
     foreach my $zone (@zones) {
-        my ($zoneid,$zonename,$zonestatus,$pathroot,$uuid)=split(/:/,$zone);
+        my ($zoneid, $zonename, $zonestatus, $pathroot , $uuid) = split(/:/, $zone);
         # 
         # Memory considerations depends on rcapd or project definitions
         # Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
@@ -76,21 +76,21 @@ sub doInventory {
         close $handle;
 
         my $memcap = $lines[0];
-        $memcap=~ s/[^\d]+//g;
+        $memcap =~ s/[^\d]+//g;
         my $memory = $memcap ?
             $memcap / 1024 / 1024 : undef;
 
         my $vcpu = getFirstLine(command => '/usr/sbin/psrinfo -p');
 
         my $machine = {
-            MEMORY => $memory,
-            NAME => $zonename,
-            UUID => $uuid,
-            STATUS => $zonestatus,
+            MEMORY    => $memory,
+            NAME      => $zonename,
+            UUID      => $uuid,
+            STATUS    => $zonestatus,
             SUBSYSTEM => "Solaris Zones",
-            VMTYPE => "Solaris Zones",
-            VMID => $zoneid,
-            VCPU => $vcpu,
+            VMTYPE    => "Solaris Zones",
+            VMID      => $zoneid,
+            VCPU      => $vcpu,
         };
 
         $inventory->addVirtualMachine($machine);
