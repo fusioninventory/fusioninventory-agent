@@ -86,7 +86,7 @@ sub doInventory {
         foreach my $device (@$devices) {
             if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
                 my $handle = getFileHandle(
-                    command => "hdparm -I /dev/$device->{NAME}";
+                    command => "hdparm -I /dev/$device->{NAME}",
                     logger  => $logger
                 );
                 next unless $handle;

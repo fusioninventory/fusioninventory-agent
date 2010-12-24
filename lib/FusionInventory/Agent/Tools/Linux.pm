@@ -180,10 +180,10 @@ sub getDevicesFromProc {
 
     my $handle = getFileHandle(
         command => $command,
-        logger => $logger
-    )
+        logger => $params{logger}
+    );
 
-    return unless  $handle;
+    return unless $handle;
 
     while (my $line = <$handle>) {
         next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
