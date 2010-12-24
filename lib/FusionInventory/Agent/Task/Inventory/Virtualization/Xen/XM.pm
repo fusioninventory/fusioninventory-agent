@@ -15,6 +15,18 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger = $params{inventory};
 
+    my $command = 'xm list';
+    foreach my $machine (_getVirtualMachines(command => $command, logger => $logger)) {
+        $inventory->addVirtualMachine($machine);
+    }
+}
+
+sub  _getVirtualMachines {
+
+    my $handle = getFileHandle(@_);
+
+    return unless $handle;
+
     # xm status
     my %status_list = (
         'r' => 'running',
@@ -25,16 +37,10 @@ sub doInventory {
         'd' => 'dying',
     );
 
-    my $handle = getFileHandle(
-        command => 'xm list',
-        logger => $logger,
-    );
-
-    return unless $handle;
-
     # drop headers
     my $line  = <$handle>;
 
+    my @machines;
     while (my $line = <$handle>) {
         chomp $line;
         my ($name, $vmid, $memory, $vcpu, $status, $time) = split(' ', $line);
@@ -65,9 +71,12 @@ sub doInventory {
             VMID      => $vmid,
         };
 
-        $inventory->addVirtualMachine($machine);
+        push @machines, $machine;
+
     }
     close $handle;
+
+    return @machines;
 }
 
 1;
