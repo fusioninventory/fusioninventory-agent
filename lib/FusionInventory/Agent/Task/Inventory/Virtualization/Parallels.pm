@@ -36,7 +36,7 @@ sub doInventory {
         )) {
 
             ($machine->{MEMORY}, $machine->{VCPU}) =
-                _parsePrlctlA(
+                _parsePrlctlI(
                     logger  => $logger,
                     command => "su '$user' -c 'prlctl list -i $machine->{UUID}'"
                 );
