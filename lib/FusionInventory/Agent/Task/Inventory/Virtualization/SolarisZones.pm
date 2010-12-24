@@ -17,30 +17,23 @@ sub isInventoryEnabled {
 sub _check_solaris_valid_release{
     my ($releaseFile) = @_;
 
-    my $handle;
-    if (!open $handle, '<', $releaseFile) {
-        warn "Can't open $releaseFile: $ERRNO";
-        return;
-    }
+    my ($release) = getFirstMatch(
+        file => $releaseFile,
+        pattern => qr/((?:Open)?Solaris .*)/
+    );
 
-    my @lines = 
-        grep { /Solaris/ }
-        <$handle>;
-    close $handle;
-
-    my $release = $lines[0];
-    my $year;
+    my ($version, $year);
     if ($release =~ m/Solaris 10 (\d)\/(\d+)/) {
-        $release = $1;
+        $version = $1;
         $year = $2;
     } elsif ($release =~ /OpenSolaris 20(\d+)\.(\d+)\s/) {
-        $release = $1;
+        $version = $1;
         $year = $2;
     } else {
         return 0;
     }
 
-    if ($year <= 7 and $release < 8) {
+    if ($year <= 7 and $version < 8) {
         return 0;
     }
 
@@ -64,18 +57,12 @@ sub doInventory {
         # Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
         my $zonefile = "/etc/zones/$zonename.xml";
 
-        my $handle;
-        if (!open $handle, '<', $zonefile) {
-            warn "Can't open $zonefile: $ERRNO";
-            $logger->debug("Failed to open $zonefile");
-            next;
-        }
-        my @lines =
-            grep { /mcap/ }
-            <$handle>;
-        close $handle;
+        my ($line) = getFirstMatch(
+            file  => $zonefile,
+            pattern => qr/(.*mcap.*)/
+        );
 
-        my $memcap = $lines[0];
+        my $memcap = $line;
         $memcap =~ s/[^\d]+//g;
         my $memory = $memcap ?
             $memcap / 1024 / 1024 : undef;
