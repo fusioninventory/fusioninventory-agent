@@ -61,7 +61,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # return immediatly if vm type has already been found
-    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
+    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
 
     my $dmesg;
     # On OpenBSD, dmesg is in sbin
