@@ -19,7 +19,8 @@ sub new {
     });
     $self->{storage} = $storage;
     $self->{data} = $data;
-    $self->{myData} = $storage->restore();
+    my $myCaller = scalar(caller(0));
+    $self->{myData} = $storage->restore({ module => $myCaller  });
 
     $self->{config} = $data->{config};
     $self->{target} = $data->{target};
