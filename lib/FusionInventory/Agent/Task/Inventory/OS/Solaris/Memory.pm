@@ -52,7 +52,7 @@ sub doInventory {
             if ($flag && /^\s*\S+\s+\S+\s+\S+\s+(\d+)/) { $banksize = $1; }
             if ($flag && /^\s*\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d+)/) { $capacity = $1; }
             if ($flag) {
-                for (my $i = 1; $i <= ($banksize / $capacity); $i++) {
+                foreach (1 .. ($banksize / $capacity)) {
                     $module_count++;
                     $inventory->addMemory({
                         CAPACITY => $capacity,
@@ -231,7 +231,7 @@ sub doInventory {
             if ($flag && /^\s+\S+\s+\S\s+\S+\s+\S+\s+(\d+)/) { $capacity = $1; }
             if ($flag && /^\s+\S+\s+\S\s+(\d+)/) { $banksize = $1; }
             if ($flag && $capacity > 1 ) {
-                for (my $i = 1; $i <= ($banksize / $capacity); $i++) {
+                foreach (1 .. ($banksize / $capacity)) {
                     $inventory->addMemory({
                         CAPACITY => $capacity,
                         DESCRIPTION => $description,
