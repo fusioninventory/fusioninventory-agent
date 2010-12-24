@@ -43,8 +43,6 @@ sub _getMemories1 {
 
     my $flag = 0;
     my $flag_mt = 0;
-    my $module_count = 0;
-    my $empty_slots = 0;
     my $banksize;
 
     my $capacity;
@@ -58,7 +56,6 @@ sub _getMemories1 {
         # if we find "empty groups:", we have reached the end and indicate that by setting flag = 0
         if (/^empty \w+:\s(\S+)/) {
             $flag = 0;
-            if ($1 eq "None"){$empty_slots = 0;}
         }
         # grep the type of memory modules from heading
         if ($flag_mt && /^\s*\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/) {$flag_mt=0; $description = $1;}
@@ -70,7 +67,6 @@ sub _getMemories1 {
         if ($flag && /^\s*\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d+)/) { $capacity = $1; }
         if ($flag) {
             foreach (1 .. ($banksize / $capacity)) {
-                $module_count++;
                 push @memories, {
                     CAPACITY => $capacity,
                     DESCRIPTION => $description,
@@ -95,8 +91,6 @@ sub _getMemories2 {
 
     my $flag=0;
     my $flag_mt=0;
-    my $module_count=0;
-    my $empty_slots=0;
 
     my $capacity;
     my $description;
@@ -116,11 +110,9 @@ sub _getMemories2 {
             $numslots = 0;
             foreach my $caption (split) {
                 if ($caption eq "None") {
-                    $empty_slots = 0;
                     # no empty slots -> exit loop
                     last;
                 }
-                $empty_slots++;
                 push @memories, {
                     CAPACITY => $capacity,
 #                            DESCRIPTION => $description,
@@ -140,7 +132,6 @@ sub _getMemories2 {
         if ($flag && /^\s*(\S+)/){ $numslots = $1; }
         if ($flag && /^\s*\S+\s+\S+\s+\S+\s+(\d+)/){ $capacity = $1; }
         if ($flag) {
-            $module_count++;
             push @memories, {
                 CAPACITY => $capacity,
 #                        DESCRIPTION => "DIMM",
@@ -164,9 +155,6 @@ sub _getMemories2 {
 sub _getMemories3 {
     my @memories;
 
-    my $module_count=0;
-    my $empty_slots=0;
-
     my $capacity;
     my $description;
     my $caption;
@@ -182,11 +170,9 @@ sub _getMemories3 {
             $numslots = 0;
             foreach my $caption (split) {
                 if ($caption eq "None") {
-                    $empty_slots = 0;
                     # no empty slots -> exit loop
                     last;
                 }
-                $empty_slots++;
                 push @memories, {
                     CAPACITY => $capacity,
                     DESCRIPTION => $description,
@@ -203,7 +189,6 @@ sub _getMemories3 {
             $type = $3;
             $numslots = 0;
             $capacity = $2;
-            $module_count++;
             push @memories, {
                 CAPACITY => $capacity,
                 DESCRIPTION => $description,
@@ -223,9 +208,6 @@ sub _getMemories4 {
 
     my $flag = 0;
 
-    my $module_count = 0;
-    my $empty_slots = 0;
-
     my $capacity;
     my $description;
     my $caption;
@@ -244,11 +226,9 @@ sub _getMemories4 {
             $numslots = 0;
             foreach my $caption (split) {
                 if ($caption eq "None") {
-                    $empty_slots = 0;
                     # no empty slots -> exit loop
                     last;
                 }
-                $empty_slots++;
                 push @memories, {
                     CAPACITY => $capacity,
                     DESCRIPTION => $description,
@@ -268,7 +248,6 @@ sub _getMemories4 {
             $type = $4;
             $numslots = 0;
             $capacity = $3 * 1024;
-            $module_count++;
             push @memories, {
                 CAPACITY => $capacity,
                 DESCRIPTION => $description,
@@ -289,7 +268,6 @@ sub _getMemories5 {
     my $flag = 0;
     my $flag_mt = 0;
 
-    my $empty_slots = 0;
     my $module_count = 0;
     my $banksize;
 
@@ -337,9 +315,6 @@ sub _getMemories5 {
 sub _getMemories6 {
     my @memories;
 
-    my $empty_slots = 0;
-    my $module_count = 0;
-
     my $capacity;
     my $description;
     my $caption;
@@ -355,11 +330,9 @@ sub _getMemories6 {
             $numslots = 0;
             foreach my $caption (split(/, /,$_)) {
                 if ($caption eq "None") {
-                    $empty_slots = 0;
                     # no empty slots -> exit loop
                     last;
                 }
-                $empty_slots++;
                 push @memories, {
                     CAPACITY => $capacity,
                     DESCRIPTION => "empty",
@@ -376,7 +349,6 @@ sub _getMemories6 {
             $numslots = $1;
             $capacity = $2;
             $type = $3;
-            $module_count++;
             push @memories, {
                 CAPACITY => $capacity,
                 DESCRIPTION => $description,
