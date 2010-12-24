@@ -296,7 +296,7 @@ sub doInventory {
     if ($class == 7) {
         foreach (`prctl -n project.max-shm-memory $$ 2>&1`) {
             $description = $1 if /^project.(\S+)$/;
-            $capacity = $1 if /^\s*system+\s*(\d+).*$/;
+            $capacity = $1 if /^\s*system+\s*(\d+)/;
             if ($description && $capacity){
                 $capacity = $capacity * 1024;
                 $numslots = 1 ;

@@ -155,8 +155,8 @@ sub doInventory {
     if ($class == 7) {
         foreach (`prctl -n zone.cpu-shares $$`) {
             $cpu_type = $1 if /^zone.(\S+)$/;
-            $cpu_type = $cpu_type." ".$1 if /^\s*privileged+\s*(\d+).*$/;
-            #$cpu_slot = 1 if /^\s*privileged+\s*(\d+).*$/;
+            $cpu_type = $cpu_type." ".$1 if /^\s*privileged+\s*(\d+)/;
+            #$cpu_slot = 1 if /^\s*privileged+\s*(\d+)/;
             foreach (`memconf 2>&1`) {
                 if(/\s+\((\d+).*\s+(\d+)MHz/) {
                     $cpu_slot = $1;

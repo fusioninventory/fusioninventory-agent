@@ -39,7 +39,7 @@ sub doInventory {
     my ($processort, $processors);
     for (`dmesg`) {
         if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
-        if (/$SystemModel,\s*(\S+)\s*MHz.*$/) { $processors = $1; }
+        if (/$SystemModel,\s*(\S+)\s*MHz/) { $processors = $1; }
     }
 
     $inventory->setBios(
