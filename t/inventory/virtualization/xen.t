@@ -6,7 +6,7 @@ use warnings;
 use Test::More;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Task::Inventory::Virtualization::Xen::XM;
+use FusionInventory::Agent::Task::Inventory::Virtualization::Xen;
 
 my %tests = (
     sample1 => [
@@ -64,7 +64,7 @@ my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/xm/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Xen::XM::_getVirtualMachines(file => $file);
+    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Xen::_getVirtualMachines(file => $file);
     is_deeply(\@machines, $tests{$test}, $test);
 }
 
