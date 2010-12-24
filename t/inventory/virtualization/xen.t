@@ -11,16 +11,6 @@ use FusionInventory::Agent::Task::Inventory::Virtualization::Xen::XM;
 my %tests = (
     sample1 => [
         {
-            NAME      => 'Domain-0',
-            SUBSYSTEM => 'xm',
-            STATUS    => 'running',
-            VMID      => '0',
-            VMTYPE    => 'xen',
-            MEMORY    => '98',
-            UUID      => undef,
-            VPCU      => '1'
-        },
-        {
             NAME      => 'Fedora3',
             SUBSYSTEM => 'xm',
             STATUS    => 'running',

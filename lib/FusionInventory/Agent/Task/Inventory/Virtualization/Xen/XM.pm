@@ -50,6 +50,7 @@ sub  _getVirtualMachines {
     while (my $line = <$handle>) {
         chomp $line;
         my ($name, $vmid, $memory, $vcpu, $status, $time) = split(' ', $line);
+        next if $name eq 'Domain-0';
 
         $status =~ s/-//g;
         $status = $status ? $status_list{$status} : 'off';
