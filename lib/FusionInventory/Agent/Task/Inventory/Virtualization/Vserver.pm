@@ -45,11 +45,11 @@ sub doInventory {
         }
 
         $inventory->addVirtualMachine ({
-                NAME      => $name,
-                STATUS    => $status,
-                SUBSYSTEM => $utilVserver,
-                VMTYPE    => "vserver",
-            });
+            NAME      => $name,
+            STATUS    => $status,
+            SUBSYSTEM => $utilVserver,
+            VMTYPE    => "vserver",
+        });
     }
     close $handle;
 }
