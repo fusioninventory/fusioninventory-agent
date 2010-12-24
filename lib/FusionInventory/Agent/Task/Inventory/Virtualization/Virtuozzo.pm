@@ -24,9 +24,10 @@ sub doInventory {
 
     return unless $handle;
 
+    # no service containers in glpi
+    my $line = <$handle>;
+
     while (my $line = <$handle>) {
-        # no service containers in glpi
-        next if $INPUT_LINE_NUMBER eq 1;
 
         chomp $line; 
         my @params = split(/[ \t]+/, $line);
