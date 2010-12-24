@@ -37,7 +37,7 @@ sub doInventory {
     # CPU: EV45 (21064A) major=6 minor=2
 
     my ($processort, $processors);
-    for (`dmesg`) {
+    foreach (`dmesg`) {
         if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
         if (/$SystemModel,\s*(\S+)\s*MHz/) { $processors = $1; }
     }

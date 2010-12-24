@@ -17,7 +17,7 @@ sub doInventory {
 
     my %user;
     # Logged on users
-    for(`who`){
+    foreach (`who`){
         my $user;
         $user = $1 if /^(\S+)./;
         $inventory->addUser ({ LOGIN => $user });

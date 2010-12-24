@@ -30,7 +30,7 @@ sub doInventory {
     }
     for my $dev (@devices) {
         my ($model,$capacity,$found, $manufacturer);
-        for(`dmesg`){
+        foreach (`dmesg`){
             if(/^$dev/) { $found = 1;}
             if(/^$dev.*<(.*)>/) { $model = $1; }
             if(/^$dev.*\s+(\d+)\s*MB/) { $capacity = $1;}

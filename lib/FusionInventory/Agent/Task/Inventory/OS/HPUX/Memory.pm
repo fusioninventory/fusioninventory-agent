@@ -19,7 +19,7 @@ sub doInventory {
     my $arch = getFirstLine(command => 'uname -m');
 
     if ($arch =~ /ia64/ ) {
-        for ( `echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm` ) {
+        foreach ( `echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm` ) {
             if ( /\w+IMM\s+Location/ ) {
                 next
             } elsif (/Total Configured Memory:\s(\d+)\sMB/i) {
@@ -63,7 +63,7 @@ sub doInventory {
         my @list_mem=`echo 'sc product mem;il'| /usr/sbin/cstm`;
         my $ok=0;
 
-        for ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
+        foreach ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
 
             if ( /FRU\sSource\s+=\s+\S+\s+\(memory/ ) {
                 $ok=0;

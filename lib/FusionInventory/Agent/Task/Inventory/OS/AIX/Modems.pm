@@ -14,7 +14,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    for(`lsdev -Cc adapter -F 'name:type:description'`){
+    foreach (`lsdev -Cc adapter -F 'name:type:description'`){
         if(/modem/i && /\d+\s(.+):(.+)$/){
             my $name = $1;
             my $description = $2;

@@ -53,7 +53,7 @@ sub doInventory {
     # cpu0: Sun Microsystems UltraSparc-I Processor (167.00 MHz CPU)
 
     my $processort;
-    for (`dmesg`) {
+    foreach (`dmesg`) {
         if (/^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
         if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
     }

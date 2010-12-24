@@ -43,7 +43,7 @@ sub doInventory {
     # cpu0: cache L1-I 32KB D 32KB 2 way, L2 512KB direct
 
     my ($SystemSerial, $processort, $processors);
-    for (`dmesg`) {
+    foreach (`dmesg`) {
         if (/$SystemModel\s*\[\S*\s*(\S*)\]/) { $SystemSerial = $1; }
         if (/cpu0 at mainbus0:\s*(.*)$/) { $processort = $1; }
         if (/CPU\s*.*\D(\d+)\s*MHz/) { $processors = $1; }

@@ -20,7 +20,7 @@ sub doInventory {
     # Swap
     my $SwapFileSize;
     my @bsd_swapctl = `swapctl -sk`;
-    for (@bsd_swapctl) {
+    foreach (@bsd_swapctl) {
         $SwapFileSize = $1 if /total:\s*(\d+)/i;
     }
 

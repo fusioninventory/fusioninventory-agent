@@ -21,9 +21,9 @@ sub doInventory {
     my @typeScaned=('ioa','ba');
     my $scaned;
 
-    for (@typeScaned ) {
+    foreach (@typeScaned ) {
         $scaned=$_;
-        for ( `ioscan -kFC $scaned| cut -d ':' -f 9,11,17,18` ) {
+        foreach ( `ioscan -kFC $scaned| cut -d ':' -f 9,11,17,18` ) {
             if ( /(\S+):(\S+):(\S+):(.+)/ ) {
                 $name=$2;
                 $interface=$3;

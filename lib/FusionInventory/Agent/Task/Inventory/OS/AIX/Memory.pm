@@ -26,10 +26,10 @@ sub doInventory {
     #lsvpd
     my @lsvpd = `lsvpd`;
     # Remove * (star) at the beginning of lines
-    s/^\*// for (@lsvpd);
+    s/^\*// foreach (@lsvpd);
 
     $numslots = -1; 
-    for(@lsvpd){
+    foreach (@lsvpd){
         if(/^DS Memory DIMM/){
             $description = $_;
             $flag=1; (defined($n))?($n++):($n=0);

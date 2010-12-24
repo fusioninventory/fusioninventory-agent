@@ -21,7 +21,7 @@ sub doInventory {
     my $type;
     my $manufacturer;
 
-    for(`lsdev -Cc adapter -F 'name:type:description'`){
+    foreach (`lsdev -Cc adapter -F 'name:type:description'`){
         chomp($_);
         /^(.+):(.+):(.+)/;
         my $name = $1;

@@ -62,7 +62,7 @@ sub _getInterfaces {
 
     my @interfaces;
 
-    for (`lanscan -iap`) {
+    foreach (`lanscan -iap`) {
         my ($interface, $name, $lanid);
         next unless /^(\S+)\s(\S+)\s(\S+)\s+(\S+)/;
         $interface->{MACADDR} = $1;
@@ -73,7 +73,7 @@ sub _getInterfaces {
             $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6"
         }
 
-        for (`lanadmin -g $lanid`) {
+        foreach (`lanadmin -g $lanid`) {
             if (/Type.+=\s(.+)/) { $interface->{TYPE} = $1; }
             if (/Description\s+=\s(.+)/) { $interface->{DESCRIPTION} = $1; }
             if (/Speed.+=\s(\d+)/) {
@@ -82,7 +82,7 @@ sub _getInterfaces {
             if (/Operation Status.+=\sdown\W/i) { $interface->{STATUS} = "Down"; } #It is not the only criteria
         }
 
-        for (`ifconfig $name 2> /dev/null`) {
+        foreach (`ifconfig $name 2> /dev/null`) {
             if ( not $interface->{STATUS} and /$name:\s+flags=.*\WUP\W/ ) { #Its status is not reported as down in lanadmin -g
                 $interface->{STATUS} = 'Up';
             }

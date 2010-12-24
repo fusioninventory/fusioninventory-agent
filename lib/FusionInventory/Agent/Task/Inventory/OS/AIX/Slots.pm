@@ -22,15 +22,15 @@ sub doInventory {
     my $flag=0;
 
     @slot=`lsdev -Cc bus -F 'name:description'`;
-    for(@slot){ 
+    foreach (@slot){ 
         /^(.+):(.+)/;
         $name = $1;
         $status = 'available';
         $designation = $2;
         $flag=0;
         my @lsvpd = `lsvpd`;
-        s/^\*// for (@lsvpd);
-        for (@lsvpd){
+        s/^\*// foreach (@lsvpd);
+        foreach (@lsvpd){
             if ((/^AX $name/) ) {$flag=1}
             if ((/^YL (.+)/) && ($flag)){
                 $description = $2;

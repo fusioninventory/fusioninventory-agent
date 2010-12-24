@@ -500,7 +500,7 @@ sub _sqr { $_[0] * $_[0] }
 sub _round { int($_[0] + 0.5) }
 sub _group_by2 {
     my @l;
-    for (my $i = 0; $i < @_; $i += 2) {
+    foreach (my $i = 0; $i < @_; $i += 2) {
         push @l, [ $_[$i], $_[$i+1] ];
     }
     return @l;

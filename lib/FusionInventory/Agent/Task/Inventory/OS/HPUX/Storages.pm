@@ -30,9 +30,9 @@ sub doInventory {
     my $revlvl;
     my $alternate;
 
-    for ( @all_type ) {
+    foreach ( @all_type ) {
         $type = "$_";
-        for ( `ioscan -kFnC $type | cut -d ':' -f 1,11,18` ) {
+        foreach ( `ioscan -kFnC $type | cut -d ':' -f 1,11,18` ) {
             if ( /(\S+)\:(\S+)\:(\S+)\s+(\S+)/ ) {
                 $description = $1;
                 $path = $2;
@@ -46,7 +46,7 @@ sub doInventory {
                     $devdsk=$1;
                     $devrdsk=$2;
                     # We look if whe are on an alternate link
-                    for ( `pvdisplay $devdsk 2> /dev/null` ) {
+                    foreach ( `pvdisplay $devdsk 2> /dev/null` ) {
                         if ( /$devdsk\.+lternate/ ) {
                             $alternate=1;
                         };
@@ -55,7 +55,7 @@ sub doInventory {
                     if ( $alternate eq 0 ) {
                         #$size = `diskinfo -b $devrdsk`;
 
-                        for ( `diskinfo -v $devrdsk 2>/dev/null`) {
+                        foreach ( `diskinfo -v $devrdsk 2>/dev/null`) {
                             if ( /^\s+size:\s+(\S+)/ ) {
                                 $size=$1;
                                 $size = int ( $size/1024 ) if $size;

@@ -13,7 +13,7 @@ sub _lsattrForAIX4 {
 
     my @lsattr;
     my @lsattrtemp=`lsattr -EOl $device -a 'state:type'`;
-    for (@lsattrtemp) {
+    foreach (@lsattrtemp) {
         chomp;
 
         my $frequency;
@@ -58,7 +58,7 @@ sub doInventory {
     #lsdev -Cc processor -F name
     #lsattr -EOl proc16
     my $aixversion = getFirstLine(command => 'uname -v');
-    for (`lsdev -Cc processor -F name`){
+    foreach (`lsdev -Cc processor -F name`){
         my $name;
         my $frequency;
         my $core = 0;
@@ -76,7 +76,7 @@ sub doInventory {
             }
         }
 
-        for (@lsattr) {
+        foreach (@lsattr) {
             if ( ! /^#/ && /(.+):(.+):(.+)/ ) {
                 $core++;
                 if ( ($3 % 1000000) >= 50000){
