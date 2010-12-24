@@ -88,13 +88,16 @@ sub doInventory {
 
     if (
         -d '/proc/xen' ||
-        _check_file_content(
-            '/sys/devices/system/clocksource/clocksource0/available_clocksource',
-            'xen'
+        getFirstMatch(
+            file    => '/sys/devices/system/clocksource/clocksource0/available_clocksource',
+            pattern => qr/xen/
         )
     ) {
         $found = 1 ;
-        if (_check_file_content('/proc/xen/capabilities', 'control_d')) {
+        if (getFirstMatch(
+            file    => '/proc/xen/capabilities',
+            pattern => qr/control_d/
+        )) {
             # dom0 host
         } else {
             # domU PV host
@@ -220,30 +223,6 @@ sub doInventory {
             VMSYSTEM => $status,
         );
     }
-}
-
-sub _check_file_content {
-    my ($file, $pattern) = @_;
-
-    return 0 unless -r $file;
-
-    my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Can't open file $file: $ERRNO";
-        return;
-    }
-
-    my $found = 0;
-
-    while (my $line = <$handle>) {
-        if ($line =~ /$pattern/) {
-            $found = 1;
-            last;
-        }
-    }
-    close $handle;
-
-    return $found;
 }
 
 1;
