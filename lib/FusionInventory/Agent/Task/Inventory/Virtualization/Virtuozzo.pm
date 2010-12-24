@@ -30,12 +30,7 @@ sub doInventory {
     while (my $line = <$handle>) {
 
         chomp $line; 
-        my @params = split(/[ \t]+/, $line);
-        my $name   = $params[0];
-        my $uuid   = $params[1];
-        my $cpus   = $params[2];
-        my $status = $params[3];
-        my $subsys = $params[4];
+        my ($name, $uuid, $cpus, $status, $subsys) = split(/[ \t]+/, $line);
         my $mem    = 0;
 
         my $subhandle;
