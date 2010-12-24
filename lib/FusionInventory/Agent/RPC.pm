@@ -273,7 +273,9 @@ sub getToken {
     my $storage = $self->{storage};
     my $logger = $self->{logger};
 
-    lock($lock);
+    if ($Config{usethreads}) {
+	lock($lock);
+    }
 
     my $myData = $storage->restore();
     if ($forceNewToken || !$myData->{token}) {

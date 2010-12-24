@@ -3,9 +3,24 @@ package FusionInventory::Agent::Storage;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use Config;
 use File::Glob ':glob';
 use Storable;
+
+BEGIN {
+    # threads and threads::shared must be load before
+    # $lock is initialized
+    if ($Config{usethreads}) {
+        eval {
+            require threads;
+            require threads::shared;
+        };
+        if ($EVAL_ERROR) {
+            print "[error]Failed to use threads!\n"; 
+        }
+    }
+}
 
 my $lock :shared;
 
@@ -156,7 +171,9 @@ sub save {
     my $data = $params->{data};
     my $idx = $params->{idx};
 
-    lock($lock);
+    if ($Config{usethreads}) {
+	lock($lock);
+    }
 
     my $filePath = $self->getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
