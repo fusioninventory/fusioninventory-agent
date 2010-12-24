@@ -17,8 +17,7 @@ my %tests = (
             VMID      => '164',
             VMTYPE    => 'xen',
             MEMORY    => '128',
-            UUID      => undef,
-            VPCU      => '1'
+            VCPU      => '1'
         },
         {
             NAME      => 'Fedora4',
@@ -27,8 +26,7 @@ my %tests = (
             VMID      => '165',
             VMTYPE    => 'xen',
             MEMORY    => '128',
-            UUID      => undef,
-            VPCU      => '1'
+            VCPU      => '1'
         },
         {
             NAME      => 'Mandrake2006',
@@ -37,8 +35,7 @@ my %tests = (
             VMID      => '166',
             VMTYPE    => 'xen',
             MEMORY    => '128',
-            UUID      => undef,
-            VPCU      => '1'
+            VCPU      => '1'
         },
         {
             NAME      => 'Mandrake10.2',
@@ -47,8 +44,7 @@ my %tests = (
             VMID      => '167',
             VMTYPE    => 'xen',
             MEMORY    => '128',
-            UUID      => undef,
-            VPCU      => '1'
+            VCPU      => '1'
         },
         {
             NAME      => 'Suse9.2',
@@ -57,8 +53,7 @@ my %tests = (
             VMID      => '168',
             VMTYPE    => 'xen',
             MEMORY    => '100',
-            UUID      => undef,
-            VPCU      => '1'
+            VCPU      => '1'
         }
     ]
 );
