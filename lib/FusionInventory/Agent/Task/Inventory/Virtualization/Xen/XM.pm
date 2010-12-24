@@ -17,6 +17,12 @@ sub doInventory {
 
     my $command = 'xm list';
     foreach my $machine (_getVirtualMachines(command => $command, logger => $logger)) {
+        my ($uuid) = getFirstMatch(
+            command => "xm list -l $machine->{NAME}",
+            pattern => qr/\s+.*uuid\s+(.*)/,
+            logger  => $logger
+        );
+        $machine->{UUID} = $uuid;
         $inventory->addVirtualMachine($machine);
     }
 }
@@ -48,22 +54,9 @@ sub  _getVirtualMachines {
         $status =~ s/-//g;
         $status = $status ? $status_list{$status} : 'off';
 
-        my @vm_info = `xm list -l $name`;
-        my $uuid;
-        foreach my $value (@vm_info) {
-            chomp $value;
-            if ($value =~ /uuid/) {
-                $value =~ s/\(|\)//g;
-                $value =~ s/\s+.*uuid\s+(.*)/$1/;
-                $uuid = $value;
-                last;
-            }
-        }
-
         my $machine = {
             MEMORY    => $memory,
             NAME      => $name,
-            UUID      => $uuid,
             STATUS    => $status,
             SUBSYSTEM => 'xm',
             VMTYPE    => 'xen',
