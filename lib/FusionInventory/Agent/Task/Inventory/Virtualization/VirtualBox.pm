@@ -26,7 +26,7 @@ sub doInventory {
     my $command = $version > 2.1 ?
         "VBoxManage -nologo list --long vms" : "VBoxManage -nologo list vms";
 
-    foreach my $machine (_parseVBoxManage($logger, $command, '-|')) {
+    foreach my $machine (_parseVBoxManage(logger => $logger, command => $command)) {
         $inventory->addVirtualMachine ($machine);
     }
 
@@ -141,13 +141,9 @@ sub doInventory {
 }
 
 sub _parseVBoxManage {
-    my ($logger, $file, $mode) = @_;
+    my $handle = getFileHandle(@_);
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
+    return unless $handle;
 
     my (@machines, $machine, $index);
 
