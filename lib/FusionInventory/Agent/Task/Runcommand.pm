@@ -19,37 +19,54 @@ use Data::Dumper;
 sub orderIsDone {
     my ($self, $order) = @_;
 
-    my $storage = $self->{storage};
+    my $logger = $self->{logger};
 
-    foreach (@{$storage->{done}}) {
-	return 1 if $_ eq $order->{id};
+    foreach (@{$self->{myData}->{done}}) {
+	$logger->debug("order ".$order->{ID}." is already done, ignored");
+	return 1 if $_ eq $order->{ID};
     }
 
     return 0;
 }
 
+sub orderIsValide {
+    my ($self, $order) = @_;
+
+    my $logger = $self->{logger};
+
+    if (ref($order) ne 'HASH' || !defined($order->{ID})) {
+	$logger->error("order with no ID, ignored");
+	return 0;
+    }
+
+
+    return 1;
+}
+
 sub main {
     my $self = FusionInventory::Agent::Task::Runcommand->new();
 
-    my $storage = $self->{storage};
     # The list of processed packages
-    if (!$storage->{done}) {
-	$storage->{done} = [];
+    if (!$self->{myData}->{done}) {
+	$self->{myData}->{done} = [];
+    }
+    # We only keep the 1000 last entry in the stack
+    while (@{$self->{myData}->{done}} > 1000) {
+	pop @{$self->{myData}->{done}};
     }
 
     my @order;
     foreach my $option (@{$self->{prologresp}->{parsedcontent}->{OPTION}}) {
 	next unless $option->{NAME} eq 'RUNCOMMAND';
-	print Dumper($option);
 
 
 	# With XML::Simple, depending on the number of XML entry, a key
 	# can either by a array or a scalar
 	if (defined($option->{PARAM})) {
 	    my $tmp = $option->{PARAM};
-	    if (ref($tmp) eq 'ARRAY' && !$self->orderIsDone(@$tmp)) {
+	    if (ref($tmp) eq 'ARRAY' && $self->orderIsValide(@$tmp)) {
 		@order = @$tmp;
-	    } elsif ($self->orderIsDone($tmp)){
+	    } elsif ($self->orderIsValide($tmp)){
 		push @order, $tmp;
 	    }
 	}
@@ -69,6 +86,12 @@ sub processOrder {
 
     print Dumper($order);
 
+    return if $self->orderIsDone($order);
+
+    push @{$self->{myData}->{done}}, $order->{ID};
+
+    print Dumper($self->{myData}->{done});
+    $self->{storage}->save({ data => $self->{myData} });
     
 }
 
