@@ -18,6 +18,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
     my $filesystem;
     my $type;
@@ -26,13 +27,12 @@ sub doInventory {
     my $free;
     my $createdate;
 
-    my $command = 'fstyp -l';
+    my $handle = getFileHandle(
+        command => 'fstyp -l',
+        logger  => $logger
+    );
 
-    my $handle;
-    if (!open $handle, '-|', $command) {
-        warn "Can't run $command: $ERRNO";
-        return;
-    }
+    return unless $handle;
 
     while (my $line = <$handle>) {
         next if $line =~ /nfs/;
