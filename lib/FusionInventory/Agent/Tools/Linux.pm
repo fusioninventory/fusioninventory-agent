@@ -44,12 +44,8 @@ sub getDevicesFromUdev {
 sub _parseUdevEntry {
     my %params = @_;
 
-    my $handle;
-    if (!open $handle, '<', $params{file}) {
-        $params{logger}->error("Can't open $params{file}: $ERRNO")
-            if $params{logger};
-        return;
-    }
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
     my ($result, $serial);
     while (my $line = <$handle>) {
@@ -232,11 +228,8 @@ sub _getValueFromSysProc {
 
     return unless $file;
 
-    my $handle;
-    if (!open $handle, '<', $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
+    my $handle = getFileHandle(file => $file, logger => $logger);
+    return unless $handle;
 
     my $value = <$handle>;
     close $handle;
