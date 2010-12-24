@@ -364,31 +364,20 @@ sub _getMemories6 {
 }
 
 sub _getMemories7 {
-    my @memories;
 
-    my $capacity;
-    my $description;
-    my $caption;
-    my $speed;
-    my $type;
-    my $numslots;
+    my @memories;
+    my $memory;
 
     foreach (`prctl -n project.max-shm-memory $$ 2>&1`) {
-        $description = $1 if /^project.(\S+)$/;
-        $capacity = $1 if /^\s*system+\s*(\d+)/;
-        if ($description && $capacity){
-            $capacity = $capacity * 1024;
-            $numslots = 1 ;
-            $description = "Memory Allocated";
-            $caption = "Memory Share";
-            push @memories, {
-                CAPACITY => $capacity,
-                DESCRIPTION => $description,
-                CAPTION => $caption,
-                SPEED => $speed,
-                TYPE => $type,
-                NUMSLOTS => $numslots
-            };
+        $memory->{DESCRIPTION} = $1 if /^project.(\S+)$/;
+        $memory->{CAPACITY} = $1 if /^\s*system+\s*(\d+)/;
+        if ($memory->{DESCRIPTION} && $memory->{CAPACITY}){
+            $memory->{CAPACITY} = $memory->{CAPACITY} * 1024;
+            $memory->{NUMSLOTS} = 1 ;
+            $memory->{DESCRIPTION} = "Memory Allocated";
+            $memory->{CAPTION} = "Memory Share";
+            push @memories, $memory;
+            undef $memory;
         }
     }
 
