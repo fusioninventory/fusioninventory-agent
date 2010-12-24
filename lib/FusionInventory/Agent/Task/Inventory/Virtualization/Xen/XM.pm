@@ -10,8 +10,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger = $params{inventory};
 
 # output: xm list
 #
@@ -36,43 +38,49 @@ sub doInventory {
     my $vmtype    = 'xen';
     my $subsystem = 'xm';
 
-    my @xm_list = `xm list`;
+    my $handle = getFileHandle(
+        command => 'xm list',
+        logger => $logger,
+    );
 
-    # remove first line
-    shift @xm_list;
+    return unless $handle;
 
-    foreach my $vm (@xm_list) {
-            chomp $vm;
-            my ($name, $vmid, $memory, $vcpu, $status, $time) = split(' ',$vm);
+    # drop headers
+    my $line  = <$handle>;
 
-            $status =~ s/-//g;
-            $status = ( $status ? $status_list{$status} : 'off');
+    while (my $line = <$handle>) {
+        chomp $line;
+        my ($name, $vmid, $memory, $vcpu, $status, $time) = split(' ', $line);
 
-            my @vm_info =  `xm list -l $name`;
-            my $uuid;
-            foreach my $value (@vm_info) {
-                chomp $value;
-                if ($value =~ /uuid/) {
-                    $value =~ s/\(|\)//g;
-                    $value =~ s/\s+.*uuid\s+(.*)/$1/;
-                    $uuid = $value;
-                    last;
-                }
+        $status =~ s/-//g;
+        $status = $status ? $status_list{$status} : 'off';
+
+        my @vm_info = `xm list -l $name`;
+        my $uuid;
+        foreach my $value (@vm_info) {
+            chomp $value;
+            if ($value =~ /uuid/) {
+                $value =~ s/\(|\)//g;
+                $value =~ s/\s+.*uuid\s+(.*)/$1/;
+                $uuid = $value;
+                last;
             }
-
-            my $machine = {
-                MEMORY    => $memory,
-                NAME      => $name,
-                UUID      => $uuid,
-                STATUS    => $status,
-                SUBSYSTEM => $subsystem,
-                VMTYPE    => $vmtype,
-                VCPU      => $vcpu,
-                VMID      => $vmid,
-            };
-
-            $inventory->addVirtualMachine($machine);
         }
+
+        my $machine = {
+            MEMORY    => $memory,
+            NAME      => $name,
+            UUID      => $uuid,
+            STATUS    => $status,
+            SUBSYSTEM => $subsystem,
+            VMTYPE    => $vmtype,
+            VCPU      => $vcpu,
+            VMID      => $vmid,
+        };
+
+        $inventory->addVirtualMachine($machine);
+    }
+    close $handle;
 }
 
 1;
