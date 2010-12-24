@@ -29,13 +29,17 @@ sub doInventory {
         next if $user =~ /\ /;   # skip directory containing space
         next if $user =~ /'/;    # skip directory containing quote
 
-        my $command = "su '$user' -c 'prlctl list -a'";
 
-        foreach my $machine (_parsePrlctlA($logger, $command, '-|')) {
-            my $subcommand = "su '$user' -c 'prlctl list -i $machine->{UUID}'";
+        foreach my $machine (_parsePrlctlA(
+                logger  => $logger,
+                command => "su '$user' -c 'prlctl list -a'"
+        )) {
 
             ($machine->{MEMORY}, $machine->{VCPU}) =
-                _parsePrlctlA($logger, $subcommand, '-|');
+                _parsePrlctlA(
+                    logger  => $logger,
+                    command => "su '$user' -c 'prlctl list -i $machine->{UUID}'"
+                );
 
             $inventory->addVirtualMachine($machine);
         }
@@ -43,16 +47,9 @@ sub doInventory {
 }
 
 sub _parsePrlctlA {
-    my ($logger, $file, $mode) = @_;
+    my $handle = getFileHandle(@_);
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        my $message = $mode eq '-|' ? 
-            "Can't run command $file: $ERRNO" :
-            "Can't open file $file: $ERRNO"   ;
-        $logger->error($message);
-        return;
-    }
+    return unless $handle;
 
     # get headers line first
     my $line = <$handle>;
@@ -83,16 +80,7 @@ sub _parsePrlctlA {
 }
 
 sub _parsePrlctlI {
-    my ($logger, $file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        my $message = $mode eq '-|' ? 
-            "Can't run command $file: $ERRNO" :
-            "Can't open file $file: $ERRNO"   ;
-        $logger->error($message);
-        return;
-    }
+    my $handle = getFileHandle(@_);
 
     my ($mem, $cpus);
     while (my $line = <$handle>) {

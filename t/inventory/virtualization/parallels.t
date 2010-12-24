@@ -20,10 +20,8 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Agent::Logger->new();
-
 foreach my $test (keys %tests) {
     my $file = "resources/prlctl/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Parallels::_parsePrlctlA($logger, $file, '<');
+    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Parallels::_parsePrlctlA(file => $file);
     is_deeply(\@machines, $tests{$test}, $test);
 }
