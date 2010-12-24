@@ -24,7 +24,7 @@ sub doInventory {
 
     my ($version) = getFirstMatch(
         command => 'VBoxManage --version',
-        pattern =>  qr/^(\d\.\d).*$/
+        pattern =>  qr/^(\d\.\d)/
     );
     my $command = $version > 2.1 ?
         "VBoxManage -nologo list --long vms" : "VBoxManage -nologo list vms";
