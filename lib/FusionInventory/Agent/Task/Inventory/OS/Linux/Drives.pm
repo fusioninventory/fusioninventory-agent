@@ -30,7 +30,7 @@ sub doInventory {
     if (can_run('blkid')) {
         # use blkid if available, as it is filesystem-independant
         foreach my $drive (@drives) {
-            my $line = getFirstLine(command => "blkid $drive->{VOLUMN} 2>/dev/null");
+            my $line = getFirstLine(command => "blkid $drive->{VOLUMN}");
             $drive->{SERIAL} = $1 if $line =~ /\sUUID="(\S*)"\s/;
         }
     } else {

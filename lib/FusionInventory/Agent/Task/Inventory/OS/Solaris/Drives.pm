@@ -45,7 +45,7 @@ sub doInventory {
             $drive->{FILESYSTEM} = 'zfs';
         } else {
             $drive->{FILESYSTEM} = 
-                getFirstLine(command => "fstyp $drive->{VOLUMN} 2>/dev/null");
+                getFirstLine(command => "fstyp $drive->{VOLUMN}");
         }
 
         $inventory->addDrive($drive);

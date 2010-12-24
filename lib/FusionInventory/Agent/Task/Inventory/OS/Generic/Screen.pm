@@ -74,12 +74,12 @@ sub _getScreens {
 
 # Mandriva
         my $raw_edid =
-            getFirstLine(command => 'monitor-get-edid-using-vbe 2>/dev/null') ||
-            getFirstLine(command => 'monitor-get-edid 2>/dev/null');
+            getFirstLine(command => 'monitor-get-edid-using-vbe') ||
+            getFirstLine(command => 'monitor-get-edid');
 
         if (!$raw_edid) {
             foreach (1..5) { # Sometime get-edid return an empty string...
-                $raw_edid = getFirstLine(command => 'get-edid 2>/dev/null');
+                $raw_edid = getFirstLine(command => 'get-edid');
                 last if (length($raw_edid) == 128 || length($raw_edid) == 256);
             }
         }

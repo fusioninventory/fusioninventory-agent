@@ -265,7 +265,7 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
-            if (!open $handle, '-|', $params{command}) {
+            if (!open $handle, '-|', $params{command} . " 2>/dev/null") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
                 ) if $params{logger};

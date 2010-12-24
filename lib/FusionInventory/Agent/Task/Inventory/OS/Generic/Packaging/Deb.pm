@@ -24,7 +24,7 @@ sub doInventory {
         '${Version}\t'.
         '${Installed-Size}\t' .
         '${Description}\n' .
-        '\' 2>/dev/null';
+        '\'';
 
     my $packages = _getPackagesListFromDpkg(
         logger => $logger, command => $command
