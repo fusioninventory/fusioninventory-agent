@@ -85,29 +85,28 @@ sub doInventory {
     if (_correctHdparmAvailable()) {
         foreach my $device (@$devices) {
             if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
-                my $command = "hdparm -I /dev/$device->{NAME} 2>/dev/null";
-                my $handle;
-                if (!open $handle, '-|', $command) {
-                    warn "Can't run $command: $ERRNO";
-                } else {
-                    while (my $line = <$handle>) {
-                        if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
-                            my $value = $1;
-                            $value =~ s/\s+$//;
-                            $device->{SERIALNUMBER} = $value
-                                if !$device->{SERIALNUMBER};
-                            next;
-                        } elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
-                            my $value = $1;
-                            $value =~ s/\s+$//;
-                            $device->{FIRMWARE} = $value
-                                if !$device->{FIRMWARE};
-                            next;
-                        } elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
-                            $device->{DESCRIPTION} = $1;
-                        } elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
-                            $device->{MODEL} = $1;
-                        }
+                my $handle = getFileHandle(
+                    command => "hdparm -I /dev/$device->{NAME}";
+                    logger  => $logger
+                );
+                next unless $handle;
+                while (my $line = <$handle>) {
+                    if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
+                        my $value = $1;
+                        $value =~ s/\s+$//;
+                        $device->{SERIALNUMBER} = $value
+                            if !$device->{SERIALNUMBER};
+                        next;
+                    } elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
+                        my $value = $1;
+                        $value =~ s/\s+$//;
+                        $device->{FIRMWARE} = $value
+                            if !$device->{FIRMWARE};
+                        next;
+                    } elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
+                        $device->{DESCRIPTION} = $1;
+                    } elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
+                        $device->{MODEL} = $1;
                     }
                 }
                 close $handle;
