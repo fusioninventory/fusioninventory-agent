@@ -31,23 +31,19 @@ sub doInventory {
 
         chomp $line; 
         my ($name, $uuid, $cpus, $status, $subsys) = split(/[ \t]+/, $line);
-        my $mem    = 0;
 
-        my $subhandle;
-        if (open $subhandle, '<', "/etc/vz/conf/$uuid.conf") {
-            while (my $subline = <$subhandle>) {
-                next unless $subline =~ /^SLMMEMORYLIMIT="\d+:(\d+)"$/;
-                $mem = $1 / 1024 / 1024;
-                last;
-            }
-            close $subhandle;
-        }
+        my ($memory) = getFirstMatch(
+            file    => "/etc/vz/conf/$uuid.conf",
+            pattern => qr/^SLMMEMORYLIMIT="\d+:(\d+)"$/,
+            logger  => $logger,
+        );
+        $memory = $memory / 1024 / 1024 if $memory;
  
         $inventory->addVirtualMachine({
             NAME      => $name,
             VCPU      => $cpus,
             UUID      => $uuid,
-            MEMORY    => $mem,
+            MEMORY    => $memory,
             STATUS    => $status,
             SUBSYSTEM => $subsys,
             VMTYPE    => "Virtuozzo",
