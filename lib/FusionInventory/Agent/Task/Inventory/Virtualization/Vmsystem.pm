@@ -158,13 +158,7 @@ sub _getStatus {
         'Xen reported:' => 'Xen',
         'Xen: \d+ - \d+' => 'Xen',
         'xen-vbd: registered block device' => 'Xen',
-        'ACPI: RSDP \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: XSDT \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: FADT \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: MADT \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: HPET \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: SSDT \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: DSDT \(v\d+\s+Xen ' => 'Xen',
+        'ACPI: [A-Z]{4} \(v\d+\s+Xen ' => 'Xen',
     );
 
     if (-f '/var/log/dmesg') {
