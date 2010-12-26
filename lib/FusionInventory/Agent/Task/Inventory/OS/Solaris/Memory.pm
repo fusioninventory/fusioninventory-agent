@@ -266,8 +266,10 @@ sub _getMemories5 {
 
         if ($flag_mt && /^\s+\S+\s+\S+\s+\S+\s+(\S+)/) {$flag_mt=0;  $description = $1;}
 
-        if ($flag && /^\s(\S+)\s+(\S+)/) { $numslots = "LSB " . $1 . " Group " . $2; }
-        if ($flag && /^\s(\S+)\s+(\S+)/) { $caption = "LSB " . $1 . " Group " . $2; }
+        if ($flag && /^\s(\S+)\s+(\S+)/) {
+            $numslots = "LSB " . $1 . " Group " . $2;
+            $caption  = "LSB " . $1 . " Group " . $2;
+        }
         if ($flag && /^\s+\S+\s+\S\s+\S+\s+\S+\s+(\d+)/) { $capacity = $1; }
         if ($flag && /^\s+\S+\s+\S\s+(\d+)/) { $banksize = $1; }
         if ($flag && $capacity > 1 ) {
