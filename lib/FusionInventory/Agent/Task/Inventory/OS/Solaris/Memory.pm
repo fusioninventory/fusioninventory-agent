@@ -160,10 +160,9 @@ sub _getMemories3 {
             # cut of first 15 char containing the string empty sockets:
             substr ($_,0,15) = "";
             foreach my $caption (split) {
-                if ($caption eq "None") {
-                    # no empty slots -> exit loop
-                    last;
-                }
+                # no empty slots -> exit loop
+                last if $caption eq "None";
+
                 my $memory = {
                     CAPACITY    => "empty",
                     NUMSLOTS    => 0,
@@ -197,10 +196,9 @@ sub _getMemories4 {
             # cut of first 15 char containing the string empty sockets:
             substr ($_,0,15) = "";
             foreach my $caption (split) {
-                if ($caption eq "None") {
-                    # no empty slots -> exit loop
-                    last;
-                }
+                # no empty slots -> exit loop
+                last if $caption eq "None";
+                
                 my $memory = {
                     CAPACITY    => "empty",
                     NUMSLOTS    => 0,
