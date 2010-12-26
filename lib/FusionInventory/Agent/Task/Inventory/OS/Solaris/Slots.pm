@@ -32,17 +32,13 @@ sub _getSlots4 {
     my @slots;
 
     foreach (`prtdiag`) {
-        if (/pci/) {
-            my @pci = split(/ +/);
-            my $name=$pci[4]." ".$pci[5];
-            my $description=$pci[0]." (".$pci[1].")";
-            my $designation=$pci[3];
-            push @slots, {
-                DESCRIPTION => $description,
-                DESIGNATION => $designation,
-                NAME        => $name,
-            };
-        }
+        next unless /pci/;
+        my @pci = split(/ +/);
+        push @slots, {
+            DESCRIPTION => $pci[0] . " (" . $pci[1] . ")",
+            DESIGNATION => $pci[3],
+            NAME        => $pci[4] . " " . $pci[5],
+        };
     }
 
     return @slots;
