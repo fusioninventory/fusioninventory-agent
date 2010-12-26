@@ -41,42 +41,42 @@ my @tests = (
     ],
     [ 
         '8-core quad-thread UltraSPARC-T1 1000MHz',
-        8,
+        1,
         {
             NAME   => 'UltraSPARC-T1 (8-core quad-thread)',
             SPEED  => 1000,
             THREAD => 'quad-thread',
-            CORE   => 1
+            CORE   => '8-core'
         }
     ],
     [ 
         '4-core quad-thread UltraSPARC-T1 1000MHz',
-        4,
+        1,
         {
             NAME   => 'UltraSPARC-T1 (4-core quad-thread)',
             SPEED  => 1000,
             THREAD => 'quad-thread',
-            CORE   => 1
+            CORE   => '4-core'
         }
     ],
     [ 
         '8-core 8-thread UltraSPARC-T2 1165MHz',
-        8,
+        1,
         {
             NAME   => 'UltraSPARC-T2 (8-core 8-thread)',
             SPEED  => 1165,
             THREAD => '8-thread',
-            CORE   => 1
+            CORE   => '8-core'
         }
     ],
     [ 
         '4-core 8-thread UltraSPARC-T2 1165MHz',
-        4,
+        1,
         {
             NAME   => 'UltraSPARC-T2 (4-core 8-thread)',
             SPEED  => 1165,
             THREAD => '8-thread',
-            CORE   => 1
+            CORE   => '4-core'
         }
     ],
     [ 
@@ -86,7 +86,7 @@ my @tests = (
             NAME   => 'SPARC64-VI (dual-core dual-thread)',
             SPEED  => 2150,
             THREAD => 'dual-thread',
-            CORE   => '6 dual-core',
+            CORE   => 'dual-core',
         }
     ],
     [ 
@@ -96,7 +96,7 @@ my @tests = (
             NAME   => 'SPARC64-VI (dual-core dual-thread)',
             SPEED  => 2150,
             THREAD => 'dual-thread',
-            CORE   => '4 dual-core',
+            CORE   => 'dual-core',
         }
     ],
 );
