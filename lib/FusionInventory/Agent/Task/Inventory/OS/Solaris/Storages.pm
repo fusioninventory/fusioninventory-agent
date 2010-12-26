@@ -36,11 +36,8 @@ sub doInventory {
     my $rev;
     my $sn;
     my $type;
-    my $flag_first_line;
 
     foreach(`iostat -En`){
-#print;
-        $flag_first_line = 0;
         if (/^(\S+)\s+Soft/) {
             $name = $1;
         }
