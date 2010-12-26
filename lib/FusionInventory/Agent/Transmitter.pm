@@ -241,16 +241,14 @@ sub _compressGzip {
     print $in $data;
     close $in;
 
-    my $command = 'gzip -c ' . $in->filename();
-    my $out;
-    if (! open $out, '-|', $command) {
-        $self->{logger}->debug("Can't run $command: $ERRNO");
-        return;
-    }
+    my $handle = getFileHandle(
+        command => 'gzip -c ' . $in->filename(),
+    );
+    return unless $handle;
 
     local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-    my $result = <$out>;
-    close $out;
+    my $result = <$handle>;
+    close $handle;
 
     return $result;
 }

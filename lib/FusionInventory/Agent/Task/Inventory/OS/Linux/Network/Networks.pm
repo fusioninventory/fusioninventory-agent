@@ -23,7 +23,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = _getRoutes();
+    my $routes = _getRoutes($logger);
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
@@ -43,6 +43,7 @@ sub doInventory {
 }
 
 sub _getRoutes {
+    my ($logger) = @_;
 
     my $routes;
     foreach my $line (`route -n`) {
@@ -55,7 +56,10 @@ sub _getRoutes {
 sub _getInterfaces {
     my ($logger, $routes) = @_;
 
-    my @interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
+    my @interfaces = _parseIfconfig(
+        command => '/sbin/ifconfig -a',
+        logger  =>  $logger
+    );
 
     foreach my $interface (@interfaces) {
         if (_isWifi($interface->{DESCRIPTION})) {
@@ -92,13 +96,9 @@ sub _getInterfaces {
 }
 
 sub _parseIfconfig {
-    my ($file, $mode) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my @interfaces;
 

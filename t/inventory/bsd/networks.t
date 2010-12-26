@@ -53,6 +53,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/ifconfig/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_parseIfconfig($file, '<');
+    my @results = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_parseIfconfig(file => $file);
     is_deeply(\@results, $tests{$test}, $test);
 }
