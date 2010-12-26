@@ -109,10 +109,9 @@ sub _getMemories2 {
             $capacity = "empty";
             $numslots = 0;
             foreach my $caption (split) {
-                if ($caption eq "None") {
-                    # no empty slots -> exit loop
-                    last;
-                }
+                # no empty slots -> exit loop
+                last if $caption eq "None";
+
                 push @memories, {
                     CAPACITY => $capacity,
 #                            DESCRIPTION => $description,
