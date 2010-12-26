@@ -16,17 +16,17 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $memory;
-    foreach (`prtconf`) {
-        next unless /^Memory\ssize:\s+(\S+)/;
-        $memory = $1;
-    }
+    my ($memory) = getFirstMatch(
+        command => 'prtconf',
+        logger  => $logger,
+        pattern => qr/^Memory\ssize:\s+(\S+)/
+    );
 
-    my $swap;
-    foreach (`swap -l`) {
-        next unless /\s+(\S+)$/;
-        $swap = $1;
-    }
+    my ($swap) = getFirstMatch(
+        command => 'swap -l',
+        logger  => $logger,
+        pattern => qr/\s+(\S+)$/
+    );
 
     $inventory->setHardware(
         MEMORY => $memory,
