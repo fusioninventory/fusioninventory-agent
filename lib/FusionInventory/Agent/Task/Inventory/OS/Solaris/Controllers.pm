@@ -20,16 +20,12 @@ sub doInventory {
 
     return unless $handle;
 
-    my $name;
-    my $type;
-    my $manufacturer;
-
     while (my $line =~ <$handle>) {
         next if $line =~  /^Ap_Id/;
         next unless $line =~ /^(\S+)\s+(\S+)\s+(\S+)/;
-        $name = $1;
-        $type = $2;
-        $manufacturer = $3;
+        my $name = $1;
+        my $type = $2;
+        my $manufacturer = $3;
         $inventory->addController({
             'NAME'          => $name,
             'MANUFACTURER'  => $manufacturer,
