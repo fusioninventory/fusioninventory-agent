@@ -54,49 +54,50 @@ sub _getMemories1 {
 
     foreach(`memconf 2>&1`) {
         if (/^empty \w+:\s(\S+)/) {
-            # we have reached the end and indicate that by resetting flag to 0
+            # the end, we unset flag
             $flag = 0;
         }
 
-        # grep the type of memory modules from heading
+        # caption line
+        if (/^\s+Logical  Logical  Logical/) {
+            $flag_mt = 1;
+        }
+
+        if (/^-+/) {
+            # delimiter, we set flag
+            $flag = 1;
+        }
+
         if ($flag_mt && /^\s*\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
+            # grep the type of memory modules from heading
             $flag_mt = 0;
             $description = $1;
         }
 
-        # only grap for information if flag = 1
-        if ($flag && /^\s*(\S+)\s+(\S+)/) {
+        # only grap for information if flag is set
+        next unless $flag;
+
+        if (/^\s*(\S+)\s+(\S+)/) {
             $caption = "Board " . $1 . " MemCtl " . $2;
         }
-        if ($flag && /^\s*\S+\s+\S+\s+(\S+)/) {
+        if (/^\s*\S+\s+\S+\s+(\S+)/) {
             $numslots = $1;
         }
-        if ($flag && /^\s*\S+\s+\S+\s+\S+\s+(\d+)/) {
+        if (/^\s*\S+\s+\S+\s+\S+\s+(\d+)/) {
             $banksize = $1;
         }
-        if ($flag && /^\s*\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d+)/) {
+        if (/^\s*\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d+)/) {
             $capacity = $1;
         }
-        if ($flag) {
-            foreach (1 .. ($banksize / $capacity)) {
-                push @memories, {
-                    CAPACITY => $capacity,
-                    DESCRIPTION => $description,
-                    CAPTION => $caption,
-                    SPEED => $speed,
-                    TYPE => $type,
-                    NUMSLOTS => $numslots
-                };
-            }
-        }
-        # Caption line
-        if (/^\s+Logical  Logical  Logical/) {
-            $flag_mt = 1;
-        }
-        # if we find "---", we set flag = 1, and in next line, we start to look
-        # for information
-        if (/^-+/) {
-            $flag = 1;
+        foreach (1 .. ($banksize / $capacity)) {
+            push @memories, {
+                CAPACITY => $capacity,
+                DESCRIPTION => $description,
+                CAPTION => $caption,
+                SPEED => $speed,
+                TYPE => $type,
+                NUMSLOTS => $numslots
+            };
         }
     }
 
@@ -117,10 +118,8 @@ sub _getMemories2 {
     my $numslots;
 
     foreach(`memconf 2>&1`) {
-        # this is a list of empty slots, from which we extract the slot names
         if (/^empty sockets: (.+)/) {
-            # we have reached the end and indicate that by resetting flag to 0
-            $flag = 0;
+            # a list of empty slots, from which we extract the slot names
             $capacity = "empty";
             $numslots = 0;
             foreach my $caption (split(/ /, $1)) {
@@ -136,38 +135,42 @@ sub _getMemories2 {
                     NUMSLOTS => $numslots
                 };
             }
+            # the end, we unset flag
+            $flag = 0;
         }
+
         if (/Memory Module Groups/) {
             $flag = 0;
             $flag_mt = 0;
         }
-        # we only grap for information if flag = 1
-        if ($flag && /^\s*\S+\s+\S+\s+(\S+)/) {
-            $caption = $1;
-        }
-        if ($flag && /^\s*(\S+)/) {
-            $numslots = $1;
-        }
-        if ($flag && /^\s*\S+\s+\S+\s+\S+\s+(\d+)/){
-            $capacity = $1;
-        }
-        if ($flag) {
-            push @memories, {
-                CAPACITY => $capacity,
-#                        DESCRIPTION => "DIMM",
-                CAPTION => "Ram slot ".$numslots,
-                SPEED => $speed,
-                TYPE => $type,
-                NUMSLOTS => $numslots
-            };
-        }
-        # this is the caption line
-#            if (/^ID       ControllerID/) { $description = $1;}
-        # if we find "---", we set flag = 1, and in next line, we start to look
-        # for information
+
         if (/^-+/) {
+            # delimiter, we set flag
             $flag = 1;
         }
+
+        # only grap for information if flag is set
+        next unless $flag;
+
+        if (/^\s*\S+\s+\S+\s+(\S+)/) {
+            $caption = $1;
+        }
+        if (/^\s*(\S+)/) {
+            $numslots = $1;
+        }
+        if (/^\s*\S+\s+\S+\s+\S+\s+(\d+)/){
+            $capacity = $1;
+        }
+        push @memories, {
+            CAPACITY => $capacity,
+#                        DESCRIPTION => "DIMM",
+            CAPTION => "Ram slot ".$numslots,
+            SPEED => $speed,
+            TYPE => $type,
+            NUMSLOTS => $numslots
+        };
+        # this is the caption line
+#            if (/^ID       ControllerID/) { $description = $1;}
     }
 
     return @memories;
@@ -177,8 +180,8 @@ sub _getMemories3 {
     my @memories;
 
     foreach(`memconf 2>&1`) {
-        # this is a list of empty slots, from which we extract the slot names
         if (/^empty sockets: (.+)/) {
+            # a list of empty slots, from which we extract the slot names
             foreach my $caption (split(/ /, $1)) {
                 # no empty slots -> exit loop
                 last if $caption eq "None";
@@ -210,8 +213,8 @@ sub _getMemories4 {
     my @memories;
 
     foreach(`memconf 2>&1`) {
-        # this is a list of empty slots, from which we extract the slot names
         if (/^empty sockets: (.+)/) {
+            # a list of empty slots, from which we extract the slot names
             foreach my $caption (split(/ /, $1)) {
                 # no empty slots -> exit loop
                 last if $caption eq "None";
@@ -267,17 +270,26 @@ sub _getMemories5 {
             $description = $1;
         }
 
-        if ($flag && /^\s(\S+)\s+(\S+)/) {
+        # Caption Line
+        if (/^Sun Microsystems/) {
+            $flag_mt  = 1;
+            $flag = 1;
+        }
+
+        # only grap for information if flag is set
+        next unless $flag;
+
+        if (/^\s(\S+)\s+(\S+)/) {
             $numslots = "LSB " . $1 . " Group " . $2;
             $caption  = "LSB " . $1 . " Group " . $2;
         }
-        if ($flag && /^\s+\S+\s+\S\s+\S+\s+\S+\s+(\d+)/) {
+        if (/^\s+\S+\s+\S\s+\S+\s+\S+\s+(\d+)/) {
             $capacity = $1;
         }
-        if ($flag && /^\s+\S+\s+\S\s+(\d+)/) {
+        if (/^\s+\S+\s+\S\s+(\d+)/) {
             $banksize = $1;
         }
-        if ($flag && $capacity > 1 ) {
+        if ($capacity > 1 ) {
             foreach (1 .. ($banksize / $capacity)) {
                 push @memories, {
                     CAPACITY => $capacity,
@@ -290,11 +302,7 @@ sub _getMemories5 {
             }
             $module_count++;
         }
-        # Caption Line
-        if (/^Sun Microsystems/) {
-            $flag_mt  = 1;
-            $flag = 1;
-        }
+
     }
 
     return @memories;
