@@ -101,12 +101,12 @@ sub _parseSpec {
 
     # 8-core quad-thread UltraSPARC-T1 1000MHz
     # 8-core 8-thread UltraSPARC-T2 1165MHz
-    if ($spec =~ /^(\d+) -core \s (\S+) \s (\S+) \s (\d+) MHz/x) {
-        return $1, {
-            NAME   => $3 . " (" . $1 . " " . $2 . ")",
-            SPEED  => $4,
+    if ($spec =~ /^((\d+) -core) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
+        return $2, {
+            NAME   => $4 . " (" . $1 . " " . $3 . ")",
+            SPEED  => $5,
             CORE   => 1,
-            THREAD => $2
+            THREAD => $3
         };
     }
 

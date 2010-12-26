@@ -43,7 +43,7 @@ my @tests = (
         '8-core quad-thread UltraSPARC-T1 1000MHz',
         8,
         {
-            NAME   => 'UltraSPARC-T1 (8 quad-thread)',
+            NAME   => 'UltraSPARC-T1 (8-core quad-thread)',
             SPEED  => 1000,
             THREAD => 'quad-thread',
             CORE   => 1
@@ -53,7 +53,7 @@ my @tests = (
         '4-core quad-thread UltraSPARC-T1 1000MHz',
         4,
         {
-            NAME   => 'UltraSPARC-T1 (4 quad-thread)',
+            NAME   => 'UltraSPARC-T1 (4-core quad-thread)',
             SPEED  => 1000,
             THREAD => 'quad-thread',
             CORE   => 1
@@ -63,7 +63,7 @@ my @tests = (
         '8-core 8-thread UltraSPARC-T2 1165MHz',
         8,
         {
-            NAME   => 'UltraSPARC-T2 (8 8-thread)',
+            NAME   => 'UltraSPARC-T2 (8-core 8-thread)',
             SPEED  => 1165,
             THREAD => '8-thread',
             CORE   => 1
@@ -73,7 +73,7 @@ my @tests = (
         '4-core 8-thread UltraSPARC-T2 1165MHz',
         4,
         {
-            NAME   => 'UltraSPARC-T2 (4 8-thread)',
+            NAME   => 'UltraSPARC-T2 (4-core 8-thread)',
             SPEED  => 1165,
             THREAD => '8-thread',
             CORE   => 1
