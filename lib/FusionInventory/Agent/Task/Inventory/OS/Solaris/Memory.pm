@@ -137,7 +137,7 @@ sub _getMemories2 {
                 };
             }
         }
-        if (/.*Memory Module Groups.*/) {
+        if (/Memory Module Groups/) {
             $flag = 0;
             $flag_mt = 0;
         }
