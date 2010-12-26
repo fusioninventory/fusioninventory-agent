@@ -192,14 +192,6 @@ sub _getCPU5 {
             CORE   => $1 . " " . $2,
             THREAD => $3
         };
-    } elsif ($spec =~ /^(\d+) \s+ X \s+ (\S+) \s+ (\S+) \s+ (\S+) \s+ (\d+) MHz$/x) {
-        $count = $1;
-        $cpu = {
-            NAME   => $3 . " (" . $1 . " " . $2 . ")",
-            SPEED  => $5,
-            CORE   => $1 . " " . $2,
-            THREAD => $3
-        };
     }
 
     return ($count, $cpu);
