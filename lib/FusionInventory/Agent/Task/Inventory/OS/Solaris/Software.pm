@@ -26,33 +26,19 @@ sub doInventory {
 
     return unless $handle;
 
-    my $name;
-    my $version;
-    my $comments;
-    my $publisher;
-
+    my $software;
     while (my $line = <$handle>) {
         if ($line =~ /^\s*$/) {
-            $inventory->addSoftware({
-                NAME      => $name,
-                VERSION   => $version,
-                COMMENTS  => $comments,
-                PUBLISHER => $publisher,
-            });
-
-            $name = '';
-            $version = '';
-            $comments = '';
-            $publisher = '';
-
+            $inventory->addSoftware($software);
+            undef $software;
         } elsif ($line =~ /PKGINST:\s+(.+)/) {
-            $name = $1;
+            $software->{NAME} = $1;
         } elsif ($line =~ /VERSION:\s+(.+)/) {
-            $version = $1;
+            $software->{VERSION} = $1;
         } elsif ($line =~ /VENDOR:\s+(.+)/) {
-            $publisher = $1;
+            $software->{PUBLISHER} = $1;
         } elsif ($line =~  /DESC:\s+(.+)/) {
-            $comments = $1;
+            $software->{COMMENTS} = $1;
         }
     }
 
