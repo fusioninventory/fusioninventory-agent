@@ -53,8 +53,8 @@ sub _getMemories1 {
     my $numslots;
 
     foreach(`memconf 2>&1`) {
-        # if we find "empty groups:", we have reached the end and indicate that by setting flag = 0
         if (/^empty \w+:\s(\S+)/) {
+            # we have reached the end and indicate that by resetting flag to 0
             $flag = 0;
         }
         # grep the type of memory modules from heading
@@ -100,9 +100,9 @@ sub _getMemories2 {
     my $numslots;
 
     foreach(`memconf 2>&1`) {
-        # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
-        # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
+        # this is a list of empty slots, from which we extract the slot names
         if (/^empty sockets:\s*(\S+)/) {
+            # we have reached the end and indicate that by resetting flag to 0
             $flag = 0;
             # cut of first 15 char containing the string empty sockets:
             substr ($_,0,15) = "";
@@ -156,6 +156,7 @@ sub _getMemories3 {
     my @memories;
 
     foreach(`memconf 2>&1`) {
+        # this is a list of empty slots, from which we extract the slot names
         if (/^empty sockets:\s*(\S+)/) {
             # cut of first 15 char containing the string empty sockets:
             substr ($_,0,15) = "";
@@ -190,8 +191,7 @@ sub _getMemories4 {
     my @memories;
 
     foreach(`memconf 2>&1`) {
-        # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
-        # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
+        # this is a list of empty slots, from which we extract the slot names
         if (/^empty sockets:\s*(\S+)/) {
             # cut of first 15 char containing the string empty sockets:
             substr ($_,0,15) = "";
@@ -208,7 +208,6 @@ sub _getMemories4 {
             }
         }
 
-        # we only grap for information if flag = 1
         # socket MB/CMP0/BR0/CH0/D0 has a Samsung 501-7953-01 Rev 05 2GB FB-DIMM
         if (/^socket\s+(\S+) has a (.+)\s+(\S+)GB\s+(\S+)$/i) {
             my $memory = {
