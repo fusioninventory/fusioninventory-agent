@@ -27,6 +27,14 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
+
+    my $handle = getFileHandle(
+        command => 'iostat -En',
+        logger => $logger
+    );
+
+    return unless $handle;
 
     my $manufacturer;
     my $model;
@@ -37,7 +45,7 @@ sub doInventory {
     my $sn;
     my $type;
 
-    foreach(`iostat -En`){
+    while (<$handle>) {
         if (/^(\S+)\s+Soft/) {
             $name = $1;
         }
@@ -100,6 +108,7 @@ sub doInventory {
 
 
     }
+    close $handle;
 }
 
 1;
