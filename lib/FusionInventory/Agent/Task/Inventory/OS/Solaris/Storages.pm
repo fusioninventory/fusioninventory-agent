@@ -47,9 +47,6 @@ sub doInventory {
         }
         if (/Serial No:\s*(\S+)/) {
             $storage->{SERIALNUMBER} = $1;
-            ## To be removed when SERIALNUMBER will be supported
-            $storage->{DESCRIPTION} = "S/N:$storage->{SERIALNUMBER}";
-            ##
         }
         if (/Revision:\s*(\S+)/) {
             $storage->{FIRMWARE} = $1 unless $1 eq 'Serial';
@@ -60,23 +57,27 @@ sub doInventory {
         if (/<(\d+)\s*bytes/) {
             $storage->{DISKSIZE} = int($1/(1000*1000));
         }
-        ## To be removed when FIRMWARE will be supported
-        if ($storage->{FIMRWARE}) {
-            $storage->{DESCRIPTION} .= ' ' if $storage->{DESCRIPTION};
-            $storage->{DESCRIPTION} .= "FW:$storage->{FIRMWARE}";
-        }
-
-        if (-l "/dev/rdsk/$storage->{NAME}s2") {
-            my $rdisk_path = getFirstLine(
-                command => "ls -l /dev/rdsk/$storage->{NAME}s2"
-            );
-            $storage->{TYPE} =
-                $rdisk_path =~ /->.*scsi_vhci/ ? 'MPxIO' :
-                $rdisk_path =~ /->.*fp@/       ? 'FC'    :
-                $rdisk_path =~ /->.*scsi@/     ? 'SCSI'  :
-                                                 undef   ;
-        }
         if(/^Illegal/) { # Last ligne
+
+            ## To be removed when SERIALNUMBER will be supported
+            $storage->{DESCRIPTION} = "S/N:$storage->{SERIALNUMBER}";
+
+            ## To be removed when FIRMWARE will be supported
+            if ($storage->{FIMRWARE}) {
+                $storage->{DESCRIPTION} .= ' ' if $storage->{DESCRIPTION};
+                $storage->{DESCRIPTION} .= "FW:$storage->{FIRMWARE}";
+            }
+
+            if (-l "/dev/rdsk/$storage->{NAME}s2") {
+                my $rdisk_path = getFirstLine(
+                    command => "ls -l /dev/rdsk/$storage->{NAME}s2"
+                );
+                $storage->{TYPE} =
+                    $rdisk_path =~ /->.*scsi_vhci/ ? 'MPxIO' :
+                    $rdisk_path =~ /->.*fp@/       ? 'FC'    :
+                    $rdisk_path =~ /->.*scsi@/     ? 'SCSI'  :
+                                                     undef   ;
+            }
             $inventory->addStorage($storage);
             undef $storage;
         }
