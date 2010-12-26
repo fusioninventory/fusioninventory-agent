@@ -29,13 +29,20 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger = $params{logger};
 
-    my $handle = getFileHandle(
-        command => 'iostat -En',
-        logger => $logger
-    );
+    foreach my $storage (_getStorages(
+            logger => $logger, command => 'iostat -En'
+        )) {
+        $inventory->addStorage($storage);
+    }
+}
+
+sub _getStorages {
+
+    my $handle = getFileHandle(@_);
 
     return unless $handle;
 
+    my @storages;
     my $storage;
 
     while (<$handle>) {
@@ -78,11 +85,13 @@ sub doInventory {
                     $rdisk_path =~ /->.*scsi@/     ? 'SCSI'  :
                                                      undef   ;
             }
-            $inventory->addStorage($storage);
+            push @storages, $storage;
             undef $storage;
         }
     }
     close $handle;
+
+    return @storages;
 }
 
 1;
