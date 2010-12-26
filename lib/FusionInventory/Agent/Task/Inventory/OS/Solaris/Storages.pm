@@ -67,12 +67,18 @@ sub _getStorages {
         if(/^Illegal/) { # Last ligne
 
             ## To be removed when SERIALNUMBER will be supported
-            $storage->{DESCRIPTION} = "S/N:$storage->{SERIALNUMBER}";
+            if ($storage->{SERIALNUMBER}) {
+                $storage->{DESCRIPTION} = $storage->{DESCRIPTION} ? 
+                $storage->{DESCRIPTION} . " S/N:" . $storage->{SERIALNUMBER} :
+                                           "S/N:" . $storage->{SERIALNUMBER} ;
+
+            }
 
             ## To be removed when FIRMWARE will be supported
             if ($storage->{FIMRWARE}) {
-                $storage->{DESCRIPTION} .= ' ' if $storage->{DESCRIPTION};
-                $storage->{DESCRIPTION} .= "FW:$storage->{FIRMWARE}";
+                $storage->{DESCRIPTION} = $storage->{DESCRIPTION} ?
+                $storage->{DESCRIPTION} = " FW:" . $storage->{FIRMWARE} :
+                                           "FW:" . $storage->{FIRMWARE} ;
             }
 
             if (-l "/dev/rdsk/$storage->{NAME}s2") {
