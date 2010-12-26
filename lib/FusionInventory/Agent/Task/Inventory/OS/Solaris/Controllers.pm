@@ -11,12 +11,20 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
+
+    my $handle = getFileHandle(
+        command => 'cfgadm -s cols=ap_id:type:info',
+        logger  => $logger,
+    );
+
+    return unless $handle;
 
     my $name;
     my $type;
     my $manufacturer;
 
-    foreach(`cfgadm -s cols=ap_id:type:info`){
+    while (<$handle>) {
         next if (/^Ap_Id/);
         if(/^(\S+)\s+/){
             $name = $1;
@@ -34,5 +42,8 @@ sub doInventory {
             'TYPE'          => $type,
         });
     }
+
+    close $handle;
 }
+
 1
