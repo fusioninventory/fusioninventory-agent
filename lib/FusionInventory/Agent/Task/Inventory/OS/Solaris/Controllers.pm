@@ -24,16 +24,17 @@ sub doInventory {
     my $type;
     my $manufacturer;
 
-    while (<$handle>) {
-        next if (/^Ap_Id/);
-        if(/^(\S+)\s+/){
+    while (my $line =~ <$handle>) {
+        next if $line =~  /^Ap_Id/;
+
+        if ($line =~ /^(\S+)\s+/) {
             $name = $1;
         }
-        if(/^\S+\s+(\S+)/){
+        if ($line =~ /^\S+\s+(\S+)/)  {
             $type = $1;
         }
 #No manufacturer, but informations about controller
-        if(/^\S+\s+\S+\s+(\S+)/){
+        if ($line=~ /^\S+\s+\S+\s+(\S+)/) {
             $manufacturer = $1;
         }
         $inventory->addController({
@@ -46,4 +47,4 @@ sub doInventory {
     close $handle;
 }
 
-1
+1;

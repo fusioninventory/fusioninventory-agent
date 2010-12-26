@@ -31,8 +31,8 @@ sub doInventory {
     my $comments;
     my $publisher;
 
-    while ($handle) {
-        if (/^\s*$/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /^\s*$/) {
             $inventory->addSoftware({
                 NAME      => $name,
                 VERSION   => $version,
@@ -45,20 +45,18 @@ sub doInventory {
             $comments = '';
             $publisher = '';
 
-        } elsif (/PKGINST:\s+(.+)/) {
+        } elsif ($line =~ /PKGINST:\s+(.+)/) {
             $name = $1;
-        } elsif (/VERSION:\s+(.+)/) {
+        } elsif ($line =~ /VERSION:\s+(.+)/) {
             $version = $1;
-        } elsif (/VENDOR:\s+(.+)/) {
+        } elsif ($line =~ /VENDOR:\s+(.+)/) {
             $publisher = $1;
-        } elsif (/DESC:\s+(.+)/) {
+        } elsif ($line =~  /DESC:\s+(.+)/) {
             $comments = $1;
         }
     }
 
     close $handle;
 }
-
-
 
 1;
