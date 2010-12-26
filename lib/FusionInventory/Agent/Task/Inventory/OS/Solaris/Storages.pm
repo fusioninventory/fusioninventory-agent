@@ -37,7 +37,6 @@ sub doInventory {
     my $sn;
     my $type;
     my $flag_first_line;
-    my $rdisk_path;
 
     foreach(`iostat -En`){
 #print;
@@ -72,14 +71,14 @@ sub doInventory {
         }
 
         if (-l "/dev/rdsk/${name}s2") {
-            $rdisk_path = getFirstLine(command => "ls -l /dev/rdsk/${name}s2");
-            if ($rdisk_path =~ /->.*scsi_vhci/) {
-                $type="MPxIO";
-            } elsif ($rdisk_path =~ /->.*fp@/) {
-                $type="FC";
-            } elsif ($rdisk_path =~ /->.*scsi@/) {
-                $type="SCSI";
-            }
+            my $rdisk_path = getFirstLine(
+                command => "ls -l /dev/rdsk/${name}s2"
+            );
+            $type =
+                $rdisk_path =~ /->.*scsi_vhci/ ? 'MPxIO' :
+                $rdisk_path =~ /->.*fp@/       ? 'FC'    :
+                $rdisk_path =~ /->.*scsi@/     ? 'SCSI'  :
+                                                 undef   ;
         }
         if(/^Illegal/) { # Last ligne
             $inventory->addStorage({
