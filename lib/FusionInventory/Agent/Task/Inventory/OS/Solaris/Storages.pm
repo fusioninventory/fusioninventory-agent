@@ -5,20 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-#sd0      Soft Errors: 0 Hard Errors: 0 Transport Errors: 0
-#Vendor: HITACHI  Product: DK32EJ72NSUN72G  Revision: PQ08 Serial No: 43W14Z080040A34E
-#Size: 73.40GB <73400057856 bytes>
-#Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0
-#Illegal Request: 0 Predictive Failure Analysis: 0
-
-# With -En :
-#c8t60060E80141A420000011A420000300Bd0 Soft Errors: 1 Hard Errors: 0 Transport Errors: 0
-#Vendor: HITACHI  Product: OPEN-V      -SUN Revision: 5009 Serial No:
-#Size: 64.42GB <64424509440 bytes>
-#Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0
-#Illegal Request: 1 Predictive Failure Analysis: 0
-
-
 sub isInventoryEnabled {
     return can_run('iostat');
 }
