@@ -206,56 +206,37 @@ sub _getMemories3 {
 sub _getMemories4 {
     my @memories;
 
-    my $flag = 0;
-
-    my $capacity;
-    my $description;
-    my $caption;
-    my $speed;
-    my $type;
-    my $numslots;
-
     foreach(`memconf 2>&1`) {
         # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
         # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
         if (/^empty sockets:\s*(\S+)/) {
-            $flag = 0;
             # cut of first 15 char containing the string empty sockets:
             substr ($_,0,15) = "";
-            $capacity = "empty";
-            $numslots = 0;
             foreach my $caption (split) {
                 if ($caption eq "None") {
                     # no empty slots -> exit loop
                     last;
                 }
-                push @memories, {
-                    CAPACITY => $capacity,
-                    DESCRIPTION => $description,
-                    CAPTION => $caption,
-                    SPEED => $speed,
-                    TYPE => $type,
-                    NUMSLOTS => $numslots
+                my $memory = {
+                    CAPACITY    => "empty",
+                    NUMSLOTS    => 0,
+                    CAPTION     => $caption
                 };
+                push @memories, $memory;
             }
         }
 
         # we only grap for information if flag = 1
         # socket MB/CMP0/BR0/CH0/D0 has a Samsung 501-7953-01 Rev 05 2GB FB-DIMM
         if (/^socket\s+(\S+) has a (.+)\s+(\S+)GB\s+(\S+)$/i) {
-            $caption = $1;
-            $description = $2;
-            $type = $4;
-            $numslots = 0;
-            $capacity = $3 * 1024;
-            push @memories, {
-                CAPACITY => $capacity,
-                DESCRIPTION => $description,
-                CAPTION => $caption,
-                SPEED => $speed,
-                TYPE => $type,
-                NUMSLOTS => $numslots
+            my $memory = {
+                CAPTION     => $1,
+                DESCRIPTION => $2,
+                CAPACITY    => $3 * 1024,
+                TYPE        => $4,
+                NUMSLOTS    => 0,
             };
+            push @memories, $memory;
         }
     }
 
