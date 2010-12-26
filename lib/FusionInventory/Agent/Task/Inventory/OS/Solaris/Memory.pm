@@ -260,8 +260,6 @@ sub _getMemories5 {
     my $numslots;
 
     foreach(`memconf 2>&1`) {
-        # if we find "empty sockets:", we have reached the end and indicate that by resetting flag = 0
-        # emtpy sockets is follow by a list of emtpy slots, where we extract the slot names
         if (/^total memory:\s*(\S+)/) { $flag = 0;}
 
         if ($flag_mt && /^\s+\S+\s+\S+\s+\S+\s+(\S+)/) {$flag_mt=0;  $description = $1;}
