@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU;
 
 use strict;
+use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
