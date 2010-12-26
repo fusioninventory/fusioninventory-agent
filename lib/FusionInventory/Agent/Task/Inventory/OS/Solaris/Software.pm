@@ -17,12 +17,21 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
+
+    my $handle = getFileHandle(
+        command => 'pkginfo -l',
+        logger  => $logger,
+    );
+
+    return unless $handle;
 
     my $name;
     my $version;
     my $comments;
     my $publisher;
-    foreach (`pkginfo -l`) {
+
+    while ($handle) {
         if (/^\s*$/) {
             $inventory->addSoftware({
                 NAME      => $name,
@@ -47,7 +56,7 @@ sub doInventory {
         }
     }
 
-
+    close $handle;
 }
 
 
