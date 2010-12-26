@@ -27,9 +27,9 @@ sub doInventory {
         my $type = $2;
         my $manufacturer = $3;
         $inventory->addController({
-            'NAME'          => $name,
-            'MANUFACTURER'  => $manufacturer,
-            'TYPE'          => $type,
+            NAME         => $name,
+            MANUFACTURER => $manufacturer,
+            TYPE         => $type,
         });
     }
 
