@@ -43,9 +43,6 @@ sub getModel {
         # from server model to server model
         # we try to classified our box in one of the known classes
         $model = getFirstLine(command => 'uname -i');
-        # debug print model
-        # cut the CR from string model
-        $model = substr($model, 0, length($model) -1);
     } else {
         $model = "Solaris Containers";
     }
