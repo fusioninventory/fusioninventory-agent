@@ -14,13 +14,14 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
     my $class = getClass();
 
     my @slots = 
-        $class == 4 ? _getSlots4() :
-        $class == 5 ? _getSlots5() :
-                      _getSlotsDefault() ;
+        $class == 4 ? _getSlots4(logger => $logger, command => 'prtdiag') :
+        $class == 5 ? _getSlots5(logger => $logger, command => 'prtdiag') :
+                      _getSlotsDefault(logger => $logger, command => 'prtdiag') ;
 
     foreach my $slot (@slots) {
         $inventory->addSlot($slot);
@@ -29,9 +30,12 @@ sub doInventory {
 
 sub _getSlots4 {
 
+    my $handle  = getFileHandle(@_);
+    return unless $handle;
+
     my @slots;
 
-    foreach (`prtdiag`) {
+    while (<$handle>) {
         next unless /pci/;
         my @pci = split(/ +/);
         push @slots, {
@@ -40,11 +44,15 @@ sub _getSlots4 {
             NAME        => $pci[4] . " " . $pci[5],
         };
     }
+    close $handle;
 
     return @slots;
 }
 
 sub _getSlots5 {
+
+    my $handle  = getFileHandle(@_);
+    return unless $handle;
 
     my @slots;
     my $flag;
@@ -54,7 +62,7 @@ sub _getSlots5 {
     my $designation;
     my $status;
 
-    foreach (`prtdiag`) {
+    while (<$handle>) {
         last if /^\=+/ && $flag_pci && $flag;
 
         if (/^=+\S+\s+IO Cards/) {
@@ -82,11 +90,15 @@ sub _getSlots5 {
             NAME        => $name,
         }
     }
+    close $handle;
 
     return @slots;
 }
 
 sub _getSlotsDefault {
+
+    my $handle  = getFileHandle(@_);
+    return unless $handle;
 
     my @slots;
     my $flag;
@@ -96,8 +108,7 @@ sub _getSlotsDefault {
     my $designation;
     my $status;
 
-    # default case
-    foreach (`prtdiag`) {
+    while (<$handle>) {
         last if /^\=+/ && $flag_pci;
         next if /^\s+/ && $flag_pci;
         if (/^=+\s+IO Cards/) {
@@ -128,6 +139,7 @@ sub _getSlotsDefault {
             STATUS      => $status,
         }
     }
+    close $handle;
 
     return @slots;
 }
