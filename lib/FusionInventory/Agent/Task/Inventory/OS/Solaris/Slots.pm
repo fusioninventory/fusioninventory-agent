@@ -37,12 +37,10 @@ sub _getSlots4 {
             my $name=$pci[4]." ".$pci[5];
             my $description=$pci[0]." (".$pci[1].")";
             my $designation=$pci[3];
-            my $status="";
             push @slots, {
                 DESCRIPTION => $description,
                 DESIGNATION => $designation,
                 NAME        => $name,
-                STATUS      => $status,
             };
         }
     }
@@ -72,7 +70,6 @@ sub _getSlots5 {
         if($flag && $flag_pci && /^\s+\S+\s+\S+\s+(\S+)/){
             $designation = $1;
         }
-        $status = " ";
 
         #Debug
         #if ($flag && $flag_pci){print "$name" . "||||" . "$designation" . "||" . "$description\n";}
@@ -83,7 +80,6 @@ sub _getSlots5 {
                 DESCRIPTION =>  $description,
                 DESIGNATION =>  $designation,
                 NAME            =>  $name,
-                STATUS          =>  $status,
             };
         }
         if(/^=+\S+\s+IO Cards/){$flag_pci = 1;  }
