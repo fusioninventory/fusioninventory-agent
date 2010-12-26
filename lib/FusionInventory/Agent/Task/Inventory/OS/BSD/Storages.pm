@@ -32,9 +32,8 @@ sub doInventory {
 
     # parse dmesg
     foreach my $device (@devices) {
-        my ($model,$capacity,$found, $manufacturer);
+        my ($model, $capacity, $manufacturer);
         foreach (`dmesg`){
-            if(/^$device/) { $found = 1;}
             if(/^$device.*<(.*)>/) { $model = $1; }
             if(/^$device.*\s+(\d+)\s*MB/) { $capacity = $1;}
         }
@@ -53,7 +52,6 @@ sub doInventory {
             MANUFACTURER => $manufacturer,
             MODEL => $model,
             DESCRIPTION => $device,
-            TYPE => '',
             DISKSIZE => $capacity
         });
     }
