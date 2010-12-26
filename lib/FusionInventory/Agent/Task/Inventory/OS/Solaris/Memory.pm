@@ -101,14 +101,12 @@ sub _getMemories2 {
 
     foreach(`memconf 2>&1`) {
         # this is a list of empty slots, from which we extract the slot names
-        if (/^empty sockets:\s*(\S+)/) {
+        if (/^empty sockets: (.+)/) {
             # we have reached the end and indicate that by resetting flag to 0
             $flag = 0;
-            # cut of first 15 char containing the string empty sockets:
-            substr ($_,0,15) = "";
             $capacity = "empty";
             $numslots = 0;
-            foreach my $caption (split) {
+            foreach my $caption (split(/ /, $1)) {
                 # no empty slots -> exit loop
                 last if $caption eq "None";
 
@@ -156,10 +154,8 @@ sub _getMemories3 {
 
     foreach(`memconf 2>&1`) {
         # this is a list of empty slots, from which we extract the slot names
-        if (/^empty sockets:\s*(\S+)/) {
-            # cut of first 15 char containing the string empty sockets:
-            substr ($_,0,15) = "";
-            foreach my $caption (split) {
+        if (/^empty sockets: (.+)/) {
+            foreach my $caption (split(/ /, $1)) {
                 # no empty slots -> exit loop
                 last if $caption eq "None";
 
@@ -191,10 +187,8 @@ sub _getMemories4 {
 
     foreach(`memconf 2>&1`) {
         # this is a list of empty slots, from which we extract the slot names
-        if (/^empty sockets:\s*(\S+)/) {
-            # cut of first 15 char containing the string empty sockets:
-            substr ($_,0,15) = "";
-            foreach my $caption (split) {
+        if (/^empty sockets: (.+)/) {
+            foreach my $caption (split(/ /, $1)) {
                 # no empty slots -> exit loop
                 last if $caption eq "None";
                 
@@ -278,10 +272,8 @@ sub _getMemories6 {
     my @memories;
 
     foreach(`memconf 2>&1`) {
-        if (/^empty memory sockets:\s*(\S+)/) {
-            # cut of first 22 char containing the string empty sockets:
-            substr ($_,0,22) = "";
-            foreach my $caption (split(/, /,$_)) {
+        if (/^empty memory sockets: (.+)/) {
+            foreach my $caption (split(/, /, $1)) {
                 if ($caption eq "None") {
                     # no empty slots -> exit loop
                     last;
