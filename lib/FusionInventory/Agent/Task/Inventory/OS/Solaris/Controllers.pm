@@ -26,17 +26,10 @@ sub doInventory {
 
     while (my $line =~ <$handle>) {
         next if $line =~  /^Ap_Id/;
-
-        if ($line =~ /^(\S+)\s+/) {
-            $name = $1;
-        }
-        if ($line =~ /^\S+\s+(\S+)/)  {
-            $type = $1;
-        }
-#No manufacturer, but informations about controller
-        if ($line=~ /^\S+\s+\S+\s+(\S+)/) {
-            $manufacturer = $1;
-        }
+        next unless $line =~ /^(\S+)\s+(\S+)\s+(\S+)/;
+        $name = $1;
+        $type = $2;
+        $manufacturer = $3;
         $inventory->addController({
             'NAME'          => $name,
             'MANUFACTURER'  => $manufacturer,
