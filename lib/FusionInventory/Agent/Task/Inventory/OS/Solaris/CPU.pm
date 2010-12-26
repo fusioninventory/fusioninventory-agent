@@ -49,7 +49,7 @@ sub _getCPU0 {
 
     my ($count, $cpu);
 
-    if ($spec =~ /^(\d+) \s+ X \s+ (.+) \s+ (\d+) MHz$/x) {
+    if ($spec =~ /^(\d+) \s X \s (.+) \s (\d+) MHz$/x) {
         $count = $1;
         $cpu = {
             NAME   => $2,
@@ -79,7 +79,7 @@ sub _getCPU1 {
 
     my ($count, $cpu);
 
-    if ($spec =~ /^(\d+) \s+ X \s+ (\S+) \s+ (\d+) MHz$/x) {
+    if ($spec =~ /^(\d+) \s X \s (\S+) \s (\d+) MHz$/x) {
         $count = $1;
         $cpu = {
             NAME   => $2,
@@ -87,7 +87,7 @@ sub _getCPU1 {
             CORE   => 1,
             THREAD => 0
         };
-    } elsif ($spec =~ /^(\S+) \s+ (\d+) MHz$/x) {
+    } elsif ($spec =~ /^(\S+) \s (\d+) MHz$/x) {
         $count = 1;
         $cpu = {
             NAME   => $1,
@@ -107,7 +107,7 @@ sub _getCPU2 {
 
     my ($count, $cpu);
 
-    if ($spec =~ /^(\d+) \s+ X \s+ (\S+) \s+ (\S+) \s+ (\d+) MHz$/x) {
+    if ($spec =~ /^(\d+) \s X \s (\S+) \s (\S+) \s (\d+) MHz$/x) {
         $count = $1;
         $cpu = {
             NAME   => $3 . " (" . $2 . ")",
@@ -115,7 +115,7 @@ sub _getCPU2 {
             CORE   => $1,
             THREAD => $2
         };
-    } elsif ($spec =~ /^(\d+) \s+ X \s+ (\S+) \s+ (\d+) (\S+) MHz$/x) {
+    } elsif ($spec =~ /^(\d+) \s X \s (\S+) \s (\d+) (\S+) MHz$/x) {
         $count = $1;
         $cpu = {
             NAME   => $2 . " (" . $1 . ")",
@@ -123,7 +123,7 @@ sub _getCPU2 {
             CORE   => $1,
             THREAD => $2
         };
-    } elsif ($spec =~ /^(\S+) \s+ (\d+) MHz/x) {
+    } elsif ($spec =~ /^(\S+) \s (\d+) MHz/x) {
         $count = 1;
         $cpu = {
             NAME   => $1,
@@ -143,7 +143,7 @@ sub _getCPU3 {
 
     my ($count, $cpu);
 
-    if ($spec =~ /^(\d+) .* \s+ (\S+) \s+ (\S+) \s+ (\d+) MHz/x) {
+    if ($spec =~ /^(\d+) .* \s (\S+) \s (\S+) \s (\d+) MHz/x) {
         # T2000 has only one cCPU
         $count = $1;
         $cpu = {
@@ -164,7 +164,7 @@ sub _getCPU4 {
 
     my ($count, $cpu);
 
-    if ($spec =~ /^(\d+)*  (\S+) \s+ (\d+)* (\S+) \s+ (\S+) \s+ (\d+) MHz$/x) {
+    if ($spec =~ /^(\d+)* (\S+) \s (\d+)* (\S+) \s (\S+) \s (\d+) MHz$/x) {
         $count = $1;
         $cpu = {
             NAME   => $1 . " (" . $3 . "" . $4 . ")",
@@ -184,7 +184,7 @@ sub _getCPU5 {
 
     my ($count, $cpu);
 
-    if ($spec =~ /^(\d+) \s+ X \s+ (\S+) \s+ (\S+) \s+ (\S+) \s+ (\d+) MHz$/x) {
+    if ($spec =~ /^(\d+) \s X \s (\S+) \s (\S+) \s (\S+) \s (\d+) MHz$/x) {
         $count = $1;
         $cpu = {
             NAME   => $3 . " (" . $1 . " " . $2 . ")",
