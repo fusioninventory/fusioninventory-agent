@@ -22,7 +22,9 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = _getRoutes($logger);
+    my $routes = _getRoutes(
+        logger => $logger, command => 'netstat -nr -f inet'
+    );
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
@@ -42,13 +44,16 @@ sub doInventory {
 }
 
 sub _getRoutes {
-    my ($logger) = @_;
+
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my $routes;
-    foreach my $line (`netstat -nr -f inet`) {
+    while (my $line = <$handle>) {
         next unless $line =~ /^default\s+(\S+)/i;
         $routes->{default} = $1;
     }
+    close $handle;
 
     return $routes;
 }
