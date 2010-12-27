@@ -50,8 +50,9 @@ sub _getRoutes {
 
     my $routes;
     while (my $line = <$handle>) {
-        next unless $line =~ /^default\s+(\S+)/i;
-        $routes->{default} = $1;
+        next unless $line =~ /^(\S+) \s+ (\S+) \s+ \S+/x;
+        next if $1 eq 'Destination';
+        $routes->{$1} = $2;
     }
     close $handle;
 
