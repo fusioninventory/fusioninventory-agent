@@ -1,0 +1,11 @@
+Routing tables
+
+Internet:
+Destination        Gateway            Flags    Refs      Use    Mtu  Interface
+default            10.0.1.1           UGS         0    28026      -  wm0
+10.0.1/24          link#1             UC          2        0      -  wm0
+10.0.1.1           00:1d:7e:43:96:57  UHLc        1      277      -  wm0
+10.0.1.101         00:1e:c2:0c:36:27  UHLc        0        1      -  wm0
+10.0.1.124         127.0.0.1          UGHS        0        0  33192  lo0
+127/8              127.0.0.1          UGRS        0        0  33192  lo0
+127.0.0.1          127.0.0.1          UH          2      185  33192  lo0
