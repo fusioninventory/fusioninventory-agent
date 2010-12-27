@@ -22,9 +22,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = _getRoutes(
-        logger => $logger, command => 'netstat -nr -f inet'
-    );
+    my $routes = getRoutesFromInet(logger => $logger);
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
@@ -41,22 +39,6 @@ sub doInventory {
         IPADDR         => join('/', @ip_addresses),
         DEFAULTGATEWAY => $routes->{default}
     );
-}
-
-sub _getRoutes {
-
-    my $handle = getFileHandle(@_);
-    return unless $handle;
-
-    my $routes;
-    while (my $line = <$handle>) {
-        next unless $line =~ /^(\S+) \s+ (\S+) \s+ \S+/x;
-        next if $1 eq 'Destination';
-        $routes->{$1} = $2;
-    }
-    close $handle;
-
-    return $routes;
 }
 
 sub _getInterfaces {

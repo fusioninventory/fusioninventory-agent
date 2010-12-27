@@ -49,40 +49,10 @@ my %ifconfig_tests = (
     ]
 );
 
-my %netstat_tests = (
-    openbsd => {
-        'default'     => '10.0.1.1',
-        '10.0.1/24'   => 'link#1',
-        '10.0.1.1'    => '00:1d:7e:43:96:57',
-        '10.0.1.100'  => '00:13:77:b3:cf:0c',
-        '10.0.1.115'  => '127.0.0.1',
-        '127/8'       => '127.0.0.1',
-        '127.0.0.1'   => '127.0.0.1',
-        '224/4'       => '127.0.0.1'
-    },
-    netbsd => {
-        'default'     => '10.0.1.1',
-        '10.0.1/24'   => 'link#1',
-        '10.0.1.1'    => '00:1d:7e:43:96:57',
-        '10.0.1.101'  => '00:1e:c2:0c:36:27',
-        '10.0.1.124'  => '127.0.0.1',
-        '127/8'       => '127.0.0.1',
-        '127.0.0.1'   => '127.0.0.1',
-    },
-);
-
-plan tests =>
-    (scalar keys %ifconfig_tests) + 
-    (scalar keys %netstat_tests);
+plan tests => scalar keys %ifconfig_tests;
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/ifconfig/$test";
     my @results = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_parseIfconfig(file => $file);
     is_deeply(\@results, $ifconfig_tests{$test}, $test);
-}
-
-foreach my $test (keys %netstat_tests) {
-    my $file = "resources/netstat/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_getRoutes(file => $file);
-    is_deeply($results, $netstat_tests{$test}, $test);
 }

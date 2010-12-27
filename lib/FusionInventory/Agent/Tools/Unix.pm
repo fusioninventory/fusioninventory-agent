@@ -17,6 +17,7 @@ our @EXPORT = qw(
     getFilesystemsFromDf
     getProcessesFromPs
     getControllersFromLspci
+    getRoutesFromNetstat
 );
 
 memoize('getControllersFromLspci');
@@ -335,6 +336,26 @@ sub getControllersFromLspci {
     return @controllers;
 }
 
+sub getRoutesFromNetstat {
+    my %params = (
+        command => 'netstat -nr -f inet',
+        @_
+    );
+
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my $routes;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+) \s+ (\S+) \s+ \S+/x;
+        next if $1 eq 'Destination';
+        $routes->{$1} = $2;
+    }
+    close $handle;
+
+    return $routes;
+}
+
 1;
 __END__
 
@@ -406,6 +427,20 @@ output.
 =item logger a logger object
 
 =item command the exact command to use (default: lspci -vvv -nn)
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+head2 getRoutesFromNetstat
+
+Returns the routing table as an hashref, by parsing netstat command output.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use (default: netstat -nr -f inet)
 
 =item file the file to use, as an alternative to the command
 

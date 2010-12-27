@@ -28,9 +28,10 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
     # set list of network interfaces
-    my $routes = _getRoutes();
+    my $routes = getRoutesFromInet(logger => $logger);
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
         $inventory->addNetwork($interface);
@@ -47,17 +48,6 @@ sub doInventory {
         IPADDR         => join('/', @ip_addresses),
         DEFAULTGATEWAY => $routes->{default}
     );
-}
-
-sub _getRoutes {
-
-    my $routes;
-    foreach my $line (`netstat -nr -f inet`) {
-        next unless $line =~ /^default\s+(\S+)/i;
-        $routes->{default} = $1;
-    }
-
-    return $routes;
 }
 
 sub _getInterfaces {
