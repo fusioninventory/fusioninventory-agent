@@ -21,9 +21,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
-    my $slot;
 
-    $logger->debug("ServeRaid: ipssend GETVERSION");
     foreach (`ipssend GETVERSION 2>/dev/null`) {
 
 # Example Output :
@@ -39,15 +37,12 @@ sub doInventory {
 #   Actual BIOS version            : 7.00.14
 #   Firmware version               : 7.00.14
 #   Device driver version          : 7.10.18
+        next unless /ServeRAID Controller Number\s(\d*)/;
+        my $slot = $1;
 
-        $slot = $1 if /.*ServeRAID Controller Number\s(\d*).*/;
+        my $storage;
 
-        if (/.*Controller type.*:\s(.*)/) {
-            my $name = $1;
-            my ($serial, $capacity, $scsi, $channel, $state);
-
-            $logger->debug("ServeRaid: ipssend GETCONFIG $slot PD");
-            foreach (`ipssend GETCONFIG $slot PD 2>/dev/null`) {
+        foreach (`ipssend GETCONFIG $slot PD 2>/dev/null`) {
 # Example Output :
 #   Channel #1:
 #      Target on SCSI ID 0
@@ -59,33 +54,21 @@ sub doInventory {
 #         Device ID                : IBM-ESXSCBR036C3DFQDB2Q6CDKM
 #         FRU part number          : 32P0729
 
-                $channel        = $1 if /.*Channel #(.*):/;
-                $scsi           = $1 if /.*SCSI ID.*:\s(.*)/;
-                $state          = $1 if /.*State.*\((.*)\)/;            
-                $capacity       = $1 if /.*Size.*:\s(\d*)\/(\d*)/;
-                $serial         = $1 if /.*Device ID.*:\s(.*)/;
+            if (/Size.*:\s(\d*)\/(\d*)/) {
+                $storage->{DISKSIZE} = $1;
+            } elsif (/Device ID.*:\s(.*)/) {
+                $storage->{SERIALNUMBER} = $1;
+            } elsif (/FRU part number.*:\s(.*)/) {
+                $storage->{MODEL} = $1;
+                $storage->{MANUFACTURER} = getCanonicalManufacturer(
+                    $storage->{SERIALNUMBER}
+                );
+                $storage->{NAME} = $storage->{MANUFACTURER} . ' ' . $storage->{MODEL};
+                $storage->{DESCRIPTION} = 'SCSI';
+                $storage->{TYPE} = 'disk';
 
-                if (/.*FRU part number.*:\s(.*)/) {
-                    my $model = $1;
-                    my $manufacturer = getCanonicalManufacturer($serial);
-                    ## my $fullname = "$name $slot/$channel/$scsi $state";
-
-                    $logger->debug("ServeRaid: found $model, $manufacturer, $model, SCSI, disk, $capacity, $serial, ");
-
-                    $inventory->addStorage({
-                        NAME            => "$manufacturer $model",
-                        MANUFACTURER    => $manufacturer,
-                        MODEL           => $model,
-                        DESCRIPTION     => "SCSI",
-                        TYPE            => "disk",
-                        DISKSIZE        => $capacity,
-                        SERIALNUMBER    => $serial,
-                        FIRMWARE        => ""}
-                    ); 
-
-                    # don't undef $channel, appear only once for several drive.
-                    $scsi = $state = $capacity = $serial = undef;
-                }
+                $inventory->addStorage($storage);
+                undef $storage;
             }
         }
     }

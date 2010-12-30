@@ -17,29 +17,32 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $packages = _parseEquery($logger);
+    my $command = 'equery list -i';
+
+    my $packages = _getPackagesListFromEquery(
+        logger => $logger, command => $command
+    );
 
     foreach my $package (@$packages) {
         $inventory->addSoftware($package);
     }
 }
 
-sub _parseEquery {
-    my ($logger, $file) = @_;
+sub _getPackagesListFromEquery {
+    my $handle = getFileHandle(@_);
 
-    my $command = 'equery list -i 2>/dev/null';
-    my $callback = sub {
-        my ($line) = @_;
-        return unless $line =~ /^([a-z]\w+-\w+\/\w+)-([0-9]+.*)/;
-        return {
+    my @packages;
+    while (my $line = <$handle>) {
+        chomp $line;
+        next unless $line =~ /^([a-z]\w+-\w+\/\w+)-([0-9]+.*)/;
+        push @packages, {
             NAME    => $1,
             VERSION => $2,
         };
-    };
+    }
+    close $handle;
 
-    return $file ?
-        getPackagesFromCommand($logger, $file, '<', $callback)    :
-        getPackagesFromCommand($logger, $command, '-|', $callback);
+    return \@packages;
 }
 
 1;

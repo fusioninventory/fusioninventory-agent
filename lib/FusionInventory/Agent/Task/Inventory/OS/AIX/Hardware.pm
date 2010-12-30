@@ -23,22 +23,22 @@ sub doInventory {
     #lsvpd
     my @lsvpd = `lsvpd`;
     # Remove * (star) at the beginning of lines
-    s/^\*// for (@lsvpd);
+    s/^\*// foreach (@lsvpd);
 
     #Search Firmware Hard 
     my $flag=0;
     my $fw = '';
-    for (@lsvpd){
+    foreach (@lsvpd){
         if (/^DS Platform Firmware/) { $flag=1 };
         if ( ($flag) && /^RM (.+)/) {$fw=$1;chomp($fw);$fw =~ s/(\s+)$//g;last};
     }
     $flag=0;
-    for (@lsvpd){
+    foreach (@lsvpd){
         if (/^DS System Firmware/) { $flag=1 };
         if ( ($flag) && /^RM (.+)/) {$BiosVersion=$1;chomp($BiosVersion);$BiosVersion =~ s/(\s+)$//g;last};
     }
     $flag=0;
-    for (@lsvpd){
+    foreach (@lsvpd){
         if (/^DS System VPD/) { $flag=1 };
         if ( ($flag) && /^TM (.+)/) {$SystemModel=$1;chomp($SystemModel);$SystemModel =~ s/(\s+)$//g;};
         if ( ($flag) && /^SE (.+)/) {$SystemSerial=$1;chomp($SystemSerial);$SystemSerial =~ s/(\s+)$//g;};

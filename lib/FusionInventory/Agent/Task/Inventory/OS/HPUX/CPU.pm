@@ -69,7 +69,7 @@ sub doInventory {
 
     if ( can_run('/usr/contrib/bin/machinfo') ) {
         my @machinfo = `/usr/contrib/bin/machinfo`;
-        s/\s+/ /g for (@machinfo);
+        s/\s+/ /g foreach (@machinfo);
         foreach (@machinfo) {
             if (/Number of CPUs = (\d+)/) {
                 $CPUcount = $1;
@@ -92,29 +92,29 @@ sub doInventory {
             # end HPUX 11.31
         }
     } else {
-        my $DeviceType = getSingleLine(command => 'model |cut -f 3- -d/');
+        my $DeviceType = getFirstLine(command => 'model |cut -f 3- -d/');
         my $tempCpuInfo = $cpuInfos{"$DeviceType"};
         if ( $tempCpuInfo =~ /^(\S+)\s(\S+)/ ) {
             $CPUinfo->{TYPE} = $1;
             $CPUinfo->{SPEED} = $2;
         } else {
-            for ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
+            foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
                 next unless /CPU Module/;
                 if ( /(\S+)\s+CPU\s+Module/ ) {
                     $CPUinfo->{TYPE} = $1;
                 }
             }
-            for ( `echo 'itick_per_usec/D' | adb -k /stand/vmunix /dev/kmem` ) {
+            foreach ( `echo 'itick_per_usec/D' | adb -k /stand/vmunix /dev/kmem` ) {
                 if ( /tick_per_usec:\s+(\d+)/ ) {
                     $CPUinfo->{SPEED} = $1;
                 }
             }
         }
         # NBR CPU
-        $CPUcount = getSingleLine(command => 'ioscan -Fk -C processor | wc -l');
+        $CPUcount = getFirstLine(command => 'ioscan -Fk -C processor | wc -l');
     }
 
-    my $serie = getSingleLine(command => 'uname -m');
+    my $serie = getFirstLine(command => 'uname -m');
     if ( $CPUinfo->{TYPE} eq 'unknow' and $serie =~ /ia64/) {
         $CPUinfo->{TYPE} = "Itanium"
     }

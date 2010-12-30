@@ -21,9 +21,9 @@ sub doInventory {
 
     # example on NetBSD: SGI-IP22
     # example on OpenBSD: SGI-O2 (IP32)
-    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
+    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
 
-    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
+    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
     
@@ -43,7 +43,7 @@ sub doInventory {
     # cpu0: cache L1-I 32KB D 32KB 2 way, L2 512KB direct
 
     my ($SystemSerial, $processort, $processors);
-    for (`dmesg`) {
+    foreach (`dmesg`) {
         if (/$SystemModel\s*\[\S*\s*(\S*)\]/) { $SystemSerial = $1; }
         if (/cpu0 at mainbus0:\s*(.*)$/) { $processort = $1; }
         if (/CPU\s*.*\D(\d+)\s*MHz/) { $processors = $1; }

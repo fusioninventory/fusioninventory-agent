@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 #ce5: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 3
 #        inet 55.37.101.171 netmask fffffc00 broadcast 55.37.103.255
@@ -20,341 +21,144 @@ sub isInventoryEnabled {
     return 
         can_run('ifconfig') &&
         can_run('netstat') &&
-        can_load("Net::IP");
+        can_load('Net::IP');
 }
 
-# Initialise the distro entry
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
+    # set list of network interfaces
+    my $routes = getRoutesFromInet(logger => $logger);
+    my @interfaces = _getInterfaces();
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
+    }
 
-    my $description;
-    my $ipaddress;
-    my $ipgateway;
-    my $ipmask;
-    my $ipsubnet;
-    my $macaddr;
-    my $status;
-    my $speed;
-    my $type;
-    my $nic;
-    my $num;
-    my $link_speed;
-    my $link_duplex;
-    my $link_info;
-    my $link_auto;
-    my $zone;
-    my $OSLevel;
-    my $i = 0;
+    # set global parameters
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
 
-    $OSLevel=`uname -r`;
+    $inventory->setHardware(
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{default}
+    );
+}
 
-    if ($OSLevel =~ /5.8/ ){
-        $zone = "global";
-    } else {
-        foreach (`zoneadm list -p`){
-            $zone = $1 if /^0:([a-z]+):.*$/;
+sub _getInterfaces {
+
+    my $zone = getZone();
+
+    my @interfaces = _parseIfconfig($zone);
+
+    return @interfaces unless $zone;
+
+    my $OSLevel = getFirstLine(command => 'uname -r');
+    if ($OSLevel =~ /5.10/) {
+        foreach (`/usr/sbin/dladm show-aggr`) {
+            next if /device/;
+            next if /key/;
+            my $interface = {
+                STATUS    => 'Down',
+                IPADDRESS => "0.0.0.0",
+            };
+            $interface->{DESCRIPTION} = $1 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/; # aggrega
+            $interface->{MACADDR} = $2 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+            $interface->{SPEED} = $3." ".$4." ".$5 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+            $interface->{STATUS} = 1 if /up/;
+            push @interfaces, $interface;
+        }
+
+        my $inc = 1;
+        my $interface;
+        foreach (`/usr/sbin/fcinfo hba-port`) {
+            $interface->{DESCRIPTION} = "HBA_Port_WWN_" . $inc if /HBA Port WWN:\s+(\S+)/;
+            $interface->{DESCRIPTION} .= " " . $1 if /OS Device Name:\s+(\S+)/;
+            $interface->{SPEED} = $1 if /Current Speed:\s+(\S+)/;
+            $interface->{MACADDR} = $1 if /Node WWN:\s+(\S+)/;
+            $interface->{TYPE} = $1 if /Manufacturer:\s+(.*)$/;
+            $interface->{TYPE} .= " " . $1 if /Model:\s+(.*)$/;
+            $interface->{TYPE} .= " " . $1 if /Firmware Version:\s+(.*)$/;
+            $interface->{STATUS} = 1 if /online/;
+
+            if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
+                $interface->{IPADDRESS} = "0.0.0.0";
+                $interface->{STATUS} = 'Down' if !$interface->{STATUS};
+
+                push @interfaces, $interface;
+                $inc++;
+            }
         }
     }
 
-    foreach (`netstat -rn`) {
-        $ipgateway=$1 if /^default\s+(\S+)/i;
-    }
-    if ($zone) {
-        foreach (`ifconfig -a`) {
-            $description = $1 if /^(\S+):/; # Interface name
-            $ipaddress = $1 if /inet\s+(\S+)/i;
-            $ipmask = $1 if /\S*netmask\s+(\S+)/i;
-            $type = $1 if /groupname\s+(\S+)/i;
-            #$type = $1 if /zone\s+(\S+)/i;
-            #Debug
-            if (/ether\s+(\S+)/i) {
-                # See
-                # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
-                $macaddr = sprintf "%02x:%02x:%02x:%02x:%02x:%02x" ,
-                map hex, split /\:/, $1;
-            }
-            $status = 1 if /<UP,/;
-            if(($description && $macaddr)) {
-                $nic = $1 if ( $description =~ /^(\S+)(\d+)/);
-                $num = $2 if ( $description =~/^(\S+)(\d+)/);
-                if ($nic =~ /bge/ ) {
-                    $speed = _check_bge_nic($nic,$num);
-                } elsif ($nic =~ /ce/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /hme/) {
-                    $speed = _check_nic($nic,$num);
-                } elsif ($nic =~ /dmfe/) {
-                    $speed = _check_dmf_nic($nic,$num);
-                } elsif ($nic =~ /ipge/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /e1000g/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /nxge/) {
-                    $speed = _check_nxge_nic($nic,$num);
-                } elsif ($nic =~ /eri/) {
-                    $speed = _check_nic($nic,$num);
-                } elsif ($nic =~ /aggr/) {
-                    $speed = "";
-                } else {
-                    $speed = _check_nic($nic,$num);
-                }
-                #HEX TO DEC TO BIN TO IP
-                $ipmask = hex($ipmask);
-                $ipmask = sprintf("%d", $ipmask);
-                $ipmask = unpack("B*", pack("N", $ipmask));
-                $ipmask = ip_bintoip($ipmask,4);
-
-                my $binip = &ip_iptobin ($ipaddress ,4);
-                my $binmask = &ip_iptobin ($ipmask ,4);
-                my $binsubnet = $binip & $binmask;
-                $ipsubnet = ip_bintoip($binsubnet,4);
-                $inventory->addNetwork({
-                    DESCRIPTION => $description,
-                    IPADDRESS => $ipaddress,
-                    IPGATEWAY => $ipgateway,
-                    IPMASK => $ipmask,
-                    SPEED => $speed,
-                    IPSUBNET => $ipsubnet,
-                    MACADDR => $macaddr,
-                    STATUS => $status?"Up":"Down",
-                    TYPE => $type,
-                });
-
-                $ipaddress = $speed = $description = $macaddr = $status =  $type = $ipmask = undef;
-            }
-        }
-
-        $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
-
-        foreach (`ifconfig -a`) {
-            $description = $1.":".$2 if /^(\S+):(\S+):/; # Interface name zone or virtual
-            if ($description) {
-                $ipaddress = $1 if /inet\s+(\S+)/i;
-                $ipmask = $1 if /\S*netmask\s+(\S+)/i;
-                $status = 1 if /<UP,/;
-                $type = $1 if /zone\s+(\S+)/i;
-            }
-            if ($description && $ipmask) {
-                #HEX TO DEC TO BIN TO IP
-                $ipmask = hex($ipmask);
-                $ipmask = sprintf("%d", $ipmask);
-                $ipmask = unpack("B*", pack("N", $ipmask));
-                $ipmask = ip_bintoip($ipmask,4);
-                my $binip = &ip_iptobin ($ipaddress ,4);
-                my $binmask = &ip_iptobin ($ipmask ,4);
-                my $binsubnet = $binip & $binmask;
-                $ipsubnet = ip_bintoip($binsubnet,4);
-                $inventory->addNetwork({
-                    DESCRIPTION => $description,
-                    IPADDRESS => $ipaddress,
-                    IPGATEWAY => $ipgateway,
-                    IPMASK => $ipmask,
-                    IPSUBNET => $ipsubnet,
-                    MACADDR => $macaddr,
-                    STATUS => $status?"Up":"Down",
-                    TYPE => $type,
-                });
-
-                $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
-            }
-        }
-
-        $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
-
-        if ($OSLevel =~ /5.10/) {
-            foreach (`/usr/sbin/dladm show-aggr`){
-                next if /device/;
-                next if /key/;
-                $description = $1 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/; # aggrega
-                $macaddr = $2 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-                $speed = $3." ".$4." ".$5 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-                $status = 1 if /up/;
-                $ipaddress = "0.0.0.0";
-                $inventory->addNetwork({
-                    DESCRIPTION => $description,
-                    IPADDRESS => $ipaddress,
-                    IPGATEWAY => $ipgateway,
-                    IPMASK => $ipmask,
-                    IPSUBNET => $ipsubnet,
-                    MACADDR => $macaddr,
-                    STATUS => $status?"Up":"Down",
-                    SPEED => $speed,
-                    TYPE => $type,
-                });
-            }
-
-            $ipgateway = $ipsubnet = $ipaddress = $description = $macaddr = $status =  $type = $ipmask = undef;
-
-            my $inc = 1;
-            foreach (`/usr/sbin/fcinfo hba-port`) {
-                $description = "HBA_Port_WWN_".$inc if /HBA Port WWN:\s+(\S+)/;
-                $description = $description." ".$1 if /OS Device Name:\s+(\S+)/;
-                $speed = $1 if /Current Speed:\s+(\S+)/;
-                $macaddr = $1 if /Node WWN:\s+(\S+)/;
-                $type = $1 if /Manufacturer:\s+(.*)$/;
-                $type = $type." ".$1 if /Model:\s+(.*)$/;
-                $type = $type." ".$1 if /Firmware Version:\s+(.*)$/;
-                $ipaddress = "0.0.0.0";
-                #$ipaddress = "SN:".$1 if /Serial Number:\s+(\S+)/;
-                $status = 1 if /online/;
-
-                if ($description &&  $macaddr) {
-                    $inventory->addNetwork({
-                        DESCRIPTION => $description,
-                        IPADDRESS => $ipaddress,
-                        IPGATEWAY => $ipgateway,
-                        IPMASK => $ipmask,
-                        IPSUBNET => $ipsubnet,
-                        MACADDR => $macaddr,
-                        STATUS => $status?"Up":"Down",
-                        SPEED => $speed,
-                        TYPE => $type,
-                    });
-                    $inc ++ ;
-
-                    $ipgateway = $ipsubnet = $ipaddress = $description = $macaddr = $status =  $speed = $type = $ipmask = undef;
-                }
-            }
-        }
-
-    } else {
-        foreach (`ifconfig -a`) {
-            $description = $1.":".$2 if /^(\S+):(\S+):.*$/; # Interface name zone
-            $ipaddress = $1 if /inet\s+(\S+)/i;
-            $ipmask = $1 if /\S*netmask\s+(\S+)/i;
-            $type = $1 if /zone\s+(\S+)/i;
-            #Debug
-            if (/ether\s+(\S+)/i) {
-                # See
-                # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
-                $macaddr = sprintf "%02x:%02x:%02x:%02x:%02x:%02x" ,
-                map hex, split /\:/, $1;
-            }
-            $status = 1 if /<UP,/;
-            if ($description &&  $ipaddress) {
-                $nic = $1 if $description =~ /^(\S+)(\d+):.*$/;
-                $num = $2 if $description =~/^(\S+)(\d+):.*$/;
-                if ($nic =~ /bge/) {
-                    $speed = _check_bge_nic($nic,$num);
-                } elsif ($nic =~ /ce/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /hme/) {
-                    $speed = _check_nic($nic,$num);
-                } elsif ($nic =~ /dmfe/) {
-                    $speed = _check_dmf_nic($nic,$num);
-                } elsif ($nic =~ /ipge/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /e1000g/) {
-                    $speed = _check_ce($nic,$num);
-                } elsif ($nic =~ /nxge/) {
-                    $speed = _check_nxge_nic($nic,$num);
-                } elsif ($nic =~ /eri/) {
-                    $speed = _check_nic($nic,$num);
-                } else {
-                    $speed = _check_nic($nic,$num);
-                }
-                #HEX TO DEC TO BIN TO IP
-                $ipmask = hex($ipmask);
-                $ipmask = sprintf("%d", $ipmask);
-                $ipmask = unpack("B*", pack("N", $ipmask));
-                $ipmask = ip_bintoip($ipmask,4);
-
-                my $binip = &ip_iptobin ($ipaddress ,4);
-                my $binmask = &ip_iptobin ($ipmask ,4);
-                my $binsubnet = $binip & $binmask;
-                $ipsubnet = ip_bintoip($binsubnet,4);
-
-                $inventory->addNetwork({
-                    DESCRIPTION => $description,
-                    IPADDRESS => $ipaddress,
-                    IPGATEWAY => $ipgateway,
-                    IPMASK => $ipmask,
-                    SPEED => $speed,
-                    IPSUBNET => $ipsubnet,
-                    MACADDR => $macaddr,
-                    STATUS => $status?"Up":"Down",
-                    TYPE => $type,
-                });
-
-                $ipaddress = $speed = $description = $macaddr = $status =  $type = undef;
-            }
-        }
-    }
+    return @interfaces;
 }
 
 # Function to test Quad Fast-Ethernet, Fast-Ethernet, and
 # Gigabit-Ethernet (i.e. qfe_, hme_, ge_, fjgi_)
 sub _check_nic {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
-    my ($speed, $duplex, $auto);
+    my ($speed) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$nic link_speed",
+        pattern => qr/^(\d+)/
+    );
 
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
-        next unless /^(\d+)/;
-        $speed = $1;
-        last;
-    }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
-        next unless /^(\d+)/;
-        $duplex = $1;
-        last;
-    }
-    my $arg = $mynic =~ /ge/ ? 'adv_1000autoneg_cap' : 'adv_autoneg_cap';
-    foreach (`/usr/sbin/ndd -get /dev/$mynic $arg`) {
-        next unless /^(\d+)/;
-        $auto = $1;
-        last;
-    }
+    my ($duplex) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$nic link_mode",
+        pattern => qr/^(\d+)/
+    );
+
+    my $arg = $nic =~ /ge/ ? 'adv_1000autoneg_cap' : 'adv_autoneg_cap';
+    my ($auto) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$nic $arg",
+        pattern => qr/^(\d+)/
+    );
 
     return _get_link_info($speed, $duplex, $auto);
 }
 
 # Function to test eri Fast-Ethernet (eri_).
 sub _check_eri {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
-    my ($speed, $duplex, $auto);
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_speed`) {
-        next unless /^(\d+)/;
-        $speed = $1;
-        last;
-    }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic link_mode`) {
-        next unless /^(\d+)/;
-        $duplex = $1;
-        last;
-    }
+    my ($speed) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$nic link_speed",
+        pattern => qr/^(\d+)/
+    );
 
-    return _get_link_info($speed, $duplex, $auto);
+    my ($duplex) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$nic link_mode",
+        pattern => qr/^(\d+)/
+    );
+
+    return _get_link_info($speed, $duplex, undef);
 }
 
 # Function to test a Gigabit-Ethernet (i.e. ce_).
 # Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
 sub _check_ce {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
-    my ($speed, $duplex, $auto);
+    my ($speed) = getFirstMatch(
+        command => "/usr/bin/kstat -m $nic -i $num -s link_speed",
+        pattern => qr/^\s*link_speed+\s*(\d+)/
+    );
 
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_speed`) {
-        next unless /^\s*link_speed+\s*(\d+).*$/;
-        $speed = $1;
-        last;
-    }
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s link_duplex`) {
-        next unless /^\s*link_duplex+\s*(\d+).*$/;
-        $duplex = $1;
-        last;
-    }
-    foreach (`/usr/bin/kstat -m $mynic -i $mynum -s cap_autoneg`) {
-        next unless /^\s*cap_autoneg+\s*(\d+).*$/;
-        $auto = $1;
-        last;
-    }
+    my ($duplex) = getFirstMatch(
+        command => "/usr/bin/kstat -m $nic -i $num -s link_duplex",
+        pattern => qr/^\s*link_duplex+\s*(\d+)/
+    );
+
+    my ($auto) = getFirstMatch(
+        command => "/usr/bin/kstat -m $nic -i $num -s cap_autoneg",
+        pattern => qr/^\s*cap_autoneg+\s*(\d+)/
+    );
 
     return _get_link_info($speed, $duplex, $auto);
 
@@ -364,25 +168,22 @@ sub _check_ce {
 # The BGE is a Broadcom BCM5704 chipset. There are four interfaces
 # on the V210 and V240. (i.e. bge_)
 sub _check_bge_nic {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
-    my ($speed, $duplex, $auto);
+    my ($speed) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$nic$num link_speed",
+        pattern => qr/^(\d+)/
+    );
 
-    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_speed`) {
-        next unless /^(\d+)/;
-        $speed = $1;
-        last;
-    }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum link_duplex`) {
-        next unless /^(\d+)/;
-        $duplex = $1;
-        last;
-    }
-    foreach (`/usr/sbin/ndd -get /dev/$mynic$mynum adv_autoneg_cap`) {
-        next unless /^(\d+)/;
-        $auto = $1;
-        last;
-    }
+    my ($duplex) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$nic$num link_duplex",
+        pattern => qr/^(\d+)/
+    );
+
+    my ($auto) = getFirstMatch(
+        command => "/usr/sbin/ndd -get /dev/$nic$num adv_autoneg_cap",
+        pattern => qr/^(\d+)/
+    );
 
     return _get_link_info($speed, $duplex, $auto);
 }
@@ -390,10 +191,10 @@ sub _check_bge_nic {
 
 # Function to test Sun NXGE interface on Sun Fire Tx000.
 sub _check_nxge_nic {
-    my ($mynic, $mynum) = @_;
+    my ($nic, $num) = @_;
 
     my $link_info;
-    foreach (`/usr/sbin/dladm show-dev $mynic$mynum`) {
+    foreach (`/usr/sbin/dladm show-dev $nic$num`) {
         #nxge0           link: up        speed: 1000  Mbps       duplex: full
         $link_info = $5." ".$6." ".$8 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
     }
@@ -429,6 +230,94 @@ sub _get_link_info {
     }
 
     return $info;
+}
+
+sub _parseIfconfig {
+
+    # import Net::IP functional interface
+    Net::IP->import(':PROC');
+
+    my @interfaces;
+    my $interface;
+
+    foreach (`ifconfig -a`) {
+
+        if (/^(\S+):(\S+):/) {
+            $interface->{DESCRIPTION} = $1 . ":" . $2;
+        } elsif (/^(\S+):/) {
+            $interface->{DESCRIPTION} = $1;
+        }
+
+        if (/inet\s+(\S+)/i) {
+            $interface->{IPADDRESS} = $1;
+        }
+
+        if (/\S*netmask\s+(\S+)/i) {
+            # hex to dec to bin to ip
+            $interface->{IPMASK} = ip_bintoip(
+                unpack("B*", pack("N", sprintf("%d", hex($1)))),
+                4
+            );
+        }
+
+        if (/groupname\s+(\S+)/i) {
+            $interface->{TYPE} = $1;
+        }
+
+        if (/zone\s+(\S+)/) {
+            $interface->{TYPE} = $1;
+        }
+
+        if (/ether\s+(\S+)/i) {
+            # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
+            $interface->{MACADDR} =
+                sprintf "%02x:%02x:%02x:%02x:%02x:%02x" , map hex, split /\:/, $1;
+        }
+
+        if (/<UP,/) {
+            $interface->{STATUS} = "Up";
+        }
+
+        if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
+            my ($nic, $num);
+            if ($interface->{DESCRIPTION} =~ /^(\S+)(\d+)/) {
+                $nic = $1;
+                $num = $2;
+            }
+
+            if ($nic =~ /bge/ ) {
+                $interface->{SPEED} = _check_bge_nic($nic, $num);
+            } elsif ($nic =~ /ce/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /hme/) {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            } elsif ($nic =~ /dmfe/) {
+                $interface->{SPEED} = _check_dmf_nic($nic, $num);
+            } elsif ($nic =~ /ipge/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /e1000g/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /nxge/) {
+                $interface->{SPEED} = _check_nxge_nic($nic, $num);
+            } elsif ($nic =~ /eri/) {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            } elsif ($nic =~ /aggr/) {
+                $interface->{SPEED} = "";
+            } else {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            }
+
+            $interface->{IPSUBNET} = getSubnetAddress(
+                $interface->{IPADDRESS}, $interface->{IPMASK}
+            );
+
+            $interface->{STATUS} = 'Down' if !$interface->{STATUS};
+
+            push @interfaces, $interface;
+        }
+    }
+
+    return @interfaces;
 }
 
 1;

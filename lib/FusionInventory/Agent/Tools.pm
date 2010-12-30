@@ -11,6 +11,8 @@ use Sys::Hostname;
 use File::Spec;
 
 our @EXPORT = qw(
+    getSubnetAddress
+    getSubnetAddressIPv6
     getFileHandle
     getFormatedLocalTime
     getFormatedGmTime
@@ -20,11 +22,15 @@ our @EXPORT = qw(
     getCanonicalSize
     getInfosFromDmidecode
     getSanitizedString
-    getSingleLine
+    getFirstLine
+    getFirstMatch
     getHostname
     compareVersion
     can_run
     can_load
+    any
+    all
+    none
 );
 
 memoize('can_run');
@@ -212,6 +218,38 @@ sub getSanitizedString {
     return $string;
 }
 
+sub getSubnetAddress {
+    my ($address, $mask) = @_;
+
+    return unless $address && $mask;
+
+    # load Net::IP conditionnaly
+    return unless can_load("Net::IP");
+    Net::IP->import(':PROC');
+
+    my $binaddress = ip_iptobin($address, 6);
+    my $binmask    = ip_iptobin($mask, 6);
+    my $binsubnet  = $binaddress & $binmask;
+
+    return ip_bintoip($binsubnet, 6);
+}
+
+sub getSubnetAddressIPv6 {
+    my ($address, $mask) = @_;
+
+    return unless $address && $mask;
+
+    # load Net::IP conditionnaly
+    return unless can_load("Net::IP");
+    Net::IP->import(':PROC');
+
+    my $binaddress = ip_iptobin($address, 4);
+    my $binmask    = ip_iptobin($mask, 4);
+    my $binsubnet  = $binaddress & $binmask;
+
+    return ip_bintoip($binsubnet, 4);
+}
+
 sub getFileHandle {
     my %params = @_;
 
@@ -228,7 +266,7 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
-            if (!open $handle, '-|', $params{command}) {
+            if (!open $handle, '-|', $params{command} . " 2>/dev/null") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
                 ) if $params{logger};
@@ -246,7 +284,7 @@ sub getFileHandle {
     return $handle;
 }
 
-sub getSingleLine {
+sub getFirstLine {
     my %params = @_;
 
     my $handle = getFileHandle(%params);
@@ -255,6 +293,47 @@ sub getSingleLine {
 
     chomp $result;
     return $result;
+}
+
+sub getFirstMatch {
+    my %params = @_;
+
+    return unless $params{pattern};
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @results;
+    while (my $line = <$handle>) {
+        @results = $line =~ $params{pattern};
+        last if @results;
+    }
+    close $handle;
+
+    return @results;
+}
+
+sub can_run {
+    my ($binary) = @_;
+
+    if ($OSNAME eq 'MSWin32') {
+        foreach my $dir (split/$Config::Config{path_sep}/, $ENV{PATH}) {
+            foreach my $ext (qw/.exe .bat/) {
+                return 1 if -f $dir . '/' . $binary . $ext;
+            }
+        }
+        return 0;
+    } else {
+        return 
+            system("which $binary >/dev/null 2>&1") == 0;
+    }
+
+}
+
+sub can_load {
+    my ($module) = @_;
+
+    return $module->require();
 }
 
 sub getHostname {
@@ -284,27 +363,29 @@ sub getHostname {
     };
 }
 
-sub can_run {
-    my ($binary) = @_;
-
-    if ($OSNAME eq 'MSWin32') {
-        foreach my $dir (split/$Config::Config{path_sep}/, $ENV{PATH}) {
-            foreach my $ext (qw/.exe .bat/) {
-                return 1 if -f $dir . '/' . $binary . $ext;
-            }
-        }
-        return 0;
-    } else {
-        return 
-            system("which $binary >/dev/null 2>&1") == 0;
+# shamelessly imported from List::MoreUtils to avoid a dependency
+sub any (&@) { ## no critic (SubroutinePrototypes)
+    my $f = shift;
+    foreach ( @_ ) {
+        return 1 if $f->();
     }
-
+    return 0;
 }
 
-sub can_load {
-    my ($module) = @_;
+sub all (&@) { ## no critic (SubroutinePrototypes)
+    my $f = shift;
+    foreach ( @_ ) {
+        return 0 unless $f->();
+    }
+    return 1;
+}
 
-    return $module->require();
+sub none (&@) { ## no critic (SubroutinePrototypes)
+    my $f = shift;
+    foreach ( @_ ) {
+        return 0 if $f->();
+    }
+    return 1;
 }
 
 1;
@@ -385,7 +466,7 @@ Returns an open file handle on either a command output, or a file.
 
 =back
 
-=head2 getSingleLine(%params)
+=head2 getFirstLine(%params)
 
 Returns the first line of given command output or given file content, with end
 of line removed.
@@ -400,6 +481,31 @@ of line removed.
 
 =back
 
+=head2 getFirstMatch(%params)
+
+Returns the result of applying given pattern on the first matching line of
+given command output or given file content.
+
+=over
+
+=item pattern a regexp
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getSubnetAddress($address, $mask)
+
+Returns the subnet address for IPv4.
+
+=head2 getSubnetAddressIPv6($address, $mask)
+
+Returns the subnet address for IPv6.
+
 =head2 getHostname()
 
 Returns host name, using hostname() under Unix, Win32::API under Windows.
@@ -412,3 +518,16 @@ Returns true if given binary can be executed.
 
 Returns true if given perl module can be loaded (and actually loads it).
 
+=head2 any BLOCK LIST
+
+Returns a true value if any item in LIST meets the criterion given through
+BLOCK.
+
+=head2 all BLOCK LIST
+
+Returns a true value if all items in LIST meet the criterion given through
+BLOCK.
+
+=head2 none BLOCK LIST
+
+Returns a true value if no item in LIST meets the criterion given through BLOCK.

@@ -17,7 +17,7 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Uptime
-    my $uptime = getSingleLine(command => 'uptime');
+    my $uptime = getFirstLine(command => 'uptime');
     my $seconds = 0;
     if ( $uptime =~ /.*\sup\s((\d+)\sdays\D+)?(\d{1,2}):(\d{1,2}).*/ ) {
         $seconds += $2 * 24 * 3600;
@@ -28,7 +28,7 @@ sub doInventory {
     # ISO format string conversion
     $uptime = getFormatedGmTime($seconds);
 
-    my $DeviceType = getSingleLine(command => 'uname -m');
+    my $DeviceType = getFirstLine(command => 'uname -m');
     $inventory->setHardware(DESCRIPTION => "$DeviceType/$uptime");
 }
 

@@ -25,7 +25,7 @@ sub doInventory {
         '%{INSTALLTIME:date}\t' .
         '%{SIZE}\t' .
         '%{SUMMARY}\n' . 
-        '\' 2>/dev/null';
+        '\'';
 
     my $packages = _getPackagesListFromRpm(
         logger => $logger, command => $command

@@ -31,7 +31,7 @@ sub doInventory {
     if (can_run('blkid')) {
         # use blkid if available, as it is filesystem-independant
         foreach my $drive (@drives) {
-            my $line = `blkid $drive->{VOLUMN} 2> /dev/null`;
+            my $line = getFirstLine(command => "blkid $drive->{VOLUMN}");
             $drive->{SERIAL} = $1 if $line =~ /\sUUID="(\S*)"\s/;
         }
     } else {
@@ -110,21 +110,16 @@ sub doInventory {
 }
 
 sub _getDrivesFromHal {
-    my $devices = _parseLshal('/usr/bin/lshal', '-|');
+    my $devices = _parseLshal(command => '/usr/bin/lshal');
     return @$devices;
 }
 
 sub _parseLshal {
-    my ($file, $mode) = @_;
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-   my $devices = [];
-   my $device = {};
+    my $devices = [];
+    my $device = {};
 
     while (my $line = <$handle>) {
         chomp $line;

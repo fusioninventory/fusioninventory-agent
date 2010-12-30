@@ -5,7 +5,7 @@ use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::BSD::Networks;
 use Test::More;
 
-my %tests = (
+my %ifconfig_tests = (
     'freebsd-8.1' => [
         {
             MTU         => '1500',
@@ -49,10 +49,10 @@ my %tests = (
     ]
 );
 
-plan tests => scalar keys %tests;
+plan tests => scalar keys %ifconfig_tests;
 
-foreach my $test (keys %tests) {
+foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/ifconfig/$test";
-    my $result = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_parseIfconfig($file, '<');
-    is_deeply($result, $tests{$test}, $test);
+    my @results = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_parseIfconfig(file => $file);
+    is_deeply(\@results, $ifconfig_tests{$test}, $test);
 }

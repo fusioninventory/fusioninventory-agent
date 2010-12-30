@@ -20,9 +20,9 @@ sub doInventory {
     # sysctl infos
 
     # example on *BSD: AlphaStation 255 4/232
-    my $SystemModel = getSingleLine(command => 'sysctl -n hw.model');
+    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
 
-    my $processorn = getSingleLine(command => 'sysctl -n hw.ncpu');
+    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
 
@@ -37,9 +37,9 @@ sub doInventory {
     # CPU: EV45 (21064A) major=6 minor=2
 
     my ($processort, $processors);
-    for (`dmesg`) {
+    foreach (`dmesg`) {
         if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
-        if (/$SystemModel,\s*(\S+)\s*MHz.*$/) { $processors = $1; }
+        if (/$SystemModel,\s*(\S+)\s*MHz/) { $processors = $1; }
     }
 
     $inventory->setBios(

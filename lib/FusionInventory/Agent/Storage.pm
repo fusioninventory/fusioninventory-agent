@@ -63,11 +63,23 @@ sub restore {
         idx => $idx
     );
 
-    if (-f $filePath) {
-        return retrieve($filePath);
-    }
+    return unless -f $filePath;
 
-    return {};
+    return retrieve($filePath);
+}
+
+sub exists {
+    my ($self, %params) = @_;
+
+    my $module = $params{module};
+    my $idx = $params{idx};
+
+    my $filePath = $self->_getFilePath(
+        module => $module,
+        idx => $idx
+    );
+
+    return -f $filePath;
 }
 
 sub getDirectory {
@@ -185,6 +197,23 @@ The index number (optional).
 =head2 restore(%params)
 
 Restore a saved data structure. The following arguments are allowed:
+
+=over
+
+=item module
+
+The name of the module which saved the data structure (mandatory).
+
+=item idx
+
+The index number (optional).
+
+=back
+
+=head2 exists(%params)
+
+Returns true if a saved data structure exists. The following arguments are
+allowed:
 
 =over
 

@@ -15,25 +15,22 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-#my $unit = 1024;
 
-    my $PhysicalMemory;
-    my $SwapFileSize;
+    my ($memory) = getFirstMatch(
+        command => 'prtconf',
+        logger  => $logger,
+        pattern => qr/^Memory\ssize:\s+(\S+)/
+    );
 
-# Memory informations
-    foreach(`prtconf`){
-        if(/^Memory\ssize:\s+(\S+)/){
-            #print "total memoire: $1";
-            $PhysicalMemory = $1};
-    }
-#Swap Informations
-    foreach(`swap -l`){
-        if(/\s+(\S+)$/){$SwapFileSize = $1};
-    }
+    my ($swap) = getFirstMatch(
+        command => 'swap -l',
+        logger  => $logger,
+        pattern => qr/\s+(\S+)$/
+    );
 
     $inventory->setHardware(
-        MEMORY =>  $PhysicalMemory,
-        SWAP =>    $SwapFileSize
+        MEMORY => $memory,
+        SWAP =>   $swap
     );
 }
 

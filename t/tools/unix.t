@@ -2474,13 +2474,35 @@ tmpfs                  1892704       140   1892564   1% /dev/shm
 #    aix => [ 'df -P -k ' ],
 );
 
+my %netstat_tests = (
+    openbsd => {
+        'default'     => '10.0.1.1',
+        '10.0.1/24'   => 'link#1',
+        '10.0.1.1'    => '00:1d:7e:43:96:57',
+        '10.0.1.100'  => '00:13:77:b3:cf:0c',
+        '10.0.1.115'  => '127.0.0.1',
+        '127/8'       => '127.0.0.1',
+        '127.0.0.1'   => '127.0.0.1',
+        '224/4'       => '127.0.0.1'
+    },
+    netbsd => {
+        'default'     => '10.0.1.1',
+        '10.0.1/24'   => 'link#1',
+        '10.0.1.1'    => '00:1d:7e:43:96:57',
+        '10.0.1.101'  => '00:1e:c2:0c:36:27',
+        '10.0.1.124'  => '127.0.0.1',
+        '127/8'       => '127.0.0.1',
+        '127.0.0.1'   => '127.0.0.1',
+    },
+);
+
 plan tests =>
-    (scalar keys %lspci_tests)        +
-    (scalar keys %df_tests)           +
-    (scalar keys %ps_tests)           +
-    (scalar @dhcp_leases_test)        +
-    (scalar keys %getDfoutput_tests)
-    ;
+    (scalar keys %lspci_tests)   +
+    (scalar keys %df_tests)      +
+    (scalar keys %ps_tests)      +
+    (scalar keys %netstat_tests) +
+    (scalar @dhcp_leases_test)   + 
+    (scalar keys %getDfoutput_tests);
 
 foreach my $test (keys %lspci_tests) {
     my $file = "resources/lspci/$test";
@@ -2526,4 +2548,10 @@ foreach my $osName (keys %getDfoutput_tests) {
     $OSNAME = $oldOSNAME;
     $ENV{PATH} = $oldOSNAME;
 }
+}
+
+foreach my $test (keys %netstat_tests) {
+    my $file = "resources/netstat/$test";
+    my $results = getRoutesFromNetstat(file => $file);
+    is_deeply($results, $netstat_tests{$test}, $test);
 }

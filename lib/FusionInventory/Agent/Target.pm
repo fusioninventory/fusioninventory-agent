@@ -14,14 +14,17 @@ sub new {
     die 'no id parameter' unless $params{id};
 
     my $self = {
-        id          => $params{id},
-        period      => $params{period} || 3600,
-        logger      => $params{logger},
-        format      => $params{format},
-        nextRunDate => undef,
+        id     => $params{id},
+        period => $params{period} || 3600,
+        logger => $params{logger} || FusionInventory::Agent::Logger->new(),
+        format => $params{format},
     };
 
     bless $self, $class;
+
+    # initialize next execution date
+    $self->{nextRunDate} =
+        time() + ($self->{period} / 2) + int rand($self->{period} / 2);
 
     # target-specific storage object
     $self->{storage} = FusionInventory::Agent::Storage->new(
@@ -29,8 +32,17 @@ sub new {
         directory => $params{basevardir} . '/' . $params{id}
     );
 
-    # restore previous state
-    $self->_loadState();
+    # restore previous state if it exists, otherwise save it
+    if ($self->{storage}->exists()) {
+        $self->_loadState();
+    } else {
+        $self->saveState();
+    }
+
+    $self->{logger}->debug(
+        "[target $self->{id}] target created, next run scheduled for " .
+        localtime($self->{nextRunDate})
+    );
     
     return $self;
 }
@@ -65,7 +77,6 @@ sub scheduleNextRun {
     $self->{logger}->debug(
         "[target $self->{id}] Next run scheduled for " . localtime($time)
     );
-
 }
 
 sub getFormat {
@@ -109,11 +120,10 @@ sub getDescription {
     my ($self) = @_;
 
     my $description = {
-        id   => $self->{id},
-        time =>
-            $self->{nextRunDate} ? localtime($self->{nextRunDate}) : 'now',
-        status =>
-            $self->{nextRunDate} ? 'waiting' : 'running'
+        id     => $self->{id},
+        period => $self->{period},
+        time   => scalar localtime($self->{nextRunDate}),
+        status => 'waiting'
     };
 
     return $description;
@@ -203,6 +213,10 @@ Get nextRunDate attribute.
 
 Set nextRunDate attribute.
 
+=head2 getFormat()
+
+Get format attribute.
+
 =head2 scheduleNextRun($offset)
 
 Re-schedule the target to current time + given offset. If offset is not given,
@@ -216,11 +230,7 @@ Return the storage object for this target.
 
 Save persistant part of current state.
 
-=head2 run()
+=head2 getDescription()
 
-Run the tasks (inventory, snmp scan, etc) on the target
-
-=head2 getDescriptionString()
-
-Return a string to display to user in a 'target' field.
+Return a description of the target, as an hash of target attributes.
 

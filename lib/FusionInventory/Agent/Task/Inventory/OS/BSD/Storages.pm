@@ -15,25 +15,27 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @values;
-    my @devices;
+    # get a list of devices from /etc/fstab
+    my $handle = getFileHandle(file => '/etc/fstab', logger => $logger);
+    return unless $handle;
 
-    if (open my $handle, '<', '/etc/fstab') {
-        while(<$handle>){
-            if(/^\/dev\/(\S+)/) {
-                push @devices, $1 unless grep(/^$1$/, @devices);
-            }
-        }
-        close $handle;
-    } else {
-        warn "Can't open /etc/fstab: $ERRNO";
+    my @devices;
+    while (<$handle>) {
+        next unless m{/^/dev/(\S+)};
+        push @devices, $1;
     }
-    for my $dev (@devices) {
-        my ($model,$capacity,$found, $manufacturer);
-        for(`dmesg`){
-            if(/^$dev/) { $found = 1;}
-            if(/^$dev.*<(.*)>/) { $model = $1; }
-            if(/^$dev.*\s+(\d+)\s*MB/) { $capacity = $1;}
+    close $handle;
+
+    #  filter duplicates
+    my %seen;
+    @devices = grep { !$seen{$_}++ } @devices;
+
+    # parse dmesg
+    foreach my $device (@devices) {
+        my ($model, $capacity, $manufacturer);
+        foreach (`dmesg`){
+            if(/^$device.*<(.*)>/) { $model = $1; }
+            if(/^$device.*\s+(\d+)\s*MB/) { $capacity = $1;}
         }
 
         if ($model) {
@@ -49,8 +51,7 @@ sub doInventory {
         $inventory->addStorage({
             MANUFACTURER => $manufacturer,
             MODEL => $model,
-            DESCRIPTION => $dev,
-            TYPE => '',
+            DESCRIPTION => $device,
             DISKSIZE => $capacity
         });
     }

@@ -32,24 +32,22 @@ sub doInventory {
         return;
     }
 
-    my $name;
-    my $status;
-    while ($name = readdir($handle)) {
+    while (my $name = readdir($handle)) {
         next if $name =~ /^\./;
         next unless $name =~ /\S/;
-        my $statusString = getSingleLine(command => "vserver $name status");
-        if ($statusString =~ /is stopped/) {
-            $status = 'off';
-        } elsif ($statusString =~ /is running/) {
-            $status = 'running';
-        }
+
+        my $line = getFirstLine(command => "vserver $name status");
+        my $status =
+            $line =~ /is stopped/ ? 'off'     :
+            $line =~ /is running/ ? 'running' :
+                                    undef     ;
 
         $inventory->addVirtualMachine ({
-                NAME      => $name,
-                STATUS    => $status,
-                SUBSYSTEM => $utilVserver,
-                VMTYPE    => "vserver",
-            });
+            NAME      => $name,
+            STATUS    => $status,
+            SUBSYSTEM => $utilVserver,
+            VMTYPE    => "vserver",
+        });
     }
     close $handle;
 }

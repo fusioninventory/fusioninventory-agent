@@ -19,66 +19,63 @@ sub _getDdcprobeData {
 
     return unless $handle;
 
-    my $ddcprobeData;
-    foreach (<$handle>) {
-        s/[[:cntrl:]]//g;
-        s/[^[:ascii:]]//g;
-        $ddcprobeData->{$1} = $2 if /^(\S+):\s+(.*)/;
+    my $data;
+    foreach my $line (<$handle>) {
+        $line =~ s/[[:cntrl:]]//g;
+        $line =~ s/[^[:ascii:]]//g;
+        $data->{$1} = $2 if $line =~ /^(\S+):\s+(.*)/;
     }
 
-    return $ddcprobeData;
+    return $data;
 }
 
 sub _parseXorgFd {
     my ($file) = @_;
 
-    my $xorgData;
-    if (open XORG, $file) {
-        foreach (<XORG>) {
-            if (!$xorgData->{resolution} && /Modeline\s"(\S+?)"/) {
-                $xorgData->{resolution}=$1 
-# Intel
-            } elsif (/Integrated Graphics Chipset:\s+(.*)/) {
-                $xorgData->{name}=$1;
-            }
-# Nvidia
-            elsif (/Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
-                $xorgData->{resolution}="$1x$2";
-            }
-            elsif (/NVIDIA GPU\s*(.*?)\s*at/) {
-                $xorgData->{name}=$1;
-            }
-            elsif (/VESA VBE OEM:\s*(.*)/) {
-                $xorgData->{name}=$1;
-            }
-            elsif (/VESA VBE OEM Product:\s*(.*)/) {
-                $xorgData->{product}=$1;
-            }
-            elsif (/VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
-                $xorgData->{memory}=$1.$2;
-            }
-# ATI /Radeon
-            elsif (/RADEON\(0\): Chipset: "(.*?)"/i) {
-                $xorgData->{name}=$1;
-            }
-# VESA / XFree86
-            elsif (/Virtual size is (\S+)/i) {
-                $xorgData->{resolution}=$1;
-            }
-            elsif (/Primary Device is: PCI (.+)/i) {
-                $xorgData->{pcislot}=$1;
-                # mimic lspci pci slot format
-                $xorgData->{pcislot} =~ s/^00@//;
-                $xorgData->{pcislot} =~ s/(\d{2}):(\d{2}):(\d)$/$1:$2.$3/;
-            }
-# Nouveau
-            elsif (/NOUVEAU\(0\): Chipset: "(.*)"/) {
-                $xorgData->{product}=$1;
-            }
+    my $handle = getFileHandle(
+        file => $file
+    );
+
+    return unless $handle;
+
+    my $data;
+    foreach my $line (<$handle>) {
+        if ($line =~ /Modeline\s"(\S+?)"/) {
+            $data->{resolution} = $1 if !$data->{resolution};
+        } elsif ($line =~ /Integrated Graphics Chipset:\s+(.*)/) {
+            # Intel
+            $data->{name} = $1;
+        } elsif ($line =~ /Virtual screen size determined to be (\d+)\s*x\s*(\d+)/) {
+            # Nvidia
+            $data->{resolution} = "$1x$2";
+        } elsif ($line =~ /NVIDIA GPU\s*(.*?)\s*at/) {
+            $data->{name} = $1;
+        } elsif ($line =~ /VESA VBE OEM:\s*(.*)/) {
+            $data->{name} = $1;
+        } elsif ($line =~ /VESA VBE OEM Product:\s*(.*)/) {
+            $data->{product} = $1;
+        } elsif ($line =~ /VESA VBE Total Mem: (\d+)\s*(\w+)/i) {
+            $data->{memory} = $1 . $2;
+        } elsif ($line =~ /RADEON\(0\): Chipset: "(.*?)"/i) {
+            # ATI /Radeon
+            $data->{name} = $1;
+        } elsif ($line =~ /Virtual size is (\S+)/i) {
+            # VESA / XFree86
+            $data->{resolution} = $1;
+        } elsif ($line =~ /Primary Device is: PCI (.+)/i) {
+            $data->{pcislot} = $1;
+            # mimic lspci pci slot format
+            $data->{pcislot} =~ s/^00@//;
+            $data->{pcislot} =~ s/(\d{2}):(\d{2}):(\d)$/$1:$2.$3/;
+        } elsif ($line =~ /NOUVEAU\(0\): Chipset: "(.*)"/) {
+            # Nouveau
+            $data->{product} = $1;
         }
-        close(XORG);
     }
-    return $xorgData;
+
+    close $handle;
+
+    return $data;
 }
 
 sub doInventory {
@@ -99,7 +96,11 @@ sub doInventory {
 
     my $xorgData;
     if ($xOrgPid) {
-        $xorgData = _parseXorgFd("</proc/$xOrgPid/fd/0");
+        # check than fd0 is actually a link to Xorg log file, and not to
+        # something else, such as /dev/input/event6
+        my $link = "/proc/$xOrgPid/fd/0";
+        my $file = readlink($link);
+        $xorgData = _parseXorgFd($file) if $file =~ /\.log$/;
     }
 
     my $memory = $xorgData->{memory} || $ddcprobeData->{memory};

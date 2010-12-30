@@ -96,10 +96,8 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Agent::Logger->new();
-
 foreach my $test (keys %tests) {
     my $file = "resources/vboxmanage/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox::_parseVBoxManage($logger, $file, '<');
+    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox::_parseVBoxManage(file => $file);
     is_deeply(\@machines, $tests{$test}, $test);
 }

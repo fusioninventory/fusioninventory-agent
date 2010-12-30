@@ -1,0 +1,15 @@
+smartctl 5.40 2010-10-16 r3189 [x86_64-mandriva-linux-gnu] (local build)
+Copyright (C) 2002-10 by Bruce Allen, http://smartmontools.sourceforge.net
+
+=== START OF INFORMATION SECTION ===
+Device Model:     SAMSUNG SSD PM800 TM 128GB
+Serial Number:    DFW1W11002SE002B3117
+Firmware Version: VBM24D1Q
+User Capacity:    128 035 676 160 bytes
+Device is:        Not in smartctl database [for details use: -P showall]
+ATA Version is:   7
+ATA Standard is:  ATA/ATAPI-7 T13 1532D revision 1
+Local Time is:    Thu Dec 23 15:15:06 2010 CET
+SMART support is: Available - device has SMART capability.
+SMART support is: Enabled
+

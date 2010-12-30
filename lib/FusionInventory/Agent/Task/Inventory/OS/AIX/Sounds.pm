@@ -14,7 +14,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    for(`lsdev -Cc adapter -F 'name:type:description'`){
+    foreach (`lsdev -Cc adapter -F 'name:type:description'`){
         if(/audio/i){
             if(/^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
                 $inventory->addSound({

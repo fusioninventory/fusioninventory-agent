@@ -61,49 +61,55 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # return immediatly if vm type has already been found
-    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM}->[0] ne "Physical";
+    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
 
-    my $dmesg;
-    # On OpenBSD, dmesg is in sbin
-    # http://forge.fusioninventory.org/issues/402
-    # TODO: we should remove the head call here
-    foreach (qw(/bin/dmesg /sbin/dmesg)) {
-        next unless -f;
-        $dmesg = $_.' | head -n 750';
+    my $status = _getStatus($logger);
+
+    # for consistency with HVM domU
+    if (
+        $status eq 'Xen' &&
+        !$inventory->{h}{CONTENT}{BIOS}{SMANUFACTURER}
+    ) {
+        $inventory->setBios(
+            SMANUFACTURER => 'Xen',
+            SMODEL => 'PVM domU'
+        );
     }
 
-    my $status;
-    my $found = 0;
+    $inventory->setHardware(
+        VMSYSTEM => $status,
+    );
+
+}
+
+sub _getStatus {
+    my ($logger) = @_;
 
     # Solaris zones
     if (can_run('/usr/sbin/zoneadm')) {
         my @solaris_zones =
             grep { !/global/ }
             `/usr/sbin/zoneadm list 2>/dev/null`;
-        if (@solaris_zones) {
-            $status = "SolarisZone";
-            $found = 1;
-        }
+        return 'SolarisZone' if @solaris_zones;
     }
 
+    # Xen PV host
     if (
         -d '/proc/xen' ||
-        _check_file_content(
-            '/sys/devices/system/clocksource/clocksource0/available_clocksource',
-            'xen'
+        getFirstMatch(
+            file    => '/sys/devices/system/clocksource/clocksource0/available_clocksource',
+            pattern => qr/xen/
         )
     ) {
-        $found = 1 ;
-        if (_check_file_content('/proc/xen/capabilities', 'control_d')) {
+        if (getFirstMatch(
+            file    => '/proc/xen/capabilities',
+            pattern => qr/control_d/
+        )) {
             # dom0 host
+            return 'Physical';
         } else {
             # domU PV host
-            $status = "Xen";
-            # those information can't be extracted from dmidecode
-            $inventory->setBios(
-                SMANUFACTURER => 'Xen',
-                SMODEL => 'PVM domU'
-            );
+            return 'Xen';
         }
     }
 
@@ -113,21 +119,19 @@ sub doInventory {
         '^xen_\w+front\s' => 'Xen',
     );
 
-    if ($found == 0) {
-        if (open my $handle, '<', '/proc/modules') {
-            while(<$handle>) {
-                foreach my $str (keys %modmap) {
-                    if (/$str/) {
-                        $status = "$modmap{$str}";
-                        $found = 1;
-                        last;
-                    }
-                }
+    if (-f '/proc/modules') {
+        my $handle = getFileHandle(
+            file => '/proc/modules',
+            logger => $logger
+        );
+        while (<$handle>) {
+            foreach my $str (keys %modmap) {
+                next unless /$str/;
+                close $handle;
+                return $modmap{$str};
             }
-            close $handle;
-#        } else {
-#            $logger->debug("Can't open /proc/modules: $ERRNO");
         }
+        close $handle;
     }
 
     # Let's parse some logs & /proc files for well known strings
@@ -154,96 +158,60 @@ sub doInventory {
         'Xen reported:' => 'Xen',
         'Xen: \d+ - \d+' => 'Xen',
         'xen-vbd: registered block device' => 'Xen',
-        'ACPI: RSDP \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: XSDT \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: FADT \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: MADT \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: HPET \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: SSDT \(v\d+\s+Xen ' => 'Xen',
-        'ACPI: DSDT \(v\d+\s+Xen ' => 'Xen',
+        'ACPI: [A-Z]{4} \(v\d+\s+Xen ' => 'Xen',
     );
 
-    if ($found == 0) {
-        if (open my $handle, '<', '/var/log/dmesg') {
-            while(<$handle>) {
-                foreach my $str (keys %msgmap) {
-                    if (/$str/) {
-                        $status = "$msgmap{$str}";
-                        $found = 1;
-                        last;
-                    }
-                }
-            }
-            close($handle);
-#        } else {
-#            $logger->debug("Can't open /var/log/dmesg: $ERRNO");
-        }
-    }
-
-    # Read kernel ringbuffer directly
-    if ($found == 0 && $dmesg) {
-        if (open my $handle, '-|', $dmesg) {
-            while (<$handle>) {
-                foreach my $str (keys %msgmap) {
-                    if (/$str/) {
-                        $status = "$msgmap{$str}";
-                        $found = 1;
-                        last;
-                    }
-                }
-            }
-            close $handle;
-#        } else {
-#            $logger->debug("Can't run $dmesg: $ERRNO");
-        }
-    }
-
-    if ($found == 0) {
-        if (open my $handle, '<', '/proc/scsi/scsi') {
-            while (<$handle>) {
-                foreach my $str (keys %msgmap) {
-                    if (/$str/) {
-                        $status = "$msgmap{$str}";
-                        $found = 1;
-                        last;
-                    }
-                }
-            }
-            close $handle;
-#        } else {
-#            $logger->debug("Can't open /proc/scsi/scsi: $ERRNO");
-        }
-    }
-
-    if ($status) {
-        $inventory->setHardware(
-            VMSYSTEM => $status,
+    if (-f '/var/log/dmesg') {
+        my $handle = getFileHandle(
+            file => '/var/log/dmesg',
+            logger => $logger
         );
-    }
-}
-
-sub _check_file_content {
-    my ($file, $pattern) = @_;
-
-    return 0 unless -r $file;
-
-    my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Can't open file $file: $ERRNO";
-        return;
-    }
-
-    my $found = 0;
-
-    while (my $line = <$handle>) {
-        if ($line =~ /$pattern/) {
-            $found = 1;
-            last;
+        while (<$handle>) {
+            foreach my $str (keys %msgmap) {
+                next unless /$str/;
+                close $handle;
+                return $msgmap{$str};
+            }
         }
+        close $handle;
     }
-    close $handle;
 
-    return $found;
+    # On OpenBSD, dmesg is in sbin
+    # http://forge.fusioninventory.org/issues/402
+    # TODO: we should remove the head call here
+    foreach my $dmesg (qw(/bin/dmesg /sbin/dmesg)) {
+        next unless -f $dmesg;
+        my $command = "$dmesg | head -n 750";
+
+        my $handle = getFileHandle(
+            command => $command,
+            logger => $logger,
+        );
+        while (<$handle>) {
+            foreach my $str (keys %msgmap) {
+                next unless /$str/;
+                close $handle;
+                return $msgmap{$str};
+            }
+        }
+        close $handle;
+    }
+
+    if (-f '/proc/scsi/scsi') {
+        my $handle = getFileHandle(
+            file => '/proc/scsi/scsi',
+            logger => $logger
+        );
+        while (<$handle>) {
+            foreach my $str (keys %msgmap) {
+                next unless /$str/;
+                close $handle;
+                return $msgmap{$str};
+            }
+        }
+        close $handle;
+    }
+
 }
 
 1;

@@ -3083,7 +3083,7 @@ plan tests =>
     (scalar @speed_tests_nok) +
     (scalar @manufacturer_tests_ok) +
     (scalar @manufacturer_tests_nok) +
-    2;
+    4;
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/dmidecode/$test";
@@ -3139,17 +3139,29 @@ foreach my $test (@manufacturer_tests_nok) {
 }
 
 my $tmp = File::Temp->new(UNLINK => $ENV{TEST_DEBUG} ? 0 : 1);
-print $tmp "first line\n";
-print $tmp "second line\n";
+print $tmp "foo\n";
+print $tmp "bar\n";
+print $tmp "baz\n";
 close $tmp;
 
 is(
-    getSingleLine(file => $tmp),
-    'first line',
+    getFirstLine(file => $tmp),
+    'foo',
     "simple file reading"
 );
 is(
-    getSingleLine(command => 'perl -MConfig -e \'print "$Config{osname}\n"\''),
-    $Config{osname},
+    getFirstLine(command => 'perl -MConfig -e \'print "foo\nbar\n\baz\n"\''),
+    'foo',
     "simple command reading"
 );
+is_deeply(
+    [ getFirstMatch(file => $tmp, pattern => qr/^(b\w+)$/) ],
+    [ qw/bar/ ],
+    "first match in file reading"
+);
+is_deeply(
+    [ getFirstMatch(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\'', pattern => qr/^(b\w+)$/) ],
+    [ qw/bar/ ],
+    "first match in command reading"
+);
+

@@ -28,8 +28,8 @@ sub doInventory {
     my $SystemSerial;
     my $SystemUUID;
 
+    $SystemModel = getFirstLine(command => 'model');
 
-    $SystemModel=`model`;
     if ( can_run('/usr/contrib/bin/machinfo') ) {
         foreach ( `/usr/contrib/bin/machinfo` ) {
             if ( /Firmware\s+revision\s+[:=]\s+(\S+)/ ) {
@@ -41,11 +41,11 @@ sub doInventory {
             }
         }
     } else { #Could not run machinfo
-        for ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
+        foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
             next unless /PDC Firmware/;
             if ( /Revision:\s+(\S+)/ ) { $BiosVersion = "PDC $1" }
         }
-        for ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
+        foreach ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
             next unless /System Serial Number/;
             if ( /:\s+(\w+)/ ) { $SystemSerial = $1 }
         }

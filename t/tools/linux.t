@@ -281,10 +281,15 @@ my %hal_tests = (
     ]
 );
 
+my %smartctl_tests = (
+    'dell-xt2' => 'DFW1W11002SE002B3117'
+);
+
 plan tests => 
     (scalar keys %udev_tests) +
     (scalar keys %cpu_tests)  +
-    (scalar keys %hal_tests);
+    (scalar keys %hal_tests)  +
+    (scalar keys %smartctl_tests);
 
 foreach my $test (keys %udev_tests) {
     my $file = "resources/udev/$test";
@@ -304,4 +309,10 @@ foreach my $test (keys %hal_tests) {
     my $file = "resources/hal/$test";
     my $results = getDevicesFromHal(file => $file);
     is_deeply($results, $hal_tests{$test}, $test);
+}
+
+foreach my $test (keys %smartctl_tests) {
+    my $file = "resources/smartctl/$test";
+    my $result = getSerialnumber(file => $file);
+    is($result, $smartctl_tests{$test}, $test);
 }

@@ -20,12 +20,12 @@ sub doInventory {
 
     #lsvpd
     my @lsvpd = `lsvpd`;  
-    s/^\*// for (@lsvpd);
+    s/^\*// foreach (@lsvpd);
 
     #SCSI disks 
     $n=0;
     @scsi=`lsdev -Cc disk -s scsi -F 'name:description'`;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -39,14 +39,14 @@ sub doInventory {
         $device = $1;
         $description = $2;
         @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
-        for (@lsattr){
+        foreach (@lsattr){
             if (! /^#/ ){
                 $capacity= $_;
                 chomp($capacity);
                 $capacity =~ s/(\s+)$//;
             }
         }
-        for (@lsvpd) {
+        foreach (@lsvpd) {
             if (/^AX $device/) {
                 $flag = 1;
             }
@@ -92,7 +92,7 @@ sub doInventory {
     @lsattr= ();
     $n=0;
     @scsi=`lsdev -Cc disk -s vscsi -F 'name:description'`;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -105,7 +105,7 @@ sub doInventory {
         $device = $1;
         $description = $2;
         @lsattr = `lspv  $device 2>&1`;
-        for (@lsattr) {
+        foreach (@lsattr) {
             if ( ! ( /^0516-320.*/ ) ) {
                 if (/TOTAL PPs:/ ) {
                     ($capacity,$model) = split(/\(/, $_);
@@ -133,7 +133,7 @@ sub doInventory {
     @lsattr= ();
     @scsi=`lsdev -Cc cdrom -s scsi -F 'name:description:status'`;
     $i=0;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -148,7 +148,7 @@ sub doInventory {
         $capacity = "";
         if (($status =~ /Available/)){
             @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
-            for (@lsattr){
+            foreach (@lsattr){
                 if (! /^#/ ){
                     $capacity = $_;
                     chomp($capacity);
@@ -156,7 +156,7 @@ sub doInventory {
                 }
             }
             $description = $scsi[$n];
-            for (@lsvpd){
+            foreach (@lsvpd){
                 if (/^AX $device/) {
                     $flag = 1;
                 }
@@ -199,7 +199,7 @@ sub doInventory {
     @lsattr= ();
     @scsi=`lsdev -Cc tape -s scsi -F 'name:description:status'`;
     $i=0;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -214,14 +214,14 @@ sub doInventory {
         $capacity = "";
         if (($status =~ /Available/)){
             @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
-            for (@lsattr){
+            foreach (@lsattr){
                 if (! /^#/ ){
                     $capacity= $_;
                     chomp($capacity);
                     $capacity =~ s/(\s+)$//;
                 }
             }
-            for (@lsvpd){
+            foreach (@lsvpd){
                 if (/^AX $device/) {
                     $flag = 1;
                 }
@@ -264,7 +264,7 @@ sub doInventory {
     @lsattr= ();
     @scsi=`lsdev -Cc diskette -F 'name:description:status'`;
     $i=0;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -279,7 +279,7 @@ sub doInventory {
         $capacity = "";
         if (($status =~ /Available/)){
             @lsattr = `lsattr -EOl $device -a 'fdtype'`;
-            for (@lsattr){
+            foreach (@lsattr){
                 if (! /^#/ ) {
                     $capacity= $_;
                     chomp($capacity);

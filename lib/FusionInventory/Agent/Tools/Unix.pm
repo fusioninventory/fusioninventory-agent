@@ -18,20 +18,28 @@ our @EXPORT = qw(
     getFilesystemsFromDf
     getProcessesFromPs
     getControllersFromLspci
+    getRoutesFromNetstat
 );
 
 memoize('getControllersFromLspci');
 
 sub getDeviceCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $capacity;
-    foreach my $line (`$command /dev/$dev 2>/dev/null`) {
-        next unless $line =~ /^(\d+)/;
-        $capacity = $1;
-    }
+    my %params = @_;
+
+    return unless $params{device};
+
+    # GNU version requires -p flag
+    my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
+        "/sbin/fdisk -p -s $params{device}" :
+        "/sbin/fdisk -s $params{device}"    ;
+
+    my $capacity = getFirstline(
+        command => $command,
+        logger  => $params{logger},
+    );
+
     $capacity = int($capacity / 1000) if $capacity;
+
     return $capacity;
 }
 
@@ -370,6 +378,26 @@ sub getControllersFromLspci {
     return @controllers;
 }
 
+sub getRoutesFromNetstat {
+    my %params = (
+        command => 'netstat -nr -f inet',
+        @_
+    );
+
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my $routes;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+) \s+ (\S+) \s+ \S+/x;
+        next if $1 eq 'Destination';
+        $routes->{$1} = $2;
+    }
+    close $handle;
+
+    return $routes;
+}
+
 1;
 __END__
 
@@ -383,9 +411,19 @@ This module provides some Unix-specific generic functions.
 
 =head1 FUNCTIONS
 
-=head2 getDeviceCapacity($device)
+=head2 getDeviceCapacity(%params)
 
-Returns storage capacity of given device.
+Returns storage capacity of given device, using fdisk.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item device the device to use
+
+=back
 
 =head2 getIpDhcp
 
@@ -435,6 +473,20 @@ output.
 =item logger a logger object
 
 =item command the exact command to use (default: lspci -vvv -nn)
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+head2 getRoutesFromNetstat
+
+Returns the routing table as an hashref, by parsing netstat command output.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use (default: netstat -nr -f inet)
 
 =item file the file to use, as an alternative to the command
 

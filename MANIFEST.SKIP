@@ -1,10 +1,6 @@
-CVS/
 .git
-.bzr
 ^00
 ^.gitignore$
-^.cvsignore$
-.svn
 
 ^blib
 ^_build
@@ -21,6 +17,7 @@ CVS/
 \.sw[a-z]$
 \.#
 \.swp
+\.1\.html$
 
 
 ^FusionInventory-Agent.*

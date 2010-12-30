@@ -6,9 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return
-        can_run('hponcfg') &&
-        can_load("Net::IP");
+    return can_run('hponcfg');
 }
 
 sub doInventory {
@@ -16,9 +14,6 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
-
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
 
     my $name;
     my $ipmask;
@@ -44,9 +39,7 @@ sub doInventory {
             $status = 'Up' if $1 =~ /Y/i;
         }
     }
-    if ( defined($ipaddress) && defined($ipmask) ) {
-        $ipsubnet = ip_bintoip(ip_iptobin ($ipaddress ,4) & ip_iptobin ($ipmask ,4), 4);
-    }
+    $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
     #Some cleanups
     if ( $ipaddress eq '0.0.0.0' ) { $ipaddress = "" }

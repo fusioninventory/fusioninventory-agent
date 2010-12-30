@@ -20,13 +20,11 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $command = 'swlist';
-
-    my $handle;
-    if (!open $handle, '-|', $command) {
-        warn "Can't run $command: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(
+        command => 'swlist',
+        logger => $logger
+    );
+    return unless $handle;
 
     while (my $line = <$handle>) {
         next if $line =~ /^#/;

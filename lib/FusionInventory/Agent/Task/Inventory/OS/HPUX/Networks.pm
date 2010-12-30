@@ -23,120 +23,102 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my $name;
-    my $lanid;
-    my $ipmask;
-    my $ipgateway;
-    my $status;
-    my $macaddr;
-    my $speed;
-    my $type;
-    my $ipsubnet;
-    my $description;
-    my $ipaddress;
-
-    my $hostname = hostname();
-
-    if (open my $handle, '<', '/etc/hosts') {
-        while (my $line = <$handle>) {
-            next unless $line =~ /$hostname/;
-            if ($line =~ /(^\d+\.\d+\.\d+\.\d+)\s+/ ) {
-                $inventory->setHardware(IPADDR => $1);
-                last;
-            }
-        }
-        close $handle;
-    } else {
-        warn "Can't open /etc/hosts: $ERRNO";
-        return;
+    # set list of network interfaces
+    my $routes = _getRoutes();
+    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
     }
 
-    my %gateway;
+    # set global parameters
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
+
+    $inventory->setHardware(
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{'default/0.0.0.0'}
+    );
+}
+
+
+sub _getRoutes {
+
+    my $routes;
     foreach (`netstat -nrv`) {
         if (/^(\S+\/\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
-            $gateway{$1} = $2 if not defined $gateway{$1}; #Just keep the first one
+            $routes->{$1} = $2 if not defined $routes->{$1}; #Just keep the first one
         }
     }
-    if (defined ($gateway{'default/0.0.0.0'})) {
-        $inventory->setHardware(
-            DEFAULTGATEWAY => $gateway{'default/0.0.0.0'}
-        );
+    return $routes;
+}
+
+sub _getInterfaces {
+    my ($logger, $routes) = @_;
+
+    my @interfaces;
+
+    foreach (`lanscan -iap`) {
+        my ($interface, $name, $lanid);
+        next unless /^(\S+)\s(\S+)\s(\S+)\s+(\S+)/;
+        $interface->{MACADDR} = $1;
+        $name = $2;
+        $lanid = $4;
+
+        if ($interface->{MACADDR} =~ /^0x(..)(..)(..)(..)(..)(..)$/) {
+            $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6"
+        }
+
+        foreach (`lanadmin -g $lanid`) {
+            if (/Type.+=\s(.+)/) { $interface->{TYPE} = $1; }
+            if (/Description\s+=\s(.+)/) { $interface->{DESCRIPTION} = $1; }
+            if (/Speed.+=\s(\d+)/) {
+                $interface->{SPEED} = ($1 > 1000000)? $1/1000000 : $1; # in old version speed was given in Mbps and we want speed in Mbps
+            }
+            if (/Operation Status.+=\sdown\W/i) { $interface->{STATUS} = "Down"; } #It is not the only criteria
+        }
+
+        foreach (`ifconfig $name 2> /dev/null`) {
+            if ( not $interface->{STATUS} and /$name:\s+flags=.*\WUP\W/ ) { #Its status is not reported as down in lanadmin -g
+                $interface->{STATUS} = 'Up';
+            }
+            if (/inet\s(\S+)\snetmask\s(\S+)\s/) {
+                $interface->{IPADDRESS} = $1;
+                $interface->{IPMASK} = $2;
+                if ($interface->{IPMASK} =~ /(..)(..)(..)(..)/) {
+                    $interface->{IPMASK} = sprintf ("%i.%i.%i.%i",hex($1),hex($2),hex($3),hex($4));
+                }
+            }
+        }
+
+        $interface->{IPSUBNET} = join '.', unpack('C4C4C4C4', pack('B32', 
+                unpack('B32', pack('C4C4C4C4', split(/\./, $interface->{IPADDRESS}))) 
+                & unpack('B32', pack('C4C4C4C4', split(/\./, $interface->{IPMASK}))) 
+            ));
+
+        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET} . '/' . $interface->{IPMASK}};
+        # replace the $ipaddress (ie IP Address of the interface itself) by the default gateway IP adress if it exists
+        if (
+            defined $interface->{IPGATEWAY} and
+            $interface->{IPGATEWAY} eq $interface->{IPADDRESS} and
+            defined $routes->{'default/0.0.0.0'}
+        ) {
+            $interface->{IPGATEWAY} = $routes->{'default/0.0.0.0'}
+        }
+
+        # Some cleanups
+        if ($interface->{IPADDRESS} eq '0.0.0.0') { $interface->{IPADDRESS} = "" }
+        if (not $interface->{IPADDRESS} and not $interface->{IPMASK} and $interface->{IPSUBNET} eq '0.0.0.0') { $interface->{IPSUBNET} = "" }
+        if (not $interface->{STATUS}) { $interface->{STATUS} = 'Down' }
+
+        push @interfaces, $interface;
     }
 
-    for ( `lanscan -iap`) {
-        # Reinit variables
-        $name="";
-        $lanid="";
-        $ipmask="";
-        $ipgateway="";
-        $status="";
-        $macaddr="";
-        $speed="";
-        $type="";
-        $ipsubnet="";
-        $description="";
-        $ipaddress="";
-
-        if ( /^(\S+)\s(\S+)\s(\S+)\s+(\S+)/) {
-            $macaddr=$1;
-            $name=$2;
-            $lanid=$4;
-            if ( $macaddr =~ /^0x(..)(..)(..)(..)(..)(..)$/ ) { $macaddr = "$1:$2:$3:$4:$5:$6" }
-            #print "name $name macaddr $macaddr lanid $lanid\n";
-            for ( `lanadmin -g $lanid` ) {
-                if (/Type.+=\s(.+)/) { $type = $1; }
-                if (/Description\s+=\s(.+)/) { $description = $1; }
-                if (/Speed.+=\s(\d+)/) {
-                    $speed = ($1 > 1000000)? $1/1000000 : $1; # in old version speed was given in Mbps and we want speed in Mbps
-                }
-                if (/Operation Status.+=\sdown\W/i) { $status = "Down"; } #It is not the only criteria
-            } # for lanadmin
-            #print "name $name macaddr $macaddr lanid $lanid speed $speed status $status \n";
-            for ( `ifconfig $name 2> /dev/null` ) {
-                if ( not $status and /$name:\s+flags=.*\WUP\W/ ) { #Its status is not reported as down in lanadmin -g
-                    $status = 'Up';
-                }
-                if ( /inet\s(\S+)\snetmask\s(\S+)\s/ ) {
-                    $ipaddress=$1;
-                    $ipmask=$2;
-                    if ($ipmask =~ /(..)(..)(..)(..)/) {
-                        $ipmask=sprintf ("%i.%i.%i.%i",hex($1),hex($2),hex($3),hex($4));
-                    }
-                }
-            } # For ifconfig
-            $ipsubnet = join '.', unpack('C4C4C4C4', pack('B32', 
-                    unpack('B32', pack('C4C4C4C4', split(/\./, $ipaddress))) 
-                    & unpack('B32', pack('C4C4C4C4', split(/\./, $ipmask))) 
-                ));
-
-            $ipgateway = $gateway{$ipsubnet.'/'.$ipmask};
-            # replace the $ipaddress (ie IP Address of the interface itself) by the default gateway IP adress if it exists
-            if (defined($ipgateway) and $ipgateway eq $ipaddress and defined($gateway{'default/0.0.0.0'})) {
-                $ipgateway = $gateway{'default/0.0.0.0'}
-            }
-
-            #Some cleanups
-            if ( $ipaddress eq '0.0.0.0' ) { $ipaddress = "" }
-            if ( not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0' ) { $ipsubnet = "" }
-            if ( not $status ) { $status = 'Down' }
-
-            $inventory->addNetwork({
-                DESCRIPTION => $description,
-                IPADDRESS => $ipaddress,
-                IPMASK => $ipmask,
-                IPSUBNET => $ipsubnet,
-                MACADDR => $macaddr,
-                STATUS => $status,
-                TYPE => $type,
-                SPEED => $speed,
-                IPGATEWAY => $ipgateway,
-#        PCISLOT => $pcislot,
-#        DRIVER => $driver,
-#        VIRTUALDEV => $virtualdev,
-            });
-        } # If
-    } # For lanscan
+    return @interfaces;
 }
 
 1;

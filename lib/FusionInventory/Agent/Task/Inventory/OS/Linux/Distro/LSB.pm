@@ -18,7 +18,7 @@ sub doInventory {
     foreach (`lsb_release -d`) {
         $release = $1 if /Description:\s+(.+)/;
     }
-    my $OSComment = getSingleLine(command => 'uname -v');
+    my $OSComment = getFirstLine(command => 'uname -v');
 
     $inventory->setHardware(
         OSNAME     => $release,

@@ -15,6 +15,7 @@ our @EXPORT = qw(
     getDevicesFromHal
     getDevicesFromProc
     getCPUsFromProc
+    getSerialnumber
 );
 
 memoize('getDevicesFromUdev');
@@ -34,7 +35,7 @@ sub getDevicesFromUdev {
 
     foreach my $device (@$devices) {
         next if $device->{TYPE} eq 'cd';
-        $device->{DISKSIZE} = getDeviceCapacity($device->{NAME})
+        $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME})
     }
 
     return $devices;
@@ -43,12 +44,8 @@ sub getDevicesFromUdev {
 sub _parseUdevEntry {
     my %params = @_;
 
-    my $handle;
-    if (!open $handle, '<', $params{file}) {
-        $params{logger}->error("Can't open $params{file}: $ERRNO")
-            if $params{logger};
-        return;
-    }
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
     my ($result, $serial);
     while (my $line = <$handle>) {
@@ -173,18 +170,22 @@ sub getDevicesFromProc {
         push(@names, $1);
     }
 
-    my $command = `fdisk -v` =~ '^GNU' ?
-        'fdisk -p -l 2>/dev/null' :
-        'fdisk -l 2>/dev/null';
-    if (!open my $handle, '-|', $command) {
-        $params{logger}->error("Can't run $command: $ERRNO") if $params{logger};
-    } else {
-        while (my $line = <$handle>) {
-            next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
-            push(@names, $1);
-        }
-        close $handle;
+    my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
+        "/sbin/fdisk -p -l" :
+        "/sbin/fdisk -l"    ;
+
+    my $handle = getFileHandle(
+        command => $command,
+        logger => $params{logger}
+    );
+
+    return unless $handle;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
+        push(@names, $1);
     }
+    close $handle;
 
     # filter duplicates
     my %seen;
@@ -227,11 +228,8 @@ sub _getValueFromSysProc {
 
     return unless $file;
 
-    my $handle;
-    if (!open $handle, '<', $file) {
-        $logger->error("Can't open $file: $ERRNO");
-        return;
-    }
+    my $handle = getFileHandle(file => $file, logger => $logger);
+    return unless $handle;
 
     my $value = <$handle>;
     close $handle;
@@ -242,19 +240,18 @@ sub _getValueFromSysProc {
     return $value;
 }
 
-sub getCapacity {
-    my ($dev) = @_;
-    my $command = `/sbin/fdisk -v` =~ '^GNU' ? 'fdisk -p -s' : 'fdisk -s';
-    # requires permissions on /dev/$dev
-    my $cap;
-    foreach (`$command /dev/$dev 2>/dev/null`) {
-        $cap = $1 if /^\d+$/;
-    }
-    $cap = int($cap / 1000) if $cap;
-    return $cap;
+sub getSerialnumber {
+    my %params = @_;
+
+    my ($serial) = getFirstMatch(
+        command => $params{device} ? "smartctl -i $params{device}" : undef,
+        file    => $params{file},
+        logger  => $params{logger},
+        pattern => qr/^Serial Number:\s+(\S*)/
+    );
+
+    return $serial;
 }
-
-
 
 1;
 __END__
@@ -324,3 +321,18 @@ Availables parameters:
 
 =back
 
+=head2 getSerialnumber(%params)
+
+Returns the serial number of a drive, using smartctl.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item device the device to use
+
+=item file the file to use
+
+=back

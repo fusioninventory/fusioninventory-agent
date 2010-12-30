@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 sub isInventoryEnabled {
     return
@@ -16,22 +17,12 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $zone;
     my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate, $uuid);
-    my $aarch = "unknown";
+    my $aarch =
+        getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
 
-    my $OSLevel = getSingleLine(command => 'uname -r');
-
-    if ( $OSLevel !~ /5.1\d/ ){
-        $zone = "global";
-    }else{
-        foreach (`zoneadm list -p`){
-            $zone=$1 if /^0:([a-z]+):.*$/;
-        }
-    }
-
-    $aarch = "i386" if (`arch` =~ /^i86pc$/);
+    my $zone = getZone();
     if ($zone){
         if (can_run('showrev')) {
             foreach(`showrev`){
@@ -80,13 +71,13 @@ sub doInventory {
             $SystemModel .= " ($name)" if( $name );
 
             if( -x "/opt/SUNWsneep/bin/sneep" ) {
-                $SystemSerial = getSingleLine(
+                $SystemSerial = getFirstLine(
                     command => '/opt/SUNWsneep/bin/sneep'
                 );
             }else {
                 foreach(`/bin/find /opt -name sneep`) {
                     next unless /^(\S+)/;
-                    $SystemSerial = getSingleLine(command => $1);
+                    $SystemSerial = getFirstLine(command => $1);
                 }
                 if (!$SystemSerial){
                     $SystemSerial = "Please install package SUNWsneep";

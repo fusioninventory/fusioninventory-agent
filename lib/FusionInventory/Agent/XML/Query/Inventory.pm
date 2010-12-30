@@ -59,15 +59,14 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{h}{QUERY} = ['INVENTORY'];
+    $self->{h}{QUERY} = 'INVENTORY';
     $self->{h}{CONTENT}{HARDWARE} = {
         # TODO move that in a backend module
-        ARCHNAME => [$Config{archname}],
-        VMSYSTEM => ["Physical"] # Default value
+        ARCHNAME => $Config{archname},
+        VMSYSTEM => "Physical"
     };
-    $self->{h}{CONTENT}{VERSIONCLIENT} = [
-        $FusionInventory::Agent::AGENT_STRING
-    ];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = 
+        $FusionInventory::Agent::AGENT_STRING;
 
     $self->{storage} = $params{storage};
     $self->_loadState() if $self->{storage};

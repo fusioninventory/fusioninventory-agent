@@ -18,13 +18,13 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # Uptime
-    my $uptime = getSingleLine(file => '/proc/uptime', logger => $logger);
+    my $uptime = getFirstLine(file => '/proc/uptime', logger => $logger);
     $uptime =~ s/^(.+)\s+.+/$1/;
 
     # ISO format string conversion
     $uptime = getFormatedGmTime($uptime);
 
-    my $DeviceType = getSingleLine(command => 'uname -m');
+    my $DeviceType = getFirstLine(command => 'uname -m');
     $inventory->setHardware(
         DESCRIPTION => "$DeviceType/$uptime"
     );

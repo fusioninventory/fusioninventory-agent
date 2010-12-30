@@ -1,0 +1,7 @@
+Name                         ID Mem(MiB) VCPUs State  Time(s)
+Domain-0                      0       98     1 r-----  5068.6
+Fedora3                     164      128     1 r-----     7.6
+Fedora4                     165      128     1 ------     0.6
+Mandrake2006                166      128     1 -b----     3.6
+Mandrake10.2                167      128     1 ------     2.5
+Suse9.2                     168      100     1 ------     1.8

@@ -20,12 +20,12 @@ sub doInventory {
     # Swap
     my $SwapFileSize;
     my @bsd_swapctl = `swapctl -sk`;
-    for (@bsd_swapctl) {
+    foreach (@bsd_swapctl) {
         $SwapFileSize = $1 if /total:\s*(\d+)/i;
     }
 
     # RAM
-    my $PhysicalMemory = getSingleLine(command => 'sysctl -n hw.physmem');
+    my $PhysicalMemory = getFirstLine(command => 'sysctl -n hw.physmem');
     $PhysicalMemory = $PhysicalMemory / 1024;
 
     # Send it to inventory object

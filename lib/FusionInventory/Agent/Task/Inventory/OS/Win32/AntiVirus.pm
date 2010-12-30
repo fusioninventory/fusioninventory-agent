@@ -5,7 +5,7 @@ use warnings;
 
 use Config;
 use Win32;
-use Win32::OLE('in');
+use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Variant;
 
 use FusionInventory::Agent::Tools::Win32;

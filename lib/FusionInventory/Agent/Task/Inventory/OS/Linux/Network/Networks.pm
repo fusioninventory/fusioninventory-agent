@@ -12,8 +12,7 @@ use FusionInventory::Agent::Regexp;
 sub isInventoryEnabled {
     return 
         can_run('ifconfig') &&
-        can_run('route') &&
-        can_load("Net::IP");
+        can_run('route');
 }
 
 # Initialise the distro entry
@@ -23,22 +22,46 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    # set list of network interfaces
+    my $routes = _getRoutes($logger);
+    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
+    }
+
+    # set global parameters
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
+
+    $inventory->setHardware(
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{'0.0.0.0'}
+    );
+}
+
+sub _getRoutes {
+    my ($logger) = @_;
+
     my $routes;
     foreach my $line (`route -n`) {
-        if ($line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x) {
-            $routes->{$1} = $2;
-        }
+        next unless $line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x;
+        $routes->{$1} = $2;
     }
+    return $routes;
+}
 
-    if ($routes->{'0.0.0.0'}) {
-        $inventory->setHardware(
-            DEFAULTGATEWAY => $routes->{'0.0.0.0'}
-        );
-    }
+sub _getInterfaces {
+    my ($logger, $routes) = @_;
 
-    my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
+    my @interfaces = _parseIfconfig(
+        command => '/sbin/ifconfig -a',
+        logger  =>  $logger
+    );
 
-    foreach my $interface (@$interfaces) {
+    foreach my $interface (@interfaces) {
         if (_isWifi($interface->{DESCRIPTION})) {
             $interface->{TYPE} = "Wifi";
         }
@@ -67,33 +90,17 @@ sub doInventory {
 
         $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
         $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
-
-        $inventory->addNetwork($interface);
-
     }
 
-    # add all ip addresses found, excepted loopback, to hardware
-    my @ip_addresses =
-        grep { ! /^127/ }
-        grep { $_ }
-        map { $_->{IPADDRESS} }
-        @$interfaces;
-
-    $inventory->setHardware(
-        IPADDR => join('/', @ip_addresses)
-    );
+    return @interfaces;
 }
 
 sub _parseIfconfig {
-    my ($file, $mode) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
-    my $interfaces;
+    my @interfaces;
 
     my $interface = { STATUS => 'Down' };
 
@@ -102,7 +109,7 @@ sub _parseIfconfig {
             # end of interface section
             next unless $interface->{DESCRIPTION};
 
-            push @$interfaces, $interface;
+            push @interfaces, $interface;
 
             $interface = { STATUS => 'Down' };
 
@@ -131,7 +138,7 @@ sub _parseIfconfig {
     }
     close $handle;
 
-    return $interfaces;
+    return @interfaces;
 }
 
 # Handle slave devices (bonding)
@@ -206,17 +213,8 @@ sub _getUevent {
 sub _getNetworkInfo {
     my ($address, $mask, $routes) = @_;
 
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
-
-    my ($ipsubnet, $ipgateway);
-
-    my $binip = ip_iptobin($address, 4);
-    my $binmask = ip_iptobin($mask, 4);
-    my $binsubnet = $binip & $binmask;
-
-    $ipsubnet = ip_bintoip($binsubnet, 4);
-    $ipgateway = $routes->{$ipsubnet};
+    my $ipsubnet = getSubnetAddress($address, $mask);
+    my $ipgateway = $routes->{$ipsubnet};
 
     # replace '0.0.0.0' (ie 'default gateway') by the
     # default gateway IP adress if it exists

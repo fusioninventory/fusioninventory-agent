@@ -11,8 +11,7 @@ use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return
-        can_run('ifconfig') && 
-        can_load("Net::IP");
+        can_run('ifconfig');
 }
 
 # Initialise the distro entry
@@ -22,77 +21,63 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
-
-    my $ipgateway;
-
-    # Looking for the gateway
-    # 'route show' doesn't work on FreeBSD so we use netstat
-    # XXX IPV4 only
-    foreach my $line (`netstat -nr -f inet`) {
-        $ipgateway = $1 if $line =~ /^default\s+(\S+)/i;
+    # set list of network interfaces
+    my $routes = getRoutesFromInet(logger => $logger);
+    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
     }
 
-    if ($ipgateway) {
-        $inventory->setHardware(
-            DEFAULTGATEWAY => $ipgateway
-        );
-    }
+    # set global parameters
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
 
-    my $interfaces = _parseIfconfig('/sbin/ifconfig -a', '-|');
+    $inventory->setHardware(
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{default}
+    );
+}
 
-    foreach my $interface (@$interfaces) {
-        # skip loopback, pseudo-devices and point-to-point interfaces
-        #    next if $interface->{DESCRIPTION} =~
-        #    /^(fwe|sit|pflog|pfsync|enc|strip|plip|sl|ppp)\d+$/;
+sub _getInterfaces {
+    my ($logger) = @_;
 
+    my @interfaces = _parseIfconfig(
+        command => '/sbin/ifconfig -a',
+        logger  =>  $logger
+    );
+
+    foreach my $interface (@interfaces) {
         if ($interface->{STATUS} eq 'Up') {
-            $interface->{IPGATEWAY} = $ipgateway;
-
-            my $binip = ip_iptobin($interface->{IPADDRESS}, 4);
-            my $binmask = ip_iptobin($interface->{IPMASK}, 4);
-            my $binsubnet = $binip & $binmask;
-            $interface->{IPSUBNET} = ip_bintoip($binsubnet, 4);
+            $interface->{IPSUBNET} = getSubnetAddress(
+                $interface->{IPADDRESS},
+                $interface->{IPMASK}
+            );
         }
 
         $interface->{VIRTUALDEV} =
             $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)\d+$/;
 
         $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
-
-        $inventory->addNetwork($interface);
     }
 
-    # add all ip addresses found, excepted loopback, to hardware
-    my @ip_addresses =
-        grep { ! /^127/ }
-        grep { $_ }
-        map { $_->{IPADDRESS} }
-        @$interfaces;
-
-    $inventory->setHardware(
-        IPADDR => join('/', @ip_addresses)
-    );
+    return @interfaces;
 }
 
 sub _parseIfconfig {
-    my ($file, $mode) = @_;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
-    my $interfaces;
-
+    my @interfaces;
     my $interface;
 
     while (my $line = <$handle>) {
         if ($line =~ /^(\S+):/) {
             # new interface
-            push @$interfaces, $interface if $interface;
+            push @interfaces, $interface if $interface;
             $interface = {
                 STATUS      => 'Down',
                 DESCRIPTION => $1
@@ -126,10 +111,10 @@ sub _parseIfconfig {
             $interface->{STATUS} = 'Up';
         }
     }
-    push @$interfaces, $interface if $interface;
+    push @interfaces, $interface if $interface;
     close $handle;
 
-    return $interfaces;
+    return @interfaces;
 }
 
 1;
