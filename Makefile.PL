@@ -20,6 +20,7 @@ requires 'Text::Template'               => undef;
 requires 'UNIVERSAL::require'           => undef;
 requires 'XML::TreePP'                  => undef;
 requires 'Clone'                        => undef;
+requires 'Config::Simple'               => undef;
 
 if ($OSNAME eq 'darwin') {
     requires 'Mac::SysProfile' => undef;
