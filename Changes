@@ -39,6 +39,10 @@ Revision history for FusionInventory::Agent
        * Linux, correctly read the number of core from /proc/cpuinfo
        * MacOSX: KB unit in missing in Mac OS X Drive.pm
          http://forge.fusioninventory.org/issues/521
+       * FusionInventory::Agent::Task::Base, correctly preinitialize
+         'myData' by loading the expected file.
+       * A yum plugin in contrib to trigger FusionInventory after the updates
+         (Remi COLLET)
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
