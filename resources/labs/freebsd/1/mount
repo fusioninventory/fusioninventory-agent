@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cat << EOF
+/dev/mirror/gm0s1d on / (ufs, local, soft-updates)
+EOF

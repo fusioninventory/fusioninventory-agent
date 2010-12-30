@@ -30,7 +30,7 @@ sub doInventory {
         # exclude cdrom mount
         grep { $_->{TYPE} !~ /cdrom/; } 
         # get all file systems
-        getFilesystemsFromDf( logger => $logger, command => 'df -P -k');
+        getFilesystemsFromDf( logger => $logger, string => getDfoutput() );
 
     foreach my $drive (@drives) {
 

@@ -18,7 +18,7 @@ sub doInventory {
 
     my @drives = getFilesystemsFromDf(
         logger => $logger,
-        command => 'df -P -k'
+	string => getDfoutput
     );
     foreach my $drive (@drives) {
         my @fs = `lsfs -c $drive->{TYPE}`;

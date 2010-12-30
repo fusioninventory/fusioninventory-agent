@@ -22,8 +22,9 @@ sub doInventory {
 
     # start with df command
     my @drives = grep {
+# TODO: This list should be moved somewhere else like the one for Agent::Tools::Unix
         $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/;
-    } getFilesystemsFromDf(logger => $logger, command => 'df -P -T -k');
+    } getFilesystemsFromDf(logger => $logger, string => getDfoutput());
 
 
     # get additional informations

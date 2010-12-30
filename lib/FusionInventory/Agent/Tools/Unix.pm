@@ -14,6 +14,7 @@ use FusionInventory::Agent::Tools;
 our @EXPORT = qw(
     getDeviceCapacity
     getIpDhcp
+    getDfoutput
     getFilesystemsFromDf
     getProcessesFromPs
     getControllersFromLspci
@@ -133,6 +134,47 @@ sub _parseDhcpLeaseFile {
     my $current_time = time();
 
     return $current_time <= $expiration_time ? $server_ip : undef;
+}
+
+sub getDfoutput {
+    my ($dir) = @_;
+
+    if ($dir) {
+	$dir =~ s/(.*)/'$1'/;
+    } else {
+	$dir = '';
+    }
+
+    my $string;
+    if ($OSNAME =~ /^linux/i) {
+	$string .= `df -P -T -k $dir`;
+    } elsif ($OSNAME =~ /darwin|freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {;
+	my %fs;
+	foreach my $line (`mount`) {
+	    next unless $line =~ /\S+ on \S+ \((\S+)[,\s\)]/;
+
+# TODO: This should be moved somewhere else
+# it's the same for the hardcoded list in
+# Linux::Drives
+	    next if $1 eq 'fdesc';
+	    next if $1 eq 'devfs';
+            next if $1 eq 'devfs';
+            next if $1 eq 'procfs';
+            next if $1 eq 'linprocfs';
+            next if $1 eq 'linsysfs';
+            next if $1 eq 'tmpfs';
+            next if $1 eq 'fdescfs';
+
+	    $fs{$1}++;
+	}
+	foreach my $fs (keys %fs) {
+	    $string .= `df -P -k -t $fs $dir`;
+	}
+    } else { # Solaris and AIX
+	$string .= `df -P -k $dir`;
+    }
+
+    return $string;
 }
 
 sub getFilesystemsFromDf {
@@ -348,6 +390,10 @@ Returns storage capacity of given device.
 =head2 getIpDhcp
 
 Returns an hashref of information for current DHCP lease.
+
+=head2 getDfoutput()
+
+Return the full df output in a string.
 
 =head2 getFilesystemsFromDf(%params)
 

@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use File::stat;
 use Memoize;
 use Sys::Hostname;
+use File::Spec;
 
 our @EXPORT = qw(
     getFileHandle
@@ -235,6 +236,10 @@ sub getFileHandle {
             }
             last SWITCH;
         }
+	if ($params{string}) {
+	    
+	    open $handle, "<", \$params{string} or die;
+	}
         die "neither command nor file parameter given";
     }
 
@@ -250,29 +255,6 @@ sub getSingleLine {
 
     chomp $result;
     return $result;
-}
-
-sub can_run {
-    my ($binary) = @_;
-
-    if ($OSNAME eq 'MSWin32') {
-        foreach my $dir (split/$Config::Config{path_sep}/, $ENV{PATH}) {
-            foreach my $ext (qw/.exe .bat/) {
-                return 1 if -f $dir . '/' . $binary . $ext;
-            }
-        }
-        return 0;
-    } else {
-        return 
-            system("which $binary >/dev/null 2>&1") == 0;
-    }
-
-}
-
-sub can_load {
-    my ($module) = @_;
-
-    return $module->require();
 }
 
 sub getHostname {
@@ -300,6 +282,29 @@ sub getHostname {
             "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
         );
     };
+}
+
+sub can_run {
+    my ($binary) = @_;
+
+    if ($OSNAME eq 'MSWin32') {
+        foreach my $dir (split/$Config::Config{path_sep}/, $ENV{PATH}) {
+            foreach my $ext (qw/.exe .bat/) {
+                return 1 if -f $dir . '/' . $binary . $ext;
+            }
+        }
+        return 0;
+    } else {
+        return 
+            system("which $binary >/dev/null 2>&1") == 0;
+    }
+
+}
+
+sub can_load {
+    my ($module) = @_;
+
+    return $module->require();
 }
 
 1;

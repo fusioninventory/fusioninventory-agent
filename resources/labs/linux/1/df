@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cat <<EOF
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/sda2            153831460  64344484  81672732  45% /
+tmpfs                  1892704         0   1892704   0% /lib/init/rw
+udev                   1887928       220   1887708   1% /dev
+tmpfs                  1892704       140   1892564   1% /dev/shm
+EOF

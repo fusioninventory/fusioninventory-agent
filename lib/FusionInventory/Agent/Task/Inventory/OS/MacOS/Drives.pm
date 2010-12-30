@@ -26,22 +26,11 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my %fs;
-    foreach my $line (`mount`) {
-        next unless $line =~ /\S+ on \S+ \((\S+),/;
-        next if $1 eq 'fdesc';
-        next if $1 eq 'devfs';
-        $fs{$1}++;
-    }
-
     my @drives;
-    foreach my $fs (keys %fs) {
-        foreach my $drive (getFilesystemsFromDf(
-            logger => $logger, command => "df -P -k -t $fs"
-        )) {
-            $drive->{FILESYSTEM} = $fs;
-            push @drives, $drive;
-        }
+    foreach my $drive (getFilesystemsFromDf(
+    	    logger => $logger, string => getDfoutput()
+    	    )) {
+        push @drives, $drive;
     }
 
     my %diskUtilDevices;

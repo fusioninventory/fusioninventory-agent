@@ -4,6 +4,10 @@ use strict;
 use warnings;
 use FusionInventory::Agent::Tools::Unix;
 use Test::More;
+use Cwd;
+use Data::Dumper;
+
+use English qw(-no_match_vars);
 
 my %lspci_tests = (
     'latitude-xt2' => [
@@ -2450,11 +2454,33 @@ my %ps_tests = (
     ],
 );
 
+my %getDfoutput_tests = (
+    linux => 'Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/sda2            153831460  64344484  81672732  45% /
+tmpfs                  1892704         0   1892704   0% /lib/init/rw
+udev                   1887928       220   1887708   1% /dev
+tmpfs                  1892704       140   1892564   1% /dev/shm
+',
+    freebsd =>  'Filesystem   Type 1024-blocks      Used    Avail Capacity  Mounted on
+/dev/ad4s1a  ufs      1482638    374896   989132    27%    /
+/dev/ad4s1g  ufs    142303794 117759358 13160134    90%    /Donnees
+/dev/ad4s1e  ufs       507630     59836   407184    13%    /tmp
+/dev/ad4s1f  ufs     20308398  13442022  5241706    72%    /usr
+/dev/ad4s1d  ufs      3973870   1023098  2632864    28%    /var
+',
+    freebsd => 'Filesystem         1024-blocks     Used     Avail Capacity  Mounted on
+/dev/mirror/gm0s1d   469458022 22728230 409173152     5%    /
+',
+#    aix => [ 'df -P -k ' ],
+);
+
 plan tests =>
-    (scalar keys %lspci_tests) +
-    (scalar keys %df_tests)    +
-    (scalar keys %ps_tests)    +
-    (scalar @dhcp_leases_test);
+    (scalar keys %lspci_tests)        +
+    (scalar keys %df_tests)           +
+    (scalar keys %ps_tests)           +
+    (scalar @dhcp_leases_test)        +
+    (scalar keys %getDfoutput_tests)
+    ;
 
 foreach my $test (keys %lspci_tests) {
     my $file = "resources/lspci/$test";
@@ -2480,4 +2506,24 @@ foreach my $test (@dhcp_leases_test) {
         $server && ($server eq $test->{result}),
         "Parse DHCP lease"
     );
+}
+
+my $oldOSNAME = $OSNAME;
+my $oldPATH = $ENV{PATH};
+SKIP: {
+if ($OSNAME eq 'MSWin32') {
+    skip 'getDfoutput() test ignored on Windows', int(keys %getDfoutput_tests);
+}
+
+foreach my $osName (keys %getDfoutput_tests) {
+    $ENV{PATH}= "resources/labs/$osName/1/:$oldPATH";
+
+    $OSNAME = $osName;
+
+    my $output = getDfoutput();
+    is_deeply($output, $getDfoutput_tests{$osName}, "$osName getDfoutput_tests") or print Dumper ($output);
+
+    $OSNAME = $oldOSNAME;
+    $ENV{PATH} = $oldOSNAME;
+}
 }

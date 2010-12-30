@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cat <<EOF
+Filesystem         1024-blocks     Used     Avail Capacity  Mounted on
+/dev/mirror/gm0s1d   469458022 22728230 409173152     5%    /
+EOF

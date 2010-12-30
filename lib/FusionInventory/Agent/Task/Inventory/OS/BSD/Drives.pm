@@ -18,36 +18,12 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @drives;
-
-    my %fsList = ( ffs => 1, ufs => 1);
-
-    foreach (`mount`) {
-        if (/\ \((\S+?)[,\s\)]/) {
-            my $fs = $1;
-            next if $fs eq 'devfs';
-            next if $fs eq 'procfs';
-            next if $fs eq 'linprocfs';
-            next if $fs eq 'linsysfs';
-            next if $fs eq 'tmpfs';
-            next if $fs eq 'fdescfs';
-
-            $fsList{$fs} = 1;
-        }
-    }
-
-    foreach my $fs (keys %fsList) {
-        # other BSD flavours don't support this flag, forcing to use 
-        # successives calls
-        my @ffs_drives = getFilesystemsFromDf(
-            logger => $logger,
-            command => "df -P -k -t $fs"
-        );
-        foreach my $drive (@ffs_drives) {
-            $drive->{FILESYSTEM} = $fs;
-
-            $inventory->addDrive($drive);
-        }
+    my @ffs_drives = getFilesystemsFromDf(
+        logger => $logger,
+        string => getDfoutput 
+    );
+    foreach my $drive (@ffs_drives) {
+        $inventory->addDrive($drive);
     }
 }
 
