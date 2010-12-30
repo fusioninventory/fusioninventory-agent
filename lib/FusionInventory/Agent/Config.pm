@@ -39,6 +39,7 @@ sub new {
     $backend_class->require();
     my $backend = $backend_class->new(%params);
 
+    # TODO: Do we need a new dependency just for this clone() call?
     my $values = clone($defaults);
     $backend->load($values);
     _check($values);
