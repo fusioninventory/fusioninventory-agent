@@ -16,6 +16,7 @@ our @EXPORT = qw(
     getIpDhcp
     getDfoutput
     getFilesystemsFromDf
+    getFilesystemsTypesFromMount
     getProcessesFromPs
     getControllersFromLspci
     getRoutesFromNetstat
@@ -145,7 +146,7 @@ sub _parseDhcpLeaseFile {
 }
 
 sub getDfoutput {
-    my ($dir) = @_;
+    my ($logger, $dir) = @_;
 
     if ($dir) {
 	$dir =~ s/(.*)/'$1'/;
@@ -157,26 +158,12 @@ sub getDfoutput {
     if ($OSNAME =~ /^linux/i) {
 	$string .= `df -P -T -k $dir`;
     } elsif ($OSNAME =~ /darwin|freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {;
-	my %fs;
-	foreach my $line (`mount`) {
-	    next unless $line =~ /\S+ on \S+ \((\S+)[,\s\)]/;
+        my @types = 
+            grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
+            getFilesystemsTypesFromMount(logger => $logger);
 
-# TODO: This should be moved somewhere else
-# it's the same for the hardcoded list in
-# Linux::Drives
-	    next if $1 eq 'fdesc';
-	    next if $1 eq 'devfs';
-            next if $1 eq 'devfs';
-            next if $1 eq 'procfs';
-            next if $1 eq 'linprocfs';
-            next if $1 eq 'linsysfs';
-            next if $1 eq 'tmpfs';
-            next if $1 eq 'fdescfs';
-
-	    $fs{$1}++;
-	}
-	foreach my $fs (keys %fs) {
-	    $string .= `df -P -k -t $fs $dir`;
+	foreach my $type (@types) {
+	    $string .= `df -P -k -t $type $dir`;
 	}
     } else { # Solaris and AIX
 	$string .= `df -P -k $dir`;
@@ -228,6 +215,39 @@ sub getFilesystemsFromDf {
     close $handle;
 
     return @filesystems;
+}
+
+sub getFilesystemsTypesFromMount {
+    my %params = (
+        command => 'mount',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @types;
+    while (my $line = <$handle>) {
+        # BSD-style:
+        # /dev/mirror/gm0s1d on / (ufs, local, soft-updates)
+        if ($line =~ /^\S+ on \S+ \((\w+)/) {
+            push @types, $1;
+            next;
+        }
+        # Linux style:
+        # /dev/sda2 on / type ext4 (rw,noatime,errors=remount-ro)
+        if ($line =~ /^\S+ on \S+ type (\w+)/) {
+            push @types, $1;
+            next;
+        }
+    }
+    close $handle;
+
+    ### raw result: @types
+
+    return 
+        uniq
+        @types;
 }
 
 sub getProcessesFromPs {
@@ -436,6 +456,21 @@ Return the full df output in a string.
 =head2 getFilesystemsFromDf(%params)
 
 Returns a list of filesystems as a list of hashref, by parsing given df command
+output.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getFilesystemsTypesFromMount(%params)
+
+Returns a list of used filesystems types, by parsing given mount command
 output.
 
 =over
