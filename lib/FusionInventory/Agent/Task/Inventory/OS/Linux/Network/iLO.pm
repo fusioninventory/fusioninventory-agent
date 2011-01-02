@@ -15,6 +15,13 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    my $handle = getFileHandle(
+        logger => $logger,
+        command => 'hponcfg -aw -'
+    );
+
+    return unless $handle;
+
     my $name;
     my $ipmask;
     my $ipgateway;
@@ -23,21 +30,27 @@ sub doInventory {
     my $ipaddress;
     my $status;
 
-    foreach (`hponcfg -aw -`) {
-        if ( /<IP_ADDRESS VALUE="([0-9.]+)"\/>/ ) {
+    while (my $line = <$handle>) {
+        if ($line =~ /<IP_ADDRESS VALUE="([0-9.]+)"\/>/) {
             $ipaddress = $1;
-        } elsif ( /<SUBNET_MASK VALUE="([0-9.]+)"\/>/ ) {
+        }
+        if ($line =~ /<SUBNET_MASK VALUE="([0-9.]+)"\/>/) {
             $ipmask = $1;
-        } elsif ( /<GATEWAY_IP_ADDRESS VALUE="([0-9.]+)"\/>/ ) {
+        }
+        if ($line =~ /<GATEWAY_IP_ADDRESS VALUE="([0-9.]+)"\/>/) {
             $ipgateway = $1;
-        } elsif ( /<NIC_SPEED VALUE="([0-9]+)"\/>/ ) {
+        }
+        if ($line =~ /<NIC_SPEED VALUE="([0-9]+)"\/>/) {
             $speed = $1;
-        } elsif ( /<DNS_NAME VALUE="([^"]+)"\/>/ ) {
+        } 
+        if ($line =~ /<DNS_NAME VALUE="([^"]+)"\/>/) {
             $name = $1;
-        } elsif ( /<ENABLE_NIC VALUE="(.)"\/>/ ) {
+        }
+        if ($line =~ /<ENABLE_NIC VALUE="(.)"\/>/) {
             $status = 'Up' if $1 =~ /Y/i;
         }
     }
+    close $handle;
     $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
     #Some cleanups
