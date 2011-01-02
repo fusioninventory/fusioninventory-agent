@@ -24,6 +24,8 @@ our @EXPORT = qw(
     getSanitizedString
     getFirstLine
     getFirstMatch
+    getAllLines
+    getLinesCount
     getHostname
     compareVersion
     can_run
@@ -31,6 +33,7 @@ our @EXPORT = qw(
     any
     all
     none
+    uniq
 );
 
 memoize('can_run');
