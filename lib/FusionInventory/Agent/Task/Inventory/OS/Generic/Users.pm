@@ -27,6 +27,7 @@ sub doInventory {
         next unless $line =~ /^(\S+)/;
         $inventory->addUser({ LOGIN => $1 });
     }
+    close $handle;
 
 }
 
