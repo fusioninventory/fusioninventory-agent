@@ -22,7 +22,13 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach (`ipssend GETVERSION 2>/dev/null`) {
+    my $handle1 = getFileHandle(
+        logger => $logger,
+        command => 'ipssend GETVERSION'
+    );
+    return unless $handle1;
+
+    while (my $line1 =~ <$handle1>) {
 
 # Example Output :
 # Found 1 IBM ServeRAID controller(s).
@@ -41,8 +47,13 @@ sub doInventory {
         my $slot = $1;
 
         my $storage;
+        my $handle2 = getFileHandle(
+            logger => $logger,
+            command => "ipssend GETCONFIG $slot PD"
+        );
+        next unless $handle2;
 
-        foreach (`ipssend GETCONFIG $slot PD 2>/dev/null`) {
+        while (my $line2 =~ <$handle2>) {
 # Example Output :
 #   Channel #1:
 #      Target on SCSI ID 0
@@ -54,11 +65,11 @@ sub doInventory {
 #         Device ID                : IBM-ESXSCBR036C3DFQDB2Q6CDKM
 #         FRU part number          : 32P0729
 
-            if (/Size.*:\s(\d*)\/(\d*)/) {
+            if ($line2 =~ /Size.*:\s(\d*)\/(\d*)/) {
                 $storage->{DISKSIZE} = $1;
-            } elsif (/Device ID.*:\s(.*)/) {
+            } elsif ($line2 =~ /Device ID.*:\s(.*)/) {
                 $storage->{SERIALNUMBER} = $1;
-            } elsif (/FRU part number.*:\s(.*)/) {
+            } elsif ($line2 =~ /FRU part number.*:\s(.*)/) {
                 $storage->{MODEL} = $1;
                 $storage->{MANUFACTURER} = getCanonicalManufacturer(
                     $storage->{SERIALNUMBER}
@@ -71,7 +82,9 @@ sub doInventory {
                 undef $storage;
             }
         }
+        close $handle2;
     }
+    close $handle1;
 }
 
 1;

@@ -27,7 +27,12 @@ sub doInventory {
     my $devices = getDevicesFromUdev(logger => $logger);
 
     foreach my $hd (@$devices) {
-        foreach (`mpt-status -n -i $hd->{SCSI_UNID}`) {
+        my $handle = getFileHandle(
+            logger => $logger,
+            command => "mpt-status -n -i $hd->{SCSI_UNID}"
+        );
+        next unless $handle;
+        while (my $line = <$handle>) {
             next unless /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
             my $id = $1;
 
@@ -49,6 +54,7 @@ sub doInventory {
 
             $inventory->addStorage($storage);
         }
+        close $handle;
     }
 
 }
