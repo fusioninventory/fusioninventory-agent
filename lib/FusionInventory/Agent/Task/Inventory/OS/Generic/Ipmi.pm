@@ -44,7 +44,6 @@ sub doInventory {
     my $ipaddress;
     my $ipgateway;
     my $ipmask;
-    my $ipsubnet;
     my $macaddr;
 
     while (my $line = <$handle>) {
@@ -63,13 +62,7 @@ sub doInventory {
     }
     close $handle;
 
-    my $binip = &ip_iptobin ($ipaddress, 4);
-    my $binmask = &ip_iptobin ($ipmask, 4);
-    my $binsubnet = $binip & $binmask;
-    if (can_load("Net::IP")) {
-        Net::IP->import(':PROC');
-        $ipsubnet = ip_bintoip($binsubnet, 4);
-    }
+    my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
     $inventory->addNetwork({
         DESCRIPTION => 'bmc',
