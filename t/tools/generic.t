@@ -3018,12 +3018,6 @@ my %dmidecode_tests = (
     }
 );
 
-my %mount_tests = (
-    linux => [ ],
-    darwin => [ ],
-    freebsed => [ ]
-);
-
 my @size_tests_nok = (
     'foo', undef
 );
