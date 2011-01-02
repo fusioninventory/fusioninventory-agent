@@ -13,9 +13,18 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
-    foreach(`pacman -Q`){
-        /^(\S+)\s+(\S+)/;
+
+    my $handle = getFileHandle(
+        logger => $logger,
+        command => 'pacman -Q'
+    );
+
+    return unless $handle;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)\s+(\S+)/;
         my $name = $1;
         my $version = $2;
 
@@ -24,6 +33,7 @@ sub doInventory {
             VERSION => $version
         });
     }
+    close $handle;
 }
 
 1;
