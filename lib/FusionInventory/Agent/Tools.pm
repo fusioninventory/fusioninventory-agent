@@ -313,6 +313,37 @@ sub getFirstMatch {
     return @results;
 }
 
+sub getAllLines {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @lines;
+    while (my $line = <$handle>) {
+        chomp $line;
+        push @lines, $line;
+    }
+    close $handle;
+
+    return @lines;
+}
+
+sub getLinesCount {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $count = 0;
+    while (my $line = <$handle>) {
+        $count++;
+    }
+    close $handle;
+
+    return $count;
+}
+
 sub can_run {
     my ($binary) = @_;
 
@@ -481,6 +512,21 @@ of line removed.
 
 =back
 
+=head2 getAllLines(%params)
+
+Returns all the lines of given command output or given file content, with end
+of line removed.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
 =head2 getFirstMatch(%params)
 
 Returns the result of applying given pattern on the first matching line of
@@ -489,6 +535,20 @@ given command output or given file content.
 =over
 
 =item pattern a regexp
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getLinesCount(%params)
+
+Returns the number of lines of given command output or given file content.
+
+=over
 
 =item logger a logger object
 
