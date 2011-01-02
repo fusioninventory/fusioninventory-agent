@@ -23,7 +23,6 @@ sub doInventory {
 
     return unless $handle;
 
-    my $name;
     my $ipmask;
     my $ipgateway;
     my $speed;
@@ -44,9 +43,6 @@ sub doInventory {
         if ($line =~ /<NIC_SPEED VALUE="([0-9]+)"\/>/) {
             $speed = $1;
         } 
-        if ($line =~ /<DNS_NAME VALUE="([^"]+)"\/>/) {
-            $name = $1;
-        }
         if ($line =~ /<ENABLE_NIC VALUE="(.)"\/>/) {
             $status = 'Up' if $1 =~ /Y/i;
         }
