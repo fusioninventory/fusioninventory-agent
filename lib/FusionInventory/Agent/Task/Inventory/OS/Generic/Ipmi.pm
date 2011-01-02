@@ -21,6 +21,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return unless can_run('ipmitool');
@@ -47,16 +48,16 @@ sub doInventory {
     my $macaddr;
 
     while (my $line = <$handle>) {
-        if ($line =~ /^IP Address\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^IP Address\s+:\s+($ip_address_pattern)/) {
             $ipaddress = $1;
         }
-        if ($line =~ /^Default Gateway IP\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^Default Gateway IP\s+:\s+($ip_address_pattern)/) {
             $ipgateway = $1;
         }
-        if ($line =~ /^Subnet Mask\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^Subnet Mask\s+:\s+($ip_address_pattern)/) {
             $ipmask = $1;
         }
-        if ($line =~ /^MAC Address\s+:\s+([0-9a-f]{2}(:[0-9a-f]{2}){5})/) {
+        if ($line =~ /^MAC Address\s+:\s+($mac_address_pattern)/) {
             $macaddr = $1;
         }
     }
