@@ -22,7 +22,6 @@ sub doInventory {
     my $ipsubnet;
     my $ipaddress;
     my $status;
-#  my $macaddr;
 
     foreach (`hponcfg -aw -`) {
         if ( /<IP_ADDRESS VALUE="([0-9.]+)"\/>/ ) {
@@ -56,10 +55,6 @@ sub doInventory {
         SPEED => $speed,
         IPGATEWAY => $ipgateway,
         MANAGEMENT => 'iLO',
-#        MACADDR => $macaddr,
-#        PCISLOT => $pcislot,
-#        DRIVER => $driver,
-#        VIRTUALDEV => $virtualdev,
     });
 }
 
