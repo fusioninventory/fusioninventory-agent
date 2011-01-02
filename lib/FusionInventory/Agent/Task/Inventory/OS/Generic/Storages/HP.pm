@@ -78,46 +78,44 @@ sub doInventory {
     return unless $handle1;
 
     while (my $line1 = <$handle1>) {
-
 # Example output :
 #    
 # Smart Array E200 in Slot 2    (sn: PA6C90K9SUH1ZA)
+        next unless $line1 =~ /.*Slot\s(\d*).*/;
 
-        if ($line1 =~ /.*Slot\s(\d*).*/) {
-            my $slot = $1;
-            my $handle2 = getFilehandle(
-                logger => $logger,
-                command => "$hpacuacliPath ctrl slot=$slot pd all show"
-            );
-            next unless $handle2;
+        my $slot = $1;
+        my $handle2 = getFilehandle(
+            logger => $logger,
+            command => "$hpacuacliPath ctrl slot=$slot pd all show"
+        );
+        next unless $handle2;
 
-            while (my $line2 = <$handle2>) {
-
+        while (my $line2 = <$handle2>) {
 # Example output :
-                #
+            #
 # Smart Array E200 in Slot 2
-                #
+            #
 #   array A
-                #
+            #
 #      physicaldrive 2I:1:1 (port 2I:box 1:bay 1, SATA, 74.3 GB, OK)
 #      physicaldrive 2I:1:2 (port 2I:box 1:bay 2, SATA, 74.3 GB, OK)
+            next unless $line2 =~ /.*physicaldrive\s(\S*)/;
 
-                if ($line2 =~ /.*physicaldrive\s(\S*)/) {
-                    my $pd = $1;
-                    my $handle3 = getFilehandle(
-                        logger => $logger,
-                        command => "$hpacuacliPath ctrl slot=$slot pd $pd show"
-                    );
-                    next unless $handle3;
+            my $pd = $1;
+            my $handle3 = getFilehandle(
+                logger => $logger,
+                command => "$hpacuacliPath ctrl slot=$slot pd $pd show"
+            );
+            next unless $handle3;
 
-                    while (my $line3 = <$handle3>) {
+            while (my $line3 = <$handle3>) {
 
 # Example output :
 #  
 # Smart Array E200 in Slot 2
-                        #
+                #
 #   array A
-                        #
+                #
 #      physicaldrive 1:1
 #         Port: 2I
 #         Box: 1
@@ -132,38 +130,36 @@ sub doInventory {
 #         SATA NCQ Capable: False
 #         PHY Count: 1        
 
-                        $model = $1 if $line3 =~ /.*Model:\s(.*)/;
-                        $description = $1 if $line3 =~ /.*Interface Type:\s(.*)/;
-                        $media = $1 if $line3 =~ /.*Drive Type:\s(.*)/;
-                        $capacity = 1000*$1 if $line3 =~ /.*Size:\s(.*)/;
-                        $serialnumber = $1 if $line3 =~ /.*Serial Number:\s(.*)/;
-                        $firmware = $1 if $line3 =~ /.*Firmware Revision:\s(.*)/;
-                    }
-                    close $handle3;
-                    $serialnumber =~ s/^\s+//;
-                    $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
-                    $model =~ s/\s+/ /;
-                    $manufacturer = getCanonicalManufacturer($model);
-                    if ($media eq 'Data Drive') {
-                        $media = 'disk';
-                    }
-
-                    $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
-
-                    $inventory->addStorage({
-                            NAME => $model,
-                            MANUFACTURER => $manufacturer,
-                            MODEL => $model,
-                            DESCRIPTION => $description,
-                            TYPE => $media,
-                            DISKSIZE => $capacity,
-                            SERIALNUMBER => $serialnumber,
-                            FIRMWARE => $firmware
-                        }); 
-                }
+                $model = $1 if $line3 =~ /.*Model:\s(.*)/;
+                $description = $1 if $line3 =~ /.*Interface Type:\s(.*)/;
+                $media = $1 if $line3 =~ /.*Drive Type:\s(.*)/;
+                $capacity = 1000*$1 if $line3 =~ /.*Size:\s(.*)/;
+                $serialnumber = $1 if $line3 =~ /.*Serial Number:\s(.*)/;
+                $firmware = $1 if $line3 =~ /.*Firmware Revision:\s(.*)/;
             }
-            close $handle2;
+            close $handle3;
+            $serialnumber =~ s/^\s+//;
+            $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
+            $model =~ s/\s+/ /;
+            $manufacturer = getCanonicalManufacturer($model);
+            if ($media eq 'Data Drive') {
+                $media = 'disk';
+            }
+
+            $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
+
+            $inventory->addStorage({
+                    NAME => $model,
+                    MANUFACTURER => $manufacturer,
+                    MODEL => $model,
+                    DESCRIPTION => $description,
+                    TYPE => $media,
+                    DISKSIZE => $capacity,
+                    SERIALNUMBER => $serialnumber,
+                    FIRMWARE => $firmware
+                }); 
         }
+        close $handle2;
     }
     close $handle1;
 }
