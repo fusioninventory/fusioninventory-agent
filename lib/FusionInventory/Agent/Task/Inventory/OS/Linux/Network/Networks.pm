@@ -45,11 +45,20 @@ sub doInventory {
 sub _getRoutes {
     my ($logger) = @_;
 
+    my $handle = getFileHandle(
+        logger  => $logger,
+        command => 'route -n'
+    );
+
+    return unless $handle;
+
     my $routes;
-    foreach my $line (`route -n`) {
+    while (my $line = <$handle>) {
         next unless $line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x;
         $routes->{$1} = $2;
     }
+    close $handle;
+
     return $routes;
 }
 
@@ -62,7 +71,7 @@ sub _getInterfaces {
     );
 
     foreach my $interface (@interfaces) {
-        if (_isWifi($interface->{DESCRIPTION})) {
+        if (_isWifi($logger, $interface->{DESCRIPTION})) {
             $interface->{TYPE} = "Wifi";
         }
 
@@ -84,6 +93,7 @@ sub _getInterfaces {
         $interface->{PCISLOT} = $pcislot if $pcislot;
 
         $interface->{VIRTUALDEV} = _getVirtualDev(
+            $logger,
             $interface->{DESCRIPTION},
             $interface
         );
@@ -157,7 +167,7 @@ sub _getSlaves {
 
 # Handle virtual devices (bridge)
 sub _getVirtualDev {
-    my ($name, $pcislot) = @_;
+    my ($logger, $name, $pcislot) = @_;
 
     my $virtualdev;
 
@@ -167,10 +177,16 @@ sub _getVirtualDev {
         if (can_run('brctl')) {
             # Let's guess
             my %bridge;
-            foreach (`brctl show`) {
-                next if /^bridge name/;
-                $bridge{$1} = 1 if /^(\w+)\s/;
+            my $handle = getFileHandle(
+                logger => $logger,
+                command => 'brctl show'
+            );
+            my $line = <$handle>;
+            while (my $line = <$handle>) {
+                next unless $line =~ /^(\w+)\s/;
+                $bridge{$1} = 1;
             }
+            close $handle;
             if ($pcislot) {
                 $virtualdev = "0";
             } elsif ($bridge{$name}) {
@@ -183,10 +199,13 @@ sub _getVirtualDev {
 }
 
 sub _isWifi {
-    my ($name) = @_;
+    my ($logger, $name) = @_;
 
-    my @wifistatus = `/sbin/iwconfig $name 2>/dev/null`;
-    return @wifistatus > 2;
+    my $count = getLinesCount(
+        logger  => $logger,
+        command => "/sbin/iwconfig $name"
+    );
+    return $count > 2;
 }
 
 sub _getUevent {
