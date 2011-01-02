@@ -32,6 +32,14 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
+
+    my $handle = getFileHandle(
+        logger => $logger,
+        command => "ipmitool lan print",
+    );
+
+    return unless $handle;
 
     my $ipaddress;
     my $ipgateway;
@@ -39,20 +47,22 @@ sub doInventory {
     my $ipsubnet;
     my $macaddr;
 
-    foreach (`ipmitool lan print 2> /dev/null`) {
-        if (/^IP Address\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /^IP Address\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
             $ipaddress = $1;
         }
-        if (/^Default Gateway IP\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^Default Gateway IP\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
             $ipgateway = $1;
         }
-        if (/^Subnet Mask\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^Subnet Mask\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
             $ipmask = $1;
         }
-        if (/^MAC Address\s+:\s+([0-9a-f]{2}(:[0-9a-f]{2}){5})/) {
+        if ($line =~ /^MAC Address\s+:\s+([0-9a-f]{2}(:[0-9a-f]{2}){5})/) {
             $macaddr = $1;
         }
     }
+    close $handle;
+
     my $binip = &ip_iptobin ($ipaddress, 4);
     my $binmask = &ip_iptobin ($ipmask, 4);
     my $binsubnet = $binip & $binmask;
