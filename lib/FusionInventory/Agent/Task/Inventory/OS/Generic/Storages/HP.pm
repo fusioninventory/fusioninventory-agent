@@ -81,7 +81,7 @@ sub doInventory {
 # Example output :
 #    
 # Smart Array E200 in Slot 2    (sn: PA6C90K9SUH1ZA)
-        next unless $line1 =~ /.*Slot\s(\d*).*/;
+        next unless $line1 =~ /Slot\s(\d*)/;
 
         my $slot = $1;
         my $handle2 = getFilehandle(
@@ -99,7 +99,7 @@ sub doInventory {
             #
 #      physicaldrive 2I:1:1 (port 2I:box 1:bay 1, SATA, 74.3 GB, OK)
 #      physicaldrive 2I:1:2 (port 2I:box 1:bay 2, SATA, 74.3 GB, OK)
-            next unless $line2 =~ /.*physicaldrive\s(\S*)/;
+            next unless $line2 =~ /physicaldrive\s(\S*)/;
 
             my $pd = $1;
             my $handle3 = getFilehandle(
@@ -130,12 +130,12 @@ sub doInventory {
 #         SATA NCQ Capable: False
 #         PHY Count: 1        
 
-                $model = $1 if $line3 =~ /.*Model:\s(.*)/;
-                $description = $1 if $line3 =~ /.*Interface Type:\s(.*)/;
-                $media = $1 if $line3 =~ /.*Drive Type:\s(.*)/;
-                $capacity = 1000*$1 if $line3 =~ /.*Size:\s(.*)/;
-                $serialnumber = $1 if $line3 =~ /.*Serial Number:\s(.*)/;
-                $firmware = $1 if $line3 =~ /.*Firmware Revision:\s(.*)/;
+                $model = $1 if $line3 =~ /Model:\s(.*)/;
+                $description = $1 if $line3 =~ /Interface Type:\s(.*)/;
+                $media = $1 if $line3 =~ /Drive Type:\s(.*)/;
+                $capacity = 1000*$1 if $line3 =~ /Size:\s(.*)/;
+                $serialnumber = $1 if $line3 =~ /Serial Number:\s(.*)/;
+                $firmware = $1 if $line3 =~ /Firmware Revision:\s(.*)/;
             }
             close $handle3;
             $serialnumber =~ s/^\s+//;
