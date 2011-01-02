@@ -146,8 +146,6 @@ sub doInventory {
                 $media = 'disk';
             }
 
-            $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
-
             $inventory->addStorage({
                     NAME => $model,
                     MANUFACTURER => $manufacturer,
