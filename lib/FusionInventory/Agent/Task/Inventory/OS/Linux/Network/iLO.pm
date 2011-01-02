@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return can_run('hponcfg');
@@ -31,13 +32,13 @@ sub doInventory {
     my $status;
 
     while (my $line = <$handle>) {
-        if ($line =~ /<IP_ADDRESS VALUE="([0-9.]+)"\/>/) {
+        if ($line =~ /<IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
             $ipaddress = $1;
         }
-        if ($line =~ /<SUBNET_MASK VALUE="([0-9.]+)"\/>/) {
+        if ($line =~ /<SUBNET_MASK VALUE="($ip_address_pattern))"\/>/) {
             $ipmask = $1;
         }
-        if ($line =~ /<GATEWAY_IP_ADDRESS VALUE="([0-9.]+)"\/>/) {
+        if ($line =~ /<GATEWAY_IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
             $ipgateway = $1;
         }
         if ($line =~ /<NIC_SPEED VALUE="([0-9]+)"\/>/) {
