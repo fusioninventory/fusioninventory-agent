@@ -1,0 +1,8 @@
+/dev/disk0s2 on / (local, journaled)
+devfs on /dev (local)
+fdesc on /dev (union)
+<volfs> on /.vol
+/dev/disk0s3 on /Volumes/data (local, journaled)
+automount -nsl [141] on /Network (automounted)
+automount -fstab [147] on /automount/Servers (automounted)
+automount -static [147] on /automount/static (automounted)
