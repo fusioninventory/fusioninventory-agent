@@ -419,6 +419,11 @@ sub none (&@) { ## no critic (SubroutinePrototypes)
     return 1;
 }
 
+sub uniq (@) { ## no critic (SubroutinePrototypes)
+    my %seen = ();
+    grep { not $seen{$_}++ } @_;
+}
+
 1;
 __END__
 
@@ -591,3 +596,7 @@ BLOCK.
 =head2 none BLOCK LIST
 
 Returns a true value if no item in LIST meets the criterion given through BLOCK.
+
+=head2 uniq BLOCK LIST
+
+Returns a new list by stripping duplicate values in LIST.
