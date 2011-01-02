@@ -22,8 +22,10 @@ sub isInventoryEnabled {
 
     return unless can_run('dmidecode');
 
-    my @output = `dmidecode`;
-    return @output > 10;
+    my $count = getLinesCount(
+        command => "dmidecode"
+    );
+    return $count > 10;
 }
 
 sub doInventory {}
