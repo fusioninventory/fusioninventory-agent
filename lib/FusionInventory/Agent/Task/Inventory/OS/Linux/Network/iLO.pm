@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return can_run('hponcfg');
@@ -15,30 +16,38 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $name;
+    my $handle = getFileHandle(
+        logger => $logger,
+        command => 'hponcfg -aw -'
+    );
+
+    return unless $handle;
+
     my $ipmask;
     my $ipgateway;
     my $speed;
     my $ipsubnet;
     my $ipaddress;
     my $status;
-#  my $macaddr;
 
-    foreach (`hponcfg -aw -`) {
-        if ( /<IP_ADDRESS VALUE="([0-9.]+)"\/>/ ) {
+    while (my $line = <$handle>) {
+        if ($line =~ /<IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
             $ipaddress = $1;
-        } elsif ( /<SUBNET_MASK VALUE="([0-9.]+)"\/>/ ) {
+        }
+        if ($line =~ /<SUBNET_MASK VALUE="($ip_address_pattern))"\/>/) {
             $ipmask = $1;
-        } elsif ( /<GATEWAY_IP_ADDRESS VALUE="([0-9.]+)"\/>/ ) {
+        }
+        if ($line =~ /<GATEWAY_IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
             $ipgateway = $1;
-        } elsif ( /<NIC_SPEED VALUE="([0-9]+)"\/>/ ) {
+        }
+        if ($line =~ /<NIC_SPEED VALUE="([0-9]+)"\/>/) {
             $speed = $1;
-        } elsif ( /<DNS_NAME VALUE="([^"]+)"\/>/ ) {
-            $name = $1;
-        } elsif ( /<ENABLE_NIC VALUE="(.)"\/>/ ) {
+        } 
+        if ($line =~ /<ENABLE_NIC VALUE="(.)"\/>/) {
             $status = 'Up' if $1 =~ /Y/i;
         }
     }
+    close $handle;
     $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
     #Some cleanups
@@ -56,10 +65,6 @@ sub doInventory {
         SPEED => $speed,
         IPGATEWAY => $ipgateway,
         MANAGEMENT => 'iLO',
-#        MACADDR => $macaddr,
-#        PCISLOT => $pcislot,
-#        DRIVER => $driver,
-#        VIRTUALDEV => $virtualdev,
     });
 }
 

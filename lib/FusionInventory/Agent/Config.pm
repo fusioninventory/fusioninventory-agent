@@ -3,7 +3,6 @@ package FusionInventory::Agent::Config;
 use strict;
 use warnings;
 
-use Clone qw(clone);
 use English qw(-no_match_vars);
 use File::Spec;
 use UNIVERSAL::require;
@@ -39,8 +38,10 @@ sub new {
     $backend_class->require();
     my $backend = $backend_class->new(%params);
 
-    # TODO: Do we need a new dependency just for this clone() call?
-    my $values = clone($defaults);
+    my $values;
+    foreach my $key (keys %$defaults) {
+        $values->{$key} = $defaults->{$key};
+    }
     $backend->load($values);
     _check($values);
 

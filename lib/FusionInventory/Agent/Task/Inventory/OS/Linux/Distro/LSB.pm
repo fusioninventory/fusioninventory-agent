@@ -13,11 +13,14 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
-    my $release;
-    foreach (`lsb_release -d`) {
-        $release = $1 if /Description:\s+(.+)/;
-    }
+    my ($release) = getFirstMatch(
+        logger => $logger,
+        command => 'lsb_release -d',
+        pattern => qr/Description:\s+(.+)/
+    );
+
     my $OSComment = getFirstLine(command => 'uname -v');
 
     $inventory->setHardware(

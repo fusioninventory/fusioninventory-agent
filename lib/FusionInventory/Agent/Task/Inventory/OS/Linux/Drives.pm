@@ -56,7 +56,12 @@ sub doInventory {
 
         foreach my $drive (@drives) {
             if ($drive->{FILESYSTEM} =~ /^ext(2|3|4|4dev)/ && $has_dumpe2fs) {
-                foreach my $line (`dumpe2fs -h $drive->{VOLUMN} 2> /dev/null`) {
+                my $handle = getFileHandle(
+                    logger => $logger,
+                    command => "dumpe2fs -h $drive->{VOLUMN}"
+                );
+                next unless $handle;
+                while (my $line = <$handle>) {
                     if ($line =~ /Filesystem UUID:\s+(\S+)/) {
                         $drive->{SERIAL} = $1;
                     } elsif ($line =~ /Filesystem created:\s+\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+(\d{4})$/) {
@@ -65,22 +70,29 @@ sub doInventory {
                         $drive->{LABEL} = $1 unless $1 eq '<none>';
                     }
                 }
+                close $handle;
                 next;
             }
 
             if ($drive->{FILESYSTEM} eq 'xfs' && $has_xfs_db) {
-                foreach my $line (`xfs_db -r -c uuid $drive->{VOLUMN}`) {
-                    $drive->{SERIAL} = $1 if $line =~ /^UUID =\s+(\S+)/;
-                }
-                foreach my $line (`xfs_db -r -c label $drive->{VOLUMN}`) {
-                    $drive->{LABEL} = $1 if $line =~ /^label =\s+"(\S+)"/;
-                }
+                ($drive->{SERIAL}) = getFirstMatch(
+                    logger  => $logger,
+                    command => "xfs_db -r -c uuid $drive->{VOLUMN}",
+                    pattern => qr/^UUID =\s+(\S+)/
+                );
+                ($drive->{LABEL}) = getFirstMatch(
+                    logger  => $logger,
+                    command => "xfs_db -r -c label $drive->{VOLUMN}",
+                    pattern => qr/^label =\s+"(\S+)"/
+                );
                 next;
             }
 
             if ($drive->{FILESYSTEM} eq 'vfat' && $has_dosfslabel) {
-                $drive->{LABEL} = `dosfslabel $drive->{VOLUMN}`;
-                chomp $drive->{LABEL};
+                $drive->{LABEL} = getFirstLine(
+                    logger  => $logger,
+                    command => "dosfslabel $drive->{VOLUMN}"
+                );
                 next;
             }
         }

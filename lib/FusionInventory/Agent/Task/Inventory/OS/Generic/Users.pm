@@ -14,14 +14,20 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
-    my %user;
-    # Logged on users
-    foreach (`who`){
-        my $user;
-        $user = $1 if /^(\S+)./;
-        $inventory->addUser ({ LOGIN => $user });
+    my $handle = getFileHandle(
+        logger => $logger,
+        command => 'who'
+    );
+
+    return unless $handle;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)/;
+        $inventory->addUser({ LOGIN => $1 });
     }
+    close $handle;
 
 }
 

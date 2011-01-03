@@ -87,11 +87,13 @@ sub doInventory {
     my $ddcprobeData = _getDdcprobeData();
 
     my $xOrgPid;
-    foreach (`ps aux`) {
-        if ((/\/usr(\/bin|\/X11R6\/bin)\/X/ || /Xorg/) && /^\S+\s+(\d+)/) {
-            $xOrgPid = $1;
-            last;
-        }
+    foreach my $process (getProcessesFromPs(
+        logger => $logger,
+        command => 'ps aux'
+    )) {
+        next unless $process->{CMD} =~ m{^/usr/(?:bin/(?:X|Xorg)|X11R6/bin/X) };
+        $xOrgPid = $process->{PID};
+        last;
     }
 
     my $xorgData;

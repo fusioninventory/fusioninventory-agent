@@ -24,6 +24,8 @@ our @EXPORT = qw(
     getSanitizedString
     getFirstLine
     getFirstMatch
+    getAllLines
+    getLinesCount
     getHostname
     compareVersion
     can_run
@@ -31,6 +33,7 @@ our @EXPORT = qw(
     any
     all
     none
+    uniq
 );
 
 memoize('can_run');
@@ -313,6 +316,37 @@ sub getFirstMatch {
     return @results;
 }
 
+sub getAllLines {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @lines;
+    while (my $line = <$handle>) {
+        chomp $line;
+        push @lines, $line;
+    }
+    close $handle;
+
+    return @lines;
+}
+
+sub getLinesCount {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $count = 0;
+    while (my $line = <$handle>) {
+        $count++;
+    }
+    close $handle;
+
+    return $count;
+}
+
 sub can_run {
     my ($binary) = @_;
 
@@ -386,6 +420,11 @@ sub none (&@) { ## no critic (SubroutinePrototypes)
         return 0 if $f->();
     }
     return 1;
+}
+
+sub uniq (@) { ## no critic (SubroutinePrototypes)
+    my %seen = ();
+    grep { not $seen{$_}++ } @_;
 }
 
 1;
@@ -481,6 +520,21 @@ of line removed.
 
 =back
 
+=head2 getAllLines(%params)
+
+Returns all the lines of given command output or given file content, with end
+of line removed.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
 =head2 getFirstMatch(%params)
 
 Returns the result of applying given pattern on the first matching line of
@@ -489,6 +543,20 @@ given command output or given file content.
 =over
 
 =item pattern a regexp
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getLinesCount(%params)
+
+Returns the number of lines of given command output or given file content.
+
+=over
 
 =item logger a logger object
 
@@ -531,3 +599,7 @@ BLOCK.
 =head2 none BLOCK LIST
 
 Returns a true value if no item in LIST meets the criterion given through BLOCK.
+
+=head2 uniq BLOCK LIST
+
+Returns a new list by stripping duplicate values in LIST.

@@ -3083,7 +3083,7 @@ plan tests =>
     (scalar @speed_tests_nok) +
     (scalar @manufacturer_tests_ok) +
     (scalar @manufacturer_tests_nok) +
-    4;
+    8;
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/dmidecode/$test";
@@ -3153,6 +3153,26 @@ is(
     getFirstLine(command => 'perl -MConfig -e \'print "foo\nbar\n\baz\n"\''),
     'foo',
     "simple command reading"
+);
+is(
+    getLinesCount(file => $tmp),
+    3,
+    "lines count, file file reading"
+);
+is(
+    getLinesCount(command => 'perl -MConfig -e \'print "foo\nbar\n\baz\n"\''),
+    3,
+    "lines count, command reading"
+);
+is_deeply(
+    [ getAllLines(file => $tmp) ],
+    [ qw/foo bar baz/ ],
+    "all lines, file reading"
+);
+is_deeply(
+    [ getAllLines(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\'') ],
+    [ qw/foo bar baz/ ],
+    "all lines, command reading"
 );
 is_deeply(
     [ getFirstMatch(file => $tmp, pattern => qr/^(b\w+)$/) ],

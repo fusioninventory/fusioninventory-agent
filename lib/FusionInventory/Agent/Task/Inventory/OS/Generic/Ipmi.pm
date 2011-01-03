@@ -21,6 +21,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return unless can_run('ipmitool');
@@ -32,34 +33,37 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
+
+    my $handle = getFileHandle(
+        logger => $logger,
+        command => "ipmitool lan print",
+    );
+
+    return unless $handle;
 
     my $ipaddress;
     my $ipgateway;
     my $ipmask;
-    my $ipsubnet;
     my $macaddr;
 
-    foreach (`ipmitool lan print 2> /dev/null`) {
-        if (/^IP Address\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /^IP Address\s+:\s+($ip_address_pattern)/) {
             $ipaddress = $1;
         }
-        if (/^Default Gateway IP\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^Default Gateway IP\s+:\s+($ip_address_pattern)/) {
             $ipgateway = $1;
         }
-        if (/^Subnet Mask\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^Subnet Mask\s+:\s+($ip_address_pattern)/) {
             $ipmask = $1;
         }
-        if (/^MAC Address\s+:\s+([0-9a-f]{2}(:[0-9a-f]{2}){5})/) {
+        if ($line =~ /^MAC Address\s+:\s+($mac_address_pattern)/) {
             $macaddr = $1;
         }
     }
-    my $binip = &ip_iptobin ($ipaddress, 4);
-    my $binmask = &ip_iptobin ($ipmask, 4);
-    my $binsubnet = $binip & $binmask;
-    if (can_load("Net::IP")) {
-        Net::IP->import(':PROC');
-        $ipsubnet = ip_bintoip($binsubnet, 4);
-    }
+    close $handle;
+
+    my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
     $inventory->addNetwork({
         DESCRIPTION => 'bmc',

@@ -2496,11 +2496,18 @@ my %netstat_tests = (
     },
 );
 
+my %mount_tests = (
+    linux   => [ qw/ext4 tmpfs proc sysfs devpts binfmt_misc/ ],
+    darwin  => [ qw/local union/ ],
+    freebsd => [ qw/ufs/ ]
+);
+
 plan tests =>
     (scalar keys %lspci_tests)   +
     (scalar keys %df_tests)      +
     (scalar keys %ps_tests)      +
     (scalar keys %netstat_tests) +
+    (scalar keys %mount_tests)   +
     (scalar @dhcp_leases_test)   + 
     (scalar keys %getDfoutput_tests);
 
@@ -2554,4 +2561,10 @@ foreach my $test (keys %netstat_tests) {
     my $file = "resources/netstat/$test";
     my $results = getRoutesFromNetstat(file => $file);
     is_deeply($results, $netstat_tests{$test}, $test);
+}
+
+foreach my $test (keys %mount_tests) {
+    my $file = "resources/mount/$test";
+    my @types = getFilesystemsTypesFromMount(file => $file);
+    is_deeply(\@types, $mount_tests{$test}, $test);
 }
