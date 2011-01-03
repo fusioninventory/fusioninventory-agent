@@ -337,7 +337,7 @@ sub setSslRemoteHost {
         my $cn = $1;
         $cn =~ s/^([^\.]+)/($1|\\*)/;
         $cn =~ s/([\-\.])/\\$1/g;
-        $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$cn);
+        $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$cn.'$');
     }
 }
 
