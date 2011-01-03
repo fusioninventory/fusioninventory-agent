@@ -1,4 +1,4 @@
-package FusionInventory::Test::MockSystem::Linux1;
+package FusionInventory::Test::MockSystem::Linux2;
 
 use strict;
 use warnings;
@@ -13,7 +13,8 @@ my $system = FusionInventory::Test::MockSystem->new(
         'uname -r'       => 'resources/uname/linux-a',
         'uname -m'       => 'resources/uname/linux-m',
         'uname -v'       => 'resources/uname/linux-v',
-        'rpm -qa --queryformat \'%{NAME}\t%{VERSION}-%{RELEASE}\t%{INSTALLTIME:date}\t%{SIZE}\t%{SUMMARY}\n\'' => 'resources/packaging/rpm'
+        'dpkg-query --show --showformat=\'${Package}\t${Version}\t${Installed-Size}\t${Description}\n\'' => 'resources/packaging/dpkg'
+
     }
 );
 
