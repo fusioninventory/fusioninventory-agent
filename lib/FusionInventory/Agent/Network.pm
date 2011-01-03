@@ -335,6 +335,7 @@ sub setSslRemoteHost {
     # Check server name against provided SSL certificate
     if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
         my $cn = $1;
+        $cn =~ s/^([^\.]+)/($1|\\*)/;
         $cn =~ s/([\-\.])/\\$1/g;
         $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$cn);
     }

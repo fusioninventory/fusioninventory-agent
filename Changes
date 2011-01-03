@@ -8,6 +8,8 @@ Revision history for FusionInventory::Agent
          'myData' by loading the expected file.
        * A yum plugin in contrib to trigger FusionInventory after the updates
          (Remi COLLET)
+       * SSL certificat check: Accept wild card in the hostname
+         http://forge.fusioninventory.org/issues/542
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
