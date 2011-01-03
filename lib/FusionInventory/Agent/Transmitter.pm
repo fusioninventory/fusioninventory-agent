@@ -87,7 +87,7 @@ sub send {
         $re =~ s/^([^\.]+)/($1|\\*)/;
 	# protect some characters, $re will be evaluated as a regex
         $re =~ s/([\-\.])/\\$1/g;
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$re$");
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$re\$");
     }
 
     my $message_content = $self->_compress($message->getContent());
