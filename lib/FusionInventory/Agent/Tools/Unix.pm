@@ -34,7 +34,7 @@ sub getDeviceCapacity {
         "/sbin/fdisk -p -s $params{device}" :
         "/sbin/fdisk -s $params{device}"    ;
 
-    my $capacity = getFirstline(
+    my $capacity = getFirstLine(
         command => $command,
         logger  => $params{logger},
     );
