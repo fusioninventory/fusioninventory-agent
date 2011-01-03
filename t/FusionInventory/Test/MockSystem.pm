@@ -36,6 +36,7 @@ sub new {
                 $_[$i + 1] = $replacement;
                 print STDERR
                     "command '$wanted' replaced with file '$replacement'\n";
+                return;
             }
 
             if ($_[$i] eq 'file') {
@@ -50,6 +51,7 @@ sub new {
                 $_[$i + 1] = $replacement;
                 print STDERR
                     "file '$wanted' replaced with file '$replacement'\n";
+                return;
             }
         }
     };
@@ -63,6 +65,17 @@ sub new {
 
         # short-circuit original function
         $_[1] = $executables{$wanted};
+    };
+
+    wrap 'FusionInventory::Agent::Tools::can_read', pre => sub {
+        my $wanted = $_[0];
+        print STDERR
+            "file '$wanted' availability tested: "  .
+            ($params{files}->{$wanted} ? "true" : "false") .
+            "\n";
+
+        # short-circuit original function
+        $_[1] = $params{files}->{$wanted};
     };
 
     return $self;
