@@ -15,6 +15,9 @@ my $system = FusionInventory::Test::MockSystem->new(
         'uname -v'       => 'resources/uname/linux-v',
         'dpkg-query --show --showformat=\'${Package}\t${Version}\t${Installed-Size}\t${Description}\n\'' => 'resources/packaging/dpkg'
 
+    },
+    files => {
+        '/etc/debian_version' => 'resources/release/debian'
     }
 );
 

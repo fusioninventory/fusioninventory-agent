@@ -14,6 +14,9 @@ my $system = FusionInventory::Test::MockSystem->new(
         'uname -m'       => 'resources/uname/linux-m',
         'uname -v'       => 'resources/uname/linux-v',
         'rpm -qa --queryformat \'%{NAME}\t%{VERSION}-%{RELEASE}\t%{INSTALLTIME:date}\t%{SIZE}\t%{SUMMARY}\n\'' => 'resources/packaging/rpm'
+    },
+    files => {
+        '/etc/mandriva-release' => 'resources/release/mandriva'
     }
 );
 
