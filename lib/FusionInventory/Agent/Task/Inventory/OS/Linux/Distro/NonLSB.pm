@@ -36,14 +36,7 @@ sub _findRelease {
         my $distro = $_->[1];
 
         next unless -f $file;
-        my $handle;
-        if (!open $handle, '<', $file) {
-            warn "Can't open $file: $ERRNO";
-            return;
-        }
-        my $version = <$handle>;
-        chomp $version;
-        close $handle;
+        my $version = getFirstLine(file => $file);
         $release = sprintf $distro, $version;
         last;
     }
