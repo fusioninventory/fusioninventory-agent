@@ -15,6 +15,7 @@ Revision history for FusionInventory::Agent
        * SSL: try to use the default CA if now --ca-cert-* is avalaible,
          thanks Kevin Cousin who suggested the idea
        * Inventory must be run after the deployment (OcsDeploy)
+       * Linux: fix Knoppix version format
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
