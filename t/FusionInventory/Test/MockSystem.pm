@@ -56,12 +56,13 @@ sub new {
 
     wrap 'FusionInventory::Agent::Tools::can_run', pre => sub {
         my $wanted = $_[0];
-        print STDERR "command '$wanted' availability tested\n";
+        print STDERR
+            "command '$wanted' availability tested: "  .
+            ($executables{$wanted} ? "true" : "false") .
+            "\n";
 
-        # short-circuit original function if needed
-        return unless $executables{$wanted};
-        $_[1] = 1;
-        print STDERR "command '$wanted' availability asserted\n";
+        # short-circuit original function
+        $_[1] = $executables{$wanted};
     };
 
     return $self;
