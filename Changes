@@ -45,6 +45,8 @@ Revision history for FusionInventory::Agent
          (Remi COLLET)
        * SSL certificat check: Accept wild card in the hostname
          http://forge.fusioninventory.org/issues/542
+       * Linux/CPU: avoid a warning is $serial is undef, thanks Raúl who
+         pointed the issue
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
