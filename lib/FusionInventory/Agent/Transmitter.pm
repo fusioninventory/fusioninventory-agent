@@ -85,9 +85,9 @@ sub send {
 	# Accept SSL cert will hostname with wild-card
 	# http://forge.fusioninventory.org/issues/542
         $re =~ s/^([^\.]+)/($1|\\*)/;
-	# protect some characters, $re will be evaluated as a regex
-        $re =~ s/([\-\.])/\\$1/g;
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$re$");
+	# protect metacharacters, as $re will be evaluated as a regex
+        $re =~ s/\./\\./g;
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$re\$");
     }
 
     my $message_content = $self->_compress($message->getContent());

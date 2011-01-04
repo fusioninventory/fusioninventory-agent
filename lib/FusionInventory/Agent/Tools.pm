@@ -29,6 +29,7 @@ our @EXPORT = qw(
     getHostname
     compareVersion
     can_run
+    can_read
     can_load
     any
     all
@@ -37,6 +38,7 @@ our @EXPORT = qw(
 );
 
 memoize('can_run');
+memoize('can_read');
 memoize('getCanonicalManufacturer');
 memoize('getInfosFromDmidecode');
 
@@ -364,6 +366,12 @@ sub can_run {
 
 }
 
+sub can_read {
+    my ($file) = @_;
+
+    return -f $file;
+}
+
 sub can_load {
     my ($module) = @_;
 
@@ -581,6 +589,10 @@ Returns host name, using hostname() under Unix, Win32::API under Windows.
 =head2 can_run($binary)
 
 Returns true if given binary can be executed.
+
+=head2 can_read($file)
+
+Returns true if given file can be read.
 
 =head2 can_load($module)
 

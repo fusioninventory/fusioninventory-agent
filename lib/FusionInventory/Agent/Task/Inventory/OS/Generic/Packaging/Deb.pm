@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
-    return can_run('dpkg');
+    return can_run('dpkg-query');
 }
 
 sub doInventory {

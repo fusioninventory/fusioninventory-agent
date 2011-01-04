@@ -10,7 +10,7 @@ my @files = (
     [ '/etc/debian_version'    => 'Debian GNU/Linux %s' ],
     [ '/etc/fedora-release'    => '%s' ],
     [ '/etc/gentoo-release'    => 'Gentoo Linux %s'],
-    [ '/etc/knoppix_version'   => 'Knoppix GNU/Linux $s' ],
+    [ '/etc/knoppix_version'   => 'Knoppix GNU/Linux %s' ],
     [ '/etc/mandriva-release'  => '%s' ],
     [ '/etc/mandrake-release'  => '%s' ],
     [ '/etc/redhat-release'    => '%s' ],
@@ -36,14 +36,7 @@ sub _findRelease {
         my $distro = $_->[1];
 
         next unless -f $file;
-        my $handle;
-        if (!open $handle, '<', $file) {
-            warn "Can't open $file: $ERRNO";
-            return;
-        }
-        my $version = <$handle>;
-        chomp $version;
-        close $handle;
+        my $version = getFirstLine(file => $file);
         $release = sprintf $distro, $version;
         last;
     }
