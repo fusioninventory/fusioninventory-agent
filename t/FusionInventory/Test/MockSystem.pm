@@ -18,6 +18,8 @@ sub new {
     my $self = {};
     bless $self, $class;
 
+    my $original = \&{'FusionInventory::Agent::Tools::getFileHandle'};
+
     wrap 'FusionInventory::Agent::Tools::getFileHandle', pre => sub {
         # scan arguments
         foreach my $i (0 .. $#_) {
@@ -31,9 +33,8 @@ sub new {
                 my $replacement = $params{commands}->{$wanted};
                 next unless $replacement;
 
-                # alter original arguments
-                $_[$i] = 'file';
-                $_[$i + 1] = $replacement;
+                # short-circuit original function
+                $_[-1] = $original->(@_[0 .. $#_ -1],  file => $replacement);
                 print STDERR
                     "command '$wanted' replaced with file '$replacement'\n";
                 return;
@@ -47,8 +48,8 @@ sub new {
                 my $replacement = $params{files}->{$wanted};
                 next unless $replacement;
 
-                # alter original arguments
-                $_[$i + 1] = $replacement;
+                # short-circuit original function
+                $_[-1] = $original->(@_[0 .. $#_ -1],  file => $replacement);
                 print STDERR
                     "file '$wanted' replaced with file '$replacement'\n";
                 return;
