@@ -253,7 +253,7 @@ sub _initModulesList {
         my $failed;
 
         foreach my $other_module (@${$module . '::runMeIfTheseChecksFailed'}) {
-            if ($self->{modules}->{$other_module}->{enabled}) {
+            if (! $self->{modules}->{$other_module}->{enabled}) {
                 $failed = $other_module;
                 last;
             }
