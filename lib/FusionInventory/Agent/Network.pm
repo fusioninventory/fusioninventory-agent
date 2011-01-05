@@ -283,7 +283,7 @@ sub turnSSLCheckOn {
     }
 
     if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
-        $logger->fault("You need to use either --ca-cert-file ".
+        $logger->debug("You may need to use either --ca-cert-file ".
             "or --ca-cert-dir to give the location of your SSL ".
             "certificat. You can also disable SSL check with ".
             "--no-ssl-check but this is very unsecure.");
