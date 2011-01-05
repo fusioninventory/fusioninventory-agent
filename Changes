@@ -14,6 +14,7 @@ Revision history for FusionInventory::Agent
          pointed the issue
        * SSL: try to use the default CA if now --ca-cert-* is avalaible,
          thanks Kevin Cousin who suggested the idea
+       * Inventory must be run after the deployment (OcsDeploy)
        * linux: fix Knoppix distribution version format
        * fix month number in process start date
 
