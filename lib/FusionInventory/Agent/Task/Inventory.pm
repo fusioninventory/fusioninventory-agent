@@ -6,6 +6,7 @@ use base 'FusionInventory::Agent::Task';
 
 use English qw(-no_match_vars);
 use File::Find;
+use List::Util qw(first);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query::Inventory;
@@ -250,14 +251,9 @@ sub _initModulesList {
 
         next unless ${$module . '::runMeIfTheseChecksFailed'};
 
-        my $failed;
-
-        foreach my $other_module (@${$module . '::runMeIfTheseChecksFailed'}) {
-            if ($self->{modules}->{$other_module}->{enabled}) {
-                $failed = $other_module;
-                last;
-            }
-        }
+        my $failed =
+            first { ! $self->{modules}->{$_}->{enabled} }
+            @${$module . '::runMeIfTheseChecksFailed'};
 
         if ($failed) {
             $self->{modules}->{$module}->{enabled} = 1;

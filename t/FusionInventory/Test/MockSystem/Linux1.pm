@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Test::MockSystem;
 
-my $system = FusionInventory::Test::MockSystem->new(
+mock(
     commands => {
         'ps aux'         => 'resources/ps/linux',
         '/usr/bin/lshal' => 'resources/hal/dell-xt2',

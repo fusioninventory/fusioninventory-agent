@@ -282,6 +282,7 @@ sub getProcessesFromPs {
     my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst) =
         localtime(time);
     $year = $year + 1900;
+    $month = $month + 1;
     my @processes;
 
     while ($line = <$handle>) {
@@ -313,23 +314,23 @@ sub getProcessesFromPs {
         my $begin;
         if ($started =~ /^(\d{1,2}):(\d{2})/) {
             # 10:00PM
-            $begin = "$year-$month-$day $started";
+            $begin = sprintf("%04d-%02d-%02d %s", $year, $month, $day, $started);
         } elsif ($started =~ /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(\d{2})[AP]M/) {
             # Sat03PM
             my $start_day = $2;
-            $begin = "$year-$month-$start_day $time";
+            $begin = sprintf("%04d-%02d-%02d %s", $year, $month, $start_day, $time);
         } elsif ($started =~ /^(\d{1,2})(\w{3})\d{1,2}/) {
             # 5Oct10
             my $start_day = $1;
             my $start_month = $2;
-            $begin = "$year-$month{$start_month}-$start_day $time";
+            $begin = sprintf("%04d-%02d-%02d %s", $year, $month{$start_month}, $start_day, $time);
         } elsif (-f "/proc/$pid") {
 	    # this will work only under Linux
 	    my $stat = stat("/proc/$pid");
 	    my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst)
 		= localtime($stat->ctime());
 	    $year = $year + 1900;
-            $begin = "$year-$month-$day $hour:$min"; 
+            $begin = sprintf("%04d-%02d-%02d %s:%s", $year, $month + 1, $day, $hour, $min); 
 	}
         push @processes, {
             USER          => $user,

@@ -2,12 +2,19 @@ package FusionInventory::Test::MockSystem;
 
 use strict;
 use warnings;
+use base 'Exporter';
 
 use Hook::LexWrap;
 use FusionInventory::Agent::Tools;
 
-sub new {
-    my ($class, %params) = @_;
+our @EXPORT = qw(
+    mock
+    getFileHandleWrapper
+    getAvailabilityrapper
+);
+
+sub mock {
+    my (%params) = @_;
 
     # compute a list of available executables
     my %executables =
@@ -15,12 +22,26 @@ sub new {
         map { (split (' ', $_))[0] }
         keys %{$params{commands}};
 
-    my $self = {};
-    bless $self, $class;
+    wrap 'FusionInventory::Agent::Tools::getFileHandle', pre => getFileHandleWrapper(%params);
+
+    wrap 'FusionInventory::Agent::Tools::can_run', pre => getAvailabilityWrapper(
+        type => 'command',
+        items => \%executables
+    );
+
+    wrap 'FusionInventory::Agent::Tools::can_read', pre => getAvailabilityWrapper(
+        type => 'file',
+        items => $params{files}
+    );
+
+}
+
+sub getFileHandleWrapper {
+    my (%params) = @_;
 
     my $original = \&{'FusionInventory::Agent::Tools::getFileHandle'};
 
-    wrap 'FusionInventory::Agent::Tools::getFileHandle', pre => sub {
+    return sub {
         # scan arguments
         foreach my $i (0 .. $#_) {
             next unless $_[$i] && $_[$i + 1];
@@ -56,30 +77,21 @@ sub new {
             }
         }
     };
+}
 
-    wrap 'FusionInventory::Agent::Tools::can_run', pre => sub {
+sub getAvailabilityWrapper {
+    my (%params) = @_;
+
+    return sub {
         my $wanted = $_[0];
         print STDERR
-            "command '$wanted' availability tested: "  .
-            ($executables{$wanted} ? "true" : "false") .
+            "$params{type} '$wanted' availability tested: "  .
+            ($params{items}->{$wanted} ? "true" : "false") .
             "\n";
 
         # short-circuit original function
-        $_[1] = $executables{$wanted};
+        $_[1] = $params{items}->{$wanted};
     };
-
-    wrap 'FusionInventory::Agent::Tools::can_read', pre => sub {
-        my $wanted = $_[0];
-        print STDERR
-            "file '$wanted' availability tested: "  .
-            ($params{files}->{$wanted} ? "true" : "false") .
-            "\n";
-
-        # short-circuit original function
-        $_[1] = $params{files}->{$wanted};
-    };
-
-    return $self;
 }
 
 1

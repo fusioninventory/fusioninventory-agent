@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 my @files = (
     [ '/etc/arch-release'      => 'ArchLinux %s' ],
     [ '/etc/debian_version'    => 'Debian GNU/Linux %s' ],
@@ -35,7 +37,7 @@ sub _findRelease {
         my $file = $_->[0];
         my $distro = $_->[1];
 
-        next unless -f $file;
+        next unless can_read($file);
         my $version = getFirstLine(file => $file);
         $release = sprintf $distro, $version;
         last;
