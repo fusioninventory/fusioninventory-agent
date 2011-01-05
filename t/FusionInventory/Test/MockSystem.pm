@@ -2,21 +2,25 @@ package FusionInventory::Test::MockSystem;
 
 use strict;
 use warnings;
+use base 'Exporter';
 
 use Hook::LexWrap;
 use FusionInventory::Agent::Tools;
 
-sub new {
-    my ($class, %params) = @_;
+our @EXPORT = qw(
+    mock
+    getFileHandleWrapper
+    getAvailabilityrapper
+);
+
+sub mock {
+    my (%params) = @_;
 
     # compute a list of available executables
     my %executables =
         map { $_ => 1 }
         map { (split (' ', $_))[0] }
         keys %{$params{commands}};
-
-    my $self = {};
-    bless $self, $class;
 
     wrap 'FusionInventory::Agent::Tools::getFileHandle', pre => getFileHandleWrapper(%params);
 
@@ -30,7 +34,6 @@ sub new {
         items => $params{files}
     );
 
-    return $self;
 }
 
 sub getFileHandleWrapper {
