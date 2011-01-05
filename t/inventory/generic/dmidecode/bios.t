@@ -135,6 +135,25 @@ my %tests = (
             UUID     => 'A8346631-8E88-3AE3-898C-F3AC9F61C316',
         }
     },
+    'rhel-3.9' => {
+        bios => {
+          'MMANUFACTURER' => undef,
+          'SSN' => '0',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'innotek GmbH',
+          'MSN' => undef,
+          'SMODEL' => 'VirtualBox',
+          'SMANUFACTURER' => 'innotek GmbH',
+          'BDATE' => '12/01/2006',
+          'MMODEL' => undef,
+          'BVERSION' => 'VirtualBox'
+        },
+        hardware => {
+	    UUID     => 'AE698CFC-492A-4C7B-848F-8C17D24BC76E',
+        }
+    },
+
     'rhel-4.3' => {
         bios => {
           'MMANUFACTURER' => 'IBM',
