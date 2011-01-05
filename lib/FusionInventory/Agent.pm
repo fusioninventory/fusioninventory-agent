@@ -266,8 +266,8 @@ sub main {
         });
 
         my @tasks = qw/
-            Inventory
             OcsDeploy
+            Inventory
             WakeOnLan
             SNMPQuery
             NetDiscovery
