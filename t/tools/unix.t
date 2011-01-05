@@ -395,8 +395,10 @@ my @dhcp_leases_test = (
 
 
 my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst) = localtime(time);
-my $today    = sprintf("%s-%d-%02d", $year + 1900, $month, $day);
-my $this_day = sprintf("%s-%d-%02d", $year + 1900, $month, 3);
+my $format = "%04d-%02d-%02d";
+my $today    = sprintf($format, $year + 1900, $month + 1, $day);
+my $this_day = sprintf($format, $year + 1900, $month + 1, 3);
+my $this_year = sprintf("%04d", $year + 1900);
 my %ps_tests = (
     linux => [
         {
@@ -1947,7 +1949,7 @@ my %ps_tests = (
             'PID' => '15',
             'CMD' => '/usr/sbin/DirectoryService',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:24.75',
+            'STARTED' => $this_year . '-10-05 0:24.75',
             'USER' => 'root',
             'MEM' => '0.2'
         },
@@ -1997,7 +1999,7 @@ my %ps_tests = (
             'PID' => '26235',
             'CMD' => '/System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 9).' 0:02.78',
+            'STARTED' => sprintf($format, $year + 1900, $month + 1, 9).' 0:02.78',
             'USER' => 'rousse',
             'MEM' => '0.5'
         },
@@ -2007,7 +2009,7 @@ my %ps_tests = (
             'PID' => '25404',
             'CMD' => '/usr/libexec/kextd',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 5).' 1:08.05',
+            'STARTED' => sprintf($format, $year + 1900, $month + 1, 5).' 1:08.05',
             'USER' => 'root',
             'MEM' => '0.3'
         },
@@ -2017,7 +2019,7 @@ my %ps_tests = (
             'PID' => '1902',
             'CMD' => '/usr/bin/ssh-agent -l',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.29',
+            'STARTED' => $this_day . ' 0:00.29',
             'USER' => 'rousse',
             'MEM' => '0.1'
         },
@@ -2027,7 +2029,7 @@ my %ps_tests = (
             'PID' => '1891',
             'CMD' => '-bash',
             'TTY' => 's001',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:01.54',
+            'STARTED' => $this_day . ' 0:01.54',
             'USER' => 'rousse',
             'MEM' => '0.0'
         },
@@ -2037,7 +2039,7 @@ my %ps_tests = (
             'PID' => '1890',
             'CMD' => 'login -pf rousse',
             'TTY' => 's001',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.03',
+            'STARTED' => $this_day . ' 0:00.03',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2047,7 +2049,7 @@ my %ps_tests = (
             'PID' => '1875',
             'CMD' => 'bash',
             'TTY' => 's000',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.05',
+            'STARTED' => $this_day . ' 0:00.05',
             'USER' => 'rousse',
             'MEM' => '0.0'
         },
@@ -2057,7 +2059,7 @@ my %ps_tests = (
             'PID' => '1798',
             'CMD' => '-bash',
             'TTY' => 's000',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.05',
+            'STARTED' => $this_day . ' 0:00.05',
             'USER' => 'rousse',
             'MEM' => '0.0'
         },
@@ -2067,7 +2069,7 @@ my %ps_tests = (
             'PID' => '1797',
             'CMD' => 'login -pf rousse',
             'TTY' => 's000',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.03',
+            'STARTED' => $this_day . ' 0:00.03',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2077,7 +2079,7 @@ my %ps_tests = (
             'PID' => '1732',
             'CMD' => '/Applications/MacVim.app/Contents/MacOS/MacVim -psn_0_524416',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 2:53.53',
+            'STARTED' => $this_day . ' 2:53.53',
             'USER' => 'rousse',
             'MEM' => '0.7'
         },
@@ -2087,7 +2089,7 @@ my %ps_tests = (
             'PID' => '1725',
             'CMD' => '/System/Library/Services/AppleSpell.service/Contents/MacOS/AppleSpell -psn_0_520319',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.24',
+            'STARTED' => $this_day . ' 0:00.24',
             'USER' => 'rousse',
             'MEM' => '0.1'
         },
@@ -2097,7 +2099,7 @@ my %ps_tests = (
             'PID' => '1720',
             'CMD' => '/Applications/TextEdit.app/Contents/MacOS/TextEdit -psn_0_512125',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.73',
+            'STARTED' => $this_day . ' 0:00.73',
             'USER' => 'rousse',
             'MEM' => '0.2'
         },
@@ -2107,7 +2109,7 @@ my %ps_tests = (
             'PID' => '1697',
             'CMD' => '/System/Library/Frameworks/WebKit.framework/WebKitPluginAgent',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.02',
+            'STARTED' => $this_day . ' 0:00.02',
             'USER' => 'rousse',
             'MEM' => '0.0'
         },
@@ -2117,7 +2119,7 @@ my %ps_tests = (
             'PID' => '1657',
             'CMD' => '/Applications/iTunes.app/Contents/Resources/iTunesHelper.app/Contents/MacOS/iTunesHelper -psn_0_458864',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.25',
+            'STARTED' => $this_day . ' 0:00.25',
             'USER' => 'rousse',
             'MEM' => '0.1'
         },
@@ -2127,7 +2129,7 @@ my %ps_tests = (
             'PID' => '1655',
             'CMD' => '/System/Library/CoreServices/AirPort Base Station Agent.app/Contents/MacOS/AirPort Base Station Agent -launchd -allowquit',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.32',
+            'STARTED' => $this_day . ' 0:00.32',
             'USER' => 'rousse',
             'MEM' => '0.1'
         },
@@ -2137,7 +2139,7 @@ my %ps_tests = (
             'PID' => '1649',
             'CMD' => '/usr/libexec/UserEventAgent -l Aqua',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:01.03',
+            'STARTED' => $this_day . ' 0:01.03',
             'USER' => 'rousse',
             'MEM' => '0.2'
         },
@@ -2147,7 +2149,7 @@ my %ps_tests = (
             'PID' => '1644',
             'CMD' => '/usr/sbin/pboard',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:00.01',
+            'STARTED' => $this_day . ' 0:00.01',
             'USER' => 'rousse',
             'MEM' => '0.0'
         },
@@ -2157,7 +2159,7 @@ my %ps_tests = (
             'PID' => '1638',
             'CMD' => '/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:01.16',
+            'STARTED' => $this_day . ' 0:01.16',
             'USER' => 'rousse',
             'MEM' => '0.1'
         },
@@ -2167,7 +2169,7 @@ my %ps_tests = (
             'PID' => '1634',
             'CMD' => '/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:20.88',
+            'STARTED' => $this_day . ' 0:20.88',
             'USER' => 'rousse',
             'MEM' => '1.0'
         },
@@ -2177,7 +2179,7 @@ my %ps_tests = (
             'PID' => '1632',
             'CMD' => '/System/Library/CoreServices/Dock.app/Contents/MacOS/Dock',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:06.06',
+            'STARTED' => $this_day . ' 0:06.06',
             'USER' => 'rousse',
             'MEM' => '0.6'
         },
@@ -2187,7 +2189,7 @@ my %ps_tests = (
             'PID' => '1613',
             'CMD' => '/System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow console',
             'TTY' => '??',
-            'STARTED' => sprintf("%s-%d-%02d", $year+1900, $month, 3).' 0:01.81',
+            'STARTED' => $this_day . ' 0:01.81',
             'USER' => 'rousse',
             'MEM' => '0.3'
         },
@@ -2197,7 +2199,7 @@ my %ps_tests = (
             'PID' => '590',
             'CMD' => '/usr/sbin/cupsd -l',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:02.39',
+            'STARTED' => $this_year . '-10-05 0:02.39',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2207,7 +2209,7 @@ my %ps_tests = (
             'PID' => '100',
             'CMD' => '/sbin/launchd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:03.83',
+            'STARTED' => $this_year . '-10-05 0:03.83',
             'USER' => 'rousse',
             'MEM' => '0.0'
         },
@@ -2217,7 +2219,7 @@ my %ps_tests = (
             'PID' => '76',
             'CMD' => '/usr/sbin/coreaudiod',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:04.00',
+            'STARTED' => $this_year . '-10-05 0:04.00',
             'USER' => '_coreaudiod',
             'MEM' => '0.3'
         },
@@ -2227,7 +2229,7 @@ my %ps_tests = (
             'PID' => '67',
             'CMD' => '/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/cvmsServ',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:00.04',
+            'STARTED' => $this_year . '-10-05 0:00.04',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2237,7 +2239,7 @@ my %ps_tests = (
             'PID' => '50',
             'CMD' => '/System/Library/CoreServices/coreservicesd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:09.12',
+            'STARTED' => $this_year . '-10-05 0:09.12',
             'USER' => 'root',
             'MEM' => '1.1'
         },
@@ -2247,7 +2249,7 @@ my %ps_tests = (
             'PID' => '41',
             'CMD' => 'autofsd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:00.28',
+            'STARTED' => $this_year . '-10-05 0:00.28',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2257,7 +2259,7 @@ my %ps_tests = (
             'PID' => '35',
             'CMD' => '/sbin/dynamic_pager -F /private/var/vm/swapfile',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:00.01',
+            'STARTED' => $this_year . '-10-05 0:00.01',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2267,7 +2269,7 @@ my %ps_tests = (
             'PID' => '33',
             'CMD' => '/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/Support/fseventsd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:11.29',
+            'STARTED' => $this_year . '-10-05 0:11.29',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2277,7 +2279,7 @@ my %ps_tests = (
             'PID' => '32',
             'CMD' => '/usr/libexec/hidd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:00.22',
+            'STARTED' => $this_year . '-10-05 0:00.22',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2287,7 +2289,7 @@ my %ps_tests = (
             'PID' => '30',
             'CMD' => '/usr/sbin/KernelEventAgent',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:00.51',
+            'STARTED' => $this_year . '-10-05 0:00.51',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2297,7 +2299,7 @@ my %ps_tests = (
             'PID' => '28',
             'CMD' => '/usr/sbin/mDNSResponder -launchd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:03.57',
+            'STARTED' => $this_year . '-10-05 0:03.57',
             'USER' => '_mdnsresponder',
             'MEM' => '0.1'
         },
@@ -2307,7 +2309,7 @@ my %ps_tests = (
             'PID' => '27',
             'CMD' => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 4:18.74',
+            'STARTED' => $this_year . '-10-05 4:18.74',
             'USER' => 'root',
             'MEM' => '1.5'
         },
@@ -2317,7 +2319,7 @@ my %ps_tests = (
             'PID' => '24',
             'CMD' => '/usr/sbin/securityd -i',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:00.72',
+            'STARTED' => $this_year . '-10-05 0:00.72',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2327,7 +2329,7 @@ my %ps_tests = (
             'PID' => '21',
             'CMD' => '/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd -launchd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:00.37',
+            'STARTED' => $this_year . '-10-05 0:00.37',
             'USER' => '_usbmuxd',
             'MEM' => '0.0'
         },
@@ -2337,7 +2339,7 @@ my %ps_tests = (
             'PID' => '19',
             'CMD' => '/usr/sbin/ntpd -c /private/etc/ntp-restrict.conf -n -g -p /var/run/ntpd.pid -f /var/db/ntp.drift',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:03.03',
+            'STARTED' => $this_year . '-10-05 0:03.03',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2347,7 +2349,7 @@ my %ps_tests = (
             'PID' => '17',
             'CMD' => '/usr/sbin/blued',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:01.63',
+            'STARTED' => $this_year . '-10-05 0:01.63',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2357,7 +2359,7 @@ my %ps_tests = (
             'PID' => '16',
             'CMD' => '/usr/sbin/distnoted',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:01.86',
+            'STARTED' => $this_year . '-10-05 0:01.86',
             'USER' => 'daemon',
             'MEM' => '0.0'
         },
@@ -2367,7 +2369,7 @@ my %ps_tests = (
             'PID' => '14',
             'CMD' => '/usr/sbin/syslogd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:01.45',
+            'STARTED' => $this_year . '-10-05 0:01.45',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2377,7 +2379,7 @@ my %ps_tests = (
             'PID' => '13',
             'CMD' => '/usr/libexec/configd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:09.21',
+            'STARTED' => $this_year . '-10-05 0:09.21',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2387,7 +2389,7 @@ my %ps_tests = (
             'PID' => '12',
             'CMD' => '/usr/sbin/diskarbitrationd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:01.35',
+            'STARTED' => $this_year . '-10-05 0:01.35',
             'USER' => 'root',
             'MEM' => '0.1'
         },
@@ -2397,7 +2399,7 @@ my %ps_tests = (
             'PID' => '11',
             'CMD' => '/usr/sbin/notifyd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:03.22',
+            'STARTED' => $this_year . '-10-05 0:03.22',
             'USER' => 'root',
             'MEM' => '0.0'
         },
@@ -2417,7 +2419,7 @@ my %ps_tests = (
             'PID' => '1',
             'CMD' => '/sbin/launchd',
             'TTY' => '??',
-            'STARTED' => '2010-10-5 0:51.06',
+            'STARTED' => $this_year . '-10-05 0:51.06',
             'USER' => 'root',
             'MEM' => '0.1'
         },
