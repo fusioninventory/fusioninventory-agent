@@ -24,8 +24,9 @@ sub run {
 
     # target selection
     my $target_config = $config->getBlock($params{target});
-    die "No configuration section for target $params{target}, aborting"
-        unless keys %$target_config;
+    foreach my $key (keys %{$params{target_params}}) {
+        $target_config->{$key} = $params{target_params}->{$key};
+    }
 
     my $target_type = $target_config->{type}
         or die "No type for target $params{target}, aborting";
@@ -79,8 +80,9 @@ sub run {
 
     # task selection
     my $task_config = $config->getBlock($params{task});
-    die "No configuration section for task $params{task}, aborting"
-        unless keys %$task_config;
+    foreach my $key (keys %{$params{task_params}}) {
+        $task_config->{$key} = $params{task_params}->{$key};
+    }
 
     my $task_type = $task_config->{type}
         or die "No type for task $params{task}, aborting";
