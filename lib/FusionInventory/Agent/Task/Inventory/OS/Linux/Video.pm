@@ -13,9 +13,9 @@ sub _getDdcprobeData {
 
     my $handle;
     if ($file) {
-	open $handle, '<', $file or die;
+	open $handle, '<', $file or return;
     } else {
-	open ($handle, "ddcprobe 2>&1 |")	
+	open ($handle, "ddcprobe 2>&1 |") or return;	
     }
     return unless $handle;
 
@@ -34,9 +34,9 @@ sub _parseXorgFd {
     my $xorgData;
     if (open XORG, $file) {
 	foreach (<XORG>) {
-# Intel
-	    if (/Modeline\s"(\S+?)"/) {
+	    if (!$xorgData->{resolution} && /Modeline\s"(\S+?)"/) {
 		$xorgData->{resolution}=$1 
+# Intel
 	    } elsif (/Integrated Graphics Chipset:\s+(.*)/) {
 		$xorgData->{name}=$1;
 	    }
@@ -69,6 +69,10 @@ sub _parseXorgFd {
 		# mimic lspci pci slot format
 		$xorgData->{pcislot} =~ s/^00@//;
 		$xorgData->{pcislot} =~ s/(\d{2}):(\d{2}):(\d)$/$1:$2.$3/;
+	    }
+# Nouveau
+	    elsif (/NOUVEAU\(0\): Chipset: "(.*)"/) {
+		$xorgData->{product}=$1;
 	    }
 	}
 	close(XORG);

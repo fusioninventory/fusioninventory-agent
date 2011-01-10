@@ -117,7 +117,13 @@ sub getDescription {
     return "USB" if (defined ($description) && $description =~ /usb/i);
 
     if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
-        if (($manufacturer && ($manufacturer =~ /ATA/)) || ($serialnumber && ($serialnumber =~ /ATA/))) {
+        if (
+	($manufacturer && ($manufacturer =~ /ATA/))
+	||
+	($serialnumber && ($serialnumber =~ /ATA/))
+	||
+	($description && ($description =~ /ATA/))
+	) {
             return  "SATA";
         } else {
             return "SCSI";
@@ -203,13 +209,19 @@ sub doInventory {
                         if !$device->{SERIALNUMBER};
                         next;
                     }
-                    if ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
+                    elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
                         my $value = $1;
                         $value =~ s/\s+$//;
                         $device->{FIRMWARE} = $value
                         if !$device->{FIRMWARE};
                         next;
                     }
+		    elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
+			$device->{DESCRIPTION} = $1;
+		    }
+		    elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
+			$device->{MODEL} = $1;
+		    }
                 }
                 close $handle;
             }
@@ -217,12 +229,14 @@ sub doInventory {
     }
 
     foreach my $device (@devices) {
+	if (!$device->{DESCRIPTION}) {
         $device->{DESCRIPTION} = getDescription(
             $device->{NAME},
             $device->{MANUFACTURER},
             $device->{DESCRIPTION},
             $device->{SERIALNUMBER}
-        );
+            );
+	}
 
         if (!$device->{MANUFACTURER} or $device->{MANUFACTURER} eq 'ATA') {
             $device->{MANUFACTURER} = getManufacturer($device->{MODEL});

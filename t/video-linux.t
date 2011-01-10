@@ -144,7 +144,7 @@ my %xorg = (
 	},
 	'intel-3' => {
 	   'pcislot' => '00:02.0',
-          'resolution' => '1152x864',
+          'resolution' => '1920x1080',
 	  'name' => 'Intel(R) G41'
 	},
 	'intel-4' => {
@@ -184,10 +184,14 @@ my %xorg = (
         'ati-2' => {
 	    'pcislot' => '00:01.0',
 	    'memory' => '8128kB',
-	    'resolution' => '320x240',
+	    'resolution' => '1024x768',
 	    'name' => 'ATI MACH64',
 	    'product' => 'MACH64GM'
 	},
+	'nouveau-1' => {
+          'resolution' => '1680x1050',
+	  'product' => 'NVIDIA NV86'
+	}
 
 	);
 plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);

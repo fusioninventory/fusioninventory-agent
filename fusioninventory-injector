@@ -166,5 +166,5 @@ This tool can be used to test your server, do benchmark or push inventory from o
 
 Please see: 
 
-B<fusioninventory-agent> S<--help>
+B<fusioninventory-injector> S<--help>
 

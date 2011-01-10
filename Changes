@@ -1,6 +1,24 @@
 Revision history for FusionInventory::Agent
 
-2.1.7
+2.1.8
+       * Linux, correctly read the number of core from /proc/cpuinfo
+       * MacOSX: KB unit in missing in Mac OS X Drive.pm
+         http://forge.fusioninventory.org/issues/521
+       * FusionInventory::Agent::Task::Base, correctly preinitialize
+         'myData' by loading the expected file.
+       * A yum plugin in contrib to trigger FusionInventory after the updates
+         (Remi COLLET)
+       * SSL certificat check: Accept wild card in the hostname
+         http://forge.fusioninventory.org/issues/542
+       * Linux/CPU: avoid a warning is $serial is undef, thanks Raúl who
+         pointed the issue
+       * SSL: try to use the default CA if now --ca-cert-* is avalaible,
+         thanks Kevin Cousin who suggested the idea
+       * Inventory must be run after the deployment (OcsDeploy)
+       * Linux: fix Knoppix version format
+       * fix month number in process list start date
+
+2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
        * add --no-p2p parameter
          http://forge.fusioninventory.org/issues/507
@@ -19,6 +37,11 @@ Revision history for FusionInventory::Agent
          http://en.wikipedia.org/wiki/CPUID
          Revert commit a1c4c665, which is broken because of that:
          Win32: try to identify dual core CPU even if Windows thinks it two physical CPU
+       * Linux/resolution: fix the parsing for Nouveau, than Remi Collet
+       * Linux: improve the Harddrive detection if lshal is not avalaible,
+         thanks Bernhard DENNER for the initial patch
+         https://bugs.launchpad.net/bugs/682689
+       * No warning if ddcprobe is not avalaible
 
 2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs

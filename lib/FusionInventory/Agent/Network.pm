@@ -283,7 +283,7 @@ sub turnSSLCheckOn {
     }
 
     if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
-        $logger->fault("You need to use either --ca-cert-file ".
+        $logger->debug("You may need to use either --ca-cert-file ".
             "or --ca-cert-dir to give the location of your SSL ".
             "certificat. You can also disable SSL check with ".
             "--no-ssl-check but this is very unsecure.");
@@ -334,9 +334,13 @@ sub setSslRemoteHost {
 
     # Check server name against provided SSL certificate
     if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
-        my $cn = $1;
-        $cn =~ s/([\-\.])/\\$1/g;
-        $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$cn);
+        my $re = $1;
+        # Accept SSL cert will hostname with wild-card
+        # http://forge.fusioninventory.org/issues/542
+        $re =~ s/^([^\.]+)/($1|\\*)/;
+        # protect some characters, $re will be evaluated as a regex
+        $re =~ s/([\-\.])/\\$1/g;
+        $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$re.'$');
     }
 }
 
