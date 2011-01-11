@@ -49,6 +49,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 sub isInventoryEnabled {
     return 1;
@@ -87,10 +88,8 @@ sub _getStatus {
 
     # Solaris zones
     if (can_run('/usr/sbin/zoneadm')) {
-        my @solaris_zones =
-            grep { !/global/ }
-            `/usr/sbin/zoneadm list 2>/dev/null`;
-        return 'SolarisZone' if @solaris_zones;
+        my $zone = getZone();
+        return 'SolarisZone' if $zone ne 'global';
     }
 
     # Xen PV host

@@ -22,7 +22,9 @@ GetOptions(
     'lazy',
     'wait=i',
     'task=s',
+    'task-param=s@',
     'target=s',
+    'target-param=s@',
     'conf-file=s'
 ) or pod2usage(-verbose => 0);
 
@@ -48,6 +50,18 @@ if (!$options{target}) {
     );
 }
 
+my ($task_params, $target_params);
+foreach my $param (@{$options{'task-param'}}) {
+    die "invalid task parameter $param"
+        unless $param =~ /^(\S+)=(\S+)$/;
+    $task_params->{$1} = $2;
+}
+foreach my $param (@{$options{'target-param'}}) {
+    die "invalid target parameter $param"
+        unless $param =~ /^(\S+)=(\S+)$/;
+    $target_params->{$1} = $2;
+}
+
 if ($options{wait}) {
     my $delay = int rand($options{wait});
     sleep($delay);
@@ -64,8 +78,10 @@ my $worker = FusionInventory::Agent::Worker->new(
 
 eval {
     $worker->run(
-        task   => $options{task},
-        target => $options{target}
+        task          => $options{task},
+        target        => $options{target},
+        task_params   => $task_params,
+        target_params => $target_params
     );
 };
 
@@ -84,12 +100,14 @@ fusioninventory-worker - FusionInventory worker
 B<fusioninventory-worker> [options] --target <target> --task <task>
 
   Options:
-    --conf-file FILE    configuration file
-    --debug             debug mode
-    --lazy              do not run out of schedule for this target
-    --wait TIME         wait a random delay before running
-    --version           display the agent version
-    --help              display usage instructions
+    --conf-file FILE         configuration file
+    --debug                  debug mode
+    --lazy                   do not run out of schedule for this target
+    --wait TIME              wait a random delay before running
+    --task-param key=value   pass additional parameter to the task
+    --target-param key=value pass additional parameter to the task
+    --version                display the agent version
+    --help                   display usage instructions
 
 =head1 EXAMPLES
 
