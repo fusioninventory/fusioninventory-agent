@@ -206,7 +206,7 @@ sub restore {
     }
     $ret = {} unless $ret;
 
-    return {};
+    return $ret;
 }
 
 =item remove({ module => $module, idx => $idx })
