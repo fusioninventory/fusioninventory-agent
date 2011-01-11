@@ -17,6 +17,8 @@ Revision history for FusionInventory::Agent
        * Inventory must be run after the deployment (OcsDeploy)
        * Linux: fix Knoppix version format
        * fix month number in process list start date
+       * Avoid failure if the agent can't load the .dump file, see: #542
+         thanks Kevin Cousin for the report
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
