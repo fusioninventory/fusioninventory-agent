@@ -196,8 +196,6 @@ The data structure to save (mandatory).
 
 The index number (optional).
 
-=back
-
 =head2 restore(%params)
 
 Restore a saved data structure. The following arguments are allowed:
