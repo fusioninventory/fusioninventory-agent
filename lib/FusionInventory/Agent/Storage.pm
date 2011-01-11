@@ -65,7 +65,13 @@ sub restore {
 
     return unless -f $filePath;
 
-    return retrieve($filePath);
+    my $ret;
+    if (-f $filePath) {
+	eval {$ret = retrieve($filePath)};
+    }
+    $ret = {} unless $ret;
+
+    return $ret;
 }
 
 sub exists {
@@ -187,8 +193,6 @@ Save given data structure. The following arguments are allowed:
 =item data
 
 The data structure to save (mandatory).
-
-=item idx
 
 The index number (optional).
 
