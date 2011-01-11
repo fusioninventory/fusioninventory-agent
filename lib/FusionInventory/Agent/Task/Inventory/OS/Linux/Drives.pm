@@ -122,7 +122,7 @@ sub doInventory {
 }
 
 sub _getDrivesFromHal {
-    my $devices = _parseLshal(command => '/usr/bin/lshal');
+    my $devices = _parseLshal(command => 'lshal');
     return @$devices;
 }
 
