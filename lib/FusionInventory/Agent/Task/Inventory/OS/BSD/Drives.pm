@@ -18,6 +18,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    # get drives list
     my @types = 
         grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
         getFilesystemsTypesFromMount(logger => $logger);
@@ -30,6 +31,7 @@ sub doInventory {
         );
     }
 
+    # add drives to the inventory
     foreach my $drive (@drives) {
         $inventory->addDrive($drive);
     }

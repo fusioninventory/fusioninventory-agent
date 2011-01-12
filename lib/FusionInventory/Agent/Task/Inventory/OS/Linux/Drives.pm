@@ -20,6 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    # get drives list
     my @drives =
         # exclude virtual file systems
         grep { $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/ }
@@ -30,8 +31,11 @@ sub doInventory {
     if (can_run('blkid')) {
         # use blkid if available, as it is filesystem-independant
         foreach my $drive (@drives) {
-            my $line = getFirstLine(command => "blkid $drive->{VOLUMN}");
-            $drive->{SERIAL} = $1 if $line =~ /\sUUID="(\S*)"\s/;
+            ($drive->{SERIAL}) = getFirstMatch(
+                logger  => $logger,
+                command => "blkid $drive->{VOLUMN}",
+                pattern => qr/\sUUID="(\S*)"\s/
+            );
         }
     } else {
         # otherwise fallback to filesystem-dependant utilities
@@ -115,6 +119,7 @@ sub doInventory {
         }
     }
 
+    # add drives to the inventory
     foreach my $drive (@drives) {
         $inventory->addDrive($drive);
     }
