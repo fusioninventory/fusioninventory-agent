@@ -20,12 +20,11 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # start with df command
-    my @drives = grep {
-# TODO: This list should be moved somewhere else like the one for Agent::Tools::Unix
-        $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/;
-    } getFilesystemsFromDf(logger => $logger, string => getDfoutput());
-
+    my @drives =
+        # exclude virtual file systems
+        grep { $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/; }
+        # get all file systems
+        getFilesystemsFromDf(logger => $logger, command => 'df -P -T -k');
 
     # get additional informations
     if (can_run('blkid')) {
