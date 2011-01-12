@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Drives;
 
 use strict;
+use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
