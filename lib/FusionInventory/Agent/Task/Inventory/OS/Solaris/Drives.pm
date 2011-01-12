@@ -24,11 +24,11 @@ sub doInventory {
 
     my @drives =
         # exclude solaris 10 specific devices
-        grep { $_->{VOLUMN} !~ /^\/(devices|platform)/; } 
+        grep { $_->{VOLUMN} !~ /^\/(devices|platform)/ } 
         # keep physical devices or swap
-        grep { $_->{VOLUMN} =~ /^(\/|swap)/; } 
+        grep { $_->{VOLUMN} =~ /^(\/|swap)/ } 
         # exclude cdrom mount
-        grep { $_->{TYPE} !~ /cdrom/; } 
+        grep { $_->{TYPE} !~ /cdrom/ } 
         # get all file systems
         getFilesystemsFromDf(logger => $logger, command => 'df -P -k');
 
