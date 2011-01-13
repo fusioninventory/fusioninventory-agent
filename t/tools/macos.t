@@ -2040,8 +2040,853 @@ my %tests = (
                 'VRAM (Total)' => '256 MB'
             }
         }
-    }
-);
+    },
+    '10.6.6-intel' =>{
+          'Locations' => {
+                           'Automatic' => {
+                                            'Services' => {
+                                                            'Bluetooth DUN' => {
+                                                                                 'Type' => 'PPP',
+                                                                                 'IPv6' => {
+                                                                                             'Configuration Method' => 'Automatic'
+                                                                                           },
+                                                                                 'IPv4' => {
+                                                                                             'Configuration Method' => 'PPP'
+                                                                                           },
+                                                                                 'Proxies' => {
+                                                                                                'FTP Passive Mode' => 'Yes'
+                                                                                              },
+                                                                                 'PPP' => {
+                                                                                            'IPCP Compression VJ' => 'Yes',
+                                                                                            'Idle Reminder' => 'No',
+                                                                                            'Idle Reminder Time' => '1800',
+                                                                                            'Disconnect on Logout' => 'Yes',
+                                                                                            'ACSP Enabled' => 'No',
+                                                                                            'Log File' => '/var/log/ppp.log',
+                                                                                            'Redial Enabled' => 'Yes',
+                                                                                            'Verbose Logging' => 'No',
+                                                                                            'Dial on Demand' => 'No',
+                                                                                            'Redial Interval' => '5',
+                                                                                            'Use Terminal Script' => 'No',
+                                                                                            'Disconnect on Idle Timer' => '600',
+                                                                                            'Disconnect on Sleep' => 'Yes',
+                                                                                            'LCP Echo Failure' => '4',
+                                                                                            'Disconnect on Idle' => 'Yes',
+                                                                                            'Disconnect on Fast User Switch' => 'Yes',
+                                                                                            'LCP Echo Interval' => '10',
+                                                                                            'Redial Count' => '1',
+                                                                                            'LCP Echo Enabled' => 'No',
+                                                                                            'Display Terminal Window' => 'No'
+                                                                                          }
+                                                                               },
+                                                            'FireWire' => {
+                                                                            'Type' => 'FireWire',
+                                                                            'IPv6' => {
+                                                                                        'Configuration Method' => 'Automatic'
+                                                                                      },
+                                                                            'BSD Device Name' => 'fw0',
+                                                                            'IPv4' => {
+                                                                                        'Configuration Method' => 'DHCP'
+                                                                                      },
+                                                                            'Proxies' => {
+                                                                                           'FTP Passive Mode' => 'Yes',
+                                                                                           'Exceptions List' => '*.local, 169.254/16'
+                                                                                         },
+                                                                            'Hardware (MAC) Address' => '00:1d:4f:ff:fe:66:f3:58'
+                                                                          },
+                                                            'Ethernet' => {
+                                                                            'Type' => 'Ethernet',
+                                                                            'IPv6' => {
+                                                                                        'Configuration Method' => 'Automatic'
+                                                                                      },
+                                                                            'BSD Device Name' => 'en0',
+                                                                            'IPv4' => {
+                                                                                        'Configuration Method' => 'DHCP'
+                                                                                      },
+                                                                            'Proxies' => {
+                                                                                           'FTP Passive Mode' => 'Yes',
+                                                                                           'Exceptions List' => '*.local, 169.254/16'
+                                                                                         },
+                                                                            'Hardware (MAC) Address' => '00:1b:63:36:1e:c3'
+                                                                          },
+                                                            'AirPort' => {
+                                                                           'Type' => 'IEEE80211',
+                                                                           'IPv6' => {
+                                                                                       'Configuration Method' => 'Automatic'
+                                                                                     },
+                                                                           'BSD Device Name' => 'en1',
+                                                                           'IPv4' => {
+                                                                                       'Configuration Method' => 'DHCP'
+                                                                                     },
+                                                                           'Proxies' => {
+                                                                                          'FTP Passive Mode' => 'Yes',
+                                                                                          'Exceptions List' => '*.local, 169.254/16'
+                                                                                        },
+                                                                           'Hardware (MAC) Address' => '00:1c:b3:c0:56:85',
+                                                                           'IEEE80211' => {
+                                                                                            'Join Mode' => 'Automatic',
+                                                                                            'Disconnect on Logout' => 'Yes',
+                                                                                            'PowerEnabled' => '1',
+                                                                                            'RememberRecentNetworks' => {},
+                                                                                            'RequireAdmin' => {},
+                                                                                            'PreferredNetworks' => {
+                                                                                                                     'Unique Network ID' => 'A628B3F5-DB6B-48A6-A3A4-17D33697041B',
+                                                                                                                     'SecurityType' => 'Open',
+                                                                                                                     'SSID_STR' => 'univ-paris1.fr'
+                                                                                                                   },
+                                                                                            'JoinModeFallback' => 'Prompt'
+                                                                                          }
+                                                                         }
+                                                          },
+                                            'Active Location' => 'No'
+                                          },
+                           'universite-paris1' => {
+                                                    'Services' => {
+                                                                    'Bluetooth DUN' => {
+                                                                                         'Type' => 'PPP',
+                                                                                         'IPv6' => {
+                                                                                                     'Configuration Method' => 'Automatic'
+                                                                                                   },
+                                                                                         'IPv4' => {
+                                                                                                     'Configuration Method' => 'PPP'
+                                                                                                   },
+                                                                                         'Proxies' => {
+                                                                                                        'FTP Passive Mode' => 'Yes'
+                                                                                                      },
+                                                                                         'PPP' => {
+                                                                                                    'IPCP Compression VJ' => 'Yes',
+                                                                                                    'Idle Reminder' => 'No',
+                                                                                                    'Idle Reminder Time' => '1800',
+                                                                                                    'Disconnect on Logout' => 'Yes',
+                                                                                                    'ACSP Enabled' => 'No',
+                                                                                                    'Log File' => '/var/log/ppp.log',
+                                                                                                    'Redial Enabled' => 'Yes',
+                                                                                                    'Verbose Logging' => 'No',
+                                                                                                    'Dial on Demand' => 'No',
+                                                                                                    'Redial Interval' => '5',
+                                                                                                    'Use Terminal Script' => 'No',
+                                                                                                    'Disconnect on Idle Timer' => '600',
+                                                                                                    'Disconnect on Sleep' => 'Yes',
+                                                                                                    'LCP Echo Failure' => '4',
+                                                                                                    'Disconnect on Idle' => 'Yes',
+                                                                                                    'Disconnect on Fast User Switch' => 'Yes',
+                                                                                                    'LCP Echo Interval' => '10',
+                                                                                                    'Redial Count' => '1',
+                                                                                                    'LCP Echo Enabled' => 'No',
+                                                                                                    'Display Terminal Window' => 'No'
+                                                                                                  }
+                                                                                       },
+                                                                    'FireWire' => {
+                                                                                    'Type' => 'FireWire',
+                                                                                    'IPv6' => {
+                                                                                                'Configuration Method' => 'Automatic'
+                                                                                              },
+                                                                                    'BSD Device Name' => 'fw0',
+                                                                                    'IPv4' => {
+                                                                                                'Configuration Method' => 'DHCP'
+                                                                                              },
+                                                                                    'Proxies' => {
+                                                                                                   'FTP Passive Mode' => 'Yes',
+                                                                                                   'Exceptions List' => '*.local, 169.254/16'
+                                                                                                 },
+                                                                                    'Hardware (MAC) Address' => '00:1d:4f:ff:fe:66:f3:58'
+                                                                                  },
+                                                                    'Ethernet' => {
+                                                                                    'Type' => 'Ethernet',
+                                                                                    'IPv6' => {
+                                                                                                'Configuration Method' => 'Automatic'
+                                                                                              },
+                                                                                    'BSD Device Name' => 'en0',
+                                                                                    'IPv4' => {
+                                                                                                'Configuration Method' => 'DHCP'
+                                                                                              },
+                                                                                    'Proxies' => {
+                                                                                                   'FTP Passive Mode' => 'Yes',
+                                                                                                   'Exceptions List' => '*.local, 169.254/16'
+                                                                                                 },
+                                                                                    'Hardware (MAC) Address' => '00:1b:63:36:1e:c3'
+                                                                                  },
+                                                                    'AirPort' => {
+                                                                                   'Type' => 'IEEE80211',
+                                                                                   'IPv6' => {
+                                                                                               'Configuration Method' => 'Automatic'
+                                                                                             },
+                                                                                   'BSD Device Name' => 'en1',
+                                                                                   'IPv4' => {
+                                                                                               'Configuration Method' => 'DHCP'
+                                                                                             },
+                                                                                   'Proxies' => {
+                                                                                                  'FTP Passive Mode' => 'Yes',
+                                                                                                  'Exceptions List' => '*.local, 169.254/16'
+                                                                                                },
+                                                                                   'Hardware (MAC) Address' => '00:1c:b3:c0:56:85',
+                                                                                   'IEEE80211' => {
+                                                                                                    'Join Mode' => 'Automatic',
+                                                                                                    'Disconnect on Logout' => 'Yes',
+                                                                                                    'PowerEnabled' => '1',
+                                                                                                    'RememberRecentNetworks' => {},
+                                                                                                    'RequireAdmin' => {},
+                                                                                                    'PreferredNetworks' => {
+                                                                                                                             'Unique Network ID' => '963478B4-1AC3-4B35-A4BB-3510FEA2FEF2',
+                                                                                                                             'SecurityType' => 'WPA2 Enterprise',
+                                                                                                                             'SSID_STR' => 'eduroam'
+                                                                                                                           },
+                                                                                                    'JoinModeFallback' => 'Prompt'
+                                                                                                  }
+                                                                                 }
+                                                                  },
+                                                    'Active Location' => 'No'
+                                                  },
+                           'eduroam' => {
+                                          'Services' => {
+                                                          'Bluetooth DUN' => {
+                                                                               'Type' => 'PPP',
+                                                                               'IPv6' => {
+                                                                                           'Configuration Method' => 'Automatic'
+                                                                                         },
+                                                                               'IPv4' => {
+                                                                                           'Configuration Method' => 'PPP'
+                                                                                         },
+                                                                               'Proxies' => {
+                                                                                              'FTP Passive Mode' => 'Yes'
+                                                                                            },
+                                                                               'PPP' => {
+                                                                                          'IPCP Compression VJ' => 'Yes',
+                                                                                          'Idle Reminder' => 'No',
+                                                                                          'Idle Reminder Time' => '1800',
+                                                                                          'Disconnect on Logout' => 'Yes',
+                                                                                          'ACSP Enabled' => 'No',
+                                                                                          'Log File' => '/var/log/ppp.log',
+                                                                                          'Redial Enabled' => 'Yes',
+                                                                                          'Verbose Logging' => 'No',
+                                                                                          'Dial on Demand' => 'No',
+                                                                                          'Redial Interval' => '5',
+                                                                                          'Use Terminal Script' => 'No',
+                                                                                          'Disconnect on Idle Timer' => '600',
+                                                                                          'Disconnect on Sleep' => 'Yes',
+                                                                                          'LCP Echo Failure' => '4',
+                                                                                          'Disconnect on Idle' => 'Yes',
+                                                                                          'Disconnect on Fast User Switch' => 'Yes',
+                                                                                          'LCP Echo Interval' => '10',
+                                                                                          'Redial Count' => '1',
+                                                                                          'LCP Echo Enabled' => 'No',
+                                                                                          'Display Terminal Window' => 'No'
+                                                                                        }
+                                                                             },
+                                                          'FireWire' => {
+                                                                          'Type' => 'FireWire',
+                                                                          'IPv6' => {
+                                                                                      'Configuration Method' => 'Automatic'
+                                                                                    },
+                                                                          'BSD Device Name' => 'fw0',
+                                                                          'IPv4' => {
+                                                                                      'Configuration Method' => 'DHCP'
+                                                                                    },
+                                                                          'Proxies' => {
+                                                                                         'FTP Passive Mode' => 'Yes',
+                                                                                         'Exceptions List' => '*.local, 169.254/16'
+                                                                                       },
+                                                                          'Hardware (MAC) Address' => '00:1d:4f:ff:fe:66:f3:58'
+                                                                        },
+                                                          'Ethernet' => {
+                                                                          'Type' => 'Ethernet',
+                                                                          'IPv6' => {
+                                                                                      'Configuration Method' => 'Automatic'
+                                                                                    },
+                                                                          'BSD Device Name' => 'en0',
+                                                                          'IPv4' => {
+                                                                                      'Configuration Method' => 'DHCP'
+                                                                                    },
+                                                                          'Proxies' => {
+                                                                                         'FTP Passive Mode' => 'Yes',
+                                                                                         'Exceptions List' => '*.local, 169.254/16'
+                                                                                       },
+                                                                          'Hardware (MAC) Address' => '00:1b:63:36:1e:c3'
+                                                                        },
+                                                          'AirPort' => {
+                                                                         'Type' => 'IEEE80211',
+                                                                         'BSD Device Name' => 'en1',
+                                                                         'AppleTalk' => {
+                                                                                          'Configuration Method' => 'Node',
+                                                                                          'Node' => 'Node'
+                                                                                        },
+                                                                         'IPv4' => {
+                                                                                     'Configuration Method' => 'DHCP'
+                                                                                   },
+                                                                         'Proxies' => {
+                                                                                        'FTP Passive Mode' => 'Yes',
+                                                                                        'Exceptions List' => '*.local, 169.254/16'
+                                                                                      },
+                                                                         'Hardware (MAC) Address' => '00:1c:b3:c0:56:85',
+                                                                         'IEEE80211' => {
+                                                                                          'Join Mode' => 'Automatic',
+                                                                                          'Disconnect on Logout' => 'Yes',
+                                                                                          'PowerEnabled' => {},
+                                                                                          'RememberRecentNetworks' => {},
+                                                                                          'PreferredNetworks' => {
+                                                                                                                   'Unique Network ID' => '46A33A68-7109-48AD-9255-900F0134903E',
+                                                                                                                   'SecurityType' => 'WPA Personal',
+                                                                                                                   'Unique Password ID' => '2C0ADC06-C220-4F00-809E-C34A6085305F',
+                                                                                                                   'SSID_STR' => 'undercover'
+                                                                                                                 },
+                                                                                          'JoinModeFallback' => 'Prompt'
+                                                                                        }
+                                                                       }
+                                                        },
+                                          'Active Location' => 'Yes'
+                                        }
+                         },
+          'USB' => {
+                     'USB Bus' => {
+                                    'Host Controller Driver' => 'AppleUSBUHCI',
+                                    'PCI Device ID' => '0x27c9',
+                                    'Host Controller Location' => 'Built-in USB',
+                                    'Bus Number' => '0x3d',
+                                    'PCI Vendor ID' => '0x8086',
+                                    'PCI Revision ID' => '0x0002'
+                                  },
+                     'USB High-Speed Bus' => {
+                                               'Host Controller Driver' => 'AppleUSBEHCI',
+                                               'PCI Device ID' => '0x27cc',
+                                               'Host Controller Location' => 'Built-in USB',
+                                               'Built-in iSight' => {
+                                                                      'Location ID' => '0xfd400000',
+                                                                      'Version' => ' 1.89',
+                                                                      'Current Available (mA)' => '500',
+                                                                      'Speed' => 'Up to 480 Mb/sec',
+                                                                      'Product ID' => '0x8501',
+                                                                      'Current Required (mA)' => '100',
+                                                                      'Manufacturer' => 'Micron',
+                                                                      'Vendor ID' => '0x05ac  (Apple Inc.)'
+                                                                    },
+                                               'iPhone' => {
+                                                             'Location ID' => '0xfd300000',
+                                                             'Product ID' => '0x1297',
+                                                             'Current Required (mA)' => '500',
+                                                             'Serial Number' => 'ad21f6125218200927797eb473d3e7eeae31e5ae',
+                                                             'Version' => ' 0.01',
+                                                             'Speed' => 'Up to 480 Mb/sec',
+                                                             'Current Available (mA)' => '500',
+                                                             'Manufacturer' => 'Apple Inc.',
+                                                             'Vendor ID' => '0x05ac  (Apple Inc.)'
+                                                           },
+                                               'Bus Number' => '0xfd',
+                                               'PCI Revision ID' => '0x0002',
+                                               'PCI Vendor ID' => '0x8086'
+                                             }
+                   },
+          'ATA' => {
+                     'ATA Bus' => {
+                                    'MATSHITACD-RW  CW-8221' => {
+                                                                  'Revision' => 'GA0J',
+                                                                  'Serial Number' => {
+                                                                                       'Detachable Drive' => 'No',
+                                                                                       'Protocol' => 'ATAPI'
+                                                                                     },
+                                                                  'Unit Number' => {
+                                                                                     'Low Power Polling' => 'Yes',
+                                                                                     'Socket Type' => 'Internal',
+                                                                                     'Power Off' => 'Yes'
+                                                                                   },
+                                                                  'Model' => 'MATSHITACD-RW  CW-8221'
+                                                                }
+                                  }
+                   },
+          'Audio (Built In)' => {
+                                  'Intel High Definition Audio' => {
+                                                                     'Speaker' => {
+                                                                                    'Connection' => 'Internal'
+                                                                                  },
+                                                                     'S/PDIF Optical Digital Audio Input' => {
+                                                                                                               'Connection' => 'Combination Input'
+                                                                                                             },
+                                                                     'Headphone' => {
+                                                                                      'Connection' => 'Combination Output'
+                                                                                    },
+                                                                     'Internal Microphone' => {
+                                                                                                'Connection' => 'Internal'
+                                                                                              },
+                                                                     'Line Input' => {
+                                                                                       'Connection' => 'Combination Input'
+                                                                                     },
+                                                                     'Audio ID' => '34',
+                                                                     'S/PDIF Optical Digital Audio Output' => {
+                                                                                                                'Connection' => 'Combination Output'
+                                                                                                              }
+                                                                   }
+                                },
+          'Disc Burning' => {
+                              'MATSHITA CD-RW  CW-8221' => {
+                                                             'Reads DVD' => 'Yes',
+                                                             'Cache' => '2048 KB',
+                                                             'Write Strategies' => 'CD-TAO, CD-SAO, CD-Raw',
+                                                             'Media' => 'To show the available burn speeds, insert a disc and choose View > Refresh',
+                                                             'Interconnect' => 'ATAPI',
+                                                             'Burn Support' => 'Yes (Apple Shipping Drive)',
+                                                             'CD-Write' => '-R, -RW',
+                                                             'Firmware Revision' => 'GA0J'
+                                                           }
+                            },
+          'Bluetooth' => {
+                           'Apple Bluetooth Software Version' => '2.3.8f7',
+                           'Outgoing Serial Ports' => {
+                                                        'Serial Port 1' => {
+                                                                             'Address' => {
+                                                                                            'Name' => 'Bluetooth-Modem'
+                                                                                          },
+                                                                             'RFCOMM Channel' => {
+                                                                                                   'Requires Authentication' => 'No'
+                                                                                                 }
+                                                                           }
+                                                      },
+                           'Services' => {
+                                           'Bluetooth File Transfer' => {
+                                                                          'Folder other devices can browse' => '~/Public',
+                                                                          'Requires Authentication' => 'Yes',
+                                                                          'State' => 'Enabled'
+                                                                        },
+                                           'Bluetooth File Exchange' => {
+                                                                          'When receiving items' => 'Prompt for each file',
+                                                                          'Folder for accepted items' => '~/Downloads',
+                                                                          'When PIM items are accepted' => 'Ask',
+                                                                          'Requires Authentication' => 'No',
+                                                                          'State' => 'Enabled',
+                                                                          'When other items are accepted' => 'Ask'
+                                                                        }
+                                         },
+                           'Hardware Settings' => {
+                                                    'Firmware Version' => '1965',
+                                                    'Product ID' => '0x8205',
+                                                    'Bluetooth Power' => 'On',
+                                                    'Address' => '00-1d-4f-8f-13-b1',
+                                                    'Requires Authentication' => 'No',
+                                                    'Discoverable' => 'Yes',
+                                                    'Manufacturer' => 'Cambridge Silicon Radio',
+                                                    'Vendor ID' => '0x5ac',
+                                                    'Name' => 'MacBookdeSAP'
+                                                  },
+                           'Incoming Serial Ports' => {
+                                                        'Serial Port 1' => {
+                                                                             'Requires Authentication' => 'No',
+                                                                             'RFCOMM Channel' => '3',
+                                                                             'Name' => 'Bluetooth-PDA-Sync'
+                                                                           }
+                                                      }
+                         },
+          'Power' => {
+                       'Hardware Configuration' => {
+                                                     'UPS Installed' => 'No'
+                                                   },
+                       'Battery Information' => {
+                                                  'Charge Information' => {
+                                                                            'Full charge capacity (mAh)' => {},
+                                                                            'Charge remaining (mAh)' => {
+                                                                                                          'Fully charged' => 'No',
+                                                                                                          'Charging' => 'No'
+                                                                                                        }
+                                                                          },
+                                                  'Health Information' => {
+                                                                            'Voltage (mV)' => '3908',
+                                                                            'Battery Installed' => 'Yes',
+                                                                            'Cycle count' => '5',
+                                                                            'Condition' => 'Replace Now',
+                                                                            'Amperage (mA)' => '74'
+                                                                          },
+                                                  'Model Information' => {
+                                                                           'PCB Lot Code' => '0000',
+                                                                           'Firmware Version' => '102a',
+                                                                           'Device name' => 'ASMB016',
+                                                                           'Hardware Revision' => '0500',
+                                                                           'Cell Revision' => '0102',
+                                                                           'Manufacturer' => 'DP',
+                                                                           'Pack Lot Code' => '0002'
+                                                                         }
+                                                },
+                       'System Power Settings' => {
+                                                    'AC Power' => {
+                                                                    'System Sleep Timer (Minutes)' => {
+                                                                                                        'Display Sleep Timer (Minutes)' => '10',
+                                                                                                        'Disk Sleep Timer (Minutes)' => '10',
+                                                                                                        'Automatic Restart On Power Loss' => 'No',
+                                                                                                        'Wake On AC Change' => 'No',
+                                                                                                        'Current Power Source' => 'Yes',
+                                                                                                        'Wake On Clamshell Open' => 'Yes',
+                                                                                                        'Display Sleep Uses Dim' => 'Yes',
+                                                                                                        'Wake On LAN' => 'Yes'
+                                                                                                      }
+                                                                  },
+                                                    'Battery Power' => {
+                                                                         'Reduce Brightness' => 'Yes',
+                                                                         'Display Sleep Timer (Minutes)' => '5',
+                                                                         'Disk Sleep Timer (Minutes)' => '5',
+                                                                         'System Sleep Timer (Minutes)' => '5',
+                                                                         'Wake On AC Change' => 'No',
+                                                                         'Wake On Clamshell Open' => 'Yes',
+                                                                         'Display Sleep Uses Dim' => 'Yes'
+                                                                       }
+                                                  },
+                       'AC Charger Information' => {
+                                                     'ID' => '0x0100',
+                                                     'Charging' => 'No',
+                                                     'Revision' => '0x0000',
+                                                     'Connected' => 'Yes',
+                                                     'Serial Number' => '0x005a4e88',
+                                                     'Family' => '0x00ba',
+                                                     'Wattage (W)' => '60'
+                                                   }
+                     },
+          'Universal Access' => {
+                                  'Universal Access Information' => {
+                                                                      'Zoom' => 'Off',
+                                                                      'Display' => 'Black on White',
+                                                                      'Slow Keys' => 'Off',
+                                                                      'Flash Screen' => 'Off',
+                                                                      'Mouse Keys' => 'Off',
+                                                                      'Sticky Keys' => 'Off',
+                                                                      'VoiceOver' => 'Off',
+                                                                      'Cursor Magnification' => 'Off'
+                                                                    }
+                                },
+          'Volumes' => {
+                         'home' => {
+                                     'Mounted From' => 'map auto_home',
+                                     'Mount Point' => '/home',
+                                     'Type' => 'autofs',
+                                     'Automounted' => 'Yes'
+                                   },
+                         'net' => {
+                                    'Mounted From' => 'map -hosts',
+                                    'Mount Point' => '/net',
+                                    'Type' => 'autofs',
+                                    'Automounted' => 'Yes'
+                                  }
+                       },
+          'Network' => {
+                         'FireWire' => {
+                                         'Has IP Assigned' => 'No',
+                                         'Type' => 'FireWire',
+                                         'IPv6' => {
+                                                     'Configuration Method' => 'Automatic'
+                                                   },
+                                         'BSD Device Name' => 'fw0',
+                                         'Ethernet' => {
+                                                         'Media Subtype' => 'Auto Select',
+                                                         'MAC Address' => '00:1d:4f:ff:fe:66:f3:58',
+                                                         'Media Options' => 'Full Duplex'
+                                                       },
+                                         'IPv4' => {
+                                                     'Configuration Method' => 'DHCP'
+                                                   },
+                                         'Hardware' => 'FireWire',
+                                         'Proxies' => {
+                                                        'FTP Passive Mode' => 'Yes',
+                                                        'Service Order' => '2',
+                                                        'Exceptions List' => '*.local, 169.254/16'
+                                                      }
+                                       },
+                         'Ethernet' => {
+                                         'Has IP Assigned' => 'Yes',
+                                         'IPv6' => {
+                                                     'Router' => 'fe80:0000:0000:0000:020b:60ff:feb0:b01b',
+                                                     'Prefix Length' => '64',
+                                                     'Interface Name' => 'en0',
+                                                     'Flags' => '32832',
+                                                     'Configuration Method' => 'Automatic',
+                                                     'Addresses' => '2001:0660:3305:0100:021b:63ff:fe36:1ec3'
+                                                   },
+                                         'BSD Device Name' => 'en0',
+                                         'Ethernet' => {
+                                                         'Media Subtype' => '100baseTX',
+                                                         'MAC Address' => '00:1b:63:36:1e:c3',
+                                                         'Media Options' => 'Full Duplex, Flow Control'
+                                                       },
+                                         'Hardware' => 'Ethernet',
+                                         'DNS' => {
+                                                    'Server Addresses' => '193.55.96.84, 193.55.99.70, 194.214.33.181',
+                                                    'Domain Name' => 'univ-paris1.fr'
+                                                  },
+                                         'Type' => 'Ethernet',
+                                         'IPv4 Addresses' => '172.20.10.171',
+                                         'DHCP Server Responses' => {
+                                                                      'Domain Name' => 'univ-paris1.fr',
+                                                                      'Lease Duration (seconds)' => {
+                                                                                                      'Routers' => '172.20.10.72',
+                                                                                                      'Subnet Mask' => '255.255.254.0',
+                                                                                                      'Server Identifier' => '172.20.0.2',
+                                                                                                      'DHCP Message Type' => '0x05'
+                                                                                                    },
+                                                                      'Domain Name Servers' => '193.55.96.84,193.55.99.70,194.214.33.181'
+                                                                    },
+                                         'IPv4' => {
+                                                     'Router' => '172.20.10.72',
+                                                     'Interface Name' => 'en0',
+                                                     'Network Signature' => 'IPv4.Router=172.20.10.72;IPv4.RouterHardwareAddress=00:0b:60:b0:b0:1b',
+                                                     'Configuration Method' => 'DHCP',
+                                                     'Subnet Masks' => '255.255.254.0',
+                                                     'Addresses' => '172.20.10.171'
+                                                   },
+                                         'Proxies' => {
+                                                        'FTP Passive Mode' => 'Yes',
+                                                        'Exceptions List' => '*.local, 169.254/16'
+                                                      },
+                                         'Sleep Proxies' => {
+                                                              'MacBook de SAP ' => {
+                                                                                     'Portability' => '37',
+                                                                                     'Type' => '50',
+                                                                                     'Metric' => '503771',
+                                                                                     'IPv6 Address' => '2001:0660:3305:0100:021b:63ff:fe36:1ec3',
+                                                                                     'Marginal Power' => '71',
+                                                                                     'Service Order' => '1',
+                                                                                     'Total Power' => '72'
+                                                                                   }
+                                                            }
+                                       },
+                         'Bluetooth' => {
+                                          'Has IP Assigned' => 'No',
+                                          'Type' => 'PPP (PPPSerial)',
+                                          'IPv6' => {
+                                                      'Configuration Method' => 'Automatic'
+                                                    },
+                                          'BSD Device Name' => 'Bluetooth-Modem',
+                                          'IPv4' => {
+                                                      'Configuration Method' => 'PPP'
+                                                    },
+                                          'Hardware' => 'Modem',
+                                          'Proxies' => {
+                                                         'FTP Passive Mode' => 'Yes'
+                                                       },
+                                          'Service Order' => {}
+                                        },
+                         'AirPort' => {
+                                        'Has IP Assigned' => 'No',
+                                        'Type' => 'AirPort',
+                                        'BSD Device Name' => 'en1',
+                                        'Ethernet' => {
+                                                        'MAC Address' => '00:1c:b3:c0:56:85',
+                                                        'Media Options' => {
+                                                                             'Media Subtype' => 'Auto Select'
+                                                                           }
+                                                      },
+                                        'IPv4' => {
+                                                    'Configuration Method' => 'DHCP'
+                                                  },
+                                        'Hardware' => 'AirPort',
+                                        'Proxies' => {
+                                                       'FTP Passive Mode' => 'Yes',
+                                                       'Service Order' => '3',
+                                                       'Exceptions List' => '*.local, 169.254/16'
+                                                     }
+                                      }
+                       },
+          'Ethernet Cards' => {
+                                'Marvell Yukon Gigabit Adapter 88E8053 Singleport Copper SA' => {
+                                                                                                  'Subsystem Vendor ID' => '0x11ab',
+                                                                                                  'Link Width' => 'x1',
+                                                                                                  'Revision ID' => '0x0022',
+                                                                                                  'Device ID' => '0x4362',
+                                                                                                  'Kext name' => 'AppleYukon2.kext',
+                                                                                                  'BSD name' => 'en0',
+                                                                                                  'Version' => '3.2.1b1',
+                                                                                                  'Type' => 'Ethernet Controller',
+                                                                                                  'Subsystem ID' => '0x5321',
+                                                                                                  'Bus' => 'PCI',
+                                                                                                  'Location' => '/System/Library/Extensions/IONetworkingFamily.kext/Contents/PlugIns/AppleYukon2.kext',
+                                                                                                  'Name' => 'ethernet',
+                                                                                                  'Vendor ID' => '0x11ab'
+                                                                                                }
+                              },
+          'Hardware' => {
+                          'Hardware Overview' => {
+                                                   'SMC Version (system)' => '1.17f0',
+                                                   'Model Identifier' => 'MacBook2,1',
+                                                   'Boot ROM Version' => 'MB21.00A5.B07',
+                                                   'Processor Speed' => '2 GHz',
+                                                   'Hardware UUID' => '00000000-0000-1000-8000-001B66661EC3',
+                                                   'Sudden Motion Sensor' => {
+                                                                               'State' => 'Enabled'
+                                                                             },
+                                                   'Bus Speed' => '667 MHz',
+                                                   'Total Number Of Cores' => '2',
+                                                   'Number Of Processors' => '1',
+                                                   'Processor Name' => 'Intel Core 2 Duo',
+                                                   'Model Name' => 'MacBook',
+                                                   'Memory' => '1 GB',
+                                                   'Serial Number (system)' => 'W8737DR1Z5V',
+                                                   'L2 Cache' => '4 MB'
+                                                 }
+                        },
+          'Diagnostics' => {
+                             'Power On Self-Test' => {
+                                                       'Result' => 'Passed',
+                                                       'Last Run' => '1/13/11 9:43 AM'
+                                                     }
+                           },
+          'Serial-ATA' => {
+                            'Intel ICH7-M AHCI' => {
+                                                     'FUJITSU MHW2080BHPL' => {
+                                                                                'Volumes' => {
+                                                                                               'Writable' => 'Yes',
+                                                                                               'Macintosh HD' => {
+                                                                                                                   'Mount Point' => '/',
+                                                                                                                   'File System' => 'Journaled HFS+',
+                                                                                                                   'Writable' => 'Yes',
+                                                                                                                   'BSD Name' => 'disk0s2',
+                                                                                                                   'Capacity' => '79.68 GB (79,682,387,968 bytes)',
+                                                                                                                   'Available' => '45.62 GB (45,623,767,040 bytes)'
+                                                                                                                 },
+                                                                                               'BSD Name' => 'disk0s1',
+                                                                                               'Capacity' => '209.7 MB (209,715,200 bytes)'
+                                                                                             },
+                                                                                'Revision' => '0081001C',
+                                                                                'Detachable Drive' => 'No',
+                                                                                'Serial Number' => '        K10RT792D51G',
+                                                                                'Capacity' => '80.03 GB (80,026,361,856 bytes)',
+                                                                                'Model' => 'FUJITSU MHW2080BHPL',
+                                                                                'Removable Media' => 'No',
+                                                                                'Medium Type' => 'Rotational',
+                                                                                'BSD Name' => 'disk0',
+                                                                                'S.M.A.R.T. status' => 'Verified',
+                                                                                'Partition Map Type' => 'GPT (GUID Partition Table)',
+                                                                                'Native Command Queuing' => 'Yes',
+                                                                                'Queue Depth' => '32'
+                                                                              },
+                                                     'Link Speed' => '1.5 Gigabit',
+                                                     'Product' => 'ICH7-M AHCI',
+                                                     'Vendor' => 'Intel',
+                                                     'Description' => 'AHCI Version 1.10 Supported',
+                                                     'Negotiated Link Speed' => '1.5 Gigabit'
+                                                   }
+                          },
+          'Firewall' => {
+                          'Firewall Settings' => {
+                                                   'Mode' => 'Allow all incoming connections',
+                                                   'Stealth Mode' => 'No',
+                                                   'Firewall Logging' => 'No'
+                                                 }
+                        },
+          'Software' => {
+                          'System Software Overview' => {
+                                                          'Time since boot' => '2:37',
+                                                          'Computer Name' => 'MacBook de SAP',
+                                                          'Boot Volume' => 'Macintosh HD',
+                                                          'Boot Mode' => 'Normal',
+                                                          'System Version' => 'Mac OS X 10.6.6 (10J567)',
+                                                          'Kernel Version' => 'Darwin 10.6.0',
+                                                          'Secure Virtual Memory' => 'Enabled',
+                                                          '64-bit Kernel and Extensions' => 'No',
+                                                          'User Name' => 'System Administrator (root)'
+                                                        }
+                        },
+          'FireWire' => {
+                          'FireWire Bus' => {
+                                              'Maximum Speed' => 'Up to 400 Mb/sec'
+                                            }
+                        },
+          'Memory' => {
+                        'Memory Slots' => {
+                                            'ECC' => 'Disabled',
+                                            'BANK 1/DIMM1' => {
+                                                                'Part Number' => '0x48594D503536345336344350362D59352020',
+                                                                'Type' => 'DDR2 SDRAM',
+                                                                'Speed' => '667 MHz',
+                                                                'Size' => '512 MB',
+                                                                'Status' => 'OK',
+                                                                'Serial Number' => '0x00006021',
+                                                                'Manufacturer' => '0xAD00000000000000'
+                                                              },
+                                            'BANK 0/DIMM0' => {
+                                                                'Part Number' => '0x48594D503536345336344350362D59352020',
+                                                                'Type' => 'DDR2 SDRAM',
+                                                                'Speed' => '667 MHz',
+                                                                'Size' => '512 MB',
+                                                                'Status' => 'OK',
+                                                                'Serial Number' => '0x00003026',
+                                                                'Manufacturer' => '0xAD00000000000000'
+                                                              }
+                                          }
+                      },
+          'Printers' => {
+                          '192.168.5.97' => {
+                                              'PPD' => 'HP LaserJet 2200',
+                                              'CUPS Version' => '1.4.6 (cups-218.28)',
+                                              'URI' => 'socket://192.168.5.97/?bidi',
+                                              'Default' => 'No',
+                                              'Status' => 'Idle',
+                                              'Driver Version' => '10.4',
+                                              'Scanner UUID' => '-',
+                                              'Print Server' => 'Local',
+                                              'Scanning app' => '-',
+                                              'Scanning support' => 'No',
+                                              'PPD File Version' => '17.3',
+                                              'Scanning app (bundleID path)' => '-',
+                                              'Fax support' => 'No',
+                                              'PostScript Version' => '(2014.116) 0'
+                                            },
+                          '192.168.5.63' => {
+                                              'PPD' => 'Generic PostScript Printer',
+                                              'CUPS Version' => '1.4.6 (cups-218.28)',
+                                              'URI' => 'lpd://192.168.5.63/',
+                                              'Default' => 'No',
+                                              'Status' => 'Idle',
+                                              'Driver Version' => '10.4',
+                                              'Scanner UUID' => '-',
+                                              'Print Server' => 'Local',
+                                              'Scanning app' => '-',
+                                              'Scanning support' => 'No',
+                                              'PPD File Version' => '1.4',
+                                              'Scanning app (bundleID path)' => '-',
+                                              'Fax support' => 'No',
+                                              'PostScript Version' => '(2016.0) 0'
+                                            }
+                        },
+          'AirPort' => {
+                         'Software Versions' => {
+                                                  'IO80211 Family' => '3.1.2 (312)',
+                                                  'AirPort Utility' => '5.5.2 (552.11)',
+                                                  'configd plug-in' => '6.2.3 (623.2)',
+                                                  'Menu Extra' => '6.2.1 (621.1)',
+                                                  'Network Preference' => '6.2.1 (621.1)',
+                                                  'System Profiler' => '6.0 (600.9)'
+                                                },
+                         'Interfaces' => {
+                                           'en1' => {
+                                                      'Firmware Version' => 'Atheros 5416: 2.1.14.5',
+                                                      'Locale' => 'ETSI',
+                                                      'Card Type' => 'AirPort Extreme  (0x168C, 0x87)',
+                                                      'Country Code' => {
+                                                                          'Supported PHY Modes' => '802.11 a/b/g/n',
+                                                                          'Status' => 'Off',
+                                                                          'Supported Channels' => '1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140'
+                                                                        }
+                                                    }
+                                         }
+                       },
+          'Graphics/Displays' => {
+                                   'Intel GMA 950' => {
+                                                        'Type' => 'GPU',
+                                                        'Displays' => {
+                                                                        'Display Connector' => {
+                                                                                                 'Status' => 'No Display Connected'
+                                                                                               },
+                                                                        'Color LCD' => {
+                                                                                         'Resolution' => '1280 x 800',
+                                                                                         'Pixel Depth' => '32-Bit Color (ARGB8888)',
+                                                                                         'Main Display' => 'Yes',
+                                                                                         'Mirror' => 'Off',
+                                                                                         'Built-In' => 'Yes',
+                                                                                         'Online' => 'Yes'
+                                                                                       }
+                                                                      },
+                                                        'Chipset Model' => 'GMA 950',
+                                                        'Bus' => 'Built-In',
+                                                        'Revision ID' => '0x0003',
+                                                        'Device ID' => '0x27a2',
+                                                        'Vendor' => 'Intel (0x8086)',
+                                                        'VRAM (Total)' => '64 MB of Shared System Memory'
+                                                      }
+                                 }
+        }
+    );
 
 plan tests => scalar keys %tests;
 
