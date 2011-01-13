@@ -20,19 +20,22 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # start with df command
-    my @drives = grep {
-# TODO: This list should be moved somewhere else like the one for Agent::Tools::Unix
-        $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/;
-    } getFilesystemsFromDf(logger => $logger, string => getDfoutput());
-
+    # get drives list
+    my @drives =
+        # exclude virtual file systems
+        grep { $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/ }
+        # get all file systems
+        getFilesystemsFromDf(logger => $logger, command => 'df -P -T -k');
 
     # get additional informations
     if (can_run('blkid')) {
         # use blkid if available, as it is filesystem-independant
         foreach my $drive (@drives) {
-            my $line = getFirstLine(command => "blkid $drive->{VOLUMN}");
-            $drive->{SERIAL} = $1 if $line =~ /\sUUID="(\S*)"\s/;
+            ($drive->{SERIAL}) = getFirstMatch(
+                logger  => $logger,
+                command => "blkid $drive->{VOLUMN}",
+                pattern => qr/\sUUID="(\S*)"\s/
+            );
         }
     } else {
         # otherwise fallback to filesystem-dependant utilities
@@ -116,13 +119,14 @@ sub doInventory {
         }
     }
 
+    # add drives to the inventory
     foreach my $drive (@drives) {
         $inventory->addDrive($drive);
     }
 }
 
 sub _getDrivesFromHal {
-    my $devices = _parseLshal(command => '/usr/bin/lshal');
+    my $devices = _parseLshal(command => 'lshal');
     return @$devices;
 }
 

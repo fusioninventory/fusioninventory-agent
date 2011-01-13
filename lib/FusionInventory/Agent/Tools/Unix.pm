@@ -14,7 +14,6 @@ use FusionInventory::Agent::Tools;
 our @EXPORT = qw(
     getDeviceCapacity
     getIpDhcp
-    getDfoutput
     getFilesystemsFromDf
     getFilesystemsTypesFromMount
     getProcessesFromPs
@@ -143,33 +142,6 @@ sub _parseDhcpLeaseFile {
     my $current_time = time();
 
     return $current_time <= $expiration_time ? $server_ip : undef;
-}
-
-sub getDfoutput {
-    my ($logger, $dir) = @_;
-
-    if ($dir) {
-	$dir =~ s/(.*)/'$1'/;
-    } else {
-	$dir = '';
-    }
-
-    my $string;
-    if ($OSNAME =~ /^linux/i) {
-	$string .= `df -P -T -k $dir`;
-    } elsif ($OSNAME =~ /darwin|freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {;
-        my @types = 
-            grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
-            getFilesystemsTypesFromMount(logger => $logger);
-
-	foreach my $type (@types) {
-	    $string .= `df -P -k -t $type $dir`;
-	}
-    } else { # Solaris and AIX
-	$string .= `df -P -k $dir`;
-    }
-
-    return $string;
 }
 
 sub getFilesystemsFromDf {
@@ -449,10 +421,6 @@ Availables parameters:
 =head2 getIpDhcp
 
 Returns an hashref of information for current DHCP lease.
-
-=head2 getDfoutput()
-
-Return the full df output in a string.
 
 =head2 getFilesystemsFromDf(%params)
 

@@ -2539,26 +2539,6 @@ foreach my $test (@dhcp_leases_test) {
     );
 }
 
-my $oldOSNAME = $OSNAME;
-my $oldPATH = $ENV{PATH};
-SKIP: {
-if ($OSNAME eq 'MSWin32') {
-    skip 'getDfoutput() test ignored on Windows', int(keys %getDfoutput_tests);
-}
-
-foreach my $osName (keys %getDfoutput_tests) {
-    $ENV{PATH}= "resources/labs/$osName/1/:$oldPATH";
-
-    $OSNAME = $osName;
-
-    my $output = getDfoutput();
-    is_deeply($output, $getDfoutput_tests{$osName}, "$osName getDfoutput_tests") or print Dumper ($output);
-
-    $OSNAME = $oldOSNAME;
-    $ENV{PATH} = $oldOSNAME;
-}
-}
-
 foreach my $test (keys %netstat_tests) {
     my $file = "resources/netstat/$test";
     my $results = getRoutesFromNetstat(file => $file);
