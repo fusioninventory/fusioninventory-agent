@@ -5,7 +5,7 @@ use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Adaptec;
 use Test::More;
 
-plan tests => 4;
+plan tests => 2;
 
 my %tests = (
     linux1 => {
