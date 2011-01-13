@@ -56,6 +56,7 @@ Revision history for FusionInventory::Agent
          thanks Kevin Cousin for the report
        * Decrease the severity of the error message when a optional module
          is missing
+       * MacOSX/Drives: do not ignore the / filesystem
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
