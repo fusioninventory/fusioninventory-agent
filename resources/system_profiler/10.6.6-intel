@@ -1,0 +1,854 @@
+Hardware:
+
+    Hardware Overview:
+
+      Model Name: MacBook
+      Model Identifier: MacBook2,1
+      Processor Name: Intel Core 2 Duo
+      Processor Speed: 2 GHz
+      Number Of Processors: 1
+      Total Number Of Cores: 2
+      L2 Cache: 4 MB
+      Memory: 1 GB
+      Bus Speed: 667 MHz
+      Boot ROM Version: MB21.00A5.B07
+      SMC Version (system): 1.17f0
+      Serial Number (system): W8737DR1Z5V
+      Hardware UUID: 00000000-0000-1000-8000-001B66661EC3
+      Sudden Motion Sensor:
+          State: Enabled
+
+Network:
+
+    Bluetooth:
+
+      Type: PPP (PPPSerial)
+      Hardware: Modem
+      BSD Device Name: Bluetooth-Modem
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: PPP
+      IPv6:
+          Configuration Method: Automatic
+      Proxies:
+          FTP Passive Mode: Yes
+      Service Order: 0
+
+    Ethernet:
+
+      Type: Ethernet
+      Hardware: Ethernet
+      BSD Device Name: en0
+      Has IP Assigned: Yes
+      IPv4 Addresses: 172.20.10.171
+      IPv4:
+          Addresses: 172.20.10.171
+          Configuration Method: DHCP
+          Interface Name: en0
+          Network Signature: IPv4.Router=172.20.10.72;IPv4.RouterHardwareAddress=00:0b:60:b0:b0:1b
+          Router: 172.20.10.72
+          Subnet Masks: 255.255.254.0
+      IPv6:
+          Addresses: 2001:0660:3305:0100:021b:63ff:fe36:1ec3
+          Configuration Method: Automatic
+          Flags: 32832
+          Interface Name: en0
+          Prefix Length: 64
+          Router: fe80:0000:0000:0000:020b:60ff:feb0:b01b
+      DNS:
+          Domain Name: univ-paris1.fr
+          Server Addresses: 193.55.96.84, 193.55.99.70, 194.214.33.181
+      DHCP Server Responses:
+          Domain Name: univ-paris1.fr
+          Domain Name Servers: 193.55.96.84,193.55.99.70,194.214.33.181
+          Lease Duration (seconds): 0
+          DHCP Message Type: 0x05
+          Routers: 172.20.10.72
+          Server Identifier: 172.20.0.2
+          Subnet Mask: 255.255.254.0
+      Ethernet:
+          MAC Address: 00:1b:63:36:1e:c3
+          Media Options: Full Duplex, Flow Control
+          Media Subtype: 100baseTX
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+      Sleep Proxies:
+        MacBook de SAP :
+          Marginal Power: 71
+          Metric: 503771
+          Portability: 37
+          Total Power: 72
+          Type: 50
+      IPv6 Address: 2001:0660:3305:0100:021b:63ff:fe36:1ec3
+      Service Order: 1
+
+    FireWire:
+
+      Type: FireWire
+      Hardware: FireWire
+      BSD Device Name: fw0
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: DHCP
+      IPv6:
+          Configuration Method: Automatic
+      Ethernet:
+          MAC Address: 00:1d:4f:ff:fe:66:f3:58
+          Media Options: Full Duplex
+          Media Subtype: Auto Select
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+      Service Order: 2
+
+    AirPort:
+
+      Type: AirPort
+      Hardware: AirPort
+      BSD Device Name: en1
+      Has IP Assigned: No
+      IPv4:
+          Configuration Method: DHCP
+      Ethernet:
+          MAC Address: 00:1c:b3:c0:56:85
+          Media Options: 
+          Media Subtype: Auto Select
+      Proxies:
+          Exceptions List: *.local, 169.254/16
+          FTP Passive Mode: Yes
+      Service Order: 3
+
+Software:
+
+    System Software Overview:
+
+      System Version: Mac OS X 10.6.6 (10J567)
+      Kernel Version: Darwin 10.6.0
+      Boot Volume: Macintosh HD
+      Boot Mode: Normal
+      Computer Name: MacBook de SAP 
+      User Name: System Administrator (root)
+      Secure Virtual Memory: Enabled
+      64-bit Kernel and Extensions: No
+      Time since boot: 2:37
+
+ATA:
+
+    ATA Bus:
+
+        MATSHITACD-RW  CW-8221:
+
+          Model: MATSHITACD-RW  CW-8221                  
+          Revision: GA0J    
+          Serial Number:                     
+          Detachable Drive: No
+          Protocol: ATAPI
+          Unit Number: 0
+          Socket Type: Internal
+          Low Power Polling: Yes
+          Power Off: Yes
+
+Audio (Built In):
+
+    Intel High Definition Audio:
+
+      Audio ID: 34
+
+        Headphone:
+
+          Connection: Combination Output
+
+        Internal Microphone:
+
+          Connection: Internal
+
+        Speaker:
+
+          Connection: Internal
+
+        Line Input:
+
+          Connection: Combination Input
+
+        S/PDIF Optical Digital Audio Output:
+
+          Connection: Combination Output
+
+        S/PDIF Optical Digital Audio Input:
+
+          Connection: Combination Input
+
+Bluetooth:
+
+      Apple Bluetooth Software Version: 2.3.8f7
+      Hardware Settings:
+          Address: 00-1d-4f-8f-13-b1
+          Manufacturer: Cambridge Silicon Radio
+          Name: MacBookdeSAP
+          Firmware Version: 1965
+          Bluetooth Power: On
+          Discoverable: Yes
+          Vendor ID: 0x5ac
+          Product ID: 0x8205
+          Requires Authentication: No
+      Services:
+          Bluetooth File Transfer:
+              Folder other devices can browse: ~/Public
+              Requires Authentication: Yes
+              State: Enabled
+          Bluetooth File Exchange:
+              Folder for accepted items: ~/Downloads
+              Requires Authentication: No
+              When other items are accepted: Ask
+              When PIM items are accepted: Ask
+              When receiving items: Prompt for each file
+              State: Enabled
+      Incoming Serial Ports:
+          Serial Port 1:
+              Name: Bluetooth-PDA-Sync
+              RFCOMM Channel: 3
+              Requires Authentication: No
+      Outgoing Serial Ports:
+          Serial Port 1:
+              Address: 
+              Name: Bluetooth-Modem
+              RFCOMM Channel: 0
+              Requires Authentication: No
+
+Diagnostics:
+
+    Power On Self-Test:
+
+      Last Run: 1/13/11 9:43 AM
+      Result: Passed
+
+Disc Burning:
+
+    MATSHITA CD-RW  CW-8221:
+
+      Firmware Revision: GA0J
+      Interconnect: ATAPI
+      Burn Support: Yes (Apple Shipping Drive)
+      Cache: 2048 KB
+      Reads DVD: Yes
+      CD-Write: -R, -RW
+      Write Strategies: CD-TAO, CD-SAO, CD-Raw
+      Media: To show the available burn speeds, insert a disc and choose View > Refresh
+
+Ethernet Cards:
+
+    Marvell Yukon Gigabit Adapter 88E8053 Singleport Copper SA:
+
+      Name: ethernet
+      Type: Ethernet Controller
+      Bus: PCI
+      Vendor ID: 0x11ab
+      Device ID: 0x4362
+      Subsystem Vendor ID: 0x11ab
+      Subsystem ID: 0x5321
+      Revision ID: 0x0022
+      Link Width: x1
+      BSD name: en0
+      Kext name: AppleYukon2.kext
+      Location: /System/Library/Extensions/IONetworkingFamily.kext/Contents/PlugIns/AppleYukon2.kext
+      Version: 3.2.1b1
+
+FireWire:
+
+    FireWire Bus:
+
+      Maximum Speed: Up to 400 Mb/sec
+
+Graphics/Displays:
+
+    Intel GMA 950:
+
+      Chipset Model: GMA 950
+      Type: GPU
+      Bus: Built-In
+      VRAM (Total): 64 MB of Shared System Memory
+      Vendor: Intel (0x8086)
+      Device ID: 0x27a2
+      Revision ID: 0x0003
+      Displays:
+        Color LCD:
+          Resolution: 1280 x 800
+          Pixel Depth: 32-Bit Color (ARGB8888)
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Built-In: Yes
+        Display Connector:
+          Status: No Display Connected
+
+Memory:
+
+    Memory Slots:
+
+      ECC: Disabled
+
+        BANK 0/DIMM0:
+
+          Size: 512 MB
+          Type: DDR2 SDRAM
+          Speed: 667 MHz
+          Status: OK
+          Manufacturer: 0xAD00000000000000
+          Part Number: 0x48594D503536345336344350362D59352020
+          Serial Number: 0x00003026
+
+        BANK 1/DIMM1:
+
+          Size: 512 MB
+          Type: DDR2 SDRAM
+          Speed: 667 MHz
+          Status: OK
+          Manufacturer: 0xAD00000000000000
+          Part Number: 0x48594D503536345336344350362D59352020
+          Serial Number: 0x00006021
+
+Power:
+
+    Battery Information:
+
+      Model Information:
+          Manufacturer: DP
+          Device name: ASMB016
+          Pack Lot Code: 0002
+          PCB Lot Code: 0000
+          Firmware Version: 102a
+          Hardware Revision: 0500
+          Cell Revision: 0102
+      Charge Information:
+          Charge remaining (mAh): 0
+          Fully charged: No
+          Charging: No
+          Full charge capacity (mAh): 0
+      Health Information:
+          Cycle count: 5
+          Condition: Replace Now
+      Battery Installed: Yes
+      Amperage (mA): 74
+      Voltage (mV): 3908
+
+    System Power Settings:
+
+      AC Power:
+          System Sleep Timer (Minutes): 0
+          Disk Sleep Timer (Minutes): 10
+          Display Sleep Timer (Minutes): 10
+          Automatic Restart On Power Loss: No
+          Wake On AC Change: No
+          Wake On Clamshell Open: Yes
+          Wake On LAN: Yes
+          Current Power Source: Yes
+          Display Sleep Uses Dim: Yes
+      Battery Power:
+          System Sleep Timer (Minutes): 5
+          Disk Sleep Timer (Minutes): 5
+          Display Sleep Timer (Minutes): 5
+          Wake On AC Change: No
+          Wake On Clamshell Open: Yes
+          Display Sleep Uses Dim: Yes
+          Reduce Brightness: Yes
+
+    Hardware Configuration:
+
+      UPS Installed: No
+
+    AC Charger Information:
+
+      Connected: Yes
+      ID: 0x0100
+      Wattage (W): 60
+      Revision: 0x0000
+      Family: 0x00ba
+      Serial Number: 0x005a4e88
+      Charging: No
+
+Printers:
+
+    192.168.5.63:
+
+      Status: Idle
+      Print Server: Local
+      Driver Version: 10.4
+      Default: No
+      URI: lpd://192.168.5.63/
+      PPD: Generic PostScript Printer
+      PPD File Version: 1.4
+      PostScript Version: (2016.0) 0
+      CUPS Version: 1.4.6 (cups-218.28)
+      Fax support: No
+      Scanning support: No
+      Scanning app: -
+      Scanning app (bundleID path): -
+      Scanner UUID: -
+
+    192.168.5.97:
+
+      Status: Idle
+      Print Server: Local
+      Driver Version: 10.4
+      Default: No
+      URI: socket://192.168.5.97/?bidi
+      PPD: HP LaserJet 2200
+      PPD File Version: 17.3
+      PostScript Version: (2014.116) 0
+      CUPS Version: 1.4.6 (cups-218.28)
+      Fax support: No
+      Scanning support: No
+      Scanning app: -
+      Scanning app (bundleID path): -
+      Scanner UUID: -
+
+Serial-ATA:
+
+    Intel ICH7-M AHCI:
+
+      Vendor: Intel
+      Product: ICH7-M AHCI
+      Link Speed: 1.5 Gigabit
+      Negotiated Link Speed: 1.5 Gigabit
+      Description: AHCI Version 1.10 Supported
+
+        FUJITSU MHW2080BHPL:
+
+          Capacity: 80.03 GB (80,026,361,856 bytes)
+          Model: FUJITSU MHW2080BHPL                     
+          Revision: 0081001C
+          Serial Number:         K10RT792D51G
+          Native Command Queuing: Yes
+          Queue Depth: 32
+          Removable Media: No
+          Detachable Drive: No
+          BSD Name: disk0
+          Medium Type: Rotational
+          Partition Map Type: GPT (GUID Partition Table)
+          S.M.A.R.T. status: Verified
+          Volumes:
+              Capacity: 209.7 MB (209,715,200 bytes)
+              Writable: Yes
+              BSD Name: disk0s1
+            Macintosh HD:
+              Capacity: 79.68 GB (79,682,387,968 bytes)
+              Available: 45.62 GB (45,623,767,040 bytes)
+              Writable: Yes
+              File System: Journaled HFS+
+              BSD Name: disk0s2
+              Mount Point: /
+
+USB:
+
+    USB High-Speed Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBEHCI
+      PCI Device ID: 0x27cc 
+      PCI Revision ID: 0x0002 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0xfd 
+
+        iPhone:
+
+          Product ID: 0x1297
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version:  0.01
+          Serial Number: ad21f6125218200927797eb473d3e7eeae31e5ae
+          Speed: Up to 480 Mb/sec
+          Manufacturer: Apple Inc.
+          Location ID: 0xfd300000
+          Current Available (mA): 500
+          Current Required (mA): 500
+
+        Built-in iSight:
+
+          Product ID: 0x8501
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version:  1.89
+          Speed: Up to 480 Mb/sec
+          Manufacturer: Micron
+          Location ID: 0xfd400000
+          Current Available (mA): 500
+          Current Required (mA): 100
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x27ca 
+      PCI Revision ID: 0x0002 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x5d 
+
+        IR Receiver:
+
+          Product ID: 0x8240
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version:  1.10
+          Speed: Up to 12 Mb/sec
+          Manufacturer: Apple Computer, Inc.
+          Location ID: 0x5d200000
+          Current Available (mA): 500
+          Current Required (mA): 100
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x27c8 
+      PCI Revision ID: 0x0002 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x1d 
+
+        Apple Internal Keyboard / Trackpad:
+
+          Product ID: 0x021b
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version:  0.18
+          Speed: Up to 12 Mb/sec
+          Manufacturer: Apple Computer
+          Location ID: 0x1d200000
+          Current Available (mA): 500
+          Current Required (mA): 40
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x27cb 
+      PCI Revision ID: 0x0002 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x7d 
+
+        Bluetooth USB Host Controller:
+
+          Product ID: 0x8205
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version: 19.65
+          Speed: Up to 12 Mb/sec
+          Manufacturer: Apple Inc.
+          Location ID: 0x7d100000
+          Current Available (mA): 500
+          Current Required (mA): 0
+
+    USB Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBUHCI
+      PCI Device ID: 0x27c9 
+      PCI Revision ID: 0x0002 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x3d 
+
+AirPort:
+
+      Software Versions:
+          Menu Extra: 6.2.1 (621.1)
+          configd plug-in: 6.2.3 (623.2)
+          System Profiler: 6.0 (600.9)
+          Network Preference: 6.2.1 (621.1)
+          AirPort Utility: 5.5.2 (552.11)
+          IO80211 Family: 3.1.2 (312)
+      Interfaces:
+        en1:
+          Card Type: AirPort Extreme  (0x168C, 0x87)
+          Firmware Version: Atheros 5416: 2.1.14.5
+          Locale: ETSI
+          Country Code: 
+          Supported PHY Modes: 802.11 a/b/g/n
+          Supported Channels: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140
+          Status: Off
+
+Firewall:
+
+    Firewall Settings:
+
+      Mode: Allow all incoming connections
+      Firewall Logging: No
+      Stealth Mode: No
+
+Locations:
+
+    universite-paris1:
+
+      Active Location: No
+      Services:
+        Bluetooth DUN:
+          Type: PPP
+          IPv4:
+              Configuration Method: PPP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              FTP Passive Mode: Yes
+          PPP:
+              ACSP Enabled: No
+              Display Terminal Window: No
+              Redial Count: 1
+              Redial Enabled: Yes
+              Redial Interval: 5
+              Use Terminal Script: No
+              Dial on Demand: No
+              Disconnect on Fast User Switch: Yes
+              Disconnect on Idle: Yes
+              Disconnect on Idle Timer: 600
+              Disconnect on Logout: Yes
+              Disconnect on Sleep: Yes
+              Idle Reminder: No
+              Idle Reminder Time: 1800
+              IPCP Compression VJ: Yes
+              LCP Echo Enabled: No
+              LCP Echo Failure: 4
+              LCP Echo Interval: 10
+              Log File: /var/log/ppp.log
+              Verbose Logging: No
+        Ethernet:
+          Type: Ethernet
+          BSD Device Name: en0
+          Hardware (MAC) Address: 00:1b:63:36:1e:c3
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        FireWire:
+          Type: FireWire
+          BSD Device Name: fw0
+          Hardware (MAC) Address: 00:1d:4f:ff:fe:66:f3:58
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        AirPort:
+          Type: IEEE80211
+          BSD Device Name: en1
+          Hardware (MAC) Address: 00:1c:b3:c0:56:85
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+          IEEE80211:
+              Disconnect on Logout: Yes
+              Join Mode: Automatic
+              JoinModeFallback: Prompt
+              PowerEnabled: 1
+              PreferredNetworks:
+                  SecurityType: Open
+                  SSID_STR: universite-paris1
+                  Unique Network ID: 79801FA4-6DA9-4597-A6E4-7FA9E5662384
+                  SecurityType: WPA2 Enterprise
+                  SSID_STR: eduroam
+                  Unique Network ID: 963478B4-1AC3-4B35-A4BB-3510FEA2FEF2
+              RememberRecentNetworks: 0
+              RequireAdmin: 0
+
+    Automatic:
+
+      Active Location: No
+      Services:
+        Bluetooth DUN:
+          Type: PPP
+          IPv4:
+              Configuration Method: PPP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              FTP Passive Mode: Yes
+          PPP:
+              ACSP Enabled: No
+              Display Terminal Window: No
+              Redial Count: 1
+              Redial Enabled: Yes
+              Redial Interval: 5
+              Use Terminal Script: No
+              Dial on Demand: No
+              Disconnect on Fast User Switch: Yes
+              Disconnect on Idle: Yes
+              Disconnect on Idle Timer: 600
+              Disconnect on Logout: Yes
+              Disconnect on Sleep: Yes
+              Idle Reminder: No
+              Idle Reminder Time: 1800
+              IPCP Compression VJ: Yes
+              LCP Echo Enabled: No
+              LCP Echo Failure: 4
+              LCP Echo Interval: 10
+              Log File: /var/log/ppp.log
+              Verbose Logging: No
+        Ethernet:
+          Type: Ethernet
+          BSD Device Name: en0
+          Hardware (MAC) Address: 00:1b:63:36:1e:c3
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        FireWire:
+          Type: FireWire
+          BSD Device Name: fw0
+          Hardware (MAC) Address: 00:1d:4f:ff:fe:66:f3:58
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        AirPort:
+          Type: IEEE80211
+          BSD Device Name: en1
+          Hardware (MAC) Address: 00:1c:b3:c0:56:85
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+          IEEE80211:
+              Disconnect on Logout: Yes
+              Join Mode: Automatic
+              JoinModeFallback: Prompt
+              PowerEnabled: 1
+              PreferredNetworks:
+                  SecurityType: WPA Enterprise
+                  SSID_STR: univ-paris1
+                  Unique Network ID: B7697886-DB5E-4C8E-9321-DB8A506A3D57
+                  SecurityType: Open
+                  SSID_STR: univ-paris1.fr
+                  Unique Network ID: A628B3F5-DB6B-48A6-A3A4-17D33697041B
+              RememberRecentNetworks: 0
+              RequireAdmin: 0
+
+    eduroam:
+
+      Active Location: Yes
+      Services:
+        Bluetooth DUN:
+          Type: PPP
+          IPv4:
+              Configuration Method: PPP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              FTP Passive Mode: Yes
+          PPP:
+              ACSP Enabled: No
+              Display Terminal Window: No
+              Redial Count: 1
+              Redial Enabled: Yes
+              Redial Interval: 5
+              Use Terminal Script: No
+              Dial on Demand: No
+              Disconnect on Fast User Switch: Yes
+              Disconnect on Idle: Yes
+              Disconnect on Idle Timer: 600
+              Disconnect on Logout: Yes
+              Disconnect on Sleep: Yes
+              Idle Reminder: No
+              Idle Reminder Time: 1800
+              IPCP Compression VJ: Yes
+              LCP Echo Enabled: No
+              LCP Echo Failure: 4
+              LCP Echo Interval: 10
+              Log File: /var/log/ppp.log
+              Verbose Logging: No
+        Ethernet:
+          Type: Ethernet
+          BSD Device Name: en0
+          Hardware (MAC) Address: 00:1b:63:36:1e:c3
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        FireWire:
+          Type: FireWire
+          BSD Device Name: fw0
+          Hardware (MAC) Address: 00:1d:4f:ff:fe:66:f3:58
+          IPv4:
+              Configuration Method: DHCP
+          IPv6:
+              Configuration Method: Automatic
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+        AirPort:
+          Type: IEEE80211
+          BSD Device Name: en1
+          Hardware (MAC) Address: 00:1c:b3:c0:56:85
+          IPv4:
+              Configuration Method: DHCP
+          AppleTalk:
+              Configuration Method: Node
+              Node: Node
+          Proxies:
+              Exceptions List: *.local, 169.254/16
+              FTP Passive Mode: Yes
+          IEEE80211:
+              Disconnect on Logout: Yes
+              Join Mode: Automatic
+              JoinModeFallback: Prompt
+              PowerEnabled: 0
+              PreferredNetworks:
+                  SecurityType: WPA2 Enterprise
+                  SSID_STR: eduroam
+                  Unique Network ID: 963478B4-1AC3-4B35-A4BB-3510FEA2FEF2
+                  SecurityType: WPA2 Personal
+                  SSID_STR: DartyBox_F3A4
+                  Unique Network ID: E23F5EA9-224C-4F69-845A-B1A55D07F8EB
+                  Unique Password ID: 7E8B0D53-6739-4317-9D3D-885C1BF2C61E
+                  SecurityType: WEP
+                  SSID_STR: DartyBox_F3A4_WEP
+                  Unique Network ID: F093D14A-BF18-458C-896F-4FD68A6D7E25
+                  Unique Password ID: 3D39A2D7-60F3-4F9E-992A-8260E9D55BB6
+                  SecurityType: WPA Personal
+                  SSID_STR: undercover
+                  Unique Network ID: 46A33A68-7109-48AD-9255-900F0134903E
+                  Unique Password ID: 2C0ADC06-C220-4F00-809E-C34A6085305F
+              RememberRecentNetworks: 0
+
+Volumes:
+
+    net:
+
+      Type: autofs
+      Mount Point: /net
+      Mounted From: map -hosts
+      Automounted: Yes
+
+    home:
+
+      Type: autofs
+      Mount Point: /home
+      Mounted From: map auto_home
+      Automounted: Yes
+
+Universal Access:
+
+    Universal Access Information:
+
+      Cursor Magnification: Off
+      Display: Black on White
+      Flash Screen: Off
+      Mouse Keys: Off
+      Slow Keys: Off
+      Sticky Keys: Off
+      VoiceOver: Off
+      Zoom: Off
+
