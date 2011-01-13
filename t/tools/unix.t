@@ -2456,26 +2456,6 @@ my %ps_tests = (
     ],
 );
 
-my %getDfoutput_tests = (
-    linux => 'Filesystem           1K-blocks      Used Available Use% Mounted on
-/dev/sda2            153831460  64344484  81672732  45% /
-tmpfs                  1892704         0   1892704   0% /lib/init/rw
-udev                   1887928       220   1887708   1% /dev
-tmpfs                  1892704       140   1892564   1% /dev/shm
-',
-    freebsd =>  'Filesystem   Type 1024-blocks      Used    Avail Capacity  Mounted on
-/dev/ad4s1a  ufs      1482638    374896   989132    27%    /
-/dev/ad4s1g  ufs    142303794 117759358 13160134    90%    /Donnees
-/dev/ad4s1e  ufs       507630     59836   407184    13%    /tmp
-/dev/ad4s1f  ufs     20308398  13442022  5241706    72%    /usr
-/dev/ad4s1d  ufs      3973870   1023098  2632864    28%    /var
-',
-    freebsd => 'Filesystem         1024-blocks     Used     Avail Capacity  Mounted on
-/dev/mirror/gm0s1d   469458022 22728230 409173152     5%    /
-',
-#    aix => [ 'df -P -k ' ],
-);
-
 my %netstat_tests = (
     openbsd => {
         'default'     => '10.0.1.1',
