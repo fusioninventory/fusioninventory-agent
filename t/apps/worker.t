@@ -52,7 +52,7 @@ is($out, '', 'no target stdin');
 ok($rc == 2, 'non-existing target exit status');
 like(
     $err,
-    qr/No configuration section for target stdout/,
+    qr/No type for target stdout/,
     'non-existing target stderr'
 );
 is($out, '', 'non-existing target stdin');
@@ -70,7 +70,7 @@ EOF
 ok($rc == 2, 'non-existing task exit status');
 like(
     $err,
-    qr/No configuration section for task inventory/,
+    qr/No type for task inventory/,
     'non-existing target stderr'
 );
 is($out, '', 'non-existing task stdin');
