@@ -87,7 +87,7 @@ sub processSoftwares {
         }
 
         # Workaround for #415
-        $version =~ s/[\000-\037].*//;
+        $version =~ s/[\000-\037].*// if $version;
 
         $inventory->addSoftware ({
             COMMENTS => $comments,
