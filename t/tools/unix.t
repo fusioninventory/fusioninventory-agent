@@ -2510,8 +2510,7 @@ plan tests =>
     (scalar keys %ps_tests)      +
     (scalar keys %netstat_tests) +
     (scalar keys %mount_tests)   +
-    (scalar @dhcp_leases_test)   + 
-    (scalar keys %getDfoutput_tests);
+    (scalar @dhcp_leases_test);
 
 foreach my $test (keys %lspci_tests) {
     my $file = "resources/lspci/$test";
