@@ -3,9 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use Config;
+
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { 
     return $Config{'archname'} =~ /^arm/;
@@ -16,11 +16,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $handle;
-    if (!open $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(file => '/proc/cpuinfo', logger => $logger);
+    return unless $handle;
 
     my $inSystem;
     while (<$handle>) {
