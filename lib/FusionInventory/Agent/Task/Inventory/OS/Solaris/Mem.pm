@@ -17,13 +17,13 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my ($memory) = getFirstMatch(
+    my $memory = getFirstMatch(
         command => 'prtconf',
         logger  => $logger,
         pattern => qr/^Memory\ssize:\s+(\S+)/
     );
 
-    my ($swap) = getFirstMatch(
+    my $swap = getFirstMatch(
         command => 'swap -l',
         logger  => $logger,
         pattern => qr/\s+(\S+)$/

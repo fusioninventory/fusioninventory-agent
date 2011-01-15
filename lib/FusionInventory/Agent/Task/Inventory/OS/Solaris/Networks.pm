@@ -104,18 +104,18 @@ sub _getInterfaces {
 sub _check_nic {
     my ($nic, $num) = @_;
 
-    my ($speed) = getFirstMatch(
+    my $speed = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic link_speed",
         pattern => qr/^(\d+)/
     );
 
-    my ($duplex) = getFirstMatch(
+    my $duplex = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic link_mode",
         pattern => qr/^(\d+)/
     );
 
     my $arg = $nic =~ /ge/ ? 'adv_1000autoneg_cap' : 'adv_autoneg_cap';
-    my ($auto) = getFirstMatch(
+    my $auto = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic $arg",
         pattern => qr/^(\d+)/
     );
@@ -127,12 +127,12 @@ sub _check_nic {
 sub _check_eri {
     my ($nic, $num) = @_;
 
-    my ($speed) = getFirstMatch(
+    my $speed = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic link_speed",
         pattern => qr/^(\d+)/
     );
 
-    my ($duplex) = getFirstMatch(
+    my $duplex = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic link_mode",
         pattern => qr/^(\d+)/
     );
@@ -145,17 +145,17 @@ sub _check_eri {
 sub _check_ce {
     my ($nic, $num) = @_;
 
-    my ($speed) = getFirstMatch(
+    my $speed = getFirstMatch(
         command => "/usr/bin/kstat -m $nic -i $num -s link_speed",
         pattern => qr/^\s*link_speed+\s*(\d+)/
     );
 
-    my ($duplex) = getFirstMatch(
+    my $duplex = getFirstMatch(
         command => "/usr/bin/kstat -m $nic -i $num -s link_duplex",
         pattern => qr/^\s*link_duplex+\s*(\d+)/
     );
 
-    my ($auto) = getFirstMatch(
+    my $auto = getFirstMatch(
         command => "/usr/bin/kstat -m $nic -i $num -s cap_autoneg",
         pattern => qr/^\s*cap_autoneg+\s*(\d+)/
     );
@@ -170,17 +170,17 @@ sub _check_ce {
 sub _check_bge_nic {
     my ($nic, $num) = @_;
 
-    my ($speed) = getFirstMatch(
+    my $speed = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic$num link_speed",
         pattern => qr/^(\d+)/
     );
 
-    my ($duplex) = getFirstMatch(
+    my $duplex = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic$num link_duplex",
         pattern => qr/^(\d+)/
     );
 
-    my ($auto) = getFirstMatch(
+    my $auto = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic$num adv_autoneg_cap",
         pattern => qr/^(\d+)/
     );

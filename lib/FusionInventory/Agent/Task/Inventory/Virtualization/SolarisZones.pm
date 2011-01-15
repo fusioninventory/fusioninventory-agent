@@ -17,7 +17,7 @@ sub isInventoryEnabled {
 sub _check_solaris_valid_release{
     my ($releaseFile) = @_;
 
-    my ($release) = getFirstMatch(
+    my $release = getFirstMatch(
         file => $releaseFile,
         pattern => qr/((?:Open)?Solaris .*)/
     );
@@ -57,7 +57,7 @@ sub doInventory {
         # Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
         my $zonefile = "/etc/zones/$zonename.xml";
 
-        my ($line) = getFirstMatch(
+        my $line = getFirstMatch(
             file  => $zonefile,
             pattern => qr/(.*mcap.*)/
         );

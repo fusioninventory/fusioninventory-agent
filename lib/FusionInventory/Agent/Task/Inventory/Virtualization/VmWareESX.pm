@@ -43,11 +43,11 @@ sub _getMachines {
             VMTYPE    => "VmWare",
         };
 
-        ($machine->{STATUS}) = getFirstMatch(
+        $machine->{STATUS} = getFirstMatch(
             command => "vmware-cmd '$line' getstate",
             logger  => $params{logger},
             pattern => qr/= (\w+)/
-        ) || ( 'unknown' );
+        ) || 'unknown';
 
         # correct uuid format
         $machine->{UUID} =~ s/\s+//g;      # delete space

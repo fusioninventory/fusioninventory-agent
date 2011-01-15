@@ -15,8 +15,8 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger = $params{logger};
 
-    my ($release) = getFirstMatch(
-        logger => $logger,
+    my $release = getFirstMatch(
+        logger  => $logger,
         command => 'lsb_release -d',
         pattern => qr/Description:\s+(.+)/
     );

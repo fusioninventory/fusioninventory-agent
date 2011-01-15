@@ -32,7 +32,7 @@ sub doInventory {
         chomp $line; 
         my ($name, $uuid, $cpus, $status, $subsys) = split(/[ \t]+/, $line);
 
-        my ($memory) = getFirstMatch(
+        my $memory = getFirstMatch(
             file    => "/etc/vz/conf/$uuid.conf",
             pattern => qr/^SLMMEMORYLIMIT="\d+:(\d+)"$/,
             logger  => $logger,

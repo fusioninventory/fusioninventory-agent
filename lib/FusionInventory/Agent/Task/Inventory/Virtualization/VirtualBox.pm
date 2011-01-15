@@ -22,7 +22,7 @@ sub doInventory {
     my $logger       = $params{logger};
     my $scanhomedirs = $params{scan_homedirs};
 
-    my ($version) = getFirstMatch(
+    my $version = getFirstMatch(
         command => 'VBoxManage --version',
         pattern =>  qr/^(\d\.\d)/
     );

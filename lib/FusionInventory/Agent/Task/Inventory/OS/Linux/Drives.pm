@@ -31,7 +31,7 @@ sub doInventory {
     if (can_run('blkid')) {
         # use blkid if available, as it is filesystem-independant
         foreach my $drive (@drives) {
-            ($drive->{SERIAL}) = getFirstMatch(
+            $drive->{SERIAL} = getFirstMatch(
                 logger  => $logger,
                 command => "blkid $drive->{VOLUMN}",
                 pattern => qr/\sUUID="(\S*)"\s/
@@ -78,12 +78,12 @@ sub doInventory {
             }
 
             if ($drive->{FILESYSTEM} eq 'xfs' && $has_xfs_db) {
-                ($drive->{SERIAL}) = getFirstMatch(
+                $drive->{SERIAL} = getFirstMatch(
                     logger  => $logger,
                     command => "xfs_db -r -c uuid $drive->{VOLUMN}",
                     pattern => qr/^UUID =\s+(\S+)/
                 );
-                ($drive->{LABEL}) = getFirstMatch(
+                $drive->{LABEL} = getFirstMatch(
                     logger  => $logger,
                     command => "xfs_db -r -c label $drive->{VOLUMN}",
                     pattern => qr/^label =\s+"(\S+)"/

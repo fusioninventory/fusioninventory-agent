@@ -39,7 +39,7 @@ sub doInventory {
             # in udev db.
             # Works only on newer cards.
             # Allow us to associate a node to a drive : sda -> WD-WMANS1648590
-            my ($sn) = getFirstMatch(
+            my $sn = getFirstMatch(
                 logger => $logger,
                 command => "tw_cli info $card->{id} $unit->{id} serial",
                 pattern => qr/serial number\s=\s(\w+)/

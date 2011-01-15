@@ -54,7 +54,7 @@ sub doInventory {
 sub _getCPUFromMemconf {
     my ($logger) = @_;
 
-    my ($spec) = getFirstMatch(
+    my $spec = getFirstMatch(
         command => 'memconf',
         logger  => $logger,
         pattern => qr/^
