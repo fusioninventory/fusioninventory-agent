@@ -17,45 +17,53 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my %memory_unit_mult = (
+    foreach my $machine (_getMachines(
+            command => 'hpvmstatus -X', logger => $logger
+        )) {
+        $inventory->addVirtualMachine($machine);
+    }
+}
+
+sub _getMachines {
+
+    my $xml = getAllLines(@_);
+    return unless $xml;
+
+    my $tpp = XML::TreePP->new();
+    my $data = $tpp->parse($xml);
+    my $mvs = $data->{pman}->{virtual_machine};
+
+    my %units = (
         'MB' => 1,
         'GB' => 1024,
     );
 
-    my %status_list = (
+    my %status = (
         'On' => 'running',
         'Off' => 'off',
         'Invalid' => 'crashed',
     );
 
-    my $xml = getAllLines(command => 'hpvmstatus -X', logger => $logger);
-    my $tpp = XML::TreePP->new();
-    my $data = $tpp->parse($xml);
-
-    my $mvs = $data->{pman}->{virtual_machine};
-
+    my @machines;
     foreach my $name (keys %$mvs) {
-        my $memory = $mvs->{$name}->{memory}->{total}->{content};
-        $memory *= $memory_unit_mult{$mvs->{$name}->{memory}->{total}->{unit}};
-
-        my $uuid = $mvs->{$name}->{uuid};
-        my $status = $status_list{$mvs->{$name}->{vm_state}};
-        my $vcpu = $mvs->{$name}->{vcpu_number};
-        my $vmid = $mvs->{$name}->{local_id};
+        my $info = $mvs->{$name};
 
         my $machine = {
-            MEMORY => $memory,
-            NAME => $name,
-            UUID => $uuid,
-            STATUS => $status,
+            MEMORY    => $info->{memory}->{total}->{content} *
+                         $units{$info->{memory}->{total}->{unit}},
+            NAME      => $name,
+            UUID      => $info->{uuid},
+            STATUS    => $status{$info->{vm_state}},
             SUBSYSTEM => "HPVM",
-            VMTYPE => "HPVM",
-            VCPU => $vcpu,
-            VMID => $vmid,
+            VMTYPE    => "HPVM",
+            VCPU      => $info->{vcpu_number},
+            VMID      => $info->{local_id}
         };
 
-        $inventory->addVirtualMachine($machine);
+        push @machines, $machine;
     }
+
+    return @machines;
 }
 
 1;
