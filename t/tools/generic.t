@@ -3083,7 +3083,7 @@ plan tests =>
     (scalar @speed_tests_nok) +
     (scalar @manufacturer_tests_ok) +
     (scalar @manufacturer_tests_nok) +
-    8;
+    12;
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/dmidecode/$test";
@@ -3167,21 +3167,40 @@ is(
 is_deeply(
     [ getAllLines(file => $tmp) ],
     [ qw/foo bar baz/ ],
-    "all lines, file reading"
+    "all lines, file reading, list context"
+);
+is(
+    getAllLines(file => $tmp),
+    "foo\nbar\nbaz\n",
+    "all lines, file reading, scalar context"
 );
 is_deeply(
     [ getAllLines(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\'') ],
     [ qw/foo bar baz/ ],
-    "all lines, command reading"
+    "all lines, command reading, list context"
+);
+is(
+    getAllLines(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\''),
+    "foo\nbar\nbaz\n",
+    "all lines, command reading, scalar context"
 );
 is_deeply(
     [ getFirstMatch(file => $tmp, pattern => qr/^(b\w+)$/) ],
     [ qw/bar/ ],
-    "first match in file reading"
+    "first match, file reading, list context"
+);
+is(
+    getFirstMatch(file => $tmp, pattern => qr/^(b\w+)$/),
+    'bar',
+    "first match, file reading, scalar context"
 );
 is_deeply(
     [ getFirstMatch(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\'', pattern => qr/^(b\w+)$/) ],
     [ qw/bar/ ],
-    "first match in command reading"
+    "first match, command reading, list context"
 );
-
+is(
+    getFirstMatch(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\'', pattern => qr/^(b\w+)$/),
+    'bar',
+    "first match, command reading, scalar context"
+);

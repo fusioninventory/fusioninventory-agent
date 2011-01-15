@@ -315,7 +315,7 @@ sub getFirstMatch {
     }
     close $handle;
 
-    return @results;
+    return wantarray ? @results : $results[0];
 }
 
 sub getAllLines {
@@ -324,14 +324,16 @@ sub getAllLines {
     my $handle = getFileHandle(%params);
     return unless $handle;
 
-    my @lines;
-    while (my $line = <$handle>) {
-        chomp $line;
-        push @lines, $line;
+    if (wantarray) {
+        my @lines = map { chomp; $_ } <$handle>;
+        close $handle;
+        return @lines;
+    } else {
+        local $RS;
+        my $lines = <$handle>;
+        close $handle;
+        return $lines;
     }
-    close $handle;
-
-    return @lines;
 }
 
 sub getLinesCount {
