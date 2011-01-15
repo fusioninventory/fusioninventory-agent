@@ -46,9 +46,9 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @zones = 
+    my @zones =
         grep { !/global/ }
-        `/usr/sbin/zoneadm list -p`;
+        getAllLines(command => '/usr/sbin/zoneadm list -p', logger => $logger);
 
     foreach my $zone (@zones) {
         my ($zoneid, $zonename, $zonestatus, $pathroot , $uuid) = split(/:/, $zone);
