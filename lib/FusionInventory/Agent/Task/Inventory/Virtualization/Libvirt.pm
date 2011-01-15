@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
@@ -18,23 +17,30 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $handle = getFileHandle(
-        command => 'virsh list --all',
-        logger => $logger
-    );
+    foreach my $machine (_getMachines(
+        command => 'virsh list --all', logger => $logger
+    )) {
+        $inventory->addVirtualMachine($machine);
+    }
+}
 
+sub _getMachines {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
+    my @machines;
     while (my $line = <$handle>) {
         next unless $line =~ /^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/;
 
         my $name = $2;
         my $status = $3;
         $status =~ s/^shut off/off/;
-        my $xml = `virsh dumpxml $name`;
 
+        my $xml = getAllLines(command => "virsh dumpxml $name", logger => $params{logger});
         my $tpp = XML::TreePP->new();
-        my $data = $tpp->parse( $xml );
+        my $data = $tpp->parse($xml);
 
         my $vcpu = $data->{domain}->{vcpu};
         my $uuid = $data->{domain}->{uuid};
@@ -54,10 +60,11 @@ sub doInventory {
             VCPU      => $vcpu,
         };
 
-        $inventory->addVirtualMachine($machine);
+        push @machines, $machine;
     }
     close $handle;
 
+    return @machines;
 }
 
 1;
