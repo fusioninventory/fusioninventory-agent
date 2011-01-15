@@ -33,9 +33,9 @@ sub mockSystem {
 sub mockGetFileHandle {
     my (%params) = @_;
 
-    my $original = \&FusionInventory::Agent::Tools::getFileHandle;
+    my $old = \&FusionInventory::Agent::Tools::getFileHandle;
 
-    my $function = sub {
+    my $new = sub {
         my (%options) = @_;
 
         my $file;
@@ -54,7 +54,7 @@ sub mockGetFileHandle {
 
         if ($file) {
             print STDERR "file '$file' delivered\n";
-            return $original->(@_, file => $file);
+            return $old->(@_, file => $file);
         } else {
             print STDERR "nothing delivered\n";
             return;
@@ -62,19 +62,13 @@ sub mockGetFileHandle {
     };
 
     no warnings 'redefine';
-    no strict 'refs';
-    my @namespaces = ref $params{namespaces} ?
-        @{$params{namespaces}} : ( $params{namespaces} );
-    foreach my $namespace (@namespaces) {
-        print STDERR "redefining for $namespace\n";
-        *{$namespace} = $function;
-    }
+    *FusionInventory::Agent::Tools::getFileHandle = $new;
 }
 
 sub mockCanRun {
     my (%params) = @_;
 
-    my $function = sub {
+    my $new = sub {
         my $wanted = $_[0];
         print STDERR
             "command '$wanted' availability tested: "  .
@@ -85,19 +79,13 @@ sub mockCanRun {
     };
 
     no warnings 'redefine';
-    no strict 'refs';
-    my @namespaces = ref $params{namespaces} ?
-        @{$params{namespaces}} : ( $params{namespaces} );
-    foreach my $namespace (@namespaces) {
-        print STDERR "redefining for $namespace\n";
-        *{$namespace} = $function;
-    }
+    *FusionInventory::Agent::Tools::can_run = $new;
 }
 
 sub mockCanRead {
     my (%params) = @_;
 
-    my $function = sub {
+    my $new = sub {
         my $wanted = $_[0];
         print STDERR
             "file '$wanted' availability tested: "  .
@@ -108,13 +96,7 @@ sub mockCanRead {
     };
 
     no warnings 'redefine';
-    no strict 'refs';
-    my @namespaces = ref $params{namespaces} ?
-        @{$params{namespaces}} : ( $params{namespaces} );
-    foreach my $namespace (@namespaces) {
-        print STDERR "redefining for $namespace\n";
-        *{$namespace} = $function;
-    }
+    *FusionInventory::Agent::Tools::can_read = $new;
 }
 
 1
