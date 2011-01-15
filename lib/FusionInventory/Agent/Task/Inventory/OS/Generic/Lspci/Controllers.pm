@@ -79,11 +79,8 @@ sub _getExtentedControllers {
 sub _loadPciIds {
     my ($logger, $sharedir) = @_;
 
-    my $handle;
-    if (!open $handle, '<', "$sharedir/pci.ids") {
-        $logger->error("Failed to open $sharedir/pci.ids");
-        return;
-    }
+    my $handle = getFileHandle(file => "$sharedir/pci.ids", logger => $logger);
+    return unless $handle;
 
     my ($vendor_id, $device_id, $class_id);
     while (my $line = <$handle>) {

@@ -87,15 +87,11 @@ sub _findDhcpLeaseFile {
 sub _parseDhcpLeaseFile {
     my ($logger, $if, $lease_file) = @_;
 
-    my ($server_ip, $expiration_time);
 
-    my $handle;
-    if (!open $handle, '<', $lease_file) {
-        $logger->error("Can't open $lease_file");
-        return;
-    }
+    my $handle = getFileHandle(file => $lease_file, logger => $logger);
+    return unless $handle;
 
-    my ($lease, $dhcp);
+    my ($lease, $dhcp, $server_ip, $expiration_time);
 
     # find the last lease for the interface with its expire date
     while (my $line = <$handle>) {
