@@ -5,8 +5,6 @@ use warnings;
 
 use Sys::Hostname;
 
-use English qw(-no_match_vars);
-
 sub isInventoryEnabled {
     my $hostname = hostname();
 
@@ -25,7 +23,8 @@ sub doInventory {
     # and the domain search list
     my %dns_list;
     my %search_list;
-    if (open my $handle, '<', '/etc/resolv.conf') {
+    my $handle = getFileHandle(file => '/etc/resolv.conf', logger => $logger);
+    if ($handle) {
         while (my $line = <$handle>) {
             if ($line =~ /^nameserver\s+(\S+)/) {
                 $dns_list{$1}=1;
@@ -34,9 +33,8 @@ sub doInventory {
             }
         }
         close $handle;
-    } else {
-        $logger->debug("Can't open /etc/resolv.conf: $ERRNO");
     }
+
     my $dns = join('/', keys %dns_list);
 
     # attempt to deduce the actual domain from the host name
