@@ -13,6 +13,7 @@ use File::Spec;
 our @EXPORT = qw(
     getSubnetAddress
     getSubnetAddressIPv6
+    getDirectoryHandle
     getFileHandle
     getFormatedLocalTime
     getFormatedGmTime
@@ -253,6 +254,22 @@ sub getSubnetAddressIPv6 {
     my $binsubnet  = $binaddress & $binmask;
 
     return ip_bintoip($binsubnet, 4);
+}
+
+sub getDirectoryHandle {
+    my %params = @_;
+
+    die "no directory parameter given" unless $params{directory};
+
+    my $handle;
+
+    if (!opendir $handle, $params{directory}) {
+        $params{logger}->error("Can't open directory $params{directory}: $ERRNO")
+            if $params{logger};
+        return;
+    }
+
+    return $handle;
 }
 
 sub getFileHandle {
@@ -500,6 +517,18 @@ UTF-8.
 
 Returns true if software with given major and minor version meet minimal
 version requirements.
+
+=head2 getDirectoryHandle(%params)
+
+Returns an open file handle on either a command output, or a file.
+
+=over
+
+=item logger a logger object
+
+=item directory the directory to use
+
+=back
 
 =head2 getFileHandle(%params)
 
