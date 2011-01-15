@@ -18,6 +18,14 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    foreach my $drive (_getDrives($logger)) {
+        $inventory->addDrive($drive);
+    }
+}
+
+sub _getDrives {
+    my ($logger) = @_;
+
     # get drives list
     my @drives =
         # exclude virtual file systems
@@ -117,10 +125,7 @@ sub doInventory {
         }
     }
 
-    # add drives to the inventory
-    foreach my $drive (@drives) {
-        $inventory->addDrive($drive);
-    }
+    return @drives;
 }
 
 sub _getDrivesFromHal {
