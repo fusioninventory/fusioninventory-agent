@@ -13,8 +13,13 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    opendir my $handle, '/var/log/packages/';
+    my $handle = getDirectoryHandle(
+        directory => '/var/log/packages', logger => $logger
+    );
+    return unless $handle;
+
     while (my $file = readdir($handle)) {
         next unless $file =~ /^(.+)([^-]+-[^-]+-[^-]+)$/;
         my $name = $1;
