@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 use FusionInventory::Agent::Regexp;
@@ -211,20 +209,16 @@ sub _isWifi {
 sub _getUevent {
     my ($logger, $name) = @_;
 
-    my ($driver, $pcislot);
-
     my $file = "/sys/class/net/$name/device/uevent";
-    if (-r $file) {
-        if (open my $handle, '<', $file) {
-            while (<$handle>) {
-                $driver = $1 if /^DRIVER=(\S+)/;
-                $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
-            }
-            close $handle;
-        } else {
-            $logger->warn("Can't open $file: $ERRNO");
-        }
+    my $handle = getFileHandle(file => $file);
+    return unless $handle;
+
+    my ($driver, $pcislot);
+    while (<$handle>) {
+        $driver = $1 if /^DRIVER=(\S+)/;
+        $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
     }
+    close $handle;
 
     return ($driver, $pcislot);
 }
