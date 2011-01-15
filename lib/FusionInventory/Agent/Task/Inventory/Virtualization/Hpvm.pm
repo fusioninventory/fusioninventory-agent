@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Hpvm;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
@@ -29,7 +28,7 @@ sub doInventory {
         'Invalid' => 'crashed',
     );
 
-    my $xml = `hpvmstatus -X`;
+    my $xml = getAllLines(command => 'hpvmstatus -X', logger => $logger);
     my $tpp = XML::TreePP->new();
     my $data = $tpp->parse($xml);
 
