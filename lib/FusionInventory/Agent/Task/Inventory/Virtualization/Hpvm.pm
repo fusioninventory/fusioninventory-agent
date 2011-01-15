@@ -18,8 +18,8 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $machine (_getMachines(
-            command => 'hpvmstatus -X', logger => $logger
-        )) {
+        command => 'hpvmstatus -X', logger => $logger
+    )) {
         $inventory->addVirtualMachine($machine);
     }
 }

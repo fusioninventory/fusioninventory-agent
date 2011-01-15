@@ -16,8 +16,8 @@ sub doInventory {
     my $logger = $params{logger};
 
     foreach my $machine (_getMachines(
-            command => 'vmware-cmd -l', logger => $logger
-        )) {
+        command => 'vmware-cmd -l', logger => $logger
+    )) {
         $inventory->addVirtualMachine($machine);
     }
 }
