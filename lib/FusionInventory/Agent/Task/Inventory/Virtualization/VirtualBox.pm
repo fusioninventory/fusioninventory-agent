@@ -72,12 +72,7 @@ sub doInventory {
 
     return unless $scanhomedirs;
 
-    my $homeDir = "/home";
-
-    if ($OSNAME eq 'darwin') {
-        $homeDir = "/Users";
-    }
-
+    my $homeDir = $OSNAME eq 'darwin' ? '/Users' : '/home';
 
     # Read every Machines Xml File of every user
     foreach my $file (bsd_glob("$homeDir/*/.VirtualBox/Machines/*/*.xml")) {
