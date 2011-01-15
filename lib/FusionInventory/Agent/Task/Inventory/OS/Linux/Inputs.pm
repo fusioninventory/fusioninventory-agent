@@ -1,10 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Inputs;
-# Had never been tested.
-#use FusionInventory::Agent::Task::Inventory::OS::Linux;
+
 use strict;
 use warnings;
-
-use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
     return 1;
@@ -19,11 +16,8 @@ sub doInventory {
     my $device;
     my $in;
 
-    my $handle;
-    if (!open $handle, '<', '/proc/bus/input/devices') {
-         $logger->debug("Can't open /proc/bus/input/devices: $ERRNO");
-         return;
-    }
+    my $handle = getFileHandle(file => '/proc/bus/input/devices', logger => $logger);
+    return unless $handle;
 
     while (my $line = <$handle>) {
         if ($line =~ /^I: Bus=.*Vendor=(.*) Prod/) {

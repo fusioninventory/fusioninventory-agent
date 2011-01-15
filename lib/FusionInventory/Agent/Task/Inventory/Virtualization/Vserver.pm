@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vserver;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {

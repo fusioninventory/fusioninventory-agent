@@ -46,8 +46,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
