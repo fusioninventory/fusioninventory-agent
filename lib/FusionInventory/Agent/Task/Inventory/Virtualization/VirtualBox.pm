@@ -74,7 +74,7 @@ sub doInventory {
 
     my $homeDir = "/home";
 
-    if ($OSNAME =~ /^DARWIN$/i) {
+    if ($OSNAME eq 'darwin') {
         $homeDir = "/Users";
     }
 
