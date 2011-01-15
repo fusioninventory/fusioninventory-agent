@@ -22,9 +22,9 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $devices = getDevicesFromUdev(logger => $logger);
+    my @devices = getDevicesFromUdev(logger => $logger);
 
-    foreach my $device (@$devices) {
+    foreach my $device (@devices) {
         next unless $device->{MANUFACTURER};
         next unless $device->{MANUFACTURER} eq 'Adaptec';
 

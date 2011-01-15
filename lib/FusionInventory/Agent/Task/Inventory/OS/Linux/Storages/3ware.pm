@@ -30,7 +30,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $devices = getDevicesFromUdev(logger => $logger);
+    my @devices = getDevicesFromUdev(logger => $logger);
 
     foreach my $card (_getCards()) {
         foreach my $unit (_getUnits($card)) {
@@ -49,7 +49,7 @@ sub doInventory {
                 # Finally, getting drives' values.
                 my $storage = _getStorage($card, $port);
 
-                foreach my $device (@$devices) {
+                foreach my $device (@devices) {
                     # How does this work with multiple older cards
                     # where serial for units is not implemented ?
                     # Need to be tested on a system with multiple

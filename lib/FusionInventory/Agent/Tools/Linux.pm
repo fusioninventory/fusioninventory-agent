@@ -23,22 +23,22 @@ memoize('getDevicesFromUdev');
 sub getDevicesFromUdev {
     my %params = @_;
 
-    my $devices;
+    my @devices;
 
     foreach my $file (glob ("/dev/.udev/db/*")) {
         next unless $file =~ /([sh]d[a-z])$/;
         my $device = $1;
-        push (@$devices, _parseUdevEntry(
+        push (@devices, _parseUdevEntry(
                 logger => $params{logger}, file => $file, device => $device
             ));
     }
 
-    foreach my $device (@$devices) {
+    foreach my $device (@devices) {
         next if $device->{TYPE} eq 'cd';
         $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME})
     }
 
-    return $devices;
+    return @devices;
 }
 
 sub _parseUdevEntry {
@@ -122,7 +122,7 @@ sub getDevicesFromHal {
     );
     my $handle = getFileHandle(%params);
 
-    my ($devices, $device);
+    my (@devices, $device);
 
     while (my $line = <$handle>) {
         chomp $line;
@@ -134,7 +134,7 @@ sub getDevicesFromHal {
         next unless defined $device;
 
         if ($line =~ /^$/) {
-            push(@$devices, $device);
+            push(@devices, $device);
             undef $device;
         } elsif ($line =~ /^\s+ storage.serial \s = \s '([^']+)'/x) {
             $device->{SERIALNUMBER} = $1;
@@ -156,7 +156,7 @@ sub getDevicesFromHal {
     }
     close $handle;
 
-    return $devices;
+    return @devices;
 }
 
 sub getDevicesFromProc {
@@ -192,7 +192,7 @@ sub getDevicesFromProc {
     @names = grep { !$seen{$_}++ } @names;
 
     # extract informations
-    my $devices;
+    my @devices;
     foreach my $name (@names) {
         my $device;
         $device->{NAME}         = $name;
@@ -212,10 +212,10 @@ sub getDevicesFromProc {
             $params{logger}, $device, 'removable'
         ) ?
             'removable' : 'disk';
-        push (@$devices, $device);
+        push (@devices, $device);
     }
 
-    return $devices;
+    return @devices;
 }
 
 sub _getValueFromSysProc {
@@ -268,7 +268,7 @@ This module provides some generic functions for Linux.
 
 =head2 getDevicesFromUdev(%params)
 
-Returns a list of devices as an arrayref of hashref, by parsing udev database.
+Returns a list of devices, by parsing udev database.
 
 Availables parameters:
 
@@ -280,7 +280,7 @@ Availables parameters:
 
 =head2 getDevicesFromHal(%params)
 
-Returns a list of devices as an arrayref of hashref, by parsing lshal output.
+Returns a list of devices, by parsing lshal output.
 
 Availables parameters:
 
@@ -296,8 +296,7 @@ Availables parameters:
 
 =head2 getDevicesFromProc(%params)
 
-Returns a list of devices as an arrayref of hashref, by parsing /proc
-filesystem.
+Returns a list of devices, by parsing /proc filesystem.
 
 Availables parameters:
 
@@ -309,7 +308,7 @@ Availables parameters:
 
 =head2 getCPUsFromProc(%params)
 
-Returns a list of cpus as an array of hashref, by parsing /proc/cpuinfo file
+Returns a list of cpus, by parsing /proc/cpuinfo file
 
 Availables parameters:
 

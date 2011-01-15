@@ -24,9 +24,9 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $devices = getDevicesFromUdev(logger => $logger);
+    my @devices = getDevicesFromUdev(logger => $logger);
 
-    foreach my $hd (@$devices) {
+    foreach my $hd (@devices) {
         my $handle = getFileHandle(
             logger => $logger,
             command => "mpt-status -n -i $hd->{SCSI_UNID}"
