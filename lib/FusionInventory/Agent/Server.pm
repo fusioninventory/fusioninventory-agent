@@ -7,7 +7,6 @@ use base qw/FusionInventory::Agent/;
 use Cwd;
 use English qw(-no_match_vars);
 use POE;
-use POE::Component::IKC::Server;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
@@ -141,16 +140,6 @@ sub init {
     } else {
         $logger->info("Web interface disabled");
     }
-
-    POE::Component::IKC::Server->spawn(
-        ip   => '127.0.0.1',
-        port => 3030,
-        name  => 'Server'
-    ); # more options are available
-    POE::Kernel->call(IKC => publish => 'config', ["get"]);
-    POE::Kernel->call(IKC => publish => 'target', ["get"]);
-    POE::Kernel->call(IKC => publish => 'network', ["send"]);
-    POE::Kernel->call(IKC => publish => 'prolog', ["getOptionsInfoByName"]);
 }
 
 sub getToken {
