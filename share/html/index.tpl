@@ -18,25 +18,23 @@ This is FusionInventory Agent {$version}<br />
     }
 }
 
-<h2>Current targets list</h2>
+<h2>Current jobs list</h2>
 <table width="100%">
 <tr>
 <th>id</th>
-<th>type</th>
-<th>destination</th>
+<th>target</th>
+<th>task</th>
 <th>period (seconds)</th>
 <th>next execution date</th>
-<th>status</th>
 </tr>
 {
-    foreach my $target (@targets) {
+    foreach my $job (@jobs) {
 	$OUT .= "<tr>";
-	$OUT .= "<td>$target->{id}</td>";
-	$OUT .= "<td>$target->{type}</td>";
-	$OUT .= "<td>$target->{destination}</td>";
-	$OUT .= "<td>$target->{period}</td>";
-	$OUT .= "<td>$target->{time}</td>";
-	$OUT .= "<td>$target->{status}</td>";
+	$OUT .= "<td>$job->{id}</td>";
+	$OUT .= "<td>$job->{target}</td>";
+	$OUT .= "<td>$job->{task}</td>";
+	$OUT .= "<td>$job->{period}</td>";
+	$OUT .= "<td>" . localtime($job->{nextRunDate}) . "</td>";
 	$OUT .= "</tr>";
     }
 }

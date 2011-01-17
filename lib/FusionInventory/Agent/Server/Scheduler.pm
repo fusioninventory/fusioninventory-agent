@@ -23,8 +23,8 @@ sub new {
                 $_[KERNEL]->alias_set('scheduler');
                 $_[KERNEL]->delay_set('tick', 1);
             },
-            tick => sub { $self->checkAllTargets() },
-            run  => sub { $self->runAllTargets() },
+            tick => sub { $self->checkAllJobs() },
+            run  => sub { $self->runAllJobs() },
         }
     );
 
@@ -35,36 +35,35 @@ sub new {
     return $self;
 }
 
-sub scheduleTargets {
+sub scheduleJobs {
     my ($self, $offset) = @_;
 
-    foreach my $target ($self->{state}->getTargets()) {
-        $target->scheduleNextRun($offset);
+    foreach my $job ($self->{state}->getJobs()) {
+        $job->scheduleNextRun($offset);
     }
 }
 
 
-sub checkAllTargets {
+sub checkAllJobs {
     my ($self) = @_;
 
     my $time = time();
-    foreach my $target ($self->{state}->getTargets()) {
-        $self->runTarget($target) if $time > $target->getNextRunDate();
+    foreach my $job ($self->{state}->getJobs()) {
+        $self->runJob($job) if $time > $job->getNextRunDate();
     }
 }
 
-sub runAllTargets {
+sub runAllJobs {
     my ($self) = @_;
 
-    foreach my $target ($self->{state}->getTargets()) {
-        $self->runTarget($target);
+    foreach my $job ($self->{state}->getJobs()) {
+        $self->runJob($job);
     }
 }
 
-sub runTarget {
-    my ($self, $target) = @_;
+sub runJob {
+    my ($self, $job) = @_;
 }
-
 
 1;
 

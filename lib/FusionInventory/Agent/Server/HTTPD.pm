@@ -91,9 +91,7 @@ sub default {
     my $hash = {
         version => $FusionInventory::Agent::VERSION,
         trust   => $self->{trust_localhost},
-        targets => [
-            map { $_->getDescription() } $self->{state}->getTargets()
-        ]
+        jobs   => [ $self->{state}->getJobs() ]
     };
 
     $response->code(RC_OK);
