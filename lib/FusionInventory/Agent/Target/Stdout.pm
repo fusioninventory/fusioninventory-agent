@@ -12,17 +12,6 @@ sub new {
     return $self;
 }
 
-sub getDescription {
-    my ($self) = @_;
-
-    my $description = $self->SUPER::getDescription();
-
-    $description->{type}        = 'stdout';
-    $description->{destination} = 'STDOUT';
-
-    return $description;
-}
-
 1;
 
 __END__

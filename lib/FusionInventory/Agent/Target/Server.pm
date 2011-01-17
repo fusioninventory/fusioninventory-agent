@@ -4,11 +4,9 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Target';
 
-use English qw(-no_match_vars);
 use URI;
 
 use FusionInventory::Agent::Transmitter;
-use FusionInventory::Agent::XML::Query::Prolog;
 
 sub new {
     my ($class, %params) = @_;
@@ -76,44 +74,6 @@ sub getPrologresp {
     my ($self) = @_;
 
     return $self->{prologresp};
-}
-
-sub _loadState {
-    my ($self) = @_;
-
-    my $data = $self->{storage}->restore();
-    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
-    $self->{period}      = $data->{period} if $data->{period};
-    $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
-}
-
-sub saveState {
-    my ($self) = @_;
-
-    $self->{storage}->save(
-        data => {
-            nextRunDate => $self->{nextRunDate},
-            period      => $self->{period},
-            accountInfo => $self->{accountInfo}
-        }
-    );
-
-}
-
-sub getDescription {
-    my ($self) = @_;
-
-    my $description = $self->SUPER::getDescription();
-
-    my $url = $self->{url};
-
-    # Remove the login:password if needed
-    $url =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-
-    $description->{type}        = 'server';
-    $description->{destination} = $url;
-
-    return $description;
 }
 
 1;

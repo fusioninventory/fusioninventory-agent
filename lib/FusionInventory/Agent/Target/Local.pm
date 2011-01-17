@@ -22,17 +22,6 @@ sub getPath {
     return $self->{path};
 }
 
-sub getDescription {
-    my ($self) = @_;
-
-    my $description = $self->SUPER::getDescription();
-
-    $description->{type}        = 'local';
-    $description->{destination} = $self->{path};
-
-    return $description;
-}
-
 1;
 
 __END__
