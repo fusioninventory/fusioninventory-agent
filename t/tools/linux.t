@@ -307,8 +307,8 @@ foreach my $test (keys %cpu_tests) {
 
 foreach my $test (keys %hal_tests) {
     my $file = "resources/hal/$test";
-    my $results = getDevicesFromHal(file => $file);
-    is_deeply($results, $hal_tests{$test}, $test);
+    my @devices = getDevicesFromHal(file => $file);
+    is_deeply(\@devices, $hal_tests{$test}, $test);
 }
 
 foreach my $test (keys %smartctl_tests) {
