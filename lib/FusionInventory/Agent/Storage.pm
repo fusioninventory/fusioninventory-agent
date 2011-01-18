@@ -121,16 +121,15 @@ sub _getFileName {
     if ($params{module}) {
         $name = $params{module};
     } else {
+        # get calling package name
         my $module;
         my $i = 0;
         while ($module = caller($i++)) {
             last if $module ne 'FusionInventory::Agent::Storage';
         }
-        $name = $module;
+        # use last component
+        $name = (split(/::/, $module))[-1];
     }
-
-    # Drop colons, they are forbiden in Windows file path
-    $name =~ s/::/-/g;
 
     return $name;
 }
