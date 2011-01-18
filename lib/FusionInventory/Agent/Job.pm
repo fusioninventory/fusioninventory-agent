@@ -21,26 +21,32 @@ sub new {
         target => $params{target},
         period => $params{period} || 3600,
         logger => $params{logger} || FusionInventory::Agent::Logger->new(),
+        dirty  => 1
     };
 
     bless $self, $class;
 
-    # initialize next execution date
-    $self->{nextRunDate} =
-        time() + ($self->{period} / 2) + int rand($self->{period} / 2);
-
-    # job storage object
+    # create storage object
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
         directory => $params{basevardir} . '/' . $params{id}
     );
 
-    # restore previous state if it exists, otherwise save it
-    if ($self->{storage}->exists()) {
-        $self->_loadState();
-    } else {
-        $self->saveState();
+    # restore previous state if it exists
+    $self->_loadState();
+
+    # initialize next execution date if needed
+    my $time = time();
+    if (
+        !$self->{nextRunDate}        || # no date yet
+        $self->{nextRunDate} < $time    # date in the paste
+    ) {
+        $self->{nextRunDate} = $time + $self->_getOffset();
+        $self->{dirty} = 1;
     }
+
+    # save new state if needed
+    $self->saveState() if $self->{dirty};
 
     $self->{logger}->debug(
         "[job $self->{id}] job created, next run scheduled for " .
@@ -72,7 +78,7 @@ sub scheduleNextRun {
     my ($self, $offset) = @_;
 
     if (! defined $offset) {
-        $offset = ($self->{period} / 2) + int rand($self->{period} / 2);
+        $offset = $self->_getOffset();
     }
     my $time = time() + $offset;
     $self->setNextRunDate($time);
@@ -100,6 +106,7 @@ sub _loadState {
     my $data = $self->{storage}->restore();
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
     $self->{period}      = $data->{period} if $data->{period};
+    $self->{dirty} = 0;
 }
 
 sub saveState {
@@ -111,6 +118,13 @@ sub saveState {
             period      => $self->{period},
         }
     );
+    $self->{dirty} = 0;
+}
+
+sub _getOffset {
+    my ($self) = @_;
+
+    return ($self->{period} / 2) + int rand($self->{period} / 2);
 }
 
 1;
