@@ -21,9 +21,12 @@ sub new {
         inline_states => {
             _start => sub {
                 $_[KERNEL]->alias_set('scheduler');
-                $_[KERNEL]->delay_set('tick', 1);
+                $_[KERNEL]->yield('tick');
             },
-            tick => sub { $self->checkAllJobs() },
+            tick => sub { 
+                $self->checkAllJobs();
+                $_[KERNEL]->delay('tick', 1);
+            },
             run  => sub { $self->runAllJobs() },
         }
     );
@@ -48,8 +51,18 @@ sub checkAllJobs {
     my ($self) = @_;
 
     my $time = time();
+    $self->{logger}->debug(
+        sprintf("[scheduler] waking up at %i", $time,)
+    );
     foreach my $job ($self->{state}->getJobs()) {
-        $self->runJob($job) if $time > $job->getNextRunDate();
+        my $id   = $job->getId();
+        my $date = $job->getNextRunDate();
+        $self->{logger}->debug(
+            sprintf(
+                "[scheduler] checking job %s: next run at %i", $id, $date
+            )
+        );
+        $self->runJob($job) if $time > $date;
     }
 }
 
@@ -63,6 +76,9 @@ sub runAllJobs {
 
 sub runJob {
     my ($self, $job) = @_;
+
+    $self->{logger}->debug("[scheduler] running job $job->{id}");
+    $job->scheduleNextRun();
 }
 
 1;
