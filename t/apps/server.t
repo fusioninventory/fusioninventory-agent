@@ -6,7 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Temp;
 use IPC::Run qw(run);
-use XML::TreePP;
 
 use Test::More tests => 9;
 
@@ -31,13 +30,13 @@ like(
 is($out, '', '--help stdin');
 
 ($out, $err, $rc) = run_server();
-ok($rc == 2, 'no targets exit status');
+ok($rc == 2, 'no jobs exit status');
 like(
     $err,
-    qr/No targets defined, aborting/,
-    'no targets stderr'
+    qr/No jobs defined, aborting/,
+    'no jobs stderr'
 );
-is($out, '', 'No task stdin');
+is($out, '', 'no jobs stdin');
 
 sub run_server {
     my ($args) = @_;
