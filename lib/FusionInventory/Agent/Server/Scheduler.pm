@@ -71,11 +71,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Scheduler - A target scheduler
+FusionInventory::Agent::Scheduler - Agent scheduler
 
 =head1 DESCRIPTION
 
-This is the object used by the agent to schedule various targets.
+This is the agent scheduler, managing jobs.
 
 =head1 METHODS
 
@@ -96,18 +96,18 @@ the server state object
 
 =back
 
-=head2 scheduleTargets()
+=head2 scheduleJobs()
 
-Call scheduleNextRun() on all targets.
+Call scheduleNextRun() on all jobs.
 
-=head2 checkAllTargets()
+=head2 checkAllJobs()
 
-Run all targets whose next execution date has been reached.
+Run all jobs whose next execution date has been reached.
 
-=head2 runAllTargets()
+=head2 runAllJobs()
 
-Run all targets.
+Run all jobs.
 
-=head2 runTarget($target)
+=head2 runJob($job)
 
-Run a single target.
+Run a single job.
