@@ -194,7 +194,11 @@ Save given data structure. The following arguments are allowed:
 
 The data structure to save (mandatory).
 
+=item idx
+
 The index number (optional).
+
+=back
 
 =head2 restore(%params)
 
