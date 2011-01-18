@@ -15,3 +15,9 @@ a:hover {
   text-decoration: underline;
   font-family: Arial,Helvetica,sans-serif;
 }
+tr.odd { 
+    background-color:white;
+}
+tr.even { 
+    background-color:silver;
+}

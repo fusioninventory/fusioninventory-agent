@@ -28,8 +28,10 @@ This is FusionInventory Agent {$version}<br />
 <th>next execution date</th>
 </tr>
 {
+    my $i = 0;
     foreach my $job (@jobs) {
-	$OUT .= "<tr>";
+	my $class = $i++ % 2 ? 'odd' : 'even';
+	$OUT .= "<tr class=\"$class\">";
 	$OUT .= "<td>$job->{id}</td>";
 	$OUT .= "<td>$job->{target}</td>";
 	$OUT .= "<td>$job->{task}</td>";
