@@ -88,15 +88,18 @@ sub scheduleNextRun {
     );
 }
 
+sub getId {
+    my ($self) = @_;
+    return $self->{id};
+}
+
 sub getPeriod {
     my ($self) = @_;
-
     return $self->{period};
 }
 
 sub setPeriod {
     my ($self, $period) = @_;
-
     $self->{period} = $period;
 }
 
