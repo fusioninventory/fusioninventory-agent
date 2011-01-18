@@ -67,7 +67,7 @@ sub content {
         }
     }
 
-    $logger->debug("[Receiver] no handler found for request");
+    $logger->debug("[httpd] no handler found for request");
     $response->code(500);
     return RC_OK;
 }
@@ -76,7 +76,7 @@ sub default {
     my ($self, $request, $response) = @_;
 
     my $logger = $self->{logger};
-    $logger->debug("[Receiver] 'default' handler called");
+    $logger->debug("[httpd] 'default' handler called");
 
     if ($request->connection()->remote_ip() ne '127.0.0.1') {
         $response->content("Access denied");
@@ -106,7 +106,7 @@ sub files {
     my ($self, $request, $response, $file) = @_;
 
     my $logger = $self->{logger};
-    $logger->debug("[Receiver] 'file' handler called, with file $file");
+    $logger->debug("[httpd] 'file' handler called, with file $file");
 
     $self->sendFile(
         $response, $self->{htmldir} . '/' . $file
@@ -117,7 +117,7 @@ sub deploy {
     my ($self, $request, $response, $file) = @_;
 
     my $logger = $self->{logger};
-    $logger->debug("[Receiver] 'deploy' handler called, with file $file");
+    $logger->debug("[httpd] 'deploy' handler called, with file $file");
 
     foreach my $target ($self->{state}->getTargets()) {
         $self->sendFile(
@@ -132,7 +132,7 @@ sub now {
 
     my $logger = $self->{logger};
     $logger->debug(
-        "[Receiver] 'now' handler called" .
+        "[httpd] 'now' handler called" .
         ($token ? ", with token $token" : "")
     );
 
