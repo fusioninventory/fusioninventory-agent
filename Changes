@@ -24,6 +24,8 @@ Revision history for FusionInventory::Agent
        * MacOSX/Drives: do not ignore the / filesystem
        * MacOSX/USB: no empty devices
        * Win32/Software: avoid a warning
+       * Networks: improve the error message if deflat fails, thanls Walid Nouh
+         for the suggestion
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
