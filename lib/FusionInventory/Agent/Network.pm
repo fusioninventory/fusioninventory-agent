@@ -239,7 +239,10 @@ sub send {
     if ($res->content) {
         $content = $compress->uncompress($res->content);
         if (!$content) {
-            $logger->error ("Deflating problem");
+            $logger->error ("Deflating problem. Is the string really ".
+            "compressed? Do you use the correct URL to the server. ".
+            "The begin was: ".substr($res->content, 0, 200));
+
             return;
         }
     }
