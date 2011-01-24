@@ -12,13 +12,13 @@
     <presentationTable>
       <presentation id="FusionInventory_CONFIGURE">
         <textBox refId="FusionInventory_Server">
-          <label>Server</label>
+          <label>Serveur</label>
         </textBox>
         <textBox refId="FusionInventory_User">
-          <label>User</label>
+          <label>Nom</label>
         </textBox>
         <textBox refId="FusionInventory_Password">
-          <label>Password</label>
+          <label>Mot de passe</label>
         </textBox>
         <textBox refId="FusionInventory_Realm">
           <label>Realm</label>
