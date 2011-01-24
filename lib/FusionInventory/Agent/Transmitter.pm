@@ -80,14 +80,8 @@ sub send {
     my $scheme = $url->scheme();
     if ($scheme eq 'https' && !$self->{no_ssl_check}) {
         $self->_turnSSLCheckOn();
-        my $re = $url->host();
-
-	# Accept SSL cert will hostname with wild-card
-	# http://forge.fusioninventory.org/issues/542
-        $re =~ s/^([^\.]+)/($1|\\*)/;
-	# protect metacharacters, as $re will be evaluated as a regex
-        $re =~ s/\./\\./g;
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => "/CN=$re($|\/)");
+        my $pattern = _getCertificateRegexp($url->host());
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
     }
 
     my $message_content = $self->_compress($message->getContent());
@@ -184,6 +178,18 @@ sub send {
     );
 
     return $response;
+}
+
+sub _getCertificateRegexp {
+    my ($hostname) = @_;
+
+    # Accept SSL cert will hostname with wild-card
+    # http://forge.fusioninventory.org/issues/542
+    $hostname =~ s/^([^\.]+)/($1|\\*)/;
+    # protect metacharacters, as $re will be evaluated as a regex
+    $hostname =~ s/\./\\./g;
+
+    return qr/CN=$hostname($|\/)/;
 }
 
 # http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
