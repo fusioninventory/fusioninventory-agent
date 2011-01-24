@@ -58,6 +58,12 @@ Revision history for FusionInventory::Agent
          is missing
        * MacOSX/Drives: do not ignore the / filesystem
        * MacOSX/USB: no empty devices
+       * Win32/Software: avoid a warning
+       * Networks: improve the error message if deflat fails, thanks Walid Nouh
+         for the suggestion
+       * HP-UX/CPU: add a test-suite
+       * HP-UX/CPU: identify the CPU on HP RX4640, (Yanick Durant)
+       * HP-UX/Memory: hack to preinitialize the memory map (Yanick Durant)
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied

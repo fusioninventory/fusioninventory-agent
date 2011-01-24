@@ -19,6 +19,7 @@ sub doInventory {
     my $arch = getFirstLine(command => 'uname -m');
 
     if ($arch =~ /ia64/ ) {
+        `echo 'sc product  IPF_MEMORY;info' | /usr/sbin/cstm`;    # enable infolog
         foreach ( `echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm` ) {
             if ( /\w+IMM\s+Location/ ) {
                 next

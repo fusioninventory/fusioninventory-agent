@@ -13,7 +13,52 @@ use FusionInventory::Agent::Tools;
 #                                                                                                  
 # thanks to Marty Riedling for this correction                                                     
 #                                                                                                  
-###                                                                                                
+###
+
+sub _parseMachinInfo {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+
+    my $ret = {};
+
+    foreach (<$handle>) {
+        s/\s+/ /g;
+        if (/Number of CPUs = (\d+)/) {
+            $ret->{CPUcount} = $1;
+        } elsif (/processor model: \d+ (.+)$/) {
+            $ret->{CPUinfo}->{TYPE} = $1;
+        } elsif (/Clock speed = (\d+) MHz/) {
+            $ret->{CPUinfo}->{SPEED} = $1;
+        } elsif (/vendor information =\W+(\w+)/) {
+            $ret->{CPUinfo}->{MANUFACTURER} = $1;
+        } elsif (/Cache info:/) {
+# last; #Not tested on versions other that B11.23
+        }
+# Added for HPUX 11.31
+        if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
+            $ret->{CPUinfo}->{SPEED} = $1*1000;
+        }
+        if ( /(\d+) Intel\(R\) Itanium 2 processors \((\d+\.\d+)/ ) {
+            $ret->{CPUcount} = $1;
+            $ret->{SPEED} = $2*1000;
+        }
+        if ( /(\d+) logical processors/ ) {
+            $ret->{CPUcount} = $1;
+        }
+        if (/Itanium/i) {
+            $ret->{TYPE} = 'Itanium';
+        }
+# end HPUX 11.31
+    }
+
+    return $ret;
+}
 
 sub isInventoryEnabled  { 
     return $OSNAME eq 'hpux';
@@ -24,13 +69,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $CPUinfo = {
-        MANUFACTURER => 'unknow',
-        TYPE         => 'unknow',
-        SERIAL       => 'No Serial Number available!',
-        SPEED        => 0
-    };
-    my $CPUcount;
+    my $CPUinfo = {};
 
     # Using old system HpUX without machinfo
     # the Hpux whith machinfo will be done after
@@ -67,30 +106,8 @@ sub doInventory {
         "ia64 hp server rx1620" => "itanium 1600"
     );
 
-    if ( can_run('/usr/contrib/bin/machinfo') ) {
-        my @machinfo = `/usr/contrib/bin/machinfo`;
-        s/\s+/ /g foreach (@machinfo);
-        foreach (@machinfo) {
-            if (/Number of CPUs = (\d+)/) {
-                $CPUcount = $1;
-            } elsif (/processor model: \d+ (.+)$/) {
-                $CPUinfo->{TYPE} = $1;
-            } elsif (/Clock speed = (\d+) MHz/) {
-                $CPUinfo->{SPEED} = $1;
-            } elsif (/vendor information =\W+(\w+)/) {
-                $CPUinfo->{MANUFACTURER} = $1;
-            } elsif (/Cache info:/) {
-                # last; #Not tested on versions other that B11.23
-            }
-            # Added for HPUX 11.31
-            if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
-                $CPUinfo->{SPEED} = $1*1000;
-            }
-            if ( /(\d+) logical processors/ ) {
-                $CPUcount = $1;
-            }
-            # end HPUX 11.31
-        }
+    if ( can_run ("/usr/contrib/bin/machinfo") ) {
+        $CPUinfo = _parseMachinInfo('/usr/contrib/bin/machinfo', '-|');
     } else {
         my $DeviceType = getFirstLine(command => 'model |cut -f 3- -d/');
         my $tempCpuInfo = $cpuInfos{"$DeviceType"};
@@ -111,7 +128,7 @@ sub doInventory {
             }
         }
         # NBR CPU
-        $CPUcount = getFirstLine(command => 'ioscan -Fk -C processor | wc -l');
+        $CPUinfo->{CPUcount} = getFirstLine(command => 'ioscan -Fk -C processor | wc -l');
     }
 
     my $serie = getFirstLine(command => 'uname -m');
@@ -122,7 +139,7 @@ sub doInventory {
         $CPUinfo->{TYPE} = "PA" . $CPUinfo->{TYPE};
     }
 
-    foreach ( 1..$CPUcount ) { $inventory->addCPU($CPUinfo) }
+    foreach ( 1..$CPUinfo->{CPUcount} ) { $inventory->addCPU($CPUinfo) }
 }
 
 1;
