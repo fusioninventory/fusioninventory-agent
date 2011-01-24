@@ -28,6 +28,7 @@ Revision history for FusionInventory::Agent
          for the suggestion
        * HP-UX/CPU: add a test-suite
        * HP-UX/CPU: identify the CPU on HP RX4640, (Yanick Durant)
+       * HP-UX/Memory: hack to preinitialize the memory map (Yanick Durant)
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
