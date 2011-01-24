@@ -65,7 +65,7 @@ sub doInventory {
             } elsif (my @stat = stat('/proc/'.$pid)) {
                 my (undef,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($stat[10]);
                 my $the_year=$year+1900;
-                my $the_month=$mon+1;
+                my $the_mon=$mon+1;
                 $begin=$the_year."-".$the_mon."-".$mday." ".$hour.':'.$min;
             }
 
