@@ -19,17 +19,18 @@ sub doInventory {
 
     my @list;
     my $buff;
-    foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} --%{INSTALLTIME:date}-- --%{SIZE}-- %{SUMMARY}\n--\n" 2>/dev/null`) {
+    foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} --%{INSTALLTIME:date}-- --%{SIZE}-- --%{VENDOR}-- %{SUMMARY}\n--\n" 2>/dev/null`) {
         if (! /^--/) {
             chomp;
             $buff .= $_;
-        } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+(.*)//) {
+        } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+--(.*)--\s+(.*)//) {
             $inventory->addSoftware({
                 'NAME'          => $1,
                 'VERSION'       => $2,
                 'INSTALLDATE'   => $3,
                 'FILESIZE'      => $4,
-                'COMMENTS'      => $5,
+                'PUBLISHER'     => $5,
+                'COMMENTS'      => $6,
                 'FROM'          => 'rpm'
             });
         } else {
