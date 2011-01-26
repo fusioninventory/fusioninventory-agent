@@ -1,6 +1,4 @@
-lib64nm-util1	0.8-3mdv2010.1	sam. 13 mars 2010 10:52:59 CET	271504	Shared library for nm_util
-libxfixes3	4.0.4-1mdv2010.1	mer. 05 mai 2010 19:35:31 CEST	17672	X Fixes  Library
-eject	2.1.5-8mdv2010.1	sam. 13 mars 2010 00:09:59 CET	118842	A program that ejects removable media using software control
-make	3.81-5mdv2010.1	lun. 15 mars 2010 22:48:33 CET	1094120	A GNU tool which simplifies the build process for users
-lib64xmu6	1.0.5-2mdv2010.1	ven. 12 mars 2010 23:25:28 CET	117280	Xmu Library
-lib64tasn1-devel	2.6-2mdv2010.1	mer. 28 avril 2010 14:06:27 CEST	491282	The ASN.1 development files
+specspo	13-1.el5	Wed Dec 22 23:26:02 2010	20486218	Red Hat, Inc.	Fedora package descriptions, summaries, and groups.
+mktemp	1.5-23.2.2	Wed Dec 22 23:26:17 2010	15712	Red Hat, Inc.	A small utility for safely making /tmp files.
+libICE	1.0.1-2.1	Wed Dec 22 23:26:18 2010	111181	Red Hat, Inc.	X.Org X11 libICE runtime library
+nspr	4.7.3-2.el5	Wed Dec 22 23:26:22 2010	253512	Red Hat, Inc.	Netscape Portable Runtime

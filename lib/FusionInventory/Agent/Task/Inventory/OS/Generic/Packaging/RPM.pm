@@ -22,6 +22,7 @@ sub doInventory {
         '%{VERSION}-%{RELEASE}\t' .
         '%{INSTALLTIME:date}\t' .
         '%{SIZE}\t' .
+        '%{VENDOR}\t' .
         '%{SUMMARY}\n' . 
         '\'';
 
@@ -45,7 +46,8 @@ sub _getPackagesListFromRpm {
             VERSION     => $infos[1],
             INSTALLDATE => $infos[2],
             FILESIZE    => $infos[3],
-            COMMENTS    => $infos[4],
+            PUBLISHER   => $infos[4],
+            COMMENTS    => $infos[5],
             FROM        => 'rpm'
         };
     }

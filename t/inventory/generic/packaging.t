@@ -10,52 +10,40 @@ use FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb;
 
 my $rpm_packages = [
     {
-        FROM        => 'rpm',
-        NAME        => 'lib64nm-util1',
-        COMMENTS    => 'Shared library for nm_util',
-        INSTALLDATE => 'sam. 13 mars 2010 10:52:59 CET',
-        VERSION     => '0.8-3mdv2010.1',
-        FILESIZE    => '271504',
+        'FROM' => 'rpm',
+        'PUBLISHER' => 'Red Hat, Inc.',
+        'NAME' => 'specspo',
+        'COMMENTS' => 'Fedora package descriptions, summaries, and groups.',
+        'INSTALLDATE' => 'Wed Dec 22 23:26:02 2010',
+        'VERSION' => '13-1.el5',
+        'FILESIZE' => '20486218'
     },
     {
-        FROM        => 'rpm',
-        NAME        => 'libxfixes3',
-        COMMENTS    => 'X Fixes  Library',
-        INSTALLDATE => 'mer. 05 mai 2010 19:35:31 CEST',
-        VERSION     => '4.0.4-1mdv2010.1',
-        FILESIZE    => '17672'
+        'FROM' => 'rpm',
+        'PUBLISHER' => 'Red Hat, Inc.',
+        'NAME' => 'mktemp',
+        'COMMENTS' => 'A small utility for safely making /tmp files.',
+        'INSTALLDATE' => 'Wed Dec 22 23:26:17 2010',
+        'VERSION' => '1.5-23.2.2',
+        'FILESIZE' => '15712'
     },
     {
-        FROM        => 'rpm',
-        NAME        => 'eject',
-        COMMENTS    => 'A program that ejects removable media using software control',
-        INSTALLDATE => 'sam. 13 mars 2010 00:09:59 CET',
-        VERSION     => '2.1.5-8mdv2010.1',
-        FILESIZE    => '118842'
+        'FROM' => 'rpm',
+        'PUBLISHER' => 'Red Hat, Inc.',
+        'NAME' => 'libICE',
+        'COMMENTS' => 'X.Org X11 libICE runtime library',
+        'INSTALLDATE' => 'Wed Dec 22 23:26:18 2010',
+        'VERSION' => '1.0.1-2.1',
+        'FILESIZE' => '111181'
     },
     {
-        FROM        => 'rpm',
-        NAME        => 'make',
-        COMMENTS    => 'A GNU tool which simplifies the build process for users',
-        INSTALLDATE => 'lun. 15 mars 2010 22:48:33 CET',
-        VERSION     => '3.81-5mdv2010.1',
-        FILESIZE    => '1094120',
-    },
-    {
-        FROM        => 'rpm',
-        NAME        => 'lib64xmu6',
-        COMMENTS    => 'Xmu Library',
-        INSTALLDATE => 'ven. 12 mars 2010 23:25:28 CET',
-        VERSION     => '1.0.5-2mdv2010.1',
-        FILESIZE    => '117280',
-    },
-    {
-        FROM        => 'rpm',
-        NAME        => 'lib64tasn1-devel',
-        COMMENTS    => 'The ASN.1 development files',
-        INSTALLDATE => 'mer. 28 avril 2010 14:06:27 CEST',
-        VERSION     => '2.6-2mdv2010.1',
-        FILESIZE    => '491282',
+        'FROM' => 'rpm',
+        'PUBLISHER' => 'Red Hat, Inc.',
+        'NAME' => 'nspr',
+        'COMMENTS' => 'Netscape Portable Runtime',
+        'INSTALLDATE' => 'Wed Dec 22 23:26:22 2010',
+        'VERSION' => '4.7.3-2.el5',
+        'FILESIZE' => '253512'
     }
 ];
 my $deb_packages = [
