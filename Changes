@@ -68,6 +68,7 @@ Revision history for FusionInventory::Agent
        * Makefile.PL: add XML::TreePP in test_requires
        * RPM: feed the PUBLISHER field (Stéphane Urbanovski)
        * MacoSX/Software: Avoid breakage if .app's plist file is corrupted
+       * Solaris: SUNWCzone is optionnal, use zonename instead (Raphaël SurcouF)
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
