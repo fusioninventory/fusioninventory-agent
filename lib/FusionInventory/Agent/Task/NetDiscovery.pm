@@ -119,6 +119,7 @@ sub StartThreads {
 
    my $ModuleNmapScanner = 0;
    my $ModuleNmapParser  = 0;
+   my $ModuleNmapParserParameter = "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ";
    my $ModuleNetNBName   = 0;
    my $ModuleNetSNMP     = 0;
    my $iplist = {};
@@ -185,6 +186,14 @@ sub StartThreads {
 
    if ( eval { require Nmap::Parser; 1 } ) {
       $ModuleNmapParser = 1;
+      my $scan = new Nmap::Parser;
+      if (eval {$scan->parsescan('nmap','-sP ', '')}) {
+        my $sessionnmap = $scan->get_session();
+        my $nmap_version = substr($sessionnmap->nmap_version(), 0, 4);
+        if ($nmap_version > 5.29) {
+           $ModuleNmapParserParameter = "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms ";
+        }
+      }
    } elsif ( eval { require Nmap::Scanner; 1 } ) {
       if ($@) {
          $self->{logger}->debug("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
@@ -425,6 +434,7 @@ sub StartThreads {
                                     ModuleNmapScanner   => $ModuleNmapScanner,
                                     ModuleNetNBName     => $ModuleNetNBName,
                                     ModuleNmapParser    => $ModuleNmapParser,
+                                    ModuleNmapParserParameter => $ModuleNmapParserParameter,
                                     ModuleNetSNMP       => $ModuleNetSNMP,
                                     dico                => $dico
                                  });
@@ -669,9 +679,12 @@ sub AuthParser {
    my ($self, $dataAuth) = @_;
 
    my $authlist = {};
+   my $authlistpublic = {};
+   my $counter = 0;
 
    if (ref($dataAuth->{AUTHENTICATION}) eq "HASH"){
-      $authlist->{$dataAuth->{AUTHENTICATION}->{ID}} = {
+      $authlist->{$counter} = {
+               ID             => $dataAuth->{AUTHENTICATION}->{ID},
                COMMUNITY      => $dataAuth->{AUTHENTICATION}->{COMMUNITY},
                VERSION        => $dataAuth->{AUTHENTICATION}->{VERSION},
                USERNAME       => $dataAuth->{AUTHENTICATION}->{USERNAME},
@@ -680,19 +693,50 @@ sub AuthParser {
                PRIVPASSWORD   => $dataAuth->{AUTHENTICATION}->{PRIVPASSPHRASE},
                PRIVPROTOCOL   => $dataAuth->{AUTHENTICATION}->{PRIVPROTOCOL}
             };
+
    } else {
       foreach my $num (@{$dataAuth->{AUTHENTICATION}}) {
-         $authlist->{ $num->{ID} } = {
-               COMMUNITY      => $num->{COMMUNITY},
-               VERSION        => $num->{VERSION},
-               USERNAME       => $num->{USERNAME},
-               AUTHPASSWORD   => $num->{AUTHPASSPHRASE},
-               AUTHPROTOCOL   => $num->{AUTHPROTOCOL},
-               PRIVPASSWORD   => $num->{PRIVPASSPHRASE},
-               PRIVPROTOCOL   => $num->{PRIVPROTOCOL}
-            };
+         if ($num->{COMMUNITY} eq "public") {
+            $authlistpublic->{$num->{ID}} = {
+                   ID             => $num->{ID},
+                   COMMUNITY      => $num->{COMMUNITY},
+                   VERSION        => $num->{VERSION},
+                   USERNAME       => $num->{USERNAME},
+                   AUTHPASSWORD   => $num->{AUTHPASSPHRASE},
+                   AUTHPROTOCOL   => $num->{AUTHPROTOCOL},
+                   PRIVPASSWORD   => $num->{PRIVPASSPHRASE},
+                   PRIVPROTOCOL   => $num->{PRIVPROTOCOL}
+                };
+          } else {
+             $authlist->{$counter} = {
+                   ID             => $num->{ID},
+                   COMMUNITY      => $num->{COMMUNITY},
+                   VERSION        => $num->{VERSION},
+                   USERNAME       => $num->{USERNAME},
+                   AUTHPASSWORD   => $num->{AUTHPASSPHRASE},
+                   AUTHPROTOCOL   => $num->{AUTHPROTOCOL},
+                   PRIVPASSWORD   => $num->{PRIVPASSPHRASE},
+                   PRIVPROTOCOL   => $num->{PRIVPROTOCOL}
+                };
+             $counter++;
+          }
       }
    }
+
+   for my $num ( keys %{$authlistpublic} ) {
+       $authlist->{$counter} = {
+                   ID             => $authlistpublic->{$num}->{ID},
+                   COMMUNITY      => $authlistpublic->{$num}->{COMMUNITY},
+                   VERSION        => $authlistpublic->{$num}->{VERSION},
+                   USERNAME       => $authlistpublic->{$num}->{USERNAME},
+                   AUTHPASSWORD   => $authlistpublic->{$num}->{AUTHPASSPHRASE},
+                   AUTHPROTOCOL   => $authlistpublic->{$num}->{AUTHPROTOCOL},
+                   PRIVPASSWORD   => $authlistpublic->{$num}->{PRIVPASSPHRASE},
+                   PRIVPROTOCOL   => $authlistpublic->{$num}->{PRIVPROTOCOL}
+                };
+        $counter++;
+    }
+
    return $authlist;
 }
 
@@ -714,8 +758,10 @@ sub discovery_ip_threaded {
 
    #** Nmap discovery
    if ($params->{ModuleNmapParser} eq "1") {
+      $self->{logger}->debug("[".$params->{ip}."] : Nmap discovery");
       my $scan = new Nmap::Parser;
-      if (eval {$scan->parsescan('nmap','-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ', $params->{ip})}) {
+      # Get version number of nmap
+      if (eval {$scan->parsescan('nmap',$params->{ModuleNmapParserParameter}, $params->{ip})}) {
          if (exists($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{addr})) {
             $datadevice->{MAC} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{addr});
          }
@@ -728,6 +774,7 @@ sub discovery_ip_threaded {
          }
       }
    } elsif ($params->{ModuleNmapScanner} eq "1") {
+      $self->{logger}->debug("[".$params->{ip}."] : Nmap discovery");
       my $scan = new Nmap::Scanner;
       my $results_nmap = $scan->scan('-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 '.$params->{ip});
 
@@ -755,6 +802,8 @@ sub discovery_ip_threaded {
 
    #** Netbios discovery
    if ($params->{ModuleNetNBName} eq "1") {
+      $self->{logger}->debug("[".$params->{ip}."] : Netbios discovery");
+
       my $nb = Net::NBName->new;
 
       my $domain = q{}; # Empty string
@@ -791,6 +840,7 @@ sub discovery_ip_threaded {
 
 
    if ($params->{ModuleNetSNMP} eq "1") {
+      $self->{logger}->debug("[".$params->{ip}."] : SNMP discovery");
       my $i = "4";
       my $snmpv;
       while ($i ne "1") {
@@ -799,7 +849,7 @@ sub discovery_ip_threaded {
          if ($i eq "2") {
             $snmpv = "2c";
          }
-         for my $key ( keys %{$params->{authlist}} ) {
+         for my $key ( sort(keys %{$params->{authlist}} )) {
             if ($params->{authlist}->{$key}->{VERSION} eq $snmpv) {
                my $session = new FusionInventory::Agent::SNMP ({
 
@@ -849,8 +899,8 @@ sub discovery_ip_threaded {
                         $name = q{}; # Empty string
                      }
                      # Serial Number
-                     my ($serial, $type, $model, $mac) = verifySerial($description, $session, $params->{dico});
-                     if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
+                     my ($serial, $type, $model, $mac) = $self->verifySerial($description, $session, $params->{dico}, $params->{ip});
+                    if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
                         $serial = q{}; # Empty string
                      }
                      if ($serial eq "noSuchInstance") {
@@ -867,7 +917,7 @@ sub discovery_ip_threaded {
                      $serial =~ s/(\.{2,})*//g;
                      $datadevice->{SERIAL} = $serial;
                      $datadevice->{MODELSNMP} = $model;
-                     $datadevice->{AUTHSNMP} = $key;
+                     $datadevice->{AUTHSNMP} = $params->{authlist}->{$key}->{ID};
                      $datadevice->{TYPE} = $type;
                      $datadevice->{SNMPHOSTNAME} = $name;
                      $datadevice->{IP} = $params->{ip};
@@ -923,10 +973,11 @@ sub special_char {
 
 
 sub verifySerial {
-   my $description = shift;
-   my $session     = shift;
-   my $dico    = shift;
-
+   my ($self, $description, $session, $dico, $ip) = @_;
+   
+   if ($description eq "noSuchObject") {
+      return ("", 0, "", "");
+   }
    my $oid;
    my $macreturn = q{}; # Empty string
    my $modelreturn = q{}; # Empty string
@@ -938,7 +989,7 @@ sub verifySerial {
 
    foreach my $num (@{$dico->{DEVICE}}) {
       if ($num->{SYSDESCR} eq $description) {
-         
+          
          if (defined($num->{SERIAL})) {
             $oid = $num->{SERIAL};
 				$serial = $session->snmpGet({
@@ -1026,9 +1077,12 @@ sub verifySerial {
             }
          }
       }
-   }
 
-	return ("", 0, "", "");
+   }
+   if ($macreturn ne '') {
+      return ("", 0, "", $macreturn);
+   }
+   return ("", 0, "", "");
 }
 
 
@@ -1053,7 +1107,7 @@ sub writeXML {
    my $dir = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
   $dir =~ s/\//-/;
 
-  my $localfile = $config->{local}."/".$target->{deviceid}.'.'.$dir.'-'.$self->{countxml}.'.xml';
+  my $localfile = $target->{vardir}."/".$target->{deviceid}.'.'.$dir.'-'.$self->{countxml}.'.xml';
   $localfile =~ s!(//){1,}!/!;
 
   $self->{countxml} = $self->{countxml} + 1;
