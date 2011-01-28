@@ -18,6 +18,8 @@ use base 'FusionInventory::Agent::Task::Base';
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+use Config;
+
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
@@ -200,9 +202,18 @@ sub initModList {
         push (@dirToScan, './lib');
     } else {
         foreach (@INC) {
+# perldoc lib
+# For each directory in LIST (called $dir here) the lib module also checks to see
+# if a directory called $dir/$archname/auto exists. If so the $dir/$archname
+# directory is assumed to be a corresponding architecture specific directory and
+# is added to @INC in front of $dir. lib.pm also checks if directories called
+# $dir/$version and $dir/$version/$archname exist and adds these directories to @INC.
+            my $autoDir = $_.'/'.$Config::Config{archname}.'/auto/FusionInventory/Agent/Task/Inventory';
+
             next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
             next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
             push @dirToScan, $_;
+            push @dirToScan, $autoDir if -d $autoDir;
         }
     }
     if (@dirToScan) {
