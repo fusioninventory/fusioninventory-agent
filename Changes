@@ -69,6 +69,8 @@ Revision history for FusionInventory::Agent
        * RPM: feed the PUBLISHER field (Stéphane Urbanovski)
        * MacoSX/Software: Avoid breakage if .app's plist file is corrupted
        * Solaris: SUNWCzone is optionnal, use zonename instead (Raphaël SurcouF)
+       * Inventory: look for backend module in @INC+$archname.'/auto' too, thanks
+         to Philip Grodzki who helped to point out the issue.
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
