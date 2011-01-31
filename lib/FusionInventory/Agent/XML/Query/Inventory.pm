@@ -1775,7 +1775,7 @@ This information is hardly reliable.
 
 =item DESCRIPTION
 
-The long name of the device, as seen by the user.
+The long name of the device displayed to the user.
 
 =item DISKSIZE
 
@@ -1783,7 +1783,7 @@ The disk size in MB.
 
 =item INTERFACE
 
-INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA
+INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA/SAS or empty if unknown
 
 =item MANUFACTURER
 
