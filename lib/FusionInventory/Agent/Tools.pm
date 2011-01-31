@@ -34,6 +34,7 @@ sub getCanonicalManufacturer {
         nec       |
         transcend |
         matshita  |
+        hitachi   |
         pioneer
     )/xi) {
         $manufacturer = ucfirst(lc($1));
