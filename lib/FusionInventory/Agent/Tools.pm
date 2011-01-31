@@ -78,6 +78,7 @@ sub getCanonicalManufacturer {
 
     return unless $model;
 
+    my $manufacturer;
     if ($model =~ /(
         maxtor    |
         sony      |
@@ -90,6 +91,7 @@ sub getCanonicalManufacturer {
         nec       |
         transcend |
         matshita  |
+        hitachi   |
         pioneer
     )/xi) {
         $model = ucfirst(lc($1));
@@ -646,3 +648,4 @@ Returns a true value if no item in LIST meets the criterion given through BLOCK.
 =head2 uniq BLOCK LIST
 
 Returns a new list by stripping duplicate values in LIST.
+
