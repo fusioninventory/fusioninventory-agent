@@ -1438,9 +1438,15 @@ Windows CAPTION field or subsystem Name from the pci.ids table
 
 =item NAME
 
+The device name, the on from the PCIIDs DB
+
 =item MANUFACTURER
 
+The manifacturer name, the on from the PCIIDs DB
+
 =item PCICLASS
+
+The PCI class ID
 
 =item PCIID
 
@@ -1516,6 +1522,8 @@ Number of core.
 =item DESCRIPTION
 
 =item MANUFACTURER
+
+AMD/Intel/Transmeta/Cyrix/VIA
 
 =item NAME
 
@@ -1640,6 +1648,8 @@ The time needed to run the inventory on the agent side.
 
 =item MEMORY
 
+Total system memory in MB
+
 =item UUID
 
 =item DNS
@@ -1661,6 +1671,18 @@ This field is deprecated, you should use the USERS section instead.
 The virtualization technologie used if the machine is a virtual machine.
 
 Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+
+=item VMVERSION
+
+The version of the VM solution
+
+=item VMPRODUCT
+
+The product name, eg: VMware ESX Server
+
+=item VMFULLNAME
+
+The full name of the VM solution, eg: VMware ESX 4.1.0 build-260247, or QEMU PC emulator version 0.12.5 (qemu-kvm-0.12.5)
 
 =item WINOWNER
 
@@ -1717,6 +1739,10 @@ Serial, Parallel, SATA, etc
 =back
 
 =head2 SLOTS
+
+Represents physical connection points including ports, motherboard slots and peripherals, and proprietary connection points.
+
+This information is hardly reliable.
 
 =over 4
 
@@ -1986,17 +2012,25 @@ The name of the device (optional)
 
 =head2 NETWORKS
 
+A network configuration.
+
 =over 4
 
 =item DESCRIPTION
 
+The name of the interface as seen in the OS settings, e.g: eth0 (Linux) or AMD PCNET Family Ethernet Adapter (Windows)
+
 =item DRIVER
+
+The name of the driver used by the network interface
 
 =item IPADDRESS
 
 =item IPADDRESS6
 
 =item IPDHCP
+
+The IP address of the DHCP server (optional).
 
 =item IPGATEWAY
 
@@ -2010,9 +2044,15 @@ The name of the device (optional)
 
 =item PCISLOT
 
+The PCI slot name.
+
 =item STATUS
 
+Up or Down
+
 =item TYPE
+
+deprecated
 
 =item VIRTUALDEV
 
