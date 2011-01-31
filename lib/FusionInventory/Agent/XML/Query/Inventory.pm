@@ -137,6 +137,13 @@ sub addStorage {
         $values->{SERIALNUMBER} = $values->{SERIAL}
     }
 
+    my $filter = '^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$';
+    if ($values->{INTERFACE} && $values->{INTERFACE} !~ /$filter/) {
+        $logger->debug("STORAGES/INTERFACE doesn't match /$filter/, ".
+        "this is not an error but the situation should be improved");
+    }
+
+
     $self->_addEntry(
         section => 'STORAGES',
         entry   => $values,
@@ -226,7 +233,7 @@ sub setHardware {
         PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
         DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
         DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-        WINPRODKEY WINCOMPANY WINLANG/) {
+        WINPRODKEY WINCOMPANY WINLANG VMVERSION VMPRODUCT VMFULLNAME/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
         next unless $params{$key};
         my $value = getSanitizedString($params{$key});
@@ -818,9 +825,15 @@ Windows CAPTION field or subsystem Name from the pci.ids table
 
 =item NAME
 
+The device name, the on from the PCIIDs DB
+
 =item MANUFACTURER
 
+The manifacturer name, the on from the PCIIDs DB
+
 =item PCICLASS
+
+The PCI class ID
 
 =item PCIID
 
@@ -896,6 +909,8 @@ Number of core.
 =item DESCRIPTION
 
 =item MANUFACTURER
+
+AMD/Intel/Transmeta/Cyrix/VIA
 
 =item NAME
 
@@ -1020,6 +1035,8 @@ The time needed to run the inventory on the agent side.
 
 =item MEMORY
 
+Total system memory in MB
+
 =item UUID
 
 =item DNS
@@ -1041,6 +1058,18 @@ This field is deprecated, you should use the USERS section instead.
 The virtualization technologie used if the machine is a virtual machine.
 
 Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+
+=item VMVERSION
+
+The version of the VM solution
+
+=item VMPRODUCT
+
+The product name, eg: VMware ESX Server
+
+=item VMFULLNAME
+
+The full name of the VM solution, eg: VMware ESX 4.1.0 build-260247, or QEMU PC emulator version 0.12.5 (qemu-kvm-0.12.5)
 
 =item WINOWNER
 
@@ -1094,6 +1123,10 @@ Serial, Parallel, SATA, etc
 
 =head2 SLOTS
 
+Represents physical connection points including ports, motherboard slots and peripherals, and proprietary connection points.
+
+This information is hardly reliable.
+
 =over 4
 
 =item CAPACITY
@@ -1118,21 +1151,29 @@ Serial, Parallel, SATA, etc
 
 =item DESCRIPTION
 
+The long name of the device displayed to the user.
+
 =item DISKSIZE
 
 The disk size in MB.
 
 =item INTERFACE
 
+INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA/SAS or empty if unknown
+
 =item MANUFACTURER
 
 =item MODEL
 
+The commercial name of the device
+
 =item NAME
+
+The name of the device as seen by the system. E.g: hda (Linux), \\.\PHYSICALDRIVE0 (Windows)
 
 =item TYPE
 
-INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA
+The kind of device. There is no standard for the format of the string in this field.
 
 =item SERIAL
 
@@ -1362,17 +1403,25 @@ The name of the device (optional)
 
 =head2 NETWORKS
 
+A network configuration.
+
 =over 4
 
 =item DESCRIPTION
 
+The name of the interface as seen in the OS settings, e.g: eth0 (Linux) or AMD PCNET Family Ethernet Adapter (Windows)
+
 =item DRIVER
+
+The name of the driver used by the network interface
 
 =item IPADDRESS
 
 =item IPADDRESS6
 
 =item IPDHCP
+
+The IP address of the DHCP server (optional).
 
 =item IPGATEWAY
 
@@ -1386,9 +1435,15 @@ The name of the device (optional)
 
 =item PCISLOT
 
+The PCI slot name.
+
 =item STATUS
 
+Up or Down
+
 =item TYPE
+
+deprecated
 
 =item VIRTUALDEV
 
