@@ -21,6 +21,7 @@ sub getCanonicalManufacturer {
 
     return unless $model;
 
+    my $manufacturer;
     if ($model =~ /(
         maxtor    |
         sony      |
@@ -35,18 +36,18 @@ sub getCanonicalManufacturer {
         matshita  |
         pioneer
     )/xi) {
-        $model = ucfirst(lc($1));
+        $manufacturer = ucfirst(lc($1));
     } elsif ($model =~ /^(hp|HP|hewlett packard)/) {
-        $model = "Hewlett Packard";
+        $manufacturer = "Hewlett Packard";
     } elsif ($model =~ /^(WDC|[Ww]estern)/) {
-        $model = "Western Digital";
+        $manufacturer = "Western Digital";
     } elsif ($model =~ /^(ST|[Ss]eagate)/) {
-        $model = "Seagate";
+        $manufacturer = "Seagate";
     } elsif ($model =~ /^(HD|IC|HU)/) {
-        $model = "Hitachi";
+        $manufacturer = "Hitachi";
     }
 
-    return $model;
+    return $manufacturer;
 }
 
 1;
