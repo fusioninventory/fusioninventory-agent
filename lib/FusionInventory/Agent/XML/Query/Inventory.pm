@@ -1768,21 +1768,29 @@ This information is hardly reliable.
 
 =item DESCRIPTION
 
+The long name of the device, as seen by the user.
+
 =item DISKSIZE
 
 The disk size in MB.
 
 =item INTERFACE
 
+INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA
+
 =item MANUFACTURER
 
 =item MODEL
 
+The commercial name of the device
+
 =item NAME
+
+The name of the device as seen by the system. E.g: hda (Linux), \\.\PHYSICALDRIVE0 (Windows)
 
 =item TYPE
 
-INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA
+The kind of device. There is no standard for the format of the string in this field.
 
 =item SERIAL
 
