@@ -301,6 +301,13 @@ sub addStorage {
         $values->{SERIALNUMBER} = $values->{SERIAL}
     }
 
+    my $filter = '^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$';
+    if ($values->{INTERFACE} && $values->{INTERFACE} !~ /$filter/) {
+        $logger->debug("STORAGES/INTERFACE doesn't match /$filter/, ".
+        "this is not an error but the situation should be improved");
+    }
+
+
     $self->_addEntry({
         'field' => \@fields,
         'sectionName' => 'STORAGES',

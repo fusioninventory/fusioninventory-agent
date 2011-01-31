@@ -38,6 +38,7 @@ Revision history for FusionInventory::Agent
          to Philip Grodzki who helped to point out the issue.
        * Inventory: add VMVERSION, VMPRODUCT and VMFULLNAME key in HARDWARE
        * Inventory: improve POD documentation
+       * Inventory: Display a debug message if the STORAGES/INTERFACE is invalid
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
