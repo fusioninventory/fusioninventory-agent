@@ -1653,6 +1653,8 @@ The time needed to run the inventory on the agent side.
 
 =item DESCRIPTION
 
+Computer description (Windows only so far)
+
 =item MEMORY
 
 Total system memory in MB
