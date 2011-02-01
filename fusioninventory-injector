@@ -15,7 +15,6 @@ use XML::Simple;
 use Compress::Zlib;
 use Getopt::Long;
 use strict;
-my $help;
 my $directory;
 my $file;
 my $url;
@@ -125,7 +124,7 @@ EOF
 }
 
 GetOptions(
-    'h|help'		=> \$help,
+    'h|help'		=> &usage,
     'd|directory=s'	=> \$directory,
     'f|file=s'		=> \$file,
     'u|url=s'		=> \$url,
