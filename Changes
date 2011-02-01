@@ -79,6 +79,7 @@ Revision history for FusionInventory::Agent
        * injector: --help show usage menu
        * injector: minor clean up in the --help menu
        * Add 2011 in the copyright years
+       * Win32: set HARDWARE/DESCRIPTION
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
