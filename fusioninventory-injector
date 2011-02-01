@@ -108,7 +108,6 @@ DESCRIPTION:
   -f --file	: load a speficic file
   -u --url	: ocsinventory backend URL
   -r --remove	: remove succesfuly injected files
-  -m --msg	: show message returned my ocsinventory
   -v --verbose	: verbose mode
   --stdin       : read data from STDIN
 
