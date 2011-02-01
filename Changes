@@ -75,6 +75,10 @@ Revision history for FusionInventory::Agent
        * Inventory: improve POD documentation
        * Inventory: Display a debug message if the STORAGES/INTERFACE is invalid
        * backport from master FusionInventory::Agent::Tools::getCanonicalManufacturer()
+       * Linux/CPU rename AuthenticAMD to AMD
+       * injector: --help show usage menu
+       * injector: minor clean up in the --help menu
+       * Add 2011 in the copyright years
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied

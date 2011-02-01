@@ -49,6 +49,7 @@ sub doInventory {
             $proc_cpu->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
             $proc_cpu->{vendor_id} =~ s/CyrixInstead/Cyrix/;
             $proc_cpu->{vendor_id} =~ s/CentaurHauls/VIA/;
+            $proc_cpu->{vendor_id} =~ s/AuthenticAMD/AMD/;
 
             $cpu->{MANUFACTURER} = $proc_cpu->{vendor_id};
         }
