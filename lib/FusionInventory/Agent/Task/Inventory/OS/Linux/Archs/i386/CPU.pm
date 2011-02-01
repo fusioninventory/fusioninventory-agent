@@ -116,6 +116,7 @@ sub doInventory {
             $cpu[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
             $cpu[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
             $cpu[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
+            $cpu[$id]->{MANUFACTURER} =~ s/AuthenticAMD/AMD/;
         }
         if ($cpuProc->{'model name'}) {
             $cpu[$id]->{NAME} = $cpuProc->{'model name'};
