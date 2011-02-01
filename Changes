@@ -42,6 +42,7 @@ Revision history for FusionInventory::Agent
        * backport from master FusionInventory::Agent::Tools::getCanonicalManufacturer()
        * Linux/CPU rename AuthenticAMD to AMD
        * injector: --help show usage menu
+       * injector: minor clean up in the --help menu
 
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
