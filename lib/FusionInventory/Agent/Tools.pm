@@ -78,7 +78,6 @@ sub getVersionFromTaskModuleFile {
         $version =~ s/^"(.*)"$/$1/;
     }
 
-    print $version."\n";
     return $version;
 }
 
