@@ -132,6 +132,8 @@ sub addDrive {
 sub addStorage {
     my ($self, $args) = @_;
 
+    my $logger = $self->{logger};
+
     my $values = $args;
     if (!$values->{SERIALNUMBER}) {
         $values->{SERIALNUMBER} = $values->{SERIAL}

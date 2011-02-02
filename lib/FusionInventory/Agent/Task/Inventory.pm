@@ -192,7 +192,7 @@ sub _initModulesList {
             follow      => 1,
             follow_skip => 2
         },
-        $dirToScan.'/Task/Inventory'
+        $fusInvLibDir.'/Task/Inventory'
     );
 
     my @modules = keys %modules;

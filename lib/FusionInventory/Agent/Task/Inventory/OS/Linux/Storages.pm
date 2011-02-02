@@ -7,7 +7,6 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
 use English qw(-no_match_vars);
->>>>>>> 2.1.x
 
 sub isInventoryEnabled {
     return 1;
