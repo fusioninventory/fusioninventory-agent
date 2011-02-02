@@ -132,6 +132,9 @@ sub _parseIfconfig {
             if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
             }
+            if ($line =~ /inet6 addr: (\S+)/i) {
+                $interface->{IPADDRESS6} = $1;
+            }
             if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
                 $interface->{MACADDR} = $1;
             }
@@ -223,8 +226,19 @@ sub _getUevent {
     return ($driver, $pcislot);
 }
 
+<<<<<<< HEAD
 sub _getNetworkInfo {
     my ($address, $mask, $routes) = @_;
+=======
+            $ifData{DESCRIPTION} = $1 if $line =~ /^(\S+)/; # Interface name
+            $ifData{IPADDRESS} = $1 if $line =~ /inet addr:(\S+)/i;
+            $ifData{IPADDRESS6} = $1 if $line =~ /inet6 addr: (\S+)/i;
+            $ifData{IPMASK} = $1 if $line =~ /\S*mask:(\S+)/i;
+            $ifData{MACADDR} = $1 if $line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
+            $ifData{STATUS} = 'Up' if $line =~ /^\s+UP\s/;
+            $ifData{TYPE} = $1 if $line =~ /link encap:(\S+)/i;
+        }
+>>>>>>> 2.1.x
 
     my $ipsubnet = getSubnetAddress($address, $mask);
     my $ipgateway = $routes->{$ipsubnet};
