@@ -37,6 +37,7 @@ our @EXPORT = qw(
     none
     uniq
     getVersionFromTaskModuleFile
+    getFusionInventoryLibdir
 );
 
 memoize('can_run');
@@ -486,6 +487,34 @@ sub getVersionFromTaskModuleFile {
     return $version;
 }
 
+sub getFusionInventoryLibdir {
+    my ($config) = @_;
+
+    die unless $config;
+
+    # use first directory of @INC containing an installation tree
+    my $dirToScan;
+    foreach my $dir (@INC) {
+    # perldoc lib
+    # For each directory in LIST (called $dir here) the lib module also checks to see
+    # if a directory called $dir/$archname/auto exists. If so the $dir/$archname
+    # directory is assumed to be a corresponding architecture specific directory and
+    # is added to @INC in front of $dir. lib.pm also checks if directories called
+    # $dir/$version and $dir/$version/$archname exist and adds these directories to @INC.
+        my @subdirs = (
+        $dir . '/FusionInventory/Agent',
+        $dir .'/'. $Config::Config{archname}.'auto/FusionInventory/Agent'
+        );
+        foreach (@subdirs) {
+            next unless -d;
+            $dirToScan = $_;
+            last;
+        }
+    }
+
+    return $dirToScan;
+
+}
 
 1;
 __END__
@@ -692,3 +721,8 @@ In case the .pm file is from the core distribution, the follow line
 must be present instead:
 
  # VERSION FROM Agent.pm/
+
+=head2 getFusionInventoryLibdir()
+
+Return the location of the FusionInventory/Agent library directory
+on the system.

@@ -12,6 +12,7 @@ use UNIVERSAL::require;
 use Config;
 
 use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Tools;
 
 sub new {
     my ($class, %params) = @_;
@@ -171,27 +172,9 @@ sub _initModulesList {
 
     my $logger = $params{logger};
 
-    # use first directory of @INC containing an installation tree
-    my $dirToScan;
-    foreach my $dir (@INC) {
-    # perldoc lib
-    # For each directory in LIST (called $dir here) the lib module also checks to see
-    # if a directory called $dir/$archname/auto exists. If so the $dir/$archname
-    # directory is assumed to be a corresponding architecture specific directory and
-    # is added to @INC in front of $dir. lib.pm also checks if directories called
-    # $dir/$version and $dir/$version/$archname exist and adds these directories to @INC.
-        my @subdirs = (
-        $dir . '/FusionInventory/Agent/Task/Inventory',
-        $dir .'/'. $Config::Config{archname}.'auto/FusionInventory/Agent/Task/Inventory'
-        );
-        foreach (@subdirs) {
-            next unless -d;
-            $dirToScan = $_;
-            last;
-        }
-    }
-    
-    die "No directory to scan for inventory modules" if !$dirToScan;
+    my $fusInvLibDir = getFusionInventoryLibdir();
+
+    die "No directory to scan for inventory modules" if !$fusInvLibDir;
 
     # find a list of modules from files in those directories
     my %modules;
@@ -209,7 +192,7 @@ sub _initModulesList {
             follow      => 1,
             follow_skip => 2
         },
-        $dirToScan
+        $dirToScan.'/Task/Inventory'
     );
 
     my @modules = keys %modules;
