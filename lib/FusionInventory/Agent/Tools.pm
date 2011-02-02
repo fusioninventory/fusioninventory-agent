@@ -12,6 +12,7 @@ use File::Spec;
 
 our @EXPORT = qw(
     getCanonicalManufacturer
+    getVersionFromTaskModuleFile
 );
 
 memoize('getCanonicalManufacturer');
@@ -51,6 +52,37 @@ sub getCanonicalManufacturer {
     return $manufacturer;
 }
 
+sub getVersionFromTaskModuleFile {
+    my ($file) = @_;
+
+    my $version;
+    open my $fh, "<$file" or return;
+    foreach (<$fh>) {
+        if (/^# VERSION FROM Agent.pm/) {
+            if (!$FusionInventory::Agent::VERSION) {
+                eval { use FusionInventory::Agent; 1 };
+            }
+            $version = $FusionInventory::Agent::VERSION;
+            last;
+        } elsif (/^our\ *\$VERSION\ *=\ *(\S+);/) {
+            $version = $1;
+            last;
+        } elsif (/^use strict;/) {
+            last;
+        }
+    }
+    close $fh;
+
+    if ($version) {
+        $version =~ s/^'(.*)'$/$1/;
+        $version =~ s/^"(.*)"$/$1/;
+    }
+
+    print $version."\n";
+    return $version;
+}
+
+
 1;
 __END__
 
@@ -70,3 +102,15 @@ This module is a backported from the master git branch.
 
 Returns a normalized manufacturer value for given one.
 
+=head2 getVersionFromTaskModuleFile($taskModuleFile)
+
+Parse a task module file to get the $VERSION. The VERSION must be
+a line between the begining of the file and the 'use strict;' line.
+The line must by either:
+
+ our $VERSION = 'XXXX';
+
+In case the .pm file is from the core distribution, the follow line 
+must be present instead:
+
+ # VERSION FROM Agent.pm/
