@@ -1941,6 +1941,8 @@ The name of the virtualisation system family. The same type found is HARDWARE/VM
 
 =item VCPU
 
+Number of CPU affected to the virtual machine
+
 =item VMID
 
 The ID of virtual machine in the virtual managment system.
