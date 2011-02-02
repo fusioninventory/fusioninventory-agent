@@ -13,6 +13,7 @@ use File::Spec;
 our @EXPORT = qw(
     getCanonicalManufacturer
     getVersionFromTaskModuleFile
+    getFusionInventoryLibdir
 );
 
 memoize('getCanonicalManufacturer');
@@ -81,6 +82,36 @@ sub getVersionFromTaskModuleFile {
     return $version;
 }
 
+sub getFusionInventoryLibdir {
+    my ($config) = @_;
+
+    die unless $config;
+
+    my @dirToScan;
+
+    if ($config->{devlib}) {
+# devlib enable, I only search for backend module in ./lib
+        push (@dirToScan, './lib/FusionInventory/Agent');
+    } else {
+        foreach (@INC) {
+# perldoc lib
+# For each directory in LIST (called $dir here) the lib module also checks to see
+# if a directory called $dir/$archname/auto exists. If so the $dir/$archname
+# directory is assumed to be a corresponding architecture specific directory and
+# is added to @INC in front of $dir. lib.pm also checks if directories called
+# $dir/$version and $dir/$version/$archname exist and adds these directories to @INC.
+            my $autoDir = $_.'/'.$Config::Config{archname}.'/auto/FusionInventory/Agent/Task/Inventory';
+
+            next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
+            next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
+            push @dirToScan, $_.'/FusionInventory/Agent';
+            push @dirToScan, $autoDir.'/FusionInventory/Agent' if -d $autoDir;
+        }
+    }
+
+    return @dirToScan;
+
+}
 
 1;
 __END__
@@ -113,3 +144,8 @@ In case the .pm file is from the core distribution, the follow line
 must be present instead:
 
  # VERSION FROM Agent.pm/
+
+=head2 getFusionInventoryLibdir()
+
+Return the location of the FusionInventory/Agent library directory
+on the system.
