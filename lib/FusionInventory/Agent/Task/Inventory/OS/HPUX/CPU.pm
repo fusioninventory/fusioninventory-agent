@@ -30,11 +30,12 @@ sub _parseMachinInfo {
         if (/Number of CPUs = (\d+)/) {
             $ret->{CPUcount} = $1;
         } elsif (/processor model: \d+ (.+)$/) {
-            $ret->{CPUinfo}->{TYPE} = $1;
+            $ret->{TYPE} = $1;
         } elsif (/Clock speed = (\d+) MHz/) {
-            $ret->{CPUinfo}->{SPEED} = $1;
+            $ret->{SPEED} = $1;
         } elsif (/vendor information =\W+(\w+)/) {
-            $ret->{CPUinfo}->{MANUFACTURER} = $1;
+            $ret->{MANUFACTURER} = $1;
+            $ret->{MANUFACTURER} =~ s/GenuineIntel/Intel/;
         } elsif (/Cache info:/) {
 # last; #Not tested on versions other that B11.23
         }
@@ -42,9 +43,10 @@ sub _parseMachinInfo {
         if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
             $ret->{CPUinfo}->{SPEED} = $1*1000;
         }
-        if ( /(\d+) Intel\(R\) Itanium 2 processors \((\d+\.\d+)/ ) {
+        if ( /(\d+) (Intel)\(R\) Itanium 2 processors \((\d+\.\d+)/ ) {
             $ret->{CPUcount} = $1;
-            $ret->{SPEED} = $2*1000;
+            $ret->{MANUFACTURER} = $2;
+            $ret->{SPEED} = $3*1000;
         }
         if ( /(\d+) logical processors/ ) {
             $ret->{CPUcount} = $1;

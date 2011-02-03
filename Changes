@@ -48,6 +48,8 @@ Revision history for FusionInventory::Agent
        * Tools: add getVersionFromTaskModuleFile()
        * Tools: move the code used to find .pm in @INC in getFusionInventoryLibdir()
        * Linux/Network: set the IPv6 network address (Ludovic Hutin)
+       * HP-UX/CPU: improve the machinfo parsing, thanks Amir Pakdel for
+         the machinfo output on HP-UX 11.23
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
