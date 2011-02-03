@@ -65,6 +65,73 @@ sub doInventory {
             });
         $n++;
     }
+$n=0;
+  @scsi=`lsdev -Cc disk -s fcp -F 'name:description'`;
+  for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
+        my $serial;
+        chomp $scsi[$n];
+        /^(.+):(.+)/;
+        $device=$1;
+        $description=$2;
+            $capacity='';
+        for (@lsvpd){
+          if(/^AX $device/){$flag=1}
+          if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
+          if ((/^TM (.+)/) && $flag){$model=$1;chomp($model);$model =~ s/(\s+)$//;}
+          if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
+          if ((/^FC .+/) && $flag) {$flag=0;last}
+        }
+        $inventory->addStorage({
+          NAME => $device,
+          MANUFACTURER => $manufacturer,
+          MODEL => $model,
+          DESCRIPTION => $description,
+          TYPE => 'disk',
+          DISKSIZE => $capacity
+    });
+        $n++;
+  }
+
+$n=0;
+  @scsi=`lsdev -Cc disk -s fdar -F 'name:description'`;
+  for(@scsi){
+        my $device;
+        my $manufacturer;
+        my $model;
+        my $description;
+        my $capacity;
+
+        my $serial;
+        chomp $scsi[$n];
+        /^(.+):(.+)/;
+        $device=$1;
+        $description=$2;
+            $capacity='';
+        for (@lsvpd){
+          if(/^AX $device/){$flag=1}
+          if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
+          if ((/^TM (.+)/) && $flag){$model=$1;chomp($model);$model =~ s/(\s+)$//;}
+          if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
+          if ((/^FC .+/) && $flag) {$flag=0;last}
+        }
+        $inventory->addStorage({
+          NAME => $device,
+          MANUFACTURER => $manufacturer,
+          MODEL => $model,
+          DESCRIPTION => $description,
+          TYPE => 'disk',
+          DISKSIZE => $capacity
+    });
+        $n++;
+  }
+
+
 #Virtual disks
     @scsi= ();
     @lsattr= ();
@@ -77,7 +144,7 @@ sub doInventory {
         my $description;
         my $capacity;
 
-
+        my $serial;
         chomp $scsi[$n];
         /^(.+):(.+)/;
         $device=$1;
@@ -107,7 +174,6 @@ sub doInventory {
             });
         $n++;
     }
-
 
 
     #CDROM
