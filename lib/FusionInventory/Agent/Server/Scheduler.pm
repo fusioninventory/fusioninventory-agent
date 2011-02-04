@@ -27,7 +27,6 @@ sub new {
                 $self->checkAllJobs();
                 $_[KERNEL]->delay('tick', 1);
             },
-            run  => sub { $self->runAllJobs() },
         }
     );
 
@@ -37,15 +36,6 @@ sub new {
 
     return $self;
 }
-
-sub scheduleJobs {
-    my ($self, $offset) = @_;
-
-    foreach my $job ($self->{state}->getJobs()) {
-        $job->scheduleNextRun($offset);
-    }
-}
-
 
 sub checkAllJobs {
     my ($self) = @_;
@@ -62,23 +52,8 @@ sub checkAllJobs {
                 "[scheduler] checking job %s: next run at %i", $id, $date
             )
         );
-        $self->runJob($job) if $time > $date;
+        $self->{state}->runJob($job) if $time > $date;
     }
-}
-
-sub runAllJobs {
-    my ($self) = @_;
-
-    foreach my $job ($self->{state}->getJobs()) {
-        $self->runJob($job);
-    }
-}
-
-sub runJob {
-    my ($self, $job) = @_;
-
-    $self->{logger}->debug("[scheduler] running job $job->{id}");
-    $job->scheduleNextRun();
 }
 
 1;
