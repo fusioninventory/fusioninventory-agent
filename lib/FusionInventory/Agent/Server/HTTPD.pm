@@ -171,10 +171,18 @@ sub now {
         $code = 403;
     }
 
-    my $content = "<html><head><title>FusionInventory-Agent</title></head><body>$message<br /><a href='/'>Back</a></body><html>";
+    my $template = Text::Template->new(
+        TYPE => 'FILE', SOURCE => "$self->{htmldir}/now.tpl"
+    );
+
+    my $hash = {
+        message => $message
+    };
 
     $response->code($code);
-    $response->content($content);
+    $response->content(
+        $template->fill_in(HASH => $hash)
+    );
 }
 
 
