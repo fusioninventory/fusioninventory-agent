@@ -213,3 +213,14 @@ Get the current authentication token.
 
 Reset the current authentication token to a new random value.
 
+=head2 runJob($job)
+
+Run the given job
+
+=head2 runAllJobs()
+
+Run all available jos
+
+=head2 getJobs()
+
+Return all available jos
