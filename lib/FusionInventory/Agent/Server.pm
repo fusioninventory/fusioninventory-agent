@@ -177,6 +177,12 @@ sub runJob {
     $job->scheduleNextRun();
 }
 
+sub runAllJobs {
+    my ($self) = @_;
+
+    $self->runJob($_) foreach (@{$self->{jobs});
+}
+
 1;
 
 __END__

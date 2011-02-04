@@ -162,6 +162,7 @@ sub now {
     if ($result eq "ok") {
         $message = "Done";
         $code = 200;
+        $self->{state}->runAllJobs();
     } else {
         $message = "Access denied";
         $code = 403;
