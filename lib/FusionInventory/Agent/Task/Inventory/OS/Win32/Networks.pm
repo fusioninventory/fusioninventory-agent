@@ -80,7 +80,21 @@ sub doInventory {
     foreach my $nic (in $nics) {
         my $interface = $interfaces[$nic->Index];
 
-        $interface->{VIRTUALDEV}  = $nic->PhysicalAdapter?0:1;
+        my $virtualdev = 0;
+# PhysicalAdapter only work on OS > XP
+        if (!defined($nic->PhysicalAdapter)) {
+            if ($nic->PNPDeviceID =~ /^ROOT/) {
+                $virtualdev = 1;
+            }
+        } else {
+            $virtualdev = $nic->PhysicalAdapter?0:1;
+        }
+
+    }
+
+        $interface->{NAME} = $nic->Name;
+        $interface->{SPEED} = $nic->Speed;
+        $interface->{VIRTUALDEV}  = $virtualdev;
         $interface->{MACADDR}     = $nic->MACAddress;
         $interface->{PNPDEVICEID} = $nic->PNPDeviceID;
     }
