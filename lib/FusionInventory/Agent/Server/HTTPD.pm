@@ -137,39 +137,40 @@ sub now {
         ($token ? ", with token $token" : "")
     );
 
-    my $result;
+    my ($code, $message, $result);
 
-    my $source = Net::IP->new($request->connection()->remote_ip());
+    CASE: {
 
-    if (
-        $self->{trust} &&
-        $source->overlaps($self->{trust}) == $IP_A_IN_B_OVERLAP
-    ) { 
-        # trusted request
-        $result = "ok";
-    } else {
-        if ($token) {
-            # authenticated request
-            if ($token eq $self->{state}->getToken()) {
-                $result = "ok";
-                $self->{state}->resetToken();
-            } else {
-                $result = "untrusted address, invalid token";
+        if ($self->{trust}) {
+            my $source = Net::IP->new($request->connection()->remote_ip());
+            if ($source->overlaps($self->{trust}) == $IP_A_IN_B_OVERLAP) {
+                # trusted request
+                $code = 200;
+                $message = "Done";
+                $result = "trusted address";
+                $self->{state}->runAllJobs();
+                last CASE;
             }
-        } else {
-            $result = "untrusted address, no token received";
         }
+
+        if ($token) {
+            if ($token eq $self->{state}->getToken()) {
+                # authenticated request
+                $code = 200;
+                $message = "Done";
+                $result = "authenticated address";
+                $self->{state}->runAllJobs();
+                $self->{state}->resetToken();
+                last CASE;
+            }
+        }
+
+        $code = 403;
+        $message = "Access denied";
+        $result = "untrusted address, no token or wrong authentication token";
     }
 
-    my ($code, $message);
-    if ($result eq "ok") {
-        $message = "Done";
-        $code = 200;
-        $self->{state}->runAllJobs();
-    } else {
-        $message = "Access denied";
-        $code = 403;
-    }
+    $logger->info("[httpd] $result");
 
     my $template = Text::Template->new(
         TYPE => 'FILE', SOURCE => "$self->{htmldir}/now.tpl"
