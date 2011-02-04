@@ -8,6 +8,7 @@ use POE;
 use POE::Component::Server::HTTP;
 use HTTP::Status;
 use File::stat;
+use Net::IP;
 use Text::Template;
 
 use FusionInventory::Agent::Logger;
@@ -18,10 +19,10 @@ sub new {
     $params{port} = 62354 unless defined $params{port};
 
     my $self = {
-        logger          => $params{logger} || FusionInventory::Agent::Logger->new(),
-        state           => $params{state},
-        htmldir         => $params{htmldir},
-        trust_localhost => $params{trust_localhost},
+        logger  => $params{logger} || FusionInventory::Agent::Logger->new(),
+        state   => $params{state},
+        htmldir => $params{htmldir},
+        trust   => Net::IP->new($params{trust}),
     };
 
     bless $self, $class;
@@ -90,8 +91,8 @@ sub default {
 
     my $hash = {
         version => $FusionInventory::Agent::VERSION,
-        trust   => $self->{trust_localhost},
-        jobs   => [ $self->{state}->getJobs() ]
+        trust   => $self->{trust},
+        jobs    => [ $self->{state}->getJobs() ]
     };
 
     $response->code(RC_OK);
@@ -138,12 +139,14 @@ sub now {
 
     my $result;
 
+    my $source = Net::IP->new($request->connection()->remote_ip());
+
     if (
-        $request->connection()->remote_ip() eq '127.0.0.1' &&
-        $self->{trust_localhost}
-    ) {
-            # trusted request
-            $result = "ok";
+        $self->{trust} &&
+        $source->overlaps($self->{trust}) == $IP_A_IN_B_OVERLAP
+    ) { 
+        # trusted request
+        $result = "ok";
     } else {
         if ($token) {
             # authenticated request
@@ -249,9 +252,9 @@ the network adress to listen to (default: all)
 
 the network port to listen to
 
-=item I<trust_localhost>
+=item I<trust>
 
-a flag allowing to trust local request without authentication tokens (default:
-false)
+an IP adress or an IP adress range from which to trust incoming requests without
+authentication token (default: none)
 
 =back
