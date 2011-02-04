@@ -143,12 +143,12 @@ sub init {
     my $www_config = $config->getBlock('www');
     if ($www_config) {
         FusionInventory::Agent::Server::HTTPD->new(
-            logger    => $logger,
-            state     => $self,
-            htmldir   => $self->{datadir} . '/html',
-            ip        => $www_config->{ip},
-            port      => $www_config->{port},
-            trust_localhost => $www_config->{'trust-localhost'},
+            logger  => $logger,
+            state   => $self,
+            htmldir => $self->{datadir} . '/html',
+            ip      => $www_config->{ip},
+            port    => $www_config->{port},
+            trust   => $www_config->{trust},
         );
     } else {
         $logger->info("Web interface disabled");
