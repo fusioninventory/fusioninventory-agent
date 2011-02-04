@@ -51,6 +51,7 @@ Revision history for FusionInventory::Agent
        * HP-UX/CPU: improve the machinfo parsing, thanks Amir Pakdel for
          the machinfo output on HP-UX 11.23
        * AIX: collect EMC/Clariion LUN storage (Sébastien Dagnicourt)
+       * Win32: fix NETWORKS/VIRTUALDEV on OS prior Vista (David DURIEUX)
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied

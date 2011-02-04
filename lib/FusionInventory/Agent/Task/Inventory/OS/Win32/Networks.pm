@@ -91,7 +91,18 @@ sub doInventory {
     $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapter');
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
-        $netifs[$idx]{virtualdev} = $nic->PhysicalAdapter?0:1;
+
+        my $virtualdev = 0;
+# PhysicalAdapter only work on OS > XP
+        if (!defined($nic->PhysicalAdapter)) {
+            if ($nic->PNPDeviceID =~ /^ROOT/) {
+                $virtualdev = 1;
+            }
+        } else {
+            $virtualdev = $nic->PhysicalAdapter?0:1;
+        }
+
+        $netifs[$idx]{virtualdev} = $virtualdev;
         $netifs[$idx]{name} = $nic->Name;
         $netifs[$idx]{macaddr} = $nic->MACAddress;
         $netifs[$idx]{speed} = $nic->Speed;
