@@ -143,7 +143,11 @@ sub now {
 
         if ($self->{trust}) {
             my $source = Net::IP->new($request->connection()->remote_ip());
-            if ($source->overlaps($self->{trust}) == $IP_A_IN_B_OVERLAP) {
+            my $result = $source->overlaps($self->{trust});
+            if (
+                $result == $IP_A_IN_B_OVERLAP || # included in trusted range
+                $result == $IP_IDENTICAL         # equals trusted address
+            ) {
                 # trusted request
                 $code = 200;
                 $message = "Done";
