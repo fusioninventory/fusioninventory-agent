@@ -1,5 +1,6 @@
 package FusionInventory::Agent::Task::Inventory;
 
+# VERSION FROM Agent.pm
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
@@ -8,8 +9,10 @@ use English qw(-no_match_vars);
 use File::Find;
 use List::Util qw(first);
 use UNIVERSAL::require;
+use Config;
 
 use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Tools;
 
 sub new {
     my ($class, %params) = @_;
@@ -169,17 +172,9 @@ sub _initModulesList {
 
     my $logger = $params{logger};
 
-    # use first directory of @INC containing an installation tree
-    my $dirToScan;
-    foreach my $dir (@INC) {
-        my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
-        if (-d $subdir) {
-            $dirToScan = $subdir;
-            last;
-        }
-    }
-    
-    die "No directory to scan for inventory modules" if !$dirToScan;
+    my $fusInvLibDir = getFusionInventoryLibdir();
+
+    die "No directory to scan for inventory modules" if !$fusInvLibDir;
 
     # find a list of modules from files in those directories
     my %modules;
@@ -197,7 +192,7 @@ sub _initModulesList {
             follow      => 1,
             follow_skip => 2
         },
-        $dirToScan
+        $fusInvLibDir.'/Task/Inventory'
     );
 
     my @modules = keys %modules;

@@ -132,6 +132,9 @@ sub _parseIfconfig {
             if ($line =~ /mask:(\S+)/i) {
                 $interface->{IPMASK} = $1;
             }
+            if ($line =~ /inet6 addr: (\S+)/i) {
+                $interface->{IPADDRESS6} = $1;
+            }
             if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
                 $interface->{MACADDR} = $1;
             }

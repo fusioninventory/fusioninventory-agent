@@ -36,6 +36,8 @@ our @EXPORT = qw(
     all
     none
     uniq
+    getVersionFromTaskModuleFile
+    getFusionInventoryLibdir
 );
 
 memoize('can_run');
@@ -78,6 +80,7 @@ sub getCanonicalManufacturer {
 
     return unless $model;
 
+    my $manufacturer;
     if ($model =~ /(
         maxtor    |
         sony      |
@@ -90,6 +93,7 @@ sub getCanonicalManufacturer {
         nec       |
         transcend |
         matshita  |
+        hitachi   |
         pioneer
     )/xi) {
         $model = ucfirst(lc($1));
@@ -454,6 +458,64 @@ sub uniq (@) { ## no critic (SubroutinePrototypes)
     grep { not $seen{$_}++ } @_;
 }
 
+sub getVersionFromTaskModuleFile {
+    my ($file) = @_;
+
+    my $version;
+    open my $fh, "<$file" or return;
+    foreach (<$fh>) {
+        if (/^# VERSION FROM Agent.pm/) {
+            if (!$FusionInventory::Agent::VERSION) {
+                eval { use FusionInventory::Agent; 1 };
+            }
+            $version = $FusionInventory::Agent::VERSION;
+            last;
+        } elsif (/^our\ *\$VERSION\ *=\ *(\S+);/) {
+            $version = $1;
+            last;
+        } elsif (/^use strict;/) {
+            last;
+        }
+    }
+    close $fh;
+
+    if ($version) {
+        $version =~ s/^'(.*)'$/$1/;
+        $version =~ s/^"(.*)"$/$1/;
+    }
+
+    return $version;
+}
+
+sub getFusionInventoryLibdir {
+    my ($config) = @_;
+
+    die unless $config;
+
+    # use first directory of @INC containing an installation tree
+    my $dirToScan;
+    foreach my $dir (@INC) {
+    # perldoc lib
+    # For each directory in LIST (called $dir here) the lib module also checks to see
+    # if a directory called $dir/$archname/auto exists. If so the $dir/$archname
+    # directory is assumed to be a corresponding architecture specific directory and
+    # is added to @INC in front of $dir. lib.pm also checks if directories called
+    # $dir/$version and $dir/$version/$archname exist and adds these directories to @INC.
+        my @subdirs = (
+        $dir . '/FusionInventory/Agent',
+        $dir .'/'. $Config::Config{archname}.'auto/FusionInventory/Agent'
+        );
+        foreach (@subdirs) {
+            next unless -d;
+            $dirToScan = $_;
+            last;
+        }
+    }
+
+    return $dirToScan;
+
+}
+
 1;
 __END__
 
@@ -646,3 +708,21 @@ Returns a true value if no item in LIST meets the criterion given through BLOCK.
 =head2 uniq BLOCK LIST
 
 Returns a new list by stripping duplicate values in LIST.
+
+=head2 getVersionFromTaskModuleFile($taskModuleFile)
+
+Parse a task module file to get the $VERSION. The VERSION must be
+a line between the begining of the file and the 'use strict;' line.
+The line must by either:
+
+ our $VERSION = 'XXXX';
+
+In case the .pm file is from the core distribution, the follow line 
+must be present instead:
+
+ # VERSION FROM Agent.pm/
+
+=head2 getFusionInventoryLibdir()
+
+Return the location of the FusionInventory/Agent library directory
+on the system.

@@ -21,13 +21,9 @@ memoize('getClass');
 
 sub getZone {
 
-    my $OSLevel = getFirstLine(command => 'uname -r');
-    return 'global' if $OSLevel =~ /5.8/;
+    return 'global' unless can_run("zonename");
 
-    my ($zone) = getFirstMatch(
-        command => "zoneadm list -p",
-        pattern => qr/^0:([a-z]+):/
-    );
+    my $zone = getFirstLine(command => 'zonename');
 
     return $zone;
 }
