@@ -9,6 +9,7 @@ use File::stat;
 use Memoize;
 use Sys::Hostname;
 use File::Spec;
+use File::Basename;
 
 our @EXPORT = qw(
     getSubnetAddress
@@ -38,6 +39,7 @@ our @EXPORT = qw(
     uniq
     getVersionFromTaskModuleFile
     getFusionInventoryLibdir
+    getFusionInventoryTaskList
 );
 
 memoize('can_run');
@@ -490,7 +492,8 @@ sub getVersionFromTaskModuleFile {
 sub getFusionInventoryLibdir {
     my ($config) = @_;
 
-    die unless $config;
+    # We started the agent from the source directory
+    return 'lib' if -d 'lib/FusionInventory/Agent';
 
     # use first directory of @INC containing an installation tree
     my $dirToScan;
@@ -506,7 +509,7 @@ sub getFusionInventoryLibdir {
         $dir .'/'. $Config::Config{archname}.'auto/FusionInventory/Agent'
         );
         foreach (@subdirs) {
-            next unless -d;
+            next unless -d $_.'/FusionInventory/Agent';
             $dirToScan = $_;
             last;
         }
@@ -515,6 +518,32 @@ sub getFusionInventoryLibdir {
     return $dirToScan;
 
 }
+
+sub getFusionInventoryTaskList {
+    my ($config) = @_;
+
+    my $libdir = getFusionInventoryLibdir($config);
+
+    my @tasks = glob($libdir.'/FusionInventory/Agent/Task/*.pm');
+
+    my @ret;
+    foreach (@tasks) {
+        next unless basename($_) =~ /(.*)\.pm/;
+        my $module = $1;
+
+        next if $module eq 'Base';
+
+        push @ret, {
+            path => $_,
+            version => getVersionFromTaskModuleFile($_),
+            module => $module,
+        }
+    }
+
+    return \@ret;
+}
+
+
 
 1;
 __END__
