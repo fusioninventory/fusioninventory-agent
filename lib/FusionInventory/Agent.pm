@@ -7,7 +7,10 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-our $VERSION = '3.0';
+# We need to keep a X.X.X revision format
+# https://rt.cpan.org/Public/Bug/Display.html?id=61282
+our $VERSION = '3.0.0';
+
 our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
