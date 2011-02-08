@@ -127,7 +127,6 @@ sub initModList {
     my $config = $self->{config};
     my $storage = $self->{storage};
 
-    my @dirToScan;
     my @installed_mods;
     my @installed_files;
 
@@ -200,8 +199,8 @@ sub initModList {
             @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
     }
 
-    @dirToScan = getFusionInventoryLibdir($config);
-    if (@dirToScan) {
+    my $dirToScan = getFusionInventoryLibdir($config);
+    if ($dirToScan) {
         eval {
             require File::Find;
         };
@@ -220,7 +219,7 @@ sub initModList {
                     follow => 1,
                     follow_skip => 2
                 }
-                , @dirToScan);
+                , $dirToScan.'/FusionInventory/Agent');
         }
     }
 

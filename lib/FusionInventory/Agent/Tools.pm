@@ -9,11 +9,13 @@ use File::stat;
 use Memoize;
 use Sys::Hostname;
 use File::Spec;
+use File::Basename;
 
 our @EXPORT = qw(
     getCanonicalManufacturer
     getVersionFromTaskModuleFile
     getFusionInventoryLibdir
+    getFusionInventoryTaskList
 );
 
 memoize('getCanonicalManufacturer');
@@ -91,7 +93,7 @@ sub getFusionInventoryLibdir {
 
     if ($config->{devlib}) {
 # devlib enable, I only search for backend module in ./lib
-        push (@dirToScan, './lib/FusionInventory/Agent');
+        return './lib';
     } else {
         foreach (@INC) {
 # perldoc lib
@@ -104,14 +106,40 @@ sub getFusionInventoryLibdir {
 
             next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
             next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
-            push @dirToScan, $_.'/FusionInventory/Agent';
-            push @dirToScan, $autoDir.'/FusionInventory/Agent' if -d $autoDir;
+            return $_ if -d $_.'/FusionInventory/Agent';
+            return $autoDir if -d $autoDir.'/FusionInventory/Agent';
         }
     }
 
-    return @dirToScan;
+    return;
 
 }
+
+sub getFusionInventoryTaskList {
+    my ($config) = @_;
+
+    my $libdir = getFusionInventoryLibdir($config);
+
+    my @tasks = glob($libdir.'/FusionInventory/Agent/Task/*.pm');
+
+    my @ret;
+    foreach (@tasks) {
+        next unless basename($_) =~ /(.*)\.pm/;
+        my $module = $1;
+
+        next if $module eq 'Base';
+
+        push @ret, {
+            path => $_,
+            version => getVersionFromTaskModuleFile($_),
+            module => $module,
+        }
+    }
+
+    return \@ret;
+}
+
+
 
 1;
 __END__
