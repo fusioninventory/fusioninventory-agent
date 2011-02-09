@@ -39,12 +39,17 @@ if ($options{version}) {
 }
 if (!$options{job}) {
     pod2usage(
-        -message => 'Without an explicit job, a task is mandatory',
+        -message => 'No job, no task and no target, aborting',
+        -verbose => 0,
+        -exitval => 2,
+    ) if !$options{task} && !$options{target};
+    pod2usage(
+        -message => 'No task to execute against this target, aborting',
         -verbose => 0,
         -exitval => 2,
     ) if !$options{task};
     pod2usage(
-        -message => 'Without an explicit job, a target is mandatory',
+        -message => 'No target to send the result of this task, aborting',
         -verbose => 0,
         -exitval => 2,
     ) if !$options{target};
