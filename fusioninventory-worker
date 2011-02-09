@@ -20,6 +20,8 @@ GetOptions(
     'version',
     'debug',
     'lazy',
+    'job=s',
+    'job-param=s@',
     'wait=i',
     'task=s',
     'task-param=s@',
@@ -35,22 +37,25 @@ if ($options{version}) {
     print $FusionInventory::Agent::VERSION_STRING . "\n";
     exit 0;
 }
-if (!$options{task}) {
+if (!$options{job}) {
     pod2usage(
-        -message => 'No task given, aborting',
+        -message => 'Without an explicit job, a task is mandatory',
         -verbose => 0,
         -exitval => 2,
-    );
-}
-if (!$options{target}) {
+    ) if !$options{task};
     pod2usage(
-        -message => 'No target given, aborting',
+        -message => 'Without an explicit job, a target is mandatory',
         -verbose => 0,
         -exitval => 2,
-    );
+    ) if !$options{target};
 }
 
-my ($task_params, $target_params);
+my ($job_params, $task_params, $target_params);
+foreach my $param (@{$options{'job-param'}}) {
+    die "invalid job parameter $param"
+        unless $param =~ /^(\S+)=(\S+)$/;
+    $job_params->{$1} = $2;
+}
 foreach my $param (@{$options{'task-param'}}) {
     die "invalid task parameter $param"
         unless $param =~ /^(\S+)=(\S+)$/;
@@ -78,8 +83,10 @@ my $worker = FusionInventory::Agent::Worker->new(
 
 eval {
     $worker->run(
+        job           => $options{job},
         task          => $options{task},
         target        => $options{target},
+        job_params    => $job_params,
         task_params   => $task_params,
         target_params => $target_params
     );
