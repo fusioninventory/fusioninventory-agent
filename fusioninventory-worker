@@ -109,32 +109,70 @@ fusioninventory-worker - FusionInventory worker
 
 =head1 SYNOPSIS
 
-B<fusioninventory-worker> [options] --job <job>
+B<fusioninventory-worker>
+    [B<--conf-file> file] [B<--debug>] [B<--wait> time]
+    [B<--lazy>] [B<--job-param> key=value]
+    B<--job> job
 
-B<fusioninventory-worker> [options] --target <target> --task <task>
+B<fusioninventory-worker>
+    [B<--conf-file> file] [B<--debug>] [B<--wait> time]
+    [B<--task-param> key=value] [B<--target-param> key=value]
+    B<--target> target B<--task> task
 
-  Options:
-    --conf-file FILE         configuration file
-    --debug                  debug mode
-    --lazy                   do not run this job out of schedule
-    --wait TIME              wait a random delay before running
-    --job-param key=value    pass additional parameter to the job
-    --task-param key=value   pass additional parameter to the task
-    --target-param key=value pass additional parameter to the target
-    --version                display the agent version
-    --help                   display usage instructions
+=head1 DESCRIPTION
+
+B<fusioninventory-worker> executes a single job.
+
+=head1 OPTIONS
+
+=over
+
+=item --conf-file <file>
+
+Use the given configuration file.
+
+=item --debug
+
+Set debug mode.
+
+=item --lazy
+
+Do not run this job out of schedule.
+
+=item --wait <time>
+
+Wait a random delay before running.
+
+=item --job-param <key=value>
+
+Pass additional parameter to the job.
+
+=item --task-param <key=value>
+
+Pass additional parameter to the task.
+
+=item --target-param <key=value>
+
+Pass additional parameter to the target.
+
+=item --version
+
+Display the agent version.
+
+=item --help
+
+Display usage instructions.
+
+=back
 
 =head1 EXAMPLES
 
-    %> fusioninventory-worker --job inventory
+%> fusioninventory-worker --job inventory
 
 This executes the job defined as I<inventory> in configuration
 
-    %> fusioninventory-worker --task inventory --target stdout
+%> fusioninventory-worker --task inventory --target stdout
 
 This executes a job defined on-the-fly with the task defined as I<inventory> in
 configuration and the target defined as I<stdout> in configuration
 
-=head1 DESCRIPTION
-
-B<fusioninventory-worker> executes a single job
