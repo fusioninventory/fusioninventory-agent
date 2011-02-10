@@ -4,6 +4,8 @@ use strict;
 use warnings;
 
 use Test::More;
+use File::Glob;
+use File::Basename;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
@@ -224,19 +226,110 @@ my %tests = (
         },
         hardware => {
             UUID => '40EB001E-8C00-01CE-8E2C-00248C590A84',
-        }
+        },
+    },
+    'esx-2.5' => {
+        bios => {
+          'MMANUFACTURER' => undef,
+          'SSN' => 'VMware-56 4d db dd 11 e3 8d 66-84 9e 15 8e 49 23 7c 97',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => 'No Asset Tag',
+          'BMANUFACTURER' => 'Phoenix Technologies LTD',
+          'MSN' => 'None',
+          'SMODEL' => 'VMware Virtual Platform',
+          'SMANUFACTURER' => 'VMware, Inc.',
+          'BDATE' => undef,
+          'MMODEL' => undef,
+          'BVERSION' => '6.00'
+        },
+        hardware => {
+          'UUID' => undef
+        },
+    },
+    'hp-dl180' => {
+        bios => {
+          'MMANUFACTURER' => undef,
+          'SSN' => 'CZJ02901TG',
+          'SKUNUMBER' => '470065-124',
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'HP',
+          'MSN' => undef,
+          'SMODEL' => 'ProLiant DL180 G6',
+          'SMANUFACTURER' => 'HP',
+          'BDATE' => '05/19/2010',
+          'MMODEL' => undef,
+          'BVERSION' => 'O20'
 
-    }
+        },
+        hardware => {
+          'UUID' => '00D3F681-FE8E-11D5-B656-1CC1DE0905AE'
+        },
+    },
+    'openbsd-4.5' => {
+        bios => {
+          'MMANUFACTURER' => 'Dell Computer Corporation',
+          'SSN' => '4V2VW0J',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'Dell Computer Corporation',
+          'MSN' => '..TW128003952967.',
+          'SMODEL' => 'PowerEdge 1600SC',
+          'SMANUFACTURER' => 'Dell Computer Corporation',
+          'BDATE' => '06/24/2003',
+          'MMODEL' => '0Y1861',
+          'BVERSION' => 'A08'
+        },
+        hardware => {
+          'UUID' => '44454C4C-5600-1032-8056-B4C04F57304A'
+        },
+    },
+    'S3000AHLX' => {
+        bios => {
+          'MMANUFACTURER' => 'Intel Corporation',
+          'SSN' => undef,
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'Intel Corporation',
+          'MSN' => 'AZAX63801455',
+          'SMODEL' => undef,
+          'SMANUFACTURER' => undef,
+          'BDATE' => '09/01/2006',
+          'MMODEL' => 'S3000AHLX',
+          'BVERSION' => 'S3000.86B.02.00.0031.090120061242'
+        },
+        hardware => {
+          'UUID' => 'D7AFF990-4871-11DB-A6C6-0007E994F7C3'
+        },
+    },
+    'S5000VSA' => {
+        bios => {
+          'MMANUFACTURER' => 'Intel',
+          'SSN' => '.........',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'Intel Corporation',
+          'MSN' => 'QSSA64700622',
+          'SMODEL' => 'MP Server',
+          'SMANUFACTURER' => 'Intel',
+          'BDATE' => '10/12/2006',
+          'MMODEL' => 'S5000VSA',
+          'BVERSION' => 'S5000.86B.04.00.0066.101220061333'
+        },
+        hardware => {
+          'UUID' => 'CCF82081-7966-11DB-BDB3-00151716FBAC'
+        },
+    },
 );
 
-plan tests => (scalar keys %tests) * 2;
+my @list = glob("resources/dmidecode/*");
+plan tests => int @list;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
-foreach my $test (keys %tests) {
-    my $file = "resources/dmidecode/$test";
+use Data::Dumper;
+foreach my $file (@list) {
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware($logger, $file);
-    is_deeply($bios, $tests{$test}->{bios}, $test);
-    is_deeply($hardware, $tests{$test}->{hardware}, $test);
+    is_deeply($bios, $tests{basename($file)}->{bios}, "bios: ".basename($file)) or print Dumper($bios);
+    is_deeply($hardware, $tests{basename($file)}->{hardware}, "hardware: ".basename($file)) or print Dumper($hardware);
 
 }
