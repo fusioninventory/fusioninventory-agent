@@ -250,19 +250,17 @@ sub doInventory {
 
     }
 
-    if ( $OSLevel =~ /5.8/ ){
-        $zone = "global";
+    if( can_run("zonename") ) {
+        $zone=`zonename`;
     }else{
-        foreach (`zoneadm list -p`){
-            $zone=$1 if /^0:([a-z]+):.*$/;
-        }
+        $zone = "global";
     }
 
     foreach (`netstat -rn`){
         $ipgateway=$1 if /^default\s+(\S+)/i;
     }
     #print "Nom :".$zone."*************************\n";
-    if ($zone){
+    if ($zone eq "global" ) {
         foreach (`ifconfig -a`){
             $description = $1 if /^(\S+):/; # Interface name
             $ipaddress = $1 if /inet\s+(\S+)/i;

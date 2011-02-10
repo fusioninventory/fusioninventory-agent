@@ -1,8 +1,61 @@
 Revision history for FusionInventory::Agent
 
-2.1.8  * Linux/Storage: collect WWN from SAS / SATA disk using hdparm
+2.1.8
+       * Linux, correctly read the number of core from /proc/cpuinfo
+       * MacOSX: KB unit in missing in Mac OS X Drive.pm
+         http://forge.fusioninventory.org/issues/521
+       * FusionInventory::Agent::Task::Base, correctly preinitialize
+         'myData' by loading the expected file.
+       * A yum plugin in contrib to trigger FusionInventory after the updates
+         (Remi COLLET)
+       * SSL certificat check: Accept wild card in the hostname
+         http://forge.fusioninventory.org/issues/542
+       * Linux/CPU: avoid a warning is $serial is undef, thanks Raúl who
+         pointed the issue
+       * SSL: try to use the default CA if now --ca-cert-* is avalaible,
+         thanks Kevin Cousin who suggested the idea
+       * Inventory must be run after the deployment (OcsDeploy)
+       * Linux: fix Knoppix version format
+       * fix month number in process list start date
+       * Avoid failure if the agent can't load the .dump file, see: #542
+         thanks Kevin Cousin for the report
+       * Decrease the severity of the error message when a optional module
+         is missing
+       * MacOSX/Drives: do not ignore the / filesystem
+       * MacOSX/USB: no empty devices
+       * Win32/Software: avoid a warning
+       * Networks: improve the error message if deflat fails, thanks Walid Nouh
+         for the suggestion
+       * HP-UX/CPU: add a test-suite
+       * HP-UX/CPU: identify the CPU on HP RX4640, (Yanick Durant)
+       * HP-UX/Memory: hack to preinitialize the memory map (Yanick Durant)
+       * t/README.t: only run the test if TEST_AUTHOR=1
+       * Makefile.PL: add XML::TreePP in test_requires
+       * RPM: feed the PUBLISHER field (Stéphane Urbanovski)
+       * MacoSX/Software: Avoid breakage if .app's plist file is corrupted
+       * Solaris: SUNWCzone is optionnal, use zonename instead (Raphaël SurcouF)
+       * Inventory: look for backend module in @INC+$archname.'/auto' too, thanks
+         to Philip Grodzki who helped to point out the issue.
+       * Inventory: add VMVERSION, VMPRODUCT and VMFULLNAME key in HARDWARE
+       * Inventory: improve POD documentation
+       * Inventory: Display a debug message if the STORAGES/INTERFACE is invalid
+       * backport from master FusionInventory::Agent::Tools::getCanonicalManufacturer()
+       * Linux/CPU rename AuthenticAMD to AMD
+       * injector: --help show usage menu
+       * injector: minor clean up in the --help menu
+       * Add 2011 in the copyright years
+       * Win32: set HARDWARE/DESCRIPTION
+       * Tools: add getVersionFromTaskModuleFile()
+       * Tools: move the code used to find .pm in @INC in getFusionInventoryLibdir()
+       * Linux/Network: set the IPv6 network address (Ludovic Hutin)
+       * HP-UX/CPU: improve the machinfo parsing, thanks Amir Pakdel for
+         the machinfo output on HP-UX 11.23
+       * AIX: collect EMC/Clariion LUN storage (Sébastien Dagnicourt)
+       * Win32: fix NETWORKS/VIRTUALDEV on OS prior Vista (David DURIEUX)
+       * Internal: add and use getFusionInventoryLibdir(), getFusionInventoryTaskList()
+       * Linux/Storage: collect WWN from SAS / SATA disk using hdparm
 
-2.1.7
+2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
        * add --no-p2p parameter
          http://forge.fusioninventory.org/issues/507
@@ -25,6 +78,7 @@ Revision history for FusionInventory::Agent
        * Linux: improve the Harddrive detection if lshal is not avalaible,
          thanks Bernhard DENNER for the initial patch
          https://bugs.launchpad.net/bugs/682689
+       * No warning if ddcprobe is not avalaible
 
 2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
        * replace Cwd::abs_path with File::Spec->rel2abs

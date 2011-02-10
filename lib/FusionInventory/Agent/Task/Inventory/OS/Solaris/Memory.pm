@@ -32,20 +32,15 @@ sub doInventory {
     # from server model to server model
     # we try to classified our box in one of the known classes
 
-    $OSLevel=`uname -r`;
-
-    if ( $OSLevel =~ /5.8/ ){
-        $zone = "global";
+    if( can_run("zonename") ) {
+        $zone=`zonename`;
     }else{
-        foreach (`zoneadm list -p`){
-            $zone=$1 if /^0:([a-z]+):.*$/;
-        }
+        $zone = "global";
     }
 
     #print "Nom :".$zone."*************************\n";
 
-    if ($zone)
-    {
+    if ($zone eq "global" ) {
         # first, we need determinate on which model of Sun Server we run,
         # because prtdiags output (and with that memconfs output) is differend
         # from server model to server model

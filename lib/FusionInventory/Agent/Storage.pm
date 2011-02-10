@@ -200,11 +200,13 @@ sub restore {
     });
     #print "[storage]restore data from: $filePath\n";
 
+    my $ret;
     if (-f $filePath) {
-        return retrieve($filePath);
+        eval {$ret = retrieve($filePath)};
     }
+    $ret = {} unless $ret;
 
-    return {};
+    return $ret;
 }
 
 =item remove({ module => $module, idx => $idx })

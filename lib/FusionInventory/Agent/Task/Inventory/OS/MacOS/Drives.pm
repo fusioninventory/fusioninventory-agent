@@ -19,6 +19,7 @@ my %unitMatrice = (
     Mi => 1,
     MB => 1,
     Ki => 0.001,
+    KB => 0.001,
 );
 
 sub doInventory {
@@ -47,7 +48,7 @@ sub doInventory {
     for my $t (keys %fs) {
         # OpenBSD has no -m option so use -k to obtain results in kilobytes
         for(`df -P -k -t $t`){ # darwin needs the -t to be last
-            if(/^(\/\S*)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S.+)\n/){
+            if(/^(\/\S*)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
                 $type = $6;
                 $filesystem = $t;
                 $total = sprintf("%i",$2/1024);

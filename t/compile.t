@@ -5,7 +5,14 @@ use warnings;
 
 use English qw(-no_match_vars);
 use Test::More;
-use Test::Compile;
+
+
+if (!eval "use Test::Compile;1") {
+    eval "use Test::More skip_all => 'Missing Test::Compile';";
+    exit 0
+}
+
+
 
 my @files = $OSNAME eq 'MSWin32' ?
     grep { ! /Syslog/ } all_pm_files('lib') :

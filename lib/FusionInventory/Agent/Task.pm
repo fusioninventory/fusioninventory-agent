@@ -27,7 +27,7 @@ sub new {
 
     bless $self, $class;
     if (!$self->isModInstalled()) {
-        $logger->info("Module FusionInventory::Agent::Task::$module is not installed.");
+        $logger->debug("Module FusionInventory::Agent::Task::$module is not installed.");
         return;
     }
 

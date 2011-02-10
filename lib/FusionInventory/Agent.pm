@@ -11,7 +11,7 @@ use File::Path;
 use XML::Simple;
 use Sys::Hostname;
 
-our $VERSION = '2.1.7_beta1';
+our $VERSION = '2.1.7';
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 
@@ -266,8 +266,8 @@ sub main {
         });
 
         my @tasks = qw/
-            Inventory
             OcsDeploy
+            Inventory
             WakeOnLan
             SNMPQuery
             NetDiscovery

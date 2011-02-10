@@ -31,6 +31,7 @@ sub doInventory {
     );
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
     my $the_year=$year+1900;
+    my $the_mon=$mon+1;
 
     my $command = $OSNAME eq 'solaris' ?
         'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
@@ -60,11 +61,12 @@ sub doInventory {
             } elsif ($started =~ /^([A-z]{3})(\d{1,2})$/)  {
                 $begin=$the_year."-".$month{$1}."-".$2." ".$time;
             }  elsif ($started =~ /^(\d{2}):(\d{2})$/) {
-                $begin=$the_year."-".$mon."-".$mday." ".$started;
+                $begin=$the_year."-".$the_mon."-".$mday." ".$started;
             } elsif (my @stat = stat('/proc/'.$pid)) {
                 my (undef,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($stat[10]);
                 my $the_year=$year+1900;
-                $begin=$the_year."-".$mon."-".$mday." ".$hour.':'.$min;
+                my $the_mon=$mon+1;
+                $begin=$the_year."-".$the_mon."-".$mday." ".$hour.':'.$min;
             }
 
             $inventory->addProcess({

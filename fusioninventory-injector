@@ -2,7 +2,7 @@
 ###############################################################################
 ##Copyleft Pascal DANEK 2005
 ##Copyleft Goneri Le Bouder 2006
-##Copyleft FusionInventory Project 2010
+##Copyleft FusionInventory Project 2010-2011
 ##Web : http://www.FusionInventory.org
 ##
 ##This code is open source and may be copied and modified as long as the source
@@ -15,7 +15,6 @@ use XML::Simple;
 use Compress::Zlib;
 use Getopt::Long;
 use strict;
-my $help;
 my $directory;
 my $file;
 my $url;
@@ -106,10 +105,9 @@ DESCRIPTION:
   USAGE:
   -h --help	: this menu
   -d --directory: load every .ocs files from a directory
-  -f --file\	: load a speficic file
+  -f --file	: load a speficic file
   -u --url	: ocsinventory backend URL
   -r --remove	: remove succesfuly injected files
-  -m --msg	: show message returned my ocsinventory
   -v --verbose	: verbose mode
   --stdin       : read data from STDIN
 
@@ -125,7 +123,7 @@ EOF
 }
 
 GetOptions(
-    'h|help'		=> \$help,
+    'h|help'		=> &usage,
     'd|directory=s'	=> \$directory,
     'f|file=s'		=> \$file,
     'u|url=s'		=> \$url,
@@ -166,5 +164,5 @@ This tool can be used to test your server, do benchmark or push inventory from o
 
 Please see: 
 
-B<fusioninventory-agent> S<--help>
+B<fusioninventory-injector> S<--help>
 

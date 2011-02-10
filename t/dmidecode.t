@@ -119,7 +119,16 @@ my %tests = (
 	    'BDATE' => '04/07/2009',
 	    'BVERSION' => '2102'
 
-	}
+	},
+        'dmidecode.esx2.5' => {
+          'MSN' => 'None',
+          'SMODEL' => 'VMware Virtual Platform',
+          'SMANUFACTURER' => 'VMware, Inc.',
+          'SSN' => 'VMware-56 4d db dd 11 e3 8d 66-84 9e 15 8e 49 23 7c 97',
+          'ASSETTAG' => 'No Asset Tag',
+          'BVERSION' => '6.00',
+          'BMANUFACTURER' => 'Phoenix Technologies LTD'
+        }
 );
 
 plan tests => scalar keys %tests;

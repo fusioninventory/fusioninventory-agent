@@ -4,7 +4,7 @@ MANIFEST.bak
 META.yml
 Makefile
 run-postinst
-Ocsinventory-Agent*
+FusionInventory-Agent*
 blib
 lib/FusionInventory/Agent/Task/OcsDeploy.pm
 lib/FusionInventory/Agent/Task/NetDiscovery.pm
@@ -12,3 +12,4 @@ lib/FusionInventory/Agent/Task/SNMPQuery.pm
 pm_to_blib
 README
 README.html
+*~

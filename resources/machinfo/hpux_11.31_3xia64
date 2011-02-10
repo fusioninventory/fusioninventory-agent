@@ -1,0 +1,25 @@
+CPU info:
+ 3 Intel(R) Itanium 2 processors (1.6 GHz, 9 MB)
+         400 MT/s bus, CPU version A2
+
+Memory: 8180 MB (7.99 GB)
+
+Firmware info:
+  Firmware revision:  03.17
+  FP SWA driver revision: 1.18
+  IPMI is supported on this system.
+  BMC firmware revision: 3.49
+
+Platform info:
+  Model:                  "ia64 hp server rx4640"
+  Machine ID number:      3eeda24a-5ca0-11da-9b03-a7647c3c8ad0
+  Machine serial number:  DEH45429DX
+
+OS info:
+  Nodename:  SUSOTP4
+  Release:   HP-UX B.11.31
+  Version:   U (unlimited-user license)
+  Machine:   ia64
+  ID Number: 1055760970
+  vmunix _release_version:
+@(#) $Revision: vmunix:    B.11.31_LR FLAVOR=perf

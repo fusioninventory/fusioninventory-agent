@@ -47,7 +47,7 @@ sub doInventory {
 
         if ($in && (/^Handle\s0x/i || /^\s*$/)) {
             if (!$empty) {
-                $serial =~ s/\s//g;
+                $serial =~ s/\s//g if $serial;
                 $thread = 1 unless $thread;
 
                 push @cpu, {
@@ -87,8 +87,8 @@ sub doInventory {
         my $hasPhysicalId;
         while (<$handle>) {
             if (/^physical\sid\s*:\s*(\d+)/i) {
-                if ((!defined($cpuCoreCpts[$1]))||$cpuCoreCpts[$1]<$1+1) {
-                    $cpuCoreCpts[$1] = $1+1;
+                if ($hasPhysicalId || !defined($cpuCoreCpts[$1])) {
+                    $cpuCoreCpts[$1]++;
                 }
                 $cpuNbr = $1;
                 $hasPhysicalId = 1;
@@ -104,7 +104,6 @@ sub doInventory {
         # The /proc/cpuinfo file doesn't end with an empty line
         $cpuProcs[$cpuNbr]= $cpuInfo if keys %$cpuInfo;
     }
-
     my $maxId = @cpu?@cpu-1:@cpuProcs-1;
     foreach my $id (0..$maxId) {
         my $cpuProc = $cpuProcs[$id] || $cpuProcs[0];
@@ -117,6 +116,7 @@ sub doInventory {
             $cpu[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
             $cpu[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
             $cpu[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
+            $cpu[$id]->{MANUFACTURER} =~ s/AuthenticAMD/AMD/;
         }
         if ($cpuProc->{'model name'}) {
             $cpu[$id]->{NAME} = $cpuProc->{'model name'};

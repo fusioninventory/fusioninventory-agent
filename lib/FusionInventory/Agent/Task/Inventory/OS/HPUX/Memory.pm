@@ -15,6 +15,7 @@ sub doInventory {
 
 
     if ( `uname -m` =~ /ia64/ ) {
+        `echo 'sc product  IPF_MEMORY;info' | /usr/sbin/cstm`;    # enable infolog
         for ( `echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm` ) {
             if ( /\w+IMM\s+Location/ ) {
                 next
