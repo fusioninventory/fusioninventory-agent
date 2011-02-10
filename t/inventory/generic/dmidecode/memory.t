@@ -549,15 +549,119 @@ my %tests = (
             'CAPACITY' => '1024',
             'CAPTION' => 'ONBOARD DIMM_B4'
           }
-        ]
-
-);
+        ],
+        'esx-2.5' => [
+        {
+            'NUMSLOTS' => 1,
+            'TYPE' => 'EDO DIMM',
+            'CAPACITY' => '1024'
+          },
+          {
+            'NUMSLOTS' => 2,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 3,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 4,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 5,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 6,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 7,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 8,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 9,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 10,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 11,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 12,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 13,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 14,
+            'TYPE' => 'DIMM'
+          },
+          {
+            'NUMSLOTS' => 15,
+            'TYPE' => 'DIMM'
+          }
+        ],
+        'rhel-2.1' => [
+          {
+            'NUMSLOTS' => 1,
+            'TYPE' => 'ECC DIMM SDRAM',
+            'CAPACITY' => '256'
+          },
+          {
+            'NUMSLOTS' => 2,
+            'TYPE' => 'UNKNOWN'
+          }
+        ],
+        'openbsd-3.7' => [
+          {
+            'NUMSLOTS' => 1,
+            'TYPE' => 'Unknown'
+          },
+          {
+            'NUMSLOTS' => 2,
+            'TYPE' => 'DIMM SDRAM',
+            'CAPACITY' => '64'
+          },
+          {
+            'NUMSLOTS' => 3,
+            'TYPE' => 'Unknown'
+          },
+          {
+            'NUMSLOTS' => 4,
+            'TYPE' => 'DIMM SDRAM',
+            'CAPACITY' => '64'
+          },
+          {
+            'NUMSLOTS' => 5,
+            'TYPE' => 'DIMM SDRAM',
+            'CAPACITY' => '64'
+          },
+          {
+            'NUMSLOTS' => 6,
+            'TYPE' => 'Unknown'
+          },
+          {
+            'NUMSLOTS' => 7,
+            'TYPE' => 'Unknown'
+          }
+        ]);
 
 my @list = glob("resources/dmidecode/*");
 plan tests => int @list;
 
 my $logger = FusionInventory::Agent::Logger->new();
-
 foreach my $file (@list) {
     my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::_getMemories($logger, $file);
     is_deeply($memories, $tests{basename($file)}, "memories: ".basename($file));

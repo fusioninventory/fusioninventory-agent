@@ -31,26 +31,44 @@ sub _getMemories {
 
     my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
 
-    return unless $infos->{17};
-
     my ($memories, $slot);
-    foreach my $info (@{$infos->{17}}) {
-        $slot++;
 
-        my $memory = {
-            NUMSLOTS     => $slot,
-            DESCRIPTION  => $info->{'Form Factor'},
-            CAPTION      => $info->{'Locator'},
-            SPEED        => $info->{'Speed'},
-            TYPE         => $info->{'Type'},
-            SERIALNUMBER => $info->{'Serial Number'}
-        };
+    if ($infos->{17}) {
 
-        if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s MB$/x) {
-            $memory->{CAPACITY} = $1;
+        foreach my $info (@{$infos->{17}}) {
+            $slot++;
+
+            my $memory = {
+                NUMSLOTS     => $slot,
+                DESCRIPTION  => $info->{'Form Factor'},
+                CAPTION      => $info->{'Locator'},
+                SPEED        => $info->{'Speed'},
+                TYPE         => $info->{'Type'},
+                SERIALNUMBER => $info->{'Serial Number'}
+            };
+
+            if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s MB$/x) {
+                $memory->{CAPACITY} = $1;
+            }
+
+            push @$memories, $memory;
         }
+    } elsif ($infos->{6}) {
 
-        push @$memories, $memory;
+        foreach my $info (@{$infos->{6}}) {
+            $slot++;
+
+            my $memory = {
+                NUMSLOTS     => $slot,
+                TYPE         => $info->{'Type'},
+            };
+
+            if ($info->{'Installed Size'} && $info->{'Installed Size'} =~ /^(\d+)\s*(MB|Mbyte)/x) {
+                $memory->{CAPACITY} = $1;
+            }
+
+            push @$memories, $memory;
+        }
     }
 
     return $memories;

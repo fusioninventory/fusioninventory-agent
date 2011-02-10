@@ -34,6 +34,9 @@ Revision history for FusionInventory::Agent
        * Move screen EDID parsing functions in
          FusionInventory::Agent::Tools::Generic::Screen
        * FreeBSD: do not ignore virtual interface but use the VIRTUALDEV flag on them
+       * dmidecode: when dmidecode part 17 is not avalaible, use dmidecode part 6
+         to collect the memories slot, thanks Guillaume GARSON for the bug report
+         http://forge.fusioninventory.org/issues/395
 
 2.1.8
        * Linux, correctly read the number of core from /proc/cpuinfo
