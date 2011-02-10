@@ -32,7 +32,7 @@ foreach (File::Glob::bsd_glob('lib/FusionInventory/Agent/Task/*.pm')) {
 }
 
 
-plan tests => 1 + @taskPm;
+plan tests => 2 + int @taskPm;
 use_ok('FusionInventory::Agent::Tools');
 
 foreach (@taskPm) {
