@@ -107,7 +107,9 @@ sub doInventory {
                         $device->{DESCRIPTION} = $1;
                     } elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
                         $device->{MODEL} = $1;
-                    }
+                    } elsif ($line =~ /Logical Unit WWN Device Identifier:\s*(.*?)\s*$/) {
+			$device->{WWN} = $1;
+		    }
                 }
                 close $handle;
             }

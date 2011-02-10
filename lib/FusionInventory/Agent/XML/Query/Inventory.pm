@@ -43,7 +43,7 @@ my %fields = (
     SOUNDS      => [ qw/DESCRIPTION MANUFACTURER NAME/ ],
     STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
                         TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
-                        SCSI_UNID SCSI_LUN / ],
+                        SCSI_UNID SCSI_LUN WWN / ],
     VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION PCISLOT/ ],
     USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
     USERS       => [ qw/LOGIN DOMAIN/ ],
@@ -1196,6 +1196,10 @@ Deprecated. The harddrive serial number, same as SERIAL.
 =item SCSI_UNID
 
 =item SCSI_LUN
+
+=item WWN
+
+World Wide Name http://fr.wikipedia.org/wiki/World_Wide_Name
 
 =back
 
