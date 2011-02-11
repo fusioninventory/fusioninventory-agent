@@ -355,6 +355,8 @@ sub getDirectoryHandle {
     return $handle;
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getFileHandle {
     my %params = @_;
 
