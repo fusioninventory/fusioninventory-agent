@@ -340,7 +340,7 @@ my %tests = (
 );
 
 my @list = glob("resources/dmidecode/*");
-plan tests => int @list;
+plan tests => 2 * int @list;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
