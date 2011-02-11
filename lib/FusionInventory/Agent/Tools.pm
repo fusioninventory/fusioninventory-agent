@@ -23,6 +23,7 @@ our @EXPORT = qw(
     getCanonicalSpeed
     getCanonicalSize
     getInfosFromDmidecode
+    getCpusFromDmidecode
     getSanitizedString
     getFirstLine
     getFirstMatch
@@ -201,6 +202,70 @@ sub getInfosFromDmidecode {
 
     return $info;
 }
+
+
+sub getCpusFromDmidecode {
+    my ($logger, $file) = @_;
+
+    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+
+    return unless $infos->{4};
+
+    my @cpus;
+    foreach (@{$infos->{4}}) {
+        next if $_->{Status} && $_->{Status} =~ /Unpopulated/i;
+
+        # VMware
+        if (
+                ($_->{'Processor Manufacturer'} && ($_->{'Processor Manufacturer'} eq '000000000000'))
+                &&
+                ($_->{'Processor Version'} && ($_->{'Processor Version'} eq '00000000000000000000000000000000'))
+           ) {
+            next;
+        }
+
+        my $manufacturer = $_->{'Manufacturer'} || $_->{'Processor Manufacturer'};
+        my $name = (($manufacturer =~ /Intel/ && $_->{'Family'}) || ($_->{'Version'} || $_->{'Processor Family'})) || $_->{'Processor Version'};
+
+        my $speed;
+        if ($_->{Version} && $_->{Version} =~ /([\d\.]+)GHz$/) {
+            $speed = $1*1000;
+        } elsif ($_->{Version} && $_->{Version} =~ /([\d\.]+)MHz$/) {
+            $speed = $1;
+        } elsif ($_->{'Max Speed'}) {
+            if ($_->{'Max Speed'} =~ /^\s*(\d+)\s*Mhz/i) {
+                $speed = $1;
+            } elsif ($_->{'Max Speed'} =~ /^\s*(\d+)\s*Ghz/i) {
+                $speed = $1*1000;
+            }
+        }
+
+
+        my $externalClock;
+        if ($_->{'External Clock'}) {
+            if ($_->{'External Clock'} =~ /^\s*(\d+)\s*Mhz/i) {
+                $externalClock = $1;
+            } elsif ($_->{'External Clock'} =~ /^\s*(\d+)\s*Ghz/i) {
+                $externalClock = $1*1000;
+            }
+        }
+
+        push @cpus, {
+            SERIAL => $_->{'Serial Number'},
+            SPEED => $speed,
+            ID => $_->{ID},
+            MANUFACTURER => $manufacturer,
+            NAME =>  $name,
+            CORE => $_->{'Core Count'} || $_->{'Core Enabled'},
+            THREAD => $_->{'Thread Count'},
+            EXTERNAL_CLOCK => $externalClock
+        }
+
+    }
+
+    return \@cpus;
+}
+
 
 sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
@@ -552,8 +617,6 @@ sub getFusionInventoryTaskList {
 
     return \@ret;
 }
-
-
 
 1;
 __END__
