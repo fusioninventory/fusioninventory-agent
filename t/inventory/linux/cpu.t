@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use Data::Dumper;
 use Test::More;
 
 use FusionInventory::Agent::Logger;
@@ -16,138 +15,179 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU;
 
 my %i386 = (
     'linux-686-1' => {
-        procs => [
-            {
-                'cache size' => '2048 KB',
-                'clflush size' => '64',
-                'model' => '13',
-                'cpu family' => '6',
-                'bogomips' => '3462.27',
-                'hlt_bug' => 'no',
-                'stepping' => '8',
-                'cpuid level' => '2',
-                'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx bts est tm2',
-                'cpu mhz' => '1729.038',
-                'processor' => '0',
-                'vendor_id' => 'GenuineIntel',
-                'model name' => 'Intel(R) Pentium(R) M processor 1.73GHz',
-                'fpu' => 'yes',
-                'f00f_bug' => 'no',
-                'fpu_exception' => 'yes',
-                'fdiv_bug' => 'no',
-                'coma_bug' => 'no',
-                'wp' => 'yes'
-            },
-        ],
-        cores => undef
+        procs => {
+          'cache size' => '2048 KB',
+          'clflush size' => '64',
+          'model' => '13',
+          'cpu family' => '6',
+          'bogomips' => '3462.27',
+          'hlt_bug' => 'no',
+          'cpu mhz' => '1729.038',
+          'stepping' => '8',
+          'cpuid level' => '2',
+          'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx bts est tm2',
+          'processor' => '0',
+          'vendor_id' => 'GenuineIntel',
+          'model name' => 'Intel(R) Pentium(R) M processor 1.73GHz',
+          'fpu' => 'yes',
+          'f00f_bug' => 'no',
+          'fpu_exception' => 'yes',
+          'fdiv_bug' => 'no',
+          'coma_bug' => 'no',
+          'wp' => 'yes'
+        },
+        cores => [
+          {
+            'thread' => 1,
+            'core' => 1
+          }
+        ]
     },
     'linux-686-samsung-nc10-1' => {
-        procs => [
-            {
-                'cache size' => '512 KB',
-                'address sizes' => '32 bits physical, 32 bits virtual',
-                'clflush size' => '64',
-                'physical id' => '0',
-                'model' => '28',
-                'cpu family' => '6',
-                'bogomips' => '3192.61',
-                'hlt_bug' => 'no',
-                'cache_alignment' => '64',
-                'stepping' => '2',
-                'cpuid level' => '10',
-                'core id' => '0',
-                'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 xtpr pdcm movbe lahf_lm',
-                'cpu mhz' => '800.000',
-                'processor' => '1',
-                'vendor_id' => 'GenuineIntel',
-                'cpu cores' => '1',
-                'initial apicid' => '1',
-                'model name' => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
-                'fpu' => 'yes',
-                'siblings' => '2',
-                'apicid' => '1',
-                'fpu_exception' => 'yes',
-                'f00f_bug' => 'no',
-                'fdiv_bug' => 'no',
-                'wp' => 'yes',
-                'coma_bug' => 'no'
-            }
-        ],
-        cores => [ 1 ]
+        procs => {
+          'cache size' => '512 KB',
+          'address sizes' => '32 bits physical, 32 bits virtual',
+          'clflush size' => '64',
+          'physical id' => '0',
+          'model' => '28',
+          'cpu family' => '6',
+          'bogomips' => '3192.61',
+          'hlt_bug' => 'no',
+          'cpu mhz' => '800.000',
+          'cache_alignment' => '64',
+          'stepping' => '2',
+          'cpuid level' => '10',
+          'core id' => '0',
+          'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 xtpr pdcm movbe lahf_lm',
+          'processor' => '1',
+          'vendor_id' => 'GenuineIntel',
+          'cpu cores' => 1,
+          'initial apicid' => '1',
+          'model name' => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
+          'fpu' => 'yes',
+          'siblings' => 2,
+          'apicid' => '1',
+          'fpu_exception' => 'yes',
+          'f00f_bug' => 'no',
+          'fdiv_bug' => 'no',
+          'wp' => 'yes',
+          'coma_bug' => 'no'
+        },
+        cores => [
+          {
+            'thread' => '2',
+            'core' => '1'
+          }
+        ]
     },
     'linux-2.6.35-1-core-2-thread' => {
-        procs => [
-            {
-                'cache size' => '512 KB',
-                'address sizes' => '32 bits physical, 32 bits virtual',
-                'clflush size' => '64',
-                'physical id' => '0',
-                'model' => '28',
-                'cpu family' => '6',
-                'bogomips' => '3191.96',
-                'hlt_bug' => 'no',
-                'cache_alignment' => '64',
-                'stepping' => '2',
-                'cpuid level' => '10',
-                'core id' => '0',
-                'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe nx constant_tsc arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 xtpr pdcm movbe lahf_lm',
-                'cpu mhz' => '800.000',
-                'processor' => '1',
-                'vendor_id' => 'GenuineIntel',
-                'cpu cores' => '1',
-                'initial apicid' => '1',
-                'model name' => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
-                'fpu' => 'yes',
-                'siblings' => '2',
-                'apicid' => '1',
-                'fpu_exception' => 'yes',
-                'f00f_bug' => 'no',
-                'fdiv_bug' => 'no',
-                'wp' => 'yes',
-                'coma_bug' => 'no'
-            }
-        ],
-        cores => [ 1 ]
+        procs => {
+          'cache size' => '512 KB',
+          'address sizes' => '32 bits physical, 32 bits virtual',
+          'clflush size' => '64',
+          'physical id' => '0',
+          'model' => '28',
+          'cpu family' => '6',
+          'bogomips' => '3191.96',
+          'hlt_bug' => 'no',
+          'cpu mhz' => '800.000',
+          'cache_alignment' => '64',
+          'stepping' => '2',
+          'cpuid level' => '10',
+          'core id' => '0',
+          'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe nx constant_tsc arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 xtpr pdcm movbe lahf_lm',
+          'processor' => '1',
+          'vendor_id' => 'GenuineIntel',
+          'cpu cores' => 1,
+          'initial apicid' => '1',
+          'model name' => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
+          'fpu' => 'yes',
+          'siblings' => 2,
+          'apicid' => '1',
+          'fpu_exception' => 'yes',
+          'f00f_bug' => 'no',
+          'fdiv_bug' => 'no',
+          'wp' => 'yes',
+          'coma_bug' => 'no'
+        },
+        cores => [
+          {
+            'thread' => '2',
+            'core' => '1'
+          }
+        ]
     },
 
 # IMPORTANT : this /proc/cpuinfo is _B0RKEN_, physical_id are not correct
 # please see bug: #505
     'linux-hp-dl180' => {
-        procs => [
-          undef,
+        procs => {
+          'cache size' => '4096 KB',
+          'address sizes' => '40 bits physical, 48 bits virtual',
+          'clflush size' => '64',
+          'physical id' => '1',
+          'model' => '26',
+          'cpu family' => '6',
+          'bogomips' => '4000.00',
+          'hlt_bug' => 'no',
+          'cpu mhz' => '2000.090',
+          'cache_alignment' => '64',
+          'stepping' => '5',
+          'cpuid level' => '11',
+          'core id' => '2',
+          'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe nx rdtscp lm con$',
+          'processor' => '2',
+          'vendor_id' => 'GenuineIntel',
+          'cpu cores' => 4,
+          'initial apicid' => '20',
+          'model name' => 'Intel(R) Xeon(R) CPU           E5504  @ 2.00GHz',
+          'fpu' => 'yes',
+          'siblings' => 4,
+          'apicid' => '20',
+          'fpu_exception' => 'yes',
+          'f00f_bug' => 'no',
+          'fdiv_bug' => 'no',
+          'wp' => 'yes',
+          'coma_bug' => 'no'
+        },
+        cores => [
           {
-            'cache size' => '4096 KB',
-            'address sizes' => '40 bits physical, 48 bits virtual',
-            'clflush size' => '64',
-            'physical id' => '1',
-            'model' => '26',
-            'cpu family' => '6',
-            'bogomips' => '4000.00',
-            'hlt_bug' => 'no',
-            'cpu mhz' => '2000.090',
-            'cache_alignment' => '64',
-            'stepping' => '5',
-            'cpuid level' => '11',
-            'core id' => '2',
-            'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe nx rdtscp lm con$',
-            'processor' => '2',
-            'vendor_id' => 'GenuineIntel',
-            'cpu cores' => '4',
-            'initial apicid' => '20',
-            'model name' => 'Intel(R) Xeon(R) CPU           E5504  @ 2.00GHz',
-            'fpu' => 'yes',
-            'siblings' => '4',
-            'apicid' => '20',
-            'fpu_exception' => 'yes',
-            'f00f_bug' => 'no',
-            'fdiv_bug' => 'no',
-            'wp' => 'yes',
-            'coma_bug' => 'no'
+            'thread' => '1',
+            'core' => '4'
           }
-],
-cores => [
-          undef,
-          2
+        ]
+    },
+    'toshiba-r630-2-core' => {
+        procs => {
+          'cache size' => '3072 KB',
+          'address sizes' => '36 bits physical, 48 bits virtual',
+          'clflush size' => '64',
+          'physical id' => '0',
+          'model' => '37',
+          'cpu family' => '6',
+          'bogomips' => '4521.44',
+          'cpu mhz' => '933.000',
+          'cache_alignment' => '64',
+          'stepping' => '5',
+          'core id' => '2',
+          'cpuid level' => '11',
+          'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm sse4_1 sse4_2 popcnt lahf_lm arat tpr_shadow vnmi flexpriority ept vpid',
+          'processor' => '3',
+          'vendor_id' => 'GenuineIntel',
+          'cpu cores' => 2,
+          'initial apicid' => '5',
+          'model name' => 'Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz',
+          'fpu' => 'yes',
+          'siblings' => 4,
+          'apicid' => '5',
+          'fpu_exception' => 'yes',
+          'wp' => 'yes'
+        },
+        cores => [
+          {
+            'thread' => '2',
+            'core' => '2'
+          }
         ]
     }
 );
@@ -241,8 +281,8 @@ my $logger = FusionInventory::Agent::Logger->new();
 foreach my $test (keys %i386) {
     my $file = "resources/cpuinfo/$test";
     my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU::_getCPUsFromProc($logger, $file);
-    is_deeply($procs, $i386{$test}->{procs}, $test) or print Dumper($procs);
-    is_deeply($cores, $i386{$test}->{cores}, $test) or print Dumper($cores);
+    is_deeply($procs, $i386{$test}->{procs}, "procs: ".$test);
+    is_deeply($cores, $i386{$test}->{cores}, "cores: ".$test);
 }
 
 foreach my $test (keys %alpha) {

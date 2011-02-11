@@ -86,6 +86,7 @@ sub getCPUsFromProc {
         file => '/proc/cpuinfo',
         @_
     );
+
     my $handle = getFileHandle(%params);
 
     my (@cpus, $cpu);
