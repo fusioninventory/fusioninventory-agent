@@ -150,6 +150,8 @@ sub getCanonicalSize {
                         undef                ;
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getInfosFromDmidecode {
     my %params = (
         command => 'dmidecode',
@@ -203,7 +205,8 @@ sub getInfosFromDmidecode {
     return $info;
 }
 
-
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getCpusFromDmidecode {
     my ($logger, $file) = @_;
 
@@ -535,6 +538,8 @@ sub uniq (@) { ## no critic (SubroutinePrototypes)
     grep { not $seen{$_}++ } @_;
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getVersionFromTaskModuleFile {
     my ($file) = @_;
 
@@ -564,6 +569,8 @@ sub getVersionFromTaskModuleFile {
     return $version;
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getFusionInventoryLibdir {
     my ($config) = @_;
 
@@ -594,6 +601,8 @@ sub getFusionInventoryLibdir {
 
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getFusionInventoryTaskList {
     my ($config) = @_;
 
