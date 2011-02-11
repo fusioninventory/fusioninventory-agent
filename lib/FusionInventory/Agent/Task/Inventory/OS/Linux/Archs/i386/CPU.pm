@@ -18,29 +18,11 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @cpus;
-
-    if (can_run('dmidecode')) {
-        my $infos = getInfosFromDmidecode(logger => $logger);
-
-        if ($infos->{4}) {
-            foreach my $info (@{$infos->{4}}) {
-                push @cpus, {
-                    ID           => $info->{'ID'},
-                    MANUFACTURER => $info->{'Manufacturer'},
-                    CORE         => $info->{'Core Count'},
-                    THREAD       => ($info->{'Thread Count'} || 1),
-                    SPEED        => getCanonicalSpeed($info->{'Max Speed'}),
-                    NAME         => $info->{'Version'},
-                    SERIAL       => $info->{'Serial Number'},
-                };
-            }
-        }
-    }
+    my $cpusFromDmidecode = getCpusFromDmidecode();
 
     my ($proc_cpus, $proc_cores) = _getCPUsFromProc($logger, '/proc/cpuinfo');
 
-    foreach my $cpu (@cpus) {
+    foreach my $cpu (@$cpusFromDmidecode) {
         my $proc_cpu  = shift @$proc_cpus;
         my $proc_core = shift @$proc_cores;
 
