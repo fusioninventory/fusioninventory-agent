@@ -12,6 +12,7 @@ use File::Spec;
 use File::Basename;
 
 our @EXPORT = qw(
+    getFileHandle
     getCanonicalManufacturer
     getInfosFromDmidecode
     getCpusFromDmidecode
@@ -22,6 +23,40 @@ our @EXPORT = qw(
 
 memoize('getCanonicalManufacturer');
 memoize('getInfosFromDmidecode');
+
+sub getFileHandle {
+    my %params = @_;
+
+    my $handle;
+
+    SWITCH: {
+        if ($params{file}) {
+            if (!open $handle, '<', $params{file}) {
+                $params{logger}->error(
+                    "Can't open file $params{file}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        if ($params{command}) {
+            if (!open $handle, '-|', $params{command} . " 2>/dev/null") {
+                $params{logger}->error(
+                    "Can't run command $params{command}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+	if ($params{string}) {
+	    
+	    open $handle, "<", \$params{string} or die;
+	}
+        die "neither command nor file parameter given";
+    }
+
+    return $handle;
+}
 
 sub getCanonicalManufacturer {
     my ($model) = @_;
