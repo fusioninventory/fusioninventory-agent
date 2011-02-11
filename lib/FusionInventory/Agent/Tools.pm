@@ -672,6 +672,10 @@ $info = {
     ...
 }
 
+=head2 getCpusFromDmidecode()
+
+Returns a clean array with the CPU list.
+
 =head2 getSanitizedString($string)
 
 Returns the input stripped from any control character, properly encoded in
