@@ -319,6 +319,24 @@ my %tests = (
           'UUID' => 'CCF82081-7966-11DB-BDB3-00151716FBAC'
         },
     },
+    'vmware' => {
+        bios => {
+            'MMANUFACTURER' => 'Intel Corporation',
+            'SSN' => 'VMware-50 0c 23 94 04 63 a1 3c-0d d4 f5 37 a6 bb f0 a6',
+            'SKUNUMBER' => undef,
+            'ASSETTAG' => 'No Asset Tag',
+            'BMANUFACTURER' => 'Phoenix Technologies LTD',
+            'MSN' => 'None',
+            'SMODEL' => 'VMware Virtual Platform',
+            'SMANUFACTURER' => 'VMware, Inc.',
+            'BDATE' => '07/22/2008',
+            'MMODEL' => '440BX Desktop Reference Platform',
+            'BVERSION' => '6.00'
+        },
+        hardware => {
+            'UUID' => '500C2394-0127-D13C-0CC4-F537A6AAF1A6'
+        }
+    }
 );
 
 my @list = glob("resources/dmidecode/*");

@@ -1199,6 +1199,33 @@ my %tests = (
             'TYPE' => 'Other',
             'CAPTION' => 'None'
           }
+        ],
+        vmware =>
+ [
+          {
+            'NAME' => 'J19',
+            'DESCRIPTION' => '9 Pin Dual Inline (pin 10 cut)',
+            'TYPE' => 'Serial Port 16550A Compatible',
+            'CAPTION' => 'DB-9 male'
+          },
+          {
+            'NAME' => 'J23',
+            'DESCRIPTION' => '25 Pin Dual Inline (pin 26 cut)',
+            'TYPE' => 'Parallel Port ECP/EPP',
+            'CAPTION' => 'DB-25 female'
+          },
+          {
+            'NAME' => 'J11',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'Keyboard Port',
+            'CAPTION' => 'Circular DIN-8 male'
+          },
+          {
+            'NAME' => 'J12',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'Keyboard Port',
+            'CAPTION' => 'Circular DIN-8 male'
+          }
         ]
 );
 

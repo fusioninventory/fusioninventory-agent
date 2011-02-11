@@ -656,13 +656,50 @@ my %tests = (
             'NUMSLOTS' => 7,
             'TYPE' => 'Unknown'
           }
-        ]);
+        ],
+        'vmware' => [
+          {
+            'NUMSLOTS' => 1,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPACITY' => '2048',
+            'CAPTION' => 'RAM slot #0'
+          },
+          {
+            'NUMSLOTS' => 2,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #1'
+          },
+          {
+            'NUMSLOTS' => 3,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #2'
+          },
+          {
+            'NUMSLOTS' => 4,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #3'
+          }
+        ]
+);
 
 my @list = glob("resources/dmidecode/*");
 plan tests => int @list;
 
 my $logger = FusionInventory::Agent::Logger->new();
 foreach my $file (@list) {
+    use Data::Dumper;
     my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::_getMemories($logger, $file);
-    is_deeply($memories, $tests{basename($file)}, "memories: ".basename($file));
+    is_deeply($memories, $tests{basename($file)}, "memories: ".basename($file)) or print Dumper($memories);
 }

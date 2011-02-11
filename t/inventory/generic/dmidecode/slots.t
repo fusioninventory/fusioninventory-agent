@@ -583,6 +583,50 @@ S5000VSA =>
             'STATUS' => 'Available',
             'DESCRIPTION' => 'x4 PCI Express'
           }
+        ],
+        vmware => [
+          {
+            'NAME' => 'ISA Slot J8',
+            'DESIGNATION' => undef,
+            'STATUS' => 'Unknown',
+            'DESCRIPTION' => '16-bit ISA'
+          },
+          {
+            'NAME' => 'ISA Slot J9',
+            'DESIGNATION' => undef,
+            'STATUS' => 'Unknown',
+            'DESCRIPTION' => '16-bit ISA'
+          },
+          {
+            'NAME' => 'ISA Slot J10',
+            'DESIGNATION' => undef,
+            'STATUS' => 'Unknown',
+            'DESCRIPTION' => '16-bit ISA'
+          },
+          {
+            'NAME' => 'PCI Slot J11',
+            'DESIGNATION' => '1',
+            'STATUS' => 'In Use',
+            'DESCRIPTION' => '32-bit PCI'
+          },
+          {
+            'NAME' => 'PCI Slot J12',
+            'DESIGNATION' => '2',
+            'STATUS' => 'In Use',
+            'DESCRIPTION' => '32-bit PCI'
+          },
+          {
+            'NAME' => 'PCI Slot J13',
+            'DESIGNATION' => '3',
+            'STATUS' => 'In Use',
+            'DESCRIPTION' => '32-bit PCI'
+          },
+          {
+            'NAME' => 'PCI Slot J14',
+            'DESIGNATION' => '4',
+            'STATUS' => 'Available',
+            'DESCRIPTION' => '32-bit PCI'
+          }
         ]
 );
 
@@ -593,5 +637,6 @@ my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $file (@list) {
     my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::_getSlots($logger, $file);
-    is_deeply($slots, $tests{basename($file)}, "slots: ".basename($file));
+    use Data::Dumper;
+    is_deeply($slots, $tests{basename($file)}, "slots: ".basename($file)) or print Dumper($slots);
 }
