@@ -269,7 +269,6 @@ sub getCpusFromDmidecode {
     return \@cpus;
 }
 
-
 sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
