@@ -70,7 +70,7 @@ sub doInventory {
         "hpacucli":
         _getHpacuacliFromWinRegistry($logger);
 
-    my $handle1 = getFilehandle(
+    my $handle1 = getFileHandle(
         logger => $logger,
         command => "$hpacuacliPath ctrl all show"
     );
@@ -84,7 +84,7 @@ sub doInventory {
         next unless $line1 =~ /Slot\s(\d*)/;
 
         my $slot = $1;
-        my $handle2 = getFilehandle(
+        my $handle2 = getFileHandle(
             logger => $logger,
             command => "$hpacuacliPath ctrl slot=$slot pd all show"
         );
@@ -102,7 +102,7 @@ sub doInventory {
             next unless $line2 =~ /physicaldrive\s(\S*)/;
 
             my $pd = $1;
-            my $handle3 = getFilehandle(
+            my $handle3 = getFileHandle(
                 logger => $logger,
                 command => "$hpacuacliPath ctrl slot=$slot pd $pd show"
             );
