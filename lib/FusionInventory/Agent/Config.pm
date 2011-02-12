@@ -8,15 +8,6 @@ use File::Spec;
 use UNIVERSAL::require;
 
 my $defaults = {
-    'target.local'         => '',
-    'target.server'        => undef,
-    'target.stdout'        => 0,
-    'network.ca-cert-dir'  => '',
-    'network.ca-cert-file' => '',
-    'network.no-ssl-check' => 0,
-    'network.user'         => '',
-    'network.password'     => '',
-    'network.proxy'        => '',
     'logger.backends'      => 'Stderr',
     'logger.file'          => '',
     'logger.file-maxsize'  => 0,
@@ -25,7 +16,6 @@ my $defaults = {
     'www.ip'               => undef,
     'www.port'             => 62354,
     'www.trust-localhost'  => 1,
-    'www.no'               => 0,
 };
 
 sub new {
