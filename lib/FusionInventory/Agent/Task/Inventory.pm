@@ -77,13 +77,13 @@ sub run {
     # initialize modules list
     $self->_initModulesList(
         logger  => $logger,
-        storage => $target->getStorage(),
+        storage  => $params{storage},
     );
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
         logger   => $logger,
         deviceid => $params{deviceid},
-        storage  => $target->getStorage()
+        storage  => $params{storage},
     );
 
     $self->_feedInventory(
@@ -91,7 +91,7 @@ sub run {
         inventory => $inventory,
         datadir   => $params{datadir},
         confdir   => $params{confdir},
-        storage   => $target->getStorage()
+        storage   => $params{storage},
     );
 
     # restore original environnement, and complete inventory
