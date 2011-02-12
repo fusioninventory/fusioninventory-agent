@@ -39,17 +39,17 @@ if ($options{version}) {
 }
 if (!$options{job}) {
     pod2usage(
-        -message => 'No job, no task and no target, aborting',
+        -message => "No job, no task and no target, aborting\n",
         -verbose => 0,
         -exitval => 2,
     ) if !$options{task} && !$options{target};
     pod2usage(
-        -message => 'No task to execute against this target, aborting',
+        -message => "No task to execute against this target, aborting\n",
         -verbose => 0,
         -exitval => 2,
     ) if !$options{task};
     pod2usage(
-        -message => 'No target to send the result of this task, aborting',
+        -message => "No target to send the result of this task, aborting\n",
         -verbose => 0,
         -exitval => 2,
     ) if !$options{target};
