@@ -3,6 +3,18 @@ package FusionInventory::Agent::Task;
 use strict;
 use warnings;
 
+
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = {
+        id            => $params{id},
+    };
+    bless $self, $class;
+
+    return $self;
+}
+
 sub getPrologResponse {
     my ($self, %params) = @_;
 

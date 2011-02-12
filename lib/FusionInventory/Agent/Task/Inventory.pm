@@ -17,14 +17,13 @@ use FusionInventory::Agent::Tools;
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {
-        scan_homedirs => $params{scan_homedirs},
-        no_software   => $params{no_software},
-        no_printer    => $params{no_printer},
-        force         => $params{force},
-        timeout       => $params{timeout} || 180
-    };
-    bless $self, $class;
+    my $self = $class->SUPER::new(%params);
+
+    $self->{scan_homedirs} = $params{scan_homedirs};
+    $self->{no_software}   = $params{no_software};
+    $self->{no_printer }   = $params{no_printer};
+    $self->{force}         = $params{force};
+    $self->{timeout}       = $params{timeout} || 180;
 
     return $self;
 }
