@@ -10,8 +10,6 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Target::Server;
-use FusionInventory::Agent::Transmitter;
-use FusionInventory::Agent::XML::Query::Prolog;
 
 sub run {
     my ($self, %params) = @_;
