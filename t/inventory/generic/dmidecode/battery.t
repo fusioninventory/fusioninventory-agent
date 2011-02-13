@@ -4,6 +4,8 @@ use strict;
 use warnings;
 
 use Test::More;
+use File::Glob;
+use File::Basename;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery;
@@ -37,12 +39,12 @@ my %tests = (
     }
 );
 
-plan tests => scalar keys %tests;
+my @list = glob("resources/dmidecode/*");
+plan tests => int @list;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
-foreach my $test (keys %tests) {
-    my $file = "resources/dmidecode/$test";
+foreach my $file (@list) {
     my $battery = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery::_getBattery($logger, $file);
-    is_deeply($battery, $tests{$test}, $test);
+    is_deeply($battery, $tests{basename($file)}, "batteries: ".basename($file));
 }

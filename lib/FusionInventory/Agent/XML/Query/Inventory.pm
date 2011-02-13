@@ -20,7 +20,7 @@ my %fields = (
     CONTROLLERS => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS PCIID
                         PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
-                        SPEED ID/ ],
+                        SPEED ID EXTERNAL_CLOCK/ ],
     DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER 
                         SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS        => [ qw/KEY VAL/ ],
@@ -43,7 +43,7 @@ my %fields = (
     SOUNDS      => [ qw/DESCRIPTION MANUFACTURER NAME/ ],
     STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
                         TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
-                        SCSI_UNID SCSI_LUN / ],
+                        SCSI_UNID SCSI_LUN WWN / ],
     VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION PCISLOT/ ],
     USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
     USERS       => [ qw/LOGIN DOMAIN/ ],
@@ -934,6 +934,10 @@ Frequency in MHz
 
 The CPU ID: http://en.wikipedia.org/wiki/CPUID
 
+=item EXTERNAL_CLOCK
+
+BUS Frequency in MHz
+
 =back
 
 =head2 DRIVES
@@ -1196,6 +1200,10 @@ Deprecated. The harddrive serial number, same as SERIAL.
 =item SCSI_UNID
 
 =item SCSI_LUN
+
+=item WWN
+
+World Wide Name http://fr.wikipedia.org/wiki/World_Wide_Name
 
 =back
 

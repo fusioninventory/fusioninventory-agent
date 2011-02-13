@@ -18,29 +18,11 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @cpus;
+    my $cpusFromDmidecode = getCpusFromDmidecode();
 
-    if (can_run('dmidecode')) {
-        my $infos = getInfosFromDmidecode(logger => $logger);
+    my ($proc_cpus, $proc_cores, $proc_threads) = _getCPUsFromProc($logger, '/proc/cpuinfo');
 
-        if ($infos->{4}) {
-            foreach my $info (@{$infos->{4}}) {
-                push @cpus, {
-                    ID           => $info->{'ID'},
-                    MANUFACTURER => $info->{'Manufacturer'},
-                    CORE         => $info->{'Core Count'},
-                    THREAD       => ($info->{'Thread Count'} || 1),
-                    SPEED        => getCanonicalSpeed($info->{'Max Speed'}),
-                    NAME         => $info->{'Version'},
-                    SERIAL       => $info->{'Serial Number'},
-                };
-            }
-        }
-    }
-
-    my ($proc_cpus, $proc_cores) = _getCPUsFromProc($logger, '/proc/cpuinfo');
-
-    foreach my $cpu (@cpus) {
+    foreach my $cpu (@$cpusFromDmidecode) {
         my $proc_cpu  = shift @$proc_cpus;
         my $proc_core = shift @$proc_cores;
 
@@ -61,8 +43,8 @@ sub doInventory {
         if (!$cpu->{CORE}) {
             $cpu->{CORE} = $proc_core;
         }
-        if (!$cpu->{THREAD} && $proc_cpu->{siblings}) {
-            $cpu->{THREAD} = $proc_cpu->{siblings};
+        if (!$cpu->{THREAD} && $proc_threads) {
+            $cpu->{THREAD} = $proc_threads
         }
         if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu->{SPEED} = {
@@ -80,28 +62,35 @@ sub _getCPUsFromProc {
 
     my @cpus = getCPUsFromProc(logger => $logger, file => $file);
 
-    my ($procs, $cores);
+    my ($procs, $cpuNbr, $cores, $threads);
 
-    my $cpuNbr = 0;
+    my @cpuList;
+
+    my %cpus;
+    my $hasPhysicalId;
     foreach my $cpu (@cpus) {
+        $procs = $cpu;
         my $id = $cpu->{'physical id'};
-        my $hasPhysicalId = 0;
+        $hasPhysicalId = 0;
         if (defined $id) {
-            if (
-                !defined($cores->[$id]) ||
-                $cores->[$id] < $id + 1
-            ) {
-                $cores->[$id] = $id + 1;
-            }
-            $cpuNbr = $id;
+            $cpus{$id}{core} = $cpu->{'cpu cores'};
+            $cpus{$id}{thread} = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
             $hasPhysicalId = 1;
         }
 
-        $procs->[$cpuNbr]= $cpu if keys %$cpu;
-        $cpuNbr++ unless $hasPhysicalId;
+        push @cpuList, { core => 1, thread => 1 } unless $hasPhysicalId;
+    }
+    if (!$cpuNbr) {
+        $cpuNbr = keys %cpus;
     }
 
-    return $procs, $cores;
+# physical id may not start at 0!
+    if ($hasPhysicalId) {
+        foreach (keys %cpus) {
+            push @cpuList, $cpus{$_};
+        }
+    }
+    return $procs, \@cpuList;
 }
 
 1;

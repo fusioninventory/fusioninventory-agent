@@ -9,6 +9,7 @@ use File::stat;
 use Memoize;
 use Sys::Hostname;
 use File::Spec;
+use File::Basename;
 
 our @EXPORT = qw(
     getSubnetAddress
@@ -22,6 +23,7 @@ our @EXPORT = qw(
     getCanonicalSpeed
     getCanonicalSize
     getInfosFromDmidecode
+    getCpusFromDmidecode
     getSanitizedString
     getFirstLine
     getFirstMatch
@@ -38,6 +40,7 @@ our @EXPORT = qw(
     uniq
     getVersionFromTaskModuleFile
     getFusionInventoryLibdir
+    getFusionInventoryTaskList
 );
 
 memoize('can_run');
@@ -147,11 +150,23 @@ sub getCanonicalSize {
                         undef                ;
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getInfosFromDmidecode {
     my %params = (
         command => 'dmidecode',
         @_
     );
+
+    if ($OSNAME eq 'MSWin32') {
+        my @osver;
+        eval "use Win32; (@osver) = Win32::GetOSVersion();";
+        my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
+# We get some strange breakage on Win2003. For the moment
+# we don't use dmidecode on this OS.
+        return if $isWin2003;
+    }
+
     my $handle = getFileHandle(%params);
 
     my ($info, $block, $type);
@@ -188,6 +203,70 @@ sub getInfosFromDmidecode {
     close $handle;
 
     return $info;
+}
+
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
+sub getCpusFromDmidecode {
+    my ($logger, $file) = @_;
+
+    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+
+    return unless $infos->{4};
+
+    my @cpus;
+    foreach (@{$infos->{4}}) {
+        next if $_->{Status} && $_->{Status} =~ /Unpopulated/i;
+
+        # VMware
+        if (
+                ($_->{'Processor Manufacturer'} && ($_->{'Processor Manufacturer'} eq '000000000000'))
+                &&
+                ($_->{'Processor Version'} && ($_->{'Processor Version'} eq '00000000000000000000000000000000'))
+           ) {
+            next;
+        }
+
+        my $manufacturer = $_->{'Manufacturer'} || $_->{'Processor Manufacturer'};
+        my $name = (($manufacturer =~ /Intel/ && $_->{'Family'}) || ($_->{'Version'} || $_->{'Processor Family'})) || $_->{'Processor Version'};
+
+        my $speed;
+        if ($_->{Version} && $_->{Version} =~ /([\d\.]+)GHz$/) {
+            $speed = $1*1000;
+        } elsif ($_->{Version} && $_->{Version} =~ /([\d\.]+)MHz$/) {
+            $speed = $1;
+        } elsif ($_->{'Max Speed'}) {
+            if ($_->{'Max Speed'} =~ /^\s*(\d+)\s*Mhz/i) {
+                $speed = $1;
+            } elsif ($_->{'Max Speed'} =~ /^\s*(\d+)\s*Ghz/i) {
+                $speed = $1*1000;
+            }
+        }
+
+
+        my $externalClock;
+        if ($_->{'External Clock'}) {
+            if ($_->{'External Clock'} =~ /^\s*(\d+)\s*Mhz/i) {
+                $externalClock = $1;
+            } elsif ($_->{'External Clock'} =~ /^\s*(\d+)\s*Ghz/i) {
+                $externalClock = $1*1000;
+            }
+        }
+
+        push @cpus, {
+            SERIAL => $_->{'Serial Number'},
+            SPEED => $speed,
+            ID => $_->{ID},
+            MANUFACTURER => $manufacturer,
+            NAME =>  $name,
+            CORE => $_->{'Core Count'} || $_->{'Core Enabled'},
+            THREAD => $_->{'Thread Count'},
+            EXTERNAL_CLOCK => $externalClock
+        }
+
+    }
+
+    return \@cpus;
 }
 
 sub compareVersion {
@@ -276,6 +355,8 @@ sub getDirectoryHandle {
     return $handle;
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getFileHandle {
     my %params = @_;
 
@@ -458,6 +539,8 @@ sub uniq (@) { ## no critic (SubroutinePrototypes)
     grep { not $seen{$_}++ } @_;
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getVersionFromTaskModuleFile {
     my ($file) = @_;
 
@@ -487,10 +570,13 @@ sub getVersionFromTaskModuleFile {
     return $version;
 }
 
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
 sub getFusionInventoryLibdir {
     my ($config) = @_;
 
-    die unless $config;
+    # We started the agent from the source directory
+    return 'lib' if -d 'lib/FusionInventory/Agent';
 
     # use first directory of @INC containing an installation tree
     my $dirToScan;
@@ -506,7 +592,7 @@ sub getFusionInventoryLibdir {
         $dir .'/'. $Config::Config{archname}.'auto/FusionInventory/Agent'
         );
         foreach (@subdirs) {
-            next unless -d;
+            next unless -d $_.'/FusionInventory/Agent';
             $dirToScan = $_;
             last;
         }
@@ -514,6 +600,32 @@ sub getFusionInventoryLibdir {
 
     return $dirToScan;
 
+}
+
+# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
+# PLEASE KEEP IT SYNCHED
+sub getFusionInventoryTaskList {
+    my ($config) = @_;
+
+    my $libdir = getFusionInventoryLibdir($config);
+
+    my @tasks = glob($libdir.'/FusionInventory/Agent/Task/*.pm');
+
+    my @ret;
+    foreach (@tasks) {
+        next unless basename($_) =~ /(.*)\.pm/;
+        my $module = $1;
+
+        next if $module eq 'Base';
+
+        push @ret, {
+            path => $_,
+            version => getVersionFromTaskModuleFile($_),
+            module => $module,
+        }
+    }
+
+    return \@ret;
 }
 
 1;
@@ -569,6 +681,10 @@ $info = {
     ],
     ...
 }
+
+=head2 getCpusFromDmidecode()
+
+Returns a clean array with the CPU list.
 
 =head2 getSanitizedString($string)
 

@@ -62,31 +62,7 @@ sub doInventory {
     my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
 
 
-    my @dmidecodeCpu;
-    if (!$isWin2003 && can_run('dmidecode')) {
-        my $in;
-        foreach (`dmidecode`) {
-            if ($in && /^Handle/)  {
-                push @dmidecodeCpu, {serial => $serial, speed => $speed, id => $id};
-                $serial = $speed = $id = undef;
-                $in = 0;
-            }
-
-            if (/^Handle.*type 4,/) {
-                $in = 1 
-            } elsif ($in) {
-                $speed = $1 if /Max Speed:\s+(\d+)\s+MHz/i;
-                $speed = $1*1000 if /Max Speed:\s+(\w+)\s+GHz/i;
-                $id = $1 if /ID:\s+(.*)/i;
-                $serial = $1 if /Serial\s*Number:\s+(.*)/i;
-#                Core Count: 2
-#                Core Enabled: 2
-#                Thread Count: 2
-            }
-        }
-    }
-
-
+    my $dmidecodeCpu = getCpusFromDmidecode();
 
     my $cpuId = 0;
     foreach my $Properties (getWmiProperties('Win32_Processor', qw/
@@ -100,9 +76,9 @@ sub doInventory {
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
-        my $id = $dmidecodeCpu[$cpuId]->{id} || $Properties->{ProcessorId};
-        my $serial = $dmidecodeCpu[$cpuId]->{serial};
-        my $speed = $dmidecodeCpu[$cpuId]->{speed} || $Properties->{MaxClockSpeed};
+        my $id = $dmidecodeCpu->[$cpuId]->{ID} || $Properties->{ProcessorId};
+        my $serial = $dmidecodeCpu->[$cpuId]->{SERIAL};
+        my $speed = $dmidecodeCpu->[$cpuId]->{SPEED} || $Properties->{MaxClockSpeed};
 
         if ($manufacturer) {
             $manufacturer =~ s/Genuine//;
