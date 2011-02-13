@@ -104,8 +104,8 @@ fusioninventory-worker - FusionInventory worker
 
 B<fusioninventory-worker>
     [B<--conf-file> file] [B<--debug>] [B<--wait> time]
-    [B<--lazy>] [B<--job-param> key=value]
-    B<--job> job
+    [B<--task-param> key=value] [B<--target-param> key=value]
+    [B<--lazy>] B<--job> job
 
 B<fusioninventory-worker>
     [B<--conf-file> file] [B<--debug>] [B<--wait> time]
