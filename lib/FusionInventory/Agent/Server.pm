@@ -21,7 +21,7 @@ sub run {
     my $logger = $self->{logger};
 
     foreach my $job (split(' ', $config->getValues('global.jobs') || '')) {
-        push @{$self->{jobs}}, $self->createJob($job);
+        push @{$self->{jobs}}, $self->getJobFromConfiguration($job);
     }
 
     die "No jobs defined, aborting" unless $self->{jobs};
