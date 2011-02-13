@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Sys::Hostname;
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     my $hostname = hostname();
