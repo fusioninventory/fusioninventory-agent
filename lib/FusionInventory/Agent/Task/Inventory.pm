@@ -171,9 +171,17 @@ sub _initModulesList {
 
     my $logger = $params{logger};
 
-    my $fusInvLibDir = getFusionInventoryLibdir();
-
-    die "No directory to scan for inventory modules" if !$fusInvLibDir;
+    # use first directory of @INC containing an installation tree
+    my $dirToScan;
+    foreach my $dir (@INC) {
+        my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
+        if (-d $subdir) {
+            $dirToScan = $subdir;
+            last;
+        }
+    }
+    
+    die "No directory to scan for inventory modules" if !$dirToScan;
 
     # find a list of modules from files in those directories
     my %modules;
@@ -191,7 +199,7 @@ sub _initModulesList {
             follow      => 1,
             follow_skip => 2
         },
-        $fusInvLibDir.'/Task/Inventory'
+        $dirToScan
     );
 
     my @modules = keys %modules;
