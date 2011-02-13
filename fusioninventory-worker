@@ -21,7 +21,6 @@ GetOptions(
     'debug',
     'lazy',
     'job=s',
-    'job-param=s@',
     'wait=i',
     'task=s',
     'task-param=s@',
@@ -55,12 +54,7 @@ if (!$options{job}) {
     ) if !$options{target};
 }
 
-my ($job_params, $task_params, $target_params);
-foreach my $param (@{$options{'job-param'}}) {
-    die "invalid job parameter $param"
-        unless $param =~ /^(\S+)=(\S+)$/;
-    $job_params->{$1} = $2;
-}
+my ($task_params, $target_params);
 foreach my $param (@{$options{'task-param'}}) {
     die "invalid task parameter $param"
         unless $param =~ /^(\S+)=(\S+)$/;
@@ -91,7 +85,6 @@ eval {
         job           => $options{job},
         task          => $options{task},
         target        => $options{target},
-        job_params    => $job_params,
         task_params   => $task_params,
         target_params => $target_params
     );
