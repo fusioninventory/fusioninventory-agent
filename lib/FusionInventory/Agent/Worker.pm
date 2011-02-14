@@ -29,6 +29,8 @@ sub run {
     my $target  = $self->getTargetFromConfiguration($job->{target});
     my $storage = $job->getStorage();
 
+    return unless $task and $target;
+
     $logger->info(
         sprintf(
             "Running task '%s' for target '%s' as job '%s'",

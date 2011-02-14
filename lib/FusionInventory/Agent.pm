@@ -103,7 +103,10 @@ sub getTaskFromConfiguration {
     my $logger = $self->{logger};
 
     my $config = $self->{config}->getBlock($id);
-    $logger->error("No such task $id in configuration") unless $config;
+    if (!$config) {
+        $logger->error("No such task `$id' in configuration");
+        return;
+    }
 
     my $type = $config->{type};
     $logger->error("No type for task $id") unless $type;
@@ -123,7 +126,10 @@ sub getTargetFromConfiguration {
     my $logger = $self->{logger};
 
     my $config = $self->{config}->getBlock($id);
-    $logger->error("No such target $id in configuration") unless $config;
+    if (!$config) {
+        $logger->error("No such target `$id' in configuration");
+        return;
+    }
     
     my $type = $config->{type};
     $logger->error("No type for target $id") unless $type;
