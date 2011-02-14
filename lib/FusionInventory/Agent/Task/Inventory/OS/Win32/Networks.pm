@@ -27,7 +27,7 @@ sub doInventory {
 
 
     my $defaultGw;
-    my @ips;
+    my %ips;
     my @ip6s;
     my @interfaces;
     my %defaultgateways;
@@ -52,7 +52,7 @@ sub doInventory {
                 my $address = shift @{$nic->IPAddress};
                 my $mask = shift @{$nic->IPSubnet};
                 if ($address =~ /$ip_address_pattern/) {
-                    push @ips, $address;
+                    $ips{$address}=1;
                     push @{$interface->{IPADDRESS}}, $address;
                     push @{$interface->{IPMASK}}, $mask;
                     push @{$interface->{IPSUBNET}}, getSubnetAddress($address, $mask);
@@ -122,7 +122,7 @@ sub doInventory {
     $inventory->setHardware(
         DEFAULTGATEWAY => join('/', keys %defaultgateways),
         DNS            => join('/', keys %dns),
-        IPADDR         => join('/', @ips),
+        IPADDR         => join('/', keys %ips),
     );
 
 }

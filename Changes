@@ -92,6 +92,9 @@ Revision history for FusionInventory::Agent
        * Win32: fix NETWORKS/VIRTUALDEV on OS prior Vista (David DURIEUX)
        * Internal: add and use getFusionInventoryLibdir(), getFusionInventoryTaskList()
        * Linux/Storage: collect WWN from SAS / SATA disk using hdparm
+       * Win32/Networks: avoid duplicated IP in HARDWARE/IPADDR, thanks Fernando Lagrange
+         for the bug report
+         http://forge.fusioninventory.org/users/353
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
