@@ -94,7 +94,7 @@ Revision history for FusionInventory::Agent
        * Linux/Storage: collect WWN from SAS / SATA disk using hdparm
        * Win32/Networks: avoid duplicated IP in HARDWARE/IPADDR, thanks Fernando Lagrange
          for the bug report
-         http://forge.fusioninventory.org/users/353
+         http://forge.fusioninventory.org/users/603
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
