@@ -25,7 +25,7 @@ sub doInventory {
     my $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapterConfiguration');
 
     my $defaultGw;
-    my @ips;
+    my %ips;
     my @ip6s;
     my @netifs;
     my %defaultgateways;
@@ -51,7 +51,7 @@ sub doInventory {
         if ($nic->IPAddress) {
             foreach (0..@{$nic->IPAddress}) {
                 if (${$nic->IPAddress}[$_] =~ /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
-                    push @ips, ${$nic->IPAddress}[$_];
+                    $ips{${$nic->IPAddress}[$_]}=1;
                     push @{$netifs[$idx]{ipaddress}}, ${$nic->IPAddress}[$_];
                     push @{$netifs[$idx]{ipmask}}, ${$nic->IPSubnet}[$_];
                     if (can_load("Net::IP qw(:PROC)")) {
@@ -149,8 +149,8 @@ sub doInventory {
   $inventory->setHardware({
 
           DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
-          DNS =>  join('/', keys %dns),
-          IPADDR =>  join('/',@ips),
+          DNS =>  join('/', (keys %dns)),
+          IPADDR =>  join('/',keys %ips),
 
     });
 
