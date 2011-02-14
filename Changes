@@ -36,7 +36,6 @@ Revision history for FusionInventory::Agent
        * Solaris: SUNWCzone is optionnal, use zonename instead (Raphaël SurcouF)
        * Inventory: look for backend module in @INC+$archname.'/auto' too, thanks
          to Philip Grodzki who helped to point out the issue.
-       * Inventory: add VMVERSION, VMPRODUCT and VMFULLNAME key in HARDWARE
        * Inventory: improve POD documentation
        * Inventory: Display a debug message if the STORAGES/INTERFACE is invalid
        * backport from master FusionInventory::Agent::Tools::getCanonicalManufacturer()
