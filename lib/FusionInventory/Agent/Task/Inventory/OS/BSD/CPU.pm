@@ -21,6 +21,7 @@ sub doInventory {
     foreach my $cpu (@$cpus) {
         chomp(my $hwModel = `sysctl -n hw.model`);
 
+        my $frequency;
         if ($hwModel =~ /([\.\d]+)GHz/) {
             $frequency = $1 * 1000;
         }
