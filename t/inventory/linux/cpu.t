@@ -38,8 +38,8 @@ my %i386 = (
         },
         cores => [
           {
-            'thread' => 1,
-            'core' => 1
+            'THREAD' => 1,
+            'CORE' => 1
           }
         ]
     },
@@ -75,8 +75,8 @@ my %i386 = (
         },
         cores => [
           {
-            'thread' => '2',
-            'core' => '1'
+            'THREAD' => '2',
+            'CORE' => '1'
           }
         ]
     },
@@ -112,8 +112,8 @@ my %i386 = (
         },
         cores => [
           {
-            'thread' => '2',
-            'core' => '1'
+            'THREAD' => '2',
+            'CORE' => '1'
           }
         ]
     },
@@ -152,8 +152,8 @@ my %i386 = (
         },
         cores => [
           {
-            'thread' => '1',
-            'core' => '4'
+            'THREAD' => '1',
+            'CORE' => '4'
           }
         ]
     },
@@ -185,8 +185,8 @@ my %i386 = (
         },
         cores => [
           {
-            'thread' => '2',
-            'core' => '2'
+            'THREAD' => '2',
+            'CORE' => '2'
           }
         ]
     }
