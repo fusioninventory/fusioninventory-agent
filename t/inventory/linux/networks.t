@@ -13,14 +13,16 @@ my %tests = (
             TYPE        => 'Ethernet',
             DESCRIPTION => 'eth0',
             IPMASK      => '255.255.255.0',
-            IPADDRESS   => '192.168.0.5'
+            IPADDRESS   => '192.168.0.5',
+            IPADDRESS6  => 'fe80::a6ba:dbff:fea5:f5fa/64'
         },
         {
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             TYPE        => 'Local',
             IPMASK      => '255.0.0.0',
-            IPADDRESS   => '127.0.0.1'
+            IPADDRESS   => '127.0.0.1',
+            IPADDRESS6  => '::1/128',
         },
         {
             MACADDR     => '4E:8C:81:ED:9B:35',
@@ -40,6 +42,7 @@ my %tests = (
             DESCRIPTION => 'wlan0',
             IPMASK      => '255.255.192.0',
             IPADDRESS   => '78.251.91.204',
+            IPADDRESS6  => 'fe80::224:d6ff:fe6f:813a/64'
         }
     ]
 );
