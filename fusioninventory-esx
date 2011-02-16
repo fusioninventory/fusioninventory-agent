@@ -138,9 +138,16 @@ sub getVirtualMachineList {
 
     my $answer = $self->_send('RetrieveProperties', $req);
     my $ref = $self->_parseAnswer($answer);
+    my @list;
+    if (ref($ref) eq 'HASH') {
+        push @list, $ref;
+    } else {
+        @list = @{$ref};
+    }
+
     my @ids;
-    foreach (@{$ref->{returnval}}) {
-        push @ids, $_->{obj}{'#text'};
+    foreach (@list) {
+        push @ids, $_->{obj};
     }
 
     return \@ids;
