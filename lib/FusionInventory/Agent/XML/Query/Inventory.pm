@@ -954,7 +954,7 @@ Date of creation of the filesystem in DD/MM/YYYY format.
 
 =item FREE
 
-Free space
+Free space (MB)
 
 =item FILESYSTEM
 
@@ -978,7 +978,7 @@ Boolean. Is this the system partition?
 
 =item TOTAL
 
-Total space available.
+Total space available (MB)
 
 =item TYPE
 
@@ -986,7 +986,7 @@ The mount point on UNIX.
 
 =item VOLUMN
 
-System name of the partition (e.g: /dev/sda1)
+System name of the partition (e.g: /dev/sda1 or server:/directory for NFS)
 
 =back
 
