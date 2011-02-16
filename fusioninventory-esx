@@ -191,7 +191,6 @@ sub getHostFullInfo {
 
 1;
 
-use lib '/home/goneri/fusioninventory/agent/lib';
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Config;
