@@ -64,21 +64,21 @@ sub _parseAnswer {
     $answer =~ s/ (xsi:|)type="[:\w]+"//sg;
     my $tmpRef = $self->{tpp}->parse($answer);
 
-    # Login
+# Login
     if ($tmpRef->{returnval}[0] && !$tmpRef->{returnval}[0]{propSet}) {
         return $tmpRef->{returnval}[0];
     }
-    # Else the rest
+# Else the rest
 
     my $ref = [];
     foreach (@{$tmpRef->{returnval}}) {
         if ($_->{propSet}) {
-                my %tmp;
-                foreach my $p (@{$_->{propSet}}) {
-                    next unless $p->{val};
-                    $tmp{$p->{name}} = $p->{val}
-                }
-                push @$ref, \%tmp;
+            my %tmp;
+            foreach my $p (@{$_->{propSet}}) {
+                next unless $p->{val};
+                $tmp{$p->{name}} = $p->{val}
+            }
+            push @$ref, \%tmp;
         } else {
             push @$ref, $_;
         }
@@ -194,175 +194,222 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Config;
 use FusionInventory::Logger;
 
+use Getopt::Long;
+
+my $args = {};
+
+GetOptions(
+        $args, 'host=s', 'user=s', 'password=s', 'directory=s'
+        );
+
+usage() unless $args->{host} and $args->{user} and $args->{password} and $args->{directory};
+
+sub usage {
+
+    print STDERR <<EOF;
+
+    A command line tool to create .ocs file from an ESX server.
+
+        USAGE:
+        --host hostname        : hostname is the hostname of the IP address of the ESX server 
+        --user username        : the ESX user name
+        --password xxxx        : the ESX password 
+        --directory /somewhere : the location where the .ocs file must be written
+
+        EXAMPLE:
+        $0 --host myesx --user foo --password bar --directory /tmp
+
+        You can import the .ocs file in your inventory server with the fusioninventory-injector tool.
+
+        The .ocs file can be imported in the following servers:
+        - ocsinventory
+        - GLPI using the FusionInventory for GLPI plugin
+        - Uranos
+
+        This tool is part of the FusionInventory distribution.
+EOF
+
+        exit(1);
+}
 
 sub getArray {
-        my $h = shift;
+    my $h = shift;
 
 
-        if (ref($h) eq 'ARRAY') {
-            return $h;
-        } else {
-            return [$h];
-        }
+    if (ref($h) eq 'ARRAY') {
+        return $h;
+    } else {
+        return [$h];
+    }
 }
 
-my $logger = FusionInventory::Logger->new();
-my $config = FusionInventory::Agent::Config::load();
+sub createFakeDeviceid {
 
+    my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
+            (time))[5,4,3,2,1,0];
+    my $deviceid =sprintf "esx-%d%d%d%d-%02d-%02d-%02d-%02d-%02d-%02d",
+       int(rand(255)), int(rand(255)), int(rand(255)), int(rand(255)), ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
 
-my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
-        (time))[5,4,3,2,1,0];
-my $deviceid =sprintf "esx-%d%d%d%d-%02d-%02d-%02d-%02d-%02d-%02d",
-    int(rand(255)), int(rand(255)), int(rand(255)), int(rand(255)), ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
-
-
-my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
-        logger => $logger,
-        config => $config,
-        target => { deviceid => $deviceid, path => '/tmp', vardir => '/tmp/toto' }
-        });
-
-$inventory->{isInitialised}=1;
-$inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME}=['remote'];
-
-my $vpbs = VMware::PoorBoySOAP->new({ url => 'http://10.0.2.190/sdk/vimService' });
-if (!$vpbs->login('root', 'teclib')) {
-    die "failed to log in\n";
+    return $deviceid;
 }
+
+sub createEsxInventory {
+    my ($args) = @_;
+
+
+    my $logger = FusionInventory::Logger->new();
+    my $config = FusionInventory::Agent::Config::load();
+
+
+    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
+            logger => $logger,
+            config => $config,
+            target => { deviceid => createFakeDeviceid(), path => '/tmp', vardir => '/tmp/toto' }
+            });
+
+    $inventory->{isInitialised}=1;
+    $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME}=['remote'];
+
+    my $url = 'http://'.$args->{host}.'/sdk/vimService';
+
+    my $vpbs = VMware::PoorBoySOAP->new({ url => $url });
+    if (!$vpbs->login($args->{user}, $args->{password})) {
+        die "failed to log in\n";
+    }
 
 
 
 #my $hostInfo = $vpbs->getHostInfo();
 
-my $hostFullInfo = $vpbs->getHostFullInfo();
-$inventory->setBios({
-    BDATE => $hostFullInfo->[0]{hardware}{biosInfo}{releaseDate},
-    BVERSION => $hostFullInfo->[0]{hardware}{biosInfo}{biosVersion},
-    SMODEL => $hostFullInfo->[0]{hardware}{systemInfo}{model},
-    SMANUFACTURER => $hostFullInfo->[0]{hardware}{systemInfo}{vendor},
-    ASSETTAG => $hostFullInfo->[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue},
-});
-
-print STDERR Dumper();
-$inventory->setHardware({
-    NAME => $hostFullInfo->[0]{config}{network}{dnsConfig}{hostName},
-    DNS => $hostFullInfo->[0]{config}{network}{dnsConfig}{address},
-    WORKGROUP => $hostFullInfo->[0]{config}{network}{dnsConfig}{domainName},
-    MEMORY => int($hostFullInfo->[0]{hardware}{memorySize} / (1024*1024)),
-    UUID => $hostFullInfo->[0]{summary}{hardware}{uuid} || $hostFullInfo->[0]{hardware}{systemInfo}{uuid},
-#    VMSYSTEM => "VMware",
-    OSVERSION => $hostFullInfo->[0]{summary}{config}{product}{version},
-    OSNAME => $hostFullInfo->[0]{summary}{config}{product}{name},
-    OSCOMMENTS => $hostFullInfo->[0]{summary}{config}{product}{fullName},
-});
-
-my %cpuManufacturor = (
-        amd => 'AMD',
-        intel => 'Intel',
-);
-foreach (@{getArray($hostFullInfo->[0]{hardware}{cpuPkg})}) {
-    my $thread;
-    my $core;
-
-
-    $inventory->addCPU({
-            CORE => $hostFullInfo->[0]{hardware}{cpuInfo}{numCpuCores},
-            MANUFACTURER =>  $cpuManufacturor{$_->{vendor}} || $_->{vendor},
-            NAME => $_->{description},
-            SPEED => int($_->{hz}/(1000*1000)),
-            THREAD => eval{$hostFullInfo->[0]{hardware}{cpuInfo}{numCpuThreads} / $hostFullInfo->[0]{hardware}{cpuInfo}{numCpuCores}}
+    my $hostFullInfo = $vpbs->getHostFullInfo();
+    $inventory->setBios({
+            BDATE => $hostFullInfo->[0]{hardware}{biosInfo}{releaseDate},
+            BVERSION => $hostFullInfo->[0]{hardware}{biosInfo}{biosVersion},
+            SMODEL => $hostFullInfo->[0]{hardware}{systemInfo}{model},
+            SMANUFACTURER => $hostFullInfo->[0]{hardware}{systemInfo}{vendor},
+            ASSETTAG => $hostFullInfo->[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue},
             });
-}
-delete($hostFullInfo->[0]{hardware}{cpuPkg});
-my %ipaddr;
-foreach (@{$hostFullInfo->[0]{hardware}{pciDevice}}) {
-    $ipaddr{$_->{ip}{ipAddress}}=1 if $_->{ip}{ipAddress};
 
-    my $pciclass = sprintf("%x", $_->{classId});
-    $inventory->addController({
-            NAME => $_->{deviceName},
-            MANUFACTURER => $_->{vendorName},
-            PCICLASS => $pciclass,
-            PCIID => sprintf("%x:%x", $_->{vendorId}, $_->{deviceId}),
-            PCISUBSYSTEMID => sprintf("%x:%x", $_->{subVendorId}, $_->{subDeviceId}),
-            PCISLOT => $_->{id},
-        });
+    print STDERR Dumper();
+    $inventory->setHardware({
+            NAME => $hostFullInfo->[0]{config}{network}{dnsConfig}{hostName},
+            DNS => $hostFullInfo->[0]{config}{network}{dnsConfig}{address},
+            WORKGROUP => $hostFullInfo->[0]{config}{network}{dnsConfig}{domainName},
+            MEMORY => int($hostFullInfo->[0]{hardware}{memorySize} / (1024*1024)),
+            UUID => $hostFullInfo->[0]{summary}{hardware}{uuid} || $hostFullInfo->[0]{hardware}{systemInfo}{uuid},
+#    VMSYSTEM => "VMware",
+            OSVERSION => $hostFullInfo->[0]{summary}{config}{product}{version},
+            OSNAME => $hostFullInfo->[0]{summary}{config}{product}{name},
+            OSCOMMENTS => $hostFullInfo->[0]{summary}{config}{product}{fullName},
+            });
 
-    if ($pciclass && ($pciclass eq '300')) {
-        $inventory->addVideo({
-                NAME => $_->{deviceName},
-                PCISLOT => $_->{id},
-        }) 
+    my %cpuManufacturor = (
+            amd => 'AMD',
+            intel => 'Intel',
+            );
+    foreach (@{getArray($hostFullInfo->[0]{hardware}{cpuPkg})}) {
+        my $thread;
+        my $core;
+
+
+        $inventory->addCPU({
+                CORE => $hostFullInfo->[0]{hardware}{cpuInfo}{numCpuCores},
+                MANUFACTURER =>  $cpuManufacturor{$_->{vendor}} || $_->{vendor},
+                NAME => $_->{description},
+                SPEED => int($_->{hz}/(1000*1000)),
+                THREAD => eval{$hostFullInfo->[0]{hardware}{cpuInfo}{numCpuThreads} / $hostFullInfo->[0]{hardware}{cpuInfo}{numCpuCores}}
+                });
     }
-}
+    delete($hostFullInfo->[0]{hardware}{cpuPkg});
+    my %ipaddr;
+    foreach (@{$hostFullInfo->[0]{hardware}{pciDevice}}) {
+        $ipaddr{$_->{ip}{ipAddress}}=1 if $_->{ip}{ipAddress};
 
-foreach (@{getArray($hostFullInfo->[0]{config}{network}{pnic})}) {
-    $ipaddr{$_->{ip}{ipAddress}}=1 if $_->{ip}{ipAddress};
-    $inventory->addNetwork({
-            DESCRIPTION => $_->{device},
-            DRIVER => $_->{driver},
-            IPADDRESS => $_->{ip}{ipAddress},
+        my $pciclass = sprintf("%x", $_->{classId});
+        $inventory->addController({
+                NAME => $_->{deviceName},
+                MANUFACTURER => $_->{vendorName},
+                PCICLASS => $pciclass,
+                PCIID => sprintf("%x:%x", $_->{vendorId}, $_->{deviceId}),
+                PCISUBSYSTEMID => sprintf("%x:%x", $_->{subVendorId}, $_->{subDeviceId}),
+                PCISLOT => $_->{id},
+                });
+
+        if ($pciclass && ($pciclass eq '300')) {
+            $inventory->addVideo({
+                    NAME => $_->{deviceName},
+                    PCISLOT => $_->{id},
+                    }) 
+        }
+    }
+
+    foreach (@{getArray($hostFullInfo->[0]{config}{network}{pnic})}) {
+        $ipaddr{$_->{ip}{ipAddress}}=1 if $_->{ip}{ipAddress};
+        $inventory->addNetwork({
+                DESCRIPTION => $_->{device},
+                DRIVER => $_->{driver},
+                IPADDRESS => $_->{ip}{ipAddress},
 #            IPGATEWAY => '',
-            IPMASK => $_->{ip}{subnetMask},
+                IPMASK => $_->{ip}{subnetMask},
 #            IPSUBNET => '',
-            MACADDR => $_->{mac},
+                MACADDR => $_->{mac},
 #            MTU => '',
-            PCISLOT => $_->{pci},
-            STATUS => $_->{ip}{ipAddress}?'Up':'Down',
+                PCISLOT => $_->{pci},
+                STATUS => $_->{ip}{ipAddress}?'Up':'Down',
 #            TYPE => '',
 #            VIRTUALDEV => '',
 #            SLAVES => '',
 #            MANAGEMENT => '',
-            SPEED => $_->{spec}{linkSpeed}{speedMb},
-        });
-}
+                SPEED => $_->{spec}{linkSpeed}{speedMb},
+                });
+    }
 
-foreach (@{getArray($hostFullInfo->[0]{config}{network}{vnic})}) {
-    $ipaddr{$_->{ip}{ipAddress}}=1 if $_->{ip}{ipAddress};
-    $inventory->addNetwork({
-            DESCRIPTION => $_->{device},
-            DRIVER => $_->{driver},
-            IPADDRESS => $_->{ip}{ipAddress},
+    foreach (@{getArray($hostFullInfo->[0]{config}{network}{vnic})}) {
+        $ipaddr{$_->{ip}{ipAddress}}=1 if $_->{ip}{ipAddress};
+        $inventory->addNetwork({
+                DESCRIPTION => $_->{device},
+                DRIVER => $_->{driver},
+                IPADDRESS => $_->{ip}{ipAddress},
 #            IPGATEWAY => '',
-            IPMASK => $_->{ip}{subnetMask},
+                IPMASK => $_->{ip}{subnetMask},
 #            IPSUBNET => '',
-            MACADDR => $_->{mac},
+                MACADDR => $_->{mac},
 #            MTU => '',
-            PCISLOT => $_->{pci},
-            STATUS => $_->{ip}{ipAddress}?'Up':'Down',
+                PCISLOT => $_->{pci},
+                STATUS => $_->{ip}{ipAddress}?'Up':'Down',
 #            TYPE => '',
-            VIRTUALDEV => '1',
+                VIRTUALDEV => '1',
 #            SLAVES => '',
 #            MANAGEMENT => '',
-            SPEED => $_->{spec}{linkSpeed}{speedMb},
-        });
-}
+                SPEED => $_->{spec}{linkSpeed}{speedMb},
+                });
+    }
 
-foreach ($hostFullInfo->[0]{config}{network}{consoleVnic}, $hostFullInfo->[0]{config}{vmotion}{netConfig}{candidateVnic}) {
-    next if ref($_) ne 'HASH';
-    $ipaddr{$_->{spec}{ip}{ipAddress}}=1 if $_->{spec}{ip}{ipAddress};
+    foreach ($hostFullInfo->[0]{config}{network}{consoleVnic}, $hostFullInfo->[0]{config}{vmotion}{netConfig}{candidateVnic}) {
+        next if ref($_) ne 'HASH';
+        $ipaddr{$_->{spec}{ip}{ipAddress}}=1 if $_->{spec}{ip}{ipAddress};
 
-    $inventory->addNetwork({
-            DESCRIPTION => $_->{device},
-            IPADDRESS => $_->{spec}{ip}{ipAddress},
-            IPMASK => $_->{spec}{ip}{subnetMask},
-            MACADDR => $_->{spec}{mac},
-            MTU => $_->{spec}{ip}{mtu},
-            STATUS => $_->{spec}{ip}{ipAddress}?'Up':'Down',
-            VIRTUALDEV => '1',
-            });
-}
+        $inventory->addNetwork({
+                DESCRIPTION => $_->{device},
+                IPADDRESS => $_->{spec}{ip}{ipAddress},
+                IPMASK => $_->{spec}{ip}{subnetMask},
+                MACADDR => $_->{spec}{mac},
+                MTU => $_->{spec}{ip}{mtu},
+                STATUS => $_->{spec}{ip}{ipAddress}?'Up':'Down',
+                VIRTUALDEV => '1',
+                });
+    }
 
-$inventory->setHardware({IPADDR => join '/', (keys %ipaddr)});
+    $inventory->setHardware({IPADDR => join '/', (keys %ipaddr)});
 
 
 
-foreach (@{$hostFullInfo->[0]{config}{fileSystemVolume}{mountInfo}}) {
+    foreach (@{$hostFullInfo->[0]{config}{fileSystemVolume}{mountInfo}}) {
 
-}
+    }
 
-my %volumnMapping;
-foreach my $entry (@{getArray($hostFullInfo->[0]{config}{storageDevice}{scsiLun})}) {
+    my %volumnMapping;
+    foreach my $entry (@{getArray($hostFullInfo->[0]{config}{storageDevice}{scsiLun})}) {
         my $serialnumber;
         my $size;
 
@@ -382,43 +429,43 @@ foreach my $entry (@{getArray($hostFullInfo->[0]{config}{storageDevice}{scsiLun}
             $size = int($entry->{capacity}{blockSize} *$entry->{capacity}{block})/1000;
         }
         $inventory->addStorage({
-        DESCRIPTION => $entry->{displayName},
-        DISKSIZE => $size,
+                DESCRIPTION => $entry->{displayName},
+                DISKSIZE => $size,
 #        INTERFACE
-        MANUFACTURER => getCanonicalManufacturer($entry->{model}) || $entry->{vendor},
-        MODEL => $entry->{model},
-        NAME => $entry->{deviceName},
-        TYPE => $entry->{deviceType},
-        SERIAL => $serialnumber,
-        FIRMWARE => $entry->{revision},
+                MANUFACTURER => getCanonicalManufacturer($entry->{model}) || $entry->{vendor},
+                MODEL => $entry->{model},
+                NAME => $entry->{deviceName},
+                TYPE => $entry->{deviceType},
+                SERIAL => $serialnumber,
+                FIRMWARE => $entry->{revision},
 #        SCSI_COID
 #        SCSI_CHID
 #        SCSI_UNID
 #        SCSI_LUN
-});
+                });
 
-}
-
-foreach (@{getArray($hostFullInfo->[0]{config}{fileSystemVolume}{mountInfo})}) {
-    my $volumn;
-    if ($_->{volume}{type} && ($_->{volume}{type} =~ /NFS/i)) {
-        $volumn = $_->{volume}{remoteHost}.':'.$_->{volume}{remotePath};
-    } else {
-        $volumn = $volumnMapping{$_->{volume}{extent}{diskName}}." ".$_->{volume}{extent}{partition};
     }
-    $inventory->addDrive({
-            SERIAL => $_->{volume}{uuid},
-            TOTAL => int (($_->{volume}{capacity} || 0) / (1000*1000)),
-            TYPE => $_->{mountInfo}{path},
-            VOLUMN => $volumn,
-            NAME => $_->{volume}{name},
-            FILESYSTEM => lc($_->{volume}{type})
-    });
-}
+
+    foreach (@{getArray($hostFullInfo->[0]{config}{fileSystemVolume}{mountInfo})}) {
+        my $volumn;
+        if ($_->{volume}{type} && ($_->{volume}{type} =~ /NFS/i)) {
+            $volumn = $_->{volume}{remoteHost}.':'.$_->{volume}{remotePath};
+        } else {
+            $volumn = $volumnMapping{$_->{volume}{extent}{diskName}}." ".$_->{volume}{extent}{partition};
+        }
+        $inventory->addDrive({
+                SERIAL => $_->{volume}{uuid},
+                TOTAL => int (($_->{volume}{capacity} || 0) / (1000*1000)),
+                TYPE => $_->{mountInfo}{path},
+                VOLUMN => $volumn,
+                NAME => $_->{volume}{name},
+                FILESYSTEM => lc($_->{volume}{type})
+                });
+    }
 
 
 
-print Dumper($hostFullInfo);
+#print Dumper($hostFullInfo);
 #delete($hostFullInfo->[0]{hardware}{pciDevice});
 #delete($hostFullInfo->[0]{configManager});
 #delete($hostFullInfo->[0]{summary});
@@ -433,6 +480,12 @@ print Dumper($hostFullInfo);
 #    my $machine = $vpbs->getVirtualMachineById($id);
 #    print Dumper($machine);
 #}
-print "DONEDONE\n";
+#print "DONEDONE\n";
 #print Dumper($inventory);
+
+    return $inventory;
+
+}
+
+my $inventory = createEsxInventory($args);
 $inventory->writeXML();
