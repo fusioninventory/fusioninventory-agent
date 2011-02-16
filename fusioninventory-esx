@@ -251,12 +251,32 @@ sub getArray {
 }
 
 sub createFakeDeviceid {
+    my ($hostFullInfo) = @_;
 
-    my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
-            (time))[5,4,3,2,1,0];
-    my $deviceid =sprintf "esx-%d%d%d%d-%02d-%02d-%02d-%02d-%02d-%02d",
-       int(rand(255)), int(rand(255)), int(rand(255)), int(rand(255)), ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+    my $hostname = $hostFullInfo->[0]{name};
+    my $bootTime = $hostFullInfo->[0]{summary}{runtime}{bootTime};
+    print STDERR "'$bootTime'\n";
+# 2011-01-25T14:11:07.900188+01:00
+    my ($year, $month, $day, $hour, $min, $sec);
+    if ($bootTime =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})/) {
+        $year = $1;
+        $month = $2;
+        $day = $3;
+        $hour = $4;
+        $min = $5;
+        $sec = $6;
+    } else {
+        my $ty;
+        my $tm;
+        ($ty, $tm, $day, $hour, $min, $sec) = (localtime
+                (time))[5,4,3,2,1,0];
+        $year = $ty + 1900;
+        $month = $tm + 1;
+    }
+    my $deviceid =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+       $hostname, $year, $month, $day, $hour, $min, $sec;
 
+print $deviceid."\n";
     return $deviceid;
 }
 
@@ -267,15 +287,6 @@ sub createEsxInventory {
     my $logger = FusionInventory::Logger->new();
     my $config = FusionInventory::Agent::Config::load();
 
-
-    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
-            logger => $logger,
-            config => $config,
-            target => { deviceid => createFakeDeviceid(), path => '/tmp', vardir => '/tmp/toto' }
-            });
-
-    $inventory->{isInitialised}=1;
-    $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME}=['remote'];
 
     my $url = 'http://'.$args->{host}.'/sdk/vimService';
 
@@ -289,6 +300,19 @@ sub createEsxInventory {
 #my $hostInfo = $vpbs->getHostInfo();
 
     my $hostFullInfo = $vpbs->getHostFullInfo();
+
+    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
+            logger => $logger,
+            config => $config,
+            target => { deviceid => createFakeDeviceid($hostFullInfo), path => '/tmp', vardir => '/tmp/toto' }
+            });
+
+    $inventory->{isInitialised}=1;
+    $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME}=['remote'];
+
+
+
+
     $inventory->setBios({
             BDATE => $hostFullInfo->[0]{hardware}{biosInfo}{releaseDate},
             BVERSION => $hostFullInfo->[0]{hardware}{biosInfo}{biosVersion},
