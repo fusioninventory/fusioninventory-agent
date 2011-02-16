@@ -9,8 +9,8 @@ For the moment you can only use the command line interface and you need the curr
 git of FusionInventory::Agent.
 
 In this example, ../agent is a git clone of the 2.1.x branch of the agent:
-  perl -I../fusioninventory-agent/lib -Ilib ./fusioninventory-esx --user root --password teclib --host 10.0.2.190 --directory /tmp
-  [info] Inventory saved in /tmp/esx-test.server-2011-01-25-14-11-07.ocs
-  ../fusioninventory-agent/fusioninventory-injector -v --file /tmp/esx-test.server-2011-01-25-14-11-07.ocs -u https://myserver/ocsinventory
+  perl -I../fusioninventory-agent/lib -Ilib ./fusioninventory-esx --user root --password password --host esx-server --directory /tmp
+  [info] Inventory saved in /tmp/esx-server-2011-01-25-14-11-07.ocs
+  ../fusioninventory-agent/fusioninventory-injector -v --file /tmp/esx-server-2011-01-25-14-11-07.ocs -u https://myserver/ocsinventory
 
 http://www.FusionInventory.org
