@@ -42,9 +42,6 @@ sub _send {
 
     my $res = $self->{ua}->request($req);
 
-
-    print Dumper($res->content);
-
     if ($res->is_success) {
         return $res->content;
     } else {
@@ -101,7 +98,6 @@ sub login {
         <userName>%s</userName><password>%s</password></Login></soapenv:Body></soapenv:Envelope>';
 
     my $answer = $self->_send('Login', sprintf($req, $login, $pw));
-    print $answer."\n";
     return $self->_parseAnswer($answer);
 
 }
@@ -255,8 +251,6 @@ sub createFakeDeviceid {
 
     my $hostname = $hostFullInfo->[0]{name};
     my $bootTime = $hostFullInfo->[0]{summary}{runtime}{bootTime};
-    print STDERR "'$bootTime'\n";
-# 2011-01-25T14:11:07.900188+01:00
     my ($year, $month, $day, $hour, $min, $sec);
     if ($bootTime =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})/) {
         $year = $1;
@@ -276,7 +270,6 @@ sub createFakeDeviceid {
     my $deviceid =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
        $hostname, $year, $month, $day, $hour, $min, $sec;
 
-print $deviceid."\n";
     return $deviceid;
 }
 
@@ -321,7 +314,6 @@ sub createEsxInventory {
             ASSETTAG => $hostFullInfo->[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue},
             });
 
-    print STDERR Dumper();
     $inventory->setHardware({
             NAME => $hostFullInfo->[0]{config}{network}{dnsConfig}{hostName},
             DNS => $hostFullInfo->[0]{config}{network}{dnsConfig}{address},
@@ -493,17 +485,6 @@ sub createEsxInventory {
                 FILESYSTEM => lc($_->{volume}{type})
                 });
     }
-
-
-
-#print Dumper($hostFullInfo);
-#delete($hostFullInfo->[0]{hardware}{pciDevice});
-#delete($hostFullInfo->[0]{configManager});
-#delete($hostFullInfo->[0]{summary});
-#delete($hostFullInfo->[0]{network});
-#delete($hostFullInfo->[0]{effectiveRole});
-#delete($hostFullInfo->[0]{systemResources});
-#delete($hostFullInfo->[0]{systemResources});
 
 
     my $machineIdList = $vpbs->getVirtualMachineList();
