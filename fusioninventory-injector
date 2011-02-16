@@ -123,7 +123,6 @@ EOF
 }
 
 GetOptions(
-    'h|help'		=> &usage,
     'd|directory=s'	=> \$directory,
     'f|file=s'		=> \$file,
     'u|url=s'		=> \$url,
