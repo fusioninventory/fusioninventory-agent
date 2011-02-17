@@ -207,6 +207,12 @@ sub initModList {
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load File::Find");
         } else {
+            my @dirList;
+            foreach (@$dirToScan) {
+                my $d = $_.'/FusionInventory/Agent';
+                next unless -d $d;
+                push @dirList, $d;
+            }
             # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
             # changes the @INC content if i use $_ directly
             # thanks to @rgs on irc.perl.org
@@ -219,7 +225,7 @@ sub initModList {
                     follow => 1,
                     follow_skip => 2
                 }
-                , $dirToScan.'/FusionInventory/Agent');
+                , @dirList);
         }
     }
 

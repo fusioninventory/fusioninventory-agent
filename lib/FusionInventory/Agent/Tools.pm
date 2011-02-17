@@ -247,9 +247,11 @@ sub getFusionInventoryLibdir {
 
     my @dirToScan;
 
+    my $ret = [];
+
     if ($config->{devlib}) {
 # devlib enable, I only search for backend module in ./lib
-        return './lib';
+        return ['./lib'];
     } else {
         foreach (@INC) {
 # perldoc lib
@@ -262,12 +264,12 @@ sub getFusionInventoryLibdir {
 
             next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
             next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
-            return $_ if -d $_.'/FusionInventory/Agent';
-            return $autoDir if -d $autoDir.'/FusionInventory/Agent';
+            push (@$ret, $_) if -d $_.'/FusionInventory/Agent';
+            push (@$ret, $autoDir) if -d $autoDir.'/FusionInventory/Agent';
         }
     }
 
-    return;
+    return $ret;
 
 }
 
@@ -276,7 +278,10 @@ sub getFusionInventoryTaskList {
 
     my $libdir = getFusionInventoryLibdir($config);
 
-    my @tasks = glob($libdir.'/FusionInventory/Agent/Task/*.pm');
+    my @tasks;
+    foreach (@$libdir) {
+        push @tasks, glob($_.'/FusionInventory/Agent/Task/*.pm');
+    }
 
     my @ret;
     foreach (@tasks) {
@@ -352,5 +357,5 @@ must be present instead:
 
 =head2 getFusionInventoryLibdir()
 
-Return the location of the FusionInventory/Agent library directory
+Return a array reference of the location of the FusionInventory/Agent library directory
 on the system.
