@@ -32,7 +32,7 @@ sub _getPackagesListFromEquery {
     my @packages;
     while (my $line = <$handle>) {
         chomp $line;
-        next unless $line =~ /^([a-z]\w+-\w+\/\w+)-([0-9]+.*)/;
+        next unless $line =~ /^(\S+)-(\S+.*)/;
         push @packages, {
             NAME    => $1,
             VERSION => $2,

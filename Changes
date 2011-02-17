@@ -94,6 +94,8 @@ Revision history for FusionInventory::Agent
        * Win32/Networks: avoid duplicated IP in HARDWARE/IPADDR, thanks Fernando Lagrange
          for the bug report
          http://forge.fusioninventory.org/users/603
+       * Gentoo: fix the regex to collect packages,
+         https://bugs.launchpad.net/ocsinventory-contact/+bug/720626
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
