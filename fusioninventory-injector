@@ -15,6 +15,7 @@ use XML::Simple;
 use Compress::Zlib;
 use Getopt::Long;
 use strict;
+my $help;
 my $directory;
 my $file;
 my $url;
@@ -123,6 +124,7 @@ EOF
 }
 
 GetOptions(
+    'h|help'		=> \$help,
     'd|directory=s'	=> \$directory,
     'f|file=s'		=> \$file,
     'u|url=s'		=> \$url,
@@ -137,7 +139,7 @@ $useragent	= 'FusionInventory-Injector' unless $useragent;
 ###
 
 $|=1;
-
+usage() if $help;
 if ($file && -f $file) {
     loadfile($file);
 } elsif ($stdin) {
