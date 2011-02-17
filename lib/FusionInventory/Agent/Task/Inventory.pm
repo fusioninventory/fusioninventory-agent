@@ -173,12 +173,9 @@ sub _initModulesList {
 
     # use first directory of @INC containing an installation tree
     my $dirToScan;
-    foreach my $dir (@INC) {
-        my $subdir = $dir . '/FusionInventory/Agent/Task/Inventory';
-        if (-d $subdir) {
-            $dirToScan = $subdir;
-            last;
-        }
+    my $libdirList = getFusionInventoryLibdir();
+    foreach (@$libdirList) {
+        push @$dirToScan,  $_ . '/FusionInventory/Agent/Task/Inventory';
     }
     
     die "No directory to scan for inventory modules" if !$dirToScan;

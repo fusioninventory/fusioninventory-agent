@@ -5,20 +5,22 @@ use Test::More;
 use Data::Dumper;
 use File::Basename;
 
+use FusionInventory::Agent;
+
 my %tests = (
         getFusionInventoryTaskList => [
           {
-            'version' => '3.0.0',
+            'version' => $FusionInventory::Agent::VERSION,
             'path' => 'lib/FusionInventory/Agent/Task/Inventory.pm',
             'module' => 'Inventory'
           },
           {
-            'version' => '3.0.0',
+            'version' => $FusionInventory::Agent::VERSION,
             'path' => 'lib/FusionInventory/Agent/Task/Ping.pm',
             'module' => 'Ping'
           },
           {
-            'version' => '3.0.0',
+            'version' => $FusionInventory::Agent::VERSION,
             'path' => 'lib/FusionInventory/Agent/Task/WakeOnLan.pm',
             'module' => 'WakeOnLan'
           }
