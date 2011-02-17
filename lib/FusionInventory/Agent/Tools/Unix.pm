@@ -46,7 +46,7 @@ sub getDeviceCapacity {
 sub getIpDhcp {
     my ($logger, $if) = @_;
 
-    my $dhcpLeaseFile = _findDhcpLeaseFile($logger);
+    my $dhcpLeaseFile = _findDhcpLeaseFile($logger, $if);
 
     return unless $dhcpLeaseFile;
 
@@ -54,21 +54,26 @@ sub getIpDhcp {
 }
 
 sub _findDhcpLeaseFile {
-    my ($logger) = @_;
+    my ($logger, $if) = @_;
 
     my @files;
 
-    foreach my $dir qw(
+    my @location = qw(
         /var/db
         /var/lib/dhcp3
         /var/lib/dhcp
-    ) {
-        next unless -d $dir;
+        /var/lib/dhclient
+    );
+    my @pattern = ("*$if*.lease", "*.lease");
 
-        push @files,
-            grep { -s $_ }
-            glob("$dir/*.lease");
+    foreach my $pattern (@pattern) {
+        foreach my $dir (@location) {
+            next unless -d $dir;
 
+            push @files,
+                 grep { -s $_ }
+            glob("$dir/$pattern");
+        } 
     }
 
     return unless @files;
