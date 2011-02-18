@@ -6,6 +6,7 @@ use warnings;
 use Test::More;
 use File::Glob;
 use File::Basename;
+use Data::Dumper;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots;
@@ -255,7 +256,19 @@ my %tests = (
                                'MANUFACTURER' => 'Intel',
                                'CORE' => undef
                              }
-                           ]
+                           ],
+          'dmidecode-esx' => [
+          {
+            'ID' => '42 0F 10 00 FF FB 8B 07',
+            'NAME' => undef,
+            'EXTERNAL_CLOCK' => undef,
+            'SPEED' => '30000',
+            'THREAD' => undef,
+            'SERIAL' => undef,
+            'MANUFACTURER' => 'AuthenticAMD',
+            'CORE' => undef
+          }
+        ]
 );
 
 my @list = glob("resources/dmidecode/*");
@@ -266,7 +279,5 @@ my $logger = FusionInventory::Agent::Logger->new();
 my $t;
 foreach my $file (@list) {
     my $cpus = FusionInventory::Agent::Tools::getCpusFromDmidecode($logger, $file);
-    use Data::Dumper;
-    is_deeply($cpus, $tests{basename($file)}, "slots: ".basename($file));
-    $t->{basename($file)} = $cpus;
+    is_deeply($cpus, $tests{basename($file)}, "slots: ".basename($file)) or print Dumper($cpus);
 }

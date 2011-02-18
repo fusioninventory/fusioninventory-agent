@@ -691,6 +691,129 @@ my %tests = (
             'SPEED' => 'Unknown',
             'CAPTION' => 'RAM slot #3'
           }
+        ],
+        'dmidecode-esx' => [
+          {
+            'NUMSLOTS' => 1,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPACITY' => '2048',
+            'CAPTION' => 'RAM slot #0'
+          },
+          {
+            'NUMSLOTS' => 2,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #1'
+          },
+          {
+            'NUMSLOTS' => 3,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #2'
+          },
+          {
+            'NUMSLOTS' => 4,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #3'
+          },
+          {
+            'NUMSLOTS' => 5,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #4'
+          },
+          {
+            'NUMSLOTS' => 6,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #5'
+          },
+          {
+            'NUMSLOTS' => 7,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #6'
+          },
+          {
+            'NUMSLOTS' => 8,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #7'
+          },
+          {
+            'NUMSLOTS' => 9,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #8'
+          },
+          {
+            'NUMSLOTS' => 10,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #9'
+          },
+          {
+            'NUMSLOTS' => 11,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #10'
+          },
+          {
+            'NUMSLOTS' => 12,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #11'
+          },
+          {
+            'NUMSLOTS' => 13,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #12'
+          },
+          {
+            'NUMSLOTS' => 14,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #13'
+          },
+          {
+            'NUMSLOTS' => 15,
+            'SERIALNUMBER' => undef,
+            'DESCRIPTION' => 'DIMM',
+            'TYPE' => 'DRAM',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'RAM slot #14'
+          }
         ]
 );
 

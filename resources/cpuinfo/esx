@@ -1,0 +1,7 @@
+processor       : 0
+vendor_id       : AuthenticAMD
+cpu family      : 16
+model           : 4
+model name      : Quad-Core AMD Opteron(tm) Processor 2376
+stepping        : 2
+cpu MHz         : 2300.092
