@@ -13,6 +13,9 @@ perl_version '5.008';
 requires 'FusionInventory::Agent'        => 2.1.8;
 requires 'Getopt::Long'                  => undef;
 
+test_requires 'Test::More'               => undef;
+test_requires 'Test::Exception'          => undef;
+
 install_script  'fusioninventory-esx';
 
 WriteAll;
