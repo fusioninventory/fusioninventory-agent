@@ -12,7 +12,8 @@ sub new {
 
     my $self = {
         ua => LWP::UserAgent->new(),
-        url => $params->{url}
+        url => $params->{url},
+        debugDir => $params->{debugDir}
     };
     my $cookie = new HTTP::Cookies( ignore_discard => 1 );
     $self->{ua}->cookie_jar( $cookie );
@@ -24,15 +25,32 @@ sub new {
     return bless $self;
 }
 
-sub _dumpOutput {
-    my ($action, $data) = @_;
+sub _loadSOAPDump {
+    my ($self, $name) = @_;
+
+    my $content;
+    open (FILE, "<". $self->{debugDir}."/".$name.".soap") or die "failed to open ".$self->{debugDir}.$name.".soap";
+    $/ = undef;
+    $content = <FILE>;
+    close FILE;
+
+    return $content;
+}
+
+sub _storeSOAPDump {
+    my ($self, $action, $data) = @_;
     open(FILE, ">$action.soap") or die;
     print FILE $data;
     close FILE
 }
 
 sub _send {
-    my ($self, $action, $xmlToSend) = @_;
+    my ($self, $action, $name, $xmlToSend) = @_;
+
+    if ($self->{debugDir}) {
+        return $self->_loadSOAPDump ($name);
+    }
+
 
 
     my $req = HTTP::Request->new(POST => $self->{url});
@@ -46,6 +64,7 @@ sub _send {
     my $res = $self->{ua}->request($req);
 
     if ($res->is_success) {
+        $self->_storeSOAPDump($name, $res->content);
         return $res->content;
     } else {
         return;
@@ -100,8 +119,7 @@ sub login {
         <Login xmlns="urn:vim25"><_this type="SessionManager">ha-sessionmgr</_this>
         <userName>%s</userName><password>%s</password></Login></soapenv:Body></soapenv:Envelope>';
 
-    my $answer = $self->_send('Login', sprintf($req, $login, $pw));
-    _dumpOutput('Login', $answer);
+    my $answer = $self->_send('Login', 'Login', sprintf($req, $login, $pw));
     return $self->_parseAnswer($answer);
 
 }
@@ -114,8 +132,7 @@ sub getHostInfo {
         '<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><RetrieveServiceContent xmlns="urn:vim25"><_this type="ServiceInstance">ServiceInstance</_this></RetrieveServiceContent></soap:Body></soap:Envelope>';
 
 
-    my $answer = $self->_send('RetrieveServiceContent', $req);
-    _dumpOutput('RetrieveServiceContent', $answer);
+    my $answer = $self->_send('RetrieveServiceContent', 'RetrieveServiceContent', $req);
     my $ref = $self->_parseAnswer($answer);
     return $ref;
 }
@@ -137,8 +154,7 @@ sub getVirtualMachineList {
         ';
 
 
-    my $answer = $self->_send('RetrievePropertiesVMList', $req);
-    _dumpOutput('RetrieveProperties', $answer);
+    my $answer = $self->_send('RetrievePropertiesVMList', 'RetrievePropertiesVMList', $req);
     my $ref = $self->_parseAnswer($answer);
     my @list;
     if (ref($ref) eq 'HASH') {
@@ -169,8 +185,8 @@ sub getVirtualMachineById {
         </objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>
         ';
 
-    my $answer = $self->_send('RetrieveProperties', sprintf($req, $id));
-    _dumpOutput('RetrieveProperties-VM-'.$id, $answer);
+    my $answer = $self->_send('RetrieveProperties', 'RetrieveProperties-VM-'.$id, sprintf($req, $id));
+
     my $ref = $self->_parseAnswer($answer);
 
     return $ref;
@@ -189,8 +205,7 @@ sub getHostFullInfo {
         </objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>
         ';
 
-    my $answer = $self->_send('RetrieveProperties', sprintf($req, $id));
-    _dumpOutput('getHostFullInfo', $answer);
+    my $answer = $self->_send('RetrieveProperties', 'getHostFullInfo', sprintf($req, $id));
     my $ref = $self->_parseAnswer($answer);
 
     return $ref;
