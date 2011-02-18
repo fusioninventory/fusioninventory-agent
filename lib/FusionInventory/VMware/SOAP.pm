@@ -24,6 +24,13 @@ sub new {
     return bless $self;
 }
 
+sub _dumpOutput {
+    my ($action, $data) = @_;
+    open(FILE, ">$action.soap") or die;
+    print FILE $data;
+    close FILE
+}
+
 sub _send {
     my ($self, $action, $xmlToSend) = @_;
 
@@ -94,6 +101,7 @@ sub login {
         <userName>%s</userName><password>%s</password></Login></soapenv:Body></soapenv:Envelope>';
 
     my $answer = $self->_send('Login', sprintf($req, $login, $pw));
+    _dumpOutput('Login', $answer);
     return $self->_parseAnswer($answer);
 
 }
@@ -107,6 +115,7 @@ sub getHostInfo {
 
 
     my $answer = $self->_send('RetrieveServiceContent', $req);
+    _dumpOutput('RetrieveServiceContent', $answer);
     my $ref = $self->_parseAnswer($answer);
     return $ref;
 }
@@ -128,7 +137,8 @@ sub getVirtualMachineList {
         ';
 
 
-    my $answer = $self->_send('RetrieveProperties', $req);
+    my $answer = $self->_send('RetrievePropertiesVMList', $req);
+    _dumpOutput('RetrieveProperties', $answer);
     my $ref = $self->_parseAnswer($answer);
     my @list;
     if (ref($ref) eq 'HASH') {
@@ -160,6 +170,7 @@ sub getVirtualMachineById {
         ';
 
     my $answer = $self->_send('RetrieveProperties', sprintf($req, $id));
+    _dumpOutput('RetrieveProperties-VM-'.$id, $answer);
     my $ref = $self->_parseAnswer($answer);
 
     return $ref;
@@ -179,6 +190,7 @@ sub getHostFullInfo {
         ';
 
     my $answer = $self->_send('RetrieveProperties', sprintf($req, $id));
+    _dumpOutput('getHostFullInfo', $answer);
     my $ref = $self->_parseAnswer($answer);
 
     return $ref;
