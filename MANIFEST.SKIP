@@ -1,0 +1,10 @@
+.*\.soap
+.*\.sw.
+Makefile$
+Makefile.old$
+.*~
+^blib
+\.git
+MANIFEST.*
+pm_to_blib
+FusionInventory-Agent-Task-ESX-.*
