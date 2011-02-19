@@ -18,9 +18,12 @@ sub doInventory {
 
 
 
-    # Doesn't works on Win2003 Server
+# Doesn't works on Win2003 Server
+
+# On Win7, we need to use SecurityCenter2
+    foreach my $instance (qw/SecurityCenter SecurityCenter2/) {
     my $WMIServices = Win32::OLE->GetObject(
-        "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/SecurityCenter" );
+                "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/$instance" );
 
 
     if (!$WMIServices) {
@@ -42,6 +45,8 @@ sub doInventory {
                 UPTODATE => $properties->{productUptoDate},
                 VERSION => $properties->{versionNumber}
             });
+            return;
+        }
     }
 
 }
