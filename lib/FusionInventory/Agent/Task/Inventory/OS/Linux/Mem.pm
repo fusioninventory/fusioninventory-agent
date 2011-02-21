@@ -23,8 +23,8 @@ sub doInventory {
     my $SwapFileSize;
 
     while (my $line = <$handle>) {
-        $PhysicalMemory=$1 if /^memtotal\s*:\s*(\S+)/i;
-        $SwapFileSize=$1 if /^swaptotal\s*:\s*(\S+)/i;
+        $PhysicalMemory = $1 if $line =~ /^MemTotal:\s*(\S+)/;
+        $SwapFileSize = $1 if $line =~ /^SwapTotal:\s*(\S+)/;
     }
     close $handle;
 
