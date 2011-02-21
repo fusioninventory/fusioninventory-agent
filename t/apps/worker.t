@@ -34,7 +34,7 @@ is($out, '', '--help stdin');
 ok($rc == 2, 'no task exit status');
 like(
     $err,
-    qr/^No task given, aborting/,
+    qr/^No job, no task and no target, aborting/,
     'no task stderr'
 );
 is($out, '', 'no task stdin');
@@ -43,7 +43,7 @@ is($out, '', 'no task stdin');
 ok($rc == 2, 'no target exit status');
 like(
     $err,
-    qr/^No target given, aborting/,
+    qr/^No target to send the result of this task, aborting/,
     'no target stderr'
 );
 is($out, '', 'no target stdin');
@@ -52,16 +52,15 @@ is($out, '', 'no target stdin');
 ok($rc == 2, 'non-existing target exit status');
 like(
     $err,
-    qr/No type for target stdout/,
+    qr/No such task `inventory' in configuration/,
     'non-existing target stderr'
 );
 is($out, '', 'non-existing target stdin');
 
 my $config;
 $config = get_configuration_file(<<EOF);
-[stdout]
-type = stdout
-format = xml
+[inventory]
+type = inventory
 EOF
 
 ($out, $err, $rc) = run_worker(
@@ -70,7 +69,7 @@ EOF
 ok($rc == 2, 'non-existing task exit status');
 like(
     $err,
-    qr/No type for task inventory/,
+    qr/No such target `stdout' in configuration/,
     'non-existing target stderr'
 );
 is($out, '', 'non-existing task stdin');
