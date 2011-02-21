@@ -100,8 +100,7 @@ sub doInventory {
 
     if ($xorgPid) {
         my $link = "/proc/$xorgPid/fd/0";
-        my $file = readlink($link);
-        $xorgData = _parseXorgFd($file);
+        $xorgData = _parseXorgFd($link) if -r $link;
     }
 
     my $video = {
