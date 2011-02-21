@@ -20,11 +20,10 @@ sub doInventory {
 
     my $cpusFromDmidecode = getCpusFromDmidecode();
 
-    my ($proc_cpus, $proc_cores, $proc_threads) = _getCPUsFromProc($logger, '/proc/cpuinfo');
+    my ($proc_cpu, $procList) = _getCPUsFromProc($logger, '/proc/cpuinfo');
 
+    my $cpt = 0;
     foreach my $cpu (@$cpusFromDmidecode) {
-        my $proc_cpu  = shift @$proc_cpus;
-        my $proc_core = shift @$proc_cores;
 
         if ($proc_cpu->{vendor_id}) {
             $proc_cpu->{vendor_id} =~ s/Genuine//;
@@ -41,10 +40,10 @@ sub doInventory {
         }
 
         if (!$cpu->{CORE}) {
-            $cpu->{CORE} = $proc_core;
+            $cpu->{CORE} = $procList->[$cpt]{CORE};
         }
-        if (!$cpu->{THREAD} && $proc_threads) {
-            $cpu->{THREAD} = $proc_threads
+        if (!$cpu->{THREAD}) {
+            $cpu->{THREAD} = $procList->[$cpt]{THREAD};
         }
         if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu->{SPEED} = {
@@ -54,6 +53,7 @@ sub doInventory {
         }
 
         $inventory->addCPU($cpu);
+        $cpt++;
     }
 }
 
@@ -73,12 +73,12 @@ sub _getCPUsFromProc {
         my $id = $cpu->{'physical id'};
         $hasPhysicalId = 0;
         if (defined $id) {
-            $cpus{$id}{core} = $cpu->{'cpu cores'};
-            $cpus{$id}{thread} = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
+            $cpus{$id}{CORE} = $cpu->{'cpu cores'};
+            $cpus{$id}{THREAD} = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
             $hasPhysicalId = 1;
         }
 
-        push @cpuList, { core => 1, thread => 1 } unless $hasPhysicalId;
+        push @cpuList, { CORE => 1, THREAD => 1 } unless $hasPhysicalId;
     }
     if (!$cpuNbr) {
         $cpuNbr = keys %cpus;

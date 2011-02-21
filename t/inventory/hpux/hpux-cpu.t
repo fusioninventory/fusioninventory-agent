@@ -4,6 +4,9 @@ use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU;
 use Test::More;
+use File::Glob;
+use File::Basename;
+
 use FindBin;
 
 use Data::Dumper;
@@ -25,12 +28,12 @@ my %cpu_tests = (
 
 );
 
-plan tests => (scalar keys %cpu_tests);
+my @list = glob("resources/machinfo/*");
+plan tests => int @list;
 
-foreach my $test (keys %cpu_tests) {
-    my $file = "$FindBin::Bin/../resources/machinfo/$test";
+foreach my $file (@list) {
     my $results = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseMachinInfo($file, '<');
-    is_deeply($cpu_tests{$test}, $results, $test) or print Dumper($results);
+    is_deeply($cpu_tests{basename($file)}, $results, basename($file)) or print Dumper($results);
 }
 
 

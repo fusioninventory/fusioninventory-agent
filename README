@@ -33,3 +33,5 @@ Additional optional programs:
 Post-installation
 -----------------
 Run fusioninventory-agent-config for automatic configuration.
+
+FusionInventory Agent is published under the GLPv2 release

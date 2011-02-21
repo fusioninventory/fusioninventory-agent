@@ -336,6 +336,24 @@ my %tests = (
         hardware => {
             'UUID' => '500C2394-0127-D13C-0CC4-F537A6AAF1A6'
         }
+    },
+    'dmidecode-esx' => {
+        bios => {
+          'MMANUFACTURER' => 'Intel Corporation',
+          'SSN' => 'VMware-42 30 bf 6a ce 71 e1 68-6c 2d 17 6e 66 d0 4a 0d',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => 'No Asset Tag',
+          'BMANUFACTURER' => 'Phoenix Technologies LTD',
+          'MSN' => 'None',
+          'SMODEL' => 'VMware Virtual Platform',
+          'SMANUFACTURER' => 'VMware, Inc.',
+          'BDATE' => '10/13/2009',
+          'MMODEL' => '440BX Desktop Reference Platform',
+          'BVERSION' => '6.00'
+        },
+        hardware => {
+          'UUID' => '4230BF6A-CE71-E168-6C2D-176E66D04A0D'
+        }
     }
 );
 

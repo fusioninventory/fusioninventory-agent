@@ -235,7 +235,7 @@ sub setHardware {
         PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
         DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
         DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-        WINPRODKEY WINCOMPANY WINLANG VMVERSION VMPRODUCT VMFULLNAME/) {
+        WINPRODKEY WINCOMPANY WINLANG/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
         next unless $params{$key};
         my $value = getSanitizedString($params{$key});
@@ -954,7 +954,7 @@ Date of creation of the filesystem in DD/MM/YYYY format.
 
 =item FREE
 
-Free space
+Free space (MB)
 
 =item FILESYSTEM
 
@@ -978,7 +978,7 @@ Boolean. Is this the system partition?
 
 =item TOTAL
 
-Total space available.
+Total space available (MB)
 
 =item TYPE
 
@@ -986,7 +986,7 @@ The mount point on UNIX.
 
 =item VOLUMN
 
-System name of the partition (e.g: /dev/sda1)
+System name of the partition (e.g: /dev/sda1 or server:/directory for NFS)
 
 =back
 
@@ -1066,18 +1066,6 @@ This field is deprecated, you should use the USERS section instead.
 The virtualization technologie used if the machine is a virtual machine.
 
 Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
-
-=item VMVERSION
-
-The version of the VM solution
-
-=item VMPRODUCT
-
-The product name, eg: VMware ESX Server
-
-=item VMFULLNAME
-
-The full name of the VM solution, eg: VMware ESX 4.1.0 build-260247, or QEMU PC emulator version 0.12.5 (qemu-kvm-0.12.5)
 
 =item WINOWNER
 

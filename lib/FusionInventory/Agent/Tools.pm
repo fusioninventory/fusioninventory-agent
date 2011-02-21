@@ -160,7 +160,7 @@ sub getInfosFromDmidecode {
 
     if ($OSNAME eq 'MSWin32') {
         my @osver;
-        eval "use Win32; (@osver) = Win32::GetOSVersion();";
+        eval 'use Win32; @osver = Win32::GetOSVersion();';
         my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
 # We get some strange breakage on Win2003. For the moment
 # we don't use dmidecode on this OS.
@@ -576,10 +576,10 @@ sub getFusionInventoryLibdir {
     my ($config) = @_;
 
     # We started the agent from the source directory
-    return 'lib' if -d 'lib/FusionInventory/Agent';
+    return ['lib'] if -d 'lib/FusionInventory/Agent';
 
+    my $ret = [];
     # use first directory of @INC containing an installation tree
-    my $dirToScan;
     foreach my $dir (@INC) {
     # perldoc lib
     # For each directory in LIST (called $dir here) the lib module also checks to see
@@ -593,12 +593,11 @@ sub getFusionInventoryLibdir {
         );
         foreach (@subdirs) {
             next unless -d $_.'/FusionInventory/Agent';
-            $dirToScan = $_;
-            last;
+            push @$ret, $_; 
         }
     }
 
-    return $dirToScan;
+    return $ret;
 
 }
 
@@ -609,7 +608,10 @@ sub getFusionInventoryTaskList {
 
     my $libdir = getFusionInventoryLibdir($config);
 
-    my @tasks = glob($libdir.'/FusionInventory/Agent/Task/*.pm');
+    my @tasks;
+    foreach (@$libdir) {
+        push @tasks, glob($_.'/FusionInventory/Agent/Task/*.pm');
+    }
 
     my @ret;
     foreach (@tasks) {
@@ -840,5 +842,5 @@ must be present instead:
 
 =head2 getFusionInventoryLibdir()
 
-Return the location of the FusionInventory/Agent library directory
+Return a array reference of the location of the FusionInventory/Agent library directory
 on the system.

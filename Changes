@@ -74,7 +74,6 @@ Revision history for FusionInventory::Agent
        * Solaris: SUNWCzone is optionnal, use zonename instead (Raphaël SurcouF)
        * Inventory: look for backend module in @INC+$archname.'/auto' too, thanks
          to Philip Grodzki who helped to point out the issue.
-       * Inventory: add VMVERSION, VMPRODUCT and VMFULLNAME key in HARDWARE
        * Inventory: improve POD documentation
        * Inventory: Display a debug message if the STORAGES/INTERFACE is invalid
        * backport from master FusionInventory::Agent::Tools::getCanonicalManufacturer()
@@ -92,6 +91,15 @@ Revision history for FusionInventory::Agent
        * Win32: fix NETWORKS/VIRTUALDEV on OS prior Vista (David DURIEUX)
        * Internal: add and use getFusionInventoryLibdir(), getFusionInventoryTaskList()
        * Linux/Storage: collect WWN from SAS / SATA disk using hdparm
+       * Win32/Networks: avoid duplicated IP in HARDWARE/IPADDR, thanks Fernando Lagrange
+         for the bug report
+         http://forge.fusioninventory.org/users/603
+       * Gentoo: fix the regex to collect packages,
+         https://bugs.launchpad.net/ocsinventory-contact/+bug/720626
+       * Linux: dhcp-leases file now always detected, mostly on Redhat hosts (Bernhard Denner)
+         https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/720628
+       * Win32: retrieve Antivirus information from //./root/SecurityCenter2 on Win7
+         http://forge.fusioninventory.org/issues/583
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
