@@ -171,35 +171,7 @@ sub _initModulesList {
 
     my $logger = $params{logger};
 
-    # use first directory of @INC containing an installation tree
-    my $dirToScan;
-    my $libdirList = getFusionInventoryLibdir();
-    foreach (@$libdirList) {
-        push @$dirToScan,  $_ . '/FusionInventory/Agent/Task/Inventory';
-    }
-    
-    die "No directory to scan for inventory modules" if !$dirToScan;
-
-    # find a list of modules from files in those directories
-    my %modules;
-    my $wanted = sub {
-        return unless -f $_;
-        return unless $File::Find::name =~
-            m{(FusionInventory/Agent/Task/Inventory/\S+)\.pm$};
-        my $module = $1;
-        $module =~ s{/}{::}g;
-        $modules{$module}++;
-    };
-    File::Find::find(
-        {
-            wanted      => $wanted,
-            follow      => 1,
-            follow_skip => 2
-        },
-        $dirToScan
-    );
-
-    my @modules = keys %modules;
+    my @modules = __PACKAGE__->getModules();
     die "No inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
