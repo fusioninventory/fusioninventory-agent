@@ -6,6 +6,8 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { can_read("/proc/cpuinfo") || can_run('dmidecode') }
 
 sub doInventory {
@@ -19,62 +21,7 @@ sub doInventory {
     $arch = 'x86' if $Config{'archname'} =~ /^i\d86/;
     $arch = 'x86_64' if $Config{'archname'} =~ /^x86_64/;
 
-
-    my $in;
-    my $frequency;
-    my $serial;
-    my $manufacturer;
-    my $thread;
-    my $empty;
-    my $core;
-    my $name;
-    my $id;
-    foreach (`dmidecode`) {
-        $in = 1 if /^\s*Processor Information/;
-
-        if ($in) {
-            $frequency = $1 if /^\s*Max Speed:\s*(\d+)\s*MHz/i;
-            $frequency = $1*1000 if /^\s*Max Speed:\s*(\d+)\s*GHz/i;
-            $serial = $1 if /^\s*Serial\s*Number:\s*(\S.+)/i;
-            $id = $1 if /^\s*ID:\s*(\S.+)/i;
-            $manufacturer = $1 if /Manufacturer:\s*(\S.*)/;
-            $thread = int($1) if /Thread Count:\s*(\S.*)/;
-            $core = int($1) if /Core Count:\s*(\S.*)/;
-            $empty = 1 if /Status:\s*Unpopulated/i;
-            $name = $1 if /^\s*Version:\s*(\S.+)/i;
-
-        }
-
-        if ($in && (/^Handle\s0x/i || /^\s*$/)) {
-            if (!$empty) {
-                $serial =~ s/\s//g if $serial;
-                $thread = 1 unless $thread;
-
-                push @cpu, {
-                    SPEED => $frequency,
-                    MANUFACTURER => $manufacturer,
-                    SERIAL => $serial,
-# Thread per core according to my understanding of
-# http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
-                    THREAD => $thread,
-                    CORE => $core,
-                    NAME => $name,
-                    ID => $id,
-                }
-            }
-
-            $in = undef;
-            $frequency = undef;
-            $serial = undef;
-            $manufacturer = undef;
-            $thread = undef;
-            $empty = undef;
-            $empty = undef;
-            $core = undef;
-            $name = undef;
-
-        }
-    }
+    my $cpus = getCpusFromDmidecode();
 
     my @cpuProcs;
     my @cpuCoreCpts;
@@ -109,31 +56,32 @@ sub doInventory {
         my $cpuProc = $cpuProcs[$id] || $cpuProcs[0];
 
         if ($cpuProc->{vendor_id}) {
-            $cpu[$id]->{MANUFACTURER} = $cpuProc->{vendor_id};
+            $cpus->[$id]->{MANUFACTURER} = $cpuProc->{vendor_id};
         }
-        if ($cpu[$id]->{MANUFACTURER}) {
-            $cpu[$id]->{MANUFACTURER} =~ s/Genuine//;
-            $cpu[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $cpu[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
-            $cpu[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
+        if ($cpus->[$id]->{MANUFACTURER}) {
+            $cpus->[$id]->{MANUFACTURER} =~ s/Genuine//;
+            $cpus->[$id]->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $cpus->[$id]->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
+            $cpus->[$id]->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
+            $cpus->[$id]->{MANUFACTURER} =~ s/AuthenticAMD/AMD/;
         }
         if ($cpuProc->{'model name'}) {
-            $cpu[$id]->{NAME} = $cpuProc->{'model name'};
+            $cpus->[$id]->{NAME} = $cpuProc->{'model name'};
         }
-        if (!$cpu[$id]->{CORE}) {
-            $cpu[$id]->{CORE} = $cpuCoreCpts[$id] || 1;
+        if (!$cpus->[$id]->{CORE}) {
+            $cpus->[$id]->{CORE} = $cpuCoreCpts[$id] || 1;
         }
-        if (!$cpu[$id]->{THREAD} && $cpuProc->{'siblings'}) {
-            $cpu[$id]->{THREAD} = $cpuProc->{'siblings'};
+        if (!$cpus->[$id]->{THREAD} && $cpuProc->{'siblings'}) {
+            $cpus->[$id]->{THREAD} = $cpuProc->{'siblings'};
         }
-        if ($cpu[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
-            $cpu[$id]->{SPEED} = {
+        if ($cpus->[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+            $cpus->[$id]->{SPEED} = {
                ghz => 1000,
                mhz => 1,
             }->{lc($2)}*$1;
         }
 
-        $inventory->addCPU($cpu[$id]);
+        $inventory->addCPU($cpus->[$id]);
     }
 }
 

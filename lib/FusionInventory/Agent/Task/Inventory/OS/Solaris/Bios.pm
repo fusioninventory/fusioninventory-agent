@@ -15,18 +15,14 @@ sub doInventory {
         $BiosVersion, $BiosDate, $uuid);
     my $aarch = "unknown";
 
-    my $OSLevel=`uname -r`;
-
-    if ( $OSLevel !~ /5.1\d/ ){
-        $zone = "global";
+    if( can_run("zonename") ) {
+	$zone=`zonename`;
     }else{
-        foreach (`zoneadm list -p`){
-            $zone=$1 if /^0:([a-z]+):.*$/;
-        }
+        $zone = "global";
     }
 
     $aarch = "i386" if (`arch` =~ /^i86pc$/);
-    if ($zone){
+    if ($zone eq "global" ) {
         if (can_run("showrev")) {
             foreach(`showrev`){
                 if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};

@@ -11,6 +11,7 @@ use English qw(-no_match_vars);
 use Win32;
 use Win32::OLE('in');
 use Win32::OLE::Variant;
+use FusionInventory::Agent::Tools::Win32;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
@@ -87,7 +88,7 @@ sub processSoftwares {
         }
 
         # Workaround for #415
-        $version =~ s/[\000-\037].*//;
+        $version =~ s/[\000-\037].*// if $version;
 
         $inventory->addSoftware ({
             COMMENTS => $comments,
@@ -123,16 +124,8 @@ sub doInventory {
 
     my $Config;
 
-    my $is64bit;
-    foreach my $Properties (getWmiProperties('Win32_Processor', qw/
-        AddressWidth
-    /)) {
-        if ($Properties->{AddressWidth} eq 64) {
-            $is64bit = 1;
-        }
-    }
 
-    if ($is64bit) {
+    if (is64bit()) {
 
         # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read
         # 32bit entries. This is not the case on Win2003 and if I correctly

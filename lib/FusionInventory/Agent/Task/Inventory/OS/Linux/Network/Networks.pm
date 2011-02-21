@@ -23,7 +23,11 @@ sub _ipdhcp {
     foreach (
         "/var/lib/dhcp3/dhclient.%s.leases",
         "/var/lib/dhcp3/dhclient.%s.leases",
-        "/var/lib/dhcp/dhclient.leases", ) {
+        "/var/lib/dhcp/dhclient.leases",
+        "/var/lib/dhcp/dhclient.%s.leases",
+        "/var/lib/dhcp/dhclient.leases",
+        "/var/lib/dhcp/dhclient-%s.leases",
+        "/var/lib/dhclient/dhclient-%s.leases",) {
 
         $leasepath = sprintf($_,$if);
         last if (-e $leasepath);
@@ -153,6 +157,7 @@ sub doInventory {
 
             $ifData{DESCRIPTION} = $1 if $line =~ /^(\S+)/; # Interface name
             $ifData{IPADDRESS} = $1 if $line =~ /inet addr:(\S+)/i;
+            $ifData{IPADDRESS6} = $1 if $line =~ /inet6 addr: (\S+)/i;
             $ifData{IPMASK} = $1 if $line =~ /\S*mask:(\S+)/i;
             $ifData{MACADDR} = $1 if $line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
             $ifData{STATUS} = 'Up' if $line =~ /^\s+UP\s/;

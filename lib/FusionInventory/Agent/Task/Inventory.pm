@@ -11,6 +11,8 @@ regarding the Hardware and Software installation.
 
 =cut
 
+# Keep this line, used by getVersionFromTaskModuleFile
+# VERSION FROM Agent.pm
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task::Base';
@@ -18,12 +20,15 @@ use base 'FusionInventory::Agent::Task::Base';
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+use Config;
+
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Tools;
 use FusionInventory::Logger;
 
 sub main {
@@ -122,7 +127,6 @@ sub initModList {
     my $config = $self->{config};
     my $storage = $self->{storage};
 
-    my @dirToScan;
     my @installed_mods;
     my @installed_files;
 
@@ -195,23 +199,20 @@ sub initModList {
             @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
     }
 
-    if ($config->{devlib}) {
-        # devlib enable, I only search for backend module in ./lib
-        push (@dirToScan, './lib');
-    } else {
-        foreach (@INC) {
-            next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
-            next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
-            push @dirToScan, $_;
-        }
-    }
-    if (@dirToScan) {
+    my $dirToScan = getFusionInventoryLibdir($config);
+    if ($dirToScan) {
         eval {
             require File::Find;
         };
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load File::Find");
         } else {
+            my @dirList;
+            foreach (@$dirToScan) {
+                my $d = $_.'/FusionInventory/Agent';
+                next unless -d $d;
+                push @dirList, $d;
+            }
             # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
             # changes the @INC content if i use $_ directly
             # thanks to @rgs on irc.perl.org
@@ -224,7 +225,7 @@ sub initModList {
                     follow => 1,
                     follow_skip => 2
                 }
-                , @dirToScan);
+                , @dirList);
         }
     }
 

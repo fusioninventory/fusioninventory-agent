@@ -294,12 +294,20 @@ sub addStorage {
         SCSI_CHID
         SCSI_UNID
         SCSI_LUN
+	WWN
     /;
 
     my $values = $args;
     if (!$values->{SERIALNUMBER}) {
         $values->{SERIALNUMBER} = $values->{SERIAL}
     }
+
+    my $filter = '^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$';
+    if ($values->{INTERFACE} && $values->{INTERFACE} !~ /$filter/) {
+        $logger->debug("STORAGES/INTERFACE doesn't match /$filter/, ".
+        "this is not an error but the situation should be improved");
+    }
+
 
     $self->_addEntry({
         'field' => \@fields,
@@ -1438,9 +1446,15 @@ Windows CAPTION field or subsystem Name from the pci.ids table
 
 =item NAME
 
+The device name, the on from the PCIIDs DB
+
 =item MANUFACTURER
 
+The manifacturer name, the on from the PCIIDs DB
+
 =item PCICLASS
+
+The PCI class ID
 
 =item PCIID
 
@@ -1517,6 +1531,8 @@ Number of core.
 
 =item MANUFACTURER
 
+AMD/Intel/Transmeta/Cyrix/VIA
+
 =item NAME
 
 The name of the CPU, e.g: Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz
@@ -1553,7 +1569,7 @@ Date of creation of the filesystem in DD/MM/YYYY format.
 
 =item FREE
 
-Free space
+Free space (MB)
 
 =item FILESYSTEM
 
@@ -1577,7 +1593,7 @@ Boolean. Is this the system partition?
 
 =item TOTAL
 
-Total space available.
+Total space available (MB)
 
 =item TYPE
 
@@ -1585,7 +1601,7 @@ The mount point on UNIX.
 
 =item VOLUMN
 
-System name of the partition (e.g: /dev/sda1)
+System name of the partition (e.g: /dev/sda1 or server:/directory for NFS)
 
 =back
 
@@ -1638,7 +1654,11 @@ The time needed to run the inventory on the agent side.
 
 =item DESCRIPTION
 
+Computer description (Windows only so far)
+
 =item MEMORY
+
+Total system memory in MB
 
 =item UUID
 
@@ -1718,6 +1738,10 @@ Serial, Parallel, SATA, etc
 
 =head2 SLOTS
 
+Represents physical connection points including ports, motherboard slots and peripherals, and proprietary connection points.
+
+This information is hardly reliable.
+
 =over 4
 
 =item CAPACITY
@@ -1742,21 +1766,29 @@ Serial, Parallel, SATA, etc
 
 =item DESCRIPTION
 
+The long name of the device displayed to the user.
+
 =item DISKSIZE
 
 The disk size in MB.
 
 =item INTERFACE
 
+INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA/SAS or empty if unknown
+
 =item MANUFACTURER
 
 =item MODEL
 
+The commercial name of the device
+
 =item NAME
+
+The name of the device as seen by the system. E.g: hda (Linux), \\.\PHYSICALDRIVE0 (Windows)
 
 =item TYPE
 
-INTERFACE can be SCSI/HDC/IDE/USB/1394/Serial-ATA
+The kind of device. There is no standard for the format of the string in this field.
 
 =item SERIAL
 
@@ -1775,6 +1807,10 @@ Deprecated. The harddrive serial number, same as SERIAL.
 =item SCSI_UNID
 
 =item SCSI_LUN
+
+=item WWN
+
+World Wide Name http://fr.wikipedia.org/wiki/World_Wide_Name
 
 =back
 
@@ -1898,6 +1934,8 @@ The name of the virtualisation system family. The same type found is HARDWARE/VM
 
 =item VCPU
 
+Number of CPU affected to the virtual machine
+
 =item VMID
 
 The ID of virtual machine in the virtual managment system.
@@ -1986,17 +2024,25 @@ The name of the device (optional)
 
 =head2 NETWORKS
 
+A network configuration.
+
 =over 4
 
 =item DESCRIPTION
 
+The name of the interface as seen in the OS settings, e.g: eth0 (Linux) or AMD PCNET Family Ethernet Adapter (Windows)
+
 =item DRIVER
+
+The name of the driver used by the network interface
 
 =item IPADDRESS
 
 =item IPADDRESS6
 
 =item IPDHCP
+
+The IP address of the DHCP server (optional).
 
 =item IPGATEWAY
 
@@ -2010,9 +2056,15 @@ The name of the device (optional)
 
 =item PCISLOT
 
+The PCI slot name.
+
 =item STATUS
 
+Up or Down
+
 =item TYPE
+
+deprecated
 
 =item VIRTUALDEV
 

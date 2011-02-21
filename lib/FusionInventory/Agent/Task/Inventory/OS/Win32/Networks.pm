@@ -25,7 +25,7 @@ sub doInventory {
     my $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapterConfiguration');
 
     my $defaultGw;
-    my @ips;
+    my %ips;
     my @ip6s;
     my @netifs;
     my %defaultgateways;
@@ -51,7 +51,7 @@ sub doInventory {
         if ($nic->IPAddress) {
             foreach (0..@{$nic->IPAddress}) {
                 if (${$nic->IPAddress}[$_] =~ /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
-                    push @ips, ${$nic->IPAddress}[$_];
+                    $ips{${$nic->IPAddress}[$_]}=1;
                     push @{$netifs[$idx]{ipaddress}}, ${$nic->IPAddress}[$_];
                     push @{$netifs[$idx]{ipmask}}, ${$nic->IPSubnet}[$_];
                     if (can_load("Net::IP qw(:PROC)")) {
@@ -91,7 +91,18 @@ sub doInventory {
     $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapter');
     foreach my $nic (in $nics) {
         my $idx = $nic->Index;
-        $netifs[$idx]{virtualdev} = $nic->PhysicalAdapter?0:1;
+
+        my $virtualdev = 0;
+# PhysicalAdapter only work on OS > XP
+        if (!defined($nic->PhysicalAdapter)) {
+            if ($nic->PNPDeviceID =~ /^ROOT/) {
+                $virtualdev = 1;
+            }
+        } else {
+            $virtualdev = $nic->PhysicalAdapter?0:1;
+        }
+
+        $netifs[$idx]{virtualdev} = $virtualdev;
         $netifs[$idx]{name} = $nic->Name;
         $netifs[$idx]{macaddr} = $nic->MACAddress;
         $netifs[$idx]{speed} = $nic->Speed;
@@ -138,8 +149,8 @@ sub doInventory {
   $inventory->setHardware({
 
           DEFAULTGATEWAY => join ('/', (keys %defaultgateways)),
-          DNS =>  join('/', keys %dns),
-          IPADDR =>  join('/',@ips),
+          DNS =>  join('/', (keys %dns)),
+          IPADDR =>  join('/',keys %ips),
 
     });
 

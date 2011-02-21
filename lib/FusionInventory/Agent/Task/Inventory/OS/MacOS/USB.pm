@@ -73,7 +73,7 @@ sub doInventory {
     my $device;   
     foreach (`ioreg -l`) {
         s/^[\|\s]*//;     
-        $state = 1 if /<class IOUSBDevice/; 
+        $state = 1 if /<class IOUSBDevice,/;
         $state = 2 if $state == 1 && /^\{/;
         if ($state == 2 && /^\}/) {
             $state = 0;   

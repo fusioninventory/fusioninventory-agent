@@ -2,7 +2,7 @@
 ###############################################################################
 ##Copyleft Pascal DANEK 2005
 ##Copyleft Goneri Le Bouder 2006
-##Copyleft FusionInventory Project 2010
+##Copyleft FusionInventory Project 2010-2011
 ##Web : http://www.FusionInventory.org
 ##
 ##This code is open source and may be copied and modified as long as the source
@@ -106,10 +106,9 @@ DESCRIPTION:
   USAGE:
   -h --help	: this menu
   -d --directory: load every .ocs files from a directory
-  -f --file\	: load a speficic file
+  -f --file	: load a speficic file
   -u --url	: ocsinventory backend URL
   -r --remove	: remove succesfuly injected files
-  -m --msg	: show message returned my ocsinventory
   -v --verbose	: verbose mode
   --stdin       : read data from STDIN
 
@@ -140,7 +139,7 @@ $useragent	= 'FusionInventory-Injector' unless $useragent;
 ###
 
 $|=1;
-
+usage() if $help;
 if ($file && -f $file) {
     loadfile($file);
 } elsif ($stdin) {

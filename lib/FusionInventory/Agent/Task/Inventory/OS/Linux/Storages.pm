@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
@@ -133,24 +135,6 @@ sub getDescription {
     }
 }
 
-sub getManufacturer {
-    my ($model) = @_;
-
-    return '' unless $model;
-
-    if($model =~ /(maxtor|western|sony|compaq|hewlett packard|ibm|seagate|toshiba|fujitsu|lg|samsung|nec|transcend)/i) {
-        return ucfirst(lc($1));
-    } elsif ($model =~ /^HP/) {
-        return "Hewlett Packard";
-    } elsif ($model =~ /^WDC/) {
-        return "Western Digital";
-    } elsif ($model =~ /^ST/) {
-        return "Seagate";
-    } elsif ($model =~ /^HD/ or $model =~ /^IC/ or $model =~ /^HU/) {
-        return "Hitachi";
-    }
-}
-
 # some hdparm release generated kernel error if they are
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
@@ -222,6 +206,9 @@ sub doInventory {
 		    elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
 			$device->{MODEL} = $1;
 		    }
+		    elsif ($line =~ /Logical Unit WWN Device Identifier:\s*(.*?)\s*$/) {
+			$device->{WWN} = $1;
+		    }
                 }
                 close $handle;
             }
@@ -239,7 +226,7 @@ sub doInventory {
 	}
 
         if (!$device->{MANUFACTURER} or $device->{MANUFACTURER} eq 'ATA') {
-            $device->{MANUFACTURER} = getManufacturer($device->{MODEL});
+            $device->{MANUFACTURER} = getCanonicalManufacturer($device->{MODEL});
         }
 
         if (!$device->{DISKSIZE} && $device->{TYPE} !~ /^cd/) {

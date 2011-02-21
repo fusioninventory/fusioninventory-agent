@@ -24,20 +24,28 @@ sub KEY_WOW64_32KEY () { 0x0200}
 # Thanks William Gannon && Charles Clarkson
 
 
-sub getXPkey {
-    my ($logger) = @_;
+sub _getValueFromRegistry {
+    my ($logger, $path) = @_;
 
     my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
     or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
     my $key     =
-    $machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+    $machKey->{$path};
 
     if (!$key) { # 64bit OS?
         $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64KEY() } )
             or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
         $key     =
-        $machKey->{'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'};
+        $machKey->{$path};
     }
+
+    return $key
+}
+
+sub getXPkey {
+    my ($logger) = @_;
+
+    my $key = _getValueFromRegistry($logger, 'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId');
     return unless $key;
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
 
@@ -97,6 +105,8 @@ sub doInventory {
         /)) {
 
         my $key = getXPkey($logger); 
+        my $description = encodeFromRegistry(_getValueFromRegistry($logger,
+'SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'));
 
         $inventory->setHardware({
             WINLANG => $Properties->{OSLanguage},
@@ -108,6 +118,7 @@ sub doInventory {
             WINOWNER => $Properties->{RegistredUser},
             OSCOMMENTS => $Properties->{CSDVersion},
             SWAP => int(($Properties->{TotalSwapSpaceSize}||0)/(1024*1024)),
+            DESCRIPTION => $description,
         });
     }
 

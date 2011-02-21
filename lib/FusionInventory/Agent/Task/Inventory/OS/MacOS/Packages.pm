@@ -25,6 +25,9 @@ sub doInventory {
     # for each app, normalize the information, then add it to the inventory stack
     foreach my $app (keys %$apps){
         my $a = $apps->{$app};
+
+        next unless ref($a) eq 'HASH';
+
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
         $inventory->addSoftware({
