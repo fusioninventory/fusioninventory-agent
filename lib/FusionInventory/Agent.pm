@@ -100,21 +100,16 @@ sub getRandomToken {
 sub getTaskFromConfiguration {
     my ($self, $id) = @_;
 
-    my $logger = $self->{logger};
-
     my $config = $self->{config}->getBlock($id);
-    if (!$config) {
-        $logger->error("No such task `$id' in configuration");
-        return;
-    }
+    die "No such task `$id' in configuration" unless $config;
 
     my $type = $config->{type};
-    $logger->error("No type for task $id") unless $type;
+    die "No type for task $id" unless $type;
 
     my $class = 'FusionInventory::Agent::Task::' . ucfirst($type);
-    $logger->error("Non-existing type $type for task $id")
+    die "Non-existing type $type for task $id"
         unless $class->require();
-    $logger->error("Invalid type $type for task $id")
+    die "Invalid type $type for task $id"
         unless $class->isa('FusionInventory::Agent::Task');
 
     return $class->new(id => $id, %$config);
@@ -123,21 +118,15 @@ sub getTaskFromConfiguration {
 sub getTargetFromConfiguration {
     my ($self, $id) = @_;
 
-    my $logger = $self->{logger};
-
     my $config = $self->{config}->getBlock($id);
-    if (!$config) {
-        $logger->error("No such target `$id' in configuration");
-        return;
-    }
+    die "No such target `$id' in configuration" unless $config;
     
     my $type = $config->{type};
-    $logger->error("No type for target $id") unless $type;
+    die "No type for target $id" unless $type;
 
     my $class = 'FusionInventory::Agent::Target::' . ucfirst($type);
-    $logger->error("Non-existing type $type for target $id")
-        unless $class->require();
-    $logger->error("Invalid type $type for target $id")
+    die "Non-existing type $type for target $id" unless $class->require();
+    die "Invalid type $type for target $id"
         unless $class->isa('FusionInventory::Agent::Target');
 
     return $class->new(id => $id, %$config);
@@ -146,10 +135,8 @@ sub getTargetFromConfiguration {
 sub getJobFromConfiguration {
     my ($self, $id) = @_;
 
-    my $logger = $self->{logger};
-
     my $config = $self->{config}->getBlock($id);
-    $logger->error("No such job $id in configuration") unless $config;
+    die "No such job $id in configuration" unless $config;
 
     return FusionInventory::Agent::Job->new(
         id         => $id,
