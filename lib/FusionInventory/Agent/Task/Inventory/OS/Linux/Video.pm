@@ -99,11 +99,9 @@ sub doInventory {
     }
 
     if ($xorgPid) {
-        # check than fd0 is actually a link to Xorg log file, and not to
-        # something else, such as /dev/input/event6
         my $link = "/proc/$xorgPid/fd/0";
         my $file = readlink($link);
-        $xorgData = _parseXorgFd($file) if $file =~ /\.log$/;
+        $xorgData = _parseXorgFd($file);
     }
 
     my $video = {
