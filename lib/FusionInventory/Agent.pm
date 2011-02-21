@@ -176,4 +176,61 @@ FusionInventory::Agent - Fusion Inventory agent
 
 =head1 DESCRIPTION
 
-This is the agent object.
+This is Fusion Inventory Agent, a generic and multi-platform agent.
+
+=head1 CONCEPTS
+
+A B<task> is a specific work to execute. Each task type is implemented as an
+agent plugin, making it versatile and easily extensible. Two task types
+are available by default, local inventory and wake on lan, and others are
+available as distinct software release.
+
+A B<target> is the destination for the result of a B<task> execution. They are
+different types of targets available, some of them local to the machine
+running the agent (directory, stdout), some of them remote (GLPI or OCS
+servers).
+
+A B<job> is the combination of a given B<task> and a given B<target>, with
+a period attribute determining how often it has to be executed.
+
+Each of these object is defined in the configuration file as a section, with
+the name of the section being the identifier of the object. For instance, the 
+following configuration part defines a task called I<my_inventory>, of type
+inventory, with all optional items list configured:
+
+    [my_inventory]
+    type = inventory
+    software = 1
+    printers = 1
+    environment = 1
+
+=head1 CHANGES
+
+FusionInventory 3.0 introduces quite a lot of changes in program architecture
+and usage. Here is a short resume.
+
+There is no more 'fusioninventory' monolithic executable, but two distinct ones: 
+
+=over
+
+=item * B<fusioninventory-worker>
+
+A programm executing a single job and termining immediatly
+
+=item * B<fusioninventory-server>
+
+A program running in background, executing jobs according to its schedule or
+to external sollicitations.
+
+=back
+
+There is no more a complete equivalence between configuration file and command
+line options, but different sets of options for configuration file and command
+line for both executables.
+
+There is no more task-specific or target-specific parameters available as
+command line options, they have to be passed using respectively B<--task-param>
+and B<--target-param> options.
+
+The configuration file uses a structured INI-style format, with sections delimited
+by bracketed headers ([section]).
