@@ -85,12 +85,6 @@ sub _parseAnswer {
     $answer =~ s/[[:cntrl:]]//g;
     my $tmpRef = $self->{tpp}->parse($answer);
 
-# Login
-    if ($tmpRef->{returnval}[0] && !$tmpRef->{returnval}[0]{propSet}) {
-        return $tmpRef->{returnval}[0];
-    }
-# Else the rest
-
     my $ref = [];
     foreach (@{$tmpRef->{returnval}}) {
         if ($_->{propSet}) {
