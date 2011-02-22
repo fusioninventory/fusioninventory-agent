@@ -384,27 +384,28 @@ my %test = (
             'FILESYSTEM' => 'nfs'
           }
         ],
-        'getVirtualMachines()' => [
-          {
-            'VMTYPE' => 'VMware',
+       'getVirtualMachines()' => [
+           {
             'NAME' => 'ubuntu',
             'STATUS' => 'running',
+            'MAC' => '00:0c:29:06:42:d8',
+            'VMID' => '16',
+            'VMTYPE' => 'VMware',
             'MEMORY' => '512',
             'UUID' => '564d9904-a176-a762-1b95-f75ddd0642d8',
-            'VMID' => '16',
             'VCPU' => '1'
           }
         ]
     },
     'esx-4.1.0-2' => {
         'login()' => {
-          'lastActiveTime' => '1970-01-14T23:35:51.597943Z',
-          'loginTime' => '1970-01-14T23:35:51.597943Z',
+          'lastActiveTime' => '1970-01-15T07:34:27.187333Z',
+          'loginTime' => '1970-01-15T07:34:27.187333Z',
           'fullName' => 'Administrator',
           'messageLocale' => 'en',
           'locale' => 'en',
           'userName' => 'root',
-          'key' => '52df8e0e-ef0a-546e-ec81-a5da86d19aed'
+          'key' => '52ccc512-caa2-7617-a32a-8cadb1713678'
         },
         'getHostname()' => 'vmware01.localdomain',
         'getBiosInfo()' => {
@@ -1192,7 +1193,7 @@ my %test = (
             'DISKSIZE' => '302795194.368',
             'SERIAL' => '7211088651089097118654584113',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a6176412d5471)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1202,7 +1203,7 @@ my %test = (
             'DISKSIZE' => '555176951.808',
             'SERIAL' => '72110871027652867768108105115',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c34564d446c6973)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1212,7 +1213,7 @@ my %test = (
             'DISKSIZE' => '555176951.808',
             'SERIAL' => '72110886510890737351566768',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a494933384344)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1222,7 +1223,7 @@ my %test = (
             'DISKSIZE' => '242262999.04',
             'SERIAL' => '721108710276527282117476968',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c344852752f4544)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1232,7 +1233,7 @@ my %test = (
             'DISKSIZE' => '333104283.648',
             'SERIAL' => '7211088651089047897011266110',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a2f594670426e)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1242,7 +1243,7 @@ my %test = (
             'DISKSIZE' => '555176951.808',
             'SERIAL' => '721108865108908676507298113',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a564c32486271)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1252,7 +1253,7 @@ my %test = (
             'DISKSIZE' => '353271545.856',
             'SERIAL' => '721108710276527978120718670',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c344f4e78475646)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1262,7 +1263,7 @@ my %test = (
             'DISKSIZE' => '333104283.648',
             'SERIAL' => '7211087102765247897082104116',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c342f5946526874)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1272,7 +1273,7 @@ my %test = (
             'DISKSIZE' => '508978790.4',
             'SERIAL' => '7211087102765281121109784548',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c3451796d4e2d30)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1282,7 +1283,7 @@ my %test = (
             'DISKSIZE' => '71999422.464',
             'SERIAL' => undef,
             'DESCRIPTION' => 'LSILOGIC Serial Attached SCSI Disk (naa.600508e000000000c17b9ea0cb164e0f)',
-            'MANUFACTURER' => 'Logical Volume  ',
+            'MANUFACTURER' => 'LSILOGIC',
             'MODEL' => 'Logical Volume  '
           },
           {
@@ -1292,7 +1293,7 @@ my %test = (
             'DISKSIZE' => '333104283.648',
             'SERIAL' => '721108865108904785817949111',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a2f55514f316f)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1302,7 +1303,7 @@ my %test = (
             'DISKSIZE' => '333104283.648',
             'SERIAL' => '7211087102765247857611711471',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c342f554c757247)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1312,7 +1313,7 @@ my %test = (
             'DISKSIZE' => '353261060.096',
             'SERIAL' => '7211087102765272811177810249',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c344851754e6631)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1322,7 +1323,7 @@ my %test = (
             'DISKSIZE' => '353261060.096',
             'SERIAL' => '721108710276527281111849075',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c3448516f545a4b)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1332,7 +1333,7 @@ my %test = (
             'DISKSIZE' => '333104283.648',
             'SERIAL' => '721108710276524789707411253',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c342f59464a7035)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1342,7 +1343,7 @@ my %test = (
             'DISKSIZE' => '242262999.04',
             'SERIAL' => '72110871027652728211710848104',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c344852756c3068)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1352,7 +1353,7 @@ my %test = (
             'DISKSIZE' => '353269448.704',
             'SERIAL' => '7211088651089073808882108109',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a495058526c6d)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1362,7 +1363,7 @@ my %test = (
             'DISKSIZE' => '242262999.04',
             'SERIAL' => '721108865108907283579766104',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a485339614268)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1372,7 +1373,7 @@ my %test = (
             'DISKSIZE' => '333104283.648',
             'SERIAL' => '72110886510890478578476868',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a2f554e2f4444)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1382,7 +1383,7 @@ my %test = (
             'DISKSIZE' => '333104283.648',
             'SERIAL' => '7211088651089047897011911576',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a2f594677734c)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1392,7 +1393,7 @@ my %test = (
             'DISKSIZE' => '353261060.096',
             'SERIAL' => '7211088651089072835788102100',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a485339586664)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1402,7 +1403,7 @@ my %test = (
             'DISKSIZE' => '353261060.096',
             'SERIAL' => '7211088651089072835789120103',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a485339597867)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1412,7 +1413,7 @@ my %test = (
             'DISKSIZE' => '333104283.648',
             'SERIAL' => '72110871027652479953878565',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c342f6335575541)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1422,7 +1423,7 @@ my %test = (
             'DISKSIZE' => '333153566.72',
             'SERIAL' => '72110871027652478580113119101',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c342f5550717765)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1432,7 +1433,7 @@ my %test = (
             'DISKSIZE' => '242262999.04',
             'SERIAL' => '721108865108907283571017451',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a485339654a33)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1442,7 +1443,7 @@ my %test = (
             'DISKSIZE' => '302813020.16',
             'SERIAL' => '721108865108907978118758866',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e58416c5a4f4e764b5842)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           },
           {
@@ -1452,9 +1453,10 @@ my %test = (
             'DISKSIZE' => '403759431.68',
             'SERIAL' => '7211087102765273735084116120',
             'DESCRIPTION' => 'NETAPP Fibre Channel Disk (naa.60a98000486e57664c34494932547478)',
-            'MANUFACTURER' => 'LUN             ',
+            'MANUFACTURER' => 'NETAPP  ',
             'MODEL' => 'LUN             '
           }
+
         ],
         'getDrives()' => [
           {
@@ -1673,11 +1675,23 @@ my %test = (
             'TYPE' => '/vmfs/volumes/4d235b33-8259eeca-354d-e41f131cbab6',
             'FILESYSTEM' => 'vmfs'
           }
+        ],
+        'getVirtualMachines()' => [
+          {
+            'NAME' => 'BODI',
+            'STATUS' => 'running',
+            'MAC' => '00:50:56:87:00:2f',
+            'VMID' => '272',
+            'VMTYPE' => 'VMware',
+            'MEMORY' => '4096',
+            'UUID' => '4207c828-7eee-05c7-603b-4a521608d47b',
+            'VCPU' => '2'
+          }
         ]
 
     }
 );
-plan tests => 4;
+plan tests => 24;
 
 foreach my $dir (glob('resources/*')) {
     my $testName = basename($dir);
