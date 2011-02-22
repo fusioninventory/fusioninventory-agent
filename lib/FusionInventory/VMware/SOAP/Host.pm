@@ -284,6 +284,8 @@ sub getVirtualMachines {
         my $status;
         if ($_->[0]{summary}{runtime}{powerState} eq 'poweredOn') {
             $status = 'running';
+        } elsif ($_->[0]{summary}{runtime}{powerState} eq 'poweredOff') {
+            $status = 'off';
         }
 
         my @mac;
