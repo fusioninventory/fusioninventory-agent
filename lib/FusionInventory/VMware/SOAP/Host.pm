@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use Data::Dumper;
 
 sub new {
     my (undef, $hash, $vms) = @_;
@@ -285,6 +286,11 @@ sub getVirtualMachines {
             $status = 'running';
         }
 
+        my @mac;
+        foreach (@{getArray($_->[0]{config}{hardware}{device})}) {
+            push @mac, $_->{macAddress} if $_->{macAddress};
+        }
+
         if (!$status) {
             print Dumper($_->[0]);
         }
@@ -297,6 +303,7 @@ sub getVirtualMachines {
             MEMORY => $_->[0]{summary}{config}{memorySizeMB},
             VMTYPE => 'VMware',
             VCPU => $_->[0]{summary}{config}{numCpu},
+            MAC => join '/', @mac,
         };
     }
 
