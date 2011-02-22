@@ -116,31 +116,6 @@ sub createEsxInventory {
     }
 
 
-#    my $machineIdList = $vpbs->getVirtualMachineList();
-#    foreach my $id (@$machineIdList) {
-#        my $machine = $vpbs->getVirtualMachineById($id);
-#
-#        my $status;
-#        if ($machine->[0]{summary}{runtime}{powerState} eq 'poweredOn') {
-#                $status = 'running';
-#        }
-#
-#        if (!$status) {
-#            print Dumper($machine->[0]);
-#        }
-#
-#        $inventory->addVirtualMachine({
-#                VMID => $machine->[0]{summary}{vm},
-#                NAME => $machine->[0]{name},
-#                STATUS => $status,
-#                UUID => $machine->[0]{summary}{config}{uuid},
-#                MEMORY => $machine->[0]{summary}{config}{memorySizeMB},
-#                VMTYPE => 'VMware',
-#                VCPU => $machine->[0]{summary}{config}{numCpu},
-#
-#                });
-#
-#    }
 
     return $inventory;
 

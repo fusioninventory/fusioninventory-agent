@@ -6,11 +6,12 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub new {
-    my (undef, $hash) = @_;
+    my (undef, $hash, $vms) = @_;
 
 
     my $self = {
-        hash => $hash
+        hash => $hash,
+        vms => $vms
     };
 
 
@@ -273,5 +274,33 @@ sub getDrives {
     return $ret;
 }
 
+sub getVirtualMachines {
+    my ($self) = @_;
+
+    my $ret = [];
+
+    foreach (@{$self->{vms}}) {
+        my $status;
+        if ($_->[0]{summary}{runtime}{powerState} eq 'poweredOn') {
+            $status = 'running';
+        }
+
+        if (!$status) {
+            print Dumper($_->[0]);
+        }
+
+        push @$ret, {
+            VMID => $_->[0]{summary}{vm},
+            NAME => $_->[0]{name},
+            STATUS => $status,
+            UUID => $_->[0]{summary}{config}{uuid},
+            MEMORY => $_->[0]{summary}{config}{memorySizeMB},
+            VMTYPE => 'VMware',
+            VCPU => $_->[0]{summary}{config}{numCpu},
+        };
+    }
+
+    return $ret;
+}
 
 1;

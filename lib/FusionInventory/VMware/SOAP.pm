@@ -142,7 +142,7 @@ sub login {
 #}
 
 
-sub getVirtualMachineList {
+sub _getVirtualMachineList {
     my ($self) = @_;
 
     my $req =
@@ -176,7 +176,7 @@ sub getVirtualMachineList {
 
 }
 
-sub getVirtualMachineById {
+sub _getVirtualMachineById {
     my ($self, $id) = @_;
 
     my $req = '<?xml version="1.0" encoding="UTF-8"?>
@@ -212,9 +212,18 @@ sub getHostFullInfo {
     my $answer = $self->_send('RetrieveProperties', 'getHostFullInfo', sprintf($req, $id));
     my $ref = $self->_parseAnswer($answer);
 
+    my $vms = [];
+    my $machineIdList = $self->_getVirtualMachineList();
+    foreach my $id (@$machineIdList) {
+        push @$vms, $self->_getVirtualMachineById($id);
+    }
+
+
     my $host = FusionInventory::VMware::SOAP::Host->new($ref);
     return $host;
 }
+
+
 
 
 1;
