@@ -7,6 +7,8 @@ use XML::TreePP;
 use LWP::UserAgent;
 use HTTP::Cookies; #for testing
 
+use FusionInventory::VMware::SOAP::Host;
+
 sub new {
     my (undef, $params) = @_;
 
@@ -29,7 +31,7 @@ sub _loadSOAPDump {
     my ($self, $name) = @_;
 
     my $content;
-    open (FILE, "<". $self->{debugDir}."/".$name.".soap") or die "failed to open ".$self->{debugDir}.$name.".soap";
+    open (FILE, "<". $self->{debugDir}."/".$name.".soap") or die "failed to open ".$self->{debugDir}.'/'.$name.".soap";
     $/ = undef;
     $content = <FILE>;
     close FILE;
@@ -81,6 +83,7 @@ sub _parseAnswer {
     my $pattern = '.*<\w+Response xmlns="urn:vim25">(.+)</\w+Response>.*$';
     $answer =~ s/$pattern/$1/sg,;
     $answer =~ s/ (xsi:|)type="[:\w]+"//sg;
+    $answer =~ s/[[:cntrl:]]//g;
     my $tmpRef = $self->{tpp}->parse($answer);
 
 # Login
@@ -124,18 +127,19 @@ sub login {
 
 }
 
-sub getHostInfo {
-    my ($self) = @_;
-
-
-    my $req =
-        '<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><RetrieveServiceContent xmlns="urn:vim25"><_this type="ServiceInstance">ServiceInstance</_this></RetrieveServiceContent></soap:Body></soap:Envelope>';
-
-
-    my $answer = $self->_send('RetrieveServiceContent', 'RetrieveServiceContent', $req);
-    my $ref = $self->_parseAnswer($answer);
-    return $ref;
-}
+#sub getHostInfo {
+#    my ($self) = @_;
+#
+#
+#    my $req =
+#        '<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><RetrieveServiceContent xmlns="urn:vim25"><_this type="ServiceInstance">ServiceInstance</_this></RetrieveServiceContent></soap:Body></soap:Envelope>';
+#
+#
+#    my $answer = $self->_send('RetrieveServiceContent', 'RetrieveServiceContent', $req);
+#    my $ref = $self->_parseAnswer($answer);
+#
+#    return $host;
+#}
 
 
 sub getVirtualMachineList {
@@ -208,7 +212,8 @@ sub getHostFullInfo {
     my $answer = $self->_send('RetrieveProperties', 'getHostFullInfo', sprintf($req, $id));
     my $ref = $self->_parseAnswer($answer);
 
-    return $ref;
+    my $host = FusionInventory::VMware::SOAP::Host->new($ref);
+    return $host;
 }
 
 
