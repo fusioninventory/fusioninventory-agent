@@ -1691,7 +1691,7 @@ my %test = (
 
     }
 );
-plan tests => 24;
+plan tests => 22;
 
 foreach my $dir (glob('resources/*')) {
     my $testName = basename($dir);
