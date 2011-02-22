@@ -54,7 +54,6 @@ sub _send {
     }
 
 
-
     my $req = HTTP::Request->new(POST => $self->{url});
     $req->content($xmlToSend);
     $req->{_headers}->{soapaction} = "\"urn:vim25#".$action."\"";
@@ -192,7 +191,6 @@ sub _getVirtualMachineById {
     my $answer = $self->_send('RetrieveProperties', 'RetrieveProperties-VM-'.$id, sprintf($req, $id));
 
     my $ref = $self->_parseAnswer($answer);
-
     return $ref;
 }
 
@@ -219,7 +217,7 @@ sub getHostFullInfo {
     }
 
 
-    my $host = FusionInventory::VMware::SOAP::Host->new($ref);
+    my $host = FusionInventory::VMware::SOAP::Host->new($ref, $vms);
     return $host;
 }
 

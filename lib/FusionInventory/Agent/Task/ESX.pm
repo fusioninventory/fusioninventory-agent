@@ -115,6 +115,10 @@ sub createEsxInventory {
         $inventory->addDrive($_);
     }
 
+    foreach (@{$host->getVirtualMachines()}) {
+        $inventory->addVirtualMachine($_);
+    }
+
 
 
     return $inventory;

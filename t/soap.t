@@ -352,7 +352,7 @@ my %test = (
             'DISKSIZE' => undef,
             'SERIAL' => undef,
             'DESCRIPTION' => 'Local TEAC CD-ROM (mpx.vmhba0:C0:T0:L0)',
-            'MANUFACTURER' => 'DV-28E-V        ',
+            'MANUFACTURER' => 'TEAC    ',
             'MODEL' => 'DV-28E-V        '
           },
           {
@@ -383,8 +383,18 @@ my %test = (
             'TYPE' => '/vmfs/volumes/6954b300-01710358',
             'FILESYSTEM' => 'nfs'
           }
+        ],
+        'getVirtualMachines()' => [
+          {
+            'VMTYPE' => 'VMware',
+            'NAME' => 'ubuntu',
+            'STATUS' => 'running',
+            'MEMORY' => '512',
+            'UUID' => '564d9904-a176-a762-1b95-f75ddd0642d8',
+            'VMID' => '16',
+            'VCPU' => '1'
+          }
         ]
-
     },
     'esx-4.1.0-2' => {
         'login()' => {
@@ -1682,15 +1692,9 @@ foreach my $dir (glob('resources/*')) {
 
     lives_ok{$ret = $vpbs->getHostFullInfo()} $testName.' getHostFullInfo()';
 
-    foreach my $func (qw(getHostname getBiosInfo getHardwareInfo getCPUs getControllers getNetworks getStorages getDrives)) {
+    foreach my $func (qw(getHostname getBiosInfo getHardwareInfo getCPUs getControllers getNetworks getStorages getDrives getVirtualMachines)) {
         is_deeply($ret->$func, $test{$testName}{"$func()"}, "$func()") or print "####\n". Dumper($ret->$func)."####\n";
 
     }
 
-    my $machineIdList;
-    lives_ok{ $machineIdList = $vpbs->getVirtualMachineList()} $testName.' getVirtualMachineList()';
-    foreach my $id (@$machineIdList) {
-        my $machine;
-        lives_ok{ $machine = $vpbs->getVirtualMachineById($id) } $testName." getVirtualMachineById($id)";
-    }
 }
