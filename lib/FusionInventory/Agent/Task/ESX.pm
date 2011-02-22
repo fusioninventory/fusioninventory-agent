@@ -69,21 +69,16 @@ sub createEsxInventory {
     $inventory->{isInitialised}=1;
     $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME}=['remote'];
 
-print "setBios\n";
     $inventory->setBios($host->getBiosInfo());
 
-print "setHardware\n";
     $inventory->setHardware($host->getHardwareInfo());
 
     foreach my $cpu (@{$host->getCPUs()}) 
     {
-    print "addCPU\n";
-    print Dumper($cpu);
         $inventory->addCPU($cpu);
     }
 
     foreach (@{$host->getControllers()}) {
-    print "addController\n";
         $inventory->addController($_);
        
         if ($_->{PCICLASS} && ($_->{PCICLASS} eq '300')) {
@@ -96,8 +91,6 @@ print "setHardware\n";
 
     my %ipaddr;
     foreach (@{$host->getNetworks()}) {
-    print "addNetworks\n";
-    print Dumper($_);
         $ipaddr{$_->{IPADDRESS}}=1 if $_->{IPADDRESS};
         $inventory->addNetwork($_);
     }
@@ -111,7 +104,6 @@ print "setHardware\n";
 
     my %volumnMapping;
     foreach (@{$host->getStorages()}) {
-    print "add Storage\n";
 
 # TODO
 #        $volumnMapping{$entry->{canonicalName}} = $entry->{deviceName};
