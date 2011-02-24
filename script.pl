@@ -88,6 +88,8 @@ print "\n\n\n------------------------\n";
              }
          }
 
+
+
          if (!$job->checkWinkey()) {
              updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'rejected because of a Windows registry check');
              next JOB;

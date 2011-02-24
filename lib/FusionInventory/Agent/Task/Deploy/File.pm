@@ -6,7 +6,6 @@ use warnings;
 use Data::Dumper;
 use Digest::SHA;
 use LWP::Simple;
-use File::Path qw(make_path);
 
 sub new {
     my (undef, $params) = @_;
@@ -41,10 +40,6 @@ sub download {
     }
 
     my $path = $datastore->getPathBySha512($self->{sha512});
-    if (!-d $path && !make_path($path)) {
-        print "Failed to create `$path' directory\n";
-        return;
-    }
 
 MULTIPART: foreach (@{$self->{multipart}}) {
         my ($file, $sha512) =  %$_;
