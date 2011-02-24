@@ -27,6 +27,8 @@ sub new {
 sub checkWinkey {
     my ($self) = @_;
 
+    return 1 unless $self->{requires}{winkey};
+
     return unless $OSNAME eq 'MSWin32'
 }
 
@@ -36,9 +38,12 @@ sub checkFreespace {
     return 1;
 }
 
-sub run {
+sub getNextToProcess {
     my ($self) = @_;
 
+    return unless $self->{actions};
+
+    shift @{$self->{actions}};
 }
 
 1;

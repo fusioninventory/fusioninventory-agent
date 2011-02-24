@@ -9,9 +9,11 @@ use LWP;
 use JSON;
 use LWP::Simple;
 use Data::Dumper;
+use URI::Escape;
 use FusionInventory::Agent::Task::Deploy::Job;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Datastore;
+use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 
 my $baseUrl = "http://deploy/ocsinventory/deploy";
 
@@ -20,7 +22,7 @@ sub updateStatus {
 
     my $ua = LWP::UserAgent->new;
 
-    my $url = $baseUrl."?a=setStatus&d=$deviceid&part=$part&u=$uuid&s=$status&m=".($message||'');
+    my $url = $baseUrl."?a=setStatus&d=$deviceid&part=$part&u=$uuid&s=$status&m=".(uri_escape($message)||'');
 
     print $url."\n";
 
@@ -69,6 +71,7 @@ sub getJobs {
 
 my $jobList = getJobs();
 JOB: foreach my $job (@$jobList) {
+print "\n\n\n------------------------\n";
          updateStatus('DEVICEID', 'job', $job->{uuid}, 'received');
          foreach my $file (@{$job->{files}}) {
              if ($file->exists()) {
@@ -92,5 +95,16 @@ JOB: foreach my $job (@$jobList) {
              updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'rejected because of harddrive free space');
              next JOB;
          }
+
+        my $actionProcessor = FusionInventory::Agent::Task::Deploy::ActionProcessor->new(); 
+        updateStatus('DEVICEID', 'job', $job->{uuid}, 'processing');
+        while (my $action = $job->getNextToProcess()) {
+            if ($actionProcessor->process($action)) {
+                updateStatus('DEVICEID', 'job', $job->{uuid}, 'ok');
+            } else {
+                updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'action processing failure');
+
+            }
+        }
 
      }
