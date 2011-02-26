@@ -15,7 +15,8 @@ use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 
-my $baseUrl = "http://deploy/ocsinventory/deploy";
+my $baseUrl = "http://deploy/ocsinventory/deploy/";
+
 
 sub updateStatus {
     my ($deviceid, $part, $uuid, $status, $message) = @_;
@@ -26,8 +27,7 @@ sub updateStatus {
 
     print $url."\n";
 
-    my $response = $ua->get();
-return;
+    my $response = $ua->get($url);
     if (!$response->is_success) {
         print "FAILED TO UPDATE THE STATUS\n";
         sleep(600);
@@ -35,7 +35,48 @@ return;
     }
 }
 
+sub setLog {
+    my ($deviceid, $uuid, $filePath) = @_;
+
+    my $ua = LWP::UserAgent->new;
+
+    my $url = $baseUrl."?a=setLog&d=$deviceid&u=$uuid";
+
+    print $url."\n";
+
+    my $fh;
+    my $content;
+    if(!open($fh, "<$filePath")) {
+        return;
+    } else {
+        my $truncated;
+        my @stack;
+        while(<$fh>) {
+            chomp();
+            push @stack, $_;
+
+            if (@stack > 100) {
+                $truncated = 1;
+                shift @stack;
+            }
+        }
+        
+        unshift @stack, 'log truncated' if $truncated;;
+        $content = join('\n',@stack);
+
+        close($fh);
+    }
+
+    my $response = $ua->post($url, { log => $content });
+    if (!$response->is_success) {
+        print "FAILED TO SEND THE LOG\n";
+        sleep(600);
+        $response = $ua->post($url, {log => $content});
+    }
+}
+
 sub getJobs {
+    my ($datastore) = @_;
 
     my $ret = [];
 
@@ -47,13 +88,10 @@ sub getJobs {
     my $perl_scalar = from_json( $json_text, { utf8  => 1 } );
 #    print to_json( $perl_scalar, { ascii => 1, pretty => 1 } );
 
-    my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new({
-            path => '/tmp',
-            });
-    foreach my $sha512 (keys %{$perl_scalar->{files}}) {
+    foreach my $sha512 (keys %{$perl_scalar->{associatedFiles}}) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new({
                 sha512 => $sha512,
-                data => $perl_scalar->{files}{$sha512},
+                data => $perl_scalar->{associatedFiles}{$sha512},
                 datastore => $datastore
                 });
     }
@@ -68,20 +106,28 @@ sub getJobs {
     $ret;
 }
 
+my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new({
+        path => '/tmp',
+        });
+$datastore->cleanUp();
 
-my $jobList = getJobs();
+my $jobList = getJobs($datastore);
 JOB: foreach my $job (@$jobList) {
+         setLog('DEVICEID', $job->{uuid}, '/etc/fstab');
+         my $session = $datastore->createSession($job->{uuid}); 
 print "\n\n\n------------------------\n";
          updateStatus('DEVICEID', 'job', $job->{uuid}, 'received');
          foreach my $file (@{$job->{files}}) {
              if ($file->exists()) {
                  updateStatus('DEVICEID', 'file', $file->{sha512}, 'ok');
+                 $session->addFile($file);
                  next;
              }
              updateStatus('DEVICEID', 'file', $file->{sha512}, 'downloading');
              $file->download();
              if ($file->exists()) {
                  updateStatus('DEVICEID', 'file', $file->{sha512}, 'ok');
+                 $session->addFile($file);
              } else {
                  updateStatus('DEVICEID', 'file', $file->{sha512}, 'ko', 'download failed');
                  next JOB;
@@ -104,9 +150,12 @@ print "\n\n\n------------------------\n";
             if ($actionProcessor->process($action)) {
                 updateStatus('DEVICEID', 'job', $job->{uuid}, 'ok');
             } else {
+                setLog('DEVICEID', $job->{uuid}, '/etc/fstab');
                 updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'action processing failure');
 
             }
         }
 
      }
+
+$datastore->cleanUp();

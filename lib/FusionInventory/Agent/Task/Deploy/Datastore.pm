@@ -5,16 +5,38 @@ use FusionInventory::Agent::Task::Deploy::Datastore::Session;
 use strict;
 use warnings;
 
-use File::Path qw(make_path);
+use File::Path qw(make_path remove_tree);
 
 sub new {
     my (undef, $params) = @_;
+
+    die unless $params->{path};
 
     my $self = {
         path => $params->{path},
     };
 
+
+
     bless $self;
+}
+
+sub cleanUp {
+    my ($self) = @_;
+
+    remove_tree( $self->{path}.'/sessions/', {error => \my $err} );
+    if (@$err) {
+        for my $diag (@$err) {
+            my ($file, $message) = %$diag;
+            if ($file eq '') {
+                print "general error: $message\n";
+            }
+            else {
+                print "problem unlinking $file: $message\n";
+            }
+        }
+    }
+
 }
 
 sub getPathBySha512 {
@@ -30,12 +52,15 @@ sub getPathBySha512 {
 }
 
 sub createSession {
-    my ($self, $job) = @_;
+    my ($self, $uuid) = @_;
 
 #    make_path($filePath);
 
+    my $path = $self->{path}.'/sessions/'.$uuid;
 
-    return FusionInventory::Agent::Task::Deploy::Datastore::Session->new({ path => $self->{path}.'/sessions/'.$job->{uuid} });
+    return unless make_path($path);
+
+    return FusionInventory::Agent::Task::Deploy::Datastore::Session->new({ path => $path});
 
 
 }

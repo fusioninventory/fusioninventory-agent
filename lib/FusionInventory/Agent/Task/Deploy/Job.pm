@@ -10,13 +10,13 @@ sub new {
     my (undef, $params) = @_;
 
     my $self = $params->{data};
-    my $files = $params->{files};
+    my $associatedFiles = $params->{associatedFiles};
 
-    $self->{files} = [];
-    if ($params->{data}{requires}{files}) {
-        foreach (@{$self->{requires}{files}}) {
-            die "Missing file $_\n" unless $files->{$_};
-            push @{$self->{files}}, $files->{$_};
+    $self->{associatedFiles} = [];
+    if ($self->{associatedFiles}) {
+        foreach (@{$self->{associatedFiles}}) {
+            die "Missing file $_\n" unless $associatedFiles->{$_};
+            push @{$self->{associatedFiles}}, $associatedFiles->{$_};
         }
     }
 
