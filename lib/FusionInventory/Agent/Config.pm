@@ -33,7 +33,6 @@ sub new {
         $values->{$key} = $defaults->{$key};
     }
     $backend->load($values);
-    _check($values);
 
     my $self = {
         values => $values
@@ -70,22 +69,6 @@ sub getBlock {
         $block->{$1} = $self->{values}->{$key};
     }
     return $block;
-}
-
-sub _check {
-    my ($values) = @_;
-
-    # if a logfile is defined, add file logger
-    if ($values->{logfile}) {
-        $values->{logger} .= ',File'
-    }
-
-
-    # We want only canonical path
-    foreach my $value (qw/ca-cert-file ca-cert-dir logfile/) {
-        next unless $values->{$value};
-        $values->{$value} = File::Spec->rel2abs($values->{$value});
-    }
 }
 
 1;
