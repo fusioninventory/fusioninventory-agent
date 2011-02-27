@@ -5,6 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Job;
 

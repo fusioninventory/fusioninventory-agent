@@ -8,9 +8,6 @@ use Cwd;
 use English qw(-no_match_vars);
 use POE;
 
-use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Server::HTTPD;
 use FusionInventory::Agent::Server::Scheduler;
 

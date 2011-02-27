@@ -4,13 +4,6 @@ use strict;
 use warnings;
 use base qw/FusionInventory::Agent/;
 
-use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::Target::Local;
-use FusionInventory::Agent::Target::Stdout;
-use FusionInventory::Agent::Target::Server;
-
 sub run {
     my ($self, %params) = @_;
 
