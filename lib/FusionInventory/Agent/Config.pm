@@ -53,22 +53,21 @@ sub getValues {
 
     my $value = $self->getValue($name);
 
-    # undefined
     return
         ! defined $value ? ()       :
         ! ref $value     ? ($value) :
                            @$value  ;
 }
 
-sub getBlock {
+sub getBlockValues {
     my ($self, $name) = @_;
 
-    my $block;
+    my %values;
     foreach my $key (keys %{$self->{values}}) {
         next unless $key =~ /^$name\.(\S+)/;
-        $block->{$1} = $self->{values}->{$key};
+        $values{$1} = $self->{values}->{$key};
     }
-    return $block;
+    return %values;
 }
 
 1;
@@ -101,3 +100,15 @@ The directory to use for searching configuration file.
 The configuration file to use.
 
 =back
+
+=head2 getValue($key)
+
+Return the value for given key, as a scalar.
+
+=head2 getValues($key)
+
+Return the values for given key, as a list.
+
+=head2 getBlockValues($block)
+
+Return the values for given block, as an hash.

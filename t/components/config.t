@@ -123,7 +123,9 @@ ok(
 );
 
 is_deeply(
-    $config->getBlock('section'),
+    {
+        $config->getBlockValues('section'),
+    },
     {
         key1 => 'value1',
         key2 => [ qw/value1 value2 value3 value4/ ],
