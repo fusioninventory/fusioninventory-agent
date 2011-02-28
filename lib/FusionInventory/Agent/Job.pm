@@ -10,10 +10,10 @@ use FusionInventory::Agent::Storage;
 sub new {
     my ($class, %params) = @_;
 
-    die 'no id parameter'         unless $params{id};
-    die 'no task parameter'       unless $params{task};
-    die 'no target parameter'     unless $params{target};
-    die 'no basevardir parameter' unless $params{basevardir};
+    die 'no id parameter'     unless $params{id};
+    die 'no task parameter'   unless $params{task};
+    die 'no target parameter' unless $params{target};
+    die 'no vardir parameter' unless $params{vardir};
 
     my $self = {
         id     => $params{id},
@@ -29,7 +29,7 @@ sub new {
     # create storage object
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
-        directory => $params{basevardir} . '/' . $params{id}
+        directory => $params{vardir} . '/' . $params{id}
     );
 
     # restore previous state if it exists
@@ -206,7 +206,7 @@ the job periodicity, in seconds (default: 3600)
 
 the next execution date, as a unix timestamp
 
-=item I<basevardir>
+=item I<vardir>
 
 the base directory of the storage area (mandatory)
 

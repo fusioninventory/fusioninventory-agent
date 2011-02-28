@@ -142,12 +142,12 @@ sub getJobFromConfiguration {
     die "No such job $id in configuration" unless $config;
 
     return FusionInventory::Agent::Job->new(
-        id         => $id,
-        task       => $config->{task},
-        target     => $config->{target},
-        period     => $config->{period},
-        logger     => $self->{logger},
-        basevardir => $self->{vardir},
+        id     => $id,
+        task   => $config->{task},
+        target => $config->{target},
+        period => $config->{period},
+        logger => $self->{logger},
+        vardir => $self->{vardir},
     );
 }
 
@@ -155,11 +155,11 @@ sub getAnonymousJob {
     my ($self, $task, $target) = @_;
 
     return FusionInventory::Agent::Job->new(
-        id         => 'anonymous',
-        task       => $task,
-        target     => $target,
-        logger     => $self->{logger},
-        basevardir => $self->{vardir},
+        id     => 'anonymous',
+        task   => $task,
+        target => $target,
+        logger => $self->{logger},
+        vardir => $self->{vardir},
     );
 }
 
