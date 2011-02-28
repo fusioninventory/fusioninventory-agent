@@ -37,7 +37,7 @@ sub new {
     $self->{config} = $config;
 
     my $logger = FusionInventory::Agent::Logger->new(
-        %{$config->getBlock('logger')},
+        $config->getBlockValues('logger'),
         backends => [ $config->getValues('logger.backends') ],
         debug    => $params{debug}
     );
