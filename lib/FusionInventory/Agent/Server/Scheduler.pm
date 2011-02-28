@@ -11,8 +11,8 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger  => $params{logger} || FusionInventory::Agent::Logger->new(),
-        state   => $params{state},
+        logger => $params{logger} || FusionInventory::Agent::Logger->new(),
+        agent  => $params{agent},
     };
 
     bless $self, $class;
@@ -44,7 +44,7 @@ sub checkAllJobs {
     $self->{logger}->debug(
         sprintf("[scheduler] waking up at %i", $time,)
     );
-    foreach my $job ($self->{state}->getJobs()) {
+    foreach my $job ($self->{agent}->getJobs()) {
         my $id   = $job->getId();
         my $date = $job->getNextRunDate();
         $self->{logger}->debug(
@@ -52,7 +52,7 @@ sub checkAllJobs {
                 "[scheduler] checking job %s: next run at %i", $id, $date
             )
         );
-        $self->{state}->runJob($job) if $time > $date;
+        $self->{agent}->runJob($job) if $time > $date;
     }
 }
 
@@ -81,9 +81,9 @@ hash:
 
 the logger object to use (default: a new stderr logger)
 
-=item I<state>
+=item I<agent>
 
-the server state object
+the agent object
 
 =back
 

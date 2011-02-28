@@ -25,14 +25,14 @@ sub run {
 
     FusionInventory::Agent::Server::Scheduler->new(
         logger => $logger,
-        state  => $self,
+        agent  => $self,
     );
 
     my $www_config = $config->getBlock('www');
     if ($www_config) {
         FusionInventory::Agent::Server::HTTPD->new(
             logger  => $logger,
-            state   => $self,
+            agent   => $self,
             htmldir => $self->{datadir} . '/html',
             ip      => $www_config->{ip},
             port    => $www_config->{port},

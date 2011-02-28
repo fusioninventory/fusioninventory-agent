@@ -20,7 +20,7 @@ sub new {
 
     my $self = {
         logger  => $params{logger} || FusionInventory::Agent::Logger->new(),
-        state   => $params{state},
+        agent   => $params{agent},
         htmldir => $params{htmldir},
         trust   => Net::IP->new($params{trust}),
     };
@@ -92,7 +92,7 @@ sub default {
     my $hash = {
         version => $FusionInventory::Agent::VERSION,
         trust   => $self->{trust},
-        jobs    => [ $self->{state}->getJobs() ]
+        jobs    => [ $self->{agent}->getJobs() ]
     };
 
     $response->code(RC_OK);
@@ -120,7 +120,7 @@ sub deploy {
     my $logger = $self->{logger};
     $logger->debug("[httpd] 'deploy' handler called, with file $file");
 
-    foreach my $target ($self->{state}->getTargets()) {
+    foreach my $target ($self->{agent}->getTargets()) {
         $self->sendFile(
             $response,
             $target->getStorage()->getDirectory() . '/' . $file
@@ -152,19 +152,19 @@ sub now {
                 $code = 200;
                 $message = "Done";
                 $result = "trusted address";
-                $self->{state}->runAllJobs();
+                $self->{agent}->runAllJobs();
                 last CASE;
             }
         }
 
         if ($token) {
-            if ($token eq $self->{state}->getToken()) {
+            if ($token eq $self->{agent}->getToken()) {
                 # authenticated request
                 $code = 200;
                 $message = "Done";
                 $result = "authenticated address";
-                $self->{state}->runAllJobs();
-                $self->{state}->resetToken();
+                $self->{agent}->runAllJobs();
+                $self->{agent}->resetToken();
                 last CASE;
             }
         }
@@ -249,9 +249,9 @@ hash:
 
 the logger object to use (default: a new stderr logger)
 
-=item I<state>
+=item I<agent>
 
-the server state object
+the agent object
 
 =item I<htmldir>
 
