@@ -37,6 +37,10 @@ my $agent = FusionInventory::Agent::Server->new(
     conffile  => $options{'conf-file'},
 );
 
+my @jobs = $agent->getAllJobsFromConfiguration();
+die "No jobs defined, aborting" unless @jobs;
+$agent->addJob($_) foreach @jobs;
+
 $agent->daemonize() if $options{fork};
 
 eval {

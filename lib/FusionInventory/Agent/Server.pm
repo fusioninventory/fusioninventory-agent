@@ -14,24 +14,15 @@ use FusionInventory::Agent::Server::Scheduler;
 sub run {
     my ($self, %params) = @_;
 
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-
-    foreach my $job (split(' ', $config->getValues('global.jobs') || '')) {
-        push @{$self->{jobs}}, $self->getJobFromConfiguration($job);
-    }
-
-    die "No jobs defined, aborting" unless $self->{jobs};
-
     FusionInventory::Agent::Server::Scheduler->new(
-        logger => $logger,
+        logger => $self->{logger},
         agent  => $self,
     );
 
-    my $www_config = $config->getBlock('www');
+    my $www_config = $self->{config}->getBlock('www');
     if ($www_config) {
         FusionInventory::Agent::Server::HTTPD->new(
-            logger  => $logger,
+            logger  => $self->{logger},
             agent   => $self,
             htmldir => $self->{datadir} . '/html',
             ip      => $www_config->{ip},
@@ -39,7 +30,7 @@ sub run {
             trust   => $www_config->{trust},
         );
     } else {
-        $logger->info("Web interface disabled");
+        $self->{logger}->info("Web interface disabled");
     }
 
     POE::Kernel->run();

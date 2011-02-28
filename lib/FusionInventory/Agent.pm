@@ -135,6 +135,14 @@ sub getTargetFromConfiguration {
     return $class->new(id => $id, %$config);
 }
 
+sub getAllJobsFromConfiguration {
+    my ($self) = @_;
+
+    return
+        map { $self->getJobFromConfiguration($_) }
+        $self->{config}->getValues('global.jobs');
+}
+
 sub getJobFromConfiguration {
     my ($self, $id) = @_;
 
@@ -171,6 +179,11 @@ sub getToken {
 sub getJobs {
     my ($self) = @_;
     return @{$self->{jobs}};
+}
+
+sub addJob {
+    my ($self, $job) = @_;
+    push @{$self->{jobs}}, $job;
 }
 
 sub resetToken {
