@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base qw/FusionInventory::Agent/;
 
-sub run {
+sub executeJob {
     my ($self, %params) = @_;
 
     my $logger = $self->{logger};

@@ -81,7 +81,7 @@ my $agent = FusionInventory::Agent::Worker->new(
 );
 
 eval {
-    $agent->run(
+    $agent->executeJob(
         job           => $options{job},
         task          => $options{task},
         target        => $options{target},
