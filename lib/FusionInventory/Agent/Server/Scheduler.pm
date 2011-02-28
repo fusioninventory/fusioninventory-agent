@@ -52,7 +52,7 @@ sub checkAllJobs {
                 "[scheduler] checking job %s: next run at %i", $id, $date
             )
         );
-        $self->{agent}->runJob($job) if $time > $date;
+        $self->{agent}->executeJob($job) if $time > $date;
     }
 }
 

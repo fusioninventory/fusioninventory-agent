@@ -152,7 +152,7 @@ sub now {
                 $code = 200;
                 $message = "Done";
                 $result = "trusted address";
-                $self->{agent}->runAllJobs();
+                $self->{agent}->executeAllJobs();
                 last CASE;
             }
         }
@@ -163,7 +163,7 @@ sub now {
                 $code = 200;
                 $message = "Done";
                 $result = "authenticated address";
-                $self->{agent}->runAllJobs();
+                $self->{agent}->executeAllJobs();
                 $self->{agent}->resetToken();
                 last CASE;
             }
