@@ -37,10 +37,10 @@ my $server = FusionInventory::Agent::Server->new(
     conffile  => $options{'conf-file'},
 );
 
+$server->daemonize() if $options{fork};
+
 eval {
-    $server->run(
-        fork => $options{fork}
-    );
+    $server->run()
 };
 
 if ($EVAL_ERROR) {

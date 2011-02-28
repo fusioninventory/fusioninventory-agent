@@ -23,42 +23,6 @@ sub run {
 
     die "No jobs defined, aborting" unless $self->{jobs};
 
-    if ($params{fork}) {
-        Proc::Daemon->require();
-        die "Unable to load Proc::Daemon, exiting..." if $EVAL_ERROR;
-
-        my $daemon = Proc::Daemon->new(
-            work_dir => $self->{vardir},
-            pid_file => 'server.pid',
-        );
-
-        # check if the daemon is already running
-        die "A server is already running, exiting..." if $daemon->Status(
-            $self->{vardir} . '/server.pid'
-        );
-
-        # fork
-        my $pid = $daemon->Init();
-
-        # call main POE loop in child only
-        if (!$pid) {
-            POE::Kernel->has_forked();
-            $self->init();
-            POE::Kernel->run();
-        }
-    } else {
-        # call main POE loop
-        $self->init();
-        POE::Kernel->run();
-    }
-}
-
-sub init {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-
     FusionInventory::Agent::Server::Scheduler->new(
         logger => $logger,
         state  => $self,
@@ -76,6 +40,36 @@ sub init {
         );
     } else {
         $logger->info("Web interface disabled");
+    }
+
+    POE::Kernel->run();
+}
+
+sub daemonize {
+    my ($self) = @_;
+
+    Proc::Daemon->require();
+    die "Unable to load Proc::Daemon, exiting..." if $EVAL_ERROR;
+
+    my $daemon = Proc::Daemon->new(
+        work_dir => $self->{vardir},
+        pid_file => 'server.pid',
+    );
+
+    # check if the daemon is already running
+    die "A server is already running, exiting..." if $daemon->Status(
+        $self->{vardir} . '/server.pid'
+    );
+
+    # fork
+    my $pid = $daemon->Init();
+
+    if ($pid) {
+        # parent: exit immediatly
+        exit;
+    } else {
+        # child: notify POE kernel
+        POE::Kernel->has_forked();
     }
 }
 
@@ -127,7 +121,11 @@ The constructor.
 
 =head2 run(%params)
 
-Run the server.
+Run the the agent as a server.
+
+=head2 daemonize(%params)
+
+Fork the agent in the background.
 
 =head2 getToken()
 
