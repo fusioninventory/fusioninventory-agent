@@ -9,7 +9,6 @@ use Getopt::Long;
 use Pod::Usage;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Worker;
 
 Getopt::Long::Configure('no_ignorecase');
 
@@ -71,7 +70,7 @@ if ($options{wait}) {
     sleep($delay);
 }
 
-my $agent = FusionInventory::Agent::Worker->new(
+my $agent = FusionInventory::Agent->new(
     confdir   => './etc/fusioninventory',
     datadir   => './share',
     vardir    => './var',
