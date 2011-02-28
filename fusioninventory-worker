@@ -71,7 +71,7 @@ if ($options{wait}) {
     sleep($delay);
 }
 
-my $worker = FusionInventory::Agent::Worker->new(
+my $agent = FusionInventory::Agent::Worker->new(
     confdir   => './etc/fusioninventory',
     datadir   => './share',
     vardir    => './var',
@@ -81,7 +81,7 @@ my $worker = FusionInventory::Agent::Worker->new(
 );
 
 eval {
-    $worker->run(
+    $agent->run(
         job           => $options{job},
         task          => $options{task},
         target        => $options{target},

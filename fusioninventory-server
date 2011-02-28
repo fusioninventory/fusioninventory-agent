@@ -29,7 +29,7 @@ if ($options{version}) {
     exit 0;
 }
 
-my $server = FusionInventory::Agent::Server->new(
+my $agent = FusionInventory::Agent::Server->new(
     confdir   => './etc/fusioninventory',
     datadir   => './share',
     vardir    => './var',
@@ -37,10 +37,10 @@ my $server = FusionInventory::Agent::Server->new(
     conffile  => $options{'conf-file'},
 );
 
-$server->daemonize() if $options{fork};
+$agent->daemonize() if $options{fork};
 
 eval {
-    $server->run()
+    $agent->run()
 };
 
 if ($EVAL_ERROR) {
