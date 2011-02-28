@@ -73,34 +73,6 @@ sub daemonize {
     }
 }
 
-sub getToken {
-    my ($self) = @_;
-    return $self->{token};
-}
-
-sub getJobs {
-    my ($self) = @_;
-    return @{$self->{jobs}};
-}
-
-sub resetToken {
-    my ($self) = @_;
-    $self->{token} = _computeNewToken();
-}
-
-sub runJob {
-    my ($self, $job) = @_;
-
-    $self->{logger}->debug("[server] running job $job->{id}");
-    $job->scheduleNextRun();
-}
-
-sub runAllJobs {
-    my ($self) = @_;
-
-    $self->runJob($_) foreach (@{$self->{jobs}});
-}
-
 1;
 
 __END__

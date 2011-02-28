@@ -4,45 +4,6 @@ use strict;
 use warnings;
 use base qw/FusionInventory::Agent/;
 
-sub executeJob {
-    my ($self, %params) = @_;
-
-    my $logger = $self->{logger};
-
-    my $job;
-    if ($params{job}) {
-        $job = $self->getJobFromConfiguration($params{job});
-    } elsif ($params{task} && $params{target}) {
-        $job = $self->getAnonymousJob($params{task}, $params{target});
-    } else {
-        $logger->error("Unable to create a job, aborting");
-    }
-
-    my $task    = $self->getTaskFromConfiguration($job->{task});
-    my $target  = $self->getTargetFromConfiguration($job->{target});
-    my $storage = $job->getStorage();
-
-    return unless $task and $target;
-
-    $logger->info(
-        sprintf(
-            "Running task '%s' for target '%s' as job '%s'",
-            $task->{id}, $target->{id}, $job->{id}
-        )
-    );
-
-    # run task
-    $task->run(
-        target   => $target,
-        logger   => $logger,
-        storage  => $storage,
-        confdir  => $self->{confdir},
-        datadir  => $self->{datadir},
-        deviceid => $self->{deviceid},
-        token    => $self->{token},
-    );
-
-}
 
 1;
 
