@@ -65,19 +65,22 @@ foreach my $param (@{$options{'target-param'}}) {
     $target_params->{$1} = $2;
 }
 
-if ($options{wait}) {
-    my $delay = int rand($options{wait});
-    sleep($delay);
-}
-
 my $agent = FusionInventory::Agent->new(
     confdir   => './etc/fusioninventory',
     datadir   => './share',
     vardir    => './var',
     debug     => $options{debug},
-    lazy      => $options{lazy},
     conffile  => $options{'conf-file'},
 );
+
+if ($options{wait}) {
+    my $delay = int rand($options{wait});
+    sleep($delay);
+}
+
+if ($options{lazy}) {
+    # check job planned execution date
+}
 
 eval {
     $agent->executeJob(
