@@ -28,7 +28,7 @@ sub process {
 
     my ($actionType, $params) = %$action;
     print "run command: $actionType\n";
-    print Dumper($params);
+#    print Dumper($params);
 
     return $actionByType{$actionType}($params);
 }
