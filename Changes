@@ -63,6 +63,7 @@ Revision history for FusionInventory::Agent
        * Win32: retrieve Antivirus information from //./root/SecurityCenter2 on Win7
          http://forge.fusioninventory.org/issues/583
        * Add VIRTUALMACHINES/MAC key
+       * Win32: software, do not ignore software with very few information
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied

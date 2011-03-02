@@ -65,7 +65,9 @@ sub processSoftwares {
         $guid =~ s/\/$//; # drop the tailing / 
 
 # odd, found on Win2003
-        next unless keys %$data > 2;
+        if (!$data->{'/DisplayName'} && keys %$data <= 2) {
+            next;
+        }
 
 
         my $name = encodeFromRegistry($data->{'/DisplayName'});
