@@ -60,7 +60,7 @@ sub setLog {
                 shift @stack;
             }
         }
-        
+
         unshift @stack, 'log truncated' if $truncated;;
         $content = join('\n',@stack);
 
@@ -86,7 +86,8 @@ sub getJobs {
     print $json_text."\n";
 
     my $perl_scalar = from_json( $json_text, { utf8  => 1 } );
-#    print to_json( $perl_scalar, { ascii => 1, pretty => 1 } );
+
+   # print to_json( $perl_scalar, { ascii => 1, pretty => 1 } );
 
     foreach my $sha512 (keys %{$perl_scalar->{associatedFiles}}) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new({
@@ -114,20 +115,20 @@ $datastore->cleanUp();
 my $jobList = getJobs($datastore);
 JOB: foreach my $job (@$jobList) {
          setLog('DEVICEID', $job->{uuid}, '/etc/fstab');
-         my $session = $datastore->createSession($job->{uuid}); 
+         my $workdir = $datastore->createWorkDir($job->{uuid});
 print "\n\n\n------------------------\n";
          updateStatus('DEVICEID', 'job', $job->{uuid}, 'received');
          foreach my $file (@{$job->{files}}) {
              if ($file->exists()) {
                  updateStatus('DEVICEID', 'file', $file->{sha512}, 'ok');
-                 $session->addFile($file);
+                 $workdir->addFile($file);
                  next;
              }
              updateStatus('DEVICEID', 'file', $file->{sha512}, 'downloading');
              $file->download();
              if ($file->exists()) {
                  updateStatus('DEVICEID', 'file', $file->{sha512}, 'ok');
-                 $session->addFile($file);
+                 $workdir->addFile($file);
              } else {
                  updateStatus('DEVICEID', 'file', $file->{sha512}, 'ko', 'download failed');
                  next JOB;
@@ -144,7 +145,7 @@ print "\n\n\n------------------------\n";
              next JOB;
          }
 
-        my $actionProcessor = FusionInventory::Agent::Task::Deploy::ActionProcessor->new(); 
+        my $actionProcessor = FusionInventory::Agent::Task::Deploy::ActionProcessor->new();
         updateStatus('DEVICEID', 'job', $job->{uuid}, 'processing');
         while (my $action = $job->getNextToProcess()) {
             if ($actionProcessor->process($action)) {

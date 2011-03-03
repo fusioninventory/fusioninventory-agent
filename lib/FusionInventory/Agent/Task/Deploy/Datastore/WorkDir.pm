@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Deploy::Datastore::Session;
+package FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 
 use strict;
 use warnings;

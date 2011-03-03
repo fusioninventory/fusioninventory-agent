@@ -12,14 +12,14 @@ sub new {
 
     my $self = $params->{data};
     my $sha512 = $params->{sha512};
-    my $datastore = $params->{datastore};
+#    my $datastore = $params->{datastore};
 
-    die unless $datastore;
+#    die unless $datastore;
     die unless $sha512;
     die unless $self;
 
     $self->{sha512} = $sha512;
-    $self->{datastore} = $datastore;
+#    $self->{datastore} = $datastore;
 
     foreach my $sha512 (keys %{$params->{files}}) {
         print $sha512."\n";

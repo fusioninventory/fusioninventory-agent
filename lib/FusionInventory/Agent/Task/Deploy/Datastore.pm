@@ -1,6 +1,6 @@
 package FusionInventory::Agent::Task::Deploy::Datastore;
 
-use FusionInventory::Agent::Task::Deploy::Datastore::Session;
+use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 
 use strict;
 use warnings;
@@ -51,7 +51,7 @@ sub getPathBySha512 {
     }
 }
 
-sub createSession {
+sub createWorkDir {
     my ($self, $uuid) = @_;
 
 #    make_path($filePath);
@@ -60,7 +60,7 @@ sub createSession {
 
     return unless make_path($path);
 
-    return FusionInventory::Agent::Task::Deploy::Datastore::Session->new({ path => $path});
+    return FusionInventory::Agent::Task::Deploy::Datastore::WorkDir->new({ path => $path});
 
 
 }

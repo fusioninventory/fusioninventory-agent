@@ -5,14 +5,12 @@ use warnings;
 
 use Data::Dumper;
 
-use File::Copy::Recursive qw(dirmove);
+use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move;
+use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 
 my %actionByType = (
-    'move' => sub {
-        print "dirmove($_[0]->[0], $_[0]->[1])\n";
-        return dirmove($_[0]->[0], $_[0]->[1]);
-    },
-
+    'move' => \&FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move::do,
+    'cmd' => \&FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd::do,
 
 );
 
@@ -28,9 +26,12 @@ sub process {
 
     my ($actionType, $params) = %$action;
     print "run command: $actionType\n";
-#    print Dumper($params);
 
-    return $actionByType{$actionType}($params);
+    if (!defined($actionByType{$actionType})) {
+        print "unknown action `$actionType'\n";
+        return;
+    }
+    return &{$actionByType{$actionType}}($params);
 }
 
 1;
