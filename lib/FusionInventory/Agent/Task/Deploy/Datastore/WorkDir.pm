@@ -5,6 +5,7 @@ use warnings;
 
 use Data::Dumper;
 use File::Path qw(make_path);
+use Archive::Extract;
 
 sub new {
     my (undef, $params) = @_;
@@ -22,7 +23,7 @@ sub addFile {
 
     push @{$self->{files}}, $file;
 
-    
+
 
 }
 
@@ -30,20 +31,61 @@ sub prepare {
     my ($self) = @_;
 
     foreach my $file (@{$self->{files}}) {
-        my $finalFilePath = $self->{path}.'/'.$file;
+        my $finalFilePath = $self->{path}.'/'.$file->{name};
 
-        if (!open(FILE, $finalFilePath)) {
-            print "Failed to open ".$finalFilePath.": $!"; 
+        print "Building finale file: `$finalFilePath'";
+
+        print  "final file: ".$finalFilePath."\n";
+
+        my $fh;
+        if (!open($fh, ">$finalFilePath")) {
+            print "Failed to open ".$finalFilePath.": $!";
             return;
         }
 
         foreach my $part (@{$file->{multipart}}) {
             my ($filename, $sha512) = %$part;
-            print Dumper($filename);
+            my $partFilePath = $file->getBaseDir().'/'.$filename;
+            if (! -f $partFilePath) {
+                print "Missing multipart element: `$partFilePath'\n";
+            }
+
+            my $part;
+            if (!open($part, "<$partFilePath")) {
+                print "Failed to open: `$partFilePath'\n";
+            } else {
+                my $buf;
+                while(read($part, $buf, 1024)) {
+                    print $fh $buf;
+                }
+                close $part;
+            }
+        }
+        close($fh);
+
+        if (!$file->validateFileByPath($finalFilePath)) {
+            print "Failed to construct the final file.\n";
         }
 
-        close FILE;
     }
+
+
+    foreach my $file (@{$self->{files}}) {
+        my $finalFilePath = $self->{path}.'/'.$file->{name};
+
+        $Archive::Extract::DEBUG=1;
+        if ($file->{uncompress}) {
+            print "→".$finalFilePath."\n";
+            my $ae = Archive::Extract->new( archive => $finalFilePath );
+            $ae->type("tgz");
+            if (!$ae->extract( to => $self->{path} )) {
+                print "Failed to extract `$finalFilePath'\n";
+            }
+
+            unlink($finalFilePath);
+        }
+    }
+    print $self->{path}."\n";
 
 }
 

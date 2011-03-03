@@ -98,9 +98,18 @@ sub getJobs {
     }
 
     foreach (@{$perl_scalar->{jobs}}) {
+        my $associatedFiles = [];
+        if ($_->{associatedFiles}) {
+            foreach my $uuid (@{$_->{associatedFiles}}) {
+                if (!$files->{$uuid}) {
+                    die "unknow file: `".$uuid."'. Not found in YSON answer!";
+                }
+                push @$associatedFiles, $files->{$uuid};
+            }
+        }
         push @$ret, FusionInventory::Agent::Task::Deploy::Job->new({
                 data => $_,
-                files => $files
+                associatedFiles => $associatedFiles
                 });
     }
 
@@ -118,7 +127,7 @@ JOB: foreach my $job (@$jobList) {
          my $workdir = $datastore->createWorkDir($job->{uuid});
 print "\n\n\n------------------------\n";
          updateStatus('DEVICEID', 'job', $job->{uuid}, 'received');
-         foreach my $file (@{$job->{files}}) {
+         foreach my $file (@{$job->{associatedFiles}}) {
              if ($file->exists()) {
                  updateStatus('DEVICEID', 'file', $file->{sha512}, 'ok');
                  $workdir->addFile($file);
@@ -145,6 +154,8 @@ print "\n\n\n------------------------\n";
              next JOB;
          }
 
+        $workdir->prepare();
+        die;
         my $actionProcessor = FusionInventory::Agent::Task::Deploy::ActionProcessor->new();
         updateStatus('DEVICEID', 'job', $job->{uuid}, 'processing');
         while (my $action = $job->getNextToProcess()) {

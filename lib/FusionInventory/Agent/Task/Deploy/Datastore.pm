@@ -24,7 +24,7 @@ sub new {
 sub cleanUp {
     my ($self) = @_;
 
-    remove_tree( $self->{path}.'/sessions/', {error => \my $err} );
+    remove_tree( $self->{path}.'/workdir/', {error => \my $err} );
     if (@$err) {
         for my $diag (@$err) {
             my ($file, $message) = %$diag;
@@ -56,7 +56,7 @@ sub createWorkDir {
 
 #    make_path($filePath);
 
-    my $path = $self->{path}.'/sessions/'.$uuid;
+    my $path = $self->{path}.'/workdir/'.$uuid;
 
     return unless make_path($path);
 

@@ -11,15 +11,11 @@ sub new {
     my (undef, $params) = @_;
 
     my $self = $params->{data};
-    my $sha512 = $params->{sha512};
-#    my $datastore = $params->{datastore};
+    $self->{sha512} = $params->{sha512};
+    $self->{datastore} = $params->{datastore};
 
-#    die unless $datastore;
-    die unless $sha512;
-    die unless $self;
-
-    $self->{sha512} = $sha512;
-#    $self->{datastore} = $datastore;
+    die unless $self->{datastore};
+    die unless $self->{sha512};
 
     foreach my $sha512 (keys %{$params->{files}}) {
         print $sha512."\n";
@@ -39,12 +35,12 @@ sub download {
         print Dumper($_);
     }
 
-    my $path = $datastore->getPathBySha512($self->{sha512});
+    my $basedir = $self->getBaseDir();
 
 MULTIPART: foreach (@{$self->{multipart}}) {
         my ($file, $sha512) =  %$_;
 
-        my $filePath  = $path.'/'.$file;
+        my $filePath  = $basedir.'/'.$file;
 
         foreach my $mirror (@{$self->{mirror}}) {
             print("$mirror$file, $filePath\n");
@@ -62,7 +58,7 @@ sub exists {
     my ($self) = @_;
 
     my $datastore = $self->{datastore};
-
+print Dumper($self);
     my $path = $datastore->getPathBySha512($self->{sha512});
 
     my $isOk = 1;
@@ -84,13 +80,34 @@ sub exists {
 }
 
 sub _getSha512ByFile {
-    my ($filePath, $sha512) = @_;
+    my ($filePath) = @_;
 
     my $sha = Digest::SHA->new('512');
 
     $sha->addfile($filePath);
 
     return $sha->hexdigest;
+}
+
+sub getBaseDir {
+    my ($self) = @_;
+
+    return $self->{datastore}->getPathBySha512($self->{sha512});
+}
+
+sub validateFileByPath {
+    my ($self, $filePath) = @_;
+
+
+    if (-f $filePath) {
+        my $t = _getSha512ByFile($filePath);
+
+        if (_getSha512ByFile($filePath) eq $self->{sha512}) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 
