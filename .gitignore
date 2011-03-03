@@ -1,0 +1,13 @@
+.*.swp
+*~
+launch.sh
+*.sw?
+pm_to_blib
+MANIFEST.bak
+MANIFEST
+META.yml
+Makefile.old
+Makefile
+LICENSE
+blib
+inc
