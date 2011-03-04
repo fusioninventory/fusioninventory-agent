@@ -5,6 +5,7 @@ use warnings;
 
 use Data::Dumper;
 
+$File::Copy::Recursive::CPRFComp = 1;
 use File::Copy::Recursive qw(dirmove);
 
 
