@@ -6,6 +6,7 @@ use warnings;
 use Test::More;
 use File::Glob;
 use File::Basename;
+use Data::Dumper;
 
 use FusionInventory::Agent::Tools::Linux;
 
@@ -517,7 +518,18 @@ my %cpu_tests = (
             'fpu_exception' => 'yes',
             'wp' => 'yes'
           }
-    ]
+    ],
+    'esx' => [
+          {
+            'cpu mhz' => '2300.092',
+            'vendor_id' => 'AuthenticAMD',
+            'processor' => '0',
+            'model' => '4',
+            'model name' => 'Quad-Core AMD Opteron(tm) Processor 2376',
+            'cpu family' => '16',
+            'stepping' => '2'
+          }
+        ]
 );
 
 my %hal_tests = (
@@ -550,12 +562,12 @@ foreach my $test (keys %udev_tests) {
     my $result = FusionInventory::Agent::Tools::Linux::_parseUdevEntry(
         file => $file, device => 'sda'
     );
-    is_deeply($result, $udev_tests{$test}, "$test udev parsing");
+    is_deeply($result, $udev_tests{$test}, "$test udev parsing") or print Dumper($result);
 }
 
 foreach my $file (@cpuinfo_list) {
     my @cpus = getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $cpu_tests{basename($file)}, basename($file)." cpuinfo parsing");
+    is_deeply(\@cpus, $cpu_tests{basename($file)}, basename($file)." cpuinfo parsing") or print Dumper(\@cpus);
 }
 
 foreach my $test (keys %hal_tests) {
