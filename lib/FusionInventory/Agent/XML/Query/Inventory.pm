@@ -51,7 +51,7 @@ my %fields = (
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
     VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
-                            VMID/ ],
+                            VMID MAC/ ],
 );
 
 sub new {
@@ -1320,6 +1320,10 @@ Number of CPU affected to the virtual machine
 =item VMID
 
 The ID of virtual machine in the virtual managment system.
+
+=item MAC
+
+The list of the MAC addresses of the virtual machine. The delimiter is '/'. e.g: 00:23:18:91:db:8d/00:23:57:31:sb:8e
 
 =back
 

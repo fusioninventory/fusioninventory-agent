@@ -16,6 +16,7 @@ use Win32::TieRegistry (
     ArrayValues => 0,
     qw/KEY_READ/
 );
+use FusionInventory::Agent::Task::Inventory::OS::Win32; # getWmiProperties
 
 Win32::OLE->Option(CP => 'CP_UTF8');
 
@@ -25,6 +26,7 @@ our @EXPORT = qw(
     encodeFromRegistry
     KEY_WOW64_64
     KEY_WOW64_32
+    is64bit
 );
 
 my $localCodepage;
@@ -81,6 +83,21 @@ sub getWmiProperties {
     return @properties;
 }
 
+sub is64bit {
+    my $ret;
+    foreach my $Properties (getWmiProperties('Win32_Processor', qw/
+        AddressWidth
+    /)) {
+        if ($Properties->{AddressWidth} eq 64) {
+            $ret = 1;
+        }
+    }
+
+    return $ret; 
+}
+
+
+
 1;
 __END__
 
@@ -105,4 +122,8 @@ Ensure given WMI content is properly encoded to utf-8.
 =head2 encodeFromRegistry($string)
 
 Ensure given registry content is properly encoded to utf-8.
+
+=head2 is64bit()
+
+Returns true if the OS is 64bit or false.
 
