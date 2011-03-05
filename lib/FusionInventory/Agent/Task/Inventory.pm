@@ -11,8 +11,6 @@ regarding the Hardware and Software installation.
 
 =cut
 
-# Keep this line, used by getVersionFromTaskModuleFile
-# VERSION FROM Agent.pm
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task::Base';

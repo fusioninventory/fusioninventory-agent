@@ -1,7 +1,5 @@
 package FusionInventory::Agent::Task::Ping;
 
-# Keep this line, used by getVersionFromTaskModuleFile
-# VERSION FROM Agent.pm
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task::Base';
