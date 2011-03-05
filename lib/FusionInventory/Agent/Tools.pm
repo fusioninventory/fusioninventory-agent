@@ -38,7 +38,7 @@ our @EXPORT = qw(
     all
     none
     uniq
-    getVersionFromTaskModuleFile
+    getFusionInventoryLibdir
 );
 
 memoize('can_run');
@@ -539,36 +539,7 @@ sub uniq (@) { ## no critic (SubroutinePrototypes)
 
 # THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
 # PLEASE KEEP IT SYNCHED
-sub getVersionFromTaskModuleFile {
-    my ($file) = @_;
-
-    my $version;
-    open my $fh, "<$file" or return;
-    foreach (<$fh>) {
-        if (/^# VERSION FROM Agent.pm/) {
-            if (!$FusionInventory::Agent::VERSION) {
-                eval { use FusionInventory::Agent; 1 };
-            }
-            $version = $FusionInventory::Agent::VERSION;
-            last;
-        } elsif (/^our\ *\$VERSION\ *=\ *(\S+);/) {
-            $version = $1;
-            last;
-        } elsif (/^use strict;/) {
-            last;
-        }
-    }
-    close $fh;
-
-    if ($version) {
-        $version =~ s/^'(.*)'$/$1/;
-        $version =~ s/^"(.*)"$/$1/;
-    }
-
-    return $version;
-}
-
-# TODO: deprecated
+# TODO: to move in FusionInventory::Agent::Task
 sub getFusionInventoryLibdir {
     my ($config) = @_;
 
@@ -598,33 +569,7 @@ sub getFusionInventoryLibdir {
 
 }
 
-# TODO: deprecated
-sub getFusionInventoryTaskList {
-    my ($config) = @_;
 
-    my $libdir = getFusionInventoryLibdir($config);
-
-    my @tasks;
-    foreach (@$libdir) {
-        push @tasks, glob($_.'/FusionInventory/Agent/Task/*.pm');
-    }
-
-    my @ret;
-    foreach (@tasks) {
-        next unless basename($_) =~ /(.*)\.pm/;
-        my $module = $1;
-
-        next if $module eq 'Base';
-
-        push @ret, {
-            path => $_,
-            version => getVersionFromTaskModuleFile($_),
-            module => $module,
-        }
-    }
-
-    return \@ret;
-}
 
 1;
 __END__
@@ -823,16 +768,8 @@ Returns a true value if no item in LIST meets the criterion given through BLOCK.
 
 Returns a new list by stripping duplicate values in LIST.
 
-=head2 getVersionFromTaskModuleFile($taskModuleFile)
+=head2 getFusionInventoryLibdir()
 
-Parse a task module file to get the $VERSION. The VERSION must be
-a line between the begining of the file and the 'use strict;' line.
-The line must by either:
-
- our $VERSION = 'XXXX';
-
-In case the .pm file is from the core distribution, the follow line 
-must be present instead:
-
- # VERSION FROM Agent.pm/
+Return a array reference of the location of the FusionInventory/Agent library
+directory on the system.
 
