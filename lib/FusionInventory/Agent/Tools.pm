@@ -16,7 +16,7 @@ our @EXPORT = qw(
     getCanonicalManufacturer
     getInfosFromDmidecode
     getCpusFromDmidecode
-    getVersionFromTaskModuleFile
+    getFusionInventoryLibdir
 );
 
 memoize('getCanonicalManufacturer');
@@ -207,36 +207,39 @@ sub getCpusFromDmidecode {
     return \@cpus;
 }
 
+sub getFusionInventoryLibdir {
+    my ($config) = @_;
 
+    die unless $config;
 
-sub getVersionFromTaskModuleFile {
-    my ($file) = @_;
+    my @dirToScan;
 
-    my $version;
-    open my $fh, "<$file" or return;
-    foreach (<$fh>) {
-        if (/^# VERSION FROM Agent.pm/) {
-            if (!$FusionInventory::Agent::VERSION) {
-                eval { use FusionInventory::Agent; 1 };
-            }
-            $version = $FusionInventory::Agent::VERSION;
-            last;
-        } elsif (/^our\ *\$VERSION\ *=\ *(\S+);/) {
-            $version = $1;
-            last;
-        } elsif (/^use strict;/) {
-            last;
+    my $ret = [];
+
+    if ($config->{devlib}) {
+# devlib enable, I only search for backend module in ./lib
+        return ['./lib'];
+    } else {
+        foreach (@INC) {
+# perldoc lib
+# For each directory in LIST (called $dir here) the lib module also checks to see
+# if a directory called $dir/$archname/auto exists. If so the $dir/$archname
+# directory is assumed to be a corresponding architecture specific directory and
+# is added to @INC in front of $dir. lib.pm also checks if directories called
+# $dir/$version and $dir/$version/$archname exist and adds these directories to @INC.
+            my $autoDir = $_.'/'.$Config::Config{archname}.'/auto/FusionInventory/Agent/Task/Inventory';
+
+            next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
+            next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
+            push (@$ret, $_) if -d $_.'/FusionInventory/Agent';
+            push (@$ret, $autoDir) if -d $autoDir.'/FusionInventory/Agent';
         }
     }
-    close $fh;
 
-    if ($version) {
-        $version =~ s/^'(.*)'$/$1/;
-        $version =~ s/^"(.*)"$/$1/;
-    }
+    return $ret;
 
-    return $version;
 }
+
 
 
 1;
@@ -279,16 +282,8 @@ $info = {
 
 Returns a clean array with the CPU list.
 
-=head2 getVersionFromTaskModuleFile($taskModuleFile)
+=head2 getFusionInventoryLibdir()
 
-Parse a task module file to get the $VERSION. The VERSION must be
-a line between the begining of the file and the 'use strict;' line.
-The line must by either:
-
- our $VERSION = 'XXXX';
-
-In case the .pm file is from the core distribution, the follow line 
-must be present instead:
-
- # VERSION FROM Agent.pm/
+Return a array reference of the location of the FusionInventory/Agent library
+directory on the system.
 
