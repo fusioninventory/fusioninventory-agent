@@ -65,6 +65,7 @@ Revision history for FusionInventory::Agent
        * Win32: software, do not ignore software with very few information
        * Win32: better detection of product key on 64bit system, thanks Ionut Bujor for
          the feedbacks http://forge.fusioninventory.org/issues/582
+       * Drop the Ping task. Was not used.
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied
