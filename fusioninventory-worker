@@ -160,12 +160,23 @@ Display usage instructions.
 
 =head1 EXAMPLES
 
-%> fusioninventory-worker --job inventory
+All exemples use the following configuration file:
 
-This executes the job defined as I<inventory> in configuration
+    [stdout_inventory]
+    task = inventory
+    target = stdout
+
+    [inventory]
+    type = inventory
+
+    [stdout]
+    type = stdout
+
+%> fusioninventory-worker --job stdout_inventory
+
+This executes the job defined as I<stdout_inventory>
 
 %> fusioninventory-worker --task inventory --target stdout
 
-This executes a job defined on-the-fly with the task defined as I<inventory> in
-configuration and the target defined as I<stdout> in configuration
-
+This executes an anonymous job defined on-the-fly with the task defined as
+I<inventory> and the target defined as I<stdout>

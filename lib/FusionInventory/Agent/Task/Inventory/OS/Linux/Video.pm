@@ -86,43 +86,39 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $ddcprobeData = _getDdcprobeData();
+    my $xorgData;
 
-    my $xOrgPid;
+    my $xorgPid;
     foreach my $process (getProcessesFromPs(
         logger => $logger,
         command => 'ps aux'
     )) {
         next unless $process->{CMD} =~ m{^/usr/(?:bin/(?:X|Xorg)|X11R6/bin/X) };
-        $xOrgPid = $process->{PID};
+        $xorgPid = $process->{PID};
         last;
     }
 
-    my $xorgData;
-    if ($xOrgPid) {
-        # check than fd0 is actually a link to Xorg log file, and not to
-        # something else, such as /dev/input/event6
-        my $link = "/proc/$xOrgPid/fd/0";
-        my $file = readlink($link);
-        $xorgData = _parseXorgFd($file) if $file =~ /\.log$/;
+    if ($xorgPid) {
+        my $link = "/proc/$xorgPid/fd/0";
+        $xorgData = _parseXorgFd($link) if -r $link;
     }
 
-    my $memory = $xorgData->{memory} || $ddcprobeData->{memory};
-    if ($memory && $memory =~ s/kb$//i) {
-        $memory = int($memory / 1024);
-    }
-    my $resolution = $xorgData->{resolution} || $ddcprobeData->{dtiming};
-    if ($resolution) {
-        $resolution =~ s/@.*//;
-    }
-
-    $inventory->addVideo({
-        CHIPSET    => $xorgData->{product} || $ddcprobeData->{product},
-        MEMORY     => $memory,
-        NAME       => $xorgData->{name} || $ddcprobeData->{oem},
+    my $video = {
+        CHIPSET    => $xorgData->{product}    || $ddcprobeData->{product},
+        MEMORY     => $xorgData->{memory}     || $ddcprobeData->{memory},
+        NAME       => $xorgData->{name}       || $ddcprobeData->{oem},
+        RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming},
         PCISLOT    => $xorgData->{pcislot},
-        RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming}
-        });
+    };
 
+    if ($video->{memory} && $video->{memory} =~ s/kb$//i) {
+        $video->{memory} = int($video->{memory} / 1024);
+    }
+    if ($video->{resolution}) {
+        $video->{resolution} =~ s/@.*//;
+    }
+
+    $inventory->addVideo($video);
 }
 
 1;

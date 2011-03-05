@@ -118,7 +118,7 @@ sub doInventory {
 
     foreach my $device (@devices) {
         if (!$device->{DESCRIPTION}) {
-            $device->{DESCRIPTION} = getDescription(
+            $device->{DESCRIPTION} = _getDescription(
                 $device->{NAME},
                 $device->{MANUFACTURER},
                 $device->{DESCRIPTION},

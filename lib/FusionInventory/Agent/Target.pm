@@ -10,12 +10,23 @@ sub new {
 
     my $self = {
         id     => $params{id},
+        format => $params{format},
         logger => $params{logger} || FusionInventory::Agent::Logger->new(),
     };
 
     bless $self, $class;
 
     return $self;
+}
+
+sub getId {
+    my ($self) = @_;
+    return $self->{id};
+}
+
+sub getFormat {
+    my ($self) = @_;
+    return $self->{format};
 }
 
 1;
