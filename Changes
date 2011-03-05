@@ -82,7 +82,6 @@ Revision history for FusionInventory::Agent
        * injector: minor clean up in the --help menu
        * Add 2011 in the copyright years
        * Win32: set HARDWARE/DESCRIPTION
-       * Tools: add getVersionFromTaskModuleFile()
        * Tools: move the code used to find .pm in @INC in getFusionInventoryLibdir()
        * Linux/Network: set the IPv6 network address (Ludovic Hutin)
        * HP-UX/CPU: improve the machinfo parsing, thanks Amir Pakdel for
@@ -104,6 +103,7 @@ Revision history for FusionInventory::Agent
        * Win32: software, do not ignore software with very few information
        * Win32: better detection of product key on 64bit system, thanks Ionut Bujor for
          the feedbacks http://forge.fusioninventory.org/issues/582
+       * Drop the Ping task. Was not used.
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied

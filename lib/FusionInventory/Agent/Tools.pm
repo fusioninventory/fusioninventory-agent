@@ -39,8 +39,6 @@ our @EXPORT = qw(
     none
     uniq
     getVersionFromTaskModuleFile
-    getFusionInventoryLibdir
-    getFusionInventoryTaskList
 );
 
 memoize('can_run');
@@ -570,8 +568,7 @@ sub getVersionFromTaskModuleFile {
     return $version;
 }
 
-# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
-# PLEASE KEEP IT SYNCHED
+# TODO: deprecated
 sub getFusionInventoryLibdir {
     my ($config) = @_;
 
@@ -601,8 +598,7 @@ sub getFusionInventoryLibdir {
 
 }
 
-# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
-# PLEASE KEEP IT SYNCHED
+# TODO: deprecated
 sub getFusionInventoryTaskList {
     my ($config) = @_;
 
@@ -840,7 +836,3 @@ must be present instead:
 
  # VERSION FROM Agent.pm/
 
-=head2 getFusionInventoryLibdir()
-
-Return a array reference of the location of the FusionInventory/Agent library directory
-on the system.

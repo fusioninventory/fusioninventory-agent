@@ -1,6 +1,5 @@
 package FusionInventory::Agent::Task::Inventory;
 
-# VERSION FROM Agent.pm
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
