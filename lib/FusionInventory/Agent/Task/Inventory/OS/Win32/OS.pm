@@ -14,6 +14,7 @@ use Win32::TieRegistry (
     ArrayValues => 0,
     qw/KEY_READ/
 );
+use FusionInventory::Agent::Tools::Win32;
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
@@ -27,16 +28,16 @@ sub KEY_WOW64_32KEY () { 0x0200}
 sub _getValueFromRegistry {
     my ($logger, $path) = @_;
 
-    my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
-    or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
-    my $key     =
-    $machKey->{$path};
+    my $key;
+    if (is64bit()) {
+        my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64KEY() } )
+	    or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
+	$key = $machKey->{$path};
 
-    if (!$key) { # 64bit OS?
-        $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64KEY() } )
+    } else {
+	my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
             or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
-        $key     =
-        $machKey->{$path};
+        $key = $machKey->{$path};
     }
 
     return $key
