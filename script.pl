@@ -36,7 +36,7 @@ sub updateStatus {
 }
 
 sub setLog {
-    my ($deviceid, $uuid, $filePath) = @_;
+    my ($deviceid, $uuid, $log) = @_;
 
     my $ua = LWP::UserAgent->new;
 
@@ -46,25 +46,8 @@ sub setLog {
 
     my $fh;
     my $content;
-    if(!open($fh, "<$filePath")) {
-        return;
-    } else {
-        my $truncated;
-        my @stack;
-        while(<$fh>) {
-            chomp();
-            push @stack, $_;
-
-            if (@stack > 100) {
-                $truncated = 1;
-                shift @stack;
-            }
-        }
-
-        unshift @stack, 'log truncated' if $truncated;;
-        $content = join('\n',@stack);
-
-        close($fh);
+    foreach (@$log) {
+        $content .= $_."\n";
     }
 
     my $response = $ua->post($url, { log => $content });
@@ -87,7 +70,7 @@ sub getJobs {
 
     my $perl_scalar = from_json( $json_text, { utf8  => 1 } );
 
-   # print to_json( $perl_scalar, { ascii => 1, pretty => 1 } );
+#    print to_json( $perl_scalar, { ascii => 1, pretty => 1 } );
 
     foreach my $sha512 (keys %{$perl_scalar->{associatedFiles}}) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new({
@@ -123,9 +106,8 @@ $datastore->cleanUp();
 
 my $jobList = getJobs($datastore);
 JOB: foreach my $job (@$jobList) {
-         setLog('DEVICEID', $job->{uuid}, '/etc/fstab');
          my $workdir = $datastore->createWorkDir($job->{uuid});
-print "\n\n\n------------------------\n";
+         print "\n\n\n------------------------\n";
          updateStatus('DEVICEID', 'job', $job->{uuid}, 'received');
          foreach my $file (@{$job->{associatedFiles}}) {
              if ($file->exists()) {
@@ -154,19 +136,20 @@ print "\n\n\n------------------------\n";
              next JOB;
          }
 
-        $workdir->prepare();
-        die;
-        my $actionProcessor = FusionInventory::Agent::Task::Deploy::ActionProcessor->new();
-        updateStatus('DEVICEID', 'job', $job->{uuid}, 'processing');
-        while (my $action = $job->getNextToProcess()) {
-            if ($actionProcessor->process($action)) {
-                updateStatus('DEVICEID', 'job', $job->{uuid}, 'ok');
-            } else {
-                setLog('DEVICEID', $job->{uuid}, '/etc/fstab');
-                updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'action processing failure');
+         $workdir->prepare();
 
-            }
-        }
+         my $actionProcessor = FusionInventory::Agent::Task::Deploy::ActionProcessor->new({ workdir => $workdir });
+         updateStatus('DEVICEID', 'job', $job->{uuid}, 'processing');
+         while (my $action = $job->getNextToProcess()) {
+             my $ret = $actionProcessor->process($action);
+             if (!$ret->{status}) {
+                 setLog('DEVICEID', $job->{uuid}, $ret->{log});
+                 print Dumper($ret->{log});
+                 updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'action processing failure');
+                 next JOB;
+             }
+         }
+         updateStatus('DEVICEID', 'job', $job->{uuid}, 'ok');
 
      }
 
