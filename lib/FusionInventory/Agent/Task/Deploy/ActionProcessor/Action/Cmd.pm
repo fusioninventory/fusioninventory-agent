@@ -6,7 +6,6 @@ use POSIX ":sys_wait_h";
 use IO::Select;
 
 sub do {
-    print Dumper(\@_);
     die unless @{$_[0]->{exec}};
 
     my @okPattern;
