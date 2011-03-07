@@ -66,11 +66,13 @@ sub getJobs {
     my $files = {};
 
     my $json_text = get ($baseUrl.'?a=getJobs&ddeviceId');
-    print $json_text."\n";
-
+#    print $json_text."\n";
     my $perl_scalar = from_json( $json_text, { utf8  => 1 } );
-
-#    print to_json( $perl_scalar, { ascii => 1, pretty => 1 } );
+    $perl_scalar->{jobs}[0]{actions}[2]{envs}{OS} = 'win';
+    $perl_scalar->{jobs}[0]{actions}[2]{envs}{OS_VERSION} = '5.1';
+    $perl_scalar->{jobs}[0]{actions}[2]{envs}{LANGUAGE} = 'de';
+    $perl_scalar->{jobs}[0]{actions}[2]{envs}{HOSTNAME} = 'babel';
+    print to_json( $perl_scalar, { ascii => 1, pretty => 1 } );
 
     foreach my $sha512 (keys %{$perl_scalar->{associatedFiles}}) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new({

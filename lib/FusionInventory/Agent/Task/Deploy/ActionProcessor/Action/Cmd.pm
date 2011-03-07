@@ -13,6 +13,7 @@ sub do {
     my @errorPattern;
     my @okCode;
     my @errorCode;
+    my %envsSaved;
 
     if ($_[0]->{okPattern}) {
         @okPattern = @{$_[0]->{okPattern}};
@@ -25,6 +26,14 @@ sub do {
     }
     if ($_[0]->{errorCode}) {
         @errorCode = @{$_[0]->{errorCode}};
+    }
+
+    if ($_[0]->{envs}) {
+        foreach my $key (keys %{$_[0]->{envs}}) {
+            $envsSaved{$key} = $ENV{$key};
+            $ENV{$key} = $_[0]->{envs}{$key};
+                print "KEY $key == ".$_[0]->{envs}{$key}."\n";
+        }
     }
 
     my $pid = open3(undef, \*READ,\*ERROR, @{$_[0]->{exec}});
@@ -87,6 +96,12 @@ sub do {
     }
 
     print Dumper(\@log);
+
+    if ($_[0]->{envs}) {
+        foreach my $key (keys %envsSaved) {
+            $ENV{$key} = $envsSaved{$key};
+        }
+    }
 
 
     return {
