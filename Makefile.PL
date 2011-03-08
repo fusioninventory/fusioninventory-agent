@@ -14,7 +14,6 @@ requires 'Digest::MD5'                  => undef;
 requires 'LWP'                          => undef;
 requires 'Net::IP'                      => undef;
 requires 'POE'                          => undef;
-requires 'POE::Component::IKC'          => undef;
 requires 'POE::Component::Server::HTTP' => undef;
 requires 'Text::Template'               => undef;
 requires 'UNIVERSAL::require'           => undef;
