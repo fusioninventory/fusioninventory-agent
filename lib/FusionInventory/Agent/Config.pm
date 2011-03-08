@@ -59,15 +59,22 @@ sub getValues {
                            @$value  ;
 }
 
+sub getBlock {
+    my ($self, $name) = @_;
+
+    my $block;
+    foreach my $key (keys %{$self->{values}}) {
+        next unless $key =~ /^$name\.(\S+)/;
+        $block->{$1} = $self->{values}->{$key};
+    }
+    return $block;
+}
+
 sub getBlockValues {
     my ($self, $name) = @_;
 
-    my %values;
-    foreach my $key (keys %{$self->{values}}) {
-        next unless $key =~ /^$name\.(\S+)/;
-        $values{$1} = $self->{values}->{$key};
-    }
-    return %values;
+    my $block = $self->getBlock($name);
+    return $block ? %$block : () ;
 }
 
 1;
@@ -109,6 +116,10 @@ Return the value for given key, as a scalar.
 
 Return the values for given key, as a list.
 
+=head2 getBlock($block)
+
+Return a block of values, as an hashref.
+
 =head2 getBlockValues($block)
 
-Return the values for given block, as an hash.
+Return a block of values, as an hash.
