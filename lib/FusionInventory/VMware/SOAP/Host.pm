@@ -46,11 +46,29 @@ sub getHostname {
 sub getBiosInfo {
     my ($self) = @_;
 
-    my $bdate = $self->{hash}[0]{hardware}{biosInfo}{releaseDate};
-    my $bversion = $self->{hash}[0]{hardware}{biosInfo}{biosVersion};
-    my $smodel = $self->{hash}[0]{hardware}{systemInfo}{model};
-    my $smanufacturer = $self->{hash}[0]{hardware}{systemInfo}{vendor};
-    my $assettag = $self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue};
+    my $bdate;
+    my $bversion;
+    my $smodel;
+    my $smanufacturer;
+    my $assettag;
+
+    if (exists($self->{hash}[0]{hardware}{biosInfo}{releaseDate})) {
+        $bdate = $self->{hash}[0]{hardware}{biosInfo}{releaseDate};
+    }
+    if (exists($self->{hash}[0]{hardware}{biosInfo}{biosVersion})) {
+        $bversion = $self->{hash}[0]{hardware}{biosInfo}{biosVersion};
+    }
+    if (exists($self->{hash}[0]{hardware}{systemInfo}{model})) {
+        $smodel = $self->{hash}[0]{hardware}{systemInfo}{model};
+    }
+    if (exists($self->{hash}[0]{hardware}{systemInfo}{vendor})) {
+        $smanufacturer = $self->{hash}[0]{hardware}{systemInfo}{vendor};
+    }
+    if (exists($self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue})) {
+       $assettag = $self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue};
+    }
+
+
 
     return {
         BDATE => $bdate,
