@@ -52,20 +52,12 @@ sub getBiosInfo {
     my $smanufacturer;
     my $assettag;
 
-    if (exists($self->{hash}[0]{hardware}{biosInfo}{releaseDate})) {
+    eval {
         $bdate = $self->{hash}[0]{hardware}{biosInfo}{releaseDate};
-    }
-    if (exists($self->{hash}[0]{hardware}{biosInfo}{biosVersion})) {
         $bversion = $self->{hash}[0]{hardware}{biosInfo}{biosVersion};
-    }
-    if (exists($self->{hash}[0]{hardware}{systemInfo}{model})) {
         $smodel = $self->{hash}[0]{hardware}{systemInfo}{model};
-    }
-    if (exists($self->{hash}[0]{hardware}{systemInfo}{vendor})) {
         $smanufacturer = $self->{hash}[0]{hardware}{systemInfo}{vendor};
-    }
-    if (exists($self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue})) {
-       $assettag = $self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue};
+        $assettag = $self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}{identifierValue};
     }
 
 
