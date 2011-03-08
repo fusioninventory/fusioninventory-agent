@@ -35,23 +35,6 @@ if ($options{version}) {
     print $FusionInventory::Agent::VERSION_STRING . "\n";
     exit 0;
 }
-if (!$options{job}) {
-    pod2usage(
-        -message => "No job, no task and no target, aborting\n",
-        -verbose => 0,
-        -exitval => 2,
-    ) if !$options{task} && !$options{target};
-    pod2usage(
-        -message => "No task to execute against this target, aborting\n",
-        -verbose => 0,
-        -exitval => 2,
-    ) if !$options{task};
-    pod2usage(
-        -message => "No target to send the result of this task, aborting\n",
-        -verbose => 0,
-        -exitval => 2,
-    ) if !$options{target};
-}
 
 my ($task_params, $target_params);
 foreach my $param (@{$options{'task-param'}}) {
@@ -79,7 +62,11 @@ if ($options{job}) {
 } elsif ($options{task} && $options{target}) {
     $job = $agent->getAnonymousJob($options{task}, $options{target});
 } else {
-    die "Unable to create a job, aborting\n";
+    pod2usage(
+        -message => "Unable to create a job, aborting\n",
+        -verbose => 0,
+        -exitval => 2,
+    );
 }
 
 if ($options{wait}) {
