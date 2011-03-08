@@ -73,6 +73,15 @@ my $agent = FusionInventory::Agent->new(
     conffile  => $options{'conf-file'},
 );
 
+my $job;
+if ($options{job}) {
+    $job = $agent->getJobFromConfiguration($options{job});
+} elsif ($options{task} && $options{target}) {
+    $job = $agent->getAnonymousJob($options{task}, $options{target});
+} else {
+    die "Unable to create a job, aborting\n";
+}
+
 if ($options{wait}) {
     my $delay = int rand($options{wait});
     sleep($delay);
@@ -83,13 +92,7 @@ if ($options{lazy}) {
 }
 
 eval {
-    $agent->executeJob(
-        job           => $options{job},
-        task          => $options{task},
-        target        => $options{target},
-        task_params   => $task_params,
-        target_params => $target_params
-    );
+    $agent->executeJob($job);
 };
 
 if ($EVAL_ERROR) {

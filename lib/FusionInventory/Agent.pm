@@ -198,18 +198,9 @@ sub executeAllJobs {
 }
 
 sub executeJob {
-    my ($self, %params) = @_;
+    my ($self, $job) = @_;
 
     my $logger = $self->{logger};
-
-    my $job;
-    if ($params{job}) {
-        $job = $self->getJobFromConfiguration($params{job});
-    } elsif ($params{task} && $params{target}) {
-        $job = $self->getAnonymousJob($params{task}, $params{target});
-    } else {
-        $logger->error("Unable to create a job, aborting");
-    }
 
     my $task    = $self->getTaskFromConfiguration($job->{task});
     my $target  = $self->getTargetFromConfiguration($job->{target});
