@@ -1,31 +1,55 @@
-package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd; 
+package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 
 use strict;
 use warnings;
 
 use Data::Dumper;
 
+sub _evaluateRet {
+    my ($retChecks, $log, $exitStatus) = @_;
+
+    if (ref($retChecks) ne 'ARRAY') {
+        return [ 1, 'ok, no check to evaluate.' ];
+    }
+
+    foreach my $retCheck (@$retChecks) {
+
+        if ($retCheck->{type} eq 'okCode') {
+            foreach (@{$retCheck->{values}}) {
+                if ($exitStatus == $_) {
+                    return [ 1, "exit status is ok: $_" ];
+                }
+            }
+        } elsif ($retCheck->{type} eq 'okPattern') {
+            foreach (@{$retCheck->{values}}) {
+                next unless length($_);
+                if ($$log =~ /$_/) {
+                    return [ 1, "ok pattern found in log: /$_/" ];
+                }
+            }
+        } elsif ($retCheck->{type} eq 'errorCode') {
+            foreach (@{$retCheck->{values}}) {
+                if ($exitStatus != $_) {
+                    return [ 1, "exit status is not ok: `$_'" ];
+                }
+            }
+        } elsif ($retCheck->{type} eq 'errorPattern') {
+            foreach (@{$retCheck->{values}}) {
+                next unless length($_);
+                if ($$log =~ /$_/) {
+                    return [ 0, "error pattern found in log: /$_/" ];
+                }
+            }
+        }
+    }
+}
+
 sub do {
     die unless $_[0]->{exec};
+    print Dumper( $_[0]);
 
-    my @okPattern;
-    my @errorPattern;
-    my @okCode;
-    my @errorCode;
     my %envsSaved;
 
-    if ($_[0]->{okPattern}) {
-        @okPattern = @{$_[0]->{okPattern}};
-    }
-    if ($_[0]->{errorPattern}) {
-        @errorPattern = @{$_[0]->{errorPattern}};
-    }
-    if ($_[0]->{okCode}) {
-        @okCode = @{$_[0]->{okCode}};
-    }
-    if ($_[0]->{errorCode}) {
-        @errorCode = @{$_[0]->{errorCode}};
-    }
 
     if ($_[0]->{envs}) {
         foreach my $key (keys %{$_[0]->{envs}}) {
@@ -35,9 +59,11 @@ sub do {
     }
 
     my $buf = `$_[0]->{exec} 2>&1`;
+    print "Run: ".$buf."\n";
     my $exitStatus = $? >> 8;
 
-    my $status;
+    my @retChecks;
+
     my @log;
     if($buf) {
         my @lines = split('\n', $buf);
@@ -45,35 +71,21 @@ sub do {
             chomp($line);
             shift @log if @log > 3;
             push @log, $line;
-
-            if (!defined($status)) {
-                foreach (@okPattern) {
-                    $status = 1 if $line =~ /$_/;
-                }
-            }
-            if (!defined($status)) {
-                foreach (@errorPattern) {
-                    $status = 0 if $line =~ /$_/;
-                }
-            }
         }
     }
 
-    if ($exitStatus == 255) { # Failed to start
-        $status = 0;
-        push @log, 'Failed to start cmd';
-    }
+# Use the retChecks key to know if the command exec is successful
+    my $t = _evaluateRet ($_[0]->{retChecks}, \$buf, $exitStatus);
 
-    if (!defined($status)) {
-        foreach (@okCode) {
-            $status = 1 if $exitStatus == $_;
-        }
-    }
-    if (!defined($status)) {
-        foreach (@errorCode) {
-            $status = 0 if $exitStatus == $_;
-        }
-    }
+    my $status = $t->[0];
+    push @log, "--------------------------------";
+    push @log, "exit status: `$exitStatus'";
+    push @log, $t->[1];
+
+
+
+
+
 
     if ($_[0]->{envs}) {
         foreach my $key (keys %envsSaved) {
