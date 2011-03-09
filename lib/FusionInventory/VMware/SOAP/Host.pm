@@ -131,9 +131,9 @@ sub getControllers {
         my $pciclass = sprintf("%x", $_->{classId});
 
         # Workaround: sometime the pciid are odd negative number.
-        # e.g: 111d:ffff8018, ffff8086:244e
+        # e.g: 111d:ffff8018, ffff8086:244e, ffff8086:ffffa02c
         foreach ($pciid, $pcisubsystemid, $pciclass) {
-                s/(.*)(f{4})([^:].*)/$1$3/g;
+                s/.*(\w{4}:).*(\w{4})/$1$2/g;
         }
         push @$ret, {
             NAME => $_->{deviceName},
