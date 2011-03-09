@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use lib '/home/goneri/fusioninventory/agent/lib';
 use lib 'lib';
 use LWP;
 use JSON;
@@ -15,7 +14,7 @@ use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 
-my $baseUrl = "http://deploy/ocsinventory/deploy/";
+my $baseUrl = "http://nana.rulezlan.org/deploy/ocsinventory/deploy/";
 
 
 sub updateStatus {
@@ -151,4 +150,4 @@ JOB: foreach my $job (@$jobList) {
 
      }
 
-$datastore->cleanUp();
+#$datastore->cleanUp();
