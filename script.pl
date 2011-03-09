@@ -13,6 +13,7 @@ use FusionInventory::Agent::Task::Deploy::Job;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
+use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 
 my $baseUrl = "http://nana.rulezlan.org/deploy/ocsinventory/deploy/";
 
@@ -103,6 +104,21 @@ $datastore->cleanUp();
 
 my $jobList = getJobs($datastore);
 JOB: foreach my $job (@$jobList) {
+         updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'received' });
+        if (ref($job->{checks}) eq 'ARRAY') {
+            my $checkProcessor = FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
+            foreach my $checknum (0..@{$job->{checks}}) {
+print $checknum."\n";
+                next unless $job->{checks}[$checknum];
+                if (!$checkProcessor->process($job->{checks}[$checknum])) {
+                    updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'check failed', cheknum => $checknum });
+                    next JOB;
+                }
+            }
+        }
+
+
+
          my $workdir = $datastore->createWorkDir($job->{uuid});
          print "\n\n\n------------------------\n";
          updateStatus('DEVICEID', 'job', $job->{uuid}, 'received');
