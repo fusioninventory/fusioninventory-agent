@@ -42,6 +42,7 @@ sub prepare {
             print "Failed to open ".$finalFilePath.": $!";
             return;
         }
+        binmode($fh);
 
         foreach my $part (@{$file->{multipart}}) {
             my ($filename, $sha512) = %$part;
@@ -54,6 +55,7 @@ sub prepare {
             if (!open($part, "<$partFilePath")) {
                 print "Failed to open: `$partFilePath'\n";
             } else {
+                binmode($part);
                 my $buf;
                 while(read($part, $buf, 1024)) {
                     print $fh $buf;

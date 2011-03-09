@@ -84,7 +84,7 @@ sub _getSha512ByFile {
 
     my $sha = Digest::SHA->new('512');
 
-    $sha->addfile($filePath);
+    $sha->addfile($filePath, 'b');
 
     return $sha->hexdigest;
 }
