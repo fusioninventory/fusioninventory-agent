@@ -130,9 +130,10 @@ sub getControllers {
         my $pcisubsystemid = sprintf("%x:%x", $_->{subVendorId}, $_->{subDeviceId});
         my $pciclass = sprintf("%x", $_->{classId});
 
-        # Workaround: sometime the pciid are odd negative number
+        # Workaround: sometime the pciid are odd negative number.
+        # e.g: 111d:ffff8018, ffff8086:244e
         foreach ($pciid, $pcisubsystemid, $pciclass) {
-                s/(f{4}f+)//g;
+                s/(.*)(f{4})([^:].*)/$1$3/g;
         }
         push @$ret, {
             NAME => $_->{deviceName},
