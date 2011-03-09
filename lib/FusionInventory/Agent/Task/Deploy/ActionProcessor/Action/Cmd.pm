@@ -82,11 +82,6 @@ sub do {
     push @log, "exit status: `$exitStatus'";
     push @log, $t->[1];
 
-
-
-
-
-
     if ($_[0]->{envs}) {
         foreach my $key (keys %envsSaved) {
             $ENV{$key} = $envsSaved{$key};
