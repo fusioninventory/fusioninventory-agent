@@ -45,9 +45,17 @@ MULTIPART: foreach (@{$self->{multipart}}) {
         foreach my $mirror (@{$self->{mirror}}) {
             print("$mirror$file, $filePath\n");
             getstore($mirror.$file, $filePath);
-            if (-f $filePath && _getSha512ByFile($filePath) eq $sha512) {
-                print $filePath." retrieved\n";
-                next MULTIPART;
+            if (-f $filePath) {
+                print $filePath." found\n";
+                if (_getSha512ByFile($filePath) eq $sha512) {
+                    next MULTIPART;
+                } else {
+                    print _getSha512ByFile($filePath)."\n";
+                    print $sha512."\n";
+                }
+            } else {
+                print $filePath." not found\n";
+
             }
         }
     }
