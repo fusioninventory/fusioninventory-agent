@@ -19,11 +19,20 @@ my $baseUrl = "http://nana.rulezlan.org/deploy/ocsinventory/deploy/";
 
 
 sub updateStatus {
-    my ($deviceid, $part, $uuid, $status, $message) = @_;
+    my ($params) = @_;
 
+#    my $deviceid;
+#    my $part;
+#    my $uuid;
+#    my $status;
+#    my $message;
     my $ua = LWP::UserAgent->new;
 
-    my $url = $baseUrl."?a=setStatus&d=$deviceid&part=$part&u=$uuid&s=$status&m=".(uri_escape($message)||'');
+    my $url = $baseUrl."?a=setStatus";
+
+    foreach (keys %$params) {
+        $url .= "&$_=".uri_escape($params->{$_});
+    }
 
     print $url."\n";
 
@@ -36,17 +45,17 @@ sub updateStatus {
 }
 
 sub setLog {
-    my ($deviceid, $uuid, $log) = @_;
+    my ($params) = @_;
 
     my $ua = LWP::UserAgent->new;
 
-    my $url = $baseUrl."?a=setLog&d=$deviceid&u=$uuid";
+    my $url = $baseUrl."?a=setLog&d=".$params->{d}."&u=".$params->{u};
 
     print $url."\n";
 
     my $fh;
     my $content;
-    foreach (@$log) {
+    foreach (@{$params->{l}}) {
         $content .= $_."\n";
     }
 
@@ -121,48 +130,46 @@ print $checknum."\n";
 
          my $workdir = $datastore->createWorkDir($job->{uuid});
          print "\n\n\n------------------------\n";
-         updateStatus('DEVICEID', 'job', $job->{uuid}, 'received');
+         updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'received' });
          foreach my $file (@{$job->{associatedFiles}}) {
              if ($file->exists()) {
-                 updateStatus('DEVICEID', 'file', $file->{sha512}, 'ok');
+                 updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ok' });
                  $workdir->addFile($file);
                  next;
              }
-             updateStatus('DEVICEID', 'file', $file->{sha512}, 'downloading');
+             updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'downloading' });
              $file->download();
              if ($file->exists()) {
-                 updateStatus('DEVICEID', 'file', $file->{sha512}, 'ok');
+                 updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ok' });
                  $workdir->addFile($file);
              } else {
-                 updateStatus('DEVICEID', 'file', $file->{sha512}, 'ko', 'download failed');
+                 updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ko', m => 'download failed' });
                  next JOB;
              }
          }
 
 
-
          if (!$job->checkWinkey()) {
-             updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'rejected because of a Windows registry check');
+             updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'rejected because of a Windows registry check' });
              next JOB;
          } elsif (!$job->checkFreespace()) {
-             updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'rejected because of harddrive free space');
+             updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'rejected because of harddrive free space' });
              next JOB;
          }
 
          $workdir->prepare();
 
          my $actionProcessor = FusionInventory::Agent::Task::Deploy::ActionProcessor->new({ workdir => $workdir });
-         updateStatus('DEVICEID', 'job', $job->{uuid}, 'processing');
+         updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'processing' });
          while (my $action = $job->getNextToProcess()) {
              my $ret = $actionProcessor->process($action);
              if (!$ret->{status}) {
-                 setLog('DEVICEID', $job->{uuid}, $ret->{log});
-                 print Dumper($ret->{log});
-                 updateStatus('DEVICEID', 'job', $job->{uuid}, 'ko', 'action processing failure');
+                 setLog({ d => 'DEVICEID', u => $job->{uuid}, l => $ret->{log} });
+                 updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'action processing failure' });
                  next JOB;
              }
          }
-         updateStatus('DEVICEID', 'job', $job->{uuid}, 'ok');
+         updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ok' });
 
      }
 
