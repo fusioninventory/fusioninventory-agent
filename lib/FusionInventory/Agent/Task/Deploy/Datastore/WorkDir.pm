@@ -67,6 +67,7 @@ sub prepare {
 
         if (!$file->validateFileByPath($finalFilePath)) {
             print "Failed to construct the final file.\n";
+            return;
         }
 
     }
@@ -82,6 +83,7 @@ sub prepare {
             $ae->type("tgz");
             if (!$ae->extract( to => $self->{path} )) {
                 print "Failed to extract `$finalFilePath'\n";
+                return;
             }
 
             unlink($finalFilePath);
