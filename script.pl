@@ -36,12 +36,16 @@ sub updateStatus {
 
     print $url."\n";
 
-    my $response = $ua->get($url);
-    if (!$response->is_success) {
-        print "FAILED TO UPDATE THE STATUS\n";
+
+    my $cpt = 1;
+    do {
+        my $response = $ua->get($url);
+        return if $response->is_success;
+
+        print "FAILED TO UPDATE THE STATUS.\n";
+        print "while retry in 600 seconds ($cpt/5)\n";
         sleep(600);
-        $response = $ua->get($url);
-    }
+    } while ($cpt++ <= 5);
 }
 
 sub setLog {
