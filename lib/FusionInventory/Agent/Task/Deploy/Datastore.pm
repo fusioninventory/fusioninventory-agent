@@ -42,7 +42,13 @@ sub cleanUp {
 sub getPathBySha512 {
     my ($self, $sha512) = @_;
 
-    my $filePath = $self->{path}.'/files/'.$sha512;
+    my $shortSha;
+    $sha512 =~ /^(.{6})/;
+    $shortSha = $1;
+
+    die unless $shortSha;
+
+    my $filePath = $self->{path}.'/files/'.$shortSha;
 
     if (-d $filePath || make_path($filePath)) {
         return $filePath;
