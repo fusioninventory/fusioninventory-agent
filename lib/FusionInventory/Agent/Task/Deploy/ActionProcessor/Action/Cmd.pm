@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd; 
 
+use strict;
+use warnings;
+
 use IPC::Open3;
 use Data::Dumper;
 use POSIX ":sys_wait_h";
