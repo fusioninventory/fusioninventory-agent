@@ -36,16 +36,16 @@ if ($options{version}) {
     exit 0;
 }
 
-my ($task_params, $target_params);
+my (%task_params, %target_params);
 foreach my $param (@{$options{'task-param'}}) {
     die "invalid task parameter $param"
         unless $param =~ /^(\S+)=(\S+)$/;
-    $task_params->{$1} = $2;
+    $task_params{$1} = $2;
 }
 foreach my $param (@{$options{'target-param'}}) {
     die "invalid target parameter $param"
         unless $param =~ /^(\S+)=(\S+)$/;
-    $target_params->{$1} = $2;
+    $target_params{$1} = $2;
 }
 
 my $agent = FusionInventory::Agent->new(
@@ -56,17 +56,25 @@ my $agent = FusionInventory::Agent->new(
     conffile  => $options{'conf-file'},
 );
 
-my $job;
+my ($task, $target, $storage);
 if ($options{job}) {
-    $job = $agent->getJobFromConfiguration($options{job});
+    # first option: named job
+    my $job = $agent->createJob(id => $options{job});
+    $task   = $agent->createTask(id => $job->{task}, %task_params);
+    $target = $agent->createTarget(id => $job->{target}, %target_params);
+    $storage = $job->getStorage();
 } elsif ($options{task} && $options{target}) {
-    $job = $agent->getAnonymousJob($options{task}, $options{target});
+    # second option: anonymous job, named task and named target
+    my $job = $agent->createJob();
+    $task   = $agent->createTask(id => $options{task}, %task_params);
+    $target = $agent->createTarget(id => $options{target}, %target_params);
+    $storage = $job->getStorage();
 } else {
-    pod2usage(
-        -message => "Unable to create a job, aborting\n",
-        -verbose => 0,
-        -exitval => 2,
-    );
+    # third option: anonymous job, anonymous task and anonymous target
+    my $job = $agent->createJob();
+    $task   = $agent->createTask(%task_params);
+    $target = $agent->createTarget(%target_params);
+    $storage = $job->getStorage();
 }
 
 if ($options{wait}) {
@@ -79,7 +87,7 @@ if ($options{lazy}) {
 }
 
 eval {
-    $agent->executeJob($job);
+    $agent->runTask(task => $task, target => $target, storage => $storage);
 };
 
 if ($EVAL_ERROR) {
