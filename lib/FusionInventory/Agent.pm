@@ -100,74 +100,95 @@ sub getRandomToken {
     return join('', map { $chars[rand @chars] } 1..8);
 }
 
-sub getTaskFromConfiguration {
-    my ($self, $id) = @_;
+sub createTask {
+    my ($self, %params) = @_;
 
-    my $config = $self->{config}->getBlock($id);
-    die "No such task `$id' in configuration" unless $config;
+    my %config;
 
-    my $type = $config->{type};
-    die "No type for task $id" unless $type;
+    # start from configuration file if an id was given
+    if ($params{id}) {
+        %config = $self->{config}->getBlockValues($params{id});
+        die "No such task '$params{id}' in configuration" unless %config;
+    } else {
+        $params{id} = 'anonymous';
+    }
+
+    # add additional parameters
+    foreach my $key (keys %params) {
+        $config{$key} = $params{$key};
+    }
+
+    my $type = $config{type};
+    die "No type for task '$params{id}'" unless $type;
 
     my $class = 'FusionInventory::Agent::Task::' . ucfirst($type);
-    die "Non-existing type $type for task $id"
+    die "Non-existing type $type for task '$params{id}'"
         unless $class->require();
-    die "Invalid type $type for task $id"
+    die "Invalid type $type for task '$params{id}'"
         unless $class->isa('FusionInventory::Agent::Task');
 
-    return $class->new(id => $id, %$config);
+    return $class->new(id => $params{id}, %config);
 }
 
-sub getTargetFromConfiguration {
-    my ($self, $id) = @_;
+sub createTarget {
+    my ($self, %params) = @_;
 
-    my $config = $self->{config}->getBlock($id);
-    die "No such target `$id' in configuration" unless $config;
+    my %config;
+
+    # start from configuration file if an id was given
+    if ($params{id}) {
+        %config = $self->{config}->getBlockValues($params{id});
+        die "No such target '$params{id}' in configuration" unless %config;
+    } else {
+        $params{id} = 'anonymous';
+    }
+
+    # add additional parameters
+    foreach my $key (keys %params) {
+        $config{$key} = $params{$key};
+    }
     
-    my $type = $config->{type};
-    die "No type for target $id" unless $type;
+    my $type = $config{type};
+    die "No type for target '$params{id}'" unless $type;
 
     my $class = 'FusionInventory::Agent::Target::' . ucfirst($type);
-    die "Non-existing type $type for target $id" unless $class->require();
-    die "Invalid type $type for target $id"
+    die "Non-existing type $type for target '$params{id}'"
+        unless $class->require();
+    die "Invalid type $type for target '$params{id}'"
         unless $class->isa('FusionInventory::Agent::Target');
 
-    return $class->new(id => $id, %$config);
+    return $class->new(id => $params{id}, %config);
 }
 
-sub getAllJobsFromConfiguration {
+sub createAllJobs {
     my ($self) = @_;
 
     return
-        map { $self->getJobFromConfiguration($_) }
+        map { $self->createJob(id => $_) }
         $self->{config}->getValues('global.jobs');
 }
 
-sub getJobFromConfiguration {
-    my ($self, $id) = @_;
+sub createJob {
+    my ($self, %params) = @_;
 
-    my $config = $self->{config}->getBlock($id);
-    die "No such job $id in configuration" unless $config;
+    my %config;
 
-    return FusionInventory::Agent::Job->new(
-        id     => $id,
-        task   => $config->{task},
-        target => $config->{target},
-        period => $config->{period},
-        logger => $self->{logger},
-        vardir => $self->{vardir},
-    );
-}
-
-sub getAnonymousJob {
-    my ($self, $task, $target) = @_;
+    if ($params{id}) {
+        %config = $self->{config}->getBlockValues($params{id});
+        die "No such job '$params{id}' in configuration" unless %config;
+    } else {
+        $params{id} = 'anonymous';
+        %config = (
+            task   => 'anonymous',
+            target => 'anonymous',
+        );
+    }
 
     return FusionInventory::Agent::Job->new(
-        id     => 'anonymous',
-        task   => $task,
-        target => $target,
+        id     => $params{id},
         logger => $self->{logger},
         vardir => $self->{vardir},
+        %config
     );
 }
 
@@ -191,13 +212,13 @@ sub resetToken {
     $self->{token} = _computeNewToken();
 }
 
-sub executeAllJobs {
+sub runAllJobs {
     my ($self) = @_;
 
-    $self->executeJob($_) foreach (@{$self->{jobs}});
+    $self->runJob($_) foreach (@{$self->{jobs}});
 }
 
-sub executeJob {
+sub runJob {
     my ($self, $job) = @_;
 
     my $logger = $self->{logger};
@@ -215,17 +236,21 @@ sub executeJob {
         )
     );
 
-    # run task
-    $task->run(
-        target   => $target,
-        logger   => $logger,
-        storage  => $storage,
+    $self->runTask(task => $task, target => $target, storage => $storage);
+}
+
+sub runTask {
+    my ($self, %params) = @_;
+
+    $params{task}->run(
+        target   => $params{target},
+        storage  => $params{storage},
+        logger   => $self->{logger},
         confdir  => $self->{confdir},
         datadir  => $self->{datadir},
         deviceid => $self->{deviceid},
         token    => $self->{token},
     );
-
 }
 
 1;
