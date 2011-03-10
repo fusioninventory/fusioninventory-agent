@@ -60,21 +60,19 @@ my ($task, $target, $storage);
 if ($options{job}) {
     # first option: named job
     my $job = $agent->createJob(id => $options{job});
+    $storage = $job->getStorage();
     $task   = $agent->createTask(id => $job->{task}, %task_params);
     $target = $agent->createTarget(id => $job->{target}, %target_params);
-    $storage = $job->getStorage();
-} elsif ($options{task} && $options{target}) {
-    # second option: anonymous job, named task and named target
-    my $job = $agent->createJob();
-    $task   = $agent->createTask(id => $options{task}, %task_params);
-    $target = $agent->createTarget(id => $options{target}, %target_params);
-    $storage = $job->getStorage();
 } else {
-    # third option: anonymous job, anonymous task and anonymous target
+    # first option: anonymous job
     my $job = $agent->createJob();
-    $task   = $agent->createTask(%task_params);
-    $target = $agent->createTarget(%target_params);
     $storage = $job->getStorage();
+    $task = $options{task} ?
+        $agent->createTask(id => $options{task}, %task_params) :
+        $agent->createTask(%task_params);
+    $target = $options{target} ?
+        $agent->createTarget(id => $options{target}, %target_params) :
+        $agent->createTarget(%target_params);
 }
 
 if ($options{wait}) {
