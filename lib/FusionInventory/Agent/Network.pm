@@ -241,7 +241,7 @@ sub send {
         if (!$content) {
             $logger->error ("Deflating problem. Is the string really ".
             "compressed? Do you use the correct URL to the server. ".
-            "The begin was: ".substr($res->content, 0, 200));
+            "The string start with: ".substr($res->content, 0, 500));
 
             return;
         }
