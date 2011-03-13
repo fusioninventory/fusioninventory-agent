@@ -45,6 +45,7 @@ Revision history for FusionInventory::Agent
        * add FusionInventory::Agent::Tools::Win32::getValueFromRegistry()
          unused for now.
        * Win32: getWmiProperties() depends on Win32::OLE, load it first.
+       * Win32/AntiVirus: avoid pointless OLE error
 
 2.1.8_rc1  Sat, 05 Mar 2011 14:56:58 +0100
        * Linux, correctly read the number of core from /proc/cpuinfo
