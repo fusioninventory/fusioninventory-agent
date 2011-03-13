@@ -27,7 +27,7 @@ sub doInventory {
 
 
         if (!$WMIServices) {
-            print STDERR Win32::OLE->LastError();
+#            print STDERR Win32::OLE->LastError();
             next;
         }
 
