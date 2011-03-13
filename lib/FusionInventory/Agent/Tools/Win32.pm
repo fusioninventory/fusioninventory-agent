@@ -9,6 +9,16 @@ use File::stat;
 use Memoize;
 use Time::Local;
 
+
+use constant KEY_WOW64_64 => 0x100;
+use constant KEY_WOW64_32 => 0x200;
+
+use Win32::TieRegistry (
+        Delimiter   => '/',
+        ArrayValues => 0,
+        qw/KEY_READ/
+        );
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::Win32; # getWmiProperties
 
