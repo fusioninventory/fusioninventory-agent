@@ -52,6 +52,7 @@ sub getWmiProperties {
     my $wmiClass = shift;
     my @keys = @_;
 
+    eval 'use Win32::OLE; 1';
     my $WMIServices = Win32::OLE->GetObject(
             "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
 
