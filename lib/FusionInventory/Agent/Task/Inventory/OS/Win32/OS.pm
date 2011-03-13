@@ -24,7 +24,7 @@ sub KEY_WOW64_32KEY () { 0x0200}
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson
 
-
+# TODO: FusionInventory::Agent::Tools::Win32::getValueFromRegistry()
 sub _getValueFromRegistry {
     my ($logger, $path) = @_;
 
