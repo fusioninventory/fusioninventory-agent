@@ -6,6 +6,16 @@ use warnings;
 use Encode;
 use English qw(-no_match_vars);
 
+use constant KEY_WOW64_64 => 0x100;
+use constant KEY_WOW64_32 => 0x200;
+
+use Win32::TieRegistry (
+        Delimiter   => '/',
+        ArrayValues => 0,
+        qw/KEY_READ/
+        );
+
+
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
 require Exporter;
