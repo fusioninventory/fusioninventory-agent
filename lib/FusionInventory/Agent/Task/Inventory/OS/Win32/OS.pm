@@ -31,12 +31,12 @@ sub _getValueFromRegistry {
     my $key;
     if (is64bit()) {
         my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64KEY() } )
-	    or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
+	    or $logger->error("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
 	$key = $machKey->{$path};
 
     } else {
 	my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
-            or $logger->fault("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
+            or $logger->error("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
         $key = $machKey->{$path};
     }
 
