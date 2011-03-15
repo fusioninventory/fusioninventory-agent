@@ -9,6 +9,9 @@ use JSON;
 use LWP::Simple;
 use Data::Dumper;
 use URI::Escape;
+use FusionInventory::Logger;
+use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Task::Deploy::Job;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Datastore;
@@ -111,6 +114,27 @@ sub getJobs {
 }
 
 sub main {
+    my ( undef ) = @_;
+
+    my $self = {};
+    bless $self;
+
+    my $storage = FusionInventory::Agent::Storage->new({
+            target => {
+                vardir => $ARGV[0],
+            }
+        });
+
+    my $data = $storage->restore({
+            module => "FusionInventory::Agent"
+        });
+    my $myData = $self->{myData} = $storage->restore();
+
+    my $config = $self->{config} = $data->{config};
+    my $target = $self->{'target'} = $data->{'target'};
+    my $logger = $self->{logger} = FusionInventory::Logger->new ({
+            config => $self->{config}
+        });
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new({
             path => '/tmp',
