@@ -112,25 +112,25 @@ sub getJobs {
 
 sub main {
 
-my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new({
-        path => '/tmp',
-        });
-$datastore->cleanUp();
+    my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new({
+            path => '/tmp',
+            });
+    $datastore->cleanUp();
 
-my $jobList = getJobs($datastore);
+    my $jobList = getJobs($datastore);
 JOB: foreach my $job (@$jobList) {
          updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'received' });
-        if (ref($job->{checks}) eq 'ARRAY') {
-            my $checkProcessor = FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
-            foreach my $checknum (0..@{$job->{checks}}) {
-print $checknum."\n";
-                next unless $job->{checks}[$checknum];
-                if (!$checkProcessor->process($job->{checks}[$checknum])) {
-                    updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'check failed', cheknum => $checknum });
-                    next JOB;
-                }
-            }
-        }
+         if (ref($job->{checks}) eq 'ARRAY') {
+             my $checkProcessor = FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
+             foreach my $checknum (0..@{$job->{checks}}) {
+                 print $checknum."\n";
+                 next unless $job->{checks}[$checknum];
+                 if (!$checkProcessor->process($job->{checks}[$checknum])) {
+                     updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'check failed', cheknum => $checknum });
+                     next JOB;
+                 }
+             }
+         }
 
 
 
