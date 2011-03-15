@@ -18,11 +18,8 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 
-my $baseUrl = "http://nana.rulezlan.org/deploy/ocsinventory/deploy/";
-
-
 sub updateStatus {
-    my ($params) = @_;
+    my ($self, $params) = @_;
 
 #    my $deviceid;
 #    my $part;
@@ -31,7 +28,7 @@ sub updateStatus {
 #    my $message;
     my $ua = LWP::UserAgent->new;
 
-    my $url = $baseUrl."?a=setStatus";
+    my $url = $self->{backendURL}."/?a=setStatus";
 
     foreach (keys %$params) {
         $url .= "&$_=".uri_escape($params->{$_});
@@ -52,11 +49,11 @@ sub updateStatus {
 }
 
 sub setLog {
-    my ($params) = @_;
+    my ($self, $params) = @_;
 
     my $ua = LWP::UserAgent->new;
 
-    my $url = $baseUrl."?a=setLog&d=".$params->{d}."&u=".$params->{u};
+    my $url = $self->{backendURL}."/?a=setLog&d=".$params->{d}."&u=".$params->{u};
 
     print $url."\n";
 
@@ -75,14 +72,24 @@ sub setLog {
 }
 
 sub getJobs {
-    my ($datastore) = @_;
+    my ($self, $datastore) = @_;
+
+    my $logger = $self->{logger};
+    my $network = $self->{network};
 
     my $ret = [];
 
     my $files = {};
 
-    my $jsonText = get ($baseUrl.'?a=getJobs&ddeviceId');
-#    print $jsonText."\n";
+    my $jsonText = $network->get ({
+        source => $self->{backendURL}.'/?a=getJobs&ddeviceId',
+        timeout => 60,
+        });
+    if (!defined($jsonText)) {
+        $logger->debug("No answer from server for deployment job.");
+        return;
+    }
+
     my $jsonHash = from_json( $jsonText, { utf8  => 1 } );
     print to_json( $jsonHash, { ascii => 1, pretty => 1 } );
 
@@ -128,29 +135,46 @@ sub main {
     my $data = $storage->restore({
             module => "FusionInventory::Agent"
         });
-    my $myData = $self->{myData} = $storage->restore();
+    #my $myData = $self->{myData} = $storage->restore();
 
+    print Dumper($data);
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
     my $logger = $self->{logger} = FusionInventory::Logger->new ({
             config => $self->{config}
         });
 
+    return unless $target->{type} eq 'server';
+
+    $self->{backendURL} = $target->{path}."/deploy";
+    # DEBUG:
+    $self->{backendURL} = "http://nana.rulezlan.org/deploy/ocsinventory/deploy/";
+
+    my $network = $self->{network} = FusionInventory::Agent::Network->new ({
+
+            logger => $logger,
+            config => $config,
+            target => $target,
+
+        });
+
+
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new({
             path => '/tmp',
             });
     $datastore->cleanUp();
 
-    my $jobList = getJobs($datastore);
+    my $jobList = $self->getJobs($datastore);
+    return unless defined($jobList);
 JOB: foreach my $job (@$jobList) {
-         updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'received' });
+         $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'received' });
          if (ref($job->{checks}) eq 'ARRAY') {
              my $checkProcessor = FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
              foreach my $checknum (0..@{$job->{checks}}) {
                  print $checknum."\n";
                  next unless $job->{checks}[$checknum];
                  if (!$checkProcessor->process($job->{checks}[$checknum])) {
-                     updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'check failed', cheknum => $checknum });
+                     $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'check failed', cheknum => $checknum });
                      next JOB;
                  }
              }
@@ -160,46 +184,46 @@ JOB: foreach my $job (@$jobList) {
 
          my $workdir = $datastore->createWorkDir($job->{uuid});
          print "\n\n\n------------------------\n";
-         updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'received' });
+         $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'received' });
          foreach my $file (@{$job->{associatedFiles}}) {
              if ($file->exists()) {
-                 updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ok' });
+                 $self->updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ok' });
                  $workdir->addFile($file);
                  next;
              }
-             updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'downloading' });
+             $self->updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'downloading' });
              $file->download();
              if ($file->exists()) {
-                 updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ok' });
+                 $self->updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ok' });
                  $workdir->addFile($file);
              } else {
-                 updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ko', m => 'download failed' });
+                 $self->updateStatus({ d => 'DEVICEID', p => 'file', u => $file->{sha512}, s => 'ko', m => 'download failed' });
                  next JOB;
              }
          }
 
 
          if (!$job->checkWinkey()) {
-             updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'rejected because of a Windows registry check' });
+             $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'rejected because of a Windows registry check' });
              next JOB;
          } elsif (!$job->checkFreespace()) {
-             updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'rejected because of harddrive free space' });
+             $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'rejected because of harddrive free space' });
              next JOB;
          }
 
          $workdir->prepare();
 
          my $actionProcessor = FusionInventory::Agent::Task::Deploy::ActionProcessor->new({ workdir => $workdir });
-         updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'processing' });
+         $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'processing' });
          while (my $action = $job->getNextToProcess()) {
              my $ret = $actionProcessor->process($action);
              if (!$ret->{status}) {
-                 setLog({ d => 'DEVICEID', u => $job->{uuid}, l => $ret->{log} });
-                 updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'action processing failure' });
+                 $self->setLog({ d => 'DEVICEID', u => $job->{uuid}, l => $ret->{log} });
+                 $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ko', m => 'action processing failure' });
                  next JOB;
              }
          }
-         updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ok' });
+         $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, s => 'ok' });
 
      }
 
