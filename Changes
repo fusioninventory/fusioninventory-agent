@@ -10,6 +10,8 @@ Revision history for FusionInventory::Agent
        * Win32/AntiVirus: avoid pointless OLE error
        * Add BNQ screen manufacturer support
          https://bugs.launchpad.net/bugs/736095
+       * scan-homedirs and rpc-trust-localhost don't works in command line
+         http://forge.fusioninventory.org/issues/636
 
 2.1.8_rc1  Sat, 05 Mar 2011 14:56:58 +0100
        * Linux, correctly read the number of core from /proc/cpuinfo

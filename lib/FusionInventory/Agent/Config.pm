@@ -239,9 +239,9 @@ sub loadUserParams {
         'realm|r=s',
         'rpc-ip=s',
         'rpc-port=s',
-        'rpc-trust-localhost',
+        'rpc-trust-localhost=s',
         'remotedir|R=s',
-        'scan-homedirs',
+        'scan-homedirs=s',
         'share-dir=s',
         'server|s=s',
         'stdout',
@@ -325,8 +325,8 @@ Extra options:
     --logger                    Logger you want to use, can be Stderr,File or Syslog ($config->{logger})
     --rpc-ip=IP                 ip of the interface to use for peer to peer exchange ($config->{'rpc-ip'})
     --rpc-port=PORT     port use for RPC
-    --rpc-trust-localhost       allow local users to force an inventory from http://127.0.0.1:62354/now  ($config->{'rpc-trust-localhost'})
-    --scan-homedirs             permit to scan home user directories ($config->{'scan-homedirs'})
+    --rpc-trust-localhost=X     allow local users to force an inventory from http://127.0.0.1:62354/now (0/1) ($config->{'rpc-trust-localhost'})
+    --scan-homedirs=X           permit to scan home user directories (0/1) ($config->{'scan-homedirs'})
     --share-dir=DIR             path to the directory where the shared files are stored ($config->{'share-dir'})
     --stdout                    do not write or post the inventory but print it on STDOUT
     -t --tag=TAG                use TAG as tag ($config->{tag}) Will be ignored by server if a value already exists.
