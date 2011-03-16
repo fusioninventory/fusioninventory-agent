@@ -266,6 +266,7 @@ sub main {
         });
 
         my @tasks = qw/
+            Deploy
             OcsDeploy
             Inventory
             WakeOnLan
