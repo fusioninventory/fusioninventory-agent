@@ -10,7 +10,6 @@ use FusionInventory::Agent::Config;
 use FusionInventory::VMware::SOAP;
 use FusionInventory::Logger;
 
-use Getopt::Long;
 use Data::Dumper;
 
 
