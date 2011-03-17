@@ -14,7 +14,7 @@ use Data::Dumper;
 
 
 sub createFakeDeviceid {
-    my ($host) = @_;
+    my ($self, $host) = @_;
 
     my $hostname = $host->getHostname();
     my $bootTime = $host->getBootTime();
@@ -41,28 +41,23 @@ sub createFakeDeviceid {
 }
 
 sub createEsxInventory {
-    my ($params) = @_;
+    my ($self, $job) = @_;
 
 
-    my $logger = FusionInventory::Logger->new();
-    my $config = FusionInventory::Agent::Config::load();
 
-
-    my $url = 'http://'.$params->{host}.'/sdk/vimService';
+    my $url = 'http://'.$job->{addr}.'/sdk/vimService';
 
     my $vpbs = FusionInventory::VMware::SOAP->new({ url => $url });
-    if (!$vpbs->login($params->{user}, $params->{password})) {
+    if (!$vpbs->login($job->{login}, $job->{passwd})) {
         die "failed to log in\n";
     }
-
-
 
     my $host = $vpbs->getHostFullInfo();
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
-            logger => $logger,
-            config => $config,
-            target => { deviceid => createFakeDeviceid($host), path => '/tmp', vardir => '/tmp/toto' }
+            logger => $self->{logger},
+            config => $self->{config},
+            target => { deviceid => $self->createFakeDeviceid($host), path => '/tmp', vardir => '/tmp/toto' }
             });
 
     $inventory->{isInitialised}=1;
@@ -124,5 +119,71 @@ sub createEsxInventory {
 
 }
 
+
+sub getJobs {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+    my $network = $self->{network};
+
+    my $jsonText = $network->get ({
+        source => $self->{backendURL}.'/?a=getJobs&d=TODO',
+        timeout => 60,
+        });
+    if (!defined($jsonText)) {
+        $logger->debug("No answer from server for deployment job.");
+        return;
+    }
+
+
+    return from_json( $jsonText, { utf8  => 1 } );
+}
+
+
+sub main {
+    my ( undef ) = @_;
+
+    my $self = {};
+    bless $self;
+
+
+    my $storage = FusionInventory::Agent::Storage->new({
+            target => {
+                vardir => $ARGV[0],
+            }
+        });
+
+    my $data = $storage->restore({
+            module => "FusionInventory::Agent"
+        });
+
+    print Dumper($data);
+    my $config = $self->{config} = $data->{config};
+    my $target = $self->{'target'} = $data->{'target'};
+    my $logger = $self->{logger} = FusionInventory::Logger->new ({
+            config => $self->{config}
+        });
+
+    return unless $target->{type} eq 'server';
+
+    $self->{backendURL} = $target->{path}."/esx/";
+    # DEBUG:
+    $self->{backendURL} = "http://nana.rulezlan.org/deploy/ocsinventory/esx/";
+
+    my $network = $self->{network} = FusionInventory::Agent::Network->new ({
+
+            logger => $logger,
+            config => $config,
+            target => $target,
+
+        });
+
+    my $jobs = $self->getJobs();
+    return unless $jobs;
+    return unless ref($jobs) eq 'ARRAY';
+    foreach my $job (@$jobs) {
+        $self->createEsxInventory($job);
+    }
+}
 
 1;
