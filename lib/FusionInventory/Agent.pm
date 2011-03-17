@@ -272,6 +272,7 @@ sub main {
             WakeOnLan
             SNMPQuery
             NetDiscovery
+            ESX
             /;
 
         foreach my $module (@tasks) {

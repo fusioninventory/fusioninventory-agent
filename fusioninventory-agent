@@ -395,6 +395,10 @@ You can use more than one parameter if you use ',' as delimiter. E.g:
 
 Disable the software deployment (new module).
 
+=item B<--no-esx>
+
+Disable the ESX inventory task.
+
 =item B<--no-ocsdeploy>
 
 Disable the software deployment (OCS compatible module).
