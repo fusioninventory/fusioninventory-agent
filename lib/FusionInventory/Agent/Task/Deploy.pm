@@ -234,7 +234,7 @@ JOB: foreach my $job (@$jobList) {
                  $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, c => 'processing', s => 'ko', actionnum => $actionnum, m => 'action processing failure' });
                  next JOB;
              }
-             $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, c => 'processing', s => 'ok', actionnum => $actionnum, m => 'action processing failure' });
+             $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, c => 'processing', s => 'ok', actionnum => $actionnum });
              $actionnum++;
          }
          $self->updateStatus({ d => 'DEVICEID', p => 'job', u => $job->{uuid}, c => 'processing', s => 'ok' });
