@@ -20,8 +20,8 @@ sub process {
 
     print Dumper($check);
     if ($check->{type} eq 'winkeyExists') {
+        return unless $OSNAME eq 'MSWin32';
         eval "use FusionInventory::Agent::Tools::Win32; 1";
-print $@;
         my $r = getValueFromRegistry($check->{path});
         if (defined($r)) {
             return 1;
@@ -29,6 +29,7 @@ print $@;
             return;
         }
     } elsif ($check->{type} eq 'winkeyEquals') {
+        return unless $OSNAME eq 'MSWin32';
         eval "use FusionInventory::Agent::Tools::Win32; 1";
         my $r = getValueFromRegistry($check->{path});
         if (defined($r) && $check->{value} eq $r) {
@@ -37,6 +38,7 @@ print $@;
             return;
         }
     } elsif ($check->{type} eq 'winkeyMissing') {
+        return unless $OSNAME eq 'MSWin32';
         eval "use FusionInventory::Agent::Tools::Win32; 1";
         my $r = getValueFromRegistry($check->{path});
         if (defined($r)) {
