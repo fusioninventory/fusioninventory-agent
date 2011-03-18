@@ -20,11 +20,30 @@ sub process {
 
     print Dumper($check);
     if ($check->{type} eq 'winkeyExists') {
-
+        eval "use FusionInventory::Agent::Tools::Win32; 1";
+print $@;
+        my $r = getValueFromRegistry($check->{path});
+        if (defined($r)) {
+            return 1;
+        } else {
+            return;
+        }
     } elsif ($check->{type} eq 'winkeyEquals') {
-
+        eval "use FusionInventory::Agent::Tools::Win32; 1";
+        my $r = getValueFromRegistry($check->{path});
+        if (defined($r) && $check->{value} eq $r) {
+            return 1;
+        } else {
+            return;
+        }
     } elsif ($check->{type} eq 'winkeyMissing') {
-
+        eval "use FusionInventory::Agent::Tools::Win32; 1";
+        my $r = getValueFromRegistry($check->{path});
+        if (defined($r)) {
+            return;
+        } else {
+            return 1;
+        }
     } elsif ($check->{type} eq 'fileExists') {
         return 0 unless -f $check->{path};
     } elsif ($check->{type} eq 'fileSizeEquals') {
