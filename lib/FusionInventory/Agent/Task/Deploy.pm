@@ -151,9 +151,11 @@ sub main {
     $self->{backendURL} = $target->{path};
     # In case the old URL is used.
     $self->{backendURL} =~ s#front/plugin_fusioninventory.communication.php##;
-    $self->{backendURL} .= "/deploy";
+    # Debug Gonéri
+    $self->{backendURL} =~ s#nana.rulezlan.org/ocsinventory#nana.rulezlan.org/ocsinventory2#;
+    $self->{backendURL} .= "/deploy/";
     # DEBUG:
-    $self->{backendURL} = "http://nana.rulezlan.org/deploy/ocsinventory/deploy/";
+#    $self->{backendURL} = "http://nana.rulezlan.org/deploy/ocsinventory/deploy/";
 
     my $network = $self->{network} = FusionInventory::Agent::Network->new ({
 
