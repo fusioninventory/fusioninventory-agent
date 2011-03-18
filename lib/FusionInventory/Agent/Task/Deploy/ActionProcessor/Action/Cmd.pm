@@ -42,6 +42,7 @@ sub _evaluateRet {
             }
         }
     }
+    return [ 1, '' ];
 }
 
 sub do {
@@ -58,7 +59,7 @@ sub do {
         }
     }
 
-    my $buf = `$_[0]->{exec} 2>&1`;
+    my $buf = `$_[0]->{exec} 2>&1` || '';
     print "Run: ".$buf."\n";
     my $exitStatus = $? >> 8;
 
