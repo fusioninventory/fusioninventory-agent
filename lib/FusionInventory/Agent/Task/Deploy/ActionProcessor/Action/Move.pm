@@ -10,12 +10,10 @@ use File::Copy::Recursive qw(dirmove);
 sub do {
     my $log = [];
     my $status;
-    print "dirmove($_[0]->[0], $_[0]->[1])\n";
     $status = dirmove($_[0]->[0], $_[0]->[1]);
     if (!$status) {
         $log = [ "Failed to move file: `".$_[0]->[0]."' to '".$_[0]->[1], $! ];
     }
-
     return {
     status => $status,
     log => $log,
