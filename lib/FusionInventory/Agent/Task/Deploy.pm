@@ -6,7 +6,6 @@ use warnings;
 
 use LWP;
 use JSON;
-use LWP::Simple;
 use Data::Dumper;
 use URI::Escape;
 use FusionInventory::Logger;
@@ -26,7 +25,8 @@ sub updateStatus {
 #    my $uuid;
 #    my $status;
 #    my $message;
-    my $ua = LWP::UserAgent->new;
+    #my $ua = LWP::UserAgent->new;
+    my $network = $self->{network};
 
     my $url = $self->{backendURL}."/?a=setStatus";
 
@@ -39,13 +39,15 @@ sub updateStatus {
 
     my $cpt = 1;
     do {
-        my $response = $ua->get($url);
-        return if $response->is_success;
+        my $response = $network->get({ source => $url });
+        return 1 if defined($response);
 
         print "FAILED TO UPDATE THE STATUS.\n";
         print "while retry in 600 seconds ($cpt/5)\n";
         sleep(600);
     } while ($cpt++ <= 5);
+
+    return;
 }
 
 sub setLog {
