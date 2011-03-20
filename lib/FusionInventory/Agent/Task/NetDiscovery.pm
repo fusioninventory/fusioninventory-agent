@@ -18,6 +18,8 @@ use Data::Dumper;
 use XML::Simple;
 use Digest::MD5 qw(md5_hex);
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Config;
 use FusionInventory::Logger;
 use FusionInventory::Agent::Storage;
@@ -30,6 +32,22 @@ use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard;
 
 use FusionInventory::Agent::AccountInfo;
+
+sub parseNmapVersion {
+    my $s;
+
+    $s .= $_ foreach @_;
+
+    return unless $s =~ /Nmap version (\S+) /;
+
+    return $1;
+}
+
+sub compareNmapVersion {
+    my ($v1, $v2) = @_;
+
+    return $v1 >= $v2;
+}
 
 sub main {
     my ( undef ) = @_;
@@ -119,7 +137,7 @@ sub StartThreads {
 
    my $ModuleNmapScanner = 0;
    my $ModuleNmapParser  = 0;
-   my $ModuleNmapParserParameter = "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ";
+   my $ModuleNmapParserParameter;
    my $ModuleNetNBName   = 0;
    my $ModuleNetSNMP     = 0;
    my $iplist = {};
@@ -132,13 +150,20 @@ sub StartThreads {
    my $dico;
    my $dicohash;
 
+   my $nmap_version = parseNmapVersion(`nmap -V`);
+   if (compareNmapVersion(5.29, $nmap_version)) {
+       $ModuleNmapParserParameter = "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ";
+   } else {
+       $ModuleNmapParserParameter = "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms ";
+   }
+
    # Load storage with XML dico
    if (defined($self->{NETDISCOVERY}->{DICO})) {
       $storage->save({
             idx => 999998,
-            data => $self->{NETDISCOVERY}->{DICO}
+            data => XMLin($self->{NETDISCOVERY}->{DICO})
         });
-      $dicohash->{HASH} = md5_hex($self->{NETDISCOVERY}->{DICO});
+      $dicohash->{HASH} = $self->{NETDISCOVERY}->{DICOHASH};
       $storage->save({
             idx => 999999,
             data => $dicohash
@@ -152,7 +177,7 @@ sub StartThreads {
          idx => 999999
       });
 
-   if ( (!defined($dico)) || !(%$dico)) {
+   if ( (!defined($dico)) || (ref($dico) ne "HASH")) {
       $dico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
       $storage->save({
             idx => 999998,
@@ -178,7 +203,7 @@ sub StartThreads {
             data => $xml_thread
             });
          undef($xml_thread);
-         $self->{logger}->debug("Dico is to old. Exiting...");
+         $self->{logger}->debug("Dico is to old (".$dicohash->{HASH}." vs ".$self->{NETDISCOVERY}->{DICOHASH}."). Exiting...");
          exit(0);
       }
    }
@@ -187,13 +212,6 @@ sub StartThreads {
    if ( eval { require Nmap::Parser; 1 } ) {
       $ModuleNmapParser = 1;
       my $scan = new Nmap::Parser;
-      if (eval {$scan->parsescan('nmap','-sP ', '')}) {
-        my $sessionnmap = $scan->get_session();
-        my $nmap_version = substr($sessionnmap->nmap_version(), 0, 4);
-        if ($nmap_version > 5.29) {
-           $ModuleNmapParserParameter = "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms ";
-        }
-      }
    } elsif ( eval { require Nmap::Scanner; 1 } ) {
       if ($@) {
          $self->{logger}->debug("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
@@ -630,7 +648,7 @@ sub StartThreads {
          }
 
       }
-      $storage->removeSubDumps();
+#      $storage->removeSubDumps();
 
       } 
      if ($nb_core_discovery > 1) {
