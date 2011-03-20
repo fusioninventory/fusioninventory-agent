@@ -794,7 +794,7 @@ sub discovery_ip_threaded {
    } elsif ($params->{ModuleNmapScanner} eq "1") {
       $self->{logger}->debug("[".$params->{ip}."] : Nmap discovery");
       my $scan = new Nmap::Scanner;
-      my $results_nmap = $scan->scan('-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 '.$params->{ip});
+      my $results_nmap = $scan->scan($params->{ModuleNmapParserParameter}.$params->{ip});
 
       my $xml_nmap = new XML::Simple;
       my $macaddress = q{}; # Empty string
