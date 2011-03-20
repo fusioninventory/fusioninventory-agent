@@ -1220,6 +1220,8 @@ Installation day in DD/MM/YYYY format. Windows only.
 
 =item NO_REMOVE
 
+Can the software be removed.
+
 =item RELEASE_TYPE
 
 Windows only for now, come from the registry
@@ -1449,7 +1451,7 @@ Up or Down
 
 =item TYPE
 
-deprecated
+Interface type: Ethernet, Wifi
 
 =item VIRTUALDEV
 

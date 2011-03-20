@@ -32,7 +32,7 @@ sub _parseMachinInfo {
         if (/Number of CPUs = (\d+)/) {
             $ret->{CPUcount} = $1;
         } elsif (/processor model: \d+ (.+)$/) {
-            $ret->{TYPE} = $1;
+            $ret->{NAME} = $1;
         } elsif (/Clock speed = (\d+) MHz/) {
             $ret->{SPEED} = $1;
         } elsif (/vendor information =\W+(\w+)/) {
@@ -54,7 +54,7 @@ sub _parseMachinInfo {
             $ret->{CPUcount} = $1;
         }
         if (/Itanium/i) {
-            $ret->{TYPE} = 'Itanium';
+            $ret->{NAME} = 'Itanium';
         }
 # end HPUX 11.31
     }
@@ -114,13 +114,13 @@ sub doInventory {
         my $DeviceType = getFirstLine(command => 'model |cut -f 3- -d/');
         my $tempCpuInfo = $cpuInfos{"$DeviceType"};
         if ( $tempCpuInfo =~ /^(\S+)\s(\S+)/ ) {
-            $CPUinfo->{TYPE} = $1;
+            $CPUinfo->{NAME} = $1;
             $CPUinfo->{SPEED} = $2;
         } else {
             foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
                 next unless /CPU Module/;
                 if ( /(\S+)\s+CPU\s+Module/ ) {
-                    $CPUinfo->{TYPE} = $1;
+                    $CPUinfo->{NAME} = $1;
                 }
             }
             foreach ( `echo 'itick_per_usec/D' | adb -k /stand/vmunix /dev/kmem` ) {
@@ -134,11 +134,11 @@ sub doInventory {
     }
 
     my $serie = getFirstLine(command => 'uname -m');
-    if ( $CPUinfo->{TYPE} eq 'unknow' and $serie =~ /ia64/) {
-        $CPUinfo->{TYPE} = "Itanium"
+    if ( $CPUinfo->{NAME} eq 'unknow' and $serie =~ /ia64/) {
+        $CPUinfo->{NAME} = "Itanium"
     }
     if ( $serie =~ /9000/) {
-        $CPUinfo->{TYPE} = "PA" . $CPUinfo->{TYPE};
+        $CPUinfo->{NAME} = "PA" . $CPUinfo->{NAME};
     }
 
     foreach ( 1..$CPUinfo->{CPUcount} ) { $inventory->addCPU($CPUinfo) }
