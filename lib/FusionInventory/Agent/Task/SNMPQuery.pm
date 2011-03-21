@@ -28,6 +28,7 @@ use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::Task::SNMPQuery::Cisco;
 use FusionInventory::Agent::Task::SNMPQuery::Procurve;
 use FusionInventory::Agent::Task::SNMPQuery::ThreeCom;
+use FusionInventory::Agent::Task::SNMPQuery::Nortel;
 
 use FusionInventory::Agent::AccountInfo;
 
@@ -770,6 +771,8 @@ sub query_device_threaded {
                   ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::ThreeCom::GetMAC($HashDataSNMP,$datadevice,$self,$params->{modellist}->{WALK});
                } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
                   ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
+               } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
+                  ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
                }
             }
          }
@@ -1021,6 +1024,8 @@ sub ConstructDataDeviceMultiple {
       } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
          ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($HashDataSNMP,$datadevice, $self);
          ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::CDPLLDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
+      } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
+         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::LLDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
       }
    }
 
