@@ -278,59 +278,71 @@ sub help {
 
     print STDERR <<EOF;
 
-Common options:
-    --debug             debug mode ($config->{debug})
-    --html              save the inventory requested by --local in HTML ($config->{html})
-    -l --local=DIR      do not contact server but write inventory in XML to DIR directory ($config->{local})
-    --logfile=FILE      log message in FILE ($config->{logfile})
-    --version           print the version
+Target definition options
+    -s --server=URI     send tasks result to a server ($config->{server})
+    -l --local=DIR      write tasks results in a directory ($config->{local})
+    --stdout            write tasks result on STDOUT
 
+Target scheduling options
+    --delaytime=DURATION        maximum initial delay before first target, in seconds ($config->{delaytime})
+    -w --wait=DURATION          maximum delay between each target, in seconds ($config->{wait})
+    --lazy                      do not contact the target before next scheduled ime ($config->{lazy})
+
+Task selection options
+    --no-ocsdeploy      do not run packages deployment task ($config->{'no-ocsdeploy'})
+    --no-inventory      do not run inventory task ($config->{'no-inventory'})
+    --no-wakeonlan      do not run wake on lan task ($config->{'no-wakeonlan'})
+    --no-snmpquery      do not run snmp query task ($config->{'no-snmpquery'})
+    --no-netdiscovery   do not run net discovery task ($config->{'no-netdiscovery'})
+
+
+Inventory task specific options
+    --no-printer        do not list local printers ($config->{'no-printer'})
+    --no-software       do not list installed software ($config->{'no-software'})
+    --scan-homedirs     allow to scan use home directories ($config->{'scan-homedirs'})
+    --html              save the inventory as HTML ($config->{html})
+    -f --force          always send data to server ($config->{force})
+    -t --tag=TAG        mark the machine with given tag ($config->{tag})
+    --backend-collect-timeout   timeout for inventory modules execution ($config->{'backend-collect-timeout'})
+
+Package deployment task specific options
+    --no-p2p            do not use peer to peer to download files ($config->{'no-p2p'})
 
 Network options:
+    -P --proxy=PROXY    proxy address ($config->{proxy})
+    -u --user=USER      user name for server authentication ($config->{user})
     -p --password=PWD   password for server authentication
-    -P --proxy=PROXY    proxy address. e.g: http://user:pass\@proxy:port ($config->{proxy})
-    -r --realm=REALM    realm for server HTTP authentication. e.g: 'Restricted Area' ($config->{realm})
-    -s --server=uri     server uri, e.g: http://server/ocsinventory ($config->{server})
-    -u --user           user name to use for server authentication
+    -r --realm=REALM    realm for server authentication ($config->{realm})
+    --ca-cert-dir=D     path to the CA certificates directory ($config->{'ca-cert-dir'})
+    --ca-cert-file=F    path to the CA certificates file ($config->{'ca-cert-file'})
+    --no-ssl-check      do not check server SSL certificates ($config->{'no-ssl-check'})
 
-SSL options:
-    --ca-cert-dir=D     SSL certificate directory ($config->{'ca-cert-dir'})
-    --ca-cert-file=F    SSL certificate file ($config->{'ca-cert-file'})
+Web interface options
+    --no-socket                 disable embedded web server ($config->{'no-socket'})
+    --rpc-ip=IP                 network interface to listen to ($config->{'rpc-ip'})
+    --rpc-port=PORT             network port to listen to ($config->{'rpc-port'})
+    --rpc-trust-localhost       trust local requests without authentication token ($config->{'rpc-trust-localhost'})
 
-Disable options:
-    --no-ocsdeploy      do not deploy packages or run command ($config->{'no-ocsdeploy'})
-    --no-inventory      do not generate inventory ($config->{'no-inventory'})
-    --no-printer        do not return printer list in inventory $config->{'no-printer'})
-    --no-socket         do not allow remote connection ($config->{'no-socket'})
-    --no-software       do not return software list in inventory ($config->{'no-software'})
-    --no-ssl-check      do not check the SSL connection with the server ($config->{'no-ssl-check'})
-    --no-wakeonlan      do not use wakeonlan function ($config->{'no-wakeonlan'})
-    --no-snmpquery      do not use snmpquery function ($config->{'no-snmpquery'})
-    --no-netdiscovery   do not use netdiscovery function ($config->{'no-netdiscovery'})
-    --no-p2p            do not use P2P feature for OCS software deployment ($config->{'no-p2p'})
-
-Extra options:
-    --backend-collect-timeout   set a maximum delay time of one inventory data collect job ($config->{'backend-collect-timeout'})
-    --basevardir=/path          indicate the directory where the agent should store its files ($config->{basevardir})
-    --color                     use color in the console ($config->{color})
-    -d --daemon                 detach the agent in background ($config->{daemon})
-    -D --daemon-no-fork         put the agent in daemon mode but don't fork in background ($config->{'daemon-no-fork'})
-    --delaytime                 set a maximum delay time (in second) if no PROLOG_FREQ is set ($config->{delaytime})
-    --devlib                    search for Backend modules in ./lib only ($config->{devlib})
-    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($config->{'disable-perllib-envvar'})
-    -f --force                  always send data to server (Don't ask before) ($config->{force})
-    -i --info                   verbose mode ($config->{info})
-    --lazy                      do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
+Logging options
+    --logger                    Logger backend, either Stderr, File or Syslog ($config->{logger})
+    --logfile=FILE              log file ($config->{logfile})
     --logfile-maxsize=X         maximum size of the log file in MB ($config->{'logfile-maxsize'})
-    --logger                    Logger you want to use, can be Stderr,File or Syslog ($config->{logger})
-    --rpc-ip=IP                 ip of the interface to use for peer to peer exchange ($config->{'rpc-ip'})
-    --rpc-port=PORT     port use for RPC
-    --rpc-trust-localhost       allow local users to force an inventory from http://127.0.0.1:62354/now  ($config->{'rpc-trust-localhost'})
-    --scan-homedirs             permit to scan home user directories ($config->{'scan-homedirs'})
-    --share-dir=DIR             path to the directory where the shared files are stored ($config->{'share-dir'})
-    --stdout                    do not write or post the inventory but print it on STDOUT
-    -t --tag=TAG                use TAG as tag ($config->{tag}) Will be ignored by server if a value already exists.
-    -w --wait=DURATION          wait a random period between 0 and DURATION seconds before contacting server ($config->{wait})
+    --logfacility=FACILITY      syslog facility ($config->{logfacility})
+    --color                     use color in the console ($config->{color})
+
+Agent setup options
+    --basevardir=DIR            path to the writable data files ($config->{basevardir})
+    --share-dir=DIR             path to the read-only data files ($config->{'share-dir'})
+    --conf-file=FILE            path to an alternative config file ($config->{'conf-file'})
+    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($config->{'disable-perllib-envvar'})
+    --devlib                    search for Backend modules in ./lib only ($config->{devlib})
+
+Execution mode options
+    -d --daemon                 run the agent as a daemon ($config->{daemon})
+    -D --daemon-no-fork         run the agent as a daemon but don't fork in background ($config->{'daemon-no-fork'})
+    -i --info                   verbose mode ($config->{info})
+    --debug                     debug mode ($config->{debug})
+    --version                   print the version and exit
 
 Manpage:
     See man fusioninventory-agent

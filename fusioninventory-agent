@@ -161,224 +161,19 @@ example, the two lines below are all equivalent:
     % fusioninventory-agent -s localhost
     % fusioninventory-agent --server localhost
 
-=over 4
+=head2 Target definition options
 
-=item B<--backend-collect-timeout=SECONDS_BEFORE_KILL>
+=over
 
-Time before the agent kills modules processing which don't end before the
-timeout.
-
-=item B<--basevardir>=I<DIR>
-
-Indicate the place where the agent should store its files.
-
-=item B<--color>
-
-Display color on the terminal. This feature is disabled on Windows.
-
-=item B<-d>, B<--daemon>
-
-Launch fusioninventory-agent as daemon in background. Proc::Daemon is needed.
-
-=item B<-D>, B<--daemon-no-fork>
-
-Launch fusioninventory-agent in daemon but do fork in background.
-
-=item B<--ca-cert-dir>=I<PATH>
-
-The directory where public SSL certificates are stored. In general it's
-/etc/ssl/certs.
-
-You don't need to copy a public certificate on very agent if your private
-key is valide and was been signed by a valide certificate authority.
-
-=item B<--ca-cert-file>=I<FILE>
-
-The path to the public certificate (e.g: /etc/ssl/certs/cacert.pem). If
---ca-cert-file is used, --ca-cert-dir is ignored.
-
-You don't need to copy a public certificate on very agent if your private
-key is valide and was been signed by a valide certificate authority.
-
-=item B<--conf-file>=I<FILE>
-
-Load the configuration file from the given location. Ignored on Windows.
-
-On Windows the settings are loaded from the registry. The information are
-stored there:
-HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent
-
-Or on Windows 64bit machine:
-HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent
-
-=item B<--debug>
-
-Turn the debug mode on.
-
-=item B<--devlib>
-
-This option is designed for the developer. With it enabled,
-fusioninventory-agent won't try to load the Backend module installed
-on the system. Instead it will scan the ./lib directory.
-It may also be useful if you don't want to install the agent on
-your system.
-
-This option can only be used as command line argument. It will be
-ignored if you set it in a config file or in Windows registry.
-
-=item B<--delaytime=SECONDS_TO_WAIT>
-
-This option defaults to waiting a random() time between 0 and 3600 before
-initially contacting the server assuming NO PROLOG_FREQ has been set.
-Once PROLOG_FREQ has been set, it uses that number at the top end of
-it's random setting. Useful for pre-setting a deployed agent's initial
-start time (so you don't jam the server all at once, but don't have to
-wait an hour to make sure the deployment worked).
-
-=item B<--disable-perllib-envvar>
-
-Do not use PERL5LIB and PERLLIB environment variable to find Perl library
-path.
-
-This option can only be used as command line argument. It will be
-ignored if you set it in a config file or in Windows registry.
-
-=item B<-f>, B<--force>
-
-The agent ask first the server if it should send an inventoroy of the
-machine. If the server doesn't know the machine or has outdated
-informations, it will request it.
-With this option, the agent ignore the server anwser and send an inventory.
-
-=item B<--html>
-
-Save the local inventory requested by B<--local> in HTML.
-
-=item B<-i>, B<--info>
-
-Turn the verbose mode on. The flag is ignored if B<--debug> is enable.
-
-=item B<--lazy>
-
-Do not contact the server more than one time during the PROLOG_FREQ and do
-an exit if there is nothing to do. Useful if you want to start the agent
-script regulary from the crontab but don't want to overload the server.
-
-=item B<-l>, B<--local>=I<DIR>
-
-Write an inventory in the I<DIR> directory. A new file will be created if needed.
-
-=item B<--logfile>=I<FILE>
-
-Log message in I<FILE> and turn off STDERR
-
-=item B<--logfile-maxsize>=I<FILE>
-
-Max logfile size in MB, default is unlimited. When the max size is reached, the
-file is truncated. This is only useful if there is no log rotation mechanism on
-the system.
-
-=item B<--logger>=I<LOGGER:>
-
-The logger you want to use. It can be:
-
-=over 4
-
-=item
-
-Stderr: print the messages directly in the console. Messages are lost in
-daemon mode (B<--daemon>). You can use B<--color> to turn color mode on.
-
-=item
-
-File: log the error in a log file. Please use B<--logfile> to set the
-location of your log file. B<--logfile> turns this option on automatically
-
-=item
-
-Syslog: use the local syslog server to log the messages.
-
-=back
-
-You can use more than one parameter if you use ',' as delimiter. E.g:
-
- % fusioinventory-agent --logger=Syslog,Stderr --local=/tmp
-
-=item B<--no-ocsdeploy>
-
-Disable the software deployment.
-
-=item B<--no-inventory>
-
-Do not generate inventory.
-
-=item B<--no-wakeonlan>
-
-Do not use the wakeonlan.
-
-=item B<--no-printer>
-
-Do not inventory the printer.
-
-=item B<--no-software>
-
-Do not inventory the software installed on the machine.
-
-=item B<--no-p2p>
-
-For OCS Inventory software deployment. Do not use peer 2 peer to download files.
-
-=item B<-p>, B<--password>=I<PASSWORD>
-
-Use I<PASSWORD> for an HTTP authentification with the server.
-
-=item B<-P>, B<--proxy>=I<PROXY>
-
-Use I<PROXY> to specify a proxy HTTP server. By default, the agent uses
-HTTP_PROXY environment variable.
-
-=item B<-r>, B<--realm>=I<REALM>
-
-Use I<REALM> for an HTTP authentification with the server. For example, the
-value can be 'Restricted Area'. You can find it in the login popup of your
-Internet browser.
-
-if no realm is passed and the auth fails, the agent will retry an authentification
-with the realm returned by the server.
-
-=item B<--rpc-ip>=I<IP>
-
-The IP address of the interface to use for the P2P exchange. The default
-is 'all' the IP addresses with a 255.255.255.0 mask except 127.0.0.1.
-
-=item B<--rpc-port>=I<PORT>
-
-The PORT of the interface to use for the embedded HTTP server used for the
-peer to peer data exchange and remote control. The default
-is '62354'.
-
-=item B<--rpc-trust-localhost>
-
-Allow local users to access to http://127.0.0.1:62354/now to force an
-inventory immediately.
-
-=item B<--scan-homedirs>
-
-Should the agent scan the user directories to inventory their virtual machines ?.
 
 =item B<-s>, B<--server>=I<URI>
 
-The uri of the server. If I<URI> doesn't start with http:// or https://, the
-agent assume the parameter is a hostname and rewrite it like that:
+Send results of tasks execution to given server.
+
+If I<URI> doesn't start with http:// or https://, the agent assume the
+parameter is a hostname and rewrite it as:
 
     % --server=http://servername/ocsinventory
-
-If you want to use https or another virtual directory (e.g: /ocsinventory2)
-you need to enter the full path.
-
-You can declare more than one server if you use the ',' delimiter.
-
-    % --server=http://servername/ocsinventory,server2
 
 In general, OCS Inventory server URL have this format:
 
@@ -388,84 +183,319 @@ and FusionInventory for GLPI this one:
 
     http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
 
-B<--server> is ignored if B<--local> is in use.
+Multiple values can be specified, using comma as a separator.
 
-=item B<--share-dir>
+=item B<-l>, B<--local>=I<DIR>
 
-The directory where are stored the shared files. You probably don't
-need this option unless you don't want to use the Makefile.PL installation
-procedure or if File::ShareDir is not avalaible.
+Write the results of tasks execution to given directory.
 
 =item B<--stdout>
 
-Print the inventory on stdout.
+Write the results of tasks execution on stdout.
 
-    % fusioninventory-agent --stdout > /tmp/report.xml
-    # prepare an inventory and write it in the /tmp/report.xml file.
-    # A file will be created.
+=back
+
+=head2 Target scheduling options
+
+=over
+
+=item B<--delaytime>=I<LIMIT>
+
+Set an initial delay before the first target, whose value is computed randomly
+between LIMIT / 2 and LIMIT seconds. This setting is ignored for server targets
+after the initial contact, in favor of server-specified parameter
+(PROLOG_FREQ).
+
+=item B<-w> I<LIMIT>, B<--wait>=I<LIMIT>
+
+Set a delay between each targets, whose value is computed randomly between 0
+and LIMIT seconds.
+
+=item B<--lazy>
+
+Do not contact the target before next scheduled time.
+
+This option is only available when the agent is not run as a server.
+
+=back
+
+=head2 Task selection options
+
+=over
+
+=item B<--no-ocsdeploy>
+
+Do not run packages deployment task.
+
+=item B<--no-inventory>
+
+Do not run inventory task.
+
+=item B<--no-wakeonlan>
+
+Do not run wake on lan task.
+
+=item B<--no-snmpquery>
+
+Do not run snmp query task.
+
+=item B<--no-netdiscovery>
+
+Do not run net discovery task.
+
+=back
+
+
+=head2 Inventory task specific options
+
+=over
+
+=item B<--no-printer>
+
+Do not list local printers in inventory.
+
+=item B<--no-software>
+
+Do not list installed software in inventory.
 
 =item B<--scan-homedirs>
 
-Authorize the agent to scan home directories to help with the Virtual Machines
-inventory.
+Allow the agent to scan home directories for virtual machines.
+
+=item B<--html>
+
+Save the inventory as HTML.
+
+This is only used for local inventories.
+
+=item B<-f>, B<--force>
+
+Send an inventory to the server, even if this last one doesn't ask for it.
 
 =item B<--tag>=I<TAG>
 
-Mark the machine with the I<TAG> tag. Once the initial inventory
-is accepted by the server this value is ignored and you've to
-change the information directly on the server. The server do so
-in order to centralize the administration of the machine.
+Mark the machine with given tag.
 
-=item B<--no-ssl-check>
+=item B<--backend-collect-timeout>=I<TIME>
 
-Do now validate HTTPS certificat with the servers. Please never use this
-option in production. This is just a very bad idea.
+Timeout for inventory modules execution.
 
-Hint: you can declare HTTPS_DEBUG to get SSL error messages in the console.
+=back
+
+=head2 Package deployment task specific options
+
+=over
+
+=item B<--no-p2p>
+
+Do not use peer to peer to download files.
+
+=back
+
+=head2 Server target specific options
+
+=over
+
+=item B<-P>, B<--proxy>=I<PROXY>
+
+Use I<PROXY> as HTTP proxy.
+
+By default, the agent uses HTTP_PROXY environment variable.
 
 =item B<-u> I<USER>, B<--user>=I<USER>
 
-Use I<USER> for the server authentication.
+Use I<USER> for server authentication.
+
+=item B<-p>, B<--password>=I<PASSWORD>
+
+Use I<PASSWORD> for server authentication.
+
+=item B<-r>, B<--realm>=I<REALM>
+
+Use I<REALM> for for server authentication.
+
+if no realm is passed and the auth fails, the agent will retry an
+authentification with the realm returned by the server.
+
+=item B<--ca-cert-dir>=I<PATH>
+
+Path to the CA certificates directory.
+
+=item B<--ca-cert-file>=I<FILE>
+
+Path to the CA certificates file.
+
+=item B<--no-ssl-check>
+
+Do not check server SSL certificates.
+
+Hint: you can set HTTPS_DEBUG environment variable to get SSL error messages in
+the console.
+
+=back
+
+=head2 Web interface options
+
+=over
+
+=item B<--no-socket>
+
+Disable the embedded web server.
+
+=item B<--rpc-ip>=I<IP>
+
+The network interface to use for the embedded web server (all 
+available interfaces).
+
+=item B<--rpc-port>=I<PORT>
+
+The network port to use for the embedded web server (62354).
+
+=item B<--rpc-trust-localhost>
+
+Trust local requests without authentication token (false).
+
+=back
+
+=head2 Logging options
+
+=over
+
+=item B<--logger>=I<LOGGER>
+
+Logger backend to use. It can be:
+
+=over 4
+
+=item
+
+Stderr: log messages directly in the console.
+
+=item
+
+File: log messages in a file.
+
+=item
+
+Syslog: log messages through the local syslog server
+
+=back
+
+Multiple values can be specified, using comma as a separator.
+
+=item B<--logfile>=I<FILE>
+
+Log message in I<FILE> (implies File logger backend)
+
+=item B<--logfile-maxsize>=I<FILE>
+
+Max logfile size in MB, default is unlimited. When the max size is reached, the
+file is truncated. This is only useful if there is no log rotation mechanism on
+the system.
+
+=item B<--logfacility>=I<FACILITY>
+
+Syslog facility to use (default LOG_USER)
+
+=item B<--color>
+
+Display color on the terminal, when the Stderr backend is used.
+
+This options is ignored on Windows.
+
+=back
+
+=head2 Agent setup options
+
+=over
+
+=item B<--basevardir>=I<DIR>
+
+Path to the writable data files.
+
+=item B<--share-dir>=I<DIR>
+
+Path to the read-only data files. File::ShareDir will be used if available
+as default.
+
+=item B<--conf-file>=I<FILE>
+
+Path to an alternative configuration file (ignored on Windows).
+
+
+=item B<--devlib>
+
+This option is designed for the developer. With it enabled,
+fusioninventory-agent won't try to load the Backend module installed
+on the system. Instead it will scan the ./lib directory.
+It may also be useful if you don't want to install the agent on
+your system.
+
+This option can only be used as command line argument.
+
+=item B<--disable-perllib-envvar>
+
+Do not use PERL5LIB and PERLLIB environment variable to find Perl library
+path.
+
+This option can only be used as command line argument.
+
+=back
+
+=head2 Execution mode options
+
+=over
+
+=item B<-d>, B<--daemon>
+
+Run the agent as a daemon.
+
+=item B<-D>, B<--daemon-no-fork>
+
+Run the agent as a daemon but don't fork in background.
+
+=item B<-i>, B<--info>
+
+Turn the verbose mode on.
+
+=item B<--debug>
+
+Turn the debug mode on.
 
 =item B<--version>
 
 Print the version and exit.
-
-=item B<-w> I<DURATION>, B<--wait>=I<DURATION>
-
-Wait during a random period between 0 and DURATION second before initializing
-the connexion with the server.
-
-    % fusioninventory-agent --wait 5 --server localhost
 
 =back
 
 
 =head1 CONFIG FILE
 
-The agent try to initialize the settings from the B<agent.cfg>
-config file.
+The agent initialize its settings from the configuration first.
 
-It looks for the file in these location:
+On Unix, this configuration is loaded from a configuration file, the first
+found among the following locations:
 
 =over
 
-=item
+=item * F</etc/fusioninventory/agent.cfg>
 
-/etc/fusioninventory/agent.cfg
-
-=item
-
-/usr/local/etc/fusioninventory/agent.cfg
+=item * F</usr/local/etc/fusioninventory/agent.cfg>
 
 =back
 
-You can use the B<--conf-file=XXX> parameter to load you own configuration
-file from a specific location.
-On Windows the settings are loaded from the Registry. The configuration file
-is ignored.
+An alternative configuration file can be specified with the B<--conf-file>
+parameter, and will be used instead.
 
-The command line parameters overwrite the configuration file.
+On Windows, the configuration is loaded from the registry, from an arch-dependant location:
+
+=over
+
+=item * F<HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent> for 32 bits machines
+
+=item * F<HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent> for 64 bits machines
+
+=back
 
 =head1 SECURITY
 
