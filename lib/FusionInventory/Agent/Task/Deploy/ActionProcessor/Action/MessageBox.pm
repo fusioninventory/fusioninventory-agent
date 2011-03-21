@@ -1,44 +1,43 @@
-package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox; 
+package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox;
 
 use English qw(-no_match_vars);
 use Data::Dumper;
 
-use lib 'lib';
-use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox::Wx;
-
 sub do {
-    print Dumper(\@_);
-
-    if ($OSNAME ne 'MSWin32') {    
+    if ($OSNAME ne 'MSWin32') {
         return { status => 1, log => [ "No available on non Windows system." ] }
     }
 
     my $params = $_[0];
-    print Dumper($params);
 
+    my $timeout = $params->{timeout} || 0;
     my $title = $params->{title}{default} || 'FusionInventory';
     my $msg = $params->{msg}{default} || '';
 
 
     my $ret;
 
-    if ($params->{type} eq 'info') { 
-        my $r = FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox::Wx::createInfoBox({ timeout => 5, title => $title, "msg" => $msg });
-        print "r info: $r\n";
+    if ($params->{type} eq 'info') {
+        open(FUSINVFORM, '-|', "fusinvform info $timeout \"$title\" \"$msg\"");
+        chomp(my $r = <FUSINVFORM>);
+        close(FUSINVFORM);
         $ret = { status => 1, log => [] }
-    } elsif ($params->{type} eq 'postpone') { 
-        my $r = FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox::Wx::createPostponeBox({ timeout => undef, title => $title, "msg" => $msg });
-        print "r postphone: $r\n";
+    } elsif ($params->{type} eq 'postpone') {
+        open(FUSINVFORM, '-|', "fusinvform postpone $timeout  \"$title\" \"$msg\"");
+        chomp(my $r = <FUSINVFORM>);
+        close(FUSINVFORM);
         if ($r eq "ok") {
-            $ret = { status => 1 == 1, log => [ 'user accepts the job' ] }
+            $ret = { status => 1 == 1, log => [ 'accepted by user' ] }
+        elsif ($r eq "ok") {
+            $ret = { status => 1 == 1, log => [ 'accepted because of timeout' ] }
         } else {
-            $ret = { status => 0, log => [ 'user rejects the job' ] }
+            $ret = { status => 0, log => [ 'rejected by user' ] }
         }
     } else {
         $ret = { status => 0, log => [ 'unknown message type' ] }
     }
 
-    return $ret; 
+    return $ret;
 }
 
 1;
