@@ -62,9 +62,7 @@ sub new {
         push @{$self->{backend}}, $obj if $obj;
     }
 
-    my $version = "FusionInventory unified agent for UNIX, Linux, Windows and MacOSX ";
-    $version .= exists ($self->{config}->{VERSION})?$self->{config}->{VERSION}:'';
-    $self->debug($version);
+    $self->debug($FusionInventory::Agent::VERSION_STRING);
     $self->debug("Log system initialised (".(keys %loadedMbackends).")");
 
     return $self;

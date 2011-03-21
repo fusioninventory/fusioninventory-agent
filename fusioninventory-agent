@@ -110,7 +110,7 @@ if ($EVAL_ERROR) {
 }
 
 sub version {
-    print "FusionInventory Agent (".$FusionInventory::Agent::VERSION.")\n";
+    print $FusionInventory::Agent::VERSION_STRING . "\n";
     exit 0;
 }
 

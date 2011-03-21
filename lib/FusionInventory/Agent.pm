@@ -18,6 +18,10 @@ use FusionInventory::Agent::Targets;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.1.8';
+our $VERSION_STRING = 
+    "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
+our $AGENT_STRING =
+    "FusionInventory-Agent_v$VERSION";
 $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
 $ENV{LANG} = 'C'; # Turn off localised output for commands
 

@@ -106,8 +106,7 @@ sub createUA {
     }
 
     # Connect to server
-    my $version = 'FusionInventory-Agent_v'.$config->{VERSION};
-    $ua->agent($version);
+    $ua->agent($FusionInventory::Agent::AGENT_STRING);
     $ua->timeout($timeout);
 
     $self->setSslRemoteHost({

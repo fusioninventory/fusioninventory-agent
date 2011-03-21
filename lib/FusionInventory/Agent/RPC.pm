@@ -117,7 +117,7 @@ sub handler {
 
         $output =~ s/%%STATUS%%/$status/;
         $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
-        $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
+        $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
         if ($clientIp !~ /^127\./ || !$config->{'httpd-trust-localhost'}) {
             $output =~
             s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;

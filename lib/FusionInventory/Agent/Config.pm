@@ -55,9 +55,7 @@ my $deprecated = {
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {
-        VERSION => $FusionInventory::Agent::VERSION
-    };
+    my $self = {};
     bless $self, $class;
     $self->loadDefaults();
 

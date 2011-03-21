@@ -52,7 +52,7 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::AGENT_STRING];
 
     # Is the XML centent initialised?
     $self->{isInitialised} = undef;
@@ -939,7 +939,7 @@ sub writeHTML {
     </head>
     <body>
     <h1>Inventory for '.$target->{deviceid}.'</h1>
-    FusionInventory Agent '.$config->{VERSION}.'<br />
+    FusionInventory Agent '.$FusionInventory::Agent::VERSION.'<br />
     <small>DEVICEID '.$target->{deviceid}.'</small>
 
     ';
