@@ -332,7 +332,3 @@ In this example, we want to wakeup machine "aMachine":
   sleep(10);
   print "Current status\n";
   print get("http://$machine:62354/status");
-
-
-=cut
-

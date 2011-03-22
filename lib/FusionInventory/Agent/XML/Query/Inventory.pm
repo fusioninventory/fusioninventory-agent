@@ -12,25 +12,6 @@ use XML::Simple;
 
 use FusionInventory::Agent::Task::Inventory;
 
-=head1 NAME
-
-FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
-
-=head1 DESCRIPTION
-
-FusionInventory uses OCS Inventory XML format for the data transmission. This
-module is the abstraction layer. It's mostly used in the backend module where
-$inventory is in general called.
-
-=cut
-
-=over 4
-
-=item new()
-
-The usual constructor.
-
-=cut
 sub new {
     my ($class, $params) = @_;
 
@@ -160,11 +141,6 @@ sub _encode {
     return $string;
 }
 
-=item initialise()
-
-Runs the backend modules to initialise the data.
-
-=cut
 sub initialise {
     my ($self) = @_;
 
@@ -174,11 +150,6 @@ sub initialise {
 
 }
 
-=item addController()
-
-Add a controller in the inventory.
-
-=cut
 sub addController {
     my ($self, $args) = @_;
 
@@ -202,11 +173,6 @@ sub addController {
     });
 }
 
-=item addModem()
-
-Add a modem in the inventory.
-
-=cut
 sub addModem {
     my ($self, $args) = @_;
 
@@ -231,11 +197,6 @@ sub addModems {
     $self->addModem(@_);
 }
 
-=item addDrive()
-
-Add a partition in the inventory.
-
-=cut
 sub addDrive {
     my ($self, $args) = @_;
 
@@ -268,11 +229,6 @@ sub addDrives {
     $self->addDrive(@_);
 }
 
-=item addStorage()
-
-Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
-
-=cut
 sub addStorage {
     my ($self, $args) = @_;
 
@@ -323,12 +279,6 @@ sub addStorages {
     $self->addStorage(@_);
 }
 
-
-=item addMemory()
-
-Add a memory module in the inventory.
-
-=cut
 sub addMemory {
     my ($self, $args) = @_;
 
@@ -360,11 +310,6 @@ sub addMemories {
     $self->addMemory(@_);
 }
 
-=item addPort()
-
-Add a port module in the inventory.
-
-=cut
 sub addPorts{
     my ($self, $args) = @_;
 
@@ -390,11 +335,6 @@ sub addPort {
     $self->addPort(@_);
 }
 
-=item addSlot()
-
-Add a slot in the inventory. 
-
-=cut
 sub addSlot {
     my ($self, $args) = @_;
 
@@ -420,11 +360,6 @@ sub addSlots {
     $self->addSlot(@_);
 }
 
-=item addSoftware()
-
-Register a software in the inventory.
-
-=cut
 sub addSoftware {
     my ($self, $args) = @_;
 
@@ -448,11 +383,6 @@ sub addSoftwares {
     $self->addSoftware(@_);
 }
 
-=item addMonitor()
-
-Add a monitor (screen) in the inventory.
-
-=cut
 sub addMonitor {
     my ($self, $args) = @_;
 
@@ -480,11 +410,6 @@ sub addMonitors {
     $self->addMonitor(@_);
 }
 
-=item addVideo()
-
-Add a video card in the inventory.
-
-=cut
 sub addVideo {
     my ($self, $args) = @_;
 
@@ -513,11 +438,6 @@ sub addVideos {
     $self->addVideo(@_);
 }
 
-=item addSound()
-
-Add a sound card in the inventory.
-
-=cut
 sub addSound {
     my ($self, $args) = @_;
 
@@ -542,12 +462,6 @@ sub addSounds {
     $self->addSound(@_);
 }
 
-
-=item addNetwork()
-
-Register a network interface in the inventory.
-
-=cut
 sub addNetwork {
     my ($self, $args) = @_;
 
@@ -589,15 +503,6 @@ sub addNetworks {
     $self->addNetwork(@_);
 }
 
-
-=item setHardware()
-
-Save global information regarding the machine.
-
-The use of setHardware() to update USERID and PROCESSOR* informations is
-deprecated, please, use addUser() and addCPU() instead.
-
-=cut
 sub setHardware {
     my ($self, $args, $nonDeprecated) = @_;
 
@@ -623,11 +528,6 @@ sub setHardware {
     }
 }
 
-=item setBios()
-
-Set BIOS informations.
-
-=cut
 sub setBios {
     my ($self, $args) = @_;
 
@@ -642,11 +542,6 @@ sub setBios {
     }
 }
 
-=item addCPU()
-
-Add a CPU in the inventory.
-
-=cut
 sub addCPU {
     my ($self, $args) = @_;
 
@@ -682,11 +577,6 @@ sub addCPU {
 
 }
 
-=item addUser()
-
-Add an user in the list of logged user.
-
-=cut
 sub addUser {
     my ($self, $args) = @_;
 
@@ -730,11 +620,6 @@ sub addUser {
     }, 1);
 }
 
-=item addPrinter()
-
-Add a printer in the inventory.
-
-=cut
 sub addPrinter {
     my ($self, $args) = @_;
 
@@ -770,11 +655,6 @@ sub addPrinters {
     $self->addPrinter(@_);
 }
 
-=item addVirtualMachine()
-
-Add a Virtual Machine in the inventory.
-
-=cut
 sub addVirtualMachine {
     my ($self, $args) = @_;
 
@@ -805,11 +685,6 @@ sub addVirtualMachine {
 
 }
 
-=item addProcess()
-
-Record a running process in the inventory.
-
-=cut
 sub addProcess {
     my ($self, $args) = @_;
 
@@ -832,11 +707,6 @@ sub addProcess {
     });
 }
 
-=item addInput()
-
-Add an input device (mouse/keyboard) in the inventory.
-
-=cut
 sub addInput {
     my ($self, $args) = @_;
 
@@ -856,11 +726,6 @@ sub addInput {
     });
 }
 
-=item addEnv()
-
-Register an environment variable.
-
-=cut
 sub addEnv {
     my ($self, $args) = @_;
 
@@ -876,11 +741,6 @@ sub addEnv {
     });
 }
 
-=item addUSBDevice()
-
-USB device
-
-=cut
 sub addUSBDevice {
     my ($self, $args) = @_;
 
@@ -894,11 +754,6 @@ sub addUSBDevice {
     });
 }
 
-=item addBattery()
-
-Battery
-
-=cut
 sub addBattery {
     my ($self, $args) = @_;
 
@@ -919,13 +774,6 @@ sub addBattery {
     });
 }
 
-
-
-=item addRegistry()
-
-Windows Registry key
-
-=cut
 sub addRegistry {
     my ($self, $args) = @_;
 
@@ -942,12 +790,6 @@ sub addRegistry {
     });
 }
 
-
-=item addAntiVirus()
-
-Registered Anti-Virus on Windows
-
-=cut
 sub addAntiVirus {
     my ($self, $args) = @_;
 
@@ -961,12 +803,6 @@ sub addAntiVirus {
     });
 }
 
-
-=item setAccessLog()
-
-What is that for? :)
-
-=cut
 sub setAccessLog {
     my ($self, $args) = @_;
 
@@ -978,14 +814,6 @@ sub setAccessLog {
     }
 }
 
-=item addIpDiscoverEntry()
-
-IpDiscover is used to identify network interface on the local network. This
-is done on the ARP level.
-
-This function adds a network interface in the inventory.
-
-=cut
 sub addIpDiscoverEntry {
     my ($self, $args) = @_;
 
@@ -1005,14 +833,6 @@ sub addIpDiscoverEntry {
     };
 }
 
-=item addSoftwareDeploymentPackage()
-
-This function is for software deployment.
-
-Order sent to the agent are recorded on the client side and then send back
-to the server in the inventory.
-
-=cut
 sub addSoftwareDeploymentPackage {
     my ($self, $args) = @_;
 
@@ -1027,11 +847,6 @@ sub addSoftwareDeploymentPackage {
             $orderId });
 }
 
-=item getContent()
-
-Return the inventory as a XML string.
-
-=cut
 sub getContent {
     my ($self, $args) = @_;
 
@@ -1061,11 +876,6 @@ sub getContent {
     return $content;
 }
 
-=item printXML()
-
-Only for debugging purpose. Print the inventory on STDOUT.
-
-=cut
 sub printXML {
     my ($self, $args) = @_;
 
@@ -1073,12 +883,6 @@ sub printXML {
     print $self->getContent();
 }
 
-=item writeXML()
-
-Save the generated inventory as an XML file. The 'local' key of the config
-is used to know where the file as to be saved.
-
-=cut
 sub writeXML {
     my ($self, $args) = @_;
 
@@ -1107,12 +911,6 @@ sub writeXML {
 
 }
 
-=item writeHTML()
-
-Save the generated inventory as an HTML file. The 'local' key of the config
-is used to know where the file as to be saved.
-
-=cut
 sub writeHTML {
     my ($self, $args) = @_;
 
@@ -1203,18 +1001,6 @@ sub writeHTML {
     }
 }
 
-
-
-
-=item processChecksum()
-
-Compute the <CHECKSUM/> field. This information is used by the server to
-know which parts of the XML have changed since the last inventory.
-
-The is done thanks to the last_file file. It has MD5 prints of the previous
-inventory. 
-
-=cut
 sub processChecksum {
     my $self = shift;
 
@@ -1284,12 +1070,6 @@ sub processChecksum {
     $self->setHardware({CHECKSUM => $checksum});
 }
 
-=item saveLastState()
-
-At the end of the process IF the inventory was saved
-correctly, the last_state is saved.
-
-=cut
 sub saveLastState {
     my ($self, $args) = @_;
 
@@ -1316,12 +1096,6 @@ sub saveLastState {
     }
 }
 
-=item addSection()
-
-A generic way to save a section in the inventory. Please avoid this
-solution.
-
-=cut
 sub addSection {
     my ($self, $args) = @_;
     my $logger = $self->{logger};
@@ -1347,12 +1121,6 @@ sub addSection {
     return 1;
 }
 
-=item feedSection()
-
-Add informations in inventory.
-
-=back
-=cut
 # Q: is that really useful()? Can't we merge with addSection()?
 sub feedSection{
     my ($self, $args) = @_;
@@ -1381,6 +1149,189 @@ sub feedSection{
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::XML::Query::Inventory - the XML abstraction layer
+
+=head1 DESCRIPTION
+
+FusionInventory uses OCS Inventory XML format for the data transmission. This
+module is the abstraction layer. It's mostly used in the backend module where
+$inventory is in general called.
+
+=head1 METHODS
+
+=head2 new()
+
+The usual constructor.
+
+=head2 feedSection()
+
+Add informations in inventory.
+
+=head2 initialise()
+
+Runs the backend modules to initialise the data.
+
+=head2 addController()
+
+Add a controller in the inventory.
+
+=head2 addModem()
+
+Add a modem in the inventory.
+
+=head2 addDrive()
+
+Add a partition in the inventory.
+
+=head2 addStorage()
+
+Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
+
+=head2 addMemory()
+
+Add a memory module in the inventory.
+
+=head2 addPort()
+
+Add a port module in the inventory.
+
+=head2 addSlot()
+
+=head2 addSoftware()
+
+Register a software in the inventory.
+
+=head2 addMonitor()
+
+Add a monitor (screen) in the inventory.
+
+=head2 addVideo()
+
+Add a video card in the inventory.
+
+=head2 addSound()
+
+Add a sound card in the inventory.
+
+=head2 addNetwork()
+
+Register a network interface in the inventory.
+
+=head2 setHardware()
+
+Save global information regarding the machine.
+
+The use of setHardware() to update USERID and PROCESSOR* informations is
+deprecated, please, use addUser() and addCPU() instead.
+
+=head2 setBios()
+
+Set BIOS informations.
+
+=head2 addCPU()
+
+Add a CPU in the inventory.
+
+=head2 addUser()
+
+Add an user in the list of logged user.
+
+=head2 addPrinter()
+
+Add a printer in the inventory.
+
+=head2 addVirtualMachine()
+
+Add a Virtual Machine in the inventory.
+
+=head2 addProcess()
+
+Record a running process in the inventory.
+
+=head2 addInput()
+
+Add an input device (mouse/keyboard) in the inventory.
+
+=head2 addEnv()
+
+Register an environment variable.
+
+=head2 addUSBDevice()
+
+USB device
+
+=head2 addBattery()
+
+Battery
+
+=head2 addRegistry()
+
+Windows Registry key
+
+=head2 addAntiVirus()
+
+Registered Anti-Virus on Windows
+
+=head2 setAccessLog()
+
+What is that for? :)
+
+=head2 addIpDiscoverEntry()
+
+IpDiscover is used to identify network interface on the local network. This
+is done on the ARP level.
+
+This function adds a network interface in the inventory.
+
+=head2 addSoftwareDeploymentPackage()
+
+This function is for software deployment.
+
+Order sent to the agent are recorded on the client side and then send back
+to the server in the inventory.
+
+=head2 getContent()
+
+Return the inventory as a XML string.
+
+=head2 printXML()
+
+Only for debugging purpose. Print the inventory on STDOUT.
+
+=head2 writeXML()
+
+Save the generated inventory as an XML file. The 'local' key of the config
+is used to know where the file as to be saved.
+
+=head2 writeHTML()
+
+Save the generated inventory as an HTML file. The 'local' key of the config
+is used to know where the file as to be saved.
+
+=head2 processChecksum()
+
+Compute the <CHECKSUM/> field. This information is used by the server to
+know which parts of the XML have changed since the last inventory.
+
+The is done thanks to the last_file file. It has MD5 prints of the previous
+inventory. 
+
+=head2 saveLastState()
+
+At the end of the process IF the inventory was saved
+correctly, the last_state is saved.
+
+=head2 addSection()
+
+A generic way to save a section in the inventory. Please avoid this
+solution.
+
+=over
+
 =head1 XML STRUCTURE
 
 This section presents the XML structure used by FusionInventory. The schema

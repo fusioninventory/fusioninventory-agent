@@ -10,40 +10,6 @@ use Storable;
 
 my $lock :shared;
 
-
-=head1 NAME
-
-FusionInventory::Agent::Storage - the light data storage API. Data will be
-stored in a subdirectory in the 'vardir' directory. This subdirectory depends
-on the caller module name.
-
-=head1 SYNOPSIS
-
-  my $storage = FusionInventory::Agent::Storage->new({
-      target => {
-          vardir => $ARGV[0],
-      }
-  });
-  my $data = $storage->restore({
-          module => "FusionInventory::Agent"
-      });
-
-  $data->{foo} = 'bar';
-
-  $storage->save({ data => $data });
-
-=head1 DESCRIPTION
-
-This module is a wrapper for restore and save.
-it called $inventory in general.
-
-=over 4
-
-=item new({ config => $config, target => $target })
-
-Create the object
-
-=cut
 sub new {
     my ( $class, $params ) = @_;
 
@@ -141,15 +107,6 @@ sub getFileDir {
 
 }
 
-
-
-=item save({ data => $date, idx => $ref })
-
-Save the reference.
-$idx is an integer. You can use it if you want to save more than one file for the
-module. This number will be added at the of the file.
-
-=cut
 sub save {
     my ($self, $params) = @_;
 
@@ -177,12 +134,6 @@ sub save {
 
 }
 
-=item restore({ module => $module, idx => $idx})
-
-Returns a reference to the stored data. If $idx is defined, it will open this
-substorage.
-
-=cut
 sub restore {
     my ($self, $params ) = @_;
 
@@ -209,12 +160,6 @@ sub restore {
     return $ret;
 }
 
-=item remove({ module => $module, idx => $idx })
-
-Returns the files stored on the filesystem for the module $module or for the caller module.
-If $idx is defined, only the submodule $idx will be removed.
-
-=cut
 sub remove {
     my ($self, $params) = @_;
 
@@ -228,11 +173,6 @@ sub remove {
     }
 }
 
-=item removeAll({ module => $module, idx => $idx })
-
-Deletes the files stored on the filesystem for the module $module or for the caller module.
-
-=cut
 sub removeAll {
     my ($self, $params) = @_;
     
@@ -246,11 +186,6 @@ sub removeAll {
     }
 }
 
-=item removeSubDumps({ module => $module })
-
-Deletes the sub files stored on the filesystem for the module $module or for the caller module.
-
-=cut
 sub removeSubDumps {
     my ($self, $params) = @_;
    
@@ -264,5 +199,63 @@ sub removeSubDumps {
     }
 }
 
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Storage - the light data storage API. Data will be
+stored in a subdirectory in the 'vardir' directory. This subdirectory depends
+on the caller module name.
+
+=head1 SYNOPSIS
+
+  my $storage = FusionInventory::Agent::Storage->new({
+      target => {
+          vardir => $ARGV[0],
+      }
+  });
+  my $data = $storage->restore({
+          module => "FusionInventory::Agent"
+      });
+
+  $data->{foo} = 'bar';
+
+  $storage->save({ data => $data });
+
+=head1 DESCRIPTION
+
+This module is a wrapper for restore and save.
+it called $inventory in general.
+
+=head1 METHODS
+
+=head2 new({ config => $config, target => $target })
+
+Create the object
+
+=head2 save({ data => $date, idx => $ref })
+
+Save the reference.
+$idx is an integer. You can use it if you want to save more than one file for the
+module. This number will be added at the of the file.
+
+=head2 restore({ module => $module, idx => $idx})
+
+Returns a reference to the stored data. If $idx is defined, it will open this
+substorage.
+
+=head2 remove({ module => $module, idx => $idx })
+
+Returns the files stored on the filesystem for the module $module or for the caller module.
+If $idx is defined, only the submodule $idx will be removed.
+
+
+=head2 removeAll({ module => $module, idx => $idx })
+
+Deletes the files stored on the filesystem for the module $module or for the caller module.
+
+=head2 removeSubDumps({ module => $module })
+
+Deletes the sub files stored on the filesystem for the module $module or for the caller module.
+

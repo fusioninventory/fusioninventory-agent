@@ -8,32 +8,6 @@ use HTTP::Status;
 use UNIVERSAL::require;
 use URI;
 
-=head1 NAME
-
-FusionInventory::Agent::Network - the Network abstraction layer
-
-=head1 DESCRIPTION
-
-This module is the abstraction layer for network interaction. It uses LWP.
-
-=cut
-
-=over 4
-
-=item new()
-
-The constructor. These keys are expected: config, logger, target.
-
-        my $network = FusionInventory::Agent::Network->new ({
-
-                logger => $logger,
-                config => $config,
-                target => $target,
-
-            });
-
-
-=cut
 
 use FusionInventory::Compress;
 
@@ -152,15 +126,6 @@ sub createUA {
 
     return $ua;
 }
-
-
-=item send()
-
-Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
-server).
-
-=cut
-
 
 sub send {
     my ($self, $args) = @_;
@@ -348,19 +313,6 @@ sub setSslRemoteHost {
 }
 
 
-=item getStore()
-
-Acts like LWP::Simple::getstore.
-
-        my $rc = $network->getStore({
-                source => 'http://www.FusionInventory.org/',
-                target => '/tmp/fusioinventory.html'
-                noProxy => 0
-            });
-
-$rc, can be read by isSuccess()
-
-=cut
 sub getStore {
     my ($self, $args) = @_;
 
@@ -392,18 +344,6 @@ sub getStore {
 
 }
 
-=item get()
-
-        my $content = $network->get({
-                source => 'http://www.FusionInventory.org/',
-                timeout => 15,
-                noProxy => 0
-            });
-
-Act like LWP::Simple::get, return the HTTP content of the URL in 'source'.
-The timeout is optional
-
-=cut
 sub get {
     my ($self, $args) = @_;
 
@@ -424,12 +364,6 @@ sub get {
     return;
 }
 
-=item isSuccess()
-
-Wrapper for LWP::is_success;
-
-        die unless $network->isSuccess({ code => $rc });
-=cut
 
 sub isSuccess {
     my ($self, $args) = @_;
@@ -441,3 +375,60 @@ sub isSuccess {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Network - the Network abstraction layer
+
+=head1 DESCRIPTION
+
+This module is the abstraction layer for network interaction. It uses LWP.
+
+=head1 METHODS
+
+=head2 new()
+
+The constructor. These keys are expected: config, logger, target.
+
+        my $network = FusionInventory::Agent::Network->new ({
+
+                logger => $logger,
+                config => $config,
+                target => $target,
+
+            });
+
+=head2 send()
+
+Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
+server).
+
+=head2 getStore()
+
+Acts like LWP::Simple::getstore.
+
+        my $rc = $network->getStore({
+                source => 'http://www.FusionInventory.org/',
+                target => '/tmp/fusioinventory.html'
+                noProxy => 0
+            });
+
+$rc, can be read by isSuccess()
+
+=head2 get()
+
+        my $content = $network->get({
+                source => 'http://www.FusionInventory.org/',
+                timeout => 15,
+                noProxy => 0
+            });
+
+Act like LWP::Simple::get, return the HTTP content of the URL in 'source'.
+The timeout is optional
+
+=head2 isSuccess()
+
+Wrapper for LWP::is_success;
+
+        die unless $network->isSuccess({ code => $rc });
