@@ -115,7 +115,7 @@ my %test = (
             'PCISLOT' => '00:05.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI bridge',
             'MANUFACTURER' => 'nVidia Corporation',
@@ -139,7 +139,7 @@ my %test = (
             'PCISLOT' => '00:09.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
@@ -147,7 +147,7 @@ my %test = (
             'PCISLOT' => '00:0a.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
@@ -155,7 +155,7 @@ my %test = (
             'PCISLOT' => '00:0b.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
@@ -163,7 +163,7 @@ my %test = (
             'PCISLOT' => '00:0c.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
@@ -171,7 +171,7 @@ my %test = (
             'PCISLOT' => '00:0d.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
@@ -179,7 +179,7 @@ my %test = (
             'PCISLOT' => '00:0f.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '600',
             'NAME' => 'K8 [Athlon64/Opteron] HyperTransport Technology Configuration',
             'MANUFACTURER' => 'Advanced Micro Devices [AMD]',
@@ -187,7 +187,7 @@ my %test = (
             'PCISLOT' => '00:18.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '600',
             'NAME' => 'K8 [Athlon64/Opteron] Address Map',
             'MANUFACTURER' => 'Advanced Micro Devices [AMD]',
@@ -195,7 +195,7 @@ my %test = (
             'PCISLOT' => '00:18.1'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '600',
             'NAME' => 'K8 [Athlon64/Opteron] DRAM Controller',
             'MANUFACTURER' => 'Advanced Micro Devices [AMD]',
@@ -203,7 +203,7 @@ my %test = (
             'PCISLOT' => '00:18.2'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '600',
             'NAME' => 'K8 [Athlon64/Opteron] Miscellaneous Control',
             'MANUFACTURER' => 'Advanced Micro Devices [AMD]',
@@ -211,7 +211,7 @@ my %test = (
             'PCISLOT' => '00:18.3'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '600',
             'NAME' => 'K8 [Athlon64/Opteron] HyperTransport Technology Configuration',
             'MANUFACTURER' => 'Advanced Micro Devices [AMD]',
@@ -219,7 +219,7 @@ my %test = (
             'PCISLOT' => '00:19.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '600',
             'NAME' => 'K8 [Athlon64/Opteron] Address Map',
             'MANUFACTURER' => 'Advanced Micro Devices [AMD]',
@@ -227,7 +227,7 @@ my %test = (
             'PCISLOT' => '00:19.1'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '600',
             'NAME' => 'K8 [Athlon64/Opteron] DRAM Controller',
             'MANUFACTURER' => 'Advanced Micro Devices [AMD]',
@@ -235,7 +235,7 @@ my %test = (
             'PCISLOT' => '00:19.2'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '600',
             'NAME' => 'K8 [Athlon64/Opteron] Miscellaneous Control',
             'MANUFACTURER' => 'Advanced Micro Devices [AMD]',
@@ -251,7 +251,7 @@ my %test = (
             'PCISLOT' => '01:05.0'
           },
           {
-            'PCISUBSYSTEMID' => '0:0',
+            'PCISUBSYSTEMID' => '',
             'PCICLASS' => '604',
             'NAME' => 'EPB PCI-Express to PCI-X Bridge',
             'MANUFACTURER' => 'Broadcom',

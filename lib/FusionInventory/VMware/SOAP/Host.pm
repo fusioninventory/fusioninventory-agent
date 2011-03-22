@@ -133,6 +133,8 @@ sub getControllers {
         my $pcisubsystemid = sprintf("%x:%x", $_->{subVendorId}, $_->{subDeviceId});
         my $pciclass = sprintf("%x", $_->{classId});
 
+        $pcisubsystemid = '' if $pcisubsystemid =~ /^[0:]+$/;
+
         # Workaround: sometime the pciid are odd negative number.
         # e.g: 111d:ffff8018, ffff8086:244e, ffff8086:ffffa02c
         foreach ($pciid, $pcisubsystemid, $pciclass) {
