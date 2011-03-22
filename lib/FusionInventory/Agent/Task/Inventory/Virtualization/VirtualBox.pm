@@ -5,10 +5,9 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
 use strict;
 use warnings;
 
-use XML::Simple;
-use File::Glob ':glob';
-
 use English qw(-no_match_vars);
+use File::Glob qw(:glob);
+use XML::Simple;
 
 sub isInventoryEnabled {
     return

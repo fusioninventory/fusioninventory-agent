@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Temp qw/ tempdir tempfile /;
+use File::Temp qw(tempdir tempfile);
 
 sub new {
     my ($class, $params) = @_;

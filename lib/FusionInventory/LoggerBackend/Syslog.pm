@@ -3,7 +3,7 @@ package FusionInventory::LoggerBackend::Syslog;
 use strict;
 use warnings;
 
-use Sys::Syslog qw( :DEFAULT setlogsock);
+use Sys::Syslog qw(:DEFAULT setlogsock);
 
 sub new {
     my ($class, $params) = @_;
