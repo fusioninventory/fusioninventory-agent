@@ -1,5 +1,4 @@
 package FusionInventory::Agent::Task::Inventory::OS::Linux::Inputs;
-# Had never been tested.
 
 use strict;
 use warnings;
