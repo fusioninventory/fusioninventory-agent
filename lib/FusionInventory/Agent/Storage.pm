@@ -10,11 +10,9 @@ use Storable;
 
 my $lock :shared;
 
-sub new {
-    my ( $class, $params ) = @_;
-
-    my $self = {};
-
+BEGIN {
+    # threads and threads::shared must be loaded before
+    # $lock is initialized
     if ($Config{usethreads}) {
         eval {
             require threads;
@@ -24,6 +22,12 @@ sub new {
             print "[error]Failed to use threads!\n"; 
         }
     }
+}
+
+sub new {
+    my ( $class, $params ) = @_;
+
+    my $self = {};
 
     my $config = $self->{config} = $params->{config};
     my $target = $self->{target} = $params->{target};
