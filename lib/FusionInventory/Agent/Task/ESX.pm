@@ -184,6 +184,19 @@ sub main {
     foreach my $job (@$jobs) {
         $self->createEsxInventory($job);
     }
+
+    return $self;
+}
+
+# Only used by the command line tool
+sub new {
+    my (undef, $params) = @_;
+
+    my $logger = FusionInventory::Logger->new ();
+
+
+    my $self = { config => $params->{config}, logger => $logger };
+    bless $self;
 }
 
 1;
