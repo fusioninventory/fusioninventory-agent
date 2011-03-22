@@ -193,7 +193,10 @@ sub getNetworks {
                 };
     }
 
-    foreach ($self->{hash}[0]{config}{network}{consoleVnic}, $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic}) {
+    my @vnic;
+    eval { push @vnic, $self->{hash}[0]{config}{network}{consoleVnic} if $self->{hash}[0]{config}{network}{consoleVnic}; };
+    eval { push @vnic, $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic} if $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic} };
+    foreach (@vnic) {
         next if ref($_) ne 'HASH';
 
         push @$ret, {
