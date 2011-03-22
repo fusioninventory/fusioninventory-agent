@@ -99,18 +99,21 @@ sub getCPUs {
             intel => 'Intel',
             );
 
-
+    my $totalCore;
+    my $totalThread;
+    my $cpuEntries;
+    eval { $totalCore = $self->{hash}[0]{hardware}{cpuInfo}{numCpuCores} };
+    eval { $totalThread = $self->{hash}[0]{hardware}{cpuInfo}{numCpuThreads} };
+    eval { $cpuEntries = $self->{hash}[0]{hardware}{cpuPkg} };
     my $ret = [];
-    foreach (@{getArray($self->{hash}[0]{hardware}{cpuPkg})}) {
+    foreach (@{getArray($cpuEntries)}) {
         my $thread;
-        my $core;
-
         push @$ret, {
-            CORE => $self->{hash}[0]{hardware}{cpuInfo}{numCpuCores},
-                 MANUFACTURER =>  $cpuManufacturor{$_->{vendor}} || $_->{vendor},
-                 NAME => $_->{description},
-                 SPEED => int($_->{hz}/(1000*1000)),
-                 THREAD => eval{$self->{hash}[0]{hardware}{cpuInfo}{numCpuThreads} / $self->{hash}[0]{hardware}{cpuInfo}{numCpuCores}}
+            CORE => $totalCore / @{getArray($cpuEntries)},
+            MANUFACTURER =>  $cpuManufacturor{$_->{vendor}} || $_->{vendor},
+            NAME => $_->{description},
+            SPEED => int($_->{hz}/(1000*1000)),
+            THREAD => eval{$totalThread / $totalCore }
         };
     }
 

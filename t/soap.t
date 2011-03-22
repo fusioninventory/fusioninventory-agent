@@ -47,14 +47,14 @@ my %test = (
             'MANUFACTURER' => 'AMD',
             'SPEED' => 2613,
             'THREAD' => '1',
-            'CORE' => 4
+            'CORE' => 2
           },
           {
             'NAME' => 'Dual-Core AMD Opteron(tm) Processor 2218',
             'MANUFACTURER' => 'AMD',
             'SPEED' => 2613,
             'THREAD' => '1',
-            'CORE' => 4
+            'CORE' => 2
           }
         ],
         'getControllers()' => [
