@@ -21,14 +21,9 @@ use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use FusionInventory::Logger;
-use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
-use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Agent::XML::Response::Prolog;
 
 sub main {
     my $self = FusionInventory::Agent::Task::Inventory->new();

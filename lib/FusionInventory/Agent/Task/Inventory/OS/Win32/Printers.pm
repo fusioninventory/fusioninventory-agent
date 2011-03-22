@@ -2,7 +2,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Printers;
 
 use strict;
 use warnings;
-use Data::Dumper;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );

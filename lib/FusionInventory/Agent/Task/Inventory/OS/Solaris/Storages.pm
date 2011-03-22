@@ -78,7 +78,6 @@ sub doInventory {
                 $type="SCSI";
             }
         }
-        use Data::Dumper;
 
         if(/^Illegal/) { # Last ligne
             $inventory->addStorage({

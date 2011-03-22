@@ -1153,7 +1153,6 @@ sub writeHTML {
 
     my $htmlBody;
 
-    use Data::Dumper;
     my $oldSectionName = "";
     foreach my $sectionName (sort keys %{$self->{h}{CONTENT}}) {
         next if $sectionName eq 'VERSIONCLIENT';

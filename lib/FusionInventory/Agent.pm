@@ -10,13 +10,11 @@ use Sys::Hostname;
 use XML::Simple;
 
 use FusionInventory::Logger;
-use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
 use FusionInventory::Agent::Targets;
-use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.1.8';
