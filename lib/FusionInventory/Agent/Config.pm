@@ -167,13 +167,13 @@ sub loadFromCfgFile {
             $file = $_.'/agent.cfg';
             last if -f $file;
         }
-        return $config unless -f $file;
+        return unless -f $file;
     }
 
     my $handle;
     if (!open $handle, '<', $file) {
         warn "Config: Failed to open $file: $ERRNO";
-        return $config;
+        return;
     }
 
     $config->{'conf-file'} = $file;
