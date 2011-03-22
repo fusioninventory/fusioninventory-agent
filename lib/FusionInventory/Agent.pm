@@ -15,7 +15,6 @@ use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
-#use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::Targets;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::XML::Query::Prolog;

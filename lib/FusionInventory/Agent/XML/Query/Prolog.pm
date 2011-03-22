@@ -8,8 +8,6 @@ use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use XML::Simple;
 
-#use FusionInventory::Agent::XML::Query::Prolog;
-
 sub new {
     my ($class, $params) = @_;
 
