@@ -36,6 +36,8 @@ sub new {
     $self->{vardir} = $target->{vardir};
 
     bless $self, $class;
+
+    return $self;
 }
 
 sub getFileName {
