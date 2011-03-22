@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+use strict;
+use warnings;
+
 use Win32;
 use Win32::Daemon;
 use threads;

@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+use strict;
+use warnings;
+
 # In order to be able to relocate the librairie location we can't
 # load them with 'use' here.
 

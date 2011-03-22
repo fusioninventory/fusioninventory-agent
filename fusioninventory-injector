@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 ###############################################################################
 ##Copyleft Pascal DANEK 2005
 ##Copyleft Goneri Le Bouder 2006
@@ -9,12 +9,14 @@
 ##code is always made freely available.
 ##Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 ################################################################################
+
 use Fcntl qw/:flock/;
 use LWP::UserAgent;
 use XML::Simple;
 use Compress::Zlib;
 use Getopt::Long;
 use strict;
+use warnings;
 my $help;
 my $directory;
 my $file;
