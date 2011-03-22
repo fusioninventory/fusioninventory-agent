@@ -5,10 +5,9 @@ use warnings;
 
 # TODO use Log::Log4perl instead.
 use Carp;
+use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
-
-use Config;
 
 BEGIN {
     # threads and threads::shared must be load before

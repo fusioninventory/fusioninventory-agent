@@ -2,7 +2,6 @@ package FusionInventory::Agent::Targets;
 
 use strict;
 use warnings;
-
 use threads::shared;
 
 use FusionInventory::Agent::Target;

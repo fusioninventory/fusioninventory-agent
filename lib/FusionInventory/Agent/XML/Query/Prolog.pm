@@ -4,9 +4,9 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use XML::Simple;
 use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
+use XML::Simple;
 
 #use FusionInventory::Agent::XML::Query::Prolog;
 

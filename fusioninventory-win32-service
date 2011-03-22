@@ -2,14 +2,14 @@
 
 use strict;
 use warnings;
-
-use Win32;
-use Win32::Daemon;
 use threads;
 use threads::shared;
-use FusionInventory::Agent;
 
 use English qw(-no_match_vars);
+use Win32;
+use Win32::Daemon;
+
+use FusionInventory::Agent;
 
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});

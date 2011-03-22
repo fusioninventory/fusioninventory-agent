@@ -4,12 +4,12 @@ use strict;
 use warnings;
 
 use Config;
+use English qw(-no_match_vars);
 use File::Glob ':glob';
 use Storable;
 
 my $lock :shared;
 
-use English qw(-no_match_vars);
 
 =head1 NAME
 

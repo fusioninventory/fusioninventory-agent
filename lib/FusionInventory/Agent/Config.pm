@@ -3,9 +3,9 @@ package FusionInventory::Agent::Config;
 use strict;
 use warnings;
 
-use Getopt::Long;
-use File::Spec;
 use English qw(-no_match_vars);
+use File::Spec;
+use Getopt::Long;
 
 my $basedir = '';
 my $basevardir = '';

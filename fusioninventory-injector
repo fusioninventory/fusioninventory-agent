@@ -10,13 +10,15 @@
 ##Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 ################################################################################
 
-use Fcntl qw/:flock/;
-use LWP::UserAgent;
-use XML::Simple;
-use Compress::Zlib;
-use Getopt::Long;
 use strict;
 use warnings;
+
+use Compress::Zlib;
+use Fcntl qw/:flock/;
+use Getopt::Long;
+use LWP::UserAgent;
+use XML::Simple;
+
 my $help;
 my $directory;
 my $file;

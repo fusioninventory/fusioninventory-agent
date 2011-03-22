@@ -4,7 +4,13 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
+use Config;
+use Digest::MD5 qw(md5_base64);
+use Encode qw/encode/;
 use English qw(-no_match_vars);
+use XML::Simple;
+
+use FusionInventory::Agent::Task::Inventory;
 
 =head1 NAME
 
@@ -17,13 +23,6 @@ module is the abstraction layer. It's mostly used in the backend module where
 $inventory is in general called.
 
 =cut
-
-use Encode qw/encode/;
-use XML::Simple;
-use Digest::MD5 qw(md5_base64);
-use Config;
-
-use FusionInventory::Agent::Task::Inventory;
 
 =over 4
 

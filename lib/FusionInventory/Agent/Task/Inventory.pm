@@ -17,19 +17,18 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task::Base';
 
+use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use Config;
-
+use FusionInventory::Logger;
 use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::XML::Response::Prolog;
-use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Logger;
+use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::XML::Response::Prolog;
 
 sub main {
     my $self = FusionInventory::Agent::Task::Inventory->new();
