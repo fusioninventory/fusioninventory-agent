@@ -3,6 +3,9 @@ package FusionInventory::Agent::Task::Base;
 use strict;
 use warnings;
 
+use FusionInventory::Logger;
+use FusionInventory::Agent::Storage;
+
 sub new {
     my ($class) = @_;
 

@@ -7,6 +7,9 @@ use Config;
 use English qw(-no_match_vars);
 use File::Path;
 
+use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::AccountInfo;
+
 BEGIN {
     # threads and threads::shared must be loaded before
     # $lock is initialized
