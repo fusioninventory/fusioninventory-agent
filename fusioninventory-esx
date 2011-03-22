@@ -45,10 +45,15 @@ EOF
 
 use FusionInventory::Agent::Task::ESX;
 
-my $inventory = FusionInventory::Agent::Task::ESX::createEsxInventory({
-    host => $args->{host},
-    user => $args->{user},
-    password => $args->{password},
-    directory => $args->{directory},
+my $esx = FusionInventory::Agent::Task::ESX->new({
+    config => {
+        local => $args->{directory}
+    }
+});
+my $inventory = $esx->createEsxInventory({
+    addr => $args->{host},
+    login => $args->{user},
+    passwd => $args->{password},
     });
+
 $inventory->writeXML();
