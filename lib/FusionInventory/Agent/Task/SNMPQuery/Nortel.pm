@@ -2,6 +2,35 @@ package FusionInventory::Agent::Task::SNMPQuery::Nortel;
 
 use strict;
 
+sub VlanTrunkPorts {
+   my $HashDataSNMP = shift,
+   my $datadevice = shift;
+   my $self = shift;
+
+   my $ports;
+
+   while ( (my $oid, my $trunkname) = each (%{$HashDataSNMP->{PortVlanIndex}}) ) {
+       my @array = split(/\./, $oid);
+
+       $ports->{$array[0]}->{$array[1]} = $trunkname;
+   }
+
+   while ( my ($portnumber,$vlans) = each (%{$ports}) ) {
+        if (keys %{$vlans} > 1) {
+            # Trunk
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$portnumber}]->{TRUNK} = "1";
+        } elsif (keys %{$vlans} eq "1") {
+            # One  vlan
+            while ( my ($vlan_id,$vlan_name) = each (%{$vlans}) ) {
+                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$portnumber}]->{VLANS}->{VLAN}->[0]->{NAME} = $vlan_name;
+                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$portnumber}]->{VLANS}->{VLAN}->[0]->{NUMBER} = $vlan_id;
+            }
+        }
+   }
+   return $datadevice, $HashDataSNMP;
+}
+
+
 sub GetMAC {
    my $HashDataSNMP = shift,
    my $datadevice = shift;
