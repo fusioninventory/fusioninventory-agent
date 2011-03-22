@@ -28,7 +28,7 @@ sub do {
         close(FUSINVFORM);
         if ($r eq "ok") {
             $ret = { status => 1 == 1, log => [ 'accepted by user' ] }
-        elsif ($r eq "ok") {
+        } elsif ($r eq "ok") {
             $ret = { status => 1 == 1, log => [ 'accepted because of timeout' ] }
         } else {
             $ret = { status => 0, log => [ 'rejected by user' ] }
