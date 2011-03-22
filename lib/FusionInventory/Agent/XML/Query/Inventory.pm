@@ -23,6 +23,7 @@ use XML::Simple;
 use Digest::MD5 qw(md5_base64);
 use Config;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Task::Inventory;
 
 =over 4
@@ -72,7 +73,7 @@ sub new {
     $self->{h}{CONTENT}{USBDEVICES} = [];
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$config->{VERSION}];
+    $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$FusionInventory::Agent::VERSION];
 
     # Is the XML centent initialised?
     $self->{isInitialised} = undef;
@@ -570,6 +571,8 @@ sub addNetwork {
         SLAVES
         SPEED
         MANAGEMENT
+        BSSID
+        SSID
     /;
 
 
@@ -1143,7 +1146,7 @@ sub writeHTML {
     </head>
     <body>
     <h1>Inventory for '.$target->{deviceid}.'</h1>
-    FusionInventory Agent '.$config->{VERSION}.'<br />
+    FusionInventory Agent '.$FusionInventory::Agent::VERSION.'<br />
     <small>DEVICEID '.$target->{deviceid}.'</small>
 
     ';
@@ -2088,6 +2091,18 @@ Whether or not it is a HP iLO, Sun SC, HP MP or other kind of Remote Management 
 =item SPEED
 
 Interface speed in Mb/s
+
+=back
+
+=item BSSID
+
+Wifi only, Access point MAC Address
+
+=back
+
+=item SSID
+
+Wifi only, Access point name
 
 =back
 
