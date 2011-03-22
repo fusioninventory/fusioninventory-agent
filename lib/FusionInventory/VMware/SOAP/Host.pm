@@ -160,7 +160,7 @@ sub getNetworks {
     my ($self) = @_;
 
     my $ret = [];
-    foreach (@{getArray($self->{hash}[0]{config}{network}{pnic})}) {
+    foreach (eval{@{getArray($self->{hash}[0]{config}{network}{pnic})}}) {
         push @$ret, {
                 DESCRIPTION => $_->{device},
                 DRIVER => $_->{driver},
@@ -176,15 +176,16 @@ sub getNetworks {
 #            VIRTUALDEV => '',
 #            SLAVES => '',
 #            MANAGEMENT => '',
-                SPEED => $_->{spec}{linkSpeed}{speedMb},
+                SPEED => eval { $_->{spec}{linkSpeed}{speedMb} || '' },
                 };
     }
 
-    foreach (@{getArray($self->{hash}[0]{config}{network}{vnic})}) {
+    foreach (eval{@{getArray($self->{hash}[0]{config}{network}{vnic})}}) {
+    print Dumper($_);
         push @$ret, {
                 DESCRIPTION => $_->{device},
                 DRIVER => $_->{driver},
-                IPADDRESS => $_->{ip}{ipAddress},
+                IPADDRESS => eval{ $_->{ip}{ipAddress} },
 #            IPGATEWAY => '',
                 IPMASK => $_->{ip}{subnetMask},
 #            IPSUBNET => '',
@@ -196,7 +197,7 @@ sub getNetworks {
                 VIRTUALDEV => '1',
 #            SLAVES => '',
 #            MANAGEMENT => '',
-                SPEED => $_->{spec}{linkSpeed}{speedMb},
+                SPEED => eval { $_->{spec}{linkSpeed}{speedMb} || '' },
                 };
     }
 
