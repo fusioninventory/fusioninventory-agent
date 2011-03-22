@@ -25,8 +25,10 @@ sub getArray {
 
     if (ref($h) eq 'ARRAY') {
         return $h;
-    } else {
+    } elsif ($h) {
         return [$h];
+    } else {
+        return [];
     }
 }
 
