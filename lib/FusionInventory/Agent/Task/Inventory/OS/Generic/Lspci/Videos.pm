@@ -6,8 +6,8 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-    return 0 if $OSNAME =~ /^mswin/i;
-    return 0 if $OSNAME =~ /^linux/i;
+    return 0 if $OSNAME eq 'MSWin32';
+    return 0 if $OSNAME eq 'linux';
     return 1;
 }
 

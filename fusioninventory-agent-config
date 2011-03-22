@@ -264,7 +264,7 @@ if (!$packaged) {
     $randomtime = int(rand(60)).' '.int(rand(24));
     $cron_line = $randomtime." * * * root $binpath --lazy > /dev/null 2>&1\n";
 
-    if ($^O =~ /solaris/) {
+    if ($^O eq 'solaris') {
         if (ask_yn("Do yo want to install the cron task in current user crontab ?", 'y')) {
             my $crontab = `crontab -l`;
 
@@ -291,7 +291,7 @@ if (!$packaged) {
 
     my $old_vardir;
     my $default_vardir = $config->{basevardir};
-    if ($^O =~ /solaris/) {
+    if ($^O eq 'solaris') {
         $default_vardir = '/var/opt/fusioninventory-agent';
         $old_vardir = '/var/opt/ocsinventory-agent';
 
@@ -349,7 +349,7 @@ if (!$packaged) {
 # Create the vardirectory for this server
     my $dir = $config->{server};
     $dir =~ s/\//_/g;
-    $dir =~ s/:/../g if $^O =~ /^MSWin/; # Conditional because there is
+    $dir =~ s/:/../g if $^O eq 'MSWin32'; # Conditional because there is
     my $vardir = $config->{basevardir}."/".$dir;
     if (!-d $vardir && !mkpath($vardir)) {
         die "Can't create $vardir!";

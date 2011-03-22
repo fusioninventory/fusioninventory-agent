@@ -61,7 +61,7 @@ sub _parseMachinInfo {
 }
 
 sub isInventoryEnabled  { 
-    return $OSNAME =~ /^hpux$/;
+    return $OSNAME eq 'hpux';
 }
 
 sub doInventory {

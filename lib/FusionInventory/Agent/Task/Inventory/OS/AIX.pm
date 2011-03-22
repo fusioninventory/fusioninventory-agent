@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
-sub isInventoryEnabled { return $OSNAME =~ /^aix$/ }
+sub isInventoryEnabled { return $OSNAME eq 'aix'; }
 
 sub doInventory {
     my $params = shift;

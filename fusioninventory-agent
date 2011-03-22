@@ -23,7 +23,7 @@ if ($ENV{REALLIB}) {
     @INC = split(/:/,$ENV{REALLIB});
 }
 
-if ($OSNAME =~ /MSWin/ && $EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
+if ($OSNAME eq 'MSWin32' && $EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
     eval 'use Configs; 1';
     $ENV{PATH} .= $Config::Config{path_sep}.$1;
 }

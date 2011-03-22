@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-    return $OSNAME =~ /^DARWIN$/i;
+    return $OSNAME eq 'darwin';
 }
 
 sub doInventory {
