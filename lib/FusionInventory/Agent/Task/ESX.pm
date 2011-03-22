@@ -77,8 +77,8 @@ sub createEsxInventory {
        
         if ($_->{PCICLASS} && ($_->{PCICLASS} eq '300')) {
             $inventory->addVideo({
-                    NAME => $_->{deviceName},
-                    PCISLOT => $_->{id},
+                    NAME => $_->{NAME},
+                    PCISLOT => $_->{PCISLOT},
                     }) 
         }
     }
