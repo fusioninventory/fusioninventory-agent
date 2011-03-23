@@ -68,6 +68,7 @@ sub _send {
         $self->_storeSOAPDump($name, $res->content);
         return $res->content;
     } else {
+        print STDERR $res->status_line, "\n";
         return;
     }
 }
