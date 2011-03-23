@@ -21,7 +21,6 @@ my $default = {
     'info'                    => 1,
     'logger'                  => 'Stderr',
     'logfacility'             => 'LOG_USER',
-    'remotedir'               => '/ocsinventory', # deprecated
     'delaytime'               => 3600,
     'backend-collect-timeout' => 180,
     'rpc-port'                => 62354,
