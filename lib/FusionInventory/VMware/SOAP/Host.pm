@@ -311,6 +311,7 @@ sub getVirtualMachines {
         }
 
         if (!$status) {
+            print "Unknown status\n";
             print Dumper($_->[0]);
         }
 
