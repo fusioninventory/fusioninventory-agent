@@ -89,7 +89,7 @@ sub new {
     } else {
         $self->loadFromCfgFile();
     }
-    $self->loadUserParams();
+    $self->loadUserParams($params);
 
     $self->checkContent();
 
@@ -196,65 +196,11 @@ sub loadFromCfgFile {
 }
 
 sub loadUserParams {
-    my ($self) = @_;
+    my ($self, $params) = @_;
 
-    Getopt::Long::Configure( "no_ignorecase" );
-
-    GetOptions(
-        $self,
-        'backend-collect-timeout=s',
-        'basevardir=s',
-        'ca-cert-dir=s',
-        'ca-cert-file=s',
-        'conf-file=s',
-        'color',
-        'daemon|d',
-        'daemon-no-fork|D',
-        'debug',
-        'delaytime=s',
-        'devlib',
-        'disable-perllib-envvar',
-        'force|f',
-        'help|h',
-        'html',
-        'info|i',
-        'lazy',
-        'local|l=s',
-        'logger=s',
-        'logfile=s',
-        'logfile-maxsize=i',
-        'nosoft',
-        'nosoftware',
-        'no-ocsdeploy',
-        'no-inventory',
-        'no-printer',
-        'no-socket',
-        'no-soft',
-        'no-software',
-        'no-ssl-check',
-        'no-wakeonlan',
-        'no-snmpquery',
-        'no-netdiscovery',
-        'no-p2p',
-        'password|p=s',
-        'proxy|P=s',
-        'realm|r=s',
-        'rpc-ip=s',
-        'rpc-port=s',
-        'rpc-trust-localhost',
-        'remotedir|R=s',
-        'scan-homedirs',
-        'share-dir=s',
-        'server|s=s',
-        'stdout',
-        'tag|t=s',
-        'user|u=s',
-        'version',
-        'wait|w=s',
-    ) or $self->help();
-
-    $self->help() if $self->{help};
-    $self->version() if $self->{version};
+    foreach my $key (keys %$params) {
+        $self->{$key} = $params->{$key};
+    }
 }
 
 sub checkContent {
@@ -286,97 +232,5 @@ sub checkContent {
     $self->{'logfile'} = File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
 }
 
-sub help {
-    my ($self, $error) = @_;
-    if ($error) {
-        chomp $error;
-        print "ERROR: $error\n\n";
-    }
-
-    if ($self->{'conf-file'}) {
-        print STDERR "Setting initialised with values retrieved from ".
-        "the config found at ".$self->{'conf-file'}."\n";
-    }
-
-    print STDERR <<EOF;
-
-Target definition options
-    -s --server=URI     send tasks result to a server ($self->{server})
-    -l --local=DIR      write tasks results in a directory ($self->{local})
-    --stdout            write tasks result on STDOUT
-
-Target scheduling options
-    --delaytime=DURATION        maximum initial delay before first target, in seconds ($self->{delaytime})
-    -w --wait=DURATION          maximum delay between each target, in seconds ($self->{wait})
-    --lazy                      do not contact the target before next scheduled ime ($self->{lazy})
-
-Task selection options
-    --no-ocsdeploy      do not run packages deployment task ($self->{'no-ocsdeploy'})
-    --no-inventory      do not run inventory task ($self->{'no-inventory'})
-    --no-wakeonlan      do not run wake on lan task ($self->{'no-wakeonlan'})
-    --no-snmpquery      do not run snmp query task ($self->{'no-snmpquery'})
-    --no-netdiscovery   do not run net discovery task ($self->{'no-netdiscovery'})
-
-Inventory task specific options
-    --no-printer        do not list local printers ($self->{'no-printer'})
-    --no-software       do not list installed software ($self->{'no-software'})
-    --scan-homedirs     allow to scan use home directories ($self->{'scan-homedirs'})
-    --html              save the inventory as HTML ($self->{html})
-    -f --force          always send data to server ($self->{force})
-    -t --tag=TAG        mark the machine with given tag ($self->{tag})
-    --backend-collect-timeout   timeout for inventory modules execution ($self->{'backend-collect-timeout'})
-
-Package deployment task specific options
-    --no-p2p            do not use peer to peer to download files ($self->{'no-p2p'})
-
-Network options:
-    -P --proxy=PROXY    proxy address ($self->{proxy})
-    -u --user=USER      user name for server authentication ($self->{user})
-    -p --password=PWD   password for server authentication
-    -r --realm=REALM    realm for server authentication ($self->{realm})
-    --ca-cert-dir=D     path to the CA certificates directory ($self->{'ca-cert-dir'})
-    --ca-cert-file=F    path to the CA certificates file ($self->{'ca-cert-file'})
-    --no-ssl-check      do not check server SSL certificates ($self->{'no-ssl-check'})
-
-Web interface options
-    --no-socket                 disable embedded web server ($self->{'no-socket'})
-    --rpc-ip=IP                 network interface to listen to ($self->{'rpc-ip'})
-    --rpc-port=PORT             network port to listen to ($self->{'rpc-port'})
-    --rpc-trust-localhost       trust local requests without authentication token ($self->{'rpc-trust-localhost'})
-
-Logging options
-    --logger                    Logger backend, either Stderr, File or Syslog ($self->{logger})
-    --logfile=FILE              log file ($self->{logfile})
-    --logfile-maxsize=X         maximum size of the log file in MB ($self->{'logfile-maxsize'})
-    --logfacility=FACILITY      syslog facility ($self->{logfacility})
-    --color                     use color in the console ($self->{color})
-
-Agent setup options
-    --basevardir=DIR            path to the writable data files ($self->{basevardir})
-    --share-dir=DIR             path to the read-only data files ($self->{'share-dir'})
-    --conf-file=FILE            path to an alternative config file ($self->{'conf-file'})
-    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($self->{'disable-perllib-envvar'})
-    --devlib                    search for Backend modules in ./lib only ($self->{devlib})
-
-Execution mode options
-    -d --daemon                 run the agent as a daemon ($self->{daemon})
-    -D --daemon-no-fork         run the agent as a daemon but don't fork in background ($self->{'daemon-no-fork'})
-    -i --info                   verbose mode ($self->{info})
-    --debug                     debug mode ($self->{debug})
-    --version                   print the version and exit
-
-Manpage:
-    See man fusioninventory-agent
-
-FusionInventory-Agent is released under GNU GPL 2 license
-EOF
-
-    exit 1;
-}
-
-sub version {
-    print "FusionInventory Agent (".$FusionInventory::Agent::VERSION.")\n";
-    exit 0;
-}
 
 1;
