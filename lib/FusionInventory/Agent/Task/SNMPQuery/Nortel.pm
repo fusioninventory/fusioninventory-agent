@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::SNMPQuery::Nortel;
 
 use strict;
+use Data::Dumper;
 
 sub VlanTrunkPorts {
    my $HashDataSNMP = shift,
@@ -12,7 +13,7 @@ sub VlanTrunkPorts {
    while ( (my $oid, my $trunkname) = each (%{$HashDataSNMP->{PortVlanIndex}}) ) {
        my @array = split(/\./, $oid);
 
-       $ports->{$array[0]}->{$array[1]} = $trunkname;
+       $ports->{$array[(@array - 2)]}->{$array[(@array - 1)]} = $trunkname;
    }
 
    while ( my ($portnumber,$vlans) = each (%{$ports}) ) {
