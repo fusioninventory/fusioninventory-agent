@@ -24,7 +24,6 @@ GetOptions(
     'debug',
     'delaytime=s',
     'devlib',
-    'disable-perllib-envvar',
     'force|f',
     'help|h',
     'html',
@@ -69,9 +68,6 @@ pod2usage(-verbose => 0) if $options->{help};
 if ($options->{devlib}) {
     print STDERR "[info] --devlib are found, Developer mode enabled\n";
     unshift @INC, 'lib';
-} elsif ($options->{'disable-perllib-envvar'}) {
-    $ENV{PERL5LIB}=undef;
-    $ENV{PERLLIB}=undef;
 }
 
 if ($ENV{REALLIB}) {
@@ -180,7 +176,6 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --basevardir=DIR            path to the writable data files
     --share-dir=DIR             path to the read-only data files
     --conf-file=FILE            path to an alternative config file
-    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable (false)
     --devlib                    search for Backend modules in ./lib only (false)
 
   Execution mode options
@@ -559,13 +554,6 @@ fusioninventory-agent won't try to load the Backend module installed
 on the system. Instead it will scan the ./lib directory.
 It may also be useful if you don't want to install the agent on
 your system.
-
-This option can only be used as command line argument.
-
-=item B<--disable-perllib-envvar>
-
-Do not use PERL5LIB and PERLLIB environment variable to find Perl library
-path.
 
 This option can only be used as command line argument.
 
