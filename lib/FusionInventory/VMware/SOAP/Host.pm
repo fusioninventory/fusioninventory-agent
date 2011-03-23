@@ -181,7 +181,6 @@ sub getNetworks {
     }
 
     foreach (eval{@{getArray($self->{hash}[0]{config}{network}{vnic})}}) {
-    print Dumper($_);
         push @$ret, {
                 DESCRIPTION => $_->{device},
                 DRIVER => $_->{driver},
