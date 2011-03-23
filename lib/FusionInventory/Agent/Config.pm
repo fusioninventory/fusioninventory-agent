@@ -18,61 +18,14 @@ if ($OSNAME eq 'MSWin32') {
 }
 
 my $default = {
-    'ca-cert-dir'             => '',
-    'ca-cert-file'            => '',
-    'conf-file'               => '',
-    'color'                   => 0,
-    'daemon'                  => 0,
-    'daemon-no-fork'          => 0,
-    'debug'                   => 0,
-    'devlib'                  => 0,
-    'disable-perllib-envvar'  => 0,
-    'force'                   => 0,
-    'help'                    => 0,
-    'html'                    => 0,
     'info'                    => 1,
-    'lazy'                    => 0,
-    'local'                   => '',
     'logger'                  => 'Stderr',
-    'logfile'                 => '',
-    'logfile-maxsize'         => 0,
     'logfacility'             => 'LOG_USER',
-    'password'                => '',
-    'proxy'                   => '',
-    'realm'                   => '',
     'remotedir'               => '/ocsinventory', # deprecated
-    'server'                  => '',
-    'share-dir'               => '',
-    'stdout'                  => 0,
-    'tag'                     => '',
-    'user'                    => '',
-    'version'                 => 0,
-    'wait'                    => '',
-#   'xml'                     => 0,
-    'no-ocsdeploy'            => 0,
-    'no-inventory'            => 0,
-    'nosoft'                  => 0, # deprecated
-    'nosoftware'              => 0, # deprecated
-    'no-printer'              => 0,
-    'no-socket'               => 0,
-    'no-software'             => 0,
-    'no-software'             => 0,
-    'no-wakeonlan'            => 0,
-    'no-snmpquery'            => 0,
-    'no-netdiscovery'         => 0,
-    'no-p2p'                  => 0,
-    'delaytime'               => 3600, # max delay time (seconds)
-    'backend-collect-timeout' => 180,   # timeOut of process : see Backend.pm
-    'no-ssl-check'            => 0,
-    'scan-homedirs'           => 0,
-    'rpc-ip'                  => '',
-    'rpc-port'                => '62354',
-    'rpc-trust-localhost'     => 0,
-    # Other values that can't be changed with the
-    # CLI parameters
+    'delaytime'               => 3600,
+    'backend-collect-timeout' => 180,
+    'rpc-port'                => 62354,
     'basevardir'              => $basevardir,
-#    'logdir'                  =>  $basedir.'/var/log/fusioninventory-agent',
-#   'pidfile'                 =>  $basedir.'/var/run/ocsinventory-agent.pid',
 };
 
 sub new {
