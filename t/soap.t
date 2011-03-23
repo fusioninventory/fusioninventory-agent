@@ -281,7 +281,7 @@ my %test = (
             'STATUS' => 'Down',
             'MACADDR' => '00:1b:24:f0:6a:45',
             'DESCRIPTION' => 'vmnic0',
-            'SPEED' => '0',
+            'SPEED' => '',
             'PCISLOT' => '00:08.0',
             'IPADDRESS' => undef,
             'DRIVER' => 'forcedeth'
@@ -291,7 +291,7 @@ my %test = (
             'STATUS' => 'Down',
             'MACADDR' => '00:1b:24:f0:6a:46',
             'DESCRIPTION' => 'vmnic1',
-            'SPEED' => '0',
+            'SPEED' => '',
             'PCISLOT' => '00:09.0',
             'IPADDRESS' => undef,
             'DRIVER' => 'forcedeth'
@@ -311,7 +311,7 @@ my %test = (
             'STATUS' => 'Down',
             'MACADDR' => '00:1b:24:f0:6a:44',
             'DESCRIPTION' => 'vmnic3',
-            'SPEED' => '0',
+            'SPEED' => '',
             'PCISLOT' => '06:04.1',
             'IPADDRESS' => undef,
             'DRIVER' => 'tg3'
@@ -321,7 +321,7 @@ my %test = (
             'VIRTUALDEV' => '1',
             'STATUS' => 'Down',
             'MACADDR' => undef,
-            'SPEED' => undef,
+            'SPEED' => '',
             'PCISLOT' => undef,
             'DRIVER' => undef,
             'DESCRIPTION' => 'vmk0',
@@ -367,6 +367,7 @@ my %test = (
             'MANUFACTURER' => 'Seagate',
             'MODEL' => 'ST3250310NS     '
           }
+
         ],
         'getDrives()' => [
           {
