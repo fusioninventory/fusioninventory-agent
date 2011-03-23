@@ -203,10 +203,20 @@ sub getHostFullInfo {
         ';
 
     my $answer = $self->_send('RetrieveProperties', 'getHostFullInfo', sprintf($req, $id));
+#    print $answer;
     my $ref = $self->_parseAnswer($answer);
-
     my $vms = [];
-    my $machineIdList = $self->_getVirtualMachineList();
+    my $machineIdList;
+    if (exists($ref->[0]{vm}{ManagedObjectReference})) { # ESX 3.5
+        if (ref($ref->[0]{vm}{ManagedObjectReference}) eq 'ARRAY') {
+            $machineIdList = $ref->[0]{vm}{ManagedObjectReference};
+        } else {
+            push @$machineIdList, $ref->[0]{vm}{ManagedObjectReference};
+        }
+    } else {
+        $machineIdList = $self->_getVirtualMachineList();
+    }
+    #$vm = $ref->[0]{vm};
     foreach my $id (@$machineIdList) {
         push @$vms, $self->_getVirtualMachineById($id);
     }
