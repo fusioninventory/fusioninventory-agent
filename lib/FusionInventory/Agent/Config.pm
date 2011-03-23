@@ -91,16 +91,7 @@ sub new {
     }
     $self->loadUserParams();
 
-    if (!$self->{'share-dir'}) {
-        if ($self->{'devlib'}) {
-                $self->{'share-dir'} = File::Spec->rel2abs('./share/');
-        } else {
-            eval { 
-                require File::ShareDir;
-                $self->{'share-dir'} = File::ShareDir::dist_dir('FusionInventory-Agent');
-            };
-        }
-    }
+    $self->checkContent();
 
 
     return $self;
@@ -262,17 +253,37 @@ sub loadUserParams {
         'wait|w=s',
     ) or $self->help();
 
+    $self->help() if $self->{help};
+    $self->version() if $self->{version};
+}
+
+sub checkContent {
+    my ($self) = @_;
+
+    # a logfile options implies a file logger backend
+    if ($self->{logfile}) {
+        $self->{logger} .= ',File';
+    }
+
     # We want only canonical path
+    if (!$self->{'share-dir'}) {
+        if ($self->{'devlib'}) {
+                $self->{'share-dir'} = File::Spec->rel2abs('./share/');
+        } else {
+            eval { 
+                require File::ShareDir;
+                $self->{'share-dir'} = File::ShareDir::dist_dir('FusionInventory-Agent');
+            };
+        }
+    } else {
+        $self->{'share-dir'} = File::Spec->rel2abs($self->{'share-dir'}) if $self->{'share-dir'};
+    }
+
     $self->{basevardir} = File::Spec->rel2abs($self->{basevardir}) if $self->{basevardir};
-    $self->{'share-dir'} = File::Spec->rel2abs($self->{'share-dir'}) if $self->{'share-dir'};
     $self->{'conf-file'} = File::Spec->rel2abs($self->{'conf-file'}) if $self->{'conf-file'};
     $self->{'ca-cert-file'} = File::Spec->rel2abs($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
     $self->{'ca-cert-dir'} = File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
     $self->{'logfile'} = File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
-
-
-    $self->help() if $self->{help};
-    $self->version() if $self->{version};
 }
 
 sub help {
