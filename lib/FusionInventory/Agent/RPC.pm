@@ -63,7 +63,7 @@ sub new {
 
     bless $self, $class;
 
-    return $self if $config->{'no-socket'};
+    return $self if $config->{'no-httpd'};
 
     $SIG{PIPE} = 'IGNORE';
     if ($config->{daemon} || $config->{service}) {
@@ -118,7 +118,7 @@ sub handler {
         $output =~ s/%%STATUS%%/$status/;
         $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
         $output =~ s/%%AGENT_VERSION%%/$config->{VERSION}/;
-        if ($clientIp !~ /^127\./ || !$config->{'rpc-trust-localhost'}) {
+        if ($clientIp !~ /^127\./ || !$config->{'httpd-trust-localhost'}) {
             $output =~
             s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
         }
@@ -150,7 +150,7 @@ sub handler {
         my $msg;
         $logger->debug("[RPC] 'now' catched");
         if (
-            ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
+            ($config->{'httpd-trust-localhost'} && $clientIp =~ /^127\./)
                 or
             ($sentToken eq $currentToken)
         ) {
@@ -163,7 +163,7 @@ sub handler {
 
             $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
             $code = 403;
-            $msg = "Access denied. You are not using the 127.0.0.1 IP address to access the server or rpc-trust-localhost is off or the token is invalid."
+            $msg = "Access denied. You are not using the 127.0.0.1 IP address to access the server or httpd-trust-localhost is off or the token is invalid."
 
         }
 
@@ -205,16 +205,16 @@ sub server {
 
     my $daemon;
    
-    if ($config->{'rpc-ip'}) {
+    if ($config->{'httpd-ip'}) {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalAddr => $config->{'rpc-ip'},
-            LocalPort => $config->{'rpc-port'} || 62354,
+            LocalAddr => $config->{'httpd-ip'},
+            LocalPort => $config->{'httpd-port'} || 62354,
             Reuse     => 1,
             Timeout   => 5
         );
     } else {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalPort => $config->{'rpc-port'} || 62354,
+            LocalPort => $config->{'httpd-port'} || 62354,
             Reuse     => 1,
             Timeout   => 5
         );
@@ -225,9 +225,9 @@ sub server {
         return;
     } 
     $logger->info("RPC service started at: http://".
-        ( $config->{'rpc-ip'} || "127.0.0.1" ).
+        ( $config->{'httpd-ip'} || "127.0.0.1" ).
         ":".
-        $config->{'rpc-port'} || 62354);
+        $config->{'httpd-port'} || 62354);
 
 # Since perl 5.10, threads::joinable is avalaible
     my $joinableAvalaible = eval 'defined(threads::joinable) && 1';

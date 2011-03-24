@@ -37,6 +37,7 @@ GetOptions(
     'no-inventory',
     'no-printer',
     'no-socket',
+    'no-httpd',
     'no-software',
     'no-ssl-check',
     'no-wakeonlan',
@@ -46,6 +47,9 @@ GetOptions(
     'password|p=s',
     'proxy|P=s',
     'realm|r=s',
+    'httpd-ip=s',
+    'httpd-port=s',
+    'httpd-trust-localhost',
     'rpc-ip=s',
     'rpc-port=s',
     'rpc-trust-localhost',
@@ -160,10 +164,10 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --no-ssl-check      do not check server SSL certificates (false)
 
   Web interface options
-    --no-socket                 disable embedded web server (false)
-    --rpc-ip=IP                 network interface to listen to
-    --rpc-port=PORT             network port to listen to (62354)
-    --rpc-trust-localhost       trust local requests without authentication token (false)
+    --no-httpd                 disable embedded web server (false)
+    --httpd-ip=IP              network interface to listen to
+    --httpd-port=PORT          network port to listen to (62354)
+    --httpd-trust-localhost    trust local requests without authentication token (false)
 
   Logging options
     --logger                    Logger backend, either Stderr, File or Syslog (Stderr)
@@ -461,20 +465,20 @@ the console.
 
 =over
 
-=item B<--no-socket>
+=item B<--no-httpd>
 
 Disable the embedded web server.
 
-=item B<--rpc-ip>=I<IP>
+=item B<--httpd-ip>=I<IP>
 
 The network interface to use for the embedded web server (all 
 available interfaces).
 
-=item B<--rpc-port>=I<PORT>
+=item B<--httpd-port>=I<PORT>
 
 The network port to use for the embedded web server (62354).
 
-=item B<--rpc-trust-localhost>
+=item B<--httpd-trust-localhost>
 
 Trust local requests without authentication token (false).
 

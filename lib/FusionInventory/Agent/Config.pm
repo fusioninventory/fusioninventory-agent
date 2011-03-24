@@ -162,6 +162,33 @@ sub checkContent {
             "the parameter --info is deprecated, and had no effect anyway\n";
     }
 
+    if ($self->{'no-socket'}) {
+        print STDERR
+            "the parameter --no-socket is deprecated, use --no-httpd instead\n";
+        $self->{'no-httpd'} = 1;
+    }
+
+    if ($self->{'rpc-ip'}) {
+        print STDERR
+            "the parameter --rpc-ip is deprecated, use " .
+            "--httpd-ip instead\n";
+        $self->{'httpd-ip'} = $self->{'rpc-ip'};
+    }
+
+    if ($self->{'rpc-port'}) {
+        print STDERR
+            "the parameter --rpc-port is deprecated, use " .
+            "--httpd-port instead\n";
+        $self->{'httpd-port'} = $self->{'rpc-port'};
+    }
+
+    if ($self->{'rpc-trust-localhost'}) {
+        print STDERR
+            "the parameter --rpc-trust-localhost is deprecated, use " .
+            "--httpd-trust-localhost instead\n";
+        $self->{'httpd-trust-localhost'} = 1;
+    }
+
     if ($self->{'daemon-no-fork'}) {
         print STDERR
             "the parameter --daemon-no-fork is deprecated, use --daemon " .
