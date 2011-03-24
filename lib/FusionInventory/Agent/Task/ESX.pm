@@ -203,6 +203,20 @@ sub main {
     return unless $jobs;
     return unless ref($jobs) eq 'ARRAY';
     foreach my $job (@$jobs) {
+        my $esx = FusionInventory::Agent::Task::ESX->new({
+                config => $config
+        });
+
+        $esx->connect($job);
+
+        my $hostIds = $esx->getHostIds();
+        foreach my $hostId (@$hostIds) {
+            my $inventory = $esx->createInventory($hostId);
+
+            $inventory->writeXML();
+        }
+
+
         #$self->createEsxInventory($job);
         $self->createVCenterInventory($job);
     }
