@@ -30,7 +30,7 @@ my $thr;
 sub startAgent {
     return if $thr;
     $thr = threads->create(sub {
-        my $agent = new FusionInventory::Agent({winService => 1});
+        my $agent = new FusionInventory::Agent({service => 1});
         $agent->main();
     });
 }
