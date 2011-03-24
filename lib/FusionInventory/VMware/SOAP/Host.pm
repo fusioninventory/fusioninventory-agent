@@ -140,7 +140,7 @@ sub getControllers {
         # Workaround: sometime the pciid are odd negative number.
         # e.g: 111d:ffff8018, ffff8086:244e, ffff8086:ffffa02c
         foreach ($pciid, $pcisubsystemid, $pciclass) {
-                s/.*(\w{4}:).*(\w{4})/$1$2/g;
+                s/(.*)(\w{4}:)(.*)(\w{4})/$2$4/g;
         }
         push @$ret, {
             NAME => $_->{deviceName},
