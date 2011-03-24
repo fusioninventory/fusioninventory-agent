@@ -179,7 +179,6 @@ sub main {
             module => "FusionInventory::Agent"
         });
 
-    print Dumper($data);
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
     my $logger = $self->{logger} = FusionInventory::Logger->new ({
