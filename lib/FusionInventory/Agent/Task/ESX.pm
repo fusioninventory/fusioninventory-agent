@@ -13,6 +13,19 @@ use FusionInventory::Logger;
 use Data::Dumper;
 
 
+sub connect {
+    my ($self, $job) = @_;
+
+    my $url = 'http://'.$job->{addr}.'/sdk/vimService';
+
+    my $vpbs = FusionInventory::VMware::SOAP->new({ url => $url, vcenter => 1 });
+    if (!$vpbs->connect($job->{login}, $job->{passwd})) {
+        die "failed to log in\n";
+    }
+
+    $self->{vpbs} = $vpbs;
+}
+
 sub createFakeDeviceid {
     my ($self, $host) = @_;
 
@@ -40,19 +53,23 @@ sub createFakeDeviceid {
     return $deviceid;
 }
 
-sub createEsxInventory {
+sub createVCenterInventory {
     my ($self, $job) = @_;
 
+    return unless $self->{connected};
 
+    $self->{vpbs}->getVCenterFullInfo();
+}
 
-    my $url = 'http://'.$job->{addr}.'/sdk/vimService';
+sub createInventory {
+    my ($self, $id) = @_;
 
-    my $vpbs = FusionInventory::VMware::SOAP->new({ url => $url });
-    if (!$vpbs->login($job->{login}, $job->{passwd})) {
-        die "failed to log in\n";
-    }
+    die unless $self->{vpbs};
 
-    my $host = $vpbs->getHostFullInfo();
+    my $vpbs = $self->{vpbs};
+
+    my $host;
+    $host = $vpbs->getHostFullInfo($id);
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
             logger => $self->{logger},
@@ -67,19 +84,19 @@ sub createEsxInventory {
 
     $inventory->setHardware($host->getHardwareInfo());
 
-    foreach my $cpu (@{$host->getCPUs()}) 
+    foreach my $cpu (@{$host->getCPUs()})
     {
         $inventory->addCPU($cpu);
     }
 
     foreach (@{$host->getControllers()}) {
         $inventory->addController($_);
-       
+
         if ($_->{PCICLASS} && ($_->{PCICLASS} eq '300')) {
             $inventory->addVideo({
                     NAME => $_->{NAME},
                     PCISLOT => $_->{PCISLOT},
-                    }) 
+                    })
         }
     }
 
@@ -139,6 +156,11 @@ sub getJobs {
     return from_json( $jsonText, { utf8  => 1 } );
 }
 
+sub getHostIds {
+    my ($self) = @_;
+
+    return $self->{vpbs}->getHostIds();
+}
 
 sub main {
     my ( undef ) = @_;
@@ -182,7 +204,8 @@ sub main {
     return unless $jobs;
     return unless ref($jobs) eq 'ARRAY';
     foreach my $job (@$jobs) {
-        $self->createEsxInventory($job);
+        #$self->createEsxInventory($job);
+        $self->createVCenterInventory($job);
     }
 
     return $self;

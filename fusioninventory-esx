@@ -22,9 +22,9 @@ sub usage {
     A command line tool to create .ocs file from an ESX server.
 
         USAGE:
-        --host hostname        : hostname is the hostname of the IP address of the ESX server 
+        --host hostname        : hostname is the hostname of the IP address of the ESX server
         --user username        : the ESX user name
-        --password xxxx        : the ESX password 
+        --password xxxx        : the ESX password
         --directory /somewhere : the location where the .ocs file must be written
 
         EXAMPLE:
@@ -50,10 +50,16 @@ my $esx = FusionInventory::Agent::Task::ESX->new({
         local => $args->{directory}
     }
 });
-my $inventory = $esx->createEsxInventory({
-    addr => $args->{host},
-    login => $args->{user},
-    passwd => $args->{password},
-    });
 
-$inventory->writeXML();
+$esx->connect({
+            addr => $args->{host},
+            login => $args->{user},
+            passwd => $args->{password},
+            });
+
+my $hostIds = $esx->getHostIds();
+foreach my $hostId (@$hostIds) {
+    my $inventory = $esx->createInventory($hostId);
+
+    $inventory->writeXML();
+}

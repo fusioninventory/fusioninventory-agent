@@ -3,6 +3,7 @@ package FusionInventory::VMware::SOAP;
 use strict;
 use warnings;
 
+use Data::Dumper;
 use XML::TreePP;
 use LWP::UserAgent;
 use HTTP::Cookies; #for testing
@@ -15,8 +16,9 @@ sub new {
     my $self = {
         ua => LWP::UserAgent->new(),
         url => $params->{url},
-        debugDir => $params->{debugDir}
+        debugDir => $params->{debugDir},
     };
+
     my $cookie = new HTTP::Cookies( ignore_discard => 1 );
     $self->{ua}->cookie_jar( $cookie );
 
@@ -26,6 +28,7 @@ sub new {
     $self->{tpp} = XML::TreePP->new(force_array => [qw( returnval propSet )]);
     return bless $self;
 }
+
 
 sub _loadSOAPDump {
     my ($self, $name) = @_;
@@ -66,8 +69,10 @@ sub _send {
 
     if ($res->is_success) {
         $self->_storeSOAPDump($name, $res->content);
+        #print $res->content;
         return $res->content;
     } else {
+        print $res->content;
         print STDERR $res->status_line, "\n";
         return;
     }
@@ -104,8 +109,32 @@ sub _parseAnswer {
 
 }
 
-sub login {
+sub connect {
     my ($self, $login, $pw) = @_;
+
+    my $req = '<?xml version="1.0" encoding="UTF-8"?>
+   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soapenv:Body>
+<RetrieveServiceContent xmlns="urn:vim25"><_this type="ServiceInstance">ServiceInstance</_this>
+</RetrieveServiceContent></soapenv:Body></soapenv:Envelope>';
+
+
+    my $answer = $self->_send('ServiceInstance', 'ServiceInstance', $req);
+    my $serviceInstance = $self->_parseAnswer($answer);
+
+print Dumper($serviceInstance);
+    if ($serviceInstance->[0]{about}{apiType} eq 'VirtualCenter') {
+        $self->{vcenter} = 1; # TODO
+        $self->{sessionManager} = "SessionManager";
+        $self->{propertyCollector} = "propertyCollector";
+    } else {
+        $self->{vcenter} = 0;
+        $self->{sessionManager} = "ha-sessionmgr";
+        $self->{propertyCollector} = "ha-property-collector";
+    }
+
 
     my $req =
         '<?xml version="1.0" encoding="UTF-8"?>
@@ -113,10 +142,12 @@ sub login {
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <soapenv:Body>
-        <Login xmlns="urn:vim25"><_this type="SessionManager">ha-sessionmgr</_this>
+        <Login xmlns="urn:vim25"><_this type="SessionManager">%s</_this>
         <userName>%s</userName><password>%s</password></Login></soapenv:Body></soapenv:Envelope>';
 
-    my $answer = $self->_send('Login', 'Login', sprintf($req, $login, $pw));
+    $answer = $self->_send('Login', 'Login', sprintf($req, $self->{sessionManager}, $login, $pw));
+    die if $answer =~ /ServerFaultCode/m;
+
     return $self->_parseAnswer($answer);
 
 }
@@ -178,16 +209,36 @@ sub _getVirtualMachineById {
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <soapenv:Body>
-        <RetrieveProperties xmlns="urn:vim25"><_this type="PropertyCollector">ha-property-collector</_this>
-        <specSet><propSet><type>VirtualMachine</type><all>1</all></propSet><objectSet><obj type="VirtualMachine">%d</obj>
+        <RetrieveProperties xmlns="urn:vim25"><_this type="PropertyCollector">%s</_this>
+        <specSet><propSet><type>VirtualMachine</type><all>1</all></propSet><objectSet><obj type="VirtualMachine">%s</obj>
         </objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>
         ';
 
-    my $answer = $self->_send('RetrieveProperties', 'RetrieveProperties-VM-'.$id, sprintf($req, $id));
+    my $answer = $self->_send('RetrieveProperties', 'RetrieveProperties-VM-'.$id, sprintf($req, $self->{propertyCollector}, $id));
 
     my $ref = $self->_parseAnswer($answer);
     return $ref;
 }
+
+#sub _getHostById {
+#    my ($self, $id) = @_;
+#
+#print $id."\n";
+#    my $req = '<?xml version="1.0" encoding="UTF-8"?>
+#   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+#                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+#                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+#   <soapenv:Body>
+#<RetrieveProperties xmlns="urn:vim25"><_this type="PropertyCollector">propertyCollector</_this>
+#<specSet><propSet><type>HostSystem</type><all>1</all></propSet><objectSet><obj type="HostSystem">%s</obj>
+#</objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>';
+#    my $answer = $self->_send('RetrieveProperties', 'RetrieveProperties-VM-'.$id, sprintf($req, $id));
+#
+#    my $ref = $self->_parseAnswer($answer);
+#    return $ref;
+#}
+
+
 
 sub getHostFullInfo {
     my ($self, $id) = @_;
@@ -197,13 +248,14 @@ sub getHostFullInfo {
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <soapenv:Body>
-        <RetrieveProperties xmlns="urn:vim25"><_this type="PropertyCollector">ha-property-collector</_this>
-        <specSet><propSet><type>HostSystem</type><all>1</all></propSet><objectSet><obj type="HostSystem">ha-host</obj>
+        <RetrieveProperties xmlns="urn:vim25"><_this type="PropertyCollector">%s</_this>
+        <specSet><propSet><type>HostSystem</type><all>1</all></propSet><objectSet><obj type="HostSystem">%s</obj>
         </objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>
         ';
 
-    my $answer = $self->_send('RetrieveProperties', 'getHostFullInfo', sprintf($req, $id));
+    my $answer = $self->_send('RetrieveProperties', 'getHostFullInfo', sprintf($req, $self->{propertyCollector}, $id));
 #    print $answer;
+
     my $ref = $self->_parseAnswer($answer);
     my $vms = [];
     my $machineIdList;
@@ -226,6 +278,36 @@ sub getHostFullInfo {
     return $host;
 }
 
+sub getHostIds {
+    my ($self) = @_;
+
+
+    if (!$self->{vcenter}) {
+        return ['ha-host'];
+    }
+
+    my $req = '<?xml version="1.0" encoding="UTF-8"?>
+   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soapenv:Body>
+<RetrieveProperties xmlns="urn:vim25"><_this type="PropertyCollector">propertyCollector</_this>
+<specSet><propSet><type>HostSystem</type><all>0</all></propSet><objectSet><obj type="Folder">group-d1</obj>
+<skip>0</skip><selectSet xsi:type="TraversalSpec"><name>folderTraversalSpec</name><type>Folder</type><path>childEntity</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet><selectSet><name>datacenterHostTraversalSpec</name></selectSet><selectSet><name>datacenterVmTraversalSpec</name></selectSet><selectSet><name>datacenterDatastoreTraversalSpec</name></selectSet><selectSet><name>datacenterNetworkTraversalSpec</name></selectSet><selectSet><name>computeResourceRpTraversalSpec</name></selectSet><selectSet><name>computeResourceHostTraversalSpec</name></selectSet><selectSet><name>hostVmTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterDatastoreTraversalSpec</name><type>Datacenter</type><path>datastoreFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterNetworkTraversalSpec</name><type>Datacenter</type><path>networkFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterVmTraversalSpec</name><type>Datacenter</type><path>vmFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterHostTraversalSpec</name><type>Datacenter</type><path>hostFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>computeResourceHostTraversalSpec</name><type>ComputeResource</type><path>host</path><skip>0</skip></selectSet><selectSet xsi:type="TraversalSpec"><name>computeResourceRpTraversalSpec</name><type>ComputeResource</type><path>resourcePool</path><skip>0</skip><selectSet><name>resourcePoolTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>resourcePoolTraversalSpec</name><type>ResourcePool</type><path>resourcePool</path><skip>0</skip><selectSet><name>resourcePoolTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>hostVmTraversalSpec</name><type>HostSystem</type><path>vm</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>resourcePoolVmTraversalSpec</name><type>ResourcePool</type><path>vm</path><skip>0</skip></selectSet></objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>';
+
+    my $answer = $self->_send('RetrieveProperties', 'getESXFullInfo', sprintf($req));
+    print $answer;
+    my $ref = $self->_parseAnswer($answer);
+
+    print Dumper($ref);
+
+    my @ids;
+    foreach (@$ref) {
+        push @ids, $_->{obj};
+    }
+
+    return \@ids;
+}
 
 
 
