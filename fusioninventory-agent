@@ -64,28 +64,26 @@ B<fusioninventory-agent> S<[ ... ]> S<[ I<--server server> | I<--local /tmp> ]>.
 =head1 EXAMPLES
 
     % fusioninventory-agent --server localhost
-    # send an inventory to the OCS server
+    # execute all available tasks required by a local server
 
     % fusioninventory-agent --server http://localhost/ocsinventory2
-    # send an inventory over http to a server with a non standard
-    # virtual directory
+    # execute all available tasks required by a local server, using a specific
+    # URI
 
     % fusioninventory-agent --server https://localhost/ocsinventory
-    # send an inventory over https to the OCS server
+    # execute all available tasks required by a local server, using a secure
+    # connection
+
+    % fusioninventory-agent --server localhost --user test --password s3cr3t
+    # execute all available tasks required by a local server, using HTTP
+    # authentication
 
     % fusioninventory-agent --local /tmp
-    # write an inventory in the /tmp directory
+    # execute all available tasks and write the result in /tmp directory
 
     % fusioninventory-agent --local /tmp --html
-    # Use the --html parameter to generate a HTML file
-
-    % fusioninventory-agent --server localhost --user=toto --password=pw --realm="Restricted Area"
-    # send a report to a server protected by a basic authentication
-    % fusioninventory-agent --lazy
-    # send an inventory only if a random delay between 0 and PROLOG_FREQ had been run over.
-
-    % fusioninventory-agent --delaytime 60 -d
-    # If NO PROLOG_FREQ has been preset, pick a time between execution and --delaytime for the agent to contact the server [default is 3600 seconds]
+    # execute all available tasks and write the result in /tmp directory in
+    # HTML format
 
 =head1 DESCRIPTION
 
