@@ -26,6 +26,32 @@ my $default = {
     'basevardir'              => $basevardir,
 };
 
+my $deprecated = {
+    'info' => {
+        message => 'and had no effect anyway'
+    },
+    'no-socket' => {
+        message => 'use --no-httpd option instead',
+        new     => 'no-httpd'
+    },
+    'rpc-ip' => {
+        message => 'use --httpd-ip option instead',
+        new     => 'httpd-ip'
+    },
+    'rpc-port' => {
+        message => 'use --httpd-port option instead',
+        new     => 'httpd-port'
+    },
+    'rpc-trust-localhost' => {
+        message => 'use --httpd-trust-localhost option instead',
+        new     => 'httpd-trust-localhost'
+    },
+    'daemon-no-fork' => {
+        message => 'use --daemon and --no-fork options instead',
+        new     => [ 'daemon', 'no-fork' ]
+    },
+};
+
 sub new {
     my ($class, $params) = @_;
 
@@ -157,44 +183,28 @@ sub loadUserParams {
 sub checkContent {
     my ($self) = @_;
 
-    if ($self->{'info'}) {
-        print STDERR
-            "the parameter --info is deprecated, and had no effect anyway\n";
-    }
+    # check for deprecated options
+    foreach my $old (keys %$deprecated) {
+        next unless $self->{$old};
 
-    if ($self->{'no-socket'}) {
-        print STDERR
-            "the --no-socket option is deprecated, use --no-httpd instead\n";
-        $self->{'no-httpd'} = 1;
-    }
+        my $handler = $deprecated->{$old};
 
-    if ($self->{'rpc-ip'}) {
-        print STDERR
-            "the --rpc-ip option is deprecated, use " .
-            "--httpd-ip instead\n";
-        $self->{'httpd-ip'} = $self->{'rpc-ip'};
-    }
+        # notify user of deprecation
+        print STDERR "the --$old option is deprecated, $handler->{message}\n";
 
-    if ($self->{'rpc-port'}) {
-        print STDERR
-            "the --rpc-port option is deprecated, use " .
-            "--httpd-port instead\n";
-        $self->{'httpd-port'} = $self->{'rpc-port'};
-    }
+        # transfer the value to the new option, if possible
+        if ($handler->{new}) {
+            if (ref $handler->{new} eq 'ARRAY') {
+                foreach my $new (@{$handler->{new}}) {
+                    $self->{$new} = $self->{$old};
+                }
+            } else {
+                $self->{$handler->{new}} = $self->{$old};
+            }
+        }
 
-    if ($self->{'rpc-trust-localhost'}) {
-        print STDERR
-            "the --rpc-trust-localhost option is deprecated, use " .
-            "--httpd-trust-localhost instead\n";
-        $self->{'httpd-trust-localhost'} = 1;
-    }
-
-    if ($self->{'daemon-no-fork'}) {
-        print STDERR
-            "the --daemon-no-fork option is deprecated, use --daemon " .
-            "--no-fork instead\n";
-        $self->{daemon} = 1;
-        $self->{'no-fork'} = 1;
+        # avoid cluttering configuration
+        delete $self->{$old};
     }
 
     # a logfile options implies a file logger backend
