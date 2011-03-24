@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use Getopt::Long;
+use Pod::Usage;
 
 Getopt::Long::Configure( "no_ignorecase" );
 
@@ -61,9 +62,9 @@ GetOptions(
     'user|u=s',
     'version',
     'wait|w=s',
-) or help();
+) or pod2usage(-verbose => 0);
 
-help() if $options->{help};
+pod2usage(-verbose => 0) if $options->{help};
 
 # In order to be able to relocate the librairie location we can't
 # load them with 'use' here.
@@ -112,83 +113,6 @@ if ($EVAL_ERROR) {
     exit 1;
 }
 
-sub help {
-    print STDERR <<EOF;
-
-Target definition options
-    -s --server=URI     send tasks result to a server
-    -l --local=DIR      write tasks results in a directory
-    --stdout            write tasks result on STDOUT
-
-Target scheduling options
-    --delaytime=DURATION        maximum initial delay before first target, in seconds (3600)
-    -w --wait=DURATION          maximum delay between each target, in seconds
-    --lazy                      do not contact the target before next scheduled time
-
-Task selection options
-    --no-ocsdeploy      do not run packages deployment task (false)
-    --no-inventory      do not run inventory task (false)
-    --no-wakeonlan      do not run wake on lan task (false)
-    --no-snmpquery      do not run snmp query task (false)
-    --no-netdiscovery   do not run net discovery task (false)
-
-Inventory task specific options
-    --no-printer        do not list local printers (false)
-    --no-software       do not list installed software (false)
-    --scan-homedirs     allow to scan use home directories (false)
-    --html              save the inventory as HTML (false)
-    -f --force          always send data to server (false)
-    -t --tag=TAG        mark the machine with given tag
-    --backend-collect-timeout   timeout for inventory modules execution (180)
-
-Package deployment task specific options
-    --no-p2p            do not use peer to peer to download files (false)
-
-Network options:
-    -P --proxy=PROXY    proxy address
-    -u --user=USER      user name for server authentication
-    -p --password=PWD   password for server authentication
-    -r --realm=REALM    realm for server authentication
-    --ca-cert-dir=D     path to the CA certificates directory
-    --ca-cert-file=F    path to the CA certificates file
-    --no-ssl-check      do not check server SSL certificates (false)
-
-Web interface options
-    --no-socket                 disable embedded web server (false)
-    --rpc-ip=IP                 network interface to listen to
-    --rpc-port=PORT             network port to listen to (62354)
-    --rpc-trust-localhost       trust local requests without authentication token (false)
-
-Logging options
-    --logger                    Logger backend, either Stderr, File or Syslog (Stderr)
-    --logfile=FILE              log file
-    --logfile-maxsize=X         maximum size of the log file in MB (0)
-    --logfacility=FACILITY      syslog facility (LOG_USER)
-    --color                     use color in the console (false)
-
-Agent setup options
-    --basevardir=DIR            path to the writable data files
-    --share-dir=DIR             path to the read-only data files
-    --conf-file=FILE            path to an alternative config file
-    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable (false)
-    --devlib                    search for Backend modules in ./lib only (false)
-
-Execution mode options
-    -d --daemon                 run the agent as a daemon (false)
-    -D --daemon-no-fork         run the agent as a daemon but don't fork in background (false)
-    -i --info                   verbose mode (false)
-    --debug                     debug mode (false)
-    --version                   print the version and exit
-
-Manpage:
-    See man fusioninventory-agent
-
-FusionInventory-Agent is released under GNU GPL 2 license
-EOF
-
-    exit 1;
-}
-
 sub version {
     print "FusionInventory Agent (".$FusionInventory::Agent::VERSION.")\n";
     exit 0;
@@ -202,7 +126,72 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> S<[ ... ]> S<[ I<--server server> | I<--local /tmp> ]>...
+B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
+
+  Target definition options
+    -s --server=URI     send tasks result to a server
+    -l --local=DIR      write tasks results in a directory
+    --stdout            write tasks result on STDOUT
+
+  Target scheduling options
+    --delaytime=DURATION        maximum initial delay before first target, in seconds (3600)
+    -w --wait=DURATION          maximum delay between each target, in seconds
+    --lazy                      do not contact the target before next scheduled time
+
+  Task selection options
+    --no-ocsdeploy      do not run packages deployment task (false)
+    --no-inventory      do not run inventory task (false)
+    --no-wakeonlan      do not run wake on lan task (false)
+    --no-snmpquery      do not run snmp query task (false)
+    --no-netdiscovery   do not run net discovery task (false)
+
+  Inventory task specific options
+    --no-printer        do not list local printers (false)
+    --no-software       do not list installed software (false)
+    --scan-homedirs     allow to scan use home directories (false)
+    --html              save the inventory as HTML (false)
+    -f --force          always send data to server (false)
+    -t --tag=TAG        mark the machine with given tag
+    --backend-collect-timeout   timeout for inventory modules execution (180)
+
+  Package deployment task specific options
+    --no-p2p            do not use peer to peer to download files (false)
+
+  Network options:
+    -P --proxy=PROXY    proxy address
+    -u --user=USER      user name for server authentication
+    -p --password=PWD   password for server authentication
+    -r --realm=REALM    realm for server authentication
+    --ca-cert-dir=D     path to the CA certificates directory
+    --ca-cert-file=F    path to the CA certificates file
+    --no-ssl-check      do not check server SSL certificates (false)
+
+  Web interface options
+    --no-socket                 disable embedded web server (false)
+    --rpc-ip=IP                 network interface to listen to
+    --rpc-port=PORT             network port to listen to (62354)
+    --rpc-trust-localhost       trust local requests without authentication token (false)
+
+  Logging options
+    --logger                    Logger backend, either Stderr, File or Syslog (Stderr)
+    --logfile=FILE              log file
+    --logfile-maxsize=X         maximum size of the log file in MB (0)
+    --logfacility=FACILITY      syslog facility (LOG_USER)
+    --color                     use color in the console (false)
+
+  Agent setup options
+    --basevardir=DIR            path to the writable data files
+    --share-dir=DIR             path to the read-only data files
+    --conf-file=FILE            path to an alternative config file
+    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable (false)
+    --devlib                    search for Backend modules in ./lib only (false)
+
+  Execution mode options
+    -d --daemon                 run the agent as a daemon (false)
+    -D --daemon-no-fork         run the agent as a daemon but don't fork in background (false)
+    -i --info                   verbose mode (false)
+    --debug                     debug mode (false)
+    --version                   print the version and exit
 
 =head1 EXAMPLES
 
