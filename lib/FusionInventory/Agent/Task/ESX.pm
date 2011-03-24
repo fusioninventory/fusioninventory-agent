@@ -53,14 +53,6 @@ sub createFakeDeviceid {
     return $deviceid;
 }
 
-sub createVCenterInventory {
-    my ($self, $job) = @_;
-
-    return unless $self->{connected};
-
-    $self->{vpbs}->getVCenterFullInfo();
-}
-
 sub createInventory {
     my ($self, $id) = @_;
 
@@ -215,10 +207,6 @@ sub main {
 
             $inventory->writeXML();
         }
-
-
-        #$self->createEsxInventory($job);
-        $self->createVCenterInventory($job);
     }
 
     return $self;
