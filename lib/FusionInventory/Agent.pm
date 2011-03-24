@@ -7,6 +7,7 @@ use Cwd;
 use English qw(-no_match_vars);
 use File::Path;
 use Sys::Hostname;
+use UNIVERSAL::require;
 use XML::Simple;
 
 use FusionInventory::Logger;
@@ -259,6 +260,12 @@ sub main {
         foreach my $module (@tasks) {
 
             next if $config->{'no-'.lc($module)};
+
+            my $package = "FusionInventory::Agent::Task::$module";
+            if (!$package->require()) {
+                $logger->info("Module $package is not installed.");
+                next;
+            }
 
             my $task = FusionInventory::Agent::Task->new({
                 config => $config,

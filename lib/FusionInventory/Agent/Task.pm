@@ -22,25 +22,7 @@ sub new {
     my $module = $self->{module};
 
     bless $self, $class;
-    if (!$self->isModInstalled()) {
-        $logger->debug("Module FusionInventory::Agent::Task::$module is not installed.");
-        return;
-    }
-
-
     return $self;
-}
-
-sub isModInstalled {
-    my ($self) = @_;
-
-    my $module = $self->{module};
-
-    foreach my $inc (@INC) {
-        return 1 if -f $inc.'/FusionInventory/Agent/Task/'.$module.'.pm'; 
-    }
-
-    return 0;
 }
 
 sub run {
