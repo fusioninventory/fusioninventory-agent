@@ -181,7 +181,6 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
   Execution mode options
     -d --daemon                 run the agent as a daemon (false)
     --no-fork                   don't fork in background (false)
-    -i --info                   verbose mode (false)
     --debug                     debug mode (false)
     --version                   print the version and exit
 
@@ -572,10 +571,6 @@ Run the agent as a daemon.
 Don't fork in background.
 
 This is only useful when running as a daemon.
-
-=item B<-i>, B<--info>
-
-Turn the verbose mode on.
 
 =item B<--debug>
 

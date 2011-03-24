@@ -18,7 +18,6 @@ if ($OSNAME eq 'MSWin32') {
 }
 
 my $default = {
-    'info'                    => 1,
     'logger'                  => 'Stderr',
     'logfacility'             => 'LOG_USER',
     'delaytime'               => 3600,
@@ -157,6 +156,11 @@ sub loadUserParams {
 
 sub checkContent {
     my ($self) = @_;
+
+    if ($self->{'info'}) {
+        print STDERR
+            "the parameter --info is deprecated, and had no effect anyway\n";
+    }
 
     if ($self->{'daemon-no-fork'}) {
         print STDERR
