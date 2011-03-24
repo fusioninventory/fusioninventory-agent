@@ -2092,13 +2092,9 @@ Whether or not it is a HP iLO, Sun SC, HP MP or other kind of Remote Management 
 
 Interface speed in Mb/s
 
-=back
-
 =item BSSID
 
 Wifi only, Access point MAC Address
-
-=back
 
 =item SSID
 
