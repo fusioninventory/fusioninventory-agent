@@ -158,6 +158,14 @@ sub loadUserParams {
 sub checkContent {
     my ($self) = @_;
 
+    if ($self->{'daemon-no-fork'}) {
+        print STDERR
+            "the parameter --daemon-no-fork is deprecated, use --daemon " .
+            "--no-fork instead\n";
+        $self->{daemon} = 1;
+        $self->{'no-fork'} = 1;
+    }
+
     # a logfile options implies a file logger backend
     if ($self->{logfile}) {
         $self->{logger} .= ',File';

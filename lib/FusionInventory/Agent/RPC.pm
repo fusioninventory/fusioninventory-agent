@@ -66,11 +66,7 @@ sub new {
     return $self if $config->{'no-socket'};
 
     $SIG{PIPE} = 'IGNORE';
-    if (
-        $config->{daemon}           ||
-        $config->{'daemon-no-fork'} ||
-        $config->{winService}
-    ) {
+    if ($config->{daemon} || $config->{winService}) {
         $self->{thr} = threads->create('server', $self);
     }
 

@@ -20,7 +20,7 @@ GetOptions(
     'conf-file=s',
     'color',
     'daemon|d',
-    'daemon-no-fork|D',
+    'no-fork',
     'debug',
     'delaytime=s',
     'devlib',
@@ -180,7 +180,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
 
   Execution mode options
     -d --daemon                 run the agent as a daemon (false)
-    -D --daemon-no-fork         run the agent as a daemon but don't fork in background (false)
+    --no-fork                   don't fork in background (false)
     -i --info                   verbose mode (false)
     --debug                     debug mode (false)
     --version                   print the version and exit
@@ -567,9 +567,11 @@ This option can only be used as command line argument.
 
 Run the agent as a daemon.
 
-=item B<-D>, B<--daemon-no-fork>
+=item B<--no-fork>
 
-Run the agent as a daemon but don't fork in background.
+Don't fork in background.
+
+This is only useful when running as a daemon.
 
 =item B<-i>, B<--info>
 

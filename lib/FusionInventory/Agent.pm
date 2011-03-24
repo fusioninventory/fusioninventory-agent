@@ -127,7 +127,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         exit 1;
     }
 
-    if ($config->{daemon}) {
+    if ($config->{daemon} && !$config->{'no-fork'}) {
 
         $logger->debug("Time to call Proc::Daemon");
 
