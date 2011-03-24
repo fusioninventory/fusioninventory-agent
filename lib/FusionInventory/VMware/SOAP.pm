@@ -215,6 +215,8 @@ sub _getVirtualMachineById {
         ';
 
     my $answer = $self->_send('RetrieveProperties', 'RetrieveProperties-VM-'.$id, sprintf($req, $self->{propertyCollector}, $id));
+    # hack to preserve  annotation / comment formating
+    $answer =~ s/\n/&#10;/gm;
 
     my $ref = $self->_parseAnswer($answer);
     return $ref;
@@ -255,7 +257,6 @@ sub getHostFullInfo {
 
     my $answer = $self->_send('RetrieveProperties', 'getHostFullInfo', sprintf($req, $self->{propertyCollector}, $id));
 #    print $answer;
-
     my $ref = $self->_parseAnswer($answer);
     my $vms = [];
     my $machineIdList;
@@ -272,7 +273,6 @@ sub getHostFullInfo {
     foreach my $id (@$machineIdList) {
         push @$vms, $self->_getVirtualMachineById($id);
     }
-
 
     my $host = FusionInventory::VMware::SOAP::Host->new($ref, $vms);
     return $host;

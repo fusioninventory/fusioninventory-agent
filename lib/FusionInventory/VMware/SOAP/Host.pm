@@ -314,16 +314,20 @@ sub getVirtualMachines {
             print "Unknown status\n";
             print Dumper($_->[0]);
         }
+        my $comment = eval { $_->[0]{config}{annotation} };
+# hack to preserve  annotation / comment formating
+        $comment =~ s/\n/&#10;/gm if $comment;
 
         push @$ret, {
-            VMID => $_->[0]{summary}{vm},
-            NAME => $_->[0]{name},
+            VMID => eval { $_->[0]{summary}{vm} },
+            NAME => eval { $_->[0]{name} },
             STATUS => $status,
-            UUID => $_->[0]{summary}{config}{uuid},
-            MEMORY => $_->[0]{summary}{config}{memorySizeMB},
+            UUID => eval { $_->[0]{summary}{config}{uuid}},
+            MEMORY => eval { $_->[0]{summary}{config}{memorySizeMB} },
             VMTYPE => 'VMware',
-            VCPU => $_->[0]{summary}{config}{numCpu},
-            MAC => join '/', @mac,
+            VCPU => eval { $_->[0]{summary}{config}{numCpu} },
+            MAC => join ('/', @mac),
+            COMMENT => $comment
         };
     }
 
