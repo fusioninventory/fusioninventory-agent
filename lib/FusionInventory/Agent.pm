@@ -257,6 +257,9 @@ sub main {
             /;
 
         foreach my $module (@tasks) {
+
+            next if $config->{'no-'.lc($module)};
+
             my $task = FusionInventory::Agent::Task->new({
                 config => $config,
                 logger => $logger,

@@ -21,10 +21,6 @@ sub new {
     my $logger = $self->{logger};
     my $module = $self->{module};
 
-
-    return if $config->{'no-'.lc($self->{module})};
-
-
     bless $self, $class;
     if (!$self->isModInstalled()) {
         $logger->debug("Module FusionInventory::Agent::Task::$module is not installed.");
