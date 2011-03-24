@@ -53,7 +53,6 @@ GetOptions(
     'rpc-ip=s',
     'rpc-port=s',
     'rpc-trust-localhost',
-    'remotedir|R=s',
     'scan-homedirs',
     'share-dir=s',
     'server|s=s',
