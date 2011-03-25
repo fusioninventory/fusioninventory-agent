@@ -795,6 +795,7 @@ sub addVirtualMachine {
         VMID
         MAC
         COMMENT
+        OWNER
     /;
 
     if (!$args->{STATUS}) {
@@ -1953,7 +1954,9 @@ The list of the MAC addresses of the virtual machine. The delimiter is '/'. e.g:
 
 =item COMMENT
 
-A comment
+a comment
+
+=item OWNER
 
 =back
 

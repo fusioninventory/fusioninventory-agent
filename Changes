@@ -16,7 +16,7 @@ Revision history for FusionInventory::Agent
        * HPUX: use NAME instead of TYPE to set the CPU name (Yanick Durant)
          http://forum.fusioninventory.org/viewtopic.php?id=278
        * Document NETWORKS/{BSSID,SSID}
-       * Add VIRTUALMACHINES/COMMENT key
+       * Add VIRTUALMACHINES/COMMENT and OWNER keys
 
 2.1.8_rc1  Sat, 05 Mar 2011 14:56:58 +0100
        * Linux, correctly read the number of core from /proc/cpuinfo
