@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-use Data::Dumper;
 
 sub new {
     my (undef, $hash, $vms) = @_;
@@ -314,7 +313,7 @@ sub getVirtualMachines {
 
         if (!$status) {
             print "Unknown status\n";
-            print Dumper($_->[0]);
+#            print Dumper($_->[0]);
         }
         my $comment = eval { $_->[0]{config}{annotation} };
 # hack to preserve  annotation / comment formating

@@ -3,10 +3,9 @@ package FusionInventory::VMware::SOAP;
 use strict;
 use warnings;
 
-use Data::Dumper;
 use XML::TreePP;
 use LWP::UserAgent;
-use HTTP::Cookies; #for testing
+use HTTP::Cookies;
 
 use FusionInventory::VMware::SOAP::Host;
 

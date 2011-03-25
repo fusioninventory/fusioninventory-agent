@@ -10,9 +10,6 @@ use FusionInventory::Agent::Config;
 use FusionInventory::VMware::SOAP;
 use FusionInventory::Logger;
 
-use Data::Dumper;
-
-
 sub connect {
     my ($self, $job) = @_;
 
