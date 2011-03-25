@@ -120,7 +120,10 @@ sub connect {
 
 
     my $answer = $self->_send('ServiceInstance', 'ServiceInstance', $req);
+    return unless $answer;
+
     my $serviceInstance = $self->_parseAnswer($answer);
+    return unless $serviceInstance;
 
     if ($serviceInstance->[0]{about}{apiType} eq 'VirtualCenter') {
         $self->{vcenter} = 1; # TODO
@@ -143,7 +146,8 @@ sub connect {
         <userName>%s</userName><password>%s</password></Login></soapenv:Body></soapenv:Envelope>';
 
     $answer = $self->_send('Login', 'Login', sprintf($req, $self->{sessionManager}, $login, $pw));
-    die if $answer =~ /ServerFaultCode/m;
+    return unless $answer;
+    return if $answer =~ /ServerFaultCode/m;
 
     return $self->_parseAnswer($answer);
 
