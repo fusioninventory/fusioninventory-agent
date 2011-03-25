@@ -1,6 +1,6 @@
 package FusionInventory::Agent::Task::ESX;
 
-our $VERSION = "0.0.1";
+our $VERSION = "1.0.0";
 
 use strict;
 use warnings;
