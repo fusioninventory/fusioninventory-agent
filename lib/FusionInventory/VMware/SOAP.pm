@@ -43,6 +43,7 @@ sub _loadSOAPDump {
 }
 
 sub _storeSOAPDump {
+#    return; # DEBUG
     my ($self, $action, $data) = @_;
     open(FILE, ">$action.soap") or die;
     print FILE $data;
@@ -225,6 +226,8 @@ sub _getVirtualMachineById {
 
 sub getHostFullInfo {
     my ($self, $id) = @_;
+
+    $id = 'ha-host' unless $id;
 
     my $req = '<?xml version="1.0" encoding="UTF-8"?>
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"

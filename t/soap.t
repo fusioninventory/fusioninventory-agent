@@ -12,7 +12,7 @@ use Data::Dumper;
 
 my %test = (
     'esx-4.1.0-1' => {
-        'login()' => [
+        'connect()' => [
           {
             'lastActiveTime' => '1970-01-25T03:53:04.326969+01:00',
             'loginTime' => '1970-01-25T03:53:04.326969+01:00',
@@ -63,7 +63,7 @@ my %test = (
             'PCICLASS' => '500',
             'NAME' => 'MCP55 Memory Controller',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:369',
+            'PCIID' => '10de:0369',
             'PCISLOT' => '00:00.0'
           },
           {
@@ -71,7 +71,7 @@ my %test = (
             'PCICLASS' => '601',
             'NAME' => 'MCP55 LPC Bridge',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:364',
+            'PCIID' => '10de:0364',
             'PCISLOT' => '00:01.0'
           },
           {
@@ -79,7 +79,7 @@ my %test = (
             'PCICLASS' => 'c05',
             'NAME' => 'MCP55 SMBus',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:368',
+            'PCIID' => '10de:0368',
             'PCISLOT' => '00:01.1'
           },
           {
@@ -87,7 +87,7 @@ my %test = (
             'PCICLASS' => 'c03',
             'NAME' => 'MCP55 USB Controller',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:36c',
+            'PCIID' => '10de:036c',
             'PCISLOT' => '00:02.0'
           },
           {
@@ -95,7 +95,7 @@ my %test = (
             'PCICLASS' => 'c03',
             'NAME' => 'MCP55 USB Controller',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:36d',
+            'PCIID' => '10de:036d',
             'PCISLOT' => '00:02.1'
           },
           {
@@ -103,7 +103,7 @@ my %test = (
             'PCICLASS' => '101',
             'NAME' => 'NVidia NForce MCP55 IDE/PATA Controller',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:36e',
+            'PCIID' => '10de:036e',
             'PCISLOT' => '00:04.0'
           },
           {
@@ -111,7 +111,7 @@ my %test = (
             'PCICLASS' => '101',
             'NAME' => 'MCP55 SATA Controller',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:37f',
+            'PCIID' => '10de:037f',
             'PCISLOT' => '00:05.0'
           },
           {
@@ -119,7 +119,7 @@ my %test = (
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI bridge',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:370',
+            'PCIID' => '10de:0370',
             'PCISLOT' => '00:06.0'
           },
           {
@@ -127,7 +127,7 @@ my %test = (
             'PCICLASS' => '680',
             'NAME' => 'nVidia NForce Network Controller',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:373',
+            'PCIID' => '10de:0373',
             'PCISLOT' => '00:08.0'
           },
           {
@@ -135,7 +135,7 @@ my %test = (
             'PCICLASS' => '680',
             'NAME' => 'nVidia NForce Network Controller',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:373',
+            'PCIID' => '10de:0373',
             'PCISLOT' => '00:09.0'
           },
           {
@@ -143,7 +143,7 @@ my %test = (
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:376',
+            'PCIID' => '10de:0376',
             'PCISLOT' => '00:0a.0'
           },
           {
@@ -151,7 +151,7 @@ my %test = (
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:374',
+            'PCIID' => '10de:0374',
             'PCISLOT' => '00:0b.0'
           },
           {
@@ -159,7 +159,7 @@ my %test = (
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:374',
+            'PCIID' => '10de:0374',
             'PCISLOT' => '00:0c.0'
           },
           {
@@ -167,7 +167,7 @@ my %test = (
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:378',
+            'PCIID' => '10de:0378',
             'PCISLOT' => '00:0d.0'
           },
           {
@@ -175,7 +175,7 @@ my %test = (
             'PCICLASS' => '604',
             'NAME' => 'MCP55 PCI Express bridge',
             'MANUFACTURER' => 'nVidia Corporation',
-            'PCIID' => '10de:377',
+            'PCIID' => '10de:0377',
             'PCISLOT' => '00:0f.0'
           },
           {
@@ -255,7 +255,7 @@ my %test = (
             'PCICLASS' => '604',
             'NAME' => 'EPB PCI-Express to PCI-X Bridge',
             'MANUFACTURER' => 'Broadcom',
-            'PCIID' => '1166:103',
+            'PCIID' => '1166:0103',
             'PCISLOT' => '05:00.0'
           },
           {
@@ -391,6 +391,7 @@ my %test = (
           {
             'NAME' => 'ubuntu',
             'STATUS' => 'running',
+            'COMMENT' => '',
             'MAC' => '00:0c:29:06:42:d8',
             'VMID' => '16',
             'VMTYPE' => 'VMware',
@@ -401,6 +402,7 @@ my %test = (
           {
             'NAME' => 'windows',
             'STATUS' => 'running',
+            'COMMENT' => '',
             'MAC' => '00:0c:29:58:44:c8',
             'VMID' => '32',
             'VMTYPE' => 'VMware',
@@ -411,6 +413,7 @@ my %test = (
           {
             'NAME' => 'solaris',
             'STATUS' => 'running',
+            'COMMENT' => '',
             'MAC' => '00:0c:29:5f:64:60',
             'VMID' => '48',
             'VMTYPE' => 'VMware',
@@ -421,6 +424,7 @@ my %test = (
           {
             'NAME' => 'Nouvelle machine virtuelle',
             'STATUS' => 'off',
+            'COMMENT' => '',
             'MAC' => '',
             'VMID' => '64',
             'VMTYPE' => 'VMware',
@@ -428,7 +432,6 @@ my %test = (
             'UUID' => '564d79a4-7ea6-3423-2980-0c882a78f698',
             'VCPU' => '1'
           }
-
         ]
     },
 );
@@ -442,8 +445,8 @@ foreach my $dir (glob('resources/*')) {
     });
 
     my $ret;
-    lives_ok{$ret = $vpbs->login('foo', 'bar')} $testName.' login()';
-    is_deeply($ret, $test{$testName}{'login()'}, 'login()') or print  Dumper($ret);
+    lives_ok{$ret = $vpbs->connect('foo', 'bar')} $testName.' connect()';
+    is_deeply($ret, $test{$testName}{'connect()'}, 'connect()') or print  Dumper($ret);
 
     lives_ok{$ret = $vpbs->getHostFullInfo()} $testName.' getHostFullInfo()';
 
