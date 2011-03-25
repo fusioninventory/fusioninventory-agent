@@ -38,7 +38,7 @@ Revision history for FusionInventory::Agent
          to collect the memories slot, thanks Guillaume GARSON for the bug report
          http://forge.fusioninventory.org/issues/395
 
-2.1.8
+2.1.8  Fri, 25 Mar 2011 16:09:15 +0100
        * Show a larger part of the string returned by the server in case of
          error
        * Win32: Decrease the severity of a winkey read error
