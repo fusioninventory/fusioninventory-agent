@@ -12,14 +12,13 @@ my %cpu_tests = (
     'hpux_11.31_3xia64' => {
         'CPUcount' => '3',
         'SPEED' => '1600',
-        'TYPE'  => 'Itanium',
+        'NAME'  => 'Itanium',
         'MANUFACTURER' => 'Intel',
     },
     'hpux_11.23.ia64' => {
         'CPUcount' => '2',
-        'TYPE'  => 'Itanium',
+        'NAME'  => 'Itanium',
         'MANUFACTURER' => 'Intel',
-        'TYPE' => 'Itanium',
         'SPEED' => '1600'
     }
 
