@@ -5,9 +5,6 @@ You can import the generated files in:
  - ocsinventory
  - Uranos
 
-For the moment you can only use the command line interface and you need the current
-git of FusionInventory::Agent.
-
 In this example, ../agent is a git clone of the 2.1.x branch of the agent:
   perl -I../fusioninventory-agent/lib -Ilib ./fusioninventory-esx --user root --password password --host esx-server --directory /tmp
   [info] Inventory saved in /tmp/esx-server-2011-01-25-14-11-07.ocs
