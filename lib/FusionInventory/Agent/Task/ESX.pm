@@ -16,7 +16,7 @@ use Data::Dumper;
 sub connect {
     my ($self, $job) = @_;
 
-    my $url = 'http://'.$job->{addr}.'/sdk/vimService';
+    my $url = 'https://'.$job->{addr}.'/sdk/vimService';
 
     my $vpbs = FusionInventory::VMware::SOAP->new({ url => $url, vcenter => 1 });
     if (!$vpbs->connect($job->{login}, $job->{passwd})) {
