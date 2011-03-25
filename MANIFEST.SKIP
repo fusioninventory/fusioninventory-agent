@@ -1,4 +1,3 @@
-.*\.soap
 .*\.sw.
 Makefile$
 Makefile.old$
