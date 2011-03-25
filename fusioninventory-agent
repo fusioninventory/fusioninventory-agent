@@ -558,7 +558,8 @@ The command line parameters overwrite the configuration file.
 
 Some modules like SNMPQuery needs to sent credential from the agent to the
 agent. We recommend to enable HTTPS support on the OCS or FusionInventory
-For GLPI server.
+For GLPI server. We also recommend to use only trusted machine as agent in
+this case.
 
 =head1 AUTHORS
 
@@ -621,8 +622,7 @@ IRC: #FusionInventory on FreeNode IRC Network
 
 =head1 BUGS
 
-Please, use the mailing lists as much as possible. You can open your own bug
-tickets. Patches are welcome. You can also use the bugtracker on
+Please, use the mailing lists as much as possible. You can also use the bugtracker on
 http://forge.fusionInventory.org
 
 
