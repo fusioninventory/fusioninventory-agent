@@ -4,14 +4,14 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    return can_run("pacman");
+    return can_run("/usr/bin/pacman");
 }
 
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-    foreach(`pacman -Q`){
+    foreach(`/usr/bin/pacman -Q`){
         /^(\S+)\s+(\S+)/;
         my $name = $1;
         my $version = $2;
