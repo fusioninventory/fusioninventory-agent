@@ -213,23 +213,21 @@ sub StartThreads {
       $ModuleNmapParser = 1;
       my $scan = new Nmap::Parser;
    } elsif ( eval { require Nmap::Scanner; 1 } ) {
-      if ($@) {
-         $self->{logger}->debug("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
-      } else {
-         $ModuleNmapScanner = 1;
-      }
+       $ModuleNmapScanner = 1;
+   } else {
+       $self->{logger}->error("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
    }
    
    if ( eval { require Net::NBName; 1 } ) {
       $ModuleNetNBName = 1;
    } else {
-      $self->{logger}->debug("Can't load Net::NBName. Netbios detection can't be used!");
+      $self->{logger}->error("Can't load Net::NBName. Netbios detection can't be used!");
    }
 
    if ( eval { require Net::SNMP; 1 } ) {
       $ModuleNetSNMP = 1;
    } else {
-      $self->{logger}->debug("Can't load Net::SNMP. SNMP detection can't be used!");
+      $self->{logger}->error("Can't load Net::SNMP. SNMP detection can't be used!");
    }
 
 
