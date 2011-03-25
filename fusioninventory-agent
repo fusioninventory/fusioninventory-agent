@@ -391,9 +391,17 @@ You can use more than one parameter if you use ',' as delimiter. E.g:
 
  % fusioinventory-agent --logger=Syslog,Stderr --local=/tmp
 
+=item B<--no-deploy>
+
+Disable the software deployment (new module).
+
+=item B<--no-esx>
+
+Disable the ESX inventory task.
+
 =item B<--no-ocsdeploy>
 
-Disable the software deployment.
+Disable the software deployment (OCS compatible module).
 
 =item B<--no-inventory>
 

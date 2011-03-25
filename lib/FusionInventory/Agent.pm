@@ -266,11 +266,13 @@ sub main {
         });
 
         my @tasks = qw/
+            Deploy
             OcsDeploy
             Inventory
             WakeOnLan
             SNMPQuery
             NetDiscovery
+            ESX
             /;
 
         foreach my $module (@tasks) {

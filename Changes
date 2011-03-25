@@ -1,5 +1,9 @@
 Revision history for FusionInventory::Agent
 
+2.1.x+deploy
+       * add support for the task called «Deploy»
+       * add support for the task called «ESX»
+
 2.1.8
        * Show a larger part of the string returned by the server in case of
          error

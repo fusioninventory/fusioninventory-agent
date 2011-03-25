@@ -49,6 +49,8 @@ my $default = {
     'version'                 => 0,
     'wait'                    => '',
 #   'xml'                     => 0,
+    'no-deploy'               => 0,
+    'no-esx'                  => 0,
     'no-ocsdeploy'            => 0,
     'no-inventory'            => 0,
     'nosoft'                  => 0, # deprecated
@@ -223,6 +225,8 @@ sub loadUserParams {
         'logfile-maxsize=i',
         'nosoft',
         'nosoftware',
+        'no-deploy',
+        'no-esx',
         'no-ocsdeploy',
         'no-inventory',
         'no-printer',
@@ -298,6 +302,8 @@ SSL options:
     --ca-cert-file=F    SSL certificate file ($config->{'ca-cert-file'})
 
 Disable options:
+    --no-deploy         do not deploy packages or run command with the new deploy task ($config->{'no-deploy'})
+    --no-esx            do not use the ESX inventory module ($config->{'no-esx'})
     --no-ocsdeploy      do not deploy packages or run command ($config->{'no-ocsdeploy'})
     --no-inventory      do not generate inventory ($config->{'no-inventory'})
     --no-printer        do not return printer list in inventory $config->{'no-printer'})
