@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent::Task::NetDiscovery
 
+1.3
+       * Drop the --local mode
+
 1.2
        * Convert printer name from hexa to string
        * Fix bad characters in hexatostring
