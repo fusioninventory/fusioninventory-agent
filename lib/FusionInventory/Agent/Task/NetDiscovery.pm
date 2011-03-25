@@ -966,7 +966,7 @@ sub discovery_ip_threaded {
       $datadevice->{ENTITY} = $params->{entity};
       $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
    } else {
-      $self->{logger}->debug("[$params->{ip}] Not found !");
+      $self->{logger}->debug("[$params->{ip}] Not found");
    }
    return $datadevice;
 }
