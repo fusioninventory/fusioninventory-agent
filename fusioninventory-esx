@@ -19,18 +19,19 @@ sub usage {
 
     print STDERR <<EOF;
 
-    A command line tool to create .ocs file from an ESX server.
+    A command line tool to create .ocs file from an vCenter,ESX and ESXi VMware server.
 
         USAGE:
         --host hostname        : hostname is the hostname of the IP address of the ESX server
-        --user username        : the ESX user name
-        --password xxxx        : the ESX password
+        --user username        : the user name
+        --password xxxx        : the password
         --directory /somewhere : the location where the .ocs file must be written
 
         EXAMPLE:
         $0 --host myesx --user foo --password bar --directory /tmp
 
         You can import the .ocs file in your inventory server with the fusioninventory-injector tool.
+        fusioninventory-injector -v --file /tmp/*.ocs -u https://myserver/ocsinventory
 
         The .ocs file can be imported in the following servers:
         - ocsinventory
@@ -63,3 +64,123 @@ foreach my $hostId (@$hostIds) {
 
     $inventory->writeXML();
 }
+
+__END__
+
+=head1 NAME
+
+fusioninventory-agent - vCenter/ESX/ESXi remote inventory for FusionInventory or OCSInventory
+
+=head1 SYNOPSIS
+
+B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> I<--directory /tmp> ]>
+
+=head1 EXAMPLES
+
+    % fusioninventory-esx --host myesx --user foo --password bar --directory /tmp
+
+
+You can import the .ocs file in your inventory server with the fusioninventory-injector tool.
+    %fusioninventory-injector -v --file /tmp/*.ocs -u https://myserver/ocsinventory
+
+=head1 DESCRIPTION
+
+F<fusioninventory-esx> creates inventory of remote ESX/ESXi and vCenter VMware.
+It uses the SOAP interface of the remote server.
+
+Supported systems:
+
+=over 4
+
+=item F<ESX and ESXi 3.5>
+
+=item F<ESX and ESXi 4.1>
+
+=item F<vCenter 4.1>
+
+=back
+
+=head1 AUTHORS
+
+This module has been written by TECLIB'.
+
+The maintainer is Goneri LE BOUDER <goneri@rulezlan.org>
+
+The FusionInventory project L<fusioninventory-devel@lists.alioth.debian.org>
+
+=head1 SEE ALSO
+
+=over 4
+
+=item
+
+FusionInventory website: L<http://www.FusionInventory.org/>
+
+=item
+
+project Forge: L<http://Forge.FusionInventory.org>
+
+=item
+
+The source code of the agent is available on:
+
+=over
+
+=item
+
+Gitorious: L<http://gitorious.org/fusioninventory>
+
+=item
+
+Github: Lhttps://github.com/fusinv/fusioninventory-agent-task-esx>
+
+=back
+
+=item
+
+The mailing lists:
+
+=over
+
+=item
+
+L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-devel>
+
+=item
+
+L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-user>
+
+=back
+
+=item
+
+IRC: #FusionInventory on FreeNode IRC Network
+
+=back
+
+=head1 BUGS
+
+Please, use the mailing lists as much as possible. You can also use the bugtracker on
+http://forge.fusionInventory.org
+
+
+=head1 COPYRIGHT
+
+Copyright (C) 2011 FusionInventory project
+Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+=cut
