@@ -56,6 +56,8 @@ Revision history for FusionInventory::Agent
        * Document NETWORKS/{BSSID,SSID}
        * Add VIRTUALMACHINES/COMMENT and OWNER keys
        * VirtualBox: major rewrite of the mostly broken Vbox mod
+       * add support for the task called «Deploy»
+       * add support for the task called «ESX»
 
 2.1.8_rc1  Sat, 05 Mar 2011 14:56:58 +0100
        * Linux, correctly read the number of core from /proc/cpuinfo
