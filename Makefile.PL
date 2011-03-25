@@ -12,6 +12,9 @@ perl_version '5.008';
 # mandatory dependencies
 requires 'FusionInventory::Agent'        => 2.1.8;
 requires 'Getopt::Long'                  => undef;
+requires 'XML::TreePP'                   => undef;
+requires 'LWP::UserAgent'                => undef;
+requires 'HTTP::Cookies'                 => undef;
 
 test_requires 'Test::More'               => undef;
 test_requires 'Test::Exception'          => undef;
