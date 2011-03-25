@@ -10,6 +10,7 @@ use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
 use Encode qw(encode);
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 
@@ -51,7 +52,7 @@ my %fields = (
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
     VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
-                            VMID MAC/ ],
+                            VMID MAC COMMENT OWNER/ ],
 );
 
 sub new {
@@ -611,7 +612,6 @@ sub saveState {
     );
 }
 
-1;
 
 __END__
 
@@ -1327,6 +1327,12 @@ The ID of virtual machine in the virtual managment system.
 
 The list of the MAC addresses of the virtual machine. The delimiter is '/'. e.g: 00:23:18:91:db:8d/00:23:57:31:sb:8e
 
+=item COMMENT
+
+a comment
+
+=item OWNER
+
 =back
 
 =head2 SOUNDS
@@ -1468,6 +1474,14 @@ Whether or not it is a HP iLO, Sun SC, HP MP or other kind of Remote Management 
 =item SPEED
 
 Interface speed in Mb/s
+
+=item BSSID
+
+Wifi only, Access point MAC Address
+
+=item SSID
+
+Wifi only, Access point name
 
 =back
 
