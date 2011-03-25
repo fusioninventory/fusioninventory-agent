@@ -1102,55 +1102,6 @@ sub verifySerial {
 }
 
 
-sub printXML {
-  my ($self, $args) = @_;
-
-  print $self->getContent();
-}
-
-
-sub writeXML {
-  my ($self, $message) = @_;
-
-  my $logger = $self->{logger};
-  my $config = $self->{config};
-  my $target = $self->{target};
-
-  if ($target->{path} =~ /^$/) {
-    $logger->fault ('local path unititalised!');
-  }
-
-   my $dir = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-  $dir =~ s/\//-/;
-
-  my $localfile = $target->{vardir}."/".$target->{deviceid}.'.'.$dir.'-'.$self->{countxml}.'.xml';
-  $localfile =~ s!(//){1,}!/!;
-
-  $self->{countxml} = $self->{countxml} + 1;
-
-  # Convert perl data structure into xml strings
-
-   my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
-        {
-            config => $self->{config},
-            logger => $self->{logger},
-            target => $self->{target},
-            msg    => {
-                QUERY => 'NETDISCOVERY',
-                CONTENT   => $message->{data},
-            },
-        });
-
-  if (open OUT, ">$localfile") {
-    print OUT $xmlMsg;
-
-    close OUT or warn;
-    $logger->info("Inventory saved in $localfile");
-  } else {
-    warn "Can't open `$localfile': $!"
-  }
-}
-
 sub initModList {
    my $self = shift;
 
