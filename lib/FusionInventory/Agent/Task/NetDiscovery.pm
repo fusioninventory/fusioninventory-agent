@@ -18,6 +18,7 @@ use Data::Dumper;
 use XML::Simple;
 use Digest::MD5 qw(md5_hex);
 
+use XML::TreePP;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Config;
@@ -49,6 +50,34 @@ sub compareNmapVersion {
     return $v1 >= $v2;
 }
 
+sub parseNmap {
+    my ($xml) = @_;
+
+    my $tpp = XML::TreePP->new(force_array => '*');
+    my $h = $tpp->parse($xml);
+
+#print Dumper($h);
+
+    my $ret = {};
+
+    foreach my $host (@{$h->{nmaprun}[0]{host}}) {
+        foreach (@{$host->{address}}) {
+            if ($_->{'-addrtype'} eq 'mac') {
+                $ret->{MAC} = $_->{'-addr'} unless $ret->{MAC};
+                $ret->{NETPORTVENDOR} = $_->{'-vendor'} unless $ret->{NETPORTVENDOR};
+            }
+        }
+        foreach (@{$host->{hostnames}}) {
+            my $name = eval {$_->{hostname}[0]{'-name'}};
+            next unless $name;
+            $ret->{DNSHOSTNAME} = $name;
+        }
+    }
+
+    return $ret;
+}
+
+
 sub main {
     my ( undef ) = @_;
     my $self = {};
@@ -62,7 +91,7 @@ sub main {
 
     my $data = $storage->restore({ module => "FusionInventory::Agent" });
     $self->{data} = $data;
-    my $myData = $self->{myData} = $storage->restore();
+   my $myData = $self->{myData} = $storage->restore();
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
