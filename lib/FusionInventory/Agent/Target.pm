@@ -44,7 +44,6 @@ sub new {
 sub _init {
     my ($self, $params) = @_;
 
-    lock($lock);
     my $config = $self->{config};
     my $logger = $self->{logger};
 
