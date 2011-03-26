@@ -9,14 +9,21 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
+    my $content = XMLin(
+        $params->{content},
+        ForceArray => [ qw/OPTION PARAM/ ],
+        KeepRoot   => 1
+    );
+    die "content is not an XML message" unless ref $content eq 'HASH';
+    die "content is an invalid XML message" unless $content->{REPLY};
+
     my $self = {
         accountconfig => $params->{accountconfig},
         accountinfo   => $params->{accountinfo},
-        content       => $params->{content},
         config        => $params->{config},
         logger        => $params->{logger},
         origmsg       => $params->{origmsg},
-        parsedcontent => undef
+        content       => $content->{REPLY}
     };
 
     bless $self, $class;
@@ -30,24 +37,10 @@ sub new {
     return $self;
 }
 
-sub getRawXML {
-    my $self = shift;
-
-    return $self->{content};
-
-}
-
 sub getParsedContent {
     my $self = shift;
 
-    if (!$self->{parsedcontent} && $self->{content}) {
-        $self->{parsedcontent} = XMLin(
-            $self->{content}, 
-            ForceArray => ['OPTION','PARAM']
-        );
-    }
-
-    return $self->{parsedcontent};
+    return $self->{content};
 }
 
 sub origMsgType {
