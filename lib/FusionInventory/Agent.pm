@@ -159,7 +159,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
     }
 
-    if (!$config->{'no-httpd'}) {
+    if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
         FusionInventory::Agent::HTTPD->require();
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load HTTPD module: $EVAL_ERROR");
