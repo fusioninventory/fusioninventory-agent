@@ -34,6 +34,12 @@ sub new {
     return $self;
 }
 
+sub getDirectory {
+    my ($self) = @_;
+
+    return $self->{directory};
+}
+
 sub _getFileName {
     my ($self, $params ) = @_;
 
@@ -190,6 +196,10 @@ the logger object to use
 the directory to use for storing data (mandatory)
 
 =back
+
+=head2 getDirectory
+
+Returns the underlying directory for this storage.
 
 =head2 save($params)
 

@@ -46,11 +46,9 @@ sub _init {
     my $nextRunDate : shared;
     $self->{nextRunDate} = \$nextRunDate;
 
-    $self->{vardir} = $params->{vardir};
-
     $self->{storage} = FusionInventory::Agent::Storage->new({
         logger    => $self->{logger},
-        directory => $self->{vardir}
+        directory => $params->{vardir}
     });
 
     my $storage = $self->{storage};
@@ -67,6 +65,12 @@ sub _init {
     $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
 
     $self->{last_statefile} = $self->{vardir} . "/last_state";
+}
+
+sub getStorage {
+    my ($self) = @_;
+
+    return $self->{storage};
 }
 
 sub setNextRunDate {

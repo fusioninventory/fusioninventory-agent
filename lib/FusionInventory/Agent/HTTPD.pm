@@ -110,7 +110,8 @@ sub _handle {
         if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
             my $file = $1;
             foreach my $target (@{$targets->{targets}}) {
-                my $directory = $target->{vardir} ."/deploy";
+                my $directory =
+                    $target->getStorage()->getDirectory() . "/deploy";
                 if (-f "$directory/$file") {
                     $logger->debug("[HTTPD] $path sent");
                     $client->send_file_response("$directory/$file");
