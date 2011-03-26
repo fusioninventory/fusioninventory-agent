@@ -9,22 +9,6 @@ use File::Glob ':glob';
 use File::Path qw(make_path);
 use Storable;
 
-my $lock :shared;
-
-BEGIN {
-    # threads and threads::shared must be loaded before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
-
 sub new {
     my ($class, $params) = @_;
 
@@ -102,8 +86,6 @@ sub save {
 
     my $data = $params->{data};
     my $idx = $params->{idx};
-
-    lock($lock);
 
     my $filePath = $self->_getFilePath({ idx => $idx });
 
