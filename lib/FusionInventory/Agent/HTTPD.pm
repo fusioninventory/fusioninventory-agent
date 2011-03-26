@@ -37,9 +37,7 @@ sub new {
     bless $self, $class;
 
     $SIG{PIPE} = 'IGNORE';
-    if ($config->{daemon} || $config->{service}) {
-        $self->{thr} = threads->create('server', $self);
-    }
+    $self->{thr} = threads->create('server', $self);
 
     return $self;
 }
