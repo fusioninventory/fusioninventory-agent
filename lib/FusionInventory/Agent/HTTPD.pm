@@ -186,36 +186,13 @@ sub server {
         "HTTPD service started at: $url"
     );
 
-# Since perl 5.10, threads::joinable is avalaible
-    my $joinableAvalaible = eval 'defined(threads::joinable) && 1';
-
     while (1) {
-
-        if ($joinableAvalaible) {
-            no strict;
-            # no strict to avoid with Perl 5.8
-            # "threads::joinable" not allowed while "strict subs"
-            my @threads = threads->list(threads::joinable);
-            $_->join() foreach @threads;
-        }
-
-        # Limit the max number of running thread
-        # On Windows, it's about 15MB per thread! We need to keep the
-        # number of threads low.
-        if (!$joinableAvalaible || threads->list() > 3) {
-            foreach my $thread (threads->list()) {
-                next if $thread->tid == 1; # This is me!
-                $thread->join;
-            };
-        }
-        my ($c, $socket) = $daemon->accept;
+        my ($client, $socket) = $daemon->accept();
         next unless $socket;
-        my(undef,$iaddr) = sockaddr_in($socket);
+        my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
-# HTTP::Daemon::get_request is not thread
-# safe and must be called from the master thread
-        my $r = $c->get_request;
-        threads->create(\&handler, $self, $c, $r, $clientIp);
+        my $request = $client->get_request();
+        $self->handler($client, $request, $clientIp);
     }
 }
 
