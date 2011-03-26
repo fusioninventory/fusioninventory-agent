@@ -135,10 +135,9 @@ sub remove {
 
     my $idx = $params->{idx};
     
-    my $filePath = $self->_getFilePath({ idx => $idx });
+    my $file = $self->_getFilePath({ idx => $idx });
 
-    if (!unlink($filePath)) {
-    }
+    unlink $file or $self->{logger}->error("can't unlink $file");
 }
 
 sub removeAll {
@@ -146,10 +145,9 @@ sub removeAll {
     
     my $idx = $params->{idx};
 
-    my $filePath = $self->_getFilePath({ idx => $idx });
+    my $file = $self->_getFilePath({ idx => $idx });
 
-    if (!unlink($filePath)) {
-    }
+    unlink $file or $self->{logger}->error("can't unlink $file");
 }
 
 sub removeSubDumps {
@@ -161,7 +159,7 @@ sub removeSubDumps {
     my $fileName = $self->_getFileName({ module => $module });
 
     foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
-        unlink($file) or warn "[error] Can't unlink $file\n";
+        unlink $file or $self->{logger}->error("can't unlink $file");
     }
 }
 
