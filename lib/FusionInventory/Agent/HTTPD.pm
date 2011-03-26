@@ -76,12 +76,10 @@ sub _handle {
 
             my $nextContact = "";
             foreach my $target (@{$targets->{targets}}) {
-                my $path = $target->{'path'};
-                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-                my $timeString = $target->getNextRunDate() > 1 ?
+                my $description = $target->getDescription();
+                my $time = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now" ;
-                my $type = ref $target;
-                $nextContact .= "<li>$type, $path: $timeString</li>\n";
+                $nextContact .= "<li>$description: $time</li>\n";
             }
 
             my $status = $self->{agent}->getStatus();

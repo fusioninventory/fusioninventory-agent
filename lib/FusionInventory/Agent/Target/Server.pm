@@ -49,4 +49,10 @@ sub new {
     return $self;
 }
 
+sub getDescription {
+    my ($self) = @_;
+
+    return "server, $self->{path}";
+}
+
 1;

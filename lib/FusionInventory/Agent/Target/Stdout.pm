@@ -18,4 +18,10 @@ sub new {
     return $self;
 }
 
+sub getDescription {
+    my ($self) = @_;
+
+    return "stdout";
+}
+
 1;

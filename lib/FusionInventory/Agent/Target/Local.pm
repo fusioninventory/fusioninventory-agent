@@ -20,4 +20,10 @@ sub new {
     return $self;
 }
 
+sub getDescription {
+    my ($self) = @_;
+
+    return "local, $self->{path}";
+}
+
 1;
