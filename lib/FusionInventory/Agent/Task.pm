@@ -8,55 +8,57 @@ use English qw(-no_match_vars);
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{target} = $params->{target};
-
-    $self->{module} = $params->{module};
-
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $module = $self->{module};
-
+    my $self = {
+        logger      => $params->{logger},
+        config      => $params->{config},
+        target      => $params->{target},
+        prologresp  => $params->{prologresp},
+        network     => $params->{network},
+        deviceid    => $params->{deviceid}
+    };
     bless $self, $class;
+
     return $self;
 }
 
-sub run {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-    
-    my $module = $self->{module};
-
-
-    my $cmd;
-    $cmd .= "\"$EXECUTABLE_NAME\""; # The Perl binary path
-    if ($^O eq "MSWin32") {
-        $cmd .= "  -Ilib" if $config->{devlib};
-        $cmd .= " -MFusionInventory::Agent::Task::".$module;
-        $cmd .= " -e \"FusionInventory::Agent::Task::".$module."::main();\" --";
-    } else {
-        $cmd .= " -e \"";
-        $cmd .= "\@INC=qw(";
-        $cmd .= $_." " foreach (@INC);
-        $cmd .= "); ";
-        $cmd .= "eval 'use FusionInventory::Agent::Task::$module;'; ";
-        $cmd .= "FusionInventory::Agent::Task::".$module."::main();\" --";
-    }
-    $cmd .= " \"".$target->{vardir}."\"";
-
-    $logger->debug("cmd is: '$cmd'");
-    system($cmd);
-
-    $logger->debug("[task] end of ".$module);
-
-}
-
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task - Base class for agent task
+
+=head1 DESCRIPTION
+
+This is an abstract class for all task performed by the agent.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
+
+=over
+
+=item I<logger>
+
+the logger object to use (default: a new stderr logger)
+
+=item I<config>
+
+=item I<target>
+
+=item I<storage>
+
+=item I<prologresp>
+
+=item I<network>
+
+=item I<deviceid>
+
+=back
+
+=head2 main()
+
+This is the method to be implemented by each subclass.

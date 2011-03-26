@@ -4,7 +4,7 @@ package FusionInventory::Agent::Task::Inventory;
 # VERSION FROM Agent.pm
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::Base';
+use base 'FusionInventory::Agent::Task';
 
 use Config;
 use English qw(-no_match_vars);
@@ -15,7 +15,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 sub main {
-    my $self = FusionInventory::Agent::Task::Inventory->new();
+    my ($self) = @_;
 
     if ($self->{target}->{type} eq 'server' &&
         (

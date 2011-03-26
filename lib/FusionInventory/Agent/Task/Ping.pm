@@ -4,13 +4,13 @@ package FusionInventory::Agent::Task::Ping;
 # VERSION FROM Agent.pm
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::Base';
+use base 'FusionInventory::Agent::Task';
 
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 
 sub main {
-    my $self = FusionInventory::Agent::Task::Ping->new();
+    my ($self) = @_;
 
     if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");

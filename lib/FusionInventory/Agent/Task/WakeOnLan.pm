@@ -4,7 +4,7 @@ package FusionInventory::Agent::Task::WakeOnLan;
 # VERSION FROM Agent.pm
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::Base';
+use base 'FusionInventory::Agent::Task';
 
 use constant ETH_P_ALL => 0x0003;
 use constant PF_PACKET => 17;
@@ -16,7 +16,7 @@ use Socket;
 use FusionInventory::Agent::Network;
 
 sub main {
-    my $self = FusionInventory::Agent::Task::WakeOnLan->new();
+    my ($self) = @_;
 
     my $continue = 0;
     foreach my $num (@{$self->{prologresp}->{parsedcontent}->{OPTION}}) {
