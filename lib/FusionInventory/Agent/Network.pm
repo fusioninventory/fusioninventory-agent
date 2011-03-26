@@ -214,8 +214,7 @@ sub send {
     $logger->debug("receiving message: $content");
 
     my $response = FusionInventory::Agent::XML::Response->new({
-        accountinfo => $target->{accountinfo},
-        content     => $content
+        content => $content
     });
 
     return $response;

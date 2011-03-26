@@ -17,11 +17,7 @@ sub new {
     die "content is an invalid XML message" unless $content->{REPLY};
 
     my $self = {
-        accountconfig => $params->{accountconfig},
-        accountinfo   => $params->{accountinfo},
-        config        => $params->{config},
-        origmsg       => $params->{origmsg},
-        content       => $content->{REPLY}
+        content => $content->{REPLY}
     };
 
     bless $self, $class;
