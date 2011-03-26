@@ -43,12 +43,6 @@ sub getParsedContent {
     return $self->{content};
 }
 
-sub origMsgType {
-    my ($self, $package) = @_;
-
-    return ref($package);
-}
-
 sub getOptionsInfoByName {
     my ($self, $name) = @_;
 
