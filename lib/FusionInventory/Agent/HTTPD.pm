@@ -166,31 +166,25 @@ sub server {
     my $targets = $self->{targets};
     my $logger = $self->{logger};
 
-    my $daemon;
-   
-    if ($self->{ip}) {
-        $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalAddr => $self->{ip},
-            LocalPort => $self->{port},
-            Reuse     => 1,
-            Timeout   => 5
-        );
-    } else {
-        $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalPort => $self->{port},
-            Reuse     => 1,
-            Timeout   => 5
-        );
-    }
+    my $daemon = HTTP::Daemon->new(
+        LocalAddr => $self->{ip},
+        LocalPort => $self->{port},
+        Reuse     => 1,
+        Timeout   => 5
+    );
   
     if (!$daemon) {
         $logger->error("Failed to start the HTTPD server");
         return;
     } 
-    $logger->info("HTTPD service started at: http://".
-        ( $self->{ip} || "127.0.0.1" ).
-        ":".
-        $self->{port});
+
+    my $url = $self->{ip} ?
+        "http://$self->{ip}:$self->{port}" :
+        "http://localhost:$self->{port}" ;
+
+    $logger->info(
+        "HTTPD service started at: $url"
+    );
 
 # Since perl 5.10, threads::joinable is avalaible
     my $joinableAvalaible = eval 'defined(threads::joinable) && 1';
