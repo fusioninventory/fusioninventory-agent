@@ -46,6 +46,10 @@ sub _init {
     my $nextRunDate : shared;
     $self->{nextRunDate} = \$nextRunDate;
 
+    # target identity
+    $self->{id} = $params->{id};
+
+    # target storage
     $self->{storage} = FusionInventory::Agent::Storage->new({
         logger    => $self->{logger},
         directory => $params->{vardir}
@@ -56,7 +60,7 @@ sub _init {
 
     if ($self->{myData}{nextRunDate}) {
         $logger->debug (
-            "[$self->{path}] Next server contact planned for ".
+            "[target $self->{id}] Next server contact planned for ".
             localtime($self->{myData}{nextRunDate})
         );
         ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
@@ -103,7 +107,7 @@ sub setNextRunDate {
     ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
 
     $logger->debug (
-        "[$self->{path}] Next server contact has just been planned for ".
+        "[target $self->{id}] Next server contact has just been planned for ".
         localtime($self->{myData}{nextRunDate})
     );
 

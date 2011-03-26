@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Target';
 
+my $count = 0;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -16,6 +18,7 @@ sub new {
     $self->{format} = $params->{html} ? 'HTML' :'XML';
 
     $self->_init({
+        id     => 'local' . $count++,
         vardir => $params->{basevardir} . '/__LOCAL__',
     });
 
