@@ -14,14 +14,13 @@ my $status :shared = "unknown";
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    $self->{config} = $params->{config};
-    $self->{agent} = $params->{agent};
-    $self->{logger} = $params->{logger};
-    $self->{targets} = $params->{targets};
-    my $config = $self->{config};
-    my $logger = $self->{logger};
+    my $self = {
+        config  => $params->{config},
+        agent   => $params->{agent},
+        logger  => $params->{logger},
+        targets => $params->{targets},
+    };
+    bless $self, $class;
 
     if ($config->{'share-dir'}) {
         $self->{htmlDir} = $config->{'share-dir'}.'/html';
@@ -29,12 +28,10 @@ sub new {
         $self->{htmlDir} = "./share/html";
     }
     if ($self->{htmlDir}) {
-        $logger->debug("[HTTPD] static files are in ".$self->{htmlDir});
+        $self->{logger}->debug("[HTTPD] static files are in ".$self->{htmlDir});
     } else {
-        $logger->debug("[HTTPD] No static files directory");
+        $self->{logger}->debug("[HTTPD] No static files directory");
     }
-
-    bless $self, $class;
 
     $SIG{PIPE} = 'IGNORE';
     $self->{thr} = threads->create('server', $self);
