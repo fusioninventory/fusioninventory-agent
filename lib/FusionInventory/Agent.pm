@@ -160,9 +160,10 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
     }
 
     if (!$config->{'no-httpd'}) {
-        # threads and HTTP::Daemon are optional and so this module
-        # may fail to load.
-        if (eval "use FusionInventory::Agent::RPC;1;") {
+        FusionInventory::Agent::HTTPD->require();
+        if ($EVAL_ERROR) {
+            $logger->debug("Failed to load HTTPD module: $EVAL_ERROR");
+        } else {
             # make sure relevant variables are shared between threads
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
@@ -173,8 +174,6 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
                     targets => $targets,
                     agent   => $self,
                 });
-        } else {
-            $logger->debug("Failed to load RPC module: $EVAL_ERROR");
         }
     }
 
