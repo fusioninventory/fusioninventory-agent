@@ -245,32 +245,66 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::HTTPD - the RPC interface 
+FusionInventory::Agent::HTTPD - An embedded HTTP server
 
 =head1 DESCRIPTION
 
-FusionInventory Agent can listen on the network through an embedded HTTP
-server. This server can only be used to wakeup the agent or download
-OcsDeploy cached files. The server uses port 62354.
+This is the object used by the agent to listen on the network for messages sent
+by OCS or GLPI servers.
 
-Every time the agent contact the server, it send a token, this token will
-be needed to identify the server who want to awake an agent.
+It is an HTTP server listening on port 62354 (by default). The following
+requests are accepted:
 
-Once an agent is awake, it will contact the server as usual to know
-the jobs it need to do.
+=over
 
-=head1 SYNOPSIS
+=item /status
 
-In this example, we want to wakeup machine "aMachine":
+=item /deploy
 
-  use LWP::Simple;
+=item /now
 
-  my $machine = "aMachine";
-  my $token = "aaaaaaaaaaaaaa";
-  if (!get("http://$machine:62354/now/$token")) {
-    print "Failed to wakeup $machine\n";
-    return;
-  }
-  sleep(10);
-  print "Current status\n";
-  print get("http://$machine:62354/status");
+=back
+
+Authentication is based on a token created by the agent, and sent to the
+server at initial connection. Connection from local host is allowed without
+token if parameter trust_localhost is true.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
+
+=over
+
+=item I<logger>
+
+the logger object to use
+
+=item I<targets>
+
+the targets list object to use
+
+=item I<agent>
+
+the agent object
+
+=item I<htmldir>
+
+the directory where HTML templates and static files are stored
+
+=item I<ip>
+
+the network adress to listen to (default: all)
+
+=item I<port>
+
+the network port to listen to
+
+=item I<trust_localhost>
+
+a flag allowing to trust local request without authentication tokens (default:
+false)
+
+=back
