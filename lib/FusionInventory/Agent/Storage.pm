@@ -108,20 +108,7 @@ sub save {
     my $filePath = $self->_getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
-    my $oldMask;
-
-    if ($OSNAME ne 'MSWin32') {
-        $oldMask = umask();
-        umask(oct(77));
-    }
-    # TODO: restrict access to temp file under windows
-
     store ($data, $filePath) or warn;
-    
-    if ($OSNAME ne 'MSWin32') {
-        umask $oldMask;
-    }
-
 }
 
 sub restore {
