@@ -121,13 +121,11 @@ sub restore {
         idx => $idx
     });
 
-    my $ret;
     if (-f $filePath) {
-        eval {$ret = retrieve($filePath)};
+        return retrieve($filePath);
+    } else {
+        return {};
     }
-    $ret = {} unless $ret;
-
-    return $ret;
 }
 
 sub remove {
