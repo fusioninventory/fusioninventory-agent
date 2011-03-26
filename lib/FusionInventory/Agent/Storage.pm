@@ -106,7 +106,6 @@ sub save {
     lock($lock);
 
     my $filePath = $self->_getFilePath({ idx => $idx });
-#    print "[storage]save data in:". $filePath."\n";
 
     store ($data, $filePath) or warn;
 }
@@ -126,7 +125,6 @@ sub restore {
         module => $module,
         idx => $idx
     });
-    #print "[storage]restore data from: $filePath\n";
 
     my $ret;
     if (-f $filePath) {
@@ -143,10 +141,8 @@ sub remove {
     my $idx = $params->{idx};
     
     my $filePath = $self->_getFilePath({ idx => $idx });
-    #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
-        #print "[storage] failed to delete $filePath\n";
     }
 }
 
@@ -156,10 +152,8 @@ sub removeAll {
     my $idx = $params->{idx};
 
     my $filePath = $self->_getFilePath({ idx => $idx });
-    #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
-        #print "[storage] failed to delete $filePath\n";
     }
 }
 
