@@ -34,21 +34,4 @@ sub isInventoryAsked {
     }
 }
 
-sub getOptionsInfoByName {
-    my ($self, $name) = @_;
-
-    my $parsedContent = $self->getParsedContent();
-
-    my $ret = [];
-    return unless ($parsedContent && $parsedContent->{OPTION});
-    foreach (@{$parsedContent->{OPTION}}) {
-      if ($_->{NAME} && $_->{NAME} =~ /^$name$/i) {
-        $ret = $_->{PARAM}
-      }
-    }
-
-    return $ret;
-}
-
-
 1;
