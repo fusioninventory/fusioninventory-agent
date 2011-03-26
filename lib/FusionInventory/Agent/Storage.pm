@@ -50,7 +50,7 @@ sub new {
     return $self;
 }
 
-sub getFileName {
+sub _getFileName {
     my ($self, $params ) = @_;
 
     my $module = $params->{module};
@@ -70,8 +70,7 @@ sub getFileName {
     return $fileName;
 }
 
-# Internal function, no POD doc
-sub getFilePath {
+sub _getFilePath {
     my ($self, $params ) = @_;
 
     my $target = $self->{target};
@@ -80,7 +79,7 @@ sub getFilePath {
     my $idx = $params->{idx};
     my $module = $params->{module};
 
-    my $fileName = $self->getFileName({
+    my $fileName = $self->_getFileName({
         module => $module
     });
 
@@ -106,7 +105,7 @@ sub save {
 
     lock($lock);
 
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
 #    print "[storage]save data in:". $filePath."\n";
 
     my $oldMask;
@@ -136,7 +135,7 @@ sub restore {
     my $module = $params->{module};
     my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({
+    my $filePath = $self->_getFilePath({
         module => $module,
         idx => $idx
     });
@@ -156,7 +155,7 @@ sub remove {
 
     my $idx = $params->{idx};
     
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
@@ -169,7 +168,7 @@ sub removeAll {
     
     my $idx = $params->{idx};
 
-    my $filePath = $self->getFilePath({ idx => $idx });
+    my $filePath = $self->_getFilePath({ idx => $idx });
     #print "[storage] delete $filePath\n";
 
     if (!unlink($filePath)) {
@@ -183,7 +182,7 @@ sub removeSubDumps {
     my $module = $params->{module};
 
     my $fileDir = $self->getFileDir();
-    my $fileName = $self->getFileName({ module => $module });
+    my $fileName = $self->_getFileName({ module => $module });
 
     foreach my $file (bsd_glob("$fileDir/$fileName.*.dump")) {
         unlink($file) or warn "[error] Can't unlink $file\n";
