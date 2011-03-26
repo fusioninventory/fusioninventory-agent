@@ -32,7 +32,7 @@ sub new {
     );
 
     $SIG{PIPE} = 'IGNORE';
-    $self->{thr} = threads->create('server', $self);
+    threads->create('server', $self);
 
     return $self;
 }
