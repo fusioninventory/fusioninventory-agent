@@ -204,3 +204,59 @@ sub setCurrentDeviceID {
 }
 
 1;
+
+1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Target - Abstract target
+
+=head1 DESCRIPTION
+
+This is an abstract class for execution targets.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
+
+=over
+
+=item I<logger>
+
+the logger object to use
+
+=item I<delaytime>
+
+the initial delay before contacting the target, in seconds 
+(default: 3600)
+
+=item I<deviceid>
+
+the agent identifier
+
+=item I<basevardir>
+
+the base directory of the storage area (mandatory)
+
+=back
+
+=head2 getNextRunDate()
+
+Get nextRunDate attribute.
+
+=head2 setNextRunDate($nextRunDate)
+
+Set nextRunDate attribute.
+
+=head2 getStorage()
+
+Return the storage object for this target.
+
+=head2 getDescription()
+
+Return a string description of the target.

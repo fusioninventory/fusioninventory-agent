@@ -25,3 +25,11 @@ sub getDescription {
 }
 
 1;
+
+1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Target::Stdout - Stdout target
