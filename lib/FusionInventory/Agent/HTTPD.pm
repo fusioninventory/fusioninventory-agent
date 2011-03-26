@@ -3,13 +3,9 @@ package FusionInventory::Agent::HTTPD;
 use strict;
 use warnings;
 use threads;
-use threads::shared;
 
 use English qw(-no_match_vars);
 use HTTP::Daemon;
-
-my $lock :shared;
-my $status :shared = "unknown";
 
 sub new {
     my ($class, $params) = @_;
