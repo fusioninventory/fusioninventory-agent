@@ -31,7 +31,6 @@ sub new {
 
     my $self = {
         config          => $params->{config},
-        type            => $params->{type},
         logger          => $params->{logger},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
@@ -39,31 +38,28 @@ sub new {
     };
     bless $self, $class;
 
-    my $config = $self->{config};
-    my $logger = $self->{logger};
+    return $self;
+}
+
+sub _init {
+    my ($self, $params) = @_;
 
     lock($lock);
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     my $nextRunDate : shared;
     $self->{nextRunDate} = \$nextRunDate;
 
-    $self->{format} = $params->{type} eq 'local' && $config->{html} ?
-        'HTML' : 'XML';
-   
-    $self->init();
+    $self->{vardir} = $params->{vardir};
 
-    if ($params->{type} !~ /^(server|local|stdout)$/ ) {
-        $logger->fault('bad type'); 
-    }
-
-    # restore previous state
     $self->{storage} = FusionInventory::Agent::Storage->new({
         logger    => $self->{logger},
         directory => $self->{vardir}
     });
+
     my $storage = $self->{storage};
     $self->{myData} = $storage->restore();
-
 
     if ($self->{myData}{nextRunDate}) {
         $logger->debug (
@@ -74,10 +70,10 @@ sub new {
     }
 
     $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-            logger => $logger,
-            config => $config,
-            target => $self,
-        });
+        logger => $logger,
+        config => $config,
+        target => $self,
+    });
 
     my $accountinfo = $self->{accountinfo};
 
@@ -92,29 +88,6 @@ sub new {
         $accountinfo->set("TAG", $config->{tag});
     }
     $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
-
-    return $self;
-}
-
-# TODO refactoring needed here.
-sub init {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-
-    lock($lock);
-
-    if ($self->{type} eq 'server') {
-        my $dir = $self->{path};
-        $dir =~ s/\//_/g;
-        # On Windows, we can't have ':' in directory path
-        $dir =~ s/:/../g if $OSNAME eq 'MSWin32';
-        $self->{vardir} = $config->{basevardir} . "/" . $dir;
-    } else {
-        $self->{vardir} = $config->{basevardir} . "/__LOCAL__";
-    }
-    $logger->debug("vardir: $self->{vardir}");
 
     $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
     $self->{last_statefile} = $self->{vardir} . "/last_state";

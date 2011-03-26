@@ -12,12 +12,12 @@ use FusionInventory::Agent::XML::Query::SimpleMessage;
 sub main {
     my ($self) = @_;
 
-    if ($self->{target}->{type} ne 'server') {
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $self->{logger}->debug("No server. Exiting...");
         return;
     }
 
-    my $options = $self->{data}->{prologresp}->getOptionsInfoByName('PING');
+    my $options = $self->{prologresp}->getOptionsInfoByName('PING');
     return unless $options;
     my $option = shift @$options;
     return unless $option;

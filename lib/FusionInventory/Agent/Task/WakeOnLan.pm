@@ -32,7 +32,7 @@ sub main {
         return;
     }
 
-    if ($self->{target}->{type} ne 'server') {
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $self->{logger}->debug("No server. Exiting...");
     }
 

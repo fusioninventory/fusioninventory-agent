@@ -215,7 +215,7 @@ sub main {
 
         my $prologresp;
         my $network;
-        if ($target->{type} eq 'server') {
+        if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
             $network = FusionInventory::Agent::Network->new({
                 logger => $logger,

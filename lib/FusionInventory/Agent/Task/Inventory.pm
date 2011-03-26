@@ -17,7 +17,7 @@ use FusionInventory::Agent::XML::Query::Inventory;
 sub main {
     my ($self) = @_;
 
-    if ($self->{target}->{type} eq 'server' &&
+    if ($self->{target}->isa('FusionInventory::Agent::Target::Server') &&
         (
             !exists($self->{prologresp}->{parsedcontent}->{RESPONSE}) ||
             $self->{prologresp}->{parsedcontent}->{RESPONSE} !~ /^SEND$/
@@ -62,15 +62,15 @@ sub main {
     $self->feedInventory();
 
 
-    if ($self->{target}->{type} eq 'stdout') {
+    if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
         $self->{inventory}->printXML();
-    } elsif ($self->{target}->{type} eq 'local') {
+    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         if ($self->{target}->{format} eq 'XML') {
             $self->{inventory}->writeXML();
         } else {
             $self->{inventory}->writeHTML();
         }
-    } elsif ($self->{target}->{type} eq 'server') {
+    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
 
         my $accountinfo = $self->{target}->{accountinfo};
 

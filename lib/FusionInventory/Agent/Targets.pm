@@ -3,7 +3,9 @@ package FusionInventory::Agent::Targets;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Target;
+use FusionInventory::Agent::Target::Server;
+use FusionInventory::Agent::Target::Local;
+use FusionInventory::Agent::Target::Stdout;
 
 sub new {
     my ($class, $params) = @_;
@@ -44,10 +46,9 @@ sub init {
 
 
     if ($config->{'stdout'}) {
-        my $target = FusionInventory::Agent::Target->new({
+        my $target = FusionInventory::Agent::Target::Stdout->new({
             logger   => $logger,
             config   => $config,
-            type     => 'stdout',
             deviceid => $deviceid,
         });
         $self->addTarget({
@@ -56,10 +57,9 @@ sub init {
     }
 
     if ($config->{'local'}) {
-        my $target = FusionInventory::Agent::Target->new({
+        my $target = FusionInventory::Agent::Target::Local->new({
             config   => $config,
             logger   => $logger,
-            type     => 'local',
             path     => $config->{'local'},
             deviceid => $deviceid,
         });
@@ -80,10 +80,9 @@ sub init {
         } else {
             $url = $val;
         }
-        my $target = FusionInventory::Agent::Target->new({
+        my $target = FusionInventory::Agent::Target::Server->new({
             config   => $config,
             logger   => $logger,
-            type     => 'server',
             path     => $url,
             deviceid => $deviceid,
         });
