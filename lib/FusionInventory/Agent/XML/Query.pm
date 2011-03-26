@@ -15,7 +15,6 @@ sub new {
     $self->{logger} = $params->{logger};
     $self->{target} = $params->{target};
 
-    my $rpc = $self->{rpc};
     my $target = $self->{target};
     my $logger = $self->{logger};
 
