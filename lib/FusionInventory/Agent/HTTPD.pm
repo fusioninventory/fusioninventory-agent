@@ -2,24 +2,11 @@ package FusionInventory::Agent::HTTPD;
 
 use strict;
 use warnings;
+use threads;
+use threads::shared;
 
-use Config;
 use English qw(-no_match_vars);
 use HTTP::Daemon;
-
-BEGIN {
-    # threads and threads::shared must be load before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
 
 my $lock :shared;
 my $status :shared = "unknown";
@@ -35,11 +22,6 @@ sub new {
     $self->{targets} = $params->{targets};
     my $config = $self->{config};
     my $logger = $self->{logger};
-
-    if (!$Config{usethreads}) {
-        $logger->debug("threads support is need for HTTPD"); 
-        return;
-    }
 
     if ($config->{'share-dir'}) {
         $self->{htmlDir} = $config->{'share-dir'}.'/html';
