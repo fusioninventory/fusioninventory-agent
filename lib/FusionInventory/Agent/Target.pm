@@ -7,7 +7,6 @@ use Config;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::AccountInfo;
 
 BEGIN {
     # threads and threads::shared must be loaded before
@@ -68,27 +67,8 @@ sub _init {
         ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
     }
 
-    $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-        logger => $logger,
-        config => $config,
-        target => $self,
-    });
-
-    my $accountinfo = $self->{accountinfo};
-
-    if ($config->{tag}) {
-        if ($accountinfo->get("TAG")) {
-            $logger->debug(
-                "A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server " .
-                "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
-            );
-        }
-        $accountinfo->set("TAG", $config->{tag});
-    }
     $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
 
-    $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
     $self->{last_statefile} = $self->{vardir} . "/last_state";
 }
 
