@@ -168,12 +168,12 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
-            $self->{rpc} = FusionInventory::Agent::RPC->new({
-                    logger => $logger,
-                    config => $config,
-                    targets => $targets,
-                    agent   => $self,
-                });
+            FusionInventory::Agent::RPC->new({
+                logger => $logger,
+                config => $config,
+                targets => $targets,
+                agent   => $self,
+            });
         }
     }
 
