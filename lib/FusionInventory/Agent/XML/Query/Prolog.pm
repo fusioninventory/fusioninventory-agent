@@ -15,14 +15,9 @@ sub new {
 
     my $logger = $self->{logger};
     my $target = $self->{target};
-    my $rpc = $params->{rpc};
 
     $self->{h}{QUERY} = ['PROLOG'];
-
-    # $rpc can be undef if thread not enabled in Perl
-    if ($rpc) {
-        $self->{h}{TOKEN} = [$rpc->getToken()];
-    }
+    $self->{h}{TOKEN} = [$params->{token}];
 
     return $self;
 }

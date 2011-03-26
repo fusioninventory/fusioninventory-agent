@@ -47,7 +47,12 @@ if ($EVAL_ERROR) {
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        status => 'unknown',
+        token  => _computeNewToken()
+    };
+    bless $self, $class;
+
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
     my $logger = $self->{logger} = FusionInventory::Logger->new({
@@ -157,18 +162,21 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
     # threads and HTTP::Daemon are optional and so this module
     # may fail to load.
     if (eval "use FusionInventory::Agent::RPC;1;") {
+        # make sure relevant variables are shared between threads
+        threads::shared::share($self->{status});
+        threads::shared::share($self->{token});
+
         $self->{rpc} = FusionInventory::Agent::RPC->new({
                 logger => $logger,
                 config => $config,
                 targets => $targets,
+                agent   => $self,
             });
     } else {
         $logger->debug("Failed to load RPC module: $EVAL_ERROR");
     }
 
     $logger->debug("FusionInventory Agent initialised");
-
-    bless $self, $class;
 
     return $self;
 }
@@ -196,8 +204,7 @@ sub main {
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $targets = $self->{targets};
-    my $rpc = $self->{rpc};
-    $rpc && $rpc->setCurrentStatus("waiting");
+    $self->{status} = 'waiting';
 
     while (my $target = $targets->getNext()) {
 
@@ -218,7 +225,7 @@ sub main {
                 accountinfo => $target->{accountinfo}, #? XXX
                 logger => $logger,
                 config => $config,
-                rpc => $rpc,
+                token  => $self->{token},
                 target => $target
             });
 
@@ -253,7 +260,7 @@ sub main {
                 next;
             }
 
-            $rpc && $rpc->setCurrentStatus("running task $module");
+            $self->{status} = "running task $module";
 
             my $task = $package->new({
                 config      => $config,
@@ -285,12 +292,32 @@ sub main {
             }
         }
 
-        $rpc && $rpc->setCurrentStatus("waiting");
+        $self->{status} = 'waiting';
 
         $target->setNextRunDate();
 
         sleep(5);
     }
 }
-1;
 
+sub getToken {
+    my ($self) = @_;
+    return $self->{token};
+}
+
+sub resetToken {
+    my ($self) = @_;
+    $self->{token} = _computeNewToken();
+}
+
+sub _computeNewToken {
+    my @chars = ('A'..'Z');
+    return join('', map { $chars[rand @chars] } 1..8);
+}
+
+sub getStatus {
+    my ($self) = @_;
+    return $self->{status};
+}
+
+1;

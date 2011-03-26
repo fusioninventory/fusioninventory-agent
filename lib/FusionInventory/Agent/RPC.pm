@@ -7,8 +7,6 @@ use Config;
 use English qw(-no_match_vars);
 use HTTP::Daemon;
 
-use FusionInventory::Agent::Storage;
-
 BEGIN {
     # threads and threads::shared must be load before
     # $lock is initialized
@@ -32,6 +30,7 @@ sub new {
     my $self = {};
 
     $self->{config} = $params->{config};
+    $self->{agent} = $params->{agent};
     $self->{logger} = $params->{logger};
     $self->{targets} = $params->{targets};
     my $config = $self->{config};
@@ -41,7 +40,6 @@ sub new {
         $logger->debug("threads support is need for RPC"); 
         return;
     }
-
 
     if ($config->{'share-dir'}) {
         $self->{htmlDir} = $config->{'share-dir'}.'/html';
@@ -54,13 +52,6 @@ sub new {
         $logger->debug("[RPC] No static files directory");
     }
 
-
-    my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
-        target => {
-            vardir => $config->{basevardir},
-        }
-    });
-
     bless $self, $class;
 
     return $self if $config->{'no-httpd'};
@@ -69,7 +60,6 @@ sub new {
     if ($config->{daemon} || $config->{service}) {
         $self->{thr} = threads->create('server', $self);
     }
-
 
     return $self;
 }
@@ -115,6 +105,8 @@ sub handler {
         my $output = <$handle>;
         close $handle;
 
+        my $status = $self->{agent}->getStatus();
+
         $output =~ s/%%STATUS%%/$status/;
         $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
         $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
@@ -145,7 +137,7 @@ sub handler {
         $c->send_error(404)
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
         my $sentToken = $2;
-        my $currentToken = $self->getToken();
+        my $currentToken = $self->{agent}->getToken();
         my $code;
         my $msg;
         $logger->debug("[RPC] 'now' catched");
@@ -154,7 +146,7 @@ sub handler {
                 or
             ($sentToken eq $currentToken)
         ) {
-            $self->getToken('forceNewToken');
+            $self->{agent}->resetToken();
             $targets->resetNextRunDate();
             $code = 200;
             $msg = "Done."
@@ -260,38 +252,6 @@ sub server {
         my $r = $c->get_request;
         threads->create(\&handler, $self, $c, $r, $clientIp);
     }
-}
-
-sub getToken {
-    my ($self, $forceNewToken) = @_; 
-
- 
-    my $storage = $self->{storage};
-    my $logger = $self->{logger};
-
-    lock($lock);
-
-    my $myData = $storage->restore();
-    if ($forceNewToken || !$myData->{token}) {
-
-        my $tmp = '';
-        $tmp .= pack("C",65+rand(24)) foreach (0..7);
-        $myData->{token} = $tmp;
-
-        $storage->save({ data => $myData });
-    }
-    
-    $logger->debug("token is: ".$myData->{token});
-
-    return $myData->{token};
-
-}
-
-sub setCurrentStatus {
-    my ($self, $newStatus) = @_;
-
-    $status = $newStatus;
-
 }
 
 1;
