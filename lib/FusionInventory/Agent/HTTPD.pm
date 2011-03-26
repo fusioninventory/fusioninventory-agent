@@ -15,23 +15,21 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config  => $params->{config},
-        agent   => $params->{agent},
-        logger  => $params->{logger},
-        targets => $params->{targets},
+        logger          => $params->{logger},
+        agent           => $params->{agent},
+        targets         => $params->{targets},
+        htmldir         => $params->{htmldir},
+        ip              => $params->{ip},
+        port            => $params->{port} || 62354,
+        trust_localhost => $params->{'trust_localhost'}
+
     };
     bless $self, $class;
 
-    if ($config->{'share-dir'}) {
-        $self->{htmlDir} = $config->{'share-dir'}.'/html';
-    } elsif ($config->{'devlib'}) {
-        $self->{htmlDir} = "./share/html";
-    }
-    if ($self->{htmlDir}) {
-        $self->{logger}->debug("[HTTPD] static files are in ".$self->{htmlDir});
-    } else {
-        $self->{logger}->debug("[HTTPD] No static files directory");
-    }
+    $self->{logger}->debug($self->{htmldir} ?
+        "[WWW] static files are in $self->{htmldir}" :
+        "[WWW] no static files directory"
+    );
 
     $SIG{PIPE} = 'IGNORE';
     $self->{thr} = threads->create('server', $self);
@@ -44,8 +42,7 @@ sub handler {
     
     my $logger = $self->{logger};
     my $targets = $self->{targets};
-    my $config = $self->{config};
-    my $htmlDir = $self->{htmlDir};
+    my $htmldir = $self->{htmldir};
 
     if (!$r) {
         $c->close;
@@ -69,7 +66,7 @@ sub handler {
             $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".$timeString."</li>\n";
         }
 
-        my $indexFile = $htmlDir."/index.tpl";
+        my $indexFile = $htmldir."/index.tpl";
         my $handle;
         if (!open $handle, '<', $indexFile) {
             $logger->error("Can't open share $indexFile: $ERRNO");
@@ -85,7 +82,7 @@ sub handler {
         $output =~ s/%%STATUS%%/$status/;
         $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
         $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-        if ($clientIp !~ /^127\./ || !$config->{'httpd-trust-localhost'}) {
+        if ($clientIp !~ /^127\./ || !$self->{trust_localhost}) {
             $output =~
             s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
         }
@@ -117,7 +114,7 @@ sub handler {
         my $msg;
         $logger->debug("[HTTPD] 'now' catched");
         if (
-            ($config->{'httpd-trust-localhost'} && $clientIp =~ /^127\./)
+            ($self->{trust_localhost} && $clientIp =~ /^127\./)
                 or
             ($sentToken eq $currentToken)
         ) {
@@ -154,7 +151,7 @@ sub handler {
 
     } elsif ($r->method eq 'GET' and $r->uri->path =~
         /^\/(logo.png|site.css|favicon.ico)$/) {
-        $c->send_file_response($htmlDir."/$1");
+        $c->send_file_response($htmldir."/$1");
     } else {
         $logger->debug("[HTTPD] Err, 500");
         $c->send_error(500)
@@ -166,22 +163,21 @@ sub handler {
 sub server {
     my ($self) = @_;
 
-    my $config = $self->{config};
     my $targets = $self->{targets};
     my $logger = $self->{logger};
 
     my $daemon;
    
-    if ($config->{'httpd-ip'}) {
+    if ($self->{ip}) {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalAddr => $config->{'httpd-ip'},
-            LocalPort => $config->{'httpd-port'} || 62354,
+            LocalAddr => $self->{ip},
+            LocalPort => $self->{port},
             Reuse     => 1,
             Timeout   => 5
         );
     } else {
         $daemon = $self->{daemon} = HTTP::Daemon->new(
-            LocalPort => $config->{'httpd-port'} || 62354,
+            LocalPort => $self->{port},
             Reuse     => 1,
             Timeout   => 5
         );
@@ -192,9 +188,9 @@ sub server {
         return;
     } 
     $logger->info("HTTPD service started at: http://".
-        ( $config->{'httpd-ip'} || "127.0.0.1" ).
+        ( $self->{ip} || "127.0.0.1" ).
         ":".
-        $config->{'httpd-port'} || 62354);
+        $self->{port});
 
 # Since perl 5.10, threads::joinable is avalaible
     my $joinableAvalaible = eval 'defined(threads::joinable) && 1';

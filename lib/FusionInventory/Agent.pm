@@ -168,11 +168,19 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
-            FusionInventory::Agent::RPC->new({
-                logger => $logger,
-                config => $config,
-                targets => $targets,
-                agent   => $self,
+             my $htmldir =
+                 $config->{'share-dir'} ? $config->{'share-dir'} . '/html' :
+                 $config->{'devlib'}    ? "./share/html"                   :
+                                          undef;
+
+            FusionInventory::Agent::HTTPD->new({
+                logger          => $logger,
+                targets         => $targets,
+                agent           => $self,
+                htmldir         => $htmldir,
+                ip              => $config->{'httpd-ip'},
+                port            => $config->{'httpd-port'},
+                trust_localhost => $config->{'httpd-trust-localhost'},
             });
         }
     }
