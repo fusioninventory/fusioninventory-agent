@@ -195,18 +195,16 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Storage - the light data storage API. Data will be
-stored in a subdirectory in the 'vardir' directory. This subdirectory depends
-on the caller module name.
+FusionInventory::Agent::Storage - A data serializer/deserializer
 
 =head1 SYNOPSIS
 
   my $storage = FusionInventory::Agent::Storage->new({
-      directory => $directory
+      directory => '/tmp'
   });
   my $data = $storage->restore({
-          module => "FusionInventory::Agent"
-      });
+      module => "FusionInventory::Agent"
+  });
 
   $data->{foo} = 'bar';
 
@@ -214,37 +212,109 @@ on the caller module name.
 
 =head1 DESCRIPTION
 
-This module is a wrapper for restore and save.
-it called $inventory in general.
+This is the object used by the agent to ensure data persistancy between
+invocations.
+
+Each data structure is saved in a file, whose name is automatically determined
+according to object class name. An optional index number can be used to
+differentiate between consecutives usages.
 
 =head1 METHODS
 
-=head2 new({ config => $config, target => $target })
+=head2 new($params)
 
-Create the object
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
-=head2 save({ data => $date, idx => $ref })
+=over
 
-Save the reference.
-$idx is an integer. You can use it if you want to save more than one file for the
-module. This number will be added at the of the file.
+=item I<logger>
 
-=head2 restore({ module => $module, idx => $idx})
+the logger object to use
 
-Returns a reference to the stored data. If $idx is defined, it will open this
-substorage.
+=item I<directory>
 
-=head2 remove({ module => $module, idx => $idx })
+the directory to use for storing data (mandatory)
 
-Returns the files stored on the filesystem for the module $module or for the caller module.
-If $idx is defined, only the submodule $idx will be removed.
+=back
 
+=head2 save($params)
 
-=head2 removeAll({ module => $module, idx => $idx })
+Save given data structure. The following parameters are allowed, as keys of the
+$params hashref:
 
-Deletes the files stored on the filesystem for the module $module or for the caller module.
+=over
 
-=head2 removeSubDumps({ module => $module })
+=item I<data>
+
+The data structure to save (mandatory).
+
+=item I<idx>
+
+The index number (optional).
+
+=back
+
+=head2 restore($params)
+
+Restore a saved data structure. The following parameters are allowed, as keys
+of the $params hashref:
+
+=over
+
+=item I<module>
+
+The name of the module which saved the data structure (mandatory).
+
+=item I<idx>
+
+The index number (optional).
+
+=back
+
+=head2 remove($params)
+
+Delete the file containing a seralized data structure for a given module. The
+following parameters are allowed, as keys of the $params hashref:
+
+=over
+
+=item I<module>
+
+The name of the module which saved the data structure (mandatory).
+
+=item I<idx>
+
+The index number (optional).
+
+=back
+
+=head2 removeAll($params)
+
+Delete the files containing seralized data structure for all modules. The
+following parameters are allowed, as keys of the $params hashref:
+
+=over
+
+=item I<idx>
+
+The index number (optional).
+
+=back
+
+=head2 removeSubDumps($params)
+
+Delete all files containing seralized data structure for a given module. The
+following parameters are allowed, as keys of the $params hashref:
+
+=head2 removeAll($params)
 
 Deletes the sub files stored on the filesystem for the module $module or for the caller module.
 
+=over
+
+=item I<module>
+
+The name of the module which saved the data structure (mandatory).
+
+=back
