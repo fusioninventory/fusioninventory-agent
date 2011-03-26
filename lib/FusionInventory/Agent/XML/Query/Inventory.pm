@@ -1030,10 +1030,6 @@ sub processChecksum {
     );
     # TODO CPUS is not in the list
 
-    if (!$self->{target}->{vardir}) {
-        $logger->fault ("vardir uninitialised!");
-    }
-
     my $checksum = 0;
 
     if ($target->{last_statefile}) {
