@@ -11,6 +11,8 @@ use FusionInventory::Agent::AccountInfo;
 sub new {
     my ($class, $params) = @_;
 
+    die "no path parameter" unless $params->{path};
+
     my $self = $class->SUPER::new($params);
 
     $self->{path} = $params->{path};
