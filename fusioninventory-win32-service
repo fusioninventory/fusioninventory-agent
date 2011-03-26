@@ -14,12 +14,6 @@ use FusionInventory::Agent;
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
 
-if ($EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
-    $ENV{PATH} .= $Config::Config{path_sep}.$1;
-} else {
-    print("Failed to parse $^X to get the directory for --perl-bin-dir-in-path");
-}
-
 my $win32service = 1;
 Win32::Daemon::StartService();
 $SERVICE_SLEEP_TIME = 2000; # 20 milliseconds
