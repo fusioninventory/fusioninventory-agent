@@ -42,7 +42,7 @@ sub new {
         $logger->fault("Can't load HTTP::Status. Is the package installed?");
     }
 
-    $self->{URI} = $target->{path};
+    $self->{URI} = $target->{url};
 
     bless $self, $class;
     return $self;

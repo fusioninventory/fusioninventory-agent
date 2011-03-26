@@ -88,7 +88,7 @@ sub init {
             deviceid   => $deviceid,
             delaytime  => $config->{delaytime},
             basevardir => $config->{basevardir},
-            path       => $url,
+            url        => $url,
             tag        => $config->{tag},
         });
         $self->addTarget({

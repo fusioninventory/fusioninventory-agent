@@ -11,13 +11,13 @@ use FusionInventory::Agent::AccountInfo;
 sub new {
     my ($class, $params) = @_;
 
-    die "no path parameter" unless $params->{path};
+    die "no url parameter" unless $params->{url};
 
     my $self = $class->SUPER::new($params);
 
-    $self->{path} = $params->{path};
+    $self->{url} = $params->{url};
 
-    my $subdir = $params->{path};
+    my $subdir = $params->{url};
     $subdir =~ s/\//_/g;
     $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
@@ -54,7 +54,7 @@ sub new {
 sub getDescription {
     my ($self) = @_;
 
-    return "server, $self->{path}";
+    return "server, $self->{url}";
 }
 
 1;
