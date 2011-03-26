@@ -23,8 +23,8 @@ sub new {
     bless $self, $class;
 
     $self->{logger}->debug($self->{htmldir} ?
-        "[WWW] static files are in $self->{htmldir}" :
-        "[WWW] no static files directory"
+        "[HTTPD] static files are in $self->{htmldir}" :
+        "[HTTPD] no static files directory"
     );
 
     $SIG{PIPE} = 'IGNORE';
@@ -193,7 +193,7 @@ sub _handle {
             last SWITCH;
         }
 
-        $logger->debug("[WWW] error, unknown path: $path");
+        $logger->debug("[HTTPD] error, unknown path: $path");
         $client->send_error(400);
     }
 
@@ -214,7 +214,7 @@ sub _listen {
     );
   
     if (!$daemon) {
-        $logger->error("Failed to start the HTTPD server");
+        $logger->error("[HTTPD] failed to start the HTTPD service");
         return;
     } 
 
@@ -223,7 +223,7 @@ sub _listen {
         "http://localhost:$self->{port}" ;
 
     $logger->info(
-        "HTTPD service started at: $url"
+        "[HTTPD] service started at: $url"
     );
 
     while (1) {
