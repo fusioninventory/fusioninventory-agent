@@ -17,7 +17,6 @@ sub new {
     $self->{config} = $params->{config};
     my $logger = $self->{logger}  = $params->{logger};
     $self->{origmsg}  = $params->{origmsg};
-    $self->{target}  = $params->{target};
 
     $logger->debug("=BEGIN=SERVER RET======");
     $logger->debug(Dumper($self->{content}));

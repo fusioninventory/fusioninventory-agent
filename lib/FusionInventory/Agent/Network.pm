@@ -221,10 +221,6 @@ sub send {
     $tmp->import();
     my $response = $tmp->new({
         accountinfo => $target->{accountinfo},
-        content => $content,
-        logger => $logger,
-        origmsg => $message,
-        target => $target,
         config => $self->{config}
     });
 
