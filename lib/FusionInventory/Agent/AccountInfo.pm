@@ -11,18 +11,16 @@ sub new {
     my $self = {};
     bless $self, $class;
 
-    $self->{config} = $params->{config};
     $self->{logger} = $params->{logger};
     $self->{target} = $params->{target};
 
     my $logger = $self->{logger};
     my $target = $self->{target};
 
+    if ($params->{file}) {
 
-    if ($self->{config}->{accountinfofile}) {
-
-        $logger->debug ('Accountinfo file: '. $self->{config}->{accountinfofile});
-        if (! -f $self->{config}->{accountinfofile}) {
+        $logger->debug ('Accountinfo file: '. $params->{file});
+        if (! -f $params->{file}) {
             $logger->info ("Accountinfo file doesn't exist. I create an empty one.");
             $self->write();
         } else {
@@ -31,7 +29,7 @@ sub new {
 
             eval {
                 $xmladm = XML::Simple::XMLin(
-                    $self->{config}->{accountinfofile},
+                    $params->{file},
                     ForceArray => [ 'ACCOUNTINFO' ]
                 );
             };
