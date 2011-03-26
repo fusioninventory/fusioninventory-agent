@@ -71,18 +71,7 @@ sub init {
         });
     }
 
-    foreach my $val (split(/,/, $config->{'server'})) {
-        my $url;
-        $val =~ s/^\s+//;
-        $val =~ s/\s+$//;
-        if ($val !~ /^http(|s):\/\//) {
-            $logger->debug("the --server passed doesn't ".
-                "have a protocole, ".
-                "assume http as default");
-            $url = "http://".$val.'/ocsinventory';
-        } else {
-            $url = $val;
-        }
+    foreach my $url (split(/,/, $config->{'server'})) {
         my $target = FusionInventory::Agent::Target::Server->new({
             logger     => $logger,
             deviceid   => $deviceid,
