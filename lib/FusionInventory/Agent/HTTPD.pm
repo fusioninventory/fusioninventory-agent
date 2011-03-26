@@ -38,126 +38,170 @@ sub new {
 }
 
 sub _handle {
-    my ($self, $c, $r, $clientIp) = @_;
+    my ($self, $client, $request, $clientIp) = @_;
     
     my $logger = $self->{logger};
     my $targets = $self->{targets};
     my $htmldir = $self->{htmldir};
 
-    if (!$r) {
-        $c->close;
-        undef($c);
+    if (!$request) {
+        $client->close();
         return;
     }
 
+    my $path = $request->uri()->path();
+    $logger->debug("[HTTPD] request $path from client $clientIp");
 
-    $logger->debug("[HTTPD] $clientIp request ".$r->uri->path);
-    if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
-        my $nextContact = "";
-        foreach my $target (@{$targets->{targets}}) {
-            my $path = $target->{'path'};
-            $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
-            my $timeString;
-            if ($target->getNextRunDate() > 1) {
-                $timeString = localtime($target->getNextRunDate());
-            } else {
-                $timeString = "now";
-            }
-            $nextContact .= "<li>".$target->{'type'}.', '.$path.": ".$timeString."</li>\n";
-        }
-
-        my $indexFile = $htmldir."/index.tpl";
-        my $handle;
-        if (!open $handle, '<', $indexFile) {
-            $logger->error("Can't open share $indexFile: $ERRNO");
-            $c->send_error(404);
-            return;
-        }
-        undef $/;
-        my $output = <$handle>;
-        close $handle;
-
-        my $status = $self->{agent}->getStatus();
-
-        $output =~ s/%%STATUS%%/$status/;
-        $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
-        $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-        if ($clientIp !~ /^127\./ || !$self->{trust_localhost}) {
-            $output =~
-            s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
-        }
-        $output =~ s/%%(END|)IF_.*?%%//g;
-        my $r = HTTP::Response->new(
-            200,
-            'OK',
-            HTTP::Headers->new('Content-Type' => 'text/html'),
-            $output
-        );
-        $c->send_response($r);
-
-
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/deploy\/([a-zA-Z\d\/-]+)$/) {
-        my $file = $1;
-        foreach my $target (@{$targets->{targets}}) {
-            if (-f $target->{vardir}."/deploy/".$file) {
-                $logger->debug("Send /deploy/".$file);
-                $c->send_file_response($target->{vardir}."/deploy/".$file);
-            } else {
-                $logger->debug("Not found /deploy/".$file);
-            }
-        }
-        $c->send_error(404)
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
-        my $sentToken = $2;
-        my $currentToken = $self->{agent}->getToken();
-        my $code;
-        my $msg;
-        $logger->debug("[HTTPD] 'now' catched");
-        if (
-            ($self->{trust_localhost} && $clientIp =~ /^127\./)
-                or
-            ($sentToken eq $currentToken)
-        ) {
-            $self->{agent}->resetToken();
-            $targets->resetNextRunDate();
-            $code = 200;
-            $msg = "Done."
-
-        } else {
-
-            $logger->debug("[HTTPD] bad token $sentToken != ".$currentToken);
-            $code = 403;
-            $msg = "Access denied. You are not using the 127.0.0.1 IP address to access the server or httpd-trust-localhost is off or the token is invalid."
-
-        }
-
-        my $r = HTTP::Response->new(
-            $code,
-            'OK',
-            HTTP::Headers->new('Content-Type' => 'text/html'),
-            "<html><head><title>FusionInventory-Agent</title></head><body>$msg <br /><a href='/'>Back</a></body><html>"
-        );
-        $c->send_response($r);
-
-    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/status$/) {
-        #$c->send_status_line(200, $status)
-        my $r = HTTP::Response->new(
-            200,
-            'OK',
-            HTTP::Headers->new('Content-Type' => 'text/plain'),
-           "status: ".$status
-        );
-        $c->send_response($r);
-
-    } elsif ($r->method eq 'GET' and $r->uri->path =~
-        /^\/(logo.png|site.css|favicon.ico)$/) {
-        $c->send_file_response($htmldir."/$1");
-    } else {
-        $logger->debug("[HTTPD] Err, 500");
-        $c->send_error(500)
+    # non-GET requests
+    my $method = $request->method();
+    if ($method ne 'GET') {
+        $logger->debug("[HTTPD] error, invalid request type: $method");
+        $client->send_error(400);
+        $client->close;
+        undef($client);
+        return;
     }
-    $c->close;
-    undef($c);
+
+    # GET requests
+    SWITCH: {
+        # root request
+        if ($path eq '/') {
+
+            my $indexFile = $htmldir . "/index.tpl";
+            my $handle;
+            if (!open $handle, '<', $indexFile) {
+                $logger->error("[HTTPD] Can't open share $indexFile: $ERRNO");
+                $client->send_error(404);
+                return;
+            }
+            undef $/;
+            my $output = <$handle>;
+            close $handle;
+
+            my $nextContact = "";
+            foreach my $target (@{$targets->{targets}}) {
+                my $path = $target->{'path'};
+                $path =~ s/(http|https)(:\/\/)(.*@)(.*)/$1$2$4/;
+                my $timeString = $target->getNextRunDate() > 1 ?
+                    localtime($target->getNextRunDate()) : "now" ;
+                my $type = ref $target;
+                $nextContact .= "<li>$type, $path: $timeString</li>\n";
+            }
+
+            my $status = $self->{agent}->getStatus();
+
+            $output =~ s/%%STATUS%%/$status/;
+            $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
+            $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
+            if ($clientIp !~ /^127\./ || !$self->{'trust_localhost'}) {
+                $output =~
+                s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
+            }
+            $output =~ s/%%(END|)IF_.*?%%//g;
+
+            my $response = HTTP::Response->new(
+                200,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/html'),
+                $output
+            );
+            $client->send_response($response);
+
+            last SWITCH;
+        } 
+
+        # deploy request
+        if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
+            my $file = $1;
+            foreach my $target (@{$targets->{targets}}) {
+                my $directory = $target->{vardir} ."/deploy";
+                if (-f "$directory/$file") {
+                    $logger->debug("[HTTPD] $path sent");
+                    $client->send_file_response("$directory/$file");
+                } else {
+                    $logger->debug("[HTTPD] $path not found");
+                }
+            }
+            $client->send_error(404);
+            last SWITCH;
+        }
+
+        # now request
+        if ($path =~ m{^/now(?:/(\S+))?$}) {
+            my $sentToken = $1;
+
+            my $result;
+            if ($clientIp =~ /^127\./ && $self->{trust_localhost}) {
+                # trusted request
+                $result = "ok";
+            } else {
+                # authenticated request
+                if ($sentToken) {
+                    my $token = $self->{agent}->resetToken();
+                   if ($sentToken eq $token) {
+                        $result = "ok";
+                        $self->{agent}->resetToken();
+                    } else {
+                        $logger->debug(
+                            "[HTTPD] untrusted address, invalid token " .
+                            "$sentToken != $token"
+                        );
+                        $result = "untrusted address, invalid token";
+                    }
+               } else {
+                    $logger->debug(
+                        "[HTTPD] untrusted address, no token received"
+                    );
+                    $result = "untrusted address, no token received";
+                }
+            }
+
+            my ($code, $message);
+            if ($result eq "ok") {
+                $targets->resetNextRunDate();
+                $code    = 200;
+                $message = "Done."
+            } else {
+                $code    = 403;
+                $message = "Access denied: $result.";
+            }
+
+            my $response = HTTP::Response->new(
+                $code,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/html'),
+                "<html><head><title>FusionInventory-Agent</title></head><body>$message<br/><a href='/'>Back</a></body><html>"
+            );
+            $client->send_response($response);
+
+            last SWITCH;
+        }
+
+        # status request
+        if ($path eq '/status') {
+            my $status = $self->{agent}->getStatus();
+            my $response = HTTP::Response->new(
+                200,
+                'OK',
+                HTTP::Headers->new('Content-Type' => 'text/plain'),
+               "status: ".$status
+            );
+            $client->send_response($response);
+            last SWITCH;
+        }
+
+        # static content request
+        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
+            my $file = $1;
+            $client->send_file_response("$htmldir/$file");
+            last SWITCH;
+        }
+
+        $logger->debug("[WWW] error, unknown path: $path");
+        $client->send_error(400);
+    }
+
+    $client->close();
 }
 
 sub _listen {
