@@ -64,7 +64,7 @@ sub _init {
 
     $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
 
-    $self->{last_statefile} = $self->{vardir} . "/last_state";
+    $self->{last_statefile} = $params->{vardir} . "/last_state";
 }
 
 sub getStorage {

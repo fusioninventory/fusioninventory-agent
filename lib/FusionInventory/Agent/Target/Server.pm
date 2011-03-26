@@ -67,6 +67,12 @@ sub new {
     return $self;
 }
 
+sub getUrl {
+    my ($self) = @_;
+
+    return $self->{url};
+}
+
 sub getDescription {
     my ($self) = @_;
 
