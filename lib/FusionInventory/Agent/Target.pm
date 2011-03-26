@@ -96,12 +96,6 @@ sub new {
     return $self;
 }
 
-sub isDirectoryWritable {
-    my ($self, $dir) = @_;
-
-    return -w $dir;
-}
-
 # TODO refactoring needed here.
 sub init {
     my ($self) = @_;
@@ -110,33 +104,6 @@ sub init {
     my $logger = $self->{logger};
 
     lock($lock);
-# The agent can contact different servers. Each server has it's own
-# directory to store data
-    if (
-        ((!-d $config->{basevardir} && !mkpath ($config->{basevardir})) ||
-            !$self->isDirectoryWritable($config->{basevardir}))
-        && $OSNAME ne 'MSWin32'
-    ) {
-
-        if (! -d $ENV{HOME}."/.ocsinventory/var") {
-            $logger->info(
-                "Failed to create basevardir: $config->{basevardir} " .
-                "directory: $ERRNO. I'm going to use the home directory " .
-                "instead (~/.ocsinventory/var)."
-            );
-        }
-
-        $config->{basevardir} = $ENV{HOME}."/.ocsinventory/var";
-        if (!-d $config->{basevardir} && !mkpath ($config->{basevardir})) {
-            $logger->error(
-                "Failed to create basedir: $config->{basedir} directory: " .
-                "$ERRNO. The HOSTID will not be written on the harddrive. " .
-                "You may have a duplicated entry of this computer in your OCS " .
-                "database"
-            );
-        }
-        $logger->debug("var files are stored in ".$config->{basevardir});
-    }
 
     if ($self->{type} eq 'server') {
         my $dir = $self->{path};
