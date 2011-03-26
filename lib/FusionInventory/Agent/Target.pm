@@ -33,7 +33,6 @@ sub new {
         logger          => $params->{logger},
         path            => $params->{path} || '',
         deviceid        => $params->{deviceid},
-        debugPrintTimer => 0
     };
     bless $self, $class;
 
@@ -119,10 +118,6 @@ sub getNextRunDate {
     lock($lock);
 
     if (${$self->{nextRunDate}}) {
-        if ($self->{debugPrintTimer} < time) {
-            $self->{debugPrintTimer} = time + 600;
-        }; 
-
         return ${$self->{nextRunDate}};
     }
 
