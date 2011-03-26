@@ -30,7 +30,7 @@ sub new {
 }
 
 sub getParsedContent {
-    my $self = shift;
+    my ($self) = @_;
 
     return $self->{content};
 }
