@@ -32,12 +32,12 @@ sub new {
     );
 
     $SIG{PIPE} = 'IGNORE';
-    threads->create('server', $self);
+    threads->create('_listen', $self);
 
     return $self;
 }
 
-sub handler {
+sub _handle {
     my ($self, $c, $r, $clientIp) = @_;
     
     my $logger = $self->{logger};
@@ -160,7 +160,7 @@ sub handler {
     undef($c);
 }
 
-sub server {
+sub _listen {
     my ($self) = @_;
 
     my $targets = $self->{targets};
@@ -192,7 +192,7 @@ sub server {
         my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
         my $request = $client->get_request();
-        $self->handler($client, $request, $clientIp);
+        $self->_handle($client, $request, $clientIp);
     }
 }
 
