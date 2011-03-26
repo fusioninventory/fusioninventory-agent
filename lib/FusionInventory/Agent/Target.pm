@@ -67,7 +67,7 @@ sub new {
     }
 
     $self->{storage} = FusionInventory::Agent::Storage->new({
-        target => $self
+        directory => $self->{vardir}
     });
     my $storage = $self->{storage};
     $self->{myData} = $storage->restore();

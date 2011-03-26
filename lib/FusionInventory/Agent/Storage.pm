@@ -25,15 +25,12 @@ BEGIN {
 }
 
 sub new {
-    my ( $class, $params ) = @_;
+    my ($class, $params) = @_;
 
-    my $self = {};
-
-    my $config = $self->{config} = $params->{config};
-    my $target = $self->{target} = $params->{target};
-    $self->{logger} = $params->{logger};
-
-    $self->{vardir} = $target->{vardir};
+    my $self = {
+        logger    => $params->{logger},
+        directory => $params->{directory},
+    };
 
     bless $self, $class;
 
@@ -75,8 +72,6 @@ sub getFilePath {
     });
 
 
-    my $dirName = $self->getFileDir();
-
     my $extension = '';
     if ($idx) {
         if ($idx !~ /^\d+$/) {
@@ -86,30 +81,7 @@ sub getFilePath {
     }
 
 
-    return $dirName."/".$fileName.$extension.".dump";
-
-}
-
-
-sub getFileDir {
-    my ($self, $params ) = @_;
-
-    my $target = $self->{target};
-    my $config = $self->{config};
-
-    my $module = $params->{module};
-    my $idx = $params->{idx};
-
-    my $dirName;
-    if ($target) {
-        $dirName = $target->{'vardir'};
-    } elsif ($config) {
-        $dirName = $config->{'basevardir'};
-    } else {
-        $self->{logger}->fault('no target nor config');
-    }
-
-    return $dirName;
+    return $self->{directory}."/".$fileName.$extension.".dump";
 
 }
 
@@ -217,9 +189,7 @@ on the caller module name.
 =head1 SYNOPSIS
 
   my $storage = FusionInventory::Agent::Storage->new({
-      target => {
-          vardir => $ARGV[0],
-      }
+      directory => $directory
   });
   my $data = $storage->restore({
           module => "FusionInventory::Agent"

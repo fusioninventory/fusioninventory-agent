@@ -104,7 +104,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
     # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
-        config => $config
+        directory => $config->{basevardir}
     });
     my $myRootData = $rootStorage->restore();
 
