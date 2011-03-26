@@ -54,8 +54,6 @@ sub new {
 
     bless $self, $class;
 
-    return $self if $config->{'no-httpd'};
-
     $SIG{PIPE} = 'IGNORE';
     if ($config->{daemon} || $config->{service}) {
         $self->{thr} = threads->create('server', $self);
