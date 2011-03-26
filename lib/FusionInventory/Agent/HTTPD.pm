@@ -1,4 +1,4 @@
-package FusionInventory::Agent::RPC;
+package FusionInventory::Agent::HTTPD;
 
 use strict;
 use warnings;
@@ -37,7 +37,7 @@ sub new {
     my $logger = $self->{logger};
 
     if (!$Config{usethreads}) {
-        $logger->debug("threads support is need for RPC"); 
+        $logger->debug("threads support is need for HTTPD"); 
         return;
     }
 
@@ -47,9 +47,9 @@ sub new {
         $self->{htmlDir} = "./share/html";
     }
     if ($self->{htmlDir}) {
-        $logger->debug("[RPC] static files are in ".$self->{htmlDir});
+        $logger->debug("[HTTPD] static files are in ".$self->{htmlDir});
     } else {
-        $logger->debug("[RPC] No static files directory");
+        $logger->debug("[HTTPD] No static files directory");
     }
 
     bless $self, $class;
@@ -79,7 +79,7 @@ sub handler {
     }
 
 
-    $logger->debug("[RPC] $clientIp request ".$r->uri->path);
+    $logger->debug("[HTTPD] $clientIp request ".$r->uri->path);
     if ($r->method eq 'GET' and $r->uri->path =~ /^\/$/) {
         my $nextContact = "";
         foreach my $target (@{$targets->{targets}}) {
@@ -140,7 +140,7 @@ sub handler {
         my $currentToken = $self->{agent}->getToken();
         my $code;
         my $msg;
-        $logger->debug("[RPC] 'now' catched");
+        $logger->debug("[HTTPD] 'now' catched");
         if (
             ($config->{'httpd-trust-localhost'} && $clientIp =~ /^127\./)
                 or
@@ -153,7 +153,7 @@ sub handler {
 
         } else {
 
-            $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
+            $logger->debug("[HTTPD] bad token $sentToken != ".$currentToken);
             $code = 403;
             $msg = "Access denied. You are not using the 127.0.0.1 IP address to access the server or httpd-trust-localhost is off or the token is invalid."
 
@@ -181,7 +181,7 @@ sub handler {
         /^\/(logo.png|site.css|favicon.ico)$/) {
         $c->send_file_response($htmlDir."/$1");
     } else {
-        $logger->debug("[RPC] Err, 500");
+        $logger->debug("[HTTPD] Err, 500");
         $c->send_error(500)
     }
     $c->close;
@@ -213,10 +213,10 @@ sub server {
     }
   
     if (!$daemon) {
-        $logger->error("Failed to start the RPC server");
+        $logger->error("Failed to start the HTTPD server");
         return;
     } 
-    $logger->info("RPC service started at: http://".
+    $logger->info("HTTPD service started at: http://".
         ( $config->{'httpd-ip'} || "127.0.0.1" ).
         ":".
         $config->{'httpd-port'} || 62354);
@@ -259,7 +259,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::RPC - the RPC interface 
+FusionInventory::Agent::HTTPD - the RPC interface 
 
 =head1 DESCRIPTION
 
