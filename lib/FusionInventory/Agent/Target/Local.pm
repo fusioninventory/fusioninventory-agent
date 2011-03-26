@@ -9,10 +9,12 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    $self->{format} = $self->{config}->{html} ? 'HTML' :'XML';
+    $self->{path} = $params->{path};
+
+    $self->{format} = $params->{html} ? 'HTML' :'XML';
 
     $self->_init({
-        vardir => $self->{config}->{basevardir} . '/__LOCAL__',
+        vardir => $params->{basevardir} . '/__LOCAL__',
     });
 
     return $self;

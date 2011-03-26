@@ -13,23 +13,27 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
+    $self->{path} = $params->{path};
+
     my $subdir = $params->{path};
     $subdir =~ s/\//_/g;
     $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
     $self->_init({
-        vardir => $self->{config}->{basevardir} . '/' . $subdir
+        vardir => $params->{basevardir} . '/' . $subdir
     });
+
+    my $logger = $self->{logger};
 
     $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
         logger => $logger,
-        config => $config,
         target => $self,
+        file   => $self->{vardir} . "/ocsinv.adm"
     });
 
     my $accountinfo = $self->{accountinfo};
 
-    if ($config->{tag}) {
+    if ($params->{tag}) {
         if ($accountinfo->get("TAG")) {
             $logger->debug(
                 "A TAG seems to already exist in the server for this ".
@@ -37,7 +41,8 @@ sub new {
                 "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
             );
         }
-    $accountinfo->set("TAG", $config->{tag});
+        $accountinfo->set("TAG", $params->{tag});
+    }
 
     $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
    

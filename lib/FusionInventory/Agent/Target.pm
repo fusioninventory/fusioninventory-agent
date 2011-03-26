@@ -29,10 +29,9 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config          => $params->{config},
-        logger          => $params->{logger},
-        path            => $params->{path} || '',
-        deviceid        => $params->{deviceid},
+        logger    => $params->{logger},
+        deviceid  => $params->{deviceid},
+        delaytime => $params->{delaytime} || 3600,
     };
     bless $self, $class;
 
@@ -42,7 +41,6 @@ sub new {
 sub _init {
     my ($self, $params) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
 
     my $nextRunDate : shared;
@@ -75,7 +73,6 @@ sub setNextRunDate {
 
     my ($self, $args) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
@@ -89,7 +86,7 @@ sub setNextRunDate {
     if ($serverdelay) {
         $max = $serverdelay * 3600;
     } else {
-        $max = $config->{delaytime};
+        $max = $self->{delaytime};
         # If the PROLOG_FREQ has never been initialized, we force it at 1h
         $self->setPrologFreq(1);
     }
@@ -112,7 +109,6 @@ sub setNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
 
     lock($lock);
@@ -150,7 +146,6 @@ sub setPrologFreq {
 
     my ($self, $prologFreq) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 
@@ -178,7 +173,6 @@ sub setCurrentDeviceID {
 
     my ($self, $deviceid) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     my $storage = $self->{storage};
 

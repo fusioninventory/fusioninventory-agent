@@ -47,9 +47,10 @@ sub init {
 
     if ($config->{'stdout'}) {
         my $target = FusionInventory::Agent::Target::Stdout->new({
-            logger   => $logger,
-            config   => $config,
-            deviceid => $deviceid,
+            logger     => $logger,
+            deviceid   => $deviceid,
+            delaytime  => $config->{delaytime},
+            basevardir => $config->{basevardir},
         });
         $self->addTarget({
             target => $target
@@ -58,10 +59,12 @@ sub init {
 
     if ($config->{'local'}) {
         my $target = FusionInventory::Agent::Target::Local->new({
-            config   => $config,
-            logger   => $logger,
-            path     => $config->{'local'},
-            deviceid => $deviceid,
+            logger     => $logger,
+            deviceid   => $deviceid,
+            delaytime  => $config->{delaytime},
+            basevardir => $config->{basevardir},
+            path       => $config->{local},
+            html       => $config->{html},
         });
         $self->addTarget({
             target => $target
@@ -81,10 +84,12 @@ sub init {
             $url = $val;
         }
         my $target = FusionInventory::Agent::Target::Server->new({
-            config   => $config,
-            logger   => $logger,
-            path     => $url,
-            deviceid => $deviceid,
+            logger     => $logger,
+            deviceid   => $deviceid,
+            delaytime  => $config->{delaytime},
+            basevardir => $config->{basevardir},
+            path       => $url,
+            tag        => $config->{tag},
         });
         $self->addTarget({
             target => $target

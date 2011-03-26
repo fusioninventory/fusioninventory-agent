@@ -12,7 +12,7 @@ sub new {
     my $self = $class->SUPER::new($params);
 
     $self->_init({
-        vardir => $self->{config}->{basevardir} . '/__LOCAL__',
+        vardir => $params->{basevardir} . '/__LOCAL__',
     });
 
     return $self;
