@@ -9,22 +9,23 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    $self->{accountconfig} = $params->{accountconfig};
-    $self->{accountinfo} = $params->{accountinfo};
-    $self->{content}  = $params->{content};
-    $self->{config} = $params->{config};
-    my $logger = $self->{logger}  = $params->{logger};
-    $self->{origmsg}  = $params->{origmsg};
-
-    $logger->debug("=BEGIN=SERVER RET======");
-    $logger->debug(Dumper($self->{content}));
-    $logger->debug("=END=SERVER RET======");
-
-    $self->{parsedcontent}  = undef;
+    my $self = {
+        accountconfig => $params->{accountconfig},
+        accountinfo   => $params->{accountinfo},
+        content       => $params->{content},
+        config        => $params->{config},
+        logger        => $params->{logger},
+        origmsg       => $params->{origmsg},
+        parsedcontent => undef
+    };
 
     bless $self, $class;
+
+    $self->{logger}->debug(
+        "=BEGIN=SERVER RET======" .
+        Dumper($self->{content}) .
+        "=END=SERVER RET======"
+    );
 
     return $self;
 }
