@@ -29,31 +29,27 @@ my $lock : shared;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        config          => $params->{config},
+        type            => $params->{type},
+        logger          => $params->{logger},
+        path            => $params->{path} || '',
+        deviceid        => $params->{deviceid},
+        debugPrintTimer => 0
+    };
+    bless $self, $class;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     lock($lock);
 
     my $nextRunDate : shared;
     $self->{nextRunDate} = \$nextRunDate;
 
-    $self->{config} = $params->{config};
-    $self->{logger} = $params->{logger};
-    $self->{type} = $params->{type};
-    $self->{path} = $params->{path} || '';
-    $self->{deviceid} = $params->{deviceid};
-
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-    my $type   = $self->{type};
-
-    $self->{format} = ($type eq 'local' && $config->{html})?'HTML':'XML';
-
-    bless $self, $class;
+    $self->{format} = $params->{type} eq 'local' && $config->{html} ?
+        'HTML' : 'XML';
    
-    $self->{debugPrintTimer} = 0;
-    
     $self->init();
 
     if ($params->{type} !~ /^(server|local|stdout)$/ ) {
