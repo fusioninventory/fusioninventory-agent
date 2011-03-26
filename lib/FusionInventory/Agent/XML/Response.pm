@@ -3,7 +3,6 @@ package FusionInventory::Agent::XML::Response;
 use strict;
 use warnings;
 
-use Data::Dumper;
 use XML::Simple;
 
 sub new {
@@ -21,18 +20,11 @@ sub new {
         accountconfig => $params->{accountconfig},
         accountinfo   => $params->{accountinfo},
         config        => $params->{config},
-        logger        => $params->{logger},
         origmsg       => $params->{origmsg},
         content       => $content->{REPLY}
     };
 
     bless $self, $class;
-
-    $self->{logger}->debug(
-        "=BEGIN=SERVER RET======" .
-        Dumper($self->{content}) .
-        "=END=SERVER RET======"
-    );
 
     return $self;
 }
