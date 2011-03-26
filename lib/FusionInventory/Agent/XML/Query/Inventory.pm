@@ -890,10 +890,6 @@ sub writeXML {
     my $config = $self->{config};
     my $target = $self->{target};
 
-    if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
-    }
-
     $self->initialise();
 
     my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
@@ -917,10 +913,6 @@ sub writeHTML {
     my $logger = $self->{logger};
     my $config = $self->{config};
     my $target = $self->{target};
-
-    if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
-    }
 
     $self->initialise();
 
