@@ -8,8 +8,8 @@ use HTTP::Status;
 use UNIVERSAL::require;
 use URI;
 
-
 use FusionInventory::Compress;
+use FusionInventory::Agent::XML::Response;
 
 sub new {
     my ($class, $params) = @_;
@@ -211,17 +211,11 @@ sub send {
         }
     }
 
-    # AutoLoad the proper response object
-    my $msgType = ref($message); # The package name of the message object
-    my $tmp = "FusionInventory::Agent::XML::Response::".$msgtype;
-    $tmp->require();
-    if ($EVAL_ERROR) {
-        $logger->error("Can't load response module $tmp: $EVAL_ERROR");
-    }
-    $tmp->import();
-    my $response = $tmp->new({
+    $logger->debug("receiving message: $content");
+
+    my $response = FusionInventory::Agent::XML::Response->new({
         accountinfo => $target->{accountinfo},
-        config => $self->{config}
+        content     => $content
     });
 
     return $response;
