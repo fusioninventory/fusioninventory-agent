@@ -47,3 +47,40 @@ sub getOptionsInfoByName {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::XML::Response - Generic server message
+
+=head1 DESCRIPTION
+
+This is a generic message sent by the server to the agent.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
+
+=over
+
+=item I<logger>
+
+the logger object to use (default: a new stderr logger)
+
+=item I<content>
+
+the raw XML content
+
+=back
+
+=head2 getParsedContent
+
+Get XML content, parsed as a perl data structure.
+
+=head2 getOptionsInfoByName($name)
+
+Get parameters of a specific option
