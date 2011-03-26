@@ -5,7 +5,6 @@ use warnings;
 
 use Cwd;
 use English qw(-no_match_vars);
-use File::Path;
 use Sys::Hostname;
 use UNIVERSAL::require;
 use XML::Simple;
@@ -63,13 +62,6 @@ sub new {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (!-d $config->{basevardir} && !mkpath($config->{basevardir}, {error => undef})) {
-        $logger->error(
-            "Failed to create ".$config->{basevardir}.
-            " Please use --basevardir to point to a R/W directory."
-        );
-    }
-
     if (not $config->{'scan-homedirs'}) {
         $logger->debug("--scan-homedirs missing. Don't scan user directories");
     }
@@ -104,6 +96,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
     # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
+        logger    => $logger,
         directory => $config->{basevardir}
     });
     my $myRootData = $rootStorage->restore();

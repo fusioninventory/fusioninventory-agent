@@ -5,7 +5,6 @@ use warnings;
 
 use Config;
 use English qw(-no_match_vars);
-use File::Path;
 
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::AccountInfo;
@@ -49,7 +48,6 @@ sub new {
     my $target = $self->{target};
     my $type   = $self->{type};
 
-
     $self->{format} = ($type eq 'local' && $config->{html})?'HTML':'XML';
 
     bless $self, $class;
@@ -62,11 +60,9 @@ sub new {
         $logger->fault('bad type'); 
     }
 
-    if (!-d $self->{vardir}) {
-        $logger->fault("Bad vardir setting!");
-    }
-
+    # restore previous state
     $self->{storage} = FusionInventory::Agent::Storage->new({
+        logger    => $self->{logger},
         directory => $self->{vardir}
     });
     my $storage = $self->{storage};
@@ -156,16 +152,6 @@ sub init {
         $self->{vardir} = $config->{basevardir} . "/__LOCAL__";
     }
     $logger->debug("vardir: $self->{vardir}");
-
-    if (!-d $self->{vardir} && !mkpath ($self->{vardir})) {
-        $logger->error(
-            "Failed to create vardir: $self->{vardir} directory: $ERRNO"
-        );
-    }
-
-    if (!$self->isDirectoryWritable($self->{vardir})) {
-        $logger->fault("Can't write in $self->{vardir}");
-    }
 
     $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
     $self->{last_statefile} = $self->{vardir} . "/last_state";

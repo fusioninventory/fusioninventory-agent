@@ -6,6 +6,7 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 use File::Glob ':glob';
+use File::Path qw(make_path);
 use Storable;
 
 my $lock :shared;
@@ -27,9 +28,21 @@ BEGIN {
 sub new {
     my ($class, $params) = @_;
 
+    if (!-d $params->{directory}) {
+        make_path($params->{directory}, {error => \my $err});
+        if (@$err) {
+            my (undef, $message) = %{$err->[0]};
+            die "Can't create $params->{directory}: $message";
+        }
+    }
+
+    if (! -w $params->{directory}) {
+        die "Can't write in $params->{directory}";
+    }
+
     my $self = {
         logger    => $params->{logger},
-        directory => $params->{directory},
+        directory => $params->{directory}
     };
 
     bless $self, $class;
