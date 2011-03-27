@@ -17,7 +17,6 @@ sub new {
     bless $self, $class;
 
     $self->{h} = {
-        QUERY    => [ 'UNSET!' ],
         DEVICEID => [ $params->{deviceid} ]
     };
 
