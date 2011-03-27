@@ -17,10 +17,10 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
+    $self->{local} = $params->{local};
     $self->{backend} = $params->{backend};
     my $logger = $self->{logger};
     my $target = $self->{target};
-    my $config = $self->{config};
 
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
@@ -58,8 +58,6 @@ sub new {
 
 sub _addEntry {
     my ($self, $params) = @_;
-
-    my $config = $self->{config};
 
     my $fields = $params->{'field'};
     my $sectionName = $params->{'sectionName'};
@@ -881,12 +879,11 @@ sub writeXML {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
     my $target = $self->{target};
 
     $self->initialise();
 
-    my $localfile = $config->{local}."/".$target->{deviceid}.'.ocs';
+    my $localfile = $self->{local}."/".$target->{deviceid}.'.ocs';
     $localfile =~ s!(//){1,}!/!;
 
     # Convert perl data structure into xml strings
@@ -905,12 +902,11 @@ sub writeHTML {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
     my $target = $self->{target};
 
     $self->initialise();
 
-    my $localfile = $config->{local}."/".$target->{deviceid}.'.html';
+    my $localfile = $self->{local}."/".$target->{deviceid}.'.html';
     $localfile =~ s!(//){1,}!/!;
 
     # Convert perl data structure into xml strings

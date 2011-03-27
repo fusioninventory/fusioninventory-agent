@@ -225,7 +225,6 @@ sub main {
 
             my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
                 logger => $logger,
-                config => $config,
                 token  => $self->{token},
                 target => $target
             });

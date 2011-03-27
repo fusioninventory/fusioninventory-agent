@@ -31,7 +31,6 @@ sub main {
     });
 
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        config => $self->{config},
         logger => $self->{logger},
         target => $self->{target},
         msg    => {

@@ -47,8 +47,8 @@ sub main {
         # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
+        local  => $self->{config}->{local},
         target => $self->{target},
-        config => $self->{config},
         logger => $self->{logger},
     });
     $self->{inventory} = $inventory;

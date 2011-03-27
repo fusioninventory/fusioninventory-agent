@@ -11,7 +11,6 @@ sub new {
     die "no deviceid parameter" unless $params->{target}->{deviceid};
 
     my $self = {
-        config => $params->{config},
         logger => $params->{logger},
         target => $params->{target}
     };
