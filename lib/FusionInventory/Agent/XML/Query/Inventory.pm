@@ -22,32 +22,12 @@ sub new {
 
     $self->{h}->{QUERY} = 'INVENTORY';
     $self->{h}->{CONTENT} = {
-        ACCESSLOG   => {},
-        BIOS        => {},
-        CONTROLLERS => [],
-        CPUS        => [],
-        DRIVES      => [],
-        HARDWARE    => {
+        HARDWARE => {
             # TODO move that in a backend module
             ARCHNAME => $Config{archname},
             VMSYSTEM => "Physical" # Default value
         },
-        MONITORS        => [],
-        PORTS           => [],
-        SLOTS           => [],
-        STORAGES        => [],
-        SOFTWARES       => [],
-        USERS           => [],
-        VIDEOS          => [],
-        VIRTUALMACHINES => [],
-        SOUNDS          => [],
-        MODEMS          => [],
-        ENVS            => [],
-        UPDATES         => [],
-        USBDEVICES      => [],
-        BATTERIES       => [],
-        ANTIVIRUS       => [],
-        VERSIONCLIENT   => $FusionInventory::Agent::AGENT_STRING
+        VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING
     };
 
     return $self;
