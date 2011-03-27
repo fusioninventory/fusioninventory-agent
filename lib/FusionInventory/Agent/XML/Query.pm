@@ -8,6 +8,8 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
+    die "no deviceid parameter" unless $params->{target}->{deviceid};
+
     my $self = {
         config => $params->{config},
         logger => $params->{logger},
@@ -29,7 +31,6 @@ sub new {
       $self->{h}{OLD_DEVICEID} = [ $target->{currentDeviceid} ];
     }
   
-    $self->{logger}->fault("No DEVICEID") unless $target->{deviceid};
 
     return $self;
 }

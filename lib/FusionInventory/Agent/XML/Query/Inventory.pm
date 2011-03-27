@@ -22,10 +22,6 @@ sub new {
     my $target = $self->{target};
     my $config = $self->{config};
 
-    if (!($target->{deviceid})) {
-        $logger->fault ('deviceid unititalised!');
-    }
-
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
     $self->{h}{CONTENT}{BIOS} = {};
