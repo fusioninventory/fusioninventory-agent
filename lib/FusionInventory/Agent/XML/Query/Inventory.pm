@@ -1128,7 +1128,9 @@ allowed parameters.
 
 a path to a directory for a local output
 
-=item I<backend>
+=item I<last_statefile>
+
+a path to a file containing the last serialized inventory
 
 =back
 
