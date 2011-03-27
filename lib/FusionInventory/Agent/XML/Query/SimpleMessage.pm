@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use Data::Dumper;
 use XML::Simple;
 
 sub new {
@@ -22,11 +21,6 @@ sub new {
     $logger->fault("No msg") unless $params->{msg};
 
     return $self;
-}
-
-sub dump {
-    my $self = shift;
-    print Dumper($self->{h});
 }
 
 sub getContent {

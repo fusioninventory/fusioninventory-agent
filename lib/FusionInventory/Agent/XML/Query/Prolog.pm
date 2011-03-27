@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use XML::Simple;
 
@@ -20,11 +19,6 @@ sub new {
     $self->{h}{TOKEN} = [$params->{token}];
 
     return $self;
-}
-
-sub dump {
-    my $self = shift;
-    print Dumper($self->{h});
 }
 
 sub getContent {
