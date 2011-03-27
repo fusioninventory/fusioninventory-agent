@@ -9,6 +9,8 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
+    die "no token parameter" unless $params->{token};
+
     my $self = $class->SUPER::new($params);
 
     $self->{h}->{QUERY} = [ 'PROLOG' ];
