@@ -9,10 +9,9 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config      => $params->{config},
-        accountinfo => $params->{accountinfo},
-        logger      => $params->{logger},
-        target      => $params->{target}
+        config => $params->{config},
+        logger => $params->{logger},
+        target => $params->{target}
     };
     bless $self, $class;
 
