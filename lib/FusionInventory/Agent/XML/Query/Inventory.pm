@@ -18,7 +18,6 @@ sub new {
     my $self = $class->SUPER::new($params);
 
     $self->{local} = $params->{local};
-    $self->{backend} = $params->{backend};
     $self->{last_statefile} = $params->{last_statefile};
 
     $self->{h}->{QUERY} = [ 'INVENTORY' ];
@@ -50,9 +49,6 @@ sub new {
         ANTIVIRUS       => [],
         VERSIONCLIENT   => [$FusionInventory::Agent::AGENT_STRING]
     };
-
-    # Is the XML centent initialised?
-    $self->{isInitialised} = undef;
 
     return $self;
 }
@@ -134,15 +130,6 @@ sub _encode {
     $string =~ s/[[:cntrl:]]//g;
 
     return $string;
-}
-
-sub initialise {
-    my ($self) = @_;
-
-    return if $self->{isInitialised};
-
-    $self->{backend}->feedInventory ({inventory => $self});
-
 }
 
 sub addController {
@@ -847,8 +834,6 @@ sub getContent {
 
     my $logger = $self->{logger};
 
-    $self->initialise();
-
     $self->processChecksum();
 
     #  checks for MAC, NAME and SSN presence
@@ -872,7 +857,6 @@ sub getContent {
 sub printXML {
     my ($self, $args) = @_;
 
-    $self->initialise();
     print $self->getContent();
 }
 
@@ -880,8 +864,6 @@ sub writeXML {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-
-    $self->initialise();
 
     my $localfile = $self->{local}."/".$self->{deviceid}.'.ocs';
     $localfile =~ s!(//){1,}!/!;
@@ -902,8 +884,6 @@ sub writeHTML {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-
-    $self->initialise();
 
     my $localfile = $self->{local}."/".$self->{deviceid}.'.html';
     $localfile =~ s!(//){1,}!/!;
@@ -1155,10 +1135,6 @@ a path to a directory for a local output
 =head2 feedSection()
 
 Add informations in inventory.
-
-=head2 initialise()
-
-Runs the backend modules to initialise the data.
 
 =head2 addController()
 
