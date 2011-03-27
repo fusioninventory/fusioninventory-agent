@@ -21,33 +21,37 @@ sub new {
     $self->{backend} = $params->{backend};
     $self->{last_statefile} = $params->{last_statefile};
 
-    $self->{h}{QUERY} = ['INVENTORY'];
-    $self->{h}{CONTENT}{ACCESSLOG} = {};
-    $self->{h}{CONTENT}{BIOS} = {};
-    $self->{h}{CONTENT}{CONTROLLERS} = [];
-    $self->{h}{CONTENT}{CPUS} = [];
-    $self->{h}{CONTENT}{DRIVES} = [];
-    $self->{h}{CONTENT}{HARDWARE} = {
-        # TODO move that in a backend module
-        ARCHNAME => [$Config{archname}],
-        VMSYSTEM => ["Physical"] # Default value
+    $self->{h} = {
+        QUERY   => [ 'INVENTORY' ],
+        CONTENT => {
+            ACCESSLOG   => {},
+            BIOS        => {},
+            CONTROLLERS => [],
+            CPUS        => [],
+            DRIVES      => [],
+            HARDWARE    => {
+                # TODO move that in a backend module
+                ARCHNAME => [ $Config{archname} ],
+                VMSYSTEM => [ "Physical" ] # Default value
+            },
+            MONITORS        => [],
+            PORTS           => [],
+            SLOTS           => [],
+            STORAGES        => [],
+            SOFTWARES       => [],
+            USERS           => [],
+            VIDEOS          => [],
+            VIRTUALMACHINES => [],
+            SOUNDS          => [],
+            MODEMS          => [],
+            ENVS            => [],
+            UPDATES         => [],
+            USBDEVICES      => [],
+            BATTERIES       => [],
+            ANTIVIRUS       => [],
+            VERSIONCLIENT   => [$FusionInventory::Agent::AGENT_STRING]
+        }
     };
-    $self->{h}{CONTENT}{MONITORS} = [];
-    $self->{h}{CONTENT}{PORTS} = [];
-    $self->{h}{CONTENT}{SLOTS} = [];
-    $self->{h}{CONTENT}{STORAGES} = [];
-    $self->{h}{CONTENT}{SOFTWARES} = [];
-    $self->{h}{CONTENT}{USERS} = [];
-    $self->{h}{CONTENT}{VIDEOS} = [];
-    $self->{h}{CONTENT}{VIRTUALMACHINES} = [];
-    $self->{h}{CONTENT}{SOUNDS} = [];
-    $self->{h}{CONTENT}{MODEMS} = [];
-    $self->{h}{CONTENT}{ENVS} = [];
-    $self->{h}{CONTENT}{UPDATES} = [];
-    $self->{h}{CONTENT}{USBDEVICES} = [];
-    $self->{h}{CONTENT}{BATTERIES} = [];
-    $self->{h}{CONTENT}{ANTIVIRUS} = [];
-    $self->{h}{CONTENT}{VERSIONCLIENT} = [$FusionInventory::Agent::AGENT_STRING];
 
     # Is the XML centent initialised?
     $self->{isInitialised} = undef;
