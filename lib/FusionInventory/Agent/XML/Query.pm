@@ -8,27 +8,29 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    $self->{config} = $params->{config};
-    $self->{accountinfo} = $params->{accountinfo};
-    $self->{logger} = $params->{logger};
-    $self->{target} = $params->{target};
+    my $self = {
+        config      => $params->{config},
+        accountinfo => $params->{accountinfo},
+        logger      => $params->{logger},
+        target      => $params->{target}
+    };
+    bless $self, $class;
 
     my $target = $self->{target};
-    my $logger = $self->{logger};
 
-    $self->{h} = {};
-    $self->{h}{QUERY} = ['UNSET!'];
-    $self->{h}{DEVICEID} = [$target->{deviceid}];
+    $self->{h} = {
+        QUERY    => [ 'UNSET!' ],
+        DEVICEID => [ $target->{deviceid} ]
+    };
 
-    if ($target->{currentDeviceid} && ($target->{deviceid} ne $target->{currentDeviceid})) {
-      $self->{h}{OLD_DEVICEID} = [$target->{currentDeviceid}];
+    if (
+        $target->{currentDeviceid} &&
+        ($target->{deviceid} ne $target->{currentDeviceid})
+    ) {
+      $self->{h}{OLD_DEVICEID} = [ $target->{currentDeviceid} ];
     }
   
-    $logger->fault("No DEVICEID") unless ($target->{deviceid});
-
-    bless $self, $class;
+    $self->{logger}->fault("No DEVICEID") unless $target->{deviceid};
 
     return $self;
 }
