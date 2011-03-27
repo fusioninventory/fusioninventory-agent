@@ -55,6 +55,7 @@ sub parseNmap {
 
     my $tpp = XML::TreePP->new(force_array => '*');
     my $h = $tpp->parse($xml);
+    return unless $h;
 
     my $ret = {};
     foreach my $host (@{$h->{nmaprun}[0]{host}}) {
