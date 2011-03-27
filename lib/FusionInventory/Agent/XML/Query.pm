@@ -8,29 +8,26 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
-    die "no deviceid parameter" unless $params->{target}->{deviceid};
+    die "no deviceid parameter" unless $params->{deviceid};
 
     my $self = {
-        logger => $params->{logger},
-        target => $params->{target}
+        logger   => $params->{logger},
+        deviceid => $params->{deviceid}
     };
     bless $self, $class;
 
-    my $target = $self->{target};
-
     $self->{h} = {
         QUERY    => [ 'UNSET!' ],
-        DEVICEID => [ $target->{deviceid} ]
+        DEVICEID => [ $params->{deviceid} ]
     };
 
     if (
-        $target->{currentDeviceid} &&
-        ($target->{deviceid} ne $target->{currentDeviceid})
+        $params->{currentDeviceid} &&
+        ($params->{deviceid} ne $params->{currentDeviceid})
     ) {
-      $self->{h}{OLD_DEVICEID} = [ $target->{currentDeviceid} ];
+      $self->{h}{OLD_DEVICEID} = [ $params->{currentDeviceid} ];
     }
   
-
     return $self;
 }
 

@@ -19,8 +19,7 @@ sub new {
 
     $self->{local} = $params->{local};
     $self->{backend} = $params->{backend};
-    my $logger = $self->{logger};
-    my $target = $self->{target};
+    $self->{last_statefile} = $params->{last_statefile};
 
     $self->{h}{QUERY} = ['INVENTORY'];
     $self->{h}{CONTENT}{ACCESSLOG} = {};
@@ -879,11 +878,10 @@ sub writeXML {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-    my $target = $self->{target};
 
     $self->initialise();
 
-    my $localfile = $self->{local}."/".$target->{deviceid}.'.ocs';
+    my $localfile = $self->{local}."/".$self->{deviceid}.'.ocs';
     $localfile =~ s!(//){1,}!/!;
 
     # Convert perl data structure into xml strings
@@ -902,11 +900,10 @@ sub writeHTML {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-    my $target = $self->{target};
 
     $self->initialise();
 
-    my $localfile = $self->{local}."/".$target->{deviceid}.'.html';
+    my $localfile = $self->{local}."/".$self->{deviceid}.'.html';
     $localfile =~ s!(//){1,}!/!;
 
     # Convert perl data structure into xml strings
@@ -916,13 +913,13 @@ sub writeHTML {
     <html xmlns="http://www.w3.org/1999/xhtml"><head>
 
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent '.$target->{deviceid}.' - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <title>FusionInventory-Agent '.$self->{deviceid}.' - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
 
     </head>
     <body>
-    <h1>Inventory for '.$target->{deviceid}.'</h1>
+    <h1>Inventory for '.$self->{deviceid}.'</h1>
     FusionInventory Agent '.$FusionInventory::Agent::VERSION.'<br />
-    <small>DEVICEID '.$target->{deviceid}.'</small>
+    <small>DEVICEID '.$self->{deviceid}.'</small>
 
     ';
 
@@ -987,7 +984,6 @@ sub processChecksum {
     my $self = shift;
 
     my $logger = $self->{logger};
-    my $target = $self->{target};
 
 #To apply to $checksum with an OR
     my %mask = (
@@ -1014,19 +1010,19 @@ sub processChecksum {
 
     my $checksum = 0;
 
-    if ($target->{last_statefile}) {
-        if (-f $target->{last_statefile}) {
+    if ($self->{last_statefile}) {
+        if (-f $self->{last_statefile}) {
             # TODO: avoid a violant death in case of problem with XML
             $self->{last_state_content} = XML::Simple::XMLin(
 
-                $target->{last_statefile},
+                $self->{last_statefile},
                 SuppressEmpty => undef,
                 ForceArray => 1
 
             );
         } else {
             $logger->debug ('last_state file: `'.
-                $target->{last_statefile}.
+                $self->{last_statefile}.
                 "' doesn't exist (yet).");
         }
     }
@@ -1052,23 +1048,22 @@ sub saveLastState {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-    my $target = $self->{target};
 
     if (!defined($self->{last_state_content})) {
         $self->processChecksum();
     }
 
-    if (!defined ($target->{last_statefile})) {
+    if (!defined ($self->{last_statefile})) {
         $logger->debug ("Can't save the last_state file. File path is not initialised.");
         return;
     }
 
-    if (open my $handle, '>', $target->{last_statefile}) {
+    if (open my $handle, '>', $self->{last_statefile}) {
         print $handle XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
         close $handle;
     } else {
         $logger->debug (
-            "Cannot save the checksum values in $target->{last_statefile} " .
+            "Cannot save the checksum values in $self->{last_statefile} " .
             "(will be synchronized by GLPI!!): $ERRNO"
         );
     }

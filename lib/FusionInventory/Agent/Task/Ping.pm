@@ -31,9 +31,10 @@ sub main {
     });
 
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        logger => $self->{logger},
-        target => $self->{target},
-        msg    => {
+        logger          => $self->{logger},
+        deviceid        => $self->{target}->{deviceid},
+        currentDeviceid => $self->{target}->{currentDeviceid},
+        msg      => {
             QUERY => 'PING',
             ID    => $option->{ID},
         },

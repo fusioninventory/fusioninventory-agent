@@ -224,9 +224,10 @@ sub main {
             });
 
             my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                logger => $logger,
-                token  => $self->{token},
-                target => $target
+                logger          => $logger,
+                token           => $self->{token},
+                deviceid        => $self->{target}->{deviceid},
+                currentDeviceid => $self->{target}->{currentDeviceid},
             });
 
             # ugly circular reference moved from Prolog::getContent() method
