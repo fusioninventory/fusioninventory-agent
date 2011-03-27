@@ -9,16 +9,13 @@ use XML::Simple;
 sub new {
     my ($class, $params) = @_;
 
+    die "no msg parameter" unless $params->{msg};
+
     my $self = $class->SUPER::new($params);
 
     foreach (keys %{$params->{msg}}) {
         $self->{h}{$_} = $params->{msg}{$_};
     }
-
-    my $logger = $self->{logger};
-    my $target = $self->{target};
-
-    $logger->fault("No msg") unless $params->{msg};
 
     return $self;
 }
