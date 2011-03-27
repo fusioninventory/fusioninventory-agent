@@ -1082,33 +1082,6 @@ sub addSection {
     return 1;
 }
 
-# Q: is that really useful()? Can't we merge with addSection()?
-sub feedSection{
-    my ($self, $args) = @_;
-    my $tagname = $args->{tagname};
-    my $values = $args->{data};
-    my $logger = $self->{logger};
-
-    my $found=0;
-    for( keys %{$self->{h}{CONTENT}} ){
-        $found = 1 if $tagname eq $_;
-    }
-
-    if(!$found){
-        $logger->debug("Tag name `$tagname` doesn't exist - Cannot feed it");
-        return 0;
-    }
-
-    if( $self->{h}{CONTENT}{$tagname} =~ /ARRAY/ ){
-        push @{$self->{h}{CONTENT}{$tagname}}, $args->{data};
-    }
-    else{
-        $self->{h}{CONTENT}{$tagname} = $values;
-    }
-
-    return 1;
-}
-
 1;
 __END__
 
@@ -1139,10 +1112,6 @@ a path to a directory for a local output
 a path to a file containing the last serialized inventory
 
 =back
-
-=head2 feedSection()
-
-Add informations in inventory.
 
 =head2 addController()
 
