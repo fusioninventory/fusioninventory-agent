@@ -13,5 +13,6 @@ requires 'Net::IP' => undef;
 requires 'Parallel::ForkManager' => undef;
 requires 'Net::SNMP' => undef;
 requires 'Net::NBName' => undef;
+requires 'XML::TreePP' => undef;
 WriteAll;
 
