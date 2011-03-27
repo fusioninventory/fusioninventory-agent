@@ -27,22 +27,25 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Query::SimpleMessage - a Generic message container
+FusionInventory::Agent::XML::Query::SimpleMessage - Simple agent message
 
 =head1 DESCRIPTION
 
-This class provides a mechanism to send generic messages to the server.
+This is a generic message sent by the agent to the server, allowing basic
+key/values transmission.
 
-    my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new({
-        logger => $logger,
-        deviceid => 'foo',
-        msg => {
-            QUERY => 'DOWNLOAD',
-            FOO    => 'foo',
-            BAR   => 'my Message',
-        },
-    });
-    $network->send( { message => $xmlMsg }
+=head1 METHODS
 
-The msg parameter only requires the QUERY key to identify the type of message.
-You can use the key you want in the msg structure.
+=head2 new($params)
+
+The constructor. The following parameters are allowed, in addition to those
+from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
+$params hashref:
+
+=over
+
+=item I<msg>
+
+the msg content, as an hashref (mandatory)
+
+=back

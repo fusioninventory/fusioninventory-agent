@@ -47,3 +47,39 @@ sub getContent {
 
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::XML::Query - Base class for agent messages
+
+=head1 DESCRIPTION
+
+This is an abstract class for all XML query messages sent by the agent to the
+server.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
+
+=over
+
+=item I<logger>
+
+the logger object to use
+
+=item I<deviceid>
+
+the agent identifier (mandatory)
+
+=item I<currentDeviceid>
+
+=back
+
+=head2 getContent
+
+Get XML content.
