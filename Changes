@@ -2,6 +2,7 @@ Revision history for FusionInventory::Agent::Task::NetDiscovery
 
 1.3
        * Raise an error if an important dependency is missing
+       * Drop dependency on Nmap::{Parser,Scanner}
 
 1.2
        * Manage dico in storage, so can be get new dico from server

@@ -56,10 +56,7 @@ sub parseNmap {
     my $tpp = XML::TreePP->new(force_array => '*');
     my $h = $tpp->parse($xml);
 
-#print Dumper($h);
-
     my $ret = {};
-
     foreach my $host (@{$h->{nmaprun}[0]{host}}) {
         foreach (@{$host->{address}}) {
             if ($_->{'-addrtype'} eq 'mac') {
@@ -238,14 +235,14 @@ sub StartThreads {
    }
    $self->{logger}->debug("Dico loaded.");
 
-   if ( eval { require Nmap::Parser; 1 } ) {
-      $ModuleNmapParser = 1;
-      my $scan = new Nmap::Parser;
-   } elsif ( eval { require Nmap::Scanner; 1 } ) {
-       $ModuleNmapScanner = 1;
-   } else {
-       $self->{logger}->error("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
-   }
+#   if ( eval { require Nmap::Parser; 1 } ) {
+#      $ModuleNmapParser = 1;
+#      my $scan = new Nmap::Parser;
+#   } elsif ( eval { require Nmap::Scanner; 1 } ) {
+#       $ModuleNmapScanner = 1;
+#   } else {
+#       $self->{logger}->error("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
+#   }
    
    if ( eval { require Net::NBName; 1 } ) {
       $ModuleNetNBName = 1;
@@ -802,48 +799,9 @@ sub discovery_ip_threaded {
    }
 
    #** Nmap discovery
-   if ($params->{ModuleNmapParser} eq "1") {
-      $self->{logger}->debug("[".$params->{ip}."] : Nmap discovery");
-      my $scan = new Nmap::Parser;
-      # Get version number of nmap
-      if (eval {$scan->parsescan('nmap',$params->{ModuleNmapParserParameter}, $params->{ip})}) {
-         if (exists($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{addr})) {
-            $datadevice->{MAC} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{addr});
-         }
-         if (exists($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{vendor})) {
-            $datadevice->{NETPORTVENDOR} = special_char($scan->{HOSTS}->{$params->{ip}}->{addrs}->{mac}->{vendor});
-         }
-
-         if (exists($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0])) {
-            $datadevice->{DNSHOSTNAME} = special_char($scan->{HOSTS}->{$params->{ip}}->{hostnames}->[0]);
-         }
-      }
-   } elsif ($params->{ModuleNmapScanner} eq "1") {
-      $self->{logger}->debug("[".$params->{ip}."] : Nmap discovery");
-      my $scan = new Nmap::Scanner;
-      my $results_nmap = $scan->scan($params->{ModuleNmapParserParameter}.$params->{ip});
-
-      my $xml_nmap = new XML::Simple;
-      my $macaddress = q{}; # Empty string
-      my $hostname = q{}; # Empty string
-      my $netportvendor = q{}; # Empty string
-
-      foreach my $key (keys (%{$$results_nmap{'ALLHOSTS'}})) {
-         for (my $n=0; $n<@{$$results_nmap{'ALLHOSTS'}{$key}{'addresses'}}; $n++) {
-            if ($$results_nmap{'ALLHOSTS'}{$key}{'addresses'}[$n]{'addrtype'} eq "mac") {
-               $datadevice->{MAC} = special_char($$results_nmap{'ALLHOSTS'}{$key}{'addresses'}[$n]{'addr'});
-               if (defined($$results_nmap{'ALLHOSTS'}{$key}{'addresses'}[$n]{'vendor'})) {
-                  $datadevice->{NETPORTVENDOR} = special_char($$results_nmap{'ALLHOSTS'}{$key}{'addresses'}[$n]{'vendor'});
-               }
-            }
-         }
-         if (exists($$results_nmap{'ALLHOSTS'}{$key}{'hostnames'}[0])) {
-            for (my $n=0; $n<@{$$results_nmap{'ALLHOSTS'}{$key}{'hostnames'}}; $n++) {
-               $datadevice->{DNSHOSTNAME} = special_char($$results_nmap{'ALLHOSTS'}{$key}{'hostnames'}[$n]{'name'});
-            }
-         }
-      }
-   }
+   my $nmapCmd = "nmap $params->{ModuleNmapParserParameter} $params->{ip} -oX -";
+   my $xml = `$nmapCmd`;
+   $datadevice = parseNmap($xml);
 
    #** Netbios discovery
    if ($params->{ModuleNetNBName} eq "1") {
