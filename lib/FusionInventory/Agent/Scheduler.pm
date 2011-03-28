@@ -47,13 +47,12 @@ sub getNextTarget {
     if ($self->{lazy}) {
         # return next target if eligible, nothing otherwise
         if (time > $target->getNextRunDate()) {
-            $logger->debug("Processing ".$target->{'path'});
+            $logger->debug("[scheduler] $target->{id} is ready");
             return $target;
         } else {
             $logger->info(
-                "Nothing to do for ".$target->{'path'}.
-                ". Next server contact planned for ".
-                localtime($target->getNextRunDate())
+                "[scheduler] $target->{id} is not ready yet, next server " .
+                "contact planned for " . localtime($target->getNextRunDate())
             );
             return;
         }
@@ -63,8 +62,8 @@ sub getNextTarget {
         # return next target after waiting for a random delay
         my $time = int rand($self->{wait});
         $logger->info(
-            "Going to sleep for $time second(s) because of the".
-            " wait parameter"
+            "[scheduler] sleeping for $time second(s) because of the wait " .
+            "parameter"
         );
         sleep $time;
         return $target;
