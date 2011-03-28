@@ -265,9 +265,7 @@ sub addNetwork {
 }
 
 sub setHardware {
-    my ($self, $args, $nonDeprecated) = @_;
-
-    my $logger = $self->{logger};
+    my ($self, $args) = @_;
 
     foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
         PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
@@ -276,13 +274,6 @@ sub setHardware {
         WINPRODKEY WINCOMPANY WINLANG/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
         if (exists $args->{$key}) {
-            if ($key eq 'PROCESSORS' && !$nonDeprecated) {
-                $logger->debug("PROCESSORN, PROCESSORS and PROCESSORT shouldn't be set directly anymore. Please use addCPU() method instead.");
-            }
-            if ($key eq 'USERID' && !$nonDeprecated) {
-                $logger->debug("USERID shouldn't be set directly anymore. Please use addUser() method instead.");
-            }
-
             my $string = $self->_encode({ string => $args->{$key} });
             $self->{h}{'CONTENT'}{'HARDWARE'}{$key} = $string;
         }
@@ -320,8 +311,7 @@ sub addCPU {
         PROCESSORN => $processorn,
         PROCESSORS => $processors,
         PROCESSORT => $processort,
-    }, 1);
-
+    });
 }
 
 sub addUser {
@@ -353,11 +343,10 @@ sub addUser {
         $userString .= $login;
     }
 
-
     $self->setHardware ({
-        USERID => $userString,
+        USERID     => $userString,
         USERDOMAIN => $domainString,
-    }, 1);
+    });
 }
 
 sub addPrinter {
@@ -835,9 +824,6 @@ Register a network interface in the inventory.
 =head2 setHardware()
 
 Save global information regarding the machine.
-
-The use of setHardware() to update USERID and PROCESSOR* informations is
-deprecated, please, use addUser() and addCPU() instead.
 
 =head2 setBios()
 

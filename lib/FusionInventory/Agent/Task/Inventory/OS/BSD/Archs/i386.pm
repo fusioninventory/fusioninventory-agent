@@ -51,11 +51,12 @@ sub doInventory {
         BDATE => $BiosDate,
     });
 
-    $inventory->setHardware({
-        PROCESSORT => $processort,
-        PROCESSORN => $processorn,
-        PROCESSORS => $processors
-    });
+    foreach my $i (1 .. $processorn) {
+        $inventory->addCPU({
+            NAME  => $processort,
+            SPEED => $processors
+        });
+    }
 
 }
 
