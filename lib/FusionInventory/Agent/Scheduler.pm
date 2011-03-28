@@ -31,6 +31,7 @@ sub getNextTarget {
     return unless @{$self->{targets}};
 
     if ($self->{background}) {
+        # block until a target is eligible to run, then return it
         while (1) {
             foreach my $target (@{$self->{targets}}) {
                 if (time > $target->getNextRunDate()) {
@@ -39,28 +40,38 @@ sub getNextTarget {
             }
             sleep(10);
         }
-    } elsif ($self->{lazy} && @{$self->{targets}}) {
-        my $target = shift @{$self->{targets}};
+    }
+
+    my $target = shift @{$self->{targets}};
+
+    if ($self->{lazy}) {
+        # return next target if eligible, nothing otherwise
         if (time > $target->getNextRunDate()) {
             $logger->debug("Processing ".$target->{'path'});
             return $target;
         } else {
-            $logger->info("Nothing to do for ".$target->{'path'}.
-		". Next server contact planned for ".
+            $logger->info(
+                "Nothing to do for ".$target->{'path'}.
+                ". Next server contact planned for ".
                 localtime($target->getNextRunDate())
-		);
+            );
+            return;
         }
-    } elsif ($self->{wait}) {
-        my $time = int rand($self->{wait});
-        $logger->info("Going to sleep for $time second(s) because of the".
-            " wait parameter");
-        sleep($time);
-        return shift @{$self->{targets}}
-    } else {
-        return shift @{$self->{targets}}
     }
 
-    return;
+    if ($self->{wait}) {
+        # return next target after waiting for a random delay
+        my $time = int rand($self->{wait});
+        $logger->info(
+            "Going to sleep for $time second(s) because of the".
+            " wait parameter"
+        );
+        sleep $time;
+        return $target;
+    }
+
+    # return next target immediatly
+    return $target;
 }
 
 sub getTargets {
