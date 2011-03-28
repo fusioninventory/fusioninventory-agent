@@ -5,6 +5,7 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 use Config;
+use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use Encode qw/encode/;
 use English qw(-no_match_vars);
@@ -94,22 +95,11 @@ sub _addEntry {
         $newEntry->{$_} = $string;
     }
 
-# Don't create two time the same device
+    # avoid duplicate entries
     if ($noDuplicated) {
-        ENTRY: foreach my $entry (@{$self->{h}{CONTENT}{$section}}) {
-            foreach my $field (@$fields) {
-                if (defined($entry->{$field}[0]) !=
-                    defined($newEntry->{$field}[0])) {
-                    next ENTRY;
-
-                }
-
-                if (defined($entry->{$field}[0]) && ($entry->{$field}[0] ne $newEntry->{$field}[0])) {
-                    next ENTRY;
-                }
-            }
-            return;
-        }
+        my $md5 = md5_base64(Dumper($newEntry));
+        return if $self->{seen}->{$section}->{$md5};
+        $self->{seen}->{$section}->{$md5} = 1;
     }
 
     push @{$self->{h}{CONTENT}{$section}}, $newEntry;
