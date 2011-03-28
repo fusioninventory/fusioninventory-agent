@@ -582,25 +582,23 @@ sub writeHTML {
 
     # Convert perl data structure into xml strings
 
-
-    my $htmlHeader = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml"><head>
-
+    my $htmlHeader = <<EOF;
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent '.$self->{deviceid}.' - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+    <title>FusionInventory-Agent $self->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
+</head>
+<body>
+<h1>Inventory for $self->{deviceid}</h1>
+FusionInventory Agent $FusionInventory::Agent::VERSION<br />
+<small>DEVICEID $self->{deviceid}</small>
+EOF
 
-    </head>
-    <body>
-    <h1>Inventory for '.$self->{deviceid}.'</h1>
-    FusionInventory Agent '.$FusionInventory::Agent::VERSION.'<br />
-    <small>DEVICEID '.$self->{deviceid}.'</small>
-
-    ';
-
-
-    my $htmlFooter = "
-    </body>
-    </html>";
+    my $htmlFooter = <<EOF;
+</body>
+</html>
+EOF
 
     my $htmlBody;
 
