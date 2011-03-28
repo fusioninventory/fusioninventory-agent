@@ -13,8 +13,8 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    $self->{h}->{QUERY} = [ 'PROLOG' ];
-    $self->{h}->{TOKEN} = [ $params->{token} ];
+    $self->{h}->{QUERY} = 'PROLOG';
+    $self->{h}->{TOKEN} = $params->{token};
 
     return $self;
 }

@@ -20,7 +20,7 @@ sub new {
     $self->{local} = $params->{local};
     $self->{last_statefile} = $params->{last_statefile};
 
-    $self->{h}->{QUERY} = [ 'INVENTORY' ];
+    $self->{h}->{QUERY} = 'INVENTORY';
     $self->{h}->{CONTENT} = {
         ACCESSLOG   => {},
         BIOS        => {},
@@ -29,8 +29,8 @@ sub new {
         DRIVES      => [],
         HARDWARE    => {
             # TODO move that in a backend module
-            ARCHNAME => [ $Config{archname} ],
-            VMSYSTEM => [ "Physical" ] # Default value
+            ARCHNAME => $Config{archname},
+            VMSYSTEM => "Physical" # Default value
         },
         MONITORS        => [],
         PORTS           => [],
@@ -47,7 +47,7 @@ sub new {
         USBDEVICES      => [],
         BATTERIES       => [],
         ANTIVIRUS       => [],
-        VERSIONCLIENT   => [$FusionInventory::Agent::AGENT_STRING]
+        VERSIONCLIENT   => $FusionInventory::Agent::AGENT_STRING
     };
 
     return $self;
@@ -70,7 +70,7 @@ sub _addEntry {
             next;
         }
         my $string = $self->_encode({ string => $values->{$_} });
-        $newEntry->{$_}[0] = $string;
+        $newEntry->{$_} = $string;
     }
 
 # Don't create two time the same device
@@ -505,7 +505,7 @@ sub setHardware {
             }
 
             my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{'CONTENT'}{'HARDWARE'}{$key}[0] = $string;
+            $self->{h}{'CONTENT'}{'HARDWARE'}{$key} = $string;
         }
     }
 }
@@ -519,7 +519,7 @@ sub setBios {
 
         if (exists $args->{$key}) {
             my $string = $self->_encode({ string => $args->{$key} });
-            $self->{h}{'CONTENT'}{'BIOS'}{$key}[0] = $string;
+            $self->{h}{'CONTENT'}{'BIOS'}{$key} = $string;
         }
     }
 }
@@ -548,8 +548,8 @@ sub addCPU {
 
     # For the compatibility with HARDWARE/PROCESSOR*
     my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
-    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED}[0];
-    my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME}[0];
+    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED};
+    my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME};
 
     $self->setHardware ({
         PROCESSORN => $processorn,
@@ -576,10 +576,9 @@ sub addUser {
         'noDuplicated' => 1
     });
 
-
-# Compare with old system 
-    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID}[0] || "";
-    my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN}[0] || "";
+    # Compare with old system 
+    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID} || "";
+    my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN} || "";
 
     $userString .= '/' if $userString;
     $domainString .= '/' if $domainString;
@@ -791,7 +790,7 @@ sub setAccessLog {
     foreach my $key (qw/USERID LOGDATE/) {
 
         if (exists $args->{$key}) {
-            $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key}[0] = $args->{$key};
+            $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key} = $args->{$key};
         }
     }
 }
@@ -818,15 +817,9 @@ sub addIpDiscoverEntry {
 sub addSoftwareDeploymentPackage {
     my ($self, $args) = @_;
 
-    my $orderId = $args->{ORDERID};
-
-    # For software deployment
-    if (!$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}) {
-        $self->{h}{CONTENT}{DOWNLOAD}{HISTORY} = [];
-    }
-
-    push (@{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}->[0]{PACKAGE}}, { ID =>
-            $orderId });
+    push
+        @{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}->{PACKAGE}},
+        { ID => $args->{ORDERID} };
 }
 
 sub getContent {
@@ -931,7 +924,7 @@ sub writeHTML {
                 $htmlBody .= "<ul>";
                 foreach my $key (sort keys %{$section}) {
                     $htmlBody .="<li>".$key.": ".
-                    ($section->{$key}[0]||"(empty)").
+                    ($section->{$key}||"(empty)").
                     "</li>\n";
                 }
                 $htmlBody .= "</ul>\n<br />\n<br />\n";
@@ -943,7 +936,7 @@ sub writeHTML {
             $htmlBody .= "<ul>";
             foreach my $key (sort keys %{$dataRef}) {
                 $htmlBody .="<li>".$key.": ".
-                ($dataRef->{$key}[0]||"(empty)").
+                ($dataRef->{$key}||"(empty)").
                 "</li>\n";
             }
             $htmlBody .= "</ul>\n<br />\n";
@@ -1013,13 +1006,13 @@ sub processChecksum {
         #If the checksum has changed...
         my $hash =
         md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
-        if (!$self->{last_state_content}->{$section}[0] || $self->{last_state_content}->{$section}[0] ne $hash ) {
+        if (!$self->{last_state_content}->{$section} || $self->{last_state_content}->{$section} ne $hash ) {
             $logger->debug ("Section $section has changed since last inventory");
             #We make OR on $checksum with the mask of the current section
             $checksum |= $mask{$section};
         }
         # Finally I store the new value.
-        $self->{last_state_content}->{$section}[0] = $hash;
+        $self->{last_state_content}->{$section} = $hash;
     }
 
 

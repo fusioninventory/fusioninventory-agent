@@ -13,7 +13,7 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    $self->{h}->{QUERY} = [ 'UNSET!' ];
+    $self->{h}->{QUERY} = 'UNSET!';
 
     foreach (keys %{$params->{msg}}) {
         $self->{h}{$_} = $params->{msg}{$_};

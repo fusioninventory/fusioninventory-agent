@@ -17,14 +17,14 @@ sub new {
     bless $self, $class;
 
     $self->{h} = {
-        DEVICEID => [ $params->{deviceid} ]
+        DEVICEID => $params->{deviceid}
     };
 
     if (
         $params->{currentDeviceid} &&
         ($params->{deviceid} ne $params->{currentDeviceid})
     ) {
-      $self->{h}{OLD_DEVICEID} = [ $params->{currentDeviceid} ];
+      $self->{h}{OLD_DEVICEID} = $params->{currentDeviceid};
     }
   
     return $self;
