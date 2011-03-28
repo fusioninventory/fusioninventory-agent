@@ -91,3 +91,58 @@ sub resetNextRunDate {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Scheduler - A target scheduler
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to schedule various targets.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
+
+=over
+
+=item I<logger>
+
+the logger object to use (default: a new stderr logger)
+
+=item I<lazy>
+
+a flag to ensure targets whose next scheduled execution date has not been
+reached yet will get ignored. Only useful when I<background> flag is not set.
+
+=item I<wait>
+
+a number of second to wait before returning each target. Only useful when
+I<background> flag is not set.
+
+=item I<background>
+
+a flag to set if the agent is running as a resident program, aka a daemon in
+Unix world, and a service in Windows world (default: false)
+
+=back
+
+=head2 addTarget()
+
+Add a new target to schedule.
+
+=head2 getNextTarget()
+
+Get the next scheduled target.
+
+=head2 getTargets()
+
+Get all targets.
+
+=head2 resetNextRunDate()
+
+Call resetNextRunDate() on all targets.
