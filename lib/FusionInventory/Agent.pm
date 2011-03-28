@@ -273,8 +273,8 @@ sub main {
                 currentDeviceid => $self->{target}->{currentDeviceid},
             });
 
-            # ugly circular reference moved from Prolog::getContent() method
-            $target->{accountinfo}->setAccountInfo($prolog);
+            # Add target ACCOUNTINFO values to the prolog
+            $prolog->setAccountInfo($target->{accountInfo});
 
             # TODO Don't mix settings and temp value
             $prologresp = $network->send({message => $prolog});

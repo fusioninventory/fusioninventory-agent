@@ -78,10 +78,11 @@ sub main {
         }
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
 
-        my $accountinfo = $self->{target}->{accountinfo};
-
-        # Put ACCOUNTINFO values in the inventory
-        $accountinfo->setAccountInfo($self->{inventory});
+        # Add target ACCOUNTINFO values to the inventory
+        my $accountinfo = $self->{target}->{accountInfo};
+        $self->{inventory}->setAccountInfo(
+            $accountinfo
+        );
 
         my $network = FusionInventory::Agent::Network->new({
             logger => $self->{logger},

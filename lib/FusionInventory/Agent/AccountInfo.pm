@@ -89,25 +89,6 @@ sub reSetAll {
     }
 }
 
-# Add accountinfo stuff to an inventory
-sub setAccountInfo {
-    my $self = shift;
-    my $inventary = shift;
-
-    my $ai = $self->getAll();
-    $self->{h}{'CONTENT'}{ACCOUNTINFO} = [];
-
-    return unless $ai;
-
-    foreach (keys %$ai) {
-        push @{$inventary->{h}{'CONTENT'}{ACCOUNTINFO}}, {
-            KEYNAME => [$_],
-            KEYVALUE => [$ai->{$_}],
-        };
-    }
-}
-
-
 sub write {
     my ($self, $args) = @_;
 
