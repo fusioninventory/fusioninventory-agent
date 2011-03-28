@@ -10,8 +10,6 @@ use Encode qw/encode/;
 use English qw(-no_match_vars);
 use XML::Simple;
 
-use FusionInventory::Agent::Task::Inventory;
-
 my %fields = (
     ANTIVIRUS   => [ qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/ ],
     BATTERIES   => [ qw/CAPACITY CHEMISTRY DATE NAME SERIAL MANUFACTURER
