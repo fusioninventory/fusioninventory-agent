@@ -241,7 +241,7 @@ sub setHardware {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
         if (exists $args->{$key}) {
             my $string = getSanitizedString($args->{$key});
-            $self->{h}{'CONTENT'}{'HARDWARE'}{$key} = $string;
+            $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
         }
     }
 }
@@ -255,7 +255,7 @@ sub setBios {
 
         if (exists $args->{$key}) {
             my $string = getSanitizedString($args->{$key});
-            $self->{h}{'CONTENT'}{'BIOS'}{$key} = $string;
+            $self->{h}{CONTENT}{BIOS}{$key} = $string;
         }
     }
 }
@@ -286,9 +286,9 @@ sub addUser {
     return unless $args->{LOGIN};
 
     return unless $self->_addEntry({
-        'section'      => 'USERS',
-        'values'       => $args,
-        'noDuplicated' => 1
+        section      => 'USERS',
+        values       => $args,
+        noDuplicated => 1
     });
 
     # Compare with old system 
@@ -414,7 +414,7 @@ sub setAccessLog {
     foreach my $key (qw/USERID LOGDATE/) {
 
         if (exists $args->{$key}) {
-            $self->{h}{'CONTENT'}{'ACCESSLOG'}{$key} = $args->{$key};
+            $self->{h}{CONTENT}{ACCESSLOG}{$key} = $args->{$key};
         }
     }
 }
@@ -603,24 +603,24 @@ sub processChecksum {
 
 #To apply to $checksum with an OR
     my %mask = (
-        'HARDWARE'      => 1,
-        'BIOS'          => 2,
-        'MEMORIES'      => 4,
-        'SLOTS'         => 8,
-        'REGISTRY'      => 16,
-        'CONTROLLERS'   => 32,
-        'MONITORS'      => 64,
-        'PORTS'         => 128,
-        'STORAGES'      => 256,
-        'DRIVES'        => 512,
-        'INPUT'         => 1024,
-        'MODEMS'        => 2048,
-        'NETWORKS'      => 4096,
-        'PRINTERS'      => 8192,
-        'SOUNDS'        => 16384,
-        'VIDEOS'        => 32768,
-        'SOFTWARES'     => 65536,
-        'VIRTUALMACHINES' => 131072,
+        HARDWARE      => 1,
+        BIOS          => 2,
+        MEMORIES      => 4,
+        SLOTS         => 8,
+        REGISTRY      => 16,
+        CONTROLLERS   => 32,
+        MONITORS      => 64,
+        PORTS         => 128,
+        STORAGES      => 256,
+        DRIVES        => 512,
+        INPUT         => 1024,
+        MODEMS        => 2048,
+        NETWORKS      => 4096,
+        PRINTERS      => 8192,
+        SOUNDS        => 16384,
+        VIDEOS        => 32768,
+        SOFTWARES     => 65536,
+        VIRTUALMACHINES => 131072,
     );
     # TODO CPUS is not in the list
 
@@ -644,7 +644,7 @@ sub processChecksum {
     foreach my $section (keys %mask) {
         #If the checksum has changed...
         my $hash =
-            md5_base64(Dumper($self->{h}{'CONTENT'}{$section}));
+            md5_base64(Dumper($self->{h}{CONTENT}{$section}));
         if (!$self->{last_state_content}->{$section} || $self->{last_state_content}->{$section} ne $hash ) {
             $logger->debug ("Section $section has changed since last inventory");
             #We make OR on $checksum with the mask of the current section
