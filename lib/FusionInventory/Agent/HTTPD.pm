@@ -13,7 +13,7 @@ sub new {
     my $self = {
         logger          => $params->{logger},
         agent           => $params->{agent},
-        targets         => $params->{targets},
+        scheduler         => $params->{scheduler},
         htmldir         => $params->{htmldir},
         ip              => $params->{ip},
         port            => $params->{port} || 62354,
@@ -37,7 +37,7 @@ sub _handle {
     my ($self, $client, $request, $clientIp) = @_;
     
     my $logger = $self->{logger};
-    my $targets = $self->{targets};
+    my $scheduler = $self->{scheduler};
     my $htmldir = $self->{htmldir};
 
     if (!$request) {
@@ -75,7 +75,7 @@ sub _handle {
             close $handle;
 
             my $nextContact = "";
-            foreach my $target (@{$targets->{targets}}) {
+            foreach my $target (@{$scheduler->{scheduler}}) {
                 my $description = $target->getDescription();
                 my $time = $target->getNextRunDate() > 1 ?
                     localtime($target->getNextRunDate()) : "now" ;
@@ -107,7 +107,7 @@ sub _handle {
         # deploy request
         if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
             my $file = $1;
-            foreach my $target (@{$targets->{targets}}) {
+            foreach my $target (@{$scheduler->{scheduler}}) {
                 my $directory =
                     $target->getStorage()->getDirectory() . "/deploy";
                 if (-f "$directory/$file") {
@@ -153,7 +153,7 @@ sub _handle {
 
             my ($code, $message);
             if ($result eq "ok") {
-                $targets->resetNextRunDate();
+                $scheduler->resetNextRunDate();
                 $code    = 200;
                 $message = "Done."
             } else {
@@ -202,7 +202,7 @@ sub _handle {
 sub _listen {
     my ($self) = @_;
 
-    my $targets = $self->{targets};
+    my $scheduler = $self->{scheduler};
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(
@@ -277,9 +277,9 @@ hashref:
 
 the logger object to use
 
-=item I<targets>
+=item I<scheduler>
 
-the targets list object to use
+the scheduler object to use
 
 =item I<agent>
 

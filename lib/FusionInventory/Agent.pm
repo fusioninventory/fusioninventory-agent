@@ -12,9 +12,9 @@ use XML::Simple;
 use FusionInventory::Logger;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
+use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
-use FusionInventory::Agent::Targets;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.1.8';
@@ -117,14 +117,14 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         $self->{deviceid} = $myRootData->{deviceid}
     }
 
-    $self->{targets} = FusionInventory::Agent::Targets->new({
+    $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
         logger => $logger,
         config => $config,
         deviceid => $self->{deviceid}
     });
-    my $targets = $self->{targets};
+    my $scheduler = $self->{scheduler};
 
-    if (!$targets->numberOfTargets()) {
+    if (!$scheduler->numberOfTargets()) {
         $logger->error("No target defined. Please use ".
             "--server=SERVER or --local=/directory");
         exit 1;
@@ -168,7 +168,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
 
             FusionInventory::Agent::HTTPD->new({
                 logger          => $logger,
-                targets         => $targets,
+                scheduler       => $scheduler,
                 agent           => $self,
                 htmldir         => $htmldir,
                 ip              => $config->{'httpd-ip'},
@@ -205,10 +205,10 @@ sub main {
 # Load setting from the config file
     my $config = $self->{config};
     my $logger = $self->{logger};
-    my $targets = $self->{targets};
+    my $scheduler = $self->{scheduler};
     $self->{status} = 'waiting';
 
-    while (my $target = $targets->getNext()) {
+    while (my $target = $scheduler->getNext()) {
 
         my $exitcode = 0;
         my $wait;
