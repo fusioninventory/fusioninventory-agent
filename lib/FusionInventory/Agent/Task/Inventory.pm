@@ -450,8 +450,9 @@ sub feedInventory {
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
 
-    $inventory->{isInitialised} = 1;
+    $inventory->processChecksum();
 
+    $inventory->checkContent();
 }
 
 sub runWithTimeout {

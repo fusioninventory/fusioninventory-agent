@@ -445,12 +445,10 @@ sub addSoftwareDeploymentPackage {
         { ID => $args->{ORDERID} };
 }
 
-sub getContent {
+sub checkContent {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-
-    $self->processChecksum();
 
     my $missing = 0;
     my $content = $self->{h}->{CONTENT};
@@ -480,7 +478,6 @@ sub getContent {
         );
     }
 
-    return $self->SUPER::getContent();
 }
 
 sub getContentAsHTML {
@@ -809,9 +806,9 @@ This function is for software deployment.
 Order sent to the agent are recorded on the client side and then send back
 to the server in the inventory.
 
-=head2 getContent()
+=head2 checkContent()
 
-Return the inventory as a XML string.
+Check inventory content.
 
 =head2 getContent()
 
