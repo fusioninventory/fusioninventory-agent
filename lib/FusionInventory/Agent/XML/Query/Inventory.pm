@@ -11,6 +11,8 @@ use Encode qw/encode/;
 use English qw(-no_match_vars);
 use XML::Simple;
 
+use FusionInventory::Agent::Tools;
+
 my %fields = (
     ANTIVIRUS   => [ qw/COMPANY NAME GUID ENABLED UPTODATE VERSION/ ],
     BATTERIES   => [ qw/CAPACITY CHEMISTRY DATE NAME SERIAL MANUFACTURER
@@ -87,8 +89,7 @@ sub _addEntry {
 
     foreach my $field (@$fields) {
         next unless defined $values->{$field};
-        my $string = $self->_encode({ string => $values->{$field} });
-        $newEntry->{$field} = $string;
+        $newEntry->{$field} = getSanitizedString($values->{$field});
     }
 
     # avoid duplicate entries
@@ -101,41 +102,6 @@ sub _addEntry {
     push @{$self->{h}{CONTENT}{$section}}, $newEntry;
 
     return 1;
-}
-
-sub _encode {
-    my ($self, $params) = @_;
-
-    my $string = $params->{string};
-
-    return unless defined($string);
-
-    my $logger = $self->{logger};
-
-    my $ret;
-
-    $string =~ s/\0//g;
-
-    $string =~  s/\r|\n//g;
-
-    if ($string !~ m/\A(
-        [\x09\x0A\x0D\x20-\x7E]            # ASCII
-        | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-        |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-        | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-        |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-        |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-        | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-        |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-        )*\z/x) {
-#        $logger->debug("Non-UTF8 string: $string");
-        $string = encode("UTF-8", $string);
-    }
-
-    # remove ctrl char
-    $string =~ s/[[:cntrl:]]//g;
-
-    return $string;
 }
 
 sub addController {
@@ -274,7 +240,7 @@ sub setHardware {
         WINPRODKEY WINCOMPANY WINLANG/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
         if (exists $args->{$key}) {
-            my $string = $self->_encode({ string => $args->{$key} });
+            my $string = getSanitizedString($args->{$key});
             $self->{h}{'CONTENT'}{'HARDWARE'}{$key} = $string;
         }
     }
@@ -288,7 +254,7 @@ sub setBios {
         BIOSSERIAL TYPE SKUNUMBER/) {
 
         if (exists $args->{$key}) {
-            my $string = $self->_encode({ string => $args->{$key} });
+            my $string = getSanitizedString($args->{$key});
             $self->{h}{'CONTENT'}{'BIOS'}{$key} = $string;
         }
     }

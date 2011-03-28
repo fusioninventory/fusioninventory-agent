@@ -6,6 +6,8 @@ use warnings;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub new {
     my ($class, $params ) = @_;
 
@@ -105,7 +107,7 @@ sub snmpGet {
                 if ($oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
                     $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
                 }
-                $result->{$oid} = specialChar($result->{$oid});
+                $result->{$oid} = getSanitizedString($result->{$oid});
                 $result->{$oid} =~ s/\n$//;
                 $return = $result->{$oid};
             }
@@ -154,7 +156,7 @@ sub snmpWalk {
                         }
                         my $object2 = $object;
                         $object2 =~ s/$_[0].//;
-                        $oid = specialChar($oid);
+                        $oid = getSanitizedString($oid);
                         $oid =~ s/\n$//;
                         $ArraySNMP->{$object2} = $oid;
                     }
@@ -165,23 +167,6 @@ sub snmpWalk {
     }
     return $ArraySNMP;
 }
-
-
-
-sub specialChar {
-    if (defined($_[0])) {
-        if ($_[0] =~ /0x$/) {
-            return "";
-        }
-        $_[0] = encode('UTF-8', $_[0]);
-        $_[0] =~ s/\0//g;
-        $_[0] =~ s/([\x80-\xFF])//g;
-        return $_[0];
-    } else {
-        return "";
-    }
-}
-
 
 sub getBadMACAddress {
     my $OID_ifTable = shift;
@@ -197,6 +182,5 @@ sub getBadMACAddress {
     }
     return $oid_value;
 }
-
 
 1;
