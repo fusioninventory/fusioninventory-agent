@@ -10,15 +10,11 @@ use FusionInventory::Agent::Target::Stdout;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-
-    my $config = $self->{config} = $params->{config};
-    my $logger = $self->{logger} = $params->{logger};
-    $self->{deviceid} = $params->{deviceid};
-
-    $self->{targets} = [];
-    $self->{targets} = [];
-
+    my $self = {
+        logger   => $params->{logger},
+        config   => $params->{config},
+        deviceid => $params->{deviceid},
+    };
     bless $self, $class;
 
     $self->init();
