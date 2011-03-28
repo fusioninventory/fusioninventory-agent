@@ -7,8 +7,6 @@ use base 'FusionInventory::Agent::Target';
 use English qw(-no_match_vars);
 use URI;
 
-use FusionInventory::Agent::AccountInfo;
-
 my $count = 0;
 
 sub new {
@@ -46,27 +44,19 @@ sub new {
 
     my $logger = $self->{logger};
 
-    $self->{accountinfo} = FusionInventory::Agent::AccountInfo->new({
-        logger => $logger,
-        target => $self,
-        file   => $self->{vardir} . "/ocsinv.adm"
-    });
-
-    my $accountinfo = $self->{accountinfo};
+    $self->{accountinfo} = $self->{myData}->{accountinfo};
 
     if ($params->{tag}) {
-        if ($accountinfo->get("TAG")) {
+        if ($self->{accountinfo}->{TAG}) {
             $logger->debug(
                 "A TAG seems to already exist in the server for this ".
-                "machine. The -t paramter may be ignored by the server " .
+                "machine. The -t parameter may be ignored by the server " .
                 "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
             );
         }
-        $accountinfo->set("TAG", $params->{tag});
+        $self->{accountinfo}->{TAG} = $params->{tag};
     }
 
-    $self->{accountinfofile} = $self->{vardir} . "/ocsinv.adm";
-   
     return $self;
 }
 
@@ -80,6 +70,18 @@ sub getDescription {
     my ($self) = @_;
 
     return "server, $self->{url}";
+}
+
+sub getAccountInfo {
+    my ($self) = @_;
+
+    return $self->{accountInfo};
+}
+
+sub setAccountInfo {
+    my ($self, $accountInfo) = @_;
+
+    $self->{accountInfo} = $accountInfo;
 }
 
 1;
@@ -113,3 +115,11 @@ the server URL (mandatory)
 =head2 getUrl()
 
 Return the server URL for this target.
+
+=head2 getAccountInfo()
+
+Get account informations for this target.
+
+=head2 setAccountInfo($info)
+
+Set account informations for this target.

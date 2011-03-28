@@ -274,7 +274,7 @@ sub main {
             });
 
             # Add target ACCOUNTINFO values to the prolog
-            $prolog->setAccountInfo($target->{accountInfo});
+            $prolog->setAccountInfo($target->getAccountInfo());
 
             # TODO Don't mix settings and temp value
             $prologresp = $network->send({message => $prolog});

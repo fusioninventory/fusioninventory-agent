@@ -79,9 +79,8 @@ sub main {
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
 
         # Add target ACCOUNTINFO values to the inventory
-        my $accountinfo = $self->{target}->{accountInfo};
         $self->{inventory}->setAccountInfo(
-            $accountinfo
+            $self->{target}->getAccountInfo()
         );
 
         my $network = FusionInventory::Agent::Network->new({
@@ -102,7 +101,19 @@ sub main {
             &&
             $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
         ) {
-            $accountinfo->reSetAll($parsedContent->{ACCOUNTINFO});
+            my $new = $parsedContent->{ACCOUNTINFO};
+            my $current = $self->{target}->getAccountInfo();
+            if (ref $new eq 'ARRAY') {
+                # this a list of key value pairs
+                foreach my $pair (@{$new}) {
+                    $current->{$pair->{KEYNAME}} = $pair->{KEYVALUE};
+                }
+            } elsif (ref $new eq 'HASH') {
+                # this a single key value pair
+                $current->{$new->{KEYNAME}} = $new->{KEYVALUE};
+            } else {
+                $self->{logger}->debug("invalid ACCOUNTINFO value");
+            }
         }
 
     }
