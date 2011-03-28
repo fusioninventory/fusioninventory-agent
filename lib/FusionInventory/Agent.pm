@@ -167,7 +167,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
         }
     }
 
-    if (!$scheduler->numberOfTargets()) {
+    if (!$scheduler->getTargets()) {
         $logger->error("No target defined. Please use ".
             "--server=SERVER or --local=/directory");
         exit 1;

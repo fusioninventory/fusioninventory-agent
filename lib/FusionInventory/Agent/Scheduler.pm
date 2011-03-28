@@ -63,7 +63,7 @@ sub getNext {
     return;
 }
 
-sub numberOfTargets {
+sub getTargets {
     my ($self) = @_;
 
     return @{$self->{targets}}
