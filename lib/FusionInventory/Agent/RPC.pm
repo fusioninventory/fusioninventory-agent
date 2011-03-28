@@ -188,6 +188,15 @@ sub handler {
            "status: ".$status
         );
         $c->send_response($r);
+    } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/msg$/) {
+        #$c->send_status_line(200, $status)
+        my $r = HTTP::Response->new(
+            200,
+            'OK',
+            HTTP::Headers->new('Content-Type' => 'text/plain'),
+           "Title: this is a title\nMessage: This is the message\nType: info\nTimeout: 600"
+        );
+        $c->send_response($r);
 
     } elsif ($r->method eq 'GET' and $r->uri->path =~
         /^\/(logo.png|site.css|favicon.ico)$/) {
