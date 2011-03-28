@@ -664,11 +664,9 @@ sub processChecksum {
         if (-f $self->{last_statefile}) {
             # TODO: avoid a violant death in case of problem with XML
             $self->{last_state_content} = XML::Simple::XMLin(
-
                 $self->{last_statefile},
                 SuppressEmpty => undef,
                 ForceArray => 1
-
             );
         } else {
             $logger->debug ('last_state file: `'.
@@ -680,7 +678,7 @@ sub processChecksum {
     foreach my $section (keys %mask) {
         #If the checksum has changed...
         my $hash =
-        md5_base64(XML::Simple::XMLout($self->{h}{'CONTENT'}{$section}));
+            md5_base64(Dumper($self->{h}{'CONTENT'}{$section}));
         if (!$self->{last_state_content}->{$section} || $self->{last_state_content}->{$section} ne $hash ) {
             $logger->debug ("Section $section has changed since last inventory");
             #We make OR on $checksum with the mask of the current section
