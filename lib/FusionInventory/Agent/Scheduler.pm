@@ -23,7 +23,7 @@ sub addTarget {
     push @{$self->{targets}}, $target;
 }
 
-sub getNext {
+sub getNextTarget {
     my ($self) = @_;
 
     my $logger = $self->{'logger'};

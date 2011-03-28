@@ -251,7 +251,7 @@ sub main {
     my $scheduler = $self->{scheduler};
     $self->{status} = 'waiting';
 
-    while (my $target = $scheduler->getNext()) {
+    while (my $target = $scheduler->getNextTarget()) {
 
         my $exitcode = 0;
         my $wait;
