@@ -85,14 +85,10 @@ sub _addEntry {
     my $fields = $fields{$section};
     die "Unknown section $section" unless $fields;
 
-    my $showAll = 0;
-
-    foreach (@$fields) {
-        if (!$showAll && !defined($values->{$_})) {
-            next;
-        }
-        my $string = $self->_encode({ string => $values->{$_} });
-        $newEntry->{$_} = $string;
+    foreach my $field (@$fields) {
+        next unless defined $values->{$field};
+        my $string = $self->_encode({ string => $values->{$field} });
+        $newEntry->{$field} = $string;
     }
 
     # avoid duplicate entries
@@ -105,7 +101,6 @@ sub _addEntry {
     push @{$self->{h}{CONTENT}{$section}}, $newEntry;
 
     return 1;
-
 }
 
 sub _encode {
