@@ -60,7 +60,6 @@ sub new {
 
     my $self = $class->SUPER::new($params);
 
-    $self->{local} = $params->{local};
     $self->{last_statefile} = $params->{last_statefile};
 
     $self->{h}->{QUERY} = 'INVENTORY';
@@ -484,41 +483,8 @@ sub getContent {
     return $self->SUPER::getContent();
 }
 
-sub printXML {
+sub getContentAsHTML {
     my ($self, $args) = @_;
-
-    print $self->getContent();
-}
-
-sub writeXML {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-
-    my $localfile = $self->{local}."/".$self->{deviceid}.'.ocs';
-    $localfile =~ s!(//){1,}!/!;
-
-    # Convert perl data structure into xml strings
-
-    if (open my $handle, '>', $localfile) {
-        print $handle $self->getContent();
-        close $handle;
-        $logger->info("Inventory saved in $localfile");
-    } else {
-        warn "Can't open $localfile: $ERRNO"
-    }
-
-}
-
-sub writeHTML {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-
-    my $localfile = $self->{local}."/".$self->{deviceid}.'.html';
-    $localfile =~ s!(//){1,}!/!;
-
-    # Convert perl data structure into xml strings
 
     my $htmlHeader = <<EOF;
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -585,15 +551,7 @@ EOF
         }
     }
 
-    if (open my $handle, '>', $localfile) {
-        print $handle $htmlHeader;
-        print $handle $htmlBody;
-        print $handle $htmlFooter;
-        close $handle;
-        $logger->info("Inventory saved in $localfile");
-    } else {
-        warn "Can't open $localfile: $ERRNO"
-    }
+    return $htmlHeader . $htmlBody . $htmlFooter;
 }
 
 sub processChecksum {
@@ -729,10 +687,6 @@ allowed parameters.
 
 =over
 
-=item I<local>
-
-a path to a directory for a local output
-
 =item I<last_statefile>
 
 a path to a file containing the last serialized inventory
@@ -859,19 +813,9 @@ to the server in the inventory.
 
 Return the inventory as a XML string.
 
-=head2 printXML()
+=head2 getContent()
 
-Only for debugging purpose. Print the inventory on STDOUT.
-
-=head2 writeXML()
-
-Save the generated inventory as an XML file. The 'local' key of the config
-is used to know where the file as to be saved.
-
-=head2 writeHTML()
-
-Save the generated inventory as an HTML file. The 'local' key of the config
-is used to know where the file as to be saved.
+Return the inventory as an HTML string.
 
 =head2 processChecksum()
 

@@ -47,7 +47,6 @@ sub main {
         # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
-        local           => $self->{config}->{local},
         deviceid        => $self->{target}->{deviceid},
         currentDeviceid => $self->{target}->{currentDeviceid},
         last_statefile  => $self->{target}->{last_statefile},
@@ -58,12 +57,24 @@ sub main {
     $self->feedInventory();
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
-        $self->{inventory}->printXML();
+        print $inventory->getContent();
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-        if ($self->{target}->{format} eq 'XML') {
-            $self->{inventory}->writeXML();
+        my $format = $self->{target}->{format};
+
+        my $extension = $format eq 'XML' ? '.ocs' : '.html';
+        my $file =
+            $self->{config}->{local} .
+            "/" .
+            $self->{target}->{deviceid} .
+            $extension;
+
+        if (open my $handle, '>', $file) {
+            print $handle $format eq 'XML' ?
+                $inventory->getContent() : $inventory->getContentAsHTML();
+            close $handle;
+            $self->{logger}->info("Inventory saved in $file");
         } else {
-            $self->{inventory}->writeHTML();
+            warn "Can't open $file: $ERRNO"
         }
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
 
