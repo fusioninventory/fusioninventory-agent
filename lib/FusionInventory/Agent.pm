@@ -15,6 +15,9 @@ use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
+use FusionInventory::Agent::Target::Local;
+use FusionInventory::Agent::Target::Server;
+use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.1.8';
@@ -118,11 +121,51 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
     }
 
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
-        logger => $logger,
-        config => $config,
-        deviceid => $self->{deviceid}
+        logger     => $logger,
+        lazy       => $config->{lazy},
+        wait       => $config->{wait},
+        background => $config->{server} || $config->{service}
     });
     my $scheduler = $self->{scheduler};
+
+    if ($config->{stdout}) {
+        $scheduler->addTarget(
+            FusionInventory::Agent::Target::Stdout->new({
+                logger     => $logger,
+                deviceid   => $self->{deviceid},
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+            })
+        );
+    }
+
+    if ($config->{local}) {
+        $scheduler->addTarget(
+            FusionInventory::Agent::Target::Local->new({
+                logger     => $logger,
+                deviceid   => $self->{deviceid},
+                delaytime  => $config->{delaytime},
+                basevardir => $config->{basevardir},
+                path       => $config->{local},
+                html       => $config->{html},
+            })
+        );
+    }
+
+    if ($config->{server}) {
+        foreach my $url (split(/,/, $config->{server})) {
+            $scheduler->addTarget(
+                FusionInventory::Agent::Target::Server->new({
+                    logger     => $logger,
+                    deviceid   => $self->{deviceid},
+                    delaytime  => $config->{delaytime},
+                    basevardir => $config->{basevardir},
+                    url        => $url,
+                    tag        => $config->{tag},
+                })
+            );
+        }
+    }
 
     if (!$scheduler->numberOfTargets()) {
         $logger->error("No target defined. Please use ".
