@@ -32,7 +32,7 @@ sub doInventory {
         } elsif ($flag && /^$/){ # end of section
             $flag = 0;
 
-            $inventory->addPorts({
+            $inventory->addPort({
                 CAPTION => $caption,
                 DESCRIPTION => $description,
                 NAME => $name,

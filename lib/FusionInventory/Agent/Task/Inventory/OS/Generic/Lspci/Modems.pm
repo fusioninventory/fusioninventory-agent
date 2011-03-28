@@ -12,7 +12,7 @@ sub doInventory {
         if(/modem/i && /\d+\s(.+):\s*(.+)$/){
             my $name = $1;
             my $description = $2;
-            $inventory->addModems({
+            $inventory->addModem({
                 'DESCRIPTION'  => $description,
                 'NAME'          => $name,
             });

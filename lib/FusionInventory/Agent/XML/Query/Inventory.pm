@@ -150,14 +150,6 @@ sub addModem {
         'values' => $args,
     });
 }
-# For compatibiliy
-sub addModems {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addModems to addModem()");
-    $self->addModem(@_);
-}
 
 sub addDrive {
     my ($self, $args) = @_;
@@ -181,14 +173,6 @@ sub addDrive {
         'sectionName' => 'DRIVES',
         'values' => $args,
     });
-}
-# For compatibiliy
-sub addDrives {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addDrives to addDrive()");
-    $self->addDrive(@_);
 }
 
 sub addStorage {
@@ -232,14 +216,6 @@ sub addStorage {
         'values' => $values,
     });
 }
-# For compatibility
-sub addStorages {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addStorages to addStorage()");
-    $self->addStorage(@_);
-}
 
 sub addMemory {
     my ($self, $args) = @_;
@@ -263,16 +239,8 @@ sub addMemory {
         'values' => $args,
     });
 }
-# For compatibility
-sub addMemories {
-    my $self = shift;
-    my $logger = $self->{logger};
 
-    $logger->debug("please rename addMemories to addMemory()");
-    $self->addMemory(@_);
-}
-
-sub addPorts{
+sub addPort {
     my ($self, $args) = @_;
 
     my @fields = qw/
@@ -287,14 +255,6 @@ sub addPorts{
         'sectionName' => 'PORTS',
         'values' => $args,
     });
-}
-# For compatibility
-sub addPort {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addPorts to addPort()");
-    $self->addPort(@_);
 }
 
 sub addSlot {
@@ -313,14 +273,6 @@ sub addSlot {
         'values' => $args,
     });
 }
-# For compatibility
-sub addSlots {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSlots to addSlot()");
-    $self->addSlot(@_);
-}
 
 sub addSoftware {
     my ($self, $args) = @_;
@@ -335,14 +287,6 @@ sub addSoftware {
         'values' => $args,
         'noDuplicated' => 1
     });
-}
-# For compatibility
-sub addSoftwares {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSoftwares to addSoftware()");
-    $self->addSoftware(@_);
 }
 
 sub addMonitor {
@@ -362,14 +306,6 @@ sub addMonitor {
         'sectionName' => 'MONITORS',
         'values' => $args,
     });
-}
-# For compatibility
-sub addMonitors {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addMonitors to addMonitor()");
-    $self->addMonitor(@_);
 }
 
 sub addVideo {
@@ -391,14 +327,6 @@ sub addVideo {
     });
 
 }
-# For compatibility
-sub addVideos {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addVideos to addVideo()");
-    $self->addVideo(@_);
-}
 
 sub addSound {
     my ($self, $args) = @_;
@@ -414,14 +342,6 @@ sub addSound {
         'sectionName' => 'SOUNDS',
         'values' => $args,
     });
-}
-# For compatibility
-sub addSounds {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addSounds to addSound()");
-    $self->addSound(@_);
 }
 
 sub addNetwork {
@@ -454,15 +374,6 @@ sub addNetwork {
         'values' => $args,
         'noDuplicated' => 1
     });
-}
-
-# For compatibility
-sub addNetworks {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addNetworks to addNetwork()");
-    $self->addNetwork(@_);
 }
 
 sub setHardware {
@@ -606,14 +517,6 @@ sub addPrinter {
         'sectionName' => 'PRINTERS',
         'values' => $args,
     });
-}
-# For compatibility
-sub addPrinters {
-    my $self = shift;
-    my $logger = $self->{logger};
-
-    $logger->debug("please rename addPrinters to addPrinter()");
-    $self->addPrinter(@_);
 }
 
 sub addVirtualMachine {
