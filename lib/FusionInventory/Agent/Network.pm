@@ -83,9 +83,12 @@ sub send {
     my $message = $args->{message};
     my $scheme = $self->{url}->scheme();
 
-    my $request_content = $self->_compress($message->getContent());
+    my $request_content = $message->getContent();
+    $logger->debug("[network] sending message: $request_content");
+
+    $request_content = $self->_compress($request_content);
     if (!$request_content) {
-        $logger->error('Inflating problem');
+        $logger->error('[network] inflating problem');
         return;
     }
 
@@ -95,8 +98,6 @@ sub send {
         'Content-type' => 'application/x-compress'
     );
     $request->content($request_content);
-
-    $logger->debug("sending XML");
 
     my $result;
     eval {
@@ -113,7 +114,7 @@ sub send {
         if ($result->code() == 401) {
             if ($self->{user} && $self->{password}) {
                 $logger->debug(
-                    "Authentication required, submitting credentials"
+                    "[network] authentication required, submitting credentials"
                 );
                 # compute authentication parameters
                 my $header = $result->header('www-authenticate');
@@ -137,21 +138,22 @@ sub send {
                 };
                 if (!$result->is_success()) {
                     $logger->error(
-                        "Cannot establish communication with $self->{url}: " .
-                        $result->status_line()
+                        "[network] cannot establish communication with " .
+                        "$self->{url}: " .  $result->status_line()
                     );
                     return;
                 }
             } else {
                 # abort
                 $logger->error(
-                    "Authentication required, no credentials available"
+                    "[network] authentication required, no credentials " .
+                    "available"
                 );
                 return;
             }
         } else {
             $logger->error(
-                "Cannot establish communication with $self->{url}: " .
+                "[network] cannot establish communication with $self->{url}: " .
                 $result->status_line()
             );
             return;
@@ -163,17 +165,17 @@ sub send {
     my $response_content = $result->content();
 
    if (!$response_content) {
-        $logger->error("Response is empty");
+        $logger->error("[network] response is empty");
         return;
     }
 
     $response_content = $self->_uncompress($response_content);
     if (!$response_content) {
-        $logger->error("Deflating problem");
+        $logger->error("[network] deflating problem");
         return;
     }
 
-    $logger->debug("receiving message: $response_content");
+    $logger->debug("[network] receiving message: $response_content");
 
     my $response = FusionInventory::Agent::XML::Response->new({
         content => $response_content
