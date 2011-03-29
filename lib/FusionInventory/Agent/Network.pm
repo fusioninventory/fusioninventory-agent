@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use HTTP::Status;
+use LWP::UserAgent;
 use UNIVERSAL::require;
 use URI;
 
@@ -28,19 +29,6 @@ sub new {
     die '$config not initialised' unless $config;
 
     $self->{compress} = FusionInventory::Compress->new({logger => $logger});
-
-    eval {
-        require LWP::UserAgent;
-    };
-    if ($EVAL_ERROR) {
-        die "Can't load LWP::UserAgent. Is the package installed?";
-    }
-    eval {
-        require HTTP::Status;
-    };
-    if ($EVAL_ERROR) {
-        die "Can't load HTTP::Status. Is the package installed?";
-    }
 
     $self->{URI} = $target->getUrl();
 
