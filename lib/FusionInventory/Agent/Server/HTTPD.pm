@@ -18,11 +18,16 @@ sub new {
 
     $params{port} = 62354 unless defined $params{port};
 
+    my @trust;
+    foreach (@{$params{trust}}) {
+        push @trust, Net::IP->new($_)
+    }
+
     my $self = {
         logger  => $params{logger} || FusionInventory::Agent::Logger->new(),
         state   => $params{state},
         htmldir => $params{htmldir},
-        trust   => Net::IP->new($params{trust}),
+        trust   => \@trust,
     };
 
     bless $self, $class;
@@ -143,17 +148,19 @@ sub now {
 
         if ($self->{trust}) {
             my $source = Net::IP->new($request->connection()->remote_ip());
-            my $result = $source->overlaps($self->{trust});
-            if (
-                $result == $IP_A_IN_B_OVERLAP || # included in trusted range
-                $result == $IP_IDENTICAL         # equals trusted address
-            ) {
-                # trusted request
-                $code = 200;
-                $message = "Done";
-                $result = "trusted address";
-                $self->{state}->runAllJobs();
-                last CASE;
+            foreach (@{$self->{trust}}) {
+                my $result = $source->overlaps($_);
+                if (
+                        $result == $IP_A_IN_B_OVERLAP || # included in trusted range
+                        $result == $IP_IDENTICAL         # equals trusted address
+                   ) {
+# trusted request
+                    $code = 200;
+                    $message = "Done";
+                    $result = "trusted address";
+                    $self->{state}->runAllJobs();
+                    last CASE;
+                }
             }
         }
 

@@ -20,11 +20,48 @@ sub run {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    foreach my $job (split(' ', $config->getValues('global.jobs') || '')) {
-        push @{$self->{jobs}}, $self->getJobFromConfiguration($job);
+# TODO: get the JSON with HTTP
+#    foreach my $job (split(' ', $config->getValues('global.jobs') || '')) {
+#        push @{$self->{jobs}}, $self->getJobFromConfiguration($job);
+#    }
+#
+#    die "No jobs defined, aborting" unless $self->{jobs};
+    $self->{config} = {
+        global => {
+            baseUrl => "http://server/glpi"
+        },
+        httpd => {
+            ip => '0.0.0.0',
+            port => 62354,
+            trust => [ '127.0.0.1' ]
+        },
+    jobs => [
+    {
+        task => 'Config', 
+        remote => '/plugins/fusioninventory/b',
+        periodicity => 3600,
+        startAt => 1301324176
+    },
+    {
+        task => 'Deploy',
+        remote => 'https://server2/deploy',
+        periodicity => 600
+    },
+    {
+        task => 'ESX',
+        remote => '/plugins/fusioninventory/b',
+        startAt => 1,
+        periodicity => 700
+    },
+    {
+        task => 'Inventory',
+        remote => '/plugins/fusinvinventory/b',
+        startAt => 1,
+        periodicity => 36000
     }
+        ]
+    };
 
-    die "No jobs defined, aborting" unless $self->{jobs};
 
     if ($params{fork}) {
         Proc::Daemon->require();
@@ -67,15 +104,29 @@ sub init {
         state  => $self,
     );
 
-    my $www_config = $config->getBlock('www');
+    $self->{jobs} = [];
+    foreach (@{$self->{config}{jobs}}) {
+        push @{$self->{jobs}}, FusionInventory::Agent::Job->new(
+                id => $_->{task},
+                task => $_->{task},
+                offset => $_->{periodicity},
+                startAt => $_->{startAt},
+                remote => $_->{remote},
+                target => "TODO",
+                basevardir => "TODO"
+                );
+    }
+
+
+    my $www_config = $config->{'httpd'};
     if ($www_config) {
         FusionInventory::Agent::Server::HTTPD->new(
             logger  => $logger,
             state   => $self,
             htmldir => $self->{datadir} . '/html',
-            ip      => $www_config->{ip},
-            port    => $www_config->{port},
-            trust   => $www_config->{trust},
+            ip      => $config->{ip},
+            port    => $config->{port},
+            trust   => $config->{trust},
         );
     } else {
         $logger->info("Web interface disabled");

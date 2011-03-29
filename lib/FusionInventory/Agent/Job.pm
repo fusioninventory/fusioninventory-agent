@@ -14,39 +14,38 @@ sub new {
     die 'no task parameter'       unless $params{task};
     die 'no target parameter'     unless $params{target};
     die 'no basevardir parameter' unless $params{basevardir};
+    die 'no offset parameter'     unless $params{offset};
 
     my $self = {
         id     => $params{id},
         task   => $params{task},
         target => $params{target},
-        period => $params{period} || 3600,
+        offset => $params{offset},
+        startAt => $params{startAt},
         logger => $params{logger} || FusionInventory::Agent::Logger->new(),
         dirty  => 1
     };
-
     bless $self, $class;
 
     # create storage object
-    $self->{storage} = FusionInventory::Agent::Storage->new(
-        logger    => $self->{logger},
-        directory => $params{basevardir} . '/' . $params{id}
-    );
+#    $self->{storage} = FusionInventory::Agent::Storage->new(
+#        logger    => $self->{logger},
+#        directory => $params{basevardir} . '/' . $params{id}
+#    );
 
     # restore previous state if it exists
-    $self->_loadState();
+    # $self->_loadState();
 
     # initialize next execution date if needed
     my $time = time();
-    if (
-        !$self->{nextRunDate}        || # no date yet
-        $self->{nextRunDate} < $time    # date in the paste
-    ) {
-        $self->{nextRunDate} = $time + $self->_getOffset();
-        $self->{dirty} = 1;
+    if ($self->{startAt}) {
+        $self->{nextRunDate} = $self->{startAt};
+    } else {
+        $self->{nextRunDate} = time + $self->_getOffset();
     }
 
     # save new state if needed
-    $self->saveState() if $self->{dirty};
+    #$self->saveState() if $self->{dirty};
 
     $self->{logger}->debug(
         "[job $self->{id}] job created, next run scheduled for " .
@@ -56,11 +55,11 @@ sub new {
     return $self;
 }
 
-sub getStorage {
-    my ($self) = @_;
-
-    return $self->{storage};
-}
+#sub getStorage {
+#    my ($self) = @_;
+#
+#    return $self->{storage};
+#}
 
 sub getNextRunDate {
     my ($self) = @_;
@@ -77,10 +76,11 @@ sub setNextRunDate {
 sub scheduleNextRun {
     my ($self, $offset) = @_;
 
-    if (! defined $offset) {
-        $offset = $self->_getOffset();
-    }
-    my $time = time() + $offset;
+    die if $offset; # Should never append
+#    if (! defined $offset) {
+#        $offset = $self->_getOffset();
+#    }
+    my $time = time() + $self->_getOffset();
     $self->setNextRunDate($time);
 
     $self->{logger}->debug(
@@ -112,22 +112,22 @@ sub _loadState {
     $self->{dirty} = 0;
 }
 
-sub saveState {
-    my ($self) = @_;
-
-    $self->{storage}->save(
-        data => {
-            nextRunDate => $self->{nextRunDate},
-            period      => $self->{period},
-        }
-    );
-    $self->{dirty} = 0;
-}
+#sub saveState {
+#    my ($self) = @_;
+#
+#    $self->{storage}->save(
+#        data => {
+#            nextRunDate => $self->{nextRunDate},
+#            period      => $self->{period},
+#        }
+#    );
+#    $self->{dirty} = 0;
+#}
 
 sub _getOffset {
     my ($self) = @_;
 
-    return ($self->{period} / 2) + int rand($self->{period} / 2);
+    return $self->{offset};
 }
 
 1;
@@ -233,10 +233,10 @@ Set nextRunDate attribute.
 Re-schedule the job to current time + given offset. If offset is not given,
 it's computed randomly as: (period / 2) + rand(period / 2)
 
-=head2 getStorage()
-
-Return the storage object for this job.
-
-=head2 saveState()
-
-Save persistant part of current state.
+#=head2 getStorage()
+#
+#Return the storage object for this job.
+#
+#=head2 saveState()
+#
+#Save persistant part of current state.
