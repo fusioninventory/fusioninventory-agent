@@ -134,8 +134,6 @@ sub send {
     my $logger = $self->{logger};
 
     my $message = $args->{message};
-    my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
-
 
     my $req = HTTP::Request->new(POST => $self->{url});
 
