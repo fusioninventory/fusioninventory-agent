@@ -15,6 +15,9 @@ use FusionInventory::Agent::XML::Response;
 sub new {
     my ($class, $params) = @_;
 
+    die 'no target parameter' unless $params->{target};
+    die 'no config parameter' unless $params->{config};
+
     my $self = {
         config         => $params->{config},
         logger         => $params->{logger},
@@ -26,9 +29,6 @@ sub new {
         defaultTimeout => 180
     };
     bless $self, $class;
-
-    die '$target not initialised' unless $params->{target};
-    die '$config not initialised' unless $params->{config};
 
     return $self;
 }
