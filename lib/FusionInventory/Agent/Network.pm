@@ -25,7 +25,7 @@ sub new {
         ca_cert_file   => $params->{ca_cert_file},
         ca_cert_dir    => $params->{ca_cert_dir},
         no_ssl_check   => $params->{no_ssl_check},
-        URI            => $params->{url},
+        url            => $params->{url},
         defaultTimeout => 180
     };
     bless $self, $class;
@@ -60,10 +60,10 @@ sub createUA {
 
     my $logger = $self->{logger};
     
-    my $uri      = URI->new($args->{URI});
-    my $host     = $uri->host();
-    my $protocol = $uri->scheme();
-    my $port     = $uri->port();
+    my $url      = URI->new($args->{url});
+    my $host     = $url->host();
+    my $protocol = $url->scheme();
+    my $port     = $url->port();
 
    if (!$port) {
        $port = $protocol eq 'https' ? 443 : 80;
@@ -113,7 +113,7 @@ sub createUA {
 
     $self->setSslRemoteHost({
             ua => $ua,
-            url => $uri
+            url => $url
         });
 
     # Auth
@@ -137,7 +137,7 @@ sub send {
     my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
 
 
-    my $req = HTTP::Request->new(POST => $self->{URI});
+    my $req = HTTP::Request->new(POST => $self->{url});
 
     $req->header(
         'Pragma'       => 'no-cache',
@@ -157,10 +157,10 @@ sub send {
 
     $req->content($message_content);
 
-    my $ua = $self->createUA({URI => $self->{URI}});
+    my $ua = $self->createUA({url => $self->{url}});
     my $res;
     eval {
-        if ($^O =~ /^MSWin/ && $self->{URI} =~ /^https:/g) {
+        if ($^O =~ /^MSWin/ && $self->{url} =~ /^https:/g) {
             alarm $self->{defaultTimeout};
         }
         $res = $ua->request($req);
@@ -173,9 +173,9 @@ sub send {
         $serverRealm = $1;
         $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retrying.");
 
-        $ua = $self->createUA({URI => $self->{URI}, forceRealm => $serverRealm});
+        $ua = $self->createUA({url => $self->{url}, forceRealm => $serverRealm});
         eval {
-            if ($^O =~ /^MSWin/ && $self->{URI} =~ /^https:/g) {
+            if ($^O =~ /^MSWin/ && $self->{url} =~ /^https:/g) {
                 alarm $self->{defaultTimeout};
             }
             $res = $ua->request($req);
@@ -186,7 +186,7 @@ sub send {
     # Checking if connected
     if(!$res->is_success) {
         $logger->error ('Cannot establish communication with `'.
-            $self->{URI}.': '.
+            $self->{url}.': '.
             $res->status_line.'`');
         return;
     }
@@ -266,24 +266,24 @@ sub setSslRemoteHost {
 
     my $logger = $self->{logger};
 
-    my $uri = $args->{URI};
+    my $url = $args->{url};
     my $ua = $args->{ua};
 
     if ($self->{no_ssl_check}) {
         return;
     }
 
-    if (!$self->{URI}) {
+    if (!$self->{url}) {
         die "setSslRemoteHost(), no url parameter!";
     }
 
-    if ($self->{URI} !~ /^https:/i) {
+    if ($self->{url} !~ /^https:/i) {
         return;
     }
     $self->turnSSLCheckOn();
 
     # Check server name against provided SSL certificate
-    if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
+    if ( $self->{url} =~ /^https:\/\/([^\/]+).*$/i ) {
         my $re = $1;
         # Accept SSL cert will hostname with wild-card
         # http://forge.fusioninventory.org/issues/542
@@ -303,7 +303,7 @@ sub getStore {
     my $noProxy = $args->{noProxy};
 
     my $ua = $self->createUA({
-            URI => $source,
+            url     => $source,
             timeout => $timeout,
             noProxy => $noProxy,
         });
@@ -333,7 +333,7 @@ sub get {
     my $noProxy = $args->{noProxy};
 
     my $ua = $self->createUA({
-            URI => $source,
+            url     => $source,
             timeout => $timeout,
             noProxy => $noProxy,
         });
