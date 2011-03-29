@@ -263,7 +263,6 @@ sub main {
                     ca_cert_file => $self->{config}->{'ca-cert-file'},
                     ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
                     no_ssl_check => $self->{config}->{'no-ssl-check'},
-                    url          => $self->{target}->getUrl(),
                 });
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
@@ -277,7 +276,10 @@ sub main {
                 $prolog->setAccountInfo($target->getAccountInfo());
 
                 # TODO Don't mix settings and temp value
-                $prologresp = $network->send({message => $prolog});
+                $prologresp = $network->send({
+                    url     => $self->{target}->getUrl(),
+                    message => $prolog
+                });
 
                 if (!$prologresp) {
                     $logger->error("No anwser from the server");

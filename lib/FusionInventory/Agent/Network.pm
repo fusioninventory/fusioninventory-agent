@@ -14,8 +14,6 @@ use FusionInventory::Agent::XML::Response;
 sub new {
     my ($class, $params) = @_;
 
-    die "no url parameter" unless $params->{url};
-
     die "non-existing certificate file $params->{ca_cert_file}"
         if $params->{ca_cert_file} && ! -f $params->{ca_cert_file};
 
@@ -29,7 +27,6 @@ sub new {
         ca_cert_file   => $params->{ca_cert_file},
         ca_cert_dir    => $params->{ca_cert_dir},
         no_ssl_check   => $params->{no_ssl_check},
-        url            => $params->{url},
         timeout        => $params->{timeout} || 180
     };
     bless $self, $class;
@@ -45,14 +42,6 @@ sub new {
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
     $self->{ua}->timeout($params->{timeout});
-
-    # activate SSL if needed
-    my $scheme = $self->{url}->scheme();
-    if ($scheme eq 'https' && !$self->{no_ssl_check}) {
-        $self->_turnSSLCheckOn();
-        my $pattern = _getCertificateRegexp($self->{url}->host());
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
-    }
 
     # check compression mode
     if (Compress::Zlib->require()) {
@@ -76,12 +65,19 @@ sub new {
 }
 
 sub send {
-    my ($self, $args) = @_;
+    my ($self, $params) = @_;
 
-    my $logger = $self->{logger};
+    my $url     = $params->{url};
+    my $message = $params->{message};
+    my $logger  = $self->{logger};
 
-    my $message = $args->{message};
-    my $scheme = $self->{url}->scheme();
+    # activate SSL if needed
+    my $scheme = $url->scheme();
+    if ($scheme eq 'https' && !$self->{no_ssl_check}) {
+        $self->_turnSSLCheckOn();
+        my $pattern = _getCertificateRegexp($url->host());
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
+    }
 
     my $request_content = $message->getContent();
     $logger->debug("[network] sending message: $request_content");
@@ -92,7 +88,7 @@ sub send {
         return;
     }
 
-    my $request = HTTP::Request->new(POST => $self->{url});
+    my $request = HTTP::Request->new(POST => $url);
     $request->header(
         'Pragma'       => 'no-cache',
         'Content-type' => 'application/x-compress'
@@ -119,8 +115,8 @@ sub send {
                 # compute authentication parameters
                 my $header = $result->header('www-authenticate');
                 my ($realm) = $header =~ /^Basic realm="(.*)"/;
-                my $host = $self->{url}->host();
-                my $port = $self->{url}->port() ||
+                my $host = $url->host();
+                my $port = $url->port() ||
                    ($scheme eq 'https' ? 443 : 80);
                 $self->{ua}->credentials(
                     "$host:$port",
@@ -138,8 +134,8 @@ sub send {
                 };
                 if (!$result->is_success()) {
                     $logger->error(
-                        "[network] cannot establish communication with " .
-                        "$self->{url}: " .  $result->status_line()
+                        "[network] cannot establish communication with $url: " .
+                        $result->status_line()
                     );
                     return;
                 }
@@ -153,7 +149,7 @@ sub send {
             }
         } else {
             $logger->error(
-                "[network] cannot establish communication with $self->{url}: " .
+                "[network] cannot establish communication with $url: " .
                 $result->status_line()
             );
             return;

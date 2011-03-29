@@ -40,7 +40,6 @@ sub main {
         ca_cert_file => $self->{config}->{'ca-cert-file'},
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
-        url          => $self->{target}->getUrl(),
     });
 
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
@@ -57,7 +56,10 @@ sub main {
     $self->{network} = $network;
 
     $self->{logger}->debug("Pong!");
-    $network->send( { message => $message } );
+    $network->send({
+        url     => $self->{target}->getUrl(),
+        message => $message
+    });
 
 }
 

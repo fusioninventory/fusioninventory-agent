@@ -98,10 +98,12 @@ sub main {
             ca_cert_file => $self->{config}->{'ca-cert-file'},
             ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
             no_ssl_check => $self->{config}->{'no-ssl-check'},
-            url          => $self->{target}->getUrl()
         });
 
-        my $response = $network->send({message => $inventory});
+        my $response = $network->send({
+            url     => $self->{target}->getUrl(),
+            message => $inventory
+        });
 
         return unless $response;
         $inventory->saveLastState();
