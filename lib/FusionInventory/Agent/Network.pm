@@ -32,7 +32,7 @@ sub new {
         ca_cert_dir    => $params->{ca_cert_dir},
         no_ssl_check   => $params->{no_ssl_check},
         url            => $params->{url},
-        defaultTimeout => 180
+        timeout        => $params->{timeout} || 180
     };
     bless $self, $class;
 
@@ -46,6 +46,7 @@ sub new {
     }
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
+    $self->{ua}->timeout($params->{timeout});
 
     # activate SSL if needed
     my $scheme = $self->{url}->scheme();
@@ -106,7 +107,7 @@ sub send {
     my $res;
     eval {
         if ($^O =~ /^MSWin/ && $self->{url} =~ /^https:/g) {
-            alarm $self->{defaultTimeout};
+            alarm $self->{timeout};
         }
         $res = $self->{ua}->request($req);
         alarm 0;
@@ -131,7 +132,7 @@ sub send {
 
         eval {
             if ($^O =~ /^MSWin/ && $self->{url} =~ /^https:/g) {
-                alarm $self->{defaultTimeout};
+                alarm $self->{timeout};
             }
             $res = $self->{ua}->request($req);
             alarm 0;
@@ -217,15 +218,12 @@ sub getStore {
     my ($self, $args) = @_;
 
     my $source = $args->{source};
-    my $timeout = $args->{timeout};
     my $noProxy = $args->{noProxy};
-
-    $self->{ua}->timeout($timeout) if $timeout;
 
     my $response;
     eval {
         if ($^O =~ /^MSWin/ && $source =~ /^https:/g) {
-            alarm $self->{defaultTimeout};
+            alarm $self->{timeout};
         }
 
         my $request = HTTP::Request->new(GET => $source);
@@ -241,7 +239,6 @@ sub get {
     my ($self, $args) = @_;
 
     my $source = $args->{source};
-    my $timeout = $args->{timeout};
     my $noProxy = $args->{noProxy};
 
     my $response = $self->{ua}->get($source);
