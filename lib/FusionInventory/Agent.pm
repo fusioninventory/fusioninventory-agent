@@ -25,8 +25,6 @@ our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
-$ENV{LC_ALL} = 'C'; # Turn off localised output for commands
-$ENV{LANG} = 'C'; # Turn off localised output for commands
 
 # THIS IS AN UGLY WORKAROUND FOR
 # http://rt.cpan.org/Ticket/Display.html?id=38067
@@ -65,10 +63,6 @@ sub new {
 
     if ( $REAL_USER_ID != 0 ) {
         $logger->info("You should run this program as super-user.");
-    }
-
-    if (not $config->{'scan-homedirs'}) {
-        $logger->debug("--scan-homedirs missing. Don't scan user directories");
     }
 
     if (!-d $config->{'share-dir'}) {
