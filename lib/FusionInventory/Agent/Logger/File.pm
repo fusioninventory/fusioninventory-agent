@@ -5,6 +5,7 @@ use warnings;
 
 use Config;
 use English qw(-no_match_vars);
+use File::stat;
 
 BEGIN {
     # threads and threads::shared must be load before
@@ -35,20 +36,6 @@ sub new {
     return $self;
 }
 
-sub logFileIsFull {
-    my ($self) = @_;
-
-    my @stat = stat($self->{logfile});
-    return unless @stat;
-
-    my $size = $stat[7];
-    if ($size > $self->{logfile_maxsize}) {
-        return 1;
-    }
-
-    return;
-}
-
 sub addMsg {
     my ($self, $args) = @_;
 
@@ -56,9 +43,12 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    if ($self->{logfile_maxsize} && $self->logFileIsFull()) {
-        unlink $self->{logfile} or warn "Can't ".
-        "unlink ".$self->{logfile}." $!\n";
+    if ($self->{logfile_maxsize}) {
+        my $stat = stat($self->{logfile});
+        if ($stat && $stat->size() > $self->{logfile_maxsize}) {
+            unlink $self->{logfile}
+                or warn "Can't unlink $self->{logfile}: $ERRNO";
+        }
     }
 
     my $handle;
