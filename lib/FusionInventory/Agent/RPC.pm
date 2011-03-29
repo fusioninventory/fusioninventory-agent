@@ -149,26 +149,29 @@ sub handler {
         $c->send_error(404)
     } elsif ($r->method eq 'GET' and $r->uri->path =~ /^\/now(\/|)(\S*)$/) {
         my $sentToken = $2;
-        my $currentToken = $self->getToken();
         my $code;
         my $msg;
         $logger->debug("[RPC] 'now' catched");
-        if (
-            ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./)
-                or
-            ($sentToken eq $currentToken)
-        ) {
-            $self->getToken('forceNewToken');
+        if ($config->{'rpc-trust-localhost'} && $clientIp =~ /^127\./) {
             $targets->resetNextRunDate();
             $code = 200;
             $msg = "Done."
-
         } else {
+            # Had to check the token sent
+            my $currentToken = $self->getToken();
+            if ($sentToken eq $currentToken) {
+                $self->getToken('forceNewToken');
+                $targets->resetNextRunDate();
+                $code = 200;
+                $msg = "Done."
 
-            $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
-            $code = 403;
-            $msg = "Access denied. You are not using the 127.0.0.1 IP address to access the server or rpc-trust-localhost is off or the token is invalid."
+            } else {
 
+                $logger->debug("[RPC] bad token $sentToken != ".$currentToken);
+                $code = 403;
+                $msg = "Access denied. You are not using the 127.0.0.1 IP address to access the server or rpc-trust-localhost is off or the token is invalid."
+
+            }
         }
 
         my $r = HTTP::Response->new(
