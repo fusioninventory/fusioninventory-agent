@@ -28,40 +28,29 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config  => $params->{config},
-        debug   => $params->{config}->{debug},
-        backend => []
+        debug => $params->{debug},
     };
     bless $self, $class;
 
-    my @logger;
-    if (exists ($self->{config}->{logger})) {
-        @logger = split /,/, $self->{config}->{logger};
-    } else {
-        # if no 'logger' parameter exist I use Stderr as default backend
-        push @logger, 'Stderr';
-    }
-
-    my %loadedMbackends;
-    foreach (@logger) {
-	next if $loadedMbackends{$_};
-        my $backend = "FusionInventory::Agent::Logger::".$_;
-        $backend->require();
+    my %backends;
+    foreach my $backend (split(/,/, $params->{config}->{logger})) {
+	next if $backends{$backend};
+        my $package = "FusionInventory::Agent::Logger::$backend";
+        $package->require();
         if ($EVAL_ERROR) {
-            print STDERR "Failed to load Logger backend: $backend ($EVAL_ERROR)\n";
+            print STDERR
+                "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
             next;
-        } else {
-            $loadedMbackends{$_}=1;
         }
+	$backends{$backend} = 1;
 
-        my $obj = $backend->new({
-                config => $self->{config},
-            });
-        push @{$self->{backend}}, $obj if $obj;
+        $self->debug("Logger backend $backend initialised");
+        push
+            @{$self->{backends}},
+            $package->new($params);
     }
 
     $self->debug($FusionInventory::Agent::VERSION_STRING);
-    $self->debug("Log system initialised (".(keys %loadedMbackends).")");
 
     return $self;
 }
@@ -78,7 +67,7 @@ sub log {
     chomp($message);
     $level = 'info' unless $level;
 
-    foreach (@{$self->{backend}}) {
+    foreach (@{$self->{backends}}) {
         $_->addMsg ({
             level => $level,
             message => $message

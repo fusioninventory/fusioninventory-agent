@@ -58,7 +58,9 @@ sub new {
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
     my $logger = $self->{logger} = FusionInventory::Agent::Logger->new({
-        config => $config
+        config   => $config,
+        backends => $config->{logger},
+        debug    => $config->{debug}
     });
 
     if ( $REAL_USER_ID != 0 ) {
