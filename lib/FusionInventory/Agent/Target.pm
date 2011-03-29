@@ -28,6 +28,8 @@ my $lock : shared;
 sub new {
     my ($class, $params) = @_;
 
+    die 'no basevardir parameter' unless $params->{basevardir};
+
     my $self = {
         logger    => $params->{logger},
         deviceid  => $params->{deviceid},
