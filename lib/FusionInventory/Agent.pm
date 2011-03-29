@@ -256,9 +256,6 @@ sub main {
     eval {
         while (my $target = $scheduler->getNextTarget()) {
 
-            my $exitcode = 0;
-            my $wait;
-
             my $prologresp;
             my $network;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
