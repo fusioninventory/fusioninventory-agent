@@ -100,7 +100,6 @@ sub main {
 
     }
 
-    exit(0);
 }
 
 sub initModList {

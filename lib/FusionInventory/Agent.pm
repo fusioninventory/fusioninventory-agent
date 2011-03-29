@@ -205,9 +205,10 @@ sub main {
         my $wait;
 
         my $prologresp;
+        my $network;
         if ($target->{type} eq 'server') {
 
-            my $network = FusionInventory::Agent::Network->new({
+            $network = FusionInventory::Agent::Network->new({
                 logger => $logger,
                 config => $config,
                 target => $target,
@@ -233,21 +234,6 @@ sub main {
             $target->setCurrentDeviceID ($self->{deviceid});
         }
 
-
-        my $storage = FusionInventory::Agent::Storage->new({
-            config => $config,
-            logger => $logger,
-            target => $target,
-        });
-        $storage->save({
-            data => {
-                config => $config,
-                target => $target,
-                #logger => $logger, # XXX Needed?
-                prologresp => $prologresp
-            }
-        });
-
         my @tasks = qw/
             OcsDeploy
             Inventory
@@ -267,24 +253,40 @@ sub main {
                 next;
             }
 
-            my $task = FusionInventory::Agent::Task->new({
-                config => $config,
-                logger => $logger,
-                module => $module,
-                target => $target,
+            $rpc && $rpc->setCurrentStatus("running task $module");
+
+            my $task = $package->new({
+                config      => $config,
+                logger      => $logger,
+                target      => $target,
+                prologresp  => $prologresp,
+                network     => $network,
+                deviceid    => $self->{deviceid}
             });
 
-            $rpc && $rpc->setCurrentStatus("running task $module");
-            next unless $task;
-            $task->run();
+            if ($config->{daemon} || $config->{service}) {
+                # daemon mode: run each task in a childprocess
+                if (my $pid = fork()) {
+                    # parent
+                    waitpid($pid, 0);
+                } else {
+                    # child
+                    die "fork failed: $ERRNO" unless defined $pid;
+
+                    $logger->debug(
+                    "[task] executing $module in process $PID"
+                    );
+                    $task->main();
+                }
+            } else {
+                # standalone mode: run each task directly
+                $logger->debug("[task] executing $module");
+                $task->main();
+            }
         }
+
         $rpc && $rpc->setCurrentStatus("waiting");
 
-        if (!$config->{debug}) {
-            # In debug mode, I do not clean the FusionInventory-Agent.dump
-            # so I can replay the sub task directly
-            $storage->remove();
-        }
         $target->setNextRunDate();
 
         sleep(5);

@@ -14,7 +14,7 @@ sub main {
 
     if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");
-        exit(0);
+        return;
     }
 
     my $options = $self->{data}->{prologresp}->getOptionsInfoByName('PING');

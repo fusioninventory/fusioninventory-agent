@@ -29,12 +29,11 @@ sub main {
     }
     if ($continue == 0) {
         $self->{logger}->debug("No WAKEONLAN. Exiting...");
-        exit(0);
+        return;
     }
 
     if ($self->{target}->{type} ne 'server') {
         $self->{logger}->debug("No server. Exiting...");
-        exit(0);
     }
 
     $self->{network} = FusionInventory::Agent::Network->new({
@@ -44,8 +43,6 @@ sub main {
     });
 
     $self->StartMachine();
-
-    exit(0);
 }
 
 
@@ -62,7 +59,7 @@ sub StartMachine {
     my $byte = '[0-9A-F]{2}';
     if ($macaddress !~ /^$byte:$byte:$byte:$byte:$byte:$byte$/i) {
         $self->{logger}->debug("Invalid MacAddress $macaddress . Exiting...");
-        exit(0);
+        return;
     }
     $macaddress =~ s/://g;
 
