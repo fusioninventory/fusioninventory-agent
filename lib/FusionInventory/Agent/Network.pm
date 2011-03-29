@@ -81,48 +81,43 @@ sub send {
     my $logger = $self->{logger};
 
     my $message = $args->{message};
+    my $scheme = $self->{url}->scheme();
 
-    my $req = HTTP::Request->new(POST => $self->{url});
-
-    $req->header(
-        'Pragma'       => 'no-cache',
-        'Content-type' => 'application/x-compress'
-    );
-
-    $logger->debug ("sending XML");
-
-    # Print the XMLs in the debug output
-    #$logger->debug ("sending: ".$message->getContent());
-
-    my $message_content = $self->_compress($message->getContent());
-    if (!$message_content) {
+    my $request_content = $self->_compress($message->getContent());
+    if (!$request_content) {
         $logger->error('Inflating problem');
         return;
     }
 
-    $req->content($message_content);
+    my $request = HTTP::Request->new(POST => $self->{url});
+    $request->header(
+        'Pragma'       => 'no-cache',
+        'Content-type' => 'application/x-compress'
+    );
+    $request->content($request_content);
 
-    my $res;
+    $logger->debug("sending XML");
+
+    my $result;
     eval {
-        if ($^O =~ /^MSWin/ && $self->{url} =~ /^https:/g) {
+        if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
             alarm $self->{timeout};
         }
-        $res = $self->{ua}->request($req);
+        $result = $self->{ua}->request($request);
         alarm 0;
     };
 
-        # check result
-    if (!$res->is_success()) {
+    # check result first
+    if (!$result->is_success()) {
         # authentication required
-        if ($res->code() == 401) {
+        if ($result->code() == 401) {
             if ($self->{user} && $self->{password}) {
                 $logger->debug(
                     "Authentication required, submitting credentials"
                 );
                 # compute authentication parameters
-                my $header = $res->header('www-authenticate');
+                my $header = $result->header('www-authenticate');
                 my ($realm) = $header =~ /^Basic realm="(.*)"/;
-                my $scheme = $self->{url}->scheme();
                 my $host = $self->{url}->host();
                 my $port = $self->{url}->port() ||
                    ($scheme eq 'https' ? 443 : 80);
@@ -137,11 +132,14 @@ sub send {
                     if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
                         alarm $self->{timeout};
                     }
-                    $res = $self->{ua}->request($req);
+                    $result = $self->{ua}->request($request);
                     alarm 0;
                 };
-                if (!$res->is_success()) {
-                    $logger->error($res->message());
+                if (!$result->is_success()) {
+                    $logger->error(
+                        "Cannot establish communication with $self->{url}: " .
+                        $result->status_line()
+                    );
                     return;
                 }
             } else {
@@ -152,29 +150,24 @@ sub send {
                 return;
             }
         } else {
-            $logger->error($res->message());
+            $logger->error(
+                "Cannot establish communication with $self->{url}: " .
+                $result->status_line()
+            );
             return;
         }
     }
 
-    # Checking if connected
-    if(!$res->is_success) {
-        $logger->error ('Cannot establish communication with `'.
-            $self->{url}.': '.
-            $res->status_line.'`');
-        return;
-    }
-
     # stop or send in the http's body
 
-    my $response_content;
+    my $response_content = $result->content();
 
-   if (!$res->content()) {
+   if (!$response_content) {
         $logger->error("Response is empty");
         return;
     }
 
-    $response_content = $self->_uncompress($res->content());
+    $response_content = $self->_uncompress($response_content);
     if (!$response_content) {
         $logger->error("Deflating problem");
         return;
