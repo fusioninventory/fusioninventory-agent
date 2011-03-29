@@ -27,7 +27,8 @@ sub new {
 
     my $self = {
         logfile         => $params->{config}->{logfile},
-        logfile_maxsize => $params->{config}->{'logfile-maxsize'}
+        logfile_maxsize => $params->{config}->{'logfile-maxsize'} ?
+            $params->{config}->{'logfile-maxsize'} * 1024 * 1024 : 0
     };
     bless $self, $class;
 
@@ -41,7 +42,7 @@ sub logFileIsFull {
     return unless @stat;
 
     my $size = $stat[7];
-    if ($size > $self->{logfile_maxsize}*1024*1024) {
+    if ($size > $self->{logfile_maxsize}) {
         return 1;
     }
 
