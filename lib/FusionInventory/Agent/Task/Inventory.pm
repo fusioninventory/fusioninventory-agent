@@ -39,10 +39,6 @@ sub main {
 
     $self->{modules} = {};
 
-    if (!$self->{target}) {
-        die "target is undef";
-    }
-
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
         # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,

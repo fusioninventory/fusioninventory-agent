@@ -8,6 +8,8 @@ use English qw(-no_match_vars);
 sub new {
     my ($class, $params) = @_;
 
+    die 'no target parameter' unless $params->{target};
+
     my $self = {
         logger      => $params->{logger},
         config      => $params->{config},
