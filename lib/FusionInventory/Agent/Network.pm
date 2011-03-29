@@ -36,6 +36,25 @@ sub new {
     };
     bless $self, $class;
 
+    # create user agent
+    $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
+
+    if ($params->{proxy}) {
+        $self->{ua}->proxy(['http', 'https'], $params->{proxy});
+    }  else {
+        $self->{ua}->env_proxy;
+    }
+
+    $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
+
+    # activate SSL if needed
+    my $scheme = $self->{url}->scheme();
+    if ($scheme eq 'https' && !$self->{no_ssl_check}) {
+        $self->_turnSSLCheckOn();
+        my $pattern = _getCertificateRegexp($self->{url}->host());
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
+    }
+
     # check compression mode
     if (Compress::Zlib->require()) {
         $self->{compression} = 'native';
@@ -55,85 +74,6 @@ sub new {
     }
 
     return $self;
-}
-
-sub createUA {
-    my ($self, $args) = @_;
-
-    my $noProxy = $args->{noProxy};
-    my $timeout = $args->{timeout};
-    my $forceRealm = $args->{forceRealm};
-
-    my $logger = $self->{logger};
-    
-    my $url      = URI->new($args->{url});
-    my $host     = $url->host();
-    my $protocol = $url->scheme();
-    my $port     = $url->port();
-
-   if (!$port) {
-       $port = $protocol eq 'https' ? 443 : 80;
-   }
-
-    die "Unsupported protocol $protocol"
-        unless $protocol eq 'http' or $protocol eq 'https';
-
-    my $ua = LWP::UserAgent->new(keep_alive => 1);
-
-    if ($noProxy) {
-
-        # Not thread safe :(
-        foreach (qw/HTTP_PROXY HTTPS_PROXY/) {
-            next unless $ENV{$_};
-            $self->{ProxySaved}{$_} = $ENV{$_};
-            $ENV{$_} = undef;
-        }
-
-    } else {
-
-        foreach (qw/HTTP_PROXY HTTPS_PROXY/) {
-            next unless $self->{ProxySaved}{$_};
-            $ENV{$_} = $self->{ProxySaved}{$_};
-            undef $self->{ProxySaved}{$_};
-        }
-
-    }
-
-
-    if ($self->{proxy}) {
-
-        if ($protocol eq 'http') {
-            $ENV{HTTP_PROXY} = $self->{proxy};
-            $ua->env_proxy;
-        } elsif ($protocol eq 'https') {
-            $ENV{HTTPS_PROXY} = $self->{proxy};
-            # Crypt::SSLeay do the proxy connexion itself with
-            # $ENV{HTTPS_PROXY}.
-        }
-
-    }
-
-    # Connect to server
-    $ua->agent($FusionInventory::Agent::AGENT_STRING);
-    $ua->timeout($timeout);
-
-    my $scheme = $url->scheme();
-    if ($scheme eq 'https' && !$self->{no_ssl_check}) {
-        $self->_turnSSLCheckOn();
-        my $pattern = _getCertificateRegexp($url->host());
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
-    }
-
-    # Auth
-    my $realm = $forceRealm || $self->{realm};
-    $ua->credentials(
-        "$host:$port",
-        $realm,
-        $self->{user},
-        $self->{password}
-    );
-
-    return $ua;
 }
 
 sub send {
@@ -163,13 +103,12 @@ sub send {
 
     $req->content($message_content);
 
-    my $ua = $self->createUA({url => $self->{url}});
     my $res;
     eval {
         if ($^O =~ /^MSWin/ && $self->{url} =~ /^https:/g) {
             alarm $self->{defaultTimeout};
         }
-        $res = $ua->request($req);
+        $res = $self->{ua}->request($req);
         alarm 0;
     };
 
@@ -178,13 +117,23 @@ sub send {
     if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{realm}) {
         $serverRealm = $1;
         $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retrying.");
+        my $scheme = $self->{url}->scheme();
+        my $host   = $self->{url}->host();
+        my $port   = $self->{url}->port() ||
+           ($scheme eq 'https' ? 443 : 80);
 
-        $ua = $self->createUA({url => $self->{url}, forceRealm => $serverRealm});
+       $self->{ua}->credentials(
+            "$host:$port",
+            $serverRealm,
+            $self->{user},
+            $self->{password}
+        );
+
         eval {
             if ($^O =~ /^MSWin/ && $self->{url} =~ /^https:/g) {
                 alarm $self->{defaultTimeout};
             }
-            $res = $ua->request($req);
+            $res = $self->{ua}->request($req);
             alarm 0;
         }
     }
@@ -271,13 +220,7 @@ sub getStore {
     my $timeout = $args->{timeout};
     my $noProxy = $args->{noProxy};
 
-    my $ua = $self->createUA({
-            url     => $source,
-            timeout => $timeout,
-            noProxy => $noProxy,
-        });
-
-    $ua->timeout($timeout) if $timeout;
+    $self->{ua}->timeout($timeout) if $timeout;
 
     my $response;
     eval {
@@ -286,7 +229,7 @@ sub getStore {
         }
 
         my $request = HTTP::Request->new(GET => $source);
-        $response = $ua->request($request);
+        $response = $self->{ua}->request($request);
         alarm 0;
     };
 
@@ -301,13 +244,7 @@ sub get {
     my $timeout = $args->{timeout};
     my $noProxy = $args->{noProxy};
 
-    my $ua = $self->createUA({
-            url     => $source,
-            timeout => $timeout,
-            noProxy => $noProxy,
-        });
-
-    my $response = $ua->get($source);
+    my $response = $self->{ua}->get($source);
 
     return $response->decoded_content if $response->is_success;
 
