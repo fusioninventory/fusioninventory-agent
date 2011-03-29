@@ -40,7 +40,7 @@ sub main {
     $self->{network} = FusionInventory::Agent::Network->new({
         logger => $self->{logger},
         config => $self->{config},
-        target => $self->{target},
+        url    => $self->{target}->getUrl(),
     });
 
     $self->StartMachine();

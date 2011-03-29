@@ -92,7 +92,7 @@ sub main {
         my $network = FusionInventory::Agent::Network->new({
             logger => $self->{logger},
             config => $self->{config},
-            target => $self->{target},
+            url    => $self->{target}->getUrl()
         });
 
         my $response = $network->send({message => $inventory});

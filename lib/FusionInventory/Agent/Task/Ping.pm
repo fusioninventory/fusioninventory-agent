@@ -34,7 +34,7 @@ sub main {
     my $network = FusionInventory::Agent::Network->new({
         logger => $self->{logger},
         config => $self->{config},
-        target => $self->{target},
+        url    => $self->{target}->getUrl(),
     });
 
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({

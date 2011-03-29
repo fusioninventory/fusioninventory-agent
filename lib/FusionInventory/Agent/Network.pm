@@ -14,14 +14,12 @@ use FusionInventory::Agent::XML::Response;
 sub new {
     my ($class, $params) = @_;
 
-    die 'no target parameter' unless $params->{target};
-    die 'no config parameter' unless $params->{config};
+    die "no url parameter" unless $params->{url};
 
     my $self = {
         config         => $params->{config},
         logger         => $params->{logger},
-        target         => $params->{target},
-        URI            => $params->{target}->getUrl(),
+        URI            => $params->{url},
         defaultTimeout => 180
     };
     bless $self, $class;
@@ -129,7 +127,6 @@ sub send {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-    my $target = $self->{target};
     my $config = $self->{config};
 
     my $message = $args->{message};
@@ -300,7 +297,6 @@ sub getStore {
     my ($self, $args) = @_;
 
     my $source = $args->{source};
-    my $target = $args->{target};
     my $timeout = $args->{timeout};
     my $noProxy = $args->{noProxy};
 
@@ -319,7 +315,7 @@ sub getStore {
         }
 
         my $request = HTTP::Request->new(GET => $source);
-        $response = $ua->request($request, $target);
+        $response = $ua->request($request);
         alarm 0;
     };
 
