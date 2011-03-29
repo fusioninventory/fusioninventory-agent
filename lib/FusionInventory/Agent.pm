@@ -255,9 +255,15 @@ sub main {
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
                 $network = FusionInventory::Agent::Network->new({
-                    logger => $logger,
-                    config => $config,
-                    target => $target,
+                    logger       => $logger,
+                    user         => $self->{config}->{user},
+                    password     => $self->{config}->{password},
+                    realm        => $self->{config}->{realm},
+                    proxy        => $self->{config}->{proxy},
+                    ca_cert_file => $self->{config}->{'ca-cert-file'},
+                    ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                    no_ssl_check => $self->{config}->{'no-ssl-check'},
+                    url          => $self->{target}->getUrl(),
                 });
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({

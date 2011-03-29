@@ -32,9 +32,15 @@ sub main {
     $self->{logger}->debug("Ping ID:". $options->{ID});
 
     my $network = FusionInventory::Agent::Network->new({
-        logger => $self->{logger},
-        config => $self->{config},
-        url    => $self->{target}->getUrl(),
+        logger       => $self->{logger},
+        user         => $self->{config}->{user},
+        password     => $self->{config}->{password},
+        realm        => $self->{config}->{realm},
+        proxy        => $self->{config}->{proxy},
+        ca_cert_file => $self->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        url          => $self->{target}->getUrl(),
     });
 
     my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({

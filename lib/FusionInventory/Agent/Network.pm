@@ -17,8 +17,14 @@ sub new {
     die "no url parameter" unless $params->{url};
 
     my $self = {
-        config         => $params->{config},
         logger         => $params->{logger},
+        user           => $params->{user},
+        password       => $params->{password},
+        realm          => $params->{realm},
+        proxy          => $params->{proxy},
+        ca_cert_file   => $params->{ca_cert_file},
+        ca_cert_dir    => $params->{ca_cert_dir},
+        no_ssl_check   => $params->{no_ssl_check},
         URI            => $params->{url},
         defaultTimeout => 180
     };
@@ -52,7 +58,6 @@ sub createUA {
     my $timeout = $args->{timeout};
     my $forceRealm = $args->{forceRealm};
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
     
     my $uri      = URI->new($args->{URI});
@@ -89,13 +94,13 @@ sub createUA {
     }
 
 
-    if ($self->{config}->{proxy}) {
+    if ($self->{proxy}) {
 
         if ($protocol eq 'http') {
-            $ENV{HTTP_PROXY} = $self->{config}->{proxy};
+            $ENV{HTTP_PROXY} = $self->{proxy};
             $ua->env_proxy;
         } elsif ($protocol eq 'https') {
-            $ENV{HTTPS_PROXY} = $self->{config}->{proxy};
+            $ENV{HTTPS_PROXY} = $self->{proxy};
             # Crypt::SSLeay do the proxy connexion itself with
             # $ENV{HTTPS_PROXY}.
         }
@@ -112,12 +117,12 @@ sub createUA {
         });
 
     # Auth
-    my $realm = $forceRealm || $self->{config}->{realm};
+    my $realm = $forceRealm || $self->{realm};
     $ua->credentials(
         "$host:$port",
         $realm,
-        $self->{config}->{user},
-        $self->{config}->{password}
+        $self->{user},
+        $self->{password}
     );
 
     return $ua;
@@ -127,7 +132,6 @@ sub send {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
 
     my $message = $args->{message};
     my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
@@ -165,7 +169,7 @@ sub send {
 
 
     my $serverRealm;
-    if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{config}->{realm}) {
+    if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{realm}) {
         $serverRealm = $1;
         $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retrying.");
 
@@ -188,7 +192,7 @@ sub send {
     }
 
     # Ok we found the correct realm. We store it.
-    $self->{config}->{realm} = $serverRealm if $serverRealm;
+    $self->{realm} = $serverRealm if $serverRealm;
 
     # stop or send in the http's body
 
@@ -220,19 +224,18 @@ sub turnSSLCheckOn {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
 
 
-    if ($config->{'no-ssl-check'}) {
-        if (!$config->{SslCheckWarningShown}) {
+    if ($self->{no_ssl_check}) {
+        if (!$self->{SslCheckWarningShown}) {
             $logger->info( "--no-ssl-check parameter "
                 . "found. Don't check server identity!!!" );
-            $config->{SslCheckWarningShown} = 1;
+            $self->{SslCheckWarningShown} = 1;
         }
         return;
     }
 
-    if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
+    if (!$self->{ca_cert_file} && !$self->{ca_cert_dir}) {
         $logger->debug("You may need to use either --ca-cert-file ".
             "or --ca-cert-dir to give the location of your SSL ".
             "certificat. You can also disable SSL check with ".
@@ -240,19 +243,19 @@ sub turnSSLCheckOn {
     }
 
 
-    if ($config->{'ca-cert-file'}) {
-        if (!-f $config->{'ca-cert-file'} && !-l $config->{'ca-cert-file'}) {
-            die "--ca-cert-file doesn't exist `".$config->{'ca-cert-file'}."'";
+    if ($self->{ca_cert_file}) {
+        if (!-f $self->{ca_cert_file} && !-l $self->{ca_cert_file}) {
+            die "--ca-cert-file doesn't exist `".$self->{ca_cert_file}."'";
         }
 
-        $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
+        $ENV{HTTPS_CA_FILE} = $self->{ca_cert_file};
 
-    } elsif ($config->{'ca-cert-dir'}) {
-        if (!-d $config->{'ca-cert-dir'}) {
-            die "--ca-cert-dir doesn't exist `".$config->{'ca-cert-dir'}."'";
+    } elsif ($self->{ca_cert_dir}) {
+        if (!-d $self->{ca_cert_dir}) {
+            die "--ca-cert-dir doesn't exist `".$self->{ca_cert_dir}."'";
         }
 
-        $ENV{HTTPS_CA_DIR} =$config->{'ca-cert-dir'};
+        $ENV{HTTPS_CA_DIR} =$self->{ca_cert_dir};
 
     }
 
@@ -261,13 +264,12 @@ sub turnSSLCheckOn {
 sub setSslRemoteHost {
     my ($self, $args) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
 
     my $uri = $args->{URI};
     my $ua = $args->{ua};
 
-    if ($config->{'no-ssl-check'}) {
+    if ($self->{no_ssl_check}) {
         return;
     }
 
