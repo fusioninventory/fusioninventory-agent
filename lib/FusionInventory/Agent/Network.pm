@@ -227,6 +227,14 @@ sub _turnSSLCheckOn {
 
     my $logger = $self->{logger};
 
+    eval {
+        require Crypt::SSLeay;
+    };
+    if ($EVAL_ERROR) {
+        die 
+            "failed to load Crypt::SSLeay, unable to validate SSL certificates";
+    }
+
     if (!$self->{ca_cert_file} && !$self->{ca_cert_dir}) {
         $logger->debug("You may need to use either --ca-cert-file ".
             "or --ca-cert-dir to give the location of your SSL ".
