@@ -9,7 +9,6 @@ use LWP::UserAgent;
 use UNIVERSAL::require;
 use URI;
 
-use FusionInventory::Compress;
 use FusionInventory::Agent::XML::Response;
 
 sub new {
@@ -22,13 +21,28 @@ sub new {
         config         => $params->{config},
         logger         => $params->{logger},
         target         => $params->{target},
-        compress       => FusionInventory::Compress->new({
-            $params->{logger}
-        }),
         URI            => $params->{target}->getUrl(),
         defaultTimeout => 180
     };
     bless $self, $class;
+
+    # check compression mode
+    if (Compress::Zlib->require()) {
+        $self->{compression} = 'native';
+        $self->{logger}->debug(
+            'Using Compress::Zlib for compression'
+        );
+    } elsif (can_run('gzip')) {
+        $self->{compression} = 'gzip';
+        $self->{logger}->debug(
+            'Using gzip for compression (server minimal version 1.02 needed)'
+        );
+    } else {
+        $self->{compression} = 'none';
+        $self->{logger}->debug(
+            'Not using compression (server minimal version 1.02 needed)'
+        );
+    }
 
     return $self;
 }
@@ -118,7 +132,6 @@ sub send {
     my $target = $self->{target};
     my $config = $self->{config};
 
-    my $compress = $self->{compress};
     my $message = $args->{message};
     my ($msgtype) = ref($message) =~ /::(\w+)$/; # Inventory or Prolog
 
@@ -135,14 +148,13 @@ sub send {
     # Print the XMLs in the debug output
     #$logger->debug ("sending: ".$message->getContent());
 
-    my $compressed = $compress->compress( $message->getContent() );
-
-    if (!$compressed) {
-        $logger->error ('failed to compress data');
+    my $message_content = $self->_compress($message->getContent());
+    if (!$message_content) {
+        $logger->error('Inflating problem');
         return;
     }
 
-    $req->content($compressed);
+    $req->content($message_content);
 
     my $ua = $self->createUA({URI => $self->{URI}});
     my $res;
@@ -183,23 +195,23 @@ sub send {
 
     # stop or send in the http's body
 
-    my $content = '';
+    my $response_content;
 
-    if ($res->content) {
-        $content = $compress->uncompress($res->content);
-        if (!$content) {
-            $logger->error ("Deflating problem. Is the string really ".
-            "compressed? Do you use the correct URL to the server. ".
-            "The begin was: ".substr($res->content, 0, 200));
-
-            return;
-        }
+   if (!$res->content()) {
+        $logger->error("Response is empty");
+        return;
     }
 
-    $logger->debug("receiving message: $content");
+    $response_content = $self->_uncompress($res->content());
+    if (!$response_content) {
+        $logger->error("Deflating problem");
+        return;
+    }
+
+    $logger->debug("receiving message: $response_content");
 
     my $response = FusionInventory::Agent::XML::Response->new({
-        content => $content
+        content => $response_content
     });
 
     return $response;
@@ -343,6 +355,78 @@ sub isSuccess {
 
     return is_success($code);
 
+}
+
+sub _compress {
+    my ($self, $data) = @_;
+
+    return 
+        $self->{compression} eq 'native' ? $self->_compressNative($data) :
+        $self->{compression} eq 'gzip'   ? $self->_compressGzip($data)   :
+                                          $data;
+}
+
+sub _uncompress {
+    my ($self, $data) = @_;
+
+    return 
+        $self->{compression} eq 'native' ? $self->_uncompressNative($data) :
+        $self->{compression} eq 'gzip'   ? $self->_uncompressGzip($data)   :
+                                          $data;
+}
+
+sub _compressNative {
+    my ($self, $data) = @_;
+
+    return Compress::Zlib::compress($data);
+}
+
+sub _compressGzip {
+    my ($self, $data) = @_;
+
+    my $in = File::Temp->new();
+    print $in $data;
+    close $in;
+
+    my $command = 'gzip -c ' . $in->filename();
+    my $out;
+    if (! open $out, '-|', $command) {
+        $self->{logger}->debug("Can't run $command: $ERRNO");
+        return;
+    }
+
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $result = <$out>;
+    close $out;
+
+    return $result;
+}
+
+sub _uncompressNative {
+    my ($self, $data) = @_;
+
+    return Compress::Zlib::uncompress($data);
+}
+
+sub _uncompressGzip {
+    my ($self, $data) = @_;
+
+    my $in = File::Temp->new();
+    print $in $data;
+    close $in;
+
+    my $command = 'gzip -dc ' . $in->filename();
+    my $out;
+    if (! open $out, '-|', $command) {
+        $self->{logger}->debug("Can't run $command: $ERRNO");
+        return;
+    }
+
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $result = <$out>;
+    close $out;
+
+    return $result;
 }
 
 1;
