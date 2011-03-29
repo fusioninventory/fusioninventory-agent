@@ -120,10 +120,8 @@ sub createUA {
     my $scheme = $url->scheme();
     if ($scheme eq 'https' && !$self->{no_ssl_check}) {
         $self->_turnSSLCheckOn();
-        $self->_setSslRemoteHost({
-            ua => $ua,
-            url => $url
-        });
+        my $pattern = _getCertificateRegexp($url->host());
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
     }
 
     # Auth
@@ -253,24 +251,16 @@ sub _turnSSLCheckOn {
     }
 }
 
-sub _setSslRemoteHost {
-    my ($self, $args) = @_;
+sub _getCertificateRegexp {
+    my ($hostname) = @_;
 
-    my $logger = $self->{logger};
+    # Accept SSL cert will hostname with wild-card
+    # http://forge.fusioninventory.org/issues/542
+    $hostname =~ s/^([^\.]+)/($1|\\*)/;
+    # protect metacharacters, as $re will be evaluated as a regex
+    $hostname =~ s/\./\\./g;
 
-    my $url = $args->{url};
-    my $ua = $args->{ua};
-
-    # Check server name against provided SSL certificate
-    if ( $self->{url} =~ /^https:\/\/([^\/]+).*$/i ) {
-        my $re = $1;
-        # Accept SSL cert will hostname with wild-card
-        # http://forge.fusioninventory.org/issues/542
-        $re =~ s/^([^\.]+)/($1|\\*)/;
-        # protect some characters, $re will be evaluated as a regex
-        $re =~ s/([\-\.])/\\$1/g;
-        $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$re.'($|\/)');
-    }
+    return qr/CN=$hostname($|\/)/;
 }
 
 
