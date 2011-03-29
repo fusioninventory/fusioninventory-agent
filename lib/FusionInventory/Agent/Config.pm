@@ -183,7 +183,7 @@ sub checkContent {
 
     # check for deprecated options
     foreach my $old (keys %$deprecated) {
-        next unless $self->{$old};
+        next unless defined $self->{$old};
 
         my $handler = $deprecated->{$old};
 
