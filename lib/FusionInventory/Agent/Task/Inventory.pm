@@ -40,7 +40,7 @@ sub main {
     $self->{modules} = {};
 
     if (!$self->{target}) {
-        $self->{logger}->fault("target is undef");
+        die "target is undef";
     }
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
@@ -409,16 +409,15 @@ sub runMod {
         if (!$_->{name}) {
             # The name is defined during module initialisation so if I
             # can't read it, I can suppose it had not been initialised.
-            $logger->fault(
+            die
                 "Module `$m' need to be runAfter a module not found.".
-                "Please fix its runAfter entry or add the module."
-            );
+                "Please fix its runAfter entry or add the module.";
         }
 
         if ($_->{inUse}) {
             # In use 'lock' is taken during the mod execution. If a module
             # need a module also in use, we have provable an issue :).
-            $logger->fault("Circular dependency hell with $m and $_->{name}");
+            die "Circular dependency hell with $m and $_->{name}";
         }
         $self->runMod({
             modname => $_->{name},
@@ -442,7 +441,7 @@ sub feedInventory {
     my $logger = $self->{logger};
 
     if (!$self->{inventory}) {
-        $logger->fault('Missing inventory parameter.');
+        die 'Missing inventory parameter.';
     }
 
     my $inventory = $self->{inventory};
@@ -453,7 +452,7 @@ sub feedInventory {
 
     my $begin = time();
     foreach my $m (sort keys %{$self->{modules}}) {
-        $logger->fault(">$m Houston!!!") unless $m;
+        die ">$m Houston!!!" unless $m;
         $self->runMod ({
             modname => $m,
         });

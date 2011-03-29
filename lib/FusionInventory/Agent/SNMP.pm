@@ -17,7 +17,7 @@ sub new {
         require Net::SNMP;
     };
     if ($EVAL_ERROR) {
-        $self->{logger}->fault("Can't load Net::SNMP. Exiting...");
+        die "Can't load Net::SNMP. Exiting...";
     }
 
     my $version =
@@ -27,8 +27,7 @@ sub new {
         $params->{version} eq '3'  ? 'snmpv3'  :
                                      undef     ;
 
-    $self->{logger}->fault("invalid SNMP version $params->{version}")
-        unless $version;
+    die "invalid SNMP version $params->{version}" unless $version;
 
     if ($version eq 'snmpv3') {
         $self->{session} = Net::SNMP->session(

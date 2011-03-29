@@ -130,7 +130,7 @@ sub getNextRunDate {
     $self->setNextRunDate();
 
     if (!${$self->{nextRunDate}}) {
-        $logger->fault('nextRunDate not set!');
+        die 'nextRunDate not set!';
     }
 
     return $self->{myData}{nextRunDate} ;

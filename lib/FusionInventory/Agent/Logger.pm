@@ -3,7 +3,6 @@ package FusionInventory::Agent::Logger;
 use strict;
 use warnings;
 
-use Carp;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
@@ -56,7 +55,6 @@ sub log {
             message => $message
         });
     }
-    confess if $level =~ /^fault$/; # Die with a backtace 
 }
 
 sub debug {

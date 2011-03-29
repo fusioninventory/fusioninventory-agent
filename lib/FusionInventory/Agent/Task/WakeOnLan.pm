@@ -70,7 +70,7 @@ sub StartMachine {
             or warn "Can't do setsockopt: $ERRNO\n";
 
         open my $handle, '-|', '/sbin/ifconfig -a'
-            or $logger->fault("Can't run /sbin/ifconfig: $ERRNO");
+            or die "Can't run /sbin/ifconfig: $ERRNO";
         while (my $line = <$handle>) {
             next unless $line =~ /(\S+) \s+ Link \s \S+ \s+ HWaddr \s (\S+)/x;
             my $netName = $1;

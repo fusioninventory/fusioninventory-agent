@@ -24,8 +24,8 @@ sub new {
     my $logger = $self->{logger} = $params->{logger};
     my $target = $self->{target} = $params->{target};
 
-    $logger->fault('$target not initialised') unless $target;
-    $logger->fault('$config not initialised') unless $config;
+    die '$target not initialised' unless $target;
+    die '$config not initialised' unless $config;
 
     $self->{compress} = FusionInventory::Compress->new({logger => $logger});
 
@@ -33,13 +33,13 @@ sub new {
         require LWP::UserAgent;
     };
     if ($EVAL_ERROR) {
-        $logger->fault("Can't load LWP::UserAgent. Is the package installed?");
+        die "Can't load LWP::UserAgent. Is the package installed?";
     }
     eval {
         require HTTP::Status;
     };
     if ($EVAL_ERROR) {
-        $logger->fault("Can't load HTTP::Status. Is the package installed?");
+        die "Can't load HTTP::Status. Is the package installed?";
     }
 
     $self->{URI} = $target->getUrl();
@@ -67,7 +67,7 @@ sub createUA {
        $port = $protocol eq 'https' ? 443 : 80;
    }
 
-    $logger->fault("Unsupported protocol $protocol")
+    die "Unsupported protocol $protocol"
         unless $protocol eq 'http' or $protocol eq 'https';
 
     my $ua = LWP::UserAgent->new(keep_alive => 1);
@@ -248,16 +248,14 @@ sub turnSSLCheckOn {
 
     if ($config->{'ca-cert-file'}) {
         if (!-f $config->{'ca-cert-file'} && !-l $config->{'ca-cert-file'}) {
-            $logger->fault("--ca-cert-file doesn't existe ".
-                "`".$config->{'ca-cert-file'}."'");
+            die "--ca-cert-file doesn't exist `".$config->{'ca-cert-file'}."'";
         }
 
         $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
 
     } elsif ($config->{'ca-cert-dir'}) {
         if (!-d $config->{'ca-cert-dir'}) {
-            $logger->fault("--ca-cert-dir doesn't existe ".
-                "`".$config->{'ca-cert-dir'}."'");
+            die "--ca-cert-dir doesn't exist `".$config->{'ca-cert-dir'}."'";
         }
 
         $ENV{HTTPS_CA_DIR} =$config->{'ca-cert-dir'};
@@ -280,7 +278,7 @@ sub setSslRemoteHost {
     }
 
     if (!$self->{URI}) {
-        $logger->fault("setSslRemoteHost(), no url parameter!");
+        die "setSslRemoteHost(), no url parameter!";
     }
 
     if ($self->{URI} !~ /^https:/i) {

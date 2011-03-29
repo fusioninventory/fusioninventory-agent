@@ -77,7 +77,7 @@ sub _getFilePath {
     my $extension = '';
     if ($idx) {
         if ($idx !~ /^\d+$/) {
-            $self->{logger}->fault("[fault] idx must be an integer!\n");
+            die "idx must be an integer!";
         } 
         $extension = '.'.$idx;
     }

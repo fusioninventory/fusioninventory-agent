@@ -253,102 +253,108 @@ sub main {
     my $scheduler = $self->{scheduler};
     $self->{status} = 'waiting';
 
-    while (my $target = $scheduler->getNextTarget()) {
+    eval {
+        while (my $target = $scheduler->getNextTarget()) {
 
-        my $exitcode = 0;
-        my $wait;
+            my $exitcode = 0;
+            my $wait;
 
-        my $prologresp;
-        my $network;
-        if ($target->isa('FusionInventory::Agent::Target::Server')) {
+            my $prologresp;
+            my $network;
+            if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-            $network = FusionInventory::Agent::Network->new({
-                logger => $logger,
-                config => $config,
-                target => $target,
-            });
+                $network = FusionInventory::Agent::Network->new({
+                    logger => $logger,
+                    config => $config,
+                    target => $target,
+                });
 
-            my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                logger          => $logger,
-                token           => $self->{token},
-                deviceid        => $self->{target}->{deviceid},
-                currentDeviceid => $self->{target}->{currentDeviceid},
-            });
+                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+                    logger          => $logger,
+                    token           => $self->{token},
+                    deviceid        => $self->{target}->{deviceid},
+                    currentDeviceid => $self->{target}->{currentDeviceid},
+                });
 
-            # Add target ACCOUNTINFO values to the prolog
-            $prolog->setAccountInfo($target->getAccountInfo());
+                # Add target ACCOUNTINFO values to the prolog
+                $prolog->setAccountInfo($target->getAccountInfo());
 
-            # TODO Don't mix settings and temp value
-            $prologresp = $network->send({message => $prolog});
+                # TODO Don't mix settings and temp value
+                $prologresp = $network->send({message => $prolog});
 
-            if (!$prologresp) {
-                $logger->error("No anwser from the server");
-                $target->setNextRunDate();
-                next;
+                if (!$prologresp) {
+                    $logger->error("No anwser from the server");
+                    $target->setNextRunDate();
+                    next;
+                }
+
+                # update target
+                my $parsedContent = $prologresp->getParsedContent();
+                $target->setPrologFreq($parsedContent->{PROLOG_FREQ});
+                $target->setCurrentDeviceID ($self->{deviceid});
             }
 
-            # update target
-            my $parsedContent = $prologresp->getParsedContent();
-            $target->setPrologFreq($parsedContent->{PROLOG_FREQ});
-            $target->setCurrentDeviceID ($self->{deviceid});
-        }
+            my @tasks = qw/
+                OcsDeploy
+                Inventory
+                WakeOnLan
+                SNMPQuery
+                NetDiscovery
+                Ping
+            /;
 
-        my @tasks = qw/
-            OcsDeploy
-            Inventory
-            WakeOnLan
-            SNMPQuery
-            NetDiscovery
-            Ping
-        /;
+            foreach my $module (@tasks) {
 
-        foreach my $module (@tasks) {
+                next if $config->{'no-'.lc($module)};
 
-            next if $config->{'no-'.lc($module)};
+                my $package = "FusionInventory::Agent::Task::$module";
+                if (!$package->require()) {
+                    $logger->info("Module $package is not installed.");
+                    next;
+                }
 
-            my $package = "FusionInventory::Agent::Task::$module";
-            if (!$package->require()) {
-                $logger->info("Module $package is not installed.");
-                next;
-            }
+                $self->{status} = "running task $module";
 
-            $self->{status} = "running task $module";
+                my $task = $package->new({
+                    config      => $config,
+                    logger      => $logger,
+                    target      => $target,
+                    prologresp  => $prologresp,
+                    network     => $network,
+                    deviceid    => $self->{deviceid}
+                });
 
-            my $task = $package->new({
-                config      => $config,
-                logger      => $logger,
-                target      => $target,
-                prologresp  => $prologresp,
-                network     => $network,
-                deviceid    => $self->{deviceid}
-            });
+                if ($config->{daemon} || $config->{service}) {
+                    # daemon mode: run each task in a childprocess
+                    if (my $pid = fork()) {
+                        # parent
+                        waitpid($pid, 0);
+                    } else {
+                        # child
+                        die "fork failed: $ERRNO" unless defined $pid;
 
-            if ($config->{daemon} || $config->{service}) {
-                # daemon mode: run each task in a childprocess
-                if (my $pid = fork()) {
-                    # parent
-                    waitpid($pid, 0);
+                        $logger->debug(
+                        "[task] executing $module in process $PID"
+                        );
+                        $task->main();
+                    }
                 } else {
-                    # child
-                    die "fork failed: $ERRNO" unless defined $pid;
-
-                    $logger->debug(
-                    "[task] executing $module in process $PID"
-                    );
+                    # standalone mode: run each task directly
+                    $logger->debug("[task] executing $module");
                     $task->main();
                 }
-            } else {
-                # standalone mode: run each task directly
-                $logger->debug("[task] executing $module");
-                $task->main();
             }
+
+            $self->{status} = 'waiting';
+
+            $target->setNextRunDate();
+
+            sleep(5);
         }
-
-        $self->{status} = 'waiting';
-
-        $target->setNextRunDate();
-
-        sleep(5);
+    };
+    if ($EVAL_ERROR) {
+        $logger->fault($EVAL_ERROR);
+        exit 1;
     }
 }
 

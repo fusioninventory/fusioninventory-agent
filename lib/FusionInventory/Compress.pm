@@ -29,7 +29,7 @@ sub new {
         $self->{tmpdir} = tempdir( CLEANUP => 1 );
         mkdir $self->{tmpdir};
         if ( ! -d $self->{tmpdir} ) {
-            $logger->fault("Failed to create the temp dir `$self->{tmpdir}'");
+            die "Failed to create the temp dir `$self->{tmpdir}'";
         }
     } else {
         $self->{mode} = 'deflated';
