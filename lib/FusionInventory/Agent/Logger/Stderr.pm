@@ -9,7 +9,7 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config => $params->{config},
+        color => $params->{config}->{color},
     };
     bless $self, $class;
 
@@ -19,8 +19,6 @@ sub new {
 sub addMsg {
     my ($self, $args) = @_;
 
-    my $config = $self->{config};
-
     my $level = $args->{level};
     my $message = $args->{message};
 
@@ -28,13 +26,13 @@ sub addMsg {
 
     # if STDERR has been hijacked, I take its saved ref
     my $stderr;
-    if (exists ($self->{config}->{savedstderr})) {
-        $stderr = $self->{config}->{savedstderr};
+    if (exists ($self->{savedstderr})) {
+        $stderr = $self->{savedstderr};
     } else {
         $stderr = \*STDERR;
     }
 
-    if ($config->{color} && $OSNAME ne 'MSWin32') {
+    if ($self->{color} && $OSNAME ne 'MSWin32') {
         if ($level eq 'error') {
             print $stderr  "\033[1;35m[$level]";
         } elsif ($level eq 'fault') {

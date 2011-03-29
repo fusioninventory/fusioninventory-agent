@@ -9,8 +9,8 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        config  => $params->{config},
-        logfile => $params->{config}->{logfile}
+        logfile         => $params->{config}->{logfile},
+        logfile_maxsize => $params->{config}->{'logfile-maxsize'}
     };
     bless $self, $class;
 
@@ -24,7 +24,7 @@ sub logFileIsFull {
     return unless @stat;
 
     my $size = $stat[7];
-    if ($size>$self->{config}{'logfile-maxsize'}*1024*1024) {
+    if ($size > $self->{logfile_maxsize}*1024*1024) {
         return 1;
     }
 
@@ -39,17 +39,17 @@ sub addMsg {
 
     return if $message =~ /^$/;
 
-    if ($self->{config}{'logfile-maxsize'} && $self->logFileIsFull()) {
+    if ($self->{logfile_maxsize} && $self->logFileIsFull()) {
         unlink $self->{logfile} or warn "Can't ".
         "unlink ".$self->{logfile}." $!\n";
     }
 
     my $handle;
-    if (open $handle, '>>', $self->{config}->{logfile}) {
+    if (open $handle, '>>', $self->{logfile}) {
         print $handle "[".localtime()."][$level] $message\n";
         close $handle;
     } else {
-        warn "Can't open $self->{config}->{logfile}: $ERRNO";
+        warn "Can't open $self->{logfile}: $ERRNO";
     }
 
 
