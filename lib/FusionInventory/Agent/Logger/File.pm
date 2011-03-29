@@ -2,6 +2,7 @@ package FusionInventory::Agent::Logger::File;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::Logger::Backend';
 
 use English qw(-no_match_vars);
 use Fcntl qw(:flock);

@@ -2,6 +2,7 @@ package FusionInventory::Agent::Logger::Syslog;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::Logger::Backend';
 
 use Sys::Syslog qw(:standard :macros);
 
