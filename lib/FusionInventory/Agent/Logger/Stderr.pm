@@ -1,4 +1,4 @@
-package FusionInventory::LoggerBackend::Stderr;
+package FusionInventory::Agent::Logger::Stderr;
 
 use strict;
 use warnings;

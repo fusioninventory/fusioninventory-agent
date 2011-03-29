@@ -9,8 +9,8 @@ use Sys::Hostname;
 use UNIVERSAL::require;
 use XML::Simple;
 
-use FusionInventory::Logger;
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
@@ -57,7 +57,7 @@ sub new {
 
     my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
 
-    my $logger = $self->{logger} = FusionInventory::Logger->new({
+    my $logger = $self->{logger} = FusionInventory::Agent::Logger->new({
         config => $config
     });
 

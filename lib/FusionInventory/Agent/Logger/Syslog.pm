@@ -1,4 +1,4 @@
-package FusionInventory::LoggerBackend::Syslog;
+package FusionInventory::Agent::Logger::Syslog;
 
 use strict;
 use warnings;

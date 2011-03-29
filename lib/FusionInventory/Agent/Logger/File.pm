@@ -1,4 +1,4 @@
-package FusionInventory::LoggerBackend::File;
+package FusionInventory::Agent::Logger::File;
 
 use strict;
 use warnings;

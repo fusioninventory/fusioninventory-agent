@@ -1,4 +1,4 @@
-package FusionInventory::Logger;
+package FusionInventory::Agent::Logger;
 
 use strict;
 use warnings;
@@ -47,7 +47,7 @@ sub new {
     my %loadedMbackends;
     foreach (@logger) {
 	next if $loadedMbackends{$_};
-        my $backend = "FusionInventory::LoggerBackend::".$_;
+        my $backend = "FusionInventory::Agent::Logger::".$_;
         $backend->require();
         if ($EVAL_ERROR) {
             print STDERR "Failed to load Logger backend: $backend ($EVAL_ERROR)\n";
