@@ -4,25 +4,8 @@ use strict;
 use warnings;
 
 use Carp;
-use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
-
-BEGIN {
-    # threads and threads::shared must be load before
-    # $lock is initialized
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
-
-my $lock :shared;
 
 sub new {
     my ($class, $params) = @_;
@@ -79,28 +62,24 @@ sub log {
 sub debug {
     my ($self, $msg) = @_;
 
-    lock($lock);
     $self->log({ level => 'debug', message => $msg});
 }
 
 sub info {
     my ($self, $msg) = @_;
 
-    lock($lock);
     $self->log({ level => 'info', message => $msg});
 }
 
 sub error {
     my ($self, $msg) = @_;
 
-    lock($lock);
     $self->log({ level => 'error', message => $msg});
 }
 
 sub fault {
     my ($self, $msg) = @_;
 
-    lock($lock);
     $self->log({ level => 'fault', message => $msg});
 }
 

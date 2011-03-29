@@ -5,6 +5,22 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+BEGIN {
+    # threads and threads::shared must be load before
+    # $lock is initialized
+    if ($Config{usethreads}) {
+        eval {
+            require threads;
+            require threads::shared;
+        };
+        if ($EVAL_ERROR) {
+            print "[error]Failed to use threads!\n"; 
+        }
+    }
+}
+
+my $lock :shared;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -34,6 +50,7 @@ sub logFileIsFull {
 sub addMsg {
     my ($self, $args) = @_;
 
+    lock($lock);
     my $level = $args->{level};
     my $message = $args->{message};
 
