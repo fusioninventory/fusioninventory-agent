@@ -43,3 +43,13 @@ sub addMsg {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Logger::Stderr - A stderr backend for the logger
+
+=head1 DESCRIPTION
+
+This is a stderr-based backend for the logger. It supports coloring based on
+message level on Unix platforms.

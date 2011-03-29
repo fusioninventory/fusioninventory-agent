@@ -56,3 +56,14 @@ sub addMsg {
 }
 
 1;
+1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Logger::File - A file backend for the logger
+
+=head1 DESCRIPTION
+
+This is a file-based backend for the logger. It supports automatic filesize
+limitation.

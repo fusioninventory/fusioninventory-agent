@@ -82,3 +82,78 @@ sub fault {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Logger - Fusion Inventory logger
+
+=head1 DESCRIPTION
+
+This is the logger object.
+
+=head1 METHODS
+
+=head2 new(%params)
+
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<config>
+
+the agent configuration object, to be passed to backends
+
+=item I<backends>
+
+a list of backends to use (default: Stderr)
+
+=item I<debug>
+
+a flag allowing debug messages (default: false)
+
+=back
+
+=head2 log($params)
+
+Add a log message, with a specific level. $params is an hashref, with the
+following keys:
+
+=over
+
+=item I<level>
+
+Can be one of:
+
+=over
+
+=item debug
+
+=item info
+
+=item error
+
+=item fault
+
+=back
+
+=item I<message>
+
+=back
+
+=head2 debug($message)
+
+Add a log message with debug level.
+
+=head2 info($message)
+
+Add a log message with info level.
+
+=head2 error($message)
+
+Add a log message with error level.
+
+=head2 fault($message)
+
+Add a log message with fault level.
