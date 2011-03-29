@@ -16,21 +16,20 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
+        config         => $params->{config},
+        logger         => $params->{logger},
+        target         => $params->{target},
+        compress       => FusionInventory::Compress->new({
+            $params->{logger}
+        }),
+        URI            => $params->{target}->getUrl(),
         defaultTimeout => 180
     };
-
-    my $config = $self->{config} = $params->{config};
-    my $logger = $self->{logger} = $params->{logger};
-    my $target = $self->{target} = $params->{target};
-
-    die '$target not initialised' unless $target;
-    die '$config not initialised' unless $config;
-
-    $self->{compress} = FusionInventory::Compress->new({logger => $logger});
-
-    $self->{URI} = $target->getUrl();
-
     bless $self, $class;
+
+    die '$target not initialised' unless $params->{target};
+    die '$config not initialised' unless $params->{config};
+
     return $self;
 }
 
