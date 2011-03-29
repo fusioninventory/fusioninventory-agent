@@ -49,7 +49,7 @@ sub addMsg {
         # closing handle release the lock automatically
         close $handle;
     } else {
-        warn "Can't open $self->{logfile}: $ERRNO";
+        die "can't open $self->{logfile}: $ERRNO";
     }
 
 }
