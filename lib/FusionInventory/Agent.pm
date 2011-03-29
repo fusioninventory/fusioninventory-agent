@@ -345,8 +345,6 @@ sub main {
             $self->{status} = 'waiting';
 
             $target->setNextRunDate();
-
-            sleep(5);
         }
     };
     if ($EVAL_ERROR) {
