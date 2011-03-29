@@ -18,7 +18,7 @@ sub main {
     my ($self) = @_;
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        die "No prologresp!" unless $self->{prologresp};
+        die "No server response" unless $self->{prologresp};
 
         if ($self->{config}->{force}) {
             $self->{logger}->debug(

@@ -17,12 +17,19 @@ sub main {
         return;
     }
 
-    my $options = $self->{prologresp}->getOptionsInfoByName('PING');
-    return unless $options;
-    my $option = shift @$options;
-    return unless $option;
+    my $response = $self->{prologresp};
+    if (!$response) {
+        $self->{logger}->debug("No server response. Exiting...");
+        return;
+    }
 
-    $self->{logger}->debug("Ping ID:". $option->{ID});
+    my $options = $response->getOptionsInfoByName('PING');
+    if (!$options) {
+        $self->{logger}->debug("No ping requested in the prolog, exiting");
+        return;
+    }
+
+    $self->{logger}->debug("Ping ID:". $options->{ID});
 
     my $network = FusionInventory::Agent::Network->new({
         logger => $self->{logger},
@@ -36,7 +43,7 @@ sub main {
         currentDeviceid => $self->{target}->{currentDeviceid},
         msg      => {
             QUERY => 'PING',
-            ID    => $option->{ID},
+            ID    => $options->{ID},
         },
     });
 

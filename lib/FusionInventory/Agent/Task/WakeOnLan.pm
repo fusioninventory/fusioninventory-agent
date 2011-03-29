@@ -18,22 +18,23 @@ use FusionInventory::Agent::Network;
 sub main {
     my ($self) = @_;
 
-    my $continue = 0;
-    foreach my $num (@{$self->{prologresp}->{parsedcontent}->{OPTION}}) {
-        if (defined($num)) {
-            if ($num->{NAME} eq "WAKEONLAN") {
-                $continue = 1;
-                $self->{WAKEONLAN} = $num;
-            }
-        }
-    }
-    if ($continue == 0) {
-        $self->{logger}->debug("No WAKEONLAN. Exiting...");
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $self->{logger}->debug("No server. Exiting...");
         return;
     }
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("No server. Exiting...");
+    my $response = $self->{prologresp};
+    if (!$response) {
+        $self->{logger}->debug("No server response. Exiting...");
+        return;
+    }
+
+    my $options = $response->getOptionsInfoByName('WAKEONLAN');
+    if (!$options) {
+        $self->{logger}->debug(
+            "No wake on lan requested in the prolog, exiting"
+        );
+        return;
     }
 
     $self->{network} = FusionInventory::Agent::Network->new({
