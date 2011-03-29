@@ -22,29 +22,22 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    # if STDERR has been hijacked, I take its saved ref
-    my $stderr;
-    if (exists ($self->{savedstderr})) {
-        $stderr = $self->{savedstderr};
+    my $format;
+    if ($self->{color}) {
+        if ($level eq 'error') {
+            $format = "\033[1;35m[%s] %s\033[0m\n";
+        } elsif ($level eq 'fault') {
+            $format = "\033[1;31m[%s] %s\033[0m\n";
+        } elsif ($level eq 'info') {
+            $format = "\033[1;34m[%s]\033[0m %s\n";
+        } elsif ($level eq 'debug') {
+            $format = "\033[1;1m[%s]\033[0m %s\n";
+        }
     } else {
-        $stderr = \*STDERR;
+        $format = "[%s] %s\n";
     }
 
-    if ($self->{color} && $OSNAME ne 'MSWin32') {
-        if ($level eq 'error') {
-            print $stderr  "\033[1;35m[$level]";
-        } elsif ($level eq 'fault') {
-            print $stderr  "\033[1;31m[$level]";
-        } elsif ($level eq 'info') {
-            print $stderr  "\033[1;34m[$level]\033[0m";
-        } elsif ($level eq 'debug') {
-            print $stderr  "\033[1;1m[$level]\033[0m";
-        }
-        print $stderr  " $message";
-        print "\033[0m\n";
-    } else {
-        print $stderr "[$level] $message\n";
-    }
+    printf STDERR $format, $level, $message;
 
 }
 
