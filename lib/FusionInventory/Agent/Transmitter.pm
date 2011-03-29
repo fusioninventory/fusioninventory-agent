@@ -292,6 +292,7 @@ sub _compressNative {
 sub _compressGzip {
     my ($self, $data) = @_;
 
+    File::Temp->require();
     my $in = File::Temp->new();
     print $in $data;
     close $in;
