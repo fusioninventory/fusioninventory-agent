@@ -26,7 +26,6 @@ sub new {
         logger         => $params->{logger},
         user           => $params->{user},
         password       => $params->{password},
-        realm          => $params->{realm},
         ca_cert_file   => $params->{ca_cert_file},
         ca_cert_dir    => $params->{ca_cert_dir},
         no_ssl_check   => $params->{no_ssl_check},
@@ -114,7 +113,7 @@ sub send {
 
 
     my $serverRealm;
-    if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{realm}) {
+    if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/) {
         $serverRealm = $1;
         $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retrying.");
         my $scheme = $self->{url}->scheme();
@@ -145,9 +144,6 @@ sub send {
             $res->status_line.'`');
         return;
     }
-
-    # Ok we found the correct realm. We store it.
-    $self->{realm} = $serverRealm if $serverRealm;
 
     # stop or send in the http's body
 
