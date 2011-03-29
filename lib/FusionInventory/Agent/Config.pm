@@ -28,7 +28,10 @@ my $default = {
 
 my $deprecated = {
     'info' => {
-        message => 'and had no effect anyway'
+        message => 'it was useless anyway'
+    },
+    'realm' => {
+        message => 'it is now useless'
     },
     'no-socket' => {
         message => 'use --no-httpd option instead',

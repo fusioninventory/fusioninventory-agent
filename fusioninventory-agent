@@ -153,7 +153,6 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     -P --proxy=PROXY    proxy address
     -u --user=USER      user name for server authentication
     -p --password=PWD   password for server authentication
-    -r --realm=REALM    realm for server authentication
     --ca-cert-dir=D     path to the CA certificates directory
     --ca-cert-file=F    path to the CA certificates file
     --no-ssl-check      do not check server SSL certificates (false)
@@ -431,13 +430,6 @@ Use I<USER> for server authentication.
 =item B<-p>, B<--password>=I<PASSWORD>
 
 Use I<PASSWORD> for server authentication.
-
-=item B<-r>, B<--realm>=I<REALM>
-
-Use I<REALM> for for server authentication.
-
-if no realm is passed and the auth fails, the agent will retry an
-authentification with the realm returned by the server.
 
 =item B<--ca-cert-dir>=I<PATH>
 
