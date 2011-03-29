@@ -60,17 +60,15 @@ sub new {
 sub log {
     my ($self, $args) = @_;
 
-    # levels: info, debug, warn, fault
-    my $level = $args->{level};
+    # levels: debug, info, error, fault
+    my $level = $args->{level} || 'info';
     my $message = $args->{message};
 
-    return if ($level =~ /^debug$/ && !($self->{debug}));
+    return unless $message;
+    return if $level eq 'debug' && !$self->{debug};
 
-    chomp($message);
-    $level = 'info' unless $level;
-
-    foreach (@{$self->{backends}}) {
-        $_->addMsg ({
+    foreach my $backend (@{$self->{backends}}) {
+        $backend->addMsg ({
             level => $level,
             message => $message
         });

@@ -37,8 +37,6 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    return if $message =~ /^$/;
-
     if ($self->{logfile_maxsize} && $self->logFileIsFull()) {
         unlink $self->{logfile} or warn "Can't ".
         "unlink ".$self->{logfile}." $!\n";

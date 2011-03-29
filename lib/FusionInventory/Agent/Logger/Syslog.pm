@@ -22,8 +22,6 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    return if $message =~ /^$/;
-
     syslog('info', $message);
 }
 

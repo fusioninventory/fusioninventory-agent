@@ -22,8 +22,6 @@ sub addMsg {
     my $level = $args->{level};
     my $message = $args->{message};
 
-    return if $message =~ /^$/;
-
     # if STDERR has been hijacked, I take its saved ref
     my $stderr;
     if (exists ($self->{savedstderr})) {
