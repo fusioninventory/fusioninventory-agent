@@ -35,7 +35,6 @@ sub main {
         logger       => $self->{logger},
         user         => $self->{config}->{user},
         password     => $self->{config}->{password},
-        realm        => $self->{config}->{realm},
         proxy        => $self->{config}->{proxy},
         ca_cert_file => $self->{config}->{'ca-cert-file'},
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
