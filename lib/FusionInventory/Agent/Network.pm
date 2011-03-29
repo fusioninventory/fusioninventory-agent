@@ -16,6 +16,12 @@ sub new {
 
     die "no url parameter" unless $params->{url};
 
+    die "non-existing certificate file $params->{ca_cert_file}"
+        if $params->{ca_cert_file} && ! -f $params->{ca_cert_file};
+
+    die "non-existing certificate directory $params->{ca_cert_dir}"
+        if $params->{ca_cert_dir} && ! -d $params->{ca_cert_dir};
+
     my $self = {
         logger         => $params->{logger},
         user           => $params->{user},
@@ -225,40 +231,26 @@ sub send {
 sub _turnSSLCheckOn {
     my ($self, $args) = @_;
 
-    my $logger = $self->{logger};
-
     eval {
         require Crypt::SSLeay;
     };
     if ($EVAL_ERROR) {
-        die 
-            "failed to load Crypt::SSLeay, unable to validate SSL certificates";
+        die "failed to load Crypt::SSLeay, unable to validate SSL certificates";
     }
 
-    if (!$self->{ca_cert_file} && !$self->{ca_cert_dir}) {
-        $logger->debug("You may need to use either --ca-cert-file ".
-            "or --ca-cert-dir to give the location of your SSL ".
-            "certificat. You can also disable SSL check with ".
-            "--no-ssl-check but this is very unsecure.");
-    }
-
-
-    if ($self->{ca_cert_file}) {
-        if (!-f $self->{ca_cert_file} && !-l $self->{ca_cert_file}) {
-            die "--ca-cert-file doesn't exist `".$self->{ca_cert_file}."'";
+    SWITCH: {
+        if ($self->{ca_cert_file}) {
+            $ENV{HTTPS_CA_FILE} = $self->{ca_cert_file};
+            last SWITCH;
         }
-
-        $ENV{HTTPS_CA_FILE} = $self->{ca_cert_file};
-
-    } elsif ($self->{ca_cert_dir}) {
-        if (!-d $self->{ca_cert_dir}) {
-            die "--ca-cert-dir doesn't exist `".$self->{ca_cert_dir}."'";
+        if ($self->{ca_cert_dir}) {
+            $ENV{HTTPS_CA_DIR} = $self->{ca_cert_dir};
+            last SWITCH;
         }
-
-        $ENV{HTTPS_CA_DIR} =$self->{ca_cert_dir};
-
+        die
+            "neither certificate file or certificate directory given, unable " .
+            "to validate SSL certificates";
     }
-
 }
 
 sub _setSslRemoteHost {
