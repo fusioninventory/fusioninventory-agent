@@ -25,18 +25,16 @@ BEGIN {
 my $lock :shared;
 
 sub new {
-
     my ($class, $params) = @_;
 
-
-    my $self = {};
+    my $self = {
+        config  => $params->{config},
+        debug   => $params->{config}->{debug},
+        backend => []
+    };
     bless $self, $class;
-    $self->{backend} = [];
-    $self->{config} = $params->{config};
 
-    $self->{debug} = $self->{config}->{debug}?1:0;
     my @logger;
-
     if (exists ($self->{config}->{logger})) {
         @logger = split /,/, $self->{config}->{logger};
     } else {

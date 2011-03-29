@@ -8,10 +8,10 @@ use English qw(-no_match_vars);
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
-    $self->{config} = $params->{config};
-    $self->{logfile} = $self->{config}->{logfile};
-
+    my $self = {
+        config  => $params->{config},
+        logfile => $params->{config}->{logfile}
+    };
     bless $self, $class;
 
     return $self;
