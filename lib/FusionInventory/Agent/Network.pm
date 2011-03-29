@@ -111,29 +111,49 @@ sub send {
         alarm 0;
     };
 
-
-    my $serverRealm;
-    if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/) {
-        $serverRealm = $1;
-        $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retrying.");
-        my $scheme = $self->{url}->scheme();
-        my $host   = $self->{url}->host();
-        my $port   = $self->{url}->port() ||
-           ($scheme eq 'https' ? 443 : 80);
-
-       $self->{ua}->credentials(
-            "$host:$port",
-            $serverRealm,
-            $self->{user},
-            $self->{password}
-        );
-
-        eval {
-            if ($^O =~ /^MSWin/ && $self->{url} =~ /^https:/g) {
-                alarm $self->{timeout};
+        # check result
+    if (!$res->is_success()) {
+        # authentication required
+        if ($res->code() == 401) {
+            if ($self->{user} && $self->{password}) {
+                $logger->debug(
+                    "Authentication required, submitting credentials"
+                );
+                # compute authentication parameters
+                my $header = $res->header('www-authenticate');
+                my ($realm) = $header =~ /^Basic realm="(.*)"/;
+                my $scheme = $self->{url}->scheme();
+                my $host = $self->{url}->host();
+                my $port = $self->{url}->port() ||
+                   ($scheme eq 'https' ? 443 : 80);
+                $self->{ua}->credentials(
+                    "$host:$port",
+                    $realm,
+                    $self->{user},
+                    $self->{password}
+                );
+                # replay request
+                eval {
+                    if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
+                        alarm $self->{timeout};
+                    }
+                    $res = $self->{ua}->request($req);
+                    alarm 0;
+                };
+                if (!$res->is_success()) {
+                    $logger->error($res->message());
+                    return;
+                }
+            } else {
+                # abort
+                $logger->error(
+                    "Authentication required, no credentials available"
+                );
+                return;
             }
-            $res = $self->{ua}->request($req);
-            alarm 0;
+        } else {
+            $logger->error($res->message());
+            return;
         }
     }
 
