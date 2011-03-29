@@ -9,6 +9,7 @@ use LWP::UserAgent;
 use UNIVERSAL::require;
 use URI;
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::XML::Response;
 
 sub new {
@@ -21,7 +22,8 @@ sub new {
         if $params->{ca_cert_dir} && ! -d $params->{ca_cert_dir};
 
     my $self = {
-        logger         => $params->{logger},
+        logger         => $params->{logger} ||
+                          FusionInventory::Agent::Logger->new(),
         user           => $params->{user},
         password       => $params->{password},
         ca_cert_file   => $params->{ca_cert_file},

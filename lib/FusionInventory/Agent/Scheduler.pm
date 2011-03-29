@@ -3,11 +3,14 @@ package FusionInventory::Agent::Scheduler;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        logger     => $params->{logger},
+        logger     => $params->{logger} ||
+                      FusionInventory::Agent::Logger->new(),
         lazy       => $params->{lazy},
         wait       => $params->{wait},
         background => $params->{background}

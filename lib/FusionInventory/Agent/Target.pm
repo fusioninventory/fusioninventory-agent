@@ -6,6 +6,7 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 
 BEGIN {
@@ -31,7 +32,8 @@ sub new {
     die 'no basevardir parameter' unless $params->{basevardir};
 
     my $self = {
-        logger    => $params->{logger},
+        logger    => $params->{logger} ||
+                     FusionInventory::Agent::Logger->new(),
         deviceid  => $params->{deviceid},
         delaytime => $params->{delaytime} || 3600,
     };

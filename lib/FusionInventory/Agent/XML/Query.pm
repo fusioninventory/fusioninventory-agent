@@ -5,13 +5,16 @@ use warnings;
 
 use XML::Simple;
 
+use FusionInventory::Agent::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     die "no deviceid parameter" unless $params->{deviceid};
 
     my $self = {
-        logger   => $params->{logger},
+        logger   => $params->{logger} ||
+                    FusionInventory::Agent::Logger->new(),
         deviceid => $params->{deviceid}
     };
     bless $self, $class;

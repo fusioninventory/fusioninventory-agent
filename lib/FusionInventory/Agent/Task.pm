@@ -5,13 +5,16 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     die 'no target parameter' unless $params->{target};
 
     my $self = {
-        logger      => $params->{logger},
+        logger      => $params->{logger} ||
+                       FusionInventory::Agent::Logger->new(),
         config      => $params->{config},
         target      => $params->{target},
         prologresp  => $params->{prologresp},

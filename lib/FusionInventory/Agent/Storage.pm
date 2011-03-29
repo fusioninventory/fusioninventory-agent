@@ -9,6 +9,8 @@ use File::Glob ':glob';
 use File::Path qw(make_path);
 use Storable;
 
+use FusionInventory::Agent::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
@@ -25,7 +27,8 @@ sub new {
     }
 
     my $self = {
-        logger    => $params->{logger},
+        logger    => $params->{logger} ||
+                     FusionInventory::Agent::Logger->new(),
         directory => $params->{directory}
     };
 

@@ -7,13 +7,16 @@ use threads;
 use English qw(-no_match_vars);
 use HTTP::Daemon;
 
+use FusionInventory::Agent::Logger;
+
 sub new {
     my ($class, $params) = @_;
 
     my $self = {
         logger          => $params->{logger},
+                           FusionInventory::Agent::Logger->new(),
         agent           => $params->{agent},
-        scheduler         => $params->{scheduler},
+        scheduler       => $params->{scheduler},
         htmldir         => $params->{htmldir},
         ip              => $params->{ip},
         port            => $params->{port} || 62354,
