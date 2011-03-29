@@ -210,6 +210,10 @@ sub checkContent {
         $self->{logger} .= ',File';
     }
 
+    # multi-values options
+    $self->{logger} = [ split(/,/, $self->{logger}) ];
+    $self->{server} = [ split(/,/, $self->{server}) ];
+
     # We want only canonical path
     if (!$self->{'share-dir'}) {
         if ($self->{'devlib'}) {

@@ -33,7 +33,9 @@ sub new {
     bless $self, $class;
 
     my %backends;
-    foreach my $backend (split(/,/, $params->{config}->{logger})) {
+    foreach my $backend (
+        $params->{backends} ? @{$params->{backends}} : 'Stderr'
+    ) {
 	next if $backends{$backend};
         my $package = "FusionInventory::Agent::Logger::$backend";
         $package->require();

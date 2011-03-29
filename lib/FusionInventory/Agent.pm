@@ -155,7 +155,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
     }
 
     if ($config->{server}) {
-        foreach my $url (split(/,/, $config->{server})) {
+        foreach my $url (@{$config->{server}}) {
             $scheduler->addTarget(
                 FusionInventory::Agent::Target::Server->new({
                     logger     => $logger,
