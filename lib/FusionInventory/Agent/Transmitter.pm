@@ -346,29 +346,56 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Transmitter - the Network abstraction layer
+FusionInventory::Agent::Transmitter - An HTTP message transmitter
 
 =head1 DESCRIPTION
 
-This module is the abstraction layer for transmitter interaction. It uses LWP.
+This is the object used by the agent to send messages to OCS or GLPI servers.
+by OCS or GLPI servers. It can send messages through HTTP or HTTPS, directly or
+through a proxy, and validate SSL certificates.
 
 =head1 METHODS
 
-=head2 new()
+=head2 new($params)
 
-The constructor. These keys are expected: config, logger, target.
+The constructor. The following parameters are allowed, as keys of the $params
+hashref:
 
-        my $transmitter = FusionInventory::Agent::Network->new ({
+=over
 
-                logger => $logger,
-                config => $config,
-                target => $target,
+=item I<logger>
 
-            });
+the logger object to use (default: a new stderr logger)
 
-=head2 send()
+=item I<proxy>
 
-Send an instance of FusionInventory::Agent::XML::Query::* to the target (the
+the URL of an HTTP proxy
+
+=item I<user>
+
+the user for HTTP authentication
+
+=item I<password>
+
+the password for HTTP authentication
+
+=item I<no_ssl_check>
+
+a flag allowing to ignore untrusted server certificates (default: false)
+
+=item I<ca_cert_file>
+
+the file containing trusted certificates
+
+=item I<ca_cert_dir>
+
+the directory containing trusted certificates
+
+=back
+
+=head2 send
+
+Send an instance of C<FusionInventory::Agent::XML::Query> to the target (the
 server).
 
 =head2 getStore()
