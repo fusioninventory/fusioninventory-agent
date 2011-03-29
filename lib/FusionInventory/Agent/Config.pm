@@ -211,8 +211,8 @@ sub checkContent {
     }
 
     # multi-values options
-    $self->{logger} = [ split(/,/, $self->{logger}) ];
-    $self->{server} = [ split(/,/, $self->{server}) ];
+    $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
+    $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
 
     # We want only canonical path
     if (!$self->{'share-dir'}) {
