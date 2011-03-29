@@ -13,8 +13,6 @@ use constant SOCK_PACKET => 10;
 use English qw(-no_match_vars);
 use Socket;
 
-use FusionInventory::Agent::Network;
-
 sub main {
     my ($self) = @_;
 
@@ -36,12 +34,6 @@ sub main {
         );
         return;
     }
-
-    $self->{network} = FusionInventory::Agent::Network->new({
-        logger => $self->{logger},
-        config => $self->{config},
-        url    => $self->{target}->getUrl(),
-    });
 
     $self->StartMachine();
 }
