@@ -3,6 +3,7 @@ package FusionInventory::Agent::Logger::File;
 use strict;
 use warnings;
 
+use Config;
 use English qw(-no_match_vars);
 
 BEGIN {
