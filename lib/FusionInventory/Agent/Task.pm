@@ -15,7 +15,7 @@ sub new {
         config      => $params->{config},
         target      => $params->{target},
         prologresp  => $params->{prologresp},
-        network     => $params->{network},
+        transmitter => $params->{transmitter},
         deviceid    => $params->{deviceid}
     };
     bless $self, $class;
@@ -55,7 +55,7 @@ the logger object to use (default: a new stderr logger)
 
 =item I<prologresp>
 
-=item I<network>
+=item I<transmitter>
 
 =item I<deviceid>
 

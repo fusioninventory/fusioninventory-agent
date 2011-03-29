@@ -10,8 +10,8 @@ use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 sub main {
@@ -89,7 +89,7 @@ sub main {
             $self->{target}->getAccountInfo()
         );
 
-        my $network = FusionInventory::Agent::Network->new({
+        my $transmitter = FusionInventory::Agent::Transmitter->new({
             logger       => $self->{logger},
             user         => $self->{config}->{user},
             password     => $self->{config}->{password},
@@ -100,7 +100,7 @@ sub main {
             no_ssl_check => $self->{config}->{'no-ssl-check'},
         });
 
-        my $response = $network->send({
+        my $response = $transmitter->send({
             url     => $self->{target}->getUrl(),
             message => $inventory
         });
@@ -504,7 +504,7 @@ sub runWithTimeout {
             config => $self->{config},
             inventory => $self->{inventory},
             logger => $self->{logger},
-            network => $self->{network},
+            transmitter => $self->{transmitter},
             # Compatibiliy with agent 0.0.10 <=
             # We continue to pass params->{params}
             params => $self->{params},

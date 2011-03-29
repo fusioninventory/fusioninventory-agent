@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use FusionInventory::Agent::Network;
+use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 
 sub main {
@@ -31,7 +31,7 @@ sub main {
 
     $self->{logger}->debug("Ping ID:". $options->{ID});
 
-    my $network = FusionInventory::Agent::Network->new({
+    my $transmitter = FusionInventory::Agent::Transmitter->new({
         logger       => $self->{logger},
         user         => $self->{config}->{user},
         password     => $self->{config}->{password},
@@ -52,11 +52,8 @@ sub main {
         },
     });
 
-    # is this really useful ?
-    $self->{network} = $network;
-
     $self->{logger}->debug("Pong!");
-    $network->send({
+    $transmitter->send({
         url     => $self->{target}->getUrl(),
         message => $message
     });

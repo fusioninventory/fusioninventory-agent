@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Network;
+package FusionInventory::Agent::Transmitter;
 
 use strict;
 use warnings;
@@ -80,11 +80,11 @@ sub send {
     }
 
     my $request_content = $message->getContent();
-    $logger->debug("[network] sending message: $request_content");
+    $logger->debug("[transmitter] sending message: $request_content");
 
     $request_content = $self->_compress($request_content);
     if (!$request_content) {
-        $logger->error('[network] inflating problem');
+        $logger->error('[transmitter] inflating problem');
         return;
     }
 
@@ -110,7 +110,8 @@ sub send {
         if ($result->code() == 401) {
             if ($self->{user} && $self->{password}) {
                 $logger->debug(
-                    "[network] authentication required, submitting credentials"
+                    "[transmitter] authentication required, submitting " .
+                    "credentials"
                 );
                 # compute authentication parameters
                 my $header = $result->header('www-authenticate');
@@ -134,22 +135,22 @@ sub send {
                 };
                 if (!$result->is_success()) {
                     $logger->error(
-                        "[network] cannot establish communication with $url: " .
-                        $result->status_line()
+                        "[transmitter] cannot establish communication with " .
+                        "$url: " . $result->status_line()
                     );
                     return;
                 }
             } else {
                 # abort
                 $logger->error(
-                    "[network] authentication required, no credentials " .
+                    "[transmitter] authentication required, no credentials " .
                     "available"
                 );
                 return;
             }
         } else {
             $logger->error(
-                "[network] cannot establish communication with $url: " .
+                "[transmitter] cannot establish communication with $url: " .
                 $result->status_line()
             );
             return;
@@ -161,17 +162,17 @@ sub send {
     my $response_content = $result->content();
 
    if (!$response_content) {
-        $logger->error("[network] response is empty");
+        $logger->error("[transmitter] response is empty");
         return;
     }
 
     $response_content = $self->_uncompress($response_content);
     if (!$response_content) {
-        $logger->error("[network] deflating problem");
+        $logger->error("[transmitter] deflating problem");
         return;
     }
 
-    $logger->debug("[network] receiving message: $response_content");
+    $logger->debug("[transmitter] receiving message: $response_content");
 
     my $response = FusionInventory::Agent::XML::Response->new({
         content => $response_content
@@ -341,11 +342,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Network - the Network abstraction layer
+FusionInventory::Agent::Transmitter - the Network abstraction layer
 
 =head1 DESCRIPTION
 
-This module is the abstraction layer for network interaction. It uses LWP.
+This module is the abstraction layer for transmitter interaction. It uses LWP.
 
 =head1 METHODS
 
@@ -353,7 +354,7 @@ This module is the abstraction layer for network interaction. It uses LWP.
 
 The constructor. These keys are expected: config, logger, target.
 
-        my $network = FusionInventory::Agent::Network->new ({
+        my $transmitter = FusionInventory::Agent::Network->new ({
 
                 logger => $logger,
                 config => $config,
@@ -370,7 +371,7 @@ server).
 
 Acts like LWP::Simple::getstore.
 
-        my $rc = $network->getStore({
+        my $rc = $transmitter->getStore({
                 source => 'http://www.FusionInventory.org/',
                 target => '/tmp/fusioinventory.html'
                 noProxy => 0
@@ -380,7 +381,7 @@ $rc, can be read by isSuccess()
 
 =head2 get()
 
-        my $content = $network->get({
+        my $content = $transmitter->get({
                 source => 'http://www.FusionInventory.org/',
                 timeout => 15,
                 noProxy => 0
@@ -393,4 +394,4 @@ The timeout is optional
 
 Wrapper for LWP::is_success;
 
-        die unless $network->isSuccess({ code => $rc });
+        die unless $transmitter->isSuccess({ code => $rc });

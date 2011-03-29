@@ -11,13 +11,13 @@ use XML::Simple;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Network;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Target::Stdout;
+use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.1.8';
@@ -251,10 +251,10 @@ sub main {
         while (my $target = $scheduler->getNextTarget()) {
 
             my $prologresp;
-            my $network;
+            my $transmitter;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                $network = FusionInventory::Agent::Network->new({
+                $transmitter = FusionInventory::Agent::Transmitter->new({
                     logger       => $logger,
                     user         => $self->{config}->{user},
                     password     => $self->{config}->{password},
@@ -276,7 +276,7 @@ sub main {
                 $prolog->setAccountInfo($target->getAccountInfo());
 
                 # TODO Don't mix settings and temp value
-                $prologresp = $network->send({
+                $prologresp = $transmitter->send({
                     url     => $self->{target}->getUrl(),
                     message => $prolog
                 });
@@ -319,7 +319,7 @@ sub main {
                     logger      => $logger,
                     target      => $target,
                     prologresp  => $prologresp,
-                    network     => $network,
+                    transmitter => $transmitter,
                     deviceid    => $self->{deviceid}
                 });
 
