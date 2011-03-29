@@ -111,10 +111,14 @@ sub createUA {
     $ua->agent($FusionInventory::Agent::AGENT_STRING);
     $ua->timeout($timeout);
 
-    $self->setSslRemoteHost({
+    my $scheme = $url->scheme();
+    if ($scheme eq 'https' && !$self->{no_ssl_check}) {
+        $self->_turnSSLCheckOn();
+        $self->_setSslRemoteHost({
             ua => $ua,
             url => $url
         });
+    }
 
     # Auth
     my $realm = $forceRealm || $self->{realm};
@@ -218,20 +222,10 @@ sub send {
 
 # No POD documentation here, it's an internal fuction
 # http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
-sub turnSSLCheckOn {
+sub _turnSSLCheckOn {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
-
-
-    if ($self->{no_ssl_check}) {
-        if (!$self->{SslCheckWarningShown}) {
-            $logger->info( "--no-ssl-check parameter "
-                . "found. Don't check server identity!!!" );
-            $self->{SslCheckWarningShown} = 1;
-        }
-        return;
-    }
 
     if (!$self->{ca_cert_file} && !$self->{ca_cert_dir}) {
         $logger->debug("You may need to use either --ca-cert-file ".
@@ -259,26 +253,13 @@ sub turnSSLCheckOn {
 
 }
 
-sub setSslRemoteHost {
+sub _setSslRemoteHost {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};
 
     my $url = $args->{url};
     my $ua = $args->{ua};
-
-    if ($self->{no_ssl_check}) {
-        return;
-    }
-
-    if (!$self->{url}) {
-        die "setSslRemoteHost(), no url parameter!";
-    }
-
-    if ($self->{url} !~ /^https:/i) {
-        return;
-    }
-    $self->turnSSLCheckOn();
 
     # Check server name against provided SSL certificate
     if ( $self->{url} =~ /^https:\/\/([^\/]+).*$/i ) {
