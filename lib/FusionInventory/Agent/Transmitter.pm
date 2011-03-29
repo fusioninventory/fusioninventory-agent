@@ -69,7 +69,8 @@ sub new {
 sub send {
     my ($self, $params) = @_;
 
-    my $url     = $params->{url};
+    my $url = ref $params->{url} eq 'URI' ?
+        $params->{url} : URI->new($params->{url});
     my $message = $params->{message};
     my $logger  = $self->{logger};
 
