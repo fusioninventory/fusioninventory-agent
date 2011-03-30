@@ -1686,7 +1686,7 @@ This field is deprecated, you should use the USERS section instead.
 
 The virtualization technologie used if the machine is a virtual machine.
 
-Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone, VServer, OpenVZ, BSDJail, Parallels, Hyper-V
 
 =item WINOWNER
 
