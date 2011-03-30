@@ -1686,7 +1686,35 @@ This field is deprecated, you should use the USERS section instead.
 
 The virtualization technologie used if the machine is a virtual machine.
 
-Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone, VServer, OpenVZ, BSDJail, Parallels, Hyper-V
+Can by:
+
+=over 5
+
+=item Physical: (default)
+
+=item Xen
+
+=item VirtualBox
+
+=item Virtual Machine: Generic if it's not possible to correctly identify the solution
+
+=item VMware: ESX, ESXi, server, etc
+
+=item QEMU
+
+=item SolarisZone
+
+=item VServer
+
+=item OpenVZ
+
+=item BSDJail
+
+=item Parallels
+
+=item Hyper-V
+
+=back
 
 =item WINOWNER
 
