@@ -34,35 +34,35 @@ sub run {
     my $target = $params{target};
 
     if ($target->isa('FusionInventory::Agent::Target::Server')) {
-        my $response = $self->getPrologResponse(
-            transmitter => $target->getTransmitter(),
-            url         => $target->getUrl(),
-            deviceid    => $params{deviceid},
-            token       => $params{token},
-        );
-
-        if (!$response) {
-            $logger->debug("No server response, aborting");
-            return;
-        }
-
-        my $content = $response->getParsedContent();
-        if (
-            ! $content             ||
-            ! $content->{RESPONSE} ||
-            ! $content->{RESPONSE} eq 'SEND'
-        ) {
-            if (!$self->{force}) {
-                $logger->debug(
-                    "No inventory requested in the prolog, aborting"
-                );
-                return;
-            } else {
-                $logger->debug(
-                    "No inventory requested in the prolog, but forced by configuration"
-                );
-            }
-        }
+#        my $response = $self->getPrologResponse(
+#            transmitter => $target->getTransmitter(),
+#            url         => $target->getUrl(),
+#            deviceid    => $params{deviceid},
+#            token       => $params{token},
+#        );
+#
+#        if (!$response) {
+#            $logger->debug("No server response, aborting");
+#            return;
+#        }
+#
+#        my $content = $response->getParsedContent();
+#        if (
+#            ! $content             ||
+#            ! $content->{RESPONSE} ||
+#            ! $content->{RESPONSE} eq 'SEND'
+#        ) {
+#            if (!$self->{force}) {
+#                $logger->debug(
+#                    "No inventory requested in the prolog, aborting"
+#                );
+#                return;
+#            } else {
+#                $logger->debug(
+#                    "No inventory requested in the prolog, but forced by configuration"
+#                );
+#            }
+#        }
     }
 
     # Turn off localised output for commands, after saving original values
