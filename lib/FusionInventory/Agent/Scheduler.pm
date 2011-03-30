@@ -13,7 +13,8 @@ sub new {
                       FusionInventory::Agent::Logger->new(),
         lazy       => $params->{lazy},
         wait       => $params->{wait},
-        background => $params->{background}
+        background => $params->{background},
+        targets    => []
     };
     bless $self, $class;
 
