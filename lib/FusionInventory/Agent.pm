@@ -19,7 +19,7 @@ use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.1.8';
+our $VERSION = '2.2.0';
 our $VERSION_STRING = 
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
