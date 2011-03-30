@@ -1,5 +1,24 @@
 Revision history for FusionInventory::Agent
 
+2.2.0
+	* the --nosoft and --nosoftware options have been removed, as they were
+	  deprecated already
+	* the --devlib, --share-dir and --basevardir options have been 
+	  deprecated, as their values are now configured at installation time
+	* the --realm option has been deprecated, as its value is now computed
+	  automatically if needed
+	* the --daemon-no-fork option has been deprecated, and replaced by 
+	  --daemon --no-fork options
+	* the --info option has been deprecated, as it had no effect
+	* the html man page is created automatically during distribution 
+	  creation
+	* options documentation has been reviewed for consistency in various
+	  places where it appears (--help output, man page, configuration file)
+	* XML::Simple usage has been replaced by XML::TreePP
+	* large code cleanup
+	* various internal optimisations
+	* large test suite improvements
+
 2.1.8
        * Linux, correctly read the number of core from /proc/cpuinfo
        * MacOSX: KB unit in missing in Mac OS X Drive.pm
