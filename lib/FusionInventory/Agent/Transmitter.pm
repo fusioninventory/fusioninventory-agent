@@ -78,7 +78,7 @@ sub send {
     my $scheme = $url->scheme();
     if ($scheme eq 'https' && !$self->{no_ssl_check}) {
         $self->_turnSSLCheckOn();
-        my $pattern = _getCertificateRegexp($url->host());
+        my $pattern = _getCertificatePattern($url->host());
         $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
     }
 
@@ -211,16 +211,16 @@ sub _turnSSLCheckOn {
     }
 }
 
-sub _getCertificateRegexp {
+sub _getCertificatePattern {
     my ($hostname) = @_;
 
     # Accept SSL cert will hostname with wild-card
     # http://forge.fusioninventory.org/issues/542
     $hostname =~ s/^([^\.]+)/($1|\\*)/;
-    # protect metacharacters, as $re will be evaluated as a regex
+    # protect metacharacters, as pattern will be evaluated as a regex
     $hostname =~ s/\./\\./g;
 
-    return qr/CN=$hostname($|\/)/;
+    return "CN=$hostname(\$|\/)";
 }
 
 
