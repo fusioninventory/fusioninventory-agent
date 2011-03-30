@@ -3,16 +3,18 @@ package FusionInventory::Agent::XML::Response;
 use strict;
 use warnings;
 
-use XML::Simple;
+use XML::TreePP;
 
 sub new {
     my ($class, $params) = @_;
 
-    my $content = XMLin(
-        $params->{content},
-        ForceArray => [ qw/OPTION PARAM/ ],
-        KeepRoot   => 1
+    my $tpp = XML::TreePP->new(
+        force_array   => [ qw/OPTION PARAM/ ],
+        attr_prefix   => '',
+        text_node_key => 'content'
     );
+    my $content = $tpp->parse($params->{content});
+
     die "content is not an XML message" unless ref $content eq 'HASH';
     die "content is an invalid XML message" unless $content->{REPLY};
 

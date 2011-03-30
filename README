@@ -8,7 +8,7 @@ Minimum perl version: 5.8
 
 Additional mandatory perl modules:
 - Digest::MD5
-- XML::Simple
+- XML::TreePP
 - LWP
 - Net::IP
 - UNIVERSAL::require

@@ -4,8 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
-use XML::Simple;
-
 sub new {
     my ($class, $params) = @_;
 

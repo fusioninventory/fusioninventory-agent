@@ -9,7 +9,7 @@ use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use Encode qw/encode/;
 use English qw(-no_match_vars);
-use XML::Simple;
+use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
@@ -583,16 +583,13 @@ sub processChecksum {
 
     if ($self->{last_statefile}) {
         if (-f $self->{last_statefile}) {
-            # TODO: avoid a violant death in case of problem with XML
-            $self->{last_state_content} = XML::Simple::XMLin(
-                $self->{last_statefile},
-                SuppressEmpty => undef,
-                ForceArray => 1
+            $self->{last_state_content} = XML::TreePP->parsefile(
+                $self->{last_statefile}
             );
         } else {
-            $logger->debug ('last_state file: `'.
-                $self->{last_statefile}.
-                "' doesn't exist (yet).");
+            $logger->debug(
+                "last state file '$self->{last_statefile}' doesn't exist"
+            );
         }
     }
 
@@ -622,20 +619,17 @@ sub saveLastState {
         $self->processChecksum();
     }
 
-    if (!defined ($self->{last_statefile})) {
-        $logger->debug ("Can't save the last_state file. File path is not initialised.");
-        return;
-    }
-
-    if (open my $handle, '>', $self->{last_statefile}) {
-        print $handle XML::Simple::XMLout( $self->{last_state_content}, RootName => 'LAST_STATE' );
-        close $handle;
+    if ($self->{last_statefile}) {
+        XML::TreePP->new()->writefile(
+            $self->{last_state_content}, $self->{last_statefile}
+        );
     } else {
-        $logger->debug (
-            "Cannot save the checksum values in $self->{last_statefile} " .
-            "(will be synchronized by GLPI!!): $ERRNO"
+        $logger->debug(
+            "last state file is not defined, last state not saved"
         );
     }
+
+    my $tpp = XML::TreePP->new();
 }
 
 sub addSection {

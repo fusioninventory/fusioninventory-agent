@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use XML::Simple;
+use XML::TreePP;
 
 sub isInventoryEnabled {
     return can_run('virsh');
@@ -28,7 +28,8 @@ sub doInventory {
             $status =~ s/^shut off/off/;
 
             my $xml = `virsh dumpxml $name`;
-            my $data = XMLin($xml);
+            my $tpp = XML::TreePP->new();
+            my $data = $tpp->parse($xml)->{domain};
 
             my $vcpu = $data->{vcpu};
             my $uuid = $data->{uuid};

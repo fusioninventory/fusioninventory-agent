@@ -14,7 +14,7 @@ requires 'Digest::MD5'        => undef;
 requires 'LWP'                => undef;
 requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
-requires 'XML::Simple'        => undef;
+requires 'XML::TreePP'        => undef;
 
 if ($OSNAME eq 'darwin') {
     requires 'Mac::SysProfile' => undef;

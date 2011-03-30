@@ -7,7 +7,6 @@ use Cwd;
 use English qw(-no_match_vars);
 use Sys::Hostname;
 use UNIVERSAL::require;
-use XML::Simple;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
@@ -25,24 +24,6 @@ our $VERSION_STRING =
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
-
-# THIS IS AN UGLY WORKAROUND FOR
-# http://rt.cpan.org/Ticket/Display.html?id=38067
-eval {XMLout("<a>b</a>");};
-if ($EVAL_ERROR) {
-    no strict 'refs'; ## no critic
-    ${*{"XML::SAX::"}{HASH}{'parsers'}} = sub {
-        return [ {
-            'Features' => {
-                'http://xml.org/sax/features/namespaces' => '1'
-            },
-            'Name' => 'XML::SAX::PurePerl'
-        }
-        ]
-    };
-}
-
-# END OF THE UGLY FIX!
 
 sub new {
     my ($class, $params) = @_;
