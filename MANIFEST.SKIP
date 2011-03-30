@@ -27,5 +27,4 @@ CVS/
 /tarballs/
 tools/build-perl-tree.sh
 ^setup.sh
-resources/.*
 debian
