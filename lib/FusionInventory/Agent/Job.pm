@@ -20,7 +20,7 @@ sub new {
         id     => $params{id},
         task   => $params{task},
         target => $params{target},
-        offset => $params{offset},
+        offset => $params{offset} || 3600,
         startAt => $params{startAt},
         logger => $params{logger} || FusionInventory::Agent::Logger->new(),
         dirty  => 1
@@ -51,7 +51,7 @@ sub new {
         "[job $self->{id}] job created, next run scheduled for " .
         localtime($self->{nextRunDate})
     );
-    
+
     return $self;
 }
 
@@ -77,10 +77,10 @@ sub scheduleNextRun {
     my ($self, $offset) = @_;
 
     die if $offset; # Should never append
-#    if (! defined $offset) {
-#        $offset = $self->_getOffset();
-#    }
+    die unless $self->_getOffset();
+
     my $time = time() + $self->_getOffset();
+
     $self->setNextRunDate($time);
 
     $self->{logger}->debug(
@@ -103,14 +103,14 @@ sub setPeriod {
     $self->{period} = $period;
 }
 
-sub _loadState {
-    my ($self) = @_;
-
-    my $data = $self->{storage}->restore();
-    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
-    $self->{period}      = $data->{period} if $data->{period};
-    $self->{dirty} = 0;
-}
+#sub _loadState {
+#    my ($self) = @_;
+#
+#    my $data = $self->{storage}->restore();
+#    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+#    $self->{period}      = $data->{period} if $data->{period};
+#    $self->{dirty} = 0;
+#}
 
 #sub saveState {
 #    my ($self) = @_;

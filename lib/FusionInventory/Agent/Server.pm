@@ -30,7 +30,7 @@ sub run {
 #    die "No jobs defined, aborting" unless $self->{jobs};
 use JSON;
 use LWP::Simple;
- $self->{config} = decode_json(get("http://deploy/fake/config?a=getConfig&d=TODO"));
+ $self->{config} = decode_json(get("http://deploy/fake/?a=getConfig&d=TODO"));
 #  $self->{config} = {
 #        global => {
 #            baseUrl => "http://server/glpi"
@@ -165,9 +165,21 @@ sub runJob {
 
     $self->{logger}->debug("[server] running job $job->{id}");
 
+    $job->scheduleNextRun();
   POE::Session->create(
     inline_states => {
       _start           => sub {
+
+      print $_[KERNEL]->alias_resolve("job")."\n";
+      if (defined $_[KERNEL]->alias_resolve("job")) {
+      print "a job is already running.\n";
+      return;
+      }
+
+
+
+        $_[KERNEL]->alias_set("job");
+
     my $child = POE::Wheel::Run->new(
       Program => sub {
         my $taskPkg = "FusionInventory::Agent::Task::".$job->{task};
@@ -193,15 +205,13 @@ sub runJob {
       " started as wheel ", $child->ID, ".\n"
     );
   },
-      got_child_stdout => \&on_child_stdout,
-      got_child_stderr => \&on_child_stderr,
+#      got_child_stdout => \&on_child_stdout,
+#      got_child_stderr => \&on_child_stderr,
       got_child_close  => \&on_child_close,
       got_child_signal => \&on_child_signal,
     }
   );
 
-
-    $job->scheduleNextRun();
 }
 
 sub runAllJobs {
@@ -229,6 +239,7 @@ sub runAllJobs {
   # Wheel event, including the wheel's ID.
   sub on_child_close {
     my $wheel_id = $_[ARG0];
+    $_[KERNEL]->alias_remove("job");
     my $child = delete $_[HEAP]{children_by_wid}{$wheel_id};
 
     # May have been reaped by on_child_signal().
@@ -247,7 +258,6 @@ sub runAllJobs {
 
     # May have been reaped by on_child_close().
     return unless defined $child;
-
     delete $_[HEAP]{children_by_wid}{$child->ID};
   }
 
