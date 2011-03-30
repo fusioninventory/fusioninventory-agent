@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent::Task::NetDiscovery
 
+1.4
+       * add the resources directory
+
 1.3
        * Raise an error if an important dependency is missing
        * Drop dependency on Nmap::{Parser,Scanner}, replaced by
