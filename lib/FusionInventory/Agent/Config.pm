@@ -7,23 +7,12 @@ use English qw(-no_match_vars);
 use File::Spec;
 use Getopt::Long;
 
-my $basedir = '';
-my $basevardir = '';
-
-if ($OSNAME eq 'MSWin32') {
-    $basedir = $ENV{APPDATA}.'/fusioninventory-agent';
-    $basevardir = $basedir.'/var/lib/fusioninventory-agent';
-} else {
-    $basevardir = File::Spec->rel2abs($basedir.'/var/lib/fusioninventory-agent'),
-}
-
 my $default = {
     'logger'                  => 'Stderr',
     'logfacility'             => 'LOG_USER',
     'delaytime'               => 3600,
     'backend-collect-timeout' => 180,
     'rpc-port'                => 62354,
-    'basevardir'              => $basevardir,
 };
 
 my $deprecated = {
@@ -65,9 +54,12 @@ sub new {
     if ($OSNAME eq 'MSWin32') {
         $self->loadFromWinRegistry();
     } else {
-        $self->loadFromCfgFile();
+        $self->loadFromCfgFile({
+            file      => $params->{options}->{'conf-file'},
+            directory => $params->{confdir},
+        });
     }
-    $self->loadUserParams($params);
+    $self->loadUserParams($params->{options});
 
     $self->checkContent();
 
@@ -116,38 +108,16 @@ sub loadFromWinRegistry {
 }
 
 sub loadFromCfgFile {
-    my ($self) = @_;
+    my ($self, $params) = @_;
 
-    $self->{etcdir} = [];
+    my $file = $params->{file} ?
+        $params->{file} : $params->{directory} . '/agent.cfg';
 
-    my $file;
-
-    my $in;
-    foreach (@ARGV) {
-        if (!$in && /^--conf-file=(.*)/) {
-            $file = $1;
-            $file =~ s/'(.*)'/$1/;
-            $file =~ s/"(.*)"/$1/;
-        } elsif (/^--conf-file$/) {
-            $in = 1;
-        } elsif ($in) {
-            $file = $_;
-            $in = 0;
-        } else {
-            $in = 0;
-        }
-    }
-
-    push (@{$self->{etcdir}}, '/etc/fusioninventory');
-    push (@{$self->{etcdir}}, '/usr/local/etc/fusioninventory');
-#  push (@{$self->{etcdir}}, $ENV{HOME}.'/.ocsinventory'); # Should I?
-
-    if (!$file || !-f $file) {
-        foreach (@{$self->{etcdir}}) {
-            $file = $_.'/agent.cfg';
-            last if -f $file;
-        }
-        return unless -f $file;
+    if ($file) {
+        die "non-existing file $file" unless -f $file;
+        die "non-readable file $file" unless -r $file;
+    } else {
+        die "no configuration file";
     }
 
     my $handle;
@@ -155,8 +125,6 @@ sub loadFromCfgFile {
         warn "Config: Failed to open $file: $ERRNO";
         return;
     }
-
-    $self->{'conf-file'} = $file;
 
     while (<$handle>) {
         s/#.+//;
@@ -217,25 +185,13 @@ sub checkContent {
     $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
     $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
 
-    # We want only canonical path
-    if (!$self->{'share-dir'}) {
-        if ($self->{'devlib'}) {
-                $self->{'share-dir'} = File::Spec->rel2abs('./share/');
-        } else {
-            eval { 
-                require File::ShareDir;
-                $self->{'share-dir'} = File::ShareDir::dist_dir('FusionInventory-Agent');
-            };
-        }
-    } else {
-        $self->{'share-dir'} = File::Spec->rel2abs($self->{'share-dir'}) if $self->{'share-dir'};
-    }
-
-    $self->{basevardir} = File::Spec->rel2abs($self->{basevardir}) if $self->{basevardir};
-    $self->{'conf-file'} = File::Spec->rel2abs($self->{'conf-file'}) if $self->{'conf-file'};
-    $self->{'ca-cert-file'} = File::Spec->rel2abs($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
-    $self->{'ca-cert-dir'} = File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
-    $self->{'logfile'} = File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
+    # files location
+    $self->{'ca-cert-file'} =
+        File::Spec->rel2abs($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
+    $self->{'ca-cert-dir'} =
+        File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
+    $self->{'logfile'} =
+        File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
 }
 
 

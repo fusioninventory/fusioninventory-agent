@@ -7,6 +7,7 @@ sub getInfoFromPciIds {
     my ($params) = @_;
 
     my $config = $params->{config};
+    my $datadir = $params->{datadir};
     my $logger = $params->{logger};
     my $pciclass = $params->{pciclass};
     my $pciid = $params->{pciid};
@@ -30,7 +31,7 @@ sub getInfoFromPciIds {
 
     my %ret;
     my %current;
-    if (!open PCIIDS, "<",$config->{'share-dir'}.'/pci.ids') {
+    if (!open PCIIDS, "<",$datadir.'/pci.ids') {
         $logger->error("Failed to open ".$config->{'share-dir'}.'/pci.ids');
         return;
     }
@@ -159,6 +160,7 @@ sub doInventory {
 
             my $info = getInfoFromPciIds ({
                     config => $config,
+                    datadir => $params->{datadir},
                     logger => $logger,
                     pciclass => $pciclass,
                     pciid => $pciid,

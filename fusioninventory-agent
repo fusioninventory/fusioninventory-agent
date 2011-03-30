@@ -2,10 +2,13 @@
 
 use strict;
 use warnings;
+use lib './lib';
 
 use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
+
+use FusionInventory::Agent;
 
 Getopt::Long::Configure( "no_ignorecase" );
 
@@ -14,7 +17,6 @@ my $options = {};
 GetOptions(
     $options,
     'backend-collect-timeout=s',
-    'basevardir=s',
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'conf-file=s',
@@ -23,7 +25,6 @@ GetOptions(
     'no-fork',
     'debug',
     'delaytime=s',
-    'devlib',
     'force|f',
     'help|h',
     'html',
@@ -54,7 +55,6 @@ GetOptions(
     'rpc-port=s',
     'rpc-trust-localhost',
     'scan-homedirs',
-    'share-dir=s',
     'server|s=s',
     'stdout',
     'tag|t=s',
@@ -65,33 +65,20 @@ GetOptions(
 
 pod2usage(-verbose => 0) if $options->{help};
 
-# In order to be able to relocate the librairie location we can't
-# load them with 'use' here.
-
-if ($options->{devlib}) {
-    print STDERR "[info] --devlib are found, Developer mode enabled\n";
-    unshift @INC, 'lib';
-}
-
 if ($ENV{REALLIB}) {
     @INC = split(/:/,$ENV{REALLIB});
-}
-
-eval {
-    require FusionInventory::Agent;
-};
-if ($EVAL_ERROR) {
-    print STDERR "Failed to load FusionInventory::Agent, $EVAL_ERROR\n";
-    print STDERR "you can run the agent directly from its source directory ";
-    print STDERR "with --devlib\n";
-    exit 1;
 }
 
 version() if $options->{version};
 
 
 eval {
-    my $agent = new FusionInventory::Agent($options);
+    my $agent = FusionInventory::Agent->new({
+        confdir => './etc/fusioninventory',
+        datadir => './share',
+        vardir  => './var',
+        options => $options
+    });
     $agent->main();
 };
 
@@ -171,10 +158,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --color                     use color in the console (false)
 
   Agent setup options
-    --basevardir=DIR            path to the writable data files
-    --share-dir=DIR             path to the read-only data files
     --conf-file=FILE            path to an alternative config file
-    --devlib                    search for Backend modules in ./lib only (false)
 
   Execution mode options
     -d --daemon                 run the agent as a daemon (false)
@@ -523,29 +507,11 @@ This options is ignored on Windows.
 
 =over
 
-=item B<--basevardir>=I<DIR>
-
-Path to the writable data files.
-
-=item B<--share-dir>=I<DIR>
-
-Path to the read-only data files. File::ShareDir will be used if available
-as default.
-
 =item B<--conf-file>=I<FILE>
 
-Path to an alternative configuration file (ignored on Windows).
+Path to an alternative configuration file.
 
-
-=item B<--devlib>
-
-This option is designed for the developer. With it enabled,
-fusioninventory-agent won't try to load the Backend module installed
-on the system. Instead it will scan the ./lib directory.
-It may also be useful if you don't want to install the agent on
-your system.
-
-This option can only be used as command line argument.
+This options is ignored on Windows.
 
 =back
 

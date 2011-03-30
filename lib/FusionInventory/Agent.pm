@@ -48,27 +48,31 @@ sub new {
     my ($class, $params) = @_;
 
     my $self = {
-        status => 'unknown',
-        token  => _computeNewToken()
+        status  => 'unknown',
+        confdir => $params->{confdir},
+        datadir => $params->{datadir},
+        vardir  => $params->{vardir},
+        token   => _computeNewToken()
     };
     bless $self, $class;
 
-    my $config = $self->{config} = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new($params);
+    $self->{config} = $config;
 
-    my $logger = $self->{logger} = FusionInventory::Agent::Logger->new({
+    my $logger = FusionInventory::Agent::Logger->new({
         config   => $config,
         backends => $config->{logger},
         debug    => $config->{debug}
     });
+    $self->{logger} = $logger;
 
     if ( $REAL_USER_ID != 0 ) {
         $logger->info("You should run this program as super-user.");
     }
 
-    if (!-d $config->{'share-dir'}) {
-        $logger->error("share-dir doesn't existe ".
-            "(".$config->{'share-dir'}.")");
-    }
+    $logger->debug("Configuration directory: $self->{confdir}");
+    $logger->debug("Data directory: $self->{datadir}");
+    $logger->debug("Storage directory: $self->{vardir}");
 
     #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
     my $hostname;
@@ -96,7 +100,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
     # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
         logger    => $logger,
-        directory => $config->{basevardir}
+        directory => $self->{vardir}
     });
     my $myRootData = $rootStorage->restore();
 
@@ -130,7 +134,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
                 logger     => $logger,
                 deviceid   => $self->{deviceid},
                 delaytime  => $config->{delaytime},
-                basevardir => $config->{basevardir},
+                basevardir => $self->{vardir},
             })
         );
     }
@@ -141,7 +145,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
                 logger     => $logger,
                 deviceid   => $self->{deviceid},
                 delaytime  => $config->{delaytime},
-                basevardir => $config->{basevardir},
+                basevardir => $self->{vardir},
                 path       => $config->{local},
                 html       => $config->{html},
             })
@@ -155,7 +159,7 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
                     logger     => $logger,
                     deviceid   => $self->{deviceid},
                     delaytime  => $config->{delaytime},
-                    basevardir => $config->{basevardir},
+                    basevardir => $self->{vardir},
                     url        => $url,
                     tag        => $config->{tag},
                 })
@@ -200,16 +204,11 @@ $hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
-             my $htmldir =
-                 $config->{'share-dir'} ? $config->{'share-dir'} . '/html' :
-                 $config->{'devlib'}    ? "./share/html"                   :
-                                          undef;
-
             FusionInventory::Agent::HTTPD->new({
                 logger          => $logger,
                 scheduler       => $scheduler,
                 agent           => $self,
-                htmldir         => $htmldir,
+                htmldir         => $self->{datadir} . '/html',
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
                 trust_localhost => $config->{'httpd-trust-localhost'},
@@ -315,6 +314,8 @@ sub main {
 
                 my $task = $package->new({
                     config      => $config,
+                    confdir     => $self->{confdir},
+                    datadir     => $self->{datadir},
                     logger      => $logger,
                     target      => $target,
                     prologresp  => $prologresp,

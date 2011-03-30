@@ -19,6 +19,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
+    my $confdir = $params->{confdir};
     my $ligne;
     my $soft;
     my $comm;
@@ -28,14 +29,9 @@ sub doInventory {
     my $commentaire;
     my @dots;
 
-    if (!$file || !-d $file) {
-        foreach (@{$inventory->{config}{etcdir}}) {
-            $file = $_.'/softwares';
-            last if -d $file;
-        }
-    }
+    $file = $confdir . '/softwares';
 
-    return unless $file;
+    return unless -f $file;
 
     my $logger = $params->{logger};
 
