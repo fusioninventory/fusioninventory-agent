@@ -1,5 +1,5 @@
 package FusionInventory::Agent::Task::NetDiscovery;
-our $VERSION = '1.3';
+our $VERSION = '1.4';
 
 $ENV{XML_SIMPLE_PREFERRED_PARSER} = 'XML::SAX::PurePerl';
 
