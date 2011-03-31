@@ -64,56 +64,41 @@ sub new {
 
 
 sub snmpGet {
-    my ($self, $args) = @_;
+    my ($self, $params) = @_;
 
-    my $oid = $args->{oid};
-    my $up = $args->{up};
+    my $oid = $params->{oid};
+
+    return unless $oid;
 
     my $session = $self->{session};
 
     my $result = $session->get_request(
         -varbindlist => [$oid]
     );
-    my $return;
-    if (!defined($result)) {
-        my $err = $self->{session}->error;
-        #debug($log,"[".$_[1]."] Error : ".$err,"",$PID);
-        if ((defined $up) && ($up == 1)) {
-            $return = "No response from remote host";
-        } else {
-            $return = "null";
-        }
-    } else {
-        if ($result->{$oid} =~ /noSuchInstance/) {
-            $return = "null";
-        } else {
-            if ($oid =~ /No response from remote host/) {
-                $return = "null";
-            } else {
-                if ($oid =~ /.1.3.6.1.2.1.17.4.3.1.1/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                if ($oid =~ /.1.3.6.1.2.1.17.1.1.0/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                if ($oid =~ /.1.3.6.1.2.1.2.2.1.6/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                if ($oid =~ /.1.3.6.1.2.1.4.22.1.2/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                if ($oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/) {
-                    $result->{$oid} = getBadMACAddress($oid,$result->{$oid});
-                }
-                $result->{$oid} = getSanitizedString($result->{$oid});
-                $result->{$oid} =~ s/\n$//;
-                $return = $result->{$oid};
-            }
-        }
-    }
-    return $return;
-}
 
+    return unless $result;
+
+    return if $result->{$oid} =~ /noSuchInstance/;
+    return if $result->{$oid} =~ /noSuchObject/;
+
+    my $value;
+    if (
+        $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
+        $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
+        $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
+        $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
+        $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/
+    ) {
+        $value = getBadMACAddress($oid, $result->{$oid});
+    } else {
+        $value = $result->{$oid};
+    }
+
+    $value = getSanitizedString($value);
+    $value =~ s/\n$//;
+
+    return $value;
+}
 
 sub snmpWalk {
     my ($self, $args) = @_;
