@@ -20,6 +20,8 @@ our @EXPORT = qw(
     getFusionInventoryLibdir
     getFusionInventoryTaskList
     getSanitizedString
+    file2module
+    module2file
 );
 
 memoize('getCanonicalManufacturer');
@@ -301,6 +303,20 @@ sub getFusionInventoryTaskList {
     return \@ret;
 }
 
+sub file2module {
+    my ($file) = @_;
+    $file =~ s{.pm$}{};
+    $file =~ s{/}{::}g;
+    return $file;
+}
+
+sub module2file {
+    my ($module) = @_;
+    $module .= '.pm';
+    $module =~ s{::}{/}g;
+    return $module;
+}
+
 sub getSanitizedString {
     my ($string) = @_;
 
@@ -388,3 +404,11 @@ on the system.
 
 Returns the input stripped from any control character, properly encoded in
 UTF-8.
+
+=head2 file2module($string)
+
+Converts a perl file name to a perl module name (Foo/Bar.pm -> Foo::Bar)
+
+=head2 module2file($string)
+
+Converts a perl module name to a perl file name ( Foo::Bar -> Foo/Bar.pm)
