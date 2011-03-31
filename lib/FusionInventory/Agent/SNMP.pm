@@ -107,18 +107,18 @@ sub snmpWalk {
             }
             my %pdesc = %{$response};
             #print %pdesc;
-            while ((my $object,my $oid) = each (%pdesc)) {
-                if ($object =~ /$oid_start/) {
-                    if ($oid !~ /No response from remote host/) {
-                        $oid = _getNormalizedValue($object, $oid);
-                        my $object2 = $object;
-                        $object2 =~ s/$_[0].//;
-                        $oid = getSanitizedString($oid);
-                        $oid =~ s/\n$//;
-                        $ArraySNMP->{$object2} = $oid;
+            while (my ($oid, $value) = each (%pdesc)) {
+                if ($oid =~ /$oid_start/) {
+                    if ($value !~ /No response from remote host/) {
+                        $value = _getNormalizedValue($oid, $value);
+                        my $value2 = $value;
+                        $value2 =~ s/$_[0].//;
+                        $value = getSanitizedString($value);
+                        $value =~ s/\n$//;
+                        $ArraySNMP->{$value2} = $value;
                     }
                 }
-                $oid_prec = $object;
+                $oid_prec = $value;
             }
         }
     }
