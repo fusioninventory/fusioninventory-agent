@@ -17,7 +17,6 @@ our @EXPORT = qw(
     getInfosFromDmidecode
     getCpusFromDmidecode
     getFusionInventoryLibdir
-    getFusionInventoryTaskList
     getSanitizedString
     file2module
     module2file
@@ -242,33 +241,6 @@ sub getFusionInventoryLibdir {
 
     return $ret;
 
-}
-
-sub getFusionInventoryTaskList {
-    my ($config) = @_;
-
-    my $libdir = getFusionInventoryLibdir($config);
-
-    my @tasks;
-    foreach (@$libdir) {
-        push @tasks, glob($_.'/FusionInventory/Agent/Task/*.pm');
-    }
-
-    my @ret;
-    foreach (@tasks) {
-        next unless basename($_) =~ /(.*)\.pm/;
-        my $module = $1;
-
-        next if $module eq 'Base';
-
-        push @ret, {
-            path => $_,
-            version => getVersionFromTaskModuleFile($_),
-            module => $module,
-        }
-    }
-
-    return \@ret;
 }
 
 sub file2module {
