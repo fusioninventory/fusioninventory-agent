@@ -356,6 +356,47 @@ sub getStatus {
     return $self->{status};
 }
 
+sub getAvailableTasks {
+    my ($self) = @_;
+
+    my @tasks;
+
+    # tasks may be dispatched in every directory referenced in @INC
+    foreach my $directory (@INC) {
+        # look for a suitable subdirectory
+        my $subdirectory = "FusionInventory/Agent/Task";
+        next unless -d "$directory/$subdirectory";
+
+        # look for all perl modules here
+        foreach my $file (glob("$directory/$subdirectory/*.pm")) {
+            next unless $file =~ m{($subdirectory/\S+\.pm)$};
+            my $module = _file2module($1);
+
+            # check module
+            next unless $module->require();
+            next unless $module->isa('FusionInventory::Agent::Task');
+            
+            # retrieve version
+            my $version;
+            {
+                no strict 'refs';  ## no critic
+                $version = ${$module . '::VERSION'};
+            }
+
+            # todo:
+            # - use a child process when running as a server to save memory
+            # - sort result to only return the latest version
+
+            push @tasks, {
+                package => $module,
+                version => $version
+            };
+        }
+    }
+
+    return @tasks;
+}
+
 1;
 __END__
 
@@ -388,3 +429,18 @@ Reset the current authentication token to a new random value.
 =head2 getStatus()
 
 Get the current agent status.
+
+=head2 getAvailableTasks()
+
+Get all available tasks, as a list of hashrefs:
+
+@list = (
+    {
+        package => 'FusionInventory::Agent::Task::Foo',
+        version => x
+    },
+    {
+        package => 'FusionInventory::Agent::Task::Bar',
+        version => y
+    },
+);
