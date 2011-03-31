@@ -16,7 +16,6 @@ our @EXPORT = qw(
     getCanonicalManufacturer
     getInfosFromDmidecode
     getCpusFromDmidecode
-    getFusionInventoryLibdir
     getSanitizedString
     file2module
     module2file
@@ -210,39 +209,6 @@ sub getCpusFromDmidecode {
     return \@cpus;
 }
 
-sub getFusionInventoryLibdir {
-    my ($config) = @_;
-
-    die unless $config;
-
-    my @dirToScan;
-
-    my $ret = [];
-
-    if ($config->{devlib}) {
-# devlib enable, I only search for backend module in ./lib
-        return ['./lib'];
-    } else {
-        foreach (@INC) {
-# perldoc lib
-# For each directory in LIST (called $dir here) the lib module also checks to see
-# if a directory called $dir/$archname/auto exists. If so the $dir/$archname
-# directory is assumed to be a corresponding architecture specific directory and
-# is added to @INC in front of $dir. lib.pm also checks if directories called
-# $dir/$version and $dir/$version/$archname exist and adds these directories to @INC.
-            my $autoDir = $_.'/'.$Config::Config{archname}.'/auto/FusionInventory/Agent/Task/Inventory';
-
-            next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
-            next if ! -d $_.'/FusionInventory/Agent/Task/Inventory';
-            push (@$ret, $_) if -d $_.'/FusionInventory/Agent';
-            push (@$ret, $autoDir) if -d $autoDir.'/FusionInventory/Agent';
-        }
-    }
-
-    return $ret;
-
-}
-
 sub file2module {
     my ($file) = @_;
     $file =~ s{.pm$}{};
@@ -321,11 +287,6 @@ $info = {
 =head2 getCpusFromDmidecode()
 
 Returns a clean array with the CPU list.
-
-=head2 getFusionInventoryLibdir()
-
-Return a array reference of the location of the FusionInventory/Agent library directory
-on the system.
 
 =head2 getSanitizedString($string)
 
