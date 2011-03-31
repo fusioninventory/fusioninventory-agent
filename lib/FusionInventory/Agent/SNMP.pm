@@ -95,28 +95,21 @@ sub snmpWalk {
 
     return unless $oid_start;
 
+    my $session = $self->{session};
+
+    my $response = $session->get_table(
+        -baseoid => $oid_start
+    );
+
+    return unless $response;
+
     my $result;
 
-    my $oid_prec = $oid_start;
-
-    while($oid_prec =~ m/$oid_start/) {
-        my $response = $self->{session}->get_next_request($oid_prec);
-        last unless $response;
-
-        my %pdesc = %{$response};
-        while (my ($oid, $value) = each (%pdesc)) {
-            if ($oid =~ /$oid_start/) {
-                if ($value !~ /No response from remote host/) {
-                    $value = _getNormalizedValue($oid, $value);
-                    my $value2 = $value;
-                    $value2 =~ s/$_[0].//;
-                    $value = getSanitizedString($value);
-                    $value =~ s/\n$//;
-                    $result->{$value2} = $value;
-                }
-            }
-            $oid_prec = $value;
-        }
+    foreach my $oid (keys %{$response}) {
+        my $value = _getNormalizedValue($oid, $response->{$oid});
+        $value = getSanitizedString($value);
+        $value =~ s/\n$//;
+        $result->{$oid} = $value;
     }
 
     return $result;
