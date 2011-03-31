@@ -1,7 +1,5 @@
 package FusionInventory::Agent::Task::Inventory;
 
-# Keep this line, used by getVersionFromTaskModuleFile
-# VERSION FROM Agent.pm
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
@@ -13,6 +11,8 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Inventory;
+
+our $VERSION = '2.2.0';
 
 sub main {
     my ($self) = @_;

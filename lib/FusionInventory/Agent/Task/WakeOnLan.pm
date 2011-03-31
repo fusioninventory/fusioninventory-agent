@@ -1,7 +1,5 @@
 package FusionInventory::Agent::Task::WakeOnLan;
 
-# Keep this line, used by getVersionFromTaskModuleFile
-# VERSION FROM Agent.pm
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
@@ -12,6 +10,8 @@ use constant SOCK_PACKET => 10;
 
 use English qw(-no_match_vars);
 use Socket;
+
+our $VERSION = '2.2.0';
 
 sub main {
     my ($self) = @_;

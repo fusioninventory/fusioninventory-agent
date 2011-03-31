@@ -1,13 +1,13 @@
 package FusionInventory::Agent::Task::Ping;
 
-# Keep this line, used by getVersionFromTaskModuleFile
-# VERSION FROM Agent.pm
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
+
+our $VERSION = '2.2.0';
 
 sub main {
     my ($self) = @_;
