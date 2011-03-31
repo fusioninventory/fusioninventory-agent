@@ -139,3 +139,79 @@ sub _getNormalizedValue {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::SNMP - An SNMP query extension
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to perform SNMP queries.
+
+=head1 METHODS
+
+=head2 new(%params)
+
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item version (mandatory)
+
+Can be one of:
+
+=over
+
+=item '1'
+
+=item '2c'
+
+=item '3'
+
+=back
+
+=item hostname (mandatory)
+
+=item community
+
+=item username
+
+=item authpassword
+
+=item authprotocol
+
+=item privpassword
+
+=item privprotocol
+
+=back
+
+=head2 snmpGet(%params)
+
+This method returns a single value, corresponding to a single OID. The value is
+normalised to remove any control character, and hexadecimal mac addresses are
+translated into plain ascii.
+
+Available params:
+
+=over
+
+=item oid the unique OID to query
+
+=back
+
+=head2 snmpWalk(%params)
+
+This method returns an hashref of values, indexed by their OIDs, starting from
+the given one. The values are normalised to remove any control character, and
+hexadecimal mac addresses are translated into plain ascii.
+
+Available params:
+
+=over
+
+=item oid_start the first OID to start walking
+
+=back
