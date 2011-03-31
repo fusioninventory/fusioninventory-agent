@@ -58,6 +58,11 @@ if ($OSNAME eq 'solaris') {
     install_script  'memconf';
 }
 
+makemaker_args(
+    test => {
+        TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)
+    },
+);
 WriteAll;
 
 package MY;
