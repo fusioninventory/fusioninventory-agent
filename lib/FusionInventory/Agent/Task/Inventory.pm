@@ -140,10 +140,6 @@ sub initModList {
     my $config = $self->{config};
     my $storage = $self->{storage};
 
-    my @installed_mods;
-    my @installed_files;
-
-
     # Hackish. The function we want to export
     # in the module
     my $backendSharedFuncs = {
@@ -195,61 +191,9 @@ sub initModList {
         }
     };
 
-    # This is a workaround for PAR::Packer. Since it resets @INC
-    # I can't find the backend modules to load dynamically. So
-    # I prepare a list and include it.
-    eval {
-        require FusionInventory::Agent::Task::Inventory::ModuleToLoad;
-    };
-    if (!$EVAL_ERROR) {
-        $logger->debug(
-            "use FusionInventory::Agent::Task::Inventory::ModuleToLoad to " . 
-            "get the modules to load. This should not append unless you use " .
-            "the standalone agent built with PAR::Packer (pp)"
-        );
-        push
-            @installed_mods,
-            @FusionInventory::Agent::Task::Inventory::ModuleToLoad::list;
-    }
+    my @modules = __PACKAGE__->getModules();
 
-    my $dirToScan = getFusionInventoryLibdir($config);
-    if ($dirToScan) {
-        eval {
-            require File::Find;
-        };
-        if ($EVAL_ERROR) {
-            $logger->debug("Failed to load File::Find");
-        } else {
-            my @dirList;
-            foreach (@$dirToScan) {
-                my $d = $_.'/FusionInventory/Agent';
-                next unless -d $d;
-                push @dirList, $d;
-            }
-            # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
-            # changes the @INC content if i use $_ directly
-            # thanks to @rgs on irc.perl.org
-            File::Find::find(
-                {
-                    wanted => sub {
-                        push @installed_files, $File::Find::name if $File::Find::name =~
-                        /FusionInventory\/Agent\/Task\/Inventory\/.*\.pm$/;
-                    },
-                    follow => 1,
-                    follow_skip => 2
-                }
-                , @dirList);
-        }
-    }
-
-    foreach my $file (@installed_files) {
-        my $t = $file;
-        next unless $t =~ s!.*?(FusionInventory/Agent/Task/Inventory/)(.*?)\.pm$!$1$2!;
-        my $m = join ('::', split /\//, $t);
-        push @installed_mods, $m unless grep (/^$m$/, @installed_mods);
-    }
-
-    if (!@installed_mods) {
+    if (!@modules) {
         $logger->info(
             "ZERO backend module found! Is FusionInventory-Agent correctly " .
             "installed? Use the --devlib flag if you want to run the agent " .
@@ -258,11 +202,11 @@ sub initModList {
     }
 
     # First all the module are flagged as 'OK'
-    foreach my $m (@installed_mods) {
+    foreach my $m (@modules) {
         $self->{modules}->{$m}->{inventoryFuncEnable} = 1;
     }
 
-    foreach my $m (@installed_mods) {
+    foreach my $m (@modules) {
         my @runAfter;
         my @runMeIfTheseChecksFailed;
         my $enable = 1;
