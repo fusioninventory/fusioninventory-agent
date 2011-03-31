@@ -45,5 +45,3 @@ This module provides some Windows-specific generic functions.
 =head2 is64bit()
 
 Returns true if the OS is 64bit or false.
-
-=back

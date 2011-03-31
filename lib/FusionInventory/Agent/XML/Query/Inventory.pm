@@ -826,8 +826,6 @@ correctly, the last_state is saved.
 A generic way to save a section in the inventory. Please avoid this
 solution.
 
-=over
-
 =head1 XML STRUCTURE
 
 This section presents the XML structure used by FusionInventory. The schema
