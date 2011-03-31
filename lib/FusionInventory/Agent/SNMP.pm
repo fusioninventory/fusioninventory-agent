@@ -72,20 +72,20 @@ sub snmpGet {
 
     my $session = $self->{session};
 
-    my $result = $session->get_request(
+    my $response = $session->get_request(
         -varbindlist => [$oid]
     );
 
-    return unless $result;
+    return unless $response;
 
-    return if $result->{$oid} =~ /noSuchInstance/;
-    return if $result->{$oid} =~ /noSuchObject/;
+    return if $response->{$oid} =~ /noSuchInstance/;
+    return if $response->{$oid} =~ /noSuchObject/;
 
-    my $value = _getNormalizedValue($oid, $result->{$oid});
-    $value = getSanitizedString($value);
-    $value =~ s/\n$//;
+    my $result = _getNormalizedValue($oid, $response->{$oid});
+    $result = getSanitizedString($result);
+    $result =~ s/\n$//;
 
-    return $value;
+    return $result;
 }
 
 sub snmpWalk {
@@ -95,7 +95,7 @@ sub snmpWalk {
 
     return unless $oid_start;
 
-    my $ArraySNMP = {};
+    my $result;
 
     my $oid_prec = $oid_start;
 
@@ -103,7 +103,7 @@ sub snmpWalk {
         my $response = $self->{session}->get_next_request($oid_prec);
         my $err = $self->{session}->error;
         if ($err){
-            return $ArraySNMP;
+            return $result;
         }
         my %pdesc = %{$response};
         while (my ($oid, $value) = each (%pdesc)) {
@@ -114,14 +114,14 @@ sub snmpWalk {
                     $value2 =~ s/$_[0].//;
                     $value = getSanitizedString($value);
                     $value =~ s/\n$//;
-                    $ArraySNMP->{$value2} = $value;
+                    $result->{$value2} = $value;
                 }
             }
             $oid_prec = $value;
         }
     }
 
-    return $ArraySNMP;
+    return $result;
 }
 
 sub _getNormalizedValue {
