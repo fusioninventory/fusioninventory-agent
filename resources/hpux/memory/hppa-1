@@ -1,0 +1,76 @@
+Running Command File (/usr/sbin/stm/ui/config/.stmrc).
+
+-- Information --
+Support Tools Manager
+
+
+Version A.66.00
+
+Product Number B4708AA
+
+(C) Copyright Hewlett Packard Co. 1995-2011
+All Rights Reserved
+
+Use of this program is subject to the licensing restrictions described
+in "Help-->On Version".  HP shall not be liable for any damages resulting
+from misuse or unauthorized use of this program.
+
+cstm>sc product mem;il
+-- Converting a (2288) byte raw log file to text. --
+Preparing the Information Tool Log for MEMORY on path 8 File ...
+
+.... SUSOTP1  :  10.31.228.138 .... 
+
+-- Information Tool Log for MEMORY on path 8 --
+
+Log creation time: Sun Mar 27 03:00:39 2011
+
+Hardware path: 8
+
+
+Basic Memory Description
+
+    Module Type: MEMORY
+    Total Configured Memory   : 1920 MB
+    Page Size: 4096 Bytes
+
+    Memory interleaving is supported on this machine and is ON.
+
+Memory Board Inventory 
+
+   DIMM Slot      Size (MB)
+   ---------      ---------
+          01            512
+          02            512
+          03            256
+          04            256
+          05            128
+          06            128
+          07            128
+   ---------      ---------
+   System Total (MB):  1920
+
+Memory Error Log Summary 
+
+                                                  Error 
+    Board          Error Address      Error Type  Page       Count 
+    -------------  -----------------  ----------  ---------  -----
+              07  0x000000002d7a1ec0  Single-Bit  0x002d7a1      1
+
+    System start: Fri Jun 13 18:15:05 2008.
+    Last error check: Sun Mar 27 01:46:33 2011.
+    Logging interval: 3600 seconds.
+    1 address(es) with errors logged by memory logging daemon. 
+
+    The Logtool Utility provides full details about the memory error log.
+
+Page Deallocation Table (PDT)
+
+    PDT Entries Used: 0  
+    PDT Entries Free: 256  
+    PDT Total Size: 256  
+-- Information Tool Log for MEMORY on path 8 --
+View   - To View the file.
+Print  - To Print the file.
+SaveAs - To Save the file.
+Enter Done, Help, Print, SaveAs, or View: [Done] #.

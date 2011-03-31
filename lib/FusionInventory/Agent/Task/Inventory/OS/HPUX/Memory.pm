@@ -9,6 +9,19 @@ sub isInventoryEnabled {
     return $OSNAME =~ /hpux/;
 }
 
+sub _parseMemory {
+    my @list_mem = @{$_[0]};
+
+    my $ret;
+    foreach (@list_mem) {
+        if (/Total Configured Memory\s*:\s(\d+)\sMB/i) {
+            return $1;
+        }
+    }
+
+    return;
+}
+
 sub doInventory { 
     my $params = shift;
     my $inventory = $params->{inventory};
@@ -116,14 +129,10 @@ sub doInventory {
         } # echo 'sc product system;il' | /usr/sbin/cstm
     }
 
-    foreach ( @list_mem ) {
-        if (/Total Configured Memory\s*:\s(\d+)\sMB/i) {
-                my $TotalMemSize = $1;
-                my $TotalSwapSize = `swapinfo -dt | tail -n1`;
-                $TotalSwapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
-                $inventory->setHardware({ MEMORY =>  $TotalMemSize, SWAP =>    sprintf("%i", $TotalSwapSize/1024), });
-            }
-    }
+    my $TotalSwapSize = `swapinfo -dt | tail -n1`;
+    $TotalSwapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
+    $inventory->setHardware({ SWAP =>    sprintf("%i", $TotalSwapSize/1024) });
+    $inventory->setHardware({ MEMORY => _parseMemory(\@list_mem) });
 
 }
 
