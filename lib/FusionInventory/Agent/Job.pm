@@ -10,14 +10,12 @@ use FusionInventory::Agent::Storage;
 sub new {
     my ($class, %params) = @_;
 
-    die 'no id parameter'         unless $params{id};
     die 'no task parameter'       unless $params{task};
     die 'no target parameter'     unless $params{target};
     die 'no basevardir parameter' unless $params{basevardir};
     die 'no offset parameter'     unless $params{offset};
 
     my $self = {
-        id     => $params{id},
         task   => $params{task},
         target => $params{target},
         offset => $params{offset} || 3600,
@@ -88,9 +86,9 @@ sub scheduleNextRun {
     );
 }
 
-sub getId {
+sub getTaskName {
     my ($self) = @_;
-    return $self->{id};
+    return $self->{task};
 }
 
 sub getPeriod {
@@ -146,13 +144,9 @@ A job object has the following attributes:
 
 =over
 
-=item I<id>
-
-The job identifier.
-
 =item I<task>
 
-The identifier of the task associated with this job.
+The name of the task associated with this job.
 
 =item I<target>
 

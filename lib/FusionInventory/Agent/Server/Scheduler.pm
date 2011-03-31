@@ -45,11 +45,11 @@ sub checkAllJobs {
         sprintf("[scheduler] waking up at %i", $time,)
     );
     foreach my $job ($self->{state}->getJobs()) {
-        my $id   = $job->getId();
+        my $taskName   = $job->getTaskName();
         my $date = $job->getNextRunDate();
         $self->{logger}->debug(
             sprintf(
-                "[scheduler] checking job %s: next run at %i", $id, $date
+                "[scheduler] checking job %s: next run at %i", $taskName, $date
             )
         );
         $self->{state}->runJob($job) if $time > $date;
