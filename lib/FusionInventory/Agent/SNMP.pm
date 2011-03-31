@@ -14,6 +14,8 @@ sub new {
 
     my $self = {};
 
+    die "no hostname parameters" unless $params->{hostname};
+
     my $version =
         ! $params->{version}       ? 'snmpv1'  :
         $params->{version} eq '1'  ? 'snmpv1'  :
