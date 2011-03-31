@@ -67,7 +67,7 @@ sub doInventory {
 
         @list_mem=`echo 'sc product mem;il'| /usr/sbin/cstm`;
 
-        for ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
+        for ( @list_mem ) {
 
             if ( /FRU\sSource\s+=\s+\S+\s+\(memory/ ) {
                 $ok=0;
