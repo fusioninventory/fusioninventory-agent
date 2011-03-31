@@ -357,3 +357,34 @@ sub getStatus {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent - Fusion Inventory agent
+
+=head1 DESCRIPTION
+
+This is the agent object.
+
+=head1 METHODS
+
+=head2 new()
+
+The constructor. No arguments allowed.
+
+=head2 main()
+
+Run the agent.
+
+=head2 getToken()
+
+Get the current authentication token.
+
+=head2 resetToken()
+
+Reset the current authentication token to a new random value.
+
+=head2 getStatus()
+
+Get the current agent status.
