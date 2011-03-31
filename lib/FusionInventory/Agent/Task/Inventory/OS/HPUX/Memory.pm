@@ -13,17 +13,13 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
-
+    my @list_mem;
     if ( `uname -m` =~ /ia64/ ) {
         `echo 'sc product  IPF_MEMORY;info' | /usr/sbin/cstm`;    # enable infolog
-        for ( `echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm` ) {
+        @list_mem=`echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm`;
+        for ( @list_mem ) {
             if ( /\w+IMM\s+Location/ ) {
                 next
-            } elsif (/Total Configured Memory:\s(\d+)\sMB/i) {
-                my $TotalMemSize = $1;
-                my $TotalSwapSize = `swapinfo -dt | tail -n1`;
-                $TotalSwapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
-                $inventory->setHardware({ MEMORY =>  $TotalMemSize, SWAP =>    sprintf("%i", $TotalSwapSize/1024), });
             } elsif ( /(\w+IMM)\s+(\w+)\s+(\d+|\-+)\s+(\w+IMM)\s+(\w+)\s+(\d+|\-+)/ ) {
                 $inventory->addMemory({
                         CAPACITY => $3,
@@ -54,10 +50,12 @@ sub doInventory {
         my $subnumslot;
         my $serialnumber = 'No Serial Number available!';
         my $type;
-        my @list_mem=`echo 'sc product mem;il'| /usr/sbin/cstm`;
         my $ok=0;
 
+        @list_mem=`echo 'sc product mem;il'| /usr/sbin/cstm`;
+
         for ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
+
             if ( /FRU\sSource\s+=\s+\S+\s+\(memory/ ) {
                 $ok=0;
                 #print "FRU Source memory\n";
@@ -116,6 +114,8 @@ sub doInventory {
                 } # $ok eq 1
             } # /Serial\s+Number\.*:\s*(\S+)\s+/ 
         } # echo 'sc product system;il' | /usr/sbin/cstm
+    }
+
     foreach ( @list_mem ) {
         if (/Total Configured Memory\s*:\s(\d+)\sMB/i) {
                 my $TotalMemSize = $1;
@@ -123,7 +123,6 @@ sub doInventory {
                 $TotalSwapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
                 $inventory->setHardware({ MEMORY =>  $TotalMemSize, SWAP =>    sprintf("%i", $TotalSwapSize/1024), });
             }
-    }
     }
 
 }
