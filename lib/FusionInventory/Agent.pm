@@ -16,6 +16,7 @@ use FusionInventory::Agent::Task;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Target::Stdout;
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Prolog;
 
@@ -370,7 +371,7 @@ sub getAvailableTasks {
         # look for all perl modules here
         foreach my $file (glob("$directory/$subdirectory/*.pm")) {
             next unless $file =~ m{($subdirectory/\S+\.pm)$};
-            my $module = _file2module($1);
+            my $module = file2module($1);
 
             # check module
             next unless $module->require();
