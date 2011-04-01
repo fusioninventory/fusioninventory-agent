@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Find;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
 
 sub new {
@@ -31,6 +32,9 @@ sub new {
 
 sub getModules {
     my ($class) = @_;
+
+    # allow to be called as an instance method
+    $class = ref $class ? ref $class : $class;
 
     # use %INC to retrieve the root directory for this task
     my $file = module2file($class);
