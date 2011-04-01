@@ -12,59 +12,77 @@ use Memoize;
 use Sys::Hostname;
 
 our @EXPORT = qw(
+    getSubnetAddress
+    getSubnetAddressIPv6
+    getDirectoryHandle
     getFileHandle
+    getFormatedLocalTime
+    getFormatedGmTime
+    getFormatedDate
     getCanonicalManufacturer
+    getCanonicalSpeed
+    getCanonicalSize
     getInfosFromDmidecode
     getCpusFromDmidecode
     getSanitizedString
+    getFirstLine
+    getFirstMatch
+    getAllLines
+    getLinesCount
+    getHostname
+    compareVersion
+    can_run
+    can_read
+    can_load
+    any
+    all
+    none
+    uniq
     file2module
     module2file
 );
 
+memoize('can_run');
+memoize('can_read');
 memoize('getCanonicalManufacturer');
 memoize('getInfosFromDmidecode');
 
-sub getFileHandle {
-    my %params = @_;
+sub getFormatedLocalTime {
+    my ($time) = @_;
 
-    my $handle;
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime ($time))[5, 4, 3, 2, 1, 0];
 
-    SWITCH: {
-        if ($params{file}) {
-            if (!open $handle, '<', $params{file}) {
-                $params{logger}->error(
-                    "Can't open file $params{file}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-        if ($params{command}) {
-            if (!open $handle, '-|', $params{command} . " 2>/dev/null") {
-                $params{logger}->error(
-                    "Can't run command $params{command}: $ERRNO"
-                ) if $params{logger};
-                return;
-            }
-            last SWITCH;
-        }
-	if ($params{string}) {
-	    
-	    open $handle, "<", \$params{string} or die;
-	}
-        die "neither command nor file parameter given";
-    }
+    return getFormatedDate(
+        ($year + 1900), ($month + 1), $day, $hour, $min, $sec
+    );
+}
 
-    return $handle;
+sub getFormatedGmTime {
+    my ($time) = @_;
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (gmtime ($time))[5, 4, 3, 2, 1, 0];
+
+    return getFormatedDate(
+        ($year - 70), $month, ($day - 1), $hour, $min, $sec
+    );
+}
+
+sub getFormatedDate {
+    my ($year, $month, $day, $hour, $min, $sec) = @_;
+
+    return sprintf
+        "%02d-%02d-%02d %02d:%02d:%02d",
+        $year, $month, $day, $hour, $min, $sec;
 }
 
 sub getCanonicalManufacturer {
-    my ($model) = @_;
+    my ($manufacturer) = @_;
 
-    return unless $model;
+    return unless $manufacturer;
 
-    my $manufacturer;
-    if ($model =~ /(
+    if ($manufacturer =~ /(
         maxtor    |
         sony      |
         compaq    |
@@ -80,17 +98,54 @@ sub getCanonicalManufacturer {
         pioneer
     )/xi) {
         $manufacturer = ucfirst(lc($1));
-    } elsif ($model =~ /^(hp|HP|hewlett packard)/) {
+    } elsif ($manufacturer =~ /^(hp|HP|hewlett packard)/) {
         $manufacturer = "Hewlett Packard";
-    } elsif ($model =~ /^(WDC|[Ww]estern)/) {
+    } elsif ($manufacturer =~ /^(WDC|[Ww]estern)/) {
         $manufacturer = "Western Digital";
-    } elsif ($model =~ /^(ST|[Ss]eagate)/) {
+    } elsif ($manufacturer =~ /^(ST|[Ss]eagate)/) {
         $manufacturer = "Seagate";
-    } elsif ($model =~ /^(HD|IC|HU)/) {
+    } elsif ($manufacturer =~ /^(HD|IC|HU)/) {
         $manufacturer = "Hitachi";
     }
 
     return $manufacturer;
+}
+
+sub getCanonicalSpeed {
+    my ($speed) = @_;
+
+    ## no critic (ExplicitReturnUndef)
+
+    return undef unless $speed;
+
+    return 400 if $speed =~ /^PC3200U/;
+
+    return undef unless $speed =~ /^(\d+) \s? (\S+)$/x;
+    my $value = $1;
+    my $unit = lc($2);
+
+    return
+        $unit eq 'ghz' ? $value * 1000 :
+        $unit eq 'mhz' ? $value        :
+                         undef         ;
+}
+
+sub getCanonicalSize {
+    my ($size) = @_;
+
+    ## no critic (ExplicitReturnUndef)
+
+    return undef unless $size;
+
+    return undef unless $size =~ /^(\d+) \s (\S+)$/x;
+    my $value = $1;
+    my $unit = lc($2);
+
+    return
+        $unit eq 'tb' ? $value * 1000 * 1000 :
+        $unit eq 'gb' ? $value * 1000        :
+        $unit eq 'mb' ? $value               :
+                        undef                ;
 }
 
 sub getInfosFromDmidecode {
@@ -145,7 +200,6 @@ sub getInfosFromDmidecode {
 
     return $info;
 }
-
 
 sub getCpusFromDmidecode {
     my ($logger, $file) = @_;
@@ -209,18 +263,17 @@ sub getCpusFromDmidecode {
     return \@cpus;
 }
 
-sub file2module {
-    my ($file) = @_;
-    $file =~ s{.pm$}{};
-    $file =~ s{/}{::}g;
-    return $file;
-}
+sub compareVersion {
+    my ($major, $minor, $min_major, $min_minor) = @_;
 
-sub module2file {
-    my ($module) = @_;
-    $module .= '.pm';
-    $module =~ s{::}{/}g;
-    return $module;
+    return
+        $major > $minor
+        ||
+        (
+            $major == $min_major
+            &&
+            $minor >= $min_minor
+        );
 }
 
 sub getSanitizedString {
@@ -248,6 +301,250 @@ sub getSanitizedString {
     return $string;
 }
 
+sub getSubnetAddress {
+    my ($address, $mask) = @_;
+
+    return unless $address && $mask;
+
+    # load Net::IP conditionnaly
+    return unless can_load("Net::IP");
+    Net::IP->import(':PROC');
+
+    my $binaddress = ip_iptobin($address, 6);
+    my $binmask    = ip_iptobin($mask, 6);
+    my $binsubnet  = $binaddress & $binmask;
+
+    return ip_bintoip($binsubnet, 6);
+}
+
+sub getSubnetAddressIPv6 {
+    my ($address, $mask) = @_;
+
+    return unless $address && $mask;
+
+    # load Net::IP conditionnaly
+    return unless can_load("Net::IP");
+    Net::IP->import(':PROC');
+
+    my $binaddress = ip_iptobin($address, 4);
+    my $binmask    = ip_iptobin($mask, 4);
+    my $binsubnet  = $binaddress & $binmask;
+
+    return ip_bintoip($binsubnet, 4);
+}
+
+sub getDirectoryHandle {
+    my %params = @_;
+
+    die "no directory parameter given" unless $params{directory};
+
+    my $handle;
+
+    if (!opendir $handle, $params{directory}) {
+        $params{logger}->error("Can't open directory $params{directory}: $ERRNO")
+            if $params{logger};
+        return;
+    }
+
+    return $handle;
+}
+
+sub getFileHandle {
+    my %params = @_;
+
+    my $handle;
+
+    SWITCH: {
+        if ($params{file}) {
+            if (!open $handle, '<', $params{file}) {
+                $params{logger}->error(
+                    "Can't open file $params{file}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+        if ($params{command}) {
+            if (!open $handle, '-|', $params{command} . " 2>/dev/null") {
+                $params{logger}->error(
+                    "Can't run command $params{command}: $ERRNO"
+                ) if $params{logger};
+                return;
+            }
+            last SWITCH;
+        }
+	if ($params{string}) {
+	    
+	    open $handle, "<", \$params{string} or die;
+	}
+        die "neither command nor file parameter given";
+    }
+
+    return $handle;
+}
+
+sub getFirstLine {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    my $result = <$handle>;
+    close $handle;
+
+    chomp $result;
+    return $result;
+}
+
+sub getFirstMatch {
+    my %params = @_;
+
+    return unless $params{pattern};
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @results;
+    while (my $line = <$handle>) {
+        @results = $line =~ $params{pattern};
+        last if @results;
+    }
+    close $handle;
+
+    return wantarray ? @results : $results[0];
+}
+
+sub getAllLines {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    if (wantarray) {
+        my @lines = map { chomp; $_ } <$handle>;
+        close $handle;
+        return @lines;
+    } else {
+        local $RS;
+        my $lines = <$handle>;
+        close $handle;
+        return $lines;
+    }
+}
+
+sub getLinesCount {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $count = 0;
+    while (my $line = <$handle>) {
+        $count++;
+    }
+    close $handle;
+
+    return $count;
+}
+
+sub can_run {
+    my ($binary) = @_;
+
+    if ($OSNAME eq 'MSWin32') {
+        foreach my $dir (split/$Config::Config{path_sep}/, $ENV{PATH}) {
+            foreach my $ext (qw/.exe .bat/) {
+                return 1 if -f $dir . '/' . $binary . $ext;
+            }
+        }
+        return 0;
+    } else {
+        return 
+            system("which $binary >/dev/null 2>&1") == 0;
+    }
+
+}
+
+sub can_read {
+    my ($file) = @_;
+
+    return -f $file;
+}
+
+sub can_load {
+    my ($module) = @_;
+
+    return $module->require();
+}
+
+sub getHostname {
+
+    # use hostname directly under Unix
+    return hostname() if $OSNAME ne 'MSWin32';
+
+    # otherwise, use Win32 API
+    eval {
+        require Encode;
+        require Win32::API;
+        Encode->import();
+
+        my $getComputerName = Win32::API->new(
+            "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
+        );
+        my $lpBuffer = "\x00" x 1024;
+        my $N = 1024; #pack ("c4", 160,0,0,0);
+
+        $getComputerName->Call(3, $lpBuffer, $N);
+
+        # GetComputerNameExW returns the string in UTF16, we have to change
+        # it to UTF8
+        return encode(
+            "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
+        );
+    };
+}
+
+# shamelessly imported from List::MoreUtils to avoid a dependency
+sub any (&@) { ## no critic (SubroutinePrototypes)
+    my $f = shift;
+    foreach ( @_ ) {
+        return 1 if $f->();
+    }
+    return 0;
+}
+
+sub all (&@) { ## no critic (SubroutinePrototypes)
+    my $f = shift;
+    foreach ( @_ ) {
+        return 0 unless $f->();
+    }
+    return 1;
+}
+
+sub none (&@) { ## no critic (SubroutinePrototypes)
+    my $f = shift;
+    foreach ( @_ ) {
+        return 0 if $f->();
+    }
+    return 1;
+}
+
+sub uniq (@) { ## no critic (SubroutinePrototypes)
+    my %seen = ();
+    grep { not $seen{$_}++ } @_;
+}
+
+sub file2module {
+    my ($file) = @_;
+    $file =~ s{.pm$}{};
+    $file =~ s{/}{::}g;
+    return $file;
+}
+
+sub module2file {
+    my ($module) = @_;
+    $module .= '.pm';
+    $module =~ s{::}{/}g;
+    return $module;
+}
+
 1;
 __END__
 
@@ -259,13 +556,31 @@ FusionInventory::Agent::Tools - OS-independant generic functions
 
 This module provides some OS-independant generic functions.
 
-This module is a backported from the master git branch.
-
 =head1 FUNCTIONS
+
+=head2 getFormatedLocalTime($time)
+
+Returns a formated date from given Unix timestamp.
+
+=head2 getFormatedGmTime($time)
+
+Returns a formated date from given Unix timestamp.
+
+=head2 getFormatedDate($year, $month, $day, $hour, $min, $sec)
+
+Returns a formated date from given date elements.
 
 =head2 getCanonicalManufacturer($manufacturer)
 
 Returns a normalized manufacturer value for given one.
+
+=head2 getCanonicalSpeed($speed)
+
+Returns a normalized speed value (in Mhz) for given one.
+
+=head2 getCanonicalSize($size)
+
+Returns a normalized size value (in Mb) for given one.
 
 =head2 getInfosFromDmidecode
 
@@ -292,6 +607,140 @@ Returns a clean array with the CPU list.
 
 Returns the input stripped from any control character, properly encoded in
 UTF-8.
+
+=head2 compareVersion($major, $minor, $min_major, $min_minor)
+
+Returns true if software with given major and minor version meet minimal
+version requirements.
+
+=head2 getDirectoryHandle(%params)
+
+Returns an open file handle on either a command output, or a file.
+
+=over
+
+=item logger a logger object
+
+=item directory the directory to use
+
+=back
+
+=head2 getFileHandle(%params)
+
+Returns an open file handle on either a command output, or a file.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getFirstLine(%params)
+
+Returns the first line of given command output or given file content, with end
+of line removed.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getAllLines(%params)
+
+Returns all the lines of given command output or given file content, with end
+of line removed.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getFirstMatch(%params)
+
+Returns the result of applying given pattern on the first matching line of
+given command output or given file content.
+
+=over
+
+=item pattern a regexp
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getLinesCount(%params)
+
+Returns the number of lines of given command output or given file content.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getSubnetAddress($address, $mask)
+
+Returns the subnet address for IPv4.
+
+=head2 getSubnetAddressIPv6($address, $mask)
+
+Returns the subnet address for IPv6.
+
+=head2 getHostname()
+
+Returns host name, using hostname() under Unix, Win32::API under Windows.
+
+=head2 can_run($binary)
+
+Returns true if given binary can be executed.
+
+=head2 can_read($file)
+
+Returns true if given file can be read.
+
+=head2 can_load($module)
+
+Returns true if given perl module can be loaded (and actually loads it).
+
+=head2 any BLOCK LIST
+
+Returns a true value if any item in LIST meets the criterion given through
+BLOCK.
+
+=head2 all BLOCK LIST
+
+Returns a true value if all items in LIST meet the criterion given through
+BLOCK.
+
+=head2 none BLOCK LIST
+
+Returns a true value if no item in LIST meets the criterion given through BLOCK.
+
+=head2 uniq BLOCK LIST
+
+Returns a new list by stripping duplicate values in LIST.
 
 =head2 file2module($string)
 
