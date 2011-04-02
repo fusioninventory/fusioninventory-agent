@@ -48,8 +48,9 @@ sub main {
     }
     $macaddress =~ s/://g;
 
-    ###  for LINUX ONLY ###
-    if ( eval { socket(SOCKET, PF_PACKET, SOCK_PACKET, 0); }) {
+    # Linux only
+    eval {
+        socket(SOCKET, PF_PACKET, SOCK_PACKET, 0);
 
         setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
             or warn "Can't do setsockopt: $ERRNO\n";
@@ -76,20 +77,26 @@ sub main {
         }
         close $handle;
         # TODO : For FreeBSD, send to /dev/bpf ....
-    } else { # degraded wol by UDP
-        if ( eval { socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp')) }) {
-            my $magic_packet = 
-                chr(0xFF) x 6 .
-                (pack('H12', $macaddress) x 16);
-            my $sinbroadcast = sockaddr_in("9", inet_aton("255.255.255.255"));
-            $logger->debug(
-                "Send magic packet to $macaddress in UDP mode (degraded wol)"
-            );
-            send(SOCKET, $magic_packet, 0, $sinbroadcast);
-        } else {
-            $logger->debug("Impossible to send magic packet...");
-        }
-    }
+    };
+
+    return unless $EVAL_ERROR;
+
+    # degraded WOL by UDP
+    eval {
+        socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'));
+        my $magic_packet = 
+            chr(0xFF) x 6 .
+            (pack('H12', $macaddress) x 16);
+        my $sinbroadcast = sockaddr_in("9", inet_aton("255.255.255.255"));
+        $logger->debug(
+            "Send magic packet to $macaddress in UDP mode (degraded wol)"
+        );
+        send(SOCKET, $magic_packet, 0, $sinbroadcast);
+    };
+
+    return unless $EVAL_ERROR;
+
+    $logger->debug("Impossible to send magic packet...");
 
     # For Windows, I don't know, just test
     # See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx
