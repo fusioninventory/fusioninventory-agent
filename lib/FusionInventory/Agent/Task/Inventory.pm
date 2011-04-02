@@ -141,14 +141,7 @@ sub initModList {
     my $storage = $self->{storage};
 
     my @modules = __PACKAGE__->getModules();
-
-    if (!@modules) {
-        $logger->info(
-            "ZERO backend module found! Is FusionInventory-Agent correctly " .
-            "installed? Use the --devlib flag if you want to run the agent " .
-            "directly from the source directory."
-        )
-    }
+    die "no inventory module found" if !@modules;
 
     # First all the module are flagged as 'OK'
     foreach my $m (@modules) {
