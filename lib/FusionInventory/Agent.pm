@@ -360,7 +360,7 @@ sub getStatus {
 sub getAvailableTasks {
     my ($self) = @_;
 
-    my @tasks;
+    my %tasks;
 
     # tasks may be dispatched in every directory referenced in @INC
     foreach my $directory (@INC) {
@@ -374,8 +374,12 @@ sub getAvailableTasks {
             my $module = file2module($1);
 
             # check module
+            # todo: use a child process when running as a server to save memory
             next unless $module->require();
             next unless $module->isa('FusionInventory::Agent::Task');
+
+            # only the first seen will be loaded
+            next if defined $tasks{$module};
             
             # retrieve version
             my $version;
@@ -384,18 +388,11 @@ sub getAvailableTasks {
                 $version = ${$module . '::VERSION'};
             }
 
-            # todo:
-            # - use a child process when running as a server to save memory
-            # - sort result to only return the latest version
-
-            push @tasks, {
-                package => $module,
-                version => $version
-            };
+            $tasks{$module} = $version;
         }
     }
 
-    return @tasks;
+    return %tasks;
 }
 
 1;
@@ -433,15 +430,9 @@ Get the current agent status.
 
 =head2 getAvailableTasks()
 
-Get all available tasks, as a list of hashrefs:
+Get all available tasks, as a list of module / version pairs:
 
-@list = (
-    {
-        package => 'FusionInventory::Agent::Task::Foo',
-        version => x
-    },
-    {
-        package => 'FusionInventory::Agent::Task::Bar',
-        version => y
-    },
+%tasks = (
+    'FusionInventory::Agent::Task::Foo' => x,
+    'FusionInventory::Agent::Task::Bar' => y,
 );
