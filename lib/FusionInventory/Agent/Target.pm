@@ -212,9 +212,6 @@ sub setCurrentDeviceID {
 }
 
 1;
-
-1;
-
 __END__
 
 =head1 NAME
@@ -260,6 +257,18 @@ Get nextRunDate attribute.
 =head2 setNextRunDate($nextRunDate)
 
 Set nextRunDate attribute.
+
+=head2 resetNextRunDate()
+
+Set nextRunDate attribute to 1.
+
+=head2 setPrologFreq($prologFreq)
+
+Set prologFreq attribute.
+
+=head2 setCurrentDeviceID($currentDeviceID)
+
+Set currentDeviceID attribute.
 
 =head2 getStorage()
 
