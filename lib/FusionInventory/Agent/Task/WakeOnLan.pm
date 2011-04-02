@@ -35,13 +35,6 @@ sub main {
         return;
     }
 
-    $self->StartMachine();
-}
-
-
-sub StartMachine {
-    my ($self, $params) = @_;
-
     my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
     my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
 
