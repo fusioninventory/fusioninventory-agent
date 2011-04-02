@@ -137,10 +137,9 @@ sub new {
 
         $logger->debug("Time to call Proc::Daemon");
 
-        my $cwd = getcwd();
-        eval { require Proc::Daemon; };
+        Proc::Daemon->require();
         if ($EVAL_ERROR) {
-            print "Can't load Proc::Daemon. Is the module installed?";
+            $logger->error("Can't load Proc::Daemon. Is the module installed?");
             exit 1;
         }
         Proc::Daemon::Init();
