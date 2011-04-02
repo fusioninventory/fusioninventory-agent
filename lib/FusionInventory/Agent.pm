@@ -58,27 +58,26 @@ sub new {
 
     my $hostname = _getHostname();
 
-    # $rootStorage save/read data in 'basevardir', not in a target directory!
-    my $rootStorage = FusionInventory::Agent::Storage->new({
+    my $storage = FusionInventory::Agent::Storage->new({
         logger    => $logger,
         directory => $self->{vardir}
     });
-    my $myRootData = $rootStorage->restore();
+    my $data = $storage->restore();
 
     if (
-        !defined($myRootData->{previousHostname}) ||
-        $myRootData->{previousHostname} ne $hostname
+        !defined($data->{previousHostname}) ||
+        $data->{previousHostname} ne $hostname
     ) {
         my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
             (time))[5,4,3,2,1,0];
         $self->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
         $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
 
-        $myRootData->{previousHostname} = $hostname;
-        $myRootData->{deviceid} = $self->{deviceid};
-        $rootStorage->save({ data => $myRootData });
+        $data->{previousHostname} = $hostname;
+        $data->{deviceid} = $self->{deviceid};
+        $storage->save({ data => $data });
     } else {
-        $self->{deviceid} = $myRootData->{deviceid}
+        $self->{deviceid} = $data->{deviceid}
     }
 
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
