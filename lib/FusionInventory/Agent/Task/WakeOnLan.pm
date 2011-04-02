@@ -39,8 +39,6 @@ sub main {
 
     my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
 
-    my $logger = $self->{logger};
-
     return unless defined $macaddress;
 
     if ($macaddress !~ /^$mac_address_pattern$/) {
@@ -61,7 +59,7 @@ sub main {
             next unless $line =~ /(\S+) \s+ Link \s \S+ \s+ HWaddr \s (\S+)/x;
             my $netName = $1;
             my $netMac = $2;
-            $logger->debug(
+            $self->{logger}->debug(
                 "Send magic packet to $macaddress directly on card driver"
             );
             $netMac =~ s/://g;
@@ -88,7 +86,7 @@ sub main {
             chr(0xFF) x 6 .
             (pack('H12', $macaddress) x 16);
         my $sinbroadcast = sockaddr_in("9", inet_aton("255.255.255.255"));
-        $logger->debug(
+        $self->{logger}->debug(
             "Send magic packet to $macaddress in UDP mode (degraded wol)"
         );
         send(SOCKET, $magic_packet, 0, $sinbroadcast);
@@ -96,7 +94,7 @@ sub main {
 
     return unless $EVAL_ERROR;
 
-    $logger->debug("Impossible to send magic packet...");
+    $self->{logger}->debug("Impossible to send magic packet...");
 
     # For Windows, I don't know, just test
     # See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx
