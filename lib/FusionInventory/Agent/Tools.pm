@@ -9,8 +9,6 @@ use File::Basename;
 use File::Spec;
 use File::stat;
 use Memoize;
-use Sys::Hostname;
-
 our @EXPORT = qw(
     getSubnetAddress
     getSubnetAddressIPv6
@@ -29,7 +27,6 @@ our @EXPORT = qw(
     getFirstMatch
     getAllLines
     getLinesCount
-    getHostname
     compareVersion
     can_run
     can_read
@@ -474,33 +471,6 @@ sub can_load {
     return $module->require();
 }
 
-sub getHostname {
-
-    # use hostname directly under Unix
-    return hostname() if $OSNAME ne 'MSWin32';
-
-    # otherwise, use Win32 API
-    eval {
-        require Encode;
-        require Win32::API;
-        Encode->import();
-
-        my $getComputerName = Win32::API->new(
-            "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
-        );
-        my $lpBuffer = "\x00" x 1024;
-        my $N = 1024; #pack ("c4", 160,0,0,0);
-
-        $getComputerName->Call(3, $lpBuffer, $N);
-
-        # GetComputerNameExW returns the string in UTF16, we have to change
-        # it to UTF8
-        return encode(
-            "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
-        );
-    };
-}
-
 # shamelessly imported from List::MoreUtils to avoid a dependency
 sub any (&@) { ## no critic (SubroutinePrototypes)
     my $f = shift;
@@ -707,10 +677,6 @@ Returns the subnet address for IPv4.
 =head2 getSubnetAddressIPv6($address, $mask)
 
 Returns the subnet address for IPv6.
-
-=head2 getHostname()
-
-Returns host name, using hostname() under Unix, Win32::API under Windows.
 
 =head2 can_run($binary)
 
