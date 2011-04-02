@@ -149,10 +149,6 @@ sub new {
             $logger->debug("An agent is already runnnig, exiting...");
             exit 1;
         }
-        # If we are in dev mode, we want to stay in the source directory to
-        # be able to access the 'lib' directory
-        chdir $cwd if $config->{devlib};
-
     }
 
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
