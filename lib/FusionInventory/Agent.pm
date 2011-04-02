@@ -56,28 +56,7 @@ sub new {
     $logger->debug("Data directory: $self->{datadir}");
     $logger->debug("Storage directory: $self->{vardir}");
 
-    #my $hostname = Encode::from_to(hostname(), "cp1251", "UTF-8");
-    my $hostname;
-  
-
-    if ($OSNAME eq 'MSWin32') {
-        eval '
-use Encode;
-use Win32::API;
-
-	my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
-"N");
-my $lpBuffer = "\x00" x 1024;
-my $N=1024;#pack ("c4", 160,0,0,0);
-
-my $return = $GetComputerName->Call(3, $lpBuffer,$N);
-
-# GetComputerNameExW returns the string in UTF16, we have to change it
-# to UTF8
-$hostname = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));';
-    } else {
-        $hostname = hostname();
-    }
+    my $hostname = _getHostname();
 
     # $rootStorage save/read data in 'basevardir', not in a target directory!
     my $rootStorage = FusionInventory::Agent::Storage->new({
@@ -218,6 +197,33 @@ sub _isAlreadyRunning {
     }
 
     return 0;
+}
+
+sub _getHostname {
+
+    # use hostname directly under Unix
+    return hostname() if $OSNAME ne 'MSWin32';
+
+    # otherwise, use Win32 API
+    eval {
+        require Encode;
+        require Win32::API;
+        Encode->import();
+
+        my $getComputerName = Win32::API->new(
+            "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
+        );
+        my $lpBuffer = "\x00" x 1024;
+        my $N = 1024; #pack ("c4", 160,0,0,0);
+
+        $getComputerName->Call(3, $lpBuffer, $N);
+
+        # GetComputerNameExW returns the string in UTF16, we have to change
+        # it to UTF8
+        return encode(
+            "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
+        );
+    };
 }
 
 sub main {
