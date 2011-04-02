@@ -11,7 +11,7 @@ use constant SOCK_PACKET => 10;
 use English qw(-no_match_vars);
 use Socket;
 
-our $VERSION = '2.2.0';
+our $VERSION = '1.0';
 
 sub main {
     my ($self) = @_;

@@ -12,7 +12,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Inventory;
 
-our $VERSION = '2.2.0';
+our $VERSION = '1.0';
 
 sub main {
     my ($self) = @_;

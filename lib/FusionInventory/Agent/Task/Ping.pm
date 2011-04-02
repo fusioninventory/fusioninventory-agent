@@ -7,7 +7,7 @@ use base 'FusionInventory::Agent::Task';
 use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 
-our $VERSION = '2.2.0';
+our $VERSION = '1.0';
 
 sub main {
     my ($self) = @_;
