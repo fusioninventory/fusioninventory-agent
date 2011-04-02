@@ -19,6 +19,8 @@ use Win32::TieRegistry (
 
 Win32::OLE->Option(CP => 'CP_UTF8');
 
+use FusionInventory::Agent::Tools;
+
 my $localCodepage;
 
 our @EXPORT = qw(
@@ -31,16 +33,10 @@ our @EXPORT = qw(
 );
 
 sub is64bit {
-    my $ret;
-    foreach my $Properties (getWmiProperties('Win32_Processor', qw/
-        AddressWidth
-    /)) {
-        if ($Properties->{AddressWidth} eq 64) {
-            $ret = 1;
-        }
-    }
 
-    return $ret; 
+    return
+        any { $_->{AddressWidth} eq 64 } 
+        getWmiProperties('Win32_Processor', qw/AddressWidth/);
 }
 
 # We don't need to encode to UTF-8 on Win7
