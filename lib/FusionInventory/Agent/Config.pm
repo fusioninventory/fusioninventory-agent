@@ -49,25 +49,24 @@ sub new {
 
     my $self = {};
     bless $self, $class;
-    $self->loadDefaults();
+    $self->_loadDefaults();
 
     if ($OSNAME eq 'MSWin32') {
-        $self->loadFromWinRegistry();
+        $self->_loadFromWinRegistry();
     } else {
-        $self->loadFromCfgFile({
+        $self->_loadFromCfgFile({
             file      => $params->{options}->{'conf-file'},
             directory => $params->{confdir},
         });
     }
-    $self->loadUserParams($params->{options});
+    $self->_loadUserParams($params->{options});
 
-    $self->checkContent();
-
+    $self->_checkContent();
 
     return $self;
 }
 
-sub loadDefaults {
+sub _loadDefaults {
     my ($self) = @_;
 
     foreach my $key (keys %$default) {
@@ -75,7 +74,7 @@ sub loadDefaults {
     }
 }
 
-sub loadFromWinRegistry {
+sub _loadFromWinRegistry {
     my ($self) = @_;
 
     eval {
@@ -107,7 +106,7 @@ sub loadFromWinRegistry {
     }
 }
 
-sub loadFromCfgFile {
+sub _loadFromCfgFile {
     my ($self, $params) = @_;
 
     my $file = $params->{file} ?
@@ -141,7 +140,7 @@ sub loadFromCfgFile {
     close $handle;
 }
 
-sub loadUserParams {
+sub _loadUserParams {
     my ($self, $params) = @_;
 
     foreach my $key (keys %$params) {
@@ -149,7 +148,7 @@ sub loadUserParams {
     }
 }
 
-sub checkContent {
+sub _checkContent {
     my ($self) = @_;
 
     # check for deprecated options
@@ -194,5 +193,19 @@ sub checkContent {
         File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
 }
 
-
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Config - Agent configuration
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to store its configuration.
+
+=head1 METHODS
+
+=head2 new($params)
+
+The constructor. All configuration parameters can be passed.
