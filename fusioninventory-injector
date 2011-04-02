@@ -74,28 +74,28 @@ sub sendContent {
     $request->content(compress($content));
     my $res = $ua->request($request);
 
-    if($res->is_success){
-      print "OK\n" if $options{verbose};
-      print STDERR "Can't remove $options{file}: $ERRNO\n"
+    if ($res->is_success()) {
+        print "OK\n" if $options{verbose};
+        print STDERR "Can't remove $options{file}: $ERRNO\n"
             if ($options{remove} && (!unlink $options{file}));
-    }else{
-        if ($options{verbose}){
-	 		 print "ERROR: ";
-	 		 print $res->status_line(), "\n";
-			}
-                    }
+    } else {
+        if ($options{verbose}) {
+            print "ERROR: ";
+            print $res->status_line(), "\n";
+        }
+    }
 }
 
 GetOptions(
-  \%options,
-  'help|h',
-  'directory|d=s',
-  'file|f=s',
-  'url|u=s',
-  'useragent=s',
-  'remove|r',
-  'verbose|v',
-  'stdin',
+    \%options,
+    'help|h',
+    'directory|d=s',
+    'file|f=s',
+    'url|u=s',
+    'useragent=s',
+    'remove|r',
+    'verbose|v',
+    'stdin',
 );
 
 $OUTPUT_AUTOFLUSH = 1;
