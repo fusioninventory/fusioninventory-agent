@@ -11,6 +11,8 @@ use constant SOCK_PACKET => 10;
 use English qw(-no_match_vars);
 use Socket;
 
+use FusionInventory::Agent::Regexp;
+
 our $VERSION = '1.0';
 
 sub main {
@@ -41,10 +43,8 @@ sub main {
 
     return unless defined $macaddress;
 
-    my $byte = '[0-9A-F]{2}';
-    if ($macaddress !~ /^$byte:$byte:$byte:$byte:$byte:$byte$/i) {
-        $self->{logger}->debug("Invalid MacAddress $macaddress . Exiting...");
-        return;
+    if ($macaddress !~ /^$mac_address_pattern$/) {
+        die "invalid MAC address $macaddress, exiting";
     }
     $macaddress =~ s/://g;
 
