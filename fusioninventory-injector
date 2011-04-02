@@ -13,6 +13,7 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use Compress::Zlib;
 use Fcntl qw/:flock/;
 use Getopt::Long;
@@ -36,11 +37,11 @@ sub loadfile {
 
     print "Loading $file..." if $verbose;
 
-    open (my $fh, '<', $file) or die "can't open file $file: $!";
-    flock ($fh, LOCK_EX | LOCK_NB) or die "can't lock file $file: $!";
-    local $/;
+    open (my $fh, '<', $file) or die "can't open file $file: $ERRNO";
+    flock ($fh, LOCK_EX | LOCK_NB) or die "can't lock file $file: $ERRNO";
+    local $RS;
     my $content = <$fh>;
-    close $fh or die "Can't close file $file: $!";
+    close $fh or die "Can't close file $file: $ERRNO";
 
     sendContent($content);
 }
@@ -50,7 +51,7 @@ sub loaddirectory {
 
     die "can't read directory $directory" unless -r $directory;
 
-    opendir (my $dh, $directory) or die "can't open directory $directory: $!";
+    opendir (my $dh, $directory) or die "can't open directory $directory: $ERRNO";
     foreach ( readdir($dh) ) {
         loadfile("$directory/$_") if (/\.ocs$/);
     }
@@ -59,7 +60,7 @@ sub loaddirectory {
 
 sub loadstdin {
     my $content;
-    undef $/;
+    undef $RS;
     $content = <STDIN>;
     sendContent($content);
 }
@@ -82,7 +83,7 @@ sub sendContent {
 
     if($res->is_success){
       print "OK\n" if $verbose;
-      print STDERR "Can't remove $file: $!\n"
+      print STDERR "Can't remove $file: $ERRNO\n"
 	      if ($remove && (!unlink $file));
     }else{
     	if($verbose){
@@ -107,7 +108,7 @@ GetOptions(
 $useragent     = 'FusionInventory-Injector' unless $useragent;
 ###
 
-$|=1;
+$OUTPUT_AUTOFLUSH = 1;
 pod2usage() if $help;
 
 if ($file) {
