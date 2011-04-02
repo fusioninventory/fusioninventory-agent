@@ -4,16 +4,30 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-use English qw(-no_match_vars);
-use File::stat;
-use Memoize;
-use Time::Local;
+use constant KEY_WOW64_64 => 0x100;
+use constant KEY_WOW64_32 => 0x200;
 
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Win32; # getWmiProperties
+use Encode;
+use English qw(-no_match_vars);
+use Win32::OLE qw(in CP_UTF8);
+use Win32::OLE::Const;
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
+
+Win32::OLE->Option(CP => 'CP_UTF8');
+
+my $localCodepage;
 
 our @EXPORT = qw(
     is64bit
+    getWmiProperties
+    encodeFromWmi
+    encodeFromRegistry
+    KEY_WOW64_64
+    KEY_WOW64_32
 );
 
 sub is64bit {
@@ -27,6 +41,58 @@ sub is64bit {
     }
 
     return $ret; 
+}
+
+# We don't need to encode to UTF-8 on Win7
+sub encodeFromWmi {
+    my ($string) = @_;
+
+    return $string;
+}
+
+sub encodeFromRegistry {
+    my ($string) = @_;
+
+    return unless $string;
+
+    if (!$localCodepage) {
+        my $lmachine = $Registry->Open('LMachine', {
+            Access => KEY_READ
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
+        my $codepage =
+            $lmachine->{"SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage"}
+            or warn;
+
+            $localCodepage = "cp".$codepage->{ACP};
+    }
+
+    return encode("UTF-8", decode($localCodepage, $string));
+}
+
+sub getWmiProperties {
+    my $wmiClass = shift;
+    my @keys = @_;
+
+    my $WMIServices = Win32::OLE->GetObject(
+        "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
+
+    if (!$WMIServices) {
+        print STDERR Win32::OLE->LastError();
+    }
+
+    my @properties;
+    foreach my $value (Win32::OLE::in(
+        $WMIServices->InstancesOf($wmiClass)
+    )) {
+    my $property;
+        foreach my $key (@keys) {
+            $property->{$key} = encodeFromWmi($value->{$key});
+        }
+        push @properties, $property;
+    }
+
+    return @properties;
 }
 
 1;
@@ -45,3 +111,15 @@ This module provides some Windows-specific generic functions.
 =head2 is64bit()
 
 Returns true if the OS is 64bit or false.
+
+=head2 getWmiProperties($class, @properties)
+
+Returns the list of given properties from given WMI class, properly encoded.
+
+=head2 encodeFromWmi($string)
+
+Ensure given WMI content is properly encoded to utf-8.
+
+=head2 encodeFromRegistry($string)
+
+Ensure given registry content is properly encoded to utf-8.
