@@ -36,15 +36,13 @@ sub loadfile {
 
     print "Loading $file..." if $verbose;
 
-    open(FILE, $file) or die "can't open file $file : $!";
-    flock(FILE, LOCK_EX | LOCK_NB) or die "can't lock file $file: $!";
-
+    open (my $fh, '<', $file) or die "can't open file $file: $!";
+    flock ($fh, LOCK_EX | LOCK_NB) or die "can't lock file $file: $!";
     local $/;
-    my $content = <FILE>;
-    close FILE or die "can't close file $file: $!";
-    
-    sendContent($content);
+    my $content = <$fh>;
+    close $fh or die "Can't close file $file: $!";
 
+    sendContent($content);
 }
 
 sub loaddirectory {
@@ -52,12 +50,11 @@ sub loaddirectory {
 
     die "can't read directory $directory" unless -r $directory;
 
-    opendir( DIR, $directory ) or die "can't open directory $directory: $!";
-    foreach ( readdir(DIR) ) {
+    opendir (my $dh, $directory) or die "can't open directory $directory: $!";
+    foreach ( readdir($dh) ) {
         loadfile("$directory/$_") if (/\.ocs$/);
-	}
-	closedir DIR;
-
+    }
+    closedir $dh;
 }
 
 sub loadstdin {
