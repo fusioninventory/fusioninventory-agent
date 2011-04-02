@@ -1,0 +1,5 @@
+Filesystem 1024-blocks Used Available Capacity Mounted on
+/dev/wd0a 15475632 11034480 3667376 75% /
+kernfs 1 1 0 100% /kern
+ptyfs 1 1 0 100% /dev/pts
+procfs 4 4 0 100% /proc

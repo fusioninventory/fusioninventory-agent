@@ -1,0 +1,6 @@
+Filesystem            kbytes    used   avail capacity  Mounted on
+/dev/vx/dsk/bootdg/rootvol 16525754 5423501 10936996    34%    /
+/devices                   0       0       0     0%    /devices
+ctfs                       0       0       0     0%    /system/contract
+proc                       0       0       0     0%    /proc
+mnttab                     0       0       0     0%    /etc/mnttab
