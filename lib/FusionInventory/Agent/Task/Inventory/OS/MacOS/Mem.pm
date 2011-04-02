@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 my %speedMatrice = (
     mhz => 1,
     ghz => 1000,

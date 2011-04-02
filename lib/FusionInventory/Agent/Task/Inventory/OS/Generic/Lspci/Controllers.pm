@@ -2,6 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 # Retrieve information from the pciid file
 sub getInfoFromPciIds {
     my ($params) = @_;

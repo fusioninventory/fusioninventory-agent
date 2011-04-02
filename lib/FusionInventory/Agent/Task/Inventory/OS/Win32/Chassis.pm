@@ -3,8 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Chassis;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use Win32::OLE qw(in);
+
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 my @chassisType = (
         'Unknown',

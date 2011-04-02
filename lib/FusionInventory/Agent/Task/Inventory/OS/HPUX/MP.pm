@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::MP;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 #TODO driver pcislot virtualdev
 
 sub isInventoryEnabled {

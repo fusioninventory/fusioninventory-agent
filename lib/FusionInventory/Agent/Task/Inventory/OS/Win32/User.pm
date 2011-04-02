@@ -15,6 +15,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 sub isInventoryEnabled {

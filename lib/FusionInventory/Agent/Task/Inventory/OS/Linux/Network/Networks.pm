@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)");
 

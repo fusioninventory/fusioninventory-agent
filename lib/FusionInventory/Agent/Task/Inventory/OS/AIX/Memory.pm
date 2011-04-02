@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Memory;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { 1 } # TODO create a better check here
 
 sub doInventory {

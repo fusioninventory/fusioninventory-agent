@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 
 # Tested on 2.6.* kernels

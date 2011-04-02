@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Sgimips;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled{
     my $arch;
     chomp($arch=`sysctl -n hw.machine`);

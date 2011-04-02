@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 # Had never been tested.
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 sub isInventoryEnabled {

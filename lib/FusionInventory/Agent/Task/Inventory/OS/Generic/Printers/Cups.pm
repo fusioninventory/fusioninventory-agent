@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Printers::Cups;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     # If we are on a MAC, Mac::SysProfile will do the job
     return if -r '/usr/sbin/system_profiler';

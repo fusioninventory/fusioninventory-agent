@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::IPv4;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     my @ifconfig = `ifconfig -a 2>/dev/null`;
     return 1 if @ifconfig;

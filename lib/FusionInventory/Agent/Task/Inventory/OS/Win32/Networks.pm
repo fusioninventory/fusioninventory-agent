@@ -1,7 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Networks;
 
-
 use strict;
+
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
  
@@ -10,6 +10,7 @@ Win32::OLE-> Option(CP=>CP_UTF8);
 
 use Win32::OLE::Enum;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 # http://techtasks.com/code/viewbookcode/1417

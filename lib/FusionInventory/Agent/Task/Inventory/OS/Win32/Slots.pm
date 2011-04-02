@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 # Had never been tested. There is no slot on my virtal machine.
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 sub isInventoryEnabled {

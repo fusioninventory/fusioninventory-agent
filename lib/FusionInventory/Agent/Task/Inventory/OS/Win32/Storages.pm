@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Storages;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 sub isInventoryEnabled {

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Drives;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 # yea BSD theft!!!!
 # would have used Mac::SysProfile, but the xml isn't quite fully supported
 # the drives come back in apple xml tree's, and the module can't handle it yet (soon as I find the time to fix the patch)

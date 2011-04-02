@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Uptime;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     my $boottime = `sysctl -n kern.boottime 2>/dev/null`;
     return 1 if $boottime;

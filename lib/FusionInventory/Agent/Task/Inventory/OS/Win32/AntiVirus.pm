@@ -9,6 +9,7 @@ use Win32;
 use Win32::OLE('in');
 use Win32::OLE::Variant;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 sub doInventory {

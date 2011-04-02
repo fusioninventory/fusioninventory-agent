@@ -13,8 +13,8 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 # the CPU description in WMI is false, we use the registry instead
 # Hardware\Description\System\CentralProcessor\1

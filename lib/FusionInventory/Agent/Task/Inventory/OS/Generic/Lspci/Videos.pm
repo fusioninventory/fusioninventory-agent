@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 0 if $OSNAME eq 'MSWin32';
     return 0 if $OSNAME eq 'linux';

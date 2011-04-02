@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::IPv4;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 # straight up theft from the other modules
 
 sub isInventoryEnabled {

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Mem;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { 	
     `which sysctl 2>&1`;
     return 0 if($? >> 8);

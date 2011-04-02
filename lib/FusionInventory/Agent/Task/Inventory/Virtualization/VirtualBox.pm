@@ -9,6 +9,8 @@ use English qw(-no_match_vars);
 use File::Glob qw(:glob);
 use XML::TreePP;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return
         can_run('VBoxManage');

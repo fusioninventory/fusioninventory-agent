@@ -5,6 +5,8 @@ use warnings;
 
 use constant DATATYPE => 'SPPrintersDataType';
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return(undef) unless -r '/usr/sbin/system_profiler';
     return(undef) unless can_load("Mac::SysProfile");

@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 my @hives = qw/
     HKEY_CLASSES_ROOT
     HKEY_CURRENT_USER

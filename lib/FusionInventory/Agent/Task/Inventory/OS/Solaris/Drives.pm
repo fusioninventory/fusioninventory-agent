@@ -9,6 +9,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Drives;
 
 
 use strict;
+
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { can_run ("df") }
 
 sub doInventory {

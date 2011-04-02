@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 #processor       : 0
 #cpu             : POWER4+ (gq)
 #clock           : 1452.000000MHz

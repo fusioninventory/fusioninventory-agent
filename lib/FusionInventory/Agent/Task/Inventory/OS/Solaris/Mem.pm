@@ -2,6 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Mem;
 
 use strict;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { can_run ("swap") && can_run ("prtconf") }
 
 sub doInventory {

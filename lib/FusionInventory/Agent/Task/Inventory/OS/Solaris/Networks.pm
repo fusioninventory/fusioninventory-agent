@@ -14,6 +14,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks;
 
 use strict;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     can_run("ifconfig") && can_run("netstat") && can_load ("Net::IP qw(:PROC)")
 }

@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 my @files = (
     [ '/etc/arch-release'      => 'ArchLinux %s' ],
     [ '/etc/debian_version'    => 'Debian GNU/Linux %s' ],

@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Domains;
+
 use strict;
+
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { can_run ("domainname") }
 

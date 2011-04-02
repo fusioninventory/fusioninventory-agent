@@ -2,9 +2,11 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Printers;
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
 my @status = (
     'Unknown', # 0 is not defined

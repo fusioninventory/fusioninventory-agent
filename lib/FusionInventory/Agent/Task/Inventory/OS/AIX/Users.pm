@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Users;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
 # Useless check for a posix system i guess
     my @who = `who 2>/dev/null`;

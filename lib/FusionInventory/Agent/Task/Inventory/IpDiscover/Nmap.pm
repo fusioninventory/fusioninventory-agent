@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::IpDiscover::Nmap;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::IpDiscover::IpDiscover"];
 
 sub isInventoryEnabled {

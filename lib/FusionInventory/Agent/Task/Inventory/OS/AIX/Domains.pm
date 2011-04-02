@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Domains;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 use English qw(-no_match_vars);
 
 sub doInventory {

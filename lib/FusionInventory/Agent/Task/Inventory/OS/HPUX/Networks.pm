@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 #TODO Get driver pcislot virtualdev
 
 sub isInventoryEnabled {

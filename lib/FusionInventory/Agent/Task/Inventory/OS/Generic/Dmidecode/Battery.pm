@@ -2,6 +2,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub parseDate {
     my $string = shift;
 

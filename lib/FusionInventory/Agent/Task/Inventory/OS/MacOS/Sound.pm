@@ -5,6 +5,8 @@ use warnings;
 
 use constant DATATYPE   => 'SPAudioDataType'; # may need to fix to work with older versions of osx
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
     return(undef) unless can_load("Mac::SysProfile"); # check perms

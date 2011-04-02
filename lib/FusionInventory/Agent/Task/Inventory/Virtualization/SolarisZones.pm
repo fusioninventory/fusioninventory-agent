@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled { 
     return unless can_run('zoneadm'); 
     return unless check_solaris_valid_release('/etc/release');

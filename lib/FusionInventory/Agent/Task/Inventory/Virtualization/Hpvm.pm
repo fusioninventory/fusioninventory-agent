@@ -6,6 +6,8 @@ use warnings;
 use English qw(-no_match_vars);
 use XML::TreePP;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return can_run('hpvmstatus');
 }

@@ -7,6 +7,8 @@ use Sys::Hostname;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 # straight up theft from the other modules...
 
 sub isInventoryEnabled {1}

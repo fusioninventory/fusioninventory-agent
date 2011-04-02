@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
+
 our $runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 
 sub isInventoryEnabled  { return $OSNAME eq 'hpux'; }

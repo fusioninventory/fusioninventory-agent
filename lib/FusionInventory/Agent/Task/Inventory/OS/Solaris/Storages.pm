@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Storages;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 #sd0      Soft Errors: 0 Hard Errors: 0 Transport Errors: 0
 #Vendor: HITACHI  Product: DK32EJ72NSUN72G  Revision: PQ08 Serial No: 43W14Z080040A34E
 #Size: 73.40GB <73400057856 bytes>

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::USB;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 #          {
 #            'IOGeneralInterest' => 'IOCommand is not serializable',
 #            'USB Address' => '3',

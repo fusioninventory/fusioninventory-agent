@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Controller;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
 	return unless can_run('lsdev');
 	my @lsdev = `lsdev -Cc adapter -F 'name:type:description'`;	
