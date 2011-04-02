@@ -14,12 +14,10 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Compress::Zlib;
 use Fcntl qw/:flock/;
 use Getopt::Long;
 use LWP::UserAgent;
 use Pod::Usage;
-use XML::Simple;
 
 my %options = (
     useragent => 'FusionInventory-Injector'
