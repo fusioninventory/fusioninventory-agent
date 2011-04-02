@@ -32,20 +32,16 @@ my $stdin;
 sub loadfile {
     $file = shift;
 
-    unless ( -r $file ) {
-        print STDERR "Can't read $file\n";
-        return;
-    }
+    die "can't read file $file" unless -r $file;
+
     print "Loading $file..." if $verbose;
 
-    unless ( open( FILE, "$file" ) && flock( FILE, LOCK_EX | LOCK_NB ) ) {
-        print STDERR "Failed to access $file : $!";
-        return;
-    }
+    open(FILE, $file) or die "can't open file $file : $!";
+    flock(FILE, LOCK_EX | LOCK_NB) or die "can't lock file $file: $!";
 
     local $/;
     my $content = <FILE>;
-    close FILE or die "Can't close file $file: $!";
+    close FILE or die "can't close file $file: $!";
     
     sendContent($content);
 
@@ -54,12 +50,9 @@ sub loadfile {
 sub loaddirectory {
     my $directory = shift;
 
-    unless ( -r $directory ) {
-        print STDERR "Can't read $directory: $!\n";
-        return;
-    }
+    die "can't read directory $directory" unless -r $directory;
 
-    opendir( DIR, $directory ) || die "can't opendir $directory: $!";
+    opendir( DIR, $directory ) or die "can't open directory $directory: $!";
     foreach ( readdir(DIR) ) {
         loadfile("$directory/$_") if (/\.ocs$/);
 	}
@@ -120,12 +113,13 @@ $useragent     = 'FusionInventory-Injector' unless $useragent;
 $|=1;
 pod2usage() if $help;
 
-if ($file && -f $file) {
+if ($file) {
+    die "file $file does not exist" unless -f $file;
     loadfile($file);
 } elsif ($stdin) {
     loadstdin();
 } elsif ($directory) {
-   die("Directory does not exist. Abort.") unless -d $directory;
+    die "directory $directory does not exist" unless -d $directory;
    loaddirectory($directory);
 } else {
     pod2usage();
