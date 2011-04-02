@@ -186,25 +186,6 @@ sub initModList {
             }
         }
 
-        if ($package->{check}) {
-            $logger->error(
-                "$m: check() function is deprecated, please rename it to ".
-                "isInventoryEnabled()"
-            );
-        }
-        if ($package->{run}) {
-            $logger->error(
-                "$m: run() function is deprecated, please rename it to ".
-                "doInventory()"
-            );
-        }
-        if ($package->{longRun}) {
-            $logger->error(
-                "$m: longRun() function is deprecated, please rename it to ".
-                "postInventory()"
-            );
-        }
-
         $self->{modules}->{$m}->{name} = $m;
         $self->{modules}->{$m}->{done} = 0;
         $self->{modules}->{$m}->{inUse} = 0;
