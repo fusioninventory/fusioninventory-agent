@@ -36,7 +36,6 @@ sub main {
     }
 
     my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
-    my $ip         = $self->{WAKEONLAN}->{PARAM}->[0]->{IP};
 
     my $logger = $self->{logger};
 
