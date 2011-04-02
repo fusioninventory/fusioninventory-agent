@@ -60,3 +60,12 @@ sub main {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::Ping - Ping task for FusionInventory 
+
+=head1 DESCRIPTION
+
+This task just send a simple message to the server.

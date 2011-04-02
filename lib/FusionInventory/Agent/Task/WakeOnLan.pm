@@ -101,3 +101,13 @@ sub main {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::WakeOnLan - Wake-on-lan task for FusionInventory 
+
+=head1 DESCRIPTION
+
+This task send a wake-on-lan packet to another host on the same network as the
+agent host.
