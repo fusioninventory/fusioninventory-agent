@@ -290,7 +290,7 @@ sub main {
 
                 my $package = "FusionInventory::Agent::Task::$module";
                 if (!$package->require()) {
-                    $logger->info("Module $package is not installed.");
+                    $logger->info("task $module is not available");
                     next;
                 }
 
