@@ -60,6 +60,7 @@ sub main {
         );
     }
 
+    $self->_initModulesList();
     $self->_feedInventory();
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
@@ -323,15 +324,7 @@ sub _feedInventory {
 
     my $logger = $self->{logger};
 
-    if (!$self->{inventory}) {
-        die 'Missing inventory parameter.';
-    }
-
     my $inventory = $self->{inventory};
-
-    if (!keys %{$self->{modules}}) {
-        $self->_initModulesList();
-    }
 
     my $begin = time();
     foreach my $m (sort keys %{$self->{modules}}) {
