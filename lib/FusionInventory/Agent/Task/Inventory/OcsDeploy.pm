@@ -5,6 +5,10 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
 
     my $params = shift;

@@ -7,4 +7,8 @@ use FusionInventory::Agent::Tools;
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt"];
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 1;

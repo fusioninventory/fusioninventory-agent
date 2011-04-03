@@ -7,7 +7,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInvwentoryEnabled {
+sub isInventoryEnabled {
 # We use WMI for Windows because of charset issue
     return $OSNAME ne 'MSWin32';
 }

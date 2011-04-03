@@ -5,6 +5,10 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 # Initialise the DeviceID. In fact this value is a bit specific since
 # it generates in the main script.
 sub doInventory {
