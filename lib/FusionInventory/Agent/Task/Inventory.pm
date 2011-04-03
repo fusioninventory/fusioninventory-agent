@@ -267,47 +267,43 @@ sub initModList {
     }
 }
 
-sub runMod {
-    my ($self, $params) = @_;
+sub _runModule {
+    my ($self, $module) = @_;
 
     my $logger = $self->{logger};
 
-    my $m = $params->{modname};
+    return if (!$self->{modules}->{$module}->{inventoryFuncEnable});
+    return if ($self->{modules}->{$module}->{done});
 
-    return if (!$self->{modules}->{$m}->{inventoryFuncEnable});
-    return if ($self->{modules}->{$m}->{done});
-
-    $self->{modules}->{$m}->{inUse} = 1; # lock the module
+    $self->{modules}->{$module}->{inUse} = 1; # lock the module
     # first I run its "runAfter"
 
-    foreach (@{$self->{modules}->{$m}->{runAfter}}) {
+    foreach (@{$self->{modules}->{$module}->{runAfter}}) {
         if (!$_->{name}) {
             # The name is defined during module initialisation so if I
             # can't read it, I can suppose it had not been initialised.
             die
-                "Module `$m' need to be runAfter a module not found.".
+                "Module `$module' need to be runAfter a module not found.".
                 "Please fix its runAfter entry or add the module.";
         }
 
         if ($_->{inUse}) {
             # In use 'lock' is taken during the mod execution. If a module
             # need a module also in use, we have provable an issue :).
-            die "Circular dependency hell with $m and $_->{name}";
+            die "Circular dependency hell with $module and $_->{name}";
         }
-        $self->runMod({
-            modname => $_->{name},
-        });
+        $self->_runModule($_->{name});
     }
 
-    $logger->debug ("Running $m");
+    $logger->debug ("Running $module");
 
-    if ($self->{modules}->{$m}->{doInventoryFunc}) {
-        $self->runWithTimeout($m, "doInventory");
+    if ($self->{modules}->{$module}->{doInventoryFunc}) {
+        $self->runWithTimeout($module, "doInventory");
 #  } else {
 #      $logger->debug("$m has no doInventory() function -> ignored");
     }
-    $self->{modules}->{$m}->{done} = 1;
-    $self->{modules}->{$m}->{inUse} = 0; # unlock the module
+    $self->{modules}->{$module}->{done} = 1;
+    $self->{modules}->{$module}->{inUse} = 0; # unlock the module
 }
 
 sub feedInventory {
@@ -328,9 +324,7 @@ sub feedInventory {
     my $begin = time();
     foreach my $m (sort keys %{$self->{modules}}) {
         die ">$m Houston!!!" unless $m;
-        $self->runMod ({
-            modname => $m,
-        });
+        $self->_runModule($m);
     }
 
     # Execution time
