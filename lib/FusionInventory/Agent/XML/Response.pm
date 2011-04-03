@@ -40,7 +40,7 @@ sub getOptionsInfoByName {
 
     foreach my $option (@{$self->{content}->{OPTION}}) {
         next unless $option->{NAME} eq $name;
-        return $option->{PARAM}->[0];
+        return $option;
     }
 
     return;

@@ -214,7 +214,7 @@ foreach my $test (keys %tests) {
         foreach my $option (@$options) {
             is_deeply(
                 $message->getOptionsInfoByName($option->{NAME}),
-                $option->{PARAM}->[0],
+                $option,
                 "$test option $option->{NAME}"
             );
         }
