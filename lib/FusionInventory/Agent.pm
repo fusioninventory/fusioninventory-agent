@@ -229,9 +229,10 @@ sub main {
     my $scheduler = $self->{scheduler};
     $self->{status} = 'waiting';
 
-    eval {
-        while (my $target = $scheduler->getNextTarget()) {
+    my $status = 0;
 
+    while (my $target = $scheduler->getNextTarget()) {
+        eval {
             my $prologresp;
             my $transmitter;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
@@ -330,12 +331,14 @@ sub main {
             $self->{status} = 'waiting';
 
             $target->setNextRunDate();
+        };
+        if ($EVAL_ERROR) {
+            $logger->fault($EVAL_ERROR);
+            $status++;
         }
-    };
-    if ($EVAL_ERROR) {
-        $logger->fault($EVAL_ERROR);
-        exit 1;
     }
+
+    exit $status;
 }
 
 sub getToken {
