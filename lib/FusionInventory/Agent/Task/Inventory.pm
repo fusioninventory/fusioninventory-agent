@@ -144,134 +144,70 @@ sub _initModulesList {
     my @modules = __PACKAGE__->getModules();
     die "no inventory module found" if !@modules;
 
-    # First all the module are flagged as 'OK'
-    foreach my $m (@modules) {
-        $self->{modules}->{$m}->{inventoryFuncEnable} = 1;
-    }
+    # first pass: compute all relevant modules
+    foreach my $module (sort @modules) {
+        # compute parent module:
+        my @components = split('::', $module);
+        my $parent = @components > 5 ?
+            join('::', @components[0 .. $#components -1]) : '';
 
-    foreach my $m (@modules) {
-        my @runAfter;
-        my @runMeIfTheseChecksFailed;
-        my $enable = 1;
-
-        if (!$self->{modules}->{$m}->{inventoryFuncEnable}) {
-            next;
-        }
-        if (exists ($self->{modules}->{$m}->{name})) {
-            $logger->debug($m." already loaded.");
+        # skip if parent is not allowed
+        if ($parent && !$self->{modules}->{$parent}->{enabled}) {
+            $logger->debug("  $module disabled: implicit dependency $parent not enabled");
+            $self->{modules}->{$module}->{enabled} = 0;
             next;
         }
 
-        my $package = $m."::";
-
-        $m->require();
+        $module->require();
         if ($EVAL_ERROR) {
-            $logger->debug ("Failed to load $m: $EVAL_ERROR");
-            $enable = 0;
+            $logger->debug("module $module disabled: failure to load ($EVAL_ERROR)");
+            $self->{modules}->{$module}->{enabled} = 0;
             next;
         }
 
-        # required to use a string as a HASH reference
-        no strict 'refs'; ## no critic
-
-        if ($package->{isInventoryEnabled}) {
-            $self->{modules}->{$m}->{isInventoryEnabledFunc} =
-                $package->{isInventoryEnabled};
-            $enable = $self->_runFunction({
-                module   => $m,
-                function => "isInventoryEnabled",
-                timeout  => $config->{'backend-collect-timeout'}
-            });
-        }
-        if (!$enable) {
-            $logger->debug ($m." ignored");
-            foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
-                    if /^$m($|::)/;
-            }
-        }
-
-        $self->{modules}->{$m}->{name} = $m;
-        $self->{modules}->{$m}->{done} = 0;
-        $self->{modules}->{$m}->{inUse} = 0;
-        $self->{modules}->{$m}->{inventoryFuncEnable} = $enable;
-
-        if (!$enable) {
-            $logger->debug ($m." ignored");
-            foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
-                    if /^$m($|::)/;
-            }
-            next;
-        }
-
-        # TODO add a isPostInventoryEnabled() function to know if we need to run
-        # the postInventory() function.
-        # Is that really needed?
-        $self->{modules}->{$m}->{postInventoryFuncEnable} = 1;#$enable;
-
-        $self->{modules}->{$m}->{runAfter} = $package->{runAfter};
-        $self->{modules}->{$m}->{runMeIfTheseChecksFailed} =
-            $package->{runMeIfTheseChecksFailed};
-        $self->{modules}->{$m}->{doInventoryFunc} = $package->{doInventory};
-        $self->{modules}->{$m}->{doPostInventoryFunc} =
-            $package->{doPostInventory};
-        $self->{modules}->{$m}->{mem} = {}; # Deprecated
-        $self->{modules}->{$m}->{rpcCfg} = $package->{rpcCfg};
-        # Load the Storable object is existing or return undef
-        $self->{modules}->{$m}->{storage} = $storage;
-
-    }
-
-    # the sort is just for the presentation
-    foreach my $m (sort keys %{$self->{modules}}) {
-        next unless $self->{modules}->{$m}->{isInventoryEnabledFunc};
-        # find modules to disable and their submodules
-
-        next unless $self->{modules}->{$m}->{inventoryFuncEnable};
-
-        my $enable = $self->_runFunction({
-            module   => $m,
+        my $enabled = $self->_runFunction({
+            module   => $module,
             function => "isInventoryEnabled",
             timeout  => $config->{'backend-collect-timeout'}
         });
-
-        if (!$enable) {
-            $logger->debug ($m." ignored");
-            foreach (keys %{$self->{modules}}) {
-                $self->{modules}->{$_}->{inventoryFuncEnable} = 0
-                    if /^$m($|::)/;
-            }
+        if (!$enabled) {
+            $logger->debug("module $module disabled");
+            $self->{modules}->{$module}->{enabled} = 0;
+            next;
         }
 
-        # add submodule in the runAfter array
-        my $t;
-        foreach (split /::/,$m) {
-            $t .= "::" if $t;
-            $t .= $_;
-            if (exists $self->{modules}->{$t} && $m ne $t) {
-                push
-                    @{$self->{modules}->{$m}->{runAfter}},
-                    \%{$self->{modules}->{$t}}
-            }
-        }
+        $self->{modules}->{$module}->{enabled} = 1;
+        $self->{modules}->{$module}->{done}    = 0;
+        $self->{modules}->{$module}->{used}    = 0;
+
+        no strict 'refs'; ## no critic
+        $self->{modules}->{$module}->{runAfter} = [ 
+            $parent ? $parent : (),
+            ${$module . '::runAfter'} ? @${$module . '::runAfter'} : ()
+        ];
     }
 
-    # Remove the runMeIfTheseChecksFailed if needed
-    foreach my $m (sort keys %{$self->{modules}}) {
-        next unless $self->{modules}->{$m}->{inventoryFuncEnable};
-        next unless $self->{modules}->{$m}->{runMeIfTheseChecksFailed};
-        foreach my $condmod (@{${$self->{modules}->{$m}->{runMeIfTheseChecksFailed}}}) {
-            if ($self->{modules}->{$condmod}->{inventoryFuncEnable}) {
-                foreach (keys %{$self->{modules}}) {
-                    next unless /^$m($|::)/ && $self->{modules}->{$_}->{inventoryFuncEnable};
-                    $self->{modules}->{$_}->{inventoryFuncEnable} = 0;
-                    $logger->debug(
-                        "$_ disabled because of a 'runMeIfTheseChecksFailed' " .
-                        "in '$m'"
-                    );
-                }
+    # second pass: disable fallback modules
+    foreach my $module (@modules) {
+        no strict 'refs'; ## no critic
+
+        next unless ${$module . '::runMeIfTheseChecksFailed'};
+
+        my $failed;
+
+        foreach my $other_module (@${$module . '::runMeIfTheseChecksFailed'}) {
+            if ($self->{modules}->{$other_module}->{enabled}) {
+                $failed = $other_module;
+                last;
             }
+        }
+
+        if ($failed) {
+            $self->{modules}->{$module}->{enabled} = 1;
+            $logger->debug("module $module enabled: $failed failed");
+        } else {
+            $self->{modules}->{$module}->{enabled} = 0;
+            $logger->debug("module $module disabled: no depended module failed");
         }
     }
 }
@@ -281,42 +217,33 @@ sub _runModule {
 
     my $logger = $self->{logger};
 
-    return if (!$self->{modules}->{$module}->{inventoryFuncEnable});
-    return if ($self->{modules}->{$module}->{done});
+    return if $self->{modules}->{$module}->{done};
 
-    $self->{modules}->{$module}->{inUse} = 1; # lock the module
-    # first I run its "runAfter"
+    $self->{modules}->{$module}->{used} = 1; # lock the module
 
-    foreach (@{$self->{modules}->{$module}->{runAfter}}) {
-        if (!$_->{name}) {
-            # The name is defined during module initialisation so if I
-            # can't read it, I can suppose it had not been initialised.
-            die
-                "Module `$module' need to be runAfter a module not found.".
-                "Please fix its runAfter entry or add the module.";
-        }
+    # ensure all needed modules have been executed first
+    foreach my $other_module (@{$self->{modules}->{$module}->{runAfter}}) {
+        die "module $other_module, needed before $module, not found"
+            if !$self->{modules}->{$other_module};
 
-        if ($_->{inUse}) {
-            # In use 'lock' is taken during the mod execution. If a module
-            # need a module also in use, we have provable an issue :).
-            die "Circular dependency hell with $module and $_->{name}";
-        }
-        $self->_runModule($_->{name});
+        die "module $other_module, needed before $module, not enabled"
+            if !$self->{modules}->{$other_module}->{enabled};
+
+        die "circular dependency between $module and $other_module"
+            if $self->{modules}->{$other_module}->{used};
+
+        $self->_runModule($other_module);
     }
 
     $logger->debug ("Running $module");
 
-    if ($self->{modules}->{$module}->{doInventoryFunc}) {
-        $self->_runFunction({
-            module   => $module,
-            function => "doInventory",
-            timeout  => $self->{config}->{'backend-collect-timeout'}
-        });
-#  } else {
-#      $logger->debug("$m has no doInventory() function -> ignored");
-    }
+    $self->_runFunction({
+        module   => $module,
+        function => "doInventory",
+        timeout  => $self->{config}->{'backend-collect-timeout'}
+    });
     $self->{modules}->{$module}->{done} = 1;
-    $self->{modules}->{$module}->{inUse} = 0; # unlock the module
+    $self->{modules}->{$module}->{used} = 0; # unlock the module
 }
 
 sub _feedInventory {
@@ -327,9 +254,12 @@ sub _feedInventory {
     my $inventory = $self->{inventory};
 
     my $begin = time();
-    foreach my $m (sort keys %{$self->{modules}}) {
-        die ">$m Houston!!!" unless $m;
-        $self->_runModule($m);
+    my @modules =
+        grep { $self->{modules}->{$_}->{enabled} }
+        keys %{$self->{modules}};
+
+    foreach my $module (sort @modules) {
+        $self->_runModule($module);
     }
 
     # Execution time
