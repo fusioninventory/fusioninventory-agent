@@ -9,18 +9,24 @@ sub isInventoryEnabled {
     return can_run('who');
 }
 
-# Initialise the distro entry
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my ($params) = @_;
 
-    my %user;
-    # Logged on users
-    for(`who`){
-        my $user;
-        $user = $1 if /^(\S+)./;
-        $inventory->addUser ({ LOGIN => $user });
+    my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
+
+    my $handle = getFileHandle(
+        logger  => $logger,
+        command => 'who'
+    );
+
+    return unless $handle;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)/;
+        $inventory->addUser({ LOGIN => $1 });
     }
+    close $handle;
 
 }
 
