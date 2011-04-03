@@ -176,7 +176,11 @@ sub initModList {
         if ($package->{isInventoryEnabled}) {
             $self->{modules}->{$m}->{isInventoryEnabledFunc} =
                 $package->{isInventoryEnabled};
-            $enable = $self->runWithTimeout($m, "isInventoryEnabled");
+            $enable = $self->_runFunction({
+                module   => $m,
+                function => "isInventoryEnabled",
+                timeout  => $config->{'backend-collect-timeout'}
+            });
         }
         if (!$enable) {
             $logger->debug ($m." ignored");
@@ -225,7 +229,11 @@ sub initModList {
 
         next unless $self->{modules}->{$m}->{inventoryFuncEnable};
 
-        my $enable = $self->runWithTimeout($m, "isInventoryEnabled");
+        my $enable = $self->_runFunction({
+            module   => $m,
+            function => "isInventoryEnabled",
+            timeout  => $config->{'backend-collect-timeout'}
+        });
 
         if (!$enable) {
             $logger->debug ($m." ignored");
@@ -298,7 +306,11 @@ sub _runModule {
     $logger->debug ("Running $module");
 
     if ($self->{modules}->{$module}->{doInventoryFunc}) {
-        $self->runWithTimeout($module, "doInventory");
+        $self->_runFunction({
+            module   => $module,
+            function => "doInventory",
+            timeout  => $self->{config}->{'backend-collect-timeout'}
+        });
 #  } else {
 #      $logger->debug("$m has no doInventory() function -> ignored");
     }
@@ -335,25 +347,22 @@ sub feedInventory {
     $inventory->checkContent();
 }
 
-sub runWithTimeout {
-    my ($self, $m, $funcName, $timeout) = @_;
+sub _runFunction {
+    my ($self, $params) = @_;
 
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
+    my $module   = $params->{module};
+    my $function = $params->{function};
+    my $logger   = $self->{logger};
 
-    my $ret;
+    my $result;
     
-    if (!$timeout) {
-        $timeout = $self->{config}{'backend-collect-timeout'};
-    }
-
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $timeout;
+        alarm $params->{timeout} if $params->{timeout};
 
-        my $func = $self->{modules}->{$m}->{$funcName."Func"};
+        no strict 'refs'; ## no critic
 
-        $ret = &{$func}({
+        $result = &{$module . '::' . $function}({
             accountconfig => $self->{accountconfig},
             accountinfo => $self->{accountinfo},
             config => $self->{config},
@@ -366,22 +375,20 @@ sub runWithTimeout {
             # We continue to pass params->{params}
             params => $self->{params},
             prologresp => $self->{prologresp},
-            storage => $storage
+            storage => $self->{storage}
         });
     };
     alarm 0;
-    my $evalRet = $EVAL_ERROR;
 
-    if ($evalRet) {
+    if ($EVAL_ERROR) {
         if ($EVAL_ERROR ne "alarm\n") {
-            $logger->debug("runWithTimeout(): unexpected error: $EVAL_ERROR");
+            $logger->debug("_runFunction(): unexpected error: $EVAL_ERROR");
         } else {
-            $logger->debug("$m killed by a timeout.");
-            return;
+            $logger->debug("$module killed by a timeout.");
         }
-    } else {
-        return $ret;
     }
+
+    return $result;
 }
 
 1;
