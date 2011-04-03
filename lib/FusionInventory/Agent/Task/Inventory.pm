@@ -60,7 +60,7 @@ sub main {
         );
     }
 
-    $self->feedInventory();
+    $self->_feedInventory();
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
         print $inventory->getContent();
@@ -133,7 +133,7 @@ sub main {
 
 }
 
-sub initModList {
+sub _initModulesList {
     my $self = shift;
 
     my $logger = $self->{logger};
@@ -318,7 +318,7 @@ sub _runModule {
     $self->{modules}->{$module}->{inUse} = 0; # unlock the module
 }
 
-sub feedInventory {
+sub _feedInventory {
     my ($self, $params) = @_;
 
     my $logger = $self->{logger};
@@ -330,7 +330,7 @@ sub feedInventory {
     my $inventory = $self->{inventory};
 
     if (!keys %{$self->{modules}}) {
-        $self->initModList();
+        $self->_initModulesList();
     }
 
     my $begin = time();
