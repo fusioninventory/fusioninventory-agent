@@ -53,19 +53,10 @@ my %tests = (
                         COMMUNITY      => 'public',
                         PRIVPASSPHRASE => ''
                     },
-                    {
-                        ID             => '2',
-                        AUTHPROTOCOL   => '',
-                        PRIVPROTOCOL   => '',
-                        USERNAME       => '',
-                        AUTHPASSPHRASE => '',
-                        VERSION        => '2c',
-                        COMMUNITY      => 'public',
-                        PRIVPASSPHRASE => ''
-                    }
                 ],
                 NAME => 'SNMPQUERY',
-                MODEL => {
+                MODEL => [
+                    {
                     ID   => '196',
                     NAME => '4675719',
                     WALK => [
@@ -126,7 +117,8 @@ my %tests = (
                             OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
                         }
                     ]
-                },
+                    }
+                ],
                 DEVICE => {
                     ID           => '72',
                     IP           => '192.168.0.151',
@@ -170,12 +162,14 @@ my %tests = (
                         PRIVPASSPHRASE => ''
                     }
                 ],
-                RANGEIP => {
-                    ID      => '1',
-                    ENTITY  => '15',
-                    IPSTART => '192.168.0.1',
-                    IPEND   => '192.168.0.254'
-                },
+                RANGEIP => [
+                    {
+                        ID      => '1',
+                        ENTITY  => '15',
+                        IPSTART => '192.168.0.1',
+                        IPEND   => '192.168.0.254'
+                    },
+                ],
                 NAME => 'NETDISCOVERY',
                 PARAM => [
                     {

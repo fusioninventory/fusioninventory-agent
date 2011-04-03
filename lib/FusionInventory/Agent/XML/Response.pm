@@ -10,7 +10,7 @@ sub new {
     my ($class, $params) = @_;
 
     my $tpp = XML::TreePP->new(
-        force_array   => [ qw/OPTION PARAM/ ],
+        force_array   => [ qw/OPTION PARAM MODEL AUTHENTICATION RANGEIP/ ],
         attr_prefix   => '',
         text_node_key => 'content'
     );
