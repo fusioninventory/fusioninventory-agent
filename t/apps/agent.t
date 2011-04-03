@@ -7,7 +7,9 @@ use English qw(-no_match_vars);
 use IPC::Run qw(run);
 use XML::TreePP;
 
-use Test::More tests => 9;
+use FusionInventory::Agent::Tools;
+
+use Test::More tests => 13;
 
 my ($out, $err, $rc);
 
@@ -38,6 +40,30 @@ like(
     'no target stderr'
 );
 is($out, '', 'no target stdin');
+
+$ENV{FOO} = 'bar';
+($out, $err, $rc) = run_agent(
+    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery"
+);
+ok($rc == 0, 'exit status');
+
+my $content = XML::TreePP->new()->parse($out);
+ok($content, 'output is valid XML');
+
+like(
+    $out,
+    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
+    'output has correct encoding'
+);
+
+ok(
+    (any
+        { $_->{KEY} eq 'FOO' && $_->{VAL} eq 'bar' } 
+        @{$content->{REQUEST}->{CONTENT}->{ENVS}}
+    ),
+    'output has expected environment variable'
+);
+
 
 sub run_agent {
     my ($args) = @_;
