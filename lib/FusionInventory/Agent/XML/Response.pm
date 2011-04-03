@@ -36,11 +36,9 @@ sub getParsedContent {
 sub getOptionsInfoByName {
     my ($self, $name) = @_;
 
-    my $parsedContent = $self->getParsedContent();
+    return unless $self->{content}->{OPTION};
 
-    return unless $parsedContent && $parsedContent->{OPTION};
-
-    foreach my $option (@{$parsedContent->{OPTION}}) {
+    foreach my $option (@{$self->{content}->{OPTION}}) {
         next unless $option->{NAME} eq $name;
         return $option->{PARAM}->[0];
     }
