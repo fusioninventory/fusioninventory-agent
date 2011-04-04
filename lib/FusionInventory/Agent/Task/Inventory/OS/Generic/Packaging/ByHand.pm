@@ -18,48 +18,41 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
-    my $confdir = $params->{confdir};
-    my $ligne;
-    my $soft;
-    my $comm;
-    my $version;
-    my $file;
-    my $vendor;
-    my $commentaire;
-    my @dots;
+    my $logger    = $params->{logger};
+    my $directory = $params->{confdir} . '/softwares';
 
-    $file = $confdir . '/softwares';
+    return unless -d $directory;
 
-    return unless -f $file;
+    my $handle = getDirectoryHandle(
+        directory => $directory, logger => $logger
+    );
+    return unless $handle;
 
-    my $logger = $params->{logger};
-
-    if (opendir my $handle, $file) {
-        @dots = readdir($handle);
-        foreach (@dots) { 
-            if ( -f $file."/".$_ ) {
-                $comm = $file."/".$_;
-                $logger->debug("Running appli detection scripts from ".$comm);
-                foreach (`$comm`) {
-                    $ligne = $_;
-                    chomp($ligne);
-                    ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
-                    $inventory->addSoftware ({
-                        'PUBLISHER' => $vendor,
-                        'NAME'          => $soft,
-                        'VERSION'       => $version,
-                        'FILESIZE'      => "",
-                        'COMMENTS'      => $commentaire,
-                        'FROM'          => 'ByHand'
-                    });
-                }	
+    my @dots = readdir($handle);
+    foreach (@dots) {
+        if (-f $directory."/".$_ ) {
+            my $comm = $directory."/".$_;
+            $logger->debug("Running appli detection scripts from ".$comm);
+            foreach (`$comm`) {
+                my $ligne = $_;
+                chomp($ligne);
+                my ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
+                $inventory->addSoftware ({
+                    'PUBLISHER' => $vendor,
+                    'NAME'          => $soft,
+                    'VERSION'       => $version,
+                    'FILESIZE'      => "",
+                    'COMMENTS'      => $commentaire,
+                    'FROM'          => 'ByHand'
+                });
             }
-        }	  	
-
-        closedir $handle;
+        }
     }
-    1;
+
+    closedir $handle;
 }
+
 1;
