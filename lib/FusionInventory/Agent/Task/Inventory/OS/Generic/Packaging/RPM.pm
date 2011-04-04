@@ -6,40 +6,54 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return unless can_run("rpm");
-
-    # Some time rpm is a wrapper or an alias for another
-    `rpm --version 2>&1`;
-    return if ($? >> 8)!=0;
-    1;
+    return can_run('rpm');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my ($params) = @_;
 
-    my @list;
-    my $buff;
-    foreach (`rpm -qa --queryformat "%{NAME}.%{ARCH} %{VERSION}-%{RELEASE} --%{INSTALLTIME:date}-- --%{SIZE}-- --%{VENDOR}-- %{SUMMARY}\n--\n" 2>/dev/null`) {
-        if (! /^--/) {
-            chomp;
-            $buff .= $_;
-        } elsif ($buff =~ s/^(\S+)\s+(\S+)\s+--(.*)--\s+--(.*)--\s+--(.*)--\s+(.*)//) {
-            $inventory->addSoftware({
-                'NAME'          => $1,
-                'VERSION'       => $2,
-                'INSTALLDATE'   => $3,
-                'FILESIZE'      => $4,
-                'PUBLISHER'     => $5,
-                'COMMENTS'      => $6,
-                'FROM'          => 'rpm'
-            });
-        } else {
-            $logger->debug("Should never go here!");
-            $buff = '';
-        }
+    my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
+
+    my $command =
+        'rpm -qa --queryformat \'' .
+        '%{NAME}\t' .
+        '%{VERSION}-%{RELEASE}\t' .
+        '%{INSTALLTIME:date}\t' .
+        '%{SIZE}\t' .
+        '%{VENDOR}\t' .
+        '%{SUMMARY}\n' . 
+        '\'';
+
+    my $packages = _getPackagesListFromRpm(
+        logger => $logger, command => $command
+    );
+    foreach my $package (@$packages) {
+        $inventory->addSoftware($package);
     }
+}
+
+sub _getPackagesListFromRpm {
+    my $handle = getFileHandle(@_);
+
+    my @packages;
+    while (my $line = <$handle>) {
+        chomp $line;
+        my @infos = split("\t", $line);
+        push @packages, {
+            NAME        => $infos[0],
+            VERSION     => $infos[1],
+            INSTALLDATE => $infos[2],
+            FILESIZE    => $infos[3],
+            PUBLISHER   => $infos[4],
+            COMMENTS    => $infos[5],
+            FROM        => 'rpm'
+        };
+    }
+
+    close $handle;
+
+    return \@packages;
 }
 
 1;
