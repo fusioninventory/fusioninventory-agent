@@ -154,15 +154,6 @@ sub getInfosFromDmidecode {
         @_
     );
 
-    if ($OSNAME eq 'MSWin32') {
-        my @osver;
-        eval 'use Win32; @osver = Win32::GetOSVersion();';
-        my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
-# We get some strange breakage on Win2003. For the moment
-# we don't use dmidecode on this OS.
-        return if $isWin2003;
-    }
-
     my $handle = getFileHandle(%params);
 
     my ($info, $block, $type);
