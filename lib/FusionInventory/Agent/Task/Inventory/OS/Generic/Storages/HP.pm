@@ -15,7 +15,7 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 #
 # HP Array Configuration Utility CLI 7.85-18.0
 
-sub getHpacuacliFromWinRegistry {
+sub _getHpacuacliFromWinRegistry {
     my ($logger) = @_;
 
     my $Registry;
@@ -31,10 +31,11 @@ sub getHpacuacliFromWinRegistry {
 
     my $machKey;
     {
-        no strict;
+        # Win32-specifics constants can not be loaded on non-Windows OS
+        no strict 'subs'; ## no critics
         my $machKey = $Registry->Open('LMachine', {
-                Access=> Win32::TieRegistry::KEY_READ
-            } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+            Access => Win32::TieRegistry::KEY_READ
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
     }
 
     my $uninstallValues =
@@ -45,71 +46,74 @@ sub getHpacuacliFromWinRegistry {
     return unless $uninstallString;
 
     return unless $uninstallString =~ /(.*\\)hpuninst\.exe/;
-    my $hpacuacliPath = $1.'bin\\hpacucli.exe';
+    my $hpacuacliPath = $1 . 'bin\\hpacucli.exe';
     return unless -f $hpacuacliPath;
 
     return $hpacuacliPath;
 }
 
 sub isInventoryEnabled {
-
-    my $ret;
-
-    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry();
-# Do we have hpacucli ?
-    if ($hpacuacliPath) {
-        foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
-            if (/.*Slot\s(\d*).*/) {
-                $ret = 1;
-                last;
-            }
-        }
-    }
-    return $ret;
-
+    return
+        can_run('hpacucli') ||
+        _getHpacuacliFromWinRegistry();
 }
 
 sub doInventory {
+    my ($params) = @_;
 
-
-    my $params = shift;
     my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $logger    = $params->{logger};
 
     my ($pd, $serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
 
-    my $hpacuacliPath = can_run("hpacucli")?"hpacucli":getHpacuacliFromWinRegistry($logger);
-    foreach (`"$hpacuacliPath" ctrl all show 2> /dev/null`) {
+    my $hpacuacliPath = can_run('hpacucli') ?
+        "hpacucli":
+        _getHpacuacliFromWinRegistry($logger);
+
+    my $handle1 = getFileHandle(
+        logger => $logger,
+        command => "$hpacuacliPath ctrl all show"
+    );
+
+    return unless $handle1;
 
 # Example output :
 #    
 # Smart Array E200 in Slot 2    (sn: PA6C90K9SUH1ZA)
+    while (my $line1 = <$handle1>) {
+        next unless $line1 =~ /Slot\s(\d*)/;
 
-        if (/.*Slot\s(\d*).*/) {
-
-            my $slot = $1;
-
-            foreach (`"$hpacuacliPath" ctrl slot=$slot pd all show 2> /dev/null`) {
+        my $slot = $1;
+        my $handle2 = getFileHandle(
+            logger => $logger,
+            command => "$hpacuacliPath ctrl slot=$slot pd all show"
+        );
+        next unless $handle2;
 
 # Example output :
-                #
+#
 # Smart Array E200 in Slot 2
-                #
+#
 #   array A
-                #
+#
 #      physicaldrive 2I:1:1 (port 2I:box 1:bay 1, SATA, 74.3 GB, OK)
 #      physicaldrive 2I:1:2 (port 2I:box 1:bay 2, SATA, 74.3 GB, OK)
+        while (my $line2 = <$handle2>) {
+            next unless $line2 =~ /physicaldrive\s(\S*)/;
 
-                if (/.*physicaldrive\s(\S*)/) {
-                    my $pd = $1;
-                    foreach (`"$hpacuacliPath" ctrl slot=$slot pd $pd show 2> /dev/null`) {
+            my $pd = $1;
+            my $handle3 = getFileHandle(
+                logger => $logger,
+                command => "$hpacuacliPath ctrl slot=$slot pd $pd show"
+            );
+            next unless $handle3;
 
 # Example output :
 #  
 # Smart Array E200 in Slot 2
-                        #
+#
 #   array A
-                        #
+#
 #      physicaldrive 1:1
 #         Port: 2I
 #         Box: 1
@@ -123,38 +127,37 @@ sub doInventory {
 #         Model: ATA     WDC WD740ADFD-00
 #         SATA NCQ Capable: False
 #         PHY Count: 1        
-
-                        $model = $1 if /.*Model:\s(.*)/;
-                        $description = $1 if /.*Interface Type:\s(.*)/;
-                        $media = $1 if /.*Drive Type:\s(.*)/;
-                        $capacity = 1000*$1 if /.*Size:\s(.*)/;
-                        $serialnumber = $1 if /.*Serial Number:\s(.*)/;
-                        $firmware = $1 if /.*Firmware Revision:\s(.*)/;
-                    }
-                    $serialnumber =~ s/^\s+//;
-                    $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
-                    $model =~ s/\s+/ /;
-                    $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
-                    if ($media eq 'Data Drive') {
-                        $media = 'disk';
-                    }
-
-                    $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
-
-                    $inventory->addStorages({
-                            NAME => $model,
-                            MANUFACTURER => $manufacturer,
-                            MODEL => $model,
-                            DESCRIPTION => $description,
-                            TYPE => $media,
-                            DISKSIZE => $capacity,
-                            SERIALNUMBER => $serialnumber,
-                            FIRMWARE => $firmware
-                        }); 
-                }
+            while (my $line3 = <$handle3>) {
+                $model = $1 if $line3 =~ /Model:\s(.*)/;
+                $description = $1 if $line3 =~ /Interface Type:\s(.*)/;
+                $media = $1 if $line3 =~ /Drive Type:\s(.*)/;
+                $capacity = 1000*$1 if $line3 =~ /Size:\s(.*)/;
+                $serialnumber = $1 if $line3 =~ /Serial Number:\s(.*)/;
+                $firmware = $1 if $line3 =~ /Firmware Revision:\s(.*)/;
             }
+            close $handle3;
+            $serialnumber =~ s/^\s+//;
+            $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
+            $model =~ s/\s+/ /;
+            $manufacturer = getCanonicalManufacturer($model);
+            if ($media eq 'Data Drive') {
+                $media = 'disk';
+            }
+
+            $inventory->addStorages({
+                NAME => $model,
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => $description,
+                TYPE => $media,
+                DISKSIZE => $capacity,
+                SERIALNUMBER => $serialnumber,
+                FIRMWARE => $firmware
+            }); 
         }
+        close $handle2;
     }
+    close $handle1;
 }
 
 1;
