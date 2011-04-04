@@ -6,22 +6,41 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("equery");
+    return can_run('equery');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my ($params) = @_;
 
-# TODO: This had been rewrite from the Linux agent _WITHOUT_ being checked!
-    foreach (`equery list -i`){
-        if (/^(.*)-([0-9]+.*)/) {
-            $inventory->addSoftware({
-                'NAME'          => $1,
-                'VERSION'       => $2,
-            });
-        }
+    my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
+
+    my $command = 'equery list -i';
+
+    my $packages = _getPackagesListFromEquery(
+        logger => $logger, command => $command
+    );
+
+    foreach my $package (@$packages) {
+        $inventory->addSoftware($package);
     }
+}
+
+sub _getPackagesListFromEquery {
+    my $handle = getFileHandle(@_);
+
+    my @packages;
+    while (my $line = <$handle>) {
+        chomp $line;
+        next unless $line =~ /^(.*)-([0-9]+.*)/;
+        push @packages, {
+            NAME    => $1,
+            VERSION => $2,
+        };
+    }
+    close $handle;
+
+    return \@packages;
 }
 
 1;
