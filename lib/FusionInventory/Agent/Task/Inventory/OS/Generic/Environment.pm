@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Environement;
+package FusionInventory::Agent::Task::Inventory::OS::Generic::Environment;
 
 use English qw(-no_match_vars);
 
