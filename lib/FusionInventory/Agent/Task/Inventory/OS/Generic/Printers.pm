@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Printers::Cups;
+package FusionInventory::Agent::Task::Inventory::OS::Generic::Printers;
 
 use strict;
 use warnings;
