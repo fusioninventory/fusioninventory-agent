@@ -8,12 +8,13 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-# We use WMI for Windows because of charset issue
+    # We use WMI for Windows because of charset issue
     return $OSNAME ne 'MSWin32';
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     foreach my $key (keys %ENV) {
