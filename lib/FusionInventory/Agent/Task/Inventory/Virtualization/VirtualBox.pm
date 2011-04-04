@@ -10,6 +10,7 @@ use File::Glob qw(:glob);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return
@@ -17,185 +18,175 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $scanhomedirs = $params->{config}{'scan-homedirs'};
+    my ($params) = @_;
 
-    my $cmd_list_vms = "VBoxManage -nologo list vms";
+    my $inventory    = $params->{inventory};
+    my $logger       = $params->{logger};
+    my $scanhomedirs = $params->{config}->{'scan-homedirs'};
 
-    my ( $version ) = ( `VBoxManage --version` =~ m/^(\d\.\d).*$/ ) ;
-    if ( $version > 2.1 ) {         # detect VirtualBox version 2.2 or higher
-        $cmd_list_vms = "VBoxManage -nologo list --long vms";
+    my $version = getFirstMatch(
+        command => 'VBoxManage --version',
+        pattern =>  qr/^(\d\.\d)/
+    );
+    my $command = $version > 2.1 ?
+        "VBoxManage -nologo list --long vms" : "VBoxManage -nologo list vms";
+
+    foreach my $machine (_parseVBoxManage(logger => $logger, command => $command)) {
+        $inventory->addVirtualMachine ($machine);
     }
 
-    my $in = 0;
-    my $uuid;
-    my $mem;
-    my $status;
-    my $name;
+    # try to identify machines running under other uid
+    my %runningMachines;
+    my $pscommand = $OSNAME eq 'solaris' ?
+        'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
 
-    foreach my $line (`$cmd_list_vms`){                 # read only the information on the first paragraph of each vm
-        chomp ($line);
-        if ($in == 0 and $line =~ m/^Name:\s+(.*)$/) {      # begin
-            $name = $1;
-            $in = 1; 
-        } elsif ($in == 1 ) {
-            if ($line =~ m/^\s*$/) {                        # finish
-                $in = 0 ;
-
-                $inventory->addVirtualMachine ({
-                        NAME      => $name,
-                        VCPU      => 1,
-                        UUID      => $uuid,
-                        MEMORY    => $mem,
-                        STATUS    => $status,
-                        SUBSYSTEM => "Sun xVM VirtualBox",
-                        VMTYPE    => "VirtualBox",
-                    });
-                # useless but need it for security (new version, ...)
-                $name = $status = $mem = $uuid = 'N\A';
-
-            } elsif ($line =~ m/^UUID:\s+(.*)/) {
-                $uuid = $1;
-            } elsif ($line =~ m/^Memory size:\s+(.*)/ ) {
-                $mem = $1;
-            } elsif ($line =~ m/^State:\s+(.*)\(.*/) {
-                $status = ( $1 =~ m/off/ ? "off" : $1 );
+    foreach my $process (getProcessesFromPs(
+        logger => $logger, command => $command
+    )) {
+        next if $process->{USER} eq 'root'|| $process->{USER} == 0;
+        next unless $process->{CMD} =~ /VirtualBox (.*)/;
+        my @options = split(/\s+/, $1);
+        my ($name, $uuid);
+        foreach my $option (@options) {
+            if ($option eq '--comment') {
+                $name = shift @options;
+            } elsif ($option eq '--startvm') {
+                $uuid = shift @options;
             }
         }
-    }
 
-    if ($in == 1) {     # Anormal situation ! save the current vm information ...
-        $inventory->addVirtualMachine ({
+        if ($scanhomedirs) {
+            # the machine will get inventoried later, just
+            # register its running state
+            $runningMachines{$uuid} = 1;
+        } else {
+            # add it to the inventory immediatly
+            $inventory->addVirtualMachine({
                 NAME      => $name,
                 VCPU      => 1,
                 UUID      => $uuid,
-                MEMORY    => $mem,
+                STATUS    => "running",
+                SUBSYSTEM => "Sun xVM VirtualBox",
+                VMTYPE    => "VirtualBox",
+            });
+        }
+    }
+
+    return unless $scanhomedirs;
+
+    my $homeDir = $OSNAME eq 'darwin' ? '/Users' : '/home';
+
+    # Read every Machines Xml File of every user
+    foreach my $file (bsd_glob("$homeDir/*/.VirtualBox/Machines/*/*.xml")) {
+        # Open config file ...
+        my $tpp = XML::TreePP->new();
+        my $data = $tpp->parse($file);
+          
+        # ... and read it
+        if ($data->{Machine}->{uuid}) {
+            my $uuid = $data->{Machine}->{uuid};
+            $uuid =~ s/^{?(.{36})}?$/$1/;
+            my $status = $runningMachines{$uuid} ? 'running' : 'off';
+
+            $inventory->addVirtualMachine ({
+                NAME      => $data->{Machine}->{name},
+                VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
+                UUID      => $uuid,
+                MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
                 STATUS    => $status,
                 SUBSYSTEM => "Sun xVM VirtualBox",
                 VMTYPE    => "VirtualBox",
             });
+        }
     }
 
-    # try to found another VMs, not exectute by root
-    my @vmRunnings = ();
-    my $index = 0 ;
-#    foreach my $line ( `ps -efax` ) {
-#        chomp($line);
-#        if ( $line !~ m/^root/) {
-#            if ($line =~ m/^.*VirtualBox (.*)$/) {
-#                my @process = split (/\s*\-\-/, $1);     #separate options
-#
-#                $name = $uuid = 'N/A';
-#
-#                foreach my $option ( @process ) {
-#                    print $option."\n";
-#                    if ($option =~ m/^comment (.*)/) {
-#                        $name = $1;
-#                    } elsif ($option =~ m/^startvm (\S+)/) {
-#                        $uuid = $1;
-#                    }
-#                }
-#
-#                if ($scanhomedirs == 1 ) {    # If I will scan Home directories,
-#                    $vmRunnings [$index] = $uuid;   # save the no-root running machine
-#                    $index += 1;
-#                } else {
-#                    $inventory->addVirtualMachine ({  # add in inventory
-#                        NAME      => $name,
-#                        VCPU      => 1,
-#                        UUID      => $uuid,
-#                        STATUS    => "running",
-#                        SUBSYSTEM => "Sun xVM VirtualBox",
-#                        VMTYPE    => "VirtualBox",
-#                    });
-#                }
-#            }
-#        }
-#    }
 
-    # If home directories scan is authorized
-    if ($scanhomedirs == 1 ) {
-        my $homeDir = "/home";
 
-        if ($OSNAME eq 'darwin') {
-            $homeDir = "/Users";
-        }
+    foreach my $file (bsd_glob("$homeDir/*/.VirtualBox/VirtualBox.xml")) {
+        # Open config file ...
+        my $tpp = XML::TreePP->new();
+        my $data = $tpp->parse($file);
+        
+        # ... and read it
+        my $defaultMachineFolder =
+            $data->{Global}->{SystemProperties}->{defaultMachineFolder};
+        if (
+            $defaultMachineFolder != 0 and
+            $defaultMachineFolder != "Machines" and
+            $defaultMachineFolder =~ /^\$homeDir\/S+\/.VirtualBox\/Machines$/
+        ) {
+          
+            foreach my $file (bsd_glob($defaultMachineFolder."/*/*.xml")) {
+                my $tpp = XML::TreePP->new();
+                my $data = $tpp->parse($file);
+            
+                if ($data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
+                    my $uuid = $data->{Machine}->{uuid};
+                    $uuid =~ s/^{?(.{36})}?$/$1/;
+                    my $status = $runningMachines{$uuid} ? 'running' : 'off';
 
-        # Read every Machines Xml File of every user
-        foreach my $xmlMachine (bsd_glob("$homeDir/*/.VirtualBox/Machines/*/*.xml")) {
-            chomp($xmlMachine);
-            # Open config file ...
-            my $tpp = XML::TreePP->new();
-            my $data = $tpp->parse($xmlMachine);
-
-            # ... and read it
-            if ($data->{Machine}->{uuid}) {
-                my $uuid = $data->{Machine}->{uuid};
-                $uuid =~ s/^{?(.{36})}?$/$1/;
-                my $status = "off";
-                foreach my $vmRun (@vmRunnings) {
-                    if ($uuid eq $vmRun) {
-                        $status = "running";
-                    }
-                }
-
-                $inventory->addVirtualMachine ({
-                    NAME      => $data->{Machine}->{name},
-                    VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
-                    UUID      => $uuid,
-                    MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
-                    STATUS    => $status,
-                    SUBSYSTEM => "Sun xVM VirtualBox",
-                    VMTYPE    => "VirtualBox",
-                });
-            }
-        }
-
-        foreach my $xmlVirtualBox (bsd_glob("$homeDir/*/.VirtualBox/VirtualBox.xml")) {
-            chomp($xmlVirtualBox);
-            # Open config file ...
-            my $tpp = XML::TreePP->new();
-            my $data = $tpp->parse($xmlVirtualBox);
-
-            # ... and read it
-            my $defaultMachineFolder = $data->{Global}->{SystemProperties}->{defaultMachineFolder};
-
-            if ($defaultMachineFolder eq "Machines") {
-                $defaultMachineFolder =~ s/VirtualBox.xml/Machines/;
-            }
-
-            if ( $defaultMachineFolder =~ /^\/home\/S+\/.VirtualBox\/Machines$/ ) {
-
-                foreach my $xmlMachine (bsd_glob($defaultMachineFolder."/*/*.xml")) {
-                    my $tpp = XML::TreePP->new();
-                    my $data = $tpp->parse($xmlVirtualBox);
-
-                    if ( $data->{Machine} != 0 and $data->{Machine}->{uuid} != 0 ) {
-                        my $uuid = $data->{Machine}->{uuid};
-
-                        $uuid =~ s/^{?(.{36})}?$/$1/;
-                        my $status = "off";
-                        foreach my $vmRun (@vmRunnings) {
-                            if ($uuid eq $vmRun) {
-                                $status = "running";
-                            }
-                        }
-
-                        $inventory->addVirtualMachine ({
-                            NAME      => $data->{Machine}->{name},
-                            VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
-                            UUID      => $uuid,
-                            MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
-                            STATUS    => $status,
-                            SUBSYSTEM => "Sun xVM VirtualBox",
-                            VMTYPE    => "VirtualBox",
-                        });
-                    }
+                    $inventory->addVirtualMachine ({
+                        NAME      => $data->{Machine}->{name},
+                        VCPU      => $data->{Machine}->{Hardware}->{CPU}->{count},
+                        UUID      => $uuid,
+                        MEMORY    => $data->{Machine}->{Hardware}->{Memory}->{RAMSize},
+                        STATUS    => $status,
+                        SUBSYSTEM => "Sun xVM VirtualBox",
+                        VMTYPE    => "VirtualBox",
+                    });
                 }
             }
         }
     }
+}
+
+sub _parseVBoxManage {
+    my $handle = getFileHandle(@_);
+
+    return unless $handle;
+
+    my (@machines, $machine, $index);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ m/^Name:\s+(.*)$/) {
+            # this is a little tricky, because USB devices also have a 'name'
+            # field, so let's use the 'index' field to disambiguate
+            if (defined $index) {
+                $index = undef;
+                next;
+            }
+            if ($machine) {
+                $machine->{VCPU}      = 1;
+                $machine->{SUBSYSTEM} = 'Sun xVM VirtualBox';
+                $machine->{VMTYPE}    = 'VirtualBox';
+                push @machines, $machine;
+            }
+            $machine = {
+                NAME => $1
+            }
+        } elsif ($line =~ m/^UUID:\s+(.+)/) {
+            $machine->{UUID} = $1;
+        } elsif ($line =~ m/^Memory size:\s+(.+)/ ) {
+            $machine->{MEMORY} = $1;
+        } elsif ($line =~ m/^State:\s+(.+) \(/) {
+            $machine->{STATUS} = $1 eq 'powered off' ? 'off' : $1;
+        } elsif ($line =~ m/^Index:\s+(\d+)$/) {
+            $index = $1;
+        }
+    }
+    close $handle;
+
+    # push last remaining machine
+    if ($machine) {
+        $machine->{VCPU}      = 1;
+        $machine->{SUBSYSTEM} = 'Sun xVM VirtualBox';
+        $machine->{VMTYPE}    = 'VirtualBox';
+        push @machines, $machine;
+    }
+
+    return @machines;
 }
 
 1;

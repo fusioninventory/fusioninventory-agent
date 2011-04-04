@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::Virtuozzo;
 
 use strict;
+use warnings;
 
 use FusionInventory::Agent::Tools;
 
@@ -9,58 +10,46 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $uuid   = "";
-    my $mem    = "";
-    my $status = "";
-    my $name   = "";
-    my $subsys = "";
-    my $cpus   = 1;
+    my $handle = getFileHandle(
+        command => 'vzlist --all --no-header -o hostname,ctid,cpulimit,status,ostemplate',
+        logger  => $logger
+    );
 
-    my @command = `vzlist --all --no-header -o hostname,ctid,cpulimit,status,ostemplate`;
+    return unless $handle;
+
     # no service containers in glpi
-    shift (@command);
+    my $line = <$handle>;
 
-    foreach my $line ( @command ) {
+    while (my $line = <$handle>) {
+
         chomp $line; 
-        my @params = split(/[ \t]+/, $line);
-        $name   = $params[0];
-        $uuid   = $params[1];
-        $cpus   = $params[2];
-        $status = $params[3];
-        $subsys = $params[4];
+        my ($name, $uuid, $cpus, $status, $subsys) = split(/[ \t]+/, $line);
 
-        if(!open(CONFIG, "</etc/vz/conf/$uuid.conf")) {
-          return;
-        }
-        @params = <CONFIG>;
-        close(CONFIG);
-        @params = grep(/SLMMEMORYLIMIT/,@params);
-        $mem = pop(@params);
-        chomp $mem;
-          if ($mem =~ m/(\d+)\"$/) {
-          $mem = $1/1024/1024;
-        }
-        else {
-          # non slm config, different calculation
-          $mem = 0;
-        }
+        my $memory = getFirstMatch(
+            file    => "/etc/vz/conf/$uuid.conf",
+            pattern => qr/^SLMMEMORYLIMIT="\d+:(\d+)"$/,
+            logger  => $logger,
+        );
+        $memory = $memory / 1024 / 1024 if $memory;
  
-        my $machine = {
+        $inventory->addVirtualMachine({
             NAME      => $name,
             VCPU      => $cpus,
             UUID      => $uuid,
-            MEMORY    => $mem,
+            MEMORY    => $memory,
             STATUS    => $status,
             SUBSYSTEM => $subsys,
             VMTYPE    => "Virtuozzo",
-        };
+        });
 
-        $inventory->addVirtualMachine($machine);
     }
+
+    close $handle;
 }
 
 1;
-

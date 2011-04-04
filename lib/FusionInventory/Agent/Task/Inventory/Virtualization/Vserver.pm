@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vserver;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -12,45 +10,60 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
-    my $config = $params->{config};
+    my $logger    = $params->{logger};
+
+    foreach my $machine (_getMachines(
+        command => 'vserver-info', logger => $logger
+    )) {
+        $inventory->addVirtualMachine($machine);
+    }
+}
+
+sub _getMachines {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
     my $utilVserver;
     my $cfgDir;
-    foreach (`vserver-info 2>&1`) {
-        $cfgDir = $1 if /^\s+cfg-Directory:\s+(.*)$/;
-        $utilVserver = $1 if /^\s+util-vserver:\s+(.*)$/;
+    while (my $line = <$handle>) {
+        $cfgDir = $1 if $line =~ /^\s+cfg-Directory:\s+(.*)$/;
+        $utilVserver = $1 if $line =~ /^\s+util-vserver:\s+(.*)$/;
     }
+    close $handle;
 
     return unless -d $cfgDir;
 
-    my $handle;
-    if (!opendir $handle, $cfgDir) {
-        warn "Can't open $cfgDir: $ERRNO";
-        return;
-    }
+    $handle = getDirectoryHandle(directory => $cfgDir, logger => $params{logger});
+    return unless $handle;
 
-    my $name;
-    my $status;
-    while ($name = readdir($handle)) {
+    my @machines;
+    while (my $name = readdir($handle)) {
         next if $name =~ /^\./;
         next unless $name =~ /\S/;
-        chomp( my $statusString = `vserver "$name" status`);
-        if ($statusString =~ /is stopped/) {
-            $status = 'off';
-        } elsif ($statusString =~ /is running/) {
-            $status = 'running';
-        }
 
-        $inventory->addVirtualMachine ({
-                NAME      => $name,
-                STATUS    => $status,
-                SUBSYSTEM => $utilVserver,
-                VMTYPE    => "vserver",
-            });
+        my $line = getFirstLine(command => "vserver $name status");
+        my $status =
+            $line =~ /is stopped/ ? 'off'     :
+            $line =~ /is running/ ? 'running' :
+                                    undef     ;
+
+        my $machine = {
+            NAME      => $name,
+            STATUS    => $status,
+            SUBSYSTEM => $utilVserver,
+            VMTYPE    => "vserver",
+        };
+
+        push @machines, $machine;
     }
     close $handle;
+
+    return @machines;
 }
 
 1;

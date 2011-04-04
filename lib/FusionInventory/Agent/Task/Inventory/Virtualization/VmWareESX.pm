@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::VmWareESX;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { 
@@ -12,59 +10,72 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
+    foreach my $machine (_getMachines(
+        command => 'vmware-cmd -l', logger => $logger
+    )) {
+        $inventory->addVirtualMachine($machine);
+    }
+}
 
-    foreach my $vmx (`vmware-cmd -l`) {
-        chomp $vmx;
-        next unless -f $vmx;
+sub _getMachines {
+    my (%params) = @_;
 
-        my %machineInfo;
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
-        if (open my $handle, '<', $vmx) {
-            while (<$handle>) {
-                if (/^(\S+)\s*=\s*(\S+.*)/) {
-                    my $key = $1;
-                    my $value = $2;
-                    $value =~ s/(^"|"$)//g;
-                    $machineInfo{$key} = $value;
-                }
-            }
-            close $handle;
-        } else {
-            warn "Can't open $vmx: $ERRNO";
-        }
+    my @machines;
+    while (my $line = <$handle>) {
+        chomp $line;
+        next unless -f $line;
 
-        my $status = 'unknow';
-        if ( `vmware-cmd "$vmx" getstate` =~ /=\ (\w+)/ ) {
-            # off 
-            $status = $1;
-        }
-
-        my $memory = $machineInfo{'memsize'};
-        my $name = $machineInfo{'displayName'};
-        my $uuid = $machineInfo{'uuid.bios'};
-        
-        # correct uuid format
-        $uuid =~ s/\s+//g;	# delete space
-        $uuid =~ s!^(........)(....)(....)-(....)(.+)$!$1-$2-$3-$4-$5!; # add dashs
+        my %info = _getMachineInfo(file => $line, logger => $params{logger});
 
         my $machine = {
-
-            MEMORY => $memory,
-            NAME => $name,
-            UUID => $uuid,
-            STATUS => $status,
+            MEMORY    => $info{'memsize'},
+            NAME      => $info{'displayName'},
+            UUID      => $info{'uuid.bios'},
             SUBSYSTEM => "VmWareESX",
-            VMTYPE => "VmWare",
-
+            VMTYPE    => "VmWare",
         };
 
-        $inventory->addVirtualMachine($machine);
+        $machine->{STATUS} = getFirstMatch(
+            command => "vmware-cmd '$line' getstate",
+            logger  => $params{logger},
+            pattern => qr/= (\w+)/
+        ) || 'unknown';
 
+        # correct uuid format
+        $machine->{UUID} =~ s/\s+//g;      # delete space
+        $machine->{UUID} =~ s/^(........)(....)(....)-(....)(.+)$/$1-$2-$3-$4-$5/; # add dashs
+
+        push @machines, $machine;
 
     }
+    close $handle;
+
+    return @machines;
+}
+
+sub _getMachineInfo {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my %info;
+    while (my $line = <$handle>) {
+        next unless $line = /^(\S+)\s*=\s*(\S+.*)/;
+        my $key = $1;
+        my $value = $2;
+        $value =~ s/(^"|"$)//g;
+        $info{$key} = $value;
+    }
+    close $handle;
+
+    return %info;
 }
 
 1;
