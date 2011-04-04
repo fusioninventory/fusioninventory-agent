@@ -6,25 +6,41 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("pkg_info");
+    return can_run('pkg_info');
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    foreach(`pkg_info`){
-        /^(\S+)-(\d+\S*)\s+(.*)/;
-        my $name = $1;
-        my $version = $2;
-        my $comments = $3;
+    my $command = 'pkg_info';
+    my $packages = _getPackagesFromPkgInfo(
+        logger => $logger, command => $command
+    );
 
-        $inventory->addSoftware({
-            'COMMENTS' => $comments,
-            'NAME' => $name,
-            'VERSION' => $version
-        });
+    foreach my $package (@$packages) {
+        $inventory->addSoftware($package);
     }
+}
+
+sub _getPackagesListFromPkgInfo {
+    my $handle = getFileHandle(@_);
+
+    my @packages;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)-(\d+\S*)\s+(.*)/;
+        push @packages, {
+            NAME    => $1,
+            VERSION => $2,
+            VERSION => $3
+        };
+    }
+
+    close $handle;
+
+    return \@packages;
 }
 
 1;
