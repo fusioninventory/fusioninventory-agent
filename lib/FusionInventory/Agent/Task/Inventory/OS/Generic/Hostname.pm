@@ -10,20 +10,19 @@ use Sys::Hostname;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-# We use WMI for Windows because of charset issue
+    # We use WMI for Windows because of charset issue
     return $OSNAME ne 'MSWin32';
 }
 
-# Initialise the distro entry
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     my $hostname = hostname();
-
     $hostname =~ s/\..*//; # keep just the hostname
 
-    $inventory->setHardware ({NAME => $hostname});
+    $inventory->setHardware({NAME => $hostname});
 }
 
 1;
