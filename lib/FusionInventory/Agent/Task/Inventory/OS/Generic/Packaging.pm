@@ -6,12 +6,12 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my $params = shift;
+    my ($params) = @_;
 
-    # Do not run an package inventory if there is the --nosoft parameter
-    return if ($params->{config}->{'no-software'});
+    return !$params->{no_software};
+}
 
-    1;
+sub doInventory {
 }
 
 1;
