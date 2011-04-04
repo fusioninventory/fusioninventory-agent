@@ -5,52 +5,45 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $dmidecode = `dmidecode`; # TODO retrieve error
-    # some versions of dmidecode do not separate items with new lines
-    # so add a new line before each handle
-    $dmidecode =~ s/\nHandle/\n\nHandle/g;
-    my @dmidecode = split (/\n/, $dmidecode);
-    # add a new line at the end
-    push @dmidecode, "\n";
+    my $ports = _getPorts($logger);
 
-    s/^\s+// for (@dmidecode);
+    return unless $ports;
 
-    my $flag;
-
-    my $caption;
-    my $description;
-    my $name;
-    my $type;
-
-    foreach (@dmidecode) {
-
-        if(/dmi type 8,/i) {
-            $flag = 1;
-
-        } elsif ($flag && /^$/){ # end of section
-            $flag = 0;
-
-            $inventory->addPort({
-                CAPTION => $caption,
-                DESCRIPTION => $description,
-                NAME => $name,
-                TYPE => $type,
-            });
-
-            $caption = $description = $name = $type = undef;
-        } elsif ($flag) {
-
-            $caption = $1 if /^external connector type\s*:\s*(.+)/i;
-            $description = $1 if /^internal connector type\s*:\s*(.+)/i;
-            $name = $1 if /^internal reference designator\s*:\s*(.+)/i;
-            $type = $1 if /^port type\s*:\s*(.+)/i;
-
-        }
+    foreach my $port (@$ports) {
+        $inventory->addPort($port);
     }
+}
+
+sub _getPorts {
+    my ($logger, $file) = @_;
+
+    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+
+    return unless $infos->{8};
+
+    my $ports;
+    foreach my $info (@{$infos->{8}}) {
+        my $port = {
+            CAPTION     => $info->{'External Connector Type'},
+            DESCRIPTION => $info->{'Internal Connector Type'},
+            NAME        => $info->{'Internal Reference Designator'},
+            TYPE        => $info->{'Port Type'},
+        };
+
+        push @$ports, $port;
+    }
+
+    return $ports;
 }
 
 1;
