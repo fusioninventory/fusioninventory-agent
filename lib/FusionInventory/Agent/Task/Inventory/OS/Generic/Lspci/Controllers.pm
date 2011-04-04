@@ -1,193 +1,113 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers;
+
 use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
-# Retrieve information from the pciid file
-sub getInfoFromPciIds {
-    my ($params) = @_;
-
-    my $config = $params->{config};
-    my $datadir = $params->{datadir};
-    my $logger = $params->{logger};
-    my $pciclass = $params->{pciclass};
-    my $pciid = $params->{pciid};
-    my $pcisubsystemid = $params->{pcisubsystemid};
-
-    return unless $pciid;
-
-    my ($vendorId, $deviceId) = split (/:/, $pciid);
-    my ($subVendorId, $subDeviceId) = split (/:/, $pcisubsystemid || '');
-    my $deviceName;
-    my $subDeviceName;
-    my $classId;
-    my $subClassId;
-
-    if ($pciclass && $pciclass =~ /^(\S\S)(\S\S)$/) {
-        $classId = $1;
-        $subClassId = $2;
-    }
-
-    return {} unless $vendorId;
-
-    my %ret;
-    my %current;
-    if (!open PCIIDS, "<",$datadir.'/pci.ids') {
-        $logger->error("Failed to open ".$config->{'share-dir'}.'/pci.ids');
-        return;
-    }
-    foreach (<PCIIDS>) {
-        next if /^#/;
-
-        if (/^(\S{4})\s+(.*)/) { # Vendor ID
-            $current{classId} = '';
-            $current{vendorId} = lc($1);
-            $current{vendorName} = $2;
-            $current{deviceName} = '';
-            $current{subVendorId} = '';
-            $current{subDeviceId} = '';
-
-# information found in the previous section
-#            return \%ret if keys %ret;
-        } elsif (/^\t(\S{4})\s+(.*)/) { # Device ID
-            $current{deviceId} = lc($1);
-            $current{deviceName} = $2;
-            $current{subVendorId} = '';
-            $current{subDeviceId} = '';
-        } elsif (/^\t\t(\S{4})\s(\S{4})\s(.*)/) { # Subdevice ID
-            $current{subVendorId} = lc($1);
-            $current{subDeviceId} = lc($2);
-            $current{subDeviceName} = $3;
-        } elsif (/^C\s(\S{2})\s\s(.*)/) { # Class ID
-            $current{vendorId} = '';
-            $current{vendorName} = '';
-            $current{deviceName} = '';
-            $current{subVendorId} = '';
-            $current{subDeviceId} = '';
-            $current{classId} = $1;
-            $current{className} = $2;
-        } elsif (/^\t(\S{2})\s\s(.*)/) { # SubClass ID
-            $current{subClassId} = $1;
-            $current{subClassName} = $2;
-        } 
-
-        if (!$ret{subDeviceName} && $current{vendorName} && $current{deviceName}) {
-            if ($vendorId eq $current{vendorId}) {
-                $ret{vendorName} = $current{vendorName};
-                if ($deviceId eq $current{deviceId}) {
-                    $ret{deviceName} = $current{deviceName};
-                    $ret{fullName} = $current{deviceName};
-
-                    if ($subVendorId && $subDeviceId) {
-                        if ($subVendorId eq $current{subVendorId}) {
-                            if ($subDeviceId eq $current{subDeviceId}) {
-                                $ret{subDeviceName} = $current{subDeviceName};
-                                $ret{fullName} =$current{subDeviceName};
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (defined($current{classId}) && $classId && ($classId eq $current{classId})) {
-            $ret{className} = $current{className};
-            $ret{fullClassName} = $current{className};
-            if ($subClassId eq $current{subClassId}) {
-                $ret{subClassName} = $current{subClassName};
-                $ret{fullClassName} = $current{subClassName};
-            }
-        }
-    }
-
-    return \%ret;
-}
+my $vendors;
+my $classes;
 
 sub isInventoryEnabled {
-    return can_run("lspci");
+    return can_run('lspci');
 }
 
 sub doInventory {
-    my $params = shift;
-    my $config = $params->{config};
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $logger    = $params->{logger};
+    my $datadir   = $params->{datadir};
 
-    my $driver;
-    my $name;
-    my $manufacturer;
-    my $pciclass;
-    my $pciid;
-    my $pcislot;
-    my $pcisubsystemid;
-    my $type;
-    my $version;
+    _loadPciIds($logger, $datadir);
 
-    foreach(`lspci -vvv -nn`){
-        if (/^(\S+)\s+(\w+.*?):\s(.*)/) {
-            $pcislot = $1;
-            $name = $2;
-            $manufacturer = $3;
+    foreach my $controller (_getExtentedControllers($logger)) {
+        $inventory->addController($controller);
+    }
+}
 
-            if ($name =~ s/^([a-f\d]+)$//i) {
-                $pciclass = $1;
-            } elsif ($name =~ s/\[([a-f\d]+)\]$//i) {
-                $pciclass = $1;
-            } elsif ($name =~ s/Class ([a-f\d]+)$//i) {
-                $pciclass = $1;
+sub _getExtentedControllers {
+    my ($logger, $file) = @_;
+
+    my @controllers = getControllersFromLspci(logger => $logger, file => $file);
+
+    foreach my $controller (@controllers) {
+
+        next unless $controller->{PCIID};
+
+        my ($vendor_id, $device_id) = split (/:/, $controller->{PCIID});
+        my $subdevice_id = $controller->{PCISUBSYSTEMID};
+
+        if ($vendors->{$vendor_id}) {
+            my $vendor = $vendors->{$vendor_id};
+            $controller->{MANUFACTURER} = $vendor->{name};
+
+            if ($vendor->{devices}->{$device_id}) {
+                my $device = $vendor->{devices}->{$device_id};
+                $controller->{CAPTION} =
+                    $device->{name};
+
+                $controller->{NAME} =
+                    $subdevice_id && $device->{subdevices}->{$subdevice_id} ?
+
+                    $device->{subdevices}->{$subdevice_id}->{name} :
+                    $device->{name};
             }
-
-            if ($manufacturer =~ s/\s\(rev\s(\S+)\)//) {
-                $version = $1;
-            }
-            $manufacturer =~ s/\ *$//; # clean up the end of the string
-            $manufacturer =~ s/\s+\(prog-if \d+ \[.*?\]\)$//; # clean up the end of the string
-            $manufacturer =~ s/\s+\(prog-if \d+\)$//;
-
-            if ($manufacturer =~ s/([a-f\d]{4}:[a-f\d]{4})//i) {
-                $pciid = $1;
-            }
-
-            $name =~ s/\s+$//; # Drop the trailing whitespace
-        }
-        if ($pcislot && /^\s+Kernel driver in use: (\w+)/) {
-            $driver = $1;
         }
 
-        if (/Subsystem:\s+([a-f\d]{4}:[a-f\d]{4})/i) {
-            $pcisubsystemid = $1;
-        }
+        next unless $controller->{PCICLASS};
 
-        if ($pcislot && /^$/) {
+        $controller->{PCICLASS} =~ /^(\S\S)(\S\S)$/x;
+        my $class_id = $1;
+        my $subclass_id = $2;
 
-            my $info = getInfoFromPciIds ({
-                    config => $config,
-                    datadir => $params->{datadir},
-                    logger => $logger,
-                    pciclass => $pciclass,
-                    pciid => $pciid,
-                    pcisubsystemid => $pcisubsystemid,
-                });
+        if ($classes->{$class_id}) {
+            my $class = $classes->{$class_id};
 
-
-            $inventory->addController({
-                'CAPTION'       => $info->{deviceName},
-                'DRIVER'        => $driver,
-                'NAME'          => $info->{fullName} || $name,
-                'MANUFACTURER'  => $info->{vendorName} || $manufacturer,
-                'PCICLASS'      => $pciclass,
-                'PCIID'         => $pciid,
-                'PCISUBSYSTEMID'=> $pcisubsystemid,
-                'PCISLOT'       => $pcislot,
-                'TYPE'          => $info->{fullClassName},
-                'VERSION'           => $version,
-            });
-            $driver = $name = $pciclass = $pciid = undef;
-            $pcislot = $manufacturer = undef;
-            $type = $pcisubsystemid = undef;
+            $controller->{TYPE} = 
+                $subclass_id && $class->{subclasses}->{$subclass_id} ?
+                    $class->{subclasses}->{$subclass_id}->{name} :
+                    $class->{name};
         }
     }
 
+    return @controllers;
+}
+
+sub _loadPciIds {
+    my ($logger, $sharedir) = @_;
+
+    my $handle = getFileHandle(file => "$sharedir/pci.ids", logger => $logger);
+    return unless $handle;
+
+    my ($vendor_id, $device_id, $class_id);
+    while (my $line = <$handle>) {
+        next if $line =~ /^#/;
+
+        if ($line =~ /^(\S{4}) \s+ (.*)/x) {
+            # Vendor ID
+            $vendor_id = $1;
+            $vendors->{$vendor_id}->{name} = $2;
+        } elsif ($line =~ /^\t (\S{4}) \s+ (.*)/x) {
+            # Device ID
+            $device_id = $1;
+            $vendors->{$vendor_id}->{devices}->{$device_id}->{name} = $2;
+        } elsif ($line =~ /^\t\t (\S{4}) \s+ (\S{4}) \s+ (.*)/x) {
+            # Subdevice ID
+            my $subdevice_id = "$1:$2";
+            $vendors->{$vendor_id}->{devices}->{$device_id}->{subdevices}->{$subdevice_id}->{name} = $3;
+        } elsif ($line =~ /^C \s+ (\S{2}) \s+ (.*)/x) {
+            # Class ID
+            $class_id = $1;
+            $classes->{$class_id}->{name} = $2;
+        } elsif ($line =~ /^\t (\S{2}) \s+ (.*)/x) {
+            # SubClass ID
+            my $subclass_id = $1;
+            $classes->{$class_id}->{subclasses}->{$subclass_id}->{name} = $2;
+        } 
+    }
+    close $handle;
 }
 
 1;
