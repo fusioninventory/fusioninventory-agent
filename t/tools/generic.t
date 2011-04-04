@@ -3019,16 +3019,16 @@ my %dmidecode_tests = (
 );
 
 my %cpu_tests = (
-    'hp-dl180' => [
+    'freebsd-6.2' => [
         {
-            ID             => 'A5 06 01 00 FF FB EB BF',
-            NAME           => 'Xeon',
-            EXTERNAL_CLOCK => '532',
+            ID             => 'A9 06 00 00 FF BB C9 A7',
+            NAME           => 'VIA C7',
+            EXTERNAL_CLOCK => '100',
             SPEED          => '2000',
-            THREAD         => '4',
+            THREAD         => undef,
             SERIAL         => undef,
-            MANUFACTURER   => 'Intel',
-            CORE           => '4'
+            MANUFACTURER   => 'VIA',
+            CORE           => undef
         }
     ],
     'freebsd-8.1' => [
@@ -3041,6 +3041,18 @@ my %cpu_tests = (
             SERIAL         => undef,
             MANUFACTURER   => 'Intel(R) Corporation',
             CORE           => '2'
+        }
+    ],
+    'hp-dl180' => [
+        {
+            ID             => 'A5 06 01 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '532',
+            SPEED          => '2000',
+            THREAD         => '4',
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => '4'
         }
     ],
     'rhel-2.1' => [
@@ -3112,30 +3124,6 @@ my %cpu_tests = (
             CORE           => undef
         }
     ],
-    'windows' => [
-        {
-            ID             => '24 0F 00 00 00 00 00 00',
-            NAME           => 'Pentium 4',
-            EXTERNAL_CLOCK => '100',
-            SPEED          => '1700',
-            THREAD         => undef,
-            SERIAL         => undef,
-            MANUFACTURER   => 'Intel Corporation',
-            CORE           => undef
-        }
-    ],
-    'freebsd-6.2' => [
-        {
-            ID             => 'A9 06 00 00 FF BB C9 A7',
-            NAME           => 'VIA C7',
-            EXTERNAL_CLOCK => '100',
-            SPEED          => '2000',
-            THREAD         => undef,
-            SERIAL         => undef,
-            MANUFACTURER   => 'VIA',
-            CORE           => undef
-        }
-    ],
     'openbsd-3.7' => [
         {
             ID             => '52 06 00 00 FF F9 83 01',
@@ -3169,28 +3157,6 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
-            CORE           => undef
-        }
-    ],
-    'vmware' => [
-        {
-            ID             => '12 0F 04 00 FF FB 8B 07',
-            NAME           => undef,
-            EXTERNAL_CLOCK => undef,
-            SPEED          => '2133',
-            THREAD         => undef,
-            SERIAL         => undef,
-            MANUFACTURER   => 'AuthenticAMD',
-            CORE           => undef
-        },
-        {
-            ID             => '12 0F 00 00 FF FB 8B 07',
-            NAME           => 'Unknown',
-            EXTERNAL_CLOCK => undef,
-            SPEED          => '2133',
-            THREAD         => undef,
-            SERIAL         => undef,
-            MANUFACTURER   => 'GenuineIntel',
             CORE           => undef
         }
     ],
@@ -3252,7 +3218,41 @@ my %cpu_tests = (
         CORE           => undef
         }
     ],
-    'esx-2.5' => [
+    'vmware' => [
+        {
+            ID             => '12 0F 04 00 FF FB 8B 07',
+            NAME           => undef,
+            EXTERNAL_CLOCK => undef,
+            SPEED          => '2133',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'AuthenticAMD',
+            CORE           => undef
+        },
+        {
+            ID             => '12 0F 00 00 FF FB 8B 07',
+            NAME           => 'Unknown',
+            EXTERNAL_CLOCK => undef,
+            SPEED          => '2133',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'GenuineIntel',
+            CORE           => undef
+        }
+    ],
+    'vmware-esx' => [
+        {
+            ID             => '42 0F 10 00 FF FB 8B 07',
+            NAME           => undef,
+            EXTERNAL_CLOCK => undef,
+            SPEED          => '30000',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'AuthenticAMD',
+            CORE           => undef
+        }
+    ],
+    'vmware-esx-2.5' => [
         {
             ID             => undef,
             NAME           => 'Pentium III processor',
@@ -3264,18 +3264,18 @@ my %cpu_tests = (
             CORE           => undef
         }
     ],
-    'dmidecode-esx' => [
+    'windows' => [
         {
-            ID             => '42 0F 10 00 FF FB 8B 07',
-            NAME           => undef,
-            EXTERNAL_CLOCK => undef,
-            SPEED          => '30000',
+            ID             => '24 0F 00 00 00 00 00 00',
+            NAME           => 'Pentium 4',
+            EXTERNAL_CLOCK => '100',
+            SPEED          => '1700',
             THREAD         => undef,
             SERIAL         => undef,
-            MANUFACTURER   => 'AuthenticAMD',
+            MANUFACTURER   => 'Intel Corporation',
             CORE           => undef
         }
-    ]
+    ],
 );
 
 my @size_tests_nok = (

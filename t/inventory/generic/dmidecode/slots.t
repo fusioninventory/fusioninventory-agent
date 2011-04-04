@@ -377,50 +377,6 @@ my %tests = (
             DESIGNATION => undef
         }
     ],
-    'esx-2.5' => [
-        {
-            NAME        => undef,
-            DESIGNATION => undef,
-            STATUS      => undef,
-            DESCRIPTION => '16bit Long ISA'
-        },
-        {
-            NAME        => undef,
-            DESIGNATION => undef,
-            STATUS      => undef,
-            DESCRIPTION => '16bit Long ISA'
-        },
-        {
-            NAME        => undef,
-            DESIGNATION => undef,
-            STATUS      => undef,
-            DESCRIPTION => '16bit Long ISA'
-        },
-        {
-            NAME        => undef,
-            DESIGNATION => undef,
-            STATUS      => undef,
-            DESCRIPTION => '32bit PCI'
-        },
-        {
-            NAME        => undef,
-            DESIGNATION => undef,
-            STATUS      => undef,
-            DESCRIPTION => '32bit PCI'
-        },
-        {
-            NAME        => undef,
-            DESIGNATION => undef,
-            STATUS      => undef,
-            DESCRIPTION => '32bit PCI'
-        },
-        {
-            NAME        => undef,
-            DESIGNATION => undef,
-            STATUS      => undef,
-            DESCRIPTION => '32bit PCI'
-        }
-    ],
     'hp-dl180' => [
         {
             NAME        => 'SLOT1',
@@ -581,7 +537,7 @@ my %tests = (
             DESCRIPTION => 'x4 PCI Express'
         }
     ],
-    vmware => [
+    'vmware' => [
         {
             NAME        => 'ISA Slot J8',
             DESIGNATION => undef,
@@ -625,7 +581,7 @@ my %tests = (
             DESCRIPTION => '32-bit PCI'
         }
     ],
-    'dmidecode-esx' => [
+    'vmware-esx' => [
         {
             NAME        => 'ISA Slot J8',
             DESIGNATION => undef,
@@ -668,7 +624,51 @@ my %tests = (
             STATUS      => 'Available',
             DESCRIPTION => '32-bit PCI'
         }
-    ]
+    ],
+    'vmware-esx-2.5' => [
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '16bit Long ISA'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '16bit Long ISA'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '16bit Long ISA'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '32bit PCI'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '32bit PCI'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '32bit PCI'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '32bit PCI'
+        }
+    ],
 );
 
 plan tests => scalar keys %tests;

@@ -9,7 +9,7 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems;
 
 my %tests = (
-    'latitude-xt2' => []
+    'dell-xt2' => []
 );
 
 plan tests => scalar keys %tests;

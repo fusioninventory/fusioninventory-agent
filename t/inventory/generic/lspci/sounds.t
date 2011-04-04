@@ -9,7 +9,7 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds;
 
 my %tests = (
-    'latitude-xt2' => [
+    'dell-xt2' => [
         {
             NAME => 'Audio device',
             DESCRIPTION => 'rev 03',

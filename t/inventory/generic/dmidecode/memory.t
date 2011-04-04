@@ -41,6 +41,44 @@ my %tests = (
             CAPTION      => 'Bottom - Slot 2'
         }
     ],
+    'linux-1' => [
+        {
+            NUMSLOTS     => 1,
+            SERIALNUMBER => 'SerNum00',
+            DESCRIPTION  => 'DIMM',
+            TYPE         => 'DDR2',
+            SPEED        => '1066 MHz',
+            CAPACITY     => '1024',
+            CAPTION      => 'DIMM0'
+        },
+        {
+            NUMSLOTS     => 2,
+            SERIALNUMBER => 'SerNum01',
+            DESCRIPTION  => 'DIMM',
+            TYPE         => 'DDR2',
+            SPEED        => '1066 MHz',
+            CAPACITY     => '1024',
+            CAPTION      => 'DIMM1'
+        },
+        {
+            NUMSLOTS     => 3,
+            SERIALNUMBER => 'SerNum02',
+            DESCRIPTION  => 'DIMM',
+            TYPE         => 'DDR2',
+            SPEED        => '1066 MHz',
+            CAPACITY     => '1024',
+            CAPTION      => 'DIMM2'
+        },
+        {
+            NUMSLOTS     => 4,
+            SERIALNUMBER => 'SerNum03',
+            DESCRIPTION  => 'DIMM',
+            TYPE         => 'DDR2',
+            SPEED        => '1066 MHz',
+            CAPACITY     => '1024',
+            CAPTION      => 'DIMM3'
+        }
+    ],
     'linux-2.6' => [
         {
             NUMSLOTS     => 1,
@@ -61,7 +99,39 @@ my %tests = (
             CAPACITY    => '1024'
         }
     ],
-    'openbsd-3.7' => undef,
+    'openbsd-3.7' => [
+        {
+            NUMSLOTS     => 1,
+            TYPE         => 'Unknown'
+        },
+        {
+            NUMSLOTS     => 2,
+            TYPE         => 'DIMM SDRAM',
+            CAPACITY     => '64'
+        },
+        {
+            NUMSLOTS     => 3,
+            TYPE         => 'Unknown'
+        },
+        {
+            NUMSLOTS     => 4,
+            TYPE         => 'DIMM SDRAM',
+            CAPACITY     => '64'
+        },
+        {
+            NUMSLOTS     => 5,
+            TYPE         => 'DIMM SDRAM',
+            CAPACITY     => '64'
+        },
+        {
+            NUMSLOTS     => 6,
+            TYPE         => 'Unknown'
+        },
+        {
+            NUMSLOTS     => 7,
+            TYPE         => 'Unknown'
+        }
+    ],
     'openbsd-3.8' => [
         {
             NUMSLOTS     => 1,
@@ -114,7 +184,52 @@ my %tests = (
             CAPTION      => 'DIMM3_B',
         }
     ],
-    'rhel-2.1' => undef,
+    'openbsd-4.5' => [
+        {
+            NUMSLOTS     => 1,
+            SERIALNUMBER => undef,
+            DESCRIPTION  => 'DIMM',
+            TYPE         => 'DDR',
+            SPEED        => '266 MHz',
+            CAPACITY     => '512',
+            CAPTION      => 'DIMM A'
+        },
+        {
+            NUMSLOTS     => 2,
+            SERIALNUMBER => undef,
+            DESCRIPTION  => 'DIMM',
+            TYPE         => 'DDR',
+            SPEED        => '266 MHz',
+            CAPTION      => 'DIMM B'
+        },
+        {
+            NUMSLOTS     => 3,
+            SERIALNUMBER => undef,
+            DESCRIPTION  => 'DIMM',
+            TYPE         => 'DDR',
+            SPEED        => '266 MHz',
+            CAPTION      => 'DIMM C'
+        },
+        {
+            NUMSLOTS     => 4,
+            SERIALNUMBER => undef,
+            DESCRIPTION  => 'DIMM',
+            TYPE         => 'DDR',
+            SPEED        => '266 MHz',
+            CAPTION      => 'DIMM D'
+        }
+    ],
+    'rhel-2.1' => [
+        {
+            NUMSLOTS     => 1,
+            TYPE         => 'ECC DIMM SDRAM',
+            CAPACITY     => '256'
+        },
+        {
+            NUMSLOTS     => 2,
+            TYPE         => 'UNKNOWN'
+        }
+    ],
     'rhel-3.4' => [
         {
             NUMSLOTS     => 1,
@@ -245,26 +360,6 @@ my %tests = (
             CAPTION      => 'DIMM 8D',
         }
     ],
-    'windows' => [
-        {
-            NUMSLOTS     => 1,
-            SERIALNUMBER => undef,
-            DESCRIPTION  => 'SODIMM',
-            SPEED        => 'Unknown',
-            TYPE         => 'SDRAM',
-            CAPTION      => 'DIMM 0',
-            CAPACITY    => '256'
-        },
-        {
-            NUMSLOTS     => 2,
-            SERIALNUMBER => undef,
-            DESCRIPTION  => 'SODIMM',
-            SPEED        => 'Unknown',
-            TYPE         => 'SDRAM',
-            CAPTION      => 'DIMM 1',
-            CAPACITY    => '512'
-        }
-    ],
     'hp-dl180' => [
         {
             NUMSLOTS     => 1,
@@ -363,79 +458,6 @@ my %tests = (
             TYPE         => '<OUT OF SPEC>',
             SPEED        => 'Unknown',
             CAPTION      => 'PROC 2 DIMM 5F'
-        }
-    ],
-    'linux-1' => [
-        {
-            NUMSLOTS     => 1,
-            SERIALNUMBER => 'SerNum00',
-            DESCRIPTION  => 'DIMM',
-            TYPE         => 'DDR2',
-            SPEED        => '1066 MHz',
-            CAPACITY     => '1024',
-            CAPTION      => 'DIMM0'
-        },
-        {
-            NUMSLOTS     => 2,
-            SERIALNUMBER => 'SerNum01',
-            DESCRIPTION  => 'DIMM',
-            TYPE         => 'DDR2',
-            SPEED        => '1066 MHz',
-            CAPACITY     => '1024',
-            CAPTION      => 'DIMM1'
-        },
-        {
-            NUMSLOTS     => 3,
-            SERIALNUMBER => 'SerNum02',
-            DESCRIPTION  => 'DIMM',
-            TYPE         => 'DDR2',
-            SPEED        => '1066 MHz',
-            CAPACITY     => '1024',
-            CAPTION      => 'DIMM2'
-        },
-        {
-            NUMSLOTS     => 4,
-            SERIALNUMBER => 'SerNum03',
-            DESCRIPTION  => 'DIMM',
-            TYPE         => 'DDR2',
-            SPEED        => '1066 MHz',
-            CAPACITY     => '1024',
-            CAPTION      => 'DIMM3'
-        }
-    ],
-    'openbsd-4.5' => [
-        {
-            NUMSLOTS     => 1,
-            SERIALNUMBER => undef,
-            DESCRIPTION  => 'DIMM',
-            TYPE         => 'DDR',
-            SPEED        => '266 MHz',
-            CAPACITY     => '512',
-            CAPTION      => 'DIMM A'
-        },
-        {
-            NUMSLOTS     => 2,
-            SERIALNUMBER => undef,
-            DESCRIPTION  => 'DIMM',
-            TYPE         => 'DDR',
-            SPEED        => '266 MHz',
-            CAPTION      => 'DIMM B'
-        },
-        {
-            NUMSLOTS     => 3,
-            SERIALNUMBER => undef,
-            DESCRIPTION  => 'DIMM',
-            TYPE         => 'DDR',
-            SPEED        => '266 MHz',
-            CAPTION      => 'DIMM C'
-        },
-        {
-            NUMSLOTS     => 4,
-            SERIALNUMBER => undef,
-            DESCRIPTION  => 'DIMM',
-            TYPE         => 'DDR',
-            SPEED        => '266 MHz',
-            CAPTION      => 'DIMM D'
         }
     ],
     'S3000AHLX' => [
@@ -549,113 +571,6 @@ my %tests = (
             CAPTION      => 'ONBOARD DIMM_B4'
         }
     ],
-    'esx-2.5' => [
-        {
-            NUMSLOTS     => 1,
-            TYPE         => 'EDO DIMM',
-            CAPACITY     => '1024'
-        },
-        {
-            NUMSLOTS     => 2,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 3,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 4,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 5,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 6,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 7,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 8,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 9,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 10,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 11,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 12,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 13,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 14,
-            TYPE         => 'DIMM'
-        },
-        {
-            NUMSLOTS     => 15,
-            TYPE         => 'DIMM'
-        }
-    ],
-    'rhel-2.1' => [
-        {
-            NUMSLOTS     => 1,
-            TYPE         => 'ECC DIMM SDRAM',
-            CAPACITY     => '256'
-        },
-        {
-            NUMSLOTS     => 2,
-            TYPE         => 'UNKNOWN'
-        }
-    ],
-    'openbsd-3.7' => [
-        {
-            NUMSLOTS     => 1,
-            TYPE         => 'Unknown'
-        },
-        {
-            NUMSLOTS     => 2,
-            TYPE         => 'DIMM SDRAM',
-            CAPACITY     => '64'
-        },
-        {
-            NUMSLOTS     => 3,
-            TYPE         => 'Unknown'
-        },
-        {
-            NUMSLOTS     => 4,
-            TYPE         => 'DIMM SDRAM',
-            CAPACITY     => '64'
-        },
-        {
-            NUMSLOTS     => 5,
-            TYPE         => 'DIMM SDRAM',
-            CAPACITY     => '64'
-        },
-        {
-            NUMSLOTS     => 6,
-            TYPE         => 'Unknown'
-        },
-        {
-            NUMSLOTS     => 7,
-            TYPE         => 'Unknown'
-        }
-    ],
     'vmware' => [
         {
             NUMSLOTS     => 1,
@@ -691,7 +606,7 @@ my %tests = (
             CAPTION      => 'RAM slot #3'
         }
     ],
-    'dmidecode-esx' => [
+    'vmware-esx' => [
         {
             NUMSLOTS     => 1,
             SERIALNUMBER => undef,
@@ -813,7 +728,90 @@ my %tests = (
             SPEED        => 'Unknown',
             CAPTION      => 'RAM slot #14'
         }
-    ]
+    ],
+    'vmware-esx-2.5' => [
+        {
+            NUMSLOTS     => 1,
+            TYPE         => 'EDO DIMM',
+            CAPACITY     => '1024'
+        },
+        {
+            NUMSLOTS     => 2,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 3,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 4,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 5,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 6,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 7,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 8,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 9,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 10,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 11,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 12,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 13,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 14,
+            TYPE         => 'DIMM'
+        },
+        {
+            NUMSLOTS     => 15,
+            TYPE         => 'DIMM'
+        }
+    ],
+    'windows' => [
+        {
+            NUMSLOTS     => 1,
+            SERIALNUMBER => undef,
+            DESCRIPTION  => 'SODIMM',
+            SPEED        => 'Unknown',
+            TYPE         => 'SDRAM',
+            CAPTION      => 'DIMM 0',
+            CAPACITY    => '256'
+        },
+        {
+            NUMSLOTS     => 2,
+            SERIALNUMBER => undef,
+            DESCRIPTION  => 'SODIMM',
+            SPEED        => 'Unknown',
+            TYPE         => 'SDRAM',
+            CAPTION      => 'DIMM 1',
+            CAPACITY    => '512'
+        }
+    ],
 );
 
 plan tests => scalar keys %tests;

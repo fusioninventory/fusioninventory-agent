@@ -544,32 +544,6 @@ my %tests = (
             CAPTION     => 'Other'
         }
     ],
-    'esx-2.5' => [
-        {
-            NAME        => undef,
-            DESCRIPTION => '9 Pin Dual Inline (pin 10 cut)',
-            TYPE        => 'Serial Port 16650A Compatible',
-            CAPTION     => 'DB-9 pin male'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => '25 Pin Dual Inline (pin 26 cut)',
-            TYPE        => 'Parallel Port ECP/EPP',
-            CAPTION     => 'DB-25 pin female'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Keyboard Port',
-            CAPTION     => 'Circular DIN-8 male'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Keyboard Port',
-            CAPTION     => 'Circular DIN-8 male'
-        }
-    ],
     'hp-dl180' => [
         {
             NAME        => 'J1',
@@ -1198,7 +1172,7 @@ my %tests = (
             CAPTION     => 'None'
         }
     ],
-    vmware => [
+    'vmware' => [
         {
             NAME        => 'J19',
             DESCRIPTION => '9 Pin Dual Inline (pin 10 cut)',
@@ -1224,7 +1198,7 @@ my %tests = (
             CAPTION     => 'Circular DIN-8 male'
         }
     ],
-    "dmidecode-esx" => [
+    'vmware-esx' => [
         {
             NAME        => 'J19',
             DESCRIPTION => '9 Pin Dual Inline (pin 10 cut)',
@@ -1249,7 +1223,33 @@ my %tests = (
             TYPE        => 'Keyboard Port',
             CAPTION     => 'Circular DIN-8 male'
         }
-    ]
+    ],
+    'vmware-esx-2.5' => [
+        {
+            NAME        => undef,
+            DESCRIPTION => '9 Pin Dual Inline (pin 10 cut)',
+            TYPE        => 'Serial Port 16650A Compatible',
+            CAPTION     => 'DB-9 pin male'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => '25 Pin Dual Inline (pin 26 cut)',
+            TYPE        => 'Parallel Port ECP/EPP',
+            CAPTION     => 'DB-25 pin female'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Keyboard Port',
+            CAPTION     => 'Circular DIN-8 male'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Keyboard Port',
+            CAPTION     => 'Circular DIN-8 male'
+        }
+    ],
 );
 
 plan tests => scalar keys %tests;
