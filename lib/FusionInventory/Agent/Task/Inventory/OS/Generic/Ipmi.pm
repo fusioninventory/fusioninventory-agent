@@ -21,61 +21,58 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
-    return unless can_run("ipmitool");
-    my @ipmitool = `ipmitool lan print 2> /dev/null`;
-    return unless @ipmitool;
+    return unless can_run('ipmitool');
+    return system('ipmitool lan print 2> /dev/null') == 0;
 }
 
-# Initialise the distro entry
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my ($params) = @_;
 
-    my $description;
+    my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
+
+    my $handle = getFileHandle(
+        logger => $logger,
+        command => "ipmitool lan print",
+    );
+
+    return unless $handle;
+
     my $ipaddress;
     my $ipgateway;
     my $ipmask;
-    my $ipsubnet;
     my $macaddr;
-    my $status;
-    my $type;
 
-    foreach (`LANG=C ipmitool lan print 2> /dev/null`) {
-        if (/^IP Address\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /^IP Address\s+:\s+($ip_address_pattern)/) {
             $ipaddress = $1;
         }
-        if (/^Default Gateway IP\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^Default Gateway IP\s+:\s+($ip_address_pattern)/) {
             $ipgateway = $1;
         }
-        if (/^Subnet Mask\s+:\s+(\d+\.\d+\.\d+\.\d+)/) {
+        if ($line =~ /^Subnet Mask\s+:\s+($ip_address_pattern)/) {
             $ipmask = $1;
         }
-        if (/^MAC Address\s+:\s+([0-9a-f]{2}(:[0-9a-f]{2}){5})/) {
+        if ($line =~ /^MAC Address\s+:\s+($mac_address_pattern)/) {
             $macaddr = $1;
         }
     }
-    $description = 'bmc';
-    my $binip = &ip_iptobin ($ipaddress, 4);
-    my $binmask = &ip_iptobin ($ipmask, 4);
-    my $binsubnet = $binip & $binmask;
-    if (can_load("Net::IP qw(:PROC)")) {
-        $ipsubnet = ip_bintoip($binsubnet, 4);
-    }
-    $status = 1 if $ipaddress != '0.0.0.0';
-    $type = 'Ethernet';
+    close $handle;
+
+    my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
     $inventory->addNetwork({
-        DESCRIPTION => $description,
-        IPADDRESS => $ipaddress,
-        IPDHCP => "",
-        IPGATEWAY => $ipgateway,
-        IPMASK => $ipmask,
-        IPSUBNET => $ipsubnet,
-        MACADDR => $macaddr,
-        STATUS => $status?"Up":"Down",
-        TYPE => $type,
+        DESCRIPTION => 'bmc',
+        IPADDRESS   => $ipaddress,
+        IPGATEWAY   => $ipgateway,
+        IPMASK      => $ipmask,
+        IPSUBNET    => $ipsubnet,
+        MACADDR     => $macaddr,
+        STATUS      => $ipaddress != '0.0.0.0' ? "Up" : "Down",
+        TYPE        => 'Ethernet'
     });
 }
 
