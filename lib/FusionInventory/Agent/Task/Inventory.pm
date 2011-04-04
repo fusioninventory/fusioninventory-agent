@@ -191,6 +191,9 @@ sub _initModulesList {
     foreach my $module (@modules) {
         no strict 'refs'; ## no critic
 
+        # skip modules already disabled
+        next unless $self->{modules}->{$module}->{enabled};
+        # skip non-fallback modules 
         next unless ${$module . '::runMeIfTheseChecksFailed'};
 
         my $failed;
@@ -202,10 +205,7 @@ sub _initModulesList {
             }
         }
 
-        if ($failed) {
-            $self->{modules}->{$module}->{enabled} = 1;
-            $logger->debug("module $module enabled: $failed failed");
-        } else {
+        unless ($failed) {
             $self->{modules}->{$module}->{enabled} = 0;
             $logger->debug("module $module disabled: no depended module failed");
         }
