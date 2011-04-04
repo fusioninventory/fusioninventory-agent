@@ -65,7 +65,7 @@ my %dmidecode_tests = (
         ],
         9 => [
             {
-                'ID' => '1',
+                ID             => '1',
                 'Length' => 'Long',
                 'Designation' => 'PCI0',
                 'Type' => '32-bit PCI',
@@ -170,7 +170,7 @@ my %dmidecode_tests = (
         ],
         4 => [
             {
-                'ID' => 'A9 06 00 00 FF BB C9 A7',
+                ID             => 'A9 06 00 00 FF BB C9 A7',
                 'Socket Designation' => 'NanoBGA2',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '2000 MHz',
@@ -569,7 +569,7 @@ my %dmidecode_tests = (
         ],
         4 => [
             {
-                'ID' => '52 06 02 00 FF FB EB BF',
+                ID             => '52 06 02 00 FF FB EB BF',
                 'Socket Designation' => 'CPU',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '2266 MHz',
@@ -780,7 +780,7 @@ my %dmidecode_tests = (
         ],
         9 => [
             {
-                'ID' => 'Adapter 0, Socket 0',
+                ID             => 'Adapter 0, Socket 0',
                 'Length' => 'Other',
                 'Designation' => 'PCMCIA 0',
                 'Type' => '32-bit PC Card (PCMCIA)',
@@ -865,7 +865,7 @@ my %dmidecode_tests = (
         ],
         4 => [
             {
-                'ID' => 'D8 06 00 00 FF FB E9 AF',
+                ID             => 'D8 06 00 00 FF FB E9 AF',
                 'Socket Designation' => 'Microprocessor',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '1800 MHz',
@@ -1004,42 +1004,42 @@ my %dmidecode_tests = (
         ],
         9 => [
             {
-                'ID' => '32',
+                ID             => '32',
                 'Length' => 'Long',
                 'Designation' => 'AGP',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'In Use'
             },
             {
-                'ID' => '12',
+                ID             => '12',
                 'Length' => 'Long',
                 'Designation' => 'PCI1',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '11',
+                ID             => '11',
                 'Length' => 'Long',
                 'Designation' => 'PCI2',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '10',
+                ID             => '10',
                 'Length' => 'Long',
                 'Designation' => 'PCI3',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'In Use'
             },
             {
-                'ID' => '9',
+                ID             => '9',
                 'Length' => 'Long',
                 'Designation' => 'PCI4',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '8',
+                ID             => '8',
                 'Length' => 'Long',
                 'Designation' => 'PCI5',
                 'Type' => '32-bit PCI',
@@ -1058,35 +1058,35 @@ my %dmidecode_tests = (
                 'Current Usage' => 'Unknown'
             },
             {
-                'ID' => '0',
+                ID             => '0',
                 'Length' => 'Long',
                 'Designation' => 'PCIx',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Unknown'
             },
             {
-                'ID' => '0',
+                ID             => '0',
                 'Length' => 'Long',
                 'Designation' => 'PCIx',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Unknown'
             },
             {
-                'ID' => '0',
+                ID             => '0',
                 'Length' => 'Long',
                 'Designation' => 'PCIx',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Unknown'
             },
             {
-                'ID' => '0',
+                ID             => '0',
                 'Length' => 'Long',
                 'Designation' => 'PCIx',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Unknown'
             },
             {
-                'ID' => '0',
+                ID             => '0',
                 'Length' => 'Long',
                 'Designation' => 'PCIx',
                 'Type' => '32-bit PCI',
@@ -1176,7 +1176,7 @@ my %dmidecode_tests = (
         ],
         4 => [
             {
-                'ID' => '52 06 00 00 FF F9 83 01',
+                ID             => '52 06 00 00 FF F9 83 01',
                 'Socket Designation' => 'SLOT 1',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '500 MHz',
@@ -1445,7 +1445,7 @@ my %dmidecode_tests = (
         ],
         9 => [
             {
-                'ID' => '1',
+                ID             => '1',
                 'Length' => 'Long',
                 'Designation' => 'SLOT1',
                 'Type' => '64-bit PCI',
@@ -1464,21 +1464,21 @@ my %dmidecode_tests = (
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '4',
+                ID             => '4',
                 'Length' => 'Long',
                 'Designation' => 'SLOT4',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '5',
+                ID             => '5',
                 'Length' => 'Long',
                 'Designation' => 'SLOT5',
                 'Type' => '64-bit PCI-X',
                 'Current Usage' => 'In Use'
             },
             {
-                'ID' => '6',
+                ID             => '6',
                 'Length' => 'Long',
                 'Designation' => 'SLOT6',
                 'Type' => '64-bit PCI-X',
@@ -1578,7 +1578,7 @@ my %dmidecode_tests = (
         ],
         4 => [
             {
-                'ID' => '43 0F 00 00 FF FB EB BF',
+                ID             => '43 0F 00 00 FF FB EB BF',
                 'Socket Designation' => 'PROC_1',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '3600 MHz',
@@ -1595,7 +1595,7 @@ my %dmidecode_tests = (
                 'L3 Cache Handle' => '0x0702'
             },
             {
-                'ID' => '00 00 00 00 00 00 00 00',
+                ID             => '00 00 00 00 00 00 00 00',
                 'Socket Designation' => 'PROC_2',
                 'Flags' => 'None',
                 'Status' => 'Unpopulated',
@@ -1895,42 +1895,42 @@ my %dmidecode_tests = (
         ],
         9 => [
             {
-                'ID' => '1',
+                ID             => '1',
                 'Length' => 'Other',
                 'Designation' => 'PCIE Slot #1',
                 'Type' => 'PCI',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '2',
+                ID             => '2',
                 'Length' => 'Short',
                 'Designation' => 'PCI/33 Slot #2',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '3',
+                ID             => '3',
                 'Length' => 'Short',
                 'Designation' => 'PCI/33 Slot #3',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '4',
+                ID             => '4',
                 'Length' => 'Long',
                 'Designation' => 'PCIX 133 Slot #4',
                 'Type' => '64-bit PCI-X',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '5',
+                ID             => '5',
                 'Length' => 'Long',
                 'Designation' => 'PCIX100(ZCR) Slot #5',
                 'Type' => '64-bit PCI-X',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '6',
+                ID             => '6',
                 'Length' => 'Long',
                 'Designation' => 'PCIX100 Slot #6',
                 'Type' => '64-bit PCI-X',
@@ -2058,7 +2058,7 @@ my %dmidecode_tests = (
         ],
         4 => [
             {
-                'ID' => '41 0F 00 00 FF FB EB BF',
+                ID             => '41 0F 00 00 FF FB EB BF',
                 'Socket Designation' => 'CPU#1',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '3600 MHz',
@@ -2076,7 +2076,7 @@ my %dmidecode_tests = (
                 'L3 Cache Handle' => 'Not Provided'
             },
             {
-                'ID' => '41 0F 00 00 FF FB EB BF',
+                ID             => '41 0F 00 00 FF FB EB BF',
                 'Socket Designation' => 'CPU#2',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '3600 MHz',
@@ -2416,49 +2416,49 @@ my %dmidecode_tests = (
         ],
         9 => [
             {
-                'ID' => '1',
+                ID             => '1',
                 'Length' => 'Other',
                 'Designation' => 'PCI1',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '2',
+                ID             => '2',
                 'Length' => 'Other',
                 'Designation' => 'PCI6',
                 'Type' => '32-bit PCI',
                 'Current Usage' => 'In Use'
             },
             {
-                'ID' => '8',
+                ID             => '8',
                 'Length' => 'Long',
                 'Designation' => 'AGP',
                 'Type' => '32-bit AGP',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '2',
+                ID             => '2',
                 'Length' => 'Long',
                 'Designation' => 'PCI2',
                 'Type' => '64-bit PCI-X',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '3',
+                ID             => '3',
                 'Length' => 'Long',
                 'Designation' => 'PCI3',
                 'Type' => '64-bit PCI-X',
                 'Current Usage' => 'Available'
             },
             {
-                'ID' => '1',
+                ID             => '1',
                 'Length' => 'Long',
                 'Designation' => 'PCI4',
                 'Type' => '64-bit PCI-X',
                 'Current Usage' => 'In Use'
             },
             {
-                'ID' => '2',
+                ID             => '2',
                 'Length' => 'Long',
                 'Designation' => 'PCI5',
                 'Type' => '64-bit PCI-X',
@@ -2587,7 +2587,7 @@ my %dmidecode_tests = (
         ],
         4 => [
             {
-                'ID' => '29 0F 00 00 FF FB EB BF',
+                ID             => '29 0F 00 00 FF FB EB BF',
                 'Socket Designation' => 'CPU1',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '3200 MHz',
@@ -2605,7 +2605,7 @@ my %dmidecode_tests = (
                 'L3 Cache Handle' => '0x000F'
             },
             {
-                'ID' => '29 0F 00 00 FF FB EB BF',
+                ID             => '29 0F 00 00 FF FB EB BF',
                 'Socket Designation' => 'CPU2',
                 'Status' => 'Populated, Enabled',
                 'Max Speed' => '3200 MHz',
@@ -2815,14 +2815,14 @@ my %dmidecode_tests = (
         ],
         9 => [
             {
-                'ID' => 'Adapter 1, Socket 0',
+                ID             => 'Adapter 1, Socket 0',
                 'Length' => 'Other',
                 'Designation' => 'PCMCIA0',
                 'Type' => '32-bit PC Card (PCMCIA)',
                 'Current Usage' => 'In Use'
             },
             {
-                'ID' => 'Adapter 2, Socket 0',
+                ID             => 'Adapter 2, Socket 0',
                 'Length' => 'Other',
                 'Designation' => 'PCMCIA1',
                 'Type' => '32-bit PC Card (PCMCIA)',
@@ -2955,7 +2955,7 @@ my %dmidecode_tests = (
         ],
         4 => [
             {
-                'ID' => '24 0F 00 00 00 00 00 00',
+                ID             => '24 0F 00 00 00 00 00 00',
                 'Socket Designation' => 'uFC-PGA Socket',
                 'Flags' => 'None',
                 'Status' => 'Populated, Enabled',
@@ -3018,6 +3018,266 @@ my %dmidecode_tests = (
     }
 );
 
+my %cpu_tests = (
+    'hp-dl180' => [
+        {
+            ID             => 'A5 06 01 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '532',
+            SPEED          => '2000',
+            THREAD         => '4',
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => '4'
+        }
+    ],
+    'freebsd-8.1' => [
+        {
+            ID             => '52 06 02 00 FF FB EB BF',
+            NAME           => 'Core 2 Duo',
+            EXTERNAL_CLOCK => '1066',
+            SPEED          => '2270',
+            THREAD         => '4',
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel(R) Corporation',
+            CORE           => '2'
+        }
+    ],
+    'rhel-2.1' => [
+        {
+            ID             => undef,
+            NAME           => 'Pentium 4',
+            EXTERNAL_CLOCK => undef,
+            SPEED          => undef,
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
+        }
+    ],
+    'rhel-3.4' => [
+        {
+            ID             => '41 0F 00 00 FF FB EB BF',
+            NAME           => 'Xeon MP',
+            EXTERNAL_CLOCK => '200',
+            SPEED          => '2800',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel Corporation',
+            CORE           => undef
+        },
+        {
+            ID             => '41 0F 00 00 FF FB EB BF',
+            NAME           => 'Xeon MP',
+            EXTERNAL_CLOCK => '200',
+            SPEED          => '2800',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel Corporation',
+            CORE           => undef
+        }
+    ],
+    'rhel-3.9' => undef,
+    'rhel-4.3' => [
+        {
+            ID             => '29 0F 00 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '133',
+            SPEED          => '3200',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
+        },
+        {
+            ID             => '29 0F 00 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '133',
+            SPEED          => '3200',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
+        }
+    ],
+    'rhel-4.6' => [
+        {
+            ID             => '76 06 01 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '1333',
+            SPEED          => '4800',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
+        }
+    ],
+    'windows' => [
+        {
+            ID             => '24 0F 00 00 00 00 00 00',
+            NAME           => 'Pentium 4',
+            EXTERNAL_CLOCK => '100',
+            SPEED          => '1700',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel Corporation',
+            CORE           => undef
+        }
+    ],
+    'freebsd-6.2' => [
+        {
+            ID             => 'A9 06 00 00 FF BB C9 A7',
+            NAME           => 'VIA C7',
+            EXTERNAL_CLOCK => '100',
+            SPEED          => '2000',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'VIA',
+            CORE           => undef
+        }
+    ],
+    'openbsd-3.7' => [
+        {
+            ID             => '52 06 00 00 FF F9 83 01',
+            NAME           => 'Pentium II',
+            EXTERNAL_CLOCK => '100',
+            SPEED          => '500',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
+        }
+    ],
+    'openbsd-3.8' => [
+        {
+            ID             => '43 0F 00 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '800',
+            SPEED          => '3600',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
+        }
+    ],
+    'openbsd-4.5' => [
+        {
+            ID             => '29 0F 00 00 FF FB EB BF',
+            NAME           => 'Pentium 4',
+            EXTERNAL_CLOCK => '533',
+            SPEED          => '3200',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
+        }
+    ],
+    'vmware' => [
+        {
+            ID             => '12 0F 04 00 FF FB 8B 07',
+            NAME           => undef,
+            EXTERNAL_CLOCK => undef,
+            SPEED          => '2133',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'AuthenticAMD',
+            CORE           => undef
+        },
+        {
+            ID             => '12 0F 00 00 FF FB 8B 07',
+            NAME           => 'Unknown',
+            EXTERNAL_CLOCK => undef,
+            SPEED          => '2133',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'GenuineIntel',
+            CORE           => undef
+        }
+    ],
+    'S3000AHLX' => [
+        {
+            ID             => 'F6 06 00 00 FF FB EB BF',
+            NAME           => '<OUT OF SPEC>',
+            EXTERNAL_CLOCK => '266',
+            SPEED          => '2400',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel(R) Corporation',
+            CORE           => undef
+        }
+    ],
+    'S5000VSA' => [
+        {
+            ID             => 'F6 06 00 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '1066',
+            SPEED          => '1860',
+            THREAD         => '2',
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel(R) Corporation',
+            CORE           => '2'
+        },
+        {
+            ID             => 'F6 06 00 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '1066',
+            SPEED          => '1860',
+            THREAD         => '2',
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel(R) Corporation',
+            CORE           => '2'
+        }
+    ],
+    'linux-1' => [
+        {
+            ID             => '7A 06 01 00 FF FB EB BF',
+            NAME           => 'Core 2 Duo',
+            EXTERNAL_CLOCK => '333',
+            SPEED          => '3000',
+            THREAD         => '2',
+            SERIAL         => 'To Be Filled By O.E.M.',
+            MANUFACTURER   => 'Intel',
+            CORE           => '2'
+        }
+    ],
+    'linux-2.6' => [
+        {
+        ID             => 'D8 06 00 00 FF FB E9 AF',
+        NAME           => 'Pentium M',
+        EXTERNAL_CLOCK => '133',
+        SPEED          => '1800',
+        THREAD         => undef,
+        SERIAL         => undef,
+        MANUFACTURER   => 'Intel',
+        CORE           => undef
+        }
+    ],
+    'esx-2.5' => [
+        {
+            ID             => undef,
+            NAME           => 'Pentium III processor',
+            EXTERNAL_CLOCK => undef,
+            SPEED          => undef,
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'GenuineIntel',
+            CORE           => undef
+        }
+    ],
+    'dmidecode-esx' => [
+        {
+            ID             => '42 0F 10 00 FF FB 8B 07',
+            NAME           => undef,
+            EXTERNAL_CLOCK => undef,
+            SPEED          => '30000',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'AuthenticAMD',
+            CORE           => undef
+        }
+    ]
+);
+
 my @size_tests_nok = (
     'foo', undef
 );
@@ -3077,6 +3337,7 @@ my @manufacturer_tests_nok = (
 
 plan tests =>
     (scalar keys %dmidecode_tests) +
+    (scalar keys %cpu_tests) +
     (scalar @size_tests_ok) +
     (scalar @size_tests_nok) +
     (scalar @speed_tests_ok) +
@@ -3089,6 +3350,12 @@ foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/dmidecode/$test";
     my $infos = getInfosFromDmidecode(file => $file);
     is_deeply($infos, $dmidecode_tests{$test}, "$test dmidecode parsing");
+}
+
+foreach my $test (keys %cpu_tests) {
+    my $file = "resources/dmidecode/$test";
+    my $cpus = getCpusFromDmidecode(file => $file);
+    is_deeply($cpus, $cpu_tests{$test}, "$test dmidecode cpu extraction");
 }
 
 foreach my $test (@size_tests_nok) {
