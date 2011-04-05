@@ -5,8 +5,11 @@ use POE qw( Wheel::Run );
 use FusionInventory::Agent::Logger::Parsable;
 
 sub run {
-    my ($logger, $job) = @_;
+    my ($network, $logger, $job) = @_;
 
+    my $request = HTTP::Request->new(GET => $job->{remoteUrl});
+    my $transmitter = $job->{target}{transmitter};
+    die unless $transmitter;
 
     POE::Session->create(
             inline_states => {

@@ -182,6 +182,94 @@ sub send {
     return $response;
 }
 
+sub request {
+    my ($self, $req) = @_;
+
+    my $logger = $self->{logger};
+
+    my $url = $req->uri;
+
+    # turns SSL checks on if needed
+    my $scheme = $url->scheme();
+    if ($scheme eq 'https' && !$self->{no_ssl_check}) {
+        $self->_turnSSLCheckOn();
+        my $pattern = _getCertificateRegexp($url->host());
+        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
+    }
+
+
+    # send it
+    $logger->debug("sending message");
+
+    my $res;
+    eval {
+        if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
+            alarm $self->{defaultTimeout};
+        }
+        $res = $self->{ua}->request($req);
+        alarm 0;
+    };
+
+    # check result
+    if (!$res->is_success()) {
+        # authentication required
+        if ($res->code() == 401) {
+            if ($self->{user} && $self->{password}) {
+                $logger->debug(
+                    "Authentication required, submitting credentials"
+                );
+                # compute authentication parameters
+                my $header = $res->header('www-authenticate');
+                my ($realm) = $header =~ /^Basic realm="(.*)"/;
+                my $host = $url->host();
+                my $port = $url->port() ||
+                   ($scheme eq 'https' ? 443 : 80);
+                $self->{ua}->credentials(
+                    "$host:$port",
+                    $realm,
+                    $self->{user},
+                    $self->{password}
+                );
+                # replay request
+                eval {
+                    if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
+                        alarm $self->{defaultTimeout};
+                    }
+                    $res = $self->{ua}->request($req);
+                    alarm 0;
+                };
+                if (!$res->is_success()) {
+                    $logger->error($res->message());
+                    return;
+                }
+            } else {
+                # abort
+                $logger->error(
+                    "Authentication required, no credentials available"
+                );
+                return;
+            }
+        } else {
+            $logger->error($res->message());
+            return;
+        }
+    }
+
+
+    # create response
+    my $response_content;
+    if (!$res->content()) {
+        $logger->error("Response is empty");
+        return;
+    }
+
+    $response_content = $res->content();
+
+    $logger->debug("receiving message: $response_content");
+
+    return $response_content;
+}
+
 sub _getCertificateRegexp {
     my ($hostname) = @_;
 
@@ -349,4 +437,8 @@ the directory containing trusted certificates
 =head2 send
 
 Send an instance of C<FusionInventory::Agent::XML::Query> to the target (the
-server).
+server)
+
+=head2 request
+
+Send C<HTTP::Request> instance to the server.

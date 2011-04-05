@@ -22,6 +22,19 @@ sub run {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
+
+
+    $self->{transmitter} = FusionInventory::Agent::Transmitter->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_dir  => $params{ca_cert_dir},
+        ca_cert_file => $params{ca_cert_file},
+        ssl_check    => $params{ssl_check},
+    );
+
+
 # TODO: get the JSON with HTTP
 #    foreach my $job (split(' ', $config->getValues('global.jobs') || '')) {
 #        push @{$self->{jobs}}, $self->getJobFromConfiguration($job);
@@ -31,42 +44,6 @@ sub run {
 use JSON;
 use LWP::Simple;
  $self->{config} = decode_json(get("http://deploy/fake/?a=getConfig&d=TODO"));
-#  $self->{config} = {
-#        global => {
-#            baseUrl => "http://server/glpi"
-#        },
-#        httpd => {
-#            ip => '0.0.0.0',
-#            port => 62354,
-#            trust => [ '127.0.0.1' ]
-#        },
-#    jobs => [
-#    {
-#        task => 'Config', 
-#        remote => '/plugins/fusioninventory/b',
-#        periodicity => 3600,
-#        startAt => 1301324176
-#    },
-#    {
-#        task => 'Deploy',
-#        remote => 'https://server2/deploy',
-#        periodicity => 600
-#    },
-#    {
-#        task => 'ESX',
-#        remote => '/plugins/fusioninventory/b',
-#        startAt => 1,
-#        periodicity => 700
-#    },
-#    {
-#        task => 'Inventory',
-#        remote => '/plugins/fusinvinventory/b',
-#        startAt => 1,
-#        periodicity => 36000
-#    }
-#        ]
-#    };
-#
 
     if ($params{fork}) {
         Proc::Daemon->require();
@@ -112,19 +89,18 @@ sub init {
     $self->{jobs} = [];
     foreach (@{$self->{config}{jobs}}) {
 # TODO: Move this somewhere else?
-        my $target = FusionInventory::Agent::Target::Server->new(
-                id => "TODO",
-                url => $_->{remote},
-                logger => $logger
-                );
+#        my $target = FusionInventory::Agent::Target::Server->new(
+#                id => "TODO",
+#                url => $_->{remote},
+#                logger => $logger
+#                );
 
         push @{$self->{jobs}}, FusionInventory::Agent::Job->new(
                 id => $_->{task},
                 task => $_->{task},
                 offset => $_->{periodicity},
                 startAt => $_->{startAt},
-                remote => $_->{remote},
-                target => $target,
+                remoteUrl => $_->{remote},
                 basevardir => "TODO"
                 );
     }
@@ -165,7 +141,7 @@ sub runJob {
 
     $self->{logger}->debug("[server] running job $job->{id}");
 
-    if (FusionInventory::Agent::Server::Run::run($self->{logger}, $job)) {
+    if (FusionInventory::Agent::Server::Run::run(undef, $self->{logger}, $job)) {
         $job->scheduleNextRun();
     }
 }

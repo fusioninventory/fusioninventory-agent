@@ -11,13 +11,13 @@ sub new {
     my ($class, %params) = @_;
 
     die 'no task parameter'       unless $params{task};
-    die 'no target parameter'     unless $params{target};
+#    die 'no target parameter'     unless $params{target};
     die 'no basevardir parameter' unless $params{basevardir};
     die 'no offset parameter'     unless $params{offset};
 
     my $self = {
         task   => $params{task},
-        target => $params{target},
+        remoteUrl => $params{remoteUrl},
         offset => $params{offset} || 3600,
         startAt => $params{startAt},
         logger => $params{logger} || FusionInventory::Agent::Logger->new(),
@@ -46,7 +46,7 @@ sub new {
     #$self->saveState() if $self->{dirty};
 
     $self->{logger}->debug(
-        "[job $self->{id}] job created, next run scheduled for " .
+        "[job ".$self->getTaskName()."] job created, next run scheduled for " .
         localtime($self->{nextRunDate})
     );
 
@@ -82,7 +82,7 @@ sub scheduleNextRun {
     $self->setNextRunDate($time);
 
     $self->{logger}->debug(
-        "[job $self->{id}] next run scheduled for " . localtime($time)
+        "[job ".$self->getTaskName()."] next run scheduled for " . localtime($time)
     );
 }
 

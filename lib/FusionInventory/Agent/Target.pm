@@ -2,10 +2,10 @@ package FusionInventory::Agent::Target;
 
 use strict;
 use warnings;
-
+use Carp qw(confess);
 sub new {
     my ($class, %params) = @_;
-
+confess "deprecated!";
     die 'no id parameter' unless $params{id};
 
     my $self = {
