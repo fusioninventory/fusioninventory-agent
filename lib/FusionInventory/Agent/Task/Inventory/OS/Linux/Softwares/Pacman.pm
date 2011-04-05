@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Softwares::Slackware;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Pacman;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run('pkgtool');
+    return can_run('pacman');
 }
 
 sub doInventory {
@@ -15,13 +15,15 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $handle = getDirectoryHandle(
-        directory => '/var/log/packages', logger => $logger
+    my $handle = getFileHandle(
+        logger  => $logger,
+        command => 'pacman -Q'
     );
+
     return unless $handle;
 
-    while (my $file = readdir($handle)) {
-        next unless $file =~ /^(.+)([^-]+-[^-]+-[^-]+)$/;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)\s+(\S+)/;
         my $name = $1;
         my $version = $2;
 
@@ -30,7 +32,7 @@ sub doInventory {
             VERSION => $version
         });
     }
-    closedir $handle;
+    close $handle;
 }
 
 1;
