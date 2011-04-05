@@ -130,7 +130,7 @@ sub doInventory {
 
     my $serie;
     chomp($serie = `uname -m`);
-    if ( $CPUinfo->{NAME} eq 'unknow' and $serie =~ /ia64/) {
+    if ( $CPUinfo->{NAME} eq 'unknown' and $serie =~ /ia64/) {
         $CPUinfo->{NAME} = "Itanium"
     }
     if ( $serie =~ /9000/) {
