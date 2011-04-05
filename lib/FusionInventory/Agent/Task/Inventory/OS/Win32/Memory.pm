@@ -3,10 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Memory;
 use strict;
 use warnings;
 
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
+use FusionInventory::Agent::Tools::Win32;
 
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
 
 my @formFactorVal = qw/
     Unknown 
@@ -71,10 +71,14 @@ my @memoryErrorProtection = (
     'CRC',
 );
 
-sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+sub isInventoryEnabled {
+    return 1;
+}
 
+sub doInventory {
+    my ($params) = @_;
+
+    my $inventory = $params->{inventory};
 
     my $cpt = 0;
     my @memories;
@@ -83,34 +87,20 @@ sub doInventory {
         Capacity Caption Description FormFactor Removable Speed MemoryType
         SerialNumber
     /)) {
-# Ignore ROM storages (BIOS ROM)
-        if (defined($memoryTypeVal[$Properties->{MemoryType}]) &&
-$memoryTypeVal[$Properties->{MemoryType}] eq 'ROM') {
-            next;
-        }
-
-
-
-        my $capacity = sprintf("%i",$Properties->{Capacity}/(1024*1024));
-        my $caption = $Properties->{Caption};
-        my $description = $Properties->{Description};
-        my $formfactor = $formFactorVal[$Properties->{FormFactor}];
-        my $removable = $Properties->{Removable}?1:0;
-        my $speed = $Properties->{Speed};
+        # Ignore ROM storages (BIOS ROM)
         my $type = $memoryTypeVal[$Properties->{MemoryType}];
-        my $numslots = $cpt++;
-        my $serialnumber = $Properties->{SerialNumber};
+        next if $type && $type eq 'ROM';
 
         push @memories, {
-            CAPACITY => $capacity,
-            CAPTION => $caption,
-            DESCRIPTION => $description,
-            FORMFACTOR => $formfactor,
-            REMOVABLE => $removable,
-            SPEED => $speed,
-            TYPE => $type,
-            NUMSLOTS => $numslots,
-            SERIALNUMBER => $serialnumber
+            CAPACITY     => sprintf("%i",$Properties->{Capacity}/(1024*1024)),
+            CAPTION      => $Properties->{Caption},
+            DESCRIPTION  => $Properties->{Description},
+            FORMFACTOR   => $formFactorVal[$Properties->{FormFactor}],
+            REMOVABLE    => $Properties->{Removable} ? 1 : 0,
+            SPEED        => $Properties->{Speed},
+            TYPE         => $memoryTypeVal[$Properties->{MemoryType}],
+            NUMSLOTS     => $cpt++,
+            SERIALNUMBER => $Properties->{SerialNumber}
         }
     }
 

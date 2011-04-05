@@ -3,10 +3,14 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Printers;
 use strict;
 use warnings;
 
-use Win32::TieRegistry ( Delimiter=>"/", ArrayValues=>0 );
+use English qw(-no_match_vars);
+use Win32::TieRegistry (
+    Delimiter   => '/',
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
 
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 my @status = (
     'Unknown', # 0 is not defined
@@ -39,19 +43,15 @@ my @errStatus = (
 );
 
 sub isInventoryEnabled {
-    return 1;
+    my ($params) = @_;
+    return !$params->{config}->{no_printer};
 }
 
 sub doInventory {
+    my ($params) = @_;
 
-    my $params = shift;
-    my $logger = $params->{logger};
-    my $config = $params->{config};
     my $inventory = $params->{inventory};
-
-    return if $config->{'no-printer'};
-
-    my @slots;
+    my $logger    = $params->{logger};
 
     foreach my $Properties (getWmiProperties('Win32_Printer', qw/
         ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
@@ -71,7 +71,7 @@ sub doInventory {
 $Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
         }
 
-        $Properties->{Serial} = getSerialbyUsb($Properties->{PortName});
+        $Properties->{Serial} = _getSerialbyUsb($Properties->{PortName});
 
         $inventory->addPrinter({
             NAME => $Properties->{Name},
@@ -93,54 +93,48 @@ $Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
     }    
 }
 
-sub getSerialbyUsb {
+# Search serial when connected in USB
+sub _getSerialbyUsb {
+    my ($portName) = @_;
 
-    my $portName = shift;
+    return unless $portName && $portName =~ /USB/;
 
-    if (!defined($portName)) {
-        return;
-    }
-    if ($portName =~ /USB/) {
-    } else {
-        return;
-    }
+    my $machKey = $Registry->Open('LMachine', { 
+        Access => KEY_READ | KEY_WOW64_64
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-    # Search serial when connected in USB
-    # Search in registry where folder in HKLM\system\currentcontrolset\enum\USBPRINT have USBxxx ($portName)
-    my $KEY_WOW64_64KEY = 0x100;
-
-    my $machKey= $Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ()|$KEY_WOW64_64KEY,Delimiter=>"/"} );
+    # search all keys under HKLM\system\currentcontrolset\enum\USBPRINT
     my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
     foreach my $tmpkey (%$data) {
-        if (ref($tmpkey) eq "Win32::TieRegistry") {
-            foreach my $usbid (%$tmpkey) {
-                if ( $usbid =~ /$portName/) {
-                    $usbid = $tmpkey->{$usbid}->{"ContainerID"};
-                    my $serialnumber = "";
-                    # search in HKLM\system\currentcontrolset\enum\USB the key with ContainerID to this value
-                    # so previous folder name is serial number ^^
-                    my $dataUSB = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
-                    foreach my $tmpkeyUSB (%$dataUSB) {
-                        if (ref($tmpkeyUSB) eq "Win32::TieRegistry") {
-                            foreach my $serialtmp (%$tmpkeyUSB) {
-                                if (ref($serialtmp) eq "Win32::TieRegistry") {
-                                    foreach my $regkeys (%$serialtmp) {
-                                        if ((defined($regkeys)) && (ref($regkeys) ne "Win32::TieRegistry")) {
-                                            next unless $regkeys =~ /ContainerID/;
-                                            if ($serialnumber =~ /\&/) {
-                                            } elsif (defined($serialnumber)) {
-                                                if ($serialtmp->{$regkeys} eq $usbid) {
-                                                    return $serialnumber;
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else {
+        next unless ref($tmpkey) eq "Win32::TieRegistry";
 
-                                    $serialnumber = $serialtmp;
-                                }
-                            }
+       # search a subkey whose name contains the port number (USBxxx)
+       foreach my $usbid (%$tmpkey) {
+           next unless $usbid =~ /$portName/;
+
+            # get its container id
+            $usbid = $tmpkey->{$usbid}->{"ContainerID"};
+            my $serialnumber = "";
+
+            # search all keys under HKLM\system\currentcontrolset\enum\USB
+            my $dataUSB = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
+            foreach my $tmpkeyUSB (%$dataUSB) {
+                next unless ref($tmpkeyUSB) eq "Win32::TieRegistry";
+
+                # search a subkey matching this container id
+                foreach my $serialtmp (%$tmpkeyUSB) {
+                    if (ref($serialtmp) eq "Win32::TieRegistry") {
+                        foreach my $regkeys (%$serialtmp) {
+                            next unless defined($regkeys) &&
+                                ref($regkeys) ne "Win32::TieRegistry";
+                            next unless $regkeys =~ /ContainerID/;
+                            next if $serialnumber =~ /\&/;
+                            next unless defined($serialnumber);
+                            next unless $serialtmp->{$regkeys} eq $usbid;
+                            return $serialnumber;
                         }
+                    } else {
+                        $serialnumber = $serialtmp;
                     }
                 }
             }

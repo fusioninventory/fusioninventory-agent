@@ -4,8 +4,7 @@ use strict;
 use warnings;
 
 # Had never been tested.
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 my %mouseInterface = (
     1 =>  'Other',
@@ -21,48 +20,41 @@ my %mouseInterface = (
     162 => 'USB',
 );
 
-
 sub isInventoryEnabled {
     return 1;
 }
 
 sub doInventory {
+    my ($params) = @_;
 
-    my $params = shift;
-    my $logger = $params->{logger};
+    my $logger    = $params->{logger};
     my $inventory = $params->{inventory};
 
-    my @inputs;
     foreach my $Properties (getWmiProperties('Win32_Keyboard', qw/
             Name Caption Manufacturer Description Layout
     /)) {
 
-        push @inputs, {
-            NAME => $Properties->{Name},
-            CAPTION => $Properties->{Caption},
+        $inventory->addInput({
+            NAME         => $Properties->{Name},
+            CAPTION      => $Properties->{Caption},
             MANUFACTURER => $Properties->{Manufacturer},
-            DESCRIPTION => $Properties->{Description},
-            LAYOUT => $Properties->{Layout},
-        };
+            DESCRIPTION  => $Properties->{Description},
+            LAYOUT       => $Properties->{Layout},
+        });
     }
 
     foreach my $Properties (getWmiProperties('Win32_PointingDevice', qw/
         Name Caption Manufacturer Description PointingType DeviceInterface
     /)) {
 
-        push @inputs, {
-            NAME => $Properties->{Name},
-            CAPTION => $Properties->{Caption},
+        $inventory->addInput({
+            NAME         => $Properties->{Name},
+            CAPTION      => $Properties->{Caption},
             MANUFACTURER => $Properties->{Manufacturer},
-            DESCRIPTION => $Properties->{Description},
+            DESCRIPTION  => $Properties->{Description},
             POINTINGTYPE => $Properties->{PointingType},
-            INTERFACE => $mouseInterface{$Properties->{DeviceInterface}},
-        };
-    }
-
-
-    foreach (@inputs) {
-        $inventory->addInput($_);
+            INTERFACE    => $mouseInterface{$Properties->{DeviceInterface}},
+        });
     }
 
 }

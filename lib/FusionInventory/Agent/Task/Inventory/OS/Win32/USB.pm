@@ -3,17 +3,14 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::USB;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
     return 1;
 }
 
-my %devices;
-
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
 
     my $inventory = $params->{inventory};
 
@@ -31,12 +28,13 @@ sub doInventory {
             next if $vendorId =~ /^0+$/;
     
             $inventory->addUSBDevice({
-                NAME => $Properties->{Name},
-                VENDORID => $vendorId,
+                NAME      => $Properties->{Name},
+                VENDORID  => $vendorId,
                 PRODUCTID => $productId,
-                SERIAL => $serial
+                SERIAL    => $serial
             });
         }
     }
 }
+
 1;

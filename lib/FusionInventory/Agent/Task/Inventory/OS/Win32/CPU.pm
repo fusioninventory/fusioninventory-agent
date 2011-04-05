@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::CPU;
 use strict;
 use warnings;
 
-use constant KEY_WOW64_64KEY => 0x100;
-
 use English qw(-no_match_vars);
 use Win32;
 use Win32::TieRegistry (
@@ -14,41 +12,17 @@ use Win32::TieRegistry (
 );
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
-# the CPU description in WMI is false, we use the registry instead
-# Hardware\Description\System\CentralProcessor\1
-# thank you Nicolas Richard 
-sub getCPUInfoFromRegistry {
-    my ($logger, $cpuId) = @_;
-
-    my $machKey= $Registry->Open('LMachine', {
-        Access=> KEY_READ | KEY_WOW64_64KEY
-    }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-    my $data =
-        $machKey->{"Hardware/Description/System/CentralProcessor/".$cpuId};
-
-    my $info;
-
-    foreach my $tmpkey (%$data) {
-        next unless $tmpkey =~ /^\/(.*)/;
-        my $key = $1;
-
-        $info->{$key} = $data->{$tmpkey};
-    }
-
-    return $info;
+sub isInventoryEnabled {
+    return 1;
 }
 
-
-
-sub isInventoryEnabled {1}
-
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $logger    = $params->{logger};
 
     my $serial;
     my $id;
@@ -56,10 +30,9 @@ sub doInventory {
 
     my $vmsystem;
 
-# http://forge.fusioninventory.org/issues/379
+    # http://forge.fusioninventory.org/issues/379
     my(@osver) = Win32::GetOSVersion();
     my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
-
 
     my $dmidecodeCpu = getCpusFromDmidecode();
 
@@ -68,7 +41,7 @@ sub doInventory {
         NumberOfCores ProcessorId MaxClockSpeed
     /)) {
 
-        my $info = getCPUInfoFromRegistry($logger, $cpuId);
+        my $info = _getCPUInfoFromRegistry($logger, $cpuId);
 
 #        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
         my $core = $Properties->{NumberOfCores};
@@ -123,9 +96,30 @@ sub doInventory {
             VMSYSTEM => $vmsystem 
         });
     }
-
-
-
-
 }
+
+# the CPU description in WMI is false, we use the registry instead
+# Hardware\Description\System\CentralProcessor\1
+# thank you Nicolas Richard 
+sub _getCPUInfoFromRegistry {
+    my ($logger, $cpuId) = @_;
+
+    my $machKey= $Registry->Open('LMachine', {
+        Access=> KEY_READ | KEY_WOW64_64KEY
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
+    my $data =
+        $machKey->{"Hardware/Description/System/CentralProcessor/".$cpuId};
+
+    my $info;
+
+    foreach my $tmpkey (%$data) {
+        next unless $tmpkey =~ /^\/(.*)/;
+        my $key = $1;
+        $info->{$key} = $data->{$tmpkey};
+    }
+
+    return $info;
+}
+
 1;

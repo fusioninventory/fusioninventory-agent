@@ -3,8 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Drives;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 my @type = (
     'Unknown', 
@@ -21,18 +20,17 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $logger = $params->{logger};
-    my $inventory = $params->{inventory};
+    my ($params) = @_;
 
-    my $systemDrive = '';
+    my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
+
+    my $systemDrive;
     foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
         SystemDrive
     /)) {
         $systemDrive = lc($Properties->{SystemDrive});
     }
-
-    my @drives;
 
     foreach my $Properties (getWmiProperties('Win32_LogicalDisk', qw/
         InstallDate Description FreeSpace FileSystem VolumeName Caption
@@ -49,7 +47,7 @@ sub doInventory {
             $size = int($Properties->{Size}/(1024*1024))
         }
 
-        push @drives, {
+        $inventory->addDrive({
             CREATEDATE => $Properties->{InstallDate},
             DESCRIPTION => $Properties->{Description},
             FREE => $freespace,
@@ -61,14 +59,8 @@ sub doInventory {
             TOTAL => $size,
             TYPE => $type[$Properties->{DriveType}] || 'Unknown',
             VOLUMN => $Properties->{VolumeName},
-        };
-
+        });
     }
-
-    foreach (@drives) {
-        $inventory->addDrive($_);
-    }
-
 }
 
 1;

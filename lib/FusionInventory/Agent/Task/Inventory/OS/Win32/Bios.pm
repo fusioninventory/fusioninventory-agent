@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Bios;
 use strict;
 use warnings;
 
-use constant KEY_WOW64_64KEY => 0x100;
-
 use English qw(-no_match_vars);
 use Win32::TieRegistry (
     Delimiter   => '/',
@@ -12,43 +10,19 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-# Only run this module if dmidecode has not been found
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
+use FusionInventory::Agent::Tools::Win32;
 
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+# Only run this module if dmidecode has not been found
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
 
 sub isInventoryEnabled {
     return 1;
 }
 
-sub getBiosInfoFromRegistry {
-    my ($logger) = @_;
-
-    my $machKey= $Registry->Open('LMachine', {
-        Access=> KEY_READ | KEY_WOW64_64KEY
-    }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-    my $data =
-        $machKey->{"Hardware/Description/System/BIOS"};
-
-    my $info;
-
-    foreach my $tmpkey (%$data) {
-        next unless $tmpkey =~ /^\/(.*)/;
-        my $key = $1;
-
-        $info->{$key} = $data->{$tmpkey};
-    }
-
-    return $info;
-}
-
-
-
-
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     my $smodel;
@@ -65,8 +39,7 @@ sub doInventory {
     my $model;
     my $assettag;
 
-
-    my $registryInfo = getBiosInfoFromRegistry();
+    my $registryInfo = _getBiosInfoFromRegistry();
 
     $bdate = $registryInfo->{BIOSReleaseDate};
 
@@ -139,6 +112,26 @@ sub doInventory {
         });
     }
 
+}
+
+sub _getBiosInfoFromRegistry {
+
+    my $machKey= $Registry->Open('LMachine', {
+        Access=> KEY_READ | KEY_WOW64_64KEY
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
+    my $data =
+        $machKey->{"Hardware/Description/System/BIOS"};
+
+    my $info;
+
+    foreach my $tmpkey (%$data) {
+        next unless $tmpkey =~ /^\/(.*)/;
+        my $key = $1;
+        $info->{$key} = $data->{$tmpkey};
+    }
+
+    return $info;
 }
 
 1;
