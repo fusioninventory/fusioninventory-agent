@@ -41,26 +41,22 @@ sub doInventory {
         / ]
     )) {
 
-        my $freespace;
-        my $size;
+        $object->{FreeSpace} = int($object->{FreeSpace} / (1024 * 1024))
+            if $object->{FreeSpace};
 
-        if ($object->{FreeSpace}) {
-            $freespace = int($object->{FreeSpace}/(1024*1024))
-        }
-        if ($object->{Size}) {
-            $size = int($object->{Size}/(1024*1024))
-        }
+        $object->{Size} = int($object->{Size} / (1024 * 1024))
+            if $object->{Size};
 
         $inventory->addDrive({
             CREATEDATE  => $object->{InstallDate},
             DESCRIPTION => $object->{Description},
-            FREE        => $freespace,
+            FREE        => $object->{FreeSpace},
             FILESYSTEM  => $object->{FileSystem},
             LABEL       => $object->{VolumeName},
             LETTER      => $object->{DeviceID} || $object->{Caption},
             SERIAL      => $object->{VolumeSerialNumber},
             SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
-            TOTAL       => $size,
+            TOTAL       => $object->{Size},
             TYPE        => $type[$object->{DriveType}] || 'Unknown',
             VOLUMN      => $object->{VolumeName},
         });

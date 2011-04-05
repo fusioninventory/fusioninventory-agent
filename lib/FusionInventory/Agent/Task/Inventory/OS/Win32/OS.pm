@@ -37,6 +37,9 @@ sub doInventory {
             'SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'
         ));
 
+        $object->{TotalSwapSpaceSize} = int($object->{TotalSwapSpaceSize} / (1024 * 1024))
+            if $object->{TotalSwapSpaceSize};
+
         $inventory->setHardware({
             WINLANG     => $object->{OSLanguage},
             OSNAME      => $object->{Caption},
@@ -46,7 +49,7 @@ sub doInventory {
             WINCOMPANY  => $object->{Organization},
             WINOWNER    => $object->{RegistredUser},
             OSCOMMENTS  => $object->{CSDVersion},
-            SWAP        => int(($object->{TotalSwapSpaceSize}||0)/(1024*1024)),
+            SWAP        => $object->{TotalSwapSpaceSize},
             DESCRIPTION => $description,
         });
     }
@@ -58,13 +61,13 @@ sub doInventory {
         / ]
     )) {
 
-        my $workgroup = $object->{Domain} || $object->{Workgroup};
-        my $winowner = $object->{PrimaryOwnerName};
+        $object->{TotalPhysicalMemory} = int($object->{TotalPhysicalMemory} / (1024 * 1024))
+            if $object->{TotalPhysicalMemory};
 
         $inventory->setHardware({
-            MEMORY     => int(($object->{TotalPhysicalMemory}||0)/(1024*1024)),
-            WORKGROUP  => $workgroup,
-            WINOWNER   => $winowner,
+            MEMORY     => $object->{TotalPhysicalMemory},
+            WORKGROUP  => $object->{Domain} || $object->{Workgroup},
+            WINOWNER   => $object->{PrimaryOwnerName},
             NAME       => $object->{Name},
         });
     }

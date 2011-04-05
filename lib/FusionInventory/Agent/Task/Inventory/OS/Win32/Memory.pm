@@ -94,8 +94,11 @@ sub doInventory {
         my $type = $memoryTypeVal[$object->{MemoryType}];
         next if $type && $type eq 'ROM';
 
+        $object->{Capacity} = $object->{Capacity} / (1024 * 1024)
+            if $object->{Capacity};
+
         push @memories, {
-            CAPACITY     => sprintf("%i",$object->{Capacity}/(1024*1024)),
+            CAPACITY     => $object->{Capacity},
             CAPTION      => $object->{Caption},
             DESCRIPTION  => $object->{Description},
             FORMFACTOR   => $formFactorVal[$object->{FormFactor}],

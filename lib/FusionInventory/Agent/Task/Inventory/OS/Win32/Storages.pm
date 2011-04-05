@@ -29,6 +29,9 @@ sub doInventory {
             $info = _getInfo("hd", $1);
         }
 
+        $object->{Size} = int($object->{Size} / (1024 * 1024))
+            if $object->{Size};
+
         $inventory->addStorage({
             MANUFACTURER => $object->{Manufacturer},
             MODEL        => $info->{model} || $object->{Model},
@@ -38,7 +41,7 @@ sub doInventory {
             INTERFACE    => $object->{InterfaceType},
             FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
             SERIAL       => $info->{serial} || $object->{SerialNumber},
-            DISKSIZE     => $info->{size} || int($object->{Size}/(1024*1024)),
+            DISKSIZE     => $info->{size} || $object->{Size},
             SCSI_CHID    => $object->{SCSILogicialUnit},
             SCSI_COID    => $object->{SCSIPort},
             SCSI_LUN     => $object->{SCSILogicalUnit},
@@ -60,10 +63,8 @@ sub doInventory {
             $info = _getInfo("cdrom", $1);
         }
 
-        my $size;
-        if ($object->{Size}) {
-            $size = int($object->{Size}/(1024*1024))
-        }
+        $object->{Size} = int($object->{Size} / (1024 * 1024))
+            if $object->{Size};
 
         $inventory->addStorage({
             MANUFACTURER => $object->{Manufacturer},
@@ -74,7 +75,7 @@ sub doInventory {
             INTERFACE    => $object->{InterfaceType},
             FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
             SERIAL       => $info->{serial} || $object->{SerialNumber},
-            DISKSIZE     => $info->{size} || $size,
+            DISKSIZE     => $info->{size} || $object->{Size},
             SCSI_CHID    => $object->{SCSILogicialUnit},
             SCSI_COID    => $object->{SCSIPort},
             SCSI_LUN     => $object->{SCSILogicalUnit},
@@ -91,6 +92,9 @@ sub doInventory {
         / ]
     )) {
 
+        $object->{Size} = int($object->{Size} / (1024 * 1024))
+            if $object->{Size};
+
         $inventory->addStorage({
             MANUFACTURER => $object->{Manufacturer},
             MODEL        => $object->{Caption},
@@ -100,7 +104,7 @@ sub doInventory {
             INTERFACE    => $object->{InterfaceType},
             FIRMWARE     => $object->{FirmwareRevision},
             SERIAL       => $object->{SerialNumber},
-            DISKSIZE     => int($object->{Size}/(1024*1024)),
+            DISKSIZE     => $object->{Size},
             SCSI_CHID    => $object->{SCSILogicialUnit},
             SCSI_COID    => $object->{SCSIPort},
             SCSI_LUN     => $object->{SCSILogicalUnit},

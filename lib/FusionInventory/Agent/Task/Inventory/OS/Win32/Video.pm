@@ -30,14 +30,12 @@ sub doInventory {
                 $object->{CurrentVerticalResolution};
         }
 
-        my $memory;
-        if ($object->{AdaptaterRAM}) {
-            $memory = int($object->{AdaptaterRAM} / (1024*1024));
-        }
+        $object->{AdaptaterRAM} = int($object->{AdaptaterRAM} / (1024 * 1024))
+            if $object->{AdaptaterRAM};
 
         $inventory->addVideo({
             CHIPSET    => $object->{VideoProcessor},
-            MEMORY     => $memory,
+            MEMORY     => $object->{AdaptaterRAM},
             NAME       => $object->{Name},
             RESOLUTION => $resolution
         });
