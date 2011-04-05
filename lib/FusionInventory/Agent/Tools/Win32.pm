@@ -66,26 +66,27 @@ sub encodeFromRegistry {
     return encode("UTF-8", decode($localCodepage, $string));
 }
 
-sub getWmiProperties {
-    my $wmiClass = shift;
-    my @keys = @_;
+sub getWmiObjects {
+    my %params = (
+        moniker => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
+        @_
+    );
 
-    my $WMIService = Win32::OLE->GetObject(
-        "winmgmts:{impersonationLevel=impersonate,(security)}!//./"
-    ) or die "WMI connection failed: " . Win32::OLE->LastError();
+    my $WMIService = Win32::OLE->GetObject($params{moniker})
+        or die "WMI connection failed: " . Win32::OLE->LastError();
 
-    my @properties;
-    foreach my $value (in(
-        $WMIServices->InstancesOf($wmiClass)
+    my @objects;
+    foreach my $instance (in(
+        $WMIServices->InstancesOf($params{class})
     )) {
-    my $property;
-        foreach my $key (@keys) {
-            $property->{$key} = encodeFromWmi($value->{$key});
+        my $object;
+        foreach my $property (@{$params{properties}}) {
+            $object->{$property} = encodeFromWmi($instance->{$property});
         }
-        push @properties, $property;
+        push @objects, $object;
     }
 
-    return @properties;
+    return @objects;
 }
 
 1;
@@ -105,9 +106,19 @@ This module provides some Windows-specific generic functions.
 
 Returns true if the OS is 64bit or false.
 
-=head2 getWmiProperties($class, @properties)
+=head2 getWmiObjects(%params)
 
-Returns the list of given properties from given WMI class, properly encoded.
+Returns the list of objects from given WMI class, with given properties, properly encoded.
+
+=over
+
+=item moniker a WMI moniker (default: winmgmts:{impersonationLevel=impersonate,(security)}!//./)
+
+=item class a WMI class
+
+=item properties a list of WMI properties
+
+=back
 
 =head2 encodeFromWmi($string)
 
