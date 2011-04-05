@@ -23,17 +23,11 @@ sub doInventory {
     # Doesn't works on Win2003 Server
     # On Win7, we need to use SecurityCenter2
     foreach my $instance (qw/SecurityCenter SecurityCenter2/) {
-        my $WMIServices = Win32::OLE->GetObject(
+        my $WMIService = Win32::OLE->GetObject(
             "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/$instance"
-        );
+        ) or die "WMI connection failed: " . Win32::OLE->LastError();
 
-        if (!$WMIServices) {
-            $logger->error(Win32::OLE->LastError());
-            return;
-        }
-
-        foreach my $properties (Win32::OLE::in($WMIServices->InstancesOf(
-                "AntiVirusProduct"))) {
+        foreach my $properties (in($WMIService->InstancesOf("AntiVirusProduct"))) {
             $inventory->addAntiVirus({
                 COMPANY  => $properties->{companyName},
                 NAME     => $properties->{displayName},

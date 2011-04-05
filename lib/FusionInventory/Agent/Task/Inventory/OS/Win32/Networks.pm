@@ -24,10 +24,9 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    my $strComputer = '.';
-    my $objWMIService = Win32::OLE->GetObject(
-        'winmgmts:' . '{impersonationLevel=impersonate}!\\\\' . $strComputer . '\\root\\cimv2'
-    );
+    my $WMIService = Win32::OLE->GetObject(
+        'winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2'
+    ) or die "WMI connection failed: " . Win32::OLE->LastError();
 
     my $defaultGw;
     my %ips;
@@ -36,7 +35,7 @@ sub doInventory {
     my %defaultgateways;
     my %dns;
 
-    my $nics = $objWMIService->ExecQuery(
+    my $nics = $WMIService->ExecQuery(
         'SELECT * FROM Win32_NetworkAdapterConfiguration'
     );
     foreach my $nic (in $nics) {

@@ -25,17 +25,17 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-        or die "WMI connection failed";
+    my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+        or die "WMI connection failed: " . Win32::OLE->LastError();
 
-    my $colItems = $objWMIService->ExecQuery(
+    my $processes = $WMIService->ExecQuery(
         "SELECT * FROM Win32_Process", "WQL",
         wbemFlagReturnImmediately | wbemFlagForwardOnly
     );
 
-    foreach my $objItem (in $colItems) {
+    foreach my $process (in $processes) {
     
-        my $cmdLine = $objItem->{CommandLine};
+        my $cmdLine = $process->{CommandLine};
 
         next unless $cmdLine;
  
@@ -43,7 +43,7 @@ sub doInventory {
             my $name = Variant (VT_BYREF | VT_BSTR, '');
             my $domain = Variant (VT_BYREF | VT_BSTR, '');
     
-            $objItem->GetOwner($name, $domain);
+            $process->GetOwner($name, $domain);
    
             $inventory->addUser({
                 LOGIN => $name->Get(),

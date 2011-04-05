@@ -42,18 +42,16 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    my $strComputer = '.';
+    my $WMIService = Win32::OLE->GetObject(
+        'winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2'
+    ) or die "WMI connection failed: " . Win32::OLE->LastError();
 
-    my $objWMIService = Win32::OLE->GetObject(
-        'winmgmts:' . '{impersonationLevel=impersonate}!\\\\' . $strComputer . '\\root\\cimv2'
-    );
+    my $enclosures = $WMIService->ExecQuery('SELECT * FROM Win32_SystemEnclosure');
+    my ($enclosure) = (in $enclosures);
 
-    my $tmp = $objWMIService->ExecQuery('SELECT * FROM Win32_SystemEnclosure');
-    my ($systemEnclosure) = (in $tmp);
+    return unless $enclosure;
 
-    return unless $systemEnclosure;
-
-    my $chassisTypeId = $systemEnclosure->ChassisTypes->[0];
+    my $chassisTypeId = $enclosure->ChassisTypes->[0];
     $inventory->setBios({
         TYPE => $chassisType[$chassisTypeId]
     });

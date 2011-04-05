@@ -15,14 +15,6 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    my $WMIServices = Win32::OLE->GetObject(
-        "winmgmts:{impersonationLevel=impersonate,(security)}!//./"
-    );
-
-    if (!$WMIServices) {
-        print Win32::OLE->LastError();
-    }
-
     foreach my $Properties (getWmiProperties('Win32_SystemSlot', qw/
         Name Description SlotDesignation Status Shared
     /)) {
