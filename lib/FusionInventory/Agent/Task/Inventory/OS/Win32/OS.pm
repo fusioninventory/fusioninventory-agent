@@ -24,10 +24,13 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger = $params->{logger};
 
-    foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
-        OSLanguage Caption Version SerialNumber Organization RegisteredUser
-        CSDVersion TotalSwapSpaceSize
-        /)) {
+    foreach my $object (getWmiObjects(
+            class      => 'Win32_OperatingSystem',
+            properties => [ qw/
+                OSLanguage Caption Version SerialNumber Organization RegisteredUser
+                CSDVersion TotalSwapSpaceSize
+            / ]
+        )) {
 
         my $key = _getXPkey();
         my $description = encodeFromRegistry(_getValueFromRegistry(
@@ -35,39 +38,43 @@ sub doInventory {
         ));
 
         $inventory->setHardware({
-            WINLANG     => $Properties->{OSLanguage},
-            OSNAME      => $Properties->{Caption},
-            OSVERSION   => $Properties->{Version},
+            WINLANG     => $object->{OSLanguage},
+            OSNAME      => $object->{Caption},
+            OSVERSION   => $object->{Version},
             WINPRODKEY  => $key,
-            WINPRODID   => $Properties->{SerialNumber},
-            WINCOMPANY  => $Properties->{Organization},
-            WINOWNER    => $Properties->{RegistredUser},
-            OSCOMMENTS  => $Properties->{CSDVersion},
-            SWAP        => int(($Properties->{TotalSwapSpaceSize}||0)/(1024*1024)),
+            WINPRODID   => $object->{SerialNumber},
+            WINCOMPANY  => $object->{Organization},
+            WINOWNER    => $object->{RegistredUser},
+            OSCOMMENTS  => $object->{CSDVersion},
+            SWAP        => int(($object->{TotalSwapSpaceSize}||0)/(1024*1024)),
             DESCRIPTION => $description,
         });
     }
 
-    foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
-        Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_ComputerSystem',
+        properties => [ qw/
+            Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
+        / ]
+    )) {
 
-        my $workgroup = $Properties->{Domain} || $Properties->{Workgroup};
-        my $winowner = $Properties->{PrimaryOwnerName};
+        my $workgroup = $object->{Domain} || $object->{Workgroup};
+        my $winowner = $object->{PrimaryOwnerName};
 
         $inventory->setHardware({
-            MEMORY     => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
+            MEMORY     => int(($object->{TotalPhysicalMemory}||0)/(1024*1024)),
             WORKGROUP  => $workgroup,
             WINOWNER   => $winowner,
-            NAME       => $Properties->{Name},
+            NAME       => $object->{Name},
         });
     }
 
-    foreach my $Properties (getWmiProperties('Win32_ComputerSystemProduct', qw/
-        UUID
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_ComputerSystemProduct',
+        properties => [ qw/UUID/ ]
+    )) {
 
-        my $uuid = $Properties->{UUID};
+        my $uuid = $object->{UUID};
         $uuid = '' if $uuid =~ /^[0-]+$/;
         $inventory->setHardware({
             UUID => $uuid,

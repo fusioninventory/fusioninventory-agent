@@ -37,20 +37,21 @@ sub doInventory {
     my $dmidecodeCpu = getCpusFromDmidecode();
 
     my $cpuId = 0;
-    foreach my $Properties (getWmiProperties('Win32_Processor', qw/
-        NumberOfCores ProcessorId MaxClockSpeed
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_Processor',
+        properties => [ qw/NumberOfCores ProcessorId MaxClockSpeed/ ]
+    )) {
 
         my $info = _getCPUInfoFromRegistry($logger, $cpuId);
 
-#        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
-        my $core = $Properties->{NumberOfCores};
+#        my $cache = $object->{L2CacheSize}+$object->{L3CacheSize};
+        my $core = $object->{NumberOfCores};
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
-        my $id = $dmidecodeCpu->[$cpuId]->{ID} || $Properties->{ProcessorId};
+        my $id = $dmidecodeCpu->[$cpuId]->{ID} || $object->{ProcessorId};
         my $serial = $dmidecodeCpu->[$cpuId]->{SERIAL};
-        my $speed = $dmidecodeCpu->[$cpuId]->{SPEED} || $Properties->{MaxClockSpeed};
+        my $speed = $dmidecodeCpu->[$cpuId]->{SPEED} || $object->{MaxClockSpeed};
 
         if ($manufacturer) {
             $manufacturer =~ s/Genuine//;
@@ -78,14 +79,14 @@ sub doInventory {
         }
 
         $inventory->addCPU({
-#           CACHE => $cache,
-            CORE => $core,
-            DESCRIPTION => $description,
-            NAME => $name,
+#           CACHE        => $cache,
+            CORE         => $core,
+            DESCRIPTION  => $description,
+            NAME         => $name,
             MANUFACTURER => $manufacturer,
-            SERIAL => $serial,
-            SPEED => $speed,
-	    ID => $id
+            SERIAL       => $serial,
+            SPEED        => $speed,
+	    ID           => $id
         });
 
         $cpuId++;

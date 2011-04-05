@@ -43,39 +43,51 @@ sub doInventory {
 
     $bdate = $registryInfo->{BIOSReleaseDate};
 
-    foreach my $Properties (getWmiProperties('Win32_Bios', qw/
-        SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion
-    /)) {
-        $biosSerial = $Properties->{SerialNumber};
-        $ssn = $Properties->{SerialNumber} unless $ssn;
-        $bmanufacturer = $Properties->{Manufacturer} unless $bmanufacturer;
-        $bversion = $Properties->{SMBIOSBIOSVersion} unless $bversion;
-        $bversion = $Properties->{BIOSVersion} unless $bversion;
-        $bversion = $Properties->{Version} unless $bversion;
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_Bios',
+        properties => [ qw/
+            SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion
+        / ]
+    )) {
+        $biosSerial = $object->{SerialNumber};
+        $ssn = $object->{SerialNumber} unless $ssn;
+        $bmanufacturer = $object->{Manufacturer} unless $bmanufacturer;
+        $bversion = $object->{SMBIOSBIOSVersion} unless $bversion;
+        $bversion = $object->{BIOSVersion} unless $bversion;
+        $bversion = $object->{Version} unless $bversion;
     }
 
-    foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
-        Manufacturer Model
-    /)) {
-        $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
-        $model = $Properties->{Model} unless $model;
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_ComputerSystem',
+        properties => [ qw/
+            Manufacturer Model
+        / ]
+    )) {
+        $smanufacturer = $object->{Manufacturer} unless $smanufacturer;
+        $model = $object->{Model} unless $model;
     }
 
-    foreach my $Properties (getWmiProperties('Win32_SystemEnclosure', qw/
-        SerialNumber SMBIOSAssetTag
-    /)) {
-        $enclosureSerial = $Properties->{SerialNumber} ;
-        $ssn = $Properties->{SerialNumber} unless $ssn;
-        $assettag = $Properties->{SMBIOSAssetTag} unless $assettag;
+    foreach my $object (getWmiObjects(
+            class      => 'Win32_SystemEnclosure',
+            properties => [ qw/
+                SerialNumber SMBIOSAssetTag
+            / ]
+    )) {
+        $enclosureSerial = $object->{SerialNumber} ;
+        $ssn = $object->{SerialNumber} unless $ssn;
+        $assettag = $object->{SMBIOSAssetTag} unless $assettag;
     }
 
-    foreach my $Properties (getWmiProperties('Win32_BaseBoard', qw/
-        SerialNumber Product Manufacturer
-    /)) {
-        $baseBoardSerial = $Properties->{SerialNumber};
-        $ssn = $Properties->{SerialNumber} unless $ssn;
-        $smodel = $Properties->{Product} unless $smodel;
-        $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
+    foreach my $object (getWmiObjects(
+            class => 'Win32_BaseBoard',
+            properties => [ qw/
+                SerialNumber Product Manufacturer
+            / ]
+    )) {
+        $baseBoardSerial = $object->{SerialNumber};
+        $ssn = $object->{SerialNumber} unless $ssn;
+        $smodel = $object->{Product} unless $smodel;
+        $smanufacturer = $object->{Manufacturer} unless $smanufacturer;
 
     }
 

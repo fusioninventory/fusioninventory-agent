@@ -51,43 +51,47 @@ sub doInventory {
     my ($params) = @_;
 
     my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
 
-    foreach my $Properties (getWmiProperties('Win32_Printer', qw/
-        ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
-        Comment DescriptionDriverName DriverName PortName Network Shared 
-        PrinterStatus ServerName ShareName PrintProcessor
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_Printer',
+        properties => [ qw/
+            ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
+            Comment DescriptionDriverName DriverName PortName Network Shared 
+            PrinterStatus ServerName ShareName PrintProcessor
+        / ]
+    )) {
 
         my $errStatus;
-        if ($Properties->{ExtendedDetectedErrorState}) {
-            $errStatus = $errStatus[$Properties->{ExtendedDetectedErrorState}];
+        if ($object->{ExtendedDetectedErrorState}) {
+            $errStatus = $errStatus[$object->{ExtendedDetectedErrorState}];
         }
 
         my $resolution;
 
-        if ($Properties->{HorizontalResolution}) {
+        if ($object->{HorizontalResolution}) {
             $resolution =
-$Properties->{HorizontalResolution}."x".$Properties->{VerticalResolution};
+                $object->{HorizontalResolution} .
+                "x"                             .
+                $object->{VerticalResolution};
         }
 
-        $Properties->{Serial} = _getSerialbyUsb($Properties->{PortName});
+        $object->{Serial} = _getSerialbyUsb($object->{PortName});
 
         $inventory->addPrinter({
-            NAME => $Properties->{Name},
-            COMMENT => $Properties->{Comment},
-            DESCRIPTION => $Properties->{Description},
-            DRIVER => $Properties->{DriverName},
-            PORT => $Properties->{PortName},
-            RESOLUTION => $resolution,
-            NETWORK => $Properties->{Network},
-            SHARED => $Properties->{Shared},
-            STATUS => $status[$Properties->{PrinterStatus}],
-            ERRSTATUS => $errStatus,
-            SERVERNAME => $Properties->{ServerName},
-            SHARENAME => $Properties->{ShareName},
-            PRINTPROCESSOR => $Properties->{PrintProcessor},
-            SERIAL => $Properties->{Serial}
+            NAME           => $object->{Name},
+            COMMENT        => $object->{Comment},
+            DESCRIPTION    => $object->{Description},
+            DRIVER         => $object->{DriverName},
+            PORT           => $object->{PortName},
+            RESOLUTION     => $resolution,
+            NETWORK        => $object->{Network},
+            SHARED         => $object->{Shared},
+            STATUS         => $status[$object->{PrinterStatus}],
+            ERRSTATUS      => $errStatus,
+            SERVERNAME     => $object->{ServerName},
+            SHARENAME      => $object->{ShareName},
+            PRINTPROCESSOR => $object->{PrintProcessor},
+            SERIAL         => $object->{Serial}
         });
 
     }    

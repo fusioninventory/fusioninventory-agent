@@ -26,39 +26,43 @@ sub doInventory {
     my $logger    = $params->{logger};
 
     my $systemDrive;
-    foreach my $Properties (getWmiProperties('Win32_OperatingSystem', qw/
-        SystemDrive
-    /)) {
-        $systemDrive = lc($Properties->{SystemDrive});
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_OperatingSystem',
+        properties => [ qw/SystemDrive/ ]
+    )) {
+        $systemDrive = lc($object->{SystemDrive});
     }
 
-    foreach my $Properties (getWmiProperties('Win32_LogicalDisk', qw/
-        InstallDate Description FreeSpace FileSystem VolumeName Caption
-        VolumeSerialNumber DeviceID Size DriveType VolumeName
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_LogicalDisk',
+        properties => [ qw/
+            InstallDate Description FreeSpace FileSystem VolumeName Caption
+            VolumeSerialNumber DeviceID Size DriveType VolumeName
+        / ]
+    )) {
 
         my $freespace;
         my $size;
 
-        if ($Properties->{FreeSpace}) {
-            $freespace = int($Properties->{FreeSpace}/(1024*1024))
+        if ($object->{FreeSpace}) {
+            $freespace = int($object->{FreeSpace}/(1024*1024))
         }
-        if ($Properties->{Size}) {
-            $size = int($Properties->{Size}/(1024*1024))
+        if ($object->{Size}) {
+            $size = int($object->{Size}/(1024*1024))
         }
 
         $inventory->addDrive({
-            CREATEDATE => $Properties->{InstallDate},
-            DESCRIPTION => $Properties->{Description},
-            FREE => $freespace,
-            FILESYSTEM => $Properties->{FileSystem},
-            LABEL => $Properties->{VolumeName},
-            LETTER => $Properties->{DeviceID} || $Properties->{Caption},
-            SERIAL => $Properties->{VolumeSerialNumber},
-            SYSTEMDRIVE => (lc($Properties->{DeviceID}) eq $systemDrive),
-            TOTAL => $size,
-            TYPE => $type[$Properties->{DriveType}] || 'Unknown',
-            VOLUMN => $Properties->{VolumeName},
+            CREATEDATE  => $object->{InstallDate},
+            DESCRIPTION => $object->{Description},
+            FREE        => $freespace,
+            FILESYSTEM  => $object->{FileSystem},
+            LABEL       => $object->{VolumeName},
+            LETTER      => $object->{DeviceID} || $object->{Caption},
+            SERIAL      => $object->{VolumeSerialNumber},
+            SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
+            TOTAL       => $size,
+            TYPE        => $type[$object->{DriveType}] || 'Unknown',
+            VOLUMN      => $object->{VolumeName},
         });
     }
 }

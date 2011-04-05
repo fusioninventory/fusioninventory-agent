@@ -14,28 +14,31 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    foreach my $Properties (getWmiProperties('Win32_VideoController', qw/
-        CurrentHorizontalResolution CurrentVerticalResolution VideoProcessor
-        AdaptaterRAM Name
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_VideoController',
+        properties => [ qw/
+            CurrentHorizontalResolution CurrentVerticalResolution VideoProcessor
+            AdaptaterRAM Name
+        / ]
+    )) {
 
         my $resolution;
-        if ($Properties->{CurrentHorizontalResolution}) {
+        if ($object->{CurrentHorizontalResolution}) {
             $resolution =
-                $Properties->{CurrentHorizontalResolution} .
+                $object->{CurrentHorizontalResolution} .
                 "x" .
-                $Properties->{CurrentVerticalResolution};
+                $object->{CurrentVerticalResolution};
         }
 
         my $memory;
-        if ($Properties->{AdaptaterRAM}) {
-            $memory = int($Properties->{AdaptaterRAM} / (1024*1024));
+        if ($object->{AdaptaterRAM}) {
+            $memory = int($object->{AdaptaterRAM} / (1024*1024));
         }
 
         $inventory->addVideo({
-            CHIPSET    => $Properties->{VideoProcessor},
+            CHIPSET    => $object->{VideoProcessor},
             MEMORY     => $memory,
-            NAME       => $Properties->{Name},
+            NAME       => $object->{Name},
             RESOLUTION => $resolution
         });
     }
