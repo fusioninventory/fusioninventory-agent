@@ -12,7 +12,7 @@ my %tests = (
 );
 
 foreach (keys %tests) {
-    open F, "<resources/hpux/memory/$_" or warn;
+    open F, "<resources/hpux/memory/cstm/$_" or warn;
     my @list_mem = <F>;
     close F;
 
