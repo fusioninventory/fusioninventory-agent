@@ -8,12 +8,12 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my (%params) = @_;
+    my ($params) = @_;
 
     return 
         # we use system profiler on MacOS
         $OSNAME ne 'darwin' &&
-        !$params{no_printer} &&
+        !$params->{config}->{no_printer} &&
         can_load("Net::CUPS") &&
         $Net::CUPS::VERSION >= 0.60;
 }
