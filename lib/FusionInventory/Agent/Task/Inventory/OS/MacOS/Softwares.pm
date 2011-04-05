@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::MacOS::Packages;
+package FusionInventory::Agent::Task::Inventory::OS::MacOS::Softwares;
 
 use strict;
 use warnings;

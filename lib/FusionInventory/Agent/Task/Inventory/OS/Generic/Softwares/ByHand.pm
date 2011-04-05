@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::ByHand;
+package FusionInventory::Agent::Task::Inventory::OS::Generic::Softwares::ByHand;
 #How does it work ?
 #
 #Create a directory called software in place where you have your

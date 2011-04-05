@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging;
+package FusionInventory::Agent::Task::Inventory::OS::Generic::Softwares;
 
 use strict;
 use warnings;

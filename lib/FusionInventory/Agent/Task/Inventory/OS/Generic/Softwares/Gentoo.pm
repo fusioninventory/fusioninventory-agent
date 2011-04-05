@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::BSDpkg;
+package FusionInventory::Agent::Task::Inventory::OS::Generic::Softwares::Gentoo;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run('pkg_info');
+    return can_run('equery');
 }
 
 sub doInventory {
@@ -15,8 +15,9 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my $command = 'pkg_info';
-    my $packages = _getPackagesFromPkgInfo(
+    my $command = 'equery list -i';
+
+    my $packages = _getPackagesListFromEquery(
         logger => $logger, command => $command
     );
 
@@ -25,19 +26,18 @@ sub doInventory {
     }
 }
 
-sub _getPackagesListFromPkgInfo {
+sub _getPackagesListFromEquery {
     my $handle = getFileHandle(@_);
 
     my @packages;
     while (my $line = <$handle>) {
-        next unless $line =~ /^(\S+)-(\d+\S*)\s+(.*)/;
+        chomp $line;
+        next unless $line =~ /^(.*)-([0-9]+.*)/;
         push @packages, {
             NAME    => $1,
             VERSION => $2,
-            VERSION => $3
         };
     }
-
     close $handle;
 
     return \@packages;

@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb;
+package FusionInventory::Agent::Task::Inventory::OS::Generic::Softwares::RPM;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run('dpkg-query');
+    return can_run('rpm');
 }
 
 sub doInventory {
@@ -16,14 +16,16 @@ sub doInventory {
     my $logger    = $params->{logger};
 
     my $command =
-        'dpkg-query --show --showformat=\'' .
-        '${Package}\t' .
-        '${Version}\t'.
-        '${Installed-Size}\t' .
-        '${Description}\n' .
+        'rpm -qa --queryformat \'' .
+        '%{NAME}\t' .
+        '%{VERSION}-%{RELEASE}\t' .
+        '%{INSTALLTIME:date}\t' .
+        '%{SIZE}\t' .
+        '%{VENDOR}\t' .
+        '%{SUMMARY}\n' . 
         '\'';
 
-    my $packages = _getPackagesListFromDpkg(
+    my $packages = _getPackagesListFromRpm(
         logger => $logger, command => $command
     );
     foreach my $package (@$packages) {
@@ -31,23 +33,24 @@ sub doInventory {
     }
 }
 
-sub _getPackagesListFromDpkg {
+sub _getPackagesListFromRpm {
     my $handle = getFileHandle(@_);
 
     my @packages;
     while (my $line = <$handle>) {
-        # skip descriptions
-        next if $line =~ /^ /;
         chomp $line;
         my @infos = split("\t", $line);
         push @packages, {
             NAME        => $infos[0],
             VERSION     => $infos[1],
-            FILESIZE    => $infos[2],
-            COMMENTS    => $infos[3],
-            FROM        => 'deb'
+            INSTALLDATE => $infos[2],
+            FILESIZE    => $infos[3],
+            PUBLISHER   => $infos[4],
+            COMMENTS    => $infos[5],
+            FROM        => 'rpm'
         };
     }
+
     close $handle;
 
     return \@packages;
