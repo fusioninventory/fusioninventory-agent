@@ -70,15 +70,12 @@ sub getWmiProperties {
     my $wmiClass = shift;
     my @keys = @_;
 
-    my $WMIServices = Win32::OLE->GetObject(
-        "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-    if (!$WMIServices) {
-        print STDERR Win32::OLE->LastError();
-    }
+    my $WMIService = Win32::OLE->GetObject(
+        "winmgmts:{impersonationLevel=impersonate,(security)}!//./"
+    ) or die "WMI connection failed: " . Win32::OLE->LastError();
 
     my @properties;
-    foreach my $value (Win32::OLE::in(
+    foreach my $value (in(
         $WMIServices->InstancesOf($wmiClass)
     )) {
     my $property;
