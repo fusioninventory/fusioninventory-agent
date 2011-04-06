@@ -35,13 +35,13 @@ sub doInventory {
         $SystemManufacturer = "Apple Computer, Inc." 
     }
 
-    $inventory->setBios(
+    $inventory->setBios({
         SMANUFACTURER => $SystemManufacturer,
         SMODEL        => $SystemModel,
         SSN           => $SystemSerial,
         BMANUFACTURER => $BiosManufacturer,
         BVERSION      => $BiosVersion,
-    );
+    });
 
 }
 

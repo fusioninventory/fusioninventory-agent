@@ -69,15 +69,15 @@ sub doInventory {
         $status eq 'Xen' &&
         !$inventory->{h}{CONTENT}{BIOS}{SMANUFACTURER}
     ) {
-        $inventory->setBios(
+        $inventory->setBios({
             SMANUFACTURER => 'Xen',
             SMODEL => 'PVM domU'
-        );
+        });
     }
 
-    $inventory->setHardware(
+    $inventory->setHardware({
         VMSYSTEM => $status,
-    );
+    });
 
 }
 

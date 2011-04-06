@@ -38,10 +38,10 @@ sub doInventory {
 
     my $OSComment = getFirstLine(command => 'uname -v');
 
-    $inventory->setHardware(
+    $inventory->setHardware({
         OSNAME     => _findRelease(),
         OSCOMMENTS => $OSComment
-    );
+    });
 }
 
 sub _findRelease {

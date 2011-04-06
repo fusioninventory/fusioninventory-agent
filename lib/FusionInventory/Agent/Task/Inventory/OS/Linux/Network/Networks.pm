@@ -33,10 +33,10 @@ sub doInventory {
         map { $_->{IPADDRESS} }
         @interfaces;
 
-    $inventory->setHardware(
+    $inventory->setHardware({
         IPADDR         => join('/', @ip_addresses),
         DEFAULTGATEWAY => $routes->{'0.0.0.0'}
-    );
+    });
 }
 
 sub _getRoutes {

@@ -25,9 +25,9 @@ sub doInventory {
     $uptime = getFormatedGmTime($uptime);
 
     my $DeviceType = getFirstLine(command => 'uname -m');
-    $inventory->setHardware(
+    $inventory->setHardware({
         DESCRIPTION => "$DeviceType/$uptime"
-    );
+    });
 
 }
 

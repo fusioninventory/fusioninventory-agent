@@ -27,13 +27,13 @@ sub doInventory {
         $last_date = $2;
     }
 
-    $inventory->setHardware(
+    $inventory->setHardware({
         OSNAME             => "Linux",
         OSCOMMENTS         => "Unknown Linux distribution",
         OSVERSION          => $osversion,
         LASTLOGGEDUSER     => $last_user,
         DATELASTLOGGEDUSER => $last_date
-    );
+    });
 
 }
 
