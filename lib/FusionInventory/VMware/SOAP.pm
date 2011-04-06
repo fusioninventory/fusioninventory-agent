@@ -189,7 +189,7 @@ sub _getVirtualMachineList {
     my @list;
     if (ref($ref) eq 'HASH') {
         push @list, $ref;
-    } else {
+    } elsif ($ref) {
         @list = @{$ref};
     }
 
