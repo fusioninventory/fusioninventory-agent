@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
+use FusionInventory::Agent::Tools::Linux;
 
 # Tested on 2.6.* kernels
 #
@@ -14,82 +14,83 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 #
 # Adaptec AAC-RAID
 
-my @devices = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getFromUdev();
-
 sub isInventoryEnabled {
-
-    if (can_run ('smartctl') ) { 
-        foreach my $hd (@devices) {
-            next unless $hd->{MANUFACTURER};
-
-            if ($hd->{MANUFACTURER} eq 'Adaptec') {
-                return 1;
-            }
-        }
-    }
-    return 0;
-
+    return -r '/proc/scsi/scsi';
 }
 
 sub doInventory {
+    my ($params) = @_;
 
-    my $params = shift;
     my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $logger    = $params->{logger};
 
-    if (-r '/proc/scsi/scsi') {
-        foreach my $hd (@devices) {
-            my $handle;
-            if (!open $handle, '<', '/proc/scsi/scsi') {
-                warn "Can't open /proc/scsi/scsi: $ERRNO";
-                next;
-            }
+    my @devices = getDevicesFromUdev(logger => $logger);
 
-# Example output:
-            #
-# Attached devices:
-# Host: scsi0 Channel: 00 Id: 00 Lun: 00
-#   Vendor: Adaptec  Model: raid10           Rev: V1.0
-#   Type:   Direct-Access                    ANSI  SCSI revision: 02
-# Host: scsi0 Channel: 01 Id: 00 Lun: 00
-#   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
-#   Type:   Direct-Access                    ANSI  SCSI revision: 03
-# Host: scsi0 Channel: 01 Id: 01 Lun: 00
-#   Vendor: HITACHI  Model: HUS151436VL3800  Rev: S3C0
-#   Type:   Direct-Access                    ANSI  SCSI revision: 03
+    foreach my $device (@devices) {
+        next unless $device->{MANUFACTURER};
+        next unless $device->{MANUFACTURER} eq 'Adaptec';
 
-            my ($host, $model, $firmware, $manufacturer, $size, $serialnumber);
-            my $count = -1;
-            while (<$handle>) {
-                ($host, $count) = (1, $count+1) if /^Host:\sscsi$hd->{SCSI_COID}.*/;
-                if ($host) {
-                    if ((/.*Model:\s(\S+).*Rev:\s(\S+).*/) and ($1 !~ 'raid.*')) {
-                        $model = $1;
-                        $firmware = $2;
-                        $manufacturer = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::getManufacturer($model);
-                        foreach (`smartctl -i /dev/sg$count`) {
-                            $serialnumber = $1 if /^Serial Number:\s+(\S*).*/;
-                        }
-                        $logger->debug("Adaptec: $hd->{NAME}, $manufacturer, $model, SATA, disk, $hd->{DISKSIZE}, $serialnumber, $firmware");
-                        $host = undef;
-
-                        $inventory->addStorages({
-                            NAME => $hd->{NAME},
-                            MANUFACTURER => $manufacturer,
-                            MODEL => $model,
-                            DESCRIPTION => 'SATA',
-                            TYPE => 'disk',
-                            DISKSIZE => $size,
-                            SERIALNUMBER => $serialnumber,
-                            FIRMWARE => $firmware,
-                        });
-                    }
-                }
-            }
-            close $handle;
+        foreach my $disk (_getDisksFromProc(
+                controller => 'scsi' . $device->{SCSI_COID},
+                name       => $device->{NAME},
+                logger     => $logger
+            )) {
+            $disk->{SERIALNUMBER} = getSerialnumber($disk->{device});
+            $inventory->addStorage($disk);
         }
     }
+}
 
+sub _getDisksFromProc {
+    my %params = (
+        file => '/proc/scsi/scsi',
+        @_
+    );
+
+    return unless $params{controller};
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @disks;
+    my $disk;
+
+    my $count = -1;
+    while (<$handle>) {
+        if (/^Host: (\w+)/) {
+            $count++;
+            if ($1 eq $params{controller}) {
+                # that's the controller we're looking for
+                $disk = {
+                    NAME        => $params{name},
+                    DESCRIPTION => 'SATA',
+                    TYPE        => 'disk',
+                };
+            } else {
+                # that's another controller
+                undef $disk;
+            }
+        }
+
+        if (/Model:\s(\S+).*Rev:\s(\S+)/) {
+            next unless $disk;
+            $disk->{MODEL}    = $1;
+            $disk->{FIRMWARE} = $2;
+
+            # that's the controller itself, not a disk
+            next if $disk->{MODEL} =~ 'raid';
+
+            $disk->{MANUFACTURER} = getCanonicalManufacturer(
+                $disk->{MODEL}
+            );
+            $disk->{DEVICE} = "/dev/sg$count";
+
+            push @disks, $disk;
+        }
+    }
+    close $handle;
+
+    return @disks;
 }
 
 1;

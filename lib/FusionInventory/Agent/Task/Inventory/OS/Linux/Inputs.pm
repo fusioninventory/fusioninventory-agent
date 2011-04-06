@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Inputs;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -12,18 +10,20 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $logger    = $params->{logger};
+
+    my $handle = getFileHandle(
+        file => '/proc/bus/input/devices',
+        logger => $logger
+    );
+    return unless $handle;
+
     my @inputs;
     my $device;
     my $in;
-
-    my $handle;
-    if (!open $handle, '<', '/proc/bus/input/devices') {
-         $logger->debug("Can't open /proc/bus/input/devices: $ERRNO");
-         return;
-    }
 
     while (my $line = <$handle>) {
         if ($line =~ /^I: Bus=.*Vendor=(.*) Prod/) {
@@ -34,8 +34,8 @@ sub doInventory {
             if ($device->{phys} && $device->{phys} =~ "input") {
                 push @inputs, {
                     DESCRIPTION => $device->{name},
-                    CAPTION => $device->{name},
-                    TYPE=> $device->{type},
+                    CAPTION     => $device->{name},
+                    TYPE        => $device->{type},
                 };
             }
     
@@ -50,7 +50,7 @@ sub doInventory {
                 $device->{name}=$1;
             }
             if ($line =~ /^H: Handlers=(\w+)/i) {
-		if ($1 =~ ".*kbd.*") {
+                if ($1 =~ ".*kbd.*") {
                     $device->{type}="Keyboard";
                 } elsif ($1 =~ ".*mouse.*") {
                     $device->{type}="Pointing";
@@ -63,15 +63,9 @@ sub doInventory {
     }
     close $handle;
 
-#    push @inputs, {
-#        DESCRIPTION => $device->{name},
-#        TYPE=> $device->{type},
-#    };
     foreach (@inputs) {
         $inventory->addInput($_);
     }
- 
 }
-
 
 1;

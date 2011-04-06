@@ -24,46 +24,40 @@ my @files = (
     [ '/etc/issue'             => '%s' ],
 );
 
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::LSB"];
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::LSB"];
 
 sub isInventoryEnabled {
     return 1;
 }
 
-sub findRelease {
+sub doInventory {
+    my ($params) = @_;
+
+    my $inventory = $params->{inventory};
+
+    my $OSComment = getFirstLine(command => 'uname -v');
+
+    $inventory->setHardware(
+        OSNAME     => _findRelease(),
+        OSCOMMENTS => $OSComment
+    );
+}
+
+sub _findRelease {
     my $release;
 
     foreach (@files) {
         my $file = $_->[0];
         my $distro = $_->[1];
 
-        next unless -f $file;
-        my $handle;
-        if (!open $handle, '<', $file) {
-            warn "Can't open $file: $ERRNO";
-            return;
-        }
-        my $version = <$handle>;
-        chomp $version;
-        close $handle;
+        next unless can_read($file);
+        my $version = getFirstLine(file => $file);
         $release = sprintf $distro, $version;
         last;
     }
 
     return $release;
-}
-
-sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-
-    my $OSComment = `uname -v`;
-    chomp $OSComment;
-
-    $inventory->setHardware({ 
-        OSNAME     => findRelease(),
-        OSCOMMENTS => $OSComment
-    });
 }
 
 1;

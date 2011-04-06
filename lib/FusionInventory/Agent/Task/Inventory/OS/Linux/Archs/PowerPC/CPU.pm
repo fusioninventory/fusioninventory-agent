@@ -3,9 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
 #processor       : 0
 #cpu             : POWER4+ (gq)
@@ -22,55 +21,50 @@ use FusionInventory::Agent::Tools;
 #
 #
 
-sub isInventoryEnabled { can_read ("/proc/cpuinfo") };
-
+sub isInventoryEnabled {
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $handle;
-    if (!open $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-        return
-    }
-
-    my @cpus;
-    my $current;
-    my $isIBM;
-
-    while (<$handle>) {
-        if (/^\s*$/) {
-            if ($current->{NAME}) {
-                push @cpus, $current;
-            }
-            $current = {};
-            next;
-        }
-
-        $isIBM = 1 if /^machine\s*:.*IBM/;
-        $current->{NAME} = $1 if /cpu\s+:\s+(\S.*)/;
-        if (/clock\s+:\s+(\S.*)/) {
-            $current->{SPEED} = $1;
-            $current->{SPEED} =~ s/\.\d+/MHz/;
-            $current->{SPEED} =~ s/MHz//;
-            $current->{SPEED} =~ s/GHz//;
-        }
-
-
-        if (/^\s*$/) {
-            if ($current->{NAME}) {
-                push @cpus, $current;
-            }
-            $current = {};
-        }
-    }
-    close $handle;
-
-    foreach my $cpu (@cpus) {
-        $cpu->{MANUFACTURER} = 'IBM' if $isIBM;
+    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
         $inventory->addCPU($cpu);
     }
+}
+
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    my @cpus;
+    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
+
+        my $speed;
+        if (
+            $cpu->{clock} &&
+            $cpu->{clock} =~ /(\d+)/
+        ) {
+            $speed = $1;
+        }
+
+        my $manufacturer;
+        if ($cpu->{machine} &&
+            $cpu->{machine} =~ /IBM/
+        ) {
+            $manufacturer = 'IBM';
+        }
+
+        push @cpus, {
+            NAME         => $cpu->{cpu},
+            MANUFACTURER => $manufacturer,
+            SPEED        => $speed
+        };
+    }
+
+    return @cpus;
 }
 
 1;

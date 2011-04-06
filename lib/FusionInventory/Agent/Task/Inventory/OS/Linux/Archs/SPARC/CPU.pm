@@ -3,33 +3,41 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC::CPU;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
-sub isInventoryEnabled { can_read ("/proc/cpuinfo") };
+sub isInventoryEnabled {
+    return -r '/proc/cpuinfo';
+};
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
-    my @cpu;
-    my $current = { ARCH => 'ARM' };
-    my $ncpus = 1;
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    if (!open my $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-    } else {
-        while (<$handle>) {
-            $current->{NAME} = $1 if /cpu\s+:\s+(\S.*)/;
-            $ncpus = $1 if /ncpus probed\s+:\s+(\d+)/
-        }
-        close $handle;
+    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
+        $inventory->addCPU($cpu);
     }
 
-    foreach (1..$ncpus) {
-        $inventory->addCPU($current);
+}
+
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    my $cpu = (getCPUsFromProc(logger => $logger, file => $file))[0];
+
+    return unless $cpu && $cpu->{'ncpus probed'};
+
+    my @cpus;
+    foreach (1 .. $cpu->{'ncpus probed'}) {
+        push @cpus, {
+            ARCH => 'ARM',
+            TYPE => $cpu->{cpu},
+        };
     }
+
+    return @cpus;
 }
 
 1;

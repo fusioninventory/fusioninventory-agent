@@ -3,44 +3,38 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::m68k::CPU;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
-sub isInventoryEnabled { can_read("/proc/cpuinfo") }
+sub isInventoryEnabled { 
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $handle;
-    if (!open $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-        return;
+    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
+        $inventory->addCPU($cpu);
+    }
+}
+
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    my @cpus;
+    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
+
+        push @cpus, {
+            ARCH  => 'm68k',
+            TYPE  => $cpu->{'cpu'},
+            SPEED => $cpu->{'clocking'}
+        };
     }
 
-    my @cpu;
-    my $current;
-
-    while (<$handle>) {
-        print;
-        if (/^CPU\s+:\s*:/) {
-            if ($current) {
-                $inventory->addCPU($current);
-            }
-
-            $current = {
-                ARCH => 'm68k',
-            };
-        } else {
-            $current->{NAME} = $1 if /CPU:\s+(\S.*)/;
-            $current->{SPEED} = $1 if /Clocking:\s+:\s+(\S.*)/;
-        }
-    }
-    close $handle;
-
-    # The last one
-    $inventory->addCPU($current);
+    return @cpus;
 }
 
 1;

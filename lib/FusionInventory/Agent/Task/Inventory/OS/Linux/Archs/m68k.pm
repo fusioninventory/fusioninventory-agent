@@ -5,10 +5,8 @@ use warnings;
 
 use Config;
 
-use FusionInventory::Agent::Tools;
-
 sub isInventoryEnabled { 
-    return $Config{'archname'} =~ /^m68k/;
+    return $Config{archname} =~ /^m68k/;
 };
 
 1;

@@ -3,45 +3,47 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha::CPU;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
-sub isInventoryEnabled { can_read("/proc/cpuinfo") }
+sub isInventoryEnabled { 
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $handle;
-    if (!open $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-        return;
+    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
+        $inventory->addCPU($cpu);
     }
+}
 
-    my @cpu;
-    my $current;
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
 
-    while (<$handle>) {
-        print;
-        if (/^cpu\s*:/) {
-            if ($current) {
-                $inventory->addCPU($current);
-            }
+    my @cpus;
+    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
 
-            $current = {
-                ARCH => 'Alpha',
-            };
-        } else {
-            $current->{SERIAL} = $1 if /^cpu serial number\s+:\s+(\S.*)/;
-            $current->{SPEED} = $1 if /cycle frequency \[Hz\]\s+:\s+(\d+)000000/;
-            $current->{NAME} = $1 if /platform string\s+:\s+(\S.*)/;
+        my $speed;
+        if (
+            $cpu->{'cycle frequency [hz]'} &&
+            $cpu->{'cycle frequency [hz]'} =~ /(\d+)000000/
+        ) {
+            $speed = $1;
         }
-    }
-    close $handle;
 
-    # The last one
-    $inventory->addCPU($current);
+        push @cpus, {
+            ARCH   => 'Alpha',
+            TYPE   => $cpu->{processor},
+            SERIAL => $cpu->{'cpu serial number'},
+            SPEED  => $speed
+        };
+    }
+
+    return @cpus;
 }
 
 1;

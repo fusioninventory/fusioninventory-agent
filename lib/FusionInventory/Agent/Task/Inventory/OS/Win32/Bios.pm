@@ -25,23 +25,11 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    my $smodel;
-    my $smanufacturer;
-    my $ssn;
-    my $enclosureSerial;
-    my $baseBoardSerial;
-    my $biosSerial;
-    my $bdate;
-    my $bversion;
-    my $bmanufacturer;
-    my $mmanufacturer;
-    my $msn;
-    my $model;
-    my $assettag;
-
     my $registryInfo = getRegistryKey("Hardware/Description/System/BIOS");
 
-    $bdate = $registryInfo->{BIOSReleaseDate};
+    my $bios = {
+        BDATE => $registryInfo->{BIOSReleaseDate}
+    };
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_Bios',
@@ -49,12 +37,12 @@ sub doInventory {
             SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion
         / ]
     )) {
-        $biosSerial = $object->{SerialNumber};
-        $ssn = $object->{SerialNumber} unless $ssn;
-        $bmanufacturer = $object->{Manufacturer} unless $bmanufacturer;
-        $bversion = $object->{SMBIOSBIOSVersion} unless $bversion;
-        $bversion = $object->{BIOSVersion} unless $bversion;
-        $bversion = $object->{Version} unless $bversion;
+        $bios->{BIOSSERIAL}    = $object->{SerialNumber};
+        $bios->{SSN}           = $object->{SerialNumber};
+        $bios->{BMANUFACTURER} = $object->{Manufacturer};
+        $bios->{BVERSION}      = $object->{SMBIOSBIOSVersion} || 
+                                 $object->{BIOSVersion}       || 
+                                 $object->{Version};
     }
 
     foreach my $object (getWmiObjects(
@@ -63,8 +51,8 @@ sub doInventory {
             Manufacturer Model
         / ]
     )) {
-        $smanufacturer = $object->{Manufacturer} unless $smanufacturer;
-        $model = $object->{Model} unless $model;
+        $bios->{SMANUFACTURER} = $object->{Manufacturer};
+        $bios->{MMODEL}        = $object->{Model};
     }
 
     foreach my $object (getWmiObjects(
@@ -73,9 +61,9 @@ sub doInventory {
                 SerialNumber SMBIOSAssetTag
             / ]
     )) {
-        $enclosureSerial = $object->{SerialNumber} ;
-        $ssn = $object->{SerialNumber} unless $ssn;
-        $assettag = $object->{SMBIOSAssetTag} unless $assettag;
+        $bios->{ENCLOSURESERIAL} = $object->{SerialNumber} ;
+        $bios->{SSN}             = $object->{SerialNumber} unless $bios->{SSN};
+        $bios->{ASSETTAG}        = $object->{SMBIOSAssetTag};
     }
 
     foreach my $object (getWmiObjects(
@@ -84,46 +72,21 @@ sub doInventory {
                 SerialNumber Product Manufacturer
             / ]
     )) {
-        $baseBoardSerial = $object->{SerialNumber};
-        $ssn = $object->{SerialNumber} unless $ssn;
-        $smodel = $object->{Product} unless $smodel;
-        $smanufacturer = $object->{Manufacturer} unless $smanufacturer;
+        $bios->{BASEBOARDSERIAL} = $object->{SerialNumber};
+        $bios->{SSN}             = $object->{SerialNumber} unless $bios->{SSN};
+        $bios->{SMODEL}          = $object->{Product};
+        $bios->{SMANUFACTURER}   = $object->{Manufacturer}
+            unless $bios->{SMANUFACTURER};
 
     }
 
-    $inventory->setBios({
-        SMODEL => $smodel,
-        SMANUFACTURER =>  $smanufacturer,
-        SSN => $ssn,
-        BDATE => $bdate,
-        BVERSION => $bversion,
-        BMANUFACTURER => $bmanufacturer,
-        MMANUFACTURER => $mmanufacturer,
-        MSN => $msn,
-        MMODEL => $model,
-        ASSETTAG => $assettag,
-        ENCLOSURESERIAL => $enclosureSerial,
-        BASEBOARDSERIAL => $baseBoardSerial,
-        BIOSSERIAL => $biosSerial,
-    });
+    $inventory->setBios($bios);
 
-    my $vmsystem;
-# it's more reliable to do a regex on the CPU NAME
-# QEMU Virtual CPU version 0.12.4
-#    if ($bmanufacturer eq 'Bochs' || $model eq 'Bochs') {
-#        $vmsystem = 'QEMU';
-#    } els
-
-    if ($bversion eq 'VirtualBox' || $model eq 'VirtualBox') {
-        $vmsystem = 'VirtualBox';
-    }
-
-    if ($vmsystem) {
+    if ($bios->{VERSION} eq 'VirtualBox' || $bios->{MMODEL} eq 'VirtualBox') {
         $inventory->setHardware ({
-            VMSYSTEM => $vmsystem 
+            VMSYSTEM => 'VirtualBox';
         });
     }
-
 }
 
 1;

@@ -3,48 +3,37 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::CPU;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
-sub isInventoryEnabled { can_read("/proc/cpuinfo") }
+sub isInventoryEnabled { 
+    return -r '/proc/cpuinfo';
+}
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $handle;
-    if (!open $handle, '<', '/proc/cpuinfo') {
-        warn "Can't open /proc/cpuinfo: $ERRNO";
-        return;
+    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
+        $inventory->addCPU($cpu);
+    }
+}
+
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    my @cpus;
+    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
+
+        push @cpus, {
+            ARCH => 'ARM',
+            TYPE => $cpu->{processor}
+        };
     }
 
-    my @cpu;
-    my $current;
-    my $inSystem;
-    while (<$handle>) {
-        if ($inSystem && /^Serial\s+:\s*(.*)/) {
-	    $inventory->setBios({ SSN => $1 });
-	} elsif (/^Hardware\s+:\s*(.*)/) {
-	    $inventory->setBios({ SMODEL => $1 });
-	    $inSystem = 1;
-        } if (/^Processor\s+:\s*:/) {
-
-            if ($current) {
-                $inventory->addCPU($current);
-            }
-
-            $current = {
-                ARCH => 'ARM',
-            };
-
-        }
-        $current->{NAME} = $1 if /Processor\s+:\s+(\S.*)/;
-    }
-    close $handle;
-
-    # The last one
-    $inventory->addCPU($current);
+    return @cpus;
 }
 
 1;

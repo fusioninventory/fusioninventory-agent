@@ -3,170 +3,244 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
-    return unless can_run("ifconfig") && can_run("route") && can_load("Net::IP qw(:PROC)");
-
-    1;
+    return 
+        can_run('ifconfig') &&
+        can_run('route');
 }
 
-
-sub _ipdhcp {
-    my $if = shift;
-
-    my $path;
-    my $dhcp;
-    my $ipdhcp;
-    my $leasepath;
-
-    foreach (
-        "/var/lib/dhcp3/dhclient.%s.leases",
-        "/var/lib/dhcp3/dhclient.%s.leases",
-        "/var/lib/dhcp/dhclient.leases",
-        "/var/lib/dhcp/dhclient.%s.leases",
-        "/var/lib/dhcp/dhclient.leases",
-        "/var/lib/dhcp/dhclient-%s.leases",
-        "/var/lib/dhclient/dhclient-%s.leases",) {
-
-        $leasepath = sprintf($_,$if);
-        last if (-e $leasepath);
-    }
-    return unless -e $leasepath;
-
-    if (open my $handle, '<', $leasepath) {
-        my $lease;
-        while (<$handle>) {
-            $lease = 1 if(/lease\s*{/i);
-            $lease = 0 if(/^\s*}\s*$/);
-            #Interface name
-            if ($lease) { #inside a lease section
-                if(/interface\s+"(.+?)"\s*/){
-                    $dhcp = ($1 =~ /^$if$/);
-                }
-                #Server IP
-                if(/option\s+dhcp-server-identifier\s+(\d{1,3}(?:\.\d{1,3}){3})\s*;/ and $dhcp){
-                    $ipdhcp = $1;
-                }
-            }
-        }
-        close $handle;
-    } else {
-        warn "Can't open $leasepath: $ERRNO";
-    }
-    return $ipdhcp;
-}
-
-# Initialise the distro entry
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $logger    = $params->{logger};
 
-    my %gateway;
-    foreach (`route -n`) {
-        if (/^(\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
-            $gateway{$1} = $2;
-        }
+    # set list of network interfaces
+    my $routes = _getRoutes($logger);
+    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
+        $inventory->addNetwork($interface);
     }
 
-    if (defined ($gateway{'0.0.0.0'})) {
-        $inventory->setHardware({
-                DEFAULTGATEWAY => $gateway{'0.0.0.0'}
-            });
-    }
+    # set global parameters
+    my @ip_addresses =
+        grep { ! /^127/ }
+        grep { $_ }
+        map { $_->{IPADDRESS} }
+        @interfaces;
 
-    my %ifData = (
-        STATUS => 'Down',
+    $inventory->setHardware(
+        IPADDR         => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{'0.0.0.0'}
+    );
+}
+
+sub _getRoutes {
+    my ($logger) = @_;
+
+    my $handle = getFileHandle(
+        logger  => $logger,
+        command => 'route -n'
     );
 
-    foreach my $line (`ifconfig -a`) {
-        if ( $line =~ /^$/ ) {
-            # end of interface section
-            # I write the entry
+    return unless $handle;
 
-            if ( !defined($ifData{DESCRIPTION}) ) {
-                next;
-            }
+    my $routes;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x;
+        $routes->{$1} = $2;
+    }
+    close $handle;
 
-            if ( defined($ifData{IPADDRESS}) && defined($ifData{IPMASK}) ) {
-                my $binip = ip_iptobin ($ifData{IPADDRESS} ,4);
-                my $binmask = ip_iptobin ($ifData{IPMASK} ,4);
-                my $binsubnet = $binip & $binmask;
-                $ifData{IPSUBNET} = ip_bintoip($binsubnet,4);
-                $ifData{IPGATEWAY} = $gateway{$ifData{IPSUBNET}};
-                # replace '0.0.0.0' (ie 'default gateway') by the default gateway IP adress if it exists
-                if (defined($ifData{IPGATEWAY}) and $ifData{IPGATEWAY} eq '0.0.0.0' and defined($gateway{'0.0.0.0'})) {
-                    $ifData{IPGATEWAY} = $gateway{'0.0.0.0'}
-                }
-            }
+    return $routes;
+}
 
-            my @wifistatus = `iwconfig $ifData{DESCRIPTION} 2>>/dev/null`;
-            if ( @wifistatus > 2 ) {
-                $ifData{TYPE} = "Wifi";
-            }
+sub _getInterfaces {
+    my ($logger, $routes) = @_;
 
-            my $ueventFile = "/sys/class/net/$ifData{DESCRIPTION}/device/uevent";
-            if (-f $ueventFile) {
-                if (open my $handle, '<', $ueventFile) {
-                    while (<$handle>) {
-                        $ifData{DRIVER} = $1 if /^DRIVER=(\S+)/;
-                        $ifData{PCISLOT} = $1 if /^PCI_SLOT_NAME=(\S+)/;
-                    }
-                    close $handle;
-                } else {
-                    $logger->debug("Can't open $ueventFile: ".$ERRNO);
-                }
-            }
+    my @interfaces = _parseIfconfig(
+        command => '/sbin/ifconfig -a',
+        logger  =>  $logger
+    );
 
-            # Handle channel bonding interfaces
-            my @slaves = ();
-            while (my $slave = glob("/sys/class/net/".$ifData{DESCRIPTION}."/slave_*")) {
-                if ( $slave =~ /\/slave_(\w+)/ ) {
-                    push( @slaves, $1 );
-                }
-            }
-            $ifData{SLAVES} = join(',',@slaves);
+    foreach my $interface (@interfaces) {
+        if (_isWifi($logger, $interface->{DESCRIPTION})) {
+            $interface->{TYPE} = "Wifi";
+        }
 
-            # Handle virtual devices (bridge)
-            if (-d "/sys/devices/virtual/net/") {
-                $ifData{VIRTUALDEV} = (-d "/sys/devices/virtual/net/".$ifData{DESCRIPTION})?"1":"0";
-            } elsif (can_run("brctl")) {
-                # Let's guess
-                my %bridge;
-                foreach (`brctl show`) {
-                    next if /^bridge name/;
-                    $bridge{$1} = 1 if /^(\w+)\s/;
-                }
-                if ($ifData{PCISLOT}) {
-                    $ifData{VIRTUALDEV} = "0";
-                } elsif ($bridge{$ifData{DESCRIPTION}}) {
-                    $ifData{VIRTUALDEV} = "1";
-                }
-            }
-
-            $ifData{IPDHCP} = _ipdhcp($ifData{DESCRIPTION});
-
-            $inventory->addNetwork(\%ifData);
-
-            %ifData = (
-                STATUS => 'Down',
+        if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
+            my ($ipsubnet, $ipgateway) = _getNetworkInfo(
+                $interface->{IPADDRESS},
+                $interface->{IPMASK},
+                $routes
             );
+            $interface->{IPSUBNET} = $ipsubnet;
+            $interface->{IPGATEWAY} = $ipgateway;
+        }
 
-        } else { # In a section
+        my ($driver, $pcislot) = _getUevent(
+            $logger,
+            $interface->{DESCRIPTION}
+        );
+        $interface->{DRIVER} = $driver if $driver;
+        $interface->{PCISLOT} = $pcislot if $pcislot;
 
-            $ifData{DESCRIPTION} = $1 if $line =~ /^(\S+)/; # Interface name
-            $ifData{IPADDRESS} = $1 if $line =~ /inet addr:(\S+)/i;
-            $ifData{IPADDRESS6} = $1 if $line =~ /inet6 addr: (\S+)/i;
-            $ifData{IPMASK} = $1 if $line =~ /\S*mask:(\S+)/i;
-            $ifData{MACADDR} = $1 if $line =~ /hwadd?r\s+(\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2})/i;
-            $ifData{STATUS} = 'Up' if $line =~ /^\s+UP\s/;
-            $ifData{TYPE} = $1 if $line =~ /link encap:(\S+)/i;
+        $interface->{VIRTUALDEV} = _getVirtualDev(
+            $logger,
+            $interface->{DESCRIPTION},
+            $interface
+        );
+
+        $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
+        $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
+    }
+
+    return @interfaces;
+}
+
+sub _parseIfconfig {
+
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @interfaces;
+
+    my $interface = { STATUS => 'Down' };
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^$/) {
+            # end of interface section
+            next unless $interface->{DESCRIPTION};
+
+            push @interfaces, $interface;
+
+            $interface = { STATUS => 'Down' };
+
+        } else {
+            # In a section
+            if ($line =~ /^(\S+)/) {
+                $interface->{DESCRIPTION} = $1;
+            }
+            if ($line =~ /inet addr:($ip_address_pattern)/i) {
+                $interface->{IPADDRESS} = $1;
+            }
+            if ($line =~ /mask:(\S+)/i) {
+                $interface->{IPMASK} = $1;
+            }
+            if ($line =~ /inet6 addr: (\S+)/i) {
+                $interface->{IPADDRESS6} = $1;
+            }
+            if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
+                $interface->{MACADDR} = $1;
+            }
+            if ($line =~ /^\s+UP\s/) {
+                $interface->{STATUS} = 'Up';
+            }
+            if ($line =~ /link encap:(\S+)/i) {
+                $interface->{TYPE} = $1;
+            }
         }
 
     }
+    close $handle;
+
+    return @interfaces;
+}
+
+# Handle slave devices (bonding)
+sub _getSlaves {
+    my ($name) = @_;
+
+    my @slaves = ();
+    while (my $slave = glob("/sys/class/net/$name/slave_*")) {
+        if ($slave =~ /\/slave_(\w+)/) {
+            push(@slaves, $1);
+        }
+    }
+
+    return join (",", @slaves);
+}
+
+# Handle virtual devices (bridge)
+sub _getVirtualDev {
+    my ($logger, $name, $pcislot) = @_;
+
+    my $virtualdev;
+
+    if (-d "/sys/devices/virtual/net/") {
+        $virtualdev = -d "/sys/devices/virtual/net/$name" ? 1 : 0;
+    } else {
+        if (can_run('brctl')) {
+            # Let's guess
+            my %bridge;
+            my $handle = getFileHandle(
+                logger => $logger,
+                command => 'brctl show'
+            );
+            my $line = <$handle>;
+            while (my $line = <$handle>) {
+                next unless $line =~ /^(\w+)\s/;
+                $bridge{$1} = 1;
+            }
+            close $handle;
+            if ($pcislot) {
+                $virtualdev = "0";
+            } elsif ($bridge{$name}) {
+                $virtualdev = "1";
+            }
+        }
+    }
+
+    return $virtualdev;
+}
+
+sub _isWifi {
+    my ($logger, $name) = @_;
+
+    my $count = getLinesCount(
+        logger  => $logger,
+        command => "/sbin/iwconfig $name"
+    );
+    return $count > 2;
+}
+
+sub _getUevent {
+    my ($logger, $name) = @_;
+
+    my $file = "/sys/class/net/$name/device/uevent";
+    my $handle = getFileHandle(file => $file);
+    return unless $handle;
+
+    my ($driver, $pcislot);
+    while (<$handle>) {
+        $driver = $1 if /^DRIVER=(\S+)/;
+        $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+    }
+    close $handle;
+
+    return ($driver, $pcislot);
+}
+
+sub _getNetworkInfo {
+    my ($address, $mask, $routes) = @_;
+
+    my $ipsubnet = getSubnetAddress($address, $mask);
+    my $ipgateway = $routes->{$ipsubnet};
+
+    # replace '0.0.0.0' (ie 'default gateway') by the
+    # default gateway IP adress if it exists
+    if ($ipgateway and
+        $ipgateway eq '0.0.0.0' and 
+        $routes->{'0.0.0.0'}
+    ) {
+        $ipgateway = $routes->{'0.0.0.0'}
+    }
+
+    return ($ipsubnet, $ipgateway);
 }
 
 1;

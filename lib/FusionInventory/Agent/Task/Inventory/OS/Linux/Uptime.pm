@@ -7,32 +7,28 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled { can_read("/proc/uptime") }
+sub isInventoryEnabled {
+    return -r '/proc/uptime';
+}
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
     # Uptime
-    my $handle;
-    if (!open $handle, '<', '/proc/uptime') {
-        warn "Can't open /proc/uptime: $ERRNO";
-        return;
-    }
-
-    my $uptime = <$handle>;
+    my $uptime = getFirstLine(file => '/proc/uptime', logger => $logger);
     $uptime =~ s/^(.+)\s+.+/$1/;
-    close $handle;
 
-    # Uptime conversion
-    my ($UYEAR, $UMONTH , $UDAY, $UHOUR, $UMIN, $USEC) = (gmtime ($uptime))[5,4,3,2,1,0];
+    # ISO format string conversion
+    $uptime = getFormatedGmTime($uptime);
 
-    # Write in ISO format
-    $uptime=sprintf "%02d-%02d-%02d %02d:%02d:%02d", ($UYEAR-70), $UMONTH, ($UDAY-1), $UHOUR, $UMIN, $USEC;
+    my $DeviceType = getFirstLine(command => 'uname -m');
+    $inventory->setHardware(
+        DESCRIPTION => "$DeviceType/$uptime"
+    );
 
-    chomp(my $DeviceType =`uname -m`);
-#  TODO$h->{'CONTENT'}{'HARDWARE'}{'DESCRIPTION'} = [ "$DeviceType/$uptime" ];
-    $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
 }
 
 1;
