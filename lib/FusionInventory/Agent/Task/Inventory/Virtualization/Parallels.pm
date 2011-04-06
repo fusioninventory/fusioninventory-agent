@@ -33,10 +33,10 @@ sub doInventory {
 
     foreach my $lsuser ( glob("/Users/*") ) {
         $lsuser =~ s/.*\///; # Just keep the login
-        next if /Shared/i;
-        next if /^\./i; # Ignore hidden directory
-        next if /\ /; # Ignore directory with space in the name
-        next if /'/; # Ignore directory with space in the name
+        next if $lsuser =~ /Shared/i;
+        next if $lsuser =~ /^\./i; # Ignore hidden directory
+        next if $lsuser =~ /\ /; # Ignore directory with space in the name
+        next if $lsuser =~ /'/; # Ignore directory with space in the name
 
         push(@users,$lsuser);
     }
