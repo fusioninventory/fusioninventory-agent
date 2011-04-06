@@ -195,62 +195,61 @@ sub getInfosFromDmidecode {
 # THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
 # PLEASE KEEP IT SYNCHED
 sub getCpusFromDmidecode {
-    my ($logger, $file) = @_;
-
-    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+    my $infos = getInfosFromDmidecode(@_);
 
     return unless $infos->{4};
 
     my @cpus;
-    foreach (@{$infos->{4}}) {
-        next if $_->{Status} && $_->{Status} =~ /Unpopulated/i;
+    foreach my $info (@{$infos->{4}}) {
+        next if $info->{Status} && $info->{Status} =~ /Unpopulated/i;
+
+        my $proc_manufacturer = $info->{'Processor Manufacturer'};
+        my $proc_version      = $info->{'Processor Version'};
 
         # VMware
-        if (
-                ($_->{'Processor Manufacturer'} && ($_->{'Processor Manufacturer'} eq '000000000000'))
-                &&
-                ($_->{'Processor Version'} && ($_->{'Processor Version'} eq '00000000000000000000000000000000'))
-           ) {
-            next;
+        next if
+            ($proc_manufacturer && $proc_manufacturer eq '000000000000') &&
+            ($proc_version      && $proc_version eq '00000000000000000000000000000000');
+
+        my $cpu = {
+            SERIAL => $info->{'Serial Number'},
+            ID     => $info->{ID},
+            CORE   => $info->{'Core Count'} || $info->{'Core Enabled'},
+            THREAD => $info->{'Thread Count'},
+        };
+        $cpu->{MANUFACTURER} = $info->{'Manufacturer'} || $info->{'Processor Manufacturer'};
+        $cpu->{NAME} =
+            ($cpu->{MANUFACTURER} =~ /Intel/ ? $info->{'Family'} : undef) ||
+            $info->{'Version'}                                     ||
+            $info->{'Processor Family'}                            ||
+            $info->{'Processor Version'};
+
+        if ($info->{Version}) {
+            if ($info->{Version} =~ /([\d\.]+)MHz$/) {
+                $cpu->{SPEED} = $1;
+            } elsif ($info->{Version} =~ /([\d\.]+)GHz$/) {
+                $cpu->{SPEED} = $1 * 1000;
+            }
         }
-
-        my $manufacturer = $_->{'Manufacturer'} || $_->{'Processor Manufacturer'};
-        my $name = (($manufacturer =~ /Intel/ && $_->{'Family'}) || ($_->{'Version'} || $_->{'Processor Family'})) || $_->{'Processor Version'};
-
-        my $speed;
-        if ($_->{Version} && $_->{Version} =~ /([\d\.]+)GHz$/) {
-            $speed = $1*1000;
-        } elsif ($_->{Version} && $_->{Version} =~ /([\d\.]+)MHz$/) {
-            $speed = $1;
-        } elsif ($_->{'Max Speed'}) {
-            if ($_->{'Max Speed'} =~ /^\s*(\d+)\s*Mhz/i) {
-                $speed = $1;
-            } elsif ($_->{'Max Speed'} =~ /^\s*(\d+)\s*Ghz/i) {
-                $speed = $1*1000;
+        if (!$cpu->{SPEED}) {
+            if ($info->{'Max Speed'}) {
+                if ($info->{'Max Speed'} =~ /^\s*(\d+)\s*Mhz/i) {
+                    $cpu->{SPEED} = $1;
+                } elsif ($info->{'Max Speed'} =~ /^\s*(\d+)\s*Ghz/i) {
+                    $cpu->{SPEED} = $1 * 1000;
+                }
             }
         }
 
-
-        my $externalClock;
-        if ($_->{'External Clock'}) {
-            if ($_->{'External Clock'} =~ /^\s*(\d+)\s*Mhz/i) {
-                $externalClock = $1;
-            } elsif ($_->{'External Clock'} =~ /^\s*(\d+)\s*Ghz/i) {
-                $externalClock = $1*1000;
+        if ($info->{'External Clock'}) {
+            if ($info->{'External Clock'} =~ /^\s*(\d+)\s*Mhz/i) {
+                $cpu->{EXTERNAL_CLOCK} = $1;
+            } elsif ($info->{'External Clock'} =~ /^\s*(\d+)\s*Ghz/i) {
+                $cpu->{EXTERNAL_CLOCK} = $1 * 1000;
             }
         }
 
-        push @cpus, {
-            SERIAL => $_->{'Serial Number'},
-            SPEED => $speed,
-            ID => $_->{ID},
-            MANUFACTURER => $manufacturer,
-            NAME =>  $name,
-            CORE => $_->{'Core Count'} || $_->{'Core Enabled'},
-            THREAD => $_->{'Thread Count'},
-            EXTERNAL_CLOCK => $externalClock
-        }
-
+        push @cpus, $cpu;
     }
 
     return \@cpus;
