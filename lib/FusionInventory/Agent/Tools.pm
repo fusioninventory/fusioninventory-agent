@@ -297,11 +297,11 @@ sub getSubnetAddress {
     return unless can_load("Net::IP");
     Net::IP->import(':PROC');
 
-    my $binaddress = ip_iptobin($address, 6);
-    my $binmask    = ip_iptobin($mask, 6);
+    my $binaddress = ip_iptobin($address, 4);
+    my $binmask    = ip_iptobin($mask, 4);
     my $binsubnet  = $binaddress & $binmask;
 
-    return ip_bintoip($binsubnet, 6);
+    return ip_bintoip($binsubnet, 4);
 }
 
 sub getSubnetAddressIPv6 {
@@ -313,11 +313,11 @@ sub getSubnetAddressIPv6 {
     return unless can_load("Net::IP");
     Net::IP->import(':PROC');
 
-    my $binaddress = ip_iptobin($address, 4);
-    my $binmask    = ip_iptobin($mask, 4);
+    my $binaddress = ip_iptobin($address, 6);
+    my $binmask    = ip_iptobin($mask, 6);
     my $binsubnet  = $binaddress & $binmask;
 
-    return ip_bintoip($binsubnet, 4);
+    return ip_bintoip($binsubnet, 6);
 }
 
 sub getDirectoryHandle {
