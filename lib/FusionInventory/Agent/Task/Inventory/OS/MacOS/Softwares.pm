@@ -20,8 +20,7 @@ sub doInventory {
 
     my $prof = Mac::SysProfile->new();
     my $apps = $prof->gettype('SPApplicationsDataType'); # might need to check version of darwin
-
-    return unless($apps && ref($apps) eq 'HASH');
+    return unless ref($apps) eq 'HASH';
 
     # for each app, normalize the information, then add it to the inventory stack
     foreach my $app (keys %$apps){

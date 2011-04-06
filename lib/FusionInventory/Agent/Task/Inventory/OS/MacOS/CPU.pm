@@ -16,10 +16,9 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    # create sysprofile obj. Return undef unless we get a return value
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype('SPHardwareDataType');
-    return(undef) unless(ref($h) eq 'HASH');
+    my $prof = Mac::SysProfile->new();
+    my $h = $prof->gettype('SPHardwareDataType');
+    return unless ref($h) eq 'HASH';
 
     $h = $h->{'Hardware Overview'};
 

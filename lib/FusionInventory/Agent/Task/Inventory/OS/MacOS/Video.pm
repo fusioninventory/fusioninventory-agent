@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Video;
 use strict;
 use warnings;
 
-use constant DATATYPE => 'SPDisplaysDataType'; # careful this could change when looking at lower versions of OSX
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -18,12 +16,9 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    # run the profiler to get our datatype
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype(DATATYPE());
-
-    # unless we get a valid return, bail out
-    return(undef) unless(ref($h) eq 'HASH');
+    my $prof = Mac::SysProfile->new();
+    my $h = $prof->gettype('SPDisplaysDataType');
+    return unless ref($h) eq 'HASH';
 
     # add the video information
     foreach my $x (keys %$h){

@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Printers;
 use strict;
 use warnings;
 
-use constant DATATYPE => 'SPPrintersDataType';
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -21,9 +19,9 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype(DATATYPE());
-    return(undef) unless(ref($h) eq 'HASH');
+    my $prof = Mac::SysProfile->new();
+    my $h = $prof->gettype('SPPrintersDataType');
+    return unless ref($h) eq 'HASH';
 
     foreach my $printer (keys %$h){
         if ($printer && $printer =~ /^The printers list is empty. To add printers/) {
