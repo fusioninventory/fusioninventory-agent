@@ -6,13 +6,14 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return(undef) unless -r '/usr/sbin/system_profiler';
-    return(undef) unless can_load("Mac::SysProfile");
-    return 1;
+    return 
+        -r '/usr/sbin/system_profiler' &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     # create sysprofile obj. Return undef unless we get a return value
@@ -53,17 +54,13 @@ sub doInventory {
 
 
     foreach(1..$processorn) {
-	$inventory->addCPU ({
-
+        $inventory->addCPU ({
             CORE => $processorCore,
             MANUFACTURER => $manufacturer,
             NAME => $processort,
             THREAD => 1,
             SPEED => $processors
-
-	});
-
-
+        });
     }
 
     ### mem convert it to meg's if it comes back in gig's
@@ -73,12 +70,12 @@ sub doInventory {
         $mem = ($mem * 1024);
     }
     if($mem =~ /MB$/){
-	$mem =~ s/\sMB$//;
+        $mem =~ s/\sMB$//;
     }
 
 
     $inventory->setHardware({
-        MEMORY      => $mem,
+        MEMORY => $mem,
     });
 }
 

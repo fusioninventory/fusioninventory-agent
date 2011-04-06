@@ -6,14 +6,14 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return 1 if can_load ("Mac::SysProfile");
-    0;
+    return can_load ("Mac::SysProfile");
 }
 
-# Initialise the distro entry
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
     my $hostname;
 
@@ -24,7 +24,9 @@ sub doInventory {
 
     $hostname = $nfo->{'System Software Overview'}->{'Computer Name'};
 
-    $inventory->setHardware ({NAME => $hostname}) if $hostname;
+    $inventory->setHardware({
+        NAME => $hostname
+    }) if $hostname;
 }
 
 1;

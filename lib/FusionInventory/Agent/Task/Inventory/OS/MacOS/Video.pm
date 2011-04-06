@@ -8,14 +8,14 @@ use constant DATATYPE => 'SPDisplaysDataType'; # careful this could change when 
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    # make sure the user has access, cause that's the command that's gonna be run
-    return(undef) unless -r '/usr/sbin/system_profiler';
-    return(undef) unless can_load("Mac::SysProfile");
-    return 1;
+    return
+        -r '/usr/sbin/system_profiler' &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     # run the profiler to get our datatype
@@ -50,4 +50,5 @@ sub doInventory {
     }
 
 }
+
 1;

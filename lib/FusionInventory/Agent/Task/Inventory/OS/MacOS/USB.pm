@@ -61,13 +61,14 @@ use FusionInventory::Agent::Tools;
 #            'idVendor' => '1133'
 #          }
 
-
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my ($params) = @_;
 
+    my $inventory = $params->{inventory};
 
     my $state = 0;
 #IOUSBDevice  
@@ -99,15 +100,13 @@ sub doInventory {
 
     foreach (@devices) {
         $inventory->addUSBDevice({
-
-                VENDORID => sprintf("%x", $_->{'idVendor'}),
-                PRODUCTID => sprintf("%x", $_->{'idProduct'}),
-                SERIAL => $_->{'USB Serial Number'},
-                NAME => $_->{'USB Product Name'},
-                CLASS => $_->{'bDeviceClass'},
-                SUBCLASS => $_->{'bDeviceSubClass'}
-
-            });
+            VENDORID => sprintf("%x", $_->{'idVendor'}),
+            PRODUCTID => sprintf("%x", $_->{'idProduct'}),
+            SERIAL => $_->{'USB Serial Number'},
+            NAME => $_->{'USB Product Name'},
+            CLASS => $_->{'bDeviceClass'},
+            SUBCLASS => $_->{'bDeviceSubClass'}
+        });
     }
 }
 

@@ -3,15 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Drives;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
-
-# yea BSD theft!!!!
-# would have used Mac::SysProfile, but the xml isn't quite fully supported
-# the drives come back in apple xml tree's, and the module can't handle it yet (soon as I find the time to fix the patch)
-
-sub isInventoryEnabled {
-    return 1;
-}
+use FusionInventory::Agent::Tools::Unix;
 
 my %unitMatrice = (
     Ti => 1000*1000,
@@ -24,51 +16,30 @@ my %unitMatrice = (
     KB => 0.001,
 );
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my (%params) = @_;
 
-    my $free;
-    my $filesystem;
-    my $total;
-    my $type;
-    my $volumn;
-    my %drives;
-    my %storages;
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    # get drives list
+    my @types = 
+        grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
+        getFilesystemsTypesFromMount(logger => $logger);
+
+    my @drives;
+    foreach my $type (@types) {
+        push @drives, getFilesystemsFromDf(
+            logger => $logger,
+            command => "df -P -k -t $type"
+        );
+    }
+
     my %diskUtilDevices;
-
-    my %fs;
-    foreach (`mount`) {
-	next if /^devfs/;
-	next if /^fdesc/;
-        if (/on\s.+\s\((\S+?)(,|\))/) {
-            $fs{$1} = 1;
-        }
-    }
-
-    for my $t (keys %fs) {
-        # OpenBSD has no -m option so use -k to obtain results in kilobytes
-        for(`df -P -k -t $t`){ # darwin needs the -t to be last
-            if(/^(\/\S*)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\n/){
-                $type = $6;
-                $filesystem = $t;
-                $total = sprintf("%i",$2/1024);
-                $free = sprintf("%i",$4/1024);
-                $volumn = $1;
-
-                $drives{$volumn} = {
-                    FREE => $free,
-                    FILESYSTEM => $filesystem,
-                    TOTAL => $total,
-                    TYPE => $type,
-                    VOLUMN => $volumn
-                }
-
-            }
-        }
-    }
-
     foreach (`diskutil list`) {
         if (/\d+:\s+.*\s+(\S+)/) {
             my $deviceName = "/dev/$1";
@@ -77,6 +48,8 @@ sub doInventory {
             }
         }
     }
+
+    my %drives;
 
     foreach my $deviceName (keys %diskUtilDevices) {
         my $device = $diskUtilDevices{$deviceName};
@@ -111,14 +84,10 @@ sub doInventory {
         }
     }
 
-
-
+    # add drives to the inventory
     foreach my $deviceName (keys %drives) {
         $inventory->addDrive($drives{$deviceName});
     }
-#    foreach my $deviceName (keys %storages) {
-#        $inventory->addStorage($storags{$deviceName});
-#    }
-
 }
+
 1;

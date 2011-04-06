@@ -4,76 +4,70 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-
-my %speedMatrice = (
-    mhz => 1,
-    ghz => 1000,
-);
-my %sizeMatrice = (
-    mb => 1,
-    gb => 1000,
-    tb => 1000*1000,
-);
-
+use FusionInventory::Agent::Tools::MacOS;
 
 sub isInventoryEnabled {
-    return(undef) unless -r '/usr/sbin/system_profiler'; # check perms
-    return 1;
+    return 
+        -r '/usr/sbin/system_profiler';
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
 
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my $revIndent = '';
-    my @memories;
-    my $slot;
-    foreach (`/usr/sbin/system_profiler SPMemoryDataType`) {
-        next if /^\s*$/;
-        next unless /^(\s*)/;
+    my $memories = _getMemories($logger);
 
-        if ($1 ne $revIndent) {
-            $revIndent = $1;
-            push @memories, $slot if keys %$slot>2;
-            $slot = {};
-        }
-        if (/^\s+(\S+.*?):\s+(\S.*)/) { # we're probably in a memory section
-            $slot->{$1}=$2;
-        }
-    }
-    push @memories, $slot if keys %$slot>2;
-    my $numSlot=0;
-    foreach (@memories) {
-        my $speed;
-        my $size;
+    return unless $memories;
 
-	if ($_->{'Speed'} eq 'PC3200U-30330') {
-	    $speed = 400;
-        } elsif ($_->{'Speed'} =~ /(\d+)\s+(\S+)/) {
-            $speed = $1*$speedMatrice{lc($2)};
-        }
-        if ($_->{'Size'} =~ /(\d+)\s+(\S+)/) {
-            $size = $1*$sizeMatrice{lc($2)};
-        }
-
-        my $description = $_->{'Part Number'};
-
-	if ($description) {
-	    $description = pack 'H*', $description if $description =~ s/^0x//;
-
-	    $description =~ s/\s*$//;
-	}
-
-        $inventory->addMemory({
-                'CAPACITY'      => $size,
-                'SPEED'         => $speed,
-                'TYPE'          => $_->{'Type'},
-                'SERIALNUMBER'  => $_->{'Serial Number'},
-                'DESCRIPTION'   => $description,
-                'NUMSLOTS'      => $numSlot++,
-                'CAPTION'       => 'Status: '.$_->{'Status'},
-            });
+    foreach my $memory (@$memories) {
+        $inventory->addMemory($memory);
     }
 }
+
+sub _getMemories {
+    my ($logger, $file) = @_;
+
+    my $infos = getInfosFromSystemProfiler(logger => $logger, file => $file);
+
+    return unless $infos->{Memory};
+
+    # the memory slot informations may appears directly under
+    # 'Memory' top-level node, or under Memory/Memory Slots
+    my $parent_node = $infos->{Memory}->{'Memory Slots'} ?
+        $infos->{Memory}->{'Memory Slots'} :
+        $infos->{Memory};
+
+    my $memories;
+    # memori
+    foreach my $key (sort keys %$parent_node) {
+        next unless $key =~ /DIMM(\d)/; 
+        my $slot = $1;
+
+        my $info = $parent_node->{$key};
+        my $description = $info->{'Part Number'};
+
+        # convert hexa to ascii
+        if ($description && $description =~ /^0x/) {
+            $description = pack 'H*', substr($description, 2);
+            $description =~ s/\s*$//;
+        }
+
+        my $memory = {
+            NUMSLOTS     => $slot,
+            DESCRIPTION  => $description,
+            CAPTION      => "Status: $info->{'Status'}",
+            TYPE         => $info->{'Type'},
+            SERIALNUMBER => $info->{'Serial Number'},
+            SPEED        => getCanonicalSpeed($info->{'Speed'}),
+            CAPACITY     => getCanonicalSize($info->{'Size'})
+        };
+
+        push @$memories, $memory;
+    }
+
+    return $memories;
+}
+
 1;

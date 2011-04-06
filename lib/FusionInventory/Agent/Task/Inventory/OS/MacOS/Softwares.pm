@@ -6,17 +6,16 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my $params = shift;
+    my ($params) = @_;
 
-    return unless can_load("Mac::SysProfile");
-    # Do not run an package inventory if there is the --nosoft parameter
-    return if ($params->{config}->{nosoft});
-
-    1;
+    return
+        !$params->{config}->{no_software} &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     my $prof = Mac::SysProfile->new();
@@ -33,10 +32,10 @@ sub doInventory {
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
         $inventory->addSoftware({
-            'NAME'      => $app,
-            'VERSION'   => $a->{'Version'} || 'unknown',
-            'COMMENTS'  => $comments,
-            'PUBLISHER' => $a->{'Get Info String'} || 'unknown',
+            NAME      => $app,
+            VERSION   => $a->{'Version'} || 'unknown',
+            COMMENTS  => $comments,
+            PUBLISHER => $a->{'Get Info String'} || 'unknown',
         });
     }
 }
