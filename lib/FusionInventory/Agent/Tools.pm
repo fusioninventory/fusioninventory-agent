@@ -247,7 +247,7 @@ sub getCpusFromDmidecode {
         push @cpus, $cpu;
     }
 
-    return \@cpus;
+    return @cpus;
 }
 
 sub compareVersion {
@@ -561,7 +561,7 @@ $info = {
 
 =head2 getCpusFromDmidecode()
 
-Returns a clean array with the CPU list.
+Returns a list of CPUs, from dmidecode output.
 
 =head2 getSanitizedString($string)
 

@@ -3059,8 +3059,6 @@ my %cpu_tests = (
         {
             ID             => undef,
             NAME           => 'Pentium 4',
-            EXTERNAL_CLOCK => undef,
-            SPEED          => undef,
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
@@ -3089,7 +3087,8 @@ my %cpu_tests = (
             CORE           => undef
         }
     ],
-    'rhel-3.9' => undef,
+    'rhel-3.9' => [
+    ],
     'rhel-4.3' => [
         {
             ID             => '29 0F 00 00 FF FB EB BF',
@@ -3222,7 +3221,6 @@ my %cpu_tests = (
         {
             ID             => '12 0F 04 00 FF FB 8B 07',
             NAME           => undef,
-            EXTERNAL_CLOCK => undef,
             SPEED          => '2133',
             THREAD         => undef,
             SERIAL         => undef,
@@ -3232,7 +3230,6 @@ my %cpu_tests = (
         {
             ID             => '12 0F 00 00 FF FB 8B 07',
             NAME           => 'Unknown',
-            EXTERNAL_CLOCK => undef,
             SPEED          => '2133',
             THREAD         => undef,
             SERIAL         => undef,
@@ -3244,7 +3241,6 @@ my %cpu_tests = (
         {
             ID             => '42 0F 10 00 FF FB 8B 07',
             NAME           => undef,
-            EXTERNAL_CLOCK => undef,
             SPEED          => '30000',
             THREAD         => undef,
             SERIAL         => undef,
@@ -3256,8 +3252,6 @@ my %cpu_tests = (
         {
             ID             => undef,
             NAME           => 'Pentium III processor',
-            EXTERNAL_CLOCK => undef,
-            SPEED          => undef,
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'GenuineIntel',
@@ -3354,8 +3348,8 @@ foreach my $test (keys %dmidecode_tests) {
 
 foreach my $test (keys %cpu_tests) {
     my $file = "resources/dmidecode/$test";
-    my $cpus = getCpusFromDmidecode(file => $file);
-    is_deeply($cpus, $cpu_tests{$test}, "$test dmidecode cpu extraction");
+    my @cpus = getCpusFromDmidecode(file => $file);
+    is_deeply(\@cpus, $cpu_tests{$test}, "$test dmidecode cpu extraction");
 }
 
 foreach my $test (@size_tests_nok) {
