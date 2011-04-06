@@ -29,11 +29,13 @@ sub doInventory {
     $SystemModel=`model`;
     if ( can_run ("/usr/contrib/bin/machinfo") ) {
         foreach ( `/usr/contrib/bin/machinfo` ) {
-            if ( /Firmware\s+revision\s+[:=]\s+(\S+)/ ) {
+            if ( /Firmware\s+revision\s*[:=]\s+(\S+)/ ) {
                 $BiosVersion = $1;
-            } elsif ( /achine\s+serial\s+number\s+[:=]\s+(\S+)/ ) {
+            } elsif ( /achine\s+serial\s+number\s*[:=]\s+(\S+)/ ) {
                 $SystemSerial = $1;
             } elsif (/achine\s+id\s+number\s+=\s+(\S+)/) {
+                $SystemUUID = uc $1;
+            } elsif (/achine\s+ID\s+number:\s+(\S+)/) {
                 $SystemUUID = uc $1;
             }
         }
