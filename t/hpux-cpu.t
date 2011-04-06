@@ -20,6 +20,16 @@ my %cpu_tests = (
         'NAME'  => 'Itanium',
         'MANUFACTURER' => 'Intel',
         'SPEED' => '1600'
+    },
+    'hpux_11.31-1' => {
+        'NAME' => 'Itanium',
+        'CPUcount' => '3',
+        'MANUFACTURER' => 'Intel',
+        'SPEED' => '1600'
+    },
+    'hpux_11.31-2' => {
+        'CPUcount' => '8',
+        'NAME' => 'Itanium'
     }
 
 );
