@@ -42,7 +42,12 @@ sub doInventory {
         properties => [ qw/NumberOfCores ProcessorId MaxClockSpeed/ ]
     )) {
 
-        my $info = _getCPUInfoFromRegistry($logger, $cpuId);
+        # the CPU description in WMI is false, we use the registry instead
+        # Hardware\Description\System\CentralProcessor\1
+        # thank you Nicolas Richard 
+        my $info = getRegistryKey(
+            "Hardware/Description/System/CentralProcessor/$cpuId"
+        );
 
 #        my $cache = $object->{L2CacheSize}+$object->{L3CacheSize};
         my $core = $object->{NumberOfCores};
@@ -97,30 +102,6 @@ sub doInventory {
             VMSYSTEM => $vmsystem 
         });
     }
-}
-
-# the CPU description in WMI is false, we use the registry instead
-# Hardware\Description\System\CentralProcessor\1
-# thank you Nicolas Richard 
-sub _getCPUInfoFromRegistry {
-    my ($logger, $cpuId) = @_;
-
-    my $machKey= $Registry->Open('LMachine', {
-        Access=> KEY_READ | KEY_WOW64_64KEY
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-    my $data =
-        $machKey->{"Hardware/Description/System/CentralProcessor/".$cpuId};
-
-    my $info;
-
-    foreach my $tmpkey (%$data) {
-        next unless $tmpkey =~ /^\/(.*)/;
-        my $key = $1;
-        $info->{$key} = $data->{$tmpkey};
-    }
-
-    return $info;
 }
 
 1;

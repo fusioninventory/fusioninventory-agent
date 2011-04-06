@@ -89,6 +89,31 @@ sub getWmiObjects {
     return @objects;
 }
 
+sub getRawRegistryKey {
+    my ($name) = @_;
+
+    my $key = $Registry->Open('LMachine', {
+        Access => KEY_READ | KEY_WOW64_64KEY
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
+    return $key->{$name};
+}
+
+sub getRegistryKey {
+    my $rawkey = getRawRegistryKey(@_);
+
+    my $key;
+
+    foreach my $rawentry (%$rawkey) {
+        next unless $rawentry =~ /^\/(.*)/;
+        my $entry = $1;
+        $key->{$entry} = $rawkey->{$rawentry};
+    }
+
+    return $key;
+}
+
+
 1;
 __END__
 
@@ -127,3 +152,11 @@ Ensure given WMI content is properly encoded to utf-8.
 =head2 encodeFromRegistry($string)
 
 Ensure given registry content is properly encoded to utf-8.
+
+=head2 getRawRegistryKey($name)
+
+Return a registry key directly.
+
+=head2 getRegistryKey($name)
+
+Return a registry key after filtering its content.

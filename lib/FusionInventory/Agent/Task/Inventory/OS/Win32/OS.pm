@@ -88,26 +88,8 @@ sub doInventory {
 
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson
-
-
-sub _getValueFromRegistry {
-    my ($path) = @_;
-
-    my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ })
-        or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
-    my $key = $machKey->{$path};
-
-    if (!$key) { # 64bit OS?
-        $machKey = $Registry->Open('LMachine', { Access=> KEY_READ|KEY_WOW64_64KEY() })
-            or die "Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR";
-        $key = $machKey->{$path};
-    }
-
-    return $key
-}
-
 sub _getXPkey {
-    my $key = _getValueFromRegistry(
+    my $key = getRawRegistryKey(
         'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'
     );
     return unless $key;
