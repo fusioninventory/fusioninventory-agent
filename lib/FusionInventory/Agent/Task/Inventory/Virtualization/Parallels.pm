@@ -13,12 +13,13 @@ sub doInventory {
     my $config = $params->{config};
 
     my %status_list = (
-        'running' => 'running',
-        'blocked' => 'blocked',
-        'paused' => 'paused',
+        'running'   => 'running',
+        'blocked'   => 'blocked',
+        'paused'    => 'paused',
         'suspended' => 'suspended',
-        'crashed' => 'crashed',
-        'dying' => 'dying',
+        'crashed'   => 'crashed',
+        'dying'     => 'dying',
+        'stopped'   => 'off',
     );
 
     my $uuid="";
@@ -33,10 +34,10 @@ sub doInventory {
 
     foreach my $lsuser ( glob("/Users/*") ) {
         $lsuser =~ s/.*\///; # Just keep the login
-        next if /Shared/i;
-        next if /^\./i; # Ignore hidden directory
-        next if /\ /; # Ignore directory with space in the name
-        next if /'/; # Ignore directory with space in the name
+        next if $lsuser =~ /Shared/i;
+        next if $lsuser =~ /^\./i; # Ignore hidden directory
+        next if $lsuser =~ /\ /; # Ignore directory with space in the name
+        next if $lsuser =~ /'/; # Ignore directory with space in the name
 
         push(@users,$lsuser);
     }
@@ -49,7 +50,7 @@ sub doInventory {
             chomp $line; 
             my @params = split(/  /, $line);
             $uuid = $params[0];
-            #$status = $params[1];
+            $uuid =~s/{(.*)}/$1/;
             $status = $status_list{$params[1]};
             $name = $params[4];
 
