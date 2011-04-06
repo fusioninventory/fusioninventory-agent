@@ -4,28 +4,27 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 sub isInventoryEnabled {
-    return (can_run ("showrev") or can_run("/usr/sbin/smbios"));
+    return
+        can_run('showrev') ||
+        can_run('/usr/sbin/smbios');
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
-    my $zone;
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
+
+    my ($SystemSerial, $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate, $uuid);
-    my $aarch = "unknown";
+    my $aarch =
+        getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
 
-    if( can_run("zonename") ) {
-	$zone=`zonename`;
-    }else{
-        $zone = "global";
-    }
-
-    $aarch = "i386" if (`arch` =~ /^i86pc$/);
-    if ($zone eq "global" ) {
-        if (can_run("showrev")) {
+    my $zone = getZone();
+    if ($zone){
+        if (can_run('showrev')) {
             foreach(`showrev`){
                 if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
                 if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
@@ -72,10 +71,13 @@ sub doInventory {
             $SystemModel .= " ($name)" if( $name );
 
             if( -x "/opt/SUNWsneep/bin/sneep" ) {
-                chomp($SystemSerial = `/opt/SUNWsneep/bin/sneep`);
+                $SystemSerial = getFirstLine(
+                    command => '/opt/SUNWsneep/bin/sneep'
+                );
             }else {
                 foreach(`/bin/find /opt -name sneep`) {
-                    chomp($SystemSerial = `$1`) if /^(\S+)/;
+                    next unless /^(\S+)/;
+                    $SystemSerial = getFirstLine(command => $1);
                 }
                 if (!$SystemSerial){
                     $SystemSerial = "Please install package SUNWsneep";
@@ -92,14 +94,17 @@ sub doInventory {
     }
 
     # Writing data
-    $inventory->setBios ({
-            BVERSION => $BiosVersion,
-            BDATE => $BiosDate,
-            SMANUFACTURER => $SystemManufacturer,
-            SMODEL => $SystemModel,
-            SSN => $SystemSerial
-        });
-    $inventory->setHardware ({ UUID => $uuid }) if $uuid;
+    $inventory->setBios({
+        BVERSION      => $BiosVersion,
+        BDATE         => $BiosDate,
+        SMANUFACTURER => $SystemManufacturer,
+        SMODEL        => $SystemModel,
+        SSN           => $SystemSerial
+    });
+    $inventory->setHardware({
+        UUID => $uuid
+    }) if $uuid;
 
 }
+
 1;

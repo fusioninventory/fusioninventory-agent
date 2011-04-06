@@ -6,52 +6,43 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my $params = shift;
+    my ($params) = @_;
 
-    # Do not run an package inventory if there is the --nosoft parameter
-    return if ($params->{config}->{nosoft});
-
-    can_run("pkginfo");
+    return 
+        !$params->{config}->{no_software} &&
+        can_run('pkginfo');
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
-    my $chaine ;
-    my @tab;
+    my $logger    = $params->{logger};
 
-    my $name;
-    my $version;
-    my $comments;
-    my $publisher;
-    foreach (`pkginfo -l`) {
-        if (/^\s*$/) {
-            $inventory->addSoftware({
-                    'NAME'          => $name,
-                    'VERSION'       => $version,
-                    'COMMENTS'      => $comments,
-                    'PUBLISHER'      => $publisher,
-                });
+    my $handle = getFileHandle(
+        command => 'pkginfo -l',
+        logger  => $logger,
+    );
 
-            $name = '';
-            $version = '';
-            $comments = '';
-            $publisher = '';
+    return unless $handle;
 
-        } elsif (/PKGINST:\s+(.+)/) {
-            $name = $1;
-        } elsif (/VERSION:\s+(.+)/) {
-            $version = $1;
-        } elsif (/VENDOR:\s+(.+)/) {
-            $publisher = $1;
-        } elsif (/DESC:\s+(.+)/) {
-            $comments = $1;
+    my $software;
+    while (my $line = <$handle>) {
+        if ($line =~ /^\s*$/) {
+            $inventory->addSoftware($software);
+            undef $software;
+        } elsif ($line =~ /PKGINST:\s+(.+)/) {
+            $software->{NAME} = $1;
+        } elsif ($line =~ /VERSION:\s+(.+)/) {
+            $software->{VERSION} = $1;
+        } elsif ($line =~ /VENDOR:\s+(.+)/) {
+            $software->{PUBLISHER} = $1;
+        } elsif ($line =~  /DESC:\s+(.+)/) {
+            $software->{COMMENTS} = $1;
         }
     }
 
-
+    close $handle;
 }
-
-
 
 1;

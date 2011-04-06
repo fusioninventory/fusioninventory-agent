@@ -1,36 +1,40 @@
 package FusionInventory::Agent::Task::Inventory::OS::Solaris::Controllers;
 
 use strict;
+use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled { can_run ("cfgadm") }
+sub isInventoryEnabled {
+    return can_run('cfgadm');
+}
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $name;
-    my $type;
-    my $manufacturer;
+    my $handle = getFileHandle(
+        command => 'cfgadm -s cols=ap_id:type:info',
+        logger  => $logger,
+    );
 
-    foreach(`cfgadm -s cols=ap_id:type:info`){
-        next if (/^Ap_Id/); 	
-        if(/^(\S+)\s+/){
-            $name = $1;
-        }
-        if(/^\S+\s+(\S+)/){
-            $type = $1;
-        }
-#No manufacturer, but informations about controller
-        if(/^\S+\s+\S+\s+(\S+)/){
-            $manufacturer = $1;
-        }   			
+    return unless $handle;
+
+    while (my $line =~ <$handle>) {
+        next if $line =~  /^Ap_Id/;
+        next unless $line =~ /^(\S+)\s+(\S+)\s+(\S+)/;
+        my $name = $1;
+        my $type = $2;
+        my $manufacturer = $3;
         $inventory->addController({
-                'NAME'          => $name,
-                'MANUFACTURER'  => $manufacturer,
-                'TYPE'          => $type,
-            });
+            NAME         => $name,
+            MANUFACTURER => $manufacturer,
+            TYPE         => $type,
+        });
     }
+    close $handle;
 }
-1
+
+1;
