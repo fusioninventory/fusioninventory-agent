@@ -39,6 +39,9 @@ my %cpu_tests = (
         'CPUcount' => '2',
         'MANUFACTURER' => 'Intel',
         'SPEED' => '1600'
+    },
+    'hpux_11.31-superdome' => {
+
     }
 
 );
