@@ -29,7 +29,6 @@ sub doInventory {
 
     $inventory->setHardware({
         OSNAME             => "Linux",
-        OSCOMMENTS         => "Unknown Linux distribution",
         OSVERSION          => $osversion,
         LASTLOGGEDUSER     => $last_user,
         DATELASTLOGGEDUSER => $last_date
