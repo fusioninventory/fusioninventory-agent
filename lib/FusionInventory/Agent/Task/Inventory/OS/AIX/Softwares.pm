@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Software;
+package FusionInventory::Agent::Task::Inventory::OS::AIX::Softwares;
 
 use strict;
 use warnings;
