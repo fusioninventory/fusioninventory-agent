@@ -13,8 +13,8 @@ our $runMeIfTheseChecksFailed =
 
 sub isInventoryEnabled{
     return 
-        $Config{'archname'} eq 'i386' || 
-        $Config{'archname'} eq 'x86_64';
+        $Config{archname} eq 'i386' || 
+        $Config{archname} eq 'x86_64';
 }
 
 sub doInventory {
