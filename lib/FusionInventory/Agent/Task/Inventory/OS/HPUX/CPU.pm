@@ -16,7 +16,7 @@ use FusionInventory::Agent::Tools;
 ###
 
 sub isInventoryEnabled  { 
-    return $OSNAME eq 'hpux';
+    return 1;
 }
 
 sub doInventory {
