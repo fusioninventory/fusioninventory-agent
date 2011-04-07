@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Controller;
+package FusionInventory::Agent::Task::Inventory::OS::AIX::Controllers;
 
 use strict;
 use warnings;
