@@ -804,7 +804,7 @@ to the server in the inventory.
 
 Check inventory content.
 
-=head2 getContent()
+=head2 getContentAsHTML()
 
 Return the inventory as an HTML string.
 
