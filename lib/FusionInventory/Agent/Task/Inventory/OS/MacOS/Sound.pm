@@ -17,11 +17,11 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $prof = Mac::SysProfile->new();
-    my $h = $prof->gettype('SPAudioDataType');
-    return unless ref($h) eq 'HASH';
+    my $info = $prof->gettype('SPAudioDataType');
+    return unless ref $info eq 'HASH';
 
     # add sound cards
-    foreach my $x (keys %$h){
+    foreach my $x (keys %$info){
         $inventory->addSound({
             'NAME'          => $x,
             'MANUFACTURER'  => $x,

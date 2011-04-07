@@ -6,7 +6,9 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_load("Mac::SysProfile");
+    return 
+        -r '/usr/sbin/system_profiler' &&
+        can_load("Mac::SysProfile");
 }
 
 sub doInventory {
@@ -14,15 +16,11 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    # use Mac::SysProfile to get the respected datatype
     my $prof = Mac::SysProfile->new();
-    my $nfo = $prof->gettype('SPHardwareDataType');
+    my $info = $prof->gettype('SPHardwareDataType');
+    return unless ref $info eq 'HASH';
 
-    # unless we get a real hash value, return with nothing
-    my $h = {};
-    if (($nfo && ref($nfo) eq 'HASH')) {
-        $h = $nfo->{'Hardware Overview'};
-    }
+    $info = $info->{'Hardware Overview'};
 
     my $ioregInfo;
 #+-o iMac7,1  <class IOPlatformExpertDevice, registered, matched, active, busy 0, retain 24>
@@ -63,17 +61,17 @@ sub doInventory {
     # set the bios informaiton from the apple system profiler
     $inventory->setBios({
         SMANUFACTURER => $ioregInfo->{'manufacturer'} || 'Apple Inc', # duh
-        SMODEL        => $h->{'Model Identifier'} || $h->{'Machine Model'},
+        SMODEL        => $info->{'Model Identifier'} || $info->{'Machine Model'},
         #       SSN             => $h->{'Serial Number'}
         # New method to get the SSN, because of MacOS 10.5.7 update
         # system_profiler gives 'Serial Number (system): XXXXX' where 10.5.6
         # and lower give 'Serial Number: XXXXX'
-        SSN           => $h->{'Serial Number'} || $h->{'Serial Number (system)'} || $ioregInfo->{'serial-number'},
-        BVERSION      => $h->{'Boot ROM Version'},
+        SSN           => $info->{'Serial Number'} || $info->{'Serial Number (system)'} || $ioregInfo->{'serial-number'},
+        BVERSION      => $info->{'Boot ROM Version'},
     });
 
     $inventory->setHardware({
-        UUID => $h->{'Hardware UUID'} || $ioregInfo->{'IOPlatformUUID'}
+        UUID => $info->{'Hardware UUID'} || $ioregInfo->{'IOPlatformUUID'}
     });
 }
 

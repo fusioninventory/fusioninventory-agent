@@ -17,18 +17,18 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $prof = Mac::SysProfile->new();
-    my $h = $prof->gettype('SPHardwareDataType');
-    return unless ref($h) eq 'HASH';
+    my $info = $prof->gettype('SPHardwareDataType');
+    return unless ref $info eq 'HASH';
 
-    $h = $h->{'Hardware Overview'};
+    $info = $info->{'Hardware Overview'};
 
     ######### CPU
-    my $processort  = $h->{'Processor Name'} || $h->{'CPU Type'}; # 10.5 || 10.4
-    my $processorn  = $h->{'Number Of Processors'} || $h->{'Number Of CPUs'} || 1;
-    my $processors  = $h->{'Processor Speed'} || $h->{'CPU Speed'};
+    my $processort  = $info->{'Processor Name'} || $info->{'CPU Type'}; # 10.5 || 10.4
+    my $processorn  = $info->{'Number Of Processors'} || $info->{'Number Of CPUs'} || 1;
+    my $processors  = $info->{'Processor Speed'} || $info->{'CPU Speed'};
     my $processorCore;
-    if ($h->{'Total Number Of Cores'}) {
-        $processorCore = $h->{'Total Number Of Cores'} / $processorn;
+    if ($info->{'Total Number Of Cores'}) {
+        $processorCore = $info->{'Total Number Of Cores'} / $processorn;
     } else {
         $processorCore = 1;
     }
@@ -63,7 +63,7 @@ sub doInventory {
     }
 
     ### mem convert it to meg's if it comes back in gig's
-    my $mem = $h->{'Memory'};
+    my $mem = $info->{'Memory'};
     if($mem =~ /GB$/){
         $mem =~ s/\sGB$//;
         $mem = ($mem * 1024);

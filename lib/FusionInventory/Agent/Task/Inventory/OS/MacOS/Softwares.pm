@@ -10,6 +10,7 @@ sub isInventoryEnabled {
 
     return
         !$params->{config}->{no_software} &&
+        -r '/usr/sbin/system_profiler' &&
         can_load("Mac::SysProfile");
 }
 
@@ -19,12 +20,12 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $prof = Mac::SysProfile->new();
-    my $apps = $prof->gettype('SPApplicationsDataType'); # might need to check version of darwin
-    return unless ref($apps) eq 'HASH';
+    my $info = $prof->gettype('SPApplicationsDataType');
+    return unless ref $info eq 'HASH';
 
     # for each app, normalize the information, then add it to the inventory stack
-    foreach my $app (keys %$apps){
-        my $a = $apps->{$app};
+    foreach my $app (keys %$info){
+        my $a = $info->{$app};
 
         next unless ref($a) eq 'HASH';
 

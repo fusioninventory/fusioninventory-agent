@@ -20,10 +20,10 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $prof = Mac::SysProfile->new();
-    my $h = $prof->gettype('SPPrintersDataType');
-    return unless ref($h) eq 'HASH';
+    my $info = $prof->gettype('SPPrintersDataType');
+    return unless ref $info eq 'HASH';
 
-    foreach my $printer (keys %$h){
+    foreach my $printer (keys %$info) {
         if ($printer && $printer =~ /^The printers list is empty. To add printers/) {
 #http://forge.fusioninventory.org/issues/169
             next;
@@ -31,8 +31,8 @@ sub doInventory {
 
         $inventory->addPrinter({
             NAME    => $printer,
-            DRIVER  => $h->{$printer}->{'PPD'},
-            PORT    => $h->{$printer}->{'URI'},
+            DRIVER  => $info->{$printer}->{'PPD'},
+            PORT    => $info->{$printer}->{'URI'},
         });
     }
 

@@ -17,25 +17,25 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $prof = Mac::SysProfile->new();
-    my $h = $prof->gettype('SPDisplaysDataType');
-    return unless ref($h) eq 'HASH';
+    my $info = $prof->gettype('SPDisplaysDataType');
+    return unless ref $info eq 'HASH';
 
     # add the video information
-    foreach my $x (keys %$h){
-        my $memory = $h->{$x}->{'VRAM (Total)'};
+    foreach my $x (keys %$info){
+        my $memory = $info->{$x}->{'VRAM (Total)'};
         $memory =~ s/ MB$//;
         $inventory->addVideo({
                 'NAME'        => $x,
-                'CHIPSET'     => $h->{$x}->{'Chipset Model'},
+                'CHIPSET'     => $info->{$x}->{'Chipset Model'},
                 'MEMORY'    => $memory,
         });
 
         # this doesn't work yet, need to fix the Mac::SysProfile module to not be such a hack (parser only goes down one level)
         # when we do fix it, it will attach the displays that sysprofiler shows in a tree form
         # apple "xml" blows. Hard.
-        foreach my $display (keys %{$h->{$x}}){
-            my $ref = $h->{$x}->{$display};
-            next unless(ref($ref) eq 'HASH');
+        foreach my $display (keys %{$info->{$x}}){
+            my $ref = $info->{$x}->{$display};
+            next unless ref $ref eq 'HASH';
 
             $inventory->addMonitor({
                 'CAPTION'       => $ref->{'Resolution'},
