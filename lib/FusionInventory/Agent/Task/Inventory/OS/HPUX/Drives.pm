@@ -14,8 +14,10 @@ sub isInventoryEnabled  {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
     my $filesystem;
     my $type;
@@ -24,11 +26,17 @@ sub doInventory {
     my $free;
     my $createdate;
 
-    for ( `fstyp -l | grep -v nfs` ) {
-        next if /^\s*$/;
-        chomp;
-        $filesystem=$_;
-        for ( `bdf -t $filesystem `) {
+    my $handle = getFileHandle(
+        command => 'fstyp -l',
+        logger  => $logger
+    );
+
+    return unless $handle;
+
+    while (my $line = <$handle>) {
+        next if $line =~ /nfs/;
+        chomp $line;
+        foreach (`bdf -t $line`) {
             next if ( /Filesystem/ );
             if ( /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/ ) {
                 $lv=$1;
@@ -37,7 +45,7 @@ sub doInventory {
                 $type=$6;
                 if ( $filesystem =~ /vxfs/i and can_run('fsdb') ) {
                     $createdate = `echo '8192B.p S' | fsdb -F vxfs $lv 2>/dev/null | fgrep -i ctime`;
-                    $createdate =~ /ctime\s+(\d+)\s+\d+\s+.*$/i;
+                    $createdate =~ /ctime\s+(\d+)\s+\d+\s+/i;
                     $createdate = POSIX::strftime("%Y/%m/%d %T", localtime($1));
                     #my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($1);
                     #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
@@ -57,7 +65,7 @@ sub doInventory {
                 $lv=$1;
                 if ( $filesystem =~ /vxfs/i and can_run('fsdb') ) {
                     $createdate = `echo '8192B.p S' | fsdb -F vxfs $lv 2>/dev/null | fgrep -i ctime`;
-                    $createdate =~ /ctime\s+(\d+)\s+\d+\s+.*$/i;
+                    $createdate =~ /ctime\s+(\d+)\s+\d+\s+/i;
                     $createdate = POSIX::strftime("%Y/%m/%d %T", localtime($1));
                     #my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($1);
                     #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
@@ -80,6 +88,7 @@ sub doInventory {
             }
         } # for bdf -t $filesystem
     }
+    close $handle;
 }
 
 1;

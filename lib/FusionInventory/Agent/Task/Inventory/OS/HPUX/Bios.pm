@@ -14,11 +14,12 @@ use FusionInventory::Agent::Tools;
 ###
 
 sub isInventoryEnabled {
-    return can_run ("model");
+    return can_run('model');
 }
 
-sub doInventory { 
-    my $params = shift;
+sub doInventory {
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     my $BiosVersion;
@@ -27,9 +28,9 @@ sub doInventory {
     my $SystemSerial;
     my $SystemUUID;
 
+    $SystemModel = getFirstLine(command => 'model');
 
-    $SystemModel=`model`;
-    if ( can_run ("/usr/contrib/bin/machinfo") ) {
+    if ( can_run('/usr/contrib/bin/machinfo') ) {
         foreach ( `/usr/contrib/bin/machinfo` ) {
             if ( /Firmware\s+revision\s+[:=]\s+(\S+)/ ) {
                 $BiosVersion = $1;
@@ -40,21 +41,23 @@ sub doInventory {
             }
         }
     } else { #Could not run machinfo
-        for ( `echo 'sc product cpu;il' | /usr/sbin/cstm | grep "PDC Firmware"` ) {
+        foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
+            next unless /PDC Firmware/;
             if ( /Revision:\s+(\S+)/ ) { $BiosVersion = "PDC $1" }
         }
-        for ( `echo 'sc product system;il' | /usr/sbin/cstm | grep "System Serial Number"` ) {
+        foreach ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
+            next unless /System Serial Number/;
             if ( /:\s+(\w+)/ ) { $SystemSerial = $1 }
         }
     }
 
-    $inventory->setBios ({
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
+    $inventory->setBios({
+        BVERSION      => $BiosVersion,
+        BDATE         => $BiosDate,
         BMANUFACTURER => "HP",
         SMANUFACTURER => "HP",
-        SMODEL => $SystemModel,
-        SSN => $SystemSerial,
+        SMODEL        => $SystemModel,
+        SSN           => $SystemSerial,
     });
     $inventory->setHardware({
         UUID => $SystemUUID

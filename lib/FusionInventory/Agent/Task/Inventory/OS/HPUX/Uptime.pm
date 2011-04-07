@@ -12,11 +12,12 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     # Uptime
-    my $uptime = `uptime`;
+    my $uptime = getFirstLine(command => 'uptime');
     my $seconds = 0;
     if ( $uptime =~ /.*\sup\s((\d+)\sdays\D+)?(\d{1,2}):(\d{1,2}).*/ ) {
         $seconds += $2 * 24 * 3600;
@@ -24,14 +25,13 @@ sub doInventory {
         $seconds += $4 * 60;
     }
 
-    # Uptime conversion
-    my ($UYEAR, $UMONTH , $UDAY, $UHOUR, $UMIN, $USEC) = (gmtime ($seconds))[5,4,3,2,1,0];
+    # ISO format string conversion
+    $uptime = getFormatedGmTime($seconds);
 
-    # Write in ISO format
-    $uptime=sprintf "%02d-%02d-%02d %02d:%02d:%02d", ($UYEAR-70), $UMONTH, ($UDAY-1), $UHOUR, $UMIN, $USEC;
-
-    chomp(my $DeviceType =`uname -m`);
-    $inventory->setHardware({ DESCRIPTION => "$DeviceType/$uptime" });
+    my $DeviceType = getFirstLine(command => 'uname -m');
+    $inventory->setHardware({
+        DESCRIPTION => "$DeviceType/$uptime"
+    });
 }
 
 1;

@@ -11,21 +11,26 @@ sub isInventoryEnabled {
     return $OSNAME eq 'hpux';
 }
 
-sub doInventory { 
-    my $params = shift;
+sub doInventory {
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
+    my $arch = getFirstLine(command => 'uname -m');
 
-    if ( `uname -m` =~ /ia64/ ) {
+    if ($arch =~ /ia64/ ) {
         `echo 'sc product  IPF_MEMORY;info' | /usr/sbin/cstm`;    # enable infolog
-        for ( `echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm` ) {
+        foreach ( `echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm` ) {
             if ( /\w+IMM\s+Location/ ) {
                 next
             } elsif (/Total Configured Memory:\s(\d+)\sMB/i) {
                 my $TotalMemSize = $1;
-                my $TotalSwapSize = `swapinfo -dt | tail -n1`;
+                my $TotalSwapSize = getFirstLine(command => "swapinfo -dt | tail -n1");
                 $TotalSwapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
-                $inventory->setHardware({ MEMORY =>  $TotalMemSize, SWAP =>    sprintf("%i", $TotalSwapSize/1024), });
+                $inventory->setHardware({
+                    MEMORY => $TotalMemSize,
+                    SWAP   => sprintf("%i", $TotalSwapSize/1024)
+                });
             } elsif ( /(\w+IMM)\s+(\w+)\s+(\d+|\-+)\s+(\w+IMM)\s+(\w+)\s+(\d+|\-+)/ ) {
                 $inventory->addMemory({
                         CAPACITY => $3,
@@ -59,7 +64,7 @@ sub doInventory {
         my @list_mem=`echo 'sc product mem;il'| /usr/sbin/cstm`;
         my $ok=0;
 
-        for ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
+        foreach ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
 
             if ( /FRU\sSource\s+=\s+\S+\s+\(memory/ ) {
                 $ok=0;

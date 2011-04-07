@@ -9,27 +9,26 @@ use FusionInventory::Agent::Tools;
 
 our $runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 
-sub isInventoryEnabled  { return $OSNAME eq 'hpux'; }
+sub isInventoryEnabled  {
+    return $OSNAME eq 'hpux';
+}
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $OSName;
-    my $OSVersion;
-    my $OSRelease;
-    my $OSLicense;
+    my (%params) = @_;
 
-    #my $uname_path          = &_get_path('uname');
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
     # Operating system informations
-    chomp($OSName = `uname -s`);  #It should allways be "HP-UX"
-    chomp($OSVersion = `uname -v`);
-    chomp($OSRelease = `uname -r`);
-    chomp($OSLicense = `uname -l`);
+    my $OSName    = getFirstLine(command => 'uname -s');  # It should always be "HP-UX"
+    my $OSVersion = getFirstLine(command => 'uname -v');
+    my $OSRelease = getFirstLine(command => 'uname -r');
+    my $OSLicense = getFirstLine(command => 'uname -l');
 
     # Last login informations
     my $LastLoggedUser;
     my $LastLogDate;
-    my @query = runcmd("last");
+    my @query = `last`;
 
     while ( my $tempLine = shift @query) {
         #if ( /^reboot\s+system boot/ ) { continue }  #It should never be seen above a user login entry (I hope)
@@ -44,10 +43,10 @@ sub doInventory {
 
 
     $inventory->setHardware({
-        OSNAME => $OSName,
-        OSVERSION => $OSVersion . ' ' . $OSLicense,
-        OSCOMMENTS => $OSRelease,
-        LASTLOGGEDUSER => $LastLoggedUser,
+        OSNAME             => $OSName,
+        OSVERSION          => $OSVersion . ' ' . $OSLicense,
+        OSCOMMENTS         => $OSRelease,
+        LASTLOGGEDUSER     => $LastLoggedUser,
         DATELASTLOGGEDUSER => $LastLogDate
     });
 
