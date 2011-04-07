@@ -75,24 +75,24 @@ sub new {
     return $self;
 }
 
-sub _addEntry {
+sub addEntry {
     my ($self, $params) = @_;
 
+    my $entry = $params->{entry};
+    die "no entry" unless $entry;
+
     my $section = $params->{section};
-    my $values = $params->{values};
-    my $noDuplicated = $params->{noDuplicated};
+    my $fields = $fields{$section};
+    die "unknown section $section" unless $fields;
 
     my $newEntry;
-    my $fields = $fields{$section};
-    die "Unknown section $section" unless $fields;
-
     foreach my $field (@$fields) {
-        next unless defined $values->{$field};
-        $newEntry->{$field} = getSanitizedString($values->{$field});
+        next unless defined $entry->{$field};
+        $newEntry->{$field} = getSanitizedString($entry->{$field});
     }
 
     # avoid duplicate entries
-    if ($noDuplicated) {
+    if ($params->{noDuplicated}) {
         my $md5 = md5_base64(Dumper($newEntry));
         return if $self->{seen}->{$section}->{$md5};
         $self->{seen}->{$section}->{$md5} = 1;
@@ -106,27 +106,27 @@ sub _addEntry {
 sub addController {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'CONTROLLERS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addModem {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'MODEMS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addDrive {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'DRIVES',
-        values  => $args,
+        entry   => $args,
     });
 }
 
@@ -146,36 +146,36 @@ sub addStorage {
         "this is not an error but the situation should be improved");
     }
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'STORAGES',
-        values  => $values,
+        entry   => $values,
     });
 }
 
 sub addMemory {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'MEMORIES',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addPort {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'PORTS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addSlot {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'SLOTS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
@@ -183,9 +183,9 @@ sub addSoftware {
     my ($self, $args) = @_;
 
 
-    $self->_addEntry({
+    $self->addEntry({
         section      => 'SOFTWARES',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     });
 }
@@ -193,18 +193,18 @@ sub addSoftware {
 sub addMonitor {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'MONITORS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addVideo {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section      => 'VIDEOS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     });
 
@@ -213,18 +213,18 @@ sub addVideo {
 sub addSound {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'SOUNDS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addNetwork {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section      => 'NETWORKS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     });
 }
@@ -262,9 +262,9 @@ sub setBios {
 sub addCPU {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'CPUS',
-        values  => $args,
+        entry   => $args,
     });
 
     # For the compatibility with HARDWARE/PROCESSOR*
@@ -284,9 +284,9 @@ sub addUser {
 
     return unless $args->{LOGIN};
 
-    return unless $self->_addEntry({
+    return unless $self->addEntry({
         section      => 'USERS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     });
 
@@ -317,9 +317,9 @@ sub addUser {
 sub addPrinter {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'PRINTERS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
@@ -334,9 +334,9 @@ sub addVirtualMachine {
         $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
     }
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'VIRTUALMACHINES',
-        values  => $args,
+        entry   => $args,
     });
 
 }
@@ -344,9 +344,9 @@ sub addVirtualMachine {
 sub addProcess {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'PROCESSES',
-        values  => $args,
+        entry   => $args,
     });
 }
 
@@ -354,27 +354,27 @@ sub addInput {
     my ($self, $args) = @_;
 
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'INPUTS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addEnv {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'ENVS',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section      => 'USBDEVICES',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     });
 }
@@ -382,27 +382,27 @@ sub addUSBDevice {
 sub addBattery {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'BATTERIES',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addRegistry {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section => 'REGISTRY',
-        values  => $args,
+        entry   => $args,
     });
 }
 
 sub addAntiVirus {
     my ($self, $args) = @_;
 
-    $self->_addEntry({
+    $self->addEntry({
         section      => 'ANTIVIRUS',
-        values       => $args,
+        entry        => $args,
         noDuplicated => 1
     });
 }
@@ -683,6 +683,28 @@ allowed parameters.
 a path to a file containing the last serialized inventory
 
 =back
+
+=head2 addEntry($params)
+
+Add a new entry to the inventory. The following parameters are allowed, as keys
+of the $params hashref:
+
+=over
+
+=item I<section>
+
+the entry section (mandatory)
+
+=item I<entry>
+
+the entry (mandatory)
+
+=item I<noDuplicated>
+
+ignore entry if already present
+
+=back
+
 
 =head2 addController()
 
