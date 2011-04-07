@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::HPUX::Controller;
+package FusionInventory::Agent::Task::Inventory::OS::HPUX::Controllers;
 
 use strict;
 use warnings;
