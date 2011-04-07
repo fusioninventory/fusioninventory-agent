@@ -14,28 +14,15 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    my $name;
-    my $interface;
-    my $info;
-    my $type;
-    my @typeScaned=('ioa','ba');
-    my $scaned;
-
-    foreach (@typeScaned ) {
-        $scaned=$_;
-        foreach ( `ioscan -kFC $scaned| cut -d ':' -f 9,11,17,18` ) {
-            if ( /(\S+):(\S+):(\S+):(.+)/ ) {
-                $name=$2;
-                $interface=$3;
-                $info=$4;
-                $type=$1;
-                $inventory->addSlot({
-                    DESCRIPTION =>  "$name",
-                    DESIGNATION =>  "$interface $info",
-                    NAME            =>  "$type",
-                    STATUS          =>  "OK",
-                });
-            }
+    foreach my $scaned (qw/ioa ba/) {
+        foreach my $line ( `ioscan -kFC $scaned| cut -d ':' -f 9,11,17,18` ) {
+            next unless $line =~ /(\S+):(\S+):(\S+):(.+)/;
+            $inventory->addSlot({
+                DESCRIPTION => $2,
+                DESIGNATION => "$3 $4",
+                NAME        => $1,
+                STATUS      => "OK",
+            });
         }
     }
 }
