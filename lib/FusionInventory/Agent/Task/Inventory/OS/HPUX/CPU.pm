@@ -49,7 +49,7 @@ sub _parseMachinInfo {
             $ret->{SPEED} = $7*1000;
         }
         if ( /(\d+) logical processors/ ) {
-            $ret->{CORE} = $1 / $ret->{CPUcount};
+            $ret->{CORE} = $1 / ($ret->{CPUcount} || 1);
         }
         if (/Itanium/i) {
             $ret->{NAME} = 'Itanium';
