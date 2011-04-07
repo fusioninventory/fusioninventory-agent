@@ -9,8 +9,7 @@ sub isInventoryEnabled  {
     return
         can_run('fstyp') &&
         can_run('grep') &&
-        can_run('bdf') &&
-        can_load('POSIX');
+        can_run('bdf');
 }
 
 sub doInventory {
