@@ -14,15 +14,13 @@ sub doInventory {
 
     my $inventory = $params->{inventory};
 
-    for(`lsdev -Cc adapter -F 'name:type:description'`){
-        if(/modem/i && /\d+\s(.+):(.+)$/){
-            my $name = $1;
-            my $description = $2;
-            $inventory->addModem({
-                'DESCRIPTION'  => $description,
-                'NAME'          => $name,
-            });
-        }
+    foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`) {
+        next unless $line =~ /modem/i;
+        next unless $line =~ /\d+\s(.+):(.+)$/;
+        $inventory->addModem({
+            NAME        => $1,
+            DESCRIPTION => $2
+        });
     }
 }
 
