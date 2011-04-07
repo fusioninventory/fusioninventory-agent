@@ -10,7 +10,8 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     for(`lsdev -Cc adapter -F 'name:type:description'`){

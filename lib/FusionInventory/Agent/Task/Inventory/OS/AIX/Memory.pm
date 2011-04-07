@@ -3,12 +3,13 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Memory;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
-
-sub isInventoryEnabled { 1 } # TODO create a better check here
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     my $capacity;
@@ -24,10 +25,10 @@ sub doInventory {
     #lsvpd
     my @lsvpd = `lsvpd`;
     # Remove * (star) at the beginning of lines
-    s/^\*// for (@lsvpd);
+    s/^\*// foreach (@lsvpd);
 
     $numslots = -1; 
-    for(@lsvpd){
+    foreach (@lsvpd){
         if(/^DS Memory DIMM/){
             $description = $_;
             $flag=1; (defined($n))?($n++):($n=0);
@@ -46,16 +47,15 @@ sub doInventory {
             $flag=0;
             $numslots = $numslots +1;
             $inventory->addMemory({
-                    CAPACITY => $capacity,	
-                    DESCRIPTION => $description,
-                    CAPTION => $caption,
-                    NUMSLOTS => $numslots,
-                    VERSION => $mversion,
-                    TYPE => $type,
-                    SERIALNUMBER=> $serial,	
-
-                })
-        }; 
+                CAPACITY => $capacity,
+                DESCRIPTION => $description,
+                CAPTION => $caption,
+                NUMSLOTS => $numslots,
+                VERSION => $mversion,
+                TYPE => $type,
+                SERIALNUMBER=> $serial,
+            })
+        };
     }
 
     $numslots = $numslots +1;

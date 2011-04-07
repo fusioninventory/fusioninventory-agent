@@ -6,25 +6,26 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    `which lsdev 2>&1`;
-    return if($? >> 8)!=0;
-    `which lsattr 2>&1`;
-    ($? >> 8)?0:1}
+    return
+        can_run('lsdev') &&
+        can_run('lsattr');
+}
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
     my(@disques, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
 
     #lsvpd
     my @lsvpd = `lsvpd`;  
-    s/^\*// for (@lsvpd);
+    s/^\*// foreach (@lsvpd);
 
     #SCSI disks 
     $n=0;
     @scsi=`lsdev -Cc disk -s scsi -F 'name:description'`;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -35,21 +36,40 @@ sub doInventory {
 
         chomp $scsi[$n];
         /^(.+):(.+)/;
-        $device=$1;
-        $description=$2;
-        @lsattr=`lsattr -EOl $device -a 'size_in_mb'`;
-        for (@lsattr){
+        $device = $1;
+        $description = $2;
+        @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
+        foreach (@lsattr){
             if (! /^#/ ){
                 $capacity= $_;
-                chomp($capacity);$capacity =~ s/(\s+)$//;
+                chomp($capacity);
+                $capacity =~ s/(\s+)$//;
             }
         }
-        for (@lsvpd){
-            if(/^AX $device/){$flag=1}
-            if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
-            if ((/^TM (.+)/) && $flag){$model=$1;chomp($model);$model =~ s/(\s+)$//;}
-            if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
-            if ((/^FC .+/) && $flag) {$flag=0;last}
+        foreach (@lsvpd) {
+            if (/^AX $device/) {
+                $flag = 1;
+            }
+            if (/^MF (.+)/ && $flag) {
+                $manufacturer = $1;
+                chomp($manufacturer);
+                $manufacturer =~ s/(\s+)$//;
+            }
+            if (/^TM (.+)/ && $flag) {
+                $model = $1;
+                chomp($model);
+                $model =~ s/(\s+)$//;
+            }
+            if (/^FN (.+)/ && $flag) {
+                $FRU = $1;
+                chomp($FRU);
+                $FRU =~ s/(\s+)$//;
+                $manufacturer .= ",FRU number :".$FRU;
+            }
+            if (/^FC .+/ && $flag) {
+                $flag = 0;
+                last;
+            }
         }
 
         foreach (`lscfg -p -v -s -l $device` =~ /Serial Number\.*(.*)/) {
@@ -139,7 +159,7 @@ $n=0;
     @lsattr= ();
     $n=0;
     @scsi=`lsdev -Cc disk -s vscsi -F 'name:description'`;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -149,21 +169,17 @@ $n=0;
         my $serial;
         chomp $scsi[$n];
         /^(.+):(.+)/;
-        $device=$1;
-        $description=$2;
-        @lsattr=`lspv  $device 2>&1`;
-        for (@lsattr){
-            if ( ! ( /^0516-320.*/ ) )
-            {
+        $device = $1;
+        $description = $2;
+        @lsattr = `lspv  $device 2>&1`;
+        foreach (@lsattr) {
+            if ( ! ( /^0516-320.*/ ) ) {
                 if (/TOTAL PPs:/ ) {
-
                     ($capacity,$model) = split(/\(/, $_);
                     ($capacity,$model) = split(/ /,$model);
                 }
-            }
-            else
-            {
-                $capacity=0;
+            } else {
+                $capacity = 0;
             }
         }
         $inventory->addStorage({
@@ -183,7 +199,7 @@ $n=0;
     @lsattr= ();
     @scsi=`lsdev -Cc cdrom -s scsi -F 'name:description:status'`;
     $i=0;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -192,25 +208,44 @@ $n=0;
 
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
-        $device=$1;
-        $status=$3;
-        $description=$2;
-        $capacity="";
+        $device = $1;
+        $status = $3;
+        $description = $2;
+        $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr=`lsattr -EOl $device -a 'size_in_mb'`;
-            for (@lsattr){
+            @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
+            foreach (@lsattr){
                 if (! /^#/ ){
-                    $capacity= $_;
-                    chomp($capacity);$capacity =~ s/(\s+)$//;
+                    $capacity = $_;
+                    chomp($capacity);
+                    $capacity =~ s/(\s+)$//;
                 }
             }
             $description = $scsi[$n];
-            for (@lsvpd){
-                if(/^AX $device/){$flag=1}
-                if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
-                if ((/^TM (.+)/) && $flag){$model=$1;chomp($model);$model =~ s/(\s+)$//;}
-                if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
-                if ((/^FC .+/) && $flag) {$flag=0;last}
+            foreach (@lsvpd){
+                if (/^AX $device/) {
+                    $flag = 1;
+                }
+                if (/^MF (.+)/ && $flag) {
+                    $manufacturer = $1;
+                    chomp($manufacturer);
+                    $manufacturer =~ s/(\s+)$//;
+                }
+                if (/^TM (.+)/ && $flag) {
+                    $model = $1;
+                    chomp($model);
+                    $model =~ s/(\s+)$//;
+                }
+                if (/^FN (.+)/ && $flag) {
+                    $FRU = $1;
+                    chomp($FRU);
+                    $FRU =~ s/(\s+)$//;
+                    $manufacturer .= ",FRU number :".$FRU;
+                }
+                if (/^FC .+/ && $flag) {
+                    $flag = 0;
+                    last;
+                }
             }
             $inventory->addStorage({
                     NAME => $device,
@@ -230,7 +265,7 @@ $n=0;
     @lsattr= ();
     @scsi=`lsdev -Cc tape -s scsi -F 'name:description:status'`;
     $i=0;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -239,24 +274,43 @@ $n=0;
 
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
-        $device=$1;
-        $status=$3;
-        $description=$2;
-        $capacity="";
+        $device = $1;
+        $status = $3;
+        $description = $2;
+        $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr=`lsattr -EOl $device -a 'size_in_mb'`;
-            for (@lsattr){
+            @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
+            foreach (@lsattr){
                 if (! /^#/ ){
                     $capacity= $_;
-                    chomp($capacity);$capacity =~ s/(\s+)$//;
+                    chomp($capacity);
+                    $capacity =~ s/(\s+)$//;
                 }
             }
-            for (@lsvpd){
-                if(/^AX $device/){$flag=1}
-                if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
-                if ((/^TM (.+)/) && $flag){$model=$1;chomp($model);$model =~ s/(\s+)$//;}
-                if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
-                if ((/^FC .+/) && $flag) {$flag=0;last}
+            foreach (@lsvpd){
+                if (/^AX $device/) {
+                    $flag = 1;
+                }
+                if (/^MF (.+)/ && $flag) {
+                    $manufacturer = $1;
+                    chomp($manufacturer);
+                    $manufacturer =~ s/(\s+)$//;
+                }
+                if (/^TM (.+)/ && $flag) {
+                    $model = $1;
+                    chomp($model);
+                    $model =~ s/(\s+)$//;
+                }
+                if (/^FN (.+)/ && $flag) {
+                    $FRU = $1;
+                    chomp($FRU);
+                    $FRU =~ s/(\s+)$//;
+                    $manufacturer .= ",FRU number :".$FRU;
+                }
+                if (/^FC .+/ && $flag) {
+                    $flag = 0;
+                    last;
+                }
             }
             $inventory->addStorage({
                     NAME => $device,
@@ -276,7 +330,7 @@ $n=0;
     @lsattr= ();
     @scsi=`lsdev -Cc diskette -F 'name:description:status'`;
     $i=0;
-    for(@scsi){
+    foreach (@scsi){
         my $device;
         my $manufacturer;
         my $model;
@@ -285,16 +339,17 @@ $n=0;
 
         chomp $scsi[$i];
         /^(.+):(.+):(.+)/;
-        $device=$1;
-        $status=$3;
-        $description=$2;
-        $capacity="";
+        $device = $1;
+        $status = $3;
+        $description = $2;
+        $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr=`lsattr -EOl $device -a 'fdtype'`;
-            for (@lsattr){
-                if (! /^#/ ){
+            @lsattr = `lsattr -EOl $device -a 'fdtype'`;
+            foreach (@lsattr){
+                if (! /^#/ ) {
                     $capacity= $_;
-                    chomp($capacity);$capacity =~ s/(\s+)$//;
+                    chomp($capacity);
+                    $capacity =~ s/(\s+)$//;
                 }
             }
             #On le force en retour taille disquette non affichable
