@@ -1,63 +1,50 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::i386;
-# for i386 in case dmidecode is not available
 
 use strict;
 use warnings;
 
+use Config;
+
 use FusionInventory::Agent::Tools;
 
+# Only run this module if dmidecode has not been found
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
+
 sub isInventoryEnabled{
-    my $arch;
-    chomp($arch=`sysctl -n hw.machine`);
-    return if (($arch ne "i386") && ($arch ne "amd64"));
-    # dmidecode must not be present
-    `dmidecode 2>&1`;
-    return if ($? >> 8)==0;
-    1;
+    return 
+        $Config{'archname'} eq 'i386' || 
+        $Config{'archname'} eq 'x86_64';
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate);
-    my ( $processort , $processorn , $processors );
+    # sysctl infos
 
-    # use hw.machine for the system model
-    # TODO see if we can do better
-    chomp($SystemModel=`sysctl -n hw.machine`);
+    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
+    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
+    my $processort = getFirstLine(command => 'sysctl -n hw.machine');
+    my $processors = getCanonicalSpeed(
+        (split(/\s+/, $SystemModel))[-1]
+    );
 
-    # number of procs with sysctl (hw.ncpu)
-    chomp($processorn=`sysctl -n hw.ncpu`);
-    # proc type with sysctl (hw.model)
-    chomp($processort=`sysctl -n hw.model`);
-    # XXX quick and dirty _attempt_ to get proc speed through dmesg
-    for(`dmesg`){
-        my $tmp;
-        if (/^cpu\S*\s.*\D[\s|\(]([\d|\.]+)[\s|-]mhz/i) { # XXX unsure
-            $tmp = $1;
-            $tmp =~ s/\..*//;
-            $processors=$tmp;
-            last
-        }
-    }
-
-# Writing data
-    $inventory->setBios ({
-        SMANUFACTURER => $SystemManufacturer,
+    $inventory->setBios({
         SMODEL => $SystemModel,
-        SSN => $SystemSerial,
-        BMANUFACTURER => $BiosManufacturer,
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
     });
 
-    foreach my $i (1 .. $processorn) {
-        $inventory->addCPU({
-            NAME  => $processort,
-            SPEED => $processors
-        });
+    # don't deal with CPUs if information can be computed from dmidecode
+    my $infos = getInfosFromDmidecode(logger => $logger);
+    return if $infos->{4};
+
+    for my $i (1 .. $processorn) {
+         $inventory->addCPU({
+             NAME  => $processort,
+             SPEED => $processors,
+         });
     }
 
 }

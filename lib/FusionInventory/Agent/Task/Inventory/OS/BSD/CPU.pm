@@ -6,31 +6,25 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return unless -r "/dev/mem";
-
-    `which dmidecode 2>&1`;
-    return if ($? >> 8)!=0;
-    `dmidecode 2>&1`;
-    return if ($? >> 8)!=0;
-    1;
+    return can_run('dmidecode');
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
-    my $cpus = getCpusFromDmidecode();
-    foreach my $cpu (@$cpus) {
-        chomp(my $hwModel = `sysctl -n hw.model`);
+    my $speed;
+    my $hwModel = getFirstLine(command => 'sysctl -n hw.model');
+    if ($hwModel =~ /([\.\d]+)GHz/) {
+        $speed = $1 * 1000;
+    }
 
-        my $frequency;
-        if ($hwModel =~ /([\.\d]+)GHz/) {
-            $frequency = $1 * 1000;
-        }
-        $cpu->{SPEED} = $frequency;
-
+    foreach my $cpu (getCpusFromDmidecode()) {
+        $cpu->{SPEED} = $speed;
         $inventory->addCPU($cpu);
     }
 
 }
+
 1;

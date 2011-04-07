@@ -14,41 +14,42 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
 
-    my $OSComment;
-    my $OSVersion;
-    my $OSLevel;
-    my $OSArchi;
+    # Basic operating system informations
+    my $OSVersion = getFirstLine(command => 'uname -r');
+    my $OSArchi = getFirstLine(command => 'uname -p');
+    my $OSComment = getFirstLine(command => 'uname -v');
 
-    # Operating system informations
-    chomp($OSVersion=`uname -r`);
-    chomp($OSArchi=`uname -p`);
+    # Get more information from the kernel configuration file
+    my $date;
+    foreach my $line (`sysctl -n kern.version`) {
+        if ($line =~ /^\S.*\#\d+:\s*(.*)/) {
+            $date = $1;
+            next;
+        }
 
-    # Retrieve the origin of the kernel configuration file
-    my ($date, $origin, $kernconf);
-    for (`sysctl -n kern.version`) {
-        $date = $1 if /^\S.*\#\d+:\s*(.*)/;
-	if (/^\s+(.+):(.+)$/) {
-            ($origin,$kernconf) = ($1,$2);
-	    $kernconf =~ s/\/.*\///; # remove the path
-            $OSComment = $kernconf." (".$date.")\n".$origin;
-            # if there is a problem use uname -v
-            chomp($OSComment=`uname -v`) unless $OSComment;
+        if ($line =~ /^\s+(.+):(.+)$/) {
+            my $origin = $1;
+            my $kernconf = $2;
+            $kernconf =~ s/\/.*\///; # remove the path
+            $OSComment = $kernconf . " (" . $date . ")\n" . $origin;
         }
     }
 
-    if (can_run("lsb_release")) {
+    if (can_run('lsb_release')) {
         foreach (`lsb_release -d`) {
             $OSNAME = $1 if /Description:\s+(.+)/;
         }
     }
 
     $inventory->setHardware({
-        OSNAME => $OSNAME,
+        OSNAME     => $OSNAME,
         OSCOMMENTS => $OSComment,
-        OSVERSION => $OSVersion,
+        OSVERSION  => $OSVersion,
     });
 }
+
 1;

@@ -6,33 +6,32 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { 	
-    `which sysctl 2>&1`;
-    return 0 if($? >> 8);
-    `which swapctl 2>&1`;
-    return 0 if($? >> 8);
-    1;
+    return
+        can_run('sysctl') &&
+        can_run('swapctl');
 };
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my $PhysicalMemory;
+    # Swap
     my $SwapFileSize;
-
-# Swap
-    my @bsd_swapctl= `swapctl -sk`;
-    for(@bsd_swapctl){
-        $SwapFileSize=$1 if /total:\s*(\d+)/i;
+    my @bsd_swapctl = `swapctl -sk`;
+    foreach (@bsd_swapctl) {
+        $SwapFileSize = $1 if /total:\s*(\d+)/i;
     }
-# RAM
-    chomp($PhysicalMemory=`sysctl -n hw.physmem`);
-    $PhysicalMemory=$PhysicalMemory/1024;
 
-# Send it to inventory object
+    # RAM
+    my $PhysicalMemory = getFirstLine(command => 'sysctl -n hw.physmem');
+    $PhysicalMemory = $PhysicalMemory / 1024;
+
     $inventory->setHardware({
-        MEMORY =>  sprintf("%i",$PhysicalMemory/1024),
-        SWAP =>    sprintf("%i", $SwapFileSize/1024),
+        MEMORY => sprintf("%i", $PhysicalMemory / 1024),
+        SWAP   => sprintf("%i", $SwapFileSize / 1024),
     });
 }
+
 1;

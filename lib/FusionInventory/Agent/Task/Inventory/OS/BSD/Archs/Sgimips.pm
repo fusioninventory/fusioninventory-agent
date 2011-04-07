@@ -3,77 +3,68 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Sgimips;
 use strict;
 use warnings;
 
+use Config;
+
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled{
-    my $arch;
-    chomp($arch=`sysctl -n hw.machine`);
-    $arch =~ m/^sgi/; 
+sub isInventoryEnabled {
+    return $Config{'archname'} =~ /^IP\d+/;
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
+
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate);
-    my ( $processort , $processorn , $processors );
+    # sysctl infos
 
-    ### Get system model with "sysctl hw.model"
-    #
-    # example on NetBSD
-    # hw.model = SGI-IP22
-    # example on OpenBSD
-    # hw.model=SGI-O2 (IP32)
+    # example on NetBSD: SGI-IP22
+    # example on OpenBSD: SGI-O2 (IP32)
+    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
 
-    chomp($SystemModel=`sysctl -n hw.model`);
-    $SystemManufacturer = "SGI";
+    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 
-    ### Get processor type and speed in dmesg
-    #
-    # Examples of dmesg output :
-    #
+    # dmesg infos
+    
     # I) Indy
-    # a) NetBSD
+    # NetBSD:
     # mainbus0 (root): SGI-IP22 [SGI, 6906e152], 1 processor
     # cpu0 at mainbus0: MIPS R4400 CPU (0x450) Rev. 5.0 with MIPS R4010 FPC Rev. 0.0
     # int0 at mainbus0 addr 0x1fbd9880: bus 75MHz, CPU 150MHz
     #
     # II) O2
-    # a) NetBSD
+    # NetBSD:
     # mainbus0 (root): SGI-IP32 [SGI, 8], 1 processor
     # cpu0 at mainbus0: MIPS R5000 CPU (0x2321) Rev. 2.1 with built-in FPU Rev. 1.0
-    # b) OpenBSD
+    # OpenBSD:
     # mainbus0 (root)
     # cpu0 at mainbus0: MIPS R5000 CPU rev 2.1 180 MHz with R5000 based FPC rev 1.0
     # cpu0: cache L1-I 32KB D 32KB 2 way, L2 512KB direct
 
-    for (`dmesg`) {
+    my ($SystemSerial, $processort, $processors);
+    foreach (`dmesg`) {
         if (/$SystemModel\s*\[\S*\s*(\S*)\]/) { $SystemSerial = $1; }
         if (/cpu0 at mainbus0:\s*(.*)$/) { $processort = $1; }
         if (/CPU\s*.*\D(\d+)\s*MHz/) { $processors = $1; }
     }
 
-    # number of procs with sysctl (hw.ncpu)
-    chomp($processorn=`sysctl -n hw.ncpu`);
-
-# Writing data
-    $inventory->setBios ({
-        SMANUFACTURER => $SystemManufacturer,
-        SMODEL => $SystemModel,
-        SSN => $SystemSerial,
-        BMANUFACTURER => $BiosManufacturer,
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
+    $inventory->setBios({
+        SMANUFACTURER => 'SGI',
+        SMODEL        => $SystemModel,
+        SSN           => $SystemSerial,
     });
 
-    foreach my $i (1 .. $processorn) {
-        $inventory->addCPU({
-            NAME  => $processort,
-            SPEED => $processors
-        });
-    }
+    # don't deal with CPUs if information can be computed from dmidecode
+    my $infos = getInfosFromDmidecode(logger => $logger);
+    return if $infos->{4};
 
+    for my $i (1 .. $processorn) {
+         $inventory->addCPU({
+             NAME  => $processort,
+             SPEED => $processors,
+         });
+    }
 }
 
 1;
