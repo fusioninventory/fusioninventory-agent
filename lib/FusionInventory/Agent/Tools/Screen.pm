@@ -489,7 +489,8 @@ sub getManufacturerFromCode {
         "VSC" => "ViewSonic Corporation",
         "WTC" => "Wen Technology",
         "ZCM" => "Zenith Data Systems",
-        "___" => "Targa"
+        "___" => "Targa",
+        "BNQ" => "BenQ Corporation",
     };
 
     return $h->{$code} if (exists ($h->{$code}) && $h->{$code});

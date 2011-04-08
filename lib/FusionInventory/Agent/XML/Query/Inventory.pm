@@ -32,7 +32,7 @@ my %fields = (
                         UUENCODE/ ],
     NETWORKS    => [ qw/DESCRIPTION DRIVER IPADDRESS IPADDRESS6 IPDHCP IPGATEWAY
                         IPMASK IPSUBNET MACADDR MTU PCISLOT STATUS TYPE 
-                        VIRTUALDEV SLAVES SPEED MANAGEMENT/ ],
+                        VIRTUALDEV SLAVES SPEED MANAGEMENT BSSID SSID/ ],
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
     REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
@@ -52,7 +52,7 @@ my %fields = (
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
     VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
-                            VMID/ ],
+                            VMID MAC COMMENT OWNER/ ],
 );
 
 sub new {
@@ -861,7 +861,35 @@ This field is deprecated, you should use the USERS section instead.
 
 The virtualization technologie used if the machine is a virtual machine.
 
-Can by: Physical (default), Xen, VirtualBox, Virtual Machine, VMware, QEMU, SolarisZone
+Can by:
+
+=over 5
+
+=item Physical: (default)
+
+=item Xen
+
+=item VirtualBox
+
+=item Virtual Machine: Generic if it's not possible to correctly identify the solution
+
+=item VMware: ESX, ESXi, server, etc
+
+=item QEMU
+
+=item SolarisZone
+
+=item VServer
+
+=item OpenVZ
+
+=item BSDJail
+
+=item Parallels
+
+=item Hyper-V
+
+=back
 
 =item WINOWNER
 
@@ -1020,6 +1048,8 @@ Installation day in DD/MM/YYYY format. Windows only.
 
 =item NO_REMOVE
 
+Can the software be removed.
+
 =item RELEASE_TYPE
 
 Windows only for now, come from the registry
@@ -1120,6 +1150,16 @@ Number of CPU affected to the virtual machine
 =item VMID
 
 The ID of virtual machine in the virtual managment system.
+
+=item MAC
+
+The list of the MAC addresses of the virtual machine. The delimiter is '/'. e.g: 00:23:18:91:db:8d/00:23:57:31:sb:8e
+
+=item COMMENT
+
+a comment
+
+=item OWNER
 
 =back
 
@@ -1245,7 +1285,7 @@ Up or Down
 
 =item TYPE
 
-deprecated
+Interface type: Ethernet, Wifi
 
 =item VIRTUALDEV
 
@@ -1262,6 +1302,14 @@ Whether or not it is a HP iLO, Sun SC, HP MP or other kind of Remote Management 
 =item SPEED
 
 Interface speed in Mb/s
+
+=item BSSID
+
+Wifi only, Access point MAC Address
+
+=item SSID
+
+Wifi only, Access point name
 
 =back
 

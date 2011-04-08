@@ -25,17 +25,31 @@ sub doInventory {
                 class      => "AntiVirusProduct",
                 properties => [ qw/
                     companyName displayName instanceGuid onAccessScanningEnabled
-                    productUptoDate versionNumber
+                    productUptoDate versionNumber productState
                / ]
         ))) {
+
+            my $enable = $object->{onAccessScanningEnabled};
+            my $uptodate = $object->{productUptoDate};
+
+            if ($object->{productState}) {
+                my $bin = sprintf( "%b\n", $object->{productState});
+# http://blogs.msdn.com/b/alejacma/archive/2008/05/12/how-to-get-antivirus-information-with-wmi-vbscript.aspx?PageIndex=2#comments
+                if ($bin =~ /(\d)00000(\d)000000(\d)00000$/) {
+                    $uptodate = $1 || $2;
+                    $enable = $3?0:1;
+                }
+
+            }
+
             $inventory->addEntry({
                 section => 'ANTIVIRUS',
                 entry   => {
                     COMPANY  => $object->{companyName},
                     NAME     => $object->{displayName},
                     GUID     => $object->{instanceGuid},
-                    ENABLED  => $object->{onAccessScanningEnabled},
-                    UPTODATE => $object->{productUptoDate},
+                    ENABLED  => $enable,
+                    UPTODATE => $uptodate,
                     VERSION  => $object->{versionNumber}
                 },
                 noDuplicated => 1
@@ -45,3 +59,4 @@ sub doInventory {
 }
 
 1;
+

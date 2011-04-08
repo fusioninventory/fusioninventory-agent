@@ -19,6 +19,16 @@ use Win32::TieRegistry (
 
 Win32::OLE->Option(CP => 'CP_UTF8');
 
+
+use constant KEY_WOW64_64 => 0x100;
+use constant KEY_WOW64_32 => 0x200;
+
+use Win32::TieRegistry (
+        Delimiter   => '/',
+        ArrayValues => 0,
+        qw/KEY_READ/
+        );
+
 use FusionInventory::Agent::Tools;
 
 my $localCodepage;
@@ -30,6 +40,7 @@ our @EXPORT = qw(
     encodeFromRegistry
     KEY_WOW64_64
     KEY_WOW64_32
+    getValueFromRegistry
 );
 
 sub is64bit {
@@ -113,6 +124,38 @@ sub getRegistryKey {
     return $key;
 }
 
+sub getValueFromRegistry {
+    my ($path, $logger) = @_;
+
+    my $root;
+    my $subpath;
+    my $keyName;
+    if ($path =~ /^(HKEY\S+?)\/(.*)\/([^\/.]*)/ ) {
+        $root = $1;
+        $subpath = $2;
+        $keyName = $3;
+    }
+    my $machKey;
+    $Registry->Delimiter("/");
+    if (is64bit()) {
+        $machKey = $Registry->Open($root, { Access=> KEY_READ()|KEY_WOW64_64KEY() } );
+    } else {
+	$machKey = $Registry->Open($root, { Access=> KEY_READ() } );
+    }
+    if (!$machKey) {
+        if ($logger) {
+            $logger->error("Can't open `$root': $EXTENDED_OS_ERROR");
+        } else {
+            warn("Can't open `$root': $EXTENDED_OS_ERROR");
+        }
+        return;
+    }
+    my $key = $machKey->Open($subpath);
+    my $t = $key->{$keyName};
+    return if ref($t);
+    return $t;
+}
+
 
 1;
 __END__
@@ -160,3 +203,18 @@ Return a registry key directly.
 =head2 getRegistryKey($name)
 
 Return a registry key after filtering its content.
+
+=head2 getValueFromRegistry($path, $logger)
+
+Returns a value from the registry. The function returns undef in case of
+error.
+
+the $path parameter is a string in this format :
+$hive/location/keyname
+
+E.g: HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProductName
+
+The delimiter is '/
+
+If the $logger parameter is defined, it will be used.
+

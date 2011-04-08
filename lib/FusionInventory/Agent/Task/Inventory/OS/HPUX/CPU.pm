@@ -114,7 +114,7 @@ sub _parseMachinInfo {
         if (/Number of CPUs = (\d+)/) {
             $ret->{CPUcount} = $1;
         } elsif (/processor model: \d+ (.+)$/) {
-            $ret->{TYPE} = $1;
+            $ret->{NAME} = $1;
         } elsif (/Clock speed = (\d+) MHz/) {
             $ret->{SPEED} = $1;
         } elsif (/vendor information =\W+(\w+)/) {
@@ -124,19 +124,19 @@ sub _parseMachinInfo {
 # last; #Not tested on versions other that B11.23
         }
 # Added for HPUX 11.31
-        if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
-            $ret->{CPUinfo}->{SPEED} = $1*1000;
-        }
-        if ( /(\d+) (Intel)\(R\) Itanium 2 processors \((\d+\.\d+)/ ) {
-            $ret->{CPUcount} = $1;
-            $ret->{MANUFACTURER} = $2;
-            $ret->{SPEED} = $3*1000;
+#        if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
+#            $ret->{CPUinfo}->{SPEED} = $1*1000;
+#        }
+        if ( /((\d+) |)(Intel)\(R\) Itanium( 2|\(R\))( \d+ series|) processor(s| 9350s) \((\d+\.\d+)/i ) {
+            $ret->{CPUcount} = $2 || 1;
+            $ret->{MANUFACTURER} = $3;
+            $ret->{SPEED} = $7*1000;
         }
         if ( /(\d+) logical processors/ ) {
-            $ret->{CPUcount} = $1;
+            $ret->{CORE} = $1 / ($ret->{CPUcount} || 1);
         }
         if (/Itanium/i) {
-            $ret->{TYPE} = 'Itanium';
+            $ret->{NAME} = 'Itanium';
         }
 # end HPUX 11.31
     }

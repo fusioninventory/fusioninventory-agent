@@ -1,0 +1,27 @@
+PU info:
+  2 Intel(R)  Itanium(R)  Processor 9350s (1.73 GHz, 24 MB)
+          4.79 GT/s QPI, CPU version E0
+          8 logical processors (4 per socket)
+
+Memory: 98135 MB (95.83 GB)
+
+Firmware info:
+   Firmware revision:  01.08
+   FP SWA driver revision: 1.18
+   IPMI is supported on this system.
+   BMC firmware revision: 1.01
+
+Platform info:
+   Model:                  "ia64 hp Integrity BL870c i2"
+   Machine ID number:      d6fe8b0c-90b3-508c-9655-d815a5c650d0
+   Machine serial number:  VCX0000209
+
+OS info:
+   Nodename:  fresno
+   Release:   HP-UX B.11.31
+   Version:   U (unlimited-user license)
+   Machine:   ia64
+   ID Number: 3607005965
+   vmunix _release_version:               
+@(#) $Revision: vmunix:    B.11.31_LR FLAVOR=perf 
+ 

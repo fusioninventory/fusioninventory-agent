@@ -12,15 +12,36 @@ my %cpu_tests = (
     'hpux_11.31_3xia64' => {
         'CPUcount' => '3',
         'SPEED' => '1600',
-        'TYPE'  => 'Itanium',
+        'NAME'  => 'Itanium',
         'MANUFACTURER' => 'Intel',
     },
     'hpux_11.23.ia64' => {
         'CPUcount' => '2',
-        'TYPE'  => 'Itanium',
+        'NAME'  => 'Itanium',
         'MANUFACTURER' => 'Intel',
-        'TYPE' => 'Itanium',
         'SPEED' => '1600'
+    },
+    'hpux_11.31-1' => {
+        'NAME' => 'Itanium',
+        'CPUcount' => '3',
+        'MANUFACTURER' => 'Intel',
+        'SPEED' => '1600'
+    },
+    'hpux_11.31-2' => {
+        'NAME' => 'Itanium',
+        'CPUcount' => '2',
+        'CORE' => 4,
+        'MANUFACTURER' => 'Intel',
+        'SPEED' => '1730'
+    },
+    'hpux_11.31-3' => {
+        'NAME' => 'Itanium',
+        'CPUcount' => '2',
+        'MANUFACTURER' => 'Intel',
+        'SPEED' => '1600'
+    },
+    'hpux_11.31-superdome' => {
+
     }
 
 );

@@ -705,3 +705,4 @@ Converts a perl file name to a perl module name (Foo/Bar.pm -> Foo::Bar)
 =head2 module2file($string)
 
 Converts a perl module name to a perl file name ( Foo::Bar -> Foo/Bar.pm)
+

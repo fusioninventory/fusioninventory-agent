@@ -33,24 +33,26 @@ sub doInventory {
     return unless $handle;
 
     while (my $line = <$handle>) {
+        next if /^\s*$/;
         next if $line =~ /nfs/;
         chomp $line;
         foreach (`bdf -t $line`) {
             next if ( /Filesystem/ );
+            my $createdate = '0000/00/00 00:00:00';
             if ( /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/ ) {
                 $lv=$1;
                 $total=$2;
                 $free=$3;
                 $type=$6;
-                if ( $filesystem =~ /vxfs/i and can_run('fsdb') ) {
-                    $createdate = `echo '8192B.p S' | fsdb -F vxfs $lv 2>/dev/null | fgrep -i ctime`;
-                    $createdate =~ /ctime\s+(\d+)\s+\d+\s+/i;
-                    $createdate = POSIX::strftime("%Y/%m/%d %T", localtime($1));
-                    #my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($1);
-                    #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
-                } else {
-                    $createdate = '0000/00/00 00:00:00';
-                }
+# Disabled for the moment, see http://forge.fusioninventory.org/issues/778
+#                if ( $filesystem =~ /vxfs/i and can_run('fsdb') ) {
+#                    my $tmp = `echo '8192B.p S' | fsdb -F vxfs $lv 2>/dev/null | fgrep -i ctime`;
+#                    if ($tmp =~ /ctime\s+(\d+)\s+\d+\s+.*$/i) {
+#                        $createdate = POSIX::strftime("%Y/%m/%d %T", localtime($1));
+#                    }
+#                    #my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($1);
+#                    #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
+#                }
 
                 $inventory->addEntry({
                     section => 'DRIVES',
@@ -65,15 +67,15 @@ sub doInventory {
                 })
             } elsif ( /^(\S+)\s/) {
                 $lv=$1;
-                if ( $filesystem =~ /vxfs/i and can_run('fsdb') ) {
-                    $createdate = `echo '8192B.p S' | fsdb -F vxfs $lv 2>/dev/null | fgrep -i ctime`;
-                    $createdate =~ /ctime\s+(\d+)\s+\d+\s+/i;
-                    $createdate = POSIX::strftime("%Y/%m/%d %T", localtime($1));
-                    #my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($1);
-                    #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
-                } else {
-                    $createdate = '0000/00/00 00:00:00';
-                }
+# Disabled for the moment, see http://forge.fusioninventory.org/issues/778
+#                if ( $filesystem =~ /vxfs/i and can_run('fsdb') ) {
+#                    my $tmp = `echo '8192B.p S' | fsdb -F vxfs $lv 2>/dev/null | fgrep -i ctime`;
+#                    if ($tmp =~ /ctime\s+(\d+)\s+\d+\s+.*$/i) {
+#                        $createdate = POSIX::strftime("%Y/%m/%d %T", localtime($1));
+#                    }
+#                    #my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($1);
+#                    #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
+#                }
             } elsif ( /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
                 $total=$1;
                 $free=$3;

@@ -27,16 +27,20 @@ sub doInventory {
         next if $user =~ /\ /;   # skip directory containing space
         next if $user =~ /'/;    # skip directory containing quote
 
-
         foreach my $machine (_parsePrlctlA(
                 logger  => $logger,
                 command => "su '$user' -c 'prlctl list -a'"
         )) {
 
+            my $uuid = $machine->{UUID};
+            # Avoid security risk. Should never appends
+            next if $uuid =~ /(;\||&)/;
+
+
             ($machine->{MEMORY}, $machine->{VCPU}) =
                 _parsePrlctlI(
                     logger  => $logger,
-                    command => "su '$user' -c 'prlctl list -i $machine->{UUID}'"
+                    command => "su '$user' -c 'prlctl list -i $uuid'"
                 );
 
             $inventory->addVirtualMachine($machine);
@@ -49,6 +53,17 @@ sub _parsePrlctlA {
 
     return unless $handle;
 
+    my %status_list = (
+        'running'   => 'running',
+        'blocked'   => 'blocked',
+        'paused'    => 'paused',
+        'suspended' => 'suspended',
+        'crashed'   => 'crashed',
+        'dying'     => 'dying',
+        'stopped'   => 'off',
+    );
+
+
     # get headers line first
     my $line = <$handle>;
 
@@ -57,8 +72,11 @@ sub _parsePrlctlA {
         chomp $line; 
         my @info = split(/\s+/, $line);
         my $uuid   = $info[0];
-        my $status = $info[1];
-        my $name   = $info[3];
+        my $status = $status_list{$info[1]};
+        my $name   = $info[4];
+
+
+        $uuid =~s/{(.*)}/$1/;
 
         # Avoid security risk. Should never appends
         next if $uuid =~ /(;\||&)/;

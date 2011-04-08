@@ -123,6 +123,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --no-wakeonlan      do not run wake on lan task (false)
     --no-snmpquery      do not run snmp query task (false)
     --no-netdiscovery   do not run net discovery task (false)
+    --no-deploy         do not run new experimental software deployment task (false)
 
   Inventory task specific options
     --no-printer        do not list local printers (false)
@@ -330,7 +331,7 @@ This option is only available when the agent is not run as a server.
 
 =item B<--no-ocsdeploy>
 
-Do not run packages deployment task.
+Disable the software deployment (OCS compatible module).
 
 =item B<--no-inventory>
 
@@ -348,8 +349,15 @@ Do not run snmp query task.
 
 Do not run net discovery task.
 
-=back
+=item B<--no-deploy>
 
+Disable the software deployment (new module).
+
+=item B<--no-esx>
+
+Disable the ESX inventory task.
+
+=back
 
 =head2 Inventory task specific options
 
@@ -572,7 +580,8 @@ On Windows, the configuration is loaded from the registry, from an arch-dependan
 
 Some modules like SNMPQuery needs to sent credential from the agent to the
 agent. We recommend to enable HTTPS support on the OCS or FusionInventory
-For GLPI server.
+For GLPI server. We also recommend to use only trusted machine as agent in
+this case.
 
 =head1 AUTHORS
 
@@ -635,8 +644,7 @@ IRC: #FusionInventory on FreeNode IRC Network
 
 =head1 BUGS
 
-Please, use the mailing lists as much as possible. You can open your own bug
-tickets. Patches are welcome. You can also use the bugtracker on
+Please, use the mailing lists as much as possible. You can also use the bugtracker on
 http://forge.fusionInventory.org
 
 
