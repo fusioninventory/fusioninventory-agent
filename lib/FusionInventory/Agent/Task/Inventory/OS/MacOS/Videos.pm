@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::MacOS::Video;
+package FusionInventory::Agent::Task::Inventory::OS::MacOS::Videos;
 
 use strict;
 use warnings;

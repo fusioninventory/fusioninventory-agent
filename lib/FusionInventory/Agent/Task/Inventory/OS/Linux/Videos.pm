@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Linux::Video;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Videos;
 
 use strict;
 use warnings;
