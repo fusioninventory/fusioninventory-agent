@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Win32::Controller;
+package FusionInventory::Agent::Task::Inventory::OS::Win32::Controllers;
 
 use strict;
 use warnings;

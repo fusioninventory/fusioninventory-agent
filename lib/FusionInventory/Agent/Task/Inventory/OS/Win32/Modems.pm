@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Win32::Modem;
+package FusionInventory::Agent::Task::Inventory::OS::Win32::Modems;
 
 use strict;
 use warnings;

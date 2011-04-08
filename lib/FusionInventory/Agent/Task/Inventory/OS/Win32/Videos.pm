@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Win32::Video;
+package FusionInventory::Agent::Task::Inventory::OS::Win32::Videos;
 
 use strict;
 use warnings;
