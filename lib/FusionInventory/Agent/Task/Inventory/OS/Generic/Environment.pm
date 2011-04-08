@@ -18,9 +18,12 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     foreach my $key (keys %ENV) {
-        $inventory->addEnv({
-            KEY => $key,
-            VAL => $ENV{$key}
+        $inventory->addEntry({
+            section => 'ENVS',
+            entry   => {
+                KEY => $key,
+                VAL => $ENV{$key}
+            }
         });
     }
 }

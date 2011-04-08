@@ -37,11 +37,14 @@ sub doInventory {
             }
             if ((/^FC .+/) && $flag) {$flag=0;last}
         }
-        $inventory->addSlot({
-            DESCRIPTION => $description,
-            DESIGNATION => $designation,
-            NAME        =>  $name,
-            STATUS      =>  $status,
+        $inventory->addEntry({
+            section => 'SLOTS',
+            entry   => {
+                DESCRIPTION => $description,
+                DESIGNATION => $designation,
+                NAME        => $name,
+                STATUS      => $status,
+            }
         });
     }
 }

@@ -28,13 +28,17 @@ sub doInventory {
                     productUptoDate versionNumber
                / ]
         ))) {
-            $inventory->addAntiVirus({
-                COMPANY  => $object->{companyName},
-                NAME     => $object->{displayName},
-                GUID     => $object->{instanceGuid},
-                ENABLED  => $object->{onAccessScanningEnabled},
-                UPTODATE => $object->{productUptoDate},
-                VERSION  => $object->{versionNumber}
+            $inventory->addEntry({
+                section => 'ANTIVIRUS',
+                entry   => {
+                    COMPANY  => $object->{companyName},
+                    NAME     => $object->{displayName},
+                    GUID     => $object->{instanceGuid},
+                    ENABLED  => $object->{onAccessScanningEnabled},
+                    UPTODATE => $object->{productUptoDate},
+                    VERSION  => $object->{versionNumber}
+                },
+                noDuplicated => 1
             });
         }
     }

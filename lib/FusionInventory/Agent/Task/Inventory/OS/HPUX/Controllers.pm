@@ -29,10 +29,13 @@ sub doInventory {
                 $interface=$3;
                 $info=$4;
                 $type=$1;
-                $inventory->addController({
-                    NAME          => $name,
-                    MANUFACTURER  => "$interface $info",
-                    TYPE          => $type,
+                $inventory->addEntry({
+                    section => 'CONTROLLERS',
+                    entry   => {
+                        NAME         => $name,
+                        MANUFACTURER => "$interface $info",
+                        TYPE         => $type,
+                    }
                 });
             }
         }

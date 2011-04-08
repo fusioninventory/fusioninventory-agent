@@ -41,21 +41,15 @@ sub doInventory {
         }
     }
 
-    $inventory->addNetwork({
+    $inventory->addEntry({
+        section => 'NETWORKS',
+        entry => {
             DESCRIPTION => 'Management Interface - HP MP',
-            TYPE => 'Ethernet',
-            MANAGEMENT => 'MP',
-            IPADDRESS => $ipaddress,
-#        IPMASK => $ipmask,
-#        IPSUBNET => $ipsubnet,
-#        STATUS => $status,
-#        SPEED => $speed,
-#        IPGATEWAY => $ipgateway,
-#        MACADDR => $macaddr,
-#        PCISLOT => $pcislot,
-#        DRIVER => $driver,
-#        VIRTUALDEV => $virtualdev,
-        });
+            TYPE        => 'Ethernet',
+            MANAGEMENT  => 'MP',
+            IPADDRESS   => $ipaddress,
+        }
+    });
 
 }
 

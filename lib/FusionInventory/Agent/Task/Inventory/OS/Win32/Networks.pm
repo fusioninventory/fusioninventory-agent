@@ -119,7 +119,10 @@ sub doInventory {
             $interface->{$key} = join('/', @{$interface->{$key}});
         }
 
-        $inventory->addNetwork($interface);
+        $inventory->addEntry({
+            section => 'NETWORKS',
+            entry   => $interface
+        });
     }
 
     $inventory->setHardware({

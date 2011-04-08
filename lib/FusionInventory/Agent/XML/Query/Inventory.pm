@@ -1,5 +1,5 @@
 package FusionInventory::Agent::XML::Query::Inventory;
-# TODO: resort the functions
+
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::XML::Query';
@@ -103,33 +103,6 @@ sub addEntry {
     return 1;
 }
 
-sub addController {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'CONTROLLERS',
-        entry   => $args,
-    });
-}
-
-sub addModem {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'MODEMS',
-        entry   => $args,
-    });
-}
-
-sub addDrive {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'DRIVES',
-        entry   => $args,
-    });
-}
-
 sub addStorage {
     my ($self, $args) = @_;
 
@@ -149,83 +122,6 @@ sub addStorage {
     $self->addEntry({
         section => 'STORAGES',
         entry   => $values,
-    });
-}
-
-sub addMemory {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'MEMORIES',
-        entry   => $args,
-    });
-}
-
-sub addPort {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'PORTS',
-        entry   => $args,
-    });
-}
-
-sub addSlot {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'SLOTS',
-        entry   => $args,
-    });
-}
-
-sub addSoftware {
-    my ($self, $args) = @_;
-
-
-    $self->addEntry({
-        section      => 'SOFTWARES',
-        entry        => $args,
-        noDuplicated => 1
-    });
-}
-
-sub addMonitor {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'MONITORS',
-        entry   => $args,
-    });
-}
-
-sub addVideo {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section      => 'VIDEOS',
-        entry        => $args,
-        noDuplicated => 1
-    });
-
-}
-
-sub addSound {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'SOUNDS',
-        entry   => $args,
-    });
-}
-
-sub addNetwork {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section      => 'NETWORKS',
-        entry        => $args,
-        noDuplicated => 1
     });
 }
 
@@ -314,15 +210,6 @@ sub addUser {
     });
 }
 
-sub addPrinter {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'PRINTERS',
-        entry   => $args,
-    });
-}
-
 sub addVirtualMachine {
     my ($self, $args) = @_;
 
@@ -339,72 +226,6 @@ sub addVirtualMachine {
         entry   => $args,
     });
 
-}
-
-sub addProcess {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'PROCESSES',
-        entry   => $args,
-    });
-}
-
-sub addInput {
-    my ($self, $args) = @_;
-
-
-    $self->addEntry({
-        section => 'INPUTS',
-        entry   => $args,
-    });
-}
-
-sub addEnv {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'ENVS',
-        entry   => $args,
-    });
-}
-
-sub addUSBDevice {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section      => 'USBDEVICES',
-        entry        => $args,
-        noDuplicated => 1
-    });
-}
-
-sub addBattery {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'BATTERIES',
-        entry   => $args,
-    });
-}
-
-sub addRegistry {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section => 'REGISTRY',
-        entry   => $args,
-    });
-}
-
-sub addAntiVirus {
-    my ($self, $args) = @_;
-
-    $self->addEntry({
-        section      => 'ANTIVIRUS',
-        entry        => $args,
-        noDuplicated => 1
-    });
 }
 
 sub setAccessLog {
@@ -705,52 +526,9 @@ ignore entry if already present
 
 =back
 
-
-=head2 addController()
-
-Add a controller in the inventory.
-
-=head2 addModem()
-
-Add a modem in the inventory.
-
-=head2 addDrive()
-
-Add a partition in the inventory.
-
 =head2 addStorage()
 
 Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
-
-=head2 addMemory()
-
-Add a memory module in the inventory.
-
-=head2 addPort()
-
-Add a port module in the inventory.
-
-=head2 addSlot()
-
-=head2 addSoftware()
-
-Register a software in the inventory.
-
-=head2 addMonitor()
-
-Add a monitor (screen) in the inventory.
-
-=head2 addVideo()
-
-Add a video card in the inventory.
-
-=head2 addSound()
-
-Add a sound card in the inventory.
-
-=head2 addNetwork()
-
-Register a network interface in the inventory.
 
 =head2 setHardware()
 
@@ -768,41 +546,9 @@ Add a CPU in the inventory.
 
 Add an user in the list of logged user.
 
-=head2 addPrinter()
-
-Add a printer in the inventory.
-
 =head2 addVirtualMachine()
 
 Add a Virtual Machine in the inventory.
-
-=head2 addProcess()
-
-Record a running process in the inventory.
-
-=head2 addInput()
-
-Add an input device (mouse/keyboard) in the inventory.
-
-=head2 addEnv()
-
-Register an environment variable.
-
-=head2 addUSBDevice()
-
-USB device
-
-=head2 addBattery()
-
-Battery
-
-=head2 addRegistry()
-
-Windows Registry key
-
-=head2 addAntiVirus()
-
-Registered Anti-Virus on Windows
 
 =head2 setAccessLog()
 

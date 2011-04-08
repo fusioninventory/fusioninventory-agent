@@ -22,7 +22,10 @@ sub doInventory {
     return unless $memories;
 
     foreach my $memory (@$memories) {
-        $inventory->addMemory($memory);
+        $inventory->addEntry({
+            section => 'MEMORIES',
+            entry   => $memory
+        });
     }
 }
 

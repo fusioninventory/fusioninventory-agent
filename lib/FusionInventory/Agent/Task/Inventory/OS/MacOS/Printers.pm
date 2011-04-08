@@ -29,10 +29,13 @@ sub doInventory {
             next;
         }
 
-        $inventory->addPrinter({
-            NAME    => $printer,
-            DRIVER  => $info->{$printer}->{'PPD'},
-            PORT    => $info->{$printer}->{'URI'},
+        $inventory->addEntry({
+            section => 'PRINTERS',
+            entry   => {
+                NAME    => $printer,
+                DRIVER  => $info->{$printer}->{'PPD'},
+                PORT    => $info->{$printer}->{'URI'},
+            }
         });
     }
 

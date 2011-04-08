@@ -21,9 +21,12 @@ sub doInventory {
 
         next unless $object->{SystemVariable};
 
-        $inventory->addEnv({
-            KEY => $object->{Name},
-            VAL => $object->{VariableValue}
+        $inventory->addEntry({
+            section => 'ENVS',
+            entry   => {
+                KEY => $object->{Name},
+                VAL => $object->{VariableValue}
+            }
         });
     }
 }

@@ -17,7 +17,10 @@ sub doInventory {
     my $logger    = $params->{logger};
 
     foreach my $sound (_getSoundControllers($logger)) {
-        $inventory->addSound($sound);
+        $inventory->addEntry({
+            section => 'SOUNDS',
+            entry   => $sound
+        });
     }
 }
 

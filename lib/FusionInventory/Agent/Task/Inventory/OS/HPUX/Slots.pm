@@ -17,11 +17,14 @@ sub doInventory {
     foreach my $scaned (qw/ioa ba/) {
         foreach my $line ( `ioscan -kFC $scaned| cut -d ':' -f 9,11,17,18` ) {
             next unless $line =~ /(\S+):(\S+):(\S+):(.+)/;
-            $inventory->addSlot({
-                DESCRIPTION => $2,
-                DESIGNATION => "$3 $4",
-                NAME        => $1,
-                STATUS      => "OK",
+            $inventory->addEntry({
+                section => 'SLOTS',
+                entry   => {
+                    DESCRIPTION => $2,
+                    DESIGNATION => "$3 $4",
+                    NAME        => $1,
+                    STATUS      => "OK",
+                }
             });
         }
     }

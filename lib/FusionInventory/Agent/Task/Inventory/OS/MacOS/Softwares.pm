@@ -31,11 +31,14 @@ sub doInventory {
 
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
-        $inventory->addSoftware({
-            NAME      => $app,
-            VERSION   => $a->{'Version'} || 'unknown',
-            COMMENTS  => $comments,
-            PUBLISHER => $a->{'Get Info String'} || 'unknown',
+        $inventory->addEntry({
+            section => 'SOFTWARES',
+            entry   => {
+                NAME      => $app,
+                VERSION   => $a->{'Version'} || 'unknown',
+                COMMENTS  => $comments,
+                PUBLISHER => $a->{'Get Info String'} || 'unknown',
+            }
         });
     }
 }

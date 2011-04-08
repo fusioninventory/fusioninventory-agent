@@ -22,7 +22,10 @@ sub doInventory {
     );
 
     foreach my $package (@$packages) {
-        $inventory->addSoftware($package);
+        $inventory->addEntry({
+            section => 'SOFTWARES',
+            entry   => $package
+        });
     }
 }
 

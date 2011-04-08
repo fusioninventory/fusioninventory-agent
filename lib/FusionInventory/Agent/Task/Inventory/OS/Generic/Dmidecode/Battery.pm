@@ -17,7 +17,10 @@ sub doInventory {
 
     my $battery = _getBattery($logger);
 
-    $inventory->addBattery($battery);
+    $inventory->addEntry({
+        section => 'BATTERIES',
+        entry   => $battery
+    });
 }
 
 sub _getBattery {

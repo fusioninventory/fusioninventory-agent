@@ -43,15 +43,18 @@ sub doInventory {
             if ($pciid) {
                 $seen{$pciid} = 1;
             }
-            $inventory->addController({
-                NAME           => $object->{Name},
-                MANUFACTURER   => $object->{Manufacturer},
-                CAPTION        => $object->{Caption},
-                DESCRIPTION    => $object->{Description},
-                PCIID          => $pciid,
-                PCISUBSYSTEMID => $pcisubsystemid,
-                VERSION        => $object->{HardwareVersion},
-                TYPE           => $object->{Caption},
+            $inventory->addEntry({
+                section => 'CONTROLLERS',
+                entry => {
+                    NAME           => $object->{Name},
+                    MANUFACTURER   => $object->{Manufacturer},
+                    CAPTION        => $object->{Caption},
+                    DESCRIPTION    => $object->{Description},
+                    PCIID          => $pciid,
+                    PCISUBSYSTEMID => $pcisubsystemid,
+                    VERSION        => $object->{HardwareVersion},
+                    TYPE           => $object->{Caption},
+                }
             });
         }
     }

@@ -47,18 +47,21 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
-        $inventory->addDrive({
-            CREATEDATE  => $object->{InstallDate},
-            DESCRIPTION => $object->{Description},
-            FREE        => $object->{FreeSpace},
-            FILESYSTEM  => $object->{FileSystem},
-            LABEL       => $object->{VolumeName},
-            LETTER      => $object->{DeviceID} || $object->{Caption},
-            SERIAL      => $object->{VolumeSerialNumber},
-            SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
-            TOTAL       => $object->{Size},
-            TYPE        => $type[$object->{DriveType}] || 'Unknown',
-            VOLUMN      => $object->{VolumeName},
+        $inventory->addEntry({
+            section => 'DRIVES',
+            entry   => {
+                CREATEDATE  => $object->{InstallDate},
+                DESCRIPTION => $object->{Description},
+                FREE        => $object->{FreeSpace},
+                FILESYSTEM  => $object->{FileSystem},
+                LABEL       => $object->{VolumeName},
+                LETTER      => $object->{DeviceID} || $object->{Caption},
+                SERIAL      => $object->{VolumeSerialNumber},
+                SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
+                TOTAL       => $object->{Size},
+                TYPE        => $type[$object->{DriveType}] || 'Unknown',
+                VOLUMN      => $object->{VolumeName},
+            }
         });
     }
 }

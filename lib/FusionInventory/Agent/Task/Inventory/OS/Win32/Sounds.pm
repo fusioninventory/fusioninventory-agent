@@ -21,11 +21,14 @@ sub doInventory {
         / ]
     )) {
 
-        $inventory->addSound({
-            NAME         => $object->{Name},
-            CAPTION      => $object->{Caption},
-            MANUFACTURER => $object->{Manufacturer},
-            DESCRIPTION  => $object->{Description},
+        $inventory->addEntry({
+            section => 'SOUNDS',
+            entry   => {
+                NAME         => $object->{Name},
+                CAPTION      => $object->{Caption},
+                MANUFACTURER => $object->{Manufacturer},
+                DESCRIPTION  => $object->{Description},
+            }
         });
     }
 }

@@ -63,8 +63,11 @@ sub doInventory {
     }
     close $handle;
 
-    foreach (@inputs) {
-        $inventory->addInput($_);
+    foreach my $input (@inputs) {
+        $inventory->addEntry({
+            section => 'INPUTS',
+            entry   => $input
+        });
     }
 }
 

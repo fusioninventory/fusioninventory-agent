@@ -52,13 +52,16 @@ sub doInventory {
                     $createdate = '0000/00/00 00:00:00';
                 }
 
-                $inventory->addDrive({
-                    FREE => $free,
-                    FILESYSTEM => $filesystem,
-                    TOTAL => $total,
-                    TYPE => $type,
-                    VOLUMN => $lv,
-                    CREATEDATE => $createdate,
+                $inventory->addEntry({
+                    section => 'DRIVES',
+                    entry   => {
+                        FREE => $free,
+                        FILESYSTEM => $filesystem,
+                        TOTAL => $total,
+                        TYPE => $type,
+                        VOLUMN => $lv,
+                        CREATEDATE => $createdate,
+                    }
                 })
             } elsif ( /^(\S+)\s/) {
                 $lv=$1;
@@ -76,13 +79,16 @@ sub doInventory {
                 $free=$3;
                 $type=$5;
                 # print "filesystem $filesystem lv $lv total $total free $free type $type\n";
-                $inventory->addDrive({
-                    FREE => $free,
-                    FILESYSTEM => $filesystem,
-                    TOTAL => $total,
-                    TYPE => $type,
-                    VOLUMN => $lv,
-                    CREATEDATE => $createdate,
+                $inventory->addEntry({
+                    section => 'DRIVES',
+                    entry   => {
+                        FREE       => $free,
+                        FILESYSTEM => $filesystem,
+                        TOTAL      => $total,
+                        TYPE       => $type,
+                        VOLUMN     => $lv,
+                        CREATEDATE => $createdate,
+                    }
                 })
             }
         } # for bdf -t $filesystem

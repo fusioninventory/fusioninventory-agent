@@ -22,12 +22,15 @@ sub doInventory {
         / ]
     )) {
 
-        $inventory->addSlot({
-            NAME        => $object->{Name},
-            DESCRIPTION => $object->{Description},
-            DESIGNATION => $object->{SlotDesignation},
-            STATUS      => $object->{Status},
-            SHARED      => $object->{Shared}
+        $inventory->addEntry({
+            section => 'SLOTS',
+            entry   => {
+                NAME        => $object->{Name},
+                DESCRIPTION => $object->{Description},
+                DESIGNATION => $object->{SlotDesignation},
+                STATUS      => $object->{Status},
+                SHARED      => $object->{Shared}
+            }
         });
     }
 

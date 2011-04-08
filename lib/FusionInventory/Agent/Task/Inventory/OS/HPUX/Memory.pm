@@ -30,24 +30,30 @@ sub doInventory {
                     SWAP   => sprintf("%i", $TotalSwapSize/1024)
                 });
             } elsif ( /(\w+IMM)\s+(\w+)\s+(\d+|\-+)\s+(\w+IMM)\s+(\w+)\s+(\d+|\-+)/ ) {
-                $inventory->addMemory({
-                        CAPACITY => $3,
-                        DESCRIPTION => $1,
-                        CAPTION => $1 . ' ' . $2,
-                        SPEED => 'No Speed data vailable!',
-                        TYPE => $1,
-                        NUMSLOTS => $2,
+                $inventory->addEntry({
+                    section => 'MEMORIES',
+                    entry => {
+                        CAPACITY     => $3,
+                        DESCRIPTION  => $1,
+                        CAPTION      => $1 . ' ' . $2,
+                        SPEED        => 'No Speed data vailable!',
+                        TYPE         => $1,
+                        NUMSLOTS     => $2,
                         SERIALNUMBER => 'No Serial Number available!',
-                    });
-                $inventory->addMemory({
-                        CAPACITY => $6,
-                        DESCRIPTION => $4,
-                        CAPTION => $4 . ' ' . $5,
-                        SPEED => 'No Speed data vailable!',
-                        TYPE => $4,
-                        NUMSLOTS => $5,
+                    }
+                });
+                $inventory->addEntry({
+                    section => 'MEMORIES',
+                    entry   => {
+                        CAPACITY     => $6,
+                        DESCRIPTION  => $4,
+                        CAPTION      => $4 . ' ' . $5,
+                        SPEED        => 'No Speed data vailable!',
+                        TYPE         => $4,
+                        NUMSLOTS     => $5,
                         SERIALNUMBER => 'No Serial Number available!',
-                    }); 
+                    }
+                }); 
 
             }
         }
@@ -108,14 +114,17 @@ sub doInventory {
                             }
                         }
                     }
-                    $inventory->addMemory({
-                        CAPACITY => $capacity,
-                        DESCRIPTION => "Part Number $description",
-                        CAPTION => "Ext $subnumslot Slot $numslot",
-                        SPEED => 'No Speed data vailable!',
-                        TYPE => $type,
-                        NUMSLOTS => '1',
-                        SERIALNUMBER => $serialnumber,
+                    $inventory->addEntry({
+                        section => 'MEMORIES',
+                        entry   => {
+                            CAPACITY     => $capacity,
+                            DESCRIPTION  => "Part Number $description",
+                            CAPTION      => "Ext $subnumslot Slot $numslot",
+                            SPEED        => 'No Speed data vailable!',
+                            TYPE         => $type,
+                            NUMSLOTS     => '1',
+                            SERIALNUMBER => $serialnumber,
+                        }
                     });
                     $ok=0;
                     $capacity=0;

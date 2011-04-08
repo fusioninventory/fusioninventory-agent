@@ -24,10 +24,14 @@ sub doInventory {
     foreach my $x (keys %$info){
         my $memory = $info->{$x}->{'VRAM (Total)'};
         $memory =~ s/ MB$//;
-        $inventory->addVideo({
-                'NAME'        => $x,
-                'CHIPSET'     => $info->{$x}->{'Chipset Model'},
-                'MEMORY'    => $memory,
+        $inventory->addEntry({
+            section => 'VIDEOS',
+            entry   => { 
+                NAME    => $x,
+                CHIPSET => $info->{$x}->{'Chipset Model'},
+                MEMORY  => $memory,
+            },
+            noDuplicated => 1
         });
 
         # this doesn't work yet, need to fix the Mac::SysProfile module to not be such a hack (parser only goes down one level)
@@ -37,9 +41,12 @@ sub doInventory {
             my $ref = $info->{$x}->{$display};
             next unless ref $ref eq 'HASH';
 
-            $inventory->addMonitor({
-                'CAPTION'       => $ref->{'Resolution'},
-                'DESCRIPTION'   => $display,
+            $inventory->addEntry({
+                section => 'MONITORS',
+                entry   => {
+                    CAPTION     => $ref->{'Resolution'},
+                    DESCRIPTION => $display,
+                }
             })
         }
     }

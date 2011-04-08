@@ -22,7 +22,10 @@ sub doInventory {
     my $routes = getRoutesFromInet(logger => $logger);
     my @interfaces = _getInterfaces($logger);
     foreach my $interface (@interfaces) {
-        $inventory->addNetwork($interface);
+        $inventory->addEntry({
+            section => 'NETWORKS',
+            entry   => $interface
+        });
     }
 
     # set global parameters

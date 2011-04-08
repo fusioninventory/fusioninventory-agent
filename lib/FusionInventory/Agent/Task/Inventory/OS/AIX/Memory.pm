@@ -46,14 +46,17 @@ sub doInventory {
         if((/^FC .+/) && ($flag)) {
             $flag=0;
             $numslots = $numslots +1;
-            $inventory->addMemory({
-                CAPACITY => $capacity,
-                DESCRIPTION => $description,
-                CAPTION => $caption,
-                NUMSLOTS => $numslots,
-                VERSION => $mversion,
-                TYPE => $type,
-                SERIALNUMBER=> $serial,
+            $inventory->addEntry({
+                section => 'MEMORIES',
+                entry   => {
+                    CAPACITY     => $capacity,
+                    DESCRIPTION  => $description,
+                    CAPTION      => $caption,
+                    NUMSLOTS     => $numslots,
+                    VERSION      => $mversion,
+                    TYPE         => $type,
+                    SERIALNUMBER => $serial,
+                }
             })
         };
     }
@@ -61,14 +64,17 @@ sub doInventory {
     $numslots = $numslots +1;
     # End of Loop
     # The last *FC ???????? missing
-    $inventory->addMemory({
-        CAPACITY => $capacity,
-        DESCRIPTION => $description,
-        CAPTION => $caption,
-        NUMSLOTS => $numslots,
-        VERSION => $mversion,
-        TYPE => $type,
-        SERIALNUMBER=> $serial,
+    $inventory->addEntry({
+        section => 'MEMORIES',
+        entry   => {
+            CAPACITY     => $capacity,
+            DESCRIPTION  => $description,
+            CAPTION      => $caption,
+            NUMSLOTS     => $numslots,
+            VERSION      => $mversion,
+            TYPE         => $type,
+            SERIALNUMBER => $serial,
+        }
     });
 }
 

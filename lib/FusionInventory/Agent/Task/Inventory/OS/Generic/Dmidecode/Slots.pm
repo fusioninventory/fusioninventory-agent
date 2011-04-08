@@ -20,7 +20,10 @@ sub doInventory {
     return unless $slots;
 
     foreach my $slot (@$slots) {
-        $inventory->addSlot($slot);
+        $inventory->addEntry({
+            section => 'SLOTS',
+            entry   => $slot
+        });
     }
 }
 

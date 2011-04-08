@@ -24,7 +24,10 @@ sub doInventory {
                       _getSlotsDefault(logger => $logger, command => 'prtdiag') ;
 
     foreach my $slot (@slots) {
-        $inventory->addSlot($slot);
+        $inventory->addEntry({
+            section => 'SLOTS',
+            entry   => $slot
+        });
     }
 }
 

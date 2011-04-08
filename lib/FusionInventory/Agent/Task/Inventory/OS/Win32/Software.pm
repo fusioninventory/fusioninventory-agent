@@ -138,24 +138,28 @@ sub _processSoftwares {
         # Workaround for #415
         $version =~ s/[\000-\037].*// if $version;
 
-        $inventory->addSoftware ({
-            COMMENTS => $comments,
-#            FILESIZE => $filesize,
-#            FOLDER => $folder,
-            FROM => "registry",
-            HELPLINK => $helpLink,
-            INSTALLDATE => $installDate,
-            NAME => $name,
-            NOREMOVE => $noRemove,
-            RELEASETYPE => $releaseType,
-            PUBLISHER => $publisher,
-            UNINSTALL_STRING => $uninstallString,
-            URL_INFO_ABOUT => $urlInfoAbout,
-            VERSION => $version,
-            VERSION_MINOR => $versionMinor,
-            VERSION_MAJOR => $versionMajor,
-            IS64BIT => $is64bit,
-            GUID => $guid,
+        $inventory->addEntry({
+            section => 'SOFTWARES',
+            entry   => {
+                COMMENTS         => $comments,
+    #            FILESIZE => $filesize,
+    #            FOLDER => $folder,
+                FROM             => "registry",
+                HELPLINK         => $helpLink,
+                INSTALLDATE      => $installDate,
+                NAME             => $name,
+                NOREMOVE         => $noRemove,
+                RELEASETYPE      => $releaseType,
+                PUBLISHER        => $publisher,
+                UNINSTALL_STRING => $uninstallString,
+                URL_INFO_ABOUT   => $urlInfoAbout,
+                VERSION          => $version,
+                VERSION_MINOR    => $versionMinor,
+                VERSION_MAJOR    => $versionMajor,
+                IS64BIT          => $is64bit,
+                GUID             => $guid,
+            },
+            noDuplicated => 1
         });
     }
 }

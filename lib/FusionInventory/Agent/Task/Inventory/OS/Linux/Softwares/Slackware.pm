@@ -25,9 +25,12 @@ sub doInventory {
         my $name = $1;
         my $version = $2;
 
-        $inventory->addSoftware({
-            NAME    => $name,
-            VERSION => $version
+        $inventory->addEntry({
+            section => 'SOFTWARES',
+            entry   => {
+                NAME    => $name,
+                VERSION => $version
+            }
         });
     }
     closedir $handle;

@@ -60,16 +60,22 @@ sub doInventory {
         if (!$content) {
             return; # This should never append, err wait... 
         } elsif ($content ne '*') {
-            $inventory->addRegistry({
-                NAME => $name, 
-                REGVALUE => $values->{$content}
+            $inventory->addEntry({
+                section => 'REGISTRY',
+                entry   => {
+                    NAME     => $name, 
+                    REGVALUE => $values->{$content}
+                }
             });
         } else {
             foreach my $keyWithDelimiter ( keys %$values ) {
                 next unless $keyWithDelimiter =~ /^\/(.*)/;
-                $inventory->addRegistry({
-                    NAME => $name, 
-                    REGVALUE => $1."=".$values->{$keyWithDelimiter}."\n"
+                $inventory->addEntry({
+                    section => 'REGISTRY',
+                    entry   => {
+                        NAME => $name, 
+                        REGVALUE => $1."=".$values->{$keyWithDelimiter}."\n"
+                    }
                 });
             }
         }

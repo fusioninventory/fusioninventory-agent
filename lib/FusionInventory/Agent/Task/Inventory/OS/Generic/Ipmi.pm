@@ -64,15 +64,18 @@ sub doInventory {
 
     my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
-    $inventory->addNetwork({
-        DESCRIPTION => 'bmc',
-        IPADDRESS   => $ipaddress,
-        IPGATEWAY   => $ipgateway,
-        IPMASK      => $ipmask,
-        IPSUBNET    => $ipsubnet,
-        MACADDR     => $macaddr,
-        STATUS      => $ipaddress != '0.0.0.0' ? "Up" : "Down",
-        TYPE        => 'Ethernet'
+    $inventory->addEntry({
+        section => 'NETWORKS',
+        entry   => {
+            DESCRIPTION => 'bmc',
+            IPADDRESS   => $ipaddress,
+            IPGATEWAY   => $ipgateway,
+            IPMASK      => $ipmask,
+            IPSUBNET    => $ipsubnet,
+            MACADDR     => $macaddr,
+            STATUS      => $ipaddress != '0.0.0.0' ? "Up" : "Down",
+            TYPE        => 'Ethernet'
+        }
     });
 }
 

@@ -42,13 +42,16 @@ sub doInventory {
                 my $ligne = $_;
                 chomp($ligne);
                 my ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
-                $inventory->addSoftware ({
-                    'PUBLISHER' => $vendor,
-                    'NAME'          => $soft,
-                    'VERSION'       => $version,
-                    'FILESIZE'      => "",
-                    'COMMENTS'      => $commentaire,
-                    'FROM'          => 'ByHand'
+                $inventory->addEntry({
+                    section => 'SOFTWARES',
+                    entry   => {
+                        PUBLISHER => $vendor,
+                        NAME      => $soft,
+                        VERSION   => $version,
+                        FILESIZE  => "",
+                        COMMENTS  => $commentaire,
+                        FROM      => 'ByHand'
+                    }
                 });
             }
         }

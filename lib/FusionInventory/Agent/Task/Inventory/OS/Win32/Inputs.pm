@@ -35,12 +35,15 @@ sub doInventory {
         properties => [ qw/Name Caption Manufacturer Description Layout/ ]
     )) {
 
-        $inventory->addInput({
-            NAME         => $object->{Name},
-            CAPTION      => $object->{Caption},
-            MANUFACTURER => $object->{Manufacturer},
-            DESCRIPTION  => $object->{Description},
-            LAYOUT       => $object->{Layout},
+        $inventory->addEntry({
+            section => 'INPUTS',
+            entry   => {
+                NAME         => $object->{Name},
+                CAPTION      => $object->{Caption},
+                MANUFACTURER => $object->{Manufacturer},
+                DESCRIPTION  => $object->{Description},
+                LAYOUT       => $object->{Layout},
+            }
         });
     }
 
@@ -49,13 +52,16 @@ sub doInventory {
         properties => [ qw/Name Caption Manufacturer Description PointingType DeviceInterface/ ]
     )) {
 
-        $inventory->addInput({
-            NAME         => $object->{Name},
-            CAPTION      => $object->{Caption},
-            MANUFACTURER => $object->{Manufacturer},
-            DESCRIPTION  => $object->{Description},
-            POINTINGTYPE => $object->{PointingType},
-            INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
+        $inventory->addEntry({
+            section => 'INPUTS',
+            entry   => {
+                NAME         => $object->{Name},
+                CAPTION      => $object->{Caption},
+                MANUFACTURER => $object->{Manufacturer},
+                DESCRIPTION  => $object->{Description},
+                POINTINGTYPE => $object->{PointingType},
+                INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
+            }
         });
     }
 

@@ -77,21 +77,24 @@ sub doInventory {
 
         $object->{Serial} = _getSerialbyUsb($object->{PortName});
 
-        $inventory->addPrinter({
-            NAME           => $object->{Name},
-            COMMENT        => $object->{Comment},
-            DESCRIPTION    => $object->{Description},
-            DRIVER         => $object->{DriverName},
-            PORT           => $object->{PortName},
-            RESOLUTION     => $resolution,
-            NETWORK        => $object->{Network},
-            SHARED         => $object->{Shared},
-            STATUS         => $status[$object->{PrinterStatus}],
-            ERRSTATUS      => $errStatus,
-            SERVERNAME     => $object->{ServerName},
-            SHARENAME      => $object->{ShareName},
-            PRINTPROCESSOR => $object->{PrintProcessor},
-            SERIAL         => $object->{Serial}
+        $inventory->addEntry({
+            section => 'PRINTERS',
+            entry   => {
+                NAME           => $object->{Name},
+                COMMENT        => $object->{Comment},
+                DESCRIPTION    => $object->{Description},
+                DRIVER         => $object->{DriverName},
+                PORT           => $object->{PortName},
+                RESOLUTION     => $resolution,
+                NETWORK        => $object->{Network},
+                SHARED         => $object->{Shared},
+                STATUS         => $status[$object->{PrinterStatus}],
+                ERRSTATUS      => $errStatus,
+                SERVERNAME     => $object->{ServerName},
+                SHARENAME      => $object->{ShareName},
+                PRINTPROCESSOR => $object->{PrintProcessor},
+                SERIAL         => $object->{Serial}
+            }
         });
 
     }    

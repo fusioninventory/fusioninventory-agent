@@ -148,11 +148,14 @@ sub doInventory {
         class      => 'Win32_SerialPort',
         properties => [ qw/Name Caption Description/ ]
     )) {
-        $inventory->addPort({
-            NAME        => $object->{Name},
-            CAPTION     => $object->{Caption},
-            DESCRIPTION => $object->{Description},
-            TYPE        => 'Serial',
+        $inventory->addEntry({
+            section => 'PORTS',
+            entry   => {
+                NAME        => $object->{Name},
+                CAPTION     => $object->{Caption},
+                DESCRIPTION => $object->{Description},
+                TYPE        => 'Serial',
+            }
         });
     }
 
@@ -161,11 +164,14 @@ sub doInventory {
         properties => [ qw/Name Caption Description/ ]
     )) {
 
-        $inventory->addPort({
-            NAME        => $object->{Name},
-            CAPTION     => $object->{Caption},
-            DESCRIPTION => $object->{Description},
-            TYPE        => 'Parallel',
+        $inventory->addEntry({
+            section => 'PORTS',
+            entry   => {
+                NAME        => $object->{Name},
+                CAPTION     => $object->{Caption},
+                DESCRIPTION => $object->{Description},
+                TYPE        => 'Parallel',
+            }
         });
     }
 
@@ -191,11 +197,14 @@ sub doInventory {
             next; # Already done
         }
 
-        $inventory->addPort({
-            NAME        => $object->{InternalReferenceDesignator},
-            CAPTION     => $object->{InternalReferenceDesignator},
-            DESCRIPTION => $object->{InternalReferenceDesignator},
-            TYPE        => $type
+        $inventory->addEntry({
+            section => 'PORTS',
+            entry   => {
+                NAME        => $object->{InternalReferenceDesignator},
+                CAPTION     => $object->{InternalReferenceDesignator},
+                DESCRIPTION => $object->{InternalReferenceDesignator},
+                TYPE        => $type
+            }
         });
 
     }

@@ -94,13 +94,16 @@ is_deeply(
     'CPU added'
 );
 
-$inventory->addDrive({
-    FILESYSTEM => 'ext3',
-    FREE => 9120,
-    SERIAL => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
-    TOTAL => 18777,
-    TYPE => '/',
-    VOLUMN => '/dev/sda2',
+$inventory->addEntry({
+    section => 'DRIVES',
+    entry   => {
+        FILESYSTEM => 'ext3',
+        FREE       => 9120,
+        SERIAL     => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
+        TOTAL      => 18777,
+        TYPE       => '/',
+        VOLUMN     => '/dev/sda2',
+    }
 });
 $inventory->processChecksum();
 

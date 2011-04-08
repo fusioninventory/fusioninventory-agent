@@ -19,11 +19,14 @@ sub doInventory {
         properties => [ qw/Name DeviceType Model Description/ ]
     )) {
 
-        $inventory->addModem({
-            NAME        => $object->{Name},
-            TYPE        => $object->{DeviceType},
-            MODEL       => $object->{Model},
-            DESCRIPTION => $object->{Description},
+        $inventory->addEntry({
+            section => 'MODEMS',
+            entry   => {
+                NAME        => $object->{Name},
+                TYPE        => $object->{DeviceType},
+                MODEL       => $object->{Model},
+                DESCRIPTION => $object->{Description},
+            }
         });
     }
 }

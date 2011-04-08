@@ -85,8 +85,11 @@ sub doInventory {
     }
 
     # add drives to the inventory
-    foreach my $deviceName (keys %drives) {
-        $inventory->addDrive($drives{$deviceName});
+    foreach my $key (keys %drives) {
+        $inventory->addEntry({
+            section => 'DRIVES',
+            entry   => $drives{$key}
+        });
     }
 }
 

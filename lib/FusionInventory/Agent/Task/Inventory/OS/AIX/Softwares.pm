@@ -27,11 +27,14 @@ sub doInventory {
         next unless ($entry[1]);
         next if $entry[1] =~ /^device/;
 
-        $inventory->addSoftware({
-            COMMENTS => $entry[6],
-            FOLDER   => $entry[0],
-            NAME     => $entry[1],
-            VERSION  => $entry[2],
+        $inventory->addEntry({
+            section => 'SOFTWARES',
+            entry   => {
+                COMMENTS => $entry[6],
+                FOLDER   => $entry[0],
+                NAME     => $entry[1],
+                VERSION  => $entry[2],
+            }
         });
     }
 }

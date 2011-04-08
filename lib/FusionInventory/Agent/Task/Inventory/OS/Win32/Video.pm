@@ -33,11 +33,15 @@ sub doInventory {
         $object->{AdaptaterRAM} = int($object->{AdaptaterRAM} / (1024 * 1024))
             if $object->{AdaptaterRAM};
 
-        $inventory->addVideo({
-            CHIPSET    => $object->{VideoProcessor},
-            MEMORY     => $object->{AdaptaterRAM},
-            NAME       => $object->{Name},
-            RESOLUTION => $resolution
+        $inventory->addEntry({
+            section => 'VIDEOS',
+            entry   => {
+                CHIPSET    => $object->{VideoProcessor},
+                MEMORY     => $object->{AdaptaterRAM},
+                NAME       => $object->{Name},
+                RESOLUTION => $resolution
+            },
+            noDuplicated => 1
         });
     }
 }
