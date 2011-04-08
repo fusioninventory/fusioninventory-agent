@@ -96,7 +96,7 @@ sub createUA {
     $logger->fault("Unsupported protocol $protocol")
         unless $protocol eq 'http' or $protocol eq 'https';
 
-    my $ua = LWP::UserAgent->new(keep_alive => 1);
+    my $ua = LWP::UserAgent->new(keep_alive => 1, requests_redirectable => ['POST', 'GET', 'HEAD']);
 
     if ($noProxy) {
 
