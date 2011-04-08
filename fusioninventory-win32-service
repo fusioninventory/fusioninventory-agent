@@ -33,7 +33,7 @@ sub startAgent {
                 service => 1
             }
         });
-        $agent->main();
+        $agent->run();
     });
 }
 

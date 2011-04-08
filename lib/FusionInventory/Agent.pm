@@ -220,7 +220,7 @@ sub _getHostname {
     };
 }
 
-sub main {
+sub run {
     my ($self) = @_;
 
 # Load setting from the config file
@@ -416,7 +416,7 @@ This is the agent object.
 
 The constructor. No arguments allowed.
 
-=head2 main()
+=head2 run()
 
 Run the agent.
 

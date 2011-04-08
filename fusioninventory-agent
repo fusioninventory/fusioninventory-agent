@@ -79,7 +79,7 @@ eval {
         vardir  => './var',
         options => $options
     });
-    $agent->main();
+    $agent->run();
 };
 
 if ($EVAL_ERROR) {
