@@ -34,7 +34,7 @@ sub doInventory {
 
             my $uuid = $machine->{UUID};
             # Avoid security risk. Should never appends
-            next if $uuid =~ /(;\||&)/;
+            $uuid =~ s/[^A-Za-z0-9\.\s_-]//g;
 
 
             ($machine->{MEMORY}, $machine->{VCPU}) =
