@@ -55,7 +55,7 @@ sub doInventory {
             $name = $params[4];
 
             # Avoid security risk. Should never appends
-            next if $uuid =~ /(;\||&)/;
+            $uuid =~ s/[^A-Za-z0-9\.\s_-]//g;
 
             foreach my $infos ( `sudo -u '$user' prlctl list -i $uuid`) {
             if ($infos =~ m/^\s\smemory\s(.*)Mb/) {
