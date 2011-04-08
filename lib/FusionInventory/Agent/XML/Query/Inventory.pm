@@ -453,31 +453,6 @@ sub saveLastState {
     my $tpp = XML::TreePP->new();
 }
 
-sub addSection {
-    my ($self, $args) = @_;
-    my $logger = $self->{logger};
-    my $multi = $args->{multi};
-    my $tagname = $args->{tagname};
-
-    $logger->debug("Please, don't use addSection(). This function may be ".
-        "dropped in the future.");
-
-    for( keys %{$self->{h}{CONTENT}} ){
-        if( $tagname eq $_ ){
-            $logger->debug("Tag name `$tagname` already exists - Don't add it");
-            return 0;
-        }
-    }
-
-    if($multi){
-        $self->{h}{CONTENT}{$tagname} = [];
-    }
-    else{
-        $self->{h}{CONTENT}{$tagname} = {};
-    }
-    return 1;
-}
-
 1;
 __END__
 
@@ -588,11 +563,6 @@ inventory.
 
 At the end of the process IF the inventory was saved
 correctly, the last_state is saved.
-
-=head2 addSection()
-
-A generic way to save a section in the inventory. Please avoid this
-solution.
 
 =head1 XML STRUCTURE
 
