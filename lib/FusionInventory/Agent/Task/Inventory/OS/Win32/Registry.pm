@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::WinRegistry;
+package FusionInventory::Agent::Task::Inventory::OS::Win32::Registry;
 
 use strict;
 use warnings;
