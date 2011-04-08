@@ -6,7 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools;
 #use FusionInventory::Agent::Tools::Unix;
 
-use XML::Simple;
 use File::Glob ':glob';
 
 use English qw(-no_match_vars);
