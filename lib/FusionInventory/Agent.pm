@@ -296,16 +296,23 @@ sub main {
 
                 $self->{status} = "running task $module";
 
-                my $task = $package->new({
-                    config      => $config,
-                    confdir     => $self->{confdir},
-                    datadir     => $self->{datadir},
-                    logger      => $logger,
-                    target      => $target,
-                    prologresp  => $prologresp,
-                    transmitter => $transmitter,
-                    deviceid    => $self->{deviceid}
-                });
+                my $task;
+                eval {
+                    $task = $package->new({
+                            config      => $config,
+                            confdir     => $self->{confdir},
+                            datadir     => $self->{datadir},
+                            logger      => $logger,
+                            target      => $target,
+                            prologresp  => $prologresp,
+                            transmitter => $transmitter,
+                            deviceid    => $self->{deviceid}
+                            });
+                };
+                if (!$task) {
+                    $logger->info("task $module can't be initialized: ".$EVAL_ERROR);
+                    next;
+                }
 
                 if ($config->{daemon} || $config->{service}) {
                     # daemon mode: run each task in a childprocess
