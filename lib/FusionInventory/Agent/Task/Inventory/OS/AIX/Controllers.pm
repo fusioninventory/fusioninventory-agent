@@ -6,10 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return unless can_run('lsdev');
-    my @lsdev = `lsdev -Cc adapter -F 'name:type:description'`; 
-    return 1 if @lsdev;
-    0
+    return can_run('lsdev');
 }
 
 sub doInventory {

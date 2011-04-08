@@ -25,7 +25,6 @@ use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return unless can_run('ipmitool');
-    return system('ipmitool lan print 2> /dev/null') == 0;
 }
 
 sub doInventory {
@@ -61,6 +60,8 @@ sub doInventory {
         }
     }
     close $handle;
+
+    return unless $ipaddress && $ipmask;
 
     my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
