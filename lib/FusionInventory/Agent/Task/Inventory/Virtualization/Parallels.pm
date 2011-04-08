@@ -13,12 +13,13 @@ sub doInventory {
     my $config = $params->{config};
 
     my %status_list = (
-        'running' => 'running',
-        'blocked' => 'blocked',
-        'paused' => 'paused',
+        'running'   => 'running',
+        'blocked'   => 'blocked',
+        'paused'    => 'paused',
         'suspended' => 'suspended',
-        'crashed' => 'crashed',
-        'dying' => 'dying',
+        'crashed'   => 'crashed',
+        'dying'     => 'dying',
+        'stopped'   => 'off',
     );
 
     my $uuid="";
@@ -49,7 +50,7 @@ sub doInventory {
             chomp $line; 
             my @params = split(/  /, $line);
             $uuid = $params[0];
-            #$status = $params[1];
+            $uuid =~s/{(.*)}/$1/;
             $status = $status_list{$params[1]};
             $name = $params[4];
 
