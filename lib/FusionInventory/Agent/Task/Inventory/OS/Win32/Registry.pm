@@ -4,6 +4,11 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Win32::TieRegistry (
+    Delimiter   => "/",
+    ArrayValues => 0,
+    qw/KEY_READ/
+);
 
 use FusionInventory::Agent::Tools;
 
@@ -17,33 +22,20 @@ my @hives = qw/
 /; 
 
 sub isInventoryEnabled {
-    return unless $OSNAME eq 'MSWin32';
-
-    eval {
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-            Delimiter   => "/",
-            ArrayValues => 0
-        );
-    };
-    return if $EVAL_ERROR;
-
-    my $params = shift;
+    my ($params) = @_;
 
     my $prologresp = $params->{prologresp};
 
-    return unless ($prologresp &&
-            $prologresp->getOptionsInfoByName("REGISTRY"));
-
-    1;
+    return
+        $prologresp &&
+        $prologresp->getOptionsInfoByName("REGISTRY");
 }
 
 sub doInventory {
-    my $params = shift;
+    my ($params) = @_;
 
     my $inventory = $params->{inventory};
     my $prologresp = $params->{prologresp};
-    my $logger = $params->{logger};
 
     my $options = $prologresp->getOptionsInfoByName("REGISTRY");
 
@@ -53,36 +45,31 @@ sub doInventory {
         my $regtree = $option->{REGTREE};
         my $content = $option->{content};
 
-        my $machKey = $Win32::TieRegistry::Registry->Open( $hives[$regtree], {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+        # This should never append, err wait... 
+        next unless $content;
+
+        my $machKey = $Registry->Open(
+            $hives[$regtree], { Access => KEY_READ }
+        ) or die "Can't open $hives[$regtree]: $EXTENDED_OS_ERROR";
 
         my $values = $machKey->{$regkey};
 
-        if (!$content) {
-            return; # This should never append, err wait... 
-        } elsif ($content ne '*') {
-            $inventory->addEntry({
-                section => 'REGISTRY',
-                entry   => {
-                    NAME     => $name, 
-                    REGVALUE => $values->{$content}
-                }
-            });
-        } else {
+        if ($content eq '*') {
             foreach my $keyWithDelimiter ( keys %$values ) {
                 next unless $keyWithDelimiter =~ /^\/(.*)/;
-                $inventory->addEntry({
-                    section => 'REGISTRY',
-                    entry   => {
-                        NAME => $name, 
-                        REGVALUE => $1."=".$values->{$keyWithDelimiter}."\n"
-                    }
+                $inventory->addRegistry({
+                    NAME => $name, 
+                    REGVALUE => $1."=".$values->{$keyWithDelimiter}."\n"
                 });
             }
+        } else {
+            $inventory->addRegistry({
+                NAME => $name, 
+                REGVALUE => $values->{$content}
+            });
         }
-
     }
 
 }
-
 
 1;
