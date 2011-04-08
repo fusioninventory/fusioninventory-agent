@@ -36,10 +36,8 @@ sub doInventory {
                         CAPACITY     => $3,
                         DESCRIPTION  => $1,
                         CAPTION      => $1 . ' ' . $2,
-                        SPEED        => 'No Speed data vailable!',
                         TYPE         => $1,
                         NUMSLOTS     => $2,
-                        SERIALNUMBER => 'No Serial Number available!',
                     }
                 });
                 $inventory->addEntry({
@@ -48,10 +46,8 @@ sub doInventory {
                         CAPACITY     => $6,
                         DESCRIPTION  => $4,
                         CAPTION      => $4 . ' ' . $5,
-                        SPEED        => 'No Speed data vailable!',
                         TYPE         => $4,
                         NUMSLOTS     => $5,
-                        SERIALNUMBER => 'No Serial Number available!',
                     }
                 }); 
 
@@ -120,7 +116,6 @@ sub doInventory {
                             CAPACITY     => $capacity,
                             DESCRIPTION  => "Part Number $description",
                             CAPTION      => "Ext $subnumslot Slot $numslot",
-                            SPEED        => 'No Speed data vailable!',
                             TYPE         => $type,
                             NUMSLOTS     => '1',
                             SERIALNUMBER => $serialnumber,
