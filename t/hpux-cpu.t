@@ -46,6 +46,23 @@ my %cpu_tests = (
 
 );
 
+my $cprop = [
+          {
+            'ID' => 'ff-ff-ff-3-ff-0-ff-11',
+            'NAME' => 'Itanium',
+            'MANUFACTURER' => 'Intel',
+            'SPEED' => '1729',
+            'CORE' => 4
+          },
+          {
+            'ID' => 'ff-ff-ff-4-ff-0-ff-11',
+            'NAME' => 'Itanium',
+            'MANUFACTURER' => 'Intel',
+            'SPEED' => '1729',
+            'CORE' => 4
+          }
+];
+
 plan tests => (scalar keys %cpu_tests);
 
 foreach my $test (keys %cpu_tests) {
@@ -54,4 +71,6 @@ foreach my $test (keys %cpu_tests) {
     is_deeply($cpu_tests{$test}, $results, $test) or print Dumper($results);
 }
 
+my $cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCpropProcessor('resources/hpux/cpu/cprop/hpux-11.31-1', '<');
+is_deeply($cpus, $cprop, '_parseCpropProcessor') or print Dumper($cpus);
 

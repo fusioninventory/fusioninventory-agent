@@ -7,6 +7,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
+
 ###                                                                                                
 # Version 1.1                                                                                      
 # Correction of Bug n 522774                                                                       
@@ -61,7 +62,11 @@ sub doInventory {
         "ia64 hp server rx1620" => "itanium 1600"
     );
 
-    if ( can_run ("/usr/contrib/bin/machinfo") ) {
+    if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/)) {
+        my $cpus = _parseCpropProcessor('/opt/propplus/bin/cprop -summary -c Processors', '-|');
+        $inventory->addCPU($cpus);
+        return;
+    } elsif ( can_run ("/usr/contrib/bin/machinfo") ) {
         $CPUinfo = _parseMachinInfo('/usr/contrib/bin/machinfo', '-|');
     } else {
         my $DeviceType = getFirstLine(command => 'model |cut -f 3- -d/');
@@ -144,4 +149,67 @@ sub _parseMachinInfo {
     return $ret;
 }
 
+sub _parseCpropProcessor {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my $cpus = [];
+    my $instance = {};
+    foreach (<$handle>) {
+        if (/^\[Instance\]: \d+/) {
+            $instance = {};
+            next;
+        } elsif (/^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
+            my $k = $1;
+            my $v = $2;
+            $v =~ s/\s+\*+//;
+            $instance->{$k} = $v;
+        }
+
+        if (keys (%$instance) && /\*\*\*\*\*/) {
+            my $name = 'unknown';
+            my $manufacturer = 'unknown';
+            my $slotId;
+            if ($instance->{'Processor Type'} =~ /Itanium/i) {
+                $name = "Itanium";
+            }
+            if ($instance->{'Processor Type'} =~ /Intel/i) {
+                $manufacturer = "Intel"
+            }
+            if ($instance->{'Location'} =~ /Cell Slot Number (\d+)\b/i) {
+                $slotId = $1;
+            }
+            my $cpu = {
+                SPEED => $instance->{'Processor Speed'},
+                ID => $instance->{'Tag'},
+                NAME => $name,
+                MANUFACTURER => $manufacturer
+            };
+            if ($slotId) {
+                if ($cpus->[$slotId]) {
+                    $cpus->[$slotId]{CORE}++;
+                } else {
+                    $cpus->[$slotId]=$cpu;
+                    $cpus->[$slotId]{CORE}=1;
+                }
+            } else {
+                push @$cpus, $cpu;
+            }
+            $instance = {};
+        }
+    }
+    close $handle;
+
+    my @realCpus; # without empty entry
+    foreach (@$cpus) {
+        push @realCpus, $_ if $_;
+    }
+
+    return \@realCpus;
+}
 1;
