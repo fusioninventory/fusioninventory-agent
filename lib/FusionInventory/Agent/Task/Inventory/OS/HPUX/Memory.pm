@@ -9,6 +9,67 @@ sub isInventoryEnabled {
     return $OSNAME =~ /hpux/;
 }
 
+sub getSizeInMB {
+    my ($data) = @_;
+
+    return unless $data;
+
+    my %convert = (
+        TB => 1000 * 1000,
+        GB => 1000,
+        MB => 1
+    );
+
+    if ($data =~ /^(\d+)\s*(\S+)/) {
+        return $1*$convert{$2};
+    }
+
+    return $data;
+}
+
+sub _parseCpropMemory {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my $totalMem = 0;
+    my $memories = [];
+    my $instance = {};
+    foreach (<$handle>) {
+        if (keys (%$instance) && /\[Instance\]: \d+/) {
+            next;
+        } elsif (/^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
+            my $k = $1;
+            my $v = $2;
+            $v =~ s/\s+\*+//;
+            $instance->{$k} = $v;
+        }
+
+        if (keys (%$instance) && /\*\*\*\*/) {
+            if ($instance->{Size}) {
+                my $size = getSizeInMB($instance->{Size}) || 0;
+                $totalMem += $size;
+                push @$memories, {
+                    CAPACITY => $size,
+                    DESCRIPTION => $instance->{'Part Number'},
+                    SERIALNUMBER => $instance->{'Serial Number'},
+                    TYPE => $instance->{'Module Type'},
+                };
+            }
+            $instance = {};
+        }
+    }
+    close $handle;
+
+    return ($memories, $totalMem)
+}
+
+
+
 sub _parseMemory {
     my @list_mem = @{$_[0]};
 
@@ -25,6 +86,15 @@ sub _parseMemory {
 sub doInventory { 
     my $params = shift;
     my $inventory = $params->{inventory};
+
+
+    # HPUX 11.31: http://forge.fusioninventory.org/issues/754
+    if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/i)) {
+        my ($memories, $totalMem) = _parseCpropMemory('/opt/propplus/bin/cprop -summary -c Memory', '-|');
+        $inventory->setHardware({ MEMORY => $totalMem });
+        $inventory->addMemory($memories);
+        return;
+    }
 
     my @list_mem;
     if ( `uname -m` =~ /ia64/ ) {

@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU;
+use FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory;
 use Test::More;
 use FindBin;
 
@@ -46,7 +47,7 @@ my %cpu_tests = (
 
 );
 
-my $cprop = [
+my $cpropCpu = [
           {
             'ID' => 'ff-ff-ff-3-ff-0-ff-11',
             'NAME' => 'Itanium',
@@ -63,6 +64,158 @@ my $cprop = [
           }
 ];
 
+
+my $cpropMem = [
+          [
+            {
+              'SERIALNUMBER' => 'f9d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'cad94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '2fd94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '6cd94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '72d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'aed94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'cbd94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '27d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'fed94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'fdd94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'd0d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '71d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'a7d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '26d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'e8d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '46da4044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'e3d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '2ed94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '2dd94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'a6d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '67d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'cfd94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => 'e7d94044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            },
+            {
+              'SERIALNUMBER' => '4cda4044271001',
+              'DESCRIPTION' => 'M393B5270CH0-CH9',
+              'TYPE' => 'DIMM',
+              'CAPACITY' => 4000
+            }
+          ],
+          96000
+
+];
+
 plan tests => (scalar keys %cpu_tests);
 
 foreach my $test (keys %cpu_tests) {
@@ -72,5 +225,8 @@ foreach my $test (keys %cpu_tests) {
 }
 
 my $cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCpropProcessor('resources/hpux/cpu/cprop/hpux-11.31-1', '<');
-is_deeply($cpus, $cprop, '_parseCpropProcessor') or print Dumper($cpus);
+is_deeply($cpus, $cpropCpu, '_parseCpropProcessor') or print Dumper($cpus);
 
+
+my @mems = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCpropMemory('resources/hpux/memory/cprop/11.31-1', '<');
+is_deeply(\@mems, $cpropMem, '_parseCpropMemory') or print Dumper(\@mems);
