@@ -42,7 +42,11 @@ my %cpu_tests = (
         'SPEED' => '1600'
     },
     'hpux_11.31-superdome' => {
-
+        'NAME' => 'Itanium',
+        'CPUcount' => 1,
+        'MANUFACTURER' => 'Intel',
+        'SPEED' => '1600',
+        'CORE' => '2'
     }
 
 );

@@ -109,7 +109,7 @@ sub _parseMachinInfo {
 #        if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
 #            $ret->{CPUinfo}->{SPEED} = $1*1000;
 #        }
-        if ( /((\d+) |)(Intel)\(R\) Itanium( 2|\(R\))( \d+ series|) processor(s| 9350s) \((\d+\.\d+)/i ) {
+        if ( /((\d+) |)(Intel)\(R\) Itanium( 2|\(R\))( \d+ series|) processor(s| 9350s|) \((\d+\.\d+)/i ) {
             $ret->{CPUcount} = $2 || 1;
             $ret->{MANUFACTURER} = $3;
             $ret->{SPEED} = $7*1000;
