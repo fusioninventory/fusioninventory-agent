@@ -27,7 +27,7 @@ sub check_solaris_valid_release{
 
     @rlines = grep(/Solaris/,@rlines);
     $release = $rlines[0];
-    if ($release =~ m/Solaris 10 (\d)\/(\d+)/) {
+    if ($release =~ m/Solaris 10 (\d+)\/(\d+)/) {
         $release = $1;
         $year = $2;
     } elsif ($release =~ /OpenSolaris 20(\d+)\.(\d+)\s/) {
