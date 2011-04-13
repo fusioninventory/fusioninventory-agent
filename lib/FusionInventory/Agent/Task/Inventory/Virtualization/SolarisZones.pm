@@ -65,7 +65,7 @@ sub _check_solaris_valid_release{
     );
 
     my ($version, $year);
-    if ($release =~ m/Solaris 10 (\d)\/(\d+)/) {
+    if ($release =~ m/Solaris 10 (\d+)\/(\d+)/) {
         $version = $1;
         $year = $2;
     } elsif ($release =~ /OpenSolaris 20(\d+)\.(\d+)\s/) {
