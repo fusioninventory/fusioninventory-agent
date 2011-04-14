@@ -2267,3 +2267,93 @@ Unique ID
 1 if the antivirus is up to date.
 
 =item VERSION
+
+=back
+
+=head2 LVS
+
+A LVM Logical Volume
+
+=over 4
+
+=item LVNAME
+
+The volume name.
+
+=item VGNAME
+
+The volume group name.
+
+=item ATTR
+
+The special attribue used on this volume (e.g: a-)
+
+=item SIZE
+
+The size of the volume on MB.
+
+=item UUID
+
+The volume UUID.
+
+=back
+
+=head2 PVS 
+
+=over 4
+
+=item DEVICE
+
+The device name. Eg.: /dev/sda1 on Linux.
+
+=item PVNAME
+
+The physical device name.
+
+=item FORMAT
+
+The format. E.g: lvm2.
+
+=item ATTR
+
+The LVM attribue in use for this phyisical device.
+
+=item SIZE
+
+The size in MB.
+
+=item UUID
+
+The UUID.
+
+=back
+
+=head2 VGS 
+
+A LVM Volume group.
+
+=over 4
+
+=item VGNAME
+
+The name of the volume group.
+
+=item PV_COUNT
+
+=item LV_COUNT
+
+=item ATTR
+
+The volume group LVM attribue.
+
+=item SIZE
+
+The size.
+
+=item FREE
+
+The free space.
+
+=item UUID
+
+The UUID
