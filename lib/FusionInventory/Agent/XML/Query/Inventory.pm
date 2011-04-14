@@ -53,6 +53,10 @@ my %fields = (
                         PRINTPROCESSOR SERIAL/ ],
     VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                             VMID MAC COMMENT OWNER/ ],
+    LVS => [ qw/LVNAME VGNAME ATTR SIZE UUID/ ],
+    PVS => [ qw/DEVICE PVNAME FORMAT ATTR SIZE FREE UUID/ ],
+    VGS => [ qw/VGNAME PV_COUNT LV_COUNT ATTR SIZE FREE UUID/ ],
+
 );
 
 sub new {
