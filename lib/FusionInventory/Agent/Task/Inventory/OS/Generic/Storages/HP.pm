@@ -140,7 +140,7 @@ sub doInventory {
 
                     $logger->debug("HP: N/A, $manufacturer, $model, $description, $media, $capacity, $serialnumber, $firmware");
 
-                    $inventory->addStorages({
+                    $inventory->addStorage({
                             NAME => $model,
                             MANUFACTURER => $manufacturer,
                             MODEL => $model,
