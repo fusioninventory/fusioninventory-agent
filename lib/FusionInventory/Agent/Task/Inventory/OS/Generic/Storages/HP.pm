@@ -143,7 +143,7 @@ sub doInventory {
                 $media = 'disk';
             }
 
-            $inventory->addStorages({
+            $inventory->addStorage({
                 NAME => $model,
                 MANUFACTURER => $manufacturer,
                 MODEL => $model,
