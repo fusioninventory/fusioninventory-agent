@@ -968,6 +968,60 @@ sub addAntiVirus {
     });
 }
 
+=item addLogicalVolume()
+
+Registered LVM Logical Volume
+
+=cut
+sub addLogicalVolume {
+    my ($self, $args) = @_;
+
+    my @fields = qw/LVNAME VGNAME ATTR SIZE UUID/;
+
+    $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'LVS',
+        'values' => $args,
+        'noDuplicated' => 1
+    });
+}
+
+=item addPhysicalVolume()
+
+Registered LVM Physical Volume
+
+=cut
+sub addPhysicalVolume {
+    my ($self, $args) = @_;
+
+    my @fields = qw/DEVICE PVNAME FORMAT ATTR SIZE FREE UUID/;
+
+    $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'PVS',
+        'values' => $args,
+        'noDuplicated' => 1
+    });
+}
+
+=item addVolumeGroup()
+
+Registered LVM Volume Group
+
+=cut
+sub addVolumeGroup {
+    my ($self, $args) = @_;
+
+    my @fields = qw/VGNAME PV_COUNT LV_COUNT ATTR SIZE FREE UUID/;
+
+    $self->_addEntry({
+        'field' => \@fields,
+        'sectionName' => 'VGS',
+        'values' => $args,
+        'noDuplicated' => 1
+    });
+}
+
 
 =item setAccessLog()
 

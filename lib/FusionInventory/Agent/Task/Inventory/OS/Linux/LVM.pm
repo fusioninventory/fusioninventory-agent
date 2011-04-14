@@ -6,6 +6,11 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+
+sub isInventoryEnabled {
+    can_run("lvs");
+}
+
 sub _parseLvs {
     my ($file, $mode) = @_;
 
@@ -89,9 +94,17 @@ sub _parseVgs {
     return $entries;
 }
 
+sub doInventory {
+    my $params = shift;
+    my $inventory = $params->{inventory};
 
-#my $lvs = _parseLvs('lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count', '-|');
-#my $pvs = _parsePvs('pvs --noheading --nosuffix --units M -o +pv_uuid', '-|');
-#my $vgs = _parseVgs('vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size', '-|');
+    my $lvs = _parseLvs('lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count 2>/dev/null', '-|');
+    $inventory->addLogicalVolume($_) foreach (@$lvs);
+    my $pvs = _parsePvs('pvs --noheading --nosuffix --units M -o +pv_uuid 2>/dev/null', '-|');
+    $inventory->addPhysicalVolume($_) foreach (@$pvs);
+    my $vgs = _parseVgs('vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size 2>/dev/null', '-|');
+    $inventory->addVolumeGroup($_) foreach (@$vgs);
+
+}
 
 1;
