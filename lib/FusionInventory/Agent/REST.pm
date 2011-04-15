@@ -7,6 +7,7 @@ use warnings;
 
 use FusionInventory::Agent::Network;
 use JSON;
+use URI::Escape;
 
 our $AUTOLOAD;
 
@@ -33,12 +34,23 @@ sub AUTOLOAD {
     my $name = $AUTOLOAD;
     $name =~ s/.*://; # strip fully-qualified portion
 
+
     my $reqUrl = $self->{url}.'?a='.$name;
     foreach my $k (keys %params) {
-        $reqUrl .= '&'.$k.'='.$params{$k};
-    }
+        if (ref($params{$k}) eq 'ARRAY') {
+            foreach (@{$params{$k}}) {
+                $reqUrl .= '&'.$k.'[]='.uri_escape($_ || '');
+            }
+        } elsif (ref($params{$k}) eq 'HASH') {
+            foreach (keys %{$params{$k}}) {
+                $reqUrl .= '&'.$k.'['.$_.']='.uri_escape($params{$k}->{$_} || '');
+            }
 
-    my $jsonText = $network->get ({
+        } else {
+            $reqUrl .= '&'.$k.'='.uri_escape($params{$k} || '');
+        }
+    }
+    my $jsonText = $self->{network}->get ({
         source => $reqUrl,
         timeout => 60,
         });
@@ -46,7 +58,11 @@ sub AUTOLOAD {
 
     return unless $jsonText;
 
-    return from_json( $jsonText, { utf8  => 1 } );
+    return eval { from_json( $jsonText, { utf8  => 1 } ) };
+}
+
+sub DESTROY {
+
 }
 
 1;
