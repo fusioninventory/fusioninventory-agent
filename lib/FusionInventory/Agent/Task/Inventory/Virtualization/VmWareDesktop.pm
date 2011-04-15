@@ -9,7 +9,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-    return -x '/Library/Application Support/VMware Fusion/vmrun';
+    return (can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') || can_run('vmrun'));
 }
 
 sub doInventory {
@@ -23,7 +23,15 @@ sub doInventory {
     my $name;
     my $i = 0;
 
-    my $commande = "/Library/Application\\ Support/VMware\\ Fusion\/vmrun list";
+    my $commande;
+    my $subsystem;
+    if (can_run('vmrun')) {
+        $commande = "vmrun list";
+        $subsystem = "VMware Desktop";
+    } else {
+        $commande = "/Library/Application\\ Support/VMware\\ Fusion\/vmrun list";
+        $subsystem = "VMware Fusion";
+    }
     foreach my $vmxpath ( `$commande` ) {
         chomp($vmxpath);
         next unless $i++ > 0; # Ignore the first line
@@ -54,8 +62,8 @@ sub doInventory {
                 UUID      => $uuid,
                 MEMORY    => $mem,
                 STATUS    => "running",
-                SUBSYSTEM => "VmWare Fusion",
-                VMTYPE    => "VmWare",
+                SUBSYSTEM => $subsystem,
+                VMTYPE    => "VMware",
             });
     }
 }
