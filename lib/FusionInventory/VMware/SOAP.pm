@@ -16,6 +16,7 @@ sub new {
         ua => LWP::UserAgent->new(),
         url => $params->{url},
         debugDir => $params->{debugDir},
+        lastError => ""
     };
 
     my $cookie = new HTTP::Cookies( ignore_discard => 1 );
@@ -71,9 +72,12 @@ sub _send {
         $self->_storeSOAPDump($name, $res->content);
         return $res->content;
     } else {
-        print STDERR $res->status_line, "\n";
+        print STDERR $res->status_line."\n";
+        $self->{lastError} = $res->status_line;
         return;
     }
+
+    return 1;
 }
 
 sub _parseAnswer {

@@ -1,10 +1,12 @@
 package FusionInventory::Agent::Task::ESX;
 
-our $VERSION = "1.0.1";
+our $VERSION = "1.1.0";
 
+use Data::Dumper;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::REST;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Config;
 use FusionInventory::VMware::SOAP;
@@ -17,7 +19,8 @@ sub connect {
 
     my $vpbs = FusionInventory::VMware::SOAP->new({ url => $url, vcenter => 1 });
     if (!$vpbs->connect($job->{login}, $job->{passwd})) {
-        die "failed to log in\n";
+        $self->{lastError} = $vpbs->{lastError};
+        return;
     }
 
     $self->{vpbs} = $vpbs;
@@ -126,24 +129,24 @@ sub createInventory {
 }
 
 
-sub getJobs {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-    my $network = $self->{network};
-
-    my $jsonText = $network->get ({
-        source => $self->{backendURL}.'/?a=getJobs&d=TODO',
-        timeout => 60,
-        });
-    if (!defined($jsonText)) {
-        $logger->debug("No answer from server for deployment job.");
-        return;
-    }
-
-
-    return from_json( $jsonText, { utf8  => 1 } );
-}
+#sub getJobs {
+#    my ($self) = @_;
+#
+#    my $logger = $self->{logger};
+#    my $network = $self->{network};
+#
+#    my $jsonText = $network->get ({
+#        source => $self->{backendURL}.'/?a=getJobs&d=TODO',
+#        timeout => 60,
+#        });
+#    if (!defined($jsonText)) {
+#        $logger->debug("No answer from server for deployment job.");
+#        return;
+#    }
+#
+#
+#    return from_json( $jsonText, { utf8  => 1 } );
+#}
 
 sub getHostIds {
     my ($self) = @_;
@@ -174,11 +177,8 @@ sub main {
             config => $self->{config}
         });
 
+    return unless $target;
     return unless $target->{type} eq 'server';
-
-    $self->{backendURL} = $target->{path}."/esx/";
-    # DEBUG:
-    $self->{backendURL} = "http://nana.rulezlan.org/deploy/ocsinventory/esx/";
 
     my $network = $self->{network} = FusionInventory::Agent::Network->new ({
 
@@ -188,15 +188,55 @@ sub main {
 
         });
 
-    my $jobs = $self->getJobs();
-    return unless $jobs;
-    return unless ref($jobs) eq 'ARRAY';
-    foreach my $job (@$jobs) {
-        my $esx = FusionInventory::Agent::Task::ESX->new({
-                config => $config
-        });
 
-        $esx->connect($job);
+    my $globalRest = FusionInventory::Agent::REST->new(
+            "url" => $target->{path},
+            "network" => $network
+            );
+    my $globalRemoteConfig = $globalRest->getConfig(
+            d => $target->{deviceid},
+            task => { ESX => $VERSION},
+            array => [ 'aa', 'bb', 'cc' ]
+    );
+    return unless $globalRemoteConfig->{schedule};
+    return unless ref($globalRemoteConfig->{schedule}) eq 'ARRAY';
+
+    my $esxRemote;
+    foreach my $job (@{$globalRemoteConfig->{schedule}}) {
+        next unless $job->{task} eq "ESX";
+        $esxRemote = $job->{remote};
+    }
+    my $esxRest = FusionInventory::Agent::REST->new(
+            "url" => $esxRemote,
+            "network" => $network
+            );
+
+
+    my $jobs = $esxRest->getJobs();
+    my $uuid = $jobs->{uuid};
+
+    return unless $jobs;
+    return unless ref($jobs->{jobs}) eq 'ARRAY';
+
+    my $esx = FusionInventory::Agent::Task::ESX->new({
+            config => $config
+            });
+
+
+    foreach my $jobId (1..@{$jobs->{jobs}}) {
+        my $job = $jobs->{jobs}[$jobId-1];
+
+        if (!$esx->connect($job)) {
+           $esxRest->setLog(
+              d => $target->{deviceid},
+              p => 'login',
+              j => $jobId,
+              u => $uuid,
+              msg => $esx->{lastError},
+              code => 'ko'
+           );
+           next;
+        }
 
         my $hostIds = $esx->getHostIds();
         foreach my $hostId (@$hostIds) {
@@ -204,6 +244,13 @@ sub main {
 
             $inventory->writeXML();
         }
+        $esxRest->setLog(
+                d => $target->{deviceid},
+                j => $jobId,
+                u => $uuid,
+                code => 'ok'
+        );
+
     }
 
     return $self;
