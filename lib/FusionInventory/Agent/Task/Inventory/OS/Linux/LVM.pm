@@ -45,19 +45,19 @@ sub _getLogicalVolumes {
     return unless $handle;
 
     my @volumes;
-    foreach (<$handle>) {
-        my @line = split(/\s+/, $_);
+    while (my $line = <$handle>) {
+        my @line = split(/\s+/, $line);
 
         push @volumes, {
             LVNAME => $line[1],
             VGNAME => $line[2],
-            ATTR => $line[3],
-            SIZE => int($line[4]||0),
-            UUID => $line[5],
+            ATTR   => $line[3],
+            SIZE   => int($line[4]||0),
+            UUID   => $line[5],
 
         };
-
     }
+    close $handle;
 
     return @volumes;
 }
@@ -67,20 +67,20 @@ sub _parsePvs {
     return unless $handle;
 
     my @volumes;
-    foreach (<$handle>) {
-        my @line = split(/\s+/, $_);
+    while (my $line = <$handle>) {
+        my @line = split(/\s+/, $line);
 
         push @volumes, {
             DEVICE => $line[1],
             PVNAME => $line[2],
             FORMAT => $line[3],
-            ATTR => $line[4],
-            SIZE => int($line[5]||0),
-            FREE => int($line[6]||0),
-            UUID => $line[7],
+            ATTR   => $line[4],
+            SIZE   => int($line[5]||0),
+            FREE   => int($line[6]||0),
+            UUID   => $line[7],
         }
-
     }
+    close $handle;
 
     return @volumes;
 }
@@ -90,20 +90,20 @@ sub _parseVgs {
     return unless $handle;
 
     my @volumes;
-    foreach (<$handle>) {
-        my @line = split(/\s+/, $_);
+    while (my $line = <$handle>) {
+        my @line = split(/\s+/, $line);
 
         push @volumes, {
-            VGNAME => $line[1],
+            VGNAME   => $line[1],
             PV_COUNT => $line[2],
             LV_COUNT => $line[3],
-            ATTR => $line[5],
-            SIZE => $line[6],
-            FREE => $line[7],
-            UUID => $line[8]
+            ATTR     => $line[5],
+            SIZE     => $line[6],
+            FREE     => $line[7],
+            UUID     => $line[8]
         }
-
     }
+    close $handle;
 
     return @volumes;
 }
