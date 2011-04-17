@@ -101,7 +101,7 @@ sub doInventory {
 
     my @list_mem;
     if ($arch =~ /ia64/ ) {
-        `echo 'sc product  IPF_MEMORY;info' | /usr/sbin/cstm`;    # enable infolog
+        system("echo 'sc product  IPF_MEMORY;info' | /usr/sbin/cstm");    # enable infolog
         @list_mem=`echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm`;
         for ( @list_mem ) {
             if ( /\w+IMM\s+Location/ ) {
