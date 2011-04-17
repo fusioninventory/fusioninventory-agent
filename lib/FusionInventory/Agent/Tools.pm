@@ -26,6 +26,7 @@ our @EXPORT = qw(
     getSanitizedString
     getFirstLine
     getFirstMatch
+    getLastLine
     getAllLines
     getLinesCount
     compareVersion
@@ -385,6 +386,22 @@ sub getFirstLine {
 
     my $handle = getFileHandle(%params);
     my $result = <$handle>;
+    close $handle;
+
+    chomp $result;
+    return $result;
+}
+
+sub getLastLine {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $result;
+    while (my $line = <$handle>) {
+        $result = $line;
+    }
     close $handle;
 
     chomp $result;
