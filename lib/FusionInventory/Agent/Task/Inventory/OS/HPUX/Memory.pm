@@ -23,7 +23,12 @@ sub doInventory {
             logger  => $logger
         );
         $inventory->setHardware({ MEMORY => $totalMem });
-        $inventory->addMemory($memories);
+        foreach my $memory (@$memories) {
+            $inventory->addEntry({
+                section => 'MEMORIES',
+                entry   => $memory
+            });
+        }
         return;
     }
 
