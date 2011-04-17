@@ -16,24 +16,30 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{inventory};
 
-    my $lvs = _parseLvs('lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count 2>/dev/null', '-|');
+    my $lvs = _parseLvs(
+        command => 'lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count',
+        logger  => $logger
+    );
     $inventory->addLogicalVolume($_) foreach (@$lvs);
-    my $pvs = _parsePvs('pvs --noheading --nosuffix --units M -o +pv_uuid 2>/dev/null', '-|');
-    $inventory->addPhysicalVolume($_) foreach (@$pvs);
-    my $vgs = _parseVgs('vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size 2>/dev/null', '-|');
-    $inventory->addVolumeGroup($_) foreach (@$vgs);
 
+    my $pvs = _parsePvs(
+        command => 'pvs --noheading --nosuffix --units M -o +pv_uuid',
+        logger  => $logger
+    );
+    $inventory->addPhysicalVolume($_) foreach (@$pvs);
+
+    my $vgs = _parseVgs(
+        command => 'vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size',
+        logger  => $logger
+    );
+    $inventory->addVolumeGroup($_) foreach (@$vgs);
 }
 
 sub _parseLvs {
-    my ($file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my $entries = [];
     foreach (<$handle>) {
@@ -54,13 +60,8 @@ sub _parseLvs {
 }
 
 sub _parsePvs {
-    my ($file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my $entries = [];
     foreach (<$handle>) {
@@ -82,13 +83,8 @@ sub _parsePvs {
 }
 
 sub _parseVgs {
-    my ($file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my $entries = [];
     foreach (<$handle>) {
