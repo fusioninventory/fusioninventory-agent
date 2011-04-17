@@ -296,9 +296,6 @@ sub _runFunction {
             transmitter   => $self->{transmitter},
             prologresp    => $self->{prologresp},
             storage       => $self->{storage},
-            # Compatibiliy with agent 0.0.10 <=
-            # We continue to pass params->{params}
-            params        => $self->{params},
         );
     };
     alarm 0;
