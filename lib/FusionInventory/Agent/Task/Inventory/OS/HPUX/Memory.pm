@@ -188,12 +188,12 @@ sub _parseCstm {
 }
 
 sub _parseCstm64 {
-
-    my @lines = getAllLines(@_);
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my (@memories, $size);
 
-    foreach my $line (@lines) {
+    while (my $line = <$handle>) {
         if ($line =~ /\w+IMM\s+Location/ ) {
             next
         }
@@ -220,6 +220,7 @@ sub _parseCstm64 {
             $size = $1;
         }
     }
+    close $handle;
 
     return (\@memories, $size);
 }
