@@ -134,6 +134,8 @@ sub getCanonicalSize {
 
     return undef unless $size;
 
+    return $size if $size =~ /^\d+$/;
+
     return undef unless $size =~ /^(\d+) \s (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
