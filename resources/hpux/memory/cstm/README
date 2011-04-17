@@ -1,0 +1,3 @@
+This is the output of the following commands:
+ HPPA: echo 'sc product mem;il'| /usr/sbin/cstm
+ Itanium: echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm

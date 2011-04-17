@@ -34,7 +34,7 @@ sub new {
     bless $self, $class;
 
     # create user agent
-    $self->{ua} = LWP::UserAgent->new(keep_alive => 1);
+    $self->{ua} = LWP::UserAgent->new(keep_alive => 1, requests_redirectable => ['POST', 'GET', 'HEAD']);
 
     if ($params->{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $params->{proxy});

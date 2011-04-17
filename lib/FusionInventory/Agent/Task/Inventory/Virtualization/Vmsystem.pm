@@ -209,6 +209,7 @@ sub _getStatus {
         close $handle;
     }
 
+    return 'Physical';
 }
 
 1;
