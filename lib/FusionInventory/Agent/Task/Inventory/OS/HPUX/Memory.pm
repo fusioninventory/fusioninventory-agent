@@ -86,16 +86,18 @@ sub _parseCprop {
     my $memory;
 
     while (my $line = <$handle>) {
-        if ($memory && $line =~ /\[Instance\]: \d+/) {
+        if ($line =~ /\[Instance\]: \d+/) {
             next;
-        } elsif ($line =~ /^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
+        }
+
+        if ($line =~ /^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
             my $k = $1;
             my $v = $2;
             $v =~ s/\s+\*+//;
             $memory->{$k} = $v;
         }
 
-        if ($memory && $line =~ /\*\*\*\*/) {
+        if ($line =~ /\*\*\*\*/) {
             if ($memory->{Size}) {
                 $size += _getSizeInMB($memory->{Size}) || 0;
                 push @memories, {
