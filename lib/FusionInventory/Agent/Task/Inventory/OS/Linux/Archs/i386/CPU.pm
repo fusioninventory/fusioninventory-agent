@@ -18,12 +18,12 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $cpusFromDmidecode = getCpusFromDmidecode();
+    my @cpusFromDmidecode = getCpusFromDmidecode();
 
     my ($proc_cpu, $procList) = _getCPUsFromProc($logger, '/proc/cpuinfo');
 
     my $cpt = 0;
-    foreach my $cpu (@$cpusFromDmidecode) {
+    foreach my $cpu (@cpusFromDmidecode) {
 
         if ($proc_cpu->{vendor_id}) {
             $proc_cpu->{vendor_id} =~ s/Genuine//;

@@ -155,6 +155,7 @@ sub getInfosFromDmidecode {
     );
 
     my $handle = getFileHandle(%params);
+    return unless $handle;
 
     my ($info, $block, $type);
 
@@ -252,7 +253,7 @@ sub getCpusFromDmidecode {
         push @cpus, $cpu;
     }
 
-    return \@cpus;
+    return @cpus;
 }
 
 sub compareVersion {
@@ -588,7 +589,7 @@ $info = {
 
 =head2 getCpusFromDmidecode()
 
-Returns a clean array with the CPU list.
+Returns a list of CPUs, from dmidecode output.
 
 =head2 getSanitizedString($string)
 
