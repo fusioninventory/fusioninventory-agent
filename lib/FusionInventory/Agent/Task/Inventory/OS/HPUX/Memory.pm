@@ -148,9 +148,10 @@ sub doInventory {
 
     my $TotalSwapSize = `swapinfo -dt | tail -n1`;
     $TotalSwapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
-    $inventory->setHardware({ SWAP =>    sprintf("%i", $TotalSwapSize/1024) });
-    $inventory->setHardware({ MEMORY => $memory });
-
+    $inventory->setHardware({
+        SWAP   => sprintf("%i", $TotalSwapSize/1024),
+        MEMORY => $memory
+    });
 }
 
 sub _getSizeInMB {
