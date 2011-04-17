@@ -116,6 +116,7 @@ sub _parseCstm {
 
     my (@memories, $size);
 
+    my %capacities;
     my $capacity = 0;
     my $caption; 
     my $description;
@@ -134,6 +135,9 @@ sub _parseCstm {
         }
         if ($line =~ /Source\s+Detail\s+=\s4/ ) {
             $ok=1;
+        }
+        if ($line =~ /\s+(\d+)\s+(\d+)/ ) {
+            $capacities{$1} = $2;
         }
         if ($line =~ /Extender\s+Location\s+=\s+(\S+)/ ) {
             $subnumslot=$1;
@@ -159,12 +163,7 @@ sub _parseCstm {
             $serialnumber=$1;
             if ( $ok eq 1 ) {
                 if ( $capacity eq 0 ) {
-                    foreach ( @lines ) {
-                        if ( /\s+$numslot\s+(\d+)/ ) {
-                            $capacity=$1;
-                            #print "Capacity $capacity\n";
-                        }
-                    }
+                    $capacity = $capacities{$numslot};
                 }
                 push @memories, {
                     CAPACITY     => $capacity,
