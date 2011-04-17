@@ -43,14 +43,14 @@ my @errStatus = (
 );
 
 sub isInventoryEnabled {
-    my ($params) = @_;
-    return !$params->{config}->{no_printer};
+    my (%params) = @_;
+    return !$params{config}->{no_printer};
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_Printer',

@@ -12,10 +12,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger     = $params->{inventory};
+    my $inventory = $params{inventory};
+    my $logger    = $params{inventory};
 
     my $command = 'xm list';
     foreach my $machine (_getVirtualMachines(command => $command, logger => $logger)) {

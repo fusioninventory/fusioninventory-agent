@@ -21,9 +21,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $registryInfo = getRegistryKey("Hardware/Description/System/BIOS");
 

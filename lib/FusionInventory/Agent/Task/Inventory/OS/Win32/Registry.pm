@@ -22,9 +22,9 @@ my @hives = qw/
 /; 
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $prologresp = $params->{prologresp};
+    my $prologresp = $params{prologresp};
 
     return
         $prologresp &&
@@ -32,10 +32,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $prologresp = $params->{prologresp};
+    my $inventory = $params{inventory};
+    my $prologresp = $params{prologresp};
 
     my $options = $prologresp->getOptionsInfoByName("REGISTRY");
 

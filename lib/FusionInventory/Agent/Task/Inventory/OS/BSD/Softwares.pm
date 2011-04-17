@@ -6,18 +6,18 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
     return
-        !$params->{config}->{no_software} &&
+        !$params{config}->{no_software} &&
         can_run('pkg_info');
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $command = 'pkg_info';
     my $packages = _getPackagesFromPkgInfo(

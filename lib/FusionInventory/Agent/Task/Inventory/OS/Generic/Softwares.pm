@@ -14,19 +14,19 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled { 
-    my ($params) = @_;
+    my (%params) = @_;
 
     return
-        !$params->{config}->{no_software} &&
-        -d $params->{confdir} . '/softwares';
+        !$params{config}->{no_software} &&
+        -d $params{confdir} . '/softwares';
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
-    my $directory = $params->{confdir} . '/softwares';
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+    my $directory = $params{confdir} . '/softwares';
 
     my $handle = getDirectoryHandle(
         directory => $directory, logger => $logger

@@ -16,7 +16,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # first, parse /etc/resolv.conf for the DNS servers,
     # and the domain search list
@@ -24,7 +27,7 @@ sub doInventory {
     my %search_list;
     my $handle = getFileHandle(
         file => '/etc/resolv.conf',
-        logger => $params->{logger}
+        logger => $logger
     );
     if ($handle) {
         while (my $line = <$handle>) {
@@ -51,7 +54,7 @@ sub doInventory {
         $domain = join('/', keys %search_list);
     }
 
-    $params->{inventory}->setHardware({
+    $inventory->setHardware({
         WORKGROUP => $domain,
         DNS       => $dns
     });

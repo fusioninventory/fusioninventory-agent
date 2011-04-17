@@ -72,10 +72,11 @@ sub _parseVBoxManage {
 
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
-    my $scanhomedirs = $params->{config}{'scan-homedirs'};
+    my (%params) = shift;
+
+    my $inventory    = $params{inventory};
+    my $logger       = $params{logger};
+    my $scanhomedirs = $params{config}->{'scan-homedirs'};
 
     my $cmd_list_vms = "VBoxManage -nologo list --long vms";
 

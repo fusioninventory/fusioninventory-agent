@@ -14,9 +14,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     # Basic operating system informations
     my $OSVersion = getFirstLine(command => 'uname -r');

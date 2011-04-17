@@ -6,19 +6,19 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
     # We don't want to scan user directories unless --scan-homedirs is used
     return 
         can_run('prlctl') &&
-        $params->{config}->{'scan-homedirs'};
+        $params{config}->{'scan-homedirs'};
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $user ( glob("/Users/*") ) {
         $user =~ s/.*\///; # Just keep the login

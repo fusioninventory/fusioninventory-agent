@@ -95,8 +95,9 @@ sub _parseVgs {
 }
 
 sub doInventory {
-    my $params = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
 
     my $lvs = _parseLvs('lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count 2>/dev/null', '-|');
     $inventory->addLogicalVolume($_) foreach (@$lvs);

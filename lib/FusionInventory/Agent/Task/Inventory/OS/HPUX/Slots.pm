@@ -10,9 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $scaned (qw/ioa ba/) {
         foreach my $line ( `ioscan -kFC $scaned| cut -d ':' -f 9,11,17,18` ) {

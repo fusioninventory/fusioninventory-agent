@@ -10,9 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $SystemSerial = getFirstLine(file => '/proc/device-tree/serial-number');
     $SystemSerial =~ s/[^\,^\.^\w^\ ]//g; # I remove some unprintable char

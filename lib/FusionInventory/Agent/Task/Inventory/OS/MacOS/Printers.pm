@@ -6,18 +6,18 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
     return 
-        !$params->{config}->{no_printer} &&
+        !$params{config}->{no_printer} &&
         -r '/usr/sbin/system_profiler' &&
         can_load("Mac::SysProfile");
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $prof = Mac::SysProfile->new();
     my $info = $prof->gettype('SPPrintersDataType');
