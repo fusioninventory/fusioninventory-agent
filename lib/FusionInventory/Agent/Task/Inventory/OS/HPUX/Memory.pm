@@ -144,36 +144,29 @@ sub doInventory {
 
             if ($line =~ /FRU\sSource\s+=\s+\S+\s+\(memory/ ) {
                 $ok=0;
-                #print "FRU Source memory\n";
             }
             if ($line =~ /Source\s+Detail\s+=\s4/ ) {
                 $ok=1;
-                #print "Source Detail IMM\n";
             }
             if ($line =~ /Extender\s+Location\s+=\s+(\S+)/ ) {
                 $subnumslot=$1;
-                #print "Extended sub $subnumslot\n";
             };
             if ($line =~ /DIMMS\s+Rank\s+=\s+(\S+)/ ) {
                 $numslot=sprintf("%02x",$1);
-                #print "Num slot $numslot\n";
             }
 
             if ($line =~ /FRU\s+Name\.*:\s+(\S+)/ ) {
                 if ($line =~ /(\S+)_(\S+)/ ) {
                     $type=$1;
                     $capacity=$2;
-                    #print "Type $type capa $capacity\n";
                 } elsif ($line =~ /(\wIMM)(\S+)/ ) {
                     $ok=1;
                     $type=$1;
                     $numslot=$2;
-                    #print "Type $type numslot $numslot\n";
                 }
             }
             if ($line =~ /Part\s+Number\.*:\s*(\S+)\s+/ ) {
                 $description=$1;
-                #print "ref $description\n";
             }
             if ($line =~ /Serial\s+Number\.*:\s*(\S+)\s+/ ) {
                 $serialnumber=$1;
