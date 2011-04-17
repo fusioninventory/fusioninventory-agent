@@ -113,6 +113,8 @@ sub _parseCprop {
 }
 
 sub _parseCstm {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my (@memories, $size);
 
@@ -126,9 +128,7 @@ sub _parseCstm {
     my $type;
     my $ok=0;
 
-    my @lines = getAllLines(@_);
-
-    foreach my $line (@lines) {
+    while (my $line = <$handle>) {
 
         if ($line =~ /FRU\sSource\s+=\s+\S+\s+\(memory/ ) {
             $ok=0;
@@ -181,7 +181,8 @@ sub _parseCstm {
         if ($line =~ /Total Configured Memory\s*:\s(\d+)\sMB/i) {
             $size = $1;
         }
-    } # echo 'sc product system;il' | /usr/sbin/cstm
+    }
+    close $handle;
 
     return (\@memories, $size);
 }
