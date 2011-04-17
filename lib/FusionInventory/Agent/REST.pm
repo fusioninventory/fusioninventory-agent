@@ -3,7 +3,6 @@ package FusionInventory::Agent::REST;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Network;
 use JSON;
 
 our $AUTOLOAD;
