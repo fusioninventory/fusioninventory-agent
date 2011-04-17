@@ -83,29 +83,29 @@ sub _parseCprop {
 
     my $size = 0;
     my @memories;
-    my $instance = {};
+    my $memory;
 
     while (my $line = <$handle>) {
-        if (keys (%$instance) && $line =~ /\[Instance\]: \d+/) {
+        if ($memory && $line =~ /\[Instance\]: \d+/) {
             next;
         } elsif ($line =~ /^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
             my $k = $1;
             my $v = $2;
             $v =~ s/\s+\*+//;
-            $instance->{$k} = $v;
+            $memory->{$k} = $v;
         }
 
-        if (keys (%$instance) && $line =~ /\*\*\*\*/) {
-            if ($instance->{Size}) {
-                $size += _getSizeInMB($instance->{Size}) || 0;
+        if ($memory && $line =~ /\*\*\*\*/) {
+            if ($memory->{Size}) {
+                $size += _getSizeInMB($memory->{Size}) || 0;
                 push @memories, {
                     CAPACITY => $size,
-                    DESCRIPTION => $instance->{'Part Number'},
-                    SERIALNUMBER => $instance->{'Serial Number'},
-                    TYPE => $instance->{'Module Type'},
+                    DESCRIPTION => $memory->{'Part Number'},
+                    SERIALNUMBER => $memory->{'Serial Number'},
+                    TYPE => $memory->{'Module Type'},
                 };
             }
-            $instance = {};
+            undef $memory;
         }
     }
     close $handle;
