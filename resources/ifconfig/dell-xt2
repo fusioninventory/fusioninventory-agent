@@ -1,0 +1,42 @@
+eth0      Link encap:Ethernet  HWaddr A4:BA:DB:A5:F5:FA  
+          inet addr:192.168.0.5  Bcast:192.168.0.255  Mask:255.255.255.0
+          inet6 addr: fe80::a6ba:dbff:fea5:f5fa/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:39818 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:36364 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:100 
+          RX bytes:24670758 (23.5 MiB)  TX bytes:3555602 (3.3 MiB)
+          Memory:f6ae0000-f6b00000 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:193 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:193 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:16572 (16.1 KiB)  TX bytes:16572 (16.1 KiB)
+
+pan0      Link encap:Ethernet  HWaddr 4E:8C:81:ED:9B:35  
+          BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+sit0      Link encap:IPv6-in-IPv4  
+          NOARP  MTU:1480  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+wlan0     Link encap:Ethernet  HWaddr 00:24:D6:6F:81:3A  
+          inet addr:78.251.91.204  Bcast:78.251.127.255  Mask:255.255.192.0
+          inet6 addr: fe80::224:d6ff:fe6f:813a/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:6 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:48 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1452 (1.4 KiB)  TX bytes:10231 (9.9 KiB)
+
