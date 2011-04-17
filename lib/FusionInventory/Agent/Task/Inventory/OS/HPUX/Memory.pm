@@ -58,24 +58,6 @@ sub doInventory {
     });
 }
 
-sub _getSizeInMB {
-    my ($data) = @_;
-
-    return unless $data;
-
-    my %convert = (
-        TB => 1000 * 1000,
-        GB => 1000,
-        MB => 1
-    );
-
-    if ($data =~ /^(\d+)\s*(\S+)/) {
-        return $1*$convert{$2};
-    }
-
-    return $data;
-}
-
 sub _parseCprop {
     my $handle = getFileHandle(@_);
 
@@ -99,7 +81,7 @@ sub _parseCprop {
 
         if ($line =~ /\*\*\*\*/) {
             if ($memory->{Size}) {
-                $size += _getSizeInMB($memory->{Size}) || 0;
+                $size += getCanonicalSize($memory->{Size}) || 0;
                 push @memories, {
                     CAPACITY => $size,
                     DESCRIPTION => $memory->{'Part Number'},
