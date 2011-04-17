@@ -38,6 +38,8 @@ our @EXPORT = qw(
     none
     uniq
     getFusionInventoryLibdir
+    file2module
+    module2file
 );
 
 memoize('can_run');
@@ -544,6 +546,20 @@ sub getFusionInventoryLibdir {
 
 }
 
+sub file2module {
+    my ($file) = @_;
+    $file =~ s{.pm$}{};
+    $file =~ s{/}{::}g;
+    return $file;
+}
+
+sub module2file {
+    my ($module) = @_;
+    $module .= '.pm';
+    $module =~ s{::}{/}g;
+    return $module;
+}
+
 
 
 1;
@@ -744,3 +760,10 @@ Returns a new list by stripping duplicate values in LIST.
 Return a array reference of the location of the FusionInventory/Agent library
 directory on the system.
 
+=head2 file2module($string)
+
+Converts a perl file name to a perl module name (Foo/Bar.pm -> Foo::Bar)
+
+=head2 module2file($string)
+
+Converts a perl module name to a perl file name ( Foo::Bar -> Foo/Bar.pm)
