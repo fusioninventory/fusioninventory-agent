@@ -281,7 +281,6 @@ sub run {
                 WakeOnLan
                 SNMPQuery
                 NetDiscovery
-                Ping
             /;
 
             foreach my $module (@tasks) {
