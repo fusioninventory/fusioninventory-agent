@@ -16,7 +16,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
     my $logger    = $params->{logger};
 
-    my ($memories, $memorySize, $swapSize);
+    my ($memories, $memorySize);
 
     # HPUX 11.31: http://forge.fusioninventory.org/issues/754
     if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/i)) {
@@ -42,7 +42,7 @@ sub doInventory {
         }
     }
 
-    $swapSize = `swapinfo -dt | tail -n1`;
+    my $swapSize = getLastLine(command => 'swapinfo -dt', logger => $logger);
     $swapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
 
     foreach my $memory (@$memories) {
