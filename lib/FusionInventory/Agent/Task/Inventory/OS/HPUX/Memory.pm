@@ -10,7 +10,7 @@ sub isInventoryEnabled {
     return 1;
 }
 
-sub getSizeInMB {
+sub _getSizeInMB {
     my ($data) = @_;
 
     return unless $data;
@@ -52,7 +52,7 @@ sub _parseCpropMemory {
 
         if (keys (%$instance) && /\*\*\*\*/) {
             if ($instance->{Size}) {
-                my $size = getSizeInMB($instance->{Size}) || 0;
+                my $size = _getSizeInMB($instance->{Size}) || 0;
                 $totalMem += $size;
                 push @$memories, {
                     CAPACITY => $size,
