@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::MacOS::Mem;
+package FusionInventory::Agent::Task::Inventory::OS::MacOS::Memory;
 
 use strict;
 use warnings;

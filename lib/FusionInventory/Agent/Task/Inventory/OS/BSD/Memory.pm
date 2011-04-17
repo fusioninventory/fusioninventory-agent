@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::BSD::Mem;
+package FusionInventory::Agent::Task::Inventory::OS::BSD::Memory;
 
 use strict;
 use warnings;
