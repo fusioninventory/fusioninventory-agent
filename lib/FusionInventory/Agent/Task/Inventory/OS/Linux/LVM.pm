@@ -22,21 +22,21 @@ sub doInventory {
         command => 'lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count',
         logger  => $logger
     )) {
-        $inventory->addLogicalVolume($volume);
+        $inventory->addEntry(section => 'LVS', entry => $volume);
     }
 
     foreach my $volume (_getPhysicalVolumes(
         command => 'pvs --noheading --nosuffix --units M -o +pv_uuid',
         logger  => $logger
     )) {
-        $inventory->addPhysicalVolume($volume);
+        $inventory->addEntry(section => 'PVS', entry => $volume);
     }
 
     foreach my $volume (_getVolumeGroups(
         command => 'vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size',
         logger  => $logger
     )) {
-        $inventory->addVolumeGroup($volume);
+        $inventory->addEntry(section => 'VGS', entry => $volume);
     }
 }
 
