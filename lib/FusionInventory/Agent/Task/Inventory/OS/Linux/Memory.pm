@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Linux::Mem;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Memory;
 
 use strict;
 use warnings;
