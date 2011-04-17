@@ -70,10 +70,10 @@ sub _parsePrlctlA {
     my @machines;
     foreach my $line (<$handle>) {
         chomp $line; 
-        my @info = split(/\s+/, $line);
+        my @info = split(/\s+/, $line, 4);
         my $uuid   = $info[0];
         my $status = $status_list{$info[1]};
-        my $name   = $info[4];
+        my $name   = $info[3];
 
 
         $uuid =~s/{(.*)}/$1/;
