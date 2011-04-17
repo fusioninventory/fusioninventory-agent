@@ -12,6 +12,18 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    foreach my $memory (_getMemories()) {
+        $inventory->addEntry(
+            section => 'MEMORIES',
+            entry   => $memory
+        );
+    }
+
+}
+
+sub _getMemories {
+
+    my @memories;
     my $capacity;
     my $description;
     my $numslots;
@@ -46,36 +58,32 @@ sub doInventory {
         if((/^FC .+/) && ($flag)) {
             $flag=0;
             $numslots = $numslots +1;
-            $inventory->addEntry(
-                section => 'MEMORIES',
-                entry   => {
-                    CAPACITY     => $capacity,
-                    DESCRIPTION  => $description,
-                    CAPTION      => $caption,
-                    NUMSLOTS     => $numslots,
-                    VERSION      => $mversion,
-                    TYPE         => $type,
-                    SERIALNUMBER => $serial,
-                }
-            )
+            push @memories, {
+                CAPACITY     => $capacity,
+                DESCRIPTION  => $description,
+                CAPTION      => $caption,
+                NUMSLOTS     => $numslots,
+                VERSION      => $mversion,
+                TYPE         => $type,
+                SERIALNUMBER => $serial,
+            };
         };
     }
 
     $numslots = $numslots +1;
     # End of Loop
     # The last *FC ???????? missing
-    $inventory->addEntry(
-        section => 'MEMORIES',
-        entry   => {
-            CAPACITY     => $capacity,
-            DESCRIPTION  => $description,
-            CAPTION      => $caption,
-            NUMSLOTS     => $numslots,
-            VERSION      => $mversion,
-            TYPE         => $type,
-            SERIALNUMBER => $serial,
-        }
-    );
+    push @memories, {
+        CAPACITY     => $capacity,
+        DESCRIPTION  => $description,
+        CAPTION      => $caption,
+        NUMSLOTS     => $numslots,
+        VERSION      => $mversion,
+        TYPE         => $type,
+        SERIALNUMBER => $serial,
+    };
+
+    return @memories;
 }
 
 1;
