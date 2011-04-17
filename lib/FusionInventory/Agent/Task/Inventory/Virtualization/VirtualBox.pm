@@ -40,7 +40,7 @@ sub doInventory {
     if ($scanhomedirs == 1 && $REAL_USER_ID == 0) {
         my $homeDir = "/home";
 
-        if ($OSNAME =~ /^DARWIN$/i) {
+        if ($OSNAME eq 'darwin') {
             $homeDir = "/Users";
         }
         my @homeDirlist = glob("$homeDir/*");
