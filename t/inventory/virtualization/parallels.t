@@ -2,18 +2,19 @@
 
 use strict;
 use warnings;
+
 use FusionInventory::Agent::Task::Inventory::Virtualization::Parallels;
-use FusionInventory::Agent::Logger;
+
 use Test::More;
 
 my %tests = (
     sample1 => [
         {
             VMTYPE    => 'Parallels',
-            NAME      => 'Ubuntu',
+            NAME      => 'Ubuntu Linux',
             SUBSYSTEM => 'Parallels',
-            STATUS    => 'stopped',
-            UUID      => '{bc993872-c70f-40bf-b2e2-94d9f080eb55}'
+            STATUS    => 'off',
+            UUID      => 'bc993872-c70f-40bf-b2e2-94d9f080eb55'
         }
     ]
 );
