@@ -377,6 +377,8 @@ sub getFirstLine {
     my %params = @_;
 
     my $handle = getFileHandle(%params);
+    return unless $handle;
+
     my $result = <$handle>;
     close $handle;
 
