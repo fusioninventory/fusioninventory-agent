@@ -194,11 +194,13 @@ sub _parseCstm64 {
     my (@memories, $size);
 
     while (my $line = <$handle>) {
-        if ($line =~ /\w+IMM\s+Location/ ) {
-            next
-        }
 
-        if ($line =~ /(\w+IMM)\s+(\w+)\s+(\d+|\-+)\s+(\w+IMM)\s+(\w+)\s+(\d+|\-+)/ ) {
+        if ($line =~ /
+            (\w+IMM)\s+(\w+)\s+(\d+|\-+) # first column
+            \s+
+            (\w+IMM)\s+(\w+)\s+(\d+|\-+) # second column
+            /x
+        ) {
             push @memories, 
                 {
                     CAPACITY     => $3,
