@@ -18,34 +18,37 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    my $lvs = _parseLvs(
+    foreach my $volume (_getLogicalVolumes(
         command => 'lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count',
         logger  => $logger
-    );
-    $inventory->addLogicalVolume($_) foreach (@$lvs);
+    )) {
+        $inventory->addLogicalVolume($volume);
+    }
 
-    my $pvs = _parsePvs(
+    foreach my $volume (_getPhysicalVolumes(
         command => 'pvs --noheading --nosuffix --units M -o +pv_uuid',
         logger  => $logger
-    );
-    $inventory->addPhysicalVolume($_) foreach (@$pvs);
+    )) {
+        $inventory->addPhysicalVolume($volume);
+    }
 
-    my $vgs = _parseVgs(
+    foreach my $volume (_getVolumeGroups(
         command => 'vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size',
         logger  => $logger
-    );
-    $inventory->addVolumeGroup($_) foreach (@$vgs);
+    )) {
+        $inventory->addVolumeGroup($volume);
+    }
 }
 
-sub _parseLvs {
+sub _getLogicalVolumes {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my $entries = [];
+    my @volumes;
     foreach (<$handle>) {
         my @line = split(/\s+/, $_);
 
-        push @$entries, {
+        push @volumes, {
             LVNAME => $line[1],
             VGNAME => $line[2],
             ATTR => $line[3],
@@ -56,18 +59,18 @@ sub _parseLvs {
 
     }
 
-    return $entries;
+    return @volumes;
 }
 
 sub _parsePvs {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my $entries = [];
+    my @volumes;
     foreach (<$handle>) {
         my @line = split(/\s+/, $_);
 
-        push @$entries, {
+        push @volumes, {
             DEVICE => $line[1],
             PVNAME => $line[2],
             FORMAT => $line[3],
@@ -79,18 +82,18 @@ sub _parsePvs {
 
     }
 
-    return $entries;
+    return @volumes;
 }
 
 sub _parseVgs {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my $entries = [];
+    my @volumes;
     foreach (<$handle>) {
         my @line = split(/\s+/, $_);
 
-        push @$entries, {
+        push @volumes, {
             VGNAME => $line[1],
             PV_COUNT => $line[2],
             LV_COUNT => $line[3],
@@ -102,7 +105,7 @@ sub _parseVgs {
 
     }
 
-    return $entries;
+    return @volumes;
 }
 
 1;

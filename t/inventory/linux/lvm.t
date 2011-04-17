@@ -88,16 +88,16 @@ plan tests =>
     (scalar keys %vgs);
 
 foreach my $test (keys %lvs) {
-    my $lvs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_parseLvs(file => "resources/lvm/linux/lvs/$test");
-    is_deeply($lvs, $lvs{$test}, "lvs parsing: $test");
+    my @volumes = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getLogicalVolumes(file => "resources/lvm/linux/lvs/$test");
+    is_deeply(\@volumes, $lvs{$test}, "lvs parsing: $test");
 }
 
 foreach my $test (keys %pvs) {
-    my $pvs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_parsePvs(file => "resources/lvm/linux/pvs/$test");
-    is_deeply($pvs, $pvs{$test}, "pvs parsing: $test");
+    my @volumes = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getPhysicalVolumes(file => "resources/lvm/linux/pvs/$test");
+    is_deeply(\@volumes, $pvs{$test}, "pvs parsing: $test");
 }
 
 foreach my $test (keys %vgs) {
-    my $vgs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_parseVgs(file => "resources/lvm/linux/vgs/$test");
-    is_deeply($vgs, $vgs{$test}, "vgs parsing: $test");
+    my @volumes = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getVolumeGroups(file => "resources/lvm/linux/vgs/$test");
+    is_deeply(\@volumes, $vgs{$test}, "vgs parsing: $test");
 }
