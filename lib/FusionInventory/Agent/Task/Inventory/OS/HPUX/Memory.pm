@@ -10,65 +10,6 @@ sub isInventoryEnabled {
     return 1;
 }
 
-sub _getSizeInMB {
-    my ($data) = @_;
-
-    return unless $data;
-
-    my %convert = (
-        TB => 1000 * 1000,
-        GB => 1000,
-        MB => 1
-    );
-
-    if ($data =~ /^(\d+)\s*(\S+)/) {
-        return $1*$convert{$2};
-    }
-
-    return $data;
-}
-
-sub _parseCpropMemory {
-    my ($file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
-    my $totalMem = 0;
-    my $memories = [];
-    my $instance = {};
-    foreach (<$handle>) {
-        if (keys (%$instance) && /\[Instance\]: \d+/) {
-            next;
-        } elsif (/^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
-            my $k = $1;
-            my $v = $2;
-            $v =~ s/\s+\*+//;
-            $instance->{$k} = $v;
-        }
-
-        if (keys (%$instance) && /\*\*\*\*/) {
-            if ($instance->{Size}) {
-                my $size = _getSizeInMB($instance->{Size}) || 0;
-                $totalMem += $size;
-                push @$memories, {
-                    CAPACITY => $size,
-                    DESCRIPTION => $instance->{'Part Number'},
-                    SERIALNUMBER => $instance->{'Serial Number'},
-                    TYPE => $instance->{'Module Type'},
-                };
-            }
-            $instance = {};
-        }
-    }
-    close $handle;
-
-    return ($memories, $totalMem)
-}
-
 sub doInventory {
     my ($params) = @_;
 
@@ -206,6 +147,65 @@ sub doInventory {
     $inventory->setHardware({ SWAP =>    sprintf("%i", $TotalSwapSize/1024) });
     $inventory->setHardware({ MEMORY => $memory });
 
+}
+
+sub _getSizeInMB {
+    my ($data) = @_;
+
+    return unless $data;
+
+    my %convert = (
+        TB => 1000 * 1000,
+        GB => 1000,
+        MB => 1
+    );
+
+    if ($data =~ /^(\d+)\s*(\S+)/) {
+        return $1*$convert{$2};
+    }
+
+    return $data;
+}
+
+sub _parseCpropMemory {
+    my ($file, $mode) = @_;
+
+    my $handle;
+    if (!open $handle, $mode, $file) {
+        warn "Can't open $file: $ERRNO";
+        return;
+    }
+
+    my $totalMem = 0;
+    my $memories = [];
+    my $instance = {};
+    foreach (<$handle>) {
+        if (keys (%$instance) && /\[Instance\]: \d+/) {
+            next;
+        } elsif (/^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
+            my $k = $1;
+            my $v = $2;
+            $v =~ s/\s+\*+//;
+            $instance->{$k} = $v;
+        }
+
+        if (keys (%$instance) && /\*\*\*\*/) {
+            if ($instance->{Size}) {
+                my $size = _getSizeInMB($instance->{Size}) || 0;
+                $totalMem += $size;
+                push @$memories, {
+                    CAPACITY => $size,
+                    DESCRIPTION => $instance->{'Part Number'},
+                    SERIALNUMBER => $instance->{'Serial Number'},
+                    TYPE => $instance->{'Module Type'},
+                };
+            }
+            $instance = {};
+        }
+    }
+    close $handle;
+
+    return ($memories, $totalMem)
 }
 
 1;
