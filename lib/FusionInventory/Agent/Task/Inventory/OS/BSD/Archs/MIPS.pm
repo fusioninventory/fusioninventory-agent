@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::Sgimips;
+package FusionInventory::Agent::Task::Inventory::OS::BSD::Archs::MIPS;
 
 use strict;
 use warnings;
