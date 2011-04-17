@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
 
 use strict;
 use warnings;
