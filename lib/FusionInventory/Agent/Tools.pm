@@ -77,12 +77,11 @@ sub getFormatedDate {
 }
 
 sub getCanonicalManufacturer {
-    my ($model) = @_;
+    my ($manufacturer) = @_;
 
-    return unless $model;
+    return unless $manufacturer;
 
-    my $manufacturer;
-    if ($model =~ /(
+    if ($manufacturer =~ /(
         maxtor    |
         sony      |
         compaq    |
@@ -97,18 +96,18 @@ sub getCanonicalManufacturer {
         hitachi   |
         pioneer
     )/xi) {
-        $model = ucfirst(lc($1));
-    } elsif ($model =~ /^(hp|HP|hewlett packard)/) {
-        $model = "Hewlett Packard";
-    } elsif ($model =~ /^(WDC|[Ww]estern)/) {
-        $model = "Western Digital";
-    } elsif ($model =~ /^(ST|[Ss]eagate)/) {
-        $model = "Seagate";
-    } elsif ($model =~ /^(HD|IC|HU)/) {
-        $model = "Hitachi";
+        $manufacturer = ucfirst(lc($1));
+    } elsif ($manufacturer =~ /^(hp|HP|hewlett packard)/) {
+        $manufacturer = "Hewlett Packard";
+    } elsif ($manufacturer =~ /^(WDC|[Ww]estern)/) {
+        $manufacturer = "Western Digital";
+    } elsif ($manufacturer =~ /^(ST|[Ss]eagate)/) {
+        $manufacturer = "Seagate";
+    } elsif ($manufacturer =~ /^(HD|IC|HU)/) {
+        $manufacturer = "Hitachi";
     }
 
-    return $model;
+    return $manufacturer;
 }
 
 sub getCanonicalSpeed {
