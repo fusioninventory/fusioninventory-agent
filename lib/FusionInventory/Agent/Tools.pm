@@ -37,7 +37,6 @@ our @EXPORT = qw(
     all
     none
     uniq
-    getFusionInventoryLibdir
     file2module
     module2file
 );
@@ -516,36 +515,6 @@ sub uniq (@) { ## no critic (SubroutinePrototypes)
     grep { not $seen{$_}++ } @_;
 }
 
-# TODO: to move in FusionInventory::Agent::Task
-sub getFusionInventoryLibdir {
-    my ($config) = @_;
-
-    # We started the agent from the source directory
-    return ['lib'] if -d 'lib/FusionInventory/Agent';
-
-    my $ret = [];
-    # use first directory of @INC containing an installation tree
-    foreach my $dir (@INC) {
-    # perldoc lib
-    # For each directory in LIST (called $dir here) the lib module also checks to see
-    # if a directory called $dir/$archname/auto exists. If so the $dir/$archname
-    # directory is assumed to be a corresponding architecture specific directory and
-    # is added to @INC in front of $dir. lib.pm also checks if directories called
-    # $dir/$version and $dir/$version/$archname exist and adds these directories to @INC.
-        my @subdirs = (
-        $dir . '/FusionInventory/Agent',
-        $dir .'/'. $Config::Config{archname}.'auto/FusionInventory/Agent'
-        );
-        foreach (@subdirs) {
-            next unless -d $_.'/FusionInventory/Agent';
-            push @$ret, $_; 
-        }
-    }
-
-    return $ret;
-
-}
-
 sub file2module {
     my ($file) = @_;
     $file =~ s{.pm$}{};
@@ -754,11 +723,6 @@ Returns a true value if no item in LIST meets the criterion given through BLOCK.
 =head2 uniq BLOCK LIST
 
 Returns a new list by stripping duplicate values in LIST.
-
-=head2 getFusionInventoryLibdir()
-
-Return a array reference of the location of the FusionInventory/Agent library
-directory on the system.
 
 =head2 file2module($string)
 
