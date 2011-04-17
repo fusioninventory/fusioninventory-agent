@@ -14,10 +14,14 @@ sub doInventory {
     my ($params) = @_;
 
     my $inventory = $params->{inventory};
+    my $logger    = $params->{logger};
 
     # HPUX 11.31: http://forge.fusioninventory.org/issues/754
     if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/i)) {
-        my ($memories, $totalMem) = _parseCpropMemory('/opt/propplus/bin/cprop -summary -c Memory', '-|');
+        my ($memories, $totalMem) = _parseCpropMemory(
+            command => '/opt/propplus/bin/cprop -summary -c Memory',
+            logger  => $logger
+        );
         $inventory->setHardware({ MEMORY => $totalMem });
         $inventory->addMemory($memories);
         return;
@@ -168,13 +172,9 @@ sub _getSizeInMB {
 }
 
 sub _parseCpropMemory {
-    my ($file, $mode) = @_;
+    my $handle = getFileHandle(@_);
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    return unless $handle;
 
     my $totalMem = 0;
     my $memories = [];
