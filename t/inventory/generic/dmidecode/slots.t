@@ -4,8 +4,6 @@ use strict;
 use warnings;
 
 use Test::More;
-use File::Glob;
-use File::Basename;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots;
@@ -379,308 +377,306 @@ my %tests = (
             DESIGNATION => undef
         }
     ],
-    'esx-2.5' => [
-          {
-            'NAME' => undef,
-            'DESIGNATION' => undef,
-            'STATUS' => undef,
-            'DESCRIPTION' => '16bit Long ISA'
-          },
-          {
-            'NAME' => undef,
-            'DESIGNATION' => undef,
-            'STATUS' => undef,
-            'DESCRIPTION' => '16bit Long ISA'
-          },
-          {
-            'NAME' => undef,
-            'DESIGNATION' => undef,
-            'STATUS' => undef,
-            'DESCRIPTION' => '16bit Long ISA'
-          },
-          {
-            'NAME' => undef,
-            'DESIGNATION' => undef,
-            'STATUS' => undef,
-            'DESCRIPTION' => '32bit PCI'
-          },
-          {
-            'NAME' => undef,
-            'DESIGNATION' => undef,
-            'STATUS' => undef,
-            'DESCRIPTION' => '32bit PCI'
-          },
-          {
-            'NAME' => undef,
-            'DESIGNATION' => undef,
-            'STATUS' => undef,
-            'DESCRIPTION' => '32bit PCI'
-          },
-          {
-            'NAME' => undef,
-            'DESIGNATION' => undef,
-            'STATUS' => undef,
-            'DESCRIPTION' => '32bit PCI'
-          }
-        ],
-        'hp-dl180' => [
-          {
-            'NAME' => 'SLOT1',
-            'DESIGNATION' => '1',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => 'x16 PCI Express'
-          },
-          {
-            'NAME' => 'SLOT2',
-            'DESIGNATION' => '2',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => 'x16 PCI Express'
-          },
-          {
-            'NAME' => 'SLOT3',
-            'DESIGNATION' => '3',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => 'x4 PCI Express'
-          }
-        ],
-        'linux-1' => [
-          {
-            'NAME' => 'PCIEX16_1',
-            'DESIGNATION' => '1',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI Express'
-          },
-          {
-            'NAME' => 'PCIEX1_1',
-            'DESIGNATION' => '5',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '32-bit PCI Express'
-          },
-          {
-            'NAME' => 'PCIEX1_2',
-            'DESIGNATION' => '6',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '32-bit PCI Express'
-          },
-          {
-            'NAME' => 'PCI_1',
-            'DESIGNATION' => '2',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '64-bit PCI Express'
-          },
-          {
-            'NAME' => 'PCI_2',
-            'DESIGNATION' => '3',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI_3',
-            'DESIGNATION' => '4',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          }
-        ],
+    'hp-dl180' => [
+        {
+            NAME        => 'SLOT1',
+            DESIGNATION => '1',
+            STATUS      => 'In Use',
+            DESCRIPTION => 'x16 PCI Express'
+        },
+        {
+            NAME        => 'SLOT2',
+            DESIGNATION => '2',
+            STATUS      => 'Available',
+            DESCRIPTION => 'x16 PCI Express'
+        },
+        {
+            NAME        => 'SLOT3',
+            DESIGNATION => '3',
+            STATUS      => 'Available',
+            DESCRIPTION => 'x4 PCI Express'
+        }
+    ],
+    'linux-1' => [
+        {
+            NAME        => 'PCIEX16_1',
+            DESIGNATION => '1',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI Express'
+        },
+        {
+            NAME        => 'PCIEX1_1',
+            DESIGNATION => '5',
+            STATUS      => 'Available',
+            DESCRIPTION => '32-bit PCI Express'
+        },
+        {
+            NAME        => 'PCIEX1_2',
+            DESIGNATION => '6',
+            STATUS      => 'Available',
+            DESCRIPTION => '32-bit PCI Express'
+        },
+        {
+            NAME        => 'PCI_1',
+            DESIGNATION => '2',
+            STATUS      => 'In Use',
+            DESCRIPTION => '64-bit PCI Express'
+        },
+        {
+            NAME        => 'PCI_2',
+            DESIGNATION => '3',
+            STATUS      => 'Available',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI_3',
+            DESIGNATION => '4',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        }
+    ],
     'openbsd-4.5' => [
-          {
-            'NAME' => 'PCI1',
-            'DESIGNATION' => '1',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '64-bit PCI-66'
-          },
-          {
-            'NAME' => 'PCI2',
-            'DESIGNATION' => '2',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '64-bit PCI-66'
-          },
-          {
-            'NAME' => 'PCI3',
-            'DESIGNATION' => '3',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '64-bit PCI-X'
-          },
-          {
-            'NAME' => 'PCI4',
-            'DESIGNATION' => '4',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '64-bit PCI-X'
-          },
-          {
-            'NAME' => 'PCI5',
-            'DESIGNATION' => '5',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI6',
-            'DESIGNATION' => '6',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          }
-        ],
+        {
+            NAME        => 'PCI1',
+            DESIGNATION => '1',
+            STATUS      => 'In Use',
+            DESCRIPTION => '64-bit PCI-66'
+        },
+        {
+            NAME        => 'PCI2',
+            DESIGNATION => '2',
+            STATUS      => 'In Use',
+            DESCRIPTION => '64-bit PCI-66'
+        },
+        {
+            NAME        => 'PCI3',
+            DESIGNATION => '3',
+            STATUS      => 'In Use',
+            DESCRIPTION => '64-bit PCI-X'
+        },
+        {
+            NAME        => 'PCI4',
+            DESIGNATION => '4',
+            STATUS      => 'In Use',
+            DESCRIPTION => '64-bit PCI-X'
+        },
+        {
+            NAME        => 'PCI5',
+            DESIGNATION => '5',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI6',
+            DESIGNATION => '6',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        }
+    ],
     'S3000AHLX' => [
-          {
-            'NAME' => 'SLOT 6 PCI-E X8/PCI RISER EXPANSION SLOT 64/100',
-            'DESIGNATION' => '6',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => 'x8 PCI Express'
-          },
-          {
-            'NAME' => 'SLOT 5 PCI-X 64/133',
-            'DESIGNATION' => '5',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '64-bit PCI-X'
-          },
-          {
-            'NAME' => 'SLOT 3 PCI-E',
-            'DESIGNATION' => '3',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => 'x1 PCI Express'
-          },
-          {
-            'NAME' => 'PCI SLOT 2 PCI 32/33',
-            'DESIGNATION' => '2',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI SLOT 1 PCI 32/33',
-            'DESIGNATION' => '1',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '32-bit PCI'
-          }
-        ],
-S5000VSA =>
-[
-          {
-            'NAME' => 'PCI SLOT1',
-            'DESIGNATION' => '1',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI-E SLOT3',
-            'DESIGNATION' => '3',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => 'x4 PCI Express'
-          },
-          {
-            'NAME' => 'PCI-X SLOT4',
-            'DESIGNATION' => '4',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '64-bit PCI-X'
-          },
-          {
-            'NAME' => 'PCI-X SLOT5',
-            'DESIGNATION' => '5',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '64-bit PCI-X'
-          },
-          {
-            'NAME' => 'PCI-E SLOT6',
-            'DESIGNATION' => '6',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => 'x4 PCI Express'
-          }
-        ],
-        vmware => [
-          {
-            'NAME' => 'ISA Slot J8',
-            'DESIGNATION' => undef,
-            'STATUS' => 'Unknown',
-            'DESCRIPTION' => '16-bit ISA'
-          },
-          {
-            'NAME' => 'ISA Slot J9',
-            'DESIGNATION' => undef,
-            'STATUS' => 'Unknown',
-            'DESCRIPTION' => '16-bit ISA'
-          },
-          {
-            'NAME' => 'ISA Slot J10',
-            'DESIGNATION' => undef,
-            'STATUS' => 'Unknown',
-            'DESCRIPTION' => '16-bit ISA'
-          },
-          {
-            'NAME' => 'PCI Slot J11',
-            'DESIGNATION' => '1',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI Slot J12',
-            'DESIGNATION' => '2',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI Slot J13',
-            'DESIGNATION' => '3',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI Slot J14',
-            'DESIGNATION' => '4',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '32-bit PCI'
-          }
-        ],
-        'dmidecode-esx' => [
-          {
-            'NAME' => 'ISA Slot J8',
-            'DESIGNATION' => undef,
-            'STATUS' => 'Unknown',
-            'DESCRIPTION' => '16-bit ISA'
-          },
-          {
-            'NAME' => 'ISA Slot J9',
-            'DESIGNATION' => undef,
-            'STATUS' => 'Unknown',
-            'DESCRIPTION' => '16-bit ISA'
-          },
-          {
-            'NAME' => 'ISA Slot J10',
-            'DESIGNATION' => undef,
-            'STATUS' => 'Unknown',
-            'DESCRIPTION' => '16-bit ISA'
-          },
-          {
-            'NAME' => 'PCI Slot J11',
-            'DESIGNATION' => '1',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI Slot J12',
-            'DESIGNATION' => '2',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI Slot J13',
-            'DESIGNATION' => '3',
-            'STATUS' => 'In Use',
-            'DESCRIPTION' => '32-bit PCI'
-          },
-          {
-            'NAME' => 'PCI Slot J14',
-            'DESIGNATION' => '4',
-            'STATUS' => 'Available',
-            'DESCRIPTION' => '32-bit PCI'
-          }
-        ]
+        {
+            NAME        => 'SLOT 6 PCI-E X8/PCI RISER EXPANSION SLOT 64/100',
+            DESIGNATION => '6',
+            STATUS      => 'Available',
+            DESCRIPTION => 'x8 PCI Express'
+        },
+        {
+            NAME        => 'SLOT 5 PCI-X 64/133',
+            DESIGNATION => '5',
+            STATUS      => 'In Use',
+            DESCRIPTION => '64-bit PCI-X'
+        },
+        {
+            NAME        => 'SLOT 3 PCI-E',
+            DESIGNATION => '3',
+            STATUS      => 'Available',
+            DESCRIPTION => 'x1 PCI Express'
+        },
+        {
+            NAME        => 'PCI SLOT 2 PCI 32/33',
+            DESIGNATION => '2',
+            STATUS      => 'Available',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI SLOT 1 PCI 32/33',
+            DESIGNATION => '1',
+            STATUS      => 'Available',
+            DESCRIPTION => '32-bit PCI'
+        }
+    ],
+    S5000VSA => [
+        {
+            NAME        => 'PCI SLOT1',
+            DESIGNATION => '1',
+            STATUS      => 'Available',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI-E SLOT3',
+            DESIGNATION => '3',
+            STATUS      => 'Available',
+            DESCRIPTION => 'x4 PCI Express'
+        },
+        {
+            NAME        => 'PCI-X SLOT4',
+            DESIGNATION => '4',
+            STATUS      => 'Available',
+            DESCRIPTION => '64-bit PCI-X'
+        },
+        {
+            NAME        => 'PCI-X SLOT5',
+            DESIGNATION => '5',
+            STATUS      => 'In Use',
+            DESCRIPTION => '64-bit PCI-X'
+        },
+        {
+            NAME        => 'PCI-E SLOT6',
+            DESIGNATION => '6',
+            STATUS      => 'Available',
+            DESCRIPTION => 'x4 PCI Express'
+        }
+    ],
+    'vmware' => [
+        {
+            NAME        => 'ISA Slot J8',
+            DESIGNATION => undef,
+            STATUS      => 'Unknown',
+            DESCRIPTION => '16-bit ISA'
+        },
+        {
+            NAME        => 'ISA Slot J9',
+            DESIGNATION => undef,
+            STATUS      => 'Unknown',
+            DESCRIPTION => '16-bit ISA'
+        },
+        {
+            NAME        => 'ISA Slot J10',
+            DESIGNATION => undef,
+            STATUS      => 'Unknown',
+            DESCRIPTION => '16-bit ISA'
+        },
+        {
+            NAME        => 'PCI Slot J11',
+            DESIGNATION => '1',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI Slot J12',
+            DESIGNATION => '2',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI Slot J13',
+            DESIGNATION => '3',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI Slot J14',
+            DESIGNATION => '4',
+            STATUS      => 'Available',
+            DESCRIPTION => '32-bit PCI'
+        }
+    ],
+    'vmware-esx' => [
+        {
+            NAME        => 'ISA Slot J8',
+            DESIGNATION => undef,
+            STATUS      => 'Unknown',
+            DESCRIPTION => '16-bit ISA'
+        },
+        {
+            NAME        => 'ISA Slot J9',
+            DESIGNATION => undef,
+            STATUS      => 'Unknown',
+            DESCRIPTION => '16-bit ISA'
+        },
+        {
+            NAME        => 'ISA Slot J10',
+            DESIGNATION => undef,
+            STATUS      => 'Unknown',
+            DESCRIPTION => '16-bit ISA'
+        },
+        {
+            NAME        => 'PCI Slot J11',
+            DESIGNATION => '1',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI Slot J12',
+            DESIGNATION => '2',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI Slot J13',
+            DESIGNATION => '3',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PCI'
+        },
+        {
+            NAME        => 'PCI Slot J14',
+            DESIGNATION => '4',
+            STATUS      => 'Available',
+            DESCRIPTION => '32-bit PCI'
+        }
+    ],
+    'vmware-esx-2.5' => [
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '16bit Long ISA'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '16bit Long ISA'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '16bit Long ISA'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '32bit PCI'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '32bit PCI'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '32bit PCI'
+        },
+        {
+            NAME        => undef,
+            DESIGNATION => undef,
+            STATUS      => undef,
+            DESCRIPTION => '32bit PCI'
+        }
+    ],
 );
 
-my @list = glob("resources/dmidecode/*");
-plan tests => int @list;
+plan tests => scalar keys %tests;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
-foreach my $file (@list) {
+foreach my $test (keys %tests) {
+    my $file = "resources/dmidecode/$test";
     my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::_getSlots($logger, $file);
-    use Data::Dumper;
-    is_deeply($slots, $tests{basename($file)}, "slots: ".basename($file)) or print Dumper($slots);
+    is_deeply($slots, $tests{$test}, $test);
 }

@@ -4,8 +4,6 @@ use strict;
 use warnings;
 
 use Test::More;
-use File::Glob;
-use File::Basename;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
@@ -45,6 +43,24 @@ my %tests = (
         },
         hardware => {
             UUID => '30464E43-3231-3730-5836-C80AA93F35FA'
+        },
+    },
+    'linux-1' => {
+        bios => {
+          'MMANUFACTURER' => 'ASUSTeK Computer INC.',
+          'SSN' => 'System Serial Number',
+          'SKUNUMBER' => 'To Be Filled By O.E.M.',
+          'ASSETTAG' => 'Asset-1234567890',
+          'BMANUFACTURER' => 'American Megatrends Inc.',
+          'MSN' => 'MS1C93BB0H00980',
+          'SMODEL' => 'System Product Name',
+          'SMANUFACTURER' => 'System manufacturer',
+          'BDATE' => '04/07/2009',
+          'MMODEL' => 'P5Q',
+          'BVERSION' => '2102'
+        },
+        hardware => {
+            UUID => '40EB001E-8C00-01CE-8E2C-00248C590A84',
         },
     },
     'linux-2.6' => {
@@ -101,6 +117,24 @@ my %tests = (
             UUID     => '44454C4C-4B00-1031-8030-B2C04F31324A',
         }
     },
+    'openbsd-4.5' => {
+        bios => {
+          'MMANUFACTURER' => 'Dell Computer Corporation',
+          'SSN' => '4V2VW0J',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => undef,
+          'BMANUFACTURER' => 'Dell Computer Corporation',
+          'MSN' => '..TW128003952967.',
+          'SMODEL' => 'PowerEdge 1600SC',
+          'SMANUFACTURER' => 'Dell Computer Corporation',
+          'BDATE' => '06/24/2003',
+          'MMODEL' => '0Y1861',
+          'BVERSION' => 'A08'
+        },
+        hardware => {
+          'UUID' => '44454C4C-5600-1032-8056-B4C04F57304A'
+        },
+    },
     'rhel-2.1' => {
         bios => {
           'MMANUFACTURER' => undef,
@@ -153,9 +187,9 @@ my %tests = (
         },
         hardware => {
 	    UUID     => 'AE698CFC-492A-4C7B-848F-8C17D24BC76E',
+            VMSYSTEM => 'VirtualBox',
         }
     },
-
     'rhel-4.3' => {
         bios => {
           'MMANUFACTURER' => 'IBM',
@@ -192,60 +226,6 @@ my %tests = (
             UUID => '34313236-3435-4742-3838-313448453753',
         }
     },
-    'windows' => {
-        bios => {
-          'MMANUFACTURER' => 'TOSHIBA',
-          'SSN' => 'X2735244G',
-          'SKUNUMBER' => undef,
-          'ASSETTAG' => '0000000000',
-          'BMANUFACTURER' => 'TOSHIBA',
-          'MSN' => '$$T02XB1K9',
-          'SMODEL' => 'Satellite 2410',
-          'SMANUFACTURER' => 'TOSHIBA',
-          'BDATE' => '08/13/2002',
-          'MMODEL' => 'Portable PC',
-          'BVERSION' => 'Version 1.10'
-        },
-        hardware => {
-            UUID     => '7FB4EA00-07CB-18F3-8041-CAD582735244',
-        }
-    },
-    'linux-1' => {
-        bios => {
-          'MMANUFACTURER' => 'ASUSTeK Computer INC.',
-          'SSN' => 'System Serial Number',
-          'SKUNUMBER' => 'To Be Filled By O.E.M.',
-          'ASSETTAG' => 'Asset-1234567890',
-          'BMANUFACTURER' => 'American Megatrends Inc.',
-          'MSN' => 'MS1C93BB0H00980',
-          'SMODEL' => 'System Product Name',
-          'SMANUFACTURER' => 'System manufacturer',
-          'BDATE' => '04/07/2009',
-          'MMODEL' => 'P5Q',
-          'BVERSION' => '2102'
-        },
-        hardware => {
-            UUID => '40EB001E-8C00-01CE-8E2C-00248C590A84',
-        },
-    },
-    'esx-2.5' => {
-        bios => {
-          'MMANUFACTURER' => undef,
-          'SSN' => 'VMware-56 4d db dd 11 e3 8d 66-84 9e 15 8e 49 23 7c 97',
-          'SKUNUMBER' => undef,
-          'ASSETTAG' => 'No Asset Tag',
-          'BMANUFACTURER' => 'Phoenix Technologies LTD',
-          'MSN' => 'None',
-          'SMODEL' => 'VMware Virtual Platform',
-          'SMANUFACTURER' => 'VMware, Inc.',
-          'BDATE' => undef,
-          'MMODEL' => undef,
-          'BVERSION' => '6.00'
-        },
-        hardware => {
-          'UUID' => undef
-        },
-    },
     'hp-dl180' => {
         bios => {
           'MMANUFACTURER' => undef,
@@ -263,24 +243,6 @@ my %tests = (
         },
         hardware => {
           'UUID' => '00D3F681-FE8E-11D5-B656-1CC1DE0905AE'
-        },
-    },
-    'openbsd-4.5' => {
-        bios => {
-          'MMANUFACTURER' => 'Dell Computer Corporation',
-          'SSN' => '4V2VW0J',
-          'SKUNUMBER' => undef,
-          'ASSETTAG' => undef,
-          'BMANUFACTURER' => 'Dell Computer Corporation',
-          'MSN' => '..TW128003952967.',
-          'SMODEL' => 'PowerEdge 1600SC',
-          'SMANUFACTURER' => 'Dell Computer Corporation',
-          'BDATE' => '06/24/2003',
-          'MMODEL' => '0Y1861',
-          'BVERSION' => 'A08'
-        },
-        hardware => {
-          'UUID' => '44454C4C-5600-1032-8056-B4C04F57304A'
         },
     },
     'S3000AHLX' => {
@@ -337,7 +299,7 @@ my %tests = (
             'UUID' => '500C2394-0127-D13C-0CC4-F537A6AAF1A6'
         }
     },
-    'dmidecode-esx' => {
+    'vmware-esx' => {
         bios => {
           'MMANUFACTURER' => 'Intel Corporation',
           'SSN' => 'VMware-42 30 bf 6a ce 71 e1 68-6c 2d 17 6e 66 d0 4a 0d',
@@ -354,18 +316,52 @@ my %tests = (
         hardware => {
           'UUID' => '4230BF6A-CE71-E168-6C2D-176E66D04A0D'
         }
-    }
+    },
+    'vmware-esx-2.5' => {
+        bios => {
+          'MMANUFACTURER' => undef,
+          'SSN' => 'VMware-56 4d db dd 11 e3 8d 66-84 9e 15 8e 49 23 7c 97',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => 'No Asset Tag',
+          'BMANUFACTURER' => 'Phoenix Technologies LTD',
+          'MSN' => 'None',
+          'SMODEL' => 'VMware Virtual Platform',
+          'SMANUFACTURER' => 'VMware, Inc.',
+          'BDATE' => undef,
+          'MMODEL' => undef,
+          'BVERSION' => '6.00'
+        },
+        hardware => {
+          'UUID' => undef
+        },
+    },
+    'windows' => {
+        bios => {
+          'MMANUFACTURER' => 'TOSHIBA',
+          'SSN' => 'X2735244G',
+          'SKUNUMBER' => undef,
+          'ASSETTAG' => '0000000000',
+          'BMANUFACTURER' => 'TOSHIBA',
+          'MSN' => '$$T02XB1K9',
+          'SMODEL' => 'Satellite 2410',
+          'SMANUFACTURER' => 'TOSHIBA',
+          'BDATE' => '08/13/2002',
+          'MMODEL' => 'Portable PC',
+          'BVERSION' => 'Version 1.10'
+        },
+        hardware => {
+            UUID     => '7FB4EA00-07CB-18F3-8041-CAD582735244',
+        }
+    },
 );
 
-my @list = glob("resources/dmidecode/*");
-plan tests => 2 * int @list;
+plan tests => 2 * keys %tests;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
-use Data::Dumper;
-foreach my $file (@list) {
+foreach my $test (keys %tests) {
+    my $file = "resources/dmidecode/$test";
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware($logger, $file);
-    is_deeply($bios, $tests{basename($file)}->{bios}, "bios: ".basename($file)) or print Dumper($bios);
-    is_deeply($hardware, $tests{basename($file)}->{hardware}, "hardware: ".basename($file)) or print Dumper($hardware);
-
+    is_deeply($bios, $tests{$test}->{bios}, "bios: $test");
+    is_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");
 }
