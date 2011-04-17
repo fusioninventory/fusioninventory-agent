@@ -292,6 +292,12 @@ sub run {
                     $logger->info("task $module is not available");
                     next;
                 }
+                if (!$package->isa('FusionInventory::Agent::Task')) {
+                    $logger->info(
+                        "task $module is not compatible with this agent"
+                    );
+                    next;
+                }
 
                 $self->{status} = "running task $module";
 
