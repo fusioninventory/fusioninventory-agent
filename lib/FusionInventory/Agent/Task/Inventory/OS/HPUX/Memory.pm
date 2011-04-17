@@ -69,21 +69,6 @@ sub _parseCpropMemory {
     return ($memories, $totalMem)
 }
 
-
-
-sub _parseMemory {
-    my @list_mem = @{$_[0]};
-
-    my $ret;
-    foreach (@list_mem) {
-        if (/Total Configured Memory\s*:\s(\d+)\sMB/i) {
-            return $1;
-        }
-    }
-
-    return;
-}
-
 sub doInventory {
     my ($params) = @_;
 
@@ -99,7 +84,8 @@ sub doInventory {
 
     my $arch = getFirstLine(command => 'uname -m');
 
-    my @lines;
+    my $memory;
+
     if ($arch =~ /ia64/ ) {
         system("echo 'sc product  IPF_MEMORY;info' | /usr/sbin/cstm");    # enable infolog
 
@@ -134,6 +120,10 @@ sub doInventory {
                     }
                 }); 
 
+            }
+
+            if ($line =~ /Total Configured Memory\s*:\s(\d+)\sMB/i) {
+                $memory = $1;
             }
         }
     } else {
@@ -211,13 +201,17 @@ sub doInventory {
                     $capacity=0;
                 } # $ok eq 1
             } # /Serial\s+Number\.*:\s*(\S+)\s+/ 
+
+            if ($line =~ /Total Configured Memory\s*:\s(\d+)\sMB/i) {
+                $memory = $1;
+            }
         } # echo 'sc product system;il' | /usr/sbin/cstm
     }
 
     my $TotalSwapSize = `swapinfo -dt | tail -n1`;
     $TotalSwapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
     $inventory->setHardware({ SWAP =>    sprintf("%i", $TotalSwapSize/1024) });
-    $inventory->setHardware({ MEMORY => _parseMemory(\@lines) });
+    $inventory->setHardware({ MEMORY => $memory });
 
 }
 
