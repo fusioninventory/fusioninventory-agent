@@ -16,6 +16,48 @@ sub isInventoryEnabled {
     1;
 }
 
+sub doInventory {
+    my (%params) = shift;
+
+    my $inventory    = $params{inventory};
+    my $logger       = $params{logger};
+    my $scanhomedirs = $params{config}->{'scan-homedirs'};
+
+    my $cmd_list_vms = "VBoxManage -nologo list --long vms";
+
+    my $owner;
+    if ( $REAL_USER_ID != 0 ) {
+        $owner = getpwuid $REAL_USER_ID;
+    }
+
+    foreach my $machine (_parseVBoxManage(logger => $logger, command => $cmd_list_vms)) {
+        $machine->{OWNER} = $owner;
+        $inventory->addVirtualMachine ($machine);
+    }
+
+
+# If home directories scan is authorized
+    if ($scanhomedirs == 1 && $REAL_USER_ID == 0) {
+        my $homeDir = "/home";
+
+        if ($OSNAME =~ /^DARWIN$/i) {
+            $homeDir = "/Users";
+        }
+        my @homeDirlist = glob("$homeDir/*");
+        return if @homeDirlist > 10; # To many users, ignored.
+        foreach (@homeDirlist) {
+            my $login = basename($_);
+            next unless getpwnam ($login); # Invalid account
+                my $cmd_list_vms = "su \"$login\" -c \"VBoxManage -nologo list --long vms\"";
+            foreach my $machine (_parseVBoxManage(logger => $logger, command => $cmd_list_vms)) {
+                $machine->{OWNER} = $login;
+                $inventory->addVirtualMachine ($machine);
+            }
+
+        }
+    }
+}
+
 sub _parseVBoxManage {
     my $handle = getFileHandle(@_);
 
@@ -63,49 +105,6 @@ sub _parseVBoxManage {
     }
 
     return @machines;
-}
-
-
-sub doInventory {
-    my (%params) = shift;
-
-    my $inventory    = $params{inventory};
-    my $logger       = $params{logger};
-    my $scanhomedirs = $params{config}->{'scan-homedirs'};
-
-    my $cmd_list_vms = "VBoxManage -nologo list --long vms";
-
-    my $owner;
-    if ( $REAL_USER_ID != 0 ) {
-        $owner = getpwuid $REAL_USER_ID;
-    }
-
-    foreach my $machine (_parseVBoxManage(logger => $logger, command => $cmd_list_vms)) {
-        $machine->{OWNER} = $owner;
-        $inventory->addVirtualMachine ($machine);
-    }
-
-
-# If home directories scan is authorized
-    if ($scanhomedirs == 1 && $REAL_USER_ID == 0) {
-        my $homeDir = "/home";
-
-        if ($OSNAME =~ /^DARWIN$/i) {
-            $homeDir = "/Users";
-        }
-        my @homeDirlist = glob("$homeDir/*");
-        return if @homeDirlist > 10; # To many users, ignored.
-        foreach (@homeDirlist) {
-            my $login = basename($_);
-            next unless getpwnam ($login); # Invalid account
-                my $cmd_list_vms = "su \"$login\" -c \"VBoxManage -nologo list --long vms\"";
-            foreach my $machine (_parseVBoxManage(logger => $logger, command => $cmd_list_vms)) {
-                $machine->{OWNER} = $login;
-                $inventory->addVirtualMachine ($machine);
-            }
-
-        }
-    }
 }
 
 1;
