@@ -38,7 +38,7 @@ sub AUTOLOAD {
         $reqUrl .= '&'.$k.'='.$params{$k};
     }
 
-    my $jsonText = $network->get ({
+    my $jsonText = $self->{network}->get ({
         source => $reqUrl,
         timeout => 60,
         });
