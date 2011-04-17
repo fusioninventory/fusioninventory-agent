@@ -331,12 +331,12 @@ sub run {
                         $logger->debug(
                         "[task] executing $module in process $PID"
                         );
-                        $task->main();
+                        $task->run();
                     }
                 } else {
                     # standalone mode: run each task directly
                     $logger->debug("[task] executing $module");
-                    $task->main();
+                    $task->run();
                 }
             }
 

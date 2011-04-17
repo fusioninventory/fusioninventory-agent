@@ -14,7 +14,7 @@ use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
 
-sub main {
+sub run {
     my ($self) = @_;
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
