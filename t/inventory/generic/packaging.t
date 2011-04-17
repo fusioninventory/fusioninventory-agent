@@ -5,8 +5,8 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM;
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::RPM;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Deb;
 
 my $rpm_packages = [
     {
@@ -101,12 +101,12 @@ my $deb_packages = [
 plan tests => 2;
 
 my $packages;
-$packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM::_getPackagesListFromRpm(
+$packages = FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::RPM::_getPackagesListFromRpm(
     file => "resources/packaging/rpm"
 );
 is_deeply($packages, $rpm_packages, 'rpm parsing');
 
-$packages = FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb::_getPackagesListFromDpkg(
+$packages = FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Deb::_getPackagesListFromDpkg(
     file => "resources/packaging/dpkg"
 );
 is_deeply($packages, $deb_packages, 'dpkg parsing');
