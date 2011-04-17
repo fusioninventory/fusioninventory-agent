@@ -149,8 +149,6 @@ sub getCanonicalSize {
                         undef                ;
 }
 
-# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
-# PLEASE KEEP IT SYNCHED
 sub getInfosFromDmidecode {
     my %params = (
         command => 'dmidecode',
@@ -196,8 +194,6 @@ sub getInfosFromDmidecode {
     return $info;
 }
 
-# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
-# PLEASE KEEP IT SYNCHED
 sub getCpusFromDmidecode {
     my $infos = getInfosFromDmidecode(@_);
 
@@ -345,8 +341,6 @@ sub getDirectoryHandle {
     return $handle;
 }
 
-# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
-# PLEASE KEEP IT SYNCHED
 sub getFileHandle {
     my %params = @_;
 
@@ -520,8 +514,6 @@ sub uniq (@) { ## no critic (SubroutinePrototypes)
     grep { not $seen{$_}++ } @_;
 }
 
-# THIS FUNCTION HAS BEEN BACKPORTED IN 2.1.x branch
-# PLEASE KEEP IT SYNCHED
 # TODO: to move in FusionInventory::Agent::Task
 sub getFusionInventoryLibdir {
     my ($config) = @_;
