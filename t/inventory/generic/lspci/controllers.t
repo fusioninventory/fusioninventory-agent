@@ -9,7 +9,7 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers;
 
 my %tests = (
-    'latitude-xt2' => [
+    'dell-xt2' => [
         {
             NAME         => 'Mobile 4 Series Chipset Memory Controller Hub',
             TYPE         => 'Host bridge',

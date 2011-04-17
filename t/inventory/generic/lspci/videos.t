@@ -9,7 +9,7 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos;
 
 my %tests = (
-    'latitude-xt2' => [
+    'dell-xt2' => [
         {
             NAME    => 'Intel Corporation Mobile 4 Series Chipset Integrated Graphics Controller',
             CHIPSET => 'VGA compatible controller'

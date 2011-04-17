@@ -9,7 +9,7 @@ use FusionInventory::Agent::Task::Inventory::OS::Generic::USB;
 use FusionInventory::Agent::Logger;
 
 my %tests = (
-    'latitude-xt2' => [
+    'dell-xt2' => [
         {
             VENDORID  => '1d6b',
             SERIAL    => '0000',

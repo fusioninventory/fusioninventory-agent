@@ -10,7 +10,7 @@ use Data::Dumper;
 use English qw(-no_match_vars);
 
 my %lspci_tests = (
-    'latitude-xt2' => [
+    'dell-xt2' => [
         {
             PCICLASS     => '0600',
             NAME         => 'Host bridge',
