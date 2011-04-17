@@ -27,13 +27,13 @@ sub doInventory {
         my $name = $1;
         my $version = $2;
 
-       $inventory->addEntry({
+       $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 NAME    => $name,
                 VERSION => $version
             }
-        });
+        );
     }
     close $handle;
 }

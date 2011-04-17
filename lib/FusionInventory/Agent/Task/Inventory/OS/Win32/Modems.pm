@@ -19,7 +19,7 @@ sub doInventory {
         properties => [ qw/Name DeviceType Model Description/ ]
     )) {
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MODEMS',
             entry   => {
                 NAME        => $object->{Name},
@@ -27,7 +27,7 @@ sub doInventory {
                 MODEL       => $object->{Model},
                 DESCRIPTION => $object->{Description},
             }
-        });
+        );
     }
 }
 

@@ -21,7 +21,7 @@ sub doInventory {
         / ]
     )) {
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOUNDS',
             entry   => {
                 NAME         => $object->{Name},
@@ -29,7 +29,7 @@ sub doInventory {
                 MANUFACTURER => $object->{Manufacturer},
                 DESCRIPTION  => $object->{Description},
             }
-        });
+        );
     }
 }
 

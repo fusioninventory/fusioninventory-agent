@@ -35,7 +35,7 @@ sub doInventory {
         properties => [ qw/Name Caption Manufacturer Description Layout/ ]
     )) {
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'INPUTS',
             entry   => {
                 NAME         => $object->{Name},
@@ -44,7 +44,7 @@ sub doInventory {
                 DESCRIPTION  => $object->{Description},
                 LAYOUT       => $object->{Layout},
             }
-        });
+        );
     }
 
     foreach my $object (getWmiObjects(
@@ -52,7 +52,7 @@ sub doInventory {
         properties => [ qw/Name Caption Manufacturer Description PointingType DeviceInterface/ ]
     )) {
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'INPUTS',
             entry   => {
                 NAME         => $object->{Name},
@@ -62,7 +62,7 @@ sub doInventory {
                 POINTINGTYPE => $object->{PointingType},
                 INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
             }
-        });
+        );
     }
 
 }

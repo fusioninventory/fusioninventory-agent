@@ -34,10 +34,10 @@ sub doInventory {
                       ()              ;
 
     foreach my $memory (@memories) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MEMORIES',
             entry   => $memory
-        });
+        );
     }
 }
 

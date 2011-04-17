@@ -29,7 +29,7 @@ sub doInventory {
 
         next if $vendorId =~ /^0+$/;
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => {
                 NAME      => $object->{Name},
@@ -38,7 +38,7 @@ sub doInventory {
                 SERIAL    => $serial
             },
             noDuplicated => 1
-        });
+        );
     }
 }
 

@@ -23,10 +23,10 @@ sub doInventory {
     _loadPciIds($logger, $datadir);
 
     foreach my $controller (_getExtentedControllers($logger)) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'CONTROLLERS',
             entry   => $controller
-        });
+        );
     }
 }
 

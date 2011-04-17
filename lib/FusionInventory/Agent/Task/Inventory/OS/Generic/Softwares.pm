@@ -42,7 +42,7 @@ sub doInventory {
                 my $ligne = $_;
                 chomp($ligne);
                 my ($vendor,$soft,$version,$commentaire) = split(/\#/,$ligne);
-                $inventory->addEntry({
+                $inventory->addEntry(
                     section => 'SOFTWARES',
                     entry   => {
                         PUBLISHER => $vendor,
@@ -52,7 +52,7 @@ sub doInventory {
                         COMMENTS  => $commentaire,
                         FROM      => 'ByHand'
                     }
-                });
+                );
             }
         }
     }

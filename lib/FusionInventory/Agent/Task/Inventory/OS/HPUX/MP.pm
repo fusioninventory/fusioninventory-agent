@@ -41,7 +41,7 @@ sub doInventory {
         }
     }
 
-    $inventory->addEntry({
+    $inventory->addEntry(
         section => 'NETWORKS',
         entry => {
             DESCRIPTION => 'Management Interface - HP MP',
@@ -49,7 +49,7 @@ sub doInventory {
             MANAGEMENT  => 'MP',
             IPADDRESS   => $ipaddress,
         }
-    });
+    );
 
 }
 

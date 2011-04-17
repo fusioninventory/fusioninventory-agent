@@ -20,10 +20,10 @@ sub doInventory {
     return unless $ports;
 
     foreach my $port (@$ports) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PORTS',
             entry   => $port
-        });
+        );
     }
 }
 

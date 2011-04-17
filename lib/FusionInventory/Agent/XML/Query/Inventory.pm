@@ -80,12 +80,12 @@ sub new {
 }
 
 sub addEntry {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
-    my $entry = $params->{entry};
+    my $entry = $params{entry};
     die "no entry" unless $entry;
 
-    my $section = $params->{section};
+    my $section = $params{section};
     my $fields = $fields{$section};
     die "unknown section $section" unless $fields;
 
@@ -96,7 +96,7 @@ sub addEntry {
     }
 
     # avoid duplicate entries
-    if ($params->{noDuplicated}) {
+    if ($params{noDuplicated}) {
         my $md5 = md5_base64(Dumper($newEntry));
         return if $self->{seen}->{$section}->{$md5};
         $self->{seen}->{$section}->{$md5} = 1;
@@ -123,10 +123,10 @@ sub addStorage {
         "this is not an error but the situation should be improved");
     }
 
-    $self->addEntry({
+    $self->addEntry(
         section => 'STORAGES',
         entry   => $values,
-    });
+    );
 }
 
 sub setHardware {
@@ -162,10 +162,10 @@ sub setBios {
 sub addCPU {
     my ($self, $args) = @_;
 
-    $self->addEntry({
+    $self->addEntry(
         section => 'CPUS',
         entry   => $args,
-    });
+    );
 
     # For the compatibility with HARDWARE/PROCESSOR*
     my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
@@ -184,11 +184,11 @@ sub addUser {
 
     return unless $args->{LOGIN};
 
-    return unless $self->addEntry({
+    return unless $self->addEntry(
         section      => 'USERS',
         entry        => $args,
         noDuplicated => 1
-    });
+    );
 
     # Compare with old system 
     my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID} || "";
@@ -225,10 +225,10 @@ sub addVirtualMachine {
         $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
     }
 
-    $self->addEntry({
+    $self->addEntry(
         section => 'VIRTUALMACHINES',
         entry   => $args,
-    });
+    );
 
 }
 
@@ -484,10 +484,10 @@ a path to a file containing the last serialized inventory
 
 =back
 
-=head2 addEntry($params)
+=head2 addEntry(%params)
 
 Add a new entry to the inventory. The following parameters are allowed, as keys
-of the $params hashref:
+of the %params hash:
 
 =over
 

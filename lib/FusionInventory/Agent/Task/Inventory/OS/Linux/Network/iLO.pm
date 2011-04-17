@@ -55,7 +55,7 @@ sub doInventory {
     if ( not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0' ) { $ipsubnet = "" }
     if ( not $status ) { $status = 'Down' }
 
-    $inventory->addEntry({
+    $inventory->addEntry(
         section => 'NETWORKS',
         entry   => {
             DESCRIPTION => 'Management Interface - HP iLO',
@@ -68,7 +68,7 @@ sub doInventory {
             IPGATEWAY   => $ipgateway,
             MANAGEMENT  => 'iLO',
         }
-    });
+    );
 }
 
 1;

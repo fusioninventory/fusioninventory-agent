@@ -54,7 +54,7 @@ sub doInventory {
 #                    #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
 #                }
 
-                $inventory->addEntry({
+                $inventory->addEntry(
                     section => 'DRIVES',
                     entry   => {
                         FREE => $free,
@@ -64,7 +64,7 @@ sub doInventory {
                         VOLUMN => $lv,
                         CREATEDATE => $createdate,
                     }
-                })
+                )
             } elsif ( /^(\S+)\s/) {
                 $lv=$1;
 # Disabled for the moment, see http://forge.fusioninventory.org/issues/778
@@ -81,7 +81,7 @@ sub doInventory {
                 $free=$3;
                 $type=$5;
                 # print "filesystem $filesystem lv $lv total $total free $free type $type\n";
-                $inventory->addEntry({
+                $inventory->addEntry(
                     section => 'DRIVES',
                     entry   => {
                         FREE       => $free,
@@ -91,7 +91,7 @@ sub doInventory {
                         VOLUMN     => $lv,
                         CREATEDATE => $createdate,
                     }
-                })
+                )
             }
         } # for bdf -t $filesystem
     }

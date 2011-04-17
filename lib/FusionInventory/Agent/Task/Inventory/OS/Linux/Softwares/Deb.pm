@@ -27,10 +27,10 @@ sub doInventory {
         logger => $logger, command => $command
     );
     foreach my $package (@$packages) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => $package
-        });
+        );
     }
 }
 

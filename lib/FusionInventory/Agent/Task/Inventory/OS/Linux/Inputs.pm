@@ -64,10 +64,10 @@ sub doInventory {
     close $handle;
 
     foreach my $input (@inputs) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'INPUTS',
             entry   => $input
-        });
+        );
     }
 }
 

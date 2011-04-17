@@ -28,11 +28,11 @@ sub doInventory {
             $device->{SERIAL} = undef;
         }
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device,
             noDuplicated => 1
-        });
+        );
     }
 }
 

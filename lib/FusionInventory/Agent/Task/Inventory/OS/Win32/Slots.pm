@@ -22,7 +22,7 @@ sub doInventory {
         / ]
     )) {
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SLOTS',
             entry   => {
                 NAME        => $object->{Name},
@@ -31,7 +31,7 @@ sub doInventory {
                 STATUS      => $object->{Status},
                 SHARED      => $object->{Shared}
             }
-        });
+        );
     }
 
 }

@@ -65,7 +65,7 @@ sub doInventory {
 
     my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
-    $inventory->addEntry({
+    $inventory->addEntry(
         section => 'NETWORKS',
         entry   => {
             DESCRIPTION => 'bmc',
@@ -77,7 +77,7 @@ sub doInventory {
             STATUS      => $ipaddress != '0.0.0.0' ? "Up" : "Down",
             TYPE        => 'Ethernet'
         }
-    });
+    );
 }
 
 1;

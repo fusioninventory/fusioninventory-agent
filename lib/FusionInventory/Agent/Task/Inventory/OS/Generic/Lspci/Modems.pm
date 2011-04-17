@@ -17,10 +17,10 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $modem (_getModemControllers($logger)) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MODEMS',
             entry   => $modem
-        });
+        );
     }
 }
 

@@ -138,7 +138,7 @@ sub _processSoftwares {
         # Workaround for #415
         $version =~ s/[\000-\037].*// if $version;
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 COMMENTS         => $comments,
@@ -160,7 +160,7 @@ sub _processSoftwares {
                 GUID             => $guid,
             },
             noDuplicated => 1
-        });
+        );
     }
 }
 

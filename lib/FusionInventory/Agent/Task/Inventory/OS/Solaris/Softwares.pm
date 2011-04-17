@@ -29,10 +29,10 @@ sub doInventory {
     my $software;
     while (my $line = <$handle>) {
         if ($line =~ /^\s*$/) {
-            $inventory->addEntry({
+            $inventory->addEntry(
                 section => 'SOFTWARES',
                 entry   =>  $software
-            });
+            );
             undef $software;
         } elsif ($line =~ /PKGINST:\s+(.+)/) {
             $software->{NAME} = $1;

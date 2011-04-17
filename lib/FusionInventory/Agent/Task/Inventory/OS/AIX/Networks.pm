@@ -18,10 +18,10 @@ sub doInventory {
 
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
-        });
+        );
     }
 
     # set global parameters

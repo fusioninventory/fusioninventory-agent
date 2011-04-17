@@ -17,13 +17,13 @@ sub doInventory {
     foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`) {
         next unless $line =~ /modem/i;
         next unless $line =~ /\d+\s(.+):(.+)$/;
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MODEMS',
             entry   => {
                 NAME        => $1,
                 DESCRIPTION => $2
             }
-        });
+        );
     }
 }
 

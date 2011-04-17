@@ -27,7 +27,7 @@ sub doInventory {
         next unless ($entry[1]);
         next if $entry[1] =~ /^device/;
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 COMMENTS => $entry[6],
@@ -35,7 +35,7 @@ sub doInventory {
                 NAME     => $entry[1],
                 VERSION  => $entry[2],
             }
-        });
+        );
     }
 }
 

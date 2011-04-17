@@ -43,7 +43,7 @@ sub doInventory {
             if ($pciid) {
                 $seen{$pciid} = 1;
             }
-            $inventory->addEntry({
+            $inventory->addEntry(
                 section => 'CONTROLLERS',
                 entry => {
                     NAME           => $object->{Name},
@@ -55,7 +55,7 @@ sub doInventory {
                     VERSION        => $object->{HardwareVersion},
                     TYPE           => $object->{Caption},
                 }
-            });
+            );
         }
     }
 }

@@ -37,7 +37,7 @@ sub doInventory {
             }
             if ((/^FC .+/) && $flag) {$flag=0;last}
         }
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SLOTS',
             entry   => {
                 DESCRIPTION => $description,
@@ -45,7 +45,7 @@ sub doInventory {
                 NAME        => $name,
                 STATUS      => $status,
             }
-        });
+        );
     }
 }
 

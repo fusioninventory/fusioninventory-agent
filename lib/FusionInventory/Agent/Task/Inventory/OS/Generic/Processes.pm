@@ -23,10 +23,10 @@ sub doInventory {
     foreach my $process (getProcessesFromPs(
         logger => $logger, command => $command
     )) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PROCESSES',
             entry   => $process
-        });
+        );
     }
 }
 

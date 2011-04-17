@@ -17,14 +17,14 @@ sub doInventory {
     foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`) {
         next unless $line =~ /graphics|vga|video/i;
         next unless $line =~ /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/;
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'VIDEOS',
             entry   => {
                 CHIPSET => $1,
                 NAME    => $2,
             },
             noDuplicated => 1
-        });
+        );
     }
 }
 

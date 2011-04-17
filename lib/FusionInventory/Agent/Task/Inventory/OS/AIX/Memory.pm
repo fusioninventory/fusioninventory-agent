@@ -46,7 +46,7 @@ sub doInventory {
         if((/^FC .+/) && ($flag)) {
             $flag=0;
             $numslots = $numslots +1;
-            $inventory->addEntry({
+            $inventory->addEntry(
                 section => 'MEMORIES',
                 entry   => {
                     CAPACITY     => $capacity,
@@ -57,14 +57,14 @@ sub doInventory {
                     TYPE         => $type,
                     SERIALNUMBER => $serial,
                 }
-            })
+            )
         };
     }
 
     $numslots = $numslots +1;
     # End of Loop
     # The last *FC ???????? missing
-    $inventory->addEntry({
+    $inventory->addEntry(
         section => 'MEMORIES',
         entry   => {
             CAPACITY     => $capacity,
@@ -75,7 +75,7 @@ sub doInventory {
             TYPE         => $type,
             SERIALNUMBER => $serial,
         }
-    });
+    );
 }
 
 1;

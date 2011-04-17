@@ -31,7 +31,7 @@ sub doInventory {
 
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 NAME      => $app,
@@ -39,7 +39,7 @@ sub doInventory {
                 COMMENTS  => $comments,
                 PUBLISHER => $a->{'Get Info String'} || 'unknown',
             }
-        });
+        );
     }
 }
 

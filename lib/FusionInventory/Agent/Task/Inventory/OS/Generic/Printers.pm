@@ -30,7 +30,7 @@ sub doInventory {
         my $name = $printer->getUri();
         $name =~ s/^.*\/\/([^\.]*).*$/$1/eg ;
         $name =~ s/%([0-9A-Fa-f]{2})/chr(hex($1))/eg;
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PRINTERS',
             entry   => {
                 NAME        => $name,
@@ -40,7 +40,7 @@ sub doInventory {
                                ),
                 PORT        => $printer->getUri(), 
             }
-        });
+        );
     }
 
 }

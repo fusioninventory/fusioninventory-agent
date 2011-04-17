@@ -42,7 +42,7 @@ sub doInventory {
 
             }
 
-            $inventory->addEntry({
+            $inventory->addEntry(
                 section => 'ANTIVIRUS',
                 entry   => {
                     COMPANY  => $object->{companyName},
@@ -53,7 +53,7 @@ sub doInventory {
                     VERSION  => $object->{versionNumber}
                 },
                 noDuplicated => 1
-            });
+            );
         }
     }
 }

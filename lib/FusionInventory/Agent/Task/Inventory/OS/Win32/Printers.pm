@@ -77,7 +77,7 @@ sub doInventory {
 
         $object->{Serial} = _getSerialbyUsb($object->{PortName});
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PRINTERS',
             entry   => {
                 NAME           => $object->{Name},
@@ -95,7 +95,7 @@ sub doInventory {
                 PRINTPROCESSOR => $object->{PrintProcessor},
                 SERIAL         => $object->{Serial}
             }
-        });
+        );
 
     }    
 }

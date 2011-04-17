@@ -46,10 +46,10 @@ sub doInventory {
     $swapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
 
     foreach my $memory (@$memories) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MEMORIES',
             entry   => $memory
-        });
+        );
     }
 
     $inventory->setHardware({

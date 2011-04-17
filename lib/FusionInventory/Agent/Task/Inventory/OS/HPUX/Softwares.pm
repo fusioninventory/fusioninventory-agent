@@ -33,7 +33,7 @@ sub doInventory {
         chomp $line;
 
         if ($line =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
-            $inventory->addEntry({
+            $inventory->addEntry(
                 section => 'SOFTWARES',
                 entry   => {
                     NAME      => $1,
@@ -41,7 +41,7 @@ sub doInventory {
                     COMMENTS  => $3,
                     PUBLISHER => 'HP'
                 }
-            });
+            );
         }
     }
 

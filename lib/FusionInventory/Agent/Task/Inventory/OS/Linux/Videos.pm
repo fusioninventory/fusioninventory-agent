@@ -49,11 +49,11 @@ sub doInventory {
         $video->{resolution} =~ s/@.*//;
     }
 
-    $inventory->addEntry({
+    $inventory->addEntry(
         section => 'VIDEOS',
         entry   => $video,
         noDuplicated => 1
-    });
+    );
 }
 
 sub _getDdcprobeData {

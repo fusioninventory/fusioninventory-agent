@@ -60,10 +60,10 @@ sub doInventory {
             $screen->{BASE64} = encode_base64($screen->{edid});
         }
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MONITORS',
             entry   => $screen
-        });
+        );
     }
 }
 

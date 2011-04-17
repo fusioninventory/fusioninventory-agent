@@ -22,10 +22,10 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $video (_getVideoControllers($logger)) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'VIDEOS',
             entry   => $video
-        });
+        );
     }
 }
 

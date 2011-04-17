@@ -19,10 +19,10 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $drive (_getDrives($logger)) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'DRIVES',
             entry   => $drive
-        });
+        );
     }
 }
 
