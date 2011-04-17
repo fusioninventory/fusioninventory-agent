@@ -27,10 +27,9 @@ sub _getCPUsFromProc {
     my @cpus;
     foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
 
-        push @cpus, {
-            ARCH  => 'm68k',
-            TYPE  => $cpu->{'cpu'},
-            SPEED => $cpu->{'clocking'}
+       push @cpus, {
+            ARCH => 'MIPS',
+            NAME => $cpu->{'cpu model'},
         };
     }
 
