@@ -3,15 +3,11 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
-#use FusionInventory::Agent::Tools::Unix;
-
-use File::Glob ':glob';
-
 use English qw(-no_match_vars);
 use File::Basename;
+use File::Glob ':glob';
 
-use English qw(-no_match_vars);
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return unless can_run('VBoxManage');
@@ -19,7 +15,6 @@ sub isInventoryEnabled {
     return unless $version > 2.1;
     1;
 }
-
 
 sub _parseVBoxManage {
     my $handle = getFileHandle(@_);
