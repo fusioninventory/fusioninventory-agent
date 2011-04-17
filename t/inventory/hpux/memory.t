@@ -9,8 +9,131 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory;
 
 my %tests = (
-    'hppa-1' => 1920,
-    'ia64-1' => 8192 
+    'hppa-1' => {
+        memories => [
+        ],
+        size => 1920
+    }
+);
+
+my %tests64 = (
+    'ia64-1' => {
+        memories => [
+            {
+                NUMSLOTS    => '0A',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 0A',
+                CAPACITY    => '1024'
+            },
+            {
+                NUMSLOTS    => '0B',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 0B',
+                CAPACITY    => '1024'
+            },
+            {
+                NUMSLOTS    => '0C',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 0C',
+                CAPACITY    => '1024'
+            },
+            {
+                NUMSLOTS    => '0D',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 0D',
+                CAPACITY    => '1024'
+            },
+            {
+                NUMSLOTS    => '1A',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 1A',
+                CAPACITY    => '1024'
+            },
+            {
+                NUMSLOTS    => '1B',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 1B',
+                CAPACITY    => '1024'
+            },
+            {
+                NUMSLOTS    => '1C',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 1C',
+                CAPACITY    => '1024'
+            },
+            {
+                NUMSLOTS    => '1D',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 1D',
+                CAPACITY    => '1024'
+            },
+            {
+                NUMSLOTS    => '2A',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 2A',
+                CAPACITY    => '----'
+            },
+            {
+                NUMSLOTS    => '2B',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 2B',
+                CAPACITY    => '----'
+            },
+            {
+                NUMSLOTS    => '2C',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 2C',
+                CAPACITY    => '----'
+            },
+            {
+                NUMSLOTS    => '2D',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 2D',
+                CAPACITY    => '----'
+            },
+            {
+                NUMSLOTS    => '3A',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 3A',
+                CAPACITY    => '----'
+            },
+            {
+                NUMSLOTS    => '3B',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 3B',
+                CAPACITY    => '----'
+            },
+            {
+                NUMSLOTS    => '3C',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 3C',
+                CAPACITY    => '----'
+            },
+            {
+                NUMSLOTS    => '3D',
+                DESCRIPTION => 'DIMM',
+                TYPE        => 'DIMM',
+                CAPTION     => 'DIMM 3D',
+                CAPACITY    => '----'
+            }
+        ],
+        size => '8192'
+    }
 );
 
 my $cpropMem = [
@@ -163,14 +286,24 @@ my $cpropMem = [
     96000
 ];
 
-plan tests => (scalar keys %tests) + 1;
+plan tests =>
+    (scalar keys %tests) * 2 + 
+    (scalar keys %tests64) * 2 +
+    1;
 
 foreach my $test (keys %tests) {
-    my @lines = getAllLines(file => "resources/hpux/memory/cstm/$test");
-
-    my $result = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseMemory(\@lines);
-    is($result, $tests{$test}, $test);
+    my $file = "resources/hpux/memory/cstm/$test";
+    my ($memories, $size) = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCstm(file => $file);
+    is_deeply($memories, $tests{$test}->{memories}, "memories: $test");
+    is($size, $tests{$test}->{size}, "size: $test");
 }
 
-my @mems = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCpropMemory('resources/hpux/memory/cprop/11.31-1', '<');
-is_deeply(\@mems, $cpropMem, '_parseCpropMemory');
+foreach my $test (keys %tests64) {
+    my $file = "resources/hpux/memory/cstm/$test";
+    my ($memories, $size) = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCstm64(file => $file);
+    is_deeply($memories, $tests64{$test}->{memories}, "memories: $test");
+    is($size, $tests64{$test}->{size}, "size: $test");
+}
+
+my @mems = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCprop(file => 'resources/hpux/memory/cprop/11.31-1');
+is_deeply(\@mems, $cpropMem, '_parseCprop');
