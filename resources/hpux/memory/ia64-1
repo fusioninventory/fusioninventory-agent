@@ -1,0 +1,81 @@
+unning Command File (/usr/sbin/stm/ui/config/.stmrc).
+
+-- Information --
+Support Tools Manager
+
+
+Version D.06.00
+
+Product Number B4708AA
+
+(C) Copyright Hewlett Packard Co. 1995-2009
+All Rights Reserved
+
+Use of this program is subject to the licensing restrictions described
+in "Help-->On Version".  HP shall not be liable for any damages resulting
+from misuse or unauthorized use of this program.
+
+cstm>sc product IPF_MEMORY;il
+-- Converting a (3680) byte raw log file to text. --
+Preparing the Information Tool Log for IPF_MEMORY on path memory File ...
+
+.... susotp4a.thales.carrefour.com  :  10.31.229.4 .... 
+
+-- Information Tool Log for IPF_MEMORY on path memory --
+
+Log creation time: Mon Jan 24 16:26:15 2011
+
+Hardware path: memory
+
+
+Basic Memory Description 
+
+   Module Type: MEMORY
+   Page Size: 4096 Bytes
+   Total Physical Memory: N/A 
+   Total Configured Memory: 8192 MB
+   Total Deconfigured Memory: N/A 
+
+Memory Board Inventory 
+
+   DIMM Location          Size(MB)     DIMM Location          Size(MB)
+   --------------------   --------     --------------------   --------
+   DIMM 0A                1024         DIMM 0B                1024    
+   DIMM 0C                1024         DIMM 0D                1024    
+   DIMM 1A                1024         DIMM 1B                1024    
+   DIMM 1C                1024         DIMM 1D                1024    
+   DIMM 2A                ----         DIMM 2B                ----    
+   DIMM 2C                ----         DIMM 2D                ----    
+   DIMM 3A                ----         DIMM 3B                ----    
+   DIMM 3C                ----         DIMM 3D                ----    
+
+   Total: 8192 (MB)
+
+   ===========================================================================
+
+Memory Error Log Summary 
+
+   DIMM Location           Error Address     Error Type  Page           Count
+   ----------------------  ----------------  ----------  -------------  -----
+   DIMM 1D                 0x1eab63a80       Single-Bit  0x1eab63       1    
+
+   System start: Mon Sep 13 13:40:28 2010.
+   Last error detected: Mon Sep 13 13:40:28 2010.
+   Logging interval: 600 seconds.
+   1 address(es) with errors logged in memory error log. 
+
+   The Logtool Utility provides full details about the memory error log.
+
+Page Deallocation Table (PDT) 
+
+   The Page Deallocation Table is empty.
+
+   PDT Entries Used: 0
+   PDT Entries Free: 100
+   PDT Total Size: 100 
+
+-- Information Tool Log for IPF_MEMORY on path memory --
+View   - To View the file.
+Print  - To Print the file.
+SaveAs - To Save the file.
+Enter Done, Help, Print, SaveAs, or View: [Done] #.

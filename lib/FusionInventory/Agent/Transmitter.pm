@@ -166,7 +166,9 @@ sub send {
 
     $response_content = $self->_uncompress($res->content());
     if (!$response_content) {
-        $logger->error("Deflating problem");
+        $logger->error ("Deflating problem. Is the string really ".
+                "compressed? Do you use the correct URL to the server. ".
+                "The string start with: ".substr($res->content, 0, 500));
         return;
     }
 

@@ -38,7 +38,28 @@ Revision history for FusionInventory::Agent
          to collect the memories slot, thanks Guillaume GARSON for the bug report
          http://forge.fusioninventory.org/issues/395
 
-2.1.8
+2.1.8  Fri, 25 Mar 2011 16:09:15 +0100
+       * Show a larger part of the string returned by the server in case of
+         error
+       * Win32: Decrease the severity of a winkey read error
+       * add FusionInventory::Agent::Tools::Win32::getValueFromRegistry()
+         unused for now.
+       * Win32: getWmiProperties() depends on Win32::OLE, load it first.
+       * Win32/AntiVirus: avoid pointless OLE error
+       * Add BNQ screen manufacturer support
+         https://bugs.launchpad.net/bugs/736095
+       * scan-homedirs and rpc-trust-localhost don't works in command line
+         http://forge.fusioninventory.org/issues/636
+       * Update the Inventory XML documentation
+       * HPUX: use NAME instead of TYPE to set the CPU name (Yanick Durant)
+         http://forum.fusioninventory.org/viewtopic.php?id=278
+       * Document NETWORKS/{BSSID,SSID}
+       * Add VIRTUALMACHINES/COMMENT and OWNER keys
+       * VirtualBox: major rewrite of the mostly broken Vbox mod
+       * add support for the task called «Deploy»
+       * add support for the task called «ESX»
+
+2.1.8_rc1  Sat, 05 Mar 2011 14:56:58 +0100
        * Linux, correctly read the number of core from /proc/cpuinfo
        * MacOSX: KB unit in missing in Mac OS X Drive.pm
          http://forge.fusioninventory.org/issues/521
@@ -82,7 +103,6 @@ Revision history for FusionInventory::Agent
        * injector: minor clean up in the --help menu
        * Add 2011 in the copyright years
        * Win32: set HARDWARE/DESCRIPTION
-       * Tools: add getVersionFromTaskModuleFile()
        * Tools: move the code used to find .pm in @INC in getFusionInventoryLibdir()
        * Linux/Network: set the IPv6 network address (Ludovic Hutin)
        * HP-UX/CPU: improve the machinfo parsing, thanks Amir Pakdel for
@@ -100,6 +120,11 @@ Revision history for FusionInventory::Agent
          https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/720628
        * Win32: retrieve Antivirus information from //./root/SecurityCenter2 on Win7
          http://forge.fusioninventory.org/issues/583
+       * Add VIRTUALMACHINES/MAC key
+       * Win32: software, do not ignore software with very few information
+       * Win32: better detection of product key on 64bit system, thanks Ionut Bujor for
+         the feedbacks http://forge.fusioninventory.org/issues/582
+       * Drop the Ping task. Was not used.
 
 2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
        * RPC: Better message if access is denied

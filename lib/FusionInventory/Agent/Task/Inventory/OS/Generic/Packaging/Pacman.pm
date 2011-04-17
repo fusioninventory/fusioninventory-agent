@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run('pacman');
+    return can_run("/usr/bin/pacman");
 }
 
 sub doInventory {
@@ -18,7 +18,7 @@ sub doInventory {
 
     my $handle = getFileHandle(
         logger => $logger,
-        command => 'pacman -Q'
+        command => '/usr/bin/pacman -Q'
     );
 
     return unless $handle;

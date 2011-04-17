@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use Win32;
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Variant;
+use FusionInventory::Agent::Tools::Win32;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
@@ -61,7 +62,9 @@ sub processSoftwares {
         $guid =~ s/\/$//; # drop the tailing / 
 
 # odd, found on Win2003
-        next unless keys %$data > 2;
+        if (!$data->{'/DisplayName'} && keys %$data <= 2) {
+            next;
+        }
 
 
         my $name = encodeFromRegistry($data->{'/DisplayName'});
@@ -115,16 +118,8 @@ sub doInventory {
 
     my $Config;
 
-    my $is64bit;
-    foreach my $Properties (getWmiProperties('Win32_Processor', qw/
-        AddressWidth
-    /)) {
-        if ($Properties->{AddressWidth} eq 64) {
-            $is64bit = 1;
-        }
-    }
 
-    if ($is64bit) {
+    if (is64bit()) {
 
         # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
         # 32bit entries. This is not the case on Win2003 and if I correctly
