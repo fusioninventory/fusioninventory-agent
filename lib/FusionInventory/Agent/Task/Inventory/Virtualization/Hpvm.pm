@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Hpvm;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
