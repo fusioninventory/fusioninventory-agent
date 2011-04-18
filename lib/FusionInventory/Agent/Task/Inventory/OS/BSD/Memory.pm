@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isInventoryEnabled { 	
     return
         can_run('sysctl') &&
         can_run('swapctl');
@@ -28,7 +28,6 @@ sub doInventory {
     my $PhysicalMemory = getFirstLine(command => 'sysctl -n hw.physmem');
     $PhysicalMemory = $PhysicalMemory / 1024;
 
-    # Send it to inventory object
     $inventory->setHardware(
         MEMORY => sprintf("%i", $PhysicalMemory / 1024),
         SWAP   => sprintf("%i", $SwapFileSize / 1024),

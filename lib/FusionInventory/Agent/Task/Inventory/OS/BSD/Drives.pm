@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Drives;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
@@ -33,7 +31,10 @@ sub doInventory {
 
     # add drives to the inventory
     foreach my $drive (@drives) {
-        $inventory->addDrive($drive);
+        $inventory->addEntry(
+            section => 'DRIVES',
+            entry   => $drive
+        );
     }
 }
 

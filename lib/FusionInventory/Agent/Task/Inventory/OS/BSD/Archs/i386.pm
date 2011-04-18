@@ -13,8 +13,8 @@ our $runMeIfTheseChecksFailed =
 
 sub isInventoryEnabled{
     return 
-        $Config{'archname'} eq 'i386' || 
-        $Config{'archname'} eq 'x86_64';
+        $Config{archname} eq 'i386' || 
+        $Config{archname} eq 'x86_64';
 }
 
 sub doInventory {
@@ -32,9 +32,9 @@ sub doInventory {
         (split(/\s+/, $SystemModel))[-1]
     );
 
-    $inventory->setBios (
+    $inventory->setBios({
         SMODEL => $SystemModel,
-    );
+    });
 
     # don't deal with CPUs if information can be computed from dmidecode
     my $infos = getInfosFromDmidecode(logger => $logger);

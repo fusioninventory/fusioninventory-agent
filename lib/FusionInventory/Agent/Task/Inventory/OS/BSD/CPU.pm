@@ -5,13 +5,14 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {1}
+sub isInventoryEnabled {
+    return can_run('dmidecode');
+}
 
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     my $speed;
     my $hwModel = getFirstLine(command => 'sysctl -n hw.model');
@@ -19,11 +20,11 @@ sub doInventory {
         $speed = $1 * 1000;
     }
 
-    my $cpus = getCpusFromDmidecode();
-    foreach my $cpu (@$cpus) {
+    foreach my $cpu (getCpusFromDmidecode()) {
         $cpu->{SPEED} = $speed;
         $inventory->addCPU($cpu);
     }
+
 }
 
 1;

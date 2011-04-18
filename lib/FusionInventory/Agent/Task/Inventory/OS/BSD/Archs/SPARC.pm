@@ -8,7 +8,7 @@ use Config;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return $Config{'archname'} =~ /^sun4/;
+    return $Config{archname} =~ /^sun4/;
 }
 
 sub doInventory {
@@ -73,11 +73,11 @@ sub doInventory {
         $processors = sprintf("%.0f", "$1$2"); # round number
     }
 
-    $inventory->setBios(
+    $inventory->setBios({
         SMANUFACTURER => 'SUN',
         SMODEL        => $SystemModel,
         SSN           => $SystemSerial,
-    );
+    });
 
     # don't deal with CPUs if information can be computed from dmidecode
     my $infos = getInfosFromDmidecode(logger => $logger);
@@ -91,5 +91,6 @@ sub doInventory {
     }
 
 }
+
 
 1;

@@ -8,7 +8,7 @@ use Config;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return $Config{'archname'} =~ /^IP\d+/;
+    return $Config{archname} =~ /^IP\d+/;
 }
 
 sub doInventory {
@@ -49,11 +49,11 @@ sub doInventory {
         if (/CPU\s*.*\D(\d+)\s*MHz/) { $processors = $1; }
     }
 
-    $inventory->setBios(
+    $inventory->setBios({
         SMANUFACTURER => 'SGI',
         SMODEL        => $SystemModel,
         SSN           => $SystemSerial,
-    );
+    });
 
     # don't deal with CPUs if information can be computed from dmidecode
     my $infos = getInfosFromDmidecode(logger => $logger);

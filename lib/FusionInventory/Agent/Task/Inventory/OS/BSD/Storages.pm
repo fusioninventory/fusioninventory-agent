@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Storages;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return -r '/etc/fstab';
@@ -56,4 +56,5 @@ sub doInventory {
         });
     }
 }
+
 1;

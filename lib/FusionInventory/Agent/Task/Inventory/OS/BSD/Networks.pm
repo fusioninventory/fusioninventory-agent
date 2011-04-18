@@ -3,18 +3,14 @@ package FusionInventory::Agent::Task::Inventory::OS::BSD::Networks;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
-    return
-        can_run('ifconfig');
+    return can_run("ifconfig");
 }
 
-# Initialise the distro entry
 sub doInventory {
     my (%params) = @_;
 
@@ -25,7 +21,10 @@ sub doInventory {
     my $routes = getRoutesFromInet(logger => $logger);
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
-        $inventory->addNetwork($interface);
+        $inventory->addEntry(
+            section => 'NETWORKS',
+            entry   => $interface
+        );
     }
 
     # set global parameters
