@@ -44,8 +44,7 @@ my @errStatus = (
 
 sub isInventoryEnabled {
     my (%params) = @_;
-
-    return !$params{no_printer};
+    return !$params{config}->{no_printer};
 }
 
 sub doInventory {
@@ -76,29 +75,33 @@ sub doInventory {
                 $object->{VerticalResolution};
         }
 
-        $object->{Serial} = getSerialbyUsb($object->{PortName});
+        $object->{Serial} = _getSerialbyUsb($object->{PortName});
 
-        $inventory->addPrinter({
-            NAME           => $object->{Name},
-            COMMENT        => $object->{Comment},
-            DESCRIPTION    => $object->{Description},
-            DRIVER         => $object->{DriverName},
-            PORT           => $object->{PortName},
-            RESOLUTION     => $resolution,
-            NETWORK        => $object->{Network},
-            SHARED         => $object->{Shared},
-            STATUS         => $status[$object->{PrinterStatus}],
-            ERRSTATUS      => $errStatus,
-            SERVERNAME     => $object->{ServerName},
-            SHARENAME      => $object->{ShareName},
-            PRINTPROCESSOR => $object->{PrintProcessor},
-            SERIAL         => $object->{Serial}
-        });
+        $inventory->addEntry(
+            section => 'PRINTERS',
+            entry   => {
+                NAME           => $object->{Name},
+                COMMENT        => $object->{Comment},
+                DESCRIPTION    => $object->{Description},
+                DRIVER         => $object->{DriverName},
+                PORT           => $object->{PortName},
+                RESOLUTION     => $resolution,
+                NETWORK        => $object->{Network},
+                SHARED         => $object->{Shared},
+                STATUS         => $status[$object->{PrinterStatus}],
+                ERRSTATUS      => $errStatus,
+                SERVERNAME     => $object->{ServerName},
+                SHARENAME      => $object->{ShareName},
+                PRINTPROCESSOR => $object->{PrintProcessor},
+                SERIAL         => $object->{Serial}
+            }
+        );
 
-    }
+    }    
 }
 
-sub getSerialbyUsb {
+# Search serial when connected in USB
+sub _getSerialbyUsb {
     my ($portName) = @_;
 
     return unless $portName && $portName =~ /USB/;
@@ -106,26 +109,31 @@ sub getSerialbyUsb {
     my $machKey = $Registry->Open('LMachine', { 
         Access => KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-    my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
 
+    # search all keys under HKLM\system\currentcontrolset\enum\USBPRINT
+    my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
     foreach my $tmpkey (%$data) {
         next unless ref($tmpkey) eq "Win32::TieRegistry";
 
-        foreach my $usbid (%$tmpkey) {
-            next unless $usbid =~ /$portName/;
+       # search a subkey whose name contains the port number (USBxxx)
+       foreach my $usbid (%$tmpkey) {
+           next unless $usbid =~ /$portName/;
 
+            # get its container id
             $usbid = $tmpkey->{$usbid}->{"ContainerID"};
             my $serialnumber = "";
-            # search in HKLM\system\currentcontrolset\enum\USB the key with ContainerID to this value
-            # so previous folder name is serial number ^^
+
+            # search all keys under HKLM\system\currentcontrolset\enum\USB
             my $dataUSB = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
             foreach my $tmpkeyUSB (%$dataUSB) {
                 next unless ref($tmpkeyUSB) eq "Win32::TieRegistry";
 
+                # search a subkey matching this container id
                 foreach my $serialtmp (%$tmpkeyUSB) {
                     if (ref($serialtmp) eq "Win32::TieRegistry") {
                         foreach my $regkeys (%$serialtmp) {
-                            next unless defined($regkeys) && ref($regkeys) ne "Win32::TieRegistry";
+                            next unless defined($regkeys) &&
+                                ref($regkeys) ne "Win32::TieRegistry";
                             next unless $regkeys =~ /ContainerID/;
                             next if $serialnumber =~ /\&/;
                             next unless defined($serialnumber);
