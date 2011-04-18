@@ -3,9 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Solaris;
-
 #ce5: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 3
 #        inet 55.37.101.171 netmask fffffc00 broadcast 55.37.103.255
 #        ether 0:3:ba:24:9b:bf
@@ -16,6 +13,8 @@ use FusionInventory::Agent::Tools::Solaris;
 #KSTAT=/usr/bin/kstat
 #IFC=/sbin/ifconfig
 #DLADM=/usr/sbin/dladm
+
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return 
@@ -28,13 +27,16 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
+    my $logger    = $params{logger};
 
     # set list of network interfaces
     my $routes = getRoutesFromInet(logger => $logger);
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
-        $inventory->addNetwork($interface);
+        $inventory->addEntry(
+            section => 'NETWORKS',
+            entry   => $interface
+        );
     }
 
     # set global parameters

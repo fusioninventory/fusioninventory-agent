@@ -34,8 +34,29 @@ sub doInventory {
                       ()              ;
 
     foreach my $memory (@memories) {
-        $inventory->addMemory($memory);
+        $inventory->addEntry(
+            section => 'MEMORIES',
+            entry   => $memory
+        );
     }
+
+    my $memorySize = getFirstMatch(
+        command => 'prtconf',
+        logger  => $logger,
+        pattern => qr/^Memory\ssize:\s+(\S+)/
+    );
+
+    my $swapSize = getFirstMatch(
+        command => 'swap -l',
+        logger  => $logger,
+        pattern => qr/\s+(\S+)$/
+    );
+
+    $inventory->setHardware(
+        MEMORY => $memorySize,
+        SWAP =>   $swapSize
+    );
+
 }
 
 sub _getMemories1 {

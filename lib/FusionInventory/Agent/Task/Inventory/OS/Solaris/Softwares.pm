@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Solaris::Software;
+package FusionInventory::Agent::Task::Inventory::OS::Solaris::Softwares;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ sub isInventoryEnabled {
     my (%params) = @_;
 
     return 
-        !$params{no_software} &&
+        !$params{config}->{no_software} &&
         can_run('pkginfo');
 }
 
@@ -17,7 +17,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
+    my $logger    = $params{logger};
 
     my $handle = getFileHandle(
         command => 'pkginfo -l',
@@ -29,7 +29,10 @@ sub doInventory {
     my $software;
     while (my $line = <$handle>) {
         if ($line =~ /^\s*$/) {
-            $inventory->addSoftware($software);
+            $inventory->addEntry(
+                section => 'SOFTWARES',
+                entry   =>  $software
+            );
             undef $software;
         } elsif ($line =~ /PKGINST:\s+(.+)/) {
             $software->{NAME} = $1;

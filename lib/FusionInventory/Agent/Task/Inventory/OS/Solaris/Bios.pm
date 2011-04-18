@@ -17,7 +17,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
+    my ($SystemSerial, $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate, $uuid);
     my $aarch =
         getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
@@ -101,7 +101,9 @@ sub doInventory {
         SMODEL        => $SystemModel,
         SSN           => $SystemSerial
     );
-    $inventory->setHardware(UUID => $uuid) if $uuid;
+    $inventory->setHardware(
+        UUID => $uuid
+    ) if $uuid;
 
 }
 
