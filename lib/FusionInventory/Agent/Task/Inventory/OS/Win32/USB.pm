@@ -9,8 +9,6 @@ sub isInventoryEnabled {
     return 1;
 }
 
-my %devices;
-
 sub doInventory {
     my (%params) = @_;
 
@@ -31,12 +29,16 @@ sub doInventory {
 
         next if $vendorId =~ /^0+$/;
 
-        $inventory->addUSBDevice({
-            NAME      => $object->{Name},
-            VENDORID  => $vendorId,
-            PRODUCTID => $productId,
-            SERIAL    => $serial
-        });
+        $inventory->addEntry(
+            section => 'USBDEVICES',
+            entry   => {
+                NAME      => $object->{Name},
+                VENDORID  => $vendorId,
+                PRODUCTID => $productId,
+                SERIAL    => $serial
+            },
+            noDuplicated => 1
+        );
     }
 }
 
