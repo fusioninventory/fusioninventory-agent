@@ -1,7 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::OS::MacOS::Networks;
 
-# I think I hijacked most of this from the BSD/Linux modules
-
 use strict;
 use warnings;
 
@@ -18,13 +16,16 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
+    my $logger    = $params{logger};
 
     # set list of network interfaces
     my $routes = getRoutesFromInet(logger => $logger);
     my @interfaces = _getInterfaces($logger);
     foreach my $interface (@interfaces) {
-        $inventory->addNetwork($interface);
+        $inventory->addEntry(
+            section => 'NETWORKS',
+            entry   => $interface
+        );
     }
 
     # set global parameters

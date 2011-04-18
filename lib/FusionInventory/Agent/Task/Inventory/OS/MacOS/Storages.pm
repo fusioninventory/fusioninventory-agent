@@ -9,6 +9,58 @@ sub isInventoryEnabled {
     return 1;
 }
 
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    my $devices = {};
+
+    # Get SATA Drives
+    my $sata = _getDiskInfo();
+
+    foreach my $device ( @$sata ) {
+        my $description;
+        if (!$device->{'Protocol'}) {
+            $description = 'Disk drive';
+        } elsif ( ($device->{'Protocol'} eq 'ATAPI')
+                ||
+                ($device->{'Drive Type'}) ) {
+            $description = 'CD-ROM Drive';
+        }
+
+        my $size = $device->{'Capacity'};
+        if ($size) {
+            #e.g: Capacity: 320,07 GB (320 072 933 376 bytes)
+            $size =~ s/\s*\(.*//;
+            $size =~ s/ GB//;
+            $size =~ s/,/./;
+            $size = int($size * 1024);
+        }
+
+        my $manufacturer = getCanonicalManufacturer($device->{'Name'});
+
+        my $model = $device->{'Model'};
+        if ($model) {
+            $model =~ s/\s*$manufacturer\s*//i;
+        }
+
+        $inventory->addStorage({
+            NAME => $device->{'Name'},
+            SERIAL => $device->{'Serial Number'},
+            DISKSIZE => $size,
+            FIRMWARE => $device->{'Revision'},
+            MANUFACTURER => $manufacturer,
+            DESCRIPTION => $description,
+            MODEL => $model,
+            TYPE => $device->{'Type'}
+        });
+    }
+
+
+}
+
 sub _getDiskInfo {
     my ($section) = @_;
 
@@ -70,59 +122,6 @@ sub _getDiskInfo {
         push @infos, $info;
     }
     return \@infos;
-}
-
-
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-    my $logger    = $params{logger};
-
-    my $devices = {};
-
-    # Get SATA Drives
-    my $sata = _getDiskInfo();
-
-    foreach my $device ( @$sata ) {
-        my $description;
-        if (!$device->{'Protocol'}) {
-            $description = 'Disk drive';
-        } elsif ( ($device->{'Protocol'} eq 'ATAPI')
-                ||
-                ($device->{'Drive Type'}) ) {
-            $description = 'CD-ROM Drive';
-        }
-
-        my $size = $device->{'Capacity'};
-        if ($size) {
-            #e.g: Capacity: 320,07 GB (320 072 933 376 bytes)
-            $size =~ s/\s*\(.*//;
-            $size =~ s/ GB//;
-            $size =~ s/,/./;
-            $size = int($size * 1024);
-        }
-
-        my $manufacturer = getCanonicalManufacturer($device->{'Name'});
-
-        my $model = $device->{'Model'};
-        if ($model) {
-            $model =~ s/\s*$manufacturer\s*//i;
-        }
-
-        $inventory->addStorage({
-            NAME => $device->{'Name'},
-            SERIAL => $device->{'Serial Number'},
-            DISKSIZE => $size,
-            FIRMWARE => $device->{'Revision'},
-            MANUFACTURER => $manufacturer,
-            DESCRIPTION => $description,
-            MODEL => $model,
-            TYPE => $device->{'Type'}
-        });
-    }
-
-
 }
 
 1;

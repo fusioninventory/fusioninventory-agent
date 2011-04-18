@@ -6,9 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    # straight from the BSD module ;-)
-    my $boottime = getFirstLine(command => 'sysctl -n kern.boottime');
-    return $boottime;
+    return getFirstLine(command => 'sysctl -n kern.boottime');
 }
 
 sub doInventory {

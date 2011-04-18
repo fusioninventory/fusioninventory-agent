@@ -5,10 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Unix;
 
-sub isInventoryEnabled {
-    return 1;
-}
-
 my %unitMatrice = (
     Ti => 1000*1000,
     GB => 1024*1024,
@@ -19,6 +15,10 @@ my %unitMatrice = (
     Ki => 0.001,
     KB => 0.001,
 );
+
+sub isInventoryEnabled {
+    return 1;
+}
 
 sub doInventory {
     my (%params) = @_;
@@ -85,8 +85,12 @@ sub doInventory {
     }
 
     # add drives to the inventory
-    foreach my $deviceName (keys %drives) {
-        $inventory->addDrive($drives{$deviceName});
+    foreach my $key (keys %drives) {
+        $inventory->addEntry(
+            section => 'DRIVES',
+            entry   => $drives{$key}
+        );
     }
 }
+
 1;

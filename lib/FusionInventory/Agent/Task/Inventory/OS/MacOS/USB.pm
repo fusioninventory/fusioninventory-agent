@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::USB;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 #          {
 #            'IOGeneralInterest' => 'IOCommand is not serializable',
 #            'USB Address' => '3',
@@ -59,7 +61,6 @@ use warnings;
 #            'idVendor' => '1133'
 #          }
 
-
 sub isInventoryEnabled {
     return 1;
 }
@@ -68,7 +69,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-
 
     my $state = 0;
 #IOUSBDevice  
@@ -98,17 +98,19 @@ sub doInventory {
 
     } 
 
-    foreach (@devices) {
-        $inventory->addUSBDevice({
-
-                VENDORID => sprintf("%x", $_->{'idVendor'}),
-                PRODUCTID => sprintf("%x", $_->{'idProduct'}),
-                SERIAL => $_->{'USB Serial Number'},
-                NAME => $_->{'USB Product Name'},
-                CLASS => $_->{'bDeviceClass'},
-                SUBCLASS => $_->{'bDeviceSubClass'}
-
-            });
+    foreach my $device (@devices) {
+        $inventory->addEntry(
+            section => 'USBDEVICES',
+            entry   => {
+                VENDORID  => sprintf("%x", $device->{'idVendor'}),
+                PRODUCTID => sprintf("%x", $device->{'idProduct'}),
+                SERIAL    => $device->{'USB Serial Number'},
+                NAME      => $device->{'USB Product Name'},
+                CLASS     => $device->{'bDeviceClass'},
+                SUBCLASS  => $device->{'bDeviceSubClass'}
+            },
+            noDuplicated => 1
+        );
     }
 }
 

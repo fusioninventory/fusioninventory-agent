@@ -16,63 +16,57 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    # create sysprofile obj. Return undef unless we get a return value
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype('SPHardwareDataType');
-    return(undef) unless(ref($h) eq 'HASH');
+    my $prof = Mac::SysProfile->new();
+    my $info = $prof->gettype('SPHardwareDataType');
+    return unless ref $info eq 'HASH';
 
-    $h = $h->{'Hardware Overview'};
+    $info = $info->{'Hardware Overview'};
 
-    ######### CPU
-    my $processort  = $h->{'Processor Name'} || $h->{'CPU Type'}; # 10.5 || 10.4
-    my $processorn  = $h->{'Number Of Processors'} || $h->{'Number Of CPUs'} || 1;
-    my $processors  = $h->{'Processor Speed'} || $h->{'CPU Speed'};
-    my $processorCore;
-    if ($h->{'Total Number Of Cores'}) {
-        $processorCore = $h->{'Total Number Of Cores'} / $processorn;
-    } else {
-        $processorCore = 1;
+    my $type  = $info->{'Processor Name'} ||
+                $info->{'CPU Type'};
+    my $cpus  = $info->{'Number Of Processors'} ||
+                $info->{'Number Of CPUs'}       ||
+                1;
+    my $speed = $info->{'Processor Speed'} |
+                $info->{'CPU Speed'};
+    # French Mac returns 2,60 Ghz instead of 2.60 Ghz :D
+    $speed =~ s/,/./;
+
+    if ($speed =~ /GHz$/i) {
+        $speed =~ s/GHz//i;
+        $speed = $speed * 1000;
+    } elsif ($speed =~ /MHz$/i){
+        $speed =~ s/MHz//i;
     }
-    my $manufacturer;
-    if ($processort =~ /Intel/i) {
-        $manufacturer = "Intel";
-    } elsif ($processort =~ /AMD/i) { # Maybe one day :)
-        $manufacturer = "AMD";
-    }
-# French Mac returns 2,60 Ghz instead of
-# 2.60 Ghz :D
-    $processors =~ s/,/./;
+    $speed =~ s/\s//g;
 
-    # lamp spits out an sql error if there is something other than an int (MHZ) here....
-    if($processors =~ /GHz$/i){
-            $processors =~ s/GHz//i;
-            $processors = ($processors * 1000);
-    } elsif($processors =~ /MHz$/i){
-            $processors =~ s/MHz//i;
-    }
-    $processors =~ s/\s//g;
+    my $cores =
+        $info->{'Total Number Of Cores'} ? $info->{'Total Number Of Cores'} / $cpus :
+                                           1                                        ;
 
+    my $manufacturer =
+        $type =~ /Intel/i ? "Intel" :
+        $type =~ /AMD/i   ? "AMD"   :
+                            undef   ;
 
-    foreach(1..$processorn) {
+    foreach (1 .. $cpus) {
         $inventory->addCPU ({
-            CORE => $processorCore,
+            CORE         => $cores,
             MANUFACTURER => $manufacturer,
-            NAME => $processort,
-            THREAD => 1,
-            SPEED => $processors
+            NAME         => $type,
+            THREAD       => 1,
+            SPEED        => $speed
         });
     }
 
     ### mem convert it to meg's if it comes back in gig's
-    my $mem = $h->{'Memory'};
-    if($mem =~ /GB$/){
+    my $mem = $info->{'Memory'};
+    if ($mem =~ /GB$/){
         $mem =~ s/\sGB$//;
         $mem = ($mem * 1024);
-    }
-    if($mem =~ /MB$/){
+    } elsif ($mem =~ /MB$/){
         $mem =~ s/\sMB$//;
     }
-
 
     $inventory->setHardware(
         MEMORY => $mem,

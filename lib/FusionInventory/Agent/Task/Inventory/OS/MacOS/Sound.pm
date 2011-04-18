@@ -5,8 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-use constant DATATYPE   => 'SPAudioDataType'; # may need to fix to work with older versions of osx
-
 sub isInventoryEnabled {
     return 
         -r '/usr/sbin/system_profiler' &&
@@ -18,18 +16,21 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    # create profiler obj, bail if datatype fails
-    my $pro = Mac::SysProfile->new();
-    my $h = $pro->gettype(DATATYPE());
-    return(undef) unless(ref($h) eq 'HASH');
+    my $prof = Mac::SysProfile->new();
+    my $info = $prof->gettype('SPAudioDataType');
+    return unless ref $info eq 'HASH';
 
     # add sound cards
-    foreach my $x (keys %$h){
+    foreach my $x (keys %$info){
         $inventory->addSound({
-            'NAME'          => $x,
-            'MANUFACTURER'  => $x,
-            'DESCRIPTION'   => $x,
+            section => 'SOUNDS',
+            entry   => {
+                NAME         => $x,
+                MANUFACTURER => $x,
+                DESCRIPTION  => $x,
+            }
         });
     }
 }
+
 1;
