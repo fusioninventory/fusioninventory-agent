@@ -14,15 +14,13 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach (`lsdev -Cc adapter -F 'name:type:description'`){
-        if(/graphics|vga|video/i){
-            if(/^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/i){
-                $inventory->addVideo({
-                    'CHIPSET'  => $1,
-                    'NAME'     => $2,
-                });
-            }
-        }
+    foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`) {
+        next unless $line =~ /graphics|vga|video/i;
+        next unless $line =~ /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/;
+        $inventory->addVideo({
+            CHIPSET => $1,
+            NAME    => $2,
+        });
     }
 }
 
