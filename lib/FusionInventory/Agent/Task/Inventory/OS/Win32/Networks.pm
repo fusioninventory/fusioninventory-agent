@@ -1,16 +1,18 @@
 package FusionInventory::Agent::Task::Inventory::OS::Win32::Networks;
 
-
 use strict;
+use warnings;
+
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
 use Win32::OLE::Enum;
- 
-use FusionInventory::Agent::Tools::Win32;
-use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Regexp;
 
-Win32::OLE->Option(CP=>CP_UTF8);
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Win32;
+use FusionInventory::Agent::Regexp;
+ 
+Win32::OLE-> Option(CP=>CP_UTF8);
+
 
 # http://techtasks.com/code/viewbookcode/1417
 sub isInventoryEnabled {
@@ -22,9 +24,9 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $strComputer = '.';
-    my $objWMIService = Win32::OLE->GetObject('winmgmts:' . '{impersonationLevel=impersonate}!\\\\' . $strComputer . '\\root\\cimv2');
-
+    my $WMIService = Win32::OLE->GetObject(
+        'winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2'
+    ) or die "WMI connection failed: " . Win32::OLE->LastError();
 
     my $defaultGw;
     my %ips;
@@ -33,11 +35,13 @@ sub doInventory {
     my %defaultgateways;
     my %dns;
 
-    my $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapterConfiguration');
+    my $nics = $WMIService->ExecQuery(
+        'SELECT * FROM Win32_NetworkAdapterConfiguration'
+    );
     foreach my $nic (in $nics) {
         my $interface = $interfaces[$nic->Index];
 
-        $interface->{DESCRIPTION} = encodeFromWmi($nic->Description);
+        $interface->{DESCRIPTION} = encodeFromWmi($nic->Description)
 
         foreach (@{$nic->DefaultIPGateway || []}) {
             $defaultgateways{$_} = 1;
@@ -55,12 +59,14 @@ sub doInventory {
                     $ips{$address}=1;
                     push @{$interface->{IPADDRESS}}, $address;
                     push @{$interface->{IPMASK}}, $mask;
-                    push @{$interface->{IPSUBNET}}, getSubnetAddress($address, $mask);
+                    push @{$interface->{IPSUBNET}},
+                        getSubnetAddress($address, $mask);
                 } elsif ($address =~ /\S+/) {
                     push @ip6s, $address;
                     push @{$interface->{IPADDRESS6}}, $address;
                     push @{$interface->{IPMASK6}}, $mask;
-                    push @{$interface->{IPSUBNET6}}, getSubnetAddressIPv6($address, $mask);
+                    push @{$interface->{IPSUBNET6}},
+                        getSubnetAddressIPv6($address, $mask);
                 }
             }
         }
@@ -81,16 +87,14 @@ sub doInventory {
         my $interface = $interfaces[$nic->Index];
 
         my $virtualdev = 0;
-# PhysicalAdapter only work on OS > XP
+        # PhysicalAdapter only work on OS > XP
         if (!defined($nic->PhysicalAdapter)) {
             if ($nic->PNPDeviceID =~ /^ROOT/) {
                 $virtualdev = 1;
             }
         } else {
-            $virtualdev = $nic->PhysicalAdapter?0:1;
+            $virtualdev = $nic->PhysicalAdapter ? 0 : 1;
         }
-
-    }
 
         $interface->{NAME} = $nic->Name;
         $interface->{SPEED} = $nic->Speed;
@@ -115,12 +119,14 @@ sub doInventory {
             $interface->{$key} = join('/', @{$interface->{$key}});
         }
 
-        $inventory->addNetwork($interface);
+        $inventory->addEntry(
+            section => 'NETWORKS',
+            entry   => $interface
+        );
     }
 
-
     $inventory->setHardware(
-        DEFAULTGATEWAY => join('/', keys %defaultgateways),
+        DEFAULTGATEWAY => join ('/',keys %defaultgateways),
         DNS            => join('/', keys %dns),
         IPADDR         => join('/', keys %ips),
     );
