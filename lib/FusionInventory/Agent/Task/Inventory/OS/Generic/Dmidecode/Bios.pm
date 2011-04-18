@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -54,11 +52,6 @@ sub _getBiosHardware {
     $bios->{SSN} = $system_info->{'Serial Number'};
     $bios->{MSN} = $base_info->{'Serial Number'};
 
-#    if (!$bios->{SSN} && $cpu_info->{'ID'}) {
-#        $bios->{SSN} = $cpu_info->{'ID'};
-#        $bios->{SSN} =~ s/ /-/g;
-#    }
-
     my $hardware = {
         UUID => $system_info->{'UUID'}
     };
@@ -66,17 +59,21 @@ sub _getBiosHardware {
     my $vmsystem;
     if ($bios->{BMANUFACTURER}) {
         $vmsystem =
-            $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/ ? 'QEMU'       :
-            $bios->{BMANUFACTURER} =~ /VirtualBox/   ? 'VirtualBox' :
-            $bios->{BMANUFACTURER} =~ /^Xen/         ? 'Xen'        :
-                                                       undef   ;
+            $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/         ? 'QEMU'       :
+            $bios->{BMANUFACTURER} =~ /(VirtualBox|innotek)/ ? 'VirtualBox' :
+            $bios->{BMANUFACTURER} =~ /^Xen/                 ? 'Xen'        :
+                                                               undef        ;
     } elsif ($bios->{SMODEL}) {
         $vmsystem =
             $bios->{SMODEL} =~ /VMware/          ? 'VMWare'          :
             $bios->{SMODEL} =~ /Virtual Machine/ ? 'Virtual Machine' :
-                                                    undef        ;
+                                                    undef            ;
+    } elsif ($bios->{BVERSION}) {
+        $vmsystem =
+            $bios->{BVERSION} =~ /VirtualBox/ ? 'VirtualBox' : undef;
     }
     $hardware->{VMSYSTEM} = $vmsystem if $vmsystem;
+
     return $bios, $hardware;
 }
 

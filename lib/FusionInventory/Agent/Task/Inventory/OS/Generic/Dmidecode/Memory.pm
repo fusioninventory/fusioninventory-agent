@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -22,7 +20,10 @@ sub doInventory {
     return unless $memories;
 
     foreach my $memory (@$memories) {
-        $inventory->addMemory($memory);
+        $inventory->addEntry(
+            section => 'MEMORIES',
+            entry   => $memory
+        );
     }
 }
 
@@ -59,8 +60,8 @@ sub _getMemories {
             $slot++;
 
             my $memory = {
-                NUMSLOTS     => $slot,
-                TYPE         => $info->{'Type'},
+                NUMSLOTS => $slot,
+                TYPE     => $info->{'Type'},
             };
 
             if ($info->{'Installed Size'} && $info->{'Installed Size'} =~ /^(\d+)\s*(MB|Mbyte)/x) {

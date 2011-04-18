@@ -1,6 +1,4 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::USB;
-# tested with:
-# lsusb (usbutils) 0.86
 
 use strict;
 use warnings;
@@ -30,7 +28,11 @@ sub doInventory {
             $device->{SERIAL} = undef;
         }
 
-        $inventory->addUSBDevice($device);
+        $inventory->addEntry(
+            section => 'USBDEVICES',
+            entry   => $device,
+            noDuplicated => 1
+        );
     }
 }
 

@@ -1,30 +1,9 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery;
+
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
-
-sub _parseDate {
-    my $string = shift;
-
-    if ($string =~ /(\d{1,2})([\/-])(\d{1,2})([\/-])(\d{2})/) {
-        my $d = $1;
-        my $m = $3;
-        my $y = ($5>90?"19":"20").$5;
-
-        return "$1/$3/$y";
-    } elsif ($string =~ /(\d{4})([\/-])(\d{1,2})([\/-])(\d{1,2})/) {
-        my $y = ($5>90?"19":"20").$1;
-        my $d = $3;
-        my $m = $5;
-
-        return "$d/$m/$y";
-    }
-
-
-}
 
 sub isInventoryEnabled {
     return 1;
@@ -38,7 +17,10 @@ sub doInventory {
 
     my $battery = _getBattery($logger);
 
-    $inventory->addBattery($battery);
+    $inventory->addEntry(
+        section => 'BATTERIES',
+        entry   => $battery
+    );
 }
 
 sub _getBattery {
@@ -70,6 +52,24 @@ sub _getBattery {
     }
 
     return $battery;
+}
+
+sub _parseDate {
+    my $string = shift;
+
+    if ($string =~ /(\d{1,2})([\/-])(\d{1,2})([\/-])(\d{2})/) {
+        my $d = $1;
+        my $m = $3;
+        my $y = ($5>90?"19":"20").$5;
+
+        return "$1/$3/$y";
+    } elsif ($string =~ /(\d{4})([\/-])(\d{1,2})([\/-])(\d{1,2})/) {
+        my $y = ($5>90?"19":"20").$1;
+        my $d = $3;
+        my $m = $5;
+
+        return "$d/$m/$y";
+    }
 }
 
 1;

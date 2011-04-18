@@ -6,7 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
-
 # Tested on 2.6.* kernels
 #
 # Cards tested :
@@ -33,9 +32,9 @@ sub _getHpacuacliFromWinRegistry {
     {
         # Win32-specifics constants can not be loaded on non-Windows OS
         no strict 'subs'; ## no critics
-        $machKey = $Registry->Open('LMachine', {
+        my $machKey = $Registry->Open('LMachine', {
             Access => Win32::TieRegistry::KEY_READ
-        } ) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
     }
 
     my $uninstallValues =
@@ -46,7 +45,7 @@ sub _getHpacuacliFromWinRegistry {
     return unless $uninstallString;
 
     return unless $uninstallString =~ /(.*\\)hpuninst\.exe/;
-    my $hpacuacliPath = $1.'bin\\hpacucli.exe';
+    my $hpacuacliPath = $1 . 'bin\\hpacucli.exe';
     return unless -f $hpacuacliPath;
 
     return $hpacuacliPath;
@@ -77,10 +76,10 @@ sub doInventory {
 
     return unless $handle1;
 
-    while (my $line1 = <$handle1>) {
 # Example output :
 #    
 # Smart Array E200 in Slot 2    (sn: PA6C90K9SUH1ZA)
+    while (my $line1 = <$handle1>) {
         next unless $line1 =~ /Slot\s(\d*)/;
 
         my $slot = $1;
@@ -90,15 +89,15 @@ sub doInventory {
         );
         next unless $handle2;
 
-        while (my $line2 = <$handle2>) {
 # Example output :
-            #
+#
 # Smart Array E200 in Slot 2
-            #
+#
 #   array A
-            #
+#
 #      physicaldrive 2I:1:1 (port 2I:box 1:bay 1, SATA, 74.3 GB, OK)
 #      physicaldrive 2I:1:2 (port 2I:box 1:bay 2, SATA, 74.3 GB, OK)
+        while (my $line2 = <$handle2>) {
             next unless $line2 =~ /physicaldrive\s(\S*)/;
 
             my $pd = $1;
@@ -108,14 +107,12 @@ sub doInventory {
             );
             next unless $handle3;
 
-            while (my $line3 = <$handle3>) {
-
 # Example output :
 #  
 # Smart Array E200 in Slot 2
-                #
+#
 #   array A
-                #
+#
 #      physicaldrive 1:1
 #         Port: 2I
 #         Box: 1
@@ -129,7 +126,7 @@ sub doInventory {
 #         Model: ATA     WDC WD740ADFD-00
 #         SATA NCQ Capable: False
 #         PHY Count: 1        
-
+            while (my $line3 = <$handle3>) {
                 $model = $1 if $line3 =~ /Model:\s(.*)/;
                 $description = $1 if $line3 =~ /Interface Type:\s(.*)/;
                 $media = $1 if $line3 =~ /Drive Type:\s(.*)/;
@@ -147,15 +144,15 @@ sub doInventory {
             }
 
             $inventory->addStorage({
-                    NAME => $model,
-                    MANUFACTURER => $manufacturer,
-                    MODEL => $model,
-                    DESCRIPTION => $description,
-                    TYPE => $media,
-                    DISKSIZE => $capacity,
-                    SERIALNUMBER => $serialnumber,
-                    FIRMWARE => $firmware
-                }); 
+                NAME => $model,
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => $description,
+                TYPE => $media,
+                DISKSIZE => $capacity,
+                SERIALNUMBER => $serialnumber,
+                FIRMWARE => $firmware
+            }); 
         }
         close $handle2;
     }

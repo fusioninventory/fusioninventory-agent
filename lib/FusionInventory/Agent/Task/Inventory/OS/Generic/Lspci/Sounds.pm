@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
@@ -19,7 +17,10 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $sound (_getSoundControllers($logger)) {
-        $inventory->addSound($sound);
+        $inventory->addEntry(
+            section => 'SOUNDS',
+            entry   => $sound
+        );
     }
 }
 

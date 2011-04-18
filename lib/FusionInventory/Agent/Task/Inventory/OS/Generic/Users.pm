@@ -9,15 +9,14 @@ sub isInventoryEnabled {
     return can_run('who');
 }
 
-# Initialise the distro entry
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
+    my $logger    = $params{logger};
 
     my $handle = getFileHandle(
-        logger => $logger,
+        logger  => $logger,
         command => 'who'
     );
 

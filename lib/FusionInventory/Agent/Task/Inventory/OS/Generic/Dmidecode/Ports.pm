@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -22,7 +20,10 @@ sub doInventory {
     return unless $ports;
 
     foreach my $port (@$ports) {
-        $inventory->addPort($port);
+        $inventory->addEntry(
+            section => 'PORTS',
+            entry   => $port
+        );
     }
 }
 

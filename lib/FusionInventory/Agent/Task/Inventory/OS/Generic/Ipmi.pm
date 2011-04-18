@@ -25,15 +25,13 @@ use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return unless can_run('ipmitool');
-    return system('ipmitool lan print 2> /dev/null') == 0;
 }
 
-# Initialise the distro entry
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
+    my $logger    = $params{logger};
 
     my $handle = getFileHandle(
         logger => $logger,
@@ -63,18 +61,23 @@ sub doInventory {
     }
     close $handle;
 
+    return unless $ipaddress && $ipmask;
+
     my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
-    $inventory->addNetwork({
-        DESCRIPTION => 'bmc',
-        IPADDRESS   => $ipaddress,
-        IPGATEWAY   => $ipgateway,
-        IPMASK      => $ipmask,
-        IPSUBNET    => $ipsubnet,
-        MACADDR     => $macaddr,
-        STATUS      => $ipaddress != '0.0.0.0' ? "Up" : "Down",
-        TYPE        => 'Ethernet'
-    });
+    $inventory->addEntry(
+        section => 'NETWORKS',
+        entry   => {
+            DESCRIPTION => 'bmc',
+            IPADDRESS   => $ipaddress,
+            IPGATEWAY   => $ipgateway,
+            IPMASK      => $ipmask,
+            IPSUBNET    => $ipsubnet,
+            MACADDR     => $macaddr,
+            STATUS      => $ipaddress != '0.0.0.0' ? "Up" : "Down",
+            TYPE        => 'Ethernet'
+        }
+    );
 }
 
 1;

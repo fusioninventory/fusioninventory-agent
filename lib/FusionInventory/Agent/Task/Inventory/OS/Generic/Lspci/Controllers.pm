@@ -1,8 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers;
+
 use strict;
 use warnings;
-
-use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
@@ -24,7 +23,10 @@ sub doInventory {
     _loadPciIds($logger, $datadir);
 
     foreach my $controller (_getExtentedControllers($logger)) {
-        $inventory->addController($controller);
+        $inventory->addEntry(
+            section => 'CONTROLLERS',
+            entry   => $controller
+        );
     }
 }
 

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Sys::Hostname;
+
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -24,13 +25,16 @@ sub doInventory {
     # and the domain search list
     my %dns_list;
     my %search_list;
-    my $handle = getFileHandle(file => '/etc/resolv.conf', logger => $logger);
+    my $handle = getFileHandle(
+        file => '/etc/resolv.conf',
+        logger => $logger
+    );
     if ($handle) {
         while (my $line = <$handle>) {
             if ($line =~ /^nameserver\s+(\S+)/) {
-                $dns_list{$1}=1;
+                $dns_list{$1} = 1;
             } elsif ($line =~ /^(domain|search)\s+(\S+)/) {
-                $search_list{$2}=1;
+                $search_list{$2} = 1;
             }
         }
         close $handle;

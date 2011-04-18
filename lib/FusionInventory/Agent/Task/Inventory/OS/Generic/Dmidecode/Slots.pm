@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -22,7 +20,10 @@ sub doInventory {
     return unless $slots;
 
     foreach my $slot (@$slots) {
-        $inventory->addSlot($slot);
+        $inventory->addEntry(
+            section => 'SLOTS',
+            entry   => $slot
+        );
     }
 }
 
