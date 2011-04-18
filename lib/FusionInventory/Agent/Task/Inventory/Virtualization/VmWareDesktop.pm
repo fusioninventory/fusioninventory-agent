@@ -9,7 +9,9 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return -x '/Library/Application Support/VMware Fusion/vmrun';
+    return 
+        can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') ||
+        can_run('vmrun');
 }
 
 sub doInventory {
@@ -17,9 +19,12 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
+    
+    my $command = can_run('vmrun') ?
+        'vmrun list' : '/Library/Application\ Support/VMware\ Fusion/vmrun list';
 
     foreach my $machine (_getMachines(
-        command => '/Library/Application Support/VMware Fusion/vmrun', logger => $logger
+        command => $command, logger => $logger
     )) {
         $inventory->addVirtualMachine($machine);
     }
