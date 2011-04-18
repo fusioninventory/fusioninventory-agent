@@ -73,5 +73,5 @@ foreach my $test (keys %tests) {
     is_deeply($results, $tests{$test}, $test);
 }
 
-my $cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCpropProcessor('resources/hpux/cpu/cprop/hpux-11.31-1', '<');
+my $cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCpropProcessor('resources/cprop/hpux-11.31-1', '<');
 is_deeply($cpus, $cpropCpu, '_parseCpropProcessor');

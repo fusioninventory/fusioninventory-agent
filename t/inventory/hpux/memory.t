@@ -292,18 +292,18 @@ plan tests =>
     1;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/hpux/memory/$test";
+    my $file = "resources/cstm/$test";
     my ($memories, $size) = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCstm(file => $file);
     is_deeply($memories, $tests{$test}->{memories}, "memories: $test");
     is($size, $tests{$test}->{size}, "size: $test");
 }
 
 foreach my $test (keys %tests64) {
-    my $file = "resources/hpux/memory/$test";
+    my $file = "resources/cstm/$test";
     my ($memories, $size) = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCstm64(file => $file);
     is_deeply($memories, $tests64{$test}->{memories}, "memories: $test");
     is($size, $tests64{$test}->{size}, "size: $test");
 }
 
-my @mems = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCprop(file => 'resources/hpux/memory/cprop/11.31-1');
+my @mems = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCprop(file => 'resources/cprop/11.31-1');
 is_deeply(\@mems, $cpropMem, '_parseCprop');
