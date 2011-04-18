@@ -3,15 +3,13 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Softwares;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled  {
     my (%params) = @_;
 
     return
-        !$params{no_software} &&
+        !$params{config}->{no_software} &&
         can_run('swlist');
 }
 
@@ -35,12 +33,15 @@ sub doInventory {
         chomp $line;
 
         if ($line =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
-            $inventory->addSoftware({
-                NAME      => $1,
-                VERSION   => $2,
-                COMMENTS  => $3,
-                PUBLISHER => 'HP'
-            });
+            $inventory->addEntry(
+                section => 'SOFTWARES',
+                entry   => {
+                    NAME      => $1,
+                    VERSION   => $2,
+                    COMMENTS  => $3,
+                    PUBLISHER => 'HP'
+                }
+            );
         }
     }
 

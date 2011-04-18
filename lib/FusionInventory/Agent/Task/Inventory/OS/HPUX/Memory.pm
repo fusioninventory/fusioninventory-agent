@@ -52,10 +52,10 @@ sub doInventory {
         );
     }
 
-    $inventory->setHardware({
+    $inventory->setHardware(
         SWAP   => sprintf("%i", $swapSize/1024),
         MEMORY => $memorySize
-    });
+    );
 }
 
 sub _parseCprop {

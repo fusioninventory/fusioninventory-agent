@@ -3,9 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-use Sys::Hostname;
-
 use FusionInventory::Agent::Tools;
 
 #TODO Get driver pcislot virtualdev
@@ -29,7 +26,10 @@ sub doInventory {
     my $routes = _getRoutes();
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
-        $inventory->addNetwork($interface);
+        $inventory->addEntry(
+            section => 'NETWORKS',
+            entry   => $interface
+        );
     }
 
     # set global parameters
