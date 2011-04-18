@@ -12,9 +12,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my(@disques, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
 

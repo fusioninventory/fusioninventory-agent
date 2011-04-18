@@ -10,10 +10,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $handle = getFileHandle(
         file => '/proc/bus/input/devices',
@@ -64,10 +64,10 @@ sub doInventory {
     close $handle;
 
     foreach my $input (@inputs) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'INPUTS',
             entry   => $input
-        });
+        );
     }
 }
 

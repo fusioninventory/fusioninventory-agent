@@ -10,10 +10,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # Doesn't works on Win2003 Server
     # On Win7, we need to use SecurityCenter2
@@ -42,7 +42,7 @@ sub doInventory {
 
             }
 
-            $inventory->addEntry({
+            $inventory->addEntry(
                 section => 'ANTIVIRUS',
                 entry   => {
                     COMPANY  => $object->{companyName},
@@ -53,7 +53,7 @@ sub doInventory {
                     VERSION  => $object->{versionNumber}
                 },
                 noDuplicated => 1
-            });
+            );
         }
     }
 }

@@ -94,7 +94,7 @@ is_deeply(
     'CPU added'
 );
 
-$inventory->addEntry({
+$inventory->addEntry(
     section => 'DRIVES',
     entry   => {
         FILESYSTEM => 'ext3',
@@ -104,7 +104,7 @@ $inventory->addEntry({
         TYPE       => '/',
         VOLUMN     => '/dev/sda2',
     }
-});
+);
 $inventory->processChecksum();
 
 $content = {

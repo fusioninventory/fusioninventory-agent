@@ -15,7 +15,7 @@ use FusionInventory::Agent::Regexp;
 
 our $VERSION = '1.0';
 
-sub main {
+sub run {
     my ($self) = @_;
 
     if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {

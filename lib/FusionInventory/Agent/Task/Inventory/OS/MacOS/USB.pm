@@ -66,9 +66,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $state = 0;
 #IOUSBDevice  
@@ -99,7 +99,7 @@ sub doInventory {
     } 
 
     foreach my $device (@devices) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => {
                 VENDORID  => sprintf("%x", $device->{'idVendor'}),
@@ -110,7 +110,7 @@ sub doInventory {
                 SUBCLASS  => $device->{'bDeviceSubClass'}
             },
             noDuplicated => 1
-        });
+        );
     }
 }
 

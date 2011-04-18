@@ -16,16 +16,16 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $video (_getVideoControllers($logger)) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'VIDEOS',
             entry   => $video
-        });
+        );
     }
 }
 

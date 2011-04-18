@@ -10,10 +10,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $handle = getFileHandle(
         logger  => $logger,
@@ -27,13 +27,13 @@ sub doInventory {
         my $name = $1;
         my $version = $2;
 
-       $inventory->addEntry({
+       $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 NAME    => $name,
                 VERSION => $version
             }
-        });
+        );
     }
     close $handle;
 }

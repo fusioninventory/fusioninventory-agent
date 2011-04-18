@@ -10,17 +10,17 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $battery = _getBattery($logger);
 
-    $inventory->addEntry({
+    $inventory->addEntry(
         section => 'BATTERIES',
         entry   => $battery
-    });
+    );
 }
 
 sub _getBattery {

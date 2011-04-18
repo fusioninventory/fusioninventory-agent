@@ -37,17 +37,17 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $screen (_getScreens($logger)) {
 
         if ($screen->{edid}) {
             my $edid = parseEdid($screen->{edid});
             if (my $err = checkParsedEdid($edid)) {
-                $params->{logger}->debug("check failed: bad edid: $err");
+                $logger->debug("check failed: bad edid: $err");
             } else {
                 $screen->{CAPTION} =
                     $edid->{monitor_name};
@@ -60,10 +60,10 @@ sub doInventory {
             $screen->{BASE64} = encode_base64($screen->{edid});
         }
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MONITORS',
             entry   => $screen
-        });
+        );
     }
 }
 

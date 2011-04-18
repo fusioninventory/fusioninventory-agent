@@ -11,10 +11,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $ddcprobeData = _getDdcprobeData();
     my $xorgData;
@@ -49,11 +49,11 @@ sub doInventory {
         $video->{resolution} =~ s/@.*//;
     }
 
-    $inventory->addEntry({
+    $inventory->addEntry(
         section => 'VIDEOS',
         entry   => $video,
         noDuplicated => 1
-    });
+    );
 }
 
 sub _getDdcprobeData {

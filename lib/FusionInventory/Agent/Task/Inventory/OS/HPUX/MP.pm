@@ -14,9 +14,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
 #  my $name;
     my $ipaddress;
@@ -41,7 +41,7 @@ sub doInventory {
         }
     }
 
-    $inventory->addEntry({
+    $inventory->addEntry(
         section => 'NETWORKS',
         entry => {
             DESCRIPTION => 'Management Interface - HP MP',
@@ -49,7 +49,7 @@ sub doInventory {
             MANAGEMENT  => 'MP',
             IPADDRESS   => $ipaddress,
         }
-    });
+    );
 
 }
 

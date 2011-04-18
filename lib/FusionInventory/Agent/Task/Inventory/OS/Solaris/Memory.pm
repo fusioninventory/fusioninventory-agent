@@ -11,10 +11,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $class = getClass();
 
@@ -34,11 +34,29 @@ sub doInventory {
                       ()              ;
 
     foreach my $memory (@memories) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MEMORIES',
             entry   => $memory
-        });
+        );
     }
+
+    my $memorySize = getFirstMatch(
+        command => 'prtconf',
+        logger  => $logger,
+        pattern => qr/^Memory\ssize:\s+(\S+)/
+    );
+
+    my $swapSize = getFirstMatch(
+        command => 'swap -l',
+        logger  => $logger,
+        pattern => qr/\s+(\S+)$/
+    );
+
+    $inventory->setHardware({
+        MEMORY => $memorySize,
+        SWAP =>   $swapSize
+    });
+
 }
 
 sub _getMemories1 {

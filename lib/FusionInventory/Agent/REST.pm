@@ -1,11 +1,8 @@
-#!/usr/bin/perl
-
 package FusionInventory::Agent::REST;
 
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Network;
 use JSON;
 use URI::Escape;
 
@@ -50,6 +47,7 @@ sub AUTOLOAD {
             $reqUrl .= '&'.$k.'='.uri_escape($params{$k} || '');
         }
     }
+
     my $jsonText = $self->{network}->get ({
         source => $reqUrl,
         timeout => 60,

@@ -12,16 +12,16 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
-        });
+        );
     }
 
     # set global parameters

@@ -43,14 +43,14 @@ my @errStatus = (
 );
 
 sub isInventoryEnabled {
-    my ($params) = @_;
-    return !$params->{config}->{no_printer};
+    my (%params) = @_;
+    return !$params{config}->{no_printer};
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_Printer',
@@ -77,7 +77,7 @@ sub doInventory {
 
         $object->{Serial} = _getSerialbyUsb($object->{PortName});
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PRINTERS',
             entry   => {
                 NAME           => $object->{Name},
@@ -95,7 +95,7 @@ sub doInventory {
                 PRINTPROCESSOR => $object->{PrintProcessor},
                 SERIAL         => $object->{Serial}
             }
-        });
+        );
 
     }    
 }

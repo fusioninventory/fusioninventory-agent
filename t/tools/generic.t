@@ -3277,6 +3277,7 @@ my @size_tests_nok = (
 );
 
 my @size_tests_ok = (
+    [ '1', 1 ],
     [ '1 mb', 1 ],
     [ '1 MB', 1 ],
     [ '1 gb', 1000 ],
@@ -3338,7 +3339,7 @@ plan tests =>
     (scalar @speed_tests_nok) +
     (scalar @manufacturer_tests_ok) +
     (scalar @manufacturer_tests_nok) +
-    12;
+    14;
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/dmidecode/$test";
@@ -3408,17 +3409,27 @@ close $tmp;
 is(
     getFirstLine(file => $tmp),
     'foo',
-    "simple file reading"
+    "first line, file reading"
 );
 is(
-    getFirstLine(command => 'perl -MConfig -e \'print "foo\nbar\n\baz\n"\''),
+    getFirstLine(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\''),
     'foo',
-    "simple command reading"
+    "first line, command reading"
+);
+is(
+    getLastLine(file => $tmp),
+    'baz',
+    "last line, file reading"
+);
+is(
+    getLastLine(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\''),
+    'baz',
+    "last line, command reading"
 );
 is(
     getLinesCount(file => $tmp),
     3,
-    "lines count, file file reading"
+    "lines count, file reading"
 );
 is(
     getLinesCount(command => 'perl -MConfig -e \'print "foo\nbar\n\baz\n"\''),

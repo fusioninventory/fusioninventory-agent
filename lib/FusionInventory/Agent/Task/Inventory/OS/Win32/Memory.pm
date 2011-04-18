@@ -76,9 +76,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $cpt = 0;
     my @memories;
@@ -133,10 +133,10 @@ sub doInventory {
     }
 
     foreach my $memory (@memories) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MEMORIES',
             entry   => $memory
-        });
+        );
     }
 
 }

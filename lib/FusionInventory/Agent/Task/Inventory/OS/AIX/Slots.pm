@@ -6,13 +6,13 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("lsdev");
+    return can_run('lsdev');
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $description;
     my $designation;
@@ -37,7 +37,7 @@ sub doInventory {
             }
             if ((/^FC .+/) && $flag) {$flag=0;last}
         }
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SLOTS',
             entry   => {
                 DESCRIPTION => $description,
@@ -45,7 +45,7 @@ sub doInventory {
                 NAME        => $name,
                 STATUS      => $status,
             }
-        });
+        );
     }
 }
 

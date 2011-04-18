@@ -11,10 +11,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # get drives list
     my @drives =
@@ -51,10 +51,10 @@ sub doInventory {
 
     # add drives to the inventory
     foreach my $drive (@drives) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'DRIVES',
             entry   => $drive
-        });
+        );
     }
 }
 

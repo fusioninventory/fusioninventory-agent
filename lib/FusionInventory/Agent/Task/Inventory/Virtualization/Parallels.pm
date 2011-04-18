@@ -6,19 +6,19 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
     # We don't want to scan user directories unless --scan-homedirs is used
     return 
         can_run('prlctl') &&
-        $params->{config}->{'scan-homedirs'};
+        $params{config}->{'scan-homedirs'};
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $user ( glob("/Users/*") ) {
         $user =~ s/.*\///; # Just keep the login
@@ -70,10 +70,10 @@ sub _parsePrlctlA {
     my @machines;
     foreach my $line (<$handle>) {
         chomp $line; 
-        my @info = split(/\s+/, $line);
+        my @info = split(/\s+/, $line, 4);
         my $uuid   = $info[0];
         my $status = $status_list{$info[1]};
-        my $name   = $info[4];
+        my $name   = $info[3];
 
 
         $uuid =~s/{(.*)}/$1/;

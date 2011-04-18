@@ -94,7 +94,7 @@ the logger object to use (default: a new stderr logger)
 
 =back
 
-=head2 main()
+=head2 run()
 
 This is the method to be implemented by each subclass.
 

@@ -10,20 +10,20 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $ports = _getPorts($logger);
 
     return unless $ports;
 
     foreach my $port (@$ports) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PORTS',
             entry   => $port
-        });
+        );
     }
 }
 

@@ -10,10 +10,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $device (_getDevices($logger)) {
         next unless $device->{PRODUCTID};
@@ -28,11 +28,11 @@ sub doInventory {
             $device->{SERIAL} = undef;
         }
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device,
             noDuplicated => 1
-        });
+        );
     }
 }
 

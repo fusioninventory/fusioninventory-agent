@@ -25,6 +25,7 @@ our @EXPORT = qw(
     getSanitizedString
     getFirstLine
     getFirstMatch
+    getLastLine
     getAllLines
     getLinesCount
     compareVersion
@@ -133,6 +134,8 @@ sub getCanonicalSize {
     ## no critic (ExplicitReturnUndef)
 
     return undef unless $size;
+
+    return $size if $size =~ /^\d+$/;
 
     return undef unless $size =~ /^(\d+) \s (\S+)$/x;
     my $value = $1;
@@ -374,7 +377,25 @@ sub getFirstLine {
     my %params = @_;
 
     my $handle = getFileHandle(%params);
+    return unless $handle;
+
     my $result = <$handle>;
+    close $handle;
+
+    chomp $result;
+    return $result;
+}
+
+sub getLastLine {
+    my %params = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $result;
+    while (my $line = <$handle>) {
+        $result = $line;
+    }
     close $handle;
 
     chomp $result;

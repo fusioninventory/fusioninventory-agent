@@ -21,9 +21,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
         or die "WMI connection failed: " . Win32::OLE->LastError();

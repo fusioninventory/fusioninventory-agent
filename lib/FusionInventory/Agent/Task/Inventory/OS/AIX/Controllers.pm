@@ -10,20 +10,20 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`){
         next unless $line =~ /^(.+):(.+):(.+)/;
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'CONTROLLERS',
             entry   => {
                 NAME         => $1,
                 TYPE         => $2,
                 MANUFACTURER => $3,
             }
-        });
+        );
     }
 }
 

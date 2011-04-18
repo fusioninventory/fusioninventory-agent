@@ -10,10 +10,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
+    my (%params) = @_;
 
-    my $params = shift;
-    my $inventory = $params->{inventory};
-    my $storage   = $params->{storage};
+    my $inventory = $params{inventory};
+    my $storage   = $params{storage};
 
     # Retrieve FusionInventory::Agent::Task::OcsDeploy informations
     my $ocsDeployData =

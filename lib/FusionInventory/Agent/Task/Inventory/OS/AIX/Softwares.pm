@@ -6,18 +6,18 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
     return
-        !$params->{config}->{no_software} &&
+        !$params{config}->{no_software} &&
         can_run('lslpp');
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my @list;
     my $buff;
@@ -27,7 +27,7 @@ sub doInventory {
         next unless ($entry[1]);
         next if $entry[1] =~ /^device/;
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 COMMENTS => $entry[6],
@@ -35,7 +35,7 @@ sub doInventory {
                 NAME     => $entry[1],
                 VERSION  => $entry[2],
             }
-        });
+        );
     }
 }
 

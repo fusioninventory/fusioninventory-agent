@@ -14,19 +14,19 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
-    my $datadir   = $params->{datadir};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+    my $datadir   = $params{datadir};
 
     _loadPciIds($logger, $datadir);
 
     foreach my $controller (_getExtentedControllers($logger)) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'CONTROLLERS',
             entry   => $controller
-        });
+        );
     }
 }
 

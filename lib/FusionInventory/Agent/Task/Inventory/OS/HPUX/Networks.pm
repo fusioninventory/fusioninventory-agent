@@ -9,27 +9,27 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return 
-        can_run("lanadmin") &&
-        can_run("lanscan") &&
-        can_run("netstat") &&
-        can_run("ifconfig") &&
-        can_run("uname");
+        can_run('lanadmin') &&
+        can_run('lanscan') &&
+        can_run('netstat') &&
+        can_run('ifconfig') &&
+        can_run('uname');
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # set list of network interfaces
     my $routes = _getRoutes();
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
-        });
+        );
     }
 
     # set global parameters

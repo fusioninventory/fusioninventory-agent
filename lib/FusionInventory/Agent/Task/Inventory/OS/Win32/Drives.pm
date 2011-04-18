@@ -20,10 +20,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $systemDrive;
     foreach my $object (getWmiObjects(
@@ -47,7 +47,7 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'DRIVES',
             entry   => {
                 CREATEDATE  => $object->{InstallDate},
@@ -62,7 +62,7 @@ sub doInventory {
                 TYPE        => $type[$object->{DriveType}] || 'Unknown',
                 VOLUMN      => $object->{VolumeName},
             }
-        });
+        );
     }
 }
 

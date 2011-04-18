@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Hpvm;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
@@ -13,10 +12,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $machine (_getMachines(
         command => 'hpvmstatus -X', logger => $logger

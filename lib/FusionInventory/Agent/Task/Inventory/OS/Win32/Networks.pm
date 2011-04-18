@@ -20,9 +20,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $WMIService = Win32::OLE->GetObject(
         'winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2'
@@ -119,10 +119,10 @@ sub doInventory {
             $interface->{$key} = join('/', @{$interface->{$key}});
         }
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
-        });
+        );
     }
 
     $inventory->setHardware({

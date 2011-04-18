@@ -10,10 +10,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $handle = getFileHandle(
         command => 'cfgadm -s cols=ap_id:type:info',
@@ -28,14 +28,14 @@ sub doInventory {
         my $name = $1;
         my $type = $2;
         my $manufacturer = $3;
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'CONTROLLERS',
             entry => {
                 NAME         => $name,
                 MANUFACTURER => $manufacturer,
                 TYPE         => $type,
             }
-        });
+        );
     }
     close $handle;
 }

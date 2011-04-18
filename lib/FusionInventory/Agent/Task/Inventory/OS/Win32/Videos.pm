@@ -10,9 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_VideoController',
@@ -33,7 +33,7 @@ sub doInventory {
         $object->{AdaptaterRAM} = int($object->{AdaptaterRAM} / (1024 * 1024))
             if $object->{AdaptaterRAM};
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'VIDEOS',
             entry   => {
                 CHIPSET    => $object->{VideoProcessor},
@@ -42,7 +42,7 @@ sub doInventory {
                 RESOLUTION => $resolution
             },
             noDuplicated => 1
-        });
+        );
     }
 }
 

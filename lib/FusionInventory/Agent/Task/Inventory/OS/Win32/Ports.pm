@@ -140,15 +140,15 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $object (getWmiObject(
         class      => 'Win32_SerialPort',
         properties => [ qw/Name Caption Description/ ]
     )) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PORTS',
             entry   => {
                 NAME        => $object->{Name},
@@ -156,7 +156,7 @@ sub doInventory {
                 DESCRIPTION => $object->{Description},
                 TYPE        => 'Serial',
             }
-        });
+        );
     }
 
     foreach my $object (getWmiObjects(
@@ -164,7 +164,7 @@ sub doInventory {
         properties => [ qw/Name Caption Description/ ]
     )) {
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PORTS',
             entry   => {
                 NAME        => $object->{Name},
@@ -172,7 +172,7 @@ sub doInventory {
                 DESCRIPTION => $object->{Description},
                 TYPE        => 'Parallel',
             }
-        });
+        );
     }
 
     foreach my $object (getWmiObjects(
@@ -197,7 +197,7 @@ sub doInventory {
             next; # Already done
         }
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'PORTS',
             entry   => {
                 NAME        => $object->{InternalReferenceDesignator},
@@ -205,7 +205,7 @@ sub doInventory {
                 DESCRIPTION => $object->{InternalReferenceDesignator},
                 TYPE        => $type
             }
-        });
+        );
 
     }
 

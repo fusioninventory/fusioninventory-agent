@@ -10,9 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_SoundDevice',
@@ -21,7 +21,7 @@ sub doInventory {
         / ]
     )) {
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOUNDS',
             entry   => {
                 NAME         => $object->{Name},
@@ -29,7 +29,7 @@ sub doInventory {
                 MANUFACTURER => $object->{Manufacturer},
                 DESCRIPTION  => $object->{Description},
             }
-        });
+        );
     }
 }
 

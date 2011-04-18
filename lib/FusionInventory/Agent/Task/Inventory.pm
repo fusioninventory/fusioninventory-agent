@@ -14,7 +14,7 @@ use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
 
-sub main {
+sub run {
     my ($self) = @_;
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
@@ -285,21 +285,18 @@ sub _runFunction {
 
         no strict 'refs'; ## no critic
 
-        $result = &{$module . '::' . $function}({
+        $result = &{$module . '::' . $function}(
             accountconfig => $self->{accountconfig},
-            accountinfo => $self->{accountinfo},
-            config => $self->{config},
-            confdir => $self->{confdir},
-            datadir => $self->{datadir},
-            inventory => $self->{inventory},
-            logger => $self->{logger},
-            transmitter => $self->{transmitter},
-            # Compatibiliy with agent 0.0.10 <=
-            # We continue to pass params->{params}
-            params => $self->{params},
-            prologresp => $self->{prologresp},
-            storage => $self->{storage}
-        });
+            accountinfo   => $self->{accountinfo},
+            config        => $self->{config},
+            confdir       => $self->{confdir},
+            datadir       => $self->{datadir},
+            inventory     => $self->{inventory},
+            logger        => $self->{logger},
+            transmitter   => $self->{transmitter},
+            prologresp    => $self->{prologresp},
+            storage       => $self->{storage},
+        );
     };
     alarm 0;
 

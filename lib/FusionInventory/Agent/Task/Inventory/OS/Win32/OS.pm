@@ -6,13 +6,6 @@ use warnings;
 use integer;
 
 use English qw(-no_match_vars);
-use Win32::OLE::Variant;
-use Win32::TieRegistry (
-    Delimiter   => '/',
-    ArrayValues => 0,
-    qw/KEY_READ/
-);
-use FusionInventory::Agent::Tools::Win32;
 
 use FusionInventory::Agent::Tools::Win32;
 
@@ -21,22 +14,21 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-<<<<<<< HEAD
     foreach my $object (getWmiObjects(
             class      => 'Win32_OperatingSystem',
             properties => [ qw/
-                OSLanguage Caption Version SerialNumber Organization RegisteredUser
-                CSDVersion TotalSwapSpaceSize
+                OSLanguage Caption Version SerialNumber Organization \
+                RegisteredUser CSDVersion TotalSwapSpaceSize
             / ]
         )) {
 
         my $key = _getXPkey();
-        my $description = encodeFromRegistry(_getValueFromRegistry(
+        my $description = encodeFromRegistry(getValueFromRegistry(
             'SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'
         ));
 
@@ -55,23 +47,6 @@ sub doInventory {
             SWAP        => $object->{TotalSwapSpaceSize},
             DESCRIPTION => $description,
         });
-=======
-# TODO: FusionInventory::Agent::Tools::Win32::getValueFromRegistry()
-sub _getValueFromRegistry {
-    my ($logger, $path) = @_;
-
-    my $key;
-    if (is64bit()) {
-        my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ()|KEY_WOW64_64KEY() } )
-	    or $logger->error("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
-	$key = $machKey->{$path};
-
-    } else {
-	my $machKey = $Registry->Open('LMachine', { Access=> KEY_READ() } )
-            or $logger->error("Can't open HKEY_LOCAL_MACHINE: $EXTENDED_OS_ERROR");
-        $key = $machKey->{$path};
->>>>>>> 2.1.x
-    }
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_ComputerSystem',

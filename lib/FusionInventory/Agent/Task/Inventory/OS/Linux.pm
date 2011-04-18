@@ -32,15 +32,17 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $osversion = getFirstLine(command => 'uname -r');
 
     my ($last_user, $last_date);
     my $last = getFirstLine(command => 'last -R');
-    if ($last =~ /^(\S+) \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x ) {
+    if ($last &&
+        $last =~ /^(\S+) \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x
+    ) {
         $last_user = $1;
         $last_date = $2;
     }

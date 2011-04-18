@@ -10,16 +10,16 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_POTSModem',
         properties => [ qw/Name DeviceType Model Description/ ]
     )) {
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'MODEMS',
             entry   => {
                 NAME        => $object->{Name},
@@ -27,7 +27,7 @@ sub doInventory {
                 MODEL       => $object->{Model},
                 DESCRIPTION => $object->{Description},
             }
-        });
+        );
     }
 }
 

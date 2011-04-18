@@ -16,16 +16,16 @@ use Win32::TieRegistry (
 use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    return !$params->{config}->{no_software};
+    return !$params{config}->{no_software};
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     if (is64bit()) {
 
@@ -138,7 +138,7 @@ sub _processSoftwares {
         # Workaround for #415
         $version =~ s/[\000-\037].*// if $version;
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 COMMENTS         => $comments,
@@ -160,7 +160,7 @@ sub _processSoftwares {
                 GUID             => $guid,
             },
             noDuplicated => 1
-        });
+        );
     }
 }
 

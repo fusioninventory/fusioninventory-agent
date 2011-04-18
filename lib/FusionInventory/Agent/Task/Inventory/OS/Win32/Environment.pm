@@ -10,9 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_Environment',
@@ -21,13 +21,13 @@ sub doInventory {
 
         next unless $object->{SystemVariable};
 
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'ENVS',
             entry   => {
                 KEY => $object->{Name},
                 VAL => $object->{VariableValue}
             }
-        });
+        );
     }
 }
 

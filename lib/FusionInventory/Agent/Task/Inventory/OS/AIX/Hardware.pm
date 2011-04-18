@@ -14,9 +14,9 @@ sub isInventoryEnabled {
 # A: uname -n since it doesn't need root priv
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     # Using "type 0" section
     my ($SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,

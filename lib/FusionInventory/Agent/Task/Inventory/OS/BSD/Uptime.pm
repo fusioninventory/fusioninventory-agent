@@ -11,10 +11,10 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $boottime = getFirstLine(command => 'sysctl -n kern.boottime');
     $boottime = $1 if $boottime =~ /sec\s*=\s*(\d+)/;

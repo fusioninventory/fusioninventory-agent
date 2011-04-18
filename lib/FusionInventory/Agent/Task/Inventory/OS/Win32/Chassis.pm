@@ -38,9 +38,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $WMIService = Win32::OLE->GetObject(
         'winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2'

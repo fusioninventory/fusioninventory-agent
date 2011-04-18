@@ -10,9 +10,9 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $name;
     my $interface;
@@ -29,14 +29,14 @@ sub doInventory {
                 $interface=$3;
                 $info=$4;
                 $type=$1;
-                $inventory->addEntry({
+                $inventory->addEntry(
                     section => 'CONTROLLERS',
                     entry   => {
                         NAME         => $name,
                         MANUFACTURER => "$interface $info",
                         TYPE         => $type,
                     }
-                });
+                );
             }
         }
     }

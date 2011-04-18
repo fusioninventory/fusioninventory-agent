@@ -220,7 +220,7 @@ sub _getHostname {
     };
 }
 
-sub main {
+sub run {
     my ($self) = @_;
 
 # Load setting from the config file
@@ -281,7 +281,6 @@ sub main {
                 WakeOnLan
                 SNMPQuery
                 NetDiscovery
-                Ping
             /;
 
             foreach my $module (@tasks) {
@@ -291,6 +290,12 @@ sub main {
                 my $package = "FusionInventory::Agent::Task::$module";
                 if (!$package->require()) {
                     $logger->info("task $module is not available");
+                    next;
+                }
+                if (!$package->isa('FusionInventory::Agent::Task')) {
+                    $logger->info(
+                        "task $module is not compatible with this agent"
+                    );
                     next;
                 }
 
@@ -326,12 +331,12 @@ sub main {
                         $logger->debug(
                         "[task] executing $module in process $PID"
                         );
-                        $task->main();
+                        $task->run();
                     }
                 } else {
                     # standalone mode: run each task directly
                     $logger->debug("[task] executing $module");
-                    $task->main();
+                    $task->run();
                 }
             }
 
@@ -423,7 +428,7 @@ This is the agent object.
 
 The constructor. No arguments allowed.
 
-=head2 main()
+=head2 run()
 
 Run the agent.
 

@@ -6,9 +6,9 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    return !$params->{config}->{no_software};
+    return !$params{config}->{no_software};
 }
 
 sub doInventory {

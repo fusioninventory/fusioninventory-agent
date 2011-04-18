@@ -6,18 +6,18 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled  {
-    my ($params) = @_;
+    my (%params) = @_;
 
     return
-        !$params->{config}->{no_software} &&
+        !$params{config}->{no_software} &&
         can_run('swlist');
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $handle = getFileHandle(
         command => 'swlist',
@@ -33,7 +33,7 @@ sub doInventory {
         chomp $line;
 
         if ($line =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
-            $inventory->addEntry({
+            $inventory->addEntry(
                 section => 'SOFTWARES',
                 entry   => {
                     NAME      => $1,
@@ -41,7 +41,7 @@ sub doInventory {
                     COMMENTS  => $3,
                     PUBLISHER => 'HP'
                 }
-            });
+            );
         }
     }
 

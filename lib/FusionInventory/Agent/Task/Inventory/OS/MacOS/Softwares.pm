@@ -6,18 +6,18 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    my ($params) = @_;
+    my (%params) = @_;
 
     return
-        !$params->{config}->{no_software} &&
+        !$params{config}->{no_software} &&
         -r '/usr/sbin/system_profiler' &&
         can_load("Mac::SysProfile");
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     my $prof = Mac::SysProfile->new();
     my $info = $prof->gettype('SPApplicationsDataType');
@@ -31,7 +31,7 @@ sub doInventory {
 
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 NAME      => $app,
@@ -39,7 +39,7 @@ sub doInventory {
                 COMMENTS  => $comments,
                 PUBLISHER => $a->{'Get Info String'} || 'unknown',
             }
-        });
+        );
     }
 }
 

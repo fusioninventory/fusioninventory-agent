@@ -7,14 +7,14 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
-        can_run("uptime") &&
-        can_run ("uname");
+        can_run('uptime') &&
+        can_run('uname');
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
+    my $inventory = $params{inventory};
 
     # Uptime
     my $uptime = getFirstLine(command => 'uptime');

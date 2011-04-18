@@ -24,19 +24,19 @@ sub isInventoryEnabled {
 }
 
 sub doInventory {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $inventory = $params->{inventory};
-    my $logger    = $params->{logger};
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # set list of network interfaces
     my $routes = getRoutesFromInet(logger => $logger);
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
-        });
+        );
     }
 
     # set global parameters

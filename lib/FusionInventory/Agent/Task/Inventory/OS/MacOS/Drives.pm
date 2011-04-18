@@ -86,10 +86,10 @@ sub doInventory {
 
     # add drives to the inventory
     foreach my $key (keys %drives) {
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'DRIVES',
             entry   => $drives{$key}
-        });
+        );
     }
 }
 
