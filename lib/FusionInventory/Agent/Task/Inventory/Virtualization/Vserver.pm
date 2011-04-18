@@ -13,7 +13,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
+    my $logger    = $params{logger};
 
     foreach my $machine (_getMachines(
         command => 'vserver-info', logger => $logger
@@ -23,7 +23,7 @@ sub doInventory {
 }
 
 sub _getMachines {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;
