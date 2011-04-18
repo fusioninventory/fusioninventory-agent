@@ -1,10 +1,9 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::RPM;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::RPM;
 
 use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return can_run('rpm');

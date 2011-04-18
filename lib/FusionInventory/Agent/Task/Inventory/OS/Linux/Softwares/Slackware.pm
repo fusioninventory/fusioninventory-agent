@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Slackware;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Slackware;
 
 use strict;
 use warnings;

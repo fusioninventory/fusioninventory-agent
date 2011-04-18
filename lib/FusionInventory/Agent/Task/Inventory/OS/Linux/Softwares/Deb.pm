@@ -1,10 +1,9 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Deb;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Deb;
 
 use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
     return can_run('dpkg-query');

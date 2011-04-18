@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Generic::Packaging::Pacman;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Pacman;
 
 use strict;
 use warnings;
@@ -6,19 +6,18 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run("/usr/bin/pacman");
+    return can_run('pacman');
 }
 
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
-
+    my $logger    = $params{logger};
 
     my $handle = getFileHandle(
-        logger => $logger,
-        command => '/usr/bin/pacman -Q'
+        logger  => $logger,
+        command => 'pacman -Q'
     );
 
     return unless $handle;
