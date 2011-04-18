@@ -75,15 +75,15 @@ sub new {
     return $self;
 }
 
-sub _addEntry {
+sub addEntry {
     my ($self, %params) = @_;
 
-    my $section = $params{section};
     my $entry   = $params{entry};
-    my $noDuplicated = $params{noDuplicated};
+    die "no entry" unless $entry;
 
+    my $section = $params{section};
     my $fields = $fields{$section};
-    die "Unknown section $section" unless $fields;
+    die "unknown section $section" unless $fields;
 
     my $newEntry;
     foreach my $field (@$fields) {
@@ -91,8 +91,8 @@ sub _addEntry {
         $newEntry->{$field} = getSanitizedString($entry->{$field});
     }
 
-    # Don't create two time the same device
-    if ($noDuplicated) {
+    # avoid duplicate entries
+    if ($params{noDuplicated}) {
         my $md5 = md5_base64(Dumper($newEntry));
         return if $self->{seen}->{$section}->{$md5};
         $self->{seen}->{$section}->{$md5} = 1;
@@ -106,7 +106,7 @@ sub _addEntry {
 sub addController {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'CONTROLLERS',
         entry   => $args,
     );
@@ -115,7 +115,7 @@ sub addController {
 sub addModem {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'MODEMS',
         entry   => $args,
     );
@@ -124,7 +124,7 @@ sub addModem {
 sub addDrive {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'DRIVES',
         entry   => $args,
     );
@@ -146,8 +146,7 @@ sub addStorage {
         "this is not an error but the situation should be improved");
     }
 
-
-    $self->_addEntry(
+    $self->addEntry(
         section => 'STORAGES',
         entry   => $values,
     );
@@ -156,7 +155,7 @@ sub addStorage {
 sub addMemory {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'MEMORIES',
         entry   => $args,
     );
@@ -165,7 +164,7 @@ sub addMemory {
 sub addPort {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'PORTS',
         entry   => $args,
     );
@@ -174,7 +173,7 @@ sub addPort {
 sub addSlot {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'SLOTS',
         entry   => $args,
     );
@@ -184,7 +183,7 @@ sub addSoftware {
     my ($self, $args) = @_;
 
 
-    $self->_addEntry(
+    $self->addEntry(
         section      => 'SOFTWARES',
         entry        => $args,
         noDuplicated => 1
@@ -194,7 +193,7 @@ sub addSoftware {
 sub addMonitor {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'MONITORS',
         entry   => $args,
     );
@@ -203,7 +202,7 @@ sub addMonitor {
 sub addVideo {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section      => 'VIDEOS',
         entry        => $args,
         noDuplicated => 1
@@ -213,7 +212,7 @@ sub addVideo {
 sub addSound {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'SOUNDS',
         entry   => $args,
     );
@@ -222,7 +221,7 @@ sub addSound {
 sub addNetwork {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section      => 'NETWORKS',
         entry        => $args,
         noDuplicated => 1
@@ -259,7 +258,7 @@ sub setBios {
 sub addCPU {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'CPUS',
         entry   => $args,
     );
@@ -281,7 +280,7 @@ sub addUser {
 
     return unless $args->{LOGIN};
 
-    return unless $self->_addEntry(
+    return unless $self->addEntry(
         section      => 'USERS',
         entry        => $args,
         noDuplicated => 1
@@ -314,7 +313,7 @@ sub addUser {
 sub addPrinter {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'PRINTERS',
         entry   => $args,
     );
@@ -331,7 +330,7 @@ sub addVirtualMachine {
         $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
     }
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'VIRTUALMACHINES',
         entry   => $args,
     );
@@ -340,7 +339,7 @@ sub addVirtualMachine {
 sub addProcess {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'PROCESSES',
         entry   => $args,
     );
@@ -349,8 +348,7 @@ sub addProcess {
 sub addInput {
     my ($self, $args) = @_;
 
-
-    $self->_addEntry(
+    $self->addEntry(
         section => 'INPUTS',
         entry   => $args,
     );
@@ -359,7 +357,7 @@ sub addInput {
 sub addEnv {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'ENVS',
         entry   => $args,
     );
@@ -368,7 +366,7 @@ sub addEnv {
 sub addUSBDevice {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section      => 'USBDEVICES',
         entry        => $args,
         noDuplicated => 1
@@ -378,7 +376,7 @@ sub addUSBDevice {
 sub addBattery {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'BATTERIES',
         values  => $args,
     );
@@ -387,7 +385,7 @@ sub addBattery {
 sub addRegistry {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section => 'REGISTRY',
         entry   => $args,
     );
@@ -396,7 +394,7 @@ sub addRegistry {
 sub addAntiVirus {
     my ($self, $args) = @_;
 
-    $self->_addEntry(
+    $self->addEntry(
         section      => 'ANTIVIRUS',
         entry        => $args,
         noDuplicated => 1
@@ -630,6 +628,27 @@ Inventory XML format.
 
 The constructor. See base class C<FusionInventory::Agent::XML::Query> for
 allowed parameters.
+
+=head2 addEntry(%params)
+
+Add a new entry to the inventory. The following parameters are allowed, as keys
+of the %params hash:
+
+=over
+
+=item I<section>
+
+the entry section (mandatory)
+
+=item I<entry>
+
+the entry (mandatory)
+
+=item I<noDuplicated>
+
+ignore entry if already present
+
+=back
 
 =head2 addController()
 
