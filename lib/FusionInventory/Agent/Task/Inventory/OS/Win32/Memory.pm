@@ -78,55 +78,44 @@ sub doInventory {
     my $cpt = 0;
     my @memories;
 
-    foreach my $Properties (getWmiProperties('Win32_PhysicalMemory', qw/
-        Capacity Caption Description FormFactor Removable Speed MemoryType
-        SerialNumber
-    /)) {
-        # Ignore ROM storages (BIOS ROM)
-        if (
-            defined($memoryTypeVal[$Properties->{MemoryType}]) &&
-            $memoryTypeVal[$Properties->{MemoryType}] eq 'ROM'
-        ) {
-            next;
-        }
-
-
-
-        my $capacity = sprintf("%i",$Properties->{Capacity}/(1024*1024));
-        my $caption = $Properties->{Caption};
-        my $description = $Properties->{Description};
-        my $formfactor = $formFactorVal[$Properties->{FormFactor}];
-        my $removable = $Properties->{Removable}?1:0;
-        my $speed = $Properties->{Speed};
-        my $type = $memoryTypeVal[$Properties->{MemoryType}];
-        my $numslots = $cpt++;
-        my $serialnumber = $Properties->{SerialNumber};
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_PhysicalMemory',
+        properties => [ qw/
+            Capacity Caption Description FormFactor Removable Speed MemoryType
+            SerialNumber
+        / ]
+    )) {
+        my $type = $memoryTypeVal[$object->{MemoryType}];
+        next if $type && $type eq 'ROM';
 
         push @memories, {
-            CAPACITY => $capacity,
-            CAPTION => $caption,
-            DESCRIPTION => $description,
-            FORMFACTOR => $formfactor,
-            REMOVABLE => $removable,
-            SPEED => $speed,
-            TYPE => $type,
-            NUMSLOTS => $numslots,
-            SERIALNUMBER => $serialnumber
+            CAPACITY     => sprintf("%i",$object->{Capacity}/(1024*1024)),
+            CAPTION      => $object->{Caption},
+            DESCRIPTION  => $object->{Description},
+            FORMFACTOR   => $formFactorVal[$object->{FormFactor}],
+            REMOVABLE    => $object->{Removable} ? 1 : 0,
+            SPEED        => $object->{Speed},
+            TYPE         => $memoryTypeVal[$object->{MemoryType}],
+            NUMSLOTS     => $cpt++,
+            SERIALNUMBER => $object->{SerialNumber}
         }
     }
 
-    foreach my $Properties (getWmiProperties('Win32_PhysicalMemoryArray', qw/
-        MemoryDevices SerialNumber PhysicalMemoryCorrection
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_PhysicalMemoryArray', 
+        properties => [ qw/
+            MemoryDevices SerialNumber PhysicalMemoryCorrection
+        / ]
+    )) {
 
-        my $memory = $memories[$Properties->{MemoryDevices} - 1];
+        my $memory = $memories[$object->{MemoryDevices} - 1];
         if (!$memory->{SERIALNUMBER}) {
-            $memory->{SERIALNUMBER} = $Properties->{SerialNumber};
+            $memory->{SERIALNUMBER} = $object->{SerialNumber};
         }
 
-        if ($Properties->{PhysicalMemoryCorrection}) {
+        if ($object->{PhysicalMemoryCorrection}) {
             $memory->{MEMORYCORRECTION} =
-                $memoryErrorProtection[$Properties->{PhysicalMemoryCorrection}];
+                $memoryErrorProtection[$object->{PhysicalMemoryCorrection}];
         }
 
         if ($memory->{MEMORYCORRECTION}) {

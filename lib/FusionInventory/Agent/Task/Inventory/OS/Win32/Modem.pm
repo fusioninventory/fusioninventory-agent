@@ -14,15 +14,16 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $Properties (getWmiProperties('Win32_POTSModem', qw/
-        Name DeviceType Model Description
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_POTSModem',
+        properties => [ qw/Name DeviceType Model Description/ ]
+    )) {
 
         $inventory->addModem({
-            NAME => $Properties->{Name},
-            TYPE => $Properties->{DeviceType},
-            MODEL => $Properties->{Model},
-            DESCRIPTION => $Properties->{Description},
+            NAME        => $object->{Name},
+            TYPE        => $object->{DeviceType},
+            MODEL       => $object->{Model},
+            DESCRIPTION => $object->{Description},
         });
     }
 }

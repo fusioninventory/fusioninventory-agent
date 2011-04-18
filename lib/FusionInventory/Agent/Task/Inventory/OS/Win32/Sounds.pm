@@ -14,15 +14,18 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $Properties (getWmiProperties('Win32_SoundDevice', qw/
-        Name Manufacturer Caption Description
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_SoundDevice',
+        properties => [ qw/
+            Name Manufacturer Caption Description
+        / ]
+    )) {
 
         $inventory->addSound({
-            NAME => $Properties->{Name},
-            CAPTION => $Properties->{Caption},
-            MANUFACTURER => $Properties->{Manufacturer},
-            DESCRIPTION => $Properties->{Description},
+            NAME         => $object->{Name},
+            CAPTION      => $object->{Caption},
+            MANUFACTURER => $object->{Manufacturer},
+            DESCRIPTION  => $object->{Description},
         });
     }
 }

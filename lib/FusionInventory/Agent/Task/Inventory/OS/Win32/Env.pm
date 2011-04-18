@@ -15,15 +15,16 @@ sub doInventory {
     my $inventory = $params{inventory};
 
 
-    foreach my $Properties (getWmiProperties('Win32_Environment', qw/
-     SystemVariable Name VariableValue    
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_Environment',
+        properties => [ qw/SystemVariable Name VariableValue/ ]
+    )) {
 
-        next unless $Properties->{SystemVariable};
+        next unless $object->{SystemVariable};
 
         $inventory->addEnv({
-            KEY => $Properties->{Name},
-            VAL => $Properties->{VariableValue}
+            KEY => $object->{Name},
+            VAL => $object->{VariableValue}
         });
     }
 }

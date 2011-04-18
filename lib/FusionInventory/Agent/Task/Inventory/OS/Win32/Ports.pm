@@ -15,31 +15,30 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my @ports;
-    foreach my $Properties (getWmiProperties('Win32_SerialPort', qw/
-        Name Caption Description
-    /)) {
+    foreach my $object (getWmiObject(
+        class      => 'Win32_SerialPort',
+        properties => [ qw/Name Caption Description/ ]
+    )) {
         $inventory->addPort({
-            NAME => $Properties->{Name},
-            CAPTION => $Properties->{Caption},
-            DESCRIPTION => $Properties->{Description},
-            TYPE => 'Serial',
+            NAME        => $object->{Name},
+            CAPTION     => $object->{Caption},
+            DESCRIPTION => $object->{Description},
+            TYPE        => 'Serial',
         });
     }
 
-    foreach my $Properties (getWmiProperties('Win32_ParallelPort', qw/
-        Name Caption Description
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_ParallelPort',
+        properties => [ qw/Name Caption Description/ ]
+    )) {
 
         $inventory->addPort({
-            NAME => $Properties->{Name},
-            CAPTION => $Properties->{Caption},
-            DESCRIPTION => $Properties->{Description},
-            TYPE => 'Parallel',
+            NAME        => $object->{Name},
+            CAPTION     => $object->{Caption},
+            DESCRIPTION => $object->{Description},
+            TYPE        => 'Parallel',
         });
     }
-
-
 
     # cf http://msdn.microsoft.com/en-us/library/aa394486%28VS.85%29.aspx
     my @portType = (
@@ -170,32 +169,33 @@ sub doInventory {
         'PCI-E',
     );
 
-    foreach my $Properties (getWmiProperties('Win32_PortConnector', qw/
-        ConnectorType InternalReferenceDesignator
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_PortConnector',
+        properties => [ qw/ConnectorType InternalReferenceDesignator/ ]
+    )) {
 
         my $type;
-        if ($Properties->{ConnectorType}) {
-            $type = join(', ', map { $portType[$_] } @{$Properties->{ConnectorType}}); 
+        if ($object->{ConnectorType}) {
+            $type = join(', ', map { $portType[$_] } @{$object->{ConnectorType}}); 
         }
         if (!$type) {
-            $type = $Properties->{InternalReferenceDesignator};
+            $type = $object->{InternalReferenceDesignator};
             $type =~ s/\ \d.*//; # Drop the port number
         }
 
-        if(!$type && !$Properties->{InternalReferenceDesignator}) {
+        if (!$type && !$object->{InternalReferenceDesignator}) {
             next;
-        } elsif($Properties->{InternalReferenceDesignator} =~ /SERIAL/) {
+        } elsif ($object->{InternalReferenceDesignator} =~ /SERIAL/) {
             next; # Already done
-        } elsif($Properties->{InternalReferenceDesignator} =~ /PARALLEL/) {
+        } elsif ($object->{InternalReferenceDesignator} =~ /PARALLEL/) {
             next; # Already done
         }
 
         $inventory->addPort({
-            NAME => $Properties->{InternalReferenceDesignator},
-            CAPTION => $Properties->{InternalReferenceDesignator},
-            DESCRIPTION => $Properties->{InternalReferenceDesignator},
-            TYPE => $type
+            NAME        => $object->{InternalReferenceDesignator},
+            CAPTION     => $object->{InternalReferenceDesignator},
+            DESCRIPTION => $object->{InternalReferenceDesignator},
+            TYPE        => $type
         });
 
     }

@@ -3,11 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::AntiVirus;
 use strict;
 use warnings;
 
-use Config;
-use Win32;
-use Win32::OLE qw(in CP_UTF8);
-use Win32::OLE::Variant;
-
 use FusionInventory::Agent::Tools::Win32;
 
 sub doInventory {
@@ -19,42 +14,36 @@ sub doInventory {
 
 # On Win7, we need to use SecurityCenter2
     foreach my $instance (qw/SecurityCenter SecurityCenter2/) {
-        my $WMIServices = Win32::OLE->GetObject(
-                "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/$instance" );
+        my $moniker = "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/$instance";
 
+        foreach my $object (getWMIObjects(
+                moniker    => $moniker,
+                class      => "AntiVirusProduct",
+                properties => [ qw/
+                    companyName displayName instanceGuid onAccessScanningEnabled
+                    productUptoDate versionNumber
+               / ]
+        ))) {
 
-        if (!$WMIServices) {
-#            print STDERR Win32::OLE->LastError();
-            next;
-        }
+            my $enable   = $object->{onAccessScanningEnabled};
+            my $uptodate = $object->{productUptoDate};
 
-
-
-        my @properties;
-        foreach my $properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                        "AntiVirusProduct" ) ) )
-        {
-            my $enable = $properties->{onAccessScanningEnabled};
-            my $uptodate = $properties->{productUptoDate};
-
-            if ($properties->{productState}) {
-                my $bin = sprintf( "%b\n", $properties->{productState});
-# http://blogs.msdn.com/b/alejacma/archive/2008/05/12/how-to-get-antivirus-information-with-wmi-vbscript.aspx?PageIndex=2#comments
+            if ($object->{productState}) {
+                # http://blogs.msdn.com/b/alejacma/archive/2008/05/12/how-to-get-antivirus-information-with-wmi-vbscript.aspx?PageIndex=2#comments
+                my $bin = sprintf( "%b\n", $object->{productState});
                 if ($bin =~ /(\d)00000(\d)000000(\d)00000$/) {
                     $uptodate = $1 || $2;
                     $enable = $3?0:1;
                 }
-
             }
             $inventory->addAntiVirus({
-                    COMPANY => $properties->{companyName},
-                    NAME => $properties->{displayName},
-                    GUID => $properties->{instanceGuid},
-                    ENABLED => $enable,
-                    UPTODATE => $uptodate,
-                    VERSION => $properties->{versionNumber}
-                    });
-            return;
+                COMPANY  => $object->{companyName},
+                NAME     => $object->{displayName},
+                GUID     => $object->{instanceGuid},
+                ENABLED  => $enable,
+                UPTODATE => $uptodate,
+                VERSION  => $object->{versionNumber}
+            });
         }
     }
 

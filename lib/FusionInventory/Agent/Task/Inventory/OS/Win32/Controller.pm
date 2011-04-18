@@ -34,18 +34,20 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $wmiClass (qw/
+    foreach my $class (qw/
         Win32_FloppyController Win32_IDEController Win32_SCSIController
         Win32_VideoController Win32_InfraredDevice Win32_USBController
         Win32_1394Controller Win32_PCMCIAController CIM_LogicalDevice
     /) {
 
-        foreach my $Properties (getWmiProperties($wmiClass, qw/
-            Name Manufacturer Caption Description DeviceID HardwareVersion
-        /)) {
+        foreach my $object (getWmiObjects(
+            class      => $class,
+            properties => [ qw/
+                Name Manufacturer Caption Description DeviceID HardwareVersion
+            /] 
+        )) {
 
-            my ($pciid, $pcisubsystemid) = getPciIDFromDeviceID($Properties->{DeviceID});
-
+            my ($pciid, $pcisubsystemid) = getPciIDFromDeviceID($object->{DeviceID});
 
             # I scan CIM_LogicalDevice to identify more devices but I don't want
             # everything. Only devices with a PCIID sounds resonable
@@ -58,14 +60,14 @@ sub doInventory {
                 $seen{$pciid} = 1;
             }
             $inventory->addController({
-                NAME => $Properties->{Name},
-                MANUFACTURER => $Properties->{Manufacturer},
-                CAPTION => $Properties->{Caption},
-                DESCRIPTION => $Properties->{Description},
-                PCIID => $pciid,
-                PCISUBSYSTEMID=> $pcisubsystemid,
-                VERSION => $Properties->{HardwareVersion},
-                TYPE => $Properties->{Caption},
+                NAME           => $object->{Name},
+                MANUFACTURER   => $object->{Manufacturer},
+                CAPTION        => $object->{Caption},
+                DESCRIPTION    => $object->{Description},
+                PCIID          => $pciid,
+                PCISUBSYSTEMID => $pcisubsystemid,
+                VERSION        => $object->{HardwareVersion},
+                TYPE           => $object->{Caption},
             });
         }
     }

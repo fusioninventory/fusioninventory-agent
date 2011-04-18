@@ -30,28 +30,32 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $Properties (getWmiProperties('Win32_Keyboard', qw/
-            Name Caption Manufacturer Description Layout
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_Keyboard',
+        properties => [ qw/Name Caption Manufacturer Description Layout/ ]
+    )) {
+
         $inventory->addInput({
-            NAME => $Properties->{Name},
-            CAPTION => $Properties->{Caption},
-            MANUFACTURER => $Properties->{Manufacturer},
-            DESCRIPTION => $Properties->{Description},
-            LAYOUT => $Properties->{Layout},
+            NAME         => $object->{Name},
+            CAPTION      => $object->{Caption},
+            MANUFACTURER => $object->{Manufacturer},
+            DESCRIPTION  => $object->{Description},
+            LAYOUT       => $object->{Layout},
         });
     }
 
-    foreach my $Properties (getWmiProperties('Win32_PointingDevice', qw/
-        Name Caption Manufacturer Description PointingType DeviceInterface
-    /)) {
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_PointingDevice',
+        properties => [ qw/Name Caption Manufacturer Description PointingType DeviceInterface/ ]
+    )) {
+
         $inventory->addInput({
-            NAME => $Properties->{Name},
-            CAPTION => $Properties->{Caption},
-            MANUFACTURER => $Properties->{Manufacturer},
-            DESCRIPTION => $Properties->{Description},
-            POINTINGTYPE => $Properties->{PointingType},
-            INTERFACE => $mouseInterface{$Properties->{DeviceInterface}},
+            NAME         => $object->{Name},
+            CAPTION      => $object->{Caption},
+            MANUFACTURER => $object->{Manufacturer},
+            DESCRIPTION  => $object->{Description},
+            POINTINGTYPE => $object->{PointingType},
+            INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
         });
     }
 }
