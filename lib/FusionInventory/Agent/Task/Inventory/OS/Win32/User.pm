@@ -6,7 +6,6 @@ use warnings;
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
-use Encode qw(encode);
 use English qw(-no_match_vars);
 use Win32::OLE::Variant;
 use Win32::TieRegistry (
@@ -26,14 +25,17 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-        or die "WMI connection failed";
-    my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_Process", "WQL",
-            wbemFlagReturnImmediately | wbemFlagForwardOnly);
+    my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+        or die "WMI connection failed: " . Win32::OLE->LastError();
 
-    foreach my $objItem (in $colItems) {
+    my $processes = $WMIService->ExecQuery(
+        "SELECT * FROM Win32_Process", "WQL",
+        wbemFlagReturnImmediately | wbemFlagForwardOnly
+    );
+
+    foreach my $process (in $processes) {
     
-        my $cmdLine = $objItem->{CommandLine};
+        my $cmdLine = $process->{CommandLine};
 
         next unless $cmdLine;
  
@@ -41,11 +43,13 @@ sub doInventory {
             my $name = Variant (VT_BYREF | VT_BSTR, '');
             my $domain = Variant (VT_BYREF | VT_BSTR, '');
     
-            $objItem->GetOwner($name, $domain);
+            $process->GetOwner($name, $domain);
    
-            $inventory->addUser({ LOGIN => $name->Get(), DOMAIN => $domain->Get() });
+            $inventory->addUser({
+                LOGIN => $name->Get(),
+                DOMAIN => $domain->Get()
+            });
         }
-    
     }
 
     my $machKey = $Registry->Open('LMachine', {
@@ -56,15 +60,14 @@ sub doInventory {
         "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",
         "SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"
     ) {
-        my $lastloggeduser=encodeFromRegistry($machKey->{$_});
-        if ($lastloggeduser) {
-            $lastloggeduser =~ s,.*\\,,;
-            $inventory->setHardware(
-               LASTLOGGEDUSER => $lastloggeduser
-            );
-        }
+        my $lastloggeduser = encodeFromRegistry($machKey->{$_});
+        next unless $lastloggeduser;
+        $lastloggeduser =~ s,.*\\,,;
+        $inventory->setHardware(
+           LASTLOGGEDUSER => $lastloggeduser
+        );
     }
 
-
 }
+
 1;
